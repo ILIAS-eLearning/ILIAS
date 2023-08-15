@@ -124,27 +124,27 @@ class ilBiblAdminFieldTableGUI extends ilTable2GUI
 
     protected function addActionMenu(ilBiblFieldInterface $field): void
     {
-        $selectionList = new ilAdvancedSelectionListGUI();
-        $selectionList->setListTitle($this->lng->txt('actions'));
-        $selectionList->setId($field->getIdentifier());
+        $this->ctrl()->setParameter(
+            $this->parent_obj,
+            ilBiblAdminRisFieldGUI::FIELD_IDENTIFIER,
+            $field->getId()
+        );
+        $this->ctrl()->setParameterByClass(
+            ilBiblTranslationGUI::class,
+            ilBiblAdminRisFieldGUI::FIELD_IDENTIFIER,
+            $field->getId()
+        );
 
-        $this->ctrl()
-             ->setParameter($this->parent_obj, ilBiblAdminRisFieldGUI::FIELD_IDENTIFIER, $field->getId());
-        $this->ctrl()
-             ->setParameterByClass(
-                 ilBiblTranslationGUI::class,
-                 ilBiblAdminRisFieldGUI::FIELD_IDENTIFIER,
-                 $field->getId()
-             );
+        // build translate action entry
+        $action_entries['translate'] = $this->ui()->factory()->button()->shy(
+            $this->lng()->txt('translate'),
+            $this->ctrl()->getLinkTargetByClass(ilBiblTranslationGUI::class, ilBiblTranslationGUI::CMD_DEFAULT)
+        );
+        // build actions dropdown
+        $actions = $this->ui()->factory()->dropdown()->standard($action_entries)->withLabel($this->lng->txt("actions"));
+        $rendered_actions = $this->ui()->renderer()->render($actions);
 
-        $txt = $this->lng()->txt('translate');
-        $selectionList->addItem($txt, '', $this->ctrl()
-                                               ->getLinkTargetByClass(
-                                                   ilBiblTranslationGUI::class,
-                                                   ilBiblTranslationGUI::CMD_DEFAULT
-                                               ));
-
-        $this->tpl->setVariable('VAL_ACTIONS', $selectionList->getHTML());
+        $this->tpl->setVariable('VAL_ACTIONS', $rendered_actions);
     }
 
     protected function parseData(): void

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\Style\Content;
 
@@ -34,15 +34,18 @@ class ImageManager
     protected ImageFileRepo $repo;
     protected Access\StyleAccessManager $access_manager;
     protected int $style_id;
+    private Filesystem\Util\Convert\LegacyImages $image_conversion;
 
     public function __construct(
         int $style_id,
         Access\StyleAccessManager $access_manager,
         ImageFileRepo $repo
     ) {
+        global $DIC;
         $this->repo = $repo;
         $this->access_manager = $access_manager;
         $this->style_id = $style_id;
+        $this->image_conversion = $DIC->fileConverters()->legacyImages();
     }
 
     /**
@@ -87,7 +90,8 @@ class ImageManager
     ): void {
         if ($this->filenameExists($filename)) {
             $file = $this->getWebPath($this->getByFilename($filename));
-            ilShellUtil::resizeImage(
+
+            $this->image_conversion->resizeToFixedSize(
                 $file,
                 $file,
                 $width,

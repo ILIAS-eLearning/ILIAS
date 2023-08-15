@@ -1,18 +1,21 @@
 <?php
 
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
 /**
  * Class arObjectCache
  * @version 2.0.7
@@ -20,7 +23,7 @@
  */
 class arObjectCache
 {
-    protected static array $cache = array();
+    protected static array $cache = [];
 
     /**
      * @param $class
@@ -28,32 +31,25 @@ class arObjectCache
      */
     public static function isCached($class, $id): bool
     {
-        $instance = new $class();
-        if ($instance instanceof CachedActiveRecord && $instance->getCacheIdentifier() !== '') {
-            if ($instance->getCache()->exists($instance->getCacheIdentifier())) {
-                return true;
-            }
-        }
+        new $class();
 
         if (!isset(self::$cache[$class])) {
             return false;
         }
-        if (!isset(self::$cache[$class][$id]) || !self::$cache[$class][$id] instanceof ActiveRecord) {
+        if (!isset(self::$cache[$class][$id])) {
+            return false;
+        }
+        if (!self::$cache[$class][$id] instanceof ActiveRecord) {
             return false;
         }
 
         return array_key_exists($id, self::$cache[$class]);
     }
 
-    public static function store(ActiveRecord $object): void
+    public static function store(ActiveRecord $activeRecord): void
     {
-        if ($object instanceof CachedActiveRecord && $object->getCacheIdentifier() !== '') {
-            if ($object->getCache()->set($object->getCacheIdentifier(), $object, $object->getTTL())) {
-                return;
-            }
-        }
-        if (!isset($object->is_new)) {
-            self::$cache[get_class($object)][$object->getPrimaryFieldValue()] = $object;
+        if (!isset($activeRecord->is_new)) {
+            self::$cache[$activeRecord::class][$activeRecord->getPrimaryFieldValue()] = $activeRecord;
         }
     }
 
@@ -62,7 +58,7 @@ class arObjectCache
         foreach (self::$cache as $class => $objects) {
             echo $class;
             echo ": ";
-            echo count($objects);
+            echo is_countable($objects) ? count($objects) : 0;
             echo " Objects<br>";
         }
     }
@@ -74,12 +70,7 @@ class arObjectCache
      */
     public static function get($class, $id): \ActiveRecord
     {
-        $instance = new $class();
-        if ($instance instanceof CachedActiveRecord && $instance->getCacheIdentifier() !== '') {
-            if ($instance->getCache()->exists($instance->getCacheIdentifier())) {
-                return $instance->getCache()->get($instance->getCacheIdentifier());
-            }
-        }
+        new $class();
         if (!self::isCached($class, $id)) {
             throw new arException(arException::GET_UNCACHED_OBJECT, $class . ': ' . $id);
         }
@@ -87,12 +78,9 @@ class arObjectCache
         return self::$cache[$class][$id];
     }
 
-    public static function purge(ActiveRecord $object): void
+    public static function purge(ActiveRecord $activeRecord): void
     {
-        if ($object instanceof CachedActiveRecord && $object->getCacheIdentifier() !== '') {
-            $object->getCache()->delete($object->getCacheIdentifier());
-        }
-        unset(self::$cache[get_class($object)][$object->getPrimaryFieldValue()]);
+        unset(self::$cache[$activeRecord::class][$activeRecord->getPrimaryFieldValue()]);
     }
 
     /**
@@ -100,13 +88,10 @@ class arObjectCache
      */
     public static function flush($class_name): void
     {
-        $instance = new $class_name();
-        if ($instance instanceof CachedActiveRecord && $instance->getCacheIdentifier() !== '') {
-            $instance->getCache()->flush();
-        }
+        new $class_name();
 
         if ($class_name instanceof ActiveRecord) {
-            $class_name = get_class($class_name);
+            $class_name = $class_name::class;
         }
         unset(self::$cache[$class_name]);
     }

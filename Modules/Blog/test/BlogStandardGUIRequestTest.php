@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -8,11 +10,6 @@ use PHPUnit\Framework\TestCase;
 class BlogStandardGUIRequestTest extends TestCase
 {
     //protected $backupGlobals = false;
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-    }
 
     protected function tearDown(): void
     {

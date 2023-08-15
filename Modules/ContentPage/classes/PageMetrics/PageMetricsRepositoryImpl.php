@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\ContentPage\PageMetrics;
 
 use ILIAS\ContentPage\PageMetrics\Entity\PageMetrics;
@@ -31,11 +31,8 @@ use ILIAS\ContentPage\PageMetrics\ValueObject\PageReadingTime;
  */
 class PageMetricsRepositoryImp implements PageMetricsRepository
 {
-    private ilDBInterface $db;
-
-    public function __construct(ilDBInterface $db)
+    public function __construct(private readonly ilDBInterface $db)
     {
-        $this->db = $db;
     }
 
     public function store(PageMetrics $pageMetrics): void

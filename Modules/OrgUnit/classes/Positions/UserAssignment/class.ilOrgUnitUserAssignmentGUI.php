@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -15,6 +16,7 @@
  *
  ********************************************************************
  */
+declare(strict_types=1);
 
 use ILIAS\Modules\OrgUnit\ARHelper\BaseCommands;
 use ILIAS\HTTP\Services;
@@ -38,6 +40,7 @@ class ilOrgUnitUserAssignmentGUI extends BaseCommands
     private ilAccessHandler $access;
     private ilLanguage $language;
     private \ilOrgUnitPositionDBRepository $positionRepo;
+    private \ilOrgUnitUserAssignmentDBRepository $assignmentRepo;
 
     public function __construct()
     {
@@ -54,6 +57,7 @@ class ilOrgUnitUserAssignmentGUI extends BaseCommands
 
         $dic = \ilOrgUnitLocalDIC::dic();
         $this->positionRepo = $dic["repo.Positions"];
+        $this->assignmentRepo = $dic["repo.UserAssignments"];
     }
 
     public function executeCommand(): void
@@ -78,6 +82,7 @@ class ilOrgUnitUserAssignmentGUI extends BaseCommands
                         break;
                     default:
                         $repo = new ilRepositorySearchGUI();
+                        $repo->setCallback($this, 'addStaffFromSearch');
                         $this->ctrl->forwardCommand($repo);
                         break;
                 }
@@ -166,7 +171,7 @@ class ilOrgUnitUserAssignmentGUI extends BaseCommands
         $position_title = $types[$position_id];
 
         $confirmation->setHeaderText(sprintf($this->language->txt('msg_confirm_remove_user'), $position_title));
-        $confirmation->addItem('usr_id', $usr_id, ilObjUser::_lookupLogin($usr_id));
+        $confirmation->addItem('usr_id', $usr_id, ilObjUser::_lookupLogin((int) $usr_id));
 
         return $confirmation;
     }
@@ -174,28 +179,32 @@ class ilOrgUnitUserAssignmentGUI extends BaseCommands
     protected function delete(): void
     {
         $params = $this->http->request()->getQueryParams();
-        $usr_id = $_POST['usr_id'];
-        $position_id = $params['position_id'];
+        $usr_id = (int) $_POST['usr_id'];
+        $position_id = (int) $params['position_id'];
 
-        $ua = ilOrgUnitUserAssignmentQueries::getInstance()->getAssignmentOrFail(
+        $assignment = $this->assignmentRepo->find(
             $usr_id,
             $position_id,
             $this->getParentRefId()
         );
-        $ua->delete();
+        if (!$assignment) {
+            $this->main_tpl->setOnScreenMessage('failure', $this->language->txt("user_not_found_to_delete"), true);
+            $this->ctrl->redirect($this, self::CMD_INDEX);
+        }
+        $this->assignmentRepo->delete($assignment);
+
         $this->main_tpl->setOnScreenMessage('success', $this->language->txt('remove_successful'), true);
         $this->cancel();
     }
 
-    protected function deleteRecursive()
+    protected function deleteRecursive(): void
     {
         $r = $this->http->request();
-        $assignments = ilOrgUnitUserAssignmentQueries::getInstance()
-            ->getAssignmentsOfUserIdAndPosition((int) $_POST['usr_id'], (int) $r->getQueryParams()['position_id'])
-        ;
+        $assignments = $this->assignmentRepo
+            ->getByUserAndPosition((int) $_POST['usr_id'], (int) $r->getQueryParams()['position_id']);
 
         foreach ($assignments as $assignment) {
-            $assignment->delete();
+            $this->assignmentRepo->delete($assignment);
         }
         $this->main_tpl->setOnScreenMessage('success', $this->language->txt('remove_successful'), true);
         $this->cancel();
@@ -223,18 +232,47 @@ class ilOrgUnitUserAssignmentGUI extends BaseCommands
         }
 
         if (!count($user_ids)) {
-            $this->main_tpl->setOnScreenMessage('failure', $this->txt("user_not_found"), true);
+            $this->main_tpl->setOnScreenMessage('failure', $this->language->txt("user_not_found"), true);
             $this->ctrl->redirect($this, self::CMD_INDEX);
         }
 
-        $position_id = isset($_POST['user_type']) ? $_POST['user_type'] : 0;
+        $position_id = (int) ($_POST['user_type'] ?? ilOrgUnitPosition::CORE_POSITION_EMPLOYEE);
 
-        if (!$position_id || !$this->positionRepo->getSingle($position_id, 'id')) {
+        if ($position_id === 0 || !$this->positionRepo->getSingle($position_id, 'id')) {
             $this->main_tpl->setOnScreenMessage('failure', $this->language->txt("user_not_found"), true);
             $this->ctrl->redirect($this, self::CMD_INDEX);
         }
         foreach ($user_ids as $user_id) {
-            ilOrgUnitUserAssignment::findOrCreateAssignment($user_id, $position_id, $this->getParentRefId());
+            $assignment = $this->assignmentRepo->get($user_id, $position_id, $this->getParentRefId());
+        }
+
+        $this->main_tpl->setOnScreenMessage('success', $this->language->txt("users_successfuly_added"), true);
+        $this->ctrl->redirect($this, self::CMD_INDEX);
+    }
+
+    /**
+     * @param array<int> $user_ids
+     */
+    public function addStaffFromSearch(array $user_ids, ?string $user_type = null): void
+    {
+        if (!$this->access->checkAccess("write", "", $this->getParentRefId())) {
+            $this->main_tpl->setOnScreenMessage('failure', $this->language->txt("permission_denied"), true);
+            $this->ctrl->redirect($this, self::CMD_INDEX);
+        }
+
+        if (!count($user_ids)) {
+            $this->main_tpl->setOnScreenMessage('failure', $this->language->txt("user_not_found"), true);
+            $this->ctrl->redirect($this, self::CMD_INDEX);
+        }
+
+        $position_id = (int) ($user_type ?? ilOrgUnitPosition::CORE_POSITION_EMPLOYEE);
+
+        if ($position_id === 0 || !$this->positionRepo->getSingle($position_id, 'id')) {
+            $this->main_tpl->setOnScreenMessage('failure', $this->language->txt("user_not_found"), true);
+            $this->ctrl->redirect($this, self::CMD_INDEX);
+        }
+        foreach ($user_ids as $user_id) {
+            $assignment = $this->assignmentRepo->get($user_id, $position_id, $this->getParentRefId());
         }
 
         $this->main_tpl->setOnScreenMessage('success', $this->language->txt("users_successfuly_added"), true);

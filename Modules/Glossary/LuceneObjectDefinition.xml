@@ -29,10 +29,10 @@
 			<xi:include href="../../Services/AdvancedMetaData/LuceneSubItemDataSource.xml" />
 			<DataSource type="JDBC" action="append">
 				<Query>
-					SELECT content FROM glossary_definition
+					SELECT content FROM glossary_term
 					JOIN page_object ON id = page_id
-					WHERE term_id = ?
-					AND parent_type = 'gdf'
+					WHERE id = ?
+					AND parent_type = 'term'
 				</Query>
 				<Param format="single" type="int" value="id" />
 				<Field store="YES" index="ANALYZED" column="content" type="clob" name="content">

@@ -27,6 +27,7 @@ abstract class ilPageConfig
     public const SEC_PROTECT_NONE = 0;          // page does not support section protection
     public const SEC_PROTECT_EDITABLE = 1;      // current use can edit protected sections
     public const SEC_PROTECT_PROTECTED = 2;     // current use cannot edit protected sections
+    protected \ILIAS\COPage\PC\PCDefinition $pc_definition;
 
     protected bool $int_link_def_id_is_ref = false;
     protected ilLanguage $lng;
@@ -72,21 +73,36 @@ abstract class ilPageConfig
     {
         global $DIC;
 
+        $this->pc_definition = $DIC
+            ->copage()
+            ->internal()
+            ->domain()
+            ->pc()
+            ->definition();
         $this->lng = $DIC->language();
+        $this->loadPCDefs();
+        $this->adve_set = new ilSetting("adve");
+        $this->loadParentKey();
+        $this->init();
+    }
+
+    protected function loadPCDefs(): void
+    {
         // load pc_defs
-        $this->pc_defs = ilCOPagePCDef::getPCDefinitions();
+        $this->pc_defs = $this->pc_definition->getPCDefinitions();
         foreach ($this->pc_defs as $def) {
             $this->setEnablePCType($def["name"], (bool) $def["def_enabled"]);
         }
+    }
 
-        $this->adve_set = new ilSetting("adve");
+    protected function loadParentKey(): void
+    {
         $def = new ilCOPageObjDef();
         foreach ($def->getDefinitions() as $key => $def) {
             if (strtolower(get_class($this)) == strtolower($def["class_name"] . "Config")) {
                 $this->page_obj_key = $key;
             }
         }
-        $this->init();
     }
 
     public function init(): void

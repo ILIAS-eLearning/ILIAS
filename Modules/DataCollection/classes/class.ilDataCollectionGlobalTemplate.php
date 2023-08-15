@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -13,25 +14,27 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
+
+
+declare(strict_types=1);
 
 include_once("./Services/UICore/lib/html-it/IT.php");
 include_once("./Services/UICore/lib/html-it/ITX.php");
 
-/**
- * special template class to simplify handling of ITX/PEAR
- * @author     Stefan Kesseler <skesseler@databay.de>
- * @author     Sascha Hofmann <shofmann@databay.de>
- * @version    $Id$
- */
 class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
 {
-    protected $tree_flat_link = "";
-    protected $page_form_action = "";
-    protected $permanent_link = false;
-    protected $lightbox = array();
-    protected $standard_template_loaded = false;
+    private ilLanguage$lng;
+    private ilLocatorGUI $locator;
+    private ilTabsGUI $tabs;
+    private ilToolbarGUI $toolbar;
+    private ilSetting $settings;
+    private ilComponentFactory $component_factory;
+    protected string $tree_flat_link = "";
+    protected string $page_form_action = "";
+    protected array $permanent_link = [];
+    protected array $lightbox = [];
+    protected bool $standard_template_loaded = false;
     protected ilTemplate $template;
     protected array $on_load_code;
     protected string $body_class;
@@ -48,17 +51,6 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
     protected ILIAS\HTTP\Services $http;
     protected ILIAS\Refinery\Factory $refinery;
 
-    /**
-     * constructor
-     * @param string $file      templatefile (mit oder ohne pfad)
-     * @param bool   $flag1     remove unknown variables
-     * @param bool   $flag2     remove empty blocks
-     * @param bool   $in_module should be set to true, if template file is in module subdirectory
-     * @param string $vars      variables to replace
-     * @param bool   $plugin
-     * @param bool   $a_use_cache
-     * @access    public
-     */
     public function __construct(
         string $file,
         bool $flag1,
@@ -68,7 +60,16 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
         bool $plugin = false,
         bool $a_use_cache = true
     ) {
+        global $DIC;
+
         $this->setBodyClass("std");
+        $this->lng = $DIC->language();
+        $this->http = $DIC->http();
+        $this->locator = $DIC["ilLocator"];
+        $this->tabs = $DIC->tabs();
+        $this->toolbar = $DIC->toolbar();
+        $this->settings = $DIC->settings();
+        $this->component_factory = $DIC["component.factory"];
 
         $this->template = new ilTemplate($file, $flag1, $flag2, $in_module, $vars, $plugin, $a_use_cache);
     }
@@ -76,113 +77,6 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
     public function printToString(): string
     {
         throw new ilException('not implemented');
-    }
-
-
-    //***********************************
-    //
-    // FOOTER
-    //
-    // Used in:
-    //  * ilStartUPGUI
-    //  * ilTestSubmissionReviewGUI
-    //  * ilTestPlayerAbstractGUI
-    //  * ilAssQuestionHintRequestGUI
-    //
-    //***********************************
-
-    private bool $show_footer = true;
-
-    /**
-     * Make the template hide the footer.
-     */
-    public function hideFooter(): void
-    {
-        $this->show_footer = false;
-    }
-
-    /**
-     * Fill the footer area.
-     */
-    private function fillFooter(): void
-    {
-        global $DIC;
-
-        $ilSetting = $DIC->settings();
-
-        $lng = $DIC->language();
-
-        $ilCtrl = $DIC->ctrl();
-        $ilDB = $DIC->database();
-
-        if (!$this->show_footer) {
-            return;
-        }
-
-        $ftpl = new ilTemplate("tpl.footer.html", true, true, "Services/UICore");
-
-        $php = "";
-        if (DEVMODE) {
-            $php = ", PHP " . phpversion();
-        }
-        $ftpl->setVariable("ILIAS_VERSION", ILIAS_VERSION . $php);
-
-        $link_items = array();
-
-        $this->http = $DIC->http();
-        $this->refinery = $DIC->refinery();
-
-        // imprint
-        if ($this->http->wrapper()->query()->has('record_id')) {
-            $baseClass = $this->http->wrapper()->query()->retrieve('baseClass', $this->refinery->kindlyTo()->string());
-        }
-        if ($this->http->wrapper()->post()->has('record_id')) {
-            $baseClass = $this->http->wrapper()->post()->retrieve('baseClass', $this->refinery->kindlyTo()->string());
-        }
-        if ($baseClass != "ilImprintGUI" && ilImprint::isActive()) {
-            $link_items[ilLink::_getStaticLink(0, "impr")] = array($lng->txt("imprint"), true);
-        }
-
-        // system support contacts
-        if (($l = ilSystemSupportContactsGUI::getFooterLink()) != "") {
-            $link_items[$l] = array(ilSystemSupportContactsGUI::getFooterText(), false);
-        }
-
-        if (DEVMODE) {
-            if (function_exists("tidy_parse_string")) {
-                $link_items[ilUtil::appendUrlParameterString(
-                    $_SERVER["REQUEST_URI"],
-                    "do_dev_validate=xhtml"
-                )] = array("Validate", true);
-                $link_items[ilUtil::appendUrlParameterString(
-                    $_SERVER["REQUEST_URI"],
-                    "do_dev_validate=accessibility"
-                )] = array("Accessibility", true);
-            }
-        }
-
-        // output translation link
-        if (ilObjLanguageAccess::_checkTranslate() and !ilObjLanguageAccess::_isPageTranslation()) {
-            $link_items[ilObjLanguageAccess::_getTranslationLink()] = array($lng->txt('translation'), true);
-        }
-
-        $cnt = 0;
-        foreach ($link_items as $url => $caption) {
-            $cnt++;
-            if ($caption[1]) {
-                $ftpl->touchBlock("blank");
-            }
-            if ($cnt < sizeof($link_items)) {
-                $ftpl->touchBlock("item_separator");
-            }
-
-            $ftpl->setCurrentBlock("items");
-            $ftpl->setVariable("URL_ITEM", ilUtil::secureUrl($url));
-            $ftpl->setVariable("TXT_ITEM", $caption[0]);
-            $ftpl->parseCurrentBlock();
-        }
-
-        $this->setVariable("FOOTER", $ftpl->get());
     }
 
 
@@ -207,6 +101,10 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
     {
     }
 
+    public function hideFooter(): void
+    {
+    }
+
 
     //***********************************
     //
@@ -219,14 +117,14 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
     /**
      * @var array  available Types for Messages
      */
-    protected static $message_types
-        = array(
+    protected static array $message_types
+        = [
             self::MESSAGE_TYPE_FAILURE,
             self::MESSAGE_TYPE_INFO,
             self::MESSAGE_TYPE_SUCCESS,
             self::MESSAGE_TYPE_QUESTION,
-        );
-    protected array $message = array();
+        ];
+    protected array $message = [];
 
     public function setOnScreenMessage(string $type, string $a_txt, bool $a_keep = false): void
     {
@@ -245,8 +143,6 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
      */
     private function fillMessage(): void
     {
-        global $DIC;
-
         $out = "";
 
         foreach (self::$message_types as $m) {
@@ -256,7 +152,7 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
                 $out .= ilUtil::getSystemMessageHTML($txt, $m);
             }
 
-            $request = $DIC->http()->request();
+            $request = $this->http->request();
             $accept_header = $request->getHeaderLine('Accept');
             if (ilSession::has($m) && ilSession::get($m) && ($accept_header !== 'application/json')) {
                 ilSession::clear($m);
@@ -292,17 +188,17 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
      * List of JS-Files that should be included.
      * @var array<int,string>
      */
-    protected $js_files = array(0 => "./Services/JavaScript/js/Basic.js");
+    protected array $js_files = [0 => "./Services/JavaScript/js/Basic.js"];
     /**
      * Stores if a version parameter should be appended to the js-file to force reloading.
      * @var array<string,bool>
      */
-    protected $js_files_vp = array("./Services/JavaScript/js/Basic.js" => true);
+    protected array $js_files_vp = ["./Services/JavaScript/js/Basic.js" => true];
     /**
      * Stores the order in which js-files should be included.
      * @var array<string,int>
      */
-    protected $js_files_batch = array("./Services/JavaScript/js/Basic.js" => 1);
+    protected array $js_files_batch = ["./Services/JavaScript/js/Basic.js" => 1];
 
     /**
      * Add a javascript file that should be included in the header.
@@ -372,9 +268,9 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
      */
     public function resetJavascript(): void
     {
-        $this->js_files = array();
-        $this->js_files_vp = array();
-        $this->js_files_batch = array();
+        $this->js_files = [];
+        $this->js_files_vp = [];
+        $this->js_files_batch = [];
     }
 
     // PRIVATE CANDIDATE
@@ -385,17 +281,12 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
     //    - latex.php
     public function fillJavaScriptFiles(bool $a_force = false): void
     {
-        global $DIC;
+        $vers = "vers=" . str_replace([".", " "], "-", ILIAS_VERSION);
 
-        $ilSetting = $DIC->settings();
-
-        if (is_object($ilSetting)) {        // maybe this one can be removed
-            $vers = "vers=" . str_replace(array(".", " "), "-", ILIAS_VERSION);
-
-            if (DEVMODE) {
-                $vers .= '-' . time();
-            }
+        if (DEVMODE) {
+            $vers .= '-' . time();
         }
+
         if ($this->blockExists("js_file")) {
             // three batches
             for ($i = 0; $i <= 3; $i++) {
@@ -461,14 +352,12 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
 
     /**
      * Stores CSS-files to be included.
-     * @var array
      */
-    protected $css_files = array();
+    protected array $css_files = [];
     /**
      * Stores CSS to be included directly.
-     * array
      */
-    protected $inline_css = array();
+    protected array $inline_css = [];
 
     /**
      * Add a css file that should be included in the header.
@@ -476,7 +365,7 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
     public function addCss(string $a_css_file, string $media = "screen"): void
     {
         if (!array_key_exists($a_css_file . $media, $this->css_files)) {
-            $this->css_files[$a_css_file . $media] = array("file" => $a_css_file, "media" => $media);
+            $this->css_files[$a_css_file . $media] = ["file" => $a_css_file, "media" => $media];
         }
     }
 
@@ -489,7 +378,7 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
      */
     public function addInlineCss(string $a_css, string $media = "screen"): void
     {
-        $this->inline_css[] = array("css" => $a_css, "media" => $media);
+        $this->inline_css[] = ["css" => $a_css, "media" => $media];
     }
 
     // PRIVATE CANDIDATE
@@ -542,14 +431,6 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
             $this->setVariable("BODY_CLASS", $this->body_class);
             $this->parseCurrentBlock();
         }
-    }
-
-    /**
-     * Reset css files
-     */
-    private function resetCss(): void
-    {
-        $this->css_files = array();
     }
 
     /**
@@ -618,7 +499,7 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
     protected string $header_page_title = "";
     protected string $title = "";
     protected string $title_desc = "";
-    protected array $title_alerts = array();
+    protected array $title_alerts = [];
     protected string $header_action;
 
     public function setTitle(string $a_title, bool $hidden = false): void
@@ -651,7 +532,7 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
         $this->setTitle("");
         $this->setTitleIcon("");
         $this->setDescription("");
-        $this->setAlertProperties(array());
+        $this->setAlertProperties([]);
     }
 
     // REMOVAL CANDIDATE
@@ -683,19 +564,15 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
      */
     private function fillHeader(): void
     {
-        global $DIC;
-
-        $lng = $DIC->language();
-
         $header_tpl = new ilTemplate('tpl.il_header.html', true, true);
 
-        $icon = false;
+        $header = false;
+
         if ($this->icon_path != "") {
-            $icon = true;
             $header_tpl->setCurrentBlock("header_image");
             if ($this->icon_desc != "") {
-                $header_tpl->setVariable("IMAGE_DESC", $lng->txt("icon") . " " . $this->icon_desc);
-                $header_tpl->setVariable("IMAGE_ALT", $lng->txt("icon") . " " . $this->icon_desc);
+                $header_tpl->setVariable("IMAGE_DESC", $this->lng->txt("icon") . " " . $this->icon_desc);
+                $header_tpl->setVariable("IMAGE_ALT", $this->lng->txt("icon") . " " . $this->icon_desc);
             }
 
             $header_tpl->setVariable("IMG_HEADER", $this->icon_path);
@@ -740,20 +617,7 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
             }
         }
 
-        // add file upload drop zone in header
-        if ($this->enable_fileupload !== null) {
-            $file_upload = new ilObjFileUploadDropzone(
-                $this->enable_fileupload,
-                $header_tpl->get()
-            );
-
-            $this->template->setVariable(
-                "IL_DROPZONE_HEADER",
-                $file_upload->getDropzoneHtml()
-            );
-        } else {
-            $this->template->setVariable("IL_HEADER", $header_tpl->get());
-        }
+        $this->template->setVariable("IL_HEADER", $header_tpl->get());
     }
 
     /**
@@ -773,25 +637,17 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
 
     public function setLocator(): void
     {
-        global $DIC;
-
-        $ilLocator = $DIC["ilLocator"];
-        $ilPluginAdmin = $DIC["ilPluginAdmin"];
-
         $html = "";
 
-        if (is_object($ilPluginAdmin)) {
-            include_once("./Services/UIComponent/classes/class.ilUIHookProcessor.php");
-            $html = $ilLocator->getHTML();
-            $uip = new ilUIHookProcessor(
-                "Services/Locator",
-                "main_locator",
-                ["locator_gui" => $ilLocator, "html" => $html]
-            );
-            $html = $uip->getHTML($html);
-        } else {
-            $html = $ilLocator->getHTML();
-        }
+        include_once("./Services/UIComponent/classes/class.ilUIHookProcessor.php");
+        $html = $this->locator->getHTML();
+        $uip = new ilUIHookProcessor(
+            "Services/Locator",
+            "main_locator",
+            ["locator_gui" => $this->locator, "html" => $html]
+        );
+        $html = $uip->getHTML($html);
+
         $this->setVariable("LOCATOR", $html);
     }
 
@@ -843,13 +699,9 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
 
     private function getTabsHTML(): void
     {
-        global $DIC;
-
-        $ilTabs = $DIC["ilTabs"];
-
         if ($this->blockExists("tabs_outer_start")) {
-            $this->sub_tabs_html = $ilTabs->getSubTabHTML();
-            $this->tabs_html = $ilTabs->getHTML(true);
+            $this->sub_tabs_html = $this->tabs->getSubTabHTML();
+            $this->tabs_html = $this->tabs->getHTML(true);
         }
     }
 
@@ -979,11 +831,7 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
 
     private function fillToolbar(): void
     {
-        global $DIC;
-
-        $ilToolbar = $DIC["ilToolbar"];
-
-        $thtml = $ilToolbar->getHTML();
+        $thtml = $this->toolbar->getHTML();
         if ($thtml != "") {
             $this->setCurrentBlock("toolbar_buttons");
             $this->setVariable("BUTTONS", $thtml);
@@ -1000,30 +848,21 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
      */
     private function fillContentLanguage(): void
     {
-        global $DIC;
-        $lng = $DIC->language();
-
-        if (is_object($lng)) {
-            $this->setVariable('META_CONTENT_LANGUAGE', $lng->getContentLanguage());
-            $this->setVariable('LANGUAGE_DIRECTION', $lng->getTextDirection());
-        }
+        $this->setVariable('META_CONTENT_LANGUAGE', $this->lng->getContentLanguage());
+        $this->setVariable('LANGUAGE_DIRECTION', $this->lng->getTextDirection());
     }
 
     private function fillWindowTitle(): void
     {
-        global $DIC;
-
-        $ilSetting = $DIC->settings();
-
         if ($this->header_page_title != "") {
             $title = ilUtil::stripScriptHTML($this->header_page_title);
             $this->setVariable("PAGETITLE", "- " . $title);
         }
 
-        if ($ilSetting->get('short_inst_name') != "") {
+        if ($this->settings->get('short_inst_name') != "") {
             $this->setVariable(
                 "WINDOW_TITLE",
-                $ilSetting->get('short_inst_name')
+                $this->settings->get('short_inst_name')
             );
         } else {
             $this->setVariable(
@@ -1068,14 +907,6 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
         $this->login_target_par = $a_val;
     }
 
-    /**
-     * Get target parameter for login
-     */
-    private function getLoginTargetPar(): string
-    {
-        return $this->login_target_par;
-    }
-
 
     // REMOVAL CANDIDATE:
     // Usage locations:
@@ -1104,10 +935,6 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
             $this->fillMessage();
         }
 
-        if ($add_ilias_footer) {
-            $this->fillFooter();
-        }
-
         // set standard parts (tabs and title icon)
         if ($add_standard_elements) {
             if ($this->blockExists("content") && $a_tabs) {
@@ -1125,7 +952,7 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
             $this->fillBodyClass();
 
             // these fill just plain placeholder variables in tpl.main.html
-            $this->setCurrentBlock("DEFAULT");
+            $this->setCurrentBlock();
             $this->fillNewContentStyle();
             $this->fillContentLanguage();
             $this->fillWindowTitle();
@@ -1138,7 +965,6 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
             $this->fillRightContent();
             $this->fillAdminPanel();
             $this->fillToolbar();
-            $this->fillPermanentLink();
 
             $this->setCenterColumnClass();
 
@@ -1178,18 +1004,15 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
         bool $has_tabs = true,
         bool $skip_main_menu = false
     ): void {
-        global $DIC;
-
-        $http = $DIC->http();
-        switch ($http->request()->getHeaderLine('Accept')) {
+        switch ($this->http->request()->getHeaderLine('Accept')) {
             case 'application/json':
                 $string = json_encode([
                     self::MESSAGE_TYPE_SUCCESS => is_null($this->message[self::MESSAGE_TYPE_FAILURE]),
                     'message' => '',
                 ]);
                 $stream = \ILIAS\Filesystem\Stream\Streams::ofString($string);
-                $http->saveResponse($http->response()->withBody($stream));
-                $http->sendResponse();
+                $this->http->saveResponse($this->http->response()->withBody($stream));
+                $this->http->sendResponse();
                 exit;
             default:
                 // include yahoo dom per default
@@ -1199,11 +1022,6 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
                 header("Content-type: text/html; charset=UTF-8");
 
                 $this->fillMessage();
-
-                // display ILIAS footer
-                if ($part !== false) {
-                    $this->fillFooter();
-                }
 
                 // set standard parts (tabs and title icon)
                 $this->fillBodyClass();
@@ -1225,7 +1043,7 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
                     //$this->fillJavaScriptFiles();
 
                     // these fill just plain placeholder variables in tpl.main.html
-                    $this->setCurrentBlock("DEFAULT");
+                    $this->setCurrentBlock();
                     $this->fillNewContentStyle();
                     $this->fillContentLanguage();
                     $this->fillWindowTitle();
@@ -1238,7 +1056,6 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
                     $this->fillRightContent();
                     $this->fillAdminPanel();
                     $this->fillToolbar();
-                    $this->fillPermanentLink();
 
                     $this->setCenterColumnClass();
 
@@ -1266,14 +1083,13 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
                 // Modification of html is done inline here and can't be done
                 // by ilTemplate, because the "phase" is template_show in this
                 // case here.
-                $component_factory = $DIC["component.factory"];
-                foreach ($component_factory->getActivePluginsInSlot("uihk") as $plugin) {
+                foreach ($this->component_factory->getActivePluginsInSlot("uihk") as $plugin) {
                     $gui_class = $plugin->getUIClassInstance();
 
                     $resp = $gui_class->getHTML(
                         "",
                         "template_show",
-                        array("tpl_id" => $this->tplIdentifier, "tpl_obj" => $this, "html" => $html)
+                        ["tpl_id" => $this->tplIdentifier, "tpl_obj" => $this, "html" => $html]
                     );
 
                     if ($resp["mode"] != ilUIHookPluginGUI::KEEP) {
@@ -1295,12 +1111,6 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
      */
     private function fillSideIcons(): void
     {
-        global $DIC;
-
-        $ilSetting = $DIC->settings();
-
-        $lng = $DIC->language();
-
         // tree/flat icon
         if ($this->tree_flat_link != "") {
             if ($this->left_nav_content != "") {
@@ -1309,22 +1119,13 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
 
             $this->setCurrentBlock("tree_mode");
             $this->setVariable("LINK_MODE", $this->tree_flat_link);
-            if ($ilSetting->get("tree_frame") == "right") {
-                if ($this->tree_flat_mode === "tree") {
-                    $this->setVariable("IMG_TREE", ilUtil::getImagePath("icon_sidebar_on.svg"));
-                    $this->setVariable("RIGHT", "Right");
-                } else {
-                    $this->setVariable("IMG_TREE", ilUtil::getImagePath("icon_sidebar_on.svg"));
-                    $this->setVariable("RIGHT", "Right");
-                }
+            if ($this->settings->get("tree_frame") == "right") {
+                $this->setVariable("IMG_TREE", ilUtil::getImagePath("icon_sidebar_on.svg"));
+                $this->setVariable("RIGHT", "Right");
             } else {
-                if ($this->tree_flat_mode == "tree") {
-                    $this->setVariable("IMG_TREE", ilUtil::getImagePath("icon_sidebar_on.svg"));
-                } else {
-                    $this->setVariable("IMG_TREE", ilUtil::getImagePath("icon_sidebar_on.svg"));
-                }
+                $this->setVariable("IMG_TREE", ilUtil::getImagePath("icon_sidebar_on.svg"));
             }
-            $this->setVariable("ALT_TREE", $lng->txt($this->tree_flat_mode . "view"));
+            $this->setVariable("ALT_TREE", $this->lng->txt($this->tree_flat_mode . "view"));
             $this->setVariable("TARGET_TREE", ilFrameTargetInfo::_getFrame("MainContent"));
             $this->parseCurrentBlock();
         }
@@ -1383,9 +1184,6 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
      */
     private function fillAdminPanel(): void
     {
-        global $DIC;
-        $lng = $DIC->language();
-
         if ($this->admin_panel_commands_toolbar === null) {
             return;
         }
@@ -1394,7 +1192,7 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
 
         // Add arrow if desired.
         if ($this->admin_panel_arrow) {
-            $toolb->setLeadingImage(ilUtil::getImagePath("arrow_upright.svg"), $lng->txt("actions"));
+            $toolb->setLeadingImage(ilUtil::getImagePath("arrow_upright.svg"), $this->lng->txt("actions"));
         }
 
         $this->fillPageFormAction();
@@ -1410,7 +1208,7 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
 
             // Replace previously set arrow image.
             if ($this->admin_panel_arrow) {
-                $toolb->setLeadingImage(ilUtil::getImagePath("arrow_downright.svg"), $lng->txt("actions"));
+                $toolb->setLeadingImage(ilUtil::getImagePath("arrow_downright.svg"), $this->lng->txt("actions"));
             }
 
             $this->setVariable("ADM_PANEL2", $toolb->getHTML());
@@ -1425,32 +1223,13 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
         string $a_target = "",
         string $a_title = ""
     ): void {
-        $this->permanent_link = array(
+        $this->permanent_link = [
             "type" => $a_type,
             "id" => $a_id,
             "append" => $a_append,
             "target" => $a_target,
             "title" => $a_title,
-        );
-    }
-
-    /**
-     * Fill in permanent link
-     */
-    private function fillPermanentLink(): void
-    {
-        if (is_array($this->permanent_link)) {
-            $plinkgui = new ilPermanentLinkGUI(
-                $this->permanent_link["type"],
-                $this->permanent_link["id"],
-                $this->permanent_link["append"],
-                $this->permanent_link["target"]
-            );
-            if ($this->permanent_link["title"] != "") {
-                $plinkgui->setTitle($this->permanent_link["title"]);
-            }
-            $this->setVariable("PRMLINK", $plinkgui->getHTML());
-        }
+        ];
     }
 
     /**
@@ -1458,15 +1237,15 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
      */
     public function resetHeaderBlock(bool $a_reset_header_action = true): void
     {
-        $this->setTitle(null);
-        $this->setTitleIcon(null);
-        $this->setDescription(null);
-        $this->setAlertProperties(array());
-        $this->setFileUploadRefId(null);
+        $this->setTitle("");
+        $this->setTitleIcon("");
+        $this->setDescription("");
+        $this->setAlertProperties([]);
+        $this->setFileUploadRefId(0);
 
         // see setFullscreenHeader()
         if ($a_reset_header_action) {
-            $this->setHeaderActionMenu(null);
+            $this->setHeaderActionMenu("");
         }
     }
 
@@ -1475,7 +1254,7 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
      */
     public function setFileUploadRefId(int $a_ref_id): void
     {
-        $this->enable_fileupload = $a_ref_id;
+        $this->enable_fileupload = false;
     }
 
 
@@ -1495,11 +1274,6 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
     public function setVariable(string $variable, $value = ''): void
     {
         $this->template->setVariable($variable, $value);
-    }
-
-    private function variableExists(string $a_variablename)
-    {
-        return $this->template->variableExists($a_variablename);
     }
 
     public function setCurrentBlock(string $part = "DEFAULT"): bool

@@ -45,6 +45,7 @@ class ilBiblTranslationGUI
     public function __construct(ilBiblAdminFactoryFacadeInterface $facade, \ilBiblFieldInterface $field)
     {
         global $DIC;
+        $DIC->language()->loadLanguageModule('obj');
         $this->main_tpl = $DIC->ui()->mainTemplate();
         $this->facade = $facade;
         $this->field = $field;

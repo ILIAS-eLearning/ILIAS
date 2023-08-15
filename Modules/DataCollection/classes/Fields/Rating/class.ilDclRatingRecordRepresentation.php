@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -13,32 +14,24 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
-/**
- * Class ilDclMobRecordRepresentation
- * @author  Michael Herren <mh@studer-raimann.ch>
- * @version 1.0.0
- */
+declare(strict_types=1);
+
 class ilDclRatingRecordRepresentation extends ilDclBaseRecordRepresentation
 {
     public function getHTML(bool $link = true, array $options = []): string
     {
-        global $DIC;
-        $ilCtrl = $DIC['ilCtrl'];
         $rgui = new ilRatingGUI();
         $rgui->setObject(
             $this->getRecordField()->getRecord()->getId(),
             "dcl_record",
-            $this->getRecordField()->getField()->getId(),
+            (int)$this->getRecordField()->getField()->getId(),
             "dcl_field"
         );
-        $ilCtrl->setParameterByClass("ilratinggui", "field_id", $this->getRecordField()->getField()->getId());
-        $ilCtrl->setParameterByClass("ilratinggui", "record_id", $this->getRecordField()->getRecord()->getId());
-        $html = $rgui->getHTML();
-
-        return $html;
+        $this->ctrl->setParameterByClass("ilratinggui", "field_id", $this->getRecordField()->getField()->getId());
+        $this->ctrl->setParameterByClass("ilratinggui", "record_id", $this->getRecordField()->getRecord()->getId());
+        return $rgui->getHTML();
     }
 
     /**

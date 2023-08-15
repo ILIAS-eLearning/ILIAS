@@ -18,6 +18,9 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+use ILIAS\UI\Implementation\Factory as UIImplementationFactory;
+use ILIAS\UI\Renderer as UIRenderer;
+
 /**
  * TableGUI class for search results
  * @author  Stefan Meyer <smeyer.ilias@gmx.de>
@@ -32,6 +35,9 @@ class ilWebResourceLinkTableGUI extends ilTable2GUI
     protected ilAccessHandler $access;
     protected ilWebLinkRepository $web_link_repo;
 
+    private UIRenderer $renderer;
+    private UIImplementationFactory $uiFactory;
+
     /**
      * TODO Move most of this stuff to an init method.
      */
@@ -43,6 +49,9 @@ class ilWebResourceLinkTableGUI extends ilTable2GUI
         global $DIC;
 
         parent::__construct($a_parent_obj, $a_parent_cmd);
+
+        $this->renderer = $DIC->ui()->renderer();
+        $this->uiFactory = $DIC->ui()->factory();
 
         $this->access = $DIC->access();
         $this->web_link_repo = new ilWebLinkDatabaseRepository(
@@ -154,38 +163,23 @@ class ilWebResourceLinkTableGUI extends ilTable2GUI
             $this->tpl->setVariable('VAL_ITEM', $a_set['link_id']);
         }
 
-        $actions = new ilAdvancedSelectionListGUI();
-        $actions->setSelectionHeaderClass("small");
-        $actions->setItemLinkClass("xsmall");
-
-        $actions->setListTitle($this->lng->txt('actions'));
-        $actions->setId((string) $a_set['link_id']);
-
-        $actions->addItem(
-            $this->lng->txt('edit'),
-            '',
-            $this->ctrl->getLinkTargetByClass(
-                get_class($this->getParentObject()),
-                'editLink'
+        $dropDownItems = array(
+            $this->uiFactory->button()->shy(
+                $this->lng->txt('edit'),
+                $this->ctrl->getLinkTargetByClass(get_class($this->getParentObject()), 'editLink')
+            ),
+            $this->uiFactory->button()->shy(
+                $this->lng->txt('webr_deactivate'),
+                $this->ctrl->getLinkTargetByClass(get_class($this->getParentObject()), 'deactivateLink')
+            ),
+            $this->uiFactory->button()->shy(
+                $this->lng->txt('delete'),
+                $this->ctrl->getLinkTargetByClass(get_class($this->getParentObject()), 'confirmDeleteLink')
             )
         );
-        $actions->addItem(
-            $this->lng->txt('webr_deactivate'),
-            '',
-            $this->ctrl->getLinkTargetByClass(
-                get_class($this->getParentObject()),
-                'deactivateLink'
-            )
-        );
-        $actions->addItem(
-            $this->lng->txt('delete'),
-            '',
-            $this->ctrl->getLinkTargetByClass(
-                get_class($this->getParentObject()),
-                'confirmDeleteLink'
-            )
-        );
-        $this->tpl->setVariable('ACTION_HTML', $actions->getHTML());
+        $dropDown = $this->uiFactory->dropdown()->standard($dropDownItems)
+                ->withLabel($this->lng->txt('actions'));
+        $this->tpl->setVariable('ACTION_HTML', $this->renderer->render($dropDown));
     }
 
     protected function isEditable(): bool

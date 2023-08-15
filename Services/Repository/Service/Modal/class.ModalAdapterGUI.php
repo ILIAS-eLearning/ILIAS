@@ -1,30 +1,35 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
+ *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\Repository\Modal;
 
 use ILIAS\UI\Component\Modal;
 use ILIAS\Filesystem\Stream\Streams;
+use ILIAS\Repository\HTTP\HTTPUtil;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
  */
 class ModalAdapterGUI
 {
+    protected HTTPUtil $http_util;
     protected string $cancel_label;
     protected ?\ILIAS\Repository\Form\FormAdapterGUI $form = null;
     protected \ILIAS\Refinery\Factory $refinery;
@@ -39,8 +44,9 @@ class ModalAdapterGUI
      * @param string|array $class_path
      */
     public function __construct(
-        $title = "",
-        $cancel_label = ""
+        string $title,
+        string $cancel_label,
+        HTTPUtil $http_util
     ) {
         global $DIC;
         $this->ui = $DIC->ui();
@@ -49,6 +55,7 @@ class ModalAdapterGUI
         $this->refinery = $DIC->refinery();
         $this->title = $title;
         $this->cancel_label = $cancel_label;
+        $this->http_util = $http_util;
     }
 
     /**
@@ -56,11 +63,7 @@ class ModalAdapterGUI
      */
     protected function _send(string $output): void
     {
-        $this->http->saveResponse($this->http->response()->withBody(
-            Streams::ofString($output)
-        ));
-        $this->http->sendResponse();
-        $this->http->close();
+        $this->http_util->sendString($output);
     }
 
     public function getTitle(): string
@@ -108,7 +111,7 @@ class ModalAdapterGUI
         if ($this->ctrl->isAsynch()) {
             $this->form = $form->asyncModal();
             $button = $this->ui->factory()->button()->standard(
-                $this->form->getSubmitCaption(),
+                $this->form->getSubmitLabel(),
                 "#"
             )->withOnLoadCode(function ($id) {
                 return
@@ -188,5 +191,4 @@ class ModalAdapterGUI
         }
         return ["button" => $button, "modal" => $modal];
     }
-
 }

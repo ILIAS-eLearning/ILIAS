@@ -12,6 +12,8 @@ The following guidelines will help you to
 
 Code contributions to the ILIAS repository containing style code will be reviewed according to the rules and recommendations defined here.
 
+If you are interested why we decided to make big changes to the style code for ILIAS version 9 and up, you can find out more in this concept: [Using frameworkless SASS and ITCSS](../src/UI/docu/sass-itcss-concepts.md)
+
 ## SASS in SCSS syntax generates CSS
 
 Sass/CSS is responsible for the design of the website. Instead of directly writing CSS code and many repeating patterns by hand, we are using the Sass pre-processor to generate the CSS code for ILIAS.
@@ -19,6 +21,8 @@ Sass/CSS is responsible for the design of the website. Instead of directly writi
 Sass extends the CSS language, adding features that allow advanced variables, mixins, functions and many other techniques that allow you to make CSS that is more maintainable, themable and expendable (see: [sass-lang.com](http://sass-lang.com/)).
 
 The Sass pre-processor compiles the entry point delos.scss and all connected files to the one delos.css file which can then be rendered by the browser.
+
+Please use the most recent **Dart Sass** version (**not** Ruby Sass) that can be downloaded from [the official GitHub repository](https://github.com/sass/dart-sass/releases).
 
 You should consult the [official Sass Documentation](https://sass-lang.com/documentation/) to make use of the advantages of Sass.
 
@@ -29,6 +33,9 @@ You should consult the [official Sass Documentation](https://sass-lang.com/docum
 * We currently follow a **desktop first approach** on the Sass level. This means, that we handle all mobile cases as special cases and the desktop as the default.
 * You MUST NOT make changes to the compiled delos.css manually.
 * Delos.scss MUST only contain imports and no other Sass logic at all.
+* The Sass compiler automatically creates a CSS map called delos.css.map, which tells the developer tools of a browser which line of CSS belongs to which SCSS file and line. This map MUST NOT be committed as it causes merge conflicts and contains paths of your local file system and is therefor listed in the .gitignore file.
+
+If you are interested, you can read more about why we switched preprocessors from LESS to Sass here.
 
 ## HTML
 
@@ -40,7 +47,6 @@ They can be found in `src/UI/templates/default` for modern UI components or in `
 * New class names MUST follow the naming convention outlined in this document.
 * You MUST NOT use style attributes like style, align, border, cellpadding, cellspacing font, nowrap, valign, width, height and similar in HTML templates.
 * You MUST NOT use `&nbsp;`, `<br>`, `<br/>` or similar means to create space.
-
 
 
 # ITCSS structure
@@ -119,24 +125,39 @@ Adding dependencies requires careful consideration whether the benefits outweigh
 * Lower layers MAY call the variables, functions and mixins of a dependency for their purposes and SHOULD include them with a namespace.
 * A dependency SHOULD NOT be called on with @forward inside the _index.scss to expose its public variables to a skin.
 
-#### Bootstrap 3
+#### Bootstrap
+
+**In 2023 for ILIAS 9, most of Bootstrap 3 code has been heavily reduced and merged into our codebase while keeping the names of classes and mixins.** In an attempt to keep delos as lightweight as possible only selected chunks have been carried over and some are heavily modified and shortened. Some obscure places in ILIAS may now require fixing because of this very selective approach.
 
 Bootstrap 3 has been used since ILIAS 5.0 to solve many common web design challenges like normalizing, column layouts and input elements.
 
-In the future, many systems in Bootstrap 3 will be replaced by our native solutions specifically customized to the needs of ILIAS. In 2022, Bootstrap 3 has been updated to the [official Bootstrap 3 Sass port](https://github.com/twbs/bootstrap-sass).
+In 2022, Bootstrap 3 has been updated to the [official Bootstrap 3 Sass port](https://github.com/twbs/bootstrap-sass).
 
-* If Bootstrap offers applicable classes and mixins, they SHOULD be used where possible.
-* If a variable, mixin or function is defined inside the Bootstrap dependency layer, but also has an equivalent on one of the ILIAS ITCSS layers, you MUST use or extend to the ILIAS version instead.
-* To avoid repeating CSS code, you MUST import only the variables and mixins of Bootstrap 3 on lower layers like so `@use "../some-relative-path/020-dependencies/modifications/bootstrap-3-scss/bootstrap-3-scss-modified-variables-mixins" as btstrp3;
-` and SHOULD use the namespace `btstrp3`.
-* You MAY customize, refactor and modernize parts of Bootstrap 3 and turn them into our own native code on the appropriate layer. In this case, you MUST point all formerly dependent components to the new code and remove the import of the now redundant Bootstrap 3 partial.
-* You SHOULD NOT pull in Bootstrap 3 code into our components without reducing, optimizing and modernizing it.
+Guidelines
+
+* If the Bootstrap inspired classes, tools, layout systems and mixins in our codebase can help you to get your desired output, you SHOULD use them whenever possible.
+* Don't expect them to work exactly the same as they would in an unmodified version of Bootstrap. They may have been heavily reduced to only cover the needs specific to ILIAS.
+* You MAY add needed functionality to existing Bootstrap inspired systems making them more specific to our requirements, while cutting parts that we do not need.
+* If a need isn't covered yet that has got a well-thought out solution in Bootstrap 3 or 5 (or another framework with an appropriate license), you MAY after careful consideration merge it into an appropriate place on our ITCSS layers - but you SHOULD customize, shorten and modernize the code to be more ILIAS specific (e.g. color variations are often not needed). 
+* If you copy several lines of code from Bootstrap 3 or 5 into our stylecode you MUST give one line credit at the beginning and end of the section like this
+
+``` SCSS
+// section based on bootstrap 3 - see /templates/default/Guidelines_SCSS-Coding.md
+
+.bootstrap-class {}
+
+// end of section based on bootstrap 3
+```
+
+Bootstrap licenses
+* Bootstrap 3 https://github.com/twbs/bootstrap/blob/v3.4.1/LICENSE
+* Bootstrap 5 https://github.com/twbs/bootstrap/blob/v5.2.3/LICENSE
 
 #### Legacy
-* Legagcy dependencies MAY be located in other places (e.g. "node_modules"). Modifications to those dependencies with regards to style code SHOULD be done inside the "modifications" folder of the ITCSS dependency layer.
+* Legacy dependencies MAY be located in other places (e.g. "node_modules"). Modifications to those dependencies with regards to style code SHOULD be done inside the "modifications" folder of the ITCSS dependency layer.
 
 ### Examples
-* Bootstrap
+* Bootstrap Time and Date Picker
 
 ## Tools
 
@@ -149,6 +170,8 @@ Past layouts and HTML templates heavily rely on CSS utility classes like "ilCent
 
 ### Guidelines
 
+* **Use existing tools whenever possible.** You MUST NOT write your own solution if a problem has already been solved by one of the existing tools.
+* If you write stylecode that solves a general problem, you SHOULD add it as a tool rather than as a part of a specific component.
 * **Tools MUST not generate CSS code** before being used on lower levels.
 * Tools MAY be used in various other sections in the SCSS.
 * You **SHOULD NOT create utility CSS classes.**
@@ -263,7 +286,7 @@ Every bit of code that is contained here should be considered a smell that is wo
 
 * When defining margins, paddings, widths and heights you SHOULD use variables from the Settings, Tools or Layout layer whenever possible.
 * For margins and paddings you SHOULD use the unit px, so users relying on the accessibility options of their browser can scale text separately from the design.
-* For widths and heights you SHOULD use (in order from highly to least recommended) flexbox and grid systems from Layouts or Dependencies, the units %, vw or vh, px.
+* For widths and heights you SHOULD use flexbox and grid systems from Layouts or Dependencies, the units %, vw or vh, px (in order from highly to least recommended).
 
 # Media Queries
 
@@ -324,6 +347,36 @@ c-panel--dashboard__header--alert
 2 BEMIT Block
 3 BEMIT Modifier
 4 BEMIT Element
+
+You SHOULD make use of SCSS nesting to make the code more readable:
+
+```SCSS
+.c-panel {
+    background-color: white;
+
+    &--dashboard {
+        background-color: lightgray;
+    }
+
+    &__header {
+        background-color: gray; 
+        
+        &--alert {
+            background-color: red;
+        }
+    }
+}
+```
+
+This way only HTML templates have to repeat the entire BEMIT name:
+
+```HTML
+<div class="c-panel c-panel--dashboard">
+    <div class="c-panel__header c-panel__header--alert">
+        Header
+    </div>
+</div>
+```
 
 # Variables, Mixins and Functions
 

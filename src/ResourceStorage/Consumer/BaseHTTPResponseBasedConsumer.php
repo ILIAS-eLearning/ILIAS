@@ -31,8 +31,8 @@ use ILIAS\ResourceStorage\Resource\StorableResource;
  */
 abstract class BaseHTTPResponseBasedConsumer extends BaseConsumer implements DeliveryConsumer
 {
-    // This should be 'application/octet-stream', but Firefox determines the content type from the file content, then.
-    private const NON_VALID_EXTENSION_MIME = \ILIAS\FileUpload\MimeType::TEXT__PLAIN;
+    // Firefox determines the content type from the file content anyway for some content.
+    private const NON_VALID_EXTENSION_MIME = \ILIAS\FileUpload\MimeType::APPLICATION__OCTET_STREAM;
     private \ILIAS\HTTP\Services $http;
 
     public function __construct(

@@ -115,24 +115,9 @@ class ilTestInfoScreenToolbarGUITest extends ilTestBaseTestCase
         $this->assertEquals($expected_mock, $this->testInfoScreenToolbarGUI->getTestSession());
     }
 
-    public function testTestSequence(): void
-    {
-        $this->assertNull($this->testInfoScreenToolbarGUI->getTestSequence());
-
-        $expected_mock = $this->createMock(ilTestSequence::class);
-        $this->testInfoScreenToolbarGUI->setTestSequence($expected_mock);
-
-        $this->assertEquals($expected_mock, $this->testInfoScreenToolbarGUI->getTestSequence());
-
-        $expected_mock = $this->createMock(ilTestSequenceDynamicQuestionSet::class);
-        $this->testInfoScreenToolbarGUI->setTestSequence($expected_mock);
-
-        $this->assertEquals($expected_mock, $this->testInfoScreenToolbarGUI->getTestSequence());
-    }
-
     public function testSessionLockString(): void
     {
-        $this->assertNull($this->testInfoScreenToolbarGUI->getSessionLockString());
+        $this->assertEquals('', $this->testInfoScreenToolbarGUI->getSessionLockString());
 
         $this->testInfoScreenToolbarGUI->setSessionLockString("testString");
 

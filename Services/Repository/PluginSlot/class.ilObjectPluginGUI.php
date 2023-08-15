@@ -159,7 +159,7 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
                 $this->ctrl->forwardCommand($gui);
                 break;
             default:
-                if ($cmd === "save" && $this->getCreationMode()) {
+                if ($cmd === "save" || $this->getCreationMode()) {
                     $this->$cmd();
                     return;
                 }
@@ -241,9 +241,6 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
 
         if ($this->supportsExport()) {
             $forms[self::CFORM_IMPORT] = $this->initImportForm($new_type);
-        }
-        if ($this->supportsCloning()) {
-            $forms[self::CFORM_CLONE] = $this->fillCloneTemplate(null, $new_type);
         }
 
         return $forms;
@@ -457,9 +454,9 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
     }
 
     /**
-     * Goto redirection
+     * @param list<string> $a_target
      */
-    public static function _goto(string $a_target): void
+    public static function _goto(array $a_target): void
     {
         global $DIC;
         $main_tpl = $DIC->ui()->mainTemplate();

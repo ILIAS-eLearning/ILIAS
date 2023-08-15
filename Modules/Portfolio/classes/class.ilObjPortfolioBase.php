@@ -32,7 +32,6 @@ abstract class ilObjPortfolioBase extends ilObject2
     protected string $img = "";
     protected string $ppic = "";
     protected bool $style = false;
-    protected \ILIAS\Style\Content\Object\ObjectFacade $content_style_domain;
 
     public function __construct(
         int $a_id = 0,
@@ -47,10 +46,6 @@ abstract class ilObjPortfolioBase extends ilObject2
         $this->setting = $DIC->settings();
 
         $this->db = $DIC->database();
-        $this->content_style_domain = $DIC
-            ->contentStyle()
-            ->domain()
-            ->styleForObjId($this->getId());
     }
 
 
@@ -411,6 +406,13 @@ abstract class ilObjPortfolioBase extends ilObject2
         $copy_id = ilCopyWizardOptions::_allocateCopyId();
         ilAdvancedMDValues::_cloneValues($copy_id, $a_source->getId(), $a_target->getId());
 
+        // copy selection of global optional sets
+        ilAdvancedMDRecord::saveObjRecSelection(
+            $a_target->getId(),
+            'pfpg',
+            ilAdvancedMDRecord::getObjRecSelection($a_source->getId(), 'pfpg')
+        );
+
         // fix metadata record type assignment
         // e.g. if portfolio is created from template
         // we need to change this from prtt to prtf
@@ -424,18 +426,19 @@ abstract class ilObjPortfolioBase extends ilObject2
              * BT 35494: reset assignement of the newly cloned local records,
              * and only append what's needed to global ones
              */
+            $target_type = ilObject::_lookupType($a_target->getId());
             if ($rec->getParentObject() == $a_target->getId()) {
                 $rec->setAssignedObjectTypes(
                     [[
-                    "obj_type" => ilObject::_lookupType($a_target->getId()),
-                    "sub_type" => "pfpg",
-                    "optional" => 0
+                         "obj_type" => $target_type,
+                         "sub_type" => "pfpg",
+                         "optional" => 0
                      ]
                     ]
                 );
-            } else {
+            } elseif (!$rec->isAssignedObjectType($target_type, 'pfpg')) {
                 $rec->appendAssignedObjectType(
-                    ilObject::_lookupType($a_target->getId()),
+                    $target_type,
                     "pfpg"
                 );
             }
@@ -524,10 +527,7 @@ abstract class ilObjPortfolioBase extends ilObject2
                     // parse content / blocks
 
                     if ($direction === "t2p") {
-                        $dom = $target_page->getDom();
-                        if ($dom instanceof php4DOMDocument) {
-                            $dom = $dom->myDOMDocument;
-                        }
+                        $dom = $target_page->getDomDoc();
 
                         // update profile/consultation hours user id
                         self::updateDomNodes($dom, "//PageContent/Profile", "User", $ilUser->getId());

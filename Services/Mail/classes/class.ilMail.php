@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,7 +16,10 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\BackgroundTasks\Implementation\Bucket\BasicBucket;
+use ILIAS\Mail\Autoresponder\AutoresponderService;
 
 /**
  * @author Stefan Meyer <meyer@leifos.com>
@@ -28,6 +29,7 @@ class ilMail
 {
     public const ILIAS_HOST = 'ilias';
     public const PROP_CONTEXT_SUBJECT_PREFIX = 'subject_prefix';
+
     protected ilLanguage $lng;
     protected ilDBInterface $db;
     protected ilFileDataMail $mfile;
@@ -40,17 +42,19 @@ class ilMail
     protected ?array $mail_data = [];
     protected bool $save_in_sentbox;
     protected bool $appendInstallationSignature = false;
-    private ilAppEventHandler $eventHandler;
-    private ilMailAddressTypeFactory $mailAddressTypeFactory;
-    private ilMailRfc822AddressParserFactory $mailAddressParserFactory;
+    private readonly ilAppEventHandler $eventHandler;
+    private readonly ilMailAddressTypeFactory $mailAddressTypeFactory;
+    private readonly ilMailRfc822AddressParserFactory $mailAddressParserFactory;
     protected ?string $contextId = null;
     protected array $contextParameters = [];
     protected ilLogger $logger;
     /** @var array<int, ilMailOptions> */
     protected array $mailOptionsByUsrIdMap = [];
-    /** @var array<int, ilObjUser> */
+    /** @var array<int, null|ilObjUser> */
     protected array $userInstancesByIdMap = [];
+    /** @var callable */
     protected $usrIdByLoginCallable;
+    protected AutoresponderService $auto_responder_service;
     protected int $maxRecipientCharacterLength = 998;
     protected ilMailMimeSenderFactory $senderFactory;
     protected ilObjUser $actor;
@@ -68,6 +72,8 @@ class ilMail
         ilMailbox $mailBox = null,
         ilMailMimeSenderFactory $senderFactory = null,
         callable $usrIdByLoginCallable = null,
+        AutoresponderService $auto_responder_service = null,
+        int $mailAdminNodeRefId = null,
         protected ?int $mail_obj_ref_id = null,
         ilObjUser $actor = null
     ) {
@@ -82,10 +88,11 @@ class ilMail
         $this->mfile = $mailFileData ?? new ilFileDataMail($a_user_id);
         $this->mail_options = $mailOptions ?? new ilMailOptions($a_user_id);
         $this->mailbox = $mailBox ?? new ilMailbox($a_user_id);
-        $this->senderFactory = $senderFactory ?? $GLOBALS["DIC"]["mail.mime.sender.factory"];
+        $this->senderFactory = $senderFactory ?? $DIC->mail()->mime()->senderFactory();
         $this->usrIdByLoginCallable = $usrIdByLoginCallable ?? static function (string $login): int {
             return (int) ilObjUser::_lookupId($login);
         };
+        $this->auto_responder_service = $auto_responder_service ?? $DIC->mail()->autoresponder();
         $this->user_id = $a_user_id;
         if (null === $this->mail_obj_ref_id) {
             $this->readMailObjectReferenceId();
@@ -94,6 +101,11 @@ class ilMail
         $this->table_mail = 'mail';
         $this->table_mail_saved = 'mail_saved';
         $this->setSaveInSentbox(false);
+    }
+
+    public function autoresponder(): AutoresponderService
+    {
+        return $this->auto_responder_service;
     }
 
     public function withContextId(string $contextId): self
@@ -167,8 +179,10 @@ class ilMail
                 $pp = ilObjUser::_lookupPref($usrId, 'public_profile');
                 if ($pp === 'g' || ($pp === 'y' && !$this->actor->isAnonymous())) {
                     $user = $this->getUserInstanceById($usrId);
-                    $names[] = $user->getFullname() . ' [' . $recipient . ']';
-                    continue;
+                    if ($user) {
+                        $names[] = $user->getFullname() . ' [' . $recipient . ']';
+                        continue;
+                    }
                 }
             }
 
@@ -571,6 +585,7 @@ class ilMail
         int $sentMailId,
         bool $usePlaceholders = false
     ): bool {
+        $this->auto_responder_service->emptyAutoresponderData();
         if ($usePlaceholders) {
             $toUsrIds = $this->getUserIds([$to]);
             $this->logger->debug(sprintf(
@@ -624,6 +639,8 @@ class ilMail
                 $sentMailId
             );
         }
+        $this->auto_responder_service->disableAutoresponder();
+        $this->auto_responder_service->handleAutoresponderMails($this->user_id);
 
         return true;
     }
@@ -648,6 +665,14 @@ class ilMail
 
         foreach ($usrIds as $usrId) {
             $user = $this->getUserInstanceById($usrId);
+            if (!($user instanceof ilObjUser)) {
+                $this->logger->critical(sprintf(
+                    "Skipped recipient with id %s (User not found)",
+                    $usrId
+                ));
+                continue;
+            }
+
             $mailOptions = $this->getMailOptionsByUserId($user->getId());
 
             $canReadInternalMails = !$user->hasToAcceptTermsOfService() && $user->checkTimeLimit();
@@ -722,6 +747,14 @@ class ilMail
                 $subject,
                 $individualMessage,
                 $user->getId()
+            );
+
+            $mail_receiver_options = $this->getMailOptionsByUserId($this->user_id);
+
+            $this->auto_responder_service->enqueueAutoresponderIfEnabled(
+                $mailOptions->getUsrId(),
+                $mailOptions,
+                $mail_receiver_options,
             );
 
             if ($attachments !== []) {
@@ -1037,7 +1070,12 @@ class ilMail
             $a_use_placeholders,
             $this->getSaveInSentbox(),
             (string) $this->contextId,
-            serialize($this->contextParameters),
+            serialize(array_merge(
+                $this->contextParameters,
+                [
+                    'auto_responder' => $this->auto_responder_service->isAutoresponderEnabled()
+                ]
+            ))
         ]);
         $interaction = $taskFactory->createTask(ilMailDeliveryJobUserInteraction::class, [
             $task,
@@ -1338,8 +1376,8 @@ class ilMail
 
     public static function _getIliasMailerName(): string
     {
-        /** @var ilMailMimeSenderFactory $senderFactory */
-        $senderFactory = $GLOBALS["DIC"]["mail.mime.sender.factory"];
+        global $DIC;
+        $senderFactory = $DIC->mail()->mime()->senderFactory();
 
         return $senderFactory->system()->getFromName();
     }
@@ -1382,7 +1420,7 @@ class ilMail
         );
         $signature = str_ireplace('[ILIAS_URL]', $clientUrl, $signature);
 
-        if (!preg_match('/^[\n\r]+/', $signature)) {
+        if (!preg_match('/^[\n\r]+/', (string) $signature)) {
             $signature = "\n" . $signature;
         }
 
@@ -1411,10 +1449,16 @@ class ilMail
             $name['lastname'] . ',';
     }
 
-    protected function getUserInstanceById(int $usrId): ilObjUser
+    protected function getUserInstanceById(int $usrId): ?ilObjUser
     {
-        if (!isset($this->userInstancesByIdMap[$usrId])) {
-            $this->userInstancesByIdMap[$usrId] = new ilObjUser($usrId);
+        if (!array_key_exists($usrId, $this->userInstancesByIdMap)) {
+            try {
+                $user = new ilObjUser($usrId);
+            } catch (Exception $e) {
+                $user = null;
+            }
+
+            $this->userInstancesByIdMap[$usrId] = $user;
         }
 
         return $this->userInstancesByIdMap[$usrId];

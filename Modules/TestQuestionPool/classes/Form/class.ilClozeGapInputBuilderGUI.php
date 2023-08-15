@@ -80,7 +80,7 @@ class ilClozeGapInputBuilderGUI extends ilSubEnabledFormPropertyGUI
 
     public function setValueCombinationFromDb($value): void
     {
-        $return_array = array();
+        $return_array = [];
         if ($value) {
             foreach ($value as $row) {
                 if ($row['row_id'] == 0) {
@@ -112,7 +112,7 @@ class ilClozeGapInputBuilderGUI extends ilSubEnabledFormPropertyGUI
             false
         );
         $gap = self::stripSlashesRecursive($this->raw('gap'));
-        $gaps_used_in_combination = array();
+        $gaps_used_in_combination = [];
         if ($this->post->has('gap_combination')) {
             $gapCombination = $this->post->retrieve(
                 "gap_combination",
@@ -136,7 +136,7 @@ class ilClozeGapInputBuilderGUI extends ilSubEnabledFormPropertyGUI
                 )
             );
 
-            $gap_with_points = array();
+            $gap_with_points = [];
 
             for ($i = 0, $iMax = count($gapCombination['select']); $i < $iMax; $i++) {
                 foreach ($gapCombination['select'][$i] as $key => $item) {
@@ -168,7 +168,6 @@ class ilClozeGapInputBuilderGUI extends ilSubEnabledFormPropertyGUI
                 $getType = ilUtil::stripSlashes($this->raw('clozetype_' . $key));
                 $gapsize = $this->raw('gap_' . $key . '_gapsize');
 
-                //$json[0][$key]->text_field_length = $gapsize > 0 ? $gapsize : '';
                 $json[0][$key]['text_field_length'] = $gapsize > 0 ? $gapsize : '';
 
                 $select_at_least_on_positive = false;
@@ -252,8 +251,12 @@ class ilClozeGapInputBuilderGUI extends ilSubEnabledFormPropertyGUI
      */
     public function insert(ilTemplate $template): void
     {
+        /** @var ILIAS\DI\Container $DIC */
         global $DIC;
         $lng = $DIC['lng'];
+        $glyph_factory = $DIC->ui()->factory()->symbol()->glyph();
+        $renderer = $DIC->ui()->renderer();
+
         $modal = ilModalGUI::getInstance();
         $modal->setHeading($lng->txt(''));
         $modal->setId("ilGapModal");
@@ -318,6 +321,12 @@ class ilClozeGapInputBuilderGUI extends ilSubEnabledFormPropertyGUI
         $custom_template->setVariable('WHITESPACE_FRONT', $lng->txt('cloze_textgap_whitespace_before'));
         $custom_template->setVariable('WHITESPACE_BACK', $lng->txt('cloze_textgap_whitespace_after'));
         $custom_template->setVariable('WHITESPACE_MULTIPLE', $lng->txt('cloze_textgap_multiple_whitespace'));
+        $custom_template->setVariable('ADD_BUTTON', $renderer->render(
+            $glyph_factory->add()->withAction('#')
+        ));
+        $custom_template->setVariable('REMOVE_BUTTON', $renderer->render(
+            $glyph_factory->remove()->withAction('#')
+        ));
         $template->setCurrentBlock('prop_generic');
         $template->setVariable('PROP_GENERIC', $custom_template->get());
         $template->parseCurrentBlock();

@@ -44,19 +44,9 @@ class ilKprimChoiceCorrectionsInputGUI extends ilKprimChoiceWizardInputGUI
         global $DIC;
         $lng = $DIC['lng'];
 
-        include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
-        if (is_array($_POST[$this->getPostVar()])) {
-            $_POST[$this->getPostVar()] = ilArrayUtil::stripSlashesRecursive(
-                $_POST[$this->getPostVar()],
-                false,
-                ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment")
-            );
-        }
-
         $foundvalues = $_POST[$this->getPostVar()];
 
         if (is_array($foundvalues)) {
-            // check correctness
             if (!isset($foundvalues['correctness']) || count($foundvalues['correctness']) < count($this->values)) {
                 $this->setAlert($lng->txt("msg_input_is_required"));
                 return false;
@@ -78,7 +68,8 @@ class ilKprimChoiceCorrectionsInputGUI extends ilKprimChoiceWizardInputGUI
              * @var ilAssKprimChoiceAnswer $value
              */
 
-            if (strlen($value->getImageFile())) {
+            if ($value->getImageFile() !== null
+                && $value->getImageFile() !== '') {
                 $imagename = $value->getImageWebPath();
 
                 if (($this->getSingleline()) && ($this->qstObject->getThumbSize())) {

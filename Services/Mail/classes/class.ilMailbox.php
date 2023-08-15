@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Mail Box class
@@ -366,6 +366,12 @@ class ilMailbox
             'DELETE FROM mail_tree WHERE tree = %s',
             ['integer'],
             [$this->usrId]
+        );
+
+        $this->db->manipulateF(
+            'DELETE FROM mail_auto_responder WHERE sender_id = %s OR receiver_id = %s',
+            ['integer', 'integer'],
+            [$this->usrId, $this->usrId]
         );
 
         // Delete the user's files from filesystem:

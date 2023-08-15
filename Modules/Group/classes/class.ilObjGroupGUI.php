@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,8 +16,11 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory;
+use ILIAS\News\Service as News;
 
 /**
  * Class ilObjGroupGUI
@@ -48,6 +49,7 @@ class ilObjGroupGUI extends ilContainerGUI
     private GlobalHttpState $http;
     protected Factory $refinery;
     protected ilRbacSystem $rbacsystem;
+    protected News $news;
 
     /**
      * @inheritDoc
@@ -64,6 +66,7 @@ class ilObjGroupGUI extends ilContainerGUI
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
         $this->rbacsystem = $DIC->rbac()->system();
+        $this->news = $DIC->news();
     }
 
     protected function initRefIdFromQuery(): int
@@ -434,8 +437,9 @@ class ilObjGroupGUI extends ilContainerGUI
             'grp'
         );
 
-        if ($this->getAdminMode() === self::ADMIN_MODE_SETTINGS) {
-            parent::viewObject();
+        if ($this->view_manager->isAdminView()) {
+            parent::renderObject();
+            $this->addAdoptContentLinkToToolbar();
             return;
         }
 
@@ -669,17 +673,7 @@ class ilObjGroupGUI extends ilContainerGUI
             ilObjectServiceSettingsGUI::updateServiceSettingsForm(
                 $this->object->getId(),
                 $form,
-                array(
-                    ilObjectServiceSettingsGUI::CALENDAR_CONFIGURATION,
-                    ilObjectServiceSettingsGUI::USE_NEWS,
-                    ilObjectServiceSettingsGUI::CUSTOM_METADATA,
-                    ilObjectServiceSettingsGUI::AUTO_RATING_NEW_OBJECTS,
-                    ilObjectServiceSettingsGUI::TAG_CLOUD,
-                    ilObjectServiceSettingsGUI::BADGES,
-                    ilObjectServiceSettingsGUI::SKILLS,
-                    ilObjectServiceSettingsGUI::ORGU_POSITION_ACCESS,
-                    ilObjectServiceSettingsGUI::EXTERNAL_MAIL_PREFIX
-                )
+                $this->getSubServices()
             );
 
             // Save sorting
@@ -736,6 +730,25 @@ class ilObjGroupGUI extends ilContainerGUI
             $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
             $this->ctrl->redirect($this, 'edit');
         }
+    }
+
+    protected function getSubServices(): array
+    {
+        $subs = array(
+            ilObjectServiceSettingsGUI::CALENDAR_CONFIGURATION,
+            ilObjectServiceSettingsGUI::CUSTOM_METADATA,
+            ilObjectServiceSettingsGUI::AUTO_RATING_NEW_OBJECTS,
+            ilObjectServiceSettingsGUI::TAG_CLOUD,
+            ilObjectServiceSettingsGUI::BADGES,
+            ilObjectServiceSettingsGUI::SKILLS,
+            ilObjectServiceSettingsGUI::ORGU_POSITION_ACCESS,
+            ilObjectServiceSettingsGUI::EXTERNAL_MAIL_PREFIX
+        );
+        if ($this->news->isGloballyActivated()) {
+            $subs[] = ilObjectServiceSettingsGUI::USE_NEWS;
+        }
+
+        return $subs;
     }
 
     /**
@@ -983,9 +996,7 @@ class ilObjGroupGUI extends ilContainerGUI
     public function unsubscribeObject(): void
     {
         $this->checkPermission('leave');
-
         $this->object->members_obj->delete($this->user->getId());
-
         $this->object->members_obj->sendNotification(
             ilGroupMembershipMailNotification::TYPE_UNSUBSCRIBE_MEMBER,
             $this->user->getId()
@@ -1708,17 +1719,7 @@ class ilObjGroupGUI extends ilContainerGUI
             ilObjectServiceSettingsGUI::initServiceSettingsForm(
                 $this->object->getId(),
                 $form,
-                array(
-                        ilObjectServiceSettingsGUI::CALENDAR_CONFIGURATION,
-                        ilObjectServiceSettingsGUI::USE_NEWS,
-                        ilObjectServiceSettingsGUI::CUSTOM_METADATA,
-                        ilObjectServiceSettingsGUI::AUTO_RATING_NEW_OBJECTS,
-                        ilObjectServiceSettingsGUI::TAG_CLOUD,
-                        ilObjectServiceSettingsGUI::BADGES,
-                        ilObjectServiceSettingsGUI::SKILLS,
-                        ilObjectServiceSettingsGUI::ORGU_POSITION_ACCESS,
-                        ilObjectServiceSettingsGUI::EXTERNAL_MAIL_PREFIX
-                    )
+                $this->getSubServices()
             );
 
 

@@ -124,7 +124,7 @@ class ilADTEnumSearchBridgeMulti extends ilADTSearchBridgeMulti
         if (!$this->isNull() && $this->isValid()) {
             return $this->db->in(
                 $this->getSearchColumn(),
-                $this->getADT()->getSelections(),
+                (array) $this->getADT()->getSelections(),
                 false,
                 ilDBConstants::T_INTEGER
             );

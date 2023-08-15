@@ -1,18 +1,21 @@
 <?php
 
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
 /**
  * Class arHaving
  * @author  Fabian Schmid <fs@studer-raimann.ch>
@@ -34,10 +37,10 @@ class arHaving extends arStatement
      * @description Build WHERE Statement
      * @throws arException
      */
-    public function asSQLStatement(ActiveRecord $ar): string
+    public function asSQLStatement(ActiveRecord $activeRecord): string
     {
         $statement = '';
-        if ($this->getTableName()) {
+        if ($this->getTableName() !== '' && $this->getTableName() !== '0') {
             $statement .= $this->getTableName() . '.';
         }
         $statement .= $this->getFieldname() . ' ' . $this->getOperator() . ' "' . $this->getValue() . '"';
@@ -64,10 +67,7 @@ class arHaving extends arStatement
         return $this->value;
     }
 
-    /**
-     * @param mixed $value
-     */
-    public function setValue($value): void
+    public function setValue(mixed $value): void
     {
         $this->value = $value;
     }

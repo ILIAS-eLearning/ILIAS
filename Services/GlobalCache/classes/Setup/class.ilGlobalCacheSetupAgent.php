@@ -22,11 +22,11 @@ use ILIAS\Setup;
 use ILIAS\Refinery;
 use ILIAS\Setup\Config;
 use ILIAS\Setup\ObjectiveConstructor;
+use ILIAS\Cache\Nodes\Node;
 
 class ilGlobalCacheSetupAgent implements Setup\Agent
 {
     protected \ILIAS\Refinery\Factory $refinery;
-
 
     public function __construct(
         Refinery\Factory $refinery
@@ -47,8 +47,8 @@ class ilGlobalCacheSetupAgent implements Setup\Agent
      */
     public function getArrayToConfigTransformation(): Refinery\Transformation
     {
-        return $this->refinery->custom()->transformation(function ($data): \ilGlobalCacheSettings {
-            $settings = new \ilGlobalCacheSettings();
+        return $this->refinery->custom()->transformation(function ($data): \ilGlobalCacheSettingsAdapter {
+            $settings = new \ilGlobalCacheSettingsAdapter();
             if (
                 $data === null ||
                 !isset($data["components"]) ||
@@ -66,16 +66,16 @@ class ilGlobalCacheSetupAgent implements Setup\Agent
                 switch ($data["service"]) {
                     case "xcache": // xcache has been removed in ILIAS 8, we switch to static cache then
                     case "static":
-                        $settings->setService(\ilGlobalCache::TYPE_STATIC);
+                        $settings->setService(\ILIAS\Cache\Config::PHPSTATIC);
                         break;
                     case "memcached":
                         array_walk($data["memcached_nodes"], function (array $node) use ($settings): void {
-                            $settings->addMemcachedNode($this->getMemcachedServer($node));
+                            $settings->addMemcachedNode($this->convertNode($node));
                         });
-                        $settings->setService(\ilGlobalCache::TYPE_MEMCACHED);
+                        $settings->setService(\ILIAS\Cache\Config::MEMCACHED);
                         break;
                     case "apc":
-                        $settings->setService(\ilGlobalCache::TYPE_APC);
+                        $settings->setService(\ILIAS\Cache\Config::APCU);
                         break;
                     default:
                         throw new \InvalidArgumentException(
@@ -98,15 +98,13 @@ class ilGlobalCacheSetupAgent implements Setup\Agent
         });
     }
 
-    protected function getMemcachedServer(array $node): ilMemcacheServer
+    protected function convertNode(array $node): Node
     {
-        $m = new ilMemcacheServer();
-        $m->setStatus(boolval($node["active"]) === true ? ilMemcacheServer::STATUS_ACTIVE : ilMemcacheServer::STATUS_INACTIVE);
-        $m->setHost((string) $node["host"]);
-        $m->setPort((int) $node["port"]);
-        $m->setWeight((int) $node["weight"]);
-
-        return $m;
+        return new Node(
+            (string) $node["host"],
+            (int) $node["port"],
+            (int) $node["weight"]
+        );
     }
 
     /**
@@ -114,7 +112,7 @@ class ilGlobalCacheSetupAgent implements Setup\Agent
      */
     public function getInstallObjective(Setup\Config $config = null): Setup\Objective
     {
-        if (!$config instanceof ilGlobalCacheSettings) {
+        if (!$config instanceof ilGlobalCacheSettingsAdapter) {
             throw new Setup\UnachievableException('wrong config type, expected ilGlobalCacheSettings');
         }
         return new ilGlobalCacheConfigStoredObjective($config);
@@ -125,7 +123,7 @@ class ilGlobalCacheSetupAgent implements Setup\Agent
      */
     public function getUpdateObjective(Setup\Config $config = null): Setup\Objective
     {
-        if ($config instanceof ilGlobalCacheSettings) {
+        if ($config instanceof ilGlobalCacheSettingsAdapter) {
             return new ilGlobalCacheConfigStoredObjective($config);
         }
         return new Setup\Objective\NullObjective();
@@ -157,11 +155,12 @@ class ilGlobalCacheSetupAgent implements Setup\Agent
 
     public function getNamedObjectives(?Config $config = null): array
     {
+        $config = $config ?? new ilGlobalCacheSettingsAdapter();
         return [
             'flushAll' => new ObjectiveConstructor(
                 'flushes all GlobalCaches.',
-                function () {
-                    return new ilGlobalCacheAllFlushedObjective();
+                function () use ($config) {
+                    return new ilGlobalCacheAllFlushedObjective($config);
                 }
             )
         ];

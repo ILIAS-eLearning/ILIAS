@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -13,19 +14,10 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
-/**
- * Class ilDclDatatype
- * @author  Martin Studer <ms@studer-raimann.ch>
- * @author  Marcel Raimann <mr@studer-raimann.ch>
- * @author  Fabian Schmid <fs@studer-raimann.ch>
- * @author  Oskar Truffer <ot@studer-raimann.ch>
- * @author  Stefan Wanzenried <sw@studer-raimann.ch>
- * @version $Id:
- * @ingroup ModulesDataCollection
- */
+declare(strict_types=1);
+
 class ilDclDatatype
 {
     public const INPUTFORMAT_NONE = 0;
@@ -34,7 +26,7 @@ class ilDclDatatype
     public const INPUTFORMAT_REFERENCE = 3;
     public const INPUTFORMAT_BOOLEAN = 4;
     public const INPUTFORMAT_DATETIME = 5;
-    public const INPUTFORMAT_FILE = 6;
+    public const INPUTFORMAT_FILEUPLOAD = 6;
     public const INPUTFORMAT_RATING = 7;
     public const INPUTFORMAT_ILIAS_REF = 8;
     public const INPUTFORMAT_MOB = 9;
@@ -43,6 +35,7 @@ class ilDclDatatype
     public const INPUTFORMAT_PLUGIN = 12;
     public const INPUTFORMAT_TEXT_SELECTION = 14;
     public const INPUTFORMAT_DATE_SELECTION = 15;
+    public const INPUTFORMAT_FILE = 16;
 
     protected int $id = 0;
     protected string $title = "";
@@ -128,7 +121,7 @@ class ilDclDatatype
         $ilDB = $DIC['ilDB'];
 
         if (self::$datatype_cache == null) {
-            self::$datatype_cache = array();
+            self::$datatype_cache = [];
 
             $query = "SELECT * FROM il_dcl_datatype ORDER BY sort";
             $set = $ilDB->query($query);

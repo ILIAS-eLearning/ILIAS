@@ -144,10 +144,27 @@ class ilPCMediaObjectEditorGUI implements PageComponentEditor
         return $html . $link;
     }
 
-    protected function getRenderedUploadForm(
+    public function getRenderedUploadForm(
         UIWrapper $ui_wrapper,
-        $lng
+        ilLanguage $lng,
+        ilPropertyFormGUI $form = null
     ): string {
+        if (!$form) {
+            $form = $this->getUploadForm($lng);
+        }
+
+        $html = $ui_wrapper->getRenderedForm(
+            $form,
+            [["Page", "component.save", $lng->txt("insert")],
+             ["Page", "component.cancel", $lng->txt("cancel")]]
+        );
+
+        return $html;
+    }
+
+    public function getUploadForm(
+        $lng
+    ): ilPropertyFormGUI {
         $form = new ilPropertyFormGUI();
         $form->setShowTopButtons(false);
 
@@ -170,7 +187,20 @@ class ilPCMediaObjectEditorGUI implements PageComponentEditor
         $up = new ilFileInputGUI($lng->txt("cont_file"), "standard_file");
         $up->setSuffixes(ilObjMediaObject::getRestrictedFileTypes());
         $up->setForbiddenSuffixes(ilObjMediaObject::getForbiddenFileTypes());
+        $up->setRequired(true);
         $form->addItem($up);
+
+        return $form;
+    }
+
+    public function getRenderedUrlForm(
+        UIWrapper $ui_wrapper,
+        ilLanguage $lng,
+        ilPropertyFormGUI $form = null
+    ): string {
+        if (!$form) {
+            $form = $this->getUrlForm($lng);
+        }
 
         $html = $ui_wrapper->getRenderedForm(
             $form,
@@ -181,10 +211,9 @@ class ilPCMediaObjectEditorGUI implements PageComponentEditor
         return $html;
     }
 
-    protected function getRenderedUrlForm(
-        UIWrapper $ui_wrapper,
+    public function getUrlForm(
         ilLanguage $lng
-    ): string {
+    ): ilPropertyFormGUI {
         $form = new ilPropertyFormGUI();
         $form->setShowTopButtons(false);
 
@@ -206,16 +235,10 @@ class ilPCMediaObjectEditorGUI implements PageComponentEditor
         // standard reference
         $ti = new ilTextInputGUI($lng->txt("url"), "standard_reference");
         $ti->setInfo($lng->txt("cont_url_info"));
+        $ti->setRequired(true);
         $form->addItem($ti);
 
-
-        $html = $ui_wrapper->getRenderedForm(
-            $form,
-            [["Page", "component.save", $lng->txt("insert")],
-             ["Page", "component.cancel", $lng->txt("cancel")]]
-        );
-
-        return $html;
+        return $form;
     }
 
     protected function getRenderedPoolBar(

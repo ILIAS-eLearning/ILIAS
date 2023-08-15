@@ -48,7 +48,7 @@ abstract class AbstractModificationProvider extends AbstractProvider implements 
     /**
      * @var ToolFactory
      */
-    protected $factory;
+    protected \ILIAS\GlobalScreen\Scope\Layout\Factory\ModificationFactory $factory;
 
     /**
      * @inheritDoc

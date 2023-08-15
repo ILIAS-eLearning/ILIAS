@@ -179,13 +179,13 @@ class ilAssFileUploadUploadsExporter
     private function getFileUploadSolutionData(): array
     {
         $query = "
-			SELECT tst_solutions.solution_id, tst_solutions.pass, tst_solutions.active_fi, tst_solutions.question_fi, 
-				tst_solutions.value1, tst_solutions.value2, tst_solutions.tstamp 
-			FROM tst_solutions, tst_active, qpl_questions 
-			WHERE tst_solutions.active_fi = tst_active.active_id 
-			AND tst_solutions.question_fi = qpl_questions.question_id 
-			AND tst_solutions.question_fi = %s 
-			AND tst_active.test_fi = %s 
+			SELECT tst_solutions.solution_id, tst_solutions.pass, tst_solutions.active_fi, tst_solutions.question_fi,
+				tst_solutions.value1, tst_solutions.value2, tst_solutions.tstamp
+			FROM tst_solutions, tst_active, qpl_questions
+			WHERE tst_solutions.active_fi = tst_active.active_id
+			AND tst_solutions.question_fi = qpl_questions.question_id
+			AND tst_solutions.question_fi = %s
+			AND tst_active.test_fi = %s
 			ORDER BY tst_solutions.active_fi, tst_solutions.tstamp
 		";
 
@@ -220,7 +220,6 @@ class ilAssFileUploadUploadsExporter
             $activeIds[] = $activeId;
         }
 
-        require_once 'Modules/Test/classes/class.ilTestParticipantData.php';
         $participantData = new ilTestParticipantData($this->db, $this->lng);
         $participantData->setActiveIdsFilter($activeIds);
         $participantData->setParticipantAccessFilter(

@@ -14,31 +14,34 @@ function ui(): string
     $f = $DIC->ui()->factory();
     $renderer = $DIC->ui()->renderer();
 
-    $url = 'src/UI/examples/Layout/Page/Standard/ui.php?new_ui=1';
-    $page_demo = $f->link()->standard('See UI in fullscreen-mode', $url);
-
-    return $renderer->render([
-        $page_demo
-    ]);
+    $icon = $f->symbol()->icon()->standard('root', '')->withSize('large');
+    $target = new \ILIAS\Data\URI(
+        $DIC->http()->request()->getUri()->__toString() . '&new_ui=1'
+    );
+    return $renderer->render(
+        $f->link()->bulky($icon, 'See UI in fullscreen-mode', $target),
+    );
 }
+
+
 
 global $DIC;
+$request_wrapper = $DIC->http()->wrapper()->query();
+$refinery = $DIC->refinery();
 
-//Render Page Layout in Fullscreen mode
-if (basename($_SERVER["SCRIPT_FILENAME"]) == "ui.php") {
-    chdir('../../../../../../');
-    require_once("libs/composer/vendor/autoload.php");
+if ($request_wrapper->has('new_ui')
+    && $request_wrapper->retrieve('new_ui', $refinery->kindlyTo()->int()) === 1
+) {
     \ilInitialisation::initILIAS();
-    $refinery = $DIC->refinery();
-    $request_wrapper = $DIC->http()->wrapper()->query();
+    echo(renderFullDemoPage($DIC));
+    exit();
 }
 
-if (isset($request_wrapper) && isset($refinery) && $request_wrapper->has('new_ui') && $request_wrapper->retrieve('new_ui', $refinery->kindlyTo()->string()) == '1') {
-    echo renderFooterInFullscreenMode($DIC);
-}
-
-function renderFooterInFullscreenMode(Container $dic): string
+function renderFullDemoPage(\ILIAS\DI\Container $dic)
 {
+    $refinery = $dic->refinery();
+    $request_wrapper = $dic->http()->wrapper()->query();
+
     $f = $dic->ui()->factory();
     $renderer = $dic->ui()->renderer();
     $logo = $f->image()->responsive("templates/default/images/HeaderIcon.svg", "ILIAS");
@@ -64,7 +67,8 @@ function renderFooterInFullscreenMode(Container $dic): string
         'ILIAS', //short title
         'Std. Page Demo' //view title
     )
-              ->withUIDemo(true);
+    ->withHeaders(true)
+    ->withUIDemo(true);
 
     return $renderer->render($page);
 }
@@ -222,11 +226,11 @@ function getDemoEntryRepository(\ILIAS\UI\Factory $f): \ILIAS\UI\Component\MainC
 
     $df = new \ILIAS\Data\Factory();
     $url = $df->uri(
-        ($_SERVER['REQUEST_SCHEME'] ?? "http") . '://'
-        . ($_SERVER['SERVER_NAME'] ?? "localhost") . ':'
-        . ($_SERVER['SERVER_PORT'] ?? "80")
-        . ($_SERVER['SCRIPT_NAME'] ?? "") . '?'
-        . ($_SERVER['QUERY_STRING'] ?? "")
+        $_SERVER['REQUEST_SCHEME'] . '://'
+        . $_SERVER['SERVER_NAME'] . ':'
+        . $_SERVER['SERVER_PORT']
+        . $_SERVER['SCRIPT_NAME'] . '?'
+        . $_SERVER['QUERY_STRING']
     );
     $link1 = $f->link()->bulky($icon, 'Favorites (Link)', $url);
     $link2 = $f->link()->bulky($icon, 'Courses (Link2)', $url);

@@ -1,6 +1,5 @@
 <?php
 
-declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -16,6 +15,11 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
+
+use ILIAS\Services\Database\Integrity\Integrity;
+use ILIAS\Services\Database\PDO\FieldDefinition\ForeignKeyConstraints;
 
 /**
  * Class pdoDB
@@ -1499,5 +1503,32 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface
     public function cast(string $a_field_name, string $a_dest_type): string
     {
         return $this->manager->getQueryUtils()->cast($a_field_name, $a_dest_type);
+    }
+
+    public function addForeignKey(
+        string $foreign_key_name,
+        array $field_names,
+        string $table_name,
+        array $reference_field_names,
+        string $reference_table,
+        ?ForeignKeyConstraints $on_update = null,
+        ?ForeignKeyConstraints $on_delete = null
+    ): bool {
+        return $this->manager->addForeignKey($foreign_key_name, $field_names, $table_name, $reference_field_names, $reference_table, $on_update, $on_delete);
+    }
+
+    public function dropForeignKey(string $foreign_key_name, string $table_name): bool
+    {
+        return $this->manager->dropForeignKey($foreign_key_name, $table_name);
+    }
+
+    public function foreignKeyExists(string $foreign_key_name, string $table_name): bool
+    {
+        return $this->manager->foreignKeyExists($foreign_key_name, $table_name);
+    }
+
+    public function buildIntegrityAnalyser(): Integrity
+    {
+        return new Integrity($this);
     }
 }

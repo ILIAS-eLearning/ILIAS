@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,18 +16,20 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
 class ilCoursePlaceholderValues implements ilCertificatePlaceholderValues
 {
-    private ilDefaultPlaceholderValues $defaultPlaceholderValuesObject;
-    private ilObjectCustomUserFieldsPlaceholderValues $customUserFieldsPlaceholderValuesObject;
-    private ilCertificateObjectHelper $objectHelper;
-    private ilCertificateParticipantsHelper $participantsHelper;
-    private ilCertificateUtilHelper $ilUtilHelper;
-    private ilCertificateDateHelper $dateHelper;
-    private ilCertificateLPStatusHelper $lpStatusHelper;
+    private readonly ilDefaultPlaceholderValues $defaultPlaceholderValuesObject;
+    private readonly ilObjectCustomUserFieldsPlaceholderValues $customUserFieldsPlaceholderValuesObject;
+    private readonly ilCertificateObjectHelper $objectHelper;
+    private readonly ilCertificateParticipantsHelper $participantsHelper;
+    private readonly ilCertificateUtilHelper $ilUtilHelper;
+    private readonly ilCertificateDateHelper $dateHelper;
+    private readonly ilCertificateLPStatusHelper $lpStatusHelper;
 
     public function __construct(
         ?ilObjectCustomUserFieldsPlaceholderValues $customUserFieldsPlaceholderValues = null,

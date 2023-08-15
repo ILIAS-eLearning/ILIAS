@@ -27,6 +27,9 @@
  */
 class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
 {
+    protected \ILIAS\COPage\Dom\DomUtil $dom_util;
+    protected \ILIAS\COPage\Xsl\XslManager $xsl;
+    protected \ILIAS\GlobalScreen\Services $global_screen;
     protected \ILIAS\Notes\DomainService $notes;
     protected \ILIAS\LearningModule\ReadingTime\ReadingTimeManager $reading_time_manager;
     protected string $requested_url;
@@ -54,7 +57,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
     protected ilObjLearningModule $lm;
     public ilGlobalTemplateInterface $tpl;
     public ilLanguage $lng;
-    public php4DOMDocument $layout_doc;
+    public DOMDocument $layout_doc;
     public bool $offline;
     public string $offline_directory;
     protected bool $embed_mode = false;
@@ -112,6 +115,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
         $this->locator = $DIC["ilLocator"];
         $this->tree = $DIC->repositoryTree();
         $this->help = $DIC["ilHelp"];
+        $this->global_screen = $DIC->globalScreen();
 
         $lng = $DIC->language();
         $rbacsystem = $DIC->rbac()->system();
@@ -173,6 +177,8 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
         }
         $this->reading_time_manager = new \ILIAS\LearningModule\ReadingTime\ReadingTimeManager();
         $this->notes = $DIC->notes()->domain();
+        $this->xsl = $DIC->copage()->internal()->domain()->xsl();
+        $this->dom_util = $DIC->copage()->internal()->domain()->domUtil();
     }
 
     public function getUnsafeGetCommands(): array
@@ -330,7 +336,9 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
                 break;
 
             case "ilglossarydefpagegui":
-                $page_gui = new ilGlossaryDefPageGUI($this->requested_obj_id);
+                // see #32198
+                //$page_gui = new ilGlossaryDefPageGUI($this->requested_obj_id);
+                $page_gui = new ilGlossaryDefPageGUI($this->requested_pg_id);
                 $this->basicPageGuiInit($page_gui);
                 $ret = $ilCtrl->forwardCommand($page_gui);
                 break;
@@ -343,7 +351,11 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
                     $ilUser->getId()
                 );
                 $this->ctrl->forwardCommand($new_gui);
-                $this->tpl->printToStdout();
+                // this is nasty, but the LP classes do "sometimes" a printToStdout
+                // sometimes not, (here editManual does, other commands not)
+                if ($this->ctrl->getCmd() !== "editManual") {
+                    $this->tpl->printToStdout();
+                }
                 break;
 
             case "ilratinggui":
@@ -418,14 +430,13 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
     {
     }
 
-    public function attrib2arr(?array $a_attributes): array
+    public function attrib2arr(?DOMNamedNodeMap $a_attributes): array
     {
         $attr = array();
-        if (!is_array($a_attributes)) {
-            return $attr;
-        }
-        foreach ($a_attributes as $attribute) {
-            $attr[$attribute->name()] = $attribute->value();
+        if (!is_null($a_attributes)) {
+            foreach ($a_attributes as $attribute) {
+                $attr[$attribute->name] = $attribute->value;
+            }
         }
         return $attr;
     }
@@ -468,26 +479,24 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
         // we need another solution:
         $xmlfile = file_get_contents("./Modules/LearningModule/layouts/lm/" . $layout . "/" . $a_xml);
 
-        $doc = domxml_open_mem($xmlfile);
+        $error = null;
+        $doc = $this->dom_util->docFromString($xmlfile, $error);
         $this->layout_doc = $doc;
-        //echo ":".htmlentities($xmlfile).":$layout:$a_xml:";
 
         // get current frame node
-        $xpc = xpath_new_context($doc);
         $path = (empty($this->requested_frame) || ($this->requested_frame == "_blank"))
             ? "/ilLayout/ilFrame[1]"
             : "//ilFrame[@name='" . $this->requested_frame . "']";
-        $result = xpath_eval($xpc, $path);
-        $found = $result->nodeset;
-        if (count($found) != 1) {
-            throw new ilLMPresentationException("ilLMPresentation: XML File invalid. Found " . count($found) . " nodes for " .
+        $nodes = $this->dom_util->path($doc, $path);
+        if (count($nodes) != 1) {
+            throw new ilLMPresentationException("ilLMPresentation: XML File invalid. Found " . count($nodes) . " nodes for " .
                 " path " . $path . " in " . $layout . "/" . $a_xml . ". LM Layout is " . $this->lm->getLayout());
         }
-        $node = $found[0];
+        $node = $nodes->item(0);
 
         // ProcessFrameset
         // node is frameset, if it has cols or rows attribute
-        $attributes = $this->attrib2arr($node->attributes());
+        $attributes = $this->attrib2arr($node->attributes);
 
         $this->frames = array();
 
@@ -506,12 +515,11 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
             }
 
             // get object specific node
-            $childs = $node->child_nodes();
             $found = false;
-            foreach ($childs as $child) {
-                if ($child->node_name() == $obj_type) {
+            foreach ($node->childNodes as $child) {
+                if ($child->nodeName == $obj_type) {
                     $found = true;
-                    $attributes = $this->attrib2arr($child->attributes());
+                    $attributes = $this->attrib2arr($child->attributes);
                     $node = $child;
                     //echo "<br>2node:".$node->node_name();
                     break;
@@ -534,12 +542,10 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
         // to make e.g. advanced seletions lists work:
         //			$GLOBALS["tpl"] = $this->tpl;
 
-        $childs = $node->child_nodes();
+        foreach ($node->childNodes as $child) {
+            $child_attr = $this->attrib2arr($child->attributes);
 
-        foreach ($childs as $child) {
-            $child_attr = $this->attrib2arr($child->attributes());
-
-            switch ($child->node_name()) {
+            switch ($child->nodeName) {
                 case "ilPage":
                     $this->renderPageTitle();
                     $this->setHeader();
@@ -617,10 +623,6 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
             ilAccordionGUI::addCss();
 
             $this->tpl->addJavaScript("./Modules/LearningModule/js/LearningModule.js");
-            $close_call = "il.LearningModule.setCloseHTML('" . ilGlyphGUI::get(ilGlyphGUI::CLOSE) . "');";
-            $this->tpl->addOnLoadCode($close_call);
-
-            //$store->set("cf_".$this->lm->getId());
 
             // handle initial content
             if ($this->requested_frame == "") {
@@ -680,11 +682,23 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
         $this->tpl = new ilGlobalTemplate("tpl.glossary_term_output.html", true, true, "Modules/LearningModule");
         $this->renderPageTitle();
 
+        iljQueryUtil::initjQuery($this->tpl);
+        iljQueryUtil::initjQueryUI($this->tpl);
+        ilUIFramework::init($this->tpl);
+        ilAccordionGUI::addJavaScript($this->tpl);
+        ilAccordionGUI::addCss($this->tpl);
+
         // set style sheets
         $this->setContentStyles();
         $this->setSystemStyle();
 
         $this->ilGlossary();
+
+        $js = $this->global_screen->layout()->meta()->getJs();
+        foreach ($js->getItemsInOrderOfDelivery() as $item) {
+            $this->tpl->addJavaScript($item->getContent());
+        }
+
         if (!$this->offlineMode()) {
             $this->tpl->printToStdout();
         } else {
@@ -1145,11 +1159,11 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
             $rating_gui->setObject($this->lm->getId(), "lm", $this->getCurrentPageId(), "lm");
             $rating_gui->setYourRatingText($this->lng->txt("lm_rate_page"));
 
-            $this->ctrl->setParameter($this, "pgid", $this->getCurrentPageId());
+            $this->ctrl->setParameter($this, "pg_id", $this->getCurrentPageId());
             $this->tpl->addOnLoadCode("il.LearningModule.setRatingUrl('" .
                 $this->ctrl->getLinkTarget($this, "updatePageRating", "", true, false) .
                 "')");
-            $this->ctrl->setParameter($this, "pgid", "");
+            $this->ctrl->setParameter($this, "pg_id", "");
 
             $rating = '<div id="ilrtrpg" style="text-align:right">' .
                 $rating_gui->getHTML(true, true, "il.LearningModule.saveRating(%rating%);") .
@@ -1161,7 +1175,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
     public function updatePageRating(): void
     {
         $ilUser = $this->user;
-        $pg_id = $this->getCurrentPageId();
+        $pg_id = $this->service->getRequest()->getPgId();
         if (!$this->ctrl->isAsynch() || !$pg_id) {
             exit();
         }
@@ -1254,7 +1268,6 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
         $this->renderPageTitle();
 
         $this->tpl->setCurrentBlock("ilMedia");
-
         $med_links = ilMediaItem::_getMapAreasIntLinks($this->requested_mob_id);
         $link_xml = $this->linker->getLinkXML($med_links);
 
@@ -1277,10 +1290,6 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
         $xml .= $link_xml;
         $xml .= "</dummy>";
 
-        $xsl = file_get_contents("./Services/COPage/xsl/page.xsl");
-        $args = array('/_xml' => $xml, '/_xsl' => $xsl);
-        $xh = xslt_create();
-
         if (!$this->offlineMode()) {
             $wb_path = ilFileUtils::getWebspaceDir("output") . "/";
         } else {
@@ -1297,13 +1306,12 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
                         'enlarge_path' => $enlarge_path,
                         'link_params' => "ref_id=" . $this->lm->getRefId(),
                         'fullscreen_link' => $fullscreen_link,
+                        'enable_html_mob' => ilObjMediaObject::isTypeAllowed("html") ? "y" : "n",
                         'ref_id' => $this->lm->getRefId(),
                         'pg_frame' => $pg_frame,
                         'webspace_path' => $wb_path
         );
-        $output = xslt_process($xh, "arg:/_xml", "arg:/_xsl", null, $args, $params);
-
-        xslt_free($xh);
+        $output = $this->xsl->process($xml, $params);
 
         // unmask user html
         $this->tpl->setVariable("MEDIA_CONTENT", $output);
@@ -1439,16 +1447,6 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
 
         $nodes = $this->lm_tree->getSubTree($this->lm_tree->getNodeData($this->lm_tree->getRootId()));
         $nodes = $this->filterNonAccessibleNode($nodes);
-
-        /* this was written to _POST["item"] before, but never used?
-        $items = $this->service->getRequest()->getItems();
-        if (count($items) == 0) {
-            if ($this->requested_obj_id != "") {
-                $items[$this->requested_obj_id] = "y";
-            } else {
-                $items[1] = "y";
-            }
-        }*/
 
         $this->initPrintViewSelectionForm();
 
@@ -1971,32 +1969,19 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
             foreach ($terms as $t) {
                 $link = $t["link"];
                 $key = $t["key"];
-                $defs = ilGlossaryDefinition::getDefinitionList($link["id"]);
-                $def_cnt = 1;
 
-                // output all definitions of term
-                foreach ($defs as $def) {
-                    // definition + number, if more than 1 definition
-                    if (count($defs) > 1) {
-                        $tpl->setCurrentBlock("def_title");
-                        $tpl->setVariable(
-                            "TXT_DEFINITION",
-                            $this->lng->txt("cont_definition") . " " . ($def_cnt++)
-                        );
-                        $tpl->parseCurrentBlock();
-                    }
-                    $page_gui = new ilGlossaryDefPageGUI($def["id"]);
-                    $page_gui->setTemplateOutput(false);
-                    $page_gui->setOutputMode("print");
+                // output definition of term
+                $page_gui = new ilGlossaryDefPageGUI($link["id"]);
+                $page_gui->setTemplateOutput(false);
+                $page_gui->setOutputMode("print");
 
-                    $tpl->setCurrentBlock("definition");
-                    $page_gui->setFileDownloadLink("#");
-                    $page_gui->setFullscreenLink("#");
-                    $page_gui->setSourcecodeDownloadScript("#");
-                    $output = $page_gui->showPage();
-                    $tpl->setVariable("VAL_DEFINITION", $output);
-                    $tpl->parseCurrentBlock();
-                }
+                $tpl->setCurrentBlock("definition");
+                $page_gui->setFileDownloadLink("#");
+                $page_gui->setFullscreenLink("#");
+                $page_gui->setSourcecodeDownloadScript("#");
+                $output = $page_gui->showPage();
+                $tpl->setVariable("VAL_DEFINITION", $output);
+                $tpl->parseCurrentBlock();
 
                 // output term
                 $tpl->setCurrentBlock("term");

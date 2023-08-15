@@ -259,12 +259,7 @@ class ilObjRootFolderGUI extends ilContainerGUI
 
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this));
-        $form->setTitle($this->lng->txt("repository"));
-
-        // presentation
-        $pres = new ilFormSectionHeaderGUI();
-        $pres->setTitle($this->lng->txt('obj_presentation'));
-        $form->addItem($pres);
+        $form->setTitle($this->lng->txt('obj_presentation'));
 
         // list presentation
         $form = $this->initListPresentationForm($form);
@@ -279,7 +274,7 @@ class ilObjRootFolderGUI extends ilContainerGUI
         );
 
 
-        $this->showCustomIconsEditing(1, $form, false);
+        $form = $obj_service->commonSettings()->legacyForm($form, $this->object)->addIcon();
 
         $form = $obj_service->commonSettings()->legacyForm($form, $this->object)->addTitleIconVisibility();
 
@@ -312,26 +307,8 @@ class ilObjRootFolderGUI extends ilContainerGUI
             // list presentation
             $this->saveListPresentation($form);
 
-            if ($ilSetting->get('custom_icons')) {
-                global $DIC;
-                /** @var ilObjectCustomIconFactory $customIconFactory */
-                $customIconFactory = $DIC['object.customicons.factory'];
-                $customIcon = $customIconFactory->getByObjId($this->object->getId(), $this->object->getType());
-
-                /** @var ilImageFileInputGUI $item */
-                $fileData = (array) $form->getInput('cont_icon');
-                $item = $form->getItemByPostVar('cont_icon');
-
-                if ($item->getDeletionFlag()) {
-                    $customIcon->remove();
-                }
-
-                if ($fileData['tmp_name']) {
-                    $customIcon->saveFromHttpRequest();
-                }
-            }
-
             // custom icon
+            $obj_service->commonSettings()->legacyForm($form, $this->object)->saveIcon();
             $obj_service->commonSettings()->legacyForm($form, $this->object)->saveTitleIconVisibility();
 
             // BEGIN ChangeEvent: Record update

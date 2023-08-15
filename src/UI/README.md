@@ -9,15 +9,15 @@ The ILIAS UI-Framework deals with the concepts found in the Kitchen Sink. In fac
 this framework and the Kitchen Sink are heavily related. You won't need to think
 about HTML if you're using this framework. You also won't need to think about
 the implementation you are using, the device your GUI is displayed on or the
-CSS-classes you need to use. You will be able to talk to other people (like users
+CSS classes you need to use. You will be able to talk to other people (like users
 or designers) using the same concepts and problem space as they do. This is also
 not a templating framework.
 
 ## Semantics of Components
 
 UI Components serve a specific purpose. They are not simply named html structures that are composed to larger structures, 
-but semantically different identities. It is possible that two different component look the same and act the same by 
-accident, but still remain different identities. However it is also possible that the same component, looks different in serpereate contexts.
+but semantically different identities. It is possible that two different components look the same and act the same by 
+accident, but still remain different identities. However it is also possible that the same component looks different in separate contexts.
 
 ## Correctness by Construction and Testability
 
@@ -63,7 +63,7 @@ The factories provided by the framework are structured in the same way as the
 taxonomy given in the [KS-Layout](http://www.ilias.de/docu/goto_docu_wiki_wpage_3852_1357.html#ilPageTocA11).
 The main factory provides methods for every node or leaf in the `Class`-Layer
 of the Kitchen Sink Taxonomy. Using that method you get a sub factory if methods
-corresponds to a node in the layout. If the method corresponds to a leaf in the
+correspond to a node in the layout. If the method corresponds to a leaf in the
 layout, you get a PHP representation of the component you chose. Since the Jour
 Fixe decides upon entries in the Kitchen Sink, the factories in the framework
 only contain entries `Accepted` by the JF. Creating a component with the
@@ -72,7 +72,7 @@ want to use in your GUI.
 
 The entries of the Kitchen Sink are documented in this framework in a machine
 readable form. That means you can rely on the documentation given in the
-interfaces to the factories, other representations of the Kitchen Sink are
+interfaces of the factories, other representations of the Kitchen Sink are
 derived from there. This also means you can chose to use the [documentation of the
 Kitchen Sink in ILIAS](http://www.ilias.de/docu/goto_docu_wiki_wpage_4009_1357.html)
 to check out the components.
@@ -88,8 +88,8 @@ other components that are bundled in your component. All compents in the framewo
 strive to only use a small amount of required properties and provide sensible
 defaults for other properties.
 
-Since the representation of the components are implemented as immutable objects,
-you can savely reuse components created elsewhere in your code, or pass your
+Since the representations of the components are implemented as immutable objects,
+you can savely reuse components created elsewhere in your code or pass your
 component to other code without being concerned if the other code modifies it.
 
 [Example 1](examples/Button/Primary/base.php)
@@ -112,14 +112,14 @@ An entry in the Kitchen Sink passes through three states:
 
 * **To be revised**: The entry is still being worked on. Just use a local copy
   or a fork of the ILIAS repository and try out what ever you want.
-* **Proposed**: The entry has been revisited and is proposed to the Jour Fixe,
+* **Proposed**: The entry has been revised and is proposed to the Jour Fixe,
   but has not yet been decided upon. To enter this state, create a pull request
   against  the ILIAS trunk containing your proposed component and take it to the
   Jour Fixe. You need to provide a (mostly) complete definition of the component
   but an implementation is not required at this point. Your will have better
   chances if you also bring some visual representation of your new component,
   you may use the ILIAS edge branch for that.
-* **Accepted**: The entry has been accepted by the JF. This, as allways, might
+* **Accepted**: The entry has been accepted by the JF. This, as always, might
   need some iterations on the component.
 
 These states are represented by using functionality of git and GitHub. After
@@ -128,9 +128,9 @@ source code in the trunk.
 
 ### How to Implement a Component?
 
-If you would like to implement a new component to the framework you should perform the following tasks:
+If you would like to implement a new component for the framework, you should perform the following tasks:
 
-1. Add your new component into the respective factory interface. E.g. If you introduce a component of a completely new type, you MUST add the description to the main factory (src/UI/Factory.php). If you add a new type of a button, you MUST add the description to the existing factory for buttons, located at src/UI/Component/Button/Factory.
+1. Add your new component into the respective factory interface. E.g. if you introduce a component of a completely new type, you MUST add the description to the main factory (src/UI/Factory.php). If you add a new type of button, you MUST add the description to the existing factory for buttons, located at src/UI/Component/Button/Factory.
 2. The description MUST use the following template:
 
     ``` php
@@ -161,9 +161,9 @@ If you would like to implement a new component to the framework you should perfo
     *   ordering:
     *     1: How different elements of this instance are to be ordered.
     *   responsiveness:
-    *     1: How this element behaves on changing screen sizes
+    *     1: How this element behaves on changing screen sizes.
     *   accessibility:
-    *     1: How this element is made accessible
+    *     1: How this element is made accessible.
     *
     * ---
     * @param   string $content
@@ -174,7 +174,7 @@ If you would like to implement a new component to the framework you should perfo
 
 3. This freshly added function in the factory leads to an error as soon as ILIAS is opened, since the implementation
  of the factory (located at src/UI/Implementation/Factory.php) does not implement that function yet. For
- the moment, implement it, as follows:
+ the moment, implement it as follows:
  
     ``` php
     /**
@@ -198,7 +198,7 @@ If you would like to implement a new component to the framework you should perfo
  `withXYZ` that return copies of your component with changed properties. Try
  to use as little mutators as possible and try to make it easy to maintain the
  invariants defined in your rules when mutators will be used.
- Take care to keep it as minimal as possible. At a description for each function.
+ Take care to keep it as minimal as possible. Add a description for each function.
  For the demo component, this interface could look as follows (located at (src/UI/Component/Demo/Demo.php):
     ``` php
     <?php declare(strict_types=1)
@@ -228,7 +228,7 @@ If you would like to implement a new component to the framework you should perfo
  follow the discussion, you MUST link to the changed/added factory classes and mock in the
  description you provide for your PR. Further, it would be wise to enhance your work
  with a little mockup. This makes it much easier to discuss the new component at the
- JF. So best create such an example located and also link it in your comment, e.g. at
+ JF. So best create such an example and also link it in your comment, e.g. at
  src/UI/examples/Demo/mockup.php:
     ``` php
     <?php declare(strict_types=1)
@@ -243,7 +243,7 @@ If you would like to implement a new component to the framework you should perfo
         return "<script>console.log('Hello Demo');</script>Open your JS console!";
     }
     ```
-   However best might be to just provide a screenshoot showing what the component will
+   However best might be to just provide a screenshot showing what the component will
    look like:
     ``` php
     function mockup() {
@@ -284,7 +284,7 @@ If you would like to implement a new component to the framework you should perfo
             $f = new \ILIAS\UI\Implementation\Factory();
             $demo = $f->demo("Demo Implementation!");
 
-            $this->assertEquals($demo->getContent(), "Demo Implementation!");
+            $this->assertEquals("Demo Implementation!", $demo->getContent());
         }
 
         public function test_render_content() {
@@ -302,7 +302,7 @@ If you would like to implement a new component to the framework you should perfo
     }
     ```
 
-8. Currently you will only get the NotImplementedException you throwed previously. That needs to be changed.
+8. Currently you will only get the NotImplementedException you threw previously. That needs to be changed.
   First, add an implementation for the new interface (add it at src/UI/Implementation/Component/Demo/Demo.php):
     ``` php
     <?php declare(strict_types=1)
@@ -402,36 +402,13 @@ If you would like to implement a new component to the framework you should perfo
     so that a tester with no technical expertise can confirm that all examples
     work as intended. They must be available and linked to the PR before the PR will be merged.
   
-15. Optional: You might need to add some less, to make your new component look nice. However, only do that
- if this is really required. Use bootstrap classes as much as possible. If you really need to add
- additional less, use existing less variables whenever appropriate. If you add a new variable, add the il- prefix
- to mark the as special ILIAS less variable and provide the proper description. For the demo this could look as
- follows (located at src/UI/templates/default/Demo/demo.less):
-    ``` less
-    .il-demo{
-     color: @il-demo-color;
-    }
-    ```
-16. Include the new less file to delos (located at templates/default/less/delos.less):
-    ``` less
-    @import "@{uibase}Demo/demo.less";
-    ```
-17. Formulate at least one test-case for your new component on testrail.ilias.de](https://testrail.ilias.de).
+15. Optional: You might need to add some scss, to make your new component look nice. However, only do that
+    if this is really required. (see: [SCSS Guidelines](../../templates/Guidelines_SCSS-Coding.md) ).
+16. Formulate at least one test-case for your new component on testrail.ilias.de](https://testrail.ilias.de).
     Best, try to formulate a testcase for each relevant client-side interaction. E.g. if 
-    your component contains a button, that triggers a modal on-click, write a test-case for this
+    your component contains a button that triggers a modal on-click, write a test-case for this
     interaction. Post the the link to this test-case in a comment/the description of your PR.
-    
-18. Optional add the new variables to the variables.less file (located at templates/default/less/variables.less):
-    ``` less
-    //== Demo Component
-    //
-    //## Those variables are only used for demo purposes
-    //** Color of the text shown in the demo
-    @il-demo-color: @brand-danger;
-    ```
-19. Optional: Recompile the less to see the effect by typing lessc templates/default/delos.less > templates/default/delos.css
-
-20. Optional: If your component introduces a new factory, do not forget to wire it up in the according
+17. Optional: If your component introduces a new factory, do not forget to wire it up in the according
     location of the initialisation. Have a look into `ilInitialisation::initUIFramework` in
     `Services/Init/class/class.ilInitialisation.php`.
 
@@ -450,18 +427,18 @@ the Feature Request. If you are changing the interface of a component, your prop
 
 _Note: The concept described in this section is not yet fully finalized._
 
-The functionality of some components relies on javascript. As an example, a modal is showed and closed by 
-clicking on some triggerer component. As a user of the framework, you should not worry about writing the javascript
-logic for this kind of interactions.
+The functionality of some components relies on Javascript. As an example, a modal is shown and closed by 
+clicking on some triggerer component. As a user of the framework, you should not worry about writing the Javascript
+logic for this kind of interaction.
 
 ### About Triggerables, Triggerer and Signals
 
 Before describing the concept in more detail, you should be aware of the following definitions:
-* **Signal** A signal describes a javascript action of a component which can be triggered by another component of the
+* **Signal** A signal describes a Javascript action of a component which can be triggered by another component of the
 framework.
 * **Triggerable** A component offering some signals that can be triggered by other components.
 * **Triggerer** A component triggering a signal of another component. 
-* **Event** The javascript event on which a signal is being triggered, e.g. `click`, `hover` etc.
+* **Event** The Javascript event on which a signal is being triggered, e.g. `click`, `hover` etc.
 
 Again, consider the example if a user opens a modal by clicking on a button:
 
@@ -482,7 +459,7 @@ $button = $factory->button()->standard('Open Modal', '#')
 ```
 The button is a triggerer component. As such, it offers the method `withOnClick` which takes any `Signal` 
 offered by a triggerable. This is how the framework connects triggerer components with signals of triggerable components.
-Similar to the click event, there exist methods `withOnHover` and `withOnLoad` to abstract the javascript events on
+Similar to the click event, there exist methods `withOnHover` and `withOnLoad` to abstract the Javascript events on
 which a signal is being triggered.
 
 #### Attention: Immutable Objects and Signals
@@ -502,32 +479,32 @@ In the example above, `$button2` will open the same modal as `$button1`. In orde
 ### Implementing a Triggerer Component
 
 Any component acting as triggerer must implement the `Triggerer` interface. This interface is further extended by 
-interfaces describing the javascript event on which a signal is being triggered. Currently, there exist the `Clickable`,
+interfaces describing the Javascript event on which a signal is being triggered. Currently, there exist the `Clickable`,
  `Hoverable` and `Onloadable` interfaces. Please check out the button component for an example implementation.
 
 ### Implementing a Triggerable Component
 
 Any component acting as triggerable must implement the `Triggerable` interface. In addition, it must offer at least
 one signal that can be triggered by other components. The renderer of the triggerable component is also responsible
-to execute the javascript logic if any signal is getting triggered. Please check out the modal component for an example
-implementation. The next section explains how the concept of signals/triggerer/triggerable is abstracted in javascript.
+for executing the Javascript logic if any signal is getting triggered. Please check out the modal component for an example
+implementation. The next section explains how the concept of signals/triggerer/triggerable is abstracted in Javascript.
 
 ### Technical Details
 
-The magic how everything is glued together on the javascript side takes part in the renderers of the triggerer and 
+The magic how everything is glued together on the Javascript side happens in the renderers of the triggerer and 
 triggerable components:
 * Triggerer: The renderer of the triggerer component knows which signals are triggered on which events. It registers
-a new event handler on the component (e.g. on click/hover) which will trigger the signal as a custom javascript event.
-* Triggerable: The renderer of the triggerable component knows the signals and the javascript logic which must be
+a new event handler on the component (e.g. on click/hover) which will trigger the signal as a custom Javascript event.
+* Triggerable: The renderer of the triggerable component knows the signals and the Javascript logic which must be
 executed if any of the signals is getting triggered.
 
-Each signal has a unique alphanumeric ID. The triggerer uses this ID to trigger a custom javascript event which
+Each signal has a unique alphanumeric ID. The triggerer uses this ID to trigger a custom Javascript event which
  will be handled by some event handler from the triggerable. In order to understand this concept, take a look at the 
- javascript code that is getting generated by the renderers if a button opens a modal on click:
+ Javascript code that is getting generated by the renderers if a button opens a modal on click:
  
 **Renderer of button**  
 The renderer of the button generates the HTML for the button AND registers the event handler for the button click.
-This event handler triggers a custom javascript event with the same name as the ID of show signal of the modal:
+This event handler triggers a custom Javascript event with the same name as the ID of show signal of the modal:
  ```
  <button id="button1">Open Modal</button>
  <script>
@@ -548,7 +525,7 @@ event handler of the modal to identify the triggerer.
 
 **Renderer of modal**  
 The renderer of the modal generates the HTML for the modal AND registers an event handler on the ID of the show signal.
-The event handler calls some javascript logic to show the modal.
+The event handler calls some Javascript logic to show the modal.
 ```
 <div class="modal" id="modal1"> ... </div>
 <script>
@@ -560,7 +537,49 @@ $(document).on('id_of_signal_to_open_the_modal', function(event, signalData) {
 Note: `signalData` contains the event data passed by the triggerer, e.g. `signalData.triggerer` holds the JQuery
 object of the button.
 
-For more information on events in javascript, in the context of JQuery: http://api.jquery.com/category/events/
+For more information on events in Javascript in the context of JQuery: http://api.jquery.com/category/events/
+
+
+## Code Style
+We are currently not enforcing code style, **but eventually will**.
+
+### PHP
+
+Use [PHPStan](../../../CI/PHPStan/README.md) to check your files:
+```
+./CI/PHPStan/run_check.sh src/UI/...
+```
+There are different [levels of checks](https://phpstan.org/user-guide/rule-levels),
+you can e.g. run 
+```
+./libs/composer/vendor/bin/phpstan analyse --level 8 src/UI/...
+```
+to override `./CI/PHPStan/phpstan.neon`, however, level 9/max is the desired goal.
+
+### Java Script
+
+In order to validate your JS-files, run 
+
+```
+./node_modules/.bin/eslint --parser-options ecmaVersion:13 src/UI/templates/js/...
+```
+or change/add `.eslintrc.json` in ILIAS' root directory:
+```
+{
+  "parserOptions": {
+    "ecmaVersion": 13
+  },
+  "extends": "airbnb-base"
+}
+```
+To install the linter (and its config), run
+
+```
+npm i -D "eslint" "eslint-config-airbnb-base" "eslint-plugin-import"
+
+```
+
+
 
 ## FAQ
 
@@ -571,7 +590,7 @@ by some smart person. The introduction of the ILIAS UI framework aims at bringin
 more structure in the GUIs of ILIAS. As one (or two) maintainers for all things
 GUI of ILIAS is no option for several reasons and the current state (without rules)
 is anarchy, rules seem to be the only sensible option to get some structure. All
-exisiting rules have a purpose, but there might be a more terse way to explain
+existing rules have a purpose, but there might be a more terse way to explain
 them. If you have found it, we'll be glad to accept your PR.
 
 ### How do I know where my component is rendered?

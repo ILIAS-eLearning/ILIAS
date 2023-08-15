@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\src\Refinery\String;
 
@@ -92,6 +92,13 @@ class LevenshteinTest extends TestCase
         $this->expectException(InvalidArgumentException::class);
 
         $this->assertEquals(2.0, $transformation->transform(496));
+    }
+
+    public function testNoMaxEscapeButOverTheLimit()
+    {
+        $transformation = $this->group->levenshtein()->standard("Juni", 2);
+
+        $this->assertEquals(-1, $transformation->transform("Januar"));
     }
 
     // Numerical

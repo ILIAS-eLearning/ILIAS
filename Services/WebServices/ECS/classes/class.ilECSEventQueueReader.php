@@ -1,20 +1,21 @@
 <?php
 
-declare(strict_types=1);
-
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *
- *****************************************************************************/
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
+
+declare(strict_types=1);
 
 /**
 * Reads ECS events and stores them in the database.
@@ -84,9 +85,9 @@ class ilECSEventQueueReader
      * Get all resource ids by resource type
      *
      * @param ilECSSetting $server
-     * @param int[] $a_types
+     * @param string[] $a_types
      * @param bool $a_sender_only
-     * @return array<int,int[]> type => ids
+     * @return array{int,int[]} type => ids
      */
     protected static function getAllResourceIds(ilECSSetting $server, array $a_types, bool $a_sender_only = false): array
     {
@@ -374,7 +375,7 @@ class ilECSEventQueueReader
         }
 
         $query = "SELECT * FROM ecs_events " .
-            "WHERE type = " . $this->db->quote($type, 'integer') . " " .
+            "WHERE type = " . $this->db->quote($type, 'text') . " " .
             "AND id = " . $this->db->quote($ev->getRessourceId(), 'integer') . " " .
             'AND server_id = ' . $this->db->quote($this->getServer()->getServerId(), 'integer');
         $res = $this->db->query($query);
@@ -420,7 +421,7 @@ class ilECSEventQueueReader
         $query = "UPDATE ecs_events " .
             "SET op = " . $this->db->quote($ev->getStatus(), 'text') . " " .
             "WHERE event_id = " . $this->db->quote($event_id, 'integer') . ' ' .
-            'AND type = ' . $this->db->quote($type) . ' ' .
+            'AND type = ' . $this->db->quote($type, 'text') . ' ' .
             'AND server_id = ' . $this->db->quote($this->getServer()->getServerId(), 'integer');
         $this->db->manipulate($query);
     }
@@ -440,7 +441,7 @@ class ilECSEventQueueReader
     /**
      * add
      */
-    public function add($a_type, $a_id, $a_op): bool
+    public function add(string $a_type, int $a_id, string $a_op): bool
     {
         $next_id = $this->db->nextId('ecs_events');
         $query = "INSERT INTO ecs_events (event_id,type,id,op,server_id) " .
@@ -466,7 +467,7 @@ class ilECSEventQueueReader
     /**
      * update one entry
      */
-    private function update($a_type, $a_id, $a_operation): void
+    private function update(string $a_type, int $a_id, string $a_operation): void
     {
         $query = "UPDATE ecs_events " .
             "SET op = " . $this->db->quote($a_operation, 'text') . " " .
@@ -492,27 +493,27 @@ class ilECSEventQueueReader
     /**
      * Read
      */
-    public function read(): bool
+    private function read(): bool
     {
         $query = "SELECT * FROM ecs_events  " .
             'WHERE server_id = ' . $this->db->quote($this->getServer()->getServerId(), 'integer') . ' ' .
             'ORDER BY event_id';
 
         $res = $this->db->query($query);
-        $counter = 0;
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $this->events[$counter]['event_id'] = $row->event_id;
-            $this->events[$counter]['type'] = $row->type;
-            $this->events[$counter]['id'] = $row->id;
-            $this->events[$counter]['op'] = $row->op;
+            $event = [];
+            $event['event_id'] = (int) $row->event_id;
+            $event['type'] = $row->type;
+            $event['id'] = (int) $row->id;
+            $event['op'] = $row->op;
+            $this->events[] = $event;
 
-            $this->econtent_ids[$row->event_id] = $row->event_id;
-            ++$counter;
+            $this->econtent_ids[(int) $row->event_id] = (int) $row->event_id;
         }
         return true;
     }
 
-    public static function deleteByServerId($a_server_id): bool
+    public static function deleteByServerId(int $a_server_id): bool
     {
         global $DIC;
 

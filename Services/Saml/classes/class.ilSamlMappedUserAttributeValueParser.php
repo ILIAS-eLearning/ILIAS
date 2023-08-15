@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class ilSamlMappedUserAttributeValueParser
  * @author Michael Jansen <mjansen@databay.de>
@@ -29,8 +29,10 @@ final class ilSamlMappedUserAttributeValueParser
     /**
      * @param array<string, mixed> $userData
      */
-    public function __construct(private ilExternalAuthUserAttributeMappingRule $rule, private array $userData)
-    {
+    public function __construct(
+        private readonly ilExternalAuthUserAttributeMappingRule $rule,
+        private readonly array $userData
+    ) {
     }
 
     private function getValueIndex(): int

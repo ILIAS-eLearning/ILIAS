@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\UI\Factory;
 use ILIAS\UI\Renderer;
 use ILIAS\DI\Container;
@@ -27,12 +27,12 @@ use ILIAS\DI\Container;
  */
 class ilCertificateLearningHistoryProvider extends ilAbstractLearningHistoryProvider implements ilLearningHistoryProviderInterface
 {
-    private ilUserCertificateRepository $userCertificateRepository;
-    private ilCtrlInterface $ctrl;
-    private ilSetting $certificateSettings;
+    private readonly ilUserCertificateRepository $userCertificateRepository;
+    private readonly ilCtrlInterface $ctrl;
+    private readonly ilSetting $certificateSettings;
     protected Factory $uiFactory;
     protected Renderer $uiRenderer;
-    private ilCertificateUtilHelper $utilHelper;
+    private readonly ilCertificateUtilHelper $utilHelper;
 
     public function __construct(
         int $user_id,

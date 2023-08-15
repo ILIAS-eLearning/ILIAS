@@ -25,9 +25,8 @@
 class ilPCPlugged extends ilPageContent
 {
     protected ilLanguage $lng;
-    public php4DOMElement $plug_node;
-    protected ilComponentRepository $component_repository;
-    protected ilComponentFactory $component_factory;
+    protected ?ilComponentRepository $component_repository = null;
+    protected ?ilComponentFactory $component_factory = null;
 
     public function init(): void
     {
@@ -35,14 +34,8 @@ class ilPCPlugged extends ilPageContent
 
         $this->lng = $DIC->language();
         $this->setType("plug");
-        $this->component_repository = $DIC["component.repository"];
-        $this->component_factory = $DIC["component.factory"];
-    }
-
-    public function setNode(php4DOMElement $a_node): void
-    {
-        parent::setNode($a_node);		// this is the PageContent node
-        $this->plug_node = $a_node->first_child();		// this is the Plugged node
+        $this->component_repository = $DIC["component.repository"] ?? null;
+        $this->component_factory = $DIC["component.factory"] ?? null;
     }
 
     /**
@@ -55,12 +48,12 @@ class ilPCPlugged extends ilPageContent
         string $a_plugin_name,
         string $a_plugin_version
     ): void {
-        $this->node = $this->createPageContentNode();
-        $a_pg_obj->insertContent($this, $a_hier_id, IL_INSERT_AFTER, $a_pc_id);
-        $this->plug_node = $this->dom->create_element("Plugged");
-        $this->plug_node = $this->node->append_child($this->plug_node);
-        $this->plug_node->set_attribute("PluginName", $a_plugin_name);
-        $this->plug_node->set_attribute("PluginVersion", $a_plugin_version);
+        $this->createInitialChildNode(
+            $a_hier_id,
+            $a_pc_id,
+            "Plugged",
+            ["PluginName" => $a_plugin_name, "PluginVersion" => $a_plugin_version]
+        );
     }
 
     /**
@@ -68,22 +61,19 @@ class ilPCPlugged extends ilPageContent
      */
     public function setProperties(array $a_properties): void
     {
-        if (!is_object($this->plug_node)) {
+        if (!is_object($this->getChildNode())) {
             return;
         }
 
         // delete properties
-        $children = $this->plug_node->child_nodes();
-        for ($i = 0; $i < count($children); $i++) {
-            $this->plug_node->remove_child($children[$i]);
-        }
+        $this->dom_util->deleteAllChilds($this->getChildNode());
         // set properties
         foreach ($a_properties as $key => $value) {
-            $prop_node = $this->dom->create_element("PluggedProperty");
-            $prop_node = $this->plug_node->append_child($prop_node);
-            $prop_node->set_attribute("Name", $key);
+            $prop_node = $this->dom_doc->createElement("PluggedProperty");
+            $prop_node = $this->getChildNode()->appendChild($prop_node);
+            $prop_node->setAttribute("Name", $key);
             if ($value != "") {
-                $prop_node->set_content($value);
+                $this->dom_util->setContent($prop_node, $value);
             }
         }
     }
@@ -95,13 +85,11 @@ class ilPCPlugged extends ilPageContent
     {
         $properties = array();
 
-        if (is_object($this->plug_node)) {
-            // delete properties
-            $children = $this->plug_node->child_nodes();
-            for ($i = 0; $i < count($children); $i++) {
-                if ($children[$i]->node_name() == "PluggedProperty") {
-                    $properties[$children[$i]->get_attribute("Name")] =
-                        $children[$i]->get_content();
+        if (is_object($this->getChildNode())) {
+            foreach ($this->getChildNode()->childNodes as $c) {
+                if ($c->nodeName == "PluggedProperty") {
+                    $properties[$c->getAttribute("Name")] =
+                        $this->dom_util->getContent($c);
                 }
             }
         }
@@ -112,18 +100,18 @@ class ilPCPlugged extends ilPageContent
     public function setPluginVersion(string $a_version): void
     {
         if (!empty($a_version)) {
-            $this->plug_node->set_attribute("PluginVersion", $a_version);
+            $this->getChildNode()->setAttribute("PluginVersion", $a_version);
         } else {
-            if ($this->plug_node->has_attribute("PluginVersion")) {
-                $this->plug_node->remove_attribute("PluginVersion");
+            if ($this->getChildNode()->hasAttribute("PluginVersion")) {
+                $this->getChildNode()->removeAttribute("PluginVersion");
             }
         }
     }
 
     public function getPluginVersion(): string
     {
-        if (is_object($this->plug_node)) {
-            return $this->plug_node->get_attribute("PluginVersion");
+        if (is_object($this->getChildNode())) {
+            return $this->getChildNode()->getAttribute("PluginVersion");
         }
         return "";
     }
@@ -131,18 +119,18 @@ class ilPCPlugged extends ilPageContent
     public function setPluginName(string $a_name): void
     {
         if (!empty($a_name)) {
-            $this->plug_node->set_attribute("PluginName", $a_name);
+            $this->getChildNode()->setAttribute("PluginName", $a_name);
         } else {
-            if ($this->plug_node->has_attribute("PluginName")) {
-                $this->plug_node->remove_attribute("PluginName");
+            if ($this->getChildNode()->hasAttribute("PluginName")) {
+                $this->getChildNode()->removeAttribute("PluginName");
             }
         }
     }
 
     public function getPluginName(): string
     {
-        if (is_object($this->plug_node)) {
-            return $this->plug_node->get_attribute("PluginName");
+        if (is_object($this->getChildNode())) {
+            return $this->getChildNode()->getAttribute("PluginName");
         }
         return "";
     }
@@ -187,7 +175,10 @@ class ilPCPlugged extends ilPageContent
                     $node->removeChild($child);
                 }
                 foreach ($properties as $name => $value) {
-                    $child = new DOMElement('PluggedProperty', $value);
+                    $child = new DOMElement(
+                        'PluggedProperty',
+                        str_replace("&", "&amp;", $value)
+                    );
                     $node->appendChild($child);
                     $child->setAttribute('Name', $name);
                 }

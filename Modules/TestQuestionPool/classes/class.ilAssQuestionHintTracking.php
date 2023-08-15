@@ -101,9 +101,9 @@ class ilAssQuestionHintTracking
 
         $query = "
 			SELECT		COUNT(qhtr_track_id) cnt
-			
+
 			FROM		qpl_hint_tracking
-			
+
 			WHERE		qhtr_question_fi = %s
 			AND			qhtr_active_fi = %s
 			AND			qhtr_pass = %s
@@ -136,14 +136,14 @@ class ilAssQuestionHintTracking
         $query = "
 			SELECT		COUNT(qht_hint_id) cnt_available,
 						COUNT(qhtr_track_id) cnt_requested
-			
+
 			FROM		qpl_hints
-			
+
 			LEFT JOIN	qpl_hint_tracking
 			ON			qhtr_hint_fi = qht_hint_id
 			AND			qhtr_active_fi = %s
 			AND			qhtr_pass = %s
-			
+
 			WHERE		qht_question_fi = %s
 		";
 
@@ -178,9 +178,9 @@ class ilAssQuestionHintTracking
 
         $query = "
 			SELECT		COUNT(qhtr_track_id) cnt
-			
+
 			FROM		qpl_hint_tracking
-			
+
 			WHERE		qhtr_hint_fi = %s
 			AND			qhtr_active_fi = %s
 			AND			qhtr_pass = %s
@@ -217,17 +217,17 @@ class ilAssQuestionHintTracking
 
         $query = "
 			SELECT		qht_hint_id
-			
+
 			FROM		qpl_hints
-			
+
 			LEFT JOIN	qpl_hint_tracking
 			ON			qhtr_hint_fi = qht_hint_id
 			AND			qhtr_active_fi = %s
 			AND			qhtr_pass = %s
-			
+
 			WHERE		qht_question_fi = %s
 			AND			qhtr_track_id IS NULL
-			
+
 			ORDER BY	qht_hint_index ASC
 		";
 
@@ -244,8 +244,6 @@ class ilAssQuestionHintTracking
 
             return $nextHint;
         }
-
-        require_once 'Modules/Test/exceptions/class.ilTestNoNextRequestableHintExistsException.php';
 
         throw new ilTestNoNextRequestableHintExistsException(
             "no next hint found for questionId={$this->getQuestionId()}, activeId={$this->getActiveId()}, pass={$this->getPass()}"
@@ -268,9 +266,9 @@ class ilAssQuestionHintTracking
 
         $query = "
 			SELECT		qhtr_hint_fi
-			
+
 			FROM		qpl_hint_tracking
-			
+
 			WHERE		qhtr_question_fi = %s
 			AND			qhtr_active_fi = %s
 			AND			qhtr_pass = %s
@@ -336,12 +334,12 @@ class ilAssQuestionHintTracking
         $query = "
 			SELECT		COUNT(qhtr_track_id) requests_count,
 						SUM(qht_hint_points) requests_points
-			
+
 			FROM		qpl_hint_tracking
-			
+
 			INNER JOIN	qpl_hints
 			ON			qht_hint_id = qhtr_hint_fi
-			
+
 			WHERE		qhtr_question_fi = %s
 			AND			qhtr_active_fi = %s
 			AND			qhtr_pass = %s
@@ -359,8 +357,6 @@ class ilAssQuestionHintTracking
             $row['requests_points'] = 0;
         }
 
-        require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintRequestStatisticData.php';
-
         $requestsStatisticData = new ilAssQuestionHintRequestStatisticData();
         $requestsStatisticData->setRequestsCount($row['requests_count']);
         $requestsStatisticData->setRequestsPoints($row['requests_points']);
@@ -374,10 +370,7 @@ class ilAssQuestionHintTracking
      */
     public static function getRequestRequestStatisticDataRegisterByActiveId($activeId): ilAssQuestionHintRequestStatisticRegister
     {
-        require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintRequestStatisticRegister.php';
-        require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintRequestStatisticData.php';
-
-        /* @var ILIAS\DI\Container $DIC */ global $DIC;
+        global $DIC;
         $db = $DIC->database();
 
         $query = "
@@ -385,14 +378,14 @@ class ilAssQuestionHintTracking
 						qhtr_question_fi requests_question,
 						COUNT(qhtr_track_id) requests_count,
 						SUM(qht_hint_points) requests_points
-			
+
 			FROM		qpl_hint_tracking
-			
+
 			INNER JOIN	qpl_hints
 			ON			qht_hint_id = qhtr_hint_fi
-			
+
 			WHERE		qhtr_active_fi = %s
-			
+
 			GROUP BY	qhtr_pass, qhtr_question_fi
 		";
 

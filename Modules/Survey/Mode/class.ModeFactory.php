@@ -30,26 +30,33 @@ use ILIAS\Survey\InternalService;
 class ModeFactory
 {
     /** @var \ILIAS\Survey\Mode\ModeProvider[] */
-    protected array $providers;
+    protected ?array $providers = null;
     protected InternalService $service;
 
     public function __construct()
     {
-        $this->providers = [
-            new Standard\ModeProvider(),
-            new Feedback360\ModeProvider(),
-            new SelfEvaluation\ModeProvider(),
-            new IndividualFeedback\ModeProvider()
-        ];
     }
 
     public function setInternalService(InternalService $service): void
     {
         $this->service = $service;
     }
+    protected function initProviders(): void
+    {
+        if (is_null($this->providers)) {
+            $gui = $this->service->gui();
+            $this->providers = [
+                new Standard\ModeProvider($gui),
+                new Feedback360\ModeProvider($gui),
+                new SelfEvaluation\ModeProvider($gui),
+                new IndividualFeedback\ModeProvider($gui)
+            ];
+        }
+    }
 
     public function getModeById(int $id): ModeProvider
     {
+        $this->initProviders();
         foreach ($this->providers as $provider) {
             if ($provider->getId() === $id) {
                 $provider->setInternalService($this->service);

@@ -32,10 +32,8 @@ class ilObjectListGUIFactory
         $objDefinition = $DIC["objDefinition"];
 
         $class = $objDefinition->getClassName($type);
-        $location = $objDefinition->getLocation($type);
         $full_class = "ilObj" . $class . "ListGUI";
-        if (file_exists($location . "/class." . $full_class . ".php")) {
-            include_once($location . "/class." . $full_class . ".php");
+        if (class_exists($full_class)) {
             return new $full_class($context);
         }
 

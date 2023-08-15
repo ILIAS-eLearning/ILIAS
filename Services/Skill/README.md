@@ -309,12 +309,37 @@ Root
 
 ## Views
 
-* Personal View (User sees his own competences in "Achievements > Competences > Competence Records")
-* Competence Profile View (User sees competences in a Competence Profile he is assigned to in "Achievements > Competences > Assigned Profiles")  
+* Personal View (in global context or object context)
+* Competence Profile View (in global context or container object context)
+* Result view (in object context, e.g. Test, Survey)
 * Publishing Personal Competence Data (Blog, Portfolio, prospectively possibly Staff)
-* Personal View in object context (e.g. Course, Group, Test, Survey)
-* Administrative View in object context (Tutor or Administrator in objects)
 * Global administrative View (Competence Management)
+* Administrative View in object context (Tutor or Administrator in objects)
+
+### Personal View
+
+* In global context: The user sees his own competences in "Achievements > Competences > Competence Records". All competence
+  entries for a competence are shown in chronological order. The self evaluation is not optically separated.
+  All self-assigned materials and the resources for all competence levels are shown. The "Actions"-dropdown is available.
+* In object context: The user sees competences and competence entries coming from the object and potential subobjects.
+  The self evaluation is not optically separated. Materials and resources are not shown. The "Actions"-dropdown is not available.
+
+### Competence Profile View
+
+* In global context: The user sees competences of a competence profile she is assigned to in
+  "Achievements > Competences > Assigned Profiles > {Profile}". All competence entries for a competence are shown in
+  chronological order. The self evaluation is optically separated. All self-assigned materials and the resources for
+  the target level of the profile are shown. The "Actions"-dropdown is available.
+* In object context (only container objects): The user sees competences and competence entries coming from the object.
+  The self evaluation is optically separated. Materials are not shown. Resources for the target level are shown, but
+  resources can only be subobjects of the related object or the object itself because of the local context here.
+  The "Actions"-dropdown is not available.
+
+### Result view
+
+* In object context (no container objects): The user sees competences coming from the object. Only the latest
+  competence entry from the object is shown. The self evaluation is optically separated. Materials and resources are
+  not shown. The "Actions"-dropdown is not available.
 
 ## Competence Status
 

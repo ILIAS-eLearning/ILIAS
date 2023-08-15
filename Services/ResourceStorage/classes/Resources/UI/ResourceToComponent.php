@@ -67,13 +67,13 @@ class ResourceToComponent extends BaseToComponent implements ToComponent
     }
 
 
-    public function getAsItem(): \ILIAS\UI\Component\Item\Standard
+    public function getAsItem(bool $with_image): \ILIAS\UI\Component\Item\Standard
     {
         $properties = array_merge(
             $this->getCommonProperties(),
             $this->getDetailedProperties()
         );
-        return $this->revision_to_component->getAsItem()
+        return $this->revision_to_component->getAsItem($with_image)
             ->withProperties($properties);
     }
 

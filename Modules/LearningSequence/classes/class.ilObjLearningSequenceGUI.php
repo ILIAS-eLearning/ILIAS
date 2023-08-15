@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\Data;
 use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper;
@@ -118,6 +118,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
     protected ILIAS\HTTP\Wrapper\RequestWrapper $request_wrapper;
     protected ArrayBasedRequestWrapper $post_wrapper;
     protected ILIAS\Refinery\Factory $refinery;
+    protected Psr\Http\Message\ServerRequestInterface $request;
 
     public static function _goto(string $target): void
     {
@@ -210,6 +211,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
         $this->rbac_review = $DIC['rbacreview'];
         $this->ui_factory = $DIC['ui.factory'];
         $this->ui_renderer = $DIC['ui.renderer'];
+        $this->request = $DIC->http()->request();
 
         $this->log = $DIC["ilLoggerFactory"]->getRootLogger();
         $this->app_event_handler = $DIC['ilAppEventHandler'];
@@ -250,8 +252,8 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
         parent::prepareOutput();
         $this->addToNavigationHistory();
         //showRepTree is from containerGUI;
-        //LSO will attach allowed subitems to whitelist
-        //see: $this::getAdditionalWhitelistTypes
+        //LSO will attach allowed subitems to ok-list
+        //see: $this::getAdditionalOKTypes
 
         $in_player = (
             $next_class === 'ilobjlearningsequencelearnergui'
@@ -351,8 +353,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
                 if ($cmd === '') {
                     if ($this->checkAccess("write")) {
                         $cmd = self::CMD_CONTENT;
-                    }
-                    else {
+                    } else {
                         $cmd = self::CMD_VIEW;
                     }
                 }
@@ -483,10 +484,10 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
             $this->ctrl,
             $this->lng,
             $this->tpl,
-            $this->obj_service,
-            $this->post_wrapper,
             $this->refinery,
-            $this->toolbar
+            $this->ui_factory,
+            $this->ui_renderer,
+            $this->request
         );
         $this->ctrl->setCmd($cmd);
         $this->ctrl->forwardCommand($gui);
@@ -499,7 +500,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
         if ($this->checkAccess("write")) {
             $this->manageContent(self::CMD_CONTENT);
             return;
-        } else if ($this->checkAccess("read")) {
+        } elseif ($this->checkAccess("read")) {
             $this->learnerView(self::CMD_LEARNER_VIEW);
             return;
         } else {
@@ -521,7 +522,9 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
             new ilConfirmationGUI(),
             new LSItemOnlineStatus(),
             $this->post_wrapper,
-            $this->refinery
+            $this->refinery,
+            $this->ui_factory,
+            $this->ui_renderer
         );
         $this->ctrl->setCmd($cmd);
         $this->ctrl->forwardCommand($gui);
@@ -563,7 +566,8 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
             $this->toolbar,
             $this->request_wrapper,
             $this->post_wrapper,
-            $this->refinery
+            $this->refinery,
+            $this->ui_factory
         );
 
         $this->ctrl->setCmd($cmd);
@@ -854,14 +858,14 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
     }
 
     /**
-     * append additional types to ilRepositoryExplorerGUI's whitelist
+     * append additional types to ilRepositoryExplorerGUI's positive list
      * @return int[]|string[]
      */
-    protected function getAdditionalWhitelistTypes(): array
+    protected function getAdditionalOKTypes(): array
     {
         return array_filter(
             array_keys($this->obj_definition->getSubObjects('lso', false)),
-            fn ($type) => $type !== 'rolf'
+            fn($type) => $type !== 'rolf'
         );
     }
 
@@ -886,7 +890,8 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
 
     public function showPossibleSubObjects(): void
     {
-        parent::showPossibleSubObjects();
+        $gui = new ilObjectAddNewItemGUI($this->object->getRefId());
+        $gui->render();
     }
 
     /**
@@ -912,5 +917,4 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
     protected function enableDragDropFileUpload(): void
     {
     }
- 
 }

@@ -68,7 +68,7 @@ class BasicPersistenceTest extends TestCase
         };
 
         $factory = new Injector($dic, new BaseDependencyMap());
-        $this->persistence = BasicPersistence::instance();
+        $this->persistence = BasicPersistence::instance($this->createMock(\ilDBInterface::class));
 
         $bucket = new BasicBucket(Mockery::mock(Persistence::class));
         $bucket->setUserId(3);

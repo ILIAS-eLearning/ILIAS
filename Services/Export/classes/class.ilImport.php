@@ -118,7 +118,7 @@ class ilImport
         string $a_type,
         string $a_comp = "",
         bool $a_copy_file = false
-    ): int {
+    ): ?int {
         // create temporary directory
         $tmpdir = ilFileUtils::ilTempnam();
         ilFileUtils::makeDir($tmpdir);
@@ -135,7 +135,7 @@ class ilImport
         $this->log->debug("dir: " . $dir);
         $ret = $this->doImportObject($dir, $a_type, $a_comp, $tmpdir);
         $new_id = null;
-        if (is_array($ret)) {
+        if (is_array($ret) && array_key_exists('new_id', $ret)) {
             $new_id = $ret['new_id'];
         }
         // delete temporary directory

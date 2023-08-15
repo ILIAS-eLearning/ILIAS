@@ -111,7 +111,7 @@ class SkillProfileManager implements \ilSkillUsageInfo
      */
     public function getSkillLevels(int $profile_id): array
     {
-        $levels = $this->profile_levels_repo->get($profile_id);
+        $levels = $this->profile_levels_repo->getAll($profile_id);
         usort($levels, static function (SkillProfileLevel $level_a, SkillProfileLevel $level_b): int {
             return $level_a->getOrderNr() <=> $level_b->getOrderNr();
         });
@@ -119,9 +119,20 @@ class SkillProfileManager implements \ilSkillUsageInfo
         return $levels;
     }
 
+    public function getSkillLevel(int $profile_id, int $base_skill_id, int $tref_id): SkillProfileLevel
+    {
+        $level = $this->profile_levels_repo->get($profile_id, $base_skill_id, $tref_id);
+        return $level;
+    }
+
     public function addSkillLevel(SkillProfileLevel $skill_level_obj): void
     {
-        $this->profile_levels_repo->create($skill_level_obj);
+        $this->profile_levels_repo->createOrUpdate($skill_level_obj);
+    }
+
+    public function updateSkillLevel(SkillProfileLevel $skill_level_obj): void
+    {
+        $this->profile_levels_repo->createOrUpdate($skill_level_obj);
     }
 
     public function removeSkillLevel(SkillProfileLevel $skill_level_obj): void
@@ -373,9 +384,9 @@ class SkillProfileManager implements \ilSkillUsageInfo
             ];
 
             if (!$with_objects_in_trash && \ilObject::_hasUntrashedReference($obj_id)) {
-                $roles_as_obj_without_trash[] = $this->profile_role_repo->getFromRecord($role_restructured);
+                $roles_as_obj_without_trash[] = $this->profile_role_repo->getRoleAssignmentFromRecord($role_restructured);
             }
-            $roles_as_obj_with_trash[] = $this->profile_role_repo->getFromRecord($role_restructured);
+            $roles_as_obj_with_trash[] = $this->profile_role_repo->getRoleAssignmentFromRecord($role_restructured);
         }
 
         if ($with_objects_in_trash) {
@@ -401,7 +412,7 @@ class SkillProfileManager implements \ilSkillUsageInfo
 
     /**
      * Get global and local profiles of a role
-     * @return SkillProfile[]
+     * @return SkillRoleProfile[]
      */
     public function getAllProfilesOfRole(int $role_id): array
     {
@@ -410,7 +421,7 @@ class SkillProfileManager implements \ilSkillUsageInfo
     }
 
     /**
-     * @return SkillProfile[]
+     * @return SkillRoleProfile[]
      */
     public function getGlobalProfilesOfRole(int $role_id): array
     {
@@ -419,11 +430,11 @@ class SkillProfileManager implements \ilSkillUsageInfo
     }
 
     /**
-     * @return SkillProfile[]
+     * @return SkillRoleProfile[]
      */
-    public function getLocalProfilesOfRole(int $role_id, int $ref_id): array
+    public function getLocalProfilesOfRole(int $role_id): array
     {
-        $profiles = $this->profile_role_repo->getLocalProfilesOfRole($role_id, $ref_id);
+        $profiles = $this->profile_role_repo->getLocalProfilesOfRole($role_id);
         return $profiles;
     }
 

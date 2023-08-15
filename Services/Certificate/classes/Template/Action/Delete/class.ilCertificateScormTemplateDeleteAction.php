@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,15 +16,19 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
 class ilCertificateScormTemplateDeleteAction implements ilCertificateDeleteAction
 {
-    private ilSetting $setting;
+    private readonly ilSetting $setting;
 
-    public function __construct(private ilCertificateTemplateDeleteAction $deleteAction, ?ilSetting $setting = null)
-    {
+    public function __construct(
+        private readonly ilCertificateTemplateDeleteAction $deleteAction,
+        ?ilSetting $setting = null
+    ) {
         if (null === $setting) {
             $setting = new ilSetting('scorm');
         }

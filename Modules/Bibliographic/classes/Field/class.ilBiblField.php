@@ -83,12 +83,12 @@ class ilBiblField extends ActiveRecord implements ilBiblFieldInterface
 
     public function getIdentifier(): string
     {
-        return $this->identifier;
+        return trim($this->identifier);
     }
 
     public function setIdentifier(string $identifier): void
     {
-        $this->identifier = $identifier;
+        $this->identifier = trim($identifier);
     }
 
     public function getPosition(): ?int

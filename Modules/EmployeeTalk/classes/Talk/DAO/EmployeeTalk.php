@@ -33,19 +33,8 @@ final class EmployeeTalk
     private int $employee;
     private bool $completed;
     private bool $standalone;
+    private int $template_id;
 
-    /**
-     * EmployeeTalk constructor.
-     * @param int $objectId
-     * @param ilDateTime $startDate
-     * @param ilDateTime $endDate
-     * @param bool $allDay
-     * @param string $seriesId
-     * @param string $location
-     * @param int $employee
-     * @param bool $completed
-     * @param bool $standalone
-     */
     public function __construct(
         int $objectId,
         ilDateTime $startDate,
@@ -55,7 +44,8 @@ final class EmployeeTalk
         string $location,
         int $employee,
         bool $completed,
-        bool $standalone
+        bool $standalone,
+        int $template_id
     ) {
         $this->objectId = $objectId;
         $this->startDate = $startDate;
@@ -66,6 +56,7 @@ final class EmployeeTalk
         $this->employee = $employee;
         $this->completed = $completed;
         $this->standalone = $standalone;
+        $this->template_id = $template_id;
     }
 
     /**
@@ -227,6 +218,17 @@ final class EmployeeTalk
     public function setStandalone(bool $standalone): EmployeeTalk
     {
         $this->standalone = $standalone;
+        return $this;
+    }
+
+    public function getTemplateId(): int
+    {
+        return $this->template_id;
+    }
+
+    public function setTemplateId(int $template_id): EmployeeTalk
+    {
+        $this->template_id = $template_id;
         return $this;
     }
 }

@@ -154,7 +154,6 @@ class ilBookingParticipantGUI
                     $this->tpl->setOnScreenMessage('success', $this->lng->txt("book_participant_assigned"), true);
                 } else {
                     $this->tpl->setOnScreenMessage('failure', $this->lng->txt("book_participant_already_assigned"));
-                    return false;
                 }
             } else {
                 $this->tpl->setOnScreenMessage('failure', "dummy error message, change me");

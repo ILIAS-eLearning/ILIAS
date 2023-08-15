@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,7 +19,6 @@
 /**
  * Class ilObjCourse
  * @author  Stefan Meyer <meyer@leifos.com>
- * @version $Id$
  */
 class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 {
@@ -767,10 +767,16 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
             $DIC->filesystem()->web(),
             new ilCertificateObjectHelper()
         );
-
         $cloneAction->cloneCertificate($this, $new_obj);
+
         $book_service = new ilBookingService();
         $book_service->cloneSettings($this->getId(), $new_obj->getId());
+
+        $badges = ilBadge::getInstancesByParentId($this->getId());
+        foreach ($badges as $badge) {
+            $badge->clone($new_obj->getId());
+        }
+
         return $new_obj;
     }
 
@@ -1164,7 +1170,6 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
             $this->setContactPhone((string) $row->contact_phone);
             $this->setContactEmail((string) $row->contact_email);
             $this->setContactConsultation((string) $row->contact_consultation);
-            $this->setOfflineStatus(!(bool) $row->activation_type); // see below
             $this->setSubscriptionLimitationType((int) $row->sub_limitation_type);
             $this->setSubscriptionStart((int) $row->sub_start);
             $this->setSubscriptionEnd((int) $row->sub_end);
@@ -1839,8 +1844,8 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
         $res = array();
 
         $before = new ilDateTime(time(), IL_CAL_UNIX);
-        $before->increment(IL_CAL_DAY, -1);
         $now = $before->get(IL_CAL_UNIX);
+        $now_dt = $before->get(IL_CAL_DATETIME, '', ilTimeZone::UTC);
 
         $set = $ilDB->query("SELECT obj_id, min_members" .
             " FROM crs_settings" .
@@ -1851,7 +1856,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
             " OR (leave_end IS NULL" .
             " AND sub_end IS NOT NULL" .
             " AND sub_end < " . $ilDB->quote($now, "text") . "))" .
-            " AND (period_start IS NULL OR period_start > " . $ilDB->quote($now, "integer") . ")");
+            " AND (period_start IS NULL OR period_start > " . $ilDB->quote($now_dt, ilDBConstants::T_TEXT) . ")");
         while ($row = $ilDB->fetchAssoc($set)) {
             $refs = ilObject::_getAllReferences((int) $row['obj_id']);
             $ref = end($refs);

@@ -7,7 +7,7 @@ main commands to manage ILIAS installations:
 * `update` will [update an installation](#update-ilias)
 * `status` will [report status of an installation](#report-status-of-ilias)
 * `build-artifacts` [recreates static assets](#build-ilias-artifacts) of an installation
-* `achieve` [a name objective](#achieve-method) of an agent 
+* `achieve` [a named objective](#achieve-a-named-objective) of an agent 
 * `migrate` will run [needed migrations](#migrations)
 
 `install` and `update` also supply switches and options for a granular control of the inclusion of plugins:
@@ -117,12 +117,13 @@ via options.
 
 Some components of ILIAS will publish named objectives to the setup via their
 agent. The most notorious example for this is the component `UICore` which provides
-the objective `reloadCtrlStructure` that will generate routing information for the
+the objective `buildIlCtrlArtifacts` that will generate routing information for the
 GUI. To achieve a single objective from an agent, e.g. for control structure reload,
 run `php setup/setup.php achieve $AGENT_NAME.$OBJECTIVE_NAME`, e.g. 
-`php setup/setup.php achieve uicore.reloadCtrlStructure` to reload the
-control structure. The agent might need to a config file to work, which may be added
-as last parameter: `php setup/setup.php achieve uicore.reloadCtrlStructure config.json`
+`php setup/setup.php achieve uicore.buildIlCtrlArtifacts` to generate the necessary
+artifacts for the control structure. The agent might need to a config file to work,
+which may be added as last parameter: 
+`php setup/setup.php achieve uicore.buildIlCtrlArtifacts config.json`
 
 ## List available objectives
 Calling `php setup/setup.php achieve` without any arguments and options  
@@ -313,8 +314,8 @@ are printed bold**, all other fields might be omitted. A minimal example is
     ```
 	"mathjax": {
 		"client_enabled": true,
-		"client_polyfill_url": "https://polyfill.io/v3/polyfill.min.js?features=es6",
-		"client_script_url": "https://cdn.jsdelivr.net/npm/mathjax@3.0.1/es5/tex-mml-chtml.js",
+		"client_polyfill_url": "",
+		"client_script_url": "https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML,Safe",
 		"client_limiter": 0,
 		"server_enabled": true,
 		"server_address": "http://your.mathjax.server:8003",
@@ -337,13 +338,6 @@ are printed bold**, all other fields might be omitted. A minimal example is
   * *server_for_browser* (type: boolean) use the server for rendering in the browser
   * *server_for_export* (type: boolean) use the server for HTML exports
   * *server_for_pdf* (type: boolean) use the server for PDF generation
-* *pdfgeneration* (type: object) contains settings for Services/PDFGeneration
-    ```
-	"pdfgeneration" : {
-		"path_to_phantom_js" : "/usr/bin/phantomjs"
-	},
-    ```
-  * *path_to_phantom_js* (type: string) executable
 * *preview* (type: object) contains settings for Services/Preview
     ```
 	"preview" : {
@@ -362,11 +356,11 @@ are printed bold**, all other fields might be omitted. A minimal example is
     ```
 	"style" : {
 		"manage_system_styles" : true,
-		"path_to_lessc" : "/usr/bin/lessc"
+		"path_to_scss" : "/usr/bin/scss"
 	},
     ```
   * *manage_system_styles* (type: boolean) via a GUI in the installation, defaults to `false`
-  * *path_to_lessc* (type: string) to compile less to css
+  * *path_to_scss* (type: string) to compile scss to css
 * **systemfolder** (type: object) settings for Module/SystemFolder
     ```
 	"systemfolder" : {

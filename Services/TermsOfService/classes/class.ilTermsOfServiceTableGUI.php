@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,15 +16,22 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * @author  Michael Jansen <mjansen@databay.de>
+ * @template T
  */
 abstract class ilTermsOfServiceTableGUI extends ilTable2GUI
 {
     protected ?ilTermsOfServiceTableDataProvider $provider = null;
+    /** @var array<string, string> */
     protected array $visibleOptionalColumns = [];
+    /** @var array<string, array{'field': string, 'txt': string, 'default': bool, "optional"?: bool, "sortable": bool, "is_checkbox"?: bool, "width"?: string}> */
     protected array $optionalColumns = [];
+    /** @var array<string, mixed> */
     protected array $filter = [];
+    /** @var array<string, mixed> */
     protected array $optional_filter = [];
 
     public function __construct(ilTermsOfServiceControllerEnabled $gui, string $command)
@@ -59,12 +64,17 @@ abstract class ilTermsOfServiceTableGUI extends ilTable2GUI
         return $this->provider;
     }
 
+    /**
+     * @param array<string, mixed> $params
+     * @param array<string, mixed> $filter
+     */
     protected function onBeforeDataFetched(array &$params, array &$filter): void
     {
     }
 
     /**
      * This method can be used to add some field values dynamically or manipulate existing values of the table row array
+     * @param array<string, mixed> $row
      */
     protected function prepareRow(array &$row): void
     {
@@ -72,6 +82,7 @@ abstract class ilTermsOfServiceTableGUI extends ilTable2GUI
 
     /**
      * This method can be used to process the array of all fetched data
+     * @param array{items: list<T>, cnt: int} $data
      */
     protected function preProcessData(array &$data): void
     {
@@ -79,12 +90,16 @@ abstract class ilTermsOfServiceTableGUI extends ilTable2GUI
 
     /**
      * Define a final formatting for a cell value
+     * @param array<string, mixed> $row
      */
     protected function formatCellValue(string $column, array $row): string
     {
         return trim($row[$column] ?? '');
     }
 
+    /**
+     * @return array<string, array{'field': string, 'txt': string, 'default': bool, "optional"?: bool, "sortable": bool, "is_checkbox"?: bool, "width"?: string}>
+     */
     public function getSelectableColumns(): array
     {
         $optionalColumns = array_filter($this->getColumnDefinition(), static function ($column): bool {
@@ -140,6 +155,9 @@ abstract class ilTermsOfServiceTableGUI extends ilTable2GUI
         }
     }
 
+    /**
+     * @return non-empty-list<array{'field': string, 'txt': string, 'default': bool, "optional"?: bool, "sortable": bool, "is_checkbox"?: bool, "width"?: string}>
+     */
     abstract protected function getColumnDefinition(): array;
 
     public function populate(): void

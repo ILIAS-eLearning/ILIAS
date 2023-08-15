@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,22 +16,24 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * @author Michael Jansen <mjansen@databay.de>
  * @ingroup ServicesMail
  */
 class ilMailingList
 {
+    final public const MODE_ADDRESSBOOK = 1;
+    final public const MODE_TEMPORARY = 2;
+
     private int $user_id;
     private string $title = '';
     private string $description = '';
     private string $createdate;
-    private ?string $changedate;
+    private ?string $changedate = null;
+    private readonly ilDBInterface $db;
 
-    private ilDBInterface $db;
-
-    public const MODE_ADDRESSBOOK = 1;
-    public const MODE_TEMPORARY = 2;
     private int $mode;
 
     public function __construct(ilObjUser $user, private int $mail_id = 0)

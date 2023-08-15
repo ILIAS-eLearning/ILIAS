@@ -31,6 +31,7 @@ use ILIAS\SurveyQuestionPool\Editing\EditingGUIRequest;
  */
 class ilObjSurveyQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
 {
+    protected \ILIAS\Survey\InternalGUIService $gui;
     protected \ILIAS\SurveyQuestionPool\Editing\EditManager $edit_manager;
     protected bool $update;
     protected EditingGUIRequest $edit_request;
@@ -68,6 +69,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassI
         $this->lng->loadLanguageModule("survey");
         $this->ctrl->saveParameter($this, array("ref_id"));
         $this->log = ilLoggerFactory::getLogger('svy');
+        $this->gui = $DIC->survey()->internal()->gui();
     }
 
     public function executeCommand(): void
@@ -447,17 +449,17 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassI
 
             $ilToolbar->setFormAction($this->ctrl->getFormAction($this));
 
-            $button = ilSubmitButton::getInstance();
-            $button->setCaption("svy_create_question");
-            $button->setCommand("createQuestion");
-            $ilToolbar->addButtonInstance($button);
+            $this->gui->button(
+                $this->lng->txt("svy_create_question"),
+                "createQuestion"
+            )->submit()->toToolbar();
 
             $ilToolbar->addSeparator();
 
-            $button = ilSubmitButton::getInstance();
-            $button->setCaption("import");
-            $button->setCommand("importQuestions");
-            $ilToolbar->addButtonInstance($button);
+            $this->gui->button(
+                $this->lng->txt("import"),
+                "importQuestions"
+            )->submit()->toToolbar();
         }
 
         $table_gui = new ilSurveyQuestionsTableGUI($this, 'questions', $this->checkPermissionBool('write'));
@@ -621,7 +623,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassI
         return $forms;
     }
 
-    protected function importFileObject(int $parent_id = null, bool $catch_errors = true): void
+    protected function importFileObject(int $parent_id = null): void
     {
         $tpl = $this->tpl;
 

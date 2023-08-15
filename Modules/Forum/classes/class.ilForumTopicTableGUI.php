@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Class ilForumTopicTableGUI
@@ -105,27 +105,23 @@ class ilForumTopicTableGUI extends ilTable2GUI
         $this->setFormAction($this->ctrl->getFormAction($this->getParentObject(), 'showThreads'));
         $this->setRowTemplate('tpl.forums_threads_table.html', 'Modules/Forum');
 
-        if ($this->parent_cmd === 'sortThreads') {
-            $this->addCommandButton('saveThreadSorting', $this->lng->txt('save'));
-        } else {
-            $this->addMultiCommand('', $this->lng->txt('please_choose'));
-            if ($this->settings->get('forum_notification') > 0 && !$this->user->isAnonymous()) {
-                $this->addMultiCommand('enable_notifications', $this->lng->txt('forums_enable_notification'));
-                $this->addMultiCommand('disable_notifications', $this->lng->txt('forums_disable_notification'));
-            }
-            if ($this->getIsModerator()) {
-                $this->addMultiCommand('makesticky', $this->lng->txt('make_topics_sticky'));
-                $this->addMultiCommand('unmakesticky', $this->lng->txt('make_topics_non_sticky'));
-                $this->addMultiCommand('editThread', $this->lng->txt('frm_edit_title'));
-                $this->addMultiCommand('close', $this->lng->txt('close_topics'));
-                $this->addMultiCommand('reopen', $this->lng->txt('reopen_topics'));
-                $this->addMultiCommand('move', $this->lng->txt('move_thread_to_forum'));
-            }
-            $this->addMultiCommand('html', $this->lng->txt('export_html'));
-            if ($this->getIsModerator()) {
-                $this->addMultiCommand('confirmDeleteThreads', $this->lng->txt('delete'));
-                $this->addMultiCommand('mergeThreads', $this->lng->txt('merge_posts_into_thread'));
-            }
+        $this->addMultiCommand('', $this->lng->txt('please_choose'));
+        if ($this->settings->get('forum_notification') > 0 && !$this->user->isAnonymous()) {
+            $this->addMultiCommand('enable_notifications', $this->lng->txt('forums_enable_notification'));
+            $this->addMultiCommand('disable_notifications', $this->lng->txt('forums_disable_notification'));
+        }
+        if ($this->getIsModerator()) {
+            $this->addMultiCommand('makesticky', $this->lng->txt('make_topics_sticky'));
+            $this->addMultiCommand('unmakesticky', $this->lng->txt('make_topics_non_sticky'));
+            $this->addMultiCommand('editThread', $this->lng->txt('frm_edit_title'));
+            $this->addMultiCommand('close', $this->lng->txt('close_topics'));
+            $this->addMultiCommand('reopen', $this->lng->txt('reopen_topics'));
+            $this->addMultiCommand('move', $this->lng->txt('move_thread_to_forum'));
+        }
+        $this->addMultiCommand('html', $this->lng->txt('export_html'));
+        if ($this->getIsModerator()) {
+            $this->addMultiCommand('confirmDeleteThreads', $this->lng->txt('delete'));
+            $this->addMultiCommand('mergeThreads', $this->lng->txt('merge_posts_into_thread'));
         }
         $this->setShowRowsSelector(true);
         $this->setRowSelectorLabel($this->lng->txt('number_of_threads'));
@@ -182,7 +178,7 @@ class ilForumTopicTableGUI extends ilTable2GUI
                     (string) $thread->getId()
                 )
             );
-        } elseif ('showThreads' === $this->parent_cmd) {
+        } else {
             $this->tpl->setVariable(
                 'VAL_CHECK',
                 ilLegacyFormElementsUtil::formCheckbox(
@@ -203,17 +199,9 @@ class ilForumTopicTableGUI extends ilTable2GUI
                 $rating->setUserId($this->user->getId());
                 $this->tpl->setVariable('VAL_RATING', $rating->getHTML());
             }
-        } else {
-            if ($thread->isSticky()) {
-                $this->tpl->setVariable('VAL_SORTING_NAME', 'thread_sorting[' . $thread->getId() . ']');
-                $this->tpl->setVariable('VAL_SORTING', $this->position * 10);
-            } else {
-                $this->tpl->setVariable('VAL_CHECK', '');
-            }
-            $this->position++;
         }
-        $subject = '';
 
+        $subject = '';
         if ($thread->isSticky()) {
             $subject .= '<span class="light">[' . $this->lng->txt('sticky') . ']</span> ';
         }

@@ -32,6 +32,7 @@ class TentativelyTest extends TestCase
     protected Setup\Objective $objective;
     protected Setup\Objective $precondition;
     protected Objective\Tentatively $tentatively;
+    protected Objective\Tentatively $double_tentatively;
 
     public function setUp(): void
     {

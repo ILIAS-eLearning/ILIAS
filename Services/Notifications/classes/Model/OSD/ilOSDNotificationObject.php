@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,8 +16,11 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\Notifications\Model\OSD;
 
+use ILIAS\Notifications\Identification\NotificationIdentification;
 use ILIAS\Notifications\Model\ilNotificationObject;
 
 /**
@@ -27,30 +28,16 @@ use ILIAS\Notifications\Model\ilNotificationObject;
  */
 class ilOSDNotificationObject
 {
-    protected int $id;
-    protected int $user;
-    protected ilNotificationObject $object;
-    protected int $time_added = 0;
-    protected int $valid_until = 0;
-    protected int $visible_for = 0;
-    protected string $type;
-
     public function __construct(
-        int $id,
-        int $user,
-        ilNotificationObject $object,
-        ?int $time_added = 0,
-        ?int $valid_until = 0,
-        ?int $visible_for = 0,
-        ?string $type = ''
+        protected int $id,
+        protected int $user,
+        protected ilNotificationObject $object,
+        protected ?int $time_added = 0,
+        protected ?int $valid_until = 0,
+        protected ?int $visible_for = 0,
+        protected ?string $type = '',
+        protected ?NotificationIdentification $identification = null
     ) {
-        $this->id = $id;
-        $this->user = $user;
-        $this->object = $object;
-        $this->time_added = $time_added;
-        $this->valid_until = $valid_until;
-        $this->visible_for = $visible_for;
-        $this->type = $type;
     }
 
     public function getId(): int
@@ -106,5 +93,15 @@ class ilOSDNotificationObject
     public function setType(string $type): void
     {
         $this->type = $type;
+    }
+
+    public function getIdentification(): NotificationIdentification
+    {
+        return $this->identification;
+    }
+
+    public function setIdentification(NotificationIdentification $identification): void
+    {
+        $this->identification = $identification;
     }
 }

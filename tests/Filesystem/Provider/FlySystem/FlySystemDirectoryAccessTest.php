@@ -1,5 +1,21 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 namespace ILIAS\Filesystem\Provider\FlySystem;
 
 \Hamcrest\Util::registerGlobalFunctions();
@@ -9,50 +25,34 @@ use ILIAS\Filesystem\Exception\DirectoryNotFoundException;
 use ILIAS\Filesystem\Exception\IOException;
 use ILIAS\Filesystem\MetadataType;
 use ILIAS\Filesystem\Visibility;
+use League\Flysystem\DirectoryListing;
+use League\Flysystem\Filesystem;
 use League\Flysystem\FilesystemInterface;
+use League\Flysystem\FilesystemOperator;
 use League\Flysystem\RootViolationException;
 use Mockery;
 use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use Mockery\MockInterface;
 use PHPUnit\Framework\TestCase;
+use League\Flysystem\UnableToCreateDirectory;
+use League\Flysystem\UnableToRetrieveMetadata;
+use League\Flysystem\FileAttributes;
+use League\Flysystem\DirectoryAttributes;
 
-/******************************************************************************
- *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
- *
- * If this is not the case or you just want to try ILIAS, you'll find
- * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *
- *****************************************************************************/
 /**
- * Class FlySystemDirectoryAccessTest
  * @author                 Nicolas Schäfli <ns@studer-raimann.ch>
- * @runTestsInSeparateProcesses
- * @preserveGlobalState    disabled
- * @backupGlobals          disabled
- * @backupStaticAttributes disabled
+ * @author                 Fabian Schmid <fabian@sr.solutions>
  */
 class FlySystemDirectoryAccessTest extends TestCase
 {
     use MockeryPHPUnitIntegration;
 
-    /**
-     * @var FlySystemDirectoryAccess | MockInterface $subject
-     */
-    private $subject;
+    private \ILIAS\Filesystem\Provider\FlySystem\FlySystemDirectoryAccess|\Mockery\MockInterface $subject;
     /**
      * @var FilesystemInterface | MockInterface $filesystemMock
      */
-    private $filesystemMock;
-    /**
-     * @var FlySystemFileAccess | MockInterface $fileAccessMock
-     */
-    private $fileAccessMock;
+    private \Mockery\LegacyMockInterface $filesystemMock;
+    private \ILIAS\Filesystem\Provider\FlySystem\FlySystemFileAccess|\Mockery\MockInterface $fileAccessMock;
 
     /**
      * @inheritDoc
@@ -61,7 +61,7 @@ class FlySystemDirectoryAccessTest extends TestCase
     {
         parent::setUp();
 
-        $this->filesystemMock = Mockery::mock(FilesystemInterface::class);
+        $this->filesystemMock = Mockery::mock(FilesystemOperator::class);
         $this->fileAccessMock = Mockery::mock(FlySystemFileAccess::class);
 
         $this->subject = new FlySystemDirectoryAccess($this->filesystemMock, $this->fileAccessMock);
@@ -74,20 +74,11 @@ class FlySystemDirectoryAccessTest extends TestCase
     public function testHasDirWhichShouldSucceed(): void
     {
         $path = '/path/to/dir';
-        $metadata = [
-            'type' => 'dir',
-            'path' => $path,
-            'timestamp' => 10_000_000
-        ];
 
         $this->filesystemMock
-            ->shouldReceive('has')
+            ->shouldReceive('directoryExists')
             ->with($path)
-            ->andReturn(true)
-            ->getMock()
-            ->shouldReceive('getMetadata')
-            ->once()
-            ->andReturn($metadata);
+            ->andReturn(true);
 
         $exists = $this->subject->hasDir($path);
         $this->assertTrue($exists);
@@ -100,48 +91,11 @@ class FlySystemDirectoryAccessTest extends TestCase
     public function testHasDirWithFileTargetWhichShouldFail(): void
     {
         $path = '/path/to/file';
-        $metadata = [
-            'type' => 'file',
-            'path' => $path,
-            'timestamp' => 10_000_000
-        ];
 
         $this->filesystemMock
-            ->shouldReceive('has')
+            ->shouldReceive('directoryExists')
             ->with($path)
-            ->andReturn(true)
-            ->getMock()
-            ->shouldReceive('getMetadata')
-            ->once()
-            ->andReturn($metadata);
-
-        $exists = $this->subject->hasDir($path);
-        $this->assertFalse($exists);
-    }
-
-    /**
-     * @Test
-     * @small
-     */
-    public function testHasDirWithoutTypeInformationWhichShouldFail(): void
-    {
-        $path = '/path/to/file';
-        $metadata = [
-            'path' => $path,
-            'timestamp' => 10_000_000
-        ];
-
-        $this->filesystemMock
-            ->shouldReceive('has')
-            ->with($path)
-            ->andReturn(true)
-            ->getMock()
-            ->shouldReceive('getMetadata')
-            ->once()
-            ->andReturn($metadata);
-
-        $this->expectException(IOException::class);
-        $this->expectExceptionMessage("Could not evaluate path type: \"$path\"");
+            ->andReturn(false);
 
         $exists = $this->subject->hasDir($path);
         $this->assertFalse($exists);
@@ -156,7 +110,7 @@ class FlySystemDirectoryAccessTest extends TestCase
         $path = '/path/to/dir';
 
         $this->filesystemMock
-            ->shouldReceive('has')
+            ->shouldReceive('directoryExists')
             ->with($path)
             ->andReturn(false);
 
@@ -174,38 +128,37 @@ class FlySystemDirectoryAccessTest extends TestCase
         $file = ['type' => 'file', 'path' => $path];
         $dir = ['type' => 'dir', 'path' => $path];
 
-        $contentList = [
-            $file,
-            $dir
+        $content_list = [
+            FileAttributes::fromArray($file),
+            DirectoryAttributes::fromArray($dir)
         ];
+        $contentListContainer = new DirectoryListing($content_list);
+
+
 
         $this->filesystemMock
-            ->shouldReceive('listContents')
-            ->once()
-            ->withArgs([$path, \boolValue()])
-            ->andReturn($contentList)
-            ->getMock()
-            ->shouldReceive('has')
+            ->shouldReceive('directoryExists')
             ->once()
             ->with($path)
             ->andReturn(true)
             ->getMock()
-            ->shouldReceive('getMetadata')
+            ->shouldReceive('listContents')
             ->once()
-            ->with($path)
-            ->andReturn($dir);
+            ->withArgs([$path, false])
+            ->andReturn($contentListContainer);
 
         /**
+         * @var Metadata[] $content
          * @var Metadata[] $content
          */
         $content = $this->subject->listContents($path);
 
-        $this->assertSame($contentList[0]['type'], $content[0]->getType());
-        $this->assertSame($contentList[0]['path'], $content[0]->getPath());
+        $this->assertSame($content_list[0]['type'], $content[0]->getType());
+        $this->assertSame($content_list[0]['path'], $content[0]->getPath());
         $this->assertTrue($content[0]->isFile());
         $this->assertFalse($content[0]->isDir());
-        $this->assertSame($contentList[1]['type'], $content[1]->getType());
-        $this->assertSame($contentList[1]['path'], $content[1]->getPath());
+        $this->assertSame($content_list[1]['type'], $content[1]->getType());
+        $this->assertSame($content_list[1]['path'], $content[1]->getPath());
         $this->assertTrue($content[1]->isDir());
         $this->assertFalse($content[1]->isFile());
     }
@@ -219,7 +172,7 @@ class FlySystemDirectoryAccessTest extends TestCase
         $path = '/path/to/dir';
 
         $this->filesystemMock
-            ->shouldReceive('has')
+            ->shouldReceive('directoryExists')
             ->once()
             ->andReturn(false);
 
@@ -245,21 +198,22 @@ class FlySystemDirectoryAccessTest extends TestCase
             $file
         ];
 
+        $contentListContainer = new DirectoryListing($contentList);
+
         $this->filesystemMock
+            ->shouldReceive('directoryExists')
+            ->once()
+            ->andReturn(false)
             ->shouldReceive('listContents')
-            ->once()
-            ->andReturn($contentList)
-            ->getMock()
-            ->shouldReceive('has')
-            ->once()
-            ->andReturn(true)
+            ->never()
+            ->andReturn($contentListContainer)
             ->getMock()
             ->shouldReceive('getMetadata')
-            ->once()
+            ->never()
             ->andReturn($dir);
 
         $this->expectException(IOException::class);
-        $this->expectExceptionMessage("Invalid metadata received for path \"$path\"");
+        $this->expectExceptionMessage("Directory \"$path\" not found.");
 
         $this->subject->listContents($path);
     }
@@ -274,7 +228,7 @@ class FlySystemDirectoryAccessTest extends TestCase
         $access = Visibility::PRIVATE_ACCESS;
 
         $this->filesystemMock
-            ->shouldReceive('createDir')
+            ->shouldReceive('createDirectory')
             ->once()
             ->withArgs([$path, ['visibility' => $access]])
             ->andReturn(true);
@@ -292,10 +246,10 @@ class FlySystemDirectoryAccessTest extends TestCase
         $access = Visibility::PRIVATE_ACCESS;
 
         $this->filesystemMock
-            ->shouldReceive('createDir')
+            ->shouldReceive('createDirectory')
             ->once()
             ->withArgs([$path, ['visibility' => $access]])
-            ->andReturn(false);
+            ->andThrow(UnableToCreateDirectory::class);
 
         $this->expectException(IOException::class);
         $this->expectExceptionMessage("Could not create directory \"$path\"");
@@ -423,7 +377,7 @@ class FlySystemDirectoryAccessTest extends TestCase
             ->shouldReceive('listContents')
             ->withArgs([$destPath, true])
             ->once()
-            ->andThrow(DirectoryNotFoundException::class);
+            ->andThrow(UnableToRetrieveMetadata::class);
 
         $subjectMock
             ->shouldReceive('hasDir')
@@ -534,10 +488,14 @@ class FlySystemDirectoryAccessTest extends TestCase
         $path = '/directory/which/should/be/removed';
 
         $this->filesystemMock
-            ->shouldReceive('deleteDir')
+            ->shouldReceive('deleteDirectory')
             ->once()
             ->with($path)
-            ->andReturn(true);
+            ->getMock()
+            ->shouldReceive('has')
+            ->once()
+            ->with($path)
+            ->andReturn(false);
 
         $this->subject->deleteDir($path);
     }
@@ -551,13 +509,13 @@ class FlySystemDirectoryAccessTest extends TestCase
         $path = '';
 
         $this->filesystemMock
-            ->shouldReceive('deleteDir')
+            ->shouldReceive('deleteDirectory')
             ->once()
             ->with($path)
-            ->andThrow(RootViolationException::class);
+            ->andThrow(\Exception::class);
 
         $this->expectException(IOException::class);
-        $this->expectExceptionMessage('The filesystem root must not be deleted.');
+        $this->expectExceptionMessage('Could not delete directory "".');
 
         $this->subject->deleteDir($path);
     }
@@ -571,10 +529,10 @@ class FlySystemDirectoryAccessTest extends TestCase
         $path = '/directory/which/should/be/removed';
 
         $this->filesystemMock
-            ->shouldReceive('deleteDir')
+            ->shouldReceive('deleteDirectory')
             ->once()
             ->with($path)
-            ->andReturn(false);
+            ->andThrow(\Exception::class);
 
         $this->expectException(IOException::class);
         $this->expectExceptionMessage("Could not delete directory \"$path\".");

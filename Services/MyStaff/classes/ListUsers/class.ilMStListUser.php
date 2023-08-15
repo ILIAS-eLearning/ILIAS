@@ -28,8 +28,7 @@ use ilObjUser;
 final class ilMStListUser
 {
     private int $usr_id;
-    private int $gender;
-    private int $time_limit_owner;
+    private string $gender;
     private int $active;
     private string $login;
     private string $title;
@@ -45,8 +44,7 @@ final class ilMStListUser
     private string $firstname;
     private string $lastname;
     private string $email;
-    private string $phone;
-    private string $mobile_phone;
+    private string $second_email;
 
     public function getUsrId(): int
     {
@@ -56,16 +54,6 @@ final class ilMStListUser
     public function setUsrId(int $usr_id): void
     {
         $this->usr_id = $usr_id;
-    }
-
-    public function getTimeLimitOwner(): int
-    {
-        return $this->time_limit_owner;
-    }
-
-    public function setTimeLimitOwner(int $time_limit_owner): void
-    {
-        $this->time_limit_owner = $time_limit_owner;
     }
 
     public function getActive(): int
@@ -118,32 +106,22 @@ final class ilMStListUser
         $this->email = $email;
     }
 
-    public function getPhone(): string
+    public function getSecondEmail(): string
     {
-        return $this->phone;
+        return $this->second_email;
     }
 
-    public function setPhone(string $phone): void
+    public function setSecondEmail(string $second_email): void
     {
-        $this->phone = $phone;
+        $this->second_email = $second_email;
     }
 
-    public function getMobilePhone(): string
-    {
-        return $this->mobile_phone;
-    }
-
-    public function setMobilePhone(string $mobile_phone): void
-    {
-        $this->mobile_phone = $mobile_phone;
-    }
-
-    public function getGender(): int
+    public function getGender(): string
     {
         return $this->gender;
     }
 
-    public function setGender(int $gender): void
+    public function setGender(string $gender): void
     {
         $this->gender = $gender;
     }

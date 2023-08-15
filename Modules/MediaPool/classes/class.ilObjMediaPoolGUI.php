@@ -37,6 +37,7 @@ use ILIAS\FileUpload\Handler\HandlerResult;
  */
 class ilObjMediaPoolGUI extends ilObject2GUI
 {
+    protected \ILIAS\COPage\Xsl\XslManager $xsl;
     protected ?FormAdapterGUI $bulk_upload_form = null;
     protected InternalGUIService $gui;
     protected ilPropertyFormGUI $form;
@@ -80,6 +81,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
             ? $this->mep_request->getMode()
             : "listMedia";
         $this->gui = $DIC->mediaPool()->internal()->gui();
+        $this->xsl = $DIC->copage()->internal()->domain()->xsl();
     }
 
     protected function getMediaPool(): ilObjMediaPool
@@ -182,7 +184,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
             case 'ilmediapoolpagegui':
                 $this->checkPermission("write");
                 $this->prepareOutput();
-                $this->addHeaderAction();
+                //$this->addHeaderAction();
                 $ilTabs->clearTargets();
                 $ilCtrl->setReturn($this, "returnFromItem");
                 $mep_page_gui = new ilMediaPoolPageGUI(
@@ -342,6 +344,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
                 $this->prepareOutput();
                 $this->addHeaderAction();
                 $perm_gui = new ilPermissionGUI($this);
+                $ilTabs->activateTab("perm_settings");
                 $this->ctrl->forwardCommand($perm_gui);
                 $this->tpl->printToStdout();
                 break;
@@ -350,6 +353,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
                 $this->checkPermission("write");
                 $this->prepareOutput();
                 $this->addHeaderAction();
+                $ilTabs->activateTab("export");
                 $exp_gui = new ilExportGUI($this);
                 $exp_gui->addFormat("xml");
                 $ot = ilObjectTranslation::getInstance($this->object->getId());
@@ -804,10 +808,6 @@ class ilObjMediaPoolGUI extends ilObject2GUI
         $xml .= $link_xml;
         $xml .= "</dummy>";
 
-        $xsl = file_get_contents("./Services/COPage/xsl/page.xsl");
-        $args = array( '/_xml' => $xml, '/_xsl' => $xsl );
-        $xh = xslt_create();
-
         $wb_path = ilFileUtils::getWebspaceDir("output") . "/";
 
         $mode = ($this->ctrl->getCmd() !== "showPreview")
@@ -818,9 +818,10 @@ class ilObjMediaPoolGUI extends ilObject2GUI
             $this->ctrl->getLinkTarget($this, "showFullscreen", "", false, false);
         $params = array('mode' => $mode, 'enlarge_path' => $enlarge_path,
             'link_params' => "ref_id=" . $this->requested_ref_id,'fullscreen_link' => $fullscreen_link,
+                        'enable_html_mob' => ilObjMediaObject::isTypeAllowed("html") ? "y" : "n",
             'ref_id' => $this->requested_ref_id, 'pg_frame' => $pg_frame, 'webspace_path' => $wb_path);
-        $output = xslt_process($xh, "arg:/_xml", "arg:/_xsl", null, $args, $params);
-        xslt_free($xh);
+        $output = $this->xsl->process($xml, $params);
+
         // unmask user html
         $this->tpl->setVariable("MEDIA_CONTENT", $output);
     }
@@ -1894,6 +1895,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
     protected function move(): void
     {
         ilSession::set("mep_move_ids", $this->mep_request->getItemIds());
+        $this->main_tpl->setOnScreenMessage('info', $this->lng->txt("mep_move_select_insert"), true);
         $this->ctrl->redirect($this, "listMedia");
     }
 

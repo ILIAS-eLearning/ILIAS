@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,13 +16,15 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class ilMailMimeSubjectBuilder
  * @author Michael Jansen <mjansen@databay.de>
  */
 class ilMailMimeSubjectBuilder
 {
-    public function __construct(private ilSetting $settings, private string $defaultPrefix)
+    public function __construct(private readonly ilSetting $settings, private readonly string $defaultPrefix)
     {
     }
 

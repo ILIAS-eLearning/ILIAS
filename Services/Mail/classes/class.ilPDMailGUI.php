@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory as Refinery;
 
@@ -28,8 +28,8 @@ use ILIAS\Refinery\Factory as Refinery;
  */
 class ilPDMailGUI
 {
-    private GlobalHttpState $http;
-    private Refinery $refinery;
+    private readonly GlobalHttpState $http;
+    private readonly Refinery $refinery;
     protected ILIAS $ilias;
     protected ilRbacSystem $rbacsystem;
     protected ilLanguage $lng;
@@ -113,7 +113,7 @@ class ilPDMailGUI
 
         if ($mail_data['rcp_cc']) {
             $tpl->setCurrentBlock('cc');
-            $tpl->setVariable('TXT_CC', $this->lng->txt('cc'));
+            $tpl->setVariable('TXT_CC', $this->lng->txt('mail_cc'));
             $tpl->setVariable('CC', $umail->formatNamesForOutput((string) $mail_data['rcp_cc']));
             $tpl->parseCurrentBlock();
         }

@@ -20,7 +20,7 @@ use ILIAS\Refinery\Transformation;
 use ILIAS\Refinery\Random\Seed\GivenSeed;
 use ILIAS\Refinery\Random\Group as RandomGroup;
 
-include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
+require_once "./Modules/Test/classes/inc.AssessmentConstants.php";
 
 /**
 * Service GUI class for tests. This class is the parent class for all
@@ -44,7 +44,12 @@ class ilTestServiceGUI
     public ?ilTestService $service = null;
     protected ilDBInterface $db;
     public ilLanguage $lng;
-    public ilGlobalTemplateInterface $tpl;
+    /**
+     * sk 2023-08-01: We need this union type, even if it is wrong! To change this
+     * @todo we have to fix the rendering of the feedback modal in
+     * `ilTestPlayerAbstractGUI::populateIntantResponseModal()`.
+     */
+    public ilGlobalTemplateInterface|ilTemplate $tpl;
     public ilCtrl $ctrl;
     protected ilTabsGUI $tabs;
     protected ilObjectDataCache $objCache;
@@ -334,11 +339,19 @@ class ilTestServiceGUI
         $counter = 1;
         // output of questions with solutions
         foreach ($result_array as $question_data) {
-            if ((array_key_exists('workedthrough', $question_data) && $question_data["workedthrough"] == 1) ||
-                ($only_answered_questions == false)) {
+            if (!array_key_exists('workedthrough', $question_data)) {
+                $question_data['workedthrough'] = 0;
+            }
+            if (!array_key_exists('qid', $question_data)) {
+                $question_data['qid'] = -1;
+            }
+
+            if (($question_data["workedthrough"] == 1) || ($only_answered_questions == false)) {
                 $template = new ilTemplate("tpl.il_as_qpl_question_printview.html", true, true, "Modules/TestQuestionPool");
                 $question_id = $question_data["qid"] ?? null;
-                if (is_numeric($question_id)) {
+                if ($question_id !== null
+                    && $question_id !== -1
+                    && is_numeric($question_id)) {
                     $maintemplate->setCurrentBlock("printview_question");
                     $question_gui = $this->object->createQuestionGUI("", $question_id);
                     $question_gui->object->setShuffler($this->buildQuestionAnswerShuffler(
@@ -615,7 +628,7 @@ class ilTestServiceGUI
     /**
      * Returns the user data for a test results output
      *
-     * @param ilTestSession|ilTestSessionDynamicQuestionSet
+     * @param ilTestSession
      * @param integer $user_id The user ID of the user
      * @param boolean $overwrite_anonymity TRUE if the anonymity status should be overwritten, FALSE otherwise
      * @return string HTML code of the user data for the test results
@@ -624,7 +637,7 @@ class ilTestServiceGUI
     public function getAdditionalUsrDataHtmlAndPopulateWindowTitle($testSession, $active_id, $overwrite_anonymity = false): string
     {
         if (!is_object($testSession)) {
-            throw new InvalidArgumentException('Not an object, expected ilTestSession|ilTestSessionDynamicQuestionSet');
+            throw new InvalidArgumentException('Not an object, expected ilTestSession');
         }
         $template = new ilTemplate("tpl.il_as_tst_results_userdata.html", true, true, "Modules/Test");
         $user_id = $this->object->_getUserIdFromActiveId($active_id);
@@ -658,7 +671,7 @@ class ilTestServiceGUI
 
         $invited_user = array_pop($this->object->getInvitedUsers($user_id));
         $title_client = '';
-        if ($invited_user != null && strlen($invited_user["clientip"])) {
+        if (isset($invited_user['clientip']) && $invited_user["clientip"] !== '') {
             $template->setCurrentBlock("client_ip");
             $template->setVariable("TXT_CLIENT_IP", $this->lng->txt("client_ip"));
             $template->setVariable("VALUE_CLIENT_IP", $invited_user["clientip"]);
@@ -738,7 +751,7 @@ class ilTestServiceGUI
     /**
      * Output of the pass overview for a test called by a test participant
      *
-     * @param ilTestSession|ilTestSessionDynamicQuestionSet $testSession
+     * @param ilTestSession $testSession
      * @param integer $active_id
      * @param integer $pass
      * @param boolean $show_pass_details
@@ -760,6 +773,10 @@ class ilTestServiceGUI
             $uname = $this->object->userLookupFullName($user_id, true);
         }
 
+        if ($this->object->getAnonymity()) {
+            $uname = $this->lng->txt('anonymous');
+        }
+
         if ((($this->testrequest->isset('pass')) && (strlen($this->testrequest->raw("pass")) > 0)) || (!is_null($pass))) {
             if (is_null($pass)) {
                 $pass = $this->testrequest->raw("pass");
@@ -768,7 +785,6 @@ class ilTestServiceGUI
 
         if (!is_null($pass)) {
             $testResultHeaderLabelBuilder = new ilTestResultHeaderLabelBuilder($this->lng, $ilObjDataCache);
-
             $objectivesList = null;
 
             if ($this->getObjectiveOrientedContainer()->isObjectiveOrientedPresentationRequired()) {
@@ -904,9 +920,7 @@ class ilTestServiceGUI
         }
 
         $invited_user = array_pop($this->object->getInvitedUsers($user_id));
-        if (is_array($invited_user) &&
-            array_key_exists("clientip", $invited_user) &&
-            strlen($invited_user["clientip"])) {
+        if (strlen($invited_user["clientip"] ?? '')) {
             $template->setCurrentBlock("user_clientip");
             $template->setVariable("TXT_CLIENT_IP", $this->lng->txt("client_ip"));
             $template->parseCurrentBlock();
@@ -914,7 +928,6 @@ class ilTestServiceGUI
             $template->setVariable("VALUE_CLIENT_IP", $invited_user["clientip"]);
             $template->parseCurrentBlock();
             $template->touchBlock("user_clientip_separator");
-            $title_client = " - " . $this->lng->txt("clientip") . ": " . $invited_user["clientip"];
         }
 
         $template->setVariable("TXT_USR_NAME", $this->lng->txt("name"));

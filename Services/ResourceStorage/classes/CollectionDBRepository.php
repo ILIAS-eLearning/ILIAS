@@ -52,22 +52,22 @@ class CollectionDBRepository implements CollectionRepository
 
     public function blank(
         ResourceCollectionIdentification $identification,
-        ?int $owner = null,
+        ?int $owner_id = null,
         ?string $title = null
     ): ResourceCollection {
         return new ResourceCollection(
             $identification,
-            $owner ?? ResourceCollection::NO_SPECIFIC_OWNER,
+            $owner_id ?? ResourceCollection::NO_SPECIFIC_OWNER,
             $title ?? ''
         );
     }
 
     public function existing(ResourceCollectionIdentification $identification): ResourceCollection
     {
-        $q = "SELECT owner, title FROM " . self::COLLECTION_TABLE_NAME . " WHERE " . self::C_IDENTIFICATION . " = %s";
+        $q = "SELECT owner_id, title FROM " . self::COLLECTION_TABLE_NAME . " WHERE " . self::C_IDENTIFICATION . " = %s";
         $r = $this->db->queryF($q, ['text'], [$identification->serialize()]);
         $d = $this->db->fetchObject($r);
-        $owner_id = (int)($d->owner ?? ResourceCollection::NO_SPECIFIC_OWNER);
+        $owner_id = (int)($d->owner_id ?? ResourceCollection::NO_SPECIFIC_OWNER);
         $title = (string)($d->title ?? '');
 
         return $this->blank($identification, $owner_id, $title);
@@ -147,7 +147,7 @@ class CollectionDBRepository implements CollectionRepository
                 [
                     self::C_IDENTIFICATION => ['text', $identification->serialize()],
                     'title' => ['text', $title ?? ''],
-                    'owner' => ['integer', $owner_id],
+                    'owner_id' => ['integer', $owner_id],
                 ],
                 [
                     self::C_IDENTIFICATION => ['text', $identification->serialize()]
@@ -159,7 +159,7 @@ class CollectionDBRepository implements CollectionRepository
                 [
                     self::C_IDENTIFICATION => ['text', $identification->serialize()],
                     'title' => ['text', $title ?? ''],
-                    'owner' => ['integer', $owner_id],
+                    'owner_id' => ['integer', $owner_id],
                 ]
             );
         }

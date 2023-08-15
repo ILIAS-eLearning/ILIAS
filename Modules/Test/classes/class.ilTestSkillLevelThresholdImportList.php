@@ -24,9 +24,9 @@
  */
 class ilTestSkillLevelThresholdImportList implements Iterator
 {
-    protected $originalSkillTitles = array();
-    protected $originalSkillPaths = array();
-    protected $importedSkillLevelThresholds = array();
+    protected $originalSkillTitles = [];
+    protected $originalSkillPaths = [];
+    protected $importedSkillLevelThresholds = [];
 
     public function addOriginalSkillTitle($skillBaseId, $skillTrefId, $originalSkillTitle)
     {
@@ -45,7 +45,7 @@ class ilTestSkillLevelThresholdImportList implements Iterator
 
     public function getThresholdsByImportSkill($importSkillBaseId, $importSkillTrefId): array
     {
-        $thresholds = array();
+        $thresholds = [];
 
         foreach ($this as $skillLevelThreshold) {
             if ($skillLevelThreshold->getImportSkillBaseId() != $importSkillBaseId) {
@@ -62,40 +62,29 @@ class ilTestSkillLevelThresholdImportList implements Iterator
         return $thresholds;
     }
 
-    /**
-     * @return ilTestSkillLevelThresholdImport
-     */
-    public function current(): ilTestSkillLevelThresholdImport
+    public function current(): ?ilTestSkillLevelThresholdImport
     {
-        return current($this->importedSkillLevelThresholds);
+        $current = current($this->importedSkillLevelThresholds);
+        return $current !== false ? $current : null;
     }
 
-    public function next()
+    public function next(): void
     {
-        return next($this->importedSkillLevelThresholds);
+        next($this->importedSkillLevelThresholds);
     }
 
-    /**
-     * @return integer|bool
-     */
-    public function key()
+    public function key(): ?int
     {
         return key($this->importedSkillLevelThresholds);
     }
 
-    /**
-     * @return bool
-     */
     public function valid(): bool
     {
         return key($this->importedSkillLevelThresholds) !== null;
     }
 
-    /**
-     * @return ilTestSkillLevelThresholdImport|bool
-     */
-    public function rewind()
+    public function rewind(): void
     {
-        return reset($this->importedSkillLevelThresholds);
+        reset($this->importedSkillLevelThresholds);
     }
 }

@@ -23,6 +23,7 @@ use ILIAS\GlobalScreen\Scope\Layout\Provider\AbstractModificationPluginProvider;
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticMainMenuPluginProvider;
 use ILIAS\GlobalScreen\Scope\MetaBar\Provider\AbstractStaticMetaBarPluginProvider;
 use ILIAS\GlobalScreen\Scope\Notification\Provider\AbstractNotificationPluginProvider;
+use ILIAS\GlobalScreen\Scope\Toast\Provider\AbstractToastPluginProvider;
 use ILIAS\GlobalScreen\Scope\Tool\Provider\AbstractDynamicToolPluginProvider;
 
 class PluginProviderCollection implements ProviderCollection
@@ -32,6 +33,7 @@ class PluginProviderCollection implements ProviderCollection
     private ?AbstractDynamicToolPluginProvider $tool_provider = null;
     private ?AbstractStaticMetaBarPluginProvider $meta_bar_provider = null;
     private ?AbstractNotificationPluginProvider $notification_provider = null;
+    private ?AbstractToastPluginProvider $toast_provider = null;
 
     public function getModificationProvider(): ?AbstractModificationPluginProvider
     {
@@ -89,6 +91,18 @@ class PluginProviderCollection implements ProviderCollection
     public function setNotificationProvider(AbstractNotificationPluginProvider $notification_provider): self
     {
         $this->notification_provider = $notification_provider;
+
+        return $this;
+    }
+
+    public function getToastProvider(): ?AbstractToastPluginProvider
+    {
+        return $this->toast_provider;
+    }
+
+    public function setToastProvider(AbstractToastPluginProvider $toast_provider): self
+    {
+        $this->toast_provider = $toast_provider;
 
         return $this;
     }

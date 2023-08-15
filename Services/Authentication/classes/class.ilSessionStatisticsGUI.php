@@ -629,7 +629,7 @@ class ilSessionStatisticsGUI
             $colors[] = $colors_map[$measure];
         }
 
-        if ($a_scale !== self::SCALE_PERIODIC_WEEK) {
+        if ($a_scale === self::SCALE_DAY || $a_scale === self::SCALE_WEEK) {
             $max_line = $chart->getDataInstance(ilChartGrid::DATA_LINES);
             $max_line->setLabel($this->lng->txt("session_max_count"));
             $colors[] = "#cc0000";
@@ -690,7 +690,7 @@ class ilSessionStatisticsGUI
                 $act_line[$measure]->addPoint($date, $value);
             }
 
-            if (isset($max_line) && $a_scale !== self::SCALE_PERIODIC_WEEK) {
+            if (isset($max_line)) {
                 $max_line->addPoint($date, (int) $item["max_sessions"]);
             }
         }
@@ -698,7 +698,7 @@ class ilSessionStatisticsGUI
         foreach ($act_line as $line) {
             $chart->addData($line);
         }
-        if (isset($max_line) && $a_scale !== self::SCALE_PERIODIC_WEEK) {
+        if (isset($max_line)) {
             $chart->addData($max_line);
         }
 

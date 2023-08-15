@@ -349,7 +349,6 @@ class ilLocatorGUI
 //            $loc_tpl->setVariable("NOITEM", "&nbsp;");
 //            $loc_tpl->touchBlock("locator");
         }
-        $loc_tpl->setVariable("TXT_BREADCRUMBS", $lng->txt("breadcrumb_navigation"));
 
         return trim($loc_tpl->get());
     }

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\GlobalScreen\Client;
 
@@ -36,6 +36,11 @@ class Notifications
 {
     use Hasher;
 
+    public const ADDITIONAL_ACTION = 'additional_action';
+    /**
+     * @var mixed|null
+     */
+    private ?string $additional_action = null;
     protected Container $dic;
     /**
      * Collected set of collected notifications
@@ -54,6 +59,10 @@ class Notifications
      */
     public const MODE_CLOSED = "closed";
     /**
+     * Value of the MODE GET param, if a ToastLik has been klicked
+     */
+    public const MODE_HANDLE_TOAST_ACTION = "toast_action";
+    /**
      * Value of the MODE GET param, if the Notification Center should be rerendered
      */
     public const MODE_RERENDER = "rerender";
@@ -70,8 +79,12 @@ class Notifications
      */
     public const NOTIFY_ENDPOINT = "src/GlobalScreen/Client/notify.php";
     protected array $identifiers_to_handle = [];
-    protected ?string $single_identifier_to_handle;
+    protected ?string $single_identifier_to_handle = null;
     protected array $administrative_notifications = [];
+    /**
+     * @var \ILIAS\GlobalScreen\Scope\Toast\Factory\isStandardItem[]
+     */
+    private array $toasts = [];
 
     public function __construct()
     {
@@ -86,12 +99,22 @@ class Notifications
          */
         global $DIC;
         $this->notification_groups = $DIC->globalScreen()->collector()->notifications()->getNotifications();
-        $this->administrative_notifications = $DIC->globalScreen()->collector()->notifications()->getAdministrativeNotifications();
+        $this->administrative_notifications = $DIC->globalScreen()->collector()->notifications(
+        )->getAdministrativeNotifications();
         $this->identifiers_to_handle = $DIC->http()->request()->getQueryParams()[self::NOTIFICATION_IDENTIFIERS] ?? [];
         $this->single_identifier_to_handle = $DIC->http()->request()->getQueryParams()[self::ITEM_ID] ?? null;
+        $this->toasts = $DIC->globalScreen()->collector()->toasts()->getToasts();
 
-        $mode = 0;
         $query = $DIC->http()->wrapper()->query();
+
+        $this->additional_action = $query->has(self::ADDITIONAL_ACTION)
+            ? $query->retrieve(
+                self::ADDITIONAL_ACTION,
+                $DIC->refinery()->kindlyTo()->string()
+            )
+            : null;
+
+        $mode = 'none';
         if ($query->has(self::MODE)) {
             $mode = $query->retrieve(self::MODE, $DIC->refinery()->to()->string());
         }
@@ -106,6 +129,24 @@ class Notifications
             case self::MODE_RERENDER:
                 $this->handleRerender();
                 break;
+            case self::MODE_HANDLE_TOAST_ACTION:
+                $this->handleToastAction();
+                break;
+        }
+    }
+
+    private function handleToastAction(): void
+    {
+        foreach ($this->toasts as $toast) {
+            if ($this->hash($toast->getProviderIdentification()->serialize()) === $this->single_identifier_to_handle) {
+                foreach ($toast->getAllToastActions() as $toast_action) {
+                    if ($toast_action->getIdentifier() === $this->additional_action) {
+                        $callable = $toast_action->getAction();
+                        $callable();
+                        return;
+                    }
+                }
+            }
         }
     }
 
@@ -117,11 +158,19 @@ class Notifications
     {
         foreach ($this->notification_groups as $notification_group) {
             foreach ($notification_group->getNotifications() as $notification) {
-                if (in_array($this->hash($notification->getProviderIdentification()->serialize()), $this->identifiers_to_handle, true)) {
+                if (in_array(
+                    $this->hash($notification->getProviderIdentification()->serialize()),
+                    $this->identifiers_to_handle,
+                    true
+                )) {
                     $notification->getOpenedCallable()();
                 }
             }
-            if (in_array($this->hash($notification_group->getProviderIdentification()->serialize()), $this->identifiers_to_handle, true)) {
+            if (in_array(
+                $this->hash($notification_group->getProviderIdentification()->serialize()),
+                $this->identifiers_to_handle,
+                true
+            )) {
                 $notification_group->getOpenedCallable()();
             }
         }
@@ -134,19 +183,27 @@ class Notifications
     {
         foreach ($this->notification_groups as $notification_group) {
             foreach ($notification_group->getNotifications() as $notification) {
-                if ($this->single_identifier_to_handle === $this->hash($notification->getProviderIdentification()->serialize())) {
-                    if ($notification->hasClosedCallable()) {
-                        $notification->getClosedCallable()();
-                    }
+                if ($this->single_identifier_to_handle !== $this->hash(
+                    $notification->getProviderIdentification()->serialize()
+                )) {
+                    continue;
                 }
+                if (!$notification->hasClosedCallable()) {
+                    continue;
+                }
+                $notification->getClosedCallable()();
             }
         }
         foreach ($this->administrative_notifications as $administrative_notification) {
-            if ($this->single_identifier_to_handle === $this->hash($administrative_notification->getProviderIdentification()->serialize())) {
-                if ($administrative_notification->hasClosedCallable()) {
-                    $administrative_notification->getClosedCallable()();
-                }
+            if ($this->single_identifier_to_handle !== $this->hash(
+                $administrative_notification->getProviderIdentification()->serialize()
+            )) {
+                continue;
             }
+            if (!$administrative_notification->hasClosedCallable()) {
+                continue;
+            }
+            $administrative_notification->getClosedCallable()();
         }
     }
 
@@ -159,24 +216,28 @@ class Notifications
         $notifications = [];
         $amount = 0;
         foreach ($this->notification_groups as $group) {
-            $notifications[] = $group->getRenderer($this->dic->ui()->factory())->getNotificationComponentForItem($group);
+            $notifications[] = $group->getRenderer($this->dic->ui()->factory())->getNotificationComponentForItem(
+                $group
+            );
             if ($group->getNewNotificationsCount() > 0) {
                 $amount++;
             }
         }
         $this->dic->http()->saveResponse(
             $this->dic->http()->response()
-                ->withBody(Streams::ofString(
-                    json_encode([
-                        'html' => $this->dic->ui()->renderer()->renderAsync($notifications),
-                        'symbol' => $this->dic->ui()->renderer()->render(
-                            $this->dic->ui()->factory()->symbol()->glyph()->notification()->withCounter(
-                                $this->dic->ui()->factory()->counter()->novelty($amount)
-                            )
-                        )
-                    ], JSON_THROW_ON_ERROR)
-                ))
-                ->withHeader(ResponseHeader::CONTENT_TYPE, 'application/json')
+                      ->withBody(
+                          Streams::ofString(
+                              json_encode([
+                                  'html' => $this->dic->ui()->renderer()->renderAsync($notifications),
+                                  'symbol' => $this->dic->ui()->renderer()->render(
+                                      $this->dic->ui()->factory()->symbol()->glyph()->notification()->withCounter(
+                                          $this->dic->ui()->factory()->counter()->novelty($amount)
+                                      )
+                                  )
+                              ], JSON_THROW_ON_ERROR)
+                          )
+                      )
+                      ->withHeader(ResponseHeader::CONTENT_TYPE, 'application/json')
         );
         $this->dic->http()->sendResponse();
         $this->dic->http()->close();

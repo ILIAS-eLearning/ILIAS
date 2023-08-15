@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory;
+use ILIAS\UI\Factory as UIFactory;
 
 /**
  * Class ilObjRoleFolderGUI
@@ -40,6 +41,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 
     protected GlobalHttpState $http;
     protected Factory $refinery;
+    protected UIFactory $ui_factory;
 
     /**
      * Constructor
@@ -50,9 +52,11 @@ class ilObjRoleFolderGUI extends ilObjectGUI
         global $DIC;
 
         $this->logger = $DIC->logger()->ac();
-        $this->rbacadmin = $DIC->rbac()->admin();
+        $this->rbacadmin = $DIC['rbacadmin'];
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
+        $this->ui_factory = $DIC['ui.factory'];
+
         $this->type = "rolf";
         parent::__construct($a_data, $a_id, $a_call_by_reference, false);
         $this->lng->loadLanguageModule('rbac');
@@ -129,16 +133,20 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 
         if ($this->rbac_system->checkAccess('create_role', $this->object->getRefId())) {
             $this->ctrl->setParameter($this, 'new_type', 'role');
-            $this->toolbar->addButton(
-                $this->lng->txt('rolf_create_role'),
-                $this->ctrl->getLinkTarget($this, 'create')
+            $this->toolbar->addComponent(
+                $this->ui_factory->link()->standard(
+                    $this->lng->txt('rolf_create_role'),
+                    $this->ctrl->getLinkTarget($this, 'create')
+                )
             );
         }
         if ($this->rbac_system->checkAccess('create_rolt', $this->object->getRefId())) {
             $this->ctrl->setParameter($this, 'new_type', 'rolt');
-            $this->toolbar->addButton(
-                $this->lng->txt('rolf_create_rolt'),
-                $this->ctrl->getLinkTarget($this, 'create')
+            $this->toolbar->addComponent(
+                $this->ui_factory->link()->standard(
+                    $this->lng->txt('rolf_create_rolt'),
+                    $this->ctrl->getLinkTarget($this, 'create')
+                )
             );
             $this->ctrl->clearParameters($this);
         }
@@ -147,9 +155,11 @@ class ilObjRoleFolderGUI extends ilObjectGUI
             $this->rbac_system->checkAccess('create_rolt', $this->object->getRefId()) ||
             $this->rbac_system->checkAccess('create_rolt', $this->object->getRefId())
         ) {
-            $this->toolbar->addButton(
-                $this->lng->txt('rbac_import_role'),
-                $this->ctrl->getLinkTargetByClass('ilPermissionGUI', 'displayImportRoleForm')
+            $this->toolbar->addComponent(
+                $this->ui_factory->link()->standard(
+                    $this->lng->txt('rbac_import_role'),
+                    $this->ctrl->getLinkTargetByClass('ilPermissionGUI', 'displayImportRoleForm')
+                )
             );
         }
 

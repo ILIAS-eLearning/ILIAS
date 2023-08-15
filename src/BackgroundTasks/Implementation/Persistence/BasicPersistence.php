@@ -27,24 +27,43 @@ use ILIAS\BackgroundTasks\Implementation\Bucket\BasicBucketMeta;
 use ILIAS\BackgroundTasks\Persistence;
 use ILIAS\BackgroundTasks\Task;
 use ILIAS\BackgroundTasks\Value;
+use ILIAS\BackgroundTasks\Implementation\Bucket\State;
 
 class BasicPersistence implements Persistence
 {
     protected static BasicPersistence $instance;
     protected static array $buckets = [];
-    protected array $bucketHashToObserverContainerId = [];
-    protected array $taskHashToTaskContainerId = [];
-    protected array $valueHashToValueContainerId = [];
+    protected \ilDBInterface $db;
+    protected \SplObjectStorage $bucketHashToObserverContainerId;
+    protected \SplObjectStorage $taskHashToTaskContainerId;
+    protected \SplObjectStorage $valueHashToValueContainerId;
     protected ?\arConnector $connector = null;
     protected static array $tasks = [];
 
-    public static function instance(): \ILIAS\BackgroundTasks\Implementation\Persistence\BasicPersistence
+    public static function instance(\ilDBInterface $db): \ILIAS\BackgroundTasks\Implementation\Persistence\BasicPersistence
     {
         if (!isset(self::$instance)) {
-            self::$instance = new BasicPersistence();
+            self::$instance = new BasicPersistence($db);
         }
 
         return self::$instance;
+    }
+
+    public function __construct(\ilDBInterface $db)
+    {
+        $this->db = $db;
+        $this->valueHashToValueContainerId = new \SplObjectStorage();
+        $this->bucketHashToObserverContainerId = new \SplObjectStorage();
+        $this->taskHashToTaskContainerId = new \SplObjectStorage();
+    }
+
+    protected function gc(): void
+    {
+        $this->db->manipulateF(
+            "DELETE FROM il_bt_bucket WHERE user_id = %s AND (state = %s OR state = %s)",
+            ['integer', 'integer', 'integer'],
+            [defined('ANONYMOUS_USER_ID') ? \ANONYMOUS_USER_ID : 13, State::FINISHED, State::USER_INTERACTION]
+        );
     }
 
     public function setConnector(\arConnector $c): void
@@ -90,6 +109,9 @@ class BasicPersistence implements Persistence
      */
     public function getBucketIdsOfUser(int $user_id, string $order_by = "id", string $order_direction = "ASC"): array
     {
+        // Garbage Collection
+        $this->gc();
+
         return BucketContainer::where(['user_id' => $user_id])
                               ->orderBy($order_by, $order_direction)
                               ->getArray(null, 'id');
@@ -132,8 +154,8 @@ class BasicPersistence implements Persistence
     protected function saveObserver(Bucket $bucket): void
     {
         // If the instance has a known container we use it, otherwise we create a new container.
-        if (isset($this->bucketHashToObserverContainerId[spl_object_hash($bucket)])) {
-            $bucketContainer = new BucketContainer($this->bucketHashToObserverContainerId[spl_object_hash($bucket)], $this->connector);
+        if ($this->bucketHashToObserverContainerId->contains($bucket)) {
+            $bucketContainer = new BucketContainer($this->bucketHashToObserverContainerId[$bucket], $this->connector);
         } else {
             $bucketContainer = new BucketContainer(0, $this->connector);
         }
@@ -161,7 +183,7 @@ class BasicPersistence implements Persistence
 
         // Save and store the container to bucket instance.
         $bucketContainer->save();
-        $this->bucketHashToObserverContainerId[spl_object_hash($bucket)] = $bucketContainer->getId();
+        $this->bucketHashToObserverContainerId[$bucket] = $bucketContainer->getId();
     }
 
     /**
@@ -173,8 +195,8 @@ class BasicPersistence implements Persistence
     protected function saveTask(Task $task, int $bucketId): void
     {
         // If the instance has a known container we use it, otherwise we create a new container.
-        if (isset($this->taskHashToTaskContainerId[spl_object_hash($task)])) {
-            $taskContainer = new TaskContainer($this->taskHashToTaskContainerId[spl_object_hash($task)]);
+        if ($this->taskHashToTaskContainerId->contains($task)) {
+            $taskContainer = new TaskContainer($this->taskHashToTaskContainerId[$task]);
         } else {
             $taskContainer = new TaskContainer(0);
         }
@@ -193,7 +215,7 @@ class BasicPersistence implements Persistence
 
         // Save and store the container to the task instance.
         $taskContainer->save();
-        $this->taskHashToTaskContainerId[spl_object_hash($task)] = $taskContainer->getId();
+        $this->taskHashToTaskContainerId[$task] = $taskContainer->getId();
     }
 
     /**
@@ -236,8 +258,8 @@ class BasicPersistence implements Persistence
     protected function saveValue(Value $value, int $bucketId, int $position): void
     {
         // If we have previous values to task associations we delete them.
-        if (isset($this->valueHashToValueContainerId[spl_object_hash($value)])) {
-            $valueContainer = new ValueContainer($this->valueHashToValueContainerId[spl_object_hash($value)], $this->connector);
+        if ($this->valueHashToValueContainerId->contains($value)) {
+            $valueContainer = new ValueContainer($this->valueHashToValueContainerId[$value], $this->connector);
         } else {
             $valueContainer = new ValueContainer(0, $this->connector);
         }
@@ -261,7 +283,7 @@ class BasicPersistence implements Persistence
 
         // We save the container and store the instance to container association.
         $valueContainer->save();
-        $this->valueHashToValueContainerId[spl_object_hash($value)] = $valueContainer->getId();
+        $this->valueHashToValueContainerId[$value] = $valueContainer->getId();
     }
 
     /**
@@ -269,12 +291,12 @@ class BasicPersistence implements Persistence
      */
     public function getBucketContainerId(Bucket $bucket): int
     {
-        if (!isset($this->bucketHashToObserverContainerId[spl_object_hash($bucket)])) {
+        if (!$this->bucketHashToObserverContainerId->contains($bucket)) {
             throw new SerializationException("Could not resolve container id of task: "
                 . print_r($bucket, true));
         }
 
-        return $this->bucketHashToObserverContainerId[spl_object_hash($bucket)];
+        return (int) $this->bucketHashToObserverContainerId[$bucket];
     }
 
     /**
@@ -283,12 +305,12 @@ class BasicPersistence implements Persistence
      */
     protected function getTaskContainerId(Task $task): int
     {
-        if (!isset($this->taskHashToTaskContainerId[spl_object_hash($task)])) {
+        if (!$this->taskHashToTaskContainerId->contains($task)) {
             throw new SerializationException("Could not resolve container id of task: "
                 . print_r($task, true));
         }
 
-        return $this->taskHashToTaskContainerId[spl_object_hash($task)];
+        return (int) $this->taskHashToTaskContainerId[$task];
     }
 
     /**
@@ -296,12 +318,12 @@ class BasicPersistence implements Persistence
      */
     protected function getValueContainerId(Value $value): int
     {
-        if (!isset($this->valueHashToValueContainerId[spl_object_hash($value)])) {
+        if (!$this->valueHashToValueContainerId->contains($value)) {
             throw new SerializationException("Could not resolve container id of value: "
                 . print_r($value, true));
         }
 
-        return $this->valueHashToValueContainerId[spl_object_hash($value)];
+        return (int )$this->valueHashToValueContainerId[$value];
     }
 
     /**
@@ -327,7 +349,7 @@ class BasicPersistence implements Persistence
         $bucket->setLastHeartbeat($bucketContainer->getLastHeartbeat());
         $bucket->setTask($this->loadTask($bucketContainer->getRootTaskid(), $bucket, $bucketContainer));
 
-        $this->bucketHashToObserverContainerId[spl_object_hash($bucket)] = $bucket_container_id;
+        $this->bucketHashToObserverContainerId[$bucket] = $bucket_container_id;
 
         return $bucket;
     }
@@ -366,7 +388,7 @@ class BasicPersistence implements Persistence
             $bucket->setCurrentTask($task);
         }
 
-        $this->taskHashToTaskContainerId[spl_object_hash($task)] = $taskContainerId;
+        $this->taskHashToTaskContainerId[$task] = $taskContainerId;
 
         return $task;
     }
@@ -388,7 +410,7 @@ class BasicPersistence implements Persistence
             $value->setParentTask($this->loadTask($valueContainer->getParentTaskid(), $bucket, $bucketContainer));
         }
 
-        $this->valueHashToValueContainerId[spl_object_hash($value)] = $valueContainerId;
+        $this->valueHashToValueContainerId[$value] = $valueContainerId;
 
         return $value;
     }
@@ -426,7 +448,7 @@ class BasicPersistence implements Persistence
     {
         $id = $this->getBucketContainerId($bucket);
         $this->deleteBucketById($id);
-        unset($this->bucketHashToObserverContainerId[spl_object_hash($bucket)]);
+        $this->bucketHashToObserverContainerId->detach($bucket);
     }
 
     /**

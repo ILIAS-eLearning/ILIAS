@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 require_once("libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../Base.php");
@@ -37,6 +37,9 @@ class ExamplesTest extends ILIAS_UI_TestBase
     public function setUp(): void
     {
         //This avoids various index not set warnings, which are only relevant in test context.
+        $_SERVER["REQUEST_SCHEME"] = "http";
+        $_SERVER["SERVER_NAME"] = "localhost";
+        $_SERVER["SERVER_PORT"] = "80";
         $_SERVER["REQUEST_URI"] = "";
         $_SERVER['SCRIPT_NAME'] = "";
         $_SERVER['QUERY_STRING'] = "param=1";
@@ -87,6 +90,8 @@ class ExamplesTest extends ILIAS_UI_TestBase
         $component_factory->method("getActivePluginsInSlot")->willReturn(new ArrayIterator());
         $this->dic["component.factory"] = $component_factory;
 
+        $this->dic["help.text_retriever"] = new ILIAS\UI\Help\TextRetriever\Echoing();
+
         (new InitHttpServices())->init($this->dic);
     }
 
@@ -99,6 +104,9 @@ class ExamplesTest extends ILIAS_UI_TestBase
         $DIC = $this->dic;
 
         foreach ($this->getEntriesFromCrawler() as $entry) {
+            if ($entry->getNamespace() === "\ILIAS\UI\Help\Topic[]") {
+                continue;
+            }
             if (!$entry->isAbstract()) {
                 $this->assertGreaterThan(
                     0,
@@ -173,7 +181,8 @@ class ExamplesTest extends ILIAS_UI_TestBase
             ['ILIAS\UI\examples\MainControls\MetaBar\renderMetaBarInFullscreenMode', "src/UI/examples/MainControls/MetaBar/base_metabar.php"],
             ['ILIAS\UI\examples\Layout\Page\Standard\getUIMainbarExampleCondensed', "src/UI/examples/Layout/Page/Standard/ui_mainbar.php"],
             ['ILIAS\UI\examples\Layout\Page\Standard\getUIMainbarExampleFull', "src/UI/examples/Layout/Page/Standard/ui_mainbar.php"],
-            ['ILIAS\UI\examples\Layout\Page\Standard\renderFooterInFullscreenMode', "src/UI/examples/Layout/Page/Standard/ui.php"]
+            ['ILIAS\UI\examples\Layout\Page\Standard\ui', "src/UI/examples/Layout/Page/Standard/ui.php"],
+            ['ILIAS\UI\examples\MainControls\ModeInfo\renderModeInfoFullscreenMode', "src/UI/examples/MainControls/ModeInfo/modeinfo.php"]
         ];
     }
 }

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\Hasher;
 
@@ -87,16 +87,6 @@ class ilMMSubItemGUI extends ilMMAbstractItemGUI
                 $this->access->checkAccessAndThrowException('write');
                 $this->saveTable();
                 break;
-            case self::CMD_CONFIRM_DELETE:
-                $this->tab_handling->initTabs(ilObjMainMenuGUI::TAB_MAIN, ilMMSubItemGUI::CMD_VIEW_SUB_ITEMS, true, self::class);
-                $this->access->checkAccessAndThrowException('write');
-
-                return $this->confirmDelete();
-            case self::CMD_CONFIRM_MOVE:
-                $this->tab_handling->initTabs(ilObjMainMenuGUI::TAB_MAIN, ilMMSubItemGUI::CMD_VIEW_SUB_ITEMS, true, self::class);
-                $this->access->checkAccessAndThrowException('write');
-
-                return $this->confirmMove();
             case self::CMD_MOVE:
                 $this->access->checkAccessAndThrowException('write');
                 $this->move();
@@ -145,7 +135,7 @@ class ilMMSubItemGUI extends ilMMAbstractItemGUI
 
         switch ($next_class) {
             case strtolower(ilMMItemTranslationGUI::class):
-                $this->tab_handling->initTabs(ilObjMainMenuGUI::TAB_MAIN, self::CMD_VIEW_SUB_ITEMS, true, $this->ctrl->getCallHistory()[2][ilCtrlInterface::PARAM_CMD_CLASS] ? $this->ctrl->getCallHistory()[2]['class'] : "");
+                $this->tab_handling->initTabs(ilObjMainMenuGUI::TAB_MAIN, self::CMD_VIEW_SUB_ITEMS, true, $this->ctrl->getCallHistory()[2][ilCtrlInterface::PARAM_CMD_CLASS] ?? '');
                 $g = new ilMMItemTranslationGUI($this->getMMItemFromRequest(), $this->repository);
                 $this->ctrl->forwardCommand($g);
                 break;
@@ -232,18 +222,19 @@ class ilMMSubItemGUI extends ilMMAbstractItemGUI
     {
         // ADD NEW
         if ($this->access->hasUserPermissionTo('write')) {
-            $b = ilLinkButton::getInstance();
-            $b->setUrl($this->ctrl->getLinkTarget($this, ilMMSubItemGUI::CMD_ADD));
-            $b->setCaption($this->lng->txt(ilMMSubItemGUI::CMD_ADD), false);
-
-            $this->toolbar->addButtonInstance($b);
+            $btn_add = $this->ui->factory()->button()->standard(
+                $this->lng->txt(self::CMD_ADD),
+                $this->ctrl->getLinkTarget($this, self::CMD_ADD)
+            );
+            $this->toolbar->addComponent($btn_add);
 
             // REMOVE LOST ITEMS
             if ($this->repository->hasLostItems()) {
-                $b = ilLinkButton::getInstance();
-                $b->setUrl($this->ctrl->getLinkTarget($this, self::CMD_FLUSH));
-                $b->setCaption($this->lng->txt(self::CMD_FLUSH), false);
-                $this->toolbar->addButtonInstance($b);
+                $btn_flush = $this->ui->factory()->button()->standard(
+                    $this->lng->txt(self::CMD_FLUSH),
+                    $this->ctrl->getLinkTarget($this, self::CMD_FLUSH)
+                );
+                $this->toolbar->addComponent($btn_flush);
             }
         }
 
@@ -268,42 +259,6 @@ class ilMMSubItemGUI extends ilMMAbstractItemGUI
     protected function cancel(): void
     {
         $this->ctrl->redirectByClass(self::class, self::CMD_VIEW_SUB_ITEMS);
-    }
-
-    /**
-     * @return string
-     * @throws Throwable
-     */
-    private function confirmDelete(): string
-    {
-        $this->ctrl->saveParameterByClass(self::class, self::IDENTIFIER);
-        $i = $this->getMMItemFromRequest();
-        $c = new ilConfirmationGUI();
-        $c->addItem(self::IDENTIFIER, $this->hash($i->getId()), $i->getDefaultTitle());
-        $c->setFormAction($this->ctrl->getFormActionByClass(self::class));
-        $c->setConfirm($this->lng->txt(self::CMD_DELETE), self::CMD_DELETE);
-        $c->setCancel($this->lng->txt(self::CMD_CANCEL), self::CMD_CANCEL);
-        $c->setHeaderText($this->lng->txt(self::CMD_CONFIRM_DELETE));
-
-        return $c->getHTML();
-    }
-
-    /**
-     * @return string
-     * @throws Throwable
-     */
-    private function confirmMove(): string
-    {
-        $this->ctrl->saveParameterByClass(self::class, self::IDENTIFIER);
-        $i = $this->getMMItemFromRequest();
-        $c = new ilConfirmationGUI();
-        $c->addItem(self::IDENTIFIER, $this->hash($i->getId()), $i->getDefaultTitle());
-        $c->setFormAction($this->ctrl->getFormActionByClass(self::class));
-        $c->setConfirm($this->lng->txt(self::CMD_MOVE), self::CMD_MOVE);
-        $c->setCancel($this->lng->txt(self::CMD_CANCEL), self::CMD_CANCEL);
-        $c->setHeaderText($this->lng->txt(self::CMD_CONFIRM_MOVE));
-
-        return $c->getHTML();
     }
 
     private function move(): void

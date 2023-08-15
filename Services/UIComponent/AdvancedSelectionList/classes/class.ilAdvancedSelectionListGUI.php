@@ -488,6 +488,8 @@ class ilAdvancedSelectionListGUI implements ilToolbarItem
                     continue;
                 }
 
+                $item["value"] = htmlspecialchars($item["value"] ?? '', ENT_QUOTES);
+
                 if ($this->getUseImages()) {
                     if ($item["img"]) {
                         $tpl->setCurrentBlock("image");
@@ -678,7 +680,9 @@ class ilAdvancedSelectionListGUI implements ilToolbarItem
 
         //echo htmlentities(json_encode($cfg, JSON_THROW_ON_ERROR));
 
-        $tpl->setVariable("TXT_SEL_TOP", $this->getListTitle());
+        if ($this->getListTitle() !== "") {
+            $tpl->setVariable("TXT_SEL_TOP", $this->getListTitle());
+        }
         if ($this->getListTitle() === "" || $this->getAriaListTitle() !== "") {
             $aria_title = ($this->getAriaListTitle() !== "")
                 ? $this->getAriaListTitle()

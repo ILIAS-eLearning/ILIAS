@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Symbol\Glyph;
 
@@ -79,7 +79,12 @@ class Glyph implements C\Symbol\Glyph\Glyph
         self::NUMBEREDLIST,
         self::LISTINDENT,
         self::LISTOUTDENT,
-        self::FILTER
+        self::FILTER,
+        self::HEADER,
+        self::ITALIC,
+        self::BOLD,
+        self::LINK,
+        self::LAUNCH
     ];
 
     private string $type;
@@ -202,5 +207,15 @@ class Glyph implements C\Symbol\Glyph\Glyph
         $clone = clone $this;
         $clone->action = $action;
         return $clone;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function isTabbable(): bool
+    {
+        $has_action = ($this->action !== null && $this->action !== "");
+        $has_signal = isset($this->triggered_signals['click']) && $this->triggered_signals['click'] !== null;
+        return  ($has_signal || $has_action) && $this->isActive();
     }
 }

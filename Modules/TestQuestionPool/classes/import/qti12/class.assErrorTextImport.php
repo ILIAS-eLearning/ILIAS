@@ -47,7 +47,6 @@ class assErrorTextImport extends assQuestionImport
         ilSession::clear('import_mob_xhtml');
 
         $presentation = $item->getPresentation();
-        $duration = $item->getDuration();
         $now = getdate();
         $created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
 
@@ -61,15 +60,20 @@ class assErrorTextImport extends assQuestionImport
         $this->object->setOwner($ilUser->getId());
         $this->object->setQuestion($this->object->QTIMaterialToString($item->getQuestiontext()));
         $this->object->setObjId($questionpool_id);
-        $this->object->setEstimatedWorkingTime($duration["h"] ?? 0, $duration["m"] ?? 0, $duration["s"] ?? 0);
         $this->object->setPointsWrong($item->getMetadataEntry("points_wrong"));
         $this->object->setErrorText($item->getMetadataEntry("errortext"));
+        $parsed_error_text = $item->getMetadataEntry("parsederrortext");
+        if ($parsed_error_text !== null) {
+            $this->object->setParsedErrorText(unserialize($parsed_error_text));
+        }
         $this->object->setTextSize($item->getMetadataEntry("textsize"));
         $errordata = unserialize($item->getMetadataEntry("errordata"), ["allowed_classes" => false]);
         if (is_array($errordata)) {
+            $errordata_answers_array = [];
             foreach ($errordata as $data) {
-                $this->object->addErrorData($data[1], $data[0], $data[2]);
+                $errordata_answers_array[] = new assAnswerErrorText($data[1], $data[0] ?? '', $data[2], $data[3] ?? null);
             }
+            $this->object->setErrorData($errordata_answers_array);
         }
         // additional content editing mode information
         $this->object->setAdditionalContentEditingMode(
@@ -83,8 +87,6 @@ class assErrorTextImport extends assQuestionImport
         // handle the import of media objects in XHTML code
         $questiontext = $this->object->getQuestion();
         if (is_array(ilSession::get("import_mob_xhtml"))) {
-            include_once "./Services/MediaObjects/classes/class.ilObjMediaObject.php";
-            include_once "./Services/RTE/classes/class.ilRTE.php";
             foreach (ilSession::get("import_mob_xhtml") as $mob) {
                 if ($tst_id > 0) {
                     $importfile = $this->getTstImportArchivDirectory() . '/' . $mob["uri"];

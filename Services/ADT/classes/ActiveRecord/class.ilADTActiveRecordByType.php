@@ -1,6 +1,7 @@
 <?php
 
 declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -205,7 +206,7 @@ class ilADTActiveRecordByType
                     $sub_table = array_pop($sub_tables);
                 }
                 while ($row = $this->db->fetchAssoc($set)) {
-                    $element_id = $row[$this->getElementIdColumn()];
+                    $element_id = (string) $row[$this->getElementIdColumn()];
                     if (in_array($element_id, $element_ids)) {
                         $has_data = true;
 
@@ -446,7 +447,8 @@ class ilADTActiveRecordByType
             "int" => "integer",
             "float" => "float",
             "date" => "date",
-            "datetime" => "timestamp"
+            "datetime" => "timestamp",
+            "intlink" => "integer"
         );
     }
 
@@ -513,10 +515,16 @@ class ilADTActiveRecordByType
                             $fields['value_index'] = [ilDBConstants::T_INTEGER, $row['value_index']];
                             break;
 
+                        case 'extlink':
+                            $fields['value'] = [ilDBConstants::T_TEXT, $row['value']];
+                            $fields['title'] = [ilDBConstants::T_TEXT, $row['title']];
+                            break;
+
                         default:
-                            $fields[self::SINGLE_COLUMN_NAME] = array($type_map[$table],
-                                                                      $row[self::SINGLE_COLUMN_NAME]
-                            );
+                            $fields[self::SINGLE_COLUMN_NAME] = [
+                                $type_map[$table],
+                                $row[self::SINGLE_COLUMN_NAME]
+                            ];
                             break;
                     }
 
@@ -658,19 +666,13 @@ class ilADTActiveRecordByType
 
     /**
      * Find entries
-     * @param string $a_table
-     * @param string $a_type
-     * @param int    $a_field_id
-     * @param string $a_condition
-     * @param string $a_additional_fields
-     * @return array
      */
     public static function find(
         string $a_table,
         string $a_type,
         int $a_field_id,
         string $a_condition,
-        array $a_additional_fields = null
+        ?string $a_additional_fields = null
     ): ?array {
         global $DIC;
 

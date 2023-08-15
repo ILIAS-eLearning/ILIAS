@@ -2,7 +2,7 @@
 
 il.Accordion = {
 
-	duration : 150,
+	duration : 100,
 
 	data: {},
 
@@ -424,6 +424,7 @@ il.Accordion = {
 
 		// fade in the new accordion (currentAccordion)
 		options = il.Accordion.prepareShow(a, a.clicked_acc);
+		il.Accordion.afterStartOpening(a.clicked_acc);
 
 		$(a.clicked_acc).animate(options, il.Accordion.duration, function () {
 
@@ -460,6 +461,10 @@ il.Accordion = {
 	afterOpening: function (acc_el) {
 		$(acc_el).trigger("il.accordion.opened", [acc_el]);
 		il.Accordion.rerenderContent(acc_el);
+	},
+
+	afterStartOpening: function (acc_el) {
+		$(acc_el).trigger("il.accordion.start-opening", [acc_el]);
 	},
 
 	rerenderContent: function(acc_el) {

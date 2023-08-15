@@ -1,5 +1,21 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 namespace ILIAS\GlobalScreen\MainMenu;
 
 use ILIAS\GlobalScreen\Identification\IdentificationFactory;
@@ -90,13 +106,13 @@ class MapTest extends TestCase
         $this->assertTrue($map->has());
         $this->assertSame(count(iterator_to_array($map->getAllFromFilter())), 4);
 
-        $map->filter(static function () {
+        $map->filter(static function (): bool {
             return true;
         });
 
         $this->assertSame(count(iterator_to_array($map->getAllFromFilter())), 4);
 
-        $map->filter(static function (isItem $i) {
+        $map->filter(static function (isItem $i): bool {
             return $i->getProviderIdentification()->getInternalIdentifier() !== 'parent_1';
         });
 
@@ -106,7 +122,7 @@ class MapTest extends TestCase
         $this->assertTrue($map->existsInFilter($p3));
         $this->assertTrue($map->existsInFilter($p4));
 
-        $map->filter(static function () {
+        $map->filter(static function (): bool {
             return false;
         });
         $this->assertFalse($map->existsInFilter($p1));

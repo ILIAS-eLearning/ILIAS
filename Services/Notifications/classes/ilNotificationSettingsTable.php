@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,30 +16,33 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\Notifications;
 
 use ilLanguage;
 use ilTable2GUI;
+use ilNotificationGUI;
 
 /**
  * @author Jan Posselt <jposselt@databay.de>
  */
 class ilNotificationSettingsTable extends ilTable2GUI
 {
-    private array $channels;
-    private array $userdata;
-
-    private bool $adminMode;
     private bool $editable = true;
 
-    private ilLanguage $language;
+    private readonly ilLanguage $language;
 
+    /**
+     * @param array<string, array<string, mixed>> $channels
+     * @param array<string, list<string>>         $usr_data
+     */
     public function __construct(
-        ?object $a_ref,
+        ilNotificationGUI $a_ref,
         string $title,
-        array $channels,
-        array $userdata,
-        bool $adminMode = false,
+        private readonly array $channels,
+        private readonly array $usr_data,
+        private readonly bool $adminMode = false,
         ilLanguage $language = null
     ) {
         if ($language === null) {
@@ -52,10 +53,6 @@ class ilNotificationSettingsTable extends ilTable2GUI
 
         $this->language->loadLanguageModule('notification');
 
-        $this->channels = $channels;
-        $this->userdata = $userdata;
-        $this->adminMode = $adminMode;
-
         parent::__construct($a_ref, $title);
         $this->setTitle($this->language->txt('notification_options'));
 
@@ -63,7 +60,7 @@ class ilNotificationSettingsTable extends ilTable2GUI
 
         $this->addColumn($this->language->txt('notification_target'), '', '');
 
-        foreach ($channels as $key => $channel) {
+        foreach ($channels as $channel) {
             $this->addColumn(
                 $this->language->txt(
                     'notc_' . $channel['title']
@@ -94,9 +91,9 @@ class ilNotificationSettingsTable extends ilTable2GUI
         $this->tpl->setVariable('NOTIFICATION_TARGET', $this->language->txt('nott_' . $a_set['title']));
 
         foreach ($this->channels as $channeltype => $channel) {
-            if (array_key_exists($a_set['name'], $this->userdata) && in_array(
+            if (array_key_exists($a_set['name'], $this->usr_data) && in_array(
                 $channeltype,
-                $this->userdata[$a_set['name']],
+                $this->usr_data[$a_set['name']],
                 true
             )) {
                 $this->tpl->touchBlock('notification_cell_checked');

@@ -47,7 +47,6 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
     public function __construct($id = -1)
     {
         parent::__construct();
-        include_once "./Modules/TestQuestionPool/classes/class.assMultipleChoice.php";
         $this->object = new assMultipleChoice();
         if ($id >= 0) {
             $this->object->loadFromDb($id);
@@ -69,9 +68,9 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
     {
         $hasErrors = (!$always) ? $this->editQuestion(true) : false;
         if (!$hasErrors) {
-            $form = $this->buildEditForm();
+            $is_singleline = $this->getEditAnswersSingleLine();
+            $form = $this->buildEditForm($is_singleline);
             $form->setValuesByPost();
-            require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
             $this->writeQuestionGenericPostData();
             $this->writeQuestionSpecificPostData($form);
             $this->writeAnswerSpecificPostData($form);
@@ -91,8 +90,8 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
     protected function getEditAnswersSingleLine($checkonly = false): bool
     {
         if ($checkonly) {
-            // form posting is checked
-            return ($_POST['types'] == 0) ? true : false;
+            $types = $_POST['types'] ?? '0';
+            return $types === '0' ? true : false;
         }
 
         $lastChange = $this->object->getLastChange();
@@ -117,10 +116,11 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
         $save = $this->isSaveCommand();
         $this->getQuestionTemplate();
 
-        $form = $this->buildEditForm();
+        $is_singleline = $this->getEditAnswersSingleLine($checkonly);
 
-        $isSingleline = $this->getEditAnswersSingleLine($checkonly);
-        if ($isSingleline) {
+        $form = $this->buildEditForm($is_singleline);
+
+        if ($is_singleline) {
             $form->setMultipart(true);
         } else {
             $form->setMultipart(false);
@@ -133,7 +133,6 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
 
             $form->setValuesByPost();
             $errors = !$form->checkInput();
-            $form->setValuesByPost(); // again, because checkInput now performs the whole stripSlashes handling and we need this if we don't want to have duplication of backslashes
             if ($errors) {
                 $checkonly = false;
             }
@@ -145,11 +144,10 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
         return $errors;
     }
 
-    public function addBasicQuestionFormProperties(ilPropertyFormGUI $form): int
+    public function addBasicQuestionFormProperties(ilPropertyFormGUI $form): void
     {
         parent::addBasicQuestionFormProperties($form);
         $form->getItemByPostVar('question')->setInitialRteWidth('100');
-        return 1;
     }
 
     /**
@@ -158,7 +156,6 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
     public function uploadchoice(): void
     {
         $this->writePostData(true);
-        $position = key($_POST['cmd']['uploadchoice']);
         $this->editQuestion();
     }
 
@@ -169,7 +166,6 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
     {
         $this->writePostData(true);
         $position = key($_POST['cmd']['removeimagechoice']);
-        $filename = $_POST['choice']['imagename'][$position];
         $this->object->removeAnswerImage($position);
         $this->editQuestion();
     }
@@ -243,8 +239,6 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
             }
         }
 
-        // generate the question output
-        include_once "./Services/UICore/classes/class.ilTemplate.php";
         $template = new ilTemplate("tpl.il_as_qpl_mc_mr_output_solution.html", true, true, "Modules/TestQuestionPool");
         $solutiontemplate = new ilTemplate("tpl.il_as_tst_solution_output.html", true, true, "Modules/TestQuestionPool");
         foreach ($keys as $answer_id) {
@@ -415,8 +409,6 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
         // shuffle output
         $keys = $this->getChoiceKeys();
 
-        // generate the question output
-        include_once "./Services/UICore/classes/class.ilTemplate.php";
         $this->tpl->addOnLoadCode('ilAssMultipleChoiceCharCounterInit();');
         $template = new ilTemplate("tpl.il_as_qpl_mc_mr_output.html", true, true, "Modules/TestQuestionPool");
         foreach ($keys as $answer_id) {
@@ -537,7 +529,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
         // generate the question output
         $this->tpl->addJavaScript('Modules/TestQuestionPool/js/ilAssMultipleChoice.js');
         $this->tpl->addOnLoadCode('ilAssMultipleChoiceCharCounterInit();');
-        include_once "./Services/UICore/classes/class.ilTemplate.php";
+
         $template = new ilTemplate("tpl.il_as_qpl_mc_mr_output.html", true, true, "Modules/TestQuestionPool");
         foreach ($keys as $answer_id) {
             $answer = $this->object->answers[$answer_id];
@@ -673,32 +665,37 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
 
     public function writeQuestionSpecificPostData(ilPropertyFormGUI $form): void
     {
-        $this->object->setShuffle($_POST["shuffle"]);
+        $this->object->setShuffle($_POST["shuffle"] ?? '0');
 
         $selectionLimit = (int) $form->getItemByPostVar('selection_limit')->getValue();
         $this->object->setSelectionLimit($selectionLimit > 0 ? $selectionLimit : null);
 
-        $this->object->setSpecificFeedbackSetting($_POST['feedback_setting']);
+        if (isset($_POST['feedback_setting'])) {
+            $this->object->setSpecificFeedbackSetting($_POST['feedback_setting']);
+        }
 
-        $this->object->setMultilineAnswerSetting($_POST["types"]);
-        if (isset($_POST['choice']['imagename']) && is_array($_POST['choice']['imagename']) && $_POST["types"] == 1) {
+        $types = (int) ($_POST['types'] ?? '0');
+        $this->object->setMultilineAnswerSetting($types);
+        if (isset($_POST['choice']['imagename']) && is_array($_POST['choice']['imagename']) && $types === 1) {
             $this->object->setIsSingleline(true);
             $this->tpl->setOnScreenMessage('info', $this->lng->txt('info_answer_type_change'), true);
         } else {
-            $this->object->setIsSingleline(($_POST["types"] == 0) ? true : false);
+            $this->object->setIsSingleline(($types === 0) ? true : false);
         }
-        $this->object->setThumbSize((strlen($_POST["thumb_size"])) ? $_POST["thumb_size"] : null);
+        if (isset($_POST["thumb_size"])) {
+            $this->object->setThumbSize((int) $_POST["thumb_size"]);
+        }
     }
 
     public function writeAnswerSpecificPostData(ilPropertyFormGUI $form): void
     {
         // Delete all existing answers and create new answers from the form data
         $this->object->flushAnswers();
+        $choice = $this->cleanupAnswerText($_POST['choice'], $this->object->isSingleline() === false);
         if ($this->object->isSingleline()) {
-            foreach ($_POST['choice']['answer'] as $index => $answertext) {
-                $answertext = ilUtil::secureString(htmlentities($answertext));
-
-                $picturefile = $_POST['choice']['imagename'][$index] ?? '';
+            foreach ($choice['answer'] as $index => $answertext) {
+                $answertext = htmlentities($answertext);
+                $picturefile = $choice['imagename'][$index] ?? '';
                 $file_org_name = $_FILES['choice']['name']['image'][$index] ?? '';
                 $file_temp_name = $_FILES['choice']['tmp_name']['image'][$index] ?? '';
 
@@ -717,26 +714,28 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
 
                 $this->object->addAnswer(
                     $answertext,
-                    $_POST['choice']['points'][$index],
-                    $_POST['choice']['points_unchecked'][$index],
+                    (float) str_replace(',', '.', $choice['points'][$index]),
+                    (float) str_replace(',', '.', $choice['points_unchecked'][$index]),
                     $index,
-                    $picturefile
+                    $picturefile,
+                    $_POST['choice']['answer_id'][$index]
                 );
             }
         } else {
-            foreach ($_POST['choice']['answer'] as $index => $answer) {
+            foreach ($choice['answer'] as $index => $answer) {
                 $answertext = $answer;
                 $this->object->addAnswer(
                     $answertext,
-                    $_POST['choice']['points'][$index],
-                    $_POST['choice']['points_unchecked'][$index],
-                    $index
+                    (float) str_replace(',', '.', $choice['points'][$index]),
+                    (float) str_replace(',', '.', $choice['points_unchecked'][$index]),
+                    $index,
+                    (int) $choice['answer_id'][$index]
                 );
             }
         }
     }
 
-    public function populateQuestionSpecificFormPart(\ilPropertyFormGUI $form): ilPropertyFormGUI
+    public function populateQuestionSpecificFormPart(\ilPropertyFormGUI $form, bool $is_singleline = false): ilPropertyFormGUI
     {
         // shuffle
         $shuffle = new ilCheckboxInputGUI($this->lng->txt("shuffle_answers"), "shuffle");
@@ -745,7 +744,6 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
         $shuffle->setRequired(false);
         $form->addItem($shuffle);
 
-        require_once 'Services/Form/classes/class.ilNumberInputGUI.php';
         $selLim = new ilNumberInputGUI($this->lng->txt('ass_mc_sel_lim_setting'), 'selection_limit');
         $selLim->setInfo($this->lng->txt('ass_mc_sel_lim_setting_desc'));
         $selLim->setSize(2);
@@ -764,13 +762,11 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
             $form->addItem($hidden);
         }
 
-        $isSingleline = $this->getEditAnswersSingleLine();
-
         if (!$this->object->getSelfAssessmentEditingMode()) {
             // Answer types
             $types = new ilSelectInputGUI($this->lng->txt("answer_types"), "types");
             $types->setRequired(false);
-            $types->setValue(($isSingleline) ? 0 : 1);
+            $types->setValue(($is_singleline) ? 0 : 1);
             $types->setOptions([
                 0 => $this->lng->txt('answers_singleline'),
                 1 => $this->lng->txt('answers_multiline'),
@@ -778,30 +774,31 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
             $form->addItem($types);
         }
 
-        if ($isSingleline) {
+        if ($is_singleline) {
             // thumb size
             $thumb_size = new ilNumberInputGUI($this->lng->txt("thumb_size"), "thumb_size");
             $thumb_size->setSuffix($this->lng->txt("thumb_size_unit_pixel"));
-            $thumb_size->setMinValue(20);
+            $thumb_size->setMinValue($this->object->getMinimumThumbSize());
             $thumb_size->setDecimals(0);
             $thumb_size->setSize(6);
             $thumb_size->setInfo($this->lng->txt('thumb_size_info'));
             $thumb_size->setValue($this->object->getThumbSize());
-            $thumb_size->setRequired(false);
-            $form->addItem($thumb_size);
+            $thumb_size->setRequired(true);
+        } else {
+            $thumb_size = new ilHiddenInputGUI('thumb_size');
+            $thumb_size->setValue($this->object->getThumbSize());
         }
+        $form->addItem($thumb_size);
+
         return $form;
     }
 
-    public function populateAnswerSpecificFormPart(\ilPropertyFormGUI $form): ilPropertyFormGUI
+    public function populateAnswerSpecificFormPart(\ilPropertyFormGUI $form, bool $is_singleline = false): ilPropertyFormGUI
     {
-        // Choices
-        include_once "./Modules/TestQuestionPool/classes/class.ilMultipleChoiceWizardInputGUI.php";
         $choices = new ilMultipleChoiceWizardInputGUI($this->lng->txt("answers"), "choice");
         $choices->setRequired(true);
         $choices->setQuestionObject($this->object);
-        $isSingleline = $this->getEditAnswersSingleLine();
-        $choices->setSingleline($isSingleline);
+        $choices->setSingleline($is_singleline);
         $choices->setAllowMove(false);
         if ($this->object->getSelfAssessmentEditingMode()) {
             $choices->setSize(40);
@@ -955,19 +952,17 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
     /**
      * @return ilPropertyFormGUI
      */
-    protected function buildEditForm(): ilPropertyFormGUI
+    protected function buildEditForm(bool $is_singleline = true): ilPropertyFormGUI
     {
-        include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this));
         $form->setTitle($this->outQuestionType());
         $form->setTableWidth("100%");
         $form->setId("assmultiplechoice");
 
-        // title, author, description, question, working time (assessment mode)
         $this->addBasicQuestionFormProperties($form);
-        $this->populateQuestionSpecificFormPart($form);
-        $this->populateAnswerSpecificFormPart($form);
+        $this->populateQuestionSpecificFormPart($form, $is_singleline);
+        $this->populateAnswerSpecificFormPart($form, $is_singleline);
         $this->populateTaxonomyFormSection($form);
         $this->addQuestionFormCommandButtons($form);
         return $form;
@@ -991,7 +986,6 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
 
     public function populateCorrectionsFormProperties(ilPropertyFormGUI $form): void
     {
-        require_once 'Modules/TestQuestionPool/classes/forms/class.ilAssMultipleChoiceCorrectionsInputGUI.php';
         $choices = new ilAssMultipleChoiceCorrectionsInputGUI($this->lng->txt("answers"), "choice");
         $choices->setRequired(true);
         $choices->setQuestionObject($this->object);
@@ -1004,13 +998,13 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
      */
     public function saveCorrectionsFormProperties(ilPropertyFormGUI $form): void
     {
-        $pointsChecked = $form->getInput('choice')['points'];
-        $pointsUnchecked = $form->getInput('choice')['points_unchecked'];
+        $input = $form->getItemByPostVar('choice');
+        $answerElements = $input->getValues();
 
         foreach ($this->object->getAnswers() as $index => $answer) {
             /* @var ASS_AnswerMultipleResponseImage $answer */
-            $answer->setPointsChecked((float) $pointsChecked[$index]);
-            $answer->setPointsUnchecked((float) $pointsUnchecked[$index]);
+            $answer->setPointsChecked((float) str_replace(',', '.', $answerElements[$index]->getPointsChecked()));
+            $answer->setPointsUnchecked((float) str_replace(',', '.', $answerElements[$index]->getPointsUnchecked()));
         }
     }
 }

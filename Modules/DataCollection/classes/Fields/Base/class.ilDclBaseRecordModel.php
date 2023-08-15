@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -13,21 +14,12 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\Notes\Service;
 
-/**
- * Class ilDclBaseRecordModel
- * @author  Martin Studer <ms@studer-raimann.ch>
- * @author  Marcel Raimann <mr@studer-raimann.ch>
- * @author  Fabian Schmid <fs@studer-raimann.ch>
- * @author  Oskar Truffer <ot@studer-raimann.ch>
- * @author  Stefan Wanzenried <sw@studer-raimann.ch>
- * @version $Id:
- * @ingroup ModulesDataCollection
- */
 class ilDclBaseRecordModel
 {
     protected Service $notes;
@@ -46,12 +38,18 @@ class ilDclBaseRecordModel
     protected ?int $nr_of_comments = null;
     protected ILIAS\HTTP\Services $http;
     protected ILIAS\Refinery\Factory $refinery;
+    protected ilDBInterface $db;
+    protected ilAppEventHandler $event;
+    private ilObjUser $user;
 
-    public function __construct(int $a_id = 0)
+    public function __construct(?int $a_id = 0)
     {
         global $DIC;
+        $this->db = $DIC->database();
+        $this->event = $DIC->event();
+        $this->user = $DIC->user();
 
-        if ($a_id !== 0) {
+        if ($a_id && $a_id != 0) {
             $this->id = $a_id;
             $this->doRead();
         }
@@ -61,43 +59,35 @@ class ilDclBaseRecordModel
         $this->refinery = $DIC->refinery();
     }
 
-    private function fixDate(string $value): string
-    {
-        return $value;
-    }
-
     public function doUpdate(bool $omit_notification = false): void
     {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-
-        $values = array(
-            "table_id" => array(
+        $values = [
+            "table_id" => [
                 "integer",
                 $this->getTableId(),
-            ),
-            "last_update" => array(
+            ],
+            "last_update" => [
                 "date",
-                $this->fixDate($this->getLastUpdate()),
-            ),
-            "owner" => array(
+                $this->getLastUpdate()->get(IL_CAL_DATETIME),
+            ],
+            "owner" => [
                 "integer",
                 $this->getOwner(),
-            ),
-            "last_edit_by" => array(
+            ],
+            "last_edit_by" => [
                 "integer",
                 $this->getLastEditBy(),
-            ),
-        );
-        $ilDB->update(
+            ],
+        ];
+        $this->db->update(
             "il_dcl_record",
             $values,
-            array(
-                "id" => array(
+            [
+                "id" => [
                     "integer",
                     $this->id,
-                ),
-            )
+                ],
+            ]
         );
 
         foreach ($this->getRecordFields() as $recordfield) {
@@ -112,13 +102,16 @@ class ilDclBaseRecordModel
 
     public function doRead(): void
     {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
         //build query
-        $query = "Select * From il_dcl_record WHERE id = " . $ilDB->quote($this->getId(), "integer") . " ORDER BY id";
+        $query = "Select * From il_dcl_record WHERE id = " . $this->db->quote($this->getId(), "integer") . " ORDER BY id";
 
-        $set = $ilDB->query($query);
-        $rec = $ilDB->fetchAssoc($set);
+        $set = $this->db->query($query);
+        $rec = $this->db->fetchAssoc($set);
+
+        if (!$rec) {
+            $this->id = 0;
+            return;
+        }
 
         $this->setTableId((int) $rec["table_id"]);
         if (null !== $rec["create_date"]) {
@@ -138,14 +131,11 @@ class ilDclBaseRecordModel
      */
     public function doCreate(): void
     {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-
         if (!ilDclTable::_tableExists($this->getTableId())) {
             throw new ilException("The field does not have a related table!");
         }
 
-        $id = $ilDB->nextId("il_dcl_record");
+        $id = $this->db->nextId("il_dcl_record");
         $this->setId($id);
         $query
             = "INSERT INTO il_dcl_record (
@@ -155,17 +145,17 @@ class ilDclBaseRecordModel
 			Last_update,
 			owner,
 			last_edit_by
-			) VALUES (" . $ilDB->quote($this->getId(), "integer") . "," . $ilDB->quote(
+			) VALUES (" . $this->db->quote($this->getId(), "integer") . "," . $this->db->quote(
                 $this->getTableId(),
                 "integer"
             ) . ","
-            . $ilDB->quote($this->getCreateDate(), "timestamp") . "," . $ilDB->quote(
-                $this->getLastUpdate(),
+            . $this->db->quote($this->getCreateDate()->get(IL_CAL_DATETIME), "timestamp") . "," . $this->db->quote(
+                $this->getLastUpdate()->get(IL_CAL_DATETIME),
                 "timestamp"
             ) . ","
-            . $ilDB->quote($this->getOwner(), "integer") . "," . $ilDB->quote($this->getLastEditBy(), "integer") . "
+            . $this->db->quote($this->getOwner(), "integer") . "," . $this->db->quote($this->getLastEditBy(), "integer") . "
 			)";
-        $ilDB->manipulate($query);
+        $this->db->manipulate($query);
 
         $this->loadRecordFields();
         foreach ($this->getRecordFields() as $recordField) {
@@ -300,7 +290,7 @@ class ilDclBaseRecordModel
     public function getRecordFieldValues(): array
     {
         $this->loadRecordFields();
-        $return = array();
+        $return = [];
         foreach ($this->recordfields as $id => $record_field) {
             $return[$id] = $record_field->getValue();
         }
@@ -312,7 +302,7 @@ class ilDclBaseRecordModel
      * Get Field Value
      * @return int|string|array|null
      */
-    public function getRecordFieldValue(?int $field_id)
+    public function getRecordFieldValue(?string $field_id)
     {
         if ($field_id === null) {
             return null;
@@ -385,6 +375,12 @@ class ilDclBaseRecordModel
                 $col++;
                 $name_array = ilObjUser::_lookupName($this->getOwner());
                 $worksheet->setCell($row, $col, $name_array['lastname'] . ', ' . $name_array['firstname']);
+            } elseif ('last_update') {
+                $date_time = $this->getLastUpdate()->get(IL_CAL_DATETIME, '', $this->user->getTimeZone());
+                $worksheet->setCell($row, $col, $date_time);
+            } elseif ('create_date') {
+                $date_time = $this->getCreateDate()->get(IL_CAL_DATETIME, '', $this->user->getTimeZone());
+                $worksheet->setCell($row, $col, $date_time);
             } else {
                 $worksheet->setCell($row, $col, $this->getStandardFieldHTML($field_id));
             }
@@ -435,7 +431,7 @@ class ilDclBaseRecordModel
     /**
      * @param int|string $field_id
      */
-    public function getRecordFieldSortingValue($field_id, array $options = array()): string
+    public function getRecordFieldSortingValue($field_id, array $options = []): string
     {
         $this->loadRecordFields();
         if (ilDclStandardField::_isStandardField($field_id)) {
@@ -454,7 +450,7 @@ class ilDclBaseRecordModel
     /**
      * @param int|string $field_id
      */
-    public function getRecordFieldSingleHTML($field_id, array $options = array()): string
+    public function getRecordFieldSingleHTML($field_id, array $options = []): string
     {
         $this->loadRecordFields();
 
@@ -525,13 +521,9 @@ class ilDclBaseRecordModel
     {
         switch ($field_id) {
             case "last_edit_by":
-                return $this->getLastEditBy();
-                break;
+                return ilObjUser::_lookupName($this->getLastEditBy())['login'];
             case 'owner':
-                $usr_data = ilObjUser::_lookupName($this->getOwner());
-
-                return $usr_data['login'];
-                break;
+                return ilObjUser::_lookupName($this->getOwner())['login'];
         }
 
         return $this->{$field_id};
@@ -545,11 +537,11 @@ class ilDclBaseRecordModel
         return $this->getStandardFieldHTML($field_id);
     }
 
-    public function getStandardFieldHTML(string $field_id, array $options = array()): string
+    public function getStandardFieldHTML(string $field_id, array $options = []): string
     {
         switch ($field_id) {
             case 'id':
-                return $this->getId();
+                return (string)$this->getId();
             case 'owner':
                 return ilUserUtil::getNamePresentation($this->getOwner());
             case 'last_edit_by':
@@ -576,7 +568,7 @@ class ilDclBaseRecordModel
 
                 return "<a class='dcl_comment' href='#' onclick=\"return " . $ajax_link . "\">
                         <img src='" . ilUtil::getImagePath("comment_unlabeled.svg")
-                    . "' alt='{$nComments} Comments'><span class='ilHActProp'>{$nComments}</span></a>";
+                    . "' alt='$nComments Comments'><span class='ilHActProp'>$nComments</span></a>";
         }
 
         return "";
@@ -600,7 +592,7 @@ class ilDclBaseRecordModel
     {
         if ($this->recordfields == null) {
             $this->loadTable();
-            $recordfields = array();
+            $recordfields = [];
             foreach ($this->table->getRecordFields() as $field) {
                 if (($recordfields[$field->getId()] ?? null) === null) {
                     $recordfields[$field->getId()] = ilDclCache::getRecordFieldCache($this, $field);
@@ -627,16 +619,8 @@ class ilDclBaseRecordModel
 
     public function doDelete(bool $omit_notification = false): void
     {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-        $ilAppEventHandler = $DIC['ilAppEventHandler'];
-
         $this->loadRecordFields();
         foreach ($this->recordfields as $recordfield) {
-            if ($recordfield->getField()->getDatatypeId() == ilDclDatatype::INPUTFORMAT_FILE) {
-                $this->deleteFile((int)$recordfield->getValue());
-            }
-
             if ($recordfield->getField()->getDatatypeId() == ilDclDatatype::INPUTFORMAT_MOB) {
                 $this->deleteMob((int)$recordfield->getValue());
             }
@@ -644,23 +628,23 @@ class ilDclBaseRecordModel
             $recordfield->delete();
         }
 
-        $query = "DELETE FROM il_dcl_record WHERE id = " . $ilDB->quote($this->getId(), "integer");
-        $ilDB->manipulate($query);
+        $query = "DELETE FROM il_dcl_record WHERE id = " . $this->db->quote($this->getId(), "integer");
+        $this->db->manipulate($query);
 
         $this->table->loadRecords();
 
         if (!$omit_notification) {
             ilObjDataCollection::sendNotification("delete_record", $this->getTableId(), $this->getId());
 
-            $ilAppEventHandler->raise(
+            $this->event->raise(
                 'Modules/DataCollection',
                 'deleteRecord',
-                array(
+                [
                     'dcl' => ilDclCache::getTableCache($this->getTableId())->getCollectionObject(),
                     'table_id' => $this->table_id,
                     'record_id' => $this->getId(),
                     'record' => $this,
-                )
+                ]
             );
         }
     }

@@ -49,8 +49,6 @@ class ilTestSkillLevelThresholdImportFails
     protected function getSettings(): ilSetting
     {
         if ($this->settings === null) {
-            require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssQuestionAssignedSkillList.php';
-
             $this->settings = new ilSetting('assimportfails');
         }
 

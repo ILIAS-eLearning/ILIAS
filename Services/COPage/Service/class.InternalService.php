@@ -36,7 +36,6 @@ class InternalService
     public function __construct(Container $DIC)
     {
         $this->data = new InternalDataService();
-
         $this->repo = new InternalRepoService(
             $this->data(),
             $DIC->database()

@@ -16,31 +16,33 @@
  *
  *********************************************************************/
 
+use ILIAS\DI\UIServices;
+
 /**
  * TableGUI class for badge listing
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  */
 class ilBadgeTableGUI extends ilTable2GUI
 {
-    protected bool $has_write;
     protected string $parent_type;
     protected array $filter = [];
+    private readonly UIServices $ui;
 
     public function __construct(
         object $a_parent_obj,
         string $a_parent_cmd = "",
         int $a_parent_obj_id = 0,
-        bool $a_has_write = false
+        protected bool $has_write = false
     ) {
         global $DIC;
 
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
+        $this->ui = $DIC->ui();
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
 
         $this->setId("bdgbdg");
-        $this->has_write = $a_has_write;
         $this->parent_type = ilObject::_lookupType($a_parent_obj_id);
 
         parent::__construct($a_parent_obj, $a_parent_cmd);
@@ -142,25 +144,26 @@ class ilBadgeTableGUI extends ilTable2GUI
             : $lng->txt("no"));
 
         if ($this->has_write) {
-            $actions = new ilAdvancedSelectionListGUI();
-            $actions->setListTitle($lng->txt("actions"));
+            $buttons = [];
 
-            if ($a_set["manual"] &&
-                $a_set["active"]) {
+            if ($a_set["manual"] && $a_set["active"]) {
                 $ilCtrl->setParameter($this->getParentObject(), "bid", $a_set["id"]);
                 $ilCtrl->setParameter($this->getParentObject(), "tgt", "bdgl");
                 $url = $ilCtrl->getLinkTarget($this->getParentObject(), "awardBadgeUserSelection");
                 $ilCtrl->setParameter($this->getParentObject(), "bid", "");
                 $ilCtrl->setParameter($this->getParentObject(), "tgt", "");
-                $actions->addItem($lng->txt("badge_award_badge"), "", $url);
+
+                $buttons[] = $this->ui->factory()->button()->shy($lng->txt("badge_award_badge"), $url);
             }
 
             $ilCtrl->setParameter($this->getParentObject(), "bid", $a_set["id"]);
             $url = $ilCtrl->getLinkTarget($this->getParentObject(), "editBadge");
             $ilCtrl->setParameter($this->getParentObject(), "bid", "");
-            $actions->addItem($lng->txt("edit"), "", $url);
 
-            $this->tpl->setVariable("ACTIONS", $actions->getHTML());
+            $buttons[] = $this->ui->factory()->button()->shy($lng->txt("edit"), $url);
+            $actions = $this->ui->factory()->dropdown()->standard($buttons)->withLabel($lng->txt("actions"));
+
+            $this->tpl->setVariable("ACTIONS", $this->ui->renderer()->render($actions));
         }
     }
 }

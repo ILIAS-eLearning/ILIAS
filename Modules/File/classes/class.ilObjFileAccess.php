@@ -18,6 +18,7 @@
 
 use ILIAS\DI\Container;
 use ILIAS\FileUpload\MimeType;
+use ILIAS\Modules\File\Settings\General;
 
 /**
  * Access class for file objects.
@@ -56,17 +57,7 @@ class ilObjFileAccess extends ilObjectAccess implements ilWACCheckingClass
 
     public function canBeDelivered(ilWACPath $ilWACPath): bool
     {
-        switch ($ilWACPath->getSecurePathId()) {
-            case 'previews':
-                preg_match('/\/previews\/[\d\/]{0,}\/preview_([\d]{0,})\//uU', $ilWACPath->getPath(), $matches);
-                $obj_id = (int) $matches[1];
-                break;
-            default:
-                $obj_id = -1;
-                break;
-        }
-
-        return $this->checkAccessToObjectId($obj_id);
+        return false;
     }
 
 
@@ -172,8 +163,7 @@ class ilObjFileAccess extends ilObjectAccess implements ilWACCheckingClass
     public static function _isFileInline(string $a_file_name): bool
     {
         if (self::$inline_file_extensions === []) {
-            $settings = new ilSetting('file_access');
-            self::$inline_file_extensions = explode(" ", $settings->get('inline_file_extensions'));
+            self::$inline_file_extensions = (new General())->getInlineFileExtensions();
         }
         $extension = self::_getFileExtension($a_file_name);
 
@@ -350,6 +340,7 @@ class ilObjFileAccess extends ilObjectAccess implements ilWACCheckingClass
             if ($id = $DIC->resourceStorage()->manage()->find($rid)) {
                 $max = $DIC->resourceStorage()->manage()->getResource($id)->getCurrentRevision();
                 self::$preload_list_gui_data[(int) $file_id]["title"] = $max->getTitle();
+                self::$preload_list_gui_data[(int) $file_id]["suffix"] = $max->getInformation()->getSuffix();
                 self::$preload_list_gui_data[(int) $file_id]["mime"] = $max->getInformation()->getMimeType();
                 self::$preload_list_gui_data[(int) $file_id]["version"] = $max->getVersionNumber();
                 self::$preload_list_gui_data[(int) $file_id]["size"] = $max->getInformation()->getSize() ?? 0;

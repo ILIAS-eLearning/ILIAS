@@ -62,7 +62,6 @@ class ilAssAnswerCorrectionsInputGUI extends ilAnswerWizardInputGUI
     {
         global $DIC;
         $lng = $DIC['lng'];
-        $this->sanitizeSuperGlobalSubmitValue();
         $foundvalues = $_POST[$this->getPostVar()];
 
         if ($this->isHidePointsEnabled()) {
@@ -74,6 +73,7 @@ class ilAssAnswerCorrectionsInputGUI extends ilAnswerWizardInputGUI
             $max = 0;
             if (is_array($foundvalues['points'])) {
                 foreach ($foundvalues['points'] as $points) {
+                    $points = str_replace(',', '.', $points);
                     if ($points > $max) {
                         $max = $points;
                     }

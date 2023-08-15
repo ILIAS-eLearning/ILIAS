@@ -16,6 +16,9 @@
  *
  *********************************************************************/
 
+use ILIAS\UI\Renderer;
+use ILIAS\UI\Component\Symbol\Glyph\Factory as GlyphFactory;
+
 /**
 * This class represents a key value pair wizard property in a property form.
 *
@@ -30,6 +33,9 @@ class ilMatchingPairWizardInputGUI extends ilTextInputGUI
     protected $terms = [];
     protected $definitions = [];
 
+    protected GlyphFactory $glyph_factory;
+    protected Renderer $renderer;
+
     /**
     * Constructor
     *
@@ -39,6 +45,10 @@ class ilMatchingPairWizardInputGUI extends ilTextInputGUI
     public function __construct($a_title = "", $a_postvar = "")
     {
         parent::__construct($a_title, $a_postvar);
+
+        global $DIC;
+        $this->glyph_factory = $DIC->ui()->factory()->symbol()->glyph();
+        $this->renderer = $DIC->ui()->renderer();
     }
 
     public function setValue($a_value): void
@@ -52,7 +62,7 @@ class ilMatchingPairWizardInputGUI extends ilTextInputGUI
                     $this->pairs[] = new assAnswerMatchingPair(
                         new assAnswerMatchingTerm('', '', $term),
                         new assAnswerMatchingDefinition('', '', $a_value['definition'][$idx]),
-                        (float)$a_value['points'][$idx]
+                        (float) $a_value['points'][$idx]
                     );
                 }
             }
@@ -148,12 +158,19 @@ class ilMatchingPairWizardInputGUI extends ilTextInputGUI
                 }
                 $max = 0;
                 foreach ($foundvalues['points'] as $val) {
-                    if ($val > 0) {
-                        $max += $val;
-                    }
-                    if ($this->getRequired() && (strlen($val)) == 0) {
+                    if ($this->getRequired() && (strlen($val)) === 0) {
                         $this->setAlert($lng->txt("msg_input_is_required"));
                         return false;
+                    }
+                    $val = str_replace(",", ".", $val);
+                    if (!is_numeric($val)) {
+                        $this->setAlert($lng->txt("form_msg_numeric_value_required"));
+                        return false;
+                    }
+
+                    $val = (float) $val;
+                    if ($val > 0) {
+                        $max += $val;
                     }
                 }
                 if ($max <= 0) {
@@ -184,7 +201,7 @@ class ilMatchingPairWizardInputGUI extends ilTextInputGUI
         global $DIC;
         $lng = $DIC['lng'];
         $global_tpl = $DIC['tpl'];
-        $global_tpl->addJavascript("./Services/Form/js/ServiceFormWizardInput.js");
+        $global_tpl->addJavascript("./Modules/TestQuestionPool/templates/default/answerwizardinput.js");
         $global_tpl->addJavascript("./Modules/TestQuestionPool/templates/default/matchingpairwizard.js");
 
         $tpl = new ilTemplate("tpl.prop_matchingpairinput.html", true, true, "Modules/TestQuestionPool");
@@ -229,11 +246,13 @@ class ilMatchingPairWizardInputGUI extends ilTextInputGUI
 
             if ($this->getAllowMove()) {
                 $tpl->setCurrentBlock("move");
-                $tpl->setVariable("CMD_UP", "cmd[up" . $this->getFieldId() . "][$i]");
-                $tpl->setVariable("CMD_DOWN", "cmd[down" . $this->getFieldId() . "][$i]");
                 $tpl->setVariable("ID", $this->getPostVar() . "[$i]");
-                $tpl->setVariable("UP_BUTTON", ilGlyphGUI::get(ilGlyphGUI::UP));
-                $tpl->setVariable("DOWN_BUTTON", ilGlyphGUI::get(ilGlyphGUI::DOWN));
+                $tpl->setVariable("UP_BUTTON", $this->renderer->render(
+                    $this->glyph_factory->up()
+                ));
+                $tpl->setVariable("DOWN_BUTTON", $this->renderer->render(
+                    $this->glyph_factory->down()
+                ));
                 $tpl->parseCurrentBlock();
             }
 
@@ -241,10 +260,12 @@ class ilMatchingPairWizardInputGUI extends ilTextInputGUI
             $tpl->setVariable("ROW_NUMBER", $i);
 
             $tpl->setVariable("ID", $this->getPostVar() . "[$i]");
-            $tpl->setVariable("CMD_ADD", "cmd[add" . $this->getFieldId() . "][$i]");
-            $tpl->setVariable("CMD_REMOVE", "cmd[remove" . $this->getFieldId() . "][$i]");
-            $tpl->setVariable("ADD_BUTTON", ilGlyphGUI::get(ilGlyphGUI::ADD));
-            $tpl->setVariable("REMOVE_BUTTON", ilGlyphGUI::get(ilGlyphGUI::REMOVE));
+            $tpl->setVariable("ADD_BUTTON", $this->renderer->render(
+                $this->glyph_factory->add()
+            ));
+            $tpl->setVariable("REMOVE_BUTTON", $this->renderer->render(
+                $this->glyph_factory->remove()
+            ));
 
             $tpl->setVariable("POST_VAR", $this->getPostVar());
 

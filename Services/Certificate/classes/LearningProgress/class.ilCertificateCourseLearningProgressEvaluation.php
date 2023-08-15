@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,18 +16,20 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
 class ilCertificateCourseLearningProgressEvaluation
 {
-    private ilSetting $setting;
-    private ilCertificateObjectHelper $objectHelper;
-    private ilCertificateLPStatusHelper $statusHelper;
-    private ilCertificateObjUserTrackingHelper $trackingHelper;
+    private readonly ilSetting $setting;
+    private readonly ilCertificateObjectHelper $objectHelper;
+    private readonly ilCertificateLPStatusHelper $statusHelper;
+    private readonly ilCertificateObjUserTrackingHelper $trackingHelper;
 
     public function __construct(
-        private ilCertificateTemplateRepository $templateRepository,
+        private readonly ilCertificateTemplateRepository $templateRepository,
         ?ilSetting $setting = null,
         ?ilCertificateObjectHelper $objectHelper = null,
         ?ilCertificateLPStatusHelper $statusHelper = null,
@@ -84,7 +84,7 @@ class ilCertificateCourseLearningProgressEvaluation
                 $subitem_obj_ids[$subItemRefId] = $this->objectHelper->lookupObjId((int) $subItemRefId);
             }
 
-            if (in_array($refId, $subItems, true)) {
+            if (in_array($refId, $subItems)) {
                 $completed = true;
 
                 // check if all subitems are completed now

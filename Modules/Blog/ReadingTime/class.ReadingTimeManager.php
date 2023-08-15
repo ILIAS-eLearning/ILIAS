@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -23,20 +25,9 @@ namespace ILIAS\Blog\ReadingTime;
  */
 class ReadingTimeManager
 {
-    /**
-     * @var \ILIAS\COPage\ReadingTime\ReadingTimeManager
-     */
-    protected $page_manager;
-
-    /**
-     * @var ReadingTimeDBRepo
-     */
-    protected $repo;
-
-    /**
-     * @var \ilSetting
-     */
-    protected $blog_set;
+    protected \ILIAS\COPage\ReadingTime\ReadingTimeManager $page_manager;
+    protected ReadingTimeDBRepo $repo;
+    protected \ilSetting $blog_set;
 
     public function __construct()
     {

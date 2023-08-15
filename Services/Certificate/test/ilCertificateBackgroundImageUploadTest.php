@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\Filesystem\Filesystem;
 use ILIAS\Filesystem\Stream\FileStream;
@@ -192,7 +192,8 @@ class ilCertificateBackgroundImageUploadTest extends ilCertificateBaseTestCase
         );
 
         $upload->uploadBackgroundImage('some/where/temporary', 3, [
-            'tmp_name' => 'pending_file'
+            'name' => 'pending_file.jpg',
+            'tmp_name' => '/tmp/f04akasf492'
         ]);
     }
 }

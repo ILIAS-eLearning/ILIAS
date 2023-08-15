@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
 * Custom repository search gui class for study programme to make it possible
@@ -56,6 +56,7 @@ class ilStudyProgrammeRepositorySearchGUI extends ilRepositorySearchGUI
         $lng = $DIC['lng'];
         $ilCtrl = $DIC['ilCtrl'];
         $tree = $DIC['tree'];
+        $ui_factory = $DIC['ui.factory'];
 
         if (!$toolbar instanceof ilToolbarGUI) {
             $toolbar = $ilToolbar;
@@ -99,14 +100,19 @@ class ilStudyProgrammeRepositorySearchGUI extends ilRepositorySearchGUI
             }
         }
 
-        $button = ilSubmitButton::getInstance();
-        $button->setCaption($a_options['submit_name'], false);
-        $button->setCommand('addUserFromAutoComplete');
-        if (!$a_sticky) {
-            $toolbar->addButtonInstance($button);
-        } else {
-            $toolbar->addStickyItem($button);
-        }
+        $button = $ui_factory->button()->standard($a_options['submit_name'], '#')
+        ->withOnLoadCode(
+            fn($id) => "
+                document.getElementById('$id').addEventListener('click',
+                function() {
+                    let frm = this.closest('form');
+                    frm.action = frm.action + '&cmd=addUserFromAutoComplete';
+                    frm.submit();
+                    return false;
+                });
+            "
+        );
+        $toolbar->addComponent($button);
 
         if ((bool) $a_options['add_search'] ||
             is_numeric($a_options['add_from_container'])) {
@@ -115,10 +121,11 @@ class ilStudyProgrammeRepositorySearchGUI extends ilRepositorySearchGUI
             $toolbar->addSeparator();
 
             if ((bool) $a_options['add_search']) {
-                $button = ilLinkButton::getInstance();
-                $button->setCaption("search_users");
-                $button->setUrl($ilCtrl->getLinkTargetByClass('ilStudyProgrammeRepositorySearchGUI', ''));
-                $toolbar->addButtonInstance($button);
+                $link = $ui_factory->link()->standard(
+                    $lng->txt('search_users'),
+                    $ilCtrl->getLinkTargetByClass('ilStudyProgrammeRepositorySearchGUI', '')
+                );
+                $toolbar->addComponent($link);
             }
 
             if (isset($a_options['add_from_container']) && is_numeric($a_options['add_from_container'])) {
@@ -140,15 +147,14 @@ class ilStudyProgrammeRepositorySearchGUI extends ilRepositorySearchGUI
                         ilObject::_lookupObjId($parent_container_ref_id)
                     );
 
-                    $button = ilLinkButton::getInstance();
-                    $button->setCaption("search_add_members_from_container_" . $parent_container_type);
-                    $button->setUrl(
+                    $link = $ui_factory->link()->standard(
+                        $lng->txt('search_add_members_from_container_' . $parent_container_type),
                         $ilCtrl->getLinkTargetByClass(
-                            array(get_class($parent_object),'ilStudyProgrammeRepositorySearchGUI'),
+                            [get_class($parent_object),'ilStudyProgrammeRepositorySearchGUI'],
                             'listUsers'
                         )
                     );
-                    $toolbar->addButtonInstance($button);
+                    $toolbar->addComponent($link);
                 }
             }
         }

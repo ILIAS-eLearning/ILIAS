@@ -127,9 +127,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         }
         array_push($headernames, $this->lng->txt("tst_reached_points"));
         array_push($headernames, $this->lng->txt("tst_mark"));
-        if ($this->object->getECTSOutput()) {
-            array_push($headernames, $this->lng->txt("ects_grade"));
-        }
         array_push($headernames, $this->lng->txt("tst_answered_questions"));
         array_push($headernames, $this->lng->txt("working_time"));
         array_push($headernames, $this->lng->txt("detailed_evaluation"));
@@ -147,9 +144,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         }
         array_push($headervars, "resultspoints");
         array_push($headervars, "resultsmarks");
-        if ($this->object->getECTSOutput()) {
-            array_push($headervars, "ects_grade");
-        }
         array_push($headervars, "qworkedthrough");
         array_push($headervars, "timeofwork");
         array_push($headervars, "");
@@ -234,9 +228,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
         $counter = 1;
         if (count($participantData->getActiveIds()) > 0) {
-            if ($this->object->getECTSOutput()) {
-                $passed_array = $this->object->getTotalPointsPassedArray();
-            }
             foreach ($participantData->getActiveIds() as $active_id) {
                 if (!isset($foundParticipants[$active_id]) || !($foundParticipants[$active_id] instanceof ilTestEvaluationUserData)) {
                     continue;
@@ -277,10 +268,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
                     if (is_object($mark)) {
                         $evaluationrow['mark'] = $mark->getShortName();
                     }
-                    if ($this->object->getECTSOutput()) {
-                        $ects_mark = $this->object->getECTSGrade($passed_array, $userdata->getReached(), $userdata->getMaxPoints());
-                        $evaluationrow['ects_grade'] = $ects_mark;
-                    }
                     $evaluationrow['answered'] = $userdata->getQuestionsWorkedThroughInPercent();
                     $evaluationrow['questions_worked_through'] = $userdata->getQuestionsWorkedThrough();
                     $evaluationrow['number_of_questions'] = $userdata->getNumberOfQuestions();
@@ -319,10 +306,18 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             $ilToolbar->setFormName('form_output_eval');
             $ilToolbar->setFormAction($this->ctrl->getFormAction($this, 'exportEvaluation'));
             $export_type = new ilSelectInputGUI($this->lng->txt('exp_eval_data'), 'export_type');
-            $options = array(
-                'excel' => $this->lng->txt('exp_type_excel'),
-                'csv' => $this->lng->txt('exp_type_spss')
-            );
+            if ($this->getObject() && $this->getObject()->getQuestionSetType() !== ilObjTest::QUESTION_SET_TYPE_RANDOM) {
+                $options = array(
+                    'excel_scored_test_run' => $this->lng->txt('exp_type_excel') . ' (' . $this->lng->txt('exp_scored_test_run') . ')',
+                    'excel_all_test_runs' => $this->lng->txt('exp_type_excel') . ' (' . $this->lng->txt('exp_all_test_runs') . ')',
+                    'csv' => $this->lng->txt('exp_type_spss')
+                );
+            } else {
+                $options = array(
+                    'excel_scored_test_run' => $this->lng->txt('exp_type_excel') . ' (' . $this->lng->txt('exp_scored_test_run') . ')',
+                    'csv' => $this->lng->txt('exp_type_spss')
+                );
+            }
 
             if (!$this->object->getAnonymity()) {
                 try {
@@ -397,11 +392,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             $resultMarks = new ilNonEditableValueGUI($this->lng->txt('tst_stat_result_resultsmarks'));
             $resultMarks->setValue($data->getParticipant($active_id)->getMark());
             $form->addItem($resultMarks);
-            if (strlen($data->getParticipant($active_id)->getECTSMark())) {
-                $ectsGrade = new ilNonEditableValueGUI($this->lng->txt('ects_grade'));
-                $ectsGrade->setValue($data->getParticipant($active_id)->getECTSMark());
-                $form->addItem($ectsGrade);
-            }
         }
 
         if ($this->object->isOfferingQuestionHintsEnabled()) {
@@ -702,7 +692,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
     public function exportEvaluation()
     {
-        $filterby = "";
+        $filterby = ilTestEvaluationData::FILTER_BY_NONE;
         if ($this->testrequest->isset("g_filterby")) {
             $filterby = $this->testrequest->raw("g_filterby");
         }
@@ -722,24 +712,25 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         $expFactory = new ilTestExportFactory($this->object);
 
         switch ($this->testrequest->raw("export_type")) {
-            case "excel":
-                $expFactory->getExporter('results')->exportToExcel(
-                    $deliver = true,
-                    $filterby,
-                    $filtertext,
-                    $passedonly
-                );
+            case "excel_scored_test_run":
+                (new ilExcelTestExport($this->object, $filterby, $filtertext, $passedonly, true))
+                    ->withResultsPage()
+                    ->withUserPages()
+                    ->deliver($this->object->getTitle() . '_results');
                 break;
 
             case "csv":
-                $expFactory->getExporter('results')->exportToCSV(
-                    $deliver = true,
-                    $filterby,
-                    $filtertext,
-                    $passedonly
-                );
+                (new ilCSVTestExport($this->object, $filterby, $filtertext, $passedonly))
+                    ->withAllResults()
+                    ->deliver($this->object->getTitle() . '_results');
                 break;
 
+            case "excel_all_test_runs":
+                (new ilExcelTestExport($this->object, $filterby, $filtertext, $passedonly, false))
+                    ->withResultsPage()
+                    ->withUserPages()
+                    ->deliver($this->object->getTitle() . '_results');
+                break;
             case "certificate":
                 if ($passedonly) {
                     $this->ctrl->setParameterByClass("iltestcertificategui", "g_passedonly", "1");
@@ -759,10 +750,14 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
         switch ($_POST["export_type"]) {
             case "excel":
-                $exportObj->exportToExcel($deliver = true);
+                (new ilExcelTestExport($this->object, ilTestEvaluationData::FILTER_BY_NONE, '', false, true))
+                    ->withAggregatedResultsPage()
+                    ->deliver($this->object->getTitle() . '_aggregated');
                 break;
             case "csv":
-                $exportObj->exportToCSV($deliver = true);
+                (new ilCSVTestExport($this->object, ilTestEvaluationData::FILTER_BY_NONE, '', false))
+                    ->withAggregatedResults()
+                    ->deliver($this->object->getTitle() . '_aggregated');
                 break;
         }
     }
@@ -1179,8 +1174,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
         //$questionAnchorNav = $this->object->canShowSolutionPrintview();
         $questionAnchorNav =
-            $this->object->getShowSolutionListOwnAnswers() &&
-            $this->object->getShowSolutionDetails() ;
+            $this->object->getShowSolutionListOwnAnswers();
 
         $tpl = new ilTemplate('tpl.il_as_tst_pass_details_overview_participants.html', true, true, "Modules/Test");
 
@@ -1584,7 +1578,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             $context = ilTestPassDeletionConfirmationGUI::CONTEXT_PASS_OVERVIEW;
         }
 
-        if (!$this->object->isPassDeletionAllowed() && !$this->object->isDynamicTest()) {
+        if (!$this->object->isPassDeletionAllowed()) {
             $this->redirectToPassDeletionContext($context);
         }
 
@@ -1610,11 +1604,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             case ilTestPassDeletionConfirmationGUI::CONTEXT_INFO_SCREEN:
 
                 $this->ctrl->redirectByClass('ilObjTestGUI', 'infoScreen');
-
-                // no break
-            case ilTestPassDeletionConfirmationGUI::CONTEXT_DYN_TEST_PLAYER:
-
-                $this->ctrl->redirectByClass('ilTestPlayerDynamicQuestionSetGUI', 'startTest');
         }
     }
 
@@ -1626,7 +1615,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             $context = ilTestPassDeletionConfirmationGUI::CONTEXT_PASS_OVERVIEW;
         }
 
-        if (!$this->object->isPassDeletionAllowed() && !$this->object->isDynamicTest()) {
+        if (!$this->object->isPassDeletionAllowed()) {
             $this->redirectToPassDeletionContext($context);
         }
 
@@ -1647,7 +1636,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             $this->ctrl->redirect($this, 'outUserResultsOverview');
         }
 
-        if (!$this->object->isDynamicTest() && $pass == $this->object->_getResultPass($active_fi)) {
+        if ($pass == $this->object->_getResultPass($active_fi)) {
             $this->ctrl->redirect($this, 'outUserResultsOverview');
         }
 
@@ -1684,7 +1673,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             throw new ilTestException('This should not happen, please contact Bjoern Heyser to clean up this pass salad!');
         }
 
-        if (!$this->object->isDynamicTest() && $isActivePass) {
+        if ($isActivePass) {
             $this->ctrl->redirect($this, 'outUserResultsOverview');
         }
 
@@ -1765,29 +1754,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             );
         }
 
-        if ($this->object->isDynamicTest()) {
-            $tables = array(
-                'tst_seq_qst_tracking', 'tst_seq_qst_answstatus', 'tst_seq_qst_postponed', 'tst_seq_qst_checked'
-            );
-
-            foreach ($tables as $table) {
-                $ilDB->manipulate("
-						DELETE FROM $table
-						WHERE active_fi = {$ilDB->quote($active_fi, 'integer')}
-						AND pass = {$ilDB->quote($pass, 'integer')}
-				");
-
-                if ($must_renumber) {
-                    $ilDB->manipulate("
-						UPDATE $table
-						SET pass = pass - 1
-						WHERE active_fi = {$ilDB->quote($active_fi, 'integer')}
-						AND pass > {$ilDB->quote($pass, 'integer')}
-					");
-                }
-            }
-        }
-
         // tst_solutions
         $ilDB->manipulate(
             'DELETE
@@ -1822,6 +1788,25 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             );
         }
 
+        // qpl_hint_tracking
+        $ilDB->manipulate(
+            'DELETE
+				FROM qpl_hint_tracking
+				WHERE qhtr_active_fi = ' . $ilDB->quote($active_fi, 'integer') . '
+				AND qhtr_pass = ' . $ilDB->quote($pass, 'integer')
+        );
+
+        if ($must_renumber) {
+            $ilDB->manipulate(
+                'UPDATE qpl_hint_tracking
+				SET qhtr_pass = qhtr_pass - 1
+				WHERE qhtr_active_fi = ' . $ilDB->quote($active_fi, 'integer') . '
+				AND qhtr_pass > ' . $ilDB->quote($pass, 'integer')
+            );
+        }
+
+        // tst_test_rnd_qst -> nothing to do
+
         // tst_times
         $ilDB->manipulate(
             'DELETE
@@ -1845,10 +1830,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
         assQuestion::_updateTestResultCache($active_fi);
 
-        if ($this->object->isDynamicTest()) {
-            ilSession::clear('form_' . ilTestDynamicQuestionSetStatisticTableGUI::FILTERED_TABLE_ID);
-        }
-
         $this->redirectToPassDeletionContext($context);
     }
 
@@ -1871,7 +1852,8 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         $table_gui->initFilter();
 
         $questionList = new ilAssQuestionList($ilDB, $this->lng, $component_repository);
-
+        $questionList->setParentObjId($this->object->getId());
+        $questionList->setParentObjectType($this->object->getType());
         $questionList->setIncludeQuestionIdsFilter($questionIds);
         $questionList->setQuestionInstanceTypeFilter(null);
 
@@ -1950,8 +1932,20 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         $participantData->load($this->object->getTestId());
 
         if (in_array($activeId, $participantData->getActiveIds())) {
+            $testSession = new ilTestSession();
+            $testSession->loadFromDb($activeId);
+
+            assQuestion::_updateTestPassResults(
+                $activeId,
+                $testSession->getPass(),
+                $this->object->areObligationsEnabled(),
+                null,
+                $this->object->getId()
+            );
+
             $this->finishTestPass($activeId, $this->object->getId());
         }
+
 
         $this->redirectBackToParticipantsScreen();
     }
@@ -1979,8 +1973,20 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
                 continue;
             }
 
+            $testSession = new ilTestSession();
+            $testSession->loadFromDb($participant->getActiveId());
+
+            assQuestion::_updateTestPassResults(
+                $participant->getActiveId(),
+                $testSession->getPass(),
+                $this->object->areObligationsEnabled(),
+                null,
+                $this->object->getId()
+            );
+
             $this->finishTestPass($participant->getActiveId(), $this->object->getId());
         }
+
 
         $this->redirectBackToParticipantsScreen();
     }

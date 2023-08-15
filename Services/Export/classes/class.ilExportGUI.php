@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\Refinery\Factory as Factory;
 use ILIAS\HTTP\Services as Services;
 
@@ -28,6 +28,7 @@ use ILIAS\HTTP\Services as Services;
  */
 class ilExportGUI
 {
+    protected \ILIAS\Export\InternalGUIService $gui;
     protected Factory $refinery;
     protected Services $http;
     protected array $formats = array();
@@ -69,6 +70,7 @@ class ilExportGUI
         } else {
             $this->obj = $a_main_obj;
         }
+        $this->gui = $DIC->export()->internal()->gui();
     }
 
     protected function initFileIdentifierFromQuery(): string
@@ -220,8 +222,6 @@ class ilExportGUI
 
     public function listExportFiles(): void
     {
-        $button = ilSubmitButton::getInstance();
-
         // creation buttons
         $this->toolbar->setFormAction($this->ctrl->getFormAction($this));
         if (count($this->getFormats()) > 1) {
@@ -234,17 +234,19 @@ class ilExportGUI
             $si->setOptions($options);
             $this->toolbar->addInputItem($si, true);
 
-            $button->setCaption("exp_create_file");
-            $button->setCommand("createExportFile");
+            $this->gui->button(
+                $this->lng->txt("exp_create_file"),
+                "createExportFile"
+            )->submit()->toToolbar();
         } else {
             $format = $this->getFormats();
             $format = $format[0];
 
-            $button->setCaption($this->lng->txt("exp_create_file") . " (" . $format["txt"] . ")", false);
-            $button->setCommand("create_" . $format["key"]);
+            $this->gui->button(
+                $this->lng->txt("exp_create_file") . " (" . $format["txt"] . ")",
+                "create_" . $format["key"]
+            )->submit()->toToolbar();
         }
-
-        $this->toolbar->addButtonInstance($button);
 
         $table = $this->buildExportTableGUI();
         $table->setSelectAllCheckbox("file");

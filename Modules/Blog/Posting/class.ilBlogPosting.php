@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -121,9 +123,7 @@ class ilBlogPosting extends ilPageObject
         }
 
         // we are using a separate creation date to enable sorting without JOINs
-        $withdrawn = $this->getWithdrawn()
-            ? $this->getWithdrawn()->get(IL_CAL_DATETIME)
-            : null;
+        $withdrawn = $this->getWithdrawn()?->get(IL_CAL_DATETIME);
         $query = "INSERT INTO il_blog_posting (id, title, blog_id, created, author, approved, last_withdrawn)" .
             " VALUES (" .
             $ilDB->quote($this->getId(), "integer") . "," .
@@ -146,13 +146,11 @@ class ilBlogPosting extends ilPageObject
         bool $a_no_history = false,
         bool $a_notify = true,
         string $a_notify_action = "update"
-    ): bool {
+    ) {
         $ilDB = $this->db;
 
         // blog_id, author and created cannot be changed
-        $withdrawn = $this->getWithdrawn()
-            ? $this->getWithdrawn()->get(IL_CAL_DATETIME)
-            : null;
+        $withdrawn = $this->getWithdrawn()?->get(IL_CAL_DATETIME);
         $query = "UPDATE il_blog_posting SET" .
             " title = " . $ilDB->quote($this->getTitle(), "text") .
             ",created = " . $ilDB->quote($this->getCreated()->get(IL_CAL_DATETIME), "timestamp") .
@@ -161,13 +159,13 @@ class ilBlogPosting extends ilPageObject
             " WHERE id = " . $ilDB->quote($this->getId(), "integer");
         $ilDB->manipulate($query);
 
-        parent::update($a_validate, $a_no_history);
+        $ret = parent::update($a_validate, $a_no_history);
 
         if ($a_notify && $this->getActive()) {
             ilObjBlog::sendNotification($a_notify_action, $this->blog_node_is_wsp, $this->blog_node_id, $this->getId());
         }
 
-        return true;
+        return $ret;
     }
 
     /**

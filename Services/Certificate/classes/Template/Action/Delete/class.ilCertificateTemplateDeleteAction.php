@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,18 +16,20 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
 class ilCertificateTemplateDeleteAction implements ilCertificateDeleteAction
 {
-    private ilCertificateUtilHelper $utilHelper;
-    private ilCertificateObjectHelper $objectHelper;
+    private readonly ilCertificateUtilHelper $utilHelper;
+    private readonly ilCertificateObjectHelper $objectHelper;
 
     public function __construct(
-        private ilCertificateTemplateRepository $templateRepository,
-        private string $rootDirectory = CLIENT_WEB_DIR,
-        private string $iliasVersion = ILIAS_VERSION_NUMERIC,
+        private readonly ilCertificateTemplateRepository $templateRepository,
+        private readonly string $rootDirectory = CLIENT_WEB_DIR,
+        private readonly string $iliasVersion = ILIAS_VERSION_NUMERIC,
         ?ilCertificateUtilHelper $utilHelper = null,
         ?ilCertificateObjectHelper $objectHelper = null
     ) {
@@ -85,7 +85,6 @@ class ilCertificateTemplateDeleteAction implements ilCertificateDeleteAction
         $this->utilHelper->convertImage(
             $this->rootDirectory . $relativePath,
             $this->rootDirectory . $newFilePath,
-            'JPEG',
             "100"
         );
     }

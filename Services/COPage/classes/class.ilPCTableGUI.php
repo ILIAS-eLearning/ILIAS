@@ -25,6 +25,9 @@
  */
 class ilPCTableGUI extends ilPageContentGUI
 {
+    protected \ILIAS\COPage\Dom\DomUtil $dom_util;
+    protected \ILIAS\COPage\PC\PCDefinition $pc_definition;
+    protected \ILIAS\COPage\Xsl\XslManager $xsl;
     protected ilPropertyFormGUI $form;
     protected ilTabsGUI $tabs;
     protected ilObjUser $user;
@@ -46,6 +49,14 @@ class ilPCTableGUI extends ilPageContentGUI
         parent::__construct($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
         $this->setCharacteristics(array("StandardTable" => $this->lng->txt("cont_StandardTable")));
         $this->tool_context = $DIC->globalScreen()->tool()->context();
+        $this->xsl = $DIC->copage()->internal()->domain()->xsl();
+        $this->pc_definition = $DIC
+            ->copage()
+            ->internal()
+            ->domain()
+            ->pc()
+            ->definition();
+        $this->dom_util = $DIC->copage()->internal()->domain()->domUtil();
     }
 
     public function setBasicTableCellStyles(): void
@@ -412,9 +423,9 @@ class ilPCTableGUI extends ilPageContentGUI
         string $a_submode = ""
     ): string {
         $template_xml = "";
-        $tab_node = $this->content_obj->getNode();
-        $tab_node->set_attribute("Enabled", "True");
-        $content = $this->dom->dump_node($tab_node);
+        $tab_node = $this->content_obj->getDomNode();
+        $tab_node->setAttribute("Enabled", "True");
+        $content = $this->dom_util->dump($tab_node);
 
         $trans = $this->pg_obj->getLanguageVariablesXML();
         $mobs = $this->pg_obj->getMultimediaXML();
@@ -450,21 +461,16 @@ class ilPCTableGUI extends ilPageContentGUI
         global $DIC;
 
         $ilUser = $DIC->user();
+        $xsl = $DIC->copage()->internal()->domain()->xsl();
+        $pc_definition = $DIC->copage()->internal()->domain()->pc()->definition();
 
         $content = "<dummy>" . $content . "</dummy>";
 
-        $xsl = file_get_contents("./Services/COPage/xsl/page.xsl");
-        $args = array( '/_xml' => $content, '/_xsl' => $xsl );
-        $xh = xslt_create();
-        //echo "<b>XML</b>:".htmlentities($content).":<br>";
-        //echo "<b>XSLT</b>:".htmlentities($xsl).":<br>";
         $wb_path = ilFileUtils::getWebspaceDir("output") . "/";
         $enlarge_path = ilUtil::getImagePath("enlarge.svg");
         $params = array('mode' => $a_mode,
             'webspace_path' => $wb_path, 'enlarge_path' => $enlarge_path);
-        $output = xslt_process($xh, "arg:/_xml", "arg:/_xsl", null, $args, $params);
-        xslt_error($xh);
-        xslt_free($xh);
+        $output = $xsl->process($content, $params);
 
         // unmask user html
         if ($unmask) {
@@ -495,7 +501,7 @@ class ilPCTableGUI extends ilPageContentGUI
 
         // for all page components...
         if (isset($page_object)) {
-            $defs = ilCOPagePCDef::getPCDefinitions();
+            $defs = $pc_definition->getPCDefinitions();
             foreach ($defs as $def) {
                 $pc_class = $def["pc_class"];
                 $pc_obj = new $pc_class($page_object);
@@ -904,19 +910,8 @@ class ilPCTableGUI extends ilPageContentGUI
         if (!empty($import_table)) {
             switch ($this->form->getInput("import_type")) {
                 // xhtml import
-                case "html":
-                    $res = $this->content_obj->importHtml(
-                        $this->form->getInput("language"),
-                        $import_table
-                    );
-                    if ($res !== true) {
-                        $this->tpl->setOnScreenMessage('failure', $res);
-                        $this->insert();
-                        return;
-                    }
-                    break;
 
-                    // spreadsheet
+                // spreadsheet
                 case "spreadsheet":
                     $this->content_obj->importSpreadsheet($this->form->getInput("language"), $import_table);
                     break;
@@ -1064,20 +1059,18 @@ class ilPCTableGUI extends ilPageContentGUI
         );
 
         // get all rows
-        $xpc = xpath_new_context($this->dom);
         $path = "//PageContent[@HierId='" . $this->getHierId() . "']" .
             "/Table/TableRow";
-        $res = xpath_eval($xpc, $path);
-
-        for ($i = 0; $i < count($res->nodeset); $i++) {
-            $xpc2 = xpath_new_context($this->dom);
+        $nodes = $this->dom_util->path($this->dom, $path);
+        $i = 0;
+        foreach ($nodes as $node) {
             $path2 = "//PageContent[@HierId='" . $this->getHierId() . "']" .
                 "/Table/TableRow[$i+1]/TableData";
-            $res2 = xpath_eval($xpc2, $path2);
-
+            $nodes2 = $this->dom_util->path($this->dom, $path2);
             // if this is the first row -> col icons
             if ($i == 0) {
-                for ($j = 0; $j < count($res2->nodeset); $j++) {
+                $j = 0;
+                foreach ($nodes2 as $node2) {
                     if ($j == 0) {
                         $dtpl->touchBlock("empty_td");
                     }
@@ -1085,12 +1078,12 @@ class ilPCTableGUI extends ilPageContentGUI
                     $move_forward = false;
                     $move_backward = false;
                     if ($j == 0) {
-                        if (count($res2->nodeset) == 1) {
+                        if (count($nodes2) == 1) {
                             //
                         } else {
                             $move_forward = true;
                         }
-                    } elseif ($j == (count($res2->nodeset) - 1)) {
+                    } elseif ($j == (count($nodes2) - 1)) {
                         $move_backward = true;
                     } else {
                         $move_forward = true;
@@ -1098,37 +1091,39 @@ class ilPCTableGUI extends ilPageContentGUI
                     }
                     $dtpl->setCurrentBlock("col_icon");
                     $dtpl->setVariable("NR_COLUMN", $j + 1);
-                    $dtpl->setVariable("PCID_COLUMN", $res2->nodeset[$j]->get_attribute("PCID"));
+                    $dtpl->setVariable("PCID_COLUMN", $node2->getAttribute("PCID"));
                     $dtpl->setVariable("COLUMN_CAPTION", $this->getColumnCaption($j + 1));
                     $dtpl->parseCurrentBlock();
+                    $j++;
                 }
                 $dtpl->setCurrentBlock("row");
                 $dtpl->parseCurrentBlock();
             }
 
-            for ($j = 0; $j < count($res2->nodeset); $j++) {
+            $j = 0;
+            foreach ($nodes2 as $node2) {
                 // first col: row icons
                 if ($j == 0) {
                     if ($i == 0) {
-                        if (count($res->nodeset) == 1) {
+                        if (count($nodes) == 1) {
                             $move_type = "none";
                         } else {
                             $move_type = "forward";
                         }
-                    } elseif ($i == (count($res->nodeset) - 1)) {
+                    } elseif ($i == (count($nodes) - 1)) {
                         $move_type = "backward";
                     } else {
                         $move_type = "both";
                     }
                     $dtpl->setCurrentBlock("row_icon");
                     $dtpl->setVariable("NR_ROW", $i + 1);
-                    $dtpl->setVariable("PCID_ROW", $res2->nodeset[$j]->get_attribute("PCID"));
+                    $dtpl->setVariable("PCID_ROW", $node2->getAttribute("PCID"));
                     $dtpl->setVariable("ROW_CAPTION", $i + 1);
                     $dtpl->parseCurrentBlock();
                 }
 
                 // cell
-                if ($res2->nodeset[$j]->get_attribute("Hidden") != "Y") {
+                if ($node2->getAttribute("Hidden") != "Y") {
                     if ($this->content_obj->getType() == "dtab") {
                         $dtpl->touchBlock("cell_type");
                         //$dtpl->setCurrentBlock("cell_type");
@@ -1147,8 +1142,8 @@ class ilPCTableGUI extends ilPageContentGUI
                         $this->getCellContent($i, $j)
                     );
 
-                    $cs = $res2->nodeset[$j]->get_attribute("ColSpan");
-                    $rs = $res2->nodeset[$j]->get_attribute("RowSpan");
+                    $cs = $node2->getAttribute("ColSpan");
+                    $rs = $node2->getAttribute("RowSpan");
                     $dtpl->setVariable("WIDTH", "140");
                     $dtpl->setVariable("HEIGHT", "80");
                     if ($cs > 1) {
@@ -1161,9 +1156,11 @@ class ilPCTableGUI extends ilPageContentGUI
                     }
                     $dtpl->parseCurrentBlock();
                 }
+                $j++;
             }
             $dtpl->setCurrentBlock("row");
             $dtpl->parseCurrentBlock();
+            $i++;
         }
 
         $dtpl->setVariable("TXT_ACTION", $this->lng->txt("cont_table"));
@@ -1205,18 +1202,18 @@ class ilPCTableGUI extends ilPageContentGUI
 
     protected function getCellContent(int $i, int $j): string
     {
-        $tab_node = $this->content_obj->getNode();
+        $tab_node = $this->content_obj->getDomNode();
         $cnt_i = 0;
         $content = "";
         $template_xml = "";
         // get correct cell and dump content of all its childrem
-        foreach ($tab_node->first_child()->child_nodes() as $child) {
+        foreach ($tab_node->firstChild->childNodes as $child) {
             if ($i == $cnt_i) {
                 $cnt_j = 0;
-                foreach ($child->child_nodes() as $child2) {
+                foreach ($child->childNodes as $child2) {
                     if ($j == $cnt_j) {
-                        foreach ($child2->child_nodes() as $cell_content_node) {
-                            $content .= $this->dom->dump_node($cell_content_node);
+                        foreach ($child2->childNodes as $cell_content_node) {
+                            $content .= $this->dom_util->dump($cell_content_node);
                         }
                     }
                     $cnt_j++;
@@ -1255,14 +1252,10 @@ class ilPCTableGUI extends ilPageContentGUI
         $ilUser = $DIC->user();
         $content = "<dummy>" . $content . "</dummy>";
 
-        $xsl = file_get_contents("./Services/COPage/xsl/page.xsl");
-        $args = array( '/_xml' => $content, '/_xsl' => $xsl );
-        $xh = xslt_create();
         $wb_path = ilFileUtils::getWebspaceDir("output") . "/";
         $enlarge_path = ilUtil::getImagePath("enlarge.svg");
         $params = array('webspace_path' => $wb_path, 'enlarge_path' => $enlarge_path);
-        $output = xslt_process($xh, "arg:/_xml", "arg:/_xsl", null, $args, $params);
-        xslt_free($xh);
+        $output = $this->xsl->process($content, $params);
 
         // unmask user html
         if ($unmask) {
@@ -1273,9 +1266,8 @@ class ilPCTableGUI extends ilPageContentGUI
 
         // for all page components...
         if (isset($page_object)) {
-            $defs = ilCOPagePCDef::getPCDefinitions();
+            $defs = $this->pc_definition->getPCDefinitions();
             foreach ($defs as $def) {
-                //ilCOPagePCDef::requirePCClassByName($def["name"]);
                 $pc_class = $def["pc_class"];
                 $pc_obj = new $pc_class($page_object);
 

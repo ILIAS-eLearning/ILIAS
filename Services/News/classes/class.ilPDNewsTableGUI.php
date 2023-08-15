@@ -24,6 +24,7 @@ use ILIAS\News\StandardGUIRequest;
  */
 class ilPDNewsTableGUI extends ilTable2GUI
 {
+    protected \ILIAS\News\InternalGUIService $gui;
     protected string $selected_context;
     /**
      * @var array<string,string>
@@ -44,10 +45,10 @@ class ilPDNewsTableGUI extends ilTable2GUI
         $this->lng = $DIC->language();
         $this->user = $DIC->user();
         $ilCtrl = $DIC->ctrl();
-        $this->std_request = new StandardGUIRequest(
-            $DIC->http(),
-            $DIC->refinery()
-        );
+        $this->std_request = $DIC->news()
+            ->internal()
+            ->gui()
+            ->standardRequest();
 
         parent::__construct($a_parent_obj, $a_parent_cmd);
 
@@ -65,6 +66,7 @@ class ilPDNewsTableGUI extends ilTable2GUI
         $this->setEnableHeader(false);
         $this->setIsDataTable(false);
         $this->initFilter();
+        $this->gui = $DIC->news()->internal()->gui();
     }
 
     public function initFilter(): void
@@ -164,15 +166,6 @@ class ilPDNewsTableGUI extends ilTable2GUI
             $a_set["mob_id"] > 0 && ilObject::_exists((int) $a_set["mob_id"])) {
             $mob = new ilObjMediaObject((int) $a_set["mob_id"]);
             $med = $mob->getMediaItem("Standard");
-            $mpl = new ilMediaPlayerGUI();
-            $mpl->setFile(ilObjMediaObject::_getDirectory((int) $a_set["mob_id"]) . "/" .
-                $med->getLocation());
-            $this->tpl->setCurrentBlock("player");
-            $this->tpl->setVariable(
-                "PLAYER",
-                $mpl->getMp3PlayerHtml()
-            );
-            $this->tpl->parseCurrentBlock();
         }
 
         // access
@@ -241,9 +234,10 @@ class ilPDNewsTableGUI extends ilTable2GUI
             $url = $ilCtrl->getLinkTargetByClass("ilrepositorygui", "sendfile");
             $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $this->std_request->getRefId());
 
-            $button = ilLinkButton::getInstance();
-            $button->setUrl($url);
-            $button->setCaption("download");
+            $button = $this->gui->button(
+                $this->lng->txt("download"),
+                $url
+            );
 
             $this->tpl->setCurrentBlock("download");
             $this->tpl->setVariable("BUTTON_DOWNLOAD", $button->render());

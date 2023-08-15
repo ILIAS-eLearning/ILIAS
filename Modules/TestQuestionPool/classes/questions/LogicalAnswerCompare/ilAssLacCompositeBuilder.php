@@ -34,15 +34,6 @@ class ilAssLacCompositeBuilder
     protected $operators = array('<=','<','=','>=','>','<>','&','|');
 
     /**
-     * Construct requirements
-     */
-    public function __construct()
-    {
-        include_once 'Modules/TestQuestionPool/classes/questions/LogicalAnswerCompare/Factory/ilAssLacOperationManufacturer.php';
-        include_once 'Modules/TestQuestionPool/classes/questions/LogicalAnswerCompare/Factory/ilAssLacExpressionManufacturer.php';
-    }
-
-    /**
      * Creates a composite tree structure from a nodes tree.
      * <p>
      * May fail on malformed input, e.g. because not all operators could be
@@ -94,7 +85,8 @@ class ilAssLacCompositeBuilder
             return $nodes['nodes'][0];
         }
         throw new ilAssLacCompositeBuilderException(
-            'need node structure with type group as input');
+            'need node structure with type group as input'
+        );
     }
 
     /**

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class ilSimpleSAMLphpWrapper
  * @author Michael Jansen <mjansen@databay.de>
@@ -26,8 +26,8 @@ final class ilSimpleSAMLphpWrapper implements ilSamlAuth
 {
     private const ILIAS = 'ilias';
 
-    private SimpleSAML\Configuration $config;
-    private SimpleSAML\Auth\Simple $authSource;
+    private readonly SimpleSAML\Configuration $config;
+    private readonly SimpleSAML\Auth\Simple $authSource;
 
     public function __construct(string $authSourceName, string $configurationPath)
     {
@@ -112,7 +112,7 @@ final class ilSimpleSAMLphpWrapper implements ilSamlAuth
 
     public function logout(string $returnUrl = ''): void
     {
-        ilSession::set('used_external_auth', false);
+        ilSession::clear('used_external_auth_mode');
 
         $params = [
             'ReturnStateParam' => 'LogoutState',

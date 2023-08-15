@@ -196,6 +196,7 @@ class ilTestLearningObjectivesStatusGUI
     private function getUsersObjectivesResults($crsObjId, $usrId): array
     {
         $res = array();
+        $initial_status = null;
         $lur = new ilLOUserResults($crsObjId, $usrId);
 
         foreach ($lur->getCourseResultsForUserPresentation() as $objective_id => $types) {
@@ -208,7 +209,7 @@ class ilTestLearningObjectivesStatusGUI
             if (isset($types[ilLOUserResults::TYPE_QUALIFIED])) {
                 $result = $types[ilLOUserResults::TYPE_QUALIFIED];
                 $result["type"] = ilLOUserResults::TYPE_QUALIFIED;
-                $result["initial"] = $types[ilLOUserResults::TYPE_INITIAL];
+                $result["initial"] = $types[ilLOUserResults::TYPE_INITIAL] ?? null;
             } else {
                 $result = $types[ilLOUserResults::TYPE_INITIAL];
                 $result["type"] = ilLOUserResults::TYPE_INITIAL;

@@ -26,20 +26,4 @@
  */
 class ilAssTextQuestionFeedback extends ilAssMultiOptionQuestionFeedback
 {
-    /**
-     * builds an answer option label from given (mixed type) index and answer
-     * (overwrites parent method from ilAssMultiOptionQuestionFeedback)
-     *
-     * @access protected
-     * @param integer $index
-     * @param mixed $answer
-     * @return string $answerOptionLabel
-     */
-    protected function buildAnswerOptionLabel(int $index, $answer): string
-    {
-        $caption = $ordinal = $index + 1;
-        $caption .= '. ' . $answer->getAnswertext();
-
-        return $caption;
-    }
 }

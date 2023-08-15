@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,23 +16,19 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
-/**
- * Class ilForumPostingFilesMigration
- *
- * @author Fabian Schmid <fs@studer-raimann.ch>
- */
+declare(strict_types=1);
+
 use ILIAS\ResourceStorage\Collection\ResourceCollection;
 use ILIAS\Setup\Environment;
 use ILIAS\Setup\Migration;
-use ILIAS\Setup\Objective;
 
 class ilForumPostingFilesMigration implements Migration
 {
-    protected \ilResourceStorageMigrationHelper $helper;
+    protected ilResourceStorageMigrationHelper $helper;
 
     public function getLabel(): string
     {
-        return "Migration of Files in Forum Posts to the Resource Storage Service.";
+        return 'Migration of Files in Forum Posts to the Resource Storage Service.';
     }
 
     public function getDefaultAmountOfStepsPerRun(): int
@@ -44,21 +38,19 @@ class ilForumPostingFilesMigration implements Migration
 
     public function getPreconditions(Environment $environment): array
     {
-        return \ilResourceStorageMigrationHelper::getPreconditions();
+        return ilResourceStorageMigrationHelper::getPreconditions();
     }
 
     public function prepare(Environment $environment): void
     {
-        $this->helper = new \ilResourceStorageMigrationHelper(
-            new \ilForumPostingFileStakeholder(),
+        $this->helper = new ilResourceStorageMigrationHelper(
+            new ilForumPostingFileStakeholder(),
             $environment
         );
     }
 
     public function step(Environment $environment): void
     {
-        $db = $this->helper->getDatabase();
-
         $r = $this->helper->getDatabase()->query(
             "SELECT
     frm_posts.pos_pk AS posting_id,
@@ -71,9 +63,9 @@ LIMIT 1;"
         );
 
         $d = $this->helper->getDatabase()->fetchObject($r);
-        $posting_id = (int)$d->posting_id;
-        $object_id = (int)$d->object_id;
-        $resource_owner_id = (int)$d->owner_id;
+        $posting_id = (int) $d->posting_id;
+        $object_id = (int) $d->object_id;
+        $resource_owner_id = (int) $d->owner_id;
 
         $base_path = $this->buildBasePath();
         $filename_pattern = '/^' . $object_id . '\_' . $posting_id . '\_(.*)/m';
@@ -107,7 +99,7 @@ WHERE frm_posts.rcid IS NULL OR frm_posts.rcid = '';"
         );
         $d = $this->helper->getDatabase()->fetchObject($r);
 
-        return (int)$d->amount;
+        return (int) $d->amount;
     }
 
     protected function buildBasePath(): string
@@ -117,7 +109,7 @@ WHERE frm_posts.rcid IS NULL OR frm_posts.rcid = '';"
 
     public function getFileNameCallback(string $pattern): Closure
     {
-        return function (string $file_name) use ($pattern): string {
+        return static function (string $file_name) use ($pattern): string {
             if (preg_match($pattern, $file_name, $matches)) {
                 return $matches[1] ?? $file_name;
             }
@@ -127,7 +119,7 @@ WHERE frm_posts.rcid IS NULL OR frm_posts.rcid = '';"
 
     public function getRevisionNameCallback(): Closure
     {
-        return function (string $file_name): string {
+        return static function (string $file_name): string {
             return md5($file_name);
         };
     }

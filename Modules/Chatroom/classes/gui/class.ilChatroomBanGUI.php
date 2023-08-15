@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class ilChatroomBanGUI
  * @author  Jan Posselt <jposselt@databay.de>
@@ -26,9 +26,9 @@ declare(strict_types=1);
  */
 class ilChatroomBanGUI extends ilChatroomGUIHandler
 {
-    private ilCtrlInterface $controller;
-    private ilLanguage $language;
-    private ilObjUser $user;
+    private readonly ilCtrlInterface $controller;
+    private readonly ilLanguage $language;
+    private readonly ilObjUser $user;
 
     public function __construct(
         ilChatroomObjectGUI $gui,

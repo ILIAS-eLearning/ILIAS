@@ -194,14 +194,14 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 
         // start SCORM 2004 package parser/importer
         //        if ($this->getEditable()) {
-//            return $newPack->il_importLM(
-//                $this,
-//                $this->getDataDirectory(),
-//                $this->getImportSequencing()
-//            );
-//        } else {
+        //            return $newPack->il_importLM(
+        //                $this,
+        //                $this->getDataDirectory(),
+        //                $this->getImportSequencing()
+        //            );
+        //        } else {
         return (new ilSCORM13Package())->il_import($this->getDataDirectory(), $this->getId());
-//        }
+        //        }
     }
 
 
@@ -354,7 +354,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 
         while ($sco_rec = $ilDB->fetchAssoc($sco_set)) {
             $item['id'] = $sco_rec["id"];
-            $item['title'] = self::_lookupItemTitle($sco_rec["id"]);
+            $item['title'] = self::_lookupItemTitle((int) $sco_rec["id"]);
             $items[] = $item;
         }
         return $items;
@@ -406,7 +406,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
                     }
                 }
                 if (!$raw) {
-                    $time = ilDatePresentation::secondsToString(self::_ISODurationToCentisec($data_rec["total_time"]) / 100);
+                    $time = ilDatePresentation::secondsToString((int) round(self::_ISODurationToCentisec($data_rec["total_time"]) / 100));
                     $score = "";
                     if ($data_rec["c_raw"] != null) {
                         $score = $data_rec["c_raw"];
@@ -417,7 +417,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
                     if ($data_rec["scaled"] != null) {
                         $score .= ($data_rec["scaled"] * 100) . "%";
                     }
-                    $title = self::_lookupItemTitle($data_rec["cp_node_id"]);
+                    $title = self::_lookupItemTitle((int) $data_rec["cp_node_id"]);
                     $last_access = ilDatePresentation::formatDate(new ilDateTime($data_rec['last_access'], IL_CAL_DATETIME));
                     $data[] = array("sco_id" => $data_rec["cp_node_id"],
                         "score" => $score, "time" => $time, "status" => $status,"last_access" => $last_access,"title" => $title);
@@ -490,31 +490,32 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
         $usersToDelete = array();
         $fields = fgetcsv($fhandle, 4096, ';');
         while (($csv_rows = fgetcsv($fhandle, 4096, ";")) !== false) {
+            $user_id = 0;
             $data = array_combine($fields, $csv_rows);
             //no check the format - sufficient to import users
-            if ($data["Login"]) {
+            if (isset($data["Login"])) {
                 $user_id = $this->get_user_id($data["Login"]);
             }
-            if ($data["login"]) {
+            if (isset($data["login"])) {
                 $user_id = $this->get_user_id($data["login"]);
             }
             //add mail in future
-            if ($data["user"] && is_numeric($data["user"])) {
-                $user_id = $data["user"];
+            if (isset($data["user"]) && is_numeric($data["user"])) {
+                $user_id = (int) $data["user"];
             }
             if ($user_id > 0) {
                 $last_access = ilUtil::now();
-                if ($data['Date']) {
+                if (isset($data['Date'])) {
                     $date_ex = explode('.', $data['Date']);
                     $last_access = implode('-', array($date_ex[2], $date_ex[1], $date_ex[0]));
                 }
-                if ($data['LastAccess']) {
+                if (isset($data['LastAccess'])) {
                     $last_access = $data['LastAccess'];
                 }
 
                 $status = ilLPStatus::LP_STATUS_COMPLETED_NUM;
 
-                if ($data["Status"]) {
+                if (isset($data["Status"])) {
                     if (is_numeric($data["Status"])) {
                         $status = $data["Status"];
                     } elseif ($data["Status"] == ilLPStatus::LP_STATUS_NOT_ATTEMPTED) {
@@ -526,23 +527,23 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
                     }
                 }
                 $attempts = null;
-                if ($data["Attempts"]) {
-                    $attempts = $data["Attempts"];
+                if (isset($data["Attempts"])) {
+                    $attempts = (int) $data["Attempts"];
                 }
 
                 $percentage_completed = 0;
                 if ($status == ilLPStatus::LP_STATUS_COMPLETED_NUM) {
                     $percentage_completed = 100;
-                } elseif ($data['percentageCompletedSCOs']) {
-                    $percentage_completed = $data['percentageCompletedSCOs'];
+                } elseif (isset($data['percentageCompletedSCOs'])) {
+                    $percentage_completed = (int) $data['percentageCompletedSCOs'];
                 }
 
                 $sco_total_time_sec = null;
-                if ($data['SumTotal_timeSeconds']) {
-                    $sco_total_time_sec = $data['SumTotal_timeSeconds'];
+                if (isset($data['SumTotal_timeSeconds'])) {
+                    $sco_total_time_sec = (int) $data['SumTotal_timeSeconds'];
                 }
 
-                if ($status == ilLPStatus::LP_STATUS_NOT_ATTEMPTED) {
+                if ($status == ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM) {
                     $usersToDelete[] = $user_id;
                 } else {
                     $this->importSuccessForSahsUser($user_id, $last_access, $status, $attempts, $percentage_completed, $sco_total_time_sec);

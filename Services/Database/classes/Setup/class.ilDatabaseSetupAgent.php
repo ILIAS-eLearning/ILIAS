@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\Setup;
 use ILIAS\Refinery\Factory as Refinery;
@@ -76,7 +76,7 @@ class ilDatabaseSetupAgent implements Setup\Agent
             "Complete objectives from Services\Database",
             false,
             new ilDatabaseConfigStoredObjective($config),
-            new \ilDatabasePopulatedObjective($config),
+            new ilDatabaseEnvironmentValidObjective(),
             new \ilDatabaseUpdatedObjective()
         );
     }
@@ -87,10 +87,8 @@ class ilDatabaseSetupAgent implements Setup\Agent
     public function getUpdateObjective(Setup\Config $config = null): Setup\Objective
     {
         $p = [];
-        if ($config instanceof ilDatabaseSetupConfig) {
-            $p[] = new \ilDatabaseConfigStoredObjective($config);
-        }
         $p[] = new \ilDatabaseUpdatedObjective();
+        $p[] = new ilDatabaseEnvironmentValidObjective();
         return new Setup\ObjectiveCollection(
             "Complete objectives from Services\Database",
             false,

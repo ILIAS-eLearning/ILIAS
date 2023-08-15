@@ -24,6 +24,7 @@ require_once(__DIR__ . "/../../Base.php");
 use ILIAS\UI\Component as C;
 use ILIAS\UI\Implementation\Component\Signal;
 use ILIAS\UI\Implementation\Component\Button\Factory;
+use ILIAS\UI\Help;
 
 /**
  * Test on button implementation.
@@ -518,6 +519,35 @@ class ButtonTest extends ILIAS_UI_TestBase
                 "</button>";
             $this->assertHTMLEquals($expected, $html);
         }
+    }
+
+    /**
+     * @dataProvider button_type_provider
+     */
+    public function test_button_renders_tooltip(string $factory_method): void
+    {
+        $f = $this->getButtonFactory();
+        $r = $this->getDefaultRenderer();
+        $ln = "http://www.ilias.de";
+
+        $button =
+            $f->$factory_method("label", $ln)
+               ->withHelpTopics(new Help\Topic("a"), new Help\Topic("b"));
+
+        $css_classes = self::$canonical_css_classes[$factory_method];
+        $expected =
+            "<div class=\"c-tooltip__container\">" .
+                 "<button class=\"$css_classes\" aria-describedby=\"id_2\" data-action=\"$ln\" id=\"id_1\" >" .
+                    "label" .
+                "</button>" .
+                "<div id=\"id_2\" role=\"tooltip\" class=\"c-tooltip c-tooltip--hidden\">" .
+                    "<p>tooltip: a</p>" .
+                    "<p>tooltip: b</p>" .
+                "</div>" .
+            "</div>";
+
+        $html = $this->normalizeHTML($r->render($button));
+        $this->assertHTMLEquals($expected, $html);
     }
 
 

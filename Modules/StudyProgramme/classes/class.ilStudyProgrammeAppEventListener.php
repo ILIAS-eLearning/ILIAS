@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Event listener for study programs. Has the following tasks:
@@ -36,6 +36,8 @@ class ilStudyProgrammeAppEventListener
      */
     public static function handleEvent(string $component, string $event, array $parameter): void
     {
+        global $DIC;
+
         switch ($component) {
             case "Services/User":
                 switch ($event) {
@@ -141,18 +143,18 @@ class ilStudyProgrammeAppEventListener
                         break;
                 }
                 break;
-            case "Modules/StudyProgramme":
+
+            case 'Modules/StudyProgramme':
                 switch ($event) {
-                    case "userReAssigned":
-                        self::sendReAssignedMail($parameter);
+                    case 'userSuccessful':
+                        $DIC->certificate()->userCertificates()->certificateCriteriaMet(
+                            (int) $parameter['usr_id'],
+                            (int) $parameter['prg_id']
+                        );
                         break;
-                    case 'informUserToRestart':
-                        self::sendInformToReAssignMail($parameter);
-                        break;
-                    case 'userRiskyToFail':
-                        self::sendRiskyToFailMail($parameter);
                 }
                 break;
+
             default:
                 throw new ilException(
                     "ilStudyProgrammeAppEventListener::handleEvent: Won't handle events of '$component'."
@@ -306,26 +308,5 @@ class ilStudyProgrammeAppEventListener
         }
 
         ilObjStudyProgramme::removeMemberFromProgrammes($src_type, $id, $usr_id);
-    }
-
-    private static function sendReAssignedMail(array $params): void
-    {
-        $dic = ilStudyProgrammeDIC::dic();
-        $dic['mail']->sendReAssignedMail($params['ass_id']);
-    }
-
-    private static function sendInformToReAssignMail(array $params): void
-    {
-        $dic = ilStudyProgrammeDIC::dic();
-        $dic['mail']->sendInformToReAssignMail($params['ass_id']);
-    }
-
-    /**
-     * @throws ilException
-     */
-    private static function sendRiskyToFailMail(array $params): void
-    {
-        $dic = ilStudyProgrammeDIC::dic();
-        $dic['mail']->sendRiskyToFailMail($params['ass_id']);
     }
 }

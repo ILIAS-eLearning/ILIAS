@@ -27,11 +27,14 @@ use PHPUnit\Framework\TestCase;
 
 class NullAgentTest extends TestCase
 {
+    protected \ILIAS\Refinery\Factory $refinery;
+    protected Metrics\Storage $storage;
+    protected NullAgent $agent;
+
     public function setUp(): void
     {
         $this->refinery = $this->createMock(\ILIAS\Refinery\Factory::class);
         $this->storage = $this->createMock(Metrics\Storage::class);
-        $this->refinery = $this->createMock(\ILIAS\Refinery\Factory::class);
         $this->agent = new NullAgent($this->refinery);
     }
 

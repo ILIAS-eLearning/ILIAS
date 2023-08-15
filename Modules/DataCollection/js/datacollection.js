@@ -1,22 +1,20 @@
 /**
- * ilDataCollection JS
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * @author Oskar Truffer <ot@studer-raimann.ch>
- * @author Fabian Schmid <fs@studer-raimann.ch>
- */
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ******************************************************************** */
 
 $(document).ready(function () {
-  $(".dcl_reference_record").hover(
-    function () {
-      var ref = $(this).attr("rec_id");
-      $(".dcl_reference_hover[rec_id=" + ref + "]").fadeIn(0);
-    },
-    function () {
-      var ref = $(this).attr("rec_id");
-      $(".dcl_reference_hover[rec_id=" + ref + "]").fadeOut(0);
-    });
-
-
   /**
    * Increment comments count after saving comment with ajax
    * @param o Object
@@ -99,85 +97,4 @@ $(document).ready(function () {
       caretPos) + placeholder + expression.substring(caretPos));
   });
 
-  /**
-   * Ajax record form submit in Overlay
-   */
-  $(document).on('submit', 'form[id^="form_dclajax"]', function (event) {
-    event.preventDefault();
-    var data = $(this).serialize();
-    ilDataCollection.saveRecordData(data);
-    return false;
-  });
-
-  setTimeout(() => {
-      $('form[id^="form_dcl"] select[data-ref="1"]').parent('div').append(
-        $('<a></a>')
-        .attr('href', '#')
-        .addClass('ilDclReferenceAddValue xsmall')
-        .text('[+] ' + ilDataCollection.strings.add_value)
-      );
-
-
-      $('form[id^="form_dcl"] div[data-ref="1"]').parent('div').append(
-        $('<a></a>')
-        .attr('href', '#')
-        .addClass('ilDclReferenceAddValueMS xsmall')
-        .text('[+] ' + ilDataCollection.strings.add_value)
-      );
-    $('.ilDclReferenceAddValue').on('click', function () {
-      var $elem = $(this);
-      var $select = $elem.prevAll('select');
-      var table_id = $select.attr('data-ref-table-id');
-      var field_id = $select.attr('data-ref-field-id');
-      var after_save = function (o) {
-        var $input = $('form[id^="form_dclajax"] #record_id');
-        $input.parents(".modal").modal('hide');
-        if ($input.length) {
-          var record_id = $input.val();
-          ilDataCollection.getRecordData(record_id, table_id, function (o) {
-            var record_data = $.parseJSON(o.responseText);
-            var new_value = record_data[field_id];
-            // Append to select and select new value
-            $select.append($('<option>', {
-              value: record_id,
-              text: new_value
-            }));
-            $select.find('option[value=' + record_id + ']').attr('selected', 'selected');
-          });
-        }
-      };
-      ilDataCollection.showCreateRecordOverlay(table_id, after_save);
-    });
-
-    $('.ilDclReferenceAddValueMS').on('click', function () {
-      var $elem = $(this);
-      var $div = $elem.prevAll('div.input');
-      var table_id = $div.attr('data-ref-table-id');
-      var field_id = $div.attr('data-ref-field-id');
-      var current_id = $div.find('input').attr("name");
-
-      var after_save = function (o) {
-        var $input = $('form[id^="form_dclajax"] #record_id');
-        $input.parents(".modal").modal('hide');
-        if ($input.length) {
-          var record_id = $input.val();
-          ilDataCollection.getRecordData(record_id, table_id, function (o) {
-            var record_data = $.parseJSON(o.responseText);
-            var new_value = record_data[field_id];
-            // Append to select and select new value
-            var new_id = current_id.replace('[]', '') + '_' + record_id;
-            var new_input = '<div style="white-space:nowrap">' +
-              '<input type="checkbox" name="' + current_id + '" id="' + new_id + '" value="' + record_id + '" checked="checked"/>' +
-              '<label for="' + new_id + '">' + new_value + '</label></div>';
-            $div.prepend(new_input);
-            $div.find('option[value=' + record_id + ']').attr('selected', 'selected');
-          });
-        }
-      };
-      ilDataCollection.showCreateRecordOverlay(table_id, after_save);
-    });
-    } ,
-  );
-
-  $('[data-toggle="datacollection-tooltip"]').tooltip({ container: 'body' });
 });

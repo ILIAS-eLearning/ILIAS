@@ -52,7 +52,7 @@ class UITestHelper
         $this->dic["refinery"] = new RefinaryFactory($data_factory, $this->dic["lng"]);
         (new InitUIFramework())->init($this->dic);
         $this->dic["ui.template_factory"] = new ilIndependentTemplateFactory();
-        ;
+        $this->dic["help.text_retriever"] = new ILIAS\UI\Help\TextRetriever\Echoing();
 
         return $this->dic;
     }

@@ -18,9 +18,9 @@
 
 namespace ILIAS\Exercise;
 
-use ILIAS\DI\UIServices;
-use ILIAS\HTTP;
 use ILIAS\Refinery;
+use ILIAS\DI\Container;
+use ILIAS\Repository\GlobalDICGUIServices;
 
 /**
  * Exercise UI frontend presentation service class
@@ -29,11 +29,8 @@ use ILIAS\Refinery;
  */
 class InternalGUIService
 {
+    use GlobalDICGUIServices;
     protected \ilLanguage $lng;
-    protected \ilCtrl $ctrl;
-    protected \ilToolbarGUI $toolbar;
-    protected UIServices $ui;
-    protected HTTP\Services $http;
     protected Refinery\Factory $refinery;
 
     protected InternalService $service;
@@ -43,25 +40,21 @@ class InternalGUIService
     protected \ilObjExercise $exc;
 
     public function __construct(
+        Container $DIC,
         InternalService $service,
-        HTTP\Services $http,
         Refinery\Factory $refinery,
         array $query_params = null,
         array $post_data = null
     ) {
         global $DIC;
 
-        $this->ui = $DIC->ui();
-
-        $this->toolbar = $DIC->toolbar();
         $this->lng = $DIC->language();
-        $this->ctrl = $DIC->ctrl();
-        $this->http = $http;
         $this->refinery = $refinery;
+        $this->initGUIServices($DIC);
 
         $this->service = $service;
         $this->request = new GUIRequest(
-            $this->http,
+            $this->http(),
             $this->refinery,
             $query_params,
             $post_data
@@ -95,10 +88,10 @@ class InternalGUIService
             $exc = $this->request->getExercise();
         }
         return new \ilExcRandomAssignmentGUI(
-            $this->ui,
-            $this->toolbar,
+            $this->ui(),
+            $this->toolbar(),
             $this->lng,
-            $this->ctrl,
+            $this->ctrl(),
             $this->service->domain()->assignment()->randomAssignments($exc)
         );
     }

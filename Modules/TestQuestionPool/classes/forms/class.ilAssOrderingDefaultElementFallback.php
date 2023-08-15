@@ -27,7 +27,6 @@ class ilAssOrderingDefaultElementFallback implements ilFormValuesManipulator
     public function manipulateFormInputValues(array $inputValues): array
     {
         if (!count($inputValues)) {
-            require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssOrderingElementList.php';
             $defaultElement = ilAssOrderingElementList::getFallbackDefaultElement();
 
             $inputValues[$defaultElement->getRandomIdentifier()] = $defaultElement;

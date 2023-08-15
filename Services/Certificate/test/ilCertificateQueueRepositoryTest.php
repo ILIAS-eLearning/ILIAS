@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * @author  Niels Theen <ntheen@databay.de>
@@ -124,7 +124,7 @@ class ilCertificateQueueRepositoryTest extends ilCertificateBaseTestCase
                     'adapter_class' => 'SomeClass',
                     'state' => 'SomeState',
                     'template_id' => 1000,
-                    'started_timestamp' => 123456789
+                    'started_timestamp' => 123_456_789
                 ],
                 [
                     'id' => 20,
@@ -133,7 +133,7 @@ class ilCertificateQueueRepositoryTest extends ilCertificateBaseTestCase
                     'adapter_class' => 'SomeClass',
                     'state' => 'SomeState',
                     'template_id' => 1000,
-                    'started_timestamp' => 123456789
+                    'started_timestamp' => 123_456_789
                 ]
             );
 

@@ -24,6 +24,8 @@ class ilOrgUnitPermissionTableGUI extends ilTable2GUI
 {
     private int $ref_id = 0;
     protected \ilOrgUnitPositionDBRepository $positionRepo;
+    protected \ilOrgUnitPermissionDBRepository $permissionRepo;
+    protected \ilOrgUnitOperationDBRepository $operationRepo;
 
     public function __construct(object $a_parent_obj, string $a_parent_cmd, int $a_ref_id)
     {
@@ -33,6 +35,8 @@ class ilOrgUnitPermissionTableGUI extends ilTable2GUI
 
         $dic = \ilOrgUnitLocalDIC::dic();
         $this->positionRepo = $dic["repo.Positions"];
+        $this->permissionRepo = $dic["repo.Permissions"];
+        $this->operationRepo = $dic["repo.Operations"];
 
         $this->lng->loadLanguageModule('rbac');
         $this->lng->loadLanguageModule("orgu");
@@ -130,7 +134,7 @@ class ilOrgUnitPermissionTableGUI extends ilTable2GUI
 
         $perms = [];
 
-        $operations = ilOrgUnitOperationQueries::getOperationsForContextName($this->getObjType());
+        $operations = $this->operationRepo->getOperationsByContextName($this->getObjType());
         $ops_ids = [];
         $from_templates = [];
         foreach ($operations as $op) {
@@ -138,7 +142,7 @@ class ilOrgUnitPermissionTableGUI extends ilTable2GUI
 
             $ops = [];
             foreach ($positions as $position) {
-                $ilOrgUnitPermission = ilOrgUnitPermissionQueries::getSetForRefId(
+                $ilOrgUnitPermission = $this->permissionRepo->getLocalorDefault(
                     $this->getRefId(),
                     $position->getId()
                 );
@@ -223,7 +227,7 @@ class ilOrgUnitPermissionTableGUI extends ilTable2GUI
             $this->tpl->setVariable('HEADER_COMMAND_TXT', $this->dic()
                                                                ->language()
                                                                ->txt('positions_override_operations'));
-            if (ilOrgUnitPermissionQueries::hasLocalSet($this->getRefId(), $position->getId())) {
+            if ($this->permissionRepo->find($this->getRefId(), $position->getId())) {
                 $this->tpl->setVariable('HEADER_CHECKED', "checked='checked'");
             }
 

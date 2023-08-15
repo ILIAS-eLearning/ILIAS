@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,10 +16,14 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\Filesystem\Filesystem;
 
 class ilObjStudyProgramme extends ilContainer
 {
+    public const CP_TYPE = 'cont';
+
     protected static ?ilObjStudyProgrammeCache $study_programme_cache = null;
 
     /**
@@ -731,28 +733,31 @@ class ilObjStudyProgramme extends ilContainer
      *
      * @return int[]
      */
-    public function getCompletedCourses(int $a_user_id): array
+    public function getCompletedCourses(int $usr_id): array
     {
         $node_data = $this->tree->getNodeData($this->getRefId());
         $crsrs = $this->tree->getSubTree($node_data, true, ["crsr"]);
 
         $completed_crss = array();
         foreach ($crsrs as $ref) {
+            $crs_id = (int) ilContainerReference::_lookupTargetId((int) $ref["obj_id"]);
+            $crs_ref_id = (int) ilContainerReference::_lookupTargetRefId((int) $ref["obj_id"]);
+
             if (ilObject::_exists((int) $ref['ref_id'], true) &&
-                is_null(ilObject::_lookupDeletedDate((int) $ref['ref_id']))
+                is_null(ilObject::_lookupDeletedDate((int) $ref['ref_id'])) &&
+                ilObject::_exists($crs_id, false) &&
+                is_null(ilObject::_lookupDeletedDate($crs_ref_id)) &&
+                ilLPStatus::_hasUserCompleted($crs_id, $usr_id)
             ) {
-                $crs_id = (int) ilContainerReference::_lookupTargetId((int) $ref["obj_id"]);
-                if (ilObject::_exists($crs_id) && ilLPStatus::_hasUserCompleted($crs_id, $a_user_id)) {
-                    $containing_prg = self::getInstanceByRefId((int) $ref["parent"]);
-                    if ($containing_prg->isActive()) {
-                        $completed_crss[] = [
-                            "crs_id" => $crs_id
-                            , "prg_ref_id" => (int) $ref["parent"]
-                            , "crsr_ref_id" => (int) $ref["child"]
-                            , "crsr_id" => (int) $ref["obj_id"]
-                            , "title" => ilContainerReference::_lookupTitle((int) $ref["obj_id"])
-                        ];
-                    }
+                $containing_prg = self::getInstanceByRefId((int) $ref["parent"]);
+                if ($containing_prg->isActive()) {
+                    $completed_crss[] = [
+                        "crs_id" => $crs_id
+                        , "prg_ref_id" => (int) $ref["parent"]
+                        , "crsr_ref_id" => (int) $ref["child"]
+                        , "crsr_id" => (int) $ref["obj_id"]
+                        , "title" => ilContainerReference::_lookupTitle((int) $ref["obj_id"])
+                    ];
                 }
             }
         }
@@ -949,17 +954,7 @@ class ilObjStudyProgramme extends ilContainer
         $ass = $this->assignment_repository->createFor($this->getId(), $usr_id, $acting_usr_id);
         $ass = $ass
             ->initAssignmentDates();
-        //with updatePlanFromRepository,
-        //all successful courses are acknowledged; this is not actually wanted, here;(
-        /*
-        $err_collection = $this->getMessageCollection('add_user');
-        $ass = $ass
-            ->updatePlanFromRepository(
-                $this->getSettingsRepository(),
-                $acting_usr_id,
-                $err_collection
-            );
-        */
+
         $ass = $ass->resetProgresses(
             $this->getSettingsRepository(),
             $acting_usr_id
@@ -1000,6 +995,31 @@ class ilObjStudyProgramme extends ilContainer
 
         $this->events->userDeassigned($assignment);
         return $this;
+    }
+
+    public function getSpecificAssignment(int $assignment_id): ilPRGAssignment
+    {
+        return $this->assignment_repository->get($assignment_id);
+    }
+
+    public function storeExpiryInfoSentFor(ilPRGAssignment $ass): void
+    {
+        $this->assignment_repository->storeExpiryInfoSentFor($ass);
+    }
+
+    public function resetExpiryInfoSentFor(ilPRGAssignment $ass): void
+    {
+        $this->assignment_repository->resetExpiryInfoSentFor($ass);
+    }
+
+    public function storeRiskyToFailSentFor(ilPRGAssignment $ass): void
+    {
+        $this->assignment_repository->storeRiskyToFailSentFor($ass);
+    }
+
+    public function resetRiskyToFailSentFor(ilPRGAssignment $ass): void
+    {
+        $this->assignment_repository->resetRiskyToFailSentFor($ass);
     }
 
     /**
@@ -1229,27 +1249,30 @@ class ilObjStudyProgramme extends ilContainer
     }
 
     /**
-     * Get all StudyProgrammes monitoring this category.
+     * Get all (not OUTDATED) StudyProgrammes monitoring this category.
      * @return ilObjStudyProgramme[]
      */
     protected static function getProgrammesMonitoringCategory(int $cat_ref_id): array
     {
         $db = ilStudyProgrammeDIC::dic()['model.AutoCategories.ilStudyProgrammeAutoCategoriesRepository'];
-        $programmes = array_map(
-            static function (array $rec) {
-                $values = array_values($rec);
-                $prg_obj_id = (int) array_shift($values);
+        $programmes =
+            array_filter(
+                array_map(
+                    static function (array $rec) {
+                        $values = array_values($rec);
+                        $prg_obj_id = (int) array_shift($values);
 
-                $references = ilObject::_getAllReferences($prg_obj_id);
-                $prg_ref_id = (int) array_shift($references);
+                        $references = ilObject::_getAllReferences($prg_obj_id);
+                        $prg_ref_id = (int) array_shift($references);
 
-                $prg = self::getInstanceByRefId($prg_ref_id);
-                if ($prg->isAutoContentApplicable()) {
-                    return $prg;
-                }
-            },
-            $db::getProgrammesFor($cat_ref_id)
-        );
+                        $prg = self::getInstanceByRefId($prg_ref_id);
+                        if ($prg->isAutoContentApplicable()) {
+                            return $prg;
+                        }
+                    },
+                    $db::getProgrammesFor($cat_ref_id)
+                )
+            );
         return $programmes;
     }
 
@@ -1487,7 +1510,7 @@ class ilObjStudyProgramme extends ilContainer
         global $DIC; // TODO: replace this by a settable static for testing purpose?
         $tree = $DIC['tree'];
         $node_data = $tree->getParentNodeData($ref_id);
-        if (count($node_data) === 0 || $node_data["type"] !== "prg") {
+        if (count($node_data) === 0 || !array_key_exists('type', $node_data) || $node_data["type"] !== "prg") {
             return;
         }
         self::initStudyProgrammeCache();
@@ -1515,7 +1538,6 @@ class ilObjStudyProgramme extends ilContainer
                 $triggering_obj_id
             );
             $this->assignment_repository->store($ass);
-            $this->refreshLPStatus($ass->getUserId());
         }
     }
 
@@ -1666,7 +1688,6 @@ class ilObjStudyProgramme extends ilContainer
             );
 
         $this->assignment_repository->store($assignment);
-        $this->refreshLPStatus($assignment->getUserId());
     }
 
     public function unmarkAccredited(
@@ -1843,5 +1864,20 @@ class ilObjStudyProgramme extends ilContainer
             $assignment->getId(),
             $progress->getNodeId()
         );
+    }
+
+    public function hasContentPage(): bool
+    {
+        return \ilContainerPage::_exists(self::CP_TYPE, $this->getId());
+    }
+    public function createContentPage(): void
+    {
+        if ($this->hasContentPage()) {
+            throw new \LogicException('will not create content page - it already exists.');
+        }
+        $new_page_object = new \ilContainerPage();
+        $new_page_object->setId($this->getId());
+        $new_page_object->setParentId($this->getId());
+        $new_page_object->createFromXML();
     }
 }

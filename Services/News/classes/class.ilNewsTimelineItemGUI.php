@@ -24,6 +24,7 @@ use ILIAS\News\StandardGUIRequest;
  */
 class ilNewsTimelineItemGUI implements ilTimelineItemInt
 {
+    protected \ILIAS\News\InternalGUIService $gui;
     protected ilLanguage $lng;
     protected ilNewsItem $news_item;
     protected ilObjectDefinition $obj_def;
@@ -50,11 +51,14 @@ class ilNewsTimelineItemGUI implements ilTimelineItemInt
         $this->obj_def = $DIC["objDefinition"];
         $this->news_item_ref_id = $a_news_ref_id;
 
-        $this->std_request = new StandardGUIRequest(
-            $DIC->http(),
-            $DIC->refinery()
-        );
+        $this->std_request = $DIC->news()
+            ->internal()
+            ->gui()
+            ->standardRequest();
         $this->ref_id = $this->std_request->getRefId();
+        $this->gui = $DIC->news()
+            ->internal()
+            ->gui();
     }
 
     public static function getInstance(
@@ -101,6 +105,8 @@ class ilNewsTimelineItemGUI implements ilTimelineItemInt
     {
         $i = $this->getNewsItem();
         $tpl = new ilTemplate("tpl.timeline_item.html", true, true, "Services/News");
+        $ui_factory = $this->gui->ui()->factory();
+        $ui_renderer = $this->gui->ui()->renderer();
 
         $news_renderer = ilNewsRendererFactory::getRenderer($i->getContextObjType());
         $news_renderer->setLanguage($this->lng->getLangKey());
@@ -161,40 +167,29 @@ class ilNewsTimelineItemGUI implements ilTimelineItemInt
         $tpl->setVariable("TIME", ilDatePresentation::formatDate($this->getDateTime()));
 
         // actions
-        $list = new ilAdvancedSelectionListGUI();
-        $list->setListTitle("");
-        $list->setId("news_tl_act_" . $i->getId());
-        $list->setHeaderIcon(ilAdvancedSelectionListGUI::DOWN_ARROW_DARK);
-        $list->setUseImages(false);
+        $actions = [];
 
         if ($i->getPriority() === 1 && ($i->getUserId() === $this->user->getId() || $this->getUserEditAll())) {
-            $list->addItem(
-                $this->lng->txt("edit"),
-                "",
-                "",
-                "",
-                "",
-                "",
-                "",
-                false,
-                "il.News.edit(" . $i->getId() . ");"
-            );
-            $list->addItem(
-                $this->lng->txt("delete"),
-                "",
-                "",
-                "",
-                "",
-                "",
-                "",
-                false,
-                "il.News.delete(" . $i->getId() . ");"
-            );
+            if (!$news_renderer->preventEditing()) {
+                $actions[] = $ui_factory->button()->shy(
+                    $this->lng->txt("edit"),
+                    ""
+                )->withOnLoadCode(static function ($id) use ($i) {
+                    return "document.getElementById('$id').addEventListener('click', () => {il.News.edit(" . $i->getId() . ");});";
+                });
+                $actions[] = $ui_factory->button()->shy(
+                    $this->lng->txt("delete"),
+                    ""
+                )->withOnLoadCode(static function ($id) use ($i) {
+                    return "document.getElementById('$id').addEventListener('click', () => {il.News.delete(" . $i->getId() . ");});";
+                });
+            }
         }
-
-        $news_renderer->addTimelineActions($list);
-
-        $tpl->setVariable("ACTIONS", $list->getHTML());
+        foreach ($news_renderer->getTimelineActions() as $action) {
+            $actions[] = $action;
+        }
+        $dd = $ui_factory->dropdown()->standard($actions);
+        $tpl->setVariable("ACTIONS", $ui_renderer->render($dd));
 
         return $tpl->get();
     }
@@ -219,7 +214,7 @@ class ilNewsTimelineItemGUI implements ilTimelineItemInt
             $img_tpl->setVariable("IMAGE", $image);
 
             $html = $img_tpl->get();
-        } elseif (in_array($mime, ["video/mp4"])) {
+        } elseif (in_array($mime, ["video/mp4", "video/youtube", "video/vimeo"])) {
             $video = $ui_factory->player()->video($media_path);
             $html = $ui_renderer->render($video);
         } elseif (in_array($mime, ["audio/mpeg"])) {

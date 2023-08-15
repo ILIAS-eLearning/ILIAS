@@ -41,33 +41,27 @@ final class ilEmployeeTalkMyStaffListGUI implements ControlFlowCommandHandler
     private UIServices $ui;
     private ilLanguage $language;
     private ilTabsGUI $tabs;
+    private ilMyStaffAccess $access;
     private ilCtrl $controlFlow;
     private ilObjUser $currentUser;
     private EmployeeTalkRepository $repository;
-    private HTTPServices $http;
     private ilObjEmployeeTalkAccess $talkAccess;
-    private ILIAS\Refinery\Factory $refinery;
 
     public function __construct()
     {
-        /**
-         * @var \ILIAS\DI\Container $container
-         */
-        $container = $GLOBALS['DIC'];
+        global $DIC;
 
-        $container->language()->loadLanguageModule('etal');
-        $container->language()->loadLanguageModule('orgu');
-        $this->language = $container->language();
-        $this->http = $container->http();
+        $DIC->language()->loadLanguageModule('etal');
+        $DIC->language()->loadLanguageModule('orgu');
+        $this->language = $DIC->language();
         $this->talkAccess = new ilObjEmployeeTalkAccess();
+        $this->access = ilMyStaffAccess::getInstance();
 
-        $this->tabs = $container->tabs();
-        $this->ui = $container->ui();
-        $this->refinery = $container->refinery();
-        $this->controlFlow = $container->ctrl();
-        $this->ui->mainTemplate()->setTitle($container->language()->txt('mm_org_etal'));
-        $this->currentUser = $container->user();
-        $this->repository = new IliasDBEmployeeTalkRepository($container->database());
+        $this->tabs = $DIC->tabs();
+        $this->ui = $DIC->ui();
+        $this->controlFlow = $DIC->ctrl();
+        $this->currentUser = $DIC->user();
+        $this->repository = new IliasDBEmployeeTalkRepository($DIC->database());
     }
 
     public function executeCommand(): void
@@ -81,6 +75,12 @@ final class ilEmployeeTalkMyStaffListGUI implements ControlFlowCommandHandler
                 break;
             case strtolower(ilObjEmployeeTalkGUI::class):
                 $gui = new ilObjEmployeeTalkGUI();
+                if ($this->access->hasCurrentUserAccessToTalks()) {
+                    $this->tabs->setBackTarget(
+                        $this->language->txt('etal_talks'),
+                        $this->controlFlow->getLinkTarget($this, ControlFlowCommand::INDEX)
+                    );
+                }
                 $this->controlFlow->forwardCommand($gui);
                 break;
             case strtolower(ilFormPropertyDispatchGUI::class):
@@ -96,51 +96,10 @@ final class ilEmployeeTalkMyStaffListGUI implements ControlFlowCommandHandler
                     case ControlFlowCommand::RESET_FILTER:
                         $this->resetFilter();
                         break;
-                    case ControlFlowCommand::TABLE_ACTIONS:
-                        $this->getActions();
-                        break;
                     default:
                         $this->view();
                 }
         }
-    }
-
-    private function getActions(): void
-    {
-        $listGUI = new ilAdvancedSelectionListGUI();
-
-        $class = strtolower(ilObjEmployeeTalkGUI::class);
-        $classPath = [
-            strtolower(ilDashboardGUI::class),
-            strtolower(ilMyStaffGUI::class),
-            strtolower(ilEmployeeTalkMyStaffListGUI::class),
-            $class
-        ];
-
-        $queryParams = $this->http->request()->getQueryParams();
-        if (!key_exists('ref_id', $queryParams)) {
-            echo $listGUI->getHTML(true);
-            exit;
-        }
-
-        $refId = $this->http
-            ->wrapper()
-            ->query()
-            ->retrieve('ref_id', $this->refinery->kindlyTo()->int());
-        $this->controlFlow->setParameterByClass($class, "ref_id", $refId);
-        if ($this->talkAccess->canEdit($refId)) {
-            $listGUI->addItem($this->language->txt('edit'), '', $this->controlFlow->getLinkTargetByClass($classPath, ControlFlowCommand::UPDATE));
-        } else {
-            $listGUI->addItem($this->language->txt('view'), '', $this->controlFlow->getLinkTargetByClass($classPath, ControlFlowCommand::INDEX));
-        }
-
-        if ($this->talkAccess->canDelete($refId)) {
-            $this->controlFlow->setParameterByClass($class, "item_ref_id", $refId);
-            $listGUI->addItem($this->language->txt('delete'), '', $this->controlFlow->getLinkTargetByClass($classPath, ControlFlowCommand::DELETE_INDEX));
-        }
-
-        echo $listGUI->getHTML(true);
-        exit;
     }
 
     private function applyFilter(): void
@@ -159,12 +118,13 @@ final class ilEmployeeTalkMyStaffListGUI implements ControlFlowCommandHandler
         $this->view();
     }
 
-    private function view(): bool
+    private function view(): void
     {
         $this->loadActionBar();
         $this->loadTabs();
+        $this->ui->mainTemplate()->setTitle($this->language->txt('mm_org_etal'));
+        $this->ui->mainTemplate()->setTitleIcon(ilUtil::getImagePath('icon_etal.svg'));
         $this->ui->mainTemplate()->setContent($this->loadTable()->getHTML());
-        return true;
     }
 
     private function loadTabs(): void
@@ -177,13 +137,9 @@ final class ilEmployeeTalkMyStaffListGUI implements ControlFlowCommandHandler
 
     private function loadActionBar(): void
     {
-        $talkAccess = new ilObjEmployeeTalkAccess();
-        if (!$talkAccess->canCreate()) {
+        if (!$this->talkAccess->canCreate()) {
             return;
         }
-
-        $gl = new ilGroupedListGUI();
-        $gl->setAsDropDown(true, false);
 
         $templates = new CallbackFilterIterator(
             new ArrayIterator(ilObject::_getObjectsByType("talt")),
@@ -191,51 +147,38 @@ final class ilEmployeeTalkMyStaffListGUI implements ControlFlowCommandHandler
                 return
                     (
                         $item['offline'] === "0" ||
+                        $item['offline'] === 0 ||
                         $item['offline'] === null
                     ) && ilObjTalkTemplate::_hasUntrashedReference(intval($item['obj_id']));
             }
         );
 
+        $buttons = [];
+        $talk_class = strtolower(ilObjEmployeeTalkSeriesGUI::class);
         foreach ($templates as $item) {
-            $type = $item["type"];
-
             $objId = intval($item['obj_id']);
-            $path = ilObject::_getIcon($objId, 'tiny', $type);
-            $icon = ($path != "")
-                ? ilUtil::img($path, "") . " "
-                : "";
-
-            $url = $this->controlFlow->getLinkTargetByClass(strtolower(ilObjEmployeeTalkSeriesGUI::class), ControlFlowCommand::CREATE);
             $refId = ilObject::_getAllReferences($objId);
 
             // Templates only have one ref id
-            $url .= "&new_type=" . ilObjEmployeeTalkSeries::TYPE;
-            $url .= "&template=" . array_pop($refId);
-            $url .= "&ref_id=" . ilObjTalkTemplateAdministration::getRootRefId();
+            $this->controlFlow->setParameterByClass($talk_class, 'new_type', ilObjEmployeeTalkSeries::TYPE);
+            $this->controlFlow->setParameterByClass($talk_class, 'template', array_pop($refId));
+            $this->controlFlow->setParameterByClass($talk_class, 'ref_id', ilObjTalkTemplateAdministration::getRootRefId());
+            $url = $this->controlFlow->getLinkTargetByClass($talk_class, ControlFlowCommand::CREATE);
+            $this->controlFlow->clearParametersByClass($talk_class);
 
-            $ttip = ilHelp::getObjCreationTooltipText("tals");
-
-            $gl->addEntry(
-                $icon . $item["title"],
-                $url,
-                "_top",
-                "",
-                "",
-                $type,
-                $ttip,
-                "bottom center",
-                "top center",
-                false
+            $buttons[] = $this->ui->factory()->link()->standard(
+                (string) $item["title"],
+                $url
             );
         }
 
-        $adv = new ilAdvancedSelectionListGUI();
-        $adv->setListTitle($this->language->txt("etal_add_new_item"));
-        //$gl->getHTML();
-        $adv->setGroupedList($gl);
-        $adv->setStyle(ilAdvancedSelectionListGUI::STYLE_EMPH);
-        //$this->toolbar->addDropDown($this->language->txt("cntr_add_new_item"), $adv->getHTML());
-        $this->ui->mainTemplate()->setVariable("SELECT_OBJTYPE_REPOS", $adv->getHTML());
+        $dropdown = $this->ui->factory()->dropdown()->standard($buttons)->withLabel(
+            $this->language->txt('etal_add_new_item')
+        );
+        $this->ui->mainTemplate()->setVariable(
+            'SELECT_OBJTYPE_REPOS',
+            $this->ui->renderer()->render($dropdown)
+        );
     }
 
     private function loadTable(): ilEmployeeTalkTableGUI
@@ -250,7 +193,7 @@ final class ilEmployeeTalkMyStaffListGUI implements ControlFlowCommandHandler
             $talks = $this->repository->findAll();
         } else {
             $users = $this->getEmployeeIdsWithValidPermissionRights($this->currentUser->getId());
-            $talks = $this->repository->findByEmployeesAndOwner($users, $this->currentUser->getId());
+            $talks = $this->repository->findByUserOrTheirEmployees($this->currentUser->getId(), $users);
         }
         $table->setTalkData($talks);
 

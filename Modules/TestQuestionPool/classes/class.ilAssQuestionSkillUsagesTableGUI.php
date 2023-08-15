@@ -132,7 +132,6 @@ class ilAssQuestionSkillUsagesTableGUI extends ilTable2GUI
 
     private function getUniqueAssignedSkillsStats(): array
     {
-        require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionSkillAssignmentList.php';
         $assignmentList = new ilAssQuestionSkillAssignmentList($this->myDb);
 
         $assignmentList->setParentObjId($this->poolId);

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\DI\Container;
 use ILIAS\DI\LoggingServices;
@@ -255,7 +255,7 @@ class ilTermsOfServiceStartUpStepTest extends ilTermsOfServiceBaseTest
             ->willReturn($logger);
 
         $dic = new class ($loggingServices) extends Container {
-            public function __construct(private LoggingServices $loggingServices)
+            public function __construct(private readonly LoggingServices $loggingServices)
             {
                 parent::__construct();
             }
@@ -344,7 +344,7 @@ class ilTermsOfServiceStartUpStepTest extends ilTermsOfServiceBaseTest
             ->willReturn($logger);
 
         $dic = new class ($loggingServices) extends Container {
-            public function __construct(private LoggingServices $loggingServices)
+            public function __construct(private readonly LoggingServices $loggingServices)
             {
                 parent::__construct();
             }

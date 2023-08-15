@@ -1,7 +1,7 @@
 @use "../010-settings/" as *;
-@use "../020-dependencies/modifications/bootstrap-3-scss/bootstrap-3-scss-modified-variables-mixins" as *;
 @use "../030-tools/tool_multi-line-cap" as *;
 @use "../030-tools/tool_typography-mixins" as type-mix;
+@use "../030-tools/_tool_browser-prefixes" as *;
 @use "../050-layout/basics" as *;
 
 /*
@@ -142,14 +142,6 @@ div.il_TreeIcons {
 	padding: 15px 15px 0 0;
 	margin: 0;
 	float: right;
-}
-
-// add to component for context (if still needed)
-img[src$="icon_checked.svg"] {
-	height: 11px;
-    margin: 0 6px 0 5px;
-    opacity: 0.5;
-    width: 11px;
 }
 
 // too general

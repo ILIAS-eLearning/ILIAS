@@ -104,7 +104,7 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
             ->gui()
             ->process()
             ->getProcessClass($a_pool_has_schedule);
-        
+
         $this->initFilter();
         $this->getItems();
     }
@@ -227,7 +227,6 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
                 $this->main_tpl->setOnScreenMessage('info', $this->lng->txt("book_overall_limit_warning"));
             }
         }
-
         if ($this->advmd) {
             // advanced metadata
             $this->record_gui = new ilAdvancedMDRecordGUI(
@@ -366,14 +365,17 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
             $ilCtrl->setParameter($this->parent_obj, 'sseed', '');
         }
 
-        // #16663
-        if (!$this->has_schedule && $has_booking) {
-            if ($a_set['post_file'] || trim($a_set['post_text'])) {
+        if ($has_booking || $this->may_edit) {
+            if (trim($a_set['post_text']) || $a_set['post_file']) {
                 $items[] = $this->ui_factory->button()->shy(
                     $lng->txt('book_post_booking_information'),
                     $ilCtrl->getLinkTargetByClass($this->process_class, 'displayPostInfo')
                 );
             }
+        }
+
+        // #16663
+        if (!$this->has_schedule && $has_booking) {
             $ilCtrl->setParameterByClass("ilbookingreservationsgui", 'object_id', $a_set['booking_object_id']);
             $items[] = $this->ui_factory->button()->shy($lng->txt('book_set_cancel'), $ilCtrl->getLinkTargetByClass("ilbookingreservationsgui", 'rsvConfirmCancelUser'));
             $ilCtrl->setParameterByClass("ilbookingreservationsgui", 'object_id', "");

@@ -22,7 +22,7 @@
  */
 class ilYuiUtil
 {
-    protected const YUI_BASE = "./libs/bower/bower_components/yui2/build";
+    protected const YUI_BASE = "./node_modules/yui2/build";
 
     private static function ensureGlobalTemplate(
         ?ilGlobalTemplateInterface $main_tpl = null

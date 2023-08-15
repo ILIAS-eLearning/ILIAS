@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Class ilContentPageDataSet
@@ -40,18 +40,15 @@ class ilContentPageDataSet extends ilDataSet implements ilContentPageObjectConst
 
     protected function getTypes(string $a_entity, string $a_version): array
     {
-        switch ($a_entity) {
-            case self::OBJ_TYPE:
-                return [
-                    'id' => 'integer',
-                    'title' => 'text',
-                    'description' => 'text',
-                    'info-tab' => 'integer'
-                ];
-
-            default:
-                return [];
-        }
+        return match ($a_entity) {
+            self::OBJ_TYPE => [
+                'id' => 'integer',
+                'title' => 'text',
+                'description' => 'text',
+                'info-tab' => 'integer'
+            ],
+            default => [],
+        };
     }
 
     public function readData(string $a_entity, string $a_version, array $a_ids): void
@@ -67,7 +64,6 @@ class ilContentPageDataSet extends ilDataSet implements ilContentPageObjectConst
 
 
     /**
-     * @param string $entity
      * @param int[] $ids
      */
     protected function readEntityData(string $entity, array $ids): void

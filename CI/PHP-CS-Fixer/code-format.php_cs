@@ -23,6 +23,9 @@ return (new PhpCsFixer\Config())
         '@PSR12' => true,
         'strict_param' => false,
         'concat_space' => ['spacing' => 'one'],
-        'function_typehint_space' => true
+        'function_typehint_space' => true,
+        'function_declaration' => ['closure_fn_spacing' => 'none'],
+        'binary_operator_spaces' => ['default' => 'single_space'],
+        // 'types_spaces' => ['space' => 'single'],
 	])
 	->setFinder($finder);

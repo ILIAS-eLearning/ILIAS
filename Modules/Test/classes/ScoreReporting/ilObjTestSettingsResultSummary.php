@@ -38,6 +38,8 @@ class ilObjTestSettingsResultSummary extends TestSettings
      * see ilObjTestSettingsResultDetails
      */
     protected bool $show_pass_details = false;
+    protected bool $show_grading_status = false;
+    protected bool $show_grading_mark = false;
 
     public function __construct(int $test_id)
     {

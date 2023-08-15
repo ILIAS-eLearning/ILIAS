@@ -270,10 +270,13 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
 
                         $this->tpl->setCurrentBlock("team_member_removal_bl");
                         $this->tpl->setVariable("URL_TEAM_MEMBER_REMOVAL", $url);
+
+                        $rem_gl = $this->ui_factory->symbol()->glyph()->remove($url);
                         $this->tpl->setVariable(
                             "TXT_TEAM_MEMBER_REMOVAL",
-                            ilGlyphGUI::get(ilGlyphGUI::CLOSE, $this->lng->txt("remove"))
+                            $this->ui_renderer->render($rem_gl)
                         );
+
                         $this->tpl->parseCurrentBlock();
                     }
 
@@ -514,25 +517,27 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
         }
 
         // feedback files
-        if ($this->exc->hasTutorFeedbackFile()) {
-            $storage = new ilFSStorageExercise($this->exc->getId(), $a_ass->getId());
-            $counter = $storage->countFeedbackFiles($a_row["submission_obj"]->getFeedbackId());
-            $counter = $counter
-                ? " (" . $counter . ")"
-                : "";
+        if ($a_ass->canParticipantReceiveFeedback($a_user_id)) {
+            if ($this->exc->hasTutorFeedbackFile()) {
+                $storage = new ilFSStorageExercise($this->exc->getId(), $a_ass->getId());
+                $counter = $storage->countFeedbackFiles($a_row["submission_obj"]->getFeedbackId());
+                $counter = $counter
+                    ? " (" . $counter . ")"
+                    : "";
 
-            $items[] = $this->ui_factory->button()->shy(
-                $this->lng->txt("exc_tbl_action_feedback_file") . $counter,
-                $ilCtrl->getLinkTargetByClass("ilfilesystemgui", "listFiles")
-            );
-        }
+                $items[] = $this->ui_factory->button()->shy(
+                    $this->lng->txt("exc_tbl_action_feedback_file") . $counter,
+                    $ilCtrl->getLinkTargetByClass("ilfilesystemgui", "listFiles")
+                );
+            }
 
-        // comment (modal - see above)
-        if ($this->exc->hasTutorFeedbackText()) {
-            $items[] = $this->ui_factory->button()->shy($this->lng->txt("exc_tbl_action_feedback_text"), "#")
-                ->withOnLoadCode(function ($id) use ($comment_id) {
-                    return "$('#$id').on('click', function() {il.ExcManagement.showComment('$comment_id'); return false;})";
-                });
+            // comment (modal - see above)
+            if ($this->exc->hasTutorFeedbackText()) {
+                $items[] = $this->ui_factory->button()->shy($this->lng->txt("exc_tbl_action_feedback_text"), "#")
+                                            ->withOnLoadCode(function ($id) use ($comment_id) {
+                                                return "$('#$id').on('click', function() {il.ExcManagement.showComment('$comment_id'); return false;})";
+                                            });
+            }
         }
 
         // peer review

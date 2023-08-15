@@ -34,45 +34,45 @@ class ilPCTab extends ilPageContent
 
     public function newItemAfter(): void
     {
-        $tab = $this->getNode();
-        $new_tab = $this->dom->create_element("Tab");
-        if ($next_tab = $tab->next_sibling()) {
-            $new_tab = $next_tab->insert_before($new_tab, $next_tab);
+        $tab = $this->getDomNode();
+        $new_tab = $this->dom_doc->createElement("Tab");
+        if ($next_tab = $tab->nextSibling) {
+            $new_tab = $next_tab->parentNode->insertBefore($new_tab, $next_tab);
         } else {
-            $parent_tabs = $tab->parent_node();
-            $new_tab = $parent_tabs->append_child($new_tab);
+            $parent_tabs = $tab->parentNode;
+            $new_tab = $parent_tabs->appendChild($new_tab);
         }
     }
 
     public function newItemBefore(): void
     {
-        $tab = $this->getNode();
-        $new_tab = $this->dom->create_element("Tab");
-        $new_tab = $tab->insert_before($new_tab, $tab);
+        $tab = $this->getDomNode();
+        $new_tab = $this->dom_doc->createElement("Tab");
+        $new_tab = $tab->parentNode->insertBefore($new_tab, $tab);
     }
 
     public function deleteItem(): void
     {
-        $tab = $this->getNode();
-        $tab->unlink($tab);
+        $tab = $this->getDomNode();
+        $tab->parentNode->removeChild($tab);
     }
 
     public function moveItemDown(): void
     {
-        $tab = $this->getNode();
-        $next = $tab->next_sibling();
-        $next_copy = $next->clone_node(true);
-        $next_copy = $tab->insert_before($next_copy, $tab);
-        $next->unlink($next);
+        $tab = $this->getDomNode();
+        $next = $tab->nextSibling;
+        $next_copy = $next->cloneNode(true);
+        $next_copy = $tab->parentNode->insertBefore($next_copy, $tab);
+        $next->parentNode->removeChild($next);
     }
 
     public function moveItemUp(): void
     {
-        $tab = $this->getNode();
-        $prev = $tab->previous_sibling();
-        $tab_copy = $tab->clone_node(true);
-        $tab_copy = $prev->insert_before($tab_copy, $prev);
-        $tab->unlink($tab);
+        $tab = $this->getDomNode();
+        $prev = $tab->previousSibling;
+        $tab_copy = $tab->cloneNode(true);
+        $tab_copy = $prev->parentNode->insertBefore($tab_copy, $prev);
+        $tab->parentNode->removeChild($tab);
     }
 
     /**
@@ -83,7 +83,6 @@ class ilPCTab extends ilPageContent
         string $a_mode,
         bool $a_abstract_only = false
     ): string {
-
         // get opened accordions
         $storage = new ilAccordionPropertiesStorageGUI();
         $opened = $storage->getPropertyForIdStartsWith("ilc_accordion_" .
@@ -101,7 +100,7 @@ class ilPCTab extends ilPageContent
         }
 EOT;
         }
-        $script.= "</script>";
+        $script .= "</script>";
 
 
 

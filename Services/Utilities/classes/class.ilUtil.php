@@ -1,5 +1,4 @@
 <?php
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -92,6 +91,8 @@ class ilUtil
 
         if (is_object($styleDefinition)) {
             $image_dir = $styleDefinition->getImageDirectory($current_style);
+        } else {
+            $image_dir = "images";
         }
         $skin_img = "";
         if ($current_skin == "default") {
@@ -155,6 +156,7 @@ class ilUtil
 
         // add version as parameter to force reload for new releases
         // use ilStyleDefinition instead of account to get the current style
+
         $stylesheet_name = (strlen($a_css_name))
             ? $a_css_name
             : ilStyleDefinition::getCurrentStyle() . ".css";
@@ -166,12 +168,20 @@ class ilUtil
         // use ilStyleDefinition instead of account to get the current skin
         if (ilStyleDefinition::getCurrentSkin() != "default") {
             $filename = "./Customizing/global/skin/" . ilStyleDefinition::getCurrentSkin(
-            ) . "/" . $a_css_location . $stylesheet_name;
+            ) . "/" . ilStyleDefinition::getCurrentStyle() . "/" . $a_css_location . $stylesheet_name;
         }
         if (strlen($filename) == 0 || !file_exists($filename)) {
             $filename = "./" . $a_css_location . "templates/default/" . $stylesheet_name;
         }
-        return $filename;
+        $skin_version_appendix = "";
+        if ($mode !== "filesystem") {
+            // use version from template xml to force reload on changes
+            $skin = ilStyleDefinition::getSkins()[ilStyleDefinition::getCurrentSkin()];
+            $skin_version = $skin->getVersion();
+            $skin_version_appendix .= ($skin_version !== '' ? str_replace(".", "-", $skin_version) : '0');
+            $skin_version_appendix = "?skin_version=" . $skin_version_appendix;
+        }
+        return $filename . $skin_version_appendix;
     }
 
     /**
@@ -181,15 +191,6 @@ class ilUtil
      */
     public static function getNewContentStyleSheetLocation(string $mode = "output"): string
     {
-        global $DIC;
-
-        $ilSetting = $DIC->settings();
-
-        // add version as parameter to force reload for new releases
-        if ($mode != "filesystem") {
-            $vers = str_replace(" ", "-", ILIAS_VERSION);
-            $vers = "?vers=" . str_replace(".", "-", $vers);
-        }
 
         // use ilStyleDefinition instead of account to get the current skin and style
         if (ilStyleDefinition::getCurrentSkin() == "default") {
@@ -201,9 +202,9 @@ class ilUtil
         }
 
         if (is_file("./" . $in_style)) {
-            return $in_style . $vers;
+            return $in_style;
         } else {
-            return "templates/default/delos_cont.css" . $vers;
+            return "templates/default/delos_cont.css";
         }
     }
 
@@ -223,13 +224,52 @@ class ilUtil
     }
 
     /**
-     * @depracated Use the respective `Refinery` transformation `$refinery->string()->makeClickable("foo bar")` to convert URL-like string parts to an HTML anchor (`<a>`) element (the boolean flag is removed)
+     * @deprecated Use the respective `Refinery` transformation `$refinery->string()->makeClickable("foo bar")` to convert URL-like string parts to an HTML anchor (`<a>`) element.
+     * Will be removed in ILIAS 10.
      */
     public static function makeClickable(string $a_text, bool $detectGotoLinks = false): string
     {
         global $DIC;
 
-        return $DIC->refinery()->string()->makeClickable()->transform($a_text);
+        $ret = $DIC->refinery()->string()->makeClickable()->transform($a_text);
+
+        if ($detectGotoLinks) {
+            $goto = '<a[^>]*href="(' . str_replace('@', '\@', ILIAS_HTTP_PATH) . '/goto';
+            $regExp = $goto . '.php\?target=\w+_(\d+)[^"]*)"[^>]*>[^<]*</a>';
+            $ret = preg_replace_callback(
+                '@' . $regExp . '@i',
+                [self::class, 'replaceLinkProperties'],
+                $ret
+            );
+
+            // Edited this regex to allow multiple links in $ret: .* to [^"><]*.
+            $regExp = $goto . '_[^"><]*[a-z0-9]+_([0-9]+)\.html)"[^>]*>[^<]*</a>';
+            $ret = preg_replace_callback(
+                '@' . $regExp . '@i',
+                [self::class, 'replaceLinkProperties'],
+                $ret
+            );
+        }
+
+        return $ret;
+    }
+
+    private static function replaceLinkProperties(array $matches): string
+    {
+        global $DIC;
+        $cache = $DIC['ilObjDataCache'];
+
+        $link = $matches[0];
+        $ref_id = (int) $matches[2];
+        if ($ref_id > 0) {
+            $obj_id = $cache->lookupObjId($ref_id);
+            if ($obj_id > 0) {
+                $title = $cache->lookupTitle($obj_id);
+                $link = '<a href="' . $matches[1] . '" target="_self">' . $title . '</a>';
+            }
+        }
+
+        return $link;
     }
 
     /**
@@ -802,11 +842,11 @@ class ilUtil
             filter_var("http://de.de/" . $url, FILTER_VALIDATE_URL) === false) {
             return "";
         }
-        if (trim(strtolower(parse_url($url, PHP_URL_SCHEME))) == "javascript") {
+        if (trim(strtolower(parse_url($url, PHP_URL_SCHEME) ?? '')) === "javascript") {
             return "";
         }
-        $url = htmlspecialchars($url, ENT_QUOTES);
-        return $url;
+
+        return htmlspecialchars($url, ENT_QUOTES);
     }
 
     /**
@@ -1166,7 +1206,7 @@ class ilUtil
     {
         $test_str = explode('_', $ilias_id);
 
-        $parsed_inst_id = (int) $test_str[1] ?? 0;
+        $parsed_inst_id = (int) ($test_str[1] ?? 0);
         $prefix = $test_str[0] ?? '';
 
         if ($prefix === 'il' && $parsed_inst_id === $inst_id && count($test_str) === 4) {

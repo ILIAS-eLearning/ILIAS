@@ -25,17 +25,9 @@
  */
 class ilPCList extends ilPageContent
 {
-    public php4DOMElement $list_node;
-
     public function init(): void
     {
         $this->setType("list");
-    }
-
-    public function setNode(php4DOMElement $a_node): void
-    {
-        parent::setNode($a_node);		// this is the PageContent node
-        $this->list_node = $a_node->first_child();		// this is the Table node
     }
 
     public function create(
@@ -43,10 +35,7 @@ class ilPCList extends ilPageContent
         string $a_hier_id,
         string $a_pc_id = ""
     ): void {
-        $this->node = $this->createPageContentNode();
-        $a_pg_obj->insertContent($this, $a_hier_id, IL_INSERT_AFTER, $a_pc_id);
-        $this->list_node = $this->dom->create_element("List");
-        $this->list_node = $this->node->append_child($this->list_node);
+        $this->createInitialChildNode($a_hier_id, $a_pc_id, "List");
     }
 
     /**
@@ -55,8 +44,8 @@ class ilPCList extends ilPageContent
     public function addItems(int $a_nr): void
     {
         for ($i = 1; $i <= $a_nr; $i++) {
-            $new_item = $this->dom->create_element("ListItem");
-            $new_item = $this->list_node->append_child($new_item);
+            $new_item = $this->dom_doc->createElement("ListItem");
+            $new_item = $this->getChildNode()->appendChild($new_item);
         }
     }
 
@@ -66,11 +55,11 @@ class ilPCList extends ilPageContent
      */
     public function getOrderType(): string
     {
-        if ($this->list_node->get_attribute("Type") == "Unordered") {
+        if ($this->getChildNode()->getAttribute("Type") == "Unordered") {
             return "Unordered";
         }
 
-        $nt = $this->list_node->get_attribute("NumberingType");
+        $nt = $this->getChildNode()->getAttribute("NumberingType");
         switch ($nt) {
             case "Number":
             case "Roman":
@@ -87,7 +76,7 @@ class ilPCList extends ilPageContent
 
     public function getListType(): string
     {
-        if ($this->list_node->get_attribute("Type") == "Unordered") {
+        if ($this->getChildNode()->getAttribute("Type") == "Unordered") {
             return "Unordered";
         }
         return "Ordered";
@@ -95,7 +84,7 @@ class ilPCList extends ilPageContent
 
     public function setListType(string $a_val): void
     {
-        $this->list_node->set_attribute("Type", $a_val);
+        $this->getChildNode()->setAttribute("Type", $a_val);
     }
 
     /**
@@ -103,7 +92,7 @@ class ilPCList extends ilPageContent
      */
     public function getNumberingType(): string
     {
-        $nt = $this->list_node->get_attribute("NumberingType");
+        $nt = $this->getChildNode()->getAttribute("NumberingType");
         switch ($nt) {
             case "Number":
             case "Roman":
@@ -121,10 +110,10 @@ class ilPCList extends ilPageContent
     public function setNumberingType(string $a_val): void
     {
         if ($a_val != "") {
-            $this->list_node->set_attribute("NumberingType", $a_val);
+            $this->getChildNode()->setAttribute("NumberingType", $a_val);
         } else {
-            if ($this->list_node->has_attribute("NumberingType")) {
-                $this->list_node->remove_attribute("NumberingType");
+            if ($this->getChildNode()->hasAttribute("NumberingType")) {
+                $this->getChildNode()->removeAttribute("NumberingType");
             }
         }
     }
@@ -132,32 +121,32 @@ class ilPCList extends ilPageContent
     public function setStartValue(int $a_val): void
     {
         if ($a_val != "") {
-            $this->list_node->set_attribute("StartValue", $a_val);
+            $this->getChildNode()->setAttribute("StartValue", $a_val);
         } else {
-            if ($this->list_node->has_attribute("StartValue")) {
-                $this->list_node->remove_attribute("StartValue");
+            if ($this->getChildNode()->hasAttribute("StartValue")) {
+                $this->getChildNode()->removeAttribute("StartValue");
             }
         }
     }
 
     public function getStartValue(): int
     {
-        return (int) $this->list_node->get_attribute("StartValue");
+        return (int) $this->getChildNode()->getAttribute("StartValue");
     }
 
     public function setStyleClass(string $a_val): void
     {
         if (!in_array($a_val, array("", "BulletedList", "NumberedList"))) {
-            $this->list_node->set_attribute("Class", $a_val);
+            $this->getChildNode()->setAttribute("Class", $a_val);
         } else {
-            if ($this->list_node->has_attribute("Class")) {
-                $this->list_node->remove_attribute("Class");
+            if ($this->getChildNode()->hasAttribute("Class")) {
+                $this->getChildNode()->removeAttribute("Class");
             }
         }
     }
 
     public function getStyleClass(): string
     {
-        return $this->list_node->get_attribute("Class");
+        return $this->getChildNode()->getAttribute("Class");
     }
 }

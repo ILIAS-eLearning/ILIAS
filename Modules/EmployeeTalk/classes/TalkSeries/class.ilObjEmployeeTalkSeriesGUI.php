@@ -30,6 +30,7 @@ use ILIAS\EmployeeTalk\Service\EmployeeTalkEmailNotification;
  *
  * @ilCtrl_IsCalledBy ilObjEmployeeTalkSeriesGUI: ilEmployeeTalkMyStaffListGUI
  * @ilCtrl_IsCalledBy ilObjEmployeeTalkSeriesGUI: ilEmployeeTalkMyStaffUserGUI
+ * @ilCtrl_IsCalledBy ilObjEmployeeTalkSeriesGUI: ilAdministrationGUI
  * @ilCtrl_Calls      ilObjEmployeeTalkSeriesGUI: ilCommonActionDispatcherGUI
  * @ilCtrl_Calls      ilObjEmployeeTalkSeriesGUI: ilRepositorySearchGUI
  * @ilCtrl_Calls      ilObjEmployeeTalkSeriesGUI: ilColumnGUI
@@ -71,7 +72,7 @@ final class ilObjEmployeeTalkSeriesGUI extends ilContainerGUI
             $this->userId = $wrapper->retrieve('usr_id', $this->container->refinery()->kindlyTo()->int());
         }
 
-        $this->container->ui()->mainTemplate()->setTitle($this->container->language()->txt('mst_my_staff'));
+        $this->omitLocator();
     }
 
     private function checkAccessOrFail(): void
@@ -80,31 +81,6 @@ final class ilObjEmployeeTalkSeriesGUI extends ilContainerGUI
         if (!$talkAccess->canCreate()) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("permission_denied"), true);
             $this->ctrl->redirectByClass(ilDashboardGUI::class, "");
-        }
-
-        $nextClass = $this->container->ctrl()->getNextClass($this);
-        $command = $this->container->ctrl()->getCmd();
-
-        // Stop User from creating talks with employees which dont belong to the respective orgunit
-        if ($nextClass === '' && $command === 'save') {
-            $userName = filter_input(INPUT_POST, 'etal_employee', FILTER_CALLBACK, ['options' => function ($input) {
-                if (ilObjUser::_loginExists($input)) {
-                    return $input;
-                }
-
-                return null;
-            }]);
-
-            if (is_null($userName)) {
-                $this->tpl->setOnScreenMessage('failure', $this->lng->txt("permission_denied"), true);
-                $this->ctrl->redirectByClass(strtolower(ilEmployeeTalkMyStaffListGUI::class), ControlFlowCommand::DEFAULT);
-            }
-
-            $userId = ilObjUser::_lookupId($userName);
-            if (!$talkAccess->canCreate(new ilObjUser($userId))) {
-                $this->tpl->setOnScreenMessage('failure', $this->lng->txt("permission_denied"), true);
-                $this->ctrl->redirectByClass(strtolower(ilEmployeeTalkMyStaffListGUI::class), ControlFlowCommand::DEFAULT);
-            }
         }
     }
 
@@ -118,17 +94,27 @@ final class ilObjEmployeeTalkSeriesGUI extends ilContainerGUI
         switch ($next_class) {
             case strtolower(ilRepositorySearchGUI::class):
                 $repo = new ilRepositorySearchGUI();
-                $repo->addUserAccessFilterCallable(function ($userIds) {
+                $repo->addUserAccessFilterCallable(function ($user_ids) {
+                    $access = new ilObjEmployeeTalkAccess();
                     /**
-                     * @var ilAccess $access
+                     * If the performance of the autocomplete tanks, it's
+                     * definitely because of calling canCreate separately
+                     * for each user.
+                     * It would be better to use:
+                     * $DIC->access()->filterUserIdsByPositionOfCurrentUser(
+                     *      ilOrgUnitOperation::OP_CREATE_EMPLOYEE_TALK,
+                     *      **Insert talk ref id here**,
+                     *      $userIds
+                     * );
+                     * but that function gets its context exclusively from
+                     * the ref_id of an object, and at this point there
+                     * might not even exist an object with type etal at all...
                      */
-                    $access = $GLOBALS['DIC']->access();
-
-                    //this method does not check permissions (ILIAS 6.7)
-                    return $access->filterUserIdsForUsersPositionsAndPermission(
-                        $userIds,
-                        $this->user->getId(),
-                        ''
+                    return array_filter(
+                        $user_ids,
+                        function (int $id) use ($access) {
+                            return $access->canCreate(new ilObjUser($id));
+                        }
                     );
                 });
                 $this->container->ctrl()->forwardCommand($repo);
@@ -136,6 +122,15 @@ final class ilObjEmployeeTalkSeriesGUI extends ilContainerGUI
             default:
                 parent::executeCommand();
         }
+    }
+
+    /**
+     * This GUI is only called when creating a talk (series). In the creation dialog,
+     * there should not be a header.
+     */
+    protected function setTitleAndDescription(): void
+    {
+        $this->tpl->resetHeaderBlock();
     }
 
     /**
@@ -163,7 +158,8 @@ final class ilObjEmployeeTalkSeriesGUI extends ilContainerGUI
                 "mref_id",
                 $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())
             );
-            $_SESSION["saved_post"] = array_unique(array_merge($_SESSION["saved_post"], $mref_id));
+            $saved_post = array_unique(array_merge(ilSession::get('saved_post'), $mref_id));
+            ilSession::set('saved_post', $saved_post);
         }
 
         $ru = new ilRepositoryTrashGUI($this);
@@ -177,6 +173,11 @@ final class ilObjEmployeeTalkSeriesGUI extends ilContainerGUI
     {
         ilSession::clear("saved_post");
 
+        $this->ctrl->redirectByClass(strtolower(ilEmployeeTalkMyStaffListGUI::class), ControlFlowCommand::DEFAULT, "", false);
+    }
+
+    public function cancelObject(): void
+    {
         $this->ctrl->redirectByClass(strtolower(ilEmployeeTalkMyStaffListGUI::class), ControlFlowCommand::DEFAULT, "", false);
     }
 
@@ -201,24 +202,50 @@ final class ilObjEmployeeTalkSeriesGUI extends ilContainerGUI
         $this->ctrl->redirectByClass(strtolower(ilEmployeeTalkMyStaffListGUI::class), ControlFlowCommand::DEFAULT, "", false);
     }
 
-    protected function validateCustom(ilPropertyFormGUI $a_form): bool
+    public function saveObject(): void
     {
-        /**
-         * @var ilTextInputGUI $userName
-         */
-        $userName = $a_form->getInput('etal_employee');
-        if (!ilObjUser::_loginExists($userName->getValue())) {
-            $userName->setValidationFailureMessage("etal_invalid_user");
-            return false;
+        $this->ctrl->setParameter($this, "new_type", $this->requested_new_type);
+
+        $form = $this->initCreateForm($this->requested_new_type);
+        if ($form->checkInput()) {
+            $userName = (string) $form->getInput('etal_employee');
+            $userId = (int) ilObjUser::_lookupId($userName);
+            $talkAccess = new ilObjEmployeeTalkAccess();
+            if (
+                !ilObjUser::_loginExists($userName) ||
+                !$talkAccess->canCreate(new ilObjUser($userId))
+            ) {
+                $form->getItemByPostVar('etal_employee')
+                     ->setAlert($this->lng->txt('etal_invalid_user'));
+                $this->tpl->setOnScreenMessage(
+                    'failure',
+                    $this->lng->txt('form_input_not_valid')
+                );
+                $form->setValuesByPost();
+                $this->tpl->setContent($form->getHTML());
+                return;
+            }
+
+            $this->ctrl->setParameter($this, "new_type", "");
+
+            $class_name = "ilObj" . $this->obj_definition->getClassName($this->requested_new_type);
+            $newObj = new $class_name();
+            $newObj->setType($this->requested_new_type);
+            $newObj->setTitle($form->getInput("title"));
+            $newObj->setDescription($form->getInput("desc"));
+            $newObj->create();
+
+            $this->putObjectInTree($newObj);
+
+            $this->afterSave($newObj);
         }
-        return parent::validateCustom($a_form); // TODO: Change the autogenerated stub
+
+        $form->setValuesByPost();
+        $this->tpl->setContent($form->getHTML());
     }
 
     protected function initCreateForm(string $new_type): ilPropertyFormGUI
     {
-        // Init dom events or ui will break on page load
-        ilYuiUtil::initDomEvent();
-
         $form = new ilPropertyFormGUI();
         $form->setTarget("_top");
         $form->setFormAction($this->ctrl->getFormAction($this, "save") . '&template=' . $this->getTemplateRefId());
@@ -295,7 +322,7 @@ final class ilObjEmployeeTalkSeriesGUI extends ilContainerGUI
 
     public function viewObject(): void
     {
-        $this->tabs_gui->activateTab('view_content');
+        self::_goto((string) $this->ref_id);
     }
 
     public function getTabs(): void
@@ -316,30 +343,45 @@ final class ilObjEmployeeTalkSeriesGUI extends ilContainerGUI
         }
 
         $firstTalk = $talks[0];
-        $talkTitle = $firstTalk->getTitle();
+        $talk_title = $firstTalk->getTitle();
         $superior = new ilObjUser($firstTalk->getOwner());
         $employee = new ilObjUser($firstTalk->getData()->getEmployee());
         $superiorName = $superior->getFullname();
 
-        $dates = [];
-        foreach ($talks as $talk) {
-            $data = $talk->getData();
-            $startDate = $data->getStartDate()->get(IL_CAL_DATETIME);
+        $dates = array_map(
+            fn(ilObjEmployeeTalk $t) => $t->getData()->getStartDate(),
+            $talks
+        );
+        usort($dates, function (ilDateTime $a, ilDateTime $b) {
+            $a = $a->getUnixTime();
+            $b = $b->getUnixTime();
+            if ($a === $b) {
+                return 0;
+            }
+            return $a < $b ? -1 : 1;
+        });
 
-            $dates[] = strval($startDate);
-        }
+        $add_time = $firstTalk->getData()->isAllDay() ? 0 : 1;
+        $format = ilCalendarUtil::getUserDateFormat($add_time, true);
+        $timezone = $employee->getTimeZone();
+        $dates = array_map(function (ilDateTime $d) use ($add_time, $format, $timezone) {
+            return $d->get(IL_CAL_FKT_DATE, $format, $timezone);
+        }, $dates);
 
         $message = new EmployeeTalkEmailNotification(
-            sprintf($this->lng->txt('notification_talks_created'), $superiorName),
-            $this->lng->txt('notification_talks_date_list_header'),
-            sprintf($this->lng->txt('notification_talks_talk_title'), $talkTitle),
-            $this->lng->txt('notification_talks_date_details'),
+            $firstTalk->getRefId(),
+            $talk_title,
+            $firstTalk->getDescription(),
+            $firstTalk->getData()->getLocation(),
+            'notification_talks_subject',
+            'notification_talks_created',
+            $superiorName,
             $dates
         );
 
         $vCalSender = new EmployeeTalkEmailNotificationService(
             $message,
-            $talkTitle,
+            $talk_title,
             $employee,
             $superior,
             VCalendarFactory::getInstanceFromTalks($firstTalk->getParent())
@@ -462,19 +504,25 @@ final class ilObjEmployeeTalkSeriesGUI extends ilContainerGUI
          */
         $dateTimeInput = $this->form->getItemByPostVar('etal_event');
         ['start' => $start, 'end' => $end] = $dateTimeInput->getValue();
-        $startDate = new ilDateTime($start, IL_CAL_UNIX, ilTimeZone::UTC);
-        $endDate = new ilDateTime($end, IL_CAL_UNIX, ilTimeZone::UTC);
+        if (intval($tgl)) {
+            $start_date = new ilDate($start, IL_CAL_UNIX);
+            $end_date = new ilDate($end, IL_CAL_UNIX);
+        } else {
+            $start_date = new ilDateTime($start, IL_CAL_UNIX, ilTimeZone::UTC);
+            $end_date = new ilDateTime($end, IL_CAL_UNIX, ilTimeZone::UTC);
+        }
 
         return new EmployeeTalk(
             -1,
-            $startDate,
-            $endDate,
+            $start_date,
+            $end_date,
             boolval(intval($tgl)),
             '',
             $location ?? '',
             ilObjUser::getUserIdByLogin($employee),
             false,
-            false
+            false,
+            ilObject::_lookupObjectId($this->getTemplateRefId())
         );
     }
 
@@ -486,10 +534,32 @@ final class ilObjEmployeeTalkSeriesGUI extends ilContainerGUI
     private function copyTemplateValues(ilObjEmployeeTalkSeries $talk)
     {
         $template = new ilObjTalkTemplate($this->getTemplateRefId(), true);
-        $talk->setTitle($template->getTitle());
-        $talk->setDescription($template->getLongDescription());
+        $talk->setDescription($template->getTitle());
         $template->cloneMetaData($talk);
         $talk->update();
+
+        // assign talk series type to adv md records of the template
+        foreach (ilAdvancedMDRecord::_getSelectedRecordsByObject(
+            $template->getType(),
+            $template->getId(),
+            'etal',
+            false
+        ) as $rec) {
+            if (!$rec->isAssignedObjectType($talk->getType(), 'etal')) {
+                $rec->appendAssignedObjectType(
+                    $talk->getType(),
+                    'etal',
+                    true
+                );
+                $rec->update();
+            }
+        }
+
+        ilAdvancedMDRecord::saveObjRecSelection(
+            $talk->getId(),
+            'etal',
+            ilAdvancedMDRecord::getObjRecSelection($template->getId(), 'etal')
+        );
 
         ilAdvancedMDValues::_cloneValues(
             0,
@@ -559,7 +629,11 @@ final class ilObjEmployeeTalkSeriesGUI extends ilContainerGUI
 
             $cloneData->setStartDate($date);
             $endDate = $date->get(IL_CAL_UNIX) + $periodDiff;
-            $cloneData->setEndDate(new ilDateTime($endDate, IL_CAL_UNIX));
+            if ($cloneData->isAllDay()) {
+                $cloneData->setEndDate(new ilDate($endDate, IL_CAL_UNIX));
+            } else {
+                $cloneData->setEndDate(new ilDateTime($endDate, IL_CAL_UNIX, ilTimeZone::UTC));
+            }
             $cloneObject->setData($cloneData);
             $cloneObject->update();
             $talks[] = $cloneObject;
@@ -572,26 +646,36 @@ final class ilObjEmployeeTalkSeriesGUI extends ilContainerGUI
 
     public static function _goto(string $refId): void
     {
-        /**
-         * @var \ILIAS\DI\Container $container
+        global $DIC;
+
+        $children = $DIC->repositoryTree()->getChildIds((int) $refId);
+
+        /*
+         * If the series contains talks, redirect to first talk,
+         * if not (which should only happen if someone messes with
+         * the URL) redirect to dashboard.
          */
-        $container = $GLOBALS['DIC'];
-        $container->ctrl()->setParameterByClass(strtolower(self::class), 'ref_id', $refId);
-        $container->ctrl()->redirectByClass([
-            strtolower(ilDashboardGUI::class),
-            strtolower(ilMyStaffGUI::class),
-            strtolower(ilEmployeeTalkMyStaffListGUI::class),
-            strtolower(self::class),
-        ], ControlFlowCommand::INDEX);
+        if (empty($children)) {
+            $DIC->ui()->mainTemplate()->setOnScreenMessage(
+                'failure',
+                $DIC->language()->txt("permission_denied"),
+                true
+            );
+            $DIC->ctrl()->redirectByClass(ilDashboardGUI::class, "");
+        }
+        ilObjEmployeeTalkGUI::_goto((string) $children[0]);
     }
 
     private function getTemplateRefId(): int
     {
-        $template = filter_input(INPUT_GET, 'template', FILTER_VALIDATE_INT);
-        $refId = intval($template);
+        $refId = 0;
+        if ($this->container->http()->wrapper()->query()->has('template')) {
+            $refId = $this->container->http()->wrapper()->query()->retrieve(
+                'template',
+                $this->container->refinery()->kindlyTo()->int()
+            );
+        }
         if (
-            $template === null ||
-            $template === false ||
             !ilObjTalkTemplate::_exists($refId, true) ||
             ilObjTalkTemplate::lookupOfflineStatus(ilObjTalkTemplate::_lookupObjectId($refId)) ?? true
         ) {
@@ -603,6 +687,6 @@ final class ilObjEmployeeTalkSeriesGUI extends ilContainerGUI
             ], ControlFlowCommand::INDEX);
         }
 
-        return intval($template);
+        return $refId;
     }
 }

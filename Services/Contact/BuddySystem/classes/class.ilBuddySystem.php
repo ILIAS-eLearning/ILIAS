@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Class ilBuddySystem
@@ -47,20 +47,11 @@ class ilBuddySystem
         return self::$instance;
     }
 
-    /**
-     * @param string $keyword
-     * @param string $value
-     */
     public function setSetting(string $keyword, string $value): void
     {
         $this->settings->set($keyword, $value);
     }
 
-    /**
-     * @param string $keyword
-     * @param string|null $default
-     * @return string|null
-     */
     public function getSetting(string $keyword, ?string $default = null): ?string
     {
         return $this->settings->get($keyword, $default);

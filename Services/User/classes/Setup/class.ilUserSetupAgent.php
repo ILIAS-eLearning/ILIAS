@@ -18,7 +18,7 @@
 
 use ILIAS\Setup;
 use ILIAS\Refinery;
-use ILIAS\UI;
+use ILIAS\Setup\ObjectiveCollection;
 
 /**
  * @author Nils Haagen <nils.haagen@concepts-and-training.de>
@@ -53,7 +53,16 @@ class ilUserSetupAgent implements Setup\Agent
 
     public function getUpdateObjective(Setup\Config $config = null): Setup\Objective
     {
-        return new Setup\Objective\NullObjective();
+        return new ObjectiveCollection(
+            'Database is updated for Services/User',
+            false,
+            new ilDatabaseUpdateStepsExecutedObjective(
+                new ilUser8DBUpdateSteps()
+            ),
+            new ilDatabaseUpdateStepsExecutedObjective(
+                new ilUserDB90()
+            )
+        );
     }
 
     public function getBuildArtifactObjective(): Setup\Objective
@@ -63,11 +72,24 @@ class ilUserSetupAgent implements Setup\Agent
 
     public function getStatusObjective(Setup\Metrics\Storage $storage): Setup\Objective
     {
-        return new Setup\Objective\NullObjective();
+        return new ObjectiveCollection(
+            'Services/User',
+            true,
+            new ilDatabaseUpdateStepsMetricsCollectedObjective(
+                $storage,
+                new ilUser8DBUpdateSteps()
+            ),
+            new ilDatabaseUpdateStepsMetricsCollectedObjective(
+                $storage,
+                new ilUserDB90()
+            )
+        );
     }
 
     public function getMigrations(): array
     {
-        return [];
+        return [
+            new ilUserProfilePictureMigration()
+        ];
     }
 }

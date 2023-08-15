@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class ilPCBlog
  * Blog content object (see ILIAS DTD)
@@ -24,7 +26,6 @@
  */
 class ilPCBlog extends ilPageContent
 {
-    protected php4DOMElement $blog_node;
     protected ilObjUser $user;
 
     public function init(): void
@@ -35,21 +36,12 @@ class ilPCBlog extends ilPageContent
         $this->setType("blog");
     }
 
-    public function setNode(php4DOMElement $a_node): void
-    {
-        parent::setNode($a_node);		// this is the PageContent node
-        $this->blog_node = $a_node->first_child();		// this is the blog node
-    }
-
     public function create(
         ilPageObject $a_pg_obj,
         string $a_hier_id,
         string $a_pc_id = ""
     ): void {
-        $this->node = $this->createPageContentNode();
-        $a_pg_obj->insertContent($this, $a_hier_id, IL_INSERT_AFTER, $a_pc_id);
-        $this->blog_node = $this->dom->create_element("Blog");
-        $this->blog_node = $this->node->append_child($this->blog_node);
+        $this->createInitialChildNode($a_hier_id, $a_pc_id, "Blog");
     }
 
     /**
@@ -61,30 +53,30 @@ class ilPCBlog extends ilPageContent
     ): void {
         $ilUser = $this->user;
 
-        $this->blog_node->set_attribute("Id", $a_blog_id);
-        $this->blog_node->set_attribute("User", $ilUser->getId());
+        $this->getChildNode()->setAttribute("Id", (string) $a_blog_id);
+        $this->getChildNode()->setAttribute("User", (string) $ilUser->getId());
 
         // remove all children first
-        $children = $this->blog_node->child_nodes();
+        $children = $this->getChildNode()->childNodes;
         if ($children) {
             foreach ($children as $child) {
-                $this->blog_node->remove_child($child);
+                $this->getChildNode()->removeChild($child);
             }
         }
 
         if (count($a_posting_ids)) {
             foreach ($a_posting_ids as $posting_id) {
-                $post_node = $this->dom->create_element("BlogPosting");
-                $post_node = $this->blog_node->append_child($post_node);
-                $post_node->set_attribute("Id", $posting_id);
+                $post_node = $this->dom_doc->createElement("BlogPosting");
+                $post_node = $this->getChildNode()->appendChild($post_node);
+                $post_node->setAttribute("Id", (string) $posting_id);
             }
         }
     }
 
     public function getBlogId(): int
     {
-        if (is_object($this->blog_node)) {
-            return (int) $this->blog_node->get_attribute("Id");
+        if (is_object($this->getChildNode())) {
+            return (int) $this->getChildNode()->getAttribute("Id");
         }
         return 0;
     }
@@ -95,11 +87,11 @@ class ilPCBlog extends ilPageContent
     public function getPostings(): array
     {
         $res = array();
-        if (is_object($this->blog_node)) {
-            $children = $this->blog_node->child_nodes();
+        if (is_object($this->getChildNode())) {
+            $children = $this->getChildNode()->childNodes;
             if ($children) {
                 foreach ($children as $child) {
-                    $res[] = (int) $child->get_attribute("Id");
+                    $res[] = (int) $child->getAttribute("Id");
                 }
             }
         }

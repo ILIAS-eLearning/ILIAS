@@ -174,8 +174,6 @@ class ilTestParticipantsTableGUI extends ilTable2GUI
         $lng = $DIC['lng'];
 
         if ($this->isParticipantHasSolutionsFilterEnabled()) {
-            // title/description
-            include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
             $ti = new ilSelectInputGUI($lng->txt("selection"), "selection");
             $ti->setOptions(
                 array(

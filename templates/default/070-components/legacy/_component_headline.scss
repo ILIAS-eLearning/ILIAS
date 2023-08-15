@@ -1,4 +1,5 @@
 @use "../../010-settings/" as *;
+@use "../../050-layout/basics/" as *;
 
 /* ---------------- headlines ------------------ */
 h1.il-page-content-header {
@@ -16,6 +17,11 @@ h1.ilHeader {
 	@media only screen and (max-width: $il-grid-float-breakpoint-max) {
         padding-top: 5px;
     }
+}
+
+.media-heading {
+    margin-top: 0;
+    margin-bottom: 5px;
 }
 
 h2.ilHeader {
@@ -67,7 +73,7 @@ div.ilHeaderDesc {
 }
 
 div.il_HeaderInner {
-	padding: 15px;
+	padding: $il-padding-xxlarge-vertical 0;
 	margin-bottom: 5px;
 	overflow: visible;
 	@media only screen and (max-width: $il-grid-float-breakpoint-max) {

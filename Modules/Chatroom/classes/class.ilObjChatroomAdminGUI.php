@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Class ilObjChatroomAdminGUI
@@ -80,7 +80,7 @@ class ilObjChatroomAdminGUI extends ilChatroomObjectGUI
 
             default:
                 $tabFactory->getAdminTabsForCommand($this->ctrl->getCmd());
-                $res = explode('-', $this->ctrl->getCmd(), 2);
+                $res = explode('-', (string) $this->ctrl->getCmd(), 2);
                 if (!array_key_exists(1, $res)) {
                     $res[1] = '';
                 }

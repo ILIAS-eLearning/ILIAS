@@ -50,11 +50,11 @@ interface EmployeeTalkRepository
     public function findByEmployees(array $employees): array;
 
     /**
-     * @param int[] $employees
      * @param int   $owner
+     * @param int[] $employees
      * @return EmployeeTalk[]
      */
-    public function findByEmployeesAndOwner(array $employees, int $owner): array;
+    public function findByUserOrTheirEmployees(int $user, array $employees): array;
 
     /**
      * @param int $employee

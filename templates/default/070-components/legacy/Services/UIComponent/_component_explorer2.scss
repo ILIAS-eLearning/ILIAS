@@ -1,6 +1,6 @@
 @use "../../../../010-settings/" as *;
 @use "../../../../010-settings/legacy-settings/legacy-settings_tree" as *;
-@use "../../../../020-dependencies/modifications/bootstrap-3-scss/bootstrap-3-scss-modified-variables-mixins" as btstrp3;
+@use "../../../../030-tools/_tool_browser-prefixes" as *;
 
 /* Services/UI/Explorer2 */
 
@@ -116,7 +116,7 @@ div.il_ExplorerItemDescription {
 #vakata-contextmenu.jstree-context li ul {
 	background: none #f0f0f0;
 	border: 1px solid #979797;
-    @include btstrp3.box-shadow(1px 1px 2px #999);
+    @include box-shadow(1px 1px 2px #999);
 }
 
 #vakata-contextmenu.jstree-context li {}

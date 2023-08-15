@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,10 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
+
+use ILIAS\Cron\Schedule\CronJobScheduleType;
 
 /**
  * @author  Niels Theen <ntheen@databay.de>
@@ -468,7 +470,7 @@ class ilCertificateCronTest extends ilCertificateBaseTestCase
 
         $flexibleSchedule = $cron->getDefaultScheduleType();
 
-        $this->assertSame(2, $flexibleSchedule);
+        $this->assertSame(CronJobScheduleType::SCHEDULE_TYPE_IN_MINUTES, $flexibleSchedule);
     }
 
     public function testGetDefaultScheduleValue(): void

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\Setup\Objective;
 
@@ -53,7 +53,18 @@ class ObjectiveWithPreconditions implements Setup\Objective
      */
     public function getHash(): string
     {
-        return $this->original->getHash();
+        return hash(
+            "sha256",
+            self::class
+            . $this->original->getHash()
+            . implode(
+                "",
+                array_map(
+                    fn ($o) => $o->getHash(),
+                    $this->preconditions
+                )
+            )
+        );
     }
 
     /**

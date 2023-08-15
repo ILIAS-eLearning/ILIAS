@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 class ilObjLearningSequence extends ilContainer
 {
@@ -41,7 +41,7 @@ class ilObjLearningSequence extends ilContainer
     protected ?ilObjLearningSequenceAccess $ls_access = null;
     protected ArrayAccess $dic;
     protected ilCtrl $ctrl;
-    protected ilNewsService $il_news;
+    protected \ILIAS\News\Service $il_news;
     protected ilConditionHandler $il_condition_handler;
 
 
@@ -61,6 +61,8 @@ class ilObjLearningSequence extends ilContainer
         $this->il_condition_handler = new ilConditionHandler();
 
         parent::__construct($id, $call_by_reference);
+
+        $this->lng->loadLanguageModule('rbac');
     }
 
     public static function getInstanceByRefId(int $ref_id): ?\ilObject
@@ -212,6 +214,11 @@ class ilObjLearningSequence extends ilContainer
                 ->withActivationStart($this->getLSActivation()->getActivationStart())
                 ->withActivationEnd($this->getLSActivation()->getActivationEnd());
         }
+
+        $new_status = ($new_obj->getLSActivation()->getEffectiveOnlineStatus())
+            ? $new_obj->getObjectProperties()->getPropertyIsOnline()->withOnline()
+            : $new_obj->getObjectProperties()->getPropertyIsOnline()->withOffline();
+        $new_obj->getObjectProperties()->storePropertyIsOnline($new_status);
 
         $new_obj->getActivationDB()->store(
             $activation
@@ -373,7 +380,7 @@ class ilObjLearningSequence extends ilContainer
             $this->getPostConditionDB()::STD_ALWAYS_OPERATOR => $this->lng->txt('condition_always')
         ];
         foreach ($condition_types as $cond_type) {
-            $conditions[$cond_type] = $this->lng->txt($cond_type);
+            $conditions[$cond_type] = $this->lng->txt('condition_' . $cond_type);
         }
         return $conditions;
     }

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Certificate Settings.
@@ -125,7 +125,7 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
                 $results = $this->upload->getResults();
                 $file = array_pop($results);
                 if ($file->isOK()) {
-                    $result = $this->object->uploadBackgroundImage($file->getPath());
+                    $result = $this->object->uploadBackgroundImage($file);
                     if ($result === false) {
                         $bgimage->setAlert($this->lng->txt('certificate_error_upload_bgimage'));
                     }

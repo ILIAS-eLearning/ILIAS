@@ -33,7 +33,6 @@ class ilAssNestedOrderingElementsInputGUI extends ilMultipleNestedOrderingElemen
 
     public const ILC_CSS_CLASS_LIST = 'ilc_qordul_OrderList';
     public const ILC_CSS_CLASS_ITEM = 'ilc_qordli_OrderListItem';
-    public const ILC_CSS_CLASS_HANDLE = 'ilc_qanswer_Answer';
 
     /**
      * @var string
@@ -94,7 +93,7 @@ class ilAssNestedOrderingElementsInputGUI extends ilMultipleNestedOrderingElemen
         $this->setHtmlListTag(parent::HTML_LIST_TAG_UL);
         $this->setCssListClass($this->getCssListClass() . ' ' . self::ILC_CSS_CLASS_LIST);
         $this->setCssItemClass($this->getCssItemClass() . ' ' . self::ILC_CSS_CLASS_ITEM);
-        $this->setCssHandleClass($this->getCssHandleClass() . ' ' . self::ILC_CSS_CLASS_HANDLE);
+        $this->setCssHandleClass($this->getCssHandleClass());
     }
 
     /**
@@ -111,7 +110,6 @@ class ilAssNestedOrderingElementsInputGUI extends ilMultipleNestedOrderingElemen
      */
     public function getElementList($questionId): ilAssOrderingElementList
     {
-        require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssOrderingElementList.php';
         return ilAssOrderingElementList::buildInstance($questionId, $this->getIdentifiedMultiValues());
     }
 

@@ -13,8 +13,8 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- *********************************************************************/
-
+ ********************************************************************
+ */
 declare(strict_types=1);
 
 class ilOrgUnitPositionDBRepository implements OrgUnitPositionRepository
@@ -23,11 +23,13 @@ class ilOrgUnitPositionDBRepository implements OrgUnitPositionRepository
     private const TABLE_NAME_UA = 'il_orgu_ua';
     protected ilDBInterface $db;
     protected ilOrgUnitAuthorityDBRepository $authorityRepo;
+    protected ilOrgUnitUserAssignmentDBRepository $assignmentRepo;
 
-    public function __construct(ilDBInterface $db, ilOrgUnitAuthorityDBRepository $authorityRepo)
+    public function __construct(ilDBInterface $db, ilOrgUnitAuthorityDBRepository $authorityRepo, ilOrgUnitUserAssignmentDBRepository $assignmentRepo)
     {
         $this->db = $db;
         $this->authorityRepo = $authorityRepo;
+        $this->assignmentRepo = $assignmentRepo;
     }
 
     /**
@@ -220,7 +222,10 @@ class ilOrgUnitPositionDBRepository implements OrgUnitPositionRepository
             $this->authorityRepo->deleteLeftoverAuthorities($ids, $position->getId());
         }
         if (count($ids) === 0) {
-            $this->authorityRepo->deleteByPositionId($position->getId());
+            $authorities = $this->authorityRepo->get($position->getId(), 'position_id');
+            foreach ($authorities as $authority) {
+                $this->authorityRepo->delete($authority->getId());
+            }
         }
 
         return $position;
@@ -267,18 +272,21 @@ class ilOrgUnitPositionDBRepository implements OrgUnitPositionRepository
     /**
      * Deletes position and authorities/user assignments attached to it
      */
-    public function delete(int $id): void
+    public function delete(int $position_id): void
     {
         $query = 'DELETE FROM ' . self::TABLE_NAME . PHP_EOL
-            . ' WHERE id = ' . $this->db->quote($id, 'integer');
+            . ' WHERE id = ' . $this->db->quote($position_id, 'integer');
 
         $this->db->manipulate($query);
 
-        $this->authorityRepo->deleteByPositionId($id);
+        $authorities = $this->authorityRepo->get($position_id, 'position_id');
+        foreach ($authorities as $authority) {
+            $this->authorityRepo->delete($authority->getId());
+        }
 
-        $ilOrgUnitUserAssignmentQueries = ilOrgUnitUserAssignmentQueries::getInstance();
-        foreach ($ilOrgUnitUserAssignmentQueries->getUserAssignmentsOfPosition($id) as $assignment) {
-            $assignment->delete();
+        $assignments = $this->assignmentRepo->getByPosition($position_id);
+        foreach ($assignments as $assignment) {
+            $this->assignmentRepo->delete($assignment);
         }
     }
 

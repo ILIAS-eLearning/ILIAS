@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Class Forum
@@ -529,6 +529,21 @@ class ilForum
 
         $post = new ilForumPost((int) $p_node['pos_pk']);
         if ($raiseEvents) {
+            $is_deleted_thread = ($post->getParentId() == 0) ? true : false;
+            $num_visible_active_posts = 0;
+            if ($is_deleted_thread) {
+                $query = '
+                    SELECT COUNT(*) AS cnt
+                    FROM frm_posts
+                    INNER JOIN frm_posts_tree ON pos_pk = pos_fk
+                    WHERE frm_posts_tree.parent_pos != 0
+                    AND pos_thr_fk = ' . $this->db->quote($post->getThreadId(), 'integer') . '
+                    AND pos_status = ' . $this->db->quote(1, 'integer');
+                $res = $this->db->query($query);
+                $row = $this->db->fetchAssoc($res);
+                $num_visible_active_posts = (int) ($row['cnt'] ?? 0);
+            }
+
             $this->event->raise(
                 'Modules/Forum',
                 'beforePostDeletion',
@@ -536,7 +551,8 @@ class ilForum
                     'obj_id' => $this->getForumId(),
                     'ref_id' => $this->getForumRefId(),
                     'post' => $post,
-                    'thread_deleted' => ((int) $p_node['parent']) === 0
+                    'thread_deleted' => $is_deleted_thread,
+                    'num_visible_active_posts' => $num_visible_active_posts
                 ]
             );
         }
@@ -558,8 +574,8 @@ class ilForum
         $dead_pos = count($deleted_post_ids);
         $dead_thr = 0;
 
-        if ((int) $p_node['parent'] === 0) {
-            $dead_thr = (int) $p_node['tree'];
+        if ((int) $post->getParentId() === 0) {
+            $dead_thr = $post->getThreadId();
 
             $this->db->manipulateF('DELETE FROM frm_threads WHERE thr_pk = %s', ['integer'], [$dead_thr]);
             $this->db->manipulateF(
@@ -594,7 +610,7 @@ class ilForum
                 }
             }
 
-            $this->db->manipulateF('DELETE FROM frm_posts WHERE pos_thr_fk = %s', ['integer'], [$p_node['tree']]);
+            $this->db->manipulateF('DELETE FROM frm_posts WHERE pos_thr_fk = %s', ['integer'], [$post->getTreeId()]);
         } else {
             for ($i = 0; $i < $dead_pos; $i++) {
                 $this->db->manipulateF('DELETE FROM frm_posts WHERE pos_pk = %s', ['integer'], [$deleted_post_ids[$i]]);
@@ -626,13 +642,13 @@ class ilForum
             $this->db->manipulateF(
                 'UPDATE frm_threads SET thr_num_posts = thr_num_posts - %s WHERE thr_pk = %s',
                 ['integer', 'integer'],
-                [$dead_pos, $p_node['tree']]
+                [$dead_pos, $post->getTreeId()]
             );
 
             $res1 = $this->db->queryF(
                 'SELECT * FROM frm_posts WHERE pos_thr_fk = %s ORDER BY pos_date DESC',
                 ['integer'],
-                [$p_node['tree']]
+                [$post->getTreeId()]
             );
 
             $lastPost_thr = '';
@@ -652,7 +668,7 @@ class ilForum
             $this->db->manipulateF(
                 'UPDATE frm_threads SET thr_last_post = %s WHERE thr_pk = %s',
                 ['text', 'integer'],
-                [$lastPost_thr, $p_node['tree']]
+                [$lastPost_thr, $post->getTreeId()]
             );
         }
 
@@ -746,11 +762,9 @@ class ilForum
         $cnt = (int) $cntData['cnt'];
 
         $active_query = '';
-        $active_inner_query = '';
         $having = '';
         if ($is_post_activation_enabled && !$params['is_moderator']) {
             $active_query = ' AND (pos_status = %s OR pos_author_id = %s) ';
-            $active_inner_query = ' AND (ipos.pos_status = %s OR ipos.pos_author_id = %s) ';
             $having = ' HAVING num_posts > 0';
         }
 
@@ -760,16 +774,10 @@ class ilForum
 
         $optional_fields = '';
         if ($frm_props->isIsThreadRatingEnabled()) {
-            $optional_fields = ',avg_rating';
-        }
-        if ($frm_props->getThreadSorting() === 1) {
-            $optional_fields = ',thread_sorting';
+            $optional_fields = ', avg_rating';
         }
 
         $additional_sort = '';
-        if ($frm_props->getThreadSorting() !== 0) {
-            $additional_sort .= ' , thread_sorting ASC ';
-        }
 
         if ($params['order_column'] === 'thr_subject') {
             $dynamic_columns = [', thr_subject ' . $params['order_direction']];
@@ -1275,6 +1283,7 @@ class ilForum
         return [
             'type' => 'post',
             'pos_pk' => (int) $a_row->pos_pk,
+            'pos_thr_fk' => (int) $a_row->pos_thr_fk,
             'child' => (int) $a_row->pos_pk,
             'author' => (int) $a_row->pos_display_user_id,
             'alias' => (string) $a_row->pos_usr_alias,

@@ -1,35 +1,32 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 declare(strict_types=1);
 
 namespace ILIAS\Filesystem\Stream;
 
 use ILIAS\Filesystem\Util\PHPStreamFunctions;
 
-/******************************************************************************
- *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
- *
- * If this is not the case or you just want to try ILIAS, you'll find
- * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *
- *****************************************************************************/
 /**
- * Class Stream
- *
- * @author  Nicolas Schäfli <ns@studer-raimann.ch>
- *
- * @since 5.3
- * @version 1.0.0
- *
- * @internal
+ * @author                 Nicolas Schäfli <ns@studer-raimann.ch>
+ * @author                 Fabian Schmid <fabian@sr.solutions>
  */
-class Stream implements FileStream
+class Stream implements FileStream, \Stringable
 {
     public const MASK_ACCESS_READ = 01;
     public const MASK_ACCESS_WRITE = 02;
@@ -62,7 +59,7 @@ class Stream implements FileStream
     private bool $writeable;
     private bool $seekable;
     /**
-     * @var resource $stream
+     * @var null $stream
      */
     private $stream;
     private ?int $size = null;
@@ -72,17 +69,18 @@ class Stream implements FileStream
      */
     private array $customMetadata;
 
-
     /**
      * Stream constructor.
      *
-     * @param resource         $stream   The resource which should be wrapped by the Stream.
-     * @param StreamOptions    $options  The additional options which are accessible via getMetadata
+     * @param resource                                    $stream  The resource which should be wrapped by the Stream.
+     * @param \ILIAS\Filesystem\Stream\StreamOptions|null $options The additional options which are accessible via getMetadata
      */
     public function __construct($stream, StreamOptions $options = null)
     {
         if (!is_resource($stream)) {
-            throw new \InvalidArgumentException('Stream must be a valid resource but "' . gettype($stream) . '" was given.');
+            throw new \InvalidArgumentException(
+                'Stream must be a valid resource but "' . gettype($stream) . '" was given.'
+            );
         }
 
         if ($options !== null) {
@@ -97,12 +95,17 @@ class Stream implements FileStream
         $meta = stream_get_meta_data($this->stream);
         $mode = $meta['mode'];
 
-        $this->readable = array_key_exists($mode, self::$accessMap) && boolval(self::$accessMap[$mode] & self::MASK_ACCESS_READ);
-        $this->writeable = array_key_exists($mode, self::$accessMap) && boolval(self::$accessMap[$mode] & self::MASK_ACCESS_WRITE);
-        $this->seekable = boolval($meta['seekable']);
+        $this->readable = array_key_exists(
+            $mode,
+            self::$accessMap
+        ) && (bool) (self::$accessMap[$mode]&self::MASK_ACCESS_READ);
+        $this->writeable = array_key_exists(
+            $mode,
+            self::$accessMap
+        ) && (bool) (self::$accessMap[$mode]&self::MASK_ACCESS_WRITE);
+        $this->seekable = $meta['seekable'];
         $this->uri = $this->getMetadata('uri');
     }
-
 
     /**
      * @inheritDoc
@@ -116,7 +119,6 @@ class Stream implements FileStream
         $this->detach();
     }
 
-
     /**
      * @inheritDoc
      */
@@ -127,7 +129,6 @@ class Stream implements FileStream
 
         return $stream;
     }
-
 
     /**
      * @inheritDoc
@@ -159,11 +160,10 @@ class Stream implements FileStream
         return null;
     }
 
-
     /**
      * @inheritDoc
      */
-    public function tell()
+    public function tell(): int|bool
     {
         $this->assertStreamAttached();
 
@@ -176,7 +176,6 @@ class Stream implements FileStream
         return $result;
     }
 
-
     /**
      * @inheritDoc
      */
@@ -187,7 +186,6 @@ class Stream implements FileStream
         return feof($this->stream);
     }
 
-
     /**
      * @inheritDoc
      */
@@ -195,7 +193,6 @@ class Stream implements FileStream
     {
         return $this->seekable;
     }
-
 
     /**
      * @inheritDoc
@@ -213,7 +210,6 @@ class Stream implements FileStream
         }
     }
 
-
     /**
      * @inheritDoc
      */
@@ -221,7 +217,6 @@ class Stream implements FileStream
     {
         $this->seek(0);
     }
-
 
     /**
      * @inheritDoc
@@ -231,11 +226,10 @@ class Stream implements FileStream
         return $this->writeable;
     }
 
-
     /**
      * @inheritDoc
      */
-    public function write($string)
+    public function write($string): int|bool
     {
         $this->assertStreamAttached();
 
@@ -254,7 +248,6 @@ class Stream implements FileStream
         return $result;
     }
 
-
     /**
      * @inheritDoc
      */
@@ -263,11 +256,10 @@ class Stream implements FileStream
         return $this->readable;
     }
 
-
     /**
      * @inheritDoc
      */
-    public function read($length)
+    public function read($length): string|bool
     {
         $this->assertStreamAttached();
 
@@ -291,11 +283,10 @@ class Stream implements FileStream
         return $junk;
     }
 
-
     /**
      * @inheritDoc
      */
-    public function getContents()
+    public function getContents(): string|bool
     {
         $this->assertStreamAttached();
 
@@ -307,7 +298,6 @@ class Stream implements FileStream
 
         return $content;
     }
-
 
     /**
      * @inheritDoc
@@ -344,17 +334,16 @@ class Stream implements FileStream
     /**
      * @inheritDoc
      */
-    public function __toString()
+    public function __toString(): string
     {
         try {
             $this->rewind();
-            return strval($this->getContents());
-        } catch (\Exception $ex) {
+            return $this->getContents();
+        } catch (\Exception) {
             //to string must not throw an error.
             return '';
         }
     }
-
 
     /**
      * @inheritDoc
@@ -366,7 +355,6 @@ class Stream implements FileStream
             $this->close();
         }
     }
-
 
     /**
      * Checks if the stream is attached to the wrapper.

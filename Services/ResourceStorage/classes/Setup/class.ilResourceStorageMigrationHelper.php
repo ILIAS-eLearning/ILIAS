@@ -32,6 +32,8 @@ use ILIAS\Setup\Environment;
 use ILIAS\ResourceStorage\Services;
 use ILIAS\ResourceStorage\Manager\Manager;
 use ILIAS\ResourceStorage\Preloader\StandardRepositoryPreloader;
+use ILIAS\ResourceStorage\Repositories;
+use ILIAS\ResourceStorage\Flavour\FlavourBuilder;
 
 /**
  * Class ilResourceStorageMigrationHelper
@@ -41,9 +43,11 @@ class ilResourceStorageMigrationHelper
 {
     protected string $client_data_dir;
     protected ilDBInterface $database;
+    protected FlavourBuilder $flavour_builder;
     protected ResourceBuilder $resource_builder;
     protected CollectionBuilder $collection_builder;
     protected ResourceStakeholder $stakeholder;
+    protected Repositories $repositories;
     protected Manager $manager;
 
     /**
@@ -86,9 +90,12 @@ class ilResourceStorageMigrationHelper
         $container['filesystem.storage'] = $f->getLocal($storageConfiguration);
 
         $this->resource_builder = $init->getResourceBuilder($container);
+        $this->flavour_builder = $init->getFlavourBuilder($container);
         $this->collection_builder = new CollectionBuilder(
             new CollectionDBRepository($db)
         );
+
+        $this->repositories = $container[InitResourceStorage::D_REPOSITORIES];
 
         $this->manager = new Manager(
             $this->resource_builder,
@@ -128,6 +135,10 @@ class ilResourceStorageMigrationHelper
     {
         return $this->resource_builder;
     }
+    public function getFlavourBuilder(): FlavourBuilder
+    {
+        return $this->flavour_builder;
+    }
 
     public function getCollectionBuilder(): CollectionBuilder
     {
@@ -138,6 +149,28 @@ class ilResourceStorageMigrationHelper
     {
         return $this->manager;
     }
+
+    public function moveResourceToNewStakeholderAndOwner(
+        ResourceIdentification $resource_identification,
+        ResourceStakeholder $old_stakeholder,
+        ResourceStakeholder $new_stakeholder,
+        ?int $new_owner_id = null
+    ): void {
+        $resource = $this->manager->getResource($resource_identification);
+        $resource->removeStakeholder($old_stakeholder);
+        $this->repositories->getStakeholderRepository()->deregister($resource_identification, $old_stakeholder);
+        $resource->addStakeholder($new_stakeholder);
+        $this->repositories->getStakeholderRepository()->register($resource_identification, $new_stakeholder);
+
+        if ($new_owner_id !== null) {
+            foreach ($resource->getAllRevisions() as $revision) {
+                $revision->setOwnerId($new_owner_id);
+            }
+        }
+
+        $this->resource_builder->store($resource);
+    }
+
 
     public function moveFilesOfPathToCollection(
         string $absolute_path,

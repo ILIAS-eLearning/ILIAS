@@ -48,25 +48,25 @@ class ilTestRandomQuestionSetStagingPoolQuestionList implements Iterator
     /**
      * @var array
      */
-    private $taxFilters = array();
+    private $taxFilters = [];
 
     // fau: taxFilter/typeFilter - private variable
     // TODO-RND2017: rename to typesFilter (multiple types allowed)
     /**
      * @var array
      */
-    private $typeFilter = array();
+    private $typeFilter = [];
     // fau.
 
     /**
      * @var array
      */
-    private $lifecycleFilter = array();
+    private $lifecycleFilter = [];
 
     /**
      * @var array
      */
-    private $questions = array();
+    private $questions = [];
 
     public function __construct(ilDBInterface $db, ilComponentRepository $component_repository)
     {
@@ -202,9 +202,6 @@ class ilTestRandomQuestionSetStagingPoolQuestionList implements Iterator
     {
         $expressions = array();
 
-        require_once 'Services/Taxonomy/classes/class.ilTaxonomyTree.php';
-        require_once 'Services/Taxonomy/classes/class.ilTaxNodeAssignment.php';
-
         foreach ($this->getTaxonomyFilters() as $taxId => $taxNodes) {
             $questionIds = array();
 
@@ -306,24 +303,25 @@ class ilTestRandomQuestionSetStagingPoolQuestionList implements Iterator
 
     // =================================================================================================================
 
-    public function rewind(): int
+    public function rewind(): void
     {
-        return reset($this->questions);
+        reset($this->questions);
     }
 
-    public function current(): int
+    public function current(): ?int
     {
-        return current($this->questions);
+        $current = current($this->questions);
+        return $current !== false ? $current : null;
     }
 
-    public function key(): int
+    public function key(): ?int
     {
         return key($this->questions);
     }
 
-    public function next(): int
+    public function next(): void
     {
-        return next($this->questions);
+        next($this->questions);
     }
 
     public function valid(): bool

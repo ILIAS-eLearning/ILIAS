@@ -27,6 +27,7 @@ use Monolog\Handler\FingersCrossedHandler;
 use Monolog\Handler\NullHandler;
 use Monolog\Handler\FingersCrossed\ErrorLevelActivationStrategy;
 use ILIAS\DI\Container;
+use Monolog\Processor\PsrLogMessageProcessor;
 
 /**
  * Logging factory
@@ -136,7 +137,19 @@ class ilLoggerFactory
                 strtolower($this->dic->http()->request()->getServerParams()['HTTP_X_REQUESTED_WITH'] ?? '') === 'xmlhttprequest'
             )
         ) {
-            // In theory, we could analyze the HTTP_ACCEPT header and return true for text/html
+            return false;
+        }
+
+        if (
+            $this->dic->isDependencyAvailable('http') &&
+            strpos($this->dic->http()->request()->getServerParams()['HTTP_ACCEPT'], 'text/html') !== false
+        ) {
+            return true;
+        }
+        if (
+            $this->dic->isDependencyAvailable('http') &&
+            strpos($this->dic->http()->request()->getServerParams()['HTTP_ACCEPT'], 'application/json') !== false
+        ) {
             return false;
         }
         return true;
@@ -237,6 +250,8 @@ class ilLoggerFactory
         // append trace
         $logger->pushProcessor(new ilTraceProcessor(ilLogLevel::DEBUG));
 
+        // Interpolate context variables.
+        $logger->pushProcessor(new PsrLogMessageProcessor());
 
         // register new logger
         $this->loggers[$a_component_id] = new ilComponentLogger($logger);

@@ -71,6 +71,10 @@ class ilADTExternalLinkSearchBridgeSingle extends ilADTSearchBridgeSingle
             }
 
             $this->getADT()->setUrl($post);
+        } elseif (array_key_exists($this->getElementId(), $this->table_filter_fields)) {
+            $this->table_filter_fields[$this->getElementId()]->setValue($post);
+            $this->writeFilter($post);
+            $this->getADT()->setUrl($post);
         } else {
             $this->writeFilter();
             $this->getADT()->setUrl(null);
@@ -142,10 +146,9 @@ class ilADTExternalLinkSearchBridgeSingle extends ilADTSearchBridgeSingle
     public function isInCondition(ilADT $a_adt): bool
     {
         if ($this->getADT()->getCopyOfDefinition()->isComparableTo($a_adt)) {
-            return !strcmp(
-                trim($this->getADT()->getUrl() ?? ''),
-                trim($a_adt->getUrl() ?? '')
-            );
+            return
+                strcasecmp(trim($this->getADT()->getUrl()), trim($a_adt->getUrl())) === 0 ||
+                strcasecmp(trim($this->getADT()->getUrl()), trim($a_adt->getTitle())) === 0;
         }
         return false;
     }

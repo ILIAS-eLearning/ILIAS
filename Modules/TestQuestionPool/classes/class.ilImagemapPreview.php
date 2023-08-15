@@ -16,7 +16,7 @@
  *
  *********************************************************************/
 
-include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
+require_once './Modules/Test/classes/inc.AssessmentConstants.php';
 
 /**
 * Image map image preview creator
@@ -60,7 +60,6 @@ class ilImagemapPreview
             if (preg_match("/.*\.(png|jpg|gif|jpeg)$/", $this->imagemap_filename, $matches)) {
                 $extension = "." . $matches[1];
             }
-            include_once "./Services/Utilities/classes/class.ilUtil.php";
             $this->preview_filename = ilFileUtils::ilTempnam() . $extension;
         }
         $this->areas = array();
@@ -147,7 +146,6 @@ class ilImagemapPreview
         if (count($this->areas) + count($this->points) == 0) {
             return;
         }
-        include_once "./Services/Utilities/classes/class.ilUtil.php";
         $convert_cmd = "-quality 100 ";
         foreach ($this->points as $point) {
             if ($point["visible"]) {

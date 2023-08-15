@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * @author  Niels Theen <ntheen@databay.de>
@@ -36,7 +36,7 @@ class ilCertificateTemplateExportActionTest extends ilCertificateBaseTestCase
                 '[]',
                 3,
                 'v5.4.0',
-                123456789,
+                123_456_789,
                 true,
                 '/some/where/background.jpg',
                 '/some/where/thumbnail.jpg',

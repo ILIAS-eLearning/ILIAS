@@ -43,7 +43,7 @@ class XapiProxyPolyFill
     protected string $fallbackLrsKey = '';
     protected string $fallbackLrsSecret = '';
 
-    public const PARTS_REG = '/^(.*?xapiproxy\.php)(\/([^?]+)?\??.*)/'; //'/^(.*?xapiproxy\.php)(\/([^\?]+)?\??.*)/';
+    public const PARTS_REG = '/^(.*?xapiproxy\.php)(\/([^?]+)?\??(.*))/'; //'/^(.*?xapiproxy\.php)(\/([^\?]+)?\??.*)/';
 
     protected array $sniffVerbs = array(
         "http://adlnet.gov/expapi/verbs/completed" => "completed",
@@ -60,7 +60,7 @@ class XapiProxyPolyFill
         $this->token = $token;
         $this->plugin = $plugin;
         $this->table_prefix = $this->plugin ? "xxcf" : "cmix";
-        preg_match(self::PARTS_REG, $GLOBALS['DIC']->http()->request()->getUri(), $this->cmdParts);
+        preg_match(self::PARTS_REG, (string) $GLOBALS['DIC']->http()->request()->getUri(), $this->cmdParts);
         $this->method = strtolower($GLOBALS['DIC']->http()->request()->getMethod());
     }
 

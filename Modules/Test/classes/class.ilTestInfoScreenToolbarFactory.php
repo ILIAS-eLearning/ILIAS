@@ -132,7 +132,7 @@ class ilTestInfoScreenToolbarFactory
         $testSession = $this->testSessionFactory->getSession();
         $testSequence = $this->testSequenceFactory->getSequenceByTestSession($testSession);
         $testSequence->loadFromDb();
-        $testSequence->loadQuestions($testQuestionSetConfig, new ilTestDynamicQuestionSetFilterSelection());
+        $testSequence->loadQuestions($testQuestionSetConfig);
 
         $toolbar->setTestQuestionSetConfig($testQuestionSetConfig);
         $toolbar->setTestSession($testSession);

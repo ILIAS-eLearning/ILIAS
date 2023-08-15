@@ -41,6 +41,8 @@ use ILIAS\UI\Implementation\Component\SignalGenerator;
 use PHPUnit\Framework\MockObject\MockObject;
 use ILIAS\UI\Component\Component;
 use ILIAS\Data\Factory as DataFactory;
+use ILIAS\UI\HelpTextRetriever;
+use ILIAS\UI\Help;
 
 class ilIndependentTemplateFactory implements TemplateFactory
 {
@@ -134,6 +136,12 @@ class NoUIFactory implements Factory
     {
     }
     public function player(): C\Player\Factory
+    {
+    }
+    public function launcher(): C\Launcher\Factory
+    {
+    }
+    public function helpTopics(string ...$topic): array
     {
     }
 }
@@ -352,6 +360,11 @@ abstract class ILIAS_UI_TestBase extends TestCase
         return $this->createMock(DataFactory::class);
     }
 
+    public function getHelpTextRetriever(): HelpTextRetriever
+    {
+        return new Help\TextRetriever\Echoing();
+    }
+
     public function getDefaultRenderer(
         JavaScriptBinding $js_binding = null,
         array $with_stub_renderings = []
@@ -367,6 +380,7 @@ abstract class ILIAS_UI_TestBase extends TestCase
         $refinery = $this->getRefinery();
         $image_path_resolver = $this->getImagePathResolver();
         $data_factory = $this->getDataFactory();
+        $help_text_retriever = $this->getHelpTextRetriever();
 
         $component_renderer_loader = new Render\LoaderCachingWrapper(
             new Render\LoaderResourceRegistryWrapper(
@@ -379,7 +393,8 @@ abstract class ILIAS_UI_TestBase extends TestCase
                         $js_binding,
                         $refinery,
                         $image_path_resolver,
-                        $data_factory
+                        $data_factory,
+                        $help_text_retriever
                     ),
                     new GlyphRendererFactory(
                         $ui_factory,
@@ -388,7 +403,8 @@ abstract class ILIAS_UI_TestBase extends TestCase
                         $js_binding,
                         $refinery,
                         $image_path_resolver,
-                        $data_factory
+                        $data_factory,
+                        $help_text_retriever
                     ),
                     new IconRendererFactory(
                         $ui_factory,
@@ -397,7 +413,8 @@ abstract class ILIAS_UI_TestBase extends TestCase
                         $js_binding,
                         $refinery,
                         $image_path_resolver,
-                        $data_factory
+                        $data_factory,
+                        $help_text_retriever
                     ),
                     new FieldRendererFactory(
                         $ui_factory,
@@ -406,7 +423,8 @@ abstract class ILIAS_UI_TestBase extends TestCase
                         $js_binding,
                         $refinery,
                         $image_path_resolver,
-                        $data_factory
+                        $data_factory,
+                        $help_text_retriever
                     )
                 )
             )

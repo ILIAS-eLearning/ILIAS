@@ -1,30 +1,30 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 declare(strict_types=1);
 
 namespace ILIAS\Filesystem\Provider\Configuration;
 
-/******************************************************************************
- *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
- *
- * If this is not the case or you just want to try ILIAS, you'll find
- * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *
- *****************************************************************************/
 /**
- * Class LocalConfig
- *
  * This class is used to configure the local filesystem adapter.
  *
- * @author  Nicolas Schäfli <ns@studer-raimann.ch>
- * @since 5.3
- * @version 1.0
+ * @author                 Nicolas Schäfli <ns@studer-raimann.ch>
+ * @author                 Fabian Schmid <fabian@sr.solutions>
  */
 final class LocalConfig
 {
@@ -37,15 +37,6 @@ final class LocalConfig
      * Skip encountered links.
      */
     public const SKIP_LINKS = 2;
-
-    private int $fileAccessPublic;
-    private int $fileAccessPrivate;
-    private int $directoryAccessPublic;
-    private int $directoryAccessPrivate;
-    private string $rootPath;
-    private int $lockMode;
-    private int $linkBehaviour;
-
 
     /**
      * LocalConfig constructor.
@@ -83,89 +74,68 @@ final class LocalConfig
      * rwx --- --- which equals 0700
      *
      *
-     * @param string $rootPath                  The path to the new filesystem root.
-     * @param int    $fileAccessPublic          Public file access mask in octal.
-     * @param int    $fileAccessPrivate         Private file access mask in octal.
-     * @param int    $directoryAccessPublic     Public directory access mask in octal.
-     * @param int    $directoryAccessPrivate    Private directory access mask in octal.
-     * @param int    $lockMode                  Lock modes are defined as build in constants (LOCK_SH, LOCK_EX).
-     * @param int    $linkBehaviour             The behaviour how filesystem links should be threaded.
+     * @param string $rootPath               The path to the new filesystem root.
+     * @param int    $fileAccessPublic       Public file access mask in octal.
+     * @param int    $fileAccessPrivate      Private file access mask in octal.
+     * @param int    $directoryAccessPublic  Public directory access mask in octal.
+     * @param int    $directoryAccessPrivate Private directory access mask in octal.
+     * @param int    $lockMode               Lock modes are defined as build in constants (LOCK_SH, LOCK_EX).
+     * @param int    $linkBehaviour          The behaviour how filesystem links should be threaded.
      */
     public function __construct(
-        string $rootPath,
-        int $fileAccessPublic = 0744,
-        int $fileAccessPrivate = 0700,
-        int $directoryAccessPublic = 0755,
-        int $directoryAccessPrivate = 0700,
-        int $lockMode = LOCK_EX,
-        int $linkBehaviour = self::SKIP_LINKS
+        private string $rootPath,
+        private int $fileAccessPublic = 0744,
+        private int $fileAccessPrivate = 0700,
+        private int $directoryAccessPublic = 0755,
+        private int $directoryAccessPrivate = 0700,
+        private int $lockMode = LOCK_EX,
+        private int $linkBehaviour = self::SKIP_LINKS
     ) {
-        $this->rootPath = $rootPath;
-        $this->fileAccessPublic = $fileAccessPublic;
-        $this->fileAccessPrivate = $fileAccessPrivate;
-        $this->directoryAccessPublic = $directoryAccessPublic;
-        $this->directoryAccessPrivate = $directoryAccessPrivate;
-        $this->lockMode = $lockMode;
-        $this->linkBehaviour = $linkBehaviour;
     }
 
-
     /**
-     * @since 5.3
      */
     public function getFileAccessPublic(): int
     {
         return $this->fileAccessPublic;
     }
 
-
     /**
-     * @since 5.3
      */
     public function getFileAccessPrivate(): int
     {
         return $this->fileAccessPrivate;
     }
 
-
     /**
-     * @since 5.3
      */
     public function getDirectoryAccessPublic(): int
     {
         return $this->directoryAccessPublic;
     }
 
-
     /**
-     * @since 5.3
      */
     public function getDirectoryAccessPrivate(): int
     {
         return $this->directoryAccessPrivate;
     }
 
-
     /**
-     * @since 5.3
      */
     public function getRootPath(): string
     {
         return $this->rootPath;
     }
 
-
     /**
-     * @since 5.3
      */
     public function getLockMode(): int
     {
         return $this->lockMode;
     }
 
-
     /**
-     * @since 5.3
      */
     public function getLinkBehaviour(): int
     {

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\Setup;
 
@@ -71,6 +71,7 @@ class ilDatabasePopulatedObjective extends \ilDatabaseObjective
 
         $io->text("Default DB engine is $default");
 
+
         switch ($default) {
             case 'innodb':
                 $io->text("reading dump file, this may take a while...");
@@ -79,33 +80,11 @@ class ilDatabasePopulatedObjective extends \ilDatabaseObjective
 
             default:
                 throw new Setup\UnachievableException(
-                    "Cannot determine database default engine, must be InnoDB"
+                    "Cannot determine database default engine, must be InnoDB, `$default` given."
                 );
         }
 
         return $environment;
-    }
-
-    /**
-     * @description Method is currently not used, needed for non-mysql databases
-     */
-    private function readingAbstractionFile(
-        ilDBInterface $db,
-        Setup\CLI\IOWrapper $io
-    ): void {
-        $io->text("reading abstraction file, this may take a while...");
-        $db_backup = $GLOBALS['ilDB'];
-        $GLOBALS['ilDB'] = $db;
-        /** @noRector  */
-        require "./setup/sql/ilDBTemplate.php";
-        if (function_exists('setupILIASDatabase')) {
-            setupILIASDatabase();
-        } else {
-            throw new Setup\UnachievableException(
-                "Cannot read ilDBTemplate"
-            );
-        }
-        $GLOBALS['ilDB'] = $db_backup;
     }
 
     /**
@@ -142,10 +121,42 @@ class ilDatabasePopulatedObjective extends \ilDatabaseObjective
                 "Cannot read database dump file: $path_to_db_dump"
             );
         }
+        foreach ($this->queryReader(realpath($path_to_db_dump)) as $query) {
+            try {
+                $statement = $db->prepareManip($query);
+                $db->execute($statement);
+            } catch (Throwable $e) {
+                throw new Setup\UnachievableException(
+                    "Cannot populate database with dump file: $path_to_db_dump. Query failed: $query wih message " . $e->getMessage(
+                    )
+                );
+            }
+        }
+    }
 
-        $sql = file_get_contents(realpath($path_to_db_dump));
-        $statement = $db->prepareManip($sql);
-        $db->execute($statement);
+    private function queryReader(string $path_to_db_dump): Generator
+    {
+        $stack = '';
+        $handle = fopen($path_to_db_dump, "r");
+        while (($line = fgets($handle)) !== false) {
+            if (preg_match('/^--/', $line)) { // Skip comments
+                continue;
+            }
+            if (preg_match('/^\/\*/', $line)) { // Run Variables Assignments as single query
+                yield $line;
+                $stack = '';
+                continue;
+            }
+            if (!preg_match('/;$/', trim($line))) { // Break after ; character which indicates end of query
+                $stack .= $line;
+            } else {
+                $stack .= $line;
+                yield $stack;
+                $stack = '';
+            }
+        }
+
+        fclose($handle);
     }
 
     /**
@@ -171,8 +182,9 @@ class ilDatabasePopulatedObjective extends \ilDatabaseObjective
 
             $default = '';
             while ($d = $db->fetchObject($r)) {
-                if ($d->Support === 'DEFAULT') {
+                if (strtoupper($d->Support) === 'DEFAULT') {
                     $default = $d->Engine;
+                    break;
                 }
             }
             return strtolower($default);

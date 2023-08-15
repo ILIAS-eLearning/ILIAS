@@ -489,9 +489,16 @@ class ilObjMediaCast extends ilObject
     public function addMobToCast(
         int $mob_id,
         int $user_id,
-        string $long_desc = ""
+        string $long_desc = "",
+        bool $extract = false
     ): int {
         $mob = new ilObjMediaObject($mob_id);
+        if ($extract) {
+            try {
+                $mob->getExternalMetadata();
+            } catch (Exception $e) {
+            }
+        }
         $news_set = new ilSetting("news");
         $enable_internal_rss = $news_set->get("enable_rss_for_internal");
 

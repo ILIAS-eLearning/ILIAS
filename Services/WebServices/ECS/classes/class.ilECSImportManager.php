@@ -1,20 +1,21 @@
 <?php
 
-declare(strict_types=1);
-
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *
- *****************************************************************************/
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
+
+declare(strict_types=1);
 
 /**
 * Manage the ECS imported contents.
@@ -115,7 +116,7 @@ class ilECSImportManager
                 'AND content_id = ' . $this->db->quote($a_content_id, 'text');
         $res = $this->db->query($query);
         if ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            return $row->econtent_id;
+            return (int) $row->econtent_id;
         }
         return 0;
     }
@@ -221,38 +222,6 @@ class ilECSImportManager
             return (int) $row->obj_id;
         }
         return 0;
-    }
-
-    /**
-     * Lookup mid
-     *
-     */
-    public function _lookupMID(int $a_server_id, int $a_obj_id): int
-    {
-        $query = "SELECT * FROM ecs_import WHERE obj_id = " . $this->db->quote($a_obj_id) . " " .
-            'AND server_id = ' . $this->db->quote($a_server_id, 'integer');
-        $res = $this->db->query($query);
-        if ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            return (int) $row->mid;
-        }
-        return 0;
-    }
-
-    /**
-     * Lookup mids by
-     *
-     * @param int econtent_id
-     */
-    public function _lookupMIDs($a_server_id, $a_econtent_id): array
-    {
-        $query = "SELECT mid FROM ecs_import WHERE econtent_id = " . $this->db->quote($a_econtent_id, 'text') . " " .
-            'AND server_id = ' . $this->db->quote($a_server_id, 'integer');
-        $res = $this->db->query($query);
-        $mids = [];
-        while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $mids[] = $row->mid;
-        }
-        return $mids;
     }
 
     /**

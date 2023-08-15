@@ -71,7 +71,7 @@ class ilExternalAuthUserAttributeMapping implements ArrayAccess, Countable, Iter
         return isset($this->mapping[$offset]);
     }
 
-    public function offsetGet($offset)
+    public function offsetGet($offset): ?ilExternalAuthUserAttributeMappingRule
     {
         return $this->offsetExists($offset) ? $this->mapping[$offset] : null;
     }
@@ -105,14 +105,14 @@ class ilExternalAuthUserAttributeMapping implements ArrayAccess, Countable, Iter
         next($this->mapping);
     }
 
-    public function key()
+    public function key(): string
     {
         return key($this->mapping);
     }
 
-    public function valid()
+    public function valid(): bool
     {
-        return current($this->mapping);
+        return current($this->mapping) instanceof ilExternalAuthUserAttributeMappingRule;
     }
 
     public function rewind(): void

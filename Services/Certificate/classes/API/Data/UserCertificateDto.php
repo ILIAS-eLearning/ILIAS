@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\Certificate\API\Data;
 
 /**
@@ -31,16 +31,16 @@ class UserCertificateDto
      * @param int[] $objectRefIds
      */
     public function __construct(
-        private int $certificateId,
-        private string $objectTitle,
-        private int $objectId,
-        private int $issuedOnTimestamp,
-        private int $userId,
-        private string $userFirstName,
-        private string $userLastName,
-        private string $userLogin,
-        private string $userEmail,
-        private string $userSecondEmail,
+        private readonly int $certificateId,
+        private readonly string $objectTitle,
+        private readonly int $objectId,
+        private readonly int $issuedOnTimestamp,
+        private readonly int $userId,
+        private readonly string $userFirstName,
+        private readonly string $userLastName,
+        private readonly string $userLogin,
+        private readonly string $userEmail,
+        private readonly string $userSecondEmail,
         private array $objectRefIds = [],
         ?string $downloadLink = null
     ) {

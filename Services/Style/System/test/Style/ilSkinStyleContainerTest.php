@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 require_once('libs/composer/vendor/autoload.php');
 
-class ilSkinStyleContainerTest extends ilSystemStyleBaseFSTest
+class ilSkinStyleContainerTest extends ilSystemStyleBaseFS
 {
     protected ilSkin $skin;
     protected ilSkinStyle $style1;
@@ -31,12 +31,12 @@ class ilSkinStyleContainerTest extends ilSystemStyleBaseFSTest
     {
         parent::setUp();
 
-        if (!defined('PATH_TO_LESSC')) {
+        if (!defined('PATH_TO_SCSS')) {
             if (file_exists('ilias.ini.php')) {
                 $ini = parse_ini_file('ilias.ini.php', true);
-                define('PATH_TO_LESSC', $ini['tools']['lessc'] ?? '');
+                define('PATH_TO_SCSS', $ini['tools']['lessc'] ?? '');
             } else {
-                define('PATH_TO_LESSC', '');
+                define('PATH_TO_SCSS', '');
             }
         }
 
@@ -55,6 +55,8 @@ class ilSkinStyleContainerTest extends ilSystemStyleBaseFSTest
         $this->style2->setFontDirectory('style2font');
 
         $this->factory = new ilSkinFactory($this->lng, $this->system_style_config);
+
+        $this->skin_directory = $this->system_style_config->getCustomizingSkinPath() . $this->skin->getId();
     }
 
     public function testCreateDelete(): void
@@ -73,7 +75,7 @@ class ilSkinStyleContainerTest extends ilSystemStyleBaseFSTest
     {
         $container = $this->factory->skinStyleContainerFromId($this->skin->getId(), $this->message_stack);
         $container->updateSkin();
-        $this->assertTrue(is_dir($this->system_style_config->getCustomizingSkinPath() . $this->skin->getId()));
+        $this->assertTrue(is_dir($this->skin_directory));
     }
 
     public function testUpdateSkinWithChangedID(): void
@@ -92,63 +94,85 @@ class ilSkinStyleContainerTest extends ilSystemStyleBaseFSTest
     public function testAddStyle(): void
     {
         $new_style = new ilSkinStyle('style1new', 'new Style');
-        $new_style->setCssFile('style1new');
-        $new_style->setImageDirectory('style1newimage');
-        $new_style->setSoundDirectory('style1newsound');
-        $new_style->setFontDirectory('style1newfont');
+        $new_style->setCssFile('newcss');
+        $new_style->setImageDirectory('newimage');
+        $new_style->setSoundDirectory('newsound');
+        $new_style->setFontDirectory('newfont');
 
         $container = $this->factory->skinStyleContainerFromId($this->skin->getId(), $this->message_stack);
 
-        $this->assertTrue(is_dir($this->system_style_config->getCustomizingSkinPath() . $this->skin->getId() . '/style1image'));
-        $this->assertTrue(is_dir($this->system_style_config->getCustomizingSkinPath() . $this->skin->getId() . '/style1sound'));
-        $this->assertTrue(is_dir($this->system_style_config->getCustomizingSkinPath() . $this->skin->getId() . '/style1font'));
-        $this->assertTrue(is_file($this->system_style_config->getCustomizingSkinPath() . $this->skin->getId() . '/style1css.css'));
-        $this->assertTrue(is_file($this->system_style_config->getCustomizingSkinPath() . $this->skin->getId() . '/style1css.less'));
-        $this->assertTrue(is_file($this->system_style_config->getCustomizingSkinPath() . $this->skin->getId() . '/style1css-variables.less'));
+        $this->assertTrue(is_dir($this->skin_directory. '/style1/style1image'));
+        $this->assertTrue(is_dir($this->skin_directory . '/style1/style1sound'));
+        $this->assertTrue(is_dir($this->skin_directory . '/style1/style1font'));
+        $this->assertTrue(is_file($this->skin_directory . '/style1/style1.css'));
+        $this->assertTrue(is_file($this->skin_directory . '/style1/style1.scss'));
+        $this->assertTrue(is_file($this->skin_directory . '/style1/010-settings/variables1.scss'));
+        $this->assertTrue(is_file($this->skin_directory . '/style1/010-settings/variables2.scss'));
 
-        $this->assertFalse(is_dir($this->system_style_config->getCustomizingSkinPath() . $this->skin->getId() . '/style1newimage'));
-        $this->assertFalse(is_dir($this->system_style_config->getCustomizingSkinPath() . $this->skin->getId() . '/style1newsound'));
-        $this->assertFalse(is_dir($this->system_style_config->getCustomizingSkinPath() . $this->skin->getId() . '/style1newfont'));
-        $this->assertFalse(is_file($this->system_style_config->getCustomizingSkinPath() . $this->skin->getId() . '/style1new.css'));
-        $this->assertFalse(is_file($this->system_style_config->getCustomizingSkinPath() . $this->skin->getId() . '/style1new.less'));
-        $this->assertFalse(is_file($this->system_style_config->getCustomizingSkinPath() . $this->skin->getId() . '/style1new-variables.less'));
+        $this->assertFalse(is_dir($this->skin_directory . '/style1new/newimage'));
+        $this->assertFalse(is_dir($this->skin_directory . '/style1new/newsound'));
+        $this->assertFalse(is_dir($this->skin_directory . '/style1new/newfont'));
+        $this->assertFalse(is_file($this->skin_directory . '/style1new/newcss.css'));
+        $this->assertFalse(is_file($this->skin_directory . '/style1new/newcss.scss'));
+        $this->assertFalse(is_file($this->skin_directory . '/style1new/010-settings/variables1.scss'));
+        $this->assertFalse(is_file($this->skin_directory . '/style1new/010-settings/variables2.scss'));
 
         $container->addStyle($new_style);
 
-        $this->assertTrue(is_dir($this->system_style_config->getCustomizingSkinPath() . $this->skin->getId() . '/style1image'));
-        $this->assertTrue(is_dir($this->system_style_config->getCustomizingSkinPath() . $this->skin->getId() . '/style1sound'));
-        $this->assertTrue(is_dir($this->system_style_config->getCustomizingSkinPath() . $this->skin->getId() . '/style1font'));
-        $this->assertTrue(is_file($this->system_style_config->getCustomizingSkinPath() . $this->skin->getId() . '/style1css.css'));
-        $this->assertTrue(is_file($this->system_style_config->getCustomizingSkinPath() . $this->skin->getId() . '/style1css.less'));
-        $this->assertTrue(is_file($this->system_style_config->getCustomizingSkinPath() . $this->skin->getId() . '/style1css-variables.less'));
+        $this->assertTrue(is_dir($this->skin_directory . '/style1/style1image'));
+        $this->assertTrue(is_dir($this->skin_directory . '/style1/style1sound'));
+        $this->assertTrue(is_dir($this->skin_directory . '/style1/style1font'));
+        $this->assertTrue(is_file($this->skin_directory . '/style1/style1.css'));
+        $this->assertTrue(is_file($this->skin_directory . '/style1/style1.scss'));
+        $this->assertTrue(is_file($this->skin_directory . '/style1/010-settings/variables1.scss'));
+        $this->assertTrue(is_file($this->skin_directory . '/style1/010-settings/variables2.scss'));
 
-        $this->assertTrue(is_dir($this->system_style_config->getCustomizingSkinPath() . $this->skin->getId() . '/style1newimage'));
-        $this->assertTrue(is_dir($this->system_style_config->getCustomizingSkinPath() . $this->skin->getId() . '/style1newsound'));
-        $this->assertTrue(is_dir($this->system_style_config->getCustomizingSkinPath() . $this->skin->getId() . '/style1newfont'));
-        $this->assertTrue(is_file($this->system_style_config->getCustomizingSkinPath() . $this->skin->getId() . '/style1new.css'));
-        $this->assertTrue(is_file($this->system_style_config->getCustomizingSkinPath() . $this->skin->getId() . '/style1new.less'));
-        $this->assertTrue(is_file($this->system_style_config->getCustomizingSkinPath() . $this->skin->getId() . '/style1new-variables.less'));
+        $this->assertTrue(is_dir($this->skin_directory . '/style1new/newimage'));
+        $this->assertTrue(is_dir($this->skin_directory . '/style1new/newsound'));
+        $this->assertTrue(is_dir($this->skin_directory . '/style1new/newfont'));
+        $this->assertTrue(is_file($this->skin_directory . '/style1new/newcss.css'));
+        $this->assertTrue(is_file($this->skin_directory . '/style1new/newcss.scss'));
+        $this->assertTrue(is_file($this->skin_directory . '/style1new/010-settings/variables1.scss'));
+        $this->assertTrue(is_file($this->skin_directory . '/style1new/010-settings/variables2.scss'));
     }
 
     public function testDeleteStyle(): void
     {
         $container = $this->factory->skinStyleContainerFromId($this->skin->getId(), $this->message_stack);
 
+        $this->assertTrue(is_dir($this->skin_directory . '/style1/style1image'));
+        $this->assertTrue(is_dir($this->skin_directory . '/style1/style1sound'));
+        $this->assertTrue(is_dir($this->skin_directory . '/style1/style1font'));
+        $this->assertTrue(is_file($this->skin_directory . '/style1/style1.css'));
+        $this->assertTrue(is_file($this->skin_directory . '/style1/style1.scss'));
+        $this->assertTrue(is_file($this->skin_directory . '/style1/010-settings/variables1.scss'));
+        $this->assertTrue(is_file($this->skin_directory . '/style1/010-settings/variables2.scss'));
+
+        $this->assertTrue(is_dir($this->skin_directory . '/style2/style2image'));
+        $this->assertTrue(is_dir($this->skin_directory . '/style2/style2sound'));
+        $this->assertTrue(is_dir($this->skin_directory . '/style2/style2font'));
+        $this->assertTrue(is_file($this->skin_directory . '/style2/style2.css'));
+        $this->assertTrue(is_file($this->skin_directory . '/style2/style2.scss'));
+        $this->assertTrue(is_file($this->skin_directory . '/style2/010-settings/variables1.scss'));
+        $this->assertTrue(is_file($this->skin_directory . '/style2/010-settings/variables2.scss'));
+
         $container->deleteStyle($this->style1);
 
-        $this->assertFalse(is_dir($this->system_style_config->getCustomizingSkinPath() . $this->skin->getId() . '/style1image'));
-        $this->assertFalse(is_dir($this->system_style_config->getCustomizingSkinPath() . $this->skin->getId() . '/style1sound'));
-        $this->assertFalse(is_dir($this->system_style_config->getCustomizingSkinPath() . $this->skin->getId() . '/style1font'));
-        $this->assertFalse(is_file($this->system_style_config->getCustomizingSkinPath() . $this->skin->getId() . '/style1css.css'));
-        $this->assertFalse(is_file($this->system_style_config->getCustomizingSkinPath() . $this->skin->getId() . '/style1css.less'));
-        $this->assertFalse(is_file($this->system_style_config->getCustomizingSkinPath() . $this->skin->getId() . '/style1css-variables.less'));
+        $this->assertFalse(is_dir($this->skin_directory . '/style1/style1image'));
+        $this->assertFalse(is_dir($this->skin_directory . '/style1/style1sound'));
+        $this->assertFalse(is_dir($this->skin_directory . '/style1/style1font'));
+        $this->assertFalse(is_file($this->skin_directory . '/style1/style1.css'));
+        $this->assertFalse(is_file($this->skin_directory . '/style1/style1.scss'));
+        $this->assertFalse(is_file($this->skin_directory . '/style1/010-settings/variables1.scss'));
+        $this->assertFalse(is_file($this->skin_directory . '/style1/010-settings/variables2.scss'));
 
-        $this->assertTrue(is_dir($this->system_style_config->getCustomizingSkinPath() . $this->skin->getId() . '/style2image'));
-        $this->assertTrue(is_dir($this->system_style_config->getCustomizingSkinPath() . $this->skin->getId() . '/style2sound'));
-        $this->assertTrue(is_dir($this->system_style_config->getCustomizingSkinPath() . $this->skin->getId() . '/style2font'));
-        $this->assertTrue(is_file($this->system_style_config->getCustomizingSkinPath() . $this->skin->getId() . '/style2css.css'));
-        $this->assertTrue(is_file($this->system_style_config->getCustomizingSkinPath() . $this->skin->getId() . '/style2css.less'));
-        $this->assertTrue(is_file($this->system_style_config->getCustomizingSkinPath() . $this->skin->getId() . '/style2css-variables.less'));
+        $this->assertTrue(is_dir($this->skin_directory . '/style2/style2image'));
+        $this->assertTrue(is_dir($this->skin_directory . '/style2/style2sound'));
+        $this->assertTrue(is_dir($this->skin_directory . '/style2/style2font'));
+        $this->assertTrue(is_file($this->skin_directory . '/style2/style2.css'));
+        $this->assertTrue(is_file($this->skin_directory . '/style2/style2.scss'));
+        $this->assertTrue(is_file($this->skin_directory . '/style2/010-settings/variables1.scss'));
+        $this->assertTrue(is_file($this->skin_directory . '/style2/010-settings/variables2.scss'));
     }
 
     public function testUpdateStyle(): void
@@ -166,21 +190,30 @@ class ilSkinStyleContainerTest extends ilSystemStyleBaseFSTest
         $new_style->setSoundDirectory('style1newsound');
         $new_style->setFontDirectory('style1newfont');
 
+        $this->assertTrue(is_dir($this->skin_directory . '/style1/style1image'));
+        $this->assertTrue(is_dir($this->skin_directory . '/style1/style1sound'));
+        $this->assertTrue(is_dir($this->skin_directory . '/style1/style1font'));
+        $this->assertTrue(is_file($this->skin_directory . '/style1/style1.css'));
+        $this->assertTrue(is_file($this->skin_directory . '/style1/style1.scss'));
+        $this->assertTrue(is_file($this->skin_directory . '/style1/010-settings/variables1.scss'));
+        $this->assertTrue(is_file($this->skin_directory . '/style1/010-settings/variables2.scss'));
+
         $container->updateStyle($new_style->getId(), $old_style);
 
-        $this->assertFalse(is_dir($this->system_style_config->getCustomizingSkinPath() . $this->skin->getId() . '/style1image'));
-        $this->assertFalse(is_dir($this->system_style_config->getCustomizingSkinPath() . $this->skin->getId() . '/style1sound'));
-        $this->assertFalse(is_dir($this->system_style_config->getCustomizingSkinPath() . $this->skin->getId() . '/style1font'));
-        $this->assertFalse(is_file($this->system_style_config->getCustomizingSkinPath() . $this->skin->getId() . '/style1css.css'));
-        $this->assertFalse(is_file($this->system_style_config->getCustomizingSkinPath() . $this->skin->getId() . '/style1css.less'));
-        $this->assertFalse(is_file($this->system_style_config->getCustomizingSkinPath() . $this->skin->getId() . '/style1css-variables.less'));
+        $this->assertFalse(is_dir($this->skin_directory . '/style1/style1image'));
+        $this->assertFalse(is_dir($this->skin_directory . '/style1/style1sound'));
+        $this->assertFalse(is_dir($this->skin_directory . '/style1/style1font'));
+        $this->assertFalse(is_file($this->skin_directory . '/style1/style1.css'));
+        $this->assertFalse(is_file($this->skin_directory . '/style1/style1.scss'));
+        $this->assertFalse(is_file($this->skin_directory . '/style1/010-settings/variables1.scss'));
+        $this->assertFalse(is_file($this->skin_directory . '/style1/010-settings/variables2.scss'));
 
-        $this->assertTrue(is_dir($this->system_style_config->getCustomizingSkinPath() . $this->skin->getId() . '/style1newimage'));
-        $this->assertTrue(is_dir($this->system_style_config->getCustomizingSkinPath() . $this->skin->getId() . '/style1newsound'));
-        $this->assertTrue(is_dir($this->system_style_config->getCustomizingSkinPath() . $this->skin->getId() . '/style1newfont'));
-        $this->assertTrue(is_file($this->system_style_config->getCustomizingSkinPath() . $this->skin->getId() . '/style1new.css'));
-        $this->assertTrue(is_file($this->system_style_config->getCustomizingSkinPath() . $this->skin->getId() . '/style1new.less'));
-        $this->assertTrue(is_file($this->system_style_config->getCustomizingSkinPath() . $this->skin->getId() . '/style1new-variables.less'));
+        $this->assertTrue(is_dir($this->skin_directory . '/style1new/style1newimage'));
+        $this->assertTrue(is_dir($this->skin_directory . '/style1new/style1newsound'));
+        $this->assertTrue(is_dir($this->skin_directory . '/style1new/style1newfont'));
+        $this->assertTrue(is_file($this->skin_directory . '/style1new/style1new.css'));
+        $this->assertTrue(is_file($this->skin_directory . '/style1new/010-settings/variables1.scss'));
+        $this->assertTrue(is_file($this->skin_directory . '/style1new/010-settings/variables2.scss'));
     }
 
     public function testDeleteSkin(): void

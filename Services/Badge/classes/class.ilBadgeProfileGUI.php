@@ -25,7 +25,7 @@ use ILIAS\Badge\Notification\BadgeNotificationPrefRepository;
  */
 class ilBadgeProfileGUI
 {
-    public const BACKPACK_EMAIL = "badge_mozilla_bp";
+    final public const BACKPACK_EMAIL = "badge_mozilla_bp";
     protected ilBadgeGUIRequest $request;
 
     protected ilCtrl $ctrl;
@@ -141,7 +141,7 @@ class ilBadgeProfileGUI
             $modal = $this->factory->modal()->roundtrip(
                 $badge["title"],
                 $this->factory->legacy($badge["renderer"]->renderModalContent())
-            )->withCancelButtonLabel("ok");
+            )->withCancelButtonLabel($this->lng->txt("ok"));
             $image = $this->factory->image()->responsive(ilWACSignedPath::signFile($badge["image"]), $badge["name"])
                 ->withAction($modal->getShowSignal());
 

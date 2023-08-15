@@ -22,27 +22,43 @@
  */
 class ilMStListCompetencesSkill
 {
+    protected int $skill_node_id;
     protected string $skill_title;
     protected string $skill_level;
     protected string $login;
     protected string $last_name;
     protected string $first_name;
+    protected string $email;
     protected int $user_id;
 
     public function __construct(
+        int $skill_node_id,
         string $skill_title,
         string $skill_level,
         string $login,
         string $last_name,
         string $first_name,
+        string $email,
         int $user_id
     ) {
+        $this->skill_node_id = $skill_node_id;
         $this->skill_title = $skill_title;
         $this->skill_level = $skill_level;
         $this->login = $login;
         $this->last_name = $last_name;
         $this->first_name = $first_name;
+        $this->email = $email;
         $this->user_id = $user_id;
+    }
+
+    final public function getSkillNodeId(): int
+    {
+        return $this->skill_node_id;
+    }
+
+    final public function setSkillNodeId(int $skill_node_id): void
+    {
+        $this->skill_node_id = $skill_node_id;
     }
 
     final public function getSkillTitle(): string
@@ -93,6 +109,16 @@ class ilMStListCompetencesSkill
     final public function setFirstName(string $first_name): void
     {
         $this->first_name = $first_name;
+    }
+
+    final public function getEmail(): string
+    {
+        return $this->email;
+    }
+
+    final public function setEmail(string $email): void
+    {
+        $this->email = $email;
     }
 
     final public function getUserId(): int

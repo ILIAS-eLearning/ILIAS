@@ -251,7 +251,7 @@ class ilBookingReservation
         int $a_to,
         bool $a_return_single = true,
         bool $a_return_counter = false
-    ) : array {
+    ): array {
         global $DIC;
 
         $nr_map = ilBookingObject::getNrOfItemsForObjects($a_ids);
@@ -277,7 +277,7 @@ class ilBookingReservation
                     ? $schedule->getAvailabilityFrom()->get(IL_CAL_UNIX)
                     : null;
                 $av_to = ($schedule->getAvailabilityTo() && !$schedule->getAvailabilityTo()->isNull())
-                    ? strtotime($schedule->getAvailabilityTo()->get(IL_CAL_DATE) . " 23:59:59")
+                    ? $schedule->getAvailabilityTo()->get(IL_CAL_UNIX)
                     : null;
 
                 if (($av_from && $a_from < $av_from) ||
@@ -309,9 +309,9 @@ class ilBookingReservation
     public static function isObjectAvailableInPeriod(
         int $a_obj_id,
         ilBookingSchedule $a_schedule,
-        int $a_from,
-        int $a_to
-    ) : bool {
+        ?int $a_from,
+        ?int $a_to
+    ): bool {
         global $DIC;
 
         if (!$a_from) {
@@ -631,7 +631,7 @@ class ilBookingReservation
             " AND cc.type = " . $ilDB->quote(ilCalendarCategory::TYPE_BOOK, 'integer') .
             " AND ce.context_id = " . $ilDB->quote($this->getId(), 'integer'));
         $row = $ilDB->fetchAssoc($set);
-        return (int) $row["cal_id"];
+        return (int) ($row["cal_id"] ?? 0);
     }
 
     /**

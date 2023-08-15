@@ -25,8 +25,7 @@
 * @defgroup ModulesTest Modules/Test
 * @extends ilObject
 */
-include_once "./Services/Object/classes/class.ilObject.php";
-include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
+require_once './Modules/Test/classes/inc.AssessmentConstants.php';
 
 class ilTestEvaluationUserData
 {
@@ -83,13 +82,6 @@ class ilTestEvaluationUserData
     * @var string
     */
     public $mark_official;
-
-    /**
-    * ECTS Mark
-    *
-    * @var string
-    */
-    public $markECTS;
 
     /**
     * Questions worked through
@@ -162,7 +154,7 @@ class ilTestEvaluationUserData
     public function __sleep()
     {
         return array('questions', 'passes', 'passed', 'lastVisit', 'firstVisit', 'timeOfWork', 'numberOfQuestions',
-        'questionsWorkedThrough', 'markECTS', 'mark_official', 'mark', 'maxpoints', 'reached', 'user_id', 'login',
+        'questionsWorkedThrough', 'mark_official', 'mark', 'maxpoints', 'reached', 'user_id', 'login',
         'name', 'passScoring');
     }
 
@@ -268,16 +260,6 @@ class ilTestEvaluationUserData
     public function setMark($a_mark): void
     {
         $this->mark = $a_mark;
-    }
-
-    public function getECTSMark(): ?string
-    {
-        return $this->markECTS;
-    }
-
-    public function setECTSMark($a_mark_ects): void
-    {
-        $this->markECTS = $a_mark_ects;
     }
 
     public function getQuestionsWorkedThrough(): int
@@ -395,27 +377,28 @@ class ilTestEvaluationUserData
         }
     }
     /**
-         * todo: this is used in the export and the scored pass differs from the result cache if the best pass is scored
-         * here: the last one of equal passes wins. In tst_result_cache the first one of equal passes wins
-         * @see \DBUpdateTestResultCalculator::_getBestPass
-        */
-    public function getBestPass(): int
+     * This is used in the export of test results
+     * Aligned with ilObjTest::_getBestPass: from passes with equal points the first one wins
+    */
+    public function getBestPass()
     {
         $bestpoints = 0;
-        $bestpass = 0;
+        $bestpass = null;
 
         $obligationsAnsweredPassExists = $this->doesObligationsAnsweredPassExist();
 
         foreach ($this->passes as $pass) {
             $reached = $this->getReachedPointsInPercentForPass($pass->getPass());
-            // todo: use > instead of >=
-            if ($reached >= $bestpoints && ($pass->areObligationsAnswered() || !$obligationsAnsweredPassExists)) {
+
+            if (($reached > $bestpoints
+                && ($pass->areObligationsAnswered() || !$obligationsAnsweredPassExists))
+                || !isset($bestpass)) {
                 $bestpoints = $reached;
                 $bestpass = $pass->getPass();
             }
         }
 
-        return $bestpass;
+        return (int) $bestpass;
     }
 
     public function getLastPass()

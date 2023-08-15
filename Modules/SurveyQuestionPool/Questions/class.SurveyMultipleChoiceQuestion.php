@@ -357,7 +357,7 @@ class SurveyMultipleChoiceQuestion extends SurveyQuestion
         if ($a_return) {
             $return_data = array();
         }
-        if (is_array($post_data[$this->getId() . "_value"])) {
+        if (is_array($post_data[$this->getId() . "_value"] ?? null)) {
             foreach ($post_data[$this->getId() . "_value"] as $entered_value) {
                 if (strlen($entered_value) > 0) {
                     if (!$a_return) {

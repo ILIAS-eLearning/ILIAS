@@ -18,6 +18,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+use ILIAS\Cron\Schedule\CronJobScheduleType;
+
 /**
  * Purge trash by cron
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
@@ -53,19 +55,19 @@ class ilSCCronTrash extends ilCronJob
         return $this->lng->txt('sysc_cron_empty_trash_desc');
     }
 
-    public function getDefaultScheduleType(): int
+    public function getDefaultScheduleType(): CronJobScheduleType
     {
-        return self::SCHEDULE_TYPE_WEEKLY;
+        return CronJobScheduleType::SCHEDULE_TYPE_WEEKLY;
     }
 
     public function getValidScheduleTypes(): array
     {
         return [
-            self::SCHEDULE_TYPE_DAILY,
-            self::SCHEDULE_TYPE_WEEKLY,
-            self::SCHEDULE_TYPE_MONTHLY,
-            self::SCHEDULE_TYPE_QUARTERLY,
-            self::SCHEDULE_TYPE_YEARLY
+            CronJobScheduleType::SCHEDULE_TYPE_DAILY,
+            CronJobScheduleType::SCHEDULE_TYPE_WEEKLY,
+            CronJobScheduleType::SCHEDULE_TYPE_MONTHLY,
+            CronJobScheduleType::SCHEDULE_TYPE_QUARTERLY,
+            CronJobScheduleType::SCHEDULE_TYPE_YEARLY
         ];
     }
 

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -13,13 +14,10 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
-/**
- * Class ilDclSelectionRecordFieldModel
- * @author  Theodor Truffer <tt@studer-raimann.ch>
- */
+declare(strict_types=1);
+
 abstract class ilDclSelectionRecordFieldModel extends ilDclBaseRecordFieldModel
 {
     // those should be overwritten by subclasses
@@ -46,15 +44,13 @@ abstract class ilDclSelectionRecordFieldModel extends ilDclBaseRecordFieldModel
      */
     public function parseExportValue($value): string
     {
-        $values = ilDclSelectionOption::getValues($this->getField()->getId(), $value);
+        $values = ilDclSelectionOption::getValues((int)$this->getField()->getId(), $value);
 
         return implode("; ", $values);
     }
 
     public function getValueFromExcel(ilExcel $excel, int $row, int $col)
     {
-        global $DIC;
-        $lng = $DIC['lng'];
         $string = parent::getValueFromExcel($excel, $row, $col);
         $old = $string;
         if ($this->getField()->isMulti()) {
@@ -66,7 +62,7 @@ abstract class ilDclSelectionRecordFieldModel extends ilDclBaseRecordFieldModel
         }
 
         if (!$has_value && $old) {
-            $warning = "(" . $row . ", " . ilDataCollectionImporter::getExcelCharForInteger($col + 1) . ") " . $lng->txt("dcl_no_such_reference") . " "
+            $warning = "(" . $row . ", " . ilDataCollectionImporter::getExcelCharForInteger($col + 1) . ") " . $this->lng->txt("dcl_no_such_reference") . " "
                 . $old;
 
             return ['warning' => $warning];

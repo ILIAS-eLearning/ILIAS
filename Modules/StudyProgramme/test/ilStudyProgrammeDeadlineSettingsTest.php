@@ -104,16 +104,20 @@ class ilStudyProgrammeDeadlineSettingsTest extends TestCase
             ->method('txt')
             ->withConsecutive(
                 ['prg_no_deadline'],
+                ['prg_deadline_period_label'],
                 ['prg_deadline_period_desc'],
                 ['prg_deadline_period'],
+                ['prg_deadline_date_label'],
                 ['prg_deadline_date_desc'],
                 ['prg_deadline_date'],
                 ['prg_deadline_settings']
             )
             ->will($this->onConsecutiveCalls(
                 'prg_no_deadline',
+                'prg_deadline_period_label',
                 'prg_deadline_period_desc',
                 'prg_deadline_period',
+                'prg_deadline_date_label',
                 'prg_deadline_date_desc',
                 'prg_deadline_date',
                 'prg_deadline_settings'

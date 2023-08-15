@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class ilAuthProviderSaml
  */
@@ -31,7 +31,7 @@ final class ilAuthProviderSaml extends ilAuthProvider implements ilAuthProviderA
     private const SESSION_TMP_RETURN_TO = 'tmp_return_to';
 
     private ilSamlIdp $idp;
-    private ilLanguage $lng;
+    private readonly ilLanguage $lng;
     /** @var array<string, mixed> */
     private array $attributes = [];
     private string $return_to = '';
@@ -206,7 +206,7 @@ final class ilAuthProviderSaml extends ilAuthProvider implements ilAuthProviderA
 
             $status->setStatus(ilAuthStatus::STATUS_AUTHENTICATED);
             $status->setAuthenticatedUserId(ilObjUser::_lookupId($internal_account));
-            ilSession::set('used_external_auth', true);
+            ilSession::set('used_external_auth_mode', $this->getTriggerAuthMode());
 
             return true;
         }
@@ -245,7 +245,7 @@ final class ilAuthProviderSaml extends ilAuthProvider implements ilAuthProviderA
 
             ilSession::set(self::SESSION_TMP_ATTRIBUTES, null);
             ilSession::set(self::SESSION_TMP_RETURN_TO, null);
-            ilSession::set('used_external_auth', true);
+            ilSession::set('used_external_auth_mode', $this->getTriggerAuthMode());
 
             $status->setStatus(ilAuthStatus::STATUS_AUTHENTICATED);
             $status->setAuthenticatedUserId(ilObjUser::_lookupId($new_name));
@@ -397,23 +397,12 @@ final class ilAuthProviderSaml extends ilAuthProvider implements ilAuthProviderA
         switch (strtolower($rule->getAttribute())) {
             case 'gender':
                 $gender_attr = 'Gender';
-                switch (strtolower($value)) {
-                    case 'n':
-                    case 'neutral':
-                        $xml_writer->xmlElement($gender_attr, [], 'n');
-                        break;
-
-                    case 'm':
-                    case 'male':
-                        $xml_writer->xmlElement($gender_attr, [], 'm');
-                        break;
-
-                    case 'f':
-                    case 'female':
-                    default:
-                        $xml_writer->xmlElement($gender_attr, [], 'f');
-                        break;
-                }
+                match (strtolower($value)) {
+                    'n', 'neutral' => $xml_writer->xmlElement($gender_attr, [], 'n'),
+                    'm', 'male' => $xml_writer->xmlElement($gender_attr, [], 'm'),
+                    // no break
+                    default => $xml_writer->xmlElement($gender_attr, [], 'f'),
+                };
                 break;
 
             case 'firstname':

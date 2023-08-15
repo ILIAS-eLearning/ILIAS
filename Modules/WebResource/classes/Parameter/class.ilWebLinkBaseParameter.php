@@ -18,21 +18,28 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+
 /**
  * Base class for parameters attached to Web Link items
  * @author Tim Schmitz <schmitz@leifos.de>
  */
 abstract class ilWebLinkBaseParameter
 {
+    public const UNDEFINED_NAME = 'undefined';
+    public const USER_ID_NAME = 'user_id';
+    public const SESSION_ID_NAME = 'session_id';
+    public const LOGIN_NAME = 'login';
+    public const MATRICULATION_NAME = 'matriculation';
+
     /**
      * TODO Once the GUI is updated, undefined can be dropped.
      */
     public const VALUES = [
-        'undefined' => 0,
-        'user_id' => 1,
-        'session_id' => 2,
-        'login' => 3,
-        'matriculation' => 4
+        self::UNDEFINED_NAME => 0,
+        self::USER_ID_NAME => 1,
+        self::SESSION_ID_NAME => 2,
+        self::LOGIN_NAME => 3,
+        self::MATRICULATION_NAME => 4
     ];
 
     /**
@@ -40,11 +47,11 @@ abstract class ilWebLinkBaseParameter
      * e.g. to fill a select input.
      */
     public const VALUES_TEXT = [
-        self::VALUES['undefined'] => 'links_select_one',
-        self::VALUES['user_id'] => 'links_user_id',
-        self::VALUES['session_id'] => 'links_session_id',
-        self::VALUES['login'] => 'links_user_name',
-        self::VALUES['matriculation'] => 'matriculation',
+        self::VALUES[self::UNDEFINED_NAME] => 'links_select_one',
+        self::VALUES[self::USER_ID_NAME] => 'links_user_id',
+        self::VALUES[self::SESSION_ID_NAME] => 'links_session_id',
+        self::VALUES[self::LOGIN_NAME] => 'links_user_name',
+        self::VALUES[self::MATRICULATION_NAME] => 'matriculation',
     ];
 
     protected int $value;

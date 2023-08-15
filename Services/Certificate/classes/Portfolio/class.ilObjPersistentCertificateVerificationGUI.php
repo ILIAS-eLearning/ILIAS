@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\DI\Container;
 
 /**
@@ -25,8 +25,8 @@ use ILIAS\DI\Container;
  */
 class ilObjPersistentCertificateVerificationGUI
 {
-    private ilPortfolioCertificateFileService $fileService;
-    private ilLanguage $language;
+    private readonly ilPortfolioCertificateFileService $fileService;
+    private readonly ilLanguage $language;
 
     public function __construct(
         ?Container $dic = null,

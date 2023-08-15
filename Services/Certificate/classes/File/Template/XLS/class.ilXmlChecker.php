@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\Data\Result;
 use ILIAS\Data\Factory as DataTypeFactory;
 
@@ -28,7 +28,7 @@ final class ilXMLChecker
     /** @var array<int, LibXMLError[]> */
     private array $errorStack = [];
 
-    public function __construct(private DataTypeFactory $dataFactory)
+    public function __construct(private readonly DataTypeFactory $dataFactory)
     {
         $this->result = new Result\Error('No XML parsed, yet');
     }

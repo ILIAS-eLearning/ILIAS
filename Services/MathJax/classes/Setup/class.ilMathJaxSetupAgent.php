@@ -61,11 +61,17 @@ class ilMathJaxSetupAgent implements Setup\Agent
      */
     public function getUpdateObjective(Setup\Config $config = null): Setup\Objective
     {
+        /** @var ilMathJaxSetupConfig $config */
         if ($config !== null) {
-            /** @var ilMathJaxSetupConfig $config */
-            return new ilMathJaxConfigStoredObjective($config);
+            return new Setup\ObjectiveCollection(
+                'MathJax configuration and database update',
+                false,
+                new ilMathJaxConfigStoredObjective($config),
+                new ilMathJaxConfigCheckedObjective($config)
+            );
+        } else {
+            return new ilMathJaxConfigCheckedObjective();
         }
-        return new Setup\Objective\NullObjective();
     }
 
     /**

@@ -18,36 +18,29 @@
 
 namespace ILIAS\MyStaff\ListCompetences\Skills;
 
-use Closure;
-use ilAdvancedSelectionListGUI;
-use ilCSVWriter;
-use ilExcel;
 use ILIAS\DI\Container;
 use ILIAS\MyStaff\ilMyStaffAccess;
-use ilMStListCompetencesGUI;
-use ilMStListCompetencesSkill;
-use ilMStListCompetencesSkills;
-use ilMStListCompetencesSkillsGUI;
-use ilOrgUnitPathStorage;
-use ilSelectInputGUI;
-use ilTable2GUI;
-use ilTextInputGUI;
-use ilUserSearchOptions;
 
 /**
  * Class ilMStListCompetencesTableGUI
  * @author Martin Studer <ms@studer-raimann.ch>
  */
-class ilMStListCompetencesSkillsTableGUI extends ilTable2GUI
+class ilMStListCompetencesSkillsTableGUI extends \ilTable2GUI
 {
-    protected array $filter = array();
+    protected array $filter = [];
+    protected array $selectable_columns_cached = [];
+    protected array $usr_orgu_names = [];
     protected ilMyStaffAccess $access;
     protected Container $dic;
+    protected \ILIAS\UI\Factory $ui_fac;
+    protected \ILIAS\UI\Renderer $ui_ren;
 
-    public function __construct(ilMStListCompetencesSkillsGUI $parent_obj, string $parent_cmd, Container $dic)
+    public function __construct(\ilMStListCompetencesSkillsGUI $parent_obj, string $parent_cmd, Container $dic)
     {
         $this->dic = $dic;
         $this->access = ilMyStaffAccess::getInstance();
+        $this->ui_fac = $this->dic->ui()->factory();
+        $this->ui_ren = $this->dic->ui()->renderer();
 
         $this->setPrefix('myst_cs');
         $this->setFormName('myst_cs');
@@ -87,8 +80,8 @@ class ilMStListCompetencesSkillsTableGUI extends ilTable2GUI
         $options = array(
             'filters' => $this->filter,
             'limit' => array(
-                'start' => intval($this->getOffset()),
-                'end' => intval($this->getLimit()),
+                'start' => $this->getOffset(),
+                'end' => $this->getLimit(),
             ),
             'count' => true,
             'sort' => array(
@@ -97,14 +90,14 @@ class ilMStListCompetencesSkillsTableGUI extends ilTable2GUI
             ),
         );
 
-        $skills_fetcher = new ilMStListCompetencesSkills($this->dic);
+        $skills_fetcher = new \ilMStListCompetencesSkills($this->dic);
         $result = $skills_fetcher->getData($options);
 
         $this->setMaxCount($result->getTotalDatasetCount());
         $data = $result->getDataset();
 
         // Workaround because the fillRow Method only accepts arrays
-        $data = array_map(function (ilMStListCompetencesSkill $it): array {
+        $data = array_map(function (\ilMStListCompetencesSkill $it): array {
             return [$it];
         }, $data);
         $this->setData($data);
@@ -113,19 +106,19 @@ class ilMStListCompetencesSkillsTableGUI extends ilTable2GUI
     final public function initFilter(): void
     {
         // skill
-        $item = new ilTextInputGUI($this->dic->language()->txt("skmg_skill"), 'skill');
+        $item = new \ilTextInputGUI($this->dic->language()->txt("skmg_skill"), 'skill');
         $this->addFilterItem($item);
         $item->readFromSession();
         $this->filter['skill'] = $item->getValue();
 
         // skill level
-        $item = new ilTextInputGUI($this->dic->language()->txt("skmg_skill_level"), 'skill_level');
+        $item = new \ilTextInputGUI($this->dic->language()->txt("skmg_skill_level"), 'skill_level');
         $this->addFilterItem($item);
         $item->readFromSession();
         $this->filter['skill_level'] = $item->getValue();
 
         //user
-        $item = new ilTextInputGUI(
+        $item = new \ilTextInputGUI(
             $this->dic->language()->txt("login") . "/" . $this->dic->language()->txt("email") . "/" . $this->dic->language()
                                                                                                                                        ->txt("name"),
             "user"
@@ -136,13 +129,13 @@ class ilMStListCompetencesSkillsTableGUI extends ilTable2GUI
         $this->filter['user'] = $item->getValue();
 
         // orgunits
-        if (ilUserSearchOptions::_isEnabled('org_units')) {
-            $paths = ilOrgUnitPathStorage::getTextRepresentationOfOrgUnits();
+        if (\ilUserSearchOptions::_isEnabled('org_units')) {
+            $paths = \ilOrgUnitPathStorage::getTextRepresentationOfOrgUnits();
             $options[0] = $this->dic->language()->txt('mst_opt_all');
             foreach ($paths as $org_ref_id => $path) {
                 $options[$org_ref_id] = $path;
             }
-            $item = new ilSelectInputGUI($this->dic->language()->txt('obj_orgu'), 'org_unit');
+            $item = new \ilSelectInputGUI($this->dic->language()->txt('obj_orgu'), 'org_unit');
             $item->setOptions($options);
             $this->addFilterItem($item);
             $item->readFromSession();
@@ -152,9 +145,18 @@ class ilMStListCompetencesSkillsTableGUI extends ilTable2GUI
 
     final public function getSelectableColumns(): array
     {
+        if ($this->selectable_columns_cached) {
+            return $this->selectable_columns_cached;
+        }
+
+        return $this->selectable_columns_cached = $this->initSelectableColumns();
+    }
+
+    protected function initSelectableColumns(): array
+    {
         $cols = array();
 
-        $arr_searchable_user_columns = ilUserSearchOptions::getSelectableColumnInfo();
+        $arr_searchable_user_columns = \ilUserSearchOptions::getSelectableColumnInfo();
 
         $cols['skill_title'] = array(
             'txt' => $this->dic->language()->txt('skmg_skill'),
@@ -169,7 +171,7 @@ class ilMStListCompetencesSkillsTableGUI extends ilTable2GUI
             'sort_field' => 'skill_level',
         );
 
-        if ($arr_searchable_user_columns['login']) {
+        if ($arr_searchable_user_columns['login'] ?? false) {
             $cols['login'] = array(
                 'txt' => $this->dic->language()->txt('login'),
                 'default' => true,
@@ -177,7 +179,7 @@ class ilMStListCompetencesSkillsTableGUI extends ilTable2GUI
                 'sort_field' => 'login',
             );
         }
-        if ($arr_searchable_user_columns['firstname']) {
+        if ($arr_searchable_user_columns['firstname'] ?? false) {
             $cols['first_name'] = array(
                 'txt' => $this->dic->language()->txt('firstname'),
                 'default' => true,
@@ -185,12 +187,27 @@ class ilMStListCompetencesSkillsTableGUI extends ilTable2GUI
                 'sort_field' => 'firstname',
             );
         }
-        if ($arr_searchable_user_columns['lastname']) {
+        if ($arr_searchable_user_columns['lastname'] ?? false) {
             $cols['last_name'] = array(
                 'txt' => $this->dic->language()->txt('lastname'),
                 'default' => true,
                 'width' => 'auto',
                 'sort_field' => 'lastname',
+            );
+        }
+        if ($arr_searchable_user_columns['email'] ?? false) {
+            $cols['email'] = array(
+                'txt' => $this->dic->language()->txt('email'),
+                'default' => true,
+                'width' => 'auto',
+                'sort_field' => 'email',
+            );
+        }
+        if ($arr_searchable_user_columns['org_units'] ?? false) {
+            $cols['usr_assinged_orgus'] = array(
+                'txt' => $this->dic->language()->txt('objs_orgu'),
+                'default' => true,
+                'width' => 'auto',
             );
         }
 
@@ -201,12 +218,8 @@ class ilMStListCompetencesSkillsTableGUI extends ilTable2GUI
     {
         foreach ($this->getSelectableColumns() as $k => $v) {
             if ($this->isColumnSelected($k)) {
-                if (isset($v['sort_field'])) {
-                    $sort = $v['sort_field'];
-                } else {
-                    $sort = null;
-                }
-                $this->addColumn($v['txt'], $sort, $v['width']);
+                $sort = $v['sort_field'] ?? "";
+                $this->addColumn($v['txt'], $sort);
             }
         }
 
@@ -216,49 +229,73 @@ class ilMStListCompetencesSkillsTableGUI extends ilTable2GUI
         }
     }
 
-    final public function fillRow(array $a_set): void
+    protected function getTextRepresentationOfUsersOrgUnits(int $user_id): string
+    {
+        if (isset($this->usr_orgu_names[$user_id])) {
+            return $this->usr_orgu_names[$user_id];
+        }
+
+        return $this->usr_orgu_names[$user_id] = \ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($user_id);
+    }
+
+    /**
+     * @param array<\ilMStListCompetencesSkill> $a_set
+     */
+    final protected function fillRow(array $a_set): void
     {
         $set = array_pop($a_set);
 
-        $propGetter = Closure::bind(function ($prop) {
-            return $this->$prop;
+        $propGetter = \Closure::bind(function ($prop) {
+            return $this->$prop ?? null;
         }, $set, $set);
 
         foreach ($this->getSelectableColumns() as $k => $v) {
             if ($this->isColumnSelected($k)) {
-                if ($propGetter($k) !== null) {
-                    $this->tpl->setCurrentBlock('td');
-                    $this->tpl->setVariable(
-                        'VALUE',
-                        (is_array($propGetter($k)) ? implode(", ", $propGetter($k)) : $propGetter($k))
-                    );
-                    $this->tpl->parseCurrentBlock();
-                } else {
-                    $this->tpl->setCurrentBlock('td');
-                    $this->tpl->setVariable('VALUE', '&nbsp;');
-                    $this->tpl->parseCurrentBlock();
+                switch ($k) {
+                    case 'usr_assinged_orgus':
+                        $this->tpl->setCurrentBlock('td');
+                        $this->tpl->setVariable(
+                            'VALUE',
+                            $this->getTextRepresentationOfUsersOrgUnits($set->getUserId())
+                        );
+                        $this->tpl->parseCurrentBlock();
+                        break;
+                    default:
+                        if ($propGetter($k) !== null) {
+                            $this->tpl->setCurrentBlock('td');
+                            $this->tpl->setVariable(
+                                'VALUE',
+                                (is_array($propGetter($k)) ? implode(", ", $propGetter($k)) : $propGetter($k))
+                            );
+                            $this->tpl->parseCurrentBlock();
+                        } else {
+                            $this->tpl->setCurrentBlock('td');
+                            $this->tpl->setVariable('VALUE', '&nbsp;');
+                            $this->tpl->parseCurrentBlock();
+                        }
+                        break;
                 }
             }
         }
 
-        $actions = new ilAdvancedSelectionListGUI();
-        $actions->setListTitle($this->dic->language()->txt("actions"));
-        $actions->setAsynch(true);
+        $mst_lcom_usr_id = $set->getUserId();
 
-        $this->dic->ctrl()->setParameterByClass(get_class($this->parent_obj), 'mst_lcom_usr_id', $set->getUserId());
+        $this->dic->ctrl()->setParameterByClass(get_class($this->parent_obj), 'mst_lcom_usr_id', $mst_lcom_usr_id);
 
-        $actions->setAsynchUrl(str_replace("\\", "\\\\", $this->dic->ctrl()
-                                                                   ->getLinkTarget(
-                                                                       $this->parent_obj,
-                                                                       ilMStListCompetencesSkillsGUI::CMD_GET_ACTIONS,
-                                                                       "",
-                                                                       true
-                                                                   )));
-        $this->tpl->setVariable('ACTIONS', $actions->getHTML());
+        $buttons = \ilMyStaffGUI::extendActionMenuWithUserActions(
+            $mst_lcom_usr_id,
+            rawurlencode($this->dic->ctrl()->getLinkTargetByClass(
+                "ilMStListCompetencesSkillsGUI",
+                \ilMStListCompetencesSkillsGUI::CMD_INDEX
+            ))
+        );
+
+        $dropdown = $this->ui_fac->dropdown()->standard($buttons)->withLabel($this->lng->txt("actions"));
+        $this->tpl->setVariable("ACTIONS", $this->ui_ren->render($dropdown));
         $this->tpl->parseCurrentBlock();
     }
 
-    protected function fillRowExcel(ilExcel $a_excel, int &$a_row, array $a_set): void
+    protected function fillRowExcel(\ilExcel $a_excel, int &$a_row, array $a_set): void
     {
         $set = array_pop($a_set);
 
@@ -269,7 +306,7 @@ class ilMStListCompetencesSkillsTableGUI extends ilTable2GUI
         }
     }
 
-    protected function fillRowCSV(ilCSVWriter $a_csv, array $a_set): void
+    protected function fillRowCSV(\ilCSVWriter $a_csv, array $a_set): void
     {
         $set = array_pop($a_set);
 
@@ -279,17 +316,20 @@ class ilMStListCompetencesSkillsTableGUI extends ilTable2GUI
         $a_csv->addRow();
     }
 
-    protected function getFieldValuesForExport(ilMStListCompetencesSkill $selected_skill): array
+    protected function getFieldValuesForExport(\ilMStListCompetencesSkill $selected_skill): array
     {
-        $propGetter = Closure::bind(function ($prop) {
-            return $this->$prop;
+        $propGetter = \Closure::bind(function ($prop) {
+            return $this->$prop ?? null;
         }, $selected_skill, $selected_skill);
 
         $field_values = array();
         foreach ($this->getSelectedColumns() as $k => $v) {
             switch ($k) {
+                case 'usr_assinged_orgus':
+                    $field_values[$k] = $this->getTextRepresentationOfUsersOrgUnits($selected_skill->getUserId());
+                    break;
                 default:
-                    $field_values[$k] = strip_tags($propGetter($k));
+                    $field_values[$k] = strip_tags($propGetter($k) ?? "");
                     break;
             }
         }

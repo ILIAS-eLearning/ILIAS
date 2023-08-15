@@ -95,6 +95,25 @@ class ilCalendarCategories
     }
 
     /**
+     * @return ilCalendarCategory[]
+     */
+    public static function lookupRemoteCalendars(): array
+    {
+        global $DIC;
+
+        $db = $DIC->database();
+
+        $query = 'SELECT cat_id FROM cal_categories ' .
+            'WHERE loc_type = ' . $db->quote(ilCalendarCategory::LTYPE_REMOTE);
+        $res = $db->query($query);
+        $remote = [];
+        while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+            $remote[] = new ilCalendarCategory((int) $row->cat_id);
+        }
+        return $remote;
+    }
+
+    /**
      * lookup category by obj_id
      */
     public static function _lookupCategoryIdByObjId(int $a_obj_id): int
@@ -364,6 +383,11 @@ class ilCalendarCategories
             if ($info['obj_type'] == 'sess' || $info['obj_type'] == 'exc') {
                 continue;
             }
+
+            if (($info['remote'] ?? 0) == ilCalendarCategory::LTYPE_REMOTE) {
+                continue;
+            }
+
             if ($info['type'] == ilCalendarCategory::TYPE_USR and $info['editable']) {
                 $has_personal_calendar = true;
             }
@@ -424,6 +448,11 @@ class ilCalendarCategories
 
         $this->readSelectedCategories(ilParticipants::_getMembershipByType($this->user_id, ['crs']));
         $this->readSelectedCategories(ilParticipants::_getMembershipByType($this->user_id, ['grp']));
+        $this->readSelectedCategories(
+            $this->lookupRelevantTalkSeriesIds(),
+            0,
+            false
+        );
 
         $this->addSubitemCalendars();
     }
@@ -483,6 +512,11 @@ class ilCalendarCategories
         $this->readSelectedCategories($sessions);
         $this->readSelectedCategories($groups);
         $this->readSelectedCategories($exercises);
+        $this->readSelectedCategories(
+            $this->lookupRelevantTalkSeriesIds(),
+            0,
+            false
+        );
 
         $this->addSubitemCalendars();
     }
@@ -541,20 +575,17 @@ class ilCalendarCategories
             $this->readSelectedCategories(array($this->root_obj_id), $this->root_ref_id);
         }
 
-        $this->addSubitemCalendars();
-
         if (!$a_container_only) {
             $this->readSelectedCategories(ilParticipants::_getMembershipByType($this->user_id, ['crs']));
             $this->readSelectedCategories(ilParticipants::_getMembershipByType($this->user_id, ['grp']));
-
-            $repository = new IliasDBEmployeeTalkSeriesRepository($this->user, $this->db);
-            $talks = $repository->findByOwnerAndEmployee();
-            $talkIds = array_map(function (ilObjEmployeeTalkSeries $item) {
-                return $item->getId();
-            }, $talks);
-
-            $this->readSelectedCategories($talkIds, 0, false);
+            $this->readSelectedCategories(
+                $this->lookupRelevantTalkSeriesIds(),
+                0,
+                false
+            );
         }
+
+        $this->addSubitemCalendars();
     }
 
     public function readSingleCalendar(int $a_cat_id): void
@@ -928,6 +959,18 @@ class ilCalendarCategories
                 $this->categories_info[$cat_id]['subitem_obj_ids'] = array();
             }
         }
+    }
+
+    /**
+     * @return int[]
+     */
+    protected function lookupRelevantTalkSeriesIds(): array
+    {
+        $repository = new IliasDBEmployeeTalkSeriesRepository($this->user, $this->db);
+        $talks = $repository->findByOwnerAndEmployee();
+        return array_map(function (ilObjEmployeeTalkSeries $item) {
+            return $item->getId();
+        }, $talks);
     }
 
     /**

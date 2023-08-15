@@ -114,4 +114,40 @@ class ilCOPageDBUpdateSteps implements \ilDatabaseUpdateSteps
             ));
         }
     }
+
+    public function step_5(): void
+    {
+        $set = $this->db->queryF(
+            "SELECT content FROM page_object " .
+            " WHERE page_id = %s AND parent_type = %s AND lang = %s",
+            ["integer", "text", "text"],
+            [5, "stys", "-"]
+        );
+        while ($rec = $this->db->fetchAssoc($set)) {
+            $content = $rec["content"];
+
+            $replacements = [
+                ["a4e417c08feebeafb1487e60a2e245a4", "a4e417c08feebeafb1487e60a2e245a5"],
+                ["a4e417c08feebeafb1487e60a2e245a4", "a4e417c08feebeafb1487e60a2e245a6"],
+                ["a4e417c08feebeafb1487e60a2e245a5", "a4e417c08feebeafb1487e60a2e245a7"],
+                ["a4e417c08feebeafb1487e60a2e245a5", "a4e417c08feebeafb1487e60a2e245a8"]
+            ];
+
+            foreach ($replacements as $r) {
+                $content = preg_replace('/' . $r[0] . '/', $r[1], $content, 1);
+            }
+
+            $this->db->update(
+                "page_object",
+                [
+                "content" => ["clob", $content]
+            ],
+                [    // where
+                    "page_id" => ["integer", 5],
+                    "parent_type" => ["text", "stys"],
+                    "lang" => ["text", '-'],
+                ]
+            );
+        }
+    }
 }

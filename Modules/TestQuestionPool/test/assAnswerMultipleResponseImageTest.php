@@ -35,9 +35,6 @@ class assAnswerMultipleResponseImageTest extends assBaseTestCase
 
     public function test_instantiateObject_shouldReturnInstance(): void
     {
-        // Arrange
-        require_once './Modules/TestQuestionPool/classes/class.assAnswerMultipleResponseImage.php';
-
         // Act
         $instance = new ASS_AnswerMultipleResponseImage();
 
@@ -46,8 +43,6 @@ class assAnswerMultipleResponseImageTest extends assBaseTestCase
 
     public function test_setGetImage(): void
     {
-        // Arrange
-        require_once './Modules/TestQuestionPool/classes/class.assAnswerMultipleResponseImage.php';
         $instance = new ASS_AnswerMultipleResponseImage();
         $expected = 'c:\image.jpg';
 

@@ -32,6 +32,7 @@ class ilCalendarAppointmentGUI
 {
     private ilPropertyFormGUI $form;
     private ilCalendarUserNotification $notification;
+    protected bool $requested_rexl;
 
     protected ilDate $seed;
     protected ilDateTime $initialDate;
@@ -79,6 +80,7 @@ class ilCalendarAppointmentGUI
         $this->initSeed($seed);
         $this->initInitialDate($initialDate);
         $this->initAppointment($a_appointment_id);
+        $this->requested_rexl = (bool) $this->getRecurrenceExclusionFromQuery();
     }
 
     protected function getAppointmentIdFromQuery(): int
@@ -94,13 +96,20 @@ class ilCalendarAppointmentGUI
 
     protected function getRecurrenceExclusionFromQuery(): int
     {
-        if ($this->http->wrapper()->query()->has('rexl')) {
-            return $this->http->wrapper()->query()->retrieve(
+        $val = 0;
+        if ($this->http->wrapper()->post()->has('rexl')) {
+            $val = $this->http->wrapper()->post()->retrieve(
                 'rexl',
                 $this->refinery->kindlyTo()->int()
             );
         }
-        return 0;
+        if ($val === 0 && $this->http->wrapper()->query()->has('rexl')) {
+            $val = $this->http->wrapper()->query()->retrieve(
+                'rexl',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
+        return $val;
     }
 
     protected function getRecurrenceDateFromQuery(): int
@@ -656,6 +665,7 @@ class ilCalendarAppointmentGUI
     protected function editSingle(): void
     {
         $this->ctrl->setParameter($this, 'rexl', "1");
+        $this->requested_rexl = true;
         $this->edit(true);
     }
 
@@ -673,9 +683,8 @@ class ilCalendarAppointmentGUI
         }
 
         $this->ctrl->saveParameter($this, array('seed', 'app_id', 'dt', 'idate'));
-        if ($a_edit_single_app) {
+        if ($this->requested_rexl) {
             $this->ctrl->setParameter($this, 'rexl', 1);
-
             // Calculate new appointment time
             $duration = $this->getAppointment()->getEnd()->get(IL_CAL_UNIX) - $this->getAppointment()->getStart()->get(IL_CAL_UNIX);
             $calc = new ilCalendarRecurrenceCalculator($this->getAppointment(), $this->rec);
@@ -797,8 +806,7 @@ class ilCalendarAppointmentGUI
 
     protected function update(): void
     {
-        $single_editing = (bool) $this->getRecurrenceExclusionFromQuery();
-
+        $single_editing = $this->requested_rexl;
         $form = $this->load('edit', $this->app->isMilestone());
 
         if ($this->app->validate() and $this->notification->validate()) {

@@ -154,7 +154,7 @@ class UIWrapper
             $cnt++;
             $form->addCommandButton("", $button[2], "cmd-" . $cnt);
         }
-        $html = $form->getHTML();
+        $html = $form->getHTMLAsync();
         $cnt = 0;
         foreach ($buttons as $button) {
             $cnt++;
@@ -206,6 +206,15 @@ class UIWrapper
             \ilDatePresentation::setUseRelativeDates(false);
             $data->last_update = \ilDatePresentation::formatDate($lu, true);
         }
+        return new Response($data);
+    }
+
+    public function sendFormError(
+        string $form
+    ): Response {
+        $data = new \stdClass();
+        $data->formError = true;
+        $data->form = $form;
         return new Response($data);
     }
 

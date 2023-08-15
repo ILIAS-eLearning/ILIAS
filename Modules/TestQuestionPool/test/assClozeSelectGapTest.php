@@ -37,9 +37,6 @@ class assClozeSelectGapTest extends assBaseTestCase
 
     public function test_instantiateObject_shouldReturnInstance(): void
     {
-        // Arrange
-        require_once './Modules/TestQuestionPool/classes/class.assClozeSelectGap.php';
-
         // Act
         $instance = new assClozeSelectGap(1); // 1 - select gap
 
@@ -48,8 +45,6 @@ class assClozeSelectGapTest extends assBaseTestCase
 
     public function test_newlyInstatiatedObject_shouldReturnTrueOnGetShuffle(): void
     {
-        // Arrange
-        require_once './Modules/TestQuestionPool/classes/class.assClozeSelectGap.php';
         $instance = new assClozeSelectGap(1); // 1 - select gap
         $expected = true;
 
@@ -60,8 +55,6 @@ class assClozeSelectGapTest extends assBaseTestCase
 
     public function test_arrayShuffle_shouldShuffleArray(): void
     {
-        // Arrange
-        require_once './Modules/TestQuestionPool/classes/class.assClozeSelectGap.php';
         $instance = new assClozeSelectGap(1); // 1 - select gap
         $expected = ['shfksdfs', 'sfsdf', 'sdfsdfdf'];
 
@@ -73,10 +66,7 @@ class assClozeSelectGapTest extends assBaseTestCase
 
     public function test_getItemswithShuffle_shouldReturnShuffledItems(): void
     {
-        require_once './Modules/TestQuestionPool/classes/class.assClozeSelectGap.php';
         $instance = new assClozeSelectGap(1); // 1 - select gap
-
-        require_once './Modules/TestQuestionPool/classes/class.assAnswerCloze.php';
         $item1 = new assAnswerCloze('Bert', 1.0, 0);
         $item2 = new assAnswerCloze('Fred', 2.0, 2);
         $item3 = new assAnswerCloze('Karl', 4, 1);
@@ -112,10 +102,7 @@ class assClozeSelectGapTest extends assBaseTestCase
 
     public function test_getItemswithoutShuffle_shouldReturnItemsInOrder(): void
     {
-        require_once './Modules/TestQuestionPool/classes/class.assClozeSelectGap.php';
         $instance = new assClozeSelectGap(1); // 1 - select gap
-
-        require_once './Modules/TestQuestionPool/classes/class.assAnswerCloze.php';
         $item1 = new assAnswerCloze('Bert', 1.0, 0);
         $item2 = new assAnswerCloze('Fred', 2.0, 1);
         $item3 = new assAnswerCloze('Karl', 4, 2);

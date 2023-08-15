@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,15 +16,17 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
 class ilCertificateScormPdfFilename implements ilCertificateFilename
 {
     public function __construct(
-        private ilCertificateFilename $origin,
-        private ilLanguage $lng,
-        private ilSetting $scormSetting
+        private readonly ilCertificateFilename $origin,
+        private readonly ilLanguage $lng,
+        private readonly ilSetting $scormSetting
     ) {
     }
 

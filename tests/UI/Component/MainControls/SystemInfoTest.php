@@ -60,7 +60,7 @@ class SystemInfoTest extends ILIAS_UI_TestBase
     </div>
     <div class="il-system-info-actions">
         <span class="il-system-info-more">
-            <a class="glyph" href="#" aria-label="show_more"><span class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></span></a>
+            <a tabindex="0" class="glyph" href="#" aria-label="show_more"><span class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></span></a>
         </span>
         <span class="il-system-info-close"></span>
     </div>
@@ -93,7 +93,7 @@ EOT;
     </div>
     <div class="il-system-info-actions">
         <span class="il-system-info-more">
-            <a class="glyph" href="#" aria-label="show_more"><span class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></span></a>
+            <a tabindex="0" class="glyph" href="#" aria-label="show_more"><span class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></span></a>
         </span>
         <span class="il-system-info-close"></span>
     </div>
@@ -126,7 +126,7 @@ EOT;
     </div>
     <div class="il-system-info-actions">
         <span class="il-system-info-more">
-            <a class="glyph" href="#" aria-label="show_more"><span class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></span></a>
+            <a tabindex="0" class="glyph" href="#" aria-label="show_more"><span class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></span></a>
         </span>
         <span class="il-system-info-close"></span>
     </div>
@@ -158,7 +158,7 @@ EOT;
     </div>
     <div class="il-system-info-actions">
         <span class="il-system-info-more">
-            <a class="glyph" href="#" aria-label="show_more"><span class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></span></a>
+            <a tabindex="0" class="glyph" href="#" aria-label="show_more"><span class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></span></a>
         </span>
         <span class="il-system-info-close"></span>
     </div>
@@ -193,9 +193,9 @@ EOT;
     </div>
     <div class="il-system-info-actions">
         <span class="il-system-info-more">
-            <a class="glyph" href="#" aria-label="show_more"><span class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></span></a>
+            <a tabindex="0" class="glyph" href="#" aria-label="show_more"><span class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></span></a>
         </span>
-        <span class="il-system-info-close"><a class="glyph" href="#" aria-label="close" id="id"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a></span>
+        <span class="il-system-info-close"><a tabindex="0" class="glyph" href="#" aria-label="close" id="id"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a></span>
     </div>
 </div>
 EOT;

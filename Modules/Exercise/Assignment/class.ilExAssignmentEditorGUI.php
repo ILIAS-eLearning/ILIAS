@@ -27,6 +27,7 @@ use ILIAS\Exercise\Assignment\Mandatory;
  */
 class ilExAssignmentEditorGUI
 {
+    protected \ILIAS\Exercise\InternalGUIService $gui;
     protected ilCtrl $ctrl;
     protected ilTabsGUI $tabs;
     protected ilLanguage $lng;
@@ -69,6 +70,9 @@ class ilExAssignmentEditorGUI
         $this->help = $DIC["ilHelp"];
         $this->exercise_id = $a_exercise_id;
         $this->assignment = $a_ass;
+        $this->gui = $DIC->exercise()
+            ->internal()
+            ->gui();
         $this->enable_peer_review_completion = $a_enable_peer_review_completion_settings;
         $this->types = ilExAssignmentTypes::getInstance();
         $this->type_guis = ilExAssignmentTypesGUI::getInstance();
@@ -145,13 +149,12 @@ class ilExAssignmentEditorGUI
 
         $ilToolbar->setFormAction($ilCtrl->getFormAction($this, "addAssignment"));
 
-        $ilToolbar->addStickyItem($this->getTypeDropdown());
+        $ilToolbar->addStickyItem($this->getTypeDropdown(), true);
 
-        $button = ilSubmitButton::getInstance();
-        $button->setCaption("exc_add_assignment");
-        $button->setCommand("addAssignment");
-        $ilToolbar->addStickyItem($button);
-
+        $this->gui->button(
+            $this->lng->txt("exc_add_assignment"),
+            "addAssignment"
+        )->submit()->toToolbar(true);
 
         $t = new ilAssignmentsTableGUI($this, "listAssignments", $this->exercise_id);
         $tpl->setContent($t->getHTML());
@@ -368,8 +371,10 @@ class ilExAssignmentEditorGUI
 
         $desc_input = new ilTextAreaInputGUI($lng->txt("exc_instruction"), "instruction");
         $desc_input->setRows(20);
-        $desc_input->setUseRte(true);
-        $desc_input->setRteTagSet("mini");
+        if (ilObjAdvancedEditing::_getRichTextEditor() === "tinymce") {
+            $desc_input->setUseRte(true);
+            $desc_input->setRteTagSet("mini");
+        }
         $form->addItem($desc_input);
 
         // files
@@ -549,6 +554,7 @@ class ilExAssignmentEditorGUI
         $r_group = new ilRadioGroupInputGUI($this->lng->txt("exc_reminder_mail_template"), $post_var);
         $r_group->setRequired(true);
         $r_group->addOption(new ilRadioOption($this->lng->txt("exc_reminder_mail_no_tpl"), 0));
+        $r_group->setValue(0);
 
         switch ($a_reminder_type) {
             case ilExAssignmentReminder::SUBMIT_REMINDER:
@@ -564,10 +570,12 @@ class ilExAssignmentEditorGUI
                 exit();
         }
 
-        /** @var \ilMailTemplateService $templateService */
-        $templateService = $DIC['mail.texttemplates.service'];
+        $templateService = $DIC->mail()->textTemplates();
         foreach ($templateService->loadTemplatesForContextId($context->getId()) as $template) {
             $r_group->addOption(new ilRadioOption($template->getTitle(), $template->getTplId()));
+            if ($template->isDefault()) {
+                $r_group->setValue($template->getTplId());
+            }
         }
 
         return $r_group;

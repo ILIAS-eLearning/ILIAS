@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Class ilTermsOfServiceAcceptanceDatabaseGateway
@@ -85,6 +85,10 @@ class ilTermsOfServiceAcceptanceDatabaseGateway implements ilTermsOfServiceAccep
             [$entity->getUserId()]
         );
         $row = $this->db->fetchAssoc($res);
+
+        if ($row === null) {
+            return $entity;
+        }
 
         return $entity
             ->withId((int) $row['id'])

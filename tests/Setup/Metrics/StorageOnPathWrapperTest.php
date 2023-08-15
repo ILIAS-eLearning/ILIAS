@@ -28,6 +28,9 @@ class StorageOnPathWrapperTest extends TestCase
 {
     public const PATH = "path";
 
+    protected Metrics\Storage $storage;
+    protected Metrics\StorageOnPathWrapper $wrapper;
+
     public function setUp(): void
     {
         $this->storage = $this->createMock(Metrics\Storage::class);

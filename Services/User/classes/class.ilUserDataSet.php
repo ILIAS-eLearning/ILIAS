@@ -236,7 +236,7 @@ class ilUserDataSet extends ilDataSet
                         "screen_reader_optimization", "show_users_online",
                         "store_last_visited", "time_format", "user_tz", "weekstart",
                         "session_reminder_enabled", "session_reminder_lead_time", "usr_starting_point",
-                        "char_selector_availability", "char_selector_definition", "chat_broadcast_typing");
+                        "chat_broadcast_typing");
 
                     if (version_compare($a_version, '5.2.0', '>=')) {
                         unset(
@@ -311,15 +311,16 @@ class ilUserDataSet extends ilDataSet
                         // only change fields, when it is possible in profile
                         if (ilUserProfile::userSettingVisible($k) &&
                             !$ilSetting->get("usr_settings_disable_" . $k) &&
-                            $f["method"] != "" && isset($a_rec[$up_k])) {
+                            ($f["method"] ?? "") != "" && isset($a_rec[$up_k])) {
                             $set_method = "set" . substr($f["method"], 3);
                             $user->{$set_method}(ilUtil::secureString($a_rec[$up_k]));
                         }
                     }
 
-                    $user->setLatitude($a_rec["Latitude"]);
-                    $user->setLongitude($a_rec["Longitude"]);
-                    $user->setLocationZoom($a_rec["LocZoom"]);
+                    $user->setLatitude($a_rec["Latitude"] ?? null);
+                    $user->setLongitude($a_rec["Longitude"] ?? null);
+                    $zoom = isset($a_rec["LocZoom"]) ? (int) $a_rec["LocZoom"] : null;
+                    $user->setLocationZoom($zoom);
 
                     $user->update();
 

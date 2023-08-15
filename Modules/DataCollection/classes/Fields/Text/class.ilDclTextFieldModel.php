@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -13,14 +14,9 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
+declare(strict_types=1);
 
-/**
- * Class ilDclTextFieldModel
- * @author  Michael Herren <mh@studer-raimann.ch>
- * @version 1.0.0
- */
 class ilDclTextFieldModel extends ilDclBaseFieldModel
 {
     /**
@@ -79,8 +75,8 @@ class ilDclTextFieldModel extends ilDclBaseFieldModel
             return $this->checkValidityOfURLField($value, $record_id);
         }
 
-        //Don't check empty values
-        if ($value == null) {
+        // Don't check empty values
+        if ($value === null) {
             return true;
         }
 
@@ -176,14 +172,6 @@ class ilDclTextFieldModel extends ilDclBaseFieldModel
 
     protected function checkRegexAndLength(string $value): void
     {
-        $regex = $this->getProperty(ilDclBaseFieldModel::PROP_REGEX);
-        if (substr($regex, 0, 1) != "/") {
-            $regex = "/" . $regex;
-        }
-        if (substr($regex, -1) != "/") {
-            $regex .= "/";
-        }
-
         if ($this->getProperty(ilDclBaseFieldModel::PROP_LENGTH) < $this->strlen($value)
             && is_numeric($this->getProperty(ilDclBaseFieldModel::PROP_LENGTH))
         ) {
@@ -191,9 +179,17 @@ class ilDclTextFieldModel extends ilDclBaseFieldModel
         }
 
         if ($this->getProperty(ilDclBaseFieldModel::PROP_REGEX) != null) {
+            $regex = $this->getProperty(ilDclBaseFieldModel::PROP_REGEX);
+            if (substr($regex, 0, 1) != "/") {
+                $regex = "/" . $regex;
+            }
+            if (substr($regex, -1) != "/") {
+                $regex .= "/";
+            }
+
             try {
                 $preg_match = preg_match($regex, $value);
-            } catch (ErrorException $e) {
+            } catch (ErrorException) {
                 throw new ilDclInputException(ilDclInputException::REGEX_CONFIG_EXCEPTION);
             }
 

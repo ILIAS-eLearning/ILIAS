@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\Filesystem\Filesystems;
 use ILIAS\FileUpload\FileUpload;
@@ -118,11 +118,11 @@ class ilWebDAVMountInstructionsUploadGUI
     protected function showDocuments(): void
     {
         if ($this->rbacsystem->checkAccess('write', $this->webdav_object_ref_id)) {
-            $addDocumentBtn = ilLinkButton::getInstance();
-            $addDocumentBtn->setPrimary(true);
-            $addDocumentBtn->setUrl($this->ctrl->getLinkTarget($this, 'showAddDocumentForm'));
-            $addDocumentBtn->setCaption('webdav_add_instructions_btn_label');
-            $this->toolbar->addStickyItem($addDocumentBtn);
+            $document_button = $this->ui_factory->link()->standard(
+                $this->lng->txt('webdav_add_instructions_btn_label'),
+                $this->ctrl->getLinkTarget($this, 'showAddDocumentForm')
+            );
+            $this->toolbar->addStickyItem($document_button);
         }
 
         $uri_builder = new ilWebDAVUriBuilder($this->http->request());

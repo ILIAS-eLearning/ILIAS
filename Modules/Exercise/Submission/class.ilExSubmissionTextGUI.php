@@ -68,17 +68,20 @@ class ilExSubmissionTextGUI extends ilExSubmissionBaseGUI
 
         $lng = $DIC->language();
         $ilCtrl = $DIC->ctrl();
+        $gui = $DIC->exercise()->internal()->gui();
 
-        $button = ilLinkButton::getInstance();
         if ($a_submission->canSubmit()) {
-            $button->setPrimary(true);
-            $button->setCaption("exc_text_assignment_edit");
-            $button->setUrl($ilCtrl->getLinkTargetByClass(array("ilExSubmissionGUI", "ilExSubmissionTextGUI"), "editAssignmentText"));
+            $link = $gui->link(
+                $lng->txt("exc_text_assignment_edit"),
+                $ilCtrl->getLinkTargetByClass(array("ilExSubmissionGUI", "ilExSubmissionTextGUI"), "editAssignmentText")
+            )->primary();
         } else {
-            $button->setCaption("exc_text_assignment_show");
-            $button->setUrl($ilCtrl->getLinkTargetByClass(array("ilExSubmissionGUI", "ilExSubmissionTextGUI"), "showAssignmentText"));
+            $link = $gui->link(
+                $lng->txt("exc_text_assignment_show"),
+                $ilCtrl->getLinkTargetByClass(array("ilExSubmissionGUI", "ilExSubmissionTextGUI"), "showAssignmentText")
+            )->emphasised();
         }
-        $files_str = $button->render();
+        $files_str = $link->render();
 
         $a_info->addProperty($lng->txt("exc_files_returned_text"), $files_str);
     }
@@ -119,28 +122,30 @@ class ilExSubmissionTextGUI extends ilExSubmissionBaseGUI
 
             $form->addItem($text);
 
-            // custom rte tags
-            $text->setUseRte(true);
-            $text->setRTESupport($this->submission->getUserId(), "exca~", "exc_ass");
+            if (ilObjAdvancedEditing::_getRichTextEditor() === "tinymce") {
+                // custom rte tags
+                $text->setUseRte(true);
+                $text->setRTESupport($this->submission->getUserId(), "exca~", "exc_ass");
 
-            // see ilObjForumGUI
-            $text->disableButtons(array(
-                'charmap',
-                'undo',
-                'redo',
-                'alignleft',
-                'aligncenter',
-                'alignright',
-                'alignjustify',
-                'anchor',
-                'fullscreen',
-                'cut',
-                'copy',
-                'paste',
-                'pastetext',
-                'code',
-                // 'formatselect' #13234
-            ));
+                // see ilObjForumGUI
+                $text->disableButtons(array(
+                    'charmap',
+                    'undo',
+                    'redo',
+                    'alignleft',
+                    'aligncenter',
+                    'alignright',
+                    'alignjustify',
+                    'anchor',
+                    'fullscreen',
+                    'cut',
+                    'copy',
+                    'paste',
+                    'pastetext',
+                    'code',
+                    // 'formatselect' #13234
+                ));
+            }
 
             $form->setFormAction($ilCtrl->getFormAction($this, "updateAssignmentText"));
             $form->addCommandButton("updateAssignmentTextAndReturn", $this->lng->txt("save_return"));

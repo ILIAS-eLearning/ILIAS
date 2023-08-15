@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class ilChatroomAdmin
  * @author  Jan Posselt <jposselt@databay.de>
@@ -28,13 +28,8 @@ class ilChatroomAdmin
 {
     private static string $settingsTable = 'chatroom_admconfig';
 
-    private int $config_id;
-    private ?stdClass $settings;
-
-    public function __construct(int $config_id, stdClass $settings = null)
+    public function __construct(private readonly int $config_id, private readonly ?stdClass $settings = null)
     {
-        $this->config_id = $config_id;
-        $this->settings = $settings;
     }
 
     /**
@@ -113,7 +108,6 @@ class ilChatroomAdmin
 
     /**
      * Saves given client $settings into settingsTable.
-     * @param stdClass $settings
      */
     public function saveClientSettings(stdClass $settings): void
     {
@@ -133,8 +127,8 @@ class ilChatroomAdmin
             [$this->config_id]
         );
 
-        $row['default_config'] !== null ? $def_conf = $row['default_config'] : $def_conf = "{}";
-        $row['server_settings'] !== null ? $srv_set = $row['server_settings'] : $srv_set = "{}";
+        ($row['default_config'] ?? null) !== null ? $def_conf = $row['default_config'] : $def_conf = "{}";
+        ($row['server_settings'] ?? null) !== null ? $srv_set = $row['server_settings'] : $srv_set = "{}";
 
         $DIC->database()->manipulateF(
             "
@@ -193,15 +187,26 @@ class ilChatroomAdmin
                 $settings['client'] = CLIENT_ID;
             }
 
-            $settings['client_name'] = (string) $settings['name'];
-            if (!$settings['client_name']) {
+            if (is_string($settings['name'] ?? null) && $settings['name']) {
+                $settings['client_name'] = $settings['name'];
+            } else {
                 $settings['client_name'] = CLIENT_ID;
             }
 
-            if (is_numeric($settings['conversation_idle_state_in_minutes'])) {
+            if (isset($settings['conversation_idle_state_in_minutes']) && is_numeric($settings['conversation_idle_state_in_minutes'])) {
                 $settings['conversation_idle_state_in_minutes'] = max(1, $settings['conversation_idle_state_in_minutes']);
             } else {
                 $settings['conversation_idle_state_in_minutes'] = 1;
+            }
+
+            if (!isset($settings['auth']) || !is_array($settings['auth'])) {
+                $settings['auth'] = [];
+            }
+            if (!isset($settings['auth']['key']) || !is_string($settings['auth']['key'])) {
+                $settings['auth']['key'] = '';
+            }
+            if (!isset($settings['auth']['secret']) || !is_string($settings['auth']['secret'])) {
+                $settings['auth']['secret'] = '';
             }
 
             return $settings;

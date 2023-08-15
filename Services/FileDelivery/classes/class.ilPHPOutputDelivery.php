@@ -1,24 +1,28 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 declare(strict_types=1);
 
 use ILIAS\FileDelivery\Delivery;
 use ILIAS\FileDelivery\HttpServiceAware;
 use ILIAS\FileUpload\MimeType;
+use ILIAS\Modules\File\Settings\General;
 
-/******************************************************************************
- *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
- *
- * If this is not the case or you just want to try ILIAS, you'll find
- * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *
- *****************************************************************************/
 /**
  * Class ilPHPOutputDelivery
  *
@@ -38,13 +42,12 @@ final class ilPHPOutputDelivery
      */
     public function start(string $download_file_name, string $mime_type = MimeType::APPLICATION__OCTET_STREAM): void
     {
-        global $DIC;
-        $ilClientIniFile = $DIC['ilClientIniFile'];
+        $settings = new General();
         $this->ilFileDelivery = new Delivery(ilFileDelivery::DIRECT_PHP_OUTPUT, self::http());
         $this->ilFileDelivery->setMimeType($mime_type);
         $this->ilFileDelivery->setDownloadFileName($download_file_name);
         $this->ilFileDelivery->setDisposition(ilFileDelivery::DISP_ATTACHMENT);
-        $this->ilFileDelivery->setConvertFileNameToAsci((bool) !$ilClientIniFile->readVariable('file_access', 'disable_ascii'));
+        $this->ilFileDelivery->setConvertFileNameToAsci($settings->isDownloadWithAsciiFileName());
         $this->ilFileDelivery->clearBuffer();
         $this->ilFileDelivery->checkCache();
         $this->ilFileDelivery->setGeneralHeaders();

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,19 +16,21 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
 class ilCertificateQueueEntry
 {
     public function __construct(
-        private int $objId,
-        private int $userId,
-        private string $adapterClass,
-        private string $state,
-        private int $templateId,
-        private ?int $startedTimestamp = null,
-        private ?int $id = null
+        private readonly int $objId,
+        private readonly int $userId,
+        private readonly string $adapterClass,
+        private readonly string $state,
+        private readonly int $templateId,
+        private readonly ?int $startedTimestamp = null,
+        private readonly ?int $id = null
     ) {
     }
 

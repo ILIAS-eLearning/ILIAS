@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper;
 
 /**
@@ -31,40 +31,20 @@ use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper;
  */
 class ilLearningSequenceMembershipGUI extends ilMembershipGUI
 {
-    protected ilObjectGUI $repository_gui;
-    protected ilObject $obj;
-    protected ilObjUserTracking $obj_user_tracking;
-    protected ilPrivacySettings $privacy_settings;
-    protected ilRbacReview $rbac_review;
-    protected ilSetting $settings;
-    protected ilToolbarGUI $toolbar;
-    protected ILIAS\HTTP\Wrapper\RequestWrapper $request_wrapper;
-    protected ArrayBasedRequestWrapper $post_wrapper;
-    protected ILIAS\Refinery\Factory $refinery;
-
     public function __construct(
         ilObjectGUI $repository_gui,
-        ilObject $obj,
-        ilObjUserTracking $obj_user_tracking,
-        ilPrivacySettings $privacy_settings,
-        ilRbacReview $rbac_review,
-        ilSetting $settings,
-        ilToolbarGUI $toolbar,
-        ILIAS\HTTP\Wrapper\RequestWrapper $request_wrapper,
-        ArrayBasedRequestWrapper $post_wrapper,
-        ILIAS\Refinery\Factory $refinery
+        protected ilObject $obj,
+        protected ilObjUserTracking $obj_user_tracking,
+        protected ilPrivacySettings $privacy_settings,
+        protected ilRbacReview $rbac_review,
+        protected ilSetting $settings,
+        protected ilToolbarGUI $toolbar,
+        protected ILIAS\HTTP\Wrapper\RequestWrapper $request_wrapper,
+        protected ArrayBasedRequestWrapper $post_wrapper,
+        protected ILIAS\Refinery\Factory $refinery,
+        protected ILIAS\UI\Factory $ui_factory
     ) {
         parent::__construct($repository_gui, $obj);
-
-        $this->obj = $obj;
-        $this->obj_user_tracking = $obj_user_tracking;
-        $this->privacy_settings = $privacy_settings;
-        $this->rbac_review = $rbac_review;
-        $this->settings = $settings;
-        $this->toolbar = $toolbar;
-        $this->request_wrapper = $request_wrapper;
-        $this->post_wrapper = $post_wrapper;
-        $this->refinery = $refinery;
     }
 
     protected function printMembers(): void
@@ -191,10 +171,14 @@ class ilLearningSequenceMembershipGUI extends ilMembershipGUI
             "visible_member_ids",
             $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())
         );
-        $notification = $this->post_wrapper->retrieve(
-            "notification",
-            $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())
-        );
+
+        $notification = [];
+        if ($this->post_wrapper->has('notification')) {
+            $notification = $this->post_wrapper->retrieve(
+                "notification",
+                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())
+            );
+        }
 
         foreach ($participants as $participant) {
             if ($members->isAdmin($participant)) {
@@ -302,7 +286,9 @@ class ilLearningSequenceMembershipGUI extends ilMembershipGUI
 
         if ($this->filterUserIdsByRbacOrPositionOfCurrentUser([$user_id])) {
             $data = $this->member_data[$user_id];
-            $data['access'] = $data['access_time'];
+            if (array_key_exists('access_time', $data)) {
+                $data['access'] = $data['access_time'];
+            }
             $data['progress'] = $this->lng->txt($data['progress']);
         }
 
@@ -374,9 +360,11 @@ class ilLearningSequenceMembershipGUI extends ilMembershipGUI
 
         $this->toolbar->addSeparator();
 
-        $this->toolbar->addButton(
-            $this->lng->txt($this->getParentObject()->getType() . "_print_list"),
-            $this->ctrl->getLinkTarget($this, 'printMembers')
+        $this->toolbar->addComponent(
+            $this->ui_factory->button()->standard(
+                $this->lng->txt($this->getParentObject()->getType() . "_print_list"),
+                $this->ctrl->getLinkTarget($this, 'printMembers')
+            )
         );
 
         $this->showMailToMemberToolbarButton($this->toolbar, 'participants');

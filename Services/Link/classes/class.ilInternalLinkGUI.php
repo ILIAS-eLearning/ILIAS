@@ -602,10 +602,10 @@ class ilInternalLinkGUI
                         $wpage["id"],
                         "WikiPage",
                         "wpage",
-                        "wpage"
+                        "wpage",
+                        ilPCParagraph::_readAnchors("wpg", $wpage["id"], "")
                     );
                 }
-
                 $tpl->setCurrentBlock("chapter_list");
                 $tpl->parseCurrentBlock();
                 break;
@@ -926,7 +926,6 @@ class ilInternalLinkGUI
 
         $tpl->addJavaScript("./Services/UIComponent/Explorer/js/ilExplorer.js");
         ilExplorerBaseGUI::init();
-        ilYuiUtil::initConnection();
 
         $tpl->addJavascript("./Services/Link/js/ilIntLink.js");
         // #18721

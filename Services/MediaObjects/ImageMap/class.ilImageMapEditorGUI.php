@@ -26,6 +26,7 @@ use ILIAS\MediaObjects\ImageMap\ImageMapGUIRequest;
  */
 class ilImageMapEditorGUI
 {
+    protected \ILIAS\COPage\Xsl\XslManager $xsl;
     protected ilObjMediaObject $media_object;
     protected ImageMapGUIRequest $request;
     protected ImageMapManager $map;
@@ -56,6 +57,7 @@ class ilImageMapEditorGUI
             ->gui()
             ->imageMap()
             ->request();
+        $this->xsl = $DIC->copage()->internal()->domain()->xsl();
     }
 
     /**
@@ -541,10 +543,7 @@ class ilImageMapEditorGUI
         $xml .= $this->media_object->getXML(IL_MODE_OUTPUT);
         $xml .= $this->getAdditionalPageXML();
         $xml .= "</dummy>";
-        $xsl = file_get_contents("./Services/COPage/xsl/page.xsl");
-        //echo htmlentities($xml); exit;
-        $args = array( '/_xml' => $xml, '/_xsl' => $xsl );
-        $xh = xslt_create();
+
         $wb_path = ilFileUtils::getWebspaceDir("output") . "/";
         $mode = "media";
         //echo htmlentities($ilCtrl->getLinkTarget($this, "showImageMap"));
@@ -561,9 +560,7 @@ class ilImageMapEditorGUI
             'pg_frame' => "",
             'enlarge_path' => ilUtil::getImagePath("enlarge.svg"),
             'webspace_path' => $wb_path);
-        $output = xslt_process($xh, "arg:/_xml", "arg:/_xsl", null, $args, $params);
-        xslt_error($xh);
-        xslt_free($xh);
+        $output = $this->xsl->process($xml, $params);
 
         $output = $this->outputPostProcessing($output);
 
@@ -697,9 +694,9 @@ class ilImageMapEditorGUI
                 if ($this->request->getAreaLinkType() == IL_INT_LINK) {
                     $area->setLinkType(IL_INT_LINK);
                     $int_link = $this->map->getInternalLink();
-                    $area->setType($int_link["type"]);
-                    $area->setTarget($int_link["target"]);
-                    $area->setTargetFrame($int_link["target_frame"]);
+                    $area->setType($int_link["type"] ?? "");
+                    $area->setTarget($int_link["target"] ?? "");
+                    $area->setTargetFrame($int_link["target_frame"] ?? "");
                 } else {
                     $area->setLinkType(IL_EXT_LINK);
                     if ($this->request->getAreaLinkType() != IL_NO_LINK) {
@@ -751,9 +748,9 @@ class ilImageMapEditorGUI
                     case "int":
                         $area->setLinkType(IL_INT_LINK);
                         $int_link = $this->map->getInternalLink();
-                        $area->setType($int_link["type"]);
-                        $area->setTarget($int_link["target"]);
-                        $area->setTargetFrame($int_link["type_frame"]);
+                        $area->setType($int_link["type"] ?? "");
+                        $area->setTarget($int_link["target"] ?? "");
+                        $area->setTargetFrame($int_link["type_frame"] ?? "");
                         break;
                 }
 
@@ -797,18 +794,18 @@ class ilImageMapEditorGUI
         if ($a_handle) {
             $this->handleMapParameters();
         }
-        if ($this->map->getAreaNr() != "") {
+        if ($this->map->getAreaNr() > 0) {
             $area_nr = $this->map->getAreaNr();
         } else {
             $area = $this->request->getArea();
-            $area_nr = $area[0] ?? "";
+            $area_nr = (int) ($area[0] ?? 0);
         }
-        if ($area_nr == "") {
+        if ($area_nr === 0) {
             $this->main_tpl->setOnScreenMessage('failure', $lng->txt("no_checkbox"), true);
             $ilCtrl->redirect($this, "editMapAreas");
         }
 
-        if (count($area) > 1) {
+        if (count($area ?? []) > 1) {
             $this->main_tpl->setOnScreenMessage('failure', $lng->txt("cont_select_max_one_item"), true);
             $ilCtrl->redirect($this, "editMapAreas");
         }
@@ -984,18 +981,18 @@ class ilImageMapEditorGUI
         if ($_POST["areatype2"] != "") {
             $this->map->setAreaType($_POST["areatype2"]);
         }*/
-        if ($this->map->getAreaNr() != "") {
+        if ($this->map->getAreaNr() > 0) {
             $area_nr = $this->map->getAreaNr();
         } else {
             $area = $this->request->getArea();
-            $area_nr = $area[0] ?? "";
+            $area_nr = (int) ($area[0] ?? 0);
         }
-        if ($area_nr == "") {
+        if ($area_nr === 0) {
             $this->main_tpl->setOnScreenMessage('failure', $lng->txt("no_checkbox"), true);
             $ilCtrl->redirect($this, "editMapAreas");
         }
 
-        if (count($area) > 1) {
+        if (count($area ?? []) > 1) {
             $this->main_tpl->setOnScreenMessage('failure', $lng->txt("cont_select_max_one_item"), true);
             $ilCtrl->redirect($this, "editMapAreas");
         }

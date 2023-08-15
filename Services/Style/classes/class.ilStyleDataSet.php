@@ -55,12 +55,6 @@ class ilStyleDataSet extends ilDataSet
      */
     protected $user;
 
-    /**
-     * constructor
-     *
-     * @param
-     * @return
-     */
     public function __construct()
     {
         global $DIC;
@@ -485,6 +479,7 @@ class ilStyleDataSet extends ilDataSet
                 $style_id = (int) $a_mapping->getMapping("Services/Style", "sty", $a_rec["StyleId"]);
                 if ($obj_id > 0 && $style_id > 0) {
                     ilObjStyleSheet::writeStyleUsage($obj_id, $style_id);
+                    ilObjStyleSheet::writeOwner($obj_id, $style_id);
                 }
                 break;
         }

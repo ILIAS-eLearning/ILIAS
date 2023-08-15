@@ -1,20 +1,22 @@
 <?php
 
-declare(strict_types=1);
-
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  *
@@ -251,7 +253,7 @@ class ilECSSettingsGUI
      */
     protected function doDelete(): void
     {
-        $this->initSettings($_REQUEST['server_id']);
+        $this->initSettings((int) $_REQUEST['server_id']);
         $this->settings->delete();
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('ecs_setting_deleted'), true);
         $this->ctrl->redirect($this, 'overview');
@@ -519,8 +521,8 @@ class ilECSSettingsGUI
         $this->settings->setEnabledStatus((bool) $_POST['active']);
         $this->settings->setTitle(ilUtil::stripSlashes($_POST['title']));
         $this->settings->setServer(ilUtil::stripSlashes($_POST['server']));
-        $this->settings->setPort(ilUtil::stripSlashes($_POST['port']));
-        $this->settings->setProtocol(ilUtil::stripSlashes($_POST['protocol']));
+        $this->settings->setPort((int) ilUtil::stripSlashes($_POST['port']));
+        $this->settings->setProtocol((int) ilUtil::stripSlashes($_POST['protocol']));
         $this->settings->setClientCertPath(ilUtil::stripSlashes($_POST['client_cert']));
         $this->settings->setCACertPath(ilUtil::stripSlashes($_POST['ca_cert']));
         $this->settings->setKeyPath(ilUtil::stripSlashes($_POST['key_path']));
@@ -1017,9 +1019,9 @@ class ilECSSettingsGUI
 
         $this->initCategoryMappingForm('add');
         if ($this->form->checkInput()) {
-            $this->rule->setContainerId($this->form->getInput('import_id'));
+            $this->rule->setContainerId((int) $this->form->getInput('import_id'));
             $this->rule->setFieldName($this->form->getInput('field'));
-            $this->rule->setMappingType($this->form->getInput('type'));
+            $this->rule->setMappingType((int) $this->form->getInput('type'));
 
             switch ($this->form->getInput('type')) {
                 case ilECSCategoryMappingRule::TYPE_FIXED:
@@ -1093,9 +1095,9 @@ class ilECSSettingsGUI
         $this->initRule((int) $_REQUEST['rule_id']);
         $this->initCategoryMappingForm('edit');
         if ($this->form->checkInput()) {
-            $this->rule->setContainerId($this->form->getInput('import_id'));
+            $this->rule->setContainerId((int) $this->form->getInput('import_id'));
             $this->rule->setFieldName($this->form->getInput('field'));
-            $this->rule->setMappingType($this->form->getInput('type'));
+            $this->rule->setMappingType((int) $this->form->getInput('type'));
 
 
             switch ($this->form->getInput('type')) {
@@ -1208,7 +1210,7 @@ class ilECSSettingsGUI
         $tpl->setVariable('POST_VAR', 'import_id');
         $tpl->setVariable('PROPERTY_VALUE', $this->rule->getContainerId());
 
-        if ($this->settings->getImportId()) {
+        if ($this->rule->getContainerId()) {
             $tpl->setVariable('COMPLETE_PATH', $this->buildPath($this->rule->getContainerId()));
         }
 

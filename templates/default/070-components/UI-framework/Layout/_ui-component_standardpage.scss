@@ -1,6 +1,6 @@
 @use "../../../010-settings/"as *;
-@use "../../../020-dependencies/modifications/bootstrap-3-scss/bootstrap-3-scss-modified-variables-mixins" as btstrp3;
 @use "../../../050-layout/basics"as *;
+@use "../../../050-layout/layout_breakpoints" as *;
 @use "../../../050-layout/standardpage"as *;
 
 //== Standard Page
@@ -14,23 +14,6 @@ $il-standard-page-zindex-mainbar: $il-standard-page-zindex-maincontrols - 1;
 $il-standard-page-zindex-mainbar-slates: $il-standard-page-zindex-mainbar - 1;
 $il-standard-page-zindex-breadcrumbs: $il-standard-page-zindex-mainbar-slates - 1;
 $il-standard-page-zindex-systeminfo: $il-standard-page-zindex-header - 1;
-
-
-
-* {
-	box-sizing: border-box;
-}
-
-menu,
-article,
-aside,
-details,
-footer,
-header,
-nav,
-section {
-    display: block;
-}
 
 /*
 *********************
@@ -75,11 +58,13 @@ grid-based layout
 			display: none;
 		}
 	}
+
 	// main grid with active slates
 	&.with-mainbar-slates-engaged {
 		grid-template-columns: auto 1fr;
+
 		.il-maincontrols-mainbar {
-			width: $il-standard-page-slate-width + $il-mainbar-btn-width;
+			width: $il-standard-page-slate-width + $il-mainbar-width;
 
 			// slate
 			.il-mainbar-slates {
@@ -106,7 +91,7 @@ header {
 	grid-column-end: 3;
 	grid-row: 2;
 	z-index: $il-standard-page-zindex-header;
-	@include shadow-bottom();
+	box-shadow: $il-standard-page-header-shadow-bottom;
 }
 
 //Breadcrumbs
@@ -118,7 +103,7 @@ header {
 	display: flex;
 	flex-direction: row;
 	z-index: $il-standard-page-zindex-breadcrumbs;
-	@include shadow-bottom();
+	box-shadow: $il-standard-page-header-shadow-bottom;
 }
 
 // system-infos
@@ -172,12 +157,11 @@ nav.il-maincontrols {
 
 // Subgrid mainbar
 .il-maincontrols-mainbar {
-	background-color: $il-maincontrols-mainbar-bg-color;
 	display: grid;
 	height: 100%;
 	grid-template-columns: $il-mainbar-btn-width $il-standard-page-slate-width;
 	grid-template-rows: 1fr;
-	width: $il-mainbar-btn-width;
+	width: $il-mainbar-width;
 	&.engaged {
 
 	}
@@ -185,37 +169,9 @@ nav.il-maincontrols {
 
 // mainbar
 .il-mainbar {
-	background-color: $il-mainbar-btn-bg-color;
 	grid-column: 1;
 	grid-row: 1;
 	z-index: $il-standard-page-zindex-mainbar;
-	@include shadow-right();
-}
-
-// tools section
-.il-mainbar-tools-button {
-    display: flex;
-    flex-direction: row;
-}
-
-.il-mainbar-tools-button button {
-	height:$il-mainbar-btn-height;
-	width: $il-mainbar-btn-width;
-}
-
-.il-mainbar-tools-entries {
-	button {
-		height:$il-mainbar-btn-height;
-		width: $il-mainbar-btn-width;
-	}
-	&.engaged {
-		display: flex;
-		flex-direction: row;
-	}
-}
-
-// mainbar triggers
-.il-mainbar-triggers {
 }
 
 // mainbar slates
@@ -246,8 +202,8 @@ main {
 footer {
 	background-color: $il-footer-bg-color;
 	min-height: auto;
-	padding: $il-footer-padding;
 	text-align: center;
+	height: $il-footer-height;
 }
 
 
@@ -260,11 +216,11 @@ footer {
 // Sidepanel in right column under content
 //
 #il_right_col {
-	@media (min-width: btstrp3.$grid-float-breakpoint) {
+	@media (min-width: $il-grid-float-breakpoint) {
 		padding-left: 0; //See: #https://mantis.ilias.de/view.php?id=27109
 	}
 }
-@media only screen and (max-width: (btstrp3.$screen-lg-desktop - 1px)) {
+@media only screen and (max-width: ($screen-lg-desktop - 1px)) {
 	.il-layout-page.with-mainbar-slates-engaged {
 		#il_right_col {
 			padding-left: 15px;
@@ -272,7 +228,7 @@ footer {
 	}
 }
 
-@media only screen and (max-width: (btstrp3.$screen-lg-desktop - 1px)) {
+@media only screen and (max-width: ($screen-lg-desktop - 1px)) {
 	.il-layout-page.with-mainbar-slates-engaged {
 		#il_center_col.col-sm-9{
 			padding-right: 15px;
@@ -314,7 +270,7 @@ footer {
 					-ms-grid-row: 2;
 					grid-column: 1;
 					grid-row: 2;
-					@include shadow-top();
+					box-shadow: $il-mainbar-shadow-top;
 				}
 				.il-mainbar-slates {
 					-ms-grid-column: 1;
@@ -341,7 +297,7 @@ footer {
 					grid-template-rows: 1fr $il-standard-page-small-mainbar-height-w-bottom-safe-area;
 					width: 100%;
 					.il-mainbar {
-						@include shadow-top();
+						box-shadow: $il-mainbar-shadow-top;
 					}
 					// slate
 					.il-mainbar-slates {
@@ -383,7 +339,7 @@ footer {
 	    height: $il-standard-page-small-header-height;
 	    padding: 0;
 	    width: 100%;
-		@include shadow-bottom();
+		box-shadow: $il-standard-page-header-shadow-bottom;
 	}
 
 	// mobile logo
@@ -458,7 +414,6 @@ footer {
 
 	// mainbar
 	.il-mainbar {
-		background-color: $il-mainbar-btn-bg-color;
 		box-shadow: none;
 		display: -ms-flexbox;
 		display: flex;

@@ -26,16 +26,17 @@ declare(strict_types=1);
 class ilObjForum extends ilObject
 {
     public ilForum $Forum;
-    /** @var array<int, int>  */
+    /** @var array<int, int> */
     private static array $obj_id_to_forum_id_cache = [];
-    /** @var array<int, int>  */
+    /** @var array<int, int> */
     private static array $ref_id_to_forum_id_cache = [];
-    /** @var array<int, array{num_posts: int, num_unread_posts: int}>  */
+    /** @var array<int, array{num_posts: int, num_unread_posts: int}> */
     private static array $forum_statistics_cache = [];
-    /** @var array<int, array|null>  */
+    /** @var array<int, array|null> */
     private static array $forum_last_post_cache = [];
     private \ILIAS\DI\RBACServices $rbac;
     private ilLogger $logger;
+    private ilSetting $settings;
 
     public function __construct(int $a_id = 0, bool $a_call_by_reference = true)
     {
@@ -47,7 +48,7 @@ class ilObjForum extends ilObject
         $this->rbac = $DIC->rbac();
         $this->logger = $DIC->logger()->root();
 
-        $settings = $DIC->settings();
+        $this->settings = $DIC->settings();
         $this->Forum = new ilForum();
     }
 
@@ -56,11 +57,12 @@ class ilObjForum extends ilObject
         $id = parent::create();
 
         $properties = ilForumProperties::getInstance($this->getId());
-        $properties->setDefaultView(ilForumProperties::VIEW_DATE_ASC);
+        $properties->setDefaultView(
+            (int) $this->settings->get('forum_default_view', (string) ilForumProperties::VIEW_DATE_ASC)
+        );
         $properties->setAnonymisation(false);
         $properties->setStatisticsStatus(false);
         $properties->setPostActivation(false);
-        $properties->setThreadSorting(0);
         $properties->insert();
 
         $this->createSettings();
@@ -83,10 +85,12 @@ class ilObjForum extends ilObject
 
     public function updateModeratorRole(int $role_id): void
     {
-        $this->db->manipulate('UPDATE frm_data SET top_mods = ' . $this->db->quote(
-            $role_id,
-            'integer'
-        ) . ' WHERE top_frm_fk = ' . $this->db->quote($this->getId(), 'integer'));
+        $this->db->manipulate(
+            'UPDATE frm_data SET top_mods = ' . $this->db->quote(
+                $role_id,
+                'integer'
+            ) . ' WHERE top_frm_fk = ' . $this->db->quote($this->getId(), 'integer')
+        );
     }
 
     public static function _lookupThreadSubject(int $a_thread_id): string
@@ -259,7 +263,7 @@ class ilObjForum extends ilObject
         $DIC->database()->manipulateF('DELETE FROM frm_user_read WHERE post_id = %s', ['integer'], [$a_post_id]);
     }
 
-    public function updateMoficationUserId(int $usr_id): void
+    public function updateModificationUserId(int $usr_id): void
     {
         $this->db->manipulateF(
             'UPDATE frm_data SET update_user = %s WHERE top_frm_fk = %s',
@@ -472,42 +476,64 @@ class ilObjForum extends ilObject
         );
 
         while ($row = $res->fetchObject()) {
-            $posting_ids[] = (int)$row->pos_pk;
+            $posting_ids[] = (int) $row->pos_pk;
         }
 
         $tmp_file_obj = new ilFileDataForum($this->getId());
         $tmp_file_obj->delete($posting_ids);
 
-        $this->db->manipulate('DELETE FROM frm_posts_tree WHERE ' . $this->db->in(
-            'thr_fk',
-            $thread_ids_to_delete,
-            false,
-            'integer'
-        ));
-        $this->db->manipulate('DELETE FROM frm_posts WHERE ' . $this->db->in(
-            'pos_thr_fk',
-            $thread_ids_to_delete,
-            false,
-            'integer'
-        ));
-        $this->db->manipulate('DELETE FROM frm_threads WHERE ' . $this->db->in(
-            'thr_pk',
-            $thread_ids_to_delete,
-            false,
-            'integer'
-        ));
+        // Get All draft IDs
+        $posting_ids = [];
+        $res = $this->db->query(
+            'SELECT draft_id FROM frm_posts_drafts WHERE  '
+            . $this->db->in('thread_id', $thread_ids_to_delete)
+        );
+
+        while ($row = $res->fetchObject()) {
+            $draft_ids[] = (int) $row->draft_id;
+        }
+
+        $tmp_file_obj = new ilFileDataForumDrafts($this->getId());
+        $tmp_file_obj->delete($draft_ids);
+
+        $this->db->manipulate(
+            'DELETE FROM frm_posts_tree WHERE ' . $this->db->in(
+                'thr_fk',
+                $thread_ids_to_delete,
+                false,
+                'integer'
+            )
+        );
+        $this->db->manipulate(
+            'DELETE FROM frm_posts WHERE ' . $this->db->in(
+                'pos_thr_fk',
+                $thread_ids_to_delete,
+                false,
+                'integer'
+            )
+        );
+        $this->db->manipulate(
+            'DELETE FROM frm_threads WHERE ' . $this->db->in(
+                'thr_pk',
+                $thread_ids_to_delete,
+                false,
+                'integer'
+            )
+        );
 
         $obj_id = [$this->getId()];
 
         $this->db->manipulateF('DELETE FROM frm_data WHERE top_frm_fk = %s', ['integer'], $obj_id);
         $this->db->manipulateF('DELETE FROM frm_settings WHERE obj_id = %s', ['integer'], $obj_id);
         $this->db->manipulateF('DELETE FROM frm_user_read WHERE obj_id = %s', ['integer'], $obj_id);
-        $this->db->manipulate('DELETE FROM frm_notification WHERE ' . $this->db->in(
-            'thread_id',
-            $thread_ids_to_delete,
-            false,
-            'integer'
-        ));
+        $this->db->manipulate(
+            'DELETE FROM frm_notification WHERE ' . $this->db->in(
+                'thread_id',
+                $thread_ids_to_delete,
+                false,
+                'integer'
+            )
+        );
         $this->db->manipulateF('DELETE FROM frm_notification WHERE  frm_id = %s', ['integer'], $obj_id);
         $this->db->manipulateF('DELETE FROM frm_posts_deleted WHERE obj_id = %s', ['integer'], $obj_id);
         $this->deleteDraftsByForumId($topData->getTopPk());
@@ -641,15 +667,6 @@ class ilObjForum extends ilObject
         );
     }
 
-    public function setThreadSorting(int $a_thr_pk, int $a_sorting_value): void
-    {
-        $this->db->update(
-            'frm_threads',
-            ['thread_sorting' => ['integer', $a_sorting_value]],
-            ['thr_pk' => ['integer', $a_thr_pk]]
-        );
-    }
-
     public static function lookupForumIdByObjId(int $obj_id): int
     {
         if (array_key_exists($obj_id, self::$obj_id_to_forum_id_cache)) {
@@ -729,7 +746,9 @@ class ilObjForum extends ilObject
 
         // Prepare  cache array
         foreach ($ref_ids as $ref_id) {
-            self::$ref_id_to_forum_id_cache[$ref_id] = 0;
+            if (!array_key_exists($ref_id, self::$ref_id_to_forum_id_cache)) {
+                self::$ref_id_to_forum_id_cache[$ref_id] = 0;
+            }
         }
 
         while ($row = $ilDB->fetchAssoc($res)) {
@@ -776,7 +795,6 @@ class ilObjForum extends ilObject
                 'integer'
             ) . ' OR frm_posts.pos_author_id = ' . $ilDB->quote($ilUser->getId(), 'integer') . ') ';
         }
-
 
         if (!$ilUser->isAnonymous()) {
             $query = "
@@ -863,7 +881,7 @@ class ilObjForum extends ilObject
 
         $forumId = self::lookupForumIdByRefId($ref_id);
         if ($forumId === 0) {
-            self::$forum_last_post_cache[$ref_id] = [];
+            self::$forum_last_post_cache[$ref_id] = null;
             return self::$forum_last_post_cache[$ref_id];
         }
 

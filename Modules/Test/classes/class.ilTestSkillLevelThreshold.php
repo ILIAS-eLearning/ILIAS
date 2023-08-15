@@ -156,10 +156,7 @@ class ilTestSkillLevelThreshold
         $this->testId = $testId;
     }
 
-    /**
-     * @return int
-     */
-    public function getTestId(): int
+    public function getTestId(): ?int
     {
         return $this->testId;
     }
@@ -172,10 +169,7 @@ class ilTestSkillLevelThreshold
         $this->skillBaseId = $skillBaseId;
     }
 
-    /**
-     * @return int
-     */
-    public function getSkillBaseId(): int
+    public function getSkillBaseId(): ?int
     {
         return $this->skillBaseId;
     }
@@ -188,10 +182,7 @@ class ilTestSkillLevelThreshold
         $this->skillTrefId = $skillTrefId;
     }
 
-    /**
-     * @return int
-     */
-    public function getSkillTrefId(): int
+    public function getSkillTrefId(): ?int
     {
         return $this->skillTrefId;
     }
@@ -204,10 +195,7 @@ class ilTestSkillLevelThreshold
         $this->skillLevelId = $skillLevelId;
     }
 
-    /**
-     * @return int
-     */
-    public function getSkillLevelId(): int
+    public function getSkillLevelId(): ?int
     {
         return $this->skillLevelId;
     }
@@ -220,10 +208,7 @@ class ilTestSkillLevelThreshold
         $this->threshold = $threshold;
     }
 
-    /**
-     * @return int
-     */
-    public function getThreshold(): int
+    public function getThreshold(): ?int
     {
         return $this->threshold;
     }

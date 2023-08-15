@@ -52,14 +52,13 @@ class ilPRGAssignment
     protected array $progresses = [];
     protected ilPRGProgress $progress;
     protected ilPRGUserInformation $user_info;
-    protected \Closure $progress_success_event_handling;
+    protected StudyProgrammeEvents $events;
 
     public function __construct(int $id, int $usr_id)
     {
         $this->id = $id;
         $this->usr_id = $usr_id;
-        $this->progress_success_event_handling = function (ilPRGAssignment $ass, int $pgs_id) {
-        };
+        $this->events = new PRGNullEvents();
     }
 
     public function getId(): int
@@ -202,15 +201,15 @@ class ilPRGAssignment
         ));
     }
 
-    public function withProgressSuccessNotification(\Closure $progress_success_event_handling): self
+    public function withEvents(StudyProgrammeEvents $events): self
     {
         $clone = clone $this;
-        $clone->progress_success_event_handling = $progress_success_event_handling;
+        $clone->events = $events;
         return $clone;
     }
 
-    public function getProgressSuccessNotification(): \Closure
+    public function getEvents(): StudyProgrammeEvents
     {
-        return $this->progress_success_event_handling;
+        return $this->events;
     }
 }

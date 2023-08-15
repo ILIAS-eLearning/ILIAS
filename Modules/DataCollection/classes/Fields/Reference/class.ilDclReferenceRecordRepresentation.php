@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -13,14 +14,10 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
-/**
- * Class ilDclReferenceRecordRepresentation
- * @author  Michael Herren <mh@studer-raimann.ch>
- * @version 1.0.0
- */
+declare(strict_types=1);
+
 class ilDclReferenceRecordRepresentation extends ilDclBaseRecordRepresentation
 {
     public function getHTML(bool $link = true, array $options = []): string
@@ -39,8 +36,8 @@ class ilDclReferenceRecordRepresentation extends ilDclBaseRecordRepresentation
         $html = "";
 
         foreach ($value as $k => $v) {
-            $ref_record = ilDclCache::getRecordCache($v);
-            if (!$ref_record->getTableId() || !$record_field->getField() || !$record_field->getField()->getTableId()) {
+            $ref_record = ilDclCache::getRecordCache((int)$v);
+            if (!$ref_record->getId() || !$ref_record->getTableId() || !$record_field->getField() || !$record_field->getField()->getTableId()) {
                 //the referenced record_field does not seem to exist.
                 unset($value[$k]);
                 $value = array_values($value); // resets the keys
@@ -50,7 +47,7 @@ class ilDclReferenceRecordRepresentation extends ilDclBaseRecordRepresentation
             } else {
                 $field = $this->getRecordField()->getField();
                 if ($field->getProperty(ilDclBaseFieldModel::PROP_REFERENCE_LINK)) {
-                    $ref_record = ilDclCache::getRecordCache($v);
+                    $ref_record = ilDclCache::getRecordCache((int)$v);
                     $ref_table = $ref_record->getTable();
 
                     $ref_id = $this->http->wrapper()->query()->retrieve('ref_id', $this->refinery->kindlyTo()->int());
@@ -67,21 +64,17 @@ class ilDclReferenceRecordRepresentation extends ilDclBaseRecordRepresentation
             $html .= '<br>';
         }
 
-        $html = substr($html, 0, -4); // cut away last <br>
-
-        return $html;
+        // cut away last <br>
+        return substr($html, 0, -4);
     }
 
-    /**
-     * @param string|null|int $value
-     */
-    protected function getLinkHTML(?string $link_name = null, $value): string
+    protected function getLinkHTML(?string $link_name = null, $value = null): string
     {
         if (!$value || $value == "-") {
             return "";
         }
         $record_field = $this;
-        $ref_record = ilDclCache::getRecordCache($value);
+        $ref_record = ilDclCache::getRecordCache((int)$value);
         if (!$link_name) {
             $link_name = $ref_record->getRecordFieldHTML($record_field->getField()->getProperty(ilDclBaseFieldModel::PROP_REFERENCE));
         }
@@ -96,5 +89,18 @@ class ilDclReferenceRecordRepresentation extends ilDclBaseRecordRepresentation
         ));
 
         return $this->renderer->render($html);
+    }
+
+    /**
+     * function parses stored value to the variable needed to fill into the form for editing.
+     * @param string|int $value
+     */
+    public function parseFormInput($value): ?string
+    {
+        if (!$value || $value == []) {
+            return null;
+        }
+
+        return $value;
     }
 }

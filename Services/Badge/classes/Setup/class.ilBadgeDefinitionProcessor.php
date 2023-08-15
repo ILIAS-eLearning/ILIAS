@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,15 +16,15 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 class ilBadgeDefinitionProcessor implements ilComponentDefinitionProcessor
 {
-    protected \ilDBInterface $db;
     protected ?string $component_id;
     protected bool $has_badges = false;
 
-    public function __construct(\ilDBInterface $db)
+    public function __construct(protected \ilDBInterface $db)
     {
-        $this->db = $db;
     }
 
     public function purge(): void

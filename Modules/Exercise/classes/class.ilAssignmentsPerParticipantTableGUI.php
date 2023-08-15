@@ -119,7 +119,7 @@ class ilAssignmentsPerParticipantTableGUI extends ilExerciseSubmissionTableGUI
                 }
                 asort($row["team"]);
 
-                $team_id = $team_map[$this->user->getId()];
+                $team_id = $team_map[$this->user->getId()] ?? null;
                 if (is_numeric($team_id)) {
                     $idl_team_id = "t" . $team_id;
                     if (array_key_exists($idl_team_id, $idl)) {

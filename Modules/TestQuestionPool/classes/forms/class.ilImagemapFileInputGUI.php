@@ -16,6 +16,9 @@
  *
  *********************************************************************/
 
+use ILIAS\UI\Renderer;
+use ILIAS\UI\Component\Symbol\Glyph\Factory as GlyphFactory;
+
 /**
 * This class represents an image map file property in a property form.
 *
@@ -32,6 +35,9 @@ class ilImagemapFileInputGUI extends ilImageFileInputGUI
 
     protected $pointsUncheckedFieldEnabled = false;
 
+    protected GlyphFactory $glyph_factory;
+    protected Renderer $renderer;
+
     /**
     * Constructor
     *
@@ -41,6 +47,10 @@ class ilImagemapFileInputGUI extends ilImageFileInputGUI
     public function __construct($a_title = "", $a_postvar = "")
     {
         parent::__construct($a_title, $a_postvar);
+
+        global $DIC;
+        $this->glyph_factory = $DIC->ui()->factory()->symbol()->glyph();
+        $this->renderer = $DIC->ui()->renderer();
     }
 
     public function setPointsUncheckedFieldEnabled($pointsUncheckedFieldEnabled): void
@@ -335,8 +345,9 @@ class ilImagemapFileInputGUI extends ilImageFileInputGUI
                 $coords = preg_replace("/(\d+,\d+,)/", "\$1 ", $area->getCoords());
                 $template->setVariable('VALUE_COORDINATES', $area->getCoords());
                 $template->setVariable('TEXT_COORDINATES', $coords);
-                $template->setVariable('COUNTER', $counter);
-                $template->setVariable("REMOVE_BUTTON", ilGlyphGUI::get(ilGlyphGUI::REMOVE));
+                $template->setVariable("REMOVE_BUTTON", $this->renderer->render(
+                    $this->glyph_factory->remove()->withAction('#')
+                ));
                 $template->parseCurrentBlock();
                 $counter++;
             }
@@ -367,7 +378,7 @@ class ilImagemapFileInputGUI extends ilImageFileInputGUI
         $a_tpl->setVariable("PROP_GENERIC", $template->get());
         $a_tpl->parseCurrentBlock();
 
-        $this->tpl->addJavascript("./Services/Form/js/ServiceFormWizardInput.js");
+        $this->tpl->addJavascript("./Modules/TestQuestionPool/templates/default/answerwizardinput.js");
         $this->tpl->addJavascript("./Modules/TestQuestionPool/templates/default/imagemap.js");
     }
 }

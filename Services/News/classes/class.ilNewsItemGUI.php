@@ -68,10 +68,10 @@ class ilNewsItemGUI
         $this->requested_news_item_id = (int) ($params["news_item_id"] ?? 0);
         $this->add_mode = (string) ($params["add_mode"] ?? "");
 
-        $this->std_request = new StandardGUIRequest(
-            $DIC->http(),
-            $DIC->refinery()
-        );
+        $this->std_request = $DIC->news()
+            ->internal()
+            ->gui()
+            ->standardRequest();
 
         if ($this->requested_news_item_id > 0) {
             $this->news_item = new ilNewsItem($this->requested_news_item_id);

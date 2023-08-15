@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\Filesystem\Filesystem;
 use ILIAS\Filesystem\Exception\FileAlreadyExistsException;
 use ILIAS\Filesystem\Exception\FileNotFoundException;
@@ -28,14 +28,14 @@ use ILIAS\Filesystem\Exception\IOException;
  */
 class ilCertificateTemplateExportAction
 {
-    private ilCertificateObjectHelper $objectHelper;
-    private ilCertificateUtilHelper $utilHelper;
+    private readonly ilCertificateObjectHelper $objectHelper;
+    private readonly ilCertificateUtilHelper $utilHelper;
 
     public function __construct(
-        private int $objectId,
-        private string $certificatePath,
-        private ilCertificateTemplateRepository $templateRepository,
-        private Filesystem $filesystem,
+        private readonly int $objectId,
+        private readonly string $certificatePath,
+        private readonly ilCertificateTemplateRepository $templateRepository,
+        private readonly Filesystem $filesystem,
         ?ilCertificateObjectHelper $objectHelper = null,
         ?ilCertificateUtilHelper $utilHelper = null
     ) {

@@ -30,6 +30,7 @@ class ilOrgUnitDefaultPermissionGUI extends BaseCommands
     private \ILIAS\HTTP\Services $http;
     private \ilCtrlInterface $ctrl;
     private \ilLanguage $lng;
+    protected \ilOrgUnitPermissionDBRepository $permissionRepo;
 
     public function __construct()
     {
@@ -42,13 +43,16 @@ class ilOrgUnitDefaultPermissionGUI extends BaseCommands
         $this->http = $DIC->http();
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
+
+        $dic = \ilOrgUnitLocalDIC::dic();
+        $this->permissionRepo = $dic["repo.Permissions"];
     }
 
     protected function index(): void
     {
         $this->getParentGui()->addSubTabs();
         $this->getParentGui()->activeSubTab(ilOrgUnitPositionGUI::SUBTAB_PERMISSIONS);
-        $ilOrgUnitPermissions = ilOrgUnitPermissionQueries::getAllTemplateSetsForAllActivedContexts($this->getCurrentPositionId());
+        $ilOrgUnitPermissions = $this->permissionRepo->getDefaultsForActiveContexts($this->getCurrentPositionId());
         $ilOrgUnitDefaultPermissionFormGUI = new ilOrgUnitDefaultPermissionFormGUI(
             $this,
             $ilOrgUnitPermissions,
@@ -62,7 +66,7 @@ class ilOrgUnitDefaultPermissionGUI extends BaseCommands
     protected function update(): void
     {
         $this->getParentGui()->addSubTabs();
-        $ilOrgUnitPermissions = ilOrgUnitPermissionQueries::getAllTemplateSetsForAllActivedContexts($this->getCurrentPositionId(), true);
+        $ilOrgUnitPermissions = $this->permissionRepo->getDefaultsForActiveContexts($this->getCurrentPositionId(), true);
         $ilOrgUnitDefaultPermissionFormGUI = new ilOrgUnitDefaultPermissionFormGUI(
             $this,
             $ilOrgUnitPermissions,

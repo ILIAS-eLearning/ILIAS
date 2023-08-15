@@ -117,11 +117,6 @@ class ilObjQuestionPoolXMLParser extends ilSaxParser
                 $this->cdata = '';
                 break;
 
-            case 'NavTaxonomy':
-                $this->poolOBJ->setNavTaxonomyId((int) $this->cdata);
-                $this->cdata = '';
-                break;
-
             case 'SkillService':
                 $this->poolOBJ->setSkillServiceEnabled((bool) $this->cdata);
                 $this->cdata = '';

@@ -16,6 +16,9 @@
  *
  *********************************************************************/
 
+use ILIAS\COPage\Page\PageManagerInterface;
+use ILIAS\Repository\Object\ObjectAdapterInterface;
+
 /**
  * Content object of ilPageObject (see ILIAS DTD). Every concrete object
  * should be an instance of a class derived from ilPageContent (e.g. ilParagraph,
@@ -24,12 +27,12 @@
  */
 abstract class ilPageContent
 {
+    protected DOMDocument $dom_doc;
     protected string $pcid;
     protected string $type = "";
     protected ilPageObject $pg_obj;
     public string $hier_id = "";
-    public ?php4DOMElement $node = null;
-    public ?php4DOMDocument $dom = null;
+    public ?DOMNode $dom_node = null;
     public string $page_lang = "";
     // needed for post processing (e.g. content includes)
     protected string $file_download_link;
@@ -40,15 +43,39 @@ abstract class ilPageContent
     protected ilLogger $log;
     protected string $profile_back_url = "";
 
-    final public function __construct(ilPageObject $a_pg_obj)
-    {
+    protected \ILIAS\COPage\Dom\DomUtil $dom_util;
+
+    protected ?PageManagerInterface $page_manager = null;
+    protected ?ObjectAdapterInterface $object = null;
+
+    final public function __construct(
+        ilPageObject $a_pg_obj,
+        ?PageManagerInterface $page_manager = null,
+        ?ObjectAdapterInterface $object_adapter = null
+    ) {
+        global $DIC;
+
         $this->log = ilLoggerFactory::getLogger('copg');
         $this->setPage($a_pg_obj);
-        $this->dom = $a_pg_obj->getDom();
+        $this->dom_doc = $a_pg_obj->getDomDoc();
         $this->init();
         if ($this->getType() == "") {
             die("Error: ilPageContent::init() did not set type");
         }
+        $this->page_manager = $page_manager ?? $DIC->copage()
+                                                   ->internal()
+                                                   ->domain()
+                                                   ->page();
+        $this->object = $object_adapter ?? $DIC->copage()
+                                                   ->internal()
+                                                   ->domain()
+                                                   ->object();
+        $this->dom_util = $DIC->copage()->internal()->domain()->domUtil();
+    }
+
+    protected function getPageManager(): PageManagerInterface
+    {
+        return $this->page_manager;
     }
 
     public function setPage(ilPageObject $a_val): void
@@ -81,19 +108,24 @@ abstract class ilPageContent
         return $this->type;
     }
 
-    /**
-     * Set xml node of page content.
-     * @param php4DOMElement $a_node node object
-     */
-    public function setNode(php4DOMElement $a_node): void
+    public function getDomNode(): ?DOMNode
     {
-        $this->node = $a_node;
+        return $this->dom_node;
     }
 
-    // Get PageContent node
-    public function getNode(): ?php4DOMElement
+    public function getDomDoc(): DOMDocument
     {
-        return $this->node;
+        return $this->dom_doc;
+    }
+
+    public function setDomNode(DOMNode $node): void
+    {
+        $this->dom_node = $node;
+    }
+
+    public function getChildNode(): ?DOMNode
+    {
+        return $this->getDomNode()?->firstChild;
     }
 
     public function getJavascriptFiles(string $a_mode): array
@@ -124,13 +156,18 @@ abstract class ilPageContent
     // Get hierarchical id from dom
     public function lookupHierId(): string
     {
-        return $this->node->get_attribute("HierId");
+        return $this->getDomNode()->getAttribute("HierId");
+    }
+
+    protected function hasNode(): bool
+    {
+        return is_object($this->dom_node);
     }
 
     public function readHierId(): string
     {
-        if (is_object($this->node)) {
-            return $this->node->get_attribute("HierId");
+        if ($this->hasNode()) {
+            return $this->getDomNode()->getAttribute("HierId");
         }
         return "";
     }
@@ -187,41 +224,17 @@ abstract class ilPageContent
 
     public function readPCId(): string
     {
-        if (is_object($this->node)) {
-            return $this->node->get_attribute("PCID");
+        if ($this->hasNode()) {
+            return $this->getDomNode()->getAttribute("PCID");
         }
         return "";
     }
 
     public function writePCId(string $a_pc_id): void
     {
-        if (is_object($this->node)) {
-            $this->node->set_attribute("PCID", $a_pc_id);
+        if ($this->hasNode()) {
+            $this->getDomNode()->setAttribute("PCID", $a_pc_id);
         }
-    }
-
-    /**
-     * Increases an hierarchical editing id at lowest level (last number)
-     * @param string $ed_id hierarchical ID
-     * @return string hierarchical ID (increased)
-     */
-    final public static function incEdId(string $ed_id): string
-    {
-        $id = explode("_", $ed_id);
-        $id[count($id) - 1]++;
-        return implode("_", $id);
-    }
-
-    /**
-     * Decreases an hierarchical editing id at lowest level (last number)
-     * @param string $ed_id hierarchical ID
-     * @return string hierarchical ID (decreased)
-     */
-    final public static function decEdId(string $ed_id): string
-    {
-        $id = explode("_", $ed_id);
-        $id[count($id) - 1]--;
-        return implode("_", $id);
     }
 
     /**
@@ -256,8 +269,8 @@ abstract class ilPageContent
      */
     public function setEnabled(string $value): void
     {
-        if (is_object($this->node)) {
-            $this->node->set_attribute("Enabled", $value);
+        if ($this->hasNode()) {
+            $this->getDomNode()->setAttribute("Enabled", $value);
         }
     }
 
@@ -273,8 +286,8 @@ abstract class ilPageContent
 
     final public function isEnabled(): bool
     {
-        if (is_object($this->node) && $this->node->has_attribute("Enabled")) {
-            $compare = $this->node->get_attribute("Enabled");
+        if ($this->hasNode() && $this->getDomNode()->hasAttribute("Enabled")) {
+            $compare = $this->getDomNode()->getAttribute("Enabled");
         } else {
             $compare = "True";
         }
@@ -285,13 +298,33 @@ abstract class ilPageContent
     /**
      * Create page content node (always use this method first when adding a new element)
      */
-    public function createPageContentNode(bool $a_set_this_node = true): php4DOMElement
+    public function createPageContentNode(bool $a_set_this_node = true): DomNode
     {
-        $node = $this->dom->create_element("PageContent");
+        $node = $this->dom_doc->createElement("PageContent");
         if ($a_set_this_node) {
-            $this->node = $node;
+            $this->setDomNode($node);
         }
         return $node;
+    }
+
+    public function getNewPageContentNode(): DOMNode
+    {
+        return $this->dom_doc->createElement("PageContent");
+    }
+
+    protected function createInitialChildNode(
+        string $hier_id,
+        string $pc_id,
+        string $child,
+        array $child_attributes = []
+    ): void {
+        $this->createPageContentNode();
+        $node = $this->dom_doc->createElement($child);
+        $node = $this->getDomNode()->appendChild($node);
+        foreach ($child_attributes as $att => $value) {
+            $node->setAttribute($att, $value);
+        }
+        $this->getPage()->insertContent($this, $hier_id, IL_INSERT_AFTER, $pc_id);
     }
 
     /**

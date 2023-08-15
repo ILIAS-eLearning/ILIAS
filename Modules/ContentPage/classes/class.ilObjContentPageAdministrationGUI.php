@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\UI\Factory;
 use ILIAS\UI\Renderer;
@@ -36,10 +36,10 @@ class ilObjContentPageAdministrationGUI extends ilObjectGUI
     private const CMD_SAVE = 'save';
     private const F_READING_TIME = 'reading_time';
 
-    private GlobalHttpState $http;
-    private Factory $uiFactory;
-    private Renderer $uiRenderer;
-    private Storage $settingsStorage;
+    private readonly GlobalHttpState $http;
+    private readonly Factory $uiFactory;
+    private readonly Renderer $uiRenderer;
+    private readonly Storage $settingsStorage;
 
     public function __construct($a_data, int $a_id, bool $a_call_by_reference = true, bool $a_prepare_output = true)
     {

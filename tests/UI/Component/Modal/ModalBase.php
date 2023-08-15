@@ -23,6 +23,8 @@ require_once(__DIR__ . "/../../Base.php");
 
 use ILIAS\UI\Component as C;
 use ILIAS\UI\Implementation as I;
+use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
+use ILIAS\UI\Implementation\Component\Input\Field\Group;
 
 /**
  * Base class for modal tests
@@ -48,7 +50,17 @@ abstract class ModalBase extends ILIAS_UI_TestBase
 
     protected function getModalFactory(): I\Component\Modal\Factory
     {
-        return new I\Component\Modal\Factory(new SignalGeneratorMock());
+        $group_mock = $this->createMock(Group::class);
+        $group_mock->method('withNameFrom')->willReturnSelf();
+
+        $factory_mock = $this->createMock(FieldFactory::class);
+        $factory_mock->method('group')->willReturn($group_mock);
+
+        return new I\Component\Modal\Factory(
+            new SignalGeneratorMock(), 
+            $this->createMock(C\Modal\InterruptiveItem\Factory::class),
+            $factory_mock,
+        );
     }
 
     protected function getButtonFactory(): I\Component\Button\Factory

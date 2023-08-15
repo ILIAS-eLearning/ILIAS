@@ -30,7 +30,7 @@ class ilAssQuestionHintList implements Iterator
     /** @var list<ilAssQuestionHint> */
     private array $questionHints = [];
 
-    public function current()
+    public function current(): ilAssQuestionHint
     {
         return current($this->questionHints);
     }
@@ -183,11 +183,11 @@ class ilAssQuestionHintList implements Iterator
 						qht_hint_index,
 						qht_hint_points,
 						qht_hint_text
-					
+
 			FROM		qpl_hints
-			
+
 			WHERE		qht_question_fi = %s
-			
+
 			ORDER BY	qht_hint_index ASC
 		";
 
@@ -227,11 +227,11 @@ class ilAssQuestionHintList implements Iterator
 						qht_hint_index,
 						qht_hint_points,
 						qht_hint_text
-					
+
 			FROM		qpl_hints
-			
+
 			WHERE		$qht_hint_id__IN__hintIds
-			
+
 			ORDER BY	qht_hint_index ASC
 		";
 
@@ -263,9 +263,9 @@ class ilAssQuestionHintList implements Iterator
 
         $query = "
 			SELECT		1 + COALESCE( MAX(qht_hint_index), 0 ) next_index
-					
+
 			FROM		qpl_hints
-			
+
 			WHERE		qht_question_fi = %s
 		";
 

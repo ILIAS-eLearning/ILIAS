@@ -1,25 +1,29 @@
 <?php
 
-declare(strict_types=1);
-
-use ILIAS\FileDelivery\FileDeliveryTypes\DeliveryMethod;
-use ILIAS\FileDelivery\Delivery;
-use ILIAS\FileDelivery\HttpServiceAware;
-use ILIAS\FileDelivery\ilFileDeliveryService;
-
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
+declare(strict_types=1);
+
+use ILIAS\FileDelivery\FileDeliveryTypes\DeliveryMethod;
+use ILIAS\FileDelivery\Delivery;
+use ILIAS\FileDelivery\HttpServiceAware;
+use ILIAS\FileDelivery\ilFileDeliveryService;
+use ILIAS\Modules\File\Settings\General;
+
 /**
  * Class ilFileDelivery
  *
@@ -140,8 +144,9 @@ final class ilFileDelivery implements ilFileDeliveryService
             $delivery->setMimeType($a_mime);
         }
 
+        $settings = new General();
         $delivery->setDownloadFileName($a_filename);
-        $delivery->setConvertFileNameToAsci((bool) !$DIC->clientIni()->readVariable('file_access', 'disable_ascii'));
+        $delivery->setConvertFileNameToAsci($settings->isDownloadWithAsciiFileName());
         $delivery->setDeleteFile($removeAfterDelivery);
         $delivery->setExitAfter($a_exit_after);
         $delivery->deliver();

@@ -8,6 +8,7 @@
 
 /* UI Framework */
 
+@use "./UI-framework/_ui-component_tooltip.scss";
 @use "./UI-framework/Breadcrumbs/_ui-component_breadcrumbs.scss";
 @use "./UI-framework/Button/_ui-component_button.scss";
 @use "./UI-framework/Button/_ui-component_tag.scss";
@@ -21,6 +22,7 @@
 @use "./UI-framework/Dropzone/_ui-component_dropzone.scss";
 @use "./UI-framework/Input/_ui-component_input.scss";
 @use "./UI-framework/Item/_ui-component_item.scss";
+@use "./UI-framework/Launcher/ui-component_launcher";
 @use "./UI-framework/Layout/_ui-component_layout.scss";
 @use "./UI-framework/Link/_ui-component_link.scss";
 @use "./UI-framework/Listing/_ui-component_characteristic_value.scss";
@@ -49,10 +51,18 @@
 @use "./legacy/_component_LeftNavSpace.scss";
 @use "./legacy/_component_link.scss";
 @use "./legacy/_component_map.scss";
+@use "./legacy/component_media-object";
 @use "./legacy/_component_overlay.scss";
 @use "./legacy/_component_permalinks.scss";
 @use "./legacy/_component_rightPanel.scss";
-@use "./legacy/_component_delostable.scss"; 
+@use "./legacy/_component_delostable.scss";
+
+/* Adapted from Bootstrap 3 */
+
+@use "./legacy/component_animated-collapse-fade";
+@use "./legacy/component_btn-group";
+@use "./legacy/component_input-group";
+@use "./legacy/component_screen-reader-only";
 
 /* Legacy Modules & Services */
 
@@ -103,7 +113,6 @@
 @use "./legacy/Services/_component_notes.scss";
 @use "./legacy/Services/_component_object.scss";
 @use "./legacy/Services/_component_onscreenchat.scss";
-@use "./legacy/Services/_component_preview.scss";
 @use "./legacy/Services/_component_rating.scss";
 @use "./legacy/Services/_component_search.scss";
 @use "./legacy/Services/_component_skill.scss";

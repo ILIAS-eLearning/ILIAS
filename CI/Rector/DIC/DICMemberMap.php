@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,27 +15,29 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
+declare(strict_types=1);
+
 namespace ILIAS\CI\Rector\DIC;
 
 class DICMemberMap
 {
-    const TPL = 'tpl';
+    public const TPL = 'tpl';
     protected array $map = [];
-    
+
     public function __construct()
     {
-        $tpl = new DICMember(
+        $dicMember = new DICMember(
             self::TPL,
             \ilGlobalTemplateInterface::class,
             ['ui', 'mainTemplate'],
             'main_tpl'
         );
-        $tpl->setAlternativeClasses([\ilTemplate::class, \ilGlobalTemplate::class, \ilGlobalPageTemplate::class]);
-        $this->map[self::TPL] = $tpl;
+        $dicMember->setAlternativeClasses([\ilTemplate::class, \ilGlobalTemplate::class, \ilGlobalPageTemplate::class]);
+        $this->map[self::TPL] = $dicMember;
     }
-    
-    public function getByName(string $name) : DICMember
+
+    public function getByName(string $name): DICMember
     {
         if (!isset($this->map[$name])) {
             throw new \InvalidArgumentException("The dependency '$name' is currently not configured");

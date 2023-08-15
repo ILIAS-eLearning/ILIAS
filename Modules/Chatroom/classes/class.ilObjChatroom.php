@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,104 +16,14 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
-require_once 'Services/Object/classes/class.ilObject.php';
-require_once 'Services/Object/classes/class.ilObjectActivation.php';
+declare(strict_types=1);
 
-/**
- * Class ilObjChatroom
- * @author  Jan Posselt <jposselt at databay.de>
- * @version $Id$
- * @ingroup ModulesChatroom
- */
 class ilObjChatroom extends ilObject
 {
-    protected ?int $access_type = null;
-    protected ?int $access_begin = null;
-    protected ?int $access_end = null;
-    protected ?int $access_visibility = null;
-
     public function __construct(int $a_id = 0, bool $a_call_by_reference = true)
     {
-        $this->setAccessType(ilObjectActivation::TIMINGS_DEACTIVATED);
-
         $this->type = 'chtr';
         parent::__construct($a_id, $a_call_by_reference);
-    }
-
-    public function setAccessVisibility(int $a_value): void
-    {
-        $this->access_visibility = $a_value;
-    }
-
-    public function getAccessVisibility(): ?int
-    {
-        return $this->access_visibility;
-    }
-
-    public function getAccessType(): ?int
-    {
-        return $this->access_type;
-    }
-
-    public function setAccessType(int $access_type): void
-    {
-        $this->access_type = $access_type;
-    }
-
-    public function getAccessBegin(): ?int
-    {
-        return $this->access_begin;
-    }
-
-    public function setAccessBegin(?int $access_begin): void
-    {
-        $this->access_begin = $access_begin;
-    }
-
-    public function getAccessEnd(): ?int
-    {
-        return $this->access_end;
-    }
-
-    public function setAccessEnd(?int $access_end): void
-    {
-        $this->access_end = $access_end;
-    }
-
-    public function update(): bool
-    {
-        if ($this->referenced && $this->ref_id) {
-            $activation = new ilObjectActivation();
-            $activation->setTimingType($this->getAccessType());
-            $activation->setTimingStart($this->getAccessBegin());
-            $activation->setTimingEnd($this->getAccessEnd());
-            $activation->toggleVisible((bool) $this->getAccessVisibility());
-            $activation->setSuggestionStart(0);
-            $activation->setSuggestionStartRelative(0);
-            $activation->setSuggestionEnd(0);
-            $activation->setSuggestionEndRelative(0);
-            $activation->setEarliestStart(0);
-            $activation->setEarliestStartRelative(0);
-            $activation->toggleChangeable(true);
-            $activation->update($this->ref_id);
-        }
-
-        return parent::update();
-    }
-
-    public function read(): void
-    {
-        if ($this->referenced && $this->ref_id) {
-            $activation = ilObjectActivation::getItem($this->ref_id);
-            $this->setAccessType((int) $activation['timing_type']);
-            if ($this->getAccessType() === ilObjectActivation::TIMINGS_ACTIVATION) {
-                $this->setAccessBegin((int) $activation['timing_start']);
-                $this->setAccessEnd((int) $activation['timing_end']);
-                $this->setAccessVisibility((int) $activation['visible']);
-            }
-        }
-
-        parent::read();
     }
 
     public static function _getPublicRefId(): int
@@ -222,10 +130,6 @@ class ilObjChatroom extends ilObject
             ['integer'],
             [$this->getId()]
         );
-
-        if ($this->ref_id && $this->getId()) {
-            ilObjectActivation::deleteAllEntries($this->ref_id);
-        }
 
         return parent::delete();
     }

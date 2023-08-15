@@ -27,7 +27,7 @@ class ilTestRandomQuestionSetQuestionCollection implements
     Iterator
     // hey.
 {
-    private $questions = array();
+    private $questions = [];
 
     public function setQuestions($questions)
     {
@@ -44,23 +44,18 @@ class ilTestRandomQuestionSetQuestionCollection implements
         $this->questions[] = $question;
     }
 
-    /**
-     * @return ilTestRandomQuestionSetQuestion|false
-     */
-    public function current()
+    public function current(): ?ilTestRandomQuestionSetQuestion
     {
-        return current($this->questions);
+        $current = current($this->questions);
+        return $current !== false ? $current : null;
     }
 
-    /**
-     * @return ilTestRandomQuestionSetQuestion|false
-     */
-    public function next()
+    public function next(): void
     {
-        return next($this->questions);
+        next($this->questions);
     }
 
-    public function key(): string
+    public function key(): ?string
     {
         return key($this->questions);
     }
@@ -70,12 +65,9 @@ class ilTestRandomQuestionSetQuestionCollection implements
         return key($this->questions) !== null;
     }
 
-    /**
-     * @return ilTestRandomQuestionSetQuestion|false
-     */
-    public function rewind()
+    public function rewind(): void
     {
-        return reset($this->questions);
+        reset($this->questions);
     }
     // hey.
 

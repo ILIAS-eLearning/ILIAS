@@ -190,7 +190,7 @@ class ilMMSubItemTableGUI extends ilTable2GUI
                 $this->ctrl->getLinkTargetByClass(ilMMItemTranslationGUI::class, ilMMItemTranslationGUI::CMD_DEFAULT)
             );
 
-            $ditem = $factory->modal()->interruptiveItem(
+            $ditem = $factory->modal()->interruptiveItem()->standard(
                 $this->hash($a_set['identification']),
                 $item_facade->getDefaultTitle()
             );
@@ -222,7 +222,7 @@ class ilMMSubItemTableGUI extends ilTable2GUI
                                  $this->lng->txt(ilMMSubItemGUI::CMD_CONFIRM_MOVE),
                                  $action
                              )
-                             ->withActionButtonLabel(ilMMSubItemGUI::CMD_MOVE)
+                             ->withActionButtonLabel($this->lng->txt(ilMMSubItemGUI::CMD_MOVE))
                              ->withAffectedItems([$ditem]);
                 $items[] = $factory->button()->shy(
                     $this->lng->txt(ilMMSubItemGUI::CMD_MOVE . '_to_top_item'),

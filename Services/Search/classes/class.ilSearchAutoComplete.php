@@ -1,8 +1,22 @@
 <?php
 
 declare(strict_types=1);
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
 * Search Auto Completion Application Class
@@ -66,7 +80,7 @@ class ilSearchAutoComplete
         $settings = new ilSearchSettings();
 
         $object_types = array('cat','dbk','crs','fold','frm','grp','lm','sahs','glo','mep','htlm','exc','file','qpl','tst','svy','spl',
-            'chat', 'webr','mcst','sess','pg','st','gdf','wiki', 'copa');
+            'chat', 'webr','mcst','sess','pg','st','term','wiki', 'copa');
 
         $set = $ilDB->query("SELECT title, obj_id FROM object_data WHERE "
             . $ilDB->like('title', 'text', $a_str . "%") . " AND "
@@ -84,7 +98,7 @@ class ilSearchAutoComplete
                 $rec["title"] = '"' . $rec["title"] . '"';
             }
             if (!in_array($rec["title"], $list) && !in_array($rec["obj_id"], $checked)) {
-                if (ilSearchAutoComplete::checkObjectPermission($rec["obj_id"])) {
+                if (ilSearchAutoComplete::checkObjectPermission((int) $rec["obj_id"])) {
                     $list[] = $lim . $rec["title"];
                     $cnt++;
                 }

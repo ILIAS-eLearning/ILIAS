@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Class ilChatroomAdminViewGUI
@@ -132,7 +132,6 @@ class ilChatroomAdminViewGUI extends ilChatroomGUIHandler
             'enable_browser_notifications' => (bool) $form->getInput('enable_browser_notifications'),
             'conversation_idle_state_in_minutes' => $convIdleStateTime,
             'chat_enabled' => (bool) $form->getInput('chat_enabled'),
-            'enable_smilies' => (bool) $form->getInput('enable_smilies'),
             'auth' => $form->getInput('auth')
         ];
 
@@ -168,7 +167,7 @@ class ilChatroomAdminViewGUI extends ilChatroomGUIHandler
 
         if ($form === null) {
             $clientSettings = array_map(
-                static fn ($value) => is_int($value) ? (string) $value : $value,
+                static fn($value) => is_int($value) ? (string) $value : $value,
                 $adminSettings->loadClientSettings()
             );
             $factory = new ilChatroomFormFactory();

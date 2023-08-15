@@ -1,6 +1,5 @@
 <?php
 
-declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,10 +16,13 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\GlobalScreen\Collector\Renderer;
 
-use ILIAS\GlobalScreen\Scope\isGlobalScreenItem;
+use ILIAS\GlobalScreen\isGlobalScreenItem;
 use ILIAS\UI\Component\Component;
+use ILIAS\UI\Component\Symbol\Symbol;
 
 /**
  * Trait ComponentDecoratorApplierTrait
@@ -36,5 +38,15 @@ trait ComponentDecoratorApplierTrait
         }
 
         return $component;
+    }
+
+    public function applySymbolDecorator(Symbol $symbol, isGlobalScreenItem $item): Symbol
+    {
+        $c = $item->getSymbolDecorator();
+        if ($c !== null) {
+            return $c($symbol);
+        }
+
+        return $symbol;
     }
 }

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,26 +16,29 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
 class ilMailValueObject
 {
     /** @var string[] */
-    private array $attachments;
+    private readonly array $attachments;
+
     /**
      * @param string[] $attachments
      */
     public function __construct(
-        private string $from,
-        private string $recipients,
-        private string $recipientsCC,
-        private string $recipientsBCC,
-        private string $subject,
-        private string $body,
+        private readonly string $from,
+        private readonly string $recipients,
+        private readonly string $recipientsCC,
+        private readonly string $recipientsBCC,
+        private readonly string $subject,
+        private readonly string $body,
         array $attachments,
-        private bool $usePlaceholders = false,
-        private bool $saveInSentBox = false
+        private readonly bool $usePlaceholders = false,
+        private readonly bool $saveInSentBox = false
     ) {
         $this->attachments = array_filter(array_map('trim', $attachments));
     }

@@ -98,7 +98,7 @@ class SkillTreeTableGUI extends \ilTable2GUI
     }
 
     /**
-     * @param array{tree: \ilObjSkillTree}
+     * @param array{tree: \ilObjSkillTree} $a_set
      */
     protected function fillRow(array $a_set): void
     {

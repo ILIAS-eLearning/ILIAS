@@ -158,7 +158,7 @@ class ilMMTopItemFormGUI
                     $f()->field()->multiSelect(
                         $txt('sub_global_roles'),
                         $global_roles
-                    )->withRequired(true)
+                    )->withRequired(false)
                 ],
                 $txt('sub_role_based_visibility'),
                 $txt('sub_role_based_visibility_byline')

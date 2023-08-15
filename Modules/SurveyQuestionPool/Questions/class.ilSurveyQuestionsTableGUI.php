@@ -84,7 +84,7 @@ class ilSurveyQuestionsTableGUI extends ilTable2GUI
             }
         }
 
-        $this->addColumn("", "");
+        $this->addColumn($this->lng->txt("actions"), "");
 
         $clip_questions = $this->edit_manager->getQuestionsFromClipboard();
         if ($this->getWriteAccess()) {
@@ -191,6 +191,8 @@ class ilSurveyQuestionsTableGUI extends ilTable2GUI
 
     protected function fillRow(array $a_set): void
     {
+        $ui_factory = $this->ui_factory;
+        $ui_renderer = $this->renderer;
         $class = strtolower(SurveyQuestionGUI::_getGUIClassNameForId($a_set["question_id"]));
         $guiclass = $class . "GUI";
         $this->ctrl->setParameterByClass(strtolower($guiclass), "q_id", $a_set["question_id"]);
@@ -244,14 +246,21 @@ class ilSurveyQuestionsTableGUI extends ilTable2GUI
         }
 
         // actions
-        $list = new ilAdvancedSelectionListGUI();
-        $list->setId($a_set["question_id"]);
-        $list->setListTitle($this->lng->txt("actions"));
+        $actions = [];
         if ($url_edit) {
-            $list->addItem($this->lng->txt("edit"), "", $url_edit);
+            $actions[] = $ui_factory->link()->standard(
+                $this->lng->txt("edit"),
+                $url_edit
+            );
         }
-        $list->addItem($this->lng->txt("preview"), "", $this->ctrl->getLinkTargetByClass(strtolower($guiclass), "preview"));
-        $this->tpl->setVariable("ACTION", $list->getHTML());
+        $actions[] = $ui_factory->link()->standard(
+            $this->lng->txt("preview"),
+            $this->ctrl->getLinkTargetByClass(strtolower($guiclass), "preview")
+        );
+
+        $dd = $ui_factory->dropdown()->standard($actions);
+
+        $this->tpl->setVariable("ACTION", $ui_renderer->render($dd));
         $this->tpl->parseCurrentBlock();
 
         // obligatory

@@ -19,6 +19,7 @@ declare(strict_types=1);
  *********************************************************************/
 
 chdir("../../");
+require_once 'libs/composer/vendor/autoload.php';
 
 /**
  * see: https://github.com/AICC/CMI-5_Spec_Current/blob/quartz/cmi5_spec.md#fetch_url
@@ -96,7 +97,7 @@ try {
     send($error);
 }
 
-function send($response)
+function send($response): void
 {
     header('Access-Control-Allow-Origin: ' . $_SERVER["HTTP_ORIGIN"]);
     header('Access-Control-Allow-Credentials: true');

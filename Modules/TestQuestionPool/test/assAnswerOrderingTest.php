@@ -35,9 +35,6 @@ class assAnswerOrderingTest extends assBaseTestCase
 
     public function test_instantiateObject_shouldReturnInstance(): void
     {
-        // Arrange
-        require_once './Modules/TestQuestionPool/classes/questions/class.ilAssOrderingElement.php';
-
         // Act
         $instance = new ilAssOrderingElement();
 
@@ -46,8 +43,6 @@ class assAnswerOrderingTest extends assBaseTestCase
 
     public function test_setGetRandomId(): void
     {
-        // Arrange
-        require_once './Modules/TestQuestionPool/classes/questions/class.ilAssOrderingElement.php';
         $instance = new ilAssOrderingElement();
         $expected = 13579;
 
@@ -61,8 +56,6 @@ class assAnswerOrderingTest extends assBaseTestCase
 
     public function test_setGetAnswerId(): void
     {
-        // Arrange
-        require_once './Modules/TestQuestionPool/classes/questions/class.ilAssOrderingElement.php';
         $instance = new ilAssOrderingElement();
         $expected = 13579;
 
@@ -77,8 +70,6 @@ class assAnswerOrderingTest extends assBaseTestCase
 
     public function test_setGetOrdeingDepth(): void
     {
-        // Arrange
-        require_once './Modules/TestQuestionPool/classes/questions/class.ilAssOrderingElement.php';
         $instance = new ilAssOrderingElement();
         $expected = 13579;
 

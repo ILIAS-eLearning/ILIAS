@@ -26,6 +26,8 @@ use ILIAS\Setup\Config;
 use ILIAS\Setup\Metrics;
 use ILIAS\Setup\Migration;
 use ILIAS\Setup\Objective;
+use ilOrgUnitOperation;
+use ilOrgUnitOperationContext;
 
 /**
  * @author Nicolas Schaefli <nick@fluxlabs.ch>
@@ -76,7 +78,38 @@ final class ilEmployeeTalkSetupAgent implements Setup\Agent
             'Employee Talks',
             true,
             new \ilTreeAdminNodeAddedObjective('tala', '__TalkTemplateAdministration'),
-            new \ilDatabaseUpdateStepsExecutedObjective(new ilEmployeeTalkDBUpdateSteps())
+            new \ilDatabaseUpdateStepsExecutedObjective(new ilEmployeeTalkDBUpdateSteps()),
+            ...$this->getOrgUnitObjectives()
         );
+    }
+
+    protected function getOrgUnitObjectives(): array
+    {
+        $objectives = [];
+
+        $objectives[] = new \ilOrgUnitOperationContextRegisteredObjective(
+            ilOrgUnitOperationContext::CONTEXT_ETAL,
+            ilOrgUnitOperationContext::CONTEXT_OBJECT
+        );
+
+        $objectives[] = new \ilOrgUnitOperationRegisteredObjective(
+            ilOrgUnitOperation::OP_READ_EMPLOYEE_TALK,
+            'Read Employee Talk',
+            ilOrgUnitOperationContext::CONTEXT_ETAL
+        );
+
+        $objectives[] = new \ilOrgUnitOperationRegisteredObjective(
+            ilOrgUnitOperation::OP_CREATE_EMPLOYEE_TALK,
+            'Create Employee Talk',
+            ilOrgUnitOperationContext::CONTEXT_ETAL
+        );
+
+        $objectives[] = new \ilOrgUnitOperationRegisteredObjective(
+            ilOrgUnitOperation::OP_EDIT_EMPLOYEE_TALK,
+            'Edit Employee Talk (not only own)',
+            ilOrgUnitOperationContext::CONTEXT_ETAL
+        );
+
+        return $objectives;
     }
 }

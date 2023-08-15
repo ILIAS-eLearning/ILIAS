@@ -20,6 +20,7 @@ use ILIAS\ResourceStorage\Resource\StorableResource;
 use ILIAS\ResourceStorage\Services;
 use ILIAS\UI\NotImplementedException;
 use ILIAS\DI\Container;
+use ILIAS\Modules\File\Settings\General;
 
 /**
  * Class ilObjFileImplementationStorage
@@ -41,11 +42,9 @@ class ilObjFileImplementationStorage extends ilObjFileImplementationAbstract imp
          * @var $DIC Container
          */
         $this->resource = $resource;
+        $settings = new General();
         $this->storage = $DIC->resourceStorage();
-        $this->download_with_uploaded_filename = (bool) $DIC->clientIni()->readVariable(
-            'file_access',
-            'download_with_uploaded_filename'
-        );
+        $this->download_with_uploaded_filename = $settings->isDownloadWithUploadedFileName();
     }
 
     public function handleChangedObjectTitle(string $new_title): void

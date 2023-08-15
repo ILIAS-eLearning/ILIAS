@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Add learning progress and availability information to the LSItem
@@ -44,7 +44,8 @@ class LSLearnerItem extends LSItem
             $ls_item->isOnline(),
             $ls_item->getOrderNumber(),
             $ls_item->getPostCondition(),
-            $ls_item->getRefId()
+            $ls_item->getRefId(),
+            $ls_item->getLPMode()
         );
     }
 

@@ -23,6 +23,7 @@
  */
 class ilScheduleInputGUI extends ilFormPropertyGUI
 {
+    protected \ILIAS\DI\UIServices $ui;
     protected ilGlobalTemplateInterface $tpl;
     protected array $value = [];
     protected string $validationFailureMessage;
@@ -36,6 +37,7 @@ class ilScheduleInputGUI extends ilFormPropertyGUI
         $this->lng = $DIC->language();
         $this->tpl = $DIC["tpl"];
         parent::__construct($a_title, $a_postvar);
+        $this->ui = $DIC->ui();
     }
 
     public function setValue(array $a_value): void
@@ -192,14 +194,17 @@ class ilScheduleInputGUI extends ilFormPropertyGUI
                 $tpl->parseCurrentBlock();
             }
 
+            $add_gl = $this->ui->factory()->symbol()->glyph()->add();
+            $rem_gl = $this->ui->factory()->symbol()->glyph()->remove();
+            $r = $this->ui->renderer();
             $tpl->setCurrentBlock("row");
             $tpl->setVariable("ROW", $row);
             $tpl->setVariable("ID", $this->getFieldId());
             $tpl->setVariable("POST_VAR", $this->getPostVar());
             $tpl->setVariable("TXT_FROM", $lng->txt("cal_from"));
             $tpl->setVariable("TXT_TO", $lng->txt("cal_until"));
-            $tpl->setVariable("IMG_MULTI_ADD", ilGlyphGUI::get(ilGlyphGUI::ADD));
-            $tpl->setVariable("IMG_MULTI_REMOVE", ilGlyphGUI::get(ilGlyphGUI::REMOVE));
+            $tpl->setVariable("IMG_MULTI_ADD", $r->render($add_gl));
+            $tpl->setVariable("IMG_MULTI_REMOVE", $r->render($rem_gl));
             $tpl->setVariable("TXT_MULTI_ADD", $lng->txt("add"));
             $tpl->setVariable("TXT_MULTI_REMOVE", $lng->txt("remove"));
 

@@ -250,19 +250,16 @@ class ilTrQuery
                 continue;
             }
 
-            if (in_array($a_user_id, $status_info["completed"][$item_id])) {
+            if (in_array($a_user_id, ($status_info["completed"][$item_id] ?? []))) {
                 $status = ilLPStatus::LP_STATUS_COMPLETED;
-            } elseif (in_array(
-                $a_user_id,
-                $status_info["in_progress"][$item_id]
-            )) {
+            } elseif (in_array($a_user_id, ($status_info["in_progress"][$item_id] ?? []))) {
                 $status = ilLPStatus::LP_STATUS_IN_PROGRESS;
             } else {
                 $status = ilLPStatus::LP_STATUS_NOT_ATTEMPTED;
             }
 
             $items[$item_id] = array(
-                "title" => $item_data[$item_id]["title"],
+                "title" => ($item_data[$item_id]["title"] ?? ''),
                 "status" => (int) $status,
                 "type" => self::getSubItemType($a_parent_obj_id)
             );

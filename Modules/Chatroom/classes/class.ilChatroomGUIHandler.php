@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\Filesystem\Filesystem;
 use ILIAS\Filesystem\Stream\Streams;
@@ -36,7 +36,6 @@ use ILIAS\UI\Renderer as UIRenderer;
  */
 abstract class ilChatroomGUIHandler
 {
-    protected ilChatroomObjectGUI $gui;
     protected ilObjUser $ilUser;
     protected ilCtrlInterface $ilCtrl;
     protected ilLanguage $ilLng;
@@ -57,12 +56,10 @@ abstract class ilChatroomGUIHandler
     /**
      * @param ilChatroomObjectGUI $gui
      */
-    public function __construct(ilChatroomObjectGUI $gui)
+    public function __construct(protected ilChatroomObjectGUI $gui)
     {
         /** @var $DIC \ILIAS\DI\Container */
         global $DIC;
-
-        $this->gui = $gui;
         $this->ilUser = $DIC->user();
         $this->ilCtrl = $DIC->ctrl();
         $this->ilLng = $DIC->language();
@@ -82,8 +79,6 @@ abstract class ilChatroomGUIHandler
     }
 
     /**
-     * @param string $key
-     * @param Transformation $trafo
      * @param mixed $default
      * @return mixed|null
      */
@@ -158,7 +153,6 @@ abstract class ilChatroomGUIHandler
 
     /**
      * Checks if a ilChatroom exists. If not, it will send a json encoded response with success = false
-     * @param ?ilChatroom $room
      */
     protected function exitIfNoRoomExists(?ilChatroom $room): void
     {
@@ -173,7 +167,6 @@ abstract class ilChatroomGUIHandler
     /**
      * Sends a json encoded response and exits the php process
      * @param mixed $response
-     * @param bool $isJson
      */
     public function sendResponse($response, bool $isJson = false): void
     {

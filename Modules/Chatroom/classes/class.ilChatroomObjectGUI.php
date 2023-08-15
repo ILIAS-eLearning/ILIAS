@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\HTTP\GlobalHttpState;
 
@@ -39,8 +39,6 @@ abstract class ilChatroomObjectGUI extends ilObjectGUI
 
 
     /**
-     * @param string $gui
-     * @param string $method
      * @return bool A boolean flag whether or not the request could be dispatched
      */
     protected function dispatchCall(string $gui, string $method): bool
@@ -86,7 +84,7 @@ abstract class ilChatroomObjectGUI extends ilObjectGUI
         }
 
         if ($this->tree->getSavedNodeData($this->object->getRefId())) {
-            $this->tabs_gui->addTarget('trash', $this->ctrl->getLinkTarget($this, 'trash'), 'trash', get_class($this));
+            $this->tabs_gui->addTarget('trash', $this->ctrl->getLinkTarget($this, 'trash'), 'trash', $this::class);
         }
     }
 }

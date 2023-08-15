@@ -30,6 +30,7 @@ use ILIAS\Exercise\GUIRequest;
  */
 abstract class ilExSubmissionBaseGUI
 {
+    protected \ILIAS\Exercise\InternalGUIService $gui;
     protected ilCtrl $ctrl;
     protected ilTabsGUI $tabs_gui;
     protected ilLanguage $lng;
@@ -80,6 +81,9 @@ abstract class ilExSubmissionBaseGUI
 
         $this->type_guis = ilExAssignmentTypesGUI::getInstance();
         $this->tool_context = $DIC->globalScreen()->tool()->context();
+        $this->gui = $DIC->exercise()
+            ->internal()
+            ->gui();
     }
 
     abstract public static function getOverviewContent(

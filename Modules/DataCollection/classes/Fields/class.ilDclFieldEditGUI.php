@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -13,18 +14,10 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
-/**
- * Class ilDclFieldEditGUI
- * @author  Martin Studer <ms@studer-raimann.ch>
- * @author  Marcel Raimann <mr@studer-raimann.ch>
- * @author  Fabian Schmid <fs@studer-raimann.ch>
- * @author  Oskar Truffer <ot@studer-raimann.ch>
- * @version $Id:
- * @ingroup ModulesDataCollection
- */
+declare(strict_types=1);
+
 class ilDclFieldEditGUI
 {
     protected int $obj_id;
@@ -72,7 +65,7 @@ class ilDclFieldEditGUI
             if ($has_datatype) {
                 $datatype_value = $this->http->wrapper()->post()->retrieve(
                     'datatype',
-                    $this->refinery->kindlyTo()->string()
+                    $this->refinery->kindlyTo()->int()
                 );
                 if (in_array(
                     $datatype_value,
@@ -169,7 +162,7 @@ class ilDclFieldEditGUI
         $conf->setFormAction($ilCtrl->getFormAction($this));
         $conf->setHeaderText($lng->txt('dcl_confirm_delete_field'));
 
-        $conf->addItem('field_id', (int) $this->field_obj->getId(), $this->field_obj->getTitle());
+        $conf->addItem('field_id', $this->field_obj->getId(), $this->field_obj->getTitle());
 
         $conf->setConfirm($lng->txt('delete'), 'delete');
         $conf->setCancel($lng->txt('cancel'), 'cancelDelete');
@@ -196,7 +189,7 @@ class ilDclFieldEditGUI
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
 
-        $this->table->deleteField($this->field_obj->getId());
+        $this->table->deleteField((int)$this->field_obj->getId());
         $ilCtrl->redirectByClass("ildclfieldlistgui", "listFields");
     }
 
@@ -233,7 +226,7 @@ class ilDclFieldEditGUI
         } else {
             $this->form->setTitle($lng->txt('dcl_new_field'));
             $hidden_prop = new ilHiddenInputGUI("table_id");
-            $hidden_prop->setValue($this->field_obj->getTableId());
+            $hidden_prop->setValue((string)$this->field_obj->getTableId());
             $this->form->addItem($hidden_prop);
 
             $this->form->setFormAction($ilCtrl->getFormAction($this));
@@ -248,7 +241,7 @@ class ilDclFieldEditGUI
             $lng->txt('fieldtitle_allow_chars'),
             ilDclBaseFieldModel::_getTitleInvalidChars(false)
         ));
-        $text_prop->setValidationRegexp(ilDclBaseFieldModel::_getTitleInvalidChars(true));
+        $text_prop->setValidationRegexp(ilDclBaseFieldModel::_getTitleInvalidChars());
         $this->form->addItem($text_prop);
 
         // Description
@@ -296,6 +289,7 @@ class ilDclFieldEditGUI
         $this->initForm($a_mode == "update" ? "edit" : "create");
 
         if ($this->checkInput($a_mode)) {
+
             // check if confirmation is needed and if so, fetch and render confirmationGUI
             if (($a_mode == "update") && !($this->form->getInput('confirmed')) && $this->field_obj->isConfirmationRequired($this->form)) {
                 $ilConfirmationGUI = $this->field_obj->getConfirmationGUI($this->form);
@@ -311,8 +305,8 @@ class ilDclFieldEditGUI
 
             $this->field_obj->setTitle($title);
             $this->field_obj->setDescription($this->form->getInput("description"));
-            $this->field_obj->setDatatypeId($this->form->getInput("datatype"));
-            $this->field_obj->setUnique($this->form->getInput("unique"));
+            $this->field_obj->setDatatypeId((int)$this->form->getInput("datatype"));
+            $this->field_obj->setUnique((bool)$this->form->getInput("unique"));
 
             if ($a_mode == "update") {
                 $this->field_obj->doUpdate();
@@ -331,7 +325,7 @@ class ilDclFieldEditGUI
             } else {
                 $this->table->addField($this->field_obj);
                 $this->table->buildOrderFields();
-                $this->main_tpl->setOnScreenMessage('success', $lng->txt("msg_field_created"), false);
+                $this->main_tpl->setOnScreenMessage('success', $lng->txt("msg_field_created"));
             }
             $ilCtrl->redirectByClass(strtolower("ilDclFieldListGUI"), "listFields");
         } else {
@@ -355,7 +349,7 @@ class ilDclFieldEditGUI
         $datatype_id = $this->form->getInput('datatype');
         if ($datatype_id != null && is_numeric($datatype_id)) {
             $base_model = new ilDclBaseFieldModel();
-            $base_model->setDatatypeId($datatype_id);
+            $base_model->setDatatypeId((int)$datatype_id);
             $field_validation_class = ilDclFieldFactory::getFieldModelInstanceByClass($base_model);
 
             if (!$field_validation_class->checkFieldCreationInput($this->form)) {
@@ -390,7 +384,7 @@ class ilDclFieldEditGUI
             return ilObjDataCollectionAccess::hasAccessToField(
                 $this->getDataCollectionObject()->getRefId(),
                 $this->table_id,
-                $field_id
+                (int)$field_id
             );
         } else {
             return ilObjDataCollectionAccess::hasAccessToFields(

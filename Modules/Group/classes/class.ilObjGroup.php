@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
 * Class ilObjGroup
@@ -540,6 +540,8 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
             return false;
         }
 
+        $this->updateMetaData();
+
         $query = "UPDATE grp_settings " .
             "SET information = " . $this->db->quote($this->getInformation(), 'text') . ", " .
             "grp_type = " . $this->db->quote($this->getGroupType(), 'integer') . ", " .
@@ -594,6 +596,8 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
         if (!parent::delete()) {
             return false;
         }
+
+        $this->deleteMetaData();
 
         $query = "DELETE FROM grp_settings " .
             "WHERE obj_id = " . $this->db->quote($this->getId(), 'integer');
@@ -1545,8 +1549,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 
         $res = array();
         $before = new ilDateTime(time(), IL_CAL_UNIX);
-        $before->increment(IL_CAL_DAY, -1);
-        $now_date = $before->get(IL_CAL_DATETIME);
+        $now_date = $before->get(IL_CAL_DATETIME, '', ilTimeZone::UTC);
         $now = $before->get(IL_CAL_UNIX);
 
         $set = $ilDB->query($q = "SELECT obj_id, registration_min_members" .
@@ -1558,7 +1561,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
                 " OR (leave_end IS NULL" .
                 " AND registration_end IS NOT NULL" .
                 " AND registration_end < " . $ilDB->quote($now_date, "text") . "))" .
-            " AND (period_start IS NULL OR period_start > " . $ilDB->quote($now, "integer") . ")");
+            " AND (period_start IS NULL OR period_start > " . $ilDB->quote($now_date, ilDBConstants::T_TEXT) . ")");
         while ($row = $ilDB->fetchAssoc($set)) {
             $refs = ilObject::_getAllReferences((int) $row['obj_id']);
             $ref = end($refs);

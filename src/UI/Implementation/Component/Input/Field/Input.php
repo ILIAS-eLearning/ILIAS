@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,7 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Input\Field;
 
@@ -35,6 +34,7 @@ use ILIAS\UI\Implementation\Component\Triggerer;
 use LogicException;
 use Generator;
 use InvalidArgumentException;
+use ILIAS\UI\Implementation\Component\Input\DynamicInputsNameSource;
 
 /**
  * This implements commonalities between inputs.
@@ -50,6 +50,7 @@ abstract class Input implements C\Input\Field\Input, FormInputInternal
     protected string $label;
     protected ?string $byline;
     protected bool $is_required = false;
+    protected ?Constraint $requirement_constraint = null;
     protected bool $is_disabled = false;
 
     /**
@@ -66,6 +67,8 @@ abstract class Input implements C\Input\Field\Input, FormInputInternal
     protected ?string $error = null;
 
     private ?string $name = null;
+
+    protected ?string $dedicated_name = null;
 
     /**
      * This is the current content of the input in the abstraction. This results by
@@ -86,7 +89,7 @@ abstract class Input implements C\Input\Field\Input, FormInputInternal
         DataFactory $data_factory,
         Factory $refinery,
         string $label,
-        ?string $byline
+        ?string $byline = null
     ) {
         $this->data_factory = $data_factory;
         $this->refinery = $refinery;
@@ -144,10 +147,11 @@ abstract class Input implements C\Input\Field\Input, FormInputInternal
     /**
      * @inheritdoc
      */
-    public function withRequired(bool $is_required)
+    public function withRequired(bool $is_required, ?Constraint $requirement_constraint = null)
     {
         $clone = clone $this;
         $clone->is_required = $is_required;
+        $clone->requirement_constraint = ($is_required) ? $requirement_constraint : null;
         return $clone;
     }
 
@@ -262,6 +266,24 @@ abstract class Input implements C\Input\Field\Input, FormInputInternal
         }
     }
 
+    /**
+     * @inheritdoc
+     */
+    final public function getDedicatedName(): ?string
+    {
+        return $this->dedicated_name;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    final public function withDedicatedName(string $dedicated_name): self
+    {
+        $clone = clone $this;
+        $clone->dedicated_name = $dedicated_name;
+        return $clone;
+    }
+
     // Implementation of FormInputInternal
 
     // This is the machinery to be used to process the input from the client side.
@@ -279,10 +301,17 @@ abstract class Input implements C\Input\Field\Input, FormInputInternal
     /**
      * @inheritdoc
      */
-    public function withNameFrom(NameSource $source)
+    public function withNameFrom(NameSource $source, ?string $parent_name = null)
     {
         $clone = clone $this;
-        $clone->name = $source->getNewName();
+        if ($source instanceof DynamicInputsNameSource) {
+            $clone->name = '';
+        } else {
+            $clone->name = ($parent_name !== null) ? $parent_name . '/' : '';
+        }
+        $clone->name .= ($clone->dedicated_name !== null)
+                        ? $source->getNewDedicatedName($clone->dedicated_name)
+                        : $source->getNewName();
         return $clone;
     }
 

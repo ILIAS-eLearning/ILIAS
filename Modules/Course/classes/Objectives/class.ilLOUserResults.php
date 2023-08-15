@@ -45,6 +45,18 @@ class ilLOUserResults
         $this->db = $DIC->database();
     }
 
+    public static function updateResultLimit(int $a_objective_id, int $a_test_type, int $a_limit) : void
+    {
+        global $DIC;
+
+        $db = $DIC->database();
+        $query = 'UPDATE loc_user_results ' .
+            'SET limit_perc = ' . $db->quote($a_limit, ilDBConstants::T_INTEGER) . ' ' .
+            'WHERE objective_id = ' . $db->quote($a_objective_id, ilDBConstants::T_INTEGER) . ' ' .
+            'AND type = ' . $db->quote($a_test_type, ilDBConstants::T_INTEGER);
+        $db->manipulate($query);
+    }
+
     public static function lookupResult(
         int $a_course_obj_id,
         int $a_user_id,
@@ -154,6 +166,10 @@ class ilLOUserResults
             " WHERE course_id = " . $ilDB->quote($a_course_id, "integer") .
             " AND " . $ilDB->in("user_id", $a_user_ids, false, "integer");
 
+        if ($a_objective_ids !== []) {
+            $base_sql .= ' AND ' . $ilDB->in('objective_id', $a_objective_ids, false, "integer");
+        }
+
         $sql = '';
         if ($a_remove_initial) {
             $sql = $base_sql .
@@ -167,12 +183,9 @@ class ilLOUserResults
             $ilDB->manipulate($sql);
         }
 
-        if (is_array($a_objective_ids)) {
-            $sql = $base_sql .
-                " AND " . $ilDB->in("objective_id", $a_objective_ids, false, "integer");
-            $ilDB->manipulate($sql);
+        if ($a_objective_ids === []) {
+            $ilDB->manipulate($base_sql);
         }
-
         $ilDB->manipulate($sql);
         return true;
     }
@@ -415,7 +428,7 @@ class ilLOUserResults
             // initial tests only count if no qualified test
             if (
                 $row["type"] == self::TYPE_INITIAL &&
-                in_array($row['user_id'], (array) $has_final_result[(int) $row['objective_id']])
+                in_array($row['user_id'], (array) ($has_final_result[(int) $row['objective_id']] ?? []))
             ) {
                 continue;
             }

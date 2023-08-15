@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,16 +16,18 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
 class ilPdfGenerator
 {
-    private ilCertificateRpcClientFactoryHelper $rpcHelper;
-    private ilCertificatePdfFileNameFactory $pdfFilenameFactory;
+    private readonly ilCertificateRpcClientFactoryHelper $rpcHelper;
+    private readonly ilCertificatePdfFileNameFactory $pdfFilenameFactory;
 
     public function __construct(
-        private ilUserCertificateRepository $certificateRepository,
+        private readonly ilUserCertificateRepository $certificateRepository,
         ?ilCertificateRpcClientFactoryHelper $rpcHelper = null,
         ?ilCertificatePdfFileNameFactory $pdfFileNameFactory = null,
         ?ilLanguage $lng = null

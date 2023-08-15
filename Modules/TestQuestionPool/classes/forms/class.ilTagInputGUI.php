@@ -31,7 +31,6 @@ class ilTagInputGUI extends ilSubEnabledFormPropertyGUI
     protected $allow_duplicates = false;
     protected $js_self_init = true;
 
-    protected $type_ahead = false;
     protected $type_ahead_ignore_case = true;
     protected $type_ahead_list = array();
     protected $type_ahead_min_length = 2;
@@ -68,14 +67,6 @@ class ilTagInputGUI extends ilSubEnabledFormPropertyGUI
     public function setJsSelfInit($js_self_init): void
     {
         $this->js_self_init = $js_self_init;
-    }
-
-    /**
-     * @param boolean $type_ahead
-     */
-    public function setTypeAhead($type_ahead): void
-    {
-        $this->type_ahead = $type_ahead;
     }
 
     /**
@@ -201,26 +192,28 @@ class ilTagInputGUI extends ilSubEnabledFormPropertyGUI
      * @param string    $a_mode
      * @return string
      */
-    public function render($a_mode = ""): string
+    public function render(): string
     {
-        if ($this->type_ahead) {
-            $tpl = new ilTemplate("tpl.prop_tag_typeahead.html", true, true, "Modules/TestQuestionPool");
-            $tpl->setVariable("MIN_LENGTH", $this->type_ahead_min_length);
-            $tpl->setVariable("LIMIT", $this->type_ahead_limit);
-            $tpl->setVariable("HIGHLIGHT", $this->type_ahead_highlight);
-            if ($this->type_ahead_ignore_case) {
-                $tpl->setVariable("CASE", 'i');
-            }
-            $tpl->setVariable("TERMS", json_encode($this->type_ahead_list));
-        } else {
-            $tpl = new ilTemplate("tpl.prop_tag.html", true, true, "Services/Form");
+        $this->tpl->addJavaScript('Modules/TestQuestionPool/templates/default/tagInput.js');
+        $config = [
+            'min_length' => $this->type_ahead_min_length,
+            'limit' => $this->type_ahead_limit,
+            'highlight' => $this->type_ahead_highlight,
+            'case' => '',
+            'maxtags' => $this->max_tags,
+            'maxchars' => $this->max_chars,
+            'allow_duplicates' => $this->allow_duplicates
+        ];
+        if ($this->type_ahead_ignore_case) {
+            $config['case'] = 'i';
         }
 
-        $tpl->setVariable("MAXTAGS", $this->max_tags);
-        $tpl->setVariable("MAXCHARS", $this->max_chars);
-        $tpl->setVariable("ALLOW_DUPLICATES", $this->allow_duplicates);
+        $this->tpl->addOnLoadCode(
+            'ilBootstrapTaggingOnLoad.initConfig(' . json_encode($config) . ');'
+        );
 
-        foreach ($this->getOptions() as $option_value => $option_text) {
+        $tpl = new ilTemplate("tpl.prop_tag_typeahead.html", true, true, "Modules/TestQuestionPool");
+        foreach ($this->getOptions() as $option_text) {
             $tpl->setCurrentBlock("prop_select_option");
             $tpl->setVariable("VAL_SELECT_OPTION", ilLegacyFormElementsUtil::prepareFormOutput($option_text));
             $tpl->setVariable("TXT_SELECT_OPTION", $option_text);
@@ -232,9 +225,11 @@ class ilTagInputGUI extends ilSubEnabledFormPropertyGUI
         $tpl->setVariable("POST_VAR", $this->getPostVar() . "[]");
 
         if ($this->js_self_init) {
+            $id = preg_replace('/[^\d]+/', '', $this->getFieldId());
             $this->tpl->addOnLoadCode(
-                "ilBootstrapTaggingOnLoad.appendId('#" . $this->getFieldId() . "');\n" .
-                "ilBootstrapTaggingOnLoad.Init();"
+                "ilBootstrapTaggingOnLoad.appendId('#" . $this->getFieldId() . "');\n"
+                . "ilBootstrapTaggingOnLoad.appendTerms(" . $id . ", " . json_encode($this->type_ahead_list) . ");\n"
+                . "ilBootstrapTaggingOnLoad.Init();"
             );
         }
         return $tpl->get();

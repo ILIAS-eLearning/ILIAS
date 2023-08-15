@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\Data\URI;
 
 /**
@@ -27,7 +27,7 @@ use ILIAS\Data\URI;
  */
 class ilUriInputGUI extends ilTextInputGUI
 {
-    protected int $maxlength = 500;
+    protected ?int $maxlength = 500;
     protected int $size = 40;
 
     public function __construct(

@@ -35,9 +35,6 @@ class assAnswerMatchingTest extends assBaseTestCase
 
     public function test_instantiateObjectSimple(): void
     {
-        // Arrange
-        require_once './Modules/TestQuestionPool/classes/class.assAnswerMatching.php';
-
         // Act
         $instance = new ASS_AnswerMatching();
 
@@ -47,8 +44,6 @@ class assAnswerMatchingTest extends assBaseTestCase
 
     public function test_setGetPoints(): void
     {
-        // Arrange
-        require_once './Modules/TestQuestionPool/classes/class.assAnswerMatching.php';
         $instance = new ASS_AnswerMatching();
         $expected = 10;
 
@@ -62,8 +57,6 @@ class assAnswerMatchingTest extends assBaseTestCase
 
     public function test_setGetTermId(): void
     {
-        // Arrange
-        require_once './Modules/TestQuestionPool/classes/class.assAnswerMatching.php';
         $instance = new ASS_AnswerMatching();
         $expected = 10;
 
@@ -77,8 +70,6 @@ class assAnswerMatchingTest extends assBaseTestCase
 
     public function test_setGetPicture(): void
     {
-        // Arrange
-        require_once './Modules/TestQuestionPool/classes/class.assAnswerMatching.php';
         $instance = new ASS_AnswerMatching();
         $expected = '/link/to/image?';
 
@@ -92,8 +83,6 @@ class assAnswerMatchingTest extends assBaseTestCase
 
     public function test_setGetPictureId(): void
     {
-        // Arrange
-        require_once './Modules/TestQuestionPool/classes/class.assAnswerMatching.php';
         $instance = new ASS_AnswerMatching();
         $expected = 47;
 
@@ -107,8 +96,6 @@ class assAnswerMatchingTest extends assBaseTestCase
 
     public function test_setGetPictureId_NegativeShouldNotSetValue(): void
     {
-        // Arrange
-        require_once './Modules/TestQuestionPool/classes/class.assAnswerMatching.php';
         $instance = new ASS_AnswerMatching();
         $expected = 0;
 
@@ -122,8 +109,6 @@ class assAnswerMatchingTest extends assBaseTestCase
 
     public function test_setGetDefinition(): void
     {
-        // Arrange
-        require_once './Modules/TestQuestionPool/classes/class.assAnswerMatching.php';
         $instance = new ASS_AnswerMatching();
         $expected = 'Definition is this.';
 
@@ -137,8 +122,6 @@ class assAnswerMatchingTest extends assBaseTestCase
 
     public function test_setGetDefinitionId(): void
     {
-        // Arrange
-        require_once './Modules/TestQuestionPool/classes/class.assAnswerMatching.php';
         $instance = new ASS_AnswerMatching();
         $expected = 10;
 

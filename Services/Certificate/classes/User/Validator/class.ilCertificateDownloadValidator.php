@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Validates if an active certificate is stored
  * in the database and can be downloaded by the
@@ -26,8 +26,8 @@ declare(strict_types=1);
  */
 class ilCertificateDownloadValidator
 {
-    private ilCertificateUserCertificateAccessValidator $userCertificateAccessValidator;
-    private ilCertificateActiveValidator $activeValidator;
+    private readonly ilCertificateUserCertificateAccessValidator $userCertificateAccessValidator;
+    private readonly ilCertificateActiveValidator $activeValidator;
 
     public function __construct(
         ?ilCertificateUserCertificateAccessValidator $userCertificateAccessValidator = null,

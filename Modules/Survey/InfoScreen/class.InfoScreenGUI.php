@@ -33,6 +33,7 @@ use Psr\Http\Message\ServerRequestInterface;
  */
 class InfoScreenGUI
 {
+    protected \ILIAS\Survey\InternalGUIService $gui;
     protected \ILIAS\DI\UIServices $ui;
     protected \ilObjSurvey $survey;
     protected \ilObjUser $user;
@@ -76,6 +77,7 @@ class InfoScreenGUI
 
         $body = $request->getParsedBody();
         $this->requested_code = (string) ($body["anonymous_id"] ?? "");
+        $this->gui = $DIC->survey()->internal()->gui();
     }
 
     public function getInfoScreenGUI(): \ilInfoScreenGUI
@@ -97,7 +99,12 @@ class InfoScreenGUI
 
         // handle (anonymous) code
 
-        $this->run_manager->initSession($this->requested_code);
+        try {
+            $this->run_manager->initSession($this->requested_code);
+        } catch (\ilWrongSurveyCodeException $e) {
+            $this->main_tpl->setOnScreenMessage("failure", $e->getMessage(), true);
+            $this->ctrl->redirect($this->survey_gui, "infoScreen");
+        }
         $anonymous_code = $this->run_manager->getCode();
 
         // completed message
@@ -109,10 +116,10 @@ class InfoScreenGUI
 
         // view results button
         if ($this->status_manager->canViewUserResults()) {
-            $button = \ilLinkButton::getInstance();
-            $button->setCaption("svy_view_own_results");
-            $button->setUrl($this->ctrl->getLinkTarget($this->survey_gui, "viewUserResults"));
-            $toolbar->addButtonInstance($button);
+            $this->gui->link(
+                $this->lng->txt("svy_view_own_results"),
+                $this->ctrl->getLinkTarget($this->survey_gui, "viewUserResults")
+            )->toToolbar();
             $separator = true;
         }
 
@@ -131,10 +138,10 @@ class InfoScreenGUI
 
             $toolbar->setFormAction($this->ctrl->getFormAction($this->survey_gui, "mailUserResults"));
 
-            $button = \ilSubmitButton::getInstance();
-            $button->setCaption("svy_mail_send_confirmation");
-            $button->setCommand("mailUserResults");
-            $toolbar->addButtonInstance($button);
+            $this->gui->button(
+                $this->lng->txt("svy_mail_send_confirmation"),
+                "mailUserResults"
+            )->submit()->toToolbar();
         }
 
         $this->displayNotStartableReasons($info);
@@ -232,11 +239,10 @@ class InfoScreenGUI
                     $big_button = array("start", $this->lng->txt("start_survey"));
                 }
                 if ($big_button) {
-                    $button = \ilSubmitButton::getInstance();
-                    $button->setCaption($big_button[1], false);
-                    $button->setCommand($big_button[0]);
-                    $button->setPrimary(true);
-                    $this->toolbar->addButtonInstance($button);
+                    $this->gui->button(
+                        $big_button[1],
+                        $big_button[0]
+                    )->primary()->submit()->toToolbar();
                 }
             } else {
                 // list appraisees
@@ -286,6 +292,10 @@ class InfoScreenGUI
 
                     $info->addSection($this->lng->txt("survey_360_rate_other_appraisees"));
 
+                    if (!$this->status_manager->isAppraisee()) {
+                        $this->addPrivacyInfo($info);
+                    }
+
                     foreach ($list as $appr_id => $item) {
                         $appr_name = \ilUserUtil::getNamePresentation($appr_id, false, false, "", true);
 
@@ -296,9 +306,10 @@ class InfoScreenGUI
                             $href = $this->ctrl->getLinkTarget($output_gui, $item[0]);
                             $this->ctrl->setParameter($output_gui, "appr_id", "");
 
-                            $button = \ilLinkButton::getInstance();
-                            $button->setCaption($item[1], false);
-                            $button->setUrl($href);
+                            $button = $this->gui->button(
+                                $item[1],
+                                $href
+                            );
                             $big_button_360 = '<div>' . $button->render() . '</div>';
 
                             $info->addProperty($appr_name, $big_button_360);
@@ -311,6 +322,17 @@ class InfoScreenGUI
         }
     }
 
+    protected function addPrivacyInfo(
+        \ilInfoScreenGUI $info
+    ): void {
+        $survey = $this->survey;
+        $privacy_info = $this->lng->txt("svy_rater_see_app_info");
+        if (in_array($survey->get360Results(), [\ilObjSurvey::RESULTS_360_OWN, \ilObjSurvey::RESULTS_360_ALL], true)) {
+            $privacy_info .= " " . $this->lng->txt("svy_app_see_rater_info");
+        }
+        $info->addProperty($this->lng->txt("svy_privacy_info"), $privacy_info);
+    }
+
     protected function addAppraiseeInfo(
         \ilInfoScreenGUI $info
     ): void {
@@ -318,11 +340,7 @@ class InfoScreenGUI
         if ($this->status_manager->isAppraisee()) {
             $info->addSection($this->lng->txt("survey_360_appraisee_info"));
 
-            $privacy_info = $this->lng->txt("svy_rater_see_app_info");
-            if (in_array($survey->get360Results(), [\ilObjSurvey::RESULTS_360_OWN, \ilObjSurvey::RESULTS_360_ALL], true)) {
-                $privacy_info .= " " . $this->lng->txt("svy_app_see_rater_info");
-            }
-            $info->addProperty($this->lng->txt("svy_privacy_info"), $privacy_info);
+            $this->addPrivacyInfo($info);
 
             $appr_data = $survey->getAppraiseesData();
             $appr_data = $appr_data[$this->user->getId()];
@@ -330,12 +348,13 @@ class InfoScreenGUI
 
             if ($survey->get360Mode()) {
                 if (!$appr_data["closed"]) {
-                    $button = \ilLinkButton::getInstance();
-                    $button->setCaption("survey_360_appraisee_close_action");
-                    $button->setUrl($this->ctrl->getLinkTargetByClass(
-                        "ilsurveyparticipantsgui",
-                        "confirmappraiseeclose"
-                    ));
+                    $button = $this->gui->button(
+                        $this->lng->txt("survey_360_appraisee_close_action"),
+                        $this->ctrl->getLinkTargetByClass(
+                            "ilsurveyparticipantsgui",
+                            "confirmappraiseeclose"
+                        )
+                    );
                     $close_button_360 = '<div>' . $button->render() . '</div>';
 
                     $txt = "survey_360_appraisee_close_action_info";

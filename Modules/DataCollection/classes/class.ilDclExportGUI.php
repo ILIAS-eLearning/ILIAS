@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -13,19 +14,16 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
-/**
- * Export User Interface Class
- * @author       Michael Herren <mh@studer-raimann.ch>
- */
+ *********************************************************************/
+
+
+declare(strict_types=1);
+
 class ilDclExportGUI extends ilExportGUI
 {
     protected function buildExportTableGUI(): ilExportTableGUI
     {
-        $table = new ilDclExportTableGUI($this, 'listExportFiles', $this->obj);
-
-        return $table;
+        return new ilDclExportTableGUI($this, 'listExportFiles', $this->obj);
     }
 
     /**
@@ -49,9 +47,6 @@ class ilDclExportGUI extends ilExportGUI
      */
     protected function checkForExportableFields(): bool
     {
-        global $DIC;
-        $ilCtrl = $DIC['ilCtrl'];
-        $lng = $DIC['lng'];
         foreach ($this->obj->getTables() as $tbl) {
             /** @var $tbl ilDclTable */
             foreach ($tbl->getFields() as $field) {
@@ -61,8 +56,8 @@ class ilDclExportGUI extends ilExportGUI
             }
         }
 
-        $this->tpl->setOnScreenMessage('failure', $lng->txt('dcl_no_export_data_available'), true);
-        $ilCtrl->redirect($this, "listExportFiles");
+        $this->tpl->setOnScreenMessage('failure', $this->lng->txt('dcl_no_export_data_available'), true);
+        $this->ctrl->redirect($this, "listExportFiles");
 
         return false;
     }

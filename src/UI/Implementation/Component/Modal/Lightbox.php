@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\UI\Implementation\Component\Modal;
 
 use ILIAS\UI\Component as Component;
@@ -29,10 +29,14 @@ use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
  */
 class Lightbox extends Modal implements Component\Modal\Lightbox
 {
+    private const SCHEME_BRIGHT = 'bright';
+    private const SCHEME_DARK = 'dark';
     /**
      * @var LightboxPage[]
      */
     protected array $pages;
+
+    protected string $scheme = self::SCHEME_BRIGHT;
 
     /**
      * @param LightboxPage|LightboxPage[] $pages
@@ -44,6 +48,12 @@ class Lightbox extends Modal implements Component\Modal\Lightbox
         $pages = $this->toArray($pages);
         $types = array(LightboxPage::class);
         $this->checkArgListElements('pages', $pages, $types);
+        // if there is at least one image page, the lightbox is in dark mode.
+        array_walk($pages, function (LightboxPage $page) {
+            if ($page instanceof Component\Modal\LightboxImagePage) {
+                $this->scheme = self::SCHEME_DARK;
+            }
+        });
         $this->pages = $pages;
     }
 
@@ -53,5 +63,10 @@ class Lightbox extends Modal implements Component\Modal\Lightbox
     public function getPages(): array
     {
         return $this->pages;
+    }
+
+    public function getScheme(): string
+    {
+        return $this->scheme;
     }
 }

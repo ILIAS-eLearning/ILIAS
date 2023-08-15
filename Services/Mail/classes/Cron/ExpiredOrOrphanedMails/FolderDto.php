@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\Mail\Cron\ExpiredOrOrphanedMails;
 
 class FolderDto
@@ -25,7 +25,7 @@ class FolderDto
     /** @var MailDto[] */
     private array $orphaned_mail_objects = [];
 
-    public function __construct(private int $folder_id, private ?string $folder_title)
+    public function __construct(private readonly int $folder_id, private readonly ?string $folder_title)
     {
     }
 

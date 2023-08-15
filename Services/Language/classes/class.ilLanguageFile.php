@@ -209,7 +209,7 @@ class ilLanguageFile
             // build the header
             $tpl = new ilTemplate("tpl.lang_file_header.html", true, true, "Services/Language");
             foreach ($this->getAllParams() as $name => $value) {
-                $tabs = ceil((20 - 3 - strlen($name)) / 4);
+                $tabs = intval(ceil((20 - 3 - strlen($name)) / 4));
                 $tabs = $tabs > 0 ? $tabs : 1;
 
                 $tpl->setCurrentBlock("param");
@@ -238,7 +238,7 @@ class ilLanguageFile
 
             $content .= $key . $this->separator . $value;
 
-            if ($this->comments[$key]) {
+            if (isset($this->comments[$key])) {
                 $content .= $this->comment_separator . $this->comments[$key];
             }
         }

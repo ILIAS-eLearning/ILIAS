@@ -2,8 +2,7 @@
 
 declare(strict_types=1);
 
-/******************************************************************************
- *
+/**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
  *
@@ -14,10 +13,10 @@ declare(strict_types=1);
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *     https://www.ilias.de
- *     https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
 
 /**
  * INTERNAL CLASS: Please do not use in consumer code.
@@ -842,10 +841,10 @@ class ilConditionHandler
         switch ($condition['trigger_type']) {
             case 'crsg':
                 return ilObjCourseGrouping::_checkCondition(
-                    $condition['trigger_obj_id'],
-                    $condition['operator'],
-                    $condition['value'],
-                    $a_usr_id
+                    (int) $condition['trigger_obj_id'],
+                    (string) $condition['operator'],
+                    (string) $condition['value'],
+                    (int) $a_usr_id
                 );
         }
         $class = $objDefinition->getClassName($condition['trigger_type']);
@@ -853,12 +852,16 @@ class ilConditionHandler
         $full_class = "ilObj" . $class . "Access";
         include_once($location . "/class." . $full_class . ".php");
 
+        if (!(is_a($full_class, "ilConditionHandling", true))) {
+            return false;
+        }
+
         $fullfilled = call_user_func(
             array($full_class, 'checkCondition'),
-            $condition['trigger_obj_id'],
-            $condition['operator'],
-            $condition['value'],
-            $a_usr_id
+            (int) $condition['trigger_obj_id'],
+            (string) $condition['operator'],
+            (string) $condition['value'],
+            (int) $a_usr_id
         );
         return $fullfilled;
     }

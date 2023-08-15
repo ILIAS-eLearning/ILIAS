@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,9 +16,13 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class ilTermsOfServiceTableDatabaseDataProvider
  * @author Michael Jansen <mjansen@databay.de>
+ * @template T
+ * @template-implements ilTermsOfServiceTableDataProvider<T>
  */
 abstract class ilTermsOfServiceTableDatabaseDataProvider implements ilTermsOfServiceTableDataProvider
 {
@@ -28,24 +30,45 @@ abstract class ilTermsOfServiceTableDatabaseDataProvider implements ilTermsOfSer
     {
     }
 
+    /**
+     * @param array<string, mixed> $params
+     * @param array<string, mixed> $filter
+     */
     abstract protected function getSelectPart(array $params, array $filter): string;
 
+    /**
+     * @param array<string, mixed> $params
+     * @param array<string, mixed> $filter
+     */
     abstract protected function getFromPart(array $params, array $filter): string;
 
+    /**
+     * @param array<string, mixed> $params
+     * @param array<string, mixed> $filter
+     */
     abstract protected function getWherePart(array $params, array $filter): string;
 
+    /**
+     * @param array<string, mixed> $params
+     * @param array<string, mixed> $filter
+     */
     abstract protected function getGroupByPart(array $params, array $filter): string;
 
     /**
-     * @abstract
+     * @param array<string, mixed> $params
+     * @param array<string, mixed> $filter
      */
     abstract protected function getHavingPart(array $params, array $filter): string;
 
+    /**
+     * @param array<string, mixed> $params
+     * @param array<string, mixed> $filter
+     */
     abstract protected function getOrderByPart(array $params, array $filter): string;
 
     /**
      * @throws InvalidArgumentException
-     * @return array{items: mixed[][], cnt: int}
+     * @ineritDoc
      */
     public function getList(array $params, array $filter): array
     {

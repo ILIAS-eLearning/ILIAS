@@ -20,43 +20,31 @@ declare(strict_types=1);
 
 namespace ILIAS\Filesystem\Security\Sanitizing;
 
-use ilFileUtils;
+use ILIAS\Filesystem\Util;
 
 /**
- * Class FilenameSanitizerImpl
- *
  * Standard implementation of the filename sanitizing interface.
  *
- * @package ILIAS\Filesystem\Security\Sanitizising
- *
- * @author  Nicolas Schäfli <ns@studer-raimann.ch>
- * @version 1.1.0
- * @since 5.3.4
+ * @author                 Nicolas Schäfli <ns@studer-raimann.ch>
+ * @author                 Fabian Schmid <fabian@sr.solutions>
  */
 class FilenameSanitizerImpl implements FilenameSanitizer
 {
-    private const FUNKY_WHITESPACES = '#\p{C}+#u';
-    /**
-     * Contains the whitelisted file suffixes.
-     *
-     * @var string[] $whitelist
-     */
-    private array $whitelist;
-
-
     /**
      * FilenameSanitizerImpl constructor.
+     * @param string[] $whitelist
      */
-    public function __construct(array $whitelist)
-    {
-        $this->whitelist = $whitelist;
-
+    public function __construct(
+        /**
+         * Contains the whitelisted file suffixes.
+         */
+        private array $whitelist
+    ) {
         // the secure file ending must be valid, therefore add it if it got removed from the white list.
         if (!in_array(FilenameSanitizer::CLEAN_FILE_SUFFIX, $this->whitelist, true)) {
             $this->whitelist[] = FilenameSanitizer::CLEAN_FILE_SUFFIX;
         }
     }
-
 
     /**
      * @inheritDoc
@@ -66,13 +54,12 @@ class FilenameSanitizerImpl implements FilenameSanitizer
         return in_array($this->extractFileSuffix($filename), $this->whitelist, true);
     }
 
-
     /**
      * @inheritDoc
      */
     public function sanitize(string $filename): string
     {
-        $filename = preg_replace(self::FUNKY_WHITESPACES, '', $filename); // remove funky whitespaces
+        $filename = Util::sanitizeFileName($filename);
 
         if ($this->isClean($filename)) {
             return $filename;
@@ -81,7 +68,6 @@ class FilenameSanitizerImpl implements FilenameSanitizer
         $pathInfo = pathinfo($filename);
         $basename = $pathInfo['basename'];
         $parentPath = $pathInfo['dirname'] === '.' ? '' : $pathInfo['dirname'];
-
 
         $filename = str_replace('.', '', $basename);
         $filename .= "." . FilenameSanitizer::CLEAN_FILE_SUFFIX;
@@ -93,7 +79,6 @@ class FilenameSanitizerImpl implements FilenameSanitizer
 
         return "$parentPath/$filename";
     }
-
 
     /**
      * Extracts the suffix from the given filename.

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 interface ilCertificateTemplateRepository
 {
     public function save(ilCertificateTemplate $certificateTemplate): void;
@@ -25,7 +25,7 @@ interface ilCertificateTemplateRepository
     public function updateActivity(ilCertificateTemplate $certificateTemplate, bool $currentlyActive): int;
 
     /**
-     * @throws ilException
+     * @throws ilCouldNotFindCertificateTemplate
      */
     public function fetchTemplate(int $templateId): ilCertificateTemplate;
 
@@ -37,7 +37,7 @@ interface ilCertificateTemplateRepository
     public function fetchCurrentlyUsedCertificate(int $objId): ilCertificateTemplate;
 
     /**
-     * @throws ilException
+     * @throws ilCouldNotFindCertificateTemplate
      */
     public function fetchCurrentlyActiveCertificate(int $objId): ilCertificateTemplate;
 
@@ -56,7 +56,7 @@ interface ilCertificateTemplateRepository
     ): array;
 
     /**
-     * @throws ilException
+     * @throws ilCouldNotFindCertificateTemplate
      */
     public function fetchFirstCreatedTemplate(int $objId): ilCertificateTemplate;
 }

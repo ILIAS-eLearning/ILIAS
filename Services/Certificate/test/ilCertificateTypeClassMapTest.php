@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * @author  Niels Theen <ntheen@databay.de>
@@ -58,7 +58,7 @@ class ilCertificateTypeClassMapTest extends ilCertificateBaseTestCase
         $this->assertSame(ilScormPlaceholderValues::class, $class);
     }
 
-    public function testFetchUnknownClassWillResultInException(): void
+    public function testFetchUnknownClassWillResultInException(): never
     {
         $this->expectException(ilException::class);
 

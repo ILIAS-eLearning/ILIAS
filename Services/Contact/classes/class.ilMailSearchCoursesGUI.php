@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
 * @author Jens Conze
@@ -43,9 +43,8 @@ class ilMailSearchCoursesGUI extends ilMailSearchObjectGUI
     {
         $isOffline = !$object->isActivated();
         $showMemberListEnabled = (bool) $object->getShowMembers();
-        $hasUntrashedReferences = ilObject::_hasUntrashedReference($object->getId());
         $isPrivilegedUser = $this->rbacsystem->checkAccess('write', $object->getRefId());
 
-        return $hasUntrashedReferences && ((!$isOffline && $showMemberListEnabled) || $isPrivilegedUser);
+        return (!$isOffline && $showMemberListEnabled) || $isPrivilegedUser;
     }
 }

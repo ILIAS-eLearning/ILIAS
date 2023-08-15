@@ -273,7 +273,7 @@ class ilCalendarViewGUI
                 $modal = $this->ui_factory->modal()->roundtrip(
                     $modal_title,
                     $this->ui_factory->legacy($content)
-                )->withCancelButtonLabel("close");
+                )->withCancelButtonLabel($this->lng->txt("close"));
                 echo $this->ui_renderer->renderAsync($modal);
             }
         }

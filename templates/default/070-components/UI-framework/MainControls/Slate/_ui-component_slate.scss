@@ -5,66 +5,30 @@
 @use "../../../../050-layout/basics/" as *;
 @use "../../../../050-layout/standardpage/" as *;
 
-.il-maincontrols-slate {
+$il-slate-bulky-level2-bg-color: $il-main-dark-bg;
+$il-slate-tree-padding: $il-padding-small-vertical 0;
 
-	&.engaged {
-	}
+.il-maincontrols-slate {
 	&.disengaged {
 		display:none;
 	}
-	.btn-bulky {
-		padding: $il-slate-bulky-padding;
-	}
-	.link-bulky {
-		padding: $il-slate-bulky-link-padding;
-	}
 	.btn-bulky,
 	.link-bulky {
-		align-items: flex-start;
-		background-color: $il-slate-bulky-bg-color;
-		border: none;
-		display: flex;
-		margin-bottom: $il-slate-content-spacing;
-		position: relative;
-		&.engaged::before,
-		&.disengaged::before {
+		// see general styling in button component
+		// this styling is for expandable entries
+		&.engaged::after,
+		&.disengaged::after {
 				font-family: "il-icons";
 				font-size: $il-slate-bulky-glyph-size;
-				position: absolute;
-				right: $il-padding-base-horizontal;
-				top: $il-slate-bulky-padding-vertical;
-				line-height: $il-line-height-computed;
 		}
-		&.engaged::before {
+		&.engaged::after {
 				content: " \e604";
 		}
-		&.disengaged::before {
+		&.disengaged::after {
 				content: " \e606";
 		}
-		&:focus{
-			color: inherit;
-		}
-		&:hover,
-		&.engaged {
-			background-color: $il-slate-bulky-bg-color-engaged;
-		    color: inherit;
-		}
 		.icon {
-			margin-right: $il-slate-bulky-glyph-margin-right;
 			filter: invert(50%);
-
-		}
-		.icon.small {
-			min-width: $il-icon-size-small;
-		}
-		.icon.medium {
-			min-width: $il-icon-size-medium;
-		}
-		.bulky-label {
-			font-size: $il-slate-bulky-label-size;
-			line-height: $il-line-height-computed;
-			text-align: left;
-			word-break: normal;
 		}
 	}
 	.il-maincontrols-slate .btn-bulky {
@@ -73,7 +37,6 @@
 
 	&.il-maincontrols-slate-notification{
 		.il-maincontrols-slate-notification-title{
-			text-transform: uppercase;
 			padding: $il-padding-large-horizontal;
 			.btn-bulky{
 				.glyph{
@@ -87,11 +50,10 @@
 				margin: -$il-margin-large-horizontal;
 				border: none;
 				border-right: solid 3px;
-				border-right-color: $il-main-dark-bg;;
+				border-right-color: $il-main-dark-bg;
 				padding: $il-padding-large-horizontal;
 
 				background-color: transparent;
-				text-transform: uppercase;
 
 				width: 50%;
 			}
@@ -107,15 +69,8 @@
 					content: " \e605";
 					font-family: "il-icons";
 					font-size: $il-slate-bulky-icon-size;
-					margin-right: 10px;
 				}
 			}
-			.bulky-label{
-				margin-top: 3px;
-			}
-			padding: $il-padding-small-horizontal;
-			text-align: center;
-			text-transform: uppercase;
 		}
 	}
 
@@ -165,16 +120,16 @@
 		}
 	}
 	p, h1, h2, h3, li {
-		padding: $il-slate-content-padding $il-slate-content-padding*2;
+		padding: $il-slate-content-spacing $il-slate-content-spacing*2;
 	}
 	> hr {
-		margin: $il-slate-content-padding 0;
+		margin: $il-slate-content-spacing 0;
 	}
 	li.jstree-node {
 		padding: $il-slate-tree-padding;
 	}
 	li.il-workflow-step {
-		padding: 0 $il-slate-content-padding*2;
+		padding: 0 $il-slate-content-spacing*2;
 	}
 }
 

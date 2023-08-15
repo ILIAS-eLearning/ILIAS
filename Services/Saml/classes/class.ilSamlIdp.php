@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Class ilSamlIdp
@@ -34,7 +34,7 @@ final class ilSamlIdp
     private const PROP_ALLOW_LOCAL_AUTH = 'allow_local_auth';
     private const PROP_ACCOUNT_MIGR_STATUS = 'account_migr_status';
 
-    private ilDBInterface $db;
+    private readonly ilDBInterface $db;
     /** @var self[] */
     private static array $instances = [];
     private bool $is_active = false;

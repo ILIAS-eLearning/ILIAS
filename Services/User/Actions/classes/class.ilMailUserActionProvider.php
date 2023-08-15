@@ -54,7 +54,7 @@ class ilMailUserActionProvider extends ilUserActionProvider
 
     public function collectActionsForTargetUser(int $a_target_user): ilUserActionCollection
     {
-        $coll = ilUserActionCollection::getInstance();
+        $coll = new ilUserActionCollection();
 
         // check mail permission of user
         if ($this->getUserId() == ANONYMOUS_USER_ID || !$this->checkUserMailAccess($this->getUserId())) {

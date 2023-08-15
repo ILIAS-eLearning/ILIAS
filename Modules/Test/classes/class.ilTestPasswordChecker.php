@@ -69,9 +69,9 @@ class ilTestPasswordChecker
         return true;
     }
 
-    protected function isTestPasswordEnabled(): int
+    protected function isTestPasswordEnabled(): bool
     {
-        return strlen($this->testOBJ->getPassword());
+        return $this->testOBJ->getPassword() !== null;
     }
 
     protected function isPrivilegedParticipant(): bool
@@ -81,7 +81,7 @@ class ilTestPasswordChecker
 
     public function wrongUserEnteredPasswordExist(): bool
     {
-        if (!strlen($this->getUserEnteredPassword())) {
+        if ($this->getUserEnteredPassword() && $this->getUserEnteredPassword() === '') {
             return false;
         }
 

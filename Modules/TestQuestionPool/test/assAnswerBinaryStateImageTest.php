@@ -35,9 +35,6 @@ class assAnswerBinaryStateImageTest extends assBaseTestCase
 
     public function test_instantiateObject_shouldReturnInstance(): void
     {
-        // Arrange
-        require_once './Modules/TestQuestionPool/classes/class.assAnswerBinaryStateImage.php';
-
         // Act
         $instance = new ASS_AnswerBinaryStateImage();
 
@@ -46,8 +43,6 @@ class assAnswerBinaryStateImageTest extends assBaseTestCase
 
     public function test_setGetImage(): void
     {
-        // Arrange
-        require_once './Modules/TestQuestionPool/classes/class.assAnswerBinaryStateImage.php';
         $instance = new ASS_AnswerBinaryStateImage();
         $expected = 'image';
         // Act

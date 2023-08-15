@@ -63,7 +63,7 @@ class ilObjFileVersion extends ArrayObject
     protected string $rollback_user_id = '';
     protected int $size = 0;
 
-    public function offsetGet($index)
+    public function offsetGet($index): mixed
     {
         return $this->{$index};
     }

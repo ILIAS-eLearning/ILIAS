@@ -210,11 +210,6 @@ class ilEventParticipants
 
         // refresh learning progress status after updating participant
         ilLPStatusWrapper::_updateStatus($this->getEventId(), $this->getUserId());
-
-        if (!$this->getRegistered()) {
-            self::handleAutoFill($this->getEventId());
-        }
-
         return true;
     }
 
@@ -417,9 +412,6 @@ class ilEventParticipants
 
         // refresh learning progress status after updating participant
         ilLPStatusWrapper::_updateStatus($a_event_id, $a_usr_id);
-
-        self::handleAutoFill($a_event_id);
-
         return true;
     }
 
@@ -542,14 +534,5 @@ class ilEventParticipants
                 $this->participants[$usr_id]['notification_enabled'] = true;
             }
         }
-    }
-
-    /**
-     * Trigger auto-fill from waiting list
-     */
-    protected static function handleAutoFill(int $a_obj_id): void
-    {
-        $sess = new ilObjSession($a_obj_id, false);
-        $sess->handleAutoFill();
     }
 }

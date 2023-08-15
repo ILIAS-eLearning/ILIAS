@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use PHPUnit\Framework\TestCase;
 
 class LSLearnerItemTest extends TestCase
@@ -32,6 +32,7 @@ class LSLearnerItemTest extends TestCase
     public const USER_ID = 6;
     public const LP_STATUS = 2;
     public const AVAILABILITY_STATUS = 3;
+    public const LP_MODE = 3;
 
     protected ilLSPostCondition $post_condition;
 
@@ -50,7 +51,8 @@ class LSLearnerItemTest extends TestCase
             self::IS_ONLINE,
             self::ORDER_NUMBER,
             $this->post_condition,
-            self::REF_ID
+            self::REF_ID,
+            self::LP_MODE
         );
 
         $object = new LSLearnerItem(

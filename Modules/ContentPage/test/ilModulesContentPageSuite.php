@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use PHPUnit\Framework\TestSuite;
 use PHPUnit\Framework\TestCase;
 
@@ -30,7 +30,6 @@ require_once __DIR__ . '/bootstrap.php';
 class ilModulesContentPageSuite extends TestSuite
 {
     /**
-     * @return self
      * @throws ReflectionException
      */
     public static function suite(): self

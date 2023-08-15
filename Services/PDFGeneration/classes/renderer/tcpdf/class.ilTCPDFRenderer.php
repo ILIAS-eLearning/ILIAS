@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,11 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
+/**
+ * @deprecated
+ */
 class ilTCPDFRenderer implements ilRendererConfig, ilPDFRenderer
 {
     protected ilLanguage $lng;
@@ -117,7 +120,7 @@ class ilTCPDFRenderer implements ilRendererConfig, ilPDFRenderer
             $pdf->AddPage();
             $pdf->writeHTML($page, true, false, true, false, '');
         }
-        $result = $pdf->Output(basename($job->getFilename()), $job->getOutputMode()); // (I - Inline, D - Download, F - File)
+        $result = $pdf->Output($job->getFilename(), $job->getOutputMode()); // (I - Inline, D - Download, F - File)
 
         if (in_array($job->getOutputMode(), ['I', 'D'])) {
             exit();

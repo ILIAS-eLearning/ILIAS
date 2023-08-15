@@ -50,6 +50,7 @@ class Renderer extends AbstractComponentRenderer
         'l' => 'dddd',
         'D' => 'dd',
         'S' => 'o',
+        'i' => 'mm',
         'W' => '',
         'm' => 'MM',
         'F' => 'MMMM',
@@ -104,6 +105,9 @@ class Renderer extends AbstractComponentRenderer
 
             case ($component instanceof F\Select):
                 return $this->renderSelectField($component);
+
+            case ($component instanceof F\Markdown):
+                return $this->renderMarkdownField($component, $default_renderer);
 
             case ($component instanceof F\Textarea):
                 return $this->renderTextareaField($component);
@@ -293,7 +297,9 @@ class Renderer extends AbstractComponentRenderer
         $dependant_group_html = $default_renderer->render($component->getInputs());
 
         $this->maybeDisable($component, $tpl);
-        return $this->wrapInFormContext($component, $tpl->get(), "", $dependant_group_html);
+        $id = $this->bindJSandApplyId($component, $tpl);
+
+        return $this->wrapInFormContext($component, $tpl->get(), $id, $dependant_group_html);
     }
 
     protected function renderSwitchableGroup(F\SwitchableGroup $component, RendererInterface $default_renderer): string
@@ -319,7 +325,7 @@ class Renderer extends AbstractComponentRenderer
             $tpl->setVariable("BYLINE", $group->getByline());
 
             if ($component->getValue() !== null) {
-                list($index, ) = $component->getValue();
+                list($index,) = $component->getValue();
                 if ($index == $key) {
                     $tpl->setVariable("CHECKED", 'checked="checked"');
                 }
@@ -444,38 +450,108 @@ class Renderer extends AbstractComponentRenderer
         return $this->wrapInFormContext($component, $tpl->get(), $id);
     }
 
-    protected function renderTextareaField(F\Textarea $component): string
+    protected function renderMarkdownField(F\Markdown $component, RendererInterface $default_renderer): string
     {
-        $tpl = $this->getTemplate("tpl.textarea.html", true, true);
-        $this->applyName($component, $tpl);
+        /** @var $component F\Markdown */
+        $component = $component->withAdditionalOnLoadCode(
+            static function ($id) use ($component): string {
+                return "
+                    il.UI.Input.markdown.init(
+                        '$id',
+                        '{$component->getMarkdownRenderer()->getAsyncUrl()}',
+                        '{$component->getMarkdownRenderer()->getParameterName()}'
+                    );
+                ";
+            }
+        );
 
-        if ($component->isLimited()) {
-            $this->toJS("ui_chars_remaining");
-            $this->toJS("ui_chars_min");
-            $this->toJS("ui_chars_max");
+        $textarea_tpl = $this->getPreparedTextareaTemplate($component);
+        $textarea_id = $this->bindJSandApplyId($component, $textarea_tpl);
 
-            $counter_id_prefix = "textarea_feedback_";
-            $min = $component->getMinLimit();
-            $max = $component->getMaxLimit();
+        $markdown_tpl = $this->getTemplate("tpl.markdown.html", true, true);
+        $markdown_tpl->setVariable('TEXTAREA', $textarea_tpl->get());
 
-            /**
-             * @var $component F\Textarea
-             */
-            $component = $component->withAdditionalOnLoadCode(function ($id) use ($counter_id_prefix, $min, $max) {
-                return "il.UI.textarea.changeCounter('$id','$counter_id_prefix','$min','$max');";
-            });
+        $markdown_tpl->setVariable(
+            'PREVIEW',
+            $component->getMarkdownRenderer()->render(
+                $this->htmlEntities()($component->getValue() ?? '')
+            )
+        );
 
-            $id = $this->bindJSandApplyId($component, $tpl);
+        $markdown_tpl->setVariable(
+            'VIEW_CONTROLS',
+            $default_renderer->render(
+                $this->getUIFactory()->viewControl()->mode([
+                    $this->txt('ui_md_input_edit') => '#',
+                    $this->txt('ui_md_input_view') => '#',
+                ], "")
+            )
+        );
 
-            $tpl->setVariable("COUNT_ID", $id);
-            $tpl->setVariable("FEEDBACK_MAX_LIMIT", $max);
-        } else {
-            $id = $this->bindJSandApplyId($component, $tpl);
+        /** @var $markdown_actions_glyphs Component\Symbol\Glyph\Glyph[] */
+        $markdown_actions_glyphs = [
+            'ACTION_HEADING' => $this->getUIFactory()->symbol()->glyph()->header(),
+            'ACTION_LINK' => $this->getUIFactory()->symbol()->glyph()->link(),
+            'ACTION_BOLD' => $this->getUIFactory()->symbol()->glyph()->bold(),
+            'ACTION_ITALIC' => $this->getUIFactory()->symbol()->glyph()->italic(),
+            'ACTION_ORDERED_LIST' => $this->getUIFactory()->symbol()->glyph()->numberedlist(),
+            'ACTION_UNORDERED_LIST' => $this->getUIFactory()->symbol()->glyph()->bulletlist()
+        ];
+
+        foreach ($markdown_actions_glyphs as $tpl_variable => $glyph) {
+            if ($component->isDisabled()) {
+                $glyph = $glyph->withUnavailableAction();
+            }
+
+            $action = $this->getUIFactory()->button()->standard($default_renderer->render($glyph), '#');
+
+            if ($component->isDisabled()) {
+                $action = $action->withUnavailableAction();
+            }
+
+            $markdown_tpl->setVariable($tpl_variable, $default_renderer->render($action));
         }
 
+        // label must point to the wrapped textarea input, not the markdown input.
+        return $this->wrapInFormContext($component, $markdown_tpl->get(), $textarea_id);
+    }
+
+    protected function renderTextareaField(F\Textarea $component): string
+    {
+        /** @var $component F\Textarea */
+        $component = $component->withAdditionalOnLoadCode(
+            static function ($id): string {
+                return "
+                    il.UI.Input.textarea.init('$id');
+                ";
+            }
+        );
+
+        $tpl = $this->getPreparedTextareaTemplate($component);
+        $id = $this->bindJSandApplyId($component, $tpl);
+
+        return $this->wrapInFormContext($component, $tpl->get(), $id);
+    }
+
+    protected function getPreparedTextareaTemplate(F\Textarea $component): Template
+    {
+        $tpl = $this->getTemplate("tpl.textarea.html", true, true);
+
+        if (0 < $component->getMaxLimit()) {
+            $tpl->setVariable('REMAINDER_TEXT', $this->txt('ui_chars_remaining'));
+            $tpl->setVariable('REMAINDER', $component->getMaxLimit() - strlen($component->getValue() ?? ''));
+            $tpl->setVariable('MAX_LIMIT', $component->getMaxLimit());
+        }
+
+        if (null !== $component->getMinLimit()) {
+            $tpl->setVariable('MIN_LIMIT', $component->getMinLimit());
+        }
+
+        $this->applyName($component, $tpl);
         $this->applyValue($component, $tpl, $this->htmlEntities());
         $this->maybeDisable($component, $tpl);
-        return $this->wrapInFormContext($component, $tpl->get(), $id);
+
+        return $tpl;
     }
 
     protected function renderRadioField(F\Radio $component): string
@@ -749,13 +825,13 @@ class Renderer extends AbstractComponentRenderer
         $registry->register('./node_modules/@yaireo/tagify/dist/tagify.css');
         $registry->register('./src/UI/templates/js/Input/Field/tagInput.js');
 
-        $registry->register('./src/UI/templates/js/Input/Field/textarea.js');
         $registry->register('./src/UI/templates/js/Input/Field/input.js');
         $registry->register('./src/UI/templates/js/Input/Field/duration.js');
         $registry->register('./node_modules/dropzone/dist/dropzone.js');
         $registry->register('./src/UI/templates/js/Input/Field/file.js');
         $registry->register('./src/UI/templates/js/Input/Field/groups.js');
         $registry->register('./src/UI/templates/js/Input/Field/dynamic_inputs_renderer.js');
+        $registry->register('./src/UI/templates/js/Input/Field/dist/input.factory.min.js');
     }
 
     /**
@@ -829,8 +905,9 @@ class Renderer extends AbstractComponentRenderer
             Component\Input\Field\Duration::class,
             Component\Input\Field\File::class,
             Component\Input\Field\Url::class,
-            Hidden::class,
+            Component\Input\Field\Hidden::class,
             Component\Input\Field\ColorPicker::class,
+            Component\Input\Field\Markdown::class,
         ];
     }
 
@@ -843,14 +920,14 @@ class Renderer extends AbstractComponentRenderer
     ): Template {
         $template->setCurrentBlock('block_file_preview');
         $template->setVariable('REMOVAL_GLYPH', $default_renderer->render(
-            $this->getUIFactory()->symbol()->glyph()->close()
+            $this->getUIFactory()->symbol()->glyph()->close()->withAction("#")
         ));
 
         if (null !== $file_info) {
             $template->setVariable('FILE_NAME', $file_info->getName());
             $template->setVariable(
                 'FILE_SIZE',
-                (new DataSize($file_info->getSize(), DataSize::MB))->inBytes() . " MB"
+                (string) (new DataSize($file_info->getSize(), DataSize::Byte))
             );
         }
 
@@ -858,10 +935,10 @@ class Renderer extends AbstractComponentRenderer
         // contains actual (unhidden) inputs.
         if ($file_input->hasMetadataInputs()) {
             $template->setVariable('EXPAND_GLYPH', $default_renderer->render(
-                $this->getUIFactory()->symbol()->glyph()->expand()
+                $this->getUIFactory()->symbol()->glyph()->expand()->withAction("#")
             ));
             $template->setVariable('COLLAPSE_GLYPH', $default_renderer->render(
-                $this->getUIFactory()->symbol()->glyph()->collapse()
+                $this->getUIFactory()->symbol()->glyph()->collapse()->withAction("#")
             ));
         }
 

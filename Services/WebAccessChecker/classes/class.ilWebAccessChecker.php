@@ -100,6 +100,19 @@ class ilWebAccessChecker
         // Fallback, have to initiate ILIAS
         $this->initILIAS();
 
+        // Check if Path is within accepted paths
+        if ($this->getPathObject()->getModuleType() !== 'rs') {
+            $clean_path = $this->getPathObject()->getCleanURLdecodedPath();
+            $path = realpath($clean_path);
+            $data_dir = realpath(CLIENT_WEB_DIR);
+            if (strpos($path, $data_dir) !== 0) {
+                return false;
+            }
+            if (dirname($path) === $data_dir && is_file($path)) {
+                return false;
+            }
+        }
+
         if (ilWACSecurePath::hasCheckingInstanceRegistered($this->getPathObject())) {
             // Maybe the path has been registered, lets check
             $checkingInstance = ilWACSecurePath::getCheckingInstance($this->getPathObject());

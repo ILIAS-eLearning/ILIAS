@@ -16,8 +16,7 @@
  *
  *********************************************************************/
 
-require_once 'Services/UIComponent/Toolbar/classes/class.ilToolbarGUI.php';
-require_once 'Modules/Test/classes/class.ilTestPlayerNavButton.php';
+use ILIAS\UI\Component\Modal\Interruptive;
 
 /**
  * @author		Björn Heyser <bheyser@databay.de>
@@ -78,6 +77,8 @@ class ilTestNavigationToolbarGUI extends ilToolbarGUI
      * @var bool
      */
     private $disabledStateEnabled = false;
+    private bool $user_has_attempts_left = true;
+    protected ?Interruptive $finish_test_modal = null;
 
     /**
      * @param ilCtrl $ctrl
@@ -91,6 +92,16 @@ class ilTestNavigationToolbarGUI extends ilToolbarGUI
         $this->playerGUI = $playerGUI;
 
         parent::__construct();
+    }
+
+    public function userHasAttemptsLeft(): bool
+    {
+        return $this->user_has_attempts_left;
+    }
+
+    public function setUserHasAttemptsLeft(bool $user_has_attempts_left): void
+    {
+        $this->user_has_attempts_left = $user_has_attempts_left;
     }
 
     /**
@@ -257,6 +268,14 @@ class ilTestNavigationToolbarGUI extends ilToolbarGUI
         }
     }
 
+    public function getFinishTestModalHTML(): string
+    {
+        if ($this->finish_test_modal === null) {
+            return '';
+        }
+        return $this->ui->renderer()->render($this->finish_test_modal);
+    }
+
     private function addSuspendTestButton()
     {
         $btn = ilTestPlayerNavButton::getInstance();
@@ -317,18 +336,46 @@ class ilTestNavigationToolbarGUI extends ilToolbarGUI
         $this->addButtonInstance($btn);
     }
 
-    private function addFinishTestButton()
+    private function addFinishTestButton(): void
     {
-        $btn = ilTestPlayerNavButton::getInstance();
-        $btn->setNextCommand($this->getFinishTestCommand());
-        $btn->setUrl($this->ctrl->getLinkTarget(
-            $this->playerGUI,
-            $this->getFinishTestCommand()
-        ));
-        $btn->setCaption('finish_test');
-        //$btn->setDisabled($this->isDisabledStateEnabled());
-        $btn->setPrimary($this->isFinishTestButtonPrimary());
-        $btn->addCSSClass('ilTstNavElem');
-        $this->addButtonInstance($btn);
+        if ($this->userHasAttemptsLeft()) {
+            $message = $this->lng->txt('tst_finish_confirmation_question');
+        } else {
+            $message = $this->lng->txt('tst_finish_confirmation_question_no_attempts_left');
+        }
+
+        $action = '';
+        if ($this->getFinishTestCommand() === ilTestPlayerCommands::QUESTION_SUMMARY) {
+            $action = $this->ctrl->getLinkTarget(
+                $this->playerGUI,
+                ilTestPlayerCommands::QUESTION_SUMMARY
+            );
+        } else {
+            $this->finish_test_modal = $this->ui->factory()->modal()->interruptive(
+                $this->lng->txt('finish_test'),
+                $message,
+                $this->ctrl->getLinkTarget(
+                    $this->playerGUI,
+                    $this->getFinishTestCommand()
+                )
+            )->withActionButtonLabel($this->lng->txt('tst_finish_confirm_button'));
+        }
+        if ($this->isFinishTestButtonPrimary()) {
+            $button = $this->ui->factory()->button()->primary($this->lng->txt('finish_test'), $action);
+        } else {
+            $button = $this->ui->factory()->button()->standard($this->lng->txt('finish_test'), $action);
+        }
+        $button =
+            isset($this->finish_test_modal) ?
+                $button->withOnClick($this->finish_test_modal->getShowSignal()) :
+                $button->withAdditionalOnLoadCode(
+                    static function (string $id): string {
+                        return "
+                document.getElementById('$id').addEventListener('click', il.TestPlayerQuestionEditControl.checkNavigationForKSButton);
+                ;";
+                    }
+                );
+
+        $this->addStickyItem($button);
     }
 }

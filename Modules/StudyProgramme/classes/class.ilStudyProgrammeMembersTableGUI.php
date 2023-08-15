@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\Data;
 
@@ -303,7 +303,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
         string $prgrs_id,
         int $ass_id
     ): string {
-        $l = new ilAdvancedSelectionListGUI();
+        $l = [];
 
         $view_individual_plan = $this->permissions->may(ilOrgUnitOperation::OP_VIEW_INDIVIDUAL_PLAN);
         $edit_individual_plan = $this->permissions->may(ilOrgUnitOperation::OP_EDIT_INDIVIDUAL_PLAN);
@@ -313,6 +313,11 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
             switch ($action) {
                 case ilObjStudyProgrammeMembersGUI::ACTION_MARK_ACCREDITED:
                 case ilObjStudyProgrammeMembersGUI::ACTION_UNMARK_ACCREDITED:
+                case ilObjStudyProgrammeMembersGUI::ACTION_UNMARK_RELEVANT:
+                case ilObjStudyProgrammeMembersGUI::ACTION_MARK_RELEVANT:
+                case ilObjStudyProgrammeMembersGUI::ACTION_UPDATE_FROM_CURRENT_PLAN:
+                case ilObjStudyProgrammeMembersGUI::ACTION_CHANGE_DEADLINE:
+                case ilObjStudyProgrammeMembersGUI::ACTION_CHANGE_EXPIRE_DATE:
                     if (!$edit_individual_plan) {
                         continue 2;
                     }
@@ -331,10 +336,11 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
             }
 
             $target = $this->getLinkTargetForAction($action, $prgrs_id, $ass_id);
-            $l->addItem($this->lng->txt("prg_$action"), $action, $target);
+            $l[] = $this->ui_factory->button()->shy($this->lng->txt("prg_$action"), $target);
         }
-
-        return $l->getHTML();
+        return $this->ui_renderer->render(
+            $this->ui_factory->dropdown()->standard($l)->withLabel($this->lng->txt('actions'))
+        );
     }
 
 
@@ -404,8 +410,8 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
     public function initFilter(): void
     {
         foreach ($this->custom_filter->getItemConfig() as $conf) {
-            [$id, $type, $options] = $conf;
-            $item = $this->addFilterItemByMetaType($id, $type);
+            [$id, $type, $options, $caption] = $conf;
+            $item = $this->addFilterItemByMetaType($id, $type, false, $caption);
             if ($options) {
                 $item->setOptions($options);
             }
@@ -439,6 +445,11 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
         if ($is_root) {
             $actions[] = ilObjStudyProgrammeMembersGUI::ACTION_SHOW_INDIVIDUAL_PLAN;
             $actions[] = ilObjStudyProgrammeMembersGUI::ACTION_REMOVE_USER;
+            $actions[] = ilObjStudyProgrammeMembersGUI::ACTION_UNMARK_RELEVANT;
+            $actions[] = ilObjStudyProgrammeMembersGUI::ACTION_MARK_RELEVANT;
+            $actions[] = ilObjStudyProgrammeMembersGUI::ACTION_UPDATE_FROM_CURRENT_PLAN;
+            $actions[] = ilObjStudyProgrammeMembersGUI::ACTION_CHANGE_DEADLINE;
+            $actions[] = ilObjStudyProgrammeMembersGUI::ACTION_CHANGE_EXPIRE_DATE;
         }
 
         if ($status == ilPRGProgress::STATUS_ACCREDITED) {

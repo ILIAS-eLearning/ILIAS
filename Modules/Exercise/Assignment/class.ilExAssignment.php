@@ -2147,4 +2147,15 @@ class ilExAssignment
         }
         return $calculated_deadlines;
     }
+
+    // see bug #36253
+    public function canParticipantReceiveFeedback(int $part_id): bool
+    {
+        if ($this->hasTeam()) {
+            if (!ilExAssignmentTeam::getTeamId($this->getId(), $part_id)) {
+                return false;
+            }
+        }
+        return true;
+    }
 }

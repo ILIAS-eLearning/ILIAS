@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -13,18 +14,10 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
-/**
- * Class ilDclBaseFieldModel
- * @author  Martin Studer <ms@studer-raimann.ch>
- * @author  Marcel Raimann <mr@studer-raimann.ch>
- * @author  Fabian Schmid <fs@studer-raimann.ch>
- * @author  Oskar Truffer <ot@studer-raimann.ch>
- * @version $Id:
- * @ingroup ModulesDataCollection
- */
+declare(strict_types=1);
+
 class ilDclStandardField extends ilDclBaseFieldModel
 {
     private ilGlobalTemplateInterface $main_tpl;
@@ -61,7 +54,7 @@ class ilDclStandardField extends ilDclBaseFieldModel
 
     public function clone(ilDclStandardField $original_record): void
     {
-        $this->setOrder($original_record->getOrder());
+        $this->setOrder((string) $original_record->getOrder());
         $this->setUnique($original_record->isUnique());
         $this->setExportable($original_record->getExportable());
 
@@ -75,54 +68,53 @@ class ilDclStandardField extends ilDclBaseFieldModel
 
     public static function _getStandardFieldsAsArray(): array
     {
+
         //TODO: this isn't particularly pretty especially as $lng is used in the model. On the long run the standard fields should be refactored into "normal" fields.
         global $DIC;
         $lng = $DIC->language();
-        $stdfields = [
-            [
+        return [
+            "id" => [
                 "id" => "id",
                 "title" => $lng->txt("dcl_id"),
                 "description" => $lng->txt("dcl_id_description"),
                 "datatype_id" => ilDclDatatype::INPUTFORMAT_NUMBER
             ],
-            [
+            "create_date" => [
                 "id" => "create_date",
                 "title" => $lng->txt("dcl_creation_date"),
                 "description" => $lng->txt("dcl_creation_date_description"),
                 "datatype_id" => ilDclDatatype::INPUTFORMAT_DATETIME
             ],
-            [
+            "last_update" => [
                 "id" => "last_update",
                 "title" => $lng->txt("dcl_last_update"),
                 "description" => $lng->txt("dcl_last_update_description"),
                 "datatype_id" => ilDclDatatype::INPUTFORMAT_DATETIME
             ],
-            [
+            "owner" => [
                 "id" => "owner",
                 "title" => $lng->txt("dcl_owner"),
                 "description" => $lng->txt("dcl_owner_description"),
                 "datatype_id" => ilDclDatatype::INPUTFORMAT_TEXT
             ],
-            [
+            "last_edit_by" => [
                 "id" => "last_edit_by",
                 "title" => $lng->txt("dcl_last_edited_by"),
                 "description" => $lng->txt("dcl_last_edited_by_description"),
                 "datatype_id" => ilDclDatatype::INPUTFORMAT_TEXT
             ],
-            [
+            'comments' => [
                 'id' => 'comments',
                 'title' => $lng->txt('dcl_comments'),
                 'description' => $lng->txt('dcl_comments_desc'),
                 'datatype_id' => ilDclDatatype::INPUTFORMAT_TEXT
             ],
         ];
-
-        return $stdfields;
     }
 
     public static function _getStandardFields(int $table_id): array
     {
-        $stdFields = array();
+        $stdFields = [];
         foreach (self::_getStandardFieldsAsArray() as $array) {
             $array["table_id"] = $table_id;
             $field = new ilDclStandardField();
@@ -143,13 +135,13 @@ class ilDclStandardField extends ilDclBaseFieldModel
         $ilDB = $DIC['ilDB'];
         $identifiers = '';
         foreach (
-            array(
+            [
                 'dcl_id',
                 'dcl_creation_date',
                 'dcl_last_update',
                 'dcl_last_edited_by',
                 'dcl_comments',
-            ) as $id
+            ] as $id
         ) {
             $identifiers .= $ilDB->quote($id, 'text') . ',';
         }
@@ -158,7 +150,7 @@ class ilDclStandardField extends ilDclBaseFieldModel
             'SELECT value FROM lng_data WHERE identifier IN (' . $identifiers
             . ')'
         );
-        $titles = array();
+        $titles = [];
         while ($rec = $ilDB->fetchAssoc($sql)) {
             $titles[] = $rec['value'];
         }
@@ -175,15 +167,14 @@ class ilDclStandardField extends ilDclBaseFieldModel
         global $DIC;
         $ilDB = $DIC['ilDB'];
         $identifiers = '';
-        foreach (array('dcl_owner') as $id) {
-            $identifiers .= $ilDB->quote($id, 'text') . ',';
-        }
+        $id = 'dcl_owner';
+        $identifiers .= $ilDB->quote($id, 'text') . ',';
         $identifiers = rtrim($identifiers, ',');
         $sql = $ilDB->query(
             'SELECT value, identifier FROM lng_data WHERE identifier IN ('
             . $identifiers . ')'
         );
-        $titles = array();
+        $titles = [];
         while ($rec = $ilDB->fetchAssoc($sql)) {
             $titles[$rec['identifier']][] = $rec['value'];
         }
@@ -211,17 +202,9 @@ class ilDclStandardField extends ilDclBaseFieldModel
      * gives you the datatype id of a specified standard field.
      * @param string $id the id of the standardfield eg. "create_date"
      */
-    public static function _getDatatypeForId(string $id): ?string
+    public static function _getDatatypeForId(string $id): ?int
     {
-        $datatype = null;
-        foreach (self::_getStandardFieldsAsArray() as $fields_data) {
-            if ($id == $fields_data['id']) {
-                $datatype = $fields_data['datatype_id'];
-                break;
-            }
-        }
-
-        return $datatype;
+        return self::_getStandardFieldsAsArray()[$id]['datatype_id'];
     }
 
     public function isStandardField(): bool

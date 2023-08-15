@@ -27,31 +27,13 @@ class ilExAssTypeWikiTeamGUI implements ilExAssignmentTypeGUIInterface
     use ilExAssignmentTypeGUIBase;
 
     public const MODE_OVERVIEW = "overview";
-
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
-    /**
-     * @var ilTree
-     */
-    protected $tree;
-
-    /**
-     * @var ilAccessHandler
-     */
-    protected $access;
+    protected \ILIAS\Exercise\InternalGUIService $gui;
+    protected ilLanguage $lng;
+    protected ilCtrl $ctrl;
+    protected ilTree $tree;
+    protected ilAccessHandler $access;
     private \ilGlobalTemplateInterface $main_tpl;
 
-    /**
-     * Constructor
-     */
     public function __construct()
     {
         global $DIC;
@@ -61,6 +43,9 @@ class ilExAssTypeWikiTeamGUI implements ilExAssignmentTypeGUIInterface
         $this->ctrl = $DIC->ctrl();
         $this->tree = $DIC->repositoryTree();
         $this->access = $DIC->access();
+        $this->gui = $DIC->exercise()
+            ->internal()
+            ->gui();
     }
 
     /**
@@ -204,11 +189,10 @@ class ilExAssTypeWikiTeamGUI implements ilExAssignmentTypeGUIInterface
         }
         if ($a_submission->canSubmit()) {
             if (!$valid_wiki && $team_available) {
-                $button = ilLinkButton::getInstance();
-                $button->setCaption("exc_create_wiki");
-                $button->setUrl($ctrl->getLinkTarget($this, "createWiki"));
-
-                $files_str .= $button->render();
+                $files_str .= $this->gui->button(
+                    $lng->txt("exc_create_wiki"),
+                    $ctrl->getLinkTarget($this, "createWiki")
+                )->render();
             }
         }
         if ($files_str) {
@@ -219,11 +203,10 @@ class ilExAssTypeWikiTeamGUI implements ilExAssignmentTypeGUIInterface
             $dl_link = $ctrl->getLinkTargetByClass(array("ilExSubmissionGUI", "ilExSubmissionFileGUI"), "download");
             $ctrl->setParameterByClass("ilExSubmissionFileGUI", "delivered", "");
 
-            $button = ilLinkButton::getInstance();
-            $button->setCaption("download");
-            $button->setUrl($dl_link);
-
-            $a_info->addProperty($lng->txt("exc_files_returned"), $button->render());
+            $a_info->addProperty($lng->txt("exc_files_returned"), $this->gui->button(
+                $lng->txt("download"),
+                $dl_link
+            )->render());
         }
     }
 

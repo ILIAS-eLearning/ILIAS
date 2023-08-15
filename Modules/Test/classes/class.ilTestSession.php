@@ -31,6 +31,9 @@ class ilTestSession
     public const ACCESS_CODE_CHAR_DOMAIN = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
     public const ACCESS_CODE_LENGTH = 5;
 
+    protected ilDBInterface $db;
+    protected ilObjUser $user;
+
     private int $ref_id;
     private int $pass;
     public int $active_id;
@@ -59,6 +62,10 @@ class ilTestSession
     */
     public function __construct()
     {
+        global $DIC;
+        $this->db = $DIC['ilDB'];
+        $this->user = $DIC['ilUser'];
+
         $this->active_id = 0;
         $this->user_id = 0;
         $this->anonymous_id = 0;
@@ -88,17 +95,14 @@ class ilTestSession
 
     protected function activeIDExists($user_id, $test_id): bool
     {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-
-        if ($GLOBALS['DIC']['ilUser']->getId() != ANONYMOUS_USER_ID) {
-            $result = $ilDB->queryF(
+        if ($this->user->getId() != ANONYMOUS_USER_ID) {
+            $result = $this->db->queryF(
                 "SELECT * FROM tst_active WHERE user_fi = %s AND test_fi = %s",
-                array('integer','integer'),
-                array($user_id, $test_id)
+                ['integer','integer'],
+                [$user_id, $test_id]
             );
             if ($result->numRows()) {
-                $row = $ilDB->fetchAssoc($result);
+                $row = $this->db->fetchAssoc($result);
                 $this->active_id = (int) $row["active_id"];
                 $this->user_id = (int) $row["user_fi"];
                 $this->anonymous_id = $row["anonymous_id"];
@@ -121,12 +125,7 @@ class ilTestSession
 
     public function increaseTestPass(): void
     {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-        $ilLog = $DIC['ilLog'];
-
         if (!$this->active_id) {
-            require_once 'Modules/Test/exceptions/class.ilTestException.php';
             throw new ilTestException('missing active id on test pass increase!');
         }
 
@@ -145,70 +144,68 @@ class ilTestSession
             $active['tst_last_increase_pass'] = time();
             //ilSession::set($this->active_id, $active);
             $this->tstamp = time();
-            $ilDB->update(
+            $submittedtimestamp = $this->getSubmittedTimestamp() !== null && $this->getSubmittedTimestamp() !== '' ? $this->getSubmittedTimestamp() : null;
+            $this->db->update(
                 'tst_active',
-                array(
-                        'lastindex' => array('integer', $this->getLastSequence()),
-                        'tries' => array('integer', $this->getPass()),
-                        'submitted' => array('integer', $submitted),
-                        'submittimestamp' => array('timestamp', strlen($this->getSubmittedTimestamp()) ? $this->getSubmittedTimestamp() : null),
-                        'tstamp' => array('integer', time()),
-                        'last_finished_pass' => array('integer', $this->getLastFinishedPass()),
-                        'last_started_pass' => array('integer', $this->getLastStartedPass()),
-                        'objective_container' => array('integer', $this->getObjectiveOrientedContainerId())
-                    ),
-                array(
-                        'active_id' => array('integer', $this->getActiveId())
-                    )
+                [
+                    'lastindex' => ['integer', $this->getLastSequence()],
+                    'tries' => ['integer', $this->getPass()],
+                    'submitted' => ['integer', $submitted],
+                    'submittimestamp' => ['timestamp', $submittedtimestamp],
+                    'tstamp' => ['integer', time()],
+                    'last_finished_pass' => ['integer', $this->getLastFinishedPass()],
+                    'last_started_pass' => ['integer', $this->getLastStartedPass()],
+                    'objective_container' => ['integer', $this->getObjectiveOrientedContainerId()]
+                ],
+                [
+                    'active_id' => ['integer', $this->getActiveId()]
+                ]
             );
         }
     }
 
     public function saveToDb(): void
     {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-        $ilLog = $DIC['ilLog'];
-
         $submitted = ($this->isSubmitted()) ? 1 : 0;
+        $submittedtimestamp = $this->getSubmittedTimestamp() !== null && $this->getSubmittedTimestamp() !== '' ? $this->getSubmittedTimestamp() : null;
         if ($this->active_id > 0) {
-            $ilDB->update(
+            $this->db->update(
                 'tst_active',
-                array(
-                    'lastindex' => array('integer', $this->getLastSequence()),
-                    'tries' => array('integer', $this->getPass()),
-                    'submitted' => array('integer', $submitted),
-                    'submittimestamp' => array('timestamp', (strlen($this->getSubmittedTimestamp())) ? $this->getSubmittedTimestamp() : null),
-                    'tstamp' => array('integer', time() - 10),
-                    'last_finished_pass' => array('integer', $this->getLastFinishedPass()),
-                    'last_started_pass' => array('integer', $this->getPass()),
-                    'objective_container' => array('integer', $this->getObjectiveOrientedContainerId())
-                ),
-                array(
-                    'active_id' => array('integer', $this->getActiveId())
-                )
+                [
+                    'lastindex' => ['integer', $this->getLastSequence()],
+                    'tries' => ['integer', $this->getPass()],
+                    'submitted' => ['integer', $submitted],
+                    'submittimestamp' => ['timestamp', $submittedtimestamp],
+                    'tstamp' => ['integer', time() - 10],
+                    'last_finished_pass' => ['integer', $this->getLastFinishedPass()],
+                    'last_started_pass' => ['integer', $this->getPass()],
+                    'objective_container' => ['integer', $this->getObjectiveOrientedContainerId()]
+                ],
+                [
+                    'active_id' => ['integer', $this->getActiveId()]
+                ]
             );
         } else {
             if (!$this->activeIDExists($this->getUserId(), $this->getTestId())) {
                 $anonymous_id = $this->getAnonymousId() ?: null;
 
-                $next_id = $ilDB->nextId('tst_active');
-                $ilDB->insert(
+                $next_id = $this->db->nextId('tst_active');
+                $this->db->insert(
                     'tst_active',
-                    array(
-                        'active_id' => array('integer', $next_id),
-                        'user_fi' => array('integer', $this->getUserId()),
-                        'anonymous_id' => array('text', $anonymous_id),
-                        'test_fi' => array('integer', $this->getTestId()),
-                        'lastindex' => array('integer', $this->getLastSequence()),
-                        'tries' => array('integer', $this->getPass()),
-                        'submitted' => array('integer', $submitted),
-                        'submittimestamp' => array('timestamp', (strlen($this->getSubmittedTimestamp())) ? $this->getSubmittedTimestamp() : null),
-                        'tstamp' => array('integer', time() - 10),
-                        'last_finished_pass' => array('integer', $this->getLastFinishedPass()),
-                        'last_started_pass' => array('integer', $this->getPass()),
-                        'objective_container' => array('integer', $this->getObjectiveOrientedContainerId())
-                    )
+                    [
+                        'active_id' => ['integer', $next_id],
+                        'user_fi' => ['integer', $this->getUserId()],
+                        'anonymous_id' => ['text', $anonymous_id],
+                        'test_fi' => ['integer', $this->getTestId()],
+                        'lastindex' => ['integer', $this->getLastSequence()],
+                        'tries' => ['integer', $this->getPass()],
+                        'submitted' => ['integer', $submitted],
+                        'submittimestamp' => ['timestamp', (strlen($this->getSubmittedTimestamp())) ? $this->getSubmittedTimestamp() : null],
+                        'tstamp' => ['integer', time() - 10],
+                        'last_finished_pass' => ['integer', $this->getLastFinishedPass()],
+                        'last_started_pass' => ['integer', $this->getPass()],
+                        'objective_container' => ['integer', $this->getObjectiveOrientedContainerId()]
+                    ]
                 );
                 $this->active_id = $next_id;
             }
@@ -217,33 +214,29 @@ class ilTestSession
 
     public function loadTestSession($test_id, $user_id = "", $anonymous_id = ""): void
     {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-        $ilUser = $DIC['ilUser'];
-
         if (!$user_id) {
-            $user_id = $ilUser->getId();
+            $user_id = $this->user->getId();
         }
-        if (($GLOBALS['DIC']['ilUser']->getId() == ANONYMOUS_USER_ID) && $this->doesAccessCodeInSessionExists()) {
-            $result = $ilDB->queryF(
+        if (($this->user->getId() == ANONYMOUS_USER_ID) && $this->doesAccessCodeInSessionExists()) {
+            $result = $this->db->queryF(
                 "SELECT * FROM tst_active WHERE user_fi = %s AND test_fi = %s AND anonymous_id = %s",
-                array('integer','integer','text'),
-                array($user_id, $test_id, $this->getAccessCodeFromSession())
+                ['integer','integer','text'],
+                [$user_id, $test_id, $this->getAccessCodeFromSession()]
             );
-        } elseif (strlen($anonymous_id)) {
-            $result = $ilDB->queryF(
+        } elseif ($anonymous_id && $anonymous_id !== '') {
+            $result = $this->db->queryF(
                 "SELECT * FROM tst_active WHERE user_fi = %s AND test_fi = %s AND anonymous_id = %s",
-                array('integer','integer','text'),
-                array($user_id, $test_id, $anonymous_id)
+                ['integer','integer','text'],
+                [$user_id, $test_id, $anonymous_id]
             );
         } else {
-            if ($GLOBALS['DIC']['ilUser']->getId() == ANONYMOUS_USER_ID) {
+            if ($this->user->getId() == ANONYMOUS_USER_ID) {
                 return;
             }
-            $result = $ilDB->queryF(
+            $result = $this->db->queryF(
                 "SELECT * FROM tst_active WHERE user_fi = %s AND test_fi = %s",
-                array('integer','integer'),
-                array($user_id, $test_id)
+                ['integer','integer'],
+                [$user_id, $test_id]
             );
         }
 
@@ -251,7 +244,7 @@ class ilTestSession
         $this->user_id = $user_id;
 
         if ($result->numRows()) {
-            $row = $ilDB->fetchAssoc($result);
+            $row = $this->db->fetchAssoc($result);
             $this->active_id = $row["active_id"];
             $this->user_id = $row["user_fi"];
             $this->anonymous_id = $row["anonymous_id"];
@@ -277,15 +270,13 @@ class ilTestSession
     */
     public function loadFromDb($active_id)
     {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-        $result = $ilDB->queryF(
+        $result = $this->db->queryF(
             "SELECT * FROM tst_active WHERE active_id = %s",
-            array('integer'),
-            array($active_id)
+            ['integer'],
+            [$active_id]
         );
         if ($result->numRows()) {
-            $row = $ilDB->fetchAssoc($result);
+            $row = $this->db->fetchAssoc($result);
             $this->active_id = $row["active_id"];
             $this->user_id = $row["user_fi"];
             $this->anonymous_id = $row["anonymous_id"];
@@ -432,28 +423,22 @@ class ilTestSession
 
     public function persistTestStartLock($testStartLock)
     {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-
-        $ilDB->update(
+        $this->db->update(
             'tst_active',
-            array('start_lock' => array('text', $testStartLock)),
-            array('active_id' => array('integer', $this->getActiveId()))
+            ['start_lock' => ['text', $testStartLock]],
+            ['active_id' => ['integer', $this->getActiveId()]]
         );
     }
 
     public function lookupTestStartLock()
     {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-
-        $res = $ilDB->queryF(
+        $res = $this->db->queryF(
             "SELECT start_lock FROM tst_active WHERE active_id = %s",
-            array('integer'),
-            array($this->getActiveId())
+            ['integer'],
+            [$this->getActiveId()]
         );
 
-        while ($row = $ilDB->fetchAssoc($res)) {
+        while ($row = $this->db->fetchAssoc($res)) {
             return $row['start_lock'];
         }
 
@@ -463,12 +448,11 @@ class ilTestSession
     public function setAccessCodeToSession($access_code)
     {
         if (!is_array(ilSession::get(self::ACCESS_CODE_SESSION_INDEX))) {
-            ilSession::set(self::ACCESS_CODE_SESSION_INDEX, array());
+            ilSession::set(self::ACCESS_CODE_SESSION_INDEX, []);
         }
         $session_code = ilSession::get(self::ACCESS_CODE_SESSION_INDEX);
         $session_code[$this->getTestId()] = $access_code;
         ilSession::set(self::ACCESS_CODE_SESSION_INDEX, $session_code);
-        //$_SESSION[self::ACCESS_CODE_SESSION_INDEX][$this->getTestId()] = $access_code;
     }
 
     public function unsetAccessCodeInSession()
@@ -476,7 +460,6 @@ class ilTestSession
         $session_code = ilSession::get(self::ACCESS_CODE_SESSION_INDEX);
         unset($session_code[$this->getTestId()]);
         ilSession::set(self::ACCESS_CODE_SESSION_INDEX, $session_code);
-        //unset($_SESSION[self::ACCESS_CODE_SESSION_INDEX][$this->getTestId()]);
     }
 
     public function getAccessCodeFromSession()
@@ -516,15 +499,12 @@ class ilTestSession
 
     public function isAccessCodeUsed($code): bool
     {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-
         $query = "SELECT anonymous_id FROM tst_active WHERE test_fi = %s AND anonymous_id = %s";
 
-        $result = $ilDB->queryF(
+        $result = $this->db->queryF(
             $query,
-            array('integer', 'text'),
-            array($this->getTestId(), $code)
+            ['integer', 'text'],
+            [$this->getTestId(), $code]
         );
 
         return ($result->numRows() > 0);
@@ -550,6 +530,19 @@ class ilTestSession
     public function isAnonymousUser(): bool
     {
         return $this->getUserId() == ANONYMOUS_USER_ID;
+    }
+
+    public function isPasswordChecked(): bool
+    {
+        if (ilSession::get('pw_checked_' . $this->active_id) === null) {
+            return false;
+        }
+        return ilSession::get('pw_checked_' . $this->active_id);
+    }
+
+    public function setPasswordChecked(bool $value): void
+    {
+        ilSession::set('pw_checked_' . $this->active_id, $value);
     }
 
     /**
@@ -583,10 +576,7 @@ class ilTestSession
      */
     public function hasSinglePassReportable(ilObjTest $testObj): bool
     {
-        global $DIC; /* @var ILIAS\DI\Container $DIC */
-
-        require_once 'Modules/Test/classes/class.ilTestPassesSelector.php';
-        $testPassesSelector = new ilTestPassesSelector($DIC->database(), $testObj);
+        $testPassesSelector = new ilTestPassesSelector($this->db, $testObj);
         $testPassesSelector->setActiveId($this->getActiveId());
         $testPassesSelector->setLastFinishedPass($this->getLastFinishedPass());
 

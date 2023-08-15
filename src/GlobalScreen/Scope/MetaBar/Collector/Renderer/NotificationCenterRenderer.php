@@ -1,6 +1,5 @@
 <?php
 
-declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -16,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\GlobalScreen\Scope\MetaBar\Collector\Renderer;
 
@@ -57,7 +58,7 @@ class NotificationCenterRenderer extends AbstractMetaBarItemRenderer implements 
     {
         $f = $this->ui->factory();
 
-        $center = $f->mainControls()->slate()->combined($this->lng->txt("noc"), $item->getSymbol())
+        $center = $f->mainControls()->slate()->combined($this->lng->txt("noc"), $this->buildIcon($item))
                     ->withEngaged(false);
 
         foreach ($this->gs->collector()->notifications()->getNotifications() as $notification) {

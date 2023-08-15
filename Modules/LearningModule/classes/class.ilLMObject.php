@@ -702,7 +702,7 @@ class ilLMObject
         $obj_set = $ilDB->query($query);
         $obj_rec = $ilDB->fetchAssoc($obj_set);
 
-        return $obj_rec["lm_id"];
+        return (int) $obj_rec["lm_id"];
     }
 
     /**
@@ -834,7 +834,7 @@ class ilLMObject
                         $ilUser->addObjectToClipboard(
                             $subnode["child"],
                             $subnode["type"],
-                            $subnode["title"],
+                            ilStr::subStr($subnode["title"], 0, 70),
                             $subnode["parent"],
                             $time,
                             $subnode["lft"]
@@ -848,7 +848,7 @@ class ilLMObject
             $ilUser->addObjectToClipboard(
                 $id,
                 self::_lookupType($id),
-                self::_lookupTitle($id),
+                ilStr::subStr(self::_lookupTitle($id), 0, 70),
                 0,
                 $time,
                 $order
@@ -1101,7 +1101,7 @@ class ilLMObject
                     $fix = array();
                     foreach ($sources as $source) {
                         $stype = explode(":", $source["type"]);
-                        $source_type = $stype[1];
+                        $source_type = $stype[1] ?? "";
 
                         if ($source_type == "pg" || $source_type == "st") {
                             // first of all: source must be in original lm

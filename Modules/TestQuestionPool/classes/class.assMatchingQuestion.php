@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\Refinery\Random\Group as RandomGroup;
 use ILIAS\Refinery\Random\Seed\RandomSeed;
@@ -294,17 +294,11 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
             $this->setAuthor($data["author"]);
             $this->setPoints((float)$data["points"]);
             $this->setOwner((int)$data["owner"]);
-            include_once("./Services/RTE/classes/class.ilRTE.php");
             $this->setQuestion(ilRTE::_replaceMediaObjectImageSrc((string) $data["question_text"], 1));
             $this->setThumbGeometry((int)$data["thumb_geometry"]);
             $this->setShuffle($data["shuffle"] != '0');
             $this->setShuffleMode((int)$data['shuffle']);
             $this->setMatchingMode($data['matching_mode'] === null ? self::MATCHING_MODE_1_ON_1 : $data['matching_mode']);
-            $this->setEstimatedWorkingTime(
-                (int)substr($data["working_time"], 0, 2),
-                (int)substr($data["working_time"], 3, 2),
-                (int)substr($data["working_time"], 6, 2)
-            );
 
             try {
                 $this->setLifecycle(ilAssQuestionLifecycle::getInstance($data['lifecycle']));
@@ -383,7 +377,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         $thisObjId = $this->getObjId();
 
         $clone = $this;
-        include_once("./Modules/TestQuestionPool/classes/class.assQuestion.php");
+
         $original_id = assQuestion::_getOriginalId($this->id);
         $clone->id = -1;
 
@@ -398,7 +392,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
             $clone->setAuthor($author);
         }
         if ($owner) {
-            $clone->setOwner($owner);
+            $clone->setOwner((int) $owner);
         }
         if ($for_test) {
             $clone->saveToDb($original_id);
@@ -428,7 +422,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         }
         // duplicate the question in database
         $clone = $this;
-        include_once("./Modules/TestQuestionPool/classes/class.assQuestion.php");
+
         $original_id = assQuestion::_getOriginalId($this->id);
         $clone->id = -1;
         $source_questionpool_id = $this->getObjId();
@@ -454,8 +448,6 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         if ($this->getId() <= 0) {
             throw new RuntimeException('The question has not been saved. It cannot be duplicated');
         }
-
-        include_once("./Modules/TestQuestionPool/classes/class.assQuestion.php");
 
         $sourceQuestionId = $this->id;
         $sourceParentId = $this->getObjId();
@@ -692,6 +684,17 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     }
 
     /**
+    * @param assAnswerMatchingPair[]
+    */
+    public function withMatchingPairs(array $pairs): self
+    {
+        $clone = clone $this;
+        $clone->matchingpairs = $pairs;
+        return $clone;
+    }
+
+
+    /**
     * Returns the number of matching pairs
     *
     * @return integer The number of matching pairs of the matching question
@@ -879,7 +882,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         if (is_null($pass)) {
             $pass = $this->getSolutionMaxPass($active_id);
         }
-        $result = $this->getCurrentSolutionResultSet($active_id, $pass, $authorizedSolution);
+        $result = $this->getCurrentSolutionResultSet($active_id, (int)$pass, $authorizedSolution);
         while ($data = $ilDB->fetchAssoc($result)) {
             if (strcmp($data["value1"], "") != 0) {
                 if (!isset($found_values[$data['value2']])) {
@@ -1020,8 +1023,12 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     public function deleteImagefile(string $filename): bool
     {
         $deletename = $filename;
-        $result = @unlink($this->getImagePath() . $deletename);
-        $result = $result && @unlink($this->getImagePath() . $this->getThumbPrefix() . $deletename);
+        try {
+            $result = unlink($this->getImagePath() . $deletename)
+                && unlink($this->getImagePath() . $this->getThumbPrefix() . $deletename);
+        } catch (Throwable $e) {
+            $result = false;
+        }
         return $result;
     }
 
@@ -1126,7 +1133,6 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 
         if ($submittedMatchingsValid) {
             if (is_null($pass)) {
-                include_once "./Modules/Test/classes/class.ilObjTest.php";
                 $pass = ilObjTest::_getPass($active_id);
             }
 
@@ -1146,7 +1152,6 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
             $saveWorkingDataResult = false;
         }
 
-        include_once("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
         if (ilObjAssessmentFolder::_enabledAssessmentLogging()) {
             if ($matchingsExist) {
                 assQuestion::logAction($this->lng->txtlng(
@@ -1237,9 +1242,9 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     /**
      * {@inheritdoc}
      */
-    public function setExportDetailsXLS(ilAssExcelFormatHelper $worksheet, int $startrow, int $active_id, int $pass): int
+    public function setExportDetailsXLS(ilAssExcelFormatHelper $worksheet, int $startrow, int $col, int $active_id, int $pass): int
     {
-        parent::setExportDetailsXLS($worksheet, $startrow, $active_id, $pass);
+        parent::setExportDetailsXLS($worksheet, $startrow, $col, $active_id, $pass);
 
         $solutions = $this->getSolutionValues($active_id, $pass);
 
@@ -1249,21 +1254,21 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
             $matches_written = false;
             foreach ($this->getMatchingPairs() as $idx => $pair) {
                 if (!$matches_written) {
-                    $worksheet->setCell($startrow + $i, 1, $this->lng->txt("matches"));
+                    $worksheet->setCell($startrow + $i, $col + 1, $this->lng->txt("matches"));
                 }
                 $matches_written = true;
                 if ($pair->getDefinition()->getIdentifier() == $solution["value2"]) {
                     if (strlen($pair->getDefinition()->getText())) {
-                        $worksheet->setCell($startrow + $i, 0, $pair->getDefinition()->getText());
+                        $worksheet->setCell($startrow + $i, $col, $pair->getDefinition()->getText());
                     } else {
-                        $worksheet->setCell($startrow + $i, 0, $pair->getDefinition()->getPicture());
+                        $worksheet->setCell($startrow + $i, $col, $pair->getDefinition()->getPicture());
                     }
                 }
                 if ($pair->getTerm()->getIdentifier() == $solution["value1"]) {
                     if (strlen($pair->getTerm()->getText())) {
-                        $worksheet->setCell($startrow + $i, 2, $pair->getTerm()->getText());
+                        $worksheet->setCell($startrow + $i, $col + 2, $pair->getTerm()->getText());
                     } else {
-                        $worksheet->setCell($startrow + $i, 2, $pair->getTerm()->getPicture());
+                        $worksheet->setCell($startrow + $i, $col + 2, $pair->getTerm()->getPicture());
                     }
                 }
             }
@@ -1352,7 +1357,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     */
     public function toJSON(): string
     {
-        $result = array();
+        $result = [];
 
         $result['id'] = $this->getId();
         $result['type'] = (string) $this->getQuestionType();
@@ -1368,33 +1373,26 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 
         $this->setShuffler($this->randomGroup->shuffleArray(new RandomSeed()));
 
-        $terms = array();
+        $terms = [];
         foreach ($this->getShuffler()->transform($this->getTerms()) as $term) {
-            $terms[] = array(
+            $terms[] = [
                 "text" => $this->formatSAQuestion($term->getText()),
                 "id" => $this->getId() . $term->getIdentifier()
-            );
+            ];
         }
         $result['terms'] = $terms;
 
-        // alex 9.9.2010 as a fix for bug 6513 I added the question id
-        // to the "def_id" in the array. The $pair->getDefinition()->getIdentifier() is not
-        // unique, since it gets it value from the morder table field
-        // this value is not changed, when a question is copied.
-        // thus copying the same question on a page results in problems
-        // when the second one (the copy) is answered.
-
-        $definitions = array();
+        $definitions = [];
         foreach ($this->getShuffler()->transform($this->getDefinitions()) as $def) {
-            $definitions[] = array(
+            $definitions[] = [
                 "text" => $this->formatSAQuestion((string) $def->getText()),
                 "id" => $this->getId() . $def->getIdentifier()
-            );
+            ];
         }
         $result['definitions'] = $definitions;
 
         // #10353
-        $matchings = array();
+        $matchings = [];
         foreach ($this->getMatchingPairs() as $pair) {
             // fau: fixLmMatchingPoints - ignore matching pairs with 0 or negative points
             if ($pair->getPoints() <= 0) {
@@ -1408,11 +1406,11 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
             }
 
             if (!isset($matchings[$pid]) || $matchings[$pid]["points"] < $pair->getPoints()) {
-                $matchings[$pid] = array(
+                $matchings[$pid] = [
                     "term_id" => $this->getId() . $pair->getTerm()->getIdentifier(),
                     "def_id" => $this->getId() . $pair->getDefinition()->getIdentifier(),
                     "points" => (int) $pair->getPoints()
-                );
+                ];
             }
         }
 
@@ -1421,10 +1419,8 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         $mobs = ilObjMediaObject::_getMobsOfObject("qpl:html", $this->getId());
         $result['mobs'] = $mobs;
 
-        global $DIC;
-        $lng = $DIC['lng'];
-        $lng->loadLanguageModule('assessment');
-        $result['reset_button_label'] = $lng->txt("reset_terms");
+        $this->lng->loadLanguageModule('assessment');
+        $result['reset_button_label'] = $this->lng->txt("reset_terms");
 
         return json_encode($result);
     }

@@ -45,6 +45,26 @@ class SkillProfileFactory
         );
     }
 
+    public function roleProfile(
+        int $role_id,
+        int $profile_id,
+        string $title,
+        string $description,
+        int $skill_tree_id,
+        string $image_id,
+        int $ref_id
+    ): SkillRoleProfile {
+        return new SkillRoleProfile(
+            $role_id,
+            $profile_id,
+            $title,
+            $description,
+            $skill_tree_id,
+            $image_id,
+            $ref_id
+        );
+    }
+
     public function profileLevel(
         int $profile_id,
         int $base_skill_id,

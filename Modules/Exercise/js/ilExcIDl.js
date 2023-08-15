@@ -24,13 +24,12 @@ il.ExcIDl = {
 	},
 	
 	trigger: function(user_id, ass_id) {
-		console.log("trigger");
-		il.Util.sendAjaxGetRequestToUrl(
+		il.repository.core.fetchHtml(
 			il.ExcIDl.ajax_url,
-			{idlid: ass_id+"_"+user_id},
-			{},
-			il.ExcIDl.showModal
-		);
+			{idlid: ass_id+"_"+user_id}
+		).then((html) => {
+			il.ExcIDl.showModal(html);
+		});
 		return false;
 	},
 	
@@ -74,14 +73,14 @@ il.ExcIDl = {
 				});	
 				if(cmd == "setIndividualDeadline" && ids.length)
 				{
+					console.log("trigger 2");
 					// :TODO: handle preventDoubleSubmission?
-					
-					il.Util.sendAjaxGetRequestToUrl(
+					il.repository.core.fetchHtml(
 						il.ExcIDl.ajax_url,
-						{idlid: ids.join()},
-						{},
-						il.ExcIDl.showModal
-					);
+						{idlid: ids.join()}
+					).then((html) => {
+						il.ExcIDl.showModal(html);
+					});
 					return false;
 				}
 			}
@@ -92,11 +91,11 @@ il.ExcIDl = {
 		});				
 	},		
 	
-	showModal: function(o) {
+	showModal: function(html) {
 		console.log("show modal");
-		if(o.responseText !== undefined)
+		if(html !== undefined)
 		{			
-			$("#ilExcIDlBody").html(o.responseText);
+			$("#ilExcIDlBody").html(html);
 			
 			il.ExcIDl.parseForm();
 			

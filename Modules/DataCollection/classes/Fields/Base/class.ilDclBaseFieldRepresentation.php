@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -13,14 +14,11 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
-/**
- * Class ilDclBaseFieldRepresentation
- * @author  Michael Herren <mh@studer-raimann.ch>
- * @version 1.0.0
- */
+
+declare(strict_types=1);
+
 abstract class ilDclBaseFieldRepresentation
 {
     protected ilDclBaseFieldModel $field;
@@ -85,11 +83,7 @@ abstract class ilDclBaseFieldRepresentation
         return $pass;
     }
 
-    /**
-     * @param mixed $value
-     * @return mixed
-     */
-    public function parseSortingValue(string $value, bool $link = true)
+    public function parseSortingValue(string $value, bool $link = true): mixed
     {
         return $value;
     }
@@ -97,7 +91,7 @@ abstract class ilDclBaseFieldRepresentation
     /**
      * Returns field-input
      */
-    public function getInputField(ilPropertyFormGUI $form, int $record_id = 0): ?ilFormPropertyGUI
+    public function getInputField(ilPropertyFormGUI $form, ?int $record_id = null): ?ilFormPropertyGUI
     {
         return null;
     }
@@ -161,7 +155,7 @@ abstract class ilDclBaseFieldRepresentation
     {
         $opt = new ilRadioOption(
             $this->lng->txt('dcl_' . $this->getField()->getDatatype()->getTitle()),
-            $this->getField()->getDatatypeId()
+            (string)$this->getField()->getDatatypeId()
         );
         $opt->setInfo($this->lng->txt('dcl_' . $this->getField()->getDatatype()->getTitle() . '_desc'));
 

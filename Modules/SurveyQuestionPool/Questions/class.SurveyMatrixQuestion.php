@@ -295,7 +295,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
                 array($question_id)
             );
             while ($row = $ilDB->fetchAssoc($result)) {
-                $this->addRow($row["title"], $row['other'], $row['label']);
+                $this->addRow($row["title"], $row['other'], (string) ($row['label'] ?? ""));
             }
         }
         parent::loadFromDb($question_id);
@@ -1086,7 +1086,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
         if (is_array($layout)) {
             $this->layout = $layout;
         } else {
-            $this->layout = unserialize($layout, ['allowed_classes' => false]) ?: [];
+            $this->layout = unserialize((string) $layout, ['allowed_classes' => false]) ?: [];
         }
     }
 

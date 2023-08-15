@@ -74,7 +74,6 @@ class assFormulaQuestionVariable
             }
         }
 
-        include_once "./Services/Math/classes/class.ilMath.php";
         $mul = ilMath::_pow(10, $this->getPrecision());
         $r1 = round(ilMath::_mul($this->getRangeMin(), $mul));
         $r2 = round(ilMath::_mul($this->getRangeMax(), $mul));
@@ -138,7 +137,6 @@ class assFormulaQuestionVariable
         if (!is_object($this->getUnit())) {
             return $this->value;
         } else {
-            include_once "./Services/Math/classes/class.ilMath.php";
             return ilMath::_mul($this->value, $this->getUnit()->getFactor());
         }
     }
@@ -167,7 +165,6 @@ class assFormulaQuestionVariable
 
     public function setRangeMin($range_min): void
     {
-        include_once "./Services/Math/classes/class.EvalMath.php";
         $math = new EvalMath();
         $math->suppress_errors = true;
         $result = $math->evaluate($range_min);
@@ -182,7 +179,6 @@ class assFormulaQuestionVariable
 
     public function setRangeMax($range_max): void
     {
-        include_once "./Services/Math/classes/class.EvalMath.php";
         $math = new EvalMath();
         $math->suppress_errors = true;
         $result = $math->evaluate($range_max);

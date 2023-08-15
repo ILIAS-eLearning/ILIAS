@@ -18,6 +18,9 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+use ILIAS\Filesystem\Filesystem;
+use ILIAS\FileUpload\FileUpload;
+
 /**
  * Class ilObject
  * Basic functions for all objects
@@ -32,8 +35,10 @@ class ilObject
     public const DESC_LENGTH = 128; // (short) description column max length in db
     public const LONG_DESC_LENGTH = 4000; // long description column max length in db
     public const TABLE_OBJECT_DATA = "object_data";
-    protected ilLogger $obj_log;
 
+    private ?ilObjectProperties $object_properties = null;
+
+    protected ilLogger $obj_log;
     protected ?ILIAS $ilias;
     protected ?ilObjectDefinition $obj_definition;
     protected ilDBInterface $db;
@@ -46,8 +51,6 @@ class ilObject
     protected ilObjUser $user;
     protected ilLanguage $lng;
 
-    protected int $id;
-    protected bool $referenced;
     protected bool $call_by_reference;
     protected int $max_title = self::TITLE_LENGTH;
     protected int $max_desc = self::DESC_LENGTH;
@@ -55,7 +58,6 @@ class ilObject
     protected ?int $ref_id = null;
     protected string $type = "";
     protected string $title = "";
-    protected bool $offline = false;
     protected string $desc = "";
     protected string $long_desc = "";
     protected int $owner = 0;
@@ -63,6 +65,8 @@ class ilObject
     protected string $last_update = "";
     protected string $import_id = "";
     protected bool $register = false;	// registering required for object? set to true to implement a subscription interface
+
+    private bool $process_auto_reating = false;
 
 
     /**
@@ -79,8 +83,11 @@ class ilObject
      * @param int  $id        reference_id or object_id
      * @param bool $reference bool treat the id as reference_id (true) or object_id (false)
      */
-    public function __construct(int $id = 0, bool $reference = true)
-    {
+    public function __construct(
+        protected int $id = 0,
+        protected bool $referenced = true
+    ) {
+        /** @var ILIAS\DI\Container $DIC */
         global $DIC;
 
         $this->ilias = $DIC["ilias"];
@@ -92,8 +99,7 @@ class ilObject
         $this->tree = $DIC["tree"];
         $this->app_event_handler = $DIC["ilAppEventHandler"];
 
-        $this->referenced = $reference;
-        $this->call_by_reference = $reference;
+        $this->call_by_reference = $this->referenced;
 
         if (isset($DIC["lng"])) {
             $this->lng = $DIC["lng"];
@@ -126,6 +132,34 @@ class ilObject
         }
     }
 
+    private function initializeObjectProperties(
+        Filesystem $filesystem,
+        FileUpload $upload,
+        ilObjectCustomIconFactory $custom_icon_factory
+    ): ilObjectProperties {
+        return (new ilObjectPropertiesAgregator(
+            new ilObjectCorePropertiesDatabaseRepository($this->db),
+            new ilObjectAdditionalPropertiesLegacyRepository(
+                $custom_icon_factory,
+                $filesystem,
+                $upload
+            )
+        ))->getFor($this->getId());
+    }
+
+    public function getObjectProperties(): ilObjectProperties
+    {
+        if ($this->object_properties === null) {
+            global $DIC;
+            $this->object_properties = $this->initializeObjectProperties(
+                $DIC->filesystem()->web(),
+                $DIC->upload(),
+                $DIC['object.customicons.factory']
+            );
+        }
+        return $this->object_properties;
+    }
+
     /**
     * determines whether objects are referenced or not (got ref ids or not)
     */
@@ -135,6 +169,14 @@ class ilObject
         return ($this->call_by_reference) ? true : $this->referenced;
     }
 
+    /**
+     *
+     * @deprecated: This function will be removed asap.
+     */
+    public function processAutoRating(): void
+    {
+        $this->process_auto_reating = true;
+    }
 
     public function read(): void
     {
@@ -153,7 +195,7 @@ class ilObject
             // read object data
             $sql =
                 "SELECT od.obj_id, od.type, od.title, od.description, od.owner, od.create_date," . PHP_EOL
-                . "od.last_update, od.import_id, od.offline, ore.ref_id, ore.obj_id, ore.deleted, ore.deleted_by" . PHP_EOL
+                . "od.last_update, od.import_id, ore.ref_id, ore.obj_id, ore.deleted, ore.deleted_by" . PHP_EOL
                 . "FROM " . self::TABLE_OBJECT_DATA . " od" . PHP_EOL
                 . "JOIN object_reference ore ON od.obj_id = ore.obj_id" . PHP_EOL
                 . "WHERE ore.ref_id = " . $this->db->quote($this->ref_id, "integer") . PHP_EOL
@@ -162,7 +204,7 @@ class ilObject
             $result = $this->db->query($sql);
 
             // check number of records
-            if ($this->db->numRows($result) == 0) {
+            if ($this->db->numRows($result) === 0) {
                 $message = sprintf(
                     "ilObject::read(): Object with ref_id %s not found! (%s)",
                     $this->ref_id,
@@ -183,7 +225,7 @@ class ilObject
             ;
             $result = $this->db->query($sql);
 
-            if ($this->db->numRows($result) == 0) {
+            if ($this->db->numRows($result) === 0) {
                 $message = sprintf("ilObject::read(): Object with obj_id: %s (%s) not found!", $this->id, $this->type);
                 throw new ilObjectNotFoundException($message);
             }
@@ -216,8 +258,6 @@ class ilObject
         $this->create_date = (string) $obj["create_date"];
         $this->last_update = (string) $obj["last_update"];
         $this->import_id = (string) $obj["import_id"];
-
-        $this->setOfflineStatus((bool) $obj['offline']);
 
         if ($this->obj_definition->isRBACObject($this->getType())) {
             $sql =
@@ -255,6 +295,8 @@ class ilObject
                 $this->setDescription((string) $row->description);
             }
         }
+
+        $this->object_properties = null;
     }
 
     public function getId(): int
@@ -382,12 +424,17 @@ class ilObject
 
     public function setOfflineStatus(bool $status): void
     {
-        $this->offline = $status;
+        $property_is_online = $this->getObjectProperties()->getPropertyIsOnline()->withOnline();
+        if ($status) {
+            $property_is_online = $property_is_online->withOffline();
+        }
+
+        $this->object_properties = $this->getObjectProperties()->withPropertyIsOnline($property_is_online);
     }
 
     public function getOfflineStatus(): bool
     {
-        return $this->offline;
+        return !$this->getObjectProperties()->getPropertyIsOnline()->getIsOnline();
     }
 
     public function supportsOfflineHandling(): bool
@@ -508,10 +555,14 @@ class ilObject
             "create_date" => ["date", $this->db->now()],
             "last_update" => ["date", $this->db->now()],
             "import_id" => ["text", $this->getImportId()],
-            "offline" => ["integer", $this->supportsOfflineHandling() ? $this->getOfflineStatus() : null]
         ];
 
         $this->db->insert(self::TABLE_OBJECT_DATA, $values);
+
+        if ($this->supportsOfflineHandling()) {
+            $property_is_online = $this->getObjectProperties()->getPropertyIsOnline()->withOffline();
+            $this->getObjectProperties()->storePropertyIsOnline($property_is_online);
+        }
 
 
         // Save long form of description if is rbac object
@@ -529,7 +580,6 @@ class ilObject
 
         // the line ($this->read();) messes up meta data handling: meta data,
         // that is not saved at this time, gets lost, so we query for the dates alone
-        //$this->read();
         $sql =
             "SELECT last_update, create_date" . PHP_EOL
             . "FROM " . self::TABLE_OBJECT_DATA . PHP_EOL
@@ -579,9 +629,6 @@ class ilObject
 
         $this->db->update(self::TABLE_OBJECT_DATA, $values, $where);
 
-        // the line ($this->read();) messes up meta data handling: metadata,
-        // that is not saved at this time, gets lost, so we query for the dates alone
-        //$this->read();
         $sql =
             "SELECT last_update" . PHP_EOL
             . "FROM " . self::TABLE_OBJECT_DATA . PHP_EOL
@@ -1140,7 +1187,7 @@ class ilObject
 
         $objects = array();
         while ($row = $db->fetchAssoc($result)) {
-            if ((!$omit_trash) || ilObject::_hasUntrashedReference($row["obj_id"])) {
+            if ((!$omit_trash) || ilObject::_hasUntrashedReference((int) $row["obj_id"])) {
                 $objects[$row["title"] . "." . $row["obj_id"]] = [
                     "id" => $row["obj_id"],
                     "type" => $row["type"],
@@ -1162,6 +1209,7 @@ class ilObject
     public function putInTree(int $parent_ref_id): void
     {
         $this->tree->insertNode($this->getRefId(), $parent_ref_id);
+        $this->handleAutoRating();
 
         $log_entry = sprintf(
             "ilObject::putInTree(), parent_ref: %s, ref_id: %s, obj_id: %s, type: %s, title: %s",
@@ -1560,6 +1608,7 @@ class ilObject
      */
     public function cloneObject(int $target_id, int $copy_id = 0, bool $omit_tree = false): ?ilObject
     {
+        /** @var ILIAS\DI\Container $DIC */
         global $DIC;
 
         $ilUser = $DIC["ilUser"];
@@ -1589,8 +1638,9 @@ class ilObject
         $new_obj->create(true);
 
         if ($this->supportsOfflineHandling()) {
-            $new_obj->setOffLineStatus($this->getOfflineStatus());
-            $new_obj->update();
+            $new_obj->getObjectProperties()->storePropertyIsOnline(
+                $this->getObjectProperties()->getPropertyIsOnline()
+            );
         }
 
         if (!$options->isTreeCopyDisabled() && !$omit_tree) {
@@ -1621,12 +1671,11 @@ class ilObject
         $this->db->manipulate($sql);
         // END WebDAV: Clone WebDAV properties
 
-        /** @var ilObjectCustomIconFactory $customIconFactory */
         $customIconFactory = $DIC['object.customicons.factory'];
         $customIcon = $customIconFactory->getByObjId($this->getId(), $this->getType());
         $customIcon->copy($new_obj->getId());
 
-        $tile_image = $DIC->object()->commonSettings()->tileImage()->getByObjId($this->getId());
+        $tile_image = $this->getObjectProperties()->getPropertyTileImage()->getTileImage();
         $tile_image->copy($new_obj->getId());
 
         $this->app_event_handler->raise(
@@ -1738,7 +1787,6 @@ class ilObject
         }
 
         if ($obj_id && $ilSetting->get('custom_icons')) {
-            /** @var ilObjectCustomIconFactory  $customIconFactory */
             $customIconFactory = $DIC['object.customicons.factory'];
             $customIcon = $customIconFactory->getPresenterByObjId($obj_id, $type);
             if ($customIcon->exists()) {
@@ -1792,6 +1840,48 @@ class ilObject
         bool $offline = false
     ): string {
         return self::getIconForReference(0, $obj_id, $size, $type, $offline);
+    }
+
+    protected function handleAutoRating(): void
+    {
+        if ($this->process_auto_reating
+            && $this->hasAutoRating()
+            && method_exists($this, "setRating")
+        ) {
+            $this->setRating(true);
+            $this->update();
+        }
+    }
+
+    protected function hasAutoRating(): bool
+    {
+        $ref_id = $this->getRefId();
+        $type = $this->type;
+
+        if (!$ref_id || !in_array($type, array("file", "lm", "wiki"))) {
+            return false;
+        }
+
+        return $this->selfOrParentWithRatingEnabled();
+    }
+
+    public function selfOrParentWithRatingEnabled(): bool
+    {
+        $tree = $this->tree;
+        $ref_id = $this->getRefId();
+        $parent_ref_id = $tree->checkForParentType($ref_id, "grp");
+        if (!$parent_ref_id) {
+            $parent_ref_id = $tree->checkForParentType($ref_id, "crs");
+        }
+        if ($parent_ref_id) {
+            // get auto rate setting
+            $parent_obj_id = ilObject::_lookupObjId($parent_ref_id);
+            return (bool) ilContainer::_lookupContainerSetting(
+                $parent_obj_id,
+                ilObjectServiceSettingsGUI::AUTO_RATING_NEW_OBJECTS
+            );
+        }
+        return false;
     }
 
     /**
@@ -1972,33 +2062,6 @@ class ilObject
         $result = $db->query($sql);
         $rec = $db->fetchAssoc($result);
         return $rec["create_date"];
-    }
-
-    /**
-     * Check if auto rating is active for parent group/course
-     */
-    public static function hasAutoRating(string $type, int $ref_id): bool
-    {
-        global $DIC;
-        $tree = $DIC->repositoryTree();
-
-        if (!$ref_id || !in_array($type, array("file", "lm", "wiki"))) {
-            return false;
-        }
-
-        $parent_ref_id = $tree->checkForParentType($ref_id, "grp");
-        if (!$parent_ref_id) {
-            $parent_ref_id = $tree->checkForParentType($ref_id, "crs");
-        }
-        if ($parent_ref_id) {
-            // get auto rate setting
-            $parent_obj_id = ilObject::_lookupObjId($parent_ref_id);
-            return (bool) ilContainer::_lookupContainerSetting(
-                $parent_obj_id,
-                ilObjectServiceSettingsGUI::AUTO_RATING_NEW_OBJECTS
-            );
-        }
-        return false;
     }
 
     /**

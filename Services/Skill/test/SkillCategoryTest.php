@@ -54,6 +54,21 @@ class SkillCategoryTest extends TestCase
             "ilDB",
             $db
         );
+        $tree = $this->createMock(ilTree::class);
+        $this->setGlobalVariable(
+            "tree",
+            $tree
+        );
+        $rbac = $this->createMock(ilRbacSystem::class);
+        $this->setGlobalVariable(
+            "rbacsystem",
+            $rbac
+        );
+        $user = $this->createMock(ilObjUser::class);
+        $this->setGlobalVariable(
+            "ilUser",
+            $user
+        );
 
         $this->skill_category = new ilSkillCategory();
     }

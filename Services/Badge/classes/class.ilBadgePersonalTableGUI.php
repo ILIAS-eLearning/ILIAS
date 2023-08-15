@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+use ILIAS\DI\UIServices;
+
 /**
  * TableGUI class for user badge listing
  *
@@ -25,6 +27,7 @@ class ilBadgePersonalTableGUI extends ilTable2GUI
 {
     protected ilObjUser $user;
     protected array $filter = [];
+    private readonly UIServices $ui;
 
     public function __construct(
         object $a_parent_obj,
@@ -37,6 +40,7 @@ class ilBadgePersonalTableGUI extends ilTable2GUI
         $this->user = $DIC->user();
         $this->ctrl = $DIC->ctrl();
         $this->tpl = $DIC["tpl"];
+        $this->ui = $DIC->ui();
         $lng = $DIC->language();
         $ilUser = $DIC->user();
         $ilCtrl = $DIC->ctrl();
@@ -153,13 +157,21 @@ class ilBadgePersonalTableGUI extends ilTable2GUI
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
 
+        $current = $a_set["active"] ? [
+            'target' => 'deactivate',
+            'text' => 'badge_remove_from_profile',
+            'active' => 'yes'
+        ] : [
+            'target' => 'activate',
+            'text' => 'badge_add_to_profile',
+            'active' => 'no',
+        ];
+
         $this->tpl->setVariable("VAL_ID", $a_set["id"]);
         $this->tpl->setVariable("PREVIEW", $a_set["renderer"]->getHTML());
         $this->tpl->setVariable("TXT_TITLE", $a_set["title"]);
         $this->tpl->setVariable("TXT_ISSUED_ON", ilDatePresentation::formatDate(new ilDateTime($a_set["issued_on"], IL_CAL_UNIX)));
-        $this->tpl->setVariable("TXT_ACTIVE", $a_set["active"]
-            ? $lng->txt("yes")
-            : $lng->txt("no"));
+        $this->tpl->setVariable("TXT_ACTIVE", $current["active"]);
 
         if ($a_set["parent"]) {
             $this->tpl->setVariable("TXT_PARENT", $a_set["parent_title"]);
@@ -169,19 +181,14 @@ class ilBadgePersonalTableGUI extends ilTable2GUI
             );
         }
 
-        $actions = new ilAdvancedSelectionListGUI();
-        $actions->setListTitle("");
-
         $ilCtrl->setParameter($this->getParentObject(), "badge_id", $a_set["id"]);
-        $url = $ilCtrl->getLinkTarget($this->getParentObject(), $a_set["active"]
-            ? "deactivate"
-            : "activate");
+        $url = $ilCtrl->getLinkTarget($this->getParentObject(), $current['target']);
         $ilCtrl->setParameter($this->getParentObject(), "badge_id", "");
-        $actions->addItem($lng->txt(!$a_set["active"]
-            ? "badge_add_to_profile"
-            : "badge_remove_from_profile"), "", $url);
 
+        $actions = $this->ui->factory()->dropdown()->standard([
+            $this->ui->factory()->button()->shy($lng->txt($current['text']), $url)
+        ]);
 
-        $this->tpl->setVariable("ACTIONS", $actions->getHTML());
+        $this->tpl->setVariable("ACTIONS", $this->ui->renderer()->render($actions));
     }
 }

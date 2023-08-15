@@ -50,8 +50,13 @@ class ilMStShowUserGUI
         $this->usr_id = $DIC->http()->request()->getQueryParams()['usr_id'];
         $DIC->ctrl()->setParameter($this, 'usr_id', $this->usr_id);
 
-        $DIC->ui()->mainTemplate()->setTitle(ilUserUtil::getNamePresentation($this->usr_id));
-        $DIC->ui()->mainTemplate()->setTitleIcon(ilObjUser::_getPersonalPicturePath($this->usr_id, "xxsmall"));
+        $this->setTitleAndIcon();
+    }
+
+    protected function setTitleAndIcon(): void
+    {
+        $this->main_tpl->setTitle(ilUserUtil::getNamePresentation($this->usr_id));
+        $this->main_tpl->setTitleIcon(ilObjUser::_getPersonalPicturePath($this->usr_id, "xxsmall"));
     }
 
     protected function checkAccessOrFail(): void
@@ -63,8 +68,7 @@ class ilMStShowUserGUI
             $DIC->ctrl()->redirectByClass(ilDashboardGUI::class, "");
         }
 
-        if ($this->access->hasCurrentUserAccessToMyStaff()
-            && $this->access->hasCurrentUserAccessToUser($this->usr_id)) {
+        if ($this->access->hasCurrentUserAccessToUser($this->usr_id)) {
             return;
         } else {
             $this->main_tpl->setOnScreenMessage('failure', $DIC->language()->txt("permission_denied"), true);
@@ -96,6 +100,7 @@ class ilMStShowUserGUI
                     new ilObjUser($this->usr_id)
                 );
                 $DIC->ctrl()->forwardCommand($gui);
+                $this->setTitleAndIcon();
                 break;
             case strtolower(ilMStShowUserCompetencesGUI::class):
                 $this->addTabs(self::TAB_SHOW_COMPETENCES);
@@ -168,7 +173,7 @@ class ilMStShowUserGUI
             ilMStListUsersGUI::class,
         )));
 
-        if ($this->access->hasCurrentUserAccessToMyStaff()) {
+        if ($this->access->hasCurrentUserAccessToCourseMemberships()) {
             $DIC->tabs()->addTab(
                 self::TAB_SHOW_COURSES,
                 $DIC->language()->txt('mst_list_courses'),
@@ -211,7 +216,7 @@ class ilMStShowUserGUI
             $DIC->tabs()->addTab(self::TAB_SHOW_USER, $DIC->language()->txt('public_profile'), $public_profile_url);
         }
 
-        if ($this->access->hasCurrentUserAccessToMyStaff()) {
+        if ($this->access->hasCurrentUserAccessToTalks()) {
             $DIC->ctrl()->setParameterByClass(strtolower(self::class), 'usr_id', $this->usr_id);
             $DIC->tabs()->addTab(self::TAB_SHOW_TALKS, $DIC->language()->txt('etal_talks'), $DIC->ctrl()->getLinkTargetByClass([
                     strtolower(ilMyStaffGUI::class),

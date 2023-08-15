@@ -45,10 +45,9 @@ class ilGlossaryDefinitionSearch extends ilAbstractSearch
         $where = $this->__createWhereCondition();
         $locate = $this->__createLocateString();
 
-        $query = "SELECT glo_id,gt.id  " .
+        $query = "SELECT glo_id,id  " .
             $locate .
-            "FROM glossary_term gt JOIN " .
-            "glossary_definition ON (gt.id = glossary_definition.term_id) " .
+            "FROM glossary_term " .
             $where;
 
         $res = $this->db->query($query);

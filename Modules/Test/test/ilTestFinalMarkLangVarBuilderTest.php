@@ -90,27 +90,5 @@ class ilTestFinalMarkLangVarBuilderTest extends TestCase
                 'expected' => 'mark_tst_passed_obligations_answered'
             )
         );
-        // OTX: Test breaks with fatal error...
-        //		foreach($testCases as $case)
-        //		{
-        //			// arrange
-//
-        //			$passedStatus = $case['param_passedStatus'];
-        //			$obligationsAnsweredStatus = $case['param_obligationsAnsweredStatus'];
-        //			$obligationsEnabled = $case['param_obligationsEnabled'];
-//
-        //			$expected = $case['expected'];
-//
-        //			require_once './Modules/Test/classes/class.ilTestFinalMarkLangVarBuilder.php';
-        //			$instance = new ilTestFinalMarkLangVarBuilder($passedStatus, $obligationsAnsweredStatus, $obligationsEnabled);
-//
-        //			// act
-//
-        //			$actual = $instance->build();
-//
-        //			// assert
-//
-        //			$this->assertEquals($expected, $actual);
-        //		}
     }
 }

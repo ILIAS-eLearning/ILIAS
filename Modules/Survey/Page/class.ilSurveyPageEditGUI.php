@@ -24,6 +24,7 @@
  */
 class ilSurveyPageEditGUI
 {
+    protected \ILIAS\Survey\InternalGUIService $gui;
     protected \ILIAS\Survey\PrintView\GUIService $print;
     protected \ILIAS\HTTP\Services $http;
     protected \ILIAS\DI\UIServices $ui;
@@ -83,6 +84,7 @@ class ilSurveyPageEditGUI
             ->internal()
             ->gui()
             ->print();
+        $this->gui = $DIC->survey()->internal()->gui();
     }
 
     public function executeCommand(): void
@@ -104,6 +106,8 @@ class ilSurveyPageEditGUI
                     // add page?
                     if ($this->svy_request->getNewId()) {
                         $this->insertNewQuestion($this->svy_request->getNewId());
+                        $ilCtrl->setParameter($this->editor_gui, "pgov", $this->current_page);
+                        $ilCtrl->redirect($this, "questions");
                     }
 
                     // subcommands
@@ -256,6 +260,7 @@ class ilSurveyPageEditGUI
         } else {
             $a_new_id = $this->appendNewQuestionToSurvey($a_new_id);
             $this->object->loadQuestionsFromDb();
+            $this->object->saveCompletionStatus();
 
             $pos = $this->svy_request->getTargetQuestionPosition();
 
@@ -1208,10 +1213,10 @@ class ilSurveyPageEditGUI
         $pages_drop = null;
 
         if (!$this->has_datasets) {
-            $button = ilLinkButton::getInstance();
-            $button->setCaption("survey_add_new_question");
-            $button->setUrl($ilCtrl->getLinkTarget($this, "addQuestionToolbarForm"));
-            $ilToolbar->addStickyItem($button);
+            $this->gui->link(
+                $lng->txt("survey_add_new_question"),
+                $ilCtrl->getLinkTarget($this, "addQuestionToolbarForm")
+            )->emphasised()->toToolbar(true);
 
             if ($this->object->getPoolUsage()) {
                 //$ilToolbar->addSeparator();
@@ -1232,10 +1237,10 @@ class ilSurveyPageEditGUI
                     ? 'browseForQuestions'
                     : 'browseForQuestionblocks';
 
-                $button = ilLinkButton::getInstance();
-                $button->setCaption("browse_for_questions");
-                $button->setUrl($ilCtrl->getLinkTarget($this->editor_gui, $cmd));
-                $ilToolbar->addStickyItem($button);
+                $this->gui->link(
+                    $lng->txt("browse_for_questions"),
+                    $ilCtrl->getLinkTarget($this->editor_gui, $cmd)
+                )->emphasised()->toToolbar(true);
 
                 $ilCtrl->setParameter($this->editor_gui, "pgov", "");
                 $ilCtrl->setParameter($this->editor_gui, "pgov_pos", "");
@@ -1251,22 +1256,16 @@ class ilSurveyPageEditGUI
             // previous/next
 
             $ilCtrl->setParameter($this, "pg", $this->current_page - 1);
-            $button = ilLinkButton::getInstance();
-            $button->setCaption("survey_prev_question");
-            if ($this->has_previous_page) {
-                $button->setUrl($ilCtrl->getLinkTarget($this, "renderPage"));
-            }
-            $button->setDisabled(!$this->has_previous_page);
-            $ilToolbar->addStickyItem($button);
+            $this->gui->button(
+                $lng->txt("survey_prev_question"),
+                $ilCtrl->getLinkTarget($this, "renderPage")
+            )->disabled(!$this->has_previous_page)->toToolbar(true);
 
             $ilCtrl->setParameter($this, "pg", (string) ((int) $this->current_page + 1));
-            $button = ilLinkButton::getInstance();
-            $button->setCaption("survey_next_question");
-            if ($this->has_next_page) {
-                $button->setUrl($ilCtrl->getLinkTarget($this, "renderPage"));
-            }
-            $button->setDisabled(!$this->has_next_page);
-            $ilToolbar->addStickyItem($button);
+            $this->gui->button(
+                $lng->txt("survey_next_question"),
+                $ilCtrl->getLinkTarget($this, "renderPage")
+            )->disabled(!$this->has_next_page)->toToolbar(true);
 
             $ilCtrl->setParameter($this, "pg", $this->current_page); // #14615
 
@@ -1311,17 +1310,17 @@ class ilSurveyPageEditGUI
                 $url = $ilCtrl->getLinkTarget($this, "deleteBlock");
                 $ilCtrl->setParameter($this, "csum", "");
 
-                $button = ilLinkButton::getInstance();
-                $button->setCaption("survey_delete_page");
-                $button->setUrl($url);
-                $ilToolbar->addButtonInstance($button);
+                $this->gui->button(
+                    $lng->txt("survey_delete_page"),
+                    $url
+                )->toToolbar();
 
                 $ilToolbar->addSeparator();
 
-                $button = ilLinkButton::getInstance();
-                $button->setCaption("survey_move_page");
-                $button->setUrl($ilCtrl->getLinkTarget($this, "movePageForm"));
-                $ilToolbar->addButtonInstance($button);
+                $this->gui->button(
+                    $lng->txt("survey_move_page"),
+                    $ilCtrl->getLinkTarget($this, "movePageForm")
+                )->toToolbar();
             }
         }
 
@@ -1393,8 +1392,8 @@ class ilSurveyPageEditGUI
                 $lng->loadLanguageModule("content");
                 $ttpl->setCurrentBlock("help_section");
                 $ttpl->setVariable("TXT_ADD_EL", $lng->txt("cont_add_elements"));
-                $ttpl->setVariable("PLUS", ilGlyphGUI::get(ilGlyphGUI::ADD));
-                $ttpl->setVariable("DRAG_ARROW", ilGlyphGUI::get(ilGlyphGUI::DRAG));
+                $ttpl->setVariable("PLUS", $this->gui->symbol()->glyph("add")->render());
+                $ttpl->setVariable("DRAG_ARROW", $this->gui->symbol()->glyph("next")->render());
                 $ttpl->setVariable("TXT_DRAG", $lng->txt("cont_drag_and_drop_elements"));
                 $ttpl->setVariable("TXT_SEL", $lng->txt("cont_double_click_to_delete"));
                 $ttpl->parseCurrentBlock();
@@ -1660,7 +1659,7 @@ class ilSurveyPageEditGUI
             }
 
             $a_tpl->setCurrentBlock("drop_area");
-            $a_tpl->setVariable("ICON_ADD", ilGlyphGUI::get(ilGlyphGUI::ADD));
+            $a_tpl->setVariable("ICON_ADD", $this->gui->symbol()->glyph("add")->render());
             $a_tpl->setVariable("DROP_ID", $a_id);
             $a_tpl->parseCurrentBlock();
         } elseif ($a_menu) {

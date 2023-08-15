@@ -24,7 +24,9 @@ require_once(__DIR__ . "/../../Base.php");
 use ILIAS\UI\Component as C;
 use ILIAS\UI\Implementation\Component as I;
 use ILIAS\UI\Implementation\Component\SignalGenerator;
+use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 use ILIAS\Data;
+use ILIAS\UI\Implementation\Component\Input\Field\Group;
 
 /**
  * Tests for the Footer.
@@ -111,7 +113,7 @@ class FooterTest extends ILIAS_UI_TestBase
     {
         $bf = new I\Button\Factory();
         $signalGenerator = new SignalGenerator();
-        $mf = new I\Modal\Factory($signalGenerator);
+        $mf = $this->getModalFactory();
         $legacy = new ILIAS\UI\Implementation\Component\Legacy\Legacy('PhpUnit', $signalGenerator);
 
         $shyButton1 = $bf->shy('Button1', '#');
@@ -153,9 +155,9 @@ class FooterTest extends ILIAS_UI_TestBase
                 return new I\Listing\Factory();
             }
 
-            public function button(): C\Button\Factory
+            public function link(): C\Link\Factory
             {
-                return new I\Button\Factory();
+                return new I\Link\Factory();
             }
         };
     }
@@ -226,7 +228,7 @@ EOT;
         $expected = <<<EOT
         <div class="il-maincontrols-footer">
             <div class="il-footer-content">
-                <div class="il-footer-permanent-url"><button class="btn btn-link" data-action="http://www.ilias.de/goto.php?target=xxx_123" id="id_1">copy_perma_link</button>
+                <div class="il-footer-permanent-url"><a href="http://www.ilias.de/goto.php?target=xxx_123">perma_link</a>
                 </div>
 
                 <div class="il-footer-text">footer text</div>
@@ -281,7 +283,7 @@ EOT;
                             </div>
                             <div class="modal-body">PhpUnit</div>
                             <div class="modal-footer">
-                                <button class="btn btn-default" data-dismiss="modal" aria-label="close">cancel</button>
+                                <button class="btn btn-default" data-dismiss="modal">cancel</button>
                             </div>
                         </div>
                     </div>
@@ -297,7 +299,7 @@ EOT;
                             </div>
                             <div class="modal-body">PhpUnit</div>
                             <div class="modal-footer">
-                                <button class="btn btn-default" data-dismiss="modal" aria-label="close">cancel</button>
+                                <button class="btn btn-default" data-dismiss="modal">cancel</button>
                             </div>
                         </div>
                     </div>
@@ -309,6 +311,21 @@ EOT;
         $this->assertEquals(
             $this->brutallyTrimHTML($expected),
             $this->brutallyTrimHTML($html)
+        );
+    }
+
+    protected function getModalFactory(): I\Modal\Factory
+    {
+        $group_mock = $this->createMock(Group::class);
+        $group_mock->method('withNameFrom')->willReturnSelf();
+
+        $factory_mock = $this->createMock(FieldFactory::class);
+        $factory_mock->method('group')->willReturn($group_mock);
+
+        return new I\Modal\Factory(
+            new SignalGeneratorMock(),
+            $this->createMock(C\Modal\InterruptiveItem\Factory::class),
+            $factory_mock,
         );
     }
 }

@@ -16,7 +16,6 @@
 			</div>
 			<!-- END enableprocessingtime -->
 			<input type="hidden" name="formtimestamp" value="{FORM_TIMESTAMP}" />
-			<!-- BEGIN char_selector -->{CHAR_SELECTOR_TEMPLATE}<!-- END char_selector -->
 			<!-- BEGIN test_nav_toolbar -->{TEST_NAV_TOOLBAR}<!-- END test_nav_toolbar -->
 			<div class="ilTstNavigation">
 				<div class="ilTstNavigationBtn_Prev">
@@ -39,6 +38,9 @@
 					<!-- BEGIN instant_response_header -->
 					<div<!-- BEGIN inst_resp_id --> id="{INSTANT_RESPONSE_FOCUS_ID}"<!-- END inst_resp_id -->><h2 class="ilc_page_title_PageTitle">{INSTANT_RESPONSE_HEADER}</h2></div>
 					<!-- END instant_response_header -->
+					<!-- BEGIN instant_response_message -->
+					<p>{INSTANT_RESPONSE_MESSAGE}</p>
+					<!-- END instant_response_message -->
 					<!-- BEGIN received_points_information -->
 					<p>{RECEIVED_POINTS_INFORMATION}</p>
 					<!-- END received_points_information -->
@@ -94,6 +96,9 @@
 			</script>
             <!-- END jsswitch -->
 		</form>
+	<!-- BEGIN finish_test_modal -->
+	<div>{FINISH_TEST_MODAL}</div>
+	<!-- END finish_test_modal -->
 	</div>
 </div>
 <div id="autosavemessage" class="ilHighlighted tstAutosaveMsg"></div>

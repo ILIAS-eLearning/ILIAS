@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,32 +16,24 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
-/**
- * Class ilUserPasswordManager
- * @author  Michael Jansen <mjansen@databay.de>
- * @package ServicesUser
- */
+declare(strict_types=1);
+
 class ilUserPasswordManager
 {
     private const MIN_SALT_SIZE = 16;
 
     private static ?self $instance = null;
 
-    protected ?ilUserPasswordEncoderFactory $encoderFactory = null;
-    protected ?ilSetting $settings = null;
-    protected ?ilDBInterface $db = null;
-    protected ?string $encoderName = null;
-    /**
-     * @var array<string, mixed>
-     */
-    protected array $config = [];
+    private ?ilUserPasswordEncoderFactory $encoderFactory = null;
+    private ?ilSetting $settings = null;
+    private ?ilDBInterface $db = null;
+    private ?string $encoderName = null;
 
     /**
      * Please use the singleton method for instance creation
      * The constructor is still public because of the unit tests
      * @param array<string, mixed> $config
      * @throws ilUserException
-     * @throws JsonException
      */
     public function __construct(array $config = [])
     {
@@ -69,21 +59,20 @@ class ilUserPasswordManager
         if (!$this->getEncoderName()) {
             throw new ilUserException(sprintf(
                 '"password_encoder" must be set in %s.',
-                json_encode($config, JSON_THROW_ON_ERROR)
+                print_r($config, true)
             ));
         }
 
         if (!($this->getEncoderFactory() instanceof ilUserPasswordEncoderFactory)) {
             throw new ilUserException(sprintf(
                 '"encoder_factory" must be instance of ilUserPasswordEncoderFactory and set in %s.',
-                json_encode($config, JSON_THROW_ON_ERROR)
+                print_r($config, true)
             ));
         }
     }
 
     /**
      * Singleton method to reduce footprint (included files, created instances)
-     * @return self
      * @throws ilUserException
      * @throws ilPasswordException
      */
@@ -99,12 +88,13 @@ class ilUserPasswordManager
             [
                 'encoder_factory' => new ilUserPasswordEncoderFactory(
                     [
-                        'default_password_encoder' => 'bcryptphp',
+                        'default_password_encoder' => 'bcryptphp', // bcrypt (native PHP impl.) is still the default for the factory
+                        'memory_cost' => 19_456, // Recommended: https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html#argon2id
                         'ignore_security_flaw' => true,
                         'data_directory' => ilFileUtils::getDataDir()
                     ]
                 ),
-                'password_encoder' => 'bcryptphp',
+                'password_encoder' => 'argon2id', // https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html#argon2id
                 'settings' => $DIC->isDependencyAvailable('settings') ? $DIC->settings() : null,
                 'db' => $DIC->database(),
             ]
@@ -165,7 +155,7 @@ class ilUserPasswordManager
 
     public function verifyPassword(ilObjUser $user, string $raw): bool
     {
-        $encoder = $this->getEncoderFactory()->getEncoderByName($user->getPasswordEncodingType(), true);
+        $encoder = $this->getEncoderFactory()->getEncoderByName($user->getPasswordEncodingType());
         if ($this->getEncoderName() !== $encoder->getName()) {
             if ($encoder->isPasswordValid($user->getPasswd(), $raw, (string) $user->getPasswordSalt())) {
                 $user->resetPassword($raw, $raw);

@@ -208,4 +208,12 @@ class ilStyleDBUpdateSteps implements \ilDatabaseUpdateSteps
             $this->db->addIndex('style_template', ['style_id'], 'i1');
         }
     }
+
+    public function step_12()
+    {
+        // Add new index
+        if (!$this->db->indexExistsByFields('style_usage', array('style_id'))) {
+            $this->db->addIndex('style_usage', array('style_id'), 'i1');
+        }
+    }
 }

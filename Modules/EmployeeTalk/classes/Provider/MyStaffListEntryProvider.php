@@ -58,7 +58,10 @@ final class MyStaffListEntryProvider extends AbstractStaticMainMenuProvider
 
         $title = $this->dic->language()->txt("mm_org_etal");
         $action = "ilias.php?baseClass=ilAdministrationGUI&ref_id=" . ilObjOrgUnit::getRootOrgRefId() . "&cmd=jump";
-        $icon = $this->dic->ui()->factory()->symbol()->icon()->standard('etal', $title);
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(
+            \ilUtil::getImagePath('icon_etal.svg'),
+            $title
+        );
 
         $items[] = $this->mainmenu->link($this->employeeTalkTemplateIdentifier)
                                   ->withAlwaysAvailable(false)
@@ -79,7 +82,7 @@ final class MyStaffListEntryProvider extends AbstractStaticMainMenuProvider
                                   ->withPosition(60)
                                   ->withVisibilityCallable(
                                       function () {
-                                          return ilMyStaffAccess::getInstance()->hasCurrentUserAccessToMyStaff();
+                                          return ilMyStaffAccess::getInstance()->hasCurrentUserAccessToTalks();
                                       }
                                   );
 

@@ -73,12 +73,12 @@ class ilObjMediaCastListGUI extends ilObjectListGUI
         return $cmd_link;
     }
 
-    public function setChildId(int $a_child_id): void
+    public function setChildId(string $a_child_id): void
     {
         $this->child_id = $a_child_id;
     }
 
-    public function getChildId(): int
+    public function getChildId(): string
     {
         return $this->child_id;
     }

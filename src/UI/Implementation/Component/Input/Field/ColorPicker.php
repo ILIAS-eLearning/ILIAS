@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,7 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Input\Field;
 
@@ -43,7 +42,7 @@ class ColorPicker extends Input implements C\Input\Field\ColorPicker
         Data\Factory $datafactory,
         Refinery $refinery,
         string $label,
-        string $byline
+        ?string $byline
     ) {
         parent::__construct(
             $datafactory,
@@ -68,6 +67,10 @@ class ColorPicker extends Input implements C\Input\Field\ColorPicker
      */
     protected function getConstraintForRequirement(): ?Constraint
     {
+        if ($this->requirement_constraint !== null) {
+            return $this->requirement_constraint;
+        }
+
         return $this->refinery->string()->hasMinLength(4);
     }
 

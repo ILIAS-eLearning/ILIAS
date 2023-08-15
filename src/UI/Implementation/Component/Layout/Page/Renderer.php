@@ -166,14 +166,11 @@ class Renderer extends AbstractComponentRenderer
         }
 
         if ($for_ui_demo) {
-            $base_url = '../../../../../../';
-            $tpl->setVariable("BASE", $base_url);
-
             $additional_js_files = [
                 iljQueryUtil::getLocaljQueryPath(),
                 './Services/JavaScript/js/Basic.js',
-                ilUIFramework::BOWER_BOOTSTRAP_JS,
-                './libs/bower/bower_components/jquery-migrate/jquery-migrate.min.js',
+                ilUIFramework::BOOTSTRAP_JS,
+                './node_modules/jquery-migrate/jquery-migrate.min.js',
             ];
 
             array_unshift($js_files, ...$additional_js_files);

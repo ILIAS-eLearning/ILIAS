@@ -21,6 +21,7 @@
  */
 class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 {
+    protected \ILIAS\Style\Content\DomainService $content_style_domain;
     protected ilGlossaryDefPage $page_object;
     protected array $file_ids = [];
     protected array $mob_ids = [];
@@ -33,11 +34,12 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
     protected string $pres_mode = "";
     protected bool $virtual = false;
     protected string $virtual_mode = "";
+    protected bool $flashcards_active = false;
+    protected string $flashcards_mode = "";
     protected ilGlobalTemplateInterface $tpl;
     public array $auto_glossaries = array();
     protected ilObjUser $user;
     protected array $public_export_file = [];
-    protected \ILIAS\Style\Content\Object\ObjectFacade $content_style_service;
 
 
     public function __construct(
@@ -51,10 +53,9 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
         $this->user = $DIC->user();
         $this->type = "glo";
         parent::__construct($a_id, $a_call_by_reference);
-        $this->content_style_service = $DIC
+        $this->content_style_domain = $DIC
             ->contentStyle()
-            ->domain()
-            ->styleForRefId($this->getRefId());
+            ->domain();
     }
 
     public function create(bool $a_upload = false): int
@@ -88,14 +89,13 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
     public function read(): void
     {
         parent::read();
-        #		echo "Glossary<br>\n";
 
         $q = "SELECT * FROM glossary WHERE id = " .
             $this->db->quote($this->getId(), "integer");
         $gl_set = $this->db->query($q);
         $gl_rec = $this->db->fetchAssoc($gl_set);
         $this->setOnline(ilUtil::yn2tf($gl_rec["is_online"]));
-        $this->setVirtualMode($gl_rec["virtual"]);
+        $this->setVirtualMode((string) ($gl_rec["virtual"] ?? ""));
         if (isset($gl_rec["public_xml_file"]) && $gl_rec["public_xml_file"] != "") {
             $this->setPublicExportFile("xml", $gl_rec["public_xml_file"]);
         }
@@ -104,9 +104,11 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
         }
         $this->setActiveGlossaryMenu(ilUtil::yn2tf($gl_rec["glo_menu_active"]));
         $this->setActiveDownloads(ilUtil::yn2tf($gl_rec["downloads_active"]));
-        $this->setPresentationMode($gl_rec["pres_mode"]);
-        $this->setSnippetLength($gl_rec["snippet_length"]);
-        $this->setShowTaxonomy($gl_rec["show_tax"]);
+        $this->setPresentationMode((string) $gl_rec["pres_mode"]);
+        $this->setSnippetLength((int) $gl_rec["snippet_length"]);
+        $this->setShowTaxonomy((bool) $gl_rec["show_tax"]);
+        $this->setActiveFlashcards(ilUtil::yn2tf($gl_rec["flash_active"]));
+        $this->setFlashcardsMode($gl_rec["flash_mode"]);
 
         // read auto glossaries
         $set = $this->db->query(
@@ -123,9 +125,7 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
     public function setVirtualMode(string $a_mode): void
     {
         switch ($a_mode) {
-            case "level":
-            case "subtree":
-            // case "fixed":
+            case "coll":
                 $this->virtual_mode = $a_mode;
                 $this->virtual = true;
                 break;
@@ -249,6 +249,26 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
         return $this->show_tax;
     }
 
+    public function setActiveFlashcards(bool $a_flash): void
+    {
+        $this->flashcards_active = $a_flash;
+    }
+
+    public function isActiveFlashcards(): bool
+    {
+        return $this->flashcards_active;
+    }
+
+    public function setFlashcardsMode(string $a_flash): void
+    {
+        $this->flashcards_mode = $a_flash;
+    }
+
+    public function getFlashcardsMode(): string
+    {
+        return $this->flashcards_mode;
+    }
+
     /**
      * @param int[] $a_val
      */
@@ -304,7 +324,9 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
                 'downloads_active' => array('text', ilUtil::tf2yn($this->isActiveDownloads())),
                 'pres_mode' => array('text', $this->getPresentationMode()),
                 'show_tax' => array('integer', $this->getShowTaxonomy()),
-                'snippet_length' => array('integer', $this->getSnippetLength())
+                'snippet_length' => array('integer', $this->getSnippetLength()),
+                'flash_active' => array('text', ilUtil::tf2yn($this->isActiveFlashcards())),
+                'flash_mode' => array('text', $this->getFlashcardsMode())
             ),
             array(
                 'id' => array('integer', $this->getId())
@@ -350,6 +372,44 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
             $glos[] = (int) $rec["glo_id"];
         }
         return $glos;
+    }
+
+    /**
+     * @return int[]
+     */
+    public function getGlossariesForCollection(): array
+    {
+        $set = $this->db->query(
+            "SELECT * FROM glossary_collection " .
+            " WHERE id = " . $this->db->quote($this->getId(), "integer")
+        );
+        $glos = [];
+        while ($rec = $this->db->fetchAssoc($set)) {
+            $glos[] = (int) $rec["glo_id"];
+        }
+
+        return $glos;
+    }
+
+    public function addGlossaryForCollection(int $glo_id): void
+    {
+        $this->db->replace(
+            "glossary_collection",
+            [
+                "id" => ["integer", $this->getId()],
+                "glo_id" => ["integer", $glo_id]
+            ],
+            []
+        );
+    }
+
+    public function removeGlossaryFromCollection(int $glo_id): void
+    {
+        $this->db->manipulate(
+            "DELETE FROM glossary_collection WHERE " .
+            " id = " . $this->db->quote($this->getId(), "integer") .
+            " AND glo_id = " . $this->db->quote($glo_id, "integer")
+        );
     }
 
     public function getTermList(
@@ -405,33 +465,15 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
             $glo_ids = array();
 
             $virtual_mode = $this->getRefId() ? $this->getVirtualMode() : '';
-            switch ($virtual_mode) {
-                case "level":
-                    $glo_arr = $tree->getChildsByType($tree->getParentId($this->getRefId()), "glo");
-                    foreach ($glo_arr as $glo) {
-                        {
-                            if ($ids_are_ref_ids) {
-                                $glo_ids[] = (int) $glo['child'];
-                            } else {
-                                $glo_ids[] = (int) $glo['obj_id'];
-                            }
-                        }
+            if ($virtual_mode === "coll") {
+                $glo_ids = $this->getGlossariesForCollection();
+                if ($ids_are_ref_ids) {
+                    $glo_ref_ids = [];
+                    foreach ($glo_ids as $obj_id) {
+                        $glo_ref_ids[] = current(ilObject::_getAllReferences($obj_id));
                     }
-                    break;
-
-                case "subtree":
-                    $subtree_nodes = $tree->getSubTree($tree->getNodeData($tree->getParentId($this->getRefId())));
-
-                    foreach ($subtree_nodes as $node) {
-                        if ($node['type'] == 'glo') {
-                            if ($ids_are_ref_ids) {
-                                $glo_ids[] = (int) $node['child'];
-                            } else {
-                                $glo_ids[] = (int) $node['obj_id'];
-                            }
-                        }
-                    }
-                    break;
+                    $glo_ids = $glo_ref_ids;
+                }
             }
             if (!$a_include_offline_childs) {
                 $glo_ids = $this->removeOfflineGlossaries($glo_ids, $ids_are_ref_ids);
@@ -547,20 +589,16 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
         $this->mob_ids = array();
         $this->file_ids = array();
         foreach ($terms as $term) {
-            $defs = ilGlossaryDefinition::getDefinitionList($term["id"]);
-
-            foreach ($defs as $def) {
-                $this->page_object = new ilGlossaryDefPage($def["id"]);
-                $this->page_object->buildDom();
-                $this->page_object->insertInstIntoIDs(IL_INST_ID);
-                $mob_ids = $this->page_object->collectMediaObjects(false);
-                $file_ids = ilPCFileList::collectFileItems($this->page_object, $this->page_object->getDomDoc());
-                foreach ($mob_ids as $mob_id) {
-                    $this->mob_ids[$mob_id] = $mob_id;
-                }
-                foreach ($file_ids as $file_id) {
-                    $this->file_ids[$file_id] = $file_id;
-                }
+            $this->page_object = new ilGlossaryDefPage($term["id"]);
+            $this->page_object->buildDom();
+            $this->page_object->insertInstIntoIDs(IL_INST_ID);
+            $mob_ids = $this->page_object->collectMediaObjects(false);
+            $file_ids = ilPCFileList::collectFileItems($this->page_object, $this->page_object->getDomDoc());
+            foreach ($mob_ids as $mob_id) {
+                $this->mob_ids[$mob_id] = $mob_id;
+            }
+            foreach ($file_ids as $file_id) {
+                $this->file_ids[$file_id] = $file_id;
             }
         }
 
@@ -741,10 +779,12 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
         $new_obj->setPresentationMode($this->getPresentationMode());
         $new_obj->setSnippetLength($this->getSnippetLength());
         $new_obj->setAutoGlossaries($this->getAutoGlossaries());
+        $new_obj->setActiveFlashcards($this->isActiveFlashcards());
+        $new_obj->setFlashcardsMode($this->getFlashcardsMode());
         $new_obj->update();
 
         // set/copy stylesheet
-        $this->content_style_service->cloneTo($new_obj->getId());
+        $this->content_style_domain->styleForRefId($this->getRefId())->cloneTo($new_obj->getId());
 
         // copy taxonomy
         if (($tax_id = $this->getTaxonomyId()) > 0) {
@@ -782,6 +822,10 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
             $cp_options->appendMapping($this->getRefId() . '_glo_terms', $term_mappings);
         }
 
+        // copy collection glossaries
+        foreach ($this->getGlossariesForCollection() as $glo_id) {
+            $new_obj->addGlossaryForCollection($glo_id);
+        }
 
         return $new_obj;
     }
@@ -849,23 +893,17 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
         $source_terms = ilGlossaryTerm::getTermList([$this->getRefId()]);
         $found_pages = array();
         foreach ($source_terms as $source_term) {
-            $source_defs = ilGlossaryDefinition::getDefinitionList($source_term["id"]);
-
-            for ($j = 0, $jMax = count($source_defs); $j < $jMax; $j++) {
-                $def = $source_defs[$j];
-                $pg = new ilGlossaryDefPage($def["id"]);
-
-                $c = $pg->getXMLContent();
-                foreach ($terms as $t) {
-                    if (is_int(stripos($c, $t["term"]))) {
-                        $found_pages[$def["id"]]["terms"][] = $t;
-                        if (!isset($found_pages[$def["id"]]["page"])) {
-                            $found_pages[$def["id"]]["page"] = $pg;
-                        }
+            $pg = new ilGlossaryDefPage($source_term["id"]);
+            $c = $pg->getXMLContent();
+            foreach ($terms as $t) {
+                if (is_int(stripos($c, $t["term"]))) {
+                    $found_pages[$source_term["id"]]["terms"][] = $t;
+                    if (!isset($found_pages[$source_term["id"]]["page"])) {
+                        $found_pages[$source_term["id"]]["page"] = $pg;
                     }
                 }
-                reset($terms);
             }
+            reset($terms);
         }
 
         // ilPCParagraph autoLinkGlossariesPage with page and terms

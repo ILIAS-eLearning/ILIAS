@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\Mail\Provider;
 
@@ -34,7 +34,7 @@ use ilMailGUI;
  */
 class MailGlobalScreenToolProvider extends AbstractDynamicToolProvider
 {
-    public const SHOW_MAIL_FOLDERS_TOOL = 'show_mail_folders_tool';
+    final public const SHOW_MAIL_FOLDERS_TOOL = 'show_mail_folders_tool';
 
     public function isInterestedInContexts(): ContextCollection
     {

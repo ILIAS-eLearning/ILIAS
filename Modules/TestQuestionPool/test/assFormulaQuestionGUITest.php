@@ -52,9 +52,6 @@ class assFormulaQuestionGUITest extends assBaseTestCase
 
     public function test_instantiateObject_shouldReturnInstance(): void
     {
-        // Arrange
-        require_once './Modules/TestQuestionPool/classes/class.assFormulaQuestionGUI.php';
-
         // Act
         $instance = new assFormulaQuestionGUI();
 

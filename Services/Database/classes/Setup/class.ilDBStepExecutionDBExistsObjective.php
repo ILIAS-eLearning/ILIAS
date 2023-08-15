@@ -48,7 +48,7 @@ class ilDBStepExecutionDBExistsObjective implements Setup\Objective
         $db = $environment->getResource(Setup\Environment::RESOURCE_DATABASE);
         return $environment
             ->withResource(
-                \ilDatabaseUpdateStepExecutionLog::class,
+                \ilDBStepExecutionDB::class,
                 new \ilDBStepExecutionDB(
                     $db,
                     fn () => new \DateTime()

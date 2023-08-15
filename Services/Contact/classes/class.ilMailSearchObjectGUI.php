@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory as Refinery;
@@ -37,6 +37,8 @@ abstract class ilMailSearchObjectGUI
     protected ilObjectDataCache $cache;
     protected ilFormatMail $umail;
     protected bool $mailing_allowed;
+    protected \ILIAS\UI\Factory $ui_factory;
+    protected \ILIAS\UI\Renderer $ui_renderer;
 
     /**
      * @param ilWorkspaceAccessHandler|ilPortfolioAccessHandler|null $wsp_access_handler
@@ -57,6 +59,8 @@ abstract class ilMailSearchObjectGUI
         $this->cache = $DIC['ilObjDataCache'];
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
+        $this->ui_factory = $DIC->ui()->factory();
+        $this->ui_renderer = $DIC->ui()->renderer();
 
         $this->ctrl->saveParameter($this, 'mobj_id');
         $this->ctrl->saveParameter($this, 'ref');
@@ -271,6 +275,15 @@ abstract class ilMailSearchObjectGUI
         foreach ($obj_ids as $obj_id) {
             $ref_ids = ilObject::_getAllReferences($obj_id);
             foreach ($ref_ids as $ref_id) {
+                $can_send_mails = ilParticipants::canSendMailToMembers(
+                    $ref_id,
+                    $this->user->getId(),
+                    ilMailGlobalServices::getMailObjectRefId()
+                );
+                if (!$can_send_mails) {
+                    continue;
+                }
+
                 $roles = $this->rbacreview->getAssignableChildRoles($ref_id);
                 foreach ($roles as $role) {
                     if ($this->isLocalRoleTitle($role['title'])) {
@@ -364,7 +377,7 @@ abstract class ilMailSearchObjectGUI
         if ($this->http->wrapper()->query()->has('search_' . $this->getObjectType())) {
             $obj_ids = $this->refinery->kindlyTo()->listOf(
                 $this->refinery->kindlyTo()->int()
-            )->transform(explode(',', $this->http->wrapper()->query()->retrieve(
+            )->transform(explode(',', (string) $this->http->wrapper()->query()->retrieve(
                 'search_' . $this->getObjectType(),
                 $this->refinery->kindlyTo()->string()
             )));
@@ -378,7 +391,7 @@ abstract class ilMailSearchObjectGUI
         } elseif (ilSession::get('search_' . $this->getObjectType())) {
             $obj_ids = $this->refinery->kindlyTo()->listOf(
                 $this->refinery->kindlyTo()->int()
-            )->transform(explode(',', ilSession::get('search_' . $this->getObjectType())));
+            )->transform(explode(',', (string) ilSession::get('search_' . $this->getObjectType())));
             ilSession::set('search_' . $this->getObjectType(), '');
         }
 
@@ -501,9 +514,16 @@ abstract class ilMailSearchObjectGUI
                 $ref_ids = array_keys(ilObject::_getAllReferences($object->getId()));
                 $ref_id = $ref_ids[0];
                 $object->setRefId($ref_id);
-                $showMemberListEnabled = $object->getShowMembers();
 
-                if ($this->doesExposeMembers($object)) {
+                $has_untrashed_references = ilObject::_hasUntrashedReference($object->getId());
+                $can_send_mails = ilParticipants::canSendMailToMembers(
+                    $object->getRefId(),
+                    $this->user->getId(),
+                    ilMailGlobalServices::getMailObjectRefId()
+                );
+
+                if ($has_untrashed_references && ($can_send_mails || $this->doesExposeMembers($object))) {
+                    $member_list_enabled = $object->getShowMembers();
                     $participants = ilParticipants::getInstanceByObjId($object->getId());
                     $usr_ids = $participants->getParticipants();
 
@@ -516,7 +536,7 @@ abstract class ilMailSearchObjectGUI
                     $usr_ids = array_values($usr_ids);
 
                     $hiddenMembers = false;
-                    if (!$showMemberListEnabled) {
+                    if (!$member_list_enabled) {
                         ++$num_courses_hidden_members;
                         $hiddenMembers = true;
                     }
@@ -530,42 +550,47 @@ abstract class ilMailSearchObjectGUI
                         $path .= $data['title'];
                     }
 
-                    $current_selection_list = new ilAdvancedSelectionListGUI();
-                    $current_selection_list->setListTitle($this->lng->txt('actions'));
-                    $current_selection_list->setId('act_' . $counter);
-
                     $this->ctrl->setParameter($this, 'search_' . $this->getObjectType(), $object->getId());
                     $this->ctrl->setParameter($this, 'view', 'myobjects');
+                    $buttons = [];
 
                     if ($this->isDefaultRequestContext()) {
-                        if ($this->mailing_allowed) {
-                            $current_selection_list->addItem(
-                                $this->lng->txt('mail_members'),
-                                '',
-                                $this->ctrl->getLinkTarget($this, 'mail')
-                            );
+                        if ($this->mailing_allowed && $can_send_mails) {
+                            $buttons[] = $this->ui_factory
+                                ->button()
+                                ->shy(
+                                    $this->lng->txt('mail_members'),
+                                    $this->ctrl->getLinkTarget($this, 'mail')
+                                );
                         }
                     } else {
-                        $current_selection_list->addItem(
-                            $this->lng->txt('wsp_share_with_members'),
-                            '',
-                            $this->ctrl->getLinkTarget($this, 'share')
-                        );
+                        $buttons[] = $this->ui_factory
+                            ->button()
+                            ->shy(
+                                $this->lng->txt('wsp_share_with_members'),
+                                $this->ctrl->getLinkTarget($this, 'share')
+                            );
                     }
-                    $current_selection_list->addItem(
-                        $this->lng->txt('mail_list_members'),
-                        '',
-                        $this->ctrl->getLinkTarget($this, 'showMembers')
-                    );
+                    $buttons[] = $this->ui_factory
+                        ->button()
+                        ->shy(
+                            $this->lng->txt('mail_list_members'),
+                            $this->ctrl->getLinkTarget($this, 'showMembers')
+                        );
 
                     $this->ctrl->clearParameters($this);
+
+                    $drop_down = $this->ui_factory
+                        ->dropdown()
+                        ->standard($buttons)
+                        ->withLabel($this->lng->txt('actions'));
 
                     $rowData = [
                         'OBJECT_ID' => $object->getId(),
                         'OBJECT_NAME' => $object->getTitle(),
                         'OBJECT_NO_MEMBERS' => count($usr_ids),
                         'OBJECT_PATH' => $path,
-                        'COMMAND_SELECTION_LIST' => $current_selection_list->getHTML(),
+                        'COMMAND_SELECTION_LIST' => $this->ui_renderer->render($drop_down),
                         'hidden_members' => $hiddenMembers,
                     ];
                     $counter++;

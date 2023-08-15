@@ -67,4 +67,19 @@ interface Form extends Component
      * @return null|string
      */
     public function getError(): ?string;
+
+    /**
+     * Sets an optional dedicated name for this form which adds a NAME attribute
+     * to the form's HTML (otherwise no NAME attribute is set).
+     *
+     * The dedicated name is inherited by all child inputs of the form
+     * by setting it as dedicated name for the top level group that is generated
+     * for every form.
+     *
+     * Please see the description of withDedicatedName() on Field/Input for more details.
+     *
+     * @param string $dedicated_name
+     * @return $this
+     */
+    public function withDedicatedName(string $dedicated_name): self;
 }

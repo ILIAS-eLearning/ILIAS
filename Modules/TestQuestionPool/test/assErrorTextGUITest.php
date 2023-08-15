@@ -57,10 +57,6 @@ class assErrorTextGUITest extends assBaseTestCase
 
     public function test_instantiateObject_shouldReturnInstance(): void
     {
-        //$this->markTestIncomplete('Needs mock.');
-        // Arrange
-        require_once './Modules/TestQuestionPool/classes/class.assErrorTextGUI.php';
-
         // Act
         $instance = new assErrorTextGUI();
 

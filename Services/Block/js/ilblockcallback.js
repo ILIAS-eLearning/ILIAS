@@ -40,10 +40,6 @@ var ilBlockSuccessHandler = function(o)
 	{
 		$('#' + o.argument.block_id).html(o.responseText);
 		il.UICore.initDropDowns('#' + o.argument.block_id);
-		if (typeof il_sr_opt != "undefined")
-		{
-			il.Util.setScreenReaderFocus(o.argument.block_id + "_blhead");
-		}
 	}
 }
 

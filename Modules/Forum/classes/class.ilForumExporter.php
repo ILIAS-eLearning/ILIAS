@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Exporter class for sessions
@@ -137,6 +137,20 @@ class ilForumExporter extends ilXmlExporter implements ilForumObjectConstants
                 "xsd_file" => "ilias_frm_5_1.xsd",
                 "uses_dataset" => false,
                 "min" => "5.1.0",
+                "max" => "7.999"
+            ],
+            "8.0" => [
+                "namespace" => "http://www.ilias.de/Modules/Forum/frm/8",
+                "xsd_file" => "ilias_frm_8.xsd",
+                "uses_dataset" => false,
+                "min" => "8.0",
+                "max" => ""
+            ],
+            "9.0" => [
+                "namespace" => "http://www.ilias.de/Modules/Forum/frm/9",
+                "xsd_file" => "ilias_frm_9.xsd",
+                "uses_dataset" => false,
+                "min" => "9.0",
                 "max" => ""
             ]
         ];

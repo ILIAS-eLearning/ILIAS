@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use PHPUnit\Framework\MockObject\Builder\InvocationMocker;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -161,7 +161,7 @@ abstract class ilChatroomAbstractTaskTest extends ilChatroomAbstractTest
         $mock->expects($this->once())->method('sendResponse')->with(
             $this->equalTo($response)
         )->willReturnCallback(
-            static function (): void {
+            static function (): never {
                 throw new Exception('Exit', 0);
             }
         );

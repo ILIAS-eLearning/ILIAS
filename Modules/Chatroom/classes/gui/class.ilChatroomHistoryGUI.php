@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Class ilChatroom
@@ -121,15 +121,10 @@ class ilChatroomHistoryGUI extends ilChatroomGUIHandler
                     }
 
                     if ($prevDate !== $currentDate) {
-                        switch ($time_format) {
-                            case ilCalendarSettings::TIME_FORMAT_24:
-                                $date_string = $dateTime->get(IL_CAL_FKT_DATE, 'H:i', $this->ilUser->getTimeZone());
-                                break;
-                            case ilCalendarSettings::TIME_FORMAT_12:
-                            default:
-                                $date_string = $dateTime->get(IL_CAL_FKT_DATE, 'g:ia', $this->ilUser->getTimeZone());
-                                break;
-                        }
+                        $date_string = match ($time_format) {
+                            (string) ilCalendarSettings::TIME_FORMAT_24 => $dateTime->get(IL_CAL_FKT_DATE, 'H:i', $this->ilUser->getTimeZone()),
+                            default => $dateTime->get(IL_CAL_FKT_DATE, 'g:ia', $this->ilUser->getTimeZone()),
+                        };
 
                         $roomTpl->setVariable('MESSAGETIME', $date_string);
                         $prevDate = $currentDate;
@@ -213,7 +208,7 @@ class ilChatroomHistoryGUI extends ilChatroomGUIHandler
         if (strtolower($this->http->request()->getServerParams()['REQUEST_METHOD']) === 'post') {
             $session = $this->getRequestValue('session', $this->refinery->kindlyTo()->string());
             $durationForm->checkInput();
-            $postVals = explode(',', $session);
+            $postVals = explode(',', (string) $session);
             $durationForm->setValuesByArray([
                 'session' => $session
             ]);

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\Filesystem\Filesystem;
 use ILIAS\Filesystem\Exception\FileAlreadyExistsException;
 use ILIAS\Filesystem\Exception\IOException;
@@ -28,7 +28,7 @@ use ILIAS\Filesystem\Exception\FileNotFoundException;
  */
 class ilPortfolioCertificateFileService
 {
-    private Filesystem $filesystem;
+    private readonly Filesystem $filesystem;
     private const PERSISTENT_CERTIFICATES_DIRECTORY = 'PersistentCertificates/';
     private const CERTIFICATE_FILENAME = 'certificate.pdf';
 

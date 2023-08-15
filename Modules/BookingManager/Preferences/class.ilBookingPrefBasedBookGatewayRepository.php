@@ -84,6 +84,33 @@ class ilBookingPrefBasedBookGatewayRepository
         return $rec["pref_booking_hash"] === $hash;
     }
 
+    public function hasRun($pool_id): bool
+    {
+        $db = $this->db;
+        $set = $db->queryF(
+            "SELECT pref_booking_hash FROM booking_settings " .
+            " WHERE booking_pool_id = %s ",
+            array("integer"),
+            array($pool_id)
+        );
+        $rec = $db->fetchAssoc($set);
+
+        if ($rec["pref_booking_hash"] !== "0") {
+            return true;
+        }
+        return false;
+    }
+
+    public function resetRun($pool_id): void
+    {
+        $db = $this->db;
+        $db->update("booking_settings", array(
+            "pref_booking_hash" => array("text", "0")
+        ), array(	// where
+                     "booking_pool_id" => array("integer", $pool_id)
+        ));
+    }
+
     /**
      * Store bookings
      * see similar code in ilObjBookingPoolGUI::confirmedBookingObject
@@ -103,8 +130,8 @@ class ilBookingPrefBasedBookGatewayRepository
                         $reservation->setObjectId($obj_id);
                         $reservation->setUserId($user_id);
                         $reservation->setAssignerId($user_id);
-                        $reservation->setFrom(null);
-                        $reservation->setTo(null);
+                        $reservation->setFrom(0);
+                        $reservation->setTo(0);
                         $reservation->save();
                     }
                 }

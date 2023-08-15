@@ -29,7 +29,7 @@ use ILIAS\Survey\InternalDomainService;
 class GUIService
 {
     protected InternalGUIService $ui_service;
-    protected \ilObjectServiceInterface $object_service;
+    protected \ilObjectService $object_service;
     protected InternalDomainService $domain_service;
 
     public function __construct(

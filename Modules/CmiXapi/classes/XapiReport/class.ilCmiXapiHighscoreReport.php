@@ -62,7 +62,11 @@ class ilCmiXapiHighscoreReport
         global $DIC;
 
         $rows = [];
-        $obj = ilObjCmiXapi::getInstance($this->objId, false);
+        if (ilObject::_lookupType($this->objId) == 'cmix') {
+            $obj = ilObjCmiXapi::getInstance($this->objId, false);
+        } else {
+            $obj = ilObjLTIConsumer::getInstance($this->objId, false);
+        }
 
         if ($obj->isMixedContentType()) {
             foreach ($this->response as $item) {
@@ -107,7 +111,7 @@ class ilCmiXapiHighscoreReport
                 ];
             }
         }
-        usort($rows, fn ($a, $b): int => $a['score'] != $b['score'] ? $a['score'] > $b['score'] ? -1 : 1 : 0);
+        usort($rows, fn($a, $b): int => $a['score'] != $b['score'] ? $a['score'] > $b['score'] ? -1 : 1 : 0);
 
         $i = 0;
         $prevScore = null;
@@ -167,7 +171,7 @@ class ilCmiXapiHighscoreReport
         $hours = (string) floor($totalDuration / 3600);
         $hours = strlen($hours) < 2 ? "0" . $hours : $hours;
 
-        return $hours . ":" . date('i:s', $totalDuration);
+        return $hours . ":" . date('i:s', (int) round($totalDuration));
     }
 
     private function formatRawTimestamp(string $rawTimestamp): string

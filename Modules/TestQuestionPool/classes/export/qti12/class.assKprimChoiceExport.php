@@ -15,8 +15,6 @@
  *
  *********************************************************************/
 
-require_once 'Modules/TestQuestionPool/classes/export/qti12/class.assQuestionExport.php';
-
 /**
  * @author		Björn Heyser <bheyser@databay.de>
  * @version		$Id$
@@ -35,7 +33,6 @@ class assKprimChoiceExport extends assQuestionExport
         global $DIC;
         $ilias = $DIC['ilias'];
 
-        include_once("./Services/Xml/classes/class.ilXmlWriter.php");
         $xml = new ilXmlWriter();
         // set xml header
         $xml->xmlHeader();
@@ -48,11 +45,6 @@ class assKprimChoiceExport extends assQuestionExport
         $xml->xmlStartTag("item", $attrs);
         // add question description
         $xml->xmlElement("qticomment", null, $this->object->getComment());
-        // add estimated working time
-        $workingtime = $this->object->getEstimatedWorkingTime();
-        $duration = sprintf("P0Y0M0DT%dH%dM%dS", $workingtime["h"], $workingtime["m"], $workingtime["s"]);
-        $xml->xmlElement("duration", null, $duration);
-        // add ILIAS specific metadata
         $xml->xmlStartTag("itemmetadata");
         $xml->xmlStartTag("qtimetadata");
         $xml->xmlStartTag("qtimetadatafield");
@@ -118,7 +110,7 @@ class assKprimChoiceExport extends assQuestionExport
             "rcardinality" => "Multiple"
         );
         $xml->xmlStartTag("response_lid", $attrs);
-        $solution = $this->object->getSuggestedSolution(0);
+        $solution = $this->object->getSuggestedSolution(0) ?? [];
         if (count($solution)) {
             if (preg_match("/il_(\d*?)_(\w+)_(\d+)/", $solution["internal_link"], $matches)) {
                 $xml->xmlStartTag("material");
@@ -154,16 +146,17 @@ class assKprimChoiceExport extends assQuestionExport
 
             $xml->xmlStartTag('response_label', array('ident' => $answer->getPosition()));
 
-            if (strlen($answer->getImageFile())) {
+            $image_file = $answer->getImageFile() ?? '';
+            if ($image_file !== '') {
                 $this->object->addQTIMaterial($xml, $answer->getAnswertext(), false, false);
                 $imagetype = "image/jpeg";
-                if (preg_match("/.*\.(png|gif)$/", $answer->getImageFile(), $matches)) {
+                if (preg_match("/.*\.(png|gif)$/", $image_file, $matches)) {
                     $imagetype = "image/" . $matches[1];
                 }
                 if ($force_image_references) {
                     $attrs = array(
                         "imagtype" => $imagetype,
-                        "label" => $answer->getImageFile(),
+                        "label" => $image_file,
                         "uri" => $answer->getImageWebPath()
                     );
                     $xml->xmlElement("matimage", $attrs);
@@ -176,7 +169,7 @@ class assKprimChoiceExport extends assQuestionExport
                         $base64 = base64_encode($imagefile);
                         $attrs = array(
                             "imagtype" => $imagetype,
-                            "label" => $answer->getImageFile(),
+                            "label" => $image_file,
                             "embedded" => "base64"
                         );
                         $xml->xmlElement("matimage", $attrs, $base64, false, false);

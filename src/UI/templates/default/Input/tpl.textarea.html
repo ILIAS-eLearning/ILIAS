@@ -1,2 +1,15 @@
-<textarea id="{ID}" name="{NAME}"<!-- BEGIN disabled --> {DISABLED}<!-- END disabled --> class="form-control form-control-sm"><!-- BEGIN value -->{VALUE}<!-- END value --></textarea>
-<!-- BEGIN limit --><div id="textarea_feedback_{COUNT_ID}" data-maxchars="{FEEDBACK_MAX_LIMIT}"></div><!-- END limit -->
+<div class="ui-input-textarea">
+    <textarea
+        id="{ID}"
+        class="form-control form-control-sm"
+        name="{NAME}"
+        <!-- BEGIN disabled -->{DISABLED}<!-- END disabled -->
+        <!-- BEGIN with_min_limit -->minlength="{MIN_LIMIT}"<!-- END with_min_limit -->
+        <!-- BEGIN with_max_limit -->maxlength="{MAX_LIMIT}"<!-- END with_max_limit -->
+    ><!-- BEGIN value -->{VALUE}<!-- END value --></textarea>
+    <!-- BEGIN remainder -->
+    <div class="ui-input-textarea-remainder">
+        {REMAINDER_TEXT} <span data-action="remainder">{REMAINDER}</span>
+    </div>
+    <!-- END remainder -->
+</div>

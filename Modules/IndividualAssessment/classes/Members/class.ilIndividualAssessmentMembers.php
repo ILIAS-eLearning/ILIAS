@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Member administration related logic, add and remove members,
@@ -73,7 +73,7 @@ class ilIndividualAssessmentMembers implements Iterator, Countable
      * Iterator Methods
      * @return false|mixed
      */
-    public function current()
+    public function current(): mixed
     {
         return current($this->member_records);
     }
@@ -81,7 +81,7 @@ class ilIndividualAssessmentMembers implements Iterator, Countable
     /**
      * @return int|string|null
      */
-    public function key()
+    public function key(): mixed
     {
         return key($this->member_records);
     }

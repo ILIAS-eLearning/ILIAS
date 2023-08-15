@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\Repository\Provider;
 
 use ILIAS\GlobalScreen\Helper\BasicAccessCheckClosuresSingleton;
@@ -33,6 +35,7 @@ use ILIAS\Repository\StandardGUIRequest;
 use ilStr;
 use ilPDSelectedItemsBlockViewSettings;
 use ILIAS\UI\Component\Legacy\Legacy;
+use ilFavouritesListGUI;
 
 /**
  * Repository related main menu items
@@ -118,33 +121,29 @@ class RepositoryMainBarProvider extends AbstractStaticMainMenuProvider
 
         $title = $this->dic->language()->txt("mm_favorites");
         $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(ilUtil::getImagePath("icon_fav.svg"), $title);
+
         $entries[] = $this->mainmenu->complex($this->if->identifier('mm_pd_sel_items'))
-                       ->withSupportsAsynchronousLoading(true)
-                       ->withTitle($title)
-                       ->withSymbol($icon)
-                       ->withContentWrapper(function () use ($f): Legacy {
-                           $fav_list = new \ilFavouritesListGUI();
-
-                           return $f->legacy($fav_list->render());
-                       })
-                       ->withParent(StandardTopItemsProvider::getInstance()->getPersonalWorkspaceIdentification())
-                       ->withPosition(10)
-                       ->withAvailableCallable(
-                           function () use ($dic): bool {
-                               return (bool) $dic->settings()->get('rep_favourites', "0");
-                           }
-                       )
-                       ->withVisibilityCallable(
-                           $access_helper->isUserLoggedIn($access_helper->isRepositoryReadable(
-                               static function () use ($dic): bool {
-                                   return true;
-                                   $pdItemsViewSettings = new ilPDSelectedItemsBlockViewSettings($dic->user());
-
-                                   return $pdItemsViewSettings->allViewsEnabled() || $pdItemsViewSettings->enabledSelectedItems();
-                               }
-                           ))
-                       );
-
+                                    ->withSupportsAsynchronousLoading(true)
+                                    ->withTitle($title)
+                                    ->withSymbol($icon)
+                                    ->withContentWrapper(
+                                        static fn (): Legacy =>
+                                            $f->legacy((new ilFavouritesListGUI())->render())
+                                    )
+                                    ->withParent(StandardTopItemsProvider::getInstance()->getPersonalWorkspaceIdentification())
+                                    ->withPosition(10)
+                                    ->withAvailableCallable(
+                                        static fn (): bool =>
+                                            (bool) $dic->settings()->get('rep_favourites', "0")
+                                    )
+                                    ->withVisibilityCallable(
+                                        $access_helper->isUserLoggedIn($access_helper->isRepositoryReadable(
+                                            static function () use ($dic): bool {
+                                                $pdItemsViewSettings = new ilPDSelectedItemsBlockViewSettings($dic->user());
+                                                return $pdItemsViewSettings->allViewsEnabled() || $pdItemsViewSettings->enabledSelectedItems();
+                                            }
+                                        ))
+                                    );
         return $entries;
     }
 

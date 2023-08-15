@@ -89,6 +89,12 @@ class ilFormPropertyGUI
         return $this->$cmd();
     }
 
+    protected function symbol(): \ILIAS\Repository\Symbol\SymbolAdapterGUI
+    {
+        global $DIC;
+        return $DIC->repository()->internal()->gui()->symbol();
+    }
+
     protected function setType(string $a_type): void
     {
         $this->type = $a_type;
@@ -367,8 +373,8 @@ class ilFormPropertyGUI
             $tpl->setVariable("ID", $id);
             $tpl->setVariable("TXT_ADD", $lng->txt("add"));
             $tpl->setVariable("TXT_REMOVE", $lng->txt("remove"));
-            $tpl->setVariable("SRC_ADD", ilGlyphGUI::get(ilGlyphGUI::ADD));
-            $tpl->setVariable("SRC_REMOVE", ilGlyphGUI::get(ilGlyphGUI::REMOVE));
+            $tpl->setVariable("SRC_ADD", $this->symbol()->glyph("add")->render());
+            $tpl->setVariable("SRC_REMOVE", $this->symbol()->glyph("remove")->render());
             $tpl->parseCurrentBlock();
         }
 
@@ -377,8 +383,8 @@ class ilFormPropertyGUI
             $tpl->setVariable("ID", $id);
             $tpl->setVariable("TXT_DOWN", $lng->txt("down"));
             $tpl->setVariable("TXT_UP", $lng->txt("up"));
-            $tpl->setVariable("SRC_UP", ilGlyphGUI::get(ilGlyphGUI::UP));
-            $tpl->setVariable("SRC_DOWN", ilGlyphGUI::get(ilGlyphGUI::DOWN));
+            $tpl->setVariable("SRC_UP", $this->symbol()->glyph("up")->render());
+            $tpl->setVariable("SRC_DOWN", $this->symbol()->glyph("down")->render());
             $tpl->parseCurrentBlock();
         }
 

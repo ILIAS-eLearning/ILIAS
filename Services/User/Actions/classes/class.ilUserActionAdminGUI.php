@@ -16,19 +16,24 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
+use ILIAS\User\UserGUIRequest;
+
 /**
  * User action administration GUI class
  * @author Alexander Killing <killing@leifos.de>
  */
 class ilUserActionAdminGUI
 {
-    protected ilRbacSystem $rbabsystem;
-    protected int $ref_id;
-    protected \ILIAS\User\StandardGUIRequest $request;
-    protected ilCtrl $ctrl;
-    protected ilGlobalTemplateInterface $tpl;
-    protected ilLanguage $lng;
-    protected ilUserActionContext $action_context;
+    private ilRbacSystem $rbabsystem;
+    private int $ref_id;
+    private UserGUIRequest $request;
+    private ilCtrl $ctrl;
+    private ilGlobalTemplateInterface $tpl;
+    private ilLanguage $lng;
+    private ilUserActionContext $action_context;
+    private ilUserActionAdmin $user_action_admin;
 
     public function __construct(int $ref_id)
     {
@@ -39,12 +44,12 @@ class ilUserActionAdminGUI
         $this->tpl = $DIC["tpl"];
         $this->ref_id = $ref_id;
         $this->rbabsystem = $DIC->rbac()->system();
-
         $this->lng->loadLanguageModule("usr");
-        $this->request = new \ILIAS\User\StandardGUIRequest(
+        $this->request = new UserGUIRequest(
             $DIC->http(),
             $DIC->refinery()
         );
+        $this->user_action_admin = new ilUserActionAdmin($DIC['ilDB']);
     }
 
     public function setActionContext(ilUserActionContext $a_val = null): void
@@ -94,7 +99,7 @@ class ilUserActionAdminGUI
 
         $active = $this->request->getActionActive();
         foreach ($this->getActions() as $a) {
-            ilUserActionAdmin::activateAction(
+            $this->user_action_admin->activateAction(
                 $this->action_context->getComponentId(),
                 $this->action_context->getContextId(),
                 $a["action_comp_id"],
@@ -112,20 +117,21 @@ class ilUserActionAdminGUI
      */
     public function getActions(): array
     {
-        $data = array();
-        foreach (ilUserActionProviderFactory::getAllProviders() as $p) {
+        $data = [];
+        $action_provider_factory = new ilUserActionProviderFactory();
+        foreach ($action_provider_factory->getProviders() as $p) {
             foreach ($p->getActionTypes() as $id => $name) {
-                $data[] = array(
+                $data[] = [
                     "action_comp_id" => $p->getComponentId(),
                     "action_type_id" => $id,
                     "action_type_name" => $name,
-                    "active" => ilUserActionAdmin::lookupActive(
+                    "active" => $this->user_action_admin->isActionActive(
                         $this->action_context->getComponentId(),
                         $this->action_context->getContextId(),
                         $p->getComponentId(),
                         $id
                     )
-                );
+                ];
             }
         }
         return $data;

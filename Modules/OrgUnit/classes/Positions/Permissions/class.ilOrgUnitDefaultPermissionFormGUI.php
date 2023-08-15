@@ -30,6 +30,7 @@ class ilOrgUnitDefaultPermissionFormGUI extends ilPropertyFormGUI
     protected array $ilOrgUnitPermissions = [];
     protected ilObjectDefinition $objectDefinition;
     protected \ilLanguage $language;
+    protected \ilOrgUnitPermissionDBRepository $permissionRepo;
 
     /**
      * ilOrgUnitDefaultPermissionFormGUI constructor.
@@ -42,6 +43,9 @@ class ilOrgUnitDefaultPermissionFormGUI extends ilPropertyFormGUI
         array $ilOrgUnitPermissionsFilter,
         ilObjectDefinition $objectDefinition
     ) {
+        $dic = \ilOrgUnitLocalDIC::dic();
+        $this->permissionRepo = $dic["repo.Permissions"];
+
         global $DIC;
         $this->parent_gui = $parent_gui;
         $this->language = $DIC->language();
@@ -52,6 +56,7 @@ class ilOrgUnitDefaultPermissionFormGUI extends ilPropertyFormGUI
         $this->initFormElements();
         $this->initButtons();
         $this->setTarget('_top');
+
         parent::__construct();
     }
 
@@ -60,9 +65,12 @@ class ilOrgUnitDefaultPermissionFormGUI extends ilPropertyFormGUI
         if ($this->fillObject() === false) {
             return false;
         }
+
+        $permissions = [];
         foreach ($this->ilOrgUnitPermissions as $ilOrgUnitPermission) {
-            $ilOrgUnitPermission->update();
+            $permissions[] = $this->permissionRepo->store($ilOrgUnitPermission);
         }
+        $this->setIlOrgUnitPermissions($permissions);
 
         return true;
     }
@@ -78,7 +86,7 @@ class ilOrgUnitDefaultPermissionFormGUI extends ilPropertyFormGUI
     private function initFormElements(): void
     {
         foreach ($this->ilOrgUnitPermissions as $ilOrgUnitPermission) {
-            $ilOrgUnitPermission->afterObjectLoad();
+            $ilOrgUnitPermission = $this->permissionRepo->update($ilOrgUnitPermission);
             if ($ilOrgUnitPermission->getContext() !== null) {
                 $header = new ilFormSectionHeaderGUI();
                 $context = $ilOrgUnitPermission->getContext()->getContext();
@@ -102,7 +110,7 @@ class ilOrgUnitDefaultPermissionFormGUI extends ilPropertyFormGUI
     {
         $operations = array();
         foreach ($this->ilOrgUnitPermissions as $ilOrgUnitPermission) {
-            $ilOrgUnitPermission->afterObjectLoad();
+            $ilOrgUnitPermission = $this->permissionRepo->update($ilOrgUnitPermission);
             if ($ilOrgUnitPermission->getContext() !== null) {
                 $context = $ilOrgUnitPermission->getContext()->getContext();
                 foreach ($ilOrgUnitPermission->getPossibleOperations() as $operation) {
@@ -120,20 +128,24 @@ class ilOrgUnitDefaultPermissionFormGUI extends ilPropertyFormGUI
             return false;
         }
         $sent_operation_ids = ($this->getInput(self::F_OPERATIONS) != '') ? $this->getInput(self::F_OPERATIONS) : [];
+
+        $permissions = [];
         foreach ($this->ilOrgUnitPermissions as $ilOrgUnitPermission) {
             $operations = [];
-            $ilOrgUnitPermission->afterObjectLoad();
+            $ilOrgUnitPermission = $this->permissionRepo->update($ilOrgUnitPermission);
             if ($ilOrgUnitPermission->getContext()) {
                 $context = $ilOrgUnitPermission->getContext()->getContext();
                 foreach ($ilOrgUnitPermission->getPossibleOperations() as $operation) {
                     $id = $operation->getOperationId();
                     if (isset($sent_operation_ids[$context][$id])) {
-                        $operations[] = ilOrgUnitOperation::find($id);
+                        $operations[] = $operation;
                     }
                 }
-                $ilOrgUnitPermission->setOperations($operations);
+                $ilOrgUnitPermission = $ilOrgUnitPermission->withOperations($operations);
             }
+            $permissions[] = $ilOrgUnitPermission;
         }
+        $this->setIlOrgUnitPermissions($permissions);
 
         return true;
     }

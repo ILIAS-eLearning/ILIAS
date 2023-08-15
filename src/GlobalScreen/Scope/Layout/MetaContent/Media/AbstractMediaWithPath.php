@@ -1,6 +1,5 @@
 <?php
 
-declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -16,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\GlobalScreen\Scope\Layout\MetaContent\Media;
 
@@ -47,7 +48,7 @@ abstract class AbstractMediaWithPath extends AbstractMedia
         // regex pattern matches if a string follows the data uri syntax.
         // https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/Data_URIs#syntax
 
-        return (bool) preg_match('/^(data:)([a-z\/]*)((;base64)?)(,?)([A-z0-9=]*)$/', $content);
+        return (bool) preg_match('/^(data:)([a-z\/]*)((;base64)?)(,?)([A-z0-9=\/\+]*)$/', $content);
     }
 
     protected function hasContentParameters(string $content): bool

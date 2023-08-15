@@ -37,6 +37,11 @@ class ilPageObjectGUI
     public const PREVIEW = "preview";
     public const OFFLINE = "offline";
     public const PRINTING = "print";
+    protected \ILIAS\COPage\Page\PageManager $pm;
+    protected \ILIAS\COPage\Link\LinkManager $link;
+    protected \ILIAS\COPage\InternalGUIService $gui;
+    protected \ILIAS\COPage\PC\PCDefinition $pc_definition;
+    protected \ILIAS\COPage\Xsl\XslManager $xsl;
     protected int $requested_ref_id;
     protected int $requested_pg_id;
     protected string $requested_file_id;
@@ -132,6 +137,7 @@ class ilPageObjectGUI
     protected string $profile_back_url = "";
 
     protected ilComponentFactory $component_factory;
+    protected \ILIAS\COPage\Compare\PageCompare $compare;
 
     /**
      * @param string $a_parent_type type of parent object
@@ -219,13 +225,31 @@ class ilPageObjectGUI
         $this->requested_q_id = $this->request->getInt("q_id");
         $this->requested_history_mode = $this->request->getInt("history_mode");
 
-        $this->edit_repo = $DIC
+        $int_service = $DIC
             ->copage()
-            ->internal()
+            ->internal();
+
+        $this->edit_repo = $int_service
             ->repo()
             ->edit();
 
         $this->afterConstructor();
+        $this->xsl = $int_service->domain()->xsl();
+        $this->compare = $int_service->domain()->compare();
+        $this->pc_definition = $DIC
+            ->copage()
+            ->internal()
+            ->domain()
+            ->pc()
+            ->definition();
+        $this->gui = $DIC->copage()->internal()->gui();
+        $this->link = $DIC->copage()->internal()->domain()->link();
+        $this->pm = $DIC->copage()->internal()->domain()->page();
+    }
+
+    public function setTemplate(ilGlobalTemplateInterface $main_tpl): void
+    {
+        $this->tpl = $main_tpl;
     }
 
     public function afterConstructor(): void
@@ -1286,15 +1310,6 @@ class ilPageObjectGUI
             }
         }
 
-        $reload_tree = $this->request->getString("reloadTree");
-        if ($reload_tree == "y") {
-            $tpl->setCurrentBlock("reload_tree");
-            $tpl->setVariable(
-                "LINK_TREE",
-                $this->ctrl->getLinkTargetByClass("ilobjlearningmodulegui", "explorer", "", false, false)
-            );
-            $tpl->parseCurrentBlock();
-        }
         //		}
         // get content
         $builded = $this->obj->buildDom();
@@ -1309,48 +1324,6 @@ class ilPageObjectGUI
 
             $this->obj->addFileSizes();
             $this->obj->addHierIDs();
-
-            $hids = $this->obj->getHierIds();
-            $row1_ids = $this->obj->getFirstRowIds();
-            $col1_ids = $this->obj->getFirstColumnIds();
-            $litem_ids = $this->obj->getListItemIds();
-            $fitem_ids = $this->obj->getFileItemIds();
-
-            // standard menues
-            $hids = $this->obj->getHierIds();
-            foreach ($hids as $hid) {
-                $tpl->setCurrentBlock("add_dhtml");
-                $tpl->setVariable("CONTEXTMENU", "contextmenu_" . $hid);
-                $tpl->parseCurrentBlock();
-            }
-
-            // column menues for tables
-            foreach ($col1_ids as $hid) {
-                $tpl->setCurrentBlock("add_dhtml");
-                $tpl->setVariable("CONTEXTMENU", "contextmenu_r" . $hid);
-                $tpl->parseCurrentBlock();
-            }
-
-            // row menues for tables
-            foreach ($row1_ids as $hid) {
-                $tpl->setCurrentBlock("add_dhtml");
-                $tpl->setVariable("CONTEXTMENU", "contextmenu_c" . $hid);
-                $tpl->parseCurrentBlock();
-            }
-
-            // list item menues
-            foreach ($litem_ids as $hid) {
-                $tpl->setCurrentBlock("add_dhtml");
-                $tpl->setVariable("CONTEXTMENU", "contextmenu_i" . $hid);
-                $tpl->parseCurrentBlock();
-            }
-
-            // file item menues
-            foreach ($fitem_ids as $hid) {
-                $tpl->setCurrentBlock("add_dhtml");
-                $tpl->setVariable("CONTEXTMENU", "contextmenu_i" . $hid);
-                $tpl->parseCurrentBlock();
-            }
         } else {
             $this->obj->addFileSizes();
         }
@@ -1574,12 +1547,9 @@ class ilPageObjectGUI
             // cache hit
             $output = $this->obj->getRenderedContent();
         } else {
-            $xsl = file_get_contents("./Services/COPage/xsl/page.xsl");
             $this->log->debug("Calling XSLT, content: " . substr($content, 0, 100));
             try {
-                $args = array( '/_xml' => $content, '/_xsl' => $xsl );
-                $xh = xslt_create();
-                $output = xslt_process($xh, "arg:/_xml", "arg:/_xsl", null, $args, $params);
+                $output = $this->xsl->process($content, $params);
             } catch (Exception $e) {
                 $output = "";
                 if ($this->getOutputMode() == "edit") {
@@ -1592,7 +1562,6 @@ class ilPageObjectGUI
                 && $this->obj->old_nr == 0) {
                 $this->obj->writeRenderedContent($output, $md5);
             }
-            xslt_free($xh);
         }
 
         if (!$is_error) {
@@ -1638,9 +1607,8 @@ class ilPageObjectGUI
             }
 
             // for all page components...
-            $defs = ilCOPagePCDef::getPCDefinitions();
+            $defs = $this->pc_definition->getPCDefinitions();
             foreach ($defs as $def) {
-                //ilCOPagePCDef::requirePCClassByName($def["name"]);
                 $pc_class = $def["pc_class"];
                 $pc_obj = new $pc_class($this->getPageObject());
                 $pc_obj->setSourcecodeDownloadScript($this->determineSourcecodeDownloadScript());
@@ -1974,19 +1942,20 @@ class ilPageObjectGUI
         $btpl->setVariable("BLOCK_STYLE_SELECTOR", $ui->renderer()->render($dd));
 
 
+        $btpl->setVariable("TINY_HEADER", $lng->txt("cont_text_editing"));
         $btpl->setVariable(
             "SPLIT_BUTTON",
-            $ui_wrapper->getRenderedButton($lng->txt("save_return"), "par-action", "save.return")
+            $ui_wrapper->getRenderedButton($lng->txt("cont_quit_text_editing"), "par-action", "save.return")
         );
 
+        /*
         $btpl->setVariable(
             "CANCEL_BUTTON",
             $ui_wrapper->getRenderedButton($lng->txt("cancel"), "par-action", "component.cancel")
-        );
+        );*/
 
         $btpl->setVariable("TXT_SAVING", $lng->txt("cont_saving"));
         $btpl->setVariable("SRC_LOADER", \ilUtil::getImagePath("loader.svg"));
-        $btpl->setVariable("CHAR_STYLE_SELECTOR", ilPCParagraphGUI::getCharStyleSelector($a_par_type, true, $a_style_id));
         ilTooltipGUI::addTooltip(
             "ilAdvSelListAnchorElement_char_style_selection",
             $lng->txt("cont_more_character_styles"),
@@ -2029,41 +1998,12 @@ class ilPageObjectGUI
 
     public function downloadFile(): void
     {
-        $file_id = 0;
-        $download_ok = false;
-
-        $pg_obj = $this->getPageObject();
-        $pg_obj->buildDom();
-        $int_links = $pg_obj->getInternalLinks();
-        $req_file_id = $this->requested_file_id;
-        foreach ($int_links as $il) {
-            if ($il["Target"] == str_replace("_file_", "_dfile_", $req_file_id)) {
-                $file = explode("_", $req_file_id);
-                $file_id = (int) $file[count($file) - 1];
-                $download_ok = true;
-            }
-        }
-        if (in_array($req_file_id, $pg_obj->getAllFileObjIds())) {
-            $file = explode("_", $req_file_id);
-            $file_id = (int) $file[count($file) - 1];
-            $download_ok = true;
-        }
-
-        $pcs = ilPageContentUsage::getUsagesOfPage($pg_obj->getId(), $pg_obj->getParentType() . ":pg", 0, false);
-        foreach ($pcs as $pc) {
-            $files = ilObjFile::_getFilesOfObject("mep:pg", $pc["id"], 0);
-            $file = explode("_", $req_file_id);
-            $file_id = (int) $file[count($file) - 1];
-            if (in_array($file_id, $files)) {
-                $download_ok = true;
-            }
-        }
-
-        if ($download_ok) {
-            $fileObj = new ilObjFile($file_id, false);
-            $fileObj->sendFile();
-            exit;
-        }
+        $this->getPageObject()->buildDom();
+        $cm = $this->pm->content($this->getPageObject()->getDomDoc());
+        $cm->downloadFile(
+            $this->getPageObject(),
+            $this->requested_file_id
+        );
     }
 
     public function displayMediaFullscreen(): void
@@ -2083,7 +2023,11 @@ class ilPageObjectGUI
         $link_xml = $this->page_linker->getLinkXML($med_links);
 
         $media_obj = new ilObjMediaObject($this->request->getMobId());
-        $pg_obj = $this->getPageObject();
+        if ($this->request->getPageType() === "mep") {
+            $pg_obj = new ilMediaPoolPage($this->request->getPageId());
+        } else {
+            $pg_obj = $this->getPageObject();
+        }
         $pg_obj->buildDom();
 
         $xml = "<dummy>";
@@ -2096,10 +2040,6 @@ class ilPageObjectGUI
         $xml .= $link_xml;
         $xml .= "</dummy>";
 
-        $xsl = file_get_contents("./Services/COPage/xsl/page.xsl");
-        $args = array( '/_xml' => $xml, '/_xsl' => $xsl );
-        $xh = xslt_create();
-
         $mode = "media";
         if ($a_fullscreen) {
             $mode = "fullscreen";
@@ -2111,11 +2051,9 @@ class ilPageObjectGUI
         $enlarge_path = ilUtil::getImagePath("enlarge.svg");
         $params = array('mode' => $mode, 'enlarge_path' => $enlarge_path,
             'link_params' => "ref_id=" . $this->requested_ref_id,'fullscreen_link' => "",
+                        'enable_html_mob' => ilObjMediaObject::isTypeAllowed("html") ? "y" : "n",
             'ref_id' => $this->requested_ref_id, 'webspace_path' => $wb_path);
-        $output = xslt_process($xh, "arg:/_xml", "arg:/_xsl", null, $args, $params);
-        //echo "<br><br>".htmlentities($output);
-        //echo xslt_error($xh);
-        xslt_free($xh);
+        $output = $this->xsl->process($xml, $params);
 
         // unmask user html
         $tpl->addCss(ilUtil::getStyleSheetLocation());
@@ -2137,7 +2075,7 @@ class ilPageObjectGUI
     public function download_paragraph(): void
     {
         $pg_obj = $this->getPageObject();
-        $pg_obj->send_paragraph(
+        $pg_obj->sendParagraph(
             $this->request->getString("par_id"),
             $this->request->getString("downloadtitle")
         );
@@ -2160,7 +2098,7 @@ class ilPageObjectGUI
                 $anchor = str_replace(
                     "TocH",
                     "TocA",
-                    substr($a_output, $os, strpos($a_output, "<", $os) - $os - 4)
+                    substr($a_output, $os, strpos($a_output, "-->", $os) - $os)
                 );
 
                 // get heading
@@ -2176,12 +2114,11 @@ class ilPageObjectGUI
                     "anchor" => $anchor);
             }
         }
-
         if (count($page_heads) > 1) {
-            $list = new ilNestedList();
-            $list->setAutoNumbering(true);
-            $list->setListClass("ilc_page_toc_PageTOCList");
-            $list->setItemClass("ilc_page_toc_PageTOCItem");
+            $listing = $this->gui->listing();
+            // todo: inject?
+            /*$list->setListClass("ilc_page_toc_PageTOCList");
+            $list->setItemClass("ilc_page_toc_PageTOCItem");*/
             $i = 0;
             $c_depth = 1;
             $c_par[1] = 0;
@@ -2202,11 +2139,10 @@ class ilPageObjectGUI
 
                 $h["text"] = str_replace($page_toc_ph, "", $h["text"]);
 
-                // add the list node
-                $list->addListNode(
-                    "<a href='#" . $h["anchor"] . "' class='ilc_page_toc_PageTOCLink'>" . $h["text"] . "</a>",
-                    $i,
-                    $par
+                $listing->node(
+                    $this->ui->factory()->legacy("<a href='#" . $h["anchor"] . "' class='ilc_page_toc_PageTOCLink'>" . $h["text"] . "</a>"),
+                    (string) $i,
+                    (string) ($par)
                 );
 
                 // set the node as current parent of the level
@@ -2225,7 +2161,7 @@ class ilPageObjectGUI
                 true,
                 "Services/COPage"
             );
-            $tpl->setVariable("PAGE_TOC", $list->getHTML());
+            $tpl->setVariable("PAGE_TOC", $listing->autoNumbers(true)->render());
             $tpl->setVariable("TXT_PAGE_TOC", $this->lng->txt("cont_page_toc"));
             $tpl->setVariable("TXT_HIDE", $this->lng->txt("hide"));
             $tpl->setVariable("TXT_SHOW", $this->lng->txt("show"));
@@ -2235,7 +2171,7 @@ class ilPageObjectGUI
                 $tpl->get(),
                 $a_output
             );
-            $numbers = $list->getNumbers();
+            $numbers = $listing->getNumbers();
 
             if (count($numbers) > 0) {
                 foreach ($numbers as $n) {
@@ -2489,18 +2425,13 @@ class ilPageObjectGUI
         $xml .= $media_obj->getXML(IL_MODE_OUTPUT);
         $xml .= "</dummy>";
 
-        //echo htmlentities($xml); exit;
-
-        $xsl = file_get_contents("./Services/COPage/xsl/page.xsl");
-        $args = array( '/_xml' => $xml, '/_xsl' => $xsl );
-        $xh = xslt_create();
 
         $wb_path = ilFileUtils::getWebspaceDir("output") . "/";
         $mode = "fullscreen";
-        $params = array('mode' => $mode, 'webspace_path' => $wb_path);
-        $output = xslt_process($xh, "arg:/_xml", "arg:/_xsl", null, $args, $params);
-        xslt_error($xh);
-        xslt_free($xh);
+        $params = array('mode' => $mode,
+        'enable_html_mob' => ilObjMediaObject::isTypeAllowed("html") ? "y" : "n",
+        'webspace_path' => $wb_path);
+        $output = $this->xsl->process($xml, $params);
 
         // unmask user html
         $this->tpl->setVariable("MEDIA_CONTENT", $output);
@@ -2703,10 +2634,12 @@ class ilPageObjectGUI
         }
 
         $tpl = new ilTemplate("tpl.page_compare.html", true, true, "Services/COPage");
-        $compare = $this->obj->compareVersion(
-            $this->request->getInt("left"),
-            $this->request->getInt("right")
-        );
+
+        $pg = $this->obj;
+        $l_page = ilPageObjectFactory::getInstance($pg->getParentType(), $pg->getId(), $this->request->getInt("left"));
+        $r_page = ilPageObjectFactory::getInstance($pg->getParentType(), $pg->getId(), $this->request->getInt("right"));
+
+        $compare = $this->compare->compare($l_page, $r_page);
 
         // left page
         $lpage = $compare["l_page"];
@@ -2763,11 +2696,6 @@ class ilPageObjectGUI
         $this->initActivationForm();
         $this->getActivationFormValues();
         $atpl->setVariable("FORM", $this->form->getHTML());
-        $atpl->setCurrentBlock("updater");
-        $atpl->setVariable("UPDATER_FRAME", $this->exp_frame);
-        $atpl->setVariable("EXP_ID_UPDATER", $this->exp_id);
-        $atpl->setVariable("HREF_UPDATER", $this->exp_target_script);
-        $atpl->parseCurrentBlock();
         $this->tpl->setContent($atpl->get());
     }
 

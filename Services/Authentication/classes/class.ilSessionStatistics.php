@@ -305,6 +305,10 @@ class ilSessionStatistics
             // session closed
             if ($item["end_time"] && $item["end_time"] <= $a_end) {
                 if (in_array($item["end_context"], $separate_closed, true)) {
+                    if (!isset($closed_counter[$item["end_context"]])) {
+                        $closed_counter[$item["end_context"]] = 0;
+                    }
+
                     $closed_counter[$item["end_context"]]++;
                 } else {
                     $closed_counter[0] = ($closed_counter[0] ?? 0) + 1;
@@ -413,10 +417,8 @@ class ilSessionStatistics
 
     /**
      * Get latest slot during which sessions were maxed out
-     *
-     * @return ?int timestamp
      */
-    public static function getLastMaxedOut(): ?int
+    public static function getLastMaxedOut(): int
     {
         global $DIC;
 
@@ -428,10 +430,9 @@ class ilSessionStatistics
         $res = $ilDB->query($sql);
         $row = $ilDB->fetchAssoc($res);
         if ($row["latest"]) {
-            return $row["latest"];
+            return (int) $row["latest"];
         }
-        //TODO check if return null as timestamp causes issues
-        return null;
+        return 0;
     }
 
     /**

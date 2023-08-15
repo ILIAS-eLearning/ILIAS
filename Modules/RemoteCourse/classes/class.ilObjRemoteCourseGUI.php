@@ -1,20 +1,21 @@
 <?php
 
-declare(strict_types=1);
-
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *
- *****************************************************************************/
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
+
+declare(strict_types=1);
 
 /**
 *
@@ -71,14 +72,23 @@ class ilObjRemoteCourseGUI extends ilRemoteObjectBaseGUI implements ilCtrlBaseCl
         $radio_grp->setValue($this->object->getAvailabilityType());
         $radio_grp->setDisabled(true);
 
-        $radio_opt = new ilRadioOption($this->lng->txt('crs_visibility_unvisible'), ilObjRemoteCourse::ACTIVATION_OFFLINE);
+        $radio_opt = new ilRadioOption(
+            $this->lng->txt('crs_visibility_unvisible'),
+            (string) ilObjRemoteCourse::ACTIVATION_OFFLINE
+        );
         $radio_grp->addOption($radio_opt);
 
-        $radio_opt = new ilRadioOption($this->lng->txt('crs_visibility_limitless'), ilObjRemoteCourse::ACTIVATION_UNLIMITED);
+        $radio_opt = new ilRadioOption(
+            $this->lng->txt('crs_visibility_limitless'),
+            (string) ilObjRemoteCourse::ACTIVATION_UNLIMITED
+        );
         $radio_grp->addOption($radio_opt);
 
         // :TODO: not supported in ECS yet
-        $radio_opt = new ilRadioOption($this->lng->txt('crs_visibility_until'), ilObjRemoteCourse::ACTIVATION_LIMITED);
+        $radio_opt = new ilRadioOption(
+            $this->lng->txt('crs_visibility_until'),
+            (string) ilObjRemoteCourse::ACTIVATION_LIMITED
+        );
 
         $start = new ilDateTimeInputGUI($this->lng->txt('crs_start'), 'start');
         $start->setDate(new ilDateTime(time(), IL_CAL_UNIX));

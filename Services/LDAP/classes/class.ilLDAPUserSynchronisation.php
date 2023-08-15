@@ -27,8 +27,8 @@ class ilLDAPUserSynchronisation
 {
     private string $authmode;
     private ilLDAPServer $server;
-    private string $extaccount = '';
-    private string $intaccount = '';
+    private ?string $extaccount;
+    private ?string $intaccount;
 
     private array $user_data = array();
     private bool $force_creation = false;
@@ -71,7 +71,7 @@ class ilLDAPUserSynchronisation
     /**
      * Get external accocunt
      */
-    public function getExternalAccount(): string
+    public function getExternalAccount(): ?string
     {
         return $this->extaccount;
     }
@@ -206,7 +206,7 @@ class ilLDAPUserSynchronisation
             $query->bind(ilLDAPQuery::LDAP_BIND_DEFAULT);
             $user = $query->fetchUser($this->getExternalAccount());
             $this->logger->dump($user, ilLogLevel::DEBUG);
-            $this->user_data = (array) $user[$this->getExternalAccount()];
+            $this->user_data = (array) $user[strtolower($this->getExternalAccount())];
         } catch (ilLDAPQueryException $e) {
             $this->logger->error('LDAP bind failed with message: ' . $e->getMessage());
             throw new ilLDAPSynchronisationFailedException($e->getMessage());

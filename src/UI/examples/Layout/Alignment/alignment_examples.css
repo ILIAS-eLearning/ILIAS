@@ -1,0 +1,14 @@
+.example_block {
+    padding: 15px; 
+
+    &.fullheight {height: 100%;}
+    
+    &.blue {background-color: lightblue;}
+    &.green {background-color: lightgreen;}
+    &.yellow {background-color: lightyellow;}
+    &.red {background-color: red;}
+    
+    &.bluedark {background-color: blue; width: 150px;}
+    &.greendark {background-color: green; width: 50px;}
+    &.yellowdark {background-color: yellow; width: 200px;}
+}

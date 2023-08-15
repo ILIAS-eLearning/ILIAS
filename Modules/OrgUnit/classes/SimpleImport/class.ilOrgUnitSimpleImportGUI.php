@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -13,9 +14,9 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+ *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Class ilOrgUnitSimpleImportGUI
@@ -33,6 +34,8 @@ class ilOrgUnitSimpleImportGUI
     protected ilLanguage $lng;
     protected ilAccessHandler $ilAccess;
     protected \ILIAS\DI\LoggingServices $ilLog;
+    protected \ILIAS\UI\Factory $ui_factory;
+
 
     public function __construct(ilObjectGUI $parent_gui)
     {
@@ -47,6 +50,7 @@ class ilOrgUnitSimpleImportGUI
         $this->ilAccess = $DIC->access();
         $this->lng->loadLanguageModule('user');
         $this->ilLog = $DIC->logger();
+        $this->ui_factory = $DIC['ui.factory'];
 
         $this->may_create_orgus = $this->ilAccess->checkAccess("create_orgu", "", $this->parent_gui->getRefId(), 'orgu');
         $this->is_top_level_orgu = ($this->parent_object->getRefId() == ilObjOrgUnit::getRootOrgRefId());
@@ -100,13 +104,17 @@ class ilOrgUnitSimpleImportGUI
         $this->tabs_gui->removeSubTab("ordering"); // Mantis 0014728
 
         if ($this->may_create_orgus && $this->is_top_level_orgu) {
-            $this->toolbar->addButton(
-                $this->lng->txt("simple_import"),
-                $this->ctrl->getLinkTargetByClass("ilOrgUnitSimpleImportGUI", "importScreen")
+            $this->toolbar->addComponent(
+                $this->ui_factory->link()->standard(
+                    $this->lng->txt('simple_import'),
+                    $this->ctrl->getLinkTargetByClass("ilOrgUnitSimpleImportGUI", "importScreen")
+                )
             );
-            $this->toolbar->addButton(
-                $this->lng->txt("simple_user_import"),
-                $this->ctrl->getLinkTargetByClass("ilOrgUnitSimpleUserImportGUI", "userImportScreen")
+            $this->toolbar->addComponent(
+                $this->ui_factory->link()->standard(
+                    $this->lng->txt('simple_user_import'),
+                    $this->ctrl->getLinkTargetByClass("ilOrgUnitSimpleUserImportGUI", "userImportScreen")
+                )
             );
         }
     }

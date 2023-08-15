@@ -80,7 +80,6 @@ class ilAssQuestionUserSolutionAdopter
         $this->targetPass = null;
         $this->questionIds = array();
 
-        require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionProcessLockerFactory.php';
         $this->processLockerFactory = new ilAssQuestionProcessLockerFactory($assSettings, $db);
         $this->processLockerFactory->setAssessmentLogEnabled($isAssessmentLogEnabled);
     }

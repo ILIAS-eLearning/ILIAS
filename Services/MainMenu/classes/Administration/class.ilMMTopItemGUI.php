@@ -44,7 +44,6 @@ class ilMMTopItemGUI extends ilMMAbstractItemGUI
     public const CMD_SAVE_TABLE = 'save_table';
     public const CMD_CANCEL = 'cancel';
     public const CMD_RENDER_INTERRUPTIVE = 'render_interruptive_modal';
-    public const CMD_CONFIRM_RESTORE = 'confirmRestore';
     public const CMD_UPLOAD = 'upload';
     public const CMD_SELECT_PARENT = 'selectParent';
     public const CMD_MOVE = 'move';
@@ -83,11 +82,6 @@ class ilMMTopItemGUI extends ilMMAbstractItemGUI
                 $this->saveTable();
 
                 break;
-            case self::CMD_CONFIRM_DELETE:
-                $this->tab_handling->initTabs(ilObjMainMenuGUI::TAB_MAIN, self::CMD_VIEW_TOP_ITEMS, true, self::class);
-                $this->access->checkAccessAndThrowException('write');
-
-                return $this->confirmDelete();
             case self::CMD_DELETE:
                 $this->access->checkAccessAndThrowException('write');
                 $this->delete();
@@ -95,10 +89,6 @@ class ilMMTopItemGUI extends ilMMAbstractItemGUI
             case self::CMD_CANCEL:
                 $this->cancel();
                 break;
-            case self::CMD_CONFIRM_RESTORE:
-                $this->tab_handling->initTabs(ilObjMainMenuGUI::TAB_MAIN, self::CMD_VIEW_TOP_ITEMS, true, self::class);
-                $this->access->checkAccessAndThrowException('write');
-                return $this->confirmRestore();
             case self::CMD_RESTORE:
                 $this->access->checkAccessAndThrowException('write');
 
@@ -166,23 +156,34 @@ class ilMMTopItemGUI extends ilMMAbstractItemGUI
     {
         if ($this->access->hasUserPermissionTo('write')) {
             // ADD NEW
-            $b = ilLinkButton::getInstance();
-            $b->setCaption($this->lng->txt(self::CMD_ADD), false);
-            $b->setUrl($this->ctrl->getLinkTarget($this, self::CMD_ADD));
-            $this->toolbar->addButtonInstance($b);
+            $btn_add = $this->ui->factory()->button()->standard(
+                $this->lng->txt(self::CMD_ADD),
+                $this->ctrl->getLinkTarget($this, self::CMD_ADD)
+            );
+            $this->toolbar->addComponent($btn_add);
 
             // RESTORE
-            $b = ilLinkButton::getInstance();
-            $b->setCaption($this->lng->txt(self::CMD_RESTORE), false);
-            $b->setUrl($this->ctrl->getLinkTarget($this, self::CMD_CONFIRM_RESTORE));
-            $this->toolbar->addButtonInstance($b);
+            $restoration_modal = $this->ui->factory()->modal()->interruptive(
+                $this->lng->txt(self::CMD_RESTORE),
+                $this->lng->txt('msg_restore_confirm'),
+                $this->ctrl->getLinkTarget($this, self::CMD_RESTORE)
+            )->withActionButtonLabel($this->lng->txt('restore'));
+            $btn_restore = $this->ui->factory()->button()->standard(
+                $this->lng->txt(self::CMD_RESTORE),
+                ''
+            )->withOnClick(
+                $restoration_modal->getShowSignal()
+            );
+            $this->toolbar->addComponent($btn_restore);
+            $this->toolbar->addComponent($restoration_modal);
 
             // REMOVE LOST ITEMS
             if ($this->repository->hasLostItems()) {
-                $b = ilLinkButton::getInstance();
-                $b->setUrl($this->ctrl->getLinkTarget($this, self::CMD_FLUSH));
-                $b->setCaption($this->lng->txt(self::CMD_FLUSH), false);
-                $this->toolbar->addButtonInstance($b);
+                $btn_flush = $this->ui->factory()->button()->standard(
+                    $this->lng->txt(self::CMD_FLUSH),
+                    $this->ctrl->getLinkTarget($this, self::CMD_FLUSH)
+                );
+                $this->toolbar->addComponent($btn_flush);
             }
         }
 
@@ -270,35 +271,6 @@ class ilMMTopItemGUI extends ilMMAbstractItemGUI
         }
         $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_topitem_deleted"), true);
         $this->cancel();
-    }
-
-    /**
-     * @return string
-     * @throws Throwable
-     */
-    private function confirmDelete(): string
-    {
-        $this->ctrl->saveParameterByClass(self::class, self::IDENTIFIER);
-        $i = $this->getMMItemFromRequest();
-        $c = new ilConfirmationGUI();
-        $c->addItem(self::IDENTIFIER, $this->hash($i->getId()), $i->getDefaultTitle());
-        $c->setFormAction($this->ctrl->getFormActionByClass(self::class));
-        $c->setConfirm($this->lng->txt(self::CMD_DELETE), self::CMD_DELETE);
-        $c->setCancel($this->lng->txt(self::CMD_CANCEL), self::CMD_CANCEL);
-        $c->setHeaderText($this->lng->txt(self::CMD_CONFIRM_DELETE));
-
-        return $c->getHTML();
-    }
-
-    private function confirmRestore(): string
-    {
-        $c = new ilConfirmationGUI();
-        $c->setFormAction($this->ctrl->getFormActionByClass(self::class));
-        $c->setConfirm($this->lng->txt(self::CMD_DELETE), self::CMD_RESTORE);
-        $c->setCancel($this->lng->txt(self::CMD_CANCEL), self::CMD_CANCEL);
-        $c->setHeaderText($this->lng->txt('msg_restore_confirm'));
-
-        return $c->getHTML();
     }
 
 

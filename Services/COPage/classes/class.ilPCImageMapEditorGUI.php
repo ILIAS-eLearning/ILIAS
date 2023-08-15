@@ -52,7 +52,7 @@ class ilPCImageMapEditorGUI extends ilImageMapEditorGUI
         parent::__construct($a_content_obj->getMediaObject());
 
         $this->std_alias_item = new ilMediaAliasItem(
-            $this->content_obj->dom,
+            $this->content_obj->getDomDoc(),
             $this->content_obj->hier_id,
             "Standard",
             $this->content_obj->getPCId(),
@@ -297,7 +297,7 @@ class ilPCImageMapEditorGUI extends ilImageMapEditorGUI
         // create/update imagemap work copy
         $st_item = $media_object->getMediaItem("Standard");
         $st_alias_item = new ilMediaAliasItem(
-            $this->content_obj->dom,
+            $this->content_obj->getDomDoc(),
             $this->content_obj->hier_id,
             "Standard",
             $this->content_obj->getPCId(),

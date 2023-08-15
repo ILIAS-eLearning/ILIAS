@@ -1,18 +1,21 @@
 <?php
 
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
 /**
  * Class arFieldCache
  * @version 2.0.7
@@ -20,47 +23,47 @@
  */
 class arFieldCache
 {
-    protected static array $cache = array();
+    protected static array $cache = [];
 
-    public static function isCached(ActiveRecord $ar): bool
+    public static function isCached(ActiveRecord $activeRecord): bool
     {
-        return array_key_exists(get_class($ar), self::$cache);
+        return array_key_exists($activeRecord::class, self::$cache);
     }
 
-    public static function store(ActiveRecord $ar): void
+    public static function store(ActiveRecord $activeRecord): void
     {
-        self::$cache[get_class($ar)] = arFieldList::getInstance($ar);
+        self::$cache[$activeRecord::class] = arFieldList::getInstance($activeRecord);
     }
 
-    public static function storeFromStorage(string $storage_class_name, ActiveRecord $foreign_model): void
+    public static function storeFromStorage(string $storage_class_name, ActiveRecord $activeRecord): void
     {
-        self::$cache[$storage_class_name] = arFieldList::getInstanceFromStorage($foreign_model);
+        self::$cache[$storage_class_name] = arFieldList::getInstanceFromStorage($activeRecord);
     }
 
-    public static function get(ActiveRecord $ar): \arFieldList
+    public static function get(ActiveRecord $activeRecord): \arFieldList
     {
-        if (!self::isCached($ar)) {
-            self::store($ar);
+        if (!self::isCached($activeRecord)) {
+            self::store($activeRecord);
         }
 
-        return self::$cache[get_class($ar)];
+        return self::$cache[$activeRecord::class];
     }
 
-    public static function purge(ActiveRecord $ar): void
+    public static function purge(ActiveRecord $activeRecord): void
     {
-        unset(self::$cache[get_class($ar)]);
+        unset(self::$cache[$activeRecord::class]);
     }
 
-    public static function getPrimaryFieldName(ActiveRecord $ar): string
+    public static function getPrimaryFieldName(ActiveRecord $activeRecord): string
     {
-        return self::get($ar)->getPrimaryFieldName();
+        return self::get($activeRecord)->getPrimaryFieldName();
     }
 
     /**
      * @return mixed
      */
-    public static function getPrimaryFieldType(ActiveRecord $ar): string
+    public static function getPrimaryFieldType(ActiveRecord $activeRecord): string
     {
-        return self::get($ar)->getPrimaryFieldType();
+        return self::get($activeRecord)->getPrimaryFieldType();
     }
 }

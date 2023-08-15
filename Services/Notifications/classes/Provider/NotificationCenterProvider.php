@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\Notifications\Provider;
 
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
@@ -28,9 +28,6 @@ use ILIAS\GlobalScreen\Scope\MetaBar\Provider\AbstractStaticMetaBarProvider;
  */
 class NotificationCenterProvider extends AbstractStaticMetaBarProvider
 {
-    /**
-     * @inheritDoc
-     */
     public function getMetaBarItems(): array
     {
         $mb = $this->globalScreen()->metaBar();
@@ -50,7 +47,7 @@ class NotificationCenterProvider extends AbstractStaticMetaBarProvider
                 ->withAmountOfNewNotifications($new)
                 ->withNotifications($nc->getNotifications())
                 ->withAvailableCallable(function (): bool {
-                    return $this->dic->ctrl()->getCmd() !== "showLogout";
+                    return $this->dic->ctrl()->getCmd() !== 'showLogout';
                 })
                 ->withVisibilityCallable(
                     function (): bool {

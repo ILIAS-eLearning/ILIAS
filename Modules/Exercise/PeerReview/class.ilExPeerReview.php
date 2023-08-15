@@ -253,7 +253,10 @@ class ilExPeerReview
         $values = null;
         $data = $a_data["pcomment"];
         if ($data) {
-            $values = unserialize($data);
+            try {
+                $values = unserialize($data);
+            } catch (Exception $e) {
+            }
             if (!is_array($values)) {
                 // v1 - pcomment == text
                 $values = array("text" => $data);

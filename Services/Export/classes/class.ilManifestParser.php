@@ -76,15 +76,18 @@ class ilManifestParser extends ilSaxParser
         return $this->title;
     }
 
+    /*
     public function setTargetRelease(string $a_val): void
     {
         $this->target_release = $a_val;
-    }
+    }*/
 
+
+    /*
     public function getTargetRelease(): string
     {
         return $this->target_release;
-    }
+    }*/
 
     public function getExportFiles(): array
     {
@@ -119,7 +122,7 @@ class ilManifestParser extends ilSaxParser
                 $this->setInstallId($a_attribs["InstallationId"]);
                 $this->setInstallUrl($a_attribs["InstallationUrl"]);
                 $this->setTitle($a_attribs["Title"]);
-                $this->setTargetRelease($a_attribs["TargetRelease"]);
+                //$this->setTargetRelease($a_attribs["TargetRelease"]);
                 $this->setMainEntity($a_attribs["MainEntity"]);
                 break;
 

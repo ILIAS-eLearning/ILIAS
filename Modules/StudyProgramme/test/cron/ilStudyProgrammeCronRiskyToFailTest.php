@@ -49,6 +49,8 @@ class ilStudyProgrammeCronRiskyToFailTest extends TestCase
     protected ilStudyProgrammeSettingsDBRepository $settings_repo;
     protected ilPRGAssignmentDBRepository $assignment_repo;
     protected ProgrammeEventsMock $events;
+    protected ilPrgRiskyToFail $adapter;
+    protected ilPrgRiskyToFail $real_adapter;
 
     protected function setUp(): void
     {
@@ -102,7 +104,7 @@ class ilStudyProgrammeCronRiskyToFailTest extends TestCase
             ->expects($this->once())
             ->method('getRelevantProgrammeIds')
             ->willReturn([
-                1=>3
+                1 => 3
             ]);
         $this->assignment_repo
             ->expects($this->once())
@@ -130,8 +132,8 @@ class ilStudyProgrammeCronRiskyToFailTest extends TestCase
             ->expects($this->once())
             ->method('getProgrammeIdsWithRiskyToFailSettings')
             ->willReturn([
-                42=>3,
-                43=>3
+                42 => 3,
+                43 => 3
             ]);
 
         $this->assignment_repo
@@ -144,8 +146,8 @@ class ilStudyProgrammeCronRiskyToFailTest extends TestCase
 
         $this->assertEquals(2, count($job->logs));
         $expected_events = [
-            ['userRiskyToFail', ["ass_id" => 42]],
-            ['userRiskyToFail', ["ass_id" => 43]],
+            ['userRiskyToFail', ["ass_id" => 42, 'root_prg_id' => 11]],
+            ['userRiskyToFail', ["ass_id" => 43, 'root_prg_id' => 11]]
         ];
         $this->assertEquals($expected_events, $this->events->raised);
     }

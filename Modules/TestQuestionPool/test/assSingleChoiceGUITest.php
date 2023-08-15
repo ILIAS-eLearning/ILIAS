@@ -54,9 +54,6 @@ class assSingleChoiceGUITest extends assBaseTestCase
 
     public function test_instantiateObject_shouldReturnInstance(): void
     {
-        // Arrange
-        require_once './Modules/TestQuestionPool/classes/class.assSingleChoiceGUI.php';
-
         // Act
         $instance = new assSingleChoiceGUI();
 

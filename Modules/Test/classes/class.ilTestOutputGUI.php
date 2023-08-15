@@ -69,7 +69,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
             ilTestPlayerLayoutProvider::TEST_PLAYER_TITLE,
             $this->object->getTitle()
         );
-        $instance_name =  $DIC['ilSetting']->get('short_inst_name');
+        $instance_name = $DIC['ilSetting']->get('short_inst_name') ?? '';
         if (trim($instance_name) === '') {
             $instance_name = 'ILIAS';
         }
@@ -339,7 +339,12 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
             $instantResponse = true;
         } else {
             $presentationMode = ilTestPlayerAbstractGUI::PRESENTATION_MODE_EDIT;
-            $instantResponse = $this->getInstantResponseParameter();
+            // #37025 don't show instant response if a request for it should fix the answer and answer is not yet fixed
+            if ($this->object->isInstantFeedbackAnswerFixationEnabled()) {
+                $instantResponse = false;
+            } else {
+                $instantResponse = $this->getInstantResponseParameter();
+            }
         }
         // fau.
 
@@ -378,6 +383,9 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
         $navigationToolbarGUI->setFinishTestButtonEnabled(true);
 
         $isNextPrimary = $this->handlePrimaryButton($navigationToolbarGUI, $questionId);
+        if (($this->object->getNrOfTries() - 1) === $this->testSession->getPass()) {
+            $navigationToolbarGUI->setUserHasAttemptsLeft(false);
+        }
 
         $this->ctrl->setParameter($this, 'sequence', $sequenceElement);
         $this->ctrl->setParameter($this, 'pmode', $presentationMode);
@@ -567,8 +575,21 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
         }
     }
 
+    protected function handleCheckTestPassValid(): void
+    {
+        $testObj = new ilObjTest($this->ref_id, true);
+
+        $participants = $testObj->getActiveParticipantList();
+        $participant = $participants->getParticipantByActiveId($this->testrequest->getActiveId());
+        if (!$participant || !$participant->hasUnfinishedPasses()) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("tst_current_run_no_longer_valid"), true);
+            $this->backToInfoScreenCmd();
+        }
+    }
+
     protected function nextQuestionCmd()
     {
+        $this->handleCheckTestPassValid();
         $lastSequenceElement = $this->getCurrentSequenceElement();
         $nextSequenceElement = $this->testSequence->getNextSequence($lastSequenceElement);
 
@@ -588,6 +609,8 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 
     protected function previousQuestionCmd()
     {
+        $this->handleCheckTestPassValid();
+
         $sequenceElement = $this->testSequence->getPreviousSequence(
             $this->getCurrentSequenceElement()
         );
@@ -638,7 +661,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
         $this->updateWorkingTime();
         $this->saveResult = false;
         if (!$force) {
-            $formtimestamp = $_POST["formtimestamp"];
+            $formtimestamp = $_POST["formtimestamp"] ?? '';
             if (strlen($formtimestamp) == 0) {
                 $formtimestamp = $this->testrequest->raw("formtimestamp");
             }

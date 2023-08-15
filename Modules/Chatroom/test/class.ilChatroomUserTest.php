@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use PHPUnit\Framework\MockObject\MockObject;
 
@@ -72,8 +72,6 @@ class ilChatroomUserTest extends ilChatroomAbstractTest
 
     /**
      * @dataProvider usernameDataProvider
-     * @param string $username
-     * @param string $expected
      */
     public function testSetUsername(string $username, string $expected): void
     {
@@ -180,9 +178,6 @@ class ilChatroomUserTest extends ilChatroomAbstractTest
         $this->assertSame('jdoe', $suggestions['login']);
     }
 
-    /**
-     * @return array
-     */
     public function usernameDataProvider(): array
     {
         return [

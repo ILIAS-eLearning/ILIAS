@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\BackgroundTasks\Implementation\Tasks\AbstractUserInteraction;
 use ILIAS\BackgroundTasks\Task\UserInteraction\Option;
 use ILIAS\BackgroundTasks\Types\SingleType;
@@ -32,7 +32,7 @@ use ILIAS\BackgroundTasks\Value;
  */
 class ilMailDeliveryJobUserInteraction extends AbstractUserInteraction
 {
-    public const OPTION_CANCEL = 'cancel';
+    final public const OPTION_CANCEL = 'cancel';
 
     public function getOptions(array $input): array
     {

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\Data\DateFormat;
 
@@ -48,6 +48,11 @@ class Factory
         return $this->builder;
     }
 
+    public function amend(DateFormat $format): FormatBuilder
+    {
+        return $this->builder->initWithFormat($format);
+    }
+
     public function germanShort(): DateFormat
     {
         return $this->builder->day()->dot()->month()->dot()->year()->get();
@@ -62,5 +67,17 @@ class Factory
     public function americanShort(): DateFormat
     {
         return $this->builder->month()->slash()->day()->slash()->year()->get();
+    }
+
+    public function withTime12(DateFormat $format): DateFormat
+    {
+        return $this->amend($format)
+            ->space()->hours12()->colon()->minutes()->space()->meridiem()->get();
+    }
+
+    public function withTime24(DateFormat $format): DateFormat
+    {
+        return $this->amend($format)
+            ->space()->hours24()->colon()->minutes()->get();
     }
 }

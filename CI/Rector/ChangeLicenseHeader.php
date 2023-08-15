@@ -48,13 +48,16 @@ final class ChangeLicenseHeader extends AbstractRector
 
     private Comment $standard_comment;
     private array $previous_search = [
+        Node\Stmt\If_::class,
+        Node\Expr\Empty_::class,
+        Node\Stmt\Global_::class,
         Node\Expr\Include_::class,
         Node\Stmt\Use_::class,
         Node\Stmt\Namespace_::class,
         Node\Name::class,
         Node\Stmt\Class_::class,
         Node\Stmt\Expression::class,
-        Node\Stmt\Declare_::class
+        Node\Stmt\Declare_::class,
     ];
 
     public function __construct()
@@ -77,7 +80,7 @@ final class ChangeLicenseHeader extends AbstractRector
     /**
      * @param Node\Stmt\Global_ $node
      */
-    public function refactor(Node $node): ?Node
+    public function refactor(Node $node)
     {
         if (preg_match(self::IGNORE_SUBPATHS, $this->file->getFilePath()) > 0) {
             return $node;
@@ -85,9 +88,12 @@ final class ChangeLicenseHeader extends AbstractRector
         $node->setAttribute('comments', $this->filterComments($node));
         $current = $node;
         $previous = $node->getAttribute(AttributeKeys::PREVIOUS_NODE);
-        while (is_object($previous) && in_array(get_class($previous), $this->previous_search)) {
-            if (get_class($previous) === Node\Name::class) {
+        while (is_object($previous) && in_array($previous::class, $this->previous_search)) {
+            if ($previous instanceof \PhpParser\Node\Name) {
                 $previous = $previous->getAttribute(AttributeKeys::PARENT_NODE);
+            }
+            if ($previous instanceof Node\Expr\Empty_) {
+                $this->removeNode($previous);
             }
             $current = $previous;
             $current->setAttribute(
@@ -103,7 +109,6 @@ final class ChangeLicenseHeader extends AbstractRector
     }
 
     /**
-     * @param Node $node
      * @return Comment[]
      */
     private function filterComments(Node $node, array $default = []): array

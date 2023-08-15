@@ -22,6 +22,9 @@
  */
 class ilBookingReservationsGUI
 {
+    protected ilToolbarGUI $toolbar;
+    protected \ILIAS\DI\UIServices $ui;
+    protected \ILIAS\BookingManager\InternalService $service;
     protected array $raw_post_data;
     protected \ILIAS\BookingManager\StandardGUIRequest $book_request;
     protected ilBookingHelpAdapter $help;
@@ -59,6 +62,9 @@ class ilBookingReservationsGUI
                                   ->internal()
                                   ->gui()
                                   ->standardRequest();
+        $this->service = $DIC->bookingManager()->internal();
+        $this->ui = $DIC->ui();
+        $this->toolbar = $DIC->toolbar();
 
         $this->book_obj_id = $this->book_request->getObjectId();
 
@@ -106,7 +112,7 @@ class ilBookingReservationsGUI
         switch ($next_class) {
             default:
                 if (in_array($cmd, array("log", "logDetails", "changeStatusObject", "rsvConfirmCancelUser", "rsvCancelUser",
-                    "applyLogFilter", "resetLogFilter", "rsvConfirmCancel", "rsvCancel", "back", "rsvConfirmDelete", "rsvDelete"))) {
+                    "applyLogFilter", "resetLogFilter", "rsvConfirmCancel", "rsvCancel", "back", "rsvConfirmDelete", "rsvDelete", "confirmResetRun", "resetRun"))) {
                     $this->$cmd();
                 }
         }
@@ -123,6 +129,7 @@ class ilBookingReservationsGUI
     public function log(): void
     {
         $tpl = $this->tpl;
+        $this->showRerunPreferenceAssignment();
         $table = $this->getReservationsTable();
         $tpl->setContent($table->getHTML());
     }
@@ -624,5 +631,61 @@ class ilBookingReservationsGUI
         }
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('reservation_deleted'), true);
         $this->ctrl->redirect($this, 'log');
+    }
+
+    protected function showRerunPreferenceAssignment(): void
+    {
+        if (!$this->checkPermissionBool('write')) {
+            return;
+        }
+        if ($this->pool->getScheduleType() === ilObjBookingPool::TYPE_NO_SCHEDULE_PREFERENCES) {
+            $pref_manager = $this->service->domain()->preferences($this->pool);
+            if ($pref_manager->hasRun()) {
+                $this->toolbar->addComponent($this->ui->factory()->button()->standard(
+                    $this->lng->txt("book_rerun_assignments"),
+                    $this->ctrl->getLinkTarget($this, "confirmResetRun")
+                ));
+            }
+        }
+    }
+
+    protected function confirmResetRun()
+    {
+        if (!$this->checkPermissionBool('write')) {
+            return;
+        }
+        $this->tabs_gui->activateTab("log");
+        $mess = $this->ui->factory()->messageBox()->confirmation($this->lng->txt("book_rerun_confirmation"))->withButtons(
+            [
+                $this->ui->factory()->button()->standard(
+                    $this->lng->txt("book_rerun_assignments"),
+                    $this->ctrl->getLinkTarget($this, "resetRun")
+                ),
+                $this->ui->factory()->button()->standard(
+                    $this->lng->txt("cancel"),
+                    $this->ctrl->getLinkTarget($this, "log")
+                )
+            ]
+        );
+        $this->tpl->setContent(
+            $this->ui->renderer()->render($mess)
+        );
+    }
+
+    protected function resetRun()
+    {
+        if (!$this->checkPermissionBool('write')) {
+            return;
+        }
+        if ($this->pool->getScheduleType() === ilObjBookingPool::TYPE_NO_SCHEDULE_PREFERENCES
+            && $this->access->checkAccess("write", "", $this->pool->getRefId())) {
+            $pref_manager = $this->service->domain()->preferences($this->pool);
+            $repo = $this->service->repo()->preferences();
+            $pref_manager->resetRun();
+            $pref_manager->storeBookings(
+                $repo->getPreferences($this->pool->getId())
+            );
+        }
+        $this->ctrl->redirect($this, "log");
     }
 }

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\KioskMode\ControlBuilder;
 use ILIAS\KioskMode\State;
@@ -136,10 +136,16 @@ class ilLegacyKioskModeView implements ILIAS\KioskMode\View
             $this->getMetadata($this->object->getId(), $obj_type)
         );
 
-        return $factory->item()->standard($this->object->getTitle())
-            ->withLeadIcon($icon)
-            ->withDescription($this->object->getDescription())
-            ->withProperties($props);
+        return $factory->panel()->standard(
+            $this->object->getTitle(),
+            [
+                $factory->messageBox()->info($this->lng->txt('lso_legacy_info')),
+                $factory->item()->standard($this->object->getTitle())
+                    ->withLeadIcon($icon)
+                    ->withDescription($this->object->getDescription())
+                    ->withProperties($props)
+            ]
+        );
     }
 
     //TODO: enhance metadata

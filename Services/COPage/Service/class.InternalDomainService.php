@@ -22,6 +22,12 @@ namespace ILIAS\COPage;
 
 use ILIAS\DI\Container;
 use ILIAS\Repository\GlobalDICDomainServices;
+use ILIAS\COPage\Page\PageManagerInterface;
+use ILIAS\COPage\Compare\PageCompare;
+use ILIAS\COPage\Page\PageContentManager;
+use ILIAS\COPage\PC\PCDefinition;
+use ILIAS\COPage\Link\LinkManager;
+use ILIAS\COPage\Style\StyleManager;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -43,6 +49,16 @@ class InternalDomainService
         $this->initDomainServices($DIC);
     }
 
+    public function pc(?PCDefinition $def = null): PC\DomainService
+    {
+        return new PC\DomainService(
+            $this->data_service,
+            $this->repo_service,
+            $this,
+            $def
+        );
+    }
+
     public function history(): History\HistoryManager
     {
         return new History\HistoryManager(
@@ -50,5 +66,45 @@ class InternalDomainService
             $this->repo_service,
             $this
         );
+    }
+
+    public function xsl(): Xsl\XslManager
+    {
+        return new Xsl\XslManager();
+    }
+
+    public function domUtil(): Dom\DomUtil
+    {
+        return new Dom\DomUtil();
+    }
+
+    public function page(): Page\PageManagerInterface
+    {
+        return new Page\PageManager();
+    }
+
+    public function contentIds(\ilPageObject $page): ID\ContentIdManager
+    {
+        return new ID\ContentIdManager($page);
+    }
+
+    public function contentIdGenerator(): ID\ContentIdGenerator
+    {
+        return new ID\ContentIdGenerator();
+    }
+
+    public function compare(): PageCompare
+    {
+        return new PageCompare();
+    }
+
+    public function link(): LinkManager
+    {
+        return new LinkManager();
+    }
+
+    public function style(): StyleManager
+    {
+        return new StyleManager();
     }
 }

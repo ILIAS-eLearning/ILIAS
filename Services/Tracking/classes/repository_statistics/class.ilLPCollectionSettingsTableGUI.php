@@ -155,10 +155,12 @@ class ilLPCollectionSettingsTableGUI extends ilTable2GUI
                             $obj_id
                         )) {
                             case "scorm2004":
+                                $gui_class = ilSAHSEditGUI::class;
                                 $scorm_class = ilObjSCORM2004LearningModuleGUI::class;
                                 break;
 
                             case "scorm":
+                                $gui_class = ilSAHSEditGUI::class;
                                 $scorm_class = ilObjSCORMLearningModuleGUI::class;
                                 break;
 

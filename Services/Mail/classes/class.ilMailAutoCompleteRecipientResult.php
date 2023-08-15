@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,14 +16,17 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class ilMailAutoCompleteRecipientResult
  */
 class ilMailAutoCompleteRecipientResult
 {
-    public const MODE_STOP_ON_MAX_ENTRIES = 1;
-    public const MODE_FETCH_ALL = 2;
-    public const MAX_RESULT_ENTRIES = 1000;
+    final public const MODE_STOP_ON_MAX_ENTRIES = 1;
+    final public const MODE_FETCH_ALL = 2;
+    final public const MAX_RESULT_ENTRIES = 1000;
+
     protected bool $allow_smtp;
     protected int $user_id;
     /** @var int[] */

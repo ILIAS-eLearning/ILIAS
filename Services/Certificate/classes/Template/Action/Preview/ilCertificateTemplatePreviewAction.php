@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,22 +16,24 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
 class ilCertificateTemplatePreviewAction
 {
-    private ilObjUser $user;
-    private ilCertificateUtilHelper $utilHelper;
-    private ilCertificateMathJaxHelper $mathJaxHelper;
-    private ilCertificateUserDefinedFieldsHelper $userDefinedFieldsHelper;
-    private ilCertificateRpcClientFactoryHelper $rpcClientFactoryHelper;
-    private ilCertificatePdfFileNameFactory $pdfFileNameFactory;
+    private readonly ilObjUser $user;
+    private readonly ilCertificateUtilHelper $utilHelper;
+    private readonly ilCertificateMathJaxHelper $mathJaxHelper;
+    private readonly ilCertificateUserDefinedFieldsHelper $userDefinedFieldsHelper;
+    private readonly ilCertificateRpcClientFactoryHelper $rpcClientFactoryHelper;
+    private readonly ilCertificatePdfFileNameFactory $pdfFileNameFactory;
 
     public function __construct(
-        private ilCertificateTemplateRepository $templateRepository,
-        private ilCertificatePlaceholderValues $placeholderValuesObject,
-        private string $rootDirectory = CLIENT_WEB_DIR,
+        private readonly ilCertificateTemplateRepository $templateRepository,
+        private readonly ilCertificatePlaceholderValues $placeholderValuesObject,
+        private readonly string $rootDirectory = CLIENT_WEB_DIR,
         ?ilObjUser $user = null,
         ?ilCertificateUtilHelper $utilHelper = null,
         ?ilCertificateMathJaxHelper $mathJaxHelper = null,

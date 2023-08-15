@@ -81,7 +81,7 @@ class ilTableTemplatesStorage
             " AND context = " . $ilDB->quote($a_context, "text")
         );
         $rec = $ilDB->fetchAssoc($set);
-        return unserialize($rec["value"]);
+        return unserialize((string) $rec["value"]);
     }
 
     /**

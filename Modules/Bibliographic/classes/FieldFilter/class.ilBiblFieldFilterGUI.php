@@ -63,7 +63,7 @@ class ilBiblFieldFilterGUI
             $this->lng()->txt('msg_confirm_delete_filter'),
             $form_action
         )->withAffectedItems(
-            [$f->modal()->interruptiveItem((string) $ilBiblFieldFilter->getId(), $this->facade->translationFactory()->translate($this->facade->fieldFactory()->findById($ilBiblFieldFilter->getFieldId())))]
+            [$f->modal()->interruptiveItem()->standard((string) $ilBiblFieldFilter->getId(), $this->facade->translationFactory()->translate($this->facade->fieldFactory()->findById($ilBiblFieldFilter->getFieldId())))]
         );
 
         echo $r->render([$delete_modal]);

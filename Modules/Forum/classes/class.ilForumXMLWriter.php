@@ -74,12 +74,12 @@ class ilForumXMLWriter extends ilXmlWriter
         $this->xmlElement("Pseudonyms", null, (int) $row->anonymized);
         $this->xmlElement("Statistics", null, (int) $row->statistics_enabled);
         $this->xmlElement("ThreadRatings", null, (int) $row->thread_rating);
-        $this->xmlElement("Sorting", null, (int) $row->thread_sorting);
         $this->xmlElement("MarkModeratorPosts", null, (int) $row->mark_mod_posts);
         $this->xmlElement("PostingActivation", null, (int) $row->post_activation);
         $this->xmlElement("PresetSubject", null, (int) $row->preset_subject);
         $this->xmlElement("PresetRe", null, (int) $row->add_re_subject);
         $this->xmlElement("NotificationType", null, $row->notification_type);
+        $this->xmlElement("NotificationEvents", null, (int) $row->interested_events);
         $this->xmlElement("ForceNotification", null, (int) $row->admin_force_noti);
         $this->xmlElement("ToggleNotification", null, (int) $row->user_toggle_noti);
         $this->xmlElement("LastPost", null, $row->top_last_post);

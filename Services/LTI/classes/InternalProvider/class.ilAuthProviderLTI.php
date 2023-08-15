@@ -281,10 +281,19 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
             $this->getLogger()->debug((string) var_export(ilSession::get('lti_context_ids'), true));
         }
 
-        // for testing external css
-
         // store POST into Consumer Session
-        $post = (array) $DIC->http()->wrapper()->post();
+//        $post = (array) $DIC->http()->wrapper()->post();
+        $post = [];
+        if ($DIC->http()->wrapper()->post()->has('launch_presentation_return_url')) {
+            $post['launch_presentation_return_url'] = $DIC->http()->wrapper()->post()->retrieve('launch_presentation_return_url', $DIC->refinery()->kindlyTo()->string());
+        }
+        if ($DIC->http()->wrapper()->post()->has('launch_presentation_css_url')) {
+            $post['launch_presentation_css_url'] = $DIC->http()->wrapper()->post()->retrieve('launch_presentation_css_url', $DIC->refinery()->kindlyTo()->string());
+        }
+        if ($DIC->http()->wrapper()->post()->has('resource_link_title')) {
+            $post['resource_link_title'] = $DIC->http()->wrapper()->post()->retrieve('resource_link_title', $DIC->refinery()->kindlyTo()->string());
+        }
+
         ilSession::set('lti_' . $this->ref_id . '_post_data', $post);
         ilSession::set('lti_init_target', ilObject::_lookupType($this->ref_id, true) . '_' . $this->ref_id);
 

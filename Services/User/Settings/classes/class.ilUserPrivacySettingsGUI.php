@@ -26,7 +26,7 @@ class ilUserPrivacySettingsGUI
 {
     private const PROP_ENABLE_OSC = 'chat_osc_accept_msg';
     private const PROP_ENABLE_BROWSER_NOTIFICATIONS = 'chat_osc_browser_notifications';
-    private const PROP_ENABLE_SOUND = 'play_sound';
+    private const PROP_ENABLE_SOUND = 'osd_play_sound';
     private const PROP_ENABLE_BROADCAST_TYPING = 'chat_broadcast_typing';
 
     protected ilLanguage $lng;
@@ -192,7 +192,7 @@ class ilUserPrivacySettingsGUI
 
     private function shouldShowNotificationOptions(): bool
     {
-        return (bool) $this->notificationSettings->get('play_sound', '0');
+        return (bool) $this->notificationSettings->get('osd_play_sound', '0');
     }
 
     public function shouldDisplayNotificationSection(): bool
@@ -277,10 +277,10 @@ class ilUserPrivacySettingsGUI
         $fields = [];
 
         if ($this->shouldShowNotificationOptions()) {
-            $this->lng->loadLanguageModule('notification_adm');
+            $this->lng->loadLanguageModule('notifications_adm');
             $fields[self::PROP_ENABLE_SOUND] = $this->uiFactory->input()->field()
-                                                               ->checkbox($this->lng->txt('play_sound'), $this->lng->txt('play_sound_desc'))
-                                                               ->withValue((bool) $this->user->getPref('play_sound'));
+                                                               ->checkbox($this->lng->txt('osd_play_sound'), $this->lng->txt('osd_play_sound_desc'))
+                                                               ->withValue((bool) $this->user->getPref('osd_play_sound'));
         }
 
         if ($fields !== []) {
@@ -410,11 +410,11 @@ class ilUserPrivacySettingsGUI
 
             if ($this->shouldDisplayNotificationSection()) {
                 if ($this->shouldShowNotificationOptions()) {
-                    $oldPlaySoundValue = (int) $this->user->getPref('play_sound');
+                    $oldPlaySoundValue = (int) $this->user->getPref('osd_play_sound');
                     $playASound = (int) ($formData[self::PROP_ENABLE_SOUND] ?? 0);
 
                     if ($oldPlaySoundValue !== $playASound) {
-                        $this->user->setPref('play_sound', (string) $playASound);
+                        $this->user->setPref('osd_play_sound', (string) $playASound);
                     }
                 }
             }

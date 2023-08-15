@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
@@ -25,10 +25,8 @@ use PHPUnit\Framework\MockObject\MockObject;
  */
 class ilApiUserCertificateRepositoryTest extends ilCertificateBaseTestCase
 {
-    /** @var MockObject&ilDBInterface */
-    private $database;
-    /** @var MockObject&ilCtrlInterface */
-    private $controller;
+    private \ilDBInterface&\PHPUnit\Framework\MockObject\MockObject $database;
+    private \ilCtrlInterface&\PHPUnit\Framework\MockObject\MockObject $controller;
 
     protected function setUp(): void
     {
@@ -48,7 +46,7 @@ class ilApiUserCertificateRepositoryTest extends ilCertificateBaseTestCase
                     'title' => 'test',
                     'obj_id' => 100,
                     'ref_id' => 5000,
-                    'acquired_timestamp' => 1234567890,
+                    'acquired_timestamp' => 1_234_567_890,
                     'usr_id' => 2000,
                     'firstname' => 'ilyas',
                     'lastname' => 'homer',
@@ -61,7 +59,7 @@ class ilApiUserCertificateRepositoryTest extends ilCertificateBaseTestCase
                     'title' => 'test',
                     'obj_id' => 100,
                     'ref_id' => 6000,
-                    'acquired_timestamp' => 1234567890,
+                    'acquired_timestamp' => 1_234_567_890,
                     'usr_id' => 2000,
                     'firstname' => 'ilyas',
                     'lastname' => 'homer',
@@ -88,7 +86,7 @@ class ilApiUserCertificateRepositoryTest extends ilCertificateBaseTestCase
         $this->assertSame(5, $object->getCertificateId());
         $this->assertSame(100, $object->getObjectId());
         $this->assertSame([5000, 6000], $object->getObjectRefIds());
-        $this->assertSame(1234567890, $object->getIssuedOnTimestamp());
+        $this->assertSame(1_234_567_890, $object->getIssuedOnTimestamp());
         $this->assertSame(2000, $object->getUserId());
         $this->assertSame('ilyas', $object->getUserFirstName());
         $this->assertSame('homer', $object->getUserLastName());

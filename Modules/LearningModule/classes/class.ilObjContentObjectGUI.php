@@ -31,6 +31,7 @@ use ILIAS\LearningModule\Editing\EditingGUIRequest;
  */
 class ilObjContentObjectGUI extends ilObjectGUI
 {
+    protected ilRbacSystem $rbacsystem;
     protected \ILIAS\LearningModule\ReadingTime\SettingsGUI $reading_time_gui;
     protected ilLMMenuEditor $lmme_obj;
     protected ilObjLearningModule $lm_obj;
@@ -66,6 +67,8 @@ class ilObjContentObjectGUI extends ilObjectGUI
     protected ilObjLearningModule $lm;
     protected EditingGUIRequest $edit_request;
     protected \ILIAS\Style\Content\Service $content_style_service;
+
+    protected ilLMTree $lm_tree;
 
     /**
      * @param mixed $a_data
@@ -333,6 +336,10 @@ class ilObjContentObjectGUI extends ilObjectGUI
                 break;
 
             case "ilexportgui":
+                // it is important to reset the "transl" parameter here
+                // otherwise it will effect the HTML export and overwrite the selected language
+                $this->ctrl->setParameterByClass(ilObjLearningModuleGUI::class, "transl", "");
+                $this->ctrl->setParameterByClass(ilLMEditorGUI::class, "transl", "");
                 $exp_gui = new ilExportGUI($this);
                 $exp_gui->addFormat("xml");
                 $ot = ilObjectTranslation::getInstance($this->lm->getId());
@@ -921,7 +928,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
         return $form;
     }
 
-    protected function importFileObject(int $parent_id = null, bool $catch_errors = true): void
+    protected function importFileObject(int $parent_id = null): void
     {
         $tpl = $this->tpl;
 
@@ -929,7 +936,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 
         try {
             // the new import
-            parent::importFileObject(null, false);
+            parent::importFileObject(null);
             return;
         } catch (ilManifestFileNotFoundImportException $e) {
             // we just run through in this case.
@@ -1006,6 +1013,9 @@ class ilObjContentObjectGUI extends ilObjectGUI
             ->editing()
             ->request();
 
+        $ui_renderer = $DIC->ui()->renderer();
+        $ui_factory = $DIC->ui()->factory();
+
         $requested_transl = $edit_request->getTranslation();
         $requested_totransl = $edit_request->getToTranslation();
 
@@ -1021,17 +1031,15 @@ class ilObjContentObjectGUI extends ilObjectGUI
             $ml_gui = new ilPageMultiLangGUI("lm", $a_lm_id);
             $ml_head = $ml_gui->getMultiLangInfo($requested_transl);
 
+            $actions = [];
+
             // language switch
-            $list = new ilAdvancedSelectionListGUI();
-            $list->setListTitle($lng->txt("actions"));
-            $list->setId("copage_act");
             $entries = false;
             if (!in_array($requested_transl, array("", "-"))) {
                 $l = $ot->getMasterLanguage();
-                $list->addItem(
+                $actions[] = $ui_factory->link()->standard(
                     $lng->txt("cont_edit_language_version") . ": " .
                     $lng->txt("meta_l_" . $l),
-                    "",
                     $ilCtrl->getLinkTarget($a_gui_class, "editMasterLanguage")
                 );
                 $entries = true;
@@ -1041,10 +1049,9 @@ class ilObjContentObjectGUI extends ilObjectGUI
                 if ($requested_transl != $al &&
                     $al != $ot->getMasterLanguage()) {
                     $ilCtrl->setParameter($a_gui_class, "totransl", $al);
-                    $list->addItem(
+                    $actions[] = $ui_factory->link()->standard(
                         $lng->txt("cont_edit_language_version") . ": " .
                         $lng->txt("meta_l_" . $al),
-                        "",
                         $ilCtrl->getLinkTarget($a_gui_class, "switchToLanguage")
                     );
                     $ilCtrl->setParameter($a_gui_class, "totransl", $requested_totransl);
@@ -1053,7 +1060,9 @@ class ilObjContentObjectGUI extends ilObjectGUI
             }
 
             if ($entries) {
-                $ml_head = '<div class="ilFloatLeft">' . $ml_head . '</div><div style="margin: 5px 0;" class="small ilRight">' . $list->getHTML() . "</div>";
+                $dd = $ui_factory->dropdown()->standard($actions)->withLabel($lng->txt("actions"));
+
+                $ml_head = '<div class="ilFloatLeft">' . $ml_head . '</div><div style="margin: 5px 0;" class="small ilRight">' . $ui_renderer->render($dd) . "</div>";
             }
             $ilCtrl->setParameter($a_gui_class, "lang_switch_mode", "");
         }
@@ -1227,7 +1236,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
         }
 
         if ($a_parent_subobj_id == 0) {
-            $this->setTabs();
+            $this->setTabs("content");
         }
 
         if ($a_parent_subobj_id != 0) {
@@ -2676,7 +2685,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
         $ilToolbar->addInputItem($si, true);
         $ilToolbar->addFormButton($lng->txt("help_filter"), "filterTooltips");
 
-        $tbl = new ilHelpTooltipTableGUI($this, "showTooltipList", ilSession::get("help_tt_comp"));
+        $tbl = new ilHelpTooltipTableGUI($this, "showTooltipList", (string) ilSession::get("help_tt_comp"));
 
         $tpl->setContent($tbl->getHTML());
     }

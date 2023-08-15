@@ -95,9 +95,6 @@ class ilTestResultsImportParser extends ilSaxParser
         global $DIC;
         $ilDB = $DIC['ilDB'];
 
-        $this->depth[$a_xml_parser]++;
-        $this->path[$this->depth[$a_xml_parser]] = strtolower($a_name);
-
         switch (strtolower($a_name)) {
             case "results":
                 break;
@@ -297,7 +294,7 @@ class ilTestResultsImportParser extends ilSaxParser
     private function fetchLastFinishedPass($attribs): ?int
     {
         if (isset($attribs['last_finished_pass'])) {
-            return $attribs['last_finished_pass'];
+            return (int) $attribs['last_finished_pass'];
         }
 
         if ($attribs['tries'] > 0) {

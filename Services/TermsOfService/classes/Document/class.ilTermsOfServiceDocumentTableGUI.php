@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,18 +16,20 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\UI\Factory;
 use ILIAS\UI\Renderer;
 
 /**
  * Class ilTermsOfServiceDocumentTableGUI
  * @author Michael Jansen <mjansen@databay.de>
+ * @extends ilTermsOfServiceTableGUI<ilTermsOfServiceDocument>
  */
 class ilTermsOfServiceDocumentTableGUI extends ilTermsOfServiceTableGUI
 {
     protected int $factor = 10;
     protected int $i = 1;
-    protected int $numRenderedCriteria = 0;
     /** @var ILIAS\UI\Component\Component[] */
     protected array $uiComponents = [];
 
@@ -66,12 +66,10 @@ class ilTermsOfServiceDocumentTableGUI extends ilTermsOfServiceTableGUI
 
     protected function getColumnDefinition(): array
     {
-        $i = 0;
-
         $columns = [];
 
         if ($this->isEditable) {
-            $columns[++$i] = [
+            $columns[] = [
                 'field' => 'chb',
                 'txt' => '',
                 'default' => true,
@@ -82,7 +80,7 @@ class ilTermsOfServiceDocumentTableGUI extends ilTermsOfServiceTableGUI
             ];
         }
 
-        $columns[++$i] = [
+        $columns[] = [
             'field' => 'sorting',
             'txt' => $this->lng->txt('tos_tbl_docs_head_sorting'),
             'default' => true,
@@ -91,7 +89,7 @@ class ilTermsOfServiceDocumentTableGUI extends ilTermsOfServiceTableGUI
             'width' => '5%'
         ];
 
-        $columns[++$i] = [
+        $columns[] = [
             'field' => 'title',
             'txt' => $this->lng->txt('tos_tbl_docs_head_title'),
             'default' => true,
@@ -100,7 +98,7 @@ class ilTermsOfServiceDocumentTableGUI extends ilTermsOfServiceTableGUI
             'width' => '25%'
         ];
 
-        $columns[++$i] = [
+        $columns[] = [
             'field' => 'creation_ts',
             'txt' => $this->lng->txt('tos_tbl_docs_head_created'),
             'default' => true,
@@ -108,7 +106,7 @@ class ilTermsOfServiceDocumentTableGUI extends ilTermsOfServiceTableGUI
             'sortable' => false
         ];
 
-        $columns[++$i] = [
+        $columns[] = [
             'field' => 'modification_ts',
             'txt' => $this->lng->txt('tos_tbl_docs_head_last_change'),
             'default' => true,
@@ -116,7 +114,7 @@ class ilTermsOfServiceDocumentTableGUI extends ilTermsOfServiceTableGUI
             'sortable' => false
         ];
 
-        $columns[++$i] = [
+        $columns[] = [
             'field' => 'criteria',
             'txt' => $this->lng->txt('tos_tbl_docs_head_criteria'),
             'default' => true,
@@ -125,7 +123,7 @@ class ilTermsOfServiceDocumentTableGUI extends ilTermsOfServiceTableGUI
         ];
 
         if ($this->isEditable) {
-            $columns[++$i] = [
+            $columns[] = [
                 'field' => 'actions',
                 'txt' => $this->lng->txt('actions'),
                 'default' => true,
@@ -155,6 +153,9 @@ class ilTermsOfServiceDocumentTableGUI extends ilTermsOfServiceTableGUI
         }
     }
 
+    /**
+     * @param array{id: int, title: string, creation_ts: int, modification_ts: int, text: string, criteria: string, criteriaAssignments: list<ilTermsOfServiceDocumentCriterionAssignment>} $row
+     */
     protected function formatCellValue(string $column, array $row): string
     {
         if (in_array($column, ['creation_ts', 'modification_ts'])) {
@@ -174,6 +175,9 @@ class ilTermsOfServiceDocumentTableGUI extends ilTermsOfServiceTableGUI
         return parent::formatCellValue($column, $row);
     }
 
+    /**
+     * @param array{id: int, title: string, creation_ts: int, modification_ts: int, text: string, criteria: string, criteriaAssignments: list<ilTermsOfServiceDocumentCriterionAssignment>} $row
+     */
     protected function formatActionsDropDown(string $column, array $row): string
     {
         if (!$this->isEditable) {
@@ -196,7 +200,7 @@ class ilTermsOfServiceDocumentTableGUI extends ilTermsOfServiceTableGUI
                 $this->lng->txt('tos_sure_delete_documents_s'),
                 $this->ctrl->getFormAction($this->getParentObject(), 'deleteDocument')
             )
-            ->withActionButtonLabel('deleteDocument');
+            ->withActionButtonLabel($this->lng->txt('deleteDocument'));
 
         $deleteBtn = $this->uiFactory
             ->button()
@@ -222,6 +226,9 @@ class ilTermsOfServiceDocumentTableGUI extends ilTermsOfServiceTableGUI
         return $this->uiRenderer->render([$dropDown]);
     }
 
+    /**
+     * @param array{id: int, title: string, creation_ts: int, modification_ts: int, text: string, criteria: string, criteriaAssignments: list<ilTermsOfServiceDocumentCriterionAssignment>} $row
+     */
     protected function formatCriterionAssignments(string $column, array $row): string
     {
         $items = [];
@@ -248,7 +255,7 @@ class ilTermsOfServiceDocumentTableGUI extends ilTermsOfServiceTableGUI
                     $this->lng->txt('tos_doc_sure_detach_crit'),
                     $this->ctrl->getFormAction($this->getParentObject(), 'detachCriterionAssignment')
                 )
-                ->withActionButtonLabel('detachCriterionAssignment');
+                ->withActionButtonLabel($this->lng->txt('detachCriterionAssignment'));
 
             $deleteBtn = $this->uiFactory
                 ->button()
@@ -292,6 +299,9 @@ class ilTermsOfServiceDocumentTableGUI extends ilTermsOfServiceTableGUI
         ]);
     }
 
+    /**
+     * @param array{id: int, title: string, creation_ts: int, modification_ts: int, text: string, criteria: string, criteriaAssignments: list<ilTermsOfServiceDocumentCriterionAssignment>} $row
+     */
     protected function formatTitle(string $column, array $row): string
     {
         $modal = $this->uiFactory
@@ -306,6 +316,9 @@ class ilTermsOfServiceDocumentTableGUI extends ilTermsOfServiceTableGUI
         return $this->uiRenderer->render([$titleLink, $modal]);
     }
 
+    /**
+     * @param array{id: int, title: string, creation_ts: int, modification_ts: int, text: string, criteria: string, criteriaAssignments: list<ilTermsOfServiceDocumentCriterionAssignment>} $row
+     */
     protected function formatSorting(array $row): string
     {
         $value = ($this->i++) * $this->factor;

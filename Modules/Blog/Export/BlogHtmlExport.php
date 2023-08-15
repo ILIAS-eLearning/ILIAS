@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -378,9 +380,9 @@ class BlogHtmlExport
         return $tpl;
     }
 
-
     /**
      * Write HTML to file
+     * @throws \ilTemplateException
      */
     protected function writeExportFile(
         string $a_file,

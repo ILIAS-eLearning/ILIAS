@@ -28,6 +28,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
     public const MATERIALS_OTHER = 2;
 
     private ilLogger $logger;
+    protected \ILIAS\Container\InternalGUIService $gui;
     protected ilTabsGUI $tabs;
     protected array $objective_map = [];
     protected ilToolbarGUI $toolbar;
@@ -63,6 +64,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
             ->contentStyle()
             ->domain()
             ->styleForObjId(0);
+        $this->gui = $DIC->container()->internal()->gui();
     }
 
     public function getTestAssignments(): ilLOTestAssignments
@@ -237,7 +239,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
                 $lur_data[$objective_id] = ["type" => ilLOSettings::TYPE_TEST_INITIAL];
             }
 
-            if ($html = $this->renderObjective($objective_id, $has_lo_page, $acc, $lur_data[$objective_id])) {
+            if ($html = $this->renderObjective($objective_id, $has_lo_page, $acc, $lur_data[$objective_id] ?? null)) {
                 $this->renderer->addItemToBlock('lobj', 'lobj', $objective_id, $html);
             }
             $obj_cnt++;
@@ -382,7 +384,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
                             $this->renderer->addCustomBlock($block_id, $lng->txt('crs_other_resources'));
                             break;
 
-                        // manage
+                            // manage
                         default:
                             $block_id = "all";
                             $this->renderer->addCustomBlock($block_id, $lng->txt('content'));
@@ -845,7 +847,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
             if (isset($types[ilLOUserResults::TYPE_QUALIFIED])) {
                 $result = $types[ilLOUserResults::TYPE_QUALIFIED];
                 $result["type"] = ilLOUserResults::TYPE_QUALIFIED;
-                $result["initial"] = $types[ilLOUserResults::TYPE_INITIAL];
+                $result["initial"] = $types[ilLOUserResults::TYPE_INITIAL] ?? null;
             } else {
                 $result = $types[ilLOUserResults::TYPE_INITIAL];
                 $result["type"] = ilLOUserResults::TYPE_INITIAL;
@@ -890,6 +892,8 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
     ): string {
         global $DIC;
 
+        $gui = $DIC->container()->internal()->gui();
+
         $tpl = new ilTemplate("tpl.objective_progressbar.html", true, true, "Services/Container");
 
         if ($a_perc_result !== null) {
@@ -911,9 +915,10 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 
         if ($a_caption) {
             if ($a_url) {
-                $button = ilLinkButton::getInstance();
-                $button->setCaption($a_caption, false);
-                $button->setUrl($a_url);
+                $button = $gui->link(
+                    $a_caption,
+                    $a_url
+                );
 
                 $tpl->setCurrentBlock("statustxt_bl");
                 $tpl->setVariable("TXT_PROGRESS_STATUS", $button->render());
@@ -979,7 +984,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 
         $lng = $DIC->language();
         $lng->loadLanguageModule('crs');
-
+        $gui = $DIC->container()->internal()->gui();
 
 
         if (is_numeric($a_perc_result)) {
@@ -997,9 +1002,10 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 
         if ($a_caption) {
             if ($a_url) {
-                $button = ilLinkButton::getInstance();
-                $button->setCaption($a_caption, false);
-                $button->setUrl($a_url);
+                $button = $gui->link(
+                    $a_caption,
+                    $a_url
+                );
 
                 $tpl->setCurrentBlock("statustxt_bl");
                 $tpl->setVariable("TXT_PROGRESS_STATUS", $button->render());
@@ -1035,9 +1041,13 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
     public static function getObjectiveResultSummary(
         bool $a_has_initial_test,
         int $a_objective_id,
-        array $a_lo_result
+        ?array $a_lo_result
     ): string {
         global $DIC;
+
+        if ($a_lo_result === null) {
+            $a_lo_result["type"] = null;
+        }
 
         $lng = $DIC->language();
         $lng->loadLanguageModule('crs');
@@ -1218,15 +1228,15 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
         $initial_lim = null;
         if ($this->loc_settings->worksWithInitialTest()) {
             if (array_key_exists('initial', $a_lo_result)) {
-                $initial_res = (int) $a_lo_result['initial']['result_perc'];
-                $initial_lim = (int) $a_lo_result['initial']['limit_perc'];
+                $initial_res = (int) ($a_lo_result['initial']['result_perc'] ?? 0);
+                $initial_lim = (int) ($a_lo_result['initial']['limit_perc'] ?? 0);
             }
             if (
                 $a_lo_result['type'] == ilLOUserResults::TYPE_INITIAL &&
                 isset($a_lo_result['result_perc'])
             ) {
-                $initial_res = (int) $a_lo_result['result_perc'];
-                $initial_lim = (int) $a_lo_result['limit_perc'];
+                $initial_res = (int) ($a_lo_result['result_perc'] ?? 0);
+                $initial_lim = (int) ($a_lo_result['limit_perc'] ?? 0);
             }
         }
 
@@ -1265,7 +1275,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
         $qual_res = null;
         $qual_lim = null;
 
-        if ($a_lo_result['type'] == ilLOUserResults::TYPE_QUALIFIED) {
+        if (($a_lo_result['type'] ?? null) == ilLOUserResults::TYPE_QUALIFIED) {
             $qual_res = (int) $a_lo_result['result_perc'];
             $qual_lim = (int) $a_lo_result['limit_perc'];
         }

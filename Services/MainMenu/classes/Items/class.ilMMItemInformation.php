@@ -1,5 +1,21 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 declare(strict_types=1);
 
 use ILIAS\Filesystem\Exception\FileNotFoundException;
@@ -100,11 +116,10 @@ class ilMMItemInformation implements ItemInformation
      */
     public function isItemActive(isItem $item): bool
     {
-        $serialize = $item->getProviderIdentification()->serialize();
-        if (isset($this->items[$serialize]['active'])) {
-            return $this->items[$serialize]['active'] === '1';
+        if (!isset($this->items[$item->getProviderIdentification()->serialize()]['active'])) {
+            return $item->isAvailable();
         }
-        return true;
+        return ((int) ($this->items[$item->getProviderIdentification()->serialize()]['active'] ?? 0) === 1);
     }
 
     /**
@@ -148,11 +163,14 @@ class ilMMItemInformation implements ItemInformation
                 $aria_label = $old_symbol->getLabel();
             } elseif ($item instanceof hasTitle) {
                 $aria_label = $item->getTitle();
-            } else {
-                $aria_label = 'Custom icon';
             }
 
-            $symbol = $DIC->ui()->factory()->symbol()->icon()->custom($src->getSrc(), $aria_label);
+            $aria_label = empty($aria_label) ? $id : $aria_label;
+            try {
+                $symbol = $DIC->ui()->factory()->symbol()->icon()->custom($src->getSrc(), $aria_label);
+            } catch (Exception $e) {
+                return $item;
+            }
 
             return $item->withSymbol($symbol);
         }

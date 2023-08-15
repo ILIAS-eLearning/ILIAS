@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -13,13 +14,10 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
-/**
- * Class ilDclTextInputGUI
- * @author Stefan Wanzenried <sw@studer-raimann.ch>
- */
+declare(strict_types=1);
+
 class ilDclTextInputGUI extends ilTextInputGUI
 {
     public function setValueByArray(array $a_values): void
@@ -42,12 +40,13 @@ class ilDclTextInputGUI extends ilTextInputGUI
             if (substr($regex, 0, 1) != "/") {
                 $regex = "/" . $regex;
             }
-            if (substr($regex, -1) != "/") {
+            if (substr($regex, -1) != "/" || $regex == "/") {
                 $regex .= "/";
             }
+
             try {
                 preg_match($regex, '');
-            } catch (Exception $e) {
+            } catch (Exception) {
                 global $DIC;
                 $lng = $DIC['lng'];
                 $this->setAlert($lng->txt('msg_input_does_not_match_regexp'));

@@ -24,6 +24,7 @@
  */
 class ilObjAwarenessAdministrationGUI extends ilObjectGUI
 {
+    protected ilRbacSystem $rbacsystem;
     protected \ILIAS\Awareness\AdminManager $admin_manager;
 
     /**

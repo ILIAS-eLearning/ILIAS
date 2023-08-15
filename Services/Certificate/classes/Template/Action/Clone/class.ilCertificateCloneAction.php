@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\Filesystem\Filesystem;
 use ILIAS\Filesystem\Exception\FileAlreadyExistsException;
 use ILIAS\Filesystem\Exception\FileNotFoundException;
@@ -28,17 +28,17 @@ use ILIAS\Filesystem\Exception\IOException;
  */
 class ilCertificateCloneAction
 {
-    private Filesystem $fileSystem;
-    private ilCertificateObjectHelper $objectHelper;
-    private string $global_certificate_path;
+    private readonly Filesystem $fileSystem;
+    private readonly ilCertificateObjectHelper $objectHelper;
+    private readonly string $global_certificate_path;
 
     public function __construct(
-        private ilDBInterface $database,
-        private ilCertificatePathFactory $pathFactory,
-        private ilCertificateTemplateRepository $templateRepository,
+        private readonly ilDBInterface $database,
+        private readonly ilCertificatePathFactory $pathFactory,
+        private readonly ilCertificateTemplateRepository $templateRepository,
+        private readonly string $webDirectory = CLIENT_WEB_DIR,
         ?Filesystem $fileSystem = null,
         ?ilCertificateObjectHelper $objectHelper = null,
-        private string $webDirectory = CLIENT_WEB_DIR,
         string $global_certificate_path = null
     ) {
         if (null === $fileSystem) {

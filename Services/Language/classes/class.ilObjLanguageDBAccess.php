@@ -119,8 +119,9 @@ class ilObjLanguageDBAccess
     {
         // avoid flushing the whole cache (see mantis #28818)
         ilCachedLanguage::getInstance($this->key)->deleteInCache();
-
+    
         $query = "INSERT INTO lng_modules (module, lang_key, lang_array) VALUES ";
+        $modules_to_delete = [];
         foreach ($lang_array as $module => $lang_arr) {
             if ($this->scope === "local") {
                 $q = "SELECT * FROM lng_modules WHERE " .
@@ -139,10 +140,12 @@ class ilObjLanguageDBAccess
                 $this->ilDB->quote($this->key, "text"),
                 $this->ilDB->quote(serialize($lang_arr), "clob"),
             );
+            $modules_to_delete[] = $module;
         }
-        $this->ilDB->manipulate(sprintf(
-            "DELETE FROM lng_modules WHERE lang_key = %s",
-            $this->ilDB->quote($this->key, "text"),
+
+        $inModulesToDelete = $this->ilDB->in('module', $modules_to_delete, false, 'text');
+        $this->ilDB->manipulate(sprintf("DELETE FROM lng_modules WHERE lang_key = %s AND $inModulesToDelete",
+            $this->ilDB->quote($this->key, "text")
         ));
 
         $query = rtrim($query, ",") . ";";

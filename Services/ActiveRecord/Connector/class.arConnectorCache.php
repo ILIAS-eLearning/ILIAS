@@ -1,146 +1,173 @@
 <?php
 
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
+use ILIAS\Cache\Container\Container;
+use ILIAS\Cache\Container\Request;
+use ILIAS\Refinery\Custom\Transformation;
+
 /**
  * Class ilGSStorageCache
  * @author  Nicolas Schäfli <ns@studer-raimann.ch>
  */
-class arConnectorCache extends arConnector
+class arConnectorCache extends arConnector implements Request
 {
-    private \arConnector $arConnectorDB;
-    private \ilGlobalCache $cache;
-    public const CACHE_TTL_SECONDS = 180;
+    private Container $cache_container;
 
     /**
      * ilGSStorageCache constructor.
      * @param int $ttl
      */
-    public function __construct(arConnector $arConnectorDB)
+    public function __construct(private arConnector $arConnector)
     {
-        $this->arConnectorDB = $arConnectorDB;
-        $this->cache = ilGlobalCache::getInstance(ilGlobalCache::COMP_GLOBAL_SCREEN);
+        global $DIC;
+        $this->cache_container = $DIC->globalCache()->get($this);
+    }
+
+    protected function buildCacheKey(ActiveRecord $activeRecord): string
+    {
+        return $activeRecord->getConnectorContainerName() . "_" . $activeRecord->getPrimaryFieldValue();
+    }
+
+    public function getContainerKey(): string
+    {
+        return 'ar_cache';
+    }
+
+    public function isForced(): bool
+    {
+        return false;
     }
 
     /**
      * @return mixed
      */
-    public function nextID(ActiveRecord $ar)
+    public function nextID(ActiveRecord $activeRecord)
     {
-        return $this->arConnectorDB->nextID($ar);
+        return $this->arConnector->nextID($activeRecord);
     }
 
-    public function checkConnection(ActiveRecord $ar): bool
+    public function checkConnection(ActiveRecord $activeRecord): bool
     {
-        return $this->arConnectorDB->checkConnection($ar);
+        return $this->arConnector->checkConnection($activeRecord);
     }
 
-    public function installDatabase(ActiveRecord $ar, array $fields): bool
+    public function installDatabase(ActiveRecord $activeRecord, array $fields): bool
     {
-        return $this->arConnectorDB->installDatabase($ar, $fields);
+        return $this->arConnector->installDatabase($activeRecord, $fields);
     }
 
-    public function updateDatabase(ActiveRecord $ar): bool
+    public function updateDatabase(ActiveRecord $activeRecord): bool
     {
-        return $this->arConnectorDB->updateDatabase($ar);
+        return $this->arConnector->updateDatabase($activeRecord);
     }
 
-    public function resetDatabase(ActiveRecord $ar): bool
+    public function resetDatabase(ActiveRecord $activeRecord): bool
     {
-        return $this->arConnectorDB->resetDatabase($ar);
+        return $this->arConnector->resetDatabase($activeRecord);
     }
 
-    public function truncateDatabase(ActiveRecord $ar): bool
+    public function truncateDatabase(ActiveRecord $activeRecord): bool
     {
-        return $this->arConnectorDB->truncateDatabase($ar);
+        return $this->arConnector->truncateDatabase($activeRecord);
     }
 
-    public function checkTableExists(ActiveRecord $ar): bool
+    public function checkTableExists(ActiveRecord $activeRecord): bool
     {
-        return $this->arConnectorDB->checkTableExists($ar);
+        return $this->arConnector->checkTableExists($activeRecord);
     }
 
-    public function checkFieldExists(ActiveRecord $ar, string $field_name): bool
+    public function checkFieldExists(ActiveRecord $activeRecord, string $field_name): bool
     {
-        return $this->arConnectorDB->checkFieldExists($ar, $field_name);
+        return $this->arConnector->checkFieldExists($activeRecord, $field_name);
     }
 
-    public function removeField(ActiveRecord $ar, string $field_name): bool
+    public function removeField(ActiveRecord $activeRecord, string $field_name): bool
     {
-        return $this->arConnectorDB->removeField($ar, $field_name);
+        return $this->arConnector->removeField($activeRecord, $field_name);
     }
 
-    public function renameField(ActiveRecord $ar, string $old_name, string $new_name): bool
+    public function renameField(ActiveRecord $activeRecord, string $old_name, string $new_name): bool
     {
-        return $this->arConnectorDB->renameField($ar, $old_name, $new_name);
+        return $this->arConnector->renameField($activeRecord, $old_name, $new_name);
     }
 
-    public function create(ActiveRecord $ar): void
+    public function create(ActiveRecord $activeRecord): void
     {
-        $this->arConnectorDB->create($ar);
-        $this->storeActiveRecordInCache($ar);
+        $this->arConnector->create($activeRecord);
+        $this->storeActiveRecordInCache($activeRecord);
     }
 
-    public function read(ActiveRecord $ar): array
+    /**
+     * @return \stdClass[]|mixed[]
+     */
+    public function read(ActiveRecord $activeRecord): array
     {
-        if ($this->cache->isActive()) {
-            $key = $ar->getConnectorContainerName() . "_" . $ar->getPrimaryFieldValue();
-            $cached_value = $this->cache->get($key);
+        $key = $this->buildCacheKey($activeRecord);
+        if ($this->cache_container->has($key)) {
+            $cached_value = $this->cache_container->get(
+                $key,
+                new Transformation(function ($value): ?array {
+                    return is_array($value) ? $value : null;
+                })
+            );
             if (is_array($cached_value)) {
-                return $cached_value;
-            }
-
-            if ($cached_value instanceof stdClass) {
-                return [$cached_value];
+                return array_map(function ($result): \stdClass {
+                    return (object) $result;
+                }, $cached_value);
             }
         }
 
-        $results = $this->arConnectorDB->read($ar);
+        $results = $this->arConnector->read($activeRecord);
 
-        if ($this->cache->isActive()) {
-            $key = $ar->getConnectorContainerName() . "_" . $ar->getPrimaryFieldValue();
-
-            $this->cache->set($key, $results, self::CACHE_TTL_SECONDS);
-        }
+        $this->cache_container->set(
+            $key,
+            array_map(function ($result): array {
+                return (array) $result;
+            }, $results)
+        );
 
         return $results;
     }
 
-    public function update(ActiveRecord $ar): void
+    public function update(ActiveRecord $activeRecord): void
     {
-        $this->arConnectorDB->update($ar);
-        $this->storeActiveRecordInCache($ar);
+        $this->arConnector->update($activeRecord);
+        $this->storeActiveRecordInCache($activeRecord);
     }
 
-    public function delete(ActiveRecord $ar): void
+    public function delete(ActiveRecord $activeRecord): void
     {
-        $this->arConnectorDB->delete($ar);
-
-        if ($this->cache->isActive()) {
-            $key = $ar->getConnectorContainerName() . "_" . $ar->getPrimaryFieldValue();
-            $this->cache->delete($key);
-        }
+        $this->arConnector->delete($activeRecord);
+        $key = $this->buildCacheKey($activeRecord);
+        $this->cache_container->delete($key);
     }
 
-    public function readSet(ActiveRecordList $arl): array
+    /**
+     * @return mixed[]
+     */
+    public function readSet(ActiveRecordList $activeRecordList): array
     {
-        return $this->arConnectorDB->readSet($arl);
+        return $this->arConnector->readSet($activeRecordList);
     }
 
-    public function affectedRows(ActiveRecordList $arl): int
+    public function affectedRows(ActiveRecordList $activeRecordList): int
     {
-        return $this->arConnectorDB->affectedRows($arl);
+        return $this->arConnector->affectedRows($activeRecordList);
     }
 
     /**
@@ -148,24 +175,22 @@ class arConnectorCache extends arConnector
      */
     public function quote($value, string $type): string
     {
-        return $this->arConnectorDB->quote($value, $type);
+        return $this->arConnector->quote($value, $type);
     }
 
-    public function updateIndices(ActiveRecord $ar): void
+    public function updateIndices(ActiveRecord $activeRecord): void
     {
-        $this->arConnectorDB->updateIndices($ar);
+        $this->arConnector->updateIndices($activeRecord);
     }
 
     /**
      * Stores an active record into the Cache.
      */
-    private function storeActiveRecordInCache(ActiveRecord $ar): void
+    private function storeActiveRecordInCache(ActiveRecord $activeRecord): void
     {
-        if ($this->cache->isActive()) {
-            $key = $ar->getConnectorContainerName() . "_" . $ar->getPrimaryFieldValue();
-            $value = $ar->asStdClass();
+        $key = $this->buildCacheKey($activeRecord);
+        $value = $activeRecord->asArray();
 
-            $this->cache->set($key, $value, self::CACHE_TTL_SECONDS);
-        }
+        $this->cache_container->set($key, $value);
     }
 }

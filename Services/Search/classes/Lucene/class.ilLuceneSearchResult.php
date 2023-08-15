@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,9 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
+
 
 /**
  * Search result implementing iterator interface.
@@ -53,7 +54,7 @@ class ilLuceneSearchResult implements Iterator
     /**
      * Iterator rewind
      */
-    public function rewind()
+    public function rewind(): void
     {
         $this->position = 0;
     }
@@ -63,7 +64,7 @@ class ilLuceneSearchResult implements Iterator
      * @param
      * @return
      */
-    public function valid()
+    public function valid(): bool
     {
         if ($this->position < count($this->objects)) {
             return true;
@@ -85,7 +86,7 @@ class ilLuceneSearchResult implements Iterator
      * Iterator key
      * @return
      */
-    public function key()
+    public function key(): mixed
     {
         return $this->position;
     }
@@ -94,7 +95,7 @@ class ilLuceneSearchResult implements Iterator
      * Iterator current
      * @return
      */
-    public function current()
+    public function current(): mixed
     {
         return $this->objects[$this->position];
     }
@@ -102,7 +103,7 @@ class ilLuceneSearchResult implements Iterator
     /**
      * Iterator next
      */
-    public function next()
+    public function next(): void
     {
         $this->position++;
     }

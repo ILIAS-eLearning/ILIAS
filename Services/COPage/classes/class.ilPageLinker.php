@@ -99,7 +99,7 @@ class ilPageLinker implements \ILIAS\COPage\PageLinker
 
                 // anchor
                 $anc = $anc_add = "";
-                if ($int_link["Anchor"] != "") {
+                if (($int_link["Anchor"] ?? "") != "") {
                     $anc = $int_link["Anchor"];
                     $anc_add = "_" . rawurlencode($int_link["Anchor"]);
                 }
@@ -144,7 +144,11 @@ class ilPageLinker implements \ILIAS\COPage\PageLinker
                         break;
 
                     case "WikiPage":
-                        $href = ilWikiPage::getGotoForWikiPageTarget($target_id);
+                        $wiki_anc = "";
+                        if (($int_link["Anchor"] ?? "") != "") {
+                            $wiki_anc = "#" . rawurlencode($int_link["Anchor"]);
+                        }
+                        $href = ilWikiPage::getGotoForWikiPageTarget($target_id) . $wiki_anc;
                         break;
 
                     case "PortfolioPage":

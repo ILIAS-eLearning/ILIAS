@@ -38,7 +38,6 @@ abstract class ilAssLacAbstractManufacturer implements ilAssLacManufacturerInter
         $num_matches = preg_match_all($this->getPattern(), $subject, $matches);
 
         if ($num_matches == 0) {
-            require_once 'Modules/TestQuestionPool/classes/questions/LogicalAnswerCompare/Exception/ilAssLacUnableToParseCondition.php';
             throw new ilAssLacUnableToParseCondition($subject);
         }
         // Trims each element in the matches array

@@ -86,4 +86,26 @@ class UTFNormalTest extends TestCase
         // FORM KD
         $this->assertEquals($expected_form_kd, $this->form_kd->transform($string));
     }
+
+    public function testUmlaut(): void
+    {
+        $char_A_ring = "\xC3\x85"; // 'LATIN CAPITAL LETTER A WITH RING ABOVE' (U+00C5)
+        $char_combining_ring_above = 'A' . "\xCC\x8A";  // 'COMBINING RING ABOVE' (U+030A)
+
+        $this->assertNotEquals($char_A_ring, $char_combining_ring_above);
+        $this->assertNotEquals(bin2hex($char_A_ring), bin2hex($char_combining_ring_above));
+        $tranformation = $this->form_d;
+        $this->assertEquals('Å', $tranformation->transform($char_A_ring));
+        $this->assertEquals(bin2hex('Å'), bin2hex($tranformation->transform($char_A_ring)));
+        $this->assertEquals('Å', $tranformation->transform($char_combining_ring_above));
+        $this->assertEquals(bin2hex('Å'), bin2hex($tranformation->transform($char_combining_ring_above)));
+        $this->assertEquals(
+            $tranformation->transform($char_A_ring),
+            $this->form_kd->transform($char_combining_ring_above)
+        );
+        $this->assertEquals(
+            bin2hex($tranformation->transform($char_A_ring)),
+            bin2hex($this->form_kd->transform($char_combining_ring_above))
+        );
+    }
 }

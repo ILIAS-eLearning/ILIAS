@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,7 +15,7 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
-
+declare(strict_types=1);
 
 use ILIAS\UI\Implementation\Component as I;
 use ILIAS\UI\Component as C;
@@ -96,8 +94,6 @@ class ScoreSettingsTest extends ILIAS_UI_TestBase
         $this->assertFalse($s->withShowSolutionSuggested(false)->getShowSolutionSuggested());
         $this->assertTrue($s->withShowSolutionListComparison(true)->getShowSolutionListComparison());
         $this->assertFalse($s->withShowSolutionListComparison(false)->getShowSolutionListComparison());
-        $this->assertTrue($s->withExportSettingsSingleChoiceShort(true)->getExportSettingsSingleChoiceShort());
-        $this->assertFalse($s->withExportSettingsSingleChoiceShort(false)->getExportSettingsSingleChoiceShort());
         $this->assertTrue($s->withShowPassDetails(true)->getShowPassDetails());
         $tax_ids = [1,3,5,17];
         $this->assertEquals($tax_ids, $s->withTaxonomyFilterIds($tax_ids)->getTaxonomyFilterIds());
@@ -266,9 +262,9 @@ EOT;
 <div class="il-section-input">
     <div class="il-section-input-header"><h2>test_results</h2></div>
         <div class="form-group row">
-            <label class="control-label col-sm-4 col-md-3 col-lg-2">tst_results_access_enabled</label>
+            <label for="id_8" class="control-label col-sm-4 col-md-3 col-lg-2">tst_results_access_enabled</label>
             <div class="col-sm-8 col-md-9 col-lg-10">
-                <input type="checkbox" id="id_1" value="checked" name="" class="form-control form-control-sm" />
+                <input type="checkbox" id="id_8" value="checked" name="" class="form-control form-control-sm" />
                 <div class="help-block">tst_results_access_enabled_desc</div>
                 <div class="form-group row">
                     <label class="control-label col-sm-4 col-md-3 col-lg-2">tst_results_access_setting<span class="asterisk">*</span></label>
@@ -298,7 +294,7 @@ EOT;
                                     <div class="col-sm-8 col-md-9 col-lg-10">
                                         <div class="input-group date il-input-datetime" id="id_3">
                                             <input type="text" name="" placeholder="YYYY-MM-DD HH:mm" class="form-control form-control-sm" />
-                                            <span class="input-group-addon"><a class="glyph" href="#" aria-label="calendar"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></a></span>
+                                            <span class="input-group-addon"><a tabindex="0" class="glyph" href="#" aria-label="calendar"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></a></span>
                                         </div>
                                     </div>
                                 </div>
@@ -367,9 +363,9 @@ EOT;
 <div class="il-section-input">
     <div class="il-section-input-header"><h2>tst_results_details_options</h2></div>
     <div class="form-group row">
-        <label class="control-label col-sm-4 col-md-3 col-lg-2">tst_show_solution_details</label>
+        <label for="id_3" class="control-label col-sm-4 col-md-3 col-lg-2">tst_show_solution_details</label>
         <div class="col-sm-8 col-md-9 col-lg-10">
-            <input type="checkbox" id="id_1" value="checked" name="" class="form-control form-control-sm" />
+            <input type="checkbox" id="id_3" value="checked" name="" class="form-control form-control-sm" />
             <div class="help-block">tst_show_solution_details_desc</div>
             <div class="form-group row">
                 <label for="id_2" class="control-label col-sm-4 col-md-3 col-lg-2">tst_results_print_best_solution</label>
@@ -382,14 +378,14 @@ EOT;
     </div>
 
     <div class="form-group row">
-        <label class="control-label col-sm-4 col-md-3 col-lg-2">tst_show_solution_details_singlepage</label>
+        <label for="id_6" class="control-label col-sm-4 col-md-3 col-lg-2">tst_show_solution_details_singlepage</label>
         <div class="col-sm-8 col-md-9 col-lg-10">
-            <input type="checkbox" id="id_3" value="checked" name="" class="form-control form-control-sm" />
+            <input type="checkbox" id="id_6" value="checked" name="" class="form-control form-control-sm" />
             <div class="help-block">tst_show_solution_details_singlepage_desc</div>
             <div class="form-group row">
-                <label for="id_4" class="control-label col-sm-4 col-md-3 col-lg-2">tst_results_print_best_solution_singlepage</label>
+                <label for="id_5" class="control-label col-sm-4 col-md-3 col-lg-2">tst_results_print_best_solution_singlepage</label>
                 <div class="col-sm-8 col-md-9 col-lg-10">
-                    <input type="checkbox" id="id_4" value="checked" checked="checked" name="" class="form-control form-control-sm" />
+                    <input type="checkbox" id="id_5" value="checked" checked="checked" name="" class="form-control form-control-sm" />
                     <div class="help-block">tst_results_print_best_solution_singlepage_info</div>
                 </div>
             </div>
@@ -397,52 +393,46 @@ EOT;
     </div>
 
     <div class="form-group row">
-        <label for="id_5" class="control-label col-sm-4 col-md-3 col-lg-2">tst_show_solution_feedback</label>
+        <label for="id_7" class="control-label col-sm-4 col-md-3 col-lg-2">tst_show_solution_feedback</label>
         <div class="col-sm-8 col-md-9 col-lg-10">
-            <input type="checkbox" id="id_5" value="checked" name="" class="form-control form-control-sm" /><div class="help-block">tst_show_solution_feedback_desc</div>
+            <input type="checkbox" id="id_7" value="checked" name="" class="form-control form-control-sm" /><div class="help-block">tst_show_solution_feedback_desc</div>
         </div>
     </div>
 
     <div class="form-group row">
-        <label for="id_6" class="control-label col-sm-4 col-md-3 col-lg-2">tst_show_solution_suggested</label><div class="col-sm-8 col-md-9 col-lg-10">
-            <input type="checkbox" id="id_6" value="checked" name="" class="form-control form-control-sm" /><div class="help-block">tst_show_solution_suggested_desc</div>
+        <label for="id_8" class="control-label col-sm-4 col-md-3 col-lg-2">tst_show_solution_suggested</label><div class="col-sm-8 col-md-9 col-lg-10">
+            <input type="checkbox" id="id_8" value="checked" name="" class="form-control form-control-sm" /><div class="help-block">tst_show_solution_suggested_desc</div>
         </div>
     </div>
 
     <div class="form-group row">
-        <label for="id_7" class="control-label col-sm-4 col-md-3 col-lg-2">tst_show_solution_printview</label><div class="col-sm-8 col-md-9 col-lg-10">
-            <input type="checkbox" id="id_7" value="checked" name="" class="form-control form-control-sm" /><div class="help-block">tst_show_solution_printview_desc</div>
+        <label for="id_9" class="control-label col-sm-4 col-md-3 col-lg-2">tst_show_solution_printview</label><div class="col-sm-8 col-md-9 col-lg-10">
+            <input type="checkbox" id="id_9" value="checked" name="" class="form-control form-control-sm" /><div class="help-block">tst_show_solution_printview_desc</div>
         </div>
     </div>
 
     <div class="form-group row">
-        <label for="id_8" class="control-label col-sm-4 col-md-3 col-lg-2">tst_hide_pagecontents</label><div class="col-sm-8 col-md-9 col-lg-10">
-            <input type="checkbox" id="id_8" value="checked" name="" class="form-control form-control-sm" /><div class="help-block">tst_hide_pagecontents_desc</div>
+        <label for="id_10" class="control-label col-sm-4 col-md-3 col-lg-2">tst_hide_pagecontents</label><div class="col-sm-8 col-md-9 col-lg-10">
+            <input type="checkbox" id="id_10" value="checked" name="" class="form-control form-control-sm" /><div class="help-block">tst_hide_pagecontents_desc</div>
         </div>
     </div>
 
     <div class="form-group row">
-        <label for="id_9" class="control-label col-sm-4 col-md-3 col-lg-2">tst_show_solution_signature</label><div class="col-sm-8 col-md-9 col-lg-10">
-            <input type="checkbox" id="id_9" value="checked" name="" class="form-control form-control-sm" /><div class="help-block">tst_show_solution_signature_desc</div>
+        <label for="id_11" class="control-label col-sm-4 col-md-3 col-lg-2">tst_show_solution_signature</label><div class="col-sm-8 col-md-9 col-lg-10">
+            <input type="checkbox" id="id_11" value="checked" name="" class="form-control form-control-sm" /><div class="help-block">tst_show_solution_signature_desc</div>
         </div>
     </div>
 
     <div class="form-group row">
-        <label for="id_10" class="control-label col-sm-4 col-md-3 col-lg-2">examid_in_test_res</label><div class="col-sm-8 col-md-9 col-lg-10">
-            <input type="checkbox" id="id_10" value="checked" checked="checked" name="" class="form-control form-control-sm" /><div class="help-block">examid_in_test_res_desc</div>
-        </div>
-    </div>
-
-    <div class="form-group row">
-        <label for="id_11" class="control-label col-sm-4 col-md-3 col-lg-2">tst_exp_sc_short</label><div class="col-sm-8 col-md-9 col-lg-10">
-            <input type="checkbox" id="id_11" value="checked" name="" class="form-control form-control-sm" /><div class="help-block">tst_exp_sc_short_desc</div>
+        <label for="id_12" class="control-label col-sm-4 col-md-3 col-lg-2">examid_in_test_res</label><div class="col-sm-8 col-md-9 col-lg-10">
+            <input type="checkbox" id="id_12" value="checked" checked="checked" name="" class="form-control form-control-sm" /><div class="help-block">examid_in_test_res_desc</div>
         </div>
     </div>
 
     <div class="form-group row">
         <label class="control-label col-sm-4 col-md-3 col-lg-2">tst_results_tax_filters</label>
         <div class="col-sm-8 col-md-9 col-lg-10">
-            <ul class="il-input-multiselect" id="id_12">
+            <ul class="il-input-multiselect" id="id_13">
                 <li>
                     <input type="checkbox" name="[]" value="0" /><span>1</span>
                 </li>
@@ -476,9 +466,9 @@ EOT;
     <div class="il-section-input-header"><h2>tst_results_gamification</h2></div>
     
     <div class="form-group row">
-        <label class="control-label col-sm-4 col-md-3 col-lg-2">tst_highscore_enabled</label>
+        <label for="id_10" class="control-label col-sm-4 col-md-3 col-lg-2">tst_highscore_enabled</label>
         <div class="col-sm-8 col-md-9 col-lg-10">
-            <input type="checkbox" id="id_1" value="checked" name="" class="form-control form-control-sm" />
+            <input type="checkbox" id="id_10" value="checked" name="" class="form-control form-control-sm" />
             <div class="help-block">tst_highscore_description</div>
     
             <div class="form-group row">
@@ -600,7 +590,6 @@ EOT;
         $this->assertIsBool($t->getShowSolutionListOwnAnswers());
         $this->assertIsBool($t->isPassDeletionAllowed());
         $this->assertIsInt($t->getExportSettings());
-        $this->assertIsBool($t->getExportSettingsSingleChoiceShort());
         $this->assertIsBool($t->getHighscoreEnabled());
         $this->assertIsBool($t->getHighscoreAnon());
         $this->assertIsBool($t->getHighscoreAchievedTS());

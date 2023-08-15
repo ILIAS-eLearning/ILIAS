@@ -110,11 +110,6 @@ class ilTestQuestionNavigationGUI
     /**
      * @var bool
      */
-    private $charSelectorEnabled = false;
-
-    /**
-     * @var bool
-     */
     private $anythingRendered = false;
 
     /**
@@ -369,22 +364,6 @@ class ilTestQuestionNavigationGUI
         $this->anythingRendered = true;
     }
 
-    /**
-     * @return boolean
-     */
-    public function isCharSelectorEnabled(): bool
-    {
-        return $this->charSelectorEnabled;
-    }
-
-    /**
-     * @param boolean $charSelectorEnabled
-     */
-    public function setCharSelectorEnabled($charSelectorEnabled)
-    {
-        $this->charSelectorEnabled = $charSelectorEnabled;
-    }
-
     // fau: testNav - generate question actions menu
     /**
      * Get the HTML of an actions menu below the title
@@ -394,7 +373,6 @@ class ilTestQuestionNavigationGUI
     {
         $tpl = $this->getTemplate('actions');
 
-        include_once("Services/UIComponent/GroupedList/classes/class.ilGroupedListGUI.php");
         $actions = new ilGroupedListGUI();
         $actions->setAsDropDown(true, true);
 
@@ -470,19 +448,6 @@ class ilTestQuestionNavigationGUI
             );
         }
 
-        if ($this->isCharSelectorEnabled()) {
-            $actions->addSeparator();
-            $actions->addEntry(
-                $this->lng->txt('char_selector_btn_label'),
-                '#',
-                '',
-                '',
-                'ilTestQuestionAction ilCharSelectorMenuToggle',
-                'ilCharSelectorMenuToggleLink'
-            );
-        }
-
-        // render the mark icon
         if ($this->getQuestionMarkLinkTarget()) {
             $this->renderActionsIcon(
                 $tpl,
@@ -492,8 +457,6 @@ class ilTestQuestionNavigationGUI
             );
         }
 
-        // render the action menu
-        include_once './Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php';
         $list = new ilAdvancedSelectionListGUI();
         $list->setSelectionHeaderClass('btn-primary');
         $list->setId('QuestionActions');

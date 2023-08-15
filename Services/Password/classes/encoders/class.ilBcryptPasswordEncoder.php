@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Class ilBcryptPasswordEncoder
@@ -223,7 +223,7 @@ final class ilBcryptPasswordEncoder extends ilBcryptPhpPasswordEncoder
     {
         $location = $this->getClientSaltLocation();
 
-        set_error_handler(static function (int $severity, string $message, string $file, int $line): void {
+        set_error_handler(static function (int $severity, string $message, string $file, int $line): never {
             throw new ErrorException($message, $severity, $severity, $file, $line);
         });
 

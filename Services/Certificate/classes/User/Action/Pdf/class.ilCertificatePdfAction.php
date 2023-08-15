@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,18 +16,20 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
 class ilCertificatePdfAction
 {
-    private ilCertificateUtilHelper $ilUtilHelper;
-    private ilErrorHandling $errorHandler;
+    private readonly ilCertificateUtilHelper $ilUtilHelper;
+    private readonly ilErrorHandling $errorHandler;
 
     public function __construct(
-        private ilPdfGenerator $pdfGenerator,
+        private readonly ilPdfGenerator $pdfGenerator,
         ?ilCertificateUtilHelper $ilUtilHelper = null,
-        private string $translatedErrorText = '',
+        private readonly string $translatedErrorText = '',
         ?ilErrorHandling $errorHandler = null
     ) {
         if (null === $ilUtilHelper) {

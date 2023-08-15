@@ -178,4 +178,5 @@ interface Standard extends Icon
     public const CON = 'con';	    //Conversaion
     public const GCON = 'gcon';	    //Group Conversaion
     public const FILS = 'fils';	    //File System Service
+    public const TALA = 'tala';	    //Employee Talk Template Admin
 }

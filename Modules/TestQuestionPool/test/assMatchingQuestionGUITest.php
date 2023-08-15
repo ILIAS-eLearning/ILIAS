@@ -52,9 +52,6 @@ class assMatchingQuestionGUITest extends assBaseTestCase
 
     public function test_instantiateObject_shouldReturnInstance(): void
     {
-        // Arrange
-        require_once './Modules/TestQuestionPool/classes/class.assMatchingQuestionGUI.php';
-
         // Act
         $instance = new assMatchingQuestionGUI();
 

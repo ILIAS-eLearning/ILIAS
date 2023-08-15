@@ -71,6 +71,7 @@ class ilNewsItem
     private bool $limitation = false;
     protected bool $content_text_is_lang_var = false;
     private ilGlobalTemplateInterface $main_tpl;
+    protected ilLogger $log;
 
     public function __construct(int $a_id = 0)
     {
@@ -89,6 +90,7 @@ class ilNewsItem
             $this->read();
         }
         $this->limitation = true;
+        $this->log = $DIC->logger()->news();
     }
 
     public function setId(int $a_id): void
@@ -499,12 +501,14 @@ class ilNewsItem
         bool $a_only_public = false,
         bool $a_prevent_aggregation = false,
         int $a_per = 0,
-        array &$a_cnt = []
+        array &$a_cnt = [],
+        bool $no_auto_generated = false,
+        array $excluded = [],
+        int $a_limit = 0
     ): array {
         global $DIC;
 
         $ilAccess = $DIC->access();
-
         $fav_rep = new ilFavouritesDBRepository();
 
         $news_item = new ilNewsItem();
@@ -570,9 +574,11 @@ class ilNewsItem
                 $per,
                 $a_prevent_aggregation,
                 false,
+                $no_auto_generated,
                 false,
-                false,
-                $a_user_id
+                $a_user_id,
+                0,
+                $excluded
             );
 
             // counter
@@ -585,6 +591,9 @@ class ilNewsItem
 
         $data = ilArrayUtil::sortArray($data, "creation_date", "desc", false, true);
 
+        if ($a_limit > 0) {
+            array_splice($data, $a_limit);
+        }
         return $data;
     }
 
@@ -592,6 +601,7 @@ class ilNewsItem
      * Get News For Ref Id.
      *
      * @deprecated (will migrate to ilNewsData)
+     * @param string|int $a_time_period
      * @param int $a_limit currently only supported for groups and courses
      * @param int[] $a_excluded currently only supported for groups and courses (news ids)
      */
@@ -599,7 +609,7 @@ class ilNewsItem
         int $a_ref_id,
         bool $a_only_public = false,
         bool $a_stopnesting = false,
-        int $a_time_period = 0,
+        $a_time_period = 0,
         bool $a_prevent_aggregation = true,
         bool $a_forum_group_sequences = false,
         bool $a_no_auto_generated = false,
@@ -655,7 +665,8 @@ class ilNewsItem
                 $a_time_period,
                 $a_prevent_aggregation,
                 $starting_date,
-                $a_no_auto_generated
+                $a_no_auto_generated,
+                $a_excluded
             );
         } elseif (($obj_type === "grp" || $obj_type === "crs") &&
             !$a_stopnesting) {
@@ -678,7 +689,10 @@ class ilNewsItem
                 $a_only_public,
                 $a_time_period,
                 $starting_date,
-                $a_no_auto_generated
+                $a_no_auto_generated,
+                false,
+                0,
+                $a_excluded
             );
             $unset = [];
             foreach ($news as $k => $v) {
@@ -712,11 +726,12 @@ class ilNewsItem
     /**
      * Get news aggregation (e.g. for courses, groups)
      * @deprecated (will migrate to ilNewsData)
+     * @param string|int $a_time_period
      */
     public function getAggregatedNewsData(
         int $a_ref_id,
         bool $a_only_public = false,
-        int $a_time_period = 0,
+        $a_time_period = 0,
         bool $a_prevent_aggregation = false,
         string $a_starting_date = "",
         bool $a_no_auto_generated = false,
@@ -907,7 +922,8 @@ class ilNewsItem
         int $a_time_period = 0,
         bool $a_prevent_aggregation = false,
         string $a_starting_date = "",
-        bool $a_no_auto_generated = false
+        bool $a_no_auto_generated = false,
+        array $a_excluded = []
     ): array {
         $tree = $this->tree;
         $ilAccess = $this->access;
@@ -920,8 +936,11 @@ class ilNewsItem
             $a_time_period,
             true,
             false,
+            $a_no_auto_generated,
             false,
-            $a_no_auto_generated
+            null,
+            0,
+            $a_excluded
         );
         foreach ($data as $k => $v) {
             $data[$k]["ref_id"] = $a_ref_id;
@@ -961,7 +980,10 @@ class ilNewsItem
             $a_only_public,
             $a_time_period,
             $a_starting_date,
-            $a_no_auto_generated
+            $a_no_auto_generated,
+            null,
+            0,
+            $a_excluded
         );
         foreach ($news as $k => $v) {
             $news[$k]["ref_id"] = $ref_id[$v["context_obj_id"]];
@@ -1015,14 +1037,16 @@ class ilNewsItem
     /**
      * Query news for a context
      * @deprecated will move to ilNewsData
+     * @param string|int $a_time_period
      */
     public function queryNewsForContext(
         bool $a_for_rss_use = false,
-        int $a_time_period = 0,
+        $a_time_period = 0,
         string $a_starting_date = "",
         bool $a_no_auto_generated = false,
         bool $a_oldest_first = false,
-        int $a_limit = 0
+        int $a_limit = 0,
+        array $a_exclude = []
     ): array {
         $ilDB = $this->db;
         $ilUser = $this->user;
@@ -1045,6 +1069,10 @@ class ilNewsItem
         if ($this->getContextSubObjId() > 0) {
             $and .= " AND context_sub_obj_id = " . $ilDB->quote($this->getContextSubObjId(), "integer") .
                 " AND context_sub_obj_type = " . $ilDB->quote($this->getContextSubObjType(), "text");
+        }
+
+        if (count($a_exclude) > 0) {
+            $and .= " AND " . $ilDB->in("id", $a_exclude, true, "integer") . " ";
         }
 
         $ordering = ($a_oldest_first)
@@ -1120,7 +1148,8 @@ class ilNewsItem
                     $a_starting_date,
                     $a_no_auto_generated,
                     $a_oldest_first,
-                    (int) $keep_rss_min
+                    (int) $keep_rss_min,
+                    $a_exclude
                 );
             }
         }
@@ -1149,22 +1178,25 @@ class ilNewsItem
     /**
      * @deprecated will move to ilNewsData
      * @return int[]
+     * @param string|int $a_time_period
      */
     public function checkNewsExistsForObjects(
         array $objects,
-        int $a_time_period = 1
+        $a_time_period = 1
     ): array {
         $ilDB = $this->db;
 
         $all = [];
 
+        $this->log->debug("time period: " . $a_time_period);
         $limit_ts = self::handleTimePeriod($a_time_period);
 
         // are there any news items for relevant objects and?
-        $query = $ilDB->query("SELECT id,context_obj_id,context_obj_type" .
+        $query = $ilDB->query($q = "SELECT id,context_obj_id,context_obj_type" .
             " FROM il_news_item" .
             " WHERE " . $ilDB->in("context_obj_id", array_keys($objects), false, "integer") .
             " AND creation_date >= " . $ilDB->quote($limit_ts, "timestamp"));
+        $this->log->debug($q);
         while ($rec = $ilDB->fetchAssoc($query)) {
             if ($objects[$rec["context_obj_id"]]["type"] == $rec["context_obj_type"]) {
                 $all[] = (int) $rec["id"];
@@ -1176,11 +1208,12 @@ class ilNewsItem
 
     /**
      * @deprecated will move to ilNewsData
+     * @param string|int $a_time_period
      */
     public function queryNewsForMultipleContexts(
         array $a_contexts,
         bool $a_for_rss_use = false,
-        int $a_time_period = 0,
+        $a_time_period = 0,
         string $a_starting_date = "",
         bool $a_no_auto_generated = false,
         int $a_user_id = null,
@@ -1525,10 +1558,12 @@ class ilNewsItem
     /**
      * Checks whether news are available for
      * @deprecated will move to ilNewsData
+     * @param array  $a_obj_ids
+     * @param string|int $a_time_period
      */
     public static function filterObjIdsPerNews(
         array $a_obj_ids,
-        int $a_time_period = 0,
+        $a_time_period = 0,
         string $a_starting_date = "",
         string $a_ending_date = '',
         bool $ignore_period = false
@@ -1898,6 +1933,7 @@ class ilNewsItem
         }
 
         ilUtil::redirect($m_item->getLocation());
+        return true;
     }
 
     /**

@@ -507,6 +507,7 @@ class Tool
             }
             Util::logError($errorMessage);
         }
+
         $this->result();
     }
 
@@ -1148,7 +1149,7 @@ EOD;
     private function result(): void
     {
         if (!$this->ok) {
-            $this->message = self::CONNECTION_ERROR_MESSAGE;
+            $this->message = self::CONNECTION_ERROR_MESSAGE . ' ' . $this->reason;
             $this->onError();
         }
         if (!$this->ok) {

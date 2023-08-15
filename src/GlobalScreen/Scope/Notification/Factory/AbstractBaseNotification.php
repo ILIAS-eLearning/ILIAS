@@ -1,6 +1,5 @@
 <?php
 
-declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -16,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\GlobalScreen\Scope\Notification\Factory;
 
@@ -49,7 +50,7 @@ abstract class AbstractBaseNotification implements isStandardItem
      */
     public function __construct(IdentificationInterface $identification)
     {
-        $this->handle_opened = function () {
+        $this->handle_opened = function (): void {
         };
 
         $this->provider_identification = $identification;

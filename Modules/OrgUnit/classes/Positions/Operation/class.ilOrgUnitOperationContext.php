@@ -20,7 +20,7 @@
  * Class ilOrgUnitOperationContext
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class ilOrgUnitOperationContext extends ActiveRecord
+class ilOrgUnitOperationContext
 {
     public const CONTEXT_OBJECT = "object";
     public const CONTEXT_CRS = "crs";
@@ -49,63 +49,21 @@ class ilOrgUnitOperationContext extends ActiveRecord
         self::CONTEXT_ETAL,
     ];
 
-    /**
-     * @return string[]
-     */
-    public function getPopulatedContextNames(): array
-    {
-        $contexts = array($this->getContext());
-        $this->appendParentContextName($contexts);
-
-        return $contexts;
-    }
-
-    /**
-     * @return string[]
-     */
-    public function getPopulatedContextIds(): array
-    {
-        $contexts = array($this->getId());
-        $this->appendParentContextName($contexts);
-
-        return $contexts;
-    }
-
-    /**
-     * @var int
-     * @con_is_primary true
-     * @con_is_unique  true
-     * @con_has_field  true
-     * @con_sequence   true
-     * @con_fieldtype  integer
-     * @con_length     8
-     */
     protected ?int $id = 0;
-    /**
-     * @var string
-     * @con_has_field  true
-     * @con_is_unique  true
-     * @con_fieldtype  text
-     * @con_length     16
-     * @con_index      true
-     */
     protected string $context = self::CONTEXT_OBJECT;
-    /**
-     * @var int
-     * @con_has_field  true
-     * @con_fieldtype  integer
-     * @con_length     8
-     */
     protected int $parent_context_id = 0;
+    protected array $path_names = [self::CONTEXT_OBJECT];
+    protected array $path_ids = [0];
+
+    public function __construct(?int $id = 0)
+    {
+        $this->id = $id;
+        $this->path_ids = [$id];
+    }
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function setId(?int $id): void
-    {
-        $this->id = $id;
     }
 
     public function getContext(): string
@@ -113,9 +71,11 @@ class ilOrgUnitOperationContext extends ActiveRecord
         return $this->context;
     }
 
-    public function setContext(string $context): void
+    public function withContext(string $context): self
     {
-        $this->context = $context;
+        $clone = clone $this;
+        $clone->context = $context;
+        return $clone;
     }
 
     public function getParentContextId(): int
@@ -123,55 +83,54 @@ class ilOrgUnitOperationContext extends ActiveRecord
         return $this->parent_context_id;
     }
 
-    public function setParentContextId(int $parent_context_id)
+    public function withParentContextId(int $parent_context_id): self
     {
-        $this->parent_context_id = $parent_context_id;
+        $clone = clone $this;
+        $clone->parent_context_id = $parent_context_id;
+        return $clone;
     }
 
-    public static function returnDbTableName(): string
+    public function getPathNames(): array
     {
-        return 'il_orgu_op_contexts';
+        return $this->path_names;
     }
 
-    public function create(): void
+    public function withPathNames(array $path_names): self
     {
-        if (self::where(array('context' => $this->getContext()))->hasSets()) {
-            throw new ilException('Context already registered');
-        }
-        parent::create();
+        $clone = clone $this;
+        $clone->path_names = $path_names;
+        return $clone;
     }
 
-    /**
-     * @param string[] $contexts
-     */
-    private function appendParentContextName(array $contexts): void
+    public function getPathIds(): array
     {
-        if ($this->getParentContextId()) {
-            /**
-             * @var $parent self
-             */
-            $parent = self::find($this->getParentContextId());
-            if ($parent) {
-                $contexts[] = $parent->getContext();
-                $parent->appendParentContextName($contexts);
-            }
-        }
+        return $this->path_ids;
+    }
+
+    public function withPathIds(array $path_ids): self
+    {
+        $clone = clone $this;
+        $clone->path_ids = $path_ids;
+        return $clone;
     }
 
     /**
-     * @param string [] $contexts
+     * @deprecated Please use getPathNames()
+     * @return string[]
      */
-    private function appendParentContextId(array $contexts): void
+    public function getPopulatedContextNames(): array
     {
-        if ($this->getParentContextId()) {
-            /**
-             * @var $parent self
-             */
-            $parent = self::find($this->getParentContextId());
-            if ($parent) {
-                $contexts[] = $parent->getId();
-                $parent->appendParentContextName($contexts);
-            }
-        }
+        return $this->getPathNames();
+    }
+
+
+
+    /**
+     * @deprecated Please use getPathIds()
+     * @return int[]
+     */
+    public function getPopulatedContextIds(): array
+    {
+        return $this->getPathIds();
     }
 }

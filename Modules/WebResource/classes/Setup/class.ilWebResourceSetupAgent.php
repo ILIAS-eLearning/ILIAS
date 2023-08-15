@@ -28,7 +28,12 @@ class ilWebResourceSetupAgent extends Setup\Agent\NullAgent
 {
     public function getUpdateObjective(Setup\Config $config = null): Setup\Objective
     {
-        return new ilDatabaseUpdateStepsExecutedObjective(new ilWebResourceDropValidSteps());
+        return new Setup\ObjectiveCollection(
+            'WebLinks',
+            false,
+            new ilDatabaseUpdateStepsExecutedObjective(new ilWebResourceDBUpdateSteps()),
+            new ilDatabaseUpdateStepsExecutedObjective(new ilWebResourceDropValidSteps())
+        );
     }
 
     public function getStatusObjective(Setup\Metrics\Storage $storage): Setup\Objective

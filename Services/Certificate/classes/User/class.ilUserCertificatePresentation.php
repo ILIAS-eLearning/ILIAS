@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,18 +16,20 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
 class ilUserCertificatePresentation
 {
     public function __construct(
-        private int $objId,
-        private string $objType,
-        private ?ilUserCertificate $userCertificate,
-        private string $objectTitle,
-        private string $objectDescription,
-        private string $userName = ''
+        private readonly int $objId,
+        private readonly string $objType,
+        private readonly ?ilUserCertificate $userCertificate,
+        private readonly string $objectTitle,
+        private readonly string $objectDescription,
+        private readonly string $userName = ''
     ) {
     }
 

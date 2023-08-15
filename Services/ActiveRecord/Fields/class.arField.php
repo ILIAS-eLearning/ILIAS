@@ -1,18 +1,21 @@
 <?php
 
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
 /**
  * Class arField
  * @author  Fabian Schmid <fs@studer-raimann.ch>
@@ -20,6 +23,7 @@
  */
 class arField
 {
+    protected bool $is_unique = false;
     public const FIELD_TYPE_TEXT = 'text'; // MySQL varchar, char
     public const FIELD_TYPE_INTEGER = 'integer'; // MySQL tinyint, smallint, mediumint, int, bigint
     public const FIELD_TYPE_FLOAT = 'float'; // MySQL double
@@ -27,55 +31,35 @@ class arField
     public const FIELD_TYPE_TIME = 'time'; // MySQL time
     public const FIELD_TYPE_TIMESTAMP = 'timestamp'; // MySQL datetime
     public const FIELD_TYPE_CLOB = 'clob';
-    protected static array $allowed_attributes = array(
-        self::FIELD_TYPE_TEXT => array(
+    protected static array $allowed_attributes = [
+        self::FIELD_TYPE_TEXT => [
+            arFieldList::LENGTH,
+            arFieldList::IS_NOTNULL,
+            arFieldList::IS_PRIMARY
+        ],
+        self::FIELD_TYPE_INTEGER => [
             arFieldList::LENGTH,
             arFieldList::IS_NOTNULL,
             arFieldList::IS_PRIMARY,
-        ),
-        self::FIELD_TYPE_INTEGER => array(
-            arFieldList::LENGTH,
-            arFieldList::IS_NOTNULL,
-            arFieldList::IS_PRIMARY,
-            arFieldList::SEQUENCE,
-        ),
-        self::FIELD_TYPE_FLOAT => array(
-            arFieldList::IS_NOTNULL,
-        ),
-        self::FIELD_TYPE_DATE => array(
-            arFieldList::IS_NOTNULL,
-        ),
-        self::FIELD_TYPE_TIME => array(
-            arFieldList::IS_NOTNULL,
-        ),
-        self::FIELD_TYPE_TIMESTAMP => array(
-            arFieldList::IS_NOTNULL,
-        ),
-        self::FIELD_TYPE_CLOB => array(
-            arFieldList::IS_NOTNULL,
-        ),
-    );
-    protected static array $date_fields = array(
-        self::FIELD_TYPE_DATE,
-        self::FIELD_TYPE_TIME,
-        self::FIELD_TYPE_TIMESTAMP
-    );
+            arFieldList::SEQUENCE
+        ],
+        self::FIELD_TYPE_FLOAT => [arFieldList::IS_NOTNULL],
+        self::FIELD_TYPE_DATE => [arFieldList::IS_NOTNULL],
+        self::FIELD_TYPE_TIME => [arFieldList::IS_NOTNULL],
+        self::FIELD_TYPE_TIMESTAMP => [arFieldList::IS_NOTNULL],
+        self::FIELD_TYPE_CLOB => [arFieldList::IS_NOTNULL]
+    ];
+    protected static array $date_fields = [self::FIELD_TYPE_DATE, self::FIELD_TYPE_TIME, self::FIELD_TYPE_TIMESTAMP];
 
     public function loadFromArray(string $name, array $array): void
     {
         $this->setName($name);
         foreach ($array as $key => $value) {
-            switch ($value) {
-                case 'true':
-                    $this->{$key} = true;
-                    break;
-                case 'false':
-                    $this->{$key} = false;
-                    break;
-                default:
-                    $this->{$key} = $value;
-                    break;
-            }
+            $this->{$key} = match ($value) {
+                'true' => true,
+                'false' => false,
+                default => $value,
+            };
         }
     }
 
@@ -90,7 +74,7 @@ class arField
      */
     public function getAttributesForConnector(): array
     {
-        $return = array();
+        $return = [];
         foreach (arFieldList::getAllowedConnectorFields() as $field_name) {
             if (isset($this->{$field_name}) && $this->{$field_name} && self::isAllowedAttribute(
                 $this->getFieldType(),
@@ -108,7 +92,7 @@ class arField
      */
     public function getAttributesForDescription(): array
     {
-        $return = array();
+        $return = [];
         foreach (arFieldList::getAllowedDescriptionFields() as $field_name) {
             if ($this->{$field_name} && self::isAllowedAttribute($this->getFieldType(), $field_name)) {
                 $return[arFieldList::mapKey($field_name)] = $this->{$field_name};
@@ -217,10 +201,12 @@ class arField
 
     public static function isAllowedAttribute(string $type, string $field_name): bool
     {
-        if ($field_name === arFieldList::FIELDTYPE || $field_name === arFieldList::HAS_FIELD) {
+        if ($field_name === arFieldList::FIELDTYPE) {
             return true;
         }
-
+        if ($field_name === arFieldList::HAS_FIELD) {
+            return true;
+        }
         return in_array($field_name, self::$allowed_attributes[$type], true);
     }
 

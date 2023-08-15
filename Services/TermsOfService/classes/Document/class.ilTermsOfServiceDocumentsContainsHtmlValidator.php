@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class ilTermsOfServiceDocumentsContainsHtmlValidator
  * @author Michael Jansen <mjansen@databay.de>
@@ -29,7 +29,7 @@ class ilTermsOfServiceDocumentsContainsHtmlValidator
     /** @var LibXMLError[] */
     private array $xmlErrors = [];
 
-    public function __construct(private string $text)
+    public function __construct(private readonly string $text)
     {
     }
 
@@ -40,7 +40,7 @@ class ilTermsOfServiceDocumentsContainsHtmlValidator
         }
 
         try {
-            set_error_handler(static function (int $severity, string $message, string $file, int $line): void {
+            set_error_handler(static function (int $severity, string $message, string $file, int $line): never {
                 throw new ErrorException($message, $severity, $severity, $file, $line);
             });
 

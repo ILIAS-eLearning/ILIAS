@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,12 +15,14 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+declare(strict_types=1);
 
 namespace ILIAS\UI\Component\Input\Field;
 
 use ILIAS\UI\Component\JavaScriptBindable;
 use ILIAS\UI\Component\OnUpdateable;
 use Closure;
+use ILIAS\Refinery\Constraint;
 
 /**
  * This describes inputs that can be used in forms.
@@ -60,10 +60,14 @@ interface FormInput extends Input, JavaScriptBindable, OnUpdateable
 
     /**
      * Get an input like this, but set the field to be required (or not).
+     * With the optional $required_constraint, you can REPLACE the default
+     * constraint that is checked if $is_required is true
+     * (see getConstraintForRequirement() on Input/Field implementations).
+     * A custom constraint SHOULD be explained in the byline of the input.
      *
      * @return static
      */
-    public function withRequired(bool $is_required);
+    public function withRequired(bool $is_required, ?Constraint $requirement_constraint = null);
 
     /**
      * Is this input disabled?

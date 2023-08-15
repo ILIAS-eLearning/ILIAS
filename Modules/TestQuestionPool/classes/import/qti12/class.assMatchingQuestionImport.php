@@ -31,7 +31,6 @@ class assMatchingQuestionImport extends assQuestionImport
     {
         $image = base64_decode($data);
         $imagepath = $this->object->getImagePath();
-        include_once "./Services/Utilities/classes/class.ilUtil.php";
         if (!file_exists($imagepath)) {
             ilFileUtils::makeDirParents($imagepath);
         }
@@ -65,7 +64,6 @@ class assMatchingQuestionImport extends assQuestionImport
         // empty session variable for imported xhtml mobs
         ilSession::clear('import_mob_xhtml');
         $presentation = $item->getPresentation();
-        $duration = $item->getDuration();
         $shuffle = 0;
         $now = getdate();
         $created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
@@ -186,9 +184,6 @@ class assMatchingQuestionImport extends assQuestionImport
             }
         }
 
-        include_once "./Modules/TestQuestionPool/classes/class.assAnswerMatchingTerm.php";
-        include_once "./Modules/TestQuestionPool/classes/class.assAnswerMatchingDefinition.php";
-        include_once "./Modules/TestQuestionPool/classes/class.assAnswerMatchingPair.php";
         $this->object->createNewQuestion();
         $this->addGeneralMetadata($item);
         $this->object->setTitle($item->getTitle());
@@ -198,7 +193,6 @@ class assMatchingQuestionImport extends assQuestionImport
         $this->object->setOwner($ilUser->getId());
         $this->object->setQuestion($this->object->QTIMaterialToString($item->getQuestiontext()));
         $this->object->setObjId($questionpool_id);
-        $this->object->setEstimatedWorkingTime($duration["h"] ?? 0, $duration["m"] ?? 0, $duration["s"] ?? 0);
         $extended_shuffle = $item->getMetadataEntry("shuffle");
         $this->object->setThumbGeometry($item->getMetadataEntry("thumb_geometry"));
 
@@ -283,8 +277,6 @@ class assMatchingQuestionImport extends assQuestionImport
         // handle the import of media objects in XHTML code
         $questiontext = $this->object->getQuestion();
         if (is_array(ilSession::get("import_mob_xhtml"))) {
-            include_once "./Services/MediaObjects/classes/class.ilObjMediaObject.php";
-            include_once "./Services/RTE/classes/class.ilRTE.php";
             foreach (ilSession::get("import_mob_xhtml") as $mob) {
                 if ($tst_id > 0) {
                     $importfile = $this->getTstImportArchivDirectory() . '/' . $mob["uri"];

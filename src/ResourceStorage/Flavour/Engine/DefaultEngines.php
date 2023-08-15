@@ -18,11 +18,7 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\ResourceStorage\Flavour\Definition;
-
-use ILIAS\ResourceStorage\Flavour\Engine\GDEngine;
-use ILIAS\ResourceStorage\Flavour\Engine\ImagickEngine;
-use ILIAS\ResourceStorage\Flavour\Engine\NoEngine;
+namespace ILIAS\ResourceStorage\Flavour\Engine;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>

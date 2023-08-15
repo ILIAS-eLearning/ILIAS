@@ -63,7 +63,7 @@ class ImplementationOfAgentFinder implements AgentFinder
 
         foreach ($plugins as $plugin_name) {
             $agents = $agents->withAdditionalAgent(
-                strtolower($plugin_name),
+                $plugin_name,
                 $this->getPluginAgent($plugin_name)
             );
         }

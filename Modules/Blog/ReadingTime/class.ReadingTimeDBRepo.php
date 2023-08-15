@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /* Copyright (c) 1998-2022 ILIAS open source, GPLv3, see LICENSE */
 
 namespace ILIAS\Blog\ReadingTime;
@@ -9,14 +11,10 @@ namespace ILIAS\Blog\ReadingTime;
  */
 class ReadingTimeDBRepo
 {
-    /**
-     * @var \ilDBInterface
-     */
-    protected $db;
+    protected \ilDBInterface $db;
 
     public function __construct()
     {
-        /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
         $this->db = $DIC->database();
     }

@@ -19,7 +19,7 @@ declare(strict_types=1);
  ********************************************************************
  */
 
-use ILIAS\Skill\Tree;
+use ILIAS\Skill\Node;
 
 /**
  * Skill category GUI class
@@ -36,7 +36,7 @@ class ilSkillCategoryGUI extends ilSkillTreeNodeGUI
     protected ilLanguage $lng;
     protected ilHelpGUI $help;
 
-    public function __construct(Tree\SkillTreeNodeManager $node_manager, int $a_node_id = 0)
+    public function __construct(Node\SkillTreeNodeManager $node_manager, int $a_node_id = 0)
     {
         global $DIC;
 

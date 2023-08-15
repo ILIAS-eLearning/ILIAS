@@ -28,7 +28,7 @@ use ILIAS\UI\Component\Card\Card;
  */
 interface ToComponent
 {
-    public function getAsItem(): \ILIAS\UI\Component\Item\Standard;
+    public function getAsItem(bool $with_image): \ILIAS\UI\Component\Item\Standard;
 
     public function getAsCard(): Card;
 

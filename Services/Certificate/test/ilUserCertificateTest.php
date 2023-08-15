@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
@@ -31,7 +31,7 @@ class ilUserCertificateTest extends ilCertificateBaseTestCase
             'crs',
             400,
             'Niels Theen',
-            123456789,
+            123_456_789,
             '<xml>Some Content</xml>',
             '[]',
             null,
@@ -48,7 +48,7 @@ class ilUserCertificateTest extends ilCertificateBaseTestCase
         $this->assertSame('crs', $userCertificate->getObjType());
         $this->assertSame(400, $userCertificate->getUserId());
         $this->assertSame('Niels Theen', $userCertificate->getUserName());
-        $this->assertSame(123456789, $userCertificate->getAcquiredTimestamp());
+        $this->assertSame(123_456_789, $userCertificate->getAcquiredTimestamp());
         $this->assertSame('<xml>Some Content</xml>', $userCertificate->getCertificateContent());
         $this->assertSame('[]', $userCertificate->getTemplateValues());
         $this->assertEquals(0, $userCertificate->getValidUntil());

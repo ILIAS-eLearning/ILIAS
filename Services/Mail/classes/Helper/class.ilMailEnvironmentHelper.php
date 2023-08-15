@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class ilMailEnvironmentHelper
  * @author Michael Jansen <mjansen@databay.de>
@@ -32,8 +32,8 @@ class ilMailEnvironmentHelper
     public function getClientId(): string
     {
         $clientId = '';
-        if (defined('CLIENT_NAME')) {
-            $clientId = CLIENT_NAME;
+        if (defined('CLIENT_ID')) {
+            $clientId = CLIENT_ID;
         }
 
         return $clientId;

@@ -28,6 +28,10 @@ use ILIAS\HTTP\Response\Sender\ResponseSendingException;
  */
 class ilNewsTimelineGUI
 {
+    protected \ILIAS\News\InternalGUIService $gui;
+    protected int $period = 0;
+    protected \ILIAS\News\Timeline\TimelineManager $manager;
+    protected \ILIAS\DI\UIServices $ui;
     protected \ILIAS\HTTP\Services $http;
     protected int $news_id;
     protected bool $include_auto_entries;
@@ -38,9 +42,11 @@ class ilNewsTimelineGUI
     protected ilToolbarGUI $toolbar;
     protected ilObjUser $user;
     protected ilAccessHandler $access;
-    protected static int $items_per_load = 10;
+    protected static int $items_per_load = 20;
     protected bool $user_edit_all = false;
     protected StandardGUIRequest $std_request;
+    protected bool $enable_add_news = true;
+    protected ?array $news_data = null;
 
     protected function __construct(
         int $a_ref_id,
@@ -58,15 +64,40 @@ class ilNewsTimelineGUI
         $this->access = $DIC->access();
         $this->http = $DIC->http();
 
-        $this->std_request = new StandardGUIRequest(
-            $DIC->http(),
-            $DIC->refinery()
-        );
+        $this->std_request = $DIC->news()
+            ->internal()
+            ->gui()
+            ->standardRequest();
 
         $this->news_id = $this->std_request->getNewsId();
 
         $this->lng->loadLanguageModule("news");
+        $this->lng->loadLanguageModule("cont");
+        $this->ui = $DIC->ui();
+        $this->manager = $DIC->news()->internal()->domain()->timeline();
+        $this->gui = $DIC->news()->internal()->gui();
     }
+
+    public function setEnableAddNews(bool $a_val): void
+    {
+        $this->enable_add_news = $a_val;
+    }
+
+    public function getEnableAddNews(): bool
+    {
+        return $this->enable_add_news;
+    }
+
+    public function setPeriod(int $a_val): void
+    {
+        $this->period = $a_val;
+    }
+
+    public function getPeriod(): int
+    {
+        return $this->period;
+    }
+
 
     /**
      * Set user can edit other users postings
@@ -143,43 +174,46 @@ class ilNewsTimelineGUI
 
     public function show(ilPropertyFormGUI $form = null): void
     {
+        $this->tpl->setContent($this->getHTML($form));
+    }
+
+    protected function readNewsData($excluded = []): void
+    {
+        $this->news_data = $this->manager->getNewsData(
+            $this->ref_id,
+            $this->ctrl->getContextObjId(),
+            $this->ctrl->getContextObjType(),
+            $this->period,
+            $this->include_auto_entries,
+            self::$items_per_load,
+            $excluded
+        );
+    }
+
+    public function getHTML(ilPropertyFormGUI $form = null): string
+    {
         // toolbar
-        if ($this->access->checkAccess("news_add_news", "", $this->ref_id)) {
-            $b = ilLinkButton::getInstance();
-            $b->setCaption('news_add_news');
-            $b->setOnClick("return il.News.create();");
-            $b->setPrimary(true);
-            $this->toolbar->addButtonInstance($b);
+        if ($this->getEnableAddNews() &&
+            $this->access->checkAccess("news_add_news", "", $this->ref_id)) {
+            $this->gui->button(
+                $this->lng->txt("news_add_news"),
+                "#"
+            )->onClick("return il.News.create();")->primary()->toToolbar(true, $this->toolbar);
         }
 
-        $news_item = new ilNewsItem();
-        $news_item->setContextObjId($this->ctrl->getContextObjId());
-        $news_item->setContextObjType($this->ctrl->getContextObjType());
-
-        $news_data = $news_item->getNewsForRefId(
-            $this->ref_id,
-            false,
-            false,
-            0,
-            true,
-            false,
-            !$this->include_auto_entries,
-            false,
-            null,
-            self::$items_per_load
-        );
+        $this->readNewsData();
 
         $timeline = ilTimelineGUI::getInstance();
 
         // get like widget
         $obj_ids = array_unique(array_map(static function (array $a): int {
             return (int) $a["context_obj_id"];
-        }, $news_data));
+        }, $this->news_data));
         $likef = new ilLikeFactoryGUI();
         $like_gui = $likef->widget($obj_ids);
 
         $js_items = [];
-        foreach ($news_data as $d) {
+        foreach ($this->news_data as $d) {
             $news_item = new ilNewsItem((int) $d["id"]);
             $item = ilNewsTimelineItemGUI::getInstance($news_item, (int) $d["ref_id"], $like_gui);
             $item->setUserEditAll($this->getUserEditAll());
@@ -200,16 +234,25 @@ class ilNewsTimelineGUI
         $this->tpl->addOnLoadCode("il.News.setItems(" . json_encode($js_items, JSON_THROW_ON_ERROR) . ");");
         $this->tpl->addOnLoadCode("il.News.setAjaxUrl('" . $this->ctrl->getLinkTarget($this, "", "", true) . "');");
 
-        if (count($news_data) > 0) {
+        if (count($this->news_data) > 0) {
             $ttpl = new ilTemplate("tpl.news_timeline.html", true, true, "Services/News");
             $ttpl->setVariable("NEWS", $timeline->render());
             $ttpl->setVariable("EDIT_MODAL", $this->getEditModal($form));
             $ttpl->setVariable("DELETE_MODAL", $this->getDeleteModal());
             $ttpl->setVariable("LOADER", ilUtil::getImagePath("loader.svg"));
             $this->tpl->setContent($ttpl->get());
+            $html = $ttpl->get();
         } else {
-            $this->tpl->setOnScreenMessage('info', $this->lng->txt("news_timline_add_entries_info"));
-            $this->tpl->setContent($this->getEditModal());
+            if ($this->getEnableAddNews()) {
+                $this->tpl->setOnScreenMessage('info', $this->lng->txt("news_timline_add_entries_info"));
+                $this->tpl->setContent($this->getEditModal());
+                $html = $this->getEditModal();
+            } else {
+                $mess = $this->ui->factory()->messageBox()->info(
+                    $this->lng->txt("news_timline_no_entries")
+                );
+                $html = $this->ui->renderer()->render($mess);
+            }
         }
 
         $this->lng->toJS("create");
@@ -218,7 +261,7 @@ class ilNewsTimelineGUI
         $this->lng->toJS("save");
 
         $this->tpl->addJavaScript("./Services/News/js/News.js");
-        ilMediaPlayerGUI::initJavascript($this->tpl);
+        return $html;
     }
 
     public function loadMore(): void
@@ -229,31 +272,19 @@ class ilNewsTimelineGUI
 
         $excluded = $this->std_request->getRenderedNews();
 
-        $news_data = $news_item->getNewsForRefId(
-            $this->ref_id,
-            false,
-            false,
-            0,
-            true,
-            false,
-            !$this->include_auto_entries,
-            false,
-            null,
-            self::$items_per_load,
-            $excluded
-        );
+        $this->readNewsData($excluded);
 
         $timeline = ilTimelineGUI::getInstance();
 
         // get like widget
         $obj_ids = array_unique(array_map(static function ($a): int {
             return (int) $a["context_obj_id"];
-        }, $news_data));
+        }, $this->news_data));
         $likef = new ilLikeFactoryGUI();
         $like_gui = $likef->widget($obj_ids);
 
         $js_items = [];
-        foreach ($news_data as $d) {
+        foreach ($this->news_data as $d) {
             $news_item = new ilNewsItem((int) $d["id"]);
             $item = ilNewsTimelineItemGUI::getInstance($news_item, (int) $d["ref_id"], $like_gui);
             $item->setUserEditAll($this->getUserEditAll());

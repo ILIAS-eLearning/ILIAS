@@ -1,18 +1,21 @@
 <?php
 
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
 /**
  * Class arStatementCollection
  * @author  Fabian Schmid <fs@studer-raimann.ch>
@@ -30,9 +33,9 @@ abstract class arStatementCollection
     protected array $statements = [];
     protected ?\ActiveRecord $ar = null;
 
-    public function add(arStatement $statement): void
+    public function add(arStatement $arStatement): void
     {
-        $this->statements[] = $statement;
+        $this->statements[] = $arStatement;
     }
 
     public function hasStatements(): bool
@@ -40,23 +43,23 @@ abstract class arStatementCollection
         return $this->statements !== [];
     }
 
-    public static function getInstance(ActiveRecord $ar): arStatementCollection
+    public static function getInstance(ActiveRecord $activeRecord): arStatementCollection
     {
         /**
          * @var $classname arStatementCollection
          */
         $classname = static::class;
         $arWhereCollection = new $classname();
-        $arWhereCollection->setAr($ar);
+        $arWhereCollection->setAr($activeRecord);
 
         return $arWhereCollection;
     }
 
     abstract public function asSQLStatement(): string;
 
-    public function setAr(ActiveRecord $ar): void
+    public function setAr(ActiveRecord $activeRecord): void
     {
-        $this->ar = $ar;
+        $this->ar = $activeRecord;
     }
 
     public function getAr(): ?\ActiveRecord

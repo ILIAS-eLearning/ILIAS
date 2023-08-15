@@ -88,14 +88,15 @@ class ilMembershipCronNotificationsData
 
             foreach ($this->objects as $ref_id => $user_ids) {
                 $this->log->debug("handle ref id " . $ref_id . ", users: " . count($user_ids));
-
+                $this->log->debug("last run unix: " . $this->last_run_unix);
+                $this->log->debug("last run date: " . $this->last_run_date);
                 // gather news per object
                 $news_item = new ilNewsItem();
                 $objs = $this->getObjectsForRefId($ref_id);
                 if (
                     isset($objs["obj_id"]) &&
                     is_array($objs["obj_id"]) &&
-                    $news_item->checkNewsExistsForObjects($objs["obj_id"], $this->last_run_unix)
+                    $news_item->checkNewsExistsForObjects($objs["obj_id"], $this->last_run_date)
                 ) {
                     $this->log->debug("Got news");
                     foreach ($user_ids as $user_id) {
@@ -104,7 +105,7 @@ class ilMembershipCronNotificationsData
                             $ref_id,
                             false,
                             false,
-                            $this->last_run_unix,
+                            $this->last_run_date,
                             false,
                             false,
                             false,
@@ -154,7 +155,7 @@ class ilMembershipCronNotificationsData
                 $like_data = new ilLikeData(array_keys($objs["obj_id"]));
                 foreach (array_keys($objs["obj_id"]) as $obj_id) {
                     $this->log->debug("Get like data for obj_id: " . $obj_id);
-                    foreach ($like_data->getExpressionEntriesForObject($obj_id, $this->last_run_unix) as $like) {
+                    foreach ($like_data->getExpressionEntriesForObject($obj_id, $this->last_run_date) as $like) {
                         reset($user_ids);
                         foreach ($user_ids as $user_id) {
                             $has_perm = false;

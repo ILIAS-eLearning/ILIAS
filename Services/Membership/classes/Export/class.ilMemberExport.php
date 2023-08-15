@@ -379,7 +379,11 @@ class ilMemberExport
 
                     default:
                         // Check aggreement
-                        if (!$this->privacy->courseConfirmationRequired() or $this->agreement[$usr_id]['accepted']) {
+                        if (
+                            !$this->privacy->courseConfirmationRequired() or
+                            (isset($this->agreement[$usr_id]['accepted']) &&
+                                $this->agreement[$usr_id]['accepted'])
+                        ) {
                             #$this->csv->addColumn($this->user_profile_data[$usr_id][$field]);
                             $this->addCol($this->user_profile_data[$usr_id][$field], $row, $col++);
                         } else {
@@ -486,7 +490,8 @@ class ilMemberExport
 
         if (
             !$this->privacy->courseConfirmationRequired() ||
-            $this->agreement[$udf_data->getUserId()]['accepted']
+            (isset($this->agreement[$udf_data->getUserId()]['accepted']) &&
+                $this->agreement[$udf_data->getUserId()]['accepted'])
         ) {
             $field_info = explode('_', $a_field);
             $field_id = $field_info[1];

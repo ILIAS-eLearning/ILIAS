@@ -49,11 +49,13 @@ class ilObjPluginDispatchGUI implements ilCtrlBaseClassInterface
         $ilCtrl = $this->ctrl;
 
         $next_class = $ilCtrl->getNextClass();
-        $cmd_class = $ilCtrl->getCmdClass();
-
+        $cmd_class = strtolower($ilCtrl->getCmdClass());
         if ($cmd_class !== "ilobjplugindispatchgui" && $cmd_class !== "" && $cmd_class !== null) {
             $class_path = $ilCtrl->lookupClassPath($next_class);
-            include_once($class_path);
+            // note: $next_class is lower case, $class_name
+            // has the correct case so that new $class_name will work
+            // also note: if other places did a new $class_name already
+            // the lower case name will work here "by accident", too
             $class_name = $ilCtrl->getClassForClasspath($class_path);
             $this->gui_obj = new $class_name($this->request->getRefId());
             $ilCtrl->forwardCommand($this->gui_obj);

@@ -452,14 +452,13 @@ class ilTestTopList
      */
     private function formatTime(int $seconds): string
     {
-        $retval = '';
-        $hours = intval($seconds / 3600);
-        $retval .= str_pad($hours, 2, "0", STR_PAD_LEFT) . ":";
-        $minutes = ($seconds / 60) % 60;
-        $retval .= str_pad($minutes, 2, "0", STR_PAD_LEFT) . ":";
-        $seconds = $seconds % 60;
-        $retval .= str_pad($seconds, 2, "0", STR_PAD_LEFT);
+        $hours = floor($seconds / 3600);
+        $seconds -= $hours * 3600;
+        $minutes = floor($seconds / 60);
+        $seconds -= $minutes * 60;
 
-        return $retval;
+        return str_pad($hours, 2, "0", STR_PAD_LEFT) . ":"
+            . str_pad($minutes, 2, "0", STR_PAD_LEFT) . ":"
+            . str_pad($seconds, 2, "0", STR_PAD_LEFT);
     }
 }

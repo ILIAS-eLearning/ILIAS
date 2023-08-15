@@ -16,10 +16,6 @@
  *
  *********************************************************************/
 
-require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintAbstractGUI.php';
-require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintGUI.php';
-require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintsOrderingClipboard.php';
-
 /**
  * @ilCtrl_Calls ilAssQuestionHintsGUI: ilAssQuestionHintGUI
  *
@@ -103,7 +99,6 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
         $ilHelp = $DIC['ilHelp']; /* @var ilHelpGUI $ilHelp */
         $ilHelp->setScreenIdComponent('qpl');
 
-        require_once "./Services/Style/Content/classes/class.ilObjStyleSheet.php";
         $DIC->ui()->mainTemplate()->setCurrentBlock("ContentStyle");
         $DIC->ui()->mainTemplate()->setVariable("LOCATION_CONTENT_STYLESHEET", ilObjStyleSheet::getContentStylePath(0));
         $DIC->ui()->mainTemplate()->parseCurrentBlock();
@@ -113,32 +108,28 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
 
         switch ($nextClass) {
             case 'ilassquestionhintgui':
-
                 if (!$this->isEditingEnabled()) {
                     return;
                 }
 
-                require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintGUI.php';
                 $gui = new ilAssQuestionHintGUI($this->questionGUI);
                 $ilCtrl->forwardCommand($gui);
                 break;
 
             case 'ilasshintpagegui':
-
                 if ($this->isEditingEnabled()) {
                     $presentationMode = ilAssQuestionHintPageObjectCommandForwarder::PRESENTATION_MODE_AUTHOR;
                 } else {
                     $presentationMode = ilAssQuestionHintPageObjectCommandForwarder::PRESENTATION_MODE_PREVIEW;
                 }
 
-                require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintPageObjectCommandForwarder.php';
                 $forwarder = new ilAssQuestionHintPageObjectCommandForwarder($this->questionOBJ, $ilCtrl, $ilTabs, $lng);
                 $forwarder->setPresentationMode($presentationMode);
                 $forwarder->forward();
                 break;
 
             default:
-
+                $this->tabs->setTabActive('tst_question_hints_tab');
                 $cmd .= 'Cmd';
                 $this->$cmd();
                 break;
@@ -159,9 +150,6 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
         $lng = $DIC['lng'];
 
         $this->initHintOrderingClipboardNotification();
-
-        require_once 'Services/UIComponent/Toolbar/classes/class.ilToolbarGUI.php';
-        require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintsTableGUI.php';
 
         $toolbar = new ilToolbarGUI();
 
@@ -289,7 +277,7 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
         $this->main_tpl->setOnScreenMessage('success', $lng->txt('tst_question_hints_delete_success_msg'), true);
 
         $originalexists = $this->questionOBJ->_questionExistsInPool((int) $this->questionOBJ->getOriginalId());
-        include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
+
         global $DIC;
         $ilUser = $DIC['ilUser'];
         if ($this->request->raw("calling_test") && $originalexists && assQuestion::_isWriteable($this->questionOBJ->getOriginalId(), $ilUser->getId())) {
@@ -346,7 +334,7 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
         $this->main_tpl->setOnScreenMessage('success', $lng->txt('tst_question_hints_save_order_success_msg'), true);
 
         $originalexists = $this->questionOBJ->_questionExistsInPool((int) $this->questionOBJ->getOriginalId());
-        include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
+
         global $DIC;
         $ilUser = $DIC['ilUser'];
         if ($this->request->raw("calling_test") && $originalexists && assQuestion::_isWriteable($this->questionOBJ->getOriginalId(), $ilUser->getId())) {

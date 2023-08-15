@@ -23,11 +23,13 @@ namespace ILIAS\UI\Component\Link;
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\HasContentLanguage;
 use ILIAS\Data\LanguageTag;
+use ILIAS\UI\Component\HasHelpTopics;
+use ILIAS\UI\Component\JavaScriptBindable;
 
 /**
  * Link base interface.
  */
-interface Link extends Component, HasContentLanguage
+interface Link extends Component, HasContentLanguage, HasHelpTopics, JavaScriptBindable
 {
     /**
      * Get the action url of a link
@@ -41,7 +43,16 @@ interface Link extends Component, HasContentLanguage
 
     public function getOpenInNewViewport(): ?bool;
 
+    /**
+     * The hreflang attribute indicates the language of content targeted by links.
+     * It is helpful though not required to add this information to links for which the target will
+     * not be translated in this process. If the link text also is not translated (e.g., because it is a formal title
+     * that should be kept in the original language), you should also add the language attributes to the anchor element.
+     */
     public function withLanguageOfReferencedContent(LanguageTag $language): Link;
 
+    /**
+     * See comment in withLanguageOfReferencedContent
+     */
     public function getLanguageOfReferencedResource(): ?LanguageTag;
 }

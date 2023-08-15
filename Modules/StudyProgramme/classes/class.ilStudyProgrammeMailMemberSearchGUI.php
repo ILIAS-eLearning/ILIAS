@@ -28,6 +28,7 @@ class ilStudyProgrammeMailMemberSearchGUI
     protected ILIAS\Refinery\Factory $refinery;
 
     protected array $assignments = [];
+    protected array $user_ids = [];
     private ?string $back_target = null;
 
     public function __construct(
@@ -76,12 +77,17 @@ class ilStudyProgrammeMailMemberSearchGUI
         $this->ctrl->setReturn($this, '');
 
         switch ($cmd) {
-            case 'sendMailToSelectedUsers':
-                $this->sendMailToSelectedUsers();
-                break;
             case 'showSelectableUsers':
             case 'members':
                 $this->showSelectableUsers();
+                break;
+            case 'sendMailToSelectedUsers':
+                $this->user_ids = $this->retrieveUserIds();
+                $this->sendMailToSelectedUsers();
+                break;
+            case 'mailUserMulti':
+                $this->user_ids = array_keys($this->getProcessData());
+                $this->sendMailToSelectedUsers();
                 break;
             case 'cancel':
                 $this->redirectToParent();
@@ -109,10 +115,7 @@ class ilStudyProgrammeMailMemberSearchGUI
             $name = ilObjUser::_lookupName($user_id);
             $login = ilObjUser::_lookupLogin($user_id);
 
-            $publicName = '';
-            if (in_array(ilObjUser::_lookupPref($user_id, 'public_profile'), array('g', 'y'))) {
-                $publicName = $name['lastname'] . ', ' . $name['firstname'];
-            }
+            $publicName = $name['lastname'] . ', ' . $name['firstname'];
 
             $data[$user_id]['user_id'] = $user_id;
             $data[$user_id]['login'] = $login;
@@ -127,7 +130,7 @@ class ilStudyProgrammeMailMemberSearchGUI
         return ilStudyProgrammeDIC::dic()['ilObjStudyProgrammeMembersGUI'];
     }
 
-    protected function sendMailToSelectedUsers(): bool
+    protected function retrieveUserIds(): array
     {
         $user_ids = [];
         if ($this->http_wrapper->post()->has("user_ids")) {
@@ -136,7 +139,12 @@ class ilStudyProgrammeMailMemberSearchGUI
                 $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())
             );
         }
+        return $user_ids;
+    }
 
+    protected function sendMailToSelectedUsers(): bool
+    {
+        $user_ids = $this->user_ids;
         if (!count($user_ids)) {
             $this->tpl->setOnScreenMessage("failure", $this->lng->txt("no_checkbox"));
             $this->showSelectableUsers();

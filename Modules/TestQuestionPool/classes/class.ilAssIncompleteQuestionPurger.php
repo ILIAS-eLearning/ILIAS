@@ -83,8 +83,6 @@ class ilAssIncompleteQuestionPurger
 
     private function purgeQuestionIds($questionIds): void
     {
-        require_once 'Modules/TestQuestionPool/classes/class.assQuestion.php';
-
         foreach ($questionIds as $questionId) {
             $question = assQuestion::_instantiateQuestion($questionId);
             $question->delete($questionId);

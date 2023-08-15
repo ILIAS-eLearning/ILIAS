@@ -210,7 +210,7 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
         // include_once './Services/AccessControl/classes/class.ilObjRole.php';
         $role = new ilObjRole();
         $role->setTitle("il_lti_global_role");
-        $role->setDescription("This global role should only contain the permission 'read' for repository and categories.");
+        $role->setDescription("This global role should only contain the permission 'read' for repository and categories. Do not rename this role.");
         $role->create();
         $this->rbac_admin->assignRoleToFolder($role->getId(), 8, 'y');
         $this->rbac_admin->setProtected(8, $role->getId(), 'y');
@@ -428,7 +428,7 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
                 $this->lng->txt('lti_create_consumer'),
                 $this->ctrl->getLinkTarget($this, 'createconsumer')
             );
-            if (ilObject::_getIdsForTitle("il_lti_global_role", "role", false) == false) {
+            if (ilObject::_getIdsForTitle("il_lti_global_role", "role", false) == []) {
                 $this->toolbar->addButton(
                     $this->lng->txt('lti_create_lti_user_role'),
                     $this->ctrl->getLinkTarget($this, 'createLtiUserRole')

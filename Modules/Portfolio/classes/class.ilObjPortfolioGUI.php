@@ -22,7 +22,7 @@ use ILIAS\GlobalScreen\ScreenContext\ContextServices;
  * Portfolio view gui class
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @ilCtrl_Calls ilObjPortfolioGUI: ilPortfolioPageGUI, ilPageObjectGUI
- * @ilCtrl_Calls ilObjPortfolioGUI: ilWorkspaceAccessGUI, ilNoteGUI
+ * @ilCtrl_Calls ilObjPortfolioGUI: ilWorkspaceAccessGUI, ilNoteGUI, ilCommonActionDispatcherGUI
  * @ilCtrl_Calls ilObjPortfolioGUI: ilObjectContentStyleSettingsGUI, ilPortfolioExerciseGUI
  */
 class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
@@ -125,8 +125,14 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
                 $this->preview();
                 break;
 
+            case "ilcommonactiondispatchergui":
+                //$this->prepareOutput();
+                $gui = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
+                $this->ctrl->forwardCommand($gui);
+                break;
+
                 /*
-            case "ilobjstylesheetgui":
+        case "ilobjstylesheetgui":
                 $this->ctrl->setReturn($this, "editStyleProperties");
                 $style_gui = new ilObjStyleSheetGUI("", $this->object->getStyleSheetId(), false, false);
                 $style_gui->enableWrite(true);
@@ -1122,10 +1128,7 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
         array $a_skill_ids,
         ilPortfolioTemplatePage $a_source_page
     ): array {
-        $dom = $a_source_page->getDom();
-        if ($dom instanceof php4DOMDocument) {
-            $dom = $dom->myDOMDocument;
-        }
+        $dom = $a_source_page->getDomDoc();
         $xpath = new DOMXPath($dom);
         $nodes = $xpath->query("//PageContent/Skills");
         foreach ($nodes as $node) {

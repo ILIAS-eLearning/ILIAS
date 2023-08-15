@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use Jumbojett\OpenIDConnectClient;
 
 /**
@@ -30,6 +30,7 @@ class ilAuthProviderOpenIdConnect extends ilAuthProvider
     /** @var array $body */
     private $body;
     private ilLogger $logger;
+    private ilLanguage $lng;
 
     public function __construct(ilAuthCredentials $credentials)
     {
@@ -39,6 +40,8 @@ class ilAuthProviderOpenIdConnect extends ilAuthProvider
         $this->logger = $DIC->logger()->auth();
         $this->settings = ilOpenIdConnectSettings::getInstance();
         $this->body = $DIC->http()->request()->getParsedBody();
+        $this->lng = $DIC->language();
+        $this->lng->loadLanguageModule('auth');
     }
 
     public function handleLogout(): void
@@ -116,7 +119,7 @@ class ilAuthProviderOpenIdConnect extends ilAuthProvider
             $this->logger->warning($e->getMessage());
             $this->logger->warning((string) $e->getCode());
             $status->setStatus(ilAuthStatus::STATUS_AUTHENTICATION_FAILED);
-            $status->setTranslatedReason($e->getMessage());
+            $status->setTranslatedReason($this->lng->txt("auth_oidc_failed"));
             return false;
         }
     }
@@ -160,7 +163,7 @@ class ilAuthProviderOpenIdConnect extends ilAuthProvider
             $sync->updateUser();
 
             $user_id = $sync->getUserId();
-            ilSession::set('used_external_auth', true);
+            ilSession::set('used_external_auth_mode', ilAuthUtils::AUTH_OPENID_CONNECT);
             $status->setAuthenticatedUserId($user_id);
             $status->setStatus(ilAuthStatus::STATUS_AUTHENTICATED);
 

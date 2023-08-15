@@ -116,7 +116,7 @@ class ilStudyProgrammeValidityOfAchievedQualificationSettings
         $grp2 = $input->group(
             [
                 'vq_period' => $input->numeric(
-                    '',
+                    $lng->txt('vq_period_label'),
                     $lng->txt('validity_qualification_period_desc')
                 )
                 ->withAdditionalTransformation($refinery->int()->isGreaterThanOrEqual(1))
@@ -127,7 +127,7 @@ class ilStudyProgrammeValidityOfAchievedQualificationSettings
         $grp3 = $input->group(
             [
                 'vq_date' => $input->dateTime(
-                    '',
+                    $lng->txt('vq_date_label'),
                     $lng->txt('validity_qualification_date_desc')
                 )
                 ->withFormat($format)
@@ -139,9 +139,13 @@ class ilStudyProgrammeValidityOfAchievedQualificationSettings
         $grp4 = $input->group([], $lng->txt('prg_no_restart'));
         $grp5 = $input->group(
             [
-                'vq_restart_period' => $input->numeric($lng->txt('restart_period_label'), $lng->txt('restart_period_desc'))
-                    ->withAdditionalTransformation($refinery->int()->isGreaterThan(0))
-                    ->withValue($this->getRestartPeriod() !== null ? $this->getRestartPeriod() : null)
+                'vq_restart_period' => $input->numeric(
+                    $lng->txt('restart_period_label'),
+                    $lng->txt('restart_period_desc')
+                )
+                ->withAdditionalTransformation($refinery->int()->isGreaterThan(0))
+                ->withValue($this->getRestartPeriod() !== null ? $this->getRestartPeriod() : null)
+                ->withRequired(true)
             ],
             $lng->txt('restart_period')
         );
@@ -153,7 +157,7 @@ class ilStudyProgrammeValidityOfAchievedQualificationSettings
                 'opt_validity_qualification_date' => $grp3
             ],
             ''
-        );
+        )->withLabel($lng->txt('optgrp_label_validity'));
 
         $sg2 = $input->switchableGroup(
             [
@@ -161,7 +165,7 @@ class ilStudyProgrammeValidityOfAchievedQualificationSettings
                 'opt_restart_period' => $grp5,
             ],
             ''
-        );
+        )->withLabel($lng->txt('optgrp_label_restart'));
 
         $validity_qualification = "opt_no_validity_qualification";
         if (!is_null($this->getQualificationPeriod()) && $this->getQualificationPeriod() > 0) {

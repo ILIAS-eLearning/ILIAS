@@ -1,5 +1,5 @@
 @use "../../../010-settings/" as *;
-@use "../../../020-dependencies/modifications/bootstrap-3-scss/bootstrap-3-scss-modified-variables-mixins" as btstrp3;
+@use "../../../030-tools/_tool_browser-prefixes" as *;
 
 
 /* Modules/Chatroom */
@@ -28,7 +28,6 @@
 	-webkit-hyphens: auto;
 	hyphens: auto;
 	width: 100%;
-	background-color: $il-main-dark-bg;
 	position: relative;
 
 	.messageContainer {
@@ -55,13 +54,16 @@
 	}
 }
 
-#message-controls .msg-control {
+.chatroom-centered-checkboxes {
 	label {
-		position: relative;
-		top: 5px;
+		margin: 0 5px 0 0;
 	}
-	display: inline-block;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin-bottom: 5px;
 }
+
 @media only screen and (max-width: $il-grid-float-breakpoint-max) {
 	#message-controls .msg-control {
 		display: block;
@@ -142,7 +144,7 @@ td.chatroom {
 	.dropdown-menu {
 		position: static;
 		float: none;
-		@include btstrp3.box-shadow(none);
+		@include box-shadow(none);
 	}
 
 	.dropdown-backdrop {

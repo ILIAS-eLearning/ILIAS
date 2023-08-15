@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,19 +16,15 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\DI;
 use ILIAS\Setup;
 
-/**
- * Store information about https is enabled
- */
 class ilChatroomServerConfigStoredObjective implements Setup\Objective
 {
-    protected ilChatroomSetupConfig $config;
-
-    public function __construct(ilChatroomSetupConfig $config)
+    public function __construct(protected ilChatroomSetupConfig $config)
     {
-        $this->config = $config;
     }
 
     public function getHash(): string
@@ -114,11 +108,8 @@ class ilChatroomServerConfigStoredObjective implements Setup\Objective
         return $environment;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function isApplicable(Setup\Environment $environment): bool
     {
-        return $this->config->getAddress() !== '' && $this->config->getPort() !== 0;
+        return $this->config->getAddress() !== '' && $this->config->getPort() > 0;
     }
 }

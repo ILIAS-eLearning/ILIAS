@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -13,13 +14,9 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
+declare(strict_types=1);
 
-/**
- * Class ilDclSelectionFieldModel
- * @author  Theodor Truffer <tt@studer-raimann.ch>
- */
 abstract class ilDclSelectionFieldModel extends ilDclBaseFieldModel
 {
     public const SELECTION_TYPE_SINGLE = 'selection_type_single';
@@ -148,7 +145,7 @@ abstract class ilDclSelectionFieldModel extends ilDclBaseFieldModel
         $properties = $this->getValidFieldProperties();
         foreach ($properties as $prop) {
             if ($prop == static::PROP_SELECTION_OPTIONS) {
-                $options = ilDclSelectionOption::getAllForField($this->getId());
+                $options = ilDclSelectionOption::getAllForField((int)$this->getId());
                 $prop_values = [];
                 foreach ($options as $option) {
                     // the 'selection_value' is for a correct input
@@ -175,10 +172,10 @@ abstract class ilDclSelectionFieldModel extends ilDclBaseFieldModel
         switch ($key) {
             case static::PROP_SELECTION_OPTIONS:
 
-                ilDclSelectionOption::flushOptions($this->getId());
+                ilDclSelectionOption::flushOptions((int)$this->getId());
                 $sorting = 1;
                 foreach ($value as $id => $val) {
-                    ilDclSelectionOption::storeOption($this->getId(), $id, $sorting, $val);
+                    ilDclSelectionOption::storeOption((int)$this->getId(), $id, $sorting, $val);
                     $sorting++;
                 }
                 // if the field is not being created reorder the options in the existing record fields
@@ -206,10 +203,10 @@ abstract class ilDclSelectionFieldModel extends ilDclBaseFieldModel
      */
     public function reorderExistingValues(): void
     {
-        $options = ilDclSelectionOption::getAllForField($this->getId());
+        $options = ilDclSelectionOption::getAllForField((int)$this->getId());
         // loop each record(-field)
         foreach (ilDclCache::getTableCache($this->getTableId())->getRecords() as $record) {
-            $record_field = $record->getRecordField($this->getId());
+            $record_field = $record->getRecordField((int)$this->getId());
             $record_field_value = $record_field->getValue();
 
             if (is_array($record_field_value) && count($record_field_value) > 1) {
@@ -232,7 +229,7 @@ abstract class ilDclSelectionFieldModel extends ilDclBaseFieldModel
     protected function multiPropertyChanged(bool $is_multi_now): void
     {
         foreach (ilDclCache::getTableCache($this->getTableId())->getRecords() as $record) {
-            $record_field = $record->getRecordField($this->getId());
+            $record_field = $record->getRecordField((int)$this->getId());
             $record_field_value = $record_field->getValue();
 
             if ($record_field_value && !is_array($record_field_value) && $is_multi_now) {
@@ -251,11 +248,11 @@ abstract class ilDclSelectionFieldModel extends ilDclBaseFieldModel
      * @param $key
      * @return ilDclSelectionOption[]|ilDclFieldProperty|null
      */
-    public function getProperty(string $key)
+    public function getProperty(string $key): mixed
     {
         switch ($key) {
             case static::PROP_SELECTION_OPTIONS:
-                return ilDclSelectionOption::getAllForField($this->getId());
+                return ilDclSelectionOption::getAllForField((int)$this->getId());
             default:
                 return parent::getProperty($key);
         }
@@ -265,9 +262,6 @@ abstract class ilDclSelectionFieldModel extends ilDclBaseFieldModel
         string $direction = "asc",
         bool $sort_by_status = false
     ): ?ilDclRecordQueryObject {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-
         if ($this->isMulti()) {
             return null;
         }
@@ -277,14 +271,14 @@ abstract class ilDclSelectionFieldModel extends ilDclBaseFieldModel
         $select_str = "sel_opts_{$this->getId()}.value AS field_{$this->getId()}";
         $join_str
             = "LEFT JOIN il_dcl_record_field AS sort_record_field_{$this->getId()} ON (sort_record_field_{$this->getId()}.record_id = record.id AND sort_record_field_{$this->getId()}.field_id = "
-            . $ilDB->quote($this->getId(), 'integer') . ") ";
+            . $this->db->quote($this->getId(), 'integer') . ") ";
         $join_str .= "LEFT JOIN il_dcl_stloc{$this->getStorageLocation()}_value AS sort_stloc_{$this->getId()} ON (sort_stloc_{$this->getId()}.record_field_id = sort_record_field_{$this->getId()}.id) ";
         $join_str .= "LEFT JOIN il_dcl_sel_opts as sel_opts_{$this->getId()} ON (sel_opts_{$this->getId()}.opt_id = sort_stloc_{$this->getId()}.value AND sel_opts_{$this->getId()}.field_id = "
-            . $ilDB->quote($this->getId(), 'integer') . ") ";
+            . $this->db->quote($this->getId(), 'integer') . ") ";
 
         $sql_obj->setSelectStatement($select_str);
         $sql_obj->setJoinStatement($join_str);
-        $sql_obj->setOrderStatement("field_{$this->getId()} {$direction}");
+        $sql_obj->setOrderStatement("field_{$this->getId()} $direction");
 
         return $sql_obj;
     }
@@ -292,18 +286,18 @@ abstract class ilDclSelectionFieldModel extends ilDclBaseFieldModel
     public function cloneProperties(ilDclBaseFieldModel $originalField): void
     {
         parent::cloneProperties($originalField);
-        $options = ilDclSelectionOption::getAllForField($originalField->getId());
+        $options = ilDclSelectionOption::getAllForField((int)$originalField->getId());
         foreach ($options as $opt) {
             $new_opt = new ilDclSelectionOption();
             $new_opt->cloneOption($opt);
-            $new_opt->setFieldId($this->getId());
+            $new_opt->setFieldId((int)$this->getId());
             $new_opt->store();
         }
     }
 
     public function doDelete(): void
     {
-        foreach (ilDclSelectionOption::getAllForField($this->getId()) as $option) {
+        foreach (ilDclSelectionOption::getAllForField((int)$this->getId()) as $option) {
             $option->delete();
         }
         parent::doDelete();
@@ -318,13 +312,12 @@ abstract class ilDclSelectionFieldModel extends ilDclBaseFieldModel
 
     public function getConfirmationGUI(ilPropertyFormGUI $form): ilConfirmationGUI
     {
-        global $DIC;
         $representation = ilDclFieldFactory::getFieldRepresentationInstance($this);
         $prop_selection_options = $representation->getPropertyInputFieldId(static::PROP_SELECTION_OPTIONS);
         $prop_selection_type = $representation->getPropertyInputFieldId(static::PROP_SELECTION_TYPE);
 
         $ilConfirmationGUI = parent::getConfirmationGUI($form);
-        $ilConfirmationGUI->setHeaderText($DIC->language()->txt('dcl_msg_mc_to_sc_confirmation'));
+        $ilConfirmationGUI->setHeaderText($this->lng->txt('dcl_msg_mc_to_sc_confirmation'));
         $ilConfirmationGUI->addHiddenItem($prop_selection_type, $form->getInput($prop_selection_type));
         foreach ($form->getInput($prop_selection_options) as $key => $option) {
             $ilConfirmationGUI->addHiddenItem(

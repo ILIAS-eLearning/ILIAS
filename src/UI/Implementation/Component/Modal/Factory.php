@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,24 +16,28 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\UI\Implementation\Component\Modal;
 
 use ILIAS\UI\Component\Modal as M;
 use ILIAS\UI\Component\Image\Image;
 use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
+use ILIAS\UI\Component\Modal\InterruptiveItem\Factory as ItemFactory;
+use ILIAS\UI\Implementation\Component\Input\FormInputNameSource;
+use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
+use ILIAS\UI\Component\Card\Card;
 
 /**
  * Implementation of factory for modals
- *
- * @author Stefan Wanzenried <sw@studer-raimann.ch>
  */
 class Factory implements M\Factory
 {
-    protected SignalGeneratorInterface $signal_generator;
-
-    public function __construct(SignalGeneratorInterface $signal_generator)
-    {
-        $this->signal_generator = $signal_generator;
+    public function __construct(
+        protected SignalGeneratorInterface $signal_generator,
+        protected ItemFactory $item_factory,
+        protected FieldFactory $field_factory,
+    ) {
     }
 
     /**
@@ -49,21 +51,25 @@ class Factory implements M\Factory
     /**
      * @inheritdoc
      */
-    public function interruptiveItem(
-        string $id,
-        string $title,
-        Image $icon = null,
-        string $description = ''
-    ): M\InterruptiveItem {
-        return new InterruptiveItem($id, $title, $icon, $description);
+    public function interruptiveItem(): M\InterruptiveItem\Factory
+    {
+        return $this->item_factory;
     }
 
     /**
      * @inheritdoc
      */
-    public function roundtrip(string $title, $content): M\RoundTrip
+    public function roundtrip(string $title, $content, array $inputs = [], string $post_url = null): M\RoundTrip
     {
-        return new RoundTrip($title, $content, $this->signal_generator);
+        return new RoundTrip(
+            $this->signal_generator,
+            $this->field_factory,
+            new FormInputNameSource(),
+            $title,
+            $content,
+            $inputs,
+            $post_url
+        );
     }
 
     /**
@@ -88,5 +94,10 @@ class Factory implements M\Factory
     public function lightboxTextPage(string $text, string $title): M\LightboxTextPage
     {
         return new LightboxTextPage($text, $title);
+    }
+
+    public function lightboxCardPage(Card $card): M\LightboxCardPage
+    {
+        return new LightboxCardPage($card);
     }
 }

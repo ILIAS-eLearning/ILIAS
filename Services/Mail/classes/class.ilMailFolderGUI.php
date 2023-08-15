@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,10 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
+use ILIAS\UI\Factory;
+use ILIAS\UI\Renderer;
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory as Refinery;
 
@@ -32,18 +34,20 @@ class ilMailFolderGUI
     private bool $confirmTrashDeletion = false;
     private bool $errorDelete = false;
     /** @var ilGlobalTemplateInterface */
-    private ilGlobalTemplateInterface $tpl;
-    private ilCtrlInterface $ctrl;
-    private ilLanguage $lng;
-    private ilToolbarGUI $toolbar;
-    private ilTabsGUI $tabs;
-    private ilObjUser $user;
+    private readonly ilGlobalTemplateInterface $tpl;
+    private readonly ilCtrlInterface $ctrl;
+    private readonly ilLanguage $lng;
+    private readonly ilToolbarGUI $toolbar;
+    private readonly ilTabsGUI $tabs;
+    private readonly ilObjUser $user;
     public ilMail $umail;
     public ilMailbox $mbox;
-    private GlobalHttpState $http;
-    private Refinery $refinery;
+    private readonly GlobalHttpState $http;
+    private readonly Refinery $refinery;
     private int $currentFolderId = 0;
-    private ilErrorHandling $error;
+    private readonly ilErrorHandling $error;
+    protected readonly Factory $ui_factory;
+    protected readonly Renderer $ui_renderer;
 
     public function __construct()
     {
@@ -58,6 +62,8 @@ class ilMailFolderGUI
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
         $this->error = $DIC['ilErr'];
+        $this->ui_factory = $DIC->ui()->factory();
+        $this->ui_renderer = $DIC->ui()->renderer();
 
         $this->umail = new ilMail($this->user->getId());
         $this->mbox = new ilMailbox($this->user->getId());
@@ -72,7 +78,10 @@ class ilMailFolderGUI
         } elseif ($this->http->wrapper()->query()->has('mobj_id')) {
             $folderId = $this->http->wrapper()->query()->retrieve('mobj_id', $this->refinery->kindlyTo()->int());
         } else {
-            $folderId = $this->refinery->kindlyTo()->int()->transform(ilSession::get('mobj_id'));
+            $folderId = $this->refinery->byTrying([
+                $this->refinery->kindlyTo()->int(),
+                $this->refinery->always($this->currentFolderId),
+            ])->transform(ilSession::get('mobj_id'));
         }
 
         if (0 === $folderId || !$this->mbox->isOwnedFolder($folderId)) {
@@ -617,8 +626,6 @@ class ilMailFolderGUI
         $sender = ilObjectFactory::getInstanceByObjId($mailData['sender_id'], false);
         $replyBtn = null;
         if ($sender instanceof ilObjUser && $sender->getId() !== 0 && !$sender->isAnonymous()) {
-            $replyBtn = ilLinkButton::getInstance();
-            $replyBtn->setCaption('reply');
             $this->ctrl->setParameterByClass(
                 ilMailFormGUI::class,
                 'mobj_id',
@@ -626,39 +633,75 @@ class ilMailFolderGUI
             );
             $this->ctrl->setParameterByClass(ilMailFormGUI::class, 'mail_id', $mailId);
             $this->ctrl->setParameterByClass(ilMailFormGUI::class, 'type', ilMailFormGUI::MAIL_FORM_TYPE_REPLY);
-            $replyBtn->setUrl($this->ctrl->getLinkTargetByClass(ilMailFormGUI::class));
-            $this->ctrl->clearParametersByClass(ilMailFormGUI::class);
-            $replyBtn->setPrimary(true);
+            $replyBtn = $this->ui_factory->button()->primary(
+                $this->lng->txt('reply'),
+                $this->ctrl->getLinkTargetByClass(ilMailFormGUI::class)
+            );
             $this->toolbar->addStickyItem($replyBtn);
+            $this->ctrl->clearParametersByClass(ilMailFormGUI::class);
         }
 
-        $fwdBtn = ilLinkButton::getInstance();
-        $fwdBtn->setCaption('forward');
         $this->ctrl->setParameterByClass(ilMailFormGUI::class, 'mobj_id', $mailData['folder_id']);
         $this->ctrl->setParameterByClass(ilMailFormGUI::class, 'mail_id', $mailId);
         $this->ctrl->setParameterByClass(ilMailFormGUI::class, 'type', ilMailFormGUI::MAIL_FORM_TYPE_FORWARD);
-        $fwdBtn->setUrl($this->ctrl->getLinkTargetByClass(ilMailFormGUI::class));
-        $this->ctrl->clearParametersByClass(ilMailFormGUI::class);
         if ($replyBtn === null) {
-            $fwdBtn->setPrimary(true);
+            $fwdBtn = $this->ui_factory->button()->primary(
+                $this->lng->txt('forward'),
+                $this->ctrl->getLinkTargetByClass(ilMailFormGUI::class)
+            );
             $this->toolbar->addStickyItem($fwdBtn);
         } else {
-            $this->toolbar->addButtonInstance($fwdBtn);
+            $fwdBtn = $this->ui_factory->button()->standard(
+                $this->lng->txt('forward'),
+                $this->ctrl->getLinkTargetByClass(ilMailFormGUI::class)
+            );
+            $this->toolbar->addComponent($fwdBtn);
         }
+        $this->ctrl->clearParametersByClass(ilMailFormGUI::class);
 
-        $printBtn = ilLinkButton::getInstance();
-        $printBtn->setCaption('print');
+
         $this->ctrl->setParameter($this, 'mail_id', $mailId);
         $this->ctrl->setParameter($this, 'mobj_id', $mailData['folder_id']);
-        $printBtn->setUrl($this->ctrl->getLinkTarget($this, 'printMail'));
+        $print_url = $this->ctrl->getLinkTarget($this, 'printMail');
         $this->ctrl->clearParameters($this);
-        $printBtn->setTarget('_blank');
-        $this->toolbar->addButtonInstance($printBtn);
+        $print_btn = $this->ui_factory->button()
+                                      ->standard($this->lng->txt('print'), '#')
+                                      ->withOnLoadCode(static fn($id): string => "
+                document.getElementById('$id').addEventListener('click', function() {
+                    const frm = this.closest('form'),
+                        action = frm.action;
 
-        $deleteBtn = ilSubmitButton::getInstance();
-        $deleteBtn->setCaption('delete');
-        $deleteBtn->setCommand('deleteMails');
-        $this->toolbar->addButtonInstance($deleteBtn);
+                    frm.action = '$print_url';
+                    frm.target = '_blank';
+                    frm.submit();
+
+                    frm.action = action;
+                    frm.removeAttribute('target');
+
+                    return false;
+                });
+            ");
+        $this->toolbar->addComponent($print_btn);
+
+        $deleteBtn = $this->ui_factory->button()
+                                      ->standard($this->lng->txt('delete'), '#')
+                                      ->withOnLoadCode(static fn($id): string => "
+                document.getElementById('$id').addEventListener('click', function() {
+                    const frm = this.closest('form'),
+                        action = new URL(frm.action),
+                        action_params = new URLSearchParams(action.search);
+
+                    action_params.delete('cmd');
+                    action_params.append('cmd', 'deleteMails');
+
+                    action.search = action_params.toString();
+
+                    frm.action = action.href;
+                    frm.submit();
+                    return false;
+                });
+            ");
+        $this->toolbar->addComponent($deleteBtn);
 
         if ($sender && $sender->getId() && !$sender->isAnonymous()) {
             $linked_fullname = $sender->getPublicName();
@@ -713,7 +756,7 @@ class ilMailFolderGUI
         $form->addItem($to);
 
         if ($mailData['rcp_cc']) {
-            $cc = new ilCustomInputGUI($this->lng->txt('cc') . ':');
+            $cc = new ilCustomInputGUI($this->lng->txt('mail_cc') . ':');
             $cc->setHtml(ilUtil::htmlencodePlainString(
                 $this->umail->formatNamesForOutput($mailData['rcp_cc'] ?? ''),
                 false
@@ -722,7 +765,7 @@ class ilMailFolderGUI
         }
 
         if ($mailData['rcp_bcc']) {
-            $bcc = new ilCustomInputGUI($this->lng->txt('bc') . ':');
+            $bcc = new ilCustomInputGUI($this->lng->txt('mail_bcc') . ':');
             $bcc->setHtml(ilUtil::htmlencodePlainString(
                 $this->umail->formatNamesForOutput($mailData['rcp_bcc'] ?? ''),
                 false
@@ -801,10 +844,25 @@ class ilMailFolderGUI
             $actions->setOptions($selectOptions);
             $this->toolbar->addInputItem($actions);
 
-            $moveBtn = ilSubmitButton::getInstance();
-            $moveBtn->setCaption('execute');
-            $moveBtn->setCommand('moveSingleMail');
-            $this->toolbar->addButtonInstance($moveBtn);
+            $moveBtn = $this->ui_factory->button()
+                                        ->standard($this->lng->txt('execute'), '#')
+                                        ->withOnLoadCode(static fn($id): string => "
+                document.getElementById('$id').addEventListener('click', function() {
+                    const frm = this.closest('form'),
+                        action = new URL(frm.action),
+                        action_params = new URLSearchParams(action.search);
+
+                    action_params.delete('cmd');
+                    action_params.append('cmd', 'moveSingleMail');
+
+                    action.search = action_params.toString();
+
+                    frm.action = action.href;
+                    frm.submit();
+                    return false;
+                });
+            ");
+            $this->toolbar->addComponent($moveBtn);
         }
 
         $prevMail = $this->umail->getPreviousMail($mailId);
@@ -813,23 +871,27 @@ class ilMailFolderGUI
             $this->toolbar->addSeparator();
 
             if ($prevMail && $prevMail['mail_id']) {
-                $prevBtn = ilLinkButton::getInstance();
-                $prevBtn->setCaption('previous');
                 $this->ctrl->setParameter($this, 'mail_id', $prevMail['mail_id']);
                 $this->ctrl->setParameter($this, 'mobj_id', $this->currentFolderId);
-                $prevBtn->setUrl($this->ctrl->getLinkTarget($this, 'showMail'));
+                $prevBtn = $this->ui_factory->button()
+                                            ->standard(
+                                                $this->lng->txt('previous'),
+                                                $this->ctrl->getLinkTarget($this, 'showMail')
+                                            );
+                $this->toolbar->addComponent($prevBtn);
                 $this->ctrl->clearParameters($this);
-                $this->toolbar->addButtonInstance($prevBtn);
             }
 
             if ($nextMail && $nextMail['mail_id']) {
-                $nextBtn = ilLinkButton::getInstance();
-                $nextBtn->setCaption('next');
                 $this->ctrl->setParameter($this, 'mail_id', $nextMail['mail_id']);
                 $this->ctrl->setParameter($this, 'mobj_id', $this->currentFolderId);
-                $nextBtn->setUrl($this->ctrl->getLinkTarget($this, 'showMail'));
+                $nextBtn = $this->ui_factory->button()
+                                            ->standard(
+                                                $this->lng->txt('next'),
+                                                $this->ctrl->getLinkTarget($this, 'showMail')
+                                            );
+                $this->toolbar->addComponent($nextBtn);
                 $this->ctrl->clearParameters($this);
-                $this->toolbar->addButtonInstance($nextBtn);
             }
         }
 
@@ -866,14 +928,14 @@ class ilMailFolderGUI
 
         if ($mailData['rcp_cc']) {
             $tplprint->setCurrentBlock('cc');
-            $tplprint->setVariable('TXT_CC', $this->lng->txt('cc'));
+            $tplprint->setVariable('TXT_CC', $this->lng->txt('mail_cc'));
             $tplprint->setVariable('CC', $mailData['rcp_cc']);
             $tplprint->parseCurrentBlock();
         }
 
         if ($mailData['rcp_bcc']) {
             $tplprint->setCurrentBlock('bcc');
-            $tplprint->setVariable('TXT_BCC', $this->lng->txt('bc'));
+            $tplprint->setVariable('TXT_BCC', $this->lng->txt('mail_bcc'));
             $tplprint->setVariable('BCC', $mailData['rcp_bcc']);
             $tplprint->parseCurrentBlock();
         }
@@ -916,7 +978,7 @@ class ilMailFolderGUI
 
         try {
             if ($mailId > 0 && $filename !== '') {
-                while (str_contains($filename, '..')) {
+                while (str_contains((string) $filename, '..')) {
                     $filename = str_replace('..', '', $filename);
                 }
 

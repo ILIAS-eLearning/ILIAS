@@ -42,7 +42,7 @@ interface OrgUnitPositionRepository
 
     public function create(): ilOrgUnitPosition;
 
-    public function delete(int $id): void;
+    public function delete(int $position_id): void;
 
     public function getAuthority(?int $id): ilOrgUnitAuthority;
 }

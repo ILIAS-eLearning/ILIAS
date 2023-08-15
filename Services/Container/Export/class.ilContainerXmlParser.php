@@ -83,6 +83,7 @@ class ilContainerXmlParser
 
             // see below and ilContainerImporter::finalProcessing()
             $this->mapping->addMapping('Services/Container', 'objs', $obj_id, (string) ilObject::_lookupObjId((int) $new_ref));
+            $this->mapping->addMapping('Services/Object', 'obj', $obj_id, (string) ilObject::_lookupObjId((int) $new_ref));
         }
 
         if (!$new_ref) {
@@ -214,6 +215,7 @@ class ilContainerXmlParser
         $new->setPermissions($parent_node);
 
         $this->mapping->addMapping('Services/Container', 'objs', (string) $obj_id, (string) $new->getId());
+        $this->mapping->addMapping('Services/Object', 'obj', (string) $obj_id, (string) $new->getId());
         $this->mapping->addMapping('Services/Container', 'refs', (string) $ref_id, (string) $new->getRefId());
 
         return $new->getRefId();

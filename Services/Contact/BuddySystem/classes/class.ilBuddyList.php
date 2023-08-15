@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Class ilBuddyList
@@ -255,6 +255,14 @@ class ilBuddyList
         $this->getRepository()->save($relation);
         $this->getRelations()->set($this->getRelationTargetUserId($relation), $relation);
 
+        $this->eventHandler->raise(
+            'Services/Contact',
+            'relationLinked',
+            [
+                'relation' => $relation
+            ]
+        );
+
         return $this;
     }
 
@@ -274,6 +282,14 @@ class ilBuddyList
 
             throw $e;
         }
+
+        $this->eventHandler->raise(
+            'Services/Contact',
+            'relationUnlinked',
+            [
+                'relation' => $relation
+            ]
+        );
 
         return $this;
     }
@@ -314,7 +330,8 @@ class ilBuddyList
             'Services/Contact',
             'contactRequested',
             [
-                'usr_id' => $this->getRelationTargetUserId($relation)
+                'usr_id' => $this->getRelationTargetUserId($relation),
+                'relation' => $relation
             ]
         );
 
@@ -346,6 +363,14 @@ class ilBuddyList
 
             throw $e;
         }
+
+        $this->eventHandler->raise(
+            'Services/Contact',
+            'contactIgnored',
+            [
+                'relation' => $relation
+            ]
+        );
 
         return $this;
     }

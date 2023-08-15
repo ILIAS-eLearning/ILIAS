@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -13,13 +14,10 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
-/**
- * Class ilDclTableListTableGUI
- * @author  Theodor Truffer <tt@studer-raimann.ch>
- */
+declare(strict_types=1);
+
 class ilDclTableListTableGUI extends ilTable2GUI
 {
     /**
@@ -95,7 +93,7 @@ class ilDclTableListTableGUI extends ilTable2GUI
 
         $this->prepareOutput();
 
-        if (is_object($ilCtrl) && is_object($this->getParentObject()) && $this->getId() == "") {
+        if (is_object($this->getParentObject()) && $this->getId() == "") {
             $ilCtrl->saveParameter($this->getParentObject(), $this->getNavParameter());
         }
 
@@ -231,7 +229,7 @@ class ilDclTableListTableGUI extends ilTable2GUI
     protected function buildActions(int $id): string
     {
         $alist = new ilAdvancedSelectionListGUI();
-        $alist->setId($id);
+        $alist->setId((string) $id);
         $alist->setListTitle($this->lng->txt('actions'));
         $this->ctrl->setParameterByClass('ildclfieldlistgui', 'table_id', $id);
         $this->ctrl->setParameterByClass('ildcltableviewgui', 'table_id', $id);

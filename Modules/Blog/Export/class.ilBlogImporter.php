@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -61,9 +63,9 @@ class ilBlogImporter extends ilXmlImporter
     ): void {
         $blp_map = $a_mapping->getMappingsOfEntity("Services/COPage", "pg");
         foreach ($blp_map as $blp_id) {
-            $blp_id = substr($blp_id, 4);
+            $blp_id = (int) substr($blp_id, 4);
             $blog_id = ilBlogPosting::lookupBlogId($blp_id);
-            ilBlogPosting::_writeParentId("blp", $blp_id, $blog_id);
+            ilBlogPosting::_writeParentId("blp", $blp_id, (int) $blog_id);
         }
 
         $sty_map = $a_mapping->getMappingsOfEntity("Services/Style", "sty");

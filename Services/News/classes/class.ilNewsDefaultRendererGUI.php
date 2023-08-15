@@ -23,6 +23,7 @@
  */
 class ilNewsDefaultRendererGUI implements ilNewsRendererGUI
 {
+    protected \ILIAS\DI\UIServices $ui;
     protected \ILIAS\Refinery\Factory $refinery;
     protected string $lng_key;
     protected ilCtrl$ctrl;
@@ -37,6 +38,7 @@ class ilNewsDefaultRendererGUI implements ilNewsRendererGUI
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
         $this->refinery = $DIC->refinery();
+        $this->ui = $DIC->ui();
     }
 
     public function setNewsItem(
@@ -98,12 +100,18 @@ class ilNewsDefaultRendererGUI implements ilNewsRendererGUI
         return $this->refinery->string()->makeClickable()->transform($a_str);
     }
 
-    public function addTimelineActions(ilAdvancedSelectionListGUI $list): void
+    public function getTimelineActions(): array
     {
+        return [];
     }
 
     public function getObjectLink(): string
     {
         return ilLink::_getLink($this->getNewsRefId());
+    }
+
+    public function preventEditing(): bool
+    {
+        return false;
     }
 }

@@ -1,1 +1,0 @@
-{"version":3,"file":"tilejson-vectortile.js","mappings":"0HAGA,E,QAAA,IAAM,MAAO,iD","sources":["webpack://ol-mapbox-style/./examples/tilejson-vectortile.js"],"sourcesContent":["import 'ol/ol.css';\nimport {apply} from 'ol-mapbox-style';\n\napply('map', ' https://demo.tegola.io/styles/hot-osm.json');\n"],"names":[],"sourceRoot":""}

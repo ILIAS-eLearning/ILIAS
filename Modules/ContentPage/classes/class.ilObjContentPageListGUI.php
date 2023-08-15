@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\ContentPage\GlobalSettings\StorageImpl;
 use ILIAS\ContentPage\PageMetrics\PageMetricsService;
 use ILIAS\ContentPage\PageMetrics\PageMetricsRepositoryImp;
@@ -26,7 +26,7 @@ use ILIAS\ContentPage\PageMetrics\Command\GetPageMetricsCommand;
 
 class ilObjContentPageListGUI extends ilObjectListGUI implements ilContentPageObjectConstants
 {
-    private PageMetricsService $pageMetricsService;
+    private readonly PageMetricsService $pageMetricsService;
 
     public function __construct(int $a_context = self::CONTEXT_REPOSITORY)
     {
@@ -115,7 +115,7 @@ class ilObjContentPageListGUI extends ilObjectListGUI implements ilContentPageOb
                 'property' => $this->lng->txt('copa_prop_reading_time'),
                 'value' => $readingTimePropertyValue,
             ];
-        } catch (CouldNotFindPageMetrics $e) {
+        } catch (CouldNotFindPageMetrics) {
         }
 
         return $properties;

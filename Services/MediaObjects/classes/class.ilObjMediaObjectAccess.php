@@ -143,7 +143,7 @@ class ilObjMediaObjectAccess implements ilWACCheckingClass
                 }
                 break;
 
-            case 'gdf:pg':
+            case 'term:pg':
                 // special check for glossary terms
                 if ($this->checkAccessGlossaryTerm($oid, $usage['id'])) {
                     return true;
@@ -268,7 +268,7 @@ class ilObjMediaObjectAccess implements ilWACCheckingClass
             return true;
         }
 
-        $term_id = ilGlossaryDefinition::_lookupTermId($page_id);
+        $term_id = $page_id;
 
         $sources = ilInternalLink::_getSourcesOfTarget('git', $term_id, 0);
 

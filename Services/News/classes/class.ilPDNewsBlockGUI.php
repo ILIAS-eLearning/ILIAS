@@ -51,13 +51,13 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
 
         $this->dynamic = false;
 
-        $this->std_request = new StandardGUIRequest(
-            $DIC->http(),
-            $DIC->refinery()
-        );
+        $this->std_request = $DIC->news()
+            ->internal()
+            ->gui()
+            ->standardRequest();
 
         $this->acache = new ilNewsCache();
-        $cres = unserialize($this->acache->getEntry($this->user->getId() . ":0"), ["allowed_classes" => false]);
+        $cres = unserialize((string) $this->acache->getEntry($this->user->getId() . ":0"), ["allowed_classes" => false]);
         $this->cache_hit = false;
         if (is_array($cres) && $this->acache->getLastAccessStatus() === "hit") {
             self::$st_data = ilNewsItem::prepareNewsDataFromCache($cres);

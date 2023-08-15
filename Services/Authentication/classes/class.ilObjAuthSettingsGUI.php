@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * @author Sascha Hofmann <saschahofmann@gmx.de>
@@ -100,8 +100,13 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
             ilAuthUtils::AUTH_OPENID_CONNECT
         ];
         // icon handlers
-        $icon_ok = "<img src=\"" . ilUtil::getImagePath("icon_ok.svg") . "\" alt=\"" . $this->lng->txt("enabled") . "\" title=\"" . $this->lng->txt("enabled") . "\" border=\"0\" vspace=\"0\"/>";
-        $icon_not_ok = "<img src=\"" . ilUtil::getImagePath("icon_not_ok.svg") . "\" alt=\"" . $this->lng->txt("disabled") . "\" title=\"" . $this->lng->txt("disabled") . "\" border=\"0\" vspace=\"0\"/>";
+
+        $icon_ok = $this->renderer->render(
+            $this->ui->symbol()->icon()->custom(ilUtil::getImagePath("icon_ok.svg"), $this->lng->txt("enabled"))
+        );
+        $icon_not_ok = $this->renderer->render(
+            $this->ui->symbol()->icon()->custom(ilUtil::getImagePath("icon_not_ok.svg"), $this->lng->txt("disabled"))
+        );
 
         $this->logger->debug(print_r($auth_modes, true));
         foreach ($auth_modes as $mode => $mode_name) {
@@ -119,6 +124,9 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
                 $idp = ilSamlIdp::getInstanceByIdpId(ilSamlIdp::getIdpIdByAuthMode($mode));
                 $generalSettingsTpl->setVariable('AUTH_NAME', $idp->getEntityId());
                 $generalSettingsTpl->setVariable('AUTH_ACTIVE', $idp->isActive() ? $icon_ok : $icon_not_ok);
+            } elseif ($mode === ilAuthUtils::AUTH_OPENID_CONNECT) {
+                $generalSettingsTpl->setVariable("AUTH_NAME", $this->lng->txt("auth_" . $mode_name));
+                $generalSettingsTpl->setVariable('AUTH_ACTIVE', ilOpenIdConnectSettings::getInstance()->getActive() ? $icon_ok : $icon_not_ok);
             } else {
                 $generalSettingsTpl->setVariable("AUTH_NAME", $this->lng->txt("auth_" . $mode_name));
                 $generalSettingsTpl->setVariable('AUTH_ACTIVE', $this->ilias->getSetting($mode_name . '_active') || (int) $mode === ilAuthUtils::AUTH_LOCAL ? $icon_ok : $icon_not_ok);
@@ -433,7 +441,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
               "soap_pw" => $soap_pw,
               "new_user" => $new_user
             ]
-        )->withSubmitCaption("Send");
+        )->withSubmitLabel("Send");
         return $form;
     }
 
@@ -666,7 +674,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 
         $det = ilAuthModeDetermination::_getInstance();
         if ($det->getCountActiveAuthModes() <= 1) {
-            return true;
+            return false;
         }
 
         $header = new ilFormSectionHeaderGUI();

@@ -1,20 +1,21 @@
 <?php
 
-declare(strict_types=1);
-
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *
- *****************************************************************************/
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
+
+declare(strict_types=1);
 
 /**
  * Presentation of ecs content details (http://...campusconnect/courselinks/id/details)
@@ -45,7 +46,10 @@ class ilECSEContentDetails
     public static function getInstanceFromServer(int $a_server_id, int $a_econtent_id, string $a_resource_type): ilECSEContentDetails
     {
         $instance = new self();
-        $instance->loadFromJson($instance->loadFromServer($a_server_id, $a_econtent_id, $a_resource_type));
+        $detailsOnServer = $instance->loadFromServer($a_server_id, $a_econtent_id, $a_resource_type);
+        if ($detailsOnServer) {
+            $instance->loadFromJson($detailsOnServer);
+        }
         return $instance;
     }
 

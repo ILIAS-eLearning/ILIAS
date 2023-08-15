@@ -41,14 +41,11 @@ class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
     protected ?ilTestSession $testSession = null;
 
     /**
-     * @var ilTestSequence|ilTestSequenceDynamicQuestionSet
+     * @var ilTestSequence
      */
     protected $testSequence;
 
-    /**
-     * @var string
-     */
-    private $sessionLockString;
+    private string $sessionLockString = '';
     private array $infoMessages = array();
     private array $failureMessages = array();
 
@@ -120,7 +117,7 @@ class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
     }
 
     /**
-     * @return ilTestSequence|ilTestSequenceDynamicQuestionSet
+     * @return ilTestSequence
      */
     public function getTestSequence()
     {
@@ -128,7 +125,7 @@ class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
     }
 
     /**
-     * @param ilTestSequence|ilTestSequenceDynamicQuestionSet $testSequence
+     * @param ilTestSequence $testSequence
      */
     public function setTestSequence($testSequence): void
     {
@@ -265,7 +262,7 @@ class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
 
     private function ensureInitialisedSessionLockString(): void
     {
-        if (!strlen($this->getSessionLockString())) {
+        if ($this->getSessionLockString() === '') {
             $this->setSessionLockString($this->buildSessionLockString());
         }
     }
@@ -282,9 +279,6 @@ class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
         }
 
         $questionContainerId = $this->getTestOBJ()->getId();
-
-        require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionSkillAssignmentList.php';
-        require_once 'Modules/Test/classes/class.ilTestSkillLevelThreshold.php';
 
         $assignmentList = new ilAssQuestionSkillAssignmentList($this->db);
         $assignmentList->setParentObjId($questionContainerId);
@@ -332,7 +326,6 @@ class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
             return false;
         }
 
-        require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionSkillAssignmentList.php';
         $assignmentList = new ilAssQuestionSkillAssignmentList($this->db);
         $assignmentList->setParentObjId($this->testOBJ->getId());
         $assignmentList->loadFromDb();
@@ -342,8 +335,6 @@ class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
 
     private function getSkillAssignBarrierInfo(): string
     {
-        require_once 'Modules/Test/classes/class.ilObjAssessmentFolder.php';
-
         return sprintf(
             $this->lng->txt('tst_skill_triggerings_num_req_answers_not_reached_warn'),
             ilObjAssessmentFolder::getSkillTriggerAnswerNumberBarrier()
@@ -352,19 +343,16 @@ class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
 
     public function build(): void
     {
-        if (!$this->testOBJ->isDynamicTest()) {
-            $this->ensureInitialisedSessionLockString();
+        $this->ensureInitialisedSessionLockString();
 
-            $this->setParameter($this->getTestPlayerGUI(), 'lock', $this->getSessionLockString());
-            $this->setParameter($this->getTestPlayerGUI(), 'sequence', $this->getTestSession()->getLastSequence());
-            $this->setParameter('ilObjTestGUI', 'ref_id', $this->getTestOBJ()->getRefId());
+        $this->setParameter($this->getTestPlayerGUI(), 'lock', $this->getSessionLockString());
+        $this->setParameter($this->getTestPlayerGUI(), 'sequence', $this->getTestSession()->getLastSequence());
+        $this->setParameter('ilObjTestGUI', 'ref_id', $this->getTestOBJ()->getRefId());
 
-            $this->setFormAction($this->buildFormAction($this->getTestPlayerGUI()));
-        }
+        $this->setFormAction($this->buildFormAction($this->getTestPlayerGUI()));
 
         $online_access = false;
         if ($this->getTestOBJ()->getFixedParticipants()) {
-            include_once "./Modules/Test/classes/class.ilObjTestAccess.php";
             $online_access_result = ilObjTestAccess::_lookupOnlineTestAccess($this->getTestOBJ()->getId(), $this->getTestSession()->getUserId());
             if ($online_access_result === true) {
                 $online_access = true;
@@ -388,7 +376,6 @@ class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
 
                     if ($this->getTestSession()->getActiveId() > 0) {
                         // resume test
-                        require_once 'Modules/Test/classes/class.ilTestPassesSelector.php';
                         $testPassesSelector = new ilTestPassesSelector($this->db, $this->getTestOBJ());
                         $testPassesSelector->setActiveId($this->getTestSession()->getActiveId());
                         $testPassesSelector->setLastFinishedPass($this->getTestSession()->getLastFinishedPass());
@@ -427,7 +414,6 @@ class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
                     $this->addSeparator();
                 }
 
-                require_once 'Services/Form/classes/class.ilTextInputGUI.php';
                 $anonymous_id = new ilTextInputGUI($this->lng->txt('enter_anonymous_code'), 'anonymous_id');
                 $anonymous_id->setSize(8);
                 $this->addInputItem($anonymous_id, true);
@@ -445,7 +431,7 @@ class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
             if ($this->access->checkAccess("write", "", $this->getTestOBJ()->getRefId())) {
                 $links[] = $this->DIC->ui()->factory()->link()->standard(
                     $this->DIC->language()->txt('test_edit_settings'),
-                    $this->buildLinkTarget('ilobjtestsettingsgeneralgui')
+                    $this->buildLinkTarget('ilobjtestsettingsmaingui')
                 );
             }
 
@@ -455,13 +441,11 @@ class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
         }
 
         if ($this->access->checkAccess("write", "", $this->getTestOBJ()->getRefId())) {
-            require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssQuestionSkillAssignmentImportFails.php';
             $qsaImportFails = new ilAssQuestionSkillAssignmentImportFails($this->testOBJ->getId());
-            require_once 'Modules/Test/classes/class.ilTestSkillLevelThresholdImportFails.php';
             $sltImportFails = new ilTestSkillLevelThresholdImportFails($this->testOBJ->getId());
 
             if ($qsaImportFails->failedImportsRegistered() || $sltImportFails->failedImportsRegistered()) {
-                $importFailsMsg = array();
+                $importFailsMsg = [];
 
                 if ($qsaImportFails->failedImportsRegistered()) {
                     $importFailsMsg[] = $qsaImportFails->getFailedImportsMessage($this->lng);

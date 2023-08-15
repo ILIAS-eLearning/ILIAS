@@ -103,13 +103,6 @@ class ilTestQuestionsTableGUITest extends ilTestBaseTestCase
         $this->assertEquals(125.251, $this->tableGui->getTotalPoints());
     }
 
-    public function testTotalWorkingTime(): void
-    {
-        $this->assertIsString($this->tableGui->getTotalWorkingTime());
-        $this->tableGui->setTotalWorkingTime("202000");
-        $this->assertEquals("202000", $this->tableGui->getTotalWorkingTime());
-    }
-
     public function testQuestionRemoveRowButtonEnabled(): void
     {
         $this->assertIsBool($this->tableGui->isQuestionRemoveRowButtonEnabled());

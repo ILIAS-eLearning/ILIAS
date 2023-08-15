@@ -1,6 +1,22 @@
 <?php
 
 /**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+/**
  * Trait ilObjFileMetadata
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
@@ -146,5 +162,27 @@ trait ilObjFileMetadata
             $format->save();
         }
         $technical->update();
+    }
+
+    /**
+     * update copyright meta data
+     */
+    protected function updateCopyright(): void
+    {
+        $copyright_id = $this->getCopyrightID();
+        if (!ilMDSettings::_getInstance()->isCopyrightSelectionActive() || $copyright_id === null) {
+            return;
+        }
+
+        $md_obj = new ilMD($this->getId(), 0, $this->getType());
+        $rights = $md_obj->getRights();
+        if ($rights === null) {
+            $rights = $md_obj->addRights();
+            $rights->save();
+        }
+
+        $rights->setCopyrightAndOtherRestrictions("Yes");
+        $rights->setDescription('il_copyright_entry__' . IL_INST_ID . '__' . $copyright_id);
+        $rights->update();
     }
 }

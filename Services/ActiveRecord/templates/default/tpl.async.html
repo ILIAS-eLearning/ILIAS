@@ -1,42 +1,42 @@
 <script type="text/javascript">
-  (function ($) {
-    $.fn.
-    {
-      FUNCTION_NAME
-    }
-    = function (link) {
-      var replacer = new RegExp('amp;', 'g');
-      link = link.replace(replacer, '');
+    (function ($) {
+        $.fn.
+        {
+            FUNCTION_NAME
+        }
+        = function (link) {
+            var replacer = new RegExp('amp;', 'g');
+            link = link.replace(replacer, '');
 
-      //			$.get(link, function (data) {
-      //				$('#result').html($('<div>lorem</div>').html(data).find('div.ilTabContentInner').clone());
-      //				$('#fsxOverlay').fadeIn(300);
-      //			});
+            //			$.get(link, function (data) {
+            //				$('#result').html($('<div>lorem</div>').html(data).find('div.ilTabContentInner').clone());
+            //				$('#fsxOverlay').fadeIn(300);
+            //			});
 
-      $("#result").load(link + ' div.ilTabContentInner', function () {
-        $('#fsxOverlay').fadeIn(300);
-      });
-    }
-  })(jQuery);
+            $("#result").load(link + ' div.ilTabContentInner', function () {
+                $('#fsxOverlay').fadeIn(300);
+            });
+        }
+    })(jQuery);
 
-  $(document).keyup(function (e) {
-    if (e.keyCode == 27) {
-      $('#fsxOverlay').fadeOut(300);
-    }
-  });
+    $(document).keyup(function (e) {
+        if (e.keyCode == 27) {
+            $('#fsxOverlay').fadeOut(300);
+        }
+    });
 </script><!-- BEGIN addnew -->
 <script type="text/javascript">
-  $(window).keydown(function (e) {
-    if (e.metaKey && e.keyCode == 78) {
-      $.fn.
-      {
-        FUNCTION_NAME
-      }
-      ('{ADD_NEW}');
-      event.preventDefault();
-      return false;
-    }
-  });
+    $(window).keydown(function (e) {
+        if (e.metaKey && e.keyCode == 78) {
+            $.fn.
+            {
+                FUNCTION_NAME
+            }
+            ('{ADD_NEW}');
+            event.preventDefault();
+            return false;
+        }
+    });
 </script><!-- END addnew -->
 <style>
     #fsxOverlay {

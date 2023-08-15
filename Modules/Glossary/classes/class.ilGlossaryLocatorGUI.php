@@ -25,7 +25,6 @@ use ILIAS\Glossary\Presentation\PresentationGUIRequest;
 class ilGlossaryLocatorGUI
 {
     protected PresentationGUIRequest $presentation_request;
-    protected ?ilGlossaryDefinition $definition = null;
     protected ?ilGlossaryTerm $term = null;
     protected ilCtrl $ctrl;
     protected ilLocatorGUI $locator;
@@ -74,11 +73,6 @@ class ilGlossaryLocatorGUI
         $this->glossary = $a_glossary;
     }
 
-    public function setDefinition(ilGlossaryDefinition $a_def): void
-    {
-        $this->definition = $a_def;
-    }
-
     public function setMode(string $a_mode): void
     {
         $this->mode = $a_mode;
@@ -120,20 +114,9 @@ class ilGlossaryLocatorGUI
                 "term_id",
                 $this->presentation_request->getTermId()
             );
-        }
-
-        if (is_object($this->definition)) {
-            $title = $this->term->getTerm() . " (" . $this->lng->txt("cont_definition") . " " . $this->definition->getNr() . ")";
-            if ($this->mode == "edit") {
-                $link = $ilCtrl->getLinkTargetByClass("ilglossarydefpagegui", "edit");
-            } else {
-                $ilCtrl->setParameterByClass(
-                    "ilglossarypresentationgui",
-                    "def",
-                    $this->presentation_request->getDefinitionId()
-                );
-                $link = $ilCtrl->getLinkTargetByClass("ilglossarypresentationgui", "view");
-            }
+        } elseif (is_object($this->term)) {
+            $title = $this->term->getTerm() . " (" . $this->lng->txt("cont_definition") . ")";
+            $link = $ilCtrl->getLinkTargetByClass("ilglossarydefpagegui", "edit");
             $ilLocator->addItem($title, $link);
         }
 

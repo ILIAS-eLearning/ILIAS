@@ -16,8 +16,7 @@
  *
  *********************************************************************/
 
-include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
-include_once "./Modules/Test/classes/class.ilTestServiceGUI.php";
+require_once "./Modules/Test/classes/inc.AssessmentConstants.php";
 
 /**
 * Scoring class for tests
@@ -133,7 +132,6 @@ class ilTestScoringGUI extends ilTestServiceGUI
             ilObjTestGUI::accessViolationRedirect();
         }
 
-        require_once 'Modules/Test/classes/class.ilObjAssessmentFolder.php';
         if (!ilObjAssessmentFolder::_mananuallyScoreableQuestionTypesExists()) {
             // allow only if at least one question type is marked for manual scoring
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("manscoring_not_allowed"), true);
@@ -215,8 +213,6 @@ class ilTestScoringGUI extends ilTestServiceGUI
 
         $contentHTML = '';
 
-        // pass overview table
-        require_once 'Modules/Test/classes/tables/class.ilTestPassManualScoringOverviewTableGUI.php';
         $table = new ilTestPassManualScoringOverviewTableGUI($this, 'showManScoringParticipantScreen');
 
         $userId = $this->object->_getUserIdFromActiveId($activeId);
@@ -272,8 +268,6 @@ class ilTestScoringGUI extends ilTestServiceGUI
             return false;
         }
 
-        include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
-
         $maxPointsByQuestionId = array();
         $maxPointsExceeded = false;
         foreach ($questionGuiList as $questionId => $questionGui) {
@@ -298,20 +292,25 @@ class ilTestScoringGUI extends ilTestServiceGUI
             return false;
         }
 
-        include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
-
         foreach ($questionGuiList as $questionId => $questionGui) {
             $reachedPoints = $form->getItemByPostVar("question__{$questionId}__points")->getValue();
 
-            assQuestion::_setReachedPoints(
-                $activeId,
-                $questionId,
-                $reachedPoints,
-                $maxPointsByQuestionId[$questionId],
-                $pass,
-                true,
-                $this->object->areObligationsEnabled()
-            );
+            $finalized = (bool) $form->getItemByPostVar("{$questionId}__evaluated")->getchecked();
+
+            // fix #35543: save manual points only if they differ from the existing points
+            // this prevents a question being set to "answered" if only feedback is entered
+            $oldPoints = assQuestion::_getReachedPoints($activeId, $questionId, $pass);
+            if ($reachedPoints != $oldPoints) {
+                assQuestion::_setReachedPoints(
+                    $activeId,
+                    $questionId,
+                    $reachedPoints,
+                    $maxPointsByQuestionId[$questionId],
+                    $pass,
+                    true,
+                    $this->object->areObligationsEnabled()
+                );
+            }
 
             $feedback = ilUtil::stripSlashes(
                 (string) $form->getItemByPostVar("question__{$questionId}__feedback")->getValue(),
@@ -319,15 +318,13 @@ class ilTestScoringGUI extends ilTestServiceGUI
                 ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment")
             );
 
-            $this->object->saveManualFeedback($activeId, (int) $questionId, (int) $pass, $feedback);
+            $this->object->saveManualFeedback($activeId, (int) $questionId, (int) $pass, $feedback, $finalized, true);
 
             $notificationData[$questionId] = array(
                 'points' => $reachedPoints, 'feedback' => $feedback
             );
         }
 
-        include_once "./Modules/Test/classes/class.ilObjTestAccess.php";
-        include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
         ilLPStatusWrapper::_updateStatus(
             $this->object->getId(),
             ilObjTestAccess::_getParticipantId($activeId)
@@ -338,8 +335,6 @@ class ilTestScoringGUI extends ilTestServiceGUI
 
         $manScoringNotify = $form->getItemByPostVar("manscoring_notify")->getChecked();
         if ($manScoringNotify) {
-            require_once 'Modules/Test/classes/notifications/class.ilTestManScoringParticipantNotification.php';
-
             $notification = new ilTestManScoringParticipantNotification(
                 $this->object->_getUserIdFromActiveId($activeId),
                 $this->object->getRefId()
@@ -355,7 +350,6 @@ class ilTestScoringGUI extends ilTestServiceGUI
             $notification->send();
         }
 
-        require_once './Modules/Test/classes/class.ilTestScoring.php';
         $scorer = new ilTestScoring($this->object);
         $scorer->setPreserveManualScores(true);
         $scorer->recalculateSolutions();
@@ -416,13 +410,6 @@ class ilTestScoringGUI extends ilTestServiceGUI
         $ilCtrl = $DIC['ilCtrl'];
         $lng = $DIC['lng'];
 
-        require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
-        require_once 'Services/Form/classes/class.ilFormSectionHeaderGUI.php';
-        require_once 'Services/Form/classes/class.ilCustomInputGUI.php';
-        require_once 'Services/Form/classes/class.ilCheckboxInputGUI.php';
-        require_once 'Services/Form/classes/class.ilTextInputGUI.php';
-        require_once 'Services/Form/classes/class.ilTextAreaInputGUI.php';
-
         $ilCtrl->setParameter($this, 'active_id', $activeId);
         $ilCtrl->setParameter($this, 'pass', $pass);
 
@@ -437,6 +424,13 @@ class ilTestScoringGUI extends ilTestServiceGUI
             $questionSolution = $questionGUI->getSolutionOutput($activeId, $pass, false, false, true, false, false, true);
             $bestSolution = $questionGUI->object->getSuggestedSolutionOutput();
 
+            $feedback = $this->object->getSingleManualFeedback($activeId, $questionId, $pass);
+
+            $disabled = false;
+            if (isset($feedback['finalized_evaluation']) && $feedback['finalized_evaluation'] == 1) {
+                $disabled = true;
+            }
+
             $sect = new ilFormSectionHeaderGUI();
             $sect->setTitle($questionHeader . ' [' . $this->lng->txt('question_id_short') . ': ' . $questionGUI->object->getId() . ']');
             $form->addItem($sect);
@@ -447,7 +441,10 @@ class ilTestScoringGUI extends ilTestServiceGUI
 
             $text = new ilTextInputGUI($lng->txt('tst_change_points_for_question'), "question__{$questionId}__points");
             if ($initValues) {
-                $text->setValue(assQuestion::_getReachedPoints($activeId, $questionId, $pass));
+                $text->setValue((string) assQuestion::_getReachedPoints($activeId, $questionId, $pass));
+            }
+            if ($disabled) {
+                $text->setDisabled($disabled);
             }
             $form->addItem($text);
 
@@ -462,7 +459,17 @@ class ilTestScoringGUI extends ilTestServiceGUI
             if ($initValues) {
                 $area->setValue(ilObjTest::getSingleManualFeedback((int) $activeId, (int) $questionId, (int) $pass)['feedback'] ?? '');
             }
+            if ($disabled) {
+                $area->setDisabled($disabled);
+            }
             $form->addItem($area);
+
+            $check = new ilCheckboxInputGUI($lng->txt('finalized_evaluation'), "{$questionId}__evaluated");
+            if ($disabled) {
+                $check->setChecked(true);
+            }
+            $form->addItem($check);
+
             if (strlen(trim($bestSolution))) {
                 $cust = new ilCustomInputGUI($lng->txt('tst_show_solution_suggested'));
                 $cust->setHtml($bestSolution);
@@ -499,24 +506,22 @@ class ilTestScoringGUI extends ilTestServiceGUI
      */
     private function buildManScoringParticipantsTable($withData = false): ilTestManScoringParticipantsTableGUI
     {
-        require_once 'Modules/Test/classes/tables/class.ilTestManScoringParticipantsTableGUI.php';
         $table = new ilTestManScoringParticipantsTableGUI($this);
 
         if ($withData) {
             $participantStatusFilterValue = $table->getFilterItemByPostVar('participant_status')->getValue();
 
-            require_once 'Modules/Test/classes/class.ilTestParticipantList.php';
-            $participantList = new ilTestParticipantList($this->object);
+            $participant_list = new ilTestParticipantList($this->object);
 
-            $participantList->initializeFromDbRows(
+            $participant_list->initializeFromDbRows(
                 $this->object->getTestParticipantsForManualScoring($participantStatusFilterValue)
             );
 
-            $participantList = $participantList->getAccessFilteredList(
+            $filtered_participant_list = $participant_list->getAccessFilteredList(
                 ilTestParticipantAccessFilter::getScoreParticipantsUserFilter($this->ref_id)
             );
 
-            $table->setData($participantList->getParticipantsTableRows());
+            $table->setData($filtered_participant_list->getParticipantsTableRows());
         }
 
         return $table;

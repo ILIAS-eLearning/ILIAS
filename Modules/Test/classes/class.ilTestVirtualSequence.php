@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * @author		Björn Heyser <bheyser@databay.de>
@@ -80,7 +80,6 @@ class ilTestVirtualSequence implements ilTestQuestionSequence
 
     private function getExistingPassesDescendent($activeId): array
     {
-        require_once 'Modules/Test/classes/class.ilTestPassesSelector.php';
         $passesSelector = new ilTestPassesSelector($this->db, $this->testOBJ);
         $passesSelector->setActiveId($activeId);
 
@@ -92,7 +91,7 @@ class ilTestVirtualSequence implements ilTestQuestionSequence
     }
 
     /**
-     * @return ilTestSequenceDynamicQuestionSet|ilTestSequenceFixedQuestionSet|ilTestSequenceRandomQuestionSet
+     * @return ilTestSequenceFixedQuestionSet|ilTestSequenceRandomQuestionSet
      */
     protected function getTestSequence(int $activeId, int $pass)
     {

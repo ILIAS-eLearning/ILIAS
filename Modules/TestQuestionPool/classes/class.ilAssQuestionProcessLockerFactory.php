@@ -128,8 +128,6 @@ class ilAssQuestionProcessLockerFactory
                 break;
 
             case ilObjAssessmentFolder::ASS_PROC_LOCK_MODE_FILE:
-
-                require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionProcessLockFileStorage.php';
                 $storage = new ilAssQuestionProcessLockFileStorage($this->getQuestionId(), $this->getUserId());
                 $storage->create();
 

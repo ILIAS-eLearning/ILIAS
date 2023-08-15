@@ -35,7 +35,6 @@ class ilTestRandomQuestionSetBuilderWithAmountPerPool extends ilTestRandomQuesti
 
         $isBuildable = true;
 
-        require_once 'Modules/Test/classes/class.ilTestRandomQuestionsQuantitiesDistribution.php';
         $quantitiesDistribution = new ilTestRandomQuestionsQuantitiesDistribution($this);
         $quantitiesDistribution->setSourcePoolDefinitionList($this->sourcePoolDefinitionList);
         $quantitiesDistribution->initialise();
@@ -102,7 +101,6 @@ class ilTestRandomQuestionSetBuilderWithAmountPerPool extends ilTestRandomQuesti
                     $ilDB = $DIC['ilDB'];
                     $ilLog = $DIC['ilLog'];
                     if (!isset($translator)) {
-                        require_once("./Modules/Test/classes/class.ilTestTaxonomyFilterLabelTranslater.php");
                         $translator = new ilTestTaxonomyFilterLabelTranslater($ilDB);
                         $translator->loadLabels($this->sourcePoolDefinitionList);
                     }

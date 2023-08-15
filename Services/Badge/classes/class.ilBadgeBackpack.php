@@ -22,17 +22,14 @@
  */
 class ilBadgeBackpack
 {
-    public const URL_DISPLAYER = "https://backpack.openbadges.org/displayer/";
-
-    protected string $email;
+    final public const URL_DISPLAYER = "https://backpack.openbadges.org/displayer/";
     protected int $uid;
-    private \ilGlobalTemplateInterface $main_tpl;
+    private readonly \ilGlobalTemplateInterface $main_tpl;
 
-    public function __construct(string $a_email)
+    public function __construct(protected string $email)
     {
         global $DIC;
         $this->main_tpl = $DIC->ui()->mainTemplate();
-        $this->email = $a_email;
     }
 
     protected function authenticate(): bool
@@ -146,7 +143,7 @@ class ilBadgeBackpack
             } else {
                 $curl->setOpt(CURLOPT_HTTPGET, 1);
                 if (count($a_param)) {
-                    $a_url .= (strpos($a_url, "?") === false ? "?" : "") . http_build_query($a_param);
+                    $a_url .= (!str_contains($a_url, "?") ? "?" : "") . http_build_query($a_param);
                 }
             }
             $curl->setOpt(CURLOPT_URL, $a_url);

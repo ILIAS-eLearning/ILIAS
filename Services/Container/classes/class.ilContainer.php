@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+use ILIAS\News\Service as News;
+
 /**
  * Class ilContainer
  *
@@ -25,6 +27,8 @@
  */
 class ilContainer extends ilObject
 {
+    protected News $news;
+    protected \ILIAS\Style\Content\DomainService $content_style_domain;
     // container view constants
     public const VIEW_SESSIONS = 0;
     public const VIEW_OBJECTIVE = 1;
@@ -77,6 +81,8 @@ class ilContainer extends ilObject
     protected bool $use_news = false;
     protected ilRecommendedContentManager $recommended_content_manager;
 
+    protected ?array $type_grps = null;
+
     public function __construct(int $a_id = 0, bool $a_reference = true)
     {
         /** @var \ILIAS\DI\Container $DIC */
@@ -90,6 +96,7 @@ class ilContainer extends ilObject
         $this->tree = $DIC->repositoryTree();
         $this->user = $DIC->user();
         $this->obj_definition = $DIC["objDefinition"];
+        $this->news = $DIC->news();
 
 
         $this->setting = $DIC["ilSetting"];
@@ -99,6 +106,7 @@ class ilContainer extends ilObject
             $this->obj_trans = ilObjectTranslation::getInstance($this->getId());
         }
         $this->recommended_content_manager = new ilRecommendedContentManager();
+        $this->content_style_domain = $DIC->contentStyle()->domain();
     }
 
     /**
@@ -203,6 +211,9 @@ class ilContainer extends ilObject
 
     public function isNewsTimelineEffective(): bool
     {
+        if (!$this->news->isGloballyActivated()) {
+            return false;
+        }
         if ($this->getUseNews() && $this->getNewsTimeline()) {
             return true;
         }
@@ -372,7 +383,7 @@ class ilContainer extends ilObject
                     ]
                 );
 
-                $a_xml->xmlData($value);
+                $a_xml->xmlData((string) $value);
                 $a_xml->xmlEndTag("ContainerSetting");
             }
 
@@ -411,17 +422,7 @@ class ilContainer extends ilObject
         }
 
         // #20614 - copy style
-        $style_id = $this->getStyleSheetId();
-        if ($style_id > 0) {
-            if (ilObjStyleSheet::_lookupStandard($style_id)) {
-                $style_obj = ilObjectFactory::getInstanceByObjId($style_id);
-                $new_id = $style_obj->ilClone();
-                $new_obj->setStyleSheetId($new_id);
-                $new_obj->update();
-            } else {
-                $new_obj->setStyleSheetId($this->getStyleSheetId());
-            }
-        }
+        $this->content_style_domain->styleForRefId($this->getRefId())->cloneTo($new_obj->getId());
 
         // #10271 - copy start objects page
         if (ilContainerStartObjectsPage::_exists(
@@ -434,7 +435,7 @@ class ilContainer extends ilObject
 
         // #10271
         foreach (self::_getContainerSettings($this->getId()) as $keyword => $value) {
-            self::_writeContainerSetting($new_obj->getId(), $keyword, $value);
+            self::_writeContainerSetting($new_obj->getId(), (string) $keyword, (string) $value);
         }
 
         $new_obj->setNewsTimeline($this->getNewsTimeline());
@@ -812,7 +813,7 @@ class ilContainer extends ilObject
         );
 
         if (($this->getStyleSheetId()) > 0) {
-            ilObjStyleSheet::writeStyleUsage($this->getId(), $this->getStyleSheetId());
+            //ilObjStyleSheet::writeStyleUsage($this->getId(), $this->getStyleSheetId());
         }
 
         $log = ilLoggerFactory::getLogger("cont");
@@ -849,7 +850,7 @@ class ilContainer extends ilObject
         $trans->setDefaultDescription($this->getLongDescription());
         $trans->save();
 
-        ilObjStyleSheet::writeStyleUsage($this->getId(), $this->getStyleSheetId());
+        //ilObjStyleSheet::writeStyleUsage($this->getId(), $this->getStyleSheetId());
 
         $log = ilLoggerFactory::getLogger("cont");
         $log->debug("Update Container, id: " . $this->getId());
@@ -869,7 +870,7 @@ class ilContainer extends ilObject
 
         $this->setOrderType(ilContainerSortingSettings::_lookupSortMode($this->getId()));
 
-        $this->setStyleSheetId(ilObjStyleSheet::lookupObjectStyle($this->getId()));
+        //$this->setStyleSheetId(ilObjStyleSheet::lookupObjectStyle($this->getId()));
 
         $this->readContainerSettings();
         $this->obj_trans = ilObjectTranslation::getInstance($this->getId());
@@ -885,7 +886,8 @@ class ilContainer extends ilObject
             ilObjectServiceSettingsGUI::NEWS_VISIBILITY,
             $this->setting->get('block_activated_news', '1')
         ));
-        $this->setUseNews((bool) self::_lookupContainerSetting($this->getId(), ilObjectServiceSettingsGUI::USE_NEWS, '1'));
+        $this->setUseNews((bool) self::_lookupContainerSetting($this->getId(), ilObjectServiceSettingsGUI::USE_NEWS, '1') &&
+        $this->news->isGloballyActivated());
     }
 
 
@@ -1171,7 +1173,11 @@ class ilContainer extends ilObject
                             $field_form->getADT()->setSelection($val);
                         }
                     }
+                    if ($field instanceof ilAdvancedMDFieldDefinitionInteger) {
+                        $field_form->getADT()->setNumber((int) $val);
+                    }
 
+                    $query_parser->setCombination(ilQueryParser::QP_COMBINATION_OR);
                     $adv_md_search = ilObjectSearchFactory::_getAdvancedMDSearchInstance($query_parser);
                     //$adv_md_search->setFilter($this->filter);	// this could be set to an array of object types
                     $adv_md_search->setDefinition($field);            // e.g. ilAdvancedMDFieldDefinitionSelectMulti

@@ -30,6 +30,8 @@ use ILIAS\UI\Implementation\Component\SignalGenerator;
 
 class ColorPickerInputTest extends ILIAS_UI_TestBase
 {
+    protected DefNamesource $name_source;
+
     public function setUp(): void
     {
         $this->name_source = new DefNamesource();

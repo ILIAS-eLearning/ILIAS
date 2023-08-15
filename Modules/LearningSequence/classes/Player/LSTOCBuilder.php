@@ -63,7 +63,9 @@ class LSTOCBuilder implements TOCBuilder
      */
     public function end()
     {
-        $this->parent->structure['childs'][] = $this->structure;
+        if ($this->parent instanceof LSTOCBuilder) {
+            $this->parent->structure['childs'][] = $this->structure;
+        }
         return $this->parent;
     }
 

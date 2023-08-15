@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=0);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=0);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=0);
 
 use ILIAS\UI\Component\Listing\Workflow\Step;
 use ILIAS\UI\Component\Listing\Workflow\Factory as Workflow;
@@ -399,6 +399,38 @@ class ilCourseObjectivesGUI
         $this->tpl->setContent($table->getHTML());
     }
 
+    /**
+     * @return int[]
+     */
+    private function getIntArrayFromPost(string $key): array
+    {
+        if ($this->http->wrapper()->post()->has($key)) {
+            return $this->http->wrapper()->post()->retrieve(
+                $key,
+                $this->refinery->kindlyTo()->listOf(
+                    $this->refinery->kindlyTo()->int()
+                )
+            );
+        }
+        return [];
+    }
+
+    /**
+     * @return string[]
+     */
+    private function getStringArrayFromPost(string $key): array
+    {
+        if ($this->http->wrapper()->post()->has($key)) {
+            return $this->http->wrapper()->post()->retrieve(
+                $key,
+                $this->refinery->kindlyTo()->listOf(
+                    $this->refinery->kindlyTo()->string()
+                )
+            );
+        }
+        return [];
+    }
+
     protected function updateMaterialAssignment(): void
     {
         if (!$this->access->checkAccess('write', '', $this->course_obj->getRefId())) {
@@ -410,38 +442,36 @@ class ilCourseObjectivesGUI
         }
 
         $this->__initLMObject($this->initObjectiveIdFromQuery());
-        $this->objectives_lm_obj->deleteAll();
 
-        $materials = [];
-        if ($this->http->wrapper()->post()->has('materials')) {
-            $materials = $this->http->wrapper()->post()->retrieve(
-                'materials',
-                $this->refinery->kindlyTo()->listOf(
-                    $this->refinery->kindlyTo()->int()
-                )
-            );
-        }
-        foreach ($materials as $node_id) {
+        $visibleMaterials = $this->getIntArrayFromPost('visible_materials');
+        $visibleChapters = $this->getStringArrayFromPost('visible_chapters');
+        $materials = $this->getIntArrayFromPost('materials');
+        $chapters = $this->getStringArrayFromPost('chapters');
+
+        foreach ($visibleMaterials as $node_id) {
             $obj_id = $this->objectDataCache->lookupObjId((int) $node_id);
-            $type = $this->objectDataCache->lookupType($obj_id);
-
+            if (!in_array($node_id, $materials)) {
+                $this->objectives_lm_obj->deleteMaterial($node_id, $obj_id);
+                continue;
+            }
+            if ($this->objectives_lm_obj->isMaterialAssigned($node_id, $obj_id)) {
+                continue;
+            }
             $this->objectives_lm_obj->setLMRefId($node_id);
             $this->objectives_lm_obj->setLMObjId($obj_id);
-            $this->objectives_lm_obj->setType($type);
+            $this->objectives_lm_obj->setType($this->objectDataCache->lookupType($obj_id));
             $this->objectives_lm_obj->add();
         }
-        $chapters = [];
-        if ($this->http->wrapper()->post()->has('chapters')) {
-            $chapters = $this->http->wrapper()->post()->retrieve(
-                'chapters',
-                $this->refinery->kindlyTo()->listOf(
-                    $this->refinery->kindlyTo()->string()
-                )
-            );
-        }
-        foreach ($chapters as $chapter) {
-            list($ref_id, $chapter_id) = explode('_', $chapter);
 
+        foreach ($visibleChapters as $chapter) {
+            list($ref_id, $chapter_id) = explode('_', $chapter);
+            if (!in_array($chapter, $chapters)) {
+                $this->objectives_lm_obj->deleteMaterial($ref_id, $chapter_id);
+                continue;
+            }
+            if ($this->objectives_lm_obj->isMaterialAssigned($ref_id, $chapter_id)) {
+                continue;
+            }
             $this->objectives_lm_obj->setLMRefId($ref_id);
             $this->objectives_lm_obj->setLMObjId($chapter_id);
             $this->objectives_lm_obj->setType(ilLMObject::_lookupType($chapter_id));
@@ -453,10 +483,15 @@ class ilCourseObjectivesGUI
             $this->tpl->setOnScreenMessage('success', $this->lng->txt('crs_objectives_assigned_lm'), true);
             $this->ctrl->returnToParent($this);
         }
-        if ($this->getSettings()->worksWithInitialTest()) {
+        if (
+            $this->getSettings()->worksWithInitialTest() &&
+            !$this->getSettings()->hasSeparateInitialTests()
+        ) {
             $this->selfAssessmentAssignment();
-        } else {
+        } elseif (!$this->getSettings()->hasSeparateQualifiedTests()) {
             $this->finalTestAssignment();
+        } else {
+            $this->ctrl->redirectByClass(ilLOEditorGUI::class);
         }
     }
 
@@ -595,8 +630,8 @@ class ilCourseObjectivesGUI
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('crs_no_objective_selected'), true);
             $this->ctrl->redirect($this, 'listObjectives');
         }
-
-        $this->__initQuestionObject($this->initObjectiveIdFromQuery());
+        $objective_id = $this->initObjectiveIdFromQuery();
+        $this->__initQuestionObject($objective_id);
 
         $limit = $this->http->wrapper()->post()->retrieve(
             'limit',
@@ -615,9 +650,14 @@ class ilCourseObjectivesGUI
             $this->objectives_qst_obj->setTestStatus(ilCourseObjectiveQuestion::TYPE_SELF_ASSESSMENT);
             $this->objectives_qst_obj->setTestSuggestedLimit($limit);
             $this->objectives_qst_obj->updateTest($test['test_objective_id']);
+            ilLOUserResults::updateResultLimit($objective_id, ilLOUserResults::TYPE_INITIAL, $limit);
         }
 
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
+        if (!$this->settings->hasSeparateQualifiedTests()) {
+            $this->finalTestAssignment();
+            return;
+        }
         $this->ctrl->returnToParent($this);
     }
 
@@ -679,9 +719,11 @@ class ilCourseObjectivesGUI
     protected function showRandomTestAssignment(ilPropertyFormGUI $form = null): void
     {
         $this->ctrl->saveParameter($this, 'objective_id');
-        $this->ctrl->setParameter($this, 'tt', $this->initTestTypeFromQuery());
         $this->objective = new ilCourseObjective($this->course_obj, $this->initObjectiveIdFromQuery());
-        $this->test_type = $this->initTestTypeFromQuery();
+        if ($this->test_type === ilLOSettings::TYPE_TEST_UNDEFINED) {
+            $this->test_type = $this->initTestTypeFromQuery();
+        }
+        $this->ctrl->setParameter($this, 'tt', $this->test_type);
         $this->setSubTabs("rand_test_assign");
 
         if (!$form instanceof ilPropertyFormGUI) {
@@ -689,7 +731,12 @@ class ilCourseObjectivesGUI
         }
 
         $this->__initQuestionObject($this->initObjectiveIdFromQuery());
-        $this->initWizard(self::STEP_FINAL_TEST_ASSIGNMENT);
+        if ($this->test_type === ilLOSettings::TYPE_TEST_INITIAL) {
+            $this->initWizard(self::STEP_INITIAL_TEST_ASSIGNMENT);
+        } else {
+            $this->initWizard(self::STEP_FINAL_TEST_ASSIGNMENT);
+        }
+
         $this->tpl->setContent($form->getHTML());
     }
 
@@ -725,7 +772,7 @@ class ilCourseObjectivesGUI
             $this->test_type
         );
 
-        $qpl->setValue($sequences[0]);
+        $qpl->setValue((string) ($sequences[0] ?? ''));
         $qpl->setMultiValues($sequences);
         $ass_qpl->addSubItem($qpl);
 
@@ -827,7 +874,10 @@ class ilCourseObjectivesGUI
         }
 
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
-        if ($this->test_type == ilLOSettings::TYPE_TEST_QUALIFIED) {
+        if (
+            $this->test_type == ilLOSettings::TYPE_TEST_QUALIFIED ||
+            $this->getSettings()->hasSeparateQualifiedTests()
+        ) {
             $this->ctrl->returnToParent($this);
         } else {
             $this->ctrl->redirect($this, 'finalTestAssignment');
@@ -882,7 +932,12 @@ class ilCourseObjectivesGUI
         // TODO: not nice
         $this->questions = new ilCourseObjectiveQuestion($this->initObjectiveIdFromQuery());
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('crs_objectives_assigned_lm'));
-        $this->finalTestLimits();
+
+        if ($checked_questions) {
+            $this->finalTestLimits();
+            return;
+        }
+        $this->finalTestAssignment();
     }
 
     /**
@@ -919,7 +974,8 @@ class ilCourseObjectivesGUI
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('crs_no_objective_selected'), true);
             $this->ctrl->redirect($this, 'listObjectives');
         }
-        $this->__initQuestionObject($this->initObjectiveIdFromQuery());
+        $objective_id = $this->initObjectiveIdFromQuery();
+        $this->__initQuestionObject($objective_id);
 
         $limit = 0;
         if ($this->http->wrapper()->post()->has('limit')) {
@@ -939,6 +995,7 @@ class ilCourseObjectivesGUI
             $this->objectives_qst_obj->setTestStatus(ilCourseObjectiveQuestion::TYPE_FINAL_TEST);
             $this->objectives_qst_obj->setTestSuggestedLimit($limit);
             $this->objectives_qst_obj->updateTest($test['test_objective_id']);
+            ilLOUserResults::updateResultLimit($objective_id, ilLOUserResults::TYPE_QUALIFIED, $limit);
         }
 
         if (ilSession::get('objective_mode') != self::MODE_CREATE) {

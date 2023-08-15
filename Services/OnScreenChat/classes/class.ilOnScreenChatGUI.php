@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\OnScreenChat\Provider\OnScreenChatProvider;
@@ -34,10 +34,10 @@ class ilOnScreenChatGUI implements ilCtrlBaseClassInterface
 {
     protected static bool $frontend_initialized = false;
 
-    private ILIAS\DI\Container $dic;
-    private ILIAS\HTTP\Services $http;
-    private ilCtrlInterface $ctrl;
-    private ilObjUser $actor;
+    private readonly ILIAS\DI\Container $dic;
+    private readonly ILIAS\HTTP\Services $http;
+    private readonly ilCtrlInterface $ctrl;
+    private readonly ilObjUser $actor;
 
     public function __construct()
     {
@@ -63,42 +63,6 @@ class ilOnScreenChatGUI implements ilCtrlBaseClassInterface
             $chatSettings->get('enable_osc', '0') &&
             $DIC->user() && !$DIC->user()->isAnonymous()
         );
-    }
-
-    /**
-     * @param ilChatroomServerSettings $chatSettings
-     * @return array<string, string>
-     */
-    protected static function getEmoticons(ilChatroomServerSettings $chatSettings): array
-    {
-        $smileys = [];
-
-        if ($chatSettings->getSmiliesEnabled()) {
-            $smileys_array = ilChatroomSmilies::_getSmilies();
-            foreach ($smileys_array as $smiley_array) {
-                $new_keys = [];
-                $new_val = '';
-                foreach ($smiley_array as $key => $value) {
-                    if ($key === 'smiley_keywords') {
-                        $new_keys = explode("\n", $value);
-                    }
-
-                    if ($key === 'smiley_fullpath') {
-                        $new_val = $value;
-                    }
-                }
-
-                if (!$new_keys || !$new_val) {
-                    continue;
-                }
-
-                foreach ($new_keys as $new_key) {
-                    $smileys[$new_key] = $new_val;
-                }
-            }
-        }
-
-        return $smileys;
     }
 
     public function executeCommand(): void
@@ -271,7 +235,6 @@ class ilOnScreenChatGUI implements ilCtrlBaseClassInterface
                     false
                 ),
                 'loaderImg' => ilUtil::getImagePath('loader.svg'),
-                'emoticons' => self::getEmoticons($settings),
                 'locale' => $DIC->language()->getLangKey(),
                 'initialUserData' => $subscriberRepo->getInitialUserProfileData(),
                 'enabledBrowserNotifications' => (
@@ -293,7 +256,6 @@ class ilOnScreenChatGUI implements ilCtrlBaseClassInterface
 
             $DIC->language()->toJS([
                 'chat_osc_no_usr_found',
-                'chat_osc_emoticons',
                 'chat_osc_write_a_msg',
                 'autocomplete_more',
                 'chat_osc_minimize',

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\Refinery\Factory;
 use ILIAS\HTTP\GlobalHttpState;
@@ -92,17 +92,11 @@ class ilMailQuickFilterInputGUI extends ilTextInputGUI
             $tpl->touchBlock('submit_form_on_enter');
         }
 
-        switch ($this->getInputType()) {
-            case 'password':
-                $tpl->setVariable('PROP_INPUT_TYPE', 'password');
-                break;
-            case 'hidden':
-                $tpl->setVariable('PROP_INPUT_TYPE', 'hidden');
-                break;
-            case 'text':
-            default:
-                $tpl->setVariable('PROP_INPUT_TYPE', 'text');
-        }
+        match ($this->getInputType()) {
+            'password' => $tpl->setVariable('PROP_INPUT_TYPE', 'password'),
+            'hidden' => $tpl->setVariable('PROP_INPUT_TYPE', 'hidden'),
+            default => $tpl->setVariable('PROP_INPUT_TYPE', 'text'),
+        };
         $tpl->setVariable('ID', $this->getFieldId());
         $tpl->setVariable('ARIA_LABEL', $this->getTitle());
         $tpl->setVariable('SIZE', $this->getSize());

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use PHPMailer\PHPMailer\PHPMailer;
 
 /**
@@ -27,7 +27,7 @@ abstract class ilMailMimeTransportBase implements ilMailMimeTransport
 {
     protected PHPMailer $mailer;
 
-    public function __construct(protected ilSetting $settings, private ilAppEventHandler $eventHandler)
+    public function __construct(protected ilSetting $settings, private readonly ilAppEventHandler $eventHandler)
     {
         $mail = new PHPMailer();
         $this->setMailer($mail);

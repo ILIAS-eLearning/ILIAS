@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -13,22 +14,14 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
-/**
- * Class ilDclBaseFieldModel
- * @author  Martin Studer <ms@studer-raimann.ch>
- * @author  Marcel Raimann <mr@studer-raimann.ch>
- * @author  Fabian Schmid <fs@studer-raimann.ch>
- * @author  Oskar Truffer <ot@studer-raimann.ch>
- * @author  Stefan Wanzenried <sw@studer-raimann.ch>
- * @version $Id:
- * @ingroup ModulesDataCollection
- */
+
+declare(strict_types=1);
+
 class ilDclBaseRecordFieldModel
 {
-    protected int $id = 0;
+    protected ?int $id = null;
     protected ilDclBaseFieldModel $field;
     protected ilDclBaseRecordModel $record;
     protected ?ilDclBaseRecordRepresentation $record_representation = null;
@@ -122,11 +115,11 @@ class ilDclBaseRecordFieldModel
                 $this->doCreate();
             }
 
-            $insert_params = array(
-                "value" => array($datatype->getDbType(), $value),
-                "record_field_id" => array("integer", $this->getId()),
-                "id" => array("integer", $next_id),
-            );
+            $insert_params = [
+                "value" => [$datatype->getDbType(), $value],
+                "record_field_id" => ["integer", $this->getId()],
+                "id" => ["integer", $next_id],
+            ];
 
             $this->db->insert("il_dcl_stloc" . $storage_location . "_value", $insert_params);
         }
@@ -189,7 +182,7 @@ class ilDclBaseRecordFieldModel
      */
     public function deserializeData($value)
     {
-        $deserialize = json_decode($value, true);
+        $deserialize = json_decode((string)$value, true);
         if (is_array($deserialize)) {
             return $deserialize;
         }
@@ -207,7 +200,6 @@ class ilDclBaseRecordFieldModel
         $this->loadValue();
         if (!$omit_parsing) {
             $tmp = $this->parseValue($value);
-            $old = $this->value;
             //if parse value fails keep the old value
             if ($tmp !== false) {
                 $this->value = $tmp;
@@ -251,7 +243,7 @@ class ilDclBaseRecordFieldModel
     /**
      * Function to parse incoming data from form input value $value. returns the string/number/etc. to store in the database.
      * @param int|string $value
-     * @return int|string
+     * @return int|string|null
      */
     public function parseValue($value)
     {
@@ -356,7 +348,7 @@ class ilDclBaseRecordFieldModel
         return $this->field;
     }
 
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }

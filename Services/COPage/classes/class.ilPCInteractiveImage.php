@@ -25,13 +25,13 @@ class ilPCInteractiveImage extends ilPageContent
 {
     public const AREA = "Area";
     public const MARKER = "Marker";
-    protected php4DOMElement $mal_node;
-    protected php4DOMElement $med_alias_node;
+    protected DOMNode $mal_node;
+    protected DOMNode $med_alias_node;
 
     protected ilMediaAliasItem $std_alias_item;
     protected ilObjMediaObject $mediaobject;
     protected ilLanguage $lng;
-    public php4DOMElement $iim_node;
+    public ?DOMNode $iim_node;
 
     public function init(): void
     {
@@ -49,32 +49,27 @@ class ilPCInteractiveImage extends ilPageContent
         }
     }
 
-    public function setNode(php4DOMElement $a_node): void
+    public function setDomNode(DOMNode $dom_node): void
     {
-        parent::setNode($a_node);		// this is the PageContent node
-        $this->iim_node = $a_node->first_child();
-        if (isset($this->iim_node->myDOMNode)) {
-            $this->med_alias_node = $this->iim_node->first_child();
+        parent::setDomNode($dom_node);		// this is the PageContent node
+        $this->iim_node = $dom_node->firstChild;
+        if (isset($this->iim_node)) {
+            $this->med_alias_node = $this->iim_node->firstChild;
         }
-        if (isset($this->med_alias_node) && $this->med_alias_node->myDOMNode != null) {
-            $id = $this->med_alias_node->get_attribute("OriginId");
+        if (isset($this->med_alias_node)) {
+            $id = $this->med_alias_node->getAttribute("OriginId");
             $mob_id = ilInternalLink::_extractObjIdOfTarget($id);
-            if (ilObject::_lookupType($mob_id) == "mob") {
+            if ($this->object->getTypeForObjId($mob_id) == "mob") {
                 $this->setMediaObject(new ilObjMediaObject($mob_id));
             }
         }
         $this->std_alias_item = new ilMediaAliasItem(
-            $this->dom,
+            $this->getDomDoc(),
             $this->readHierId(),
             "Standard",
             $this->readPCId(),
             "InteractiveImage"
         );
-    }
-
-    public function setDom(php4DOMDocument $a_dom): void
-    {
-        $this->dom = $a_dom;
     }
 
     public function setMediaObject(ilObjMediaObject $a_mediaobject): void
@@ -94,7 +89,7 @@ class ilPCInteractiveImage extends ilPageContent
 
     public function create(): void
     {
-        $this->node = $this->createPageContentNode();
+        $this->createPageContentNode();
     }
 
     public function getStandardMediaItem(): ilMediaItem
@@ -118,49 +113,43 @@ class ilPCInteractiveImage extends ilPageContent
         string $a_hier_id,
         string $a_pc_id = ""
     ): void {
-        $this->node = $this->dom->create_element("PageContent");
+        $this->setDomNode($this->dom_doc->createElement("PageContent"));
         $a_pg_obj->insertContent($this, $a_hier_id, IL_INSERT_AFTER, $a_pc_id);
-        $this->iim_node = $this->dom->create_element("InteractiveImage");
-        $this->iim_node = $this->node->append_child($this->iim_node);
-        $this->mal_node = $this->dom->create_element("MediaAlias");
-        $this->mal_node = $this->iim_node->append_child($this->mal_node);
-        $this->mal_node->set_attribute("OriginId", "il__mob_" . $this->getMediaObject()->getId());
+        $this->iim_node = $this->dom_doc->createElement("InteractiveImage");
+        $this->iim_node = $this->getDomNode()->appendChild($this->iim_node);
+        $this->mal_node = $this->dom_doc->createElement("MediaAlias");
+        $this->mal_node = $this->iim_node->appendChild($this->mal_node);
+        $this->mal_node->setAttribute("OriginId", "il__mob_" . $this->getMediaObject()->getId());
 
         // standard view
-        $item_node = $this->dom->create_element("MediaAliasItem");
-        $item_node = $this->iim_node->append_child($item_node);
-        $item_node->set_attribute("Purpose", "Standard");
+        $item_node = $this->dom_doc->createElement("MediaAliasItem");
+        $item_node = $this->iim_node->appendChild($item_node);
+        $item_node->setAttribute("Purpose", "Standard");
         $media_item = $this->getMediaObject()->getMediaItem("Standard");
 
-        $layout_node = $this->dom->create_element("Layout");
-        $layout_node = $item_node->append_child($layout_node);
-        if ($media_item->getWidth() > 0) {
-            //$layout_node->set_attribute("Width", $media_item->getWidth());
-        }
-        if ($media_item->getHeight() > 0) {
-            //$layout_node->set_attribute("Height", $media_item->getHeight());
-        }
-        $layout_node->set_attribute("HorizontalAlign", "Left");
+        $layout_node = $this->dom_doc->createElement("Layout");
+        $layout_node = $item_node->appendChild($layout_node);
+        $layout_node->setAttribute("HorizontalAlign", "Left");
 
         // caption
         if ($media_item->getCaption() != "") {
-            $cap_node = $this->dom->create_element("Caption");
-            $cap_node = $item_node->append_child($cap_node);
-            $cap_node->set_attribute("Align", "bottom");
-            $cap_node->set_content($media_item->getCaption());
+            $cap_node = $this->dom_doc->createElement("Caption");
+            $cap_node = $item_node->appendChild($cap_node);
+            $cap_node->setAttribute("Align", "bottom");
+            $this->dom_util->setContent($cap_node, $media_item->getCaption());
         }
 
         // text representation
         if ($media_item->getTextRepresentation() != "") {
-            $tr_node = $this->dom->create_element("TextRepresentation");
-            $tr_node = $item_node->append_child($tr_node);
-            $tr_node->set_content($media_item->getTextRepresentation());
+            $tr_node = $this->dom_doc->createElement("TextRepresentation");
+            $tr_node = $item_node->appendChild($tr_node);
+            $this->dom_util->setContent($tr_node, $media_item->getTextRepresentation());
         }
     }
 
     public function dumpXML(): string
     {
-        $xml = $this->dom->dump_node($this->node);
+        $xml = $this->dom_util->dump($this->getDomNode());
         return $xml;
     }
 
@@ -183,10 +172,10 @@ class ilPCInteractiveImage extends ilPageContent
             $max = max($max, (int) $p["nr"]);
         }
 
-        $new_item = $this->dom->create_element("ContentPopup");
-        $new_item->set_attribute("Title", $lng->txt("cont_new_popup"));
-        $new_item->set_attribute("Nr", $max + 1);
-        $new_item = $this->iim_node->append_child($new_item);
+        $new_item = $this->dom_doc->createElement("ContentPopup");
+        $new_item->setAttribute("Title", $lng->txt("cont_new_popup"));
+        $new_item->setAttribute("Nr", $max + 1);
+        $new_item = $this->iim_node->appendChild($new_item);
     }
 
     /**
@@ -195,14 +184,13 @@ class ilPCInteractiveImage extends ilPageContent
     public function getPopups(): array
     {
         $titles = array();
-        $childs = $this->iim_node->child_nodes();
         $k = 0;
-        for ($i = 0; $i < count($childs); $i++) {
-            if ($childs[$i]->node_name() == "ContentPopup") {
-                $pc_id = $childs[$i]->get_attribute("PCID");
-                $hier_id = $childs[$i]->get_attribute("HierId");
-                $title = $childs[$i]->get_attribute("Title");
-                $nr = $childs[$i]->get_attribute("Nr");
+        foreach ($this->iim_node->childNodes as $c) {
+            if ($c->nodeName == "ContentPopup") {
+                $pc_id = $c->getAttribute("PCID");
+                $hier_id = $c->getAttribute("HierId");
+                $title = $c->getAttribute("Title");
+                $nr = $c->getAttribute("Nr");
 
                 $titles[] = array("title" => $title, "nr" => $nr,
                     "pc_id" => $pc_id, "hier_id" => $hier_id);
@@ -217,13 +205,12 @@ class ilPCInteractiveImage extends ilPageContent
      */
     public function savePopups(array $a_popups): void
     {
-        $childs = $this->iim_node->child_nodes();
-        for ($i = 0; $i < count($childs); $i++) {
-            if ($childs[$i]->node_name() == "ContentPopup") {
-                $pc_id = $childs[$i]->get_attribute("PCID");
-                $hier_id = $childs[$i]->get_attribute("HierId");
+        foreach ($this->iim_node->childNodes as $c) {
+            if ($c->nodeName == "ContentPopup") {
+                $pc_id = $c->getAttribute("PCID");
+                $hier_id = $c->getAttribute("HierId");
                 $k = $hier_id . ":" . $pc_id;
-                $childs[$i]->set_attribute("Title", $a_popups[$k]);
+                $c->setAttribute("Title", $a_popups[$k]);
             }
         }
     }
@@ -235,14 +222,11 @@ class ilPCInteractiveImage extends ilPageContent
         string $a_hier_id,
         string $a_pc_id
     ): void {
-        // File Item
-        $childs = $this->iim_node->child_nodes();
-        $nodes = array();
-        for ($i = 0; $i < count($childs); $i++) {
-            if ($childs[$i]->node_name() == "ContentPopup") {
-                if ($a_pc_id == $childs[$i]->get_attribute("PCID") &&
-                    $a_hier_id == $childs[$i]->get_attribute("HierId")) {
-                    $childs[$i]->unlink($childs[$i]);
+        foreach ($this->iim_node->childNodes as $c) {
+            if ($c->nodeName == "ContentPopup") {
+                if ($a_pc_id == $c->getAttribute("PCID") &&
+                    $a_hier_id == $c->getAttribute("HierId")) {
+                    $c->parentNode->removeChild($c);
                 }
             }
         }
@@ -284,8 +268,7 @@ class ilPCInteractiveImage extends ilPageContent
             "Nr" => $max + 1,
             "OverlayX" => "0", "OverlayY" => "0", "Overlay" => "", "PopupNr" => "",
             "PopupX" => "0", "PopupY" => "0", "PopupWidth" => "150", "PopupHeight" => "200");
-        $ma_node = ilDOMUtil::addElementToList(
-            $this->dom,
+        $ma_node = $this->dom_util->addElementToList(
             $this->iim_node,
             "Trigger",
             array("ContentPopup"),
@@ -312,8 +295,7 @@ class ilPCInteractiveImage extends ilPageContent
             "Nr" => $max + 1, "OverlayX" => "0", "OverlayY" => "0",
             "MarkerX" => "0", "MarkerY" => "0", "PopupNr" => "",
             "PopupX" => "0", "PopupY" => "0", "PopupWidth" => "150", "PopupHeight" => "200");
-        $ma_node = ilDOMUtil::addElementToList(
-            $this->dom,
+        $ma_node = $this->dom_util->addElementToList(
             $this->iim_node,
             "Trigger",
             array("ContentPopup"),
@@ -325,46 +307,36 @@ class ilPCInteractiveImage extends ilPageContent
     public function getTriggerNodes(
         string $a_hier_id,
         string $a_pc_id = ""
-    ): array {
-        $xpc = xpath_new_context($this->dom);
+    ): DOMNodeList {
         if ($a_pc_id != "") {
             $path = "//PageContent[@PCID = '" . $a_pc_id . "']/InteractiveImage/Trigger";
-            $res = xpath_eval($xpc, $path);
-            if (count($res->nodeset) > 0) {
-                return $res->nodeset;
-            }
-            return [];
+            return $this->dom_util->path($this->dom_doc, $path);
         }
 
         $path = "//PageContent[@HierId = '" . $a_hier_id . "']/InteractiveImage/Trigger";
-        $res = xpath_eval($xpc, $path);
-        if (count($res->nodeset) > 0) {
-            return $res->nodeset;
-        }
-        return [];
+        return $this->dom_util->path($this->dom_doc, $path);
     }
 
     public function getTriggers(): array
     {
         $tr_nodes = $this->getTriggerNodes($this->hier_id, $this->getPCId());
         $trigger_arr = array();
-        for ($i = 0; $i < count($tr_nodes); $i++) {
-            $tr_node = $tr_nodes[$i];
-            $childs = $tr_node->child_nodes();
+        foreach ($tr_nodes as $tr_node) {
+            $childs = $tr_node->childNodes;
             $trigger_arr[] = array(
-                "Nr" => $tr_node->get_attribute("Nr"),
-                "Type" => $tr_node->get_attribute("Type"),
-                "Title" => $tr_node->get_attribute("Title"),
-                "OverlayX" => $tr_node->get_attribute("OverlayX"),
-                "OverlayY" => $tr_node->get_attribute("OverlayY"),
-                "MarkerX" => $tr_node->get_attribute("MarkerX"),
-                "MarkerY" => $tr_node->get_attribute("MarkerY"),
-                "Overlay" => $tr_node->get_attribute("Overlay"),
-                "PopupNr" => $tr_node->get_attribute("PopupNr"),
-                "PopupX" => $tr_node->get_attribute("PopupX"),
-                "PopupY" => $tr_node->get_attribute("PopupY"),
-                "PopupWidth" => $tr_node->get_attribute("PopupWidth"),
-                "PopupHeight" => $tr_node->get_attribute("PopupHeight")
+                "Nr" => $tr_node->getAttribute("Nr"),
+                "Type" => $tr_node->getAttribute("Type"),
+                "Title" => $tr_node->getAttribute("Title"),
+                "OverlayX" => $tr_node->getAttribute("OverlayX"),
+                "OverlayY" => $tr_node->getAttribute("OverlayY"),
+                "MarkerX" => $tr_node->getAttribute("MarkerX"),
+                "MarkerY" => $tr_node->getAttribute("MarkerY"),
+                "Overlay" => $tr_node->getAttribute("Overlay"),
+                "PopupNr" => $tr_node->getAttribute("PopupNr"),
+                "PopupX" => $tr_node->getAttribute("PopupX"),
+                "PopupY" => $tr_node->getAttribute("PopupY"),
+                "PopupWidth" => $tr_node->getAttribute("PopupWidth"),
+                "PopupHeight" => $tr_node->getAttribute("PopupHeight")
                 );
         }
 
@@ -378,13 +350,10 @@ class ilPCInteractiveImage extends ilPageContent
         ilMediaAliasItem $a_alias_item,
         int $a_nr
     ): void {
-        // File Item
-        $childs = $this->iim_node->child_nodes();
-        $nodes = array();
-        for ($i = 0; $i < count($childs); $i++) {
-            if ($childs[$i]->node_name() == "Trigger") {
-                if ($a_nr == $childs[$i]->get_attribute("Nr")) {
-                    $childs[$i]->unlink($childs[$i]);
+        foreach ($this->iim_node->childNodes as $c) {
+            if ($c->nodeName == "Trigger") {
+                if ($a_nr == $c->getAttribute("Nr")) {
+                    $c->parentNode->removeChild($c);
                 }
             }
         }
@@ -400,12 +369,11 @@ class ilPCInteractiveImage extends ilPageContent
         array $a_ovs
     ): void {
         $tr_nodes = $this->getTriggerNodes($this->hier_id, $this->getPCId());
-        for ($i = 0; $i < count($tr_nodes); $i++) {
-            $tr_node = $tr_nodes[$i];
-            if (isset($a_ovs["" . $tr_node->get_attribute("Nr")])) {
-                $tr_node->set_attribute(
+        foreach ($tr_nodes as $tr_node) {
+            if (isset($a_ovs["" . $tr_node->getAttribute("Nr")])) {
+                $tr_node->setAttribute(
                     "Overlay",
-                    $a_ovs["" . $tr_node->get_attribute("Nr")]
+                    $a_ovs["" . $tr_node->getAttribute("Nr")]
                 );
             }
         }
@@ -421,10 +389,10 @@ class ilPCInteractiveImage extends ilPageContent
         $tr_nodes = $this->getTriggerNodes($this->hier_id, $this->getPCId());
         for ($i = 0; $i < count($tr_nodes); $i++) {
             $tr_node = $tr_nodes[$i];
-            if (isset($a_pos["" . $tr_node->get_attribute("Nr")])) {
-                $pos = explode(",", $a_pos["" . $tr_node->get_attribute("Nr")]);
-                $tr_node->set_attribute("OverlayX", (int) $pos[0]);
-                $tr_node->set_attribute("OverlayY", (int) $pos[1]);
+            if (isset($a_pos["" . $tr_node->getAttribute("Nr")])) {
+                $pos = explode(",", $a_pos["" . $tr_node->getAttribute("Nr")]);
+                $tr_node->setAttribute("OverlayX", (int) $pos[0]);
+                $tr_node->setAttribute("OverlayY", (int) $pos[1]);
             }
         }
     }
@@ -437,13 +405,12 @@ class ilPCInteractiveImage extends ilPageContent
         array $a_pos
     ): void {
         $tr_nodes = $this->getTriggerNodes($this->hier_id, $this->getPCId());
-        for ($i = 0; $i < count($tr_nodes); $i++) {
-            $tr_node = $tr_nodes[$i];
-            if ($tr_node->get_attribute("Type") == self::MARKER) {
-                if (isset($a_pos["" . $tr_node->get_attribute("Nr")])) {
-                    $pos = explode(",", $a_pos["" . $tr_node->get_attribute("Nr")]);
-                    $tr_node->set_attribute("MarkerX", (int) $pos[0]);
-                    $tr_node->set_attribute("MarkerY", (int) $pos[1]);
+        foreach ($tr_nodes as $tr_node) {
+            if ($tr_node->getAttribute("Type") == self::MARKER) {
+                if (isset($a_pos["" . $tr_node->getAttribute("Nr")])) {
+                    $pos = explode(",", $a_pos["" . $tr_node->getAttribute("Nr")]);
+                    $tr_node->setAttribute("MarkerX", (int) $pos[0]);
+                    $tr_node->setAttribute("MarkerY", (int) $pos[1]);
                 }
             }
         }
@@ -457,12 +424,11 @@ class ilPCInteractiveImage extends ilPageContent
         array $a_pos
     ): void {
         $tr_nodes = $this->getTriggerNodes($this->hier_id, $this->getPCId());
-        for ($i = 0; $i < count($tr_nodes); $i++) {
-            $tr_node = $tr_nodes[$i];
-            if (isset($a_pos["" . $tr_node->get_attribute("Nr")])) {
-                $pos = explode(",", $a_pos["" . $tr_node->get_attribute("Nr")]);
-                $tr_node->set_attribute("PopupX", (int) $pos[0]);
-                $tr_node->set_attribute("PopupY", (int) $pos[1]);
+        foreach ($tr_nodes as $tr_node) {
+            if (isset($a_pos["" . $tr_node->getAttribute("Nr")])) {
+                $pos = explode(",", $a_pos["" . $tr_node->getAttribute("Nr")]);
+                $tr_node->setAttribute("PopupX", (int) $pos[0]);
+                $tr_node->setAttribute("PopupY", (int) $pos[1]);
             }
         }
     }
@@ -475,12 +441,11 @@ class ilPCInteractiveImage extends ilPageContent
         array $a_size
     ): void {
         $tr_nodes = $this->getTriggerNodes($this->hier_id, $this->getPCId());
-        for ($i = 0; $i < count($tr_nodes); $i++) {
-            $tr_node = $tr_nodes[$i];
-            if (isset($a_size["" . $tr_node->get_attribute("Nr")])) {
-                $size = explode(",", $a_size["" . $tr_node->get_attribute("Nr")]);
-                $tr_node->set_attribute("PopupWidth", (int) $size[0]);
-                $tr_node->set_attribute("PopupHeight", (int) $size[1]);
+        foreach ($tr_nodes as $tr_node) {
+            if (isset($a_size["" . $tr_node->getAttribute("Nr")])) {
+                $size = explode(",", $a_size["" . $tr_node->getAttribute("Nr")]);
+                $tr_node->setAttribute("PopupWidth", (int) $size[0]);
+                $tr_node->setAttribute("PopupHeight", (int) $size[1]);
             }
         }
     }
@@ -493,11 +458,10 @@ class ilPCInteractiveImage extends ilPageContent
         array $a_pops
     ): void {
         $tr_nodes = $this->getTriggerNodes($this->hier_id, $this->getPCId());
-        for ($i = 0; $i < count($tr_nodes); $i++) {
-            $tr_node = $tr_nodes[$i];
-            if (isset($a_pops[(string) $tr_node->get_attribute("Nr")])) {
-                $pop = $a_pops[(string) $tr_node->get_attribute("Nr")];
-                $tr_node->set_attribute("PopupNr", $pop);
+        foreach ($tr_nodes as $tr_node) {
+            if (isset($a_pops[(string) $tr_node->getAttribute("Nr")])) {
+                $pop = $a_pops[(string) $tr_node->getAttribute("Nr")];
+                $tr_node->setAttribute("PopupNr", $pop);
             }
         }
     }
@@ -510,16 +474,15 @@ class ilPCInteractiveImage extends ilPageContent
         array $a_titles
     ): void {
         $tr_nodes = $this->getTriggerNodes($this->hier_id, $this->getPCId());
-        for ($i = 0; $i < count($tr_nodes); $i++) {
-            $tr_node = $tr_nodes[$i];
-            if (isset($a_titles[(string) $tr_node->get_attribute("Nr")])) {
-                $tr_node->set_attribute(
+        foreach ($tr_nodes as $tr_node) {
+            if (isset($a_titles[(string) $tr_node->getAttribute("Nr")])) {
+                $tr_node->setAttribute(
                     "Title",
-                    $a_titles[(string) $tr_node->get_attribute("Nr")]
+                    $a_titles[(string) $tr_node->getAttribute("Nr")]
                 );
                 $this->setExtLinkTitle(
-                    $tr_node->get_attribute("Nr"),
-                    $a_titles[(string) $tr_node->get_attribute("Nr")]
+                    $tr_node->getAttribute("Nr"),
+                    $a_titles[(string) $tr_node->getAttribute("Nr")]
                 );
             }
         }
@@ -530,20 +493,44 @@ class ilPCInteractiveImage extends ilPageContent
         string $a_title
     ): void {
         if ($this->getPCId() != "") {
-            $xpc = xpath_new_context($this->dom);
             $path = "//PageContent[@PCID = '" . $this->getPCId() . "']/InteractiveImage/MediaAliasItem/MapArea[@Id='" . $a_nr . "']/ExtLink";
-            $res = xpath_eval($xpc, $path);
-            if (count($res->nodeset) > 0) {
-                $res->nodeset[0]->set_content($a_title);
+            $res = $this->dom_util->path($this->dom_doc, $path);
+            if (count($res) > 0) {
+                $this->dom_util->setContent($res->item(0), $a_title);
             }
             return;
         }
 
-        $xpc = xpath_new_context($this->dom);
         $path = "//PageContent[@HierId = '" . $this->hier_id . "']/InteractiveImage/MediaAliasItem/MapArea[@Id='" . $a_nr . "']/ExtLink";
-        $res = xpath_eval($xpc, $path);
-        if (count($res->nodeset) > 0) {
-            $res->nodeset[0]->set_content($a_title);
+        $res = $this->dom_util->path($this->dom_doc, $path);
+        if (count($res) > 0) {
+            $this->dom_util->setContent($res->item(0), $a_title);
+        }
+    }
+
+    public static function handleCopiedContent(
+        DOMDocument $a_domdoc,
+        bool $a_self_ass = true,
+        bool $a_clone_mobs = false,
+        int $new_parent_id = 0,
+        int $obj_copy_id = 0
+    ): void {
+        global $DIC;
+
+        $dom_util = $DIC->copage()->internal()->domain()->domUtil();
+        $path = "//InteractiveImage/MediaAlias";
+        $nodes = $dom_util->path($a_domdoc, $path);
+        foreach ($nodes as $node) {
+            $or_id = $node->getAttribute("OriginId");
+            $inst_id = ilInternalLink::_extractInstOfTarget($or_id);
+            $mob_id = ilInternalLink::_extractObjIdOfTarget($or_id);
+            if (!($inst_id > 0)) {
+                if ($mob_id > 0) {
+                    $media_object = new ilObjMediaObject($mob_id);
+                    $new_mob = $media_object->duplicate();
+                    $node->setAttribute("OriginId", "il__mob_" . $new_mob->getId());
+                }
+            }
         }
     }
 }

@@ -27,7 +27,7 @@ class ilTestSessionFactory
     /**
      * singleton instances of test sessions
      *
-     * @var array[ilTestSession|ilTestSessionDynamicQuestionSet]
+     * @var array<ilTestSession>
      */
     private $testSession = array();
 
@@ -61,14 +61,15 @@ class ilTestSessionFactory
      * that corresponds to the current test mode
      *
      * @param integer $activeId
-     * @return ilTestSession|ilTestSessionDynamicQuestionSet
+     * @return ilTestSession
      */
     public function getSession($activeId = null)
     {
         if ($activeId === null ||
             $this->testSession === array() ||
             !array_key_exists($activeId, $this->testSession) ||
-            $this->testSession[$activeId] === null) {
+            $this->testSession[$activeId] === null
+        ) {
             $testSession = $this->getNewTestSessionObject();
 
             $testSession->setRefId($this->testOBJ->getRefId());
@@ -97,7 +98,7 @@ class ilTestSessionFactory
     /**
      * @todo: Björn, we also need to handle the anonymous user here
      * @param integer $userId
-     * @return ilTestSession|ilTestSessionDynamicQuestionSet
+     * @return ilTestSession
      */
     public function getSessionByUserId($userId)
     {
@@ -116,13 +117,10 @@ class ilTestSessionFactory
     }
 
     /**
-     * @return ilTestSession|ilTestSessionDynamicQuestionSet
+     * @return ilTestSession
      */
     private function getNewTestSessionObject()
     {
-        if ($this->testOBJ->isDynamicTest()) {
-            return new ilTestSessionDynamicQuestionSet();
-        }
         return new ilTestSession();
     }
 

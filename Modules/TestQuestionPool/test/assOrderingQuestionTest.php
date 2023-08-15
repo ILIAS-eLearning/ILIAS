@@ -52,9 +52,6 @@ class assOrderingQuestionTest extends assBaseTestCase
 
     public function test_instantiateObject_shouldReturnInstance(): void
     {
-        // Arrange
-        require_once './Modules/TestQuestionPool/classes/class.assOrderingQuestion.php';
-
         // Act
         $instance = new assOrderingQuestion();
 

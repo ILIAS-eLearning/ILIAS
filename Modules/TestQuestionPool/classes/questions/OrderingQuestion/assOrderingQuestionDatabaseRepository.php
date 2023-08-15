@@ -59,8 +59,7 @@ class assOrderingQuestionDatabaseRepository
     }
 
     protected function buildOrderingList(
-        int $question_id,
-        array $elements = []
+        int $question_id
     ): \ilAssOrderingElementList {
         $elements = $this->getOrderingElementsForList($question_id);
         return new \ilAssOrderingElementList($question_id, $elements);

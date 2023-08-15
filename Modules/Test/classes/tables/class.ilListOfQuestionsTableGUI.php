@@ -16,6 +16,11 @@
  *
  *********************************************************************/
 
+use ILIAS\UI\Renderer;
+use ILIAS\UI\Factory;
+use ILIAS\UI\Component\Component;
+use ILIAS\UI\Component\Modal\Interruptive;
+
 /**
 *
 * @author Helmut Schottmüller <ilias@aurealis.de>
@@ -26,6 +31,10 @@
 
 class ilListOfQuestionsTableGUI extends ilTable2GUI
 {
+    private bool $user_has_attempts_left = true;
+    /** @var Component[] $command_buttons */
+    private array $command_buttons = [];
+    private Interruptive $finish_test_modal;
     protected ?bool $showPointsEnabled = false;
     protected ?bool $showMarkerEnabled = false;
 
@@ -36,16 +45,18 @@ class ilListOfQuestionsTableGUI extends ilTable2GUI
 
     protected ?bool $finishTestButtonEnabled = false;
 
+    protected Renderer $renderer;
+    protected Factory $factory;
+
     public function __construct($a_parent_obj, $a_parent_cmd)
     {
         parent::__construct($a_parent_obj, $a_parent_cmd);
 
         global $DIC;
-        $lng = $DIC['lng'];
-        $ilCtrl = $DIC['ilCtrl'];
-
-        $this->lng = $lng;
-        $this->ctrl = $ilCtrl;
+        $this->lng = $DIC['lng'];
+        $this->ctrl = $DIC['ilCtrl'];
+        $this->renderer = $DIC->ui()->renderer();
+        $this->factory = $DIC->ui()->factory();
 
         $this->setFormName('listofquestions');
         $this->setStyle('table', 'fullwidth');
@@ -98,18 +109,58 @@ class ilListOfQuestionsTableGUI extends ilTable2GUI
         }
 
         // command buttons
-
-        $this->addCommandButton(
-            ilTestPlayerCommands::SHOW_QUESTION,
-            $this->lng->txt('tst_resume_test')
+        $this->command_buttons[] = $this->factory->button()->standard(
+            $this->lng->txt('tst_resume_test'),
+            $this->ctrl->getLinkTarget($this->parent_obj, ilTestPlayerCommands::SHOW_QUESTION)
         );
 
         if (!$this->areObligationsNotAnswered() && $this->isFinishTestButtonEnabled()) {
-            $button = ilSubmitButton::getInstance();
-            $button->setCaption('finish_test');
-            $button->setCommand(ilTestPlayerCommands::FINISH_TEST);
-            $this->addCommandButtonInstance($button);
+            $this->addFinishTestButton();
         }
+    }
+
+    public function userHasAttemptsLeft(): bool
+    {
+        return $this->user_has_attempts_left;
+    }
+
+    public function setUserHasAttemptsLeft(bool $user_has_attempts_left): void
+    {
+        $this->user_has_attempts_left = $user_has_attempts_left;
+    }
+
+    private function addFinishTestButton(): void
+    {
+        if ($this->userHasAttemptsLeft()) {
+            $message = $this->lng->txt('tst_finish_confirmation_question');
+        } else {
+            $message = $this->lng->txt('tst_finish_confirmation_question_no_attempts_left');
+        }
+        $this->finish_test_modal = $this->factory->modal()->interruptive(
+            $this->lng->txt('finish_test'),
+            $message,
+            $this->ctrl->getLinkTarget(
+                $this->parent_obj,
+                ilTestPlayerCommands::FINISH_TEST
+            )
+        )->withActionButtonLabel($this->lng->txt('tst_finish_confirm_button'));
+
+        $this->command_buttons[] = $this->factory->button()->standard($this->lng->txt('finish_test'), '')
+                           ->withOnClick($this->finish_test_modal->getShowSignal());
+    }
+
+    public function getHTML(): string
+    {
+        foreach ($this->command_buttons as $top_item) {
+            $this->tpl->setCurrentBlock('tbl_header_html');
+            $this->tpl->setVariable(
+                "HEADER_HTML",
+                $this->renderer->render($top_item)
+            );
+            $this->tpl->parseCurrentBlock();
+        }
+
+        return parent::getHTML() . $this->renderer->render($this->finish_test_modal);
     }
 
     public function fillRow(array $a_set): void
@@ -155,12 +206,16 @@ class ilListOfQuestionsTableGUI extends ilTable2GUI
 
             // obligatory icon
             if ($a_set["obligatory"]) {
-                require_once 'Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php';
-                $OBLIGATORY = ilGlyphGUI::get(ilGlyphGUI::EXCLAMATION, $this->lng->txt('question_obligatory'));
+                $obligatory = $this->renderer->render(
+                    $this->factory->symbol()->icon()->custom(
+                        ilUtil::getImagePath('icon_alert.svg'),
+                        $this->lng->txt('question_obligatory')
+                    )
+                );
             } else {
-                $OBLIGATORY = '';
+                $obligatory = '';
             }
-            $this->tpl->setVariable("QUESTION_OBLIGATORY", $OBLIGATORY);
+            $this->tpl->setVariable("QUESTION_OBLIGATORY", $obligatory);
         }
 
         $postponed = (

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\BackgroundTasks\Implementation\Tasks\AbstractJob;
 use ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\BooleanValue;
@@ -48,15 +48,26 @@ class ilMailDeliveryJob extends AbstractJob
             json_encode(array_slice($arguments, 0, 5), JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT)
         ));
 
+        $context_parameters = (array) unserialize($input[10]->getValue(), ['allowed_classes' => false]);
+
         if ((int) $input[0]->getValue() === ANONYMOUS_USER_ID) {
             $mail = new ilMail((int) $input[0]->getValue());
         } else {
             $mail = new ilFormatMail((int) $input[0]->getValue());
         }
+
+        if (isset($context_parameters['auto_responder'])) {
+            if ($context_parameters['auto_responder']) {
+                $mail->autoresponder()->enableAutoresponder();
+            } else {
+                $mail->autoresponder()->disableAutoresponder();
+            }
+        }
+
         $mail->setSaveInSentbox((bool) $input[8]->getValue());
         $mail = $mail
             ->withContextId((string) $input[9]->getValue())
-            ->withContextParameters((array) unserialize($input[10]->getValue(), ['allowed_classes' => false]));
+            ->withContextParameters($context_parameters);
 
         $mail->sendMail(
             (string) $input[1]->getValue(), // To

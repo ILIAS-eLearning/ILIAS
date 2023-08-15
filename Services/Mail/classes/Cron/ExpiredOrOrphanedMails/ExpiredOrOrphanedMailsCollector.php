@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\Mail\Cron\ExpiredOrOrphanedMails;
 
 use ILIAS\Data\Clock\ClockInterface;
@@ -30,14 +30,15 @@ use ilDBInterface;
 class ExpiredOrOrphanedMailsCollector
 {
     private const PING_THRESHOLD = 500;
-    private ilDBInterface $db;
-    private ilSetting $settings;
-    private ClockInterface $clock;
+
+    private readonly ilDBInterface $db;
+    private readonly ilSetting $settings;
+    private readonly ClockInterface $clock;
     /** @var int[] */
     private array $mail_ids = [];
 
     public function __construct(
-        private ilMailCronOrphanedMails $job,
+        private readonly ilMailCronOrphanedMails $job,
         ?ilDBInterface $db = null,
         ?ilSetting $setting = null,
         ?ClockInterface $clock = null

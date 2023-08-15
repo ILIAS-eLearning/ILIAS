@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Statically used helper class for generating links to the mail form user interface
  *
@@ -26,11 +26,11 @@ declare(strict_types=1);
  */
 class ilMailFormCall
 {
-    public const SESSION_KEY = 'mail_transport';
-    public const REFERER_KEY = 'r';
-    public const SIGNATURE_KEY = 'sig';
-    public const CONTEXT_PREFIX = 'ctx';
-    public const CONTEXT_KEY = 'ctx_template';
+    final public const SESSION_KEY = 'mail_transport';
+    final public const REFERER_KEY = 'r';
+    final public const SIGNATURE_KEY = 'sig';
+    final public const CONTEXT_PREFIX = 'ctx';
+    final public const CONTEXT_KEY = 'ctx_template';
 
     /**
      * @param object|string $gui
@@ -232,23 +232,24 @@ class ilMailFormCall
     }
 
     /**
-     * @param string[] $recipients
+     * @param list<string> $recipients
      */
-    public static function setRecipients(array $recipients): void
+    public static function setRecipients(array $recipients, string $type = 'to'): void
     {
-        $session = ilSession::get(self::SESSION_KEY);
-        $session['rcp_to'] = $recipients;
+        $session = ilSession::get(self::SESSION_KEY) ?? [];
+        $session['rcp_' . $type] = array_map('strval', array_values($recipients));
         ilSession::set(self::SESSION_KEY, $session);
     }
 
     /**
-     * @return string[]
+     * @return list<string>
      */
-    public static function getRecipients(): array
+    public static function getRecipients(string $type = 'to'): array
     {
-        $session = ilSession::get(self::SESSION_KEY);
-        if (isset($session['rcp_to']) && is_array($session['rcp_to'])) {
-            return $session['rcp_to'];
+        $session = ilSession::get(self::SESSION_KEY) ?? [];
+        $key = 'rcp_' . $type;
+        if (isset($session[$key]) && is_array($session[$key])) {
+            return array_map('strval', array_values($session[$key]));
         }
 
         return [];

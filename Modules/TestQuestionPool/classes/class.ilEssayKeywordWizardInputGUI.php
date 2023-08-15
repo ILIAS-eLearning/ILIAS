@@ -23,7 +23,6 @@ class ilEssayKeywordWizardInputGUI extends ilSingleChoiceWizardInputGUI
         if (is_array($a_value)) {
             if (is_array($a_value['answer'])) {
                 foreach ($a_value['answer'] as $index => $value) {
-                    include_once "./Modules/TestQuestionPool/classes/class.assAnswerMultipleResponseImage.php";
                     if (isset($a_value['points'])) {
                         $pvalue = $a_value['points'][$index];
                     } else {
@@ -34,7 +33,7 @@ class ilEssayKeywordWizardInputGUI extends ilSingleChoiceWizardInputGUI
                     } else {
                         $value_unchecked = 0.0;
                     }
-                    $answer = new ASS_AnswerMultipleResponseImage($value, (float)$pvalue, $index, $value_unchecked);
+                    $answer = new ASS_AnswerMultipleResponseImage($value, (float) $pvalue, $index, $value_unchecked);
                     $this->values[] = $answer;
                 }
             }
@@ -50,7 +49,6 @@ class ilEssayKeywordWizardInputGUI extends ilSingleChoiceWizardInputGUI
         global $DIC;
         $lng = $DIC['lng'];
 
-        include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
         if (is_array($_POST[$this->getPostVar()])) {
             $foundvalues = ilArrayUtil::stripSlashesRecursive(
                 $_POST[$this->getPostVar()],
@@ -66,7 +64,7 @@ class ilEssayKeywordWizardInputGUI extends ilSingleChoiceWizardInputGUI
             // check answers
             if (is_array($foundvalues['answer'])) {
                 foreach ($foundvalues['answer'] as $aidx => $answervalue) {
-                    if (((strlen($answervalue)) == 0) && (strlen($foundvalues['imagename'][$aidx]) == 0)) {
+                    if (((strlen($answervalue)) == 0) && (!isset($foundvalues['imagename']) || strlen($foundvalues['imagename'][$aidx]) == 0)) {
                         $this->setAlert($lng->txt("msg_input_is_required"));
                         return false;
                     }
@@ -152,13 +150,15 @@ class ilEssayKeywordWizardInputGUI extends ilSingleChoiceWizardInputGUI
             $tpl->setVariable("ROW_NUMBER", $i);
             $tpl->setVariable("ID", $this->getPostVar() . "[answer][$i]");
             $tpl->setVariable("POINTS_ID", $this->getPostVar() . "[points][$i]");
-            $tpl->setVariable("CMD_ADD", "cmd[add" . $this->getFieldId() . "][$i]");
-            $tpl->setVariable("CMD_REMOVE", "cmd[remove" . $this->getFieldId() . "][$i]");
             if ($this->getDisabled()) {
                 $tpl->setVariable("DISABLED_POINTS", " disabled=\"disabled\"");
             }
-            $tpl->setVariable("ADD_BUTTON", ilGlyphGUI::get(ilGlyphGUI::ADD));
-            $tpl->setVariable("REMOVE_BUTTON", ilGlyphGUI::get(ilGlyphGUI::REMOVE));
+            $tpl->setVariable("ADD_BUTTON", $this->renderer->render(
+                $this->glyph_factory->add()->withAction('#')
+            ));
+            $tpl->setVariable("REMOVE_BUTTON", $this->renderer->render(
+                $this->glyph_factory->remove()->withAction('#')
+            ));
             $tpl->parseCurrentBlock();
             $i++;
         }
@@ -179,7 +179,7 @@ class ilEssayKeywordWizardInputGUI extends ilSingleChoiceWizardInputGUI
 
         global $DIC;
         $tpl = $DIC['tpl'];
-        $tpl->addJavascript("./Services/Form/js/ServiceFormWizardInput.js");
+        $tpl->addJavascript("./Modules/TestQuestionPool/templates/default/answerwizardinput.js");
         $tpl->addJavascript("./Modules/TestQuestionPool/templates/default/essaykeywordwizard.js");
     }
 }

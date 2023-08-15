@@ -1,0 +1,322 @@
+@use "sass:map";
+@use "sass:math";
+@use "sass:color";
+@use "sass:string";
+@use "../030-tools/tool_contrast-color" as contrast-col;
+@use "../030-tools/tool_focus-outline" as focus;
+
+$debug-mode: false !default;
+
+//
+// BASIC SETTINGS
+// change to match design
+// these variables repeat at the beginning of mixin
+//
+$font-family: inherit !default;
+$font-size: inherit !default;
+$font-weight: inherit !default;
+$button-color: lightblue !default;
+$button-text-color: black !default;
+$text-decoration: none !default;
+$button-style-outlined: false !default;
+$border-width: 1px !default;
+$border-radius: 0px !default;
+$line-height: inherit !default;
+// button height is by default largely determined by this value
+$input-field-height: 42px !default;
+$padding-small-x: 10px !default;
+// padding y is only a small buffer for when the button contains multiple lines
+$padding-small-y: 5px !default;
+$inner-spacing: math.div($padding-small-x, 2) !default;
+$set-full-width: false !default;
+
+//
+// BUTTON CREATION
+//
+
+@mixin make-button( //
+    // Use any of these variables during include to customize the button style
+    //
+
+    // repeating BASIC SETTINGS so mixin can optionally override them
+    $set-basics: true,
+    $font-family: $font-family,
+    $button-font-size: $font-size,
+    $font-weight: $font-weight,
+    $button-color: $button-color,
+    $button-text-color: $button-text-color,
+    $text-decoration: $text-decoration,
+    $button-style-outlined: $button-style-outlined,
+    $border-width: $border-width,
+    $border-radius: $border-radius,
+    $line-height: $line-height,
+    $input-field-height: $input-field-height,
+    $padding-small-x: $padding-small-x,
+    $padding-small-y: $padding-small-y,
+    $inner-spacing: $inner-spacing,
+    $set-full-width: $set-full-width,
+
+    // SIZE
+    $set-size: true,
+    $height: $input-field-height,
+    $font-size: $button-font-size,
+
+    // COLOR VARIABLES
+    $set-design: true,
+    $bg-color: $button-color,
+    $text-color: $button-text-color,
+    $border-color: $button-color,
+
+    $hover_bg-color: contrast-col.contrast-color($button-text-color, darken($bg-color, 10%), lighten($bg-color, 10%)),
+    $hover_text-color: $text-color,
+    $hover_border-color: $hover_bg-color,
+
+    $disabled_bg-color: contrast-col.contrast-color($button-text-color, color.scale($bg-color, $saturation: -80%, $lightness: -5%), color.adjust($bg-color, $saturation: -80%, $lightness: 10%)),
+    $disabled_text-color: color.scale($button-text-color, $alpha: -10%),
+    $disabled_border-color: contrast-col.contrast-color($button-text-color, color.scale($bg-color, $saturation: -80%, $lightness: -5%), color.adjust($bg-color, $saturation: -80%, $lightness: 10%)),
+
+    $disabled_hover_bg-color: $disabled_bg-color,
+    $disabled_hover_text-color: $disabled_text-color,
+    $disabled_hover_border-color: $disabled_border-color,
+
+    $active_bg-color: contrast-col.contrast-color($button-text-color, darken($bg-color, 20%), lighten($bg-color, 20%)),
+    $active_text-color: $text-color,
+    $active_border-color: $active_bg-color,
+
+    $engaged_bg-color: white,
+    $engaged_text-color: contrast-col.contrast-color($engaged_bg-color, #000, #fff),
+    $engaged_border-color: $bg-color,
+
+    $engaged_hover_bg-color: $hover_bg-color,
+    $engaged_hover_text-color: $hover_text-color,
+    $engaged_hover_border-color: $hover_border-color,
+
+    // DESIGN ELMENTS
+    $engaged_border-width: 3px,
+
+    $hover_text-decoration: $text-decoration,
+
+    $hover_border-width: $border-width,
+
+    $active_border-width: $border-width,
+    $active_transform: scale(.95),
+
+    $hover_cursor: pointer,
+
+    $disabled_border-width: $border-width,
+    $disabled_hover_border-width: $border-width,
+    $disabled_cursor: not-allowed,
+
+    $space-between-btns: math.div($padding-small-x, 2)) {
+
+    @if $set-basics {
+
+        // outside
+        @if $set-full-width {
+            display: flex;
+        }
+
+        @else {
+            display: inline-flex;
+            vertical-align: middle;
+        }
+
+        &+& {
+            margin-left: $space-between-btns;
+        }
+
+        // inside
+        align-items: center;
+        justify-content: center;
+        cursor: $hover_cursor;
+        user-select: none;
+        touch-action: manipulation;
+
+        // general typography
+        font-family: $font-family;
+        text-align: center;
+        line-height: $line-height;
+        font-size: inherit; // see set-size
+        font-weight: $font-weight;
+        text-decoration: $text-decoration;
+    }
+
+    @if $set-size {
+        min-height: $input-field-height;
+        @if $set-full-width {
+            width: 100%;
+        } @else {
+            min-width: $input-field-height;
+        }
+        font-size: $font-size;
+
+        padding: $padding-small-y $padding-small-x;
+        gap: $inner-spacing;
+    }
+
+    @if $set-design {
+        // DEFAULT
+        background-color: $bg-color;
+        color: $text-color;
+        border-width: $border-width;
+        border-style: solid;
+        border-color: $border-color;
+        @if $border-radius !=null or $border-radius !=0px {
+            border-radius: $border-radius;
+        }
+
+        // HOVER
+        &:hover {
+            text-decoration: $hover_text-decoration;
+
+            background-color: $hover_bg-color;
+            color: $hover_text-color;
+            border-width: $hover_border-width;
+            border-style: solid;
+            border-color: $hover_border-color;
+        }
+
+        // KEYBOARD FOCUS
+        @include focus.il-focus();
+
+        // ACTIVE (BEING PRESSED)
+        &:active {
+            transform: $active_transform;
+
+            background-color: $active_bg-color;
+            color: $active_text-color;
+            border-width: $active_border-width;
+            border-style: solid;
+            border-color: $active_border-color;
+        }
+
+        // DEACTIVATED
+        &[disabled],
+        fieldset[disabled] {
+            background-color: $disabled_bg-color;
+            border-width: $disabled_border-width;
+            border-style: solid;
+            border-color: $disabled_border-color;
+            color: $disabled_text-color;
+            cursor: $disabled_cursor;
+            transform: if($active-transform, none, null);
+
+            @if $disabled_hover_bg-color != $disabled_bg-color
+            or $disabled_hover_border-color != $disabled_border-color
+            or $disabled_hover_text-color != $disabled_text-color
+            or $disabled_hover_border-width != $disabled_border-width {
+
+                &:hover,
+                &:focus,
+                &:active,
+                &.active {
+                    background-color: $disabled_hover_bg-color;
+                    border-width: $disabled_hover_border-width;
+                    border-style: solid;
+                    border-color: $disabled_hover_border-color;
+                    color: $disabled_hover_text-color;
+                }
+            }
+        }
+
+        // ENGAGED (CHECKED)
+        &.engaged {
+            background-color: $engaged_bg-color;
+            border-width: $engaged_border-width;
+            border-style: solid;
+            border-color: $engaged_border-color;
+            color: $engaged_text-color;
+            @if $engaged_hover_bg-color != $hover_bg-color
+            or $engaged_hover_border-color != $hover_border-color
+            or $engaged_hover_text-color != $hover_text-color {
+
+                &:hover {
+                    background-color: $engaged_hover_bg-color;
+                    border-width: $hover_border-width;
+                    border-style: solid;
+                    border-color: $engaged_hover_border-color;
+                    color: $engaged_hover_text-color;
+                }
+            }
+        }
+
+        @if $set-full-width {
+            .button-content_v-align-top {
+                display: flex;
+                text-align: left;
+                gap: $inner-spacing;
+                align-items: start;
+            }
+
+            .button-content_grow {
+                flex-grow: 1;
+            }
+        }
+    }
+}
+
+@mixin make-button-group(
+    $btn-class-name: "button",
+    $border-radius: $border-radius
+    ) {
+    @if $debug-mode {
+        @if (string.index($btn-class-name, '.')) == null {
+            @warn "Note that $btn-class-name must include the `.` unless they are html elements like `button`";
+        }
+    }
+
+    #{$btn-class-name} {
+        + #{$btn-class-name} {
+            margin-left: 0 !important;
+        }
+
+        @if ($border-radius !=null or $border-radius !=0px) {
+            &,
+            &:focus-visible,
+            &:focus-visible::after {
+                border-radius: 0;
+            }
+
+            &:first-child,
+            &:first-child:focus-visible,
+            &:first-child:focus-visible::after {
+                border-start-start-radius: $border-radius;
+                border-end-start-radius: $border-radius;
+            }
+
+            &:last-child,
+            &:last-child:focus-visible,
+            &:last-child:focus-visible::after {
+                border-end-end-radius: $border-radius;
+                border-start-end-radius: $border-radius;
+            }
+        }
+    }
+}
+
+@mixin make-button-board (
+    $btn-class-name: "button",
+    $border-radius: $border-radius,
+    $padding-x: $padding-small-x,
+    $padding-y: $padding-small-y,
+    $button-height: $input-field-height,
+    $board-height: $input-field-height,
+    $board-bg: $button-color
+) {
+    @if $debug-mode {
+        @if (string.index($btn-class-name, '.'))==null {
+            @warn "Note that $btn-class-name must include the `.` unless they are html elements like `button`";
+        }
+    }
+    display: flex;
+    width: fit-content;
+    align-items: center;
+    background-color: $board-bg;
+    height: $board-height;
+    border-radius: $border-radius;
+    padding: $padding-y $padding-x;
+
+    #{$btn-class-name} {
+        min-height: $button-height;
+    }
+}

@@ -1,20 +1,21 @@
 <?php
 
-declare(strict_types=1);
-
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *
- *****************************************************************************/
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
+
+declare(strict_types=1);
 
 /**
  * @author Stefan Meyer <meyer@leifos.com>
@@ -23,12 +24,10 @@ class ilECSServerTableGUI extends ilTable2GUI
 {
     private ilAccessHandler $access;
 
-    /**
-     * Constructor
-     * @param object $a_parent_obj
-     * @param string $a_parent_cmd
-     */
-    public function __construct($a_parent_obj, $a_parent_cmd = "")
+    private \ILIAS\UI\Factory $ui_factory;
+    private \ILIAS\UI\Renderer $ui_renderer;
+
+    public function __construct(object $a_parent_obj, string $a_parent_cmd = "")
     {
         global $DIC;
 
@@ -36,6 +35,8 @@ class ilECSServerTableGUI extends ilTable2GUI
         $this->setId('ecs_server_list');
 
         $this->access = $DIC->access();
+        $this->ui_factory = $DIC->ui()->factory();
+        $this->ui_renderer = $DIC->ui()->renderer();
     }
 
     /**
@@ -101,25 +102,27 @@ class ilECSServerTableGUI extends ilTable2GUI
 
         if ($this->access->checkAccess('write', '', (int) $_REQUEST["ref_id"])) {
             // Actions
-            $list = new ilAdvancedSelectionListGUI();
-            $list->setSelectionHeaderClass('small');
-            $list->setItemLinkClass('small');
-            $list->setId('actl_' . $a_set['server_id']);
-            $list->setListTitle($this->lng->txt('actions'));
-
+            $items = [];
 
             if (ilECSSetting::getInstanceByServerId($a_set['server_id'])->isEnabled()) {
-                $list->addItem($this->lng->txt('ecs_deactivate'), '', $this->ctrl->getLinkTarget($this->getParentObject(), 'deactivate'));
+                $items[] = [$this->lng->txt('ecs_deactivate'), $this->ctrl->getLinkTarget($this->getParentObject(), 'deactivate')];
             } else {
-                $list->addItem($this->lng->txt('ecs_activate'), '', $this->ctrl->getLinkTarget($this->getParentObject(), 'activate'));
+                $items[] = [$this->lng->txt('ecs_activate'), $this->ctrl->getLinkTarget($this->getParentObject(), 'activate')];
             }
 
-            $list->addItem($this->lng->txt('edit'), '', $this->ctrl->getLinkTarget($this->getParentObject(), 'edit'));
-            $list->addItem($this->lng->txt('copy'), '', $this->ctrl->getLinkTarget($this->getParentObject(), 'cp'));
-            $list->addItem($this->lng->txt('delete'), '', $this->ctrl->getLinkTarget($this->getParentObject(), 'delete'));
+            $items[] = [$this->lng->txt('edit'), $this->ctrl->getLinkTarget($this->getParentObject(), 'edit')];
+            $items[] = [$this->lng->txt('copy'), $this->ctrl->getLinkTarget($this->getParentObject(), 'cp')];
+            $items[] = [$this->lng->txt('delete'), $this->ctrl->getLinkTarget($this->getParentObject(), 'delete')];
 
             $this->tpl->setCurrentBlock("actions");
-            $this->tpl->setVariable('ACTIONS', $list->getHTML());
+            $render_items = [];
+            foreach ($items as $item) {
+                $render_items[] = $this->ui_factory->button()->shy(...$item);
+            }
+            $this->tpl->setVariable(
+                'ACTIONS',
+                $this->ui_renderer->render($this->ui_factory->dropdown()->standard($render_items)->withLabel($this->lng->txt('actions')))
+            );
             $this->tpl->parseCurrentBlock();
         }
         $this->ctrl->clearParameters($this->getParentObject());

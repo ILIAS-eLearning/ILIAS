@@ -128,8 +128,6 @@ class ilTestPassDetailsOverviewTableGUI extends ilTable2GUI
     public function initFilter(): void
     {
         if (count($this->parent_obj->object->getResultFilterTaxIds())) {
-            require_once 'Services/Taxonomy/classes/class.ilTaxSelectInputGUI.php';
-
             foreach ($this->parent_obj->object->getResultFilterTaxIds() as $taxId) {
                 $postvar = "tax_$taxId";
 

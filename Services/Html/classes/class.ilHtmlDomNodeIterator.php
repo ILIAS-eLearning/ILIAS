@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class ilHtmlDomNodeIterator
  * @author Michael Jansen <mjansen@databay.de>
@@ -25,7 +25,7 @@ declare(strict_types=1);
 final class ilHtmlDomNodeIterator implements RecursiveIterator
 {
     private int $position;
-    private DOMNodeList $nodeList;
+    private readonly DOMNodeList $nodeList;
 
     public function __construct(DOMNode $el)
     {

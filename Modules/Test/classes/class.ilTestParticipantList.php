@@ -229,8 +229,6 @@ class ilTestParticipantList implements Iterator
      */
     public function getScoredParticipantList(): ilTestParticipantList
     {
-        require_once 'Modules/Test/classes/class.ilTestParticipantScoring.php';
-
         $scoredParticipantList = new self($this->getTestObj());
 
         global $DIC; /* @var ILIAS\DI\Container $DIC */
@@ -273,25 +271,12 @@ class ilTestParticipantList implements Iterator
             'integer'
         );
 
-        if (false && !$this->getTestObj()->isDynamicTest()) { // BH: keep for the moment
-            $closedScoringsOnly = "
-				INNER JOIN tst_active tact
-				ON tact.active_id = tres.active_fi
-				AND tact.last_finished_pass = tact.last_started_pass
-			";
-        } else {
-            $closedScoringsOnly = '';
-        }
-
         $query = "
 			SELECT * FROM tst_result_cache tres
 
 			INNER JOIN tst_pass_result pres
 			ON pres.active_fi = tres.active_fi
 			AND pres.pass = tres.pass
-
-			$closedScoringsOnly
-
 			WHERE $IN_activeIds
 		";
 
@@ -326,21 +311,21 @@ class ilTestParticipantList implements Iterator
 
     public function getScoringsTableRows(): array
     {
-        $rows = array();
+        $rows = [];
 
         foreach ($this as $participant) {
             if (!$participant->hasScoring()) {
                 continue;
             }
 
-            $row = array(
+            $row = [
                 'usr_id' => $participant->getUsrId(),
                 'active_id' => $participant->getActiveId(),
                 'login' => $participant->getLogin(),
                 'firstname' => $participant->getFirstname(),
                 'lastname' => $participant->getLastname(),
                 'name' => $this->buildFullname($participant)
-            );
+            ];
 
             if ($participant->getScoring()) {
                 $row['scored_pass'] = $participant->getScoring()->getScoredPass();
@@ -400,7 +385,7 @@ class ilTestParticipantList implements Iterator
      */
     protected function buildFullname(ilTestParticipant $participant): string
     {
-        if ($this->getTestObj()->getFixedParticipants() && !$participant->getActiveId()) {
+        if ($this->getTestObj()->getMainSettings()->getAccessSettings()->getFixedParticipants() && !$participant->getActiveId()) {
             return $this->buildInviteeFullname($participant);
         }
 
@@ -432,7 +417,6 @@ class ilTestParticipantList implements Iterator
      */
     protected function buildParticipantsFullname(ilTestParticipant $participant): string
     {
-        require_once 'Modules/Test/classes/class.ilObjTestAccess.php';
         return ilObjTestAccess::_getParticipantData($participant->getActiveId());
     }
 }

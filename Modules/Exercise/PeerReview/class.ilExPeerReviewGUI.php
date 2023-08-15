@@ -25,6 +25,7 @@
  */
 class ilExPeerReviewGUI
 {
+    protected \ILIAS\Exercise\InternalGUIService $gui;
     protected ilCtrl $ctrl;
     protected ilTabsGUI $tabs_gui;
     protected ilLanguage $lng;
@@ -66,6 +67,7 @@ class ilExPeerReviewGUI
         $this->requested_review_crit_id = $request->getReviewCritId();
         $this->requested_peer_id = $request->getPeerId();
         $this->requested_crit_id = $request->getCritId();
+        $this->gui = $DIC->exercise()->internal()->gui();
     }
 
     /**
@@ -183,6 +185,9 @@ class ilExPeerReviewGUI
 
         $lng = $DIC->language();
         $ilCtrl = $DIC->ctrl();
+        $gui = $DIC->exercise()
+            ->internal()
+            ->gui();
 
         $state = ilExcAssMemberState::getInstanceByIds($a_submission->getAssignment()->getId(), $a_submission->getUserId());
 
@@ -212,11 +217,14 @@ class ilExPeerReviewGUI
                     ) . ")";
                 }
 
-                $button = ilLinkButton::getInstance();				// edit peer review
-                $button->setPrimary($nr_missing_fb);
-                $button->setCaption($lng->txt("exc_peer_review_give") . $dl_info, false);
-                $button->setUrl($ilCtrl->getLinkTargetByClass(array("ilExSubmissionGUI", "ilExPeerReviewGUI"), "editPeerReview"));
-                $edit_pc = $button->render();
+                $b = $gui->link(
+                    $lng->txt("exc_peer_review_give"),
+                    $ilCtrl->getLinkTargetByClass(array("ilExSubmissionGUI", "ilExPeerReviewGUI"), "editPeerReview")
+                )->emphasised();
+                if ($nr_missing_fb) {
+                    $b = $b->primary();
+                }
+                $edit_pc = $b->render();
             } elseif ($ass->getPeerReviewDeadline()) {
                 $edit_pc = $lng->txt("exc_peer_review_deadline_reached");
             }
@@ -227,10 +235,11 @@ class ilExPeerReviewGUI
                 // given peer review should be accessible at all times (read-only when not editable - see above)
                 if ($ass->getPeerReviewDeadline() &&
                     $a_submission->getPeerReview()->countGivenFeedback(false)) {
-                    $button = ilLinkButton::getInstance();
-                    $button->setCaption("exc_peer_review_given");
-                    $button->setUrl($ilCtrl->getLinkTargetByClass(array("ilExSubmissionGUI", "ilExPeerReviewGUI"), "showGivenPeerReview"));
-                    $view_pc = $button->render() . " ";
+                    $b = $gui->link(
+                        $lng->txt("exc_peer_review_given"),
+                        $ilCtrl->getLinkTargetByClass(array("ilExSubmissionGUI", "ilExPeerReviewGUI"), "showGivenPeerReview")
+                    )->emphasised();
+                    $view_pc = $b->render() . " ";
                 }
 
                 // did give enough feedback
@@ -238,10 +247,11 @@ class ilExPeerReviewGUI
                     // received any?
                     $received = (bool) sizeof($a_submission->getPeerReview()->getPeerReviewsByPeerId($a_submission->getUserId(), true));
                     if ($received) {
-                        $button = ilLinkButton::getInstance();
-                        $button->setCaption("exc_peer_review_show");
-                        $button->setUrl($ilCtrl->getLinkTargetByClass(array("ilExSubmissionGUI", "ilExPeerReviewGUI"), "showReceivedPeerReview"));
-                        $view_pc .= $button->render();
+                        $b = $gui->link(
+                            $lng->txt("exc_peer_review_show"),
+                            $ilCtrl->getLinkTargetByClass(array("ilExSubmissionGUI", "ilExPeerReviewGUI"), "showReceivedPeerReview")
+                        )->emphasised();
+                        $view_pc .= $b->render();
                     }
                     // received none
                     else {
@@ -808,10 +818,14 @@ class ilExPeerReviewGUI
                 $ptpl->parseCurrentBlock();
             }
 
-            $panel = ilPanelGUI::getInstance();
-            $panel->setHeading($this->lng->txt("exc_peer_review_overview_invalid_users"));
-            $panel->setBody($ptpl->get());
-            $panel = $panel->getHTML();
+            $f = $this->gui->ui()->factory();
+            $r = $this->gui->ui()->renderer();
+            $p = $f->panel()->standard(
+                $this->lng->txt("exc_peer_review_overview_invalid_users"),
+                $f->legacy($ptpl->get())
+            );
+
+            $panel = $r->render($p);
         }
 
         $tpl->setContent($tbl->getHTML() . $panel);

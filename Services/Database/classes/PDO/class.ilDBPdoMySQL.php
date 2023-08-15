@@ -1,6 +1,5 @@
 <?php
 
-declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +16,7 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
 /**
  * Class ilDBPdoMySQL
  * @author Fabian Schmid <fs@studer-raimann.ch>
@@ -69,17 +69,16 @@ abstract class ilDBPdoMySQL extends ilDBPdo
         );
     }
 
-    public function migrateTableToEngine(string $table_name, string $engine = ilDBConstants::MYSQL_ENGINE_INNODB): bool
+    public function migrateTableToEngine(string $table_name, string $engine = ilDBConstants::MYSQL_ENGINE_INNODB): void
     {
         try {
             $this->pdo->exec("ALTER TABLE {$table_name} ENGINE={$engine}");
             if ($this->sequenceExists($table_name)) {
                 $this->pdo->exec("ALTER TABLE {$table_name}_seq ENGINE={$engine}");
             }
-        } catch (Exception $e) {
-            return false;
+        } catch (PDOException $e) {
+            throw new ilDatabaseException($e->getMessage());
         }
-        return true;
     }
 
     /**

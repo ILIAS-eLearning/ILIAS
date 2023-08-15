@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,13 +16,15 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Stores repository clipboard data
  * @author Alexander Killing <killing@leifos.de>
  */
 class ilBadgeManagementSessionRepository
 {
-    public const KEY = "bdgclpbrd";
+    final public const KEY = "bdgclpbrd";
 
     public function __construct()
     {

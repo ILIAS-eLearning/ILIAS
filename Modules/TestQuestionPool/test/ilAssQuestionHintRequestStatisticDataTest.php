@@ -35,9 +35,6 @@ class ilAssQuestionHintRequestStatisticDataTest extends assBaseTestCase
 
     public function test_instantiateObject_shouldReturnInstance(): void
     {
-        // Arrange
-        require_once './Modules/TestQuestionPool/classes/class.ilAssQuestionHintRequestStatisticData.php';
-
         // Act
         $instance = new ilAssQuestionHintRequestStatisticData();
 

@@ -48,8 +48,13 @@ ilCOPageQuestionHandlerF.prototype =
 
 		if (this.callback_url != null)
 		{
-			var request = YAHOO.util.Connect.asyncRequest('POST', this.callback_url, cb,
-				"id=" + id + "&type=" + type + "&answer=" + JSON.stringify(answer));
+			il.repository.core.fetchHtml(this.callback_url, {
+				id: id,
+				type: type,
+				answer: JSON.stringify(answer)
+			}, true).then(() => {
+				this.asynchSuccess();
+			});
 		}
 
 		return false;

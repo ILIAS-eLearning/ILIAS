@@ -15,8 +15,6 @@
  *
  *********************************************************************/
 
-include_once "./Modules/TestQuestionPool/classes/export/qti12/class.assQuestionExport.php";
-
 /**
 * Class for ordering question exports
 *
@@ -45,7 +43,6 @@ class assOrderingQuestionExport extends assQuestionExport
         $ilUser = $DIC['ilUser'];
         $ilias = $DIC['ilias'];
 
-        include_once("./Services/Xml/classes/class.ilXmlWriter.php");
         $a_xml_writer = new ilXmlWriter();
         // set xml header
         $a_xml_writer->xmlHeader();
@@ -58,11 +55,6 @@ class assOrderingQuestionExport extends assQuestionExport
         $a_xml_writer->xmlStartTag("item", $attrs);
         // add question description
         $a_xml_writer->xmlElement("qticomment", null, $this->object->getComment());
-        // add estimated working time
-        $workingtime = $this->object->getEstimatedWorkingTime();
-        $duration = sprintf("P0Y0M0DT%dH%dM%dS", $workingtime["h"], $workingtime["m"], $workingtime["s"]);
-        $a_xml_writer->xmlElement("duration", null, $duration);
-        // add ILIAS specific metadata
         $a_xml_writer->xmlStartTag("itemmetadata");
         $a_xml_writer->xmlStartTag("qtimetadata");
         $a_xml_writer->xmlStartTag("qtimetadatafield");
@@ -84,7 +76,7 @@ class assOrderingQuestionExport extends assQuestionExport
 
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "thumb_geometry");
-        $a_xml_writer->xmlElement("fieldentry", null, $this->object->getThumbGeometry());
+        $a_xml_writer->xmlElement("fieldentry", null, $this->object->getThumbSize());
         $a_xml_writer->xmlEndTag("qtimetadatafield");
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "element_height");
@@ -128,7 +120,7 @@ class assOrderingQuestionExport extends assQuestionExport
             $attrs["output"] = "javascript";
         }
         $a_xml_writer->xmlStartTag("response_lid", $attrs);
-        $solution = $this->object->getSuggestedSolution(0);
+        $solution = $this->object->getSuggestedSolution(0) ?? [];
         if (count($solution)) {
             if (preg_match("/il_(\d*?)_(\w+)_(\d+)/", $solution["internal_link"], $matches)) {
                 $a_xml_writer->xmlStartTag("material");
@@ -176,21 +168,23 @@ class assOrderingQuestionExport extends assQuestionExport
                     $a_xml_writer->xmlElement("matimage", $attrs);
                 } else {
                     $imagepath = $this->object->getImagePath() . $element->getContent();
-                    $fh = @fopen($imagepath, "rb");
-                    if ($fh != false) {
-                        $imagefile = fread($fh, filesize($imagepath));
-                        fclose($fh);
-                        $base64 = base64_encode($imagefile);
+                    if (file_exists($imagepath) && is_file($imagepath)) {
+                        $fh = @fopen($imagepath, "rb");
+                        if ($fh != false) {
+                            $imagefile = fread($fh, filesize($imagepath));
+                            fclose($fh);
+                            $base64 = base64_encode($imagefile);
 
-                        if (preg_match("/.*\.(png|gif)$/", $element->getContent(), $matches)) {
-                            $imagetype = "image/" . $matches[1];
+                            if (preg_match("/.*\.(png|gif)$/", $element->getContent(), $matches)) {
+                                $imagetype = "image/" . $matches[1];
+                            }
+                            $attrs = array(
+                                "imagtype" => $imagetype,
+                                "label" => $element->getContent(),
+                                "embedded" => "base64"
+                            );
+                            $a_xml_writer->xmlElement("matimage", $attrs, $base64, false, false);
                         }
-                        $attrs = array(
-                            "imagtype" => $imagetype,
-                            "label" => $element->getContent(),
-                            "embedded" => "base64"
-                        );
-                        $a_xml_writer->xmlElement("matimage", $attrs, $base64, false, false);
                     }
                 }
                 $a_xml_writer->xmlEndTag("material");

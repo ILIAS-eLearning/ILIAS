@@ -15,7 +15,8 @@
  *
  *********************************************************************/
 
-use  ILIAS\TA\Questions\assQuestionSuggestedSolution;
+use ILIAS\TA\Questions\assQuestionSuggestedSolution;
+use ILIAS\TA\Questions\assQuestionSuggestedSolutionsDatabaseRepository;
 
 /**
 * Class for question imports
@@ -227,7 +228,6 @@ class assQuestionImport
      */
     protected function getQplImportArchivDirectory(): string
     {
-        include_once "./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php";
         return ilObjQuestionPool::_getImportDirectory() . '/' . ilSession::get("qpl_import_subdir");
     }
 
@@ -236,7 +236,6 @@ class assQuestionImport
      */
     protected function getTstImportArchivDirectory(): string
     {
-        include_once "./Modules/Test/classes/class.ilObjTest.php";
         return ilObjTest::_getImportDirectory() . '/' . ilSession::get("tst_import_subdir");
     }
 
@@ -264,7 +263,6 @@ class assQuestionImport
             ilSession::set('import_mob_xhtml', $mobs);
         }
 
-        include_once "./Services/RTE/classes/class.ilRTE.php";
         return ilRTE::_replaceMediaObjectImageSrc($text, 0, $sourceNic);
     }
 
@@ -299,18 +297,18 @@ class assQuestionImport
 
         $repo = $this->getSuggestedSolutionsRepo();
 
-        $nu_value = $this->object->_resolveInternalLink($value);
+        $nu_value = $this->object->resolveInternalLink($value);
         $solution = $repo->create($question_id, $type)
             ->withInternalLink($nu_value)
             ->withImportId($value);
-        $repo->update($solution);
+        $repo->update([$solution]);
     }
 
-    protected function findSolutionTypeByValue(strgin $value): ?string
+    protected function findSolutionTypeByValue(string $value): ?string
     {
         foreach (array_keys(assQuestionSuggestedSolution::TYPES) as $type) {
             $search_type = '_' . $type . '_';
-            if (substr($value, $search_type)) {
+            if (strpos($value, $search_type) !== false) {
                 return $type;
             }
         }

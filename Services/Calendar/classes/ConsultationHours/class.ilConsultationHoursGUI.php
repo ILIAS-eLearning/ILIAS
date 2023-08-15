@@ -1207,9 +1207,9 @@ class ilConsultationHoursGUI
         $this->tabs->clearTargets();
 
         $user_id = 0;
-        if ($this->http->wrapper()->query()->has('user_id')) {
+        if ($this->http->wrapper()->query()->has('user')) {
             $user_id = $this->http->wrapper()->query()->retrieve(
-                'user_id',
+                'user',
                 $this->refinery->kindlyTo()->int()
             );
         }

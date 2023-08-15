@@ -51,7 +51,7 @@ class ilBadgeRenderer
         $modal = $this->factory->modal()->roundtrip(
             $this->badge->getTitle(),
             $this->factory->legacy($this->renderModalContent())
-        )->withCancelButtonLabel("ok");
+        )->withCancelButtonLabel($this->lng->txt("ok"));
         $components[] = $modal;
 
         $image_path = ilWACSignedPath::signFile($this->badge->getImagePath());

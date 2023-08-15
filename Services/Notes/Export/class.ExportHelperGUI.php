@@ -54,7 +54,8 @@ class ExportHelperGUI
                     ? $export_cmd
                     : "window.location.href='$export_cmd'";
                 return "document.querySelector('#$id').addEventListener('click', (e) => {
-                    $('#$id').closest('.modal-content').find('button.close').click();
+                    const el = document.getElementById('$id');
+                    el.closest('.modal-content').querySelector('button.close').click();
                     $cmd_js
                 });";
             });
@@ -66,7 +67,8 @@ class ExportHelperGUI
                     ? $export_with_comments_cmd
                     : "window.location.href='$export_with_comments_cmd'";
                 return "document.querySelector('#$id').addEventListener('click', (e) => {
-                    $('#$id').closest('.modal-content').find('button.close').click();
+                    const el = document.getElementById('$id');
+                    el.closest('.modal-content').querySelector('button.close').click();
                     $cmd_js
                 });";
             });

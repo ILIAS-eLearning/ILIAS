@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,7 +16,12 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\Tests\UI\Component\Dropzone\File;
+
+use ILIAS\UI\Component\Legacy\Legacy;
+use ILIAS\UI\Implementation\Component\Input\Field\Text;
 
 /**
  * @author  Thibeau Fuhrer <thibeau@sr.solutions>
@@ -27,137 +30,58 @@ class WrapperTest extends FileTestBase
 {
     public function testRenderWrapper(): void
     {
-        $expected_html = $this->brutallyTrimHTML('
-            <div id="id_6" class="ui-dropzone ui-dropzone-wrapper">
-                <div class="modal fade il-modal-roundtrip" tabindex="-1" role="dialog" id="id_1">
-                    <div class="modal-dialog" role="document" data-replace-marker="component">
-                        <div class="modal-content">
-                            <div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="close"><span aria-hidden="true">&times;</span></button><span class="modal-title"></span></div>
-                            <div class="modal-body">
-                                <form role="form" class="il-standard-form form-horizontal" enctype="multipart/form-data" action="#" method="post" novalidate="novalidate">
-                                    <div class="il-standard-form-header clearfix">
-                                        <div class="il-standard-form-cmd"><button class="btn btn-default" data-action="">save</button></div>
-                                    </div>
-                                    <div class="form-group row"><label class="control-label col-sm-4 col-md-3 col-lg-2"></label>
-                                        <div class="col-sm-8 col-md-9 col-lg-10">
-                                            <div id="id_4" class="ui-input-file">
-                                                <div class="ui-input-file-input-list ui-input-dynamic-inputs-list"></div>
-                                                <div class="ui-input-file-input-dropzone"><button class="btn btn-link" data-action="#" id="id_3">select_files_from_computer</button><span class="ui-input-file-input-error-msg" data-dz-error-msg></span></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="il-standard-form-footer clearfix">
-                                        <div class="il-standard-form-cmd"><button class="btn btn-default" data-action="">save</button></div>
-                                    </div>
-                                </form>
-                            </div>
-                            <div class="modal-footer"><button class="btn btn-default" data-dismiss="modal" aria-label="close">cancel</button></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="ui-dropzone-container"><span class="ui-dropzone-message"></span>
-                    <p>test_content</p>
-                </div>
-            </div>
-        ');
+        $expected_title = 'test_title';
+        $expected_url = 'test_url';
+        $expected_legacy_html = 'test_legacy_html';
 
-        $dropzone = $this->factory->wrapper(
-            $this->getUploadHandlerMock(),
-            '#',
-            $this->getUIFactory()->legacy('<p>test_content</p>')
+        $expected_html = $this->brutallyTrimHTML(
+            '
+<div id="id_4" class="ui-dropzone ui-dropzone-wrapper">
+	<div class="modal fade il-modal-roundtrip" tabindex="-1" role="dialog" id="id_1">
+		<div class="modal-dialog" role="document" data-replace-marker="component">
+			<div class="modal-content">
+				<div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="close"><span aria-hidden="true">&times;</span></button><span class="modal-title">' . $expected_title . ' </span></div>
+				<div class="modal-body">
+					<form id="id_2" role="form" class="il-standard-form form-horizontal" enctype="multipart/form-data" action="' . $expected_url . '" method="post" novalidate="novalidate">File Field Input</form>
+				</div>
+				<div class="modal-footer"><button class="btn btn-default" data-dismiss="modal">cancel</button><button class="btn btn-default" id="id_3">save</button></div>
+			</div>
+		</div>
+	</div>
+	<div class="ui-dropzone-container"> ' . $expected_legacy_html . '</div>
+</div>
+        '
         );
 
-        $this->assertEquals($expected_html, $this->getDropzoneHtml($dropzone));
+        $legacy_mock = $this->createMock(Legacy::class);
+        $legacy_mock->method('getCanonicalName')->willReturn($expected_legacy_html);
+
+        $dropzone = $this->factory->wrapper($expected_title, $expected_url, $legacy_mock, $this->input);
+
+        $html = $this->brutallyTrimHTML($this->getDefaultRenderer(null, [
+            $legacy_mock,
+            $this->input,
+        ])->render($dropzone));
+
+        $this->assertEquals($expected_html, $html);
     }
 
-    public function testRenderWrapperWithMetadata(): void
+    public function testRenderWrapperWithAdditionalInputs(): void
     {
-        $expected_html = $this->brutallyTrimHTML('
-            <div id="id_7" class="ui-dropzone ui-dropzone-wrapper">
-                <div class="modal fade il-modal-roundtrip" tabindex="-1" role="dialog" id="id_1">
-                    <div class="modal-dialog" role="document" data-replace-marker="component">
-                        <div class="modal-content">
-                            <div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="close"><span aria-hidden="true">&times;</span></button><span class="modal-title"></span></div>
-                            <div class="modal-body">
-                                <form role="form" class="il-standard-form form-horizontal" enctype="multipart/form-data" action="#" method="post" novalidate="novalidate">
-                                    <div class="il-standard-form-header clearfix">
-                                        <div class="il-standard-form-cmd"><button class="btn btn-default" data-action="">save</button></div>
-                                    </div>
-                                    <div class="form-group row"><label class="control-label col-sm-4 col-md-3 col-lg-2"></label>
-                                        <div class="col-sm-8 col-md-9 col-lg-10">
-                                            <div id="id_5" class="ui-input-file">
-                                                <div class="ui-input-file-input-list ui-input-dynamic-inputs-list"></div>
-                                                <div class="ui-input-file-input-dropzone"><button class="btn btn-link" data-action="#" id="id_4">select_files_from_computer</button><span class="ui-input-file-input-error-msg" data-dz-error-msg></span></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="il-standard-form-footer clearfix">
-                                        <div class="il-standard-form-cmd"><button class="btn btn-default" data-action="">save</button></div>
-                                    </div>
-                                </form>
-                            </div>
-                            <div class="modal-footer"><button class="btn btn-default" data-dismiss="modal" aria-label="close">cancel</button></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="ui-dropzone-container"><span class="ui-dropzone-message"></span>
-                    <p>test_content</p>
-                </div>
-            </div>
-        ');
+        $expected_button_html = md5(Text::class);
 
-        $dropzone = $this->factory->wrapper(
-            $this->getUploadHandlerMock(),
-            '#',
-            $this->getUIFactory()->legacy('<p>test_content</p>'),
-            $this->getFieldFactory()->text('test_input_1')
-        );
+        $additional_input = $this->createMock(Text::class);
+        $additional_input->method('getCanonicalName')->willReturn($expected_button_html);
+        $additional_input->method('isRequired')->willReturn(false);
+        $additional_input->method('withNameFrom')->willReturnSelf();
 
-        $this->assertEquals($expected_html, $this->getDropzoneHtml($dropzone));
-    }
+        $dropzone = $this->factory->standard('', '', '', $this->input, $additional_input);
 
-    public function testRenderWrapperWithTitle(): void
-    {
-        $expected_html = $this->brutallyTrimHTML('
-            <div id="id_6" class="ui-dropzone ui-dropzone-wrapper">
-                <div class="modal fade il-modal-roundtrip" tabindex="-1" role="dialog" id="id_1">
-                    <div class="modal-dialog" role="document" data-replace-marker="component">
-                        <div class="modal-content">
-                            <div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="close"><span aria-hidden="true">&times;</span></button><span class="modal-title">test_title</span></div>
-                            <div class="modal-body">
-                                <form role="form" class="il-standard-form form-horizontal" enctype="multipart/form-data" action="#" method="post" novalidate="novalidate">
-                                    <div class="il-standard-form-header clearfix">
-                                        <div class="il-standard-form-cmd"><button class="btn btn-default" data-action="">save</button></div>
-                                    </div>
-                                    <div class="form-group row"><label class="control-label col-sm-4 col-md-3 col-lg-2"></label>
-                                        <div class="col-sm-8 col-md-9 col-lg-10">
-                                            <div id="id_4" class="ui-input-file">
-                                                <div class="ui-input-file-input-list ui-input-dynamic-inputs-list"></div>
-                                                <div class="ui-input-file-input-dropzone"><button class="btn btn-link" data-action="#" id="id_3">select_files_from_computer</button><span class="ui-input-file-input-error-msg" data-dz-error-msg></span></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="il-standard-form-footer clearfix">
-                                        <div class="il-standard-form-cmd"><button class="btn btn-default" data-action="">save</button></div>
-                                    </div>
-                                </form>
-                            </div>
-                            <div class="modal-footer"><button class="btn btn-default" data-dismiss="modal" aria-label="close">cancel</button></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="ui-dropzone-container"><span class="ui-dropzone-message"></span>
-                    <p>test_content</p>
-                </div>
-            </div>
-        ');
+        $html = $this->getDefaultRenderer(null, [
+            $this->input,
+            $additional_input,
+        ])->render($dropzone);
 
-        $dropzone = $this->factory->wrapper(
-            $this->getUploadHandlerMock(),
-            '#',
-            $this->getUIFactory()->legacy('<p>test_content</p>')
-        )->withTitle('test_title');
-
-        $this->assertEquals($expected_html, $this->getDropzoneHtml($dropzone));
+        $this->assertTrue(str_contains($html, $expected_button_html));
     }
 }

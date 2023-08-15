@@ -138,9 +138,6 @@ class ilTestExpressPageObjectGUI extends ilAssQuestionPageGUI
 
             case '':
             case 'iltestexpresspageobjectgui':
-
-                include_once 'Modules/TestQuestionPool/classes/class.assQuestionGUI.php';
-
                 if ($cmd == 'view') {
                     $cmd = 'showPage';
                     $ilCtrl->setCmd($cmd);
@@ -210,7 +207,6 @@ class ilTestExpressPageObjectGUI extends ilAssQuestionPageGUI
 
                 $this->ctrl->setReturn($this, "questions");
 
-                require_once 'Modules/TestQuestionPool/classes/class.assQuestionGUI.php';
                 $q_gui = assQuestionGUI::_getQuestionGUI($type, (int) $this->testrequest->raw('q_id'));
                 if ($q_gui->object) {
                     $obj = ilObjectFactory::getInstanceByRefId((int) $this->testrequest->getRefId());
@@ -240,7 +236,6 @@ class ilTestExpressPageObjectGUI extends ilAssQuestionPageGUI
 
         $this->ctrl->setReturn($this, "questions");
 
-        include_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
         $q_gui = assQuestionGUI::_getQuestionGUI($type);
 
         $obj = ilObjectFactory::getInstanceByRefId($this->testrequest->getRefId());
@@ -255,16 +250,12 @@ class ilTestExpressPageObjectGUI extends ilAssQuestionPageGUI
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
 
-        include_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
-
         if ($this->testrequest->raw('qtype')) {
-            include_once 'Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php';
             $questionType = ilObjQuestionPool::getQuestionTypeByTypeId($this->testrequest->raw('qtype'));
         } elseif ($this->testrequest->raw('sel_question_types')) {
             $questionType = $this->testrequest->raw('sel_question_types');
         }
 
-        include_once 'Modules/Test/classes/class.ilObjAssessmentFolder.php';
         if (ilObjAssessmentFolder::isAdditionalQuestionContentEditingModePageObjectEnabled()) {
             $addContEditMode = $this->testrequest->raw('add_quest_cont_edit_mode');
         } else {
@@ -356,8 +347,6 @@ class ilTestExpressPageObjectGUI extends ilAssQuestionPageGUI
 
         $subScreenId = array('createQuestion');
 
-        include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
-
         $ilCtrl->setParameter($this, 'qtype', $this->testrequest->raw('qtype'));
 
         $form = new ilPropertyFormGUI();
@@ -366,7 +355,6 @@ class ilTestExpressPageObjectGUI extends ilAssQuestionPageGUI
 
         $form->setFormAction($ilCtrl->getFormAction($this, "handleToolbarCommand"));
         $form->setTitle($lng->txt("ass_create_question"));
-        include_once 'Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php';
 
         $pool = new ilObjQuestionPool();
         $questionTypes = $pool->getQuestionTypes(false, true, false);
@@ -377,7 +365,6 @@ class ilTestExpressPageObjectGUI extends ilAssQuestionPageGUI
             $options[$data['question_type_id']] = $label;
         }
 
-        include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
         $si = new ilSelectInputGUI($lng->txt("question_type"), "qtype");
         $si->setOptions($options);
         $form->addItem($si, true);
@@ -510,7 +497,6 @@ class ilTestExpressPageObjectGUI extends ilAssQuestionPageGUI
             $this->tpl->setOnScreenMessage('info', $this->lng->txt("tst_insert_missing_question"), true);
             $this->ctrl->redirect($this, "browseForQuestions");
         } else {
-            include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
             $manscoring = false;
 
             global $DIC;

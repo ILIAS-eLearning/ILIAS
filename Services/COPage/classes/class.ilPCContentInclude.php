@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class ilPCContentInclude
  *
@@ -27,7 +29,6 @@
 class ilPCContentInclude extends ilPageContent
 {
     protected ilLanguage $lng;
-    public php4DOMElement $incl_node;
     protected ilAccessHandler$access;
 
     /**
@@ -42,21 +43,13 @@ class ilPCContentInclude extends ilPageContent
         $this->access = $DIC->access();
     }
 
-    public function setNode(php4DOMElement $a_node): void
-    {
-        parent::setNode($a_node);		// this is the PageContent node
-        $this->incl_node = $a_node->first_child();		// this is the snippet node
-    }
 
     public function create(
         ilPageObject $a_pg_obj,
         string $a_hier_id,
         string $a_pc_id = ""
     ): void {
-        $this->node = $this->createPageContentNode();
-        $a_pg_obj->insertContent($this, $a_hier_id, IL_INSERT_AFTER, $a_pc_id);
-        $this->incl_node = $this->dom->create_element("ContentInclude");
-        $this->incl_node = $this->node->append_child($this->incl_node);
+        $this->createInitialChildNode($a_hier_id, $a_pc_id, "ContentInclude");
     }
 
     /**
@@ -115,10 +108,10 @@ class ilPCContentInclude extends ilPageContent
         string $a_value
     ): void {
         if (!empty($a_value)) {
-            $this->incl_node->set_attribute($a_attr, $a_value);
+            $this->getChildNode()->setAttribute($a_attr, $a_value);
         } else {
-            if ($this->incl_node->has_attribute($a_attr)) {
-                $this->incl_node->remove_attribute($a_attr);
+            if ($this->getChildNode()->hasAttribute($a_attr)) {
+                $this->getChildNode()->removeAttribute($a_attr);
             }
         }
     }
@@ -128,8 +121,8 @@ class ilPCContentInclude extends ilPageContent
      */
     public function getContentIncludeAttribute(string $a_attr): string
     {
-        if (is_object($this->incl_node)) {
-            return  $this->incl_node->get_attribute($a_attr);
+        if (is_object($this->getChildNode())) {
+            return  $this->getChildNode()->getAttribute($a_attr);
         }
         return "";
     }
@@ -152,7 +145,7 @@ class ilPCContentInclude extends ilPageContent
      */
     public static function beforePageDelete(ilPageObject $a_page): void
     {
-        ilPageContentUsage::deleteAllUsages("incl", $a_page->getParentType() . ":pg", $a_page->getId(), false, $a_page->getLanguage());
+        ilPageContentUsage::deleteAllUsages("incl", $a_page->getParentType() . ":pg", $a_page->getId(), 0, $a_page->getLanguage());
     }
 
     /**
@@ -181,7 +174,7 @@ class ilPCContentInclude extends ilPageContent
             if ((int) $ci_id["inst_id"] <= 0 || $ci_id["inst_id"] == IL_INST_ID) {
                 ilPageContentUsage::saveUsage(
                     "incl",
-                    $ci_id["id"],
+                    (int) $ci_id["id"],
                     $a_page->getParentType() . ":pg",
                     $a_page->getId(),
                     $a_old_nr,
@@ -237,11 +230,11 @@ class ilPCContentInclude extends ilPageContent
             if ($param[0] == "mep" && is_numeric($param[1])) {
                 $html = "";
                 $snippet_lang = $parent_lang;
-                if (!ilPageObject::_exists("mep", $param[1], $snippet_lang)) {
+                if (!ilPageObject::_exists("mep", (int) $param[1], $snippet_lang)) {
                     $snippet_lang = "-";
                 }
-                if (($param[2] <= 0 || $param[2] == IL_INST_ID) && ilPageObject::_exists("mep", $param[1])) {
-                    $page_gui = new ilMediaPoolPageGUI($param[1], 0, true, $snippet_lang);
+                if (($param[2] <= 0 || $param[2] == IL_INST_ID) && ilPageObject::_exists("mep", (int) $param[1])) {
+                    $page_gui = new ilMediaPoolPageGUI((int) $param[1], 0, true, $snippet_lang);
                     if ($a_mode != "offline") {
                         $page_gui->setFileDownloadLink($this->getFileDownloadLink());
                         $page_gui->setProfileBackUrl($this->getProfileBackUrl());

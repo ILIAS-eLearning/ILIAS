@@ -176,6 +176,8 @@ class ilPCInteractiveImageGUI extends ilPageContentGUI
         $fi->setAllowDeletion(false);
         if ($a_mode == "edit") {
             $fi->setImage($this->content_obj->getBaseThumbnailTarget());
+        } else {
+            $fi->setRequired(true);
         }
         $form->addItem($fi);
 
@@ -195,7 +197,7 @@ class ilPCInteractiveImageGUI extends ilPageContentGUI
         } else {
             // get caption
             $std_alias_item = new ilMediaAliasItem(
-                $this->dom,
+                $this->content_obj->getDomDoc(),
                 $this->getHierId(),
                 "Standard",
                 $this->content_obj->getPCId(),
@@ -216,6 +218,15 @@ class ilPCInteractiveImageGUI extends ilPageContentGUI
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
+        $tpl = $this->tpl;
+
+        $form = $this->initForm("create");
+        if (!$form->checkInput()) {
+            $this->displayValidationError();
+            $form->setValuesByPost();
+            $tpl->setContent($form->getHTML());
+            return;
+        }
 
         $this->content_obj = new ilPCInteractiveImage($this->getPage());
         $this->content_obj->createMediaObject();
@@ -306,7 +317,7 @@ class ilPCInteractiveImageGUI extends ilPageContentGUI
 
             // set caption
             $std_alias_item = new ilMediaAliasItem(
-                $this->dom,
+                $this->content_obj->getDomDoc(),
                 $this->getHierId(),
                 "Standard",
                 $this->content_obj->getPCId(),
@@ -329,7 +340,7 @@ class ilPCInteractiveImageGUI extends ilPageContentGUI
     public function centerAlign(): void
     {
         $std_alias_item = new ilMediaAliasItem(
-            $this->dom,
+            $this->content_obj->getDomDoc(),
             $this->getHierId(),
             "Standard",
             $this->content_obj->getPCId(),
@@ -361,7 +372,7 @@ class ilPCInteractiveImageGUI extends ilPageContentGUI
     public function rightAlign(): void
     {
         $std_alias_item = new ilMediaAliasItem(
-            $this->dom,
+            $this->content_obj->getDomDoc(),
             $this->getHierId(),
             "Standard",
             $this->content_obj->getPCId(),
@@ -377,7 +388,7 @@ class ilPCInteractiveImageGUI extends ilPageContentGUI
     public function leftFloatAlign(): void
     {
         $std_alias_item = new ilMediaAliasItem(
-            $this->dom,
+            $this->content_obj->getDomDoc(),
             $this->getHierId(),
             "Standard",
             $this->content_obj->getPCId(),
@@ -393,7 +404,7 @@ class ilPCInteractiveImageGUI extends ilPageContentGUI
     public function rightFloatAlign(): void
     {
         $std_alias_item = new ilMediaAliasItem(
-            $this->dom,
+            $this->content_obj->getDomDoc(),
             $this->getHierId(),
             "Standard",
             $this->content_obj->getPCId(),

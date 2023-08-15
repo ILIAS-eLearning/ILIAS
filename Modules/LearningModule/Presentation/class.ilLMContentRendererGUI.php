@@ -29,6 +29,7 @@ class ilLMContentRendererGUI
     public const STATUS_NO_PAGE_IN_CHAPTER = 5;
     public const STATUS_DEACTIVATED_PAGE = 6;
     public const STATUS_NO_PAGE_FOUND = 7;
+    protected ilLMNavigationStatus $navigation_status;
 
     protected ?int $requested_focus_return;
     protected int $requested_obj_id = 0;
@@ -86,6 +87,7 @@ class ilLMContentRendererGUI
         $this->requested_obj_id = $requested_obj_id;
         $this->requested_focus_return = $service->getPresentationStatus()->getFocusReturn();
         $this->requested_frame = $service->getRequest()->getFrame();
+        $this->navigation_status = $service->getNavigationStatus();
         $this->ot = ilObjectTranslation::getInstance($this->lm->getId());
     }
 
@@ -290,7 +292,6 @@ class ilLMContentRendererGUI
                 $foot = $this->render($this->lm->getFooterPage());
             }
         }
-
         return $head . $focus_mess . $ret . $foot;
     }
 
@@ -344,12 +345,12 @@ class ilLMContentRendererGUI
 
                 $focus_mess = $mtpl->get();
             } else {
-                $sp = $this->getSuccessorPage();
+                $succ_page_id = $this->navigation_status->getSuccessorPageId();
                 $path2 = array();
-                if ($sp > 0) {
-                    $path2 = $this->lm_tree->getPathId($this->getSuccessorPage());
+                if ($succ_page_id > 0) {
+                    $path2 = $this->lm_tree->getPathId($succ_page_id);
                 }
-                if ($sp == 0 || !in_array($this->focus_id, $path2)) {
+                if ($succ_page_id == 0 || !in_array($this->focus_id, $path2)) {
                     $mtpl = new ilTemplate(
                         "tpl.out_of_focus_message.html",
                         true,
@@ -531,62 +532,5 @@ class ilLMContentRendererGUI
         }
 
         return $ptpl->get();
-    }
-
-    public function getSuccessorPage(): int
-    {
-        $ilUser = $this->user;
-
-        $page_id = $this->current_page;
-
-        if (empty($page_id)) {
-            return 0;
-        }
-
-        // determine successor page_id
-        $found = false;
-
-        // empty chapter
-        if ($this->chapter_has_no_active_page &&
-            ilLMObject::_lookupType($this->requested_obj_id) == "st") {
-            $c_id = $this->requested_obj_id;
-        } else {
-            if ($this->deactivated_page) {
-                $c_id = $this->requested_obj_id;
-            } else {
-                $c_id = $page_id;
-            }
-        }
-        $succ_node = [];
-        while (!$found) {
-            $succ_node = $this->lm_tree->fetchSuccessorNode($c_id, "pg");
-            $c_id = $succ_node["obj_id"];
-
-            $active = ilLMPage::_lookupActive(
-                $c_id,
-                $this->lm->getType(),
-                $this->lm_set->get("time_scheduled_page_activation")
-            );
-
-            if ($succ_node["obj_id"] > 0 &&
-                $ilUser->getId() == ANONYMOUS_USER_ID &&
-                ($this->lm->getPublicAccessMode() == "selected" &&
-                    !ilLMObject::_isPagePublic($succ_node["obj_id"]))) {
-                $found = false;
-            } elseif ($succ_node["obj_id"] > 0 && !$active) {
-                // look, whether activation data should be shown
-                $act_data = ilLMPage::_lookupActivationData((int) $succ_node["obj_id"], $this->lm->getType());
-                if ($act_data["show_activation_info"] &&
-                    (ilUtil::now() < $act_data["activation_start"])) {
-                    $found = true;
-                } else {
-                    $found = false;
-                }
-            } else {
-                $found = true;
-            }
-        }
-
-        return (int) ($succ_node["obj_id"] ?? 0);
     }
 }

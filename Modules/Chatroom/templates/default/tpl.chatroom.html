@@ -27,6 +27,7 @@
 			private_room_entered_user: {LBL_PRIVATE_ROOM_ENTERED_USER},
 			kicked_from_private_room: {LBL_KICKED_FROM_PRIVATE_ROOM},
 			ok: {LBL_OK},
+			'delete': {LBL_DELETE},
 			cancel: {LBL_CANCEL},
 			history_has_been_cleared: {LBL_HISTORY_CLEARED},
 			clear_room_history: {LBL_CLEAR_ROOM_HISTORY},
@@ -41,64 +42,15 @@
 </script>
 
 <div id="invite_users_container" class="ilNoDisplayChat">
-	<div>
-		<input type="radio" name="invite_users_type" id="invite_users_in_room"/><span id="radioText">{LBL_USER_IN_ROOM}&nbsp;&nbsp;</span>
-		<input type="radio" name="invite_users_type" id="invite_users_global"/>{LBL_USER_IN_ILIAS}
-	</div>
-	<div>
-		<p id="invite_user_text_wrapper" class="ilNoDisplayChat"><label for="invite_user_text">{LBL_USER_TEXT}:</label> <input autocomplete="off" type="text" class="form-control" id="invite_user_text" /></p>
-		<ul id="invite_users_available">
-			<li></li>
-		</ul>
-	</div>
+    <p id="invite_user_text_wrapper">
+        <label for="invite_user_text">{LBL_USER_TEXT}:</label><img id="invite_users_loading" class="ilNoDisplayChat" src="{LOADING_IMAGE}"/>
+        <input autocomplete="off" type="text" class="form-control ui-autocomplete-input" id="invite_user_text" />
+        {LBL_USER_IN_ILIAS}
+        <div id="invite_users_no_user" class="ilNoDisplayChat alert alert-info">{LBL_NO_USER}</div>
+    </p>
 </div>
-<div class="ilHeadAction" id="chat_actions_wrapper">
-	<div class="btn-group" id="chat_actions">
-		<button onclick="this.blur(); return false;" type="button" class="btn btn-default dropdown-toggle btn-sm" data-toggle="dropdown" data-container="body">
-		<span id="chat_actions_title">{ACTIONS}</span> <span class="caret" alt=""></span>
-		</button>
-	</div>
-</div>
-<table id="chat_wrapper">
-	<tr>
-		<td>
-			<div id="chat_messages"></div>
-		</td>
-	</tr>
-	<tr>
-		<td>
-			<div id="message-controls" class="container-fluid">
-				<div class="row">
-					<div class="msg-control">{TOGGLE_SCROLLING_COMPONENT}</div>
-					<div class="msg-control">{TOGGLE_AUTO_MESSAGE_COMPONENT}</div>
-				</div>
-			</div>
-		</td>
-	</tr>
-	<tr>
-		<td>
-			<form role="form" class="form-horizontal">
-				<div class="ilFormHeader">
-					<h3><a name="il_form_top"></a>{LBL_MESSAGE}</h3>
-					<div class="ilFormCmds">
-					</div>
-					<div class="help-block"></div>
-				</div>
-				<div class="form-group">
-					<div class="col-sm-3">
-						<label class="control-label" for="submit_message_text">
-							<span id="message_recipient_info_all">{LBL_TOALL}</span>
-							<span id="message_recipient_info"></span>
-						</label>
-					</div>
-					<div id="iosChatInputContainer" class="col-sm-9">
-						<textarea autocomplete="off" class="form-control" name="message" id="submit_message_text"></textarea>
-						<input type="button" class="btn btn-default btn-sm" value="{LBL_SEND}" id="submit_message"/>
-					</div>
-				</div>
-			</form>
-		</td>
-	</tr>
-</table>
+
+{CHAT_OUTPUT}
+{CHAT_INPUT}
 
 <input class="ilHidden" type="text" name="moreOptions" id="moreOptions" />

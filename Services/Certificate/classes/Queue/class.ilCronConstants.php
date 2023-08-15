@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,13 +16,15 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
 class ilCronConstants
 {
-    public const ATTACHED = 'attached';
-    public const IN_PROGRESS = 'in_progress';
-    public const FAILED = 'failed';
-    public const FINISHED = 'finished';
+    final public const ATTACHED = 'attached';
+    final public const IN_PROGRESS = 'in_progress';
+    final public const FAILED = 'failed';
+    final public const FINISHED = 'finished';
 }

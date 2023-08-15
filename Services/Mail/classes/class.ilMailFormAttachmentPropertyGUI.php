@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  *
  * @author Jan Posselt <jposselt@databay.de>
@@ -28,7 +28,7 @@ class ilMailFormAttachmentPropertyGUI extends ilFormPropertyGUI
     /** @var string[] */
     private array $items = [];
 
-    public function __construct(private string $buttonLabel)
+    public function __construct(private readonly string $buttonLabel)
     {
         parent::__construct();
         $this->setTitle($this->lng->txt('attachments'));

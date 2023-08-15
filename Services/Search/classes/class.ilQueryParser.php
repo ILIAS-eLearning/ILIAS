@@ -47,7 +47,7 @@ class ilQueryParser
     private string $query_str;
     private array $quoted_words = array();
     private string $message; // Translated error message
-    private string $combination; // combiniation of search words e.g 'and' or 'or'
+    private string $combination = ''; // combiniation of search words e.g 'and' or 'or'
     private bool $wildcards_allowed; // [bool]
     /**
      * @var string[]

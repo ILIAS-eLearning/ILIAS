@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -13,17 +14,15 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
-/**
- * Class ilDclPluginFieldModel
- * @author  Michael Herren <mh@studer-raimann.ch>
- */
+ *********************************************************************/
+
+declare(strict_types=1);
+
 class ilDclPluginFieldModel extends ilDclBaseFieldModel
 {
     public function getValidFieldProperties(): array
     {
-        return array_merge(array(ilDclBaseFieldModel::PROP_PLUGIN_HOOK_NAME), $this->getCustomValidFieldProperties());
+        return array_merge([ilDclBaseFieldModel::PROP_PLUGIN_HOOK_NAME], $this->getCustomValidFieldProperties());
     }
 
     /**
@@ -31,7 +30,7 @@ class ilDclPluginFieldModel extends ilDclBaseFieldModel
      */
     public function getCustomValidFieldProperties(): array
     {
-        return array();
+        return [];
     }
 
     /**

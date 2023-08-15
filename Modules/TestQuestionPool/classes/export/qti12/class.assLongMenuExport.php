@@ -30,7 +30,6 @@ class assLongMenuExport extends assQuestionExport
         $correct_answers = $this->object->getCorrectAnswers();
         $answers = $this->object->getAnswers();
 
-        include_once("./Services/Xml/classes/class.ilXmlWriter.php");
         $xml = new ilXmlWriter();
         // set xml header
         $xml->xmlHeader();
@@ -42,12 +41,8 @@ class assLongMenuExport extends assQuestionExport
             "maxattempts" => $this->object->getNrOfTries()
         );
         $xml->xmlStartTag("item", $attrs);
+        // add question description
         $xml->xmlElement("qticomment", null, $this->object->getComment());
-        // add estimated working time
-        $workingtime = $this->object->getEstimatedWorkingTime();
-        $duration = sprintf("P0Y0M0DT%dH%dM%dS", $workingtime["h"], $workingtime["m"], $workingtime["s"]);
-        $xml->xmlElement("duration", null, $duration);
-        // add ILIAS specific metadata
         $xml->xmlStartTag("itemmetadata");
         $xml->xmlStartTag("qtimetadata");
         $xml->xmlStartTag("qtimetadatafield");

@@ -12,6 +12,23 @@ declare(strict_types=0);
  */
 class ilLPStatusSurveyFinished extends ilLPStatus
 {
+    public static function _getNotAttempted(int $a_obj_id): array
+    {
+        $invited = self::getInvitations($a_obj_id);
+        if ($invited === []) {
+            return [];
+        }
+        $users = array_diff(
+            (array) $invited,
+            ilLPStatusWrapper::_getInProgress($a_obj_id)
+        );
+        $users = array_diff(
+            $users,
+            ilLPStatusWrapper::_getCompleted($a_obj_id)
+        );
+        return $users;
+    }
+
     public static function _getInProgress(int $a_obj_id): array
     {
         return self::getParticipants($a_obj_id);
@@ -82,6 +99,24 @@ class ilLPStatusSurveyFinished extends ilLPStatus
         }
         return $res;
     }
-}
 
-// patch-end svy_lp
+    /**
+     * @param int $a_obj_id
+     * @return int[]
+     */
+    public static function getInvitations(int $a_obj_id): array
+    {
+        global $DIC;
+
+        $db = $DIC->database();
+        $query = 'select user_id from svy_invitation si ' .
+            'join svy_svy ss on ss.survey_id = si.survey_id ' .
+            'where obj_fi = ' . $db->quote($a_obj_id, ilDBConstants::T_INTEGER);
+        $res = $db->query($query);
+        $invited = [];
+        while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+            $invited[] = (int) $row->user_id;
+        }
+        return $invited;
+    }
+}

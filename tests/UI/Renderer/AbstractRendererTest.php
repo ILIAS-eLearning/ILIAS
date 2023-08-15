@@ -184,6 +184,7 @@ namespace {
          * @var ImagePathResolver|mixed|MockObject
          */
         protected $image_path_resolver;
+        protected ILIAS\UI\HelpTextRetriever $help_text_retriever;
 
         public function setUp(): void
         {
@@ -194,6 +195,7 @@ namespace {
             $this->js_binding = new LoggingJavaScriptBinding();
             $this->image_path_resolver = $this->getMockBuilder(ILIAS\UI\Implementation\Render\ImagePathResolver::class)
                                               ->getMock();
+            $this->help_text_retriever = $this->createMock(ILIAS\UI\HelpTextRetriever::class);
         }
 
         public function test_getTemplate_successfull(): void
@@ -205,7 +207,8 @@ namespace {
                 $this->js_binding,
                 $this->getRefinery(),
                 $this->image_path_resolver,
-                $this->getDataFactory()
+                $this->getDataFactory(),
+                $this->help_text_retriever
             );
             $r->_getTemplate("tpl.glyph.html", true, false);
 
@@ -225,7 +228,8 @@ namespace {
                 $this->js_binding,
                 $this->getRefinery(),
                 $this->image_path_resolver,
-                $this->getDataFactory()
+                $this->getDataFactory(),
+                $this->help_text_retriever
             );
 
             $this->expectException(TypeError::class);
@@ -246,7 +250,8 @@ namespace {
                 $this->js_binding,
                 $this->getRefinery(),
                 $this->image_path_resolver,
-                $this->getDataFactory()
+                $this->getDataFactory(),
+                $this->help_text_retriever
             );
 
             $g = new Glyph(C\Symbol\Glyph\Glyph::SETTINGS, "aria_label");
@@ -272,7 +277,8 @@ namespace {
                 $this->js_binding,
                 $this->getRefinery(),
                 $this->image_path_resolver,
-                $this->getDataFactory()
+                $this->getDataFactory(),
+                $this->help_text_retriever
             );
 
             $g = new Glyph(C\Symbol\Glyph\Glyph::SETTINGS, "aria_label");

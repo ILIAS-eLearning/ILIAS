@@ -54,12 +54,15 @@
 					<input type="text" class="form-control text-right" size="5" id="{POINTS_ID}" name="{POINTS_POST_VAR}[points][{POINTS_ROW_NUMBER}]" <!-- BEGIN prop_points_propval -->value="{PROPERTY_VALUE}" <!-- END prop_points_propval -->{DISABLED_POINTS}/>
 				</td>
 <!-- END points -->
+<!-- BEGIN answer id field -->
+				<input class="form-control" type="hidden" name="{POST_VAR}[answer_id][{ROW_NUMBER}]" <!-- BEGIN prop_answer_id_propval -->value="{PROPERTY_VALUE}" <!-- END prop_answer_id_propval -->/>
+<!-- END answer id field -->
 				<td class="ilValignTop">
-					<button type="button" name="{CMD_ADD}" class="singlechoice_add btn btn-link" id="add_{ID}">{ADD_BUTTON}</button>
-					<button type="button" name="{CMD_REMOVE}" class="singlechoice_remove btn btn-link" id="remove_{ID}">{REMOVE_BUTTON}</button>
+					<div class="singlechoice_add btn btn-link" id="add_{ID}">{ADD_BUTTON}</div>
+					<div class="singlechoice_remove btn btn-link" id="remove_{ID}">{REMOVE_BUTTON}</div>
 <!-- BEGIN move -->
-					<button type="button" name="{CMD_UP}" class="singlechoice_up btn btn-link" id="up_{ID}">{UP_BUTTON}</button>
-					<button type="button" name="{CMD_DOWN}" class="singlechoice_down btn btn-link" id="down_{ID}">{DOWN_BUTTON}</button>
+					<div class="singlechoice_up btn btn-link" id="up_{ID}">{UP_BUTTON}</div>
+					<div class="singlechoice_down btn btn-link" id="down_{ID}">{DOWN_BUTTON}</div>
 <!-- END move -->
 				</td>
 			</tr>

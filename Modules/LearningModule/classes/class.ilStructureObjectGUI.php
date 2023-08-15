@@ -153,9 +153,8 @@ class ilStructureObjectGUI extends ilLMObjectGUI
         $ilCtrl->setParameter($this, "obj_id", $this->requested_obj_id);
 
         $ml_head = ilObjContentObjectGUI::getMultiLangHeader($this->content_object->getId(), $this);
-
         $this->tpl->setContent($ml_head . $ctpl->get());
-        $this->tpl->addOnloadCode("window.setTimeout(() => { $('body').trigger('il-lm-editor-tree'); }, 500);");
+        $this->tpl->addOnloadCode("window.setTimeout(() => { il.repository.core.trigger('il-lm-editor-tree'); }, 500);");
     }
 
     /**
@@ -635,7 +634,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
             $chap->setTitle($lng->txt("cont_new_chap"));
             $chap->setLMId($this->content_object->getId());
             $chap->create();
-            ilLMObject::putInTree($chap, $parent_id, $target);
+            ilLMObject::putInTree($chap, (int) $parent_id, (int) $target);
         }
 
         $ilCtrl->redirect($this, "view");
@@ -701,7 +700,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
                 $this->content_object,
                 $chap["id"],
                 $parent_id,
-                $target,
+                (int) $target,
                 (string) ($chap["insert_time"] ?? ""),
                 $copied_nodes,
                 (ilEditClipboard::getAction() == "copy")

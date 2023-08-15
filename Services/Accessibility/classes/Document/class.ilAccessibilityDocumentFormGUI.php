@@ -16,7 +16,7 @@
  *
  *********************************************************************/
 
-use ILIAS\FileSystem\Filesystem;
+use ILIAS\Filesystem\Filesystem;
 use ILIAS\FileUpload\DTO\ProcessingStatus;
 use ILIAS\FileUpload\DTO\UploadResult;
 use ILIAS\FileUpload\FileUpload;

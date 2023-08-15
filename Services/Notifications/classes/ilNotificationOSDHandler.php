@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\Notifications;
 
 use ILIAS\Notifications\Model\ilNotificationObject;
@@ -30,8 +30,8 @@ use ILIAS\Data\Clock\ClockInterface;
  */
 class ilNotificationOSDHandler extends ilNotificationHandler
 {
-    private ilNotificationOSDRepository $repo;
-    private ClockInterface $clock;
+    private readonly ilNotificationOSDRepository $repo;
+    private readonly ClockInterface $clock;
 
     public function __construct(?ilNotificationOSDRepository $repo = null, ?ClockInterface $clock = null)
     {
@@ -52,10 +52,14 @@ class ilNotificationOSDHandler extends ilNotificationHandler
     }
 
     /**
-     * @return ilOSDNotificationObject[]
+     * @return list<ilOSDNotificationObject>
      */
-    public function getNotificationsForUser(int $user_id, bool $append_osd_id_to_link = true, int $max_age_seconds = 0, string $type = ''): array
-    {
+    public function getOSDNotificationsForUser(
+        int $user_id,
+        bool $append_osd_id_to_link = true,
+        int $max_age_seconds = 0,
+        string $type = ''
+    ): array {
         $notifications = $this->repo->getOSDNotificationsByUser($user_id, $max_age_seconds, $type);
 
         foreach ($notifications as $notification) {
@@ -69,23 +73,46 @@ class ilNotificationOSDHandler extends ilNotificationHandler
         return $notifications;
     }
 
+    /**
+     * @deprecated
+     */
     public function deleteStaleNotificationsForUserAndType(int $user_id, string $type): void
     {
-        $this->repo->deleteStaleNotificationsForUserAndType($user_id, $type, $this->clock->now()->getTimestamp());
+        $this->repo->deleteStaleOSDNotificationsForUserAndType($type, $user_id, $this->clock->now()->getTimestamp());
     }
 
-    public function removeNotification(int $notification_osd_id): bool
+    public function deleteStaleOSDNotificationsForUser(string $provider, int $user_id): void
+    {
+        $this->repo->deleteStaleOSDNotificationsForUserAndType($provider, $user_id, $this->clock->now()->getTimestamp());
+    }
+
+    public function removeOSDNotification(int $notification_osd_id): bool
     {
         return $this->repo->deleteOSDNotificationById($notification_osd_id);
     }
 
+    public function removeOSDNotificationByIdentification(string $provider, string $identification, int $user_id = 0): bool
+    {
+        return $this->repo->deleteOSDNotificationByIdentification(
+            $provider,
+            $identification,
+            $user_id
+        );
+    }
+
     private function appendParamToLink(string $link, string $param, int $value): string
     {
-        if (strpos($link, '?') !== false) {
+        if (str_contains($link, '?')) {
             $link .= '&' . $param . '=' . $value;
         } else {
             $link .= '?' . $param . '=' . $value;
         }
+
         return $link;
+    }
+
+    public function clear(): void
+    {
+        $this->repo->deleteAllOSDNotifications();
     }
 }

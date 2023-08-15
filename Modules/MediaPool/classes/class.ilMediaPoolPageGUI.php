@@ -46,7 +46,7 @@ class ilMediaPoolPageGUI extends ilPageObjectGUI
         $this->access = $DIC->access();
         $this->lng = $DIC->language();
 
-        if (in_array($this->ctrl->getCmd(), ["createMediaPoolPage", "saveMediaPoolPage"])) {
+        if (in_array($this->ctrl->getCmd(), ["createMediaPoolPage", "saveMediaPoolPage", "cancelSaveNewMediaPoolPage"])) {
             $a_id = 0;
         }
 
@@ -116,7 +116,6 @@ class ilMediaPoolPageGUI extends ilPageObjectGUI
 
     public function getTabs(string $a_activate = ""): void
     {
-        parent::getTabs($a_activate);
         $this->setMediaPoolPageTabs();
     }
 
@@ -224,7 +223,7 @@ class ilMediaPoolPageGUI extends ilPageObjectGUI
         // save and cancel commands
         if ($a_mode === "create") {
             $form->addCommandButton("saveMediaPoolPage", $lng->txt("save"));
-            $form->addCommandButton("cancelSave", $lng->txt("cancel"));
+            $form->addCommandButton("cancelSaveNewMediaPoolPage", $lng->txt("cancel"));
             $form->setTitle($lng->txt("mep_new_content_snippet"));
         } else {
             $form->addCommandButton("updateMediaPoolPage", $lng->txt("save"));
@@ -236,7 +235,7 @@ class ilMediaPoolPageGUI extends ilPageObjectGUI
         return $form;
     }
 
-    protected function cancelSave(): void
+    protected function cancelSaveNewMediaPoolPage(): void
     {
         $ctrl = $this->ctrl;
         $ctrl->returnToParent($this);
@@ -257,6 +256,23 @@ class ilMediaPoolPageGUI extends ilPageObjectGUI
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
 
+        if ($this->use_meta_data) {
+            $mdgui = new ilObjectMetaDataGUI(
+                $this->meta_data_rep_obj,
+                $this->meta_data_type,
+                $this->meta_data_sub_obj_id
+            );
+            $mdtab = $mdgui->getTab();
+            if ($mdtab) {
+                $this->tabs_gui->addTarget(
+                    "meta_data",
+                    $mdtab,
+                    "",
+                    "ilobjectmetadatagui"
+                );
+            }
+        }
+
         $ilTabs->addTarget(
             "cont_usage",
             $ilCtrl->getLinkTarget($this, "showMediaPoolPageUsages"),
@@ -270,7 +286,10 @@ class ilMediaPoolPageGUI extends ilPageObjectGUI
             get_class($this)
         );
         $ilCtrl->setParameter($this, "mepitem_id", $this->pool->getPoolTree()->getParentId($this->mep_request->getItemId()));
-        $ilTabs->setBackTarget($lng->txt("mep_folder"), $ilCtrl->getParentReturn($this));
+        $ilTabs->setBackTarget($lng->txt("mep_folder"), $ilCtrl->getLinkTargetByClass(
+            ilObjMediaPoolGUI::class,
+            "returnFromItem"
+        ));
         $ilCtrl->setParameter($this, "mepitem_id", $this->mep_request->getItemId());
     }
 
@@ -317,5 +336,44 @@ class ilMediaPoolPageGUI extends ilPageObjectGUI
         $table = new ilMediaPoolPageUsagesTableGUI($this, $cmd, $page, $a_all);
 
         $tpl->setContent($table->getHTML());
+    }
+
+    public function finishEditing(): void
+    {
+        $this->ctrl->returnToParent($this);
+    }
+
+    public function getAdditionalPageActions(): array
+    {
+        $tabs = [];
+
+        $mdgui = new ilObjectMetaDataGUI(
+            $this->meta_data_rep_obj,
+            $this->meta_data_type,
+            $this->meta_data_sub_obj_id
+        );
+        $mdtab = $mdgui->getTab();
+        if ($mdtab) {
+            $tabs[] = $this->ui->factory()->link()->standard(
+                $this->lng->txt('meta_data'),
+                $mdtab
+            );
+        }
+
+        $tabs[] =
+            $this->ui->factory()->link()->standard(
+                $this->lng->txt('cont_usage'),
+                $this->ctrl->getLinkTargetByClass([
+                    self::class
+                ], 'showMediaPoolPageUsages')
+            );
+        $tabs[] =
+            $this->ui->factory()->link()->standard(
+                $this->lng->txt('settings'),
+                $this->ctrl->getLinkTargetByClass([
+                    self::class
+                ], 'editMediaPoolPage')
+            );
+        return $tabs;
     }
 }

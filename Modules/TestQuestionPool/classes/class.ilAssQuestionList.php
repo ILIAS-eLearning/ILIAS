@@ -358,9 +358,6 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
     {
         $expressions = array();
 
-        require_once 'Services/Taxonomy/classes/class.ilTaxonomyTree.php';
-        require_once 'Services/Taxonomy/classes/class.ilTaxNodeAssignment.php';
-
         foreach ($this->taxFilters as $taxId => $taxNodes) {
             $questionIds = array();
 
@@ -592,11 +589,11 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
     {
         return "
 			{$this->getSelectFieldsExpression()}
-			
+
 			FROM		qpl_questions
-			
+
 			{$this->getTableJoinExpression()}
-			
+
 			WHERE		qpl_questions.tstamp > 0
 		";
     }
@@ -623,13 +620,7 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
 
         $query = $this->buildQuery();
 
-        #vd($query);
-
         $res = $this->db->query($query);
-
-        //echo $this->db->db->last_query;
-
-        #vd($this->db->db->last_query);
 
         while ($row = $this->db->fetchAssoc($res)) {
             $row = ilAssQuestionType::completeMissingPluginName($row);
@@ -651,9 +642,6 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
         $taxAssignmentData = array();
 
         foreach ($this->getAvailableTaxonomyIds() as $taxId) {
-            require_once 'Services/Taxonomy/classes/class.ilTaxonomyTree.php';
-            require_once 'Services/Taxonomy/classes/class.ilTaxNodeAssignment.php';
-
             $taxTree = new ilTaxonomyTree($taxId);
 
             $taxAssignment = new ilTaxNodeAssignment('qpl', $parentObjId, 'quest', $taxId);
@@ -745,9 +733,7 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
 
     private function checkFilters(): void
     {
-        if (strlen($this->getAnswerStatusFilter()) && !$this->getAnswerStatusActiveId()) {
-            require_once 'Modules/TestQuestionPool/exceptions/class.ilTestQuestionPoolException.php';
-
+        if ($this->getAnswerStatusFilter() !== null && !$this->getAnswerStatusActiveId()) {
             throw new ilTestQuestionPoolException(
                 'No active id given! You cannot use the answer status filter without giving an active id.'
             );

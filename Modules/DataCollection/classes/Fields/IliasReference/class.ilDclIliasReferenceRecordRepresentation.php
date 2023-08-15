@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -13,14 +14,10 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
-/**
- * Class ilDclIliasRecordRepresentation
- * @author  Michael Herren <mh@studer-raimann.ch>
- * @version 1.0.0
- */
+declare(strict_types=1);
+
 class ilDclIliasReferenceRecordRepresentation extends ilDclBaseRecordRepresentation
 {
     public function getHTML(bool $link = true, array $options = []): string
@@ -98,7 +95,7 @@ class ilDclIliasReferenceRecordRepresentation extends ilDclBaseRecordRepresentat
 
                 return $ilCtrl->getLinkTargetByClass('ilobjectcopygui', 'initTargetSelection');
             case 'link':
-                return $ilCtrl->getLinkTargetByClass(array('ilrepositorygui', 'ilobjrootfoldergui'), 'link');
+                return $ilCtrl->getLinkTargetByClass(['ilrepositorygui', 'ilobjrootfoldergui'], 'link');
             default:
                 return '';
         }

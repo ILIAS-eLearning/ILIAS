@@ -18,8 +18,6 @@
 
 namespace ILIAS\OrgUnit\Webservices\SOAP;
 
-use ilOrgUnitUserAssignmentQueries;
-
 /**
  * Class UserIdsOfPositionAndOrgUnit
  * @author Fabian Schmid <fs@studer-raimann.ch>
@@ -31,8 +29,8 @@ class UserIdsOfPositionAndOrgUnit extends Base
         $position_id = $params[self::POSITION_ID];
         $orgu_id = $params[self::ORGU_REF_ID];
 
-        return ilOrgUnitUserAssignmentQueries::getInstance()->getUserIdsOfOrgUnitsInPosition(
-            array($orgu_id),
+        return $this->assignmentRepo->getUsersByOrgUnitsAndPosition(
+            [$orgu_id],
             $position_id
         );
     }

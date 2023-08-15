@@ -49,7 +49,6 @@ class assFormulaQuestionImport extends assQuestionImport
         ilSession::clear('import_mob_xhtml');
 
         $presentation = $item->getPresentation();
-        $duration = $item->getDuration();
         $now = getdate();
         $created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
 
@@ -61,12 +60,10 @@ class assFormulaQuestionImport extends assQuestionImport
         $this->object->setOwner($ilUser->getId());
         $this->object->setQuestion($this->object->QTIMaterialToString($item->getQuestiontext()));
         $this->object->setObjId($questionpool_id);
-        $this->object->setEstimatedWorkingTime($duration["h"] ?? 0, $duration["m"] ?? 0, $duration["s"] ?? 0);
         if (preg_match_all("/(\\\$v\\d+)/ims", $this->object->getQuestion(), $matches)) {
             foreach ($matches[1] as $variable) {
                 $data = unserialize($item->getMetadataEntry($variable), ["allowed_classes" => false]);
                 $unit = $this->object->getUnitRepository()->getUnit((int) $data["unitvalue"]);
-                require_once 'Modules/TestQuestionPool/classes/class.assFormulaQuestionVariable.php';
                 $varObj = new assFormulaQuestionVariable($variable, $data["rangemin"], $data["rangemax"], $unit, $data["precision"], $data["intprecision"]);
                 $this->object->addVariable($varObj);
             }
@@ -75,7 +72,6 @@ class assFormulaQuestionImport extends assQuestionImport
             foreach ($rmatches[1] as $result) {
                 $data = unserialize($item->getMetadataEntry($result), ["allowed_classes" => false]);
                 $unit = $this->object->getUnitRepository()->getUnit((int) $data["unitvalue"]);
-                require_once 'Modules/TestQuestionPool/classes/class.assFormulaQuestionResult.php';
                 if (!is_array($data["rating"])) {
                     $resObj = new assFormulaQuestionResult($result, $data["rangemin"], $data["rangemax"], $data["tolerance"], $unit, $data["formula"], $data["points"], $data["precision"], true);
                 } else {
@@ -107,14 +103,10 @@ class assFormulaQuestionImport extends assQuestionImport
         $feedbacksgeneric = $this->getFeedbackGeneric($item);
 
         if (is_array(ilSession::get("import_mob_xhtml"))) {
-            include_once "./Services/MediaObjects/classes/class.ilObjMediaObject.php";
-            include_once "./Services/RTE/classes/class.ilRTE.php";
             foreach (ilSession::get("import_mob_xhtml") as $mob) {
                 if ($tst_id > 0) {
-                    include_once "./Modules/Test/classes/class.ilObjTest.php";
                     $importfile = ilObjTest::_getImportDirectory() . "/" . ilSession::get("tst_import_subdir") . "/" . $mob["uri"];
                 } else {
-                    include_once "./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php";
                     $importfile = ilObjQuestionPool::_getImportDirectory() . "/" . ilSession::get("qpl_import_subdir") . "/" . $mob["uri"];
                 }
                 $media_object = ilObjMediaObject::_saveTempFileAsMediaObject(basename($importfile), $importfile, false);

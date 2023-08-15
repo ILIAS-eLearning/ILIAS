@@ -183,6 +183,7 @@ class ilLDAPServer
 
     /**
      * Check whether there if there is an active server with option role_sync_active
+     * @return int[]
      */
     public static function _getRoleSyncServerIds(): array
     {
@@ -199,7 +200,7 @@ class ilLDAPServer
         $server_ids = [];
 
         while ($row = $ilDB->fetchObject($res)) {
-            $server_ids[] = $row->server_id;
+            $server_ids[] = (int) $row->server_id;
         }
         return $server_ids;
     }

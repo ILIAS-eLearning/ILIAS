@@ -39,7 +39,7 @@ class ilSessionParticipantsTableGUI extends ilTable2GUI
     {
         global $DIC;
 
-        $this->logger = $DIC->logger()->root();
+        $this->logger = $DIC->logger()->sess();
         $this->tree = $DIC->repositoryTree();
         $this->rbac = $DIC->rbac();
 
@@ -201,7 +201,7 @@ class ilSessionParticipantsTableGUI extends ilTable2GUI
     {
         $all_participants = [];
         $all_possible_participants = $this->collectParticipants();
-        if ($all_possible_participants) {
+        if ($all_possible_participants !== []) {
             // user filter
             $user_query = new ilUserQuery();
             $user_query->setLimit(50000);
@@ -263,11 +263,20 @@ class ilSessionParticipantsTableGUI extends ilTable2GUI
      */
     protected function collectParticipants(): array
     {
+        $direct_participants = $this->getParticipants()
+                                    ->getEventParticipants()
+                                    ->getParticipants();
+        $direct_participants = array_keys($direct_participants);
+
         $part = ilParticipants::getInstance($this->member_ref_id);
         if (!$part instanceof ilParticipants) {
-            return $this->getParticipants()->getParticipants();
+            return $direct_participants;
         }
-        return $part->getParticipants();
+
+        return array_unique(array_merge(
+            $direct_participants,
+            $part->getParticipants()
+        ));
     }
 
     protected function matchesFilterCriteria(array $a_user_info): bool
@@ -295,9 +304,6 @@ class ilSessionParticipantsTableGUI extends ilTable2GUI
                     }
                     break;
             }
-
-
-            $this->logger->info('Filter: ' . $filter . ' -> ' . $filter_value);
         }
         return true;
     }
@@ -362,10 +368,7 @@ class ilSessionParticipantsTableGUI extends ilTable2GUI
         }
 
         $review = $this->rbac->review();
-
         $local_parent_roles = $review->getLocalRoles($this->member_ref_id);
-        $this->logger->dump($local_parent_roles);
-
         $local_roles_info = [];
         foreach ($local_parent_roles as $index => $role_id) {
             $local_roles_info[$role_id] = ilObjRole::_getTranslation(

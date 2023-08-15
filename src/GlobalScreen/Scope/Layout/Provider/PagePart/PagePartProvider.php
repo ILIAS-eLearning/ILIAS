@@ -26,6 +26,7 @@ use ILIAS\UI\Component\MainControls\Footer;
 use ILIAS\UI\Component\MainControls\MainBar;
 use ILIAS\UI\Component\MainControls\MetaBar;
 use ILIAS\UI\Component\MainControls\SystemInfo;
+use ILIAS\UI\Component\Toast\Container as TContainer;
 
 /**
  * Interface PagePartProvider
@@ -83,4 +84,6 @@ interface PagePartProvider
     public function getShortTitle(): string;
 
     public function getViewTitle(): string;
+
+    public function getToastContainer(): ?TContainer;
 }

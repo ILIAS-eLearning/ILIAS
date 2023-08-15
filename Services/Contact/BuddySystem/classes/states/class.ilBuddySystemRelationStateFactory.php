@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class ilBuddySystemRelationStateFactory
  * @author Michael Jansen <mjansen@databay.de>
@@ -27,13 +27,9 @@ class ilBuddySystemRelationStateFactory
     protected static ?self $instance = null;
     /** @var ilBuddySystemRelationState[]|null */
     protected static ?array $validStates = null;
-    /** @var array<string, string>[]|null */
-    protected static ?array $stateOptions = null;
-    protected ilLanguage $lng;
 
-    public function __construct(ilLanguage $lng)
+    public function __construct(protected ilLanguage $lng)
     {
-        $this->lng = $lng;
     }
 
     public static function getInstance(?ilLanguage $lng = null): self
@@ -69,7 +65,6 @@ class ilBuddySystemRelationStateFactory
     }
 
     /**
-     * @return ilBuddySystemRelationState
      * @throws ilBuddySystemException
      */
     public function getInitialState(): ilBuddySystemRelationState
@@ -85,7 +80,7 @@ class ilBuddySystemRelationStateFactory
 
     public function getTableFilterStateMapper(ilBuddySystemRelationState $state): ilBuddySystemRelationStateTableFilterMapper
     {
-        $stateClass = get_class($state);
+        $stateClass = $state::class;
         $class = $stateClass . 'TableFilterMapper';
 
         return new $class($this->lng, $state);
@@ -95,7 +90,7 @@ class ilBuddySystemRelationStateFactory
         int $ownerId,
         ilBuddySystemRelation $relation
     ): ilBuddySystemRelationStateButtonRenderer {
-        $stateClass = get_class($relation->getState());
+        $stateClass = $relation->getState()::class;
         $class = $stateClass . 'ButtonRenderer';
 
         return new $class($ownerId, $relation);

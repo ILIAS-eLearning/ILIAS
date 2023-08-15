@@ -23,8 +23,11 @@ namespace ILIAS\Skill\Service;
 
 use ILIAS\Skill\Access;
 use ILIAS\Skill\Tree;
+use ILIAS\Skill\Node;
 use ILIAS\Skill\Profile;
 use ILIAS\Skill\Personal;
+use ILIAS\Skill\Resource;
+use ILIAS\Skill\Level;
 
 /**
  * Skill internal manager service
@@ -55,14 +58,14 @@ class SkillInternalManagerService
         $this->usr_id = $usr_id;
     }
 
-    public function getLevelManager(): SkillLevelManager
+    public function getLevelManager(): Level\SkillLevelManager
     {
-        return new SkillLevelManager();
+        return new Level\SkillLevelManager();
     }
 
-    public function getUserLevelManager(): SkillUserLevelManager
+    public function getUserLevelManager(): Level\SkillUserLevelManager
     {
-        return new SkillUserLevelManager();
+        return new Level\SkillUserLevelManager();
     }
 
     public function getTreeManager(): Tree\SkillTreeManager
@@ -77,9 +80,9 @@ class SkillInternalManagerService
     /**
      * Manages nodes in a skill tree
      */
-    public function getTreeNodeManager(int $tree_id): Tree\SkillTreeNodeManager
+    public function getTreeNodeManager(int $tree_id): Node\SkillTreeNodeManager
     {
-        return new Tree\SkillTreeNodeManager(
+        return new Node\SkillTreeNodeManager(
             $tree_id,
             $this->skill_tree_factory
         );
@@ -118,5 +121,10 @@ class SkillInternalManagerService
     public function getSelfEvaluationManager(): Personal\SelfEvaluationManager
     {
         return new Personal\SelfEvaluationManager();
+    }
+
+    public function getResourceManager(): Resource\SkillResourcesManager
+    {
+        return new Resource\SkillResourcesManager();
     }
 }

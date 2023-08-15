@@ -60,20 +60,17 @@ class ilAssSpecificFeedbackIdentifierList implements Iterator
         }
     }
 
-    /** @return false|ilAssSpecificFeedbackIdentifier */
-    public function current()
+    public function current(): ?ilAssSpecificFeedbackIdentifier
     {
         return current($this->map);
     }
 
-    /** @return false|ilAssSpecificFeedbackIdentifier */
-    public function next()
+    public function next(): void
     {
-        return next($this->map);
+        next($this->map);
     }
 
-    /** @return int|null|string */
-    public function key()
+    public function key(): ?int
     {
         return key($this->map);
     }
@@ -83,15 +80,13 @@ class ilAssSpecificFeedbackIdentifierList implements Iterator
         return key($this->map) !== null;
     }
 
-    /** @return false|ilAssSpecificFeedbackIdentifier */
-    public function rewind()
+    public function rewind(): void
     {
-        return reset($this->map);
+        reset($this->map);
     }
 
     protected function getSpecificFeedbackTableName(): string
     {
-        require_once 'Modules/TestQuestionPool/classes/feedback/class.ilAssClozeTestFeedback.php';
         return ilAssClozeTestFeedback::TABLE_NAME_SPECIFIC_FEEDBACK;
     }
 }

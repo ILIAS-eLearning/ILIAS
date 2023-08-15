@@ -18,6 +18,7 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+use ILIAS\Cron\Schedule\CronJobScheduleType;
 
 /**
  * Reminders for consultation hours
@@ -54,9 +55,9 @@ class ilConsultationHourCron extends ilCronJob
         return $this->lng->txt("cal_ch_cron_reminder_info");
     }
 
-    public function getDefaultScheduleType(): int
+    public function getDefaultScheduleType(): CronJobScheduleType
     {
-        return self::SCHEDULE_TYPE_DAILY;
+        return CronJobScheduleType::SCHEDULE_TYPE_DAILY;
     }
 
     public function getDefaultScheduleValue(): ?int

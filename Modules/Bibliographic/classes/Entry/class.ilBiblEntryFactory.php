@@ -21,6 +21,8 @@
  */
 class ilBiblEntryFactory implements ilBiblEntryFactoryInterface
 {
+    use ilBibliographicSecureString;
+
     protected int $bibliographic_obj_id;
     protected int $entry_id;
     protected string $type;
@@ -29,6 +31,7 @@ class ilBiblEntryFactory implements ilBiblEntryFactoryInterface
     protected \ilBiblFieldFactoryInterface $field_factory;
     protected \ilBiblOverviewModelFactoryInterface $overview_factory;
     protected ilDBInterface $db;
+
 
     /**
      * ilBiblEntryFactory constructor.
@@ -58,9 +61,13 @@ class ilBiblEntryFactory implements ilBiblEntryFactoryInterface
         }
         $parsed_attributes = array();
         foreach ($attributes as $attribute) {
+            $value = $this->secure($attribute->getValue());
             // surround links with <a href="">
             // Allowed signs in URL: a-z A-Z 0-9 . ? & _ / - ~ ! ' * ( ) + , : ; @ = $ # [ ] %
-            $value = preg_replace('!(http)(s)?:\/\/[a-zA-Z0-9.?&_/\-~\!\'\*()+,:;@=$#\[\]%]+!', "<a href=\"\\0\" target=\"_blank\">\\0</a>", $attribute->getValue());
+            $value = preg_replace('!(http)(s)?:\/\/[a-zA-Z0-9.?&_/\-~\!\'\*()+,:;@=$#\[\]%]+!', "<a href=\"\\0\" target=\"_blank\">\\0</a>", $value);
+
+
+
             $attribute->setValue($value);
             $parsed_attributes[strtolower($this->file_type->getStringRepresentation() . '_' . $type . '_' . $attribute->getName())] = $value;
 

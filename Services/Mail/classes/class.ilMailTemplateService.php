@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,12 +16,9 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
-/**
- * Class ilMailTemplateService
- * @author  Michael Jansen <mjansen@databay.de>
- * @ingroup ServicesMail
- */
-class ilMailTemplateService
+declare(strict_types=1);
+
+class ilMailTemplateService implements ilMailTemplateServiceInterface
 {
     public function __construct(protected ilMailTemplateRepository $repository)
     {
@@ -72,25 +67,16 @@ class ilMailTemplateService
         return $this->repository->findById($templateId);
     }
 
-    /**
-     * @return ilMailTemplate[]
-     */
     public function loadTemplatesForContextId(string $contextId): array
     {
         return $this->repository->findByContextId($contextId);
     }
 
-    /**
-     * @param int[] $templateIds
-     */
     public function deleteTemplatesByIds(array $templateIds): void
     {
         $this->repository->deleteByIds($templateIds);
     }
 
-    /**
-     * @return array[]
-     */
     public function listAllTemplatesAsArray(): array
     {
         $templates = $this->repository->getAll();

@@ -27,6 +27,9 @@ use ILIAS\Services\ResourceStorage\Resources\UI\Actions\ActionGenerator;
 use ILIAS\UI\Component\Card\Card;
 use ILIAS\UI\Component\Image\Image;
 use ILIAS\UI\Component\Table\PresentationRow;
+use ILIAS\ResourceStorage\Flavour\Machine\DefaultMachines\ExtractPages;
+use ILIAS\ResourceStorage\Flavour\Definition\PagesToExtract;
+use ILIAS\Services\ResourceStorage\Collections\View\PreviewDefinition;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
@@ -34,24 +37,34 @@ use ILIAS\UI\Component\Table\PresentationRow;
 class RevisionToComponent extends BaseToComponent implements ToComponent
 {
     private \ILIAS\ResourceStorage\Information\Information $information;
+    private \ILIAS\ResourceStorage\Services $irss;
+    private $preview_definition;
 
     public function __construct(
         private Revision $revision,
         ?ActionGenerator $action_generator = null
     ) {
+        global $DIC;
         parent::__construct($action_generator);
+        $this->irss = $DIC->resourceStorage();
         $this->information = $this->revision->getInformation();
+        $this->preview_definition = new PreviewDefinition();
     }
 
-    public function getAsItem(): \ILIAS\UI\Component\Item\Standard
+    public function getAsItem(bool $with_image): \ILIAS\UI\Component\Item\Standard
     {
         $properties = array_merge(
             $this->getCommonProperties(),
             $this->getDetailedProperties()
         );
-        return $this->ui_factory->item()->standard($this->revision->getTitle())
-            ->withDescription($this->information->getTitle())
-            ->withProperties($properties);
+        $item = $this->ui_factory->item()->standard($this->revision->getTitle())
+                                 ->withDescription($this->information->getTitle())
+                                 ->withProperties($properties);
+
+        if ($with_image) {
+            $item = $item->withLeadImage($this->getImage());
+        }
+        return $item;
     }
 
     public function getAsCard(): Card
@@ -90,14 +103,24 @@ class RevisionToComponent extends BaseToComponent implements ToComponent
         };
     }
 
-
     private function getImage(): Image
     {
         // We could use Flavours in the Future
-        return $this->ui_factory->image()->standard(
-            "./templates/default/images/icon_file.svg",
+        $src = null;
+        if ($this->irss->flavours()->possible($this->revision->getIdentification(), $this->preview_definition)) {
+            $flavour = $this->irss->flavours()->get($this->revision->getIdentification(), $this->preview_definition);
+            $src = $this->irss->consume()->flavourUrls($flavour)->getURLsAsArray()[0] ?? null;
+        }
+
+        return $this->ui_factory->image()->responsive(
+            $src ?? $this->getPlaceholderImage(),
             $this->information->getTitle()
-        );
+        )->withAlt($this->information->getTitle());
+    }
+
+    protected function getPlaceholderImage(): string
+    {
+        return './templates/default/images/file_placeholder.svg';
     }
 
     public function getImportantProperties(): array

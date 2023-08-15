@@ -23,13 +23,11 @@ declare(strict_types=1);
  */
 class ilUsersGalleryParticipants extends ilAbstractUsersGalleryCollectionProvider
 {
-    protected ilParticipants $participants;
     /** @var array<int, bool> */
     protected array $users = [];
 
-    public function __construct(ilParticipants $participants)
+    public function __construct(protected ilParticipants $participants)
     {
-        $this->participants = $participants;
     }
 
     /**

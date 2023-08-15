@@ -16,7 +16,12 @@
  *
  *********************************************************************/
 
-use ILIAS\Modules\Test\CanAccessFileUploadAnswer;
+use ILIAS\Modules\Test\AccessFileUploadAnswer;
+use ILIAS\Modules\Test\AccessQuestionImage;
+use ILIAS\Modules\Test\SimpleAccess;
+use ILIAS\Modules\Test\Readable;
+use ILIAS\Data\Result;
+use ILIAS\Data\Result\Error;
 
 /**
 * Class ilObjTestAccess
@@ -35,10 +40,22 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
     public function canBeDelivered(ilWACPath $ilWACPath): bool
     {
         global $DIC;
+        $readable = new Readable($DIC);
 
-        $can_it = (new CanAccessFileUploadAnswer($DIC))->isTrue($ilWACPath->getPath());
+        $can_it = $this->findMatch($ilWACPath->getPath(), [
+            new AccessFileUploadAnswer($DIC, $readable),
+            new AccessQuestionImage($readable),
+        ]);
+
 
         return !$can_it->isOk() || $can_it->value();
+    }
+
+    private function findMatch(string $path, array $array): Result
+    {
+        return array_reduce($array, fn(Result $result, SimpleAccess $access) => $result->except(
+            fn() => $access->isPermitted($path)
+        ), new Error('Not a known path.'));
     }
 
     /**
@@ -123,10 +140,15 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
         );
         if (!$result->numRows()) {
             $result = $ilDB->queryF(
-                "SELECT tst_pass_result.*, tst_tests.pass_scoring, tst_tests.random_test, tst_tests.test_id FROM tst_pass_result, tst_active, tst_tests WHERE tst_active.test_fi = tst_tests.test_id AND tst_active.user_fi = %s AND tst_tests.obj_fi = %s AND tst_pass_result.active_fi = tst_active.active_id ORDER BY tst_pass_result.pass",
+                "SELECT tst_pass_result.*, tst_tests.pass_scoring, tst_tests.test_id FROM tst_pass_result, tst_active, tst_tests WHERE tst_active.test_fi = tst_tests.test_id AND tst_active.user_fi = %s AND tst_tests.obj_fi = %s AND tst_pass_result.active_fi = tst_active.active_id ORDER BY tst_pass_result.pass",
                 array('integer','integer'),
                 array($user_id, $a_obj_id)
             );
+
+            if (!$result->numRows()) {
+                return false;
+            }
+
             $points = array();
             while ($row = $ilDB->fetchAssoc($result)) {
                 array_push($points, $row);
@@ -336,7 +358,7 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
 
         $commands = array(
             array("permission" => "write", "cmd" => "questionsTabGateway", "lang_var" => "tst_edit_questions"),
-            array("permission" => "write", "cmd" => "ilObjTestSettingsGeneralGUI::showForm", "lang_var" => "settings"),
+            array("permission" => "write", "cmd" => "ilObjTestSettingsMainGUI::showForm", "lang_var" => "settings"),
             array("permission" => "read", "cmd" => "infoScreen", "lang_var" => "tst_run",
                 "default" => true),
             //array("permission" => "write", "cmd" => "", "lang_var" => "edit"),
@@ -390,10 +412,6 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
     public static function hasFinished($a_user_id, $a_obj_id): bool
     {
         if (!isset(self::$hasFinishedCache["{$a_user_id}:{$a_obj_id}"])) {
-            require_once 'Modules/Test/classes/class.ilTestParticipantData.php';
-            require_once 'Modules/Test/classes/class.ilTestSessionFactory.php';
-            require_once 'Modules/Test/classes/class.ilTestPassesSelector.php';
-
             global $DIC;
             $ilDB = $DIC['ilDB'];
             $lng = $DIC['lng'];
@@ -523,7 +541,7 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
                 );
                 if ($result->numRows()) {
                     $row = $ilDB->fetchAssoc($result);
-                    if (trim($row['clientip']) != "") {
+                    if ($row['clientip'] !== null && trim($row['clientip']) != "") {
                         $row['clientip'] = preg_replace("/[^0-9.?*,:]+/", "", $row['clientip']);
                         $row['clientip'] = str_replace(".", "\\.", $row['clientip']);
                         $row['clientip'] = str_replace(array("?","*",","), array("[0-9]","[0-9]*","|"), $row['clientip']);
@@ -560,44 +578,44 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
         $lng = $DIC['lng'];
         $ilDB = $DIC['ilDB'];
 
-        $result = $ilDB->queryF(
+        $result_active = $ilDB->queryF(
             "SELECT * FROM tst_active WHERE active_id = %s",
             array("integer"),
             array($active_id)
         );
-        $row = $ilDB->fetchAssoc($result);
-        $user_id = $row["user_fi"];
-        $test_id = $row["test_fi"];
-        $importname = $row['importname'];
+        $row_active = $ilDB->fetchAssoc($result_active);
 
-        $result = $ilDB->queryF(
+        if ($row_active["user_fi"] === ANONYMOUS_USER_ID) {
+            return '';
+        }
+
+        $uname = ilObjUser::_lookupName($row_active["user_fi"]);
+
+        $test_id = $row_active["test_fi"];
+        $importname = $row_active['importname'];
+
+        $result_test = $ilDB->queryF(
             "SELECT obj_fi FROM tst_tests WHERE test_id = %s",
             array("integer"),
             array($test_id)
         );
-        $row = $ilDB->fetchAssoc($result);
-        $obj_id = $row["obj_fi"];
+        $row_test = $ilDB->fetchAssoc($result_test);
+        $obj_id = $row_test["obj_fi"];
 
-        $is_anonymous = ilObjTest::_lookupAnonymity($obj_id);
-
-        $uname = ilObjUser::_lookupName($user_id);
-
-        $name = "";
-        if (strlen($importname)) {
-            $name = $importname . ' (' . $lng->txt('imported') . ')';
-        } elseif (strlen($uname["firstname"] . $uname["lastname"]) == 0) {
-            $name = $lng->txt("deleted_user");
-        } else {
-            if ($user_id == ANONYMOUS_USER_ID) {
-                $name = "";
-            } else {
-                $name = trim($uname["lastname"] . ", " . $uname["firstname"] . " " . $uname["title"]);
-            }
-            if ($is_anonymous) {
-                $name = $lng->txt("anonymous");
-            }
+        if (ilObjTest::_lookupAnonymity($obj_id)) {
+            return $lng->txt("anonymous");
         }
-        return $name;
+
+        if ($importname !== null
+            && $importname !== '') {
+            return $importname . ' (' . $lng->txt('imported') . ')';
+        }
+
+        if (strlen($uname["firstname"] . $uname["lastname"]) === 0) {
+            return $lng->txt("deleted_user");
+        }
+
+        return trim($uname["lastname"] . ", " . $uname["firstname"]);
     }
 
     /**
@@ -698,12 +716,6 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
                 $data['not_attempted'] = 1;
             }
 
-            if ($data['failed'] && !isset($lastPassUsers[$data['active_fi']])) {
-                $data['passed'] = 0;
-                $data['failed'] = 0;
-                $data['in_progress'] = 1;
-            }
-
             $data['user_id'] = $data['user_fi'];
             array_push($passed_users, $data);
         }
@@ -754,7 +766,6 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
             return false;
         }
 
-        require_once 'Modules/Test/classes/class.ilTestSessionFactory.php';
         $testSessionFactory = new ilTestSessionFactory($testOBJ);
         $testSession = $testSessionFactory->getSessionByUserId($userId);
 

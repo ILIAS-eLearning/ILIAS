@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -13,13 +14,10 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
-/**
- * Class ilDclMobRecordRepresentation
- * @author  Michael Herren <mh@studer-raimann.ch>
- * @version 1.0.0
- */
+ *********************************************************************/
+
+declare(strict_types=1);
+
 class ilDclMobRecordRepresentation extends ilDclFileuploadRecordRepresentation
 {
     /**
@@ -51,9 +49,6 @@ class ilDclMobRecordRepresentation extends ilDclFileuploadRecordRepresentation
             ) . '">' . $value['name'] . '</a>';
         }
 
-        if (is_null($value)) {
-            return "";
-        }
         $mob = new ilObjMediaObject($value);
         $med = $mob->getMediaItem('Standard');
 
@@ -92,7 +87,7 @@ class ilDclMobRecordRepresentation extends ilDclFileuploadRecordRepresentation
             $components[] = $image;
         } else {
             $location = ilObjMediaObject::_getURL($mob->getId()) . "/" . $med->getLocation();
-            if (in_array($med->getSuffix(), ['mp3'])) {
+            if ($med->getSuffix() == 'mp3') {
                 $components[] = $this->factory->player()->audio($location);
             } else {
                 $components[] = $this->factory->player()->video($location);
@@ -123,8 +118,7 @@ class ilDclMobRecordRepresentation extends ilDclFileuploadRecordRepresentation
             $height = $field->getProperty(ilDclBaseFieldModel::PROP_HEIGHT)."px";
         }
         $content = $this->renderer->render($components);
-        $fixed_size_div = "<div style='width:$width; height:$height;'>$content</div>";
-        return $fixed_size_div;
+        return "<div style='width:$width; height:$height;'>$content</div>";
     }
 
     /**

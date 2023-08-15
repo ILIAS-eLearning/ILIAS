@@ -148,10 +148,6 @@ class ilTestParticipantsGUI
 
         switch ($DIC->ctrl()->getNextClass($this)) {
             case 'ilrepositorysearchgui':
-
-                require_once 'Modules/Test/classes/class.ilTestParticipantAccessFilter.php';
-                require_once 'Services/Search/classes/class.ilRepositorySearchGUI.php';
-
                 $gui = new ilRepositorySearchGUI();
                 $gui->setCallback($this, self::CALLBACK_ADD_PARTICIPANT, array());
 
@@ -166,9 +162,6 @@ class ilTestParticipantsGUI
                 break;
 
             case "iltestevaluationgui":
-
-                require_once 'Modules/Test/classes/class.ilTestEvaluationGUI.php';
-
                 $gui = new ilTestEvaluationGUI($this->getTestObj());
                 $gui->setObjectiveOrientedContainer($this->getObjectiveParent());
                 $gui->setTestAccess($this->getTestAccess());
@@ -188,9 +181,7 @@ class ilTestParticipantsGUI
 
     public function addParticipants($a_user_ids = array()): ?bool
     {
-        global $DIC; /* @var ILIAS\DI\Container $DIC */
-
-        require_once 'Modules/Test/classes/class.ilTestParticipantAccessFilter.php';
+        global $DIC;
         $filterCallback = ilTestParticipantAccessFilter::getManageParticipantsUserFilter($this->getTestObj()->getRefId());
         $a_user_ids = call_user_func_array($filterCallback, [$a_user_ids]);
 
@@ -225,9 +216,7 @@ class ilTestParticipantsGUI
      */
     protected function buildTableGUI(): ilTestParticipantsTableGUI
     {
-        global $DIC; /* @var ILIAS\DI\Container $DIC */
-
-        require_once 'Modules/Test/classes/tables/class.ilTestParticipantsTableGUI.php';
+        global $DIC;
         $tableGUI = new ilTestParticipantsTableGUI($this, self::CMD_SHOW);
 
         $tableGUI->setParticipantHasSolutionsFilterEnabled(
@@ -382,9 +371,6 @@ class ilTestParticipantsGUI
     protected function addUserSearchControls(ilToolbarGUI $toolbar)
     {
         global $DIC; /* @var ILIAS\DI\Container $DIC */
-
-        // search button
-        include_once './Services/Search/classes/class.ilRepositorySearchGUI.php';
         ilRepositorySearchGUI::fillAutoCompleteToolbar(
             $this,
             $toolbar,
@@ -394,7 +380,6 @@ class ilTestParticipantsGUI
             )
         );
 
-        require_once  'Services/UIComponent/Button/classes/class.ilLinkButton.php';
         $search_btn = ilLinkButton::getInstance();
         $search_btn->setCaption('tst_search_users');
         $search_btn->setUrl($DIC->ctrl()->getLinkTargetByClass('ilRepositorySearchGUI', 'start'));
@@ -421,9 +406,7 @@ class ilTestParticipantsGUI
      */
     protected function saveClientIpCmd()
     {
-        global $DIC; /* @var ILIAS\DI\Container $DIC */
-
-        require_once 'Modules/Test/classes/class.ilTestParticipantAccessFilter.php';
+        global $DIC;
         $filterCallback = ilTestParticipantAccessFilter::getManageParticipantsUserFilter($this->getTestObj()->getRefId());
         $a_user_ids = call_user_func_array($filterCallback, [(array) $_POST["chbUser"]]);
 
@@ -442,9 +425,7 @@ class ilTestParticipantsGUI
      */
     protected function removeParticipantsCmd()
     {
-        global $DIC; /* @var ILIAS\DI\Container $DIC */
-
-        require_once 'Modules/Test/classes/class.ilTestParticipantAccessFilter.php';
+        global $DIC;
         $filterCallback = ilTestParticipantAccessFilter::getManageParticipantsUserFilter($this->getTestObj()->getRefId());
         $a_user_ids = call_user_func_array($filterCallback, [(array) $_POST["chbUser"]]);
 

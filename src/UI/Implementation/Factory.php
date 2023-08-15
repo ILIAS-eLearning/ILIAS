@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,9 +16,12 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\UI\Implementation;
 
 use ILIAS\UI\Component as C;
+use ILIAS\UI\Help;
 
 // TODO: This might cache the created factories.
 use ILIAS\UI\Implementation\Component\SignalGenerator;
@@ -52,6 +53,7 @@ class Factory implements \ILIAS\UI\Factory
     protected C\Symbol\Factory $symbol_factory;
     protected C\Toast\Factory $toast_factory;
     protected C\Legacy\Factory $legacy_factory;
+    protected C\Launcher\Factory $launcher_factory;
 
     public function __construct(
         C\Counter\Factory $counter_factory,
@@ -78,7 +80,8 @@ class Factory implements \ILIAS\UI\Factory
         C\Menu\Factory $menu_factory,
         C\Symbol\Factory $symbol_factory,
         C\Toast\Factory $toast_factory,
-        C\Legacy\Factory $legacy_factory
+        C\Legacy\Factory $legacy_factory,
+        C\Launcher\Factory $launcher_factory
     ) {
         $this->counter_factory = $counter_factory;
         $this->button_factory = $button_factory;
@@ -105,6 +108,7 @@ class Factory implements \ILIAS\UI\Factory
         $this->symbol_factory = $symbol_factory;
         $this->toast_factory = $toast_factory;
         $this->legacy_factory = $legacy_factory;
+        $this->launcher_factory = $launcher_factory;
     }
 
     /**
@@ -324,5 +328,18 @@ class Factory implements \ILIAS\UI\Factory
     public function toast(): C\Toast\Factory
     {
         return $this->toast_factory;
+    }
+
+    public function helpTopics(string ...$topics): array
+    {
+        return array_map(
+            fn ($t) => new Help\Topic($t),
+            $topics
+        );
+    }
+
+    public function launcher(): C\Launcher\Factory
+    {
+        return $this->launcher_factory;
     }
 }

@@ -287,17 +287,16 @@ class ilAssQuestionSkillAssignmentList
 
     public function getNumAssignsBySkill($skillBaseId, $skillTrefId)
     {
-        return $this->numAssignsBySkill[$this->buildSkillKey($skillBaseId, $skillTrefId)];
+        return $this->numAssignsBySkill[$this->buildSkillKey($skillBaseId, $skillTrefId)] ?? null;
     }
 
     public function getMaxPointsBySkill($skillBaseId, $skillTrefId)
     {
-        return $this->maxPointsBySkill[$this->buildSkillKey($skillBaseId, $skillTrefId)];
+        return $this->maxPointsBySkill[$this->buildSkillKey($skillBaseId, $skillTrefId)] ?? null;
     }
 
     public function hasSkillsAssignedLowerThanBarrier(): bool
     {
-        require_once 'Modules/Test/classes/class.ilObjAssessmentFolder.php';
         $globalBarrier = ilObjAssessmentFolder::getSkillTriggerAnswerNumberBarrier();
 
         foreach ($this->getUniqueAssignedSkills() as $skillData) {

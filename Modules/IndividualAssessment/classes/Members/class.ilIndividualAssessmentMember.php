@@ -29,7 +29,7 @@ class ilIndividualAssessmentMember
     protected int $notification_ts;
     protected ?int $examiner_id;
     protected ?int $changer_id;
-    protected ?DateTime $change_time;
+    protected ?DateTimeImmutable $change_time;
 
     public function __construct(
         ilObjIndividualAssessment $iass,
@@ -38,7 +38,7 @@ class ilIndividualAssessmentMember
         int $notification_ts,
         ?int $examiner_id = null,
         ?int $changer_id = null,
-        ?DateTime $change_time = null
+        ?DateTimeImmutable $change_time = null
     ) {
         $this->iass = $iass;
         $this->usr = $usr;
@@ -109,12 +109,12 @@ class ilIndividualAssessmentMember
         return $clone;
     }
 
-    public function changeTime(): ?DateTime
+    public function changeTime(): ?DateTimeImmutable
     {
         return $this->change_time;
     }
 
-    public function withChangeTime(DateTime $change_time = null): ilIndividualAssessmentMember
+    public function withChangeTime(DateTimeImmutable $change_time = null): ilIndividualAssessmentMember
     {
         $clone = clone $this;
         $clone->change_time = $change_time;

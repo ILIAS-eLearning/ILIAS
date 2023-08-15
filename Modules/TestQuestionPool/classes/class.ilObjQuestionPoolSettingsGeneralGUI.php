@@ -114,6 +114,7 @@ class ilObjQuestionPoolSettingsGeneralGUI
         // activate corresponding tab (auto activation does not work in ilObjTestGUI-Tabs-Salad)
 
         $this->tabs->activateTab('settings');
+        $this->tabs->activateSubTab('qpl_settings_subtab_general');
 
         // process command
 
@@ -165,7 +166,6 @@ class ilObjQuestionPoolSettingsGeneralGUI
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
 
-        include_once 'Services/MetaData/classes/class.ilMD.php';
         $md_obj = new ilMD($this->poolOBJ->getId(), 0, "qpl");
         $md_section = $md_obj->getGeneral();
 
@@ -195,9 +195,6 @@ class ilObjQuestionPoolSettingsGeneralGUI
         $showTax = $form->getItemByPostVar('show_taxonomies');
         $this->poolOBJ->setShowTaxonomies($showTax->getChecked());
 
-        $navTax = $form->getItemByPostVar('nav_taxonomy');
-        $this->poolOBJ->setNavTaxonomyId($navTax->getValue());
-
         $DIC->object()->commonSettings()->legacyForm($form, $this->poolOBJ)->saveTileImage();
 
         if ($this->formPropertyExists($form, 'skill_service')) {
@@ -210,9 +207,7 @@ class ilObjQuestionPoolSettingsGeneralGUI
 
     private function buildForm(): ilPropertyFormGUI
     {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
-
-        require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
+        global $DIC;
         $form = new ilPropertyFormGUI();
 
         $form->setFormAction($this->ctrl->getFormAction($this));
@@ -221,7 +216,6 @@ class ilObjQuestionPoolSettingsGeneralGUI
         $form->setTitle($this->lng->txt('qpl_form_general_settings'));
         $form->setId('properties');
 
-        include_once 'Services/MetaData/classes/class.ilMD.php';
         $md_obj = new ilMD($this->poolOBJ->getId(), 0, "qpl");
         $md_section = $md_obj->getGeneral();
 
@@ -255,16 +249,6 @@ class ilObjQuestionPoolSettingsGeneralGUI
         $showTax->setChecked($this->poolOBJ->getShowTaxonomies());
         $form->addItem($showTax);
 
-        $taxSelectOptions = $this->getTaxonomySelectInputOptions();
-
-        // pool navigation taxonomy
-
-        $navTax = new ilSelectInputGUI($this->lng->txt('qpl_settings_general_form_property_nav_taxonomy'), 'nav_taxonomy');
-        $navTax->setInfo($this->lng->txt('qpl_settings_general_form_property_nav_taxonomy_description'));
-        $navTax->setValue($this->poolOBJ->getNavTaxonomyId());
-        $navTax->setOptions($taxSelectOptions);
-        $showTax->addSubItem($navTax);
-
         $section = new ilFormSectionHeaderGUI();
         $section->setTitle($this->lng->txt('tst_presentation_settings_section'));
         $form->addItem($section);
@@ -284,19 +268,6 @@ class ilObjQuestionPoolSettingsGeneralGUI
         }
 
         return $form;
-    }
-
-    private function getTaxonomySelectInputOptions(): array
-    {
-        $taxSelectOptions = array(
-            '0' => $this->lng->txt('qpl_settings_general_form_property_opt_notax_selected')
-        );
-
-        foreach ($this->poolOBJ->getTaxonomyIds() as $taxId) {
-            $taxSelectOptions[$taxId] = ilObject::_lookupTitle($taxId);
-        }
-
-        return $taxSelectOptions;
     }
 
     protected function formPropertyExists(ilPropertyFormGUI $form, $propertyId): bool

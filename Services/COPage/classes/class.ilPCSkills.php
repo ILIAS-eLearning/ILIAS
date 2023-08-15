@@ -23,7 +23,6 @@
  */
 class ilPCSkills extends ilPageContent
 {
-    protected php4DOMElement $skill_node;
     protected ilObjUser $user;
 
     public function init(): void
@@ -34,35 +33,25 @@ class ilPCSkills extends ilPageContent
         $this->setType("skills");
     }
 
-    public function setNode(php4DOMElement $a_node): void
-    {
-        parent::setNode($a_node);		// this is the PageContent node
-        $this->skill_node = $a_node->first_child();		// this is the skill node
-    }
-
     public function create(
         ilPageObject $a_pg_obj,
         string $a_hier_id,
         string $a_pc_id = ""
     ): void {
-        $this->node = $this->createPageContentNode();
-        $a_pg_obj->insertContent($this, $a_hier_id, IL_INSERT_AFTER, $a_pc_id);
-        $this->skill_node = $this->dom->create_element("Skills");
-        $this->skill_node = $this->node->append_child($this->skill_node);
+        $this->createInitialChildNode($a_hier_id, $a_pc_id, "Skills");
     }
 
     public function setData(string $a_skill_id): void
     {
         $ilUser = $this->user;
-
-        $this->skill_node->set_attribute("Id", $a_skill_id);
-        $this->skill_node->set_attribute("User", $ilUser->getId());
+        $this->getChildNode()->setAttribute("Id", $a_skill_id);
+        $this->getChildNode()->setAttribute("User", $ilUser->getId());
     }
 
     public function getSkillId(): string
     {
-        if (is_object($this->skill_node)) {
-            return $this->skill_node->get_attribute("Id");
+        if (is_object($this->getChildNode())) {
+            return $this->getChildNode()->getAttribute("Id");
         }
         return "";
     }
@@ -90,7 +79,7 @@ class ilPCSkills extends ilPageContent
             "skmg",
             $a_page->getParentType() . ":pg",
             $a_page->getId(),
-            false,
+            0,
             $a_page->getLanguage()
         );
     }

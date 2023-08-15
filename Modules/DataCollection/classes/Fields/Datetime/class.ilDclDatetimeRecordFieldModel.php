@@ -14,15 +14,10 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
-/**
- * Class ilDclBaseFieldModel
- * @author  Stefan Wanzenried <sw@studer-raimann.ch>
- * @author  Fabian Schmid <fs@studer-raimann.ch>
- * @version $Id:
- */
+declare(strict_types=1);
+
 class ilDclDatetimeRecordFieldModel extends ilDclBaseRecordFieldModel
 {
     /**
@@ -46,7 +41,8 @@ class ilDclDatetimeRecordFieldModel extends ilDclBaseRecordFieldModel
      */
     public function parseExportValue($value): ?string
     {
-        return substr($value, 0, 10);
+        $date = new ilDate($value, IL_CAL_DATE);
+        return $date->get(IL_CAL_DATE);
     }
 
     /**

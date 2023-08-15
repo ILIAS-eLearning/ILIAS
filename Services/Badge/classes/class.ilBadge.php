@@ -48,7 +48,6 @@ class ilBadge
     }
 
     /**
-     * @param int $a_parent_id
      * @param array|null $a_filter
      * @return self[]
      */
@@ -60,7 +59,7 @@ class ilBadge
 
         $ilDB = $DIC->database();
 
-        $res = array();
+        $res = [];
 
         $sql = "SELECT * FROM badge_badge" .
             " WHERE parent_id = " . $ilDB->quote($a_parent_id);
@@ -86,7 +85,6 @@ class ilBadge
     }
 
     /**
-     * @param string $a_type_id
      * @return self[]
      */
     public static function getInstancesByType(
@@ -96,7 +94,7 @@ class ilBadge
 
         $ilDB = $DIC->database();
 
-        $res = array();
+        $res = [];
 
         $set = $ilDB->query("SELECT * FROM badge_badge" .
             " WHERE type_id = " . $ilDB->quote($a_type_id, "text") .
@@ -108,6 +106,24 @@ class ilBadge
         }
 
         return $res;
+    }
+
+    public function clone(int $target_parent_obj_id): void
+    {
+        $this->setParentId($target_parent_obj_id);
+        $this->setActive(false);
+
+        if ($this->getId()) {
+            $img = $this->getImagePath();
+
+            $this->setId(0);
+            $this->create();
+
+            if ($img) {
+                // see uploadImage()
+                copy($img, $this->getImagePath());
+            }
+        }
     }
 
     public function getTypeInstance(): ?ilBadgeType
@@ -131,7 +147,7 @@ class ilBadge
         if ($this->getId()) {
             $img = $this->getImagePath();
 
-            $this->setId(null);
+            $this->setId(0);
             $this->create();
 
             if ($img) {
@@ -152,7 +168,7 @@ class ilBadge
 
         $ilDB = $DIC->database();
 
-        $res = $raw = array();
+        $res = $raw = [];
 
         $where = "";
 
@@ -412,9 +428,9 @@ class ilBadge
 
         $fields = $this->getPropertiesForStorage();
 
-        $fields["id"] = array("integer", $id);
-        $fields["parent_id"] = array("integer", $this->getParentId());
-        $fields["type_id"] = array("text", $this->getTypeId());
+        $fields["id"] = ["integer", $id];
+        $fields["parent_id"] = ["integer", $this->getParentId()];
+        $fields["type_id"] = ["text", $this->getTypeId()];
 
         $ilDB->insert("badge_badge", $fields);
     }
@@ -433,7 +449,7 @@ class ilBadge
         $ilDB->update(
             "badge_badge",
             $fields,
-            array("id" => array("integer", $this->getId()))
+            ["id" => ["integer", $this->getId()]]
         );
     }
 

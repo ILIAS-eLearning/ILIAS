@@ -23,11 +23,22 @@ class ilAppointmentBookingPoolFileHandler extends ilAppointmentBaseFileHandler i
         $res = new ilBookingReservation($res_id);
         $b_obj = new ilBookingObject($res->getObjectId());
 
-        $file_property = new ilFileProperty();
-        $file_property->setAbsolutePath($b_obj->getFileFullPath());
-        $file_property->setFileName($b_obj->getPostFile());
-        return [
-            $file_property
-        ];
+        $files = [];
+
+        if ($b_obj->getFile() !== "") {
+            $file_property = new ilFileProperty();
+            $file_property->setAbsolutePath($b_obj->getFileFullPath());
+            $file_property->setFileName($b_obj->getFile());
+            $files[] = $file_property;
+        }
+
+        if ($b_obj->getPostFile() !== "") {
+            $file_property = new ilFileProperty();
+            $file_property->setAbsolutePath($b_obj->getPostFileFullPath());
+            $file_property->setFileName($b_obj->getPostFile());
+            $files[] = $file_property;
+        }
+
+        return $files;
     }
 }

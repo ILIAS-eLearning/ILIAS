@@ -732,7 +732,7 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
             }
         }
 
-        if (trim($value) == "") {
+        if (trim((string) $value) == "") {
             if ($id == "title") {
                 return "--" . $this->lng->txt("none") . "--";
             }
@@ -832,7 +832,7 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
                         break;
                     }
 
-                // no break
+                    // no break
                 default:
                     $value = $this->parseValue($c, $a_set[$c], $a_set["type"]);
                     $this->tpl->setVariable(strtoupper($c), $value);
@@ -971,6 +971,11 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
             }
         }
         return false;
+    }
+
+    public function isStatusShown(): bool
+    {
+        return in_array('status', $this->getSelectedColumns());
     }
 
     protected function fillHeaderExcel(ilExcel $a_excel, int &$a_row): void

@@ -25,7 +25,6 @@ class ilPCPlaceHolder extends ilPageContent
 {
     protected ilCtrl $ctrl;
     protected ilLanguage $lng;
-    public php4DOMElement $q_node;			// node of Paragraph element
     public string $content_class;
     public string $height;
 
@@ -38,49 +37,40 @@ class ilPCPlaceHolder extends ilPageContent
         $this->setType("plach");
     }
 
-    public function setNode(php4DOMElement $a_node): void
-    {
-        parent::setNode($a_node);		// this is the PageContent node
-        $this->q_node = $a_node->first_child();		//... and this the PlaceHolder
-    }
-
     public function create(
         ilPageObject $a_pg_obj,
         string $a_hier_id,
         string $a_pc_id = ""
     ): void {
-        $this->createPageContentNode();
-        $a_pg_obj->insertContent($this, $a_hier_id, IL_INSERT_AFTER, $a_pc_id);
-        $this->q_node = $this->dom->create_element("PlaceHolder");
-        $this->q_node = $this->node->append_child($this->q_node);
+        $this->createInitialChildNode($a_hier_id, $a_pc_id, "PlaceHolder");
     }
 
     public function setContentClass(string $a_class): void
     {
-        if (is_object($this->q_node)) {
-            $this->q_node->set_attribute("ContentClass", $a_class);
+        if (is_object($this->getChildNode())) {
+            $this->getChildNode()->setAttribute("ContentClass", $a_class);
         }
     }
 
     public function getContentClass(): string
     {
-        if (is_object($this->q_node)) {
-            return $this->q_node->get_attribute("ContentClass");
+        if (is_object($this->getChildNode())) {
+            return $this->getChildNode()->getAttribute("ContentClass");
         }
         return "";
     }
 
     public function setHeight(string $a_height): void
     {
-        if (is_object($this->q_node)) {
-            $this->q_node->set_attribute("Height", $a_height);
+        if (is_object($this->getChildNode())) {
+            $this->getChildNode()->setAttribute("Height", $a_height);
         }
     }
 
     public function getHeight(): string
     {
-        if (is_object($this->q_node)) {
-            return $this->q_node->get_attribute("Height");
+        if (is_object($this->getChildNode())) {
+            return $this->getChildNode()->getAttribute("Height");
         }
         return "";
     }

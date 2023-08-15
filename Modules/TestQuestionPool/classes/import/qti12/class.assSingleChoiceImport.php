@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -14,8 +15,6 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
-
-include_once "./Modules/TestQuestionPool/classes/import/qti12/class.assQuestionImport.php";
 
 /**
 * Class for single choice question imports
@@ -50,7 +49,6 @@ class assSingleChoiceImport extends assQuestionImport
         ilSession::clear('import_mob_xhtml');
 
         $presentation = $item->getPresentation();
-        $duration = $item->getDuration();
         $shuffle = 0;
         $now = getdate();
         $created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
@@ -211,9 +209,11 @@ class assSingleChoiceImport extends assQuestionImport
         $this->object->setOwner($ilUser->getId());
         $this->object->setQuestion($this->object->QTIMaterialToString($item->getQuestiontext()));
         $this->object->setObjId($questionpool_id);
-        $this->object->setEstimatedWorkingTime($duration["h"] ?? 0, $duration["m"] ?? 0, $duration["s"] ?? 0);
         $this->object->setShuffle($shuffle);
-        $this->object->setThumbSize($item->getMetadataEntry("thumb_size"));
+        $thumb_size = (int) $item->getMetadataEntry("thumb_size");
+        if ($thumb_size !== null && $thumb_size >= $this->object->getMinimumThumbSize()) {
+            $this->object->setThumbSize($thumb_size);
+        }
         foreach ($answers as $answer) {
             if ($item->getMetadataEntry('singleline') || (is_array($answer["imagefile"]) && count($answer["imagefile"]) > 0)) {
                 $this->object->setIsSingleline(true);
@@ -238,7 +238,6 @@ class assSingleChoiceImport extends assQuestionImport
             if (is_array($answer["imagefile"]) && (count($answer["imagefile"]) > 0)) {
                 $image = base64_decode($answer["imagefile"]["content"]);
                 $imagepath = $this->object->getImagePath();
-                include_once "./Services/Utilities/classes/class.ilUtil.php";
                 if (!file_exists($imagepath)) {
                     ilFileUtils::makeDirParents($imagepath);
                 }
@@ -269,8 +268,6 @@ class assSingleChoiceImport extends assQuestionImport
         $questiontext = $this->object->getQuestion();
         $answers = &$this->object->getAnswers();
         if (is_array(ilSession::get("import_mob_xhtml"))) {
-            include_once "./Services/MediaObjects/classes/class.ilObjMediaObject.php";
-            include_once "./Services/RTE/classes/class.ilRTE.php";
             foreach (ilSession::get("import_mob_xhtml") as $mob) {
                 if ($tst_id > 0) {
                     $importfile = $this->getTstImportArchivDirectory() . '/' . $mob["uri"];

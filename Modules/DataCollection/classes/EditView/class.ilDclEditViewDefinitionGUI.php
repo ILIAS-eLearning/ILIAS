@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -13,12 +14,10 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
+declare(strict_types=1);
 /**
- * Class ilDclEditViewDefinitionGUI
- * @author       studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  * @ilCtrl_Calls ilDclEditViewDefinitionGUI: ilPageEditorGUI, ilEditClipboardGUI, ilMediaPoolTargetSelector
  * @ilCtrl_Calls ilDclEditViewDefinitionGUI: ilPublicUserProfileGUI, ilPageObjectGUI
  */
@@ -65,20 +64,15 @@ class ilDclEditViewDefinitionGUI extends ilPageObjectGUI
         $next_class = $this->ctrl->getNextClass($this);
 
         $viewdef = $this->getPageObject();
-        if ($viewdef) {
-            $this->ctrl->setParameter($this, "dclv", $viewdef->getId());
-            $title = $lng->txt("dcl_view_viewdefinition");
-        }
+        $this->ctrl->setParameter($this, "dclv", $viewdef->getId());
+        $title = $lng->txt("dcl_view_viewdefinition");
 
         switch ($next_class) {
             case "ilpageobjectgui":
                 throw new ilCOPageException("Deprecated. ilDclDetailedViewDefinitionGUI gui forwarding to ilpageobject");
             default:
-                if ($viewdef) {
-                    $this->setPresentationTitle($title);
-                    $ilLocator->addItem($title, $this->ctrl->getLinkTarget($this, "preview"));
-                }
-
+                $this->setPresentationTitle($title);
+                $ilLocator->addItem($title, $this->ctrl->getLinkTarget($this, "preview"));
                 return parent::executeCommand();
         }
     }
@@ -110,7 +104,7 @@ class ilDclEditViewDefinitionGUI extends ilPageObjectGUI
         $conf->setFormAction($ilCtrl->getFormAction($this));
         $conf->setHeaderText($lng->txt('dcl_confirm_delete_detailed_view_title'));
 
-        $conf->addItem('tableview', $this->tableview_id, $lng->txt('dcl_confirm_delete_detailed_view_text'));
+        $conf->addItem('tableview', (string)$this->tableview_id, $lng->txt('dcl_confirm_delete_detailed_view_text'));
 
         $conf->setConfirm($lng->txt('delete'), 'deleteView');
         $conf->setCancel($lng->txt('cancel'), 'cancelDelete');
@@ -204,47 +198,46 @@ class ilDclEditViewDefinitionGUI extends ilPageObjectGUI
          */
         foreach ($this->tableview->getFieldSettings() as $setting) {
             if (!$setting->getFieldObject()->isStandardField() || $setting->getFieldObject()->getId() === 'owner') {
+
                 // Radio Inputs
-                foreach (array("RadioGroup") as $attribute) {
-                    $selection_key = $attribute . '_' . $setting->getField();
-                    $selection = $this->http->wrapper()->post()->retrieve(
-                        $selection_key,
-                        $this->refinery->kindlyTo()->string()
-                    );
-                    $selected_radio_attribute = explode("_", $selection)[0];
+                $attribute = "RadioGroup";
+                $selection_key = $attribute . '_' . $setting->getField();
+                $selection = $this->http->wrapper()->post()->retrieve(
+                    $selection_key,
+                    $this->refinery->kindlyTo()->string()
+                );
+                $selected_radio_attribute = explode("_", $selection)[0];
 
-                    foreach (array("LockedEdit", "RequiredEdit", "VisibleEdit", "NotVisibleEdit") as $radio_attribute) {
-                        $result = false;
+                foreach (["LockedEdit", "RequiredEdit", "VisibleEdit", "NotVisibleEdit"] as $radio_attribute) {
+                    $result = false;
 
-                        if ($selected_radio_attribute === $radio_attribute) {
-                            $result = true;
-                        }
-
-                        $setting->{'set' . $radio_attribute}($result);
+                    if ($selected_radio_attribute === $radio_attribute) {
+                        $result = true;
                     }
+
+                    $setting->{'set' . $radio_attribute}($result);
                 }
 
                 // Text Inputs
-                foreach (array("DefaultValue") as $attribute) {
-                    $key = $attribute . '_' . $setting->getField();
-                    if ($this->http->wrapper()->post()->has($key)) {
-                        $attribute_value = $this->http->wrapper()->post()->retrieve(
-                            $key,
-                            $this->refinery->kindlyTo()->string()
-                        );
-                    } else {
-                        $attribute_value = "";
-                    }
-
-                    $setting->{'set' . $attribute}($attribute_value);
+                $attribute = "DefaultValue";
+                $key = $attribute . '_' . $setting->getField();
+                if ($this->http->wrapper()->post()->has($key)) {
+                    $attribute_value = $this->http->wrapper()->post()->retrieve(
+                        $key,
+                        $this->refinery->kindlyTo()->string()
+                    );
+                } else {
+                    $attribute_value = "";
                 }
+
+                $setting->{'set' . $attribute}($attribute_value);
 
                 $setting->update();
             }
         }
 
         // Set Workflow flag to true
-        $view = ilDclTableView::getCollection()->where(array("id" => filter_input(INPUT_GET, "tableview_id")))->first();
+        $view = ilDclTableView::getCollection()->where(["id" => filter_input(INPUT_GET, "tableview_id")])->first();
         if (!is_null($view)) {
             $view->setStepE(true);
             $view->save();

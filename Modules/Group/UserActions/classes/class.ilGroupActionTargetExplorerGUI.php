@@ -62,7 +62,7 @@ class ilGroupActionTargetExplorerGUI extends ilRepositorySelectorExplorerGUI
         }
         $this->ctrl->setParameter($this->parent_obj, "grp_act_ref_id", $a_node["child"]);
         $url = $this->ctrl->getLinkTarget($this->parent_obj, "confirmAddUser", "", true, false);
-        return "event.stopPropagation(); event.preventDefault(); il.Util.ajaxReplaceInner('$url', 'il_grp_action_modal_content'); return false;";
+        return "event.stopPropagation(); event.preventDefault(); il.repository.core.fetchReplaceInner( document.getElementById('il_grp_action_modal_content'),'$url'); return false;";
     }
 
     /**

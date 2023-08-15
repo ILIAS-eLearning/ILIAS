@@ -113,6 +113,7 @@ class ilObjectDataSet extends ilDataSet
 
     public function readData(string $entity, string $version, array $ids): void
     {
+        /** @var ILIAS\DI\Container $DIC */
         global $DIC;
 
         if ($entity == "transl_entry") {
@@ -190,10 +191,14 @@ class ilObjectDataSet extends ilDataSet
         }
         // tile images
         if ($entity == "tile") {
-            $cs = $DIC->object()->commonSettings();
             $this->data = [];
             foreach ($ids as $id) {
-                $ti = $cs->tileImage()->getByObjId((int) $id);
+                $ti = new ilObjectTileImage(
+                    $DIC->filesystem()->web(),
+                    $DIC->upload(),
+                    (int) $id
+                );
+
                 if ($ti->exists()) {
                     $this->data[] = [
                         "ObjId" => $id,
@@ -233,17 +238,13 @@ class ilObjectDataSet extends ilDataSet
     ): array {
         $rec["ObjId"] = $rec["ObjId"] ?? null;
         switch ($entity) {
-            case "common":
+            case 'common':
                 return [
-                    "transl" => ["ids" => $rec["ObjId"]],
-                    "service_settings" => ["ids" => $rec["ObjId"]],
-                    "tile" => ["ids" => $rec["ObjId"]],
-                    "icon" => ["ids" => $rec["ObjId"]]
-                ];
-
-            case "transl":
-                return [
-                    "transl_entry" => ["ids" => $rec["ObjId"]]
+                    'transl' => ['ids' => $rec['ObjId']],
+                    'transl_entry' => ['ids' => $rec['ObjId']],
+                    'service_settings' => ['ids' => $rec['ObjId']],
+                    'tile' => ['ids' => $rec['ObjId']],
+                    'icon' => ['ids' => $rec['ObjId']]
                 ];
         }
 
@@ -257,6 +258,7 @@ class ilObjectDataSet extends ilDataSet
         ilImportMapping $mapping,
         string $schema_version
     ): void {
+        /** @var ILIAS\DI\Container $DIC */
         global $DIC;
 
         switch ($entity) {
@@ -310,7 +312,6 @@ class ilObjectDataSet extends ilDataSet
                 if ($dir != "" && $this->getImportDirectory() != "") {
                     $source_dir = $this->getImportDirectory() . "/" . $dir;
 
-                    /** @var ilObjectCustomIconFactory $customIconFactory */
                     $customIconFactory = $DIC['object.customicons.factory'];
                     $customIcon = $customIconFactory->getByObjId($new_id, ilObject::_lookupType($new_id));
                     $customIcon->createFromImportDir($source_dir);
@@ -322,8 +323,11 @@ class ilObjectDataSet extends ilDataSet
                 $dir = str_replace("..", "", $rec["Dir"]);
                 if ($new_id > 0 && $dir != "" && $this->getImportDirectory() != "") {
                     $source_dir = $this->getImportDirectory() . "/" . $dir;
-                    $cs = $DIC->object()->commonSettings();
-                    $ti = $cs->tileImage()->getByObjId($new_id);
+                    $ti = new ilObjectTileImage(
+                        $DIC->filesystem()->web(),
+                        $DIC->upload(),
+                        $new_id
+                    );
                     $ti->createFromImportDir($source_dir, $rec["Extension"]);
                 }
                 break;

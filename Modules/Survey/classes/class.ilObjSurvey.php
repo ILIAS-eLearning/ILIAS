@@ -260,11 +260,15 @@ class ilObjSurvey extends ilObject
 
     public function delete(): bool
     {
+        $this->svy_log->debug("Deleting Survey, ref id: " . $this->getRefId() . ", obj id: " .
+            $this->getId() . ", title: " . $this->getTitle());
+        $this->svy_log->debug("References: " . $this->countReferences());
         if ($this->countReferences() === 1) {
             $this->deleteMetaData();
 
             // Delete all survey questions, constraints and materials
             foreach ($this->questions as $question_id) {
+                $this->svy_log->debug("Remove question " . $question_id);
                 $this->removeQuestion($question_id);
             }
             $this->deleteSurveyRecord();
@@ -272,6 +276,7 @@ class ilObjSurvey extends ilObject
             ilFileUtils::delDir($this->getImportDirectory());
         }
 
+        $this->svy_log->debug("Call parent delete.");
         $remove = parent::delete();
 
         // always call parent delete function first!!
@@ -314,7 +319,7 @@ class ilObjSurvey extends ilObject
         );
         $this->deleteAllUserData(false);
 
-        $this->code_manager->deleteAll();
+        $this->code_manager->deleteAll(true);
 
         // delete export files
         $svy_data_dir = ilFileUtils::getDataDir() . "/svy_data";
@@ -424,6 +429,11 @@ class ilObjSurvey extends ilObject
         if (count($user_ids)) {
             $lp_obj = ilObjectLP::getInstance($this->getId());
             $lp_obj->resetLPDataForUserIds($user_ids);
+
+            // remove invitations, if exist
+            foreach ($user_ids as $user_id) {
+                $this->invitation_manager->remove($this->getSurveyId(), $user_id);
+            }
         }
     }
 
@@ -490,10 +500,9 @@ class ilObjSurvey extends ilObject
      */
     public function saveCompletionStatus(): void
     {
-        $ilDB = $this->db;
-
+        $db = $this->db;
         if ($this->getSurveyId() > 0) {
-            $ilDB->manipulateF(
+            $db->manipulateF(
                 "UPDATE svy_svy SET complete = %s, tstamp = %s WHERE survey_id = %s",
                 array('text','integer','integer'),
                 array($this->isComplete(), time(), $this->getSurveyId())
@@ -561,6 +570,7 @@ class ilObjSurvey extends ilObject
             $this->svy_log->debug("added entry to svy_svy_qst, id: " . $next_id . ", question id: " . $duplicate_id . ", sequence: " . $sequence);
 
             $this->loadQuestionsFromDb();
+            $this->saveCompletionStatus();
             return true;
         }
     }
@@ -2442,6 +2452,15 @@ class ilObjSurvey extends ilObject
             $ntf->setGotoLangId('survey_notification_tutor_link');
             $ntf->setReasonLangId('survey_notification_finished_reason');
 
+            $recipient = trim($recipient);
+            $user_id = (int) ilObjUser::_lookupId($recipient);
+            if ($user_id > 0) {
+                $ntf->sendMailAndReturnRecipients([$user_id]);
+            }
+            /*  note: this block is replace by the single line above
+                since the UI asks for account names and the "e-mail" fallback leads
+                to strange issues like multiple mails. Also the test case has been
+                adopted, see https://mantis.ilias.de/view.php?id=36327
             if (is_numeric($recipient)) {
                 $lng = $ntf->getUserLanguage((int) $recipient);
                 $ntf->sendMailAndReturnRecipients([(int) $recipient]);
@@ -2456,7 +2475,7 @@ class ilObjSurvey extends ilObject
                         $ntf->sendMailAndReturnRecipients(array($user_id));
                     }
                 }
-            }
+            }*/
         }
     }
 
@@ -3600,7 +3619,7 @@ class ilObjSurvey extends ilObject
             $item[] = $row["survey_key"];
 
             if ($row["externaldata"]) {
-                $ext = unserialize($row["externaldata"], ['allowed_classes' => false]);
+                $ext = unserialize((string) $row["externaldata"], ['allowed_classes' => false]);
                 $item[] = $ext["email"];
                 $item[] = $ext["lastname"];
                 $item[] = $ext["firstname"];
@@ -3681,7 +3700,7 @@ class ilObjSurvey extends ilObject
                 );
 
                 if ($row["externaldata"]) {
-                    $ext = unserialize($row["externaldata"], ['allowed_classes' => false]);
+                    $ext = unserialize((string) $row["externaldata"], ['allowed_classes' => false]);
                     $item['email'] = $ext['email'];
                     $item['last_name'] = $ext['lastname'];
                     $item['first_name'] = $ext['firstname'];
@@ -3837,7 +3856,7 @@ class ilObjSurvey extends ilObject
                 continue;
             }
 
-            $externaldata = unserialize($row['externaldata'], ['allowed_classes' => false]);
+            $externaldata = unserialize((string) $row['externaldata'], ['allowed_classes' => false]);
             if (!$externaldata['email']) {
                 continue;
             }
@@ -4311,8 +4330,8 @@ class ilObjSurvey extends ilObject
         // user specific language
         $lng = $ntf->getUserLanguage($a_user_id);
 
-        $ntf->setIntroductionLangId("svy_user_added_360_appraisee_mail");
-        $subject = str_replace("%1", $this->getTitle(), $lng->txt("svy_user_added_360_appraisee"));
+        $ntf->setIntroductionLangId("svy_user_added_appraisee_mail");
+        $subject = str_replace("%1", $this->getTitle(), $lng->txt("svy_user_added_appraisee"));
 
         // #10044
         $mail = new ilMail(ANONYMOUS_USER_ID);
@@ -4340,8 +4359,8 @@ class ilObjSurvey extends ilObject
         // user specific language
         $lng = $ntf->getUserLanguage($a_user_id);
 
-        $ntf->setIntroductionLangId("svy_user_added_360_appraisee_close_mail");
-        $subject = str_replace("%1", $this->getTitle(), $lng->txt("svy_user_added_360_appraisee"));
+        $ntf->setIntroductionLangId("svy_user_added_appraisee_close_mail");
+        $subject = str_replace("%1", $this->getTitle(), $lng->txt("svy_user_added_appraisee"));
 
         // #10044
         $mail = new ilMail(ANONYMOUS_USER_ID);
@@ -4370,8 +4389,8 @@ class ilObjSurvey extends ilObject
         // user specific language
         $lng = $ntf->getUserLanguage($a_user_id);
 
-        $ntf->setIntroductionLangId("svy_user_added_360_rater_mail");
-        $subject = str_replace("%1", $this->getTitle(), $lng->txt("svy_user_added_360_rater"));
+        $ntf->setIntroductionLangId("svy_user_added_rater_mail");
+        $subject = str_replace("%1", $this->getTitle(), $lng->txt("svy_user_added_rater"));
         $ntf->addAdditionalInfo("survey_360_appraisee", ilUserUtil::getNamePresentation($a_appraisee_id, false, false, "", true));
 
         // #10044
@@ -4653,7 +4672,6 @@ class ilObjSurvey extends ilObject
         string $a_code
     ): int {
         $ilDB = $this->db;
-
         $set = $ilDB->query("SELECT anonymous_id FROM svy_anonymous" .
                 " WHERE survey_fi = " . $ilDB->quote($this->getSurveyId(), "integer") .
                 " AND survey_key = " . $ilDB->quote($a_code, "text"));
@@ -4701,7 +4719,6 @@ class ilObjSurvey extends ilObject
     ): ?array {
         $ilUser = $this->user;
         $ilDB = $this->db;
-
         $user_id = $ilUser->getId();
         // code is obligatory?
         if (!$this->isAccessibleWithoutCode()) {
@@ -4721,11 +4738,14 @@ class ilObjSurvey extends ilObject
             }
         } elseif ($user_id === ANONYMOUS_USER_ID ||
             $this->getAnonymize() === self::ANONYMIZE_FREEACCESS) {
+            // self::ANONYMIZE_FREEACCESS: anonymized, no codes
+            // or anonymous user when no codes are used
             if (!$a_code) {
                 // auto-generate code
                 $code = $this->data_manager->code("")
                     ->withUserId($user_id);
-                $this->code_manager->add($code);
+                $code_id = $this->code_manager->add($code);
+                $a_code = $this->code_manager->getByCodeId($code_id);
             }
         } else {
             $a_code = null;
@@ -5226,8 +5246,8 @@ class ilObjSurvey extends ilObject
         // user specific language
         $lng = $ntf->getUserLanguage($a_user_id);
 
-        $ntf->setIntroductionLangId("svy_user_added_360_rater_reminder_mail");
-        $subject = str_replace("%1", $this->getTitle(), $lng->txt("svy_user_added_360_rater"));
+        $ntf->setIntroductionLangId("svy_user_added_rater_reminder_mail");
+        $subject = str_replace("%1", $this->getTitle(), $lng->txt("svy_user_added_rater"));
 
         foreach ($a_appraisee_ids as $appraisee_id) {
             $ntf->addAdditionalInfo("survey_360_appraisee", ilUserUtil::getNamePresentation($appraisee_id, false, false, "", true));
@@ -5418,7 +5438,7 @@ class ilObjSurvey extends ilObject
         if ($this->getReminderTemplate() &&
             array_key_exists($this->getReminderTemplate(), $this->getReminderMailTemplates())) {
             /** @var \ilMailTemplateService $templateService */
-            $templateService = $DIC['mail.texttemplates.service'];
+            $templateService = $DIC->mail()->textTemplates();
             $tmpl = $templateService->loadTemplateForId($this->getReminderTemplate());
 
             $tmpl_params = array(
@@ -5548,8 +5568,7 @@ class ilObjSurvey extends ilObject
 
         $res = array();
 
-        /** @var \ilMailTemplateService $templateService */
-        $templateService = $DIC['mail.texttemplates.service'];
+        $templateService = $DIC->mail()->textTemplates();
         foreach ($templateService->loadTemplatesForContextId(ilSurveyMailTemplateReminderContext::ID) as $tmpl) {
             $res[$tmpl->getTplId()] = $tmpl->getTitle();
             if (null !== $defaultTemplateId && $tmpl->isDefault()) {

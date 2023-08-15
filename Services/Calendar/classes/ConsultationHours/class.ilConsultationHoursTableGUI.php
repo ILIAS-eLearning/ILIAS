@@ -18,6 +18,9 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+use ILIAS\UI\Implementation\Factory as UIImplementationFactory;
+use ILIAS\UI\Renderer as UIRenderer;
+
 /**
  * Consultation hours administration
  * @author  Stefan Meyer <meyer@leifos.com>
@@ -27,6 +30,8 @@ class ilConsultationHoursTableGUI extends ilTable2GUI
 {
     private int $user_id = 0;
     private bool $has_groups = false;
+    private UIRenderer $renderer;
+    private UIImplementationFactory $uiFactory;
 
     public function __construct(object $a_gui, string $a_cmd, int $a_user_id)
     {
@@ -36,6 +41,10 @@ class ilConsultationHoursTableGUI extends ilTable2GUI
 
         $this->setId('chtg_' . $this->getUserId());
         parent::__construct($a_gui, $a_cmd);
+
+        global $DIC;
+        $this->renderer = $DIC->ui()->renderer();
+        $this->uiFactory = $DIC->ui()->factory();
 
         $this->addColumn('', 'f', '1');
         $this->addColumn($this->lng->txt('appointment'), 'start');
@@ -117,28 +126,25 @@ class ilConsultationHoursTableGUI extends ilTable2GUI
         }
 
         $this->tpl->setVariable('BOOKINGS', implode(', ', $a_set['bookings']));
-
-        $list = new ilAdvancedSelectionListGUI();
-        $list->setId('act_cht_' . $a_set['id']);
-        $list->setListTitle($this->lng->txt('actions'));
-
         $this->ctrl->setParameter($this->getParentObject(), 'apps', $a_set['id']);
-        $list->addItem(
-            $this->lng->txt('edit'),
-            '',
-            $this->ctrl->getLinkTarget($this->getParentObject(), 'edit')
+
+        $dropDownItems = array(
+            $this->uiFactory->button()->shy(
+                $this->lng->txt('edit'),
+                $this->ctrl->getLinkTarget($this->getParentObject(), 'edit')
+            ),
+            $this->uiFactory->button()->shy(
+                $this->lng->txt('cal_ch_assign_participants'),
+                $this->ctrl->getLinkTargetByClass('ilRepositorySearchGUI', '')
+            ),
+            $this->uiFactory->button()->shy(
+                $this->lng->txt('delete'),
+                $this->ctrl->getLinkTarget($this->getParentObject(), 'confirmDelete')
+            )
         );
-        $list->addItem(
-            $this->lng->txt('cal_ch_assign_participants'),
-            '',
-            $this->ctrl->getLinkTargetByClass('ilRepositorySearchGUI', '')
-        );
-        $list->addItem(
-            $this->lng->txt('delete'),
-            '',
-            $this->ctrl->getLinkTarget($this->getParentObject(), 'confirmDelete')
-        );
-        $this->tpl->setVariable('ACTIONS', $list->getHTML());
+        $dropDown = $this->uiFactory->dropdown()->standard($dropDownItems)
+                ->withLabel($this->lng->txt('actions'));
+        $this->tpl->setVariable('ACTIONS', $this->renderer->render($dropDown));
     }
 
     public function parse()

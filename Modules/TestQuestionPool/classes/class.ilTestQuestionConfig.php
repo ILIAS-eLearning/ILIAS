@@ -115,19 +115,6 @@ class ilTestQuestionConfig
         return $this->enableBackgroundChangeDetection;
     }
 
-    /**
-     * Set if the detection of background changes is enabled
-     * This is set by Java and Flash questions to poll for server-side savings
-     *
-     * @param $enableBackgroundChangeDetection
-     * @return	ilTestQuestionConfig
-     */
-    public function setBackgroundChangeDetectionEnabled($enableBackgroundChangeDetection): ilTestQuestionConfig
-    {
-        $this->enableBackgroundChangeDetection = $enableBackgroundChangeDetection;
-        return $this;
-    }
-
     // hey: prevPassSolutions - extension or fix or anything sensefull in the current fixing work :-D
     /**
      * @return bool

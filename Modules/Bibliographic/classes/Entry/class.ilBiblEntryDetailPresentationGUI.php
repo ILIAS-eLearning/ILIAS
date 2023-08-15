@@ -28,32 +28,19 @@ use ILIAS\UI\Component\Panel\Sub;
  */
 class ilBiblEntryDetailPresentationGUI
 {
-    public \ilBiblEntry $entry;
-    protected \ILIAS\UI\Renderer $ui_renderer;
-    protected \ILIAS\UI\Factory $ui_factory;
-    protected ilGlobalTemplateInterface $main_tpl;
-    protected ilCtrlInterface $ctrl;
-    protected ilLanguage $lng;
-    protected ilTabsGUI $tabs;
-    protected ilHelpGUI $help;
-    protected \ilBiblFactoryFacade $facade;
-
-
     /**
      * ilBiblEntryPresentationGUI constructor.
      */
-    public function __construct(\ilBiblEntry $entry, ilBiblFactoryFacade $facade)
-    {
-        global $DIC;
-        $this->help = $DIC['ilHelp'];
-        $this->facade = $facade;
-        $this->entry = $entry;
-        $this->tabs = $DIC->tabs();
-        $this->lng = $DIC->language();
-        $this->ctrl = $DIC->ctrl();
-        $this->main_tpl = $DIC->ui()->mainTemplate();
-        $this->ui_factory = $DIC->ui()->factory();
-        $this->ui_renderer = $DIC->ui()->renderer();
+    public function __construct(
+        public \ilBiblEntry $entry,
+        protected ilBiblFactoryFacade $facade,
+        protected ilCtrlInterface $ctrl,
+        protected ilHelpGUI $help,
+        protected ilLanguage $lng,
+        protected ilGlobalTemplateInterface $main_tpl,
+        protected ilTabsGUI $tabs,
+        protected \ILIAS\DI\UIServices $ui
+    ) {
         $this->initHelp();
         $this->initTabs();
         $this->initPermanentLink();
@@ -95,8 +82,8 @@ class ilBiblEntryDetailPresentationGUI
             $sub_panels[] = $libraries;
         }
 
-        return $this->ui_renderer->render(
-            $this->ui_factory->panel()->report($this->lng->txt('detail_view'), $sub_panels)
+        return $this->ui->renderer()->render(
+            $this->ui->factory()->panel()->report($this->lng->txt('detail_view'), $sub_panels)
         );
     }
 
@@ -110,13 +97,13 @@ class ilBiblEntryDetailPresentationGUI
         $data = [];
 
         foreach ($settings as $set) {
-            $presentation = new ilBiblLibraryPresentationGUI($set, $this->facade);
+            $presentation = new ilBiblLibraryPresentationGUI($set, $this->facade, $this->ctrl, $this->lng, $this->ui);
             $data[$set->getName()] = $presentation->getButton($this->facade, $this->entry);
         }
 
-        return $this->ui_factory->panel()->sub(
+        return $this->ui->factory()->panel()->sub(
             $this->lng->txt('bibl_settings_libraries'),
-            $this->ui_factory->listing()->characteristicValue()->text($data)
+            $this->ui->factory()->listing()->characteristicValue()->text($data)
         );
     }
 
@@ -130,8 +117,8 @@ class ilBiblEntryDetailPresentationGUI
             $data[$translated] = $attribute->getValue();
         }
 
-        $content = $this->ui_factory->listing()->characteristicValue()->text($data);
+        $content = $this->ui->factory()->listing()->characteristicValue()->text($data);
 
-        return $this->ui_factory->panel()->sub('', $content);
+        return $this->ui->factory()->panel()->sub('', $content);
     }
 }

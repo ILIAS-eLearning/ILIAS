@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\BackgroundTasks\Implementation\Bucket\BasicBucket;
 use ILIAS\BackgroundTasks\Task\TaskFactory;
 use ILIAS\BackgroundTasks\TaskManager;
@@ -28,21 +28,20 @@ use ILIAS\DI\Container;
  */
 class ilMassMailTaskProcessor
 {
-    private TaskManager $taskManager;
-    private TaskFactory $taskFactory;
-    private ilLanguage $language;
-    private ilLogger $logger;
-    private ilMailValueObjectJsonService $objectJsonService;
-    private int $anonymousUserId;
+    private readonly TaskManager $taskManager;
+    private readonly TaskFactory $taskFactory;
+    private readonly ilLanguage $language;
+    private readonly ilLogger $logger;
+    private readonly ilMailValueObjectJsonService $objectJsonService;
 
     public function __construct(
+        private readonly int $anonymousUserId = ANONYMOUS_USER_ID,
         TaskManager $taskManager = null,
         TaskFactory $taskFactory = null,
         ilLanguage $language = null,
         ilLogger $logger = null,
         Container $dic = null,
-        ilMailValueObjectJsonService $objectJsonService = null,
-        int $anonymousUserId = ANONYMOUS_USER_ID
+        ilMailValueObjectJsonService $objectJsonService = null
     ) {
         if (null === $dic) {
             global $DIC;
@@ -73,8 +72,6 @@ class ilMassMailTaskProcessor
             $objectJsonService = new ilMailValueObjectJsonService();
         }
         $this->objectJsonService = $objectJsonService;
-
-        $this->anonymousUserId = $anonymousUserId;
     }
 
     /**

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Mail\Provider\MailGlobalScreenToolProvider;
@@ -30,14 +30,14 @@ use ILIAS\Mail\Provider\MailGlobalScreenToolProvider;
  */
 class ilMailGUI implements ilCtrlBaseClassInterface
 {
-    private ilGlobalTemplateInterface $tpl;
-    private ilCtrlInterface $ctrl;
-    private ilLanguage $lng;
+    private readonly ilGlobalTemplateInterface $tpl;
+    private readonly ilCtrlInterface $ctrl;
+    private readonly ilLanguage $lng;
     private string $forwardClass = '';
-    private GlobalHttpState $http;
-    private Refinery $refinery;
+    private readonly GlobalHttpState $http;
+    private readonly Refinery $refinery;
     private int $currentFolderId = 0;
-    private ilObjUser $user;
+    private readonly ilObjUser $user;
     public ilMail $umail;
     public ilMailbox $mbox;
 
@@ -86,7 +86,10 @@ class ilMailGUI implements ilCtrlBaseClassInterface
         } elseif ($this->http->wrapper()->query()->has('mobj_id')) {
             $folderId = $this->http->wrapper()->query()->retrieve('mobj_id', $this->refinery->kindlyTo()->int());
         } else {
-            $folderId = (int) ilSession::get('mobj_id');
+            $folderId = $this->refinery->byTrying([
+                $this->refinery->kindlyTo()->int(),
+                $this->refinery->always($this->currentFolderId),
+            ])->transform(ilSession::get('mobj_id'));
         }
         if (0 === $folderId || !$this->mbox->isOwnedFolder($folderId)) {
             $folderId = $this->mbox->getInboxFolder();
@@ -115,27 +118,25 @@ class ilMailGUI implements ilCtrlBaseClassInterface
             ilMailFormCall::storeReferer($this->http->request()->getQueryParams());
             $this->ctrl->redirectByClass(ilMailFormGUI::class, 'mailAttachment');
         } elseif (ilMailFormGUI::MAIL_FORM_TYPE_NEW === $type) {
-            $to = "";
-            if ($this->http->wrapper()->query()->has('rcp_to')) {
-                $to = $this->http->wrapper()->query()->retrieve('rcp_to', $this->refinery->kindlyTo()->string());
-            }
-            ilSession::set('rcp_to', ilUtil::stripSlashes($to));
-            if (ilSession::get('rcp_to') === '' && ($recipients = ilMailFormCall::getRecipients())) {
-                ilSession::set('rcp_to', implode(',', $recipients));
-                ilMailFormCall::setRecipients([]);
-            }
+            foreach (['to', 'cc', 'bcc'] as $reciepient_type) {
+                $key = 'rcp_' . $reciepient_type;
 
-            $cc = "";
-            if ($this->http->wrapper()->query()->has('rcp_cc')) {
-                $cc = $this->http->wrapper()->query()->retrieve('rcp_cc', $this->refinery->kindlyTo()->string());
-            }
-            $bcc = "";
-            if ($this->http->wrapper()->query()->has('rcp_bcc')) {
-                $bcc = $this->http->wrapper()->query()->retrieve('rcp_bcc', $this->refinery->kindlyTo()->string());
-            }
-            ilSession::set('rcp_cc', ilUtil::stripSlashes($cc));
-            ilSession::set('rcp_bcc', ilUtil::stripSlashes($bcc));
+                $recipients = '';
+                if ($this->http->wrapper()->query()->has($key)) {
+                    $recipients = $this->http->wrapper()->query()->retrieve(
+                        $key,
+                        $this->refinery->kindlyTo()->string()
+                    );
+                }
 
+                ilSession::set($key, ilUtil::stripSlashes($recipients));
+
+                if (ilSession::get($key) === '' &&
+                    ($recipients = ilMailFormCall::getRecipients($reciepient_type))) {
+                    ilSession::set($key, implode(',', $recipients));
+                    ilMailFormCall::setRecipients([], $reciepient_type);
+                }
+            }
             ilMailFormCall::storeReferer($this->http->request()->getQueryParams());
             $this->ctrl->redirectByClass(ilMailFormGUI::class, 'mailUser');
         } elseif (ilMailFormGUI::MAIL_FORM_TYPE_REPLY === $type) {
@@ -315,24 +316,12 @@ class ilMailGUI implements ilCtrlBaseClassInterface
             $this->ctrl->clearParametersByClass(ilMailOptionsGUI::class);
         }
 
-        switch (strtolower($this->forwardClass)) {
-            case strtolower(ilMailFormGUI::class):
-                $DIC->tabs()->setTabActive('compose');
-                break;
-
-            case strtolower(ilContactGUI::class):
-                $DIC->tabs()->setTabActive('mail_addressbook');
-                break;
-
-            case strtolower(ilMailOptionsGUI::class):
-                $DIC->tabs()->setTabActive('options');
-                break;
-
-            case strtolower(ilMailFolderGUI::class):
-            default:
-                $DIC->tabs()->setTabActive('fold');
-                break;
-        }
+        match (strtolower($this->forwardClass)) {
+            strtolower(ilMailFormGUI::class) => $DIC->tabs()->setTabActive('compose'),
+            strtolower(ilContactGUI::class) => $DIC->tabs()->setTabActive('mail_addressbook'),
+            strtolower(ilMailOptionsGUI::class) => $DIC->tabs()->setTabActive('options'),
+            default => $DIC->tabs()->setTabActive('fold'),
+        };
 
         if ($this->http->wrapper()->query()->has('message_sent')) {
             $DIC->tabs()->setTabActive('fold');

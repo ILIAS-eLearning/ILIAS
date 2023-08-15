@@ -72,29 +72,6 @@ class ilLPStatusTestPassed extends ilLPStatus
         return $status_info;
     }
 
-    /**
-     * Determine status.
-     * Behaviour of "old" 4.0 learning progress:
-     * Setting "Multiple Pass Scoring": Score the last pass
-     * - Test not started: No entry
-     * - First question opened: Icon/Text: Failed, Score 0%
-     * - First question answered (correct, points enough for passing): Icon/Text: Completed, Score 66%
-     * - No change after successfully finishing the pass. (100%)
-     * - 2nd Pass, first question opened: Still Completed/Completed
-     * - First question answered (incorrect, success possible): Icon/Text Failed, Score 33%
-     * - Second question answered (correct): Icon/Text completed
-     * - 3rd pass, like 2nd, but two times wrong answer: Icon/Text: Failed
-     * Setting "Multiple Pass Scoring": Score the best pass
-     * - Test not started: No entry
-     * - First question opened: Icon/Text: Failed, Score 0%
-     * - First question answered (correct, points enough for passing): Icon/Text: Completed, Score 66%
-     * - No change after successfully finishing the pass. (100%)
-     * - 2nd Pass, first question opened: Still Completed/Completed
-     * - First question answered (incorrect, success possible): Still Completed/Completed
-     * Due to this behaviour in 4.0 we do not have a "in progress" status. During the test
-     * the status is "failed" unless the score is enough to pass the test, which makes the
-     * learning progress status "completed".
-     */
     public function determineStatus(
         int $a_obj_id,
         int $a_usr_id,
@@ -104,7 +81,9 @@ class ilLPStatusTestPassed extends ilLPStatus
 
         $ilDB = $DIC['ilDB'];
 
+        $old_status = ilLPStatus::_lookupStatus($a_obj_id, $a_usr_id, false);
         $status = self::LP_STATUS_NOT_ATTEMPTED_NUM;
+
         $res = $this->db->query(
             "
 			SELECT tst_active.active_id, tst_active.tries, count(tst_sequence.active_fi) " . $this->db->quoteIdentifier(
@@ -146,12 +125,14 @@ class ilLPStatusTestPassed extends ilLPStatus
                     if ($rec['last_finished_pass'] != null) {
                         $status = $this->determineLpStatus($is_passed);
                     }
-
-                    if (!$rec['is_last_pass'] && $status == self::LP_STATUS_FAILED_NUM) {
-                        $status = self::LP_STATUS_IN_PROGRESS_NUM;
-                    }
                 }
             }
+        }
+
+        if ($old_status !== null
+            && $old_status !== self::LP_STATUS_NOT_ATTEMPTED_NUM
+            && $status === self::LP_STATUS_IN_PROGRESS_NUM) {
+            return $old_status;
         }
 
         return $status;

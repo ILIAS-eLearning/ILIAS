@@ -141,8 +141,6 @@ class ilTestTaxonomyFilterLabelTranslater
     private function loadTypeLabels()
     {
         $this->typeLabels = array();
-
-        require_once("./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php");
         foreach (ilObjQuestionPool::_getQuestionTypes(true) as $translation => $data) {
             $this->typeLabels[$data['question_type_id']] = $translation;
         }

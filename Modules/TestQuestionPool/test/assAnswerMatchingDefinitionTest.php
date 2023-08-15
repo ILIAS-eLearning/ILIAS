@@ -35,9 +35,6 @@ class assAnswerMatchingDefinitionTest extends assBaseTestCase
 
     public function test_instantiateObjectSimple(): void
     {
-        // Arrange
-        require_once './Modules/TestQuestionPool/classes/class.assAnswerMatchingDefinition.php';
-
         // Act
         $instance = new assAnswerMatchingDefinition();
 

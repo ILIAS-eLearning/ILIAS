@@ -1,7 +1,4 @@
 <?php
-
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +14,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 require_once(__DIR__ . "/../../../../Base.php");
 
@@ -92,7 +91,7 @@ class FormTest extends ILIAS_UI_TestBase
 
     protected function buildFactory(): Input\Container\Form\Factory
     {
-        return new Input\Container\Form\Factory($this->buildInputFactory(), new DefNamesource());
+        return new Input\Container\Form\Factory($this->buildInputFactory());
     }
 
     protected function buildInputFactory(): Input\Field\Factory
@@ -433,6 +432,7 @@ class FormTest extends ILIAS_UI_TestBase
             ->getMockBuilder(FormInputInternal::class)
             ->onlyMethods([
                 "getName",
+                "withDedicatedName",
                 "withNameFrom",
                 "withInput",
                 "getContent",
@@ -461,5 +461,27 @@ class FormTest extends ILIAS_UI_TestBase
             ])
             ->setMockClassName("Mock_InputNo" . ($no++))
             ->getMock();
+    }
+
+    public function testFormWithoutRequiredField(): void
+    {
+        $f = $this->buildFactory();
+        $if = $this->buildInputFactory();
+        $inputs = [$if->text(""), $if->text("")];
+        $form = new ConcreteForm($this->buildInputFactory(), new DefNamesource(), $inputs);
+
+        $this->assertFalse($form->hasRequiredInputs());
+    }
+
+    public function testFormWithRequiredField(): void
+    {
+        $f = $this->buildFactory();
+        $if = $this->buildInputFactory();
+        $inputs = [
+            $if->text("")->withRequired(true),
+            $if->text("")
+        ];
+        $form = new ConcreteForm($this->buildInputFactory(), new DefNamesource(), $inputs);
+        $this->assertTrue($form->hasRequiredInputs());
     }
 }

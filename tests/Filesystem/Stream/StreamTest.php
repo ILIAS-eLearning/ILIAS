@@ -1,28 +1,30 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 namespace ILIAS\Filesystem\Stream;
 
 use ILIAS\Filesystem\Util\PHPStreamFunctions;
 use Mockery;
 use PHPUnit\Framework\TestCase;
 
-/******************************************************************************
- *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
- *
- * If this is not the case or you just want to try ILIAS, you'll find
- * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *
- *****************************************************************************/
 /**
- * Class StreamTest
- *
- * @author  Nicolas Schäfli <ns@studer-raimann.ch>
+ * @author                 Nicolas Schäfli <ns@studer-raimann.ch>
+ * @author                 Fabian Schmid <fabian@sr.solutions>
  *
  * @runTestsInSeparateProcesses
  * @preserveGlobalState    disabled
@@ -36,15 +38,13 @@ class StreamTest extends TestCase
      */
     public static $functions;
 
-    private function createResource($content, $mode)
+    private function createResource(string $content, string $mode)
     {
         //call the root fopen function \ required!
         return \fopen("data://text/plain,$content", $mode);
     }
 
-    /**
-     * @inheritDoc
-     */
+
     protected function setUp(): void
     {
         parent::setUp();
@@ -52,10 +52,7 @@ class StreamTest extends TestCase
         self::$functions = Mockery::mock();
     }
 
-    /**
-     * @Test
-     * @small
-     */
+
     public function testDetachWhichShouldSucceed(): void
     {
         $content = 'awesome content stream';
@@ -72,10 +69,7 @@ class StreamTest extends TestCase
         //Can't test the subject because psr-7 defines that the stream is in an unusable after the detach operation.
     }
 
-    /**
-     * @Test
-     * @small
-     */
+
     public function testDetachDoubleInvocationWhichShouldFail(): void
     {
         $content = 'awesome content stream';
@@ -93,10 +87,7 @@ class StreamTest extends TestCase
         $this->assertNull($detachedResource);
     }
 
-    /**
-     * @Test
-     * @small
-     */
+
     public function testGetSizeWithStatsWhichShouldSucceed(): void
     {
         $content = 'awesome content stream';
@@ -110,10 +101,7 @@ class StreamTest extends TestCase
         $this->assertSame($correctSize, $size);
     }
 
-    /**
-     * @Test
-     * @small
-     */
+
     public function testGetSizeWithOptionsWhichShouldSucceed(): void
     {
         $content = 'awesome content stream';
@@ -128,10 +116,6 @@ class StreamTest extends TestCase
         $this->assertSame($correctSize, $size);
     }
 
-    /**
-     * @Test
-     * @small
-     */
     public function testGetSizeWithDetachedStreamWhichShouldFail(): void
     {
         $content = 'awesome content stream';
@@ -145,10 +129,6 @@ class StreamTest extends TestCase
         $this->assertNull($size);
     }
 
-    /**
-     * @Test
-     * @small
-     */
     public function testCloseWhichShouldSucceed(): void
     {
         $content = 'awesome content stream';
@@ -161,10 +141,6 @@ class StreamTest extends TestCase
         $this->assertFalse(is_resource($resource));
     }
 
-    /**
-     * @Test
-     * @small
-     */
     public function testCloseWithDetachedStreamWhichShouldDoNothing(): void
     {
         $content = 'awesome content stream';
@@ -179,10 +155,6 @@ class StreamTest extends TestCase
         $this->assertTrue(is_resource($actualResource));
     }
 
-    /**
-     * @Test
-     * @small
-     */
     public function testTellWhichShouldSucceed(): void
     {
         $content = 'awesome content stream';
@@ -197,10 +169,6 @@ class StreamTest extends TestCase
         $this->assertSame($offset, $actualPosition);
     }
 
-    /**
-     * @Test
-     * @small
-     */
     public function testTellWithDetachedStreamWhichShouldFail(): void
     {
         $content = 'awesome content stream';
@@ -216,10 +184,6 @@ class StreamTest extends TestCase
         $subject->tell();
     }
 
-    /**
-     * @Test
-     * @small
-     */
     public function testTellWithFtellFailureWhichShouldFail(): void
     {
         $content = 'awesome content stream';

@@ -23,19 +23,16 @@ namespace ILIAS\UI\Implementation\Component\Modal;
 use ILIAS\UI\Component\Modal as M;
 use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
 
-/**
- * @author Stefan Wanzenried <sw@studer-raimann.ch>
- */
 class Interruptive extends Modal implements M\Interruptive
 {
     /**
-     * @var M\InterruptiveItem[]
+     * @var M\InterruptiveItem\InterruptiveItem[]
      */
     protected array $items = array();
     protected string $title;
     protected string $message;
-    protected string $action_button_label = 'delete';
-    protected string $cancel_button_label = 'cancel';
+    protected ?string $action_button_label = null;
+    protected ?string $cancel_button_label = null;
     protected string $form_action;
 
     public function __construct(
@@ -84,7 +81,7 @@ class Interruptive extends Modal implements M\Interruptive
      */
     public function withAffectedItems(array $items): M\Interruptive
     {
-        $types = array(M\InterruptiveItem::class);
+        $types = array(M\InterruptiveItem\InterruptiveItem::class);
         $this->checkArgListElements('items', $items, $types);
         $clone = clone $this;
         $clone->items = $items;
@@ -94,7 +91,7 @@ class Interruptive extends Modal implements M\Interruptive
     /**
      * @inheritdoc
      */
-    public function getActionButtonLabel(): string
+    public function getActionButtonLabel(): ?string
     {
         return $this->action_button_label;
     }
@@ -113,7 +110,7 @@ class Interruptive extends Modal implements M\Interruptive
     /**
      * @inheritdoc
      */
-    public function getCancelButtonLabel(): string
+    public function getCancelButtonLabel(): ?string
     {
         return $this->cancel_button_label;
     }

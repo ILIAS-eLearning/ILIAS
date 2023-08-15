@@ -1,30 +1,30 @@
 <li id="{ID}"
-	 class="il-tree-node node-simple<!-- BEGIN expandable --> expandable<!-- END expandable --><!-- BEGIN highlighted --> highlighted<!-- END highlighted -->"
+	 class="c-tree__node c-tree__node--simple<!-- BEGIN expandable --> expandable<!-- END expandable --><!-- BEGIN highlighted --> highlighted<!-- END highlighted -->"
 <!-- BEGIN role_item --> role="treeitem"<!-- END role_item -->
 <!-- BEGIN role_none --> role="none"<!-- END role_none -->
 <!-- BEGIN aria_expanded --> aria-expanded="{ARIA_EXPANDED}"<!-- END aria_expanded -->
 <!-- BEGIN async_loading --> data-async_url="{ASYNCURL}" data-async_loaded="false"<!-- END async_loading -->
 >
 	<!-- BEGIN node_without_link -->
-	<span class="node-line">
-		<span class="node-label">{ICON}{LABEL}</span>
+	<span class="c-tree__node__line">
+		<span class="c-tree__node__label">{ICON}{LABEL}</span>
 		<!-- BEGIN value -->
-			<span class="node-value">{VALUE}</span>
+			<span class="c-tree__node__value">{VALUE}</span>
 		<!-- END value -->
 		<!-- BEGIN byline -->
-			<span class="node-byline">{BYLINE}</span>
+			<span class="c-tree__node__byline">{BYLINE}</span>
 		<!-- END byline -->
 	</span>
 	<!-- END node_without_link -->
 
 	<!-- BEGIN node_with_link -->
-	<span class="node-line">
-		<span class="node-label">{ICON_LINKED}<a role="treeitem" href="{LINK}">{LABEL_LINKED}</a></span>
+	<span class="c-tree__node__line">
+		<span class="c-tree__node__label">{ICON_LINKED}<a role="treeitem" href="{LINK}">{LABEL_LINKED}</a></span>
 		<!-- BEGIN value_link -->
-			<span class="node-value">{VALUE_LINKED}</span>
+			<span class="c-tree__node__value">{VALUE_LINKED}</span>
 		<!-- END value_link -->
 		<!-- BEGIN byline_link -->
-			<span class="node-byline">{BYLINE_LINKED}</span>
+			<span class="c-tree__node__byline">{BYLINE_LINKED}</span>
 		<!-- END byline_link -->
 	</span>
 	<!-- END node_with_link -->

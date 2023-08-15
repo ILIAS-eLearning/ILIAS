@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Data holding class LSItem .
  */
@@ -31,6 +31,7 @@ class LSItem
     protected int $order_number;
     protected ilLSPostCondition $post_condition;
     protected int $ref_id;
+    protected int $lp_mode;
 
     public function __construct(
         string $type,
@@ -40,7 +41,8 @@ class LSItem
         bool $is_online,
         int $order_number,
         ilLSPostCondition $post_condition,
-        int $ref_id
+        int $ref_id,
+        int $lp_mode
     ) {
         $this->type = $type;
         $this->title = $title;
@@ -50,6 +52,7 @@ class LSItem
         $this->order_number = $order_number;
         $this->post_condition = $post_condition;
         $this->ref_id = $ref_id;
+        $this->lp_mode = $lp_mode;
     }
 
     public function getType(): string
@@ -90,6 +93,11 @@ class LSItem
     public function getRefId(): int
     {
         return $this->ref_id;
+    }
+
+    public function getLPMode(): int
+    {
+        return $this->lp_mode;
     }
 
     public function withOnline(bool $online): LSItem

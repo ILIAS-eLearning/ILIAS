@@ -35,7 +35,7 @@ ilTagging =
 		}
 
 		// hide overlays
-		il.Overlay.hideAllOverlays(e, true);
+		//il.Overlay.hideAllOverlays(e, true);
 		
 		this.hash = hash;
 		this.update_code = update_code;
@@ -104,32 +104,33 @@ ilTagging =
 	
 	sendAjaxGetRequestToUrl: function(url, par, args)
 	{
-		var cb =
-		{
-			success: this.handleAjaxSuccess,
-			failure: this.handleAjaxFailure,
-			argument: args
-		};
 		for (k in par)
 		{
 			url = url + "&" + k + "=" + par[k];
 		}
-		var request = YAHOO.util.Connect.asyncRequest('GET', url, cb);
+		il.repository.core.fetchHtml(url).then((html) => {
+			this.handleAjaxSuccess({
+				argument: args,
+				responseText: html
+			});
+		});
 	},
 
 	// send request per ajax
 	sendAjaxPostRequest: function(form_id, url, args)
 	{
 		args.reg_type = "post";
-		var cb =
-		{
-			success: this.handleAjaxSuccess,
-			failure: this.handleAjaxFailure,
-			argument: args
-		};
-		var form_str = YAHOO.util.Connect.setForm(form_id);
-		var request = YAHOO.util.Connect.asyncRequest('POST', url, cb);
-		
+		const form = document.getElementById(form_id);
+		const formData = new FormData(form);
+		let data = {};
+		formData.forEach((value, key) => (data[key] = value));
+		data['cmd[saveJS]'] = "Save";
+		il.repository.core.fetchHtml(url, data, true).then((html) => {
+			this.handleAjaxSuccess({
+				argument: args,
+				responseText: html
+			});
+		});
 		return false;
 	},
 
@@ -139,42 +140,31 @@ ilTagging =
 		// perform page modification
 		if(o.responseText !== undefined)
 		{
-			if (o.argument.mode == 'xxx')
+			const body = document.querySelector("#il_tags_modal .modal-body");
+			il.repository.core.setInnerHTML(body,o.responseText);
+			const button = document.querySelector("#il_tags_modal .modal-header button");
+			button.focus();
+			if (typeof ilTagging.update_code != "undefined" &&
+				ilTagging.update_code != null && ilTagging.update_code != "")
 			{
-			}
-			else
-			{				
-				// default action: replace html
-				$("#il_tags_modal .modal-body").html(o.responseText);
-				$("#il_tags_modal .modal-header button").focus();
-				//ilTagging.insertPanelHTML(o.responseText);
-				if (typeof ilTagging.update_code != "undefined" &&
-					ilTagging.update_code != null && ilTagging.update_code != "")
+				if (o.argument.reg_type == "post")
 				{
-					if (o.argument.reg_type == "post")
-					{
-						eval(ilTagging.update_code);
-					}
+					eval(ilTagging.update_code);
 				}
-				
-				// only on update
-				if (o.argument.mode == 'cmd')
-				{				
-					$(document).trigger('il_classification_redraw');   
-				}				
+			}
+
+			// only on update
+			if (o.argument.mode == 'cmd')
+			{
+				il.repository.core.trigger('il_classification_redraw');
 			}
 		}
 	},
 
-	// FailureHandler
-	handleAjaxFailure: function(o)
-	{
-		console.log("ilTagging.js: Ajax Failure.");
-	},
-
 	insertPanelHTML: function(html)
 	{
-		$('div#ilTagsPanel').html(html);
+		const panel = document.getElementById("#ilTagsPanel");
+		il.repository.core.setInnerHTML(panel, html);
 	}
 	
 

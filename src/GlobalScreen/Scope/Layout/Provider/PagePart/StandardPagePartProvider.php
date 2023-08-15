@@ -1,6 +1,5 @@
 <?php
 
-declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,10 +16,12 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\GlobalScreen\Scope\Layout\Provider\PagePart;
 
 use ILIAS\GlobalScreen\Collector\Renderer\isSupportedTrait;
-use ILIAS\GlobalScreen\Scope\isGlobalScreenItem;
+use ILIAS\GlobalScreen\isGlobalScreenItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\SlateSessionStateCode;
 use ILIAS\GlobalScreen\Scope\Tool\Factory\isToolItem;
 use ILIAS\UI\Component\Breadcrumbs\Breadcrumbs;
@@ -30,6 +31,7 @@ use ILIAS\UI\Component\MainControls\Footer;
 use ILIAS\UI\Component\MainControls\MainBar;
 use ILIAS\UI\Component\MainControls\MetaBar;
 use ILIAS\UI\Component\MainControls\Slate\Combined;
+use ILIAS\UI\Component\Toast\Container as TContainer;
 use ilUserUtil;
 use ilUtil;
 use ILIAS\GlobalScreen\Services;
@@ -99,7 +101,11 @@ class StandardPagePartProvider implements PagePartProvider
      */
     public function getMainBar(): ?MainBar
     {
+        // Collect all items which could be displayed in the main bar
         $this->gs->collector()->mainmenu()->collectOnce();
+        $this->gs->collector()->tool()->collectOnce();
+
+        // If there are no items to display, return null. By definition, no MainBar is added to the Page in this case.
         if (!$this->gs->collector()->mainmenu()->hasVisibleItems()
             && !$this->gs->collector()->tool()->hasVisibleItems()) {
             return null;
@@ -122,7 +128,7 @@ class StandardPagePartProvider implements PagePartProvider
 
         // Tools
         $grid_icon = $f->symbol()->icon()->custom(ilUtil::getImagePath("icon_tool.svg"), $this->lang->txt('more'));
-        $this->gs->collector()->tool()->collectOnce();
+
         if ($this->gs->collector()->tool()->hasItems()) {
             $tools_button = $f->button()->bulky($grid_icon, $this->lang->txt('tools'), "#")->withEngagedState(true);
             $main_bar = $main_bar->withToolsButton($tools_button);
@@ -263,5 +269,20 @@ class StandardPagePartProvider implements PagePartProvider
     public function getViewTitle(): string
     {
         return 'view';
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getToastContainer(): TContainer
+    {
+        $toast_container = $this->ui->factory()->toast()->container();
+
+        foreach ($this->gs->collector()->toasts()->getToasts() as $toast) {
+            $renderer = $toast->getRenderer();
+            $toast_container = $toast_container->withAdditionalToast($renderer->getToastComponentForItem($toast));
+        }
+
+        return $toast_container;
     }
 }

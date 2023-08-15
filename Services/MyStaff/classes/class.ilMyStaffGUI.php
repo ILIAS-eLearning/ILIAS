@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -13,8 +14,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
 use ILIAS\MyStaff\ilMyStaffAccess;
 use ILIAS\MyStaff\ListCourses\ilMStListCourse;
@@ -41,7 +41,6 @@ class ilMyStaffGUI
 
         // get the standard template
         $DIC->ui()->mainTemplate()->loadStandardTemplate();
-        $DIC->ui()->mainTemplate()->setTitle($DIC->language()->txt('mst_my_staff'));
     }
 
     final public function executeCommand(): void
@@ -63,10 +62,10 @@ class ilMyStaffGUI
                 $list_gui = new ilMStListCompetencesGUI($DIC);
                 $DIC->ctrl()->forwardCommand($list_gui);
                 break;
-//            case strtolower(ilMStListStudyProgrammesGUI::class):
-//                $list_gui = new ilMStListStudyProgrammesGUI();
-//                $DIC->ctrl()->forwardCommand($list_gui);
-//                break;
+                //            case strtolower(ilMStListStudyProgrammesGUI::class):
+                //                $list_gui = new ilMStListStudyProgrammesGUI();
+                //                $DIC->ctrl()->forwardCommand($list_gui);
+                //                break;
             case strtolower(ilMStShowUserGUI::class):
                 $user_gui = new ilMStShowUserGUI();
                 $DIC->ctrl()->forwardCommand($user_gui);
@@ -84,18 +83,24 @@ class ilMyStaffGUI
         $DIC->ui()->mainTemplate()->printToStdout();
     }
 
+    /**
+     * @return \ILIAS\UI\Component\Button\Button[]|\ILIAS\UI\Component\Link\Link[]
+     */
     final public static function extendActionMenuWithUserActions(
-        ilAdvancedSelectionListGUI $selection,
         int $usr_id = 0,
         string $return_url = ""
-    ): ilAdvancedSelectionListGUI {
+    ): array {
         global $DIC;
+        $ui_fac = $DIC->ui()->factory();
 
-        $user_action_collector = ilUserActionCollector::getInstance(
+        $user_action_collector = new ilUserActionCollector(
             $DIC->user()->getId(),
-            new ilAwarenessUserActionContext()
+            new ilAwarenessUserActionContext(),
+            new ilUserActionProviderFactory(),
+            new ilUserActionAdmin($DIC['ilDB'])
         );
         $action_collection = $user_action_collector->getActionsForTargetUser($usr_id);
+        $actions = [];
         if (count($action_collection->getActions()) > 0) {
             foreach ($action_collection->getActions() as $action) {
                 /**
@@ -103,54 +108,48 @@ class ilMyStaffGUI
                  */
                 switch ($action->getType()) {
                     case "profile": //personal profile
-                        $selection->addItem($action->getText(), '', $action->getHref() . "&back_url=" . $return_url);
+                        $actions[] = $ui_fac->link()->standard(
+                            $action->getText(),
+                            $action->getHref() . "&back_url=" . $return_url
+                        );
                         break;
                     case "compose": //mail
                     case "invite": //public chat
                     case "invite_osd": //direct chat (start conversation)
                         //do only display those actions if the displayed user is not the current user
                         if ($usr_id != $DIC->user()->getId()) {
-                            $selection->addItem(
-                                $action->getText(),
-                                "",
-                                $action->getHref(),
-                                "",
-                                "",
-                                "",
-                                "",
-                                false,
-                                "",
-                                "",
-                                "",
-                                "",
-                                true,
-                                $action->getData()
-                            );
+                            $actions[] = self::addButtonWithActionData($action);
                         }
                         break;
                     default:
-                        $selection->addItem(
-                            $action->getText(),
-                            "",
-                            $action->getHref(),
-                            "",
-                            "",
-                            "",
-                            "",
-                            false,
-                            "",
-                            "",
-                            "",
-                            "",
-                            true,
-                            $action->getData()
-                        );
+                        $actions[] = self::addButtonWithActionData($action);
                         break;
                 }
             }
         }
 
-        return $selection;
+        return $actions;
+    }
+
+    protected static function addButtonWithActionData(ilUserAction $action): \ILIAS\UI\Component\Button\Shy
+    {
+        global $DIC;
+
+        $ui_fac = $DIC->ui()->factory();
+
+        $action_data = $action->getData();
+        $button = $ui_fac->button()->shy(
+            $action->getText(),
+            $action->getHref()
+        )->withAdditionalOnLoadCode(function ($id) use ($action_data) {
+            $r = "var button = document.getElementById('$id');";
+            foreach ($action_data as $k => $v) {
+                $r .= "button.setAttribute('data-" . $k . "', '" . $v . "');";
+            }
+            return $r;
+        });
+
+        return $button;
     }
 
     final public static function getUserLpStatusAsHtml(ilMStListCourse $my_staff_course): string
@@ -159,8 +158,8 @@ class ilMyStaffGUI
 
         if (ilMyStaffAccess::getInstance()->hasCurrentUserAccessToLearningProgressInObject($my_staff_course->getCrsRefId())) {
             $lp_icons = ilLPStatusIcons::getInstance(ilLPStatusIcons::ICON_VARIANT_LONG);
-            $lp_icon = $DIC->ui()->factory()->image()
-                           ->standard(
+            $lp_icon = $DIC->ui()->factory()->symbol()->icon()
+                           ->custom(
                                $lp_icons->getImagePathForStatus($my_staff_course->getUsrLpStatus()),
                                ilLearningProgressBaseGUI::_getStatusText(intval($my_staff_course->getUsrLpStatus()))
                            );

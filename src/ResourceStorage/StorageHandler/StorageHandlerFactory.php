@@ -22,6 +22,8 @@ namespace ILIAS\ResourceStorage\StorageHandler;
 
 use ILIAS\ResourceStorage\Resource\StorableResource;
 use ILIAS\ResourceStorage\Revision\Revision;
+use ILIAS\Data\Meta\Html\OpenGraph\Resource;
+use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 
 /**
  * Class StorageHandlerFactory
@@ -85,5 +87,24 @@ class StorageHandlerFactory
     public function getPrimary(): ?\ILIAS\ResourceStorage\StorageHandler\StorageHandler
     {
         return $this->primary;
+    }
+
+    public function getRidForURI(string $uri): ?ResourceIdentification
+    {
+        $internal_path = str_replace($this->getBaseDir(), "", $uri);
+        $internal_path = ltrim(str_replace(self::BASE_DIRECTORY, "", $internal_path), "/");
+
+        $fs_identifier = explode("/", $internal_path)[0];
+
+        $internal_path = str_replace($fs_identifier . "/", "", $internal_path);
+
+        $handler = $this->getHandlerForStorageId($fs_identifier);
+        $path_generator = $handler->getPathGenerator();
+        try {
+            $rid = $path_generator->getIdentificationFor($internal_path);
+        } catch (\Throwable) {
+            return null;
+        }
+        return $rid;
     }
 }

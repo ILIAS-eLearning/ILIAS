@@ -76,7 +76,7 @@ class ilHistoryTableGUI extends ilTable2GUI
 
         if ($this->getObjType() == "lm") {
             $obj_arr = explode(":", $a_set["obj_type"]);
-            switch ($obj_arr[1]) {
+            switch ($obj_arr[1] ?? "") {
                 case "st":
                     $img_type = "st";
                     $class = "ilstructureobjectgui";
@@ -90,7 +90,7 @@ class ilHistoryTableGUI extends ilTable2GUI
                     break;
 
                 default:
-                    $img_type = $obj_arr[0];
+                    $img_type = $obj_arr[0] ?? "";
                     $class = "";
                     $cmd = "view";
                     break;

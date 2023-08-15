@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * This class represents a text property in a property form.
  *
@@ -29,7 +29,7 @@ class ilTextInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilte
      * @var string|array
      */
     protected $value = null;
-    protected int $maxlength = 200;
+    protected ?int $maxlength = 200;
     protected int $size = 40;
     protected string $validationRegexp = "";
     protected string $validationFailureMessage = '';
@@ -97,12 +97,12 @@ class ilTextInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilte
         return $this->validationRegexp;
     }
 
-    public function setMaxLength(int $a_maxlength): void
+    public function setMaxLength(?int $a_maxlength): void
     {
         $this->maxlength = $a_maxlength;
     }
 
-    public function getMaxLength(): int
+    public function getMaxLength(): ?int
     {
         return $this->maxlength;
     }

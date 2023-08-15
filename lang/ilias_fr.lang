@@ -398,7 +398,6 @@ adve#:#adve_autosave#:#Automatic Saving Intervall###29 07 2022 new variable
 adve#:#adve_autosave_info#:#Auto-save for text content. With shorter intervals, the server load increases and the performance of the system decreases.###29 07 2022 new variable
 adve#:#adve_autosave_info_min_10#:#Please choose a value of minimal 10 seconds if you activated this feature.###29 07 2022 new variable
 adve#:#adve_blocking_mode#:#Verrouillage de Page
-adve#:#adve_char_selector_settings#:#Sélecteur des Caractères
 adve#:#adve_excass_settings#:#Activités d'un Exercice
 adve#:#adve_grp_copa#:#Content Pages
 adve#:#adve_grp_frm#:#Forums###29 07 2022 new variable
@@ -417,45 +416,6 @@ adve#:#adve_text_content_features#:#Options de lâ€™à‰diteur de Texte
 adve#:#adve_use_physical#:#Utiliser b/i/u au lieu de str/emp/imp
 adve#:#adve_use_physical_info#:#Ce paramètre permet de remplacer les boutons "strong", "emphatic" et "important" par les boutons "b" (bold/gras), "i" (italic/italique) et "u" (underlined/souligné). Notez que cela peut entraîner des incohérences si l'éditeur de style est utilisé et que d'autres attributs sont affectés aux classes "strong", "emphatic" et "important".
 adve#:#adve_use_tiny_mce#:#Activez TinyMCE pour une Edition WYSIWYG
-adve#:#char_selector_admin#:#Sélecteur de Caractères Unicode (TODO)
-adve#:#char_selector_blocks#:#Tables Unicode Disponibles
-adve#:#char_selector_blocks_info#:#Tous les caractères de la table sélectionnée seront proposés, mais tous ne sont peut-être pas supportés par la police de votre navigateur.
-adve#:#char_selector_custom_items#:#Sélection Personnalisée
-adve#:#char_selector_custom_items_info1#:#La sélection courante sera affichée avec les tables sélectionnées. Veuillez ajouter vos caractères avec le style suivant :
-adve#:#char_selector_custom_items_info2a#:#A B C
-adve#:#char_selector_custom_items_info2b#:#Les caractères sont séparés par des espaces, générant des boutons de sélection séparés
-adve#:#char_selector_custom_items_info3a#:#A BC D
-adve#:#char_selector_custom_items_info3b#:#Il est possible d'ajouter plus de caractères à un bouton
-adve#:#char_selector_custom_items_info4a#:#A-Z
-adve#:#char_selector_custom_items_info4b#:#Les intervalles de caractères peuvent être définis avec "-"
-adve#:#char_selector_custom_items_info5a#:#U+00C0
-adve#:#char_selector_custom_items_info5b#:#Un caractère peut aussi être défini en notation Unicode (insensible à la casse)
-adve#:#char_selector_custom_items_info6a#:#U+00C0-U+00CF
-adve#:#char_selector_custom_items_info6b#:#Les intervalles sont aussi possibles avec la notation Unicode
-adve#:#char_selector_disabled_admin#:#Désactivé (TODO)
-adve#:#char_selector_disabled_info_admin#:#Désactive le sélecteur. Le sélecteur peut toutefois être activé pour chaque utilisateur et test.
-adve#:#char_selector_disabled_info_test#:#Désactive le sélecteur pendant l'exécution d'un test.
-adve#:#char_selector_disabled_info_user#:#Désactive le sélecteur. Le sélecteur peut toutefois être activé pour chaque test.
-adve#:#char_selector_disabled_test#:#Désactivé (TODO)
-adve#:#char_selector_disabled_user#:#Désactivé (TODO)
-adve#:#char_selector_enabled_admin#:#Activé (TODO)
-adve#:#char_selector_enabled_info_admin#:#Active le sélecteur accessible via un bouton dans le menu principal. Le sélecteur peut être (dés)activé pour chaque utilisateur et test.
-adve#:#char_selector_enabled_info_test#:#Active le sélecteur pendant l'exécution d'un test.
-adve#:#char_selector_enabled_info_user#:#Active le sélecteur accessible via un bouton dans le menu principal.
-adve#:#char_selector_enabled_test#:#Activé (TODO)
-adve#:#char_selector_enabled_user#:#Activé (TODO)
-adve#:#char_selector_inactive_admin#:#Inactif (TODO)
-adve#:#char_selector_inactive_info_admin#:#Désactive le sélecteur. Le sélecteur ne peut pas être activé dans les utilisateurs et tests.
-adve#:#char_selector_inherit_info_test#:#Utiliser les réglages de la plateforme ou de l'utilisateur.
-adve#:#char_selector_inherit_info_user#:#Utiliser les réglages de la plateforme.
-adve#:#char_selector_inherit_test#:#Inherit (TODO)
-adve#:#char_selector_inherit_user#:#Inherit (TODO)
-adve#:#char_selector_menu_close#:#Fermer le sélecteur de caractères spéciaux
-adve#:#char_selector_menu_open#:#Ouvrir le sélecteur de caractères spéciaux
-adve#:#char_selector_msg_blocks_or_custom_needed#:#Lorsque vous activez le sélecteur, veuillez choisir un bloc de caractères ou entrer une sélection spéciale !
-adve#:#char_selector_test#:#Sélecteur de Caractères Unicode (TODO)
-adve#:#char_selector_unicode_all#:#Toutes les Tables Unicode
-adve#:#char_selector_user#:#Sélecteur de Caractères Unicode (TODO)
 assessment#:#action#:#Action
 assessment#:#addSuggestedSolution#:#Ajouter solution suggérée
 assessment#:#add_answers#:#Add Antworten
@@ -598,7 +558,6 @@ assessment#:#categories#:#Catégories
 assessment#:#category#:#Catégorie
 assessment#:#changeSuggestedSolution#:#Modifier solution suggérée
 assessment#:#change_adm_categories_not_allowed#:#Vous n'avez aucune permission sur cette catégorie.
-assessment#:#char_selector_btn_label#:#&nbsp;Ω&nbsp;
 assessment#:#checkbox_checked#:#Coché
 assessment#:#checkbox_unchecked#:#Non coché
 assessment#:#circle#:#Cercle
@@ -633,8 +592,6 @@ assessment#:#counter#:#Compteur
 assessment#:#create_date#:#Créé
 assessment#:#create_gaps#:#Créer trou
 assessment#:#create_new#:#Créer nouveau
-assessment#:#ctm_cannot_be_changed#:#This is a test in CTM-Mode. Settings cannot be changed anymore as CTM has been abandoned.###29 07 2022 new variable
-assessment#:#ctm_cannot_be_started#:#This is a test in CTM-Mode. The test cannot be started anymore as CTM has been abandoned.###29 07 2022 new variable
 assessment#:#customstyle#:#Style personnalisé
 assessment#:#dashboard_tab#:#Dashboard
 assessment#:#definition#:#Définition
@@ -863,7 +820,6 @@ assessment#:#legend#:#Légende
 assessment#:#locked#:#verrouillé
 assessment#:#log_added_extratime#:#Ajouter %d minutes supplémentaires au participant : id %d
 assessment#:#log_answer_changed_points#:#Modification manuelle des points %s de %d à %d points par %s
-assessment#:#log_could_not_enter_test_due_to_simultaneous_users#:#L'utilisateur ne peut peut pas commenter le test car le nombre maximum d'utilisateurs simultanés de ce test a été atteint
 assessment#:#log_create_new_test#:#Nouveau test créé
 assessment#:#log_manual_feedback#:#%s fichier de commentaire ajouté pour individu testé %s et question %s: %s
 assessment#:#log_mark_added#:#Marque ajoutée
@@ -1199,13 +1155,13 @@ assessment#:#set_manscoring_done#:#Marquer ce participant comme "Participant not
 assessment#:#set_manual_feedback#:#Retour d'Information
 assessment#:#shape#:#Forme
 assessment#:#showSuggestedSolution#:#Solution suggérée
+assessment#:#show_all_test_properties_on_info_page#:#Afficher l'introduction complète
+assessment#:#show_all_test_properties_on_info_page_byline#:#Si cochée, la page d'introduction est présentée entièrement (en incluant les paramètres du test). Si non cochée, seul le message d'introduction (s'il existe) et les paramètres requis sont affichés sur la page d'information du test
 assessment#:#show_answer_overview#:#Afficher l'Aperçu de la Réponse
 assessment#:#show_detailed_results#:#Afficher les résultats détaillés de l'utilisateur (passage marqué)
 assessment#:#show_examview_html#:#Utiliser la vue examen sur la page de soumission du test.
 assessment#:#show_pass_overview#:#Afficher les Résultats
 assessment#:#show_user_answers#:#Afficher les Réponses de l'Utilisateur
-assessment#:#showinfo#:#Afficher l'introduction complète
-assessment#:#showinfo_desc#:#Si cochée, la page d'introduction est présentée entièrement (en incluant les paramètres du test). Si non cochée, seul le message d'introduction (s'il existe) et les paramètres requis sont affichés sur la page d'information du test
 assessment#:#shuffle_answers#:#Mélanger les Réponses
 assessment#:#sign_submission#:#Signer électroniquement la soumission du test
 assessment#:#sign_submission_info#:#Lorsque activé, si un plugin de signature est installé et activé, les participants peuvent signer électroniquement la soumission de leur test.
@@ -1256,10 +1212,8 @@ assessment#:#text_wrong#:#Texte incorrect
 assessment#:#textsize#:#Taille du Texte
 assessment#:#textsize_errortext_info#:#Saisir la taille du texte d'erreur en pourcentage si vous désirez une taille autre que 100%.
 assessment#:#textsize_info#:#Saisir la taille du texte à  ordonner en pourcentage si vous désirez une taille autre que 100%.
-assessment#:#thumb_geometry#:#Taille de miniature
-assessment#:#thumb_geometry_info#:#Les miniatures d'image seront créées avec la valeur saisie en hauteur et largeur. Le ratio de l'aspect sera préservé.
 assessment#:#thumb_size#:#Taille de miniature
-assessment#:#thumb_size_info#:#Si la taille de miniature est renseignée, une miniature de cette taille sera générée pour le image téléversée. Sans taille de miniature, la taille originale de l'image sera conservée.
+assessment#:#thumb_size_info#:#Les miniatures d'image seront créées avec la valeur saisie en hauteur et largeur. Le ratio de l'aspect sera préservé.
 assessment#:#thumb_size_unit_pixel#:#Pixel
 assessment#:#time_format#:#HH MM SS
 assessment#:#timing#:#Temps Supplémentaire
@@ -1289,11 +1243,6 @@ assessment#:#tst_add_quest_cont_edit_mode_RTE_info#:#Allows text formatting of q
 assessment#:#tst_addit_passes_blocked_after_passed_msg#:#You have passed the test. The test cannot be started again.###07 02 2020 new variable
 assessment#:#tst_all_test_competences#:#Tous les tests de compétence
 assessment#:#tst_all_user_data_deleted#:#Toutes les données utilisateur de ce test ont été détruites
-assessment#:#tst_allowed_users#:#Nombre Maximum d'Utilisateurs Simultanés
-assessment#:#tst_allowed_users_desc#:#ILIAS surveillera le nombre de participants faisant le test en même temps. Si plus d'utilisateurs que le maximum autorisé essayent d'accéder au test, ILIAS les empêchera de commencer le test.
-assessment#:#tst_allowed_users_max#:#Nombre max. de participants
-assessment#:#tst_allowed_users_time_gap#:#Temps Max. d'Inactivité pour les Utilisateurs Actifs
-assessment#:#tst_allowed_users_time_gap_desc#:#Participants that do not click in the test fort he indicated amount of time will be categorized as ‚inactive‘ and removed from the test.
 assessment#:#tst_already_submitted#:#Le test a déjà été passé et enregistré.
 assessment#:#tst_analysis#:#Analyse
 assessment#:#tst_anonymity#:#Anonymat
@@ -1373,19 +1322,6 @@ assessment#:#tst_derive_new_pool#:#Obtenir un nouveau pool de questions
 assessment#:#tst_derive_new_pools#:#Obtenir de nouveaux pools de questions
 assessment#:#tst_dont_show_msg_again_in_current_session#:#Don't show this message again in my current session.
 assessment#:#tst_dont_use_previous_answers#:#Vos réponses antérieures ne seront pas affichées par défaut lorsque vous repasserez le test
-assessment#:#tst_dyn_keep_answ_freeze#:#Gardez mes réponses actuelles de côté
-assessment#:#tst_dyn_quest_set_pool_deleted#:#The currently configured questionpool "%s" has been deleted.
-assessment#:#tst_dyn_quest_set_src_qpl_summary_string_deleted#:#%s (Supprimé Définitivement)
-assessment#:#tst_dyn_quest_set_src_qpl_summary_string_trashed#:#%s (Supprimé) [%s Questions]
-assessment#:#tst_dyn_test_msg_currently_finished_completely#:#Actuellement, vous avez répondu correctement à toutes les questions de la banque de question source. Vous pourrez reprendre le test après ajout ou modification de questions.
-assessment#:#tst_dyn_test_msg_currently_finished_selection#:#Vous avez répondu correctement à toute les questions sélectionnées. Modifiez la sélection de questions pour reprendre le test.
-assessment#:#tst_dyn_test_msg_pass_deletion_link#:#Supprimer les réponses précédentes
-assessment#:#tst_dyn_test_pass_deletion_button#:#Réinitialiser toutes les réponses du test
-assessment#:#tst_dyn_unfreeze_answers#:#Répondre de nouveau
-assessment#:#tst_dyn_unfreeze_answers_confirmation#:#Il y a des questions auxquelles vos réponses initiales ont été figées et vous ne pouvez faire de modification. Voulez-vous y répondre une nouvelle fois maintenant et donc dégeler vos réponses?
-assessment#:#tst_dynamic_question_set_complete#:#Statistique totale
-assessment#:#tst_dynamic_question_set_selection#:#Test Question Selection
-assessment#:#tst_dynamic_question_set_source_questionpool_summary_string#:#%s (Chemin: %s) [%s Questions]
 assessment#:#tst_edit_competence_assign#:#Éditer les propriétés de la tâche
 assessment#:#tst_edit_scoring#:#Notation Manuelle
 assessment#:#tst_ending_time#:#Heure de Fin
@@ -1422,7 +1358,7 @@ assessment#:#tst_finish_confirm_cancel_button#:#Non, revenir à la question pré
 assessment#:#tst_finish_confirmation_question#:#Vous allez terminer ce test et atteindre le nombre maximum de tests autorisés validés. Vous ne pourrez plus refaire ce test une nouvelle fois pour modifier vos réponses. Voulez-vous vraiment terminer ce test ?
 assessment#:#tst_finish_notification#:#Notification par Email en fin de test
 assessment#:#tst_finish_notification_advanced#:#Envoyer résultat complet du test au propriétaire du test
-assessment#:#tst_finish_notification_content#:#Contenu du mail
+assessment#:#tst_finish_notification_content_type#:#Contenu du mail
 assessment#:#tst_finish_notification_desc#:#Envoie un mail au propriétaire du test pour chaque utilisateur qui a terminé le test.
 assessment#:#tst_finish_notification_no#:#Ne pas envoyer de notification par email lorsqu'un utilisateur achève un test
 assessment#:#tst_finish_notification_simple#:#Envoyer nom de l'utilisateur et date d'achèvement au propriétaire du test
@@ -1535,8 +1471,6 @@ assessment#:#tst_mark_minimum_level#:#Niveau Minimum (en %)
 assessment#:#tst_mark_official_form#:#Forme Officielle
 assessment#:#tst_mark_passed#:#Valid&eacute;
 assessment#:#tst_mark_short_form#:#Forme Courte
-assessment#:#tst_max_allowed_users_heading#:#Le nombre maximum d'utilisateurs simultanés de ce test a été atteint
-assessment#:#tst_max_allowed_users_message#:#Le nombre maximum d'utilisateurs simultanés de ce test a été atteint. Veuillez effectuer ou reprendre ce test ultérieurement. Si l'un des participants au test est inactif pendant plus de  %s secondes, vous serez autorisé à passer ce test. Merci de votre compréhension.
 assessment#:#tst_max_comp_points#:#Points de compétence max.
 assessment#:#tst_maximum_points#:#Points Max.
 assessment#:#tst_mc_label_none_above#:#Aucune des réponses ci-dessus
@@ -1738,6 +1672,7 @@ assessment#:#tst_questions_hints_toolbar_cmd_reset_ordering_clipboard#:#Vider le
 assessment#:#tst_questions_inserted#:#Question(s) ajoutée(s)
 assessment#:#tst_questions_removed#:#Question(s) retirée(s)
 assessment#:#tst_random_nr_of_questions#:#Combien de questions ?
+assessment#:#tst_random_question_set_source_questionpool_summary_string#:#%s (Chemin: %s) [%s Questions]
 assessment#:#tst_random_select_questionpool#:#Sélectionner le jeu de questions dans lequel vous choisirez la question
 assessment#:#tst_reached_points#:#Points Obtenus
 assessment#:#tst_reached_points_of_max#:#%s of %s###07 02 2020 new variable
@@ -3301,7 +3236,6 @@ cntr#:#cntr_view_info_sessions#:#Cette présentation regroupe les sessions en pr
 cntr#:#cntr_view_info_simple#:#Cette présentation liste tous les objets dans un seul bloc.
 cntr#:#cntr_view_sessions#:#Vue sessions
 cntr#:#cntr_view_simple#:#Vue simplifiée
-cntr#:#cont_custom_icon#:#Icône Personnalisée
 cntr#:#container_import_zip_file_invalid#:#Le fichier déposé n'est pas valide. Pour importer une structure de dossiers, veuillez utiliser l'objet Fichier.
 cntr#:#edit_questions#:#Editer Questions
 cntr#:#exc_next_deadline_single#:#Echéance
@@ -10868,7 +10802,7 @@ mathjax#:#mathjax_polyfill_url#:#Url of a Polyfill###29 07 2022 new variable
 mathjax#:#mathjax_polyfill_url_desc_line1#:#For MathJax 2 not needed###29 07 2022 new variable
 mathjax#:#mathjax_polyfill_url_desc_line2#:#For MathJax 3 e.g. https://polyfill.io/v3/polyfill.min.js?features=es6###29 07 2022 new variable
 mathjax#:#mathjax_script_url#:#URL of the MathJax Script###29 07 2022 new variable
-mathjax#:#mathjax_script_url_desc_line1#:#For MathJax 2 e.g. https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_CHTML###29 07 2022 new variable
+mathjax#:#mathjax_script_url_desc_line1#:#For MathJax 2 e.g. https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML,Safe###29 07 2022 new variable
 mathjax#:#mathjax_script_url_desc_line2#:#For MathJax 3 e.g. https://cdn.jsdelivr.net/npm/mathjax@3.0.1/es5/tex-mml-chtml.js###29 07 2022 new variable
 mathjax#:#mathjax_server_address#:#Adresse de serveur
 mathjax#:#mathjax_server_address_info#:#Par ex. http://localhost:8003
@@ -12001,6 +11935,7 @@ notification_adm#:#play_sound_desc#:#Play a sound when receiving a new notficiat
 obj#:#cont_filter_empty#:#Please use the filter to see any objects.###07 02 2020 new variable
 obj#:#cont_skll_published#:#Toutes les affectations ont été publiées.
 obj#:#cont_skll_published_some_not#:#Toutes les affectations données ont été publiées. Certains utilisateurs n'ont pas les affectations de compétences. Par conséquent, aucune affectation n’a pu être publiée pour eux.
+obj#:#custom_icon#:#Icône Personnalisée
 obj#:#edit_questions#:#Editer Questions
 obj#:#obj_activate_content_lang#:#Activer la Traduction pour l'Edition des Pages
 obj#:#obj_activate_multilang#:#Activer Multi-Linguisme

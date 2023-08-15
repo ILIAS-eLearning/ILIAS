@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Symbol\Glyph;
 
@@ -350,7 +350,7 @@ class Factory implements G\Factory
      */
     public function bulletlist(string $action = null): G\Glyph
     {
-        return new Glyph(G\Glyph::BULLETLIST, "bulletlist", $action);
+        return new Glyph(G\Glyph::BULLETLIST, "bulletlist_action", $action);
     }
 
     /**
@@ -358,7 +358,7 @@ class Factory implements G\Factory
      */
     public function numberedlist(string $action = null): G\Glyph
     {
-        return new Glyph(G\Glyph::NUMBEREDLIST, "numberedlist", $action);
+        return new Glyph(G\Glyph::NUMBEREDLIST, "numberedlist_action", $action);
     }
 
     /**
@@ -391,5 +391,45 @@ class Factory implements G\Factory
     public function collapseHorizontal(string $action = null): G\Glyph
     {
         return new Glyph(G\Glyph::COLLAPSE_HORIZONTAL, "collapse/back", $action);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function header(string $action = null): G\Glyph
+    {
+        return new Glyph(G\Glyph::HEADER, "header_action", $action);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function italic(string $action = null): G\Glyph
+    {
+        return new Glyph(G\Glyph::ITALIC, "italic_action", $action);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function bold(string $action = null): G\Glyph
+    {
+        return new Glyph(G\Glyph::BOLD, "bold_action", $action);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function link(string $action = null): G\Glyph
+    {
+        return new Glyph(G\Glyph::LINK, "link_action", $action);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function launch(string $action = null): G\Glyph
+    {
+        return new Glyph(G\Glyph::LAUNCH, "launch", $action);
     }
 }

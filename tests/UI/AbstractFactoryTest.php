@@ -38,6 +38,12 @@ abstract class AbstractFactoryTest extends TestCase
     public const COMPONENT = 1;
     public const FACTORY = 2;
 
+    /* This allows to omit checking of certain factory methods, use prudently...
+     */
+    private array $omit_factory_methods = [
+        "helpTopics"
+    ];
+
     /* kitchensink info test configuration:
      * true = should be there, check
      * false = may be there, don't check
@@ -99,9 +105,14 @@ abstract class AbstractFactoryTest extends TestCase
     final public function methods_provider(): array
     {
         $reflection = $this->buildFactoryReflection();
-        return array_map(function ($element) {
-            return array($element, $element->getName());
-        }, $reflection->getMethods());
+        return array_filter(
+            array_map(function ($element) {
+                if (!in_array($element->getName(), $this->omit_factory_methods)) {
+                    return array($element, $element->getName());
+                }
+                return false;
+            }, $reflection->getMethods())
+        );
     }
 
     // Setup
@@ -341,16 +352,9 @@ abstract class AbstractFactoryTest extends TestCase
     {
         $docstring_data = $this->test_check_yaml_extraction($method_reflection, $name);
         $kitchensink_info_settings = $this->kitchensink_info_settings_merged_with_defaults($name);
-
-        // Special rules for factory methods:
-        if ($this->returnsFactory($docstring_data)) {
-            $message = "TODO ($name): remove 'context' field, method returns a factory.";
-            $this->assertArrayNotHasKey("context", $docstring_data, $message);
-        } else { // returnsComponent
-            if ($kitchensink_info_settings["context"]) {
-                $message = "TODO ($name): factory method returning component should have context field. Add it.";
-                $this->assertArrayHasKey("context", $docstring_data, $message);
-            }
+        if (!$this->returnsFactory($docstring_data) && $kitchensink_info_settings["context"]) {
+            $message = "TODO ($name): factory method returning component should have context field. Add it.";
+            $this->assertArrayHasKey("context", $docstring_data, $message);
         }
     }
 

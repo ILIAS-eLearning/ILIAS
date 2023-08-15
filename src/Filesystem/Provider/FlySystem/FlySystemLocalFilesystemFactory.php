@@ -1,35 +1,34 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 declare(strict_types=1);
 
 namespace ILIAS\Filesystem\Provider\FlySystem;
 
 use ILIAS\Filesystem\FilesystemFacade;
-use ILIAS\Filesystem\Filesystem;
 use ILIAS\Filesystem\Provider\Configuration\LocalConfig;
 use League\Flysystem\Adapter\Local;
+use League\Flysystem\Local\LocalFilesystemAdapter;
+use League\Flysystem\UnixVisibility\PortableVisibilityConverter;
 
-/******************************************************************************
- *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
- *
- * If this is not the case or you just want to try ILIAS, you'll find
- * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *
- *****************************************************************************/
 /**
- * Class FlySystemLocalFilesystemFactory
- *
- * The local fly system filesystem factory creates instances of the local filesystem adapter which is provided by
- * the phpleague.
- *
- * @author  Nicolas Schäfli <ns@studer-raimann.ch>
- * @since 5.3
+ * @author                 Nicolas Schäfli <ns@studer-raimann.ch>
+ * @author                 Fabian Schmid <fabian@sr.solutions>
  */
 final class FlySystemLocalFilesystemFactory
 {
@@ -47,45 +46,30 @@ final class FlySystemLocalFilesystemFactory
     {
         $this->validateFileLockMode($config->getLockMode());
 
-        $adapter = new Local(
-            $config->getRootPath(),
-            $config->getLockMode(),
-            $this->mapConfigLinkToLocalLinks($config->getLinkBehaviour()),
-            [
-                self::FILE_ACCESS_KEY => [
-                    self::PRIVATE_ACCESS_KEY => $config->getFileAccessPrivate(),
-                    self::PUBLIC_ACCESS_KEY => $config->getFileAccessPublic()
-                ],
-                self::DIRECTORY_ACCESS_KEY => [
-                    self::PRIVATE_ACCESS_KEY => $config->getDirectoryAccessPrivate(),
-                    self::PUBLIC_ACCESS_KEY => $config->getDirectoryAccessPublic()
-                ]
-            ]
+        $visibility = new PortableVisibilityConverter(
+            $config->getFileAccessPublic(),
+            $config->getFileAccessPrivate(),
+            $config->getDirectoryAccessPublic(),
+            $config->getDirectoryAccessPrivate()
         );
 
-        //switch the path separator to a forward slash, see Mantis 0022554
-        $reflection = new \ReflectionObject($adapter);
-        $property = $reflection->getProperty("pathSeparator");
-        $property->setAccessible(true);
-        $property->setValue($adapter, '/');
-
-        /* set new path separator in path prefix, the library will replace the old path ending
-           while setting the path prefix.
-        */
-        $adapter->setPathPrefix($adapter->getPathPrefix());
-
+        $adapter = new LocalFilesystemAdapter(
+            $config->getRootPath(),
+            $visibility,
+            $config->getLockMode(),
+            $this->mapConfigLinkToLocalLinks($config->getLinkBehaviour())
+        );
 
         $filesystem = new \League\Flysystem\Filesystem($adapter);
+
         $fileAccess = new FlySystemFileAccess($filesystem);
-        $facade = new FilesystemFacade(
+
+        return new FilesystemFacade(
             new FlySystemFileStreamAccess($filesystem),
             $fileAccess,
             new FlySystemDirectoryAccess($filesystem, $fileAccess)
         );
-
-        return $facade;
     }
-
 
     /**
      * Maps a constant of the LocalConfig class into a constant of the Local class.
@@ -98,16 +82,14 @@ final class FlySystemLocalFilesystemFactory
      */
     private function mapConfigLinkToLocalLinks(int $configLinkBehaviour): int
     {
-        switch ($configLinkBehaviour) {
-            case LocalConfig::DISALLOW_LINKS:
-                return Local::DISALLOW_LINKS;
-            case LocalConfig::SKIP_LINKS:
-                return Local::SKIP_LINKS;
-            default:
-                throw new \InvalidArgumentException("The supplied value \"$configLinkBehaviour\" is not a valid LocalConfig link behaviour constant.");
-        }
+        return match ($configLinkBehaviour) {
+            LocalConfig::DISALLOW_LINKS => LocalFilesystemAdapter::DISALLOW_LINKS,
+            LocalConfig::SKIP_LINKS => LocalFilesystemAdapter::SKIP_LINKS,
+            default => throw new \InvalidArgumentException(
+                "The supplied value \"$configLinkBehaviour\" is not a valid LocalConfig link behaviour constant."
+            ),
+        };
     }
-
 
     /**
      * Checks if the supplied file lock mode is valid.
@@ -123,10 +105,14 @@ final class FlySystemLocalFilesystemFactory
      */
     private function validateFileLockMode(int $code): void
     {
-        if ($code === LOCK_EX || $code === LOCK_SH) {
+        if ($code === LOCK_EX) {
             return;
         }
-
-        throw new \InvalidArgumentException("The supplied value \"$code\" is not a valid file lock mode please check your local file storage configurations.");
+        if ($code === LOCK_SH) {
+            return;
+        }
+        throw new \InvalidArgumentException(
+            "The supplied value \"$code\" is not a valid file lock mode please check your local file storage configurations."
+        );
     }
 }

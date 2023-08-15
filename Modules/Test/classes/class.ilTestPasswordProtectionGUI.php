@@ -128,9 +128,6 @@ class ilTestPasswordProtectionGUI
 
     private function showPasswordFormCmd()
     {
-        require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
-        require_once 'Services/Form/classes/class.ilPasswordInputGUI.php';
-
         $msg = $this->buildPasswordMsg();
         $form = $this->buildPasswordForm();
 

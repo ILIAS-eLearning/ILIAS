@@ -398,7 +398,6 @@ adve#:#adve_autosave#:#Automatic Saving Intervall###29 07 2022 new variable
 adve#:#adve_autosave_info#:#Auto-save for text content. With shorter intervals, the server load increases and the performance of the system decreases.###29 07 2022 new variable
 adve#:#adve_autosave_info_min_10#:#Please choose a value of minimal 10 seconds if you activated this feature.###29 07 2022 new variable
 adve#:#adve_blocking_mode#:#Blokada edycji
-adve#:#adve_char_selector_settings#:#Wybór znaków
 adve#:#adve_excass_settings#:#Zadania
 adve#:#adve_grp_copa#:#Content Pages
 adve#:#adve_grp_frm#:#Forums###29 07 2022 new variable
@@ -417,45 +416,6 @@ adve#:#adve_text_content_features#:#Tekst menu zawartości
 adve#:#adve_use_physical#:#W miejsce str|emp|imp wstaw pr<b>B</b>|<i>I</i>|<u>U</u>
 adve#:#adve_use_physical_info#:#To ustawienie zastępuje przyciski semantycznych klas stylów odnoszących się do opcji strong, emphatic oraz important  na stałe określonymi wartościami <b>B</b> (bold), <i>I</i> (italic) oraz <u>U</u> (underline). Uwaga: w takiej sytuacji może dojść do niespójności, jeśli poprzez edytorów stylów klasom strong, emphatic i important zostaną przyporządkowane inne wartości.
 adve#:#adve_use_tiny_mce#:#Aktywuj TinyMCE do edytowania WYSIWYG
-adve#:#char_selector_admin#:#Menu wyboru ze znaki specjalnymi (unicode) do testów i puli pytań
-adve#:#char_selector_blocks#:#Dostępne znaki specjalne (unicode)
-adve#:#char_selector_blocks_info#:#Wszystkie znaki wybranych sekcji umieszczone zostaną na liście, nawet wówczas, gdy nie ma ich w danej czcionce przeglądarki.
-adve#:#char_selector_custom_items#:#Wybór specjalny
-adve#:#char_selector_custom_items_info1#:#Wybór specjalny umieszczany jest na liście przed sekcjami unicode. Tutaj wpisz znaki w poniższym formacie:
-adve#:#char_selector_custom_items_info2a#:#A B C
-adve#:#char_selector_custom_items_info2b#:#Pojedyncze znaki można rozdzielić znakiem pustym, dzięki czemu otrzymają oddzielne przycisku wyboru.
-adve#:#char_selector_custom_items_info3a#:#A BC D
-adve#:#char_selector_custom_items_info3b#:#Znaki następujące kolejno po sobie zostaną przydzielone do jednego przycisku wyboru.
-adve#:#char_selector_custom_items_info4a#:#A-Z
-adve#:#char_selector_custom_items_info4b#:#Zakresy znaków można definiować za pomocą "-"
-adve#:#char_selector_custom_items_info5a#:#U+00C0
-adve#:#char_selector_custom_items_info5b#:#Znak można podać również w systemie unicode (dowolne małe i wielkie litery).
-adve#:#char_selector_custom_items_info6a#:#U+00C0-U+00CF
-adve#:#char_selector_custom_items_info6b#:#W systemie unicode można również wprowadzać zakresy znaków
-adve#:#char_selector_disabled_admin#:#Przycisk Ω do aktywacji menu wyboru ze znakami specjalnymi musi być dodatkowo włączony
-adve#:#char_selector_disabled_info_admin#:#Menu wyboru ze znakami specjalnymi (unicode) jest aktywne dla testów i puli pytań, jednak użytkownicy muszą aktywować w pulpicie osobistym odpowiednie ustawienia lub można skonfigurować test lub pulę pytań w zakładce 'Ustawienia' w taki sposób, aby menu wyboru było dostępne. Ustawienia dotyczące testu są nadrzędne wobec ustawień użytkownika.
-adve#:#char_selector_disabled_info_test#:#Niezależnie od ustawień użytkownika menu wyboru ze znakami specjalnymi (unicode) jest wyłączone podczas testu; znaki będzie można wprowadzać tylko za pomocą klawiatury.
-adve#:#char_selector_disabled_info_user#:#W testach zwykle menu wyboru ze znakami specjalnymi nie jest wyświetlane. Jednak w niektórych testach można wymusić wyświetlenie tego menu mimo ustawień.
-adve#:#char_selector_disabled_test#:#Nie pokazuj wyboru znaków specjalnych
-adve#:#char_selector_disabled_user#:#Nie pokazuj menu wyboru ze znakami specjalnymi w testach
-adve#:#char_selector_enabled_admin#:#Przycisk Ω do aktywacji menu wyboru ze znakami specjalnymi wyświetlany jest domyślnie
-adve#:#char_selector_enabled_info_admin#:#Menu wyboru ze znakami specjalnymi (unicode) jest aktywne. Zawiera sekcje unicode, które zostały wybrane w tym ustawieniu. Użytkownicy mogą jednak włączyć indywidualne ustawienia w pulpicie osobistym lub można skonfigurować testy w taki sposób, aby menu wyboru było dostępne.
-adve#:#char_selector_enabled_info_test#:#Niezależnie od ustawień użytkownika menu wyboru ze znakami specjalnymi (unicode) będzie wyświetlane podczas testu; znaki specjalne będzie można wprowadzać za pomocą menu.
-adve#:#char_selector_enabled_info_user#:#W testach wyświetlane jest menu wyboru ze znakami specjalnymi. Jednak w niektórych testach to menu będzie mimo ustawień ukryte.
-adve#:#char_selector_enabled_test#:#Pokaż wybór znaków specjalnych
-adve#:#char_selector_enabled_user#:#Aktywuj menu wyboru ze znakami specjalnymi
-adve#:#char_selector_inactive_admin#:#Wyłącz globalnie menu wyboru ze znakami specjalnymi
-adve#:#char_selector_inactive_info_admin#:#Menu wyboru ze znakami specjalnymi jest wyłączone dla całej platformy. Ukryta jest również możliwość dokonywania indywidualnych ustawień na pulpicie osobistym lub w zakładce 'Ustawienia' w testach.
-adve#:#char_selector_inherit_info_test#:#W zależności od ustawień systemowych oraz ustawień indywidualnych, które użytkownik włączyć w pulpicie osobistym, w przebiegu testu wyświetlane jest menu wyboru ze znakami specjalnymi (unicode) lub też nie.
-adve#:#char_selector_inherit_info_user#:#Przejmowane są te ustawienia, które administrator aktywował globalnie dla całej platformy.
-adve#:#char_selector_inherit_test#:#Przejmij platformę i indywidualne ustawienia użytkownika
-adve#:#char_selector_inherit_user#:#Przejmij ustawienia domyślne
-adve#:#char_selector_menu_close#:#Ukryj wybór znaków specjalnych
-adve#:#char_selector_menu_open#:#Pokaż wybór znaków specjalnych
-adve#:#char_selector_msg_blocks_or_custom_needed#:#Jeśli włączyć tę opcję, wybierz sekcję znaków lub wprowadź własny zbiór znaków.
-adve#:#char_selector_test#:#Menu wyboru ze znaki specjalnymi
-adve#:#char_selector_unicode_all#:#Wszystkie sekcje unicode
-adve#:#char_selector_user#:#Menu wyboru ze znaki specjalnymi (unicode) do testów
 assessment#:#action#:#Akcja
 assessment#:#addSuggestedSolution#:#Pokaż sugerowane rozwiązanie
 assessment#:#add_answers#:#Dodaj odpowiedzi
@@ -598,7 +558,6 @@ assessment#:#categories#:#Kategorie
 assessment#:#category#:#Kategoria
 assessment#:#changeSuggestedSolution#:#Wybierz sugerowane rozwiązanie
 assessment#:#change_adm_categories_not_allowed#:#Tutaj nie masz uprawnień do zapisywania kategorii.
-assessment#:#char_selector_btn_label#:#&nbsp;Ω&nbsp;
 assessment#:#checkbox_checked#:#Wybrany
 assessment#:#checkbox_unchecked#:#Niewybrany
 assessment#:#circle#:#Koło
@@ -633,8 +592,6 @@ assessment#:#counter#:#Licznik
 assessment#:#create_date#:#Utworzony
 assessment#:#create_gaps#:#Twórz i odświeżaj odstępy
 assessment#:#create_new#:#Twórz nowe
-assessment#:#ctm_cannot_be_changed#:#This is a test in CTM-Mode. Settings cannot be changed anymore as CTM has been abandoned.###29 07 2022 new variable
-assessment#:#ctm_cannot_be_started#:#This is a test in CTM-Mode. The test cannot be started anymore as CTM has been abandoned.###29 07 2022 new variable
 assessment#:#customstyle#:#Własny arkusz stylu
 assessment#:#dashboard_tab#:#Dashboard
 assessment#:#definition#:#Definicja
@@ -863,7 +820,6 @@ assessment#:#legend#:#Legenda
 assessment#:#locked#:#zablokowany
 assessment#:#log_added_extratime#:#Do czasu przetwarzania dla uczestników o nr ID %d zostaną dodane dodatkowe %d minuty
 assessment#:#log_answer_changed_points#:#Ręczna zmiana punktów %s od %d do %d przez %s.
-assessment#:#log_could_not_enter_test_due_to_simultaneous_users#:#Użytkownik nie może przystąpić do rozwiązywania testu ponieważ została przekroczona maksymalna dopuszczalna liczba jednocześnie pracujących użytkowników.
 assessment#:#log_create_new_test#:#Utworzono nowy test
 assessment#:#log_manual_feedback#:#%s utworzono ręczną punktację dla uczestnika %s oraz pytania %s: %s
 assessment#:#log_mark_added#:#Znacznik dodany
@@ -1199,13 +1155,13 @@ assessment#:#set_manscoring_done#:#Zaznacz jako ocenione
 assessment#:#set_manual_feedback#:#Ustaw ręczną reakcję
 assessment#:#shape#:#Kształt
 assessment#:#showSuggestedSolution#:#Rodzaj
+assessment#:#show_all_test_properties_on_info_page#:#Pokaż pełną stronę informacyjną
+assessment#:#show_all_test_properties_on_info_page_byline#:#Jeśli zaznaczone, pełna strona informacja testu będzie wyświetlona (w tym właściwości testu). Jeżeli odznaczone, tylko wstępne wiadomości (jeśli są dostępne) i wymagane właściwości pojawią się na stronie informacyjnej testu.
 assessment#:#show_answer_overview#:#Pokaż widok ogólny odpowiedzi
 assessment#:#show_detailed_results#:#Szczegółowe wyniki testu (oceniony przebieg testu)
 assessment#:#show_examview_html#:#Na ekranie
 assessment#:#show_pass_overview#:#Pokaż podgląd zaznaczonych wykonań
 assessment#:#show_user_answers#:#Pokaż zaznaczone przez użytkownika odpowiedzi
-assessment#:#showinfo#:#Pokaż pełną stronę informacyjną
-assessment#:#showinfo_desc#:#Jeśli zaznaczone, pełna strona informacja testu będzie wyświetlona (w tym właściwości testu). Jeżeli odznaczone, tylko wstępne wiadomości (jeśli są dostępne) i wymagane właściwości pojawią się na stronie informacyjnej testu.
 assessment#:#shuffle_answers#:#Mieszaj odpowiedzi
 assessment#:#sign_submission#:#Podpis cyfrowy
 assessment#:#sign_submission_info#:#Należy zainstalować, a następnie włączyć wtyczkę do podpisywania, aby móc poprosić uczestników o podpisanie testu.
@@ -1256,10 +1212,8 @@ assessment#:#text_wrong#:#Błędny tekst
 assessment#:#textsize#:#Rozmiar tekstu
 assessment#:#textsize_errortext_info#:#Podaj rozmiar tekstu w procentach odnoszących się do standardowego rozmiaru tekstu. Jeśli nie podasz żadnej wartości, użyty zostanie rozmiar standardowy (100%).
 assessment#:#textsize_info#:#Podaj rozmiar tekstu, który należy umieścić, w procentach odnoszących się do standardowego rozmiaru tekstu. Jeśli nie podasz żadnej wartości, użyty zostanie rozmiar standardowy (100%).
-assessment#:#thumb_geometry#:#Rozmiar miniaturki
-assessment#:#thumb_geometry_info#:#Podaj wartość w pikselach dla maksymalnego rozmiaru miniaturki grafik. W zależności od rastra obrazu podgląd zostanie pokazany z maksymalną wysokością lub szerokością rozmiaru miniaturki.
 assessment#:#thumb_size#:#Rozmiar miniaturki
-assessment#:#thumb_size_info#:#Jeśli podasz rozmiar miniaturki, ładowane obrazy będą automatycznie zmniejszanego do tej wielkości. Jeśli rozmiar miniaturki nie zostanie podany, obrazy będą używane w oryginalnym rozmiarze.
+assessment#:#thumb_size_info#:#Podaj wartość w pikselach dla maksymalnego rozmiaru miniaturki grafik. W zależności od rastra obrazu podgląd zostanie pokazany z maksymalną wysokością lub szerokością rozmiaru miniaturki.
 assessment#:#thumb_size_unit_pixel#:#Piksel
 assessment#:#time_format#:#HH MM SS
 assessment#:#timing#:#Przedłużenie czasu
@@ -1289,11 +1243,6 @@ assessment#:#tst_add_quest_cont_edit_mode_RTE_info#:#Allows text formatting of q
 assessment#:#tst_addit_passes_blocked_after_passed_msg#:#You have passed the test. The test cannot be started again.###07 02 2020 new variable
 assessment#:#tst_all_test_competences#:#Wszystkie kompetencje testu
 assessment#:#tst_all_user_data_deleted#:#Wszystkie dane uczestnika testu zostały skasowane!
-assessment#:#tst_allowed_users#:#Maksymalna liczba użytkowników mogąca rozwiązywać test jednocześnie.
-assessment#:#tst_allowed_users_desc#:#ILIAS sprawdza liczbę uczestników, którzy równocześnie brali udział w teście. Wszystkim uczestnikom próbującym rozpocząć test powyżej dopuszczalnego limitu osób dostęp do niego zostanie uniemożliwiony.
-assessment#:#tst_allowed_users_max#:#Maksymalna liczba
-assessment#:#tst_allowed_users_time_gap#:#Czas bezczynności dla aktywnych użytkowników
-assessment#:#tst_allowed_users_time_gap_desc#:#Uczestnicy, którzy w ciągu podanych sekund nie klikną na żadną z opcji, zostaną sklasyfikowany jako 'nieaktywni' i usunięci z testu.
 assessment#:#tst_already_submitted#:#Test został ukończony i przedstawiony do oceny
 assessment#:#tst_analysis#:#Analiza
 assessment#:#tst_anonymity#:#Anonimowość
@@ -1373,19 +1322,6 @@ assessment#:#tst_derive_new_pool#:#Utwórz nową pulę pytań
 assessment#:#tst_derive_new_pools#:#Utwórz nowe pule pytań
 assessment#:#tst_dont_show_msg_again_in_current_session#:#Don't show this message again in my current session.
 assessment#:#tst_dont_use_previous_answers#:#Twoje poprzednie odpowiedzi nie będą użyte jako domyślne wartości w następnych wykonaniach testu
-assessment#:#tst_dyn_keep_answ_freeze#:#Zachowaj udzielone odpowiedzi
-assessment#:#tst_dyn_quest_set_pool_deleted#:#Usunięto aktualnie skonfigurowaną pulę pytań "%s".
-assessment#:#tst_dyn_quest_set_src_qpl_summary_string_deleted#:#%s (ostatecznie usunięte)
-assessment#:#tst_dyn_quest_set_src_qpl_summary_string_trashed#:#%s (aktualnie w koszu) [%s pytania]
-assessment#:#tst_dyn_test_msg_currently_finished_completely#:#Aktualnie udzieliłeś odpowiedzi na wszystkie pytania z puli pytań źródłowych. Jeśli w puli pytań źródłowych będą znajdować się nowe lub edytowane pytania, będziesz mógł kontynuować test.
-assessment#:#tst_dyn_test_msg_currently_finished_selection#:#Udzieliłeś prawidłowych odpowiedzi na wszystkie aktualnie wybrane pytania. Aby kontynuować test, zmień wybór pytań.
-assessment#:#tst_dyn_test_msg_pass_deletion_link#:#Usuń dotychczasowe odpowiedzi
-assessment#:#tst_dyn_test_pass_deletion_button#:#Cofnij wszelkie odpowiedzi testowe
-assessment#:#tst_dyn_unfreeze_answers#:#Ponownie odpowiedz na pytania
-assessment#:#tst_dyn_unfreeze_answers_confirmation#:#Zawiera pytania, dla których zapisano Twoje początkowe odpowiedzi, dlatego nie ma możliwości ich edytowania. Czy chcesz na te pytania udzielić ponownych odpowiedzi i anulować te już zapisane?
-assessment#:#tst_dynamic_question_set_complete#:#Status przetwarzania wszystkich dostępnych pytań
-assessment#:#tst_dynamic_question_set_selection#:#Wybór pytań testowych i statystyka wyboru
-assessment#:#tst_dynamic_question_set_source_questionpool_summary_string#:#%s (ścieżka: %s) [%s pytania]
 assessment#:#tst_edit_competence_assign#:#Przetwarzaj właściwości przydziału
 assessment#:#tst_edit_scoring#:#Edytuj punktację
 assessment#:#tst_ending_time#:#Czas ukończenia
@@ -1422,7 +1358,7 @@ assessment#:#tst_finish_confirm_cancel_button#:#Nie, powrót do poprzedniej odpo
 assessment#:#tst_finish_confirmation_question#:#Kończysz test i wyczerpałeś wszystkie próby. Już nie będziesz mógł powtórzyć tego testu aby zmienić odpowiedzi. Na pewno chcesz skończyć test?
 assessment#:#tst_finish_notification#:#Mail po zakończeniu
 assessment#:#tst_finish_notification_advanced#:#Wyślij wynik testu do uczestnika testu
-assessment#:#tst_finish_notification_content#:#Treść wiadomości
+assessment#:#tst_finish_notification_content_type#:#Treść wiadomości
 assessment#:#tst_finish_notification_desc#:#Właściciel testu otrzyma dla każdego uczestnika, który ukończył test, wiadomość mailową zawierającą następujące informacje.
 assessment#:#tst_finish_notification_no#:#Brak wiadomości
 assessment#:#tst_finish_notification_simple#:#Tylko nazwa użytkownika oraz data ukończenia
@@ -1535,8 +1471,6 @@ assessment#:#tst_mark_minimum_level#:#Minimalny poziom (w %)
 assessment#:#tst_mark_official_form#:#Oficjalna forma
 assessment#:#tst_mark_passed#:#Wykonany
 assessment#:#tst_mark_short_form#:#Krótka forma
-assessment#:#tst_max_allowed_users_heading#:#Została przekroczona maksymalna liczba jednocześnie wykonujących test.
-assessment#:#tst_max_allowed_users_message#:#Została przekroczona maksymalna liczba jednocześnie aktywnych użytkowników teście. Spróbuj później rozpocząć lub odzyskać test. Jeśli jeden z aktywnych użytkowników będzie bezczynny więcej niż %s sekund, to będziesz mógł podejść do testu. Dziękujemy za zrozumienie i cierpliwość.
 assessment#:#tst_max_comp_points#:#Maks. liczba punktów kompetencyjnych
 assessment#:#tst_maximum_points#:#Maksimum punktów
 assessment#:#tst_mc_label_none_above#:#Żadna z powyższych odpowiedzi
@@ -1738,6 +1672,7 @@ assessment#:#tst_questions_hints_toolbar_cmd_reset_ordering_clipboard#:#Wyzeruj 
 assessment#:#tst_questions_inserted#:#Pytania wstawione!
 assessment#:#tst_questions_removed#:#Pytania usunięte!
 assessment#:#tst_random_nr_of_questions#:#Ile pytań?
+assessment#:#tst_random_question_set_source_questionpool_summary_string#:#%s (ścieżka: %s) [%s pytania]
 assessment#:#tst_random_select_questionpool#:#Wybierz pulę pytań dla wyboru pytań.
 assessment#:#tst_reached_points#:#Osiągnięte punkty
 assessment#:#tst_reached_points_of_max#:#%s of %s###07 02 2020 new variable
@@ -3301,7 +3236,6 @@ cntr#:#cntr_view_info_sessions#:#Sesje pokazywane są w jednej liście. Obiekty,
 cntr#:#cntr_view_info_simple#:#Wszystkie obiekty przedstawiane są tylko w jednej liście.
 cntr#:#cntr_view_sessions#:#Widok sesji
 cntr#:#cntr_view_simple#:#Prosta lista
-cntr#:#cont_custom_icon#:#Custom Icon
 cntr#:#container_import_zip_file_invalid#:#Załadowany plik nie jest ważnym plikiem eksportowym ILIAS. Aby załadować struktury indeksu, należy użyć obiektu pliku.
 cntr#:#edit_questions#:#Edytuj pytania
 cntr#:#exc_next_deadline_single#:#Termin oddania
@@ -10868,7 +10802,7 @@ mathjax#:#mathjax_polyfill_url#:#Url of a Polyfill###29 07 2022 new variable
 mathjax#:#mathjax_polyfill_url_desc_line1#:#For MathJax 2 not needed###29 07 2022 new variable
 mathjax#:#mathjax_polyfill_url_desc_line2#:#For MathJax 3 e.g. https://polyfill.io/v3/polyfill.min.js?features=es6###29 07 2022 new variable
 mathjax#:#mathjax_script_url#:#URL of the MathJax Script###29 07 2022 new variable
-mathjax#:#mathjax_script_url_desc_line1#:#For MathJax 2 e.g. https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_CHTML###29 07 2022 new variable
+mathjax#:#mathjax_script_url_desc_line1#:#For MathJax 2 e.g. https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML,Safe###29 07 2022 new variable
 mathjax#:#mathjax_script_url_desc_line2#:#For MathJax 3 e.g. https://cdn.jsdelivr.net/npm/mathjax@3.0.1/es5/tex-mml-chtml.js###29 07 2022 new variable
 mathjax#:#mathjax_server_address#:#Adres serwera
 mathjax#:#mathjax_server_address_info#:#np. http://localhost:8003
@@ -12001,6 +11935,7 @@ notification_adm#:#play_sound_desc#:#Play a sound when receiving a new notficiat
 obj#:#cont_filter_empty#:#Please use the filter to see any objects.###07 02 2020 new variable
 obj#:#cont_skll_published#:#Przydziały kompetencji zostały opublikowane.
 obj#:#cont_skll_published_some_not#:#Wszystkie przydzielone kompetencje zostały opublikowane. Dla niektórych użytkowników nie udało się opublikować kompetencji, ponieważ nie zostały przydzielone.
+obj#:#custom_icon#:#Custom Icon
 obj#:#edit_questions#:#Edytuj pytania
 obj#:#obj_activate_content_lang#:#Aktywuj opcję treści w wielu językach dla edytora stron
 obj#:#obj_activate_multilang#:#Aktywuj opcję treści w wielu językach

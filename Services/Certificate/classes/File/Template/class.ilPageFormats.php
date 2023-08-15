@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,22 +16,20 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
-/**
- * @author  Niels Theen <ntheen@databay.de>
- */
+declare(strict_types=1);
+
 class ilPageFormats
 {
-    public const DEFAULT_MARGIN_BODY_TOP = '0cm';
-    public const DEFAULT_MARGIN_BODY_RIGHT = '2cm';
-    public const DEFAULT_MARGIN_BODY_BOTTOM = '0cm';
-    public const DEFAULT_MARGIN_BODY_LEFT = '2cm';
+    final public const DEFAULT_MARGIN_BODY_TOP = '0cm';
+    final public const DEFAULT_MARGIN_BODY_RIGHT = '2cm';
+    final public const DEFAULT_MARGIN_BODY_BOTTOM = '0cm';
+    final public const DEFAULT_MARGIN_BODY_LEFT = '2cm';
 
-    public function __construct(private ilLanguage $language)
+    public function __construct(private readonly ilLanguage $language)
     {
     }
 
     /**
-     * Retrieves predefined page formats
      * @return array{a4: array{name: string, value: string, width: string, height: string}, a4landscape: array{name: string, value: string, width: string, height: string}, a5: array{name: string, value: string, width: string, height: string}, a5landscape: array{name: string, value: string, width: string, height: string}, letter: array{name: string, value: string, width: string, height: string}, letterlandscape: array{name: string, value: string, width: string, height: string}, custom: array{name: string, value: string, width: string, height: string}}
      */
     public function fetchPageFormats(): array

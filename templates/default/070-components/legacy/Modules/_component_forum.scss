@@ -1,12 +1,13 @@
 @use "../../../010-settings/" as *;
-@use "../../../020-dependencies/modifications/bootstrap-3-scss/bootstrap-3-scss-modified-variables-mixins" as btstrp3;
+@use "../../../050-layout/layout_breakpoints" as *;
 @use "../../../050-layout/basics" as *;
 
 /* Modules/Forum */
 
 $il-posting-left-border-width: $il-padding-small-horizontal;
 $il-posting-by-moderator-bg: $il-extended-color-1;
-$il-posting-needs-moderation-bg: $il-extended-color-6;
+$il-posting-needs-moderation-bg: $il-warning-color;
+$il-posting-needs-moderation-admin_presentation: $il-danger-color;
 $il-posting-censored-bg: $il-warning-color;
 
 a.postread, a.postread:visited {
@@ -52,7 +53,7 @@ div.ilForumQuoteHead {
 		margin: $il-margin-xlarge-vertical $il-margin-xxxlarge-horizontal $il-margin-xlarge-vertical $il-margin-small-horizontal;
 		border: none;
 		max-width: 100%;
-		@media only screen and (min-width: btstrp3.$grid-float-breakpoint) {
+		@media only screen and (min-width: $il-grid-float-breakpoint) {
 			margin: 0 !important;
 			padding: $il-padding-large-vertical $il-padding-base-horizontal $il-padding-xlarge-vertical $il-padding-small-horizontal;
 		}
@@ -149,7 +150,7 @@ li.ilFrmPostRow {
 	}
 }
 
-@media only screen and (min-width: btstrp3.$screen-lg-desktop) {
+@media only screen and (min-width: $screen-lg-desktop) {
 	.sort_by_posts .ilFrmPostRow {
 		&.ilFrmPost-level-2 {
 			padding-left: 50px;
@@ -220,6 +221,10 @@ li.ilPostingNeedsActivation {
 	display: inline-block;
 }
 
+.ilFrmPostActivationStatus {
+	color: $il-warning-color;
+}
+
 .ilForumTreeTitleUnread {
 	font-weight: $il-font-weight-bold;
 }
@@ -245,4 +250,12 @@ li.ilPostingNeedsActivation {
 
 .ilForumDraftHistoryEntry {
 	padding: 5px;
+}
+
+.ilForumInlineCommandContainer {
+	display: flex;
+}
+
+.ilForumInlineCommandContainer > div {
+	margin-left: 10px;
 }

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,10 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
+
+use ILIAS\Modules\File\Settings\General;
 
 /**
  * Class ilObjFileServices
@@ -41,7 +43,9 @@ class ilFileServicesSettings
         ilDBInterface $db
     ) {
         $this->db = $db;
-        $this->convert_to_ascii = (bool) !$client_ini->readVariable('file_access', 'disable_ascii');
+
+        $general_settings = new General();
+        $this->convert_to_ascii = $general_settings->isDownloadWithAsciiFileName();
         $this->settings = $settings;
         /** @noRector */
         $this->white_list_default = include "./Services/FileServices/defaults/default_whitelist.php";

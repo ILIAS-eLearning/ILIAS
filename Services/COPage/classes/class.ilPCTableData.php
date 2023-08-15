@@ -22,7 +22,7 @@
  */
 class ilPCTableData extends ilPageContent
 {
-    protected php4DOMElement $table_pc_node;
+    protected DOMNode $table_pc_node;
 
     public function init(): void
     {
@@ -32,19 +32,19 @@ class ilPCTableData extends ilPageContent
     public function newRowAfter(): void
     {
         $this->initTablePCNode();
-        $td = $this->getNode();
-        $parent_tr = $td->parent_node();
-        $new_tr = $parent_tr->clone_node(true);
+        $td = $this->getDomNode();
+        $parent_tr = $td->parentNode;
+        $new_tr = $parent_tr->cloneNode(true);
 
         // remove pc ids
-        if ($new_tr->has_attribute("PCID")) {
-            $new_tr->remove_attribute("PCID");
+        if ($new_tr->hasAttribute("PCID")) {
+            $new_tr->removeAttribute("PCID");
         }
-        if ($next_tr = $parent_tr->next_sibling()) {
-            $new_tr = $next_tr->insert_before($new_tr, $next_tr);
+        if ($next_tr = $parent_tr->nextSibling) {
+            $new_tr = $next_tr->parentNode->insertBefore($new_tr, $next_tr);
         } else {
-            $parent_table = $parent_tr->parent_node();
-            $new_tr = $parent_table->append_child($new_tr);
+            $parent_table = $parent_tr->parentNode;
+            $new_tr = $parent_table->appendChild($new_tr);
         }
 
         // remove td content of new row
@@ -56,12 +56,12 @@ class ilPCTableData extends ilPageContent
     public function newRowBefore(): void
     {
         $this->initTablePCNode();
-        $td = $this->getNode();
-        $parent_tr = $td->parent_node();
-        $new_tr = $parent_tr->clone_node(true);
-        $new_tr = $parent_tr->insert_before($new_tr, $parent_tr);
-        if ($new_tr->has_attribute("PCID")) {
-            $new_tr->remove_attribute("PCID");
+        $td = $this->getDomNode();
+        $parent_tr = $td->parentNode;
+        $new_tr = $parent_tr->cloneNode(true);
+        $new_tr = $parent_tr->parentNode->insertBefore($new_tr, $parent_tr);
+        if ($new_tr->hasAttribute("PCID")) {
+            $new_tr->removeAttribute("PCID");
         }
 
         // remove td content of new row
@@ -74,17 +74,15 @@ class ilPCTableData extends ilPageContent
      * delete content of cells of a row (not the cells itself)
      */
     public function deleteRowContent(
-        php4DOMElement $a_row_node
+        DOMNode $a_row_node
     ): void {
         // remove td content of row
-        $tds = $a_row_node->child_nodes();
-        for ($i = 0; $i < count($tds); $i++) {
-            if ($tds[$i]->has_attribute("PCID")) {
-                $tds[$i]->remove_attribute("PCID");
+        foreach ($a_row_node->childNodes as $td) {
+            if ($td->hasAttribute("PCID")) {
+                $td->removeAttribute("PCID");
             }
-            $td_childs = $tds[$i]->child_nodes();
-            for ($j = 0; $j < count($td_childs); $j++) {
-                $tds[$i]->remove_child($td_childs[$j]);
+            foreach ($td->childNodes as $c) {
+                $td->removeChild($c);
             }
         }
     }
@@ -93,27 +91,26 @@ class ilPCTableData extends ilPageContent
      * delete content of a cell (not the cell itself)
      */
     public function deleteTDContent(
-        php4DOMElement $a_td_node
+        DOMNode $a_td_node
     ): void {
-        $td_childs = $a_td_node->child_nodes();
-        for ($j = 0; $j < count($td_childs); $j++) {
-            $a_td_node->remove_child($td_childs[$j]);
+        foreach ($a_td_node->childNodes as $child) {
+            $a_td_node->removeChild($child);
         }
     }
 
     public function deleteRow(): void
     {
         $this->initTablePCNode();
-        $td = $this->getNode();
-        $parent_tr = $td->parent_node();
-        $parent_tr->unlink($parent_tr);
+        $td = $this->getDomNode();
+        $parent_tr = $td->parentNode;
+        $parent_tr->parentNode->removeChild($parent_tr);
         $this->fixHideAndSpans();
     }
 
     public function newColAfter(): void
     {
         $this->initTablePCNode();
-        $td = $this->getNode();
+        $td = $this->getDomNode();
 
         // determine current column nr
         $hier_id = $this->getHierId();
@@ -121,26 +118,26 @@ class ilPCTableData extends ilPageContent
         $col_nr = array_pop($parts);
         $col_nr--;
 
-        $parent_tr = $td->parent_node();
-        $parent_table = $parent_tr->parent_node();
+        $parent_tr = $td->parentNode;
+        $parent_table = $parent_tr->parentNode;
 
         // iterate all table rows
-        $rows = $parent_table->child_nodes();
-        for ($i = 0; $i < count($rows); $i++) {
-            if ($rows[$i]->node_name() == "TableRow") {
+        foreach ($parent_table->childNodes as $row) {
+            if ($row->nodeName == "TableRow") {
                 // clone td at $col_nr
-                $tds = $rows[$i]->child_nodes();
-                $new_td = $tds[$col_nr]->clone_node(true);
+                $tds = $row->childNodes;
+                $old_td = $tds->item($col_nr);
+                $new_td = $old_td->cloneNode(true);
 
-                if ($new_td->has_attribute("PCID")) {
-                    $new_td->remove_attribute("PCID");
+                if ($new_td->hasAttribute("PCID")) {
+                    $new_td->removeAttribute("PCID");
                 }
 
                 // insert clone after $col_nr
-                if ($next_td = $tds[$col_nr]->next_sibling()) {
-                    $new_td = $next_td->insert_before($new_td, $next_td);
+                if ($next_td = $old_td->nextSibling) {
+                    $new_td = $next_td->parentNode->insertBefore($new_td, $next_td);
                 } else {
-                    $new_td = $rows[$i]->append_child($new_td);
+                    $new_td = $row->appendChild($new_td);
                 }
                 $this->deleteTDContent($new_td);
             }
@@ -151,30 +148,30 @@ class ilPCTableData extends ilPageContent
     public function newColBefore(): void
     {
         $this->initTablePCNode();
-        $td = $this->getNode();
+        $td = $this->getDomNode();
 
         // determine current column nr
         $hier_id = $this->getHierId();
         $parts = explode("_", $hier_id);
         $col_nr = array_pop($parts);
         $col_nr--;
-        $parent_tr = $td->parent_node();
-        $parent_table = $parent_tr->parent_node();
+        $parent_tr = $td->parentNode;
+        $parent_table = $parent_tr->parentNode;
 
         // iterate all table rows
-        $rows = $parent_table->child_nodes();
-        for ($i = 0; $i < count($rows); $i++) {
-            if ($rows[$i]->node_name() == "TableRow") {
+        foreach ($parent_table->childNodes as $row) {
+            if ($row->nodeName == "TableRow") {
                 // clone td at $col_nr
-                $tds = $rows[$i]->child_nodes();
-                $new_td = $tds[$col_nr]->clone_node(true);
+                $tds = $row->childNodes;
+                $old_td = $tds->item($col_nr);
+                $new_td = $old_td->cloneNode(true);
 
-                if ($new_td->has_attribute("PCID")) {
-                    $new_td->remove_attribute("PCID");
+                if ($new_td->hasAttribute("PCID")) {
+                    $new_td->removeAttribute("PCID");
                 }
 
                 // insert clone before $col_nr
-                $new_td = $tds[$col_nr]->insert_before($new_td, $tds[$col_nr]);
+                $new_td = $old_td->parentNode->insertBefore($new_td, $old_td);
                 $this->deleteTDContent($new_td);
             }
         }
@@ -184,7 +181,7 @@ class ilPCTableData extends ilPageContent
     public function deleteCol(): void
     {
         $this->initTablePCNode();
-        $td = $this->getNode();
+        $td = $this->getDomNode();
 
         // determine current column nr
         $hier_id = $this->getHierId();
@@ -192,16 +189,15 @@ class ilPCTableData extends ilPageContent
         $col_nr = array_pop($parts);
         $col_nr--;
 
-        $parent_tr = $td->parent_node();
-        $parent_table = $parent_tr->parent_node();
+        $parent_tr = $td->parentNode;
+        $parent_table = $parent_tr->parentNode;
 
         // iterate all table rows
-        $rows = $parent_table->child_nodes();
-        for ($i = 0; $i < count($rows); $i++) {
-            if ($rows[$i]->node_name() == "TableRow") {
+        foreach ($parent_table->childNodes as $row) {
+            if ($row->nodeName == "TableRow") {
                 // unlink td at $col_nr
-                $tds = $rows[$i]->child_nodes();
-                $tds[$col_nr]->unlink($tds[$col_nr]);
+                $tds = $row->childNodes;
+                $tds->item($col_nr)->parentNode->removeChild($tds->item($col_nr));
             }
         }
         $this->fixHideAndSpans();
@@ -210,31 +206,31 @@ class ilPCTableData extends ilPageContent
     public function moveRowDown(): void
     {
         $this->initTablePCNode();
-        $td = $this->getNode();
-        $tr = $td->parent_node();
-        $next = $tr->next_sibling();
-        $next_copy = $next->clone_node(true);
-        $next_copy = $tr->insert_before($next_copy, $tr);
-        $next->unlink($next);
+        $td = $this->getDomNode();
+        $tr = $td->parentNode;
+        $next = $tr->nextSibling;
+        $next_copy = $next->cloneNode(true);
+        $next_copy = $tr->parentNode->insertBefore($next_copy, $tr);
+        $next->parentNode->removeChild($next);
         $this->fixHideAndSpans();
     }
 
     public function moveRowUp(): void
     {
         $this->initTablePCNode();
-        $td = $this->getNode();
-        $tr = $td->parent_node();
-        $prev = $tr->previous_sibling();
-        $tr_copy = $tr->clone_node(true);
-        $tr_copy = $prev->insert_before($tr_copy, $prev);
-        $tr->unlink($tr);
+        $td = $this->getDomNode();
+        $tr = $td->parentNode;
+        $prev = $tr->previousSibling;
+        $tr_copy = $tr->cloneNode(true);
+        $tr_copy = $prev->parentNode->insertBefore($tr_copy, $prev);
+        $tr->parentNode->removeChild($tr);
         $this->fixHideAndSpans();
     }
 
     public function moveColRight(): void
     {
         $this->initTablePCNode();
-        $td = $this->getNode();
+        $td = $this->getDomNode();
 
         // determine current column nr
         $hier_id = $this->getHierId();
@@ -242,20 +238,18 @@ class ilPCTableData extends ilPageContent
         $col_nr = array_pop($parts);
         $col_nr--;
 
-        $parent_tr = $td->parent_node();
-        $parent_table = $parent_tr->parent_node();
+        $parent_tr = $td->parentNode;
+        $parent_table = $parent_tr->parentNode;
 
         // iterate all table rows
-        $rows = $parent_table->child_nodes();
-        for ($i = 0; $i < count($rows); $i++) {
-            if ($rows[$i]->node_name() == "TableRow") {
-                $tds = $rows[$i]->child_nodes();
-                $td = $tds[$col_nr];
-                //$td = $this->getNode();
-                $next = $td->next_sibling();
-                $next_copy = $next->clone_node(true);
-                $next_copy = $td->insert_before($next_copy, $td);
-                $next->unlink($next);
+        foreach ($parent_table->childNodes as $row) {
+            if ($row->nodeName == "TableRow") {
+                $tds = $row->childNodes;
+                $td = $tds->item($col_nr);
+                $next = $td->nextSibling;
+                $next_copy = $next->cloneNode(true);
+                $next_copy = $td->parentNode->insertBefore($next_copy, $td);
+                $next->parentNode->removeChild($next);
             }
         }
         $this->fixHideAndSpans();
@@ -264,7 +258,7 @@ class ilPCTableData extends ilPageContent
     public function moveColLeft(): void
     {
         $this->initTablePCNode();
-        $td = $this->getNode();
+        $td = $this->getDomNode();
 
         // determine current column nr
         $hier_id = $this->getHierId();
@@ -272,19 +266,18 @@ class ilPCTableData extends ilPageContent
         $col_nr = array_pop($parts);
         $col_nr--;
 
-        $parent_tr = $td->parent_node();
-        $parent_table = $parent_tr->parent_node();
+        $parent_tr = $td->parentNode;
+        $parent_table = $parent_tr->parentNode;
 
         // iterate all table rows
-        $rows = $parent_table->child_nodes();
-        for ($i = 0; $i < count($rows); $i++) {
-            if ($rows[$i]->node_name() == "TableRow") {
-                $tds = $rows[$i]->child_nodes();
-                $td = $tds[$col_nr];
-                $prev = $td->previous_sibling();
-                $td_copy = $td->clone_node(true);
-                $td_copy = $prev->insert_before($td_copy, $prev);
-                $td->unlink($td);
+        foreach ($parent_table->childNodes as $row) {
+            if ($row->nodeName == "TableRow") {
+                $tds = $row->childNodes;
+                $td = $tds->item($col_nr);
+                $prev = $td->previousSibling;
+                $td_copy = $td->cloneNode(true);
+                $td_copy = $prev->parentNode->insertBefore($td_copy, $prev);
+                $td->parentNode->removeChild($td);
             }
         }
         $this->fixHideAndSpans();
@@ -292,16 +285,16 @@ class ilPCTableData extends ilPageContent
 
     public function initTablePCNode(): void
     {
-        $td = $this->getNode();
-        $tr = $td->parent_node();
-        $table = $tr->parent_node();
-        $this->table_pc_node = $table->parent_node();
+        $td = $this->getDomNode();
+        $tr = $td->parentNode;
+        $table = $tr->parentNode;
+        $this->table_pc_node = $table->parentNode;
     }
 
     public function fixHideAndSpans(): void
     {
         $table_obj = new ilPCTable($this->getPage());
-        $table_obj->setNode($this->table_pc_node);
+        $table_obj->setDomNode($this->table_pc_node);
         $table_obj->readHierId();
         $table_obj->readPCId();
         $table_obj->fixHideAndSpans();

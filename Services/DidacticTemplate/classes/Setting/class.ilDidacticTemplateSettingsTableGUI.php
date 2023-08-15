@@ -3,6 +3,9 @@
 declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\UI\Implementation\Factory as UIImplementationFactory;
+use ILIAS\UI\Renderer as UIRenderer;
+
 /**
  * Description of ilDidacticTemplateSettingsTableGUI
  * @author  Stefan Meyer <meyer@leifos.com>
@@ -13,12 +16,18 @@ class ilDidacticTemplateSettingsTableGUI extends ilTable2GUI
     private $ref_id;
 
     private ilAccessHandler $access;
+    private UIRenderer $renderer;
+    private UIImplementationFactory $uiFactory;
 
     public function __construct(object $a_parent_obj, string $a_parent_cmd, int $ref_id)
     {
         global $DIC;
         $this->ref_id = $ref_id;
         parent::__construct($a_parent_obj, $a_parent_cmd);
+
+        $this->renderer = $DIC->ui()->renderer();
+        $this->uiFactory = $DIC->ui()->factory();
+
         $this->setId('tbl_didactic_tpl_settings');
 
         $this->access = $DIC->access();
@@ -164,30 +173,23 @@ class ilDidacticTemplateSettingsTableGUI extends ilTable2GUI
         }
 
         if ($this->access->checkAccess('write', '', $this->ref_id)) {
-            $actions = new ilAdvancedSelectionListGUI();
-            $actions->setId((string) $a_set['id']);
-            $actions->setListTitle($this->lng->txt("actions"));
-            // Edit
-            $actions->addItem(
-                $this->lng->txt('settings'),
-                '',
-                $this->ctrl->getLinkTargetByClass(get_class($this->getParentObject()), 'editTemplate')
+            $dropDownItems = array(
+                $this->uiFactory->button()->shy(
+                    $this->lng->txt('settings'),
+                    $this->ctrl->getLinkTargetByClass(get_class($this->getParentObject()), 'editTemplate')
+                ),
+                $this->uiFactory->button()->shy(
+                    $this->lng->txt('copy'),
+                    $this->ctrl->getLinkTargetByClass(get_class($this->getParentObject()), 'copyTemplate')
+                ),
+                $this->uiFactory->button()->shy(
+                    $this->lng->txt('didactic_do_export'),
+                    $this->ctrl->getLinkTargetByClass(get_class($this->getParentObject()), 'exportTemplate')
+                )
             );
-
-            // Copy
-            $actions->addItem(
-                $this->lng->txt('copy'),
-                '',
-                $this->ctrl->getLinkTargetByClass(get_class($this->getParentObject()), 'copyTemplate')
-            );
-
-            // Export
-            $actions->addItem(
-                $this->lng->txt('didactic_do_export'),
-                '',
-                $this->ctrl->getLinkTargetByClass(get_class($this->getParentObject()), 'exportTemplate')
-            );
-            $this->tpl->setVariable('ACTION_DROPDOWN', $actions->getHTML());
+            $dropDown = $this->uiFactory->dropdown()->standard($dropDownItems)
+                    ->withLabel($this->lng->txt("actions"));
+            $this->tpl->setVariable('ACTION_DROPDOWN', $this->renderer->render($dropDown));
         } else {
             //don't use dropdown if just one item is given ...
             // Export

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\ContentPage\PageMetrics;
 
@@ -36,13 +36,10 @@ use ILIAS\ContentPage\PageMetrics\Command\GetPageMetricsCommand;
  */
 final class PageMetricsService implements ilContentPageObjectConstants
 {
-    private PageMetricsRepository $pageMetricsRepository;
-    private Factory $refinery;
-
-    public function __construct(PageMetricsRepository $pageMetricsRepository, Factory $refinery)
-    {
-        $this->pageMetricsRepository = $pageMetricsRepository;
-        $this->refinery = $refinery;
+    public function __construct(
+        private readonly PageMetricsRepository $pageMetricsRepository,
+        private readonly Factory $refinery
+    ) {
     }
 
     protected function doesPageExistsForLanguage(int $contentPageId, string $language): bool
@@ -62,7 +59,6 @@ final class PageMetricsService implements ilContentPageObjectConstants
     }
 
     /**
-     * @param StorePageMetricsCommand $command
      * @throws ilException
      */
     public function store(StorePageMetricsCommand $command): void
@@ -90,8 +86,6 @@ final class PageMetricsService implements ilContentPageObjectConstants
     }
 
     /**
-     * @param GetPageMetricsCommand $command
-     * @return PageMetrics
      * @throws CouldNotFindPageMetrics
      */
     public function get(GetPageMetricsCommand $command): PageMetrics

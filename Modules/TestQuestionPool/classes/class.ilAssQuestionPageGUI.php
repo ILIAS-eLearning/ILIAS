@@ -16,9 +16,6 @@
  *
  *********************************************************************/
 
-require_once('./Services/COPage/classes/class.ilPageObjectGUI.php');
-require_once('./Modules/TestQuestionPool/classes/class.ilAssQuestionPage.php');
-
 /**
  * Question page GUI class
  *
@@ -35,12 +32,9 @@ class ilAssQuestionPageGUI extends ilPageObjectGUI
     public const TEMP_PRESENTATION_TITLE_PLACEHOLDER = '___TEMP_PRESENTATION_TITLE_PLACEHOLDER___';
 
     private $originalPresentationTitle = '';
-
-    // fau: testNav - variables for info and actions HTML
     private $questionInfoHTML = '';
     private $questionActionsHTML = '';
-    // fau.
-    protected \ILIAS\TestQuestionPool\InternalRequestService $testrequest;
+
 
     /**
      * Constructor
@@ -51,9 +45,21 @@ class ilAssQuestionPageGUI extends ilPageObjectGUI
     public function __construct($a_id = 0, $a_old_nr = 0)
     {
         global $DIC;
-        $this->testrequest = $DIC->testQuestionPool()->internal()->request();
+        $cmd_class = '';
+        if ($DIC->http()->wrapper()->query()->has('cmdClass')) {
+            $cmd_class = $DIC->http()->wrapper()->query()->retrieve(
+                'cmdClass',
+                $DIC->refinery()->kindlyTo()->string()
+            );
+        }
+
         parent::__construct('qpl', $a_id, $a_old_nr);
         $this->setEnabledPageFocus(false);
+        if (strtolower($cmd_class) === 'ilassquestionpreviewgui') {
+            $this->setFileDownloadLink($this->ctrl->getLinkTargetByClass(ilObjQuestionPoolGUI::class, 'downloadFile'));
+        } else {
+            $this->setFileDownloadLink($this->ctrl->getLinkTargetByClass(ilObjTestGUI::class, 'downloadFile'));
+        }
     }
 
     public function getOriginalPresentationTitle(): string

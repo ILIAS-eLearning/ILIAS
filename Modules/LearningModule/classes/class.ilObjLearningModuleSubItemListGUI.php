@@ -49,7 +49,7 @@ class ilObjLearningModuleSubItemListGUI extends ilSubItemListGUI
 
             switch (ilLMObject::_lookupType($sub_item, $this->getObjId())) {
                 case 'pg':
-                    $this->getItemListGUI()->setChildId($sub_item);
+                    $this->getItemListGUI()->setChildId((string) $sub_item);
                     $this->tpl->setVariable("SUBITEM_TYPE", $lng->txt('obj_pg'));
                     $link = $this->getItemListGUI()->getCommandLink('page');
                     $link .= ('&srcstring=1');
@@ -60,7 +60,7 @@ class ilObjLearningModuleSubItemListGUI extends ilSubItemListGUI
 
                 case 'st':
 
-                    $this->getItemListGUI()->setChildId($sub_item);
+                    $this->getItemListGUI()->setChildId((string) $sub_item);
                     $this->tpl->setVariable("SUBITEM_TYPE", $lng->txt('obj_st'));
                     $link = $this->getItemListGUI()->getCommandLink('page');
                     $link .= ('&srcstring=1');

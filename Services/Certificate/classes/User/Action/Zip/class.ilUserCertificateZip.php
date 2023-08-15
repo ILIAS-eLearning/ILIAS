@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,18 +16,20 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
 class ilUserCertificateZip
 {
-    private string $typeInFileName;
+    private readonly string $typeInFileName;
 
     public function __construct(
-        private int $objectId,
-        private string $certificatePath,
-        private string $webDirectory = CLIENT_WEB_DIR,
-        private string $installionId = IL_INST_ID
+        private readonly int $objectId,
+        private readonly string $certificatePath,
+        private readonly string $webDirectory = CLIENT_WEB_DIR,
+        private readonly string $installionId = IL_INST_ID
     ) {
         // The mapping to types is made to reflect the old behaviour of
         // the adapters

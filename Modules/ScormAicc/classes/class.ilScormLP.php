@@ -91,9 +91,9 @@ class ilScormLP extends ilObjectLP
      */
     public function getCurrentMode(): int
     {
-//        if ($this->checkSCORMPreconditions()) {
-//            return ilLPObjSettings::LP_MODE_SCORM;
-//        }
+        //        if ($this->checkSCORMPreconditions()) {
+        //            return ilLPObjSettings::LP_MODE_SCORM;
+        //        }
         return parent::getCurrentMode();
     }
 

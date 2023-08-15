@@ -25,8 +25,12 @@ use ILIAS\ResourceStorage\Identification\ResourceIdentification;
  */
 class ilObjFileUnzipFlatProcessor extends ilObjFileAbstractZipProcessor
 {
-    public function process(ResourceIdentification $rid, array $options = []): void
-    {
+    public function process(
+        ResourceIdentification $rid,
+        string $title = null,
+        string $description = null,
+        int $copyright_id = null
+    ): void {
         $this->openZip($rid);
 
         $parent_id = $this->gui_object->getParentId();
@@ -40,10 +44,9 @@ class ilObjFileUnzipFlatProcessor extends ilObjFileAbstractZipProcessor
         foreach ($files as $file_path) {
             if (substr($file_path, -1) !== DIRECTORY_SEPARATOR) {
                 $rid = $this->storeZippedFile($file_path);
-                // $options is ignored, as flat-unzip stores the content directly
+                // $file_name and $description are ignored, as flat-unzip stores the content directly
                 // within the provided parent object.
-
-                $this->createFileObj($rid, $parent_id, [], true);
+                $file_obj = $this->createFileObj($rid, $parent_id, null, null, $copyright_id, true);
             }
         }
 

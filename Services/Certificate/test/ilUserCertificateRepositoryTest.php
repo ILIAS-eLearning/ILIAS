@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * @author  Niels Theen <ntheen@databay.de>
@@ -39,7 +39,7 @@ class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
                 'obj_type' => ['text',  'crs'],
                 'usr_id' => ['integer', 400],
                 'user_name' => ['text', 'Niels Theen'],
-                'acquired_timestamp' => ['integer', 123456789],
+                'acquired_timestamp' => ['integer', 123_456_789],
                 'certificate_content' => ['clob', '<xml>Some Content</xml>'],
                 'template_values' => ['clob', '[]'],
                 'valid_until' => ['integer', null],
@@ -70,7 +70,7 @@ class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
             'crs',
             400,
             'Niels Theen',
-            123456789,
+            123_456_789,
             '<xml>Some Content</xml>',
             '[]',
             null,
@@ -99,7 +99,7 @@ class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
                 'obj_type' => 'crs',
                 'usr_id' => 400,
                 'user_name' => 'Niels Theen',
-                'acquired_timestamp' => 123456789,
+                'acquired_timestamp' => 123_456_789,
                 'certificate_content' => '<xml>Some Content</xml>',
                 'template_values' => '[]',
                 'valid_until' => null,
@@ -117,7 +117,7 @@ class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
                 'obj_type' => 'tst',
                 'usr_id' => 400,
                 'user_name' => 'Niels Theen',
-                'acquired_timestamp' => 987654321,
+                'acquired_timestamp' => 987_654_321,
                 'certificate_content' => '<xml>Some Other Content</xml>',
                 'template_values' => '[]',
                 'valid_until' => null,
@@ -164,7 +164,7 @@ class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
                 'obj_type' => 'crs',
                 'usr_id' => 400,
                 'user_name' => 'Niels Theen',
-                'acquired_timestamp' => 123456789,
+                'acquired_timestamp' => 123_456_789,
                 'certificate_content' => '<xml>Some Content</xml>',
                 'template_values' => '[]',
                 'valid_until' => null,
@@ -181,7 +181,7 @@ class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
                 'obj_type' => 'tst',
                 'usr_id' => 400,
                 'user_name' => 'Niels Theen',
-                'acquired_timestamp' => 987654321,
+                'acquired_timestamp' => 987_654_321,
                 'certificate_content' => '<xml>Some Other Content</xml>',
                 'template_values' => '[]',
                 'valid_until' => null,
@@ -214,7 +214,7 @@ class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
     /**
      *
      */
-    public function testFetchNoActiveCertificateLeadsToException(): void
+    public function testFetchNoActiveCertificateLeadsToException(): never
     {
         $this->expectException(ilException::class);
 
@@ -254,7 +254,7 @@ class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
                 'obj_type' => 'crs',
                 'usr_id' => 400,
                 'user_name' => 'Niels Theen',
-                'acquired_timestamp' => 123456789,
+                'acquired_timestamp' => 123_456_789,
                 'certificate_content' => '<xml>Some Content</xml>',
                 'template_values' => '[]',
                 'valid_until' => null,
@@ -273,7 +273,7 @@ class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
                 'obj_type' => 'crs',
                 'usr_id' => 400,
                 'user_name' => 'Niels Theen',
-                'acquired_timestamp' => 987654321,
+                'acquired_timestamp' => 987_654_321,
                 'certificate_content' => '<xml>Some Other Content</xml>',
                 'template_values' => '[]',
                 'valid_until' => null,
@@ -317,7 +317,7 @@ class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
                 'obj_type' => 'crs',
                 'usr_id' => 400,
                 'user_name' => 'Niels Theen',
-                'acquired_timestamp' => 123456789,
+                'acquired_timestamp' => 123_456_789,
                 'certificate_content' => '<xml>Some Content</xml>',
                 'template_values' => '[]',
                 'valid_until' => null,
@@ -345,7 +345,7 @@ class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
         $this->assertSame(141, $result->getId());
     }
 
-    public function testNoCertificateInFetchtCertificateLeadsToException(): void
+    public function testNoCertificateInFetchtCertificateLeadsToException(): never
     {
         $this->expectException(ilException::class);
 

@@ -254,7 +254,7 @@ class ilContentStyleSettingsGUI
         foreach ($ids as $id) {
             $caption = ilObject::_lookupTitle($id);
 
-            $cgui->addItem("id[]", $id, $caption);
+            $cgui->addItem("id[]", (string) $id, $caption);
         }
 
         $this->tpl->setContent($cgui->getHTML());

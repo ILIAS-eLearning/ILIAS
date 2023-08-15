@@ -439,9 +439,9 @@ class ilSetupLanguage extends ilLanguage
 
         if (is_file($lang_file)) {
             // initialize the array for updating lng_modules below
-            $lang_array = array();
-            $lang_array["common"] = array();
-
+            $lang_array = [];
+            $lang_array["common"] = [];
+    
             // remove header first
             if ($content = $this->cut_header(file($lang_file))) {
                 // get the local changes from the database
@@ -455,7 +455,7 @@ class ilSetupLanguage extends ilLanguage
                     $min_date = date("Y-m-d H:i:s", filemtime($lang_file));
                     $local_changes = $this->getLocalChanges($lang_key, $min_date);
                 }
-
+        
                 $query = "INSERT INTO lng_data (module,identifier,lang_key,value,local_change,remarks) VALUES ";
                 foreach ($content as $key => $val) {
                     // split the line of the language file
@@ -464,22 +464,22 @@ class ilSetupLanguage extends ilLanguage
                     // [2]: value
                     // [3]: comment (optional)
                     $separated = explode($this->separator, trim($val));
-
+            
                     //get position of the comment_separator
                     $pos = strpos($separated[2], $this->comment_separator);
-
+            
                     if ($pos !== false) {
                         //cut comment of
                         $separated[2] = substr($separated[2], 0, $pos);
                     }
-
+            
                     // check if the value has a local change
                     if (isset($local_changes[$separated[0]])) {
                         $local_value = $local_changes[$separated[0]][$separated[1]] ?? "";
                     } else {
                         $local_value = "";
                     }
-
+            
                     if (empty($scope)) {
                         if ($local_value !== "" && $local_value !== $separated[2]) {
                             // keep the locally changed value
@@ -493,7 +493,7 @@ class ilSetupLanguage extends ilLanguage
                             continue;
                         }
                     }
-
+            
                     $query .= sprintf(
                         "(%s,%s,%s,%s,%s,%s),",
                         $ilDB->quote($separated[0], "text"),
@@ -503,14 +503,15 @@ class ilSetupLanguage extends ilLanguage
                         $ilDB->quote($change_date, "timestamp"),
                         $ilDB->quote($separated[3] ?? null, "text")
                     );
-
+            
                     $lang_array[$separated[0]][$separated[1]] = $separated[2];
                 }
                 $query = rtrim($query, ",") . " ON DUPLICATE KEY UPDATE value=VALUES(value),remarks=VALUES(remarks);";
                 $ilDB->manipulate($query);
             }
-
+    
             $query = "INSERT INTO lng_modules (module, lang_key, lang_array) VALUES ";
+            $modules_to_delete = [];
             foreach ($lang_array as $module => $lang_arr) {
                 if ($scope === "local") {
                     $q = "SELECT * FROM lng_modules WHERE " .
@@ -529,10 +530,12 @@ class ilSetupLanguage extends ilLanguage
                     $ilDB->quote($lang_key, "text"),
                     $ilDB->quote(serialize($lang_arr), "clob"),
                 );
+                $modules_to_delete[] = $module;
             }
-            $ilDB->manipulate(sprintf(
-                "DELETE FROM lng_modules WHERE lang_key = %s",
-                $ilDB->quote($lang_key, "text"),
+
+            $inModulesToDelete = $ilDB->in('module', $modules_to_delete, false, 'text');
+            $ilDB->manipulate(sprintf("DELETE FROM lng_modules WHERE lang_key = %s AND $inModulesToDelete",
+                $ilDB->quote($lang_key, "text")
             ));
 
             $query = rtrim($query, ",") . ";";

@@ -1,20 +1,21 @@
 <?php
 
-declare(strict_types=1);
-
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *
- *****************************************************************************/
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
+
+declare(strict_types=1);
 
 /**
 * @author Stefan Meyer <meyer@leifos.com>
@@ -264,16 +265,6 @@ class ilECSParticipantSetting
         $this->import_types = $a_types;
     }
 
-    public function isDeprecatedTokenEnabled(): bool
-    {
-        return $this->dtoken;
-    }
-
-    public function enableDeprecatedToken(bool $a_stat): void
-    {
-        $this->dtoken = $a_stat;
-    }
-
     public function getImportTypes(): array
     {
         return $this->import_types;
@@ -320,7 +311,6 @@ class ilECSParticipantSetting
             'title = ' . $this->db->quote($this->getTitle(), 'text') . ', ' .
             'cname = ' . $this->db->quote($this->getCommunityName(), 'text') . ', ' .
             'token = ' . $this->db->quote($this->isTokenEnabled(), 'integer') . ', ' .
-            'dtoken = ' . $this->db->quote($this->isDeprecatedTokenEnabled(), 'integer') . ', ' .
             'export_types = ' . $this->db->quote(serialize($this->getExportTypes()), 'text') . ', ' .
             'import_types = ' . $this->db->quote(serialize($this->getImportTypes()), ilDBConstants::T_TEXT) . ', ' .
             'username_placeholders = ' . $this->db->quote(serialize($this->getOutgoingUsernamePlaceholders()), ilDBConstants::T_TEXT) . ', ' .
@@ -336,7 +326,7 @@ class ilECSParticipantSetting
     private function create(): bool
     {
         $query = 'INSERT INTO ecs_part_settings ' .
-            '(sid,mid,export,import,import_type,title,cname,token,dtoken,export_types, import_types, username_placeholders, incoming_auth_type, incoming_local_accounts, outgoing_auth_modes) ' .
+            '(sid,mid,export,import,import_type,title,cname,token,export_types, import_types, username_placeholders, incoming_auth_type, incoming_local_accounts, outgoing_auth_modes) ' .
             'VALUES( ' .
             $this->db->quote($this->getServerId(), 'integer') . ', ' .
             $this->db->quote($this->getMid(), 'integer') . ', ' .
@@ -346,7 +336,6 @@ class ilECSParticipantSetting
             $this->db->quote($this->getTitle(), 'text') . ', ' .
             $this->db->quote($this->getCommunityName(), 'text') . ', ' .
             $this->db->quote($this->isTokenEnabled(), 'integer') . ', ' .
-            $this->db->quote($this->isDeprecatedTokenEnabled(), 'integer') . ', ' .
             $this->db->quote(serialize($this->getExportTypes()), 'text') . ', ' .
             $this->db->quote(serialize($this->getImportTypes()), 'text') . ' ' .
             $this->db->quote(serialize($this->getImportTypes()), 'text') . ', ' .
@@ -391,7 +380,6 @@ class ilECSParticipantSetting
             $this->setTitle($row->title);
             $this->setCommunityName($row->cname);
             $this->enableToken((bool) $row->token);
-            $this->enableDeprecatedToken((bool) $row->dtoken);
             $this->setExportTypes((array) unserialize($row->export_types, ['allowed_classes' => true]));
             $this->setImportTypes((array) unserialize($row->import_types, ['allowed_classes' => true]));
             $this->setOutgoingUsernamePlaceholders((array) unserialize((string) $row->username_placeholders, ['allowed_classes' => true]));

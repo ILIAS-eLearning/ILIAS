@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\UI\Factory;
 use ILIAS\UI\Renderer;
 use ILIAS\HTTP\GlobalHttpState;
@@ -29,7 +29,7 @@ use ILIAS\HTTP\GlobalHttpState;
  */
 class ilMailFolderTableGUI extends ilTable2GUI
 {
-    private GlobalHttpState $http;
+    private readonly GlobalHttpState $http;
     protected array $_folderNode = [];
     protected int $_number_of_mails = 0;
     protected array $_selectedItems = [];
@@ -39,8 +39,8 @@ class ilMailFolderTableGUI extends ilTable2GUI
     protected array $visibleOptionalColumns = [];
     protected array $optionalColumns = [];
     protected array $optional_filter = [];
-    private Factory $uiFactory;
-    private Renderer $uiRenderer;
+    private readonly Factory $uiFactory;
+    private readonly Renderer $uiRenderer;
     private ?array $column_definition = null;
 
     public function __construct(
@@ -345,6 +345,7 @@ class ilMailFolderTableGUI extends ilTable2GUI
      */
     protected function fetchTableData(): self
     {
+        $data = [];
         if ($this->_folderNode['m_type'] === 'user_folder') {
             $txt_folder = $this->_folderNode['title'];
             $img_folder = 'icon_user_folder.png';
@@ -440,6 +441,11 @@ class ilMailFolderTableGUI extends ilTable2GUI
             ) {
                 $mail['checked'] = ' checked="checked" ';
             }
+
+            $mail['txt_select_mail_with_subject'] = sprintf(
+                $this->lng->txt('select_mail_with_subject_x'),
+                htmlspecialchars($mail['m_subject'])
+            );
 
             if ($this->isDraftFolder() || $this->isSentFolder()) {
                 $mail['rcp_to'] = $mail['mail_login'] = ilUtil::htmlencodePlainString(

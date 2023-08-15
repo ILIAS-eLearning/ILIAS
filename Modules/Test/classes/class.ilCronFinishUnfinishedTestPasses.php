@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+use ILIAS\Cron\Schedule\CronJobScheduleType;
+
 /**
  * Class ilCronFinishUnfinishedTestPasses
  * @author Guido Vollbach <gvollbach@databay.de>
@@ -50,7 +52,6 @@ class ilCronFinishUnfinishedTestPasses extends ilCronJob
         $this->test_ids = array();
         $this->test_ending_times = array();
 
-        require_once 'Modules/Test/classes/class.ilTestProcessLockerFactory.php';
         $this->processLockerFactory = new ilTestProcessLockerFactory(
             new ilSetting('assessment'),
             $this->db
@@ -78,9 +79,9 @@ class ilCronFinishUnfinishedTestPasses extends ilCronJob
         return $lng->txt("finish_unfinished_passes_desc");
     }
 
-    public function getDefaultScheduleType(): int
+    public function getDefaultScheduleType(): CronJobScheduleType
     {
-        return self::SCHEDULE_TYPE_DAILY;
+        return CronJobScheduleType::SCHEDULE_TYPE_DAILY;
     }
 
     public function getDefaultScheduleValue(): int
@@ -191,6 +192,8 @@ class ilCronFinishUnfinishedTestPasses extends ilCronJob
                         $this->log->info('Max Processing time reached for user id (' . $data['usr_id'] . ') so test with active id (' . $data['active_id'] . ') will be finished.');
                         $this->finishPassForUser($data['active_id'], $this->test_ending_times[$test_id]['obj_fi']);
                         $can_not_be_finished = false;
+                    } else {
+                        $this->log->info('Max Processing time not reached for user id (' . $data['usr_id'] . ') in test with active id (' . $data['active_id'] . '). Starting time: ' . $startingTime . ' Processing time: ' . $test_obj->getProcessingTime() . ' / ' .$test_obj->getProcessingTimeInSeconds() .'s');
                     }
                 } else {
                     $this->log->info('Test (' . $test_id . ') has no processing time.');
@@ -206,6 +209,19 @@ class ilCronFinishUnfinishedTestPasses extends ilCronJob
     protected function finishPassForUser($active_id, $obj_id): void
     {
         $processLocker = $this->processLockerFactory->withContextId((int) $active_id)->getLocker();
+
+        $testSession = new ilTestSession();
+        $testSession->loadFromDb($active_id);
+
+        $test = new ilObjTest($obj_id, false);
+
+        assQuestion::_updateTestPassResults(
+            $active_id,
+            $testSession->getPass(),
+            $test->areObligationsEnabled(),
+            null,
+            $obj_id
+        );
 
         $pass_finisher = new ilTestPassFinishTasks($active_id, $obj_id);
         $pass_finisher->performFinishTasks($processLocker);

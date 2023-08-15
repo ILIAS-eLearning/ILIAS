@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * ilForumAuthorInformationCache
@@ -68,9 +68,9 @@ class ilForumAuthorInformationCache
                 $user->setId((int) $row['usr_id']);
                 $user->setLogin($row['login']);
                 $user->setGender($row['gender']);
-                $user->setTitle($row['title']);
-                $user->setFirstname($row['firstname']);
-                $user->setLastname($row['lastname']);
+                $user->setUTitle($row['title'] ?? '');
+                $user->setFirstname($row['firstname'] ?? '');
+                $user->setLastname($row['lastname'] ?? '');
                 $user->setPref('public_profile', $row['public_profile']);
                 $user->setPref('public_gender', $row['public_gender']);
                 $user->setPref('public_upload', $row['public_upload']);

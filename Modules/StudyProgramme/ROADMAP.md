@@ -48,3 +48,8 @@ in terms of points or relevance. This is not a static flag but a result of query
 * ilStudyProgrammeAppEventListener::onServiceUserDeleteUser reads assignments 
   only to delete them. Delete immediadetely.
 * remove interimOrguLookup as soon as ilObjUser::lookupOrgUnitsRepresentation is working correctly
+
+# Events
+* ilStudyProgrammeAppEventListener handles "internal" events, such as
+  userReAssigned, informUserToRestart or userRiskyToFail; those should not be
+  piped over the event system, but can be dealt with in ilStudyProgrammeEvents/PRGEventHandler.

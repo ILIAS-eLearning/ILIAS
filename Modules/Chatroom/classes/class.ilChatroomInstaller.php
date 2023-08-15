@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Class ilChatroomInstaller
@@ -48,7 +48,6 @@ class ilChatroomInstaller
                 'allow_anonymous' => ['type' => 'integer', 'length' => 1, 'notnull' => false, 'default' => 0],
                 'allow_custom_usernames' => ['type' => 'integer', 'length' => 1, 'notnull' => false, 'default' => 0],
                 'enable_history' => ['type' => 'integer', 'length' => 1, 'notnull' => false, 'default' => 0],
-                'restrict_history' => ['type' => 'integer', 'length' => 1, 'notnull' => false, 'default' => 0],
                 'autogen_usernames' => ['type' => 'text', 'length' => 50, 'notnull' => false, 'default' => 'Anonymous #'],
                 'allow_private_rooms' => ['type' => 'integer', 'length' => 1, 'notnull' => false, 'default' => 0],
             ];
@@ -180,27 +179,6 @@ class ilChatroomInstaller
                     "notnull" => true
                 ]
             );
-        }
-
-        if (!$ilDB->tableExists('chatroom_smilies')) {
-            $fields = [
-                'smiley_id' => [
-                    'type' => 'integer',
-                    'length' => 4,
-                ],
-                'smiley_keywords' => [
-                    'type' => 'text',
-                    'length' => 100,
-                ],
-                'smiley_path' => [
-                    'type' => 'text',
-                    'length' => 200,
-                ]
-            ];
-
-            $ilDB->createTable('chatroom_smilies', $fields);
-            $ilDB->addPrimaryKey('chatroom_smilies', ['smiley_id']);
-            $ilDB->createSequence('chatroom_smilies');
         }
 
         self::registerObject();
@@ -472,7 +450,6 @@ class ilChatroomInstaller
                     'allow_anonymous' => ['integer', 0],
                     'allow_custom_usernames' => ['integer', 0],
                     'enable_history' => ['integer', 0],
-                    'restrict_history' => ['integer', 0],
                     'autogen_usernames' => ['text', 'Anonymous #'],
                     'allow_private_rooms' => ['integer', 1],
                 ]
@@ -505,9 +482,6 @@ class ilChatroomInstaller
         self::setChatroomSettings($roomsToFix);
     }
 
-    /**
-     * @param int $ref_id
-     */
     public static function ensureCorrectPublicChatroomTreeLocation(int $ref_id): void
     {
         global $DIC;

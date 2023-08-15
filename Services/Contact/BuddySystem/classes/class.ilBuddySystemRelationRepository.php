@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class ilBuddySystemRelationRepository
  * @author Michael Jansen <mjansen@databay.de>
@@ -29,14 +29,12 @@ class ilBuddySystemRelationRepository
     private const TYPE_IGNORED = 'ign';
 
     protected ilDBInterface $db;
-    protected int $usrId;
 
-    public function __construct(int $usrId, ilDBInterface $db = null)
+    public function __construct(protected int $usrId, ilDBInterface $db = null)
     {
         global $DIC;
 
         $this->db = $db ?? $DIC->database();
-        $this->usrId = $usrId;
     }
 
     /**

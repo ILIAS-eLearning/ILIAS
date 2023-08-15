@@ -35,9 +35,6 @@ class assAnswerClozeTest extends assBaseTestCase
 
     public function test_constructorShouldReturnInstance(): void
     {
-        // Arrange
-        require_once './Modules/TestQuestionPool/classes/class.assAnswerCloze.php';
-
         // Act
         $instance = new assAnswerCloze();
 
@@ -47,8 +44,6 @@ class assAnswerClozeTest extends assBaseTestCase
 
     public function test_setGetLowerBound(): void
     {
-        // Arrange
-        require_once './Modules/TestQuestionPool/classes/class.assAnswerCloze.php';
         $instance = new assAnswerCloze('2');
 
         // Act
@@ -62,8 +57,6 @@ class assAnswerClozeTest extends assBaseTestCase
 
     public function test_setGetLowerBond_GreaterThanAnswerShouldSetAnswertext(): void
     {
-        // Arrange
-        require_once './Modules/TestQuestionPool/classes/class.assAnswerCloze.php';
         $instance = new assAnswerCloze('2');
 
         // Act
@@ -77,8 +70,6 @@ class assAnswerClozeTest extends assBaseTestCase
 
     public function test_setGetLowerBound_nonNumericShouldSetAnswertext(): void
     {
-        // Arrange
-        require_once './Modules/TestQuestionPool/classes/class.assAnswerCloze.php';
         $instance = new assAnswerCloze('3');
 
         // Act
@@ -92,8 +83,6 @@ class assAnswerClozeTest extends assBaseTestCase
 
     public function test_setGetUpperBound(): void
     {
-        // Arrange
-        require_once './Modules/TestQuestionPool/classes/class.assAnswerCloze.php';
         $instance = new assAnswerCloze('1');
 
         // Act
@@ -107,8 +96,6 @@ class assAnswerClozeTest extends assBaseTestCase
 
     public function test_setGetUpperBound_smallerThanAnswerShouldSetAnswertext(): void
     {
-        // Arrange
-        require_once './Modules/TestQuestionPool/classes/class.assAnswerCloze.php';
         $instance = new assAnswerCloze('4');
 
         // Act
@@ -122,8 +109,6 @@ class assAnswerClozeTest extends assBaseTestCase
 
     public function test_setGetUpperBound_nonNumericShouldSetAnswertext(): void
     {
-        // Arrange
-        require_once './Modules/TestQuestionPool/classes/class.assAnswerCloze.php';
         $instance = new assAnswerCloze('4');
 
         // Act

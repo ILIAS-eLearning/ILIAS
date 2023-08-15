@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,12 +16,16 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\Refinery\Factory as Refinery;
 
 class ilMimeMail
 {
-    public const MAIL_SUBJECT_PREFIX = '[ILIAS]';
+    final public const MAIL_SUBJECT_PREFIX = '[ILIAS]';
+
     protected static ?ilMailMimeTransport $defaultTransport = null;
+
     protected ilMailMimeSender $sender;
     protected ilMailMimeSubjectBuilder $subjectBuilder;
     protected ilSetting $settings;
@@ -47,7 +49,7 @@ class ilMimeMail
     protected array $adispo = [];
     /** @var string[] */
     protected array $adisplay = [];
-    private Refinery $refinery;
+    private readonly Refinery $refinery;
 
     public function __construct()
     {
@@ -55,7 +57,7 @@ class ilMimeMail
         $this->settings = $DIC->settings();
 
         if (!(self::getDefaultTransport() instanceof ilMailMimeTransport)) {
-            $factory = $DIC["mail.mime.transport.factory"];
+            $factory = $DIC->mail()->mime()->transportFactory();
             self::setDefaultTransport($factory->getTransport());
         }
 

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * @author  Stefan Meyer <meyer@leifos.com>
@@ -94,8 +94,13 @@ class ilAdvancedMDRecordTableGUI extends ilTable2GUI
             // workaround for hiding portfolio pages in portfolios, since they only get
             // data from portfolio templates
             // @todo define interface for configuration of behaviour
+            $hidden = false;
             if ($obj_type["obj_type"] == "prtf" && $obj_type["sub_type"] == "pfpg") {
-                continue;
+                $hidden = true;
+            }
+            // EmployeeTalks get their md from templates
+            if ($obj_type["obj_type"] == "tals" && $obj_type["sub_type"] == "etal") {
+                $hidden = true;
             }
 
             foreach ($a_set['obj_types'] as $t) {
@@ -142,8 +147,8 @@ class ilAdvancedMDRecordTableGUI extends ilTable2GUI
                         // currently only optional records for org unit (types)
                         unset($type_options[1]);
                         break;
-                    case "prg":
-                        // currently only optional records for study programme (types)
+                    case "talt":
+                        // currently only optional records for talk templates (types)
                         unset($type_options[1]);
                         break;
                     case "rcrs":
@@ -162,6 +167,7 @@ class ilAdvancedMDRecordTableGUI extends ilTable2GUI
                     array("style" => "min-width:125px"),
                     $disabled || $do_disable
                 );
+                $this->tpl->setVariable('VAL_OBJ_TYPE_CLASS', $hidden ? 'hidden' : 'std');
                 $this->tpl->setVariable('VAL_OBJ_TYPE_STATUS', $select);
                 $this->tpl->parseCurrentBlock();
             } else {

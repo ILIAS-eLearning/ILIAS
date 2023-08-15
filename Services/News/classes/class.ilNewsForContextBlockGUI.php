@@ -31,6 +31,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
      * object type names with settings->news settings subtab
      */
     public const OBJECTS_WITH_NEWS_SUBTAB = ["category", "course", "group", "forum"];
+    protected \ILIAS\News\InternalGUIService $gui;
     protected bool $cache_hit = false;
     protected bool $dynamic = false;
     protected ilNewsCache $acache;
@@ -61,10 +62,10 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
         $this->settings = $DIC->settings();
         $this->tabs = $DIC->tabs();
         $this->obj_definition = $DIC["objDefinition"];
-        $this->std_request = new StandardGUIRequest(
-            $DIC->http(),
-            $DIC->refinery()
-        );
+        $this->std_request = $DIC->news()
+            ->internal()
+            ->gui()
+            ->standardRequest();
 
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
@@ -83,7 +84,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
         $this->dynamic = false;
         $this->acache = new ilNewsCache();
         $cres = unserialize(
-            $this->acache->getEntry($ilUser->getId() . ":" . $this->std_request->getRefId()),
+            (string) $this->acache->getEntry($ilUser->getId() . ":" . $this->std_request->getRefId()),
             ["allowed_classes" => false]
         );
         $this->cache_hit = false;
@@ -109,6 +110,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
         $this->handleView();
 
         $this->setPresentation(self::PRES_SEC_LIST);
+        $this->gui = $DIC->news()->internal()->gui();
     }
 
     public function getNewsData(): array
@@ -407,12 +409,12 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 
         $info = [];
 
-        $info["ref_id"] = $news["ref_id"];
+        $info["ref_id"] = $news["ref_id"] ?? 0;
         $info["creation_date"] =
             ilDatePresentation::formatDate(new ilDateTime($news["creation_date"], IL_CAL_DATETIME));
 
         // title image type
-        if ($news["ref_id"] > 0) {
+        if (($news["ref_id"] ?? 0) > 0) {
             if (isset($news["agg_ref_id"]) && $news["agg_ref_id"] > 0) {
                 $obj_id = ilObject::_lookupObjId($news["agg_ref_id"]);
                 $type = ilObject::_lookupType($obj_id);
@@ -625,7 +627,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
                 if (in_array($mime, ["image/jpeg", "image/svg+xml", "image/gif", "image/png"])) {
                     $title = basename($media_path);
                     $html = $ui_renderer->render($ui_factory->image()->responsive($media_path, $title));
-                } elseif (in_array($mime, ["video/mp4"])) {
+                } elseif (in_array($mime, ["video/mp4", "video/youtube", "video/vimeo"])) {
                     $video = $ui_factory->player()->video($media_path);
                     $html = $ui_renderer->render($video);
                 } elseif (in_array($mime, ["audio/mpeg"])) {
@@ -633,7 +635,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
                     $html = $ui_renderer->render($audio);
                 } else {
                     // download?
-                    $html = "";
+                    $html = $mime;
                 }
 
 
@@ -709,9 +711,10 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
                     $url = $ilCtrl->getLinkTargetByClass("ilrepositorygui", "sendfile");
                     $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $this->std_request->getRefId());
 
-                    $button = ilLinkButton::getInstance();
-                    $button->setUrl($url);
-                    $button->setCaption("download");
+                    $button = $this->gui->button(
+                        $this->lng->txt("download"),
+                        $url
+                    );
 
                     $tpl->setCurrentBlock("download");
                     $tpl->setVariable("BUTTON_DOWNLOAD", $button->render());
@@ -1051,10 +1054,10 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
     {
         global $DIC;
 
-        $std_request = new StandardGUIRequest(
-            $DIC->http(),
-            $DIC->refinery()
-        );
+        $std_request = $DIC->news()
+            ->internal()
+            ->gui()
+            ->standardRequest();
 
         $lng = $DIC->language();
         $block_id = $DIC->ctrl()->getContextObjId();
@@ -1344,13 +1347,13 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
         $info = $this->getInfoForData($data);
 
         $props = [
-            $this->lng->txt("date") => $info["creation_date"]
+            $this->lng->txt("date") => $info["creation_date"] ?? ""
         ];
 
         $factory = $this->ui->factory();
-        $item = $factory->item()->standard($factory->link()->standard($info["news_title"], $info["url"]))
+        $item = $factory->item()->standard($factory->link()->standard($info["news_title"] ?? "", $info["url"] ?? ""))
             ->withProperties($props);
-        if ($info["ref_id"] > 0) {
+        if (($info["ref_id"] ?? 0) > 0) {
             $item = $item->withDescription($info["type_txt"] . ": " . $info["obj_title"]);
         }
         return $item;

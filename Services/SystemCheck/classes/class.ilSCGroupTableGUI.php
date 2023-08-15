@@ -17,16 +17,26 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+use ILIAS\UI\Implementation\Factory as UIImplementationFactory;
+use ILIAS\UI\Renderer as UIRenderer;
+
 /**
  * Table GUI for system check groups overview
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  */
 class ilSCGroupTableGUI extends ilTable2GUI
 {
+    private UIRenderer $renderer;
+    private UIImplementationFactory $uiFactory;
+
     public function __construct(object $a_parent_obj, string $a_parent_cmd = '')
     {
         $this->setId('sc_groups');
         parent::__construct($a_parent_obj, $a_parent_cmd);
+
+        global $DIC;
+        $this->renderer = $DIC->ui()->renderer();
+        $this->uiFactory = $DIC->ui()->factory();
     }
 
     public function init(): void
@@ -70,20 +80,17 @@ class ilSCGroupTableGUI extends ilTable2GUI
         }
 
         // Actions
-
-        $list = new ilAdvancedSelectionListGUI();
-        $list->setSelectionHeaderClass('small');
-        $list->setItemLinkClass('small');
-        $list->setId('sysc_' . $id);
-        $list->setListTitle($this->lng->txt('actions'));
-
         $this->ctrl->setParameter($this->getParentObject(), 'grp_id', $id);
-        $list->addItem(
-            $this->lng->txt('show'),
-            '',
-            $this->ctrl->getLinkTarget($this->getParentObject(), 'showGroup')
+        $dropDownItems = array(
+            $this->uiFactory->button()->shy(
+                $this->lng->txt('show'),
+                $this->ctrl->getLinkTarget($this->getParentObject(), 'showGroup')
+            )
         );
-        $this->tpl->setVariable('ACTIONS', $list->getHTML());
+        $dropDown = $this->uiFactory->dropdown()->standard($dropDownItems)
+                ->withLabel($this->lng->txt('actions'));
+
+        $this->tpl->setVariable('ACTIONS', $this->renderer->render($dropDown));
     }
 
     public function parse(): void

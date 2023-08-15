@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,8 +16,12 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\HTTP\Response\Sender\ResponseSendingException;
+use ILIAS\UI\Component\Modal\Modal;
+use ILIAS\UI\Component\Modal\RoundTrip;
 
 /**
  * This class represents a block method of a block.
@@ -33,7 +35,7 @@ abstract class ilBlockGUI
     public const PRES_SEC_LIST = 2;		// secondary list panel
     public const PRES_MAIN_LIST = 3;		// main standard list panel
     public const PRES_MAIN_TILE = 4;		// main standard list panel
-    private int $offset;
+    private int $offset = 0;
     private int $limit;
     private bool $enableedit;
     private string $subtitle;
@@ -171,7 +173,11 @@ abstract class ilBlockGUI
 
     public function setOffset(int $a_offset): void
     {
-        $this->offset = $a_offset;
+        if ($this->checkOffset($a_offset)) {
+            $this->offset = $a_offset;
+        } else {
+            throw new ilException("ilBlockGUI::setOffset(): Offset out of range.");
+        }
     }
 
     public function getOffset(): int
@@ -179,11 +185,9 @@ abstract class ilBlockGUI
         return $this->offset;
     }
 
-    public function correctOffset(): void
+    public function checkOffset(int $offset): bool
     {
-        if (!($this->offset < $this->max_count)) {
-            $this->setOffset(0);
-        }
+        return $offset <= $this->max_count && $offset >= 0;
     }
 
     public function setLimit(int $a_limit): void
@@ -314,12 +318,13 @@ abstract class ilBlockGUI
         return $this->rowtemplatedir;
     }
 
-    public function addBlockCommand(string $a_href, string $a_text, string $a_onclick = ""): void
+    public function addBlockCommand(string $a_href, string $a_text, string $a_onclick = "", RoundTrip $modal = null): void
     {
         $this->block_commands[] = [
             "href" => $a_href,
             "text" => $a_text,
-            "onclick" => $a_onclick
+            "onclick" => $a_onclick,
+            "modal" => $modal
         ];
     }
 
@@ -341,9 +346,10 @@ abstract class ilBlockGUI
     {
         $this->initCommands();
 
-        if ($this->new_rendering) {
-            return $this->getHTMLNew();
-        }
+        // old rendering is obsolete
+        //if ($this->new_rendering) {
+        return $this->getHTMLNew();
+        //}
 
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
@@ -425,7 +431,7 @@ abstract class ilBlockGUI
         $this->fillFooter();
 
 
-        $this->fillHeaderCommands();
+        //$this->fillHeaderCommands();
         $this->fillHeaderTitleBlock();
 
         if ($this->getPresentation() === self::PRES_MAIN_LEG) {
@@ -444,41 +450,6 @@ abstract class ilBlockGUI
                 $this->tpl->get() . '</div>';
         }
         return "";
-    }
-
-    public function fillHeaderCommands(): void
-    {
-        // adv selection gui
-        $dropdown = new ilAdvancedSelectionListGUI();
-        $dropdown->setUseImages(true);
-        $dropdown->setStyle(ilAdvancedSelectionListGUI::STYLE_LINK_BUTTON);
-        $dropdown->setHeaderIcon(ilAdvancedSelectionListGUI::ICON_CONFIG);
-        $dropdown->setId("block_dd_" . $this->getBlockType() . "_" . $this->block_id);
-        foreach ($this->dropdown as $item) {
-            if ($item["href"] || $item["onclick"]) {
-                if (isset($item["checked"]) && $item["checked"]) {
-                    $item["image"] = ilUtil::getImagePath("icon_checked.svg");
-                }
-                $dropdown->addItem(
-                    $item["text"],
-                    "",
-                    $item["href"],
-                    $item["image"] ?? "",
-                    $item["text"],
-                    "",
-                    "",
-                    false,
-                    $item["onclick"]
-                );
-            }
-        }
-        $dropdown = $dropdown->getHTML();
-        $this->tpl->setCurrentBlock("header_dropdown");
-        $this->tpl->setVariable("ADV_DROPDOWN", $dropdown);
-        $this->tpl->parseCurrentBlock();
-
-        $this->tpl->setCurrentBlock("hitem");
-        $this->tpl->parseCurrentBlock();
     }
 
     public function fillHeaderTitleBlock(): void
@@ -553,7 +524,6 @@ abstract class ilBlockGUI
 
         $data = $this->getData();
         $this->max_count = count($data);
-        $this->correctOffset();
         $data = array_slice($data, $this->getOffset(), $this->getLimit());
 
         $this->preloadData($data);
@@ -710,7 +680,6 @@ abstract class ilBlockGUI
     {
         $data = $this->getData();
         $this->max_count = count($data);
-        $this->correctOffset();
         $data = array_slice($data, $this->getOffset(), $this->getLimit());
         $this->preloadData($data);
         return $data;
@@ -902,6 +871,7 @@ abstract class ilBlockGUI
 
         // actions
         $actions = [];
+        $modals = [];
 
         foreach ($this->getBlockCommands() as $command) {
             $href = ($command["onclick"] != "")
@@ -914,6 +884,11 @@ abstract class ilBlockGUI
                         "$(\"#$id\").click(function() { ilBlockJSHandler('" . "block_" . $this->getBlockType() . "_" . $this->block_id .
                         "','" . $command["onclick"] . "');});";
                 });
+            }
+
+            if (isset($command['modal']) && $command['modal'] instanceof Modal) {
+                $button = $button->withOnClick($command["modal"]->getShowSignal());
+                $modals[] = $command['modal'];
             }
             $actions[] = $button;
         }
@@ -950,9 +925,9 @@ abstract class ilBlockGUI
         }
 
         if ($ctrl->isAsynch()) {
-            $html = $renderer->renderAsync($panel);
+            $html = $renderer->renderAsync([$panel, ...$modals]);
         } else {
-            $html = $renderer->render($panel);
+            $html = $renderer->render([$panel, ...$modals]);
         }
 
 

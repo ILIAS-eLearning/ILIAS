@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\UI\Component\MainControls\Footer;
 use ILIAS\UI\Factory;
@@ -35,7 +35,7 @@ class ilTermsOfServiceWithdrawalGUIHelper
     protected Factory $uiFactory;
     protected Renderer $uiRenderer;
     protected ilTermsOfServiceHelper $tosHelper;
-    private ilGlobalTemplateInterface $main_tpl;
+    private readonly ilGlobalTemplateInterface $main_tpl;
 
     public function __construct(protected ilObjUser $user)
     {

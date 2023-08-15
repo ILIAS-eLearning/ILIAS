@@ -49,11 +49,8 @@ class ilLMEditGSToolProvider extends AbstractDynamicToolProvider
                     if ($c instanceof LegacySlate) {
                         $signal_id = $c->getToggleSignal()->getId();
                         return $c->withAdditionalOnLoadCode(static function ($id) use ($hashed) {
-                            return "
-                                 console.log('trigger added');
-                                 $('body').on('il-lm-editor-tree', function(){
+                            return "document.addEventListener('il-lm-editor-tree', () => {
                                     il.UI.maincontrols.mainbar.engageTool('$hashed');
-                                    console.log('trigger tree');
                                  });";
                         });
                     }

@@ -199,7 +199,7 @@ class ilPDTasksBlockGUI extends ilBlockGUI
             $lng->txt("task_details"),
             $factory->legacy($info_screen->getHTML())
         )
-            ->withCancelButtonLabel("close");
+            ->withCancelButtonLabel($lng->txt("close"));
         $button1 = $factory->button()->shy($a_set["title"], '#')
             ->withOnClick($modal->getShowSignal());
 

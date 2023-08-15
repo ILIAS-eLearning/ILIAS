@@ -53,7 +53,6 @@ class ilObjSession extends ilObject
     protected bool $show_cannot_participate_option = true;
     protected int $mail_members = self::MAIL_ALLOWED_ADMIN;
     protected array $appointments = [];
-    protected array $files = [];
     protected ?ilSessionParticipants $members_obj = null;
     protected bool $registrationNotificationEnabled = false;
     protected string $notificationOption = ilSessionConstants::NOTIFICATION_INHERIT_OPTION;
@@ -62,7 +61,7 @@ class ilObjSession extends ilObject
     {
         global $DIC;
 
-        $this->session_logger = $DIC->logger()->root();
+        $this->session_logger = $DIC->logger()->sess();
         $this->obj_data_cache = $DIC['ilObjDataCache'];
         $this->event_handler = $DIC->event();
 
@@ -330,7 +329,7 @@ class ilObjSession extends ilObject
     }
 
     /**
-     * @param ilSessionAppointment[]
+     * @param ilSessionAppointment[] $appointments
      */
     public function setAppointments(array $appointments): void
     {
@@ -341,11 +340,6 @@ class ilObjSession extends ilObject
     {
         $app = $this->appointments[0] ?? null;
         return is_object($app) ? $app : ($this->appointments[0] = new ilSessionAppointment());
-    }
-
-    public function getFiles(): array
-    {
-        return $this->files;
     }
 
     public function setMailToMembersType(int $a_type): void
@@ -372,12 +366,12 @@ class ilObjSession extends ilObject
         return true;
     }
 
-    public function cloneObject(int $a_target_id, int $a_copy_id = 0, bool $a_omit_tree = false): ?ilObjSession
+    public function cloneObject(int $target_id, int $copy_id = 0, bool $omit_tree = false): ?ilObjSession
     {
         /**
          * @var ilObjSession $new_obj
          */
-        $new_obj = parent::cloneObject($a_target_id, $a_copy_id, $a_omit_tree);
+        $new_obj = parent::cloneObject($target_id, $copy_id, $omit_tree);
 
         $dtpl = ilDidacticTemplateObjSettings::lookupTemplateId($this->getRefId());
         $new_obj->applyDidacticTemplate($dtpl);
@@ -392,11 +386,6 @@ class ilObjSession extends ilObject
         $new_app = $this->getFirstAppointment()->cloneObject($new_obj->getId());
         $new_obj->setAppointments(array($new_app));
         $new_obj->update(true);
-
-        // Clone session files
-        foreach ($this->files as $file) {
-            $file->cloneFiles($new_obj->getEventId());
-        }
 
         // Raise update forn new appointments
 
@@ -445,16 +434,16 @@ class ilObjSession extends ilObject
         return true;
     }
 
-    public function cloneDependencies($a_target_id, $a_copy_id): bool
+    public function cloneDependencies($target_id, $copy_id): bool
     {
         $ilObjDataCache = $this->obj_data_cache;
 
-        parent::cloneDependencies($a_target_id, $a_copy_id);
+        parent::cloneDependencies($target_id, $copy_id);
 
-        $target_obj_id = $ilObjDataCache->lookupObjId($a_target_id);
+        $target_obj_id = $ilObjDataCache->lookupObjId($target_id);
 
         $session_materials = new ilEventItems($target_obj_id);
-        $session_materials->cloneItems($this->getId(), $a_copy_id);
+        $session_materials->cloneItems($this->getId(), $copy_id);
 
         return true;
     }
@@ -573,10 +562,6 @@ class ilObjSession extends ilObject
         ilEventItems::_delete($this->getId());
         ilEventParticipants::_deleteByEvent($this->getId());
 
-        foreach ($this->getFiles() as $file) {
-            $file->delete();
-        }
-
         $ilAppEventHandler->raise(
             'Modules/Session',
             'delete',
@@ -617,18 +602,12 @@ class ilObjSession extends ilObject
         }
 
         $this->initAppointments();
-        $this->initFiles();
     }
 
     protected function initAppointments(): void
     {
         // get assigned appointments
         $this->appointments = ilSessionAppointment::_readAppointmentsBySession($this->getId());
-    }
-
-    public function initFiles(): void
-    {
-        $this->files = ilSessionFile::_readFilesByEvent($this->getEventId());
     }
 
 
@@ -676,6 +655,14 @@ class ilObjSession extends ilObject
 
         $parts = ilSessionParticipants::_getInstanceByObjId($this->getId());
         $current = $parts->getCountParticipants();
+
+        $refs = ilObject::_getAllReferences($this->getId());
+        $ref_id = current($refs);
+        if ($ref_id === false) {
+            $this->session_logger->warning('No ref_id found for obj_id: ' . $this->getId());
+            return true;
+        }
+        $current = ilSessionParticipants::lookupNumberOfMembers($ref_id);
         $max = $this->getRegistrationMaxUsers();
 
         if ($max <= $current) {

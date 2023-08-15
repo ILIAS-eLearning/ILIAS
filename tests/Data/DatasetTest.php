@@ -28,6 +28,8 @@ use PHPUnit\Framework\TestCase;
 
 class DatasetTest extends TestCase
 {
+    protected Data\Factory $f;
+
     protected function setUp(): void
     {
         $this->f = new Data\Factory();

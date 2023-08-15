@@ -29,6 +29,7 @@ use ILIAS\Survey\Editing\EditingGUIRequest;
  */
 class ilSurveyEditorGUI
 {
+    protected \ILIAS\Survey\InternalGUIService $gui;
     protected \ILIAS\Survey\PrintView\GUIService $print;
     protected \ILIAS\HTTP\Services $http;
     protected \ILIAS\DI\UIServices $ui;
@@ -93,6 +94,9 @@ class ilSurveyEditorGUI
             ->internal()
             ->gui()
             ->print();
+        $this->gui = $DIC->survey()
+            ->internal()
+            ->gui();
     }
 
     public function setRequestedPgov(string $pgov): void
@@ -211,6 +215,9 @@ class ilSurveyEditorGUI
                 $inserted = $this->object->insertQuestion($this->request->getNewId());
                 if (!$inserted) {
                     $this->tpl->setOnScreenMessage('failure', $this->lng->txt("survey_error_insert_incomplete_question"));
+                } else {
+                    // this ensures the status update of the survey, see #36162
+                    $this->ctrl->redirect($this, "questions");
                 }
             }
         }
@@ -231,10 +238,10 @@ class ilSurveyEditorGUI
             $types->setOptions($qtypes);
             $ilToolbar->addStickyItem($types, "");
 
-            $button = ilSubmitButton::getInstance();
-            $button->setCaption("svy_create_question");
-            $button->setCommand("createQuestion");
-            $ilToolbar->addStickyItem($button);
+            $this->gui->button(
+                $this->lng->txt("svy_create_question"),
+                "createQuestion"
+            )->submit()->toToolbar(true);
 
             if ($this->object->getPoolUsage()) {
                 $cmd = ((int) $ilUser->getPref('svy_insert_type') === 1 ||
@@ -242,18 +249,18 @@ class ilSurveyEditorGUI
                     ? 'browseForQuestions'
                     : 'browseForQuestionblocks';
 
-                $button = ilLinkButton::getInstance();
-                $button->setCaption("browse_for_questions");
-                $button->setUrl($this->ctrl->getLinkTarget($this, $cmd));
-                $ilToolbar->addStickyItem($button);
+                $this->gui->link(
+                    $this->lng->txt("browse_for_questions"),
+                    $this->ctrl->getLinkTarget($this, $cmd)
+                )->emphasised()->toToolbar(true);
             }
 
             $ilToolbar->addSeparator();
 
-            $button = ilLinkButton::getInstance();
-            $button->setCaption("add_heading");
-            $button->setUrl($this->ctrl->getLinkTarget($this, "addHeading"));
-            $ilToolbar->addInputItem($button);
+            $this->gui->link(
+                $this->lng->txt("add_heading"),
+                $this->ctrl->getLinkTarget($this, "addHeading")
+            )->emphasised()->toToolbar();
 
             $ilToolbar->addSeparator();
             $print_view = $this->print->list($this->object->getRefId());
@@ -1075,10 +1082,12 @@ class ilSurveyEditorGUI
         $heading = new ilTextAreaInputGUI($this->lng->txt("heading"), "heading");
         $heading->setRows(10);
         $heading->setCols(80);
-        $heading->setUseRte(true);
-        $heading->setRteTags(ilObjAdvancedEditing::_getUsedHTMLTags("survey"));
-        $heading->removePlugin(ilRTE::ILIAS_IMG_MANAGER_PLUGIN);
-        $heading->setRTESupport($this->object->getId(), "svy", "survey");
+        if (ilObjAdvancedEditing::_getRichTextEditor() === "tinymce") {
+            $heading->setUseRte(true);
+            $heading->setRteTags(ilObjAdvancedEditing::_getUsedHTMLTags("survey"));
+            $heading->removePlugin(ilRTE::ILIAS_IMG_MANAGER_PLUGIN);
+            $heading->setRTESupport($this->object->getId(), "svy", "survey");
+        }
         $heading->setRequired(true);
         $form->addItem($heading);
 

@@ -77,8 +77,6 @@ class ilTestRandomQuestionSetGeneralConfigFormGUI extends ilPropertyFormGUI
             $this->lng->txt('save')
         );
 
-        // Require Pools with Homogeneous Scored Questions
-
         $requirePoolsQuestionsHomoScored = new ilCheckboxInputGUI(
             $this->lng->txt('tst_inp_all_quest_points_equal_per_pool'),
             'quest_points_equal_per_pool'

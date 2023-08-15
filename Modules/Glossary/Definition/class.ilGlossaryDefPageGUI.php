@@ -31,7 +31,7 @@ class ilGlossaryDefPageGUI extends ilPageObjectGUI
         int $a_id = 0,
         int $a_old_nr = 0
     ) {
-        parent::__construct("gdf", $a_id, $a_old_nr);
+        parent::__construct("term", $a_id, $a_old_nr);
     }
 
     public function setGlossary(ilObjGlossary $a_val): void
@@ -47,7 +47,7 @@ class ilGlossaryDefPageGUI extends ilPageObjectGUI
     public function postOutputProcessing(string $a_output): string
     {
         if ($this->getOutputMode() == "print" && !is_null($this->glossary)) {
-            $term_id = ilGlossaryDefinition::_lookupTermId($this->getId());
+            $term_id = $this->getId();
             $mdgui = new ilObjectMetaDataGUI($this->glossary, "term", $term_id);
             $md = $mdgui->getKeyValueList();
             if ($md != "") {

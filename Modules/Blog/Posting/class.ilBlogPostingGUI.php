@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -37,7 +39,7 @@ class ilBlogPostingGUI extends ilPageObjectGUI
     protected bool $enable_public_notes = false;
     protected bool $may_contribute = false;
     protected bool $fetchall = false;
-    protected bool $blpg = false;
+    protected int $blpg = 0;
     protected string $term = "";
     public bool $add_date = false;
 
@@ -125,26 +127,24 @@ class ilBlogPostingGUI extends ilPageObjectGUI
                 return $this->previewFullscreen();
 
             default:
-                if ($posting) {
-                    if ($ilCtrl->getCmd() === "deactivatePageToList") {
-                        $this->tpl->setOnScreenMessage('success', $this->lng->txt("blog_draft_info"), true);
-                    } elseif ($ilCtrl->getCmd() === "activatePageToList") {
-                        $this->tpl->setOnScreenMessage('success', $this->lng->txt("blog_new_posting_info"), true);
-                    }
-                    $this->setPresentationTitle($posting->getTitle());
-
-                    $tpl->setTitle(ilObject::_lookupTitle($this->getBlogPosting()->getBlogId()) . ": " . // #15017
-                        $posting->getTitle());
-                    $tpl->setTitleIcon(
-                        ilUtil::getImagePath("icon_blog.svg"),
-                        $this->lng->txt("obj_blog")
-                    ); // #12879
-
-                    $ilLocator->addItem(
-                        $posting->getTitle(),
-                        $ilCtrl->getLinkTarget($this, "preview")
-                    );
+                if ($ilCtrl->getCmd() === "deactivatePageToList") {
+                    $this->tpl->setOnScreenMessage('success', $this->lng->txt("blog_draft_info"), true);
+                } elseif ($ilCtrl->getCmd() === "activatePageToList") {
+                    $this->tpl->setOnScreenMessage('success', $this->lng->txt("blog_new_posting_info"), true);
                 }
+                $this->setPresentationTitle($posting->getTitle());
+
+                $tpl->setTitle(ilObject::_lookupTitle($this->getBlogPosting()->getBlogId()) . ": " . // #15017
+                    $posting->getTitle());
+                $tpl->setTitleIcon(
+                    ilUtil::getImagePath("icon_blog.svg"),
+                    $this->lng->txt("obj_blog")
+                ); // #12879
+
+                $ilLocator->addItem(
+                    $posting->getTitle(),
+                    $ilCtrl->getLinkTarget($this, "preview")
+                );
                 return parent::executeCommand();
         }
     }
@@ -277,7 +277,7 @@ class ilBlogPostingGUI extends ilPageObjectGUI
             $class = get_class($this->access_handler);
         }
 
-        return stristr($class, "workspace");
+        return (bool) stristr($class, "workspace");
     }
 
     /**

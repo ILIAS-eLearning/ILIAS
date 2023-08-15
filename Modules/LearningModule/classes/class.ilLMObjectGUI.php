@@ -187,8 +187,12 @@ class ilLMObjectGUI
         $cont_obj_gui->delete($this->obj->getId());
     }
 
+    public function setTabs(): void
+    {
+    }
 
-    /**
+
+        /**
      * cancel deletion of page/structure objects
      */
     public function cancelDelete(): void

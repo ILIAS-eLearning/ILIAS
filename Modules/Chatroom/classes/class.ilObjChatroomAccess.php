@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Access class for chatroom objects.
@@ -45,10 +45,8 @@ class ilObjChatroomAccess extends ilObjectAccess implements ilWACCheckingClass
             return false;
         }
 
-        if (
-            ilChatroom::checkUserPermissions('visible', (int) $t_arr[1], false) ||
-            ilChatroom::checkUserPermissions('read', (int) $t_arr[1], false)
-        ) {
+        if (ilChatroom::checkUserPermissions('visible', (int) $t_arr[1], false) ||
+            ilChatroom::checkUserPermissions('read', (int) $t_arr[1], false)) {
             return true;
         }
 
@@ -79,26 +77,10 @@ class ilObjChatroomAccess extends ilObjectAccess implements ilWACCheckingClass
         }
 
         switch ($a_permission) {
-            case 'visible':
-                $visible = null;
-
-                $active = self::isActivated($a_ref_id, $a_obj_id, $visible);
-
-                if (!$active) {
-                    $DIC->access()->addInfoItem(
-                        ilAccessInfo::IL_NO_OBJECT_ACCESS,
-                        $DIC->language()->txt('offline')
-                    );
-                }
-
-                if ($active === false && $visible === false) {
-                    return false;
-                }
-                break;
-
             case 'read':
-                $active = self::isActivated($a_ref_id, $a_obj_id);
-                if (!$active) {
+            case 'visible':
+                $is_online = self::lookupOnline($a_obj_id);
+                if (!$is_online) {
                     $DIC->access()->addInfoItem(
                         ilAccessInfo::IL_NO_OBJECT_ACCESS,
                         $DIC->language()->txt('offline')
@@ -111,46 +93,13 @@ class ilObjChatroomAccess extends ilObjectAccess implements ilWACCheckingClass
         return self::$chat_enabled;
     }
 
-    public static function isActivated(int $refId, int $objId, bool &$a_visible_flag = null): bool
-    {
-        if (!self::lookupOnline($objId)) {
-            $a_visible_flag = false;
-            return false;
-        }
-
-        $a_visible_flag = true;
-
-        $item = ilObjectActivation::getItem($refId);
-        switch ($item['timing_type']) {
-            case ilObjectActivation::TIMINGS_ACTIVATION:
-                if (time() < $item['timing_start'] || time() > $item['timing_end']) {
-                    $a_visible_flag = (bool) $item['visible'];
-                    return false;
-                }
-        }
-
-        return true;
-    }
-
     public static function lookupOnline(int $a_obj_id): bool
     {
-        global $DIC;
-
-        $res = $DIC->database()->query(
-            'SELECT online_status FROM chatroom_settings WHERE object_id = ' .
-            $DIC->database()->quote($a_obj_id, 'integer')
-        );
-        $row = $DIC->database()->fetchAssoc($res);
-
-        return (bool) ($row['online_status'] ?? false);
+        return !ilObject::lookupOfflineStatus($a_obj_id);
     }
 
     public function canBeDelivered(ilWACPath $ilWACPath): bool
     {
-        if (preg_match("/chatroom\\/smilies\\//ui", $ilWACPath->getPath())) {
-            return true;
-        }
-
         return false;
     }
 }

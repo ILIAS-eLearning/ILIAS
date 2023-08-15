@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 class ilContentPagePageConfig extends ilPageConfig
 {
     public function init(): void
@@ -28,6 +28,7 @@ class ilContentPagePageConfig extends ilPageConfig
         $this->setEnablePermissionChecks(true);
         $this->setMultiLangSupport(true);
         $this->setUsePageContainer(false);
+        $this->setEnablePCType("Map", true);
 
         $mediaPoolSettings = new ilSetting('mobs');
         if ($mediaPoolSettings->get('mep_activate_pages', '0')) {

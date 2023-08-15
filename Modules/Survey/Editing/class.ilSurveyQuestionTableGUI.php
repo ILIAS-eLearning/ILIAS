@@ -23,6 +23,7 @@
  */
 class ilSurveyQuestionTableGUI extends ilTable2GUI
 {
+    protected \ILIAS\Survey\InternalGUIService $gui;
     protected ilObjSurvey $object;
     protected bool $read_only;
 
@@ -51,6 +52,10 @@ class ilSurveyQuestionTableGUI extends ilTable2GUI
             ->internal()
             ->domain()
             ->edit();
+
+        $this->gui = $DIC->survey()
+            ->internal()
+            ->gui();
 
         if (!$this->read_only) {
             // command dropdown
@@ -82,7 +87,7 @@ class ilSurveyQuestionTableGUI extends ilTable2GUI
         $this->addColumn($lng->txt("survey_question_pool"), "");
 
         if (!$this->read_only) {
-            $this->addColumn("", "");
+            $this->addColumn($lng->txt("actions"), "");
         }
 
         $this->setDefaultOrderField("order");
@@ -197,6 +202,8 @@ class ilSurveyQuestionTableGUI extends ilTable2GUI
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
+        $ui_factory = $this->gui->ui()->factory();
+        $ui_renderer = $this->gui->ui()->renderer();
 
         $obligatory = "";
 
@@ -294,34 +301,35 @@ class ilSurveyQuestionTableGUI extends ilTable2GUI
 
             $ilCtrl->setParameter($this->parent_obj, "q_id", $a_set["id"]);
 
-            $list = new ilAdvancedSelectionListGUI();
-            $list->setId($a_set["id"]);
-            $list->setListTitle($lng->txt("actions"));
+            $actions = [];
+
             if ($a_set["url"]) {
-                $list->addItem($lng->txt("edit"), "", $a_set["url"]);
+                $actions[] = $ui_factory->link()->standard(
+                    $lng->txt("edit"),
+                    $a_set["url"]
+                );
             }
 
             if ($a_set["heading"] ?? false) {
-                $list->addItem(
+                $actions[] = $ui_factory->link()->standard(
                     $lng->txt("survey_edit_heading"),
-                    "",
                     $ilCtrl->getLinkTarget($this->parent_obj, "editheading")
                 );
 
-                $list->addItem(
+                $actions[] = $ui_factory->link()->standard(
                     $lng->txt("survey_delete_heading"),
-                    "",
                     $ilCtrl->getLinkTarget($this->parent_obj, "removeheading")
                 );
             } elseif ($a_set["type"] === "question") {
-                $list->addItem(
+                $actions[] = $ui_factory->link()->standard(
                     $lng->txt("add_heading"),
-                    "",
                     $ilCtrl->getLinkTarget($this->parent_obj, "addHeading")
                 );
             }
 
-            $this->tpl->setVariable("ACTION", $list->getHTML());
+            $dd = $ui_factory->dropdown()->standard($actions);
+
+            $this->tpl->setVariable("ACTION", $ui_renderer->render($dd));
 
             $ilCtrl->setParameter($this->parent_obj, "q_id", "");
 

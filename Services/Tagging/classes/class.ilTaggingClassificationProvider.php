@@ -143,6 +143,8 @@ class ilTaggingClassificationProvider extends ilClassificationProvider
                         }
 
                         $tpl->parseCurrentBlock();
+                        $ctrl->setParameter($a_parent_gui, "tag_type", "");
+                        $ctrl->setParameter($a_parent_gui, "tag", "");
                     }
 
                     $a_html[] = array(

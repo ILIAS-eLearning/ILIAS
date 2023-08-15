@@ -274,6 +274,7 @@ class ilTaggingGUI
         $lng->loadLanguageModule("tagging");
         $lng->toJS("tagging_tags", $tpl);
 
+        ilYuiUtil::initConnection($tpl);
         iljQueryUtil::initjQuery($tpl);
         $tpl->addJavaScript("./Services/Tagging/js/ilTagging.js");
 

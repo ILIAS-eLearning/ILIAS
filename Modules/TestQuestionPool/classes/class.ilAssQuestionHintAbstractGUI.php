@@ -28,22 +28,9 @@
 abstract class ilAssQuestionHintAbstractGUI
 {
     protected \ILIAS\TestQuestionPool\InternalRequestService $request;
-
-    /**
-     * gui instance of current question
-     *
-     * @access	protected
-     * @var		assQuestionGUI
-     */
-    protected $questionGUI = null;
-
-    /**
-     * object instance of current question
-     *
-     * @access	protected
-     * @var		assQuestion
-     */
-    protected $questionOBJ = null;
+    protected ?assQuestionGUI $questionGUI = null;
+    protected ?assQuestion $questionOBJ = null;
+    protected ilTabsGUI $tabs;
 
     /**
      * Constructor
@@ -57,5 +44,6 @@ abstract class ilAssQuestionHintAbstractGUI
         $this->questionOBJ = $questionGUI->object;
         global $DIC;
         $this->request = $DIC->testQuestionPool()->internal()->request();
+        $this->tabs = $DIC->tabs();
     }
 }

@@ -39,6 +39,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI
     protected const LINK_MOD_ADD = 3;
     protected const LINK_MOD_SET_LIST = 4;
     protected const LINK_MOD_EDIT_LIST = 5;
+    protected const LINK_MOD_ASYNC = 6;
 
     protected HTTPService $http;
     protected ilNavigationHistory $navigationHistory;
@@ -144,7 +145,9 @@ class ilObjLinkResourceGUI extends ilObject2GUI
                 break;
 
             case "ilpropertyformgui":
-                $this->initFormLink(self::LINK_MOD_EDIT);
+                $mode = $this->ctrl->isAsynch() ?
+                    self::LINK_MOD_ASYNC : self::LINK_MOD_EDIT;
+                $this->initFormLink($mode);
                 $this->ctrl->forwardCommand($this->form);
                 break;
 
@@ -676,7 +679,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI
         }
 
         $link_post = (array) ($this->http->request()->getParsedBody(
-            )['links'] ?? []);
+        )['links'] ?? []);
 
         // Validate
         $invalid = [];
@@ -701,19 +704,19 @@ class ilObjLinkResourceGUI extends ilObject2GUI
                         $this->refinery->kindlyTo()->string()
                     );
             }
-            if (!strlen($data['title'])) {
+            if (!strlen($data['title'] ?? '')) {
                 $invalid[] = $link_id;
                 continue;
             }
-            if (!strlen($data['tar'])) {
+            if (!strlen($data['tar'] ?? '')) {
                 $invalid[] = $link_id;
                 continue;
             }
-            if ($data['nam'] && !$data['val']) {
+            if (($data['nam'] ?? false) && !($data['val'] ?? false)) {
                 $invalid[] = $link_id;
                 continue;
             }
-            if (!$data['nam'] && $data['val']) {
+            if (!($data['nam'] ?? false) && ($data['val'] ?? false)) {
                 $invalid[] = $link_id;
             }
         }
@@ -944,6 +947,16 @@ class ilObjLinkResourceGUI extends ilObject2GUI
                     $this->lng->txt('cancel')
                 );
                 break;
+
+                /*
+                 * The async call for displaying the object explorer for
+                 * internal links goes through ilPropertyFormGUI to get
+                 * to the right ilLinkInputGUI, so we only add that field
+                 * to the form here.
+                 */
+            case self::LINK_MOD_ASYNC:
+                $this->addLinkInputToForm($a_mode);
+                return $this->form;
         }
 
         if ($a_mode == self::LINK_MOD_SET_LIST) {
@@ -978,27 +991,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI
         } else {
             $this->form->setFormAction($this->ctrl->getFormAction($this));
 
-            $tar = new ilLinkInputGUI(
-                $this->lng->txt('type'),
-                'tar'
-            ); // lng var
-            if ($a_mode == self::LINK_MOD_CREATE) {
-                $tar->setAllowedLinkTypes(ilLinkInputGUI::LIST);
-            }
-            $tar->setInternalLinkFilterTypes(
-                array(
-                    "PageObject",
-                    "GlossaryItem",
-                    "RepositoryItem",
-                    'WikiPage'
-                )
-            );
-            $tar->setExternalLinkMaxLength(1000);
-            $tar->setInternalLinkFilterTypes(
-                array("PageObject", "GlossaryItem", "RepositoryItem")
-            );
-            $tar->setRequired(true);
-            $this->form->addItem($tar);
+            $this->addLinkInputToForm($a_mode);
 
             // Title
             $tit = new ilTextInputGUI(
@@ -1043,6 +1036,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI
                 }
                 if (
                     isset($link_id) &&
+                    $link_id > 0 &&
                     ($params = $this->getWebLinkRepo()->getItemByLinkId($link_id)->getParameters()) !== []
                 ) {
                     $ex = new ilCustomInputGUI(
@@ -1093,12 +1087,22 @@ class ilObjLinkResourceGUI extends ilObject2GUI
                     $this->lng->txt('links_value'),
                     'val'
                 );
+                /*
                 $val->setOptions(array_map(
                     function ($s) {
                         return $this->lng->txt($s);
                     },
                     ilWebLinkBaseParameter::VALUES_TEXT
                 ));
+                */
+                $options = [];
+                foreach (ilWebLinkBaseParameter::VALUES as $name => $identifier) {
+                    if ($name === ilWebLinkBaseParameter::SESSION_ID_NAME) {
+                        continue;
+                    }
+                    $options[] = ilWebLinkBaseParameter::VALUES_TEXT[$identifier];
+                }
+                $val->setOptions($options);
                 $val->setValue(0);
                 $dyn->addSubItem($val);
 
@@ -1106,6 +1110,31 @@ class ilObjLinkResourceGUI extends ilObject2GUI
             }
         }
         return $this->form;
+    }
+
+    protected function addLinkInputToForm(int $mode): void
+    {
+        $tar = new ilLinkInputGUI(
+            $this->lng->txt('type'),
+            'tar'
+        ); // lng var
+        if ($mode == self::LINK_MOD_CREATE) {
+            $tar->setAllowedLinkTypes(ilLinkInputGUI::LIST);
+        }
+        $tar->setInternalLinkFilterTypes(
+            [
+                "PageObject",
+                "GlossaryItem",
+                "RepositoryItem",
+                'WikiPage'
+            ]
+        );
+        $tar->setExternalLinkMaxLength(1000);
+        $tar->setInternalLinkFilterTypes(
+            ["PageObject", "GlossaryItem", "RepositoryItem"]
+        );
+        $tar->setRequired(true);
+        $this->form->addItem($tar);
     }
 
     /**
@@ -1445,13 +1474,6 @@ class ilObjLinkResourceGUI extends ilObject2GUI
             0,
             $this->object->getType()
         );
-
-        if ($this->id_type == self::WORKSPACE_NODE_ID) {
-            $info->addProperty(
-                $this->lng->txt("perma_link"),
-                $this->getPermanentLinkWidget()
-            );
-        }
 
         // forward the command
         $this->ctrl->forwardCommand($info);

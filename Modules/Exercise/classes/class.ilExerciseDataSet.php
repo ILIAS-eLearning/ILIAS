@@ -579,48 +579,48 @@ class ilExerciseDataSet extends ilDataSet
                         $ass->setDeadline($deadline->get(IL_CAL_UNIX));
                     }
 
-                    $ass->setInstruction($a_rec["Instruction"]);
-                    $ass->setTitle($a_rec["Title"]);
-                    $ass->setMandatory($a_rec["Mandatory"]);
-                    $ass->setOrderNr($a_rec["OrderNr"]);
+                    $ass->setInstruction($a_rec["Instruction"] ?? "");
+                    $ass->setTitle($a_rec["Title"] ?? "");
+                    $ass->setMandatory((bool) ($a_rec["Mandatory"] ?? false));
+                    $ass->setOrderNr((int) ($a_rec["OrderNr"] ?? 0));
 
                     // 4.2
-                    $ass->setType($a_rec["Type"]);
+                    $ass->setType((int) ($a_rec["Type"] ?? 0));
 
                     // 4.4
-                    $ass->setPeerReview($a_rec["Peer"]);
-                    $ass->setPeerReviewMin($a_rec["PeerMin"]);
-                    $ass->setPeerReviewDeadline($a_rec["PeerDeadline"]);
-                    $ass->setFeedbackFile($a_rec["FeedbackFile"]);
-                    $ass->setFeedbackCron($a_rec["FeedbackCron"]);
-                    $ass->setFeedbackDate($a_rec["FeedbackDate"]);
+                    $ass->setPeerReview((bool) ($a_rec["Peer"] ?? false));
+                    $ass->setPeerReviewMin((int) ($a_rec["PeerMin"] ?? 0));
+                    $ass->setPeerReviewDeadline((int) $a_rec["PeerDeadline"]);
+                    $ass->setFeedbackFile($a_rec["FeedbackFile"] ?? "");
+                    $ass->setFeedbackCron((bool) ($a_rec["FeedbackCron"] ?? false));
+                    $ass->setFeedbackDate((int) ($a_rec["FeedbackDate"] ?? 0));
 
                     // 5.0
-                    $ass->setPeerReviewFileUpload($a_rec["PeerFile"]);
-                    $ass->setPeerReviewPersonalized($a_rec["PeerPersonal"]);
+                    $ass->setPeerReviewFileUpload((bool) ($a_rec["PeerFile"] ?? false));
+                    $ass->setPeerReviewPersonalized((bool) ($a_rec["PeerPersonal"] ?? false));
 
                     // 5.1
-                    if ($a_rec["Deadline2"] != "") {
+                    if (($a_rec["Deadline2"] ?? "") !== "") {
                         $deadline = new ilDateTime($a_rec["Deadline2"], IL_CAL_DATETIME, "UTC");
                         $ass->setExtendedDeadline($deadline->get(IL_CAL_UNIX));
                     }
-                    $ass->setMaxFile((int)$a_rec["MaxFile"]);
-                    $ass->setTeamTutor($a_rec["TeamTutor"]);
-                    $ass->setPeerReviewChars((int)$a_rec["PeerChar"]);
-                    $ass->setPeerReviewSimpleUnlock($a_rec["PeerUnlock"]);
-                    $ass->setPeerReviewValid($a_rec["PeerValid"]);
-                    $ass->setPeerReviewText($a_rec["PeerText"]);
-                    $ass->setPeerReviewRating($a_rec["PeerRating"]);
+                    $ass->setMaxFile((int) ($a_rec["MaxFile"] ?? 0));
+                    $ass->setTeamTutor((bool) ($a_rec["TeamTutor"] ?? false));
+                    $ass->setPeerReviewChars((int) ($a_rec["PeerChar"] ?? null));
+                    $ass->setPeerReviewSimpleUnlock((bool) ($a_rec["PeerUnlock"] ?? false));
+                    $ass->setPeerReviewValid((int) ($a_rec["PeerValid"] ?? 0));
+                    $ass->setPeerReviewText((bool) ($a_rec["PeerText"] ?? false));
+                    $ass->setPeerReviewRating((bool) ($a_rec["PeerRating"] ?? false));
 
                     // 5.3
-                    $ass->setFeedbackDateCustom($a_rec["FbDateCustom"]);
-                    $ass->setRelDeadlineLastSubmission($a_rec["RelDeadlineLastSubm"]);
-                    $ass->setDeadlineMode($a_rec["DeadlineMode"]);
-                    $ass->setRelativeDeadline($a_rec["RelativeDeadline"]);
+                    $ass->setFeedbackDateCustom((int) ($a_rec["FbDateCustom"] ?? 0));
+                    $ass->setRelDeadlineLastSubmission((int) ($a_rec["RelDeadlineLastSubm"] ?? 0));
+                    $ass->setDeadlineMode((int) ($a_rec["DeadlineMode"] ?? 0));
+                    $ass->setRelativeDeadline((int) ($a_rec["RelativeDeadline"] ?? 0));
 
                     // criteria catalogue
                     if ($a_rec["PeerCritCat"]) {
-                        $ass->setPeerReviewCriteriaCatalogue($a_mapping->getMapping("Modules/Exercise", "exc_crit_cat", $a_rec["PeerCritCat"]));
+                        $ass->setPeerReviewCriteriaCatalogue((int) $a_mapping->getMapping("Modules/Exercise", "exc_crit_cat", $a_rec["PeerCritCat"]));
                     }
 
                     $ass->save();
@@ -711,11 +711,11 @@ class ilExerciseDataSet extends ilDataSet
                 $end = new ilDateTime($a_rec["End"], IL_CAL_DATETIME, "UTC");
                 $rmd = new ilExAssignmentReminder($new_exc_id, $new_ass_id, $a_rec["Type"]);
                 $rmd->setReminderStatus($a_rec["Status"]);
-                $rmd->setReminderStart($a_rec["Start"]);
-                $rmd->setReminderEnd($end->get(IL_CAL_UNIX));
-                $rmd->setReminderFrequency($a_rec["Freq"]);
-                $rmd->setReminderLastSend($a_rec["LastSend"]);
-                $rmd->setReminderMailTemplate($a_rec["TemplateId"]);
+                $rmd->setReminderStart((int) ($a_rec["Start"] ?? 0));
+                $rmd->setReminderEnd((int) $end->get(IL_CAL_UNIX));
+                $rmd->setReminderFrequency((int) ($a_rec["Freq"] ?? 0));
+                $rmd->setReminderLastSend((int) ($a_rec["LastSend"] ?? 0));
+                $rmd->setReminderMailTemplate((int) ($a_rec["TemplateId"] ?? 0));
                 $rmd->save();
         }
     }

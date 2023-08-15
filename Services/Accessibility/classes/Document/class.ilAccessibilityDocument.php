@@ -127,7 +127,7 @@ class ilAccessibilityDocument extends ActiveRecord implements ilAccessibilitySig
         $this->fetchAllCriterionAssignments();
     }
 
-    public function buildFromArray(array $array): \ActiveRecord
+    public function buildFromArray(array $array): static
     {
         $document = parent::buildFromArray($array);
 
@@ -151,7 +151,7 @@ class ilAccessibilityDocument extends ActiveRecord implements ilAccessibilitySig
         $this->initialPersistedCriteria = $this->criteria;
     }
 
-    public function update()
+    public function update(): void
     {
         $this->setModificationTs(time());
 
@@ -180,7 +180,7 @@ class ilAccessibilityDocument extends ActiveRecord implements ilAccessibilitySig
         parent::update();
     }
 
-    public function delete()
+    public function delete(): void
     {
         foreach ($this->initialPersistedCriteria as $criterionAssignment) {
             /** @var $criterionAssignment ilAccessibilityDocumentCriterionAssignment */

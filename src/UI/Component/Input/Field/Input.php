@@ -67,4 +67,22 @@ interface Input extends Component
      * @return static
      */
     public function withAdditionalTransformation(Transformation $trafo);
+
+    /**
+     * Sets an optional dedicated name for this input which is used in the NAME
+     * attribute of the rendered input (instead of the auto-generated 'input_x').
+     * If the same dedicated name is used more than once, a counter will be
+     * added to the name.
+     *
+     * The dedicated name is inherited by all child inputs (e.g. for groups
+     * or sections) and added to their name in a path-like format.
+     * Example: All children of an input named 'user' will be named 'user/input_x'
+     * or - if they have a dedicated name of their own - will be named 'user/address'.
+     * This path will be extended for each level of input that has a dedicated name,
+     * e.g. 'user/address/street'.
+     *
+     * @param string $dedicated_name
+     * @return $this
+     */
+    public function withDedicatedName(string $dedicated_name): self;
 }

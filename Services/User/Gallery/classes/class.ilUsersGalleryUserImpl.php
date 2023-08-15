@@ -17,18 +17,13 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
-
 class ilUsersGalleryUserImpl implements ilUsersGalleryUser
 {
-    protected ilObjUser $aggregated_user;
-    protected string $public_name;
-    protected string $sortable_public_name;
-
-    public function __construct(ilObjUser $aggregated_user, string $public_name, string $sortable_public_name)
-    {
-        $this->aggregated_user = $aggregated_user;
-        $this->public_name = $public_name;
-        $this->sortable_public_name = $sortable_public_name;
+    public function __construct(
+        protected ilObjUser $aggregated_user,
+        protected string $public_name,
+        protected string $sortable_public_name
+    ) {
     }
 
     public function hasPublicProfile(): bool

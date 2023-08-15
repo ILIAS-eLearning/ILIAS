@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,13 +16,15 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class ilTermsOfServiceHistorizedDocument
  * @author Michael Jansen <mjansen@databay.de>
  */
 class ilTermsOfServiceHistorizedDocument implements ilTermsOfServiceSignableDocument
 {
-    public function __construct(private ilTermsOfServiceAcceptanceEntity $entity, private ilTermsOfServiceAcceptanceHistoryCriteriaBag $criteria)
+    public function __construct(private readonly ilTermsOfServiceAcceptanceEntity $entity, private readonly ilTermsOfServiceAcceptanceHistoryCriteriaBag $criteria)
     {
     }
 

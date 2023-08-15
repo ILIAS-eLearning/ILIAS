@@ -52,7 +52,7 @@ class NullIdentification implements IdentificationInterface
     /**
      * @inheritDoc
      */
-    public function unserialize($serialized)
+    public function unserialize($serialized): void
     {
         // noting to do
     }

@@ -173,7 +173,8 @@ class ilLMPresentationLinker implements \ILIAS\COPage\PageLinker
                     break;
 
                 case "sourcecodeDownload":
-                    $this->ctrl->setParameterByClass(self::TARGET_GUI, "obj_id", $a_obj_id);
+                case "download_paragraph":
+                    $this->ctrl->setParameterByClass(self::TARGET_GUI, "obj_id", $this->current_page);
                     $link = $this->ctrl->getLinkTargetByClass([self::TARGET_GUI, "ilLMPageGUI"], "", "", false, false);
                     break;
 
@@ -185,7 +186,7 @@ class ilLMPresentationLinker implements \ILIAS\COPage\PageLinker
                     if ($a_frame != "") {
                         $this->ctrl->setParameterByClass(self::TARGET_GUI, "frame", $a_frame);
                     }
-                    if ($a_obj_id != "") {
+                    if ($a_obj_id > 0) {
                         switch ($a_type) {
                             case "MediaObject":
                                 $this->ctrl->setParameterByClass(self::TARGET_GUI, "mob_id", $a_obj_id);
@@ -268,7 +269,6 @@ class ilLMPresentationLinker implements \ILIAS\COPage\PageLinker
             }
         }
         $this->ctrl->clearParametersByClass(self::TARGET_GUI);
-
         return $link;
     }
 
@@ -451,7 +451,11 @@ class ilLMPresentationLinker implements \ILIAS\COPage\PageLinker
                         break;
 
                     case "WikiPage":
-                        $href = ilWikiPage::getGotoForWikiPageTarget($target_id);
+                        $wiki_anc = "";
+                        if ($int_link["Anchor"] != "") {
+                            $wiki_anc = "#" . rawurlencode($int_link["Anchor"]);
+                        }
+                        $href = ilWikiPage::getGotoForWikiPageTarget($target_id) . $wiki_anc;
                         if ($this->embed_mode) {
                             $ltarget = "_blank";
                         }

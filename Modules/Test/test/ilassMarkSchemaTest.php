@@ -34,8 +34,6 @@ class ilassMarkSchemaTest extends TestCase
         chdir(dirname(__FILE__));
         chdir('../../../');
 
-        // Arrange
-        include_once './Modules/Test/classes/class.assMarkSchema.php';
         $this->ass_mark_schema = new ASS_MarkSchema();
     }
 

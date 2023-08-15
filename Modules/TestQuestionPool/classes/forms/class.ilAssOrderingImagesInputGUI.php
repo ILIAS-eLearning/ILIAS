@@ -27,7 +27,6 @@ class ilAssOrderingImagesInputGUI extends ilMultipleImagesInputGUI
      */
     public function __construct(ilAssOrderingFormValuesObjectsConverter $converter, $postVar)
     {
-        require_once 'Modules/TestQuestionPool/classes/forms/class.ilAssOrderingDefaultElementFallback.php';
         $manipulator = new ilAssOrderingDefaultElementFallback();
         $this->addFormValuesManipulator($manipulator);
 
@@ -73,7 +72,6 @@ class ilAssOrderingImagesInputGUI extends ilMultipleImagesInputGUI
      */
     public function getElementList($questionId): ilAssOrderingElementList
     {
-        require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssOrderingElementList.php';
         return ilAssOrderingElementList::buildInstance($questionId, $this->getIdentifiedMultiValues());
     }
 

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -13,12 +14,11 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
-/**
- * Export User Interface Class
- * @author       Michael Herren <mh@studer-raimann.ch>
- */
+ *********************************************************************/
+
+
+declare(strict_types=1);
+
 class ilDclExportTableGUI extends ilExportTableGUI
 {
     public function __construct(ilDclExportGUI $a_parent_obj, string $a_parent_cmd, ilObject $a_exp_obj)
@@ -30,13 +30,13 @@ class ilDclExportTableGUI extends ilExportTableGUI
 
     public function getExportFiles(): array
     {
-        $types = array();
+        $types = [];
         foreach ($this->parent_obj->getFormats() as $f) {
             $types[] = $f['key'];
             $this->formats[$f['key']] = $f['txt'];
         }
 
-        $file = array();
+        $file = [];
         foreach ($types as $type) {
             $dir = ilExport::_getExportDirectory($this->obj->getId(), $type, 'dcl');
 
@@ -55,12 +55,12 @@ class ilDclExportTableGUI extends ilExportTableGUI
 
                     $filename = $entry; //($this->isExportInProgress($entry))? substr($entry, 0, - strlen(self::PROGRESS_IDENTIFIER)) : $entry;
 
-                    $file[$entry . $type] = array(
+                    $file[$entry . $type] = [
                         "type" => $type,
                         "file" => $filename,
                         "size" => ($this->isExportInProgress($entry)) ? '0' : filesize($dir . "/" . $entry),
                         "timestamp" => $ts,
-                    );
+                    ];
                 }
             }
 
@@ -76,9 +76,6 @@ class ilDclExportTableGUI extends ilExportTableGUI
 
     protected function fillRow(array $a_set): void
     {
-        global $DIC;
-        $ilCtrl = $DIC['ilCtrl'];
-
         foreach ($this->getCustomColumns() as $c) {
             $this->tpl->setCurrentBlock('custom');
             $this->tpl->setVariable('VAL_CUSTOM', $c['obj']->{$c['func']}($a_set['type'], $a_set['file']) . ' ');
@@ -109,9 +106,9 @@ class ilDclExportTableGUI extends ilExportTableGUI
         if (!$this->isExportInProgress($a_set['file'])) {
             $this->tpl->setVariable('TXT_DOWNLOAD', $this->lng->txt('download'));
 
-            $ilCtrl->setParameter($this->getParentObject(), "file", $file_id);
-            $url = $ilCtrl->getLinkTarget($this->getParentObject(), "download");
-            $ilCtrl->setParameter($this->getParentObject(), "file", "");
+            $this->ctrl->setParameter($this->getParentObject(), "file", $file_id);
+            $url = $this->ctrl->getLinkTarget($this->getParentObject(), "download");
+            $this->ctrl->setParameter($this->getParentObject(), "file", "");
             $this->tpl->setVariable('URL_DOWNLOAD', $url);
         }
     }
@@ -129,7 +126,7 @@ class ilDclExportTableGUI extends ilExportTableGUI
         }
     }
 
-    protected function isExportInProgress(string $file): string
+    protected function isExportInProgress(string $file): bool
     {
         $ending = substr($file, -strlen(ilDclContentExporter::IN_PROGRESS_POSTFIX));
 

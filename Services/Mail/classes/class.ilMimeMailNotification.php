@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Base class for mime mail notifications
  * @author  Michael Jansen <mjansen@databay.de>
@@ -32,7 +32,7 @@ abstract class ilMimeMailNotification extends ilMailNotification
     public function __construct(bool $a_is_personal_workspace = false)
     {
         global $DIC;
-        $this->senderFactory = $DIC["mail.mime.sender.factory"];
+        $this->senderFactory = $DIC->mail()->mime()->senderFactory();
         parent::__construct($a_is_personal_workspace);
     }
 

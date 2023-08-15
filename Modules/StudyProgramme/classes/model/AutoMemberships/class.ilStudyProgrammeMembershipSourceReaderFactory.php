@@ -51,7 +51,6 @@ class ilStudyProgrammeMembershipSourceReaderFactory
             case ilStudyProgrammeAutoMembershipSource::TYPE_ORGU:
                 return new ilStudyProgrammeMembershipSourceReaderOrgu(
                     ilObjOrgUnitTree::_getInstance(),
-                    new ilOrgUnitUserAssignment(),
                     $src_id
                 );
 

@@ -129,7 +129,7 @@ class HasDynamicInputsBaseTest extends TestCase
      */
     public function testDynamicInputNameGeneration(): void
     {
-        $input_name = 'test_name[form_input_0][]';
+        $input_name = 'test_name[input_0][]';
         $dynamic_input = $this->input->withValue(['', '']);
         $dynamic_input = $dynamic_input->withNameFrom(
             $this->getTestNameSource()

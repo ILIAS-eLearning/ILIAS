@@ -84,8 +84,14 @@ class ilLMNavigationStatus
 
         $this->chapter_has_no_active_page = false;
         $this->deactivated_page = false;
+
+        $requested_obj_id = $this->requested_obj_id;
+        if ($requested_obj_id > 0 && ilLMObject::_lookupContObjID($requested_obj_id) !== $this->lm->getId()) {
+            $requested_obj_id = 0;
+        }
+
         // determine object id
-        if ($this->requested_obj_id == 0) {
+        if ($requested_obj_id == 0) {
             $obj_id = $this->lm_tree->getRootId();
 
             if ($this->cmd == "resume") {
@@ -99,7 +105,7 @@ class ilLMNavigationStatus
                 }
             }
         } else {
-            $obj_id = $this->requested_obj_id;
+            $obj_id = $requested_obj_id;
             $active = ilLMPage::_lookupActive(
                 $obj_id,
                 $this->lm->getType(),
@@ -122,7 +128,7 @@ class ilLMNavigationStatus
         $active = ilLMPage::_lookupActive(
             $obj_id,
             $this->lm->getType(),
-            $this->lm_set->get("time_scheduled_page_activation")
+            (bool) $this->lm_set->get("time_scheduled_page_activation")
         );
 
         if ($curr_node["type"] == "pg" &&
@@ -134,15 +140,17 @@ class ilLMNavigationStatus
             $page_id = $obj_id;
             while ($succ_node && !$active) {
                 $succ_node = $this->lm_tree->fetchSuccessorNode($page_id, "pg");
-                $page_id = $succ_node["obj_id"];
-                $active = ilLMPage::_lookupActive(
-                    $page_id,
-                    $this->lm->getType(),
-                    $this->lm_set->get("time_scheduled_page_activation")
-                );
+                if (!is_null($succ_node)) {
+                    $page_id = $succ_node["obj_id"];
+                    $active = ilLMPage::_lookupActive(
+                        $page_id,
+                        $this->lm->getType(),
+                        $this->lm_set->get("time_scheduled_page_activation")
+                    );
+                }
             }
 
-            if ($succ_node["type"] != "pg") {
+            if (is_null($succ_node) || $succ_node["type"] != "pg") {
                 $this->chapter_has_no_active_page = true;
                 $this->current_page_id = 0;
                 return;
@@ -163,7 +171,7 @@ class ilLMNavigationStatus
             // check whether page found is within "clicked" chapter
             if ($this->lm_tree->isInTree($page_id)) {
                 $path = $this->lm_tree->getPathId($page_id);
-                if (!in_array($this->requested_obj_id, $path)) {
+                if (!in_array($requested_obj_id, $path)) {
                     $this->chapter_has_no_active_page = true;
                 }
             }

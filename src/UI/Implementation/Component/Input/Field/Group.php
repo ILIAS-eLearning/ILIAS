@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,7 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Input\Field;
 
@@ -57,7 +56,7 @@ class Group extends Input implements C\Input\Field\Group
         ilLanguage $lng,
         array $inputs,
         string $label,
-        string $byline = null
+        ?string $byline = null
     ) {
         parent::__construct($data_factory, $refinery, $label, $byline);
         $this->checkArgListElements("inputs", $inputs, InputInternal::class);
@@ -72,14 +71,27 @@ class Group extends Input implements C\Input\Field\Group
         return $clone;
     }
 
-    public function withRequired(bool $is_required): C\Input\Field\Input
+    public function withRequired(bool $is_required, ?Constraint $requirement_constraint = null): C\Input\Field\Input
     {
-        $clone = parent::withRequired($is_required);
-        $clone->inputs = array_map(fn ($i) => $i->withRequired($is_required), $this->inputs);
+        $clone = parent::withRequired($is_required, $requirement_constraint);
+        $clone->inputs = array_map(fn ($i) => $i->withRequired($is_required, $requirement_constraint), $this->inputs);
         return $clone;
     }
 
-    public function withOnUpdate(Signal $signal): C\OnUpdateable
+    public function isRequired(): bool
+    {
+        if ($this->is_required) {
+            return true;
+        }
+        foreach ($this->getInputs() as $input) {
+            if ($input->isRequired()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public function withOnUpdate(Signal $signal)
     {
         $clone = parent::withOnUpdate($signal);
         $clone->inputs = array_map(fn ($i) => $i->withOnUpdate($signal), $this->inputs);
@@ -181,15 +193,16 @@ class Group extends Input implements C\Input\Field\Group
     /**
      * @inheritdoc
      */
-    public function withNameFrom(NameSource $source): C\Input\Field\Input
+    public function withNameFrom(NameSource $source, ?string $parent_name = null): C\Input\Field\Input
     {
-        $clone = parent::withNameFrom($source);
+        $clone = parent::withNameFrom($source, $parent_name);
+
         /**
          * @var $clone Group
          */
         $named_inputs = [];
         foreach ($this->getInputs() as $key => $input) {
-            $named_inputs[$key] = $input->withNameFrom($source);
+            $named_inputs[$key] = $input->withNameFrom($source, $clone->getName());
         }
 
         $clone->inputs = $named_inputs;

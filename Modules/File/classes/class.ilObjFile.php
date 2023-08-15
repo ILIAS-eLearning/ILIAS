@@ -35,7 +35,6 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
 {
     use ilObjFileMetadata;
     use ilObjFileUsages;
-    use ilObjFilePreviewHandler;
     use ilObjFileNews;
     use ilObjFileSecureString;
 
@@ -55,6 +54,7 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
     protected int $filesize;
     protected int $version = 1;
     protected int $max_version = 1;
+    protected ?int $copyright_id = null;
     protected string $action = '';
     protected ?string $resource_id = null;
     public string $mode = self::MODE_OBJECT;
@@ -98,19 +98,15 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
     public function updateObjectFromCurrentRevision(): void
     {
         $this->updateObjectFromRevision(
-            $this->manager->getCurrentRevision($this->manager->find($this->getResourceId())),
-            false
+            $this->manager->getCurrentRevision($this->manager->find($this->getResourceId()))
         );
     }
 
-    private function updateObjectFromRevision(Revision $r, bool $create_previews = true): void
+    private function updateObjectFromRevision(Revision $r): void
     {
         $this->setTitle($r->getTitle());
         $this->setFileName($r->getInformation()->getTitle());
         $this->update();
-        if ($create_previews) {
-            $this->createPreview(true);
-        }
     }
 
     private function appendSuffixToTitle(string $title, string $filename): string
@@ -302,6 +298,16 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
         throw new LogicException('cannot change max-version');
     }
 
+    public function getCopyrightID(): ?int
+    {
+        return $this->copyright_id;
+    }
+
+    public function setCopyrightID(?int $copyright_id): void
+    {
+        $this->copyright_id = $copyright_id;
+    }
+
     public function getPageCount(): int
     {
         return $this->page_count;
@@ -369,6 +375,7 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
     protected function doCreate(bool $clone_mode = false): void
     {
         $this->createProperties(true);
+        $this->updateCopyright();
         $this->notifyCreation($this->getId(), $this->getDescription());
     }
 
@@ -412,7 +419,7 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
         $new_current_revision = $this->manager->getCurrentRevision($new_resource_identification);
         $new_obj->setResourceId($new_resource_identification->serialize());
         $new_obj->initImplementation();
-        $new_obj->updateObjectFromRevision($new_current_revision, false); // Previews are already copied in 453
+        $new_obj->updateObjectFromRevision($new_current_revision); // Previews are already copied in 453
         $new_obj->setTitle($cloned_title); // see https://mantis.ilias.de/view.php?id=31375
         $new_obj->setPageCount($this->getPageCount());
         $new_obj->update();
@@ -451,6 +458,7 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
         // no meta data handling for file list files
         if ($this->getMode() !== self::MODE_FILELIST) {
             $this->updateMetaData();
+            $this->updateCopyright();
         }
 
         return true;
@@ -475,9 +483,6 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
         if ($this->getMode() != self::MODE_FILELIST) {
             $this->deleteMetaData();
         }
-
-        // delete preview
-        $this->deletePreview();
 
         // delete resource
         $identification = $this->getResourceId();
@@ -570,6 +575,11 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
     public function deleteVersions($a_hist_entry_ids = null): void
     {
         $this->implementation->deleteVersions($a_hist_entry_ids);
+        // update file object as the deletion of versions might affect its attributes (title, max_version etc.)
+        if ($this->getResourceId() && $rid = $this->manager->find($this->getResourceId())) {
+            $latest_revision = $this->manager->getCurrentRevision($rid);
+            $this->updateObjectFromRevision($latest_revision);
+        }
     }
 
     public function sendFile(?int $a_hist_entry_id = null): void

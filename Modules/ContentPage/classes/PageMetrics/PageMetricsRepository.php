@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\ContentPage\PageMetrics;
 
@@ -34,10 +34,6 @@ interface PageMetricsRepository
     public function delete(PageMetrics $pageMetrics): void;
 
     /**
-     * @param int    $contentPageId
-     * @param int    $pageId
-     * @param string $language
-     * @return PageMetrics
      * @throws CouldNotFindPageMetrics
      */
     public function findBy(int $contentPageId, int $pageId, string $language): PageMetrics;

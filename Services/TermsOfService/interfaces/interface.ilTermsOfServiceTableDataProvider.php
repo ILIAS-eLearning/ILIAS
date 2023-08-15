@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,16 +16,19 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Interface ilTermsOfServiceTableDataProvider
  * @author Michael Jansen <mjansen@databay.de>
+ * @template T
  */
 interface ilTermsOfServiceTableDataProvider
 {
     /**
-     * @param array $params Table parameters like limit or order
-     * @param array $filter Filter settings provided by a ilTable2GUI instance
-     * @return array An associative array with keys 'items' (array of items) and 'cnt' (number of total items)
+     * @param array<string, mixed> $params Table parameters like limit or order
+     * @param array<string, mixed> $filter Filter settings provided by a ilTable2GUI instance
+     * @return array{'items': iterable<T>, 'cnt': int} An associative array with keys 'items' (array of items) and 'cnt' (number of total items)
      */
     public function getList(array $params, array $filter): array;
 }

@@ -1,25 +1,26 @@
 @use "../../../010-settings/" as *;
-@use "../bootstrap-3-scss/bootstrap-3-scss-modified-variables-mixins" as *;
+@use "../../../030-tools/_tool_browser-prefixes" as *;
+@use "../../../030-tools/tool_screen-reader-only" as *;
+@use "../../../050-layout/layout_breakpoints" as *;
 
 /*!
  * Datetimepicker for Bootstrap 3
  * version : 4.17.37
  * https://github.com/Eonasdan/bootstrap-datetimepicker/
- */
-
-/* see variables.scss
-$bs-datetimepicker-timepicker-font-size: 1.2em;
-$bs-datetimepicker-active-bg: $btn-primary-bg;
-$bs-datetimepicker-active-color: $btn-primary-color;
-$bs-datetimepicker-border-radius: $border-radius-base;
-$bs-datetimepicker-btn-hover-bg: $gray-lighter;
-$bs-datetimepicker-disabled-color: $gray-light;
-$bs-datetimepicker-alternate-color: $gray-light;
-$bs-datetimepicker-secondary-border-color: #ccc;
-$bs-datetimepicker-secondary-border-color-rgba: rgba(0, 0, 0, 0.2);
-$bs-datetimepicker-primary-border-color: white;
-$bs-datetimepicker-text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
 */
+
+ $bs-datetimepicker-timepicker-font-size: $il-font-size-large;
+ $bs-datetimepicker-active-bg: $il-btn-primary-bg;
+ $bs-datetimepicker-active-color: $il-btn-primary-color;
+ $bs-datetimepicker-border-radius: $il-border-radius-base;
+ $bs-datetimepicker-btn-hover-bg: $il-highlight-bg;
+ $bs-datetimepicker-disabled-color: $il-neutral-light-color;
+ $bs-datetimepicker-alternate-color: $il-neutral-light-color;
+ $bs-datetimepicker-secondary-border-color: $il-main-border-color;
+ $bs-datetimepicker-secondary-border-color-rgba: rgba(0, 0, 0, 0.2);
+ $bs-datetimepicker-primary-border-color: white;
+ $bs-datetimepicker-text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+ 
 
 .bootstrap-datetimepicker-widget {
     list-style: none;

@@ -43,7 +43,7 @@ class ilWikiContributorsTableGUI extends ilTable2GUI
 
         $this->addColumn("", "", "1");
         //$this->addColumn("", "", "1");
-        $this->addColumn($lng->txt("wiki_contributor"), "", "33%");
+        $this->addColumn($lng->txt("wiki_contributors"), "", "33%");
         $this->addColumn($lng->txt("wiki_page_changes"), "", "33%");
         $this->addColumn($lng->txt("wiki_grading"), "", "33%");
         $this->setEnableHeader(true);

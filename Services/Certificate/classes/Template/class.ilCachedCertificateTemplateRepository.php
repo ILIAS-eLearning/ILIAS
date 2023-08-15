@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * A certicate template repository which caches results of query commands
  * List of cached results (other queries are not cached yet):
@@ -28,7 +28,7 @@ class ilCachedCertificateTemplateRepository implements ilCertificateTemplateRepo
     /** @var array<string, ilCertificateTemplate[]> */
     protected static array $crs_certificates_without_lp = [];
 
-    public function __construct(private ilCertificateTemplateRepository $wrapped)
+    public function __construct(private readonly ilCertificateTemplateRepository $wrapped)
     {
     }
 

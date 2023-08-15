@@ -1,3 +1,19 @@
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 (function (root, scope, factory) {
 	scope.Chatroom = factory(root, root.jQuery);
 }(window, il, function init(root, $) {
@@ -13,7 +29,6 @@
 		serverConnector,
 		logger,
 		messageOptions,
-		smileys,
 		iliasConnector, 
 		chatActions;
 
@@ -191,106 +206,6 @@
 	ProfileImageLoader._imagesByUserId = {};
 
 	/**
-	 * This class renders the smiley selection for ChatActions.
-	 * It also replaces all smileys in a chat messages.
-	 *
-	 * @params {array} _smileys
-	 * @constructor
-	 */
-	const Smileys = function Smileys(_smileys) {
-		/**
-		 * Sets smileys into text
-		 *
-		 * @param {string} message
-		 * @returns {string}
-		 */
-		this.replace = function (message) {
-			if (typeof _smileys == "string") {
-				return message;
-			}
-
-			for (let i in _smileys) {
-				while (message.indexOf(i) != -1) {
-					message = message.replace(i, '<img src="' + _smileys[i] + '" />');
-				}
-			}
-
-			return message;
-		};
-
-		this.render = function () {
-			if (typeof _smileys == "object") {
-				if (_smileys.length == 0) {
-					return;
-				}
-				// Emoticons
-				const $emoticons_flyout_trigger = $('<a></a>'),
-					$emoticons_flyout = $('<div id="iosChatEmoticonsPanelFlyout"></div>'),
-					$emoticons_panel = $('<div id="iosChatEmoticonsPanel"></div>')
-					.append($emoticons_flyout_trigger)
-					.append($emoticons_flyout);
-
-				$("#submit_message_text").css("paddingLeft", "25px").after($emoticons_panel);
-
-				$emoticons_panel.css("top", "3px");
-
-				const $emoticons_table = $("<table></table>"),
-					emoticonMap = new Object();
-
-				let $emoticons_row = null,
-					cnt = 0;
-
-				for (let i in _smileys) {
-					let $emoticon;
-
-					if (emoticonMap[_smileys[i]]) {
-						$emoticon = emoticonMap[_smileys[i]];
-					} else {
-						if (cnt % 6 == 0) {
-							$emoticons_row = $("<tr></tr>");
-							$emoticons_table.append($emoticons_row);
-						}
-
-						$emoticon = $('<img src="' + _smileys[i] + '" alt="" title="" />');
-						$emoticon.data("emoticon", i);
-						$emoticons_row.append($('<td></td>').append($('<a></a>').append($emoticon)));
-
-						emoticonMap[_smileys[i]] = $emoticon;
-						++cnt;
-					}
-
-					$emoticon.attr({
-						alt: [$emoticon.attr('alt').toString(), i].join(' '),
-						title: [$emoticon.attr('title').toString(), i].join(' ')
-					});
-				}
-				$emoticons_flyout.append($emoticons_table);
-
-				$emoticons_flyout_trigger.on('click', function (e) {
-					$emoticons_flyout.toggle();
-
-					if ($(this).hasClass("active")) {
-						$(this).removeClass("active");
-					} else {
-						$(this).addClass("active");
-					}
-				});
-
-				$emoticons_panel.on('clickoutside', function (event) {
-					if ($emoticons_flyout_trigger.hasClass("active")) {
-						$emoticons_flyout_trigger.click();
-					}
-				});
-
-				$("#iosChatEmoticonsPanelFlyout a").click(function () {
-					$emoticons_flyout_trigger.click();
-					$("#submit_message_text").insertAtCaret($(this).find('img').data("emoticon"));
-				});
-			}
-		};
-	};
-
-	/**
 	 * This class renders the chat gui and manages all gui actions.
 	 *
 	 * @param {Translation} _translation
@@ -419,11 +334,11 @@
 	 * This class renders all available action for a user in a chat room.
 	 *
 	 * @param {string} selector
-	 * @param {Translation} _translator
+	 * @param {Closure} txt
 	 * @param {ILIASConnector} _connector
 	 * @constructor
 	 */
-	const ChatUsers = function ChatUsers(selector, _translator, _connector) {
+	const ChatUsers = function ChatUsers(selector, txt, _connector) {
 
 		let _$anchor = $(selector);
 
@@ -453,7 +368,7 @@
 		 */
 		function _addAddressAction() {
 			return {
-				label: _translator.translate('address'),
+				label: txt('address'),
 				callback: function () {
 					setRecipientOptions(this.id, 1); // @TODO setRecipientOptions(this.id, 1);
 				}
@@ -468,7 +383,7 @@
 		 */
 		function _addWhisperAction() {
 			return {
-				label: _translator.translate('whisper'),
+				label: txt('whisper'),
 				callback: function () {
 					setRecipientOptions(this.id, 0); // @TODO setRecipientOptions(this.id, 0);
 				}
@@ -482,13 +397,15 @@
 		 * @private
 		 */
 		function _addKickAction() {
-			return {
-				label: _translator.translate('kick'),
-				callback: function () {
-					if (confirm(_translator.translate('kick_question'))) {
-						_connector.kick(this.id);
-					}
-				},
+		    return {
+			label: txt('kick'),
+			callback: function () {
+			    confirmModal(txt('kick'), txt('kick_question')).then(function(x){
+				if (x) {
+				    _connector.kick(this.id);
+				}
+			    }.bind(this));
+			},
 				permission: ['moderator', 'owner']
 			};
 		}
@@ -501,11 +418,13 @@
 		 */
 		function _addBanAction() {
 			return {
-				label: _translator.translate('ban'),
-				callback: function () {
-					if (confirm(_translator.translate('ban_question'))) {
-						_connector.ban(this.id);
+				label: txt('ban'),
+			    	callback: function () {
+                                    confirmModal(txt('ban'), txt('ban_question')).then(function(x){
+					if (x) {
+                                            _connector.ban(this.id);
 					}
+                                    }.bind(this));
 				},
 				permission: ['moderator']
 			};
@@ -516,31 +435,38 @@
 	 * This class renders all available actions for the chat into a dropdown.
 	 *
 	 * @param {string} selector
-	 * @param {Translation} _translation
+	 * @param {Closure} txt
 	 * @param {ILIASConnector} _connector
 	 * @oaram {UserManager} userManager
 	 */
-	const ChatActions = function (selector, _translation, _connector, userManager) {
+	const ChatActions = function (selector, txt, _connector, userManager) {
 
 		let _$anchor = $(selector), _menuEntries = [];
-
 
 		// Done
 		/**
 		 * Setup ChatActions
 		 */
 		this.init = function () {
-			_$anchor.click(function (e) {
-				e.preventDefault();
-				e.stopPropagation();
-				_resetEntries();
+			_resetEntries();
 
-				$(this).removeClass('chat_new_events');
-				_addInviteSubRoomAction();
-				_addClearHistoryAction();
+			$(this).removeClass('chat_new_events');
+			_addInviteSubRoomAction();
+			_addClearHistoryAction();
 
-				$(this).ilChatMenu('show', _menuEntries, true);
-			});
+			const box = document.querySelector('#chat_function_list');
+			const createButton = function (entry) {
+				const node = document.createElement('button');
+				node.style.display = 'block';
+				node.style.margin = '0 0 5px 0';
+				node.classList.add('btn-link');
+				node.classList.add('btn');
+				node.textContent = entry.label;
+				node.addEventListener('click', entry.callback);
+
+				return node;
+			};
+                    _menuEntries.map(createButton).forEach(box.appendChild.bind(box));
 		};
 
 		/**
@@ -564,69 +490,92 @@
 		function _addInviteSubRoomAction() {
 		    _menuEntries.push(
 			{
-			    label: _translation.translate('invite_users'),
-			    callback: function () {
-				$('#invite_users_container').ilChatDialog({
-				    title: _translation.translate('invite_users'),
-				    close: function () {
-					$('#invite_user_text_wrapper').val('');
-				    },
-				    positiveAction: function () {
-				    },
-				    disabled_buttons: ['ok']
-				});
-
-				$('#invite_users_global').click(function () {
-				    $('#invite_users_available').children().remove();
-				    $('#invite_user_text_wrapper').show();
-
-				    $('#invite_user_text').keyup(function () {
-					if ($(this).val().length > 2) {
-					    $.get(
-						posturl.replace(/postMessage/, 'inviteUsersToPrivateRoom-getUserList') + '&q=' + $('#invite_user_text').val(),
-						function (response) {
-						    $('#invite_users_available').children().remove();
-						    $(response.items).each(function () {
-							const usersInRoom = userManager.getUsersInRoom();
-							if (!isIdInArray(this.id, usersInRoom)) {
-							    _addUserForInvitation(this.value, 'byLogin', this.value);
-							}
-						    });
-						},
-						'json'
-					    );
-					} else {
-					    $('#invite_users_available').children().remove();
-					}
-				    });
-				});
-
-				$('#invite_users_in_room').click(function () {
-				    const availableUsers = $('#invite_users_available');
-				    $(availableUsers).children().remove();
-				    $('#invite_user_text_wrapper').hide();
-
-				    // load all User connected to main room.
-				    const chatUsers = userManager.getUsersInRoom(),
-					  usersInRoom = userManager.getUsersInRoom();
-
-				    $(chatUsers).each(function () {
-					if (!isIdInArray(this.id, usersInRoom)) {
-					    _addUserForInvitation(this.id, 'byId', this.label);
-					}
-				    });
-
-				    if ($(availableUsers).children().length == 0) {
-					$('#invite_users_in_room').remove();
-					$('#radioText').remove();
-					$('#invite_users_global').prop('checked', 'checked').click();
-				    }
-				}).click();
-			    }
+			    label: txt('invite_users'),
+			    callback: inviteUserToRoomDialog
 			}
 		    );
 		    return room;
 		}
+
+
+            const searchForUsers = function(search){
+                const call = m => o => o[m]();
+                return fetch(posturl.replace(/postMessage/, 'inviteUsersToPrivateRoom-getUserList') + '&q=' + search).then(call('json')).then(function(response){
+                    const usersInRoom = userManager.getUsersInRoom();
+                    return response.items.filter(function(x){
+                        return !isIdInArray(x.id, usersInRoom);
+                    });
+                });
+            };
+
+            const createUserResults = function(loading, noUser){
+                let current = loading;
+                loading.classList.add('ilNoDisplayChat');
+                noUser.classList.add('ilNoDisplayChat');
+
+                const hideCurrent = function(){
+                    current.classList.add('ilNoDisplayChat');
+                };
+
+                const change = function(newOne){
+                    hideCurrent();
+                    current = newOne;
+                    current.classList.remove('ilNoDisplayChat');
+                };
+
+                return {
+                    loaded: function(then){
+                        return function(items){
+                            items.length ? hideCurrent() : change(noUser);
+                            return then(items);
+                        };
+                    },
+                    loading: function(){
+                        change(loading);
+                        current = loading;
+                    },
+                    noRequest: hideCurrent,
+                };
+            };
+
+            const inviteUserToRoomDialog = function(){
+                const input = document.querySelector('#invite_user_text');
+                const userResults = createUserResults(
+                    document.querySelector('#invite_users_loading'),
+                    document.querySelector('#invite_users_no_user')
+                );
+                const body = document.querySelector('#invite_users_container');
+                input.value = '';
+                const modal = window.il.Modal.dialogue({
+                    id: 'heja',
+                    header: txt('invite_users'),
+                    show: true,
+                    body: body,
+                    onShown: function(){
+                        body.classList.remove('ilNoDisplayChat');
+                    }
+                });
+
+                /* Please not that an empty input will not trigger a search so the last message will not be removed on empty input. */
+		$(input).autocomplete({
+		    appendTo: input.parentNode,
+		    source: function(request, response) {
+                        searchForUsers(request.term).then(userResults.loaded(response));
+                    },
+                    search: function() {
+                        if (this.value.length > 2) {
+                            userResults.loading();
+                            return true;
+                        }
+                        userResults.noRequest();
+                        return false;
+                    },
+                    select: function(event, ui){
+                        _connector.inviteToPrivateRoom(ui.item.id, 'byId');
+                        modal.hide();
+                    },
+                });
+            };
 
 		/**
 		 * Adds an action to clear the current room chat history.
@@ -637,12 +586,15 @@
 		 */
 		function _addClearHistoryAction() {
 			if (personalUserInfo.moderator) {
+                            const label = txt('clear_room_history');
 				_menuEntries.push({
-					label: _translation.translate('clear_room_history'),
+					label: label,
 					callback: function () {
-						if (confirm(_translation.translate('clear_room_history_question'))) {
-							_connector.clear();
-						}
+					    confirmModal(label, txt('clear_room_history_question'), txt('delete')).then(function(x){
+                                                if (x) {
+                                                    _connector.clear();
+                                                }
+                                            });
 					}
 				});
 			}
@@ -855,7 +807,7 @@ var ILIASResponseHandler = function ILIASResponseHandler() {
 				return;
 			}
 
-			$('#invite_users_container').ilChatDialog('close');
+                    // $('#invite_users_container').ilChatDialog('close');
 		};
 
 		/**
@@ -1248,8 +1200,6 @@ var ILIASResponseHandler = function ILIASResponseHandler() {
 
 			logger.logServerResponse("onUserlist");
 
-			userManager.clear();
-
 			let loader = new ProfileImageLoader($.map(users, function (val) {
 				return val.id;
 			}), function () {
@@ -1466,10 +1416,10 @@ var ILIASResponseHandler = function ILIASResponseHandler() {
 		const gui = new GUI(translation);
 		const userManager = new UserManager();
 		iliasConnector = new ILIASConnector(posturl, new ILIASResponseHandler());
-		const chatUsers = new ChatUsers('#chat_users', translation, iliasConnector);
+		const chatUsers = new ChatUsers('#chat_users', translation.translate, iliasConnector);
 
 		serverConnector = new ServerConnector(baseurl + '/' + instance, _scope, personalUserInfo, userManager, gui, initial.subdirectory);
-		chatActions = new ChatActions('#chat_actions', translation, iliasConnector, userManager);
+		chatActions = new ChatActions('#chat_actions', translation.translate, iliasConnector, userManager);
 
 		//Setup Heartbeat to refresh the Session
 		iliasConnector.heartbeatInterval(120 * 1000);
@@ -1482,8 +1432,6 @@ var ILIASResponseHandler = function ILIASResponseHandler() {
 			}
 
 		});
-
-		smileys.render();
 
 		// Insert Chatheader into HTML next to AKTION-Button
 		gui.renderHeaderAndActionButton();
@@ -1585,7 +1533,44 @@ var ILIASResponseHandler = function ILIASResponseHandler() {
 				});
 			}
 		}
-	}
+	};
+
+    /**
+     * @param {string} label
+     * @param {string} message
+     * @param {undefined|string} buttonLabel
+     * @return {Promise<bool>}
+     */
+    const confirmModal = function(label, message, buttonLabel){
+        return new Promise(function(resolve){
+            const body = document.createElement('div');
+            body.textContent = message;
+            body.className = 'alert alert-warning';
+            const header = document.createElement('div');
+            header.classList.add('modal-title');
+            header.textContent = label;
+
+            const modal = il.Modal.dialogue({
+                body: body,
+                header: header,
+                buttons: [
+                    {
+                        type: 'button',
+                        label: buttonLabel || label,
+                        callback: function(){
+                            resolve(true);
+                            resolve = function(){};
+                            modal.hide();
+                        }
+                    },
+                    {type: 'button', label: translation.translate('cancel'), callback: function(){modal.hide();}},
+                ],
+                onHide: function(){
+                    resolve(false);
+                }
+            });
+        });
+    };
 
 	let api = {
 		run: function(appDomElementId, lang, baseurl, instance, scope, postUrl, initialConfig) {
@@ -1606,15 +1591,11 @@ var ILIASResponseHandler = function ILIASResponseHandler() {
 
 			logger = new Logger();
 			translation = new Translation(lang);
-			smileys = new Smileys(initial.smileys);
 			
 			$("#" + appDomElementId).chat(baseurl, instance);
 		},
 		leavePrivateRoom: function () {
 			iliasConnector.leavePrivateRoom();
-		},
-		getSmileys: function () {
-			return smileys;
 		},
 		getUserInfo: function() {
 			return personalUserInfo;

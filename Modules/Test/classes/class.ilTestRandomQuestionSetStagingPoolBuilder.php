@@ -150,8 +150,6 @@ class ilTestRandomQuestionSetStagingPoolBuilder
             $lifecycleFilter = $definition->getLifecycleFilter();
 
             if (!empty($taxFilter)) {
-                require_once 'Services/Taxonomy/classes/class.ilObjTaxonomy.php';
-
                 $filterItems = null;
                 foreach ($taxFilter as $taxId => $nodeIds) {
                     $taxItems = array();

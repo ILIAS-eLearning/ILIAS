@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 require_once 'Services/Calendar/classes/class.ilDateTime.php'; // Required because of global contant IL_CAL_DATE
 
 /**
@@ -26,13 +26,13 @@ require_once 'Services/Calendar/classes/class.ilDateTime.php'; // Required becau
  */
 class ilDefaultPlaceholderValues implements ilCertificatePlaceholderValues
 {
-    private array $placeholder;
-    private ilCertificateObjectHelper $objectHelper;
-    private ilCertificateDateHelper $dateHelper;
-    private int $dateFormat;
-    private ilLanguage $language;
-    private ilCertificateUtilHelper $utilHelper;
-    private ilUserDefinedFieldsPlaceholderValues $userDefinedFieldsPlaceholderValues;
+    private readonly array $placeholder;
+    private readonly ilCertificateObjectHelper $objectHelper;
+    private readonly ilCertificateDateHelper $dateHelper;
+    private readonly int $dateFormat;
+    private readonly ilLanguage $language;
+    private readonly ilCertificateUtilHelper $utilHelper;
+    private readonly ilUserDefinedFieldsPlaceholderValues $userDefinedFieldsPlaceholderValues;
 
     public function __construct(
         ?ilCertificateObjectHelper $objectHelper = null,
@@ -41,7 +41,7 @@ class ilDefaultPlaceholderValues implements ilCertificatePlaceholderValues
         ?ilLanguage $language = null,
         ?ilCertificateUtilHelper $utilHelper = null,
         ?ilUserDefinedFieldsPlaceholderValues $userDefinedFieldsPlaceholderValues = null,
-        private int $birthdayDateFormat = IL_CAL_DATE
+        private readonly int $birthdayDateFormat = IL_CAL_DATE
     ) {
         if (null === $objectHelper) {
             $objectHelper = new ilCertificateObjectHelper();

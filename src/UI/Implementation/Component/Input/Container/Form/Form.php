@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,12 +16,16 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\UI\Implementation\Component\Input\Container\Form;
 
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 use ILIAS\UI\Component as C;
 use ILIAS\UI\Implementation\Component as CI;
-use ILIAS\UI\Implementation\Component\Input;
+use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
+use ILIAS\UI\Implementation\Component\Input\NameSource;
+use ILIAS\UI\Implementation\Component\Input\InputData;
 use ILIAS\Refinery\Transformation;
 use Psr\Http\Message\ServerRequestInterface;
 use LogicException;
@@ -38,22 +40,27 @@ abstract class Form implements C\Input\Container\Form\Form
     protected C\Input\Field\Group $input_group;
     protected ?Transformation $transformation;
     protected ?string $error = null;
+    protected ?string $dedicated_name = null;
+    protected CI\Input\NameSource $name_source;
 
     /**
      * For the implementation of NameSource.
      */
     public function __construct(
-        Input\Field\Factory $field_factory,
-        Input\NameSource $name_source,
+        FieldFactory $field_factory,
+        NameSource $name_source,
         array $inputs
     ) {
         $classes = [CI\Input\Field\Input::class];
         $this->checkArgListElements("input", $inputs, $classes);
         // TODO: this is a dependency and should be treated as such. `use` statements can be removed then.
 
+        $this->name_source = clone $name_source;
         $this->input_group = $field_factory->group(
             $inputs
-        )->withNameFrom($name_source);
+        )
+       ->withDedicatedName('form')
+       ->withNameFrom($name_source);
 
         $this->transformation = null;
     }
@@ -79,9 +86,6 @@ abstract class Form implements C\Input\Container\Form\Form
      */
     public function withRequest(ServerRequestInterface $request)
     {
-        if (!$this->isSanePostRequest($request)) {
-            throw new LogicException("Server request is not a valid post request.");
-        }
         $post_data = $this->extractPostData($request);
 
         $clone = clone $this;
@@ -114,6 +118,16 @@ abstract class Form implements C\Input\Container\Form\Form
         $this->error = $error;
     }
 
+    public function hasRequiredInputs(): bool
+    {
+        foreach ($this->getInputs() as $input) {
+            if ($input->isRequired()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     /**
      * @inheritdoc
      */
@@ -129,19 +143,25 @@ abstract class Form implements C\Input\Container\Form\Form
     }
 
     /**
-     * Check the request for sanity.
-     * TODO: implement me!
-     */
-    protected function isSanePostRequest(ServerRequestInterface $request): bool
-    {
-        return true;
-    }
-
-    /**
      * Extract post data from request.
      */
-    protected function extractPostData(ServerRequestInterface $request): Input\InputData
+    protected function extractPostData(ServerRequestInterface $request): InputData
     {
         return new PostDataFromServerRequest($request);
+    }
+
+    public function getDedicatedName(): ?string
+    {
+        return $this->dedicated_name;
+    }
+
+    public function withDedicatedName(string $dedicated_name): self
+    {
+        $clone = clone $this;
+        $clone->dedicated_name = $dedicated_name;
+        $clone->input_group = $clone->input_group
+            ->withDedicatedName($dedicated_name)
+            ->withNameFrom($clone->name_source);
+        return $clone;
     }
 }

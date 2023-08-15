@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\Contact\Provider;
 
@@ -41,8 +41,8 @@ use ILIAS\Notifications\ilNotificationOSDHandler;
  */
 class ContactNotificationProvider extends AbstractNotificationProvider
 {
-    public const MUTED_UNTIL_PREFERENCE_KEY = 'bs_nc_muted_until';
-    public const NOTIFICATION_TYPE = 'buddysystem_request';
+    final public const MUTED_UNTIL_PREFERENCE_KEY = 'bs_nc_muted_until';
+    final public const NOTIFICATION_TYPE = 'buddysystem_request';
 
     private function getIdentifier(string $id): IdentificationInterface
     {

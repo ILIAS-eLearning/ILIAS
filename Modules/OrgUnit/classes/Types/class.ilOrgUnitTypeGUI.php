@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -16,6 +17,8 @@
  ********************************************************************
  */
 
+declare(strict_types=1);
+
 /**
  * Class ilOrgUnitTypeGUI
  * @author Stefan Wanzenried <sw@studer-raimann.ch>
@@ -30,27 +33,28 @@ class ilOrgUnitTypeGUI
     private ilToolbarGUI $toolbar;
     private \ilSetting $settings;
     private ilLanguage $lng;
-    private ilObjOrgUnitGUI $parent_gui;
+    protected \ILIAS\UI\Component\Link\Factory $link_factory;
 
     /**
      * @param ilObjOrgUnitGUI $parent_gui
      */
-    public function __construct(ilObjOrgUnitGUI $parent_gui)
-    {
+    public function __construct(
+        private ilObjOrgUnitGUI $parent_gui
+    ) {
         global $DIC;
 
         $this->tpl = $DIC->ui()->mainTemplate();
         $this->ctrl = $DIC->ctrl();
-        $this->access =$DIC->access();
+        $this->access = $DIC->access();
         $this->toolbar = $DIC->toolbar();
-        $this->tabs =  $DIC->tabs();
+        $this->tabs = $DIC->tabs();
         $this->lng = $DIC->language();
         $this->settings = $DIC->settings();
-        $this->parent_gui = $parent_gui;
         $this->lng->loadLanguageModule('orgu');
         $this->ctrl->saveParameter($this, 'type_id');
         $this->lng->loadLanguageModule('meta');
         $this->checkAccess();
+        $this->link_factory = $DIC['ui.factory']->link();
     }
 
     public function executeCommand(): void
@@ -168,10 +172,12 @@ class ilOrgUnitTypeGUI
      */
     private function listTypes(): void
     {
-        $button = ilLinkButton::getInstance();
-        $button->setCaption('orgu_type_add');
-        $button->setUrl($this->ctrl->getLinkTarget($this, 'add'));
-        $this->toolbar->addButtonInstance($button);
+        $url = $this->ctrl->getLinkTarget($this, 'add');
+        $link = $this->link_factory->standard(
+            $this->lng->txt('orgu_type_add'),
+            $url
+        );
+        $this->toolbar->addComponent($link);
 
         $table = new ilOrgUnitTypeTableGUI($this, 'listTypes');
         $this->tpl->setContent($table->getHTML());

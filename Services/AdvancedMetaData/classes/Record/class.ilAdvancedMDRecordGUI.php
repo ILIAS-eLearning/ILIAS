@@ -2,10 +2,24 @@
 
 declare(strict_types=1);
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 use ILIAS\Refinery\Factory as RefineryFactory;
 use ILIAS\HTTP\GlobalHttpState;
-
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * @author  Stefan Meyer <meyer@leifos.com>
@@ -435,9 +449,15 @@ class ilAdvancedMDRecordGUI
                     $field_translations = ilAdvancedMDFieldTranslations::getInstanceByRecordId($record_id);
                     $title = $field_translations->getTitleForLanguage($element_id, $this->user->getLanguage());
 
+                    $presentation_bridge = ilADTFactory::getInstance()->getPresentationBridgeForInstance($element);
+
+                    if ($element instanceof ilADTLocation) {
+                        $presentation_bridge->setSize('500px', '300px');
+                    }
+
                     $this->info->addProperty(
                         $title,
-                        ilADTFactory::getInstance()->getPresentationBridgeForInstance($element)->getHTML()
+                        $presentation_bridge->getHTML()
                     );
                 }
             }
@@ -477,12 +497,16 @@ class ilAdvancedMDRecordGUI
                     $presentation_bridge = ilADTFactory::getInstance()->getPresentationBridgeForInstance($element);
                     #21615
                     if (get_class($element) == 'ilADTLocation') {
-                        $presentation_bridge->setSize(100, 200);
+                        /**
+                         * TODO replace this by presentation_bridge->getHTML() when maps
+                         *  work in modals (36490). Note that at that point formatting of
+                         *  maps in appointment lists has to be improved.
+                         **/
+                        $presentation_value = $presentation_bridge->getSortable();
+                    } elseif (get_class($element) == 'ilADTExternalLink' || get_class($element) == 'ilADTInternalLink') {
                         #22638
                         $presentation_value = $presentation_bridge->getHTML();
-                        $presentation_value .= "<script>ilInitMaps();</script>";
                     } else {
-                        #22638
                         $presentation_value = strip_tags($presentation_bridge->getHTML());
                     }
                     $array_elements[$positions[$element_id]] =
@@ -714,7 +738,20 @@ class ilAdvancedMDRecordGUI
                     continue;
                 }
 
-                $html .= "<td class='std'>" . $data['md_' . $def->getFieldId()] . "</td>";
+                $res = '';
+                $res_raw = $data['md_' . $def->getFieldId()] ?? null;
+                $res_presentation = $data['md_' . $def->getFieldId() . '_presentation'] ?? null;
+                if ($res_raw) {
+                    $res = $res_raw;
+                }
+                if (
+                    $res_presentation instanceof ilADTPresentationBridge &&
+                    !($res_presentation instanceof ilADTLocationPresentationBridge)
+                ) {
+                    $res = $res_presentation->getHTML();
+                }
+
+                $html .= "<td class='std'>" . $res . "</td>";
             }
         }
         return $html;

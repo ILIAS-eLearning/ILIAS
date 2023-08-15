@@ -24,73 +24,45 @@
  */
 class ilAssQuestionAssignedSkillList implements Iterator
 {
-    /**
-     * @var array
-     */
-    protected $skills = array();
+    protected array $skills = [];
 
-    /**
-     * @param integer $skillBaseId
-     * @param integer $skillTrefId
-     */
-    public function addSkill($skillBaseId, $skillTrefId): void
+    public function addSkill(int $skill_base_id, int $skill_ref_id): void
     {
-        $this->skills[] = "{$skillBaseId}:{$skillTrefId}";
+        $this->skills[] = "{$skill_base_id}:{$skill_ref_Id}";
     }
 
-    /**
-     * @return bool
-     */
     public function skillsExist(): bool
     {
         return (bool) count($this->skills);
     }
 
-    /**
-     * @return array
-     */
-    public function current(): array
+    public function current(): ?array
     {
-        return current($this->skills);
+        $current = current($this->skills);
+        return $current !== false ? $current : null;
     }
 
-    /**
-     * @return array
-     */
-    public function next(): array
+    public function next(): void
     {
-        return next($this->skills);
+        next($this->skills);
     }
 
-    /**
-     * @return integer|bool
-     */
-    public function key()
+    public function key(): ?int
     {
-        $res = key($this->skills);
-        return $res;
+        return key($this->skills);
     }
 
-    /**
-     * @return bool
-     */
     public function valid(): bool
     {
         $res = key($this->skills);
         return $res !== null;
     }
 
-    /**
-     * @return array|bool
-     */
-    public function rewind()
+    public function rewind(): void
     {
-        return reset($this->skills);
+        reset($this->skills);
     }
 
-    /**
-     * @return array
-     */
     public function sleep(): array
     {
         return array('skills');

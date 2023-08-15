@@ -242,7 +242,7 @@ class ilBlockSetting
             array($block_id, $block_type, 0)
         );
         while ($rec = $db->fetchAssoc($set)) {
-            self::_write($block_type, $rec["setting"], $rec["value"], 0, $new_block_id);
+            self::_write($block_type, (string) $rec["setting"], (string) $rec["value"], 0, $new_block_id);
         }
     }
 }

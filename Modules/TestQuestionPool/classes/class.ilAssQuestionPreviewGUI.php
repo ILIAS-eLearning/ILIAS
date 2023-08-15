@@ -20,6 +20,7 @@ use ILIAS\Refinery\Random\Group as RandomGroup;
 use ILIAS\Refinery\Random\Seed\RandomSeed;
 use ILIAS\Refinery\Random\Seed\GivenSeed;
 use ILIAS\Refinery\Transformation;
+use ILIAS\DI\RBACServices;
 
 /**
  * @author		Björn Heyser <bheyser@databay.de>
@@ -48,7 +49,10 @@ class ilAssQuestionPreviewGUI
 
     public const FEEDBACK_FOCUS_ANCHOR = 'focus';
 
+    private RBACServices $rbac_services;
+
     private ilCtrlInterface $ctrl;
+    private ilRbacSystem $rbac_system;
     private ilTabsGUI $tabs;
     private ilGlobalTemplateInterface $tpl;
     private ilLanguage $lng;
@@ -61,22 +65,33 @@ class ilAssQuestionPreviewGUI
     private ?ilAssQuestionPreviewHintTracking $hintTracking = null;
     private RandomGroup $randomGroup;
 
+    private int $parent_ref_id;
+
     public function __construct(
         ilCtrl $ctrl,
+        ilRbacSystem $rbac_system,
         ilTabsGUI $tabs,
         ilGlobalTemplateInterface $tpl,
         ilLanguage $lng,
         ilDBInterface $db,
         ilObjUser $user,
-        RandomGroup $randomGroup
+        RandomGroup $randomGroup,
+        int $parent_ref_id,
+        RBACServices $rbac_services
     ) {
         $this->ctrl = $ctrl;
+        $this->rbac_system = $rbac_system;
         $this->tabs = $tabs;
         $this->tpl = $tpl;
         $this->lng = $lng;
         $this->db = $db;
         $this->user = $user;
         $this->randomGroup = $randomGroup;
+        $this->rbac_services = $rbac_services;
+        $this->parent_ref_id = $parent_ref_id;
+
+        $this->tpl->addCss(ilObjStyleSheet::getContentStylePath(0));
+        $this->tpl->addCss(ilObjStyleSheet::getSyntaxStylePath());
     }
 
     public function initQuestion($questionId, $parentObjId): void
@@ -183,8 +198,8 @@ class ilAssQuestionPreviewGUI
 
     public function executeCommand(): void
     {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        $ilHelp = $DIC['ilHelp']; /* @var ilHelpGUI $ilHelp */
+        global $DIC;
+        $ilHelp = $DIC['ilHelp'];
         $ilHelp->setScreenIdComponent('qpl');
 
         $this->tabs->setTabActive(self::TAB_ID_QUESTION);
@@ -196,31 +211,22 @@ class ilAssQuestionPreviewGUI
         switch ($nextClass) {
             case 'ilassquestionhintrequestgui':
                 $gui = new ilAssQuestionHintRequestGUI($this, self::CMD_SHOW, $this->questionGUI, $this->hintTracking);
-
                 $this->ctrl->forwardCommand($gui);
-
                 break;
-
             case 'ilassspecfeedbackpagegui':
             case 'ilassgenfeedbackpagegui':
                 $forwarder = new ilAssQuestionFeedbackPageObjectCommandForwarder($this->questionOBJ, $this->ctrl, $this->tabs, $this->lng);
                 $forwarder->forward();
                 break;
-
             case 'ilnotegui':
-
                 $notesGUI = new ilNoteGUI($this->questionOBJ->getObjId(), $this->questionOBJ->getId(), 'quest');
                 $notesGUI->enablePublicNotes(true);
                 $notesGUI->enablePublicNotesDeletion(true);
                 $notesPanelHTML = $this->ctrl->forwardCommand($notesGUI);
                 $this->showCmd($notesPanelHTML);
                 break;
-
-
             default:
-
                 $cmd = $this->ctrl->getCmd(self::CMD_SHOW) . 'Cmd';
-
                 $this->$cmd();
         }
     }
@@ -235,28 +241,20 @@ class ilAssQuestionPreviewGUI
 
     protected function isCommentingRequired(): bool
     {
-        global $DIC; /* @var ILIAS\DI\Container $DIC */
-
         if ($this->previewSettings->isTestRefId()) {
             return false;
         }
 
-        return $DIC->rbac()->system()->checkAccess(
-            'write',
-            $DIC->testQuestionPool()->internal()->request()->getRefId()
-        );
+        return (bool) $this->rbac_services->system()->checkAccess('write', (int) $_GET['ref_id']);
     }
 
     private function showCmd($notesPanelHTML = ''): void
     {
         $tpl = new ilTemplate('tpl.qpl_question_preview.html', true, true, 'Modules/TestQuestionPool');
-
         $tpl->setVariable('PREVIEW_FORMACTION', $this->buildPreviewFormAction());
 
         $this->populatePreviewToolbar($tpl);
-
         $this->populateQuestionOutput($tpl);
-
         $this->handleInstantResponseRendering($tpl);
 
         if ($this->isCommentingRequired()) {
@@ -274,40 +272,61 @@ class ilAssQuestionPreviewGUI
 
     protected function handleInstantResponseRendering(ilTemplate $tpl): void
     {
-        $renderHeader = false;
-        $renderAnchor = false;
+        $response_required = false;
+        $response_available = false;
+        $jump_to_response = false;
 
         if ($this->isShowReachedPointsRequired()) {
             $this->populateReachedPointsOutput($tpl);
-            $renderAnchor = true;
-            $renderHeader = true;
+            $response_required = true;
+            $response_available = true;
+            $jump_to_response = true;
         }
 
         if ($this->isShowBestSolutionRequired()) {
             $this->populateSolutionOutput($tpl);
-            $renderAnchor = true;
-            $renderHeader = true;
+            $response_required = true;
+            $response_available = true;
+            $jump_to_response = true;
         }
 
         if ($this->isShowGenericQuestionFeedbackRequired()) {
-            $this->populateGenericQuestionFeedback($tpl);
-            $renderAnchor = true;
-            $renderHeader = true;
-        }
-
-        if ($this->isShowSpecificQuestionFeedbackRequired()) {
-            $renderHeader = true;
-
-            if ($this->questionGUI->hasInlineFeedback()) {
-                $renderAnchor = false;
-            } else {
-                $this->populateSpecificQuestionFeedback($tpl);
-                $renderAnchor = true;
+            $response_required = true;
+            if ($this->populateGenericQuestionFeedback($tpl)) {
+                $response_available = true;
+                $jump_to_response = true;
             }
         }
 
-        if ($renderHeader) {
-            $this->populateInstantResponseHeader($tpl, $renderAnchor);
+        if ($this->isShowSpecificQuestionFeedbackRequired()) {
+            $response_required = true;
+
+            if ($this->questionGUI->hasInlineFeedback()) {
+                // Don't jump to the feedback below the question if some feedback is shown within the question
+                $jump_to_response = false;
+            } else {
+                if ($this->populateSpecificQuestionFeedback($tpl)) {
+                    $response_available = true;
+                    $jump_to_response = true;
+                }
+            }
+        }
+
+        if ($response_required) {
+            $this->populateInstantResponseHeader($tpl, $jump_to_response);
+            if (!$response_available) {
+                if ($this->questionGUI->hasInlineFeedback()) {
+                    $this->populateInstantResponseMessage(
+                        $tpl,
+                        $this->lng->txt('tst_feedback_is_given_inline')
+                    );
+                } else {
+                    $this->populateInstantResponseMessage(
+                        $tpl,
+                        $this->lng->txt('tst_feedback_not_available_for_answer')
+                    );
+                }
+            }
         }
     }
 
@@ -346,16 +365,21 @@ class ilAssQuestionPreviewGUI
 
         $toolbarGUI->setFormAction($this->ctrl->getFormAction($this, self::CMD_SHOW));
         $toolbarGUI->setResetPreviewCmd(self::CMD_RESET);
-        $toolbarGUI->setEditPageCmd(
-            $this->ctrl->getLinkTargetByClass('ilAssQuestionPageGUI', 'edit')
-        );
 
-        $toolbarGUI->setEditQuestionCmd(
-            $this->ctrl->getLinkTargetByClass(
-                array('ilrepositorygui','ilobjquestionpoolgui', get_class($this->questionGUI)),
-                'editQuestion'
-            )
-        );
+        // Check Permissions first, some Toolbar Actions are only available for write access
+        if ($this->rbac_services->system()->checkAccess('write', (int) $_GET['ref_id'])) {
+            $toolbarGUI->setEditPageCmd(
+                $this->ctrl->getLinkTargetByClass('ilAssQuestionPageGUI', 'edit')
+            );
+
+            $toolbarGUI->setEditQuestionCmd(
+                $this->ctrl->getLinkTargetByClass(
+                    array('ilrepositorygui','ilobjquestionpoolgui', get_class($this->questionGUI)),
+                    'editQuestion'
+                )
+            );
+        }
+
         $toolbarGUI->build();
 
         $tpl->setVariable('PREVIEW_TOOLBAR', $this->ctrl->getHTML($toolbarGUI));
@@ -457,7 +481,11 @@ class ilAssQuestionPreviewGUI
         return $this->ctrl->getHTML($navGUI);
     }
 
-    private function populateGenericQuestionFeedback(ilTemplate $tpl): void
+    /**
+     * Populate the block for an instant generic feedback
+     * @return bool     true, if there is some feedback populated
+     */
+    private function populateGenericQuestionFeedback(ilTemplate $tpl): bool
     {
         if ($this->questionOBJ->isPreviewSolutionCorrect($this->previewSession)) {
             $feedback = $this->questionGUI->getGenericFeedbackOutputForCorrectSolution();
@@ -467,23 +495,33 @@ class ilAssQuestionPreviewGUI
             $cssClass = ilAssQuestionFeedback::CSS_CLASS_FEEDBACK_WRONG;
         }
 
-        if (strlen($feedback)) {
+        if ($feedback !== '') {
             $tpl->setCurrentBlock('instant_feedback_generic');
             $tpl->setVariable('GENERIC_FEEDBACK', $feedback);
             $tpl->setVariable('ILC_FB_CSS_CLASS', $cssClass);
             $tpl->parseCurrentBlock();
+            return true;
         }
+        return false;
     }
 
-    private function populateSpecificQuestionFeedback(ilTemplate $tpl): void
+    /**
+     * Populate the block for an instant specific feedback
+     * @return bool     true, if there is some feedback populated
+     */
+    private function populateSpecificQuestionFeedback(ilTemplate $tpl): bool
     {
         $fb = $this->questionGUI->getSpecificFeedbackOutput(
             (array) $this->previewSession->getParticipantsSolution()
         );
 
-        $tpl->setCurrentBlock('instant_feedback_specific');
-        $tpl->setVariable('ANSWER_FEEDBACK', $fb);
-        $tpl->parseCurrentBlock();
+        if (!empty($fb)) {
+            $tpl->setCurrentBlock('instant_feedback_specific');
+            $tpl->setVariable('ANSWER_FEEDBACK', $fb);
+            $tpl->parseCurrentBlock();
+            return true;
+        }
+        return false;
     }
 
     protected function populateInstantResponseHeader(ilTemplate $tpl, $withFocusAnchor): void
@@ -496,6 +534,13 @@ class ilAssQuestionPreviewGUI
 
         $tpl->setCurrentBlock('instant_response_header');
         $tpl->setVariable('INSTANT_RESPONSE_HEADER', $this->lng->txt('tst_feedback'));
+        $tpl->parseCurrentBlock();
+    }
+
+    protected function populateInstantResponseMessage(ilTemplate $tpl, string $a_message)
+    {
+        $tpl->setCurrentBlock('instant_response_message');
+        $tpl->setVariable('INSTANT_RESPONSE_MESSAGE', $a_message);
         $tpl->parseCurrentBlock();
     }
 

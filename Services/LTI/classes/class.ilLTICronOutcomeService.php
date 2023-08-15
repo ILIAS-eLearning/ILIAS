@@ -18,6 +18,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+use ILIAS\Cron\Schedule\CronJobScheduleType;
+
 /**
  * Description of class class
  *
@@ -37,9 +39,9 @@ class ilLTICronOutcomeService extends ilCronJob
         $this->cronRepo = $DIC->cron()->repository();
     }
 
-    public function getDefaultScheduleType(): int
+    public function getDefaultScheduleType(): CronJobScheduleType
     {
-        return self::SCHEDULE_TYPE_DAILY;
+        return CronJobScheduleType::SCHEDULE_TYPE_DAILY;
     }
 
     public function getDefaultScheduleValue(): ?int
@@ -77,7 +79,7 @@ class ilLTICronOutcomeService extends ilCronJob
         $status = \ilCronJobResult::STATUS_NO_ACTION;
 
         $info = $this->cronRepo->getCronJobData($this->getId());
-        $last_ts = $info['job_status_ts'];
+        $last_ts = $info['job_status_ts'] ?? false;
         if (!$last_ts) {
             $last_ts = time() - 24 * 3600;
         }

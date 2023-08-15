@@ -23,17 +23,9 @@
  */
 class ilPCTable extends ilPageContent
 {
-    public php4DOMElement $tab_node;
-
     public function init(): void
     {
         $this->setType("tab");
-    }
-
-    public function setNode(php4DOMElement $a_node): void
-    {
-        parent::setNode($a_node);		// this is the PageContent node
-        $this->tab_node = $a_node->first_child();		// this is the Table node
     }
 
     public function create(
@@ -41,37 +33,38 @@ class ilPCTable extends ilPageContent
         string $a_hier_id,
         string $a_pc_id = ""
     ): void {
-        $this->node = $this->createPageContentNode();
-        $a_pg_obj->insertContent($this, $a_hier_id, IL_INSERT_AFTER, $a_pc_id);
-        $this->tab_node = $this->dom->create_element("Table");
-        $this->tab_node = $this->node->append_child($this->tab_node);
-        $this->tab_node->set_attribute("Language", "");
+        $this->createInitialChildNode(
+            $a_hier_id,
+            $a_pc_id,
+            "Table",
+            ["Language" => ""]
+        );
     }
 
-    public function addRow(): php4DOMElement
+    public function addRow(): DOMNode
     {
-        $new_tr = $this->dom->create_element("TableRow");
-        $new_tr = $this->tab_node->append_child($new_tr);
+        $new_tr = $this->dom_doc->createElement("TableRow");
+        $new_tr = $this->getChildNode()->appendChild($new_tr);
         return $new_tr;
     }
 
     public function addCell(
-        php4DOMElement $aRow,
+        DOMNode $aRow,
         string $a_data = "",
         string $a_lang = ""
-    ): php4DOMElement {
-        $new_td = $this->dom->create_element("TableData");
-        $new_td = $aRow->append_child($new_td);
+    ): DOMNode {
+        $new_td = $this->dom_doc->createElement("TableData");
+        $new_td = $aRow->appendChild($new_td);
 
         // insert data if given
         if ($a_data != "") {
-            $new_pg = $this->createPageContentNode(false);
-            $new_par = $this->dom->create_element("Paragraph");
-            $new_par = $new_pg->append_child($new_par);
-            $new_par->set_attribute("Language", $a_lang);
-            $new_par->set_attribute("Characteristic", "TableContent");
-            $new_par->set_content($a_data);
-            $new_td->append_child($new_pg);
+            $new_pg = $this->getNewPageContentNode();
+            $new_par = $this->dom_doc->createElement("Paragraph");
+            $new_par = $new_pg->appendChild($new_par);
+            $new_par->setAttribute("Language", $a_lang);
+            $new_par->setAttribute("Characteristic", "TableContent");
+            $this->dom_util->setContent($new_par, $a_data);
+            $new_td->appendChild($new_pg);
         }
 
         return $new_td;
@@ -83,12 +76,10 @@ class ilPCTable extends ilPageContent
     public function getCellText(int $i, int $j): string
     {
         $cell_par = $this->getCellNode($i, $j, false);
-
-        if (is_object($cell_par)) {
+        if (!is_null($cell_par)) {
             $content = "";
-            $childs = $cell_par->child_nodes();
-            for ($i = 0; $i < count($childs); $i++) {
-                $content .= $this->dom->dump_node($childs[$i]);
+            foreach ($cell_par->childNodes as $c) {
+                $content .= $this->dom_util->dump($c);
             }
             return $content;
         } else {
@@ -99,44 +90,36 @@ class ilPCTable extends ilPageContent
     /**
      * Get cell paragraph node of row $i and cell $j
      */
-    public function getCellNode(int $i, int $j, bool $create_if_not_exists = false): ?php4DOMElement
+    public function getCellNode(int $i, int $j, bool $create_if_not_exists = false): ?DOMNode
     {
-        $xpc = xpath_new_context($this->dom);
         $path = "//PageContent[@HierId='" . $this->getHierId() . "']" .
-            "/Table/TableRow[$i+1]/TableData[$j+1]/PageContent[1]/Paragraph[1]";
-        //echo "<br>++".$path;
-        //]--//PageContent[@HierId='3']/Table/TableRow[+1]/TableData[0 style=+1]/PageContent[1]/Paragraph[1]
-        $res = xpath_eval($xpc, $path);
-
-        if (isset($res->nodeset[0])) {
-            return $res->nodeset[0];
+            "/Table/TableRow[" . ($i + 1) . "]/TableData[" . ($j + 1) . "]/PageContent[1]/Paragraph[1]";
+        $nodes = $this->dom_util->path($this->dom_doc, $path);
+        if (!is_null($nodes->item(0))) {
+            return $nodes->item(0);
         } else {		// no node -> delete all childs and create paragraph
             if (!$create_if_not_exists) {
                 return null;
             }
-            $xpc2 = xpath_new_context($this->dom);
             $path2 = "//PageContent[@HierId='" . $this->getHierId() . "']" .
                 "/Table/TableRow[" . ($i + 1) . "]/TableData[" . ($j + 1) . "]";
-            //$path2 = "//PageContent";
+            $nodes2 = $this->dom_util->path($this->dom_doc, $path2);
 
-            $res2 = xpath_eval($xpc2, $path2);
+            $td_node = $nodes2->item(0);
 
-            $td_node = $res2->nodeset[0];
-
-            if (is_object($td_node)) {
+            if (!is_null($td_node)) {
                 // delete children of paragraph node
-                $children = $td_node->child_nodes();
-                for ($i = 0; $i < count($children); $i++) {
-                    $td_node->remove_child($children[$i]);
+                foreach ($td_node->childNodes as $child) {
+                    $td_node->removeChild($child);
                 }
 
                 // create page content and paragraph node here.
-                $pc_node = $this->createPageContentNode(false);
-                $pc_node = $td_node->append_child($pc_node);
-                $par_node = $this->dom->create_element("Paragraph");
-                $par_node = $pc_node->append_child($par_node);
-                $par_node->set_attribute("Characteristic", "TableContent");
-                $par_node->set_attribute(
+                $pc_node = $this->getNewPageContentNode();
+                $pc_node = $td_node->appendChild($pc_node);
+                $par_node = $this->dom_doc->createElement("Paragraph");
+                $par_node = $pc_node->appendChild($par_node);
+                $par_node->setAttribute("Characteristic", "TableContent");
+                $par_node->setAttribute(
                     "Language",
                     $this->getLanguage()
                 );
@@ -253,7 +236,7 @@ class ilPCTable extends ilPageContent
 
     public function setHorizontalAlign(string $a_halign): void
     {
-        $this->tab_node->set_attribute("HorizontalAlign", $a_halign);
+        $this->getChildNode()->setAttribute("HorizontalAlign", $a_halign);
     }
 
     public function getHorizontalAlign(): string
@@ -269,21 +252,19 @@ class ilPCTable extends ilPageContent
         string $a_width,
         string $a_pc_id = ""
     ): void {
-        $xpc = xpath_new_context($this->dom);
-
         if ($a_pc_id == "") {
             $path = "//TableData[@HierId = '" . $a_hier_id . "']";
         } else {
             $path = "//TableData[@PCID = '" . $a_pc_id . "']";
         }
-        $res = xpath_eval($xpc, $path);
+        $nodes = $this->dom_util->path($this->dom_doc, $path);
 
-        if (count($res->nodeset) == 1) {
+        if (count($nodes) == 1) {
             if ($a_width != "") {
-                $res->nodeset[0]->set_attribute("Width", $a_width);
+                $nodes->item(0)->setAttribute("Width", $a_width);
             } else {
-                if ($res->nodeset[0]->has_attribute("Width")) {
-                    $res->nodeset[0]->remove_attribute("Width");
+                if ($nodes->item(0)->hasAttribute("Width")) {
+                    $nodes->item(0)->removeAttribute("Width");
                 }
             }
         }
@@ -294,26 +275,26 @@ class ilPCTable extends ilPageContent
         array $a_rowspans
     ): void {
         $y = 0;
-        $rows = $this->tab_node->child_nodes();
+        $rows = $this->getChildNode()->childNodes;
         foreach ($rows as $row) {
-            if ($row->node_name() == "TableRow") {
+            if ($row->nodeName == "TableRow") {
                 $x = 0;
-                $cells = $row->child_nodes();
+                $cells = $row->childNodes;
                 foreach ($cells as $cell) {
-                    if ($cell->node_name() == "TableData") {
-                        $ckey = $cell->get_attribute("HierId") . ":" . $cell->get_attribute("PCID");
-                        if ((int) $a_colspans[$ckey] > 1) {
-                            $cell->set_attribute("ColSpan", (int) $a_colspans[$ckey]);
+                    if ($cell->nodeName == "TableData") {
+                        $ckey = $cell->getAttribute("HierId") . ":" . $cell->getAttribute("PCID");
+                        if ((int) ($a_colspans[$ckey] ?? 0) > 1) {
+                            $cell->setAttribute("ColSpan", (int) $a_colspans[$ckey]);
                         } else {
-                            if ($cell->has_attribute("ColSpan")) {
-                                $cell->remove_attribute("ColSpan");
+                            if ($cell->hasAttribute("ColSpan")) {
+                                $cell->removeAttribute("ColSpan");
                             }
                         }
-                        if ((int) $a_rowspans[$ckey] > 1) {
-                            $cell->set_attribute("RowSpan", (int) $a_rowspans[$ckey]);
+                        if ((int) ($a_rowspans[$ckey] ?? 0) > 1) {
+                            $cell->setAttribute("RowSpan", (int) $a_rowspans[$ckey]);
                         } else {
-                            if ($cell->has_attribute("RowSpan")) {
-                                $cell->remove_attribute("RowSpan");
+                            if ($cell->hasAttribute("RowSpan")) {
+                                $cell->removeAttribute("RowSpan");
                             }
                         }
                     }
@@ -335,14 +316,14 @@ class ilPCTable extends ilPageContent
         // first: get max x and y
         $max_x = $max_y = 0;
         $y = 0;
-        $rows = $this->tab_node->child_nodes();
+        $rows = $this->getChildNode()->childNodes;
 
         foreach ($rows as $row) {
-            if ($row->node_name() == "TableRow") {
+            if ($row->nodeName == "TableRow") {
                 $x = 0;
-                $cells = $row->child_nodes();
+                $cells = $row->childNodes;
                 foreach ($cells as $cell) {
-                    if ($cell->node_name() == "TableData") {
+                    if ($cell->nodeName == "TableData") {
                         $max_x = max($max_x, $x);
                         $max_y = max($max_y, $y);
                     }
@@ -356,43 +337,43 @@ class ilPCTable extends ilPageContent
         $y = 0;
         $colspans = [];
         $rowspans = [];
-        $rows = $this->tab_node->child_nodes();
+        $rows = $this->getChildNode()->childNodes;
         foreach ($rows as $row) {
-            if ($row->node_name() == "TableRow") {
+            if ($row->nodeName == "TableRow") {
                 $x = 0;
-                $cells = $row->child_nodes();
+                $cells = $row->childNodes;
                 foreach ($cells as $cell) {
-                    if ($cell->node_name() == "TableData") {
-                        $cspan = max(1, (int) $cell->get_attribute("ColSpan"));
-                        $rspan = max(1, (int) $cell->get_attribute("RowSpan"));
+                    if ($cell->nodeName == "TableData") {
+                        $cspan = max(1, (int) $cell->getAttribute("ColSpan"));
+                        $rspan = max(1, (int) $cell->getAttribute("RowSpan"));
 
                         // if col or rowspan is to high: reduce it to the max
                         if ($cspan > $max_x - $x + 1) {
-                            $cell->set_attribute("ColSpan", $max_x - $x + 1);
+                            $cell->setAttribute("ColSpan", $max_x - $x + 1);
                             $cspan = $max_x - $x + 1;
                         }
                         if ($rspan > $max_y - $y + 1) {
-                            $cell->set_attribute("RowSpan", $max_y - $y + 1);
+                            $cell->setAttribute("RowSpan", $max_y - $y + 1);
                             $rspan = $max_y - $y + 1;
                         }
 
                         // check hidden status
                         if ($this->checkCellHidden($colspans, $rowspans, $x, $y)) {
                             // hidden: set hidden flag, remove col and rowspan
-                            $cell->set_attribute("Hidden", "Y");
+                            $cell->setAttribute("Hidden", "Y");
                             $cspan = 1;
                             $rspan = 1;
-                            if ($cell->has_attribute("ColSpan")) {
-                                $cell->remove_attribute("ColSpan");
+                            if ($cell->hasAttribute("ColSpan")) {
+                                $cell->removeAttribute("ColSpan");
                             }
-                            if ($cell->has_attribute("RowSpan")) {
-                                $cell->remove_attribute("RowSpan");
+                            if ($cell->hasAttribute("RowSpan")) {
+                                $cell->removeAttribute("RowSpan");
                             }
                             $this->makeEmptyCell($cell);
                         } else {
                             // not hidden: remove hidden flag if existing
-                            if ($cell->has_attribute("Hidden")) {
-                                $cell->remove_attribute("Hidden");
+                            if ($cell->hasAttribute("Hidden")) {
+                                $cell->removeAttribute("Hidden");
                             }
                         }
 
@@ -407,15 +388,11 @@ class ilPCTable extends ilPageContent
     }
 
 
-    /**
-     * Make cell empty
-     */
-    public function makeEmptyCell(php4DOMElement $td_node): void
+    public function makeEmptyCell(DomNode $td_node): void
     {
         // delete children of paragraph node
-        $children = $td_node->child_nodes();
-        for ($i = 0; $i < count($children); $i++) {
-            $td_node->remove_child($children[$i]);
+        foreach ($td_node->childNodes as $child) {
+            $td_node->removeChild($child);
         }
     }
 
@@ -443,14 +420,14 @@ class ilPCTable extends ilPageContent
     public function getAllCellClasses(): array
     {
         $classes = array();
-        $rows = $this->tab_node->child_nodes();
+        $rows = $this->getChildNode()->childNodes;
         foreach ($rows as $row) {
-            if ($row->node_name() == "TableRow") {
-                $cells = $row->child_nodes();
+            if ($row->nodeName == "TableRow") {
+                $cells = $row->childNodes;
                 foreach ($cells as $cell) {
-                    if ($cell->node_name() == "TableData") {
-                        $classes[$cell->get_attribute("HierId") . ":" . $cell->get_attribute("PCID")]
-                            = $cell->get_attribute("Class");
+                    if ($cell->nodeName == "TableData") {
+                        $classes[$cell->getAttribute("HierId") . ":" . $cell->getAttribute("PCID")]
+                            = $cell->getAttribute("Class");
                     }
                 }
             }
@@ -462,14 +439,14 @@ class ilPCTable extends ilPageContent
     public function getAllCellAlignments(): array
     {
         $classes = array();
-        $rows = $this->tab_node->child_nodes();
+        $rows = $this->getChildNode()->childNodes;
         foreach ($rows as $row) {
-            if ($row->node_name() == "TableRow") {
-                $cells = $row->child_nodes();
+            if ($row->nodeName == "TableRow") {
+                $cells = $row->childNodes;
                 foreach ($cells as $cell) {
-                    if ($cell->node_name() == "TableData") {
-                        $classes[$cell->get_attribute("HierId") . ":" . $cell->get_attribute("PCID")]
-                            = $cell->get_attribute("HorizontalAlign");
+                    if ($cell->nodeName == "TableData") {
+                        $classes[$cell->getAttribute("HierId") . ":" . $cell->getAttribute("PCID")]
+                            = $cell->getAttribute("HorizontalAlign");
                     }
                 }
             }
@@ -484,19 +461,19 @@ class ilPCTable extends ilPageContent
     public function getAllCellSpans(): array
     {
         $spans = array();
-        $rows = $this->tab_node->child_nodes();
+        $rows = $this->getChildNode()->childNodes;
         $y = 0;
         $max_x = 0;
         $max_y = 0;
         foreach ($rows as $row) {
-            if ($row->node_name() == "TableRow") {
+            if ($row->nodeName == "TableRow") {
                 $x = 0;
-                $cells = $row->child_nodes();
+                $cells = $row->childNodes;
                 foreach ($cells as $cell) {
-                    if ($cell->node_name() == "TableData") {
-                        $spans[$cell->get_attribute("HierId") . ":" . $cell->get_attribute("PCID")]
-                            = array("x" => $x, "y" => $y, "colspan" => $cell->get_attribute("ColSpan"),
-                                "rowspan" => $cell->get_attribute("RowSpan"));
+                    if ($cell->nodeName == "TableData") {
+                        $spans[$cell->getAttribute("HierId") . ":" . $cell->getAttribute("PCID")]
+                            = array("x" => $x, "y" => $y, "colspan" => $cell->getAttribute("ColSpan"),
+                                "rowspan" => $cell->getAttribute("RowSpan"));
                         $max_x = max($max_x, $x);
                         $max_y = max($max_y, $y);
                     }
@@ -520,14 +497,14 @@ class ilPCTable extends ilPageContent
     public function getAllCellWidths(): array
     {
         $widths = array();
-        $rows = $this->tab_node->child_nodes();
+        $rows = $this->getChildNode()->childNodes;
         foreach ($rows as $row) {
-            if ($row->node_name() == "TableRow") {
-                $cells = $row->child_nodes();
+            if ($row->nodeName == "TableRow") {
+                $cells = $row->childNodes;
                 foreach ($cells as $cell) {
-                    if ($cell->node_name() == "TableData") {
-                        $widths[$cell->get_attribute("HierId") . ":" . $cell->get_attribute("PCID")]
-                            = $cell->get_attribute("Width");
+                    if ($cell->nodeName == "TableData") {
+                        $widths[$cell->getAttribute("HierId") . ":" . $cell->getAttribute("PCID")]
+                            = $cell->getAttribute("Width");
                     }
                 }
             }
@@ -544,19 +521,18 @@ class ilPCTable extends ilPageContent
         string $a_class,
         string $a_pc_id = ""
     ): void {
-        $xpc = xpath_new_context($this->dom);
         if ($a_pc_id == "") {
             $path = "//TableData[@HierId = '" . $a_hier_id . "']";
         } else {
             $path = "//TableData[@PCID = '" . $a_pc_id . "']";
         }
-        $res = xpath_eval($xpc, $path);
-        if (count($res->nodeset) == 1) {
+        $nodes = $this->dom_util->path($this->dom_doc, $path);
+        if (count($nodes) == 1) {
             if ($a_class != "") {
-                $res->nodeset[0]->set_attribute("Class", $a_class);
+                $nodes->item(0)->setAttribute("Class", $a_class);
             } else {
-                if ($res->nodeset[0]->has_attribute("Class")) {
-                    $res->nodeset[0]->remove_attribute("Class");
+                if ($nodes->item(0)->hasAttribute("Class")) {
+                    $nodes->item(0)->removeAttribute("Class");
                 }
             }
         }
@@ -570,19 +546,18 @@ class ilPCTable extends ilPageContent
         string $a_class,
         string $a_pc_id = ""
     ): void {
-        $xpc = xpath_new_context($this->dom);
         if ($a_pc_id == "") {
             $path = "//TableData[@HierId = '" . $a_hier_id . "']";
         } else {
             $path = "//TableData[@PCID = '" . $a_pc_id . "']";
         }
-        $res = xpath_eval($xpc, $path);
-        if (count($res->nodeset) == 1) {
+        $nodes = $this->dom_util->path($this->dom_doc, $path);
+        if (count($nodes) == 1) {
             if ($a_class != "") {
-                $res->nodeset[0]->set_attribute("HorizontalAlign", $a_class);
+                $nodes->item(0)->setAttribute("HorizontalAlign", $a_class);
             } else {
-                if ($res->nodeset[0]->has_attribute("HorizontalAlign")) {
-                    $res->nodeset[0]->remove_attribute("HorizontalAlign");
+                if ($nodes->item(0)->hasAttribute("HorizontalAlign")) {
+                    $nodes->item(0)->removeAttribute("HorizontalAlign");
                 }
             }
         }
@@ -592,12 +567,10 @@ class ilPCTable extends ilPageContent
     {
         $hier_id = $this->getHierId();
         if (!empty($hier_id)) {
-            $xpc = xpath_new_context($this->dom);
             $path = "//PageContent[@HierId = '" . $hier_id . "']/Table/Caption";
-            $res = xpath_eval($xpc, $path);
-
-            if (count($res->nodeset) == 1) {
-                return $res->nodeset[0]->get_content();
+            $nodes = $this->dom_util->path($this->dom_doc, $path);
+            if (count($nodes) == 1) {
+                return $this->dom_util->getContent($nodes->item(0));
             }
         }
         return "";
@@ -610,11 +583,10 @@ class ilPCTable extends ilPageContent
     {
         $hier_id = $this->getHierId();
         if (!empty($hier_id)) {
-            $xpc = xpath_new_context($this->dom);
             $path = "//PageContent[@HierId = '" . $hier_id . "']/Table/Caption";
-            $res = xpath_eval($xpc, $path);
-            if (count($res->nodeset) == 1) {
-                return $res->nodeset[0]->get_attribute("Align");
+            $nodes = $this->dom_util->path($this->dom_doc, $path);
+            if (count($nodes) == 1) {
+                return $nodes->item(0)->getAttribute("Align");
             }
         }
         return "";
@@ -623,181 +595,29 @@ class ilPCTable extends ilPageContent
     public function setCaption(string $a_content, string $a_align): void
     {
         if ($a_content != "") {
-            ilDOMUtil::setFirstOptionalElement(
-                $this->dom,
-                $this->tab_node,
+            $this->dom_util->setFirstOptionalElement(
+                $this->getChildNode(),
                 "Caption",
                 array("Summary", "TableRow"),
                 $a_content,
                 array("Align" => $a_align)
             );
         } else {
-            ilDOMUtil::deleteAllChildsByName($this->tab_node, array("Caption"));
+            $this->dom_util->deleteAllChildsByName(
+                $this->getChildNode(),
+                array("Caption")
+            );
         }
-    }
-
-
-    public function importTableAttributes(
-        php4DOMElement $node
-    ): void {
-        /*echo "importing table attributes";
-        var_dump($tableNode);*/
-        if ($node->has_attributes()) {
-            foreach ($node->attributes() as $n) {
-                switch (strtolower($n->node_name())) {
-                    case "border":
-                        $this->setBorder($this->extractText($n));
-                        break;
-                    case "align":
-                        $this->setHorizontalAlign(ucfirst(strtolower($this->extractText($n))));
-                        break;
-                    case "cellspacing":
-                        $this->setCellSpacing($this->extractText($n));
-                        break;
-                    case "cellpadding":
-                        $this->setCellPadding($this->extractText($n));
-                        break;
-                    case "width":
-                        $this->setWidth($this->extractText($n));
-                        break;
-                }
-            }
-        }
-    }
-
-
-    public function importCellAttributes(
-        php4DOMElement $node,
-        php4DOMElement $par
-    ): void {
-        /*echo "importing table attributes";
-        var_dump($tableNode);*/
-        if ($node->has_attributes()) {
-            foreach ($node->attributes() as $n) {
-                switch (strtolower($n->node_name())) {
-                    case "class":
-                        $par->set_attribute("Class", $this->extractText($n));
-                        break;
-                    case "width":
-                        $par->set_attribute("Width", $this->extractText($n));
-                        break;
-                }
-            }
-        }
-    }
-
-
-    public function importRow(
-        string $lng,
-        php4DOMElement $node
-    ): void {
-        $aRow = $this->addRow();
-
-        if ($node->has_child_nodes()) {
-            foreach ($node->child_nodes() as $n) {
-                if ($n->node_type() == XML_ELEMENT_NODE &&
-                strcasecmp($n->node_name(), "td") == 0) {
-                    $this->importCell($lng, $n, $aRow);
-                }
-            }
-        }
-    }
-
-    public function importCell(
-        string $lng,
-        php4DOMElement $cellNode,
-        php4DOMElement $aRow
-    ): void {
-        /*echo "add Cell";
-        var_dump($cellNode);*/
-        $aCell = $this->addCell($aRow);
-        $par = new ilPCParagraph($this->getPage());
-        $par->createAtNode($aCell);
-        $par->setText($par->input2xml($this->extractText($cellNode)));
-        $par->setCharacteristic("TableContent");
-        $par->setLanguage($lng);
-        $this->importCellAttributes($cellNode, $aCell);
-    }
-
-    public function extractText(
-        php4DOMElement $node
-    ): string {
-        $output = "";
-
-        $owner_document = $node->owner_document();
-        $children = $node->child_nodes();
-        $total_children = count($children);
-        for ($i = 0; $i < $total_children; $i++) {
-            $cur_child_node = $children[$i];
-            $output .= $owner_document->dump_node($cur_child_node);
-        }
-        return $output;
-    }
-
-    /**
-     * @return bool|string
-     */
-    public function importHtml(
-        string $lng,
-        string $htmlTable
-    ) {
-        $dummy = ilUtil::stripSlashes($htmlTable, false);
-        $dom = domxml_open_mem($dummy, DOMXML_LOAD_PARSING, $error);
-
-        if ($dom) {
-            $xpc = xpath_new_context($dom);
-            // extract first table object
-            $path = "//table[1] | //Table[1]";
-            $res = xpath_eval($xpc, $path);
-
-            if (count($res->nodeset) == 0) {
-                $error = "Could not find a table root node";
-            }
-
-            if (empty($error)) {
-                for ($i = 0; $i < count($res->nodeset); $i++) {
-                    $node = $res->nodeset[$i];
-
-                    $this->importTableAttributes($node);
-
-                    if ($node->has_child_nodes()) {
-                        foreach ($node->child_nodes() as $n) {
-                            if ($n->node_type() == XML_ELEMENT_NODE &&
-                            strcasecmp($n->node_name(), "tr") == 0) {
-                                $this->importRow($lng, $n);
-                            }
-                        }
-                    }
-                }
-            }
-            $dom->free();
-        }
-        if (is_array($error)) {
-            $errmsg = "";
-            foreach ($error as $errorline) {    # Loop through all errors
-                $errmsg .= "[" . $errorline['line'] . ", " . $errorline['col'] . "]: " . $errorline['errormessage'] . " at Node '" . $errorline['nodename'] . "'<br />";
-            }
-        } else {
-            $errmsg = $error;
-        }
-
-        if (empty($errmsg)) {
-            return true;
-        }
-
-        return $errmsg;
     }
 
     public function setFirstRowStyle(
         string $a_class
     ): void {
-        $childs = $this->tab_node->child_nodes();
-        foreach ($childs as $child) {
-            if ($child->node_name() == "TableRow") {
-                $gchilds = $child->child_nodes();
-                foreach ($gchilds as $gchild) {
-                    if ($gchild->node_name() == "TableData") {
-                        $gchild->set_attribute("Class", $a_class);
+        foreach ($this->getChildNode()->childNodes as $child) {
+            if ($child->nodeName == "TableRow") {
+                foreach ($child->childNodes as $gchild) {
+                    if ($gchild->nodeName == "TableData") {
+                        $gchild->setAttribute("Class", $a_class);
                     }
                 }
                 return;
@@ -876,18 +696,18 @@ class ilPCTable extends ilPageContent
         string $a_value
     ): void {
         if (!empty($a_value)) {
-            $this->tab_node->set_attribute($a_attr, $a_value);
+            $this->getChildNode()->setAttribute($a_attr, $a_value);
         } else {
-            if ($this->tab_node->has_attribute($a_attr)) {
-                $this->tab_node->remove_attribute($a_attr);
+            if ($this->getChildNode()->hasAttribute($a_attr)) {
+                $this->getChildNode()->removeAttribute($a_attr);
             }
         }
     }
 
     public function getTableAttribute(string $a_attr): string
     {
-        if (is_object($this->tab_node)) {
-            return  $this->tab_node->get_attribute($a_attr);
+        if (!is_null($this->getChildNode())) {
+            return  $this->getChildNode()->getAttribute($a_attr);
         }
         return "";
     }
@@ -919,15 +739,12 @@ class ilPCTable extends ilPageContent
     {
         $model = new \stdClass();
 
-        $rows = $this->tab_node->child_nodes();
-
         $y = 0;
-        foreach ($rows as $row) {
-            if ($row->node_name() == "TableRow") {
+        foreach ($this->getChildNode()->childNodes as $row) {
+            if ($row->nodeName == "TableRow") {
                 $x = 0;
-                $cells = $row->child_nodes();
-                foreach ($cells as $cell) {
-                    if ($cell->node_name() == "TableData") {
+                foreach ($row->childNodes as $cell) {
+                    if ($cell->nodeName == "TableData") {
                         $text = ilPCParagraph::xml2output(
                             $this->getCellText($y, $x),
                             true,

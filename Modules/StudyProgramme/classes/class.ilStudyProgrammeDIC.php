@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use Pimple\Container;
 
@@ -40,6 +40,8 @@ class ilStudyProgrammeDIC
         $dic['permissionhelper'] = static function ($dic) use ($prg, $DIC) {
             return new ilPRGPermissionsHelper(
                 $DIC['ilAccess'],
+                ilOrgUnitGlobalSettings::getInstance(),
+                $DIC['ilObjDataCache'],
                 new ilOrgUnitPositionAccess($DIC['ilAccess']),
                 (int)$prg->getRefid()
             );
@@ -65,7 +67,7 @@ class ilStudyProgrammeDIC
                 $DIC['ilDB'],
                 $DIC['tree'],
                 $dic['model.Settings.ilStudyProgrammeSettingsRepository'],
-                $dic['ilStudyProgrammeEvents']
+                $dic['ilStudyProgrammeDelayedEvents']
             );
         };
         $dic['filter.assignment'] = function ($dic) use ($DIC): ilPRGAssignmentFilter {
@@ -73,15 +75,29 @@ class ilStudyProgrammeDIC
                 $DIC['lng']
             );
         };
-        $dic['ilAppEventHandler'] = function ($dic) use ($DIC) {
-            return $DIC->offsetExists('ilAppEventHandler') ?
-                $DIC['ilAppEventHandler'] : new \ilAppEventHandler();
-        };
-        $dic['ilStudyProgrammeEvents'] = function ($dic) {
-            return new ilStudyProgrammeEvents(
-                $dic['ilAppEventHandler']
+
+        $dic['Log'] = static fn ($dic) =>
+            ilLoggerFactory::getLogger('prg');
+
+        $dic['mail'] = static fn ($dic) =>
+            new ilPRGMail(
+                $dic['Log'],
+                $DIC['lng']
             );
-        };
+        $dic['ilAppEventHandler'] = static fn ($dic) =>
+            $DIC->offsetExists('ilAppEventHandler') ? $DIC['ilAppEventHandler'] : new \ilAppEventHandler();
+
+        $dic['prgEventHandler'] = static fn ($dic) => new PRGEventHandler($dic['mail']);
+
+        $dic['ilStudyProgrammeEvents'] = static fn ($dic) =>
+            new ilStudyProgrammeEvents(
+                $dic['Log'],
+                $dic['ilAppEventHandler'],
+                $dic['prgEventHandler']
+            );
+        $dic['ilStudyProgrammeDelayedEvents'] = static fn ($dic) =>
+            new PRGEventsDelayed($dic['ilStudyProgrammeEvents']);
+
         $dic['ui.factory'] = static fn ($dic) => $DIC['ui.factory'];
         $dic['ui.renderer'] = static fn ($dic) => $DIC['ui.renderer'];
 
@@ -94,12 +110,35 @@ class ilStudyProgrammeDIC
         global $DIC;
         $dic = new Container();
 
+        $dic['mail'] = static fn ($dic) =>
+            new ilPRGMail(
+                $dic['Log'],
+                $DIC['lng']
+            );
+
         $dic['ilAppEventHandler'] = static fn ($dic) =>
-            $DIC->offsetExists('ilAppEventHandler') ? $DIC['ilAppEventHandler'] : new ilAppEventHandler();
+            $DIC->offsetExists('ilAppEventHandler') ? $DIC['ilAppEventHandler'] : new \ilAppEventHandler();
+
+        $dic['prgEventHandler'] = static fn ($dic) => new PRGEventHandler($dic['mail']);
+
         $dic['ilStudyProgrammeEvents'] = static fn ($dic) =>
             new ilStudyProgrammeEvents(
-                $dic['ilAppEventHandler']
+                $dic['Log'],
+                $dic['ilAppEventHandler'],
+                $dic['prgEventHandler']
             );
+        $dic['ilStudyProgrammeDelayedEvents'] = static fn ($dic) =>
+            new PRGEventsDelayed($dic['ilStudyProgrammeEvents']);
+
+        $dic['repo.assignment'] = static fn ($dic) =>
+            new ilPRGAssignmentDBRepository(
+                $DIC['ilDB'],
+                $DIC['tree'],
+                $dic['model.Settings.ilStudyProgrammeSettingsRepository'],
+                $dic['ilStudyProgrammeDelayedEvents']
+            );
+
+
         $dic['model.Settings.ilStudyProgrammeSettingsRepository'] = static fn ($dic) =>
             new ilStudyProgrammeSettingsDBRepository(
                 $DIC['ilDB']
@@ -161,7 +200,8 @@ class ilStudyProgrammeDIC
                 $dic['DataFactory'],
                 new ilConfirmationGUI(),
                 $DIC->http()->wrapper(),
-                $DIC->refinery()
+                $DIC->refinery(),
+                $DIC['ui.factory'],
             );
         $dic['ilObjStudyProgrammeAutoMembershipsGUI'] = static fn ($dic) =>
             new ilObjStudyProgrammeAutoMembershipsGUI(
@@ -185,13 +225,14 @@ class ilStudyProgrammeDIC
                 $DIC['ilAccess'],
                 $DIC['ilToolbar'],
                 $DIC['lng'],
-                $DIC['ilLog'],
+                $dic['Log'],
                 $DIC['ilias'],
                 $DIC['ilSetting'],
                 $DIC['tree'],
                 $DIC['rbacadmin'],
                 $DIC->http()->wrapper(),
-                $DIC->refinery()
+                $DIC->refinery(),
+                $DIC['ui.factory']
             );
         $dic['ilStudyProgrammeTypeGUI'] = static fn ($dic) =>
             new ilStudyProgrammeTypeGUI(
@@ -204,7 +245,7 @@ class ilStudyProgrammeDIC
                 $DIC['ilTabs'],
                 $DIC['ilUser'],
                 $dic['model.Type.ilStudyProgrammeTypeRepository'],
-                $DIC->ui()->factory()->input(),
+                $DIC->ui()->factory(),
                 $DIC->ui()->renderer(),
                 $DIC->http()->request(),
                 $DIC->refinery(),
@@ -284,6 +325,8 @@ class ilStudyProgrammeDIC
         $dic['permissionhelper'] = static function ($dic) use ($DIC) {
             return new ilPRGPermissionsHelper(
                 $DIC['ilAccess'],
+                ilOrgUnitGlobalSettings::getInstance(),
+                $DIC['ilObjDataCache'],
                 new ilOrgUnitPositionAccess($DIC['ilAccess']),
                 -1
             );
@@ -299,17 +342,6 @@ class ilStudyProgrammeDIC
             );
         };
 
-        $dic['ilStudyProgrammeDashboardViewGUI'] = static fn ($dic) =>
-            new ilStudyProgrammeDashboardViewGUI(
-                $DIC['lng'],
-                $DIC['ilAccess'],
-                $DIC['ilSetting'],
-                $DIC['ui.factory'],
-                $DIC['ui.renderer'],
-                $DIC['ilCtrl'],
-                $dic['ilStudyProgrammeUserTable'],
-                $DIC['ilUser']->getId(),
-            );
         $dic['ilStudyProgrammeCommonSettingsGUI'] = static fn ($dic) =>
             new ilStudyProgrammeCommonSettingsGUI(
                 $DIC['ilCtrl'],
@@ -323,12 +355,17 @@ class ilStudyProgrammeDIC
         $dic['current_user'] = static fn ($dic) =>
             $DIC['ilUser'];
 
-        $dic['repo.assignment'] =  static fn ($dic) =>
-            new ilPRGAssignmentDBRepository(
-                $DIC['ilDB'],
-                $DIC['tree'],
+        $dic['pc.statusinfo'] = static fn ($dic) =>
+            new ilPRGStatusInfoBuilder(
+                $DIC['ui.factory'],
+                $DIC['ui.renderer'],
+                $DIC['lng'],
+                $DIC['ilCtrl'],
+                new ilTemplate("tpl.statusinformation.html", true, true, 'Modules/StudyProgramme'),
+                $dic['repo.assignment'],
                 $dic['model.Settings.ilStudyProgrammeSettingsRepository'],
-                $dic['ilStudyProgrammeEvents']
+                new ilCertificateDownloadValidator(),
+                $dic['current_user']->getId()
             );
 
         $dic['cron.riskyToFail'] = static fn ($dic) =>
@@ -346,12 +383,7 @@ class ilStudyProgrammeDIC
                 $dic['model.Settings.ilStudyProgrammeSettingsRepository'],
                 $dic['ilStudyProgrammeEvents']
             );
-        $dic['mail'] = static fn ($dic) =>
-            new ilPRGMail(
-                $dic['Log'],
-                $DIC['lng'],
-                $dic['repo.assignment']
-            );
+        $dic['ui.factory'] = static fn ($dic) => $DIC['ui.factory'];
 
         return $dic;
     }

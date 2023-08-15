@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\BackgroundTasks\Implementation\Tasks\AbstractJob;
 use ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\BooleanValue;
 use ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\IntegerValue;
@@ -32,8 +32,8 @@ use ILIAS\BackgroundTasks\Value;
  */
 class ilMassMailDeliveryJob extends AbstractJob
 {
-    private ILIAS\DI\Container $dic;
-    private ilMailValueObjectJsonService $mailJsonService;
+    private readonly ILIAS\DI\Container $dic;
+    private readonly ilMailValueObjectJsonService $mailJsonService;
 
     public function __construct()
     {

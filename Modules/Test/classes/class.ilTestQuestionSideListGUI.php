@@ -158,7 +158,6 @@ class ilTestQuestionSideListGUI
      */
     private function buildPanel(): ilPanelGUI
     {
-        require_once 'Services/UIComponent/Panel/classes/class.ilPanelGUI.php';
         $panel = ilPanelGUI::getInstance();
         $panel->setHeadingStyle(ilPanelGUI::HEADING_STYLE_SUBHEADING);
         $panel->setPanelStyle(ilPanelGUI::PANEL_STYLE_SECONDARY);

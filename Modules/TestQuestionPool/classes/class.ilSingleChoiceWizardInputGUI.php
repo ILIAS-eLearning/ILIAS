@@ -17,6 +17,8 @@
  *********************************************************************/
 
 use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper as ArrayBasedRequestWrapper;
+use ILIAS\UI\Renderer;
+use ILIAS\UI\Component\Symbol\Glyph\Factory as GlyphFactory;
 
 /**
 * This class represents a single choice wizard property in a property form.
@@ -27,14 +29,17 @@ use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper as ArrayBasedRequestWrapper;
 */
 class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
 {
-    protected $values = array();
+    protected $values = [];
     protected $allowMove = false;
     protected $singleline = true;
     protected $qstObject = null;
-    protected $suffixes = array();
+    protected $suffixes = [];
     protected $showPoints = true;
     protected $hideImages = false;
+
     protected ArrayBasedRequestWrapper $post_wrapper;
+    protected GlyphFactory $glyph_factory;
+    protected Renderer $renderer;
 
     /**
     * Constructor
@@ -48,8 +53,11 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
         $this->setSuffixes(array("jpg", "jpeg", "png", "gif"));
         $this->setSize('25');
         $this->validationRegexp = "";
+
         global $DIC;
         $this->post_wrapper = $DIC->http()->wrapper()->post();
+        $this->glyph_factory = $DIC->ui()->factory()->symbol()->glyph();
+        $this->renderer = $DIC->ui()->renderer();
     }
 
     public function setValue($a_value): void
@@ -58,12 +66,17 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
         if (is_array($a_value)) {
             if (is_array($a_value['answer'])) {
                 foreach ($a_value['answer'] as $index => $value) {
-                    include_once "./Modules/TestQuestionPool/classes/class.assAnswerBinaryStateImage.php";
-                    $answer = new ASS_AnswerBinaryStateImage((string) $value, (float) $a_value['points'][$index], (int) $index, 1, "", -1);
+                    $points = (float) str_replace(",", ".", $a_value['points'][$index]);
+                    $answer = new ASS_AnswerBinaryStateImage(
+                        (string) $value,
+                        $points,
+                        (int) $index,
+                        1,
+                        "",
+                        (int) $a_value['answer_id'][$index]
+                    );
                     if (isset($a_value['imagename'][$index])) {
                         $answer->setImage($a_value['imagename'][$index]);
-                    } else {
-                        $answer->setImage('');
                     }
                     $this->values[] = $answer;
                 }
@@ -199,6 +212,16 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
         return $this->allowMove;
     }
 
+
+    // Set pending filename value
+    public function setPending(string $val): void
+    {
+        /**
+         * 2023-07-05 sk: This is not how it should be, but there is no got way
+         * around it right now. We need KS-Forms. Now!
+         */
+    }
+
     /**
     * Check input, strip slashes etc. set alert, if input is not ok.
     * @return	boolean		Input ok, true/false
@@ -207,8 +230,6 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
     {
         global $DIC;
         $lng = $DIC['lng'];
-
-        include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
 
         if (is_array($_POST[$this->getPostVar()])) {
             $foundvalues = ilArrayUtil::stripSlashesRecursive(
@@ -222,7 +243,7 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
             // check answers
             if (is_array($foundvalues['answer'])) {
                 foreach ($foundvalues['answer'] as $aidx => $answervalue) {
-                    if (((strlen($answervalue)) == 0) && (isset($foundvalues['imagename'])) && (strlen($foundvalues['imagename'][$aidx]) == 0)) {
+                    if (((strlen($answervalue)) == 0) && (!isset($foundvalues['imagename'][$aidx]) || strlen($foundvalues['imagename'][$aidx]) == 0)) {
                         $this->setAlert($lng->txt("msg_input_is_required"));
                         return false;
                     }
@@ -232,6 +253,7 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
             $max = 0;
             if (is_array($foundvalues['points'])) {
                 foreach ($foundvalues['points'] as $points) {
+                    $points = str_replace(',', '.', $points);
                     if ($points > $max) {
                         $max = $points;
                     }
@@ -399,6 +421,9 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
                         );
                         $tpl->parseCurrentBlock();
                     }
+                    $tpl->setCurrentBlock("prop_answer_id_propval");
+                    $tpl->setVariable("PROPERTY_VALUE", ilLegacyFormElementsUtil::prepareFormOutput($value->getId()));
+                    $tpl->parseCurrentBlock();
                 }
                 $tpl->setCurrentBlock('singleline');
                 $tpl->setVariable("SIZE", $this->getSize());
@@ -436,11 +461,13 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
             }
             if ($this->getAllowMove()) {
                 $tpl->setCurrentBlock("move");
-                $tpl->setVariable("CMD_UP", "cmd[up" . $this->getFieldId() . "][$i]");
-                $tpl->setVariable("CMD_DOWN", "cmd[down" . $this->getFieldId() . "][$i]");
                 $tpl->setVariable("ID", $this->getPostVar() . "[$i]");
-                $tpl->setVariable("UP_BUTTON", ilGlyphGUI::get(ilGlyphGUI::UP));
-                $tpl->setVariable("DOWN_BUTTON", ilGlyphGUI::get(ilGlyphGUI::DOWN));
+                $tpl->setVariable("UP_BUTTON", $this->renderer->render(
+                    $this->glyph_factory->up()
+                ));
+                $tpl->setVariable("DOWN_BUTTON", $this->renderer->render(
+                    $this->glyph_factory->down()
+                ));
                 $tpl->parseCurrentBlock();
             }
             if ($this->getShowPoints()) {
@@ -454,13 +481,15 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
             $tpl->setVariable("POST_VAR", $this->getPostVar());
             $tpl->setVariable("ROW_NUMBER", $i);
             $tpl->setVariable("ID", $this->getPostVar() . "[answer][$i]");
-            $tpl->setVariable("CMD_ADD", "cmd[add" . $this->getFieldId() . "][$i]");
-            $tpl->setVariable("CMD_REMOVE", "cmd[remove" . $this->getFieldId() . "][$i]");
             if ($this->getDisabled()) {
                 $tpl->setVariable("DISABLED_POINTS", " disabled=\"disabled\"");
             }
-            $tpl->setVariable("ADD_BUTTON", ilGlyphGUI::get(ilGlyphGUI::ADD));
-            $tpl->setVariable("REMOVE_BUTTON", ilGlyphGUI::get(ilGlyphGUI::REMOVE));
+            $tpl->setVariable("ADD_BUTTON", $this->renderer->render(
+                $this->glyph_factory->add()
+            ));
+            $tpl->setVariable("REMOVE_BUTTON", $this->renderer->render(
+                $this->glyph_factory->remove()
+            ));
             $tpl->parseCurrentBlock();
             $i++;
         }
@@ -504,7 +533,7 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
 
         global $DIC;
         $tpl = $DIC['tpl'];
-        $tpl->addJavascript("./Services/Form/js/ServiceFormWizardInput.js");
+        $tpl->addJavascript("./Modules/TestQuestionPool/templates/default/answerwizardinput.js");
         $tpl->addJavascript("./Modules/TestQuestionPool/templates/default/singlechoicewizard.js");
     }
 }

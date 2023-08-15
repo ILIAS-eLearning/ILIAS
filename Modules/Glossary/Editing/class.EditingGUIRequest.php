@@ -48,11 +48,6 @@ class EditingGUIRequest
         return $this->int("term_id");
     }
 
-    public function getDefinitionId(): int
-    {
-        return $this->int("def");
-    }
-
     public function getTaxNode(): int
     {
         return $this->int("tax_node");
@@ -137,5 +132,18 @@ class EditingGUIRequest
     public function getTaxNodes(): array
     {
         return $this->intArray("tax_node");
+    }
+
+    public function getSelectedGlossaryRefId(): int
+    {
+        return $this->int("sel_glo_ref_id");
+    }
+
+    /**
+     * @return int[]
+     */
+    public function getInterruptiveItemIds(): array
+    {
+        return $this->intArray("interruptive_items");
     }
 }

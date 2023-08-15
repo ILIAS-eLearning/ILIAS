@@ -1,38 +1,28 @@
 <?php
 
-namespace ILIAS\Filesystem\Provider;
-
-use ILIAS\Filesystem\Exception\FileAlreadyExistsException;
-use ILIAS\Filesystem\Exception\FileNotFoundException;
-use ILIAS\Filesystem\Exception\IOException;
-use ILIAS\Filesystem\Stream\FileStream;
-use Psr\Http\Message\StreamInterface;
-
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
+namespace ILIAS\Filesystem\Provider;
+
+use ILIAS\Filesystem\Stream\FileStream;
+
 /**
- * Interface FileStreamWriteAccess
- *
- * This interface describes the write operations for the streaming filesystem access.
- *
- * @author  Nicolas Schäfli <ns@studer-raimann.ch>
- * @since 5.3
- * @version 1.0
- *
- * @see FileStreamAccess
- *
- * @public
+ * @author                 Nicolas Schäfli <ns@studer-raimann.ch>
+ * @author                 Fabian Schmid <fabian@sr.solutions>
  */
 interface FileStreamWriteAccess
 {
@@ -43,17 +33,12 @@ interface FileStreamWriteAccess
      * The stream will be closed after the write operation is done. Please note that the
      * resource must be detached from the stream in order to write to the file.
      *
-     * @param string                    $path   The file which should be used to write the stream into.
-     * @param FileStream                $stream The stream which should be written into the new file.
-     *
-     * @return void
-     * @since   5.3
-     * @version 1.0
+     * @param string     $path   The file which should be used to write the stream into.
+     * @param FileStream $stream The stream which should be written into the new file.
      *
      * @see     FileStream::detach()
      */
     public function writeStream(string $path, FileStream $stream): void;
-
 
     /**
      * Creates a new file or updates an existing one.
@@ -62,17 +47,12 @@ interface FileStreamWriteAccess
      * The stream will be closed after the write operation is done. Please note that the
      * resource must be detached from the stream in order to write to the file.
      *
-     * @param string                     $path   The file which should be used to write the stream into.
+     * @param string     $path   The file which should be used to write the stream into.
      * @param FileStream $stream The stream which should be written to the file.
-     *
-     * @return void
-     * @since   5.3
-     * @version 1.0
      *
      * @see     FileStream::detach()
      */
     public function putStream(string $path, FileStream $stream): void;
-
 
     /**
      * Updates an existing file.
@@ -81,12 +61,8 @@ interface FileStreamWriteAccess
      * The stream will be closed after the write operation is done. Please note that the
      * resource must be detached from the stream in order to write to the file.
      *
-     * @param string          $path   The path to the file which should be updated.
-     * @param FileStream      $stream The stream which should be used to update the file content.
-     *
-     * @return void
-     * @since   5.3
-     * @version 1.0
+     * @param string     $path   The path to the file which should be updated.
+     * @param FileStream $stream The stream which should be used to update the file content.
      *
      * @see     FileStream::detach()
      */

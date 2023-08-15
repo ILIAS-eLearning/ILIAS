@@ -46,7 +46,7 @@ class NullPluginIdentification implements IdentificationInterface
     /**
      * @inheritDoc
      */
-    public function serialize()
+    public function serialize(): string
     {
         return $this->identification;
     }
@@ -54,7 +54,7 @@ class NullPluginIdentification implements IdentificationInterface
     /**
      * @inheritDoc
      */
-    public function unserialize($serialized)
+    public function unserialize($serialized): void
     {
         // nothing to do
     }

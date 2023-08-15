@@ -23,6 +23,7 @@ use ILIAS\GlobalScreen\Scope\Layout\Provider\AbstractModificationPluginProvider;
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticMainMenuPluginProvider;
 use ILIAS\GlobalScreen\Scope\MetaBar\Provider\AbstractStaticMetaBarPluginProvider;
 use ILIAS\GlobalScreen\Scope\Notification\Provider\AbstractNotificationPluginProvider;
+use ILIAS\GlobalScreen\Scope\Toast\Provider\AbstractToastPluginProvider;
 use ILIAS\GlobalScreen\Scope\Tool\Provider\AbstractDynamicToolPluginProvider;
 
 /**
@@ -55,4 +56,9 @@ interface ProviderCollection
      * @return AbstractNotificationPluginProvider
      */
     public function getNotificationProvider(): ?AbstractNotificationPluginProvider;
+
+    /**
+     * @return AbstractToastPluginProvider
+     */
+    public function getToastProvider(): ?AbstractToastPluginProvider;
 }

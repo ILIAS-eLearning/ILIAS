@@ -196,11 +196,14 @@ class ilSessionMaterialsTableGUI extends ilTable2GUI
 
         $this->tpl->setVariable("COLL_TITLE", $a_set['title']);
 
-        if (strlen($a_set['description'])) {
-            $this->tpl->setVariable("COLL_DESC", $a_set['description']);
+        if (strlen((string) $a_set['description'])) {
+            $this->tpl->setVariable("COLL_DESC", (string) $a_set['description']);
         }
         if (in_array($a_set['ref_id'], $this->getMaterialItems())) {
-            $ass_glyph = $this->ui->symbol()->glyph()->apply();
+            $ass_glyph = $this->ui->symbol()->icon()->custom(
+                ilUtil::getImagePath("icon_ok.svg"),
+                $this->lng->txt("assigned")
+            );
             $this->tpl->setVariable("ASSIGNED_IMG_OK", $this->renderer->render($ass_glyph));
         }
 

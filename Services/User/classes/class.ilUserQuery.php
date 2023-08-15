@@ -353,7 +353,7 @@ class ilUserQuery
         }
 
         if ($this->last_login instanceof ilDateTime) {	// last login
-            if (ilDateTime::_before($this->last_login, new ilDateTime(time(), IL_CAL_UNIX), IL_CAL_DAY)) {
+            if (ilDateTime::_before($this->last_login, new ilDateTime(time() + (60 * 60 * 24), IL_CAL_UNIX), IL_CAL_DAY)) {
                 $add = $where . " usr_data.last_login < " .
                     $ilDB->quote($this->last_login->get(IL_CAL_DATETIME), "timestamp");
                 $query .= $add;

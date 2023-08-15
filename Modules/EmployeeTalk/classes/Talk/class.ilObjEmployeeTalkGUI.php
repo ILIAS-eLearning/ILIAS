@@ -24,6 +24,9 @@ use ILIAS\EmployeeTalk\Service\EmployeeTalkEmailNotificationService;
 use ILIAS\EmployeeTalk\Service\VCalendarFactory;
 use ILIAS\EmployeeTalk\Service\EmployeeTalkEmailNotification;
 use ILIAS\Modules\EmployeeTalk\TalkSeries\Repository\IliasDBEmployeeTalkSeriesRepository;
+use ILIAS\HTTP\Services as HttpServices;
+use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\UI\Factory as UIFactory;
 
 /**
  * Class ilObjEmployeeTalkGUI
@@ -34,45 +37,50 @@ use ILIAS\Modules\EmployeeTalk\TalkSeries\Repository\IliasDBEmployeeTalkSeriesRe
  * @ilCtrl_Calls      ilObjEmployeeTalkGUI: ilColumnGUI, ilObjectCopyGUI, ilUserTableGUI
  * @ilCtrl_Calls      ilObjEmployeeTalkGUI: ilPermissionGUI
  * @ilCtrl_Calls      ilObjEmployeeTalkGUI: ilInfoScreenGUI
+ * @ilCtrl_Calls      ilObjEmployeeTalkGUI: ilPropertyFormGUI
  */
 final class ilObjEmployeeTalkGUI extends ilObjectGUI
 {
-    private \ILIAS\DI\Container $container;
-    private ilPropertyFormGUI $form;
-    private bool $isReadonly;
-    private ilObjEmployeeTalkAccess $talkAccess;
-    private IliasDBEmployeeTalkSeriesRepository $repository;
+    protected HttpServices $http;
+    protected Refinery $refinery;
+    protected UIFactory $ui_factory;
+    protected ilPropertyFormGUI $form;
+    protected bool $isReadonly;
+    protected ilObjEmployeeTalkAccess $talkAccess;
+    protected IliasDBEmployeeTalkSeriesRepository $repository;
 
     public function __construct()
     {
-        $this->container = $GLOBALS["DIC"];
+        global $DIC;
 
-        $refId = $this->container
-            ->http()
-            ->wrapper()
-            ->query()
-            ->retrieve("ref_id", $this->container->refinery()->kindlyTo()->int());
+        $this->http = $DIC->http();
+        $this->refinery = $DIC->refinery();
+        $refId = $this->http->wrapper()->query()->retrieve(
+            "ref_id",
+            $this->refinery->kindlyTo()->int()
+        );
         parent::__construct([], $refId, true, false);
 
-        $this->container->language()->loadLanguageModule('mst');
-        $this->container->language()->loadLanguageModule('trac');
-        $this->container->language()->loadLanguageModule('etal');
-        $this->container->language()->loadLanguageModule('dateplaner');
+        $DIC->language()->loadLanguageModule('mst');
+        $DIC->language()->loadLanguageModule('trac');
+        $DIC->language()->loadLanguageModule('etal');
+        $DIC->language()->loadLanguageModule('dateplaner');
+        $this->lng = $DIC->language();
+        $this->ui_factory = $DIC->ui()->factory();
 
         $this->type = 'etal';
 
         $this->setReturnLocation("save", strtolower(ilEmployeeTalkMyStaffListGUI::class));
 
-        // get the standard template
-        //$this->container->ui()->mainTemplate()->loadStandardTemplate();
-        $this->container->ui()->mainTemplate()->setTitle($this->container->language()->txt('mst_my_staff'));
+        $this->omitLocator();
+        $DIC->ui()->mainTemplate()->setTitle($this->lng->txt('mst_my_staff'));
         $this->talkAccess = ilObjEmployeeTalkAccess::getInstance();
-        $this->repository = new IliasDBEmployeeTalkSeriesRepository($this->user, $this->container->database());
+        $this->repository = new IliasDBEmployeeTalkSeriesRepository($this->user, $DIC->database());
     }
 
     private function checkAccessOrFail(): void
     {
-        if (!$this->talkAccess->canRead(intval($this->object->getRefId()))) {
+        if (!$this->talkAccess->canRead($this->object->getRefId())) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("permission_denied"), true);
             $this->ctrl->redirectByClass(ilDashboardGUI::class, "");
         }
@@ -81,10 +89,10 @@ final class ilObjEmployeeTalkGUI extends ilObjectGUI
     public function executeCommand(): void
     {
         $this->checkAccessOrFail();
-        $this->isReadonly = !$this->talkAccess->canEdit(intval($this->object->getRefId()));
+        $this->isReadonly = !$this->talkAccess->canEdit($this->object->getRefId());
 
         // determine next class in the call structure
-        $next_class = $this->container->ctrl()->getNextClass($this);
+        $next_class = $this->ctrl->getNextClass($this);
 
         switch ($next_class) {
             case 'ilpermissiongui':
@@ -107,17 +115,19 @@ final class ilObjEmployeeTalkGUI extends ilObjectGUI
                 //    $orgUnitUser = ilOrgUnitUser::getInstanceById($this->container->user()->getId());
                 //    $orgUnitUser->addPositions()                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        ;
                 //});
-                $this->container->ctrl()->forwardCommand($repo);
+                $this->ctrl->forwardCommand($repo);
                 break;
             case strtolower(ilEmployeeTalkAppointmentGUI::class):
                 $appointmentGUI = new ilEmployeeTalkAppointmentGUI(
                     $this->tpl,
                     $this->lng,
                     $this->ctrl,
-                    $this->container->tabs(),
+                    $this->http,
+                    $this->refinery,
+                    $this->tabs_gui,
                     $this->object
                 );
-                $this->container->ctrl()->forwardCommand($appointmentGUI);
+                $this->ctrl->forwardCommand($appointmentGUI);
                 break;
             default:
                 parent::executeCommand();
@@ -139,13 +149,13 @@ final class ilObjEmployeeTalkGUI extends ilObjectGUI
         $this->tpl->setContent($form->getHTML());
     }
 
-    protected function validateCustom(ilPropertyFormGUI $a_form): bool
+    protected function validateCustom(ilPropertyFormGUI $form): bool
     {
-        $refId = intval($this->object->getRefId());
-        $settings = $this->repository->readEmployeeTalkSerieSettings(intval($this->object->getId()));
+        $refId = $this->object->getRefId();
+        $settings = $this->repository->readEmployeeTalkSerieSettings($this->object->getId());
         $oldLockSettings = $settings->isLockedEditing();
         $lockEdititngForOthers = boolval(
-            intval($a_form->getInput('etal_settings_locked_for_others'))
+            intval($form->getInput('etal_settings_locked_for_others'))
         );
         if ($oldLockSettings === $lockEdititngForOthers) {
             return true;
@@ -157,6 +167,7 @@ final class ilObjEmployeeTalkGUI extends ilObjectGUI
     public function updateObject(): void
     {
         $form = $this->initEditForm();
+        $this->addExternalEditFormCustom($form);
         if ($form->checkInput() &&
             $this->validateCustom($form) &&
             !$this->isReadonly) {
@@ -177,7 +188,7 @@ final class ilObjEmployeeTalkGUI extends ilObjectGUI
 
     public function confirmedDeleteObject(): void
     {
-        if ($this->isReadonly) {
+        if (!$this->talkAccess->canDelete($this->ref_id)) {
             ilSession::clear("saved_post");
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("permission_denied"), true);
             $this->ctrl->redirectByClass(strtolower(ilEmployeeTalkMyStaffListGUI::class), ControlFlowCommand::DEFAULT, "", false);
@@ -190,7 +201,8 @@ final class ilObjEmployeeTalkGUI extends ilObjectGUI
                 "mref_id",
                 $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())
             );
-            $_SESSION["saved_post"] = array_unique(array_merge($_SESSION["saved_post"], $mref_id));
+            $saved_post = array_unique(array_merge(ilSession::get('saved_post'), $mref_id));
+            ilSession::set('saved_post', $saved_post);
         }
 
         $ru = new ilRepositoryTrashGUI($this);
@@ -202,8 +214,9 @@ final class ilObjEmployeeTalkGUI extends ilObjectGUI
         }
 
         $ru->deleteObjects($this->requested_ref_id, $refIds);
-        $trashEnabled = boolval($this->container->settings()->get('enable_trash'));
+        $trashEnabled = boolval($this->settings->get('enable_trash'));
 
+        $this->sendNotification($talks);
         if ($trashEnabled) {
             foreach ($talks as $talk) {
                 $talk->delete();
@@ -211,8 +224,6 @@ final class ilObjEmployeeTalkGUI extends ilObjectGUI
         }
 
         ilSession::clear("saved_post");
-
-        $this->sendNotification($talks);
 
         $this->ctrl->redirectByClass(strtolower(ilEmployeeTalkMyStaffListGUI::class), ControlFlowCommand::DEFAULT, "", false);
     }
@@ -223,26 +234,42 @@ final class ilObjEmployeeTalkGUI extends ilObjectGUI
     private function sendNotification(array $talks): void
     {
         $firstTalk = $talks[0];
-        $talkTitle = $firstTalk->getTitle();
+        $talk_title = $firstTalk->getTitle();
         $superior = new ilObjUser($firstTalk->getOwner());
         $employee = new ilObjUser($firstTalk->getData()->getEmployee());
         $superiorName = $superior->getFullname();
         $series = $firstTalk->getParent();
 
-        $dates = [];
-        foreach ($talks as $talk) {
-            $data = $talk->getData();
-            $startDate = $data->getStartDate()->get(IL_CAL_DATETIME);
+        $dates = array_map(
+            fn(ilObjEmployeeTalk $t) => $t->getData()->getStartDate(),
+            $talks
+        );
+        usort($dates, function (ilDateTime $a, ilDateTime $b) {
+            $a = $a->getUnixTime();
+            $b = $b->getUnixTime();
+            if ($a === $b) {
+                return 0;
+            }
+            return $a < $b ? -1 : 1;
+        });
 
-            $dates[] = $startDate;
-        }
+        $add_time = $firstTalk->getData()->isAllDay() ? 0 : 1;
+        $format = ilCalendarUtil::getUserDateFormat($add_time, true);
+        $timezone = $employee->getTimeZone();
+        $dates = array_map(function (ilDateTime $d) use ($add_time, $format, $timezone) {
+            return $d->get(IL_CAL_FKT_DATE, $format, $timezone);
+        }, $dates);
 
         $message = new EmployeeTalkEmailNotification(
-            sprintf($this->lng->txt('notification_talks_removed'), $superiorName),
-            $this->lng->txt('notification_talks_date_list_header'),
-            sprintf($this->lng->txt('notification_talks_talk_title'), $talkTitle),
-            $this->lng->txt('notification_talks_date_details'),
-            $dates
+            $firstTalk->getRefId(),
+            $talk_title,
+            $firstTalk->getDescription(),
+            $firstTalk->getData()->getLocation(),
+            'notification_talks_subject_update',
+            'notification_talks_removed',
+            $superiorName,
+            $dates,
+            false
         );
 
         // Check if we deleted the last talk of the series
@@ -250,7 +277,7 @@ final class ilObjEmployeeTalkGUI extends ilObjectGUI
         if ($series->hasChildren()) {
             $vCalSender = new EmployeeTalkEmailNotificationService(
                 $message,
-                $talkTitle,
+                $talk_title,
                 $employee,
                 $superior,
                 VCalendarFactory::getInstanceFromTalks($series)
@@ -258,10 +285,10 @@ final class ilObjEmployeeTalkGUI extends ilObjectGUI
         } else {
             $vCalSender = new EmployeeTalkEmailNotificationService(
                 $message,
-                $talkTitle,
+                $talk_title,
                 $employee,
                 $superior,
-                VCalendarFactory::getEmptyInstance($series, $talkTitle)
+                VCalendarFactory::getEmptyInstance($series, $talk_title)
             );
         }
 
@@ -278,30 +305,45 @@ final class ilObjEmployeeTalkGUI extends ilObjectGUI
         }
 
         $firstTalk = $talks[0];
-        $talkTitle = $firstTalk->getTitle();
+        $talk_title = $firstTalk->getTitle();
         $superior = new ilObjUser($firstTalk->getOwner());
         $employee = new ilObjUser($firstTalk->getData()->getEmployee());
         $superiorName = $superior->getFullname();
 
-        $dates = [];
-        foreach ($talks as $talk) {
-            $data = $talk->getData();
-            $startDate = $data->getStartDate()->get(IL_CAL_DATETIME);
+        $dates = array_map(
+            fn(ilObjEmployeeTalk $t) => $t->getData()->getStartDate(),
+            $talks
+        );
+        usort($dates, function (ilDateTime $a, ilDateTime $b) {
+            $a = $a->getUnixTime();
+            $b = $b->getUnixTime();
+            if ($a === $b) {
+                return 0;
+            }
+            return $a < $b ? -1 : 1;
+        });
 
-            $dates[] = $startDate;
-        }
+        $add_time = $firstTalk->getData()->isAllDay() ? 0 : 1;
+        $format = ilCalendarUtil::getUserDateFormat($add_time, true);
+        $timezone = $employee->getTimeZone();
+        $dates = array_map(function (ilDateTime $d) use ($add_time, $format, $timezone) {
+            return $d->get(IL_CAL_FKT_DATE, $format, $timezone);
+        }, $dates);
 
         $message = new EmployeeTalkEmailNotification(
-            sprintf($this->lng->txt('notification_talks_updated'), $superiorName),
-            $this->lng->txt('notification_talks_date_details'),
-            sprintf($this->lng->txt('notification_talks_talk_title'), $talkTitle),
-            $this->lng->txt('notification_talks_date_list_header'),
+            $firstTalk->getRefId(),
+            $talk_title,
+            $firstTalk->getDescription(),
+            $firstTalk->getData()->getLocation(),
+            'notification_talks_subject_update',
+            'notification_talks_updated',
+            $superiorName,
             $dates
         );
 
         $vCalSender = new EmployeeTalkEmailNotificationService(
             $message,
-            $talkTitle,
+            $talk_title,
             $employee,
             $superior,
             VCalendarFactory::getInstanceFromTalks($firstTalk->getParent())
@@ -326,9 +368,9 @@ final class ilObjEmployeeTalkGUI extends ilObjectGUI
          */
         $data = $this->object->getData();
 
-        $lng->loadLanguageModule($this->object->getType());
+        $lng->loadLanguageModule('etal');
+        $lng->loadLanguageModule('orgu');
 
-        include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this, "update"));
 
@@ -339,6 +381,7 @@ final class ilObjEmployeeTalkGUI extends ilObjectGUI
 
         // title
         $ti = new ilTextInputGUI($this->lng->txt("title"), "title");
+        $ti->setInfo($this->lng->txt('will_update_series_info_title'));
         $ti->setSize(min(40, ilObject::TITLE_LENGTH));
         $ti->setMaxLength(ilObject::TITLE_LENGTH);
         $ti->setRequired(true);
@@ -354,7 +397,11 @@ final class ilObjEmployeeTalkGUI extends ilObjectGUI
         $form->addItem($login);
 
         $writeLockForOthers = new ilCheckboxInputGUI($this->lng->txt("lock_edititng_for_others"), "etal_settings_locked_for_others");
-        $writeLockForOthers->setDisabled($this->isReadonly || !$this->talkAccess->canEditTalkLockStatus(intval($this->object->getRefId())));
+        $writeLockForOthers->setInfo($this->lng->txt('will_update_series_info_lock'));
+        $writeLockForOthers->setDisabled(
+            $this->isReadonly ||
+            !$this->talkAccess->canEditTalkLockStatus($this->object->getRefId())
+        );
         $form->addItem($writeLockForOthers);
 
         $form->addItem($generalSection);
@@ -376,7 +423,7 @@ final class ilObjEmployeeTalkGUI extends ilObjectGUI
         return $form;
     }
 
-    public function addExternalEditFormCustom(ilPropertyFormGUI $a_form): void
+    public function addExternalEditFormCustom(ilPropertyFormGUI $form): void
     {
         /**
          * @var EmployeeTalk $data
@@ -387,33 +434,69 @@ final class ilObjEmployeeTalkGUI extends ilObjectGUI
         $location->setMaxLength(200);
         $location->setValue($data->getLocation());
         $location->setDisabled($this->isReadonly);
-        $a_form->addItem($location);
+        $form->addItem($location);
 
         $completed = new ilCheckboxInputGUI($this->lng->txt('etal_status_completed'), 'etal_completed');
         $completed->setChecked($data->isCompleted());
         $completed->setDisabled($this->isReadonly);
-        $a_form->addItem($completed);
-
-        $this->container->ctrl()->setParameterByClass(strtolower(ilEmployeeTalkAppointmentGUI::class), 'ref_id', $this->ref_id);
+        $form->addItem($completed);
 
         if (!$this->isReadonly) {
-            $btnChangeThis = ilLinkButton::getInstance();
-            $btnChangeThis->setCaption("change_date_of_talk");
-            $editMode = '&' . ilEmployeeTalkAppointmentGUI::EDIT_MODE . '=' . ilEmployeeTalkAppointmentGUI::EDIT_MODE_APPOINTMENT;
-            $btnChangeThis->setUrl($this->ctrl->getLinkTargetByClass(strtolower(ilEmployeeTalkAppointmentGUI::class), ControlFlowCommand::UPDATE_INDEX) . $editMode);
-            $this->toolbar->addButtonInstance($btnChangeThis);
+            $appointment_class = strtolower(ilEmployeeTalkAppointmentGUI::class);
+            $this->ctrl->setParameterByClass($appointment_class, 'ref_id', $this->ref_id);
 
-            $btnChangeAll = ilLinkButton::getInstance();
-            $btnChangeAll->setCaption("change_date_of_series");
-            $editMode = '&' . ilEmployeeTalkAppointmentGUI::EDIT_MODE . '=' . ilEmployeeTalkAppointmentGUI::EDIT_MODE_SERIES;
-            $btnChangeAll->setUrl($this->ctrl->getLinkTargetByClass(strtolower(ilEmployeeTalkAppointmentGUI::class), ControlFlowCommand::UPDATE_INDEX) . $editMode);
-            $this->toolbar->addButtonInstance($btnChangeAll);
+            $this->ctrl->setParameterByClass(
+                $appointment_class,
+                ilEmployeeTalkAppointmentGUI::EDIT_MODE,
+                ilEmployeeTalkAppointmentGUI::EDIT_MODE_APPOINTMENT
+            );
+            $link_single = $this->ctrl->getLinkTargetByClass(
+                $appointment_class,
+                ControlFlowCommand::UPDATE_INDEX
+            );
+            $button_single = $this->ui_factory->button()->standard(
+                $this->lng->txt('change_date_of_talk'),
+                $link_single
+            );
+
+            $this->ctrl->setParameterByClass(
+                $appointment_class,
+                ilEmployeeTalkAppointmentGUI::EDIT_MODE,
+                ilEmployeeTalkAppointmentGUI::EDIT_MODE_SERIES
+            );
+            $link_all = $this->ctrl->getLinkTargetByClass(
+                $appointment_class,
+                ControlFlowCommand::UPDATE_INDEX
+            );
+            $button_all = $this->ui_factory->button()->standard(
+                $this->lng->txt('change_date_of_series'),
+                $link_all
+            );
+
+            $this->ctrl->clearParametersByClass($appointment_class);
+
+            $this->toolbar->addComponent($button_single);
+            $this->toolbar->addComponent($button_all);
         }
 
-        $md = $this->initMetaDataForm($a_form);
+        $md = $this->initMetaDataForm($form);
         $md->parse();
 
-        parent::addExternalEditFormCustom($a_form);
+        // this is necessary to disable the md fields
+        if ($this->isReadonly) {
+            foreach ($form->getInputItemsRecursive() as $item) {
+                if ($item instanceof ilCombinationInputGUI) {
+                    $item->__call('setValue', ['']);
+                    $item->__call('setDisabled', [true]);
+                }
+                if (method_exists($item, 'setDisabled')) {
+                    /** @var $item ilFormPropertyGUI */
+                    $item->setDisabled(true);
+                }
+            }
+        }
+
+        parent::addExternalEditFormCustom($form);
     }
 
     protected function getEditFormCustomValues(array &$a_values): void
@@ -425,35 +508,38 @@ final class ilObjEmployeeTalkGUI extends ilObjectGUI
         $parent = $this->object->getParent();
         $settings = $this->repository->readEmployeeTalkSerieSettings(intval($parent->getId()));
 
-        $a_values['etal_superior'] = ilObjUser::_lookupLogin(intval($this->object->getOwner()));
+        $a_values['etal_superior'] = ilObjUser::_lookupLogin($this->object->getOwner());
         $a_values['etal_employee'] = ilObjUser::_lookupLogin($data->getEmployee());
         $a_values['etal_settings_locked_for_others'] = $settings->isLockedEditing();
     }
 
-    protected function updateCustom(ilPropertyFormGUI $a_form): void
+    protected function updateCustom(ilPropertyFormGUI $form): void
     {
         /**
          * @var ilObjEmployeeTalkSeries $series
          */
         $series = $this->object->getParent();
+        $updated_series = false;
 
-        $md = $this->initMetaDataForm($a_form);
+        $md = $this->initMetaDataForm($form);
         $md->parse();
         $md->importEditFormPostValues();
         $md->writeEditForm($series->getId(), $this->object->getId());
 
-        $location = $a_form->getInput('etal_location');
+        $location = $form->getInput('etal_location');
         $completed = boolval(
-            intval($a_form->getInput('etal_completed'))
+            intval($form->getInput('etal_completed'))
         );
         $lockEdititngForOthers = boolval(
-            intval($a_form->getInput('etal_settings_locked_for_others'))
+            intval($form->getInput('etal_settings_locked_for_others'))
         );
 
-        //TODO: Use the object id of the series and not of the talk ...
-        $settings = $this->repository->readEmployeeTalkSerieSettings(intval($series->getId()));
-        $settings->setLockedEditing($lockEdititngForOthers);
-        $this->repository->storeEmployeeTalkSerieSettings($settings);
+        $settings = $this->repository->readEmployeeTalkSerieSettings($series->getId());
+        if ($lockEdititngForOthers !== $settings->isLockedEditing()) {
+            $settings->setLockedEditing($lockEdititngForOthers);
+            $this->repository->storeEmployeeTalkSerieSettings($settings);
+            $updated_series = true;
+        }
 
 
         /**
@@ -476,22 +562,30 @@ final class ilObjEmployeeTalkGUI extends ilObjectGUI
 
         $talks = [];
         $talks[] = $this->object;
+        // Update the title of the talk series
+        if ($parent->getTitle() !== $this->object->getTitle()) {
+            $parent->setTitle($this->object->getTitle());
+            $parent->update();
+        }
         // Update the title of every talk which belongs to the talk series
         foreach ($subTree as $treeNode) {
             if (boolval($treeNode['deleted']) === true) {
                 continue;
             }
             $talk = new ilObjEmployeeTalk(intval($treeNode['ref_id']));
-            if (
-                $talk->getId() !== $this->object->getId()
-            ) {
+            if ($talk->getId() === $this->object->getId()) {
+                continue;
+            }
+            if ($talk->getTitle() !== $this->object->getTitle()) {
                 $talk->setTitle($this->object->getTitle());
                 $talk->update();
+                $talks[] = $talk;
+            } elseif ($updated_series) {
                 $talks[] = $talk;
             }
         }
 
-        parent::updateCustom($a_form);
+        parent::updateCustom($form);
 
         $this->sendUpdateNotification($talks);
     }
@@ -502,13 +596,11 @@ final class ilObjEmployeeTalkGUI extends ilObjectGUI
         $this->editObject();
     }
 
-    public function getTabs(): void
+    protected function getTabs(): void
     {
         $this->tabs_gui->addTab('view_content', $this->lng->txt("content"), $this->ctrl->getLinkTarget($this, ControlFlowCommand::UPDATE));
         $this->tabs_gui->addTab("info_short", "Info", $this->ctrl->getLinkTargetByClass(strtolower(ilInfoScreenGUI::class), "showSummary"));
         //$this->tabs_gui->addTab('settings', $this->lng->txt("settings"), $this->ctrl->getLinkTarget($this, "edit"));
-
-        parent::getTabs();
     }
 
     /**
@@ -539,7 +631,14 @@ final class ilObjEmployeeTalkGUI extends ilObjectGUI
          * @var ilObjEmployeeTalkSeries $series
          */
         $series = $this->object->getParent();
-        $md = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_EDITOR, $series->getType(), $series->getId(), $this->object->getType(), $this->object->getId());
+        $md = new ilAdvancedMDRecordGUI(
+            ilAdvancedMDRecordGUI::MODE_EDITOR,
+            $series->getType(),
+            $series->getId(),
+            $this->object->getType(),
+            $this->object->getId(),
+            false
+        );
         $md->setPropertyForm($form);
         return $md;
     }
@@ -550,6 +649,14 @@ final class ilObjEmployeeTalkGUI extends ilObjectGUI
          * @var \ILIAS\DI\Container $container
          */
         $container = $GLOBALS['DIC'];
+        if (!ilObject::_exists((int) $refId, true)) {
+            $container["tpl"]->setOnScreenMessage(
+                'failure',
+                $container->language()->txt("permission_denied"),
+                true
+            );
+            $container->ctrl()->redirectByClass(ilDashboardGUI::class, "");
+        }
         $container->ctrl()->setParameterByClass(strtolower(self::class), 'ref_id', $refId);
         $container->ctrl()->redirectByClass([
             strtolower(ilDashboardGUI::class),

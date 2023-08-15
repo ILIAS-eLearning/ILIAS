@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * @author  Niels Theen <ntheen@databay.de>
@@ -52,7 +52,7 @@ class ilCertificateTemplateRepositoryTest extends ilCertificateBaseTestCase
                     'template_values' => ['clob', '[]'],
                     'version' => ['integer', 1],
                     'ilias_version' => ['text', 'v5.4.0'],
-                    'created_timestamp' => ['integer', 123456789],
+                    'created_timestamp' => ['integer', 123_456_789],
                     'currently_active' => ['integer', true],
                     'background_image_path' => ['text', '/some/where/background.jpg'],
                     'deleted' => ['integer', 0],
@@ -71,7 +71,7 @@ class ilCertificateTemplateRepositoryTest extends ilCertificateBaseTestCase
             '[]',
             1,
             'v5.4.0',
-            123456789,
+            123_456_789,
             true,
             '/some/where/background.jpg',
             'some/path/test.svg'
@@ -101,7 +101,7 @@ class ilCertificateTemplateRepositoryTest extends ilCertificateBaseTestCase
                     'template_values' => '[]',
                     'version' => 1,
                     'ilias_version' => 'v5.4.0',
-                    'created_timestamp' => 123456789,
+                    'created_timestamp' => 123_456_789,
                     'currently_active' => true,
                     'background_image_path' => '/some/where/background.jpg',
                     'thumbnail_image_path' => 'some/path/test.svg'
@@ -115,7 +115,7 @@ class ilCertificateTemplateRepositoryTest extends ilCertificateBaseTestCase
                     'template_values' => '[]',
                     'version' => 55,
                     'ilias_version' => 'v5.3.0',
-                    'created_timestamp' => 123456789,
+                    'created_timestamp' => 123_456_789,
                     'currently_active' => false,
                     'background_image_path' => '/some/where/else/background.jpg',
                     'thumbnail_image_path' => 'some/path/test.svg'
@@ -155,7 +155,7 @@ class ilCertificateTemplateRepositoryTest extends ilCertificateBaseTestCase
                     'template_values' => '[]',
                     'version' => 1,
                     'ilias_version' => 'v5.4.0',
-                    'created_timestamp' => 123456789,
+                    'created_timestamp' => 123_456_789,
                     'currently_active' => true,
                     'background_image_path' => '/some/where/background.jpg',
                     'thumbnail_image_path' => 'some/path/test.svg'
@@ -169,7 +169,7 @@ class ilCertificateTemplateRepositoryTest extends ilCertificateBaseTestCase
                     'template_values' => '[]',
                     'version' => 55,
                     'ilias_version' => 'v5.3.0',
-                    'created_timestamp' => 123456789,
+                    'created_timestamp' => 123_456_789,
                     'currently_active' => false,
                     'background_image_path' => '/some/where/else/background.jpg',
                     'thumbnail_image_path' => 'some/path/test.svg'
@@ -210,7 +210,7 @@ class ilCertificateTemplateRepositoryTest extends ilCertificateBaseTestCase
                     'template_values' => '[]',
                     'version' => 1,
                     'ilias_version' => 'v5.4.0',
-                    'created_timestamp' => 123456789,
+                    'created_timestamp' => 123_456_789,
                     'currently_active' => true,
                     'background_image_path' => '/some/where/background.jpg',
                     'thumbnail_image_path' => 'some/path/test.svg'
@@ -224,7 +224,7 @@ class ilCertificateTemplateRepositoryTest extends ilCertificateBaseTestCase
                     'template_values' => '[]',
                     'version' => 55,
                     'ilias_version' => 'v5.3.0',
-                    'created_timestamp' => 123456789,
+                    'created_timestamp' => 123_456_789,
                     'currently_active' => false,
                     'background_image_path' => '/some/where/else/background.jpg',
                     'thumbnail_image_path' => 'some/path/test.svg'
@@ -298,7 +298,7 @@ AND obj_id = 200');
                 'template_values' => '[]',
                 'version' => 1,
                 'ilias_version' => 'v5.4.0',
-                'created_timestamp' => 123456789,
+                'created_timestamp' => 123_456_789,
                 'currently_active' => true,
                 'background_image_path' => '/some/where/background.jpg',
                 'thumbnail_image_path' => 'some/path/test.svg'
@@ -312,7 +312,7 @@ AND obj_id = 200');
                 'template_values' => '[]',
                 'version' => 55,
                 'ilias_version' => 'v5.3.0',
-                'created_timestamp' => 123456789,
+                'created_timestamp' => 123_456_789,
                 'currently_active' => false,
                 'background_image_path' => '/some/where/else/background.jpg',
                 'thumbnail_image_path' => 'some/path/test.svg'
@@ -364,7 +364,7 @@ WHERE id = 30'
                 'template_values' => '[]',
                 'version' => 1,
                 'ilias_version' => 'v5.4.0',
-                'created_timestamp' => 123456789,
+                'created_timestamp' => 123_456_789,
                 'currently_active' => true,
                 'background_image_path' => '/some/where/background.jpg',
                 'thumbnail_image_path' => '/some/where/thumbnail.svg'
@@ -378,7 +378,7 @@ WHERE id = 30'
                 'template_values' => '[]',
                 'version' => 55,
                 'ilias_version' => 'v5.3.0',
-                'created_timestamp' => 123456789,
+                'created_timestamp' => 123_456_789,
                 'currently_active' => false,
                 'background_image_path' => '/some/where/else/background.jpg',
                 'thumbnail_image_path' => '/some/where/thumbnail.svg'
@@ -396,7 +396,7 @@ WHERE id = 30'
     /**
      *
      */
-    public function testFetchFirstCreatedTemplateFailsBecauseNothingWasSaved(): void
+    public function testFetchFirstCreatedTemplateFailsBecauseNothingWasSaved(): never
     {
         $this->expectException(ilException::class);
 
@@ -456,7 +456,7 @@ WHERE id = 30'
                 'template_values' => '[]',
                 'version' => 1,
                 'ilias_version' => 'v5.4.0',
-                'created_timestamp' => 123456789,
+                'created_timestamp' => 123_456_789,
                 'currently_active' => true,
                 'background_image_path' => '/some/where/background.jpg'
             ]

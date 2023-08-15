@@ -223,7 +223,7 @@ class ilInternalLink
                 // if a ref id part is given, strip this
                 // since this will not be part of an import id
                 // see also bug #6685
-                if ($tarr[4] != "") {
+                if (($tarr[4] ?? "") != "") {
                     $import_id = $tarr[0] . "_" . $tarr[1] . "_" . $tarr[2] . "_" . $tarr[3];
                 }
 
@@ -244,7 +244,7 @@ class ilInternalLink
                 if (self::_extractInstOfTarget($a_target) == IL_INST_ID
                     && IL_INST_ID > 0) {
                     // does it have a ref id part?
-                    if ($tarr[4] != "") {
+                    if (($tarr[4] ?? "") != "") {
                         return "il__obj_" . $tarr[4];
                     }
                 }

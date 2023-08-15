@@ -1,31 +1,31 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 declare(strict_types=1);
 
 namespace ILIAS\Filesystem;
 
-/******************************************************************************
- *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
- *
- * If this is not the case or you just want to try ILIAS, you'll find
- * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *
- *****************************************************************************/
 /**
- * Trait FilesystemsAware
- *
  * Trait which ease the filesystem integration within legacy ILIAS components.
  * This trait should not be used within new components.
  *
- * @author  Nicolas Schäfli <ns@studer-raimann.ch>
- * @since   5.3
- * @version 1.0.0
+ * @author                 Nicolas Schäfli <ns@studer-raimann.ch>
+ * @author                 Fabian Schmid <fabian@sr.solutions>
  */
 trait FilesystemsAware
 {
@@ -33,8 +33,6 @@ trait FilesystemsAware
 
     /**
      * Returns the loaded filesystems.
-     *
-     * @return Filesystems
      */
     private static function filesystems(): Filesystems
     {

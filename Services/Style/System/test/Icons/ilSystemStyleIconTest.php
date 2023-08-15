@@ -20,14 +20,14 @@ declare(strict_types=1);
 
 require_once('libs/composer/vendor/autoload.php');
 
-class ilSystemStyleIconTest extends ilSystemStyleBaseFSTest
+class ilSystemStyleIconTest extends ilSystemStyleBaseFS
 {
     protected string $icon_name = 'test_image_1.svg';
     protected string $icon_type = 'svg';
 
     public function testConstruct(): void
     {
-        $path = $this->container->getImagesSkinPath($this->style->getId()) . '/' . $this->icon_name;
+        $path = $this->container->getImagesStylePath($this->style->getId()) . '/' . $this->icon_name;
         $icon = new ilSystemStyleIcon($this->icon_name, $path, $this->icon_type);
 
         $this->assertEquals($icon->getName(), $this->icon_name);
@@ -37,7 +37,7 @@ class ilSystemStyleIconTest extends ilSystemStyleBaseFSTest
 
     public function testGetDirRelToCustomizing(): void
     {
-        $path = $this->container->getImagesSkinPath($this->style->getId()) . '/' . $this->icon_name;
+        $path = $this->container->getImagesStylePath($this->style->getId()) . '/' . $this->icon_name;
         $icon = new ilSystemStyleIcon($this->icon_name, $path, $this->icon_type);
 
         $this->assertEquals('', $icon->getDirRelToCustomizing());
@@ -52,7 +52,7 @@ class ilSystemStyleIconTest extends ilSystemStyleBaseFSTest
 
     public function testGetColorSet(): void
     {
-        $path = $this->container->getImagesSkinPath($this->style->getId()) . '/' . $this->icon_name;
+        $path = $this->container->getImagesStylePath($this->style->getId()) . '/' . $this->icon_name;
         $icon = new ilSystemStyleIcon($this->icon_name, $path, $this->icon_type);
 
         $expected_color_set = new ilSystemStyleIconColorSet();
@@ -70,7 +70,7 @@ class ilSystemStyleIconTest extends ilSystemStyleBaseFSTest
 
     public function testChangeColor(): void
     {
-        $path = $this->container->getImagesSkinPath($this->style->getId()) . '/' . $this->icon_name;
+        $path = $this->container->getImagesStylePath($this->style->getId()) . '/' . $this->icon_name;
         $icon = new ilSystemStyleIcon($this->icon_name, $path, $this->icon_type);
 
         $icon->changeColors(['505050' => '555555']);
@@ -90,7 +90,7 @@ class ilSystemStyleIconTest extends ilSystemStyleBaseFSTest
 
     public function testChangeColorInIconFile(): void
     {
-        $path = $this->container->getImagesSkinPath($this->style->getId()) . '/' . $this->icon_name;
+        $path = $this->container->getImagesStylePath($this->style->getId()) . '/' . $this->icon_name;
         $icon = new ilSystemStyleIcon($this->icon_name, $path, $this->icon_type);
 
         $icon->changeColors(['505050' => '555555']);

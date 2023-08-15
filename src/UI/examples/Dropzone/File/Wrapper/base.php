@@ -10,13 +10,28 @@ function base()
 
     $factory = $DIC->ui()->factory();
     $renderer = $DIC->ui()->renderer();
+    $request = $DIC->http()->request();
+
     $dropzone = $factory
         ->dropzone()->file()->wrapper(
-            (new \ilUIAsyncDemoFileUploadHandlerGUI()),
+            'Upload your files here',
             '#',
-            $factory->messageBox()->info('Drag and drop files onto me!')
-        )
-        ->withTitle('Upload your files here');
+            $factory->messageBox()->info('Drag and drop files onto me!'),
+            $factory->input()->field()->file(
+                new \ilUIAsyncDemoFileUploadHandlerGUI(),
+                'Your files'
+            )
+        );
 
-    return $renderer->render($dropzone);
+    // please use ilCtrl to generate an appropriate link target
+    // and check it's command instead of this.
+    if ('POST' === $request->getMethod()) {
+        $dropzone = $dropzone->withRequest($request);
+        $data = $dropzone->getData();
+    } else {
+        $data = 'no results yet.';
+    }
+
+    return '<pre>' . print_r($data, true) . '</pre>' .
+        $renderer->render($dropzone);
 }

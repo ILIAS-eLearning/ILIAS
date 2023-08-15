@@ -320,8 +320,7 @@ class ilObjWikiGUI extends ilObjectGUI
         $this->getSettingsFormValues("create");
 
         $forms = array(self::CFORM_NEW => $this->form_gui,
-                self::CFORM_IMPORT => $this->initImportForm($new_type),
-                self::CFORM_CLONE => $this->fillCloneTemplate(null, $new_type));
+                self::CFORM_IMPORT => $this->initImportForm($new_type));
 
         return $forms;
     }
@@ -883,7 +882,8 @@ class ilObjWikiGUI extends ilObjectGUI
         if ($a_mode === "create") {
             $values["rating_new"] = true;
 
-            $values["rating_overall"] = ilObject::hasAutoRating("wiki", $this->requested_ref_id);
+            $parent = ilObjectFactory::getInstanceByRefId($this->requested_ref_id);
+            $values["rating_overall"] = $parent->selfOrParentWithRatingEnabled();
         } else {
             $values["online"] = $this->object->getOnline();
             $values["title"] = $this->object->getTitle();
@@ -1805,6 +1805,18 @@ class ilObjWikiGUI extends ilObjectGUI
     //
     // User HTML Export
     //
+    /**
+        Current process:
+        - On Button Click (Javascript): il.Wiki.Pres.startHTMLExport()
+          - Ajax call to (PHP): ilObjWikiGUI->initUserHTMLExport()
+            - On Ajax Success (Javascript):
+              - Ajax call to (PHP): ilObjWikiGUI->startUserHTMLExport()
+              - Call to il.Wiki.Pres.updateProgress
+                - Ajax call to (PHP): ilObjWikiGUI->getUserHTMLExportProgress()
+                  - On Ajax Success:
+                    - If finished window.location.href to ilObjWikiGUI->downloadUserHTMLExport()
+                    - If not finished: Wait for a second and call to il.Wiki.Pres.updateProgress
+     */
 
     /**
      * Export html (as user)

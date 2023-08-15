@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -28,7 +29,7 @@ class ilErrorTextWizardInputGUI extends ilTextInputGUI
     protected $key_size = 20;
     protected $value_size = 20;
     protected $key_maxlength = 255;
-    protected $value_maxlength = 255;
+    protected $value_maxlength = 150;
     protected $key_name = "";
     protected $value_name = "";
 
@@ -47,10 +48,9 @@ class ilErrorTextWizardInputGUI extends ilTextInputGUI
     {
         $this->values = array();
         if (is_array($a_value)) {
-            include_once "./Modules/TestQuestionPool/classes/class.assAnswerErrorText.php";
             if (is_array($a_value['key'])) {
                 foreach ($a_value['key'] as $idx => $key) {
-                    $this->values[] = new assAnswerErrorText($key, $a_value['value'][$idx], str_replace(",", ".", (float)$a_value['points'][$idx]));
+                    $this->values[] = new assAnswerErrorText($key, $a_value['value'][$idx], (float) str_replace(",", ".", $a_value['points'][$idx]));
                 }
             }
         }
@@ -205,14 +205,14 @@ class ilErrorTextWizardInputGUI extends ilTextInputGUI
         global $DIC;
         $lng = $DIC['lng'];
 
-        if (is_array($_POST[$this->getPostVar()])) {
+        if (isset($_POST[$this->getPostVar()]) && is_array($_POST[$this->getPostVar()])) {
             $foundvalues = ilArrayUtil::stripSlashesRecursive($_POST[$this->getPostVar()]);
         } else {
-            $foundvalues = $_POST[$this->getPostVar()];
+            $foundvalues = $_POST[$this->getPostVar()] ?? null;
         }
         $max_points = 0;
 
-        if (is_array($foundvalues)) {
+        if (is_array($foundvalues) && count($foundvalues) > 0) {
             // check answers
             if (is_array($foundvalues['key']) && is_array($foundvalues['value'])) {
                 foreach ($foundvalues['key'] as $val) {
@@ -228,15 +228,16 @@ class ilErrorTextWizardInputGUI extends ilTextInputGUI
                     }
                 }
                 foreach ($foundvalues['points'] as $val) {
+                    $val_num = str_replace(",", ".", $val);
                     if ($this->getRequired() && (strlen($val)) == 0) {
                         $this->setAlert($lng->txt("msg_input_is_required"));
                         return false;
                     }
-                    if (!is_numeric(str_replace(",", ".", $val))) {
+                    if (!is_numeric($val_num)) {
                         $this->setAlert($lng->txt("form_msg_numeric_value_required"));
                         return false;
                     }
-                    if ((float) $val <= 0) {
+                    if ($val_num <= 0) {
                         $this->setAlert($lng->txt("positive_numbers_required"));
                         return false;
                     }
@@ -248,10 +249,8 @@ class ilErrorTextWizardInputGUI extends ilTextInputGUI
                 }
             }
         } else {
-            if ($this->getRequired()) {
-                $this->setAlert($lng->txt("msg_input_is_required"));
-                return false;
-            }
+            $this->setAlert($lng->txt('errortext_info'));
+            return false;
         }
 
         return $this->checkSubItemsInput();
@@ -270,22 +269,22 @@ class ilErrorTextWizardInputGUI extends ilTextInputGUI
         $i = 0;
         foreach ($this->values as $value) {
             if (is_object($value)) {
-                if (strlen($value->text_wrong)) {
+                if (strlen($value->getTextWrong())) {
                     $tpl->setCurrentBlock("prop_key_propval");
-                    $tpl->setVariable("PROPERTY_VALUE", ilLegacyFormElementsUtil::prepareFormOutput($value->text_wrong));
+                    $tpl->setVariable("PROPERTY_VALUE", ilLegacyFormElementsUtil::prepareFormOutput($value->getTextWrong()));
                     $tpl->parseCurrentBlock();
                 }
-                if (strlen($value->text_correct)) {
+                if (strlen($value->getTextCorrect())) {
                     $tpl->setCurrentBlock("prop_value_propval");
                     $tpl->setVariable(
                         "PROPERTY_VALUE",
-                        ilLegacyFormElementsUtil::prepareFormOutput($value->text_correct)
+                        ilLegacyFormElementsUtil::prepareFormOutput($value->getTextCorrect())
                     );
                     $tpl->parseCurrentBlock();
                 }
-                if (strlen($value->points)) {
+                if (strlen($value->getPoints())) {
                     $tpl->setCurrentBlock("prop_points_propval");
-                    $tpl->setVariable("PROPERTY_VALUE", ilLegacyFormElementsUtil::prepareFormOutput($value->points));
+                    $tpl->setVariable("PROPERTY_VALUE", ilLegacyFormElementsUtil::prepareFormOutput($value->getPoints()));
                     $tpl->parseCurrentBlock();
                 }
             }

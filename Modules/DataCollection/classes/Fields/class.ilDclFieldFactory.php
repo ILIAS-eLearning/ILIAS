@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -13,15 +14,10 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
-/**
- * Class ilDclFieldFactory
- * This Class handles the creation of all field-classes
- * @author  Michael Herren <mh@studer-raimann.ch>
- * @version 1.0.0
- */
+declare(strict_types=1);
+
 class ilDclFieldFactory
 {
     public static string $field_base_path_patter = "./Modules/DataCollection/classes/Fields/%s/";
@@ -30,7 +26,7 @@ class ilDclFieldFactory
     public static string $field_class_patter = "%sFieldModel";
     public static string $record_representation_class_pattern = "%sRecordRepresentation";
     public static string $field_representation_class_pattern = "%sFieldRepresentation";
-    protected static array $record_field_cache = array();
+    protected static array $record_field_cache = [];
 
     /**
      * Creates a RecordField instance and loads the field and record representation
@@ -66,10 +62,9 @@ class ilDclFieldFactory
         }
 
         throw new RuntimeException("file not found " . $path);
-        return null;
     }
 
-    protected static array $field_class_cache = array();
+    protected static array $field_class_cache = [];
 
     /**
      * Concatenates Classname from datatype and pattern
@@ -93,7 +88,7 @@ class ilDclFieldFactory
         return "class." . self::getFieldClass($datatype, $class_pattern) . ".php";
     }
 
-    protected static array $field_representation_cache = array();
+    protected static array $field_representation_cache = [];
 
     public static function getFieldRepresentationInstance(ilDclBaseFieldModel $field): ilDclBaseFieldRepresentation
     {
@@ -104,7 +99,6 @@ class ilDclFieldFactory
 
         $class_path = self::getClassPathByInstance($field, self::$field_representation_class_pattern);
 
-        $instance = null;
         if (file_exists($class_path)) {
             $class = self::getClassByInstance($field, self::$field_representation_class_pattern);
             $instance = new $class($field);
@@ -123,7 +117,7 @@ class ilDclFieldFactory
         return $instance;
     }
 
-    protected static array $record_representation_cache = array();
+    protected static array $record_representation_cache = [];
 
     /**
      * Get RecordRepresentation from RecordFieldModel
@@ -141,7 +135,6 @@ class ilDclFieldFactory
             $record_field->getField(),
             self::$record_representation_class_pattern
         );
-        $instance = null;
 
         if (file_exists($class_path)) {
             $class = self::getClassByInstance($record_field->getField(), self::$record_representation_class_pattern);
@@ -173,12 +166,10 @@ class ilDclFieldFactory
             $base->setDatatypeId($datatype);
         }
 
-        $ilDclBaseFieldModel = self::getFieldModelInstanceByClass($base, $field_id);
-
-        return $ilDclBaseFieldModel;
+        return self::getFieldModelInstanceByClass($base, $field_id);
     }
 
-    protected static array $field_model_cache = array();
+    protected static array $field_model_cache = [];
 
     /**
      * Gets the correct instance of a fieldModel class
@@ -218,7 +209,7 @@ class ilDclFieldFactory
         return $instance;
     }
 
-    protected static array $field_type_cache = array();
+    protected static array $field_type_cache = [];
 
     public static function getFieldTypeByInstance(ilDclBaseFieldModel $field): string
     {
@@ -246,6 +237,12 @@ class ilDclFieldFactory
                 $fieldtype = self::$default_prefix . ucfirst(self::parseDatatypeTitle($datatype->getTitle()));
             }
             self::$field_type_cache[$datatype->getId()][$field->getId()] = $fieldtype;
+        } elseif ($field->getDatatypeId() == ilDclDatatype::INPUTFORMAT_FILEUPLOAD) {
+            // This is for legacy reasons. The fileupload field was replaced with ilDclDatatype::INPUTFORMAT_FILE in
+            // ILIAS 9, but must be available for one more release, since there might be records with this field type
+            // which have not et been migrated.
+            $fieldtype = self::$default_prefix . ucfirst('Fileupload');
+            self::$field_type_cache[$field->getDatatypeId()] = $fieldtype;
         } else {
             $fieldtype = self::$default_prefix . ucfirst(self::parseDatatypeTitle($datatype->getTitle()));
             self::$field_type_cache[$datatype->getId()] = $fieldtype;
@@ -261,7 +258,7 @@ class ilDclFieldFactory
         return self::getFieldClass($fieldtype, $class_pattern);
     }
 
-    protected static array $class_path_cache = array();
+    protected static array $class_path_cache = [];
 
     /**
      * @throws ilDclException
@@ -297,6 +294,29 @@ class ilDclFieldFactory
                     ucfirst(self::parseDatatypeTitle($datatype->getTitle()))
                 );
             }
+        } elseif ($field->getDatatypeId() == ilDclDatatype::INPUTFORMAT_FILEUPLOAD) {
+            // This is for legacy reasons. The fileupload field was replaced with ilDclDatatype::INPUTFORMAT_FILE in
+            // ILIAS 9, but must be available for one more release, since there might be records with this field type
+            // which have not et been migrated.
+            $class_path = sprintf(
+                self::$field_base_path_patter,
+                ucfirst(self::parseDatatypeTitle('Fileupload'))
+            );
+
+            $class_name = sprintf(
+                'class.' . self::$default_prefix . '%s.php',
+                sprintf(
+                    $class_pattern,
+                    ucfirst('Fileupload'),
+                )
+            );
+
+            $return = $class_path . $class_name;
+            if ($field->getId() != null) {
+                self::$class_path_cache[$field->getId()][$class_pattern] = $return;
+            }
+
+            return $return;
         } else {
             $class_path = sprintf(
                 self::$field_base_path_patter,
@@ -325,12 +345,10 @@ class ilDclFieldFactory
         };
 
         $parts = array_map($func, $parts);
-        $title = implode("", $parts);
-
-        return $title;
+        return implode("", $parts);
     }
 
-    public static function getRecordModelInstance(int $record_id): ilDclBaseRecordModel
+    public static function getRecordModelInstance(?int $record_id): ilDclBaseRecordModel
     {
         return new ilDclBaseRecordModel($record_id);
     }
@@ -338,8 +356,6 @@ class ilDclFieldFactory
     public static function getPluginNameFromFieldModel(ilDclBaseFieldModel $object): string
     {
         $class_name = get_class($object);
-        $class_name = substr($class_name, 2, -(strlen(self::$field_class_patter) - 2));
-
-        return $class_name;
+        return substr($class_name, 2, -(strlen(self::$field_class_patter) - 2));
     }
 }

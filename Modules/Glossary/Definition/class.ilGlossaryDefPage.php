@@ -24,7 +24,7 @@ class ilGlossaryDefPage extends ilPageObject
 {
     public function getParentType(): string
     {
-        return "gdf";
+        return "term";
     }
 
     public function beforePageContentUpdate(ilPageContent $a_page_content): void

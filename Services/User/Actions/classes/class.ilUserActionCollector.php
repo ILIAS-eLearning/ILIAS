@@ -22,48 +22,30 @@
  */
 class ilUserActionCollector
 {
-    protected static array $instances = array();
+    private ilUserActionCollection $collection;
 
-    protected ilUserActionCollection $collection;
-    protected int $user_id;
-    protected ilUserActionContext $action_context;
-
-    protected function __construct(int $a_user_id, ilUserActionContext $a_context)
-    {
-        $this->user_id = $a_user_id;
-        $this->action_context = $a_context;
+    public function __construct(
+        private int $user_id,
+        private ilUserActionContext $action_context,
+        private ilUserActionProviderFactory $user_action_provider_factory,
+        private ilUserActionAdmin $user_action_admin
+    ) {
+        $this->collection = new ilUserActionCollection();
     }
 
-
-    /**
-     * Get instance (for a user)
-     */
-    public static function getInstance(
-        int $a_user_id,
-        ilUserActionContext $a_context
-    ): self {
-        if (!isset(self::$instances[$a_user_id])) {
-            self::$instances[$a_user_id] = new ilUserActionCollector($a_user_id, $a_context);
-        }
-
-        return self::$instances[$a_user_id];
-    }
-
-    public function getActionsForTargetUser(int $a_target_user): ilUserActionCollection
+    public function getActionsForTargetUser(int $target_user): ilUserActionCollection
     {
-        // overall collection of users
-        $this->collection = ilUserActionCollection::getInstance();
-        foreach (ilUserActionProviderFactory::getAllProviders() as $prov) {
-            if (!$this->hasProviderActiveActions($prov)) {
+        foreach ($this->user_action_provider_factory->getProviders() as $provider) {
+            if (!$this->hasProviderActiveActions($provider)) {
                 continue;
             }
-            $prov->setUserId($this->user_id);
-            $coll = $prov->collectActionsForTargetUser($a_target_user);
+            $provider->setUserId($this->user_id);
+            $coll = $provider->collectActionsForTargetUser($target_user);
             foreach ($coll->getActions() as $action) {
-                if (ilUserActionAdmin::lookupActive(
+                if ($this->user_action_admin->isActionActive(
                     $this->action_context->getComponentId(),
                     $this->action_context->getContextId(),
-                    $prov->getComponentId(),
+                    $provider->getComponentId(),
                     $action->getType()
                 )) {
                     $this->collection->addAction($action);
@@ -74,13 +56,13 @@ class ilUserActionCollector
         return $this->collection;
     }
 
-    protected function hasProviderActiveActions(ilUserActionProvider $prov): bool
+    protected function hasProviderActiveActions(ilUserActionProvider $provider): bool
     {
-        foreach ($prov->getActionTypes() as $act_type => $act_txt) {
-            if (ilUserActionAdmin::lookupActive(
+        foreach ($provider->getActionTypes() as $act_type => $act_txt) {
+            if ($this->user_action_admin->isActionActive(
                 $this->action_context->getComponentId(),
                 $this->action_context->getContextId(),
-                $prov->getComponentId(),
+                $provider->getComponentId(),
                 $act_type
             )) {
                 return true;

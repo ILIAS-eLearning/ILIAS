@@ -27,7 +27,7 @@ abstract class ilMultipleNestedOrderingElementsInputGUI extends ilIdentifiedMult
 
     public const CSS_LIST_CLASS = 'dd-list';
     public const CSS_ITEM_CLASS = 'dd-item';
-    public const CSS_HANDLE_CLASS = 'dd-handle';
+    public const CSS_HANDLE_CLASS = 'il-dd-handle';
 
     public const POSTVAR_SUBFIELD_NEST_ELEM = 'content';
     public const POSTVAR_SUBFIELD_NEST_INDENT = 'indentation';
@@ -187,7 +187,7 @@ abstract class ilMultipleNestedOrderingElementsInputGUI extends ilIdentifiedMult
     protected function initListTemplate(): void
     {
         $this->setListTpl(
-            new ilTemplate('tpl.prop_nested_ordering_list.html', true, true, 'Services/Form')
+            new ilTemplate('tpl.prop_nested_ordering_list.html', true, true, 'Modules/TestQuestionPool')
         );
     }
 
@@ -424,25 +424,25 @@ abstract class ilMultipleNestedOrderingElementsInputGUI extends ilIdentifiedMult
         return $this->fetchListHtml();
     }
 
-    protected function renderJsInit(): string
+    protected function renderJsInit(): void
     {
-        $jsTpl = new ilTemplate('tpl.prop_nested_ordering_js.html', true, true, 'Services/Form');
+        $config = [];
 
         if (!$this->isNestingEnabled()) {
-            $jsTpl->setCurrentBlock('avoid_nesting');
-            $jsTpl->touchBlock('avoid_nesting');
-            $jsTpl->parseCurrentBlock();
+            $config['maxDepth'] = 1;
         }
 
-        $jsTpl->setCurrentBlock('nested_ordering_init');
-        $jsTpl->setVariable('INSTANCE_ID', $this->getInstanceId());
-        $jsTpl->setVariable('INDENTATION_POSTVAR', $this->getPostVarSubField('indentation'));
-        $jsTpl->setVariable('HTML_LIST_TAG', $this->getHtmlListTag());
-        $jsTpl->setVariable('CSS_LIST_CLASS', $this->getCssListClass());
-        $jsTpl->setVariable('CSS_ITEM_CLASS', $this->getCssItemClass());
-        $jsTpl->parseCurrentBlock();
+        $config['listNodeName'] = $this->getHtmlListTag();
+        $config['listClass'] = $this->getCssListClass();
+        $config['itemClass'] = $this->getCssItemClass();
+        $config['handleClass'] = $this->getCssHandleClass();
 
-        return $jsTpl->get();
+        $this->global_tpl->addJavaScript('Modules/TestQuestionPool/templates/default/nested_ordering.js');
+        $this->global_tpl->addOnLoadCode("nested_ordering_input.init('"
+            . $this->getInstanceId() . "', '"
+            . $this->getPostVarSubField('indentation') . "', "
+            . json_encode($config)
+            . ')');
     }
 
     public function render(string $a_mode = ""): string
@@ -456,8 +456,9 @@ abstract class ilMultipleNestedOrderingElementsInputGUI extends ilIdentifiedMult
             iljQueryUtil::initjQueryUI();
 
             $this->getGlobalTpl()->addJavaScript('./node_modules/nestable2/dist/jquery.nestable.min.js');
+            $this->renderJsInit();
 
-            return $this->renderMainList() . $this->renderJsInit();
+            return $this->renderMainList();
         }
 
         return $this->renderMainList();

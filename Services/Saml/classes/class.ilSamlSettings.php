@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class ilSamlSettings
  * @author Michael Jansen <mjansen@databay.de>
@@ -25,7 +25,7 @@ declare(strict_types=1);
 final class ilSamlSettings
 {
     private static ?self $instance = null;
-    private ilSetting $settings;
+    private readonly ilSetting $settings;
 
     private function __construct()
     {

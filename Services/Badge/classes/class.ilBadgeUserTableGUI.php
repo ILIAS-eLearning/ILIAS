@@ -24,7 +24,6 @@
 class ilBadgeUserTableGUI extends ilTable2GUI
 {
     protected ilTree $tree;
-    protected ?ilBadge $award_badge = null;
     protected bool $do_parent = false;
     protected array $filter = [];
 
@@ -32,7 +31,7 @@ class ilBadgeUserTableGUI extends ilTable2GUI
         object $a_parent_obj,
         string $a_parent_cmd,
         int $a_parent_ref_id,
-        ilBadge $a_award_bagde = null,
+        protected ?\ilBadge $award_badge = null,
         int $a_parent_obj_id = null,
         int $a_restrict_badge_id = 0
     ) {
@@ -45,7 +44,6 @@ class ilBadgeUserTableGUI extends ilTable2GUI
         $lng = $DIC->language();
 
         $this->setId("bdgusr");
-        $this->award_badge = $a_award_bagde;
         $this->do_parent = false;
 
         $parent_type = ilObject::_lookupType($a_parent_ref_id, true);
@@ -58,8 +56,8 @@ class ilBadgeUserTableGUI extends ilTable2GUI
         $this->setLimit(9999);
 
         if ($this->award_badge) {
-            $this->setTitle($lng->txt("badge_award_badge") . ": " . $a_award_bagde->getTitle());
-            $this->setDescription($a_award_bagde->getDescription());
+            $this->setTitle($lng->txt("badge_award_badge") . ": " . $award_badge->getTitle());
+            $this->setDescription($award_badge->getDescription());
 
             $this->addColumn("", "", 1);
 

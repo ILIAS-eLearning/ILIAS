@@ -87,11 +87,4 @@ class ilLogicalAnswerComparisonExpressionInputGUI extends ilAnswerWizardInputGUI
     {
         return "tpl.prop_lac_expression_input.html";
     }
-
-    protected function sanitizeSuperGlobalSubmitValue(): void
-    {
-        if (isset($_POST[$this->getPostVar()]) && is_array($_POST[$this->getPostVar()])) {
-            $_POST[$this->getPostVar()] = ilArrayUtil::stripSlashesRecursive($_POST[$this->getPostVar()], false);
-        }
-    }
 }

@@ -17,8 +17,6 @@
 
 use ILIAS\Refinery\Random\Group as RandomGroup;
 
-include_once "./Modules/TestQuestionPool/classes/export/qti12/class.assQuestionExport.php";
-
 /**
 * Class for cloze question exports
 *
@@ -51,10 +49,9 @@ class assClozeTestExport extends assQuestionExport
         global $DIC;
         $ilias = $DIC['ilias'];
 
-        include_once "./Services/Math/classes/class.EvalMath.php";
         $eval = new EvalMath();
         $eval->suppress_errors = true;
-        include_once("./Services/Xml/classes/class.ilXmlWriter.php");
+
         $a_xml_writer = new ilXmlWriter();
         // set xml header
         $a_xml_writer->xmlHeader();
@@ -67,11 +64,6 @@ class assClozeTestExport extends assQuestionExport
         $a_xml_writer->xmlStartTag("item", $attrs);
         // add question description
         $a_xml_writer->xmlElement("qticomment", null, $this->object->getComment());
-        // add estimated working time
-        $workingtime = $this->object->getEstimatedWorkingTime();
-        $duration = sprintf("P0Y0M0DT%dH%dM%dS", $workingtime["h"], $workingtime["m"], $workingtime["s"]);
-        $a_xml_writer->xmlElement("duration", null, $duration);
-        // add ILIAS specific metadata
         $a_xml_writer->xmlStartTag("itemmetadata");
         $a_xml_writer->xmlStartTag("qtimetadata");
         $a_xml_writer->xmlStartTag("qtimetadatafield");
@@ -451,44 +443,6 @@ class assClozeTestExport extends assQuestionExport
                 case CLOZE_SELECT:
                     break;
             }
-            /*foreach ($gap->getItems() as $answer)
-            {
-                $linkrefid = "$i" . "_Response_" . $answer->getOrder();
-                $attrs = array(
-                    "ident" => $linkrefid,
-                    "view" => "All"
-                );
-                $a_xml_writer->xmlStartTag("itemfeedback", $attrs);
-                // qti flow_mat
-                $a_xml_writer->xmlStartTag("flow_mat");
-//				$a_xml_writer->xmlStartTag("material");
-//				$a_xml_writer->xmlElement("mattext");
-//				$a_xml_writer->xmlEndTag("material");
-                $fb = $this->object->feedbackOBJ->getSpecificAnswerFeedbackExportPresentation(
-                    $this->object->getId(), $index
-                );
-                $this->object->addQTIMaterial($a_xml_writer, $fb);
-                $a_xml_writer->xmlEndTag("flow_mat");
-                $a_xml_writer->xmlEndTag("itemfeedback");
-            }*/
-            /*
-            $attrs = array(
-                "ident" => $i,
-                "view" => "All"
-            );
-            $a_xml_writer->xmlStartTag("itemfeedback", $attrs);
-            // qti flow_mat
-            $a_xml_writer->xmlStartTag("flow_mat");
-            //				$a_xml_writer->xmlStartTag("material");
-            //				$a_xml_writer->xmlElement("mattext");
-            //				$a_xml_writer->xmlEndTag("material");
-            $fb = $this->object->feedbackOBJ->getSpecificAnswerFeedbackExportPresentation(
-                $this->object->getId(), $i, 0
-            );
-            $this->object->addQTIMaterial($a_xml_writer, $fb);
-            $a_xml_writer->xmlEndTag("flow_mat");
-            $a_xml_writer->xmlEndTag("itemfeedback");
-            */
         }
         $this->exportAnswerSpecificFeedbacks($a_xml_writer);
 
@@ -535,7 +489,6 @@ class assClozeTestExport extends assQuestionExport
      */
     protected function exportAnswerSpecificFeedbacks(ilXmlWriter $xmlWriter): void
     {
-        require_once 'Modules/TestQuestionPool/classes/feedback/class.ilAssSpecificFeedbackIdentifierList.php';
         $feedbackIdentifierList = new ilAssSpecificFeedbackIdentifierList();
         $feedbackIdentifierList->load($this->object->getId());
 

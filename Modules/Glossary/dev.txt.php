@@ -11,7 +11,7 @@ glossary_term (glossary terms)
 - PK id
 - FK glo_id -> glossary.id
 
-glossary_definition (term definitions)
+glossary_definition (term definitions) --> outdated/abandoned
 - PK id
 - FK term_id -> glossary_term.id
 

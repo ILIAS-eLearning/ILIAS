@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,7 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+declare(strict_types=1);
 
 require_once(__DIR__ . "/../../../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../../../Base.php");
@@ -202,7 +201,7 @@ class StandardFilterTest extends ILIAS_UI_TestBase
 			<div class="col-md-6 col-lg-4 il-popover-container">
 				<div class="input-group">
 					<label for="id_7" class="input-group-addon leftaddon">Title</label>
-					<input id="id_7" type="text" name="filter_input_1" class="form-control form-control-sm" />
+					<input id="id_7" type="text" name="filter_input_0/filter_input_1" class="form-control form-control-sm" />
 					<span class="input-group-addon rightaddon">
 						<a class="glyph" href="" aria-label="remove" id="id_8">
 							<span class="glyphicon glyphicon-minus-sign" aria-hidden="true"></span>
@@ -213,7 +212,7 @@ class StandardFilterTest extends ILIAS_UI_TestBase
 			<div class="col-md-6 col-lg-4 il-popover-container">
 				<div class="input-group">
 					<label for="id_9" class="input-group-addon leftaddon">Selection</label>
-					<select id="id_9" name="filter_input_2">
+					<select id="id_9" name="filter_input_0/filter_input_2">
                         <option selected="selected" value="">-</option>
                         <option value="one">One</option>
                         <option value="two">Two</option>
@@ -336,7 +335,7 @@ EOT;
 			<div class="col-md-6 col-lg-4 il-popover-container">
 				<div class="input-group">
 					<label for="id_7" class="input-group-addon leftaddon">Title</label>
-					<input id="id_7" type="text" name="filter_input_1" class="form-control form-control-sm" />
+					<input id="id_7" type="text" name="filter_input_0/filter_input_1" class="form-control form-control-sm" />
 					<span class="input-group-addon rightaddon">
 						<a class="glyph" href="" aria-label="remove" id="id_8">
 							<span class="glyphicon glyphicon-minus-sign" aria-hidden="true"></span>
@@ -347,7 +346,7 @@ EOT;
 			<div class="col-md-6 col-lg-4 il-popover-container">
 				<div class="input-group">
 					<label for="id_9" class="input-group-addon leftaddon">Selection</label>
-					<select id="id_9" name="filter_input_2">
+					<select id="id_9" name="filter_input_0/filter_input_2">
                         <option selected="selected" value="">-</option>
                         <option value="one">One</option>
                         <option value="two">Two</option>
@@ -470,7 +469,7 @@ EOT;
 			<div class="col-md-6 col-lg-4 il-popover-container">
 				<div class="input-group">
 					<label for="id_7" class="input-group-addon leftaddon">Title</label>
-					<input id="id_7" type="text" name="filter_input_1" class="form-control form-control-sm" />
+					<input id="id_7" type="text" name="filter_input_0/filter_input_1" class="form-control form-control-sm" />
 					<span class="input-group-addon rightaddon">
 						<a class="glyph" href="" aria-label="remove" id="id_8">
 							<span class="glyphicon glyphicon-minus-sign" aria-hidden="true"></span>
@@ -481,7 +480,7 @@ EOT;
 			<div class="col-md-6 col-lg-4 il-popover-container">
 				<div class="input-group">
 					<label for="id_9" class="input-group-addon leftaddon">Selection</label>
-					<select id="id_9" name="filter_input_2">
+					<select id="id_9" name="filter_input_0/filter_input_2">
                         <option selected="selected" value="">-</option>
                         <option value="one">One</option>
                         <option value="two">Two</option>
@@ -604,7 +603,7 @@ EOT;
 			<div class="col-md-6 col-lg-4 il-popover-container">
 				<div class="input-group">
 					<label for="id_7" class="input-group-addon leftaddon">Title</label>
-					<input id="id_7" type="text" name="filter_input_1" class="form-control form-control-sm" />
+					<input id="id_7" type="text" name="filter_input_0/filter_input_1" class="form-control form-control-sm" />
 					<span class="input-group-addon rightaddon">
 						<a class="glyph" href="" aria-label="remove" id="id_8">
 							<span class="glyphicon glyphicon-minus-sign" aria-hidden="true"></span>
@@ -615,7 +614,7 @@ EOT;
 			<div class="col-md-6 col-lg-4 il-popover-container">
 				<div class="input-group">
 					<label for="id_9" class="input-group-addon leftaddon">Selection</label>
-					<select id="id_9" name="filter_input_2">
+					<select id="id_9" name="filter_input_0/filter_input_2">
                         <option selected="selected" value="">-</option>
                         <option value="one">One</option>
                         <option value="two">Two</option>
@@ -674,5 +673,33 @@ EOT;
 EOT;
 
         $this->assertHTMLEquals($this->brutallyTrimHTML($expected), $this->brutallyTrimHTML($html));
+    }
+
+    public function test_dedicated_names(): void
+    {
+        $f = $this->buildFactory();
+        $if = $this->buildInputFactory();
+        $inputs = [
+            $if->text("Title")->withDedicatedName('title'),
+            $if->select("Selection", ["one" => "One", "two" => "Two", "three" => "Three"])->withDedicatedName('selection'),
+            $if->multiSelect("Multi Selection", ["one" => "Num One", "two" => "Num Two", "three" => "Num Three"])
+        ];
+        $filter = $f->standard(
+            "#",
+            "#",
+            "#",
+            "#",
+            "#",
+            "#",
+            $inputs,
+            [true, true, true],
+            true,
+            true
+        );
+
+        $inputs = $filter->getInputs();
+        $this->assertEquals('filter_input_0/title', $inputs[0]->getName());
+        $this->assertEquals('filter_input_0/selection', $inputs[1]->getName());
+        $this->assertEquals('filter_input_0/filter_input_1', $inputs[2]->getName());
     }
 }

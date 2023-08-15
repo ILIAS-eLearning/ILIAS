@@ -16,6 +16,7 @@
  *
  *********************************************************************/
 
+use ILIAS\Notifications\Identification\NotificationIdentification;
 use ILIAS\Notifications\Model\ilNotificationConfig;
 use ILIAS\Notifications\Model\ilNotificationLink;
 use ILIAS\Notifications\Model\ilNotificationParameter;
@@ -27,6 +28,8 @@ use ILIAS\Badge\GlobalScreen\BadgeNotificationProvider;
  */
 class ilBadgeHandler
 {
+    public const GENERAL_INFO = 'inform_about_badges';
+
     protected ilComponentRepository $component_repository;
     protected ilDBInterface $db;
     protected ilTree $tree;
@@ -87,7 +90,6 @@ class ilBadgeHandler
 
     /**
      * @param string[]|null $a_components
-     * @return void
      */
     public function setComponents(array $a_components = null): void
     {
@@ -188,7 +190,6 @@ class ilBadgeHandler
 
     /**
      * @param string[]|null $a_types
-     * @return void
      */
     public function setInactiveTypes(array $a_types = null): void
     {
@@ -365,7 +366,6 @@ class ilBadgeHandler
     }
 
     /**
-     * @param int $a_parent_ref_id
      * @param int|null $a_parent_obj_id
      * @param string|null $a_parent_type
      * @return int[]
@@ -452,7 +452,7 @@ class ilBadgeHandler
         foreach (glob($a_path . "/*") as $item) {
             if (is_dir($item)) {
                 $this->countStaticBadgeInstancesHelper($a_cnt, $item);
-            } elseif (substr($item, -5) === ".json") {
+            } elseif (str_ends_with($item, ".json")) {
                 $a_cnt++;
             }
         }
@@ -549,6 +549,10 @@ class ilBadgeHandler
                     $notification->setIconPath(ilUtil::getImagePath('icon_bdga.svg'));
                     $notification->setValidForSeconds(ilNotificationConfig::TTL_SHORT);
                     $notification->setVisibleForSeconds(ilNotificationConfig::DEFAULT_TTS);
+                    $notification->setIdentification(new NotificationIdentification(
+                        BadgeNotificationProvider::NOTIFICATION_TYPE,
+                        self::GENERAL_INFO
+                    ));
                     $notification->notifyByUsers([$user_id]);
                 }
             }

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\UI\Component\Item\Item;
@@ -30,14 +30,16 @@ use ILIAS\UI\Component\Item\Item;
 class ilPDMailBlockGUI extends ilBlockGUI
 {
     public static string $block_type = 'pdmail';
-    private GlobalHttpState $http;
-    private Refinery $refinery;
+
+    private readonly GlobalHttpState $http;
+    private readonly Refinery $refinery;
     private int $requestMailObjId = 0;
     protected ilRbacSystem $rbacsystem;
     protected ilSetting $setting;
     /** @var string[] */
     protected array $mails = [];
     protected int $inbox;
+    private bool $has_access;
 
     public function __construct()
     {
@@ -55,6 +57,13 @@ class ilPDMailBlockGUI extends ilBlockGUI
         $this->setLimit(5);
         $this->setTitle($this->lng->txt('mail'));
         $this->setPresentation(self::PRES_SEC_LIST);
+
+        $umail = new ilMail($this->user->getId());
+        if ($this->rbacsystem->checkAccess('internal_mail', $umail->getMailObjectReferenceId())) {
+            $this->has_access = true;
+            $this->getMails();
+            $this->setData($this->mails);
+        }
     }
 
     public function getBlockType(): string
@@ -90,14 +99,9 @@ class ilPDMailBlockGUI extends ilBlockGUI
 
     public function getHTML(): string
     {
-        $umail = new ilMail($this->user->getId());
-        if (!$this->rbacsystem->checkAccess('internal_mail', $umail->getMailObjectReferenceId())) {
+        if (!$this->has_access) {
             return '';
         }
-
-        $this->getMails();
-        $this->setData($this->mails);
-
         return parent::getHTML();
     }
 
@@ -113,13 +117,11 @@ class ilPDMailBlockGUI extends ilBlockGUI
                  'status' => 'unread',
             ]
         );
+        $this->max_count = count($this->mails);
     }
 
     public function fillDataSection(): void
     {
-        $this->getMails();
-        $this->setData($this->mails);
-
         if ($this->mails !== []) {
             $this->setRowTemplate("tpl.pd_mail_row.html", "Services/Mail");
             parent::fillDataSection();

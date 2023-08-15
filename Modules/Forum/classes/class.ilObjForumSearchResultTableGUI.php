@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 class ilObjForumSearchResultTableGUI extends ilRepositoryObjectSearchResultTableGUI
 {
@@ -39,8 +39,8 @@ class ilObjForumSearchResultTableGUI extends ilRepositoryObjectSearchResultTable
             $DIC->ctrl()->setParameterByClass(ilObjForumGUI::class, 'thr_pk', $result_set['item_id']);
             $row['link'] = $DIC->ctrl()->getLinkTargetByClass(ilObjForumGUI::class, 'viewThread');
 
-            $row['relevance'] = $result_set['relevance'];
-            $row['content'] = $result_set['content'];
+            $row['relevance'] = (float) ($result_set['relevance'] ?? 0.0);
+            $row['content'] = (string) ($result_set['content'] ?? '');
 
             $rows[] = $row;
         }

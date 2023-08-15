@@ -15,7 +15,6 @@
  *
  ********************************************************************
  */
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Class ilOrgUnitSimpleUserImport
@@ -26,15 +25,13 @@
 class ilOrgUnitSimpleUserImport extends ilOrgUnitImporter
 {
     protected \ilOrgUnitPositionDBRepository $positionRepo;
+    protected \ilOrgUnitUserAssignmentDBRepository $assignmentRepo;
 
-    private function getPositionRepo(): ilOrgUnitPositionDBRepository
+    public function __construct()
     {
-        if (!isset($this->positionRepo)) {
-            $dic = ilOrgUnitLocalDIC::dic();
-            $this->positionRepo = $dic["repo.Positions"];
-        }
-
-        return $this->positionRepo;
+        $dic = ilOrgUnitLocalDIC::dic();
+        $this->positionRepo = $dic["repo.Positions"];
+        $this->assignmentRepo = $dic["repo.UserAssignments"];
     }
 
     /**
@@ -84,16 +81,16 @@ class ilOrgUnitSimpleUserImport extends ilOrgUnitImporter
         $org_unit = new ilObjOrgUnit($org_unit_id);
 
         if ($role === 'employee') {
-            $position_id = $this->getPositionRepo()
+            $position_id = $this->positionRepo
                 ->getSingle(ilOrgUnitPosition::CORE_POSITION_EMPLOYEE, 'core_identifier')
                 ->getId();
         } elseif ($role === 'superior') {
-            $position_id = $this->getPositionRepo()
+            $position_id = $this->positionRepo
                 ->getSingle(ilOrgUnitPosition::CORE_POSITION_SUPERIOR, 'core_identifier')
                 ->getId();
         } else {
             //if passed a custom position.
-            $position = $this->getPositionRepo()->getSingle($role, 'title');
+            $position = $this->positionRepo->getSingle($role, 'title');
             if ($position instanceof ilOrgUnitPosition) {
                 $position_id = $position->getId();
             } else {
@@ -103,14 +100,14 @@ class ilOrgUnitSimpleUserImport extends ilOrgUnitImporter
         }
 
         if ($action == 'add') {
-            $assignment = ilOrgUnitUserAssignment::findOrCreateAssignment($user_id, $position_id, $org_unit_id);
-            $assignment->store();
-
+            $assignment = $this->assignmentRepo->get($user_id, $position_id, $org_unit_id);
             $this->stats['created']++;
         } elseif ($action == 'remove') {
-            $assignment = ilOrgUnitUserAssignment::findOrCreateAssignment($user_id, $position_id, $org_unit_id);
-            $assignment->delete();
-            $this->stats['removed']++;
+            $assignment = $this->assignmentRepo->find($user_id, $position_id, $org_unit_id);
+            if ($assignment) {
+                $this->assignmentRepo->delete($assignment);
+                $this->stats['removed']++;
+            }
         } else {
             $this->addError('not_a_valid_action', $user_id);
         }

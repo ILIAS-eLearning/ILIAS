@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Class ilObjectActivation
@@ -329,8 +329,6 @@ class ilObjectActivation
             $item['start'] = $item_array['timing_start'] ?? "";
             $item['end'] = $item_array['timing_end'] ?? "";
             $item['activation_info'] = 'obj_activation_list_gui';
-        } else {
-            $item['start'] = 'abc';
         }
 
         // #7359 - session sorting should always base on appointment date

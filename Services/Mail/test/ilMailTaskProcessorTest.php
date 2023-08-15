@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\BackgroundTasks\Implementation\TaskManager\BasicTaskManager;
 use ILIAS\BackgroundTasks\Task\TaskFactory;
@@ -87,13 +87,13 @@ class ilMailTaskProcessorTest extends ilMailBaseTest
 
 
         $worker = new ilMassMailTaskProcessor(
+            self::SOME_USER_ID,
             $taskManager,
             $taskFactory,
             $this->languageMock,
             $this->loggerMock,
             $this->dicMock,
-            new ilMailValueObjectJsonService(),
-            self::SOME_USER_ID
+            new ilMailValueObjectJsonService()
         );
 
         $mailValueObject = new ilMailValueObject(
@@ -156,13 +156,13 @@ class ilMailTaskProcessorTest extends ilMailBaseTest
             ->willReturn($backgroundTask);
 
         $worker = new ilMassMailTaskProcessor(
+            self::SOME_USER_ID,
             $taskManager,
             $taskFactory,
             $this->languageMock,
             $this->loggerMock,
             $this->dicMock,
-            new ilMailValueObjectJsonService(),
-            self::SOME_USER_ID
+            new ilMailValueObjectJsonService()
         );
 
         $mailValueObjects = [];
@@ -233,13 +233,13 @@ class ilMailTaskProcessorTest extends ilMailBaseTest
             ->willReturn($backgroundTask);
 
         $worker = new ilMassMailTaskProcessor(
+            self::SOME_USER_ID,
             $taskManager,
             $taskFactory,
             $this->languageMock,
             $this->loggerMock,
             $this->dicMock,
-            new ilMailValueObjectJsonService(),
-            self::SOME_USER_ID
+            new ilMailValueObjectJsonService()
         );
 
         $mailValueObjects = [];
@@ -323,13 +323,13 @@ class ilMailTaskProcessorTest extends ilMailBaseTest
             ->willReturn($backgroundTask);
 
         $worker = new ilMassMailTaskProcessor(
+            self::SOME_USER_ID,
             $taskManager,
             $taskFactory,
             $this->languageMock,
             $this->loggerMock,
             $this->dicMock,
-            new ilMailValueObjectJsonService(),
-            self::SOME_USER_ID
+            new ilMailValueObjectJsonService()
         );
 
         $mailValueObjects = [];

@@ -35,6 +35,7 @@ use ILIAS\Refinery\Factory;
 class ilSearchControllerGUI implements ilCtrlBaseClassInterface
 {
     public const TYPE_USER_SEARCH = -1;
+    protected ilObjUser $user;
 
     protected ilCtrl $ctrl;
     protected ILIAS $ilias;
@@ -60,6 +61,7 @@ class ilSearchControllerGUI implements ilCtrlBaseClassInterface
         $this->system = $DIC->rbac()->system();
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
+        $this->user = $DIC->user();
     }
 
     public function getLastClass(): string
@@ -117,6 +119,9 @@ class ilSearchControllerGUI implements ilCtrlBaseClassInterface
                 break;
 
             case 'illuceneusersearchgui':
+                if ($this->user->getId() === ANONYMOUS_USER_ID) {
+                    $this->ilias->raiseError($this->lng->txt("permission_denied"), $this->ilias->error_obj->MESSAGE);
+                }
                 $this->setLastClass('illuceneusersearchgui');
                 $this->setCmdClass(ilLuceneUserSearchGUI::class);
                 $this->ctrl->forwardCommand(new ilLuceneUserSearchGUI());

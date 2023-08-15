@@ -35,9 +35,6 @@ class assNumericRangeTest extends assBaseTestCase
 
     public function test_instantiateObject_shouldReturnInstance(): void
     {
-        // Arrange
-        require_once './Modules/TestQuestionPool/classes/class.assNumericRange.php';
-
         // Act
         $instance = new assNumericRange();
 
@@ -46,8 +43,6 @@ class assNumericRangeTest extends assBaseTestCase
 
     public function test_setGetLowerLimit_shouldReturnUnchangedLowerLimit(): void
     {
-        // Arrange
-        require_once './Modules/TestQuestionPool/classes/class.assNumericRange.php';
         $instance = new assNumericRange();
         $expected = 1.00;
 
@@ -61,8 +56,6 @@ class assNumericRangeTest extends assBaseTestCase
 
     public function test_setGetUpperLimit_shouldReturnUnchangedUpperLimit(): void
     {
-        // Arrange
-        require_once './Modules/TestQuestionPool/classes/class.assNumericRange.php';
         $instance = new assNumericRange();
         $expected = 10.00;
 
@@ -76,8 +69,6 @@ class assNumericRangeTest extends assBaseTestCase
 
     public function test_setGetOrder_shouldReturnUnchangedOrder(): void
     {
-        // Arrange
-        require_once './Modules/TestQuestionPool/classes/class.assNumericRange.php';
         $instance = new assNumericRange();
         $expected = 10;
 
@@ -91,8 +82,6 @@ class assNumericRangeTest extends assBaseTestCase
 
     public function test_setPoints_shouldReturnUnchangedPoints(): void
     {
-        // Arrange
-        require_once './Modules/TestQuestionPool/classes/class.assNumericRange.php';
         $instance = new assNumericRange();
         $expected = 10;
 
@@ -106,8 +95,6 @@ class assNumericRangeTest extends assBaseTestCase
 
     public function test_contains_shouldReturnTrueIfValueIsContained(): void
     {
-        // Arrange
-        require_once './Modules/TestQuestionPool/classes/class.assNumericRange.php';
         $instance = new assNumericRange();
         $instance->setLowerLimit(1.00);
         $instance->setUpperLimit(10.00);
@@ -122,8 +109,6 @@ class assNumericRangeTest extends assBaseTestCase
 
     public function test_contains_shouldReturnFalseIfValueIsNotContained(): void
     {
-        // Arrange
-        require_once './Modules/TestQuestionPool/classes/class.assNumericRange.php';
         $instance = new assNumericRange();
         $instance->setLowerLimit(1.00);
         $instance->setUpperLimit(10.00);
@@ -138,8 +123,6 @@ class assNumericRangeTest extends assBaseTestCase
 
     public function test_contains_shouldReturnFalseIfValueIsHokum(): void
     {
-        // Arrange
-        require_once './Modules/TestQuestionPool/classes/class.assNumericRange.php';
         $instance = new assNumericRange();
         $instance->setLowerLimit(1.00);
         $instance->setUpperLimit(10.00);

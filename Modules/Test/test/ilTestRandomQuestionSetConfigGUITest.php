@@ -31,6 +31,8 @@ class ilTestRandomQuestionSetConfigGUITest extends ilTestBaseTestCase
         parent::setUp();
 
         $this->addGlobal_objDefinition();
+        $this->addGlobal_ilUser();
+        $this->addGlobal_ilObjDataCache();
 
         $this->testObj = new ilTestRandomQuestionSetConfigGUI(
             $this->getMockBuilder(ilCtrl::class)->disableOriginalConstructor()->getMock(),

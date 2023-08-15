@@ -95,6 +95,17 @@ abstract class ilAssQuestionFeedback
                 $this->getGenericFeedbackPageObjectType(),
                 $this->getGenericFeedbackPageObjectId($questionId, $solutionCompleted)
             );
+
+            $doc = new DOMDocument('1.0', 'UTF-8');
+            if (@$doc->loadHTML('<html><body>' . $genericFeedbackTestPresentationHTML . '</body></html>')) {
+                $xpath = new DOMXPath($doc);
+                $nodes_after_comments = $xpath->query('//comment()/following-sibling::*[1]');
+                foreach ($nodes_after_comments as $node_after_comments) {
+                    if (trim($node_after_comments->nodeValue) === '') {
+                        return '';
+                    }
+                }
+            }
         } else {
             $genericFeedbackTestPresentationHTML = $this->getGenericFeedbackContent($questionId, $solutionCompleted);
         }
@@ -305,8 +316,6 @@ abstract class ilAssQuestionFeedback
      */
     final public function saveGenericFeedbackContent(int $questionId, bool $solutionCompleted, string $feedbackContent): int
     {
-        require_once 'Services/RTE/classes/class.ilRTE.php';
-
         $feedbackId = $this->getGenericFeedbackId($questionId, $solutionCompleted);
 
         if (strlen($feedbackContent)) {
@@ -587,21 +596,19 @@ abstract class ilAssQuestionFeedback
 
     private function ensurePageObjectExists(string $pageObjectType, int $pageObjectId): void
     {
-        if ($pageObjectType == ilAssQuestionFeedback::PAGE_OBJECT_TYPE_GENERIC_FEEDBACK) {
-            if (!ilAssGenFeedbackPage::_exists($pageObjectType, $pageObjectId)) {
-                $pageObject = new ilAssGenFeedbackPage();
-                $pageObject->setParentId($this->questionOBJ->getId());
-                $pageObject->setId($pageObjectId);
-                $pageObject->createFromXML();
-            }
+        if ($pageObjectType == ilAssQuestionFeedback::PAGE_OBJECT_TYPE_GENERIC_FEEDBACK
+            && !ilAssGenFeedbackPage::_exists($pageObjectType, $pageObjectId, '', true)) {
+            $pageObject = new ilAssGenFeedbackPage();
+            $pageObject->setParentId($this->questionOBJ->getId());
+            $pageObject->setId($pageObjectId);
+            $pageObject->createFromXML();
         }
-        if ($pageObjectType == ilAssQuestionFeedback::PAGE_OBJECT_TYPE_SPECIFIC_FEEDBACK) {
-            if (!ilAssSpecFeedbackPage::_exists($pageObjectType, $pageObjectId)) {
-                $pageObject = new ilAssSpecFeedbackPage();
-                $pageObject->setParentId($this->questionOBJ->getId());
-                $pageObject->setId($pageObjectId);
-                $pageObject->createFromXML();
-            }
+        if ($pageObjectType == ilAssQuestionFeedback::PAGE_OBJECT_TYPE_SPECIFIC_FEEDBACK
+            && !ilAssSpecFeedbackPage::_exists($pageObjectType, $pageObjectId, '', true)) {
+            $pageObject = new ilAssSpecFeedbackPage();
+            $pageObject->setParentId($this->questionOBJ->getId());
+            $pageObject->setId($pageObjectId);
+            $pageObject->createFromXML();
         }
     }
 
@@ -618,6 +625,8 @@ abstract class ilAssQuestionFeedback
 
     final protected function duplicatePageObject(string $pageObjectType, int $originalPageObjectId, int $duplicatePageObjectId, int $duplicatePageObjectParentId): void
     {
+        $this->ensurePageObjectExists($pageObjectType, $originalPageObjectId);
+
         $cl = $this->getClassNameByType($pageObjectType);
 
         $pageObject = new $cl($originalPageObjectId);

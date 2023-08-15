@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -13,15 +14,22 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
-/**
- * Class ilDclDateSelectionRecordFieldModel
- * @author  Theodor Truffer <tt@studer-raimann.ch>
- */
+declare(strict_types=1);
+
 class ilDclDateSelectionRecordFieldModel extends ilDclSelectionRecordFieldModel
 {
     public const PROP_SELECTION_TYPE = 'date_selection_type';
     public const PROP_SELECTION_OPTIONS = 'date_selection_options';
+
+    public function parseExportValue($value): string
+    {
+        $dates = [];
+        foreach (ilDclSelectionOption::getValues((int)$this->getField()->getId(), $value) as $value) {
+            $date = new ilDate($value, IL_CAL_DATE);
+            $dates[] = $date->get(IL_CAL_DATE);
+        }
+        return implode("; ", $dates);
+    }
 }

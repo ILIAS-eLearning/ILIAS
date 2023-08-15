@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\UI\Renderer;
 use ILIAS\UI\Factory;
 use ILIAS\UI\Component\Component;
@@ -28,7 +28,6 @@ use ILIAS\GlobalScreen\Scope\Layout\MetaContent\MetaContent;
 
 class ilKioskPageRenderer
 {
-    protected ilGlobalPageTemplate $il_tpl;
     protected MetaContent $layout_meta_content;
     protected Factory $ui_factory;
     protected Renderer $ui_renderer;
@@ -39,7 +38,6 @@ class ilKioskPageRenderer
     protected string $window_base_title;
 
     public function __construct(
-        ilGlobalPageTemplate $il_global_template,
         MetaContent $layout_meta_content,
         Factory $ui_factory,
         Renderer $ui_renderer,
@@ -49,7 +47,6 @@ class ilKioskPageRenderer
         ilLSLocatorGUI $loc_gui,
         string $window_base_title
     ) {
-        $this->il_tpl = $il_global_template;
         $this->layout_meta_content = $layout_meta_content;
         $this->ui_factory = $ui_factory;
         $this->ui_renderer = $ui_renderer;
@@ -83,7 +80,6 @@ class ilKioskPageRenderer
             $this->ui_factory->legacy($html)
         );
     }
-
 
     public function render(
         LSControlBuilder $control_builder,

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\Setup;
 use ILIAS\Refinery;
@@ -45,8 +45,15 @@ class ilForumSetupAgent implements Setup\Agent
 
     public function getUpdateObjective(Setup\Config $config = null): Setup\Objective
     {
-        return new ilDatabaseUpdateStepsExecutedObjective(
-            new ilForumDatabaseUpdateSteps()
+        return new Setup\ObjectiveCollection(
+            'Forum',
+            true,
+            new ilDatabaseUpdateStepsExecutedObjective(
+                new ilForumDatabaseUpdateSteps()
+            ),
+            new ilDatabaseUpdateStepsExecutedObjective(
+                new ilForumDatabaseUpdateSteps9()
+            )
         );
     }
 
@@ -63,7 +70,8 @@ class ilForumSetupAgent implements Setup\Agent
     public function getMigrations(): array
     {
         return [
-             new ilForumPostingFilesMigration()
+            new ilForumPostingFilesMigration(),
+            new ilForumDraftsFilesMigration()
         ];
     }
 }

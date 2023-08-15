@@ -16,6 +16,10 @@
 	<title>{SHORT_TITLE}: {VIEW_TITLE}</title>
 	<link rel="icon" href="{FAVICON_PATH}" type="image/x-icon">
 
+	<!-- This is the safest place for now to initialize our global namespace which is -->
+	<!-- used by several scripts included on the way to expose their business logic.  -->
+	<script type="application/javascript">var il = il ||{}; window.il = il;</script>
+
 	<style>
 		{CSS_INLINE}
 	</style>
@@ -38,7 +42,7 @@
 			<div class="header-inner">
 				<div class="il-logo">
 					<span class="hidden-xs">{LOGO}</span>
-					<span class="visible-xs">{RESPONSIVE_LOGO}</span>
+					<span class="visible-xs-block">{RESPONSIVE_LOGO}</span>
 					<div class="il-pagetitle">
 						{TITLE}
 					</div>

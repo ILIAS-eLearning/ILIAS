@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,33 +16,22 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
-/**
- * Class ilChatroomXMLParser
- */
+declare(strict_types=1);
+
 class ilChatroomXMLParser extends ilSaxParser
 {
-    protected ilObjChatroom $chat;
     protected ilChatroom $room;
     protected string $cdata = '';
-    protected bool $in_sub_rooms = false;
     protected bool $in_messages = false;
     protected ?string $import_install_id = null;
     protected ?int $exportRoomId = 0;
-    protected ?int $owner = 0;
-    protected ?int $closed = 0;
-    protected ?int $public = 0;
     protected ?int $timestamp = 0;
     protected ?string $message = '';
     protected ?string $title = '';
-    /** @var int[]  */
-    protected array $userIds = [];
-    /** @var array<int, int>  */
 
-    public function __construct(ilObjChatroom $chat, string $a_xml_data)
+    public function __construct(protected ilObjChatroom $chat, string $a_xml_data)
     {
         parent::__construct();
-
-        $this->chat = $chat;
 
         $room = ilChatroom::byObjectId($this->chat->getId());
         if ($room !== null) {
@@ -76,11 +63,14 @@ class ilChatroomXMLParser extends ilSaxParser
     public function setHandlers($a_xml_parser): void
     {
         xml_set_object($a_xml_parser, $this);
-        xml_set_element_handler($a_xml_parser, [$this, 'handlerBeginTag'], [$this, 'handlerEndTag']);
-        xml_set_character_data_handler($a_xml_parser, [$this, 'handlerCharacterData']);
+        xml_set_element_handler($a_xml_parser, $this->handlerBeginTag(...), $this->handlerEndTag(...));
+        xml_set_character_data_handler($a_xml_parser, $this->handlerCharacterData(...));
     }
 
-    public function handlerBeginTag($a_xml_parser, string $a_name, array $a_attribs): void
+    /**
+     * @param array<string, string> $a_attribs
+     */
+    public function handlerBeginTag(XMLParser $a_xml_parser, string $a_name, array $a_attribs): void
     {
         switch ($a_name) {
             case 'Messages':
@@ -89,17 +79,13 @@ class ilChatroomXMLParser extends ilSaxParser
         }
     }
 
-    public function handlerEndTag($a_xml_parser, string $a_name): void
+    public function handlerEndTag(XMLParser $a_xml_parser, string $a_name): void
     {
         $this->cdata = trim($this->cdata);
 
         switch ($a_name) {
             case 'Title':
-                if ($this->in_sub_rooms) {
-                    $this->title = ilUtil::stripSlashes($this->cdata);
-                } else {
-                    $this->chat->setTitle(ilUtil::stripSlashes($this->cdata));
-                }
+                $this->chat->setTitle(ilUtil::stripSlashes($this->cdata));
                 break;
 
             case 'Description':
@@ -107,7 +93,9 @@ class ilChatroomXMLParser extends ilSaxParser
                 break;
 
             case 'OnlineStatus':
-                $this->room->setSetting('online_status', (int) $this->cdata);
+                $this->chat->setOfflineStatus(
+                    ((int) $this->cdata) === 0
+                );
                 break;
 
             case 'AllowAnonymousAccess':
@@ -122,10 +110,6 @@ class ilChatroomXMLParser extends ilSaxParser
                 $this->room->setSetting('enable_history', (int) $this->cdata);
                 break;
 
-            case 'RestrictHistory':
-                $this->room->setSetting('restrict_history', (int) $this->cdata);
-                break;
-
             case 'DisplayPastMessages':
                 $this->room->setSetting('display_past_msgs', (int) $this->cdata);
                 break;
@@ -138,27 +122,8 @@ class ilChatroomXMLParser extends ilSaxParser
                 $this->exportRoomId = (int) $this->cdata;
                 break;
 
-            case 'Owner':
-                $this->owner = (int) $this->cdata;
-                break;
-
-            case 'Closed':
-                $this->closed = (int) $this->cdata;
-                break;
-
-            case 'Public':
-                $this->public = (int) $this->cdata;
-                break;
-
             case 'CreatedTimestamp':
                 $this->timestamp = (int) $this->cdata;
-                break;
-
-            case 'PrivilegedUserId':
-                $this->userIds[] = (int) $this->cdata;
-                break;
-            case 'SubRooms':
-                $this->in_sub_rooms = false;
                 break;
 
             case 'Body':
@@ -169,13 +134,24 @@ class ilChatroomXMLParser extends ilSaxParser
                 break;
 
             case 'Messages':
+                if ($this->isSameInstallation()) {
+                    $message = json_decode($this->message, true, 512, JSON_THROW_ON_ERROR);
+                    if (is_array($message)) {
+                        $message['roomId'] = $this->room->getRoomId();
+                        $message['timestamp'] = $this->timestamp;
+
+                        $this->room->addHistoryEntry($message);
+                    }
+                }
+
+                $this->timestamp = 0;
                 $this->in_messages = false;
                 break;
 
             case 'Chatroom':
-                $this->chat->update();
                 // Set imported chats to offline
-                $this->room->setSetting('online_status', 0);
+                $this->chat->setOfflineStatus(true);
+                $this->chat->update();
                 $this->room->save();
                 break;
         }
@@ -183,7 +159,7 @@ class ilChatroomXMLParser extends ilSaxParser
         $this->cdata = '';
     }
 
-    public function handlerCharacterData($a_xml_parser, string $a_data): void
+    public function handlerCharacterData(XMLParser $a_xml_parser, string $a_data): void
     {
         if ($a_data !== "\n") {
             $this->cdata .= preg_replace("/\t+/", ' ', $a_data);

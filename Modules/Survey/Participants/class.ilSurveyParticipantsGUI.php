@@ -25,6 +25,7 @@ use ILIAS\Survey\Participants;
  */
 class ilSurveyParticipantsGUI
 {
+    protected \ILIAS\Survey\InternalGUIService $gui;
     protected \ILIAS\Survey\Mode\FeatureConfig $feature_config;
     protected \ILIAS\Survey\Editing\EditingGUIRequest $edit_request;
     protected \ILIAS\Survey\Editing\EditManager $edit_manager;
@@ -96,6 +97,7 @@ class ilSurveyParticipantsGUI
             ->gui()
             ->editing()
             ->request();
+        $this->gui = $this->survey_service->gui();
     }
 
     public function getObject(): ilObjSurvey
@@ -455,9 +457,9 @@ class ilSurveyParticipantsGUI
         foreach ($total as $user_data) {
             if (in_array(($user_data['active_id'] ?? null), $user_ids)
                 || (($user_data['invited'] ?? false) && in_array("inv" . $user_data['usr_id'], $user_ids))) {
-                $last_access = $this->object->getLastAccess($user_data["active_id"]);
+                $last_access = $this->object->getLastAccess($user_data["active_id"] ?? 0);
                 $data[] = array(
-                    'id' => $user_data["active_id"],
+                    'id' => $user_data["active_id"] ?? null,
                     'name' => $user_data["sortname"],
                     'login' => $user_data["login"] ?? null,
                     'last_access' => $last_access,
@@ -510,29 +512,29 @@ class ilSurveyParticipantsGUI
         $si->setSize(3);
         $ilToolbar->addInputItem($si, true);
 
-        $button = ilSubmitButton::getInstance();
-        $button->setCaption("create");
-        $button->setCommand("createSurveyCodes");
-        $ilToolbar->addButtonInstance($button);
+        $this->gui->button(
+            $this->lng->txt("create"),
+            "createSurveyCodes"
+        )->submit()->toToolbar();
 
         $ilToolbar->addSeparator();
 
-        $button = ilSubmitButton::getInstance();
-        $button->setCaption("import_from_file");
-        $button->setCommand("importExternalMailRecipientsFromFileForm");
-        $ilToolbar->addButtonInstance($button);
+        $this->gui->button(
+            $this->lng->txt("import_from_file"),
+            "importExternalMailRecipientsFromFileForm"
+        )->submit()->toToolbar();
 
-        $button = ilSubmitButton::getInstance();
-        $button->setCaption("import_from_text");
-        $button->setCommand("importExternalMailRecipientsFromTextForm");
-        $ilToolbar->addButtonInstance($button);
+        $this->gui->button(
+            $this->lng->txt("import_from_text"),
+            "importExternalMailRecipientsFromTextForm"
+        )->submit()->toToolbar();
 
         $ilToolbar->addSeparator();
 
-        $button = ilSubmitButton::getInstance();
-        $button->setCaption("svy_import_codes");
-        $button->setCommand("importAccessCodes");
-        $ilToolbar->addButtonInstance($button);
+        $this->gui->button(
+            $this->lng->txt("svy_import_codes"),
+            "importAccessCodes"
+        )->submit()->toToolbar();
 
         $ilToolbar->addSeparator();
 
@@ -547,10 +549,11 @@ class ilSurveyParticipantsGUI
         $si->setValue($default_lang);
         $ilToolbar->addInputItem($si, true);
 
-        $button = ilSubmitButton::getInstance();
-        $button->setCaption("set");
-        $button->setCommand("setCodeLanguage");
-        $ilToolbar->addButtonInstance($button);
+        $this->gui->button(
+            $this->lng->txt("set"),
+            "setCodeLanguage"
+        )->submit()->toToolbar();
+
 
         $table_gui = new ilSurveyCodesTableGUI($this, 'codes');
         $survey_codes = $this->object->getSurveyCodesTableData(null, $default_lang);
@@ -613,7 +616,12 @@ class ilSurveyParticipantsGUI
     public function deleteCodesConfirmObject(): void
     {
         $codes = $this->edit_request->getCodes();
-        if (count($codes) > 0) {
+
+        $data = $this->object->getSurveyCodesTableData($codes);
+        $data = array_filter($data, static function ($item): bool {
+            return !$item["used"];
+        });
+        if (count($data) > 0) {
             $cgui = new ilConfirmationGUI();
             $cgui->setHeaderText($this->lng->txt("survey_code_delete_sure"));
 
@@ -621,13 +629,7 @@ class ilSurveyParticipantsGUI
             $cgui->setCancel($this->lng->txt("cancel"), "codes");
             $cgui->setConfirm($this->lng->txt("confirm"), "deleteCodes");
 
-            $data = $this->object->getSurveyCodesTableData($codes);
-
             foreach ($data as $item) {
-                if ($item["used"]) {
-                    continue;
-                }
-
                 $title = array($item["code"]);
                 $title[] = $item["email"] ?? "";
                 $title[] = $item["last_name"] ?? "";
@@ -639,7 +641,7 @@ class ilSurveyParticipantsGUI
 
             $this->tpl->setContent($cgui->getHTML());
         } else {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('no_checkbox'), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('svy_please_select_unused_codes'), true);
             $this->ctrl->redirect($this, 'codes');
         }
     }
@@ -832,7 +834,7 @@ class ilSurveyParticipantsGUI
     public function mailCodesObject(): void
     {
         $this->handleWriteAccess();
-        $this->setParticipantSubTabs("codes");
+        $this->setParticipantSubTabs("mail_survey_codes");
 
         $mailData['m_subject'] =
             $this->edit_request->getCodeMailPart("subject")
@@ -1348,7 +1350,7 @@ class ilSurveyParticipantsGUI
         $form->setTitle($this->lng->txt("survey_360_add_external_rater") .
             ": " . ilUserUtil::getNamePresentation($appr_id));
 
-        $email = new ilEmailInputGUI($this->lng->txt("email"), "email");
+        $email = new ilEMailInputGUI($this->lng->txt("email"), "email");
         $email->setRequired(true);
         $form->addItem($email);
 
@@ -1591,7 +1593,6 @@ class ilSurveyParticipantsGUI
             $this->ctrl->redirect($this, "editRaters");
         }
 
-        // $_POST["rtr_id"]
         ilMailFormCall::setRecipients($rec);
 
         $contextParameters = [
@@ -1819,11 +1820,10 @@ class ilSurveyParticipantsGUI
         $this->handleWriteAccess();
         $this->setParticipantSubTabs("anon_participants");
 
-        $button = ilLinkButton::getInstance();
-        $button->setCaption("print");
-        $button->setOnClick("window.print(); return false;");
-        $button->setOmitPreventDoubleSubmission(true);
-        $ilToolbar->addButtonInstance($button);
+        $this->gui->button(
+            $this->lng->txt("print"),
+            "#"
+        )->onClick("window.print(); return false;")->toToolbar();
 
         $tbl = new ilSurveyParticipantsTableGUI($this, "listParticipants", $this->object);
         $this->tpl->setContent($tbl->getHTML());

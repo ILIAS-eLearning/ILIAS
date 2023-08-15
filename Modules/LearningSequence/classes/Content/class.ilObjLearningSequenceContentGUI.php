@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper;
 use ILIAS\Refinery\Factory;
 
@@ -33,36 +33,19 @@ class ilObjLearningSequenceContentGUI
     public const FIELD_ONLINE = 'f_online';
     public const FIELD_POSTCONDITION_TYPE = 'f_pct';
 
-    protected ilObjLearningSequenceGUI $parent_gui;
-    protected ilCtrl $ctrl;
-    protected ilGlobalTemplateInterface $tpl;
-    protected ilLanguage $lng;
-    protected ilAccess $access;
-    protected ilConfirmationGUI $confirmation_gui;
-    protected LSItemOnlineStatus $ls_item_online_status;
-    protected ArrayBasedRequestWrapper $post_wrapper;
-    protected ILIAS\Refinery\Factory $refinery;
-
     public function __construct(
-        ilObjLearningSequenceGUI $parent_gui,
-        ilCtrl $ctrl,
-        ilGlobalTemplateInterface $tpl,
-        ilLanguage $lng,
-        ilAccess $access,
-        ilConfirmationGUI $confirmation_gui,
-        LSItemOnlineStatus $ls_item_online_status,
-        ArrayBasedRequestWrapper $post_wrapper,
-        Factory $refinery
+        protected ilObjLearningSequenceGUI $parent_gui,
+        protected ilCtrl $ctrl,
+        protected ilGlobalTemplateInterface $tpl,
+        protected ilLanguage $lng,
+        protected ilAccess $access,
+        protected ilConfirmationGUI $confirmation_gui,
+        protected LSItemOnlineStatus $ls_item_online_status,
+        protected ArrayBasedRequestWrapper $post_wrapper,
+        protected Factory $refinery,
+        protected ILIAS\UI\Factory $ui_factory,
+        protected ILIAS\UI\Renderer $ui_renderer
     ) {
-        $this->parent_gui = $parent_gui;
-        $this->ctrl = $ctrl;
-        $this->tpl = $tpl;
-        $this->lng = $lng;
-        $this->access = $access;
-        $this->confirmation_gui = $confirmation_gui;
-        $this->ls_item_online_status = $ls_item_online_status;
-        $this->post_wrapper = $post_wrapper;
-        $this->refinery = $refinery;
     }
 
     public function executeCommand(): void
@@ -97,6 +80,11 @@ class ilObjLearningSequenceContentGUI
 
     protected function renderTable(array $ls_items): void
     {
+        $alert_icon = $this->ui_renderer->render(
+            $this->ui_factory->symbol()->icon()
+                ->custom(ilUtil::getImagePath("icon_alert.svg"), $this->lng->txt("warning"))
+                ->withSize('small')
+        );
         $table = new ilObjLearningSequenceContentTableGUI(
             $this,
             $this->parent_gui,
@@ -104,8 +92,10 @@ class ilObjLearningSequenceContentGUI
             $this->ctrl,
             $this->lng,
             $this->access,
-            new ilAdvancedSelectionListGUI(),
-            $this->ls_item_online_status
+            $this->ui_factory,
+            $this->ui_renderer,
+            $this->ls_item_online_status,
+            $alert_icon
         );
 
         $table->setData($ls_items);

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\DI\Container;
 use ILIAS\Services\User\ChangedUserFieldAttribute;
 
@@ -27,8 +27,7 @@ use ILIAS\Services\User\ChangedUserFieldAttribute;
  */
 class ilMailAppEventListener implements ilAppEventListener
 {
-    private Container $dic;
-
+    private readonly Container $dic;
     protected string $component = '';
     protected string $event = '';
     /** @var ChangedUserFieldAttribute[] */

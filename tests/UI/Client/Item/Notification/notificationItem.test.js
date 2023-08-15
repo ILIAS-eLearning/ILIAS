@@ -98,7 +98,6 @@ describe('Notification Item Object', function() {
 	it('get Parent Item', function() {
 		expect(getNotificationItemTest2($,counterFactory).getParentItem()).to.be.equal(false);
 		var expected_item = getNotificationItemTest2($,counterFactory);
-		console.log(getNotificationItemAggregate($,counterFactory).getParentItem());
 		expect(getNotificationItemAggregate($,counterFactory).getParentItem().getNrOfSibblings()).to.be.equal(1);
 	});
 

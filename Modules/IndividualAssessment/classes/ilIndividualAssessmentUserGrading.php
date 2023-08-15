@@ -193,7 +193,9 @@ class ilIndividualAssessmentUserGrading
         ;
 
         if (!is_null($this->getEventTime())) {
-            $event_time = $event_time->withValue($this->getEventTime()->format($date_format->toString()));
+            $event_time = $event_time->withValue(
+                $this->getEventTime()->format($date_format->toString() . ' HH:mm')
+            );
         }
 
         $notify = $input
@@ -234,7 +236,7 @@ class ilIndividualAssessmentUserGrading
                     $finalized = $values['finalized'];
                 }
 
-                $file = $this->getFile();
+                $file = null;
                 if (
                     isset($values['file'][0]) &&
                     trim($values['file'][0]) != ''

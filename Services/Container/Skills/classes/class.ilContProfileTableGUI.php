@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -36,16 +38,14 @@ class ilContProfileTableGUI extends ilTable2GUI
     protected $tpl;
     protected Factory $ui_factory;
     protected Renderer $ui_renderer;
-    protected ilContainerGlobalProfiles $container_global_profiles;
-    protected ilContainerLocalProfiles $container_local_profiles;
     protected ilSkillManagementSettings $skmg_settings;
     protected SkillProfileService $profile_service;
+    protected int $cont_member_role_id = 0;
 
     public function __construct(
         $a_parent_obj,
         string $a_parent_cmd,
-        ilContainerGlobalProfiles $a_cont_glb_profiles,
-        ilContainerLocalProfiles $a_cont_lcl_profiles
+        int $cont_ref_id
     ) {
         global $DIC;
 
@@ -55,14 +55,13 @@ class ilContProfileTableGUI extends ilTable2GUI
         $this->ui_factory = $DIC->ui()->factory();
         $this->ui_renderer = $DIC->ui()->renderer();
 
-        $this->container_global_profiles = $a_cont_glb_profiles;
-        $this->container_local_profiles = $a_cont_lcl_profiles;
         $this->skmg_settings = new ilSkillManagementSettings();
         $this->profile_service = $DIC->skills()->profile();
+        $this->cont_member_role_id = ilParticipants::getDefaultMemberRole($cont_ref_id);
 
         parent::__construct($a_parent_obj, $a_parent_cmd);
         $this->setData($this->getProfiles());
-        $this->setTitle($this->lng->txt("cont_skill_profiles"));
+        $this->setTitle($this->lng->txt("cont_skill_ass_profiles"));
 
         $this->addColumn("", "", "1", true);
         $this->addColumn($this->lng->txt("cont_skill_profile"), "", "1");
@@ -85,24 +84,27 @@ class ilContProfileTableGUI extends ilTable2GUI
     {
         $profiles = [];
         if ($this->skmg_settings->getLocalAssignmentOfProfiles()) {
-            foreach ($this->container_global_profiles->getProfiles() as $gp) {
-                $profiles[$gp["profile_id"]] = [
-                    "profile_id" => $gp["profile_id"],
-                    "title" => $this->profile_service->lookupProfileTitle($gp["profile_id"])
-                ];
+            foreach ($this->profile_service->getGlobalProfilesOfRole($this->cont_member_role_id) as $gp) {
+                $profiles[] = $gp;
             }
         }
         if ($this->skmg_settings->getAllowLocalProfiles()) {
-            foreach ($this->container_local_profiles->getProfiles() as $lp) {
-                $profiles[$lp["profile_id"]] = [
-                    "profile_id" => $lp["profile_id"],
-                    "title" => $this->profile_service->lookupProfileTitle($lp["profile_id"])
-                ];
+            foreach ($this->profile_service->getLocalProfilesOfRole($this->cont_member_role_id) as $lp) {
+                $profiles[] = $lp;
             }
         }
-        ksort($profiles);
 
-        return $profiles;
+        // convert profiles to array structure, because tables can only handle arrays
+        $profiles_array = [];
+        foreach ($profiles as $profile) {
+            $profiles_array[$profile->getId()] = [
+                "profile_id" => $profile->getId(),
+                "title" => $profile->getTitle(),
+            ];
+        }
+        ksort($profiles_array);
+
+        return $profiles_array;
     }
 
     protected function fillRow(array $a_set): void

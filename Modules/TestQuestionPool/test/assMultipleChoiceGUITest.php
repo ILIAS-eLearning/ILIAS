@@ -54,9 +54,6 @@ class assMultipleChoiceGUITest extends assBaseTestCase
 
     public function test_instantiateObject_shouldReturnInstance(): void
     {
-        // Arrange
-        require_once './Modules/TestQuestionPool/classes/class.assMultipleChoiceGUI.php';
-
         // Act
         $instance = new assMultipleChoiceGUI();
 

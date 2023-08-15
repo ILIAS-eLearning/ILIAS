@@ -17,22 +17,7 @@
  */
 declare(strict_types=1);
 
-/*use Closure;
-use ilAdvancedSelectionListGUI;
-use ilCSVWriter;
-use ilExcel;*/
 use ILIAS\MyStaff\ilMyStaffAccess;
-
-/*use ilLPStatus;
-use ilMStListCoursesGUI;
-use ilMyStaffGUI;
-use ilObjUserTracking;
-use ilOrgUnitPathStorage;
-use ilRepositorySelectorInputGUI;
-use ilSelectInputGUI;
-use ilTable2GUI;
-use ilTextInputGUI;
-use ilUserSearchOptions;*/
 
 /**
  * Class ilMStListCoursesTableGUI
@@ -41,8 +26,13 @@ use ilUserSearchOptions;*/
  */
 class ilMStListCoursesTableGUI extends ilTable2GUI
 {
-    protected array $filter = array();
+    protected array $filter = [];
+    protected array $cached_selectable_columns = [];
+    protected ?array $orgu_names = null;
+    protected array $usr_orgu_names = [];
     protected ilMyStaffAccess $access;
+    protected \ILIAS\UI\Factory $ui_fac;
+    protected \ILIAS\UI\Renderer $ui_ren;
 
     /**
      * @param ilMStListCoursesGUI $parent_obj
@@ -53,6 +43,8 @@ class ilMStListCoursesTableGUI extends ilTable2GUI
         global $DIC;
 
         $this->access = ilMyStaffAccess::getInstance();
+        $this->ui_fac = $DIC->ui()->factory();
+        $this->ui_ren = $DIC->ui()->renderer();
 
         $this->setPrefix('myst_lc');
         $this->setFormName('myst_lc');
@@ -94,8 +86,8 @@ class ilMStListCoursesTableGUI extends ilTable2GUI
         $options = array(
             'filters' => $this->filter,
             'limit' => array(
-                'start' => intval($this->getOffset()),
-                'end' => intval($this->getLimit()),
+                'start' => $this->getOffset(),
+                'end' => $this->getLimit(),
             ),
             'count' => true,
             'sort' => array(
@@ -104,10 +96,14 @@ class ilMStListCoursesTableGUI extends ilTable2GUI
             ),
         );
 
-        $all_users_for_user = $this->access->getUsersForUser($DIC->user()->getId());
+        $arr_usr_id = $this->access->getUsersForUserOperationAndContext(
+            $DIC->user()->getId(),
+            ilMyStaffAccess::ACCESS_ENROLMENTS_ORG_UNIT_OPERATION,
+            ilMyStaffAccess::COURSE_CONTEXT
+        );
 
         $list_courses_fetcher = new \ILIAS\MyStaff\ListCourses\ilMStListCourses($DIC);
-        $result = $list_courses_fetcher->getData($all_users_for_user, $options);
+        $result = $list_courses_fetcher->getData($arr_usr_id, $options);
         $this->setMaxCount($result->getTotalDatasetCount());
         $data = $result->getDataset();
 
@@ -132,7 +128,7 @@ class ilMStListCoursesTableGUI extends ilTable2GUI
         //$item->setParent($this->getParentObject());
         $item->setSelectText($DIC->language()->txt("mst_select_course"));
         $item->setHeaderMessage($DIC->language()->txt("mst_please_select_course"));
-        $item->setClickableTypes(array(ilMyStaffAccess::DEFAULT_CONTEXT));
+        $item->setClickableTypes(array(ilMyStaffAccess::COURSE_CONTEXT));
         $this->addFilterItem($item);
         $item->readFromSession();
         //$item->setParent($this->getParentObject());
@@ -164,9 +160,7 @@ class ilMStListCoursesTableGUI extends ilTable2GUI
             $this->addFilterItem($item);
             $item->readFromSession();
             $this->filter["lp_status"] = $item->getValue();
-            if ($this->filter["lp_status"]) {
-                $this->filter["lp_status"] = $this->filter["lp_status"] - 1;
-            }
+            $this->filter["lp_status"] = (int) $this->filter["lp_status"] - 1;
         }
 
 
@@ -183,7 +177,7 @@ class ilMStListCoursesTableGUI extends ilTable2GUI
         $this->filter['user'] = $item->getValue();
 
         if (ilUserSearchOptions::_isEnabled('org_units')) {
-            $paths = ilOrgUnitPathStorage::getTextRepresentationOfOrgUnits();
+            $paths = $this->getTextRepresentationOfOrgUnits();
             $options[0] = $DIC->language()->txt('mst_opt_all');
             foreach ($paths as $org_ref_id => $path) {
                 $options[$org_ref_id] = $path;
@@ -196,7 +190,34 @@ class ilMStListCoursesTableGUI extends ilTable2GUI
         }
     }
 
+    protected function getTextRepresentationOfOrgUnits(): array
+    {
+        if (isset($this->orgu_names)) {
+            return $this->orgu_names;
+        }
+
+        return $this->orgu_names = ilOrgUnitPathStorage::getTextRepresentationOfOrgUnits();
+    }
+
+    protected function getTextRepresentationOfUsersOrgUnits(int $user_id): string
+    {
+        if (isset($this->usr_orgu_names[$user_id])) {
+            return $this->usr_orgu_names[$user_id];
+        }
+
+        return $this->usr_orgu_names[$user_id] = ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($user_id);
+    }
+
     final public function getSelectableColumns(): array
+    {
+        if ($this->cached_selectable_columns) {
+            return $this->cached_selectable_columns;
+        }
+
+        return $this->cached_selectable_columns = $this->initSelectableColumns();
+    }
+
+    protected function initSelectableColumns(): array
     {
         global $DIC;
 
@@ -276,11 +297,7 @@ class ilMStListCoursesTableGUI extends ilTable2GUI
 
         foreach ($this->getSelectableColumns() as $k => $v) {
             if ($this->isColumnSelected($k)) {
-                if (isset($v['sort_field'])) {
-                    $sort = $v['sort_field'];
-                } else {
-                    $sort = "";
-                }
+                $sort = $v['sort_field'] ?? "";
                 $this->addColumn($v['txt'], $sort);
             }
         }
@@ -292,19 +309,19 @@ class ilMStListCoursesTableGUI extends ilTable2GUI
     }
 
     /**
-     * @param array<ilMStListCourse> $a_set
+     * @param array<\ILIAS\MyStaff\ListCourses\ilMStListCourse> $a_set
      * @return void
      * @throws \ilCtrlException
      * @throws \ilTemplateException
      */
-    final public function fillRow(array $a_set): void
+    final protected function fillRow(array $a_set): void
     {
         global $DIC;
 
         $set = array_pop($a_set);
 
         $propGetter = Closure::bind(function ($prop) {
-            return $this->$prop;
+            return $this->$prop ?? null;
         }, $set, $set);
 
         foreach ($this->getSelectableColumns() as $k => $v) {
@@ -314,7 +331,7 @@ class ilMStListCoursesTableGUI extends ilTable2GUI
                         $this->tpl->setCurrentBlock('td');
                         $this->tpl->setVariable(
                             'VALUE',
-                            strval(ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($set->getUsrId()))
+                            $this->getTextRepresentationOfUsersOrgUnits($set->getUsrId())
                         );
                         $this->tpl->parseCurrentBlock();
                         break;
@@ -349,22 +366,40 @@ class ilMStListCoursesTableGUI extends ilTable2GUI
             }
         }
 
-        $actions = new ilAdvancedSelectionListGUI();
-        $actions->setListTitle($DIC->language()->txt("actions"));
-        $actions->setAsynch(true);
-        $actions->setId($set->getUsrId() . "-" . $set->getCrsRefId());
+        $mst_lco_usr_id = $set->getUsrId();
+        $mst_lco_crs_ref_id = $set->getCrsRefId();
 
-        $DIC->ctrl()->setParameterByClass(ilMStListCoursesGUI::class, 'mst_lco_usr_id', $set->getUsrId());
-        $DIC->ctrl()->setParameterByClass(ilMStListCoursesGUI::class, 'mst_lco_crs_ref_id', $set->getCrsRefId());
+        $actions = [];
 
-        $actions->setAsynchUrl(str_replace("\\", "\\\\", $DIC->ctrl()
-                                                             ->getLinkTarget(
-                                                                 $this->parent_obj,
-                                                                 ilMStListCoursesGUI::CMD_GET_ACTIONS,
-                                                                 "",
-                                                                 true
-                                                             )));
-        //$this->tpl->setVariable('ACTIONS', $actions->getHTML());
+        if ($DIC->access()->checkAccess("visible", "", $mst_lco_crs_ref_id)) {
+            $link = ilLink::_getStaticLink($mst_lco_crs_ref_id, ilMyStaffAccess::COURSE_CONTEXT);
+            $actions[] = $this->ui_fac->link()->standard(
+                ilObject2::_lookupTitle(ilObject2::_lookupObjectId($mst_lco_crs_ref_id)),
+                $link
+            );
+        };
+
+        foreach (array_unique(ilObjOrgUnitTree::_getInstance()->getOrgUnitOfUser($mst_lco_usr_id)) as $orgu_id) {
+            if ($DIC->access()->checkAccess("read", "", $orgu_id) && !ilObject::_isInTrash($orgu_id)) {
+                $org_units = $this->getTextRepresentationOfOrgUnits();
+                $link = ilLink::_getStaticLink($orgu_id, 'orgu');
+                $actions[] = $this->ui_fac->link()->standard($org_units[$orgu_id], $link);
+            }
+        }
+
+        $DIC->ctrl()->setParameterByClass(ilMStListCoursesGUI::class, 'mst_lco_usr_id', $mst_lco_usr_id);
+        $DIC->ctrl()->setParameterByClass(ilMStListCoursesGUI::class, 'mst_lco_crs_ref_id', $mst_lco_crs_ref_id);
+
+        $actions[] = \ilMyStaffGUI::extendActionMenuWithUserActions(
+            $mst_lco_usr_id,
+            rawurlencode($this->ctrl->getLinkTargetByClass(
+                "ilMStListCoursesGUI",
+                ilMStListCoursesGUI::CMD_INDEX
+            ))
+        );
+
+        $dropdown = $this->ui_fac->dropdown()->standard($actions)->withLabel($this->lng->txt("actions"));
+        $this->tpl->setVariable("ACTIONS", $this->ui_ren->render($dropdown));
         $this->tpl->parseCurrentBlock();
     }
 
@@ -392,14 +427,14 @@ class ilMStListCoursesTableGUI extends ilTable2GUI
     protected function getFieldValuesForExport(\ILIAS\MyStaff\ListCourses\ilMStListCourse $my_staff_course): array
     {
         $propGetter = Closure::bind(function ($prop) {
-            return $this->$prop;
+            return $this->$prop ?? null;
         }, $my_staff_course, $my_staff_course);
 
         $field_values = array();
         foreach ($this->getSelectedColumns() as $k => $v) {
             switch ($k) {
                 case 'usr_assinged_orgus':
-                    $field_values[$k] = ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($my_staff_course->getUsrId());
+                    $field_values[$k] = $this->getTextRepresentationOfUsersOrgUnits($my_staff_course->getUsrId());
                     break;
                 case 'usr_reg_status':
                     $field_values[$k] = \ILIAS\MyStaff\ListCourses\ilMStListCourse::getMembershipStatusText($my_staff_course->getUsrRegStatus());
@@ -408,7 +443,7 @@ class ilMStListCoursesTableGUI extends ilTable2GUI
                     $field_values[$k] = ilMyStaffGUI::getUserLpStatusAsText($my_staff_course);
                     break;
                 default:
-                    $field_values[$k] = strip_tags($propGetter($k));
+                    $field_values[$k] = strip_tags($propGetter($k) ?? "");
                     break;
             }
         }

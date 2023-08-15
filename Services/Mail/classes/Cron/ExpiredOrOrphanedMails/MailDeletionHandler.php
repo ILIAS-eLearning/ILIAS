@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\Mail\Cron\ExpiredOrOrphanedMails;
 
@@ -36,16 +36,17 @@ use SplFileInfo;
 class MailDeletionHandler
 {
     private const PING_THRESHOLD = 250;
-    private ilDBInterface $db;
-    private ilSetting $settings;
-    private ilLogger $logger;
-    private ilDBStatement $mail_ids_for_path_stmt;
+
+    private readonly ilDBInterface $db;
+    private readonly ilSetting $settings;
+    private readonly ilLogger $logger;
+    private readonly ilDBStatement $mail_ids_for_path_stmt;
     /** @var callable|null */
     private $delete_directory_callback;
 
     public function __construct(
-        private ilMailCronOrphanedMails $job,
-        private ExpiredOrOrphanedMailsCollector $collector,
+        private readonly ilMailCronOrphanedMails $job,
+        private readonly ExpiredOrOrphanedMailsCollector $collector,
         ?ilDBInterface $db = null,
         ?ilSetting $setting = null,
         ?ilLogger $logger = null,

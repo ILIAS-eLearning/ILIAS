@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,13 +16,18 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
 class ilUserCertificateTableProvider
 {
-    public function __construct(private ilDBInterface $database, private ilLogger $logger, private string $defaultTitle)
-    {
+    public function __construct(
+        private readonly ilDBInterface $database,
+        private readonly ilLogger $logger,
+        private readonly string $defaultTitle
+    ) {
     }
 
     /**
@@ -116,11 +119,13 @@ WHERE il_cert_user_cert.usr_id = ' . $this->database->quote($userId, 'integer') 
 
             $data['cnt'] = (int) $row_cnt['cnt'];
 
-            $this->logger->debug(sprintf(
-                'All active certificates for user: "%s" total: "%s"',
-                $userId,
-                $data['cnt']
-            ));
+            $this->logger->debug(
+                sprintf(
+                    'All active certificates for user: "%s" total: "%s"',
+                    $userId,
+                    $data['cnt']
+                )
+            );
         } else {
             $data['cnt'] = count($data['items']);
         }

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,21 +16,22 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class ilTermsOfServiceDocumentTableDataProvider
  * @author Michael Jansen <mjansen@databay.de>
+ * @implements ilTermsOfServiceTableDataProvider<ilTermsOfServiceDocument>
  */
 class ilTermsOfServiceDocumentTableDataProvider implements ilTermsOfServiceTableDataProvider
 {
-    /**
-     * @return array{items: ActiveRecord[], cnt: int}
-     */
     public function getList(array $params, array $filter): array
     {
+        /** @var array<int, ilTermsOfServiceDocument> $items */
         $items = ilTermsOfServiceDocument::orderBy('sorting')->get();
 
         return [
-            'items' => $items,
+            'items' => array_values($items),
             'cnt' => count($items)
         ];
     }

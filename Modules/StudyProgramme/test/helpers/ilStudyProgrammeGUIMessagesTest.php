@@ -24,6 +24,8 @@ class ilStudyProgrammeGUIMessagesTest extends TestCase
 {
     protected ilPRGMessagePrinter $messages;
     protected string $topic;
+    protected ilPRGMessageCollection $collection;
+    protected ilPRGMessageCollection $collection2;
 
     public function setUp(): void
     {

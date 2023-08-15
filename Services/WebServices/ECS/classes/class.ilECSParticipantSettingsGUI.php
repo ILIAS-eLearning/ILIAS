@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -15,8 +13,9 @@ declare(strict_types=1);
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- *
- *********************************************************************/
+ */
+
+declare(strict_types=1);
 
 use ILIAS\UI\Factory as UiFactory;
 
@@ -153,7 +152,6 @@ class ilECSParticipantSettingsGUI
         $form = $this->initFormSettings();
         if ($form->checkInput()) {
             $this->getParticipant()->enableToken((bool) $form->getInput('token'));
-            $this->getParticipant()->enableDeprecatedToken((bool) $form->getInput('dtoken'));
             $this->getParticipant()->enableExport((bool) $form->getInput('export'));
             $this->getParticipant()->setExportTypes($form->getInput('export_types'));
             $this->getParticipant()->enableImport((bool) $form->getInput('import'));
@@ -205,12 +203,6 @@ class ilECSParticipantSettingsGUI
         $token->setValue("1");
         $token->setChecked($this->getParticipant()->isTokenEnabled());
         $form->addItem($token);
-
-        $dtoken = new ilCheckboxInputGUI($this->lng->txt('ecs_deprecated_token'), 'dtoken');
-        $dtoken->setInfo($this->lng->txt('ecs_deprecated_token_info'));
-        $dtoken->setValue("1");
-        $dtoken->setChecked($this->getParticipant()->isDeprecatedTokenEnabled());
-        $form->addItem($dtoken);
 
         // Export
         $export = new ilCheckboxInputGUI($this->lng->txt('ecs_tbl_export'), 'export');

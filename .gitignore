@@ -11,6 +11,7 @@
 /extern
 /Services/PHPUnit/config/cfg.phpunit.php
 /nbproject
+/templates/default/delos.css.map
 
 # General Patterns
 *.bak
@@ -19,6 +20,10 @@
 .svn
 *.swp
 *.swo
+
+# Core Components and Components From Other Vendors
+/component/*
+!/component/ILIAS
 
 # Generated Files
 /ilias.ini.php
@@ -33,15 +38,18 @@
 /Services/UICore/artifacts/ctrl_base_classes.php
 /Services/UICore/artifacts/ctrl_security.php
 /Services/Component/artifacts/*
+/Services/EventHandling/artifacts/*
 
 # Directories
 /data
 /Customizing/global
 /Customizing/clients
-/setup/sql/ilDBTemplate
 virtual-data
 /libs/composer/vendor
-/node_modules/**/.cache
+
+# Node Modules
+/node_modules
+/Modules/Chatroom/chat/node_modules
 
 # /dicto
 /dicto/results/*
@@ -58,3 +66,4 @@ phpstan-baseline.neon
 # File Delivery
 override.php
 Services/ResourceStorage/artifacts/flavour_data.php
+Services/FileHandlingDemo

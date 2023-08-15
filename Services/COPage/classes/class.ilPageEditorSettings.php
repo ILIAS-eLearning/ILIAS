@@ -29,7 +29,7 @@ class ilPageEditorSettings
         "lm" => array("lm"),
         "wiki" => array("wpg"),
         "scorm" => array("sahs"),
-        "glo" => array("gdf"),
+        "glo" => array("term"),
         "test" => array("qpl"),
         "rep" => array("cont"),
         "copa" => array("copa"),

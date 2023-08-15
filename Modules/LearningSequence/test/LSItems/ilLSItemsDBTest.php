@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use PHPUnit\Framework\TestCase;
 
 class ilLSItemsDBStub extends ilLSItemsDB
@@ -25,6 +25,10 @@ class ilLSItemsDBStub extends ilLSItemsDB
     protected function getIconPathForType(string $type): string
     {
         return './image/tester/myimage.png';
+    }
+    protected function getCurrentLPMode(int $obj_id): int
+    {
+        return 1;
     }
 }
 
@@ -102,6 +106,7 @@ class ilLSItemsDBTest extends TestCase
         $value = [
             '22' => [
                 'child' => 14,
+                'obj_id' => 16,
                 'type' => 'lsitem',
                 'title' => 'ls_title',
                 'description' => 'tiny_description'
@@ -187,7 +192,8 @@ class ilLSItemsDBTest extends TestCase
             true,
             22,
             $condition,
-            14
+            14,
+            1
         );
 
         $this->ls_item_online_status

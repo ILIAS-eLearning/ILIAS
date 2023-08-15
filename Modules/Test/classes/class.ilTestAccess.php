@@ -131,7 +131,7 @@ class ilTestAccess
      */
     public function checkManageParticipantsAccess(): bool
     {
-        if ($this->getAccess()->checkAccess('tst_results', '', $this->getRefId())) {
+        if ($this->getAccess()->checkAccess('write', '', $this->getRefId())) {
             return true;
         }
 
@@ -147,7 +147,15 @@ class ilTestAccess
      */
     public function checkParticipantsResultsAccess(): bool
     {
+        if ($this->getAccess()->checkAccess('write', '', $this->getRefId())) {
+            return true;
+        }
+
         if ($this->getAccess()->checkAccess('tst_results', '', $this->getRefId())) {
+            return true;
+        }
+
+        if ($this->getAccess()->checkPositionAccess(ilOrgUnitOperation::OP_MANAGE_PARTICIPANTS, $this->getRefId())) {
             return true;
         }
 
@@ -166,6 +174,11 @@ class ilTestAccess
         if ($this->getAccess()->checkAccess('tst_statistics', '', $this->getRefId())) {
             return true;
         }
+
+        if ($this->getAccess()->checkPositionAccess(ilOrgUnitOperation::OP_ACCESS_RESULTS, $this->getRefId())) {
+            return true;
+        }
+
         return false;
     }
 

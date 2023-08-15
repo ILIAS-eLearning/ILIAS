@@ -66,6 +66,7 @@ class ilLTIAppEventListener implements \ilAppEventListener
 
         // iterate through all references
         $refs = ilObject::_getAllReferences($a_obj_id);
+        $this->logger->debug('Refs for : ' . $a_obj_id . ': ' . count($refs));
         foreach ((array) $refs as $ref_id) {
             $resources = $this->connector->lookupResourcesForUserObjectRelation(
                 $ref_id,
@@ -77,7 +78,7 @@ class ilLTIAppEventListener implements \ilAppEventListener
             $this->logger->dump($resources, ilLogLevel::DEBUG);
 
             foreach ($resources as $resource) {
-                $this->tryOutcomeService($resource, $ext_account, $a_status, $a_percentage);
+                $this->tryOutcomeService((int) $resource, $ext_account, $a_status, $a_percentage);
             }
         }
     }
@@ -114,7 +115,7 @@ class ilLTIAppEventListener implements \ilAppEventListener
                     ilObject::_lookupObjId((int) $resource_ref_id),
                     $usr_id
                 );
-                $this->tryOutcomeService($resource_id, $ext_account, $status, $percentage);
+                $this->tryOutcomeService((int) $resource_id, $ext_account, $status, $percentage);
             }
         }
     }
@@ -128,7 +129,7 @@ class ilLTIAppEventListener implements \ilAppEventListener
     /**
      * try outcome service
      */
-    protected function tryOutcomeService($resource, string $ext_account, int $a_status, int $a_percentage): void
+    protected function tryOutcomeService(int $resource, string $ext_account, int $a_status, int $a_percentage): void
     {
         $resource_link = \ILIAS\LTI\ToolProvider\ResourceLink::fromRecordId($resource, $this->connector);
         if (!$resource_link->hasOutcomesService()) {

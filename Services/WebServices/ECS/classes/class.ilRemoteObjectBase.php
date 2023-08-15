@@ -1,20 +1,21 @@
 <?php
 
-declare(strict_types=1);
-
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *
- *****************************************************************************/
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
+
+declare(strict_types=1);
 
 /**
  * Remote object app base class
@@ -50,7 +51,7 @@ abstract class ilRemoteObjectBase extends ilObject2
      *
      * @return ?ilRemoteObjectBase
      */
-    public static function getInstanceByEventType(int $a_type)
+    public static function getInstanceByEventType(string $a_type)
     {
         switch ($a_type) {
             case ilECSEventQueueReader::TYPE_REMOTE_COURSE:
@@ -128,7 +129,7 @@ abstract class ilRemoteObjectBase extends ilObject2
      */
     public function getLocalInformation(): string
     {
-        return $this->local_information;
+        return $this->local_information ?? '';
     }
 
     /**
@@ -304,11 +305,16 @@ abstract class ilRemoteObjectBase extends ilObject2
             " WHERE obj_id = " . $this->db->quote($this->getId(), 'integer') . " ";
         $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $this->setLocalInformation($row->local_information);
-            $this->setRemoteLink($row->remote_link);
+            if (!is_null($row->local_information)) {
+                $this->setLocalInformation($row->local_information);
+            }
+            if (!is_null($row->remote_link)) {
+                $this->setRemoteLink($row->remote_link);
+            }
             $this->setMID((int) $row->mid);
-            $this->setOrganization($row->organization);
-
+            if (!is_null($row->organization)) {
+                $this->setOrganization($row->organization);
+            }
             $this->doReadCustomFields($row);
         }
     }
@@ -559,7 +565,7 @@ abstract class ilRemoteObjectBase extends ilObject2
             // Update existing
 
             // Check receiver mid
-            if ($obj_id = ilECSImportManager::getInstance()->_isImported($a_server->getServerId(), $a_econtent_id, $mid)) {
+            if ($obj_id = ilECSImportManager::getInstance()->_isImported($a_server->getServerId(), (string) $a_econtent_id, $mid)) {
                 $this->logger->info(__METHOD__ . ': Handling update for existing object');
                 $remote = ilObjectFactory::getInstanceByObjId($obj_id, false);
                 if (!$remote instanceof self) {
@@ -576,7 +582,7 @@ abstract class ilRemoteObjectBase extends ilObject2
                 // update import status
                 $this->logger->info(__METHOD__ . ': Updating import status');
                 $import = new ilECSImport($a_server->getServerId(), $this->getId());
-                $import->setEContentId($a_econtent_id);
+                $import->setEContentId((string) $a_econtent_id);
                 // Store receiver mid
                 $import->setMID($mid);
                 $import->save();
@@ -641,9 +647,10 @@ abstract class ilRemoteObjectBase extends ilObject2
             foreach ($references as $ref_id) {
                 if ($tmp_obj = ilObjectFactory::getInstanceByRefId($ref_id, false)) {
                     $this->logger->info(__METHOD__ . ': Deleting obsolete remote course: ' . $tmp_obj->getTitle());
-                    $tmp_obj->delete();
                     $this->logger->info(print_r($this->tree->getNodeData($ref_id), true));
+                    $this->logger->info(print_r($this->tree->getNodeData($tmp_obj->getId()), true));
                     $this->tree->deleteTree($this->tree->getNodeData($ref_id));
+                    $tmp_obj->delete();
                 }
                 unset($tmp_obj);
             }

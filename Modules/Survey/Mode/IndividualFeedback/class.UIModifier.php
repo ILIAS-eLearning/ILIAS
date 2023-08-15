@@ -186,10 +186,11 @@ class UIModifier extends Mode\AbstractUIModifier
                 $rat->setValue($evaluation_manager->getCurrentRater());
                 $toolbar->addInputItem($rat, true);
 
-                $button = \ilSubmitButton::getInstance();
-                $button->setCaption("svy_select_rater");
-                $button->setCommand($ctrl->getCmd());
-                $toolbar->addButtonInstance($button);
+                $this->gui->button(
+                    $this->gui->lng()->txt("svy_select_rater"),
+                    $ctrl->getCmd()
+                )->submit()->toToolbar(false, $toolbar);
+
 
                 $toolbar->addSeparator();
             }

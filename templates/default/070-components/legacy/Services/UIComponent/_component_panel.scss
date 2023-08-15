@@ -1,5 +1,3 @@
-@use "../../../../020-dependencies/modifications/bootstrap-3-scss/bootstrap-3-scss-modified-variables-mixins" as btstrp3;
-
 //
 // Building legacy panel variants from Btstrp3
 //
@@ -28,13 +26,3 @@
 		}
 	}
 }
-
-/* currently don't seem to look any different from normal panels
-.panel-default {
-	@include panel-variant(btstrp3.$panel-default-border, btstrp3.$panel-default-text, btstrp3.$panel-default-heading-bg, btstrp3.$panel-default-border);
-}
-
-.panel-primary {
-	@include panel-variant(btstrp3.$panel-primary-border, btstrp3.$panel-primary-text, btstrp3.$panel-primary-heading-bg, btstrp3.$panel-primary-border);
-}
-*/

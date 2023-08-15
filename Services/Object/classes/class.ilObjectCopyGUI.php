@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,7 +16,18 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\Repository\Clipboard\ClipboardManager;
+use ILIAS\HTTP\Wrapper\RequestWrapper;
+use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper;
+use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\Style\Content\Container\ContainerDBRepository;
+use Psr\Http\Message\ServerRequestInterface;
+use ILIAS\UI\Factory as UIFactory;
+use ILIAS\UI\Renderer as UIRenderer;
+use ILIAS\UI\Component\Input\Container\Form\Standard;
+use ILIAS\Object\ImplementsCreationCallback;
 
 /**
  * GUI class for the workflow of copying objects
@@ -47,7 +56,6 @@ class ilObjectCopyGUI
     protected ilCtrl $ctrl;
     protected ilTree $tree;
     protected ilTabsGUI $tabs;
-    protected ilToolbarGUI $toolbar;
     protected ilGlobalTemplateInterface $tpl;
     protected ilObjectDefinition $obj_definition;
     protected ilObjectDataCache $obj_data_cache;
@@ -58,11 +66,16 @@ class ilObjectCopyGUI
     protected ilRbacReview $rbacreview;
     protected ilLogger $log;
     protected ilLanguage $lng;
-    protected ILIAS\HTTP\Wrapper\RequestWrapper $request_wrapper;
-    protected ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper $post_wrapper;
-    protected ILIAS\Refinery\Factory $refinery;
+    protected RequestWrapper $request_wrapper;
+    protected ArrayBasedRequestWrapper $post_wrapper;
+    protected Refinery $refinery;
+    protected ServerRequestInterface $request;
+    protected UIFactory $ui_factory;
+    protected UIRenderer $ui_renderer;
 
-    protected ?object $parent_obj = null;
+    protected ContainerDBRepository $container_repo;
+
+    protected ?ImplementsCreationCallback $parent_obj = null;
     protected ClipboardManager $clipboard;
 
     protected int $mode = 0;
@@ -74,33 +87,39 @@ class ilObjectCopyGUI
     protected ilPropertyFormGUI $form;
     private ilObjectRequestRetriever $retriever;
 
-    public function __construct(ilObjectGUI $parent_gui)
+    public function __construct(ImplementsCreationCallback $parent_gui)
     {
+        /** @var ILIAS\DI\Container $DIC */
         global $DIC;
-
-        $this->ctrl = $DIC->ctrl();
-        $this->tree = $DIC->repositoryTree();
-        $this->tabs = $DIC->tabs();
-        $this->toolbar = $DIC->toolbar();
+        $this->ctrl = $DIC['ilCtrl'];
+        $this->tree = $DIC['tree'];
+        $this->tabs = $DIC['ilTabs'];
         $this->tpl = $DIC["tpl"];
         $this->obj_definition = $DIC["objDefinition"];
         $this->obj_data_cache = $DIC["ilObjDataCache"];
         $this->access = $DIC->access();
         $this->error = $DIC["ilErr"];
-        $this->rbacsystem = $DIC->rbac()->system();
-        $this->user = $DIC->user();
-        $this->rbacreview = $DIC->rbac()->review();
+        $this->user = $DIC['ilUser'];
+        $this->rbacsystem = $DIC['rbacsystem'];
+        $this->rbacreview = $DIC['rbacreview'];
         $this->log = ilLoggerFactory::getLogger('obj');
-        $this->lng = $DIC->language();
+        $this->lng = $DIC['lng'];
         $this->request_wrapper = $DIC->http()->wrapper()->query();
         $this->post_wrapper = $DIC->http()->wrapper()->post();
-        $this->refinery = $DIC->refinery();
+        $this->refinery = $DIC['refinery'];
+        $this->request = $DIC->http()->request();
+        $this->ui_factory = $DIC['ui.factory'];
+        $this->ui_renderer = $DIC['ui.renderer'];
         $this->retriever = new ilObjectRequestRetriever($DIC->http()->wrapper(), $this->refinery);
+
+        $this->container_repo = new ContainerDBRepository($DIC['ilDB']);
+
 
         $this->parent_obj = $parent_gui;
 
         $this->lng->loadLanguageModule('search');
         $this->lng->loadLanguageModule('obj');
+        $this->ctrl->saveParameter($this, "crtcb");
 
         $this->clipboard = $DIC
             ->repository()
@@ -187,7 +206,7 @@ class ilObjectCopyGUI
         $this->lng->loadLanguageModule('cntr');
         $this->tabs->clearTargets();
         $this->tabs->setBackTarget(
-            $this->lng->txt('tab_back_to_repository'),
+            $this->lng->txt('cancel'),
             (string) $this->ctrl->getParentReturn($this->parent_obj)
         );
     }
@@ -297,7 +316,7 @@ class ilObjectCopyGUI
         $cgs = new ilObjectCopyCourseGroupSelectionTableGUI(
             $this,
             'showSourceSelectionMembership',
-            'copy_selection_membership'
+            'copy_selection_mmbrs'
         );
         $cgs->init();
         $cgs->setObjects(
@@ -311,7 +330,7 @@ class ilObjectCopyGUI
         $this->tpl->setContent($cgs->getHTML());
     }
 
-    public function showTargetSelectionTree(): void
+    protected function showTargetSelectionTree(): void
     {
         if ($this->obj_definition->isContainer($this->getType())) {
             $this->tpl->setOnScreenMessage('info', $this->lng->txt('msg_copy_clipboard_container'));
@@ -329,24 +348,25 @@ class ilObjectCopyGUI
 
         $t = new ilToolbarGUI();
         $t->setFormAction($this->ctrl->getFormAction($this, "saveTarget"));
-        $btn = ilSubmitButton::getInstance();
-        if ($this->obj_definition->isContainer($this->getType())) {
-            $btn->setCaption('btn_next');
-        } else {
-            $btn->setCaption('paste');
-        }
-        $btn->setCommand('saveTarget');
-        $btn->setPrimary(true);
-        $t->addButtonInstance($btn);
+        $primary_button = $this->ui_factory->button()->primary(
+            $this->getPrimaryButtonLabel(),
+            '#'
+        )->withOnLoadCode($this->getOnLoadCode('saveTarget'));
+        $t->addComponent($primary_button);
         $t->addSeparator();
-        $clipboard_btn = ilSubmitButton::getInstance();
-        $clipboard_btn->setCaption('obj_insert_into_clipboard');
-        $clipboard_btn->setCommand('keepObjectsInClipboard');
-        $t->addButtonInstance($clipboard_btn);
-        $cancel_btn = ilSubmitButton::getInstance();
-        $cancel_btn->setCaption('cancel');
-        $cancel_btn->setCommand('cancel');
-        $t->addButtonInstance($cancel_btn);
+
+        $clipboard_btn = $this->ui_factory->button()->standard(
+            $this->lng->txt('obj_insert_into_clipboard'),
+            '#'
+        )->withOnLoadCode($this->getOnLoadCode('keepObjectsInClipboard'));
+        $t->addComponent($clipboard_btn);
+
+        $cancel_btn = $this->ui_factory->button()->standard(
+            $this->lng->txt('cancel'),
+            '#'
+        )->withOnLoadCode($this->getOnLoadCode('cancel'));
+        $t->addComponent($cancel_btn);
+
         $t->setCloseFormTag(false);
         $t->setLeadingImage(ilUtil::getImagePath("arrow_upright.svg"), " ");
         $output = $t->getHTML() . $output;
@@ -358,7 +378,27 @@ class ilObjectCopyGUI
         $this->tpl->setContent($output);
     }
 
-    public function showSourceSelectionTree(): void
+    private function getPrimaryButtonLabel(): string
+    {
+        if ($this->obj_definition->isContainer($this->getType())) {
+            return $this->lng->txt('btn_next');
+        }
+
+        return $this->lng->txt('paste');
+    }
+
+    private function getOnLoadCode(string $cmd): Closure
+    {
+        return function ($id) use ($cmd) {
+            return "document.getElementById('$id')"
+                . '.addEventListener("click", '
+                . '(e) => {e.preventDefault();'
+                . 'e.target.setAttribute("name", "cmd[' . $cmd . ']");'
+                . 'e.target.form.requestSubmit(e.target);});';
+        };
+    }
+
+    protected function showSourceSelectionTree(): void
     {
         $this->tpl->addBlockFile(
             'ADM_CONTENT',
@@ -403,8 +443,6 @@ class ilObjectCopyGUI
         $this->tpl->setVariable('OBJECT_TREE', $output);
         $this->tpl->setVariable('CMD_SUBMIT', 'saveSource');
         $this->tpl->setVariable('TXT_SUBMIT', $this->lng->txt('btn_next'));
-
-        $this->toolbar->addButton($this->lng->txt('cancel'), $this->ctrl->getLinkTarget($this, 'cancel'));
     }
 
     protected function saveTarget(): void
@@ -634,51 +672,71 @@ class ilObjectCopyGUI
 
     protected function saveSource(): void
     {
-        if ($this->post_wrapper->has("source")) {
-            $source = $this->post_wrapper->retrieve("source", $this->refinery->kindlyTo()->int());
-            $this->setSource([$source]);
-            $this->setType(ilObject::_lookupType($source, true));
-            $this->ctrl->setParameter($this, 'source_id', $source);
-        } else {
+        if (!$this->post_wrapper->has("source")) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'));
             $this->searchSource();
             return;
         }
 
-        // validate allowed subtypes
+        $source = $this->post_wrapper->retrieve("source", $this->refinery->kindlyTo()->int());
+        $this->setSource([$source]);
+        $this->setType(ilObject::_lookupType($source, true));
+        $this->ctrl->setParameter($this, 'source_id', $source);
+
         foreach ($this->getSources() as $source_ref_id) {
-            foreach ($this->getTargets() as $target_ref_id) {
-                $target_type = ilObject::_lookupType($target_ref_id, true);
-                $target_class_name = ilObjectFactory::getClassByType($target_type);
-                $target_object = new $target_class_name($target_ref_id);
-                $possible_subtypes = $target_object->getPossibleSubObjects();
-
-                $source_type = ilObject::_lookupType($source_ref_id, true);
-
-                if (!array_key_exists($source_type, $possible_subtypes)) {
-                    // adopt content mode
-                    if (
-                        $this->getSubMode() != self::SUBMODE_CONTENT_ONLY and
-                        ($source_type != 'crs' or $target_type != 'crs')
-                    ) {
-                        $this->tpl->setOnScreenMessage('failure', sprintf(
-                            $this->lng->txt('msg_obj_may_not_contain_objects_of_type'),
-                            $this->lng->txt('obj_' . $target_type),
-                            $this->lng->txt('obj_' . $source_type)
-                        ));
-                        $this->searchSource();
-                        return;
-                    }
-                }
+            if (($message = $this->getErrorMessageOnDisallowedObjectTypeForTarget($source_ref_id)) !== '') {
+                $this->tpl->setOnScreenMessage('failure', $message);
+                $this->searchSource();
+                return;
             }
         }
 
-        if ($this->obj_definition->isContainer($this->getType())) {
-            $this->showItemSelection();
+        $this->executeNextStepAfterSourceSelection();
+    }
+
+    private function getErrorMessageOnDisallowedObjectTypeForTarget(int $ref_id): string
+    {
+        foreach ($this->getTargets() as $target_ref_id) {
+            $target_type = ilObject::_lookupType($target_ref_id, true);
+            $target_class_name = ilObjectFactory::getClassByType($target_type);
+            $target_object = new $target_class_name($target_ref_id);
+            $possible_subtypes = $target_object->getPossibleSubObjects();
+
+            $source_type = ilObject::_lookupType($ref_id, true);
+
+            if (!array_key_exists($source_type, $possible_subtypes)
+                && $this->getSubMode() != self::SUBMODE_CONTENT_ONLY
+                && ($source_type !== 'crs' || $target_type !== 'crs')
+            ) {
+                return sprintf(
+                    $this->lng->txt('msg_obj_may_not_contain_objects_of_type'),
+                    $this->lng->txt('obj_' . $target_type),
+                    $this->lng->txt('obj_' . $source_type)
+                );
+            }
+        }
+
+        return '';
+    }
+
+    private function executeNextStepAfterSourceSelection(): void
+    {
+        if (!$this->obj_definition->isContainer($this->getType())) {
+            $this->copySingleObject();
             return;
         }
 
-        $this->copySingleObject();
+        if (count($this->getSources()) === 1
+            && ilContainerPage::_exists(
+                'cont',
+                ilObject::_lookupObjId($this->getFirstSource())
+            )
+        ) {
+            $this->showCopyPageSelection();
+            return;
+        }
+
+        $this->showItemSelection();
     }
 
     /**
@@ -705,7 +763,41 @@ class ilObjectCopyGUI
         $this->copySingleObject();
     }
 
-    protected function showItemSelection(): void
+    protected function showCopyPageSelection(): void
+    {
+        $form = $this->buildCopyPageSelectionForm();
+        $this->tpl->setContent($this->ui_renderer->render($form));
+    }
+
+    protected function saveCopyPage(): void
+    {
+        $form = $this->buildCopyPageSelectionForm();
+        $data = $form->withRequest($this->request)->getData();
+
+        $this->showItemSelection($data['copy_page']);
+    }
+
+    private function buildCopyPageSelectionForm(): Standard
+    {
+        $form_action = $this->ctrl->getFormAction($this, 'saveCopyPage');
+
+        $input = [
+            'copy_page' => $this->ui_factory->input()->field()
+                ->radio(
+                    $this->lng->txt('cntr_adopt_content')
+                )
+                ->withOption('1', $this->lng->txt('copy_container_page_yes_label'), $this->lng->txt('copy_container_page_yes_byline'))
+                ->withOption('0', $this->lng->txt('copy_container_page_no_label'))
+                ->withValue('1')
+                ->withAdditionalTransformation($this->refinery->kindlyTo()->bool())
+        ];
+
+        return $this->ui_factory->input()->container()->form()
+            ->standard($form_action, $input)
+            ->withSubmitCaption($this->lng->txt('next'));
+    }
+
+    protected function showItemSelection(bool $copy_page = false): void
     {
         if (!count($this->getSources())) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'));
@@ -720,22 +812,7 @@ class ilObjectCopyGUI
         $this->tpl->addJavaScript('./Services/CopyWizard/js/ilContainer.js');
         $this->tpl->setVariable('BODY_ATTRIBUTES', 'onload="ilDisableChilds(\'cmd\');"');
 
-        $back_cmd = "";
-        switch ($this->getMode()) {
-            case self::SOURCE_SELECTION:
-                $back_cmd = 'showSourceSelectionTree';
-                break;
-
-            case self::TARGET_SELECTION:
-                $back_cmd = 'showTargetSelectionTree';
-                break;
-
-            case self::SEARCH_SOURCE:
-                $back_cmd = 'searchSource';
-                break;
-        }
-
-        $table = new ilObjectCopySelectionTableGUI($this, 'showItemSelection', $this->getType(), $back_cmd);
+        $table = new ilObjectCopySelectionTableGUI($this, 'showItemSelection', $this->getType(), $copy_page);
         $table->parseSource($this->getFirstSource());
 
         $this->tpl->setContent($table->getHTML());
@@ -820,6 +897,11 @@ class ilObjectCopyGUI
 
                 // Delete wizard options
                 $wizard_options->deleteAll();
+                $this->parent_obj->callCreationCallback(
+                    $new_obj,
+                    $this->obj_definition,
+                    $this->retriever->getMaybeInt('crtcb', 0)
+                );
 
                 // rbac log
                 if (ilRbacLog::isActive()) {
@@ -850,6 +932,10 @@ class ilObjectCopyGUI
         $this->log->debug('Source(s): ' . print_r($this->getSources(), true));
         $this->log->debug('Target(s): ' . print_r($this->getTargets(), true));
 
+        if ($this->isCopyingParentPageNeeded()) {
+            $this->copyParentPage();
+        }
+
         $result = 1;
         foreach ($this->getTargets() as $target_ref_id) {
             $result = $this->copyContainer((int) $target_ref_id);
@@ -871,17 +957,60 @@ class ilObjectCopyGUI
         }
     }
 
+    private function isCopyingParentPageNeeded(): bool
+    {
+        return $this->post_wrapper->has('copy_page')
+            && $this->post_wrapper->retrieve('copy_page', $this->refinery->kindlyTo()->bool());
+    }
+
+    private function copyParentPage(): void
+    {
+        $source_object = ilObjectFactory::getInstanceByRefId($this->getFirstSource());
+        $target_object = $this->getParentObject()->getObject();
+        if (ilContainerPage::_exists(
+            "cont",
+            $source_object->getId()
+        )) {
+            $orig_page = new ilContainerPage($source_object->getId());
+            $orig_page->copy($target_object->getId(), "cont", $target_object->getId());
+        }
+
+        $style_id = $source_object->getStyleSheetId();
+        if ($style_id > 0 && !ilObjStyleSheet::_lookupStandard($style_id)) {
+            $style_obj = ilObjectFactory::getInstanceByObjId($style_id);
+            $new_id = $style_obj->ilClone();
+            ilObjStyleSheet::writeStyleUsage($target_object->getId(), $new_id);
+            ilObjStyleSheet::writeOwner($target_object->getId(), $new_id);
+            $reuse = $this->container_repo->readReuse($source_object->getRefId());
+            $this->container_repo->updateReuse($target_object->getRefId(), $reuse);
+        }
+    }
+
     protected function showCopyProgress(): void
     {
+        $ref_id = ROOT_FOLDER_ID;
+        if ($this->request_wrapper->has('ref_id')) {
+            $ref_id = $this->request_wrapper->retrieve(
+                'ref_id',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
+
+        $this->tabs->setBackTarget(
+            $this->lng->txt('tab_back_to_repository'),
+            (string) $this->ctrl->getParentReturn($this->parent_obj)
+        );
+
         $progress = new ilObjectCopyProgressTableGUI(
             $this,
             'showCopyProgress',
-            $this->request_wrapper->retrieve("ref_id", $this->refinery->kindlyTo()->int())
+            $ref_id
         );
         $progress->setObjectInfo($this->targets_copy_id);
         $progress->parse();
         $progress->init();
-        $progress->setRedirectionUrl($this->ctrl->getParentReturn($this->parent_obj));
+        $link = ilLink::_getLink($ref_id);
+        $progress->setRedirectionUrl($link);
 
         $this->tpl->setContent($progress->getHTML());
     }
@@ -965,6 +1094,17 @@ class ilObjectCopyGUI
 
         $this->targets_copy_id[$target_ref_id] = $result['copy_id'];
 
+        $new_ref_id = (int) $result['ref_id'];
+        if ($new_ref_id > 0) {
+            $new_obj = ilObjectFactory::getInstanceByRefId((int) $result['ref_id'], false);
+            if ($new_obj instanceof ilObject) {
+                $this->parent_obj->callCreationCallback(
+                    $new_obj,
+                    $this->obj_definition,
+                    $this->retriever->getMaybeInt('crtcb', 0)
+                );
+            }
+        }
         return $result;
     }
 

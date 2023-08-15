@@ -55,7 +55,18 @@ final class ilObjEmployeeTalk extends ilObject
 
         $this->repository = new IliasDBEmployeeTalkRepository($GLOBALS['DIC']->database());
         $datetime = new ilDateTime(1, IL_CAL_UNIX);
-        $this->data = new EmployeeTalk(-1, $datetime, $datetime, false, '', '', -1, false, false);
+        $this->data = new EmployeeTalk(
+            -1,
+            $datetime,
+            $datetime,
+            false,
+            '',
+            '',
+            -1,
+            false,
+            false,
+            0
+        );
 
         parent::__construct($a_id, $a_call_by_reference);
     }
@@ -68,7 +79,6 @@ final class ilObjEmployeeTalk extends ilObject
 
     public function create(): int
     {
-        $this->setOfflineStatus(true);
         parent::create();
 
         $this->data->setObjectId($this->getId());
@@ -77,6 +87,7 @@ final class ilObjEmployeeTalk extends ilObject
         $app = new ilCalendarAppointmentTemplate($this->getId());
         $app->setTitle($this->getTitle());
         $app->setSubtitle('');
+        $app->setFullday($this->data->isAllDay());
         $app->setTranslationType(ilCalendarEntry::TRANSLATION_NONE);
         $app->setDescription($this->getLongDescription());
         $app->setStart($this->data->getStartDate());
@@ -111,6 +122,7 @@ final class ilObjEmployeeTalk extends ilObject
         $app = new ilCalendarAppointmentTemplate($this->getParent()->getId());
         $app->setTitle($this->getTitle());
         $app->setSubtitle($this->getParent()->getTitle());
+        $app->setFullday($this->data->isAllDay());
         $app->setTranslationType(ilCalendarEntry::TRANSLATION_NONE);
         $app->setDescription($this->getLongDescription());
         $app->setStart($this->data->getStartDate());
@@ -208,10 +220,33 @@ final class ilObjEmployeeTalk extends ilObject
             ]
         );
 
+        $parent_series = $this->getParent();
+
         $this->repository->delete($this->getData());
-        $nodeData = $this->tree->getNodeData($this->getRefId());
+
+        $trashed_node_data = $this->tree->getNodeData(
+            $this->getRefId(),
+            (-1) * $this->getRefId()
+        );
+        $node_data = $this->tree->getNodeData($this->getRefId());
+
         $result = parent::delete();
-        $this->tree->deleteNode(intval($nodeData['tree']), intval($nodeData['child']));
+
+        if ((int) ($trashed_node_data['child'] ?? 0) === $this->getRefId()) {
+            $this->tree->deleteNode(
+                (-1) * $this->getRefId(),
+                $this->getRefId()
+            );
+        } elseif ((int) ($node_data['child'] ?? 0) === $this->getRefId()) {
+            $this->tree->deleteNode(
+                $node_data['tree'],
+                $this->getRefId()
+            );
+        }
+
+        if (!$parent_series->hasChildren()) {
+            $parent_series->delete();
+        }
 
         return $result;
     }

@@ -19,6 +19,10 @@
 namespace ILIAS\DI;
 
 use ILIAS\BackgroundTasks\BackgroundTaskServices;
+use ILIAS\Filesystem\Util\Archive\Archives;
+use ILIAS\Filesystem\Util\Archive\LegacyArchives;
+use ILIAS\Cache\Services;
+use ILIAS\Filesystem\Util\Convert\Converters;
 use ILIAS\Repository;
 use ILIAS\Skill\Service\SkillService;
 
@@ -38,6 +42,11 @@ class Container extends \Pimple\Container
     public function database(): \ilDBInterface
     {
         return $this["ilDB"];
+    }
+
+    public function globalCache(): Services
+    {
+        return $this["global_cache"] ?? new Services(null);
     }
 
     /**
@@ -215,14 +224,20 @@ class Container extends \Pimple\Container
         );
     }
 
-    public function news(): \ilNewsService
+    public function news(): \ILIAS\News\Service
     {
-        return new \ilNewsService($this->language(), $this->settings(), $this->user());
+        return new \ILIAS\News\Service($this);
     }
 
     public function object(): \ilObjectService
     {
-        return new \ilObjectService($this->language(), $this->settings(), $this->filesystem(), $this->upload());
+        return new \ilObjectService(
+            $this->database(),
+            $this->language(),
+            $this->filesystem()->web(),
+            $this->upload(),
+            $this['object.customicons.factory']
+        );
     }
 
     public function exercise(): \ILIAS\Exercise\Service
@@ -383,6 +398,16 @@ class Container extends \Pimple\Container
         return new \ILIAS\Awareness\Service($this);
     }
 
+    public function export(): \ILIAS\Export\Service
+    {
+        return new \ILIAS\Export\Service();
+    }
+
+    public function personalWorkspace(): \ILIAS\PersonalWorkspace\Service
+    {
+        return new \ILIAS\PersonalWorkspace\Service();
+    }
+
     public function fileServiceSettings(): \ilFileServicesSettings
     {
         if ($this->file_service_settings === null) {
@@ -393,6 +418,25 @@ class Container extends \Pimple\Container
             );
         }
         return $this->file_service_settings;
+    }
+
+
+    public function archives(): Archives
+    {
+        return new Archives();
+    }
+
+    /**
+     * @deprecated Use archives() instead
+     */
+    public function legacyArchives(): LegacyArchives
+    {
+        return new LegacyArchives();
+    }
+
+    public function fileConverters(): Converters
+    {
+        return new Converters();
     }
 
     public function contentStyle(): \ILIAS\Style\Content\Service
@@ -408,6 +452,16 @@ class Container extends \Pimple\Container
     public function cron(): \ilCronServices
     {
         return new \ilCronServicesImpl($this);
+    }
+
+    public function mail(): \ILIAS\Mail\Service\MailService
+    {
+        return new \ILIAS\Mail\Service\MailService($this);
+    }
+
+    public function certificate(): \ILIAS\Certificate\Service\CertificateService
+    {
+        return new \ILIAS\Certificate\Service\CertificateService($this);
     }
 
     /**

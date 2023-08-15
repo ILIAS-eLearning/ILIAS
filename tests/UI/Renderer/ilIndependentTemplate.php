@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 require_once("libs/composer/vendor/autoload.php");
 
@@ -69,7 +69,6 @@ class ilIndependantTemplate extends ilTemplate
 
         $filename = $this->fileRoot . $filename;
 
-        require_once('./Services/GlobalCache/classes/class.ilGlobalCache.php');
         $this->real_filename = $filename;
 
         if (!($fh = @fopen($filename, 'rb'))) {

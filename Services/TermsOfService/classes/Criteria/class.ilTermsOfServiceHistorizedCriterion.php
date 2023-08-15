@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,13 +16,15 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class ilTermsOfServiceHistorizedCriterion
  * @author Michael Jansen <mjansen@datababay.de>
  */
 class ilTermsOfServiceHistorizedCriterion implements ilTermsOfServiceEvaluableCriterion
 {
-    public function __construct(private string $id, private array $config)
+    public function __construct(private readonly string $id, private readonly array $config)
     {
     }
 

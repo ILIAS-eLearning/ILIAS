@@ -1,21 +1,18 @@
 # Roadmap
 
+
 ## Short Term
 
-### README
-
-A README should introduce the main concepts and business rules. README should replace DEV Guide.
+### ...
 
 
-### Introduce Repository Pattern
+## Mid Term
+
+### Introduce Repository Pattern (partly done)
 
 Main db table access should be moved to repository classes.
 
-### Directory Structure
-
-Use subdirectories to improve overview. (after removing require/include)
-
-### Service API via $DIC
+### Service API via $DIC (partly done)
 
 A main service object should be available in the DIC. Writing and querying competence level user entries should be possible in a first step.
 
@@ -50,12 +47,6 @@ Additionally the next level percentage fullfilment value (value must be >=0 and 
 ### Deconstruct UI
 
 * ilPersonalSkillsGUI should be deconstructed into smaller UI components, maybe using Listing Panel with Lead Text or something similar.
-
-## Mid Term
-
-
-### ...
-
 
 
 ## Long Term

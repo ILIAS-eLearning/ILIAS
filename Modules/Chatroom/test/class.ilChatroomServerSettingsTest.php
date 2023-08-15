@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
 
@@ -53,16 +53,12 @@ class ilChatroomServerSettingsTest extends TestCase
             ['clientUrl', $assertIsString, 'http://proxy.localhost'],
             ['iliasUrlEnabled', $assertIsBool, true],
             ['iliasUrl', $assertIsString, 'http://proxy.localhost'],
-            ['smiliesEnabled', $assertIsBool, false],
-
             //@TODO Remove this properties
             ['instance', $assertIsString, '123456'],
         ];
     }
 
     /**
-     * @param string $property
-     * @param callable $assertionCallback
      * @param mixed $value
      * @dataProvider setterAndGettersProvider
      */

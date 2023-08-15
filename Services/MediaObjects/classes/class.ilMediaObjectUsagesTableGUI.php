@@ -108,7 +108,6 @@ class ilMediaObjectUsagesTableGUI extends ilTable2GUI
         if ($clip_cnt > 0) {
             $agg_usages[] = array("type" => "clip", "cnt" => $clip_cnt);
         }
-
         $this->setData($agg_usages);
     }
 
@@ -158,8 +157,8 @@ class ilMediaObjectUsagesTableGUI extends ilTable2GUI
                         }
                         break;
 
-                    case "gdf":
-                        $term_id = ilGlossaryDefinition::_lookupTermId($page_obj->getId());
+                    case "term":
+                        $term_id = $page_obj->getId();
                         $glo_id = ilGlossaryTerm::_lookGlossaryID($term_id);
                         $item["obj_type_txt"] = $this->lng->txt("obj_glo");
                         $item["obj_title"] = ilObject::_lookupTitle($glo_id);
@@ -232,6 +231,18 @@ class ilMediaObjectUsagesTableGUI extends ilTable2GUI
                 $item["obj_title"] = ilObject::_lookupTitle($usage["id"]);
                 $item["sub_txt"] = $this->lng->txt("cont_link_area");
                 break;
+
+            case "news":
+                $obj_id = ilNewsItem::_lookupContextObjId($usage["id"]);
+                $obj_type = ilObject::_lookupType($obj_id);
+                $item["obj_type_txt"] = $this->lng->txt("obj_" . $obj_type);
+                $item["obj_title"] = ilObject::_lookupTitle($obj_id);
+                $item["sub_txt"] = $this->lng->txt("news");
+                $ref_id = $this->getFirstWritableRefId($obj_id);
+                if ($ref_id > 0) {
+                    $item["obj_link"] = ilLink::_getStaticLink($ref_id, $obj_type);
+                }
+                break;
         }
 
         // show versions
@@ -264,11 +275,11 @@ class ilMediaObjectUsagesTableGUI extends ilTable2GUI
         }
         $this->tpl->parseCurrentBlock();
 
-        if ($item["obj_type_txt"] != "") {
+        if (($item["obj_type_txt"] ?? "") != "") {
             $this->tpl->setVariable("VAL_TYPE", $item["obj_type_txt"]);
         }
 
-        if ($usage["type"] != "clip") {
+        if (($usage["type"] ?? "") != "clip") {
             if ($item["obj_link"]) {
                 $this->tpl->setCurrentBlock("linked_item");
                 $this->tpl->setVariable("TXT_OBJECT", $item["obj_title"]);

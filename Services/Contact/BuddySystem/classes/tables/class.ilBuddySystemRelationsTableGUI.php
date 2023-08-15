@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class ilBuddyList
  * @author Michael Jansen <mjansen@databay.de>
@@ -26,7 +26,7 @@ class ilBuddySystemRelationsTableGUI extends ilTable2GUI
 {
     private const APPLY_FILTER_CMD = 'applyContactsTableFilter';
     private const RESET_FILTER_CMD = 'resetContactsTableFilter';
-    public const STATE_FILTER_ELM_ID = 'relation_state_type';
+    final public const STATE_FILTER_ELM_ID = 'relation_state_type';
 
     protected ilGlobalTemplateInterface $containerTemplate;
     protected bool $hasAccessToMailSystem = false;

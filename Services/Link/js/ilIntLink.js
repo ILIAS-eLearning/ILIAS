@@ -146,6 +146,39 @@ il.IntLink =
 		$('#ilIntLinkModal').modal('show');
 	},
 
+	sendAjaxGetRequestToUrl: function (url, par = {}, args= {}) {
+		let k;
+		args.reg_type = "get";
+		args.url = url;
+		for (k in par) {
+			url = url + "&" + k + "=" + par[k];
+		}
+		il.repository.core.fetchHtml(url).then((html) => {
+			this.handleAjaxSuccess({
+				argument: args,
+				responseText: html
+			});
+		});
+	},
+
+	sendAjaxPostRequest: function (form, url, args, cmd, cb) {
+		args.reg_type = "post";
+		const formData = new FormData(form);
+		let data = {};
+		formData.forEach((value, key) => (data[key] = value));
+		if(cmd !== "") {
+			data[cmd] = "x";
+		}
+		il.repository.core.fetchHtml(url, data, true).then((html) => {
+			cb({
+				argument: args,
+				responseText: html
+			});
+		});
+
+		return false;
+	},
+
 	// cfg pars: url (if not provided and post, take form.action?), post/get, parameters (added to get/post)
 	initAjax: function(cfg)
 	{
@@ -168,26 +201,22 @@ il.IntLink =
 			//sUrl = this.getInternalLinkUrl() + "&cmd=changeLinkType";
 
 			this.save_pars.link_type = $("#ilIntLinkTypeSelector").val();
-			//this.save_pars.link_par_ref_id = "";
-			//this.save_pars.link_par_obj_id = "";
 			sUrl = this.replaceSavePars(sUrl);
-			//console.log(this.save_pars);
-			//console.log("Select Type: " + sUrl);
-			il.Util.sendAjaxGetRequestToUrl(sUrl, {}, {}, this.handleAjaxSuccess);
+			this.sendAjaxGetRequestToUrl(sUrl);
 		}
 		else if (cfg.mode == "reset")
 		{
 			f = document.getElementById("ilIntLinkResetForm");
 			sUrl = f.action;
-			YAHOO.util.Connect.setForm("ilIntLinkResetForm");
-			var request = YAHOO.util.Connect.asyncRequest('POST', sUrl, callback);
+			const form = document.getElementById("ilIntLinkResetForm");
+			this.sendAjaxPostRequest(form, sUrl, {}, "cmd[resetLinkList]", this.handleAjaxSuccess);
 		}
 		else if (cfg.mode == "save_file_link")
 		{
 			f = document.getElementById("ilFileLinkUploadForm");
 			sUrl = f.action + "&cmd=saveFileLink";
-			YAHOO.util.Connect.setForm("ilFileLinkUploadForm", true);
-			var request = YAHOO.util.Connect.asyncRequest('POST', sUrl, callback);
+			const form = document.getElementById("ilFileLinkUploadForm");
+			this.sendAjaxPostRequest(form, sUrl, {}, "cmd[saveFileLink]", this.handleAjaxSuccess);
 		}
 		else if (cfg.mode == "sel_target_obj")
 		{
@@ -199,27 +228,26 @@ il.IntLink =
 			this.save_pars.link_par_obj_id = "";
 
 			sUrl = this.replaceSavePars(sUrl);
-			il.Util.sendAjaxGetRequestToUrl(sUrl, {}, {}, this.handleAjaxSuccess);
+			this.sendAjaxGetRequestToUrl(sUrl);
 		}
 		else if (cfg.mode == "change_object")
 		{
 			sUrl = this.getInternalLinkUrl() + "&cmd=changeTargetObject";
 			sUrl = this.replaceSavePars(sUrl);
-			il.Util.sendAjaxGetRequestToUrl(sUrl, {}, {}, this.handleAjaxSuccess);
+			this.sendAjaxGetRequestToUrl(sUrl);
 		}
 		else if (cfg.mode == "set_mep_fold")
 		{
 			sUrl = this.getInternalLinkUrl() + "&cmd=setMedPoolFolder&mep_fold=" +
 				cfg.mep_fold;
 			sUrl = this.replaceSavePars(sUrl);
-			//console.log("Set mep folder: " + cfg.mep_fold);
-			il.Util.sendAjaxGetRequestToUrl(sUrl, {}, {}, this.handleAjaxSuccess);
+			this.sendAjaxGetRequestToUrl(sUrl);
 		}
 		else
 		{
 			sUrl = this.getInternalLinkUrl() + "&cmd=showLinkHelp";
 			sUrl = this.replaceSavePars(sUrl);
-			il.Util.sendAjaxGetRequestToUrl(sUrl, {}, {}, this.handleAjaxSuccess);
+			this.sendAjaxGetRequestToUrl(sUrl);
 		}
 
 		return false;
@@ -228,24 +256,6 @@ il.IntLink =
 
 	handleAjaxSuccess: function(o)
 	{
-		// parse headers function
-		function parseHeaders()
-		{
-			var allHeaders = headerStr.split("\n");
-			var headers;
-			for(var i=0; i < headers.length; i++)
-			{
-				var delimitPos = header[i].indexOf(':');
-				if(delimitPos != -1)
-				{
-					headers[i] = "<p>" +
-					headers[i].substring(0,delimitPos) + ":"+
-					headers[i].substring(delimitPos+1) + "</p>";
-				}
-			return headers;
-			}
-		}
-
 		// perform page modification
 		if(o.responseText !== undefined)
 		{

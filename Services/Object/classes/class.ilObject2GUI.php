@@ -503,10 +503,6 @@ abstract class ilObject2GUI extends ilObjectGUI
     {
         parent::redirectToRefId($ref_id, $cmd);
     }
-    final protected function fillCloneTemplate(?string $tpl_varname, string $type): ?ilPropertyFormGUI
-    {
-        return parent::fillCloneTemplate($tpl_varname, $type);
-    }
 
     //	private function setAdminTabs() { return parent::setAdminTabs(); }
     //	final public function getAdminTabs() { return parent::getAdminTabs(); }
@@ -814,24 +810,5 @@ abstract class ilObject2GUI extends ilObjectGUI
     protected function redrawHeaderAction(): void
     {
         parent::redrawHeaderActionObject();
-    }
-
-    protected function getPermanentLinkWidget(string $append = null, bool $center = false): string
-    {
-        if ($this->id_type == self::WORKSPACE_NODE_ID) {
-            $append .= "_wsp";
-        }
-
-        $plink = new ilPermanentLinkGUI($this->getType(), $this->node_id, $append);
-        $plink->setIncludePermanentLinkText(false);
-        return $plink->getHTML();
-    }
-
-    protected function handleAutoRating(ilObject $new_obj): void
-    {
-        // only needed in repository
-        if ($this->id_type == self::REPOSITORY_NODE_ID) {
-            parent::handleAutoRating($new_obj);
-        }
     }
 }

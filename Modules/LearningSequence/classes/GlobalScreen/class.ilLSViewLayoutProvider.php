@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\GlobalScreen\Scope\Layout\Provider\AbstractModificationProvider;
 use ILIAS\GlobalScreen\Scope\Layout\Provider\ModificationProvider;
@@ -68,7 +68,11 @@ class ilLSViewLayoutProvider extends AbstractModificationProvider implements Mod
         }
         return $this->globalScreen()->layout()->factory()->mainbar()
             ->withModification(
-                function (MainBar $mainbar): ?MainBar {
+                function (?MainBar $mainbar): ?MainBar {
+                    if ($mainbar === null) {
+                        $ui = $this->dic->ui();
+                        $mainbar = $ui->factory()->mainControls()->mainbar();
+                    }
                     $entries = $this->data_collection->get(ilLSPlayer::GS_DATA_LS_MAINBARCONTROLS);
                     $tools = $mainbar->getToolEntries();
                     $mainbar = $mainbar->withClearedEntries();
@@ -92,7 +96,7 @@ class ilLSViewLayoutProvider extends AbstractModificationProvider implements Mod
         }
         return $this->globalScreen()->layout()->factory()->metabar()
             ->withModification(
-                fn (MetaBar $metabar): ?Metabar => $metabar->withClearedEntries()
+                fn (?MetaBar $metabar): ?Metabar => $metabar !== null ? $metabar->withClearedEntries() : null
             )
             ->withHighPriority();
     }
@@ -105,7 +109,7 @@ class ilLSViewLayoutProvider extends AbstractModificationProvider implements Mod
 
         return $this->globalScreen()->layout()->factory()->breadcrumbs()
             ->withModification(
-                fn (Breadcrumbs $current): ?Breadcrumbs => null
+                fn (?Breadcrumbs $current): ?Breadcrumbs => null
             )
             ->withHighPriority();
     }
@@ -121,7 +125,7 @@ class ilLSViewLayoutProvider extends AbstractModificationProvider implements Mod
         // away the header here.
         return $this->globalScreen()->layout()->factory()->content()
             ->withModification(
-                function (Legacy $content) use ($html): Legacy {
+                function (?Legacy $content) use ($html): ?Legacy {
                     $ui = $this->dic->ui();
                     return $ui->factory()->legacy($html);
                 }

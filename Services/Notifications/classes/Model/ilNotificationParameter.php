@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,10 +16,9 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
-namespace ILIAS\Notifications\Model;
+declare(strict_types=1);
 
-use ilNotification;
-use ilObjUser;
+namespace ILIAS\Notifications\Model;
 
 /**
  * description of a localized parameter
@@ -31,18 +28,14 @@ use ilObjUser;
  */
 class ilNotificationParameter
 {
-    private string $name;
     /**
-     * @var string[]
+     * @param array<string, string> $parameters
      */
-    private array $parameters;
-    private string $language_module;
-
-    public function __construct($name, $parameters = [], $language_module = 'notification')
-    {
-        $this->name = $name;
-        $this->parameters = $parameters;
-        $this->language_module = $language_module;
+    public function __construct(
+        private readonly string $name,
+        private readonly array $parameters = [],
+        private readonly string $language_module = 'notification'
+    ) {
     }
 
     public function getName(): string
@@ -51,7 +44,7 @@ class ilNotificationParameter
     }
 
     /**
-     * @return string[]
+     * @return array<string, string>
      */
     public function getParameters(): array
     {

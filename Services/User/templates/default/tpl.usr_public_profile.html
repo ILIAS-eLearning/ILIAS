@@ -55,7 +55,23 @@
 				{UDF_DATA}
 			</div>
 			<!-- END udf_data -->
-			<!-- BEGIN map -->
+		</div>
+		<div class="col-sm-6">
+			<!-- BEGIN image -->
+			<img class="ilProfileImage" src="{IMAGE_PATH}" title="{IMAGE_ALT}" alt="{IMAGE_ALT}" /><br />
+			<!-- END image -->
+			<!-- BEGIN link -->
+			<a class="il_ContainerItemCommand" href="{HREF_LINK}">{TXT_LINK}</a><br />
+			<!-- END link -->
+			<!-- BEGIN mail -->
+			<a class="il_ContainerItemCommand" href="{HREF_MAIL}">{TXT_MAIL}</a><br />
+			<!-- END mail -->
+			<!-- BEGIN vcard -->
+			<a class="il_ContainerItemCommand" href="{HREF_VCARD}"><!-- <img src="{IMG_VCARD}" alt="{TXT_DOWNLOAD_VCARD}" title="{TXT_DOWNLOAD_VCARD}" />-->{TXT_DOWNLOAD_VCARD}</a>
+			<!-- END vcard -->
+		</div>
+        <div class="col-sm-12">
+            <!-- BEGIN map -->
 			<div class="ilProfileSection" style="clear:both;">
 				<h3 class="ilProfileSectionHead">{TXT_LOCATION}</h3>
 				{MAP_CONTENT}
@@ -90,23 +106,7 @@
 				<!-- END badge_hidden_actions_bl -->
 			</div>
 			<!-- END badges_row -->
-		</div>
-		<div class="col-sm-6">
-			<!-- BEGIN image -->
-			<img class="ilProfileImage" src="{IMAGE_PATH}" title="{IMAGE_ALT}" alt="{IMAGE_ALT}" /><br />
-			<!-- END image -->
-			<!-- BEGIN link -->
-			<a class="il_ContainerItemCommand" href="{HREF_LINK}">{TXT_LINK}</a><br />
-			<!-- END link -->
-			<!-- BEGIN mail -->
-			<a class="il_ContainerItemCommand" href="{HREF_MAIL}">{TXT_MAIL}</a><br />
-			<!-- END mail -->
-			<!-- BEGIN vcard -->
-			<a class="il_ContainerItemCommand" href="{HREF_VCARD}"><!-- <img src="{IMG_VCARD}" alt="{TXT_DOWNLOAD_VCARD}" title="{TXT_DOWNLOAD_VCARD}" />-->{TXT_DOWNLOAD_VCARD}</a>
-			<!-- END vcard -->
-		</div>
-
-
+        </div>
 	</div>
 	<div style="clear:both;"></div>
 </div>
@@ -118,7 +118,7 @@
 <script type="text/javascript">
 function ilbdgprfhdtgl() {
   $('#ilbdgprfhd').slideToggle('slow',  function() {
-    $('#ilbdgprfhdl').toggle(); 
+    $('#ilbdgprfhdl').toggle();
 	$('#ilbdgprfhdm').toggle();
   });
   return false;

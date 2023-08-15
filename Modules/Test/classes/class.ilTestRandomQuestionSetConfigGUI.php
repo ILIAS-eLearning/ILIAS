@@ -16,6 +16,9 @@
  *
  *********************************************************************/
 
+use ILIAS\DI\UIServices;
+use ILIAS\Test\InternalRequestService;
+
 /**
  * GUI class that manages the question set configuration for continues tests
  *
@@ -49,7 +52,7 @@ class ilTestRandomQuestionSetConfigGUI
     public const CMD_RESET_POOLSYNC = 'resetPoolSync';
 
     public const HTTP_PARAM_AFTER_REBUILD_QUESTION_STAGE_CMD = 'afterRebuildQuestionStageCmd';
-    private \ILIAS\Test\InternalRequestService $testrequest;
+    private InternalRequestService $testrequest;
 
     public ilCtrlInterface $ctrl;
     public ?ilAccessHandler $access;
@@ -59,19 +62,19 @@ class ilTestRandomQuestionSetConfigGUI
     public ilDBInterface $db;
     public ilTree $tree;
     public ilComponentRepository $component_repository;
-    public ilObjectDefinition $objDefinition;
     public ilObjTest $testOBJ;
+
+    public ilObjectDefinition $obj_definition;
+    protected UIServices $ui;
+    protected ilObjUser $user;
+    protected ilObjectDataCache $obj_cache;
+
     protected ilTestRandomQuestionSetConfig $questionSetConfig;
     protected ilTestRandomQuestionSetSourcePoolDefinitionFactory $sourcePoolDefinitionFactory;
     protected ilTestRandomQuestionSetSourcePoolDefinitionList $sourcePoolDefinitionList;
     protected ilTestRandomQuestionSetStagingPoolBuilder $stagingPool;
     protected ilTestRandomQuestionSetConfigStateMessageHandler $configStateMessageHandler;
     private ilTestProcessLockerFactory $processLockerFactory;
-
-    /**
-     * @var ArrayAccess
-     */
-    protected $dic;
 
     public function __construct(
         ilCtrl $ctrl,
@@ -85,8 +88,14 @@ class ilTestRandomQuestionSetConfigGUI
         ilObjTest $testOBJ,
         ilTestProcessLockerFactory $processLockerFactory
     ) {
+        /** @var ILIAS\DI\Container $DIC */
         global $DIC;
         $this->testrequest = $DIC->test()->internal()->request();
+
+        $this->ui = $DIC->ui();
+        $this->user = $DIC->user();
+        $this->obj_definition = $DIC['objDefinition'];
+        $this->obj_cache = $DIC['ilObjDataCache'];
 
         $this->ctrl = $ctrl;
         $this->access = $access;
@@ -97,9 +106,6 @@ class ilTestRandomQuestionSetConfigGUI
         $this->tree = $tree;
         $this->component_repository = $component_repository;
         $this->testOBJ = $testOBJ;
-
-        $this->dic = $DIC;
-        $this->objDefinition = $this->dic['objDefinition'];
 
         $this->questionSetConfig = new ilTestRandomQuestionSetConfig(
             $this->tree,
@@ -129,6 +135,7 @@ class ilTestRandomQuestionSetConfigGUI
 
         $this->configStateMessageHandler = new ilTestRandomQuestionSetConfigStateMessageHandler(
             $this->lng,
+            $this->ui,
             $this->ctrl
         );
 
@@ -168,9 +175,7 @@ class ilTestRandomQuestionSetConfigGUI
                 break;
 
             default:
-
                 $cmd = $this->ctrl->getCmd(self::CMD_SHOW_GENERAL_CONFIG_FORM) . 'Cmd';
-
                 $this->$cmd();
         }
     }
@@ -272,7 +277,7 @@ class ilTestRandomQuestionSetConfigGUI
 
                 $this->testOBJ->saveCompleteStatus($this->questionSetConfig);
 
-                $this->tpl->setOnScreenMessage('success', $this->lng->txt("tst_msg_random_question_set_synced"), true);
+                $this->ctrl->setParameterByClass(self::class, 'modified', 'sync');
             });
         }
 
@@ -303,24 +308,15 @@ class ilTestRandomQuestionSetConfigGUI
 
         $this->tpl->setContent($this->ctrl->getHTML($form));
 
-        if (!$disabled_form) {
-            $this->configStateMessageHandler->setContext(
-                ilTestRandomQuestionSetConfigStateMessageHandler::CONTEXT_GENERAL_CONFIG
-            );
+        $this->configStateMessageHandler->setContext(
+            ilTestRandomQuestionSetConfigStateMessageHandler::CONTEXT_GENERAL_CONFIG
+        );
 
-            $this->configStateMessageHandler->handle();
+        $this->configStateMessageHandler->handle();
 
-            if ($this->configStateMessageHandler->hasValidationReports()) {
-                if ($this->configStateMessageHandler->isValidationFailed()) {
-                    $this->tpl->setOnScreenMessage('failure', $this->configStateMessageHandler->getValidationReportHtml());
-                } else {
-                    $this->tpl->setOnScreenMessage('info', $this->configStateMessageHandler->getValidationReportHtml());
-                }
-            }
-
-            if ($this->testrequest->isset('modified') && (int) $this->testrequest->raw('modified')) {
-                $this->tpl->setOnScreenMessage('success', $this->getGeneralModificationSuccessMessage());
-            }
+        $message = $this->buildOnScreenMessage();
+        if ($message !== '') {
+            $this->populateOnScreenMessage($message);
         }
     }
 
@@ -343,7 +339,7 @@ class ilTestRandomQuestionSetConfigGUI
 
         $this->testOBJ->saveCompleteStatus($this->questionSetConfig);
 
-        $this->ctrl->setParameter($this, 'modified', 1);
+        $this->ctrl->setParameter($this, 'modified', 'save');
         $this->ctrl->redirect($this, self::CMD_SHOW_GENERAL_CONFIG_FORM);
     }
 
@@ -376,9 +372,9 @@ class ilTestRandomQuestionSetConfigGUI
 
     private function showSourcePoolDefinitionListCmd(): void
     {
-        $this->questionSetConfig->loadFromDb();
-
         $disabled_form = $this->preventFormBecauseOfSync();
+
+        $this->questionSetConfig->loadFromDb();
 
         $content = '';
 
@@ -391,7 +387,7 @@ class ilTestRandomQuestionSetConfigGUI
         $table->init($this->sourcePoolDefinitionList);
         $content .= $this->ctrl->getHTML($table);
 
-        if ($this->sourcePoolDefinitionList->areAllUsedPoolsAvailable()) {
+        if (!$this->sourcePoolDefinitionList->areAllUsedPoolsAvailable()) {
             $table = $this->buildNonAvailablePoolsTableGUI();
             $table->init($this->sourcePoolDefinitionList);
             $content .= $this->ctrl->getHTML($table);
@@ -399,26 +395,15 @@ class ilTestRandomQuestionSetConfigGUI
 
         $this->tpl->setContent($content);
 
-        if ($disabled_form) {
-            return;
-        }
-
         $this->configStateMessageHandler->setContext(
             ilTestRandomQuestionSetConfigStateMessageHandler::CONTEXT_POOL_SELECTION
         );
 
         $this->configStateMessageHandler->handle();
 
-        if ($this->configStateMessageHandler->hasValidationReports()) {
-            if ($this->configStateMessageHandler->isValidationFailed()) {
-                $this->tpl->setOnScreenMessage('failure', $this->configStateMessageHandler->getValidationReportHtml());
-            } else {
-                $this->tpl->setOnScreenMessage('info', $this->configStateMessageHandler->getValidationReportHtml());
-            }
-        }
-
-        if ($this->testrequest->isset('modified') && (int) $this->testrequest->raw('modified')) {
-            $this->tpl->setOnScreenMessage('success', $this->getGeneralModificationSuccessMessage());
+        $message = $this->buildOnScreenMessage();
+        if ($message) {
+            $this->populateOnScreenMessage($message);
         }
     }
 
@@ -443,7 +428,7 @@ class ilTestRandomQuestionSetConfigGUI
 
         $this->testOBJ->saveCompleteStatus($this->questionSetConfig);
 
-        $this->ctrl->setParameter($this, 'modified', 1);
+        $this->ctrl->setParameter($this, 'modified', 'save');
         $this->ctrl->redirect($this, self::CMD_SHOW_SRC_POOL_DEF_LIST);
     }
 
@@ -515,7 +500,7 @@ class ilTestRandomQuestionSetConfigGUI
         $definitionId = $this->fetchSingleSourcePoolDefinitionIdParameter();
         $this->deleteSourcePoolDefinitions([$definitionId]);
 
-        $this->tpl->setOnScreenMessage('success', $this->lng->txt("tst_msg_source_pool_definitions_deleted"), true);
+        $this->ctrl->setParameterByClass(self::class, 'modified', 'remove');
         $this->ctrl->redirect($this, self::CMD_SHOW_SRC_POOL_DEF_LIST);
     }
 
@@ -524,7 +509,7 @@ class ilTestRandomQuestionSetConfigGUI
         $definitionIds = $this->fetchMultiSourcePoolDefinitionIdsParameter();
         $this->deleteSourcePoolDefinitions($definitionIds);
 
-        $this->tpl->setOnScreenMessage('success', $this->lng->txt("tst_msg_source_pool_definitions_deleted"), true);
+        $this->ctrl->setParameterByClass(self::class, 'modified', 'remove');
         $this->ctrl->redirect($this, self::CMD_SHOW_SRC_POOL_DEF_LIST);
     }
 
@@ -631,7 +616,7 @@ class ilTestRandomQuestionSetConfigGUI
             $this->ctrl->setParameter($this, 'quest_pool_id', $sourcePoolDefinition->getPoolId());
             $this->ctrl->redirect($this, self::CMD_SHOW_CREATE_SRC_POOL_DEF_FORM);
         } else {
-            $this->tpl->setOnScreenMessage('success', $this->lng->txt("tst_msg_random_question_set_config_modified"), true);
+            $this->ctrl->setParameterByClass(self::class, 'modified', 'save');
             $this->ctrl->redirect($this, self::CMD_SHOW_SRC_POOL_DEF_LIST);
         }
     }
@@ -696,7 +681,7 @@ class ilTestRandomQuestionSetConfigGUI
 
         $this->testOBJ->saveCompleteStatus($this->questionSetConfig);
 
-        $this->tpl->setOnScreenMessage('success', $this->lng->txt("tst_msg_random_question_set_config_modified"), true);
+        $this->ctrl->setParameterByClass(self::class, 'modified', 'save');
         $this->ctrl->redirect($this, self::CMD_SHOW_SRC_POOL_DEF_LIST);
     }
 
@@ -722,8 +707,7 @@ class ilTestRandomQuestionSetConfigGUI
         }
 
         if ($this->testrequest->isset('quest_pool_ref') && (int) $this->testrequest->raw('quest_pool_ref')) {
-            $objCache = $this->dic['ilObjDataCache'];
-            return $objCache->lookupObjId((int) $this->testrequest->raw('quest_pool_ref'));
+            return $this->obj_cache->lookupObjId((int) $this->testrequest->raw('quest_pool_ref'));
         }
 
         throw new ilTestMissingQuestionPoolIdParameterException();
@@ -741,7 +725,9 @@ class ilTestRandomQuestionSetConfigGUI
     private function fetchMultiSourcePoolDefinitionIdsParameter(): array
     {
         if (!$this->testrequest->isset('src_pool_def_ids') || !is_array($this->testrequest->raw('src_pool_def_ids'))) {
-            throw new ilTestMissingSourcePoolDefinitionParameterException();
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('tst_please_select_source_pool'), true);
+            $this->ctrl->redirect($this, self::CMD_SHOW_SRC_POOL_DEF_LIST);
+            return [];
         }
 
         $definitionIds = [];
@@ -822,7 +808,7 @@ class ilTestRandomQuestionSetConfigGUI
             self::CMD_DERIVE_NEW_POOLS,
             'target_ref'
         );
-        $explorer->setClickableTypes($this->objDefinition->getExplorerContainerTypes());
+        $explorer->setClickableTypes($this->obj_definition->getExplorerContainerTypes());
         $explorer->setSelectableTypes([]);
 
         if (!$explorer->handleCommand()) {
@@ -843,7 +829,7 @@ class ilTestRandomQuestionSetConfigGUI
                 $deriver = new ilTestRandomQuestionSetPoolDeriver($this->db, $this->component_repository, $this->testOBJ);
                 $deriver->setSourcePoolDefinitionList($this->sourcePoolDefinitionList);
                 $deriver->setTargetContainerRef($targetRef);
-                $deriver->setOwnerId($this->dic['ilUser']->getId());
+                $deriver->setOwnerId($this->user->getId());
                 $newPool = $deriver->derive($lostPool);
 
                 $srcPoolDefinition = $this->sourcePoolDefinitionList->getDefinitionBySourcePoolId($newPool->getId());
@@ -896,31 +882,10 @@ class ilTestRandomQuestionSetConfigGUI
         $last_sync = $this->questionSetConfig->getLastQuestionSyncTimestamp();
 
         if ($last_sync !== null && $last_sync !== 0 &&
-            !$this->isFrozenConfigRequired()) {
-            $return = true;
-
-            $sync_date = new ilDateTime($last_sync, IL_CAL_UNIX);
-            $msg = sprintf(
-                $this->lng->txt('tst_msg_rand_quest_set_stage_pool_last_sync'),
-                ilDatePresentation::formatDate($sync_date)
-            );
-
-            $href = $this->ctrl->getLinkTarget($this, self::CMD_RESET_POOLSYNC);
-            $label = $this->lng->txt('tst_btn_reset_pool_sync');
-
-            $buttons = [
-                $this->dic->ui()->factory()->button()->standard($label, $href)
-            ];
-
-            $msgbox = $this->dic->ui()->factory()->messageBox()
-            ->info($msg)
-            ->withButtons($buttons);
-            $message = $this->dic->ui()->renderer()->render($msgbox);
-            $this->dic->ui()->mainTemplate()->setCurrentBlock('mess');
-            $this->dic->ui()->mainTemplate()->setVariable('MESSAGE', $message);
-            $this->dic->ui()->mainTemplate()->parseCurrentBlock();
+            !$this->isFrozenConfigRequired() && $this->questionSetConfig->isQuestionSetBuildable()) {
+            return true;
         }
-        return $return;
+        return false;
     }
 
     public function resetPoolSyncCmd(): void
@@ -928,5 +893,61 @@ class ilTestRandomQuestionSetConfigGUI
         $this->questionSetConfig->setLastQuestionSyncTimestamp(0);
         $this->questionSetConfig->saveToDb();
         $this->ctrl->redirect($this, self::CMD_SHOW_GENERAL_CONFIG_FORM);
+    }
+
+    protected function buildOnScreenMessage(): string
+    {
+        $message = $this->buildFormResultMessage();
+        $message .= $this->buildValidationMessage();
+
+        return $message;
+    }
+
+    protected function buildFormResultMessage(): string
+    {
+        $message = '';
+
+        if ($this->testrequest->isset('modified')) {
+            $action = $this->testrequest->raw('modified');
+            if ($action === 'save') {
+                $success_message = $this->ui->factory()->messageBox()->success($this->getGeneralModificationSuccessMessage());
+            } elseif ($action === 'remove') {
+                $success_message = $this->ui->factory()->messageBox()->success($this->lng->txt("tst_msg_source_pool_definitions_deleted"));
+            } elseif ($action === 'sync') {
+                $success_message = $this->ui->factory()->messageBox()->success($this->lng->txt("tst_msg_random_question_set_synced"));
+            }
+            $message .= $this->ui->renderer()->render(
+                $success_message
+            );
+        }
+
+        return $message;
+    }
+
+    protected function buildValidationMessage(): string
+    {
+        if ($this->configStateMessageHandler->isValidationFailed()) {
+            return $this->ui->renderer()->render(
+                $this->ui->factory()->messageBox()->failure($this->configStateMessageHandler->getValidationReportHtml())
+            );
+        }
+
+        if ($this->configStateMessageHandler->hasValidationReports()) {
+            return $this->ui->renderer()->render(
+                $this->ui->factory()->messageBox()->info($this->configStateMessageHandler->getValidationReportHtml())
+            );
+        }
+
+        return $this->configStateMessageHandler->getSyncInfoMessage();
+    }
+
+    /**
+     * @param $message
+     */
+    protected function populateOnScreenMessage($message)
+    {
+        $this->ui->mainTemplate()->setCurrentBlock('mess');
+        $this->ui->mainTemplate()->setVariable('MESSAGE', $message);
+        $this->ui->mainTemplate()->parseCurrentBlock();
     }
 }

@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\UI\Implementation\Factory as UIImplementationFactory;
+use ILIAS\UI\Renderer as UIRenderer;
+
 /**
  * Description of class
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
@@ -12,11 +15,20 @@ class ilConsultationHourGroupTableGUI extends ilTable2GUI
 {
     private int $user_id = 0;
 
+    private UIRenderer $renderer;
+    private UIImplementationFactory $uiFactory;
+
     public function __construct(object $a_parent_obj, string $a_parent_cmd, int $a_user_id)
     {
+        global $DIC;
+
         $this->user_id = $a_user_id;
         $this->setId('chgrp_' . $this->user_id);
         parent::__construct($a_parent_obj, $a_parent_cmd);
+
+        $this->renderer = $DIC->ui()->renderer();
+        $this->uiFactory = $DIC->ui()->factory();
+
         $this->initTable();
     }
 
@@ -50,33 +62,30 @@ class ilConsultationHourGroupTableGUI extends ilTable2GUI
         $this->tpl->setVariable('MAX_BOOKINGS', $a_set['max_books']);
         $this->tpl->setVariable('ASSIGNED', $a_set['assigned']);
 
-        $list = new ilAdvancedSelectionListGUI();
-        $list->setId('act_chgrp_' . $this->user_id . '_' . $a_set['id']);
-        $list->setListTitle($this->lng->txt('actions'));
+        $dropDownItems[] = array();
 
         $this->ctrl->setParameter($this->getParentObject(), 'grp_id', $a_set['id']);
-        $list->addItem(
+
+        $dropDownItems[] = $this->uiFactory->button()->shy(
             $this->lng->txt('edit'),
-            '',
             $this->ctrl->getLinkTarget($this->getParentObject(), 'editGroup')
         );
 
         // add members
         if ($a_set['assigned']) {
-            $list->addItem(
+            $dropDownItems[] = $this->uiFactory->button()->shy(
                 $this->lng->txt('cal_ch_assign_participants'),
-                '',
                 $this->ctrl->getLinkTargetByClass('ilRepositorySearchGUI', '')
             );
         }
 
-        $list->addItem(
+        $dropDownItems[] = $this->uiFactory->button()->shy(
             $this->lng->txt('delete'),
-            '',
             $this->ctrl->getLinkTarget($this->getParentObject(), 'confirmDeleteGroup')
         );
-
-        $this->tpl->setVariable('ACTIONS', $list->getHTML());
+        $dropDown = $this->uiFactory->dropdown()->standard($dropDownItems)
+                ->withLabel($this->lng->txt('actions'));
+        $this->tpl->setVariable('ACTIONS', $this->renderer->render($dropDown));
     }
 
     /**

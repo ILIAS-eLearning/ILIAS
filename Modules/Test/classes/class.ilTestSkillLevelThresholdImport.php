@@ -42,10 +42,7 @@ class ilTestSkillLevelThresholdImport
      */
     protected $orderIndex = null;
 
-    /**
-     * @var integer
-     */
-    protected $threshold = null;
+    protected ?int $threshold = null;
 
     /**
      * @var string
@@ -133,7 +130,7 @@ class ilTestSkillLevelThresholdImport
      */
     public function setThreshold($threshold)
     {
-        $this->threshold = $threshold;
+        $this->threshold = (int) $threshold;
     }
 
     /**

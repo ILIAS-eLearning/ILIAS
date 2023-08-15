@@ -85,4 +85,14 @@ class ilTestExportTableGUI extends ilExportTableGUI
     {
         return $row['file'];
     }
+
+    public function resetFormats(): void
+    {
+        $this->formats = [];
+    }
+
+    public function addFormat(string $format)
+    {
+        $this->formats[$format] = $format;
+    }
 }

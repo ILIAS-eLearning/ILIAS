@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\Refinery;
 use ILIAS\Setup;
@@ -52,32 +52,20 @@ class ilChatroomSetupAgent implements Setup\Agent
         'years'
     ];
 
-    protected Refinery\Factory $refinery;
-
-    public function __construct(Refinery\Factory $refinery)
+    public function __construct(protected Refinery\Factory $refinery)
     {
-        $this->refinery = $refinery;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function hasConfig(): bool
     {
         return true;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getConfigInput(Setup\Config $config = null): UI\Component\Input\Field\Input
+    public function getConfigInput(Setup\Config $config = null): never
     {
         throw new LogicException("Not yet implemented.");
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getArrayToConfigTransformation(): Refinery\Transformation
     {
         $levels = self::$LOG_LEVELS;
@@ -219,23 +207,17 @@ class ilChatroomSetupAgent implements Setup\Agent
         });
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getInstallObjective(Setup\Config $config = null): Setup\Objective
     {
         // null would not be valid here, because this agents strictly wants to have
         // a config.
-        if ($config instanceof Setup\NullConfig) {
+        if ($config === null || $config instanceof Setup\NullConfig) {
             return new Setup\Objective\NullObjective();
         }
 
         return new ilChatroomServerConfigStoredObjective($config);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getUpdateObjective(Setup\Config $config = null): Setup\Objective
     {
         $objectives = [
@@ -251,25 +233,16 @@ class ilChatroomSetupAgent implements Setup\Agent
         return new ObjectiveCollection('Update chatroom database and server config', false, ...$objectives);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getBuildArtifactObjective(): Setup\Objective
     {
         return new Setup\Objective\NullObjective();
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getStatusObjective(Setup\Metrics\Storage $storage): Setup\Objective
     {
         return new ilChatroomMetricsCollectedObjective($storage);
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getMigrations(): array
     {
         return [];

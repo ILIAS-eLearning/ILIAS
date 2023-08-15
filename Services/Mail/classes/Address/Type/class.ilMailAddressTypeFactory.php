@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,14 +16,16 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class ilMailAddressTypeFactory
  * @author Michael Jansen <mjansen@databay.de>
  */
 class ilMailAddressTypeFactory
 {
-    private ilGroupNameAsMailValidator $groupNameValidator;
-    private ilLogger $logger;
+    private readonly ilGroupNameAsMailValidator $groupNameValidator;
+    private readonly ilLogger $logger;
     protected ilRbacSystem $rbacsystem;
     protected ilRbacReview $rbacreview;
     protected ilMailAddressTypeHelper $typeHelper;

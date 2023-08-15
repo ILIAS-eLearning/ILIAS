@@ -40,7 +40,7 @@ class LostIdentification implements IdentificationInterface
     /**
      * @inheritDoc
      */
-    public function serialize()
+    public function serialize(): string
     {
         return $this->serialized_string;
     }
@@ -48,7 +48,7 @@ class LostIdentification implements IdentificationInterface
     /**
      * @inheritDoc
      */
-    public function unserialize($serialized)
+    public function unserialize($serialized): void
     {
     }
 

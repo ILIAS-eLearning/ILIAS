@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\Setup;
 use ILIAS\Setup\Objective;
@@ -38,6 +38,9 @@ class ilStudyProgrammeUpdateAgent extends Setup\Agent\NullAgent
         $update_auto_category = new ilDatabaseUpdateStepsExecutedObjective(
             new ilStudyProgrammeAutoCategoryTableUpdateSteps()
         );
+        $enable_pc_statusinfo = new ilDatabaseUpdateStepsExecutedObjective(
+            new ilStudyProgrammePCStatusInfoUpdateSteps()
+        );
 
         return new Setup\ObjectiveCollection(
             'Database is updated for Module/Studyprogramme',
@@ -45,7 +48,8 @@ class ilStudyProgrammeUpdateAgent extends Setup\Agent\NullAgent
             $update_progresses,
             $update_assignments,
             $update_settings,
-            $update_auto_category
+            $update_auto_category,
+            $enable_pc_statusinfo
         );
     }
 
@@ -57,7 +61,8 @@ class ilStudyProgrammeUpdateAgent extends Setup\Agent\NullAgent
             new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new ilStudyProgrammeProgressTableUpdateSteps()),
             new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new ilStudyProgrammeAssignmentTableUpdateSteps()),
             new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new ilStudyProgrammeSettingsTableUpdateSteps()),
-            new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new ilStudyProgrammeAutoCategoryTableUpdateSteps())
+            new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new ilStudyProgrammeAutoCategoryTableUpdateSteps()),
+            new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new ilStudyProgrammePCStatusInfoUpdateSteps())
         );
     }
 }

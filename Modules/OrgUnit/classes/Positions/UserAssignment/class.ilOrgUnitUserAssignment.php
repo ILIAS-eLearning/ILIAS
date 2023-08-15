@@ -15,6 +15,7 @@
  *
  ********************************************************************
  */
+declare(strict_types=1);
 
 use ILIAS\DI\Container;
 
@@ -22,88 +23,16 @@ use ILIAS\DI\Container;
  * Class ilOrgUnitUserAssignment
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class ilOrgUnitUserAssignment extends \ActiveRecord
+class ilOrgUnitUserAssignment
 {
-    public static function returnDbTableName(): string
-    {
-        return 'il_orgu_ua';
-    }
-
-    /**
-     * @var int
-     * @con_is_primary true
-     * @con_is_unique  true
-     * @con_sequence   true
-     * @con_has_field  true
-     * @con_fieldtype  integer
-     * @con_length     8
-     */
-    protected ?int $id = 0;
-    /**
-     * @var int
-     * @con_has_field  true
-     * @con_fieldtype  integer
-     * @con_length     8
-     */
+    protected int $id;
     protected int $user_id = 0;
-    /**
-     * @var int
-     * @con_has_field  true
-     * @con_fieldtype  integer
-     * @con_length     8
-     */
     protected int $position_id = 0;
-    /**
-     * @var int
-     * @con_has_field  true
-     * @con_fieldtype  integer
-     * @con_length     8
-     */
     protected int $orgu_id = 0;
 
-    public static function findOrCreateAssignment(int $user_id, int $position_id, int $orgu_id): ilOrgUnitUserAssignment
+    public function __construct(?int $id = 0)
     {
-        $inst = self::where(array(
-            'user_id' => $user_id,
-            'position_id' => $position_id,
-            'orgu_id' => $orgu_id
-        ))->first();
-        if (!$inst) {
-            $inst = new self();
-            $inst->setPositionId($position_id);
-            $inst->setUserId($user_id);
-            $inst->setOrguId($orgu_id);
-            $inst->create();
-        }
-
-        return $inst;
-    }
-
-    protected function raiseEvent(string $event): void
-    {
-        global $DIC;
-
-        if (!$DIC->offsetExists('ilAppEventHandler')) {
-            return;
-        }
-        $ilAppEventHandler = $DIC['ilAppEventHandler'];
-        $ilAppEventHandler->raise('Modules/OrgUnit', $event, array(
-            'obj_id' => $this->getOrguId(),
-            'usr_id' => $this->getUserId(),
-            'position_id' => $this->getPositionId()
-        ));
-    }
-
-    public function create(): void
-    {
-        $this->raiseEvent('assignUserToPosition');
-        parent::create();
-    }
-
-    public function delete(): void
-    {
-        $this->raiseEvent('deassignUserFromPosition');
-        parent::delete();
+        $this->id = $id;
     }
 
     public function getId(): ?int
@@ -111,9 +40,11 @@ class ilOrgUnitUserAssignment extends \ActiveRecord
         return $this->id;
     }
 
-    public function setId(?int $id): void
+    public function withId(?int $id): self
     {
-        $this->id = $id;
+        $clone = clone $this;
+        $clone->id = $id;
+        return $clone;
     }
 
     public function getUserId(): int
@@ -121,9 +52,11 @@ class ilOrgUnitUserAssignment extends \ActiveRecord
         return $this->user_id;
     }
 
-    public function setUserId(int $user_id)
+    public function withUserId(int $user_id): self
     {
-        $this->user_id = $user_id;
+        $clone = clone $this;
+        $clone->user_id = $user_id;
+        return $clone;
     }
 
     public function getPositionId(): int
@@ -131,9 +64,11 @@ class ilOrgUnitUserAssignment extends \ActiveRecord
         return $this->position_id;
     }
 
-    public function setPositionId(int $position_id)
+    public function withPositionId(int $position_id): self
     {
-        $this->position_id = $position_id;
+        $clone = clone $this;
+        $clone->position_id = $position_id;
+        return $clone;
     }
 
     public function getOrguId(): int
@@ -141,8 +76,10 @@ class ilOrgUnitUserAssignment extends \ActiveRecord
         return $this->orgu_id;
     }
 
-    public function setOrguId(int $orgu_id): void
+    public function withOrguId(int $orgu_id): self
     {
-        $this->orgu_id = $orgu_id;
+        $clone = clone $this;
+        $clone->orgu_id = $orgu_id;
+        return $clone;
     }
 }

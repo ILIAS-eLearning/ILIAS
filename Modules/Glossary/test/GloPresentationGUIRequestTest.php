@@ -38,21 +38,6 @@ class GloPresentationGUIRequestTest extends TestCase
         );
     }
 
-    public function testDefinitionId(): void
-    {
-        $request = $this->getRequest(
-            [
-                "def" => "7"
-            ],
-            []
-        );
-
-        $this->assertEquals(
-            7,
-            $request->getDefinitionId()
-        );
-    }
-
     public function testLetter(): void
     {
         $request = $this->getRequest(

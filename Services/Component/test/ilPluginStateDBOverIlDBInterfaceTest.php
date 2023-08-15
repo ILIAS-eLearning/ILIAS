@@ -36,6 +36,10 @@ class ilPluginStateDBOverIlDBInterfaceTest extends TestCase
         ]
     ];
 
+    protected \ilDBInterface $il_db;
+    protected Data\Factory $data_factory;
+    protected \ilPluginStateDBOverIlDBInterface $db;
+
     protected function setUp(): void
     {
         $this->il_db = $this->createMock(\ilDBInterface::class);

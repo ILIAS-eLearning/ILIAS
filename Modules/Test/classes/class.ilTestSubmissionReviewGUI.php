@@ -120,7 +120,6 @@ class ilTestSubmissionReviewGUI extends ilTestServiceGUI
         global $DIC; /* @var ILIAS\DI\Container $DIC */
         $ilObjDataCache = $DIC['ilObjDataCache'];
 
-        require_once 'Modules/Test/classes/class.ilTestResultHeaderLabelBuilder.php';
         $testResultHeaderLabelBuilder = new ilTestResultHeaderLabelBuilder($this->lng, $ilObjDataCache);
 
         $objectivesList = null;
@@ -130,7 +129,6 @@ class ilTestSubmissionReviewGUI extends ilTestServiceGUI
             $testSequence->loadFromDb();
             $testSequence->loadQuestions();
 
-            require_once 'Modules/Course/classes/Objectives/class.ilLOTestQuestionAdapter.php';
             $objectivesAdapter = ilLOTestQuestionAdapter::getInstance($this->testSession);
 
             $objectivesList = $this->buildQuestionRelatedObjectivesList($objectivesAdapter, $testSequence);
@@ -150,7 +148,6 @@ class ilTestSubmissionReviewGUI extends ilTestServiceGUI
             !$this->getObjectiveOrientedContainer()->isObjectiveOrientedPresentationRequired()
         );
 
-        require_once 'class.ilTestEvaluationGUI.php';
         $testevaluationgui = new ilTestEvaluationGUI($this->object);
         $testevaluationgui->setContextResultPresentation(false);
 

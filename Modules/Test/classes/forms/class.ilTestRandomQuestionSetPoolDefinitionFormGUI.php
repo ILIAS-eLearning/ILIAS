@@ -109,11 +109,6 @@ class ilTestRandomQuestionSetPoolDefinitionFormGUI extends ilPropertyFormGUI
 
 
         if (count($availableTaxonomyIds)) {
-            // fau: taxFilter/typeFilter  - edit multiple taxonomy and node selections
-            require_once 'Services/Taxonomy/classes/class.ilTaxSelectInputGUI.php';
-
-            // this is needed by ilTaxSelectInputGUI in some cases
-            require_once 'Services/UIComponent/Overlay/classes/class.ilOverlayGUI.php';
             ilOverlayGUI::initJavaScript();
 
             $filter = $sourcePool->getOriginalTaxonomyFilter();
@@ -137,42 +132,6 @@ class ilTestRandomQuestionSetPoolDefinitionFormGUI extends ilPropertyFormGUI
                 $taxCheckbox->addSubItem($taxSelect);
                 $this->addItem($taxCheckbox);
             }
-
-        #$taxRadio = new ilRadioGroupInputGUI(
-        #		$this->lng->txt('tst_inp_source_pool_filter_tax'), 'filter_tax'
-        #);
-
-        #$taxRadio->setRequired(true);
-
-        #$taxRadio->addOption(new ilRadioOption(
-        #		$this->lng->txt('tst_inp_source_pool_no_tax_filter'), 0
-        #));
-
-        #$taxRadio->setValue(0);
-
-        #require_once 'Services/Taxonomy/classes/class.ilTaxSelectInputGUI.php';
-
-        #foreach($availableTaxonomyIds as $taxId)
-        #{
-        #	$taxonomy = new ilObjTaxonomy($taxId);
-        #	$label = sprintf($this->lng->txt('tst_inp_source_pool_filter_tax_x'), $taxonomy->getTitle());
-
-        #	$taxRadioOption = new ilRadioOption($label, $taxId);
-
-        #	$taxRadio->addOption($taxRadioOption);
-
-        #	$taxSelect = new ilTaxSelectInputGUI($taxId, "filter_tax_$taxId", false);
-        #	$taxSelect->setRequired(true);
-        #	$taxRadioOption->addSubItem($taxSelect);
-
-        #	if( $taxId == $sourcePool->getOriginalFilterTaxId() )
-        #	{
-        #		$taxRadio->setValue( $sourcePool->getOriginalFilterTaxId() );
-        #		$taxSelect->setValue( $sourcePool->getOriginalFilterTaxNodeId() );
-        #	}
-        #}
-
-        #$this->addItem($taxRadio);
         // fau.
         } else {
             $hiddenNoTax = new ilHiddenInputGUI('filter_tax');
@@ -200,7 +159,6 @@ class ilTestRandomQuestionSetPoolDefinitionFormGUI extends ilPropertyFormGUI
 
         // fau: taxFilter/typeFilter - show type filter selection
         $typeFilterOptions = array();
-        require_once("./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php");
         foreach (ilObjQuestionPool::_getQuestionTypes(true) as $translation => $data) {
             $typeFilterOptions[$data['question_type_id']] = $translation;
         }

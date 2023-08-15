@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\Filesystem\Exception\FileAlreadyExistsException;
 use ILIAS\Filesystem\Exception\FileNotFoundException;
 use ILIAS\Filesystem\Exception\IOException;
@@ -27,68 +27,40 @@ use ILIAS\Filesystem\Exception\IOException;
  */
 class ilCertificateSettingsCourseFormRepository implements ilCertificateFormRepository
 {
-    private ilCertificateSettingsFormRepository $settingsFormFactory;
-    private ilCertificateObjUserTrackingHelper $trackingHelper;
-    private ilCertificateObjectHelper $objectHelper;
-    private ilCertificateObjectLPHelper $lpHelper;
-    private ilTree $tree;
-    private ilSetting $setting;
+    private readonly ilCertificateSettingsFormRepository $settingsFormFactory;
+    private readonly ilTree $tree;
 
     public function __construct(
-        private ilObject $object,
+        private readonly ilObject $object,
         string $certificatePath,
         bool $hasAdditionalElements,
-        private ilLanguage $language,
+        private readonly ilLanguage $language,
         ilCtrlInterface $ctrl,
         ilAccess $access,
         ilToolbarGUI $toolbar,
         ilCertificatePlaceholderDescription $placeholderDescriptionObject,
         ?ilCertificateSettingsFormRepository $settingsFormFactory = null,
-        ?ilCertificateObjUserTrackingHelper $trackingHelper = null,
-        ?ilCertificateObjectHelper $objectHelper = null,
-        ?ilCertificateObjectLPHelper $lpHelper = null,
+        private readonly ilCertificateObjUserTrackingHelper $trackingHelper = new ilCertificateObjUserTrackingHelper(),
+        private readonly ilCertificateObjectHelper $objectHelper = new ilCertificateObjectHelper(),
+        private readonly ilCertificateObjectLPHelper $lpHelper = new ilCertificateObjectLPHelper(),
         ?ilTree $tree = null,
-        ?ilSetting $setting = null
+        private readonly ilSetting $setting = new ilSetting('crs')
     ) {
-        if (null === $settingsFormFactory) {
-            $settingsFormFactory = new ilCertificateSettingsFormRepository(
-                $object->getId(),
-                $certificatePath,
-                $hasAdditionalElements,
-                $language,
-                $ctrl,
-                $access,
-                $toolbar,
-                $placeholderDescriptionObject
-            );
-        }
-        $this->settingsFormFactory = $settingsFormFactory;
+        global $DIC;
 
-        if (null === $trackingHelper) {
-            $trackingHelper = new ilCertificateObjUserTrackingHelper();
-        }
-        $this->trackingHelper = $trackingHelper;
-
-        if (null === $objectHelper) {
-            $objectHelper = new ilCertificateObjectHelper();
-        }
-        $this->objectHelper = $objectHelper;
-
-        if (null === $lpHelper) {
-            $lpHelper = new ilCertificateObjectLPHelper();
-        }
-        $this->lpHelper = $lpHelper;
-
-        if (null === $tree) {
-            global $DIC;
-            $tree = $DIC['tree'];
-        }
-        $this->tree = $tree;
-
-        if (null === $setting) {
-            $setting = new ilSetting('crs');
-        }
-        $this->setting = $setting;
+        $this->settingsFormFactory = $settingsFormFactory ?? new ilCertificateSettingsFormRepository(
+            $object->getId(),
+            $certificatePath,
+            $hasAdditionalElements,
+            $language,
+            $ctrl,
+            $access,
+            $toolbar,
+            $placeholderDescriptionObject,
+            $DIC->ui()->factory(),
+            $DIC->ui()->renderer()
+        );
+        $this->tree = $tree ?? $DIC->repositoryTree();
     }
 
     /**

@@ -1,9 +1,23 @@
 <?php
 
 /**
- * Class ilDclTableViewEditFormGUI
- * @author  Theodor Truffer <tt@studer-raimann.ch>
- */
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+declare(strict_types=1);
+
 class ilDclTableViewEditFormGUI extends ilPropertyFormGUI
 {
     protected ilDclTableView $tableview;
@@ -49,7 +63,7 @@ class ilDclTableViewEditFormGUI extends ilPropertyFormGUI
         $ref_id = $this->http->wrapper()->query()->retrieve('ref_id', $this->refinery->kindlyTo()->int());
         foreach ($rbacreview->getParentRoleIds($ref_id) as $role_array) {
             $option = new ilCheckboxOption(ilObjRole::_getTranslation($role_array['title']));
-            $option->setValue($role_array['obj_id']);
+            $option->setValue((string)$role_array['obj_id']);
             $checkbox_group_input_gui->addOption($option);
         }
 

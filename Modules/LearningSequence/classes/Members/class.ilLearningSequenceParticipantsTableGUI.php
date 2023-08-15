@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,9 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+declare(strict_types=1);
+
+declare(strict_types=1);
 
 class ilLearningSequenceParticipantsTableGUI extends ilParticipantTableGUI
 {
@@ -135,7 +136,7 @@ class ilLearningSequenceParticipantsTableGUI extends ilParticipantTableGUI
             switch ($field) {
                 case 'prtf':
                     $tmp = array();
-                    if (is_array($a_set['prtf'])) {
+                    if (array_key_exists('prtf', $a_set) && is_array($a_set['prtf'])) {
                         foreach ($a_set['prtf'] as $prtf_url => $prtf_txt) {
                             $tmp[] = '<a href="' . $prtf_url . '">' . $prtf_txt . '</a>';
                         }
@@ -151,7 +152,7 @@ class ilLearningSequenceParticipantsTableGUI extends ilParticipantTableGUI
                     break;
                 case 'org_units':
                     $this->tpl->setCurrentBlock('custom_fields');
-                    $this->tpl->setVariable('VAL_CUST', ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($a_set['usr_id']));
+                    $this->tpl->setVariable('VAL_CUST', ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits((int) $a_set['usr_id']));
                     $this->tpl->parseCurrentBlock();
                     break;
                 default:
@@ -332,10 +333,12 @@ class ilLearningSequenceParticipantsTableGUI extends ilParticipantTableGUI
                 }
             }
 
-            if (array_key_exists('org_units', $this->current_filter)) {
+            if (array_key_exists('org_units', $this->current_filter)
+                && $this->current_filter['org_units'] !== ''
+            ) {
                 $org_unit = $this->current_filter['org_units'];
                 $title = ilObjectFactory::getInstanceByRefId($org_unit)->getTitle();
-                $user_units = ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($user_id);
+                $user_units = ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits((int) $user_id);
                 if (strpos($user_units, $title) === false) {
                     continue;
                 }

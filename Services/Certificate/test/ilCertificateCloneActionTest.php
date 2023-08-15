@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * @author  Niels Theen <ntheen@databay.de>
@@ -55,7 +55,7 @@ class ilCertificateCloneActionTest extends ilCertificateBaseTestCase
                         '[]',
                         3,
                         'v5.3.0',
-                        123456789,
+                        123_456_789,
                         true,
                         '/some/where/background.jpg',
                         '/some/where/card_thumb.jpg',
@@ -69,7 +69,7 @@ class ilCertificateCloneActionTest extends ilCertificateBaseTestCase
                         '[]',
                         3,
                         'v5.3.0',
-                        123456789,
+                        123_456_789,
                         true,
                         '/some/where/background.jpg',
                         '/some/where/card_thumb.jpg',
@@ -83,7 +83,7 @@ class ilCertificateCloneActionTest extends ilCertificateBaseTestCase
                         '[]',
                         3,
                         'v5.3.0',
-                        123456789,
+                        123_456_789,
                         true,
                         '/certificates/default/background.jpg',
                         '/some/where/card_thumb.jpg',
@@ -116,9 +116,9 @@ class ilCertificateCloneActionTest extends ilCertificateBaseTestCase
             $database,
             new ilCertificatePathFactory(),
             $templateRepository,
+            'some/web/directory',
             $fileSystem,
             $objectHelper,
-            'some/web/directory',
             '/certificates/default/background.jpg'
         );
 

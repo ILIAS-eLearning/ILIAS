@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,10 +16,12 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 class ilStudyProgrammePlaceholderValues implements ilCertificatePlaceholderValues
 {
-    private ilDefaultPlaceholderValues $defaultPlaceholderValuesObject;
-    private ilCertificateObjectHelper $objectHelper;
+    private readonly ilDefaultPlaceholderValues $defaultPlaceholderValuesObject;
+    private readonly ilCertificateObjectHelper $objectHelper;
 
     public function __construct(
         ?ilDefaultPlaceholderValues $defaultPlaceholderValues = null,
@@ -67,13 +67,15 @@ class ilStudyProgrammePlaceholderValues implements ilCertificatePlaceholderValue
         $placeholders['PRG_TITLE'] = ilLegacyFormElementsUtil::prepareFormOutput($object->getTitle());
         $placeholders['PRG_DESCRIPTION'] = ilLegacyFormElementsUtil::prepareFormOutput($object->getDescription());
         $placeholders['PRG_TYPE'] = ilLegacyFormElementsUtil::prepareFormOutput($type ? $type->getTitle() : '');
-        $placeholders['PRG_POINTS'] = ilLegacyFormElementsUtil::prepareFormOutput((string) $object->getPoints());
+        $placeholders['PRG_POINTS'] = ilLegacyFormElementsUtil::prepareFormOutput(
+            $latest_progress ? (string) $latest_progress->getCurrentAmountOfPoints() : ''
+        );
         $placeholders['PRG_COMPLETION_DATE'] = ilLegacyFormElementsUtil::prepareFormOutput(
-            $latest_progress->getCompletionDate() instanceof DateTimeImmutable ? $latest_progress->getCompletionDate(
+            $latest_progress && $latest_progress->getCompletionDate() instanceof DateTimeImmutable ? $latest_progress->getCompletionDate(
             )->format('d.m.Y') : ''
         );
         $placeholders['PRG_EXPIRES_AT'] = ilLegacyFormElementsUtil::prepareFormOutput(
-            $latest_progress->getValidityOfQualification(
+            $latest_progress && $latest_progress->getValidityOfQualification(
             ) instanceof DateTimeImmutable ? $latest_progress->getValidityOfQualification()->format('d.m.Y') : ''
         );
         return $placeholders;
@@ -117,7 +119,7 @@ class ilStudyProgrammePlaceholderValues implements ilCertificatePlaceholderValue
     {
         $successful = array_filter(
             $assignments,
-            fn ($ass) => $ass->getProgressTree()->isSuccessful()
+            fn($ass) => $ass->getProgressTree()->isSuccessful()
         );
         if (count($successful) === 0) {
             return null;
@@ -126,13 +128,13 @@ class ilStudyProgrammePlaceholderValues implements ilCertificatePlaceholderValue
         //is there an unlimited validity? if so, take latest.
         $unlimited = array_filter(
             $successful,
-            fn ($ass) => is_null($ass->getProgressTree()->getValidityOfQualification())
+            fn($ass) => is_null($ass->getProgressTree()->getValidityOfQualification())
         );
         if (count($unlimited) > 0) {
             $successful = $unlimited;
             usort($successful, static function (ilPRGAssignment $a, ilPRGAssignment $b): int {
-                $a_dat =$a->getProgressTree()->getCompletionDate();
-                $b_dat =$b->getProgressTree()->getCompletionDate();
+                $a_dat = $a->getProgressTree()->getCompletionDate();
+                $b_dat = $b->getProgressTree()->getCompletionDate();
                 if ($a_dat > $b_dat) {
                     return -1;
                 } elseif ($a_dat < $b_dat) {
@@ -145,12 +147,12 @@ class ilStudyProgrammePlaceholderValues implements ilCertificatePlaceholderValue
             //there are (only) limited validities: take the one that lasts the longest.
             $limited = array_filter(
                 $successful,
-                fn ($ass) => !is_null($ass->getProgressTree()->getValidityOfQualification())
+                fn($ass) => !is_null($ass->getProgressTree()->getValidityOfQualification())
             );
             $successful = $limited;
             usort($successful, static function (ilPRGAssignment $a, ilPRGAssignment $b): int {
-                $a_dat =$a->getProgressTree()->getValidityOfQualification();
-                $b_dat =$b->getProgressTree()->getValidityOfQualification();
+                $a_dat = $a->getProgressTree()->getValidityOfQualification();
+                $b_dat = $b->getProgressTree()->getValidityOfQualification();
                 if ($a_dat > $b_dat) {
                     return -1;
                 } elseif ($a_dat < $b_dat) {

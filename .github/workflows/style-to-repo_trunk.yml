@@ -1,0 +1,23 @@
+name: Build and deploy style files
+on:
+  push:
+    branches:
+      - "trunk"
+
+jobs:
+  style-to-repo:
+    if: |
+      github.event.pull_request.merged == true ||
+      github.event_name == 'push'
+    runs-on: ubuntu-latest
+    outputs:
+      all: ${{ steps.changes.outputs.all }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: build and deploy
+        run: CI/Style-To-Repo/build-and-deploy.sh
+        env:
+          STYLE_REPO_PUSH_SECRET: ${{ secrets.STYLE_REPO_PUSH_SECRET }}
+          STYLE_REPO_USER_NAME: ${{ vars.STYLE_REPO_USER_NAME }}

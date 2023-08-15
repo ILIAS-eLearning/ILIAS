@@ -434,7 +434,6 @@ class LMHtmlExport
         $lang = $lm_gui->lang;
         $all_languages = ($this->lang == "all");
         $lm_set = $this->lm_settings;
-
         $ilLocator = $this->locator;
 
         $pages = \ilLMPageObject::getPageList($lm->getId());
@@ -536,7 +535,6 @@ class LMHtmlExport
         array $exp_id_map = []
     ): void {
         $target_dir = $this->target_dir;
-
         $lang_suffix = "";
         if (!in_array($lang, ["-", ""]) && $this->lang === "all") {
             $lang_suffix = "_" . $lang;

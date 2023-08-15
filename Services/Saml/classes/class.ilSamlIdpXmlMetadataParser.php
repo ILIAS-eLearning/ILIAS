@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\Data\Factory as DataTypeFactory;
 use ILIAS\Data\Result;
 
@@ -28,8 +28,10 @@ final class ilSamlIdpXmlMetadataParser
     /** @var array<int, LibXMLError[]> */
     private array $errorStack = [];
 
-    public function __construct(private DataTypeFactory $dataFactory, private ilSamlIdpXmlMetadataErrorFormatter $errorFormatter)
-    {
+    public function __construct(
+        private readonly DataTypeFactory $dataFactory,
+        private readonly ilSamlIdpXmlMetadataErrorFormatter $errorFormatter
+    ) {
         $this->result = new Result\Error('No metadata parsed, yet');
     }
 

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\DI\Container;
 use ILIAS\Init\StartupSequence\StartUpSequenceStep;
 
@@ -27,7 +27,7 @@ use ILIAS\Init\StartupSequence\StartUpSequenceStep;
  */
 class ilTermsOfServiceAcceptanceStartUpStep extends StartUpSequenceStep
 {
-    public function __construct(private Container $dic)
+    public function __construct(private readonly Container $dic)
     {
     }
 

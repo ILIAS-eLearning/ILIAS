@@ -173,10 +173,7 @@ class GlossaryHtmlExport
             fclose($fp);
 
             // store linked/embedded media objects of glosssary term
-            $defs = \ilGlossaryDefinition::getDefinitionList($term["id"]);
-            foreach ($defs as $def) {
-                $this->co_page_html_export->collectPageElements("gdf:pg", $def["id"], "");
-            }
+            $this->co_page_html_export->collectPageElements("term:pg", $term["id"], "");
         }
     }
 }

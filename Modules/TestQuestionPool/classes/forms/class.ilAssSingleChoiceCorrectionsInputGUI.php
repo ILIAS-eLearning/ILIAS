@@ -46,21 +46,13 @@ class ilAssSingleChoiceCorrectionsInputGUI extends ilSingleChoiceWizardInputGUI
         global $DIC;
         $lng = $DIC['lng'];
 
-        include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
-
-        if (is_array($_POST[$this->getPostVar()])) {
-            $_POST[$this->getPostVar()] = ilArrayUtil::stripSlashesRecursive(
-                $_POST[$this->getPostVar()],
-                true,
-                ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment")
-            );
-        }
         $foundvalues = $_POST[$this->getPostVar()];
         if (is_array($foundvalues)) {
             // check points
             $max = 0;
             if (is_array($foundvalues['points'])) {
                 foreach ($foundvalues['points'] as $points) {
+                    $points = str_replace(',', '.', $points);
                     if ($points > $max) {
                         $max = $points;
                     }

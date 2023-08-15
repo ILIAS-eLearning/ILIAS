@@ -61,30 +61,27 @@ class ilTermQuickListTableGUI extends ilTable2GUI
     {
         $ilCtrl = $this->ctrl;
 
-        $defs = ilGlossaryDefinition::getDefinitionList($a_set["id"]);
         $ilCtrl->setParameterByClass("ilglossarytermgui", "term_id", $a_set["id"]);
 
         $sep = ": ";
-        for ($j = 0, $jMax = count($defs); $j < $jMax; $j++) {
-            $def = $defs[$j];
 
-            $this->tpl->setCurrentBlock("definition");
-            $this->tpl->setVariable("SEP", $sep);
-            $ilCtrl->setParameterByClass("ilglossarydefpagegui", "def", $def["id"]);
-            $this->tpl->setVariable(
-                "LINK_EDIT_DEF",
-                $ilCtrl->getLinkTargetByClass(array("ilglossarytermgui",
-                "iltermdefinitioneditorgui",
-                "ilglossarydefpagegui"), "edit")
-            );
-            $this->tpl->setVariable("TEXT_DEF", $this->lng->txt("glo_definition_abbr") . ($j + 1));
-            $this->tpl->parseCurrentBlock();
-            $sep = ", ";
-        }
+        $this->tpl->setCurrentBlock("definition");
+        $this->tpl->setVariable("SEP", $sep);
+        $ilCtrl->setParameterByClass("ilglossarydefpagegui", "term_id", $a_set["id"]);
+        $this->tpl->setVariable(
+            "LINK_EDIT_DEF",
+            $ilCtrl->getLinkTargetByClass(array("ilglossarytermgui",
+            "iltermdefinitioneditorgui",
+            "ilglossarydefpagegui"), "edit")
+        );
+        $this->tpl->setVariable("TEXT_DEF", $this->lng->txt("glo_definition_abbr"));
+        $this->tpl->parseCurrentBlock();
+        $sep = ", ";
+
         $ilCtrl->setParameterByClass(
             "ilglossarydefpagegui",
-            "def",
-            $this->request->getDefinitionId()
+            "term_id",
+            $this->request->getTermId()
         );
 
         if ($a_set["id"] == $this->request->getTermId()) {

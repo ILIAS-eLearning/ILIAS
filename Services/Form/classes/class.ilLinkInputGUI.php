@@ -387,8 +387,8 @@ class ilLinkInputGUI extends ilFormPropertyGUI
                 $int = new ilRadioOption($lng->txt("form_link_internal"), "int");
                 $int->addSubItem($ne);
             }
-
             $mode = new ilRadioGroupInputGUI("", $this->getPostVar() . "_mode");
+            $mode->setParentForm($this->getParentForm());
             if (!$this->getRequired()) {
                 $no = new ilRadioOption($lng->txt("form_no_link"), "no");
                 $mode->addOption($no);

@@ -22,7 +22,6 @@ var ilEssayKeywordWizardInputTemplate = {
 
 		// process all rows
 		$(tbody).find(this.tag_row).each(function() {
-
 			// answer
 			$(this).find('input:text[id*="[answer]"]').each(function() {
 				that.handleId(this, 'id', rowindex);
@@ -36,9 +35,8 @@ var ilEssayKeywordWizardInputTemplate = {
 			});
 
 			// button
-			$(this).find('button').each(function() {
+			$(this).find('div.btn.btn-link').each(function() {
 				that.handleId(this, 'id', rowindex);
-				that.handleId(this, 'name', rowindex);
 			});
 
 			rowindex++;
@@ -47,6 +45,6 @@ var ilEssayKeywordWizardInputTemplate = {
 };
 
 $(document).ready(function() {
-	var ilEssayKeywordWizardInput = $.extend({}, ilEssayKeywordWizardInputTemplate, ilWizardInput);
+	var ilEssayKeywordWizardInput = $.extend({}, ilEssayKeywordWizardInputTemplate, AnswerWizardInput);
 	ilEssayKeywordWizardInput.init();
 });

@@ -1,13 +1,13 @@
 {
     "maintenance_model": "Classic",
-    "first_maintainer": "",
-    "second_maintainer": "",
+    "first_maintainer": "tschmitz(92591)",
+    "second_maintainer": "tfamula(58959)",
     "implicit_maintainers": [
     ],
     "coordinator": [
         ""
     ],
-    "tester": "",
+    "tester": "qualitus.morgunova(69410)",
     "testcase_writer": "",
     "path": "Modules/EmployeeTalk",
     "belong_to_component": "EmployeeTalk",

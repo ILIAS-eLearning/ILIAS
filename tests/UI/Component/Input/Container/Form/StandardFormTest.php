@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 require_once(__DIR__ . "/../../../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../../../Base.php");
@@ -51,7 +51,15 @@ class InputNameSource implements NameSource
 
     public function getNewName(): string
     {
-        $name = "form_input_{$this->count}";
+        $name = "input_{$this->count}";
+        $this->count++;
+
+        return $name;
+    }
+
+    public function getNewDedicatedName(string $dedicated_name): string
+    {
+        $name = $dedicated_name . "_{$this->count}";
         $this->count++;
 
         return $name;
@@ -65,7 +73,7 @@ class StandardFormTest extends ILIAS_UI_TestBase
 {
     protected function buildFactory(): I\Input\Container\Form\Factory
     {
-        return new I\Input\Container\Form\Factory($this->buildInputFactory(), new InputNameSource());
+        return new I\Input\Container\Form\Factory($this->buildInputFactory());
     }
 
     protected function buildInputFactory(): I\Input\Field\Factory
@@ -121,7 +129,7 @@ class StandardFormTest extends ILIAS_UI_TestBase
    <div class="form-group row">
       <label for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">label</label>
       <div class="col-sm-8 col-md-9 col-lg-10">
-         <input id="id_1" type="text" name="form_input_1" class="form-control form-control-sm"/>
+         <input id="id_1" type="text" name="form/input_0" class="form-control form-control-sm"/>
          <div class="help-block">byline</div>
       </div>
    </div>
@@ -143,12 +151,12 @@ class StandardFormTest extends ILIAS_UI_TestBase
             $if->text("label", "byline"),
         ]);
 
-        $this->assertNull($form->getSubmitCaption());
+        $this->assertNull($form->getSubmitLabel());
 
         $caption = 'Caption';
-        $form = $form->withSubmitCaption($caption);
+        $form = $form->withSubmitLabel($caption);
 
-        $this->assertEquals($caption, $form->getSubmitCaption());
+        $this->assertEquals($caption, $form->getSubmitLabel());
     }
 
     public function test_submit_caption_render(): void
@@ -159,7 +167,7 @@ class StandardFormTest extends ILIAS_UI_TestBase
         $url = "MY_URL";
         $form = $f->standard($url, [
             $if->text("label", "byline"),
-        ])->withSubmitCaption('create');
+        ])->withSubmitLabel('create');
 
         $r = $this->getDefaultRenderer();
         $html = $this->brutallyTrimHTML($r->render($form));
@@ -172,7 +180,7 @@ class StandardFormTest extends ILIAS_UI_TestBase
    <div class="form-group row">
       <label for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">label</label>
       <div class="col-sm-8 col-md-9 col-lg-10">
-         <input id="id_1" type="text" name="form_input_1" class="form-control form-control-sm"/>
+         <input id="id_1" type="text" name="form/input_0" class="form-control form-control-sm"/>
          <div class="help-block">byline</div>
       </div>
    </div>
@@ -205,7 +213,7 @@ class StandardFormTest extends ILIAS_UI_TestBase
    <div class="form-group row">
       <label for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">label</label>
       <div class="col-sm-8 col-md-9 col-lg-10">
-         <input id="id_1" type="text" name="form_input_1" class="form-control form-control-sm"/>
+         <input id="id_1" type="text" name="form/input_0" class="form-control form-control-sm"/>
          <div class="help-block">byline</div>
       </div>
    </div>
@@ -252,7 +260,7 @@ class StandardFormTest extends ILIAS_UI_TestBase
             ->expects($this->once())
             ->method("getParsedBody")
             ->willReturn([
-                'form_input_1' => ''
+                'form_0/input_1' => ''
             ]);
 
         $form = $form->withRequest($request);
@@ -271,7 +279,7 @@ class StandardFormTest extends ILIAS_UI_TestBase
                     <label for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">label</label>
                     <div class="col-sm-8 col-md-9 col-lg-10">
                         <div class="help-block alert alert-danger" aria-describedby="id_1" role="alert">This is invalid...</div>
-                        <input id="id_1" type="text" name="form_input_1" class="form-control form-control-sm" />
+                        <input id="id_1" type="text" name="form_0/input_1" class="form-control form-control-sm" />
                         <div class="help-block">byline</div>
                     </div>
                 </div>
@@ -312,7 +320,7 @@ class StandardFormTest extends ILIAS_UI_TestBase
             ->expects($this->once())
             ->method("getParsedBody")
             ->willReturn([
-                'form_input_1' => ''
+                'form_0/input_1' => ''
             ]);
 
         $form = $form->withRequest($request);
@@ -330,7 +338,7 @@ class StandardFormTest extends ILIAS_UI_TestBase
                 <div class="form-group row">
                     <label for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">label</label>
                     <div class="col-sm-8 col-md-9 col-lg-10">
-                        <input id="id_1" type="text" name="form_input_1" class="form-control form-control-sm" />
+                        <input id="id_1" type="text" name="form_0/input_1" class="form-control form-control-sm" />
                         <div class="help-block">byline</div>
                     </div>
                 </div>
@@ -338,6 +346,40 @@ class StandardFormTest extends ILIAS_UI_TestBase
                     <div class="il-standard-form-cmd"><button class="btn btn-default" data-action="">save</button></div>
                 </div>
             </form>
+        ');
+        $this->assertHTMLEquals($expected, $html);
+    }
+
+    public function testStandardFormRenderWithRequired(): void
+    {
+        $f = $this->buildFactory();
+        $if = $this->buildInputFactory();
+
+        $url = "MY_URL";
+        $form = $f->standard($url, [$if->text("label", "byline")->withRequired(true)]);
+
+        $r = $this->getDefaultRenderer();
+        $html = $this->brutallyTrimHTML($r->render($form));
+
+        $expected = $this->brutallyTrimHTML('
+<form role="form" class="il-standard-form form-horizontal" enctype="multipart/form-data" action="MY_URL" method="post" novalidate="novalidate">
+    <div class="il-standard-form-header clearfix">
+        <div class="il-standard-form-cmd"><button class="btn btn-default" data-action="">save</button></div>
+    </div>
+    <div class="form-group row">
+        <label for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">label<span class="asterisk">*</span></label>
+        <div class="col-sm-8 col-md-9 col-lg-10">
+            <input id="id_1" type="text" name="form/input_0" class="form-control form-control-sm"/>
+             <div class="help-block">byline</div>
+        </div>
+    </div>
+    <div class="il-standard-form-footer clearfix">
+        <span class="asterisk">*</span><span class="small"> required_field</span>
+    </div>
+   <div class="il-standard-form-footer clearfix">
+      <div class="il-standard-form-cmd"><button class="btn btn-default" data-action="">save</button></div>
+   </div>
+</form>
         ');
         $this->assertHTMLEquals($expected, $html);
     }

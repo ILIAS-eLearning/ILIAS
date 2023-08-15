@@ -1,7 +1,8 @@
 # Third-Party-Libraries and Frameworks
 
 - PHP libraries SHOULD be installed using composer, see [composer-readme](composer/README.md).
-- Javascript and CSS libraries or frameworks SHOULD be installed using npm, see [npm-readme](../docs/development/js/third-party-libs-npm.md).
+- Javascript and CSS libraries or frameworks SHOULD be installed using npm,
+  see [npm-readme](../docs/development/js-libraries.md).
 
 ## Deprecated Locations
 

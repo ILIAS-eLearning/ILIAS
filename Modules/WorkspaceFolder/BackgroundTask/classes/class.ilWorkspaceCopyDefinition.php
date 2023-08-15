@@ -164,7 +164,7 @@ class ilWorkspaceCopyDefinition extends AbstractValue
      */
     public function unserialize($data)
     {
-        $elements = unserialize($data);
+        $elements = unserialize((string) $data);
 
         $this->setCopyDefinitions($elements["copy_definition"]);
         $this->setTempDir($elements['temp_dir']);

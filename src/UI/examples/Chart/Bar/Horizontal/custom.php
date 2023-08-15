@@ -76,7 +76,7 @@ function custom()
     $dataset = $dataset->withPoint(
         "Item 6",
         [
-            "Target" => [-0.01, 0.01],
+            "Target" => [0, 0.01],
             "Dataset 1" => 0,
             "Dataset 2" => 3,
             "Dataset 3" => 0.2

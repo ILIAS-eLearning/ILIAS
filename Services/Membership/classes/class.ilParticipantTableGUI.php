@@ -18,6 +18,9 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+use ILIAS\UI\Implementation\Factory as UIImplementationFactory;
+use ILIAS\UI\Renderer as UIRenderer;
+
 /*
  * Abstract base class for course, group participants table guis
  * @author Stefan Meyer <smeyer.ilias@gmx.de
@@ -36,6 +39,18 @@ abstract class ilParticipantTableGUI extends ilTable2GUI
     protected ?ilParticipants $participants = null;
     protected array $current_filter = [];
     protected ilObject $rep_object;
+
+    private UIRenderer $renderer;
+    private UIImplementationFactory $uiFactory;
+
+    public function __construct(mixed $a_parent_obj, $a_parent_cmd = "", $a_template_context = "")
+    {
+        parent::__construct($a_parent_obj, $a_parent_cmd, $a_template_context);
+
+        global $DIC;
+        $this->renderer = $DIC->ui()->renderer();
+        $this->uiFactory = $DIC->ui()->factory();
+    }
 
     /**
      * Init table filter
@@ -67,10 +82,6 @@ abstract class ilParticipantTableGUI extends ilTable2GUI
         }
 
         if ($this->isColumnSelected('org_units')) {
-            $root = ilObjOrgUnit::getRootOrgRefId();
-            $tree = ilObjOrgUnitTree::_getInstance();
-            $nodes = $tree->getAllChildren($root);
-
             $paths = ilOrgUnitPathStorage::getTextRepresentationOfOrgUnits();
 
             $options[0] = $this->lng->txt('select_one');
@@ -169,39 +180,32 @@ abstract class ilParticipantTableGUI extends ilTable2GUI
             $this->getRepositoryObject()->getViewMode() === ilCourseConstants::IL_CRS_VIEW_OBJECTIVE
         );
 
-        if (!self::$has_odf_definitions && !$loc_enabled) {
-            $this->ctrl->setParameter($this->parent_obj, 'member_id', $a_set['usr_id']);
-            $this->tpl->setCurrentBlock('link');
-            $this->tpl->setVariable('LINK_NAME', $this->ctrl->getLinkTarget($this->parent_obj, 'editMember'));
-            $this->tpl->setVariable('LINK_TXT', $this->lng->txt('edit'));
-            $this->tpl->parseCurrentBlock();
-            return;
-        }
-
-        // show action menu
-        $list = new ilAdvancedSelectionListGUI();
-        $list->setSelectionHeaderClass('small');
-        $list->setItemLinkClass('small');
-        $list->setId('actl_' . $a_set['usr_id'] . '_' . $this->getId());
-        $list->setListTitle($this->lng->txt('actions'));
-
         $this->ctrl->setParameter($this->parent_obj, 'member_id', $a_set['usr_id']);
-        $list->addItem($this->lng->txt('edit'), '', $this->ctrl->getLinkTarget($this->getParentObject(), 'editMember'));
+
+        $dropDownItems = array();
+        $dropDownItems[] = $this->uiFactory->button()->shy(
+            $this->lng->txt('edit'),
+            $this->ctrl->getLinkTarget($this->parent_obj, 'editMember')
+        );
 
         if (self::$has_odf_definitions) {
             $this->ctrl->setParameterByClass('ilobjectcustomuserfieldsgui', 'member_id', $a_set['usr_id']);
-            $trans = $this->lng->txt($this->getRepositoryObject()->getType() . '_cdf_edit_member');
-            $list->addItem($trans, '', $this->ctrl->getLinkTargetByClass('ilobjectcustomuserfieldsgui', 'editMember'));
+            $dropDownItems[] = $this->uiFactory->button()->shy(
+                $this->lng->txt($this->getRepositoryObject()->getType() . '_cdf_edit_member'),
+                $this->ctrl->getLinkTargetByClass('ilobjectcustomuserfieldsgui', 'editMember')
+            );
         }
 
         if ($loc_enabled) {
             $this->ctrl->setParameterByClass('illomembertestresultgui', 'uid', $a_set['usr_id']);
-            $list->addItem(
+            $dropDownItems[] = $this->uiFactory->button()->shy(
                 $this->lng->txt('crs_loc_mem_show_res'),
-                '',
                 $this->ctrl->getLinkTargetByClass('illomembertestresultgui', '')
             );
         }
-        $this->tpl->setVariable('ACTION_USER', $list->getHTML());
+
+        $dropDown = $this->uiFactory->dropdown()->standard($dropDownItems)
+                ->withLabel($this->lng->txt('actions'));
+        $this->tpl->setVariable('ACTION_USER', $this->renderer->render($dropDown));
     }
 }

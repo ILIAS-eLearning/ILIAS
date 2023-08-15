@@ -95,29 +95,8 @@ class InternalGUIService
         \ilModalGUI::initJS($tpl);
 
         $lng->toJS(array("private_notes", "notes_public_comments", "cancel"), $tpl);
-        \iljQueryUtil::initjQuery($tpl);
-        \ilYuiUtil::initConnection($tpl);
         $tpl->addJavaScript("./Services/Notes/js/ilNotes.js");
         $tpl->addOnLoadCode("ilNotes.setAjaxUrl('" . $ajax_url . "');");
-    }
-
-    /**
-     * @param array|string $class_path
-     */
-    public function filter(
-        string $filter_id,
-        $class_path,
-        string $cmd,
-        bool $activated = true,
-        bool $expanded = true
-    ): FilterAdapterGUI {
-        return new FilterAdapterGUI(
-            $filter_id,
-            $class_path,
-            $cmd,
-            $activated,
-            $expanded
-        );
     }
 
     public function print(): PrintProcessGUI

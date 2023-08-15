@@ -71,12 +71,12 @@ class ilBiblLibraryGUI
     public function index(): bool
     {
         if ($this->checkPermissionBoolAndReturn('write')) {
-            $b = ilLinkButton::getInstance();
-            $b->setCaption(self::CMD_ADD);
-            $b->setUrl($this->ctrl()->getLinkTarget($this, self::CMD_ADD));
-            $b->setPrimary(true);
+            $btn_add = $this->ui()->factory()->button()->primary(
+                $this->lng()->txt(self::CMD_ADD),
+                $this->ctrl()->getLinkTarget($this, self::CMD_ADD)
+            );
+            $this->toolbar()->addComponent($btn_add);
 
-            $this->toolbar()->addButtonInstance($b);
         }
 
         $a_table = $this->initTable();

@@ -27,9 +27,10 @@ class ilCronDeleteInactiveUserReminderMailNotification extends ilMimeMailNotific
         parent::__construct();
     }
 
-    protected function initLanguageByIso2Code(string $a_code = ''): void
+
+    protected function initLanguage(int $a_usr_id): void
     {
-        parent::initLanguageByIso2Code($a_code);
+        parent::initLanguage($a_usr_id);
         $this->getLanguage()->loadLanguageModule('user');
     }
 
@@ -52,7 +53,6 @@ class ilCronDeleteInactiveUserReminderMailNotification extends ilMimeMailNotific
             }
 
             $this->initMimeMail();
-            $this->initLanguageByIso2Code();
 
             ilDatePresentation::setLanguage($this->getLanguage());
             $date_for_deletion = ilDatePresentation::formatDate(new ilDate($additional_information["date"], IL_CAL_UNIX));

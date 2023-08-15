@@ -29,9 +29,11 @@ class ilTestExportFixedQuestionSetTest extends ilTestBaseTestCase
     protected function setUp(): void
     {
         parent::setUp();
+        $this->addGlobal_ilBench();
 
         $this->addGlobal_ilErr();
         $this->addGlobal_ilDB();
+        $this->addGlobal_ilBench();
         $this->addGlobal_ilias();
         $this->addGlobal_lng();
 

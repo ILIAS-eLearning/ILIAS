@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\Mail\Cron\ExpiredOrOrphanedMails;
 
 use ILIAS\Data\Clock\ClockInterface;
@@ -32,15 +32,16 @@ class Notifier
 {
     private const NOTIFICATION_MARKER_PING_THRESHOLD = 250;
     private const MAIL_DELIVERY_PING_THRESHOLD = 25;
-    private ilDBInterface $db;
-    private ClockInterface $clock;
-    private ilDBStatement $mark_as_notified_stmt;
+
+    private readonly ilDBInterface $db;
+    private readonly ClockInterface $clock;
+    private readonly ilDBStatement $mark_as_notified_stmt;
 
     public function __construct(
-        private ilMailCronOrphanedMails $job,
-        private NotificationsCollector $collector,
-        private int $mail_expiration_days,
-        private int $mail_expiration_warning_days,
+        private readonly ilMailCronOrphanedMails $job,
+        private readonly NotificationsCollector $collector,
+        private readonly int $mail_expiration_days,
+        private readonly int $mail_expiration_warning_days,
         ?ilDBInterface $db = null,
         ?ClockInterface $clock = null
     ) {

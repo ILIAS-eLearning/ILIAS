@@ -21,6 +21,8 @@ use ILIAS\FileUpload\Location;
 use ILIAS\FileUpload\MimeType;
 use ILIAS\Filesystem\Util\LegacyPathHelper;
 
+use ILIAS\ResourceStorage\Preloader\SecureString;
+
 /**
  * File System Explorer GUI class
  *
@@ -28,6 +30,7 @@ use ILIAS\Filesystem\Util\LegacyPathHelper;
  */
 class ilFileSystemGUI
 {
+    use SecureString; // This is just for those legacy classes which will be removed soon anyway.
     public const PARAMETER_CDIR = "cdir";
     public const SESSION_LAST_COMMAND = "fsys_lastcomm";
     public const PARAMETER_NEWDIR = "newdir";
@@ -39,6 +42,9 @@ class ilFileSystemGUI
     public const POST_PARAM_NEW_NAME = "new_name";
     public const POST_PARAM_NEW_DIR = "new_dir";
     public const POST_PARAM_UPLOADED_FILE = "uploaded_file";
+    public const CMD_UNZIP_FILE = "unzipFile";
+    private \ILIAS\UI\Factory $ui_factory;
+    private \ILIAS\UI\Renderer $ui_renderer;
     protected ilCtrlInterface $ctrl;
     protected bool $use_upload_directory = false;
     protected array $allowed_suffixes = [];
@@ -72,6 +78,9 @@ class ilFileSystemGUI
         $this->wrapper = $DIC->http()->wrapper();
         $this->refinery = $DIC->refinery();
         $this->main_absolute_dir = realpath($main_absolute_directory);
+        $this->ui_factory = $DIC->ui()->factory();
+        $this->ui_renderer = $DIC->ui()->renderer();
+        $this->unzip = $DIC->legacyArchives();
 
         $this->defineCommands();
 
@@ -663,7 +672,7 @@ class ilFileSystemGUI
             ? $this->wrapper->post()->retrieve(self::POST_PARAM_UPLOADED_FILE, $this->refinery->to()->string())
             : '';
         if (is_file($_FILES["new_file"]["tmp_name"])) {
-            $name = ilUtil::stripSlashes($_FILES["new_file"]["name"]);
+            $name = $this->secure(ilUtil::stripSlashes($_FILES["new_file"]["name"]));
             $tgt_file = $cur_dir . "/" . $name;
 
             // use filesystem directly
@@ -684,9 +693,13 @@ class ilFileSystemGUI
             $upload_result = $upload->getResults()[$_FILES["new_file"]["tmp_name"]];
             if ($upload_result instanceof UploadResult) {
                 $processing_status = $upload_result->getStatus();
-                if ($processing_status->getCode(
-                ) === ProcessingStatus::REJECTED) {
-                    throw new ilException($processing_status->getMessage());
+                if ($processing_status->getCode() === ProcessingStatus::REJECTED) {
+                    $this->tpl->setOnScreenMessage(
+                        'failure',
+                        $processing_status->getMessage(),
+                        true
+                    );
+                    $this->ctrl->redirect($this, "listFiles");
                 }
             }
 
@@ -714,12 +727,15 @@ class ilFileSystemGUI
             $unzip = null;
             if (MimeType::getMimeType($tgt_file) == "application/zip") {
                 $this->ctrl->setParameter($this, self::PARAM_UPFILE, basename($tgt_file));
-                $url = $this->ctrl->getLinkTarget($this, "unzipFile");
+                $url = $this->ctrl->getLinkTarget($this, self::CMD_UNZIP_FILE);
                 $this->ctrl->setParameter($this, self::PARAM_UPFILE, "");
-                $unzip = ilLinkButton::getInstance();
-                $unzip->setCaption("unzip");
-                $unzip->setUrl($url);
-                $unzip = " " . $unzip->render();
+
+                $unzip_link = $this->ui_factory->link()->standard(
+                    $this->lng->txt("unzip"),
+                    $url
+                );
+
+                $unzip = " " . $this->ui_renderer->render($unzip_link);
             }
 
             $this->tpl->setOnScreenMessage('success', $lng->txt("cont_file_created") . $unzip, true);
@@ -832,9 +848,9 @@ class ilFileSystemGUI
             $cur_files_r = iterator_to_array(new RecursiveIteratorIterator(new RecursiveDirectoryIterator($cur_dir)));
 
             if ($this->getAllowDirectories()) {
-                ilFileUtils::unzip($a_file, true);
+                $this->unzip->unzip($a_file, null, true, false, false);
             } else {
-                ilFileUtils::unzip($a_file, true, true);
+                $this->unzip->unzip($a_file, null, true, true, false);
             }
 
             $new_files = array_keys(ilFileUtils::getDir($cur_dir));
@@ -925,8 +941,9 @@ class ilFileSystemGUI
             ),
             2 => array(
                 "object" => $this,
-                "method" => "unzipFile",
+                "method" => self::CMD_UNZIP_FILE,
                 "name" => $this->lng->txt("unzip"),
+                "allow_dir" => true,
                 "int" => true,
                 "single" => true
             ),

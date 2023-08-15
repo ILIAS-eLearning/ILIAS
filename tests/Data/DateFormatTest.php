@@ -1,7 +1,4 @@
 <?php
-
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +15,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 require_once("libs/composer/vendor/autoload.php");
 
 use ILIAS\Data\DateFormat;
@@ -25,6 +24,8 @@ use PHPUnit\Framework\TestCase;
 
 class DateFormatTest extends TestCase
 {
+    protected DateFormat\Factory $df;
+
     public function setUp(): void
     {
         $f = new ILIAS\Data\Factory();
@@ -43,13 +44,14 @@ class DateFormatTest extends TestCase
     public function testDateFormatBuilderAndGetters(): void
     {
         $expect = [
-            '.', ',', '-', '/', ' ', 'd', 'jS', 'l', 'D', 'W', 'm', 'F', 'M', 'Y', 'y'
+            '.', ',', '-', '/', ' ', ':', 'd', 'jS', 'l', 'D', 'W', 'm', 'F', 'M', 'Y', 'y', 'h','H', 'i', 's', 'a'
         ];
         $format = $this->df->custom()
-            ->dot()->comma()->dash()->slash()->space()
+            ->dot()->comma()->dash()->slash()->space()->colon()
             ->day()->dayOrdinal()->weekday()->weekdayShort()
             ->week()->month()->monthSpelled()->monthSpelledShort()
             ->year()->twoDigitYear()
+            ->hours12()->hours24()->minutes()->seconds()->meridiem()
             ->get();
 
         $this->assertEquals(
@@ -68,17 +70,44 @@ class DateFormatTest extends TestCase
         );
     }
 
-    public function testInvalidTokens(): void
+    public function testDateFormatInvalidTokens(): void
     {
         $this->expectException(InvalidArgumentException::class);
         new DateFormat\DateFormat(['x', '2']);
     }
 
-    public function test_applyTo(): void
+    public function testDateFormatApplyTo(): void
     {
         $dt = new DateTimeImmutable("1985-04-05");
         $format = $this->df->germanShort();
         $this->assertEquals("05.04.1985", $format->applyTo($dt));
         $this->assertEquals("05.04.1985", $dt->format((string) $format));
+    }
+
+    public function testDateFormatApplyToWithTime(): void
+    {
+        $dt = new DateTimeImmutable("1985-04-05 21:12:30");
+        $format = $this->df->custom()
+            ->day()->dot()->month()->dot()->year()
+            ->space()->hours12()->colon()->minutes()->space()->meridiem()
+            ->get();
+        $this->assertEquals("05.04.1985 09:12 pm", $format->applyTo($dt));
+        $this->assertEquals("05.04.1985 09:12 pm", $dt->format((string) $format));
+        $format = $this->df->custom()
+            ->day()->dot()->month()->dot()->year()
+            ->space()->hours24()->colon()->minutes()->colon()->seconds()
+            ->get();
+        $this->assertEquals("05.04.1985 21:12:30", $format->applyTo($dt));
+    }
+
+    public function testDateFormatExpand(): void
+    {
+        $format = $this->df->germanShort();
+        $appended = $this->df->amend($format)->dot()->dot()->get();
+        $this->assertInstanceOf(DateFormat\DateFormat::class, $appended);
+        $this->assertEquals(
+            array_merge($format->toArray(), ['.', '.']),
+            $appended->toArray()
+        );
     }
 }

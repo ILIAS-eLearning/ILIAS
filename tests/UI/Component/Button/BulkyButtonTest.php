@@ -256,4 +256,26 @@ class BulkyButtonTest extends ILIAS_UI_TestBase
             $r->render($b)
         );
     }
+    public function testRenderWithHelpTopics(): void
+    {
+        $r = $this->getDefaultRenderer();
+        $b = $this->button_factory->bulky($this->icon, "Example", "http://www.ilias.de")
+            ->withAriaRole(I\Component\Button\Bulky::MENUITEM)
+            ->withHelpTopics(new \ILIAS\UI\Help\Topic("a"));
+        ;
+
+        $expected = <<<EXP
+<div class="c-tooltip__container">
+<button class="btn btn-bulky" data-action="http://www.ilias.de" id="id_1" role="menuitem" aria-describedby="id_2">
+    <img class="icon someExample small" src="./templates/default/images/icon_default.svg" alt="" /><span class="bulky-label">Example</span>
+    </button>
+<div id="id_2" role="tooltip" class="c-tooltip c-tooltip--hidden"><p>tooltip: a</p></div>
+</div>
+EXP;
+
+        $this->assertHTMLEquals(
+            $expected,
+            $r->render($b)
+        );
+    }
 }

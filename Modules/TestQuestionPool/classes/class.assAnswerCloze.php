@@ -111,7 +111,6 @@ class assAnswerCloze extends ASS_AnswerSimple
 
     protected function getNumericValueFromText($text)
     {
-        include_once("./Services/Math/classes/class.EvalMath.php");
         $eval = new EvalMath();
         $eval->suppress_errors = true;
         return $eval->e(str_replace(",", ".", ilUtil::stripSlashes($text, false)));

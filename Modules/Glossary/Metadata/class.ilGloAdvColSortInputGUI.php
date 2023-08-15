@@ -25,6 +25,7 @@
  */
 class ilGloAdvColSortInputGUI extends ilFormPropertyGUI
 {
+    private \ILIAS\Repository\InternalGUIService $gui;
     protected array $value;
 
     public function __construct(
@@ -36,6 +37,8 @@ class ilGloAdvColSortInputGUI extends ilFormPropertyGUI
         $this->lng = $DIC->language();
         parent::__construct($a_title, $a_id);
         $this->setType("glo_adv_col_sort");
+        // temp workaround
+        $this->gui = $DIC->repository()->internal()->gui();
     }
 
     public function setValue(array $a_value): void
@@ -67,6 +70,8 @@ class ilGloAdvColSortInputGUI extends ilFormPropertyGUI
     public function render(): string
     {
         $lng = $this->lng;
+        $up = $this->gui->symbol()->glyph("up")->render();
+        $down = $this->gui->symbol()->glyph("down")->render();
 
         $tpl = new ilTemplate("tpl.adv_col_sort_input.html", true, true, "Modules/Glossary");
         if (is_array($this->getValue())) {
@@ -74,9 +79,9 @@ class ilGloAdvColSortInputGUI extends ilFormPropertyGUI
                 $tpl->setCurrentBlock("item");
                 $tpl->setVariable("TEXT", $v["text"]);
                 $tpl->setVariable("ID", $this->getFieldId() . "~" . $k);
-                $tpl->setVariable("DOWN", ilGlyphGUI::get(ilGlyphGUI::DOWN));
+                $tpl->setVariable("DOWN", $down);
                 $tpl->setVariable("TXT_DOWN", $lng->txt("down"));
-                $tpl->setVariable("UP", ilGlyphGUI::get(ilGlyphGUI::UP));
+                $tpl->setVariable("UP", $up);
                 $tpl->setVariable("TXT_UP", $lng->txt("up"));
                 $tpl->setVariable('NAME', $this->getPostVar() . "[" . $k . "][id]");
                 $tpl->setVariable('TNAME', $this->getPostVar() . "[" . $k . "][text]");

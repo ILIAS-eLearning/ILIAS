@@ -108,7 +108,7 @@ class ilStyleDefinition
                     $messages->sendMessages();
                     $skin_id = $system_style_conf->getDefaultSkinId();
                 }
-                return $skin_id;
+                return $skin_id === '' ? $system_style_conf->getDefaultSkinId() : $skin_id;
             } else {
                 return null;
             }

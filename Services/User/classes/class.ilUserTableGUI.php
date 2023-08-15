@@ -16,6 +16,10 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
+use ILIAS\User\UserGUIRequest;
+
 /**
  * TableGUI class for user administration
  * @author Alexander Killing <killing@leifos.de>
@@ -28,9 +32,11 @@ class ilUserTableGUI extends ilTable2GUI
 
     private ?int $mode = null;
     private int $user_folder_id = 0;
-    protected \ILIAS\User\StandardGUIRequest $user_request;
-    protected array $udf_fields = array(); // Missing array type.
-    protected array $filter = array(); // Missing array type.
+
+    private bool $with_write_access = false;
+    protected UserGUIRequest $user_request;
+    protected array $udf_fields = [];
+    protected array $filter = [];
 
     public function __construct(
         object $a_parent_obj,
@@ -38,10 +44,15 @@ class ilUserTableGUI extends ilTable2GUI
         int $a_mode = self::MODE_USER_FOLDER,
         bool $a_load_items = true
     ) {
+        /** @var ILIAS\DI\Container $DIC */
         global $DIC;
 
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
+
+        if ($DIC->access()->checkAccess('write', '', $a_parent_obj->getObject()->getRefId())) {
+            $this->with_write_access = true;
+        }
 
         $this->user_folder_id = $a_parent_obj->getObject()->getRefId();
 
@@ -86,7 +97,7 @@ class ilUserTableGUI extends ilTable2GUI
         $this->setSelectAllCheckbox("id[]");
         $this->setTopCommands(true);
 
-        $this->user_request = new \ILIAS\User\StandardGUIRequest(
+        $this->user_request = new UserGUIRequest(
             $DIC->http(),
             $DIC->refinery()
         );
@@ -541,7 +552,7 @@ class ilUserTableGUI extends ilTable2GUI
             if ($method == 'default') {
                 $options[$method] = $this->lng->txt('auth_' . $method) . " (" . $this->lng->txt('auth_' . ilAuthUtils::_getAuthModeName($value)) . ")";
             } else {
-                $options[$method] = ilAuthUtils::getAuthModeTranslation($value);
+                $options[$method] = ilAuthUtils::getAuthModeTranslation((string) $value);
             }
         }
         $si = new ilSelectInputGUI($this->lng->txt("auth_mode"), "authentication_method");
@@ -632,7 +643,7 @@ class ilUserTableGUI extends ilTable2GUI
                 $this->tpl->parseCurrentBlock();
             } else {	// all other fields
                 $this->tpl->setCurrentBlock("user_field");
-                $val = (trim($a_set[$c]) == "")
+                $val = (trim($a_set[$c] ?? '') == "")
                     ? " "
                     : $a_set[$c];
                 if ($a_set[$c] != "") {
@@ -667,7 +678,9 @@ class ilUserTableGUI extends ilTable2GUI
             }
         }
 
-        if ($this->getMode() == self::MODE_USER_FOLDER or $a_set['time_limit_owner'] == $this->getUserFolderId()) {
+        if ($this->with_write_access
+            && ($this->getMode() == self::MODE_USER_FOLDER
+                || $a_set['time_limit_owner'] == $this->getUserFolderId())) {
             $this->tpl->setVariable("VAL_LOGIN", $a_set["login"]);
             $ilCtrl->setParameterByClass("ilobjusergui", "obj_id", $a_set["usr_id"]);
             $this->tpl->setVariable(

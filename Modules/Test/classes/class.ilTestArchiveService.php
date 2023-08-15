@@ -69,13 +69,10 @@ class ilTestArchiveService
     {
         $content = $this->renderOverviewContent($activeId, $pass);
         $filename = $this->buildOverviewFilename($activeId, $pass);
-
         ilTestPDFGenerator::generatePDF($content, ilTestPDFGenerator::PDF_OUTPUT_FILE, $filename, PDF_USER_RESULT);
-
         $archiver = new ilTestArchiver($this->testOBJ->getId());
         $archiver->setParticipantData($this->getParticipantData());
         $archiver->handInTestResult($activeId, $pass, $filename);
-
         unlink($filename);
     }
 
@@ -93,8 +90,6 @@ class ilTestArchiveService
         );
 
         $gui = new ilTestServiceGUI($this->testOBJ);
-
-        require_once 'Modules/Test/classes/class.ilTestResultHeaderLabelBuilder.php';
         $testResultHeaderLabelBuilder = new ilTestResultHeaderLabelBuilder($GLOBALS['DIC']->language(), $GLOBALS['DIC']['ilObjDataCache']);
 
         return $gui->getPassListOfAnswers(

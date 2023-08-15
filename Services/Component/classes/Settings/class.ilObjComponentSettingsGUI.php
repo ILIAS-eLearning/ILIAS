@@ -24,7 +24,7 @@ use ILIAS\UI\Renderer;
 /**
  * @ilCtrl_Calls ilObjComponentSettingsGUI: ilPermissionGUI
  */
-class ilObjComponentSettingsGUI extends ilObjectGUI
+class ilObjComponentSettingsGUI extends ilObjectGUI implements ilCtrlSecurityInterface
 {
     private const TYPE = 'cmps';
 
@@ -83,6 +83,21 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
         $this->lng->loadLanguageModule(self::TYPE);
     }
 
+    public function getUnsafeGetCommands(): array
+    {
+        return [
+            self::CMD_UPDATE_PLUGIN,
+            self::CMD_ACTIVATE_PLUGIN,
+            self::CMD_DEACTIVATE_PLUGIN,
+            self::CMD_REFRESH_LANGUAGES,
+        ];
+    }
+
+    public function getSafePostCommands(): array
+    {
+        return [];
+    }
+
     public function executeCommand(): void
     {
         $next_class = $this->ctrl->getNextClass($this);
@@ -134,6 +149,8 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
 
     protected function forwardConfigGUI(string $name): void
     {
+        $name = $this->ctrl->lookupOriginalClassName($name);
+
         if (!class_exists($name)) {
             throw new Exception("class $name not found!");
         }

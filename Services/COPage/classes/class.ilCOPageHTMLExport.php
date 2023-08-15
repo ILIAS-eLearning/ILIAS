@@ -23,6 +23,7 @@
  */
 class ilCOPageHTMLExport
 {
+    protected \ILIAS\COPage\Xsl\XslManager $xsl;
     protected string $mp3_dir = "";
     protected string $flv_dir = "";
     protected string $css_dir = "";
@@ -83,6 +84,7 @@ class ilCOPageHTMLExport
         $this->js_dir = $a_exp_dir . '/js';
         $this->js_yahoo_dir = $a_exp_dir . '/js/yahoo';
         $this->css_dir = $a_exp_dir . '/css';
+        $this->xsl = $DIC->copage()->internal()->domain()->xsl();
     }
 
     public function setContentStyleId(int $a_val): void
@@ -263,13 +265,10 @@ class ilCOPageHTMLExport
             if ($int_link["type"] == "git") {
                 $this->glossary_terms[] = $int_link["id"];
                 // store linked/embedded media objects of glosssary term
-                $defs = \ilGlossaryDefinition::getDefinitionList($int_link["id"]);
-                foreach ($defs as $def) {
-                    $pages[] = [
-                        "type" => "gdf:pg",
-                        "id" => $def["id"]
-                    ];
-                }
+                $pages[] = [
+                    "type" => "term:pg",
+                    "id" => $int_link["id"]
+                ];
             }
         }
 
@@ -446,6 +445,8 @@ class ilCOPageHTMLExport
             }
         }
 
+        $this->exportQuestionFiles();
+
         // export all glossary terms
         $this->exportHTMLGlossaryTerms();
     }
@@ -489,6 +490,7 @@ class ilCOPageHTMLExport
         $params = [
             "mode" => "media",
             'enlarge_path' => ilUtil::getImagePath("enlarge.svg", false, "output", true),
+            'enable_html_mob' => ilObjMediaObject::isTypeAllowed("html") ? "y" : "n",
             'fullscreen_link' => $this->page_linker->getFullScreenLink()
         ];
         if ($this->ref_id > 0) {
@@ -528,27 +530,13 @@ class ilCOPageHTMLExport
         string $link_xml,
         array $params
     ): string {
-        // render media object html
-        $xh = xslt_create();
-        $output = xslt_process(
-            $xh,
-            "arg:/_xml",
-            "arg:/_xsl",
-            null,
-            array(
-                "/_xml" =>
-                    "<dummy>" .
-                    $mob_obj->getXML(IL_MODE_ALIAS) .
-                    $mob_obj->getXML(IL_MODE_OUTPUT) .
-                    $link_xml .
-                    "</dummy>",
-                "/_xsl" => file_get_contents("./Services/COPage/xsl/page.xsl")
-            ),
-            $params
-        );
-        xslt_free($xh);
-        unset($xh);
-        return $output;
+        $xml = "<dummy>" .
+            $mob_obj->getXML(IL_MODE_ALIAS) .
+            $mob_obj->getXML(IL_MODE_OUTPUT) .
+            $link_xml .
+            "</dummy>";
+
+        return $this->xsl->process($xml, $params);
     }
 
 

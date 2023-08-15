@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -13,13 +14,12 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Class ilDclPropertyFormGUI
- * @author       Michael Herren <mh@studer-raimann.ch>
- * @version      1.0.0
  * @ilCtrl_Calls ilDclPropertyFormGUI: ilFormPropertyDispatchGUI
  */
 class ilDclPropertyFormGUI extends ilPropertyFormGUI
@@ -47,19 +47,19 @@ class ilDclPropertyFormGUI extends ilPropertyFormGUI
         ?string $a_index = null,
         ?string $a_sub_index = null
     ): string {
-        $a_name = ilFileUtils::getAsciiFileName($a_name);
+        $a_name = ilFileUtils::getASCIIFilename($a_name);
 
         $tmp_file_name = implode(
             "~~",
-            array(
-                session_id(),
+            [
+                mb_substr(session_id(), 0, 8),
                 $a_hash,
                 $a_field,
                 $a_index,
                 $a_sub_index,
                 str_replace("/", "~~", $a_type),
                 str_replace("~~", "_", $a_name),
-            )
+            ]
         );
 
         // make sure temp directory exists
@@ -86,7 +86,7 @@ class ilDclPropertyFormGUI extends ilPropertyFormGUI
                     $name = $file[7];
 
                     if ($idx2 != "") {
-                        if (!$_FILES[$field]["tmp_name"][$idx][$idx2]) {
+                        if (!($_FILES[$field]["tmp_name"][$idx][$idx2] ?? false)) {
                             $_FILES[$field]["tmp_name"][$idx][$idx2] = $full_file;
                             $_FILES[$field]["name"][$idx][$idx2] = $name;
                             $_FILES[$field]["type"][$idx][$idx2] = $type;
@@ -95,7 +95,7 @@ class ilDclPropertyFormGUI extends ilPropertyFormGUI
                         }
                     } else {
                         if ($idx != "") {
-                            if (!$_FILES[$field]["tmp_name"][$idx]) {
+                            if (!($_FILES[$field]["tmp_name"][$idx] ?? false)) {
                                 $_FILES[$field]["tmp_name"][$idx] = $full_file;
                                 $_FILES[$field]["name"][$idx] = $name;
                                 $_FILES[$field]["type"][$idx] = $type;
@@ -103,7 +103,7 @@ class ilDclPropertyFormGUI extends ilPropertyFormGUI
                                 $_FILES[$field]["size"][$idx] = filesize($full_file);
                             }
                         } else {
-                            if (!$_FILES[$field]["tmp_name"]) {
+                            if (!($_FILES[$field]["tmp_name"] ?? false)) {
                                 $_FILES[$field]["tmp_name"] = $full_file;
                                 $_FILES[$field]["name"] = $name;
                                 $_FILES[$field]["type"] = $type;

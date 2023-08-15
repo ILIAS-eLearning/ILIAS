@@ -17,6 +17,7 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+use ILIAS\Cron\Schedule\CronJobScheduleType;
 
 /**
  * Class ilXapiResultsCronjob
@@ -105,9 +106,9 @@ class ilXapiResultsCronjob extends ilCronJob
         return true;
     }
 
-    public function getDefaultScheduleType(): int
+    public function getDefaultScheduleType(): CronJobScheduleType
     {
-        return self::SCHEDULE_TYPE_DAILY;
+        return CronJobScheduleType::SCHEDULE_TYPE_DAILY;
     }
 
     public function getDefaultScheduleValue(): ?int

@@ -32,6 +32,7 @@ use ILIAS\Container\Content\ViewManager;
  */
 class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 {
+    protected \ILIAS\Container\InternalGUIService $gui;
     protected \ILIAS\Style\Content\GUIService $content_style_gui;
     protected ilRbacSystem $rbacsystem;
     protected ilRbacReview $rbacreview;
@@ -123,6 +124,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         $cs = $DIC->contentStyle();
         $this->content_style_gui = $cs->gui();
         $this->content_style_domain = $cs->domain();
+        $this->gui = $DIC->container()->internal()->gui();
     }
 
     public function executeCommand(): void
@@ -328,7 +330,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 
     protected function showPossibleSubObjects(): void
     {
-        if ($this->isActiveAdministrationPanel() || $this->isActiveOrdering()) {
+        if ($this->isActiveOrdering()) {
             return;
         }
         $gui = new ilObjectAddNewItemGUI($this->object->getRefId());
@@ -458,7 +460,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 
         $lng->loadLanguageModule('cntr');
 
-        if ($this->clipboard->hasEntries()) {
+        if ($this->clipboard->hasEntries() && !$this->edit_order) {
             // #11545
             $main_tpl->setPageFormAction($this->ctrl->getFormAction($this));
 
@@ -515,19 +517,6 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
                         'download'
                     );
                 }
-            }
-            if ($this->object->getType() === 'crs' || $this->object->getType() === 'grp') {
-                if ($this->object->gotItems()) {
-                    $toolbar->addSeparator();
-                }
-
-                $toolbar->addButton(
-                    $this->lng->txt('cntr_adopt_content'),
-                    $this->ctrl->getLinkTargetByClass(
-                        'ilObjectCopyGUI',
-                        'adoptContent'
-                    )
-                );
             }
 
             $main_tpl->addAdminPanelToolbar(
@@ -1062,7 +1051,8 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         }
 
         if ($containers > 0 && count($this->std_request->getSelectedIds()) > 1) {
-            $ilErr->raiseError($this->lng->txt("cntr_container_only_on_their_own"), $ilErr->MESSAGE);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("cntr_container_only_on_their_own"), true);
+            $this->ctrl->redirect($this, "");
         }
 
         // IF THERE IS ANY OBJECT WITH NO PERMISSION TO 'delete'
@@ -1071,10 +1061,12 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
             foreach ($no_copy as $copy_id) {
                 $titles[] = ilObject::_lookupTitle(ilObject::_lookupObjId($copy_id));
             }
-            $ilErr->raiseError(
+            $this->tpl->setOnScreenMessage(
+                'failure',
                 $this->lng->txt("msg_no_perm_copy") . " " . implode(',', $titles),
-                $ilErr->MESSAGE
+                true
             );
+            $this->ctrl->redirect($this, "");
         }
 
         // if we have a single container, set it as source id and redirect to ilObjectCopyGUI
@@ -1168,17 +1160,19 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         }
 
         // NO ACCESS
-        if (count($no_cut)) {
-            $ilErr->raiseError(
-                $this->lng->txt("msg_no_perm_link") . " " .
-                implode(',', $no_cut),
-                $ilErr->MESSAGE
+        if ($no_cut !== []) {
+            $this->tpl->setOnScreenMessage(
+                'failure',
+                $this->lng->txt("msg_no_perm_link") . " " . implode(',', $no_cut),
+                true
             );
+            $this->ctrl->redirect($this, "");
         }
 
-        if (count($no_link)) {
+        if ($no_link !== []) {
             //#12203
-            $ilErr->raiseError($this->lng->txt("msg_obj_no_link"), $ilErr->MESSAGE);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('msg_obj_no_link'), true);
+            $this->ctrl->redirect($this, "");
         }
 
         $this->clipboard->setParent($this->requested_ref_id);
@@ -1531,12 +1525,10 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         $t = new ilToolbarGUI();
         $t->setFormAction($this->ctrl->getFormAction($this, "performPasteIntoMultipleObjects"));
 
-        $b = ilSubmitButton::getInstance();
-        $b->setCaption($txt_var);
-        $b->setCommand("performPasteIntoMultipleObjects");
-
-        //$t->addFormButton($this->lng->txt($txt_var), "performPasteIntoMultipleObjects");
-        $t->addStickyItem($b);
+        $this->gui->button(
+            $this->lng->txt($txt_var),
+            "performPasteIntoMultipleObjects"
+        )->submit()->toToolbar(true, $t);
 
         $t->addSeparator();
         $this->lng->loadLanguageModule('obj');
@@ -2127,10 +2119,10 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         $uri_builder = new ilWebDAVUriBuilder($DIC->http()->request());
         $href = $uri_builder->getUriToMountInstructionModalByRef($this->object->getRefId());
 
-        $btn = ilButton::getInstance();
-        $btn->setCaption('mount_webfolder');
-        $btn->setOnClick("triggerWebDAVModal('$href')");
-        $ilToolbar->addButtonInstance($btn);
+        $this->gui->button(
+            $this->lng->txt("mount_webfolder"),
+            "#"
+        )->onClick("triggerWebDAVModal('$href'); return false;")->toToolbar();
 
         $tpl->setContent($this->form->getHTML());
     }
@@ -2357,11 +2349,11 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         $lpres = new ilRadioGroupInputGUI($this->lng->txt('cont_list_presentation'), "list_presentation");
 
         $item_list = new ilRadioOption($this->lng->txt('cont_item_list'), "");
-        //$item_list->setInfo($this->lng->txt('cont_item_list_info'));
+        $item_list->setInfo($this->lng->txt('cont_item_list_info'));
         $lpres->addOption($item_list);
 
         $tile_view = new ilRadioOption($this->lng->txt('cont_tile_view'), "tile");
-        //$tile_view->setInfo($this->lng->txt('cont_tile_view_info'));
+        $tile_view->setInfo($this->lng->txt('cont_tile_view_info'));
         $lpres->addOption($tile_view);
 
         // tile size
@@ -2540,6 +2532,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
      */
     public function trashObject(): void
     {
+        $this->checkPermission("write");
         $tpl = $this->tpl;
 
         $this->tabs_gui->activateTab('trash');
@@ -2580,6 +2573,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 
     public function removeFromSystemObject(): void
     {
+        $this->checkPermission("write");
         $ru = new ilRepositoryTrashGUI($this);
         $ru->removeObjectsFromSystem($this->std_request->getTrashIds());
         $this->ctrl->redirect($this, "trash");
@@ -2609,6 +2603,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
     public function confirmRemoveFromSystemObject(): void
     {
         $lng = $this->lng;
+        $this->checkPermission("write");
         if (count($this->std_request->getTrashIds()) == 0) {
             $this->tpl->setOnScreenMessage('failure', $lng->txt("no_checkbox"), true);
             $this->ctrl->redirect($this, "trash");

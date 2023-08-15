@@ -1,20 +1,21 @@
 <?php
 
-declare(strict_types=1);
-
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *
- *****************************************************************************/
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
+
+declare(strict_types=1);
 
 /**
 *
@@ -234,12 +235,12 @@ class ilECSConnector
 
             // Checking status code
             $info = $this->curl->getInfo(CURLINFO_HTTP_CODE);
-            $this->logger->info(__METHOD__ . ': Checking HTTP status...');
+            $this->logger->debug(__METHOD__ . ': Checking HTTP status...');
             if ($info !== self::HTTP_CODE_OK) {
-                $this->logger->info(__METHOD__ . ': Cannot get ressource list, did not receive HTTP 200. ');
+                $this->logger->debug(__METHOD__ . ': Cannot get ressource list, did not receive HTTP 200. ');
                 throw new ilECSConnectorException('Received HTTP status code: ' . $info);
             }
-            $this->logger->info(__METHOD__ . ': ... got HTTP 200 (ok)');
+            $this->logger->debug(__METHOD__ . ': ... got HTTP 200 (ok)');
 
             return new ilECSResult($res, ilECSResult::RESULT_TYPE_URL_LIST);
         } catch (ilCurlConnectionException $exc) {
@@ -253,13 +254,13 @@ class ilECSConnector
      *
      * @throws ilECSConnectorException
      */
-    public function getResource(string $a_path, int $a_econtent_id, $a_details_only = false): ilECSResult
+    public function getResource(string $a_path, int $a_econtent_id, bool $a_details_only = false): ilECSResult
     {
         // TODO make handling of a_econtent_id explict like setting it to null
         if ($a_econtent_id) {
-            $this->logger->info(__METHOD__ . ': Get resource with ID: ' . $a_econtent_id);
+            $this->logger->debug(__METHOD__ . ': Get resource with ID: ' . $a_econtent_id);
         } else {
-            $this->logger->info(__METHOD__ . ': Get all resources ...');
+            $this->logger->debug(__METHOD__ . ': Get all resources ...');
         }
 
         $this->path_postfix = $a_path;
@@ -276,12 +277,12 @@ class ilECSConnector
 
             // Checking status code
             $info = (int) $this->curl->getInfo(CURLINFO_HTTP_CODE);
-            $this->logger->info(__METHOD__ . ': Checking HTTP status...');
+            $this->logger->debug(__METHOD__ . ': Checking HTTP status...');
             if ($info !== self::HTTP_CODE_OK) {
-                $this->logger->info(__METHOD__ . ': Cannot get ressource, did not receive HTTP 200. ');
+                $this->logger->debug(__METHOD__ . ': Cannot get ressource, did not receive HTTP 200. ');
                 throw new ilECSConnectorException('Received HTTP status code: ' . $info);
             }
-            $this->logger->info(__METHOD__ . ': ... got HTTP 200 (ok)');
+            $this->logger->debug(__METHOD__ . ': ... got HTTP 200 (ok)');
 
             $result = new ilECSResult($res);
             $result->setHeaders($this->curl->getResponseHeaderArray());
@@ -322,12 +323,12 @@ class ilECSConnector
 
             $info = $this->curl->getInfo(CURLINFO_HTTP_CODE);
 
-            $this->logger->info(__METHOD__ . ': Checking HTTP status...');
+            $this->logger->debug(__METHOD__ . ': Checking HTTP status...');
             if ($info !== self::HTTP_CODE_CREATED) {
-                $this->logger->info(__METHOD__ . ': Cannot create econtent, did not receive HTTP 201. ');
+                $this->logger->debug(__METHOD__ . ': Cannot create econtent, did not receive HTTP 201. ');
                 throw new ilECSConnectorException('Received HTTP status code: ' . $info);
             }
-            $this->logger->info(__METHOD__ . ': ... got HTTP 201 (created)');
+            $this->logger->debug(__METHOD__ . ': ... got HTTP 201 (created)');
 
             return $this->_fetchEContentIdFromHeader($this->curl->getResponseHeaderArray());
         } catch (ilCurlConnectionException $exc) {
@@ -343,9 +344,9 @@ class ilECSConnector
      * @param string $a_post_string post content
      * @throws ilECSConnectorException
      */
-    public function updateResource(string $a_path, int $a_econtent_id, string $a_post_string): ilECSResult
+    public function updateResource(string $a_path, int $a_econtent_id, string $a_post_string): void
     {
-        $this->logger->info(__METHOD__ . ': Update resource with id ' . $a_econtent_id);
+        $this->logger->debug(__METHOD__ . ': Update resource with id ' . $a_econtent_id);
 
         $this->path_postfix = $a_path;
 
@@ -358,6 +359,7 @@ class ilECSConnector
             $this->prepareConnection();
             $this->addHeader('Content-Type', 'application/json');
             $this->addHeader('Accept', 'application/json');
+            $this->addHeader('Expect', '');
             $this->curl->setOpt(CURLOPT_HTTPHEADER, $this->getHeader());
             $this->curl->setOpt(CURLOPT_HEADER, true);
             $this->curl->setOpt(CURLOPT_PUT, true);
@@ -379,7 +381,12 @@ class ilECSConnector
             fclose($fp);
             unlink($tempfile);
 
-            return new ilECSResult($res);
+            $info = $this->curl->getInfo(CURLINFO_HTTP_CODE);
+            $this->logger->debug(__METHOD__ . ': Checking HTTP status...');
+            if ($info !== self::HTTP_CODE_OK) {
+                $this->logger->debug(__METHOD__ . ': Cannot update resource. ', $a_path, $a_econtent_id);
+                throw new ilECSConnectorException('Received HTTP status code: ' . $info);
+            }
         } catch (ilCurlConnectionException $exc) {
             throw new ilECSConnectorException('Error calling ECS service: ' . $exc->getMessage());
         }
@@ -392,9 +399,9 @@ class ilECSConnector
      * @param int $a_econtent_id econtent id
      * @throws ilECSConnectorException
      */
-    public function deleteResource(string $a_path, int $a_econtent_id): ilECSResult
+    public function deleteResource(string $a_path, int $a_econtent_id): ?ilECSResult
     {
-        $this->logger->info(__METHOD__ . ': Delete resource with id ' . $a_econtent_id);
+        $this->logger->debug(__METHOD__ . ': Delete resource with id ' . $a_econtent_id);
 
         $this->path_postfix = $a_path;
 
@@ -408,7 +415,11 @@ class ilECSConnector
             $this->prepareConnection();
             $this->curl->setOpt(CURLOPT_CUSTOMREQUEST, 'DELETE');
             $res = $this->call();
-            return new ilECSResult($res);
+            $info = $this->curl->getInfo(CURLINFO_HTTP_CODE);
+            if (200 === $info) {
+                return new ilECSResult($res);
+            }
+            return null;
         } catch (ilCurlConnectionException $exc) {
             throw new ilECSConnectorException('Error calling ECS service: ' . $exc->getMessage());
         }
@@ -424,11 +435,11 @@ class ilECSConnector
      */
     public function getMemberships(int $a_mid = 0): ilECSResult
     {
-        $this->logger->info(__METHOD__ . ': Get existing memberships');
+        $this->logger->debug(__METHOD__ . ': Get existing memberships');
 
         $this->path_postfix = '/sys/memberships';
         if ($a_mid) {
-            $this->logger->info(__METHOD__ . ': Read membership with id: ' . $a_mid);
+            $this->logger->debug(__METHOD__ . ': Read membership with id: ' . $a_mid);
             $this->path_postfix .= ('/' . $a_mid);
         }
         try {
@@ -440,7 +451,7 @@ class ilECSConnector
             // Checking status code
             $info = $this->curl->getInfo(CURLINFO_HTTP_CODE);
             if ($info !== self::HTTP_CODE_OK) {
-                $this->logger->info(__METHOD__ . ': Cannot get memberships, did not receive HTTP 200. ');
+                $this->logger->debug(__METHOD__ . ': Cannot get memberships, did not receive HTTP 200. ');
                 throw new ilECSConnectorException('Received HTTP status code: ' . $info);
             }
 

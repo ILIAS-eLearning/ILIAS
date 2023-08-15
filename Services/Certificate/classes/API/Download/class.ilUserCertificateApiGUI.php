@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use Psr\Http\Message\ServerRequestInterface;
 
 /**
@@ -26,11 +26,12 @@ use Psr\Http\Message\ServerRequestInterface;
  */
 class ilUserCertificateApiGUI
 {
-    public const CMD_DOWNLOAD = 'download';
-    private ilLogger $certificateLogger;
-    private ServerRequestInterface $request;
-    private ilLanguage $language;
-    private ilCtrlInterface $ctrl;
+    final public const CMD_DOWNLOAD = 'download';
+
+    private readonly ilLogger $certificateLogger;
+    private readonly ServerRequestInterface $request;
+    private readonly ilLanguage $language;
+    private readonly ilCtrlInterface $ctrl;
 
     public function __construct(
         ?ilLanguage $language = null,

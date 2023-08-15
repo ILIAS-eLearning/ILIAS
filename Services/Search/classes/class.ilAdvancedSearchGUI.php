@@ -172,12 +172,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 
         if ($this->http->wrapper()->post()->has('query')) {
             $this->search_cache->setQuery(
-                $this->http->wrapper()->post()->retrieve(
-                    'query',
-                    $this->refinery->kindlyTo()->dictOf(
-                        $this->refinery->kindlyTo()->string()
-                    )
-                )
+                $this->getQueryFromPost()
             );
         }
         $res = new ilSearchResult();
@@ -816,15 +811,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 
     public function __setSearchOptions(): bool
     {
-        $query = '';
-        if ($this->http->wrapper()->post()->has('query')) {
-            $query = $this->http->wrapper()->post()->retrieve(
-                'query',
-                $this->refinery->kindlyTo()->dictOf(
-                    $this->refinery->kindlyTo()->string()
-                )
-            );
-        }
+        $query = $this->getQueryFromPost();
 
         $post_cmd = (array) ($this->http->request()->getParsedBody()['cmd'] ?? []);
 
@@ -984,5 +971,24 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
             ilSession::set('search_last_sub_section', self::TYPE_ADV_MD);
             $this->search_cache->switchSearchType(ilUserSearchCache::ADVANCED_MD_SEARCH);
         }
+    }
+
+    private function getQueryFromPost(): array
+    {
+        $query = [];
+        if ($this->http->wrapper()->post()->has('query')) {
+            $query = $this->http->wrapper()->post()->retrieve(
+                'query',
+                $this->refinery->kindlyTo()->dictOf(
+                    $this->refinery->byTrying([
+                        $this->refinery->kindlyTo()->string(),
+                        $this->refinery->kindlyTo()->dictOf(
+                            $this->refinery->kindlyTo()->string()
+                        )
+                    ])
+                )
+            );
+        }
+        return $query;
     }
 }
