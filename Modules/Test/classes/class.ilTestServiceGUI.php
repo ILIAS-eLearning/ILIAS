@@ -24,14 +24,13 @@ use ILIAS\HTTP\Services as HTTPServices;
 use ILIAS\GlobalScreen\Services as GlobalScreenServices;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Refinery\Transformation;
-use ILIAS\Refinery\Random\Seed\GivenSeed;
 use ILIAS\Test\InternalRequestService;
 use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper;
 use ILIAS\DI\LoggingServices;
 use ILIAS\Skill\Service\SkillService;
 
 require_once "./Modules/Test/classes/inc.AssessmentConstants.php";
-
+SkillService
 /**
 * Service GUI class for tests. This class is the parent class for all
 * service classes which are called from ilObjTestGUI. This is mainly
@@ -78,6 +77,7 @@ class ilTestServiceGUI
     protected UIFactory $ui_factory;
     protected UIRenderer $ui_renderer;
     protected SkillService $skills_service;
+    protected ilTestShuffler $shuffler;
 
     protected ILIAS $ilias;
     protected ilSetting $settings;
@@ -146,13 +146,15 @@ class ilTestServiceGUI
         $this->questioninfo = $DIC->testQuestionPool()->questionInfo();
         $this->service = new ilTestService($this->object, $this->db, $this->questioninfo);
         $this->lng->loadLanguageModule('cert');
-
         $this->ref_id = $this->object->getRefId();
-        $this->testrequest = $DIC->test()->internal()->request();
         $this->testSessionFactory = new ilTestSessionFactory($this->object, $this->db, $this->user);
         $this->testSequenceFactory = new ilTestSequenceFactory($this->object, $this->db, $this->questioninfo);
-
         $this->objective_oriented_container = null;
+        $this->ui_factory = $DIC['ui.factory'];
+        $this->ui_renderer = $DIC['ui.renderer'];
+
+        $dic = ilTestDIC::dic();
+        $this->shuffler = $dic['shuffler'];
     }
 
     public function setParticipantData(ilTestParticipantData $participantData): void
@@ -358,7 +360,8 @@ class ilTestServiceGUI
                     && is_numeric($question_id)) {
                     $maintemplate->setCurrentBlock("printview_question");
                     $question_gui = $this->object->createQuestionGUI("", $question_id);
-                    $question_gui->object->setShuffler($this->buildQuestionAnswerShuffler(
+
+                    $question_gui->object->setShuffler($this->shuffler->getAnswerShuffleFor(
                         (int) $question_id,
                         (int) $active_id,
                         (int) $pass
@@ -433,33 +436,6 @@ class ilTestServiceGUI
 
         $maintemplate->setVariable("RESULTS_OVERVIEW", $headerText);
         return $maintemplate->get();
-    }
-
-    protected function buildQuestionAnswerShuffler(
-        int $question_id,
-        int $active_id,
-        int $pass_id
-    ): Transformation {
-        $fixedSeed = $this->buildFixedShufflerSeed($question_id, $pass_id, $active_id);
-
-        return $this->refinery->random()->shuffleArray(new GivenSeed($fixedSeed));
-    }
-
-    protected function buildFixedShufflerSeed(int $question_id, int $pass_id, int $active_id): int
-    {
-        $seed = ($question_id + $pass_id) * $active_id;
-
-        if (is_float($seed) && is_float($seed = $active_id + $pass_id)) {
-            $seed = $active_id;
-        }
-
-        $div = ceil((10 ** (ilTestPlayerAbstractGUI::FIXED_SHUFFLER_SEED_MIN_LENGTH - 1)) / $seed);
-
-        if ($div > 1) {
-            $seed = $seed * ($div + $seed % 10);
-        }
-
-        return (int) $seed;
     }
 
     /**
@@ -675,7 +651,11 @@ class ilTestServiceGUI
 
         $invited_user = array_pop($this->object->getInvitedUsers($user_id));
         $title_client = '';
-        if (isset($invited_user['clientip']) && $invited_user["clientip"] !== '') {
+        if (is_array($invited_user)
+            && array_key_exists('clientip', $invited_user)
+            && is_string($invited_user['clientip'])
+            && trim($invited_user['clientip']) !== ''
+        ) {
             $template->setCurrentBlock("client_ip");
             $template->setVariable("TXT_CLIENT_IP", $this->lng->txt("client_ip"));
             $template->setVariable("VALUE_CLIENT_IP", $invited_user["clientip"]);

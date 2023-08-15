@@ -1137,6 +1137,11 @@ assessment#:#result_units_info#:#The selected units are offered to the learner a
 assessment#:#result_x#:#Result %s
 assessment#:#results#:#Results
 assessment#:#results_tab#:#Results
+assessment#:#resulttable_all#:#All
+assessment#:#resulttable_correct#:#Correct
+assessment#:#resulttable_incorrect#:#Incorrect/Incomplete
+assessment#:#resulttable_vc_sort_iooa#:#in order of appearance
+assessment#:#resulttable_vc_sort_posscore#:#highest possible score first
 assessment#:#review_view#:#Review
 assessment#:#saveOrder#:#Save Order
 assessment#:#saveOrderAndObligations#:#Save Order and Obligations
@@ -1192,6 +1197,7 @@ assessment#:#suggest_range#:#Suggest Range
 assessment#:#suggestedSolutionType#:#Refer to
 assessment#:#suggested_solution#:#Content for Recapitulation
 assessment#:#suggested_solution_added_successfully#:#You successfully set a content for recapitulation!
+assessment#:#ta_resulttable_vc_mode_aria#:#switch question mode
 assessment#:#tab_nest_answers#:#Nesting
 assessment#:#term#:#Term
 assessment#:#term_image#:#Term Image

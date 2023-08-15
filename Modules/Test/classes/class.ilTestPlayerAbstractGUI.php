@@ -44,6 +44,10 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
     public bool $maxProcessingTimeReached;
     public bool $endingTimeReached;
+    public $ref_id;
+    public $saveResult;
+    public $sequence;
+    public $cmdCtrl;
 
     protected ilTestPasswordChecker $passwordChecker;
     protected ilTestProcessLocker $processLocker;
@@ -2167,7 +2171,8 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
             $question_gui->setPresentationContext(assQuestionGUI::PRESENTATION_CONTEXT_TEST);
             $question_gui->object->setObligationsToBeConsidered($this->object->areObligationsEnabled());
             $question_gui->populateJavascriptFilesRequiredForWorkForm($tpl);
-            $question_gui->object->setShuffler($this->buildQuestionAnswerShuffler(
+            $question_gui->object->setOutputType(OUTPUT_JAVASCRIPT);
+            $question_gui->object->setShuffler($this->shuffler->getAnswerShuffleFor(
                 $question_id,
                 $this->test_session->getActiveId(),
                 $this->test_session->getPass()
