@@ -331,6 +331,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         }
 
         $this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print.css", "Modules/Test"), "print");
+
         if ($this->object->getShowSolutionAnswersOnly()) {
             $this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print_hide_content.css", "Modules/Test"), "print");
         }
@@ -915,6 +916,8 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         $results = $dic['factory.results']->for($this->object, $active_id, $pass);
 
         $table = $results->getTable($title);
+
+        $this->tpl->addCss(ilObjStyleSheet::getContentStylePath(0));
 
         $this->tpl->setVariable(
             "ADM_CONTENT",
