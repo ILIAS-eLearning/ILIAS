@@ -1138,8 +1138,8 @@ class ilObjectGUI implements ImplementsCreationCallback
                 }
             } catch (ilException $e) {
                 $this->tmp_import_dir = $imp->getTemporaryImportDir();
+                $this->lng->loadLanguageModule('obj');
 
-                // display message and form again
                 $this->tpl->setOnScreenMessage(
                     "failure",
                     $this->lng->txt("obj_import_file_error") . " <br />" . $e->getMessage()
