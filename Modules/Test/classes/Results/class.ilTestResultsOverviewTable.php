@@ -203,13 +203,11 @@ class ilTestResultsOverviewTable
 
             switch($question->getCorrect()) {
                 case ilQuestionResult::CORRECT_FULL:
-                    $correct_icon = $ui_factory->symbol()->glyph()->love();
-                    break;
                 case ilQuestionResult::CORRECT_PARTIAL:
-                    $correct_icon = $ui_factory->symbol()->glyph()->like()->withUnavailableAction();
-                    break;
                 case ilQuestionResult::CORRECT_NONE:
-                    $correct_icon = $ui_factory->symbol()->glyph()->dislike()->withHighlight();
+                    $correct_icon = $ui_factory->symbol()->icon()
+                        ->standard('pequ', 'Question')
+                        ->withSize('small');
                     break;
             }
 
