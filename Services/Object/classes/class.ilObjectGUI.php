@@ -1432,7 +1432,7 @@ class ilObjectGUI implements ImplementsCreationCallback
                     if (count($ref_ids) === 1) {
                         $newObj->setRefId((int) current($ref_ids));
                     }
-                    $this->callCreationCallback($newObj, $this->obj_definition, $this->requested_crtcb);   // see #24244
+                    $this->callCreationCallback($newObj, $this->objDefinition, $_GET['crtcb'] ?? 0);   // see #24244
                 }
 
                 $this->afterImport($newObj);
