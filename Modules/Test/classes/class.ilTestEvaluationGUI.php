@@ -2071,7 +2071,8 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         $table_gui->initFilter();
 
         $questionList = new ilAssQuestionList($ilDB, $this->lng, $component_repository);
-
+        $questionList->setParentObjId($this->object->getId());
+        $questionList->setParentObjectType($this->object->getType());
         $questionList->setIncludeQuestionIdsFilter($questionIds);
         $questionList->setQuestionInstanceTypeFilter(null);
 
