@@ -374,8 +374,6 @@ class ilTestRandomQuestionSetConfig extends ilTestQuestionSetConfig
         );
         $stagingPool->reset();
 
-        $this->resetQuestionSetRelatedTestSettings();
-
         $this->deleteFromDb();
     }
 
