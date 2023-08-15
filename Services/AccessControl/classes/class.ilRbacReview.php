@@ -128,7 +128,6 @@ class ilRbacReview
         $pathIds = $tree->getPathId($a_endnode_id);
 
         // add system folder since it may not in the path
-        //$pathIds[0] = SYSTEM_FOLDER_ID;
         $pathIds[0] = ROLE_FOLDER_ID;
         return $this->__getParentRoles($pathIds, $a_templates);
     }
@@ -834,7 +833,6 @@ class ilRbacReview
                 $where = 'WHERE ' . $this->db->in('rbac_fa.rol_id', $this->getGlobalRoles(), true, 'integer');
                 break;
 
-                // all role templates
             case self::FILTER_TEMPLATES:
                 $where = "WHERE object_data.type = 'rolt'";
                 $assign = "n";
@@ -1373,4 +1371,4 @@ class ilRbacReview
 
         return (bool) $ilDB->numRows($ilDB->query($sql));
     }
-} // END class.ilRbacReview
+}
