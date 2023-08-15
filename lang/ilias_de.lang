@@ -1137,6 +1137,11 @@ assessment#:#result_units_info#:#Zum Beantworten der Frage werden die aktivierte
 assessment#:#result_x#:#Ergebnis %s
 assessment#:#results#:#Ergebnisse
 assessment#:#results_tab#:#Ergebnisse
+assessment#:#resulttable_all#:#Alle
+assessment#:#resulttable_correct#:#Korrekte
+assessment#:#resulttable_incorrect#:#Inkorrekte/Unvollständige
+assessment#:#resulttable_vc_sort_iooa#:#Reihenfolge im Test
+assessment#:#resulttable_vc_sort_posscore#:#Höchste (mögliche) Punktzahl zuerst
 assessment#:#review_view#:#Vorschau
 assessment#:#saveOrder#:#Sortierung abspeichern
 assessment#:#saveOrderAndObligations#:#Sortierung und Obligationen abspeichern
@@ -1192,6 +1197,7 @@ assessment#:#suggest_range#:#Bereich vorschlagen
 assessment#:#suggestedSolutionType#:#verweisen auf
 assessment#:#suggested_solution#:#Inhalte zur Wiederholung
 assessment#:#suggested_solution_added_successfully#:#Der Hinweis auf Inhalte zur Wiederholung wurde erfolgreich hinzugefügt!
+assessment#:#ta_resulttable_vc_mode_aria#:#Anzeigeoptionen für Fragen
 assessment#:#tab_nest_answers#:#Einrückung
 assessment#:#term#:#Term
 assessment#:#term_image#:#Bild

@@ -863,47 +863,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             );
         }
 
-        $testResultHeaderLabelBuilder = new ilTestResultHeaderLabelBuilder($this->lng, $ilObjDataCache);
-
-        $objectivesList = null;
-
-        if ($this->getObjectiveOrientedContainer()->isObjectiveOrientedPresentationRequired()) {
-            $testSequence = $this->testSequenceFactory->getSequenceByActiveIdAndPass($active_id, $pass);
-            $testSequence->loadFromDb();
-            $testSequence->loadQuestions();
-
-            $objectivesAdapter = ilLOTestQuestionAdapter::getInstance($testSession);
-
-            $objectivesList = $this->buildQuestionRelatedObjectivesList($objectivesAdapter, $testSequence);
-            $objectivesList->loadObjectivesTitles();
-
-            $testResultHeaderLabelBuilder->setObjectiveOrientedContainerId($testSession->getObjectiveOrientedContainerId());
-            $testResultHeaderLabelBuilder->setUserId($testSession->getUserId());
-            $testResultHeaderLabelBuilder->setTestObjId($this->object->getId());
-            $testResultHeaderLabelBuilder->setTestRefId($this->object->getRefId());
-            $testResultHeaderLabelBuilder->initObjectiveOrientedMode();
-        }
-
-        $result_array = $this->getFilteredTestResult($active_id, $pass, false, !$this->getObjectiveOrientedContainer()->isObjectiveOrientedPresentationRequired());
-
-        $overviewTableGUI = $this->getPassDetailsOverviewTableGUI(
-            $result_array,
-            $active_id,
-            $pass,
-            $this,
-            "outParticipantsPassDetails",
-            '',
-            true,
-            $objectivesList
-        );
-        $overviewTableGUI->setTitle($testResultHeaderLabelBuilder->getPassDetailsHeaderLabel($pass + 1));
-        $user_data = $this->getAdditionalUsrDataHtmlAndPopulateWindowTitle($testSession, $active_id, false);
-        $user_id = $this->object->_getUserIdFromActiveId($active_id);
-
-        $template = new ilTemplate("tpl.il_as_tst_pass_details_overview_participants.html", true, true, "Modules/Test");
-
-        $toolbar = $this->buildUserTestResultsToolbarGUI();
-
         if ($this->testrequest->isset('show_best_solutions')) {
             ilSession::set('tst_results_show_best_solutions', true);
         } elseif ($this->testrequest->isset('hide_best_solutions')) {
@@ -912,6 +871,18 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             ilSession::clear('tst_results_show_best_solutions');
         }
 
+        $this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print.css", "Modules/Test"), "print");
+        if ($this->object->getShowSolutionAnswersOnly()) {
+            $this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print_hide_content.css", "Modules/Test"), "print");
+        }
+
+        $template = new ilTemplate("tpl.il_as_tst_pass_details_overview_participants.html", true, true, "Modules/Test");
+
+        $this->populateExamId($template, $active_id, $pass);
+        $this->populatePassFinishDate($template, ilObjTest::lookupLastTestPassAccess($active_id, $pass));
+
+
+        $toolbar = $this->buildUserTestResultsToolbarGUI();
         if (ilSession::get('tst_results_show_best_solutions')) {
             $this->ctrl->setParameter($this, 'hide_best_solutions', '1');
             $toolbar->setHideBestSolutionsLinkTarget($this->ctrl->getLinkTarget($this, 'outParticipantsPassDetails'));
@@ -934,37 +905,22 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             $template->parseCurrentBlock();
         }
 
-        $list_of_answers = $this->getPassListOfAnswers($result_array, $active_id, $pass, ilSession::get('tst_results_show_best_solutions'), false, false, false, true, $objectivesList, $testResultHeaderLabelBuilder);
-        $template->setVariable("LIST_OF_ANSWERS", $list_of_answers);
-        $template->setVariable("PASS_DETAILS", $this->ctrl->getHTML($overviewTableGUI));
+        $title = sprintf(
+            $this->lng->txt("tst_result_user_name_pass"),
+            $pass + 1,
+            ilObjUser::_lookupFullname($this->object->_getUserIdFromActiveId($active_id))
+        );
 
-        $data = $this->object->getCompleteEvaluationData();
-        $result = $data->getParticipant($active_id)->getReached() . " " . strtolower($this->lng->txt("of")) . " " . $data->getParticipant($active_id)->getMaxpoints() . " (" . sprintf("%2.2f", $data->getParticipant($active_id)->getReachedPointsInPercent()) . " %" . ")";
-        $template->setCurrentBlock('total_score');
-        $template->setVariable("TOTAL_RESULT_TEXT", $this->lng->txt('tst_stat_result_resultspoints'));
-        $template->setVariable("TOTAL_RESULT", $result);
-        $template->parseCurrentBlock();
+        $dic = ilTestDIC::dic();
+        $results = $dic['factory.results']->for($this->object, $active_id, $pass);
 
-        if (!$this->getObjectiveOrientedContainer()->isObjectiveOrientedPresentationRequired()) {
-            $template->setVariable("USER_DATA", $user_data);
+        $table = $results->getTable($title);
 
-            $uname = $this->object->userLookupFullName($user_id);
-            $template->setVariable("TEXT_HEADING", sprintf($this->lng->txt("tst_result_user_name_pass"), $pass + 1, $uname));
-
-            $template->setVariable("TEXT_RESULTS", $testResultHeaderLabelBuilder->getPassDetailsHeaderLabel($pass + 1));
-        }
-
-        $template->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-
-        $this->populateExamId($template, $active_id, $pass);
-        $this->populatePassFinishDate($template, ilObjTest::lookupLastTestPassAccess($active_id, $pass));
-
-        $this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print.css", "Modules/Test"), "print");
-        if ($this->object->getShowSolutionAnswersOnly()) {
-            $this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print_hide_content.css", "Modules/Test"), "print");
-        }
-
-        $this->tpl->setVariable("ADM_CONTENT", $template->get());
+        $this->tpl->setVariable(
+            "ADM_CONTENT",
+            $template->get()
+            . $table->render()
+        );
     }
 
     public function outParticipantsResultsOverview()
