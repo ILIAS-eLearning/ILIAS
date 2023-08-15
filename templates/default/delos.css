@@ -11082,6 +11082,12 @@ div#right_bottom_area iframe {
 }
 
 /* Modules/Poll */
+.ilPollAlert {
+  margin: 5px;
+  font-size: 0.75rem;
+  color: #B54F00;
+}
+
 .ilPollDescription {
   margin: 5px;
   font-size: 0.75rem;
@@ -11094,6 +11100,14 @@ div#right_bottom_area iframe {
   margin: 1.5%;
   font-size: 0.75rem;
   font-style: italic;
+}
+
+.ilPollModeInfo {
+  display: inline-block;
+  width: 97%;
+  margin: 1.5%;
+  font-size: 0.75rem;
+  color: #6f6f6f;
 }
 
 img.ilPollQuestionImage {
@@ -11119,23 +11133,8 @@ img.ilPollQuestionImage {
   margin-bottom: 5px;
 }
 
-.ilPollQuestionResultBar {
-  width: 100%;
-  border: 1px solid #757575;
-  float: left;
-  height: 18px;
-}
-
-.ilPollQuestionResultBarInner {
-  background-color: #e2e8ef;
-  height: 18px;
-}
-
-.ilPollQuestionResultPerc {
-  float: right;
-  position: relative;
-  margin-top: -17px;
-  margin-right: 3px;
+.ilPollQuestionResult .progress .progress-bar {
+  background-color: #4c6586;
 }
 
 .ilPollLegend {
