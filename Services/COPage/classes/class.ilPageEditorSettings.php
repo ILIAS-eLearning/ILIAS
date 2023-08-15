@@ -88,7 +88,7 @@ class ilPageEditorSettings
             " AND name = " . $ilDB->quote($a_name, "text")
         );
         if ($rec = $ilDB->fetchAssoc($set)) {
-            return $rec["value"];
+            return (string) $rec["value"];
         }
 
         return $a_default;
