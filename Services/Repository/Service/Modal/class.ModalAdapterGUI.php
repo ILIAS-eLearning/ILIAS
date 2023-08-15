@@ -174,7 +174,7 @@ class ModalAdapterGUI
             $button = $ui->factory()->button()->standard($button_title, "#")
                          ->withOnClick($modal->getShowSignal());
         }
-        return ["button" => $button, "modal" => $modal];
+        return ["button" => $button, "modal" => $modal, "signal" => $modal->getShowSignal()->getId()];
     }
 
     public function getTriggerButtonComponents(string $button_title, $shy = true): array
@@ -189,6 +189,6 @@ class ModalAdapterGUI
             $button = $ui->factory()->button()->standard($button_title, "#")
                          ->withOnClick($modal->getShowSignal());
         }
-        return ["button" => $button, "modal" => $modal];
+        return ["button" => $button, "modal" => $modal, "signal" => $modal->getShowSignal()->getId()];
     }
 }

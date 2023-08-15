@@ -482,4 +482,17 @@ class ilNewsTimelineGUI
 
         return $modal->getHTML();
     }
+
+    protected function getNewDeleteModal(): string
+    {
+        $mbox = $this->gui->ui()->factory()->messageBox()->confirmation(
+            $this->lng->txt("news_really_delete_news")
+        );
+        $modal = $this->gui->modal($this->lng->txt("delete"))
+            ->content([$mbox])
+            ->button($this->lng->txt("delete"), "#");
+        $c = $modal->getTriggerButtonComponents("");
+        // write signal id into data attribute, read signal id when il.News.delete
+        return $this->gui->ui()->renderer()->render($c["modal"]);
+    }
 }
