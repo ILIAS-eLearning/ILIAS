@@ -931,7 +931,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
             $cgui->addItem(
                 'id[]',
-                $id,
+                (string) $id,
                 $caption
             );
         }
@@ -999,7 +999,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
             return;
         }
         $this->initUserImportForm();
-        $tpl->setContent($this->form->getHTML());
+        $this->tpl->setContent($this->form->getHTML());
     }
 
     public function initUserImportForm(): void
@@ -1365,7 +1365,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
                     }
 
                     if (count($selectable_roles) > 0) {
-                        $select = $ui->input()->field()
+                        $select = $this->ui_factory->input()->field()
                             ->select($role['name'], $selectable_roles)
                             ->withRequired(true);
                         if (array_key_exists($pre_select, $selectable_roles)) {
@@ -1382,7 +1382,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
             ilUserImportParser::IL_UPDATE_ON_CONFLICT => $this->lng->txt('update_on_conflict')
         ];
 
-        $conflict_action_select = $ui->input()->field()
+        $conflict_action_select = $this->ui_factory->input()->field()
             ->select(
                 $this->lng->txt('conflict_handling'),
                 $handlers,
@@ -1400,16 +1400,16 @@ class ilObjUserFolderGUI extends ilObjectGUI
         $amail = ilObjUserFolder::_lookupNewAccountMail($this->lng->getDefaultLanguage());
         $mail_section = null;
         if (trim($amail['body'] ?? '') != '' && trim($amail['subject'] ?? '') != '') {
-            $send_checkbox = $ui->input()->field()->checkbox($this->lng->txt('user_send_new_account_mail'))
+            $send_checkbox = $this->ui_factory->input()->field()->checkbox($this->lng->txt('user_send_new_account_mail'))
                                 ->withValue(true);
 
-            $mail_section = $ui->input()->field()->section(
+            $mail_section = $this->ui_factory->input()->field()->section(
                 [$send_checkbox],
                 $this->lng->txt('mail_account_mail')
             );
         }
 
-        $file_info_section = $ui->input()->field()->section(
+        $file_info_section = $this->ui_factory->input()->field()->section(
             [
                 'filename' => $roles_import_filename,
                 'import_count' => $roles_import_count,
@@ -1424,20 +1424,20 @@ class ilObjUserFolderGUI extends ilObjectGUI
         ];
 
         if (!empty($global_selects)) {
-            $global_role_info_section = $ui->input()
+            $global_role_info_section = $this->ui_factory->input()
                 ->field()
                 ->section([$global_roles_assignment_info], $this->lng->txt('global_role_assignment'));
-            $global_role_selection_section = $ui->input()->field()->section($global_selects, '');
+            $global_role_selection_section = $this->ui_factory->input()->field()->section($global_selects, '');
             $form_elements['global_role_info'] = $global_role_info_section;
             $form_elements['global_role_selection'] = $global_role_selection_section;
         }
 
         if (!empty($local_selects)) {
-            $local_role_info_section = $ui->input()->field()->section(
+            $local_role_info_section = $this->ui_factory->input()->field()->section(
                 [$local_roles_assignment_info],
                 $this->lng->txt('local_role_assignment')
             );
-            $local_role_selection_section = $ui->input()->field()->section(
+            $local_role_selection_section = $this->ui_factory->input()->field()->section(
                 $local_selects,
                 ''
             );
@@ -1446,13 +1446,13 @@ class ilObjUserFolderGUI extends ilObjectGUI
             $form_elements['local_role_selection'] = $local_role_selection_section;
         }
 
-        $form_elements['conflict_action'] = $ui->input()->field()->section([$conflict_action_select], '');
+        $form_elements['conflict_action'] = $this->ui_factory->input()->field()->section([$conflict_action_select], '');
 
         if ($mail_section !== null) {
             $form_elements['send_mail'] = $mail_section;
         }
 
-        return [$ui->input()->container()->form()->standard(
+        return [$this->ui_factory->input()->container()->form()->standard(
             $form_action,
             $form_elements
         ), $message];
@@ -1648,7 +1648,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
         $importParser = new ilUserImportParser(
             $xml_path,
             ilUserImportParser::IL_USER_IMPORT,
-            $rule
+            (int) $rule
         );
         $importParser->setFolderId($this->getUserOwnerId());
 
