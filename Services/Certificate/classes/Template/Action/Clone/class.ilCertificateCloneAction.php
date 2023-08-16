@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\Filesystem\Filesystem;
 use ILIAS\Filesystem\Exception\FileAlreadyExistsException;
@@ -36,6 +36,7 @@ class ilCertificateCloneAction
     private ilCertificateObjectHelper $objectHelper;
     private string $webDirectory;
     private string $global_certificate_path;
+    private ilObjCertificateSettings $global_certificate_settings;
 
     public function __construct(
         ilDBInterface $database,
@@ -44,6 +45,7 @@ class ilCertificateCloneAction
         ?Filesystem $fileSystem = null,
         ?ilLogger $logger = null,
         ?ilCertificateObjectHelper $objectHelper = null,
+        ?ilObjCertificateSettings $global_certificate_settings = null,
         string $webDirectory = CLIENT_WEB_DIR,
         string $global_certificate_path = null
     ) {
@@ -68,12 +70,13 @@ class ilCertificateCloneAction
         }
         $this->objectHelper = $objectHelper;
 
+        if (!$global_certificate_settings) {
+            $global_certificate_settings = new ilObjCertificateSettings();
+        }
+        $this->global_certificate_settings = $global_certificate_settings;
+
         if (null === $global_certificate_path) {
-            $global_certificate_path = str_replace(
-                '[CLIENT_WEB_DIR]',
-                '',
-                ilObjCertificateSettingsAccess::getBackgroundImagePath(true)
-            );
+            $global_certificate_path = $this->global_certificate_settings->getDefaultBackgroundImagePath(true);
         }
         $this->global_certificate_path = $global_certificate_path;
 

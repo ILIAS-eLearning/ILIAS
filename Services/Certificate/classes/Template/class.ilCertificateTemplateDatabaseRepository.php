@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * @author  Niels Theen <ntheen@databay.de>
@@ -390,6 +390,56 @@ WHERE obj_id = ' . $this->database->quote($objId, 'integer');
         $this->database->manipulate($sql);
 
         $this->logger->debug(sprintf('END - Certificate template deactivated for object: "%s"', $objId));
+    }
+
+    public function updateDefaultBackgroundImagePaths(string $old_relative_path, string $new_relative_path): void
+    {
+        $this->logger->debug(sprintf(
+            'START - Update all default background image paths from "%s" to "%s"',
+            $old_relative_path,
+            $new_relative_path
+        ));
+
+        $affected_rows = $this->database->manipulateF(
+            'UPDATE il_cert_template SET background_image_path = %s WHERE currently_active = 1 AND (background_image_path = %s OR background_image_path = %s )',
+            [
+                'text',
+                'text',
+                'text'
+            ],
+            [
+                $new_relative_path,
+                $old_relative_path,
+                '/certificates/default/background.jpg']
+        );
+
+        $this->logger->debug(sprintf(
+            'END - Updated %s certificate templates using old path',
+            $affected_rows
+        ));
+    }
+
+    public function isBackgroundImageUsed(string $relative_image_path): bool
+    {
+        $this->logger->debug(sprintf(
+            'START - Checking if any certificate template uses background image path "%s"',
+            $relative_image_path
+        ));
+
+        $result = $this->database->queryF(
+            'SELECT EXISTS(SELECT 1 FROM il_cert_template WHERE background_image_path = %s AND currently_active = 1) AS does_exist',
+            ['text'],
+            [$relative_image_path]
+        );
+
+        $exists = (bool) ($this->database->fetchAssoc($result)['does_exist'] ?? false);
+
+        $this->logger->debug(sprintf(
+            'END - Image path "%s" is ' . $exists ? "in use" : "unused",
+            $relative_image_path
+        ));
+
+        return $exists;
     }
 
     /**
