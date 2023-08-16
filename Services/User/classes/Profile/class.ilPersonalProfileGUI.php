@@ -39,7 +39,7 @@ class ilPersonalProfileGUI
     private ilPropertyFormGUI $form;
     private string $password_error;
     private string $upload_error;
-    private ilSetting $setting;
+    private ilSetting $settings;
     private ilObjUser $user;
 
     private ilLanguage $lng;
@@ -74,7 +74,7 @@ class ilPersonalProfileGUI
         $this->help = $DIC['ilHelp'];
         $this->user = $DIC['ilUser'];
         $this->lng = $DIC['lng'];
-        $this->setting = $DIC['ilSetting'];
+        $this->settings = $DIC['ilSetting'];
         $this->tpl = $DIC['tpl'];
         $this->ctrl = $DIC['ilCtrl'];
         $this->error_handler = $DIC['ilErr'];
@@ -342,8 +342,8 @@ class ilPersonalProfileGUI
         $this->terms_of_service_helper->resetAcceptance($this->user);
 
         $defaultAuth = ilAuthUtils::AUTH_LOCAL;
-        if ($this->setting->get('auth_mode')) {
-            $defaultAuth = $this->setting->get('auth_mode');
+        if ($this->settings->get('auth_mode')) {
+            $defaultAuth = $this->settings->get('auth_mode');
         }
 
         $withdrawalType = 0;
@@ -352,7 +352,7 @@ class ilPersonalProfileGUI
             ($this->user->getAuthMode() === 'default' && $defaultAuth == ilAuthUtils::AUTH_LDAP)
         ) {
             $withdrawalType = 2;
-        } elseif ($this->setting->get('tos_withdrawal_usr_deletion', '0') !== '0') {
+        } elseif ($this->settings->get('tos_withdrawal_usr_deletion', '0') !== '0') {
             $withdrawalType = 1;
         }
 
@@ -726,7 +726,7 @@ class ilPersonalProfileGUI
                 $this->checklist_status->saveStepSucess(ilProfileChecklistStatus::STEP_PROFILE_DATA);
                 $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_obj_modified'), true);
 
-                $this->user->redirect($this, 'showPublicProfile');
+                $this->ctrl->redirect($this, 'showPublicProfile');
             }
         }
 
@@ -751,7 +751,7 @@ class ilPersonalProfileGUI
 
     protected function getProfilePortfolio(): ?int
     {
-        if ($this->setting->get('user_portfolios')) {
+        if ($this->settings->get('user_portfolios')) {
             return ilObjPortfolio::getDefaultPortfolio($this->user->getId());
         }
         return null;
@@ -771,21 +771,21 @@ class ilPersonalProfileGUI
             // Activate public profile
             $radg = new ilRadioGroupInputGUI($this->lng->txt('user_activate_public_profile'), 'public_profile');
             $info = $this->lng->txt('user_activate_public_profile_info');
-            $profile_mode = new ilPersonalProfileMode($this->user, $this->setting);
+            $profile_mode = new ilPersonalProfileMode($this->user, $this->settings);
             $pub_prof = $profile_mode->getMode();
             $radg->setValue($pub_prof);
             $op1 = new ilRadioOption($this->lng->txt('usr_public_profile_disabled'), 'n', $this->lng->txt('usr_public_profile_disabled_info'));
             $radg->addOption($op1);
             $op2 = new ilRadioOption($this->lng->txt('usr_public_profile_logged_in'), 'y');
             $radg->addOption($op2);
-            if ($this->setting->get('enable_global_profiles')) {
+            if ($this->settings->get('enable_global_profiles')) {
                 $op3 = new ilRadioOption($this->lng->txt('usr_public_profile_global'), 'g');
                 $radg->addOption($op3);
             }
             $this->form->addItem($radg);
 
             // #11773
-            if ($this->setting->get('user_portfolios')) {
+            if ($this->settings->get('user_portfolios')) {
                 // #10826
                 $prtf = '<br />' . $this->lng->txt('user_profile_portfolio');
                 $prtf .= '<br /><a href="ilias.php?baseClass=ilDashboardGUI&cmd=jumpToPortfolio">&raquo; ' .
