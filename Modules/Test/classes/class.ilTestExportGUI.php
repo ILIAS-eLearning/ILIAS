@@ -238,6 +238,7 @@ class ilTestExportGUI extends ilExportGUI
         }
 
         $table->setData($data);
+        $this->tpl->setOnScreenMessage('info', $lng->txt('exp_limitations_info'), true);
         $tpl->setContent($table->getHTML());
     }
 

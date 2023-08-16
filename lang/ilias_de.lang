@@ -695,6 +695,7 @@ assessment#:#exp_all_test_runs#:#Alle Durchläufe
 assessment#:#exp_best_pass#:#Bewerteter Durchlauf
 assessment#:#exp_eval_data#:#Evaluationsdaten exportieren als
 assessment#:#exp_file_created#:#Exportdatei erzeugt.
+assessment#:#exp_limitations_info#:#Der Export wird keine manuellen Rückmeldungen enthalten.
 assessment#:#exp_scored_test_run#:#Bester Durchlauf
 assessment#:#exp_type_certificate#:#Zertifikat (PDF)
 assessment#:#exp_type_excel#:#Microsoft Excel

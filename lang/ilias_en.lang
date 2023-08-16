@@ -695,6 +695,7 @@ assessment#:#exp_all_test_runs#:#All test runs
 assessment#:#exp_best_pass#:#Scored test run
 assessment#:#exp_eval_data#:#Export evaluation data as
 assessment#:#exp_file_created#:#Export file created.
+assessment#:#exp_limitations_info#:#Export will not include manual feedback.
 assessment#:#exp_scored_test_run#:#Scored test run
 assessment#:#exp_type_certificate#:#Certificate (PDF)
 assessment#:#exp_type_excel#:#Microsoft Excel
