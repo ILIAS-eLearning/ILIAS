@@ -6300,7 +6300,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
             'activation_visibility' => $this->getActivationVisibility(),
 
             'IntroEnabled' => (int) $main_settings->getIntroductionSettings()->getIntroductionEnabled(),
-            'HideInfoTab' => (int) $main_settings->getIntroductionSettings()->getHideInfoTab(),
             'ExamConditionsCheckboxEnabled' => (int) $main_settings->getIntroductionSettings()->getExamConditionsCheckboxEnabled(),
 
             'StartingTimeEnabled' => (int) $main_settings->getAccessSettings()->getStartTimeEnabled(),
@@ -6373,7 +6372,9 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
             'highscore_wtime' => $score_settings->getGamificationSettings()->getHighscoreWTime(),
             'highscore_own_table' => $score_settings->getGamificationSettings()->getHighscoreOwnTable(),
             'highscore_top_table' => $score_settings->getGamificationSettings()->getHighscoreTopTable(),
-            'highscore_top_num' => $score_settings->getGamificationSettings()->getHighscoreTopNum()
+            'highscore_top_num' => $score_settings->getGamificationSettings()->getHighscoreTopNum(),
+
+            'HideInfoTab' => (int) $main_settings->getAdditionalSettings()->getHideInfoTab(),
         ];
 
         $next_id = $this->db->nextId('tst_test_defaults');
@@ -6419,7 +6420,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
             ->withIntroductionSettings(
                 $main_settings->getIntroductionSettings()
                 ->withIntroductionEnabled($testsettings['IntroEnabled'])
-                ->withHideInfoTab($testsettings['HideInfoTab'])
                 ->withExamConditionsCheckboxEnabled($testsettings['ExamConditionsCheckboxEnabled'])
             )
             ->withAccessSettings(
@@ -6480,6 +6480,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
             ->withAdditionalSettings(
                 $main_settings->getAdditionalSettings()
                     ->withSkillsServiceEnabled((bool) $testsettings['skill_service'])
+                    ->withHideInfoTab($testsettings['HideInfoTab'])
             );
 
         $this->getMainSettingsRepository()->store($main_settings);
