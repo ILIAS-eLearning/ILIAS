@@ -72,7 +72,7 @@ first maintainer has to be notified about newly introduced languages and changes
 to the related language.
 
 # Maintaining Languages
-The different languages supported by ILIAS are maintained by volunteers. If want to help us to improve an existing language or introduce and maintain a new one, please contact the ILIAS product manager: info@ilias.de.
+The different languages supported by ILIAS are maintained by volunteers. If you want to help us to improve an existing language or introduce and maintain a new one, please contact the ILIAS product manager: info@ilias.de.
 
 You find more information about language maintenance in the document 
 [Language Instructions](https://docu.ilias.de/goto_docu_lm_37.html).
