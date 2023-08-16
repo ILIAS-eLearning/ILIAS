@@ -46,6 +46,9 @@ class ilCertificateTemplateDeleteActionTest extends ilCertificateBaseTestCase
                 'samples/background.jpg'
             ));
 
+        $templateRepositoryMock->expects($this->once())->method("deleteTemplate");
+        $templateRepositoryMock->expects($this->once())->method("save");
+
         $utilHelper = $this->getMockBuilder(ilCertificateUtilHelper::class)
             ->getMock();
 

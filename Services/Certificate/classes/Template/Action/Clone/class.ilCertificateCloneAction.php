@@ -31,6 +31,7 @@ class ilCertificateCloneAction
     private readonly Filesystem $fileSystem;
     private readonly ilCertificateObjectHelper $objectHelper;
     private readonly string $global_certificate_path;
+    private readonly ilObjCertificateSettings $global_certificate_settings;
 
     public function __construct(
         private readonly ilDBInterface $database,
@@ -39,6 +40,7 @@ class ilCertificateCloneAction
         private readonly string $webDirectory = CLIENT_WEB_DIR,
         ?Filesystem $fileSystem = null,
         ?ilCertificateObjectHelper $objectHelper = null,
+        ?ilObjCertificateSettings $global_certificate_settings = null,
         string $global_certificate_path = null
     ) {
         if (null === $fileSystem) {
@@ -52,12 +54,13 @@ class ilCertificateCloneAction
         }
         $this->objectHelper = $objectHelper;
 
+        if (!$global_certificate_settings) {
+            $global_certificate_settings = new ilObjCertificateSettings();
+        }
+        $this->global_certificate_settings = $global_certificate_settings;
+
         if (null === $global_certificate_path) {
-            $global_certificate_path = str_replace(
-                '[CLIENT_WEB_DIR]',
-                '',
-                ilObjCertificateSettingsAccess::getBackgroundImagePath(true)
-            );
+            $global_certificate_path = $this->global_certificate_settings->getDefaultBackgroundImagePath(true);
         }
         $this->global_certificate_path = $global_certificate_path;
     }
