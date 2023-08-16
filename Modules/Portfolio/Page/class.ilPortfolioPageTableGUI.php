@@ -23,6 +23,7 @@
  */
 class ilPortfolioPageTableGUI extends ilTable2GUI
 {
+    protected \ILIAS\Portfolio\InternalGUIService $gui;
     protected array $blogs;
     protected ilObjUser $user;
     protected ilObjPortfolioBase $portfolio;
@@ -40,6 +41,7 @@ class ilPortfolioPageTableGUI extends ilTable2GUI
         $this->user = $DIC->user();
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
+        $this->gui = $DIC->portfolio()->internal()->gui();
 
         parent::__construct($a_parent_obj, $a_parent_cmd);
         $this->disable("numinfo");
@@ -99,6 +101,7 @@ class ilPortfolioPageTableGUI extends ilTable2GUI
 
     protected function fillRow(array $a_set): void
     {
+        $f = $this->gui->ui()->factory();
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
         $action_items = [];
@@ -114,10 +117,13 @@ class ilPortfolioPageTableGUI extends ilTable2GUI
                     "ppage",
                     $a_set["id"]
                 );
-                $action_item = ilLinkButton::getInstance();
-                $action_item->setCaption('edit_page');
-                $action_item->setUrl($ilCtrl->getLinkTargetByClass($this->page_gui, "edit"));
-                $action_items[] = $action_item;
+                //$action_item = ilLinkButton::getInstance();
+                //$action_item->setCaption('edit_page');
+                //$action_item->setUrl($ilCtrl->getLinkTargetByClass($this->page_gui, "edit"));
+                $action_items[] = $f->button()->shy(
+                    $lng->txt('edit_page'),
+                    $ilCtrl->getLinkTargetByClass($this->page_gui, "edit")
+                );
 
 
                 $this->tpl->setVariable("TYPE", $lng->txt("page"));
@@ -142,10 +148,14 @@ class ilPortfolioPageTableGUI extends ilTable2GUI
                         );
                         $link = $ilCtrl->getLinkTargetByClass(array($this->page_gui, "ilobjbloggui"), "render");
 
-                        $action_item = ilLinkButton::getInstance();
+                        /*$action_item = ilLinkButton::getInstance();
                         $action_item->setCaption('blog_edit');
                         $action_item->setUrl($link);
-                        $action_items[] = $action_item;
+                        $action_items[] = $action_item;*/
+                        $action_items[] = $f->button()->shy(
+                            $lng->txt('blog_edit'),
+                            $link
+                        );
                     }
                     $this->tpl->setVariable("TYPE", $lng->txt("obj_blog"));
                 }
@@ -169,25 +179,41 @@ class ilPortfolioPageTableGUI extends ilTable2GUI
         $ilCtrl->setParameter($this->parent_obj, "prtf_page", $a_set["id"]);
 
         // copy
-        $action_item = ilLinkButton::getInstance();
+        //$action_item = ilLinkButton::getInstance();
         if ((int) $a_set["type"] === ilPortfolioPage::TYPE_PAGE) {
-            $action_item->setCaption('prtf_copy_pg');
+            $txt = $lng->txt('prtf_copy_pg');
         } else {
-            $action_item->setCaption('prtf_copy_blog_pg');
+            $txt = $lng->txt('prtf_copy_blog_pg');
         }
-        $action_item->setUrl($ilCtrl->getLinkTarget($this->parent_obj, "copyPageForm"));
-        $action_items[] = $action_item;
+        //$action_item->setUrl($ilCtrl->getLinkTarget($this->parent_obj, "copyPageForm"));
+        //$action_items[] = $action_item;
+        $action_items[] = $f->button()->shy(
+            $txt,
+            $ilCtrl->getLinkTarget($this->parent_obj, "copyPageForm")
+        );
+
 
         // delete
-        $action_item = ilLinkButton::getInstance();
-        $action_item->setCaption('delete');
-        $action_item->setUrl($ilCtrl->getLinkTarget($this->parent_obj, "confirmPortfolioPageDeletion"));
-        $action_items[] = $action_item;
+        //$action_item = ilLinkButton::getInstance();
+        //$action_item->setCaption('delete');
+        //$action_item->setUrl($ilCtrl->getLinkTarget($this->parent_obj, "confirmPortfolioPageDeletion"));
+        //$action_items[] = $action_item;
+        $action_items[] = $f->button()->shy(
+            $lng->txt("delete"),
+            $ilCtrl->getLinkTarget($this->parent_obj, "confirmPortfolioPageDeletion")
+        );
+
 
         $ilCtrl->setParameter($this->parent_obj, "prtf_page", "");
 
+        $ks = [];
         if (count($action_items) > 0) {
-            $split_button = ilSplitButtonGUI::getInstance();
+            $first = array_shift($action_items);
+            $ks[] = $f->button()->standard(
+                $first->getLabel(),
+                $first->getAction()
+            );
+            /*$split_button = ilSplitButtonGUI::getInstance();
             $i = 0;
             foreach ($action_items as $item) {
                 if ($i++ === 0) {
@@ -195,8 +221,14 @@ class ilPortfolioPageTableGUI extends ilTable2GUI
                 } else {
                     $split_button->addMenuItem(new ilButtonToSplitButtonMenuItemAdapter($item));
                 }
+            }*/
+            if (count($action_items) > 0) {
+                $ks[] = $f->dropdown()->standard($action_items);
             }
-            $this->tpl->setVariable("SPLIT_BUTTON", $split_button->render());
+            $this->tpl->setVariable(
+                "SPLIT_BUTTON",
+                $this->gui->ui()->renderer()->render([$ks])
+            );
         }
 
 
