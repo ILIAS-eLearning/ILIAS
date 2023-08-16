@@ -16,8 +16,8 @@
  *
  *********************************************************************/
 
-use ILIAS\ResourceStorage\Flavour\Definition\CropToSquare;
-use ILIAS\ResourceStorage\Flavour\Machine\DefaultMachines\CropSquare;
+declare(strict_types=1);
+
 use ILIAS\UI\Component\Symbol\Avatar\Avatar;
 use ILIAS\UI\Factory;
 

@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\ResourceStorage\Stakeholder\AbstractResourceStakeholder;
 
 /**
