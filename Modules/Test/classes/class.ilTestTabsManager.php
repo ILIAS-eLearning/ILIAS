@@ -483,7 +483,7 @@ class ilTestTabsManager
         }
 
         // info tab
-        if ($this->isReadAccessGranted()) {
+        if ($this->isReadAccessGranted() && !$this->getTestOBJ()->getMainSettings()->getAdditionalSettings()->getHideInfoTab()) {
             $this->tabs->addTarget(
                 'info_short',
                 $this->ctrl->getLinkTargetByClass('ilObjTestGUI', 'infoScreen'),

@@ -2621,7 +2621,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         }
         $object = new ilObjTest($this->ref_id, true);
 
-        if ($object->getMainSettings()->getIntroductionSettings()->getHideInfoTab()) {
+        if ($object->getMainSettings()->getAdditionalSettings()->getHideInfoTab()) {
             $this->ctrl->redirectByClass($this::class, 'questions');
             return '';
         }

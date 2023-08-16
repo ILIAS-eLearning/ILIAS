@@ -52,7 +52,7 @@ class ilObjTestMainSettingsDatabaseRepository implements MainSettingsRepository
             . 'test_id,' . PHP_EOL
             . 'intro_enabled,' . PHP_EOL
             . 'hide_info_tab,' . PHP_EOL
-            . 'exam_conditions_checkbox_enabled,' . PHP_EOL
+            . 'conditions_checkbox_enabled,' . PHP_EOL
             . 'introduction,' . PHP_EOL
             . 'introduction_page_id,' . PHP_EOL
             . 'starting_time_enabled,' . PHP_EOL
@@ -124,7 +124,7 @@ class ilObjTestMainSettingsDatabaseRepository implements MainSettingsRepository
                 $row['introduction'],
                 $row['introduction_page_id'],
                 (bool) $row['hide_info_tab'],
-                (bool) $row['exam_conditions_checkbox_enabled'],
+                (bool) $row['conditions_checkbox_enabled'],
             ),
             new ilObjTestSettingsAccess(
                 $test_id,
