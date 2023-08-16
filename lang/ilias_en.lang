@@ -695,7 +695,6 @@ assessment#:#exp_all_test_runs#:#All test runs
 assessment#:#exp_best_pass#:#Scored test run
 assessment#:#exp_eval_data#:#Export evaluation data as
 assessment#:#exp_file_created#:#Export file created.
-assessment#:#exp_limitations_info#:#Export will not include manual feedback.
 assessment#:#exp_scored_test_run#:#Scored test run
 assessment#:#exp_type_certificate#:#Certificate (PDF)
 assessment#:#exp_type_excel#:#Microsoft Excel
@@ -888,6 +887,7 @@ assessment#:#new_category#:#New Unit Category
 assessment#:#new_unit#:#New Unit
 assessment#:#next_question#:#Next
 assessment#:#next_question_rows#:#Questions %d - %d of %d →
+assessment#:#no_manual_feedback_export_info#:#Manual feedbacks will not be exported.
 assessment#:#no_passed_mark#:#At least one grade has to be a passing grade. For a grade to be a passing grade, it needs to have the appropriate box in the ‘Passed’ column checked.
 assessment#:#no_question_selected_for_move#:#Please check at least one question to move it!
 assessment#:#no_questions_available#:#There are no questions available!

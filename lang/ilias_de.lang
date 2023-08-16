@@ -695,7 +695,6 @@ assessment#:#exp_all_test_runs#:#Alle Durchläufe
 assessment#:#exp_best_pass#:#Bewerteter Durchlauf
 assessment#:#exp_eval_data#:#Evaluationsdaten exportieren als
 assessment#:#exp_file_created#:#Exportdatei erzeugt.
-assessment#:#exp_limitations_info#:#Der Export wird keine manuellen Rückmeldungen enthalten.
 assessment#:#exp_scored_test_run#:#Bester Durchlauf
 assessment#:#exp_type_certificate#:#Zertifikat (PDF)
 assessment#:#exp_type_excel#:#Microsoft Excel
@@ -888,6 +887,7 @@ assessment#:#new_category#:#Neue Einheiten-Kategorie
 assessment#:#new_unit#:#Neue Einheit
 assessment#:#next_question#:#Weiter
 assessment#:#next_question_rows#:#Fragen %d - %d von %d >>
+assessment#:#no_manual_feedback_export_info#:#Manuelle Rückmeldungen werden nicht exportiert.
 assessment#:#no_passed_mark#:#Sie müssen wenigstens einen Notenschritt als BESTANDEN markieren! Das Notenschema wurde nicht gespeichert!
 assessment#:#no_question_selected_for_move#:#Bitte wählen Sie mindestens eine Frage aus, um sie zu verschieben!
 assessment#:#no_questions_available#:#Es sind keine Fragen verfügbar!
