@@ -85,358 +85,595 @@ class ilUserProfile
         return $fields;
     }
 
-    public function skipGroup(string $a_group): void
+    public function skipGroup(string $group): void
     {
-        $this->skip_groups[] = $a_group;
+        $this->skip_groups[] = $group;
     }
 
-    public function skipField(string $a_field): void
+    public function skipField(string $field): void
     {
-        $this->skip_fields[] = $a_field;
+        $this->skip_fields[] = $field;
     }
 
     public function addStandardFieldsToForm(
-        ilPropertyFormGUI $a_form,
-        ?ilObjUser $a_user = null,
+        ilPropertyFormGUI $form,
+        ?ilObjUser $user = null,
         array $custom_fields = null
     ): void {
         $registration_settings = null;
-
-        // custom registration settings
         if ($this->mode == self::MODE_REGISTRATION) {
             $registration_settings = new ilRegistrationSettings();
-
-            $this->user_fields['username']['group'] = 'login_data';
-            $this->user_fields['password']['group'] = 'login_data';
-            $this->user_fields['language']['default'] = $this->lng->lang_key;
-
-            // different position for role
-            $roles = $this->user_fields['roles'];
-            unset($this->user_fields['roles']);
-            $this->user_fields['roles'] = $roles;
-            $this->user_fields['roles']['group'] = 'settings';
+            $this->addRegistrationFieldsToFieldArray();
         }
 
-        $fields = $this->getStandardFields();
         $current_group = '';
         $custom_fields_done = false;
-        foreach ($fields as $f => $p) {
+        foreach ($this->getStandardFields() as $field_id => $field_definition) {
             // next group? -> diplay subheader
-            if (($p['group'] != $current_group) &&
-                $this->userSettingVisible($f)) {
-                if (is_array($custom_fields) && !$custom_fields_done) {
-                    // should be appended to 'other' or at least before 'settings'
-                    if ($current_group == 'other' || $p['group'] == 'settings') {
-                        // add 'other' subheader
-                        if ($current_group != 'other') {
-                            $sh = new ilFormSectionHeaderGUI();
-                            $sh->setTitle($this->lng->txt('other'));
-                            $a_form->addItem($sh);
-                        }
-                        foreach ($custom_fields as $custom_field) {
-                            $a_form->addItem($custom_field);
-                        }
-                        $custom_fields_done = true;
-                    }
-                }
-
-                $sh = new ilFormSectionHeaderGUI();
-                $sh->setTitle($this->lng->txt($p['group']));
-                $a_form->addItem($sh);
-                $current_group = $p['group'];
+            if (($field_definition['group'] !== $current_group) &&
+                $this->userSettingVisible($field_id)) {
+                list($form, $current_group, $custom_fields_done) = $this->handleSectionChange(
+                    $form,
+                    $current_group,
+                    $field_definition['group'],
+                    $custom_fields,
+                    $custom_fields_done
+                );
             }
-
-            $m = $p['method'] ?? '';
-
-            $lv = (isset($p['lang_var']) && $p['lang_var'] != '')
-                ? $p['lang_var']
-                : $f;
-
-            switch ($p['input']) {
-                case 'login':
-                    if ((int) $this->settings->get('allow_change_loginname') || $this->mode == self::MODE_REGISTRATION) {
-                        $val = new ilTextInputGUI($this->lng->txt('username'), 'username');
-                        if ($a_user) {
-                            $val->setValue($a_user->getLogin());
-                        }
-                        $val->setMaxLength((int) $p['maxlength']);
-                        $val->setSize(255);
-                        $val->setRequired(true);
-                    } else {
-                        // user account name
-                        $val = new ilNonEditableValueGUI($this->lng->txt('username'), 'ne_un');
-                        if ($a_user) {
-                            $val->setValue($a_user->getLogin());
-                        }
-                    }
-                    $a_form->addItem($val);
-                    break;
-
-                case 'text':
-                    if ($this->userSettingVisible($f)) {
-                        $ti = new ilTextInputGUI($this->lng->txt($lv), 'usr_' . $f);
-                        if ($a_user) {
-                            $ti->setValue($a_user->$m());
-                        }
-                        $ti->setMaxLength($p['maxlength']);
-                        $ti->setSize($p['size']);
-                        $ti->setRequired((bool) $this->settings->get('require_' . $f));
-                        if (!$ti->getRequired() || $ti->getValue()) {
-                            $ti->setDisabled((bool) $this->settings->get('usr_settings_disable_' . $f));
-                        }
-                        $a_form->addItem($ti);
-                    }
-                    break;
-
-                case 'sel_country':
-                    if ($this->userSettingVisible($f)) {
-                        $ci = new ilCountrySelectInputGUI($this->lng->txt($lv), 'usr_' . $f);
-                        if ($a_user) {
-                            $ci->setValue($a_user->$m());
-                        }
-                        $ci->setRequired((bool) $this->settings->get('require_' . $f));
-                        if (!$ci->getRequired() || $ci->getValue()) {
-                            $ci->setDisabled((bool) $this->settings->get('usr_settings_disable_' . $f));
-                        }
-                        $a_form->addItem($ci);
-                    }
-                    break;
-
-                case 'birthday':
-                    if ($this->userSettingVisible($f)) {
-                        $bi = new ilBirthdayInputGUI($this->lng->txt($lv), 'usr_' . $f);
-                        $date = null;
-                        if ($a_user && $a_user->$m() && strlen($a_user->$m())) {
-                            $date = new ilDateTime($a_user->$m(), IL_CAL_DATE);
-                            $bi->setDate($date);
-                        }
-                        $bi->setRequired((bool) $this->settings->get('require_' . $f));
-                        if (!$bi->getRequired() || $date) {
-                            $bi->setDisabled((bool) $this->settings->get('usr_settings_disable_' . $f));
-                        }
-                        $a_form->addItem($bi);
-                    }
-                    break;
-
-                case 'radio':
-                    if ($this->userSettingVisible($f)) {
-                        $rg = new ilRadioGroupInputGUI($this->lng->txt($lv), 'usr_' . $f);
-                        if ($a_user) {
-                            $rg->setValue($a_user->$m());
-                        }
-                        foreach ($p['values'] as $k => $v) {
-                            $op = new ilRadioOption($this->lng->txt($v), $k);
-                            $rg->addOption($op);
-                        }
-                        $rg->setRequired((bool) $this->settings->get('require_' . $f));
-                        if (!$rg->getRequired() || $rg->getValue()) {
-                            $rg->setDisabled((bool) $this->settings->get('usr_settings_disable_' . $f));
-                        }
-                        $a_form->addItem($rg);
-                    }
-                    break;
-
-                case 'picture':
-                    if ($this->userSettingVisible('upload') && $a_user) {
-                        $ii = new ilImageFileInputGUI($this->lng->txt('personal_picture'), 'userfile');
-                        $ii->setAllowCapture(true);
-                        $ii->setDisabled((bool) $this->settings->get('usr_settings_disable_upload'));
-
-                        $upload = $a_form->getFileUpload('userfile');
-                        if ($upload['name'] ?? false) {
-                            $ii->setPending($upload['name']);
-                        } else {
-                            $im = ilObjUser::_getPersonalPicturePath(
-                                $a_user->getId(),
-                                'small',
-                                true,
-                                true
-                            );
-                            if ($im != '') {
-                                $ii->setImage($im);
-                                $ii->setAlt($this->lng->txt('personal_picture'));
-                            }
-                        }
-
-                        $a_form->addItem($ii);
-                    }
-                    break;
-
-                case 'roles':
-                    $role_names = '';
-                    if ($this->mode == self::MODE_DESKTOP) {
-                        if ($this->userSettingVisible('roles')) {
-                            $global_roles = $this->rbac_review->getGlobalRoles();
-                            foreach ($global_roles as $role_id) {
-                                if (in_array($role_id, $this->rbac_review->assignedRoles($a_user->getId()))) {
-                                    $roleObj = ilObjectFactory::getInstanceByObjId($role_id);
-                                    $role_names .= $roleObj->getTitle() . ', ';
-                                    unset($roleObj);
-                                }
-                            }
-                            $dr = new ilNonEditableValueGUI($this->lng->txt('default_roles'), 'ne_dr');
-                            $dr->setValue(substr($role_names, 0, -2));
-                            $a_form->addItem($dr);
-                        }
-                    } elseif ($this->mode == self::MODE_REGISTRATION) {
-                        if ($registration_settings->roleSelectionEnabled()) {
-                            $options = [];
-                            foreach (ilObjRole::_lookupRegisterAllowed() as $role) {
-                                $options[$role['id']] = $role['title'];
-                            }
-                            // registration form validation will take care of missing field / value
-                            if ($options) {
-                                if (count($options) > 1) {
-                                    $options = ['' => $this->lng->txt('please_choose')] + $options;
-                                    $ta = new ilSelectInputGUI($this->lng->txt('default_role'), 'usr_' . $f);
-                                    $ta->setOptions($options);
-                                    $ta->setRequired(true);
-                                    if (!$ta->getRequired()) {
-                                        $ta->setDisabled((bool) $this->settings->get('usr_settings_disable_' . $f));
-                                    }
-                                }
-                                // no need for select if only 1 option
-                                else {
-                                    $ta = new ilHiddenInputGUI('usr_' . $f);
-                                    $keys = array_keys($options);
-                                    $ta->setValue(array_shift($keys));
-                                }
-                                $a_form->addItem($ta);
-                            }
-                        }
-                    }
-                    break;
-
-                case 'second_email':
-                case 'email':
-                    if ($this->userSettingVisible($f)) {
-                        $em = new ilEMailInputGUI($this->lng->txt($lv), 'usr_' . $f);
-                        if ($a_user) {
-                            $em->setValue($a_user->$m());
-                        }
-                        $em->setRequired((bool) $this->settings->get('require_' . $f));
-                        if (!$em->getRequired() || $em->getValue()) {
-                            $em->setDisabled((bool) $this->settings->get('usr_settings_disable_' . $f));
-                        }
-                        if (self::MODE_REGISTRATION == $this->mode) {
-                            $em->setRetype(true);
-                        }
-                        $a_form->addItem($em);
-                    }
-                    break;
-                case 'textarea':
-                    if ($this->userSettingVisible($f)) {
-                        $ta = new ilTextAreaInputGUI($this->lng->txt($lv), 'usr_' . $f);
-                        if ($a_user) {
-                            $ta->setValue($a_user->$m());
-                        }
-                        $ta->setRows($p['rows']);
-                        $ta->setCols($p['cols']);
-                        $ta->setRequired((bool) $this->settings->get('require_' . $f));
-                        if (!$ta->getRequired() || $ta->getValue()) {
-                            $ta->setDisabled((bool) $this->settings->get('usr_settings_disable_' . $f));
-                        }
-                        $a_form->addItem($ta);
-                    }
-                    break;
-
-                case 'password':
-                    if ($this->mode == self::MODE_REGISTRATION) {
-                        if (!$registration_settings->passwordGenerationEnabled()) {
-                            $ta = new ilPasswordInputGUI($this->lng->txt($lv), 'usr_' . $f);
-                            $ta->setUseStripSlashes(false);
-                            $ta->setRequired(true);
-                            $ta->setInfo(ilSecuritySettingsChecker::getPasswordRequirementsInfo());
-                        } else {
-                            $ta = new ilNonEditableValueGUI($this->lng->txt($lv));
-                            $ta->setValue($this->lng->txt('reg_passwd_via_mail'));
-                        }
-                        $a_form->addItem($ta);
-                    }
-                    break;
-
-                case 'language':
-                    if ($this->userSettingVisible($f)) {
-                        $ta = new ilSelectInputGUI($this->lng->txt($lv), 'usr_' . $f);
-                        if ($a_user) {
-                            $ta->setValue($a_user->$m());
-                        }
-                        $options = [];
-                        $this->lng->loadLanguageModule('meta');
-                        foreach ($this->lng->getInstalledLanguages() as $lang_key) {
-                            $options[$lang_key] = $this->lng->txt('meta_l_' . $lang_key);
-                        }
-                        asort($options); // #9728
-                        $ta->setOptions($options);
-                        $ta->setRequired((bool) $this->settings->get('require_' . $f));
-                        if (!$ta->getRequired() || $ta->getValue()) {
-                            $ta->setDisabled((bool) $this->settings->get('usr_settings_disable_' . $f));
-                        }
-                        $a_form->addItem($ta);
-                    }
-                    break;
-
-                case 'multitext':
-                    if ($this->userSettingVisible($f)) {
-                        $ti = new ilTextInputGUI($this->lng->txt($lv), 'usr_' . $f);
-                        $ti->setMulti(true);
-                        if ($a_user) {
-                            $ti->setValue($a_user->$m());
-                        }
-                        $ti->setMaxLength($p['maxlength']);
-                        $ti->setSize($p['size']);
-                        $ti->setRequired((bool) $this->settings->get('require_' . $f));
-                        if (!$ti->getRequired() || $ti->getValue()) {
-                            $ti->setDisabled((bool) $this->settings->get('usr_settings_disable_' . $f));
-                        }
-                        if ($this->ajax_href) {
-                            // add field to ajax call
-                            $ti->setDataSource($this->ajax_href . '&f=' . $f);
-                        }
-                        $a_form->addItem($ti);
-                    }
-                    break;
-                case 'noneditable':
-                    if ($this->mode == self::MODE_DESKTOP && $this->userSettingVisible($f)) {
-                        $ne = new ilNonEditableValueGUI($this->lng->txt($lv));
-                        $ne->setValue($a_user->$m());
-                        $a_form->addItem($ne);
-                    }
-                    break;
-            }
+            $form = $this->addFieldToForm(
+                $field_id,
+                $field_definition,
+                $user,
+                $form,
+                $registration_settings
+            );
         }
 
         // append custom fields as 'other'
         if (is_array($custom_fields) && !$custom_fields_done) {
+            $form = $this->addCustomFieldsToForm($form, $custom_fields, $current_group);
+        }
+    }
+
+    private function addRegistrationFieldsToFieldArray(): void
+    {
+        $this->user_fields['username']['group'] = 'login_data';
+        $this->user_fields['password']['group'] = 'login_data';
+        $this->user_fields['language']['default'] = $this->lng->lang_key;
+
+        // different position for role
+        $roles = $this->user_fields['roles'];
+        unset($this->user_fields['roles']);
+        $this->user_fields['roles'] = $roles;
+        $this->user_fields['roles']['group'] = 'settings';
+    }
+
+    private function handleSectionChange(
+        ilPropertyFormGUI $form,
+        string $current_group,
+        string $next_group,
+        ?array $custom_fields,
+        bool $custom_fields_done
+    ): array {
+        if ($custom_fields !== null && !$custom_fields_done
+            && ($current_group === 'other' || $next_group === 'settings')) {
             // add 'other' subheader
-            if ($current_group != 'other') {
-                $sh = new ilFormSectionHeaderGUI();
-                $sh->setTitle($this->lng->txt('other'));
-                $a_form->addItem($sh);
-            }
-            foreach ($custom_fields as $custom_field) {
-                $a_form->addItem($custom_field);
-            }
+            $form = $this->addCustomFieldsToForm(
+                $form,
+                $custom_fields,
+                $current_group
+            );
+            $custom_fields_done = true;
         }
+
+        $section_header = new ilFormSectionHeaderGUI();
+        $section_header->setTitle($this->lng->txt($next_group));
+        $form->addItem($section_header);
+        return [
+            $form,
+            $next_group,
+            $custom_fields_done
+        ];
     }
 
-    public function setAjaxCallback(string $a_href): void
-    {
-        $this->ajax_href = $a_href;
+    private function addFieldToForm(
+        string $field_id,
+        array $field_definition,
+        ?ilObjUser $user,
+        ilPropertyFormGUI $form,
+        ?ilRegistrationSettings $registration_settings
+    ): ilPropertyFormGUI {
+        $method = $field_definition['method'] ?? '';
+
+        $lang_var = (isset($field_definition['lang_var']) && $field_definition['lang_var'] !== '')
+            ? $field_definition['lang_var']
+            : $field_id;
+
+        switch ($field_definition['input']) {
+            case 'text':
+                if (!$this->userSettingVisible($field_id)) {
+                    break;
+                }
+
+                $form->addItem(
+                    $this->getTextInput(
+                        $field_id,
+                        $field_definition,
+                        $method,
+                        $lang_var,
+                        $user
+                    )
+                );
+                break;
+
+            case 'textarea':
+                if (!$this->userSettingVisible($field_id)) {
+                    break;
+                }
+
+                $form->addItem(
+                    $this->getTextareaInput(
+                        $field_id,
+                        $field_definition,
+                        $method,
+                        $lang_var,
+                        $user
+                    )
+                );
+                break;
+
+            case 'multitext':
+                if (!$this->userSettingVisible($field_id)) {
+                    break;
+                }
+
+                $form->addItem(
+                    $this->getMultitextInput(
+                        $field_id,
+                        $field_definition,
+                        $method,
+                        $lang_var,
+                        $user
+                    )
+                );
+                break;
+
+            case 'radio':
+                if (!$this->userSettingVisible($field_id)) {
+                    break;
+                }
+
+                $form->addItem(
+                    $this->getRadioInput(
+                        $field_id,
+                        $field_definition,
+                        $method,
+                        $lang_var,
+                        $user
+                    )
+                );
+                break;
+
+            case 'login':
+                $form->addItem(
+                    $this->getLoginInput($field_definition, $user)
+                );
+                break;
+
+            case 'sel_country':
+                if (!$this->userSettingVisible($field_id)) {
+                    break;
+                }
+
+                $form->addItem(
+                    $this->getCountryInput($field_id, $method, $lang_var, $user)
+                );
+                break;
+
+            case 'birthday':
+                if (!$this->userSettingVisible($field_id)) {
+                    break;
+                }
+
+                $form->addItem(
+                    $this->getBirthdayInput($field_id, $method, $lang_var, $user)
+                );
+                break;
+
+            case 'picture':
+                if (!$this->userSettingVisible($field_id) || $user === null) {
+                    break;
+                }
+
+                $form->addItem(
+                    $this->getImageInput($form->getFileUpload('userfile'), $user)
+                );
+                break;
+
+            case 'roles':
+                $roles_input = $this->getRolesInput($field_id, $registration_settings, $user);
+                if ($roles_input !== null) {
+                    $form->addItem($roles_input);
+                }
+                break;
+
+            case 'second_email':
+            case 'email':
+                if (!$this->userSettingVisible($field_id)) {
+                    break;
+                }
+
+                $form->addItem(
+                    $this->getEmailInput($field_id, $method, $lang_var, $user)
+                );
+                break;
+
+            case 'password':
+                if ($this->mode !== self::MODE_REGISTRATION) {
+                    break;
+                }
+
+                $form->addItem(
+                    $this->getPasswordInput(
+                        $field_id,
+                        $lang_var,
+                        $registration_settings
+                    )
+                );
+                break;
+
+            case 'language':
+                if (!$this->userSettingVisible($field_id)) {
+                    break;
+                }
+
+                $form->addItem(
+                    $this->getLanguageInput(
+                        $field_id,
+                        $method,
+                        $lang_var,
+                        $user
+                    )
+                );
+                break;
+
+            case 'noneditable':
+                if ($this->mode !== self::MODE_DESKTOP || $this->userSettingVisible($field_id)) {
+                    break;
+                }
+
+                $form->addItem(
+                    $this->getNonEditableInput($method, $lang_var, $user)
+                );
+                break;
+        }
+
+        return $form;
     }
 
-    public function userSettingVisible(string $a_setting): bool
-    {
-        $user_settings_config = new ilUserSettingsConfig();
+    private function getTextInput(
+        string $field_id,
+        array $field_definition,
+        string $method,
+        string $lang_var,
+        ?ilObjUser $user
+    ): ilFormPropertyGUI {
+        $text_input = new ilTextInputGUI($this->lng->txt($lang_var), 'usr_' . $field_id);
+        if ($user !== null) {
+            $text_input->setValue($user->$method());
+        }
+        $text_input->setMaxLength($field_definition['maxlength']);
+        $text_input->setSize($field_definition['size']);
+        $text_input->setRequired((bool) $this->settings->get('require_' . $field_id));
+        if (!$text_input->getRequired() || $text_input->getValue()) {
+            $text_input->setDisabled((bool) $this->settings->get('usr_settings_disable_' . $field_id));
+        }
 
-        if ($this->mode == self::MODE_DESKTOP) {
-            return ($user_settings_config->isVisible($a_setting));
+        return $text_input;
+    }
+
+    private function getTextareaInput(
+        string $field_id,
+        array $field_definition,
+        string $method,
+        string $lang_var,
+        ?ilObjUser $user
+    ): ilFormPropertyGUI {
+        $text_area = new ilTextAreaInputGUI($this->lng->txt($lang_var), 'usr_' . $field_id);
+        if ($user !== null) {
+            $text_area->setValue($user->$method());
+        }
+        $text_area->setRows($field_definition['rows']);
+        $text_area->setCols($field_definition['cols']);
+        $text_area->setRequired((bool) $this->settings->get('require_' . $field_id));
+        if (!$text_area->getRequired() || $text_area->getValue()) {
+            $text_area->setDisabled((bool) $this->settings->get('usr_settings_disable_' . $field_id));
+        }
+        return $text_area;
+    }
+
+    private function getMultitextInput(
+        string $field_id,
+        array $field_definition,
+        string $method,
+        string $lang_var,
+        ?ilObjUser $user
+    ): ilFormPropertyGUI {
+        $multi_text_input = new ilTextInputGUI($this->lng->txt($lang_var), 'usr_' . $field_id);
+        $multi_text_input->setMulti(true);
+        if ($user !== null) {
+            $multi_text_input->setValue($user->$method());
+        }
+        $multi_text_input->setMaxLength($field_definition['maxlength']);
+        $multi_text_input->setSize($field_definition['size']);
+        $multi_text_input->setRequired((bool) $this->settings->get('require_' . $field_id));
+        if (!$multi_text_input->getRequired() || $multi_text_input->getValue()) {
+            $multi_text_input->setDisabled((bool) $this->settings->get('usr_settings_disable_' . $field_id));
+        }
+        if ($this->ajax_href) {
+            // add field to ajax call
+            $multi_text_input->setDataSource($this->ajax_href . '&f=' . $field_id);
+        }
+        return $multi_text_input;
+    }
+
+    private function getRadioInput(
+        string $field_id,
+        array $field_definition,
+        string $method,
+        string $lang_var,
+        ?ilObjUser $user
+    ): ilFormPropertyGUI {
+        $radio_group = new ilRadioGroupInputGUI($this->lng->txt($lang_var), 'usr_' . $field_id);
+        if ($user) {
+            $radio_group->setValue($user->$method());
+        }
+        foreach ($field_definition['values'] as $k => $v) {
+            $op = new ilRadioOption($this->lng->txt($v), $k);
+            $radio_group->addOption($op);
+        }
+        $radio_group->setRequired((bool) $this->settings->get('require_' . $field_id));
+        if (!$radio_group->getRequired() || $radio_group->getValue()) {
+            $radio_group->setDisabled((bool) $this->settings->get('usr_settings_disable_' . $field_id));
+        }
+        return $radio_group;
+    }
+
+    private function getLoginInput(
+        array $field_definition,
+        ?ilObjUser $user
+    ): ilFormPropertyGUI {
+        $login_input = new ilNonEditableValueGUI($this->lng->txt('username'), 'ne_un');
+
+        if ((int) $this->settings->get('allow_change_loginname') || $this->mode == self::MODE_REGISTRATION) {
+            $login_input = new ilTextInputGUI($this->lng->txt('username'), 'username');
+            $login_input->setMaxLength((int) $field_definition['maxlength']);
+            $login_input->setSize(255);
+            $login_input->setRequired(true);
+        }
+
+        if ($user !== null) {
+            $login_input->setValue($user->getLogin());
+        }
+        return $login_input;
+    }
+
+    private function getCountryInput(
+        string $field_id,
+        string $method,
+        string $lang_var,
+        ?ilObjUser $user
+    ): ilFormPropertyGUI {
+        $country_input = new ilCountrySelectInputGUI($this->lng->txt($lang_var), 'usr_' . $field_id);
+        if ($user) {
+            $country_input->setValue($user->$method());
+        }
+        $country_input->setRequired((bool) $this->settings->get('require_' . $field_id));
+        if (!$country_input->getRequired() || $country_input->getValue()) {
+            $country_input->setDisabled((bool) $this->settings->get('usr_settings_disable_' . $field_id));
+        }
+        return $country_input;
+    }
+
+    private function getBirthdayInput(
+        string $field_id,
+        string $method,
+        string $lang_var,
+        ?ilObjUser $user
+    ): ilFormPropertyGUI {
+        $birthday_input = new ilBirthdayInputGUI($this->lng->txt($lang_var), 'usr_' . $field_id);
+        $date = null;
+        if ($user && $user->$method() && strlen($user->$method())) {
+            $date = new ilDateTime($user->$method(), IL_CAL_DATE);
+            $birthday_input->setDate($date);
+        }
+        $birthday_input->setRequired((bool) $this->settings->get('require_' . $field_id));
+        if (!$birthday_input->getRequired() || $date !== null) {
+            $birthday_input->setDisabled((bool) $this->settings->get('usr_settings_disable_' . $field_id));
+        }
+        return $birthday_input;
+    }
+
+    private function getImageInput(
+        array $file_upload,
+        ?ilObjUser $user
+    ): ilFormPropertyGUI {
+        $image_input = new ilImageFileInputGUI($this->lng->txt('personal_picture'), 'userfile');
+        $image_input->setAllowCapture(true);
+        $image_input->setDisabled((bool) $this->settings->get('usr_settings_disable_upload'));
+
+        if ($file_upload['name'] ?? false) {
+            $image_input->setPending($file_upload['name']);
         } else {
-            if (isset($this->user_fields[$a_setting]['visib_reg_hide']) && $this->user_fields[$a_setting]['visib_reg_hide'] === true) {
-                return true;
+            $picture_path = ilObjUser::_getPersonalPicturePath(
+                $user->getId(),
+                'small',
+                true,
+                true
+            );
+            if ($picture_path !== '') {
+                $image_input->setImage($picture_path);
+                $image_input->setAlt($this->lng->txt('personal_picture'));
             }
-            return ($this->settings->get('usr_settings_visib_reg_' . $a_setting, '1') || $this->settings->get('require_' . $a_setting, '0'));
         }
+        return $image_input;
+    }
+
+    private function getRolesInput(
+        string $field_id,
+        ?ilRegistrationSettings $registration_settings,
+        ?ilObjUser $user
+    ): ?ilFormPropertyGUI {
+        $role_names = '';
+        if ($this->mode === self::MODE_DESKTOP
+            && $this->userSettingVisible('roles')) {
+            $global_roles = $this->rbac_review->getGlobalRoles();
+            foreach ($global_roles as $role_id) {
+                if (in_array($role_id, $this->rbac_review->assignedRoles($user->getId()))) {
+                    $role_obj = ilObjectFactory::getInstanceByObjId($role_id);
+                    $role_names .= $role_obj->getTitle() . ', ';
+                    unset($role_obj);
+                }
+            }
+            $roles_input = new ilNonEditableValueGUI($this->lng->txt('default_roles'), 'ne_dr');
+            $roles_input->setValue(substr($role_names, 0, -2));
+            return $roles_input;
+        }
+
+        if ($this->mode === self::MODE_REGISTRATION
+            && $registration_settings->roleSelectionEnabled()) {
+            $options = [];
+            foreach (ilObjRole::_lookupRegisterAllowed() as $role) {
+                $options[$role['id']] = $role['title'];
+            }
+
+            if ($options === []) {
+                return null;
+            }
+
+            if (count($options) === 1) {
+                $roles_input = new ilHiddenInputGUI('usr_' . $field_id);
+                $keys = array_keys($options);
+                $roles_input->setValue(array_shift($keys));
+                return $roles_input;
+            }
+
+            $options_with_empty_value = ['' => $this->lng->txt('please_choose')] + $options;
+            $roles_input = new ilSelectInputGUI($this->lng->txt('default_role'), 'usr_' . $field_id);
+            $roles_input->setOptions($options_with_empty_value);
+            $roles_input->setRequired(true);
+            if (!$roles_input->getRequired()) {
+                $roles_input->setDisabled((bool) $this->settings->get('usr_settings_disable_' . $field_id));
+            }
+            return $roles_input;
+        }
+
+        return null;
+    }
+
+    private function getEmailInput(
+        string $field_id,
+        string $method,
+        string $lang_var,
+        ?ilObjUser $user
+    ): ilFormPropertyGUI {
+        $email_input = new ilEMailInputGUI($this->lng->txt($lang_var), 'usr_' . $field_id);
+        if ($user) {
+            $email_input->setValue($user->$method());
+        }
+        $email_input->setRequired((bool) $this->settings->get('require_' . $field_id));
+        if (!$email_input->getRequired() || $email_input->getValue()) {
+            $email_input->setDisabled((bool) $this->settings->get('usr_settings_disable_' . $field_id));
+        }
+        if (self::MODE_REGISTRATION == $this->mode) {
+            $email_input->setRetype(true);
+        }
+        return $email_input;
+    }
+
+    private function getPasswordInput(
+        string $field_id,
+        string $lang_var,
+        ilRegistrationSettings $registration_settings
+    ): ilFormPropertyGUI {
+        if ($registration_settings->passwordGenerationEnabled()) {
+            $password_input = new ilNonEditableValueGUI($this->lng->txt($lang_var));
+            $password_input->setValue($this->lng->txt('reg_passwd_via_mail'));
+            return $password_input;
+        }
+
+        $password_input = new ilPasswordInputGUI($this->lng->txt($lang_var), 'usr_' . $field_id);
+        $password_input->setUseStripSlashes(false);
+        $password_input->setRequired(true);
+        $password_input->setInfo(ilSecuritySettingsChecker::getPasswordRequirementsInfo());
+        return $password_input;
+    }
+
+    private function getLanguageInput(
+        string $field_id,
+        string $method,
+        string $lang_var,
+        ?ilObjUser $user
+    ): ilFormPropertyGUI {
+        $language_input = new ilSelectInputGUI($this->lng->txt($lang_var), 'usr_' . $field_id);
+        if ($user !== null) {
+            $language_input->setValue($user->$method());
+        }
+        $options = [];
+        $this->lng->loadLanguageModule('meta');
+        foreach ($this->lng->getInstalledLanguages() as $lang_key) {
+            $options[$lang_key] = $this->lng->txt('meta_l_' . $lang_key);
+        }
+        asort($options);
+        $language_input->setOptions($options);
+        $language_input->setRequired((bool) $this->settings->get('require_' . $field_id));
+        if (!$language_input->getRequired() || $language_input->getValue()) {
+            $language_input->setDisabled((bool) $this->settings->get('usr_settings_disable_' . $field_id));
+        }
+        return $language_input;
+    }
+
+    private function getNonEditableInput(
+        string $method,
+        string $lang_var,
+        ilObjUser $user
+    ): ilFormPropertyGUI {
+        $non_editable_input = new ilNonEditableValueGUI($this->lng->txt($lang_var));
+        $non_editable_input->setValue($user->$method());
+        return $non_editable_input;
+    }
+
+    private function addCustomFieldsToForm(ilPropertyFormGUI $form, array $custom_fields, string $current_group): ilPropertyFormGUI
+    {
+        if ($current_group !== 'other') {
+            $section_header = new ilFormSectionHeaderGUI();
+            $section_header->setTitle($this->lng->txt('other'));
+            $form->addItem($section_header);
+        }
+        foreach ($custom_fields as $custom_field) {
+            $form->addItem($custom_field);
+        }
+        return $form;
+    }
+
+    public function setAjaxCallback(string $href): void
+    {
+        $this->ajax_href = $href;
+    }
+
+    public function userSettingVisible(string $setting): bool
+    {
+        if ($this->mode === self::MODE_DESKTOP) {
+            return ($this->user_settings_config->isVisible($setting));
+        }
+
+        if (isset($this->user_fields[$setting]['visib_reg_hide'])
+            && $this->user_fields[$setting]['visib_reg_hide'] === true) {
+            return true;
+        }
+
+        return ($this->settings->get('usr_settings_visib_reg_' . $setting, '1')
+            || $this->settings->get('require_' . $setting, '0'));
     }
 
     public function setMode(int $mode): bool
@@ -449,42 +686,39 @@ class ilUserProfile
     }
 
     public function isProfileIncomplete(
-        ilObjUser $a_user,
-        bool $a_include_udf = true,
-        bool $a_personal_data_only = true
+        ilObjUser $user,
+        bool $include_udf = true,
+        bool $personal_data_only = true
     ): bool {
-        $user_settings_config = new ilUserSettingsConfig();
-
         // standard fields
         foreach ($this->user_fields as $field => $definition) {
             // only if visible in personal data
-            if ($a_personal_data_only && !$user_settings_config->isVisible($field)) {
+            if ($personal_data_only && !$this->user_settings_config->isVisible($field)) {
                 continue;
             }
 
-            if ($this->settings->get('require_' . $field) && $definition['method']) {
-                $value = $a_user->{$definition['method']}();
-                if ($value == '') {
-                    return true;
-                }
+            if ($this->settings->get('require_' . $field) && $definition['method']
+                && $user->{$definition['method']}() === '') {
+                return true;
             }
         }
 
         // custom fields
-        if ($a_include_udf) {
-            $user_defined_data = $a_user->getUserDefinedData();
+        if (!$include_udf) {
+            return false;
+        }
 
-            $user_defined_fields = ilUserDefinedFields::_getInstance();
-            foreach ($user_defined_fields->getRequiredDefinitions() as $field => $definition) {
-                // only if visible in personal data
-                if ($a_personal_data_only && !$definition['visible']) {
-                    continue;
-                }
+        $user_defined_data = $user->getUserDefinedData();
+        $user_defined_fields = ilUserDefinedFields::_getInstance();
+        foreach ($user_defined_fields->getRequiredDefinitions() as $field => $definition) {
+            // only if visible in personal data
+            if ($personal_data_only && !$definition['visible']) {
+                continue;
+            }
 
-                if (!($user_defined_data['f_' . $field] ?? false)) {
-                    ilLoggerFactory::getLogger('user')->info('Profile is incomplete due to missing required udf.');
-                    return true;
-                }
+            if (!($user_defined_data['f_' . $field] ?? false)) {
+                ilLoggerFactory::getLogger('user')->info('Profile is incomplete due to missing required udf.');
+                return true;
             }
         }
 
