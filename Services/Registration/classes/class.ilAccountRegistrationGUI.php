@@ -334,7 +334,7 @@ class ilAccountRegistrationGUI
         }
 
         // no valid role could be determined
-        if (!$valid_role) {
+        if (!$valid_role && (!isset($selected_role) || $selected_role !== '')) {
             $this->tpl->setOnScreenMessage('info', $this->lng->txt("registration_no_valid_role"));
             $form_valid = false;
         }

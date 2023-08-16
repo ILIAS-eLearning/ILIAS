@@ -673,9 +673,10 @@ class ilUserProfile
                             // registration form validation will take care of missing field / value
                             if ($options) {
                                 if (count($options) > 1) {
+                                    $options = ['' => $lng->txt('please_choose')] + $options;
                                     $ta = new ilSelectInputGUI($lng->txt('default_role'), "usr_" . $f);
                                     $ta->setOptions($options);
-                                    $ta->setRequired((bool) $ilSetting->get("require_" . $f));
+                                    $ta->setRequired(true);
                                     if (!$ta->getRequired()) {
                                         $ta->setDisabled((bool) $ilSetting->get("usr_settings_disable_" . $f));
                                     }
@@ -732,7 +733,7 @@ class ilUserProfile
                             $ta->setUseStripSlashes(false);
                             $ta->setRequired(true);
                             $ta->setInfo(ilSecuritySettingsChecker::getPasswordRequirementsInfo());
-                        // $ta->setDisabled($ilSetting->get("usr_settings_disable_".$f));
+                            // $ta->setDisabled($ilSetting->get("usr_settings_disable_".$f));
                         } else {
                             $ta = new ilNonEditableValueGUI($lng->txt($lv));
                             $ta->setValue($lng->txt("reg_passwd_via_mail"));
