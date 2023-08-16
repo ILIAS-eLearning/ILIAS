@@ -234,13 +234,15 @@ function base()
                     'You are about to delete items!',
                     '#'
                 )->withAffectedItems($items)
+                ->withAdditionalOnLoadCode(static fn($id): string => "console.log('ASYNC JS');")
             ]));
             exit();
         }
         if ($action === 'info') {
-            echo($r->render(
-                $f->messageBox()->info('an info message: <br>' . $ids)
-            ));
+            echo(
+                $r->render($f->messageBox()->info('an info message: <br>' . $ids))
+                . '<script data-replace-marker="script">console.log("ASYNC JS, too");</script>'
+            );
             exit();
         }
 

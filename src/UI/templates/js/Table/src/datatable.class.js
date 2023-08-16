@@ -235,6 +235,8 @@ export default class DataTable {
           this.#responseContent.innerHTML = html;
           modalId = this.#responseContainer.id;
         }
+        const tmp = this.#jquery(`<div>${html}</div>`);
+        tmp.find("[data-replace-marker='script']").each((idx, s) => this.#jquery.globalEval(s.innerHTML));
         il.UI.modal.showModal(modalId, {}, { id: modalId });
       },
     );
