@@ -123,7 +123,6 @@ class ilObjTestMainSettingsDatabaseRepository implements MainSettingsRepository
                 (bool) $row['intro_enabled'],
                 $row['introduction'],
                 $row['introduction_page_id'],
-                (bool) $row['hide_info_tab'],
                 (bool) $row['conditions_checkbox_enabled'],
             ),
             new ilObjTestSettingsAccess(
@@ -189,7 +188,8 @@ class ilObjTestMainSettingsDatabaseRepository implements MainSettingsRepository
             ),
             new ilObjTestSettingsAdditional(
                 $test_id,
-                (bool) $row['skill_service']
+                (bool) $row['skill_service'],
+                (bool) $row['hide_info_tab']
             )
         );
 
