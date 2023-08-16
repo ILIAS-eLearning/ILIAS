@@ -1097,6 +1097,7 @@ class ilSoapFunctions
         // Note: We need to bootstrap ILIAS in order to get $ilPluginAdmin and load the soap plugins.
         // We MUST use a context that does not handle authentication at this point (session is checked by SOAP).
         ilContext::init(ilContext::CONTEXT_SOAP_NO_AUTH);
+        require_once 'Services/Init/classes/class.ilInitialisation.php';
         ilInitialisation::initILIAS();
         ilContext::init(ilContext::CONTEXT_SOAP);
         global $DIC;
