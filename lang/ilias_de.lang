@@ -946,6 +946,7 @@ assessment#:#new_category#:#Neue Einheiten-Kategorie
 assessment#:#new_unit#:#Neue Einheit
 assessment#:#next_question#:#Weiter
 assessment#:#next_question_rows#:#Fragen %d - %d von %d >>
+assessment#:#no_manual_feedback_export_info#:#Manuelle Rückmeldungen werden nicht exportiert.
 assessment#:#no_passed_mark#:#Sie müssen wenigstens einen Notenschritt als BESTANDEN markieren! Das Notenschema wurde nicht gespeichert!
 assessment#:#no_question_selected_for_move#:#Bitte wählen Sie mindestens eine Frage aus, um sie zu verschieben!
 assessment#:#no_questions_available#:#Es sind keine Fragen verfügbar!

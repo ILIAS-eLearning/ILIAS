@@ -947,6 +947,7 @@ assessment#:#new_category#:#New Unit Category
 assessment#:#new_unit#:#New Unit
 assessment#:#next_question#:#Next
 assessment#:#next_question_rows#:#Questions %d - %d of %d →
+assessment#:#no_manual_feedback_export_info#:#Manual feedbacks will not be exported.
 assessment#:#no_passed_mark#:#You must set at least one mark to PASSED! The mark schema was not saved.
 assessment#:#no_question_selected_for_move#:#Please check at least one question to move it!
 assessment#:#no_questions_available#:#There are no questions available!
