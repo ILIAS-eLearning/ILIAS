@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * @author  Niels Theen <ntheen@databay.de>
@@ -46,58 +46,11 @@ class ilCertificateTemplateDeleteActionTest extends ilCertificateBaseTestCase
                 'samples/background.jpg'
             ));
 
-        $utilHelper = $this->getMockBuilder(ilCertificateUtilHelper::class)
-            ->getMock();
-
-        $utilHelper
-            ->expects($this->once())
-            ->method('convertImage');
-
-        $objectHelper = $this->getMockBuilder(ilCertificateObjectHelper::class)
-            ->getMock();
-
-        $objectHelper->method('lookUpType')
-            ->willReturn('crs');
-
-        $action = new ilCertificateTemplateDeleteAction(
-            $templateRepositoryMock,
-            __DIR__,
-            $utilHelper,
-            $objectHelper,
-            'v5.4.0'
-        );
-
-        $action->delete(100, 2000);
-    }
-
-    public function testDeleteTemplateButNoThumbnailWillBeCopiedFromOldCertificate(): void
-    {
-        $templateRepositoryMock = $this->getMockBuilder(ilCertificateTemplateRepository::class)->getMock();
-
-        $templateRepositoryMock
-            ->method('deleteTemplate')
-            ->with(100, 2000);
-
-        $templateRepositoryMock->method('activatePreviousCertificate')
-            ->with(2000)
-            ->willReturn(new ilCertificateTemplate(
-                2000,
-                'crs',
-                'something',
-                md5('something'),
-                '[]',
-                1,
-                'v5.4.0',
-                1234567890,
-                true
-            ));
+        $templateRepositoryMock->expects($this->once())->method("deleteTemplate");
+        $templateRepositoryMock->expects($this->once())->method("save");
 
         $utilHelper = $this->getMockBuilder(ilCertificateUtilHelper::class)
             ->getMock();
-
-        $utilHelper
-            ->expects($this->once())
-            ->method('convertImage');
 
         $objectHelper = $this->getMockBuilder(ilCertificateObjectHelper::class)
             ->getMock();

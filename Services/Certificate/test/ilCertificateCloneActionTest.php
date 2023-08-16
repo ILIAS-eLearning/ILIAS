@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * @author  Niels Theen <ntheen@databay.de>
@@ -116,6 +116,10 @@ class ilCertificateCloneActionTest extends ilCertificateBaseTestCase
         $objectHelper->method('lookupObjId')
             ->willReturn(1000);
 
+        $global_certificate_settings = $this->getMockBuilder(ilObjCertificateSettings::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
         $cloneAction = new ilCertificateCloneAction(
             $database,
             new ilCertificatePathFactory(),
@@ -123,6 +127,7 @@ class ilCertificateCloneActionTest extends ilCertificateBaseTestCase
             $fileSystem,
             $logger,
             $objectHelper,
+            $global_certificate_settings,
             'some/web/directory',
             '/certificates/default/background.jpg'
         );

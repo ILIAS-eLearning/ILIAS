@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\Filesystem\Filesystem;
 use ILIAS\Filesystem\Exception\FileAlreadyExistsException;
@@ -44,6 +44,7 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
     private ilCertificateBackgroundImageFileService $backGroundImageFileService;
     private WrapperFactory $httpWrapper;
     private Factory $refinery;
+    private ilObjCertificateSettings $global_certificate_settings;
 
     public function __construct(
         int $objectId,
@@ -72,6 +73,7 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
         $this->toolbar = $toolbar;
         $this->placeholderDescriptionObject = $placeholderDescriptionObject;
         $this->hasAdditionalElements = $hasAdditionalElements;
+        $this->global_certificate_settings = new ilObjCertificateSettings();
 
         $database = $DIC->database();
 
@@ -206,22 +208,31 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
 
         $bgimage->setAllowDeletion(true);
         if (!$this->backGroundImageFileService->hasBackgroundImage($certificateTemplate)) {
-            if (ilObjCertificateSettingsAccess::hasBackgroundImage()) {
+            if ($this->global_certificate_settings->hasBackgroundImage()) {
                 ilWACSignedPath::setTokenMaxLifetimeInSeconds(15);
-                $imagePath = ilWACSignedPath::signFile(ilObjCertificateSettingsAccess::getBackgroundImageThumbPathWeb());
+                $imagePath = ilWACSignedPath::signFile($this->global_certificate_settings->getBackgroundImageThumbPathWeb());
                 $bgimage->setImage($imagePath);
                 $bgimage->setAllowDeletion(false);
             }
         } else {
             ilWACSignedPath::setTokenMaxLifetimeInSeconds(15);
 
-            $thumbnailPath = $this->backGroundImageFileService->getBackgroundImageThumbPath();
+            $thumbnail_path = $this->backGroundImageFileService->getBackgroundImageThumbPath();
 
-            if (!is_file($thumbnailPath)) {
-                $thumbnailPath = ilObjCertificateSettingsAccess::getBackgroundImageThumbPath();
-                $bgimage->setAllowDeletion(false);
+            if (!is_file($thumbnail_path)) {
+                //Trying if it uses default image path
+                $thumbnail_path = CLIENT_WEB_DIR . $certificateTemplate->getBackgroundImagePath() . '.thumb.jpg';
+                if (!is_file($thumbnail_path)) {
+                    //Trying to use global default image
+                    $thumbnail_path = $this->global_certificate_settings->getDefaultBackgroundImageThumbPath();
+                    if (!is_file($thumbnail_path)) {
+                        //No image global default configured
+                        $thumbnail_path = '';
+                    }
+                }
+                $bgimage->setALlowDeletion(false);
             }
-            $imagePath = ilWACSignedPath::signFile($thumbnailPath);
+            $imagePath = ilWACSignedPath::signFile($thumbnail_path);
             $bgimage->setImage($imagePath);
         }
 
