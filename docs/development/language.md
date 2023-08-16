@@ -1,6 +1,6 @@
 ILIAS Language Handling
 =======================
-ILIAS offers multi-language support for the user interface of ILIAS.
+ILIAS offers multi-language support for the user interface of ILIAS. Language handling in ILIAS is realised by the [Language](../../Services/Language/README.md) service.
 
 # Guidelines
 1.  All language entries are text strings and stored in language files in the 
@@ -39,10 +39,20 @@ since we synchronise the variables when preparing a new ILIAS release. If a vari
 language but not in the English one, the entry will be removed from the file during synchronisation.
 
 # Additional Information
+## Loading Language Entries
 Adding new entries into language files will not make them available in the user interface automatically. You need to 
 refresh the languages by executing the `Refresh Languages` action in the global ILIAS language administration
 (`Administration » Languages`).
- 
+
+## Supported HTML Tags in Language Files
+Only a defined set of HTML tags are allowed to be used within the `text_content` of a language entry:
+
+* All tags allowed by `getSecureTags` from `ilUtil`: `a`, `b`, `bdo`, `code`, `div`, `em`, `gap`, `i`, `img`, `li`, `ol`, `p`, `pre`, `strike`, `strong`, `sub`, `sup`, `u` and `ul`
+* In addition: `span` and `br`
+
+All other HTML tags are unsupported and will be removed by `ilUtil::stripSlashes`.
+
+## Using the Global Language Object
 The global language object can be retrieved from the dependency injection container by using/calling `$DIC['lng']` or
 `$DIC->language()`. This is an instance of class `ilLanguage` and provides methods to access these strings in the 
 language of the user within the current authentication process. This is done by using the functions
@@ -62,11 +72,7 @@ first maintainer has to be notified about newly introduced languages and changes
 to the related language.
 
 # Maintaining Languages
-The different languages supported by ILIAS are maintained by volunteers. The ILIAS society is offering language 
-maintenance installations for every version. These are clients of the regular testing installations.
-
-* http://lang54.ilias.de is the language maintenance installation for 5.4
-* http://lang6.ilias.de is the language maintenance installation for 6, a.s.o.
+The different languages supported by ILIAS are maintained by volunteers. If want to help us to improve an existing language or introduce and maintain a new one, please contact the ILIAS product manager: info@ilias.de.
 
 You find more information about language maintenance in the document 
 [Language Instructions](https://docu.ilias.de/goto_docu_lm_37.html).
