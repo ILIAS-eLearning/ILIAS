@@ -55,281 +55,303 @@ class ilUserProfile
     //   "searchable", "required", "export", "course_export" and "registration")
     // 		- <settingsproperty>_hide: hide this property in settings (not implemented)
     // 		- <settingsproperty>_fix_value: property has a fix value (cannot be changed)
-    private static array $user_field = array(
-        "username" => array(
-                        "input" => "login",
-                        "maxlength" => 190,
-                        "size" => 190,
-                        "method" => "getLogin",
-                        "course_export_fix_value" => 1,
-                        "group_export_fix_value" => 1,
-                        "changeable_hide" => true,
-                        "required_hide" => true,
-                        "group" => "personal_data"),
-        "password" => array(
-                        "input" => "password",
-                        "required_hide" => true,
-                        "visib_reg_hide" => true,
-                        'visib_lua_fix_value' => 0,
-                        "course_export_hide" => true,
-                        "export_hide" => false,
-                        "group_export_hide" => true,
-                        "lists_hide" => true,
-                        "group" => "personal_data"),
-        "firstname" => array(
-                        "input" => "text",
-                        "maxlength" => 32,
-                        "size" => 40,
-                        "method" => "getFirstname",
-                        "required_fix_value" => 1,
-                        "visib_reg_fix_value" => 1,
-                        'visib_lua_fix_value' => 1,
-                        "course_export_fix_value" => 1,
-                        "group_export_fix_value" => 1,
-                        "group" => "personal_data"),
-        "lastname" => array(
-                        "input" => "text",
-                        "maxlength" => 32,
-                        "size" => 40,
-                        "method" => "getLastname",
-                        "required_fix_value" => 1,
-                        "visib_reg_fix_value" => 1,
-                        'visib_lua_fix_value' => 1,
-                        "course_export_fix_value" => 1,
-                        "group_export_fix_value" => 1,
-                        "group" => "personal_data"),
-        "title" => array(
-                        "input" => "text",
-                        "lang_var" => "person_title",
-                        "maxlength" => 32,
-                        "size" => 40,
-                        "method" => "getUTitle",
-                        "group" => "personal_data"),
-        "birthday" => array(
-                        "input" => "birthday",
-                        "lang_var" => "birthday",
-                        "maxlength" => 32,
-                        "size" => 40,
-                        "method" => "getBirthday",
-                        "group" => "personal_data"),
-        "gender" => array(
-                        "input" => "radio",
-                        "values" => array("n" => "salutation_n", "f" => "salutation_f", "m" => "salutation_m"),
-                        "method" => "getGender",
-                        "group" => "personal_data"),
-        "upload" => array(
-                        "input" => "picture",
-                        "required_hide" => true,
-                        "visib_reg_hide" => true,
-                        "course_export_hide" => true,
-                        "group_export_hide" => true,
-                        "lists_hide" => true,
-                        "lang_var" => "personal_picture",
-                        "group" => "personal_data"),
-        "roles" => array(
-                        "input" => "roles",
-                        "changeable_hide" => true,
-                        "required_hide" => true,
-                        "visib_reg_hide" => true,
-                        "export_hide" => true,
-                        "course_export_hide" => true,
-                        "group_export_hide" => true,
-                        "lists_hide" => true,
-                        "group" => "personal_data"),
-        "interests_general" => array(
-                        "input" => "multitext",
-                        "maxlength" => 40,
-                        "size" => 40,
-                        "method" => "getGeneralInterests",
-                        "course_export_hide" => true,
-                        "group_export_hide" => true,
-                        "lists_hide" => true,
-                        "group" => "interests"),
-        "interests_help_offered" => array(
-                        "input" => "multitext",
-                        "maxlength" => 40,
-                        "size" => 40,
-                        "method" => "getOfferingHelp",
-                        "course_export_hide" => true,
-                        "group_export_hide" => true,
-                        "lists_hide" => true,
-                        "group" => "interests"),
-        "interests_help_looking" => array(
-                        "input" => "multitext",
-                        "maxlength" => 40,
-                        "size" => 40,
-                        "method" => "getLookingForHelp",
-                        "course_export_hide" => true,
-                        "group_export_hide" => true,
-                        "lists_hide" => true,
-                        "group" => "interests"),
-        "org_units" => array(
-                        "input" => "noneditable",
-                        "lang_var" => "objs_orgu",
-                        "required_hide" => true,
-                        "visib_reg_hide" => true,
-                        "course_export_hide" => false,
-                        "group_export_hide" => false,
-                        "export_hide" => true,
-                        "changeable_hide" => true,
-                        "changeable_fix_value" => 0,
-                        "changeable_lua_hide" => true,
-                        "changeable_lua_fix_value" => 0,
-                        "method" => "getOrgUnitsRepresentation",
-                        "group" => "contact_data"),
-        "institution" => array(
-                        "input" => "text",
-                        "maxlength" => 80,
-                        "size" => 40,
-                        "method" => "getInstitution",
-                        "group" => "contact_data"),
-        "department" => array(
-                        "input" => "text",
-                        "maxlength" => 80,
-                        "size" => 40,
-                        "method" => "getDepartment",
-                        "group" => "contact_data"),
-        "street" => array(
-                        "input" => "text",
-                        "maxlength" => 40,
-                        "size" => 40,
-                        "method" => "getStreet",
-                        "group" => "contact_data"),
-        "zipcode" => array(
-                        "input" => "text",
-                        "maxlength" => 10,
-                        "size" => 10,
-                        "method" => "getZipcode",
-                        "group" => "contact_data"),
-        "city" => array(
-                        "input" => "text",
-                        "maxlength" => 40,
-                        "size" => 40,
-                        "method" => "getCity",
-                        "group" => "contact_data"),
-        "country" => array(
-                        "input" => "text",
-                        "maxlength" => 40,
-                        "size" => 40,
-                        "method" => "getCountry",
-                        "group" => "contact_data"),
-        "sel_country" => array(
-                        "input" => "sel_country",
-                        "method" => "getSelectedCountry",
-                        "group" => "contact_data"),
-        "phone_office" => array(
-                        "input" => "text",
-                        "maxlength" => 40,
-                        "size" => 40,
-                        "method" => "getPhoneOffice",
-                        "group" => "contact_data"),
-        "phone_home" => array(
-                        "input" => "text",
-                        "maxlength" => 40,
-                        "size" => 40,
-                        "method" => "getPhoneHome",
-                        "group" => "contact_data"),
-        "phone_mobile" => array(
-                        "input" => "text",
-                        "maxlength" => 40,
-                        "size" => 40,
-                        "method" => "getPhoneMobile",
-                        "group" => "contact_data"),
-        "fax" => array(
-                        "input" => "text",
-                        "maxlength" => 40,
-                        "size" => 40,
-                        "method" => "getFax",
-                        "group" => "contact_data"),
-        "email" => array(
-                        "input" => "email",
-                        "maxlength" => 40,
-                        "size" => 40,
-                        "method" => "getEmail",
-                        "group" => "contact_data"),
-        "second_email" => array(
-                        "input" => "second_email",
-                        "maxlength" => 40,
-                        "size" => 40,
-                        "method" => "getSecondEmail",
-                        "group" => "contact_data",
-                        "change_listeners" => [
-                            ilMailUserFieldChangeListener::class,
-                        ]),
-        "hobby" => array(
-                        "input" => "textarea",
-                        "rows" => 3,
-                        "cols" => 45,
-                        "method" => "getHobby",
-                        "lists_hide" => true,
-                        "group" => "contact_data"),
-        "referral_comment" => array(
-                        "input" => "textarea",
-                        "rows" => 3,
-                        "cols" => 45,
-                        "method" => "getComment",
-                        "course_export_hide" => true,
-                        "group_export_hide" => true,
-                        "lists_hide" => true,
-                        "group" => "contact_data"),
-        "matriculation" => array(
-                        "input" => "text",
-                        "maxlength" => 40,
-                        "size" => 40,
-                        "method" => "getMatriculation",
-                        "group" => "other"),
-        "language" => array(
-                        "input" => "language",
-                        "method" => "getLanguage",
-                        "required_hide" => true,
-                        "visib_reg_hide" => true,
-                        "course_export_hide" => true,
-                        "group_export_hide" => true,
-                        "group" => "settings"),
-        "skin_style" => array(
-                        "input" => "skinstyle",
-                        "required_hide" => true,
-                        "visib_reg_hide" => true,
-                        "course_export_hide" => true,
-                        "group_export_hide" => true,
-                        "group" => "settings"),
-        "hits_per_page" => array(
-                        "input" => "hitsperpage",
-                        "default" => 10,
-                        "options" => array(
-                            10 => 10, 15 => 15, 20 => 20, 30 => 30, 40 => 40,
-                            50 => 50, 100 => 100, 9999 => 9999),
-                        "required_hide" => true,
-                        "visib_reg_hide" => true,
-                        "course_export_hide" => true,
-                        "group_export_hide" => true,
-                        "group" => "settings"),
-        /*"show_users_online" => array(
-                        "input" => "selection",
-                        "default" => "y",
-                        "options" => array(
-                            "y" => "users_online_show_short_y",
-                            "associated" => "users_online_show_short_associated",
-                            "n" => "users_online_show_short_n"),
-                        "required_hide" => true,
-                        "visib_reg_hide" => true,
-                        "course_export_hide" => true,
-                        "group_export_hide" => true,
-                        "group" => "settings"),*/
-        "hide_own_online_status" => array(
-                        "input" => "selection",
-                        "lang_var" => "awrn_user_show",
-                        "required_hide" => true,
-                        "visib_reg_hide" => true,
-                        "course_export_hide" => true,
-                        "group_export_hide" => true,
-                        "group" => "settings",
-                        "default" => "y",
-                        "options" => array(
-                            "y" => "user_awrn_hide",
-                            "n" => "user_awrn_show"
-                        )),
-        "bs_allow_to_contact_me" => array(
+    private static array $user_field = [
+        "username" => [
+            "input" => "login",
+            "maxlength" => 190,
+            "size" => 190,
+            "method" => "getLogin",
+            "course_export_fix_value" => 1,
+            "group_export_fix_value" => 1,
+            "changeable_hide" => true,
+            "required_hide" => true,
+            "group" => "personal_data"
+        ],
+        "password" => [
+            "input" => "password",
+            "required_hide" => true,
+            "visib_reg_hide" => true,
+            'visib_lua_fix_value' => 0,
+            "course_export_hide" => true,
+            "export_hide" => false,
+            "group_export_hide" => true,
+            "lists_hide" => true,
+            "group" => "personal_data"
+        ],
+        "firstname" => [
+            "input" => "text",
+            "maxlength" => 32,
+            "size" => 40,
+            "method" => "getFirstname",
+            "required_fix_value" => 1,
+            "visib_reg_fix_value" => 1,
+            'visib_lua_fix_value' => 1,
+            "course_export_fix_value" => 1,
+            "group_export_fix_value" => 1,
+            "group" => "personal_data"
+        ],
+        "lastname" => [
+            "input" => "text",
+            "maxlength" => 32,
+            "size" => 40,
+            "method" => "getLastname",
+            "required_fix_value" => 1,
+            "visib_reg_fix_value" => 1,
+            'visib_lua_fix_value' => 1,
+            "course_export_fix_value" => 1,
+            "group_export_fix_value" => 1,
+            "group" => "personal_data"
+        ],
+        "title" => [
+            "input" => "text",
+            "lang_var" => "person_title",
+            "maxlength" => 32,
+            "size" => 40,
+            "method" => "getUTitle",
+            "group" => "personal_data"
+        ],
+        "birthday" => [
+            "input" => "birthday",
+            "lang_var" => "birthday",
+            "maxlength" => 32,
+            "size" => 40,
+            "method" => "getBirthday",
+            "group" => "personal_data"
+        ],
+        "gender" => [
+            "input" => "radio",
+            "values" => ["n" => "salutation_n", "f" => "salutation_f", "m" => "salutation_m"],
+            "method" => "getGender",
+            "group" => "personal_data"
+        ],
+        "upload" => [
+            "input" => "picture",
+            "required_hide" => true,
+            "visib_reg_hide" => true,
+            "course_export_hide" => true,
+            "group_export_hide" => true,
+            "lists_hide" => true,
+            "lang_var" => "personal_picture",
+            "group" => "personal_data"
+        ],
+        "roles" => [
+            "input" => "roles",
+            "changeable_hide" => true,
+            "required_hide" => true,
+            "visib_reg_hide" => true,
+            "export_hide" => true,
+            "course_export_hide" => true,
+            "group_export_hide" => true,
+            "lists_hide" => true,
+            "group" => "personal_data"
+        ],
+        "interests_general" => [
+            "input" => "multitext",
+            "maxlength" => 40,
+            "size" => 40,
+            "method" => "getGeneralInterests",
+            "course_export_hide" => true,
+            "group_export_hide" => true,
+            "lists_hide" => true,
+            "group" => "interests"
+        ],
+        "interests_help_offered" => [
+            "input" => "multitext",
+            "maxlength" => 40,
+            "size" => 40,
+            "method" => "getOfferingHelp",
+            "course_export_hide" => true,
+            "group_export_hide" => true,
+            "lists_hide" => true,
+            "group" => "interests"
+        ],
+        "interests_help_looking" => [
+            "input" => "multitext",
+            "maxlength" => 40,
+            "size" => 40,
+            "method" => "getLookingForHelp",
+            "course_export_hide" => true,
+            "group_export_hide" => true,
+            "lists_hide" => true,
+            "group" => "interests"
+        ],
+        "org_units" => [
+            "input" => "noneditable",
+            "lang_var" => "objs_orgu",
+            "required_hide" => true,
+            "visib_reg_hide" => true,
+            "course_export_hide" => false,
+            "group_export_hide" => false,
+            "export_hide" => true,
+            "changeable_hide" => true,
+            "changeable_fix_value" => 0,
+            "changeable_lua_hide" => true,
+            "changeable_lua_fix_value" => 0,
+            "method" => "getOrgUnitsRepresentation",
+            "group" => "contact_data"
+        ],
+        "institution" => [
+            "input" => "text",
+            "maxlength" => 80,
+            "size" => 40,
+            "method" => "getInstitution",
+            "group" => "contact_data"
+        ],
+        "department" => [
+            "input" => "text",
+            "maxlength" => 80,
+            "size" => 40,
+            "method" => "getDepartment",
+            "group" => "contact_data"
+        ],
+        "street" => [
+            "input" => "text",
+            "maxlength" => 40,
+            "size" => 40,
+            "method" => "getStreet",
+            "group" => "contact_data"
+        ],
+        "zipcode" => [
+            "input" => "text",
+            "maxlength" => 10,
+            "size" => 10,
+            "method" => "getZipcode",
+            "group" => "contact_data"
+        ],
+        "city" => [
+            "input" => "text",
+            "maxlength" => 40,
+            "size" => 40,
+            "method" => "getCity",
+            "group" => "contact_data"
+        ],
+        "country" => [
+            "input" => "text",
+            "maxlength" => 40,
+            "size" => 40,
+            "method" => "getCountry",
+            "group" => "contact_data"
+        ],
+        "sel_country" => [
+            "input" => "sel_country",
+            "method" => "getSelectedCountry",
+            "group" => "contact_data"
+        ],
+        "phone_office" => [
+            "input" => "text",
+            "maxlength" => 40,
+            "size" => 40,
+            "method" => "getPhoneOffice",
+            "group" => "contact_data"
+        ],
+        "phone_home" => [
+            "input" => "text",
+            "maxlength" => 40,
+            "size" => 40,
+            "method" => "getPhoneHome",
+            "group" => "contact_data"
+        ],
+        "phone_mobile" => [
+            "input" => "text",
+            "maxlength" => 40,
+            "size" => 40,
+            "method" => "getPhoneMobile",
+            "group" => "contact_data"
+        ],
+        "fax" => [
+            "input" => "text",
+            "maxlength" => 40,
+            "size" => 40,
+            "method" => "getFax",
+            "group" => "contact_data"
+        ],
+        "email" => [
+            "input" => "email",
+            "maxlength" => 40,
+            "size" => 40,
+            "method" => "getEmail",
+            "group" => "contact_data"
+        ],
+        "second_email" => [
+            "input" => "second_email",
+            "maxlength" => 40,
+            "size" => 40,
+            "method" => "getSecondEmail",
+            "group" => "contact_data",
+            "change_listeners" => [
+                ilMailUserFieldChangeListener::class,
+            ]
+        ],
+        "hobby" => [
+            "input" => "textarea",
+            "rows" => 3,
+            "cols" => 45,
+            "method" => "getHobby",
+            "lists_hide" => true,
+            "group" => "contact_data"
+        ],
+        "referral_comment" => [
+            "input" => "textarea",
+            "rows" => 3,
+            "cols" => 45,
+            "method" => "getComment",
+            "course_export_hide" => true,
+            "group_export_hide" => true,
+            "lists_hide" => true,
+            "group" => "contact_data"
+        ],
+        "matriculation" => [
+            "input" => "text",
+            "maxlength" => 40,
+            "size" => 40,
+            "method" => "getMatriculation",
+            "group" => "other"
+        ],
+        "language" => [
+            "input" => "language",
+            "method" => "getLanguage",
+            "required_hide" => true,
+            "visib_reg_hide" => true,
+            "course_export_hide" => true,
+            "group_export_hide" => true,
+            "group" => "settings"
+        ],
+        "skin_style" => [
+            "input" => "skinstyle",
+            "required_hide" => true,
+            "visib_reg_hide" => true,
+            "course_export_hide" => true,
+            "group_export_hide" => true,
+            "group" => "settings"
+        ],
+        "hits_per_page" => [
+            "input" => "hitsperpage",
+            "default" => 10,
+            "options" => [
+                10 => 10, 15 => 15, 20 => 20, 30 => 30, 40 => 40,
+                50 => 50, 100 => 100, 9999 => 9999
+            ],
+            "required_hide" => true,
+            "visib_reg_hide" => true,
+            "course_export_hide" => true,
+            "group_export_hide" => true,
+            "group" => "settings"
+        ],
+        "hide_own_online_status" => [
+            "input" => "selection",
+            "lang_var" => "awrn_user_show",
+            "required_hide" => true,
+            "visib_reg_hide" => true,
+            "course_export_hide" => true,
+            "group_export_hide" => true,
+            "group" => "settings",
+            "default" => "y",
+            "options" => [
+                "y" => "user_awrn_hide",
+                "n" => "user_awrn_show"
+            ]
+        ],
+        "bs_allow_to_contact_me" => [
             "input" => "selection",
             "lang_var" => "buddy_allow_to_contact_me",
             "required_hide" => true,
@@ -338,12 +360,12 @@ class ilUserProfile
             "group_export_hide" => true,
             "group" => "settings",
             "default" => "y",
-            "options" => array(
+            "options" => [
                 "n" => "buddy_allow_to_contact_me_no",
                 "y" => "buddy_allow_to_contact_me_yes"
-            )
-        ),
-        "chat_osc_accept_msg" => array(
+            ]
+        ],
+        "chat_osc_accept_msg" => [
             "input" => "selection",
             "lang_var" => "chat_osc_accept_msg",
             "required_hide" => true,
@@ -352,12 +374,12 @@ class ilUserProfile
             "group_export_hide" => true,
             "group" => "settings",
             "default" => "y",
-            "options" => array(
+            "options" => [
                 "n" => "chat_osc_accepts_messages_no",
                 "y" => "chat_osc_accepts_messages_yes"
-            )
-        ),
-        "chat_broadcast_typing" => array(
+            ]
+        ],
+        "chat_broadcast_typing" => [
             "input" => "selection",
             "lang_var" => "chat_broadcast_typing",
             "required_hide" => true,
@@ -366,35 +388,35 @@ class ilUserProfile
             "group_export_hide" => true,
             "group" => "settings",
             "default" => "y",
-            "options" => array(
+            "options" => [
                 "n" => "chat_no_use_typing_broadcast",
                 "y" => "chat_use_typing_broadcast"
-            )
-        ),
-        "preferences" => array(
-                        "visible_fix_value" => 1,
-                        "changeable_fix_value" => 1,
-                        "required_hide" => true,
-                        "visib_reg_hide" => true,
-                        "course_export_hide" => true,
-                        "group_export_hide" => true,
-                        "group" => "preferences"),
-        "mail_incoming_mail" => array(
-                        "input" => "selection",
-                        "default" => "y",
-                        "options" => array(
-                            ilMailOptions::INCOMING_LOCAL => "mail_incoming_local",
-                            ilMailOptions::INCOMING_EMAIL => "mail_incoming_smtp",
-                            ilMailOptions::INCOMING_BOTH => "mail_incoming_both"),
-                        "required_hide" => true,
-                        "visib_reg_hide" => true,
-                        "course_export_hide" => true,
-                        "group_export_hide" => true,
-                        "export_hide" => true,
-                        "search_hide" => true,
-                        "group" => "settings")
-
-        );
+            ]
+        ],
+        "preferences" => [
+            "visible_fix_value" => 1,
+            "changeable_fix_value" => 1,
+            "required_hide" => true,
+            "visib_reg_hide" => true,
+            "course_export_hide" => true,
+            "group_export_hide" => true,
+            "group" => "preferences"],
+        "mail_incoming_mail" => [
+            "input" => "selection",
+            "default" => "y",
+            "options" => [
+                ilMailOptions::INCOMING_LOCAL => "mail_incoming_local",
+                ilMailOptions::INCOMING_EMAIL => "mail_incoming_smtp",
+                ilMailOptions::INCOMING_BOTH => "mail_incoming_both"],
+            "required_hide" => true,
+            "visib_reg_hide" => true,
+            "course_export_hide" => true,
+            "group_export_hide" => true,
+            "export_hide" => true,
+            "search_hide" => true,
+            "group" => "settings"
+        ]
+    ];
     protected string $ajax_href;
     protected array $skip_fields; // Missing array type.
     protected array $skip_groups; // Missing array type.
@@ -407,8 +429,8 @@ class ilUserProfile
 
         $lng = $DIC->language();
 
-        $this->skip_groups = array();
-        $this->skip_fields = array();
+        $this->skip_groups = [];
+        $this->skip_fields = [];
 
         // for hide me from awareness tool text
         // not nicest workaround, but better than using common block
@@ -423,7 +445,7 @@ class ilUserProfile
      */
     public function getStandardFields(): array // Missing array type.
     {
-        $fields = array();
+        $fields = [];
         foreach (self::$user_field as $f => $p) {
             // skip hidden groups
             if (in_array($p["group"], $this->skip_groups) ||
@@ -444,7 +466,7 @@ class ilUserProfile
 
         $ilSetting = $DIC->settings();
 
-        $fields = array();
+        $fields = [];
         foreach ($this->getStandardFields() as $field => $info) {
             if ($ilSetting->get('usr_settings_visib_lua_' . $field, '1')) {
                 $fields[$field] = $info;
@@ -666,7 +688,7 @@ class ilUserProfile
                         }
                     } elseif (self::$mode == self::MODE_REGISTRATION) {
                         if ($registration_settings->roleSelectionEnabled()) {
-                            $options = array();
+                            $options = [];
                             foreach (ilObjRole::_lookupRegisterAllowed() as $role) {
                                 $options[$role["id"]] = $role["title"];
                             }
@@ -748,7 +770,7 @@ class ilUserProfile
                         if ($a_user) {
                             $ta->setValue($a_user->$m());
                         }
-                        $options = array();
+                        $options = [];
                         $lng->loadLanguageModule("meta");
                         foreach ($lng->getInstalledLanguages() as $lang_key) {
                             $options[$lang_key] = $lng->txt("meta_l_" . $lang_key);
@@ -836,7 +858,7 @@ class ilUserProfile
 
     public static function setMode(int $mode): bool
     {
-        if (in_array($mode, array(self::MODE_DESKTOP, self::MODE_REGISTRATION))) {
+        if (in_array($mode, [self::MODE_DESKTOP, self::MODE_REGISTRATION])) {
             self::$mode = $mode;
             return true;
         }
@@ -916,7 +938,7 @@ class ilUserProfile
 
         $ilSetting = $DIC->settings();
 
-        $ignorableSettings = array();
+        $ignorableSettings = [];
 
         foreach (self::$user_field as $field => $definition) {
             // !!!username and password must not be ignored!!!
