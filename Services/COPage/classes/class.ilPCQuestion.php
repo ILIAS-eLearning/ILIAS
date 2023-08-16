@@ -213,11 +213,15 @@ class ilPCQuestion extends ilPageContent
             }
         }
         foreach ($q_ids as $qid) {
-            $ilDB->manipulateF(
-                "INSERT INTO page_question (page_parent_type, page_id, page_lang, question_id)" .
-                " VALUES (%s,%s,%s,%s)",
-                array("text", "integer", "text", "integer"),
-                array($a_page->getParentType(), $a_page->getId(), $a_page->getLanguage(), $qid)
+            $ilDB->replace(
+                "page_question",
+                [
+                "page_parent_type" => ["text", $a_page->getParentType()],
+                "page_id" => ["integer", $a_page->getId()],
+                "page_lang" => ["text", $a_page->getLanguage()],
+                "question_id" => ["integer", $qid]
+            ],
+                []
             );
         }
     }
