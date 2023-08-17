@@ -81,12 +81,13 @@ class ilTestExpressPageObjectGUI extends ilAssQuestionPageGUI
         ilUtil::redirect($link);
     }
 
-    public function __construct($a_id = 0, $a_old_nr = 0)
+    public function __construct($a_id = 0, $a_old_nr = 0, $test_object = null)
     {
         global $DIC;
         $this->tree = $DIC['tree'];
         $this->db = $DIC['ilDB'];
         $this->component_repository = $DIC['component.repository'];
+        $this->test_object = $test_object;
 
         parent::__construct($a_id, $a_old_nr);
     }
