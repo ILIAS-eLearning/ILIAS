@@ -197,6 +197,14 @@ these 3 aspects as traits, so that they can be included easily into all
 (present and future) types of nodes without forcing odd inheritances between
 them.
 
+### Revise Modals of DataTable
+
+DataTable allows for asynch Actions and will accept Modals or MessageBoxes as
+response. The response will be opened in a Modal NOT using the Modal-Component's
+template and asynch-mechanisms, but rather inject the HTML/JS in its own template
+(see tpl.datatable.html, datatable.clas.js::asyncAction).
+The DataTable should fully use UI\Component\Modal.
+
 ## Long Term
 
 ### Make Constraint in Tag Input Field work again
@@ -343,6 +351,14 @@ overlay layer. With the separation of those we will gain several advantages:
   to runtime-parameters)
 Especially (but not only) with the DataTable's async-Actions, this would allow to 
 better control the responses.
+
+### Improve async Modals(beginner/advanced)
+
+Along with the separation of Modal-layer and its contents (see above), the asynch
+abilities of Modals should be improved; it should be possible:
+- to replace the contents only (in order to stay in contexts of ids and JS)
+- alter the target-URL of the RPC-call by a previous response
+- probably alter the Labels and functions of Buttons
 
 
 ## Ideas and Food for Thought
