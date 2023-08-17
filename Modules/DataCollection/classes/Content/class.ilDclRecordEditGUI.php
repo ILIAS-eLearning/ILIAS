@@ -520,6 +520,10 @@ class ilDclRecordEditGUI
                     // process later
                     continue;
                 }
+                if ((int) $field->getDatatypeId() === ilDclDatatype::INPUTFORMAT_RATING) {
+                    // don't process input
+                    continue;
+                }
                 // check validity of any field
                 $field_setting = $field->getViewSetting($this->tableview_id);
                 if ($field_setting->isVisibleInForm($create_mode)) {
