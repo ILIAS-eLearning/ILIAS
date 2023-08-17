@@ -146,4 +146,9 @@ class EditingGUIRequest
     {
         return $this->intArray("interruptive_items");
     }
+
+    public function getBulkCreationData(): string
+    {
+        return $this->str("bulk_data");
+    }
 }

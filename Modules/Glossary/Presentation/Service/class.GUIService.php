@@ -52,4 +52,9 @@ class GUIService
     {
         return new \ilObjGlossaryGUI([], $ref_id, true, false);
     }
+
+    public function TermDefinitionBulkCreationGUI(\ilObjGlossary $glossary): \ilTermDefinitionBulkCreationGUI
+    {
+        return new \ilTermDefinitionBulkCreationGUI($this->domain_service, $this->gui_service, $glossary);
+    }
 }
