@@ -26,6 +26,7 @@ use ILIAS\UI\Implementation\Component as I;
 use ILIAS\Data;
 use ILIAS\UI\Implementation\Component\Signal;
 use Psr\Http\Message\ServerRequestInterface;
+use ILIAS\UI\URLBuilder;
 
 /**
  * wrapper around the renderer to expose protected functions
@@ -95,6 +96,11 @@ class DataRendererTest extends ILIAS_UI_TestBase
         return new I\Table\Column\Factory();
     }
 
+    public function getDataFactory(): Data\Factory
+    {
+        return new Data\Factory();
+    }
+
     public function getUIFactory(): NoUIFactory
     {
         $factory = new class () extends NoUIFactory {
@@ -147,34 +153,23 @@ class DataRendererTest extends ILIAS_UI_TestBase
         $this->assertEquals($expected, $actual);
     }
 
-    public function testDataTableGetActionRegistrationSignal()
-    {
-        $renderer = $this->getRenderer();
-        $f = $this->getActionFactory();
-        $signal = new I\Signal('signal_id');
-        $action = $f->standard('label', 'param', $signal);
-        $closure = $renderer->p_getActionRegistration('action_id', $action);
-
-        $actual = $this->brutallyTrimHTML($closure('component_id'));
-        $expected = $this->brutallyTrimHTML(
-            "il.UI.table.data.get('component_id').registerAction('action_id', 'SIGNAL', '{\"id\":\"signal_id\",\"options\":[]}', 'param');"
-        );
-        $this->assertEquals($expected, $actual);
-    }
-
-    public function testDataTableGetActionRegistrationURL()
+    public function testDataTableGetActionRegistration()
     {
         $renderer = $this->getRenderer();
         $f = $this->getActionFactory();
         $url = $this->getDataFactory()->uri('http://wwww.ilias.de?ref_id=1');
-        $action = $f->standard('label', 'param', $url);
+        $url_builder = new URLBuilder($url);
+        list($builder, $token) = $url_builder->acquireParameter(['namespace'], 'param');
+
+        $action = $f->standard('label', $builder, $token);
         $closure = $renderer->p_getActionRegistration('action_id', $action);
 
         $actual = $this->brutallyTrimHTML($closure('component_id'));
+        $url = $url->__toString();
         $expected = $this->brutallyTrimHTML(
-            "il.UI.table.data.get('component_id').registerAction('action_id', 'URL', '$url', 'param');"
+            'il.UI.table.data.get(\'component_id\').registerAction(\'action_id\', false, new il.UI.core.URLBuilder(new URL("http://wwww.ilias.de?ref_id=1&namespace_param="), new Map([["namespace_param",new il.UI.core.URLBuilderToken(["namespace"], "param",'
         );
-        $this->assertEquals($expected, $actual);
+        $this->assertStringStartsWith($expected, $actual);
     }
 
     public function testDataTableMultiActionsDropdown()
@@ -184,9 +179,11 @@ class DataRendererTest extends ILIAS_UI_TestBase
         $signal1 = new I\Signal('signal_id');
         $signal2 = new I\Signal('signal_id2');
         $url = $this->getDataFactory()->uri('http://wwww.ilias.de?ref_id=1');
+        $url_builder = new URLBuilder($url);
+        list($builder, $token) = $url_builder->acquireParameter(['namespace'], 'param');
         $actions = [
-            $f->standard('label1', 'param', $signal1),
-            $f->standard('label2', 'param', $url)
+            $f->standard('label1', $builder, $token),
+            $f->standard('label2', $builder, $token)
         ];
         $this->assertNull(
             $renderer->p_buildMultiActionsDropdown([], $signal1, $signal2)
@@ -200,11 +197,12 @@ class DataRendererTest extends ILIAS_UI_TestBase
     {
         $renderer = $this->getRenderer();
         $f = $this->getActionFactory();
-        $signal = new I\Signal('signal_id');
         $url = $this->getDataFactory()->uri('http://wwww.ilias.de?ref_id=1');
+        $url_builder = new URLBuilder($url);
+        list($builder, $token) = $url_builder->acquireParameter(['namespace'], 'param');
         $actions = [
-            'a1' => $f->standard('label1', 'param', $signal),
-            'a2' => $f->standard('label2', 'param', $url)
+            'a1' => $f->standard('label1', $builder, $token)->withAsync(),
+            'a2' => $f->standard('label2', $builder, $token)
         ];
         $this->assertEquals(
             2,
@@ -282,6 +280,20 @@ class DataRendererTest extends ILIAS_UI_TestBase
         </thead>
         <tbody class="c-table-data__body" role="rowgroup"></tbody>
     </table>
+
+    <div class="c-table-data__async_modal_container"></div>
+
+    <div class="c-table-data__async_message modal" role="dialog" id="{ID}_msgmodal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="c-table-data__async_messageresponse modal-body"></div>
+            </div>
+        </div>
+    </div>
+
 </div>
 EOT;
         $expected = $this->brutallyTrimHTML($expected);
@@ -297,11 +309,12 @@ EOT;
             'f3' => $f->number("Field 3")->withIndex(3)
         ];
         $f = $this->getActionFactory();
-        $signal = new I\Signal('signal_id');
         $url = $this->getDataFactory()->uri('http://wwww.ilias.de?ref_id=1');
+        $url_builder = new URLBuilder($url);
+        list($builder, $token) = $url_builder->acquireParameter(['namespace'], 'param');
         $actions = [
-            'a1' => $f->standard('label1', 'param', $signal),
-            'a2' => $f->standard('label2', 'param', $url)
+            'a1' => $f->standard('label1', $builder, $token)->withAsync(),
+            'a2' => $f->standard('label2', $builder, $token)
         ];
 
         $rb = (new I\Table\DataRowBuilder())
@@ -358,8 +371,12 @@ EOT;
 <td class="c-table-data__cell c-table-data__cell--text " role="gridcell" aria-colindex="2" tabindex="-1">v2</td>
 <td class="c-table-data__cell c-table-data__cell--number " role="gridcell" aria-colindex="3" tabindex="-1">3</td>
 <td class="c-table-data__cell c-table-data__rowaction" role="gridcell" tabindex="-1">
-    <div class="dropdown"><button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" id="id_2" aria-label="actions" aria-haspopup="true" aria-expanded="false" aria-controls="id_2_menu"><span class="caret"></span></button>
-        <ul id="id_2_menu" class="dropdown-menu"><li><button class="btn btn-link" id="id_1">label1</button></li><li><button class="btn btn-link" data-action="">label2</button></li></ul>
+    <div class="dropdown">
+        <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" id="id_3" aria-label="actions" aria-haspopup="true" aria-expanded="false" aria-controls="id_3_menu"><span class="caret"></span></button>
+        <ul id="id_3_menu" class="dropdown-menu">
+            <li><button class="btn btn-link" data-action="http://wwww.ilias.de?ref_id=1&namespace_param%5B0%5D=row_id-1" id="id_1">label1</button></li>
+            <li><button class="btn btn-link" data-action="http://wwww.ilias.de?ref_id=1&namespace_param%5B0%5D=row_id-1" id="id_2">label2</button></li>
+        </ul>
     </div>
 </td>
 EOT;
