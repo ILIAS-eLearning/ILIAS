@@ -9834,9 +9834,11 @@ glo#:#glo_show_term#:#Show Term
 glo#:#glo_term#:#Glossary Term
 glo#:#glo_term_definition_pairs#:#Term/Definition Pairs
 glo#:#glo_term_definition_pairs_info#:#Please enter a term and a definition pair in each line. Term and definition must be separated by a semicolon or a TAB character (usually provided by clipboard actions from spreadsheet applications).
+glo#:#glo_term_letter#:#Letter
 glo#:#glo_term_reference#:#Term Reference
 glo#:#glo_term_vs_def#:#Term vs. Definition
 glo#:#glo_term_vs_def_info#:#Show a term first, the learner has to guess the definition.
+glo#:#glo_terms_per_page#:#Terms per Page
 glo#:#glo_use_all_flashcards#:#Use All Flashcards (%s)
 glo#:#glo_use_remaining_flashcards#:#Use Remaining Flashcards (%s)
 grp#:#crs_add_grouping#:#Add Membership Limitation

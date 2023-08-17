@@ -63,4 +63,9 @@ class InternalRepoService implements InternalRepoServiceInterface
     {
         return new Flashcard\FlashcardSessionRepository();
     }
+
+    public function presentationSession(): Presentation\PresentationSessionRepository
+    {
+        return new Presentation\PresentationSessionRepository();
+    }
 }

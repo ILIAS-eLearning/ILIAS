@@ -36,6 +36,8 @@ class GlossaryHtmlExport
     protected \ILIAS\Services\Export\HTML\Util $export_util;
     protected \ilCOPageHTMLExport $co_page_html_export;
     protected \ILIAS\Style\Content\Object\ObjectFacade $content_style;
+    protected \ILIAS\Glossary\InternalService $service;
+    protected \ilPresentationFullGUI $glo_full_gui;
 
     public function __construct(
         \ilObjGlossary $glo,
@@ -49,12 +51,18 @@ class GlossaryHtmlExport
         $this->sub_dir = $sub_dir;
         $this->target_dir = $exp_dir . "/" . $sub_dir;
 
+        $this->service = $DIC->glossary()
+                             ->internal();
         $this->global_screen = $DIC->globalScreen();
         $this->export_util = new \ILIAS\Services\Export\HTML\Util($exp_dir, $sub_dir);
         $this->co_page_html_export = new \ilCOPageHTMLExport($this->target_dir);
 
-        // get glossary presentation gui class
+        // get glossary presentation gui classes
         $this->glo_gui = new \ilGlossaryPresentationGUI("html", $this->target_dir);
+        $this->glo_full_gui = $this->service
+                                ->gui()
+                                ->presentation()
+                                ->PresentationFullGUI($this->glo_gui, $this->glossary, true);
 
         $this->global_screen->tool()->context()->current()->addAdditionalData(\ilHTMLExportViewLayoutProvider::HTML_EXPORT_RENDERING, true);
         $this->content_style = $DIC
@@ -153,7 +161,11 @@ class GlossaryHtmlExport
     {
         $tpl = $this->initScreen(0);
         $tpl->setTitle($this->glossary->getTitle());
-        $content = $this->glo_gui->listTerms();
+        if ($this->glossary->getPresentationMode() == "full_def") {
+            $content = $this->glo_full_gui->renderPanelForOffline();
+        } else {
+            $content = $this->glo_gui->listTerms();
+        }
         $file = $this->target_dir . "/index.html";
 
         // open file

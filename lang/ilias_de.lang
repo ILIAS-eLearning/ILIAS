@@ -9841,9 +9841,11 @@ glo#:#glo_show_term#:#Begriff zeigen
 glo#:#glo_term#:#Glossarbegriff
 glo#:#glo_term_definition_pairs#:#Begriffs/Definitions-Paare
 glo#:#glo_term_definition_pairs_info#:#Bitte geben Sie pro Zeile ein Begriffs/Definitions-Paar ein. Begriff und Definition müssen getrennt sein durch ein Semikolon oder ein TAB-Zeichen (werden überlicherweise durch Zwischenablage-Aktionen von Tabellenkalkulationsprogramm unterstützt).
+glo#:#glo_term_letter#:#Buchstabe
 glo#:#glo_term_reference#:#Begriffslink
 glo#:#glo_term_vs_def#:#Begriff vs. Definition
 glo#:#glo_term_vs_def_info#:#Zeige zuerst einen Begriff, der Lernende muss die Definition erraten.
+glo#:#glo_terms_per_page#:#Begriffe pro Seite
 glo#:#glo_use_all_flashcards#:#Alle Lernkarten nutzen (%s)
 glo#:#glo_use_remaining_flashcards#:#Verbleibende Lernkarten nutzen (%s)
 grp#:#crs_add_grouping#:#Neue Mitgliedschaftsbeschränkung
