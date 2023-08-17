@@ -316,4 +316,6 @@ interface ilDBInterface
     public function foreignKeyExists(string $foreign_key_name, string $table_name): bool;
 
     public function buildIntegrityAnalyser(): Integrity;
+
+    public function primaryExistsByFields(string $table_name, array $fields) : bool;
 }
