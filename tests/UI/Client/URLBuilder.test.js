@@ -16,21 +16,16 @@
  */
 
 import { describe, it } from 'mocha';
+import { expect } from 'chai';
 import URLBuilder from '../../../src/UI/templates/js/Core/src/core.URLBuilder';
 import URLBuilderToken from '../../../src/UI/templates/js/Core/src/core.URLBuilderToken';
 
-const chai = require('chai');
-const dirtyChai = require('dirty-chai');
-
-chai.use(dirtyChai);
-const { expect } = chai;
-
 describe('URLBuilder and URLBuilderToken are available', () => {
   it('URLBuilder', () => {
-    expect(URLBuilder).to.not.be.undefined();
+    expect(URLBuilder).to.be.an('function');
   });
   it('URLBuilderToken', () => {
-    expect(URLBuilderToken).to.not.be.undefined();
+    expect(URLBuilderToken).to.be.an('function');
   });
 });
 
@@ -67,7 +62,7 @@ describe('URLBuilder Test', () => {
     expect(token.getName()).to.eql('testing_name');
     expect(url.getUrl()).to.be.instanceOf(URL);
     expect(url.getUrl().toString()).to.eql('https://www.ilias.de/ilias.php?a=1&testing_name=#123');
-    expect(token.getToken()).to.not.be.empty();
+    expect(token.getToken()).to.be.an('string').that.does.not.eql('');
   });
 
   it('acquireParameter() with long namespace', () => {
