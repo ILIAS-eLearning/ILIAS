@@ -687,4 +687,12 @@ interface ilDBInterface
      * @return string;
      */
     public function cast($a_field_name, $a_dest_type);
+
+	/**
+	 * @param string $table_name
+	 * @param array $field_names
+	 * @return bool
+	 */
+	public function primaryExistsByFields(string $table_name, array $field_names): bool;
+
 }

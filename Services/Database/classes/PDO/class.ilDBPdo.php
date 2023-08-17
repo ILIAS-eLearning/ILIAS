@@ -2199,4 +2199,19 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface
     {
         return $this->manager->getQueryUtils()->cast($a_field_name, $a_dest_type);
     }
+
+	/**
+	 * @inheritdoc
+	 */
+	public function primaryExistsByFields(string $table_name, array $field_names): bool
+	{
+		$constraints  = $this->manager->listTableConstraints($table_name);
+
+		if(in_array('primary', $constraints)) {
+			$definitions = $this->reverse->getTableConstraintDefinition($table_name, 'primary');
+			$primary_fields = array_keys($definitions['fields']);
+			return empty(array_diff($field_names, $primary_fields));
+		}
+		return false;
+	}
 }
