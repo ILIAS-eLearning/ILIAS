@@ -226,8 +226,8 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
             $this->ctrl->setParameterByClass(ilObjQuestionPoolGUI::class, 'ref_id', current($qp_ref_id));
             $this->tpl->setVariable(
                 "QUESTION_POOL",
-                $this->renderer->render(
-                    $this->factory->link()->standard(
+                $this->ui_renderer->render(
+                    $this->ui_factory->link()->standard(
                         ilObject::_lookupTitle($a_set["orig_obj_fi"]),
                         $this->ctrl->getLinkTargetByClass(
                             [ilObjQuestionPoolGUI::class]
