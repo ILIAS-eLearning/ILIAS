@@ -293,4 +293,6 @@ interface ilDBInterface
     public function groupConcat(string $a_field_name, string $a_seperator = ",", ?string $a_order = null): string;
 
     public function cast(string $a_field_name, string $a_dest_type): string;
+
+    public function primaryExistsByFields(string $table_name, array $fields) : bool;
 }
