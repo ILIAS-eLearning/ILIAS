@@ -638,8 +638,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
                 }
 
                 if (!$qid || in_array($cmd, array('insertQuestions', 'browseForQuestions'))) {
-                    $pageObject = new ilTestExpressPageObjectGUI(0);
-                    $pageObject->test_object = $this->object;
+                    $pageObject = new ilTestExpressPageObjectGUI(0, 0, $this->object);
                     $ret = $this->ctrl->forwardCommand($pageObject);
                     $this->tpl->setContent($ret);
                     break;
@@ -671,7 +670,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
                 $q_gui->object->setObjId($this->object->getId());
 
                 $q_gui->setTargetGuiClass(null);
-                $q_gui->setQuestionActionCmd(null);
+                $q_gui->setQuestionActionCmd('');
 
                 $question = $q_gui->object;
                 $this->ctrl->saveParameter($this, "q_id");
@@ -680,8 +679,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
                 $this->ctrl->setReturnByClass("ilTestExpressPageObjectGUI", "view");
                 $this->ctrl->setReturn($this, "questions");
 
-                $page_gui = new ilTestExpressPageObjectGUI($qid);
-                $page_gui->test_object = $this->object;
+                $page_gui = new ilTestExpressPageObjectGUI($qid, 0, $this->object);
                 $page_gui->setEditPreview(true);
                 $page_gui->setEnabledTabs(false);
                 if (strlen($this->ctrl->getCmd()) == 0) {
@@ -1412,7 +1410,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
         // get default permissions and set the permissions for the questionpool object
         $newObj->setPermissions($this->testrequest->getRefId());
         // empty mark schema
-        $newObj->mark_schema->flush();
+        $newObj->resetMarkSchema();
 
         // Handle selection of "no questionpool" as qpl_id = -1 -> use test object id instead.
         // possible hint: chek if empty strings in $_POST["qpl_id"] relates to a bug or not
@@ -1490,7 +1488,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
     public function downloadFileObject()
     {
         $file = explode("_", $this->testrequest->raw("file_id"));
-        $fileObj = new ilObjFile($file[count($file) - 1], false);
+        $fileObj = new ilObjFile((int) $file[count($file) - 1], false);
         $fileObj->sendFile();
         exit;
     }
@@ -1712,7 +1710,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
         $usage->setValue('1');
 
         $questionpools = ilObjQuestionPool::_getAvailableQuestionpools(false, false, true, false, false, "write");
-        $pools_data = $question_id;
+        $pools_data = [];
         foreach ($questionpools as $key => $p) {
             $pools_data[$key] = $p['title'];
         }
@@ -1949,7 +1947,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
     */
     public function insertQuestionsObject()
     {
-        $selected_array = (is_array($_POST['q_id'])) ? $_POST['q_id'] : $question_id;
+        $selected_array = (is_array($_POST['q_id'])) ? $_POST['q_id'] : [];
         if (!count($selected_array)) {
             $this->tpl->setOnScreenMessage('info', $this->lng->txt("tst_insert_missing_question"), true);
             $this->ctrl->redirect($this, "browseForQuestions");
@@ -1988,7 +1986,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
 
         $pool = new ilObjQuestionPool();
         $questionTypes = $pool->getQuestionTypes(false, true, false);
-        $options = $question_id;
+        $options = [];
 
         // question type
         foreach ($questionTypes as $label => $data) {
@@ -2056,7 +2054,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
         $usage->setValue('1');
 
         $questionpools = ilObjQuestionPool::_getAvailableQuestionpools(false, false, true, false, false, "write");
-        $pools_data = $question_id;
+        $pools_data = [];
         foreach ($questionpools as $key => $p) {
             $pools_data[$key] = $p['title'];
         }
@@ -2863,19 +2861,20 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
         $main_tpl = $DIC->ui()->mainTemplate();
         $ilAccess = $DIC['ilAccess'];
         $ilErr = $DIC['ilErr'];
+        $lng = $DIC['lng'];
 
         if ($ilAccess->checkAccess("read", "", (int) $target) || $ilAccess->checkAccess("visible", "", (int) $target)) {
             $DIC->ctrl()->setParameterByClass('ilObjTestGUI', 'ref_id', (int) $target);
             $DIC->ctrl()->redirectByClass('ilObjTestGUI', 'infoScreen');
         } elseif ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID)) {
             $main_tpl->setOnScreenMessage('info', sprintf(
-                $this->lng->txt("msg_no_perm_read_item"),
+                $lng->txt("msg_no_perm_read_item"),
                 ilObject::_lookupTitle(ilObject::_lookupObjId((int) $target))
             ), true);
             ilObjectGUI::_gotoRepositoryRoot();
         }
 
-        $ilErr->raiseError($this->lng->txt("msg_no_perm_read_lm"), $ilErr->FATAL);
+        $ilErr->raiseError($lng->txt("msg_no_perm_read_lm"), $ilErr->FATAL);
     }
 
     public function buildPageViewToolbar($qid = 0)
@@ -2905,7 +2904,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
         $questions = $this->object->getQuestionTitlesAndIndexes();
 
         // desc
-        $options = $question_id;
+        $options = [];
         foreach ($questions as $id => $label) {
             $options[$id] = $label . ' [' . $this->lng->txt('question_id_short') . ': ' . $id . ']';
         }
@@ -3003,7 +3002,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
 
     public function copyQuestionsToPool($questionIds, $qplId): stdClass
     {
-        $newIds = $question_id;
+        $newIds = [];
         foreach ($questionIds as $q_id) {
             $newId = $this->copyQuestionToPool($q_id, $qplId);
             $newIds[$q_id] = $newId;
@@ -3180,7 +3179,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
 
                 case 'copyAndLinkQuestionsToPool':
                     $hidden = new ilHiddenInputGUI('link');
-                    $hidden->setValue(1);
+                    $hidden->setValue('1');
                     $form->addItem($hidden);
                     break;
             }
@@ -3193,7 +3192,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
     {
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this));
-        $form->addCommandButton($cmd, $DIC->language()->txt('submit'));
+        $form->addCommandButton($cmd, $this->lng->txt('submit'));
         $form->addCommandButton('cancelCreateQuestion', $this->lng->txt('cancel'));
 
         if (count($questionpools) == 0) {
@@ -3281,7 +3280,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
 
         $questions = $this->object->getQuestionTitlesAndIndexes();
         if (!is_array($questions)) {
-            $questions = $question_id;
+            $questions = [];
         }
 
         foreach ($questions as $k => $q) {

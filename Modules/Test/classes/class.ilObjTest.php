@@ -8416,4 +8416,9 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
             'exam_id' => $exam_identifier
         ];
     }
+
+    public function resetMarkSchema(): void
+    {
+        $this->mark_schema->flush();
+    }
 }
