@@ -29,6 +29,8 @@ class ilAssOrderingTextsInputGUI extends ilMultipleTextsInputGUI
      */
     public function __construct(ilAssOrderingFormValuesObjectsConverter $converter, $postVar)
     {
+        $this->addFormValuesManipulator(new ilAssFormSubmitEntitiesEscaper());
+
         $manipulator = new ilAssOrderingDefaultElementFallback();
         $this->addFormValuesManipulator($manipulator);
 
