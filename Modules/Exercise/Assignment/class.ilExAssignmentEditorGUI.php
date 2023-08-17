@@ -32,6 +32,8 @@ use ILIAS\Services\ResourceStorage\Collections\View\Mode;
  */
 class ilExAssignmentEditorGUI
 {
+    protected ?int $ref_id = null;
+    protected ilAccessHandler $access;
     protected \ILIAS\Exercise\InternalGUIService $gui;
     protected ilCtrl $ctrl;
     protected ilTabsGUI $tabs;
@@ -94,6 +96,12 @@ class ilExAssignmentEditorGUI
         $this->requested_order = $request->getOrder();
         $this->irss = $DIC->resourceStorage();
         $this->upload = $DIC->upload();
+        $this->access = $DIC->access();
+        $this->ref_id = $DIC->http()->wrapper()->query()->has('ref_id')
+            ? $DIC->http()->wrapper()->query()->retrieve(
+                'ref_id',
+                $DIC->refinery()->kindlyTo()->int()
+            ) : null;
     }
 
     /**
@@ -123,12 +131,18 @@ class ilExAssignmentEditorGUI
                 $collection_id = $this->assignment->getInstructionFileRCID();
                 $collection = $this->irss->collection()->get($collection_id);
 
-                $overview = new ilResourceCollectionGUI(new Configuration(
-                    $collection,
-                    new ilExcInstructionFilesStakeholder(),
-                    $this->lng->txt('exc_instruction_files'),
-                    Mode::DATA_TABLE
-                ));
+                $write_permission = $this->access->checkAccess('write', '', $this->ref_id ?? -1);
+                $overview = new ilResourceCollectionGUI(
+                    new Configuration(
+                        $collection,
+                        new ilExcInstructionFilesStakeholder(),
+                        $this->lng->txt('exc_instruction_files'),
+                        Mode::DATA_TABLE,
+                        100,
+                        $write_permission,
+                        $write_permission
+                    )
+                );
 
                 $this->ctrl->forwardCommand($overview);
 
