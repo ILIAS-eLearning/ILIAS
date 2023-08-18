@@ -529,7 +529,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         $pi->setRetype(false);
         $pi->setSkipSyntaxCheck(true);
         $pi->setSize(20);
-        $pi->setDisableHtmlAutoComplete(false);
+        $pi->setDisableHtmlAutoComplete(true);
         $pi->setRequired(true);
         $form->addItem($pi);
 
