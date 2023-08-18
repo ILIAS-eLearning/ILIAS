@@ -473,6 +473,7 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
         }
 
         $questionList->setParentObjIdsFilter($parentObjectIds);
+        $questionList->setParentObjectType($this->getQuestionParentObjectType());
 
         $questionList->load();
 
@@ -481,7 +482,11 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
 
     private function getQuestionInstanceTypeFilter(): string
     {
-        return ilAssQuestionList::QUESTION_INSTANCE_TYPE_ALL;
+        if ($this->fetchModeParameter() === self::MODE_BROWSE_TESTS) {
+            return ilAssQuestionList::QUESTION_INSTANCE_TYPE_DUPLICATES;
+        }
+
+        return ilAssQuestionList::QUESTION_INSTANCE_TYPE_ORIGINALS;
     }
 
     /**

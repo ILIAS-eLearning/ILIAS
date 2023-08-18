@@ -519,6 +519,18 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
 			";
         }
 
+        if ($this->getParentObjectType() === 'tst') {
+            $tableJoin .= "
+            			LEFT JOIN	qpl_questions origquest
+			ON			origquest.question_id = qpl_questions.original_id
+			";
+
+            $tableJoin .= "
+            						INNER JOIN	tst_test_question tstquest
+			ON			tstquest.question_fi = qpl_questions.question_id
+			";
+        }
+
         if ($this->getAnswerStatusActiveId()) {
             $tableJoin .= "
 				LEFT JOIN	tst_test_result
