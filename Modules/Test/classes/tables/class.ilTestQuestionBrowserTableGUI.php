@@ -483,7 +483,7 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
     private function getQuestionInstanceTypeFilter(): string
     {
         if ($this->fetchModeParameter() === self::MODE_BROWSE_TESTS) {
-            return ilAssQuestionList::QUESTION_INSTANCE_TYPE_DUPLICATES;
+            return ilAssQuestionList::QUESTION_INSTANCE_TYPE_ALL;
         }
 
         return ilAssQuestionList::QUESTION_INSTANCE_TYPE_ORIGINALS;
