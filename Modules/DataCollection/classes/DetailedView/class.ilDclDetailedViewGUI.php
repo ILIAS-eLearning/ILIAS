@@ -22,6 +22,8 @@ declare(strict_types=1);
  */
 class ilDclDetailedViewGUI
 {
+    protected \ILIAS\UI\Factory $ui_factory;
+    protected \ILIAS\UI\Renderer $renderer;
     protected ILIAS\Style\Content\Object\ObjectFacade $content_style_domain;
     protected ilObjDataCollectionGUI $dcl_gui_object;
     protected ilNoteGUI $notes_gui;
@@ -54,6 +56,8 @@ class ilDclDetailedViewGUI
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
         $this->main_tpl = $DIC->ui()->mainTemplate();
+        $this->ui_factory = $DIC->ui()->factory();
+        $this->renderer = $DIC->ui()->renderer();
 
         $this->record_id = null;
         if ($this->http->wrapper()->query()->has('record_id')) {
@@ -94,8 +98,8 @@ class ilDclDetailedViewGUI
         $this->notesGUI = new ilNoteGUI($repId, $objId);
         $this->notesGUI->enablePublicNotes();
         $this->notesGUI->enablePublicNotesDeletion();
-        $this->ctrl->setParameterByClass("ilnotegui", "record_id", $this->record_id);
-        $this->ctrl->setParameterByClass("ilnotegui", "rep_id", $repId);
+        $this->ctrl->setParameterByClass(ilNoteGUI::class, "record_id", $this->record_id);
+        $this->ctrl->setParameterByClass(ilNoteGUI::class, "rep_id", $repId);
 
         $this->tableview_id = $tableview_id;
 
@@ -245,14 +249,15 @@ class ilDclDetailedViewGUI
         $ref_id = $this->http->wrapper()->query()->retrieve('ref_id', $this->refinery->kindlyTo()->int());
 
         if ($this->record_obj->hasPermissionToEdit($ref_id)) {
-            $button = ilLinkButton::getInstance();
-            $ilCtrl->setParameterByClass('ildclrecordeditgui', 'table_id', $this->table->getId());
-            $ilCtrl->setParameterByClass('ildclrecordeditgui', 'tableview_id', $this->tableview_id);
-            $ilCtrl->setParameterByClass('ildclrecordeditgui', 'redirect', ilDclRecordEditGUI::REDIRECT_DETAIL);
-            $ilCtrl->saveParameterByClass('ildclrecordeditgui', 'record_id');
-            $button->setUrl($ilCtrl->getLinkTargetByClass('ildclrecordeditgui', 'edit'));
-            $button->setCaption($this->lng->txt('dcl_edit_record'), false);
-            $rctpl->setVariable('EDIT_RECORD_BUTTON', $button->render());
+            $ilCtrl->setParameterByClass(ilDclRecordEditGUI::class, 'table_id', $this->table->getId());
+            $ilCtrl->setParameterByClass(ilDclRecordEditGUI::class, 'tableview_id', $this->tableview_id);
+            $ilCtrl->setParameterByClass(ilDclRecordEditGUI::class, 'redirect', ilDclRecordEditGUI::REDIRECT_DETAIL);
+            $ilCtrl->saveParameterByClass(ilDclRecordEditGUI::class, 'record_id');
+            $edit_button = $this->ui_factory->button()->standard(
+                $this->lng->txt('dcl_edit_record'),
+                $ilCtrl->getLinkTargetByClass(ilDclRecordEditGUI::class, 'edit')
+            );
+            $rctpl->setVariable('EDIT_RECORD_BUTTON', $this->renderer->render($edit_button));
         }
 
         // Comments

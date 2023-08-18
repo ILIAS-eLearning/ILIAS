@@ -21,6 +21,8 @@ declare(strict_types=1);
 
 class ilDclFieldListGUI
 {
+    protected \ILIAS\UI\Factory $ui_factory;
+    protected \ILIAS\UI\Renderer $renderer;
     protected ilCtrl $ctrl;
     protected ilLanguage $lng;
     protected ilToolbarGUI $toolbar;
@@ -50,17 +52,19 @@ class ilDclFieldListGUI
         $this->tpl = $DIC->ui()->mainTemplate();
         $this->tabs = $DIC->tabs();
         $this->toolbar = $DIC->toolbar();
+        $this->ui_factory = $DIC->ui()->factory();
+        $this->renderer = $DIC->ui()->renderer();
 
-        $this->ctrl->saveParameterByClass('ilDclTableEditGUI', 'table_id');
+        $this->ctrl->saveParameterByClass(ilDclTableEditGUI::class, 'table_id');
         $locator->addItem(
             ilDclCache::getTableCache($this->table_id)->getTitle(),
-            $this->ctrl->getLinkTargetByClass('ilDclTableEditGUI', 'edit')
+            $this->ctrl->getLinkTargetByClass(ilDclTableEditGUI::class, 'edit')
         );
         $this->tpl->setLocator();
 
         if (!$this->checkAccess()) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
-            $this->ctrl->redirectByClass('ildclrecordlistgui', 'listRecords');
+            $this->ctrl->redirectByClass(ilDclRecordListGUI::class, 'listRecords');
         }
     }
 
@@ -177,10 +181,10 @@ class ilDclFieldListGUI
     public function listFields(): void
     {
         //add button
-        $add_new = ilLinkButton::getInstance();
-        $add_new->setPrimary(true);
-        $add_new->setCaption("dcl_add_new_field");
-        $add_new->setUrl($this->ctrl->getLinkTargetByClass('ildclfieldeditgui', 'create'));
+        $add_new = $this->ui_factory->button()->primary(
+            $this->lng->txt("dcl_add_new_field"),
+            $this->ctrl->getLinkTargetByClass(ilDclFieldEditGUI::class, 'create')
+        );
         $this->toolbar->addStickyItem($add_new);
 
         $this->toolbar->addSeparator();
@@ -196,7 +200,7 @@ class ilDclFieldListGUI
         $table_selection->setOptions($options);
         $table_selection->setValue($this->table_id);
 
-        $this->toolbar->setFormAction($this->ctrl->getFormActionByClass("ilDclFieldListGUI", "doTableSwitch"));
+        $this->toolbar->setFormAction($this->ctrl->getFormActionByClass(ilDclFieldListGUI::class, "doTableSwitch"));
         $this->toolbar->addText($this->lng->txt("dcl_select"));
         $this->toolbar->addInputItem($table_selection);
         $this->toolbar->addFormButton($this->lng->txt('change'), 'doTableSwitch');
@@ -212,8 +216,8 @@ class ilDclFieldListGUI
     public function doTableSwitch(): void
     {
         $table_id = $this->http->wrapper()->post()->retrieve('table_id', $this->refinery->kindlyTo()->int());
-        $this->ctrl->setParameterByClass("ilObjDataCollectionGUI", "table_id", $table_id);
-        $this->ctrl->redirectByClass("ilDclFieldListGUI", "listFields");
+        $this->ctrl->setParameterByClass(ilObjDataCollectionGUI::class, "table_id", $table_id);
+        $this->ctrl->redirectByClass(ilDclFieldListGUI::class, "listFields");
     }
 
     protected function checkAccess(): bool

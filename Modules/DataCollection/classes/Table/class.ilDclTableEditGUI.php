@@ -436,10 +436,7 @@ class ilDclTableEditGUI
         $this->toolbar->setFormAction($this->ctrl->getFormActionByClass("ilDclTableEditGUI", "doTableSwitch"));
         $this->toolbar->addText($this->lng->txt("dcl_select"));
         $this->toolbar->addInputItem($table_selection);
-        $button = ilSubmitButton::getInstance();
-        $button->setCommand("doTableSwitch");
-        $button->setCaption('change');
-        $this->toolbar->addButtonInstance($button);
+        $this->toolbar->addFormButton('change', "doTableSwitch");
 
         return $options;
     }

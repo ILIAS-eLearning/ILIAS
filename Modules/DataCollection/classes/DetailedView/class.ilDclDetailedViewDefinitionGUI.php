@@ -86,21 +86,25 @@ class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI
     public function showPage(): string
     {
         if ($this->getOutputMode() == ilPageObjectGUI::EDIT) {
-            $delete_button = ilLinkButton::getInstance();
-            $delete_button->setCaption('dcl_empty_detailed_view');
-            $delete_button->setUrl($this->ctrl->getLinkTarget($this, 'confirmDelete'));
-            $this->toolbar->addButtonInstance($delete_button);
+            $delete_button = $this->ui->factory()->button()->standard(
+                $this->lng->txt('dcl_empty_detailed_view'),
+                $this->ctrl->getLinkTarget($this, 'confirmDelete')
+            );
+            $this->toolbar->addComponent($delete_button);
 
-            $activation_button = ilLinkButton::getInstance();
             if ($this->getPageObject()->getActive()) {
-                $activation_button->setCaption('dcl_deactivate_view');
-                $activation_button->setUrl($this->ctrl->getLinkTarget($this, 'deactivate'));
+                $activation_button = $this->ui->factory()->button()->standard(
+                    $this->lng->txt('dcl_deactivate_view'),
+                    $this->ctrl->getLinkTarget($this, 'deactivate')
+                );
             } else {
-                $activation_button->setCaption('dcl_activate_view');
-                $activation_button->setUrl($this->ctrl->getLinkTarget($this, 'activate'));
+                $activation_button = $this->ui->factory()->button()->standard(
+                    $this->lng->txt('dcl_activate_view'),
+                    $this->ctrl->getLinkTarget($this, 'activate')
+                );
             }
 
-            $this->toolbar->addButtonInstance($activation_button);
+            $this->toolbar->addComponent($activation_button);
 
             $legend = $this->getPageObject()->getAvailablePlaceholders();
             if (sizeof($legend)) {
