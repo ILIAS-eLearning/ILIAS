@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 class ilStudyProgrammeEvents implements StudyProgrammeEvents
 {
@@ -34,7 +34,25 @@ class ilStudyProgrammeEvents implements StudyProgrammeEvents
 
     public function raise(string $event, array $parameter): void
     {
-        $this->logger->debug("PRG raised: " . $event . ' (' . print_r($parameter, true) . ')');
+        $parameter_formatter = static function ($value) use (&$parameter_formatter) {
+            if (is_object($value)) {
+                return get_class($value);
+            }
+
+            if (is_array($value)) {
+                return array_map(
+                    $parameter_formatter,
+                    $value
+                );
+            }
+
+            return $value;
+        };
+
+        $this->logger->debug("PRG raised: " . $event . ' (' . var_export(array_map(
+                $parameter_formatter,
+                $parameter
+            ), true) . ')');
 
         if (in_array($event, [
             self::EVENT_USER_ASSIGNED,

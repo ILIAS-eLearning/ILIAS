@@ -320,6 +320,12 @@ interface Factory
      * rules:
      *   usage:
      *     1: Password Input MUST be used for passwords.
+     *   composition:
+     *     1: >
+     *        The input MUST always be rendered with the attribute autocomplete="off".
+     *        This advises browsers to NOT autofill the input field with cached passwords
+     *        and avoids potential exposure of confidential data, especially in
+     *        shared environments.
      *   interaction:
      *     1: >
      *         Password Input SHOULD NOT limit the number of characters.

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -13,13 +14,10 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
-/**
- * Class ilDclSelectionRecordFieldModel
- * @author  Theodor Truffer <tt@studer-raimann.ch>
- */
+declare(strict_types=1);
+
 abstract class ilDclSelectionRecordFieldModel extends ilDclBaseRecordFieldModel
 {
     // those should be overwritten by subclasses
@@ -46,7 +44,7 @@ abstract class ilDclSelectionRecordFieldModel extends ilDclBaseRecordFieldModel
      */
     public function parseExportValue($value): string
     {
-        $values = ilDclSelectionOption::getValues($this->getField()->getId(), $value);
+        $values = ilDclSelectionOption::getValues((int)$this->getField()->getId(), $value);
 
         return implode("; ", $values);
     }

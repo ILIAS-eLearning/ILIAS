@@ -592,8 +592,6 @@ assessment#:#counter#:#Contador
 assessment#:#create_date#:#Criado
 assessment#:#create_gaps#:#Criar e atualizar espaços
 assessment#:#create_new#:#Criar novo
-assessment#:#ctm_cannot_be_changed#:#This is a test in CTM-Mode. Settings cannot be changed anymore as CTM has been abandoned.###29 07 2022 new variable
-assessment#:#ctm_cannot_be_started#:#This is a test in CTM-Mode. The test cannot be started anymore as CTM has been abandoned.###29 07 2022 new variable
 assessment#:#customstyle#:#Estilo personalizado
 assessment#:#dashboard_tab#:#Painel
 assessment#:#definition#:#Definição
@@ -822,7 +820,6 @@ assessment#:#legend#:#Legenda
 assessment#:#locked#:#bloqueado
 assessment#:#log_added_extratime#:#Foram adicionados %d minutos extra para o id do participante %d
 assessment#:#log_answer_changed_points#:#Alteração manual dos pontos da pessoa do teste %s de %d para %d pontos por %s
-assessment#:#log_could_not_enter_test_due_to_simultaneous_users#:#O utilizador não conseguiu introduzir o teste porque foi atingido o número máximo de utilizadores simultâneos
 assessment#:#log_create_new_test#:#Novo teste criado
 assessment#:#log_manual_feedback#:#%s foi adicionado um feedback manual para a pessoa de teste %s e pergunta %s: %s
 assessment#:#log_mark_added#:#Marca adicionada
@@ -1246,11 +1243,6 @@ assessment#:#tst_add_quest_cont_edit_mode_RTE_info#:#Allows text formatting of q
 assessment#:#tst_addit_passes_blocked_after_passed_msg#:#You have passed the test. The test cannot be started again.###07 02 2020 new variable
 assessment#:#tst_all_test_competences#:#Todas as competências do teste
 assessment#:#tst_all_user_data_deleted#:#Todos os dados de utilizador deste teste foram removidos!
-assessment#:#tst_allowed_users#:#Número limite de participantes simultâneos
-assessment#:#tst_allowed_users_desc#:#ILIAS monitoriza o número de participantes que participam neste teste ao mesmo tempo. Se mais utilizadores do que o máximo permitido tentarem aceder, ILIAS impede-os de iniciarem o teste.
-assessment#:#tst_allowed_users_max#:#Número máx. de participantes
-assessment#:#tst_allowed_users_time_gap#:#Tempo de inatividade para utilizadores ativos
-assessment#:#tst_allowed_users_time_gap_desc#:#Os participantes que não clicam no teste durante o tempo indicado serão categorizados como 'inativos' e serão removidos do teste.
 assessment#:#tst_already_submitted#:#O teste já foi concluído e submetido.
 assessment#:#tst_analysis#:#Análise
 assessment#:#tst_anonymity#:#Privacidade
@@ -1330,19 +1322,6 @@ assessment#:#tst_derive_new_pool#:#Derivar novo banco de perguntas
 assessment#:#tst_derive_new_pools#:#Derivar novo banco de perguntas
 assessment#:#tst_dont_show_msg_again_in_current_session#:#Não mostrar esta mensagem novamente durante a minha sessão atual.
 assessment#:#tst_dont_use_previous_answers#:#As suas respostas anteriores não serão usadas como valores predefinidos em futuras tentativas de teste
-assessment#:#tst_dyn_keep_answ_freeze#:#Congelar as minhas respostas atuais
-assessment#:#tst_dyn_quest_set_pool_deleted#:#O banco de perguntas atualmente configurado "%s" foi apagado.
-assessment#:#tst_dyn_quest_set_src_qpl_summary_string_deleted#:#%s (Removido permanentemente)
-assessment#:#tst_dyn_quest_set_src_qpl_summary_string_trashed#:#%s (Removido) [%s Perguntas]
-assessment#:#tst_dyn_test_msg_currently_finished_completely#:#Atualmente já respondeu com sucesso a todas as perguntas do banco de perguntas selecionado. Pode continuar com o teste quando houver perguntas novas ou editadas no banco de perguntas.
-assessment#:#tst_dyn_test_msg_currently_finished_selection#:#Com a seleção atual de perguntas, respondeu com sucesso a todas as perguntas. Mude a seleção de perguntas para continuar o teste.
-assessment#:#tst_dyn_test_msg_pass_deletion_link#:#Remover respostas anteriores
-assessment#:#tst_dyn_test_pass_deletion_button#:#Repor todas as respostas
-assessment#:#tst_dyn_unfreeze_answers#:#Responda mais uma vez
-assessment#:#tst_dyn_unfreeze_answers_confirmation#:#Há perguntas em relação às quais as suas respostas iniciais eram fixas e não podia alterá-las. Quer responder a essas mais uma vez agora, desbloqueando assim as suas respostas?
-assessment#:#tst_dynamic_question_set_complete#:#Total das estatísticas
-assessment#:#tst_dynamic_question_set_selection#:#Seleção da pergunta do teste e estatística de seleção
-assessment#:#tst_dynamic_question_set_source_questionpool_summary_string#:#%s (Caminho: %s) [%s Perguntas]
 assessment#:#tst_edit_competence_assign#:#Editar propriedades de atribuição
 assessment#:#tst_edit_scoring#:#Editar pontuação
 assessment#:#tst_ending_time#:#Tempo para acabar
@@ -1492,8 +1471,6 @@ assessment#:#tst_mark_minimum_level#:#<b>Não é possível um teste com um conju
 assessment#:#tst_mark_official_form#:#Date da última sincronização dos bancos de perguntas selecionados: <b>%s</b>
 assessment#:#tst_mark_passed#:#Os pontos de competência foram guardados.
 assessment#:#tst_mark_short_form#:#A regra foi removida com sucesso.
-assessment#:#tst_max_allowed_users_heading#:#Foi alcançado o número máximo de utilizadores simultâneos no teste
-assessment#:#tst_max_allowed_users_message#:#Foi alcançado o número máximo de utilizadores ativos simultâneos no teste. Tente novamente mais tarde reiniciar ou retomar o teste. Se um dos utilizadores ativos estiver inativo durante mais de %s segundos, pode introduzir este teste. Obrigado pela sua compreensão.
 assessment#:#tst_max_comp_points#:#Pontos máx. de competência
 assessment#:#tst_maximum_points#:#Recebeu esta notificação porque participou neste teste.
 assessment#:#tst_mc_label_none_above#:#Nenhuma das respostas acima
@@ -1695,6 +1672,7 @@ assessment#:#tst_questions_hints_toolbar_cmd_reset_ordering_clipboard#:#Repor su
 assessment#:#tst_questions_inserted#:#Tipo de pergunta
 assessment#:#tst_questions_removed#:#Pontos
 assessment#:#tst_random_nr_of_questions#:#Quantas perguntas?
+assessment#:#tst_random_question_set_source_questionpool_summary_string#:#%s (Caminho: %s) [%s Perguntas]
 assessment#:#tst_random_select_questionpool#:#Selecione o banco de perguntas para escolher as perguntas de
 assessment#:#tst_reached_points#:#Mostrar estado ‘Aprovado’/‘Falhado’
 assessment#:#tst_reached_points_of_max#:#A informação sobre o estado ‘Aprovado’/‘Falhado’ será anexada ao resultado resumido do teste. Os participantes podem aceder aos seus resultados de teste no separador ‘Informação’. <br />

@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class ilTestParticipantsTimeExtensionGUI
  *
@@ -28,35 +30,29 @@
  */
 class ilTestParticipantsTimeExtensionGUI
 {
-    /**
-     * Command Constants
-     */
     public const CMD_SHOW_LIST = 'showList';
     public const CMD_SHOW_FORM = 'showForm';
     public const CMD_SET_TIMING = 'setTiming';
 
-    protected ilObjTest $testObj;
-    protected ilCtrl $ctrl;
-    protected illanguage $lng;
-    private \ilGlobalTemplateInterface $main_tpl;
-
-    public function __construct(ilObjTest $testObj)
-    {
-        global $DIC;
-        $this->ctrl = $DIC['ilCtrl'];
-        $this->lng = $DIC['lng'];
-        $this->main_tpl = $DIC->ui()->mainTemplate();
-        $this->testObj = $testObj;
+    public function __construct(
+        private ilObjTest $test_obj,
+        private ilObjUser $user,
+        private ilCtrl $ctrl,
+        private illanguage $lng,
+        private ilDBInterface $db,
+        private ilGlobalTemplateInterface $main_tpl,
+        private ilTestParticipantAccessFilterFactory $participant_access_filter
+    ) {
     }
 
     public function getTestObj(): ilObjTest
     {
-        return $this->testObj;
+        return $this->test_obj;
     }
 
-    public function setTestObj(ilObjTest $testObj)
+    public function setTestObj(ilObjTest $test_obj): void
     {
-        $this->testObj = $testObj;
+        $this->test_obj = $test_obj;
     }
 
     protected function isExtraTimeFeatureAvailable(): bool
@@ -82,23 +78,23 @@ class ilTestParticipantsTimeExtensionGUI
         }
     }
 
-    public function showListCmd()
+    public function showListCmd(): void
     {
-        $tableGUI = new ilTimingOverviewTableGUI($this, self::CMD_SHOW_LIST);
-        $tableGUI->addCommandButton(self::CMD_SHOW_FORM, $this->lng->txt('timing'));
+        $tabel_gui = new ilTimingOverviewTableGUI($this, self::CMD_SHOW_LIST);
+        $tabel_gui->addCommandButton(self::CMD_SHOW_FORM, $this->lng->txt('timing'));
 
-        $participantList = new ilTestParticipantList($this->getTestObj());
-        $participantList->initializeFromDbRows($this->getTestObj()->getTestParticipants());
+        $participant_list = new ilTestParticipantList($this->getTestObj(), $this->user, $this->lng, $this->db);
+        $participant_list->initializeFromDbRows($this->getTestObj()->getTestParticipants());
 
-        $participantList = $participantList->getAccessFilteredList(
-            ilTestParticipantAccessFilter::getManageParticipantsUserFilter($this->getTestObj()->getRefId())
+        $filtered_participant_list = $participant_list->getAccessFilteredList(
+            $this->participant_access_filter->getManageParticipantsUserFilter($this->getTestObj()->getRefId())
         );
 
         $addons = $this->getTestObj()->getTimeExtensionsOfParticipants();
 
-        $tableData = array();
-        foreach ($participantList as $participant) {
-            $tblRow = [
+        $table_data = array();
+        foreach ($filtered_participant_list as $participant) {
+            $table_row = [
                 'started' => '',
                 'extratime' => 0,
                 'login' => $participant->getLogin(),
@@ -111,24 +107,24 @@ class ilTestParticipantsTimeExtensionGUI
                     new ilDateTime($time, IL_CAL_UNIX)
                 );
 
-                $tblRow['started'] = $started;
+                $table_row['started'] = $started;
             }
 
             $participant_id = $participant->getActiveId();
             if (array_key_exists($participant_id, $addons) && $addons[$participant_id] > 0) {
-                $tblRow['extratime'] = $addons[$participant_id];
+                $table_row['extratime'] = $addons[$participant_id];
             }
 
             if (! $this->getTestObj()->getAnonymity()) {
-                $tblRow['name'] = $participant->getLastname() . ', ' . $participant->getFirstname();
+                $table_row['name'] = $participant->getLastname() . ', ' . $participant->getFirstname();
             }
 
-            $tableData[] = $tblRow;
+            $table_data[] = $table_row;
         }
 
-        $tableGUI->setData($tableData);
+        $tabel_gui->setData($table_data);
 
-        $this->main_tpl->setContent($this->ctrl->getHTML($tableGUI));
+        $this->main_tpl->setContent($this->ctrl->getHTML($tabel_gui));
     }
 
     protected function showFormCmd()
@@ -145,23 +141,23 @@ class ilTestParticipantsTimeExtensionGUI
         $form->setId("tst_change_workingtime");
         $form->setTitle($this->lng->txt("tst_change_workingtime"));
 
-        $participantList = new ilTestParticipantList($this->getTestObj());
-        $participantList->initializeFromDbRows($this->getTestObj()->getTestParticipants());
+        $participant_list = new ilTestParticipantList($this->getTestObj(), $this->user, $this->lng, $this->db);
+        $participant_list->initializeFromDbRows($this->getTestObj()->getTestParticipants());
 
-        $participantList = $participantList->getAccessFilteredList(
-            ilTestParticipantAccessFilter::getManageParticipantsUserFilter($this->getTestObj()->getRefId())
+        $filtered_participants_list = $participant_list->getAccessFilteredList(
+            $this->participant_access_filter->getManageParticipantsUserFilter($this->getTestObj()->getRefId())
         );
 
         $addons = $this->getTestObj()->getTimeExtensionsOfParticipants();
 
-        $participantslist = new ilSelectInputGUI($this->lng->txt('participants'), "participant");
+        $participantslist_input = new ilSelectInputGUI($this->lng->txt('participants'), "participant");
 
-        $options = array(
+        $options = [
             '' => $this->lng->txt('please_select'),
             '0' => $this->lng->txt('all_participants')
-        );
+        ];
 
-        foreach ($participantList as $participant) {
+        foreach ($filtered_participants_list as $participant) {
             $started = "";
 
             if ($this->getTestObj()->getAnonymity()) {
@@ -183,9 +179,9 @@ class ilTestParticipantsTimeExtensionGUI
             $options[$participant->getActiveId()] = $participant->getLogin() . ' (' . $name . ')' . $started;
         }
 
-        $participantslist->setRequired(true);
-        $participantslist->setOptions($options);
-        $form->addItem($participantslist);
+        $participantslist_input->setRequired(true);
+        $participantslist_input->setOptions($options);
+        $form->addItem($participantslist_input);
 
         // extra time
         $extratime = new ilNumberInputGUI($this->lng->txt("extratime"), "extratime");

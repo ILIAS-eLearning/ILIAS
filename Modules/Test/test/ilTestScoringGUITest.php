@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -40,6 +38,16 @@ class ilTestScoringGUITest extends ilTestBaseTestCase
         $this->addGlobal_ilComponentRepository();
         $this->addGlobal_ilTabs();
         $this->addGlobal_ilObjDataCache();
+        $this->addGlobal_ilHelp();
+        $this->addGlobal_ilLog();
+        $this->addGlobal_rbacsystem();
+        $this->addGlobal_ilAccess();
+        $this->addGlobal_ilSetting();
+        $this->addGlobal_ilToolbar();
+        $this->addGlobal_GlobalScreenService();
+        $this->addGlobal_ilNavigationHistory();
+        $this->addGlobal_uiFactory();
+        $this->addGlobal_uiRenderer();
 
         $this->testObj = new ilTestScoringGUI($this->createMock(ilObjTest::class));
     }

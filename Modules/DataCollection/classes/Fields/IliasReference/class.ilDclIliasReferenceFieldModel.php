@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -13,14 +14,10 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
-/**
- * Class ilDclBooleanFieldModel
- * @author  Michael Herren <mh@studer-raimann.ch>
- * @version 1.0.0
- */
+declare(strict_types=1);
+
 class ilDclIliasReferenceFieldModel extends ilDclBaseFieldModel
 {
     /**
@@ -30,12 +27,9 @@ class ilDclIliasReferenceFieldModel extends ilDclBaseFieldModel
         string $direction = "asc",
         bool $sort_by_status = false
     ): ilDclRecordQueryObject {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-
         $join_str
             = "LEFT JOIN il_dcl_record_field AS sort_record_field_{$this->getId()} ON (sort_record_field_{$this->getId()}.record_id = record.id AND sort_record_field_{$this->getId()}.field_id = "
-            . $ilDB->quote($this->getId(), 'integer') . ") ";
+            . $this->db->quote($this->getId(), 'integer') . ") ";
         $join_str .= "LEFT JOIN il_dcl_stloc{$this->getStorageLocation()}_value AS sort_stloc_{$this->getId()} ON (sort_stloc_{$this->getId()}.record_field_id = sort_record_field_{$this->getId()}.id) ";
         $join_str .= "LEFT JOIN object_reference AS sort_object_reference_{$this->getId()} ON (sort_object_reference_{$this->getId()}.ref_id = sort_stloc_{$this->getId()}.value AND sort_object_reference_{$this->getId()}.deleted IS NULL)";
         $join_str .= "LEFT JOIN object_data AS sort_object_data_{$this->getId()} ON (sort_object_data_{$this->getId()}.obj_id = sort_object_reference_{$this->getId()}.obj_id)";
@@ -44,7 +38,7 @@ class ilDclIliasReferenceFieldModel extends ilDclBaseFieldModel
             global $DIC;
             $ilUser = $DIC['ilUser'];
             $join_str .= "LEFT JOIN ut_lp_marks AS ut ON (ut.obj_id = sort_object_data_{$this->getId()}.obj_id AND ut.usr_id = "
-                . $ilDB->quote($ilUser->getId(), 'integer') . ") ";
+                . $this->db->quote($ilUser->getId(), 'integer') . ") ";
         }
 
         $select_str = (!$sort_by_status) ? " sort_object_data_{$this->getId()}.title AS field_{$this->getId()}," : " ut.status AS field_{$this->getId()}";
@@ -83,9 +77,9 @@ class ilDclIliasReferenceFieldModel extends ilDclBaseFieldModel
 
     public function getValidFieldProperties(): array
     {
-        return array(ilDclBaseFieldModel::PROP_LEARNING_PROGRESS,
-                     ilDclBaseFieldModel::PROP_ILIAS_REFERENCE_LINK,
-                     ilDclBaseFieldModel::PROP_DISPLAY_COPY_LINK_ACTION_MENU
-        );
+        return [ilDclBaseFieldModel::PROP_LEARNING_PROGRESS,
+                ilDclBaseFieldModel::PROP_ILIAS_REFERENCE_LINK,
+                ilDclBaseFieldModel::PROP_DISPLAY_COPY_LINK_ACTION_MENU
+        ];
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -15,14 +16,8 @@
  *
  *********************************************************************/
 
-/**
- * @author  Martin Studer <ms@studer-raimann.ch>
- * @author  Marcel Raimann <mr@studer-raimann.ch>
- * @author  Fabian Schmid <fs@studer-raimann.ch>
- * @author  Oskar Truffer <ot@studer-raimann.ch>
- * @version $Id:
- * @ingroup ModulesDataCollection
- */
+declare(strict_types=1);
+
 class ilDclRecordListGUI
 {
     public const GET_TABLE_ID = 'table_id';
@@ -37,6 +32,11 @@ class ilDclRecordListGUI
     public const CMD_DELETE_RECORDS = 'deleteRecords';
     public const CMD_SHOW_IMPORT_EXCEL = 'showImportExcel';
 
+    private ilAccessHandler $access;
+    private ilGlobalTemplateInterface $tpl;
+    protected \ILIAS\UI\Factory $ui_factory;
+    protected \ILIAS\UI\Renderer $renderer;
+
     /**
      * Stores current mode active
      */
@@ -47,23 +47,14 @@ class ilDclRecordListGUI
     protected ilObjDataCollectionGUI $parent_obj;
     protected ?int $tableview_id;
     protected static array $available_modes = [self::MODE_VIEW, self::MODE_MANAGE];
-    private ilDataCollectionUiPort $dclUi;
-    private ilDataCollectionAccessPort $dclAccess;
 
     protected ilCtrl $ctrl;
-    protected ilToolbarGUI $ilToolbar;
+    protected ilToolbarGUI $toolbar;
     protected ilLanguage $lng;
     protected ilTabsGUI $tabs;
     protected ILIAS\HTTP\Services $http;
     protected ILIAS\Refinery\Factory $refinery;
     protected \ILIAS\ResourceStorage\Services $irss;
-
-    private function init(
-        ilDataCollectionOutboundsAdapter $adapter
-    ): void {
-        $this->dclUi = $adapter->getDataCollectionUi();
-        $this->dclAccess = $adapter->getDataCollectionAccess();
-    }
 
     /**
      * @throws ilCtrlException
@@ -72,15 +63,17 @@ class ilDclRecordListGUI
     {
         global $DIC;
 
-        $this->init(ilDataCollectionOutboundsAdapter::new());
-
         $this->ctrl = $DIC->ctrl();
-        $this->ilToolbar = $DIC->toolbar();
+        $this->toolbar = $DIC->toolbar();
         $this->lng = $DIC->language();
         $this->tabs = $DIC->tabs();
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
         $this->irss = $DIC->resourceStorage();
+        $this->access = $DIC->access();
+        $this->tpl = $DIC->ui()->mainTemplate();
+        $this->ui_factory = $DIC->ui()->factory();
+        $this->renderer = $DIC->ui()->renderer();
 
         $this->table_id = $table_id;
         $this->tableview_id = $tableview_id;
@@ -120,7 +113,7 @@ class ilDclRecordListGUI
     public function executeCommand(): void
     {
         if (!$this->checkAccess()) {
-            $this->dclUi->displayFailureMessage($this->lng->txt('permission_denied'));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
             return;
         }
 
@@ -158,11 +151,6 @@ class ilDclRecordListGUI
 
     public function listRecords(bool $use_tableview_filter = false): void
     {
-        global $DIC;
-        $ilToolbar = $DIC['ilToolbar'];
-        /**
-         * @var $ilToolbar ilToolbarGUI
-         */
         $list = $this->getRecordListTableGUI($use_tableview_filter);
 
         $this->createSwitchers();
@@ -172,33 +160,35 @@ class ilDclRecordListGUI
             $this->table_id
         ) && $this->table_obj->hasCustomFields();
         if ($permission_to_add_or_import) {
-            $this->ctrl->setParameterByClass("ildclrecordeditgui", "record_id", null);
+            $this->ctrl->setParameterByClass(ilDclRecordEditGUI::class, "record_id", null);
 
-            $add_new = ilLinkButton::getInstance();
-            $add_new->setPrimary(true);
-            $add_new->setCaption("dcl_add_new_record");
-            $add_new->setUrl($this->ctrl->getFormActionByClass("ildclrecordeditgui", "create"));
-            $ilToolbar->addStickyItem($add_new);
+            $add_new = $this->ui_factory->button()->primary(
+                $this->lng->txt("dcl_add_new_record"),
+                $this->ctrl->getFormActionByClass(ilDclRecordEditGUI::class, "create")
+            );
+            $this->toolbar->addStickyItem($add_new);
         }
 
         if ($permission_to_add_or_import && $this->table_obj->getImportEnabled()) {
-            $this->ctrl->setParameterByClass("ildclrecordeditgui", "record_id", null);
+            $this->ctrl->setParameterByClass(ilDclRecordEditGUI::class, "record_id", null);
 
-            $import = ilLinkButton::getInstance();
-            $import->setCaption("dcl_import_records .xls");
-            $import->setUrl($this->ctrl->getFormActionByClass("ildclrecordlistgui", self::CMD_SHOW_IMPORT_EXCEL));
-            $ilToolbar->addButtonInstance($import);
+            $import_button = $this->ui_factory->button()->standard(
+                $this->lng->txt("dcl_import_records .xls"),
+                $this->ctrl->getFormActionByClass(ilDclRecordListGUI::class, self::CMD_SHOW_IMPORT_EXCEL)
+            );
+            $this->toolbar->addComponent($import_button);
         }
 
         if (count($this->table_obj->getRecordFields()) == 0) {
-            $this->dclUi->displayInfoMessage($this->lng->txt("dcl_no_fields_yet") . " "
+            $message = $this->lng->txt("dcl_no_fields_yet") . " "
                 . (ilObjDataCollectionAccess::hasAccessToFields(
                     $this->parent_obj->getRefId(),
                     $this->table_id
-                ) ? $this->lng->txt("dcl_create_fields") : ""));
+                ) ? $this->lng->txt("dcl_create_fields") : "");
+            $this->tpl->setOnScreenMessage('info', $message, true);
         }
 
-        $this->dclUi->addPermaLinkTableView($this->parent_obj->getRefId(), $this->tableview_id);
+        $this->tpl->setPermanentLink("dcl", $this->parent_obj->getRefId(), "_" . $this->tableview_id);
 
         if ($desc = $this->table_obj->getDescription()) {
             $ilSetting = new ilSetting('advanced_editing');
@@ -208,7 +198,7 @@ class ilDclRecordListGUI
                 $desc = "<div class='ilDclTableDescription'>" . nl2br(ilUtil::stripSlashes($desc)) . "</div>";
             }
         }
-        $this->dclUi->setContent($desc . $list->getHTML());
+        $this->tpl->setContent($desc . $list->getHTML());
     }
 
     public function showImportExcel(?ilPropertyFormGUI $form = null): void
@@ -216,7 +206,7 @@ class ilDclRecordListGUI
         if (!$form) {
             $form = $this->initImportForm();
         }
-        $this->dclUi->setContent($form->getHTML());
+        $this->tpl->setContent($form->getHTML());
     }
 
     /**
@@ -295,9 +285,9 @@ class ilDclRecordListGUI
             $output->setVariable("WARNING", $this->lng->txt("dcl_no_warnings"));
             $output->parseCurrentBlock();
         }
-        $output->setVariable("BACK_LINK", $this->ctrl->getLinkTargetByClass("ilDclRecordListGUI", "listRecords"));
+        $output->setVariable("BACK_LINK", $this->ctrl->getLinkTargetByClass(ilDclRecordListGUI::class, "listRecords"));
         $output->setVariable("BACK", $this->lng->txt("back"));
-        $this->dclUi->setContent($output->get());
+        $this->tpl->setContent($output->get());
     }
 
     /**
@@ -321,7 +311,7 @@ class ilDclRecordListGUI
     public function doTableViewSwitch(): void
     {
         $tableview_id = $this->http->wrapper()->post()->retrieve('tableview_id', $this->refinery->kindlyTo()->int());
-        $this->ctrl->setParameterByClass("ilObjDataCollectionGUI", "tableview_id", $tableview_id);
+        $this->ctrl->setParameterByClass(ilObjDataCollectionGUI::class, "tableview_id", $tableview_id);
         $this->ctrl->redirect($this, self::CMD_SHOW);
     }
 
@@ -356,7 +346,7 @@ class ilDclRecordListGUI
     {
         $hasIlFileHash = $this->http->wrapper()->query()->has('ilfilehash');
         //need read access to receive file
-        if ($this->dclAccess->hasReadPermission($this->parent_obj->getRefId())) {
+        if ($this->access->checkAccess('read', "", $this->parent_obj->getRefId())) {
             // deliver temp-files
             if ($hasIlFileHash) {
                 $filehash = $this->http->wrapper()->query()->retrieve(
@@ -426,29 +416,27 @@ class ilDclRecordListGUI
         foreach ($record_ids as $record_id) {
             /** @var ilDclBaseRecordModel $record */
             $record = ilDclCache::getRecordCache($record_id);
-            if ($record) {
-                $record_data = "";
-                foreach ($all_fields as $key => $field) {
-                    $field_record = ilDclCache::getRecordFieldCache($record, $field);
+            $record_data = "";
+            foreach ($all_fields as $field) {
+                $field_record = ilDclCache::getRecordFieldCache($record, $field);
 
-                    $record_representation = ilDclCache::getRecordRepresentation($field_record);
-                    if ($record_representation->getConfirmationHTML() !== false) {
-                        $record_data .= $field->getTitle() . ": " . $record_representation->getConfirmationHTML() . "<br />";
-                    }
+                $record_representation = ilDclCache::getRecordRepresentation($field_record);
+                if ($record_representation->getConfirmationHTML() != false) {
+                    $record_data .= $field->getTitle() . ": " . $record_representation->getConfirmationHTML() . "<br />";
                 }
-                $conf->addItem('record_ids[]', $record->getId(), $record_data);
             }
+            $conf->addItem('record_ids[]', (string)$record->getId(), $record_data);
         }
-        $conf->addHiddenItem('table_id', $this->table_id);
+        $conf->addHiddenItem('table_id', (string)$this->table_id);
         $conf->setConfirm($this->lng->txt('dcl_delete_records'), self::CMD_DELETE_RECORDS);
         $conf->setCancel($this->lng->txt('cancel'), self::CMD_CANCEL_DELETE);
-        $this->dclUi->setContent($conf->getHTML());
+        $this->tpl->setContent($conf->getHTML());
     }
 
     /**
      * Delete multiple records
      */
-    public function deleteRecords(array $record_ids = []): void
+    public function deleteRecords(): void
     {
         $has_record_ids = $this->http->wrapper()->post()->has('record_ids');
         $record_ids = [];
@@ -464,29 +452,29 @@ class ilDclRecordListGUI
         foreach ($record_ids as $record_id) {
             /** @var ilDclBaseRecordModel $record */
             $record = ilDclCache::getRecordCache($record_id);
-            if ($record) {
-                $ref_id = $this->parent_obj->getRefId();
+            $ref_id = $this->parent_obj->getRefId();
 
-                if ($record->hasPermissionToDelete($ref_id)) {
-                    $record->doDelete();
-                } else {
-                    $n_skipped++;
-                }
+            if ($record->hasPermissionToDelete($ref_id)) {
+                $record->doDelete();
+            } else {
+                $n_skipped++;
             }
         }
 
         $n_deleted = (count($record_ids) - $n_skipped);
         if ($n_deleted) {
-            $this->dclUi->displaySuccessMessage(sprintf(
+            $message = sprintf(
                 $this->lng->txt('dcl_deleted_records'),
                 $n_deleted
-            ));
+            );
+            $this->tpl->setOnScreenMessage('success', $message, true);
         }
         if ($n_skipped) {
-            $this->dclUi->displayInfoMessage(sprintf(
+            $message = sprintf(
                 $this->lng->txt('dcl_skipped_delete_records'),
                 $n_skipped
-            ));
+            );
+            $this->tpl->setOnScreenMessage('info', $message, true);
         }
         $this->ctrl->redirect($this, self::CMD_LIST_RECORDS);
     }
@@ -561,7 +549,7 @@ class ilDclRecordListGUI
         $offset = $list->getOffset();
 
         $num_records = count($table_obj->getPartialRecords(
-            $this->table_obj->getId(),
+            (string)$this->table_obj->getId(),
             $list->getOrderField(),
             $list->getOrderDirection(),
             $limit,
@@ -576,7 +564,7 @@ class ilDclRecordListGUI
         }
 
         $data = $table_obj->getPartialRecords(
-            $this->table_obj->getId(),
+            (string)$this->table_obj->getId(),
             $list->getOrderField(),
             $list->getOrderDirection(),
             $limit,
@@ -597,8 +585,7 @@ class ilDclRecordListGUI
 
     protected function createSwitchers(): void
     {
-        $ilToolbar = $this->ilToolbar;
-        $ilToolbar->setFormAction($this->ctrl->getFormActionByClass("ilDclRecordListGUI", "doTableSwitch"));
+        $this->toolbar->setFormAction($this->ctrl->getFormActionByClass(ilDclRecordListGUI::class, "doTableSwitch"));
 
         //table switcher
         $options = $this->getAvailableTables();
@@ -607,13 +594,13 @@ class ilDclRecordListGUI
             $table_selection->setOptions($options);
             $table_selection->setValue($this->table_id);
 
-            $ilToolbar->addText($this->lng->txt("dcl_table"));
-            $ilToolbar->addInputItem($table_selection);
+            $this->toolbar->addText($this->lng->txt("dcl_table"));
+            $this->toolbar->addInputItem($table_selection);
             $button = ilSubmitButton::getInstance();
             $button->setCaption('change');
             $button->setCommand('doTableSwitch');
-            $ilToolbar->addButtonInstance($button);
-            $ilToolbar->addSeparator();
+            $this->toolbar->addButtonInstance($button);
+            $this->toolbar->addSeparator();
         }
 
         //tableview switcher
@@ -626,14 +613,10 @@ class ilDclRecordListGUI
             $tableview_selection = new ilSelectInputGUI('', 'tableview_id');
             $tableview_selection->setOptions($options);
             $tableview_selection->setValue($this->tableview_id);
-            $ilToolbar->addText($this->lng->txt("dcl_tableview"));
-            $ilToolbar->addInputItem($tableview_selection);
-
-            $button = ilSubmitButton::getInstance();
-            $button->setCaption('change');
-            $button->setCommand('doTableViewSwitch');
-            $ilToolbar->addButtonInstance($button);
-            $ilToolbar->addSeparator();
+            $this->toolbar->addText($this->lng->txt("dcl_tableview"));
+            $this->toolbar->addInputItem($tableview_selection);
+            $this->toolbar->addFormButton('change', 'doTableViewSwitch');
+            $this->toolbar->addSeparator();
         }
     }
 

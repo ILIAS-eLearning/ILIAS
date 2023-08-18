@@ -238,7 +238,8 @@ class ilNewsTimelineGUI
             $ttpl = new ilTemplate("tpl.news_timeline.html", true, true, "Services/News");
             $ttpl->setVariable("NEWS", $timeline->render());
             $ttpl->setVariable("EDIT_MODAL", $this->getEditModal($form));
-            $ttpl->setVariable("DELETE_MODAL", $this->getDeleteModal());
+            //$ttpl->setVariable("DELETE_MODAL", $this->getDeleteModal());
+            $this->renderDeleteModal($ttpl);
             $ttpl->setVariable("LOADER", ilUtil::getImagePath("loader.svg"));
             $this->tpl->setContent($ttpl->get());
             $html = $ttpl->get();
@@ -460,26 +461,17 @@ class ilNewsTimelineGUI
         return $modal->getHTML();
     }
 
-    protected function getDeleteModal(): string
+    protected function renderDeleteModal(ilTemplate $tpl): void
     {
-        $modal = ilModalGUI::getInstance();
-        $modal->setHeading($this->lng->txt("delete"));
-        $modal->setId("ilNewsDeleteModal");
-        $modal->setType(ilModalGUI::TYPE_LARGE);
-
-        $confirm = ilSubmitButton::getInstance();
-        $confirm->setCaption("delete");
-        $confirm->setId("news_btn_delete");
-        $modal->addButton($confirm);
-
-        $cancel = ilSubmitButton::getInstance();
-        $cancel->setCaption("cancel");
-        $cancel->setId("news_btn_cancel_delete");
-        $modal->addButton($cancel);
-
-        $modal->setBody("<p id='news_delete_news_title'></p>" .
-            ilUtil::getSystemMessageHTML($this->lng->txt("news_really_delete_news"), "question"));
-
-        return $modal->getHTML();
+        $mbox = $this->gui->ui()->factory()->messageBox()->confirmation(
+            $this->lng->txt("news_really_delete_news")
+        );
+        $title = $this->gui->ui()->factory()->legacy("<p id='news_delete_news_title'></p>");
+        $modal = $this->gui->modal($this->lng->txt("delete"))
+            ->content([$title, $mbox])
+            ->button($this->lng->txt("delete"), "#", false, "il.News.remove(); return false;");
+        $c = $modal->getTriggerButtonComponents("");
+        $tpl->setVariable("DELETE_MODAL", $this->gui->ui()->renderer()->render($c["modal"]));
+        $tpl->setVariable("SIGNAL_ID", $c["signal"]);
     }
 }

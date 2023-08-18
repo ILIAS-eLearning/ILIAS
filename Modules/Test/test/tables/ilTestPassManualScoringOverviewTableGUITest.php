@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class ilTestPassManualScoringOverviewTableGUITest
  * @author Marvin Beym <mbeym@databay.de>
@@ -25,7 +25,7 @@ declare(strict_types=1);
 class ilTestPassManualScoringOverviewTableGUITest extends ilTestBaseTestCase
 {
     private ilTestPassManualScoringOverviewTableGUI $tableGui;
-    private ilObjTestGUI $parentObj_mock;
+    private ilTestScoringGUI $parentObj_mock;
 
     protected function setUp(): void
     {
@@ -48,7 +48,7 @@ class ilTestPassManualScoringOverviewTableGUITest extends ilTestBaseTestCase
         $this->setGlobalVariable("component.factory", $component_factory);
         $this->setGlobalVariable("ilDB", $this->createMock(ilDBInterface::class));
 
-        $this->parentObj_mock = $this->getMockBuilder(ilObjTestGUI::class)->disableOriginalConstructor()->onlyMethods(array('getObject'))->getMock();
+        $this->parentObj_mock = $this->getMockBuilder(ilTestScoringGUI::class)->disableOriginalConstructor()->onlyMethods(array('getObject'))->getMock();
         $this->parentObj_mock->expects($this->any())->method('getObject')->willReturn($this->createMock(ilObjTest::class));
         $this->tableGui = new ilTestPassManualScoringOverviewTableGUI($this->parentObj_mock, "");
     }

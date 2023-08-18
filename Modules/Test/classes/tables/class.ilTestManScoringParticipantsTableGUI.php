@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
 *
 * @author	Björn Heyser <bheyser@databay.de>
@@ -32,25 +34,22 @@ class ilTestManScoringParticipantsTableGUI extends ilTable2GUI
 
     public const PARENT_EDIT_SCORING_CMD = 'showManScoringParticipantScreen';
 
-    public function __construct($parentObj)
+    public function __construct(ilTestScoringGUI $parent_obj)
     {
         $this->setPrefix('manScorePartTable');
         $this->setId('manScorePartTable');
 
-        parent::__construct($parentObj, self::PARENT_DEFAULT_CMD);
+        parent::__construct($parent_obj, self::PARENT_DEFAULT_CMD);
 
         $this->setFilterCommand(self::PARENT_APPLY_FILTER_CMD);
         $this->setResetCommand(self::PARENT_RESET_FILTER_CMD);
-
-        global $DIC;
-        $ilCtrl = $DIC['ilCtrl'];
 
         $this->setFormName('manScorePartTable');
         $this->setStyle('table', 'fullwidth');
 
         $this->enable('header');
 
-        $this->setFormAction($ilCtrl->getFormAction($parentObj, self::PARENT_DEFAULT_CMD));
+        $this->setFormAction($this->ctrl->getFormAction($parent_obj, self::PARENT_DEFAULT_CMD));
 
         $this->setRowTemplate("tpl.il_as_tst_man_scoring_participant_tblrow.html", "Modules/Test");
 
@@ -62,15 +61,12 @@ class ilTestManScoringParticipantsTableGUI extends ilTable2GUI
 
     private function initColumns(): void
     {
-        global $DIC;
-        $lng = $DIC['lng'];
-
         if ($this->parent_obj->getObject()->getAnonymity()) {
-            $this->addColumn($lng->txt("name"), 'lastname', '100%');
+            $this->addColumn($this->lng->txt("name"), 'lastname', '100%');
         } else {
-            $this->addColumn($lng->txt("lastname"), 'lastname', '');
-            $this->addColumn($lng->txt("firstname"), 'firstname', '');
-            $this->addColumn($lng->txt("login"), 'login', '');
+            $this->addColumn($this->lng->txt("lastname"), 'lastname', '');
+            $this->addColumn($this->lng->txt("firstname"), 'firstname', '');
+            $this->addColumn($this->lng->txt("login"), 'login', '');
         }
 
         $this->addColumn($this->lng->txt('actions'), '', '1%');
@@ -86,20 +82,16 @@ class ilTestManScoringParticipantsTableGUI extends ilTable2GUI
 
     public function initFilter(): void
     {
-        global $DIC;
-        $lng = $DIC['lng'];
-
         $this->setDisableFilterHiding(true);
 
-        $participantStatus = new ilSelectInputGUI($lng->txt('tst_participant_status'), 'participant_status');
+        $participantStatus = new ilSelectInputGUI($this->lng->txt('tst_participant_status'), 'participant_status');
 
         $statusOptions = array();
-        $statusOptions[ilTestScoringGUI::PART_FILTER_ALL_USERS] = $lng->txt("all_users");
-        $statusOptions[ilTestScoringGUI::PART_FILTER_MANSCORING_NONE] = $lng->txt("manscoring_none");
-        $statusOptions[ilTestScoringGUI::PART_FILTER_MANSCORING_DONE] = $lng->txt("manscoring_done");
-        $statusOptions[ilTestScoringGUI::PART_FILTER_ACTIVE_ONLY] = $lng->txt("usr_active_only");
-        $statusOptions[ilTestScoringGUI::PART_FILTER_INACTIVE_ONLY] = $lng->txt("usr_inactive_only");
-        //$statusOptions[ ilTestScoringGUI::PART_FILTER_MANSCORING_PENDING ]	= $lng->txt("manscoring_pending");
+        $statusOptions[ilTestScoringGUI::PART_FILTER_ALL_USERS] = $this->lng->txt("all_users");
+        $statusOptions[ilTestScoringGUI::PART_FILTER_MANSCORING_NONE] = $this->lng->txt("manscoring_none");
+        $statusOptions[ilTestScoringGUI::PART_FILTER_MANSCORING_DONE] = $this->lng->txt("manscoring_done");
+        $statusOptions[ilTestScoringGUI::PART_FILTER_ACTIVE_ONLY] = $this->lng->txt("usr_active_only");
+        $statusOptions[ilTestScoringGUI::PART_FILTER_INACTIVE_ONLY] = $this->lng->txt("usr_inactive_only");
 
         $participantStatus->setOptions($statusOptions);
 
@@ -114,13 +106,9 @@ class ilTestManScoringParticipantsTableGUI extends ilTable2GUI
 
     public function fillRow(array $a_set): void
     {
-        global $DIC;
-        $ilCtrl = $DIC['ilCtrl'];
-        $lng = $DIC['lng'];
+        $this->ctrl->setParameter($this->parent_obj, 'active_id', $a_set['active_id']);
 
-        $ilCtrl->setParameter($this->parent_obj, 'active_id', $a_set['active_id']);
-
-        if (!$this->parent_obj->object->getAnonymity()) {
+        if (!$this->parent_obj->getObject()->getAnonymity()) {
             $this->tpl->setCurrentBlock('personal');
             $this->tpl->setVariable("PARTICIPANT_FIRSTNAME", $a_set['firstname']);
             $this->tpl->setVariable("PARTICIPANT_LOGIN", $a_set['login']);
@@ -129,8 +117,8 @@ class ilTestManScoringParticipantsTableGUI extends ilTable2GUI
 
         $this->tpl->setVariable("PARTICIPANT_LASTNAME", $a_set['lastname']);
 
-        $this->tpl->setVariable("HREF_SCORE_PARTICIPANT", $ilCtrl->getLinkTarget($this->parent_obj, self::PARENT_EDIT_SCORING_CMD));
-        $this->tpl->setVariable("TXT_SCORE_PARTICIPANT", $lng->txt('tst_edit_scoring'));
+        $this->tpl->setVariable("HREF_SCORE_PARTICIPANT", $this->ctrl->getLinkTarget($this->parent_obj, self::PARENT_EDIT_SCORING_CMD));
+        $this->tpl->setVariable("TXT_SCORE_PARTICIPANT", $this->lng->txt('tst_edit_scoring'));
     }
 
     public function getInternalyOrderedDataValues(): array

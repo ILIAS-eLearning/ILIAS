@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 require_once './Modules/Test/classes/inc.AssessmentConstants.php';
 
 /**
@@ -45,11 +47,11 @@ abstract class ilTestExport
     protected ?ilTestParticipantList $forcedAccessFilteredParticipantList = null;
     protected ilBenchmark $bench;
 
-    public ilErrorHandling $err;
-    public ilDBInterface $db;
-    public ILIAS $ilias;
+    protected ilErrorHandling $err;
+    protected ilDBInterface $db;
+    protected ILIAS $ilias;
 
-    public int $inst_id;
+    protected string $inst_id;
 
     public function __construct(
         public ilObjTest $test_obj,
@@ -62,7 +64,7 @@ abstract class ilTestExport
         $this->lng = $DIC['lng'];
         $this->bench = $DIC['ilBench'];
 
-        $this->inst_id = IL_INST_ID;
+        $this->inst_id = (string) IL_INST_ID;
 
         $date = time();
         $this->export_dir = $this->test_obj->getExportDirectory();
@@ -241,7 +243,7 @@ abstract class ilTestExport
         $this->bench->stop("TestExport", "buildExportFile_dumpToFile");
 
         if ($this->isResultExportingEnabledForTestExport()) {
-            $resultwriter = new ilTestResultsToXML($this->test_obj->getTestId(), $this->test_obj->getAnonymity());
+            $resultwriter = new ilTestResultsToXML($this->test_obj->getTestId(), $this->db, $this->test_obj->getAnonymity());
             $resultwriter->setIncludeRandomTestQuestionsEnabled($this->test_obj->isRandomTest());
             $this->bench->start("TestExport", "buildExportFile_results");
             $resultwriter->xmlDumpFile($this->export_dir . "/" . $this->subdir . "/" . $this->resultsfile, false);

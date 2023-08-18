@@ -23,6 +23,7 @@
  * @ilCtrl_Calls ilObjGlossaryGUI: ilInfoScreenGUI, ilCommonActionDispatcherGUI, ilObjectContentStyleSettingsGUI
  * @ilCtrl_Calls ilObjGlossaryGUI: ilObjTaxonomyGUI, ilExportGUI, ilObjectCopyGUI
  * @ilCtrl_Calls ilObjGlossaryGUI: ilObjectMetaDataGUI, ilGlossaryForeignTermCollectorGUI
+ * @ilCtrl_Calls ilObjGlossaryGUI: ilTermDefinitionBulkCreationGUI
  */
 class ilObjGlossaryGUI extends ilObjectGUI
 {
@@ -32,6 +33,8 @@ class ilObjGlossaryGUI extends ilObjectGUI
     protected ilObjTaxonomy $tax;
     protected $tax_id;
     protected bool $in_administration = false;
+    protected \ILIAS\Glossary\Presentation\GUIService $gui_presentation_service;
+    protected ilTermDefinitionBulkCreationGUI $term_def_bulk_gui;
     protected \ILIAS\Glossary\Editing\EditingGUIRequest $edit_request;
     protected ?\ILIAS\Glossary\Term\TermManager $term_manager;
     public ?ilGlossaryTerm $term = null;
@@ -67,6 +70,10 @@ class ilObjGlossaryGUI extends ilObjectGUI
         $this->ui_fac = $DIC->ui()->factory();
         $this->ui_ren = $DIC->ui()->renderer();
 
+        $this->gui_presentation_service = $DIC->glossary()
+            ->internal()
+            ->gui()
+            ->presentation();
         $this->edit_request = $DIC->glossary()
             ->internal()
             ->gui()
@@ -113,6 +120,9 @@ class ilObjGlossaryGUI extends ilObjectGUI
                       $this->user->getId()
                   );
         }
+
+        $this->term_def_bulk_gui = $this->gui_presentation_service
+            ->TermDefinitionBulkCreationGUI($this->getGlossary());
 
         $this->in_administration =
             (strtolower($this->edit_request->getBaseClass()) == "iladministrationgui");
@@ -249,6 +259,11 @@ class ilObjGlossaryGUI extends ilObjectGUI
                 $this->addHeaderAction();
                 $coll = ilGlossaryForeignTermCollectorGUI::getInstance($this);
                 $this->ctrl->forwardCommand($coll);
+                break;
+
+            case "iltermdefinitionbulkcreationgui":
+                $this->ctrl->setReturn($this, "listTerms");
+                $this->ctrl->forwardCommand($this->term_def_bulk_gui);
                 break;
 
             default:
@@ -754,6 +769,8 @@ class ilObjGlossaryGUI extends ilObjectGUI
                 $this->ctrl->getLinkTargetByClass("ilglossaryforeigntermcollectorgui", "")
             );
         }
+
+        $this->term_def_bulk_gui->modifyToolbar($this->toolbar);
     }
 
     public function showToolbarForCollection(): void

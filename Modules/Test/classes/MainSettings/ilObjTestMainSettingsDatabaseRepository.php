@@ -60,9 +60,6 @@ class ilObjTestMainSettingsDatabaseRepository implements MainSettingsRepository
             . 'password_enabled,' . PHP_EOL
             . 'password,' . PHP_EOL
             . 'fixed_participants,' . PHP_EOL
-            . 'limit_users_enabled,' . PHP_EOL
-            . 'allowedusers,' . PHP_EOL
-            . 'alloweduserstimegap,' . PHP_EOL
             . 'nr_of_tries,' . PHP_EOL
             . 'block_after_passed,' . PHP_EOL
             . 'pass_waiting,' . PHP_EOL
@@ -138,9 +135,6 @@ class ilObjTestMainSettingsDatabaseRepository implements MainSettingsRepository
                 (bool) $row['password_enabled'],
                 $row['password'],
                 (bool) $row['fixed_participants'],
-                (bool) $row['limit_users_enabled'],
-                $row['allowedusers'],
-                $row['alloweduserstimegap']
             ),
             new ilObjTestSettingsTestBehaviour(
                 $test_id,

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class ilTestExportRandomQuestionSetTest
  * @author Marvin Beym <mbeym@databay.de>
@@ -28,16 +28,19 @@ class ilTestExportRandomQuestionSetTest extends ilTestBaseTestCase
 
     protected function setUp(): void
     {
+        global $DIC;
         parent::setUp();
 
-        $this->addGlobal_ilErr();
-        $this->addGlobal_ilDB();
         $this->addGlobal_ilBench();
+        $this->addGlobal_ilErr();
         $this->addGlobal_ilias();
         $this->addGlobal_lng();
+        $this->addGlobal_ilLog();
+        $this->addGlobal_tree();
+        $this->addGlobal_ilComponentRepository();
 
         $objTest = $this->createMock(ilObjTest::class);
-        $this->testObj = new ilTestExportRandomQuestionSet($objTest);
+        $this->testObj = new ilTestExportRandomQuestionSet($objTest, $DIC['lng'], $DIC['ilLog'], $DIC['tree'], $DIC['component.repository']);
     }
 
     public function test_instantiateObject_shouldReturnInstance(): void

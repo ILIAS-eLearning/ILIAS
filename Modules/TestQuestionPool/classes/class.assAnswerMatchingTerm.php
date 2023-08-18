@@ -35,7 +35,7 @@ class assAnswerMatchingTerm
         $this->text = $text;
         $this->picture = $picture;
 
-        $this->identifier = ($identifier !==0) ? $identifier : $this->createIdentifier();
+        $this->identifier = ($identifier !== 0) ? $identifier : $this->createIdentifier();
     }
 
     protected function createIdentifier(): int

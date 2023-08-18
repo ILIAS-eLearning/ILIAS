@@ -16,8 +16,10 @@
  *
  *********************************************************************/
 
-use ILIAS\UI\Renderer;
-use ILIAS\UI\Factory;
+declare(strict_types=1);
+
+use ILIAS\UI\Factory as UIFactory;
+use ILIAS\UI\Renderer as UIRenderer;
 
 /**
 *
@@ -59,24 +61,17 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
     protected float $totalPoints = 0;
     protected string $totalWorkingTime = '';
     private int $position = 0;
-    private int $parent_ref_id;
 
-    protected Renderer $renderer;
-    protected Factory $factory;
+    public function __construct(
+        ilObjTestGUI|ilTestCorrectionsGUI $parent_obj,
+        string $parent_cmd,
+        private int $parent_ref_id,
+        private UIFactory $ui_factory,
+        private UIRenderer $ui_renderer
+    ) {
+        parent::__construct($parent_obj, $parent_cmd);
 
-    public function __construct($a_parent_obj, $a_parent_cmd, $parentRefId)
-    {
-        global $DIC;
-
-        $this->renderer = $DIC->ui()->renderer();
-        $this->factory = $DIC->ui()->factory();
-
-        $this->setId('tst_qst_lst_' . $parentRefId);
-
-        $this->parent_ref_id = (int) $parentRefId;
-
-        parent::__construct($a_parent_obj, $a_parent_cmd);
-
+        $this->setId('tst_qst_lst_' . $parent_ref_id);
         $this->setFormName('questionbrowser');
         $this->setStyle('table', 'fullwidth');
 
@@ -84,7 +79,7 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
 
         $this->setRowTemplate("tpl.il_as_tst_questions_row.html", "Modules/Test");
 
-        $this->setFormAction($this->ctrl->getFormAction($a_parent_obj, $a_parent_cmd));
+        $this->setFormAction($this->ctrl->getFormAction($parent_obj, $parent_cmd));
 
         $this->disable('sort');
         $this->enable('header');
@@ -378,8 +373,8 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
         }
 
         if ($rowData['obligatory'] && !$this->isQuestionManagingEnabled()) {
-            return $this->renderer->render(
-                $this->factory->symbol()->icon()->custom(
+            return $this->ui_renderer->render(
+                $this->ui_factory->symbol()->icon()->custom(
                     ilUtil::getImagePath('icon_alert.svg'),
                     $this->lng->txt('question_obligatory')
                 )
@@ -392,7 +387,7 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
 
     protected function buildPositionInput($questionId, $position): string
     {
-        return '<input type="text" name="order[q_' . $questionId . ']" value="' . $position . '" maxlength="4" size="4" />';
+        return '<input type="text" name="order[' . $questionId . ']" value="' . $position . '" maxlength="4" size="4" />';
     }
 
     protected function buildTableSaveCommandLabel(): string

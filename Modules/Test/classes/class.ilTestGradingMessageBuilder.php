@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * @author		Björn Heyser <bheyser@databay.de>
  * @version		$Id$
@@ -24,16 +26,6 @@
  */
 class ilTestGradingMessageBuilder
 {
-    /**
-     * @var ilLanguage
-     */
-    private $lng;
-
-    /**
-     * @var ilObjTest
-     */
-    private $testOBJ;
-
     private $tpl;
 
     /**
@@ -59,12 +51,11 @@ class ilTestGradingMessageBuilder
      * @param ilLanguage $lng
      * @param ilObjTest $testOBJ
      */
-    public function __construct(ilLanguage $lng, ilObjTest $testOBJ)
-    {
-        global $DIC;
-        $this->container = $DIC;
-        $this->lng = $lng;
-        $this->testOBJ = $testOBJ;
+    public function __construct(
+        private ilLanguage $lng,
+        private ilGlobalTemplateInterface $main_tpl,
+        private ilObjTest $testOBJ
+    ) {
     }
 
     public function setActiveId($activeId)
@@ -108,11 +99,11 @@ class ilTestGradingMessageBuilder
     public function sendMessage()
     {
         if (!$this->testOBJ->isShowGradingStatusEnabled()) {
-            $this->container->ui()->mainTemplate()->setOnScreenMessage('info', $this->getFullMessage());
+            $this->main_tpl->setOnScreenMessage('info', $this->getFullMessage());
         } elseif ($this->isPassed()) {
-            $this->container->ui()->mainTemplate()->setOnScreenMessage('success', $this->getFullMessage());
+            $this->main_tpl->setOnScreenMessage('success', $this->getFullMessage());
         } else {
-            $this->container->ui()->mainTemplate()->setOnScreenMessage('failure', $this->getFullMessage());
+            $this->main_tpl->setOnScreenMessage('failure', $this->getFullMessage());
         }
     }
 
@@ -137,8 +128,8 @@ class ilTestGradingMessageBuilder
         $markMsg = str_replace("[mark]", $this->getMarkOfficial(), $markMsg);
         $markMsg = str_replace("[markshort]", $this->getMarkShort(), $markMsg);
         $markMsg = str_replace("[percentage]", $this->getPercentage(), $markMsg);
-        $markMsg = str_replace("[reached]", $this->getReachedPoints(), $markMsg);
-        $markMsg = str_replace("[max]", $this->getMaxPoints(), $markMsg);
+        $markMsg = str_replace("[reached]", (string) $this->getReachedPoints(), $markMsg);
+        $markMsg = str_replace("[max]", (string) $this->getMaxPoints(), $markMsg);
 
         return $markMsg;
     }

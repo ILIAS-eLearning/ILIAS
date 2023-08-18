@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -15,18 +16,10 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\Notes\Service;
 
-/**
- * Class ilDclBaseRecordModel
- * @author  Martin Studer <ms@studer-raimann.ch>
- * @author  Marcel Raimann <mr@studer-raimann.ch>
- * @author  Fabian Schmid <fs@studer-raimann.ch>
- * @author  Oskar Truffer <ot@studer-raimann.ch>
- * @author  Stefan Wanzenried <sw@studer-raimann.ch>
- * @version $Id:
- * @ingroup ModulesDataCollection
- */
 class ilDclBaseRecordModel
 {
     protected Service $notes;
@@ -309,7 +302,7 @@ class ilDclBaseRecordModel
      * Get Field Value
      * @return int|string|array|null
      */
-    public function getRecordFieldValue(?int $field_id)
+    public function getRecordFieldValue(?string $field_id)
     {
         if ($field_id === null) {
             return null;
@@ -528,10 +521,9 @@ class ilDclBaseRecordModel
     {
         switch ($field_id) {
             case "last_edit_by":
-                return $this->getLastEditBy();
+                return ilObjUser::_lookupName($this->getLastEditBy())['login'];
             case 'owner':
-                $usr_data = ilObjUser::_lookupName($this->getOwner());
-                return $usr_data['login'];
+                return ilObjUser::_lookupName($this->getOwner())['login'];
         }
 
         return $this->{$field_id};
@@ -549,7 +541,7 @@ class ilDclBaseRecordModel
     {
         switch ($field_id) {
             case 'id':
-                return $this->getId();
+                return (string)$this->getId();
             case 'owner':
                 return ilUserUtil::getNamePresentation($this->getOwner());
             case 'last_edit_by':
@@ -576,7 +568,7 @@ class ilDclBaseRecordModel
 
                 return "<a class='dcl_comment' href='#' onclick=\"return " . $ajax_link . "\">
                         <img src='" . ilUtil::getImagePath("comment_unlabeled.svg")
-                    . "' alt='{$nComments} Comments'><span class='ilHActProp'>{$nComments}</span></a>";
+                    . "' alt='$nComments Comments'><span class='ilHActProp'>$nComments</span></a>";
         }
 
         return "";

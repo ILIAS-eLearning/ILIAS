@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 require_once './Modules/Test/classes/inc.AssessmentConstants.php';
 
 /**
@@ -63,7 +65,7 @@ class ilTestStatistics
     */
     public function calculateStatistics($eval_data)
     {
-        $median_array = array();
+        $median_array = [];
 
         foreach ($eval_data->getParticipantIds() as $active_id) {
             $participant = $eval_data->getParticipant($active_id);

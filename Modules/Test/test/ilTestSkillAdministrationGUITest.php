@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -31,13 +29,13 @@ class ilTestSkillAdministrationGUITest extends ilTestBaseTestCase
         parent::setUp();
 
         $this->testObj = new ilTestSkillAdministrationGUI(
-            $this->getIliasMock(),
             $this->createMock(ilCtrl::class),
             $this->createMock(ilAccessHandler::class),
             $this->createMock(ilTabsGUI::class),
             $this->createMock(ilGlobalPageTemplate::class),
             $this->createMock(ilLanguage::class),
             $this->createMock(ilDBInterface::class),
+            $this->createMock(ilLogger::class),
             $this->createMock(ilTree::class),
             $this->createMock(ilComponentRepository::class),
             $this->createMock(ilObjTest::class),

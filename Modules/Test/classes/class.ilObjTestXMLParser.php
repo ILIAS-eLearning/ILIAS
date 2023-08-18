@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * @author        Björn Heyser <bheyser@databay.de>
  * @version        $Id$
@@ -24,20 +26,38 @@
  */
 class ilObjTestXMLParser extends ilSaxParser
 {
-    protected ?ilObjTest $testOBJ = null;
+    protected ?ilObjTest $test_obj = null;
+
+    private ilDBInterface $db;
+    private ilLogger $log;
+    private ilTree $tree;
+    private ilComponentRepository $component_repository;
 
     protected ?ilImportMapping $importMapping = null;
 
     protected String $cdata = '';
 
-    public function getTestOBJ(): ?\ilObjTest
-    {
-        return $this->testOBJ;
+    public function __construct(
+        ?string $path_to_file = '',
+        ?bool $throw_exception = false
+    ) {
+        global $DIC;
+        $this->db = $DIC['ilDB'];
+        $this->log = $DIC['ilLog'];
+        $this->tree = $DIC['tree'];
+        $this->component_repository = $DIC['component.repository'];
+
+        parent::__construct($path_to_file, $throw_exception);
     }
 
-    public function setTestOBJ(\ilObjTest $testOBJ): void
+    public function getTestOBJ(): ?\ilObjTest
     {
-        $this->testOBJ = $testOBJ;
+        return $this->test_obj;
+    }
+
+    public function setTestOBJ(\ilObjTest $test_obj): void
+    {
+        $this->test_obj = $test_obj;
     }
 
     public function getImportMapping(): ?\ilImportMapping
@@ -186,11 +206,14 @@ class ilObjTestXMLParser extends ilSaxParser
 
     protected function importRandomQuestionSetSettings($attr): void
     {
-        global $DIC;
-        $tree = $DIC['tree'];
-        $ilDB = $DIC['ilDB'];
-        $component_repository = $DIC['component.repository'];
-        $questionSetConfig = new ilTestRandomQuestionSetConfig($tree, $ilDB, $component_repository, $this->testOBJ);
+        $questionSetConfig = new ilTestRandomQuestionSetConfig(
+            $this->tree,
+            $this->db,
+            $this->lng,
+            $this->log,
+            $this->component_repository,
+            $this->test_obj
+        );
 
         if (!$questionSetConfig->isValidQuestionAmountConfigurationMode($attr['amountMode'])) {
             throw new ilTestException(
@@ -208,11 +231,8 @@ class ilObjTestXMLParser extends ilSaxParser
 
     protected function importRandomQuestionStagingPool($attr, $cdata): void
     {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-
         $oldPoolId = $attr['poolId'];
-        $newPoolId = $ilDB->nextId('object_data'); // yes !!
+        $newPoolId = $this->db->nextId('object_data'); // yes !!
 
         $this->getImportMapping()->addMapping(
             'Modules/Test',
@@ -230,8 +250,8 @@ class ilObjTestXMLParser extends ilSaxParser
                 $oldQuestionId
             );
 
-            $stagingQuestion = new ilTestRandomQuestionSetStagingPoolQuestion($ilDB);
-            $stagingQuestion->setTestId($this->testOBJ->getTestId());
+            $stagingQuestion = new ilTestRandomQuestionSetStagingPoolQuestion($this->db);
+            $stagingQuestion->setTestId($this->test_obj->getTestId());
             $stagingQuestion->setPoolId($newPoolId);
             $stagingQuestion->setQuestionId($newQuestionId);
 
@@ -241,10 +261,7 @@ class ilObjTestXMLParser extends ilSaxParser
 
     protected function getRandomQuestionSourcePoolDefinitionInstance(): \ilTestRandomQuestionSetSourcePoolDefinition
     {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-
-        return new ilTestRandomQuestionSetSourcePoolDefinition($ilDB, $this->testOBJ);
+        return new ilTestRandomQuestionSetSourcePoolDefinition($this->db, $this->test_obj);
     }
 
     protected function importRandomQuestionSourcePoolDefinition(ilTestRandomQuestionSetSourcePoolDefinition $sourcePoolDefinition, $attr): void

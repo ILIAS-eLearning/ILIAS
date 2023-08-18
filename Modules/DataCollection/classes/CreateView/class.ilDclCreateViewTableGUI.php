@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -13,13 +14,10 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
-/**
- * Class ilDclCreateViewTableGUI
- * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
- */
+declare(strict_types=1);
+
 class ilDclCreateViewTableGUI extends ilTable2GUI
 {
     public const VALID_DEFAULT_VALUE_TYPES = [
@@ -76,7 +74,7 @@ class ilDclCreateViewTableGUI extends ilTable2GUI
             $this->exportData($this->getExportMode(), true);
         }
         $this->prepareOutput();
-        if (is_object($ilCtrl) && is_object($this->getParentObject()) && $this->getId() == "") {
+        if (is_object($this->getParentObject()) && $this->getId() == "") {
             $ilCtrl->saveParameter($this->getParentObject(), $this->getNavParameter());
         }
         if (!$this->getPrintMode()) {
@@ -177,16 +175,16 @@ class ilDclCreateViewTableGUI extends ilTable2GUI
     {
         $lng = $this->lng;
         $field = $a_set->getFieldObject();
-        $match = ilDclTableViewBaseDefaultValue::findSingle($field->getDataTypeId(), $a_set->getId());
+        $match = ilDclTableViewBaseDefaultValue::findSingle($field->getDatatypeId(), $a_set->getId());
 
         /** @var ilDclTextInputGUI $item */
         $item = ilDclCache::getFieldRepresentation($field)->getInputField(new ilPropertyFormGUI());
 
         if (!is_null($match)) {
             if ($item instanceof ilDclCheckboxInputGUI) {
-                $item->setChecked($match->getValue());
+                $item->setChecked((bool)$match->getValue());
             } else {
-                $item->setValue($match->getValue());
+                $item->setValue((string)$match->getValue());
             }
         }
 

@@ -15,6 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
 declare(strict_types=1);
 
 /**
@@ -27,10 +28,11 @@ class ilTestSessionTest extends ilTestBaseTestCase
 
     protected function setUp(): void
     {
+        global $DIC;
         parent::setUp();
         $this->addGlobal_ilUser();
 
-        $this->testObj = new ilTestSession();
+        $this->testObj = new ilTestSession($DIC['ilDB'], $DIC['ilUser']);
     }
 
     public function test_instantiateObject_shouldReturnInstance(): void
@@ -134,14 +136,14 @@ class ilTestSessionTest extends ilTestBaseTestCase
     public function testSetAccessCodeToSession(): void
     {
         ilSession::set(ilTestSession::ACCESS_CODE_SESSION_INDEX, "");
-        $this->testObj->setAccessCodeToSession(17);
+        $this->testObj->setAccessCodeToSession('17');
         $this->assertEquals([17], ilSession::get(ilTestSession::ACCESS_CODE_SESSION_INDEX));
     }
 
     public function testUnsetAccessCodeInSession(): void
     {
         ilSession::set(ilTestSession::ACCESS_CODE_SESSION_INDEX, "");
-        $this->testObj->setAccessCodeToSession(17);
+        $this->testObj->setAccessCodeToSession('17');
         $this->assertEquals([17], ilSession::get(ilTestSession::ACCESS_CODE_SESSION_INDEX));
 
         $this->testObj->unsetAccessCodeInSession();

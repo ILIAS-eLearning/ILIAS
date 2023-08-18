@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 require_once './Modules/Test/classes/inc.AssessmentConstants.php';
 
 /**

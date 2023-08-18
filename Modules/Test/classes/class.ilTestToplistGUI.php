@@ -16,8 +16,10 @@
  *
  *********************************************************************/
 
-use ILIAS\UI\Factory;
-use ILIAS\UI\Renderer;
+declare(strict_types=1);
+
+use ILIAS\UI\Factory as UIFactory;
+use ILIAS\UI\Renderer as UIRenderer;
 
 /**
  * @author  Maximilian Becker <mbecker@databay.de>
@@ -25,42 +27,16 @@ use ILIAS\UI\Renderer;
  */
 class ilTestToplistGUI
 {
-    /** @var ilCtrl */
-    protected $ctrl;
-    /** @var ilTabsGUI */
-    protected $tabs;
-    /** @var ilTemplate */
-    protected $tpl;
-    /** @var ilLanguage */
-    protected $lng;
-    /** @var ilObjUser */
-    protected $user;
-    /** @var ilObjTest */
-    protected $object;
-    /** @var ilTestTopList */
-    protected $toplist;
-    /** @var Factory */
-    private $uiFactory;
-    /** @var Renderer */
-    private $uiRenderer;
-
-    /**
-     * @param ilObjTest $testOBJ
-     */
-    public function __construct(ilObjTest $testOBJ)
-    {
-        global $DIC;
-        /* @var ILIAS\DI\Container $DIC */
-
-        $this->ctrl = $DIC['ilCtrl'];
-        $this->tpl = $DIC['tpl'];
-        $this->lng = $DIC['lng'];
-        $this->user = $DIC['ilUser'];
-        $this->uiFactory = $DIC->ui()->factory();
-        $this->uiRenderer = $DIC->ui()->renderer();
-
-        $this->object = $testOBJ;
-        $this->toplist = new ilTestTopList($testOBJ);
+    public function __construct(
+        private ilObjTest $test_obj,
+        private ilTestTopList $toplist,
+        private ilCtrl $ctrl,
+        private ilGlobalTemplateInterface $tpl,
+        private ilLanguage $lng,
+        private ilObjUser $user,
+        private UIFactory $ui_factory,
+        private UIRenderer $ui_renderer
+    ) {
     }
 
     /**
@@ -68,7 +44,7 @@ class ilTestToplistGUI
      */
     public function executeCommand(): void
     {
-        if (!$this->object->getHighscoreEnabled()) {
+        if (!$this->test_obj->getHighscoreEnabled()) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
             $this->ctrl->redirectByClass(ilObjTestGUI::class);
         }
@@ -100,19 +76,19 @@ class ilTestToplistGUI
         $title = $this->lng->txt('tst_median_mark_panel');
 
         // BH: this really is the "mark of median" ??!
-        $activeId = $this->object->getActiveIdOfUser($this->user->getId());
-        $data = $this->object->getCompleteEvaluationData();
+        $activeId = $this->test_obj->getActiveIdOfUser($this->user->getId());
+        $data = $this->test_obj->getCompleteEvaluationData();
         $median = $data->getStatistics()->getStatistics()->median();
         $pct = $data->getParticipant($activeId)->getMaxpoints() ? ($median / $data->getParticipant($activeId)->getMaxpoints()) * 100.0 : 0;
-        $mark = $this->object->mark_schema->getMatchingMark($pct);
+        $mark = $this->test_obj->getMarkSchema()->getMatchingMark($pct);
         $content = $mark->getShortName();
 
-        $panel = $this->uiFactory->panel()->standard(
+        $panel = $this->ui_factory->panel()->standard(
             $title,
-            $this->uiFactory->legacy($content)
+            $this->ui_factory->legacy($content)
         );
 
-        return $this->uiRenderer->render($panel);
+        return $this->ui_renderer->render($panel);
     }
 
     /**
@@ -125,7 +101,7 @@ class ilTestToplistGUI
 
         if ($this->isTopTenRankingTableRequired()) {
             $topData = $this->toplist->getGeneralToplistByPercentage(
-                $this->object->getRefId(),
+                $this->test_obj->getRefId(),
                 (int) $this->user->getId()
             );
 
@@ -138,7 +114,7 @@ class ilTestToplistGUI
 
         if ($this->isOwnRankingTableRequired()) {
             $ownData = $this->toplist->getUserToplistByPercentage(
-                $this->object->getRefId(),
+                $this->test_obj->getRefId(),
                 (int) $this->user->getId()
             );
 
@@ -164,7 +140,7 @@ class ilTestToplistGUI
 
         if ($this->isTopTenRankingTableRequired()) {
             $topData = $this->toplist->getGeneralToplistByWorkingtime(
-                $this->object->getRefId(),
+                $this->test_obj->getRefId(),
                 $this->user->getId()
             );
 
@@ -177,7 +153,7 @@ class ilTestToplistGUI
 
         if ($this->isOwnRankingTableRequired()) {
             $ownData = $this->toplist->getUserToplistByWorkingtime(
-                $this->object->getRefId(),
+                $this->test_obj->getRefId(),
                 (int) $this->user->getId()
             );
 
@@ -199,7 +175,7 @@ class ilTestToplistGUI
      */
     protected function buildTableGUI(): ilTestTopListTableGUI
     {
-        $table = new ilTestTopListTableGUI($this, $this->object);
+        $table = new ilTestTopListTableGUI($this, $this->test_obj);
 
         return $table;
     }
@@ -209,7 +185,7 @@ class ilTestToplistGUI
      */
     protected function isTopTenRankingTableRequired(): bool
     {
-        return $this->object->getHighscoreTopTable();
+        return $this->test_obj->getHighscoreTopTable();
     }
 
     /**
@@ -217,6 +193,6 @@ class ilTestToplistGUI
      */
     protected function isOwnRankingTableRequired(): bool
     {
-        return $this->object->getHighscoreOwnTable();
+        return $this->test_obj->getHighscoreOwnTable();
     }
 }

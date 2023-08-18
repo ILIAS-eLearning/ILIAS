@@ -65,23 +65,6 @@ class ilObjPollAccess extends ilObjectAccess implements ilWACCheckingClass
         return true;
     }
 
-    public static function _isActivated(int $a_ref_id): bool
-    {
-        $item = ilObjectActivation::getItem($a_ref_id);
-        switch ($item['timing_type']) {
-            case ilObjectActivation::TIMINGS_ACTIVATION:
-                if (time() < $item['timing_start'] or
-                   time() > $item['timing_end']) {
-                    return false;
-                }
-                // fallthrough
-
-                // no break
-            default:
-                return true;
-        }
-    }
-
     /**
      * @inheritdoc
      */

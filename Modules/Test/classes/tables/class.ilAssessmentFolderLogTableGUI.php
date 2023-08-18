@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,22 +16,19 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * @author Helmut Schottmüller <ilias@aurealis.de>
  * @ingroup ModulesTest
  */
 class ilAssessmentFolderLogTableGUI extends ilTable2GUI
 {
-    public function __construct(ilObjAssessmentFolderGUI $a_parent_obj, string $a_parent_cmd)
-    {
-        parent::__construct($a_parent_obj, $a_parent_cmd);
-
-        global $DIC;
-        $lng = $DIC['lng'];
-        $ilCtrl = $DIC['ilCtrl'];
-
-        $this->lng = $lng;
-        $this->ctrl = $ilCtrl;
+    public function __construct(
+        ilObjAssessmentFolderGUI $parent_obj,
+        string $parent_cmd
+    ) {
+        parent::__construct($parent_obj, $parent_cmd);
 
         $this->setFormName('showlog');
         $this->setStyle('table', 'fullwidth');
@@ -45,7 +40,7 @@ class ilAssessmentFolderLogTableGUI extends ilTable2GUI
 
         $this->setRowTemplate("tpl.il_as_tst_assessment_log_row.html", "Modules/Test");
 
-        $this->setFormAction($this->ctrl->getFormAction($a_parent_obj, $a_parent_cmd));
+        $this->setFormAction($this->ctrl->getFormAction($parent_obj, $parent_cmd));
 
         $this->setDefaultOrderField("date");
         $this->setDefaultOrderDirection("asc");

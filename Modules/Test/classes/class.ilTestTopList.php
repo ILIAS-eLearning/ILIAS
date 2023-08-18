@@ -16,25 +16,14 @@
  *
  *********************************************************************/
 
-/**
- * Class ilTestTopList
- */
+declare(strict_types=1);
+
 class ilTestTopList
 {
-    /** @var $object ilObjTest */
-    private $object;
-    /** @var \ilDBInterface */
-    private $db;
-
-    /**
-     * @param ilObjTest $a_object
-     */
-    public function __construct(ilObjTest $a_object)
-    {
-        global $DIC;
-
-        $this->object = $a_object;
-        $this->db = $DIC->database();
+    public function __construct(
+        private ilObjTest $object,
+        private ilDBInterface $db
+    ) {
     }
 
     /**

@@ -8,6 +8,8 @@ use ILIAS\UI\Implementation\Component\Table as T;
 use ILIAS\UI\Component\Table as I;
 use ILIAS\Data\Range;
 use ILIAS\Data\Order;
+use ILIAS\UI\URLBuilder;
+use Psr\Http\Message\ServerRequestInterface;
 
 function base()
 {
@@ -15,13 +17,14 @@ function base()
     $f = $DIC['ui.factory'];
     $r = $DIC['ui.renderer'];
     $df = new \ILIAS\Data\Factory();
+    $refinery = $DIC['refinery'];
+    $request = $DIC->http()->request();
 
     /**
      * This is what the table will look like:
      * Columns define the nature (and thus: shape) of one field/aspect of the data record.
-     *
      * Also, some functions of the table are set per column, e.g. sortability
-    */
+     */
     $columns = [
         'usr_id' => $f->table()->column()->number("User ID")
             ->withIsSortable(false),
@@ -46,6 +49,78 @@ function base()
     ];
 
     /**
+     * Define actions:
+     * An Action is an URL carrying a parameter that references the targeted record(s).
+     * Standard Actions apply to both a collection of records as well as a single entry,
+     * while Single- and Multiactions will only work for one of them.
+     * Also see the docu-entries for Actions.
+    */
+
+    /** this is the endpoint for actions, in this case the same page. */
+    $here_uri = $df->uri($DIC->http()->request()->getUri()->__toString());
+
+    /**
+     * Actions' commands and the row-ids affected are relayed to the server via GET.
+     * The URLBuilder orchestrates query-paramters (a.o. by assigning namespace)
+     */
+    $url_builder = new URLBuilder($here_uri);
+    $query_params_namespace = ['datatable', 'example'];
+
+    /**
+     * We have to claim those parameters. In return, there is a token to modify
+     * the value of the param; the tokens will work only with the given copy
+     * of URLBuilder, so acquireParameters will return the builder as first entry,
+     * followed by the tokens.
+     */
+    list($url_builder, $action_parameter_token, $row_id_token) =
+    $url_builder->acquireParameters(
+        $query_params_namespace,
+        "table_action", //this is the actions's parameter name
+        "student_ids"   //this is the parameter name to be used for row-ids
+    );
+
+    /**
+     * array<string, Action> [action_id => Action]
+     */
+    $actions = [
+        'edit' => $f->table()->action()->single( //never in multi actions
+            /** the label as shown in dropdowns */
+            'Properties',
+            /** set the actions-parameter's value; will become '&datatable_example_table_action=edit' */
+            $url_builder->withParameter($action_parameter_token, "edit"),
+            /** the Table will need to modify the values of this parameter; give the token. */
+            $row_id_token
+        ),
+        'compare' => $f->table()->action()->multi( //never in single row
+            'Add to Comparison',
+            $url_builder->withParameter($action_parameter_token, "compare"),
+            $row_id_token
+        ),
+        'delete' =>
+            $f->table()->action()->standard( //in both
+                'Remove Student',
+                $url_builder->withParameter($action_parameter_token, "delete"),
+                $row_id_token
+            )
+            /**
+             * An async Action will trigger an AJAX-call to the action's target
+             * and display the results in a modal-layer over the Table.
+             * Parameters are passed to the call, but you will have to completely
+             * build the contents of the response. DO NOT render an entire page ;)
+             */
+            ->withAsync(),
+        'info' =>
+            $f->table()->action()->standard( //in both
+                'Info',
+                $url_builder->withParameter($action_parameter_token, "info"),
+                $row_id_token
+            )
+            ->withAsync()
+    ];
+
+
+
+    /**
      * Configure the Table to retrieve data with an instance of DataRetrieval;
      * the table itself is agnostic of the source or the way of retrieving records.
      * However, it provides View Controls and therefore parameters that will
@@ -56,11 +131,9 @@ function base()
      */
     $data_retrieval = new class ($f, $r) implements I\DataRetrieval {
         public function __construct(
-            \ILIAS\UI\Factory $ui_factory,
-            \ILIAS\UI\Renderer $ui_renderer
+            protected \ILIAS\UI\Factory $ui_factory,
+            protected \ILIAS\UI\Renderer $ui_renderer
         ) {
-            $this->ui_factory = $ui_factory;
-            $this->ui_renderer = $ui_renderer;
         }
 
         public function getRows(
@@ -73,13 +146,16 @@ function base()
         ): \Generator {
             $records = $this->getRecords($order);
             foreach ($records as $idx => $record) {
-                $row_id = '';
+                $row_id = (string)$record['usr_id'];
                 $record['achieve_txt'] = $record['achieve'] > 80 ? 'passed' : 'failed';
                 $record['repeat'] = $record['achieve'] < 80;
                 $record['achieve'] = $this->ui_renderer->render(
                     $this->ui_factory->chart()->progressMeter()->mini(80, $record['achieve'])
                 );
-                yield $row_builder->buildDataRow($row_id, $record);
+
+                yield $row_builder->buildDataRow($row_id, $record)
+                    /** Actions may be disabled for specific rows: */
+                    ->withDisabledAction('delete', ($record['login'] === 'superuser'));
             }
         }
 
@@ -107,8 +183,8 @@ function base()
                 ]
             ];
 
-            list($order_field, $order_direction) = $order->join([], fn ($ret, $key, $value) => [$key, $value]);
-            usort($records, fn ($a, $b) => $a[$order_field] <=> $b[$order_field]);
+            list($order_field, $order_direction) = $order->join([], fn($ret, $key, $value) => [$key, $value]);
+            usort($records, fn($a, $b) => $a[$order_field] <=> $b[$order_field]);
             if ($order_direction === 'DESC') {
                 $records = array_reverse($records);
             }
@@ -117,10 +193,63 @@ function base()
         }
     };
 
-    //setup the table
-    $table = $f->table()->data('a data table', $columns, $data_retrieval);
 
-    return $r->render(
-        $table->withRequest($DIC->http()->request())
-    );
+    /**
+     * setup the Table and hand over the request
+     */
+    $table = $f->table()
+            ->data('a data table', $columns, $data_retrieval)
+            ->withActions($actions)
+            ->withRequest($request);
+
+    /**
+     * build some output.
+     */
+    $out = [$table];
+
+    /**
+     * get the desired action from query; the parameter is namespaced,
+     * but we still have the token and it knows its name:
+     */
+    $query = $DIC->http()->wrapper()->query();
+    if ($query->has($action_parameter_token->getName())) {
+        $action = $query->retrieve($action_parameter_token->getName(), $refinery->to()->string());
+        /** also get the row-ids and build some listing */
+        $ids = $query->retrieve($row_id_token->getName(), $refinery->custom()->transformation(fn($v) => $v));
+        $listing = $f->listing()->characteristicValue()->text([
+            'table_action' => $action,
+            'id' => print_r($ids, true),
+        ]);
+
+        /** take care of the async-call; 'delete'-action asks for it. */
+        if ($action === 'delete') {
+            $items = [];
+            $ids = explode(',', $ids);
+            foreach ($ids as $id) {
+                $items[] = $f->modal()->interruptiveItem()->keyValue($id, $row_id_token->getName(), $id);
+            }
+            echo($r->renderAsync([
+                $f->modal()->interruptive(
+                    'Deletion',
+                    'You are about to delete items!',
+                    '#'
+                )->withAffectedItems($items)
+                ->withAdditionalOnLoadCode(static fn($id): string => "console.log('ASYNC JS');")
+            ]));
+            exit();
+        }
+        if ($action === 'info') {
+            echo(
+                $r->render($f->messageBox()->info('an info message: <br>' . $ids))
+                . '<script data-replace-marker="script">console.log("ASYNC JS, too");</script>'
+            );
+            exit();
+        }
+
+        /** otherwise, we want the table and the results below */
+        $out[] = $f->divider()->horizontal();
+        $out[] = $listing;
+    }
+
+    return $r->render($out);
 }

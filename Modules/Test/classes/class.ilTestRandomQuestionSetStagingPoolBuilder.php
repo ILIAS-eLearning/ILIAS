@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * @author		Björn Heyser <bheyser@databay.de>
  * @version		$Id$
@@ -24,20 +26,11 @@
  */
 class ilTestRandomQuestionSetStagingPoolBuilder
 {
-    /**
-     * @var ilDBInterface
-     */
-    public $db = null;
-
-    /**
-     * @var ilObjTest
-     */
-    public $testOBJ = null;
-
-    public function __construct(ilDBInterface $db, ilObjTest $testOBJ)
-    {
-        $this->db = $db;
-        $this->testOBJ = $testOBJ;
+    public function __construct(
+        private ilDBInterface $db,
+        private ilLogger $log,
+        private ilObjTest $test_obj
+    ) {
     }
 
     // =================================================================================================================
@@ -61,7 +54,7 @@ class ilTestRandomQuestionSetStagingPoolBuilder
 
     private function removeMirroredTaxonomies()
     {
-        $taxonomyIds = ilObjTaxonomy::getUsageOfObject($this->testOBJ->getId());
+        $taxonomyIds = ilObjTaxonomy::getUsageOfObject($this->test_obj->getId());
 
         foreach ($taxonomyIds as $taxId) {
             $taxonomy = new ilObjTaxonomy($taxId);
@@ -74,17 +67,16 @@ class ilTestRandomQuestionSetStagingPoolBuilder
         $query = 'SELECT * FROM tst_rnd_cpy WHERE tst_fi = %s';
         $res = $this->db->queryF(
             $query,
-            array('integer'),
-            array($this->testOBJ->getTestId())
+            ['integer'],
+            [$this->test_obj->getTestId()]
         );
 
         while ($row = $this->db->fetchAssoc($res)) {
             try {
                 $question = assQuestion::instantiateQuestion($row['qst_fi']);
             } catch (InvalidArgumentException $ex) {
-                global $DIC; /* @var ILIAS\DI\Container $DIC */
-                $DIC['ilLog']->warning(
-                    "could not delete staged random question (ref={$this->testOBJ->getRefId()} / qst={$row['qst_fi']})"
+                $this->log->warning(
+                    "could not delete staged random question (ref={$this->test_obj->getRefId()} / qst={$row['qst_fi']})"
                 );
                 return;
             }
@@ -92,7 +84,7 @@ class ilTestRandomQuestionSetStagingPoolBuilder
         }
 
         $query = "DELETE FROM tst_rnd_cpy WHERE tst_fi = %s";
-        $this->db->manipulateF($query, array('integer'), array($this->testOBJ->getTestId()));
+        $this->db->manipulateF($query, array('integer'), array($this->test_obj->getTestId()));
     }
 
     private function build(ilTestRandomQuestionSetSourcePoolDefinitionList $sourcePoolDefinitionList)
@@ -117,12 +109,12 @@ class ilTestRandomQuestionSetStagingPoolBuilder
 
         while ($row = $this->db->fetchAssoc($res)) {
             $question = assQuestion::instantiateQuestion($row['question_id']);
-            $duplicateId = $question->duplicate(true, null, null, null, $this->testOBJ->getId());
+            $duplicateId = $question->duplicate(true, null, null, null, $this->test_obj->getId());
 
             $nextId = $this->db->nextId('tst_rnd_cpy');
             $this->db->insert('tst_rnd_cpy', array(
                 'copy_id' => array('integer', $nextId),
-                'tst_fi' => array('integer', $this->testOBJ->getTestId()),
+                'tst_fi' => array('integer', $this->test_obj->getTestId()),
                 'qst_fi' => array('integer', $duplicateId),
                 'qpl_fi' => array('integer', $sourcePoolId)
             ));
@@ -221,12 +213,12 @@ class ilTestRandomQuestionSetStagingPoolBuilder
             }
             if (!isset($questionIdMappingPerPool[$sourcePoolId][ $row['question_id'] ])) {
                 $question = assQuestion::_instantiateQuestion($row['question_id']);
-                $duplicateId = $question->duplicate(true, '', '', '', $this->testOBJ->getId());
+                $duplicateId = $question->duplicate(true, '', '', '', $this->test_obj->getId());
 
                 $nextId = $this->db->nextId('tst_rnd_cpy');
                 $this->db->insert('tst_rnd_cpy', array(
                     'copy_id' => array('integer', $nextId),
-                    'tst_fi' => array('integer', $this->testOBJ->getTestId()),
+                    'tst_fi' => array('integer', $this->test_obj->getTestId()),
                     'qst_fi' => array('integer', $duplicateId),
                     'qpl_fi' => array('integer', $sourcePoolId)
                 ));
@@ -245,8 +237,8 @@ class ilTestRandomQuestionSetStagingPoolBuilder
 
         $duplicator->setSourceObjId($sourcePoolId);
         $duplicator->setSourceObjType('qpl');
-        $duplicator->setTargetObjId($this->testOBJ->getId());
-        $duplicator->setTargetObjType($this->testOBJ->getType());
+        $duplicator->setTargetObjId($this->test_obj->getId());
+        $duplicator->setTargetObjType($this->test_obj->getType());
         $duplicator->setQuestionIdMapping($questionIdMapping);
 
         $duplicator->duplicate($duplicator->getAllTaxonomiesForSourceObject());

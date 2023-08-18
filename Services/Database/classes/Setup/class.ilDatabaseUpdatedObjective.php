@@ -70,6 +70,7 @@ class ilDatabaseUpdatedObjective implements Setup\Objective
         $GLOBALS["ilDB"] = $db;
         $GLOBALS["DIC"]["ilBench"] = null;
         $GLOBALS["DIC"]["ilLog"] = new class ($io) {
+            protected $io;
             public function __construct($io)
             {
                 $this->io = $io;
