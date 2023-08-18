@@ -16,47 +16,32 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * @author		Björn Heyser <bheyser@databay.de>
  * @version		$Id$
  *
  * @package     Modules/Test
  */
-class ilTestTaxonomyFilterLabelTranslater
+class ilTestQuestionFilterLabelTranslater
 {
-    // TODO-RND2017: rename class to ilTest>Question<FilterLabelTranslator
+    private array $taxonomyTreeIds = [];
+    private array $taxonomyNodeIds = [];
 
-    /**
-     * @var ilDBInterface
-     */
-    private $db = null;
+    private array $taxonomyTreeLabels = [];
+    private array $taxonomyNodeLabels = [];
 
-    private $taxonomyTreeIds = null;
-    private $taxonomyNodeIds = null;
-
-    private $taxonomyTreeLabels = null;
-    private $taxonomyNodeLabels = null;
-
-    // fau: taxFilter/typeFilter - class variable
-    private $typeLabels = null;
-    // fau.
+    private array $typeLabels = [];
 
     /**
      * @param ilDBInterface $db
      */
-    public function __construct(ilDBInterface $db)
-    {
-        $this->db = $db;
-
-        $this->taxonomyTreeIds = array();
-        $this->taxonomyNodeIds = array();
-
-        $this->taxonomyTreeLabels = array();
-        $this->taxonomyNodeLabels = array();
-
-        // fau: taxFilter/typeFilter - init node descriptions
+    public function __construct(
+        private ilDBInterface $db,
+        private ilLanguage $lng
+    ) {
         $this->loadTypeLabels();
-        // fau.
     }
 
     public function loadLabels(ilTestRandomQuestionSetSourcePoolDefinitionList $sourcePoolDefinitionList)
@@ -137,15 +122,12 @@ class ilTestTaxonomyFilterLabelTranslater
         }
     }
 
-    // fau: taxFilter/typeFilter - load type labels
     private function loadTypeLabels()
     {
-        $this->typeLabels = array();
         foreach (ilObjQuestionPool::_getQuestionTypes(true) as $translation => $data) {
             $this->typeLabels[$data['question_type_id']] = $translation;
         }
     }
-    // fau.
 
     public function getTaxonomyTreeLabel($taxonomyTreeId)
     {
@@ -189,13 +171,11 @@ class ilTestTaxonomyFilterLabelTranslater
      * Get the label for a lifecycle filter
      * @param array $filter	list of lifecycle identifiers
      */
-    public function getLifecycleFilterLabel($filter = array()): string
+    public function getLifecycleFilterLabel($filter = []): string
     {
-        global $DIC; /* @var ILIAS\DI\Container $DIC */
+        $lifecycles = [];
 
-        $lifecycles = array();
-
-        $lifecycleTranslations = ilAssQuestionLifecycle::getDraftInstance()->getSelectOptions($DIC->language());
+        $lifecycleTranslations = ilAssQuestionLifecycle::getDraftInstance()->getSelectOptions($this->lng);
 
         foreach ($filter as $lifecycle) {
             $lifecycles[] = $lifecycleTranslations[$lifecycle];

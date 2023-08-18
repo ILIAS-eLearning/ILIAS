@@ -23,6 +23,8 @@ declare(strict_types=1);
  */
 class ilDclTableViewGUI
 {
+    protected \ILIAS\UI\Factory $ui_factory;
+    protected \ILIAS\UI\Renderer $renderer;
     protected ilCtrl $ctrl;
     protected ilLanguage $lng;
     protected ilToolbarGUI $toolbar;
@@ -51,6 +53,8 @@ class ilDclTableViewGUI
         $this->toolbar = $DIC->toolbar();
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
+        $this->ui_factory = $DIC->ui()->factory();
+        $this->renderer = $DIC->ui()->renderer();
 
         if ($table_id == 0) {
             $table_id = $this->http->wrapper()->query()->retrieve('table_id', $this->refinery->kindlyTo()->int());
@@ -114,10 +118,10 @@ class ilDclTableViewGUI
 
     public function show(): void
     {
-        $add_new = ilLinkButton::getInstance();
-        $add_new->setPrimary(true);
-        $add_new->setCaption("dcl_add_new_view");
-        $add_new->setUrl($this->ctrl->getLinkTargetByClass('ilDclTableViewEditGUI', 'add'));
+        $add_new = $this->ui_factory->button()->primary(
+            $this->lng->txt("dcl_add_new_view"),
+            $this->ctrl->getLinkTargetByClass('ilDclTableViewEditGUI', 'add')
+        );
         $this->toolbar->addStickyItem($add_new);
 
         $this->toolbar->addSeparator();
@@ -136,10 +140,7 @@ class ilDclTableViewGUI
         $this->toolbar->setFormAction($this->ctrl->getFormActionByClass("ilDclTableViewGUI", "doTableSwitch"));
         $this->toolbar->addText($this->lng->txt("dcl_select"));
         $this->toolbar->addInputItem($table_selection);
-        $button = ilSubmitButton::getInstance();
-        $button->setCommand("doTableSwitch");
-        $button->setCaption('change');
-        $this->toolbar->addButtonInstance($button);
+        $this->toolbar->addFormButton('change', "doTableSwitch");
 
         $table_gui = new ilDclTableViewTableGUI($this, 'show', $this->table, $this->getParentObj()->getRefId());
         $this->tpl->setContent($table_gui->getHTML());

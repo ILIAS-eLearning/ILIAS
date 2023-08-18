@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * @author		Björn Heyser <bheyser@databay.de>
  * @version		$Id$
@@ -24,32 +26,15 @@
  */
 class ilTestPersonalSkillsGUI
 {
-    /**
-     * @var ilLanguage
-     */
-    private $lng;
+    private array $availableSkills;
+    private int $selectedSkillProfile;
+    private array$reachedSkillLevels;
+    private int $usr_id;
 
-    private $availableSkills;
-
-    private $selectedSkillProfile;
-
-    private $reachedSkillLevels;
-
-    private $usrId;
-
-    /**
-     * @var int
-     */
-    private $testId;
-
-    /**
-     * @param ilLanguage $lng
-     * @param int        $testId
-     */
-    public function __construct(ilLanguage $lng, $testId)
-    {
-        $this->lng = $lng;
-        $this->testId = $testId;
+    public function __construct(
+        private ilLanguage $lng,
+        private int $test_id
+    ) {
     }
 
     public function getHTML(): string
@@ -57,42 +42,36 @@ class ilTestPersonalSkillsGUI
         $gui = new ilPersonalSkillsGUI();
 
         $gui->setGapAnalysisActualStatusModePerObject($this->getTestId(), $this->lng->txt('tst_test_result'));
-
         $gui->setTriggerObjectsFilter(array($this->getTestId()));
         $gui->setHistoryView(true); // NOT IMPLEMENTED YET
-
-        // this is not required, we have no self evals in the test context,
-        // getReachedSkillLevel is a "test evaluation"
-        //$gui->setGapAnalysisSelfEvalLevels($this->getReachedSkillLevels());
-
         $gui->setProfileId($this->getSelectedSkillProfile());
 
-        $html = $gui->getGapAnalysisHTML((int) $this->getUsrId(), $this->getAvailableSkills());
+        $html = $gui->getGapAnalysisHTML($this->getUsrId(), $this->getAvailableSkills());
 
         return $html;
     }
 
-    public function setAvailableSkills($availableSkills)
+    public function setAvailableSkills(array $availableSkills): void
     {
         $this->availableSkills = $availableSkills;
     }
 
-    public function getAvailableSkills()
+    public function getAvailableSkills(): array
     {
         return $this->availableSkills;
     }
 
-    public function setSelectedSkillProfile($selectedSkillProfile)
+    public function setSelectedSkillProfile(int $selectedSkillProfile): void
     {
         $this->selectedSkillProfile = $selectedSkillProfile;
     }
 
-    public function getSelectedSkillProfile()
+    public function getSelectedSkillProfile(): int
     {
         return $this->selectedSkillProfile;
     }
 
-    public function setReachedSkillLevels($reachedSkillLevels)
+    public function setReachedSkillLevels(array $reachedSkillLevels): void
     {
         $this->reachedSkillLevels = $reachedSkillLevels;
     }
@@ -102,14 +81,14 @@ class ilTestPersonalSkillsGUI
         return $this->reachedSkillLevels;
     }
 
-    public function setUsrId($usrId)
+    public function setUsrId(int $usr_id): void
     {
-        $this->usrId = $usrId;
+        $this->usr_id = $usr_id;
     }
 
     public function getUsrId()
     {
-        return $this->usrId;
+        return $this->usr_id;
     }
 
     /**
@@ -117,6 +96,6 @@ class ilTestPersonalSkillsGUI
      */
     public function getTestId(): int
     {
-        return $this->testId;
+        return $this->test_id;
     }
 }

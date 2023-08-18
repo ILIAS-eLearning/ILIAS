@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -215,6 +215,11 @@ class ilTestBaseTestCase extends TestCase
     protected function addGlobal_GlobalScreenService(): void
     {
         $this->setGlobalVariable("global_screen", $this->createMock(ILIAS\GlobalScreen\Services::class));
+    }
+
+    protected function addGlobal_ilNavigationHistory(): void
+    {
+        $this->setGlobalVariable("ilNavigationHistory", $this->createMock(ilNavigationHistory::class));
     }
 
     protected function addGlobal_ilAppEventHandler(): void

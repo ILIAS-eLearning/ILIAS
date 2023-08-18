@@ -887,6 +887,7 @@ assessment#:#new_category#:#New Unit Category
 assessment#:#new_unit#:#New Unit
 assessment#:#next_question#:#Next
 assessment#:#next_question_rows#:#Questions %d - %d of %d →
+assessment#:#no_manual_feedback_export_info#:#Manual feedbacks will not be exported.
 assessment#:#no_passed_mark#:#At least one grade has to be a passing grade. For a grade to be a passing grade, it needs to have the appropriate box in the ‘Passed’ column checked.
 assessment#:#no_question_selected_for_move#:#Please check at least one question to move it!
 assessment#:#no_questions_available#:#There are no questions available!
@@ -9789,6 +9790,8 @@ glo#:#glo_box_last_presented#:#Box Last Presented
 glo#:#glo_boxes#:#Boxes
 glo#:#glo_boxes_really_reset#:#Do you really want to reset all boxes? All flashcards will be moved to the first box.
 glo#:#glo_boxes_reset#:#The boxes have been reset successfully.
+glo#:#glo_bulk_confirmation#:#Please check if all terms and definitions are listed correctly.
+glo#:#glo_bulk_creation#:#Bulk Creation
 glo#:#glo_change_to_collection_unavailable_info#:#To change the type of content assembly to "Collection Glossary", you first have to delete all existing terms within this glossary in tab "Content".
 glo#:#glo_change_to_standard_unavailable_info#:#To change the type of content assembly to "Standard Glossary", you first have to remove the selected glossaries in tab "Content".
 glo#:#glo_col_ordering_info#:#Order the titles of the metadata fields. They are presented as column headers in the table presentation of the glossary.
@@ -9798,6 +9801,7 @@ glo#:#glo_collection_info#:#The glossary automatically collects all terms from t
 glo#:#glo_content_assembly#:#Content Assembly
 glo#:#glo_copy#:#Copy Glossary
 glo#:#glo_copy_terms#:#Copy Terms
+glo#:#glo_create_term_definition_pairs#:#Create Term/Definition Pairs
 glo#:#glo_days_ago#:#%s days ago
 glo#:#glo_def_vs_term#:#Definition vs. Term
 glo#:#glo_def_vs_term_info#:#Show a definition first, the learner has to guess the term.
@@ -9828,9 +9832,13 @@ glo#:#glo_selected_terms_have_been_copied#:#The selected terms have been copied 
 glo#:#glo_show_definition#:#Show Definition
 glo#:#glo_show_term#:#Show Term
 glo#:#glo_term#:#Glossary Term
+glo#:#glo_term_definition_pairs#:#Term/Definition Pairs
+glo#:#glo_term_definition_pairs_info#:#Please enter a term and a definition pair in each line. Term and definition must be separated by a semicolon or a TAB character (usually provided by clipboard actions from spreadsheet applications).
+glo#:#glo_term_letter#:#Letter
 glo#:#glo_term_reference#:#Term Reference
 glo#:#glo_term_vs_def#:#Term vs. Definition
 glo#:#glo_term_vs_def_info#:#Show a term first, the learner has to guess the definition.
+glo#:#glo_terms_per_page#:#Terms per Page
 glo#:#glo_use_all_flashcards#:#Use All Flashcards (%s)
 glo#:#glo_use_remaining_flashcards#:#Use Remaining Flashcards (%s)
 grp#:#crs_add_grouping#:#Add Membership Limitation
@@ -12562,30 +12570,36 @@ poll#:#poll_answer#:#Answer
 poll#:#poll_answers#:#Possible Answers
 poll#:#poll_barchart#:#Bar Chart
 poll#:#poll_block_message_already_voted#:#You already voted in this poll.
-poll#:#poll_block_message_inactive#:#This poll will be available from %s.
 poll#:#poll_block_message_no_answers#:#This poll is incomplete.
-poll#:#poll_block_message_offline#:#This poll is offline.
-poll#:#poll_block_results_available_on#:#The results will be available on %s.
+poll#:#poll_block_results_available_on#:#The results will be available %s.
+poll#:#poll_cannot_set_online_no_answers#:#The status cannot be changed to &quot;online&quot; because this poll has no question!
 poll#:#poll_comments#:#Comments
 poll#:#poll_copy#:#Copy Poll
-poll#:#poll_delete_votes#:#Delete All Votes
-poll#:#poll_delete_votes_sure#:#Are you sure you want to delete all votes?
+poll#:#poll_delete_votes#:#Delete Votes of All Users
+poll#:#poll_delete_votes_sure#:#Are you sure you want to delete the votes of all users who took part in this poll?
 poll#:#poll_edit#:#Edit Poll
+poll#:#poll_edit_question#:#Edit Question
 poll#:#poll_image#:#Image
 poll#:#poll_import#:#Import Poll
-poll#:#poll_max_number_of_answers#:#Maximum Number Of Answers per Participant
+poll#:#poll_limit_not_below_answer_count#:#The answer limit must be below the number of possible answers.
+poll#:#poll_limit_number_of_answers#:#Limit Number of Answers per Participant
+poll#:#poll_max_number_of_answers#:#Max. Answers
+poll#:#poll_max_number_of_answers_info#:#You may choose up to %s answers.
 poll#:#poll_mode#:#Mode
-poll#:#poll_mode_anonymous#:#Anonymous
-poll#:#poll_mode_anonymous_info#:#Votes cannot be traced back to participants.
-poll#:#poll_mode_personal#:#Personal
-poll#:#poll_mode_personal_info#:#A list of participants with their respective votes is available when having sufficient permission.
+poll#:#poll_mode_anonymous#:#Without Names / Anonymous
+poll#:#poll_mode_anonymous_info#:#In the tab ‘Results’ the names of participants are omitted.
+poll#:#poll_mode_personal#:#With Names
+poll#:#poll_mode_personal_info#:#In the tab ‘Results’ the names of participants and their respective answers are listed. Users with access to this tab can inspect who has given which answer.
 poll#:#poll_new#:#Add New Poll
 poll#:#poll_non_anonymous_warning#:#Your name and vote are visible for administrators in the results.
+poll#:#poll_notification_activated#:#Notification Activated
+poll#:#poll_notification_deactivated#:#Notification Deactivated
 poll#:#poll_notification_subscribe#:#Activate Notification
 poll#:#poll_notification_unsubscribe#:#Deactivate Notification
 poll#:#poll_percentage#:#Current Percentage
 poll#:#poll_piechart#:#Pie Chart
 poll#:#poll_population#:#%s Participants
+poll#:#poll_population_singular#:#1 Participant
 poll#:#poll_question#:#Question
 poll#:#poll_result#:#Results
 poll#:#poll_result_answers#:#Votes
@@ -12603,6 +12617,7 @@ poll#:#poll_view_results_always#:#Always
 poll#:#poll_view_results_never#:#Never
 poll#:#poll_vote#:#Vote
 poll#:#poll_vote_error_multi#:#Please select no more than %s answers.
+poll#:#poll_vote_error_multi_no_answer#:#Please select at least 1 answer.
 poll#:#poll_vote_error_single#:#Please select 1 answer.
 poll#:#poll_vote_notification_body#:#the following poll has received a vote.
 poll#:#poll_vote_notification_link#:#Link to Poll
@@ -12610,8 +12625,9 @@ poll#:#poll_vote_notification_reason#:#You are receiving this e-mail because you
 poll#:#poll_vote_notification_subject#:#Poll "%s": new vote
 poll#:#poll_votes_no_edit#:#This poll already contains votes. You cannot edit the poll until you delete these votes.
 poll#:#poll_voting_period_and_results#:#Voting Period and Results
+poll#:#poll_voting_period_ended_info#:#The voting period ended %s.
 poll#:#poll_voting_period_full_info#:#Voting period from %s to %s
-poll#:#poll_voting_period_info#:#Deadline for Voting: %s
+poll#:#poll_voting_period_info#:#The deadline for voting is %s.
 poll#:#poll_voting_period_limited#:#Limited Voting Period
 prg#:#access_ctr_by_orgu_position#:#Access control according to Organisational Unit Positions
 prg#:#active_only#:#active users only

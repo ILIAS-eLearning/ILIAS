@@ -11,12 +11,14 @@
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- *
- *********************************************************************/
+ */
 
-
+import il from 'il';
+import $ from 'jquery';
+import DataTableFactory from './datatable.factory';
 import PresentationTableFactory from './presentationtable.factory';
 
 il.UI = il.UI || {};
 il.UI.table = il.UI.table || {};
+il.UI.table.data = new DataTableFactory($);
 il.UI.table.presentation = new PresentationTableFactory();

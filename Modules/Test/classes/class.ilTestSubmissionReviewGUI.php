@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class ilTestSubmissionReviewGUI
  *
@@ -26,17 +28,11 @@
  */
 class ilTestSubmissionReviewGUI extends ilTestServiceGUI
 {
-    /** @var ilTestOutputGUI */
-    protected $testOutputGUI = null;
-
-    /** @var \ilTestSession */
-    protected $testSession;
-
-    public function __construct(ilTestOutputGUI $testOutputGUI, ilObjTest $testOBJ, ilTestSession $testSession)
-    {
-        $this->testOutputGUI = $testOutputGUI;
-        $this->testSession = $testSession;
-
+    public function __construct(
+        protected ilTestOutputGUI $testOutputGUI,
+        ilObjTest $testOBJ,
+        protected ilTestSession $testSession
+    ) {
         parent::__construct($testOBJ);
     }
 
@@ -117,10 +113,7 @@ class ilTestSubmissionReviewGUI extends ilTestServiceGUI
 
     protected function buildUserReviewOutput(): string
     {
-        global $DIC; /* @var ILIAS\DI\Container $DIC */
-        $ilObjDataCache = $DIC['ilObjDataCache'];
-
-        $testResultHeaderLabelBuilder = new ilTestResultHeaderLabelBuilder($this->lng, $ilObjDataCache);
+        $testResultHeaderLabelBuilder = new ilTestResultHeaderLabelBuilder($this->lng, $this->obj_cache);
 
         $objectivesList = null;
 

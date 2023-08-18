@@ -1117,7 +1117,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
                 if ($replace_gap_index == $gap_index) {
                     // fau: fixGapReplace - use replace function
                     $output = $this->replaceFirstGap($output, '');
-                // fau.
+                    // fau.
                 } else {
                     // fau: fixGapReplace - use replace function
                     $output = $this->replaceFirstGap($output, "[_gap]" . join(",", $answers) . "[/_gap]");

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,29 +16,31 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
- * Class ilTestTaxonomyFilterLabelTranslaterTest
  * @author Marvin Beym <mbeym@databay.de>
  */
-class ilTestTaxonomyFilterLabelTranslaterTest extends ilTestBaseTestCase
+class ilTestQuestionFilterLabelTranslaterTest extends ilTestBaseTestCase
 {
-    private ilTestTaxonomyFilterLabelTranslater $testObj;
+    private ilTestQuestionFilterLabelTranslater $testObj;
 
     protected function setUp(): void
     {
+        global $DIC;
         parent::setUp();
 
-        $this->addGlobal_ilDB();
         $this->addGlobal_lng();
         $this->addGlobal_ilComponentFactory();
 
-        $this->testObj = new ilTestTaxonomyFilterLabelTranslater(
-            $this->createMock(ilDBInterface::class)
+        $this->testObj = new ilTestQuestionFilterLabelTranslater(
+            $DIC['ilDB'],
+            $DIC['lng']
         );
     }
 
     public function test_instantiateObject_shouldReturnInstance(): void
     {
-        $this->assertInstanceOf(ilTestTaxonomyFilterLabelTranslater::class, $this->testObj);
+        $this->assertInstanceOf(ilTestQuestionFilterLabelTranslater::class, $this->testObj);
     }
 }

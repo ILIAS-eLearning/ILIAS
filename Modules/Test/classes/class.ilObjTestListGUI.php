@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class ilObjTestListGUI
  *
@@ -98,40 +100,29 @@ class ilObjTestListGUI extends ilObjectListGUI
     */
     public function getProperties(): array
     {
-        global $DIC;
-        $lng = $DIC['lng'];
-        $ilUser = $DIC['ilUser'];
-
         $props = parent::getProperties();
 
         // we cannot use ilObjTestAccess::_isOffline() because of text messages
-        $onlineaccess = ilObjTestAccess::_lookupOnlineTestAccess($this->obj_id, $ilUser->getId());
+        $onlineaccess = ilObjTestAccess::_lookupOnlineTestAccess($this->obj_id, $this->user->getId());
         if ($onlineaccess !== true) {
-            $props[] = array("alert" => true, "property" => $lng->txt("status"),
+            $props[] = array("alert" => true, "property" => $this->lng->txt("status"),
                 "value" => $onlineaccess);
         }
 
         return $props;
     }
 
-
-    /**
-    * Get command link url.
-    */
     public function getCommandLink(string $cmd): string
     {
-        global $DIC;
-        $ilCtrl = $DIC['ilCtrl'];
-
         $cmd = explode('::', $cmd);
 
         if (count($cmd) == 2) {
-            $cmd_link = $ilCtrl->getLinkTargetByClass(array('ilRepositoryGUI', 'ilObjTestGUI', $cmd[0]), $cmd[1]);
+            $cmd_link = $this->ctrl->getLinkTargetByClass(['ilRepositoryGUI', 'ilObjTestGUI', $cmd[0]], $cmd[1]);
         } else {
-            $cmd_link = $ilCtrl->getLinkTargetByClass('ilObjTestGUI', $cmd[0]);
+            $cmd_link = $this->ctrl->getLinkTargetByClass('ilObjTestGUI', $cmd[0]);
         }
 
-        $params = array_merge(array('ref_id' => $this->ref_id), $this->command_link_params);
+        $params = array_merge(['ref_id' => $this->ref_id], $this->command_link_params);
 
         foreach ($params as $param => $value) {
             $cmd_link = ilUtil::appendUrlParameterString($cmd_link, "$param=$value", true);
@@ -143,23 +134,17 @@ class ilObjTestListGUI extends ilObjectListGUI
     public function getCommands(): array
     {
         $commands = parent::getCommands();
-
-        $commands = $this->handleUserResultsCommand($commands);
-
-        return $commands;
+        return $this->handleUserResultsCommand($commands);
     }
 
     private function handleUserResultsCommand($commands)
     {
-        global $DIC;
-        $ilUser = $DIC['ilUser'];
-
         if (!ilLOSettings::isObjectiveTest($this->ref_id)) {
-            $commands = $this->removeUserResultsCommand($commands);
-        } else {
-            if (!ilObjTestAccess::visibleUserResultExists($this->obj_id, $ilUser->getId())) {
-                $commands = $this->removeUserResultsCommand($commands);
-            }
+            return $this->removeUserResultsCommand($commands);
+        }
+
+        if (!ilObjTestAccess::visibleUserResultExists($this->obj_id, $this->user->getId())) {
+            return $this->removeUserResultsCommand($commands);
         }
 
         return $commands;

@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * @author		Björn Heyser <bheyser@databay.de>
  * @version		$Id$
@@ -24,39 +26,27 @@
  */
 class ilTestArchiveService
 {
-    /**
-     * @var ilObjTest
-     */
-    protected $testOBJ;
+    protected ?ilTestParticipantData $participantData = null;
 
-    /**
-     * @var ilTestParticipantData
-     */
-    protected $participantData;
-
-    public function __construct(ilObjTest $testOBJ)
-    {
-        $this->testOBJ = $testOBJ;
+    public function __construct(
+        protected ilObjTest $test_obj,
+        protected ilLanguage $lng,
+        protected ilObjectDataCache $obj_cache
+    ) {
         $this->participantData = null;
     }
 
-    /**
-     * @return ilTestParticipantData
-     */
     public function getParticipantData(): ?ilTestParticipantData
     {
         return $this->participantData;
     }
 
-    /**
-     * @param ilTestParticipantData $participantData
-     */
-    public function setParticipantData(ilTestParticipantData $participantData)
+    public function setParticipantData(ilTestParticipantData $participantData): void
     {
         $this->participantData = $participantData;
     }
 
-    public function archivePassesByActives($passesByActives)
+    public function archivePassesByActives($passesByActives): void
     {
         foreach ($passesByActives as $activeId => $passes) {
             foreach ($passes as $pass) {
@@ -65,14 +55,14 @@ class ilTestArchiveService
         }
     }
 
-    public function archiveActivesPass($activeId, $pass)
+    public function archiveActivesPass(int $active_id, int $pass): void
     {
-        $content = $this->renderOverviewContent($activeId, $pass);
-        $filename = $this->buildOverviewFilename($activeId, $pass);
+        $content = $this->renderOverviewContent($active_id, $pass);
+        $filename = $this->buildOverviewFilename($active_id, $pass);
         ilTestPDFGenerator::generatePDF($content, ilTestPDFGenerator::PDF_OUTPUT_FILE, $filename, PDF_USER_RESULT);
-        $archiver = new ilTestArchiver($this->testOBJ->getId());
+        $archiver = new ilTestArchiver($this->test_obj->getId());
         $archiver->setParticipantData($this->getParticipantData());
-        $archiver->handInTestResult($activeId, $pass, $filename);
+        $archiver->handInTestResult($active_id, $pass, $filename);
         unlink($filename);
     }
 
@@ -83,14 +73,14 @@ class ilTestArchiveService
      */
     private function renderOverviewContent($activeId, $pass): string
     {
-        $results = $this->testOBJ->getTestResult(
+        $results = $this->test_obj->getTestResult(
             $activeId,
             $pass,
             false
         );
 
-        $gui = new ilTestServiceGUI($this->testOBJ);
-        $testResultHeaderLabelBuilder = new ilTestResultHeaderLabelBuilder($GLOBALS['DIC']->language(), $GLOBALS['DIC']['ilObjDataCache']);
+        $gui = new ilTestServiceGUI($this->test_obj);
+        $testResultHeaderLabelBuilder = new ilTestResultHeaderLabelBuilder($this->lng, $this->obj_cache);
 
         return $gui->getPassListOfAnswers(
             $results,
@@ -114,6 +104,6 @@ class ilTestArchiveService
     private function buildOverviewFilename($activeId, $pass): string
     {
         $tmpFileName = ilFileUtils::ilTempnam();
-        return dirname($tmpFileName) . '/scores-' . $this->testOBJ->getId() . '-' . $activeId . '-' . $pass . '.pdf';
+        return dirname($tmpFileName) . '/scores-' . $this->test_obj->getId() . '-' . $activeId . '-' . $pass . '.pdf';
     }
 }

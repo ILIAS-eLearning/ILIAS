@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class ilObjTestAccessTest
  * @author Marvin Beym <mbeym@databay.de>
@@ -29,6 +29,10 @@ class ilObjTestAccessTest extends ilTestBaseTestCase
     protected function setUp(): void
     {
         parent::setUp();
+
+        $this->addGlobal_ilUser();
+        $this->addGlobal_rbacsystem();
+        $this->addGlobal_ilAccess();
 
         $this->testObj = new ilObjTestAccess();
     }

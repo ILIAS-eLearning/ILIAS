@@ -85,7 +85,7 @@ class ModalAdapterGUI
         return $this;
     }
 
-    public function button(string $text, string $url, bool $replace_modal = true): self
+    public function button(string $text, string $url, bool $replace_modal = true, $onclick = ""): self
     {
         $target = $replace_modal
             ? "#"
@@ -97,9 +97,13 @@ class ModalAdapterGUI
         );
 
         if ($replace_modal) {
-            $button = $button->withOnLoadCode(function ($id) use ($url) {
+            $button = $button->withOnLoadCode(function ($id) use ($url, $onclick) {
                 return
-                    "$('#$id').click(function(event) { il.repository.ui.redirect('$url'); return false;});";
+                    "$('#$id').click(function(event) { $onclick; il.repository.ui.redirect('$url'); return false;});";
+            });
+        } elseif ($onclick !== "") {
+            $button = $button->withOnLoadCode(function ($id) use ($url, $onclick) {
+                return "$('#$id').click(function(event) { $onclick });";
             });
         }
         $this->action_buttons[] = $button;
@@ -174,7 +178,7 @@ class ModalAdapterGUI
             $button = $ui->factory()->button()->standard($button_title, "#")
                          ->withOnClick($modal->getShowSignal());
         }
-        return ["button" => $button, "modal" => $modal];
+        return ["button" => $button, "modal" => $modal, "signal" => $modal->getShowSignal()->getId()];
     }
 
     public function getTriggerButtonComponents(string $button_title, $shy = true): array
@@ -189,6 +193,6 @@ class ModalAdapterGUI
             $button = $ui->factory()->button()->standard($button_title, "#")
                          ->withOnClick($modal->getShowSignal());
         }
-        return ["button" => $button, "modal" => $modal];
+        return ["button" => $button, "modal" => $modal, "signal" => $modal->getShowSignal()->getId()];
     }
 }

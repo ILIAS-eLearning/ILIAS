@@ -15,6 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
 declare(strict_types=1);
 
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;

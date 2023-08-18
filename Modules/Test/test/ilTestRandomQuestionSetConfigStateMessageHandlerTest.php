@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class ilTestRandomQuestionSetConfigStateMessageHandlerTest
  * @author Marvin Beym <mbeym@databay.de>
@@ -28,13 +28,19 @@ class ilTestRandomQuestionSetConfigStateMessageHandlerTest extends ilTestBaseTes
 
     protected function setUp(): void
     {
+        global $DIC;
         parent::setUp();
         $this->addGlobal_ilUser();
+        $this->addGlobal_ilCtrl();
+        $this->addGlobal_uiFactory();
+        $this->addGlobal_uiRenderer();
+
 
         $this->testObj = new ilTestRandomQuestionSetConfigStateMessageHandler(
-            $this->createMock(ilLanguage::class),
-            $this->createMock(ILIAS\DI\UIServices::class),
-            $this->createMock(ilCtrl::class)
+            $DIC['lng'],
+            $DIC['ui.factory'],
+            $DIC['ui.renderer'],
+            $DIC['ilCtrl']
         );
     }
 

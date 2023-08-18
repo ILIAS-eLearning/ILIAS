@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * @author  Michael Jansen <mjansen@databay.de>
  * @version $Id$

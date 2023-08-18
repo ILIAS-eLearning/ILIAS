@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class ilTestParticipantsTimeExtensionGUITest
  * @author Marvin Beym <mbeym@databay.de>
@@ -25,33 +25,26 @@ declare(strict_types=1);
 class ilTestParticipantsTimeExtensionGUITest extends ilTestBaseTestCase
 {
     private ilTestParticipantsTimeExtensionGUI $testObj;
-    private $backup_dic;
 
     protected function setUp(): void
     {
+        global $DIC;
         parent::setUp();
-        global $DIC;
 
-        $this->backup_dic = $DIC;
-        $DIC = new ILIAS\DI\Container([
-            'tpl' => $this->getMockBuilder(ilGlobalTemplateInterface::class)
-                          ->getMock(),
+        $this->addGlobal_ilUser();
+        $this->addGlobal_ilCtrl();
+        $this->addGlobal_lng();
+        $this->addGlobal_tpl();
 
-            'ilCtrl' => $this->getMockBuilder(ilCtrl::class)
-                ->disableOriginalConstructor()
-                ->getMock(),
-
-            'lng' => $this->getMockBuilder(ilLanguage::class)
-                ->disableOriginalConstructor()
-                ->getMock()
-        ]);
-        $this->testObj = new ilTestParticipantsTimeExtensionGUI($this->createMock(ilObjTest::class));
-    }
-
-    protected function tearDown(): void
-    {
-        global $DIC;
-        $DIC = $this->backup_dic;
+        $this->testObj = new ilTestParticipantsTimeExtensionGUI(
+            $this->createMock(ilObjTest::class),
+            $DIC['ilUser'],
+            $DIC['ilCtrl'],
+            $DIC['lng'],
+            $DIC['ilDB'],
+            $DIC['tpl'],
+            $this->createMock(ilTestParticipantAccessFilterFactory::class)
+        );
     }
 
     public function test_instantiateObject_shouldReturnInstance(): void

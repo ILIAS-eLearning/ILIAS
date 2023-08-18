@@ -26,6 +26,7 @@ use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Component;
 use ILIAS\UI\Implementation\Render\Template;
 use ILIAS\Data\Order;
+use ILIAS\Data\URI;
 use ILIAS\UI\Implementation\Component\Table\Action\Action;
 
 class Renderer extends AbstractComponentRenderer
@@ -197,18 +198,29 @@ class Renderer extends AbstractComponentRenderer
 
         $component = $this->applyViewControls($component);
 
-        list($type_url, $type_sig, $opt_opt, $opt_id) = [Action::TYPE_URL, Action::TYPE_SIGNAL, Action::OPT_OPTIONS, Action::OPT_ID];
+        $opt_action_id = Action::OPT_ACTIONID;
+        $opt_row_id = Action::OPT_ROWID;
         $component = $component
             ->withAdditionalOnLoadCode(
                 static fn($id): string =>
-                    "il.UI.table.data.init('{$id}','{$type_url}', '{$type_sig}', '{$opt_opt}', '{$opt_id}' );"
+                    "il.UI.table.data.init('{$id}','{$opt_action_id}','{$opt_row_id}');"
             )
-            ->withAdditionalOnLoadCode($this->getMultiActionHandler($component->getActionSignal()))
+            ->withAdditionalOnLoadCode($this->getAsyncActionHandler($component->getAsyncActionSignal()))
+            ->withAdditionalOnLoadCode($this->getMultiActionHandler($component->getMultiActionSignal()))
             ->withAdditionalOnLoadCode($this->getSelectionHandler($component->getSelectionSignal()));
 
+        $actions = [];
         foreach ($component->getAllActions() as $action_id => $action) {
             $component = $component->withAdditionalOnLoadCode($this->getActionRegistration($action_id, $action));
+            if ($action->isAsync()) {
+                $signal = clone $component->getAsyncActionSignal();
+                $signal->addOption(Action::OPT_ACTIONID, $action_id);
+                $action = $action->withSignalTarget($signal);
+            }
+            $actions[$action_id] = $action;
         }
+        $component = $component->withActions($actions);
+
         if ($component->hasMultiActions()) {
             $component = $component->withAdditionalOnLoadCode(
                 static fn($id): string => "il.UI.table.data.get('{$id}').selectAll(false);"
@@ -239,7 +251,7 @@ class Renderer extends AbstractComponentRenderer
             $modal = $this->buildMultiActionsAllObjectsModal($multi_actions, $id);
             $multi_actions_dropdown = $this->buildMultiActionsDropdown(
                 $multi_actions,
-                $component->getActionSignal(),
+                $component->getMultiActionSignal(),
                 $modal->getShowSignal()
             );
             $tpl->setVariable('MULTI_ACTION_TRIGGERER', $default_renderer->render($multi_actions_dropdown));
@@ -408,7 +420,7 @@ class Renderer extends AbstractComponentRenderer
         $all_obj_buttons = [];
         foreach ($actions as $action_id => $act) {
             $signal = clone $action_signal;
-            $signal->addOption('action', $action_id);
+            $signal->addOption(Action::OPT_ACTIONID, $action_id);
             $buttons[] = $f->button()->shy($act->getLabel(), $signal);
         }
 
@@ -418,6 +430,16 @@ class Renderer extends AbstractComponentRenderer
         return $f->dropdown()->standard($buttons);
     }
 
+    protected function getAsyncActionHandler(Component\Signal $action_signal): \Closure
+    {
+        return static function ($id) use ($action_signal): string {
+            return "
+                $(document).on('{$action_signal}', function(event, signal_data) {
+                    il.UI.table.data.get('{$id}').doSingleAction(signal_data);
+                    return false;
+                });";
+        };
+    }
     protected function getMultiActionHandler(Component\Signal $action_signal): \Closure
     {
         return static function ($id) use ($action_signal): string {
@@ -445,21 +467,13 @@ class Renderer extends AbstractComponentRenderer
         string $action_id,
         Action $action
     ): \Closure {
-        $parameter_name = $action->getParameterName();
-        $target = $action->getTarget();
-        $type = Action::TYPE_URL;
+        $async = $action->isAsync() ? 'true' : 'false';
+        $url_builder_js = $action->getURLBuilderJS();
+        $tokens_js = $action->getURLBuilderTokensJS();
 
-        if ($target instanceof Component\Signal) {
-            $type = Action::TYPE_SIGNAL;
-            $target = json_encode([
-                Action::OPT_ID => $target->getId(),
-                Action::OPT_OPTIONS => $target->getOptions()
-            ]);
-        }
-
-        return static function ($id) use ($action_id, $type, $target, $parameter_name): string {
+        return static function ($id) use ($action_id, $async, $url_builder_js, $tokens_js): string {
             return "
-                il.UI.table.data.get('{$id}').registerAction('{$action_id}', '{$type}', '{$target}', '{$parameter_name}');
+                il.UI.table.data.get('{$id}').registerAction('{$action_id}', {$async}, {$url_builder_js}, {$tokens_js});
             ";
         };
     }
@@ -504,7 +518,7 @@ class Renderer extends AbstractComponentRenderer
         foreach ($actions as $act) {
             $act = $act->withRowId($row_id);
             $target = $act->getTarget();
-            if (!$target instanceof Component\Signal) {
+            if ($target instanceof URI) {
                 $target = (string) $target;
             }
             $buttons[] = $f->button()->shy($act->getLabel(), $target);
@@ -518,8 +532,8 @@ class Renderer extends AbstractComponentRenderer
     public function registerResources(ResourceRegistry $registry): void
     {
         parent::registerResources($registry);
-        $registry->register('./src/UI/templates/js/Table/dist/presentationtable.js');
-        $registry->register('./src/UI/templates/js/Table/dist/datatable.js');
+        $registry->register('./src/UI/templates/js/Table/dist/table.min.js');
+        $registry->register('./src/UI/templates/js/Modal/modal.js');
     }
 
     protected function registerSignals(Component\Table\PresentationRow $component): Component\JavaScriptBindable

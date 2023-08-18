@@ -22,6 +22,7 @@ require_once 'tests/UI/AbstractFactoryTest.php';
 
 use ILIAS\UI\Component\Table\Action;
 use ILIAS\Data;
+use ILIAS\UI\URLBuilder;
 
 class ActionFactoryTest extends AbstractFactoryTest
 {
@@ -44,16 +45,21 @@ class ActionFactoryTest extends AbstractFactoryTest
     public function testImplementsInterfaces()
     {
         list($f, $df) = $this->buildFactories();
+        $target = $df->uri('http://wwww.ilias.de?ref_id=1');
+        $url_builder = new URLBuilder($target);
+        list($builder, $token) = array_values(
+            $url_builder->acquireParameter(['namespace'], 'rowids')
+        );
 
-        $standard = $f->standard("", "", $df->uri('http://www.ilias.de'));
+        $standard = $f->standard("", $builder, $token);
         $this->assertInstanceOf(Action\Action::class, $standard);
         $this->assertInstanceOf(Action\Standard::class, $standard);
 
-        $single = $f->single("", "", $df->uri('http://www.ilias.de'));
+        $single = $f->single("", $builder, $token);
         $this->assertInstanceOf(Action\Action::class, $single);
         $this->assertInstanceOf(Action\Single::class, $single);
 
-        $multi = $f->multi("", "", $df->uri('http://www.ilias.de'));
+        $multi = $f->multi("", $builder, $token);
         $this->assertInstanceOf(Action\Action::class, $multi);
         $this->assertInstanceOf(Action\Multi::class, $multi);
     }

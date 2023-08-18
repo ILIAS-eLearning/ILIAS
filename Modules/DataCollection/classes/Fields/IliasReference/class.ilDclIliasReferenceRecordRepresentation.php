@@ -58,24 +58,28 @@ class ilDclIliasReferenceRecordRepresentation extends ilDclBaseRecordRepresentat
 
     public function getLinkHTML(string $title, bool $show_action_menu = false): string
     {
-        $lng = $this->lng;
         $link = ilLink::_getStaticLink($this->getRecordField()->getValue());
         if ($show_action_menu) {
             $field = $this->getRecordField()->getField();
-            $record = $this->getRecordField()->getRecord();
-
-            $list = new ilAdvancedSelectionListGUI();
-            $list->setId('adv_list_copy_link_' . $field->getId() . $record->getId());
-            $list->setListTitle($title);
+            $dropdown_items = [];
             if ($field->getProperty(ilDclBaseFieldModel::PROP_ILIAS_REFERENCE_LINK)) {
-                $list->addItem($lng->txt('view'), 'view', $link);
+                $dropdown_items[] = $this->factory->link()->standard(
+                    $this->lng->txt('view'),
+                    $link
+                );
             }
-            $list->addItem($lng->txt('copy'), 'copy', $this->getActionLink('copy'));
-            $list->addItem($lng->txt('link'), 'link', $this->getActionLink('link'));
-
-            return $list->getHTML();
+            $dropdown_items[] = $this->factory->link()->standard(
+                $this->lng->txt('link'),
+                $this->getActionLink('link')
+            );
+            $dropdown_items[] = $this->factory->link()->standard(
+                $this->lng->txt('copy'),
+                $this->getActionLink('copy')
+            );
+            $dropdown = $this->factory->dropdown()->standard($dropdown_items)->withLabel($title);
+            return $this->renderer->render($dropdown);
         } else {
-            return "<a href=\"$link\">$title</a>";
+            return $this->renderer->render($this->factory->link()->standard($title, $link));
         }
     }
 
@@ -84,18 +88,15 @@ class ilDclIliasReferenceRecordRepresentation extends ilDclBaseRecordRepresentat
      */
     protected function getActionLink(string $mode): string
     {
-        global $DIC;
-        $ilCtrl = $DIC['ilCtrl'];
-
         switch ($mode) {
             case 'copy':
-                $ilCtrl->setParameterByClass('ilobjectcopygui', 'item_ref_id', $this->getRecordField()->getValue());
-                $ilCtrl->setParameterByClass('ilobjrootfoldergui', 'item_ref_id', $this->getRecordField()->getValue());
-                $ilCtrl->setParameterByClass('ilobjectcopygui', 'source_id', $this->getRecordField()->getValue());
+                $this->ctrl->setParameterByClass(ilObjectCopyGUI::class, 'item_ref_id', $this->getRecordField()->getValue());
+                $this->ctrl->setParameterByClass(ilObjRootFolderGUI::class, 'item_ref_id', $this->getRecordField()->getValue());
+                $this->ctrl->setParameterByClass(ilObjectCopyGUI::class, 'source_id', $this->getRecordField()->getValue());
 
-                return $ilCtrl->getLinkTargetByClass('ilobjectcopygui', 'initTargetSelection');
+                return $this->ctrl->getLinkTargetByClass(ilObjectCopyGUI::class, 'initTargetSelection');
             case 'link':
-                return $ilCtrl->getLinkTargetByClass(['ilrepositorygui', 'ilobjrootfoldergui'], 'link');
+                return $this->ctrl->getLinkTargetByClass([ilRepositoryGUI::class, ilObjRootFolderGUI::class], 'link');
             default:
                 return '';
         }

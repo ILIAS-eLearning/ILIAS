@@ -31,6 +31,7 @@ use ILIAS\Services\ResourceStorage\Collections\View\ViewControlBuilder;
 use ILIAS\Services\ResourceStorage\Collections\View\UploadBuilder;
 use ILIAS\Services\ResourceStorage\Collections\View\PreviewDefinition;
 use ILIAS\Filesystem\Util\Archive\UnzipOptions;
+use ILIAS\Refinery\ConstraintViolationException;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
@@ -92,7 +93,7 @@ class ilResourceCollectionGUI implements UploadHandler
 
         $data_provider = new TableDataProvider($this->view_request);
 
-        $action_builder = new ActionBuilder(
+        $this->action_builder = new ActionBuilder(
             $this->view_request,
             $this->ctrl,
             $DIC->ui()->factory(),
@@ -118,7 +119,7 @@ class ilResourceCollectionGUI implements UploadHandler
 
         $this->view_factory = new ViewFactory(
             $data_provider,
-            $action_builder,
+            $this->action_builder,
             $view_control_builder,
             $upload_builder
         );
@@ -350,43 +351,37 @@ class ilResourceCollectionGUI implements UploadHandler
      */
     private function getResourceIdsFromRequest(): array
     {
+        $token = $this->action_builder->getUrlToken();
         $wrapper = $this->http->wrapper();
-        $to_string = $this->refinery->to()->string();
+        $to_string = $this->refinery->kindlyTo()->string();
         $to_array_of_string = $this->refinery->to()->listOf($to_string);
         $rid_string = null;
 
-        if ($wrapper->post()->has(self::P_RESOURCE_ID)) {
-            $rid_string = $wrapper->post()->retrieve(
-                self::P_RESOURCE_ID,
-                $to_string
-            );
-        } elseif ($wrapper->post()->has('interruptive_items')) {
-            $rid_string = $wrapper->post()->retrieve(
+        if ($wrapper->query()->has($token->getName())) {
+            try {
+                $rid_string = $wrapper->query()->retrieve(
+                    $token->getName(),
+                    $to_string
+                );
+                $rid_strings = explode(',', $rid_string);
+            } catch (ConstraintViolationException $e) {
+                $rid_strings = $wrapper->query()->retrieve(
+                    $token->getName(),
+                    $to_array_of_string
+                );
+            }
+        }
+
+        if ($wrapper->post()->has('interruptive_items')) {
+            $rid_strings = $wrapper->post()->retrieve(
                 'interruptive_items',
                 $to_array_of_string
             );
-        } elseif ($wrapper->query()->has(self::P_RESOURCE_ID)) {
-            $rid_string = $wrapper->query()->retrieve(
-                self::P_RESOURCE_ID,
-                $to_string
-            );
         }
 
-        if ($rid_string === null) {
+        if ($rid_strings === []) {
             return [];
         }
-
-        // check if $rid_string is a json array
-        if (is_string($rid_string) && substr($rid_string, 0, 1) === '[' && substr($rid_string, -1) === ']') {
-            $rid_strings = json_decode($rid_string, true);
-        } elseif (is_array($rid_string)) {
-            $rid_strings = $rid_string;
-        } else {
-            // currently it seems as if there are double quotes in the string, we need to remove them
-            $rid_string = str_replace("\"", "", $rid_string);
-            $rid_strings = [$rid_string];
-        }
-
         $resource_identifications = [];
         foreach ($rid_strings as $rid_string) {
             $resource_identification = $this->irss->manage()->find($this->unhash($rid_string));

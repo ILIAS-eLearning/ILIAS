@@ -1,4 +1,19 @@
 /**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
+
+/**
  * @type {number}
  */
 const KEY_LEFT = 37;
@@ -25,14 +40,9 @@ export default class DataTable {
   #jquery;
 
   /**
-   * @type {Params}
+   * @type {actionId: string, rowId: string}
    */
-  #params;
-
-  /**
-   * @type {{type: {url: string, signal: string}, opt: {mainkey: string, id: string}}
-   */
-  #actionsConstants;
+  #signalConstants;
 
   /**
    * @type {HTMLDivElement}
@@ -40,45 +50,54 @@ export default class DataTable {
   #component;
 
   /**
+   * @type {HTMLDivElement}
+   */
+  #modalResponseArea;
+
+  /**
+   * @type {HTMLDivElement}
+   */
+  #responseContainer;
+
+  /**
+   * @type {HTMLDivElement}
+   */
+  #responseContent;
+
+  /**
    * @type {HTMLTableElement}
    */
   #table;
 
   /**
-   * @type {array<string, array>}
+   * @type {array<string, {async: bool, urlBuilder: URLBuilder, urlTokens: Map}>}
    */
   #actionsRegistry;
 
   /**
    * @param {jQuery} jquery
-   * @param {Params} params
-   * @param {string} typeURL
-   * @param {string} typeSignal
-   * @param {string} optOptions
-   * @param {string} optId
+   * @param {string} optActionId
+   * @param {string} optRowId
    * @param {string} tableId
    * @throws {Error} if DOM element is missing
    */
-  constructor(jquery, params, typeURL, typeSignal, optOptions, optId, componentId) {
+  constructor(jquery, optActionId, optRowId, componentId) {
     this.#component = document.getElementById(componentId);
     if (this.#component === null) {
       throw new Error(`Could not find a DataTable for id '${componentId}'.`);
     }
     this.#table = this.#component.getElementsByTagName('table').item(0);
     if (this.#table === null) {
-      throw new Error(`There is no <table> in the component's HTML.`);
+      throw new Error('There is no <table> in the component\'s HTML.');
     }
+    this.#modalResponseArea = this.#component.getElementsByClassName('c-table-data__async_modal_container').item(0);
+    this.#responseContainer = this.#component.getElementsByClassName('c-table-data__async_message').item(0);
+    this.#responseContent = this.#responseContainer.getElementsByClassName('c-table-data__async_messageresponse').item(0);
+
     this.#jquery = jquery;
-    this.#params = params;
-    this.#actionsConstants = {
-      type: {
-        url: typeURL,
-        signal: typeSignal,
-      },
-      opt: {
-        mainkey: optOptions,
-        id: optId,
-      },
+    this.#signalConstants = {
+      actionId: optActionId,
+      rowId: optRowId,
     };
     this.#actionsRegistry = {};
 
@@ -87,20 +106,16 @@ export default class DataTable {
 
   /**
    * @param {string} actionId
-   * @param {string} type 'SIGNAL' | 'URL'
-   * @param {mixed} target
-   * @param {string} parameterName
+   * @param {bool} async
+   * @param {URLBuilder} urlBuilder
+   * @param {Map} urlTokens
    * @return {void}
    */
-  registerAction(actionId, type, target, parameterName) {
-    if (type !== this.#actionsConstants.type.url
-        && type !== this.#actionsConstants.type.signal) {
-      throw new Error('Action must be of type {this.#actionsConstants.type.url} or {this.#actionsConstants.type.signal}.');
-    }
+  registerAction(actionId, async, urlBuilder, urlTokens) {
     this.#actionsRegistry[actionId] = {
-      type,
-      target,
-      param: parameterName,
+      async,
+      urlBuilder,
+      urlTokens,
     };
   }
 
@@ -113,9 +128,10 @@ export default class DataTable {
     const selectorAll = this.#table.getElementsByClassName('c-table-data__selection_all').item(0);
     const selectorNone = this.#table.getElementsByClassName('c-table-data__selection_none').item(0);
 
-    cols.forEach(
-      (col) => { col.checked = state; },
-    );
+    for (let i = 0; i < cols.length; i += 1) {
+      const col = cols[i];
+      col.checked = state;
+    }
 
     if (state) {
       selectorAll.style.display = 'none';
@@ -131,13 +147,13 @@ export default class DataTable {
    * @return {string[]}
    */
   collectSelectedRowIds() {
-    const cols = this.#table.getElementsByClassName('c-table-data__row-selector');
+    const rows = this.#table.getElementsByClassName('c-table-data__row-selector');
     const ret = [];
 
-    cols.forEach(
-      (col) => {
-        if (col.checked) {
-          ret.push(col.value);
+    rows.forEach(
+      (chk) => {
+        if (chk.checked) {
+          ret.push(chk.value);
         }
       },
     );
@@ -153,6 +169,15 @@ export default class DataTable {
   }
 
   /**
+   * @param {array} signalData
+   * @return {void}
+   */
+  doSingleAction(signalData) {
+    const rowId = signalData.options[this.#signalConstants.rowId];
+    this.doAction(signalData, [rowId]);
+  }
+
+  /**
    * @param {HTMLElement} originator
    * @return {void}
    */
@@ -164,7 +189,10 @@ export default class DataTable {
       .getElementsByTagName('select')[0].value;
 
     if (selectedAction in this.#actionsRegistry) {
-      const signalData = { options: { action: selectedAction } };
+      const k = this.#signalConstants.actionId;
+      const signalData = { options: {} };
+      signalData.options[k] = selectedAction;
+
       modalClose.click();
       this.doAction(signalData, ['ALL_OBJECTS']);
     }
@@ -176,21 +204,42 @@ export default class DataTable {
    * @return {void}
    */
   doAction(signalData, rowIds) {
-    const actId = signalData.options.action;
+    const actId = signalData.options[this.#signalConstants.actionId];
     const action = this.#actionsRegistry[actId];
-    let target;
+    const token = action.urlTokens.values().next().value;
+    action.urlBuilder.writeParameter(token, rowIds);
+    const target = decodeURI(action.urlBuilder.getUrl().toString());
 
-    if (action.type === this.#actionsConstants.type.url) {
-      target = this.#params.amendParameterToUrl(action.target, action.param, rowIds);
+    if (!action.async) {
       window.location.href = target;
+    } else {
+      this.asyncAction(target);
     }
-    if (action.type === this.#actionsConstants.type.signal) {
-      target = this.#params.amendParameterToSignal(action.target, action.param, rowIds);
-      const opts = {};
-      opts[this.#actionsConstants.opt.id] = target.id;
-      opts[this.#actionsConstants.opt.mainkey] = target.options;
-      this.#jquery(`#${this.#component.getAttr('id')}`).trigger(target.id, opts);
-    }
+  }
+
+  /**
+   * @param {string} url
+   * @return void
+   */
+  asyncAction(target) {
+    this.#jquery.ajax({
+      url: target,
+      dataType: 'html',
+    }).done(
+      (html) => {
+        let modalId = '';
+        if (this.#jquery(html).first().hasClass('modal')) {
+          this.#modalResponseArea.innerHTML = html;
+          modalId = this.#jquery(html).first().get(0).id;
+        } else {
+          this.#responseContent.innerHTML = html;
+          modalId = this.#responseContainer.id;
+        }
+        const tmp = this.#jquery(`<div>${html}</div>`);
+        tmp.find("[data-replace-marker='script']").each((idx, s) => this.#jquery.globalEval(s.innerHTML));
+        il.UI.modal.showModal(modalId, {}, { id: modalId });
+      },
+    );
   }
 
   /**

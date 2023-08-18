@@ -33,7 +33,7 @@ class IncidentTest extends TestCase
     public function testAny(): void
     {
         $incident = new Incident();
-        $this->assertTrue($incident->any(static fn (int $x) => $x === 2, [1, 2, 3]));
+        $this->assertTrue($incident->any(static fn(int $x) => $x === 2, [1, 2, 3]));
     }
 
     public function testAnyBreaksAtFirstTrue(): void
@@ -55,6 +55,6 @@ class IncidentTest extends TestCase
     public function testAnyReturnsFalse(): void
     {
         $incident = new Incident();
-        $this->assertFalse($incident->any(static fn (int $x) => false, [1, 2, 3]));
+        $this->assertFalse($incident->any(static fn(int $x) => false, [1, 2, 3]));
     }
 }

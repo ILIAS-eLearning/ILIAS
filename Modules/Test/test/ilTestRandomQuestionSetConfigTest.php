@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -30,9 +28,13 @@ class ilTestRandomQuestionSetConfigTest extends ilTestBaseTestCase
     {
         parent::setUp();
 
+        $this->addGlobal_ilComponentRepository();
+
         $this->testObj = new ilTestRandomQuestionSetConfig(
             $this->getMockBuilder(ilTree::class)->disableOriginalConstructor()->getMock(),
             $this->createMock(ilDBInterface::class),
+            $this->createMock(ilLanguage::class),
+            $this->createMock(ilLogger::class),
             $this->createMock(ilComponentRepository::class),
             $this->getMockBuilder(ilObjTest::class)->disableOriginalConstructor()->getMock()
         );

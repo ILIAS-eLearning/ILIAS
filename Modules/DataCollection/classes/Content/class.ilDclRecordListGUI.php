@@ -34,6 +34,8 @@ class ilDclRecordListGUI
 
     private ilAccessHandler $access;
     private ilGlobalTemplateInterface $tpl;
+    protected \ILIAS\UI\Factory $ui_factory;
+    protected \ILIAS\UI\Renderer $renderer;
 
     /**
      * Stores current mode active
@@ -47,7 +49,7 @@ class ilDclRecordListGUI
     protected static array $available_modes = [self::MODE_VIEW, self::MODE_MANAGE];
 
     protected ilCtrl $ctrl;
-    protected ilToolbarGUI $ilToolbar;
+    protected ilToolbarGUI $toolbar;
     protected ilLanguage $lng;
     protected ilTabsGUI $tabs;
     protected ILIAS\HTTP\Services $http;
@@ -62,7 +64,7 @@ class ilDclRecordListGUI
         global $DIC;
 
         $this->ctrl = $DIC->ctrl();
-        $this->ilToolbar = $DIC->toolbar();
+        $this->toolbar = $DIC->toolbar();
         $this->lng = $DIC->language();
         $this->tabs = $DIC->tabs();
         $this->http = $DIC->http();
@@ -70,6 +72,8 @@ class ilDclRecordListGUI
         $this->irss = $DIC->resourceStorage();
         $this->access = $DIC->access();
         $this->tpl = $DIC->ui()->mainTemplate();
+        $this->ui_factory = $DIC->ui()->factory();
+        $this->renderer = $DIC->ui()->renderer();
 
         $this->table_id = $table_id;
         $this->tableview_id = $tableview_id;
@@ -147,11 +151,6 @@ class ilDclRecordListGUI
 
     public function listRecords(bool $use_tableview_filter = false): void
     {
-        global $DIC;
-        $ilToolbar = $DIC['ilToolbar'];
-        /**
-         * @var $ilToolbar ilToolbarGUI
-         */
         $list = $this->getRecordListTableGUI($use_tableview_filter);
 
         $this->createSwitchers();
@@ -161,22 +160,23 @@ class ilDclRecordListGUI
             $this->table_id
         ) && $this->table_obj->hasCustomFields();
         if ($permission_to_add_or_import) {
-            $this->ctrl->setParameterByClass("ildclrecordeditgui", "record_id", null);
+            $this->ctrl->setParameterByClass(ilDclRecordEditGUI::class, "record_id", null);
 
-            $add_new = ilLinkButton::getInstance();
-            $add_new->setPrimary(true);
-            $add_new->setCaption("dcl_add_new_record");
-            $add_new->setUrl($this->ctrl->getFormActionByClass("ildclrecordeditgui", "create"));
-            $ilToolbar->addStickyItem($add_new);
+            $add_new = $this->ui_factory->button()->primary(
+                $this->lng->txt("dcl_add_new_record"),
+                $this->ctrl->getFormActionByClass(ilDclRecordEditGUI::class, "create")
+            );
+            $this->toolbar->addStickyItem($add_new);
         }
 
         if ($permission_to_add_or_import && $this->table_obj->getImportEnabled()) {
-            $this->ctrl->setParameterByClass("ildclrecordeditgui", "record_id", null);
+            $this->ctrl->setParameterByClass(ilDclRecordEditGUI::class, "record_id", null);
 
-            $import = ilLinkButton::getInstance();
-            $import->setCaption("dcl_import_records .xls");
-            $import->setUrl($this->ctrl->getFormActionByClass("ildclrecordlistgui", self::CMD_SHOW_IMPORT_EXCEL));
-            $ilToolbar->addButtonInstance($import);
+            $import_button = $this->ui_factory->button()->standard(
+                $this->lng->txt("dcl_import_records .xls"),
+                $this->ctrl->getFormActionByClass(ilDclRecordListGUI::class, self::CMD_SHOW_IMPORT_EXCEL)
+            );
+            $this->toolbar->addComponent($import_button);
         }
 
         if (count($this->table_obj->getRecordFields()) == 0) {
@@ -285,7 +285,7 @@ class ilDclRecordListGUI
             $output->setVariable("WARNING", $this->lng->txt("dcl_no_warnings"));
             $output->parseCurrentBlock();
         }
-        $output->setVariable("BACK_LINK", $this->ctrl->getLinkTargetByClass("ilDclRecordListGUI", "listRecords"));
+        $output->setVariable("BACK_LINK", $this->ctrl->getLinkTargetByClass(ilDclRecordListGUI::class, "listRecords"));
         $output->setVariable("BACK", $this->lng->txt("back"));
         $this->tpl->setContent($output->get());
     }
@@ -311,7 +311,7 @@ class ilDclRecordListGUI
     public function doTableViewSwitch(): void
     {
         $tableview_id = $this->http->wrapper()->post()->retrieve('tableview_id', $this->refinery->kindlyTo()->int());
-        $this->ctrl->setParameterByClass("ilObjDataCollectionGUI", "tableview_id", $tableview_id);
+        $this->ctrl->setParameterByClass(ilObjDataCollectionGUI::class, "tableview_id", $tableview_id);
         $this->ctrl->redirect($this, self::CMD_SHOW);
     }
 
@@ -585,8 +585,7 @@ class ilDclRecordListGUI
 
     protected function createSwitchers(): void
     {
-        $ilToolbar = $this->ilToolbar;
-        $ilToolbar->setFormAction($this->ctrl->getFormActionByClass("ilDclRecordListGUI", "doTableSwitch"));
+        $this->toolbar->setFormAction($this->ctrl->getFormActionByClass(ilDclRecordListGUI::class, "doTableSwitch"));
 
         //table switcher
         $options = $this->getAvailableTables();
@@ -595,13 +594,13 @@ class ilDclRecordListGUI
             $table_selection->setOptions($options);
             $table_selection->setValue($this->table_id);
 
-            $ilToolbar->addText($this->lng->txt("dcl_table"));
-            $ilToolbar->addInputItem($table_selection);
+            $this->toolbar->addText($this->lng->txt("dcl_table"));
+            $this->toolbar->addInputItem($table_selection);
             $button = ilSubmitButton::getInstance();
             $button->setCaption('change');
             $button->setCommand('doTableSwitch');
-            $ilToolbar->addButtonInstance($button);
-            $ilToolbar->addSeparator();
+            $this->toolbar->addButtonInstance($button);
+            $this->toolbar->addSeparator();
         }
 
         //tableview switcher
@@ -614,14 +613,10 @@ class ilDclRecordListGUI
             $tableview_selection = new ilSelectInputGUI('', 'tableview_id');
             $tableview_selection->setOptions($options);
             $tableview_selection->setValue($this->tableview_id);
-            $ilToolbar->addText($this->lng->txt("dcl_tableview"));
-            $ilToolbar->addInputItem($tableview_selection);
-
-            $button = ilSubmitButton::getInstance();
-            $button->setCaption('change');
-            $button->setCommand('doTableViewSwitch');
-            $ilToolbar->addButtonInstance($button);
-            $ilToolbar->addSeparator();
+            $this->toolbar->addText($this->lng->txt("dcl_tableview"));
+            $this->toolbar->addInputItem($tableview_selection);
+            $this->toolbar->addFormButton('change', 'doTableViewSwitch');
+            $this->toolbar->addSeparator();
         }
     }
 
