@@ -427,8 +427,6 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
                 return 'qpl_questions.original_id IS NULL';
 
             case self::QUESTION_INSTANCE_TYPE_DUPLICATES:
-
-                return 'qpl_questions.original_id IS NOT NULL';
             case self::QUESTION_INSTANCE_TYPE_ALL:
             default:
 
