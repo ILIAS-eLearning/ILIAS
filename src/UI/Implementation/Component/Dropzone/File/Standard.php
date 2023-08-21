@@ -35,6 +35,7 @@ class Standard extends File implements StandardDropzone
 {
     protected ?Button $upload_button = null;
     protected string $message;
+    protected bool $bulky = false;
 
     public function __construct(
         SignalGeneratorInterface $signal_generator,
@@ -73,5 +74,17 @@ class Standard extends File implements StandardDropzone
     public function getUploadButton(): ?Button
     {
         return $this->upload_button;
+    }
+
+    public function withBulky(bool $bulky): StandardDropzone
+    {
+        $clone = clone $this;
+        $clone->bulky = $bulky;
+        return $clone;
+    }
+
+    public function isBulky(): bool
+    {
+        return $this->bulky;
     }
 }

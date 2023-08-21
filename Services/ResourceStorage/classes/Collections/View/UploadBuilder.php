@@ -52,7 +52,7 @@ final class UploadBuilder
                     $this->upload_handler,
                     $this->language->txt('upload_field_title')
                 )->withMaxFiles(100)
-            );
+            )->withBulky(true);
         }
     }
 }
