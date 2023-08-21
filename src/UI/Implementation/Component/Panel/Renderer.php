@@ -23,6 +23,7 @@ namespace ILIAS\UI\Implementation\Component\Panel;
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Component;
+use ILIAS\UI\Component\ViewControl\Pagination;
 
 /**
  * Class Renderer
@@ -73,9 +74,15 @@ class Renderer extends AbstractComponentRenderer
         $view_controls = $component->getViewControls();
         if ($view_controls) {
             foreach ($view_controls as $view_control) {
-                $tpl->setCurrentBlock("view_controls");
-                $tpl->setVariable("VIEW_CONTROL", $default_renderer->render($view_control));
-                $tpl->parseCurrentBlock();
+                if ($view_control instanceof Pagination) {
+                    $tpl->setCurrentBlock("pagination");
+                    $tpl->setVariable("PAGINATION", $default_renderer->render($view_control));
+                    $tpl->parseCurrentBlock();
+                } else {
+                    $tpl->setCurrentBlock("view_controls");
+                    $tpl->setVariable("VIEW_CONTROL", $default_renderer->render($view_control));
+                    $tpl->parseCurrentBlock();
+                }
             }
         }
 

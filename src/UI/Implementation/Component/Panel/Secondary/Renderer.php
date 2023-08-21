@@ -25,6 +25,7 @@ use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Component as C;
 use ILIAS\UI\Implementation\Render\Template as Template;
 use LogicException;
+use ILIAS\UI\Component\ViewControl\Pagination;
 
 class Renderer extends AbstractComponentRenderer
 {
@@ -93,9 +94,15 @@ class Renderer extends AbstractComponentRenderer
             }
             if ($view_controls) {
                 foreach ($view_controls as $view_control) {
-                    $tpl->setCurrentBlock("view_controls");
-                    $tpl->setVariable("VIEW_CONTROL", $default_renderer->render($view_control));
-                    $tpl->parseCurrentBlock();
+                    if ($view_control instanceof Pagination) {
+                        $tpl->setCurrentBlock("pagination");
+                        $tpl->setVariable("PAGINATION", $default_renderer->render($view_control));
+                        $tpl->parseCurrentBlock();
+                    } else {
+                        $tpl->setCurrentBlock("view_controls");
+                        $tpl->setVariable("VIEW_CONTROL", $default_renderer->render($view_control));
+                        $tpl->parseCurrentBlock();
+                    }
                 }
             }
             $tpl->setCurrentBlock("heading");

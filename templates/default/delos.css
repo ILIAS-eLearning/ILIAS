@@ -7194,20 +7194,18 @@ div.alert ul > li:before {
 }
 
 .panel-flex .panel-heading {
-  display: grid;
+  display: flex;
+  justify-content: space-between;
+  flex-flow: row wrap;
+  width: 100%;
+  align-items: center;
 }
 .panel-flex .panel-title {
-  margin-right: auto;
+  align-self: flex-start;
 }
 .panel-flex .panel-controls {
-  margin-left: auto;
-  float: right;
   display: flex;
   gap: 9px;
-  justify-content: flex-end;
-}
-.panel-flex .ilHeader {
-  display: flex;
 }
 .panel-flex h2.ilHeader {
   flex-grow: 99;
@@ -7219,6 +7217,14 @@ div.alert ul > li:before {
   flex-grow: 99;
   flex-shrink: 1;
   order: 1;
+}
+.panel-flex .il-viewcontrol-pagination, .panel-flex .il-viewcontrol-section {
+  align-self: center;
+  width: 100%;
+  order: 5;
+  background-color: #f9f9f9;
+  text-align: center;
+  padding-top: 9px;
 }
 
 .panel-primary h2.ilHeader {

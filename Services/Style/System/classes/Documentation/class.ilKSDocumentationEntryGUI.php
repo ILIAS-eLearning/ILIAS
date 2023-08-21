@@ -110,7 +110,7 @@ class ilKSDocumentationEntryGUI
                 $nr++;
                 $examples_function_name = $this->entry->getExamplesNamespace() . '\\' . $name;
                 try {
-                    $example = "<div class='well'>" . $examples_function_name() . '</div>'; //Executes function loaded in file indicated by 'path'
+                    $example = "<div id='$name' class='well'>" . $examples_function_name() . '</div>'; //Executes function loaded in file indicated by 'path'
                 } catch (\ILIAS\UI\NotImplementedException $e) {
                     $example = "<div class='well'>This component is not yet fully implemented.</div>";
                 }

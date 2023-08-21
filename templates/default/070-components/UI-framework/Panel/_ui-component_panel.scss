@@ -73,20 +73,18 @@
 //Special assignments for Panels using Flex layouts (Standard, Secondary, Report and Sub)
 .panel-flex{
 	.panel-heading {
-		display: grid;
+		display: flex;
+		justify-content: space-between;
+		flex-flow: row wrap;
+		width: 100%;
+		align-items: center;
 	}
 	.panel-title{
-		margin-right: auto;
+		align-self: flex-start;
 	}
 	.panel-controls {
-		margin-left: auto;
-		float: right;
 		display: flex;
 		gap: $il-margin-base-horizontal;
-		justify-content: flex-end;
-	}
-	.ilHeader{
-		display: flex;
 	}
 	h2.ilHeader {
 		flex-grow: 99;
@@ -98,6 +96,15 @@
 		flex-grow: 99;
 		flex-shrink: 1;
 		order: 1;
+	}
+
+	.il-viewcontrol-pagination, .il-viewcontrol-section {
+		align-self: center;
+		width: 100%;
+		order: 5;
+		background-color:$il-main-dark-bg;
+		text-align:center;
+		padding-top:$il-padding-base-horizontal;
 	}
 }
 
