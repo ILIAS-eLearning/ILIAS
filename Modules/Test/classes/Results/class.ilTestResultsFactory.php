@@ -57,18 +57,11 @@ class ilTestResultsFactory
     {
         $settings = $this->getResultsSettings();
         $question_results = [];
-        /*
-        public function &getTestResult(
-            $active_id,
-            $pass = null,
-            bool $ordered_sequence = false,
-            bool $considerHiddenQuestions = true,
-            bool $considerOptionalQuestions = true
-        */
+
         $results = $this->test_obj->getTestResult(
             $this->active_id,
             $this->pass_id,
-            false,
+            false, //$ordered_sequence
             $settings->getShowHiddenQuestions(),
             $settings->getShowOptionalQuestions()
         );
@@ -85,25 +78,42 @@ class ilTestResultsFactory
             $usr_score = $qresult['reached'];
             $workedthrough = (bool)$qresult['workedthrough'];
             $answered = (bool)$qresult['answered'];
-            /**
-            public function getSolutionOutput(
-                $active_id,
-                $pass = null,
-              1 $graphicalOutput = false,
-              2 $result_output = false,
-              3 $show_question_only = true,
-              4 $show_feedback = false,
-              5 $show_correct_solution = false,
-              6 $show_manual_scoring = false,
-              7 $show_question_text = true
-            */
+
+            // params of getSolutionOutput
+            $graphical_output = false;
+            $result_output = false;
+            $show_question_only = false;
+            $show_feedback = false;
+            $show_correct_solution = false;
+            $show_manual_scoring = false;
+            $show_question_text = false;
 
             $question_gui = $this->test_obj->createQuestionGUI("", $qid);
             $shuffle_trafo = $this->shuffler->getAnswerShuffleFor($qid, $this->active_id, $this->pass_id);
             $question_gui->object->setShuffler($shuffle_trafo);
 
-            $usr_solution = $question_gui->getSolutionOutput($this->active_id, $this->pass_id, true, false, false, false);
-            $best_solution = $question_gui->getSolutionOutput($this->active_id, $this->pass_id, false, false, false, false, true);
+            $graphical_output = true;
+            $usr_solution = $question_gui->getSolutionOutput(
+                $this->active_id,
+                $this->pass_id,
+                $graphical_output,
+                $result_output,
+                $show_question_only,
+                $show_feedback
+            );
+
+            $graphical_output = false;
+            $show_correct_solution = true;
+            $best_solution = $question_gui->getSolutionOutput(
+                $this->active_id,
+                $this->pass_id,
+                $graphical_output,
+                $result_output,
+                $show_question_only,
+                $show_feedback,
+                $show_correct_solution
+            );
+
             $feedback = $question_gui->getGenericFeedbackOutput($this->active_id, $this->pass_id);
 
             $question_results[] = new ilQuestionResult(
@@ -135,10 +145,7 @@ class ilTestResultsFactory
 
         $environment = (new ilTestResultsSettings())
             ->withShowHiddenQuestions(false)
-            ->withShowOptionalQuestions(
-                true
-                //!$this->getObjectiveOrientedContainer()->isObjectiveOrientedPresentationRequired()
-            )
+            ->withShowOptionalQuestions(true)
             ->withShowBestSolution((bool)ilSession::get('tst_results_show_best_solutions'))
             ->withShowFeedback($settings_result->getShowSolutionFeedback());
 

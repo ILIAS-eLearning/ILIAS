@@ -30,12 +30,9 @@ class ilTestShuffler
 {
     public const FIXED_SHUFFLER_SEED_MIN_LENGTH = 8;
 
-    //protected Tranfomation $trafo;
-
     public function __construct(
         protected Refinery $refinery
     ) {
-        //$this->trafo = $refinery->random()->dontShuffle();
     }
 
     public function getAnswerShuffleFor(

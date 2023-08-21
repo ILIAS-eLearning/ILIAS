@@ -16816,8 +16816,8 @@ ui#:#label_fieldselection_refresh#:#Anwenden
 ui#:#label_pagination_limit#:#Pagination - Anzahl der Zeilen
 ui#:#label_pagination_offset#:#Pagination - Start
 ui#:#label_sortation#:#Sortierung
-ui#:#presentaion_table_collapse#:#alle minimieren
-ui#:#presentaion_table_expand#:#alle zeigen
+ui#:#presentation_table_collapse#:#alle minimieren
+ui#:#presentation_table_expand#:#alle zeigen
 ui#:#ui_chars_max#:#Maximum:
 ui#:#ui_chars_min#:#Minimum:
 ui#:#ui_chars_remaining#:#Verbleibende Buchstaben
