@@ -52,7 +52,7 @@ class ilDclPropertyFormGUI extends ilPropertyFormGUI
         $tmp_file_name = implode(
             "~~",
             [
-                mb_substr(session_id(), 0, 8),
+                session_id(),
                 $a_hash,
                 $a_field,
                 $a_index,
