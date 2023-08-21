@@ -78,6 +78,7 @@ class ilTestServiceGUI
     protected UIRenderer $ui_renderer;
     protected SkillService $skills_service;
     protected ilTestShuffler $shuffler;
+    protected ilTestResultsFactory $results_factory;
 
     protected ILIAS $ilias;
     protected ilSetting $settings;
@@ -153,8 +154,9 @@ class ilTestServiceGUI
         $this->ui_factory = $DIC['ui.factory'];
         $this->ui_renderer = $DIC['ui.renderer'];
 
-        $dic = ilTestDIC::dic();
-        $this->shuffler = $dic['shuffler'];
+        $local_dic = $object->getLocalDIC();
+        $this->shuffler = $local_dic['shuffler'];
+        $this->results_factory = $local_dic['factory.results'];
     }
 
     public function setParticipantData(ilTestParticipantData $participantData): void

@@ -165,6 +165,11 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
             $this->questioninfo
         );
     }
+    
+    public function getLocalDIC(): ILIAS\DI\Container
+    {
+         return ilTestDIC::dic();
+    }
 
     /**
      * returns the object title prepared to be used as a filename
