@@ -146,7 +146,7 @@ file containes the following fields:
 	* Maintenance Model: Classic
 	* 1st Maintainer: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
 	* 2nd Maintainer: N.A.
-	* Testcases: [atoedt](https://docu.ilias.de/goto_docu_usr_3139.html)
+	* Testcases: [AUTHOR MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
 	* Tester: [Thomas.schroeder](https://docu.ilias.de/goto_docu_usr_38330.html)
 
 [//]: # (END Badges)
