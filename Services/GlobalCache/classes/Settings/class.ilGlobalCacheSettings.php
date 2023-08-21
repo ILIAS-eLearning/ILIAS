@@ -84,7 +84,7 @@ class ilGlobalCacheSettings implements Setup\Config
             )
         );
         $this->setService(
-            $ilIniFile->readVariable(
+            (int)$ilIniFile->readVariable(
                 self::INI_HEADER_CACHE,
                 self::INI_FIELD_GLOBAL_CACHE_SERVICE_TYPE
             )
@@ -232,9 +232,9 @@ class ilGlobalCacheSettings implements Setup\Config
     public function __toString(): string
     {
         $service = 'Service: ' . ($this->getService(
-            ) > 0 ? ilGlobalCache::lookupServiceClassName(
-                $this->getService()
-            ) : 'none');
+        ) > 0 ? ilGlobalCache::lookupServiceClassName(
+            $this->getService()
+        ) : 'none');
         $activated = 'Activated Components: ' . implode(
             ', ',
             $this->getActivatedComponents()
