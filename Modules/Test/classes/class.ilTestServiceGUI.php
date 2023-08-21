@@ -30,7 +30,7 @@ use ILIAS\DI\LoggingServices;
 use ILIAS\Skill\Service\SkillService;
 
 require_once "./Modules/Test/classes/inc.AssessmentConstants.php";
-SkillService
+
 /**
 * Service GUI class for tests. This class is the parent class for all
 * service classes which are called from ilObjTestGUI. This is mainly

@@ -879,8 +879,8 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
         $template = new ilTemplate("tpl.il_as_tst_pass_details_overview_participants.html", true, true, "Modules/Test");
 
-        $this->populateExamId($template, $active_id, $pass);
-        $this->populatePassFinishDate($template, ilObjTest::lookupLastTestPassAccess($active_id, $pass));
+        $this->populateExamId($template, $active_id, (int) $pass);
+        $this->populatePassFinishDate($template, (string)ilObjTest::lookupLastTestPassAccess($active_id, $pass));
 
 
         $toolbar = $this->buildUserTestResultsToolbarGUI();

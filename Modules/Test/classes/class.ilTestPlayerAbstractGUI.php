@@ -44,10 +44,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
     public bool $maxProcessingTimeReached;
     public bool $endingTimeReached;
-    public $ref_id;
-    public $saveResult;
-    public $sequence;
-    public $cmdCtrl;
+    public int $ref_id;
 
     protected ilTestPasswordChecker $passwordChecker;
     protected ilTestProcessLocker $processLocker;
