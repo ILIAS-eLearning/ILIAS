@@ -25,6 +25,9 @@ use ILIAS\HTTP\Services as HTTPServices;
 use ILIAS\DI\LoggingServices;
 use ILIAS\Skill\Service\SkillService;
 use ILIAS\Test\InternalRequestService;
+use ILIAS\UI\Component\Modal\Modal;
+use ILIAS\UI\Implementation\Factory;
+use ILIAS\UI\Renderer;
 
 require_once './Modules/Test/classes/inc.AssessmentConstants.php';
 
@@ -45,6 +48,7 @@ require_once './Modules/Test/classes/inc.AssessmentConstants.php';
  * @ilCtrl_Calls ilObjTestGUI: ilTestEvaluationGUI, ilParticipantsTestResultsGUI
  * @ilCtrl_Calls ilObjTestGUI: ilAssGenFeedbackPageGUI, ilAssSpecFeedbackPageGUI
  * @ilCtrl_Calls ilObjTestGUI: ilInfoScreenGUI, ilObjectCopyGUI, ilTestScoringGUI
+ * @ilCtrl_Calls ilObjTestGUI: ilTestScreenGUI, ilObjectCopyGUI, ilTestScoringGUI
  * @ilCtrl_Calls ilObjTestGUI: ilRepositorySearchGUI, ilTestExportGUI
  * @ilCtrl_Calls ilObjTestGUI: assMultipleChoiceGUI, assClozeTestGUI, assMatchingQuestionGUI
  * @ilCtrl_Calls ilObjTestGUI: assOrderingQuestionGUI, assImagemapQuestionGUI
@@ -70,6 +74,8 @@ require_once './Modules/Test/classes/inc.AssessmentConstants.php';
  */
 class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDesktopItemHandling
 {
+    private $dic;
+
     private static $infoScreenChildClasses = array(
         'ilpublicuserprofilegui', 'ilobjportfoliogui'
     );
@@ -97,15 +103,21 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
 
     protected bool $create_question_mode;
 
+    private Factory $uiFactory;
+
+    private Renderer $uiRenderer;
+
     /**
      * Constructor
      * @access public
      * @param mixed|null $refId
+     * @throws ilCtrlException
      */
     public function __construct($refId = null)
     {
         /** @var ILIAS\DI\Container $DIC */
         global $DIC;
+        $this->dic = $DIC;
         $this->navigation_history = $DIC['ilNavigationHistory'];
         $this->component_repository = $DIC['component.repository'];
         $this->component_factory = $DIC['component.factory'];
@@ -119,6 +131,9 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         $this->obj_data_cache = $DIC['ilObjDataCache'];
         $this->skills_service = $DIC->skills();
         $this->questioninfo = $DIC->testQuestionPool()->questionInfo();
+        $this->uiFactory = $DIC->ui()->factory();
+        $this->uiRenderer = $DIC->ui()->renderer();
+
         $this->type = 'tst';
         $this->testrequest = $DIC->test()->internal()->request();
         $ref_id = 0;
@@ -282,6 +297,16 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                 $this->addHeaderAction();
                 $this->infoScreen(); // forwards command
                 break;
+
+            case "iltestscreengui":
+                if (!$ilAccess->checkAccess("read", "", $this->testrequest->getRefId()) && !$ilAccess->checkAccess("visible", "", $this->testrequest->getRefId())) {
+                    $this->redirectAfterMissingRead();
+                }
+                $this->prepareOutput();
+                $this->addHeaderAction();
+                $this->testScreen(); // forwards command
+                break;
+
             case 'ilobjectmetadatagui':
                 if (!$this->access->checkAccess('write', '', $this->object->getRefId())) {
                     $this->redirectAfterMissingWrite();
@@ -2591,6 +2616,154 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         return false;
     }
 
+    public function testScreenObject(): void
+    {
+        $this->testScreen();
+    }
+
+    public function testScreen(): void
+    {
+        $this->tabs_gui->activateTab(ilTestTabsManager::TAB_ID_TEST);
+        $elements = [];
+        $mainSettings = $this->object->getMainSettings();
+
+        if ($mainSettings->getIntroductionSettings()->getIntroductionEnabled() && !empty($this->object->getIntroduction())) {
+            $elements[] = $this->uiFactory->panel()->standard(
+                $this->lng->txt('tst_introduction'),
+                $this->uiFactory->messageBox()->info($this->object->getIntroduction())
+            );
+        }
+
+        $examConditionsEnabled = $mainSettings->getIntroductionSettings()->getExamConditionsCheckboxEnabled();
+        $accessSettings = $mainSettings->getAccessSettings();
+        $passwordEnabled = $accessSettings->getPasswordEnabled();
+
+        $allowPreviousAnswersEnabled = $mainSettings->getParticipantFunctionalitySettings()->getUsePreviousAnswerAllowed();
+
+        if ($examConditionsEnabled || $passwordEnabled || $allowPreviousAnswersEnabled) {
+            $conditionsModalDescription = $this->uiFactory->messageBox()->info($this->lng->txt('tst_exam_conditions_modal_desc'));
+            $modalInputs = [];
+
+            if ($examConditionsEnabled) {
+                $modalInputs[] = $this->uiFactory->input()->field()->checkbox(
+                    $this->lng->txt('tst_exam_conditions'),
+                    $this->lng->txt('tst_exam_conditions_label')
+                )->withDedicatedName('exam_conditions')->withRequired(true);
+            }
+
+            if ($passwordEnabled) {
+                $modalInputs[] = $this->uiFactory->input()->field()->text(
+                    $this->lng->txt('tst_exam_password'),
+                    $this->lng->txt('tst_exam_password_label')
+                )->withDedicatedName('exam_password')->withRequired(true);
+            }
+
+            // TODO: add input field for access code
+
+            if ($allowPreviousAnswersEnabled) {
+                $modalInputs[] = $this->uiFactory->input()->field()->checkbox(
+                    $this->lng->txt('tst_exam_use_previous_answers'),
+                    $this->lng->txt('tst_exam_use_previous_answers_label')
+                )->withDedicatedName('exam_use_previous_answers');
+            }
+
+            $modal = $this->uiFactory->modal()->roundtrip(
+                $this->lng->txt('tst_exam_start'),
+                [$conditionsModalDescription],
+                $modalInputs,
+                $this->ctrl->getLinkTargetByClass(self::class, 'testScreen')
+            );
+
+            $submitted = false;
+            try {
+                $form = $modal->withRequest($this->dic->http()->request());
+                $data = $form->getData();
+                $submitted = true;
+            } catch (Exception $e) {}
+            $elements[] = $modal;
+
+            $elements[] = $this->uiFactory->button()->standard($this->lng->txt('tst_exam_start'), $modal->getShowSignal());
+
+            if ($submitted) {
+                if (!empty($data)) {
+                    $conditionsMet = true;
+                    foreach ($form->getInputs() as $input) {
+                        if (!$conditionsMet) {
+                            break;
+                        }
+
+                        switch ($input->getDedicatedName()) {
+                            case 'exam_conditions':
+                                $examConditionsValue = (bool) $input->getValue();
+                                $conditionsMet = $examConditionsValue;
+                                if (!$examConditionsValue) {
+                                    $this->dic->ui()->mainTemplate()->setOnScreenMessage('failure', 'You need to accept the exam conditions!', true);
+                                }
+                                break;
+                            case 'exam_password':
+                                $examPasswordValid = ($input->getValue() === $accessSettings->getPassword());
+                                $conditionsMet = $examPasswordValid;
+                                if (!$examPasswordValid) {
+                                    $this->dic->ui()->mainTemplate()->setOnScreenMessage('failure', 'The given password is not valid!', true);
+                                }
+                                break;
+                        }
+                    }
+
+                    if ($conditionsMet) {
+                        $this->ctrl->redirectByClass((new ilTestPlayerFactory($this->getTestObject()))->getPlayerGUI()::class, 'startTest');
+                    }
+                } else {
+                    $this->dic->ui()->mainTemplate()->setOnScreenMessage('failure', 'You need to fill out all required fields!', true);
+                }
+            }
+        } else {
+            $elements[] = $this->uiFactory->button()->standard(
+                $this->lng->txt('tst_exam_start'),
+                $this->ctrl->getLinkTarget((new ilTestPlayerFactory($this->getTestObject()))->getPlayerGUI(), 'startTest')
+            );
+        }
+
+        $this->tpl->setContent($this->uiRenderer->render($elements));
+    }
+
+    private function getTestScreenModal(): Modal
+    {
+        $mainSettings = $this->object->getMainSettings();
+        $conditionsModalDescription = $this->uiFactory->messageBox()->info($this->lng->txt('tst_exam_conditions_modal_desc'));
+        $modalInputs = [];
+
+        if ($mainSettings->getIntroductionSettings()->getExamConditionsCheckboxEnabled()) {
+            $modalInputs[] = $this->uiFactory->input()->field()->checkbox(
+                $this->lng->txt('tst_exam_conditions'),
+                $this->lng->txt('tst_exam_conditions_label')
+            )->withDedicatedName('exam_conditions')->withRequired(true);
+        }
+
+        if ($mainSettings->getAccessSettings()->getPasswordEnabled()) {
+            $modalInputs[] = $this->uiFactory->input()->field()->text(
+                $this->lng->txt('tst_exam_password'),
+                $this->lng->txt('tst_exam_password_label')
+            )->withDedicatedName('exam_password')->withRequired(true);
+        }
+
+        // TODO: add input field for access code
+
+        if ($mainSettings->getParticipantFunctionalitySettings()->getUsePreviousAnswerAllowed()) {
+            $modalInputs[] = $this->uiFactory->input()->field()->checkbox(
+                $this->lng->txt('tst_exam_use_previous_answers'),
+                $this->lng->txt('tst_exam_use_previous_answers_label')
+            )->withDedicatedName('exam_use_previous_answers');
+        }
+
+        return $this->uiFactory->modal()->roundtrip(
+            $this->lng->txt('tst_exam_start'),
+            [$conditionsModalDescription],
+            $modalInputs,
+            $this->ctrl->getLinkTargetByClass(self::class, 'testScreen')
+        );
+    }
+
     /**
     * this one is called from the info button in the repository
     * not very nice to set cmdClass/Cmd manually, if everything
@@ -2622,7 +2795,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         $object = new ilObjTest($this->ref_id, true);
 
         if ($object->getMainSettings()->getAdditionalSettings()->getHideInfoTab()) {
-            $this->ctrl->redirectByClass($this::class, 'questions');
+            $this->ctrl->redirectByClass($this::class, 'testScreen');
             return '';
         }
 
@@ -2661,15 +2834,6 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         $toolbar->sendMessages();
 
         $info->enablePrivateNotes();
-
-        if ($this->object->getMainSettings()->getIntroductionSettings()->getIntroductionEnabled()) {
-            $info->addSection($this->lng->txt("tst_introduction"));
-            $info->addProperty("", $this->object->prepareTextareaOutput($this->object->getIntroduction(), true) .
-                "<br />" . $info->getHiddenToggleButton());
-        } else {
-            $info->addSection($this->lng->txt("show_details"));
-            $info->addProperty("", $info->getHiddenToggleButton());
-        }
 
         $info->addSection($this->lng->txt("tst_general_properties"));
         $info->addProperty($this->lng->txt("author"), $this->object->getAuthor());
