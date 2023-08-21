@@ -126,13 +126,12 @@ class ilTestResultsOverviewTable
         string $sortation
     ): array {
         $builder = $target->acquireParameter(self::URL_NAMESPACE, self::PARAM_MODE);
-        $target = $builder['url'];
-        $token = $builder['token'];
+        [$target, $token] = $builder;
 
         $modes = [
-            $lng->txt('resulttable_all') => $target->writeParameter($token, self::MODE_OPT_ALL)->buildURI()->__toString(),
-            $lng->txt('resulttable_correct') => $target->writeParameter($token, self::MODE_OPT_CORRECT)->buildURI()->__toString(),
-            $lng->txt('resulttable_incorrect') => $target->writeParameter($token, self::MODE_OPT_INCORRECT)->buildURI()->__toString(),
+            $lng->txt('resulttable_all') => $target->withParameter($token, self::MODE_OPT_ALL)->buildURI()->__toString(),
+            $lng->txt('resulttable_correct') => $target->withParameter($token, self::MODE_OPT_CORRECT)->buildURI()->__toString(),
+            $lng->txt('resulttable_incorrect') => $target->withParameter($token, self::MODE_OPT_INCORRECT)->buildURI()->__toString(),
         ];
         $check = [self::MODE_OPT_ALL, self::MODE_OPT_CORRECT, self::MODE_OPT_INCORRECT];
         $active = array_search($mode, $check);
