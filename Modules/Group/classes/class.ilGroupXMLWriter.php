@@ -282,8 +282,16 @@ class ilGroupXMLWriter extends ilXmlWriter
         $this->xmlElement('minMembers', null, (int) $this->group_obj->getMinMembers());
         $this->xmlElement('WaitingListAutoFill', null, (int) $this->group_obj->hasWaitingListAutoFill());
         $this->xmlElement('CancellationEnd', null, ($this->group_obj->getCancellationEnd() && !$this->group_obj->getCancellationEnd()->isNull()) ? $this->group_obj->getCancellationEnd()->get(IL_CAL_UNIX) : null);
-        
+
         $this->xmlElement('mailMembersType', null, (string) $this->group_obj->getMailToMembersType());
+
+        $this->xmlElement(
+            'RegistrationAccessCode',
+            [
+                'enabled' => (int) $this->group_obj->isRegistrationAccessCodeEnabled(),
+                'code' => $this->group_obj->getRegistrationAccessCode()
+            ]
+        );
 
         $this->xmlEndTag('registration');
     }
@@ -305,6 +313,13 @@ class ilGroupXMLWriter extends ilXmlWriter
                 'next' => $this->group_obj->getNumberOfNextSessions()
             ]
         );
+
+        $this->xmlElement('GroupMap', [
+            'enabled' => (int) $this->group_obj->getEnableGroupMap(),
+            'latitude' => $this->group_obj->getLatitude(),
+            'longitude' => $this->group_obj->getLongitude(),
+            'location_zoom' => $this->group_obj->getLocationZoom()
+        ]);
     }
 
     public function __buildAdmin()
