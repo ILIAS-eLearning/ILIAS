@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 require_once("libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../../Base.php");
@@ -255,7 +255,7 @@ class StandardPageTest extends ILIAS_UI_TestBase
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Short Title: View Title</title>
+    <title>View Title: Short Title</title>
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <style></style>
 </head>
