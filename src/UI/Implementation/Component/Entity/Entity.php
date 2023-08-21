@@ -38,31 +38,31 @@ abstract class Entity implements I\Entity
     use ComponentHelper;
 
     /**
-     * @var array<PropertyListing|StandardLink|Legacy>
+     * @var array<PropertyListing | StandardLink | Legacy>
      */
     protected array $blocking_conditions = [];
     /**
-     * @var array<PropertyListing|StandardLink|Legacy>
+     * @var array<PropertyListing | StandardLink | Legacy>
      */
     protected array $featured_props = [];
     /**
-     * @var array<PropertyListing|Legacy>
+     * @var array<PropertyListing | Legacy>
      */
     protected array $main_details = [];
     /**
-     * @var array<Glyph|Tag>
+     * @var array<Glyph | Tag>
      */
     protected array $prio_reactions = [];
     /**
-     * @var array<Glyph|Tag>
+     * @var array<Glyph | Tag>
      */
     protected array $reactions = [];
     /**
-     * @var array<PropertyListing|StandardLink|Legacy>
+     * @var array<PropertyListing | StandardLink | Legacy>
      */
     protected array $availability = [];
     /**
-     * @var array<PropertyListing|Legacy>
+     * @var array<PropertyListing | Legacy>
      */
     protected array $details = [];
     /**
@@ -70,34 +70,34 @@ abstract class Entity implements I\Entity
      */
     protected array $actions = [];
     /**
-     * @var array<PropertyListing|Legacy>
+     * @var array<PropertyListing | Legacy>
      */
     protected array $personal_status = [];
 
     public function __construct(
-        protected Symbol|Image|Shy|StandardLink|string $primary_identifier,
-        protected Symbol|Image|Shy|StandardLink|string $secondary_identifier
+        protected Symbol | Image | Shy | StandardLink | string $primary_identifier,
+        protected Symbol | Image | Shy | StandardLink | string $secondary_identifier
     ) {
     }
 
-    public function withPrimaryIdentifier(Symbol|Image|Shy|StandardLink|string $primary_identifier): self
+    public function withPrimaryIdentifier(Symbol | Image | Shy | StandardLink | string $primary_identifier): self
     {
         $clone = clone $this;
         $clone->primary_identifier = $primary_identifier;
         return $clone;
     }
-    public function getPrimaryIdentifier(): Symbol|Image|Shy|StandardLink|string
+    public function getPrimaryIdentifier(): Symbol | Image | Shy | StandardLink | string
     {
         return $this->primary_identifier;
     }
 
-    public function withSecondaryIdentifier(Symbol|Image|Shy|StandardLink|string $secondary_identifier): self
+    public function withSecondaryIdentifier(Symbol | Image | Shy | StandardLink | string $secondary_identifier): self
     {
         $clone = clone $this;
         $clone->secondary_identifier = $secondary_identifier;
         return $clone;
     }
-    public function getSecondaryIdentifier(): Symbol|Image|Shy|StandardLink|string
+    public function getSecondaryIdentifier(): Symbol | Image | Shy | StandardLink | string
     {
         return $this->secondary_identifier;
     }
@@ -113,7 +113,7 @@ abstract class Entity implements I\Entity
         return $clone;
     }
     /**
-     * @return array<PropertyListing|StandardLink|Legacy>
+     * @return array<PropertyListing | StandardLink | Legacy>
      */
     public function getBlockingAvailabilityConditions(): array
     {
@@ -131,7 +131,7 @@ abstract class Entity implements I\Entity
         return $clone;
     }
     /**
-     * @return array<PropertyListing|StandardLink|Legacy>
+     * @return array<PropertyListing | StandardLink | Legacy>
      */
     public function getFeaturedProperties(): array
     {
@@ -149,7 +149,7 @@ abstract class Entity implements I\Entity
         return $clone;
     }
     /**
-     * @return array<PropertyListing|Legacy>
+     * @return array<PropertyListing | Legacy>
      */
     public function getMainDetails(): array
     {
@@ -171,7 +171,7 @@ abstract class Entity implements I\Entity
         return $clone;
     }
     /**
-     * @return array<Glyph|Tag>
+     * @return array<Glyph | Tag>
      */
     public function getPrioritizedReactions(): array
     {
@@ -194,7 +194,7 @@ abstract class Entity implements I\Entity
         return $clone;
     }
     /**
-     * @return array<Glyph|Tag>
+     * @return array<Glyph | Tag>
      */
     public function getReactions(): array
     {
@@ -212,7 +212,7 @@ abstract class Entity implements I\Entity
         return $clone;
     }
     /**
-     * @return array<PropertyListing|StandardLink|Legacy>
+     * @return array<PropertyListing | StandardLink | Legacy>
      */
     public function getAvailability(): array
     {
@@ -230,7 +230,7 @@ abstract class Entity implements I\Entity
         return $clone;
     }
     /**
-     * @return array<PropertyListing|Legacy>
+     * @return array<PropertyListing | Legacy>
      */
     public function getDetails(): array
     {
@@ -265,7 +265,7 @@ abstract class Entity implements I\Entity
         return $clone;
     }
     /**
-     * @return array<PropertyListing|Legacy>
+     * @return array<PropertyListing | Legacy>
      */
     public function getPersonalStatus(): array
     {

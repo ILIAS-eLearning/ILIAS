@@ -29,8 +29,8 @@ use ILIAS\UI\Component\Link\Standard as ShyLink;
 class Factory implements I\Factory
 {
     public function standard(
-        Symbol|Image|ShyButton|ShyLink|string $primary_identifier,
-        Symbol|Image|ShyButton|ShyLink|string $secondary_identifier
+        Symbol | Image | ShyButton | ShyLink | string $primary_identifier,
+        Symbol | Image | ShyButton | ShyLink | string $secondary_identifier
     ): Standard {
         return new Standard($primary_identifier, $secondary_identifier);
     }

@@ -5156,6 +5156,11 @@ footer {
   padding: 15px 15px;
 }
 
+.c-listing-entity {
+  list-style: none;
+  padding-left: 0;
+}
+
 .il-maincontrols-slate.disengaged {
   display: none;
 }

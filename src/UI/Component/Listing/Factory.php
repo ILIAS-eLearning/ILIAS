@@ -33,7 +33,7 @@ interface Factory
      *   composition: >
      *     Unordered Lists are composed of a set of bullets labeling the listed items.
      * ----
-     * @param array $items Set of elements to be rendered (string|Component)[]
+     * @param array $items Set of elements to be rendered (string | Component)[]
      * @return  \ILIAS\UI\Component\Listing\Unordered
      */
     public function unordered(array $items): Unordered;
@@ -47,7 +47,7 @@ interface Factory
      *   composition: >
      *     Ordered Lists are composed of a set of numbers labeling the items enumerated.
      * ----
-     * @param array $items Set of elements to be rendered (string|Component)[]
+     * @param array $items Set of elements to be rendered (string | Component)[]
      * @return  \ILIAS\UI\Component\Listing\Ordered
      */
     public function ordered(array $items): Ordered;
@@ -66,7 +66,7 @@ interface Factory
      *        labels can also be omitted.
      *        All properties are displayed in one line.
      * ----
-     * @param array $items string (key) => (string|Component)[] (value)
+     * @param array $items string (key) => (string | Component)[] (value)
      * @return  \ILIAS\UI\Component\Listing\Descriptive
      */
     public function descriptive(array $items): Descriptive;

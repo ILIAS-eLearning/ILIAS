@@ -32,7 +32,7 @@ interface Property extends Listing
 {
     public function withProperty(
         string $label,
-        string|Symbol|Legacy|StandardLink $value,
+        string | Symbol | Legacy | StandardLink $value,
         bool $show_label = true
     ): self;
 }

@@ -57,8 +57,11 @@ class Property extends Listing implements IListing\Property
         return $clone;
     }
 
-    public function withProperty(string $label, string|Symbol|Legacy|StandardLink $value, bool $show_label = true): self
-    {
+    public function withProperty(
+        string $label,
+        string | Symbol | Legacy | StandardLink $value,
+        bool $show_label = true
+    ): self {
         if (is_array($value)) {
             $this->checkArgListElements("value", $value, self::ALLOWED_VALUE_TYPES);
         }

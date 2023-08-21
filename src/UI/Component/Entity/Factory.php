@@ -40,7 +40,7 @@ interface Factory
      * @return \ILIAS\UI\Component\Entity\Standard
      */
     public function standard(
-        Symbol|Image|ShyButton|ShyLink|string $primary_identifier,
-        Symbol|Image|ShyButton|ShyLink|string $secondary_identifier
+        Symbol | Image | ShyButton | ShyLink | string $primary_identifier,
+        Symbol | Image | ShyButton | ShyLink | string $secondary_identifier
     ): Standard;
 }

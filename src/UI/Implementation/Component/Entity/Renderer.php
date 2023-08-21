@@ -43,22 +43,16 @@ class Renderer extends AbstractComponentRenderer
         $tpl = $this->getTemplate('tpl.entity.html', true, true);
         $secondary_identifier = $component->getSecondaryIdentifier();
 
-        switch (true) {
-            case is_string($secondary_identifier):
-                $tpl->touchBlock('secondid_string');
-                break;
-            case is_a($secondary_identifier, Component\Image\Image::class):
-                $tpl->touchBlock('secondid_image');
-                break;
-            case is_a($secondary_identifier, Component\Symbol\Symbol::class):
-                $tpl->touchBlock('secondid_symbol');
-                break;
-            case is_a($secondary_identifier, Component\Link\Link::class):
-                $tpl->touchBlock('secondid_link');
-                break;
-            case is_a($secondary_identifier, Component\Button\Shy::class):
-                $tpl->touchBlock('secondid_shy');
-                break;
+        if (is_string($secondary_identifier)) {
+            $tpl->touchBlock('secondid_string');
+        } elseif ($secondary_identifier instanceof Component\Image\Image) {
+            $tpl->touchBlock('secondid_image');
+        } elseif ($secondary_identifier instanceof Component\Image\Symbol) {
+            $tpl->touchBlock('secondid_symbol');
+        } elseif ($secondary_identifier instanceof Component\Image\Link) {
+            $tpl->touchBlock('secondid_link');
+        } elseif ($secondary_identifier instanceof Component\Image\Shy) {
+            $tpl->touchBlock('secondid_shy');
         }
 
         $tpl->setVariable('SECONDARY_IDENTIFIER', is_string($secondary_identifier) ? $secondary_identifier : $this->maybeRender($default_renderer, $secondary_identifier));

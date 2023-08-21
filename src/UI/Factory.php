@@ -1000,16 +1000,16 @@ interface Factory
      *     expressed by Glyphs and Tags.
      *     Please also refer to the examples and background information.
      *     Semantic groups are (and may hold):
-     *     - Primary Identifier (Symbol|Image|ShyButton|ShyLink)
-     *     - Secondary Identifier (Symbol|Image|ShyButton|ShyLink)
-     *     - Availability (PropertyListing|StandardLink)
-     *     - BlockingAvailabilityConditions (PropertyListing|StandardLink)
-     *     - FeaturedProperties (PropertyListing|StandardLink)
+     *     - Primary Identifier (Symbol | Image | ShyButton | ShyLink)
+     *     - Secondary Identifier (Symbol | Image | ShyButton | ShyLink)
+     *     - Availability (PropertyListing | StandardLink)
+     *     - BlockingAvailabilityConditions (PropertyListing | StandardLink)
+     *     - FeaturedProperties (PropertyListing | StandardLink)
      *     - PersonalStatus (PropertyListing)
      *     - Details (PropertyListing)
      *     - MainDetails ((PropertyListing))
-     *     - Reactions (Glyph|Tag)
-     *     - PrioritizedReactions (Glyph|Tag)
+     *     - Reactions (Glyph | Tag)
+     *     - PrioritizedReactions (Glyph | Tag)
      *     - Actions (Dropdown)
      *
      *   effect:
