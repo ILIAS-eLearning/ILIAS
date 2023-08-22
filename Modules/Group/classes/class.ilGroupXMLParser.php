@@ -367,7 +367,7 @@ class ilGroupXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
                     ilContainer::_writeContainerSetting(
                         $this->group_obj->getId(),
                         $this->current_container_setting,
-                        $this->cdata
+                        trim($this->cdata)
                     );
                 }
                 break;
