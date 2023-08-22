@@ -15,6 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
 declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Input\Field;
@@ -27,7 +28,7 @@ use Closure;
 /**
  * This implements the text input.
  */
-class Text extends Input implements C\Input\Field\Text
+class Text extends FormInput implements C\Input\Field\Text
 {
     private ?int $max_length = null;
     private bool $complex = false;
@@ -42,7 +43,7 @@ class Text extends Input implements C\Input\Field\Text
         ?string $byline
     ) {
         parent::__construct($data_factory, $refinery, $label, $byline);
-        $this->setAdditionalTransformation($refinery->custom()->transformation(fn ($v) => strip_tags($v)));
+        $this->setAdditionalTransformation($refinery->custom()->transformation(fn($v) => strip_tags($v)));
     }
 
     /**
@@ -69,7 +70,7 @@ class Text extends Input implements C\Input\Field\Text
     /**
      * @inheritdoc
      */
-    protected function isClientSideValueOk($value): bool
+    public function isClientSideValueOk($value): bool
     {
         if (!is_string($value)) {
             return false;
@@ -100,7 +101,7 @@ class Text extends Input implements C\Input\Field\Text
      */
     public function getUpdateOnLoadCode(): Closure
     {
-        return fn ($id) => "$('#$id').on('input', function(event) {
+        return fn($id) => "$('#$id').on('input', function(event) {
 				il.UI.input.onFieldUpdate(event, '$id', $('#$id').val());
 			});
 			il.UI.input.onFieldUpdate(event, '$id', $('#$id').val());";

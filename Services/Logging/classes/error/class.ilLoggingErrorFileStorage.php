@@ -139,7 +139,6 @@ class ilLoggingErrorFileStorage
      */
     private function hidePassword(array $post): array
     {
-        ilSystemStyleLessVariable::class;
         if (isset($post["password"])) {
             $post["password"] = "REMOVED FOR SECURITY";
         }

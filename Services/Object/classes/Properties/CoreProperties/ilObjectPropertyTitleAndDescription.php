@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-use ILIAS\UI\Component\Input\Field\Input;
+use ILIAS\UI\Component\Input\Container\Form\FormInput;
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 use ILIAS\Refinery\Factory as Refinery;
 
@@ -56,7 +56,7 @@ class ilObjectPropertyTitleAndDescription implements ilObjectProperty
         \ilLanguage $language,
         FieldFactory $field_factory,
         Refinery $refinery
-    ): Input {
+    ): FormInput {
         $trafo = $refinery->custom()->transformation(
             function ($vs): ilObjectProperty {
                 list($title, $long_description) = $vs;

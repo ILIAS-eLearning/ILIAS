@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\UI\examples\Input;
+namespace ILIAS\UI\examples\Input\Field;
 
 /**
  * Example showing the use of the withRequired() method

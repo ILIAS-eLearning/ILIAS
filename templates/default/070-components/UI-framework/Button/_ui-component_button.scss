@@ -93,6 +93,18 @@ input.btn {
     $engaged_border-width: 1px);
 }
 
+.btn-ctrl {
+  @include make-button($input-field-height: s.$il-btn-ctrl-outer-height, $border-radius: s.$il-border-radius-secondary-large, $button-text-color: s.$il-btn-ctrl-color, $button-color: s.$il-btn-ctrl-bg, $border-color: s.$il-btn-ctrl-border);
+  &.engaged,
+  .open & {
+    border: 1px solid s.$il-btn-ctrl-engaged-border;
+    background-color: s.$il-main-bg;
+  }
+  .open & {
+    box-shadow: none;
+  }
+}
+
 // ILIAS doesn't use btn-success, btn-info, btn-warning, btn-danger
 
 // Link buttons
