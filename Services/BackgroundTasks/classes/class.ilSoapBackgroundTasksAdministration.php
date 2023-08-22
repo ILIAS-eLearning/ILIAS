@@ -16,18 +16,17 @@
  *
  *********************************************************************/
 
+/** @noRector */
+require_once __DIR__ . "/../../../libs/composer/vendor/autoload.php";
+
 use ILIAS\BackgroundTasks\Implementation\TaskManager\AsyncTaskManager;
 use ILIAS\BackgroundTasks\Persistence;
 
 class ilSoapBackgroundTasksAdministration extends ilSoapAdministration
 {
-    public Persistence $persistence;
-
     public function __construct(bool $use_nusoap = true)
     {
-        global $DIC;
         parent::__construct($use_nusoap);
-        $this->persistence = $DIC->backgroundTasks()->persistence();
     }
 
     /**
@@ -41,7 +40,10 @@ class ilSoapBackgroundTasksAdministration extends ilSoapAdministration
         if (!$this->checkSession($sid)) {
             return $this->raiseError($this->getMessage(), $this->getMessageCode());
         }
-        $tm = new AsyncTaskManager($this->persistence);
+        global $DIC;
+        $tm = new AsyncTaskManager(
+            $DIC->backgroundTasks()->persistence()
+        );
         $tm->runAsync();
         return true;
     }
