@@ -77,9 +77,6 @@ class ilWebServicesSetupConfig implements Setup\Config
         return $this->rpc_server_port;
     }
 
-    /**
-     * @return int
-     */
     public function getSoapResponseTimeout(): int
     {
         return $this->soap_response_timeout;
