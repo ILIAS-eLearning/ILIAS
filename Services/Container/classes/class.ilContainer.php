@@ -675,7 +675,7 @@ class ilContainer extends ilObject
         include_once 'Services/WebServices/SOAP/classes/class.ilSoapClient.php';
 
         $soap_client = new ilSoapClient();
-        $soap_client->setResponseTimeout(5);
+        $soap_client->setResponseTimeout($soap_client->getResponseTimeout());
         $soap_client->enableWSDL(true);
 
         $ilLog->write(__METHOD__ . ': Trying to call Soap client...');
