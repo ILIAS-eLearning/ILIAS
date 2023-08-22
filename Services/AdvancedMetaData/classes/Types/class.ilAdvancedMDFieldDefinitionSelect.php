@@ -518,9 +518,9 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
 
                 foreach ($item_ids as $item => $new_option) {
                     $parts = explode("_", $item);
-                    $obj_id = $parts[0];
+                    $obj_id = (int) $parts[0];
                     $sub_type = $parts[1];
-                    $sub_id = $parts[2];
+                    $sub_id = (int) $parts[2];
 
                     // update existing value (with changed option)
                     if (isset($old_values[$item])) {
