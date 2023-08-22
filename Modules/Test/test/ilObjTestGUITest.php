@@ -51,6 +51,7 @@ class ilObjTestGUITest extends ilTestBaseTestCase
         $this->addGlobal_ilErr();
         $this->addGlobal_ilTabs();
         $this->addGlobal_ilias();
+        $this->addGlobal_ilNavigationHistory();
 
         $this->testObj = new ilObjTestGUI();
     }
