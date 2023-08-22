@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,11 +16,14 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
-namespace ILIAS\UI\Implementation\Component\Input\Field;
+declare(strict_types=1);
+
+namespace ILIAS\UI\Implementation\Component\Input;
 
 use ILIAS\UI\Implementation\Component\Input\InputData;
-use ILIAS\UI\Component\Input\Field\Input;
+use ILIAS\UI\Component\Input\Input;
 use ILIAS\Data\Result;
+use ILIAS\UI\Implementation\Component\Input\NameSource;
 
 /**
  * Describes the interface of inputs that is used for internal
@@ -30,6 +31,13 @@ use ILIAS\Data\Result;
  */
 interface InputInternal extends Input
 {
+    /**
+     * Get an input like this one, with a different name.
+     *
+     * @return static
+     */
+    public function withNameFrom(NameSource $source);
+
     /**
      * The name of the input as used in HTML.
      */
@@ -46,4 +54,14 @@ interface InputInternal extends Input
      * Get the current content of the input.
      */
     public function getContent(): Result;
+
+    /**
+     * Get an input like this one, with a different error.
+     */
+    public function withError(string $error): self;
+
+    /**
+     * The error of the input as used in HTML.
+     */
+    public function getError(): ?string;
 }

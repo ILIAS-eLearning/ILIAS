@@ -19,7 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
-use ILIAS\UI\Component\Input\Field\Input;
+use ILIAS\UI\Component\Input\Container\Form\FormInput;
 use ILIAS\Refinery\Factory as Refinery;
 
 class ilObjTestSettingsIntroduction extends TestSettings
@@ -38,7 +38,7 @@ class ilObjTestSettingsIntroduction extends TestSettings
         FieldFactory $f,
         Refinery $refinery,
         array $environment = null
-    ): Input {
+    ): FormInput {
         $inputs['introduction_enabled'] = $f->checkbox(
             $lng->txt('tst_introduction'),
             $lng->txt('tst_introduction_desc')

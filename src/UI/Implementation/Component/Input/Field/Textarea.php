@@ -15,6 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
 declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Input\Field;
@@ -28,7 +29,7 @@ use Closure;
 /**
  * This implements the textarea input.
  */
-class Textarea extends Input implements C\Input\Field\Textarea
+class Textarea extends FormInput implements C\Input\Field\Textarea
 {
     use JavaScriptBindable;
 
@@ -102,7 +103,7 @@ class Textarea extends Input implements C\Input\Field\Textarea
     /**
      * @inheritdoc
      */
-    protected function isClientSideValueOk($value): bool
+    public function isClientSideValueOk($value): bool
     {
         return is_string($value);
     }
@@ -135,7 +136,7 @@ class Textarea extends Input implements C\Input\Field\Textarea
      */
     public function getUpdateOnLoadCode(): Closure
     {
-        return fn ($id) => "$('#$id').on('input', function(event) {
+        return fn($id) => "$('#$id').on('input', function(event) {
 				il.UI.input.onFieldUpdate(event, '$id', $('#$id').val());
 			});
 			il.UI.input.onFieldUpdate(event, '$id', $('#$id').val());";

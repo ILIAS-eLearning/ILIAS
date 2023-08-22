@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\UI\Component\Input\Container\ViewControl;
 
 /**
@@ -29,13 +29,23 @@ interface Factory
      * ---
      * description:
      *   purpose: >
-     *      The Standard View Control Container is used as the binding element of a collection of Control Inputs
-     *      for one visualization.
+     *      The Standard View Control Container is used as the binding element
+     *      of a collection of View Control Inputs concerning one visualization.
+     *   composition: >
+     *      A View Control Container holds one ore more View Controls; it is
+     *      otherwise transparent to the user and does not add "own" elements.
      *   effect: >
-     *      The View Control Container is responsible for aligning request-parameters for all contained View Controls
-     *      as well as receiving and distributing values accordingly.
+     *      The View Control Container is responsible for aligning request-parameters
+     *      for all contained View Controls as well as receiving and distributing
+     *      values accordingly.
+     *      When operating a contained View Control, the location is amended
+     *      with parameters of all contained View Controls and reloaded.
+     *      * rules:
+     * rules:
+     *   usage:
+     *     1: The Standard View Control Container MUST be provided with a Request before rendering.
      * ---
-     * @param array<string,\ILIAS\UI\Component\Input\ViewControl\ViewControl> $controls
+     * @param array<string,\ILIAS\UI\Component\Input\Container\ViewControl\ViewControl> $controls
      * @return \ILIAS\UI\Component\Input\Container\ViewControl\Standard
      */
     public function standard(array $controls): Standard;

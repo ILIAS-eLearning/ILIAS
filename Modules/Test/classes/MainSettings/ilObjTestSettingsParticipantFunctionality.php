@@ -19,7 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
-use ILIAS\UI\Component\Input\Field\Input;
+use ILIAS\UI\Component\Input\Container\Form\FormInput;
 use ILIAS\UI\Component\Input\Field\OptionalGroup;
 use ILIAS\Refinery\Factory as Refinery;
 
@@ -45,7 +45,7 @@ class ilObjTestSettingsParticipantFunctionality extends TestSettings
         FieldFactory $f,
         Refinery $refinery,
         array $environment = null
-    ): Input {
+    ): FormInput {
         $inputs['use_previous_answers'] = $f->checkbox(
             $lng->txt('tst_use_previous_answers'),
             $lng->txt('tst_use_previous_answers_description')
