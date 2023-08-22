@@ -4139,20 +4139,36 @@ button .minimize, button .close {
 }
 
 .badge {
+  min-width: 10px;
   font-size: 0.625rem;
   margin-left: -4px;
-  position: absolute;
+  position: relative;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  color: white;
+  line-height: 1;
+  border-radius: 10px;
+}
+.badge:empty {
+  display: none;
+}
+
+.il-counter {
+  position: relative;
 }
 
 .il-counter-novelty {
   padding: 2px 4px;
-  margin-top: -5px;
+  position: absolute;
+  top: -5px;
   background-color: #B54F00;
 }
 
 .il-counter-status {
   padding: 2px 4px;
-  margin-top: 10px;
+  position: absolute;
+  bottom: -5px;
   background-color: #737373;
 }
 
@@ -10418,6 +10434,73 @@ tbody.collapse.in {
   transition-timing-function: ease;
 }
 
+/*
+// section based on bootstrap 3 - see /templates/default/Guidelines_SCSS-Coding.md
+
+$badge-color:                 s.$il-text-color-invert;
+//** Linked badge text color on hover
+$badge-link-hover-color:      s.$il-text-color-invert;
+$badge-bg:                    s.$il-neutral-color;
+
+//** Badge text color in active nav link
+$badge-active-color:          s.$il-link-color;
+//** Badge background color in active nav link
+$badge-active-bg:             s.$il-main-bg;
+
+$badge-font-weight:           s.$il-border-radius-secondary-large;
+$badge-line-height:           1;
+$badge-border-radius:         10px;
+
+
+// Base class
+.badge {
+    // display: inline-block;
+    // min-width: 10px;
+    padding: 3px 7px;
+    font-size: s.$il-font-size-small;
+    font-weight: $badge-font-weight;
+    line-height: $badge-line-height;
+    color: $badge-color;
+
+    background-color: $badge-bg;
+    border-radius: $badge-border-radius;
+
+    // Empty badges collapse automatically (not available in IE8)
+    &:empty {
+      display: none;
+    }
+
+    // [converter] extracted a& to a.badge
+
+    // Account for badges in navs
+    .list-group-item.active > &,
+    .nav-pills > .active > a > & {
+      color: $badge-active-color;
+      background-color: $badge-active-bg;
+    }
+
+    .list-group-item > & {
+      float: right;
+    }
+
+    .list-group-item > & + & {
+      margin-right: 5px;
+    }
+
+    .nav-pills > li > a > & {
+      margin-left: 3px;
+    }
+  }
+
+  // Hover state, but only for links
+  a.badge {
+    &:hover,
+    &:focus {
+      color: $badge-link-hover-color;
+      text-decoration: none;
+      cursor: pointer;
+    }
+  } */
 .btn-group,
 .btn-group-vertical {
   position: relative;
