@@ -30,7 +30,6 @@ class ilObjTestGUITest extends ilTestBaseTestCase
     {
         parent::setUp();
 
-        $this->markTestSkipped("DB causing issues");
 
         $this->addGlobal_lng();
         $this->addGlobal_ilCtrl();

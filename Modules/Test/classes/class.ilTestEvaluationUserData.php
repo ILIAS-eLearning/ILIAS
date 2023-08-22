@@ -31,6 +31,7 @@ require_once './Modules/Test/classes/inc.AssessmentConstants.php';
 
 class ilTestEvaluationUserData
 {
+    private $questionTitles;
     public string $name;
     public string $login;
     public int $user_id;

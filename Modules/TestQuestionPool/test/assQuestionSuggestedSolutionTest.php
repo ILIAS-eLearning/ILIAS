@@ -59,6 +59,7 @@ class assQuestionSuggestedSolutionRepoMock extends assQuestionSuggestedSolutions
 
 class assQuestionSuggestedSolutionTest extends TestCase
 {
+    private assQuestionSuggestedSolutionRepoMock $repo;
     protected function setUp(): void
     {
         $this->repo = new assQuestionSuggestedSolutionRepoMock();
