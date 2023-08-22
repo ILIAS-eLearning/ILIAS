@@ -2227,6 +2227,7 @@ th {
 .l-bar__group > .l-bar__element:last-child {
   margin-right: 0;
 }
+
 * {
   box-sizing: border-box;
 }
@@ -6941,7 +6942,7 @@ div.alert ul > li:before {
   filter: alpha(opacity=0);
   opacity: 0;
 }
-.modal-backdrop.in {
+.modal-backdrop.fade.in {
   filter: alpha(opacity=50);
   opacity: 0.5;
 }
