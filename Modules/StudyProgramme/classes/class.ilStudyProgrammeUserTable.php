@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,10 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
+
+use ILIAS\Data\Order;
 
 /**
  * ilStudyProgrammeUserTable provides a flattened list of progresses at a programme-node.
@@ -46,6 +48,21 @@ class ilStudyProgrammeUserTable
         ['prg_deadline', 'prg_deadline', true, true, true],
         ['prg_expiry_date', 'prg_expiry_date', true, true, true],
         ['prg_validity', 'prg_validity', true, true, true]
+    ];
+
+    private const ORDER_MAPPING = [
+        'prg_status' => 'status',
+        'prg_custom_plan' => 'custom_plan',
+        'prg_belongs_to' => 'belongs_to',
+        'prg_validity' => 'validity',
+        'prg_orgus' => 'orgus',
+        'prg_completion_by' => 'completion_by',
+        'prg_completion_date' => 'completion_date',
+        'prg_assign_date' => 'assign_date',
+        'prg_assigned_by' => 'assigned_by',
+        'prg_deadline' => 'deadline',
+        'prg_expiry_date' => 'expiry_date',
+        'pgs_id' => 'prgrs_id'
     ];
 
     protected ilDBInterface $db;
@@ -120,19 +137,29 @@ class ilStudyProgrammeUserTable
     public function fetchData(
         int $prg_id,
         ?array $valid_user_ids,
+        Order $order,
         ilPRGAssignmentFilter $custom_filters = null,
         int $limit = null,
         int $offset = null
     ): array {
-        $data = $this->assignment_repo->getAllForNodeIsContained($prg_id, $valid_user_ids, $custom_filters);
-        $row = array_map(fn ($ass) => $this->toRow($ass, $prg_id), $data);
-        return $row;
+        $data = $this->assignment_repo->getAllForNodeIsContained(
+            $prg_id,
+            $valid_user_ids,
+            $custom_filters
+        );
+        $rows = array_map(fn($ass) => $this->toRow($ass, $prg_id), $data);
+        $rows = $this->postOrder($rows, $order);
+        if ($limit) {
+            $offset = $offset ?? 0;
+            $rows = array_slice($rows, $offset, $limit);
+        }
+        return $rows;
     }
 
     public function fetchSingleUserRootAssignments(int $usr_id): array
     {
         $data = $this->assignment_repo->getForUser($usr_id);
-        $row = array_map(fn ($ass) => $this->toRow($ass, $ass->getRootId()), $data);
+        $row = array_map(fn($ass) => $this->toRow($ass, $ass->getRootId()), $data);
         return $row;
     }
 
@@ -164,7 +191,7 @@ class ilStudyProgrammeUserTable
 
         $prg_node = ilObjStudyProgramme::getInstanceByObjId($node_id);
         $points_reachable = (string) $pgs->getPossiblePointsOfRelevantChildren();
-        if ($prg_node->getLPMode() ===  ilStudyProgrammeSettings::MODE_LP_COMPLETED) {
+        if ($prg_node->getLPMode() === ilStudyProgrammeSettings::MODE_LP_COMPLETED) {
             $points_reachable = (string) $pgs->getAmountOfPoints();
         }
 
@@ -293,5 +320,31 @@ class ilStudyProgrammeUserTable
             return sprintf('(%s)', $del['title']);
         }
         return 'object id ' . $obj_id;
+    }
+
+    protected function postOrder(array $list, \ILIAS\Data\Order $order): array
+    {
+        [$aspect, $direction] = $order->join('', function ($i, $k, $v) {
+            return [$k, $v];
+        });
+
+        if (array_key_exists($aspect, self::ORDER_MAPPING)) {
+            $aspect = self::ORDER_MAPPING[$aspect];
+        }
+
+        usort($list, static function (ilStudyProgrammeUserTableRow $a, ilStudyProgrammeUserTableRow $b) use ($aspect): int {
+            $a = $a->toArray();
+            $b = $b->toArray();
+
+            if (is_numeric($a[$aspect])) {
+                return $a[$aspect] <=> $b[$aspect];
+            }
+            return strcmp($a[$aspect], $b[$aspect]);
+        });
+
+        if ($direction === $order::DESC) {
+            $list = array_reverse($list);
+        }
+        return $list;
     }
 }
