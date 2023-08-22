@@ -18,9 +18,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
-namespace ILIAS\UI\Implementation\Component\Input\Container\Form;
+namespace ILIAS\UI\Implementation\Component\Input;
 
-use ILIAS\UI\Implementation\Component\Input\InputData;
 use Psr\Http\Message\ServerRequestInterface;
 use LogicException;
 

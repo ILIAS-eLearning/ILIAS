@@ -15,6 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
 declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Input\Field;
@@ -27,7 +28,7 @@ use Closure;
 /**
  * This implements the multi-select input.
  */
-class MultiSelect extends Input implements C\Input\Field\MultiSelect
+class MultiSelect extends FormInput implements C\Input\Field\MultiSelect
 {
     /**
      * @var array <string,string> {$value => $label}
@@ -60,7 +61,7 @@ class MultiSelect extends Input implements C\Input\Field\MultiSelect
     /**
      * @inheritdoc
      */
-    protected function isClientSideValueOk($value): bool
+    public function isClientSideValueOk($value): bool
     {
         if (is_null($value)) {
             return true;
@@ -86,7 +87,7 @@ class MultiSelect extends Input implements C\Input\Field\MultiSelect
         }
 
         return $this->refinery->custom()->constraint(
-            fn ($value) => is_array($value) && count($value) > 0,
+            fn($value) => is_array($value) && count($value) > 0,
             "Empty"
         );
     }
@@ -96,7 +97,7 @@ class MultiSelect extends Input implements C\Input\Field\MultiSelect
      */
     public function getUpdateOnLoadCode(): Closure
     {
-        return fn ($id) => "var checkedBoxes = function() {
+        return fn($id) => "var checkedBoxes = function() {
 				var options = [];
 				$('#$id').find('li').each(function() {
 				    if ($(this).find('input').prop('checked')) {

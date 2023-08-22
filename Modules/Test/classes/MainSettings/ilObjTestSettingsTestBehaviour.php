@@ -19,7 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
-use ILIAS\UI\Component\Input\Field\Input;
+use ILIAS\UI\Component\Input\Container\Form\FormInput;
 use ILIAS\Refinery\Factory as Refinery;
 
 class ilObjTestSettingsTestBehaviour extends TestSettings
@@ -40,16 +40,12 @@ class ilObjTestSettingsTestBehaviour extends TestSettings
         parent::__construct($test_id);
     }
 
-    /**
-     *
-     * @return array<ILIAS\UI\Component\Input\Field\Input>
-     */
     public function toForm(
         \ilLanguage $lng,
         FieldFactory $f,
         Refinery $refinery,
         array $environment = null
-    ): Input {
+    ): FormInput {
         $inputs['limit_attempts'] = $this->getInputLimitAttempts(
             $lng,
             $f,
@@ -83,7 +79,7 @@ class ilObjTestSettingsTestBehaviour extends TestSettings
         FieldFactory $f,
         Refinery $refinery,
         array $environment
-    ): Input {
+    ): FormInput {
         $trafo = $refinery->custom()->transformation(
             static function (?array $vs): array {
                 if ($vs === null) {
@@ -137,7 +133,7 @@ class ilObjTestSettingsTestBehaviour extends TestSettings
         FieldFactory $f,
         Refinery $refinery,
         array $environment
-    ): Input {
+    ): FormInput {
         $constraint = $refinery->custom()->constraint(
             static function (?string $vs): bool {
                 if ($vs !== null && $vs === '0:0:0:0') {
@@ -219,7 +215,7 @@ class ilObjTestSettingsTestBehaviour extends TestSettings
         FieldFactory $f,
         Refinery $refinery,
         array $environment
-    ): Input {
+    ): FormInput {
         $trafo = $refinery->custom()->transformation(
             static function (?array $vs): array {
                 if ($vs === null) {
@@ -282,7 +278,7 @@ class ilObjTestSettingsTestBehaviour extends TestSettings
         \ilLanguage $lng,
         FieldFactory $f,
         Refinery $refinery
-    ): Input {
+    ): FormInput {
         $trafo = $refinery->custom()->transformation(
             static function (?array $vs): ?int {
                 if ($vs === null) {

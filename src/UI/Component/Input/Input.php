@@ -18,7 +18,7 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
-namespace ILIAS\UI\Component\Input\Field;
+namespace ILIAS\UI\Component\Input;
 
 use ILIAS\Refinery\Transformation;
 use ILIAS\UI\Component\Component;

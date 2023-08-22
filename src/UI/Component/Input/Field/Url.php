@@ -16,7 +16,11 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\UI\Component\Input\Field;
+
+use ILIAS\UI\Component\Input\Container\Form\FormInput;
 
 /**
  * This describes a URL input.
