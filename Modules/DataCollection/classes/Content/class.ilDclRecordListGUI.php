@@ -596,10 +596,7 @@ class ilDclRecordListGUI
 
             $this->toolbar->addText($this->lng->txt("dcl_table"));
             $this->toolbar->addInputItem($table_selection);
-            $button = ilSubmitButton::getInstance();
-            $button->setCaption('change');
-            $button->setCommand('doTableSwitch');
-            $this->toolbar->addButtonInstance($button);
+            $this->toolbar->addFormButton('change', 'doTableSwitch');
             $this->toolbar->addSeparator();
         }
 
