@@ -337,7 +337,7 @@ class ilRepositoryUserResultTableGUI extends ilTable2GUI
             foreach ($usr_data['set'] as $set) {
                 $users[$counter] = $set;
                 foreach ($udf_ids as $udf_field) {
-                    $users[$counter]['udf_' . $udf_field] = $data[(int) $set['usr_id']][$udf_field];
+                    $users[$counter]['udf_' . $udf_field] = ($data[(int) ($set['usr_id'] ?? 0)][$udf_field] ?? '');
                 }
                 ++$counter;
             }
@@ -348,7 +348,7 @@ class ilRepositoryUserResultTableGUI extends ilTable2GUI
         if ($this->getType() == self::TYPE_GLOBAL_SEARCH) {
             if ($this->getLuceneResult() instanceof ilLuceneSearchResult) {
                 foreach ($users as $counter => $ud) {
-                    $users[$counter]['relevance'] = $this->getLuceneResult()->getRelevance((int) $ud['usr_id']);
+                    $users[$counter]['relevance'] = $this->getLuceneResult()->getRelevance((int) ($ud['usr_id']) ?? 0);
                 }
             }
         }
