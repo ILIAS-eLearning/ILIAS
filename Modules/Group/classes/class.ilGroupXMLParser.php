@@ -1,6 +1,7 @@
 <?php
 
 declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -172,7 +173,7 @@ class ilGroupXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
                 break;
 
 
-            // GROUP DATA
+                // GROUP DATA
             case "group":
                 $this->group_data["admin"] = array();
                 $this->group_data["member"] = array();
@@ -253,6 +254,17 @@ class ilGroupXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
                 }
                 break;
 
+            case 'GroupMap':
+                $this->group_data['map_enabled'] = (bool) $a_attribs['enabled'] ?? false;
+                $this->group_data['map_latitude'] = (string) $a_attribs['latitude'] ?? '';
+                $this->group_data['map_longitude'] = (string) $a_attribs['longitude'] ?? '';
+                $this->group_data['map_location_zoom'] = (int) $a_attribs['location_zoom'] ?? 0;
+                break;
+
+            case 'RegistrationAccessCode':
+                $this->group_data['registration_code_enabled'] = (bool) $a_attribs['enabled'] ?? false;
+                $this->group_data['registration_code'] = (string) $a_attribs['code'] ?? '';
+                break;
 
             case 'WaitingListAutoFill':
             case 'CancellationEnd':
@@ -514,13 +526,14 @@ class ilGroupXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
         $this->group_obj->enableMembershipLimitation((bool) ($this->group_data['max_members_enabled'] ?? false));
         $this->group_obj->setMaxMembers((int) ($this->group_data['max_members'] ?? 0));
         $this->group_obj->enableWaitingList((bool) ($this->group_data['waiting_list_enabled'] ?? false));
-
         $this->group_obj->setWaitingListAutoFill((bool) ($this->group_data['auto_wait'] ?? false));
         $this->group_obj->setCancellationEnd($this->group_data['cancel_end'] ?? null);
         $this->group_obj->setMinMembers((int) ($this->group_data['min_members'] ?? 0));
         $this->group_obj->setShowMembers((bool) ($this->group_data['show_members'] ?? false));
         $this->group_obj->setAutoNotification((bool) (($this->group_data['auto_notification'] ?? false)));
         $this->group_obj->setMailToMembersType((int) ($this->group_data['mail_members_type'] ?? 0));
+        $this->group_obj->enableRegistrationAccessCode((bool) $this->group_data['registration_code_enabled'] ?? false);
+        $this->group_obj->setRegistrationAccessCode((string) $this->group_data['registration_code'] ?? '');
         if (isset($this->group_data['view_mode'])) {
             $this->group_obj->setViewMode((int) $this->group_data['view_mode']);
         }
@@ -533,6 +546,17 @@ class ilGroupXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
         if (isset($this->group_data['session_next'])) {
             $this->group_obj->setNumberOfNextSessions((int) $this->group_data['session_next']);
         }
+
+        $this->group_obj->setEnableGroupMap((bool) $this->group_data['map_enabled'] ?? false);
+        $this->group_obj->setLatitude((string) $this->group_data['map_latitude'] ?? '');
+        $this->group_obj->setLongitude((string) $this->group_data['map_longitude'] ?? '');
+        $this->group_obj->setLocationZoom((int) $this->group_data['map_location_zoom'] ?? 0);
+
+        /*
+         * readContainerSettings needs to be called before update, otherwise container
+         * settings are overwritten by the default, see #24742.
+         */
+        $this->group_obj->readContainerSettings();
         $this->group_obj->update();
 
         // ASSIGN ADMINS/MEMBERS
