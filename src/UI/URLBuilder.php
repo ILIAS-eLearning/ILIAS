@@ -162,8 +162,9 @@ class URLBuilder
     /**
      * Change an acquired parameter's value if the supplied token is valid
      */
-    public function withParameter(URLBuilderToken $token, string|array $value): self
+    public function withParameter(URLBuilderToken $token, $value): self
     {
+        assert(ist_string($value) || is_array($value));
         $this->checkToken($token);
         $clone = clone $this;
         $clone->params[$token->getName()] = $value;

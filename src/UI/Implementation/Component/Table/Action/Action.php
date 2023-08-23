@@ -38,15 +38,25 @@ abstract class Action implements I\Action
     public const OPT_ACTIONID = 'actId';
     public const OPT_ROWID = 'rowid';
 
-    protected Signal|URI $target;
+    /**
+     * @var Signal|URI
+     */
+    protected $target;
     protected bool $async = false;
 
+    protected string $label;
+    protected URLBuilder $url_builder;
+    protected URLBuilderToken $row_id_parameter;
+
     public function __construct(
-        protected string $label,
-        protected URLBuilder $url_builder,
-        protected URLBuilderToken $row_id_parameter
+        string $label,
+        URLBuilder $url_builder,
+        URLBuilderToken $row_id_parameter
     ) {
         $this->target = $url_builder->buildURI();
+        $this->label = $label;
+        $this->url_builder = $url_builder;
+        $this->row_id_parameter = $row_id_parameter;
     }
 
     public function getLabel(): string
@@ -54,7 +64,10 @@ abstract class Action implements I\Action
         return $this->label;
     }
 
-    public function getTarget(): Signal|URI
+    /**
+     * @return Signal|URI
+     */
+    public function getTarget()
     {
         return $this->target;
     }

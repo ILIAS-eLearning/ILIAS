@@ -72,7 +72,7 @@ interface Factory
         string $message,
         string $post_url,
         FileInput $file_input,
-        ?FormInput $additional_input = null,
+        ?FormInput $additional_input = null
     ): Standard;
 
     /**
@@ -122,6 +122,6 @@ interface Factory
         string $post_url,
         $content,
         FileInput $file_input,
-        ?FormInput $additional_input = null,
+        ?FormInput $additional_input = null
     ): Wrapper;
 }

@@ -72,13 +72,18 @@ abstract class Input implements InputInternal
      */
     protected array $operations = [];
 
+    protected DataFactory $data_factory;
+    protected Refinery $refinery;
+
     /**
      * Input constructor.
      */
     public function __construct(
-        protected DataFactory $data_factory,
-        protected Refinery $refinery,
+        DataFactory $data_factory,
+        Refinery $refinery
     ) {
+        $this->data_factory = $data_factory;
+        $this->refinery = $refinery;
     }
 
     /**

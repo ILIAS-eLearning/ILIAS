@@ -45,6 +45,7 @@ abstract class AbstractComponentRenderer implements ComponentRenderer
     private static array $component_storage = [];
     private \ILIAS\Refinery\Factory $refinery;
     private ImagePathResolver $image_path_resolver;
+    private DataFactory $data_factory;
 
 
     final public function __construct(
@@ -54,7 +55,7 @@ abstract class AbstractComponentRenderer implements ComponentRenderer
         JavaScriptBinding $js_binding,
         \ILIAS\Refinery\Factory $refinery,
         ImagePathResolver $image_path_resolver,
-        private DataFactory $data_factory
+        DataFactory $data_factory
     ) {
         $this->ui_factory = $ui_factory;
         $this->tpl_factory = $tpl_factory;
@@ -62,6 +63,7 @@ abstract class AbstractComponentRenderer implements ComponentRenderer
         $this->js_binding = $js_binding;
         $this->refinery = $refinery;
         $this->image_path_resolver = $image_path_resolver;
+        $this->data_factory = $data_factory;
     }
 
     /**

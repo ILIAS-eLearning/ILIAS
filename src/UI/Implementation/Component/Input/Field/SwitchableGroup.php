@@ -183,8 +183,9 @@ class SwitchableGroup extends Group implements I\SwitchableGroup
      * the given $key. The callable will recieve the input as its only argument and must return
      * it again with applied operations.
      */
-    protected function getInputsWithOperationForKey(int|string $key, \Closure $operation): array
+    protected function getInputsWithOperationForKey($key, \Closure $operation): array
     {
+        $this->checkArg("key", is_int($key) || is_string($key), "Key must be int or string.");
         $inputs = $this->getInputs();
         if (!array_key_exists($key, $inputs)) {
             throw new LogicException("Key '$key' does not exist in inputs.");

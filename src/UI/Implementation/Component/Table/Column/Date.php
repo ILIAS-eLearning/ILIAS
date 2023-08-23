@@ -25,9 +25,12 @@ use ILIAS\Data\DateFormat\DateFormat;
 
 class Date extends Column implements C\Date
 {
-    public function __construct(string $title, protected DateFormat $format)
+    protected DateFormat $format;
+
+    public function __construct(string $title, DateFormat $format)
     {
         parent::__construct($title);
+        $this->format = $format;
     }
 
     public function getFormat(): DateFormat

@@ -41,6 +41,7 @@ use ILIAS\UI\Implementation\Component\Input\InputData;
 class Group extends FormInput implements C\Input\Field\Group, GroupInternal
 {
     use GroupInternals;
+    protected ilLanguage $lng;
 
     /**
      * @param \ILIAS\UI\Component\Input\Input[] $inputs
@@ -48,7 +49,7 @@ class Group extends FormInput implements C\Input\Field\Group, GroupInternal
     public function __construct(
         DataFactory $data_factory,
         \ILIAS\Refinery\Factory $refinery,
-        protected ilLanguage $lng,
+        ilLanguage $lng,
         array $inputs,
         string $label,
         ?string $byline = null
@@ -56,6 +57,7 @@ class Group extends FormInput implements C\Input\Field\Group, GroupInternal
         parent::__construct($data_factory, $refinery, $label, $byline);
         $this->checkInputListElements('inputs', $inputs, [C\Input\Container\Form\FormInput::class]);
         $this->setInputs($inputs);
+        $this->lng = $lng;
     }
 
     public function withDisabled(bool $is_disabled): self

@@ -456,7 +456,7 @@ class Renderer extends AbstractComponentRenderer
     protected function buildMultiActionsDropdown(
         array $actions,
         Component\Signal $action_signal,
-        Component\Signal $modal_signal,
+        Component\Signal $modal_signal
     ): ?\ILIAS\UI\Component\Dropdown\Dropdown {
         if ($actions === []) {
             return null;

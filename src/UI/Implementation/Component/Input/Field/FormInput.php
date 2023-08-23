@@ -39,20 +39,24 @@ abstract class FormInput extends Input implements FormInputInternal
     protected bool $is_disabled = false;
     protected bool $is_required = false;
     protected ?Constraint $requirement_constraint = null;
+    protected string $label;
+    protected ?string $byline = null;
 
     public function __construct(
         DataFactory $data_factory,
         Refinery $refinery,
-        protected string $label,
-        protected ?string $byline = null,
+        string $label,
+        ?string $byline = null
     ) {
         parent::__construct($data_factory, $refinery);
+        $this->label = $label;
+        $this->byline = $byline;
     }
 
     /**
      * @inheritDoc
      */
-    public function withInput(InputData $input): self
+    public function withInput(InputData $input): Input
     {
         if (!$this->isDisabled()) {
             return parent::withInput($input);

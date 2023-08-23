@@ -130,10 +130,15 @@ function base()
      * Those parameters are being provided to DataRetrieval::getRows.
      */
     $data_retrieval = new class ($f, $r) implements I\DataRetrieval {
+        protected \ILIAS\UI\Factory $ui_factory;
+        protected \ILIAS\UI\Renderer $ui_renderer;
+
         public function __construct(
-            protected \ILIAS\UI\Factory $ui_factory,
-            protected \ILIAS\UI\Renderer $ui_renderer
+            \ILIAS\UI\Factory $ui_factory,
+            \ILIAS\UI\Renderer $ui_renderer
         ) {
+            $this->ui_factory = $ui_factory;
+            $this->ui_renderer = $ui_renderer;
         }
 
         public function getRows(

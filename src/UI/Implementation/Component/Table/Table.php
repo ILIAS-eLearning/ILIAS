@@ -27,9 +27,12 @@ abstract class Table implements T\Table
 {
     use ComponentHelper;
 
+    protected string $title;
+
     public function __construct(
-        protected string $title
+        string $title
     ) {
+        $this->title = $title;
     }
 
     /**

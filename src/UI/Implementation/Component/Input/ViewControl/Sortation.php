@@ -51,7 +51,7 @@ class Sortation extends ViewControlInput implements VCInterface\Sortation, HasIn
         DataFactory $data_factory,
         Refinery $refinery,
         SignalGeneratorInterface $signal_generator,
-        array $options,
+        array $options
     ) {
         parent::__construct($data_factory, $refinery);
 

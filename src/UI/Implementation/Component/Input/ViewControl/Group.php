@@ -38,13 +38,16 @@ class Group extends ViewControlInput implements ViewControlGroupInterface, Group
 {
     use GroupInternals;
 
+    protected \ilLanguage $language;
+
     public function __construct(
         DataFactory $data_factory,
         Refinery $refinery,
-        protected \ilLanguage $language,
-        array $inputs,
+        \ilLanguage $language,
+        array $inputs
     ) {
         parent::__construct($data_factory, $refinery);
+        $this->language = $language;
         $this->checkInputListElements('inputs', $inputs, [ViewControlInputInterface::class]);
         $this->setInputs($inputs);
     }

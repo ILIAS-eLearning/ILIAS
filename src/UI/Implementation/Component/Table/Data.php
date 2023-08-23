@@ -70,17 +70,20 @@ class Data extends Table implements T\Data, JSBindable
     protected Order $order;
     protected ?array $filter = null;
     protected ?array $additional_parameters = null;
+    protected DataFactory $data_factory;
+    protected DataRowBuilder $data_row_builder;
+    protected T\DataRetrieval $data_retrieval;
 
     /**
      * @param array<string, Column> $columns
      */
     public function __construct(
         SignalGeneratorInterface $signal_generator,
-        protected DataFactory $data_factory,
-        protected DataRowBuilder $data_row_builder,
+        DataFactory $data_factory,
+        DataRowBuilder $data_row_builder,
         string $title,
         array $columns,
-        protected T\DataRetrieval $data_retrieval
+        T\DataRetrieval $data_retrieval
     ) {
         $this->checkArgListElements('columns', $columns, [Column::class]);
         if ($columns === []) {
@@ -88,10 +91,12 @@ class Data extends Table implements T\Data, JSBindable
         }
 
         parent::__construct($title);
+        $this->data_factory = $data_factory;
+        $this->data_row_builder = $data_row_builder;
+        $this->data_retrieval = $data_retrieval;
         $this->multi_action_signal = $signal_generator->create();
         $this->selection_signal = $signal_generator->create();
         $this->async_action_signal = $signal_generator->create();
-
         $this->columns = $this->enumerateColumns($columns);
         $this->selected_optional_column_ids = $this->filterVisibleColumnIds($columns);
         $this->order = $this->data_factory->order($this->initialOrder(), Order::ASC);

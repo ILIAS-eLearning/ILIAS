@@ -32,9 +32,11 @@ abstract class Column implements C\Column
     protected bool $initially_visible = true;
     protected bool $highlighted = false;
     protected int $index;
+    protected string $title;
 
-    public function __construct(protected string $title)
+    public function __construct(string $title)
     {
+        $this->title = $title;
     }
 
     public function getTitle(): string
@@ -44,8 +46,9 @@ abstract class Column implements C\Column
 
     public function getType(): string
     {
-        $class = explode('\\', $this::class);
-        return array_pop($class);
+        $class = explode('\\', get_class($this));
+        $class = array_pop($class);
+        return $class;
     }
 
     public function withIsSortable(bool $flag): self

@@ -50,12 +50,14 @@ class PresentationRow implements T\PresentationRow
     private array $further_fields = [];
     private array $data;
     protected SignalGeneratorInterface $signal_generator;
+    protected string $table_id;
 
     public function __construct(
         SignalGeneratorInterface $signal_generator,
-        protected string $table_id
+        string $table_id
     ) {
         $this->signal_generator = $signal_generator;
+        $this->table_id = $table_id;
         $this->initSignals();
     }
 

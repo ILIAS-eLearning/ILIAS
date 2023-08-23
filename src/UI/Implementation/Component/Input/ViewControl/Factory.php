@@ -31,13 +31,24 @@ use ILIAS\UI\Implementation\Component\Input\Field\Factory as FieldFactory;
  */
 class Factory implements VCInterface\Factory
 {
+    protected FieldFactory $field_factory;
+    protected DataFactory $data_factory;
+    protected Refinery $refinery;
+    protected SignalGeneratorInterface $signal_generator;
+    protected \ilLanguage $language;
+
     public function __construct(
-        protected FieldFactory $field_factory,
-        protected DataFactory $data_factory,
-        protected Refinery $refinery,
-        protected SignalGeneratorInterface $signal_generator,
-        protected \ilLanguage $language,
+        FieldFactory $field_factory,
+        DataFactory $data_factory,
+        Refinery $refinery,
+        SignalGeneratorInterface $signal_generator,
+        \ilLanguage $language
     ) {
+        $this->field_factory = $field_factory;
+        $this->data_factory = $data_factory;
+        $this->refinery = $refinery;
+        $this->signal_generator = $signal_generator;
+        $this->language = $language;
     }
 
     public function fieldSelection(array $options): VCInterface\FieldSelection

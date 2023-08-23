@@ -34,6 +34,7 @@ class DefaultRendererFactory implements RendererFactory
     protected JavaScriptBinding $js_binding;
     protected Refinery $refinery;
     protected ImagePathResolver $image_path_resolver;
+    protected DataFactory $data_factory;
 
     public function __construct(
         RootFactory $ui_factory,
@@ -42,7 +43,7 @@ class DefaultRendererFactory implements RendererFactory
         JavaScriptBinding $js_binding,
         Refinery $refinery,
         ImagePathResolver $image_path_resolver,
-        protected DataFactory $data_factory
+        DataFactory $data_factory
     ) {
         $this->ui_factory = $ui_factory;
         $this->tpl_factory = $tpl_factory;
@@ -50,6 +51,7 @@ class DefaultRendererFactory implements RendererFactory
         $this->js_binding = $js_binding;
         $this->refinery = $refinery;
         $this->image_path_resolver = $image_path_resolver;
+        $this->data_factory = $data_factory;
     }
 
     /**

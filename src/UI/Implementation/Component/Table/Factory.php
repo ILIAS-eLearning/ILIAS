@@ -30,13 +30,24 @@ use Closure;
  */
 class Factory implements T\Factory
 {
+    protected SignalGeneratorInterface $signal_generator;
+    protected DataFactory $data_factory;
+    protected T\Column\Factory $column_factory;
+    protected T\Action\Factory $action_factory;
+    protected DataRowBuilder $data_row_builder;
+
     public function __construct(
-        protected SignalGeneratorInterface $signal_generator,
-        protected DataFactory $data_factory,
-        protected T\Column\Factory $column_factory,
-        protected T\Action\Factory $action_factory,
-        protected DataRowBuilder $data_row_builder
+        SignalGeneratorInterface $signal_generator,
+        DataFactory $data_factory,
+        T\Column\Factory $column_factory,
+        T\Action\Factory $action_factory,
+        DataRowBuilder $data_row_builder
     ) {
+        $this->signal_generator = $signal_generator;
+        $this->data_factory = $data_factory;
+        $this->column_factory = $column_factory;
+        $this->action_factory = $action_factory;
+        $this->data_row_builder = $data_row_builder;
     }
 
     /**

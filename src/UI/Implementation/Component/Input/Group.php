@@ -55,7 +55,7 @@ trait Group
      * @param mixed $value
      * @throws  \InvalidArgumentException    if value does not fit client side input
      */
-    public function withValue($value): self
+    public function withValue($value): \ILIAS\UI\Implementation\Component\Input\Input
     {
         $this->checkArg("value", $this->isClientSideValueOk($value), "Display value does not match input type.");
         $clone = clone $this;
@@ -71,7 +71,7 @@ trait Group
      *
      * @inheritdoc
      */
-    public function withInput(InputData $input): self
+    public function withInput(InputData $input): \ILIAS\UI\Implementation\Component\Input\Input
     {
         if (empty($this->getInputs())) {
             return $this;
