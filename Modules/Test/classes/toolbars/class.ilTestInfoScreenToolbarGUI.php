@@ -317,30 +317,8 @@ class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
                     $allowPassIncrease = true
                 );
 
-                if ($executable["executable"]) {
-                    if ($this->getTestOBJ()->areObligationsEnabled() && $this->getTestOBJ()->hasObligations($this->getTestOBJ()->getTestId())) {
-                        $this->addInfoMessage($this->lng->txt('tst_test_contains_obligatory_questions'));
-                    }
-
-                    if ($this->getTestSession()->getActiveId() > 0) {
-                        // resume test
-                        $testPassesSelector = new ilTestPassesSelector($this->db, $this->getTestOBJ());
-                        $testPassesSelector->setActiveId($this->getTestSession()->getActiveId());
-                        $testPassesSelector->setLastFinishedPass($this->getTestSession()->getLastFinishedPass());
-
-                        $closedPasses = $testPassesSelector->getClosedPasses();
-                        $existingPasses = $testPassesSelector->getExistingPasses();
-
-                        if ($existingPasses > $closedPasses) {
-                            $btn = ilSubmitButton::getInstance();
-                            $btn->setCaption('tst_resume_test');
-                            $btn->setCommand('resumePlayer');
-                            $btn->setPrimary(true);
-                            $this->addButtonInstance($btn);
-                        }
-                    }
-                } else {
-                    $this->addInfoMessage($executable['errormessage']);
+                if ($executable["executable"] && $this->getTestOBJ()->areObligationsEnabled() && $this->getTestOBJ()->hasObligations($this->getTestOBJ()->getTestId())) {
+                    $this->addInfoMessage($this->lng->txt('tst_test_contains_obligatory_questions'));
                 }
             }
 

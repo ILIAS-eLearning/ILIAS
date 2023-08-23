@@ -368,7 +368,7 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
         $commands = [
             ["permission" => "write", "cmd" => "questionsTabGateway", "lang_var" => "tst_edit_questions"],
             ["permission" => "write", "cmd" => "ilObjTestSettingsMainGUI::showForm", "lang_var" => "settings"],
-            ["permission" => "read", "cmd" => "infoScreen", "lang_var" => "tst_run", "default" => true],
+            ["permission" => "read", "cmd" => "testScreen", "lang_var" => "tst_run", "default" => true],
             ["permission" => "tst_statistics", "cmd" => "outEvaluation", "lang_var" => "tst_statistical_evaluation"],
             ["permission" => "read", "cmd" => "userResultsGateway", "lang_var" => "tst_user_results"],
             ["permission" => "write", "cmd" => "testResultsGateway", "lang_var" => "results"],

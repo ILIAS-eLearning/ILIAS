@@ -772,7 +772,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
             }
         }
 
-        // default redirect (pass overview when enabled, otherwise infoscreen)
+        // default redirect (pass overview when enabled, otherwise testscreen)
         $this->redirectBackCmd();
     }
 
@@ -803,12 +803,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
             $this->ctrl->redirectByClass(array('ilTestResultsGUI', 'ilMyTestResultsGUI', 'ilTestEvaluationGUI'));
         }
 
-        $this->backToInfoScreenCmd();
-    }
-
-    protected function backToInfoScreenCmd()
-    {
-        $this->ctrl->redirectByClass('ilObjTestGUI', 'redirectToInfoScreen');
+        $this->ctrl->redirectByClass(ilObjTestGUI::class, 'redirectToTestScreen');
     }
 
     /*

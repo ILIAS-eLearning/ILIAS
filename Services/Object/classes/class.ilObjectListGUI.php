@@ -1852,7 +1852,7 @@ class ilObjectListGUI
 
         $this->lng->loadLanguageModule('notes');
         $this->lng->loadLanguageModule('tagging');
-        $cmd_frame = $this->getCommandFrame('infoScreen');
+        $cmd_frame = $this->getCommandFrame('testScreen');
 
         // reference objects have translated ids, revert to originals
         $note_ref_id = $this->ref_id;
