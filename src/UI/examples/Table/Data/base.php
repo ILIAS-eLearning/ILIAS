@@ -204,7 +204,7 @@ function base()
                 }
             }
             if ($range) {
-                $records = array_slice($records, $range->getStart(), $range->getLength());
+                $records = array_slice($records, max($range->getStart() - 1, 0), $range->getLength());
             }
 
             return $records;
