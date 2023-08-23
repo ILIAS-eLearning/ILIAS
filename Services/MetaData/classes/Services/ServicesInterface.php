@@ -29,7 +29,7 @@ use ILIAS\MetaData\Paths\PathInterface;
 interface ServicesInterface
 {
     /**
-     * Get a reader, which can read out LOM of an ILIAS objet. The object is specified
+     * Get a reader, which can read out LOM of an ILIAS object. The object is specified
      * with three parameters:
      * 1. **obj_id:** The `obj_id` of the object if it is a repository object, else the
      * `obj_id` of its parent repository object. If the object does not have

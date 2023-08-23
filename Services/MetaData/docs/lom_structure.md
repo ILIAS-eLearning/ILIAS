@@ -398,8 +398,8 @@ but this is not implemented in ILIAS.
 
 If at least one element `metaMetadata > metadataSchema` is present,
 it must have the value `LOMv1.0`, meaning the first occurence of 
-this element cannot be edited and comes pre-filled (but it can be
-deleted).
+this element cannot be edited or deleted directly, and comes pre-filled
+(it can however be deleted by deleting `metaMetadata`).
 
 ### Specific to ILIAS
 
@@ -409,13 +409,3 @@ to, neither it nor its super-elements can be deleted.
 
 The sub-elements of the first `general > identifier` can neither
 be edited nor deleted, along with their super-elements.
-
-Currently, some elements that should be non-unique according to LOM
-are unique in ILIAS:
-
-- `general > coverage`
-- `educational > learningResourceType`
-- `educational > intendedEndUserRole`
-- `educational > context`
-- `metaMetadata > metadataSchema`
-- `technical > requirement > orComposite`

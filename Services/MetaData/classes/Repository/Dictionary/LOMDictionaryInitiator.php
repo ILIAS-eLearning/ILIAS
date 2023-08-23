@@ -27,13 +27,6 @@ use ILIAS\MetaData\Elements\Structure\StructureElementInterface;
 
 class LOMDictionaryInitiator extends BaseDictionaryInitiator
 {
-    /**
-     * These are needed to accomodate the special method
-     * of saving requirement types in the db.
-     */
-    public const MD_ID_BROWSER = 101;
-    public const MD_ID_OS = 102;
-
     public const TABLES = [
         'annotation' => 'il_meta_annotation',
         'classification' => 'il_meta_classification',
@@ -57,6 +50,12 @@ class LOMDictionaryInitiator extends BaseDictionaryInitiator
         'taxon' => 'il_meta_taxon',
         'taxon_path' => 'il_meta_taxon_path',
         'technical' => 'il_meta_technical',
+        'coverage' => 'il_meta_coverage',
+        'meta_schema' => 'il_meta_meta_schema',
+        'or_composite' => 'il_meta_or_composite',
+        'lr_type' => 'il_meta_lr_type',
+        'end_usr_role' => 'il_meta_end_usr_role',
+        'context' => 'il_meta_context'
     ];
 
     public const ID_NAME = [
@@ -81,17 +80,23 @@ class LOMDictionaryInitiator extends BaseDictionaryInitiator
         'tar' => 'meta_tar_id',
         'taxon' => 'meta_taxon_id',
         'taxon_path' => 'meta_taxon_path_id',
-        'technical' => 'meta_technical_id'
+        'technical' => 'meta_technical_id',
+        'coverage' => 'meta_coverage_id',
+        'meta_schema' => 'meta_meta_schema_id',
+        'or_composite' => 'meta_or_composite_id',
+        'lr_type' => 'meta_lr_type_id',
+        'end_usr_role' => 'meta_end_usr_role_id',
+        'context' => 'meta_context_id'
     ];
 
-    protected QueryProvider $query;
+    protected TagFactory $tag_factory;
 
     public function __construct(
-        QueryProvider $query,
+        TagFactory $tag_factory,
         PathFactoryInterface $path_factory,
         StructureSetInterface $structure
     ) {
-        $this->query = $query;
+        $this->tag_factory = $tag_factory;
         parent::__construct($path_factory, $structure);
     }
 
@@ -120,7 +125,7 @@ class LOMDictionaryInitiator extends BaseDictionaryInitiator
         StructureSetInterface $structure
     ): void {
         $this->addTagToElement(
-            $this->query->tableContainer('general', true),
+            $this->tag_factory->containerWithRowInTable('general'),
             $general = $structure->getRoot()->getSubElement('general')
         );
         $this->setTagsForIdentifier(
@@ -128,21 +133,14 @@ class LOMDictionaryInitiator extends BaseDictionaryInitiator
             'identifier',
             'meta_general'
         );
-        $this->addTagToElement(
-            $this->query->nonTableContainer(
-                'general',
-                ['title', 'title_language']
-            ),
-            $title = $general->getSubElement('title')
-        );
         $this->setTagsForLangStringSubElements(
-            $title,
+            $general->getSubElement('title'),
             'general',
             'title',
             'title_language'
         );
         $this->addTagToElement(
-            $this->query->tableDataWithParent(
+            $this->tag_factory->dataWithRowInTable(
                 'language',
                 'language',
                 'meta_general'
@@ -150,7 +148,7 @@ class LOMDictionaryInitiator extends BaseDictionaryInitiator
             $general->getSubElement('language')
         );
         $this->addTagToElement(
-            $this->query->tableContainerWithParent(
+            $this->tag_factory->containerWithRowInTable(
                 'description',
                 'meta_general'
             ),
@@ -164,7 +162,7 @@ class LOMDictionaryInitiator extends BaseDictionaryInitiator
             'meta_general'
         );
         $this->addTagToElement(
-            $this->query->tableContainerWithParent(
+            $this->tag_factory->containerWithRowInTable(
                 'keyword',
                 'meta_general'
             ),
@@ -178,39 +176,26 @@ class LOMDictionaryInitiator extends BaseDictionaryInitiator
             'meta_general'
         );
         $this->addTagToElement(
-            $this->query->nonTableContainer(
-                'general',
-                ['coverage', 'coverage_language']
+            $this->tag_factory->containerWithRowInTable(
+                'coverage',
+                'meta_general'
             ),
             $coverage = $general->getSubElement('coverage')
         );
         $this->setTagsForLangStringSubElements(
             $coverage,
-            'general',
             'coverage',
-            'coverage_language'
-        );
-        $this->addTagToElement(
-            $this->query->nonTableContainer(
-                'general',
-                ['general_structure']
-            ),
-            $structure = $general->getSubElement('structure')
+            'coverage',
+            'coverage_language',
+            'meta_general'
         );
         $this->setTagsForVocabSubElements(
-            $structure,
+            $general->getSubElement('structure'),
             'general',
             'general_structure'
         );
-        $this->addTagToElement(
-            $this->query->nonTableContainer(
-                'general',
-                ['general_aggl']
-            ),
-            $aggl = $general->getSubElement('aggregationLevel')
-        );
         $this->setTagsForVocabSubElements(
-            $aggl,
+            $general->getSubElement('aggregationLevel'),
             'general',
             'general_aggl'
         );
@@ -220,31 +205,17 @@ class LOMDictionaryInitiator extends BaseDictionaryInitiator
         StructureSetInterface $structure
     ): void {
         $this->addTagToElement(
-            $this->query->tableContainer('lifecycle', true),
+            $this->tag_factory->containerWithRowInTable('lifecycle'),
             $life_cycle = $structure->getRoot()->getSubElement('lifeCycle')
         );
-        $this->addTagToElement(
-            $this->query->nonTableContainer(
-                'lifecycle',
-                ['meta_version', 'version_language']
-            ),
-            $version = $life_cycle->getSubElement('version')
-        );
         $this->setTagsForLangStringSubElements(
-            $version,
+            $life_cycle->getSubElement('version'),
             'lifecycle',
             'meta_version',
             'version_language'
         );
-        $this->addTagToElement(
-            $this->query->nonTableContainer(
-                'lifecycle',
-                ['lifecycle_status']
-            ),
-            $status = $life_cycle->getSubElement('status')
-        );
         $this->setTagsForVocabSubElements(
-            $status,
+            $life_cycle->getSubElement('status'),
             'lifecycle',
             'lifecycle_status'
         );
@@ -258,7 +229,7 @@ class LOMDictionaryInitiator extends BaseDictionaryInitiator
         StructureSetInterface $structure
     ): void {
         $this->addTagToElement(
-            $this->query->tableContainer('meta_data', true),
+            $this->tag_factory->containerWithRowInTable('meta_data'),
             $meta = $structure->getRoot()->getSubElement('metaMetadata')
         );
         $this->setTagsForIdentifier(
@@ -271,14 +242,15 @@ class LOMDictionaryInitiator extends BaseDictionaryInitiator
             'meta_meta_data'
         );
         $this->addTagToElement(
-            $this->query->data(
-                'meta_data',
-                'meta_data_scheme'
+            $this->tag_factory->dataWithRowInTable(
+                'meta_schema',
+                'meta_data_schema',
+                'meta_meta_data'
             ),
             $meta->getSubElement('metadataSchema')
         );
         $this->addTagToElement(
-            $this->query->data(
+            $this->tag_factory->data(
                 'meta_data',
                 'language'
             ),
@@ -290,25 +262,25 @@ class LOMDictionaryInitiator extends BaseDictionaryInitiator
         StructureSetInterface $structure
     ): void {
         $this->addTagToElement(
-            $this->query->tableContainer('technical', true),
+            $this->tag_factory->containerWithRowInTable('technical'),
             $technical = $structure->getRoot()->getSubElement('technical')
         );
         $this->addTagToElement(
-            $this->query->tableData(
+            $this->tag_factory->dataWithRowInTable(
                 'format',
                 'format'
             ),
             $technical->getSubElement('format')
         );
         $this->addTagToElement(
-            $this->query->data(
+            $this->tag_factory->data(
                 'technical',
                 't_size'
             ),
             $technical->getSubElement('size')
         );
         $this->addTagToElement(
-            $this->query->tableDataWithParent(
+            $this->tag_factory->dataWithRowInTable(
                 'location',
                 'location',
                 'meta_technical'
@@ -316,108 +288,69 @@ class LOMDictionaryInitiator extends BaseDictionaryInitiator
             $technical->getSubElement('location')
         );
         $this->addTagToElement(
-            $this->query->tableContainerWithParent(
+            $this->tag_factory->containerWithRowInTable(
                 'requirement',
-                'meta_technical',
-                false,
-                true
+                'meta_technical'
             ),
             $requirement = $technical->getSubElement('requirement')
         );
         $this->addTagToElement(
-            $this->query->orComposite(),
+            $this->tag_factory->containerWithRowInTable(
+                'or_composite',
+                'meta_requirement'
+            ),
             $or = $requirement->getSubElement('orComposite')
         );
-        $this->addTagToElement(
-            $this->query->orCompositeType(),
-            $or_type = $or->getSubElement('type')
+        $this->setTagsForVocabSubElements(
+            $or->getSubElement('type'),
+            'or_composite',
+            'type',
+            'meta_requirement'
+        );
+        $this->setTagsForVocabSubElements(
+            $or->getSubElement('name'),
+            'or_composite',
+            'name',
+            'meta_requirement'
         );
         $this->addTagToElement(
-            $this->query->orCompositeTypeValue(),
-            $or_type->getSubElement('value')
-        );
-        $this->addTagToElement(
-            $this->query->vocabSource(),
-            $or_type->getSubElement('source')
-        );
-        $this->addTagToElement(
-            $this->query->orCompositeName(),
-            $or_name = $or->getSubElement('name')
-        );
-        $this->addTagToElement(
-            $this->query->orCompositeData(
-                'operating_system_name',
-                'browser_name'
-            ),
-            $or_name->getSubElement('value')
-        );
-        $this->addTagToElement(
-            $this->query->vocabSource(),
-            $or_name->getSubElement('source')
-        );
-        $this->addTagToElement(
-            $this->query->orCompositeData(
-                'os_min_version',
-                'browser_minimum_version'
+            $this->tag_factory->data(
+                'or_composite',
+                'min_version',
+                'meta_requirement'
             ),
             $or->getSubElement('minimumVersion')
         );
         $this->addTagToElement(
-            $this->query->orCompositeData(
-                'os_max_version',
-                'browser_maximum_version'
+            $this->tag_factory->data(
+                'or_composite',
+                'max_version',
+                'meta_requirement'
             ),
             $or->getSubElement('maximumVersion')
         );
-        $this->addTagToElement(
-            $this->query->nonTableContainer(
-                'technical',
-                ['ir', 'ir_language']
-            ),
-            $ir = $technical->getSubElement('installationRemarks')
-        );
         $this->setTagsForLangStringSubElements(
-            $ir,
+            $technical->getSubElement('installationRemarks'),
             'technical',
             'ir',
             'ir_language'
         );
-        $this->addTagToElement(
-            $this->query->nonTableContainer(
-                'technical',
-                ['opr', 'opr_language']
-            ),
-            $other = $technical->getSubElement('otherPlatformRequirements')
-        );
         $this->setTagsForLangStringSubElements(
-            $other,
+            $technical->getSubElement('otherPlatformRequirements'),
             'technical',
             'opr',
             'opr_language'
         );
+        $duration = $technical->getSubElement('duration');
         $this->addTagToElement(
-            $this->query->nonTableContainer(
-                'technical',
-                ['duration', 'duration_descr', 'duration_descr_lang']
-            ),
-            $duration = $technical->getSubElement('duration')
-        );
-        $this->addTagToElement(
-            $this->query->data(
+            $this->tag_factory->data(
                 'technical',
                 'duration'
             ),
             $duration->getSubElement('duration')
         );
-        $this->addTagToElement(
-            $this->query->nonTableContainer(
-                'technical',
-                ['duration_descr', 'duration_descr_lang'],
-            ),
-            $dur_descr = $duration->getSubElement('description')
-        );
         $this->setTagsForLangStringSubElements(
-            $dur_descr,
+            $duration->getSubElement('description'),
             'technical',
             'duration_descr',
             'duration_descr_lang',
@@ -428,83 +361,65 @@ class LOMDictionaryInitiator extends BaseDictionaryInitiator
         StructureSetInterface $structure
     ): void {
         $this->addTagToElement(
-            $this->query->tableContainer('educational', true),
+            $this->tag_factory->containerWithRowInTable('educational'),
             $educational = $structure->getRoot()->getSubElement('educational')
         );
-        $this->addTagToElement(
-            $this->query->nonTableContainer(
-                'educational',
-                ['interactivity_type']
-            ),
-            $inter_type = $educational->getSubElement('interactivityType')
-        );
         $this->setTagsForVocabSubElements(
-            $inter_type,
+            $educational->getSubElement('interactivityType'),
             'educational',
             'interactivity_type'
         );
         $this->addTagToElement(
-            $this->query->nonTableContainer(
-                'educational',
-                ['learning_resource_type']
+            $this->tag_factory->containerWithRowInTable(
+                'lr_type',
+                'meta_educational'
             ),
             $lr_type = $educational->getSubElement('learningResourceType')
         );
         $this->setTagsForVocabSubElements(
             $lr_type,
-            'educational',
-            'learning_resource_type'
-        );
-        $this->addTagToElement(
-            $this->query->nonTableContainer(
-                'educational',
-                ['interactivity_level']
-            ),
-            $inter_level = $educational->getSubElement('interactivityLevel')
+            'lr_type',
+            'learning_resource_type',
+            'meta_educational'
         );
         $this->setTagsForVocabSubElements(
-            $inter_level,
+            $educational->getSubElement('interactivityLevel'),
             'educational',
             'interactivity_level'
         );
-        $this->addTagToElement(
-            $this->query->nonTableContainer(
-                'educational',
-                ['semantic_density']
-            ),
-            $semantic = $educational->getSubElement('semanticDensity')
-        );
         $this->setTagsForVocabSubElements(
-            $semantic,
+            $educational->getSubElement('semanticDensity'),
             'educational',
             'semantic_density'
         );
         $this->addTagToElement(
-            $this->query->nonTableContainer(
-                'educational',
-                ['intended_end_user_role']
+            $this->tag_factory->containerWithRowInTable(
+                'end_usr_role',
+                'meta_educational'
             ),
             $user_role = $educational->getSubElement('intendedEndUserRole')
         );
         $this->setTagsForVocabSubElements(
             $user_role,
-            'educational',
-            'intended_end_user_role'
+            'end_usr_role',
+            'intended_end_user_role',
+            'meta_educational'
         );
         $this->addTagToElement(
-            $this->query->nonTableContainer(
-                'educational',
-                ['context']
+            $this->tag_factory->containerWithRowInTable(
+                'context',
+                'meta_educational'
             ),
             $context = $educational->getSubElement('context')
         );
         $this->setTagsForVocabSubElements(
             $context,
-            'educational',
-            'context'
+            'context',
+            'context',
+            'meta_educational'
         );
         $this->addTagToElement(
-            $this->query->tableContainerWithParent(
+            $this->tag_factory->containerWithRowInTable(
                 'tar',
                 'meta_educational'
             ),
@@ -517,47 +432,27 @@ class LOMDictionaryInitiator extends BaseDictionaryInitiator
             'tar_language',
             'meta_educational'
         );
-        $this->addTagToElement(
-            $this->query->nonTableContainer(
-                'educational',
-                ['difficulty']
-            ),
-            $difficulty = $educational->getSubElement('difficulty')
-        );
         $this->setTagsForVocabSubElements(
-            $difficulty,
+            $educational->getSubElement('difficulty'),
             'educational',
             'difficulty'
         );
+        $tlt = $educational->getSubElement('typicalLearningTime');
         $this->addTagToElement(
-            $this->query->nonTableContainer(
-                'educational',
-                ['typical_learning_time', 'tlt_descr', 'tlt_descr_lang']
-            ),
-            $tlt = $educational->getSubElement('typicalLearningTime')
-        );
-        $this->addTagToElement(
-            $this->query->data(
+            $this->tag_factory->data(
                 'educational',
                 'typical_learning_time'
             ),
             $tlt->getSubElement('duration')
         );
-        $this->addTagToElement(
-            $this->query->nonTableContainer(
-                'educational',
-                ['tlt_descr', 'tlt_descr_lang'],
-            ),
-            $dur_descr = $tlt->getSubElement('description')
-        );
         $this->setTagsForLangStringSubElements(
-            $dur_descr,
+            $tlt->getSubElement('description'),
             'educational',
             'tlt_descr',
             'tlt_descr_lang',
         );
         $this->addTagToElement(
-            $this->query->tableContainerWithParent(
+            $this->tag_factory->containerWithRowInTable(
                 'description',
                 'meta_educational'
             ),
@@ -571,7 +466,7 @@ class LOMDictionaryInitiator extends BaseDictionaryInitiator
             'meta_educational'
         );
         $this->addTagToElement(
-            $this->query->tableDataWithParent(
+            $this->tag_factory->dataWithRowInTable(
                 'language',
                 'language',
                 'meta_educational'
@@ -584,42 +479,21 @@ class LOMDictionaryInitiator extends BaseDictionaryInitiator
         StructureSetInterface $structure
     ): void {
         $this->addTagToElement(
-            $this->query->tableContainer('rights'),
+            $this->tag_factory->containerWithRowInTable('rights'),
             $rights = $structure->getRoot()->getSubElement('rights')
         );
-        $this->addTagToElement(
-            $this->query->nonTableContainer(
-                'rights',
-                ['costs']
-            ),
-            $cost = $rights->getSubElement('cost')
-        );
         $this->setTagsForVocabSubElements(
-            $cost,
+            $rights->getSubElement('cost'),
             'rights',
             'costs'
         );
-        $this->addTagToElement(
-            $this->query->nonTableContainer(
-                'rights',
-                ['cpr_and_or']
-            ),
-            $copyright = $rights->getSubElement('copyrightAndOtherRestrictions')
-        );
         $this->setTagsForVocabSubElements(
-            $copyright,
+            $rights->getSubElement('copyrightAndOtherRestrictions'),
             'rights',
             'cpr_and_or'
         );
-        $this->addTagToElement(
-            $this->query->nonTableContainer(
-                'rights',
-                ['description', 'description_language']
-            ),
-            $description = $rights->getSubElement('description')
-        );
         $this->setTagsForLangStringSubElements(
-            $description,
+            $rights->getSubElement('description'),
             'rights',
             'description',
             'description_language'
@@ -630,38 +504,22 @@ class LOMDictionaryInitiator extends BaseDictionaryInitiator
         StructureSetInterface $structure
     ): void {
         $this->addTagToElement(
-            $this->query->tableContainer('relation', true),
+            $this->tag_factory->containerWithRowInTable('relation'),
             $relation = $structure->getRoot()->getSubElement('relation')
         );
-        $this->addTagToElement(
-            $this->query->nonTableContainer(
-                'relation',
-                ['kind']
-            ),
-            $kind = $relation->getSubElement('kind')
-        );
         $this->setTagsForVocabSubElements(
-            $kind,
+            $relation->getSubElement('kind'),
             'relation',
             'kind'
         );
-        $this->addTagToElement(
-            $this->query->nonTableContainerWithParentAcrossTwoTables(
-                'identifier_',
-                ['catalog', 'entry'],
-                'description',
-                ['description', 'description_language'],
-                'meta_relation'
-            ),
-            $resource = $relation->getSubElement('resource')
-        );
+        $resource = $relation->getSubElement('resource');
         $this->setTagsForIdentifier(
             $resource,
             'identifier_',
             'meta_relation'
         );
         $this->addTagToElement(
-            $this->query->tableContainerWithParent(
+            $this->tag_factory->containerWithRowInTable(
                 'description',
                 'meta_relation'
             ),
@@ -680,52 +538,32 @@ class LOMDictionaryInitiator extends BaseDictionaryInitiator
         StructureSetInterface $structure
     ): void {
         $this->addTagToElement(
-            $this->query->tableContainer('annotation'),
+            $this->tag_factory->containerWithRowInTable('annotation'),
             $annotation = $structure->getRoot()->getSubElement('annotation')
         );
         $this->addTagToElement(
-            $this->query->data(
+            $this->tag_factory->data(
                 'annotation',
                 'entity'
             ),
             $annotation->getSubElement('entity')
         );
+        $date = $annotation->getSubElement('date');
         $this->addTagToElement(
-            $this->query->nonTableContainer(
-                'annotation',
-                ['a_date', 'a_date_descr', 'date_descr_lang']
-            ),
-            $date = $annotation->getSubElement('date')
-        );
-        $this->addTagToElement(
-            $this->query->data(
+            $this->tag_factory->data(
                 'annotation',
                 'a_date'
             ),
             $date->getSubElement('dateTime')
         );
-        $this->addTagToElement(
-            $this->query->nonTableContainer(
-                'annotation',
-                ['a_date_descr', 'date_descr_lang']
-            ),
-            $date_descr = $date->getSubElement('description')
-        );
         $this->setTagsForLangStringSubElements(
-            $date_descr,
+            $date->getSubElement('description'),
             'annotation',
             'a_date_descr',
             'date_descr_lang'
         );
-        $this->addTagToElement(
-            $this->query->nonTableContainer(
-                'annotation',
-                ['description', 'description_language']
-            ),
-            $description = $annotation->getSubElement('description')
-        );
         $this->setTagsForLangStringSubElements(
-            $description,
+            $annotation->getSubElement('description'),
             'annotation',
             'description',
             'description_language'
@@ -736,91 +574,57 @@ class LOMDictionaryInitiator extends BaseDictionaryInitiator
         StructureSetInterface $structure
     ): void {
         $this->addTagToElement(
-            $this->query->tableContainer('classification', true),
+            $this->tag_factory->containerWithRowInTable('classification'),
             $classification = $structure->getRoot()->getSubElement('classification')
         );
-        $this->addTagToElement(
-            $this->query->nonTableContainer(
-                'classification',
-                ['purpose']
-            ),
-            $purpose = $classification->getSubElement('purpose')
-        );
         $this->setTagsForVocabSubElements(
-            $purpose,
+            $classification->getSubElement('purpose'),
             'classification',
             'purpose'
         );
         $this->addTagToElement(
-            $this->query->tableContainerWithParent(
+            $this->tag_factory->containerWithRowInTable(
                 'taxon_path',
-                'meta_classification',
-                false,
-                true
+                'meta_classification'
             ),
             $taxon_path = $classification->getSubElement('taxonPath')
         );
-        $this->addTagToElement(
-            $this->query->nonTableContainerWithParent(
-                'taxon_path',
-                ['source', 'source_language'],
-                'meta_classification',
-                true
-            ),
-            $source = $taxon_path->getSubElement('source')
-        );
         $this->setTagsForLangStringSubElements(
-            $source,
+            $taxon_path->getSubElement('source'),
             'taxon_path',
             'source',
             'source_language',
-            'meta_classification',
-            true
+            'meta_classification'
         );
         $this->addTagToElement(
-            $this->query->tableContainerWithParent(
+            $this->tag_factory->containerWithRowInTable(
                 'taxon',
                 'meta_taxon_path'
             ),
             $taxon = $taxon_path->getSubElement('taxon')
         );
         $this->addTagToElement(
-            $this->query->dataWithParent(
+            $this->tag_factory->data(
                 'taxon',
                 'taxon_id',
                 'meta_taxon_path'
             ),
             $taxon->getSubElement('id')
         );
-        $this->addTagToElement(
-            $this->query->nonTableContainerWithParent(
-                'taxon',
-                ['taxon', 'taxon_language'],
-                'meta_taxon_path'
-            ),
-            $entry = $taxon->getSubElement('entry')
-        );
         $this->setTagsForLangStringSubElements(
-            $entry,
+            $taxon->getSubElement('entry'),
             'taxon',
             'taxon',
             'taxon_language'
         );
-        $this->addTagToElement(
-            $this->query->nonTableContainer(
-                'classification',
-                ['description', 'description_language']
-            ),
-            $description = $classification->getSubElement('description')
-        );
         $this->setTagsForLangStringSubElements(
-            $description,
+            $classification->getSubElement('description'),
             'classification',
             'description',
             'description_language'
         );
         $this->addTagToElement(
-            $this->query->tableContainerWithParent(
+            $this->tag_factory->containerWithRowInTable(
                 'keyword',
                 'meta_classification'
             ),
@@ -838,28 +642,28 @@ class LOMDictionaryInitiator extends BaseDictionaryInitiator
     protected function setTagsForIdentifier(
         StructureElementInterface $element,
         string $table,
-        string $parent_type
+        string $parent
     ): void {
         $this->addTagToElement(
-            $this->query->tableContainerWithParent(
+            $this->tag_factory->containerWithRowInTable(
                 $table,
-                $parent_type
+                $parent
             ),
             $identifier = $element->getSubElement('identifier')
         );
         $this->addTagToElement(
-            $this->query->dataWithParent(
+            $this->tag_factory->data(
                 $table,
                 'catalog',
-                $parent_type
+                $parent
             ),
             $identifier->getSubElement('catalog')
         );
         $this->addTagToElement(
-            $this->query->dataWithParent(
+            $this->tag_factory->data(
                 $table,
                 'entry',
-                $parent_type
+                $parent
             ),
             $identifier->getSubElement('entry')
         );
@@ -867,75 +671,44 @@ class LOMDictionaryInitiator extends BaseDictionaryInitiator
 
     protected function setTagsForContribute(
         StructureElementInterface $element,
-        string $parent_type
+        string $parent
     ): void {
         $this->addTagToElement(
-            $this->query->tableContainerWithParent(
+            $this->tag_factory->containerWithRowInTable(
                 'contribute',
-                $parent_type,
-                false,
-                true
+                $parent
             ),
             $contribute = $element->getSubElement('contribute')
         );
-        $this->addTagToElement(
-            $this->query->nonTableContainerWithParent(
-                'contribute',
-                ['role'],
-                $parent_type,
-                true
-            ),
-            $role = $contribute->getSubElement('role')
-        );
         $this->setTagsForVocabSubElements(
-            $role,
+            $contribute->getSubElement('role'),
             'contribute',
             'role',
-            $parent_type,
-            true
+            $parent
         );
         $this->addTagToElement(
-            $this->query->tableDataWithParent(
+            $this->tag_factory->dataWithRowInTable(
                 'entity',
                 'entity',
                 'meta_contribute'
             ),
             $contribute->getSubElement('entity')
         );
+        $date = $contribute->getSubElement('date');
         $this->addTagToElement(
-            $this->query->nonTableContainerWithParent(
-                'contribute',
-                ['c_date', 'c_date_descr', 'descr_lang'],
-                $parent_type,
-                true
-            ),
-            $date = $contribute->getSubElement('date')
-        );
-        $this->addTagToElement(
-            $this->query->dataWithParent(
+            $this->tag_factory->data(
                 'contribute',
                 'c_date',
-                $parent_type,
-                true
+                $parent
             ),
             $date->getSubElement('dateTime')
         );
-        $this->addTagToElement(
-            $this->query->nonTableContainerWithParent(
-                'contribute',
-                ['c_date_descr', 'descr_lang'],
-                $parent_type,
-                true
-            ),
-            $description = $date->getSubElement('description')
-        );
         $this->setTagsForLangStringSubElements(
-            $description,
+            $date->getSubElement('description'),
             'contribute',
             'c_date_descr',
             'descr_lang',
-            $parent_type,
-            true
+            $parent
         );
     }
 
@@ -944,32 +717,18 @@ class LOMDictionaryInitiator extends BaseDictionaryInitiator
         string $table,
         string $field_string,
         string $field_lang,
-        string $parent_type = '',
-        bool $second_parent = false
+        string $parent = ''
     ): void {
-        if ($parent_type) {
-            $string_tag = $this->query->dataWithParent(
-                $table,
-                $field_string,
-                $parent_type,
-                $second_parent
-            );
-            $lang_tag = $this->query->dataWithParent(
-                $table,
-                $field_lang,
-                $parent_type,
-                $second_parent
-            );
-        } else {
-            $string_tag = $this->query->data(
-                $table,
-                $field_string
-            );
-            $lang_tag = $this->query->data(
-                $table,
-                $field_lang
-            );
-        }
+        $string_tag = $this->tag_factory->data(
+            $table,
+            $field_string,
+            $parent
+        );
+        $lang_tag = $this->tag_factory->data(
+            $table,
+            $field_lang,
+            $parent
+        );
         $this->addTagToElement(
             $string_tag,
             $lang_string->getSubElement('string')
@@ -984,29 +743,16 @@ class LOMDictionaryInitiator extends BaseDictionaryInitiator
         StructureElementInterface $vocab,
         string $table,
         string $field_value,
-        string $parent_type = '',
-        bool $second_parent = false
+        string $parent = ''
     ): void {
-        if ($parent_type) {
-            $value_tag = $this->query->dataWithParent(
-                $table,
-                $field_value,
-                $parent_type,
-                $second_parent
-            );
-        } else {
-            $value_tag = $this->query->data(
-                $table,
-                $field_value
-            );
-        }
+        $value_tag = $this->tag_factory->data(
+            $table,
+            $field_value,
+            $parent
+        );
         $this->addTagToElement(
             $value_tag,
             $vocab->getSubElement('value')
-        );
-        $this->addTagToElement(
-            $this->query->vocabSource(),
-            $vocab->getSubElement('source')
         );
     }
 }
