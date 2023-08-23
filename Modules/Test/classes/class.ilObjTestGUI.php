@@ -121,10 +121,11 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
         $this->type = 'tst';
 
         $this->testrequest = $DIC->test()->internal()->request();
+        $ref_id = 0;
         if ($this->testrequest->hasRefId() && is_numeric($this->testrequest->getRefId())) {
             $ref_id = $this->testrequest->getRefId();
         }
-        parent::__construct("", (int) $ref_id, true, false);
+        parent::__construct("", $ref_id, true, false);
 
         $this->ctrl->saveParameter($this, ['ref_id', 'test_ref_id', 'calling_test', 'test_express_mode', 'q_id']);
 
