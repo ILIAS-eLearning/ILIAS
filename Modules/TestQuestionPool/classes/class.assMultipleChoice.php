@@ -741,6 +741,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
             [$this->getId()]
         );
         $db_feedback = $ilDB->fetchAll($result);
+
         // Check if feedback exists and the regular editor is used and not the page editor
         if (sizeof($db_feedback) >= 1 && $this->getAdditionalContentEditingMode() == 'default'){
             // Get all existing answer data for question
@@ -784,6 +785,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
 
                 // Delete all feedback in the database
                 $this->feedbackOBJ->deleteSpecificAnswerFeedbacks($this->getId(), false);
+                // Recreate feedback
                 foreach ($db_feedback as $feedback_option) {
                     // skip feedback which answer is deleted
                     if (in_array(intval($feedback_option['answer']), $unused_answer_ids)) {
@@ -793,6 +795,12 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
                     // Reorder feedback
                     $feedback_order_db = intval($feedback_option['answer']);
                     $db_answer_id = $db_answer_id_for_order[$feedback_order_db];
+                    // This cuts feedback that currently would have no corresponding answer
+                    // This case can happen while copying "broken" questions
+                    // Or when saving a question with less answers than feedback
+                    if (is_null($db_answer_id) || $db_answer_id < 0) {
+                        continue;
+                    }
                     $feedback_order_post = $post_answer_order_for_id[$db_answer_id];
                     $feedback_option['answer'] = $feedback_order_post;
 
