@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
 * Class ilQueryParser
 *
@@ -28,7 +28,6 @@ declare(strict_types=1);
 * @package ilias-search
 *
 */
-
 class ilQueryParser
 {
     /**
@@ -153,13 +152,13 @@ class ilQueryParser
     public function getQuotedWords(bool $with_quotation = false): array
     {
         if ($with_quotation) {
-            return $this->quoted_words ?: array();
-        } else {
-            foreach ($this->quoted_words as $word) {
-                $tmp_word[] = str_replace('\"', '', $word);
-            }
-            return $tmp_word ?? array();
+            return $this->quoted_words ?: [];
         }
+
+        foreach ($this->quoted_words as $word) {
+            $tmp_word[] = str_replace("\"", '', $word);
+        }
+        return $tmp_word ?? [];
     }
 
     public function getLuceneQueryString(): string
