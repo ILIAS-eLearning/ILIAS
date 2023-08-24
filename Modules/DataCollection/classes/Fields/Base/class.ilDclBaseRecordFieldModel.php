@@ -474,4 +474,13 @@ class ilDclBaseRecordFieldModel
     {
         $this->field_representation = $field_representation;
     }
+
+
+    /**
+     * @return int
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
 }

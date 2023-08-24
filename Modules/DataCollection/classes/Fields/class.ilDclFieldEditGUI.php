@@ -359,24 +359,33 @@ class ilDclFieldEditGUI
         $this->field_obj->setDatatypeId($this->form->getInput("datatype"));
         $this->field_obj->setUnique($this->form->getInput("unique"));
 
+        $txt = " " . $lng->txt("dcl_may_concern_existing_entries");
+
         //check validity of all available records, because the properties may have changed
         foreach ($this->table->getRecords() as $record) {
 
-            //validity of standard field
-            if ((int) ($this->field_obj->getDatatypeId()) !== 11) {
+            //special treatment for rating and for formula field
+
+            if ((int) ($this->field_obj->getDatatypeId()) !== ilDclDatatype::INPUTFORMAT_FORMULA) {
                 $value = $record->getRecordFieldValue($this->field_obj->getId());
+
+                //value of rating field: only voting of the current user
+                if ((int) ($this->field_obj->getDatatypeId()) === ilDclDatatype::INPUTFORMAT_RATING) {
+                    $value = $record->getRecordFieldValueForUser($this->field_obj->getId());
+                    $txt = "";
+                }
+                //validity of field content
                 try {
                     $this->field_obj->checkValidity($value, $record->getId());
                 } catch (ilDclInputException $e) {
                     $item = $this->form->getItemByPostVar('unique');
-                    //make the user aware of the violation of the unique property
-                    $item->setAlert($e . " " . $lng->txt("dcl_may_concern_existing_entries"));
-                    //saving will not be possible until the user unchecks the 'unique' checkbox
+                    $item->setAlert($e . $txt);
                     $return = false;
                     break;
                 }
             }
-            //validity of formula field
+
+            //check validity of formula field content
             if ((int) $this->field_obj->getDatatypeId() === ilDclDatatype::INPUTFORMAT_FORMULA) {
 
                 // parse and evaluate formula field of current record
@@ -385,14 +394,12 @@ class ilDclFieldEditGUI
                     $this->field_obj->checkValidity($value, $record->getId());
                 } catch (ilDclInputException $e) {
                     $item = $this->form->getItemByPostVar('unique');
-                    //make the user aware of the violation of the unique property
-                    $item->setAlert($e . " " . $lng->txt("dcl_may_concern_existing_entries"));
-                    //saving will not be possible until the user unchecks the 'unique' checkbox
+                    $item->setAlert($e . $txt);
                     $return = false;
                     break;
                 }
             }
-        }//validity of all available records
+        }
 
         // load specific model for input checking
         $datatype_id = $this->form->getInput('datatype');

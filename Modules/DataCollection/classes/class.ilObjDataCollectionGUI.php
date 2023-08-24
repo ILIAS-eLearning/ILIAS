@@ -237,8 +237,11 @@ class ilObjDataCollectionGUI extends ilObject2GUI
 
             case "ilratinggui":
                 $rgui = new ilRatingGUI();
-                $rgui->setObject($_GET['record_id'], "dcl_record", $_GET["field_id"], "dcl_field");
-                $rgui->executeCommand();
+                $valid = $this->checkRatingForUser();
+                if ($valid) {
+                    $rgui->setObject($_GET['record_id'], "dcl_record", $_GET["field_id"], "dcl_field");
+                    $rgui->executeCommand();
+                }
                 $DIC->ctrl()->redirectByClass("ilDclRecordListGUI", "listRecords");
                 break;
 
@@ -488,6 +491,78 @@ class ilObjDataCollectionGUI extends ilObject2GUI
 
 
     /**
+     * check rating input
+     * this must be done in ilObjDataCollectionGUI
+     * and before
+     * ilRatingGUI saves the changes to the rating directly in the database
+     * @access    public
+     */
+    public function checkRatingForUser()
+    {
+        $ok = true;
+        $ilCtrl = $this->ctrl;
+
+        if (!is_array($_REQUEST["rating"])) {
+            $rating = (int) ilUtil::stripSlashes($_GET["rating"]);
+
+            $ok = $this->checkRatingValueForUser($rating);
+        } else {
+            foreach ($_POST["rating"] as $cat_id => $rating) {
+                $ok = $this->checkRatingValueForUser($rating);
+            }
+        }
+        return $ok;
+    }
+
+
+    /**
+     * check rating value
+     * called by checkRatingInput for each rating value of the current user
+     * JourFixe-decision-2023-03-20:
+     * check uniqueness of the content of the rating field
+    // consider the user's own rating(s), and not the average of the ratings of all users
+     * @access    protected
+     */
+    protected function checkRatingValueForUser($value)
+    {
+        $ok = true;
+        $ilCtrl = $this->ctrl;
+
+        if ($value < 0) {
+            $value = 0;
+        }
+
+        if ($value > 5) {
+            $value = 5;
+        }
+
+        $record_id = $_REQUEST["record_id"];
+
+        $this->table = ilDclCache::getTableCache($this->object->getFirstVisibleTableId());
+        $all_fields = $this->table->getRecordFields();
+
+        foreach ($all_fields as $field) {
+            if ((int) $field->getDatatypeId() !== ilDclDatatype::INPUTFORMAT_RATING) {
+                continue;
+            }
+            //only check the rating field
+            try {
+                //check uniqueness for the user's own rating
+                $field->checkValidity($value, $record_id);
+            } catch (ilDclInputException $e) {
+                $ok = false;
+                $formattedText = sprintf("Rating %s is already used.", $value);
+                ilUtil::sendFailure($formattedText, true);
+                break;
+            }
+        }
+
+        return $ok;
+    } //checkRatingValueForUser
+
+
+
+    /**
      * Init object edit form
      *
      * @return ilPropertyFormGUI
@@ -651,14 +726,14 @@ class ilObjDataCollectionGUI extends ilObject2GUI
             $this->ctrl->getLinkTarget($this, "redrawHeaderAction", "", true),
             $ilCtrl->getLinkTargetByClass(
                 array(
-                "ilcommonactiondispatchergui",
-                "ilnotegui",
-            ),
+                    "ilcommonactiondispatchergui",
+                    "ilnotegui",
+                ),
                 "",
                 "",
                 true,
                 false
-        ),
+            ),
             $ilCtrl->getLinkTargetByClass(array("ilcommonactiondispatchergui", "iltagginggui"), "", "", true, false)
         );
 

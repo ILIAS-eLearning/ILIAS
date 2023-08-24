@@ -433,6 +433,28 @@ class ilDclBaseRecordModel
 
 
     /**
+     * Get Field Value
+     *
+     * @param int $field_id
+     *
+     * @return array
+     */
+    public function getRecordFieldValueForUser($field_id)
+    {
+        if ($field_id === null) {
+            return null;
+        }
+        $this->loadRecordFields();
+        if (ilDclStandardField::_isStandardField($field_id)) {
+            return $this->getStandardField($field_id);
+        } else {
+            return $this->recordfields[$field_id]->getValueForUser();
+        }
+    }
+
+
+
+    /**
      * Get Field Value for Representation in a Form
      *
      * @param $field_id

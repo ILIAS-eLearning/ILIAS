@@ -20,11 +20,12 @@ class ilDclInputException extends ilException
     const LENGTH_EXCEPTION = 1;
     const REGEX_EXCEPTION = 2;
     const UNIQUE_EXCEPTION = 3;
-    const NOT_URL = 4;
-    const NOT_IMAGE = 5;
-    const WRONG_FILE_TYPE = 6;
-    const CUSTOM_MESSAGE = 7;
-    const REGEX_CONFIG_EXCEPTION = 8;
+    const UNIQUE_RATING_EXCEPTION = 4;
+    const NOT_URL = 5;
+    const NOT_IMAGE = 6;
+    const WRONG_FILE_TYPE = 7;
+    const CUSTOM_MESSAGE = 8;
+    const REGEX_CONFIG_EXCEPTION = 9;
 
 
     /**
@@ -81,6 +82,11 @@ class ilDclInputException extends ilException
                 break;
             case self::UNIQUE_EXCEPTION:
                 $message = $lng->txt('dcl_unique_exception');
+                break;
+            case self::UNIQUE_RATING_EXCEPTION:
+                $message = $lng->txt('dcl_rating_multiply_used');
+                $message = sprintf($message, $this->additional_text);
+                return $message;
                 break;
             case self::NOT_URL:
                 $message = $lng->txt('dcl_noturl_exception');

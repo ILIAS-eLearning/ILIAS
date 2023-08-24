@@ -33,6 +33,42 @@ class ilDclRatingFieldModel extends ilDclBaseFieldModel
 
 
     /**
+     * Check if input is valid
+     *
+     * @param      $value
+     * @param null $record_id
+     *
+     * @return bool
+     * @throws ilDclInputException
+     */
+    public function checkValidity($value, $record_id = null)
+    {
+        //Don't check empty values
+        if ($value === null) {
+            return true;
+        }
+
+        if ($this->isUnique()) {
+            $table = ilDclCache::getTableCache($this->getTableId());
+            // compare the actual field content with the field content of all other records
+            foreach ($table->getRecords() as $record) {
+                if ($this->isRated($value) && (float) $this->normalizeValue($record->getRecordFieldValueForUser($this->getId())) === (float) $this->normalizeValue($value) && ($record->getId() !== $record_id || $record_id === 0)) {
+                    throw new ilDclInputException(ilDclInputException::UNIQUE_RATING_EXCEPTION, strval((float) $value));
+                }
+            }
+        }
+
+        return true;
+    }
+
+
+    private function isRated($value) : bool
+    {
+        return (float) $value !== 0.0;
+    }
+
+
+    /**
      * Returns a query-object for building the record-loader-sql-query
      *
      * @param string $filter_value

@@ -97,6 +97,15 @@ class ilDclRatingRecordFieldModel extends ilDclBaseRecordFieldModel
 
 
     /**
+     * @return array
+     */
+    public function getValueForUser()
+    {
+        return ilRating::getRatingForUserAndObject($this->getRecord()->getId(), "dcl_record", $this->getField()->getId(), "dcl_field", $this->getUser()->getId());
+    }
+
+
+    /**
      * delete
      */
     public function delete()

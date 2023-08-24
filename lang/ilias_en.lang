@@ -8562,6 +8562,7 @@ dcl#:#dcl_public_comments#:#Enable public comments for Entries
 dcl#:#dcl_public_comments_desc#:#Users can comment on entries of the table.
 dcl#:#dcl_rating#:#Rating
 dcl#:#dcl_rating_desc#:#Users can rate entries with up to five stars.
+dcl#:#dcl_rating_multiply_used#:#Rating %s is repeatedly used.
 dcl#:#dcl_rbac_roles_without_read_access_on_any_standard_view#:#The following rbac roles have read access on the data collection, but no read access on any standard view of a table:
 dcl#:#dcl_record#:#Entry
 dcl#:#dcl_record_deleted#:#Entry deleted
