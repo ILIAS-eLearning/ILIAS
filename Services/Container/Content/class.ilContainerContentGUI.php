@@ -689,8 +689,6 @@ abstract class ilContainerContentGUI
             $a_item_data['description']
         );
 
-        // actions
-        $item_list_gui->insertCommands();
         return $item_list_gui->getAsCard(
             $a_item_data['ref_id'],
             (int) $a_item_data['obj_id'],
@@ -872,7 +870,7 @@ abstract class ilContainerContentGUI
             $a_itgr["title"],
             $a_itgr["description"]
         );
-        $commands_html = $item_list_gui->getCommandsHTML();
+        $commands_html = $item_list_gui->getCommandsHTML($a_itgr["title"], false);
 
         // determine behaviour
         $item_group = new ilObjItemGroup($a_itgr["ref_id"]);
