@@ -316,7 +316,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI
     public function infoScreen(): void
     {
         $this->ctrl->setCmd("showSummary");
-        $this->ctrl->setCmdClass("ilinfoscreengui");
+        $this->ctrl->setCmdClass(ilInfoScreenGUI::class);
         $this->infoScreenForward();
     }
 
@@ -330,9 +330,9 @@ class ilObjDataCollectionGUI extends ilObject2GUI
                 'tableview_id',
                 $this->refinery->kindlyTo()->int()
             );
-            $this->ctrl->setParameterByClass('ilDclRecordListGUI', 'tableview_id', $tableview_id);
+            $this->ctrl->setParameterByClass(ilDclRecordListGUI::class, 'tableview_id', $tableview_id);
         }
-        $this->ctrl->redirectByClass("ildclrecordlistgui", "show");
+        $this->ctrl->redirectByClass(ilDclRecordListGUI::class, "show");
     }
 
     /**
@@ -384,14 +384,14 @@ class ilObjDataCollectionGUI extends ilObject2GUI
 
         //load record list
         if ($access->checkAccess('read', "", (int)$ref_id)) {
-            $ilCtrl->setParameterByClass("ilRepositoryGUI", self::GET_REF_ID, $ref_id);
+            $ilCtrl->setParameterByClass(ilRepositoryGUI::class, self::GET_REF_ID, $ref_id);
             if (isset($viewId)) {
-                $ilCtrl->setParameterByClass("ilRepositoryGUI", self::GET_VIEW_ID, $viewId);
+                $ilCtrl->setParameterByClass(ilRepositoryGUI::class, self::GET_VIEW_ID, $viewId);
             }
             if (isset($recordId)) {
-                $ilCtrl->setParameterByClass("ilRepositoryGUI", self::GET_DCL_GTR, $recordId);
+                $ilCtrl->setParameterByClass(ilRepositoryGUI::class, self::GET_DCL_GTR, $recordId);
             }
-            $ilCtrl->redirectByClass("ilRepositoryGUI", "listRecords");
+            $ilCtrl->redirectByClass(ilRepositoryGUI::class, "listRecords");
         }
         //redirect to info screen
         elseif ($access->checkAccess('visbile', "", (int)$ref_id)) {
@@ -537,7 +537,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI
 
     final public function listRecords(): void
     {
-        $this->ctrl->setParameterByClass("ildclrecordlistgui", "tableview_id", $this->getTableViewId());
+        $this->ctrl->setParameterByClass(ilDclRecordListGUI::class, "tableview_id", $this->getTableViewId());
         $this->ctrl->redirectByClass(ilDclRecordListGUI::class, "show");
     }
 
