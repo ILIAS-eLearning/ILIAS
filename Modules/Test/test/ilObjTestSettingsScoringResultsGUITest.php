@@ -26,6 +26,8 @@ use Psr\Http\Message\ServerRequestInterface;
  */
 class ilObjTestSettingsScoringResultsGUITest extends TestCase
 {
+    private ilObjTestSettingsScoringResultsGUI $testObj;
+
     protected function getUIComponents(): array
     {
         $test_helper = new UITestHelper();

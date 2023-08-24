@@ -36,8 +36,9 @@ h2.ilHeader {
 #headerimage {
 	width: 45px;
 	height: 45px;
-	margin-top: 3px;
-	margin-right: 10px;
+	margin-top: $il-padding-large-vertical;
+	margin-right: $il-padding-small-horizontal;
+	margin-bottom: $il-padding-large-vertical;
 	float: left;
 	@media only screen and (max-width: $il-grid-float-breakpoint-max) {
         width: 35px;

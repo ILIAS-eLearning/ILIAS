@@ -15,6 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
 declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Input\Field;
@@ -29,7 +30,7 @@ use ILIAS\Refinery\ConstraintViolationException;
 /**
  * This implements the numeric input.
  */
-class Numeric extends Input implements C\Input\Field\Numeric
+class Numeric extends FormInput implements C\Input\Field\Numeric
 {
     private bool $complex = false;
 
@@ -48,7 +49,7 @@ class Numeric extends Input implements C\Input\Field\Numeric
             $this->refinery->kindlyTo()->null(),
             $this->refinery->kindlyTo()->int()
         ])
-        ->withProblemBuilder(fn ($txt) => $txt("ui_numeric_only"));
+        ->withProblemBuilder(fn($txt) => $txt("ui_numeric_only"));
 
         $this->setAdditionalTransformation($trafo_numericOrNull);
     }
@@ -56,7 +57,7 @@ class Numeric extends Input implements C\Input\Field\Numeric
     /**
      * @inheritdoc
      */
-    protected function isClientSideValueOk($value): bool
+    public function isClientSideValueOk($value): bool
     {
         return is_numeric($value) || $value === "" || $value === null;
     }
@@ -78,7 +79,7 @@ class Numeric extends Input implements C\Input\Field\Numeric
      */
     public function getUpdateOnLoadCode(): Closure
     {
-        return fn ($id) => "$('#$id').on('input', function(event) {
+        return fn($id) => "$('#$id').on('input', function(event) {
 				il.UI.input.onFieldUpdate(event, '$id', $('#$id').val());
 			});
 			il.UI.input.onFieldUpdate(event, '$id', $('#$id').val());";

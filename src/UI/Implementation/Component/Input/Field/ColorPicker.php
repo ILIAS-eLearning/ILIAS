@@ -15,6 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
 declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Input\Field;
@@ -28,7 +29,7 @@ use Closure;
 /**
  * @author Patrick Bechtold <patrick.bechtold@kroepelin-projekte.de>
  */
-class ColorPicker extends Input implements C\Input\Field\ColorPicker
+class ColorPicker extends FormInput implements C\Input\Field\ColorPicker
 {
     /**
      * Input constructor.
@@ -57,7 +58,7 @@ class ColorPicker extends Input implements C\Input\Field\ColorPicker
     /**
      * @inheritdoc
      */
-    protected function isClientSideValueOk($value): bool
+    public function isClientSideValueOk($value): bool
     {
         return is_string($value);
     }

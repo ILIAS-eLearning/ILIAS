@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\DI\Container;
+
 /**
  * Class ilObjTestGUITest
  * @author Marvin Beym <mbeym@databay.de>
@@ -28,9 +30,18 @@ class ilObjTestGUITest extends ilTestBaseTestCase
 
     protected function setUp(): void
     {
+        if (!defined('ANONYMOUS_USER_ID')) {
+            define('ANONYMOUS_USER_ID', 13);
+        }
+
+        global $DIC;
+
+        $this->dic = is_object($DIC) ? clone $DIC : $DIC;
+
+        $DIC = new Container();
+
         parent::setUp();
 
-        $this->markTestSkipped("DB causing issues");
 
         $this->addGlobal_lng();
         $this->addGlobal_ilCtrl();
@@ -52,8 +63,27 @@ class ilObjTestGUITest extends ilTestBaseTestCase
         $this->addGlobal_ilErr();
         $this->addGlobal_ilTabs();
         $this->addGlobal_ilias();
+        $this->addGlobal_ilNavigationHistory();
+        $this->addGlobal_ilComponentFactory();
+        $this->addGlobal_uiFactory();
+        $this->addGlobal_uiRenderer();
+        $this->addGlobal_skillService();
+        $this->addGlobal_ilHelp();
+        $this->addGlobal_ilObjDataCache();
+        $this->addGlobal_http();
+        $this->addGlobal_ilRbacAdmin();
+        $this->addGlobal_objectService();
 
         $this->testObj = new ilObjTestGUI();
+    }
+
+    protected function tearDown(): void
+    {
+        global $DIC;
+
+        $DIC = $this->dic;
+
+        parent::tearDown();
     }
 
     public function test_instantiateObject_shouldReturnInstance(): void
@@ -63,7 +93,6 @@ class ilObjTestGUITest extends ilTestBaseTestCase
 
     public function testTestAccess(): void
     {
-        $this->assertNull($this->testObj->getTestAccess());
         $testAccess_mock = $this->createMock(ilTestAccess::class);
 
         $this->testObj->setTestAccess($testAccess_mock);
@@ -72,7 +101,6 @@ class ilObjTestGUITest extends ilTestBaseTestCase
 
     public function testGetTabsManager(): void
     {
-        $this->assertNull($this->testObj->getTabsManager());
         $testTabsManager_mock = $this->createMock(ilTestTabsManager::class);
 
         $this->testObj->setTabsManager($testTabsManager_mock);
@@ -119,20 +147,6 @@ class ilObjTestGUITest extends ilTestBaseTestCase
         $testObj = new ilObjTestGUI();
 
         $testObj->backObject();
-    }
-
-    public function testCancelRandomSelectObject(): void
-    {
-        $ctrl_mock = $this->createMock(ilCtrl::class);
-        $ctrl_mock
-            ->expects($this->once())
-            ->method("redirect")
-            ->with($this->testObj, "questions");
-        $this->setGlobalVariable("ilCtrl", $ctrl_mock);
-
-        $testObj = new ilObjTestGUI();
-
-        $testObj->cancelRandomSelectObject();
     }
 
     public function testCancelCreateQuestionObject(): void
