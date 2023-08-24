@@ -25,6 +25,7 @@ use ILIAS\UI\Component\Modal\Modal;
 use ILIAS\UI\Component\Card\RepositoryObject;
 use ILIAS\UI\Component\Item\Item;
 use ILIAS\UI\Component\Image\Image;
+use ILIAS\UI\Component\Dropdown\Standard as StandardDropdown;
 use ILIAS\Notes\Note;
 use ILIAS\HTTP\Services as HTTPServices;
 use ILIAS\Object\ilObjectDIC;
@@ -169,7 +170,7 @@ class ilObjectListGUI
     protected string $title_link = '';
     protected bool $title_link_disabled = false;
     protected bool $lp_cmd_enabled = false;
-    protected ilAdvancedSelectionListGUI $current_selection_list;
+    protected array $current_actions;
     protected ?ilPathGUI $path_gui = null;
     protected array $default_command_params = [];
     protected array $header_icons = [];
@@ -1599,30 +1600,37 @@ class ilObjectListGUI
     ): void {
         // #11099
         $checksum = md5($href . $text);
-        if ($href == '#' || !in_array($checksum, $this->prevent_duplicate_commands)) {
-            if ($href != '#') {
-                $this->prevent_duplicate_commands[] = $checksum;
-            }
-
-            $prevent_background_click = false;
-            if ($cmd == 'mount_webfolder') {
-                $onclick = "triggerWebDAVModal('$href')";
-                $href = '#';
-                ilWebDAVMountInstructionsModalGUI::maybeRenderWebDAVModalInGlobalTpl();
-            }
-
-            $this->current_selection_list->addItem(
-                $text,
-                '',
-                $href,
-                $img,
-                $text,
-                $frame,
-                '',
-                $prevent_background_click,
-                $onclick
-            );
+        if ($href !== '#' && in_array($checksum, $this->prevent_duplicate_commands)) {
+            return;
         }
+
+        if ($href !== '#') {
+            $this->prevent_duplicate_commands[] = $checksum;
+        }
+
+        if ($cmd === 'mount_webfolder') {
+            $onclick = "triggerWebDAVModal('$href')";
+            $href = '#';
+            ilWebDAVMountInstructionsModalGUI::maybeRenderWebDAVModalInGlobalTpl();
+        }
+
+        $action = $this->ui->factory()
+            ->button()
+            ->shy($text, $href);
+
+        if ($frame !== '') {
+            $action = $this->ui->factory()->link()->standard($text, $href)->withOpenInNewViewport(true);
+        }
+
+        if ($onclick !== '') {
+            $action = $action->withAdditionalOnLoadCode(function ($id) use ($onclick): string {
+                return "$('#$id').click(function(){" . $onclick . ';});';
+            });
+        }
+
+
+
+        $this->current_actions[] = $action;
     }
 
     public function insertDeleteCommand(): void
@@ -1973,57 +1981,18 @@ class ilObjectListGUI
     /**
      * insert all commands into html code
      */
-    public function insertCommands(
-        bool $use_async = false,
-        bool $get_async_commands = false,
-        string $async_url = '',
-        bool $header_actions = false
-    ): string {
+    private function populateCommands(
+        bool $for_header
+    ): void {
         if (!$this->getCommandsStatus() || $this->commandsNeedToBeHidden(
-            $use_async,
-            $get_async_commands,
-            $header_actions
+            $for_header
         )) {
-            return '';
+            return;
         }
-
-        $this->current_selection_list = new ilAdvancedSelectionListGUI();
-        $this->current_selection_list->setAriaListTitle(
-            sprintf(
-                $this->lng->txt('actions_for'),
-                htmlspecialchars(addslashes($this->getTitle()))
-            )
-        );
-        $this->current_selection_list->setAsynch($use_async && !$get_async_commands);
-        $this->current_selection_list->setAsynchUrl($async_url);
-        if ($header_actions) {
-            $this->current_selection_list->setListTitle(
-                '<span class="hidden-xs">' .
-                $this->lng->txt('actions') .
-                '</span>'
-            );
-        } else {
-            $this->current_selection_list->setListTitle('');
-        }
-        $this->current_selection_list->setId('act_' . $this->getUniqueItemId());
-        $this->current_selection_list->setSelectionHeaderClass('');
-        $this->current_selection_list->setItemLinkClass('');
-        $this->current_selection_list->setLinksMode('il_ContainerItemCommand2');
-        $this->current_selection_list->setHeaderIcon(ilAdvancedSelectionListGUI::DOWN_ARROW_DARK);
-        $this->current_selection_list->setUseImages(false);
-        $this->current_selection_list->setAdditionalToggleElement(
-            $this->getUniqueItemId(true),
-            'ilContainerListItemOuterHighlight'
-        );
 
         $this->ctrl->setParameterByClass($this->gui_class_name, 'ref_id', $this->ref_id);
 
-        // only standard command?
-        $only_default = false;
-        if ($use_async && !$get_async_commands) {
-            $only_default = true;
-        }
-
+        $this->current_actions = [];
         $this->default_command = [];
         $this->prevent_duplicate_commands = [];
 
@@ -2032,126 +2001,114 @@ class ilObjectListGUI
 
         $commands = $this->getCommands();
         foreach ($commands as $command) {
-            if ($header_actions && !in_array($command['cmd'], $valid_header_commands)) {
+            if ($for_header && !in_array($command['cmd'], $valid_header_commands)
+                || $command['granted'] === false) {
                 continue;
             }
 
-            if ($command['granted'] == true) {
-                if (!$command['default'] === true) {
-                    if (!$this->std_cmd_only && !$only_default) {
-                        // workaround for repository frameset
-                        $command['link'] =
-                            $this->appendRepositoryFrameParameter($command['link']);
+            if ($command['default'] !== true) {
+                if (!$this->std_cmd_only) {
+                    // workaround for repository frameset
+                    $command['link'] =
+                        $this->appendRepositoryFrameParameter($command['link']);
 
-                        $cmd_link = $command['link'];
-                        $txt = ($command['lang_var'] == '')
-                            ? $command['txt']
-                            : $this->lng->txt($command['lang_var']);
-                        $this->insertCommand(
-                            $cmd_link,
-                            $txt,
-                            $command['frame'],
-                            $command['img'],
-                            $command['cmd']
-                        );
-                    }
-                } else {
-                    $this->default_command = $this->createDefaultCommand($command);
+                    $cmd_link = $command['link'];
+                    $txt = ($command['lang_var'] == '')
+                        ? $command['txt']
+                        : $this->lng->txt($command['lang_var']);
+                    $this->insertCommand(
+                        $cmd_link,
+                        $txt,
+                        $command['frame'],
+                        $command['img'],
+                        $command['cmd']
+                    );
                 }
+            } else {
+                $this->default_command = $this->createDefaultCommand($command);
             }
         }
 
-        if (!$only_default) {
-            // custom commands
-            if (is_array($this->cust_commands)) {
-                foreach ($this->cust_commands as $command) {
-                    if ($command instanceof Button) {
-                        $this->current_selection_list->addComponent($command);
-                        continue;
-                    }
-
-                    $this->insertCommand(
-                        $command['link'],
-                        $this->lng->txt($command['lang_var']),
-                        $command['frame'],
-                        '',
-                        $command['cmd'] ?? '',
-                        $command['onclick']
-                    );
+        // custom commands
+        if (is_array($this->cust_commands)) {
+            foreach ($this->cust_commands as $command) {
+                if ($command instanceof Button) {
+                    $this->current_actions[] = $command;
+                    continue;
                 }
+
+                $this->insertCommand(
+                    $command['link'],
+                    $this->lng->txt($command['lang_var']),
+                    $command['frame'],
+                    '',
+                    $command['cmd'] ?? '',
+                    $command['onclick']
+                );
             }
-            $this->insertLPSettingsCommand();
+        }
+        $this->insertLPSettingsCommand();
 
-            // info screen command
-            if ($this->getInfoScreenStatus()) {
-                $this->insertInfoScreenCommand();
+        // info screen command
+        if ($this->getInfoScreenStatus()) {
+            $this->insertInfoScreenCommand();
+        }
+
+        $this->insertLPCommand();
+
+        if (!$this->isMode(self::IL_LIST_AS_TRIGGER)) {
+            // edit timings
+            if ($this->timings_enabled) {
+                $this->insertTimingsCommand();
             }
 
-            $this->insertLPCommand();
-
-            if (!$this->isMode(self::IL_LIST_AS_TRIGGER)) {
-                // delete
-                if ($this->delete_enabled) {
-                    $this->insertDeleteCommand();
-                }
-
-                // link
-                if ($this->link_enabled) {
-                    $this->insertLinkCommand();
-                }
-
-                // cut
-                if ($this->cut_enabled) {
-                    $this->insertCutCommand();
-                }
-
-                // copy
-                if ($this->copy_enabled) {
-                    $this->insertCopyCommand();
-                }
-
-                // cut/copy from workspace to repository
-                if ($this->repository_transfer_enabled) {
-                    $this->insertCutCommand(true);
-                    $this->insertCopyCommand(true);
-                }
-
-                if ($this->timings_enabled) {
-                    $this->insertTimingsCommand();
-                }
-
-                // subscribe
-                if ($this->subscribe_enabled) {
-                    $this->insertSubscribeCommand();
-                }
-
-                // multi download
-                if ($this->multi_download_enabled && $header_actions) {
-                    $this->insertMultiDownloadCommand();
-                }
-
-                // BEGIN PATCH Lucene search
-                if ($this->cut_enabled or $this->link_enabled) {
-                    $this->insertPasteCommand();
-                }
-                // END PATCH Lucene Search
+            // delete
+            if ($this->delete_enabled) {
+                $this->insertDeleteCommand();
             }
+
+            // link
+            if ($this->link_enabled) {
+                $this->insertLinkCommand();
+            }
+
+            // cut
+            if ($this->cut_enabled) {
+                $this->insertCutCommand();
+            }
+
+            // copy
+            if ($this->copy_enabled) {
+                $this->insertCopyCommand();
+            }
+
+            // cut/copy from workspace to repository
+            if ($this->repository_transfer_enabled) {
+                $this->insertCutCommand(true);
+                $this->insertCopyCommand(true);
+            }
+
+            // subscribe
+            if ($this->subscribe_enabled) {
+                $this->insertSubscribeCommand();
+            }
+
+            // multi download
+            if ($this->multi_download_enabled && $for_header) {
+                $this->insertMultiDownloadCommand();
+            }
+
+            // BEGIN PATCH Lucene search
+            if ($this->cut_enabled or $this->link_enabled) {
+                $this->insertPasteCommand();
+            }
+            // END PATCH Lucene Search
         }
 
         // common social commands (comment, notes, tags)
-        if (!$only_default && !$this->isMode(self::IL_LIST_AS_TRIGGER)) {
-            $this->insertCommonSocialCommands($header_actions);
+        if (!$this->isMode(self::IL_LIST_AS_TRIGGER)) {
+            $this->insertCommonSocialCommands($for_header);
         }
-
-        if (!$header_actions) {
-            $this->ctrl->clearParametersByClass($this->gui_class_name);
-        }
-
-        if ($use_async && $get_async_commands) {
-            return $this->current_selection_list->getHTML(true);
-        }
-
-        return $this->current_selection_list->getHTML();
     }
 
     /**
@@ -2161,11 +2118,9 @@ class ilObjectListGUI
     // public area, category, no info tab
     // todo: make this faster and remove type specific implementation if possible
     private function commandsNeedToBeHidden(
-        bool $use_async,
-        bool $get_async_commands,
-        bool $header_actions
+        bool $for_header
     ): bool {
-        if ($use_async && !$get_async_commands && !$header_actions
+        if (!$for_header
             && $this->user->getId() === ANONYMOUS_USER_ID && $this->checkInfoPageOnAsynchronousRendering()
             && $this->object_properties->getPropertyInfoTabVisibility()) {
             return true;
@@ -2520,9 +2475,13 @@ class ilObjectListGUI
         }
 
         $this->title = ilObject::_lookupTitle($this->obj_id);
+        $dropdown_label = '<span class="hidden-xs">' .
+                $this->lng->txt('actions') .
+                '</span>';
+        $dropdown = $this->getCommandsDropdown($dropdown_label, true);
         $htpl->setVariable(
             'ACTION_DROP_DOWN',
-            $this->insertCommands(false, false, '', true)
+            $this->ui->renderer()->render($dropdown)
         );
 
         if ($this->cust_modals !== []) {
@@ -2778,10 +2737,6 @@ class ilObjectListGUI
 
         $this->initItem($ref_id, $obj_id, $type, $title, $description);
 
-        if ($use_async && $get_async_commands) {
-            return $this->insertCommands(true, true);
-        }
-
         if ($this->rating_enabled) {
             if (ilRating::hasRatingInListGUI($this->obj_id, $this->type)) {
                 $may_rate = $this->checkCommandAccess('read', '', $this->ref_id, $this->type);
@@ -2831,9 +2786,10 @@ class ilObjectListGUI
 
         if ($this->getCommandsStatus()) {
             if (!$this->getSeparateCommands()) {
+                $dropdown = $this->getCommandsDropdown($title);
                 $this->tpl->setVariable(
                     'COMMAND_SELECTION_LIST',
-                    $this->insertCommands($use_async, $get_async_commands, $async_url)
+                    $this->ui->renderer()->render($dropdown)
                 );
             }
         }
@@ -2969,9 +2925,21 @@ class ilObjectListGUI
     /**
     * Get commands HTML (must be called after get list item html)
     */
-    public function getCommandsHTML(): string
+    public function getCommandsHTML(string $title): string
     {
-        return $this->insertCommands();
+        return $this->ui->renderer()->render($this->getCommandsDropdown($title, false));
+    }
+
+    private function getCommandsDropdown(string $title, bool $for_header = false): StandardDropdown
+    {
+        $this->populateCommands($for_header);
+        return $this->ui->factory()
+            ->dropdown()
+            ->standard($this->current_actions)
+            ->withAriaLabel(sprintf(
+                $this->lng->txt('actions_for'),
+                htmlspecialchars(addslashes($title))
+            ));
     }
 
     /**
@@ -3113,30 +3081,9 @@ class ilObjectListGUI
         $this->enableCommands(true);
 
         // actions
-        $this->insertCommands();
-        $actions = [];
-        foreach ($this->current_selection_list->getItems() as $action_item) {
-            $action = $ui->factory()
-                ->button()
-                ->shy($action_item['title'], $action_item['link']);
+        $this->populateCommands(false);
 
-            if ($action_item['onclick'] !== null && $action_item['onclick'] !== '') {
-                $action = $action->withAdditionalOnLoadCode(function ($id) use ($action_item): string {
-                    return "$('#$id').click(function(){" . $action_item['onclick'] . ';});';
-                });
-            }
-
-            $actions[] = $action;
-        }
-
-        $dropdown = $ui->factory()
-            ->dropdown()
-            ->standard($actions)
-            ->withAriaLabel(sprintf(
-                $this->lng->txt('actions_for'),
-                htmlspecialchars(addslashes($title))
-            ));
-
+        $dropdown = $this->getCommandsDropdown($title);
         $def_command = $this->getDefaultCommand();
 
         $icon = $this->ui->factory()
@@ -3150,9 +3097,9 @@ class ilObjectListGUI
             $def_command['link'] = $this->modifySAHSlaunch($def_command['link'], $def_command['frame']);
             $new_viewport = !in_array($this->getDefaultCommand()['frame'], ['', '_top', '_self', '_parent'], true); // Cannot use $def_command['frame']. $this->default_command has been edited.
             $link = $this->ui->factory()
-                             ->link()
-                             ->standard($this->getTitle(), $def_command['link'])
-                             ->withOpenInNewViewport($new_viewport);
+                ->link()
+                ->standard($this->getTitle(), $def_command['link'])
+                ->withOpenInNewViewport($new_viewport);
             $list_item = $ui->factory()->item()->standard($link);
         } else {
             $list_item = $ui->factory()->item()->standard($this->getTitle());
@@ -3211,35 +3158,15 @@ class ilObjectListGUI
         $this->enableCommands(true);
 
         $sections = [];
-
-        // description, @todo: move to new ks element
-        if ($description != '') {
+        if ($description !== '') {
             $sections[] = $ui->factory()->legacy('<div class="il-multi-line-cap-3">' . $description . '</div>');
         }
 
-        $this->insertCommands();
-        $actions = [];
-
-        foreach ($this->current_selection_list->getItems() as $item) {
-            if (!isset($item['onclick']) || $item['onclick'] == '') {
-                $actions[] =
-                    $ui->factory()->button()->shy($item['title'], $item['link']);
-            } else {
-                $actions[] =
-                    $ui->factory()->button()->shy($item['title'], '')->withAdditionalOnLoadCode(function ($id) use ($item): string {
-                        return
-                            "$('#$id').click(function(e) { " . $item['onclick'] . '});';
-                    });
-            }
-        }
+        $this->populateCommands(false);
 
         $def_command = $this->getDefaultCommand();
 
-        $dropdown = $ui->factory()->dropdown()->standard($actions)
-                       ->withAriaLabel(sprintf(
-                           $this->lng->txt('actions_for'),
-                           htmlspecialchars(addslashes($title))
-                       ));
+        $dropdown = $this->getCommandsDropdown($title);
 
         // workaround for #26205
         // we should get rid of _top links completely and gifure our how
