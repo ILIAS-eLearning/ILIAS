@@ -22,6 +22,7 @@ class ilDclTableEditGUI
 {
     private ?int $table_id;
     private ilDclTable $table;
+    protected \ILIAS\UI\Factory $ui_factory;
     protected ilLanguage $lng;
     protected ilCtrl $ctrl;
     protected ilGlobalTemplateInterface $tpl;
@@ -49,6 +50,7 @@ class ilDclTableEditGUI
         $this->obj_id = $a_parent_obj->getObjId();
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
+        $this->ui_factory = $DIC->ui()->factory();
 
         $table_id = null;
         if ($this->http->wrapper()->query()->has("table_id")) {
@@ -174,7 +176,12 @@ class ilDclTableEditGUI
 
         // Show default order field, direction and tableswitcher only in edit mode, because table id is not yet given and there are no fields to select
         if ($a_mode != 'create') {
-            $this->createTableSwitcher();
+            $switcher = new ilDclSwitcher($this->toolbar, $this->ui_factory, $this->ctrl, $this->lng);
+            $switcher->addTableSwitcherToToolbar(
+                $this->parent_object->getDataCollectionObject()->getTables(),
+                self::class,
+                'edit'
+            );
 
             $item = new ilSelectInputGUI($this->lng->txt('dcl_default_sort_field'), 'default_sort_field');
             $item->setInfo($this->lng->txt('dcl_default_sort_field_desc'));
@@ -270,13 +277,6 @@ class ilDclTableEditGUI
         } else {
             $this->form->setTitle($this->lng->txt('dcl_new_table'));
         }
-    }
-
-    public function doTableSwitch(): void
-    {
-        $table_id = $this->http->wrapper()->post()->retrieve('table_id', $this->refinery->kindlyTo()->int());
-        $this->ctrl->setParameter($this, "table_id", $table_id);
-        $this->ctrl->redirect($this, "edit");
     }
 
     public function save(string $a_mode = "create"): void
@@ -415,29 +415,5 @@ class ilDclTableEditGUI
             $ref_id,
             $this->table_id
         ) : ilObjDataCollectionAccess::hasWriteAccess($ref_id);
-    }
-
-    /**
-     * @return string[]
-     */
-    protected function createTableSwitcher(): array
-    {
-        // Show tables
-        $tables = $this->parent_object->getDataCollectionObject()->getTables();
-
-        $options = [];
-        foreach ($tables as $table) {
-            $options[$table->getId()] = $table->getTitle();
-        }
-        $table_selection = new ilSelectInputGUI($this->lng->txt("dcl_select"), 'table_id');
-        $table_selection->setOptions($options);
-        $table_selection->setValue($this->table->getId());
-
-        $this->toolbar->setFormAction($this->ctrl->getFormActionByClass("ilDclTableEditGUI", "doTableSwitch"));
-        $this->toolbar->addText($this->lng->txt("dcl_select"));
-        $this->toolbar->addInputItem($table_selection);
-        $this->toolbar->addFormButton('change', "doTableSwitch");
-
-        return $options;
     }
 }
