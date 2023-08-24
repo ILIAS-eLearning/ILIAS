@@ -25,9 +25,13 @@ class ilMathJaxConfigSettingsRepository implements ilMathJaxConfigRespository
     /**
      * Constructor
      */
-    public function __construct(ilSettingsFactory $factory)
+    public function __construct(?ilSettingsFactory $factory = null)
     {
-        $this->settings = $factory->settingsFor('MathJax');
+        if($factory === null) {
+            $this->settings = new ilSetting('MathJax', true);
+        } else {
+            $this->settings = $factory->settingsFor('MathJax');
+        }
     }
 
     /**

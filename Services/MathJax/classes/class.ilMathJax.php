@@ -124,7 +124,7 @@ class ilMathJax
         global $DIC;
 
         if (!isset(self::$_instance)) {
-            $repo = new ilMathJaxConfigSettingsRepository(new ilSettingsFactory($DIC->database()));
+            $repo = new ilMathJaxConfigSettingsRepository();
             self::$_instance = new self($repo->getConfig(), new ilMathJaxFactory());
         }
         return self::$_instance;

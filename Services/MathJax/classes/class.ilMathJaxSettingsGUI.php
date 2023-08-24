@@ -51,8 +51,7 @@ class ilMathJaxSettingsGUI
         $this->request = $this->dic->http()->request();
         $this->refinery = $this->dic->refinery();
 
-        $factory = new ilSettingsFactory($DIC->database());
-        $this->repository = new ilMathJaxConfigSettingsRepository($factory);
+        $this->repository = new ilMathJaxConfigSettingsRepository();
     }
 
     /**
