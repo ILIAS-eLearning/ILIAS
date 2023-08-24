@@ -926,32 +926,35 @@ class ilAdvancedMDSettingsGUI
             )
         );
 
-        $filter_warn = array();
+        $filter_warn = [];
         if ($perm[ilAdvancedMDPermissionHelper::ACTION_RECORD_CREATE_FIELD]) {
             // type selection
-            $types = new ilSelectInputGUI("", "ftype");
-            $options = array();
+            $field_buttons = [];
             foreach (ilAdvancedMDFieldDefinition::getValidTypes() as $type) {
                 $field = ilAdvancedMDFieldDefinition::getInstance(null, $type);
-                $options[$type] = $this->lng->txt($field->getTypeTitle());
+
+                $this->ctrl->setParameter($this, 'ftype', $type);
+                $create_link = $this->ctrl->getLinkTarget($this, 'createField');
+                $this->ctrl->clearParameterByClass(strtolower(self::class), 'ftype');
+
+                $field_buttons[] = $this->ui_factory->button()->shy(
+                    $this->lng->txt($field->getTypeTitle()),
+                    $create_link
+                );
 
                 if (!$field->isFilterSupported()) {
                     $filter_warn[] = $this->lng->txt($field->getTypeTitle());
                 }
             }
-            $types->setOptions($options);
 
             if (count($this->toolbar->getItems())) {
                 $this->toolbar->addSeparator();
             }
-            $this->toolbar->addInputItem($types);
 
-            $this->toolbar->setFormAction($this->ctrl->getFormAction($this, "createField"));
-
-            $button = ilSubmitButton::getInstance();
-            $button->setCaption("add");
-            $button->setCommand("createField");
-            $this->toolbar->addButtonInstance($button);
+            $dropdown = $this->ui_factory->dropdown()
+                                         ->standard($field_buttons)
+                                         ->withLabel($this->lng->txt('meta_advmd_add_field'));
+            $this->toolbar->addComponent($dropdown);
         }
 
         // #17092
