@@ -189,6 +189,8 @@ class Renderer extends AbstractComponentRenderer
 
         $tpl->setVariable('SORTATION_DROPDOWN', $default_renderer->render($dd));
 
+//        $tpl->setVariable("ARIA_LABEL", $this->txt("sortation"));
+
         return $tpl->get();
     }
 
@@ -392,8 +394,7 @@ class Renderer extends AbstractComponentRenderer
     public function registerResources(ResourceRegistry $registry): void
     {
         parent::registerResources($registry);
-        $registry->register('./components/ILIAS/UI/src/templates/js/ViewControl/sortation.js');
-        $registry->register('./components/ILIAS/UI/src/templates/js/ViewControl/pagination.js');
+        $registry->register('./components/ILIAS/UI/src/templates/js/ViewControl/viewcontrols.min.js');
     }
 
     protected function renderId(

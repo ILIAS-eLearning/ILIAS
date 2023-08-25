@@ -89,8 +89,8 @@ class SortationTest extends ILIAS_UI_TestBase
             ->withSelected('date_desc');
 
         $expected = <<<EOT
-<div class="dropdown il-viewcontrol il-viewcontrol-sortation l-bar__element" id="">
-    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" aria-controls="_ctrl"><span class="caret"></span></button>
+<div class="dropdown il-viewcontrol il-viewcontrol-sortation l-bar__element">
+    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-label="sortation" aria-haspopup="true" aria-expanded="false" aria-controls="_ctrl"><span class="caret"></span></button>
     <ul id="_ctrl" class="dropdown-menu">
         <li><button class="btn btn-link" data-action="?sortation=internal_rating" id="id_1">Best</button></li>
         <li class="selected"><button class="btn btn-link" data-action="?sortation=date_desc" id="id_2">Most Recent</button></li>
@@ -110,8 +110,8 @@ EOT;
             ->withLabel('Oldest');
 
         $expected = <<<EOT
-<div class="dropdown il-viewcontrol il-viewcontrol-sortation l-bar__element" id="">
-    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" aria-controls="_ctrl">vc_sort Oldest<span class="caret"></span></button>
+<div class="dropdown il-viewcontrol il-viewcontrol-sortation l-bar__element">
+    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-label="sortation" aria-haspopup="true" aria-expanded="false" aria-controls="_ctrl">vc_sort Oldest<span class="caret"></span></button>
     <ul id="_ctrl" class="dropdown-menu">
         <li><button class="btn btn-link" data-action="?sortation=internal_rating" id="id_1">Best</button></li>
         <li><button class="btn btn-link" data-action="?sortation=date_desc" id="id_2">Most Recent</button></li>
@@ -139,13 +139,15 @@ EOT;
     protected function getSortationExpectedHTML(bool $with_id = false): string
     {
         $id = "";
+        $id_ctrl = "_ctrl";
         $button1_id = "id_1";
         $button2_id = "id_2";
         $button3_id = "id_3";
         $dropdown_id = "id_4";
 
         if ($with_id) {
-            $id = "id_1";
+            $id = ' id="id_1"';
+            $id_ctrl = "id_1_ctrl";
             $button1_id = "id_2";
             $button2_id = "id_3";
             $button3_id = "id_4";
@@ -155,9 +157,9 @@ EOT;
         $dropdown_menu_id = $dropdown_id . "_menu";
 
         $expected = <<<EOT
-<div class="dropdown il-viewcontrol il-viewcontrol-sortation l-bar__element" id="$id">
-    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" aria-controls="{$id}_ctrl"><span class="caret"></span></button>
-    <ul id="{$id}_ctrl" class="dropdown-menu">
+<div class="dropdown il-viewcontrol il-viewcontrol-sortation l-bar__element"$id>
+    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-label="sortation" aria-haspopup="true" aria-expanded="false" aria-controls="{$id_ctrl}"><span class="caret"></span></button>
+    <ul id="{$id_ctrl}" class="dropdown-menu">
         <li><button class="btn btn-link" data-action="?sortation=internal_rating" id="$button1_id">Best</button></li>
         <li><button class="btn btn-link" data-action="?sortation=date_desc" id="$button2_id">Most Recent</button></li>
         <li><button class="btn btn-link" data-action="?sortation=date_asc" id="$button3_id">Oldest</button></li>

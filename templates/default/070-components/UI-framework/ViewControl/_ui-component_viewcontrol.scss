@@ -12,6 +12,7 @@ $il-vc-mode-btn-active: $il-vc-glyph-hover-bg;
 $il-vc-pagination-btn-active-bg: $il-main-bg;
 
 // basic layout for all viewcontrol flex constructs
+.il-viewcontrol-sortation,
 .il-viewcontrol-section,
 .il-viewcontrol-pagination,
 .il-viewcontrol-mode,
@@ -22,6 +23,7 @@ $il-vc-pagination-btn-active-bg: $il-main-bg;
 }
 
 // viewcontrols container bar to include set of inner buttons
+.il-viewcontrol-sortation,
 .il-viewcontrol-section,
 .il-viewcontrol-pagination,
 .il-viewcontrol-mode {
@@ -35,6 +37,7 @@ $il-vc-pagination-btn-active-bg: $il-main-bg;
 }
 
 // buttons inside the container
+.il-viewcontrol-sortation,
 .il-viewcontrol-section,
 .il-viewcontrol-section .btn-group,
 .il-viewcontrol-pagination__sectioncontrol,
@@ -56,40 +59,13 @@ $il-vc-pagination-btn-active-bg: $il-main-bg;
 
 // viewcontrols as single buttons
 // should in the future be done by using btn-ctrl class on these buttons
-.il-viewcontrol-sortation .dropdown,
+.il-viewcontrol-sortation,
 .il-table-presentation-viewcontrols .l-bar__container .l-bar__group .l-bar__element {
 	> .btn-default.btn {
 		@extend .btn-ctrl;
 		border-radius: $il-border-radius-secondary-large;
 	}
-}
 
-// centering browse next/previous arrows
-.il-viewcontrol-pagination__sectioncontrol,
-.il-viewcontrol-pagination,
-.il-viewcontrol-section {
-	.browse {
-		display: inline-block;
-	}
-}
-.il-viewcontrol-section {
-	.glyphicon {
-		vertical-align: middle;
-		&::before {
-			top: 0;
-			vertical-align: middle;
-		}
-	}
-}
-.il-viewcontrol-pagination {
-	.glyph {
-		.glyphicon {
-			vertical-align: middle;
-			&::before {
-				top: 0;
-			}
-		}
-	}
 	li .btn.btn-link {
 		padding-left: $il-padding-large-horizontal * 3;
 	}
@@ -114,7 +90,6 @@ $il-vc-pagination-btn-active-bg: $il-main-bg;
 	border: none; // removes dropdown arrow
 	vertical-align: initial;
 }
-
 
 // specify glyps for specific types
 .il-viewcontrol-sortation .dropdown-toggle .caret {

@@ -246,6 +246,19 @@ EOT;
         </div>
         <div class="panel-controls"></div>
     </div>
+
+    <div class="panel-viewcontrols l-bar__container">
+        <div class="dropdown il-viewcontrol il-viewcontrol-sortation l-bar__element">
+			<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-label="sortation" aria-haspopup="true" aria-expanded="false" aria-controls="_ctrl">
+				<span class="caret"></span>
+			</button>
+			<ul id="_ctrl" class="dropdown-menu">
+				<li><button class="btn btn-link" data-action="?sortation=a" id="id_1">A</button></li>
+				<li><button class="btn btn-link" data-action="?sortation=b" id="id_2">B</button></li>
+			</ul>
+		</div>
+	</div>
+
 	<div class="panel-body">
 		Legacy content
 	</div>
