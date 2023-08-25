@@ -23,8 +23,8 @@ class ilMultipleChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
         if (is_array($a_value)) {
             if (is_array($a_value['answer'])) {
                 foreach ($a_value['answer'] as $index => $value) {
-                    include_once "./Modules/TestQuestionPool/classes/class.assAnswerMultipleResponseImage.php";
-                    $answer = new ASS_AnswerMultipleResponseImage($value, $a_value['points'][$index], $index, $a_value['points_unchecked'][$index], $a_value['imagename'][$index]);
+                    include_once './Modules/TestQuestionPool/classes/class.assAnswerMultipleResponseImage.php';
+                    $answer = new ASS_AnswerMultipleResponseImage($value, $a_value['points'][$index], $index, $a_value['points_unchecked'][$index], $a_value['imagename'][$index], $a_value['answer_id'][$index]);
                     array_push($this->values, $answer);
                 }
             }
@@ -255,6 +255,9 @@ class ilMultipleChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
                     $tpl->parseCurrentBlock();
                     $tpl->setCurrentBlock("prop_points_unchecked_propval");
                     $tpl->setVariable("PROPERTY_VALUE", ilUtil::prepareFormOutput($value->getPointsUnchecked()));
+                    $tpl->parseCurrentBlock();
+                    $tpl->setCurrentBlock("prop_answer_id_propval");
+                    $tpl->setVariable("PROPERTY_VALUE", ilUtil::prepareFormOutput($value->getId()));
                     $tpl->parseCurrentBlock();
                 }
                 $tpl->setCurrentBlock('multiline');

@@ -653,7 +653,7 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
         } else {
             foreach ($_POST['choice']['answer'] as $index => $answer) {
                 $answertext = $answer;
-                $this->object->addAnswer($answertext, $_POST['choice']['points'][$index], $index, $_POST['choice']['answer_id'][$index]);
+                $this->object->addAnswer($answertext, $_POST['choice']['points'][$index], $index,"", $_POST['choice']['answer_id'][$index]);
             }
         }
     }

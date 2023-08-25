@@ -13,7 +13,7 @@ require_once 'Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php';
 class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
 {
     /** @var string */
-    protected const ALLOWED_PAGE_HTML_TAGS = "<em>, <strong>";
+    protected const ALLOWED_PAGE_HTML_TAGS = '<em>, <strong>';
 
     protected $values = [];
     protected $allowMove = false;
@@ -29,12 +29,12 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
     * @param	string	$a_title	Title
     * @param	string	$a_postvar	Post Variable
     */
-    public function __construct($a_title = "", $a_postvar = "")
+    public function __construct($a_title = '', $a_postvar = '')
     {
         parent::__construct($a_title, $a_postvar);
-        $this->setSuffixes(["jpg", "jpeg", "png", "gif"]);
+        $this->setSuffixes(['jpg', 'jpeg', 'png', 'gif']);
         $this->setSize('25');
-        $this->validationRegexp = "";
+        $this->validationRegexp = '';
     }
 
     /**
@@ -396,6 +396,9 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
                         $tpl->setVariable("PROPERTY_VALUE", ilUtil::prepareFormOutput($value->getPoints()));
                         $tpl->parseCurrentBlock();
                     }
+                    $tpl->setCurrentBlock("prop_answer_id_propval");
+                    $tpl->setVariable("PROPERTY_VALUE", ilUtil::prepareFormOutput($value->getId()));
+                    $tpl->parseCurrentBlock();
                 }
                 $tpl->setCurrentBlock('multiline');
                 $tpl->setVariable("PROPERTY_VALUE", ilUtil::prepareFormOutput($value->getAnswertext()));
