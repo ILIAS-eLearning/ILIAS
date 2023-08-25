@@ -105,10 +105,6 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
 
     protected bool $create_question_mode;
 
-    private Factory $uiFactory;
-
-    private Renderer $uiRenderer;
-
     /**
      * Constructor
      * @access public
