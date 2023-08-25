@@ -51,6 +51,7 @@ class ilWebServicesConfigStoredObjective implements Setup\Objective
         );
         $settings->set("soap_wsdl_path", $this->config->getSOAPWsdlPath());
         $settings->set("soap_connect_timeout", (string) $this->config->getSOAPConnectTimeout());
+        $settings->set("soap_response_timeout", (string) $this->config->getSoapResponseTimeout());
         $settings->set("rpc_server_host", $this->config->getRPCServerHost());
         $settings->set("rpc_server_port", (string) $this->config->getRPCServerPort());
 
