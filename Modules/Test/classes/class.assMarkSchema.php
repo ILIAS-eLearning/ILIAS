@@ -36,7 +36,7 @@ class ASS_MarkSchema
 
     public function __construct(
         protected ilDBInterface $db,
-        protected ilLanguage $lang,
+        protected ilLanguage $lng,
         protected int $current_user_id
     ) {
         $this->mark_steps = [];
@@ -153,7 +153,7 @@ class ASS_MarkSchema
                 if (array_key_exists($level, $newmarks)) {
                     $difffields = array();
                     foreach ($row as $key => $value) {
-                        if (strcmp($value, $newmarks[$level][$key]) != 0) {
+                        if ($value !== $newmarks[$level][$key]) {
                             switch ($key) {
                                 case "mark_id":
                                 case "tstamp":

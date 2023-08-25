@@ -37,7 +37,7 @@ class ilTestSession
     private int $pass = 0;
     public int $active_id = 0;
     public int $user_id = 0;
-    public int $anonymous_id = 0;
+    public string $anonymous_id = '';
     public int $test_id = 0;
     public int $lastsequence = 0;
     protected ?string $lastPresentationMode = null;
@@ -194,7 +194,7 @@ class ilTestSession
         }
     }
 
-    public function loadTestSession(int $test_id, int $user_id = 0, ?int $anonymous_id = null): void
+    public function loadTestSession(int $test_id, int $user_id = 0, ?string $anonymous_id = null): void
     {
         if ($user_id === 0) {
             $user_id = $this->user->getId();
@@ -294,12 +294,12 @@ class ilTestSession
         return $this->test_id;
     }
 
-    public function setAnonymousId(int $anonymous_id): void
+    public function setAnonymousId(string $anonymous_id): void
     {
         $this->anonymous_id = $anonymous_id;
     }
 
-    public function getAnonymousId(): int
+    public function getAnonymousId(): string
     {
         return $this->anonymous_id;
     }

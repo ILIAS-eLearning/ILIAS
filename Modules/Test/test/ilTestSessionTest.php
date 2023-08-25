@@ -66,8 +66,8 @@ class ilTestSessionTest extends ilTestBaseTestCase
 
     public function testAnonymousId(): void
     {
-        $this->testObj->setAnonymousId(20);
-        $this->assertEquals(20, $this->testObj->getAnonymousId());
+        $this->testObj->setAnonymousId('20');
+        $this->assertEquals('20', $this->testObj->getAnonymousId());
     }
 
     public function testLastSequence(): void

@@ -26,7 +26,7 @@ declare(strict_types=1);
  */
 class ilTestPassesSelector
 {
-    private int $active_id;
+    private ?int $active_id = null;
     private ?int $last_finished_pass = null;
     private ?array $passes = null;
     private array $test_passed_once_cache = [];
@@ -37,12 +37,12 @@ class ilTestPassesSelector
     ) {
     }
 
-    public function getActiveId()
+    public function getActiveId(): ?int
     {
         return $this->active_id;
     }
 
-    public function setActiveId(int $active_id): void
+    public function setActiveId(?int $active_id): void
     {
         $this->active_id = $active_id;
     }
