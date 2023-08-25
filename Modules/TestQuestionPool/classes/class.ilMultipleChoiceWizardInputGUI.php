@@ -291,6 +291,9 @@ class ilMultipleChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
                         ilLegacyFormElementsUtil::prepareFormOutput($value->getPointsUnchecked())
                     );
                     $tpl->parseCurrentBlock();
+                    $tpl->setCurrentBlock("prop_answer_id_propval");
+                    $tpl->setVariable("PROPERTY_VALUE", ilLegacyFormElementsUtil::prepareFormOutput($value->getId()));
+                    $tpl->parseCurrentBlock();
                 }
                 $tpl->setCurrentBlock('multiline');
                 $tpl->setVariable(

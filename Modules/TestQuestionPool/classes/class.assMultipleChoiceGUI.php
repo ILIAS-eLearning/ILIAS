@@ -724,7 +724,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
                     (float) str_replace(',', '.', $choice['points_unchecked'][$index]),
                     $index,
                     $picturefile,
-                    $_POST['choice']['answer_id'][$index]
+                    $choice['answer_id'][$index]
                 );
             }
         } else {
@@ -735,6 +735,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
                     (float) str_replace(',', '.', $choice['points'][$index]),
                     (float) str_replace(',', '.', $choice['points_unchecked'][$index]),
                     $index,
+                    '',
                     (int) $choice['answer_id'][$index]
                 );
             }

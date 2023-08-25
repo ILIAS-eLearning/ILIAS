@@ -42,12 +42,12 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
     * @param	string	$a_title	Title
     * @param	string	$a_postvar	Post Variable
     */
-    public function __construct($a_title = "", $a_postvar = "")
+    public function __construct($a_title = '', $a_postvar = '')
     {
         parent::__construct($a_title, $a_postvar);
-        $this->setSuffixes(array("jpg", "jpeg", "png", "gif"));
+        $this->setSuffixes(['jpg', 'jpeg', 'png', 'gif']);
         $this->setSize('25');
-        $this->validationRegexp = "";
+        $this->validationRegexp = '';
         global $DIC;
         $this->post_wrapper = $DIC->http()->wrapper()->post();
     }
@@ -439,6 +439,9 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
                         );
                         $tpl->parseCurrentBlock();
                     }
+                    $tpl->setCurrentBlock("prop_answer_id_propval");
+                    $tpl->setVariable("PROPERTY_VALUE", ilLegacyFormElementsUtil::prepareFormOutput($value->getId()));
+                    $tpl->parseCurrentBlock();
                 }
                 $tpl->setCurrentBlock('multiline');
                 $tpl->setVariable(

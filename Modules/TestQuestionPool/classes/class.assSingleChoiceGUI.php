@@ -676,6 +676,7 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
                     $answertext,
                     $choice['points'][$index],
                     $index,
+                    '',
                     $choice['answer_id'][$index]
                 );
             }
