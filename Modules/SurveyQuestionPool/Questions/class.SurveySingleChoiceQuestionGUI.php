@@ -45,9 +45,9 @@ class SurveySingleChoiceQuestionGUI extends SurveyQuestionGUI
         // orientation
         $orientation = new ilRadioGroupInputGUI($this->lng->txt("orientation"), "orientation");
         $orientation->setRequired(false);
-        $orientation->addOption(new ilRadioOption($this->lng->txt('vertical'), 0));
-        $orientation->addOption(new ilRadioOption($this->lng->txt('horizontal'), 1));
-        $orientation->addOption(new ilRadioOption($this->lng->txt('combobox'), 2));
+        $orientation->addOption(new ilRadioOption($this->lng->txt('vertical'), '0'));
+        $orientation->addOption(new ilRadioOption($this->lng->txt('horizontal'), '1'));
+        $orientation->addOption(new ilRadioOption($this->lng->txt('combobox'), '2'));
         $a_form->addItem($orientation);
 
         // Answers

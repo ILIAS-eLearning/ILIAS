@@ -348,10 +348,10 @@ class ilObjSystemFolderGUI extends ilObjectGUI
             $radio_group = new ilRadioGroupInputGUI($this->lng->txt('systemcheck_cron'), 'cronjob');
             $radio_group->setValue($ilSetting->get('systemcheck_cron'));
 
-            $radio_opt = new ilRadioOption($this->lng->txt('disabled'), 0);
+            $radio_opt = new ilRadioOption($this->lng->txt('disabled'), '0');
             $radio_group->addOption($radio_opt);
 
-            $radio_opt = new ilRadioOption($this->lng->txt('enabled'), 1);
+            $radio_opt = new ilRadioOption($this->lng->txt('enabled'), '1');
             $radio_group->addOption($radio_opt);
 
             $cron_form->addItem($radio_group);

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -204,12 +205,12 @@ class ilAuthShibbolethSettingsGUI
         // Role selection
         $role = new ilRadioGroupInputGUI($this->lng->txt('shib_role_name'), 'role_name');
         $role->setRequired(true);
-        $global = new ilRadioOption($this->lng->txt('shib_global_role'), 0);
+        $global = new ilRadioOption($this->lng->txt('shib_global_role'), '0');
         $role->addOption($global);
         $role_select = new ilSelectInputGUI('', 'role_id');
         $role_select->setOptions($this->prepareRoleSelect());
         $global->addSubItem($role_select);
-        $local = new ilRadioOption($this->lng->txt('shib_local_role'), 1);
+        $local = new ilRadioOption($this->lng->txt('shib_local_role'), '1');
         $role->addOption($local);
         $role_search = new ilRoleAutoCompleteInputGUI('', 'role_search', self::class, 'addRoleAutoCompleteObject');
         $role_search->setSize(40);
@@ -232,7 +233,7 @@ class ilAuthShibbolethSettingsGUI
         $kind = new ilRadioGroupInputGUI($this->lng->txt('shib_assignment_type'), 'kind');
         $kind->setValue(1);
         $kind->setRequired(true);
-        $attr = new ilRadioOption($this->lng->txt('shib_attribute'), 1);
+        $attr = new ilRadioOption($this->lng->txt('shib_attribute'), '1');
         $attr->setInfo($this->lng->txt('shib_attr_info'));
         $name = new ilTextInputGUI($this->lng->txt('shib_attribute_name'), 'attr_name');
         $name->setSize(32);
@@ -242,7 +243,7 @@ class ilAuthShibbolethSettingsGUI
         $attr->addSubItem($value);
         $kind->addOption($attr);
         $pl_active = $this->component_repository->getPluginSlotById('shibhk')->hasActivePlugins();
-        $pl = new ilRadioOption($this->lng->txt('shib_plugin'), 2);
+        $pl = new ilRadioOption($this->lng->txt('shib_plugin'), '2');
         $pl->setInfo($this->lng->txt('shib_plugin_info'));
         $pl->setDisabled(!$pl_active);
         $id = new ilNumberInputGUI($this->lng->txt('shib_plugin_id'), 'plugin_id');

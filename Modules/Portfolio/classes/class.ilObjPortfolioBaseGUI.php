@@ -454,7 +454,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
                 $use_template->setRequired(true);
                 $form->addItem($use_template);
 
-                $opt = new ilRadioOption($this->lng->txt("none"), 0);
+                $opt = new ilRadioOption($this->lng->txt("none"), '0');
                 $use_template->addOption($opt);
 
                 foreach ($templates as $templ) {

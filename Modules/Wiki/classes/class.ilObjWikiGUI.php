@@ -1727,7 +1727,7 @@ class ilObjWikiGUI extends ilObjectGUI
         $radg->setRequired(true);
 
         if ($this->object->getEmptyPageTemplate()) {
-            $op1 = new ilRadioOption($lng->txt("wiki_empty_page"), 0);
+            $op1 = new ilRadioOption($lng->txt("wiki_empty_page"), '0');
             $radg->addOption($op1);
         }
 

@@ -76,8 +76,8 @@ class ilExAssTypeWikiTeamGUI implements ilExAssignmentTypeGUIInterface
         // template
         $rd_template = new ilRadioGroupInputGUI($lng->txt("exc_template"), "template");
         $rd_template->setRequired(true);
-        $radio_no_template = new ilRadioOption($lng->txt("exc_without_wiki_template"), 0, $lng->txt("exc_without_wiki_template_info"));
-        $radio_with_template = new ilRadioOption($lng->txt("exc_with_wiki_template"), 1, $lng->txt("exc_with_wiki_template_info"));
+        $radio_no_template = new ilRadioOption($lng->txt("exc_without_wiki_template"), '0', $lng->txt("exc_without_wiki_template_info"));
+        $radio_with_template = new ilRadioOption($lng->txt("exc_with_wiki_template"), '1', $lng->txt("exc_with_wiki_template_info"));
 
         $repo = new ilRepositorySelector2InputGUI($lng->txt("wiki_exc_template"), "template_ref_id");
         $repo->setRequired(true);

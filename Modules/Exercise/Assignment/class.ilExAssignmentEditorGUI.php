@@ -397,9 +397,9 @@ class ilExAssignmentEditorGUI
         // Deadline Mode
         $radg = new ilRadioGroupInputGUI($lng->txt("exc_deadline"), "deadline_mode");
         $radg->setValue(0);
-        $op1 = new ilRadioOption($lng->txt("exc_fixed_date"), 0, $lng->txt("exc_fixed_date_info"));
+        $op1 = new ilRadioOption($lng->txt("exc_fixed_date"), '0', $lng->txt("exc_fixed_date_info"));
         $radg->addOption($op1);
-        $op2 = new ilRadioOption($lng->txt("exc_relative_date"), 1, $lng->txt("exc_relative_date_info"));
+        $op2 = new ilRadioOption($lng->txt("exc_relative_date"), '1', $lng->txt("exc_relative_date_info"));
         $radg->addOption($op2);
         $form->addItem($radg);
 
@@ -553,7 +553,7 @@ class ilExAssignmentEditorGUI
 
         $r_group = new ilRadioGroupInputGUI($this->lng->txt("exc_reminder_mail_template"), $post_var);
         $r_group->setRequired(true);
-        $r_group->addOption(new ilRadioOption($this->lng->txt("exc_reminder_mail_no_tpl"), 0));
+        $r_group->addOption(new ilRadioOption($this->lng->txt("exc_reminder_mail_no_tpl"), '0'));
         $r_group->setValue(0);
 
         switch ($a_reminder_type) {
@@ -1327,8 +1327,8 @@ class ilExAssignmentEditorGUI
         $form->addItem($peer_min);
 
         $peer_unlock = new ilRadioGroupInputGUI($lng->txt("exc_peer_review_simple_unlock"), "peer_unlock");
-        $peer_unlock->addOption(new ilRadioOption($lng->txt("exc_peer_review_simple_unlock_active"), 1));
-        $peer_unlock->addOption(new ilRadioOption($lng->txt("exc_peer_review_simple_unlock_inactive"), 0));
+        $peer_unlock->addOption(new ilRadioOption($lng->txt("exc_peer_review_simple_unlock_active"), '1'));
+        $peer_unlock->addOption(new ilRadioOption($lng->txt("exc_peer_review_simple_unlock_inactive"), '0'));
         $peer_unlock->setRequired(true);
         $peer_unlock->setValue(0);
         $form->addItem($peer_unlock);

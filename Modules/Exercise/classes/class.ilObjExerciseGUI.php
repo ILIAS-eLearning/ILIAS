@@ -367,7 +367,7 @@ class ilObjExerciseGUI extends ilObjectGUI
             $this->lng->txt("exc_passed_status_determination"),
             "completion_by_submission"
         );
-        $op1 = new ilRadioOption($this->lng->txt("exc_completion_by_tutor"), 0, "");
+        $op1 = new ilRadioOption($this->lng->txt("exc_completion_by_tutor"), '0', "");
         $subcompl->addOption($op1);
         $op2 = new ilRadioOption(
             $this->lng->txt("exc_completion_by_submission"),

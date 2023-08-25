@@ -235,12 +235,12 @@ class ilPCPlaceHolderGUI extends ilPageContentGUI
 
         // Select Question Type
         $ttype_input = new ilRadioGroupInputGUI($lng->txt("cont_ed_textitem"), "pctext_type");
-        $ttype_input->addOption(new ilRadioOption($lng->txt("cont_ed_par"), 0));
-        $ttype_input->addOption(new ilRadioOption($lng->txt("cont_ed_dtable"), 1));
-        $ttype_input->addOption(new ilRadioOption($lng->txt("cont_ed_atable"), 2));
-        $ttype_input->addOption(new ilRadioOption($lng->txt("cont_ed_list"), 3));
-        $ttype_input->addOption(new ilRadioOption($lng->txt("cont_ed_flist"), 4));
-        $ttype_input->addOption(new ilRadioOption($lng->txt("cont_tabs"), 5));
+        $ttype_input->addOption(new ilRadioOption($lng->txt("cont_ed_par"), '0'));
+        $ttype_input->addOption(new ilRadioOption($lng->txt("cont_ed_dtable"), '1'));
+        $ttype_input->addOption(new ilRadioOption($lng->txt("cont_ed_atable"), '2'));
+        $ttype_input->addOption(new ilRadioOption($lng->txt("cont_ed_list"), '3'));
+        $ttype_input->addOption(new ilRadioOption($lng->txt("cont_ed_flist"), '4'));
+        $ttype_input->addOption(new ilRadioOption($lng->txt("cont_tabs"), '5'));
         $this->form_gui->addItem($ttype_input);
 
         $this->form_gui->addCommandButton("insertPCText", $lng->txt("insert"));
