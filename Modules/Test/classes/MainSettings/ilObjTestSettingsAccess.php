@@ -114,10 +114,9 @@ class ilObjTestSettingsAccess extends TestSettings
             $lng->txt('tst_starting_time_desc')
         )->withTimezone($environment['user_time_zone'])
             ->withFormat($environment['user_date_format']);
-        if ($this->getStartTime() !== null
-            && $this->getStartTime() !== 0) {
+        if ($this->getStartTime() !== null) {
             $sub_inputs_access_window['start_time'] = $sub_inputs_access_window['start_time']
-                ->withValue($this->getStartTime());
+                ->withValue($this->getStartTime()->setTimezone(new DateTimeZone($environment['user_time_zone'])));
         }
         if ($environment['participant_data_exists']) {
             $sub_inputs_access_window['start_time'] = $sub_inputs_access_window['start_time']->withDisabled(true);
@@ -128,10 +127,9 @@ class ilObjTestSettingsAccess extends TestSettings
             $lng->txt('tst_ending_time_desc')
         )->withTimezone($environment['user_time_zone'])
             ->withFormat($environment['user_date_format']);
-        if ($this->getEndTime() !== null
-            && $this->getEndTime() !== 0) {
+        if ($this->getEndTime() !== null) {
             $sub_inputs_access_window['end_time'] = $sub_inputs_access_window['end_time']
-                ->withValue($this->getEndTime());
+                ->withValue($this->getEndTime()->setTimezone(new DateTimeZone($environment['user_time_zone'])));
         }
 
         return $sub_inputs_access_window;
