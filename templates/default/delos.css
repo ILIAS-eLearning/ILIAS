@@ -6985,26 +6985,6 @@ fieldset[disabled] .navbar-inverse .btn-link:focus {
   flex-shrink: 1;
   order: 1;
 }
-.panel-flex .il-viewcontrol-sortation {
-  flex-shrink: 1;
-  order: 2;
-  margin-right: 9px;
-  margin-left: auto;
-}
-.panel-flex .panel-heading .dropdown {
-  flex-shrink: 1;
-  order: 3;
-}
-.panel-flex .il-viewcontrol-pagination,
-.panel-flex .il-viewcontrol-section {
-  flex-grow: 1;
-  flex-shrink: 1;
-  flex-basis: 100%;
-  order: 4;
-  background-color: #f9f9f9;
-  text-align: center;
-  padding-top: 9px;
-}
 .panel-primary h2.ilHeader {
   font-weight: 600;
 }
