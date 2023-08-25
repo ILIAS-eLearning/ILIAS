@@ -2231,6 +2231,7 @@ th {
 /*
 * Elements
 */
+
 * {
   box-sizing: border-box;
 }
@@ -4272,6 +4273,72 @@ hr.il-divider-with-label {
   width: 100%;
 }
 
+.c-entity.__container {
+  display: grid;
+  grid-template-areas: "f-blocking f-blocking f-blocking f-blocking actions" "second-id f-prop f-prop f-prop actions" "second-id prim-id prim-id prim-id actions" "second-id status status status status" "second-id f-details f-details f-details f-details" "second-id availab availab availab availab" "second-id details details details details" "second-id reaction reaction f-reaction f-reaction";
+  grid-template-columns: min-content auto auto min-content min-content;
+  border: 1px solid #dddddd;
+  background-color: white;
+  padding: 4.5px 7.5px;
+}
+.c-entity.__container > *:not(:empty) {
+  padding: 4.5px 7.5px;
+}
+.c-entity.__blocking-conditions {
+  grid-area: f-blocking;
+  font-size: 1.115rem;
+}
+.c-entity.__actions {
+  display: flex;
+  justify-content: end;
+  grid-area: actions;
+}
+.c-entity.__actions .dropdown {
+  height: max-content;
+}
+.c-entity.__secondary-identifier {
+  grid-area: second-id;
+}
+.c-entity.__secondary-identifier.--string, .c-entity.__secondary-identifier.--shy, .c-entity.__secondary-identifier.--shylink {
+  width: 10rem;
+}
+.c-entity.__secondary-identifier.--symbol {
+  min-width: 3rem;
+}
+.c-entity.__secondary-identifier.--image {
+  width: 15rem;
+}
+.c-entity.__primary-identifier {
+  grid-area: prim-id;
+  font-weight: 600;
+  font-size: 1.5rem;
+}
+.c-entity.__featured {
+  grid-area: f-prop;
+  font-size: 1.115rem;
+}
+.c-entity.__personal-status {
+  grid-area: status;
+}
+.c-entity.__main-details {
+  grid-area: f-details;
+}
+.c-entity.__availability {
+  grid-area: availab;
+}
+.c-entity.__details {
+  grid-area: details;
+}
+.c-entity.__reactions {
+  grid-area: reaction;
+}
+.c-entity.__featured-reactions {
+  display: flex;
+  justify-content: end;
+  grid-area: f-reaction;
+  min-width: max-content;
+}
+
 .il-input-tag {
   --tags-focus-border-color: #4c6586;
   --tag-bg: #4c6586;
@@ -5513,6 +5580,14 @@ footer {
   color: #161616;
 }
 
+.c-listing-property__propertylabel:after {
+  content: ":";
+}
+
+.c-listing-property + .c-listing-property {
+  margin-top: 6px;
+}
+
 .clearfix:before, .clearfix:after {
   display: table;
   content: " ";
@@ -5721,6 +5796,11 @@ footer {
 }
 #il_right_col .il-workflow .il-workflow-container {
   padding: 15px 15px;
+}
+
+.c-listing-entity {
+  list-style: none;
+  padding-left: 0;
 }
 
 .il-maincontrols-slate.disengaged {

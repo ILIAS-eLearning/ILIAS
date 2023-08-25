@@ -144,6 +144,9 @@ class NoUIFactory implements Factory
     public function helpTopics(string ...$topic): array
     {
     }
+    public function entity(): C\Entity\Factory
+    {
+    }
 }
 
 class LoggingRegistry implements ResourceRegistry

@@ -1,0 +1,9 @@
+@use "../../../050-layout/basics/" as l;
+
+.c-listing-property__propertylabel:after {
+    content: ":"
+}
+
+.c-listing-property + .c-listing-property {
+    margin-top: l.$il-margin-large-vertical;
+}
