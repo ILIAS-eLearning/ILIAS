@@ -326,11 +326,11 @@ class Renderer extends AbstractComponentRenderer
 
             $dependant_group_html = $default_renderer->render($group);
             $tpl->setVariable("DEPENDANT_FIELDS", $dependant_group_html);
-            $tpl->parseCurrentBlock();
 
             if ($component->isDisabled()) {
                 $tpl->setVariable("DISABLED", 'disabled="disabled"');
             }
+            $tpl->parseCurrentBlock();
         }
 
         return $this->wrapInFormContext($component, $tpl->get());
