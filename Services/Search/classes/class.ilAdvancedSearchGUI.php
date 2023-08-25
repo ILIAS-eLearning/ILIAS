@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
 * Class ilAdvancedSearchGUI
 *
@@ -30,7 +32,6 @@
 * @package ilias-search
 *
 */
-
 class ilAdvancedSearchGUI extends ilSearchBaseGUI
 {
     public const TYPE_LOM = 1;
@@ -780,7 +781,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
             $adv_md_search->setDefinition($field);
             $adv_md_search->setSearchElement($field_form);
             $res_field = $adv_md_search->performSearch();
-            if ($res_field instanceof ilSearchResult) {
+            if ($res_field instanceof ilSearchResult && (count($res_field->getEntries()) !== 0)) {
                 $this->__storeEntries($res, $res_field);
             }
         }
@@ -794,7 +795,6 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
         }
 
         $query_parser = new ilQueryParser(ilUtil::stripSlashes($this->options['lom_keyword']));
-        #$query_parser->setCombination($this->options['keyword_ao']);
         $query_parser->setCombination(ilQueryParser::QP_COMBINATION_OR);
         $query_parser->parse();
 
@@ -874,6 +874,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 
             case 'all':
             default:
+                $this->filter[] = 'cat';
                 $this->filter[] = 'sess';
                 $this->filter[] = 'webr';
                 $this->filter[] = 'crs';
@@ -893,7 +894,6 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
                 $this->filter[] = 'mob';
                 $this->filter[] = 'mpg';
         }
-
         return true;
     }
 
@@ -917,10 +917,9 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 
     public function __storeEntries(ilSearchResult $res, ilSearchResult $new_res): bool
     {
-        if ($this->stored == false) {
+        if (!$this->stored) {
             $res->mergeEntries($new_res);
             $this->stored = true;
-
             return true;
         } else {
             $res->intersectEntries($new_res);
