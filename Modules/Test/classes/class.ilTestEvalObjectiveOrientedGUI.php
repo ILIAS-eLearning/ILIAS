@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * @author		Björn Heyser <bheyser@databay.de>
  * @version		$Id$
@@ -138,7 +140,7 @@ class ilTestEvalObjectiveOrientedGUI extends ilTestServiceGUI
                 )
             );
 
-            $loStatus = new ilTestLearningObjectivesStatusGUI($this->lng);
+            $loStatus = new ilTestLearningObjectivesStatusGUI($this->lng, $this->ctrl, $this->testrequest);
             $loStatus->setCrsObjId($this->getObjectiveOrientedContainer()->getObjId());
             $loStatus->setUsrId($testSession->getUserId());
             $lostatus = $loStatus->getHTML($loId);

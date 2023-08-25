@@ -10,21 +10,22 @@ $l-bar__element__margin-bottom: $il-margin-xlarge-vertical; // this margin separ
     align-items: center;
 }
 
-.l-bar__container {
+.l-bar__container:not(:empty) {
     margin-bottom: -($l-bar__element__margin-bottom); // counteract element margin-bottom, so outer edge doesn't have a visible margin-bottom
     &.l-bar__container--space-between {
         justify-content: space-between;
     }
 }
 
-.l-bar__group {
+.l-bar__container > .l-bar__group {
     margin-right: $il-margin-xlarge-horizontal;
     &:last-child {
         margin-right: 0;
     }
 }
 
-.l-bar__element {
+.l-bar__container > .l-bar__element,
+.l-bar__group > .l-bar__element {
     margin-right: $il-margin-xs-horizontal;
     margin-bottom: $l-bar__element__margin-bottom;
     &:last-child {

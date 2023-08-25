@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class ilTestQuestionSetConfigFactoryTest
  * @author Marvin Beym <mbeym@databay.de>
@@ -28,12 +28,19 @@ class ilTestQuestionSetConfigFactoryTest extends ilTestBaseTestCase
 
     protected function setUp(): void
     {
+        global $DIC;
         parent::setUp();
 
+        $this->addGlobal_lng();
+        $this->addGlobal_ilLog();
+        $this->addGlobal_ilComponentRepository();
+
         $this->testObj = new ilTestQuestionSetConfigFactory(
-            $this->createMock(ilTree::class),
-            $this->createMock(ilDBInterface::class),
-            $this->createMock(ilComponentRepository::class),
+            $DIC['tree'],
+            $DIC['ilDB'],
+            $DIC['lng'],
+            $DIC['ilLog'],
+            $DIC['component.repository'],
             $this->createMock(ilObjTest::class),
         );
     }

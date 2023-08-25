@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * GUI class for random question set pool config form
  *
@@ -132,7 +134,7 @@ class ilTestRandomQuestionSetPoolDefinitionFormGUI extends ilPropertyFormGUI
                 $taxCheckbox->addSubItem($taxSelect);
                 $this->addItem($taxCheckbox);
             }
-        // fau.
+            // fau.
         } else {
             $hiddenNoTax = new ilHiddenInputGUI('filter_tax');
             $hiddenNoTax->setValue('0');

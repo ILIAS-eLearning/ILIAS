@@ -19,6 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
+use ILIAS\UI\Component\Input\Container\Form\FormInput;
 use ILIAS\Refinery\Factory as Refinery;
 
 class ilObjTestSettingsGeneral extends TestSettings
@@ -40,7 +41,7 @@ class ilObjTestSettingsGeneral extends TestSettings
         FieldFactory $f,
         Refinery $refinery,
         array $environment = null
-    ): array {
+    ): FormInput | array {
         $inputs['question_set_type'] = $f->radio(
             $lng->txt('test_question_set_type')
         )->withOption(

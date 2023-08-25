@@ -31,6 +31,8 @@ class assFormulaQuestionGUITest extends assBaseTestCase
     {
         parent::setUp();
 
+        $this->setGlobalVariable('ilLog', $this->createMock(ilLogger::class));
+
         $ilCtrl_mock = $this->getMockBuilder(ilCtrl::class)
                             ->disableOriginalConstructor()
                             ->getMock();

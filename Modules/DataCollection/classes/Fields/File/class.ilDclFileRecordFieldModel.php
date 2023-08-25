@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,10 +19,8 @@
 declare(strict_types=1);
 
 use ILIAS\Filesystem\Stream\Streams;
-use ILIAS\ResourceStorage\Revision\Revision;
 
 /**
- * @author       Thibeau Fuhrer <thibeau@sr.solutions>
  * @noinspection AutoloadingIssuesInspection
  */
 class ilDclFileRecordFieldModel extends ilDclBaseRecordFieldModel
@@ -126,12 +125,9 @@ class ilDclFileRecordFieldModel extends ilDclBaseRecordFieldModel
             // handover for save-confirmation
             if (is_array($file) && isset($file[self::FILE_TMP_NAME]) && $file[self::FILE_TMP_NAME] != "") {
                 return $file;
-            } else {
-                return $this->getValue();
             }
         }
-
-        return null;
+        return $this->getValue();
     }
 
     public function addHiddenItemsToConfirmation(ilConfirmationGUI $confirmation): void
@@ -192,11 +188,11 @@ class ilDclFileRecordFieldModel extends ilDclBaseRecordFieldModel
 
     public function afterClone(): void
     {
-        $field = ilDclCache::getCloneOf($this->getField()->getId(), ilDclCache::TYPE_FIELD);
+        $field = ilDclCache::getCloneOf((int)$this->getField()->getId(), ilDclCache::TYPE_FIELD);
         $record = ilDclCache::getCloneOf($this->getRecord()->getId(), ilDclCache::TYPE_RECORD);
         $record_field = ilDclCache::getRecordFieldCache($record, $field);
 
-        if (!$record_field || !$record_field->getValue()) {
+        if (!$record_field->getValue()) {
             return;
         }
         $current = $this->valueToCurrentRevision($record_field->getValue());

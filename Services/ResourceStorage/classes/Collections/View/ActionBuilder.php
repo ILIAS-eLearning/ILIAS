@@ -27,6 +27,8 @@ use ILIAS\UI\Component\Signal;
 use ILIAS\Services\ResourceStorage\BinToHexSerializer;
 use ILIAS\ResourceStorage\Services;
 use ILIAS\UI\Component\Modal\Modal;
+use ILIAS\UI\URLBuilder;
+use ILIAS\UI\Implementation\Component\Table\Action\Action;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
@@ -38,11 +40,13 @@ final class ActionBuilder
     private const ACTION_UNZIP = 'unzip';
     private const ACTION_DOWNLOAD = 'download';
     private const ACTION_REMOVE = 'remove';
-    private ?\ILIAS\UI\Component\Modal\Interruptive $delete_modal = null;
+    public const ACTION_NAMESPACE = 'rcgui';
     /**
      * @var Modal[]
      */
     private array $modals = [];
+    private URLBuilder $url_builder;
+    private \ILIAS\UI\URLBuilderToken $url_token;
 
     public function __construct(
         private Request $request,
@@ -51,63 +55,66 @@ final class ActionBuilder
         private \ilLanguage $language,
         private Services $irss
     ) {
-        $this->delete_modal = $this->ui_factory->modal()->interruptive(
-            $this->language->txt('delete'),
-            $this->language->txt('msg_delete_confirm'),
-            $this->buildURI(\ilResourceCollectionGUI::CMD_REMOVE)->__toString()
-        )->withAsyncRenderUrl($this->buildURI('renderConfirmRemove')->__toString());
+        $this->initURIBuilder();
     }
 
-    public function buildAndAddDeleteModal(ResourceIdentification $rid): \ILIAS\UI\Component\Modal\Interruptive
+    private function initURIBuilder(): void
     {
-        $this->ctrl->setParameterByClass(
-            \ilResourceCollectionGUI::class,
-            \ilResourceCollectionGUI::P_RESOURCE_ID,
-            $this->hash($rid->serialize())
+        $uri_builder = new URLBuilder(
+            new URI(
+                ILIAS_HTTP_PATH . '/' . $this->ctrl->getLinkTargetByClass(
+                    \ilResourceCollectionGUI::class,
+                    \ilResourceCollectionGUI::CMD_INDEX
+                )
+            )
         );
-        $this->modals[] = $delete_modal = $this->ui_factory->modal()->interruptive(
-            $this->language->txt('delete'),
-            $this->language->txt('msg_delete_confirm'),
-            '#'
-        )->withAsyncRenderUrl($this->buildURI('renderConfirmRemove')->__toString());
-        return $delete_modal;
+        $parameters = $uri_builder->acquireParameter(
+            [self::ACTION_NAMESPACE],
+            \ilResourceCollectionGUI::P_RESOURCE_ID
+        );
+
+        $this->url_builder = $parameters[0];
+        $this->url_token = $parameters[1];
+    }
+
+    public function getUrlBuilder(): URLBuilder
+    {
+        return $this->url_builder;
+    }
+
+    public function getUrlToken(): \ILIAS\UI\URLBuilderToken
+    {
+        return $this->url_token;
     }
 
     public function getModals(): array
     {
-        return $this->modals + [
-                $this->delete_modal
-            ];
+        return $this->modals;
     }
 
     /**
-     * @deprecated this is only to allow data tables to have modals as well, we can rif of this later.
+     * @return Action[]
      */
-    public function addModal(Modal $modal): void
-    {
-        $this->modals[] = $modal;
-    }
-
     public function getActions(): array
     {
         // we init the fixed actions here
         $actions[self::ACTION_DOWNLOAD] = $this->ui_factory->table()->action()->single(
             $this->language->txt(self::ACTION_DOWNLOAD),
-            \ilResourceCollectionGUI::P_RESOURCE_ID,
-            $this->buildURI(\ilResourceCollectionGUI::CMD_DOWNLOAD)
+            $this->url_builder->withURI($this->buildURI(\ilResourceCollectionGUI::CMD_DOWNLOAD)),
+            $this->url_token
         );
 
         if ($this->request->canUserAdministrate()) {
             $actions[self::ACTION_REMOVE] = $this->ui_factory->table()->action()->standard(
                 $this->language->txt(self::ACTION_REMOVE),
-                \ilResourceCollectionGUI::P_RESOURCE_ID,
-                $this->delete_modal->getShowSignal()
-            );
+                $this->url_builder->withURI($this->buildURI(\ilResourceCollectionGUI::CMD_RENDER_CONFIRM_REMOVE)),
+                $this->url_token
+            )->withAsync(true);
 
             $actions[self::ACTION_UNZIP] = $this->ui_factory->table()->action()->single(
                 $this->language->txt(self::ACTION_UNZIP),
-                \ilResourceCollectionGUI::P_RESOURCE_ID,
-                $this->buildURI(\ilResourceCollectionGUI::CMD_UNZIP)
+                $this->url_builder->withURI($this->buildURI(\ilResourceCollectionGUI::CMD_UNZIP)),
+                $this->url_token
             );
         }
 
@@ -128,22 +135,30 @@ final class ActionBuilder
             }
 
             $target = $a->getTarget();
+            $target = $this->url_builder->withURI($target)
+                                        ->withParameter(
+                                            $this->url_token,
+                                            $this->hash($rid->serialize())
+                                        )->buildURI();
 
-            if ($target instanceof URI) {
-                $target = $target->withParameter(
-                    \ilResourceCollectionGUI::P_RESOURCE_ID,
-                    $this->hash($rid->serialize())
-                );
+            if (!$a->isAsync()) {
                 $items[] = $this->ui_factory->link()->standard(
                     $a->getLabel(),
                     (string) $target
                 );
-            } elseif ($target instanceof Signal) {
-                $delete_modal = $this->buildAndAddDeleteModal($rid);
-                $items[] = $this->ui_factory->button()->shy($a->getLabel(), $delete_modal->getShowSignal());
+            } else {
+                $this->modals[] = $modal = $this->ui_factory->modal()->interruptive(
+                    $a->getLabel(),
+                    $a->getLabel(),
+                    '#'
+                )->withAsyncRenderUrl($target->__toString());
+
+                $items[] = $this->ui_factory->button()->shy(
+                    $a->getLabel(),
+                    $modal->getShowSignal()
+                );
             }
         }
-
         return $this->ui_factory->dropdown()->standard(
             $items
         );

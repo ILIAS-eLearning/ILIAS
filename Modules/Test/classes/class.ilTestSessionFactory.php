@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Factory for test session
  * @author         Björn Heyser <bheyser@databay.de>
@@ -29,21 +31,13 @@ class ilTestSessionFactory
      *
      * @var array<ilTestSession>
      */
-    private $testSession = array();
+    private $testSession = [];
 
-    /**
-     * object instance of current test
-     * @var ilObjTest
-     */
-    private $testOBJ = null;
-
-    /**
-     * constructor
-     * @param ilObjTest $testOBJ
-     */
-    public function __construct(ilObjTest $testOBJ)
-    {
-        $this->testOBJ = $testOBJ;
+    public function __construct(
+        private ilObjTest $test_obj,
+        private ilDBInterface $db,
+        private ilObjUser $user
+    ) {
     }
 
     /**
@@ -51,40 +45,34 @@ class ilTestSessionFactory
      * smeyer
      * --> BH: not required anymore
      */
-    public function reset()
+    public function reset(): void
     {
-        $this->testSession = array();
+        $this->testSession = [];
     }
 
     /**
      * Creates and returns an instance of a test sequence
      * that corresponds to the current test mode
-     *
-     * @param integer $activeId
-     * @return ilTestSession
      */
-    public function getSession($activeId = null)
+    public function getSession(?int $active_id = null): ilTestSession
     {
-        if ($activeId === null ||
-            $this->testSession === array() ||
-            !array_key_exists($activeId, $this->testSession) ||
-            $this->testSession[$activeId] === null
+        if ($active_id === null ||
+            $this->testSession === [] ||
+            !array_key_exists($active_id, $this->testSession) ||
+            $this->testSession[$active_id] === null
         ) {
             $testSession = $this->getNewTestSessionObject();
 
-            $testSession->setRefId($this->testOBJ->getRefId());
-            $testSession->setTestId($this->testOBJ->getTestId());
+            $testSession->setRefId($this->test_obj->getRefId());
+            $testSession->setTestId($this->test_obj->getTestId());
 
-            if ($activeId) {
-                $testSession->loadFromDb($activeId);
-                $this->testSession[$activeId] = $testSession;
+            if ($active_id) {
+                $testSession->loadFromDb($active_id);
+                $this->testSession[$active_id] = $testSession;
             } else {
-                global $DIC;
-                $ilUser = $DIC['ilUser'];
-
                 $testSession->loadTestSession(
-                    $this->testOBJ->getTestId(),
-                    $ilUser->getId(),
+                    $this->test_obj->getTestId(),
+                    $this->user->getId(),
                     $testSession->getAccessCodeFromSession()
                 );
 
@@ -92,7 +80,7 @@ class ilTestSessionFactory
             }
         }
 
-        return $this->testSession[$activeId];
+        return $this->testSession[$active_id];
     }
 
     /**
@@ -100,36 +88,34 @@ class ilTestSessionFactory
      * @param integer $userId
      * @return ilTestSession
      */
-    public function getSessionByUserId($userId)
+    public function getSessionByUserId(int $user_id): ilTestSession
     {
-        if (!isset($this->testSession[$this->buildCacheKey($userId)])) {
+        if (!isset($this->testSession[$this->buildCacheKey($user_id)])) {
             $testSession = $this->getNewTestSessionObject();
 
-            $testSession->setRefId($this->testOBJ->getRefId());
-            $testSession->setTestId($this->testOBJ->getTestId());
+            $testSession->setRefId($this->test_obj->getRefId());
+            $testSession->setTestId($this->test_obj->getTestId());
 
-            $testSession->loadTestSession($this->testOBJ->getTestId(), $userId);
+            $testSession->loadTestSession($this->test_obj->getTestId(), $user_id);
 
-            $this->testSession[$this->buildCacheKey($userId)] = $testSession;
+            $this->testSession[$this->buildCacheKey($user_id)] = $testSession;
         }
 
-        return $this->testSession[$this->buildCacheKey($userId)];
+        return $this->testSession[$this->buildCacheKey($user_id)];
     }
 
-    /**
-     * @return ilTestSession
-     */
-    private function getNewTestSessionObject()
+    private function getNewTestSessionObject(): ilTestSession
     {
-        return new ilTestSession();
+        return new ilTestSession($this->db, $this->user);
     }
 
     /**
      * @param $userId
      * @return string
      */
-    private function buildCacheKey($userId): string
+    private function buildCacheKey(int $user_id): string
     {
-        return "{$this->testOBJ->getTestId()}::{$userId}";
+        $user_id_string = (string) $user_id;
+        return "{$this->test_obj->getTestId()}::{$user_id_string}";
     }
 }

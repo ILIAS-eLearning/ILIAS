@@ -162,6 +162,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
 
     public function init(): void
     {
+        $this->lng->loadLanguageModule('dash');
         $this->initViewSettings();
         $this->main_tpl->addJavaScript('Services/Dashboard/Block/js/ReplaceModalContent.js');
         $this->viewSettings->parse();

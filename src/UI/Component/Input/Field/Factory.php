@@ -20,6 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Component\Input\Field;
 
+use ILIAS\UI\Component\Input\Container\Form\FormInput;
+
 /**
  * This is what a factory for input fields looks like.
  */
@@ -102,7 +104,7 @@ interface Factory
      *      sections: Sections are used to generate a visible relation of fields.
      * rules: []
      * ---
-     * @param array<mixed,\ILIAS\UI\Component\Input\Field\FormInput> $inputs
+     * @param array<mixed,\ILIAS\UI\Component\Input\Input> $inputs
      * @param string                                                 $label
      * @param string|null                                            $byline
      * @return    \ILIAS\UI\Component\Input\Field\Group
@@ -130,7 +132,7 @@ interface Factory
      *      of a subsetting by a date or number. These exceptions MUST individually
      *      accept by the Jour Fixe.
      * ---
-     * @param array<mixed,\ILIAS\UI\Component\Input\Field\FormInput> $inputs
+     * @param array<mixed,\ILIAS\UI\Component\Input\Input> $inputs
      * @param string                                                 $label
      * @param string|null                                            $byline
      * @return    \ILIAS\UI\Component\Input\Field\OptionalGroup
@@ -158,9 +160,9 @@ interface Factory
      *      of a subsetting by a date or number. These exceptions MUST individually
      *      accepted by the Jour Fixe.
      * ---
-     * @param array<mixed,\ILIAS\UI\Component\Input\Field\FormInput> $inputs
-     * @param string                                                 $label
-     * @param string|null                                            $byline
+     * @param array<mixed,\ILIAS\UI\Component\Input\Field\Group> $inputs
+     * @param string                                             $label
+     * @param string|null                                        $byline
      * @return    \ILIAS\UI\Component\Input\Field\SwitchableGroup
      */
     public function switchableGroup(array $inputs, string $label, ?string $byline = null): SwitchableGroup;
@@ -199,7 +201,7 @@ interface Factory
      *     4: >
      *       In doubt consistency SHOULD be prioritized over accuracy in titles.
      * ---
-     * @param array<mixed,\ILIAS\UI\Component\Input\Field\FormInput> $inputs
+     * @param array<mixed,\ILIAS\UI\Component\Input\Input> $inputs
      * @param string                                                 $label
      * @param string|null                                            $byline
      * @return    \ILIAS\UI\Component\Input\Field\Section
@@ -320,6 +322,12 @@ interface Factory
      * rules:
      *   usage:
      *     1: Password Input MUST be used for passwords.
+     *   composition:
+     *     1: >
+     *        The input MUST always be rendered with the attribute autocomplete="off".
+     *        This advises browsers to NOT autofill the input field with cached passwords
+     *        and avoids potential exposure of confidential data, especially in
+     *        shared environments.
      *   interaction:
      *     1: >
      *         Password Input SHOULD NOT limit the number of characters.
@@ -592,14 +600,14 @@ interface Factory
      * @param UploadHandler $handler
      * @param string        $label
      * @param string|null   $byline
-     * @param Input|null    $metadata_input
+     * @param FormInput|null    $metadata_input
      * @return \ILIAS\UI\Component\Input\Field\File
      */
     public function file(
         UploadHandler $handler,
         string $label,
         ?string $byline = null,
-        Input $metadata_input = null
+        FormInput $metadata_input = null
     ): File;
 
     /**

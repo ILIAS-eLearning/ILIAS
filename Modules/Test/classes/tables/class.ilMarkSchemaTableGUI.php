@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class ilMarkSchemaGUI
  * @author Michael Jansen <mjansen@databay.de>
@@ -27,16 +29,9 @@ class ilMarkSchemaTableGUI extends ilTable2GUI
 
     protected bool $is_editable = true;
 
-    public function __construct($parent, $cmd, $template_context = '', ilMarkSchemaAware $object = null)
+    public function __construct(ilMarkSchemaGUI $parent, string $cmd, ilMarkSchemaAware $object = null)
     {
-        /**
-         * @var $ilCtrl ilCtrl
-         */
-        global $DIC;
-        $ilCtrl = $DIC['ilCtrl'];
-
         $this->object = $object;
-        $this->ctrl = $ilCtrl;
         $this->is_editable = $this->object->canEditMarks();
 
         $this->setId('mark_schema_gui_' . $this->object->getMarkSchemaForeignId());
@@ -63,7 +58,7 @@ class ilMarkSchemaTableGUI extends ilTable2GUI
         $this->initColumns();
         $this->initData();
 
-        $this->initJS($DIC->ui()->mainTemplate());
+        $this->initJS($this->main_tpl);
     }
 
     protected function initColumns(): void
@@ -130,7 +125,7 @@ class ilMarkSchemaTableGUI extends ilTable2GUI
 
         $percentage = new ilNumberInputGUI('', 'mark_percentage_' . $a_set['mark_id']);
         $percentage->allowDecimals(true);
-        $percentage->setValue($a_set['mark_percentage']);
+        $percentage->setValue((string) $a_set['mark_percentage']);
         $percentage->setSize(10);
         $percentage->setDisabled(!$this->is_editable);
         $percentage->setMinValue(0);
@@ -139,7 +134,7 @@ class ilMarkSchemaTableGUI extends ilTable2GUI
         $this->tpl->setVariable('VAL_MARK_ID', $a_set['mark_id']);
         $this->tpl->setVariable(
             'VAL_CHECKBOX',
-            ilLegacyFormElementsUtil::formCheckbox(false, 'marks[]', $a_set['mark_id'], !$this->is_editable)
+            ilLegacyFormElementsUtil::formCheckbox(false, 'marks[]', (string) $a_set['mark_id'], !$this->is_editable)
         );
         $this->tpl->setVariable('VAL_SHORT_NAME', $short_name->render());
         $this->tpl->setVariable('VAL_OFFICIAL_NAME', $official_name->render());

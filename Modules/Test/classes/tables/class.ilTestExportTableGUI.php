@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  *
  * @author Helmut Schottmüller <ilias@aurealis.de>
@@ -25,28 +27,13 @@
  */
 class ilTestExportTableGUI extends ilExportTableGUI
 {
-    public function __construct($a_parent_obj, $a_parent_cmd, $a_exp_obj)
-    {
-        parent::__construct($a_parent_obj, $a_parent_cmd, $a_exp_obj);
-
-        // NOT REQUIRED ANYMORE, PROBLEM NOW FIXED IN THE ROOT
-        // KEEP CODE, JF OPINIONS / ROOT FIXINGS CAN CHANGE
-        //$this->addCustomColumn($this->lng->txt('actions'), $this, 'formatActionsList');
-    }
-
     protected function formatActionsList(string $type, string $filename): string
     {
-        /**
-         * @var $ilCtrl ilCtrl
-         */
-        global $DIC;
-        $ilCtrl = $DIC['ilCtrl'];
-
         $list = new ilAdvancedSelectionListGUI();
         $list->setListTitle($this->lng->txt('actions'));
-        $ilCtrl->setParameter($this->getParentObject(), 'file', $filename);
-        $list->addItem($this->lng->txt('download'), '', $ilCtrl->getLinkTarget($this->getParentObject(), 'download'));
-        $ilCtrl->setParameter($this->getParentObject(), 'file', '');
+        $this->ctrl->setParameter($this->getParentObject(), 'file', $filename);
+        $list->addItem($this->lng->txt('download'), '', $this->ctrl->getLinkTarget($this->getParentObject(), 'download'));
+        $this->ctrl->setParameter($this->getParentObject(), 'file', '');
         return $list->getHTML();
     }
 

@@ -787,10 +787,6 @@ abstract class assQuestion
      */
     final public function calculateResultsFromSolution(int $active_id, int $pass, bool $obligationsEnabled = false): void
     {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-        $ilUser = $DIC['ilUser'];
-
         // determine reached points for submitted solution
         $reached_points = $this->calculateReachedPoints($active_id, $pass);
         $questionHintTracking = new ilAssQuestionHintTracking($this->getId(), $active_id, $pass);
@@ -813,49 +809,51 @@ abstract class assQuestion
         // fau: testNav - check for existing authorized solution to know if a result record should be written
         $existingSolutions = $this->lookupForExistingSolutions($active_id, $pass);
 
-        $this->getProcessLocker()->executeUserQuestionResultUpdateOperation(function () use ($ilDB, $active_id, $pass, $reached_points, $requestsStatisticData, $isAnswered, $existingSolutions) {
-            $query = "
-			DELETE FROM		tst_test_result
+        $this->getProcessLocker()->executeUserQuestionResultUpdateOperation(
+            function () use ($active_id, $pass, $reached_points, $requestsStatisticData, $isAnswered, $existingSolutions) {
+                $query = "
+                    DELETE FROM		tst_test_result
 
-			WHERE			active_fi = %s
-			AND				question_fi = %s
-			AND				pass = %s
-		";
+                    WHERE			active_fi = %s
+                    AND				question_fi = %s
+                    AND				pass = %s
+                ";
 
-            $types = array('integer', 'integer', 'integer');
-            $values = array($active_id, $this->getId(), $pass);
-
-            if ($this->getStep() !== null) {
-                $query .= "
-				AND				step = %s
-			";
-
-                $types[] = 'integer';
-                $values[] = $this->getStep();
-            }
-            $ilDB->manipulateF($query, $types, $values);
-
-            if ($existingSolutions['authorized']) {
-                $next_id = $ilDB->nextId("tst_test_result");
-                $fieldData = array(
-                    'test_result_id' => array('integer', $next_id),
-                    'active_fi' => array('integer', $active_id),
-                    'question_fi' => array('integer', $this->getId()),
-                    'pass' => array('integer', $pass),
-                    'points' => array('float', $reached_points),
-                    'tstamp' => array('integer', time()),
-                    'hint_count' => array('integer', $requestsStatisticData->getRequestsCount()),
-                    'hint_points' => array('float', $requestsStatisticData->getRequestsPoints()),
-                    'answered' => array('integer', $isAnswered)
-                );
+                $types = ['integer', 'integer', 'integer'];
+                $values = [$active_id, $this->getId(), $pass];
 
                 if ($this->getStep() !== null) {
-                    $fieldData['step'] = array('integer', $this->getStep());
-                }
+                    $query .= "
+                    AND				step = %s
+                ";
 
-                $ilDB->insert('tst_test_result', $fieldData);
+                    $types[] = 'integer';
+                    $values[] = $this->getStep();
+                }
+                $this->db->manipulateF($query, $types, $values);
+
+                if ($existingSolutions['authorized']) {
+                    $next_id = $this->db->nextId("tst_test_result");
+                    $fieldData = array(
+                        'test_result_id' => array('integer', $next_id),
+                        'active_fi' => array('integer', $active_id),
+                        'question_fi' => array('integer', $this->getId()),
+                        'pass' => array('integer', $pass),
+                        'points' => array('float', $reached_points),
+                        'tstamp' => array('integer', time()),
+                        'hint_count' => array('integer', $requestsStatisticData->getRequestsCount()),
+                        'hint_points' => array('float', $requestsStatisticData->getRequestsPoints()),
+                        'answered' => array('integer', $isAnswered)
+                    );
+
+                    if ($this->getStep() !== null) {
+                        $fieldData['step'] = array('integer', $this->getStep());
+                    }
+
+                    $this->db->insert('tst_test_result', $fieldData);
+                }
             }
-        });
+        );
 
         if (ilObjAssessmentFolder::_enabledAssessmentLogging()) {
             assQuestion::logAction(
@@ -873,8 +871,12 @@ abstract class assQuestion
         }
 
         // update test pass results
-        self::_updateTestPassResults($active_id, $pass, $obligationsEnabled, $this->getProcessLocker());
-        ilCourseObjectiveResult::_updateObjectiveResult($ilUser->getId(), $active_id, $this->getId());
+        $test = new ilObjTest(
+            $this->getObjId(),
+            false
+        );
+        $test->updateTestPassResults($active_id, $pass, $obligationsEnabled, $this->getProcessLocker());
+        ilCourseObjectiveResult::_updateObjectiveResult($this->current_user->getId(), $active_id, $this->getId());
     }
 
     /**
@@ -935,211 +937,6 @@ abstract class assQuestion
     protected function savePreviewData(ilAssQuestionPreviewSession $previewSession): void
     {
         $previewSession->setParticipantsSolution($this->getSolutionSubmit());
-    }
-
-    /** @TODO Move this to a proper place. */
-    public static function _updateTestResultCache(int $active_id, ilAssQuestionProcessLocker $processLocker = null): void
-    {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-
-        $pass = ilObjTest::_getResultPass($active_id);
-
-        if ($pass !== null) {
-            $query = "
-                SELECT		tst_pass_result.*
-                FROM		tst_pass_result
-                WHERE		active_fi = %s
-                AND			pass = %s
-            ";
-
-            $result = $ilDB->queryF(
-                $query,
-                array('integer','integer'),
-                array($active_id, $pass)
-            );
-
-            $test_pass_result_row = $ilDB->fetchAssoc($result);
-
-            if (!is_array($test_pass_result_row)) {
-                $test_pass_result_row = [];
-            }
-            $max = (float) ($test_pass_result_row['maxpoints'] ?? 0);
-            $reached = (float) ($test_pass_result_row['points'] ?? 0);
-            $percentage = ($max <= 0.0 || $reached <= 0.0) ? 0 : ($reached / $max) * 100.0;
-
-            $obligationsAnswered = (int) ($test_pass_result_row['obligations_answered'] ?? 1);
-
-            $mark = ASS_MarkSchema::_getMatchingMarkFromActiveId($active_id, $percentage);
-            $isPassed = isset($mark["passed"]) && $mark["passed"];
-
-            $hint_count = $test_pass_result_row['hint_count'] ?? 0;
-            $hint_points = $test_pass_result['hint_points'] ?? 0.0;
-
-            $userTestResultUpdateCallback = function () use ($ilDB, $active_id, $pass, $max, $reached, $isPassed, $obligationsAnswered, $hint_count, $hint_points, $mark) {
-                $passedOnceBefore = 0;
-                $query = "SELECT passed_once FROM tst_result_cache WHERE active_fi = %s";
-                $res = $ilDB->queryF($query, array('integer'), array($active_id));
-                while ($passed_once_result_row = $ilDB->fetchAssoc($res)) {
-                    $passedOnceBefore = (int) $passed_once_result_row['passed_once'];
-                }
-
-                $passedOnce = (int) ($isPassed || $passedOnceBefore);
-
-                $ilDB->manipulateF(
-                    "DELETE FROM tst_result_cache WHERE active_fi = %s",
-                    array('integer'),
-                    array($active_id)
-                );
-
-                $ilDB->insert('tst_result_cache', array(
-                    'active_fi' => array('integer', $active_id),
-                    'pass' => array('integer', strlen($pass) ? $pass : 0),
-                    'max_points' => array('float', strlen($max) ? $max : 0),
-                    'reached_points' => array('float', strlen($reached) ? $reached : 0),
-                    'mark_short' => array('text', strlen($mark["short_name"] ?? '') ? $mark["short_name"] : " "),
-                    'mark_official' => array('text', strlen($mark["official_name"] ?? '') ? $mark["official_name"] : " "),
-                    'passed_once' => array('integer', $passedOnce),
-                    'passed' => array('integer', (int) $isPassed),
-                    'failed' => array('integer', (int) !$isPassed),
-                    'tstamp' => array('integer', time()),
-                    'hint_count' => array('integer', $hint_count),
-                    'hint_points' => array('float', $hint_points),
-                    'obligations_answered' => array('integer', $obligationsAnswered)
-                ));
-            };
-
-            if (is_object($processLocker)) {
-                $processLocker->executeUserTestResultUpdateLockOperation($userTestResultUpdateCallback);
-            } else {
-                $userTestResultUpdateCallback();
-            }
-        }
-    }
-
-    /** @TODO Move this to a proper place. */
-    public static function _updateTestPassResults(
-        int $active_id,
-        int $pass,
-        bool $obligationsEnabled = false,
-        ilAssQuestionProcessLocker $processLocker = null,
-        int $test_obj_id = null
-    ): array {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-
-        $data = ilObjTest::_getQuestionCountAndPointsForPassOfParticipant($active_id, $pass);
-        $time = ilObjTest::_getWorkingTimeOfParticipantForPass($active_id, $pass);
-
-
-
-        // update test pass results
-
-        $result = $ilDB->queryF(
-            "
-			SELECT		SUM(points) reachedpoints,
-						SUM(hint_count) hint_count,
-						SUM(hint_points) hint_points,
-						COUNT(DISTINCT(question_fi)) answeredquestions
-			FROM		tst_test_result
-			WHERE		active_fi = %s
-			AND			pass = %s
-			",
-            array('integer','integer'),
-            array($active_id, $pass)
-        );
-
-        if ($result->numRows() > 0) {
-            if ($obligationsEnabled) {
-                $query = '
-					SELECT		answered answ
-					FROM		tst_test_question
-					  INNER JOIN	tst_active
-						ON			active_id = %s
-						AND			tst_test_question.test_fi = tst_active.test_fi
-					LEFT JOIN	tst_test_result
-						ON			tst_test_result.active_fi = %s
-						AND			tst_test_result.pass = %s
-						AND			tst_test_question.question_fi = tst_test_result.question_fi
-					WHERE		obligatory = 1';
-
-                $result_obligatory = $ilDB->queryF(
-                    $query,
-                    array('integer','integer','integer'),
-                    array($active_id, $active_id, $pass)
-                );
-
-                $obligations_answered = 1;
-
-                while ($row_obligatory = $ilDB->fetchAssoc($result_obligatory)) {
-                    if (!(int) $row_obligatory['answ']) {
-                        $obligations_answered = 0;
-                        break;
-                    }
-                }
-            } else {
-                $obligations_answered = 1;
-            }
-
-            $row = $ilDB->fetchAssoc($result);
-
-            if ($row['reachedpoints'] === null) {
-                $row['reachedpoints'] = 0.0;
-            }
-            if ($row['hint_count'] === null) {
-                $row['hint_count'] = 0;
-            }
-            if ($row['hint_points'] === null) {
-                $row['hint_points'] = 0.0;
-            }
-
-            $exam_identifier = ilObjTest::buildExamId($active_id, $pass, $test_obj_id);
-
-            $updatePassResultCallback = function () use ($ilDB, $data, $active_id, $pass, $row, $time, $obligations_answered, $exam_identifier) {
-                /** @var $ilDB ilDBInterface */
-                $ilDB->replace(
-                    'tst_pass_result',
-                    array(
-                        'active_fi' => array('integer', $active_id),
-                        'pass' => array('integer', strlen($pass) ? $pass : 0)),
-                    array(
-                        'points' => array('float', $row['reachedpoints'] ?: 0),
-                        'maxpoints' => array('float', $data['points']),
-                        'questioncount' => array('integer', $data['count']),
-                        'answeredquestions' => array('integer', $row['answeredquestions']),
-                        'workingtime' => array('integer', $time),
-                        'tstamp' => array('integer', time()),
-                        'hint_count' => array('integer', $row['hint_count']),
-                        'hint_points' => array('float', $row['hint_points']),
-                        'obligations_answered' => array('integer', $obligations_answered),
-                        'exam_id' => array('text', $exam_identifier)
-                    )
-                );
-            };
-
-            if (is_object($processLocker) && $processLocker instanceof ilAssQuestionProcessLocker) {
-                $processLocker->executeUserPassResultUpdateLockOperation($updatePassResultCallback);
-            } else {
-                $updatePassResultCallback();
-            }
-        }
-
-        assQuestion::_updateTestResultCache($active_id, $processLocker);
-
-        return array(
-            'active_fi' => $active_id,
-            'pass' => $pass,
-            'points' => ($row["reachedpoints"]) ?: 0.0,
-            'maxpoints' => $data["points"],
-            'questioncount' => $data["count"],
-            'answeredquestions' => $row["answeredquestions"],
-            'workingtime' => $time,
-            'tstamp' => time(),
-            'hint_count' => $row['hint_count'],
-            'hint_points' => $row['hint_points'],
-            'obligations_answered' => $obligations_answered,
-            'exam_id' => $exam_identifier
-        );
     }
 
     public static function logAction(string $logtext, int $active_id, int $question_id): void
@@ -2667,8 +2464,15 @@ abstract class assQuestion
     * @return boolean true on success, otherwise false
     * @access public
     */
-    public static function _setReachedPoints(int $active_id, int $question_id, float $points, float $maxpoints, int $pass, bool $manualscoring, bool $obligationsEnabled): bool
-    {
+    public static function _setReachedPoints(
+        int $active_id,
+        int $question_id,
+        float $points,
+        float $maxpoints,
+        int $pass,
+        bool $manualscoring,
+        bool $obligationsEnabled
+    ): bool {
         global $DIC;
         $ilDB = $DIC['ilDB'];
         $refinery = $DIC['refinery'];
@@ -2714,8 +2518,12 @@ abstract class assQuestion
             }
 
             if (self::isForcePassResultUpdateEnabled() || $old_points != $points || $rowsnum == 0) {
-                assQuestion::_updateTestPassResults($active_id, $pass, $obligationsEnabled);
-                ilCourseObjectiveResult::_updateObjectiveResult(ilObjTest::_getUserIdFromActiveId($active_id), $question_id, $points);
+                $test = new ilObjTest(
+                    ilObjTest::_lookupTestObjIdForQuestionId($question_id),
+                    false
+                );
+                $test->updateTestPassResults($active_id, $pass, $obligationsEnabled);
+                ilCourseObjectiveResult::_updateObjectiveResult(ilObjTest::_getUserIdFromActiveId($active_id), $active_id, $question_id);
                 if (ilObjAssessmentFolder::_enabledAssessmentLogging()) {
                     global $DIC;
                     $lng = $DIC['lng'];
@@ -3743,7 +3551,11 @@ abstract class assQuestion
 
         $this->log($activeId, "log_user_solution_willingly_deleted");
 
-        self::_updateTestPassResults(
+        $test = new ilObjTest(
+            ilObjTest::_lookupTestObjIdForQuestionId($this->getId()),
+            false
+        );
+        $test->updateTestPassResults(
             $activeId,
             $pass,
             $this->areObligationsToBeConsidered(),

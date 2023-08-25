@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class ilTestAccess
  *
@@ -26,80 +28,55 @@
  */
 class ilTestAccess
 {
-    /**
-     * @var ilAccessHandler
-     */
-    protected $access;
+    protected ilAccessHandler $access;
+    protected ilDBInterface $db;
+    protected ilLanguage $lng;
 
-    /**
-     * @var integer
-     */
-    protected $refId;
+    protected ilTestParticipantAccessFilterFactory $participant_access_filter;
 
-    /**
-     * @var integer
-     */
-    protected $testId;
-
-    /**
-     * @param integer $refId
-     * @param integer $testId
-     */
-    public function __construct($refId, $testId)
-    {
-        global $DIC; /* @var ILIAS\DI\Container $DIC */
+    public function __construct(
+        protected int $ref_id,
+        protected int $test_id
+    ) {
+        /** @var ILIAS\DI\Container $DIC */
+        global $DIC;
+        $this->db = $DIC['ilDB'];
+        $this->lng = $DIC['lng'];
+        $this->participant_access_filter = new ilTestParticipantAccessFilterFactory($DIC['ilAccess']);
         $this->setAccess($DIC->access());
 
-        $this->setRefId($refId);
-        $this->setTestId($testId);
+        $this->setRefId($ref_id);
+        $this->setTestId($test_id);
     }
 
-    /**
-     * @return ilAccessHandler
-     */
     public function getAccess(): ilAccessHandler
     {
         return $this->access;
     }
 
-    /**
-     * @param ilAccessHandler $access
-     */
-    public function setAccess($access)
+    public function setAccess(ilAccessHandler $access)
     {
         $this->access = $access;
     }
 
-    /**
-     * @return int
-     */
     public function getRefId(): int
     {
-        return $this->refId;
+        return $this->ref_id;
     }
 
-    /**
-     * @param int $refId
-     */
-    public function setRefId($refId)
+    public function setRefId(int $ref_id)
     {
-        $this->refId = $refId;
+        $this->ref_id = $ref_id;
     }
 
-    /**
-     * @return int
-     */
     public function getTestId(): int
     {
-        return $this->testId;
+        return $this->test_id;
     }
 
-    /**
-     * @param int $testId
-     */
-    public function setTestId($testId)
+    public function setTestId(int $test_id)
     {
-        $this->testId = $testId;
+        $this->test_id = $test_id;
     }
 
     /**
@@ -182,50 +159,31 @@ class ilTestAccess
         return false;
     }
 
-    /**
-     * @param callable $participantAccessFilter
-     * @param integer $activeId
-     * @return bool
-     */
-    protected function checkAccessForActiveId($accessFilter, $activeId): bool
+    protected function checkAccessForActiveId(Closure $access_filter, int $active_id): bool
     {
-        global $DIC; /* @var ILIAS\DI\Container $DIC */
-
-        $participantData = new ilTestParticipantData($DIC->database(), $DIC->language());
-        $participantData->setActiveIdsFilter(array($activeId));
-        $participantData->setParticipantAccessFilter($accessFilter);
+        $participantData = new ilTestParticipantData($this->db, $this->lng);
+        $participantData->setActiveIdsFilter(array($active_id));
+        $participantData->setParticipantAccessFilter($access_filter);
         $participantData->load($this->getTestId());
 
-        return in_array($activeId, $participantData->getActiveIds());
+        return in_array($active_id, $participantData->getActiveIds());
     }
 
-    /**
-     * @param integer $activeId
-     * @return bool
-     */
-    public function checkResultsAccessForActiveId($activeId): bool
+    public function checkResultsAccessForActiveId(int $active_id): bool
     {
-        $accessFilter = ilTestParticipantAccessFilter::getAccessResultsUserFilter($this->getRefId());
-        return $this->checkAccessForActiveId($accessFilter, $activeId);
+        $access_filter = $this->participant_access_filter->getAccessResultsUserFilter($this->getRefId());
+        return $this->checkAccessForActiveId($access_filter, $active_id);
     }
 
-    /**
-     * @param integer $activeId
-     * @return bool
-     */
-    public function checkScoreParticipantsAccessForActiveId($activeId): bool
+    public function checkScoreParticipantsAccessForActiveId(int $active_id): bool
     {
-        $accessFilter = ilTestParticipantAccessFilter::getScoreParticipantsUserFilter($this->getRefId());
-        return $this->checkAccessForActiveId($accessFilter, $activeId);
+        $access_filter = $this->participant_access_filter->getScoreParticipantsUserFilter($this->getRefId());
+        return $this->checkAccessForActiveId($access_filter, $active_id);
     }
 
-    /**
-     * @param integer $activeId
-     * @return bool
-     */
-    public function checkStatisticsAccessForActiveId($activeId): bool
+    public function checkStatisticsAccessForActiveId(int $active_id): bool
     {
-        $accessFilter = ilTestParticipantAccessFilter::getAccessStatisticsUserFilter($this->getRefId());
-        return $this->checkAccessForActiveId($accessFilter, $activeId);
+        $access_filter = $this->participant_access_filter->getAccessStatisticsUserFilter($this->getRefId());
+        return $this->checkAccessForActiveId($access_filter, $active_id);
     }
 }

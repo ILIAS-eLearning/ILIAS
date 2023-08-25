@@ -197,6 +197,14 @@ these 3 aspects as traits, so that they can be included easily into all
 (present and future) types of nodes without forcing odd inheritances between
 them.
 
+### Revise Modals of DataTable
+
+DataTable allows for asynch Actions and will accept Modals or MessageBoxes as
+response. The response will be opened in a Modal NOT using the Modal-Component's
+template and asynch-mechanisms, but rather inject the HTML/JS in its own template
+(see tpl.datatable.html, datatable.clas.js::asyncAction).
+The DataTable should fully use UI\Component\Modal.
+
 ## Long Term
 
 ### Make Constraint in Tag Input Field work again
@@ -328,6 +336,30 @@ laying (too much) work on the shoulders of Global Screen, Notification Slate and
 However, just building such a UI Component, would not do the trick. This needs
 to go hand in hand with a proper discussion on what a Notification Center should be
 and do for us. Current state, see: [FR: Notification Center](https://docu.ilias.de/goto_docu_wiki_wpage_5118_1357.html).
+
+### Introduce Modal Content component (beginner/advanced)
+
+Currently, Modals combine two things: Presentation of content and opening an
+overlay layer. With the separation of those we will gain several advantages:
+- the content-part could be more specific, as there should be variants for the
+  intended purpose/content
+- content-parts might be used without the modal; e.g., on mobile devices, you might
+  just want to change the page instead of using overlays
+- Modals could allow further Components as content by simply adding the Interface
+  For example, the Message Boxes are a good candidate
+- the content parts might be retrieved via AJAX-calls (and thus be build according 
+  to runtime-parameters)
+Especially (but not only) with the DataTable's async-Actions, this would allow to 
+better control the responses.
+
+### Improve async Modals(beginner/advanced)
+
+Along with the separation of Modal-layer and its contents (see above), the asynch
+abilities of Modals should be improved; it should be possible:
+- to replace the contents only (in order to stay in contexts of ids and JS)
+- alter the target-URL of the RPC-call by a previous response
+- probably alter the Labels and functions of Buttons
+
 
 ## Ideas and Food for Thought
 

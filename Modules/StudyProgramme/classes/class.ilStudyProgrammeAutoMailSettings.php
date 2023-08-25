@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\UI\Component\Input\Field;
 use ILIAS\Refinery\Factory as Refinery;
@@ -90,7 +90,7 @@ class ilStudyProgrammeAutoMailSettings
         return $clone;
     }
 
-    public function toFormInput(Field\Factory $input, ilLanguage $ilLng, Refinery $refinery): Field\Input
+    public function toFormInput(Field\Factory $input, ilLanguage $ilLng, Refinery $refinery): \ILIAS\UI\Component\Input\Container\Form\FormInput
     {
         $reminder = null;
         if (!is_null($this->getReminderNotRestartedByUserDays())) {

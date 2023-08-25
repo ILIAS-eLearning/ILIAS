@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class ilParticipantsTestResultsGUITest
  * @author Marvin Beym <mbeym@databay.de>
@@ -28,6 +28,7 @@ class ilParticipantsTestResultsGUITest extends ilTestBaseTestCase
 
     protected function setUp(): void
     {
+        global $DIC;
         parent::setUp();
 
         $this->addGlobal_tpl();
@@ -36,10 +37,27 @@ class ilParticipantsTestResultsGUITest extends ilTestBaseTestCase
         $this->addGlobal_refinery();
         $this->addGlobal_ilCtrl();
         $this->addGlobal_lng();
+        $this->addGlobal_ilUser();
         $this->addGlobal_ilDB();
         $this->addGlobal_ilTabs();
         $this->addGlobal_ilToolbar();
-        $this->testObj = new ilParticipantsTestResultsGUI();
+        $this->addGlobal_uiFactory();
+        $this->addGlobal_uiRenderer();
+
+
+        $this->testObj = new ilParticipantsTestResultsGUI(
+            $DIC['ilCtrl'],
+            $DIC['lng'],
+            $DIC['ilDB'],
+            $DIC['ilUser'],
+            $DIC['ilTabs'],
+            $DIC['ilToolbar'],
+            $DIC['tpl'],
+            $DIC['ui.factory'],
+            $DIC['ui.renderer'],
+            $this->createMock(ilTestParticipantAccessFilterFactory::class),
+            $this->createMock(ILIAS\Test\InternalRequestService::class)
+        );
     }
 
     public function test_instantiateObject_shouldReturnInstance(): void

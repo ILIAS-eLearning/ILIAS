@@ -19,7 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
-use ILIAS\UI\Component\Input\Field\Input;
+use ILIAS\UI\Component\Input\Container\Form\FormInput;
 use ILIAS\UI\Component\Input\Field\Radio;
 use ILIAS\UI\Component\Input\Field\OptionalGroup;
 use ILIAS\Refinery\Factory as Refinery;
@@ -63,7 +63,7 @@ class ilObjTestSettingsQuestionBehaviour extends TestSettings
         FieldFactory $f,
         Refinery $refinery,
         array $environment = null
-    ): Input {
+    ): FormInput {
         $inputs['title_output'] = $f->radio($lng->txt('tst_title_output'))
             ->withOption('0', $lng->txt('tst_title_output_full'))
             ->withOption('1', $lng->txt('tst_title_output_hide_points'))

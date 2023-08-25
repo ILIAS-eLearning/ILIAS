@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * List all completed tests for current user
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
@@ -28,22 +28,16 @@ class ilTestVerificationTableGUI extends ilTable2GUI
     private ilUserCertificateRepository $userCertificateRepository;
 
     public function __construct(
-        ilObjTestVerificationGUI $a_parent_obj,
-        string $a_parent_cmd = "",
-        ?ilUserCertificateRepository $userCertificateRepository = null
+        ilObjTestVerificationGUI $parent_obj,
+        string $parent_cmd,
+        private ilDBInterface $db,
+        private ilObjUser $user,
+        private ilLogger $logger
     ) {
-        global $DIC;
+        $user_certificate_repository = new ilUserCertificateRepository($this->db, $this->logger);
+        $this->userCertificateRepository = $user_certificate_repository;
 
-        $ilCtrl = $DIC->ctrl();
-        $database = $DIC->database();
-        $logger = $DIC->logger()->root();
-
-        if (null === $userCertificateRepository) {
-            $userCertificateRepository = new ilUserCertificateRepository($database, $logger);
-        }
-        $this->userCertificateRepository = $userCertificateRepository;
-
-        parent::__construct($a_parent_obj, $a_parent_cmd);
+        parent::__construct($parent_obj, $parent_cmd);
 
         $this->addColumn($this->lng->txt('title'), 'title');
         $this->addColumn($this->lng->txt('passed'), 'passed');
@@ -53,18 +47,14 @@ class ilTestVerificationTableGUI extends ilTable2GUI
         $this->setDescription($this->lng->txt('tstv_create_info'));
 
         $this->setRowTemplate('tpl.il_test_verification_row.html', 'Modules/Test');
-        $this->setFormAction($ilCtrl->getFormAction($a_parent_obj, $a_parent_cmd));
+        $this->setFormAction($this->ctrl->getFormAction($parent_obj, $parent_cmd));
 
         $this->getItems();
     }
 
     protected function getItems(): void
     {
-        global $DIC;
-
-        $ilUser = $DIC->user();
-
-        $userId = $ilUser->getId();
+        $userId = $this->user->getId();
 
         $certificateArray = $this->userCertificateRepository->fetchActiveCertificatesByTypeForPresentation(
             $userId,
@@ -85,9 +75,6 @@ class ilTestVerificationTableGUI extends ilTable2GUI
 
     protected function fillRow(array $a_set): void
     {
-        global $DIC;
-        $ilCtrl = $DIC['ilCtrl'];
-
         $this->tpl->setVariable('TITLE', $a_set['title']);
         $this->tpl->setVariable(
             'PASSED',
@@ -95,8 +82,8 @@ class ilTestVerificationTableGUI extends ilTable2GUI
         );
 
         if ($a_set['passed']) {
-            $ilCtrl->setParameter($this->parent_obj, 'tst_id', $a_set['id']);
-            $action = $ilCtrl->getLinkTarget($this->parent_obj, 'save');
+            $this->ctrl->setParameter($this->parent_obj, 'tst_id', $a_set['id']);
+            $action = $this->ctrl->getLinkTarget($this->parent_obj, 'save');
             $this->tpl->setVariable('URL_SELECT', $action);
             $this->tpl->setVariable('TXT_SELECT', $this->lng->txt('select'));
         }

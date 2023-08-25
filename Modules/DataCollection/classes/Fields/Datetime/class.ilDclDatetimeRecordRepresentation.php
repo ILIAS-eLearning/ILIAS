@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -13,14 +14,10 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
-/**
- * Class ilDclDateTimeRecordRepresentation
- * @author  Michael Herren <mh@studer-raimann.ch>
- * @version 1.0.0
- */
+declare(strict_types=1);
+
 class ilDclDatetimeRecordRepresentation extends ilDclBaseRecordRepresentation
 {
     /**
@@ -33,13 +30,10 @@ class ilDclDatetimeRecordRepresentation extends ilDclBaseRecordRepresentation
             return $this->lng->txt('no_date');
         }
 
-        return $this->formatDate($value, $this->user->getDateFormat());
+        return $this->formatDate($value, (string)$this->user->getDateFormat());
     }
 
-    /**
-     * @return bool|string
-     */
-    protected function formatDate(string $value, string $format)
+    protected function formatDate(string $value, string $format): string
     {
         $timestamp = strtotime($value);
         switch ($format) {

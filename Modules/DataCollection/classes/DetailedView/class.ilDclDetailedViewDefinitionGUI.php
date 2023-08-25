@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -13,20 +14,17 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
+
+declare(strict_types=1);
 
 /**
- * Class ilDclDetailedViewDefinitionGUI
- * @author       Martin Studer <ms@studer-raimann.ch>
- * @author       Marcel Raimann <mr@studer-raimann.ch>
- * @author       Fabian Schmid <fs@studer-raimann.ch>
- * @author       Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @ilCtrl_Calls ilDclDetailedViewDefinitionGUI: ilPageEditorGUI, ilEditClipboardGUI, ilMediaPoolTargetSelector
  * @ilCtrl_Calls ilDclDetailedViewDefinitionGUI: ilPublicUserProfileGUI, ilPageObjectGUI
  */
 class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI
 {
+    private ilLocatorGUI $locator;
     protected int $tableview_id;
     protected ILIAS\HTTP\Services $http;
     protected ILIAS\Refinery\Factory $refinery;
@@ -38,6 +36,7 @@ class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI
         $this->tableview_id = $tableview_id;
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
+        $this->locator = $DIC['ilLocator'];
 
         // we always need a page object - create on demand
         if (!ilPageObject::_exists('dclf', $tableview_id)) {
@@ -47,7 +46,7 @@ class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI
             $viewdef->setId($tableview_id);
             $viewdef->setParentId(ilObject2::_lookupObjectId($ref_id));
             $viewdef->setActive(false);
-            $viewdef->create(false);
+            $viewdef->create();
         }
 
         parent::__construct("dclf", $tableview_id);
@@ -67,25 +66,18 @@ class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI
      */
     public function executeCommand(): string
     {
-        global $DIC;
-        $ilLocator = $DIC['ilLocator'];
-
         $next_class = $this->ctrl->getNextClass($this);
 
         $viewdef = $this->getPageObject();
-        if ($viewdef) {
-            $this->ctrl->setParameter($this, "dclv", $viewdef->getId());
-            $title = $this->lng->txt("dcl_view_viewdefinition");
-        }
+        $this->ctrl->setParameter($this, "dclv", $viewdef->getId());
+        $title = $this->lng->txt("dcl_view_viewdefinition");
 
         switch ($next_class) {
             case "ilpageobjectgui":
                 throw new ilCOPageException("Deprecated. ilDclDetailedViewDefinitionGUI gui forwarding to ilpageobject");
             default:
-                if ($viewdef) {
-                    $this->setPresentationTitle($title);
-                    $ilLocator->addItem($title, $this->ctrl->getLinkTarget($this, "preview"));
-                }
+                $this->setPresentationTitle($title);
+                $this->locator->addItem($title, $this->ctrl->getLinkTarget($this, "preview"));
 
                 return parent::executeCommand();
         }
@@ -94,21 +86,25 @@ class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI
     public function showPage(): string
     {
         if ($this->getOutputMode() == ilPageObjectGUI::EDIT) {
-            $delete_button = ilLinkButton::getInstance();
-            $delete_button->setCaption('dcl_empty_detailed_view');
-            $delete_button->setUrl($this->ctrl->getLinkTarget($this, 'confirmDelete'));
-            $this->toolbar->addButtonInstance($delete_button);
+            $delete_button = $this->ui->factory()->button()->standard(
+                $this->lng->txt('dcl_empty_detailed_view'),
+                $this->ctrl->getLinkTarget($this, 'confirmDelete')
+            );
+            $this->toolbar->addComponent($delete_button);
 
-            $activation_button = ilLinkButton::getInstance();
             if ($this->getPageObject()->getActive()) {
-                $activation_button->setCaption('dcl_deactivate_view');
-                $activation_button->setUrl($this->ctrl->getLinkTarget($this, 'deactivate'));
+                $activation_button = $this->ui->factory()->button()->standard(
+                    $this->lng->txt('dcl_deactivate_view'),
+                    $this->ctrl->getLinkTarget($this, 'deactivate')
+                );
             } else {
-                $activation_button->setCaption('dcl_activate_view');
-                $activation_button->setUrl($this->ctrl->getLinkTarget($this, 'activate'));
+                $activation_button = $this->ui->factory()->button()->standard(
+                    $this->lng->txt('dcl_activate_view'),
+                    $this->ctrl->getLinkTarget($this, 'activate')
+                );
             }
 
-            $this->toolbar->addButtonInstance($activation_button);
+            $this->toolbar->addComponent($activation_button);
 
             $legend = $this->getPageObject()->getAvailablePlaceholders();
             if (sizeof($legend)) {
@@ -144,7 +140,7 @@ class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI
         $conf->setFormAction($this->ctrl->getFormAction($this));
         $conf->setHeaderText($this->lng->txt('dcl_confirm_delete_detailed_view_title'));
 
-        $conf->addItem('tableview', $this->tableview_id, $this->lng->txt('dcl_confirm_delete_detailed_view_text'));
+        $conf->addItem('tableview', (string)$this->tableview_id, $this->lng->txt('dcl_confirm_delete_detailed_view_text'));
 
         $conf->setConfirm($this->lng->txt('delete'), 'deleteView');
         $conf->setCancel($this->lng->txt('cancel'), 'cancelDelete');

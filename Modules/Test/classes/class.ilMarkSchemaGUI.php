@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\HTTP\Wrapper\RequestWrapper;
 use GuzzleHttp\Psr7\Request;
 use ILIAS\Refinery\Factory as Refinery;
@@ -36,6 +38,7 @@ class ilMarkSchemaGUI
     protected ilCtrl $ctrl;
     protected ilGlobalPageTemplate $tpl;
     protected ilToolbarGUI $toolbar;
+    protected ilTabsGUI $tabs;
 
     public function __construct($object)
     {
@@ -46,6 +49,7 @@ class ilMarkSchemaGUI
         $this->lng = $DIC['lng'];
         $this->tpl = $DIC['tpl'];
         $this->toolbar = $DIC['ilToolbar'];
+        $this->tabs = $DIC['ilTabs'];
         $this->object = $object;
         $this->post_wrapper = $DIC->http()->wrapper()->post();
         $this->request = $DIC->http()->request();
@@ -54,9 +58,7 @@ class ilMarkSchemaGUI
 
     public function executeCommand(): void
     {
-        global $DIC;
-
-        $DIC->tabs()->activateTab(ilTestTabsManager::TAB_ID_SETTINGS);
+        $this->tabs->activateTab(ilTestTabsManager::TAB_ID_SETTINGS);
         $cmd = $this->ctrl->getCmd('showMarkSchema');
         $this->$cmd();
     }
@@ -207,7 +209,7 @@ class ilMarkSchemaGUI
 
         $this->toolbar->setFormAction($this->ctrl->getFormAction($this, 'showMarkSchema'));
 
-        $mark_schema_table = new ilMarkSchemaTableGUI($this, 'showMarkSchema', '', $this->object);
+        $mark_schema_table = new ilMarkSchemaTableGUI($this, 'showMarkSchema', $this->object);
 
         if ($this->object->canEditMarks()) {
             $create_simple_mark_schema_button = ilSubmitButton::getInstance();
@@ -224,7 +226,7 @@ class ilMarkSchemaGUI
         }
 
 
-        $content_parts = array($mark_schema_table->getHTML());
+        $content_parts = [$mark_schema_table->getHTML()];
 
         $this->tpl->setContent(implode('<br />', $content_parts));
     }

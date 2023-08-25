@@ -887,6 +887,7 @@ assessment#:#new_category#:#Neue Einheiten-Kategorie
 assessment#:#new_unit#:#Neue Einheit
 assessment#:#next_question#:#Weiter
 assessment#:#next_question_rows#:#Fragen %d - %d von %d >>
+assessment#:#no_manual_feedback_export_info#:#Manuelle Rückmeldungen werden nicht exportiert.
 assessment#:#no_passed_mark#:#Sie müssen wenigstens einen Notenschritt als BESTANDEN markieren! Das Notenschema wurde nicht gespeichert!
 assessment#:#no_question_selected_for_move#:#Bitte wählen Sie mindestens eine Frage aus, um sie zu verschieben!
 assessment#:#no_questions_available#:#Es sind keine Fragen verfügbar!
@@ -9796,6 +9797,8 @@ glo#:#glo_box_last_presented#:#Fach zuletzt angezeigt
 glo#:#glo_boxes#:#Fächer
 glo#:#glo_boxes_really_reset#:#Möchten Sie wirklich alle Fächer zurücksetzen? Alle Lernkarten werden in das erste Fach verschoben.
 glo#:#glo_boxes_reset#:#Die Fächer wurden erfolgreich zurückgesetzt.
+glo#:#glo_bulk_confirmation#:#Bitte überprüfen Sie, ob alle Begriffe und Definitionen korrekt gelistet sind.
+glo#:#glo_bulk_creation#:#Massenerstellung
 glo#:#glo_change_to_collection_unavailable_info#:#Um die Zusammenstellung der Inhalte auf "Sammelglossar" zu ändern, müssen Sie zuerst alle bestehenden Begriffe innerhalb dieses Glossars im Reiter "Inhalt" löschen.
 glo#:#glo_change_to_standard_unavailable_info#:#Um die Zusammenstellung der Inhalte auf "Normales Glossar" zu ändern, müssen Sie zuerst die ausgewählten Glossare im Reiter "Inhalt" entfernen.
 glo#:#glo_col_ordering_info#:#Sortieren Sie die Titel der Metadatenfelder, die in der Präsentationsansicht des Glossars als Spaltenüberschriften angezeigt werden.
@@ -9805,6 +9808,7 @@ glo#:#glo_collection_info#:#Das Glossar sammelt automatisch alle Begriffe aus de
 glo#:#glo_content_assembly#:#Zusammenstellung der Inhalte
 glo#:#glo_copy#:#Glossar kopieren
 glo#:#glo_copy_terms#:#Begriffe kopieren
+glo#:#glo_create_term_definition_pairs#:#Begriffs/Definitions-Paare erstellen
 glo#:#glo_days_ago#:#vor %s Tagen
 glo#:#glo_def_vs_term#:#Definition vs. Begriff
 glo#:#glo_def_vs_term_info#:#Zeige zuerst eine Definition, der Lernende muss den Begriff erraten.
@@ -9835,9 +9839,13 @@ glo#:#glo_selected_terms_have_been_copied#:#Die ausgewählten Begriffe wurden in
 glo#:#glo_show_definition#:#Definition zeigen
 glo#:#glo_show_term#:#Begriff zeigen
 glo#:#glo_term#:#Glossarbegriff
+glo#:#glo_term_definition_pairs#:#Begriffs/Definitions-Paare
+glo#:#glo_term_definition_pairs_info#:#Bitte geben Sie pro Zeile ein Begriffs/Definitions-Paar ein. Begriff und Definition müssen getrennt sein durch ein Semikolon oder ein TAB-Zeichen (werden überlicherweise durch Zwischenablage-Aktionen von Tabellenkalkulationsprogramm unterstützt).
+glo#:#glo_term_letter#:#Buchstabe
 glo#:#glo_term_reference#:#Begriffslink
 glo#:#glo_term_vs_def#:#Begriff vs. Definition
 glo#:#glo_term_vs_def_info#:#Zeige zuerst einen Begriff, der Lernende muss die Definition erraten.
+glo#:#glo_terms_per_page#:#Begriffe pro Seite
 glo#:#glo_use_all_flashcards#:#Alle Lernkarten nutzen (%s)
 glo#:#glo_use_remaining_flashcards#:#Verbleibende Lernkarten nutzen (%s)
 grp#:#crs_add_grouping#:#Neue Mitgliedschaftsbeschränkung
@@ -11382,6 +11390,7 @@ meta#:#md_used#:#Verwendung (Anzahl)
 meta#:#meta_accessibility_restrictions#:#Zugangsbeschränkungen
 meta#:#meta_active#:#Aktiv
 meta#:#meta_add#:#Hinzufügen
+meta#:#meta_advmd_add_field#:#Neues Feld hinzufügen
 meta#:#meta_advmd_select_options#:#Einträge
 meta#:#meta_annotation#:#Anmerkung
 meta#:#meta_atomic#:#Atomar
@@ -12569,30 +12578,36 @@ poll#:#poll_answer#:#Antwort
 poll#:#poll_answers#:#Mögliche Antworten
 poll#:#poll_barchart#:#Balkendiagramm
 poll#:#poll_block_message_already_voted#:#Sie haben bereits abgestimmt.
-poll#:#poll_block_message_inactive#:#Diese Abstimmung ist verfügbar ab dem %s.
 poll#:#poll_block_message_no_answers#:#Diese Abstimmung ist nicht komplett.
-poll#:#poll_block_message_offline#:#Diese Abstimmung ist offline.
-poll#:#poll_block_results_available_on#:#Die Ergebnisse werden am %s veröffentlicht.
+poll#:#poll_block_results_available_on#:#Die Ergebnisse werden %s veröffentlicht.
+poll#:#poll_cannot_set_online_no_answers#:#Der Status kann nicht auf &quot;online (aktiviert)&quot; geändert werden, da der Abstimmung noch keine Frage hinzugefügt wurde!
 poll#:#poll_comments#:#Kommentare
 poll#:#poll_copy#:#Abstimmung kopieren
-poll#:#poll_delete_votes#:#Alle Stimmen löschen
-poll#:#poll_delete_votes_sure#:#Sind Sie sicher, dass Sie alle Stimmen löschen möchten?
+poll#:#poll_delete_votes#:#Stimmen aller Teilnehmenden löschen
+poll#:#poll_delete_votes_sure#:#Sind Sie sicher, dass Sie die Stimmen aller Teilnehmenden dieser Abstimmung löschen möchten?
 poll#:#poll_edit#:#Abstimmung editieren
+poll#:#poll_edit_question#:#Frage bearbeiten
 poll#:#poll_image#:#Bild
 poll#:#poll_import#:#Abstimmung importieren
-poll#:#poll_max_number_of_answers#:#Maximale Anzahl Antworten je Teilnehmer
+poll#:#poll_limit_not_below_answer_count#:#Die begrenzte Anzahl muss kleiner sein als die Anzahl der möglichen Antworten.
+poll#:#poll_limit_number_of_answers#:#Anzahl Antworten je Teilnehmer begrenzen
+poll#:#poll_max_number_of_answers#:#Max. Antworten
+poll#:#poll_max_number_of_answers_info#:#Sie dürfen bis zu %s Antworten auswählen.
 poll#:#poll_mode#:#Modus
-poll#:#poll_mode_anonymous#:#Anonym
-poll#:#poll_mode_anonymous_info#:#Abgegebene Stimmen können den Teilnehmenden nicht zugeordnet werden.
-poll#:#poll_mode_personal#:#Personalisiert
-poll#:#poll_mode_personal_info#:#Eine Liste der Teilnehmenden mit den abgegebenen Stimmen ist mit ausreichenden Rechten verfügbar.
+poll#:#poll_mode_anonymous#:#Ohne Namen / Anonym
+poll#:#poll_mode_anonymous_info#:#Im Tab "Abstimmungsergebnisse" werden Namen der Teilnehmenden nicht aufgeführt.
+poll#:#poll_mode_personal#:#Mit Namen
+poll#:#poll_mode_personal_info#:#Im Tab "Abstimmungsergebnisse" werden die Namen der Teilnehmenden mit ihren Antworten aufgeführt. Wer Zugriff auf diesen Tab hat, kann prüfen, wer welche Antwort gegeben hat.
 poll#:#poll_new#:#Neue Abstimmung anlegen
 poll#:#poll_non_anonymous_warning#:#Ihr Name und Votum ist in den Abstimmungsergebnissen für Administratoren sichtbar.
+poll#:#poll_notification_activated#:#Änderungs-Benachrichtigung aktiviert
+poll#:#poll_notification_deactivated#:#Änderungs-Benachrichtigung deaktiviert
 poll#:#poll_notification_subscribe#:#Benachrichtigung aktivieren
 poll#:#poll_notification_unsubscribe#:#Benachrichtigung deaktivieren
 poll#:#poll_percentage#:#Aktueller Anteil
 poll#:#poll_piechart#:#Kuchendiagramm
-poll#:#poll_population#:#%s Teilnehmer
+poll#:#poll_population#:#%s Teilnehmende
+poll#:#poll_population_singular#:#1 Teilnehmer
 poll#:#poll_question#:#Frage
 poll#:#poll_result#:#Abstimmungsergebnisse
 poll#:#poll_result_answers#:#Stimmen
@@ -12610,6 +12625,7 @@ poll#:#poll_view_results_always#:#Immer
 poll#:#poll_view_results_never#:#Niemals
 poll#:#poll_vote#:#Abstimmen
 poll#:#poll_vote_error_multi#:#Wählen Sie maximal %s Antworten aus.
+poll#:#poll_vote_error_multi_no_answer#:#Wählen Sie mindestens eine Antwort aus.
 poll#:#poll_vote_error_single#:#Wählen Sie eine Antwort aus.
 poll#:#poll_vote_notification_body#:#die folgende Abstimmung hat eine Stimme erhalten
 poll#:#poll_vote_notification_link#:#Link zur Abstimmung
@@ -12617,8 +12633,9 @@ poll#:#poll_vote_notification_reason#:#Sie erhalten diese Nachricht, da Sie die 
 poll#:#poll_vote_notification_subject#:#Abstimmung "%s": neue Stimme
 poll#:#poll_votes_no_edit#:#Diese Abstimmung beinhaltet bereits Stimmen. Sie kann nicht bearbeitet werden so lange Sie die Stimmen nicht löschen.
 poll#:#poll_voting_period_and_results#:#Stimmperiode und Ergebnisse
+poll#:#poll_voting_period_ended_info#:#Das Ende der Abstimmung war %s.
 poll#:#poll_voting_period_full_info#:#Abstimmung von %s bis %s
-poll#:#poll_voting_period_info#:#Ende der Abstimmung: %s
+poll#:#poll_voting_period_info#:#Das Ende der Abstimmung ist %s.
 poll#:#poll_voting_period_limited#:#Zeitlich begrenzte Stimmperiode
 prg#:#access_ctr_by_orgu_position#:#Berechtigungen anhand Positionen in Organisationseinheiten
 prg#:#active_only#:#nur aktive
@@ -16652,6 +16669,11 @@ ui#:#datetime_required#:#Zeit/Datum erforderlich
 ui#:#duration_default_label_end#:#Ende
 ui#:#duration_default_label_start#:#Beginn
 ui#:#duration_end_must_not_be_earlier_than_start#:#Der Beginn muss zeitlich vor dem Ende liegen.
+ui#:#label_fieldselection#:#Spaltenauswahl
+ui#:#label_fieldselection_refresh#:#Anwenden
+ui#:#label_pagination_limit#:#Pagination - Anzahl der Zeilen
+ui#:#label_pagination_offset#:#Pagination - Start
+ui#:#label_sortation#:#Sortierung
 ui#:#presentaion_table_collapse#:#alle minimieren
 ui#:#presentaion_table_expand#:#alle zeigen
 ui#:#ui_chars_max#:#Maximum:

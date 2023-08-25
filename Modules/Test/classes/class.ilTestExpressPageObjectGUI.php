@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * @ilCtrl_Calls ilTestExpressPageObjectGUI: assMultipleChoiceGUI, assClozeTestGUI, assMatchingQuestionGUI
  * @ilCtrl_Calls ilTestExpressPageObjectGUI: assOrderingQuestionGUI, assImagemapQuestionGUI
@@ -35,7 +37,11 @@
  */
 class ilTestExpressPageObjectGUI extends ilAssQuestionPageGUI
 {
-    public $test_object;
+    protected $test_object;
+
+    private ilTree $tree;
+    private ilDBInterface $db;
+    private ilComponentRepository $component_repository;
 
     public function nextQuestion()
     {
@@ -75,19 +81,19 @@ class ilTestExpressPageObjectGUI extends ilAssQuestionPageGUI
         ilUtil::redirect($link);
     }
 
-    public function __construct($a_id = 0, $a_old_nr = 0)
+    public function __construct($a_id = 0, $a_old_nr = 0, $test_object = null)
     {
+        global $DIC;
+        $this->tree = $DIC['tree'];
+        $this->db = $DIC['ilDB'];
+        $this->component_repository = $DIC['component.repository'];
+        $this->test_object = $test_object;
+
         parent::__construct($a_id, $a_old_nr);
     }
 
     public function executeCommand(): string
     {
-        global $DIC; /* @var ILIAS\DI\Container $DIC */
-        $ilCtrl = $DIC['ilCtrl'];
-        $ilTabs = $DIC['ilTabs'];
-        $ilUser = $DIC['ilUser'];
-        $lng = $DIC['lng'];
-
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
 
@@ -96,7 +102,7 @@ class ilTestExpressPageObjectGUI extends ilAssQuestionPageGUI
 
                 $nodeParts = explode(':', $this->testrequest->raw('cmdNode'));
 
-                $params = array(
+                $params = [
                     'ref_id' => $this->testrequest->getRefId(),
                     'calling_test' => $this->testrequest->getRefId(),
                     'q_id' => $this->testrequest->getQuestionId(),
@@ -104,7 +110,7 @@ class ilTestExpressPageObjectGUI extends ilAssQuestionPageGUI
                     'cmdClass' => $this->testrequest->raw('cmdClass'),
                     'baseClass' => 'ilObjQuestionPoolGUI',
                     'test_express_mode' => '1'
-                );
+                ];
 
                 ilUtil::redirect(
                     'ilias.php' . ilUtil::appendUrlParameterString(
@@ -115,11 +121,11 @@ class ilTestExpressPageObjectGUI extends ilAssQuestionPageGUI
 
                 break;
 
-            case "ilpageeditorgui":
+            case 'ilpageeditorgui':
 
                 if (!$this->getEnableEditing()) {
-                    $this->tpl->setOnScreenMessage('failure', $lng->txt("permission_denied"), true);
-                    $ilCtrl->redirect($this, "preview");
+                    $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
+                    $this->ctrl->redirect($this, 'preview');
                 }
 
                 $page_editor = new ilPageEditorGUI($this->getPageObject(), $this);
@@ -131,7 +137,7 @@ class ilTestExpressPageObjectGUI extends ilAssQuestionPageGUI
                 $this->ctrl->saveParameterByClass('ilpageeditorgui', 'q_mode');
 
                 $ret = $this->ctrl->forwardCommand($page_editor);
-                if ($ret != "") {
+                if ($ret != '') {
                     $this->tpl->setContent($ret);
                 }
                 break;
@@ -140,7 +146,7 @@ class ilTestExpressPageObjectGUI extends ilAssQuestionPageGUI
             case 'iltestexpresspageobjectgui':
                 if ($cmd == 'view') {
                     $cmd = 'showPage';
-                    $ilCtrl->setCmd($cmd);
+                    $this->ctrl->setCmd($cmd);
                 }
 
                 $q_gui = assQuestionGUI::_getQuestionGUI('', (int) $this->testrequest->raw('q_id'));
@@ -150,7 +156,7 @@ class ilTestExpressPageObjectGUI extends ilAssQuestionPageGUI
                     $q_gui->object->setObjId($obj->getId());
                 }
 
-                $cmds = array(
+                $cmds = [
                     'handleToolbarCommand',
                     'addQuestion',
                     'questions',
@@ -158,7 +164,7 @@ class ilTestExpressPageObjectGUI extends ilAssQuestionPageGUI
                     'browseForQuestions',
                     'filterAvailableQuestions',
                     'resetfilterAvailableQuestions'
-                );
+                ];
 
                 if (in_array($cmd, $cmds)) {
                     return $this->$cmd();
@@ -169,13 +175,13 @@ class ilTestExpressPageObjectGUI extends ilAssQuestionPageGUI
 
                     if ($total != 0) {
                         $link = $DIC->ui()->factory()->link()->standard(
-                            $DIC->language()->txt("test_has_datasets_warning_page_view_link"),
-                            $DIC->ctrl()->getLinkTargetByClass(array('ilTestResultsGUI', 'ilParticipantsTestResultsGUI'))
+                            $DIC->language()->txt('test_has_datasets_warning_page_view_link'),
+                            $DIC->ctrl()->getLinkTargetByClass(['ilTestResultsGUI', 'ilParticipantsTestResultsGUI'])
                         );
 
-                        $message = $DIC->language()->txt("test_has_datasets_warning_page_view");
+                        $message = $DIC->language()->txt('test_has_datasets_warning_page_view');
 
-                        $msgBox = $DIC->ui()->factory()->messageBox()->info($message)->withLinks(array($link));
+                        $msgBox = $DIC->ui()->factory()->messageBox()->info($message)->withLinks([$link]);
 
                         $DIC->ui()->mainTemplate()->setCurrentBlock('mess');
                         $DIC->ui()->mainTemplate()->setVariable(
@@ -185,7 +191,7 @@ class ilTestExpressPageObjectGUI extends ilAssQuestionPageGUI
                         $DIC->ui()->mainTemplate()->parseCurrentBlock();
                     }
 
-                    if ((in_array($cmd, array('view', 'showPage')) || $cmd == 'edit') && $this->test_object->evalTotalPersons()) {
+                    if ((in_array($cmd, ['view', 'showPage']) || $cmd == 'edit') && $this->test_object->evalTotalPersons()) {
                         return $this->showPage();
                     }
 
@@ -205,7 +211,7 @@ class ilTestExpressPageObjectGUI extends ilAssQuestionPageGUI
                     break;
                 }
 
-                $this->ctrl->setReturn($this, "questions");
+                $this->ctrl->setReturn($this, 'questions');
 
                 $q_gui = assQuestionGUI::_getQuestionGUI($type, (int) $this->testrequest->raw('q_id'));
                 if ($q_gui->object) {
@@ -225,16 +231,13 @@ class ilTestExpressPageObjectGUI extends ilAssQuestionPageGUI
 
     public function addPageOfQuestions($type = ''): assQuestionGUI
     {
-        global $DIC;
-        $ilCtrl = $DIC['ilCtrl'];
-
         if (!$type) {
             $qtype = $this->testrequest->raw('qtype');
             $pool = new ilObjQuestionPool();
             $type = ilObjQuestionPool::getQuestionTypeByTypeId($qtype);
         }
 
-        $this->ctrl->setReturn($this, "questions");
+        $this->ctrl->setReturn($this, 'questions');
 
         $q_gui = assQuestionGUI::_getQuestionGUI($type);
 
@@ -247,9 +250,6 @@ class ilTestExpressPageObjectGUI extends ilAssQuestionPageGUI
 
     public function handleToolbarCommand()
     {
-        global $DIC;
-        $ilCtrl = $DIC['ilCtrl'];
-
         if ($this->testrequest->raw('qtype')) {
             $questionType = ilObjQuestionPool::getQuestionTypeByTypeId($this->testrequest->raw('qtype'));
         } elseif ($this->testrequest->raw('sel_question_types')) {
@@ -274,27 +274,27 @@ class ilTestExpressPageObjectGUI extends ilAssQuestionPageGUI
         switch ($this->testrequest->raw('usage')) {
             case 3: // existing pool
 
-                $ilCtrl->setParameterByClass('ilobjtestgui', 'sel_qpl', $this->testrequest->raw('sel_qpl'));
-                $ilCtrl->setParameterByClass('ilobjtestgui', 'sel_question_types', $questionType);
-                $ilCtrl->setParameterByClass('ilobjtestgui', 'q_id', $q_gui->object->getId());
-                $ilCtrl->setParameterByClass('ilobjtestgui', 'prev_qid', $previousQuestionId);
+                $this->ctrl->setParameterByClass('ilobjtestgui', 'sel_qpl', $this->testrequest->raw('sel_qpl'));
+                $this->ctrl->setParameterByClass('ilobjtestgui', 'sel_question_types', $questionType);
+                $this->ctrl->setParameterByClass('ilobjtestgui', 'q_id', $q_gui->object->getId());
+                $this->ctrl->setParameterByClass('ilobjtestgui', 'prev_qid', $previousQuestionId);
 
                 if ($this->testrequest->raw('test_express_mode')) {
-                    $ilCtrl->setParameterByClass('ilobjtestgui', 'test_express_mode', 1);
+                    $this->ctrl->setParameterByClass('ilobjtestgui', 'test_express_mode', 1);
                 }
 
                 if ($this->testrequest->isset('add_quest_cont_edit_mode')) {
-                    $ilCtrl->setParameterByClass(
+                    $this->ctrl->setParameterByClass(
                         'ilobjtestgui',
                         'add_quest_cont_edit_mode',
                         $this->testrequest->raw('add_quest_cont_edit_mode')
                     );
                 }
 
-                $ilCtrl->setParameterByClass('ilobjtestgui', 'usage', 3);
-                $ilCtrl->setParameterByClass('ilobjtestgui', 'calling_test', $this->test_object->getId());
+                $this->ctrl->setParameterByClass('ilobjtestgui', 'usage', 3);
+                $this->ctrl->setParameterByClass('ilobjtestgui', 'calling_test', $this->test_object->getId());
 
-                $link = $ilCtrl->getLinkTargetByClass('ilobjtestgui', 'executeCreateQuestion', false, false, false);
+                $link = $this->ctrl->getLinkTargetByClass('ilobjtestgui', 'executeCreateQuestion', false, false, false);
 
                 ilUtil::redirect($link);
 
@@ -302,27 +302,27 @@ class ilTestExpressPageObjectGUI extends ilAssQuestionPageGUI
 
             case 2: // new pool
 
-                $ilCtrl->setParameterByClass('ilobjtestgui', 'txt_qpl', $this->testrequest->raw('txt_qpl'));
-                $ilCtrl->setParameterByClass('ilobjtestgui', 'sel_question_types', $questionType);
-                $ilCtrl->setParameterByClass('ilobjtestgui', 'q_id', $q_gui->object->getId());
-                $ilCtrl->setParameterByClass('ilobjtestgui', 'prev_qid', $previousQuestionId);
+                $this->ctrl->setParameterByClass('ilobjtestgui', 'txt_qpl', $this->testrequest->raw('txt_qpl'));
+                $this->ctrl->setParameterByClass('ilobjtestgui', 'sel_question_types', $questionType);
+                $this->ctrl->setParameterByClass('ilobjtestgui', 'q_id', $q_gui->object->getId());
+                $this->ctrl->setParameterByClass('ilobjtestgui', 'prev_qid', $previousQuestionId);
 
                 if ($this->testrequest->raw('test_express_mode')) {
-                    $ilCtrl->setParameterByClass('ilobjtestgui', 'test_express_mode', 1);
+                    $this->ctrl->setParameterByClass('ilobjtestgui', 'test_express_mode', 1);
                 }
 
                 if ($this->testrequest->isset('add_quest_cont_edit_mode')) {
-                    $ilCtrl->setParameterByClass(
+                    $this->ctrl->setParameterByClass(
                         'ilobjtestgui',
                         'add_quest_cont_edit_mode',
                         $this->testrequest->raw('add_quest_cont_edit_mode')
                     );
                 }
 
-                $ilCtrl->setParameterByClass('ilobjtestgui', 'usage', 2);
-                $ilCtrl->setParameterByClass('ilobjtestgui', 'calling_test', $this->test_object->getId());
+                $this->ctrl->setParameterByClass('ilobjtestgui', 'usage', 2);
+                $this->ctrl->setParameterByClass('ilobjtestgui', 'calling_test', $this->test_object->getId());
 
-                $link = $ilCtrl->getLinkTargetByClass('ilobjtestgui', 'executeCreateQuestion', false, false, false);
+                $link = $this->ctrl->getLinkTargetByClass('ilobjtestgui', 'executeCreateQuestion', false, false, false);
                 ilUtil::redirect($link);
 
                 break;
@@ -338,44 +338,37 @@ class ilTestExpressPageObjectGUI extends ilAssQuestionPageGUI
 
     public function addQuestion(): string
     {
-        global $DIC;
-        $lng = $DIC['lng'];
-        $ilCtrl = $DIC['ilCtrl'];
-        $tpl = $DIC['tpl'];
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        $ilHelp = $DIC['ilHelp']; /* @var ilHelpGUI $ilHelp */
+        $subScreenId = ['createQuestion'];
 
-        $subScreenId = array('createQuestion');
-
-        $ilCtrl->setParameter($this, 'qtype', $this->testrequest->raw('qtype'));
+        $this->ctrl->setParameter($this, 'qtype', $this->testrequest->raw('qtype'));
 
         $form = new ilPropertyFormGUI();
 
-        $ilCtrl->setParameter($this, 'test_express_mode', 1);
+        $this->ctrl->setParameter($this, 'test_express_mode', 1);
 
-        $form->setFormAction($ilCtrl->getFormAction($this, "handleToolbarCommand"));
-        $form->setTitle($lng->txt("ass_create_question"));
+        $form->setFormAction($this->ctrl->getFormAction($this, 'handleToolbarCommand'));
+        $form->setTitle($this->lng->txt('ass_create_question'));
 
         $pool = new ilObjQuestionPool();
         $questionTypes = $pool->getQuestionTypes(false, true, false);
-        $options = array();
+        $options = [];
 
         // question type
         foreach ($questionTypes as $label => $data) {
             $options[$data['question_type_id']] = $label;
         }
 
-        $si = new ilSelectInputGUI($lng->txt("question_type"), "qtype");
+        $si = new ilSelectInputGUI($this->lng->txt('question_type'), 'qtype');
         $si->setOptions($options);
         $form->addItem($si, true);
 
         // position
         $questions = $this->test_object->getQuestionTitlesAndIndexes();
         if ($questions) {
-            $si = new ilSelectInputGUI($lng->txt("position"), "position");
-            $options = array('0' => $lng->txt('first'));
+            $si = new ilSelectInputGUI($this->lng->txt('position'), 'position');
+            $options = ['0' => $this->lng->txt('first')];
             foreach ($questions as $key => $title) {
-                $options[$key] = $lng->txt('behind') . ' ' . $title . ' [' . $this->lng->txt('question_id_short') . ': ' . $key . ']';
+                $options[$key] = $this->lng->txt('behind') . ' ' . $title . ' [' . $this->lng->txt('question_id_short') . ': ' . $key . ']';
             }
             $si->setOptions($options);
             $si->setValue($this->testrequest->raw('q_id'));
@@ -386,27 +379,27 @@ class ilTestExpressPageObjectGUI extends ilAssQuestionPageGUI
         if (ilObjAssessmentFolder::isAdditionalQuestionContentEditingModePageObjectEnabled()) {
             $subScreenId[] = 'editMode';
 
-            $ri = new ilRadioGroupInputGUI($lng->txt("tst_add_quest_cont_edit_mode"), "add_quest_cont_edit_mode");
+            $ri = new ilRadioGroupInputGUI($this->lng->txt('tst_add_quest_cont_edit_mode'), 'add_quest_cont_edit_mode');
 
             $option_ipe = new ilRadioOption(
-                $lng->txt('tst_add_quest_cont_edit_mode_IPE'),
+                $this->lng->txt('tst_add_quest_cont_edit_mode_IPE'),
                 assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_IPE
             );
-            $option_ipe->setInfo($lng->txt('tst_add_quest_cont_edit_mode_IPE_info'));
+            $option_ipe->setInfo($this->lng->txt('tst_add_quest_cont_edit_mode_IPE_info'));
             $ri->addOption($option_ipe);
 
             $option_rte = new ilRadioOption(
-                $lng->txt('tst_add_quest_cont_edit_mode_RTE'),
+                $this->lng->txt('tst_add_quest_cont_edit_mode_RTE'),
                 assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_RTE
             );
-            $option_rte->setInfo($lng->txt('tst_add_quest_cont_edit_mode_RTE_info'));
+            $option_rte->setInfo($this->lng->txt('tst_add_quest_cont_edit_mode_RTE_info'));
             $ri->addOption($option_rte);
 
             $ri->setValue(assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_IPE);
 
             $form->addItem($ri, true);
         } else {
-            $hi = new ilHiddenInputGUI("question_content_editing_type");
+            $hi = new ilHiddenInputGUI('question_content_editing_type');
             $hi->setValue(assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_RTE);
             $form->addItem($hi, true);
         }
@@ -414,48 +407,44 @@ class ilTestExpressPageObjectGUI extends ilAssQuestionPageGUI
         $subScreenId[] = 'poolSelect';
 
         // use pool
-        $usage = new ilRadioGroupInputGUI($this->lng->txt("assessment_pool_selection"), "usage");
+        $usage = new ilRadioGroupInputGUI($this->lng->txt('assessment_pool_selection'), 'usage');
         $usage->setRequired(true);
-        $no_pool = new ilRadioOption($this->lng->txt("assessment_no_pool"), 1);
+        $no_pool = new ilRadioOption($this->lng->txt('assessment_no_pool'), 1);
         $usage->addOption($no_pool);
-        $existing_pool = new ilRadioOption($this->lng->txt("assessment_existing_pool"), 3);
+        $existing_pool = new ilRadioOption($this->lng->txt('assessment_existing_pool'), 3);
         $usage->addOption($existing_pool);
-        $new_pool = new ilRadioOption($this->lng->txt("assessment_new_pool"), 2);
+        $new_pool = new ilRadioOption($this->lng->txt('assessment_new_pool'), 2);
         $usage->addOption($new_pool);
         $form->addItem($usage);
 
         $usage->setValue(1);
 
-        $questionpools = ilObjQuestionPool::_getAvailableQuestionpools(false, false, true, false, false, "write");
-        $pools_data = array();
+        $questionpools = ilObjQuestionPool::_getAvailableQuestionpools(false, false, true, false, false, 'write');
+        $pools_data = [];
         foreach ($questionpools as $key => $p) {
             $pools_data[$key] = $p['title'];
         }
-        $pools = new ilSelectInputGUI($this->lng->txt("select_questionpool"), "sel_qpl");
+        $pools = new ilSelectInputGUI($this->lng->txt('select_questionpool'), 'sel_qpl');
         $pools->setOptions($pools_data);
         $existing_pool->addSubItem($pools);
 
-        $name = new ilTextInputGUI($this->lng->txt("name"), "txt_qpl");
+        $name = new ilTextInputGUI($this->lng->txt('name'), 'txt_qpl');
         $name->setSize(50);
         $name->setMaxLength(50);
         $new_pool->addSubItem($name);
 
-        $form->addCommandButton("handleToolbarCommand", $lng->txt("create"));
-        $form->addCommandButton("questions", $lng->txt("cancel"));
+        $form->addCommandButton('handleToolbarCommand', $this->lng->txt('create'));
+        $form->addCommandButton('questions', $this->lng->txt('cancel'));
 
-        $ilHelp->setSubScreenId(implode('_', $subScreenId));
+        $this->help->setSubScreenId(implode('_', $subScreenId));
 
         return $form->getHTML();
     }
 
     public function questions()
     {
-        global $DIC;
-        $ilCtrl = $DIC['ilCtrl'];
-
-        $ilCtrl->saveParameterByClass('ilobjtestgui', 'q_id');
-
-        $ilCtrl->redirectByClass('ilobjtestgui', 'showPage');
+        $this->ctrl->saveParameterByClass('ilobjtestgui', 'q_id');
+        $this->ctrl->redirectByClass('ilobjtestgui', 'showPage');
     }
 
     private function redirectToQuestionEditPage($questionType, $qid, $prev_qid)
@@ -474,7 +463,7 @@ class ilTestExpressPageObjectGUI extends ilAssQuestionPageGUI
         }
 
         $this->ctrl->redirectByClass(
-            array('ilRepositoryGUI', 'ilObjTestGUI', $questionType . "GUI"),
+            ['ilRepositoryGUI', 'ilObjTestGUI', $questionType . 'GUI'],
             'editQuestion'
         );
     }
@@ -492,37 +481,39 @@ class ilTestExpressPageObjectGUI extends ilAssQuestionPageGUI
 
     public function insertQuestions()
     {
-        $selected_array = (is_array($_POST['q_id'])) ? $_POST['q_id'] : array();
+        $selected_array = (is_array($_POST['q_id'])) ? $_POST['q_id'] : [];
         if (!count($selected_array)) {
-            $this->tpl->setOnScreenMessage('info', $this->lng->txt("tst_insert_missing_question"), true);
-            $this->ctrl->redirect($this, "browseForQuestions");
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('tst_insert_missing_question'), true);
+            $this->ctrl->redirect($this, 'browseForQuestions');
         } else {
             $manscoring = false;
 
-            global $DIC;
-            $tree = $DIC['tree'];
-            $ilDB = $DIC['ilDB'];
-            $component_repository = $DIC['component.repository'];
-
-            $testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory($tree, $ilDB, $component_repository, $this->test_object);
-            $testQuestionSetConfig = $testQuestionSetConfigFactory->getQuestionSetConfig();
+            $test_question_set_config_factory = new ilTestQuestionSetConfigFactory(
+                $this->tree,
+                $this->db,
+                $this->lng,
+                $this->log,
+                $this->component_repository,
+                $this->test_object
+            );
+            $test_question_set_config = $test_question_set_config_factory->getQuestionSetConfig();
 
             foreach ($selected_array as $key => $value) {
-                $last_question_id = $this->test_object->insertQuestion($testQuestionSetConfig, $value);
+                $last_question_id = $this->test_object->insertQuestion($test_question_set_config, $value);
 
                 if (!$manscoring) {
                     $manscoring = $manscoring | assQuestion::_needsManualScoring($value);
                 }
             }
-            $this->test_object->saveCompleteStatus($testQuestionSetConfig);
+            $this->test_object->saveCompleteStatus($test_question_set_config);
             if ($manscoring) {
-                $this->tpl->setOnScreenMessage('info', $this->lng->txt("manscoring_hint"), true);
+                $this->tpl->setOnScreenMessage('info', $this->lng->txt('manscoring_hint'), true);
             } else {
-                $this->tpl->setOnScreenMessage('success', $this->lng->txt("tst_questions_inserted"), true);
+                $this->tpl->setOnScreenMessage('success', $this->lng->txt('tst_questions_inserted'), true);
             }
 
             $this->ctrl->setParameter($this, 'q_id', $last_question_id);
-            $this->ctrl->redirect($this, "showPage");
+            $this->ctrl->redirect($this, 'showPage');
             return;
         }
     }

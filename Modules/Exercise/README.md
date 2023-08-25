@@ -30,9 +30,9 @@ This part of the documentation deals with concepts and business rules, for techn
 
 - Learners manage team screen will respect the privacy settings of the users (published profile).
 
-## Assignment Member State
+## Assignment Phases
 
-Handles everything about the state (current phase) of a user in an assignment using assignment, individual deadline, user and team information.
+Depending on the assignment configuration, participants and tutors can perform different actions. The following business rules define these phases and their possible actions.
 
 * **Absolute Deadlines**: Assignments with absolute deadlines share the same starting time for submissions for all learners (**GS**). Submission end depends on the (absolute) deadline (**DL**) the optional grace period end date (**GPD**) and optional individual deadlines (**ID**). All these dates are absolute.
 * **Relative Deadlines**: For assignments with relative deadlines the length of the submission is predefined (**RD**), but the start can be set by the learner individually (**IS**). These two values are used to calculate the end of the submission phase (**CaD**), which may further be modified by an individual (absolute) deadline by the tutor (**ID**).
@@ -43,7 +43,7 @@ Handles everything about the state (current phase) of a user in an assignment us
 * **DL**  **Deadline**: The absolute Deadline (e.g. 5.12.2017) as set in settings.
 * **RD**  **Relative Deadline**: The relative Deadline (e.g. 10 Days) as set in settings.
 * **CaD** **Calculated Deadline**: **IS** + **RD**.
-* **ID**  **Individual Deadline**: Individual deadline per learner as set by tutor in "Submissions and Grade" screen.
+* **ID**  **Individual Deadline**: Individual deadline per learner as set by tutor in "Submissions and Grade" screen. It can only be set if either a concrete **DL** or **CaD** is given. It can't be set, if the assignment is a team assignment and the user does not have a team yet. It can't be set if **PP** has started and peer review groups have been builded.
 * **CoD** **Common Deadline**: **DL** (absolute deadline) or **CaD** (relative deadline) used for "Ended on" or "Edit Until" presentation.
 * **OD**  **Official Deadline**: Maximum of [**DL**, **ID**] (absolute deadline) or [**CaD**, **ID**] (relative deadline).
 * **GPD** **Grace Period End Date**: As being set in the settings of assignmet by tutor.

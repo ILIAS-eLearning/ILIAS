@@ -110,7 +110,7 @@ class PanelListingTest extends ILIAS_UI_TestBase
         $expected = <<<EOT
 <div class="panel panel-flex il-panel-listing-std-container clearfix">
 <div class="panel-heading ilHeader">
-<h2>title</h2></div>
+<div class="panel-title"><h2>title</h2></div><div class="panel-controls"></div></div>
 <div class="il-item-group">
 <h3>Subtitle 1</h3>
 <div class="il-item-group-items">
@@ -168,11 +168,12 @@ EOT;
         $expected = <<<EOT
 <div class="panel panel-flex il-panel-listing-std-container clearfix">
 <div class="panel-heading ilHeader">
-<h2>title</h2><div class="dropdown"><button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" id="id_3" aria-label="actions" aria-haspopup="true" aria-expanded="false" aria-controls="id_3_menu"><span class="caret"></span></button>
+<div class="panel-title"><h2>title</h2></div><div class="panel-controls"><div class="dropdown"><button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" id="id_3" aria-label="actions" aria-haspopup="true" aria-expanded="false" aria-controls="id_3_menu"> <span class="caret"></span></button>
 <ul id="id_3_menu" class="dropdown-menu">
 	<li><button class="btn btn-link" data-action="https://www.ilias.de" id="id_1">ILIAS</button></li>
 	<li><button class="btn btn-link" data-action="https://www.github.com" id="id_2">GitHub</button></li>
 </ul>
+</div>
 </div>
 </div>
 </div>

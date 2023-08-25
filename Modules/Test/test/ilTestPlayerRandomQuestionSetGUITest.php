@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class ilTestPlayerRandomQuestionSetGUITest
  * @author Marvin Beym <mbeym@databay.de>
@@ -31,6 +31,7 @@ class ilTestPlayerRandomQuestionSetGUITest extends ilTestBaseTestCase
         parent::setUp();
 
         $this->addGlobal_lng();
+        $this->addGlobal_ilAccess();
         $this->addGlobal_tpl();
         $this->addGlobal_ilCtrl();
         $this->addGlobal_ilias();
@@ -42,6 +43,15 @@ class ilTestPlayerRandomQuestionSetGUITest extends ilTestBaseTestCase
         $this->addGlobal_rbacsystem();
         $this->addGlobal_ilUser();
         $this->addGlobal_refinery();
+        $this->addGlobal_ilHelp();
+        $this->addGlobal_ilLog();
+        $this->addGlobal_rbacsystem();
+        $this->addGlobal_ilSetting();
+        $this->addGlobal_ilToolbar();
+        $this->addGlobal_GlobalScreenService();
+        $this->addGlobal_ilNavigationHistory();
+        $this->addGlobal_uiFactory();
+        $this->addGlobal_uiRenderer();
 
         $this->testObj = new ilTestPlayerRandomQuestionSetGUI($this->createMock(ilObjTest::class));
     }

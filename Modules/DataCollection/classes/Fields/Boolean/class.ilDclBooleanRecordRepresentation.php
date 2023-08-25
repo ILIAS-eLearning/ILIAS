@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -13,14 +14,10 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
-/**
- * Class ilDclBooleanRecordRepresentation
- * @author  Michael Herren <mh@studer-raimann.ch>
- * @version 1.0.0
- */
+declare(strict_types=1);
+
 class ilDclBooleanRecordRepresentation extends ilDclBaseRecordRepresentation
 {
     /**
@@ -29,19 +26,17 @@ class ilDclBooleanRecordRepresentation extends ilDclBaseRecordRepresentation
     public function getHTML(bool $link = true, array $options = []): string
     {
         $value = $this->getRecordField()->getValue();
-        switch ($value) {
-            case 0:
-                $icon = $this->factory->symbol()->icon()->custom(
-                    ilUtil::getImagePath('icon_not_ok_monochrome.svg'),
-                    $this->lng->txt("no")
-                );
-                break;
-            case 1:
-                $icon = $this->factory->symbol()->icon()->custom(
-                    ilUtil::getImagePath('icon_ok_monochrome.svg'),
-                    $this->lng->txt("yes")
-                );
-                break;
+
+        if ($value) {
+            $icon = $this->factory->symbol()->icon()->custom(
+                ilUtil::getImagePath('icon_ok_monochrome.svg'),
+                $this->lng->txt("yes")
+            );
+        } else {
+            $icon = $this->factory->symbol()->icon()->custom(
+                ilUtil::getImagePath('icon_not_ok_monochrome.svg'),
+                $this->lng->txt("no")
+            );
         }
 
         return $this->renderer->render($icon);

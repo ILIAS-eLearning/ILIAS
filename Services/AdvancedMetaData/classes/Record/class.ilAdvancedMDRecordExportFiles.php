@@ -74,7 +74,7 @@ class ilAdvancedMDRecordExportFiles
 
     /**
      * Get files
-     * @return array<int, array{type: string, size: string}>
+     * @return array<string, array{type: string, size: string}>
      */
     public function getFiles(): array
     {
@@ -83,7 +83,7 @@ class ilAdvancedMDRecordExportFiles
         }
         $files = [];
         foreach (ilFileUtils::getDir($this->export_dir) as $file_name => $file_data) {
-            $files[$file_name] = $file_data;
+            $files[(string) $file_name] = $file_data;
         }
         return $files;
     }

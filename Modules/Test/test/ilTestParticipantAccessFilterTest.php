@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,35 +16,24 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
- * Class ilTestParticipantAccessFilterTest
  * @author Marvin Beym <mbeym@databay.de>
  */
-class ilTestParticipantAccessFilterTest extends ilTestBaseTestCase
+class ilTestParticipantAccessFilterFactoryTest extends ilTestBaseTestCase
 {
-    private ilTestParticipantAccessFilter $testObj;
+    private ilTestParticipantAccessFilterFactory $testObj;
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->testObj = new ilTestParticipantAccessFilter();
+        $this->testObj = new ilTestParticipantAccessFilterFactory();
     }
 
     public function test_instantiateObject_shouldReturnInstance(): void
     {
-        $this->assertInstanceOf(ilTestParticipantAccessFilter::class, $this->testObj);
-    }
-
-    public function testRefId(): void
-    {
-        $this->testObj->setRefId(125);
-        $this->assertEquals(125, $this->testObj->getRefId());
-    }
-
-    public function testFilter(): void
-    {
-        $this->testObj->setFilter("testFilter");
-        $this->assertEquals("testFilter", $this->testObj->getFilter());
+        $this->assertInstanceOf(ilTestParticipantAccessFilterFactory::class, $this->testObj);
     }
 }

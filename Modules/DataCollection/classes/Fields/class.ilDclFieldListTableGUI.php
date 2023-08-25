@@ -17,33 +17,27 @@
  ********************************************************************
  */
 
+
+declare(strict_types=1);
+
 /**
- * Class ilDclFieldListTableGUI
- * @author       Martin Studer <ms@studer-raimann.ch>
- * @author       Marcel Raimann <mr@studer-raimann.ch>
- * @author       Fabian Schmid <fs@studer-raimann.ch>
- * @author       Oskar Truffer <ot@studer-raimann.ch>
- * @version      $Id:
- * @extends      ilTable2GUI
  * @ilCtrl_Calls ilDateTime
  */
 class ilDclFieldListTableGUI extends ilTable2GUI
 {
-    private $order = null;
+    private ?int $order = null;
 
     protected ilDclTable $table;
 
     protected \ILIAS\UI\Renderer $renderer;
-    protected \ILIAS\UI\Factory $factory;
+    protected \ILIAS\UI\Factory $ui_factory;
 
 
     public function __construct(ilDclFieldListGUI $a_parent_obj, string $a_parent_cmd, int $table_id)
     {
         global $DIC;
-        $lng = $DIC['lng'];
-        $ilCtrl = $DIC['ilCtrl'];
 
-        $this->factory = $DIC->ui()->factory();
+        $this->ui_factory = $DIC->ui()->factory();
         $this->renderer = $DIC->ui()->renderer();
 
         parent::__construct($a_parent_obj, $a_parent_cmd);
@@ -53,26 +47,26 @@ class ilDclFieldListTableGUI extends ilTable2GUI
 
         $this->setId('dcl_field_list');
         $this->addColumn('', '', '1', true);
-        $this->addColumn($lng->txt('dcl_order'), '', '30px');
-        $this->addColumn($lng->txt('dcl_fieldtitle'), '', 'auto');
-        $this->addColumn($lng->txt('dcl_in_export'), '', '30px');
-        $this->addColumn($lng->txt('dcl_description'), '', 'auto');
-        $this->addColumn($lng->txt('dcl_field_datatype'), '', 'auto');
-        $this->addColumn($lng->txt('dcl_unique'), '', 'auto');
-        $this->addColumn($lng->txt('actions'), '', '30px');
+        $this->addColumn($this->lng->txt('dcl_order'), '', '30px');
+        $this->addColumn($this->lng->txt('dcl_fieldtitle'), '', 'auto');
+        $this->addColumn($this->lng->txt('dcl_in_export'), '', '30px');
+        $this->addColumn($this->lng->txt('dcl_description'), '', 'auto');
+        $this->addColumn($this->lng->txt('dcl_field_datatype'), '', 'auto');
+        $this->addColumn($this->lng->txt('dcl_unique'), '', 'auto');
+        $this->addColumn($this->lng->txt('actions'), '', '30px');
         // Only add mutli command for custom fields
         if (count($this->table->getRecordFields())) {
             $this->setSelectAllCheckbox('dcl_field_ids[]');
-            $this->addMultiCommand('confirmDeleteFields', $lng->txt('dcl_delete_fields'));
+            $this->addMultiCommand('confirmDeleteFields', $this->lng->txt('dcl_delete_fields'));
         }
 
-        $ilCtrl->setParameterByClass('ildclfieldeditgui', 'table_id', $this->parent_obj->getTableId());
-        $ilCtrl->setParameterByClass('ildclfieldlistgui', 'table_id', $this->parent_obj->getTableId());
+        $this->ctrl->setParameterByClass('ildclfieldeditgui', 'table_id', $this->parent_obj->getTableId());
+        $this->ctrl->setParameterByClass('ildclfieldlistgui', 'table_id', $this->parent_obj->getTableId());
 
-        $this->setFormAction($ilCtrl->getFormActionByClass('ildclfieldlistgui'));
-        $this->addCommandButton('save', $lng->txt('dcl_save'));
+        $this->setFormAction($this->ctrl->getFormActionByClass('ildclfieldlistgui'));
+        $this->addCommandButton('save', $this->lng->txt('dcl_save'));
 
-        $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
+        $this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
         $this->setFormName('field_list');
 
         //those two are important as we get our data as objects not as arrays.
@@ -87,7 +81,7 @@ class ilDclFieldListTableGUI extends ilTable2GUI
         $this->setEnableTitle(true);
         $this->setDefaultOrderDirection('asc');
 
-        $this->setTitle($lng->txt('dcl_table_list_fields'));
+        $this->setTitle($this->lng->txt('dcl_table_list_fields'));
         $this->setRowTemplate('tpl.field_list_row.html', 'Modules/DataCollection');
         $this->setStyle('table', $this->getStyle('table') . ' ' . 'dcl_record_list');
 
@@ -99,17 +93,14 @@ class ilDclFieldListTableGUI extends ilTable2GUI
      */
     public function getHTML(): string
     {
-        $lng = $this->lng;
-        $ilCtrl = $this->ctrl;
-
         if ($this->getExportMode()) {
             $this->exportData($this->getExportMode(), true);
         }
 
         $this->prepareOutput();
 
-        if (is_object($ilCtrl) && is_object($this->getParentObject()) && $this->getId() == "") {
-            $ilCtrl->saveParameter($this->getParentObject(), $this->getNavParameter());
+        if (is_object($this->getParentObject()) && $this->getId() == "") {
+            $this->ctrl->saveParameter($this->getParentObject(), $this->getNavParameter());
         }
 
         if (!$this->getPrintMode()) {
@@ -194,7 +185,7 @@ class ilDclFieldListTableGUI extends ilTable2GUI
             // add standard no items text (please tell me, if it messes something up, alex, 29.8.2008)
             $no_items_text = (trim($this->getNoEntriesText()) != '')
                 ? $this->getNoEntriesText()
-                : $lng->txt("no_items");
+                : $this->lng->txt("no_items");
 
             $this->css_row = ($this->css_row !== "tblrow1")
                 ? "tblrow1"
@@ -222,10 +213,6 @@ class ilDclFieldListTableGUI extends ilTable2GUI
 
     public function fillRowFromObject(ilDclBaseFieldModel $a_set): void
     {
-        global $DIC;
-        $lng = $DIC['lng'];
-        $ilCtrl = $DIC['ilCtrl'];
-
         if (!$a_set->isStandardField()) {
             $this->tpl->setVariable('FIELD_ID', $a_set->getId());
         }
@@ -246,7 +233,7 @@ class ilDclFieldListTableGUI extends ilTable2GUI
                 $this->tpl->setVariable('CHECKBOX_EXPORTABLE_CHECKED', 'checked');
             }
         } else {
-            $this->tpl->setVariable('NO_FILTER_EXPORTABLE', '');
+            $this->tpl->setVariable('NO_FILTER_EXPORTABLE');
         }
 
         $this->order = $this->order + 10;
@@ -258,39 +245,38 @@ class ilDclFieldListTableGUI extends ilTable2GUI
         $this->tpl->setVariable('DATATYPE', $a_set->getDatatypeTitle());
 
         if (!$a_set->isStandardField()) {
-            switch ($a_set->isUnique()) {
-                case 0:
-                    $icon = $this->factory->symbol()->icon()->custom(ilUtil::getImagePath('icon_not_ok_monochrome.svg'), $this->lng->txt("yes"));
-                    break;
-                case 1:
-                    $icon = $this->factory->symbol()->icon()->custom(ilUtil::getImagePath('icon_ok_monochrome.svg'), $this->lng->txt("no"));
-                    break;
+            if ($a_set->isUnique()) {
+                $icon = $this->ui_factory->symbol()->icon()->custom(ilUtil::getImagePath('icon_ok_monochrome.svg'), $this->lng->txt("yes"));
+            } else {
+                $icon = $this->ui_factory->symbol()->icon()->custom(ilUtil::getImagePath('icon_not_ok_monochrome.svg'), $this->lng->txt("no"));
             }
             $this->tpl->setVariable('ICON_UNIQUE', $this->renderer->render($icon));
         } else {
-            $this->tpl->setVariable('NO_UNIQUE', '');
+            $this->tpl->setVariable('NO_UNIQUE');
         }
 
-        $ilCtrl->setParameterByClass('ildclfieldeditgui', 'field_id', $a_set->getId());
+        $this->ctrl->setParameterByClass('ildclfieldeditgui', 'field_id', $a_set->getId());
 
         if (!$a_set->isStandardField()) {
-            $alist = new ilAdvancedSelectionListGUI();
-            $alist->setId($a_set->getId());
-            $alist->setListTitle($lng->txt('actions'));
-
             if (ilObjDataCollectionAccess::hasAccessToFields(
                 $this->parent_obj->getDataCollectionObject()->getRefId(),
                 $this->table->getId()
             )) {
-                $alist->addItem($lng->txt('edit'), 'edit', $ilCtrl->getLinkTargetByClass('ildclfieldeditgui', 'edit'));
-                $alist->addItem(
-                    $lng->txt('delete'),
-                    'delete',
-                    $ilCtrl->getLinkTargetByClass('ildclfieldeditgui', 'confirmDelete')
+                $dropdown_items = [];
+                $dropdown_items[] = $this->ui_factory->link()->standard(
+                    $this->lng->txt('edit'),
+                    $this->ctrl->getLinkTargetByClass(ilDclFieldEditGUI::class, 'edit')
                 );
-            }
+                $dropdown_items[] = $this->ui_factory->link()->standard(
+                    $this->lng->txt('delete'),
+                    $this->ctrl->getLinkTargetByClass(ilDclFieldEditGUI::class, 'confirmDelete')
+                );
+                $dropdown = $this->ui_factory->dropdown()->standard($dropdown_items)->withLabel($this->lng->txt('actions'));
 
-            $this->tpl->setVariable('ACTIONS', $alist->getHTML());
+                $this->tpl->setVariable('ACTIONS', $this->renderer->render($dropdown));
+            } else {
+                $this->tpl->setVariable('ACTIONS');
+            }
         }
     }
 }

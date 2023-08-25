@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Exception for invalid parameters (e.g. an qpl id was not passed to a request showing a corresponding form)
  *

@@ -59,6 +59,7 @@ class Data extends Table implements T\Data, JSBindable
 
     protected Signal $multi_action_signal;
     protected Signal $selection_signal;
+    protected Signal $async_action_signal;
     protected ?ServerRequestInterface $request = null;
     protected int $number_of_rows = 800;
     /**
@@ -89,6 +90,7 @@ class Data extends Table implements T\Data, JSBindable
         parent::__construct($title);
         $this->multi_action_signal = $signal_generator->create();
         $this->selection_signal = $signal_generator->create();
+        $this->async_action_signal = $signal_generator->create();
 
         $this->columns = $this->enumerateColumns($columns);
         $this->selected_optional_column_ids = $this->filterVisibleColumnIds($columns);
@@ -119,7 +121,7 @@ class Data extends Table implements T\Data, JSBindable
         return array_keys(
             array_filter(
                 $columns,
-                static fn ($c): bool => $c->isInitiallyVisible()
+                static fn($c): bool => $c->isInitiallyVisible()
             )
         );
     }
@@ -129,7 +131,7 @@ class Data extends Table implements T\Data, JSBindable
         $visible_cols = $this->getVisibleColumns();
         $sortable_visible_cols = array_filter(
             $visible_cols,
-            static fn ($c): bool => $c->isSortable()
+            static fn($c): bool => $c->isSortable()
         );
         if ($sortable_visible_cols === []) {
             return array_key_first($visible_cols);
@@ -249,7 +251,7 @@ class Data extends Table implements T\Data, JSBindable
         return [];
     }
 
-    public function getActionSignal(): Signal
+    public function getMultiActionSignal(): Signal
     {
         return $this->multi_action_signal;
     }
@@ -257,6 +259,11 @@ class Data extends Table implements T\Data, JSBindable
     public function getSelectionSignal(): Signal
     {
         return $this->selection_signal;
+    }
+
+    public function getAsyncActionSignal(): Signal
+    {
+        return $this->async_action_signal;
     }
 
     public function hasSingleActions(): bool
@@ -323,7 +330,7 @@ class Data extends Table implements T\Data, JSBindable
     {
         return array_filter(
             $this->getColumns(),
-            fn (Column $col, string $col_id): bool => !$col->isOptional() || in_array($col_id, $this->selected_optional_column_ids, true),
+            fn(Column $col, string $col_id): bool => !$col->isOptional() || in_array($col_id, $this->selected_optional_column_ids, true),
             ARRAY_FILTER_USE_BOTH
         );
     }

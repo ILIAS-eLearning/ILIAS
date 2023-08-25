@@ -69,24 +69,20 @@ class ilPresentationListTableGUI extends ilTable2GUI
         parent::__construct($a_parent_obj, $a_parent_cmd);
         //$this->setTitle($this->lng->txt("cont_terms"));
 
-        if ($this->glossary->getPresentationMode() == "full_def") {
-            $this->addColumn($this->lng->txt("cont_terms"));
-        } else {
-            $adv_ap = new ilGlossaryAdvMetaDataAdapter($this->glossary->getRefId());
-            $this->adv_cols_order = $adv_ap->getColumnOrder();
-            foreach ($this->adv_cols_order as $c) {
-                if ($c["id"] == 0) {
-                    $this->addColumn($this->lng->txt("cont_term"), "term");
-                } else {
-                    $this->addColumn($c["text"], "md_" . $c["id"]);
-                }
+        $adv_ap = new ilGlossaryAdvMetaDataAdapter($this->glossary->getRefId());
+        $this->adv_cols_order = $adv_ap->getColumnOrder();
+        foreach ($this->adv_cols_order as $c) {
+            if ($c["id"] == 0) {
+                $this->addColumn($this->lng->txt("cont_term"), "term");
+            } else {
+                $this->addColumn($c["text"], "md_" . $c["id"]);
             }
+        }
 
 
-            $this->addColumn($this->lng->txt("cont_definitions"));
-            if ($this->glossary->isVirtual()) {
-                $this->addColumn($this->lng->txt("obj_glo"));
-            }
+        $this->addColumn($this->lng->txt("cont_definitions"));
+        if ($this->glossary->isVirtual()) {
+            $this->addColumn($this->lng->txt("obj_glo"));
         }
 
         $this->setEnableHeader(true);
@@ -178,64 +174,51 @@ class ilPresentationListTableGUI extends ilTable2GUI
         $term_id = $a_set["id"];
         $this->ctrl->setParameter($this->parent_obj, "term_id", $term_id);
 
-        if ($this->glossary->getPresentationMode() == "full_def") {
-            $this->tpl->setCurrentBlock("fd_td");
-            $this->tpl->setVariable(
-                "FULL_DEF",
-                $this->parent_obj->listDefinitions(
-                    $this->request->getRefId(),
-                    $term_id,
-                    true
-                )
-            );
-            $this->tpl->parseCurrentBlock();
+        // check dirty short texts
+        $this->tpl->setCurrentBlock("definition");
+        if (ilGlossaryTerm::_lookShortTextDirty($term_id)) {
+            // #18022
+            $term_obj = new ilGlossaryTerm($term_id);
+            $term_obj->updateShortText();
+            $short_str = $term_obj->getShortText();
         } else {
-            // check dirty short texts
-            $this->tpl->setCurrentBlock("definition");
-            if (ilGlossaryTerm::_lookShortTextDirty($term_id)) {
-                // #18022
-                $term_obj = new ilGlossaryTerm($term_id);
-                $term_obj->updateShortText();
-                $short_str = $term_obj->getShortText();
-            } else {
-                $short_str = ilGlossaryTerm::_lookShortText($term_id);
-            }
-
-            if (!$this->page_config->getPreventHTMLUnmasking()) {
-                $short_str = str_replace(["&lt;", "&gt;"], ["<", ">"], $short_str);
-            }
-
-            // replace tex
-            // if a tex end tag is missing a tex end tag
-            $ltexs = strrpos($short_str, "[tex]");
-            $ltexe = strrpos($short_str, "[/tex]");
-            if ($ltexs > $ltexe) {
-                $page = new ilGlossaryDefPage($term_id);
-                $page->buildDom();
-                $short_str = $page->getFirstParagraphText();
-                $short_str = strip_tags($short_str, "<br>");
-                $ltexe = strpos($short_str, "[/tex]", $ltexs);
-                $short_str = ilStr::shortenTextExtended($short_str, $ltexe + 6, true);
-            }
-
-            if (!$this->offline) {
-                $short_str = ilMathJax::getInstance()->insertLatexImages($short_str);
-            } else {
-                $short_str = ilMathJax::getInstance()->insertLatexImages(
-                    $short_str,
-                    '[tex]',
-                    '[/tex]'
-                );
-            }
-
-            $short_str = ilPCParagraph::xml2output($short_str, false, true, false);
-
-            $this->tpl->setVariable("DEF_SHORT", $short_str);
-            $this->tpl->parseCurrentBlock();
-
-            $this->tpl->setCurrentBlock("definition_row");
-            $this->tpl->parseCurrentBlock();
+            $short_str = ilGlossaryTerm::_lookShortText($term_id);
         }
+
+        if (!$this->page_config->getPreventHTMLUnmasking()) {
+            $short_str = str_replace(["&lt;", "&gt;"], ["<", ">"], $short_str);
+        }
+
+        // replace tex
+        // if a tex end tag is missing a tex end tag
+        $ltexs = strrpos($short_str, "[tex]");
+        $ltexe = strrpos($short_str, "[/tex]");
+        if ($ltexs > $ltexe) {
+            $page = new ilGlossaryDefPage($term_id);
+            $page->buildDom();
+            $short_str = $page->getFirstParagraphText();
+            $short_str = strip_tags($short_str, "<br>");
+            $ltexe = strpos($short_str, "[/tex]", $ltexs);
+            $short_str = ilStr::shortenTextExtended($short_str, $ltexe + 6, true);
+        }
+
+        if (!$this->offline) {
+            $short_str = ilMathJax::getInstance()->insertLatexImages($short_str);
+        } else {
+            $short_str = ilMathJax::getInstance()->insertLatexImages(
+                $short_str,
+                '[tex]',
+                '[/tex]'
+            );
+        }
+
+        $short_str = ilPCParagraph::xml2output($short_str, false, true, false);
+
+        $this->tpl->setVariable("DEF_SHORT", $short_str);
+        $this->tpl->parseCurrentBlock();
+
+        $this->tpl->setCurrentBlock("definition_row");
+        $this->tpl->parseCurrentBlock();
 
         // display additional column 'glossary' for meta glossaries
         if ($this->glossary->isVirtual()) {

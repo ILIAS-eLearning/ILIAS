@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -13,14 +14,14 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
+
+
+declare(strict_types=1);
 
 /**
  * Hook-Class for exporting data-collections (used in SOAP-Class)
  * This Class avoids duplicated code by routing the request to the right place
- * @author  Michael Herren <mh@studer-raimann.ch>
- * @ingroup ModulesDataCollection
  */
 class ilDclContentExporter
 {
@@ -150,12 +151,12 @@ class ilDclContentExporter
 
         $data_available = false;
         $fields_available = false;
+        $adapter = new ilExcel();
         if ($format == self::EXPORT_EXCEL) {
-            $adapter = new ilExcel();
             foreach ($this->tables as $table) {
                 ilDclCache::resetCache();
 
-                $list = $table->getPartialRecords($this->dcl->getRefId(), 'id', 'asc', null, 0, $this->filter);
+                $list = $table->getPartialRecords((string)$this->dcl->getRefId(), 'id', 'asc', null, 0, $this->filter);
                 $data_available = $data_available || ($list['total'] > 0);
                 $fields_available = $fields_available || (count($table->getExportableFields()) > 0);
                 if ($list['total'] > 0 && count($table->getExportableFields()) > 0) {
@@ -167,11 +168,8 @@ class ilDclContentExporter
                     $this->fillMetaExcel($table, $adapter, $row);
 
                     // #14813
-                    $pre = $row;
                     $this->fillHeaderExcel($table, $adapter, $row);
-                    if ($pre == $row) {
-                        $row++;
-                    }
+                    $row++;
 
                     foreach ($list['records'] as $set) {
                         $this->fillRowExcel($table, $adapter, $set, $row);
@@ -213,12 +211,7 @@ class ilDclContentExporter
         return true;
     }
 
-    /**
-     * Start Export async
-     * @return mixed
-     * @throws ilDclException
-     */
-    public function exportAsync(string $format = self::EXPORT_EXCEL, string $filepath = null)
+    public function exportAsync(string $format = self::EXPORT_EXCEL, string $filepath = null): mixed
     {
         global $DIC;
         $ilLog = $DIC['ilLog'];

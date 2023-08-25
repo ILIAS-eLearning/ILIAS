@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 require_once("libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../Base.php");
@@ -94,7 +94,7 @@ class PaginationTest extends ILIAS_UI_TestBase
         $this->assertEquals(2, $p->getNumberOfPages());
     }
 
-    public function testRenderUnlimited(): void
+    public function testViewControlPaginationRenderUnlimited(): void
     {
         $p = $this->getFactory()->pagination()
             ->withTotalEntries(2)
@@ -103,8 +103,8 @@ class PaginationTest extends ILIAS_UI_TestBase
         //two entries, first one inactive
         //browse-left disabled
         $expected_html = <<<EOT
-<div class="il-viewcontrol-pagination">
-	<span class="browse previous">
+<div class="il-viewcontrol-pagination l-bar__element">
+	<span class="btn btn-ctrl browse previous">
 		<a class="glyph disabled" aria-label="back" aria-disabled="true">
 			<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
 		</a>
@@ -113,7 +113,7 @@ class PaginationTest extends ILIAS_UI_TestBase
 	<button class="btn btn-link engaged" aria-pressed="true" data-action="?pagination_offset=0" id="id_1">1</button>
 	<button class="btn btn-link" data-action="?pagination_offset=1" id="id_2">2</button>
 
-	<span class="browse next">
+	<span class="btn btn-ctrl browse next">
 		<a tabindex="0" class="glyph" href="?pagination_offset=1" aria-label="next">
 			<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
 		</a>
@@ -122,7 +122,7 @@ class PaginationTest extends ILIAS_UI_TestBase
 EOT;
 
         $html = $this->getDefaultRenderer()->render($p);
-        $this->assertHTMLEquals($expected_html, $html);
+        $this->assertEquals($this->brutallyTrimHTML($expected_html), $this->brutallyTrimHTML($html));
     }
 
     public function testRenderWithCurrentPage(): void
@@ -135,8 +135,8 @@ EOT;
         //two entries, second one inactive
         //browse-right disabled
         $expected_html = <<<EOT
-<div class="il-viewcontrol-pagination">
-	<span class="browse previous">
+<div class="il-viewcontrol-pagination l-bar__element">
+	<span class="btn btn-ctrl browse previous">
 		<a tabindex="0" class="glyph" href="?pagination_offset=0" aria-label="back">
 			<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
 		</a>
@@ -145,7 +145,7 @@ EOT;
 	<button class="btn btn-link" data-action="?pagination_offset=0" id="id_1">1</button>
 	<button class="btn btn-link engaged" aria-pressed="true" data-action="?pagination_offset=1" id="id_2">2</button>
 
-	<span class="browse next">
+	<span class="btn btn-ctrl browse next">
 		<a class="glyph disabled" aria-label="next" aria-disabled="true">
 			<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
 		</a>
@@ -168,8 +168,8 @@ EOT;
         //browse-left disabled
         //boundary-button right
         $expected_html = <<<EOT
-<div class="il-viewcontrol-pagination">
-	<span class="browse previous">
+<div class="il-viewcontrol-pagination l-bar__element">
+	<span class="btn btn-ctrl browse previous">
 		<a class="glyph disabled" aria-label="back" aria-disabled="true">
 			<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
 		</a>
@@ -181,7 +181,7 @@ EOT;
 		<button class="btn btn-link" data-action="?pagination_offset=2" id="id_2">3</button>
 	</span>
 
-	<span class="browse next">
+	<span class="btn btn-ctrl browse next">
 		<a tabindex="0" class="glyph" href="?pagination_offset=1" aria-label="next">
 			<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
 		</a>
@@ -204,8 +204,8 @@ EOT;
         //both rockers enabled
         //both boundary-buttons
         $expected_html = <<<EOT
-<div class="il-viewcontrol-pagination">
-	<span class="browse previous">
+<div class="il-viewcontrol-pagination l-bar__element">
+	<span class="btn btn-ctrl browse previous">
 		<a tabindex="0" class="glyph" href="?pagination_offset=0" aria-label="back">
 			<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
 		</a>
@@ -221,7 +221,7 @@ EOT;
 		<button class="btn btn-link" data-action="?pagination_offset=2" id="id_3">3</button>
 	</span>
 
-	<span class="browse next">
+	<span class="btn btn-ctrl browse next">
 		<a tabindex="0" class="glyph" href="?pagination_offset=2" aria-label="next">
 			<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
 		</a>
@@ -244,8 +244,8 @@ EOT;
         //browse-right disabled
         //boundary-button left only
         $expected_html = <<<EOT
-<div class="il-viewcontrol-pagination">
-	<span class="browse previous">
+<div class="il-viewcontrol-pagination l-bar__element">
+	<span class="btn btn-ctrl browse previous">
 		<a tabindex="0" class="glyph" href="?pagination_offset=1" aria-label="back">
 			<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
 		</a>
@@ -256,7 +256,7 @@ EOT;
 
 	<button class="btn btn-link engaged" aria-pressed="true" data-action="?pagination_offset=2" id="id_1">3</button>
 
-	<span class="browse next">
+	<span class="btn btn-ctrl browse next">
 		<a class="glyph disabled" aria-label="next" aria-disabled="true">
 			<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
 		</a>
@@ -277,8 +277,8 @@ EOT;
             ->withDropdownAt(1);
 
         $expected_html = <<<EOT
-<div class="il-viewcontrol-pagination">
-	<span class="browse previous">
+<div class="il-viewcontrol-pagination l-bar__element">
+	<span class="btn btn-ctrl browse previous">
 		<a class="glyph disabled" aria-label="back" aria-disabled="true">
 			<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
 		</a>
@@ -293,7 +293,7 @@ EOT;
 		</ul>
 	</div>
 
-	<span class="browse next">
+	<span class="btn btn-ctrl browse next">
 		<a tabindex="0" class="glyph" href="?pagination_offset=1" aria-label="next">
 			<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
 		</a>
@@ -301,7 +301,7 @@ EOT;
 </div>
 EOT;
         $html = $this->getDefaultRenderer()->render($p);
-        $this->assertHTMLEquals($expected_html, $html);
+        $this->assertEquals($this->brutallyTrimHTML($expected_html), $this->brutallyTrimHTML($html));
     }
 
     public function testGetRangeOnNull(): void

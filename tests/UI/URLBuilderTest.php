@@ -41,37 +41,37 @@ class URLBuilderTest extends TestCase
     {
         $url = new URLBuilder($this->URI_COMPLETE);
         $result = $url->acquireParameter(['test'], 'title');
-        $this->assertInstanceOf(URLBuilder::class, $result["url"]);
+        $this->assertInstanceOf(URLBuilder::class, $result[0]);
         $this->assertEquals(
             'https://www.ilias.de/foo/bar?var1=42&var2=foo&test' . URLBuilder::SEPARATOR . 'title=#12345',
-            (string) $result["url"]->buildURI()
+            (string) $result[0]->buildURI()
         );
-        $this->assertInstanceOf(URLBuilderToken::class, $result["token"]);
-        $this->assertEquals('test' . URLBuilder::SEPARATOR . 'title', $result["token"]->getName());
-        $this->assertNotEmpty($result["token"]->getToken());
+        $this->assertInstanceOf(URLBuilderToken::class, $result[1]);
+        $this->assertEquals('test' . URLBuilder::SEPARATOR . 'title', $result[1]->getName());
+        $this->assertNotEmpty($result[1]->getToken());
     }
 
     public function test_acquire_param_with_long_namespace(): void
     {
         $url = new URLBuilder($this->URI_COMPLETE);
         $result = $url->acquireParameter(['test', 'object', 'metadata'], 'title');
-        $this->assertInstanceOf(URLBuilder::class, $result["url"]);
+        $this->assertInstanceOf(URLBuilder::class, $result[0]);
         $this->assertEquals(
             'https://www.ilias.de/foo/bar?var1=42&var2=foo&test' . URLBuilder::SEPARATOR .
             'object' . URLBuilder::SEPARATOR .
             'metadata' . URLBuilder::SEPARATOR .
             'title=#12345',
-            (string) $result["url"]->buildURI()
+            (string) $result[0]->buildURI()
         );
-        $this->assertInstanceOf(URLBuilderToken::class, $result["token"]);
+        $this->assertInstanceOf(URLBuilderToken::class, $result[1]);
         $this->assertEquals(
             'test' . URLBuilder::SEPARATOR .
             'object' . URLBuilder::SEPARATOR .
             'metadata' . URLBuilder::SEPARATOR .
             'title',
-            $result["token"]->getName()
+            $result[1]->getName()
         );
-        $this->assertNotEmpty($result["token"]->getToken());
+        $this->assertNotEmpty($result[1]->getToken());
     }
 
     public function test_acquire_param_with_value(): void
@@ -79,14 +79,14 @@ class URLBuilderTest extends TestCase
         $url = new URLBuilder($this->URI_COMPLETE);
         $sep = URLBuilder::SEPARATOR;
         $result = $url->acquireParameter(['test'], 'title', 'bar');
-        $this->assertInstanceOf(URLBuilder::class, $result["url"]);
+        $this->assertInstanceOf(URLBuilder::class, $result[0]);
         $this->assertEquals(
             'https://www.ilias.de/foo/bar?var1=42&var2=foo&test' . $sep . 'title=bar#12345',
-            (string) $result["url"]->buildURI()
+            (string) $result[0]->buildURI()
         );
-        $this->assertInstanceOf(URLBuilderToken::class, $result["token"]);
-        $this->assertEquals('test' . $sep . 'title', $result["token"]->getName());
-        $this->assertNotEmpty($result["token"]->getToken());
+        $this->assertInstanceOf(URLBuilderToken::class, $result[1]);
+        $this->assertEquals('test' . $sep . 'title', $result[1]->getName());
+        $this->assertNotEmpty($result[1]->getToken());
     }
 
     public function test_acquire_param_with_same_name(): void
@@ -96,17 +96,17 @@ class URLBuilderTest extends TestCase
         $result = $url->acquireParameter(['test'], 'title', 'foo');
         $this->assertEquals(
             'https://www.ilias.de/foo/bar?var1=42&var2=foo&test' . $sep . 'title=foo#12345',
-            (string) $result["url"]->buildURI()
+            (string) $result[0]->buildURI()
         );
-        $this->assertEquals('test' . $sep . 'title', $result["token"]->getName());
+        $this->assertEquals('test' . $sep . 'title', $result[1]->getName());
 
-        $result2 = $result["url"]->acquireParameter(['notatest'], 'title', 'bar');
+        $result2 = $result[0]->acquireParameter(['notatest'], 'title', 'bar');
         $this->assertEquals(
             'https://www.ilias.de/foo/bar?var1=42&var2=foo&test' . $sep . 'title=foo&notatest' . $sep . 'title=bar#12345',
-            (string) $result2["url"]->buildURI()
+            (string) $result2[0]->buildURI()
         );
-        $this->assertEquals('notatest' . $sep . 'title', $result2["token"]->getName());
-        $this->assertNotEquals($result["token"]->getToken(), $result2["token"]->getToken());
+        $this->assertEquals('notatest' . $sep . 'title', $result2[1]->getName());
+        $this->assertNotEquals($result[1]->getToken(), $result2[1]->getToken());
     }
 
     public function test_write_param(): void
@@ -116,10 +116,10 @@ class URLBuilderTest extends TestCase
         $result = $url->acquireParameter(['test'], 'title', 'bar');
         $this->assertEquals(
             'https://www.ilias.de/foo/bar?var1=42&var2=foo&test' . $sep . 'title=bar#12345',
-            (string) $result["url"]->buildURI()
+            (string) $result[0]->buildURI()
         );
 
-        $url = $result["url"]->writeParameter($result["token"], 'foobar');
+        $url = $result[0]->withParameter($result[1], 'foobar');
         $this->assertInstanceOf(URLBuilder::class, $url);
         $this->assertEquals(
             'https://www.ilias.de/foo/bar?var1=42&var2=foo&test' . $sep . 'title=foobar#12345',
@@ -134,10 +134,10 @@ class URLBuilderTest extends TestCase
         $result = $url->acquireParameter(['test'], 'title', 'bar');
         $this->assertEquals(
             'https://www.ilias.de/foo/bar?var1=42&var2=foo&test' . $sep . 'title=bar#12345',
-            (string) $result["url"]->buildURI()
+            (string) $result[0]->buildURI()
         );
 
-        $url = $result["url"]->deleteParameter($result["token"]);
+        $url = $result[0]->deleteParameter($result[1]);
         $this->assertEquals('https://www.ilias.de/foo/bar?var1=42&var2=foo#12345', (string) $url->buildURI());
     }
 
@@ -146,7 +146,7 @@ class URLBuilderTest extends TestCase
         $url = new URLBuilder($this->URI_COMPLETE);
         $result = $url->acquireParameter(['test'], 'title', random_bytes(URLBuilder::URL_MAX_LENGTH));
         $this->expectException(\LengthException::class);
-        $output = $result["url"]->buildURI();
+        $output = $result[0]->buildURI();
     }
 
     public function test_remove_and_add_fragment(): void
@@ -167,7 +167,7 @@ class URLBuilderTest extends TestCase
     {
         $url = new URLBuilder($this->URI_COMPLETE);
         $result = $url->acquireParameter(['test'], 'title', 'bar');
-        $url = $result["url"]->withURI(
+        $url = $result[0]->withURI(
             new \ILIAS\Data\URI('http://test.ilias.de/bar/foo?test' . URLBuilder::SEPARATOR . 'title=foo&var1=46#12345')
         );
         $this->assertEquals(
@@ -182,22 +182,22 @@ class URLBuilderTest extends TestCase
 
         // One parameter
         $result1 = $url->acquireParameter(['test', 'object'], 'title', 'bar');
-        $url = $result1["url"];
-        $expected_token = 'new Map([["' . $result1["token"]->getName() . '",'
-            . 'new il.UI.core.URLBuilderToken(["test","object"], "title", "' . $result1["token"]->getToken() . '")]])';
-        $this->assertEquals($expected_token, $url->renderTokens([$result1["token"]]));
+        $url = $result1[0];
+        $expected_token = 'new Map([["' . $result1[1]->getName() . '",'
+            . 'new il.UI.core.URLBuilderToken(["test","object"], "title", "' . $result1[1]->getToken() . '")]])';
+        $this->assertEquals($expected_token, $url->renderTokens([$result1[1]]));
 
         // Two parameters, but just rendered with one
         $result2 = $url->acquireParameter(['test'], 'description', 'foo');
-        $url = $result2["url"];
-        $this->assertEquals($expected_token, $url->renderTokens([$result1["token"]]));
+        $url = $result2[0];
+        $this->assertEquals($expected_token, $url->renderTokens([$result1[1]]));
 
         // Two parameters with full render
-        $expected_token = 'new Map([["' . $result1["token"]->getName() . '",'
-            . 'new il.UI.core.URLBuilderToken(["test","object"], "title", "' . $result1["token"]->getToken() . '")],'
-            . '["' . $result2["token"]->getName() . '",'
-            . 'new il.UI.core.URLBuilderToken(["test"], "description", "' . $result2["token"]->getToken() . '")]])';
-        $this->assertEquals($expected_token, $url->renderTokens([$result1["token"], $result2["token"]]));
+        $expected_token = 'new Map([["' . $result1[1]->getName() . '",'
+            . 'new il.UI.core.URLBuilderToken(["test","object"], "title", "' . $result1[1]->getToken() . '")],'
+            . '["' . $result2[1]->getName() . '",'
+            . 'new il.UI.core.URLBuilderToken(["test"], "description", "' . $result2[1]->getToken() . '")]])';
+        $this->assertEquals($expected_token, $url->renderTokens([$result1[1], $result2[1]]));
     }
 
     public function test_render_object(): void
@@ -206,29 +206,29 @@ class URLBuilderTest extends TestCase
 
         // One parameter
         $result1 = $url->acquireParameter(['test', 'object'], 'title', 'bar');
-        $url = $result1["url"];
-        $expected_token = 'new Map([["' . $result1["token"]->getName() . '",'
-            . 'new il.UI.core.URLBuilderToken(["test","object"], "title", "' . $result1["token"]->getToken() . '")]])';
+        $url = $result1[0];
+        $expected_token = 'new Map([["' . $result1[1]->getName() . '",'
+            . 'new il.UI.core.URLBuilderToken(["test","object"], "title", "' . $result1[1]->getToken() . '")]])';
         $expected_object = 'new il.UI.core.URLBuilder(new URL("https://www.ilias.de/foo/bar?var1=42&var2=foo&'
             . 'test' . URLBuilder::SEPARATOR . 'object' . URLBuilder::SEPARATOR . 'title=bar#12345"), ' . $expected_token . ')';
-        $this->assertEquals($expected_object, $url->renderObject([$result1["token"]]));
+        $this->assertEquals($expected_object, $url->renderObject([$result1[1]]));
 
         // Two parameters, but just rendered with one
         $result2 = $url->acquireParameter(['test'], 'description', 'foo');
-        $url = $result2["url"];
+        $url = $result2[0];
         $expected_object = 'new il.UI.core.URLBuilder(new URL("https://www.ilias.de/foo/bar?var1=42&var2=foo&'
             . 'test' . URLBuilder::SEPARATOR . 'object' . URLBuilder::SEPARATOR . 'title=bar&'
             . 'test' . URLBuilder::SEPARATOR . 'description=foo#12345"), ' . $expected_token . ')';
-        $this->assertEquals($expected_object, $url->renderObject([$result1["token"]]));
+        $this->assertEquals($expected_object, $url->renderObject([$result1[1]]));
 
         // Two parameters with full render
-        $expected_token = 'new Map([["' . $result1["token"]->getName() . '",'
-            . 'new il.UI.core.URLBuilderToken(["test","object"], "title", "' . $result1["token"]->getToken() . '")],'
-            . '["' . $result2["token"]->getName() . '",'
-            . 'new il.UI.core.URLBuilderToken(["test"], "description", "' . $result2["token"]->getToken() . '")]])';
+        $expected_token = 'new Map([["' . $result1[1]->getName() . '",'
+            . 'new il.UI.core.URLBuilderToken(["test","object"], "title", "' . $result1[1]->getToken() . '")],'
+            . '["' . $result2[1]->getName() . '",'
+            . 'new il.UI.core.URLBuilderToken(["test"], "description", "' . $result2[1]->getToken() . '")]])';
         $expected_object = 'new il.UI.core.URLBuilder(new URL("https://www.ilias.de/foo/bar?var1=42&var2=foo&'
             . 'test' . URLBuilder::SEPARATOR . 'object' . URLBuilder::SEPARATOR . 'title=bar&'
             . 'test' . URLBuilder::SEPARATOR . 'description=foo#12345"), ' . $expected_token . ')';
-        $this->assertEquals($expected_object, $url->renderObject([$result1["token"], $result2["token"]]));
+        $this->assertEquals($expected_object, $url->renderObject([$result1[1], $result2[1]]));
     }
 }
