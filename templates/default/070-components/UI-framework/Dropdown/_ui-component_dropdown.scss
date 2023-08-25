@@ -55,6 +55,7 @@ $cursor-disabled: not-allowed !default;
   .dropup,
   .dropdown {
 	position: relative;
+	display: inline-block; // so dropdown can be in one line with a button
   }
   
   // Prevent the focus on the dropdown toggle when closing dropdowns
