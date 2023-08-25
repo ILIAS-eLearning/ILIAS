@@ -65,7 +65,8 @@ class ilMail
         private ?int $mail_admin_node_ref_id = null,
         private ?int $mail_obj_ref_id = null,
         private ?ilObjUser $actor = null,
-        private ?ilMailTemplatePlaceholderResolver $placeholder_resolver = null
+        private ?ilMailTemplatePlaceholderResolver $placeholder_resolver = null,
+        private ?ilMailTemplatePlaceholderToEmptyResolver $placeholder_to_empty_resolver = null
     ) {
         global $DIC;
         $this->logger = $logger ?? ilLoggerFactory::getLogger('mail');
@@ -93,6 +94,7 @@ class ilMail
         $this->table_mail_saved = 'mail_saved';
         $this->setSaveInSentbox(false);
         $this->placeholder_resolver = $placeholder_resolver ?? $DIC->mail()->placeholderResolver();
+        $this->placeholder_to_empty_resolver = $placeholder_to_empty_resolver ?? $DIC->mail()->placeholderToEmptyResolver();
     }
 
     public function autoresponder(): AutoresponderService
@@ -566,6 +568,11 @@ class ilMail
         return $message;
     }
 
+    private function replacePlaceholdersEmpty(string $message): string
+    {
+        return $this->placeholder_to_empty_resolver->resolve($message);
+    }
+
     private function distributeMail(MailDeliveryData $mail_data): bool
     {
         $this->auto_responder_service->emptyAutoresponderData();
@@ -590,7 +597,8 @@ class ilMail
         ));
 
         if ($mail_data->isUsePlaceholder()) {
-            $this->sendMailWithReplacedPlaceholder($mail_data, $to_usr_ids, $cc_bcc_recipients);
+            $this->sendMailWithReplacedPlaceholder($mail_data, $to_usr_ids);
+            $this->sendMailWithReplacedEmptyPlaceholder($mail_data, $cc_bcc_recipients);
         } else {
             $this->sendMailWithoutReplacedPlaceholder($mail_data, $to_usr_ids, $cc_bcc_recipients);
         }
@@ -603,8 +611,7 @@ class ilMail
 
     private function sendMailWithReplacedPlaceholder(
         MailDeliveryData $mail_data,
-        array $to_usr_ids,
-        array $cc_bcc_recipients
+        array $to_usr_ids
     ): void {
         foreach ($to_usr_ids as $user_id) {
             $recipient = new Recipient(
@@ -612,15 +619,24 @@ class ilMail
                 $this->getUserInstanceById($user_id),
                 $this->getMailOptionsByUserId($user_id)
             );
-            $recipients = $cc_bcc_recipients;
-            array_unshift($recipients, $recipient);
 
             $this->sendChanneledMails(
                 $mail_data,
-                $recipients,
+                [$recipient],
                 $this->replacePlaceholders($mail_data->getMessage(), $user_id),
             );
         }
+    }
+
+    private function sendMailWithReplacedEmptyPlaceholder(
+        MailDeliveryData $mail_data,
+        array $recipients,
+    ): void {
+        $this->sendChanneledMails(
+            $mail_data,
+            $recipients,
+            $this->replacePlaceholdersEmpty($mail_data->getMessage()),
+        );
     }
 
     private function sendMailWithoutReplacedPlaceholder(
