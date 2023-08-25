@@ -37,7 +37,8 @@ class ilObjTestSettingsAdditional extends TestSettings
         FieldFactory $f,
         Refinery $refinery,
         array $environment = null
-    ): Input {
+    ): array|FormInput
+    {
         $inputs['activate_skill_service'] = $f->checkbox(
             $lng->txt('tst_activate_skill_service'),
             $lng->txt('tst_activate_skill_service_desc')

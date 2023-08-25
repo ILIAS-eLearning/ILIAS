@@ -1828,6 +1828,17 @@ class ilObjectListGUI
         }
     }
 
+    public function insertTestScreenCommand(): void
+    {
+        if ($this->std_cmd_only) {
+            return;
+        }
+        $this->insertCommand(
+            $this->getCommandLink('testScreen'),
+            $this->lng->txt('tst_start_test')
+        );
+    }
+
     public function insertInfoScreenCommand(): void
     {
         if ($this->std_cmd_only) {
@@ -2052,6 +2063,7 @@ class ilObjectListGUI
             }
             $this->insertLPSettingsCommand();
 
+            $this->insertTestScreenCommand();
 
             // info screen command
             if ($this->getInfoScreenStatus()) {

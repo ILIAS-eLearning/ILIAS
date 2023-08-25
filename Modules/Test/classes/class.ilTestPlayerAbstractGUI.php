@@ -159,7 +159,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
     public function suspendTestCmd()
     {
-        $this->ctrl->redirectByClass("ilobjtestgui", "infoScreen");
+        $this->ctrl->redirectByClass("ilobjtestgui", "testScreen");
     }
 
     public function isMaxProcessingTimeReached(): bool
