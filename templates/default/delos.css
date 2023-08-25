@@ -4228,10 +4228,18 @@ hr.il-divider-with-label {
 
 .ui-dropzone {
   border: 1px dashed #757575;
+  border-radius: 0px;
   background: white;
   display: inline-block;
   margin-bottom: 3px;
   width: 100%;
+}
+.ui-dropzone.ui-dropzone-bulky {
+  border: 1px dashed #757575;
+  border-radius: 4px;
+  background-color: #f9f9f9;
+  padding-top: 15px;
+  padding-bottom: 15px;
 }
 
 .ui-dropzone-wrapper {
@@ -4241,21 +4249,18 @@ hr.il-divider-with-label {
 
 .ui-dropzone.highlight {
   border: 1px dashed #757575;
-  border-radius: 0px;
   background: #FFFFD6;
-  padding: 2px;
 }
 
 .ui-dropzone.highlight-current {
   border: 1px dashed #5c5c5c;
   background-color: #FFF9BC;
-  padding: 2px;
 }
 
 .ui-dropzone-message {
   font-size: 0.875rem;
-  margin-bottom: 3px;
   float: right;
+  margin-right: 12px;
 }
 
 .ui-dropzone .form-group {
