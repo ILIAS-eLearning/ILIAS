@@ -1357,21 +1357,21 @@ assessment#:#tst_eval_total_passed#:#Total passed tests
 assessment#:#tst_eval_total_passed_average_points#:#Average points of passed tests
 assessment#:#tst_eval_total_passed_average_time#:#Average processing time of all passed tests
 assessment#:#tst_eval_total_persons#:#Total number of participants who started the test
+assessment#:#tst_exam_access_code#:#Access Code
+assessment#:#tst_exam_access_code_invalid_message#:#The given access code is not valid!
+assessment#:#tst_exam_access_code_label#:#Access Code to continue a already began test.
 assessment#:#tst_exam_conditions#:#Exam Conditions
 assessment#:#tst_exam_conditions_label#:#Check to accept the conditions.
 assessment#:#tst_exam_conditions_modal_desc#:#Please confirm the conditions and/or enter the password to start the test.
-assessment#:#tst_exam_password#:#Test Password
-assessment#:#tst_exam_password_label#:#Password
-assessment#:#tst_exam_start#:#Start Test
+assessment#:#tst_exam_conditions_not_checked_message#:#You need to accept the exam conditions!
 assessment#:#tst_exam_continue#:#Continue
+assessment#:#tst_exam_password#:#Test Password
+assessment#:#tst_exam_password_invalid_message#:#The given password is not valid!
+assessment#:#tst_exam_password_label#:#Password
+assessment#:#tst_exam_required_fields_not_filled_message#:#You need to fill out all required fields!
+assessment#:#tst_exam_start#:#Start Test
 assessment#:#tst_exam_use_previous_answers#:#Previous Answers
 assessment#:#tst_exam_use_previous_answers_label#:#If enabled answers from previous tests will be prefilled.
-assessment#:#tst_exam_access_code#:#Access Code
-assessment#:#tst_exam_access_code_label#:#Access Code to continue a already began test.
-assessment#:#tst_exam_conditions_not_checked_message#:#You need to accept the exam conditions!
-assessment#:#tst_exam_password_invalid_message#:#The given password is not valid!
-assessment#:#tst_exam_access_code_invalid_message#:#The given access code is not valid!
-assessment#:#tst_exam_required_fields_not_filled_message#:#You need to fill out all required fields!
 assessment#:#tst_extratime_added#:#The working time of the participant has been increased by %s minutes.
 assessment#:#tst_extratime_info#:#If you want to add the working time multiple times for the same participant, please insert the total amount of time you want to add.
 assessment#:#tst_extratime_notavailable#:#Extra time can be added only for tests with one pass and a maximum processing time.
