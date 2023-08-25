@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\Administration\AdminGUIRequest;
 
@@ -91,7 +91,7 @@ class ilAdministrationCommandGUI
 
             $confirm->addItem(
                 'id[]',
-                $delete,
+                (string) $delete,
                 call_user_func(array(ilObjectFactory::getClassByType($type),'_lookupTitle'), $obj_id),
                 ilObject::_getIcon($obj_id, 'small', $type)
             );
