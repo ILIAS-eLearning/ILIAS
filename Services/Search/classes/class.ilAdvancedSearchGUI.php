@@ -775,15 +775,15 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
             $field_form->validate();
 
             $parser_value = $field->getSearchQueryParserValue($field_form);
-
+            if (!strlen($parser_value)) {
+                continue;
+            }
             $adv_md_search = ilObjectSearchFactory::_getAdvancedMDSearchInstance(new ilQueryParser($parser_value));
             $adv_md_search->setFilter($this->filter);
             $adv_md_search->setDefinition($field);
             $adv_md_search->setSearchElement($field_form);
             $res_field = $adv_md_search->performSearch();
-            if ($res_field instanceof ilSearchResult && (count($res_field->getEntries()) !== 0)) {
-                $this->__storeEntries($res, $res_field);
-            }
+            $this->__storeEntries($res, $res_field);
         }
     }
 
@@ -803,7 +803,6 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
         $meta_search->setMode('keyword');
         $meta_search->setOptions($this->options);
         $res = $meta_search->performSearch();
-
         return $res;
     }
 
