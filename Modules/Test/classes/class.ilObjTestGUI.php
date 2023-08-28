@@ -522,7 +522,8 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
                     $this->ui_factory,
                     $this->ui_renderer,
                     $this->refinery,
-                    $this->request
+                    $this->request,
+                    $this->user
                 );
 
                 $this->ctrl->forwardCommand($gui);

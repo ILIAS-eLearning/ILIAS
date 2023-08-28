@@ -72,8 +72,13 @@ class ilObjTestSettingsResultSummary extends TestSettings
                 self::SCORE_REPORTING_DATE => $f->group(
                     [
                     $f->dateTime($lng->txt('tst_reporting_date'), "")
-                        ->withUseTime(true)
-                        ->withValue($this->getReportingDate())
+                        ->withTimezone($environment['user_time_zone'])
+                        ->withFormat($environment['user_date_format'])
+                        ->withValue(
+                            $this->getReportingDate()?->setTimezone(
+                                new DateTimeZone($environment['user_time_zone'])
+                            )
+                        )
                         ->withRequired(true)
                     ],
                     $lng->txt('tst_results_access_date'),
