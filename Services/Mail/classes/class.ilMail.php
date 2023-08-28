@@ -229,7 +229,7 @@ class ilMail
         $mails = [];
 
         $query =
-            "SELECT sender_id, m_subject, mail_id, m_status, send_time " .
+            "SELECT sender_id, m_subject, mail_id, m_status, send_time, import_name " .
             "FROM $this->table_mail " .
             "LEFT JOIN object_data ON obj_id = sender_id " .
             "WHERE user_id = %s AND folder_id = %s " .

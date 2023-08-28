@@ -141,7 +141,7 @@ class ilPDMailBlockGUI extends ilBlockGUI
         } elseif (!$user) {
             $this->tpl->setVariable(
                 'PUBLIC_NAME_LONG',
-                $a_set['import_name'] . ' (' . $this->lng->txt('user_deleted') . ')'
+                trim(($a_set['import_name'] ?? '') . ' (' . $this->lng->txt('user_deleted') . ')')
             );
 
             $this->tpl->setCurrentBlock('image_container');
@@ -275,7 +275,7 @@ class ilPDMailBlockGUI extends ilBlockGUI
             $img_sender = $user->getPersonalPicturePath('xxsmall');
             $alt_sender = htmlspecialchars($user->getPublicName());
         } elseif (!$user) {
-            $public_name_long = $data['import_name'] . ' (' . $this->lng->txt('user_deleted') . ')';
+            $public_name_long = trim(($data['import_name'] ?? '') . ' (' . $this->lng->txt('user_deleted') . ')');
             $img_sender = "";
             $alt_sender = "";
         } else {

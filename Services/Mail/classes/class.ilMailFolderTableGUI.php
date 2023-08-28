@@ -479,8 +479,8 @@ class ilMailFolderTableGUI extends ilTable2GUI
                     );
                 } else {
                     $mail['img_sender'] = '';
-                    $mail['from'] = $mail['mail_login'] = $mail['import_name'] . ' ('
-                        . $this->lng->txt('user_deleted') . ')';
+                    $mail['from'] = $mail['mail_login'] = trim(($mail['import_name'] ?? ''). ' ('
+                        . $this->lng->txt('user_deleted') . ')');
                 }
             }
 
