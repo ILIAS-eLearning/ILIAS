@@ -10843,7 +10843,7 @@ mail#:#mail_absence_status#:#Enable Autoresponder
 mail#:#mail_absence_status_info#:#Activation of the automatic sending of an out of office message
 mail#:#mail_absent_from#:#Absent from
 mail#:#mail_absent_until#:#Absent until
-mail#:#mail_account_mail#:#Account Mail
+mail#:#mail_account_mail#:#Notify New Account Holders
 mail#:#mail_add_folder#:#Add New Sub-folder
 mail#:#mail_add_recipient#:#Please enter a recipient
 mail#:#mail_add_subfolder#:#Add Sub-folder
