@@ -161,7 +161,7 @@ class ilObjTestSettingsResultSummary extends TestSettings
 
     public function toStorage(): array
     {
-        $dat = $this->getReportingDate();
+        $dat = $this->getReportingDate()->setTimezone(new DateTimeZone('UTC'));
         if ($dat) {
             $dat = $dat->format(ilObjTestScoreSettingsDatabaseRepository::STORAGE_DATE_FORMAT);
         }
