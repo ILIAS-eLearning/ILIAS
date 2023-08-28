@@ -10628,7 +10628,10 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
             array($active_id)
         );
 
-        if (!$result->numRows()) {
+        $row = $ilDB->fetchAssoc($result);
+
+        if (!$result->numRows()
+            || $row['pass'] !== ilObjTest::_getResultPass($active_id)) {
             include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
 
             assQuestion::_updateTestResultCache($active_id);
@@ -10644,9 +10647,9 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
                 array('integer'),
                 array($active_id)
             );
-        }
 
-        $row = $ilDB->fetchAssoc($result);
+            $row = $ilDB->fetchAssoc($result);
+        }
 
         return $row;
     }
