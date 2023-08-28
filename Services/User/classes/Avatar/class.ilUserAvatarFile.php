@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,36 +16,24 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
- * Class ilUserAvatarFactory
+ * Class ilUserAvatarFile
  * @author Alexander Killing <killing@leifos.de>
  * @author Michael Jansen <mjansen@databay.de>
  */
-class ilUserAvatarFactory
+class ilUserAvatarFile extends ilUserAvatarBase
 {
-    protected \ILIAS\DI\Container $dic;
+    protected string $size;
 
-    public function __construct(\ILIAS\DI\Container $dic)
+    public function __construct(string $size)
     {
-        $this->dic = $dic;
+        $this->size = $size;
     }
 
-    public function avatar(string $size): ilUserAvatar
+    public function getUrl(): string
     {
-        if ((int) $this->dic->settings()->get('letter_avatars')) {
-            return $this->letter();
-        }
-
-        return $this->file($size);
-    }
-
-    public function letter(): ilUserAvatarLetter
-    {
-        return new ilUserAvatarLetter();
-    }
-
-    public function file(string $size): ilUserAvatarFile
-    {
-        return new ilUserAvatarFile($size);
+        return ilWACSignedPath::signFile(\ilUtil::getImagePath('no_photo_' . $this->size . '.jpg'));
     }
 }

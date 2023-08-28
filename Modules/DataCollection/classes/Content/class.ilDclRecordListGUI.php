@@ -291,31 +291,6 @@ class ilDclRecordListGUI
     }
 
     /**
-     * doTableSwitch
-     * @throws ilCtrlException
-     */
-    public function doTableSwitch(): void
-    {
-        $this->ctrl->clearParameters($this);
-        $table_id = $this->http->wrapper()->post()->retrieve('table_id', $this->refinery->kindlyTo()->int());
-        $this->ctrl->setParameterByClass(ilObjDataCollectionGUI::class, "table_id", $table_id);
-        $this->ctrl->setParameter($this, "table_id", $table_id);
-        $this->ctrl->clearParametersByClass(ilObjDataCollectionGUI::class);
-        $this->ctrl->redirect($this, self::CMD_SHOW);
-    }
-
-    /**
-     * doTableViewSwitch
-     * @throws ilCtrlException
-     */
-    public function doTableViewSwitch(): void
-    {
-        $tableview_id = $this->http->wrapper()->post()->retrieve('tableview_id', $this->refinery->kindlyTo()->int());
-        $this->ctrl->setParameterByClass(ilObjDataCollectionGUI::class, "tableview_id", $tableview_id);
-        $this->ctrl->redirect($this, self::CMD_SHOW);
-    }
-
-    /**
      * @throws ilCtrlException
      */
     protected function applyFilter(): void
@@ -510,24 +485,6 @@ class ilDclRecordListGUI
         $this->ctrl->clearParameters($this);
     }
 
-    /**
-     * @return string[]
-     */
-    protected function getAvailableTables(): array
-    {
-        if (ilObjDataCollectionAccess::hasWriteAccess($this->parent_obj->getRefId())) {
-            $tables = $this->parent_obj->object->getTables();
-        } else {
-            $tables = $this->parent_obj->object->getVisibleTables();
-        }
-        $options = [];
-        foreach ($tables as $table) {
-            $options[$table->getId()] = $table->getTitle();
-        }
-
-        return $options;
-    }
-
     protected function getRecordListTableGUI(bool $use_tableview_filter): ilDclRecordListTableGUI
     {
         $table_obj = $this->table_obj;
@@ -585,36 +542,25 @@ class ilDclRecordListGUI
 
     protected function createSwitchers(): void
     {
-        $this->toolbar->setFormAction($this->ctrl->getFormActionByClass(ilDclRecordListGUI::class, "doTableSwitch"));
-
-        //table switcher
-        $options = $this->getAvailableTables();
-        if (count($options) > 1) {
-            $table_selection = new ilSelectInputGUI('', 'table_id');
-            $table_selection->setOptions($options);
-            $table_selection->setValue($this->table_id);
-
-            $this->toolbar->addText($this->lng->txt("dcl_table"));
-            $this->toolbar->addInputItem($table_selection);
-            $this->toolbar->addFormButton($this->lng->txt('change'), 'doTableSwitch');
-            $this->toolbar->addSeparator();
+        if (ilObjDataCollectionAccess::hasWriteAccess($this->parent_obj->getRefId())) {
+            $tables = $this->parent_obj->object->getTables();
+        } else {
+            $tables = $this->parent_obj->object->getVisibleTables();
         }
 
-        //tableview switcher
-        $options = [];
-        foreach ($this->table_obj->getVisibleTableViews($this->parent_obj->getRefId()) as $tableview) {
-            $options[$tableview->getId()] = $tableview->getTitle();
-        }
+        $switcher = new ilDclSwitcher($this->toolbar, $this->ui_factory, $this->ctrl, $this->lng);
+        $switcher->addTableSwitcherToToolbar(
+            $tables,
+            self::class,
+            self::CMD_SHOW
+        );
 
-        if (count($options) > 1) {
-            $tableview_selection = new ilSelectInputGUI('', 'tableview_id');
-            $tableview_selection->setOptions($options);
-            $tableview_selection->setValue($this->tableview_id);
-            $this->toolbar->addText($this->lng->txt("dcl_tableview"));
-            $this->toolbar->addInputItem($tableview_selection);
-            $this->toolbar->addFormButton('change', 'doTableViewSwitch');
-            $this->toolbar->addSeparator();
-        }
+        $switcher->addViewSwitcherToToolbar(
+            $this->table_obj->getVisibleTableViews($this->parent_obj->getRefId()),
+            $this->getTableId(),
+            self::class,
+            self::CMD_SHOW
+        );
     }
 
     protected function checkAccess(): bool

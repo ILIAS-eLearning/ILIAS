@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,23 +16,38 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
- * Class ilUserAvatarBase
+ * Class ilUserAvatarFactory
  * @author Alexander Killing <killing@leifos.de>
  * @author Michael Jansen <mjansen@databay.de>
  */
-abstract class ilUserAvatarBase implements ilUserAvatar
+class ilUserAvatarFactory
 {
-    protected string $name = '';
-    protected int $usrId = 0;
+    protected \ILIAS\DI\Container $dic;
 
-    public function setName(string $name): void
+    public function __construct(\ILIAS\DI\Container $dic)
     {
-        $this->name = $name;
+        $this->dic = $dic;
     }
 
-    public function setUsrId(int $usrId): void
+    public function avatar(string $size): ilUserAvatar
     {
-        $this->usrId = $usrId;
+        if ((int) $this->dic->settings()->get('letter_avatars')) {
+            return $this->letter();
+        }
+
+        return $this->file($size);
+    }
+
+    public function letter(): ilUserAvatarLetter
+    {
+        return new ilUserAvatarLetter();
+    }
+
+    public function file(string $size): ilUserAvatarFile
+    {
+        return new ilUserAvatarFile($size);
     }
 }

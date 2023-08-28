@@ -126,34 +126,15 @@ class ilDclTableViewGUI
 
         $this->toolbar->addSeparator();
 
-        // Show tables
-        $tables = $this->parent_obj->getDataCollectionObject()->getTables();
-
-        $options = [];
-        foreach ($tables as $table) {
-            $options[$table->getId()] = $table->getTitle();
-        }
-        $table_selection = new ilSelectInputGUI('', 'table_id');
-        $table_selection->setOptions($options);
-        $table_selection->setValue($this->table->getId());
-
-        $this->toolbar->setFormAction($this->ctrl->getFormActionByClass("ilDclTableViewGUI", "doTableSwitch"));
-        $this->toolbar->addText($this->lng->txt("dcl_select"));
-        $this->toolbar->addInputItem($table_selection);
-        $this->toolbar->addFormButton('change', "doTableSwitch");
+        $switcher = new ilDclSwitcher($this->toolbar, $this->ui_factory, $this->ctrl, $this->lng);
+        $switcher->addTableSwitcherToToolbar(
+            $this->parent_obj->getDataCollectionObject()->getTables(),
+            self::class,
+            'show'
+        );
 
         $table_gui = new ilDclTableViewTableGUI($this, 'show', $this->table, $this->getParentObj()->getRefId());
         $this->tpl->setContent($table_gui->getHTML());
-    }
-
-    public function doTableSwitch(): void
-    {
-        $this->ctrl->setParameterByClass(
-            "ilDclTableViewGUI",
-            "table_id",
-            $this->http->wrapper()->post()->retrieve('table_id', $this->refinery->kindlyTo()->int())
-        );
-        $this->ctrl->redirectByClass("ilDclTableViewGUI", "show");
     }
 
     /**

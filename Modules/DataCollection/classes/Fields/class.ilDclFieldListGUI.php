@@ -187,37 +187,16 @@ class ilDclFieldListGUI
         );
         $this->toolbar->addStickyItem($add_new);
 
-        $this->toolbar->addSeparator();
-
-        // Show tableswitcher
-        $tables = $this->parent_obj->getDataCollectionObject()->getTables();
-
-        $options = [];
-        foreach ($tables as $table) {
-            $options[$table->getId()] = $table->getTitle();
-        }
-        $table_selection = new ilSelectInputGUI('', 'table_id');
-        $table_selection->setOptions($options);
-        $table_selection->setValue($this->table_id);
-
-        $this->toolbar->setFormAction($this->ctrl->getFormActionByClass(ilDclFieldListGUI::class, "doTableSwitch"));
-        $this->toolbar->addText($this->lng->txt("dcl_select"));
-        $this->toolbar->addInputItem($table_selection);
-        $this->toolbar->addFormButton($this->lng->txt('change'), 'doTableSwitch');
+        $switcher = new ilDclSwitcher($this->toolbar, $this->ui_factory, $this->ctrl, $this->lng);
+        $switcher->addTableSwitcherToToolbar(
+            $this->parent_obj->getDataCollectionObject()->getTables(),
+            self::class,
+            'listFields'
+        );
 
         //table gui
         $list = new ilDclFieldListTableGUI($this, $this->ctrl->getCmd(), $this->table_id);
         $this->tpl->setContent($list->getHTML());
-    }
-
-    /*
-     * doTableSwitch
-     */
-    public function doTableSwitch(): void
-    {
-        $table_id = $this->http->wrapper()->post()->retrieve('table_id', $this->refinery->kindlyTo()->int());
-        $this->ctrl->setParameterByClass(ilObjDataCollectionGUI::class, "table_id", $table_id);
-        $this->ctrl->redirectByClass(ilDclFieldListGUI::class, "listFields");
     }
 
     protected function checkAccess(): bool
