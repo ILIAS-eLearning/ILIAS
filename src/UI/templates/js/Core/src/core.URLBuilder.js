@@ -207,7 +207,16 @@ export default class URLBuilder {
      */
   writeParameter(token, value) {
     this.#checkToken(token);
-    this.#parameters.set(token.getName(), value);
+    if (Array.isArray(value)) {
+      this.deleteParameter(token);
+      value.forEach(
+        (v, idx) => {
+          this.#parameters.set(`${token.getName()}[${idx}]`, v);
+        },
+      );
+    } else {
+      this.#parameters.set(token.getName(), value);
+    }
     return this;
   }
 
