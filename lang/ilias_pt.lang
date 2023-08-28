@@ -100,8 +100,6 @@ administration#:#adm_hide_tabs#:#Ocultar tabelas
 administration#:#adm_https#:#HTTPS
 administration#:#adm_imprint#:#Aviso legal
 administration#:#adm_imprint_inactive#:#O aviso legal não está ativo e os utilizadores não podem aceder a este.
-administration#:#adm_item_cmd_asynch#:#Carregar listas de ações de recursos assincronamente
-administration#:#adm_item_cmd_asynch_info#:#Os comandos de ação, p. ex. no repositório, são carregados assincronamente. Isto aumenta o desempenho em geral, mas desacelera ligeiramente o carregamento das listas de comandos de ações.
 administration#:#adm_layout_and_navigation#:#Layout and Navigation###07 02 2020 new variable
 administration#:#adm_locale#:#Local
 administration#:#adm_locale_info#:#A definição local influencia p. ex. a ordenação em listas. Exemplos disso são nl_NL ou de_DE. Os locais múltiplos podem ser separados por vírgula. Será usado o primeiro válido.

@@ -100,8 +100,6 @@ administration#:#adm_hide_tabs#:#Hide Tabs###12 06 2011 new variable
 administration#:#adm_https#:#HTTPS###24 10 2013 new variable
 administration#:#adm_imprint#:#Imprint###28 08 2012 new variable
 administration#:#adm_imprint_inactive#:#The imprint is inactive and users are not able to access it.###28 08 2012 new variable
-administration#:#adm_item_cmd_asynch#:#Vložit seznam zdrojových akcí asynchronně
-administration#:#adm_item_cmd_asynch_info#:#Povely akcí, např. v úložišti, jsou ukládány asynchronně. To zvyšuje obecně výkon, ale poněkud zpomaluje stahování seznamů povelů akcí.
 administration#:#adm_layout_and_navigation#:#Layout and Navigation###07 02 2020 new variable
 administration#:#adm_locale#:#Lokální
 administration#:#adm_locale_info#:#Lokální nastavení ovlivňuje např. třídění seznamů. Příklady jsou nl_NL nebo de_DE. Vícenásobné lokality mohou být odděleny čárkou. Bude použita první platná.

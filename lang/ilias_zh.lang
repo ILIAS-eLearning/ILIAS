@@ -99,8 +99,6 @@ administration#:#adm_hide_tabs#:#隐藏选项卡
 administration#:#adm_https#:#HTTPS###24 10 2013 new variable
 administration#:#adm_imprint#:#版本说明(imprint)
 administration#:#adm_imprint_inactive#:#版本说明(imprint)是不活跃的，用户不能访问它。
-administration#:#adm_item_cmd_asynch#:#异步加载资源动作列表
-administration#:#adm_item_cmd_asynch_info#:#动作命令，例如，在知识库，被异步加载。这在常规情况下提高了性能，但稍微减慢了动作命令列表的下载。
 administration#:#adm_layout_and_navigation#:#Layout and Navigation###07 02 2020 new variable
 administration#:#adm_locale#:#区域设置
 administration#:#adm_locale_info#:#区域设置会影响诸如列表的排序。例如nl_NL或de_DE。多个语言环境可以用逗号分隔。第一个有效的语言环境将会被使用。

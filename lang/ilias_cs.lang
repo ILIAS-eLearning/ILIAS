@@ -100,8 +100,6 @@ administration#:#adm_hide_tabs#:#Skrýt tabulky
 administration#:#adm_https#:#HTTPS
 administration#:#adm_imprint#:#Impresum
 administration#:#adm_imprint_inactive#:#Impresum není aktivní a uživatelé nemají k němu přístup.
-administration#:#adm_item_cmd_asynch#:#Vložit seznam zdrojových akcí asynchronně
-administration#:#adm_item_cmd_asynch_info#:#Povely akcí, např. v úložišti, jsou ukládány asynchronně. To zvyšuje obecně výkon, ale poněkud zpomaluje stahování seznamů povelů akcí.
 administration#:#adm_layout_and_navigation#:#Layout and Navigation###07 02 2020 new variable
 administration#:#adm_locale#:#Lokální
 administration#:#adm_locale_info#:#Lokální nastavení ovlivňuje např. třídění seznamů. Příklady jsou nl_NL nebo de_DE. Vícenásobné lokality mohou být odděleny čárkou. Bude použita první platná.

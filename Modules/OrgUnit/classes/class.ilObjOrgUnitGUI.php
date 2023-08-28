@@ -315,9 +315,6 @@ class ilObjOrgUnitGUI extends ilContainerGUI
                     case 'disableAdministrationPanel':
                         parent::disableAdministrationPanelObject();
                         break;
-                    case 'getAsynchItemList':
-                        parent::getAsynchItemListObject();
-                        break;
                     case self::CMD_EDIT_SETTINGS:
                         $this->tabs_gui->activateTab(self::TAB_SETTINGS);
                         $this->setSubTabsSettings('edit_settings');
