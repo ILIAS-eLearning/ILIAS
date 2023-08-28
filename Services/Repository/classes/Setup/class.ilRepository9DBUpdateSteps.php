@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 class ilRepository9DBUpdateSteps implements ilDatabaseUpdateSteps
 {
     protected ilDBInterface $db;
