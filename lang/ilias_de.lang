@@ -2121,6 +2121,7 @@ badge#:#badge_backpack_no_groups#:#Das Mozilla Backpack ist leer bzw. nicht öff
 badge#:#badge_badge#:#Badge
 badge#:#badge_course_lp#:#Nach Leistung vergebenes Badge
 badge#:#badge_course_lp_invalid#:#Die folgenden Objekte verwenden einen nicht unterstützten Lernfortschrittsmodus: %s.
+badge#:#badge_create#:#Badge erstellen
 badge#:#badge_criteria#:#Kriterien
 badge#:#badge_crs_merit#:#Händisch vergebenes Badge
 badge#:#badge_deletion_confirmation#:#Wollen Sie wirklich die folgenden Badges und alle ihre jeweiligen Zuweisungen löschen?

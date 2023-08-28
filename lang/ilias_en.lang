@@ -2121,6 +2121,7 @@ badge#:#badge_backpack_no_groups#:#The Mozilla Backpack is empty or non-public.
 badge#:#badge_badge#:#Badge
 badge#:#badge_course_lp#:#Course LP
 badge#:#badge_course_lp_invalid#:#The following objects have a LP mode which is not supported: %s.
+badge#:#badge_create#:#Create Badge
 badge#:#badge_criteria#:#Criteria
 badge#:#badge_crs_merit#:#Merit
 badge#:#badge_deletion_confirmation#:#Are you sure you want to delete the following badges and all their respective assignments?
