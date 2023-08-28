@@ -5821,7 +5821,7 @@ common#:#user_not_found#:#Der Benutzer wurde nicht gefunden
 common#:#user_not_found_to_delete#:#Ein Benutzer, der gelöscht werden sollte, konnte nicht gefunden werden.
 common#:#user_not_known#:#Bitte geben Sie einen gültigen Anmeldenamen ein.###Modified as part of gender mainstreaming activities for ILIAS 8
 common#:#user_profile_other#:#Weitere Informationen
-common#:#user_send_new_account_mail#:#Sende
+common#:#user_send_new_account_mail#:#Begrüssungsmail versenden
 common#:#user_status#:#Benutzerstatus
 common#:#user_toggle_noti#:#Benachrichtigungen können nicht deaktiviert werden.
 common#:#userdata#:#Benutzerdaten
@@ -10805,7 +10805,7 @@ mail#:#link_check_affected_links#:#Betroffene Links
 mail#:#link_check_introduction#:#die folgenden Externen Links sind ungültig:
 mail#:#link_check_perma_link#:#Permanent Link
 mail#:#link_check_reason#:#Sie erhalten diese Benachrichtigung, da Sie die Benachrichtigung über ungültige Externe Links aktiviert haben.
-mail#:#mail_account_mail#:#Anmeldekonten-Mail
+mail#:#mail_account_mail#:#Über neues Konto informieren
 mail#:#mail_add_folder#:#Neuen Ordner erstellen
 mail#:#mail_add_recipient#:#Bitte geben Sie an, wer die Mail erhalten soll. Geben Sie ILIAS-Anmeldenamen oder gültige E-Mail-Adressen an.###Modified as part of gender mainstreaming activities for ILIAS 8
 mail#:#mail_add_subfolder#:#Unterordner hinzufügen
