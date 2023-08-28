@@ -1,5 +1,19 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class pdoDB
@@ -687,13 +701,13 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface
             $q = "UPDATE " . $this->quoteIdentifier($table_name) . " SET ";
             $lim = "";
             foreach ($fields as $k => $field) {
-                $q .= $lim . $field . " = " . $placeholders_full[$k];
+                $q .= $lim . $this->quoteIdentifier($field) . " = " . $placeholders_full[$k];
                 $lim = ", ";
             }
             $q .= " WHERE ";
             $lim = "";
             foreach ($where as $k => $col) {
-                $q .= $lim . $k . " = " . $this->quote($col[1], $col[0]);
+                $q .= $lim . $this->quoteIdentifier($k) . " = " . $this->quote($col[1], $col[0]);
                 $lim = " AND ";
             }
 
@@ -715,7 +729,7 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface
             $q .= " WHERE ";
             $lim = "";
             foreach ($where as $k => $col) {
-                $q .= $lim . $k . " = %s";
+                $q .= $lim . $this->quoteIdentifier($k) . " = %s";
                 $lim = " AND ";
             }
 
@@ -1144,7 +1158,7 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface
         $values = array();
 
         foreach ($a_columns as $k => $col) {
-            $fields[] = $k;
+            $fields[] = $this->quoteIdentifier($k);
             $placeholders[] = "%s";
             $placeholders2[] = ":$k";
             $types[] = $col[0];
