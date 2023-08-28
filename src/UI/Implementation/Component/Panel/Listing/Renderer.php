@@ -25,7 +25,6 @@ use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Component as C;
 use ILIAS\UI\Component\Item\Group;
 use ILIAS\UI\Implementation\Render\Template as Template;
-use ILIAS\UI\Component\ViewControl\Pagination;
 
 class Renderer extends AbstractComponentRenderer
 {

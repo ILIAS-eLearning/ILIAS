@@ -23,7 +23,6 @@ namespace ILIAS\UI\Implementation\Component\Panel;
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Component;
-use ILIAS\UI\Component\ViewControl\Pagination;
 
 /**
  * Class Renderer
