@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -13,8 +14,8 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
+
 
 declare(strict_types=1);
 
@@ -115,6 +116,7 @@ class ilComponentActivatePluginsObjective implements Setup\Objective
         $ini = $environment->getResource(Setup\Environment::RESOURCE_ILIAS_INI);
         $client_ini = $environment->getResource(Setup\Environment::RESOURCE_CLIENT_INI);
         $component_repository = $environment->getResource(Setup\Environment::RESOURCE_COMPONENT_REPOSITORY);
+        $component_factory = $environment->getResource(Setup\Environment::RESOURCE_COMPONENT_FACTORY);
 
         // ATTENTION: This is a total abomination. It only exists to allow various
         // sub components of the various readers to run. This is a memento to the
@@ -123,6 +125,7 @@ class ilComponentActivatePluginsObjective implements Setup\Objective
         $DIC = $GLOBALS["DIC"];
         $GLOBALS["DIC"] = new DI\Container();
         $GLOBALS["DIC"]["component.repository"] = $component_repository;
+        $GLOBALS["DIC"]["component.factory"] = $component_factory;
         $GLOBALS["DIC"]["ilDB"] = $db;
         $GLOBALS["DIC"]["ilIliasIniFile"] = $ini;
         $GLOBALS["DIC"]["ilClientIniFile"] = $client_ini;
