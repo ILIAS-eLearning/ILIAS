@@ -3682,10 +3682,10 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
             $this->ctrl->redirect($this, "infoScreen");
         }
 
-        if ($this->testrequest->raw('q_id') && !is_array($this->testrequest->raw('q_id'))) {
-            $ids = array($this->testrequest->raw('q_id'));
-        } elseif ($this->testrequest->raw('q_id')) {
-            $ids = $this->testrequest->raw('q_id');
+        if ($this->testrequest->hasQuestionId() && !is_array($this->testrequest->raw('q_id'))) {
+            $ids = [$this->testrequest->getQuestionId()];
+        } elseif ($this->testrequest->getQuestionIds()) {
+            $ids = $this->testrequest->getQuestionIds();
         } else {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('copy_no_questions_selected'), true);
             $this->ctrl->redirect($this, 'questions');

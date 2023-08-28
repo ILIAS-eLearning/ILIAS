@@ -68,6 +68,11 @@ class InternalRequestService
         return $this->int('q_id');
     }
 
+    public function getQuestionIds(): array
+    {
+        return $this->intArray('q_id');
+    }
+
     public function getCallingTest(): int
     {
         return $this->int('calling_test');
