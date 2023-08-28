@@ -917,7 +917,7 @@ class ilMailFolderGUI
         } elseif (!$sender instanceof ilObjUser || 0 === $sender->getId()) {
             $tplprint->setVariable(
                 'FROM',
-                $mailData['import_name'] . ' (' . $this->lng->txt('user_deleted') . ')'
+                trim(($mailData['import_name'] ?? '') . ' (' . $this->lng->txt('user_deleted') . ')')
             );
         } else {
             $tplprint->setVariable('FROM', ilMail::_getIliasMailerName());
