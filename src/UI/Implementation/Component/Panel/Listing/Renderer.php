@@ -75,15 +75,9 @@ class Renderer extends AbstractComponentRenderer
             }
             if ($view_controls) {
                 foreach ($view_controls as $view_control) {
-                    if ($view_control instanceof Pagination) {
-                        $tpl->setCurrentBlock("pagination");
-                        $tpl->setVariable("PAGINATION", $default_renderer->render($view_control));
-                        $tpl->parseCurrentBlock();
-                    } else {
-                        $tpl->setCurrentBlock("view_controls");
-                        $tpl->setVariable("VIEW_CONTROL", $default_renderer->render($view_control));
-                        $tpl->parseCurrentBlock();
-                    }
+                    $tpl->setCurrentBlock("view_controls");
+                    $tpl->setVariable("VIEW_CONTROL", $default_renderer->render($view_control));
+                    $tpl->parseCurrentBlock();
                 }
             }
             $tpl->setCurrentBlock("heading");
