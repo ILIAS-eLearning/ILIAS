@@ -229,7 +229,7 @@ class ilTestSession
             $row = $this->db->fetchAssoc($result);
             $this->active_id = $row["active_id"];
             $this->user_id = $row["user_fi"];
-            $this->anonymous_id = $row["anonymous_id"] ?? 0;
+            $this->anonymous_id = $row["anonymous_id"] ?? '';
             $this->test_id = $row["test_fi"];
             $this->lastsequence = $row["lastindex"];
             $this->pass = $row["tries"];
@@ -255,7 +255,7 @@ class ilTestSession
             $row = $this->db->fetchAssoc($result);
             $this->active_id = $row["active_id"];
             $this->user_id = $row["user_fi"];
-            $this->anonymous_id = $row["anonymous_id"] ?? 0;
+            $this->anonymous_id = $row["anonymous_id"] ?? '';
             $this->test_id = $row["test_fi"];
             $this->lastsequence = $row["lastindex"];
             $this->pass = $row["tries"];

@@ -317,7 +317,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
             $sequence_element = $this->testSequence->getFirstSequence();
         }
 
-        $this->test_session->setLastSequence($sequence_element);
+        $this->test_session->setLastSequence($sequence_element ?? 0);
         $this->test_session->saveToDb();
 
 
@@ -470,7 +470,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
                 $nextSequenceElement = $this->testSequence->getFirstSequence();
             }
 
-            $this->test_session->setLastSequence($nextSequenceElement);
+            $this->test_session->setLastSequence($nextSequenceElement ?? 0);
             $this->test_session->saveToDb();
 
             $this->ctrl->setParameter($this, 'sequence', $nextSequenceElement);
