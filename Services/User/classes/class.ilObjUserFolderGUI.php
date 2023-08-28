@@ -1083,9 +1083,9 @@ class ilObjUserFolderGUI extends ilObjectGUI
             $xml_file = $this->handleUploadedFiles();
             $xml_file_full_path = ilFileUtils::getDataDir() . '/' . $xml_file;
 
-            $form = $this->initUserRoleAssignmentForm($xml_file_full_path);
+            list($form, $message) = $this->initUserRoleAssignmentForm($xml_file_full_path);
 
-            $this->tpl->setContent($this->ui_renderer->render($form));
+            $this->tpl->setContent($message . $this->ui_renderer->render($form));
         } else {
             $this->form->setValuesByPost();
             $this->tpl->setContent($this->form->getHTML());
@@ -1094,8 +1094,9 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
     /**
      * @throws ilCtrlException
+     * @return array<\ILIAS\UI\Component\Input\Container\Form\Standard, string>
      */
-    private function initUserRoleAssignmentForm(string $xml_file_full_path): StandardForm
+    private function initUserRoleAssignmentForm(string $xml_file_full_path): array
     {
         $global_roles_assignment_info = null;
         $local_roles_assignment_info = null;
@@ -1106,7 +1107,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
         );
         $importParser->startParsing();
 
-        $this->verifyXmlData($importParser);
+        $message = $this->verifyXmlData($importParser);
 
         $xml_file_name = explode(
             '/',
@@ -1451,10 +1452,10 @@ class ilObjUserFolderGUI extends ilObjectGUI
             $form_elements['send_mail'] = $mail_section;
         }
 
-        return $ui->input()->container()->form()->standard(
+        return [$ui->input()->container()->form()->standard(
             $form_action,
             $form_elements
-        );
+        ), $message];
     }
 
     private function handleUploadedFiles(): string
@@ -1547,18 +1548,14 @@ class ilObjUserFolderGUI extends ilObjectGUI
         return $xml_file;
     }
 
-    public function verifyXmlData(ilUserImportParser $importParser): void
+    public function verifyXmlData(ilUserImportParser $importParser): string
     {
         $import_dir = $this->getImportDir();
         switch ($importParser->getErrorLevel()) {
             case ilUserImportParser::IL_IMPORT_SUCCESS:
-                break;
+                return '';
             case ilUserImportParser::IL_IMPORT_WARNING:
-                $this->tpl->setVariable(
-                    'IMPORT_LOG',
-                    $importParser->getProtocolAsHTML($this->lng->txt('verification_warning_log'))
-                );
-                break;
+                return $importParser->getProtocolAsHTML($this->lng->txt("verification_warning_log"));
             case ilUserImportParser::IL_IMPORT_FAILURE:
                 $this->filesystem->deleteDir($import_dir);
                 $this->ilias->raiseError(
@@ -1567,7 +1564,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
                     ),
                     $this->ilias->error_obj->MESSAGE
                 );
-                return;
+                return '';
         }
     }
 
