@@ -100,8 +100,6 @@ administration#:#adm_hide_tabs#:#Tabs verbergen
 administration#:#adm_https#:#HTTPS
 administration#:#adm_imprint#:#Over Ons
 administration#:#adm_imprint_inactive#:#"Over ons" is niet actief en gebruikers zullen het niet zien.
-administration#:#adm_item_cmd_asynch#:#Asynchroon laden van actie lijsten
-administration#:#adm_item_cmd_asynch_info#:#Inschakelingsopdrachten, b.v. in het Studiecentrum, worden asynchroon geladen. Dat bevordert de prestaties in het algemeen, maar vertraagt de inschakelingsopdrachten enigszins.
 administration#:#adm_layout_and_navigation#:#Layout and Navigation###07 02 2020 new variable
 administration#:#adm_locale#:#Lokaal
 administration#:#adm_locale_info#:#Lokale instellingen beïnvloeden bijvoorbeeld de sortering van lijsten. Voorbeelden zijn nl_NL of de_DE. Meervoudige lokale instellingen kunnen worden ingevoerd gescheiden door een komma. De eerste geldige wordt gebruikt.

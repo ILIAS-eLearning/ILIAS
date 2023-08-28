@@ -350,12 +350,6 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
             $sdesc = $sdesc->withValue(null);
         }
 
-        // load action commands asynchronously
-        $async = $f->checkbox(
-            $this->lng->txt("adm_item_cmd_asynch"),
-            $this->lng->txt("adm_item_cmd_asynch_info")
-        )->withValue((bool) $ilSetting->get("item_cmd_asynch"));
-
         // notes/comments/tagging
         $pltags = $f->checkbox(
             $this->lng->txt('adm_show_comments_tagging_in_lists_tags')
@@ -374,7 +368,6 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
         $obj_lists = $f->section(
             [
                 'rep_shorten_description' => $sdesc,
-                'item_cmd_asynch' => $async,
                 'comments_tagging_in_lists' => $pl
             ],
             $this->lng->txt("rep_object_lists")
@@ -504,10 +497,6 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
                     (string) ((int) $data['rep_shorten_description']['rep_shorten_description_length'])
                 );
             }
-            $ilSetting->set(
-                'item_cmd_asynch',
-                (string) ((int) $data['item_cmd_asynch'])
-            );
             $ilSetting->set(
                 'comments_tagging_in_lists',
                 (string) ((int) $data['comments_tagging_in_lists'])

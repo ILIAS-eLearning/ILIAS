@@ -100,8 +100,6 @@ administration#:#adm_hide_tabs#:#タブを非表示
 administration#:#adm_https#:#HTTPS
 administration#:#adm_imprint#:#Legal Notice
 administration#:#adm_imprint_inactive#:#Legal Noticeは無効なのでユーザはアクセスできません。
-administration#:#adm_item_cmd_asynch#:#リソースアクションリストを非同期でロード
-administration#:#adm_item_cmd_asynch_info#:#リポジトリのアクションコマンドの例にすると非同期的に読み込まれます。一般的にはパフォーマンスは良くなりますが、アクションコマンドリストの読み込みは若干落ちます。
 administration#:#adm_layout_and_navigation#:#レイアウトとナビゲーション
 administration#:#adm_locale#:#ロケール
 administration#:#adm_locale_info#:#リストの並べ替えのようなロケール設定に影響します。nl_NL やde_DEのマルチロケールはカンマで区切ることができます。最初に有効となるものが使用されます。

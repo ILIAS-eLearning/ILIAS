@@ -100,8 +100,6 @@ administration#:#adm_hide_tabs#:#Tabları Gizle
 administration#:#adm_https#:#HTTPS###24 10 2013 new variable
 administration#:#adm_imprint#:#Künye
 administration#:#adm_imprint_inactive#:#Künye pasiftir ve kullanıcıların erişimi mümkün değildir.
-administration#:#adm_item_cmd_asynch#:#Kaynak Eylem Listelerini eşzamansız yükle
-administration#:#adm_item_cmd_asynch_info#:#Depodaki Eylem komutları eşzamansız yüklenir.Bu genel performansı artırır, ancak eylem komut listelerinin yüklenmesini biraz yavaşlatır.
 administration#:#adm_layout_and_navigation#:#Layout and Navigation###07 02 2020 new variable
 administration#:#adm_locale#:#Yerel
 administration#:#adm_locale_info#:#Yerel ayar etkileri (Örn:Listelerde sıralama) Örneğin nl_NL veya de_DE gibi birden fazla yerel tanım virgül ile ayrılabilir. İlk geçerli olan kullanılacaktır.

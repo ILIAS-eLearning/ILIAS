@@ -100,8 +100,6 @@ administration#:#adm_hide_tabs#:#Maskuj taby
 administration#:#adm_https#:#HTTPS
 administration#:#adm_imprint#:#Nota redakcyjna
 administration#:#adm_imprint_inactive#:#Nota redakcyjna nie jest aktywna, w związku z czym nie jest dostępna dla użytkownika.
-administration#:#adm_item_cmd_asynch#:#Niesynchroniczne ładowanie menu w dostępnych zasobach
-administration#:#adm_item_cmd_asynch_info#:#Menu, np. w dostępnych zasobach, ładowane są niesynchronicznie. Takie rozwiązanie zwiększa generalnie moc obliczeniową. W niektórych sytuacjach może dojść do krótkich opóźnień w wyświetlaniu wyskakujących menu.
 administration#:#adm_layout_and_navigation#:#Layout and Navigation###07 02 2020 new variable
 administration#:#adm_locale#:#Locale
 administration#:#adm_locale_info#:#Ustawienia «locale» mają wpływ na sortowanie alfabetyczne w listach. Np. nl_NL lub de_DE. Można podać kilka wartości (przedzielonych przecinkiem). Używana jest pierwsze ważna wartość.

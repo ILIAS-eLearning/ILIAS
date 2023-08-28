@@ -2723,10 +2723,7 @@ class ilObjectListGUI
         int $ref_id,
         int $obj_id,
         string $title,
-        string $description,
-        bool $use_async = false,
-        bool $get_async_commands = false,
-        string $async_url = ''
+        string $description
     ): string {
         // this variable stores whether any admin commands
         // are included in the output

@@ -102,8 +102,6 @@ administration#:#adm_hide_tabs#:#Ocultar pestañas
 administration#:#adm_https#:#HTTPS
 administration#:#adm_imprint#:#Información
 administration#:#adm_imprint_inactive#:#La impresión está desactivada y a los usuarios no se les permite acceso.
-administration#:#adm_item_cmd_asynch#:#Cargar lista de acciones asíncronamente
-administration#:#adm_item_cmd_asynch_info#:#Comandos de acción, ej., en el repositorio, se cargan de forma asincrónica. Esto aumenta el rendimiento en general, pero ralentiza un poco la carga de listas de comandos de acción.
 administration#:#adm_layout_and_navigation#:#Layout and Navigation###07 02 2020 new variable
 administration#:#adm_locale#:#Local
 administration#:#adm_locale_info#:#Influencias de configuración regional ej., clasificación en las listas. Ejemplos de ello son nl_NL o de_DE. Múltiples localizaciones pueden ser separadas por comas. La primera válida será la utilizada.

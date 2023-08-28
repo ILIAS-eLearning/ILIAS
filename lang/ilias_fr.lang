@@ -100,8 +100,6 @@ administration#:#adm_hide_tabs#:#Masquer les Onglets
 administration#:#adm_https#:#HTTPS
 administration#:#adm_imprint#:#Mentions Légales
 administration#:#adm_imprint_inactive#:#La page de mentions légales est désactivée. Les utilisateurs n'y ont pas accès.
-administration#:#adm_item_cmd_asynch#:#Charger les Menus "Actions" de Manière Asynchrone
-administration#:#adm_item_cmd_asynch_info#:#Les menus "Actions" présents dans le catalogue sont chargés de manière asynchrone. Cela accroît les performances générales, mais ralentit légèrement l'affichage des menus.
 administration#:#adm_layout_and_navigation#:#Layout and Navigation###07 02 2020 new variable
 administration#:#adm_locale#:#Local
 administration#:#adm_locale_info#:#Paramètres régionaux, pouvant par exemple influencer le tri des objets. Exemples : fr_FR, de_DE. Plusieurs valeurs peuvent être saisies séparées par des virgules. Le premier valide sera utilisé.
