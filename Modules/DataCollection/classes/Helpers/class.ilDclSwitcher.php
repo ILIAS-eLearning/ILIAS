@@ -49,7 +49,7 @@ class ilDclSwitcher
             $this->ctrl->setParameterByClass($target_class, "table_id", $table->getId());
             $links[] = $this->ui_factory->link()->standard($table->getTitle(), $this->ctrl->getLinkTargetByClass($target_class, $target_cmd));
         }
-        $this->addSwitcherToToolbar($links, $this->lng->txt('change_table'));
+        $this->addSwitcherToToolbar($links, $this->lng->txt('dcl_switch_table'));
     }
 
     /**
@@ -68,7 +68,7 @@ class ilDclSwitcher
             $this->ctrl->setParameterByClass($target_class, "tableview_id", $view->getId());
             $links[] = $this->ui_factory->link()->standard($view->getTitle(), $this->ctrl->getLinkTargetByClass($target_class, $target_cmd));
         }
-        $this->addSwitcherToToolbar($links, $this->lng->txt('change_view'));
+        $this->addSwitcherToToolbar($links, $this->lng->txt('dcl_switch_view'));
     }
 
     /**
