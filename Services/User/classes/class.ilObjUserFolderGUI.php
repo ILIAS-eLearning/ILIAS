@@ -1176,9 +1176,9 @@ class ilObjUserFolderGUI extends ilObjectGUI
             //importParser needs the full path to xml file
             $xml_file_full_path = ilFileUtils::getDataDir() . '/' . $xml_file;
 
-            $form = $this->initUserRoleAssignmentForm($xml_file_full_path);
+            list($form, $message) = $this->initUserRoleAssignmentForm($xml_file_full_path);
 
-            $tpl->setContent($renderer->render($form));
+            $tpl->setContent($message . $renderer->render($form));
         } else {
             $this->form->setValuesByPost();
             $tpl->setContent($this->form->getHTML());
@@ -1187,8 +1187,9 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
     /**
      * @throws ilCtrlException
+     * @return array<\ILIAS\UI\Component\Input\Container\Form\Standard, string>
      */
-    private function initUserRoleAssignmentForm(string $xml_file_full_path): \ILIAS\UI\Component\Input\Container\Form\Standard
+    private function initUserRoleAssignmentForm(string $xml_file_full_path): array
     {
         global $DIC;
 
@@ -1205,7 +1206,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
         );
         $importParser->startParsing();
 
-        $this->verifyXmlData($importParser);
+        $message = $this->verifyXmlData($importParser);
 
         $xml_file_name = explode(
             "/",
@@ -1550,10 +1551,10 @@ class ilObjUserFolderGUI extends ilObjectGUI
             $form_elements["send_mail"] = $mail_section;
         }
 
-        return $ui->input()->container()->form()->standard(
+        return [$ui->input()->container()->form()->standard(
             $form_action,
             $form_elements
-        );
+        ), $message];
     }
 
     /**
@@ -1654,7 +1655,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
         return $xml_file;
     }
 
-    public function verifyXmlData(ilUserImportParser $importParser): void
+    public function verifyXmlData(ilUserImportParser $importParser): string
     {
         global $DIC;
 
@@ -1663,13 +1664,9 @@ class ilObjUserFolderGUI extends ilObjectGUI
         $import_dir = $this->getImportDir();
         switch ($importParser->getErrorLevel()) {
             case IL_IMPORT_SUCCESS:
-                break;
+                return '';
             case IL_IMPORT_WARNING:
-                $this->tpl->setVariable(
-                    "IMPORT_LOG",
-                    $importParser->getProtocolAsHTML($this->lng->txt("verification_warning_log"))
-                );
-                break;
+                return $importParser->getProtocolAsHTML($this->lng->txt("verification_warning_log"));
             case IL_IMPORT_FAILURE:
                 $filesystem->deleteDir($import_dir);
                 $this->ilias->raiseError(
@@ -1678,7 +1675,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
                     ),
                     $this->ilias->error_obj->MESSAGE
                 );
-                return;
+                return '';
         }
     }
 
