@@ -2834,6 +2834,10 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
 
     public function checkUsersViewMode(): void
     {
+        if ($this->creation_mode) {
+            return;
+        }
+
         $this->selectedSorting = $this->objProperties->getDefaultView();
         $view_mode = 'viewmode_' . $this->getObject()->getId();
 

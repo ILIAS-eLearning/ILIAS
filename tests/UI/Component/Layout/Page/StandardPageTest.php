@@ -262,7 +262,7 @@ class StandardPageTest extends ILIAS_UI_TestBase
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Short Title: View Title</title>
+    <title>View Title: Short Title</title>
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <script type="application/javascript">var il = il ||{}; window.il = il;</script>
     <style></style>

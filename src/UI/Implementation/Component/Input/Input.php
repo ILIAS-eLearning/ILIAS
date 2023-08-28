@@ -15,16 +15,16 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
 declare(strict_types=1);
 
-namespace ILIAS\UI\Implementation\Component\Input\Field;
+namespace ILIAS\UI\Implementation\Component\Input;
 
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Data\Result;
 use ILIAS\Refinery\Constraint;
-use ILIAS\Refinery\Factory;
+use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Refinery\Transformation;
-use ILIAS\UI\Component as C;
 use ILIAS\UI\Component\Signal;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 use ILIAS\UI\Implementation\Component\Input\InputData;
@@ -39,19 +39,9 @@ use ILIAS\UI\Implementation\Component\Input\DynamicInputsNameSource;
 /**
  * This implements commonalities between inputs.
  */
-abstract class Input implements C\Input\Field\Input, FormInputInternal
+abstract class Input implements InputInternal
 {
     use ComponentHelper;
-    use JavaScriptBindable;
-    use Triggerer;
-
-    protected DataFactory $data_factory;
-    protected Factory $refinery;
-    protected string $label;
-    protected ?string $byline;
-    protected bool $is_required = false;
-    protected ?Constraint $requirement_constraint = null;
-    protected bool $is_disabled = false;
 
     /**
      * This is the value contained in the input as displayed
@@ -80,103 +70,15 @@ abstract class Input implements C\Input\Field\Input, FormInputInternal
     /**
      * @var Transformation[]
      */
-    private array $operations;
+    protected array $operations = [];
 
     /**
      * Input constructor.
      */
     public function __construct(
-        DataFactory $data_factory,
-        Factory $refinery,
-        string $label,
-        ?string $byline = null
+        protected DataFactory $data_factory,
+        protected Refinery $refinery,
     ) {
-        $this->data_factory = $data_factory;
-        $this->refinery = $refinery;
-        $this->label = $label;
-        $this->byline = $byline;
-        $this->operations = [];
-    }
-
-    // Observable properties of the input as it is shown to the client.
-
-    /**
-     * @inheritdoc
-     */
-    public function getLabel(): string
-    {
-        return $this->label;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function withLabel(string $label)
-    {
-        $clone = clone $this;
-        $clone->label = $label;
-        return $clone;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getByline(): ?string
-    {
-        return $this->byline;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function withByline(string $byline)
-    {
-        $clone = clone $this;
-        $clone->byline = $byline;
-        return $clone;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function isRequired(): bool
-    {
-        return $this->is_required;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function withRequired(bool $is_required, ?Constraint $requirement_constraint = null)
-    {
-        $clone = clone $this;
-        $clone->is_required = $is_required;
-        $clone->requirement_constraint = ($is_required) ? $requirement_constraint : null;
-        return $clone;
-    }
-
-    /**
-     * This may return a constraint that will be checked first if the field is
-     * required.
-     */
-    abstract protected function getConstraintForRequirement(): ?Constraint;
-
-    /**
-     * @inheritdoc
-     */
-    public function isDisabled(): bool
-    {
-        return $this->is_disabled;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function withDisabled(bool $is_disabled)
-    {
-        $clone = clone $this;
-        $clone->is_disabled = $is_disabled;
-        return $clone;
     }
 
     /**
@@ -196,7 +98,7 @@ abstract class Input implements C\Input\Field\Input, FormInputInternal
      * @param   mixed $value
      * @throws  InvalidArgumentException    if value does not fit client side input
      */
-    public function withValue($value)
+    public function withValue($value): self
     {
         $this->checkArg("value", $this->isClientSideValueOk($value), "Display value does not match input type.");
         $clone = clone $this;
@@ -209,7 +111,7 @@ abstract class Input implements C\Input\Field\Input, FormInputInternal
      *
      * @param mixed $value
      */
-    abstract protected function isClientSideValueOk($value): bool;
+    abstract public function isClientSideValueOk($value): bool;
 
     /**
      * The error of the input as used in HTML.
@@ -222,7 +124,7 @@ abstract class Input implements C\Input\Field\Input, FormInputInternal
     /**
      * Get an input like this one, with a different error.
      */
-    public function withError(string $error)
+    public function withError(string $error): self
     {
         $clone = clone $this;
         $clone->setError($error);
@@ -240,7 +142,7 @@ abstract class Input implements C\Input\Field\Input, FormInputInternal
     /**
      * Apply a transformation to the current or future content.
      */
-    public function withAdditionalTransformation(Transformation $trafo)
+    public function withAdditionalTransformation(Transformation $trafo): self
     {
         $clone = clone $this;
         $clone->setAdditionalTransformation($trafo);
@@ -284,12 +186,6 @@ abstract class Input implements C\Input\Field\Input, FormInputInternal
         return $clone;
     }
 
-    // Implementation of FormInputInternal
-
-    // This is the machinery to be used to process the input from the client side.
-    // This should not be exposed to the consumers of the inputs. These methods
-    // should instead only be used by the forms wrapping the input.
-
     /**
      * @inheritdoc
      */
@@ -301,7 +197,7 @@ abstract class Input implements C\Input\Field\Input, FormInputInternal
     /**
      * @inheritdoc
      */
-    public function withNameFrom(NameSource $source, ?string $parent_name = null)
+    public function withNameFrom(NameSource $source, ?string $parent_name = null): self
     {
         $clone = clone $this;
         if ($source instanceof DynamicInputsNameSource) {
@@ -321,25 +217,22 @@ abstract class Input implements C\Input\Field\Input, FormInputInternal
      *
      * @inheritdoc
      */
-    public function withInput(InputData $input)
+    public function withInput(InputData $input): self
     {
         if ($this->getName() === null) {
             throw new LogicException("Can only collect if input has a name.");
         }
 
+
         //TODO: Discuss, is this correct here. If there is no input contained in this post
         //We assign null. Note that unset checkboxes are not contained in POST.
-        if (!$this->isDisabled()) {
-            $value = $input->getOr($this->getName(), null);
-            // ATTENTION: There was a special case for the Filter Input Container here,
-            // which lead to #27909. The issue will most certainly appear again in. If
-            // you are the one debugging it and came here: Please don't put knowledge
-            // of the special case for the filter in this general class. Have a look
-            // into https://mantis.ilias.de/view.php?id=27909 for the according discussion.
-            $clone = $this->withValue($value);
-        } else {
-            $clone = $this;
-        }
+        $value = $input->getOr($this->getName(), null);
+        // ATTENTION: There was a special case for the Filter Input Container here,
+        // which lead to #27909. The issue will most certainly appear again in. If
+        // you are the one debugging it and came here: Please don't put knowledge
+        // of the special case for the filter in this general class. Have a look
+        // into https://mantis.ilias.de/view.php?id=27909 for the according discussion.
+        $clone = $this->withValue($value);
 
         $clone->content = $this->applyOperationsTo($clone->getValue());
         if ($clone->content->isError()) {
@@ -360,16 +253,11 @@ abstract class Input implements C\Input\Field\Input, FormInputInternal
      */
     protected function applyOperationsTo($res): Result
     {
-        if ($res === null && !$this->isRequired()) {
-            return $this->data_factory->ok($res);
-        }
-
         $res = $this->data_factory->ok($res);
         foreach ($this->getOperations() as $op) {
             if ($res->isError()) {
                 return $res;
             }
-
             $res = $op->applyTo($res);
         }
 
@@ -381,15 +269,8 @@ abstract class Input implements C\Input\Field\Input, FormInputInternal
      *
      * @return Generator<Transformation>
      */
-    private function getOperations(): Generator
+    protected function getOperations(): Generator
     {
-        if ($this->isRequired()) {
-            $op = $this->getConstraintForRequirement();
-            if ($op !== null) {
-                yield $op;
-            }
-        }
-
         foreach ($this->operations as $op) {
             yield $op;
         }
@@ -404,21 +285,5 @@ abstract class Input implements C\Input\Field\Input, FormInputInternal
             throw new LogicException("No content of this field has been evaluated yet. Seems withRequest was not called.");
         }
         return $this->content;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function withOnUpdate(Signal $signal)
-    {
-        return $this->withTriggeredSignal($signal, 'update');
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function appendOnUpdate(Signal $signal)
-    {
-        return $this->appendTriggeredSignal($signal, 'update');
     }
 }

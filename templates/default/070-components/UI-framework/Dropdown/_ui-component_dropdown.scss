@@ -44,9 +44,6 @@ $cursor-disabled: not-allowed !default;
 // Dropdown arrow/caret
 .caret {
 	display: inline-block;
-	width: 0;
-	height: 0;
-	margin-left: 2px;
 	vertical-align: middle;
 	border-top: s.$il-caret-width-base dashed;
 	border-top: s.$il-caret-width-base solid \9; // IE8
@@ -58,6 +55,7 @@ $cursor-disabled: not-allowed !default;
   .dropup,
   .dropdown {
 	position: relative;
+	display: inline-block; // so dropdown can be in one line with a button
   }
   
   // Prevent the focus on the dropdown toggle when closing dropdowns

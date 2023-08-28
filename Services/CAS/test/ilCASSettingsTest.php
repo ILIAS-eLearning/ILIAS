@@ -23,6 +23,8 @@ use PHPUnit\Framework\TestCase;
 
 class ilCASSettingsTest extends TestCase
 {
+    protected Container $dic;
+
     protected function setUp(): void
     {
         $this->dic = new Container();

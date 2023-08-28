@@ -15,6 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
 declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Input\Field;
@@ -30,7 +31,7 @@ use Throwable;
 /**
  * This implements the URL input.
  */
-class Url extends Input implements C\Input\Field\Url
+class Url extends FormInput implements C\Input\Field\Url
 {
     /**
      * @inheritdoc
@@ -49,7 +50,7 @@ class Url extends Input implements C\Input\Field\Url
     protected function addValidation(): void
     {
         $txt_id = 'ui_invalid_url';
-        $error = fn (callable $txt, $value) => $txt($txt_id, $value);
+        $error = fn(callable $txt, $value) => $txt($txt_id, $value);
         $is_ok = function ($v) {
             if (is_string($v) && trim($v) === '') {
                 return true;
@@ -96,7 +97,7 @@ class Url extends Input implements C\Input\Field\Url
     /**
      * @inheritdoc
      */
-    protected function isClientSideValueOk($value): bool
+    public function isClientSideValueOk($value): bool
     {
         if (is_string($value) && trim($value) === "") {
             return true;
@@ -125,7 +126,7 @@ class Url extends Input implements C\Input\Field\Url
      */
     public function getUpdateOnLoadCode(): Closure
     {
-        return fn ($id) => "$('#$id').on('input', function(event) {
+        return fn($id) => "$('#$id').on('input', function(event) {
 				il.UI.input.onFieldUpdate(event, '$id', $('#$id').val());
 			});
 			il.UI.input.onFieldUpdate(event, '$id', $('#$id').val());";

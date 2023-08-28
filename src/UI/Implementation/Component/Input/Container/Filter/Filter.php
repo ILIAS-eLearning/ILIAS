@@ -26,7 +26,7 @@ use ILIAS\UI\Implementation\Component\Signal;
 use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 use Psr\Http\Message\ServerRequestInterface;
-use ILIAS\UI\Implementation\Component\Input\Container\QueryParamsFromServerRequest;
+use ILIAS\UI\Implementation\Component\Input\QueryParamsFromServerRequest;
 
 /**
  * This implements commonalities between all Filters.
@@ -98,7 +98,7 @@ abstract class Filter implements C\Input\Container\Filter\Filter, CI\Input\NameS
      * @param string|Signal $collapse_action
      * @param string|Signal $apply_action
      * @param string|Signal $reset_action
-     * @param C\Input\Field\Input[] $inputs
+     * @param C\Input\Container\Form\FormInput[] $inputs
      * @param bool[] $is_input_rendered
      */
     public function __construct(
@@ -125,7 +125,7 @@ abstract class Filter implements C\Input\Container\Filter\Filter, CI\Input\NameS
         $this->reset_action = $reset_action;
         //No further handling for actions needed here, will be done in constructors of the respective component
 
-        $classes = ['\ILIAS\UI\Component\Input\Field\FilterInput'];
+        $classes = ['\ILIAS\UI\Component\Input\Container\Filter\FilterInput'];
         $this->checkArgListElements("input", $inputs, $classes);
 
         $this->initSignals();

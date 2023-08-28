@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Listing;
 
@@ -42,9 +42,13 @@ class Renderer extends AbstractComponentRenderer
 
         if ($component instanceof Component\Listing\Descriptive) {
             return $this->render_descriptive($component, $default_renderer);
-        } else {
-            return $this->render_simple($component, $default_renderer);
         }
+
+        if ($component instanceof Component\Listing\Property) {
+            return $this->renderProperty($component, $default_renderer);
+        }
+
+        return $this->render_simple($component, $default_renderer);
     }
 
     protected function render_descriptive(
@@ -93,6 +97,28 @@ class Renderer extends AbstractComponentRenderer
                 }
                 $tpl->parseCurrentBlock();
             }
+        }
+        return $tpl->get();
+    }
+
+    protected function renderProperty(
+        Component\Listing\Property $component,
+        RendererInterface $default_renderer
+    ): string {
+        $tpl = $this->getTemplate("tpl.propertylisting.html", true, true);
+
+        foreach ($component->getItems() as $property) {
+            list($label, $value, $show_label) = $property;
+            if (! is_string($value)) {
+                $value = $default_renderer->render($value);
+            }
+
+            $tpl->setCurrentBlock("property");
+            $tpl->setVariable("VALUE", $value);
+            if ($show_label) {
+                $tpl->setVariable("LABEL", $label);
+            }
+            $tpl->parseCurrentBlock();
         }
         return $tpl->get();
     }

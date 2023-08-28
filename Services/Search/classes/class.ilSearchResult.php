@@ -1,6 +1,5 @@
 <?php
 
-declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -53,6 +52,8 @@ class ilSearchResult
 
     protected bool $preventOverwritingMaxhits = false;
 
+    protected ilLogger $logger;
+
 
 
     /**
@@ -63,6 +64,7 @@ class ilSearchResult
     {
         global $DIC;
 
+        $this->logger = $DIC->logger()->src();
         $this->ilAccess = $DIC->access();
         $this->db = $DIC->database();
         $this->tree = $DIC->repositoryTree();
@@ -182,7 +184,7 @@ class ilSearchResult
      */
     public function mergeEntries(ilSearchResult $result_obj): void
     {
-        foreach ($result_obj->getEntries() as $entry) {
+        foreach ($result_obj->getEntries() as $obj_id => $entry) {
             $this->addEntry($entry['obj_id'], $entry['type'], $entry['found']);
             $this->__updateEntryChilds($entry['obj_id'], $entry['child']);
         }
@@ -219,8 +221,7 @@ class ilSearchResult
     public function intersectEntries(ilSearchResult $result_obj): void
     {
         $new_entries = $this->getEntries();
-        $this->entries = array();
-
+        $this->entries = [];
         foreach ($result_obj->getEntries() as $entry) {
             $obj_id = $entry['obj_id'];
             if (isset($new_entries[$obj_id])) {

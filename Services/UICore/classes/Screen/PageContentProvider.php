@@ -111,11 +111,73 @@ class PageContentProvider extends AbstractModificationProvider
     {
         /** @var $modification ViewTitleModification */
         $modification = $this->globalScreen()->layout()->factory()->view_title()->withModification(
-            fn (?string $content): ?string => self::$view_title
+            fn (?string $content): ?string => $this->buildTabTitle() . self::$view_title
         )->withLowPriority();
 
         return $modification;
     }
+
+    /**
+     * @description This method was introduced due to A11y problems, see https://mantis.ilias.de/view.php?id=31534.
+     * This is definitely only a workaround, but since this is currently the only way to implement it, it is just introduced...
+     * We keep all the logic within this method because we don't want this to become common or even used elsewhere.
+     * Hence certain things as anonymous functions...
+     */
+    private function buildTabTitle(): string
+    {
+        // This anonymous function generates a translated title from a "tab" array.
+        // in some cases the tabs are already translated (dir_text = true), in others not...
+        $tab_title_generator = function (array $tab): string {
+            if (($tab['dir_text'] ?? false) === false) {
+                $tab_title = $this->dic->language()->txt($tab['text']);
+            } else {
+                $tab_title = $tab['text'] ?? '';
+            }
+            $tab_title .= ': ';
+            return $tab_title;
+        };
+
+        // we only know the 'id' of the active tab and don't want to rely on the array index, so we
+        // loop over tabs or subtabs to find the "right" one
+        $tab_looper = static function (array $tabs, string $active_tab) use ($tab_title_generator): string {
+            $tab_title = '';
+            foreach ($tabs as $tab) {
+                if ($tab['id'] === $active_tab) {
+                    $tab_title = $tab_title_generator($tab);
+                    break;
+                }
+            }
+            return $tab_title;
+        };
+
+        // TABS
+        $tabs = $this->dic->tabs()->target; // this only works because target is currently public...
+        $active_tab = $this->dic->tabs()->getActiveTab();
+        if ($active_tab === '' && isset($tabs[0])) {
+            $active_tab = $tabs[0]['id']; // if no tab is active, use the first one
+        }
+
+        $tab_title = $tab_looper($tabs, $active_tab);
+
+        // SUBTABS
+        $subtab_title = '';
+        $subtabs = $this->dic->tabs()->sub_target; // this only works because subtarget is currently public...
+        if (count($subtabs) > 1) { // we only need to do something if there are more than one subtabs
+            $active_subtab = array_values(
+                array_filter($subtabs, static function (array $subtab): bool {
+                    return $subtab['activate'] ?? false;
+                })
+            )[0]['id'] ?? '';
+
+            if ($active_subtab === '' && isset($subtabs[0])) {
+                $active_subtab = $subtabs[0]['id']; // if no tab is active, use the first one
+            }
+            $subtab_title = $tab_looper($subtabs, $active_subtab);
+        }
+
+        return $subtab_title . $tab_title;
+    }
+
 
     public function getFooterModification(CalledContexts $screen_context_stack): ?FooterModification
     {

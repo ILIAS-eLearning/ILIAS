@@ -16,6 +16,8 @@
  *********************************************************************/
 
 /**
+ * @deprecated will be removed with ILIAS 11, use the PHP native XML writer instead.
+ *
  * XML writer class
  *
  * Class to simplify manual writing of xml documents.
@@ -136,35 +138,9 @@ class ilXmlWriter
         if ($this->inEnc == $this->outEnc) {
             $encodedData = $data;
         } else {
-            switch (strtolower($this->outEnc)) {
-                case "utf-8":
-                    if (strtolower($this->inEnc) == "iso-8859-1") {
-                        $encodedData = utf8_encode($data);
-                    } else {
-                        die(
-                            "<b>Error</b>: Cannot encode iso-8859-1 data in " . $this->outEnc .
-                            " in <b>" . __FILE__ . "</b> on line <b>" . __LINE__ . "</b><br />"
-                        );
-                    }
-                    break;
-
-                case "iso-8859-1":
-                    if (strtolower($this->inEnc) == "utf-8") {
-                        $encodedData = utf8_decode($data);
-                    } else {
-                        die(
-                            "<b>Error</b>: Cannot encode utf-8 data in " . $this->outEnc .
-                            " in <b>" . __FILE__ . "</b> on line <b>" . __LINE__ . "</b><br />"
-                        );
-                    }
-                    break;
-
-                default:
-                    die(
-                        "<b>Error</b>: Cannot encode " . $this->inEnc . " data in " . $this->outEnc .
-                        " in <b>" . __FILE__ . "</b> on line <b>" . __LINE__ . "</b><br />"
-                    );
-            }
+            throw new ilException(
+                'Differing in and out-encodings are not supported.'
+            );
         }
         return $encodedData;
     }

@@ -29,6 +29,8 @@ function base()
     ];
 
     $data_retrieval = new class ($dummy_records) implements I\DataRetrieval {
+        protected array $records;
+
         public function __construct(array $dummy_records)
         {
             $this->records = $dummy_records;

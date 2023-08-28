@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -15,23 +13,18 @@ declare(strict_types=1);
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- *
- *********************************************************************/
+ */
 
 namespace ILIAS\UI\Component\Input\ViewControl;
 
-use ILIAS\UI\Component\Component;
-use ILIAS\UI\Component\Input\Field\Input;
-use ILIAS\UI\Component\Signal;
-use ILIAS\UI\Component\Triggerer;
+use ILIAS\UI\Component\Input\Container\ViewControl\ViewControlInput;
+use ILIAS\UI\Component\Input\Group as GroupInterface;
 
 /**
- * This describes the basis of all View Control Inputs.
+ * Describes the monoid operation of grouping view control inputs.
+ *
+ * @author Thibeau Fuhrer <thibeau@sr.solutions>
  */
-interface ViewControl extends Component, Input, Triggerer
+interface Group extends ViewControlInput, GroupInterface
 {
-    /**
-     * Trigger this signal when the control is being operated.
-     */
-    public function withOnChange(Signal $signal): ViewControl;
 }

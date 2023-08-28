@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,9 +16,11 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\UI\Component\Input\Container\Form\Standard;
 use ILIAS\UI\Component\Input\Factory;
-use ILIAS\UI\Component\Input\Field\Input;
+use ILIAS\UI\Component\Input\Container\Form\FormInput;
 use ILIAS\UI\Renderer;
 
 class ilStudyProgrammeChangeDeadlineGUI
@@ -123,7 +123,7 @@ class ilStudyProgrammeChangeDeadlineGUI
         );
     }
 
-    protected function getDeadlineSubForm(ilObjStudyProgramme $prg): Input
+    protected function getDeadlineSubForm(ilObjStudyProgramme $prg): FormInput
     {
         $ff = $this->input_factory->field();
         $txt = function ($id) {

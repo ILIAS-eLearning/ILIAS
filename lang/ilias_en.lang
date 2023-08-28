@@ -11383,6 +11383,7 @@ meta#:#md_used#:#Current Number of Usages
 meta#:#meta_accessibility_restrictions#:#Accessibility Restrictions
 meta#:#meta_active#:#Active
 meta#:#meta_add#:#Add
+meta#:#meta_advmd_add_field#:#Add New Field
 meta#:#meta_advmd_select_options#:#Entries
 meta#:#meta_annotation#:#Annotation
 meta#:#meta_atomic#:#Atomic
@@ -16665,6 +16666,11 @@ ui#:#datetime_required#:#Time/Date required
 ui#:#duration_default_label_end#:#end
 ui#:#duration_default_label_start#:#start
 ui#:#duration_end_must_not_be_earlier_than_start#:#Start must not be later than end.
+ui#:#label_fieldselection#:#Field Selection
+ui#:#label_fieldselection_refresh#:#Apply
+ui#:#label_pagination_limit#:#Pagination Number of Rows
+ui#:#label_pagination_offset#:#Pagination Offset
+ui#:#label_sortation#:#Sortation
 ui#:#presentaion_table_collapse#:#collapse all
 ui#:#presentaion_table_expand#:#expand all
 ui#:#ui_chars_max#:#Maximum:

@@ -512,8 +512,14 @@ class ilObjTestSettingsMainGUI extends ilTestSettingsGUI
         if ($this->test_object->isActivationLimited()) {
             $value = [
                 'time_span' => [
-                    DateTimeImmutable::createFromFormat('U', (string) $this->test_object->getActivationStartingTime()),
-                    DateTimeImmutable::createFromFormat('U', (string) $this->test_object->getActivationEndingTime())
+                    DateTimeImmutable::createFromFormat(
+                        'U',
+                        (string) $this->test_object->getActivationStartingTime()
+                    )->setTimezone(new DateTimeZone($this->activeUser->getTimeZone())),
+                    DateTimeImmutable::createFromFormat(
+                        'U',
+                        (string) $this->test_object->getActivationEndingTime()
+                    )->setTimezone(new DateTimeZone($this->activeUser->getTimeZone())),
                 ],
                 'activation_visibility' => $this->test_object->getActivationVisibility()
             ];

@@ -58,7 +58,7 @@ class ilTestParticipantsTableGUITest extends ilTestBaseTestCase
             ->method("getTestObj")
             ->willReturn($objTest_mock);
 
-        $this->parentObj_mock->object = $objTest_mock;
+        //$this->parentObj_mock->setTestObj($objTest_mock);
         $this->tableGui = new ilTestParticipantsTableGUI($this->parentObj_mock, "", $DIC['ui.factory'], $DIC['ui.renderer']);
     }
 

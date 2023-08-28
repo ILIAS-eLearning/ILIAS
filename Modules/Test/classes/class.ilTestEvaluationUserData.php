@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -31,6 +32,7 @@ require_once './Modules/Test/classes/inc.AssessmentConstants.php';
 
 class ilTestEvaluationUserData
 {
+    private $questionTitles;
     public string $name;
     public string $login;
     public int $user_id;
@@ -350,7 +352,7 @@ class ilTestEvaluationUserData
         ];
     }
 
-    public function getQuestion(int $index, int $pass = 0): array
+    public function getQuestion(int $index, int $pass = 0): ?array
     {
         if (array_key_exists($index, $this->questions[$pass])) {
             return $this->questions[$pass][$index];

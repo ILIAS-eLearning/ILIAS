@@ -15,6 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
 declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Input\Field;
@@ -27,7 +28,7 @@ use Closure;
 /**
  * This implements the select.
  */
-class Select extends Input implements C\Input\Field\Select
+class Select extends FormInput implements C\Input\Field\Select
 {
     protected array $options;
     protected string $label;
@@ -60,7 +61,7 @@ class Select extends Input implements C\Input\Field\Select
     /**
      * @inheritdoc
      */
-    protected function isClientSideValueOk($value): bool
+    public function isClientSideValueOk($value): bool
     {
         return in_array($value, array_keys($this->options)) || $value == "";
     }
@@ -85,7 +86,7 @@ class Select extends Input implements C\Input\Field\Select
      */
     public function getUpdateOnLoadCode(): Closure
     {
-        return fn ($id) => "$('#$id').on('input', function(event) {
+        return fn($id) => "$('#$id').on('input', function(event) {
 				il.UI.input.onFieldUpdate(event, '$id', $('#$id option:selected').text());
 			});
 			il.UI.input.onFieldUpdate(event, '$id', $('#$id option:selected').text());";

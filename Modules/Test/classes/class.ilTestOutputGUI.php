@@ -199,7 +199,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
         $this->test_session->setUserId($this->user->getId());
         $access_code = ilSession::get('tst_access_code');
         if ($access_code != null && isset($access_code[$this->object->getTestId()])) {
-            $this->test_session->setAnonymousId((int) $access_code[$this->object->getTestId()]);
+            $this->test_session->setAnonymousId($access_code[$this->object->getTestId()]);
         }
         if ($this->getObjectiveOrientedContainer()->isObjectiveOrientedPresentationRequired()) {
             $this->test_session->setObjectiveOrientedContainerId($this->getObjectiveOrientedContainer()->getObjId());
@@ -317,7 +317,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
             $sequence_element = $this->testSequence->getFirstSequence();
         }
 
-        $this->test_session->setLastSequence($sequence_element);
+        $this->test_session->setLastSequence($sequence_element ?? 0);
         $this->test_session->saveToDb();
 
 
@@ -470,7 +470,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
                 $nextSequenceElement = $this->testSequence->getFirstSequence();
             }
 
-            $this->test_session->setLastSequence($nextSequenceElement);
+            $this->test_session->setLastSequence($nextSequenceElement ?? 0);
             $this->test_session->saveToDb();
 
             $this->ctrl->setParameter($this, 'sequence', $nextSequenceElement);
