@@ -8560,6 +8560,8 @@ dcl#:#dcl_std_field_not_importable#:# - Standard fields are not importable.
 dcl#:#dcl_std_filter#:#Default Filter
 dcl#:#dcl_supported_filetypes#:#Allowed file-extensions
 dcl#:#dcl_supported_filetypes_desc#:#You can set the allowed extensions comma seperated. For example: pdf, docx
+dcl#:#dcl_switch_table#:#Switch Table
+dcl#:#dcl_switch_view#:#Change View
 dcl#:#dcl_table#:#Table
 dcl#:#dcl_table_create#:#Create Table
 dcl#:#dcl_table_edit#:#Update Table
