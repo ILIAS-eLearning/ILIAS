@@ -9504,6 +9504,8 @@ file#:#copyright_inherited_info#:#Apply the copyright of the zip archive to its 
 file#:#de_activate_icon#:#(De-)Activate
 file#:#download_ascii_filename#:#Use ASCII-only characters for downloaded filenames
 file#:#download_ascii_filename_info#:#Downloaded files should only have ASCII-characters in their filename. Deactivate to use all characters.
+file#:#file_btn_lp_toggle_state_completed#:#Set Not Completed
+file#:#file_btn_lp_toggle_state_not_completed#:#Set Completed
 file#:#file_copy#:#Copy File
 file#:#file_download#:#Download File
 file#:#file_import#:#Import File

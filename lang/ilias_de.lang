@@ -9512,6 +9512,8 @@ file#:#copyright_inherited_info#:#Copyright des Zip-Archivs auf seine entpackten
 file#:#de_activate_icon#:#(De-)Aktivieren
 file#:#download_ascii_filename#:#Verwende ASCII-Zeichen für Dateinamen von Downloads
 file#:#download_ascii_filename_info#:#Dateinamen von Heruntergeladenen Dateien sollten nur ASCII-Zeichen enthalten. Option deaktivieren, um alle Zeichen zu verwenden.
+file#:#file_btn_lp_toggle_state_completed#:#Auf "Nicht bearbeitet" setzen
+file#:#file_btn_lp_toggle_state_not_completed#:#Auf "Bearbeitet" setzen
 file#:#file_copy#:#Datei kopieren
 file#:#file_download#:#Datei herunterladen
 file#:#file_import#:#Dateiimport

@@ -384,7 +384,7 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
 
     public function handleChangedObjectTitle(string $new_title): void
     {
-        $this->jira($new_title);
+        $this->setTitle($new_title);
         $this->implementation->handleChangedObjectTitle($new_title);
     }
 

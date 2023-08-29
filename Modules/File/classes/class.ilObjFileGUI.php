@@ -771,6 +771,56 @@ class ilObjFileGUI extends ilObject2GUI
         $this->ctrl->forwardCommand($info);
     }
 
+    public function getInfoScreenForKioskMode(): ilInfoScreenGUI
+    {
+        $info = new ilInfoScreenGUI($this);
+
+        // Important Information
+        $important_info = $this->object->getImportantInfo();
+        if (!empty($important_info)) {
+            $group = new Group(new Factory(), $this->lng);
+            $markdown_to_html = $group->markdown()->toHTML();
+
+            $info->addSection($this->lng->txt("important_info"));
+            $info->addProperty("", $markdown_to_html->transform($important_info));
+        }
+
+        // Download Launcher
+        if ($this->checkPermissionBool("read", "sendfile")) {
+            // get permanent download link for repository
+            if ($this->id_type === self::REPOSITORY_NODE_ID) {
+                $download_target = ilObjFileAccess::_getPermanentDownloadLink($this->node_id);
+            } else {
+                $download_target = $this->ctrl->getLinkTarget($this, "sendfile");
+            }
+            $url = $this->data_factory->uri($download_target);
+            $link = $this->data_factory->link($this->lng->txt('file_download'), $url);
+            $download_launcher = $this->ui->factory()->launcher()->inline($link);
+            // create own section for download launcher if there is no important info section
+            if (empty($important_info)) {
+                $info->addSection("");
+            }
+            // add download launcher
+            $info->addProperty("", $this->renderer->render($download_launcher));
+        }
+
+        // standard meta data
+        $info->addMetaDataSections($this->object->getId(), 0, $this->object->getType());
+
+        // File Info
+        $info->addSection($this->lng->txt("file_info"));
+        $file_info_for_users = $this->getFileInfoForUsers();
+        foreach ($file_info_for_users as $file_info_entry_key => $file_info_entry_value) {
+            if ($file_info_entry_value !== null) {
+                $info->addProperty((string) $file_info_entry_key, (string) $file_info_entry_value);
+            }
+        }
+
+        $info->hideFurtherSections(false);
+
+        return $info;
+    }
+
     // get tabs
     protected function setTabs(): void
     {
