@@ -372,9 +372,15 @@ class ilTestNavigationToolbarGUI extends ilToolbarGUI
                 $button->withOnClick($this->finish_test_modal->getShowSignal()) :
                 $button->withAdditionalOnLoadCode(
                     static function (string $id): string {
-                        return "
-                document.getElementById('$id').addEventListener('click', il.TestPlayerQuestionEditControl.checkNavigationForKSButton);
-                ;";
+                        return "document.getElementById('$id').addEventListener('click', "
+                            . '(e) => {'
+                            . ' if (il.TestPlayerQuestionEditControl !== "undefined") {'
+                            . '     il.TestPlayerQuestionEditControl.checkNavigationForKSButton(e);'
+                            . ' } else {'
+                            . '     e.target.setAttribute("name", "cmd[' . ilTestPlayerCommands::QUESTION_SUMMARY . ']");'
+                            . '     e.target.form.requestSubmit(e.target);'
+                            . ' };'
+                            . '});';
                     }
                 );
 
