@@ -75,6 +75,11 @@ export default class DataTable {
   #actionsRegistry;
 
   /**
+   * @type {HTMLTableRowElement}
+   */
+  #tmpDragRow;
+
+  /**
    * @param {jQuery} jquery
    * @param {string} optActionId
    * @param {string} optRowId
@@ -302,5 +307,42 @@ export default class DataTable {
     nextCell.focus();
     cell.setAttribute('tabindex', -1);
     nextCell.setAttribute('tabindex', 0);
+  }
+
+  dragsortable() {
+    this.#table.rows.forEach((row) => this.#addDraglisteners(row));
+  }
+
+  #addDraglisteners(row) {
+    row.setAttribute('draggable', true);
+    row.addEventListener('dragstart', (event) => this.dragstart(event));
+    row.addEventListener('dragover', (event) => this.dragover(event));
+  }
+
+  dragstart(event) {
+    this.#tmpDragRow = event.target;
+  }
+
+  dragover(event) {
+    const e = event;
+    e.preventDefault();
+    const rows = Array.from(this.#table.rows);
+    const target = e.target.closest('tr');
+    if (rows.indexOf(target) > rows.indexOf(this.#tmpDragRow)) {
+      target.after(this.#tmpDragRow);
+    } else {
+      target.before(this.#tmpDragRow);
+    }
+    this.resortAfterDrag();
+  }
+
+  resortAfterDrag() {
+    let pos = 0;
+    this.#table.querySelectorAll('input[type="number"]').forEach(
+      (input) => {
+        this.#jquery(input).val(pos);
+        pos += 10;
+      },
+    );
   }
 }

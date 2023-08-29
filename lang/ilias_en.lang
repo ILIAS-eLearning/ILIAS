@@ -17195,6 +17195,7 @@ ui#:#presentation_table_collapse#:#collapse all
 ui#:#presentation_table_expand#:#expand all
 ui#:#rating_average#:#others rated %s of 5
 ui#:#reset_stars#:#neutral
+ui#:#table_posinput_col_title#:#Position
 ui#:#ui_chars_max#:#Maximum:
 ui#:#ui_chars_min#:#Minimum:
 ui#:#ui_chars_remaining#:#Characters remaining:

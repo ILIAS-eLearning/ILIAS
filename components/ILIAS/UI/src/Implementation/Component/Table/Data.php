@@ -36,7 +36,7 @@ use ILIAS\UI\Component\Input\Container\ViewControl as ViewControlContainer;
 use ILIAS\UI\Implementation\Component\Input\ViewControl\Pagination;
 use ILIAS\UI\Implementation\Component\Input\ArrayInputData;
 
-class Data extends Table implements T\Data, JSBindable
+class Data extends AbstractTable implements T\Data
 {
     use JavaScriptBindable;
 
@@ -95,31 +95,29 @@ class Data extends Table implements T\Data, JSBindable
         protected T\DataRetrieval $data_retrieval,
         protected \ArrayAccess $storage
     ) {
-        $this->checkArgListElements('columns', $columns, [Column::class]);
-        if ($columns === []) {
-            throw new \InvalidArgumentException('cannot construct a table without columns.');
-        }
+        parent::__construct(
+            $signal_generator,
+            $title,
+            $columns
+        );
 
-        parent::__construct($title);
-        $this->multi_action_signal = $signal_generator->create();
-        $this->selection_signal = $signal_generator->create();
-        $this->async_action_signal = $signal_generator->create();
-
-        $this->columns = $this->enumerateColumns($columns);
+        $this->selected_optional_column_ids = $this->filterVisibleColumnIds($columns);
+        $this->order = $this->data_factory->order($this->initialOrder(), Order::ASC);
+        $this->range = $data_factory->range(0, $this->number_of_rows);
     }
 
     /**
      * @param array<string, Column> $columns
-     * @return array<string, Column>
+     * @return array<string>
      */
-    private function enumerateColumns(array $columns): array
+    private function filterVisibleColumnIds(array $columns): array
     {
-        $ret = [];
-        $idx = 0;
-        foreach ($columns as $id => $col) {
-            $ret[$id] = $col->withIndex($idx++);
-        }
-        return $ret;
+        return array_keys(
+            array_filter(
+                $columns,
+                static fn($c): bool => $c->isInitiallyVisible()
+            )
+        );
     }
 
     private function initialOrder(): string
@@ -135,53 +133,9 @@ class Data extends Table implements T\Data, JSBindable
         return array_key_first($sortable_visible_cols);
     }
 
-    /**
-     * @return array<string, Column>
-     */
-    public function getColumns(): array
-    {
-        return $this->columns;
-    }
-
     public function getDataRetrieval(): T\DataRetrieval
     {
         return $this->data_retrieval;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function withActions(array $actions): self
-    {
-        $this->checkArgListElements('actions', $actions, [T\Action\Action::class]);
-        $clone = clone $this;
-
-        foreach ($actions as $id => $action) {
-            switch (true) {
-                case ($action instanceof T\Action\Single):
-                    $clone->actions_single[$id] = $action;
-                    break;
-                case ($action instanceof T\Action\Multi):
-                    $clone->actions_multi[$id] = $action;
-                    break;
-                case ($action instanceof T\Action\Standard):
-                    $clone->actions_std[$id] = $action;
-                    break;
-            }
-        }
-        return $clone;
-    }
-
-    public function withRequest(ServerRequestInterface $request): self
-    {
-        $clone = clone $this;
-        $clone->request = $request;
-        return $clone;
-    }
-
-    public function getRequest(): ?ServerRequestInterface
-    {
-        return $this->request;
     }
 
     public function withNumberOfRows(int $number_of_rows): self
@@ -242,60 +196,6 @@ class Data extends Table implements T\Data, JSBindable
     public function getAdditionalParameters(): ?array
     {
         return $this->additional_parameters;
-    }
-
-    public function getMultiActionSignal(): Signal
-    {
-        return $this->multi_action_signal;
-    }
-
-    public function getSelectionSignal(): Signal
-    {
-        return $this->selection_signal;
-    }
-
-    public function getAsyncActionSignal(): Signal
-    {
-        return $this->async_action_signal;
-    }
-
-    public function hasSingleActions(): bool
-    {
-        return $this->getSingleActions() !== [];
-    }
-
-    public function hasMultiActions(): bool
-    {
-        return $this->getMultiActions() !== [];
-    }
-
-    /**
-     * @return array<string, T\Action\Action>
-     */
-    public function getMultiActions(): array
-    {
-        return array_merge($this->actions_multi, $this->actions_std);
-    }
-
-    /**
-     * @return array<string, T\Action\Action>
-     */
-    public function getSingleActions(): array
-    {
-        return array_merge($this->actions_single, $this->actions_std);
-    }
-
-    /**
-     * @return array<string, T\Action\Action>
-     */
-    public function getAllActions(): array
-    {
-        return array_merge($this->actions_single, $this->actions_multi, $this->actions_std);
-    }
-
-    public function getColumnCount(): int
-    {
-        return count($this->columns);
     }
 
     /**

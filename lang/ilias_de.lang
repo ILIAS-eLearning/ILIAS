@@ -17196,6 +17196,7 @@ ui#:#presentation_table_collapse#:#alle minimieren
 ui#:#presentation_table_expand#:#alle zeigen
 ui#:#rating_average#:#Andere bewerteten mit %s von 5
 ui#:#reset_stars#:#neutral
+ui#:#table_posinput_col_title#:#Position
 ui#:#ui_chars_max#:#Maximum:
 ui#:#ui_chars_min#:#Minimum:
 ui#:#ui_chars_remaining#:#Verbleibende Buchstaben
