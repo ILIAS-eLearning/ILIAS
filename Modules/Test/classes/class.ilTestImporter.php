@@ -59,7 +59,7 @@ class ilTestImporter extends ilXmlImporter
     {
         ilObjTest::_setImportDirectory($this->getImportDirectoryContainer());
 
-        if ($new_id = $a_mapping->getMapping('Services/Container', 'objs', $a_id)) {
+        if ($new_id = (int) $a_mapping->getMapping('Services/Container', 'objs', $a_id)) {
             // container content
             $newObj = ilObjectFactory::getInstanceByObjId($new_id, false);
             ilSession::set('tst_import_subdir', $this->getImportPackageName());
@@ -67,7 +67,7 @@ class ilTestImporter extends ilXmlImporter
             $questionParentObjId = $newObj->getId();
         } else {
             // single object
-            $new_id = $a_mapping->getMapping('Modules/Test', 'tst', 'new_id');
+            $new_id = (int) $a_mapping->getMapping('Modules/Test', 'tst', 'new_id');
             $newObj = ilObjectFactory::getInstanceByObjId($new_id, false);
 
             $questionParentObjId = ilSession::get('tst_import_qst_parent') ?? $newObj->getId();
@@ -91,7 +91,7 @@ class ilTestImporter extends ilXmlImporter
         // FIXME: Copied from ilObjTestGUI::importVerifiedFileObject
         // TODO: move all logic to ilObjTest::importVerifiedFile and call
         // this method from ilObjTestGUI and ilTestImporter
-        $newObj->mark_schema->flush();
+        $newObj->getMarkSchema()->flush();
 
         $idents = ilSession::get('tst_import_idents');
 
@@ -111,21 +111,21 @@ class ilTestImporter extends ilXmlImporter
                 "Services/Taxonomy",
                 "tax_item",
                 "tst:quest:$oldQuestionId",
-                $newQuestionId
+                (string) $newQuestionId
             );
 
             $a_mapping->addMapping(
                 "Services/Taxonomy",
                 "tax_item_obj_id",
                 "tst:quest:$oldQuestionId",
-                $newObj->getId()
+                (string) $newObj->getId()
             );
 
             $a_mapping->addMapping(
                 "Modules/Test",
                 "quest",
-                $oldQuestionId,
-                $newQuestionId
+                (string) $oldQuestionId,
+                (string) $newQuestionId
             );
         }
 
@@ -149,7 +149,7 @@ class ilTestImporter extends ilXmlImporter
         $importedAssignmentList = $this->importQuestionSkillAssignments($a_mapping, $newObj, $xml_file);
         $this->importSkillLevelThresholds($a_mapping, $importedAssignmentList, $newObj, $xml_file);
 
-        $a_mapping->addMapping("Modules/Test", "tst", $a_id, $newObj->getId());
+        $a_mapping->addMapping("Modules/Test", "tst", (string) $a_id, (string) $newObj->getId());
     }
 
     /**
@@ -171,7 +171,7 @@ class ilTestImporter extends ilXmlImporter
             }
 
             /* @var ilObjTest $testOBJ */
-            $testOBJ = ilObjectFactory::getInstanceByObjId($new, false);
+            $testOBJ = ilObjectFactory::getInstanceByObjId((int) $new, false);
             if ($testOBJ->isRandomTest()) {
                 $this->finalRandomTestTaxonomyProcessing($a_mapping, $old, $new, $testOBJ);
             }
@@ -180,7 +180,7 @@ class ilTestImporter extends ilXmlImporter
         }
     }
 
-    protected function finalRandomTestTaxonomyProcessing(ilImportMapping $mapping, $oldTstObjId, $newTstObjId, ilObjTest $testOBJ)
+    protected function finalRandomTestTaxonomyProcessing(ilImportMapping $mapping, string $oldTstObjId, string $newTstObjId, ilObjTest $testOBJ)
     {
         $new_tax_ids = $mapping->getMapping(
             'Services/Taxonomy',
@@ -316,7 +316,7 @@ class ilTestImporter extends ilXmlImporter
 
         $importer = new ilAssQuestionSkillAssignmentImporter();
         $importer->setTargetParentObjId($testOBJ->getId());
-        $importer->setImportInstallationId($this->getInstallId());
+        $importer->setImportInstallationId((int) $this->getInstallId());
         $importer->setImportMappingRegistry($mapping);
         $importer->setImportMappingComponent('Modules/Test');
         $importer->setImportAssignmentList($parser->getAssignmentList());
@@ -346,7 +346,7 @@ class ilTestImporter extends ilXmlImporter
 
         $importer = new ilTestSkillLevelThresholdImporter($this->db);
         $importer->setTargetTestId($testOBJ->getTestId());
-        $importer->setImportInstallationId($this->getInstallId());
+        $importer->setImportInstallationId((int) $this->getInstallId());
         $importer->setImportMappingRegistry($mapping);
         $importer->setImportedQuestionSkillAssignmentList($assignmentList);
         $importer->setImportThresholdList($parser->getSkillLevelThresholdImportList());

@@ -83,7 +83,7 @@ class ASS_MarkSchema
      * @param float   $percentage   The minimum percentage level reaching the mark.
      * @param integer $passed       The passed status of the mark (0 = failed, 1 = passed).
      */
-    public function addMarkStep(string $txt_short = "", string $txt_official = "", $percentage = 0, $passed = 0): void
+    public function addMarkStep(string $txt_short = "", string $txt_official = "", float $percentage = 0, int $passed = 0): void
     {
         $mark = new ASS_Mark($txt_short, $txt_official, $percentage, $passed);
         array_push($this->mark_steps, $mark);
