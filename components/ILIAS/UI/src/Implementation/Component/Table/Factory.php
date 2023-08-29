@@ -39,7 +39,8 @@ class Factory implements T\Factory
         protected DataFactory $data_factory,
         protected T\Column\Factory $column_factory,
         protected T\Action\Factory $action_factory,
-        protected DataRowBuilder $data_row_builder
+        protected DataRowBuilder $data_row_builder,
+        protected OrderingRowBuilder $ordering_row_builder
     ) {
     }
 
@@ -85,5 +86,22 @@ class Factory implements T\Factory
     public function action(): T\Action\Factory
     {
         return $this->action_factory;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function ordering(
+        string $title,
+        array $columns,
+        T\OrderingBinding $binding
+    ): T\Ordering {
+        return new Ordering(
+            $this->signal_generator,
+            $this->ordering_row_builder,
+            $title,
+            $columns,
+            $binding
+        );
     }
 }

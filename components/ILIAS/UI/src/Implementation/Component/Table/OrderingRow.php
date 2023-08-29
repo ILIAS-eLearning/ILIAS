@@ -18,22 +18,23 @@
 
 declare(strict_types=1);
 
-require_once 'components/ILIAS/UI/tests/AbstractFactoryTest.php';
+namespace ILIAS\UI\Implementation\Component\Table;
 
-class TableFactoryTest extends AbstractFactoryTest
+use ILIAS\UI\Component\Table as T;
+
+class OrderingRow extends Row implements T\OrderingRow
 {
-    public array $kitchensink_info_settings = [
-        "presentation" => [
-            "context" => false,
-            "rules" => true
-        ],
-        "data" => [
-            "context" => false
-        ],
-        "ordering" => [
-            "context" => false
-        ]
-    ];
+    protected int $position;
 
-    public string $factory_title = 'ILIAS\\UI\\Component\\Table\\Factory';
+    public function withPosition(int $position): self
+    {
+        $clone = clone $this;
+        $clone->position = $position;
+        return $clone;
+    }
+
+    public function getPosition(): int
+    {
+        return $this->position;
+    }
 }

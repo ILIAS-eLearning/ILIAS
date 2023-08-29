@@ -18,22 +18,22 @@
 
 declare(strict_types=1);
 
-require_once 'components/ILIAS/UI/tests/AbstractFactoryTest.php';
+namespace ILIAS\UI\Component\Table;
 
-class TableFactoryTest extends AbstractFactoryTest
+use ILIAS\UI\Component\Input\ViewControl\ViewControl;
+use Psr\Http\Message\ServerRequestInterface;
+use ILIAS\Data\Order;
+use ILIAS\Data\Range;
+
+/**
+ * This describes a Table to specify the order of its data (rows).
+ */
+interface Ordering extends Table
 {
-    public array $kitchensink_info_settings = [
-        "presentation" => [
-            "context" => false,
-            "rules" => true
-        ],
-        "data" => [
-            "context" => false
-        ],
-        "ordering" => [
-            "context" => false
-        ]
-    ];
+    /**
+     * @param array<string, Action\Action>    $actions
+     */
+    public function withActions(array $actions): static;
 
-    public string $factory_title = 'ILIAS\\UI\\Component\\Table\\Factory';
+    public function withRequest(ServerRequestInterface $request): static;
 }
