@@ -10960,6 +10960,8 @@ mail#:#mail_members_search_continue#:#Weiter
 mail#:#mail_message_send#:#Die Mail wurde versandt
 mail#:#mail_move_error#:#Fehler beim Mailversand
 mail#:#mail_move_to#:#Verschieben nach:
+mail#:#mail_move_to_folder_btn_label#:#Mail verschieben
+mail#:#mail_move_to_folder_x#:#nach "%s"
 mail#:#mail_moved#:#Ihre Mail(s) wurden verschoben
 mail#:#mail_moved_to_trash#:#Die Mail(s) wurde(n) in den Papierkorb verschoben
 mail#:#mail_multiple_role_recipients_found#:#Die Angabe %1$s im „An”-Feld ist nicht eindeutig: Versenden Sie diese Mail bitte direkt aus dem Mitglieder-Reiter des gewünschten Kurses bzw. der gewünschten Gruppe.###Modified as part of gender mainstreaming activities for ILIAS 8

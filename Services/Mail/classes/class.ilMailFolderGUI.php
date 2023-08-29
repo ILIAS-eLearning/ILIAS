@@ -489,8 +489,8 @@ class ilMailFolderGUI
         }
 
         $newFolderId = 0;
-        if ($this->http->wrapper()->post()->has('folder_id')) {
-            $newFolderId = $this->http->wrapper()->post()->retrieve(
+        if ($this->http->wrapper()->query()->has('folder_id')) {
+            $newFolderId = $this->http->wrapper()->query()->retrieve(
                 'folder_id',
                 $this->refinery->kindlyTo()->int()
             );
@@ -683,26 +683,6 @@ class ilMailFolderGUI
             ");
         $this->toolbar->addComponent($print_btn);
 
-        $deleteBtn = $this->ui_factory->button()
-                                      ->standard($this->lng->txt('delete'), '#')
-                                      ->withOnLoadCode(static fn($id): string => "
-                document.getElementById('$id').addEventListener('click', function() {
-                    const frm = this.closest('form'),
-                        action = new URL(frm.action),
-                        action_params = new URLSearchParams(action.search);
-
-                    action_params.delete('cmd');
-                    action_params.append('cmd', 'deleteMails');
-
-                    action.search = action_params.toString();
-
-                    frm.action = action.href;
-                    frm.submit();
-                    return false;
-                });
-            ");
-        $this->toolbar->addComponent($deleteBtn);
-
         if ($sender && $sender->getId() && !$sender->isAnonymous()) {
             $linked_fullname = $sender->getPublicName();
             $picture = ilUtil::img(
@@ -806,63 +786,65 @@ class ilMailFolderGUI
         }
 
         $currentFolderData = $this->mbox->getFolderData((int) $mailData['folder_id']);
-        $actions = $this->mbox->getActions((int) $mailData['folder_id']);
+        $this->ctrl->setParameter($this, 'mobj_id', $this->currentFolderId);
+        $this->tabs->addTab(
+            'current_folder',
+            $currentFolderData['type'] === 'user_folder' ? $currentFolderData['title'] : $this->lng->txt(
+                'mail_' . $currentFolderData['title']
+            ),
+            $this->ctrl->getLinkTarget($this, 'showFolder')
+        );
+        $this->ctrl->clearParameters($this);
+        $this->tabs->activateTab('current_folder');
 
-        $selectOptions = [];
-        foreach ($actions as $key => $action) {
-            if ($key === 'moveMails') {
-                $folders = $this->mbox->getSubFolders();
-                foreach ($folders as $folder) {
-                    if (
-                        ($folder['type'] !== 'trash' || !$isTrashFolder) &&
-                        $folder['obj_id'] !== $mailData['folder_id']
-                    ) {
-                        $optionText = $action . ' ' . $folder['title'];
-                        if ($folder['type'] !== 'user_folder') {
-                            $optionText = $action . ' ' . $this->lng->txt(
-                                'mail_' . $folder['title']
-                            ) .
-                                ($folder['type'] === 'trash' ? ' (' . $this->lng->txt('delete') . ')' : '');
-                        }
-
-                        $selectOptions[$folder['obj_id']] = $optionText;
-                    }
+        $move_links = [];
+        $folders = $this->mbox->getSubFolders();
+        foreach ($folders as $folder) {
+            if (($folder['type'] !== 'trash' || !$isTrashFolder) &&
+                $folder['obj_id'] !== $mailData['folder_id']) {
+                $folder_name = $folder['title'];
+                if ($folder['type'] !== 'user_folder') {
+                    $folder_name = $this->lng->txt(
+                        'mail_' . $folder['title']
+                    ) . ($folder['type'] === 'trash' ? ' (' . $this->lng->txt('delete') . ')' : '');
                 }
+
+                $move_links[] = $this->ui_factory->link()->standard(
+                    sprintf(
+                        $this->lng->txt('mail_move_to_folder_x'),
+                        $folder_name
+                    ),
+                    '#',
+                )->withOnLoadCode(static fn($id): string => "
+                        document.getElementById('$id').addEventListener('click', function(e) {
+                            const frm = this.closest('form'),
+                                action = new URL(frm.action),
+                                action_params = new URLSearchParams(action.search);
+
+                            action_params.delete('cmd');
+                            action_params.append('cmd', 'moveSingleMail');
+                            action_params.delete('folder_id');
+                            action_params.append('folder_id', '" . $folder['obj_id'] . "');
+
+                            action.search = action_params.toString();
+
+                            frm.action = action.href;
+                            frm.submit();
+
+                            e.preventDefault();
+                            e.stopPropagation();
+
+                            return false;
+                        });");
             }
         }
 
-        $folderLabel = $this->lng->txt('mail_' . $currentFolderData['title']);
-        if ($currentFolderData['type'] === 'user_folder') {
-            $folderLabel = $currentFolderData['title'];
-        }
-
-        $this->toolbar->addSeparator();
-        $this->toolbar->addText(sprintf($this->lng->txt('current_folder'), $folderLabel));
-
-        if (is_array($selectOptions) && $selectOptions !== []) {
-            $actions = new ilSelectInputGUI('', 'folder_id');
-            $actions->setOptions($selectOptions);
-            $this->toolbar->addInputItem($actions);
-
-            $moveBtn = $this->ui_factory->button()
-                                        ->standard($this->lng->txt('execute'), '#')
-                                        ->withOnLoadCode(static fn($id): string => "
-                document.getElementById('$id').addEventListener('click', function() {
-                    const frm = this.closest('form'),
-                        action = new URL(frm.action),
-                        action_params = new URLSearchParams(action.search);
-
-                    action_params.delete('cmd');
-                    action_params.append('cmd', 'moveSingleMail');
-
-                    action.search = action_params.toString();
-
-                    frm.action = action.href;
-                    frm.submit();
-                    return false;
-                });
-            ");
-            $this->toolbar->addComponent($moveBtn);
+        if ($move_links !== []) {
+            $this->toolbar->addSeparator();
+            $this->toolbar->addComponent(
+                $this->ui_factory->dropdown()->standard($move_links)
+                                             ->withLabel($this->lng->txt('mail_move_to_folder_btn_label'))
+            );
         }
 
         $prevMail = $this->umail->getPreviousMail($mailId);

@@ -10953,6 +10953,8 @@ mail#:#mail_members_search_continue#:#Continue
 mail#:#mail_message_send#:#Message sent
 mail#:#mail_move_error#:#Error moving mail
 mail#:#mail_move_to#:#Move to:
+mail#:#mail_move_to_folder_btn_label#:#Move Mail
+mail#:#mail_move_to_folder_x#:#to "%s"
 mail#:#mail_moved#:#The mail has been moved
 mail#:#mail_moved_to_trash#:#Mail has been moved to trash
 mail#:#mail_multiple_role_recipients_found#:#%1$s (found multiple roles for recipient: %2$s)
