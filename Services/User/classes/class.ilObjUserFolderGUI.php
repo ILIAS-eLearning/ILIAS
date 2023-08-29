@@ -2959,7 +2959,6 @@ class ilObjUserFolderGUI extends ilObjectGUI
     public function exportObject(): void
     {
         $this->checkPermission('write,read_users');
-        $this->toolbar->setFormAction($this->ctrl->getFormAction($this));
 
         $export_types = [
             'userfolder_export_excel_x86',
@@ -2968,32 +2967,18 @@ class ilObjUserFolderGUI extends ilObjectGUI
         ];
         $options = [];
         foreach ($export_types as $type) {
-            $options[$type] = $this->lng->txt($type);
+            $this->ctrl->setParameterByClass(self::class, 'export_type', $type);
+            $options[] = $this->ui_factory->button()->shy(
+                $this->lng->txt($type),
+                $this->ctrl->getLinkTargetByClass(self::class, 'performExport')
+            );
         }
-        $type_selection = new \ilSelectInputGUI(
-            '',
-            'export_type'
-        );
-        $type_selection->setOptions($options);
-
-        $this->toolbar->addInputItem(
-            $type_selection,
-            true
-        );
-
-        $on_load_code = function ($id) {
-            return "document.getElementById('$id')"
-                . '.addEventListener("click", '
-                . '(e) => {e.preventDefault();'
-                . 'e.target.setAttribute("name", "cmd[performExport]");'
-                . 'e.target.form.requestSubmit(e.target);});';
-        };
+        $type_selection = $this->ui_factory->dropdown()->standard($options)
+            ->withLabel($this->lng->txt('create_export_file'));
 
         $this->toolbar->addComponent(
-            $this->ui_factory->button()->standard(
-                $this->lng->txt('create_export_file'),
-                '#'
-            )->withOnLoadCode($on_load_code)
+            $type_selection,
+            true
         );
 
         $table = new \ilUserExportFileTableGUI(
