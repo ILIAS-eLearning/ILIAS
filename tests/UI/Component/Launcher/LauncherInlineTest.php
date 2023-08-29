@@ -214,7 +214,7 @@ class LauncherInlineTest extends ILIAS_UI_TestBase
                     <div class="modal-body">
                         <div class="alert alert-info" role="status">
                             <div class="ilAccHeadingHidden"><a id="il_message_focus" name="il_message_focus">info_message</a></div>message</div>
-                        <form id="id_3" role="form" class="il-standard-form form-horizontal" enctype="multipart/form-data" method="post" novalidate="novalidate">
+                        <form id="id_3" role="form" class="il-standard-form form-horizontal" enctype="multipart/form-data" action="http://localhost/ilias.php" method="post" novalidate="novalidate">
                             <div class="form-group row">
                                 <label for="id_2" class="control-label col-sm-4 col-md-3 col-lg-2">Understood</label>
                                 <div class="col-sm-8 col-md-9 col-lg-10">
