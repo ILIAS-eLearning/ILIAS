@@ -127,6 +127,8 @@ class ilDclBaseRecordModel
         }
         if (null !== $rec["last_update"]) {
             $this->setLastUpdate(new ilDateTime($rec["last_update"], IL_CAL_DATETIME));
+        } else {
+            $this->setLastUpdate(new ilDateTime($rec["create_date"], IL_CAL_DATETIME));
         }
         $this->setOwner((int) $rec["owner"]);
         if (null !== $rec["last_edit_by"]) {
