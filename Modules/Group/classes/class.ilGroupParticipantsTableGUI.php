@@ -180,7 +180,7 @@ class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
 
                 case 'odf_last_update':
                     $this->tpl->setCurrentBlock('custom_fields');
-                    $this->tpl->setVariable('VAL_CUST', (string) $a_set['odf_info_txt']);
+                    $this->tpl->setVariable('VAL_CUST', $a_set['odf_info_txt'] ?? '');
                     $this->tpl->parseCurrentBlock();
                     break;
 
@@ -386,7 +386,7 @@ class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
                         $a_user_data[$usr_id]['odf_info_txt'] .= (', ' . ilDatePresentation::formatDate($edit_info['editing_time']));
                     }
                 } else {
-                    $a_user_data[$usr_id]['odf_last_update'] = $edit_info['edit_user'];
+                    $a_user_data[$usr_id]['odf_last_update'] = $edit_info['update_user'];
                     $a_user_data[$usr_id]['odf_last_update'] .= ('_' . $edit_info['editing_time']->get(IL_CAL_UNIX));
 
                     $name = ilObjUser::_lookupName($edit_info['update_user']);
