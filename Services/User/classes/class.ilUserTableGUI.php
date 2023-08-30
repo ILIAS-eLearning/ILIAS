@@ -639,7 +639,7 @@ class ilUserTableGUI extends ilTable2GUI
                 $this->tpl->setVariable("VAL_" . strtoupper($c), (string) $a_set[$c]);
             } elseif ($c == 'auth_mode') {
                 $this->tpl->setCurrentBlock('user_field');
-                $this->tpl->setVariable('VAL_UF', ilAuthUtils::getAuthModeTranslation(ilAuthUtils::_getAuthMode($a_set['auth_mode'])));
+                $this->tpl->setVariable('VAL_UF', ilAuthUtils::getAuthModeTranslation((string) ilAuthUtils::_getAuthMode($a_set['auth_mode'])));
                 $this->tpl->parseCurrentBlock();
             } else {	// all other fields
                 $this->tpl->setCurrentBlock("user_field");
