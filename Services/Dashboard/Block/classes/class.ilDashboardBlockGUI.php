@@ -75,6 +75,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
     protected function getCardForData(BlockDTO $data): ?RepositoryObject
     {
         $itemListGui = $this->byType($data->getType());
+        $this->addCustomCommandsToActionMenu($itemListGui, $data->getRefId());
         $card = $itemListGui->getAsCard(
             $data->getRefId(),
             $data->getObjId(),

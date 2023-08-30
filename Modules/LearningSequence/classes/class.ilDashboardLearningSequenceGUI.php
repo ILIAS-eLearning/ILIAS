@@ -113,6 +113,12 @@ class ilDashboardLearningSequenceGUI extends ilDashboardBlockGUI
 
     public function addCustomCommandsToActionMenu(ilObjectListGUI $itemListGui, int $ref_id): void
     {
+        $this->ctrl->setParameter($this, "item_ref_id", $ref_id);
+        $itemListGui->addCustomCommand(
+            $this->ctrl->getLinkTarget($this, "addToDesk"),
+            "rep_add_to_favourites"
+        );
+        $this->ctrl->clearParameterByClass(self::class, "item_ref_id");
     }
 
     public function confirmedRemoveObject(): void
