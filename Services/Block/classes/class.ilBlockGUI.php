@@ -968,7 +968,7 @@ abstract class ilBlockGUI
             $viewControls[] = $presentation;
         }
 
-        if ($this->sort_options !== []) {
+        if ($this->sort_options !== [] && count($this->data) > 1) {
             $sortation = $this->factory->viewControl()->sortation(
                 $this->sort_options
             )->withTargetURL(
