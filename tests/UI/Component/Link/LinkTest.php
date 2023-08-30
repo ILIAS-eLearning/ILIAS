@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 require_once(__DIR__ . "/../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../Base.php");
@@ -145,8 +145,20 @@ class LinkTest extends ILIAS_UI_TestBase
 
         $html = $r->render($c);
         $this->assertHTMLEquals($expected_html, $html);
+    }
 
-        $c = $c->withAdditionalRelationshipToReferencedResource(Relationship::LICENSE);
+    public function testRenderWithDuplicateRelationship(): void
+    {
+        $f = $this->getLinkFactory();
+        $r = $this->getDefaultRenderer();
+        $c = $f->standard("label", "http://www.ilias.de")
+               ->withAdditionalRelationshipToReferencedResource(Relationship::LICENSE)
+               ->withAdditionalRelationshipToReferencedResource(Relationship::NOOPENER)
+               ->withAdditionalRelationshipToReferencedResource(Relationship::LICENSE);
+
+        $expected_html =
+            '<a href="http://www.ilias.de" rel="license noopener">label</a>';
+
         $html = $r->render($c);
         $this->assertHTMLEquals($expected_html, $html);
     }

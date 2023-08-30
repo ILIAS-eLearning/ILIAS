@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Link;
 
@@ -42,7 +42,7 @@ abstract class Link implements C\Link\Link
     protected ?LanguageTag $action_content_language = null;
 
     /**
-     * @var C\Link\Relationship[]|C\Link\RelationshipForInternalUse[]
+     * @var C\Link\IsRelationship[]
      */
     protected array $relationships = [];
 
@@ -100,7 +100,7 @@ abstract class Link implements C\Link\Link
     }
 
     /**
-     * @return C\Link\Relationship[]|C\Link\RelationshipForInternalUse[]
+     * @return C\Link\IsRelationship[]
      */
     public function getRelationshipsToReferencedResource(): array
     {

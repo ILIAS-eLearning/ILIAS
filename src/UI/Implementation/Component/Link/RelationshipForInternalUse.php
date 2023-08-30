@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -15,9 +13,13 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *********************************************************************/
 
-namespace ILIAS\UI\Component\Link;
+declare(strict_types=1);
 
-enum RelationshipForInternalUse: string
+namespace ILIAS\UI\Implementation\Component\Link;
+
+use ILIAS\UI\Component\Link\IsRelationship;
+
+enum RelationshipForInternalUse: string implements IsRelationship
 {
     case HELP = 'help';
     case NEXT = 'next';
