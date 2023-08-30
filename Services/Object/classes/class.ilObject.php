@@ -429,7 +429,8 @@ class ilObject
             $property_is_online = $property_is_online->withOffline();
         }
 
-        $this->object_properties = $this->getObjectProperties()->withPropertyIsOnline($property_is_online);
+        $this->getObjectProperties()->withPropertyIsOnline($property_is_online);
+        $this->object_properties = $this->getObjectProperties();
     }
 
     public function getOfflineStatus(): bool
