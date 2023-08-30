@@ -11,7 +11,6 @@ function with_all_view_controls(): string
     $renderer = $DIC->ui()->renderer();
     $refinery = $DIC->refinery();
     $request_wrapper = $DIC->http()->wrapper()->query();
-    $section = 'with_view_controls';
 
     $url = $DIC->http()->request()->getRequestTarget();
 
@@ -30,7 +29,7 @@ function with_all_view_controls(): string
         'location' => 'Sort by Location'
     ];
     $sortation = $f->viewControl()->sortation($sortation_options)
-                   ->withTargetURL($url . "#$section", "sort")
+                   ->withTargetURL($url, "sort")
                    ->withLabel($sortation_options[$current_sortation]);
 
     $current_presentation = 'list';
@@ -44,7 +43,8 @@ function with_all_view_controls(): string
     $modes = $f->viewControl()->mode(
         array_reduce(
             array_keys($presentation_options),
-            static function ($carry, $item) use ($section, $presentation_options, $url) {
+            static function ($carry, $item) use ($presentation_options, $url) {
+                $section = 'with_view_controls';
                 $carry[$presentation_options[$item]] = "$url&mode=$item#$section";
                 return $carry;
             },
