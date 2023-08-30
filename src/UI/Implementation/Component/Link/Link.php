@@ -66,7 +66,6 @@ abstract class Link implements C\Link\Link
     {
         $clone = clone $this;
         $clone->open_in_new_viewport = $open_in_new_viewport;
-        $clone = $clone->withAdditionalRelationshipToReferencedResource(C\Link\Relationship::NOOPENER);
         return $clone;
     }
 
@@ -104,6 +103,13 @@ abstract class Link implements C\Link\Link
      */
     public function getRelationshipsToReferencedResource(): array
     {
-        return $this->relationships;
+        $relationships = $this->relationships;
+        if (
+            $this->getOpenInNewViewport() &&
+            !in_array(C\Link\Relationship::NOOPENER, $relationships)
+        ) {
+            $relationships[] = C\Link\Relationship::NOOPENER;
+        }
+        return $relationships;
     }
 }
