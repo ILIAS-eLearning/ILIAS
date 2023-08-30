@@ -436,7 +436,7 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
 
         switch ($textrating) {
             case TEXTGAP_RATING_CASEINSENSITIVE:
-                if (ilStr::strPos(ilStr::strToLower($answertext), ilStr::strToLower($a_keyword)) !== false) {
+                if (ilStr::strPos(ilStr::strToLower($answertext), ilStr::strToLower($a_keyword), 0) !== false) {
                     return true;
                 }
                 break;

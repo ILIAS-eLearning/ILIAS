@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\Exercise\Setup;
 
 use ILIAS\Setup;
@@ -30,5 +30,12 @@ class Agent extends Setup\Agent\NullAgent
     public function getUpdateObjective(Setup\Config $config = null): Setup\Objective
     {
         return new \ilDatabaseUpdateStepsExecutedObjective(new ilExerciseDBUpdateSteps());
+    }
+
+    public function getMigrations(): array
+    {
+        return [
+            new ilExerciseInstructionFilesMigration()
+        ];
     }
 }

@@ -1991,7 +1991,7 @@ class ilObject
 
         $res = $db->query($sql);
 
-        $all = array();
+        $all = [];
         while ($row = $db->fetchAssoc($res)) {
             $all[$row["type"]][$row["obj_id"]] = $row["title"];
         }

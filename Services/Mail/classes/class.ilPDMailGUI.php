@@ -98,7 +98,7 @@ class ilPDMailGUI
         } elseif (!$sender instanceof ilObjUser) {
             $tpl->setVariable(
                 'PUBLIC_NAME',
-                $mail_data['import_name'] . ' (' . $this->lng->txt('user_deleted') . ')'
+                trim(($mail_data['import_name'] ?? '') . ' (' . $this->lng->txt('user_deleted') . ')')
             );
         } else {
             $tpl->setCurrentBlock('pers_image');

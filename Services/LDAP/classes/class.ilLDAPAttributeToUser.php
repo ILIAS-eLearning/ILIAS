@@ -240,11 +240,6 @@ class ilLDAPAttributeToUser
                 switch ($field) {
                     case 'gender':
                         switch (strtolower($value)) {
-                            case 'n':
-                            case 'neutral':
-                                $this->writer->xmlElement('Gender', array(), 'n');
-                                break;
-
                             case 'm':
                             case 'male':
                                 $this->writer->xmlElement('Gender', array(), 'm');
@@ -252,8 +247,12 @@ class ilLDAPAttributeToUser
 
                             case 'f':
                             case 'female':
-                            default:
                                 $this->writer->xmlElement('Gender', array(), 'f');
+                                break;
+
+                            default:
+                                // use the default for anything that is not clearly m or f
+                                $this->writer->xmlElement('Gender', array(), 'n');
                                 break;
                         }
                         break;
@@ -326,12 +325,6 @@ class ilLDAPAttributeToUser
                         $this->writer->xmlElement('Matriculation', array(), $value);
                         break;
 
-                        /*
-                        case 'photo':
-                            $this->writer->xmlElement('PersonalPicture',array('encoding' => 'Base64','imagetype' => 'image/jpeg'),
-                                base64_encode($this->convertInput($user[$value])));
-                            break;
-                        */
                     default:
                         // Handle user defined fields
                         if (strpos($field, 'udf_') !== 0) {

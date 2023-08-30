@@ -40,7 +40,7 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
 
     protected ?int $maxsize = null;
 
-    protected $allowedextensions;
+    protected string $allowedextensions = '';
 
     /** @var boolean Indicates whether completion by submission is enabled or not */
     protected $completion_by_submission = false;
@@ -59,11 +59,11 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
      * @see assQuestion:__construct()
      */
     public function __construct(
-        $title = "",
-        $comment = "",
-        $author = "",
+        $title = '',
+        $comment = '',
+        $author = '',
         $owner = -1,
-        $question = ""
+        $question = ''
     ) {
         parent::__construct($title, $comment, $author, $owner, $question);
     }
@@ -89,7 +89,7 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
     /**
      * Saves a assFileUpload object to a database
      */
-    public function saveToDb($original_id = ""): void
+    public function saveToDb($original_id = ''): void
     {
         if ($original_id == '') {
             $this->saveQuestionDataToDb();
@@ -106,20 +106,20 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
         global $DIC;
         $ilDB = $DIC['ilDB'];
         $ilDB->manipulateF(
-            "DELETE FROM " . $this->getAdditionalTableName() . " WHERE question_fi = %s",
-            array( "integer" ),
-            array( $this->getId() )
+            'DELETE FROM ' . $this->getAdditionalTableName() . ' WHERE question_fi = %s',
+            ['integer'],
+            [$this->getId()]
         );
         $ilDB->manipulateF(
-            "INSERT INTO " . $this->getAdditionalTableName(
-            ) . " (question_fi, maxsize, allowedextensions, compl_by_submission) VALUES (%s, %s, %s, %s)",
-            array( "integer", "float", "text", "integer" ),
-            array(
-                                $this->getId(),
-                                $this->getMaxSize(),
-                                (strlen($this->getAllowedExtensions())) ? $this->getAllowedExtensions() : null,
-                                (int) $this->isCompletionBySubmissionEnabled()
-                            )
+            'INSERT INTO ' . $this->getAdditionalTableName(
+            ) . ' (question_fi, maxsize, allowedextensions, compl_by_submission) VALUES (%s, %s, %s, %s)',
+            ['integer', 'float', 'text', 'integer' ],
+            [
+                $this->getId(),
+                $this->getMaxSize(),
+                (strlen($this->getAllowedExtensions())) ? $this->getAllowedExtensions() : null,
+                (int) $this->isCompletionBySubmissionEnabled()
+            ]
         );
     }
 
@@ -133,25 +133,28 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
         global $DIC;
         $ilDB = $DIC['ilDB'];
         $result = $ilDB->queryF(
-            "SELECT qpl_questions.*, " . $this->getAdditionalTableName() . ".* FROM qpl_questions LEFT JOIN " . $this->getAdditionalTableName() . " ON " . $this->getAdditionalTableName() . ".question_fi = qpl_questions.question_id WHERE qpl_questions.question_id = %s",
-            array("integer"),
-            array($question_id)
+            'SELECT qpl_questions.*, ' . $this->getAdditionalTableName()
+            . '.* FROM qpl_questions LEFT JOIN ' . $this->getAdditionalTableName()
+            . ' ON ' . $this->getAdditionalTableName()
+            . '.question_fi = qpl_questions.question_id WHERE qpl_questions.question_id = %s',
+            ['integer'],
+            [$question_id]
         );
         if ($result->numRows() == 1) {
             $data = $ilDB->fetchAssoc($result);
             $this->setId($question_id);
-            $this->setTitle((string) $data["title"]);
-            $this->setComment((string) $data["description"]);
+            $this->setTitle((string) $data['title']);
+            $this->setComment((string) $data['description']);
             $this->setNrOfTries($data['nr_of_tries']);
-            $this->setOriginalId($data["original_id"]);
-            $this->setObjId($data["obj_fi"]);
-            $this->setAuthor($data["author"]);
-            $this->setOwner($data["owner"]);
-            $this->setPoints($data["points"]);
+            $this->setOriginalId($data['original_id']);
+            $this->setObjId($data['obj_fi']);
+            $this->setAuthor($data['author']);
+            $this->setOwner($data['owner']);
+            $this->setPoints($data['points']);
 
-            $this->setQuestion(ilRTE::_replaceMediaObjectImageSrc((string) $data["question_text"], 1));
-            $this->setMaxSize(($data["maxsize"] ?? null) ? (int) $data["maxsize"] : null);
-            $this->setAllowedExtensions($data["allowedextensions"]);
+            $this->setQuestion(ilRTE::_replaceMediaObjectImageSrc((string) $data['question_text'], 1));
+            $this->setMaxSize(($data['maxsize'] ?? null) ? (int) $data['maxsize'] : null);
+            $this->setAllowedExtensions($data['allowedextensions'] ?? '');
             $this->setCompletionBySubmission($data['compl_by_submission'] == 1 ? true : false);
 
             try {
@@ -171,8 +174,13 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
     /**
     * Duplicates an assFileUpload
     */
-    public function duplicate(bool $for_test = true, string $title = "", string $author = "", string $owner = "", $testObjId = null): int
-    {
+    public function duplicate(
+        bool $for_test = true,
+        string $title = '',
+        string $author = '',
+        string $owner = '',
+        $testObjId = null
+    ): int {
         if ($this->id <= 0) {
             // The question has not been saved. It cannot be duplicated
             return -1;
@@ -219,7 +227,7 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
     /**
     * Copies an assFileUpload object
     */
-    public function copyObject($target_questionpool_id, $title = ""): int
+    public function copyObject($target_questionpool_id, $title = ''): int
     {
         if ($this->getId() <= 0) {
             throw new RuntimeException('The question has not been saved. It cannot be duplicated');
@@ -245,7 +253,7 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
         return $clone->id;
     }
 
-    public function createNewOriginalFromThisDuplicate($targetParentId, $targetQuestionTitle = ""): int
+    public function createNewOriginalFromThisDuplicate($targetParentId, $targetQuestionTitle = ''): int
     {
         if ($this->getId() <= 0) {
             throw new RuntimeException('The question has not been saved. It cannot be duplicated');
@@ -340,20 +348,20 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
     */
     public function checkUpload(): bool
     {
-        $this->lng->loadLanguageModule("form");
+        $this->lng->loadLanguageModule('form');
         // remove trailing '/'
-        $_FILES["upload"]["name"] = rtrim($_FILES["upload"]["name"], '/');
+        $_FILES['upload']['name'] = rtrim($_FILES['upload']['name'], '/');
 
-        $filename = $_FILES["upload"]["name"];
-        $filename_arr = pathinfo($_FILES["upload"]["name"]);
-        $suffix = $filename_arr["extension"];
-        $mimetype = $_FILES["upload"]["type"];
-        $size_bytes = $_FILES["upload"]["size"];
-        $temp_name = $_FILES["upload"]["tmp_name"];
-        $error = $_FILES["upload"]["error"];
+        $filename = $_FILES['upload']['name'];
+        $filename_arr = pathinfo($_FILES['upload']['name']);
+        $suffix = $filename_arr['extension'];
+        $mimetype = $_FILES['upload']['type'];
+        $size_bytes = $_FILES['upload']['size'];
+        $temp_name = $_FILES['upload']['tmp_name'];
+        $error = $_FILES['upload']['error'];
 
         if ($size_bytes > $this->getMaxFilesizeInBytes()) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("form_msg_file_size_exceeds"), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('form_msg_file_size_exceeds'), true);
             return false;
         }
 
@@ -362,32 +370,32 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
             switch ($error) {
                 case UPLOAD_ERR_FORM_SIZE:
                 case UPLOAD_ERR_INI_SIZE:
-                    $this->tpl->setOnScreenMessage('failure', $this->lng->txt("form_msg_file_size_exceeds"), true);
+                    $this->tpl->setOnScreenMessage('failure', $this->lng->txt('form_msg_file_size_exceeds'), true);
                     return false;
                     break;
 
                 case UPLOAD_ERR_PARTIAL:
-                    $this->tpl->setOnScreenMessage('failure', $this->lng->txt("form_msg_file_partially_uploaded"), true);
+                    $this->tpl->setOnScreenMessage('failure', $this->lng->txt('form_msg_file_partially_uploaded'), true);
                     return false;
                     break;
 
                 case UPLOAD_ERR_NO_FILE:
-                    $this->tpl->setOnScreenMessage('failure', $this->lng->txt("form_msg_file_no_upload"), true);
+                    $this->tpl->setOnScreenMessage('failure', $this->lng->txt('form_msg_file_no_upload'), true);
                     return false;
                     break;
 
                 case UPLOAD_ERR_NO_TMP_DIR:
-                    $this->tpl->setOnScreenMessage('failure', $this->lng->txt("form_msg_file_missing_tmp_dir"), true);
+                    $this->tpl->setOnScreenMessage('failure', $this->lng->txt('form_msg_file_missing_tmp_dir'), true);
                     return false;
                     break;
 
                 case UPLOAD_ERR_CANT_WRITE:
-                    $this->tpl->setOnScreenMessage('failure', $this->lng->txt("form_msg_file_cannot_write_to_disk"), true);
+                    $this->tpl->setOnScreenMessage('failure', $this->lng->txt('form_msg_file_cannot_write_to_disk'), true);
                     return false;
                     break;
 
                 case UPLOAD_ERR_EXTENSION:
-                    $this->tpl->setOnScreenMessage('failure', $this->lng->txt("form_msg_file_upload_stopped_ext"), true);
+                    $this->tpl->setOnScreenMessage('failure', $this->lng->txt('form_msg_file_upload_stopped_ext'), true);
                     return false;
                     break;
             }
@@ -396,12 +404,12 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
         // check suffixes
         if (count($this->getAllowedExtensionsArray())) {
             if (!strlen($suffix)) {
-                $this->tpl->setOnScreenMessage('failure', $this->lng->txt("form_msg_file_missing_file_ext"), true);
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt('form_msg_file_missing_file_ext'), true);
                 return false;
             }
 
             if (!in_array(strtolower($suffix), $this->getAllowedExtensionsArray())) {
-                $this->tpl->setOnScreenMessage('failure', $this->lng->txt("form_msg_file_wrong_file_type"), true);
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt('form_msg_file_wrong_file_type'), true);
                 return false;
             }
         }
@@ -410,7 +418,7 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
         if (strlen($temp_name)) {
             $vir = ilVirusScanner::virusHandling($temp_name, $filename);
             if ($vir[0] == false) {
-                $this->tpl->setOnScreenMessage('failure', $this->lng->txt("form_msg_file_virus_found") . "<br />" . $vir[1], true);
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt('form_msg_file_virus_found') . '<br />' . $vir[1], true);
                 return false;
             }
         }
@@ -425,7 +433,7 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
         if (is_null($question_id)) {
             $question_id = $this->getId();
         }
-        return CLIENT_WEB_DIR . "/assessment/tst_$test_id/$active_id/$question_id/files/";
+        return CLIENT_WEB_DIR . "/assessment/tst_{$test_id}/{$active_id}/{$question_id}/files/";
     }
 
     /**
@@ -433,7 +441,7 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
      */
     protected function getPreviewFileUploadPath($userId): string
     {
-        return CLIENT_WEB_DIR . "/assessment/qst_preview/$userId/{$this->getId()}/fileuploads/";
+        return CLIENT_WEB_DIR . "/assessment/qst_preview/{$userId}/{$this->getId()}/fileuploads/";
     }
 
     /**
@@ -446,7 +454,8 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
         if (is_null($question_id)) {
             $question_id = $this->getId();
         }
-        $webdir = ilFileUtils::removeTrailingPathSeparators(CLIENT_WEB_DIR) . "/assessment/tst_$test_id/$active_id/$question_id/files/";
+        $webdir = ilFileUtils::removeTrailingPathSeparators(CLIENT_WEB_DIR)
+            . "/assessment/tst_{$test_id}/{$active_id}/{$question_id}/files/";
         return str_replace(
             ilFileUtils::removeTrailingPathSeparators(ILIAS_ABSOLUTE_PATH),
             ilFileUtils::removeTrailingPathSeparators(ILIAS_HTTP_PATH),
@@ -459,7 +468,8 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
      */
     protected function getPreviewFileUploadPathWeb($userId)
     {
-        $webdir = ilFileUtils::removeTrailingPathSeparators(CLIENT_WEB_DIR) . "/assessment/qst_preview/$userId/{$this->getId()}/fileuploads/";
+        $webdir = ilFileUtils::removeTrailingPathSeparators(CLIENT_WEB_DIR)
+            . "/assessment/qst_preview/{$userId}/{$this->getId()}/fileuploads/";
         return str_replace(
             ilFileUtils::removeTrailingPathSeparators(ILIAS_ABSOLUTE_PATH),
             ilFileUtils::removeTrailingPathSeparators(ILIAS_HTTP_PATH),
@@ -482,12 +492,14 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
         }
         // fau: testNav - check existing value1 because the intermediate solution will have a dummy entry
         $result = $ilDB->queryF(
-            "SELECT * FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s AND authorized = %s AND value1 IS NOT NULL ORDER BY tstamp",
-            array("integer", "integer", "integer", 'integer'),
-            array($active_id, $this->getId(), $pass, (int) $authorized)
+            'SELECT * FROM tst_solutions WHERE active_fi = %s '
+            . 'AND question_fi = %s AND pass = %s AND authorized = %s '
+            . 'AND value1 IS NOT NULL ORDER BY tstamp',
+            ['integer', 'integer', 'integer', 'integer'],
+            [$active_id, $this->getId(), $pass, (int) $authorized]
         );
         // fau.
-        $found = array();
+        $found = [];
 
         while ($data = $ilDB->fetchAssoc($result)) {
             array_push($found, $data);
@@ -517,13 +529,13 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
 
         $found = $this->getUploadedFiles($active_id, $pass);
         $result = $ilDB->queryF(
-            "SELECT test_fi FROM tst_active WHERE active_id = %s",
-            array('integer'),
-            array($active_id)
+            'SELECT test_fi FROM tst_active WHERE active_id = %s',
+            ['integer'],
+            [$active_id]
         );
         if ($result->numRows() == 1) {
             $row = $ilDB->fetchAssoc($result);
-            $test_id = $row["test_fi"];
+            $test_id = $row['test_fi'];
             $path = $this->getFileUploadPathWeb($test_id, $active_id);
             foreach ($found as $idx => $data) {
                 $found[$idx]['webpath'] = $path;
@@ -546,9 +558,9 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
         $active_id = null;
         foreach ($files as $solution_id) {
             $result = $ilDB->queryF(
-                "SELECT * FROM tst_solutions WHERE solution_id = %s AND authorized = %s",
-                array("integer", 'integer'),
-                array($solution_id, (int) $authorized)
+                'SELECT * FROM tst_solutions WHERE solution_id = %s AND authorized = %s',
+                ['integer', 'integer'],
+                [$solution_id, (int) $authorized]
             );
             if ($result->numRows() == 1) {
                 $data = $ilDB->fetchAssoc($result);
@@ -559,9 +571,9 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
         }
         foreach ($files as $solution_id) {
             $affectedRows = $ilDB->manipulateF(
-                "DELETE FROM tst_solutions WHERE solution_id = %s AND authorized = %s",
-                array("integer", 'integer'),
-                array($solution_id, $authorized)
+                'DELETE FROM tst_solutions WHERE solution_id = %s AND authorized = %s',
+                ['integer', 'integer'],
+                [$solution_id, $authorized]
             );
         }
     }
@@ -585,7 +597,7 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
         $this->setStep($step);
 
         // get the used files from these solutions
-        $used_files = array();
+        $used_files = [];
         foreach ($solutions as $solution) {
             $used_files[] = $solution['value1'];
         }
@@ -626,11 +638,11 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
     {
         $size = $this->getMaxFilesizeInBytes();
         if ($size < 1024) {
-            $max_filesize = sprintf("%d Bytes", $size);
+            $max_filesize = sprintf('%d Bytes', $size);
         } elseif ($size < 1024 * 1024) {
-            $max_filesize = sprintf("%.1f KB", $size / 1024);
+            $max_filesize = sprintf('%.1f KB', $size / 1024);
         } else {
-            $max_filesize = sprintf("%.1f MB", $size / 1024 / 1024);
+            $max_filesize = sprintf('%.1f MB', $size / 1024 / 1024);
         }
 
         return $max_filesize;
@@ -643,15 +655,15 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
         }
 
         // get the value for the maximal uploadable filesize from the php.ini (if available)
-        $umf = get_cfg_var("upload_max_filesize");
+        $umf = get_cfg_var('upload_max_filesize');
         // get the value for the maximal post data from the php.ini (if available)
-        $pms = get_cfg_var("post_max_size");
+        $pms = get_cfg_var('post_max_size');
 
-        //convert from short-string representation to "real" bytes
-        $multiplier_a = array("K" => 1024, "M" => 1024 * 1024, "G" => 1024 * 1024 * 1024);
+        //convert from short-string representation to 'real' bytes
+        $multiplier_a = ['K' => 1024, 'M' => 1024 * 1024, 'G' => 1024 * 1024 * 1024];
 
-        $umf_parts = preg_split("/(\d+)([K|G|M])/", $umf, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
-        $pms_parts = preg_split("/(\d+)([K|G|M])/", $pms, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
+        $umf_parts = preg_split('/(\d+)([K|G|M])/', $umf, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
+        $pms_parts = preg_split('/(\d+)([K|G|M])/', $pms, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
 
         if (count($umf_parts) === 2) {
             $umf = $umf_parts[0] * $multiplier_a[$umf_parts[1]];
@@ -689,14 +701,15 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
             }
 
             $upload_file_data ['solution_file_versioning_upload_ts'] = time();
-            $filename_arr = pathinfo($_FILES["upload"]["name"]);
-            $extension = $filename_arr["extension"];
-            $new_file_name = "file_" . $active_id . "_" . $pass . "_" . $upload_file_data ['solution_file_versioning_upload_ts'] . "." . $extension;
+            $filename_arr = pathinfo($_FILES['upload']['name']);
+            $extension = $filename_arr['extension'];
+            $new_file_name = 'file_' . $active_id . '_' . $pass . '_'
+                . $upload_file_data ['solution_file_versioning_upload_ts'] . '.' . $extension;
             $upload_file_data['new_file_name'] = ilFileUtils::getValidFilename($new_file_name);
 
             ilFileUtils::moveUploadedFile(
-                $_FILES["upload"]["tmp_name"],
-                $_FILES["upload"]["name"],
+                $_FILES['upload']['tmp_name'],
+                $_FILES['upload']['name'],
                 $this->getFileUploadPath($test_id, $active_id) . $upload_file_data['new_file_name']
             );
         }
@@ -763,16 +776,16 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
         if ($entered_values) {
             if (ilObjAssessmentFolder::_enabledAssessmentLogging()) {
                 assQuestion::logAction($this->lng->txtlng(
-                    "assessment",
-                    "log_user_entered_values",
+                    'assessment',
+                    'log_user_entered_values',
                     ilObjAssessmentFolder::_getLogLanguage()
                 ), $active_id, $this->getId());
             }
         } else {
             if (ilObjAssessmentFolder::_enabledAssessmentLogging()) {
                 assQuestion::logAction($this->lng->txtlng(
-                    "assessment",
-                    "log_user_not_entered_values",
+                    'assessment',
+                    'log_user_not_entered_values',
                     ilObjAssessmentFolder::_getLogLanguage()
                 ), $active_id, $this->getId());
             }
@@ -792,7 +805,7 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
         if (!count($solution)) {
             $solution = $this->getSolutionValues($active_id, $pass, true);
         } else {
-            $cleaned = array();
+            $cleaned = [];
             foreach ($solution as $row) {
                 if (!empty($row['value1'])) {
                     $cleaned[] = $row;
@@ -821,7 +834,7 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
         $userSolution = $previewSession->getParticipantsSolution();
 
         if (!is_array($userSolution)) {
-            $userSolution = array();
+            $userSolution = [];
         }
 
         // hey: prevPassSolutions - readability spree - get a chance to understand the code
@@ -844,22 +857,22 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
                     }
 
                     $version = time();
-                    $filename_arr = pathinfo($_FILES["upload"]["name"]);
-                    $extension = $filename_arr["extension"];
-                    $newfile = "file_" . md5($_FILES["upload"]["name"]) . "_" . $version . "." . $extension;
+                    $filename_arr = pathinfo($_FILES['upload']['name']);
+                    $extension = $filename_arr['extension'];
+                    $newfile = 'file_' . md5($_FILES['upload']['name']) . '_' . $version . '.' . $extension;
                     ilFileUtils::moveUploadedFile(
-                        $_FILES["upload"]["tmp_name"],
-                        $_FILES["upload"]["name"],
+                        $_FILES['upload']['tmp_name'],
+                        $_FILES['upload']['name'],
                         $this->getPreviewFileUploadPath($previewSession->getUserId()) . $newfile
                     );
 
-                    $userSolution[$newfile] = array(
+                    $userSolution[$newfile] = [
                         'solution_id' => $newfile,
                         'value1' => $newfile,
                         'value2' => $_FILES['upload']['name'],
                         'tstamp' => $version,
                         'webpath' => $this->getPreviewFileUploadPathWeb($previewSession->getUserId())
-                    );
+                    ];
                 }
             }
         }
@@ -869,7 +882,7 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
 
     /**
      * This method is called after an user submitted one or more files.
-     * It should handle the setting "Completion by Submission" and, if enabled, set the status of
+     * It should handle the setting 'Completion by Submission' and, if enabled, set the status of
      * the current user.
      *
      * @param	integer
@@ -903,17 +916,17 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
 
     public function getQuestionType(): string
     {
-        return "assFileUpload";
+        return 'assFileUpload';
     }
 
     public function getAdditionalTableName(): string
     {
-        return "qpl_qst_fileupload";
+        return 'qpl_qst_fileupload';
     }
 
     public function getAnswerTableName(): string
     {
-        return "";
+        return '';
     }
 
     /**
@@ -943,11 +956,11 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
         $i = 1;
         $solutions = $this->getSolutionValues($active_id, $pass);
         foreach ($solutions as $solution) {
-            $worksheet->setCell($startrow + $i, $col, $this->lng->txt("result"));
+            $worksheet->setCell($startrow + $i, $col, $this->lng->txt('result'));
             $worksheet->setBold($worksheet->getColumnCoord($col) . ($startrow + $i));
-            if (strlen($solution["value1"])) {
-                $worksheet->setCell($startrow + $i, $col + 2, $solution["value1"]);
-                $worksheet->setCell($startrow + $i, $col + 3, $solution["value2"]);
+            if (strlen($solution['value1'])) {
+                $worksheet->setCell($startrow + $i, $col + 2, $solution['value1']);
+                $worksheet->setCell($startrow + $i, $col + 3, $solution['value2']);
             }
             $i++;
         }
@@ -981,7 +994,7 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
 
     public function getBestSolution($active_id, $pass): array
     {
-        $user_solution = array();
+        $user_solution = [];
         return $user_solution;
     }
 
@@ -997,10 +1010,11 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
 
     public function getAllowedExtensionsArray(): array
     {
-        if (strlen($this->allowedextensions)) {
-            return array_filter(array_map('trim', explode(",", $this->allowedextensions)));
+        if ($this->allowedextensions === '') {
+            return [];
         }
-        return array();
+
+        return array_filter(array_map('trim', explode(',', $this->allowedextensions)));
     }
 
     public function getAllowedExtensions(): string
@@ -1013,7 +1027,7 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
     *
     * @param string $a_value Allowed file extensions
     */
-    public function setAllowedExtensions($a_value): void
+    public function setAllowedExtensions(string $a_value): void
     {
         $this->allowedextensions = strtolower(trim($a_value));
     }
@@ -1027,17 +1041,17 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
-        $query = "
+        $query = '
 		SELECT tst_solutions.solution_id
 		FROM tst_solutions, tst_active, qpl_questions
 		WHERE tst_solutions.active_fi = tst_active.active_id
 		AND tst_solutions.question_fi = qpl_questions.question_id
 		AND tst_solutions.question_fi = %s AND tst_active.test_fi = %s
-		AND tst_solutions.value1 is not null";
+		AND tst_solutions.value1 is not null';
         $result = $ilDB->queryF(
             $query,
-            array("integer", "integer"),
-            array($this->getId(), $test_id)
+            ['integer', 'integer'],
+            [$this->getId(), $test_id]
         );
         if ($result->numRows() > 0) {
             return true;

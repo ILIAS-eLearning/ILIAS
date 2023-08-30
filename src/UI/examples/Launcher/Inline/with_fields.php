@@ -32,7 +32,7 @@ function with_fields()
             $ui_factory->input()->field()->checkbox('Understood', 'ok')
     ]);
     $evaluation = function (Result $result, Launcher &$launcher) use ($ctrl, $ui_factory) {
-        if ($result->isOK() && $result->value()[0][0]) {
+        if ($result->isOK() && $result->value()[0]) {
             $ctrl->redirectToURL(
                 (string)$launcher->getTarget()->getURL()->withParameter('launcher_redirect', 'terms accepted (' . $launcher->getButtonLabel() . ')')
             );
@@ -41,6 +41,7 @@ function with_fields()
     };
 
     $target = $data_factory->link('Join Group', $url->withParameter('launcher_id', 'l1'));
+
     $launcher = $ui_factory->launcher()
         ->inline($target)
         ->withDescription($description)
@@ -49,7 +50,6 @@ function with_fields()
     if (array_key_exists('launcher_id', $request->getQueryParams()) && $request->getQueryParams()['launcher_id'] === 'l1') {
         $launcher = $launcher->withRequest($request);
     }
-
 
     //A Launcher with icon
     $icon = $ui_factory->symbol()->icon()->standard('auth', 'authentification needed', 'large');
@@ -69,7 +69,7 @@ function with_fields()
 
     //A Launcher with password field
     $icon = $ui_factory->symbol()->icon()->standard('ps', 'authentification needed', 'large');
-    $status_message =  $ui_factory->messageBox()->info("You will be asked for your personal passcode when you start the test.");
+    $status_message = $ui_factory->messageBox()->info("You will be asked for your personal passcode when you start the test.");
     $instruction = $ui_factory->messageBox()->info('Fill the form; use password "ilias" to pass');
     $group = $ui_factory->input()->field()->group([
             $ui_factory->input()->field()->password('pwd', 'Password')
@@ -97,6 +97,7 @@ function with_fields()
 
 
     $result = "not submitted or wrong pass";
+
     if (array_key_exists('launcher_redirect', $request->getQueryParams())
         && $v = $request->getQueryParams()['launcher_redirect']
     ) {

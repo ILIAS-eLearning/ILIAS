@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  *
@@ -41,6 +41,8 @@ class ilAuthFrontend
     private ilAuthSession $auth_session;
     private ilAppEventHandler $ilAppEventHandler;
 
+    private ilUserProfile $user_profile;
+
     private bool $authenticated = false;
 
     /**
@@ -61,6 +63,8 @@ class ilAuthFrontend
         $this->credentials = $credentials;
         $this->status = $status;
         $this->providers = $providers;
+
+        $this->user_profile = new ilUserProfile();
     }
 
     /**
@@ -300,7 +304,7 @@ class ilAuthFrontend
 
         // check if profile is complete
         if (
-            ilUserProfile::isProfileIncomplete($user) &&
+            $this->user_profile->isProfileIncomplete($user) &&
             ilAuthFactory::getContext() !== ilAuthFactory::CONTEXT_ECS &&
             ilContext::getType() !== ilContext::CONTEXT_LTI_PROVIDER
         ) {
@@ -343,7 +347,7 @@ class ilAuthFrontend
 
 
         // --- anonymous/registered user
-        if (PHP_SAPI !=="cli") {
+        if (PHP_SAPI !== "cli") {
             $this->logger->info(
                 'logged in as ' . $user->getLogin() .
             ', remote:' . $_SERVER['REMOTE_ADDR'] . ':' . $_SERVER['REMOTE_PORT'] .

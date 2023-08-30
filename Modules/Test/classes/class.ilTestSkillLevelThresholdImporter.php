@@ -85,7 +85,7 @@ class ilTestSkillLevelThresholdImporter
         return $this->importThresholdList;
     }
 
-    public function setImportThresholdList(ilTestSkillLevelThresholdImportList $importThresholdList): void
+    public function setImportThresholdList(?ilTestSkillLevelThresholdImportList $importThresholdList): void
     {
         $this->importThresholdList = $importThresholdList;
     }

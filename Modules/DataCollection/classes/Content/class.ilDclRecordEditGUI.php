@@ -315,9 +315,9 @@ class ilDclRecordEditGUI
 
                     if ($default_value !== null) {
                         if ($item instanceof ilDclCheckboxInputGUI) {
-                            $item->setChecked($default_value->getValue());
+                            $item->setChecked((bool)$default_value->getValue());
                         } else {
-                            $item->setValue($default_value->getValue());
+                            $item->setValue((string)$default_value->getValue());
                         }
                     } else {
                         if ($item instanceof ilDclTextInputGUI) {

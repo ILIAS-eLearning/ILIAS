@@ -61,7 +61,6 @@ class ilObjPoll extends ilObject2
         $this->db = $DIC->database();
         $this->image_converter = $DIC->fileConverters()->legacyImages();
         // default
-        $this->setOfflineStatus(true);
         $this->setViewResults(self::VIEW_RESULTS_AFTER_VOTE);
         $this->setAccessType(ilObjectActivation::TIMINGS_DEACTIVATED);
         $this->setVotingPeriod(false);

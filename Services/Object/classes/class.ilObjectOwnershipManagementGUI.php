@@ -57,6 +57,8 @@ class ilObjectOwnershipManagementGUI
         $this->tree = $DIC['tree'];
         $this->retriever = new ilObjectRequestRetriever($DIC->http()->wrapper(), $DIC['refinery']);
 
+        $this->lng->loadLanguageModule('obj');
+
         $this->user_id = $this->user->getId();
         if (!is_null($user_id)) {
             $this->user_id = $user_id;
@@ -78,62 +80,53 @@ class ilObjectOwnershipManagementGUI
 
     public function listObjects(): void
     {
-        $sel_type = '';
-
         $objects = ilObject::getAllOwnedRepositoryObjects($this->user_id);
 
-        if (sizeof($objects)) {
-            $this->toolbar->setFormAction($this->ctrl->getFormAction($this, 'listObjects'));
+        $tbl = new ilObjectOwnershipManagementTableGUI($this, 'listObjects', $this->user_id);
 
-            $sel = new ilSelectInputGUI($this->lng->txt('type'), 'type');
-            $this->toolbar->addStickyItem($sel, true);
-
-            $on_load_code = function ($id) {
-                return "document.getElementById('$id')"
-                    . '.addEventListener("click", '
-                    . '(e) => {e.preventDefault();'
-                    . 'e.target.setAttribute("name", "cmd[listObjects]");'
-                    . 'e.target.form.requestSubmit(e.target);});';
-            };
-
-            $button = $this->ui_factory->button()->standard(
-                $this->lng->txt('ok'),
-                '#'
-            )->withOnLoadCode($on_load_code);
-
-            $this->toolbar->addStickyItem($button);
-
-            $options = [];
-            foreach (array_keys($objects) as $type) {
-                if (!$this->obj_definition->isPlugin($type)) {
-                    $options[$type] = $this->lng->txt('obj_' . $type);
-                } else {
-                    $options[$type] = ilObjectPlugin::lookupTxtById($type, 'obj_' . $type);
-                }
-            }
-            asort($options);
-            $sel->setOptions($options);
-
-            $sel_type = $this->retriever->getMaybeString('type', '');
-            if ($sel_type !== '') {
-                $sel->setValue($sel_type);
-            } else {
-                $sel_type = array_keys($options);
-                $sel_type = array_shift($sel_type);
-            }
-            $this->ctrl->setParameter($this, 'type', $sel_type);
-        }
-
-        if ($sel_type === '') {
+        if ($objects === []) {
+            $tbl->setTitle($this->lng->txt('user_owns_no_objects'));
+            $this->tpl->setContent($tbl->getHTML());
             return;
         }
 
-        if (is_array($objects[$sel_type]) && sizeof($objects[$sel_type])) {
-            ilObject::fixMissingTitles($sel_type, $objects[$sel_type]);
+        $object_types = array_keys($objects);
+
+        $options = [];
+        foreach ($object_types as $type) {
+            $this->ctrl->setParameterByClass(self::class, 'type', $type);
+            $target = $this->ctrl->getLinkTargetByClass(self::class, 'listObjects');
+            $label = $this->getLabelForObjectType($type);
+            $options[$type] = $this->ui_factory->button()->shy($label, $target);
+        }
+        asort($options);
+
+        $selected_type = $this->retriever->getMaybeString('type') ?? array_keys($options)[0];
+        unset($options[$selected_type]);
+
+        $dropdown = $this->ui_factory->dropdown()->standard($options)->withLabel(
+            $this->lng->txt('select_object_type')
+        );
+
+        $this->toolbar->addStickyItem($dropdown);
+
+        if (is_array($objects[$selected_type])
+            && $objects[$selected_type] !== []) {
+            ilObject::fixMissingTitles($selected_type, $objects[$selected_type]);
         }
 
-        $tbl = new ilObjectOwnershipManagementTableGUI($this, 'listObjects', $this->user_id, $objects[$sel_type]);
+        $tbl->setTitle($this->getLabelForObjectType($selected_type));
+        $tbl->initItems($objects[$selected_type]);
         $this->tpl->setContent($tbl->getHTML());
+    }
+
+    private function getLabelForObjectType(string $type): string
+    {
+        if ($this->obj_definition->isPlugin($type)) {
+            return $this->lng->txt($type, 'obj_' . $type);
+        }
+
+        return $this->lng->txt('objs_' . $type);
     }
 
     public function applyFilter(): void

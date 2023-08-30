@@ -117,7 +117,7 @@ class ilUsersGalleryGUI
 
         $groups_with_users = array_filter(
             $gallery_groups,
-            static fn (ilUsersGalleryGroup $group): bool => count($group) > 0
+            static fn(ilUsersGalleryGroup $group): bool => count($group) > 0
         );
 
         if (count($groups_with_users) === 0) {

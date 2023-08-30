@@ -175,12 +175,12 @@ class ilDclRecordListTableGUI extends ilTable2GUI
                 }
             }
 
-            $this->ctrl->setParameterByClass("ildclfieldeditgui", "record_id", $record->getId());
-            $this->ctrl->setParameterByClass("ilDclDetailedViewGUI", "record_id", $record->getId());
-            $this->ctrl->setParameterByClass("ilDclDetailedViewGUI", "tableview_id", $this->tableview->getId());
-            $this->ctrl->setParameterByClass("ildclrecordeditgui", "record_id", $record->getId());
-            $this->ctrl->setParameterByClass("ildclrecordeditgui", "tableview_id", $this->tableview->getId());
-            $this->ctrl->setParameterByClass("ildclrecordeditgui", "mode", $this->mode);
+            $this->ctrl->setParameterByClass(ilDclFieldEditGUI::class, "record_id", $record->getId());
+            $this->ctrl->setParameterByClass(ilDclDetailedViewGUI::class, "record_id", $record->getId());
+            $this->ctrl->setParameterByClass(ilDclDetailedViewGUI::class, "tableview_id", $this->tableview->getId());
+            $this->ctrl->setParameterByClass(ilDclRecordEditGUI::class, "record_id", $record->getId());
+            $this->ctrl->setParameterByClass(ilDclRecordEditGUI::class, "tableview_id", $this->tableview->getId());
+            $this->ctrl->setParameterByClass(ilDclRecordEditGUI::class, "mode", $this->mode);
 
             if (ilDclDetailedViewDefinition::isActive($this->tableview->getId())) {
                 $record_data["_front"] = $this->ctrl->getLinkTargetByClass(ilDclDetailedViewGUI::class, 'renderRecord');

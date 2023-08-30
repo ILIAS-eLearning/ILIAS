@@ -2121,6 +2121,7 @@ badge#:#badge_backpack_no_groups#:#The Mozilla Backpack is empty or non-public.
 badge#:#badge_badge#:#Badge
 badge#:#badge_course_lp#:#Course LP
 badge#:#badge_course_lp_invalid#:#The following objects have a LP mode which is not supported: %s.
+badge#:#badge_create#:#Create Badge
 badge#:#badge_criteria#:#Criteria
 badge#:#badge_crs_merit#:#Merit
 badge#:#badge_deletion_confirmation#:#Are you sure you want to delete the following badges and all their respective assignments?
@@ -8560,6 +8561,8 @@ dcl#:#dcl_std_field_not_importable#:# - Standard fields are not importable.
 dcl#:#dcl_std_filter#:#Default Filter
 dcl#:#dcl_supported_filetypes#:#Allowed file-extensions
 dcl#:#dcl_supported_filetypes_desc#:#You can set the allowed extensions comma seperated. For example: pdf, docx
+dcl#:#dcl_switch_table#:#Switch Table
+dcl#:#dcl_switch_view#:#Change View
 dcl#:#dcl_table#:#Table
 dcl#:#dcl_table_create#:#Create Table
 dcl#:#dcl_table_edit#:#Update Table
@@ -10843,7 +10846,7 @@ mail#:#mail_absence_status#:#Enable Autoresponder
 mail#:#mail_absence_status_info#:#Activation of the automatic sending of an out of office message
 mail#:#mail_absent_from#:#Absent from
 mail#:#mail_absent_until#:#Absent until
-mail#:#mail_account_mail#:#Account Mail
+mail#:#mail_account_mail#:#Notify New Account Holders
 mail#:#mail_add_folder#:#Add New Sub-folder
 mail#:#mail_add_recipient#:#Please enter a recipient
 mail#:#mail_add_subfolder#:#Add Sub-folder
@@ -10950,6 +10953,8 @@ mail#:#mail_members_search_continue#:#Continue
 mail#:#mail_message_send#:#Message sent
 mail#:#mail_move_error#:#Error moving mail
 mail#:#mail_move_to#:#Move to:
+mail#:#mail_move_to_folder_btn_label#:#Move Mail
+mail#:#mail_move_to_folder_x#:#to "%s"
 mail#:#mail_moved#:#The mail has been moved
 mail#:#mail_moved_to_trash#:#Mail has been moved to trash
 mail#:#mail_multiple_role_recipients_found#:#%1$s (found multiple roles for recipient: %2$s)
@@ -12329,7 +12334,9 @@ obj#:#obj_tool_setting_use_news_open_settings#:#Open Settings of News Block and 
 obj#:#obj_user_decides_notification#:#Members have to manually activate notifications
 obj#:#obj_user_not_disable_not#:#Member are not allowed to deactivate notifications
 obj#:#online_input_byline#:#The object has been published and can be accessed by anyone with read access. Other access prerequisites or time-based access restrictions may still apply. This settings applies to the object wherever it is used in the repository.
+obj#:#select_object_type#:#Select Object Type
 obj#:#svy_results#:#Results
+obj#:#user_owns_no_objects#:#No Repository Objects Available
 objref#:#objref_custom_title#:#Use Own Title
 objref#:#objref_edit_ref#:#Link Target
 objref#:#objref_edit_title#:#Title

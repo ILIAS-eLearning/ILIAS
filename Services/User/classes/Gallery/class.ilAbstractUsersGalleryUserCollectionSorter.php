@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,22 +16,18 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
-/**
- * Class ilUserAvatarFile
- * @author Alexander Killing <killing@leifos.de>
- * @author Michael Jansen <mjansen@databay.de>
- */
-class ilUserAvatarFile extends ilUserAvatarBase
+declare(strict_types=1);
+
+abstract class ilAbstractUsersGalleryUserCollectionSorter implements ilUsersGalleryUserCollectionSorter
 {
-    protected string $size;
+    abstract protected function compare(ilUsersGalleryUser $left, ilUsersGalleryUser $right): int;
 
-    public function __construct(string $size)
+    final public function sort(array $users): array // Missing array type.
     {
-        $this->size = $size;
-    }
+        uasort($users, function (ilUsersGalleryUser $left, ilUsersGalleryUser $right): int {
+            return $this->compare($left, $right);
+        });
 
-    public function getUrl(): string
-    {
-        return ilWACSignedPath::signFile(\ilUtil::getImagePath('no_photo_' . $this->size . '.jpg'));
+        return $users;
     }
 }

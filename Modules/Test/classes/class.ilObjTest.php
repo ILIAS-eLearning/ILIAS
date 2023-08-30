@@ -638,7 +638,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
                 }
             }
             foreach ($oldquestions as $index => $question_id) {
-                if (strcmp($newquestions[$index], $question_id) != 0) {
+                if ($newquestions[$index] !== $question_id) {
                     $pos = array_search($question_id, $newquestions);
                     if ($pos === false) {
                         $this->logAction($this->lng->txtlng("assessment", "log_question_removed", ilObjAssessmentFolder::_getLogLanguage()), $question_id);
@@ -3538,9 +3538,9 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
                 preg_match("/<official>(.*?)<\/official>/", $xmlmark, $matches);
                 $mark_official = $matches[1];
                 preg_match("/<percentage>(.*?)<\/percentage>/", $xmlmark, $matches);
-                $mark_percentage = $matches[1];
+                $mark_percentage = (float) $matches[1];
                 preg_match("/<passed>(.*?)<\/passed>/", $xmlmark, $matches);
-                $mark_passed = $matches[1];
+                $mark_passed = (int) $matches[1];
                 $this->mark_schema->addMarkStep($mark_short, $mark_official, $mark_percentage, $mark_passed);
             }
         }

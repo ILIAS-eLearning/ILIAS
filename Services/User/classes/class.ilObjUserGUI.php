@@ -45,6 +45,8 @@ class ilObjUserGUI extends ilObjectGUI
     private ResourceStorageServices $irss;
     private ResourceStakeholder $stakeholder;
 
+    private ilUserProfile $user_profile;
+
     private string $requested_letter = '';
     private string $requested_baseClass = '';
     private string $requested_search = '';
@@ -75,6 +77,7 @@ class ilObjUserGUI extends ilObjectGUI
         $this->help = $DIC['ilHelp'];
         $this->mail_sender_factory = $DIC->mail()->mime()->senderFactory();
 
+        $this->user_profile = new ilUserProfile();
 
         if ($ui_factory === null) {
             $ui_factory = $DIC['ui.factory'];
@@ -485,7 +488,7 @@ class ilObjUserGUI extends ilObjectGUI
             }
 
             if ($profile_maybe_incomplete) {
-                if (ilUserProfile::isProfileIncomplete($this->object)) {
+                if ($this->user_profile->isProfileIncomplete($this->object)) {
                     $this->object->setProfileIncomplete(true);
                     $this->object->update();
                 }
@@ -872,7 +875,7 @@ class ilObjUserGUI extends ilObjectGUI
             if ($profile_maybe_incomplete) {
                 /** @var ilObjUser $user */
                 $user = $this->object;
-                if (ilUserProfile::isProfileIncomplete($user)) {
+                if ($this->user_profile->isProfileIncomplete($user)) {
                     $this->object->setProfileIncomplete(true);
                     $this->object->update();
                 }
@@ -1900,7 +1903,7 @@ class ilObjUserGUI extends ilObjectGUI
     {
         $profile_maybe_incomplete = false;
 
-        foreach (ilUserProfile::getIgnorableRequiredSettings() as $fieldName) {
+        foreach ($this->user_profile->getIgnorableRequiredSettings() as $fieldName) {
             $elm = $this->form_gui->getItemByPostVar($fieldName);
 
             if (!$elm) {

@@ -590,7 +590,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
             $this->test_session->getActiveId(),
             $this->test_session->getPass()
         );
-        $result = array();
+        $result = [];
         $result['isAnswered'] = $state['authorized'];
         $result['isAnswerChanged'] = $state['intermediate'];
 
@@ -2111,11 +2111,12 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
     protected function getNextCommandParameter()
     {
-        if (isset($_POST['nextcmd']) && strlen($_POST['nextcmd'])) {
-            return $_POST['nextcmd'];
+        $nextcmd = '';
+        if ($this->testrequest->isset('nextcmd')) {
+            $nextcmd = $this->testrequest->strVal('nextcmd');
         }
 
-        return null;
+        return $nextcmd !== '' ? $nextcmd : null;
     }
 
     protected function getNextSequenceParameter(): ?int
@@ -2201,7 +2202,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
     /**
      * @var array[assQuestion]
      */
-    private $cachedQuestionGuis = array();
+    private $cachedQuestionGuis = [];
 
     /**
      * @param $questionId
@@ -2476,7 +2477,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
     protected function populateQuestionEditControl($questionGUI)
     {
         // configuration for ilTestPlayerQuestionEditControl.js
-        $config = array();
+        $config = [];
 
         // set the initial state of the question
         $state = $questionGUI->object->lookupForExistingSolutions($this->test_session->getActiveId(), $this->test_session->getPass());
@@ -2529,7 +2530,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
     protected function registerForcedFeedbackNavUrl($forcedFeedbackNavUrl)
     {
         if (ilSession::get('forced_feedback_navigation_url') == null) {
-            ilSession::set('forced_feedback_navigation_url', array());
+            ilSession::set('forced_feedback_navigation_url', []);
         }
         $forced_feeback_navigation_url = ilSession::get('forced_feedback_navigation_url');
         $forced_feeback_navigation_url[$this->test_session->getActiveId()] = $forcedFeedbackNavUrl;
