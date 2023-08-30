@@ -43,6 +43,7 @@ class ilMembershipBlockGUI extends ilDashboardBlockGUI
 
     public function emptyHandling(): string
     {
+        $this->lng->loadLanguageModule('rep');
         return $this->renderer->render(
             $this->factory->panel()->standard(
                 $this->getTitle(),

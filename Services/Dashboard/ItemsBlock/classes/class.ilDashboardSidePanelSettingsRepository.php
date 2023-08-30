@@ -39,6 +39,9 @@ class ilDashboardSidePanelSettingsRepository
             : $dashboard_settings;
     }
 
+    /**
+     * @return string[]
+     */
     public function getValidModules(): array
     {
         return [
@@ -49,11 +52,30 @@ class ilDashboardSidePanelSettingsRepository
         ];
     }
 
+    /**
+     * @param string[] $positions
+     */
+    public function setPositions(array $positions): void
+    {
+        $this->setting->set('side_panel_positions', serialize($positions));
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getPositions(): array
+    {
+        $positions = $this->setting->get('side_panel_positions', "");
+        if ($positions !== "") {
+            return unserialize($positions, ['allowed_classes' => false]);
+        }
+        return $this->getValidModules();
+    }
+
     protected function isValidModule(string $mod): bool
     {
         return in_array($mod, $this->getValidModules());
     }
-
 
     // Enable module
     public function enable(string $mod, bool $active): void
