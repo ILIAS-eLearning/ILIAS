@@ -66,7 +66,7 @@ class ilObjectPropertyTileImage implements ilObjectProperty
 
     public function withTempFileName(string $name): self
     {
-        $clone = $this;
+        $clone = clone $this;
         $clone->temp_file_name = $name;
         return $clone;
     }
