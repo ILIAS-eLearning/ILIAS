@@ -803,7 +803,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
             $this->ctrl->redirectByClass(array('ilTestResultsGUI', 'ilMyTestResultsGUI', 'ilTestEvaluationGUI'));
         }
 
-        $this->ctrl->redirectByClass(ilObjTestGUI::class, 'redirectToTestScreen');
+        $this->ctrl->redirectByClass(ilObjTestGUI::class, 'testScreen');
     }
 
     /*

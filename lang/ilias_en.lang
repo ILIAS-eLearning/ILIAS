@@ -647,7 +647,6 @@ assessment#:#enable_examview#:#Overview of Answers Given
 assessment#:#enable_examview_desc#:#When they click on ‘Finish the Test’, participants are presented with an overview of the test’s questions and the answers they provided to those questions. From this overview, they are still able to click on ‘Back’ in order to return to the test and make changes to their answers as long as answers have not been locked (see ‘Answer Lock’ above).
 assessment#:#end_tag#:#End Tag
 assessment#:#enlarge#:#Enlarge
-assessment#:#enter_anonymous_code#:#Enter access code to continue your already started test:
 assessment#:#enter_enough_positive_points#:#The maximum available points must be greater than 0! Please enter sufficient positive points for your answers.
 assessment#:#enter_enough_positive_points_checked#:#At least one answer needs to score. Please enter a positive score for the selection of an answer.
 assessment#:#enter_valid_values#:#Please enter valid value. Chars will be evaluated as incorrect!
@@ -1359,7 +1358,7 @@ assessment#:#tst_eval_total_passed_average_time#:#Average processing time of all
 assessment#:#tst_eval_total_persons#:#Total number of participants who started the test
 assessment#:#tst_exam_access_code#:#Access Code
 assessment#:#tst_exam_access_code_invalid_message#:#The given access code is not valid!
-assessment#:#tst_exam_access_code_label#:#Access Code to continue a already began test.
+assessment#:#tst_exam_access_code_label#:#Enter access code to continue your already started test.
 assessment#:#tst_exam_conditions#:#Exam Conditions
 assessment#:#tst_exam_conditions_label#:#Check to accept the conditions.
 assessment#:#tst_exam_conditions_modal_desc#:#Please confirm the conditions and/or enter the password to start the test.

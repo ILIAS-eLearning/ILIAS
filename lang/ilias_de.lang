@@ -647,7 +647,7 @@ assessment#:#enable_examview#:#Übersicht gegebener Antworten
 assessment#:#enable_examview_desc#:#Teilnehmern werden alle Fragen und die von ihnen gegebenen Antworten vor Abgabe des Tests präsentiert.
 assessment#:#end_tag#:#Endmarkierung
 assessment#:#enlarge#:#vergrößern
-assessment#:#enter_anonymous_code#:#Zugangsschlüssel eingeben, um bereits gestarteten Tests fortzuführen:
+assessment#:#tst_exam_access_code_label#:#Zugangsschlüssel eingeben, um bereits gestarteten Tests fortzuführen:
 assessment#:#enter_enough_positive_points#:#Die maximale Punktezahl für die Frage muss größer als Null sein! Bitte geben Sie ausreichend viele nicht-negative Punkte für die Antworten ein.
 assessment#:#enter_enough_positive_points_checked#:#Mindestens eine Antwort muss Punkte erzielen. Bitte geben Sie eine positive Punktezahl für das Auswählen einer Antwort ein.
 assessment#:#enter_valid_values#:#Bitte achten Sie auf die Eingabe gültiger Werte. Die Eingabe von Buchstaben wird als falsch gewertet!

@@ -321,20 +321,6 @@ class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
                     $this->addInfoMessage($this->lng->txt('tst_test_contains_obligatory_questions'));
                 }
             }
-
-            if ($this->user->getId() == ANONYMOUS_USER_ID) {
-                if ($this->getItems()) {
-                    $this->addSeparator();
-                }
-
-                $anonymous_id = new ilTextInputGUI($this->lng->txt('enter_anonymous_code'), 'anonymous_id');
-                $anonymous_id->setSize(8);
-                $this->addInputItem($anonymous_id, true);
-                $button = ilSubmitButton::getInstance();
-                $button->setCaption('submit');
-                $button->setCommand('setAnonymousId');
-                $this->addButtonInstance($button);
-            }
         }
         if ($this->getTestOBJ()->getOfflineStatus() && !$this->getTestQuestionSetConfig()->areDepenciesBroken()) {
             $message = $this->lng->txt("test_is_offline");
