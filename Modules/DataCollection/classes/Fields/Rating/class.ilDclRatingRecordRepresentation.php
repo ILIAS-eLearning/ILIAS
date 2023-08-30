@@ -25,8 +25,6 @@ class ilDclRatingRecordRepresentation extends ilDclBaseRecordRepresentation
 {
     public function getHTML(bool $link = true, array $options = []): string
     {
-        global $DIC;
-        $ilCtrl = $DIC['ilCtrl'];
         $rgui = new ilRatingGUI();
         $rgui->setObject(
             $this->getRecordField()->getRecord()->getId(),
@@ -34,11 +32,12 @@ class ilDclRatingRecordRepresentation extends ilDclBaseRecordRepresentation
             $this->getRecordField()->getField()->getId(),
             "dcl_field"
         );
-        $ilCtrl->setParameterByClass("ilratinggui", "field_id", $this->getRecordField()->getField()->getId());
-        $ilCtrl->setParameterByClass("ilratinggui", "record_id", $this->getRecordField()->getRecord()->getId());
-        $html = $rgui->getHTML();
 
-        return $html;
+        $this->ctrl->setParameterByClass(ilRatingGUI::class, "field_id", $this->getRecordField()->getField()->getId());
+        $this->ctrl->setParameterByClass(ilRatingGUI::class, "record_id", $this->getRecordField()->getRecord()->getId());
+        $this->ctrl->setParameterByClass(ilObjDataCollectionGUI::class, 'tableview_id', $options['tableview_id']);
+        return $rgui->getHTML();
+
     }
 
     /**
