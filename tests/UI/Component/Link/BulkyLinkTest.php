@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 require_once(__DIR__ . "/../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../Base.php");
@@ -258,7 +258,6 @@ EXP;
                ->withAdditionalRelationshipToReferencedResource(Relationship::LICENSE)
                ->withAdditionalRelationshipToReferencedResource(Relationship::NOOPENER);
 
-        $html = $r->render($b);
         $expected_html = <<<EXP
             <a class="il-link link-bulky" href="http://www.ilias.de" rel="license noopener">
                 <img class="icon someExample small" src="./templates/default/images/icon_default.svg" alt=""/>
@@ -266,9 +265,25 @@ EXP;
             </a>
 EXP;
 
+        $html = $r->render($b);
         $this->assertHTMLEquals($expected_html, $html);
+    }
 
-        $b = $b->withAdditionalRelationshipToReferencedResource(Relationship::LICENSE);
+    public function testRenderWithDuplicateRelationship(): void
+    {
+        $r = $this->getDefaultRenderer();
+        $b = $this->factory->bulky($this->icon, "label", $this->target)
+                           ->withAdditionalRelationshipToReferencedResource(Relationship::LICENSE)
+                           ->withAdditionalRelationshipToReferencedResource(Relationship::NOOPENER)
+                           ->withAdditionalRelationshipToReferencedResource(Relationship::LICENSE);
+
+        $expected_html = <<<EXP
+            <a class="il-link link-bulky" href="http://www.ilias.de" rel="license noopener">
+                <img class="icon someExample small" src="./templates/default/images/icon_default.svg" alt=""/>
+                <span class="bulky-label">label</span>
+            </a>
+EXP;
+
         $html = $r->render($b);
         $this->assertHTMLEquals($expected_html, $html);
     }
