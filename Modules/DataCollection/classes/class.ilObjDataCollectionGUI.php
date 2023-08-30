@@ -220,7 +220,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI
 
                 $rgui->setObject($record_id, "dcl_record", $field_id, "dcl_field");
                 $rgui->executeCommand();
-                $this->ctrl->redirectByClass("ilDclRecordListGUI", "listRecords");
+                $this->listRecords();
                 break;
 
             case "ildcldetailedviewgui":
