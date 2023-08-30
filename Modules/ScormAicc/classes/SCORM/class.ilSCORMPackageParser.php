@@ -170,10 +170,14 @@ class ilSCORMPackageParser extends ilSaxParser
         //echo "<br>handlerBeginTag:".$a_name;
         switch ($a_name) {
             case "manifest":
+                $mVersion = "";
+                if (isset($a_attribs["version"])) {
+                    $mVersion = $a_attribs["version"];
+                }
                 $manifest = new ilSCORMManifest();
                 $manifest->setSLMId($this->slm_object->getId());
                 $manifest->setImportId($a_attribs["identifier"]);
-                $manifest->setVersion($a_attribs["version"]);
+                $manifest->setVersion($mVersion);
                 if (isset($a_attribs["xml:base"])) {
                     $manifest->setXmlBase($a_attribs["xml:base"]);
                 }
