@@ -320,19 +320,9 @@ class ilObjDataCollectionGUI extends ilObject2GUI
         $this->infoScreenForward();
     }
 
-    /**
-     * show Content; redirect to ilDclRecordListGUI::listRecords
-     */
     public function render(): void
     {
-        if ($this->http->wrapper()->query()->has('tableview_id')) {
-            $tableview_id = $this->http->wrapper()->query()->retrieve(
-                'tableview_id',
-                $this->refinery->kindlyTo()->int()
-            );
-            $this->ctrl->setParameterByClass(ilDclRecordListGUI::class, 'tableview_id', $tableview_id);
-        }
-        $this->ctrl->redirectByClass(ilDclRecordListGUI::class, "show");
+        $this->listRecords();
     }
 
     /**
