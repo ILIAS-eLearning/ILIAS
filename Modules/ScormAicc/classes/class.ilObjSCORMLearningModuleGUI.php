@@ -341,7 +341,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
     {
         $values = array();
         $values["Fobject_title"] = $this->object->getTitle();
-        $values["Fobject_description"] = $this->object->getDescription();
+        $values["Fobject_description"] = $this->object->getLongDescription();
         if (!$this->object->getOfflineStatus()) {
             $values["cobj_online"] = true;
         }
