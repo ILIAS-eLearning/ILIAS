@@ -72,8 +72,6 @@ class RequestToDataTable implements RequestToComponents, DataRetrieval
                                ->withViewControls([
                                    $this->view_control_builder->getPagination()
                                ]);
-        // there is currently an issue with modals and async requests for items
-        yield from $this->action_builder->getModals();
     }
 
     /**
@@ -117,8 +115,6 @@ class RequestToDataTable implements RequestToComponents, DataRetrieval
         $this->initSortingAndOrdering($range, $order);
 
         foreach ($this->data_provider->getIdentifications() as $resource_identification) {
-            $modal = $this->action_builder->buildAndAddDeleteModal($resource_identification);
-
             $information = $this->getResourceInfo($resource_identification);
             $mime_type = $information->getMimeType();
 

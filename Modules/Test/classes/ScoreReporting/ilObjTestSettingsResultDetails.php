@@ -15,10 +15,11 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
 declare(strict_types=1);
 
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
-use ILIAS\UI\Component\Input\Field\Input;
+use ILIAS\UI\Component\Input\Container\Form\FormInput;
 use ILIAS\Refinery\Factory as Refinery;
 
 class ilObjTestSettingsResultDetails extends TestSettings
@@ -50,7 +51,7 @@ class ilObjTestSettingsResultDetails extends TestSettings
         FieldFactory $f,
         Refinery $refinery,
         array $environment = null
-    ): Input {
+    ): FormInput {
         $bool_with_optional_addition = $refinery->custom()->transformation(
             function ($v) {
                 if (!$v) {

@@ -1,13 +1,29 @@
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
+
 import { expect } from 'chai';
-import {JSDOM} from "jsdom";
+import { JSDOM } from 'jsdom';
 
 import DataTableFactory from '../../../../../src/UI/templates/js/Table/src/datatable.factory';
 import DataTable from '../../../../../src/UI/templates/js/Table/src/datatable.class';
-import Params from '../../../../../src/UI/templates/js/Table/src/Params';
 
 function initMockedDom() {
-    let dom = new JSDOM(
-        ` 
+  const dom = new JSDOM(
+    ` 
 <div class="c-table-data" id="tid">
     <h3 class="ilHeader" id="il_ui_fw_646dc93cd340d5_15676162_label">a data table</h3>
     <div class="viewcontrols"></div>
@@ -35,84 +51,52 @@ function initMockedDom() {
             </tr>
         </tbody>
     </table>
+
+    <div class="c-table-data__async_modal_container"></div>
+
+    <div class="c-table-data__async_message modal" role="dialog" id="{ID}_msgmodal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="c-table-data__async_messageresponse modal-body"></div>
+            </div>
+        </div>
+    </div>
 </div>
         `,
-        {
-            url: 'https://localhost',
-        }
-    );
+    {
+      url: 'https://localhost',
+    },
+  );
 
-    global.window = dom.window;
-    global.document = dom.window.document;
+  global.window = dom.window;
+  global.document = dom.window.document;
 }
 
-describe('Data Table', function() {
+describe('Data Table', () => {
+  beforeEach(initMockedDom);
 
-    beforeEach(initMockedDom);
-
-    it('classes exist', function() {
-        expect(DataTableFactory).to.not.be.undefined;
-        expect(DataTable).to.not.be.undefined;
-        expect(Params).to.not.be.undefined;
-    });
-    it('factory has public methods', function() {
-        const f = new DataTableFactory();
-        expect(f.init).to.be.an('function');
-        expect(f.get).to.be.an('function');
-    });
-    it('factors a DataTable', function() {
-        const f = new DataTableFactory({}, new Params());
-        f.init('tid', 'typeURL', 'typeSignal', 'optOptions', 'optId');
-        const dt = f.get('tid');
-        expect(dt.registerAction).to.be.an('function');
-        expect(dt.selectAll).to.be.an('function');
-        expect(dt.doMultiAction).to.be.an('function');
-        expect(dt.doActionForAll).to.be.an('function');
-        expect(dt.doAction).to.be.an('function');
-    });
-});
-
-describe('Params', function() {
-    it('is defined', function() {
-        expect(Params).to.not.be.undefined;
-    });
-
-    var p = new Params();
-
-    it('amends parameters to a signal', function() {
-        var sig = JSON.stringify({
-            "id": "some id",
-            "options": {
-                "o1": "v1"
-            }
-        });
-        sig = p.amendParameterToSignal(sig, 'par', 'val');
-        expect(sig.options).to.eql({
-            "o1": "v1",
-            "par" : "val"
-        });
-    });
-
-    it('amends parameters to an url', function() {
-        var url = 'https://www.ilias.de/x.php?target=cat_123&node=1:2',
-            id = 'row_ids',
-            values = ['row-1', 'row-2'],
-            expected = encodeURI(JSON.stringify(values));
-
-        expect(
-            p.amendParameterToUrl(url, id, values)
-        ).to.eql(
-            url + '&' + id + '=' + expected
-        );
-    });
-
-    it('retrieves params from an url', function() {
-        var url = 'https://www.ilias.de/x.php?target=cat_123&node=1:2';
-        expect(p.getParametersFromUrl(url))
-        .to.eql({
-            "node": "1:2",
-            "target": "cat_123"
-        });
-    });
-
+  it('classes exist', () => {
+    /* eslint  no-unused-expressions:0 */
+    expect(DataTableFactory).to.not.be.undefined;
+    expect(DataTable).to.not.be.undefined;
+  });
+  it('factory has public methods', () => {
+    const f = new DataTableFactory();
+    expect(f.init).to.be.an('function');
+    expect(f.get).to.be.an('function');
+  });
+  it('factors a DataTable', () => {
+    const f = new DataTableFactory({});
+    f.init('tid', 'actId', 'rowId');
+    const dt = f.get('tid');
+    expect(dt.registerAction).to.be.an('function');
+    expect(dt.selectAll).to.be.an('function');
+    expect(dt.doSingleAction).to.be.an('function');
+    expect(dt.doMultiAction).to.be.an('function');
+    expect(dt.doActionForAll).to.be.an('function');
+    expect(dt.doAction).to.be.an('function');
+  });
 });

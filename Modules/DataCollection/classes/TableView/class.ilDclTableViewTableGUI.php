@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -13,57 +14,45 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
-/**
- * Class ilDclTableViewTableGUI
- * @author  Theodor Truffer <tt@studer-raimann.ch>
- * @ingroup ModulesDataCollection
- */
+declare(strict_types=1);
+
 class ilDclTableViewTableGUI extends ilTable2GUI
 {
     protected ilDclTable $table;
 
     protected \ILIAS\UI\Renderer $renderer;
-    protected \ILIAS\UI\Factory $factory;
+    protected \ILIAS\UI\Factory $ui_factory;
 
-    /**
-     * ilDclTableViewTableGUI constructor.
-     * @param object     $a_parent_obj //object|ilDclTableViewGUI
-     * @param string     $a_parent_cmd
-     * @param ilDclTable $table
-     */
-    public function __construct(object $a_parent_obj, $a_parent_cmd, ilDclTable $table, int $ref_id)
+    public function __construct(object $a_parent_obj, string $a_parent_cmd, ilDclTable $table, int $ref_id)
     {
         global $DIC;
-        $lng = $DIC['lng'];
-        $ilCtrl = $DIC['ilCtrl'];
 
-        $this->factory = $DIC->ui()->factory();
+        $this->ui_factory = $DIC->ui()->factory();
         $this->renderer = $DIC->ui()->renderer();
 
         parent::__construct($a_parent_obj, $a_parent_cmd);
 
         $this->parent_obj = $a_parent_obj;
         $this->table = $table;
-        $this->ctrl = $ilCtrl;
-        $this->lng = $lng;
+        $this->ctrl = $DIC->ctrl();
+        $this->lng = $DIC->language();
 
         $this->setExternalSegmentation(true);
         $this->setExternalSorting(true);
 
         if ($this->parent_obj instanceof ilDclTableViewGUI) {
-            $ilCtrl->setParameterByClass('ildcltableviewgui', 'table_id', $table->getId());
-            $this->setFormAction($ilCtrl->getFormActionByClass('ildcltableviewgui'));
-            $this->addMultiCommand('confirmDeleteTableviews', $lng->txt('dcl_delete_views'));
-            $this->addCommandButton('saveTableViewOrder', $lng->txt('dcl_save_order'));
+            $this->ctrl->setParameterByClass(ilDclTableViewGUI::class, 'table_id', $table->getId());
+            $this->setFormAction($this->ctrl->getFormActionByClass(ilDclTableViewGUI::class));
+            $this->addMultiCommand('confirmDeleteTableviews', $this->lng->txt('dcl_delete_views'));
+            $this->addCommandButton('saveTableViewOrder', $this->lng->txt('dcl_save_order'));
 
-            $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
+            $this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
             $this->setFormName('tableview_list');
 
             $this->addColumn('', '', '1', true);
-            $this->addColumn($lng->txt('dcl_order'), '', '30px');
+            $this->addColumn($this->lng->txt('dcl_order'), '', '30px');
 
             $this->setRowTemplate('tpl.tableview_list_row.html', 'Modules/DataCollection');
             $this->setData($this->table->getTableViews());
@@ -72,10 +61,10 @@ class ilDclTableViewTableGUI extends ilTable2GUI
             $this->setData($this->table->getVisibleTableViews($ref_id, true));
         }
 
-        $this->addColumn($lng->txt('title'), '', 'auto');
-        $this->addColumn($lng->txt('description'), '', 'auto');
-        $this->addColumn($lng->txt('dcl_configuration_complete'), '', 'auto');
-        $this->addColumn($lng->txt('actions'), '', '30px');
+        $this->addColumn($this->lng->txt('title'), '', 'auto');
+        $this->addColumn($this->lng->txt('description'), '', 'auto');
+        $this->addColumn($this->lng->txt('dcl_configuration_complete'), '', 'auto');
+        $this->addColumn($this->lng->txt('actions'), '', '30px');
 
         $this->setTopCommands(true);
         $this->setEnableHeader(true);
@@ -84,10 +73,10 @@ class ilDclTableViewTableGUI extends ilTable2GUI
         $this->setEnableHeader(true);
         $this->setEnableTitle(true);
         $this->setDefaultOrderDirection('asc');
-        $this->setLimit(0);
+        $this->setLimit();
 
         $this->setId('dcl_tableviews');
-        $this->setTitle($lng->txt("dcl_tableviews_table"));
+        $this->setTitle($this->lng->txt("dcl_tableviews_table"));
         $this->setStyle('table', $this->getStyle('table') . ' ' . 'dcl_record_list');
     }
 
@@ -96,17 +85,14 @@ class ilDclTableViewTableGUI extends ilTable2GUI
      */
     public function getHTML(): string
     {
-        $lng = $this->lng;
-        $ilCtrl = $this->ctrl;
-
         if ($this->getExportMode()) {
             $this->exportData($this->getExportMode(), true);
         }
 
         $this->prepareOutput();
 
-        if (is_object($ilCtrl) && is_object($this->getParentObject()) && $this->getId() == "") {
-            $ilCtrl->saveParameter($this->getParentObject(), $this->getNavParameter());
+        if (is_object($this->getParentObject()) && $this->getId() == "") {
+            $this->ctrl->saveParameter($this->getParentObject(), $this->getNavParameter());
         }
 
         if (!$this->getPrintMode()) {
@@ -191,7 +177,7 @@ class ilDclTableViewTableGUI extends ilTable2GUI
             // add standard no items text (please tell me, if it messes something up, alex, 29.8.2008)
             $no_items_text = (trim($this->getNoEntriesText()) != '')
                 ? $this->getNoEntriesText()
-                : $lng->txt("no_items");
+                : $this->lng->txt("no_items");
 
             $this->css_row = ($this->css_row !== "tblrow1")
                 ? "tblrow1"
@@ -228,13 +214,13 @@ class ilDclTableViewTableGUI extends ilTable2GUI
             $this->tpl->setVariable("ORDER_VALUE", $a_set->getOrder());
         }
         $this->tpl->setVariable("TITLE", $a_set->getTitle());
-        $this->ctrl->setParameterByClass('ildcltablevieweditgui', 'tableview_id', $a_set->getId());
+        $this->ctrl->setParameterByClass(ilDclTableViewEditGUI::class, 'tableview_id', $a_set->getId());
         $this->tpl->setVariable("TITLE_LINK", $this->ctrl->getLinkTargetByClass('ildcltablevieweditgui'));
         $this->tpl->setVariable("DESCRIPTION", $a_set->getDescription());
 
-        $icon = $this->factory->symbol()->icon()->custom(ilUtil::getImagePath('icon_not_ok_monochrome.svg'), $this->lng->txt("yes"));
+        $icon = $this->ui_factory->symbol()->icon()->custom(ilUtil::getImagePath('icon_not_ok_monochrome.svg'), $this->lng->txt("yes"));
         if ($a_set->validateConfigCompletion()) {
-            $icon = $this->factory->symbol()->icon()->custom(ilUtil::getImagePath('icon_ok_monochrome.svg'), $this->lng->txt("no"));
+            $icon = $this->ui_factory->symbol()->icon()->custom(ilUtil::getImagePath('icon_ok_monochrome.svg'), $this->lng->txt("no"));
         }
         $this->tpl->setVariable("ICON_CONFIG", $this->renderer->render($icon));
         $this->tpl->setVariable('ACTIONS', $this->buildAction($a_set->getId()));
@@ -246,36 +232,34 @@ class ilDclTableViewTableGUI extends ilTable2GUI
     protected function buildAction(int $id): string
     {
         if ($this->parent_obj instanceof ilDclTableViewGUI) {
-            $alist = new ilAdvancedSelectionListGUI();
-            $alist->setId($id);
-            $alist->setListTitle($this->lng->txt('actions'));
-            $this->ctrl->setParameterByClass('ildcltableviewgui', 'tableview_id', $id);
-            $this->ctrl->setParameterByClass('ilDclDetailedViewDefinitionGUI', 'tableview_id', $id);
-            $alist->addItem(
+            $dropdown_items = [];
+
+            $this->ctrl->setParameterByClass(ilDclTableViewGUI::class, 'tableview_id', $id);
+            $this->ctrl->setParameterByClass(ilDclDetailedViewDefinitionGUI::class, 'tableview_id', $id);
+
+            $dropdown_items[] = $this->ui_factory->link()->standard(
                 $this->lng->txt('edit'),
-                '',
-                $this->ctrl->getLinkTargetByClass('ildcltablevieweditgui', 'editGeneralSettings')
+                $this->ctrl->getLinkTargetByClass(ilDclTableViewEditGUI::class, 'editGeneralSettings')
             );
-            $alist->addItem(
+            $dropdown_items[] = $this->ui_factory->link()->standard(
                 $this->lng->txt('copy'),
-                '',
-                $this->ctrl->getLinkTargetByClass('ildcltablevieweditgui', 'copy')
+                $this->ctrl->getLinkTargetByClass(ilDclTableViewEditGUI::class, 'copy')
             );
-            $alist->addItem(
+            $dropdown_items[] = $this->ui_factory->link()->standard(
                 $this->lng->txt('delete'),
-                '',
-                $this->ctrl->getLinkTargetByClass('ildcltablevieweditgui', 'confirmDelete')
+                $this->ctrl->getLinkTargetByClass(ilDclTableEditGUI::class, 'confirmDelete')
             );
+            $dropdown = $this->ui_factory->dropdown()->standard($dropdown_items)->withLabel($this->lng->txt('actions'));
 
-            return $alist->getHTML();
+            return $this->renderer->render($dropdown);
         } elseif ($this->parent_obj instanceof ilDclDetailedViewGUI) {
-            $button = ilDclLinkButton::getInstance();
-            $this->ctrl->setParameterByClass('ilDclDetailedViewGUI', 'tableview_id', $id);
-            $this->ctrl->saveParameterByClass('ilDclDetailedViewGUI', 'record_id');
-            $button->setUrl($this->ctrl->getLinkTargetByClass('ilDclDetailedViewGUI', 'renderRecord'));
-            $button->setCaption('view');
-
-            return $button->getToolbarHTML();
+            $this->ctrl->setParameterByClass(ilDclDetailedViewGUI::class, 'tableview_id', $id);
+            $this->ctrl->saveParameterByClass(ilDclDetailedViewGUI::class, 'record_id');
+            $link = $this->ui_factory->link()->standard(
+                $this->lng->txt('view'),
+                $this->ctrl->getLinkTargetByClass(ilDclDetailedViewGUI::class, 'renderRecord')
+            );
+            return $this->renderer->render($link);
         }
         return "";
     }

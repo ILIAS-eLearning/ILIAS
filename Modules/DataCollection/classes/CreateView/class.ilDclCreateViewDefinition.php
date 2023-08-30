@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -13,14 +14,11 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
-/**
- * Class ilDclCreateViewDefinition
- * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
- * @ingroup ModulesDataCollection
- */
+
+declare(strict_types=1);
+
 class ilDclCreateViewDefinition extends ilPageObject
 {
     public const PARENT_TYPE = 'dclf';
@@ -41,7 +39,7 @@ class ilDclCreateViewDefinition extends ilPageObject
      */
     public function getAvailablePlaceholders(): array
     {
-        $all = array();
+        $all = [];
 
         $tableview = new ilDclTableView($this->getId());
         $table_id = $tableview->getTableId();

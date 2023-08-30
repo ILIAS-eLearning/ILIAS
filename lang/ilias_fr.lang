@@ -592,8 +592,6 @@ assessment#:#counter#:#Compteur
 assessment#:#create_date#:#Créé
 assessment#:#create_gaps#:#Créer trou
 assessment#:#create_new#:#Créer nouveau
-assessment#:#ctm_cannot_be_changed#:#This is a test in CTM-Mode. Settings cannot be changed anymore as CTM has been abandoned.###29 07 2022 new variable
-assessment#:#ctm_cannot_be_started#:#This is a test in CTM-Mode. The test cannot be started anymore as CTM has been abandoned.###29 07 2022 new variable
 assessment#:#customstyle#:#Style personnalisé
 assessment#:#dashboard_tab#:#Dashboard
 assessment#:#definition#:#Définition
@@ -822,7 +820,6 @@ assessment#:#legend#:#Légende
 assessment#:#locked#:#verrouillé
 assessment#:#log_added_extratime#:#Ajouter %d minutes supplémentaires au participant : id %d
 assessment#:#log_answer_changed_points#:#Modification manuelle des points %s de %d à %d points par %s
-assessment#:#log_could_not_enter_test_due_to_simultaneous_users#:#L'utilisateur ne peut peut pas commenter le test car le nombre maximum d'utilisateurs simultanés de ce test a été atteint
 assessment#:#log_create_new_test#:#Nouveau test créé
 assessment#:#log_manual_feedback#:#%s fichier de commentaire ajouté pour individu testé %s et question %s: %s
 assessment#:#log_mark_added#:#Marque ajoutée
@@ -1246,11 +1243,6 @@ assessment#:#tst_add_quest_cont_edit_mode_RTE_info#:#Allows text formatting of q
 assessment#:#tst_addit_passes_blocked_after_passed_msg#:#You have passed the test. The test cannot be started again.###07 02 2020 new variable
 assessment#:#tst_all_test_competences#:#Tous les tests de compétence
 assessment#:#tst_all_user_data_deleted#:#Toutes les données utilisateur de ce test ont été détruites
-assessment#:#tst_allowed_users#:#Nombre Maximum d'Utilisateurs Simultanés
-assessment#:#tst_allowed_users_desc#:#ILIAS surveillera le nombre de participants faisant le test en même temps. Si plus d'utilisateurs que le maximum autorisé essayent d'accéder au test, ILIAS les empêchera de commencer le test.
-assessment#:#tst_allowed_users_max#:#Nombre max. de participants
-assessment#:#tst_allowed_users_time_gap#:#Temps Max. d'Inactivité pour les Utilisateurs Actifs
-assessment#:#tst_allowed_users_time_gap_desc#:#Participants that do not click in the test fort he indicated amount of time will be categorized as ‚inactive‘ and removed from the test.
 assessment#:#tst_already_submitted#:#Le test a déjà été passé et enregistré.
 assessment#:#tst_analysis#:#Analyse
 assessment#:#tst_anonymity#:#Anonymat
@@ -1330,19 +1322,6 @@ assessment#:#tst_derive_new_pool#:#Obtenir un nouveau pool de questions
 assessment#:#tst_derive_new_pools#:#Obtenir de nouveaux pools de questions
 assessment#:#tst_dont_show_msg_again_in_current_session#:#Don't show this message again in my current session.
 assessment#:#tst_dont_use_previous_answers#:#Vos réponses antérieures ne seront pas affichées par défaut lorsque vous repasserez le test
-assessment#:#tst_dyn_keep_answ_freeze#:#Gardez mes réponses actuelles de côté
-assessment#:#tst_dyn_quest_set_pool_deleted#:#The currently configured questionpool "%s" has been deleted.
-assessment#:#tst_dyn_quest_set_src_qpl_summary_string_deleted#:#%s (Supprimé Définitivement)
-assessment#:#tst_dyn_quest_set_src_qpl_summary_string_trashed#:#%s (Supprimé) [%s Questions]
-assessment#:#tst_dyn_test_msg_currently_finished_completely#:#Actuellement, vous avez répondu correctement à toutes les questions de la banque de question source. Vous pourrez reprendre le test après ajout ou modification de questions.
-assessment#:#tst_dyn_test_msg_currently_finished_selection#:#Vous avez répondu correctement à toute les questions sélectionnées. Modifiez la sélection de questions pour reprendre le test.
-assessment#:#tst_dyn_test_msg_pass_deletion_link#:#Supprimer les réponses précédentes
-assessment#:#tst_dyn_test_pass_deletion_button#:#Réinitialiser toutes les réponses du test
-assessment#:#tst_dyn_unfreeze_answers#:#Répondre de nouveau
-assessment#:#tst_dyn_unfreeze_answers_confirmation#:#Il y a des questions auxquelles vos réponses initiales ont été figées et vous ne pouvez faire de modification. Voulez-vous y répondre une nouvelle fois maintenant et donc dégeler vos réponses?
-assessment#:#tst_dynamic_question_set_complete#:#Statistique totale
-assessment#:#tst_dynamic_question_set_selection#:#Test Question Selection
-assessment#:#tst_dynamic_question_set_source_questionpool_summary_string#:#%s (Chemin: %s) [%s Questions]
 assessment#:#tst_edit_competence_assign#:#Éditer les propriétés de la tâche
 assessment#:#tst_edit_scoring#:#Notation Manuelle
 assessment#:#tst_ending_time#:#Heure de Fin
@@ -1492,8 +1471,6 @@ assessment#:#tst_mark_minimum_level#:#Niveau Minimum (en %)
 assessment#:#tst_mark_official_form#:#Forme Officielle
 assessment#:#tst_mark_passed#:#Valid&eacute;
 assessment#:#tst_mark_short_form#:#Forme Courte
-assessment#:#tst_max_allowed_users_heading#:#Le nombre maximum d'utilisateurs simultanés de ce test a été atteint
-assessment#:#tst_max_allowed_users_message#:#Le nombre maximum d'utilisateurs simultanés de ce test a été atteint. Veuillez effectuer ou reprendre ce test ultérieurement. Si l'un des participants au test est inactif pendant plus de  %s secondes, vous serez autorisé à passer ce test. Merci de votre compréhension.
 assessment#:#tst_max_comp_points#:#Points de compétence max.
 assessment#:#tst_maximum_points#:#Points Max.
 assessment#:#tst_mc_label_none_above#:#Aucune des réponses ci-dessus
@@ -1695,6 +1672,7 @@ assessment#:#tst_questions_hints_toolbar_cmd_reset_ordering_clipboard#:#Vider le
 assessment#:#tst_questions_inserted#:#Question(s) ajoutée(s)
 assessment#:#tst_questions_removed#:#Question(s) retirée(s)
 assessment#:#tst_random_nr_of_questions#:#Combien de questions ?
+assessment#:#tst_random_question_set_source_questionpool_summary_string#:#%s (Chemin: %s) [%s Questions]
 assessment#:#tst_random_select_questionpool#:#Sélectionner le jeu de questions dans lequel vous choisirez la question
 assessment#:#tst_reached_points#:#Points Obtenus
 assessment#:#tst_reached_points_of_max#:#%s of %s###07 02 2020 new variable

@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Signature Plugin Class
  * @author       Maximilian Becker <mbecker@databay.de>
@@ -26,40 +28,18 @@
  */
 class ilTestSignatureGUI
 {
-    /** @var $lng \ilLanguage */
-    protected $lng;
+    protected ilObjTestGUI $testGUI;
+    protected ilObjTest $test;
+    protected ilTestSignaturePlugin $plugin;
 
-    /** @var $ilCtrl ilCtrl */
-    protected $ilCtrl;
-
-    /** @var $tpl \ilTemplate  */
-    protected $tpl;
-
-    /** @var $testGUI \ilObjTestGUI */
-    protected $testGUI;
-
-    /** @var $ilTestOutputGUI \ilTestOutputGUI */
-    protected $ilTestOutputGUI;
-
-    /** @var $test \ilObjTest */
-    protected $test;
-
-    /** @var \ilTestSignaturePlugin */
-    protected $plugin;
-
-    public function __construct(ilTestOutputGUI $testOutputGUI)
-    {
-        global $DIC;
-        $lng = $DIC['lng'];
-        $ilCtrl = $DIC['ilCtrl'];
-        $tpl = $DIC['tpl'];
-        $component_factory = $DIC["component.factory"];
-
-        $this->lng = $lng;
-        $this->ilCtrl = $ilCtrl;
-        $this->tpl = $tpl;
-
-        $this->ilTestOutputGUI = $testOutputGUI;
+    public function __construct(
+        protected ilTestOutputGUI $testOutputGUI,
+        protected ilLanguage $lng,
+        protected ilCtrl $ctrl,
+        protected ilObjUser $user,
+        protected ilGlobalTemplateInterface $tpl,
+        protected ilComponentFactory $component_factory
+    ) {
         $this->test = $this->ilTestOutputGUI->object;
 
         $plugins = $component_factory->getActivePluginsInSlot("tsig");
@@ -69,7 +49,7 @@ class ilTestSignatureGUI
 
     public function executeCommand()
     {
-        $next_class = $this->ilCtrl->getNextClass($this);
+        $next_class = $this->ctrl->getNextClass($this);
 
         switch ($next_class) {
             default:
@@ -81,15 +61,12 @@ class ilTestSignatureGUI
 
     protected function dispatchCommand()
     {
-        /** @var $ilUser ilObjUser */
-        global $DIC;
-        $ilUser = $DIC['ilUser'];
-        $active = $this->test->getActiveIdOfUser($ilUser->getId());
+        $active = $this->test->getActiveIdOfUser($this->user->getId());
         $pass = $this->test->_getMaxPass($active);
         $key = 'signed_' . $active . '_' . $pass;
         ilSession::set($key, null);
 
-        $cmd = $this->ilCtrl->getCmd();
+        $cmd = $this->ctrl->getCmd();
         switch ($cmd) {
             default:
                 $ret = $this->plugin->invoke($cmd);
@@ -150,16 +127,11 @@ class ilTestSignatureGUI
      */
     public function redirectToTest($success)
     {
-        /** @var $ilCtrl ilCtrl */
-        /** @var $ilUser ilObjUser */
-        global $DIC;
-        $ilCtrl = $DIC['ilCtrl'];
-        $ilUser = $DIC['ilUser'];
-        $active = $this->test->getActiveIdOfUser($ilUser->getId());
+        $active = $this->test->getActiveIdOfUser($this->user->getId());
         $pass = $this->test->_getMaxPass($active);
         $key = 'signed_' . $active . '_' . $pass;
         ilSession::set($key, $success);
-        $ilCtrl->redirect($this->ilTestOutputGUI, 'afterTestPassFinished');
+        $this->ctrl->redirect($this->ilTestOutputGUI, 'afterTestPassFinished');
         return;
     }
 }

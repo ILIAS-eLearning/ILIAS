@@ -2076,7 +2076,6 @@ CREATE TABLE `chatroom_settings` (
 -- Dumping data for table `chatroom_settings`
 --
 
-INSERT INTO `chatroom_settings` VALUES (1,132,'repository',0,0,0,0,'Autogen #',0,0,0,1);
 INSERT INTO `chatroom_settings` VALUES (2,185,'default',0,0,0,0,'Anonymous #',1,0,1,1);
 
 --
@@ -12862,9 +12861,6 @@ INSERT INTO `object_data` VALUES (125,'rolt','Local Administrator','Role templat
 INSERT INTO `object_data` VALUES (127,'typ','extt','external tools settings',-1,'2005-07-20 18:10:04','2005-07-20 18:10:04','',NULL);
 INSERT INTO `object_data` VALUES (128,'extt','External tools settings','Configuring external tools',-1,'2005-07-20 18:10:04','2005-07-20 18:10:04','',NULL);
 INSERT INTO `object_data` VALUES (131,'rolt','il_crs_non_member','Non-member template for course object',-1,'2005-11-07 12:41:21','2015-12-22 15:35:30','',NULL);
-INSERT INTO `object_data` VALUES (132,'chtr','Public chat','Public chat',6,'2005-11-07 12:41:22','2005-11-07 12:41:22','',NULL);
-INSERT INTO `object_data` VALUES (133,'rolf','132','(ref_id 24)',6,'2005-11-07 12:41:22','2005-11-07 12:41:22','',NULL);
-INSERT INTO `object_data` VALUES (134,'role','il_chat_moderator_24','Moderator of chat obj_no.132',6,'2005-11-07 12:41:22','2005-11-07 12:41:22','',NULL);
 INSERT INTO `object_data` VALUES (135,'typ','adve','Advanced editing object',-1,'2006-07-11 18:43:23','2006-07-11 18:43:23','',NULL);
 INSERT INTO `object_data` VALUES (136,'adve','__AdvancedEditing','Advanced Editing',-1,'2006-07-11 18:43:23','2006-07-11 18:43:23','',NULL);
 INSERT INTO `object_data` VALUES (137,'typ','ps','Privacy security settings',-1,'2007-02-26 17:58:49','2007-02-26 17:58:49','',NULL);
@@ -13117,8 +13113,6 @@ INSERT INTO `object_reference` VALUES (20,116,NULL,0);
 INSERT INTO `object_reference` VALUES (21,118,NULL,0);
 INSERT INTO `object_reference` VALUES (22,124,NULL,0);
 INSERT INTO `object_reference` VALUES (23,128,NULL,0);
-INSERT INTO `object_reference` VALUES (24,132,NULL,0);
-INSERT INTO `object_reference` VALUES (25,133,NULL,0);
 INSERT INTO `object_reference` VALUES (26,136,NULL,0);
 INSERT INTO `object_reference` VALUES (27,138,NULL,0);
 INSERT INTO `object_reference` VALUES (28,140,NULL,0);
@@ -15356,7 +15350,6 @@ INSERT INTO `rbac_fa` VALUES (111,8,'n','n',0);
 INSERT INTO `rbac_fa` VALUES (112,8,'n','n',0);
 INSERT INTO `rbac_fa` VALUES (125,8,'n','y',0);
 INSERT INTO `rbac_fa` VALUES (131,8,'n','n',0);
-INSERT INTO `rbac_fa` VALUES (134,24,'y','n',0);
 INSERT INTO `rbac_fa` VALUES (148,8,'n','n',0);
 INSERT INTO `rbac_fa` VALUES (187,46,'y','n',0);
 INSERT INTO `rbac_fa` VALUES (188,8,'n','n',0);
@@ -15588,7 +15581,6 @@ INSERT INTO `rbac_pa` VALUES (83,'a:1:{i:0;s:2:\"51\";}',22);
 INSERT INTO `rbac_pa` VALUES (110,'a:1:{i:0;s:2:\"51\";}',22);
 INSERT INTO `rbac_pa` VALUES (111,'a:1:{i:0;s:2:\"51\";}',22);
 INSERT INTO `rbac_pa` VALUES (112,'a:1:{i:0;s:2:\"51\";}',22);
-INSERT INTO `rbac_pa` VALUES (134,'a:3:{i:0;i:52;i:1;i:3;i:2;i:2;}',24);
 INSERT INTO `rbac_pa` VALUES (187,'a:3:{i:0;i:52;i:1;i:3;i:2;i:2;}',46);
 
 --
@@ -22508,8 +22500,6 @@ INSERT INTO `tree` VALUES (1,20,9,29,30,3,'1.9.20');
 INSERT INTO `tree` VALUES (1,21,9,31,32,3,'1.9.21');
 INSERT INTO `tree` VALUES (1,22,9,33,34,3,'1.9.22');
 INSERT INTO `tree` VALUES (1,23,9,35,36,3,'1.9.23');
-INSERT INTO `tree` VALUES (1,24,14,14,17,4,'1.9.14.24');
-INSERT INTO `tree` VALUES (1,25,24,15,16,5,'1.9.14.24.25');
 INSERT INTO `tree` VALUES (1,26,9,37,38,3,'1.9.26');
 INSERT INTO `tree` VALUES (1,27,9,39,40,3,'1.9.27');
 INSERT INTO `tree` VALUES (1,28,9,41,42,3,'1.9.28');
@@ -24632,8 +24622,6 @@ INSERT INTO `write_event` VALUES (116,9,-1,'create','2005-01-07 12:21:15',13);
 INSERT INTO `write_event` VALUES (118,9,-1,'create','2005-03-02 03:59:01',14);
 INSERT INTO `write_event` VALUES (124,9,-1,'create','2005-06-19 23:50:00',15);
 INSERT INTO `write_event` VALUES (128,9,-1,'create','2005-07-20 08:10:04',16);
-INSERT INTO `write_event` VALUES (132,98,6,'create','2005-11-07 07:41:22',17);
-INSERT INTO `write_event` VALUES (133,132,6,'create','2005-11-07 07:41:22',18);
 INSERT INTO `write_event` VALUES (136,9,-1,'create','2006-07-11 08:43:23',19);
 INSERT INTO `write_event` VALUES (138,9,-1,'create','2007-02-26 12:58:49',20);
 INSERT INTO `write_event` VALUES (140,9,-1,'create','2007-02-26 12:58:50',21);

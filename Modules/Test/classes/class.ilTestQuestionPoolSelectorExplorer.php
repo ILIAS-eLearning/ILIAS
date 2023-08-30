@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * @author        Björn Heyser <bheyser@databay.de>
  * @version        $Id$
@@ -24,14 +26,18 @@
  */
 class ilTestQuestionPoolSelectorExplorer extends ilRepositorySelectorExplorerGUI
 {
-    protected $availableQuestionPools = array();
+    protected $availableQuestionPools = [];
 
-    public function __construct($targetGUI, $roundtripCMD, $selectCMD)
-    {
-        parent::__construct($targetGUI, $roundtripCMD, $targetGUI, $selectCMD);
+    public function __construct(
+        ilTestRandomQuestionSetConfigGUI $target_gui,
+        string $roundtrip_cmd,
+        string $select_cmd,
+        private ilObjectDataCache $obj_cache
+    ) {
+        parent::__construct($target_gui, $roundtrip_cmd, $target_gui, $select_cmd);
 
-        $this->setTypeWhiteList(array('grp', 'cat', 'crs', 'fold', 'qpl'));
-        $this->setClickableTypes(array('qpl'));
+        $this->setTypeWhiteList(['grp', 'cat', 'crs', 'fold', 'qpl']);
+        $this->setClickableTypes(['qpl']);
         $this->setSelectMode('', false);
         $this->selection_par = 'quest_pool_ref';
     }
@@ -46,13 +52,10 @@ class ilTestQuestionPoolSelectorExplorer extends ilRepositorySelectorExplorerGUI
         $this->availableQuestionPools = $availableQuestionPools;
     }
 
-    public function isAvailableQuestionPool($qplRefId): bool
+    public function isAvailableQuestionPool($qpl_ref_id): bool
     {
-        /* @var ilObjectDataCache $objCache */
-        $objCache = isset($GLOBALS['DIC']) ? $GLOBALS['DIC']['ilObjDataCache'] : $GLOBALS['ilObjDataCache'];
-
-        $qplObjId = $objCache->lookupObjId((int) $qplRefId);
-        return in_array($qplObjId, $this->getAvailableQuestionPools());
+        $qpl_obj_id = $this->obj_cache->lookupObjId((int) $qpl_ref_id);
+        return in_array($qpl_obj_id, $this->getAvailableQuestionPools());
     }
 
     public function isNodeClickable($a_node): bool

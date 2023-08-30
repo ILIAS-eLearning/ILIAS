@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Class ilTestPasswordProtectionGUITest
@@ -35,7 +35,8 @@ class ilTestPasswordProtectionGUITest extends ilTestBaseTestCase
             $this->createMock(ilGlobalPageTemplate::class),
             $this->createMock(ilLanguage::class),
             $this->createMock(ilTestPlayerAbstractGUI::class),
-            $this->createMock(ilTestPasswordChecker::class)
+            $this->createMock(ilTestPasswordChecker::class),
+            $this->createMock(ILIAS\Test\InternalRequestService::class)
         );
     }
 

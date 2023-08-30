@@ -593,8 +593,6 @@ assessment#:#counter#:#Zähler
 assessment#:#create_date#:#Erzeugt
 assessment#:#create_gaps#:#Lücken erzeugen und aktualisieren
 assessment#:#create_new#:#Erstelle neue
-assessment#:#ctm_cannot_be_changed#:#Wiedervorlagetests können nicht mehr geändert werden.
-assessment#:#ctm_cannot_be_started#:#Wiedervorlagetests können nicht mehr gestartet werden.
 assessment#:#customstyle#:#Eigenes Stylesheet
 assessment#:#dashboard_tab#:#Dashboard
 assessment#:#definition#:#Definition
@@ -830,7 +828,6 @@ assessment#:#legend#:#Legende
 assessment#:#locked#:#gesperrt
 assessment#:#log_added_extratime#:#Es wurden zusätzliche %d Minuten Bearbeitungsdauer für die Teilnehmer-ID %d hinzugefügt
 assessment#:#log_answer_changed_points#:#Manuelles Setzen der Punkte des Teilnehmers %s von %d auf %d Punkte durch %s
-assessment#:#log_could_not_enter_test_due_to_simultaneous_users#:#Der Teilnehmer konnte den Test nicht starten, da die maximale Anzahl der gleichzeitiger Teilnehmer für diesen Kurs bereits erreicht ist.
 assessment#:#log_create_new_test#:#Neuer Test erzeugt
 assessment#:#log_manual_feedback#:#%s hat eine manuelle Bewertung für den Teilnehmer %s und die Frage %s erstellt: %s
 assessment#:#log_mark_added#:#Note hinzugefügt
@@ -890,6 +887,7 @@ assessment#:#new_category#:#Neue Einheiten-Kategorie
 assessment#:#new_unit#:#Neue Einheit
 assessment#:#next_question#:#Weiter
 assessment#:#next_question_rows#:#Fragen %d - %d von %d >>
+assessment#:#no_manual_feedback_export_info#:#Manuelle Rückmeldungen werden nicht exportiert.
 assessment#:#no_passed_mark#:#Sie müssen wenigstens einen Notenschritt als BESTANDEN markieren! Das Notenschema wurde nicht gespeichert!
 assessment#:#no_question_selected_for_move#:#Bitte wählen Sie mindestens eine Frage aus, um sie zu verschieben!
 assessment#:#no_questions_available#:#Es sind keine Fragen verfügbar!
@@ -1260,11 +1258,6 @@ assessment#:#tst_add_quest_cont_edit_mode_RTE_info#:#Erlaubt formatierten Text f
 assessment#:#tst_addit_passes_blocked_after_passed_msg#:#Sie haben den Test bestanden. Der Test kann nicht noch einmal gestartet werden.
 assessment#:#tst_all_test_competences#:#Alle Test-Kompetenzen
 assessment#:#tst_all_user_data_deleted#:#Die Daten aller Testteilnehmer wurden gelöscht!
-assessment#:#tst_allowed_users#:#Anzahl gleichzeitiger Teilnehmer begrenzen
-assessment#:#tst_allowed_users_desc#:#ILIAS prüft die Anzahl der gleichzeitigen Teilnehmer des Tests. Wenn über die maximal erlaubte Anzahl hinaus weitere Benutzer versuchen, den Test zu starten, werden sie am Zugriff gehindert.
-assessment#:#tst_allowed_users_max#:#Maximale Anzahl
-assessment#:#tst_allowed_users_time_gap#:#Inaktivitätszeit der Teilnehmer
-assessment#:#tst_allowed_users_time_gap_desc#:#Teilnehmer die im Ablauf der angegeben Sekunden keinen Klick im Test ausführen, werden als ‚inaktiv‘ eingestuft und aus dem Test entfernt.
 assessment#:#tst_already_submitted#:#Der Test wurde bereits beendet und die Antworten abgeschickt.
 assessment#:#tst_analysis#:#Analyse
 assessment#:#tst_anonymity#:#Datenschutz
@@ -1345,19 +1338,6 @@ assessment#:#tst_derive_new_pool#:#Neuen Fragenpool ableiten
 assessment#:#tst_derive_new_pools#:#Neue Fragenpools ableiten
 assessment#:#tst_dont_show_msg_again_in_current_session#:#Diese Meldung in meiner aktuellen Sitzung nicht mehr anzeigen.
 assessment#:#tst_dont_use_previous_answers#:#Ihre vorherigen Antworten werden in zukünftigen Testdurchläufen nicht als vorgegebene Werte verwendet
-assessment#:#tst_dyn_keep_answ_freeze#:#Belasse festgeschriebene Antworten
-assessment#:#tst_dyn_quest_set_pool_deleted#:#Der aktuell konfigurierte Fragenpool "%s" ist gelöscht worden.
-assessment#:#tst_dyn_quest_set_src_qpl_summary_string_deleted#:#%s (Endgültig gelöscht)
-assessment#:#tst_dyn_quest_set_src_qpl_summary_string_trashed#:#%s (Aktuell im Papierkorb) [%s Fragen]
-assessment#:#tst_dyn_test_msg_currently_finished_completely#:#Aktuell haben Sie alle Fragen des Quellfragenpool erfolgreich beantwortet. Sowie neue oder veränderte Fragen im Quellfragenpool vorliegen können Sie den Test fortführen.
-assessment#:#tst_dyn_test_msg_currently_finished_selection#:#In der aktuellen Fragenauswahl haben Sie alle Fragen erfolgreich beantwortet. Ändern Sie die Fragenauswahl um den Test fort zu führen.
-assessment#:#tst_dyn_test_msg_pass_deletion_link#:#Bisherige Antworten entfernen
-assessment#:#tst_dyn_test_pass_deletion_button#:#Zurücksetzen sämtlicher Testantworten
-assessment#:#tst_dyn_unfreeze_answers#:#Erneut beantworten
-assessment#:#tst_dyn_unfreeze_answers_confirmation#:#Es sind Fragen enthalten, zu denen ihre initialen Antworten festgeschrieben wurden, so dass Sie keine Änderungen an den Antworten vornehmen können. Möchten Sie die Fragen jetzt erneut beantworten und die festgeschriebenen Antworten lösen?
-assessment#:#tst_dynamic_question_set_complete#:#Bearbeitungsstand aller verfügbaren Fragen
-assessment#:#tst_dynamic_question_set_selection#:#Auswahl der Testfragen und Auswahlstatistik
-assessment#:#tst_dynamic_question_set_source_questionpool_summary_string#:#%s (Pfad: %s) [%s Fragen]
 assessment#:#tst_edit_competence_assign#:#Bearbeite Zuordnungs-Eigenschaften
 assessment#:#tst_edit_scoring#:#Ändere Bewertung
 assessment#:#tst_ending_time#:#Ende
@@ -1392,7 +1372,8 @@ assessment#:#tst_filter_taxonomy#:#Taxonomie
 assessment#:#tst_final_information#:#Test abschließen
 assessment#:#tst_finish_confirm_button#:#Ja, ich will den Test beenden
 assessment#:#tst_finish_confirm_cancel_button#:#Nein, ich will zur letzten Antwort zurückgehen
-assessment#:#tst_finish_confirmation_question#:#Sie sind dabei, diesen Test zu beenden und die maximale Anzahl erlaubter Testdurchläufe zu erreichen. Danach werden Sie nicht mehr in der Lage sein, den Test erneut aufzurufen, um Ihre Antworten zu ändern. Wollen Sie den Test wirklich beenden?
+assessment#:#tst_finish_confirmation_question#:#Sie sind dabei, diesen Test zu beenden. Danach werden Sie nicht mehr in der Lage sein, den Test erneut aufzurufen, um Ihre Antworten zu ändern. Wollen Sie den Test wirklich beenden?
+assessment#:#tst_finish_confirmation_question_no_attempts_left#:#Sie sind dabei, diesen Test zu beenden und die maximale Anzahl erlaubter Testdurchläufe zu erreichen. Danach werden Sie nicht mehr in der Lage sein, den Test erneut aufzurufen, um Ihre Antworten zu ändern. Wollen Sie den Test wirklich beenden?
 assessment#:#tst_finish_notification#:#Benachrichtigung
 assessment#:#tst_finish_notification_advanced#:#Komplettes Testergebnis pro Benutzer
 assessment#:#tst_finish_notification_content_type#:#Inhalt der Benachrichtigung
@@ -1510,8 +1491,6 @@ assessment#:#tst_mark_minimum_level#:#Mindestprozentsatz
 assessment#:#tst_mark_official_form#:#Offizielle Bezeichnung
 assessment#:#tst_mark_passed#:#Bestanden
 assessment#:#tst_mark_short_form#:#Kurzbezeichnung
-assessment#:#tst_max_allowed_users_heading#:#Die maximale Anzahl von gleichzeitiger Teilnehmern für diesen Test wurde erreicht
-assessment#:#tst_max_allowed_users_message#:#Die maximale Anzahl gleichzeitiger Teilnehmer für diesen Test wurde erreicht. Bitte versuchen Sie etwas später wieder den Test zu starten oder fortzusetzen. Wenn aktive Teilnehmer für mehr als %s Sekunden inaktiv sind, besteht für Sie die Möglichkeit, an diesem Test teilzunehmen. Wir danken Ihnen für Ihr Verständnis.
 assessment#:#tst_max_comp_points#:#Max. Kompetenz-Punkte
 assessment#:#tst_maximum_points#:#Maximale Punktezahl
 assessment#:#tst_mc_label_none_above#:#Keine der obigen Antworten
@@ -1716,6 +1695,7 @@ assessment#:#tst_questions_hints_toolbar_cmd_reset_ordering_clipboard#:#Zwischen
 assessment#:#tst_questions_inserted#:#Fragen angefügt!
 assessment#:#tst_questions_removed#:#Fragen entfernt!
 assessment#:#tst_random_nr_of_questions#:#Wie viele Fragen?
+assessment#:#tst_random_question_set_source_questionpool_summary_string#:#%s (Pfad: %s) [%s Fragen]
 assessment#:#tst_random_select_questionpool#:#Wählen Sie einen Fragenpool, von dem die Fragen verwendet werden sollen.
 assessment#:#tst_reached_points#:#Erreichte Punkte
 assessment#:#tst_reached_points_of_max#:#%s von %s
@@ -2141,6 +2121,7 @@ badge#:#badge_backpack_no_groups#:#Das Mozilla Backpack ist leer bzw. nicht öff
 badge#:#badge_badge#:#Badge
 badge#:#badge_course_lp#:#Nach Leistung vergebenes Badge
 badge#:#badge_course_lp_invalid#:#Die folgenden Objekte verwenden einen nicht unterstützten Lernfortschrittsmodus: %s.
+badge#:#badge_create#:#Badge erstellen
 badge#:#badge_criteria#:#Kriterien
 badge#:#badge_crs_merit#:#Händisch vergebenes Badge
 badge#:#badge_deletion_confirmation#:#Wollen Sie wirklich die folgenden Badges und alle ihre jeweiligen Zuweisungen löschen?
@@ -5774,7 +5755,7 @@ common#:#user_not_found#:#Der Benutzer wurde nicht gefunden
 common#:#user_not_found_to_delete#:#Ein Benutzer, der gelöscht werden sollte, konnte nicht gefunden werden.
 common#:#user_not_known#:#Bitte geben Sie einen gültigen Anmeldenamen ein.###Modified as part of gender mainstreaming activities for ILIAS 8
 common#:#user_profile_other#:#Weitere Informationen
-common#:#user_send_new_account_mail#:#Sende
+common#:#user_send_new_account_mail#:#Begrüssungsmail versenden
 common#:#user_status#:#Benutzerstatus
 common#:#user_toggle_noti#:#Benachrichtigungen können nicht deaktiviert werden.
 common#:#userdata#:#Benutzerdaten
@@ -8106,6 +8087,8 @@ dateplaner#:#cal_create#:#Erzeuge
 dateplaner#:#cal_created_appointment#:#Ein neuer Termin wurde angelegt.
 dateplaner#:#cal_created_milestone#:#Der Meilenstein wurde angelegt.
 dateplaner#:#cal_created_milestone_resp_q#:#Der Meilenstein wurde angelegt. Bitte wählen Sie die Mitglieder aus, die für den Meilenstein verantwortlich sein sollen.
+dateplaner#:#cal_cronjob_remote_description#:#Wenn aktiviert, werden Termine des Kalendertyps "Web-Kalender" automatisch nach dem vorgegeben Zeitintervall synchronisiert.
+dateplaner#:#cal_cronjob_remote_title#:#Synchronisierung externer Kalender
 dateplaner#:#cal_crs_info#:#Course Information
 dateplaner#:#cal_crs_new_notification_body#:#ein neuer Termin ist im Kurs "%s" angelegt worden.
 dateplaner#:#cal_crs_new_notification_sub#:#Neuer Termin in Kurs "%s"
@@ -8586,6 +8569,8 @@ dcl#:#dcl_std_field_not_importable#:# - Standardfelder sind nicht importierbar.
 dcl#:#dcl_std_filter#:#Filtervorbelegung
 dcl#:#dcl_supported_filetypes#:#Erlaubte Dateiendungen
 dcl#:#dcl_supported_filetypes_desc#:#Sie können hier kommagetrennt Dateiendungen angeben. Zum Beispiel: pdf, docx
+dcl#:#dcl_switch_table#:#Tabelle wechseln
+dcl#:#dcl_switch_view#:#Ansicht ändern
 dcl#:#dcl_table#:#Tabelle
 dcl#:#dcl_table_create#:#Erstelle Tabelle
 dcl#:#dcl_table_edit#:#Speichern
@@ -9816,6 +9801,8 @@ glo#:#glo_box_last_presented#:#Fach zuletzt angezeigt
 glo#:#glo_boxes#:#Fächer
 glo#:#glo_boxes_really_reset#:#Möchten Sie wirklich alle Fächer zurücksetzen? Alle Lernkarten werden in das erste Fach verschoben.
 glo#:#glo_boxes_reset#:#Die Fächer wurden erfolgreich zurückgesetzt.
+glo#:#glo_bulk_confirmation#:#Bitte überprüfen Sie, ob alle Begriffe und Definitionen korrekt gelistet sind.
+glo#:#glo_bulk_creation#:#Massenerstellung
 glo#:#glo_change_to_collection_unavailable_info#:#Um die Zusammenstellung der Inhalte auf "Sammelglossar" zu ändern, müssen Sie zuerst alle bestehenden Begriffe innerhalb dieses Glossars im Reiter "Inhalt" löschen.
 glo#:#glo_change_to_standard_unavailable_info#:#Um die Zusammenstellung der Inhalte auf "Normales Glossar" zu ändern, müssen Sie zuerst die ausgewählten Glossare im Reiter "Inhalt" entfernen.
 glo#:#glo_col_ordering_info#:#Sortieren Sie die Titel der Metadatenfelder, die in der Präsentationsansicht des Glossars als Spaltenüberschriften angezeigt werden.
@@ -9825,6 +9812,7 @@ glo#:#glo_collection_info#:#Das Glossar sammelt automatisch alle Begriffe aus de
 glo#:#glo_content_assembly#:#Zusammenstellung der Inhalte
 glo#:#glo_copy#:#Glossar kopieren
 glo#:#glo_copy_terms#:#Begriffe kopieren
+glo#:#glo_create_term_definition_pairs#:#Begriffs/Definitions-Paare erstellen
 glo#:#glo_days_ago#:#vor %s Tagen
 glo#:#glo_def_vs_term#:#Definition vs. Begriff
 glo#:#glo_def_vs_term_info#:#Zeige zuerst eine Definition, der Lernende muss den Begriff erraten.
@@ -9855,9 +9843,13 @@ glo#:#glo_selected_terms_have_been_copied#:#Die ausgewählten Begriffe wurden in
 glo#:#glo_show_definition#:#Definition zeigen
 glo#:#glo_show_term#:#Begriff zeigen
 glo#:#glo_term#:#Glossarbegriff
+glo#:#glo_term_definition_pairs#:#Begriffs/Definitions-Paare
+glo#:#glo_term_definition_pairs_info#:#Bitte geben Sie pro Zeile ein Begriffs/Definitions-Paar ein. Begriff und Definition müssen getrennt sein durch ein Semikolon oder ein TAB-Zeichen (werden überlicherweise durch Zwischenablage-Aktionen von Tabellenkalkulationsprogramm unterstützt).
+glo#:#glo_term_letter#:#Buchstabe
 glo#:#glo_term_reference#:#Begriffslink
 glo#:#glo_term_vs_def#:#Begriff vs. Definition
 glo#:#glo_term_vs_def_info#:#Zeige zuerst einen Begriff, der Lernende muss die Definition erraten.
+glo#:#glo_terms_per_page#:#Begriffe pro Seite
 glo#:#glo_use_all_flashcards#:#Alle Lernkarten nutzen (%s)
 glo#:#glo_use_remaining_flashcards#:#Verbleibende Lernkarten nutzen (%s)
 grp#:#crs_add_grouping#:#Neue Mitgliedschaftsbeschränkung
@@ -10862,7 +10854,7 @@ mail#:#mail_absence_status#:#Abwesenheit konfigurieren
 mail#:#mail_absence_status_info#:#Aktivierung des automatischen Versands einer Abwesenheitsnachricht.
 mail#:#mail_absent_from#:#Abwesend von
 mail#:#mail_absent_until#:#Abwesend bis einschließlich
-mail#:#mail_account_mail#:#Anmeldekonten-Mail
+mail#:#mail_account_mail#:#Über neues Konto informieren
 mail#:#mail_add_folder#:#Neuen Ordner erstellen
 mail#:#mail_add_recipient#:#Bitte geben Sie an, wer die Mail erhalten soll. Geben Sie ILIAS-Anmeldenamen oder gültige E-Mail-Adressen an.###Modified as part of gender mainstreaming activities for ILIAS 8
 mail#:#mail_add_subfolder#:#Unterordner hinzufügen
@@ -10969,6 +10961,8 @@ mail#:#mail_members_search_continue#:#Weiter
 mail#:#mail_message_send#:#Die Mail wurde versandt
 mail#:#mail_move_error#:#Fehler beim Mailversand
 mail#:#mail_move_to#:#Verschieben nach:
+mail#:#mail_move_to_folder_btn_label#:#Mail verschieben
+mail#:#mail_move_to_folder_x#:#nach "%s"
 mail#:#mail_moved#:#Ihre Mail(s) wurden verschoben
 mail#:#mail_moved_to_trash#:#Die Mail(s) wurde(n) in den Papierkorb verschoben
 mail#:#mail_multiple_role_recipients_found#:#Die Angabe %1$s im „An”-Feld ist nicht eindeutig: Versenden Sie diese Mail bitte direkt aus dem Mitglieder-Reiter des gewünschten Kurses bzw. der gewünschten Gruppe.###Modified as part of gender mainstreaming activities for ILIAS 8
@@ -11402,6 +11396,7 @@ meta#:#md_used#:#Verwendung (Anzahl)
 meta#:#meta_accessibility_restrictions#:#Zugangsbeschränkungen
 meta#:#meta_active#:#Aktiv
 meta#:#meta_add#:#Hinzufügen
+meta#:#meta_advmd_add_field#:#Neues Feld hinzufügen
 meta#:#meta_advmd_select_options#:#Einträge
 meta#:#meta_annotation#:#Anmerkung
 meta#:#meta_atomic#:#Atomar
@@ -12347,7 +12342,9 @@ obj#:#obj_tool_setting_use_news_open_settings#:#Einstellungen für Block und Tim
 obj#:#obj_user_decides_notification#:#Mitglieder müssen Benachrichtigungen selbst aktivieren
 obj#:#obj_user_not_disable_not#:#Mitglieder können die Benachrichtigung nicht deaktiveren
 obj#:#online_input_byline#:#Objekt ist veröffentlicht und kann von allen Personen mit dem Recht „Lesezugriff“ genutzt werden. Die Verfügbarkeit kann aber noch durch Vorbedingungen oder zeitliche Zugriffsbeschränkungen eingeschränkt sein. Diese Einstellungen wirkt sich auf alle Referenzen des Objektes aus.
+obj#:#select_object_type#:#Objekttyp wählen
 obj#:#svy_results#:#Ergebnisse
+obj#:#user_owns_no_objects#:#Keine Magazin-Objekte vorhanden
 objref#:#objref_custom_title#:#Eigenen Titel eingeben
 objref#:#objref_edit_ref#:#Ziel des Links
 objref#:#objref_edit_title#:#Titel
@@ -12589,30 +12586,36 @@ poll#:#poll_answer#:#Antwort
 poll#:#poll_answers#:#Mögliche Antworten
 poll#:#poll_barchart#:#Balkendiagramm
 poll#:#poll_block_message_already_voted#:#Sie haben bereits abgestimmt.
-poll#:#poll_block_message_inactive#:#Diese Abstimmung ist verfügbar ab dem %s.
 poll#:#poll_block_message_no_answers#:#Diese Abstimmung ist nicht komplett.
-poll#:#poll_block_message_offline#:#Diese Abstimmung ist offline.
-poll#:#poll_block_results_available_on#:#Die Ergebnisse werden am %s veröffentlicht.
+poll#:#poll_block_results_available_on#:#Die Ergebnisse werden %s veröffentlicht.
+poll#:#poll_cannot_set_online_no_answers#:#Der Status kann nicht auf &quot;online (aktiviert)&quot; geändert werden, da der Abstimmung noch keine Frage hinzugefügt wurde!
 poll#:#poll_comments#:#Kommentare
 poll#:#poll_copy#:#Abstimmung kopieren
-poll#:#poll_delete_votes#:#Alle Stimmen löschen
-poll#:#poll_delete_votes_sure#:#Sind Sie sicher, dass Sie alle Stimmen löschen möchten?
+poll#:#poll_delete_votes#:#Stimmen aller Teilnehmenden löschen
+poll#:#poll_delete_votes_sure#:#Sind Sie sicher, dass Sie die Stimmen aller Teilnehmenden dieser Abstimmung löschen möchten?
 poll#:#poll_edit#:#Abstimmung editieren
+poll#:#poll_edit_question#:#Frage bearbeiten
 poll#:#poll_image#:#Bild
 poll#:#poll_import#:#Abstimmung importieren
-poll#:#poll_max_number_of_answers#:#Maximale Anzahl Antworten je Teilnehmer
+poll#:#poll_limit_not_below_answer_count#:#Die begrenzte Anzahl muss kleiner sein als die Anzahl der möglichen Antworten.
+poll#:#poll_limit_number_of_answers#:#Anzahl Antworten je Teilnehmer begrenzen
+poll#:#poll_max_number_of_answers#:#Max. Antworten
+poll#:#poll_max_number_of_answers_info#:#Sie dürfen bis zu %s Antworten auswählen.
 poll#:#poll_mode#:#Modus
-poll#:#poll_mode_anonymous#:#Anonym
-poll#:#poll_mode_anonymous_info#:#Abgegebene Stimmen können den Teilnehmenden nicht zugeordnet werden.
-poll#:#poll_mode_personal#:#Personalisiert
-poll#:#poll_mode_personal_info#:#Eine Liste der Teilnehmenden mit den abgegebenen Stimmen ist mit ausreichenden Rechten verfügbar.
+poll#:#poll_mode_anonymous#:#Ohne Namen / Anonym
+poll#:#poll_mode_anonymous_info#:#Im Tab "Abstimmungsergebnisse" werden Namen der Teilnehmenden nicht aufgeführt.
+poll#:#poll_mode_personal#:#Mit Namen
+poll#:#poll_mode_personal_info#:#Im Tab "Abstimmungsergebnisse" werden die Namen der Teilnehmenden mit ihren Antworten aufgeführt. Wer Zugriff auf diesen Tab hat, kann prüfen, wer welche Antwort gegeben hat.
 poll#:#poll_new#:#Neue Abstimmung anlegen
 poll#:#poll_non_anonymous_warning#:#Ihr Name und Votum ist in den Abstimmungsergebnissen für Administratoren sichtbar.
+poll#:#poll_notification_activated#:#Änderungs-Benachrichtigung aktiviert
+poll#:#poll_notification_deactivated#:#Änderungs-Benachrichtigung deaktiviert
 poll#:#poll_notification_subscribe#:#Benachrichtigung aktivieren
 poll#:#poll_notification_unsubscribe#:#Benachrichtigung deaktivieren
 poll#:#poll_percentage#:#Aktueller Anteil
 poll#:#poll_piechart#:#Kuchendiagramm
-poll#:#poll_population#:#%s Teilnehmer
+poll#:#poll_population#:#%s Teilnehmende
+poll#:#poll_population_singular#:#1 Teilnehmer
 poll#:#poll_question#:#Frage
 poll#:#poll_result#:#Abstimmungsergebnisse
 poll#:#poll_result_answers#:#Stimmen
@@ -12630,6 +12633,7 @@ poll#:#poll_view_results_always#:#Immer
 poll#:#poll_view_results_never#:#Niemals
 poll#:#poll_vote#:#Abstimmen
 poll#:#poll_vote_error_multi#:#Wählen Sie maximal %s Antworten aus.
+poll#:#poll_vote_error_multi_no_answer#:#Wählen Sie mindestens eine Antwort aus.
 poll#:#poll_vote_error_single#:#Wählen Sie eine Antwort aus.
 poll#:#poll_vote_notification_body#:#die folgende Abstimmung hat eine Stimme erhalten
 poll#:#poll_vote_notification_link#:#Link zur Abstimmung
@@ -12637,8 +12641,9 @@ poll#:#poll_vote_notification_reason#:#Sie erhalten diese Nachricht, da Sie die 
 poll#:#poll_vote_notification_subject#:#Abstimmung "%s": neue Stimme
 poll#:#poll_votes_no_edit#:#Diese Abstimmung beinhaltet bereits Stimmen. Sie kann nicht bearbeitet werden so lange Sie die Stimmen nicht löschen.
 poll#:#poll_voting_period_and_results#:#Stimmperiode und Ergebnisse
+poll#:#poll_voting_period_ended_info#:#Das Ende der Abstimmung war %s.
 poll#:#poll_voting_period_full_info#:#Abstimmung von %s bis %s
-poll#:#poll_voting_period_info#:#Ende der Abstimmung: %s
+poll#:#poll_voting_period_info#:#Das Ende der Abstimmung ist %s.
 poll#:#poll_voting_period_limited#:#Zeitlich begrenzte Stimmperiode
 prg#:#access_ctr_by_orgu_position#:#Berechtigungen anhand Positionen in Organisationseinheiten
 prg#:#active_only#:#nur aktive
@@ -16672,6 +16677,13 @@ ui#:#datetime_required#:#Zeit/Datum erforderlich
 ui#:#duration_default_label_end#:#Ende
 ui#:#duration_default_label_start#:#Beginn
 ui#:#duration_end_must_not_be_earlier_than_start#:#Der Beginn muss zeitlich vor dem Ende liegen.
+ui#:#label_fieldselection#:#Spaltenauswahl
+ui#:#label_fieldselection_refresh#:#Anwenden
+ui#:#label_pagination_limit#:#Pagination - Anzahl der Zeilen
+ui#:#label_pagination_offset#:#Pagination - Start
+ui#:#label_sortation#:#Sortierung
+ui#:#presentaion_table_collapse#:#alle minimieren
+ui#:#presentaion_table_expand#:#alle zeigen
 ui#:#ui_chars_max#:#Maximum:
 ui#:#ui_chars_min#:#Minimum:
 ui#:#ui_chars_remaining#:#Verbleibende Buchstaben

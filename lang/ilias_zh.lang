@@ -591,8 +591,6 @@ assessment#:#counter#:#计数器
 assessment#:#create_date#:#已创建
 assessment#:#create_gaps#:#创建间隔
 assessment#:#create_new#:#新创建
-assessment#:#ctm_cannot_be_changed#:#This is a test in CTM-Mode. Settings cannot be changed anymore as CTM has been abandoned.###29 07 2022 new variable
-assessment#:#ctm_cannot_be_started#:#This is a test in CTM-Mode. The test cannot be started anymore as CTM has been abandoned.###29 07 2022 new variable
 assessment#:#customstyle#:#自定义样式
 assessment#:#dashboard_tab#:#Dashboard###10 11 2018 new variable
 assessment#:#definition#:#定义
@@ -821,7 +819,6 @@ assessment#:#legend#:#传说
 assessment#:#locked#:#锁定
 assessment#:#log_added_extratime#:#Added extra %d minutes for participant id %d###24 10 2013 new variable
 assessment#:#log_answer_changed_points#:#Manual change of points of test person %s from %d to %d points by %s
-assessment#:#log_could_not_enter_test_due_to_simultaneous_users#:#此用户不能进入测试，因为已达到最大用户并发数
 assessment#:#log_create_new_test#:#新的测试已创建
 assessment#:#log_manual_feedback#:#%s added manual feedback for test person %s and question %s: %s
 assessment#:#log_mark_added#:#标记已添加
@@ -1245,11 +1242,6 @@ assessment#:#tst_add_quest_cont_edit_mode_RTE_info#:#Allows text formatting of q
 assessment#:#tst_addit_passes_blocked_after_passed_msg#:#You have passed the test. The test cannot be started again.###07 02 2020 new variable
 assessment#:#tst_all_test_competences#:#All Test Competence###26 09 2014 new variable
 assessment#:#tst_all_user_data_deleted#:#此次测试的所有用户数据已全部删除！
-assessment#:#tst_allowed_users#:#正在进行测试的同时已经达到用户数上限
-assessment#:#tst_allowed_users_desc#:#ILIAS will monitor the number of participants taking the test at the same time. If more users than maximally allowed try to access ILIAS will prevent them from starting the test.###07 11 2014 new variable
-assessment#:#tst_allowed_users_max#:#Max. Number of Participants###27 01 2015 new variable
-assessment#:#tst_allowed_users_time_gap#:#活跃用户的空闲时间
-assessment#:#tst_allowed_users_time_gap_desc#:#Participants that do not click in the test fort he indicated amount of time will be categorized as ‚inactive‘ and removed from the test.###07 11 2014 new variable
 assessment#:#tst_already_submitted#:#测试已经完成并已提交
 assessment#:#tst_analysis#:#Analysis###26 09 2014 new variable
 assessment#:#tst_anonymity#:#匿名
@@ -1329,19 +1321,6 @@ assessment#:#tst_derive_new_pool#:#Derive New Question Pool###25 10 2016 new var
 assessment#:#tst_derive_new_pools#:#Derive New Question Pools###25 10 2016 new variable
 assessment#:#tst_dont_show_msg_again_in_current_session#:#Don't show this message again in my current session.###10 11 2018 new variable
 assessment#:#tst_dont_use_previous_answers#:#您之前的答案将不会在未来的测试中作为默认值使用
-assessment#:#tst_dyn_keep_answ_freeze#:#Keep my current answers frozen###30 08 2015 new variable
-assessment#:#tst_dyn_quest_set_pool_deleted#:#The currently configured questionpool "%s" has been deleted.###30 08 2015 new variable
-assessment#:#tst_dyn_quest_set_src_qpl_summary_string_deleted#:#%s (Deleted Permanently)###24 10 2013 new variable
-assessment#:#tst_dyn_quest_set_src_qpl_summary_string_trashed#:#%s (Deleted) [%s Questions]###24 10 2013 new variable
-assessment#:#tst_dyn_test_msg_currently_finished_completely#:#Currently you have answered all questions from the source questin pool successfully. When there are new or edited questions in the question pool you can proceed the test.###24 10 2013 new variable
-assessment#:#tst_dyn_test_msg_currently_finished_selection#:#With the current question selection you have answered all questions successfully. Change the question selection to proceed the test.###24 10 2013 new variable
-assessment#:#tst_dyn_test_msg_pass_deletion_link#:#Delete Previous Answers###20 07 2014 new variable
-assessment#:#tst_dyn_test_pass_deletion_button#:#Reset All Testanswers###26 09 2014 new variable
-assessment#:#tst_dyn_unfreeze_answers#:#Answer once more###30 08 2015 new variable
-assessment#:#tst_dyn_unfreeze_answers_confirmation#:#There are questions to which your inital answers were fixed and you could not make any changes. Do you want to answer them one more time now and thus unfreeze your answers?###30 08 2015 new variable
-assessment#:#tst_dynamic_question_set_complete#:#Total-Statistic###07 11 2014 new variable
-assessment#:#tst_dynamic_question_set_selection#:#Test Question Selection###20 07 2014 new variable
-assessment#:#tst_dynamic_question_set_source_questionpool_summary_string#:#%s (Path: %s) [%s Questions]###24 10 2013 new variable
 assessment#:#tst_edit_competence_assign#:#Edit Assignment Properties###30 08 2015 new variable
 assessment#:#tst_edit_scoring#:#编辑评分
 assessment#:#tst_ending_time#:#结束时间
@@ -1491,8 +1470,6 @@ assessment#:#tst_mark_minimum_level#:#Minimum level (in %)
 assessment#:#tst_mark_official_form#:#Official form官方形式
 assessment#:#tst_mark_passed#:#已通过
 assessment#:#tst_mark_short_form#:#Short form
-assessment#:#tst_max_allowed_users_heading#:#已经达到此次测试中同时允许的用户人数上限
-assessment#:#tst_max_allowed_users_message#:#已经达到此次测试中同翻搅时允许的活跃用户人数上限。请稍后再尝试启动或恢复测试。如果其中某位活跃用户超过 %s 秒未活动，您将有可能进入此次测试。感谢您的理解。
 assessment#:#tst_max_comp_points#:#Max. Competence Points###26 09 2014 new variable
 assessment#:#tst_maximum_points#:#最大分值
 assessment#:#tst_mc_label_none_above#:#None of the answers above###fau: testNav
@@ -1694,6 +1671,7 @@ assessment#:#tst_questions_hints_toolbar_cmd_reset_ordering_clipboard#:#重置�
 assessment#:#tst_questions_inserted#:#题目已插入
 assessment#:#tst_questions_removed#:#题目已移除
 assessment#:#tst_random_nr_of_questions#:#有多少道题目？
+assessment#:#tst_random_question_set_source_questionpool_summary_string#:#%s (Path: %s) [%s Questions]###24 10 2013 new variable
 assessment#:#tst_random_select_questionpool#:#选择这个题目池并从中选择题目(Select the question pool to choose the questions from)
 assessment#:#tst_reached_points#:#达标分
 assessment#:#tst_reached_points_of_max#:#%s of %s###07 02 2020 new variable

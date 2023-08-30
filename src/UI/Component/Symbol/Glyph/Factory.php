@@ -1463,5 +1463,4 @@ interface Factory
      * @return  \ILIAS\UI\Component\Symbol\Glyph\Glyph
      */
     public function launch(string $action = null): Glyph;
-
 }

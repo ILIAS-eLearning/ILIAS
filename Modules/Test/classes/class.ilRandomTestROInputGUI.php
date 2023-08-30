@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
 * This class represents a random test input property in a property form.
 *
@@ -86,16 +88,13 @@ class ilRandomTestROInputGUI extends ilSubEnabledFormPropertyGUI
     */
     public function insert($a_tpl)
     {
-        global $DIC;
-        $lng = $DIC['lng'];
-
         $tpl = new ilTemplate("tpl.prop_randomtestroinput.html", true, true, "Modules/Test");
         $i = 0;
         foreach ($this->values as $value) {
             if ($value['num_of_q'] > 0) {
                 $tpl->setCurrentBlock("num_of_q");
                 $tpl->setVariable("NUM_OF_Q", $value['num_of_q']);
-                $tpl->setVariable("TEXT_FROM", $lng->txt('questions_from'));
+                $tpl->setVariable("TEXT_FROM", $this->lng->txt('questions_from'));
                 $tpl->parseCurrentBlock();
             }
             $tpl->setCurrentBlock("row");
@@ -108,7 +107,7 @@ class ilRandomTestROInputGUI extends ilSubEnabledFormPropertyGUI
             }
             $tpl->setVariable("ROW_CLASS", $class);
             $tpl->setVariable("QPL_VALUE", ilLegacyFormElementsUtil::prepareFormOutput($value['title']));
-            $tpl->setVariable("COUNT_VALUE", "(" . $value['count'] . " " . $lng->txt('assQuestions') . ")");
+            $tpl->setVariable("COUNT_VALUE", "(" . $value['count'] . " " . $this->lng->txt('assQuestions') . ")");
             $tpl->parseCurrentBlock();
             $i++;
         }

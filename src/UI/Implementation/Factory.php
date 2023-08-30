@@ -28,87 +28,35 @@ use ILIAS\UI\Implementation\Component\SignalGenerator;
 
 class Factory implements \ILIAS\UI\Factory
 {
-    protected C\Counter\Factory $counter_factory;
-    protected C\Button\Factory $button_factory;
-    protected C\Listing\Factory $listing_factory;
-    protected C\Image\Factory $image_factory;
-    protected C\Panel\Factory $panel_factory;
-    protected C\Modal\Factory $modal_factory;
-    protected C\Dropzone\Factory $dropzone_factory;
-    protected C\Popover\Factory $popover_factory;
-    protected C\Divider\Factory $divider_factory;
-    protected C\Link\Factory $link_factory;
-    protected C\Dropdown\Factory $dropdown_factory;
-    protected C\Item\Factory $item_factory;
-    protected C\ViewControl\Factory $viewcontrol_factory;
-    protected C\Chart\Factory $chart_factory;
-    protected C\Input\Factory $input_factory;
-    protected C\Table\Factory $table_factory;
-    protected C\MessageBox\Factory $messagebox_factory;
-    protected C\Card\Factory $card_factory;
-    protected C\Menu\Factory $menu_factory;
-    protected C\Layout\Factory $layout_factory;
-    protected C\MainControls\Factory $maincontrols_factory;
-    protected C\Tree\Factory $tree_factory;
-    protected C\Symbol\Factory $symbol_factory;
-    protected C\Toast\Factory $toast_factory;
-    protected C\Legacy\Factory $legacy_factory;
-    protected C\Launcher\Factory $launcher_factory;
-
     public function __construct(
-        C\Counter\Factory $counter_factory,
-        C\Button\Factory $button_factory,
-        C\Listing\Factory $listing_factory,
-        C\Image\Factory $image_factory,
-        C\Panel\Factory $panel_factory,
-        C\Modal\Factory $modal_factory,
-        C\Dropzone\Factory $dropzone_factory,
-        C\Popover\Factory $popover_factory,
-        C\Divider\Factory $divider_factory,
-        C\Link\Factory $link_factory,
-        C\Dropdown\Factory $dropdown_factory,
-        C\Item\Factory $item_factory,
-        C\ViewControl\Factory $viewcontrol_factory,
-        C\Chart\Factory $chart_factory,
-        C\Input\Factory $input_factory,
-        C\Table\Factory $table_factory,
-        C\MessageBox\Factory $messagebox_factory,
-        C\Card\Factory $card_factory,
-        C\Layout\Factory $layout_factory,
-        C\MainControls\Factory $maincontrols_factory,
-        C\Tree\Factory $tree_factory,
-        C\Menu\Factory $menu_factory,
-        C\Symbol\Factory $symbol_factory,
-        C\Toast\Factory $toast_factory,
-        C\Legacy\Factory $legacy_factory,
-        C\Launcher\Factory $launcher_factory
+        protected C\Counter\Factory $counter_factory,
+        protected C\Button\Factory $button_factory,
+        protected C\Listing\Factory $listing_factory,
+        protected C\Image\Factory $image_factory,
+        protected C\Panel\Factory $panel_factory,
+        protected C\Modal\Factory $modal_factory,
+        protected C\Dropzone\Factory $dropzone_factory,
+        protected C\Popover\Factory $popover_factory,
+        protected C\Divider\Factory $divider_factory,
+        protected C\Link\Factory $link_factory,
+        protected C\Dropdown\Factory $dropdown_factory,
+        protected C\Item\Factory $item_factory,
+        protected C\ViewControl\Factory $viewcontrol_factory,
+        protected C\Chart\Factory $chart_factory,
+        protected C\Input\Factory $input_factory,
+        protected C\Table\Factory $table_factory,
+        protected C\MessageBox\Factory $messagebox_factory,
+        protected C\Card\Factory $card_factory,
+        protected C\Layout\Factory $layout_factory,
+        protected C\MainControls\Factory $maincontrols_factory,
+        protected C\Tree\Factory $tree_factory,
+        protected C\Menu\Factory $menu_factory,
+        protected C\Symbol\Factory $symbol_factory,
+        protected C\Toast\Factory $toast_factory,
+        protected C\Legacy\Factory $legacy_factory,
+        protected C\launcher\Factory $launcher_factory,
+        protected C\Entity\Factory $entity_factory
     ) {
-        $this->counter_factory = $counter_factory;
-        $this->button_factory = $button_factory;
-        $this->listing_factory = $listing_factory;
-        $this->image_factory = $image_factory;
-        $this->panel_factory = $panel_factory;
-        $this->modal_factory = $modal_factory;
-        $this->dropzone_factory = $dropzone_factory;
-        $this->popover_factory = $popover_factory;
-        $this->divider_factory = $divider_factory;
-        $this->link_factory = $link_factory;
-        $this->dropdown_factory = $dropdown_factory;
-        $this->item_factory = $item_factory;
-        $this->viewcontrol_factory = $viewcontrol_factory;
-        $this->chart_factory = $chart_factory;
-        $this->input_factory = $input_factory;
-        $this->table_factory = $table_factory;
-        $this->messagebox_factory = $messagebox_factory;
-        $this->card_factory = $card_factory;
-        $this->layout_factory = $layout_factory;
-        $this->maincontrols_factory = $maincontrols_factory;
-        $this->tree_factory = $tree_factory;
-        $this->menu_factory = $menu_factory;
-        $this->symbol_factory = $symbol_factory;
-        $this->toast_factory = $toast_factory;
-        $this->legacy_factory = $legacy_factory;
-        $this->launcher_factory = $launcher_factory;
     }
 
     /**
@@ -333,7 +281,7 @@ class Factory implements \ILIAS\UI\Factory
     public function helpTopics(string ...$topics): array
     {
         return array_map(
-            fn ($t) => new Help\Topic($t),
+            fn($t) => new Help\Topic($t),
             $topics
         );
     }
@@ -341,5 +289,10 @@ class Factory implements \ILIAS\UI\Factory
     public function launcher(): C\Launcher\Factory
     {
         return $this->launcher_factory;
+    }
+
+    public function entity(): C\Entity\Factory
+    {
+        return $this->entity_factory;
     }
 }

@@ -5,15 +5,21 @@
 
 .c-launcher {
     .btn-bulky {
+        @include make-button($set-basics: false, $set-design: true, $set-size: false,
+            $button-color: s.$il-btn-primary-bg,
+            $button-text-color: s.$il-btn-primary-color,
+            $border-radius: s.$il-border-radius-secondary-large,
+
+            $disabled_bg-color: s.$il-disabled-btn-bg,
+            $disabled_text-color: s.$il-disabled-btn-color,
+            $disabled_border-color: s.$il-disabled-btn-border,
+            );
         min-width: 50%;
         width: max-content;
-        border-radius: s.$il-border-radius-secondary-large;
-        @include button-variant(s.$il-btn-primary-color, s.$il-btn-primary-bg, s.$il-btn-primary-border);
-        @include button-size(layout-basics.$il-padding-xxlarge-vertical, layout-basics.$il-padding-xxlarge-horizontal, s.$il-font-size-large, s.$il-line-height-base, s.$il-border-radius-secondary-large);
         &[disabled] {
             cursor: not-allowed;
         }
-        .glyph {
+        &:not([disabled]) .glyph {
             color: s.$il-text-color-invert;
         }
         @media screen and (max-width: s.$il-grid-float-breakpoint-max) {

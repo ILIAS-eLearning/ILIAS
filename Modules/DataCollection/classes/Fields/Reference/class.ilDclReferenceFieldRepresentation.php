@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -15,11 +16,8 @@
  *
  *********************************************************************/
 
-/**
- * Class ilDclTextFieldRepresentation
- * @author  Michael Herren <mh@studer-raimann.ch>
- * @version 1.0.0
- */
+declare(strict_types=1);
+
 class ilDclReferenceFieldRepresentation extends ilDclBaseFieldRepresentation
 {
     public const REFERENCE_SEPARATOR = " -> ";
@@ -43,7 +41,7 @@ class ilDclReferenceFieldRepresentation extends ilDclBaseFieldRepresentation
 
         $fieldref = $this->getField()->getProperty(ilDclBaseFieldModel::PROP_REFERENCE);
 
-        $reffield = ilDclCache::getFieldCache($fieldref);
+        $reffield = ilDclCache::getFieldCache((int)$fieldref);
         $options = [];
         if (!$this->getField()->getProperty(ilDclBaseFieldModel::PROP_N_REFERENCE)) {
             $options[""] = $this->lng->txt('dcl_please_select');
@@ -70,7 +68,7 @@ class ilDclReferenceFieldRepresentation extends ilDclBaseFieldRepresentation
                     break;
                 case ilDclDatatype::INPUTFORMAT_TEXT:
                     $value = $record->getRecordFieldValue($fieldref);
-                    if ($record->getRecordField($fieldref)->getField()->hasProperty(ilDclBaseFieldModel::PROP_URL)) {
+                    if ($record->getRecordField((int)$fieldref)->getField()->hasProperty(ilDclBaseFieldModel::PROP_URL)) {
                         if (!is_array($value)) {
                             $value = ['title' => '', 'link' => $value];
                         }
@@ -91,7 +89,7 @@ class ilDclReferenceFieldRepresentation extends ilDclBaseFieldRepresentation
         // TT #0019091: restore the actual values after sorting with timestamp
         if ($reffield->getDatatypeId() == ilDclDatatype::INPUTFORMAT_DATETIME) {
             foreach ($options as $key => $opt) {
-                if ($key != "") {
+                if ($key != "" && isset($options2) && is_array($options2)) {
                     $options[$key] = $options2[$key];
                 }
             }
@@ -125,7 +123,7 @@ class ilDclReferenceFieldRepresentation extends ilDclBaseFieldRepresentation
             $this->getField()->getId()
         );
         $ref_field_id = $this->getField()->getProperty(ilDclBaseFieldModel::PROP_REFERENCE);
-        $ref_field = ilDclCache::getFieldCache($ref_field_id);
+        $ref_field = ilDclCache::getFieldCache((int)$ref_field_id);
         $ref_table = ilDclCache::getTableCache($ref_field->getTableId());
         $options = [];
         foreach ($ref_table->getRecords() as $record) {

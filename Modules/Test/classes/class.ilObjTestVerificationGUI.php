@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,10 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
+use ILIAS\DI\LoggingServices;
+
 /**
  * GUI class for test verification
  *
@@ -30,8 +32,16 @@ declare(strict_types=1);
  */
 class ilObjTestVerificationGUI extends ilObject2GUI
 {
+    private ilDBInterface $db;
+    private LoggingServices $logger;
+
     public function __construct(int $id = 0, int $id_type = self::REPOSITORY_NODE_ID, int $parent_node_id = 0)
     {
+        /** @var ILIAS\DI\Container $DIC */
+        global $DIC;
+        $this->db = $DIC['ilDB'];
+        $this->logger = $DIC["ilLoggerFactory"];
+
         parent::__construct($id, $id_type, $parent_node_id);
     }
 
@@ -42,38 +52,32 @@ class ilObjTestVerificationGUI extends ilObject2GUI
 
     public function create(): void
     {
-        global $DIC;
-        $ilTabs = $DIC['ilTabs'];
-
         $this->lng->loadLanguageModule("tstv");
 
-        $ilTabs->setBackTarget(
+        $this->tabs_gui->setBackTarget(
             $this->lng->txt("back"),
             $this->ctrl->getLinkTarget($this, "cancel")
         );
 
-        $table = new ilTestVerificationTableGUI($this, "create");
+        $table = new ilTestVerificationTableGUI($this, 'create', $this->db, $this->user, $this->logger->root());
         $this->tpl->setContent($table->getHTML());
     }
 
     public function save(): void
     {
-        global $DIC;
-        $ilUser = $DIC['ilUser'];
-
         $objectId = $this->getRequestValue("tst_id");
         if ($objectId) {
             $certificateVerificationFileService = new ilCertificateVerificationFileService(
-                $DIC->language(),
-                $DIC->database(),
-                $DIC->logger()->root(),
+                $this->lng,
+                $this->db,
+                $this->logger->root(),
                 new ilCertificateVerificationClassMap()
             );
 
             $userCertificateRepository = new ilUserCertificateRepository();
 
             $userCertificatePresentation = $userCertificateRepository->fetchActiveCertificateForPresentation(
-                (int) $ilUser->getId(),
+                (int) $this->user->getId(),
                 (int) $objectId
             );
 
@@ -110,27 +114,23 @@ class ilObjTestVerificationGUI extends ilObject2GUI
 
     public function render(bool $a_return = false, string $a_url = ''): string
     {
-        global $DIC;
-        $ilUser = $DIC['ilUser'];
-        $lng = $DIC['lng'];
-
         if (!$a_return) {
             $this->deliver();
         } else {
-            $tree = new ilWorkspaceTree($ilUser->getId());
+            $tree = new ilWorkspaceTree($this->user->getId());
             $wsp_id = $tree->lookupNodeId($this->object->getId());
-            $caption = $lng->txt("wsp_type_tstv") . ' "' . $this->object->getTitle() . '"';
+            $caption = $this->lng->txt("wsp_type_tstv") . ' "' . $this->object->getTitle() . '"';
 
             $valid = true;
             $message = '';
             if (!file_exists($this->object->getFilePath())) {
                 $valid = false;
-                $message = $lng->txt("url_not_found");
+                $message = $this->lng->txt("url_not_found");
             } elseif (!$a_url) {
                 $access_handler = new ilWorkspaceAccessHandler($tree);
                 if (!$access_handler->checkAccess("read", "", $wsp_id)) {
                     $valid = false;
-                    $message = $lng->txt("permission_denied");
+                    $message = $this->lng->txt("permission_denied");
                 }
             }
 
@@ -149,14 +149,11 @@ class ilObjTestVerificationGUI extends ilObject2GUI
 
     public function downloadFromPortfolioPage(ilPortfolioPage $a_page): void
     {
-        global $DIC;
-        $ilErr = $DIC['ilErr'];
-
         if (ilPCVerification::isInPortfolioPage($a_page, $this->object->getType(), $this->object->getId())) {
             $this->deliver();
         }
 
-        $ilErr->raiseError($this->lng->txt('permission_denied'), $ilErr->MESSAGE);
+        $this->error->raiseError($this->lng->txt('permission_denied'), $ilErr->MESSAGE);
     }
 
     public static function _goto(string $a_target): void

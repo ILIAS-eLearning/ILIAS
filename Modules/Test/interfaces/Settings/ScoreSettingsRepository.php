@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 interface ScoreSettingsRepository
 {
     public function getFor(int $test_id): ilObjTestScoreSettings;

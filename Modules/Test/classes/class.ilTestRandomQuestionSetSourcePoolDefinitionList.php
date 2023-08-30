@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * @author		Björn Heyser <bheyser@databay.de>
  * @version		$Id$
@@ -138,7 +140,7 @@ class ilTestRandomQuestionSetSourcePoolDefinitionList implements Iterator
     public function loadDefinitions()
     {
         $query = "
-			SELECT tst_rnd_quest_set_qpls.*, odat.obj_id pool_id, tree.child
+			SELECT tst_rnd_quest_set_qpls.*, odat.obj_id pool_id, odat.title actual_pool_title, tree.child
 			FROM tst_rnd_quest_set_qpls
 			LEFT JOIN object_data odat
 			ON odat.obj_id = pool_fi
@@ -189,6 +191,11 @@ class ilTestRandomQuestionSetSourcePoolDefinitionList implements Iterator
                         unset($trashedPools[$lostPool->getId()]);
                     }
                 }
+            }
+
+            if ($sourcePoolDefinition->getPoolTitle() !== $row['actual_pool_title']) {
+                $sourcePoolDefinition->setPoolTitle($row['actual_pool_title']);
+                $sourcePoolDefinition->saveToDb();
             }
 
             if ($row['child']) {

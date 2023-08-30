@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class ilTestParticipantsGUITest
  * @author Marvin Beym <mbeym@databay.de>
@@ -32,17 +32,29 @@ class ilTestParticipantsGUITest extends ilTestBaseTestCase
 
     protected function setUp(): void
     {
-        parent::setUp();
         global $DIC;
+        parent::setUp();
+        $this->addGlobal_ilAccess();
+        $this->addGlobal_tpl();
+        $this->addGlobal_uiFactory();
+        $this->addGlobal_uiRenderer();
+        $this->addGlobal_lng();
+        $this->addGlobal_ilCtrl();
+        $this->addGlobal_ilTabs();
+        $this->addGlobal_ilToolbar();
 
-        $this->backup_dic = $DIC;
-        $DIC = new ILIAS\DI\Container([
-            'tpl' => $this->getMockBuilder(ilGlobalTemplateInterface::class)
-                          ->getMock()
-        ]);
         $this->testObj = new ilTestParticipantsGUI(
             $this->createMock(ilObjTest::class),
-            $this->createMock(ilTestQuestionSetConfig::class)
+            $this->createMock(ilTestQuestionSetConfig::class),
+            $DIC['ilAccess'],
+            $DIC['tpl'],
+            $DIC['ui.factory'],
+            $DIC['ui.renderer'],
+            $DIC['lng'],
+            $DIC['ilCtrl'],
+            $DIC['ilDB'],
+            $DIC['ilTabs'],
+            $DIC['ilToolbar']
         );
     }
 

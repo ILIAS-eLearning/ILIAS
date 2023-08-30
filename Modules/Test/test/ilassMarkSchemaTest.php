@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -24,17 +26,17 @@ use PHPUnit\Framework\TestCase;
  * @version $Id$
  * @ingroup ServicesTree
  */
-class ilassMarkSchemaTest extends TestCase
+class ilassMarkSchemaTest extends ilTestBaseTestCase
 {
     private ASS_MarkSchema $ass_mark_schema;
     protected $backupGlobals = false;
 
     protected function setUp(): void
     {
-        chdir(dirname(__FILE__));
-        chdir('../../../');
+        global $DIC;
+        parent::setUp();
 
-        $this->ass_mark_schema = new ASS_MarkSchema();
+        $this->ass_mark_schema = new ASS_MarkSchema($DIC['ilDB'], $DIC['lng'], 0);
     }
 
     /**

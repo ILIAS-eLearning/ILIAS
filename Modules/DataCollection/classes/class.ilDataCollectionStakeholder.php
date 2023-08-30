@@ -16,12 +16,9 @@
  *
  *********************************************************************/
 
+
 declare(strict_types=1);
 
-/**
- * @author       Thibeau Fuhrer <thibeau@sr.solutions>
- * @noinspection AutoloadingIssuesInspection
- */
 class ilDataCollectionStakeholder extends \ILIAS\ResourceStorage\Stakeholder\AbstractResourceStakeholder
 {
     private int $owner;

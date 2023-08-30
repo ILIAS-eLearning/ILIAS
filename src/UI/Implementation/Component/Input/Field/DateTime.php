@@ -15,6 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
 declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Input\Field;
@@ -32,7 +33,7 @@ use Closure;
 /**
  * This implements the date input.
  */
-class DateTime extends Input implements C\Input\Field\DateTime
+class DateTime extends FormInput implements C\Input\Field\DateTime
 {
     use ComponentHelper;
     use JavaScriptBindable;
@@ -83,7 +84,7 @@ class DateTime extends Input implements C\Input\Field\DateTime
      *
      * Allows to pass a \DateTimeImmutable for consistencies sake.
      */
-    public function withValue($value)
+    public function withValue($value): self
     {
         // TODO: It would be a lot nicer if the value would be held as DateTimeImmutable
         // internally, but currently this is just to much. Added to the roadmap.
@@ -96,7 +97,7 @@ class DateTime extends Input implements C\Input\Field\DateTime
         return $clone;
     }
 
-    public function withFormat(DateFormat $format): C\Input\Field\DateTime
+    public function withFormat(DateFormat $format): self
     {
         $clone = clone $this;
         $clone->format = $format;
@@ -109,16 +110,13 @@ class DateTime extends Input implements C\Input\Field\DateTime
     }
 
 
-    public function withTimezone(string $tz): C\Input\Field\DateTime
+    public function withTimezone(string $tz): self
     {
         $timezone_trafo = $this->refinery->dateTime()->changeTimezone($tz);
         $clone = clone $this;
         $clone->timezone = $tz;
 
         $trafo = $this->getOptionalNullTransformation($timezone_trafo);
-        /**
-         * @var $clone C\Input\Field\DateTime
-         */
         $clone = $clone->withAdditionalTransformation($trafo);
         return $clone;
     }
@@ -128,7 +126,7 @@ class DateTime extends Input implements C\Input\Field\DateTime
         return $this->timezone;
     }
 
-    public function withMinValue(DateTimeImmutable $datetime): C\Input\Field\DateTime
+    public function withMinValue(DateTimeImmutable $datetime): self
     {
         $clone = clone $this;
         $clone->min_date = $datetime;
@@ -140,7 +138,7 @@ class DateTime extends Input implements C\Input\Field\DateTime
         return $this->min_date;
     }
 
-    public function withMaxValue(DateTimeImmutable $datetime): C\Input\Field\DateTime
+    public function withMaxValue(DateTimeImmutable $datetime): self
     {
         $clone = clone $this;
         $clone->max_date = $datetime;
@@ -152,7 +150,7 @@ class DateTime extends Input implements C\Input\Field\DateTime
         return $this->max_date;
     }
 
-    public function withUseTime(bool $with_time): C\Input\Field\DateTime
+    public function withUseTime(bool $with_time): self
     {
         $clone = clone $this;
         $clone->with_time = $with_time;
@@ -164,7 +162,7 @@ class DateTime extends Input implements C\Input\Field\DateTime
         return $this->with_time;
     }
 
-    public function withTimeOnly(bool $time_only): C\Input\Field\DateTime
+    public function withTimeOnly(bool $time_only): self
     {
         $clone = clone $this;
         $clone->with_time_only = $time_only;
@@ -176,7 +174,7 @@ class DateTime extends Input implements C\Input\Field\DateTime
         return $this->with_time_only;
     }
 
-    protected function isClientSideValueOk($value): bool
+    public function isClientSideValueOk($value): bool
     {
         return is_string($value);
     }
@@ -188,7 +186,7 @@ class DateTime extends Input implements C\Input\Field\DateTime
         }
 
         return $this->refinery->string()->hasMinLength(1)
-            ->withProblemBuilder(fn ($txt, $value) => $txt("datetime_required"));
+            ->withProblemBuilder(fn($txt, $value) => $txt("datetime_required"));
     }
 
     /**
@@ -204,7 +202,7 @@ class DateTime extends Input implements C\Input\Field\DateTime
      * The bootstrap picker can be configured, e.g. with a minimum date.
      * @param array <string => mixed> $config
      */
-    public function withAdditionalPickerconfig(array $config): C\Input\Field\DateTime
+    public function withAdditionalPickerconfig(array $config): self
     {
         $clone = clone $this;
         $clone->additional_picker_config = array_merge($clone->additional_picker_config, $config);
@@ -213,7 +211,7 @@ class DateTime extends Input implements C\Input\Field\DateTime
 
     public function getUpdateOnLoadCode(): Closure
     {
-        return fn ($id) => "$('#$id').on('input dp.change', function(event) {
+        return fn($id) => "$('#$id').on('input dp.change', function(event) {
 				il.UI.input.onFieldUpdate(event, '$id', $('#$id').find('input').val());
 			});
 			il.UI.input.onFieldUpdate(event, '$id', $('#$id').find('input').val());";

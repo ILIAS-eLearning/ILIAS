@@ -25,6 +25,7 @@ use ILIAS\Glossary\Term\TermManager;
 use ILIAS\Glossary\Flashcard\FlashcardManager;
 use ILIAS\Repository\GlobalDICDomainServices;
 use ILIAS\Glossary\Flashcard\FlashcardShuffleManager;
+use ILIAS\Glossary\Presentation\PresentationManager;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -86,5 +87,18 @@ class InternalDomainService
     public function flashcardShuffle(): FlashcardShuffleManager
     {
         return new FlashcardShuffleManager();
+    }
+
+    public function presentation(\ilObjGlossary $glossary, int $user_id = 0): PresentationManager
+    {
+        if ($user_id == 0) {
+            $user_id = $this->user()->getId();
+        }
+        return new PresentationManager(
+            $this,
+            $this->repo_service->presentationSession(),
+            $glossary,
+            $user_id
+        );
     }
 }

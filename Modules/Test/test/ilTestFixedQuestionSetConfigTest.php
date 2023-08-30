@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use PHPUnit\Framework\MockObject\MockObject;
 
@@ -34,14 +34,21 @@ class ilTestFixedQuestionSetConfigTest extends ilTestBaseTestCase
 
     protected function setUp(): void
     {
+        global $DIC;
         parent::setUp();
+
+        $this->addGlobal_lng();
+        $this->addGlobal_ilLog();
+        $this->addGlobal_ilComponentRepository();
 
         $this->objTest_mock = $this->createMock(ilObjTest::class);
 
         $this->testObj = new ilTestFixedQuestionSetConfig(
-            $this->getMockBuilder(ilTree::class)->disableOriginalConstructor()->getMock(),
-            $this->createMock(ilDBInterface::class),
-            $this->createMock(ilComponentRepository::class),
+            $DIC['tree'],
+            $DIC['ilDB'],
+            $DIC['lng'],
+            $DIC['ilLog'],
+            $DIC['component.repository'],
             $this->objTest_mock
         );
     }

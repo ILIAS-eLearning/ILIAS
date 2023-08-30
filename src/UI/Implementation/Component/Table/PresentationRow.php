@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\UI\Implementation\Component\Table;
 
 use ILIAS\UI\Component\Table as T;
@@ -27,7 +27,8 @@ use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
 use ILIAS\UI\Implementation\Component\Signal;
 use ILIAS\UI\Component\Button\Button;
 use ILIAS\UI\Component\Dropdown\Dropdown;
-use ILIAS\UI\Component\Listing\Descriptive;
+use ILIAS\UI\Component\Layout\Alignment\Block;
+use ILIAS\UI\Component\Symbol\Symbol;
 
 class PresentationRow implements T\PresentationRow
 {
@@ -45,14 +46,17 @@ class PresentationRow implements T\PresentationRow
     private ?string $headline = null;
     private ?string $subheadline = null;
     private array $important_fields = [];
-    private Descriptive $content;
+    private Block $content;
     private ?string $further_fields_headline = null;
     private array $further_fields = [];
     private array $data;
+    private ?Symbol $symbol = null;
     protected SignalGeneratorInterface $signal_generator;
 
-    public function __construct(SignalGeneratorInterface $signal_generator)
-    {
+    public function __construct(
+        SignalGeneratorInterface $signal_generator,
+        protected string $table_id
+    ) {
         $this->signal_generator = $signal_generator;
         $this->initSignals();
     }
@@ -163,21 +167,17 @@ class PresentationRow implements T\PresentationRow
     /**
      * @inheritdoc
      */
-    public function withContent(Descriptive $content): T\PresentationRow
+    public function withContent(Block $content): T\PresentationRow
     {
         $clone = clone $this;
         $clone->content = $content;
         return $clone;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getContent(): Descriptive
+    public function getContent(): Block
     {
         return $this->content;
     }
-
 
     /**
      * @inheritdoc
@@ -244,5 +244,22 @@ class PresentationRow implements T\PresentationRow
     public function getAction()
     {
         return $this->action;
+    }
+
+    public function withLeadingSymbol(Symbol $symbol): self
+    {
+        $clone = clone $this;
+        $clone->symbol = $symbol;
+        return $clone;
+    }
+
+    public function getLeadingSymbol(): ?Symbol
+    {
+        return $this->symbol;
+    }
+
+    public function getTableId(): string
+    {
+        return $this->table_id;
     }
 }

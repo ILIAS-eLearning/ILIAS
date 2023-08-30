@@ -594,8 +594,6 @@ assessment#:#counter#:#Contador
 assessment#:#create_date#:#Creado
 assessment#:#create_gaps#:#Crear huecos
 assessment#:#create_new#:#Crear nueva
-assessment#:#ctm_cannot_be_changed#:#This is a test in CTM-Mode. Settings cannot be changed anymore as CTM has been abandoned.###29 07 2022 new variable
-assessment#:#ctm_cannot_be_started#:#This is a test in CTM-Mode. The test cannot be started anymore as CTM has been abandoned.###29 07 2022 new variable
 assessment#:#customstyle#:#Estilo personalizado
 assessment#:#dashboard_tab#:#Dashboard
 assessment#:#definition#:#Definición
@@ -824,7 +822,6 @@ assessment#:#legend#:#Leyenda
 assessment#:#locked#:#bloqueado
 assessment#:#log_added_extratime#:#Añadidos %d minutos extra para el participante id %d
 assessment#:#log_answer_changed_points#:#Modificación manual de puntuación %s desde %d a %d puntos por %s
-assessment#:#log_could_not_enter_test_due_to_simultaneous_users#:#El usuario no pudo entrar al test porque se ha alcanzado el máximo número simultáneo de conexiones
 assessment#:#log_create_new_test#:#Nuevo Test creado
 assessment#:#log_manual_feedback#:#%s añadió comentario manual para %s y la pregunta %s: %s
 assessment#:#log_mark_added#:#Nota añadida
@@ -1248,11 +1245,6 @@ assessment#:#tst_add_quest_cont_edit_mode_RTE_info#:#Allows text formatting of q
 assessment#:#tst_addit_passes_blocked_after_passed_msg#:#You have passed the test. The test cannot be started again.###07 02 2020 new variable
 assessment#:#tst_all_test_competences#:#Competencias de todos los Tests
 assessment#:#tst_all_user_data_deleted#:#Todos los datos de usuario de este test han sido eliminados!
-assessment#:#tst_allowed_users#:#Máximo número de usuarios permitidos ejecutando el test a la vez
-assessment#:#tst_allowed_users_desc#:#ILIAS controlará el número de participantes que pueden realizar el test al mismo tiempo. Si hay más usuarios intentando acceder del máximo permitido, ILIAS impedirá que comiencen el test.
-assessment#:#tst_allowed_users_max#:#Máx. Número de Participantes
-assessment#:#tst_allowed_users_time_gap#:#Tiempo de inactividad permitido para los usuarios que están ejecutando el test
-assessment#:#tst_allowed_users_time_gap_desc#:#Participants that do not click in the test fort he indicated amount of time will be categorized as ‚inactive‘ and removed from the test.
 assessment#:#tst_already_submitted#:#El Test ya ha sido finalizado y enviado
 assessment#:#tst_analysis#:#Análisis
 assessment#:#tst_anonymity#:#Anonimato
@@ -1332,19 +1324,6 @@ assessment#:#tst_derive_new_pool#:#Obtener nuevo banco de preguntas
 assessment#:#tst_derive_new_pools#:#Obtener nuevos bancos de preguntas
 assessment#:#tst_dont_show_msg_again_in_current_session#:#Don't show this message again in my current session.
 assessment#:#tst_dont_use_previous_answers#:#Sus respuestas previas no serán usadas como valores por defecto en futuras ejecuciones del test
-assessment#:#tst_dyn_keep_answ_freeze#:#Mantener bloqueadas mis respuestas actuales
-assessment#:#tst_dyn_quest_set_pool_deleted#:#El banco de preguntas actual "%s" ha sido borrado.
-assessment#:#tst_dyn_quest_set_src_qpl_summary_string_deleted#:#%s (Borrado permanentemente)
-assessment#:#tst_dyn_quest_set_src_qpl_summary_string_trashed#:#%s (Borrado) [%s Preguntas]
-assessment#:#tst_dyn_test_msg_currently_finished_completely#:#Actualmente has respondido a todas las preguntas del banco de preguntas correctamente. Cuando haya nuevas o preguntas modificadas podrás realizar el test.
-assessment#:#tst_dyn_test_msg_currently_finished_selection#:#Con la selección actual de preguntas has respondido a todas las preguntas correctamente. Cambia la selección de preguntas para continuar con el test.
-assessment#:#tst_dyn_test_msg_pass_deletion_link#:#Borrar respuestas previas
-assessment#:#tst_dyn_test_pass_deletion_button#:#Reiniciar todas las respuestas del test
-assessment#:#tst_dyn_unfreeze_answers#:#Responder una vez más
-assessment#:#tst_dyn_unfreeze_answers_confirmation#:#Hay preguntas en las que tus respuestas originales fueron bloqueadas y no puedes hacer cambios. ¿Quieres volver a responderlas una vez más ahora y así desbloquear tus respuestas?
-assessment#:#tst_dynamic_question_set_complete#:#Estadisticas Totales
-assessment#:#tst_dynamic_question_set_selection#:#Selección de preguntas de test
-assessment#:#tst_dynamic_question_set_source_questionpool_summary_string#:#%s (Ruta: %s) [%s Preguntas]
 assessment#:#tst_edit_competence_assign#:#Editar propiedades de asignación
 assessment#:#tst_edit_scoring#:#Editar puntuación
 assessment#:#tst_ending_time#:#Fecha de finalización
@@ -1494,8 +1473,6 @@ assessment#:#tst_mark_minimum_level#:#Nivel Mínimo (en %)
 assessment#:#tst_mark_official_form#:#Forma oficial
 assessment#:#tst_mark_passed#:#Superado
 assessment#:#tst_mark_short_form#:#Forma abreviada
-assessment#:#tst_max_allowed_users_heading#:#Se ha superado el número máximo de usuarios simultáneos en este test
-assessment#:#tst_max_allowed_users_message#:#El máximo número de usuarios activos simultáneos en el test ha sido alcanzado. Por favor intenta otra vez comenzar o retomar el test. Si uno de los usuarios activos está inactivo más de %s segundos, podrás entrar al test. Esto mejora el rendimiento en la ejecución. Disculpa las molestias
 assessment#:#tst_max_comp_points#:#Máx. puntuación de competencia
 assessment#:#tst_maximum_points#:#Máxima puntuación
 assessment#:#tst_mc_label_none_above#:#Ninguna de las respuestas anteriores
@@ -1697,6 +1674,7 @@ assessment#:#tst_questions_hints_toolbar_cmd_reset_ordering_clipboard#:#Rehacer 
 assessment#:#tst_questions_inserted#:#Pregunta(s) insertada!
 assessment#:#tst_questions_removed#:#Pregunta(s) eliminada!
 assessment#:#tst_random_nr_of_questions#:#¿Cuantas preguntas?
+assessment#:#tst_random_question_set_source_questionpool_summary_string#:#%s (Ruta: %s) [%s Preguntas]
 assessment#:#tst_random_select_questionpool#:#Seleccione el banco de preguntas desde el que desea elegir preguntas
 assessment#:#tst_reached_points#:#Puntos conseguidos
 assessment#:#tst_reached_points_of_max#:#%s of %s###07 02 2020 new variable

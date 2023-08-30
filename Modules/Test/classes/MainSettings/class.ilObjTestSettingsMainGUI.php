@@ -104,6 +104,8 @@ class ilObjTestSettingsMainGUI extends ilTestSettingsGUI
         $this->testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory(
             $this->tree,
             $this->db,
+            $this->lng,
+            $DIC['ilLog'],
             $this->component_repository,
             $this->test_gui->getTestObject()
         );
@@ -510,8 +512,14 @@ class ilObjTestSettingsMainGUI extends ilTestSettingsGUI
         if ($this->test_object->isActivationLimited()) {
             $value = [
                 'time_span' => [
-                    DateTimeImmutable::createFromFormat('U', (string) $this->test_object->getActivationStartingTime()),
-                    DateTimeImmutable::createFromFormat('U', (string) $this->test_object->getActivationEndingTime())
+                    DateTimeImmutable::createFromFormat(
+                        'U',
+                        (string) $this->test_object->getActivationStartingTime()
+                    )->setTimezone(new DateTimeZone($this->activeUser->getTimeZone())),
+                    DateTimeImmutable::createFromFormat(
+                        'U',
+                        (string) $this->test_object->getActivationEndingTime()
+                    )->setTimezone(new DateTimeZone($this->activeUser->getTimeZone())),
                 ],
                 'activation_visibility' => $this->test_object->getActivationVisibility()
             ];
@@ -578,10 +586,7 @@ class ilObjTestSettingsMainGUI extends ilTestSettingsGUI
             ->withEndTime($section['access_window']['end_time'])
             ->withPasswordEnabled($section['test_password']['password_enabled'])
             ->withPassword($section['test_password']['password_value'])
-            ->withFixedParticipants($section['fixed_participants_enabled'])
-            ->withLimitedUsersEnabled($section['limit_simultaneous_users']['limit_simultaneous_users'])
-            ->withLimitedUsersAmount($section['limit_simultaneous_users']['max_allowed_simultaneous_users'])
-            ->withLimitedUsersTimeGap($section['limit_simultaneous_users']['allowed_simultaneous_users_time_gap']);
+            ->withFixedParticipants($section['fixed_participants_enabled']);
 
         if ($this->test_object->participantDataExist()) {
             return $access_settings;

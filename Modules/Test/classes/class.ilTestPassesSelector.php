@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * @author		Björn Heyser <bheyser@databay.de>
  * @version		$Id$
@@ -24,43 +26,35 @@
  */
 class ilTestPassesSelector
 {
-    protected $db;
+    private ?int $active_id = null;
+    private ?int $last_finished_pass = null;
+    private ?array $passes = null;
+    private array $test_passed_once_cache = [];
 
-    protected $testOBJ;
-
-    private $activeId;
-
-    private $lastFinishedPass = null;
-
-    private $passes = null;
-
-    private $testPassedOnceCache = array();
-
-    public function __construct(ilDBInterface $db, ilObjTest $testOBJ)
-    {
-        $this->db = $db;
-        $this->testOBJ = $testOBJ;
+    public function __construct(
+        private ilDBInterface $db,
+        private ilObjTest $test_obj
+    ) {
     }
 
-    public function getActiveId()
+    public function getActiveId(): ?int
     {
-        return $this->activeId;
+        return $this->active_id;
     }
 
-    public function setActiveId($activeId)
+    public function setActiveId(?int $active_id): void
     {
-        $this->activeId = $activeId;
+        $this->active_id = $active_id;
     }
 
-    public function getLastFinishedPass()
+    public function getLastFinishedPass(): ?int
     {
-        return $this->lastFinishedPass;
+        return $this->last_finished_pass;
     }
 
-    public function setLastFinishedPass($lastFinishedPass)
+    public function setLastFinishedPass(?int $last_finished_pass): void
     {
-        $lastFinishedPass = $lastFinishedPass === null ? -1 : $lastFinishedPass;
-        $this->lastFinishedPass = $lastFinishedPass;
+        $this->last_finished_pass = $last_finished_pass === null ? -1 : $last_finished_pass;
     }
 
     private function passesLoaded(): bool
@@ -74,46 +68,44 @@ class ilTestPassesSelector
             $this->loadPasses();
         }
     }
-    private function loadPasses()
+    private function loadPasses(): void
     {
-        $query = "
+        $query = '
 			SELECT DISTINCT tst_pass_result.* FROM tst_pass_result
 			LEFT JOIN tst_test_result
 			ON tst_pass_result.pass = tst_test_result.pass
 			AND tst_pass_result.active_fi = tst_test_result.active_fi
 			WHERE tst_pass_result.active_fi = %s
 			ORDER BY tst_pass_result.pass
-		";
+		';
 
         $res = $this->db->queryF(
             $query,
-            array('integer'),
-            array($this->getActiveId())
+            ['integer'],
+            [$this->getActiveId()]
         );
 
-        $this->passes = array();
+        $this->passes = [];
 
         while ($row = $this->db->fetchAssoc($res)) {
             $this->passes[$row['pass']] = $row;
         }
     }
 
-    private function getLazyLoadedPasses()
+    private function getLazyLoadedPasses(): array
     {
         $this->ensureLoadedPasses();
         return $this->passes;
     }
 
-    public function loadLastFinishedPass()
+    public function loadLastFinishedPass(): void
     {
-        $query = "
-			SELECT last_finished_pass FROM tst_active WHERE active_id = %s
-		";
+        $query = 'SELECT last_finished_pass FROM tst_active WHERE active_id = %s';
 
         $res = $this->db->queryF(
             $query,
-            array('integer'),
-            array($this->getActiveId())
+            ['integer'],
+            [$this->getActiveId()]
         );
 
         while ($row = $this->db->fetchAssoc($res)) {
@@ -128,7 +120,7 @@ class ilTestPassesSelector
 
     public function hasExistingPasses(): bool
     {
-        return (bool) count($this->getExistingPasses());
+        return $this->getExistingPasses() !== [];
     }
 
     public function getNumExistingPasses(): int
@@ -143,19 +135,14 @@ class ilTestPassesSelector
 
     public function getClosedPasses(): array
     {
-        $existingPasses = $this->getExistingPasses();
-        $closedPasses = $this->fetchClosedPasses($existingPasses);
-
-        return $closedPasses;
+        $existing_passes = $this->getExistingPasses();
+        return $this->fetchClosedPasses($existing_passes);
     }
 
     public function getReportablePasses(): array
     {
-        $existingPasses = $this->getExistingPasses();
-
-        $reportablePasses = $this->fetchReportablePasses($existingPasses);
-
-        return $reportablePasses;
+        $existing_passes = $this->getExistingPasses();
+        return $this->fetchReportablePasses($existing_passes);
     }
 
     public function hasReportablePasses(): bool
@@ -163,68 +150,64 @@ class ilTestPassesSelector
         return (bool) count($this->getReportablePasses());
     }
 
-    private function fetchReportablePasses($existingPasses): array
+    private function fetchReportablePasses(array $existing_passes): array
     {
-        $lastPass = $this->fetchLastPass($existingPasses);
+        $last_pass = $this->fetchLastPass($existing_passes);
 
-        $reportablePasses = array();
+        $reportable_passes = [];
 
-        foreach ($existingPasses as $pass) {
-            if ($this->isReportablePass($lastPass, $pass)) {
-                $reportablePasses[] = $pass;
+        foreach ($existing_passes as $pass) {
+            if ($this->isReportablePass($last_pass, $pass)) {
+                $reportable_passes[] = $pass;
             }
         }
 
-        return $reportablePasses;
+        return $reportable_passes;
     }
 
-    private function fetchClosedPasses($existingPasses): array
+    private function fetchClosedPasses(array $existing_passes): array
     {
-        $closedPasses = array();
+        $closed_passes = [];
 
-        foreach ($existingPasses as $pass) {
+        foreach ($existing_passes as $pass) {
             if ($this->isClosedPass($pass)) {
-                $closedPasses[] = $pass;
+                $closed_passes[] = $pass;
             }
         }
 
-        return $closedPasses;
+        return $closed_passes;
     }
 
-    private function fetchLastPass($existingPasses)
+    private function fetchLastPass(array $existing_passes): ?int
     {
-        $lastPass = null;
+        $last_pass = null;
 
-        foreach ($existingPasses as $pass) {
-            if ($lastPass === null || $pass > $lastPass) {
-                $lastPass = $pass;
+        foreach ($existing_passes as $pass) {
+            if ($last_pass === null || $pass > $last_pass) {
+                $last_pass = $pass;
             }
         }
 
-        return $lastPass;
+        return $last_pass;
     }
 
-    private function isReportablePass($lastPass, $pass): bool
+    private function isReportablePass(int $last_pass, int $pass): bool
     {
-        switch ($this->testOBJ->getScoreReporting()) {
+        switch ($this->test_obj->getScoreReporting()) {
             case ilObjTestSettingsResultSummary::SCORE_REPORTING_IMMIDIATLY:
-
                 return true;
 
             case ilObjTestSettingsResultSummary::SCORE_REPORTING_DATE:
-
                 return $this->isReportingDateReached();
 
             case ilObjTestSettingsResultSummary::SCORE_REPORTING_FINISHED:
-
-                if ($pass < $lastPass) {
+                if ($pass < $last_pass) {
                     return true;
                 }
 
                 return $this->isClosedPass($pass);
 
             case ilObjTestSettingsResultSummary::SCORE_REPORTING_AFTER_PASSED:
-
                 if (!$this->hasTestPassedOnce($this->getActiveId())) {
                     return false;
                 }
@@ -242,7 +225,7 @@ class ilTestPassesSelector
         }
     }
 
-    private function isClosedPass($pass): bool
+    private function isClosedPass(int $pass): bool
     {
         $this->checkLastFinishedPassInitialised();
 
@@ -260,7 +243,7 @@ class ilTestPassesSelector
     private function isReportingDateReached(): bool
     {
         $reg = '/^(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})$/';
-        $date = $this->testOBJ->getReportingDate();
+        $date = $this->test_obj->getReportingDate();
         $matches = null;
 
         if (!preg_match($reg, $date, $matches)) {
@@ -272,24 +255,21 @@ class ilTestPassesSelector
         return time() >= $repTS;
     }
 
-    private function isProcessingTimeReached($pass): bool
+    private function isProcessingTimeReached(int $pass): bool
     {
-        if (!$this->testOBJ->getEnableProcessingTime()) {
+        if (!$this->test_obj->getEnableProcessingTime()) {
             return false;
         }
 
-        $startingTime = $this->testOBJ->getStartingTimeOfUser($this->getActiveId(), $pass);
+        $startingTime = $this->test_obj->getStartingTimeOfUser($this->getActiveId(), $pass);
 
         if ($startingTime === false) {
             return false;
         }
 
-        return $this->testOBJ->isMaxProcessingTimeReached($startingTime, $this->getActiveId());
+        return $this->test_obj->isMaxProcessingTimeReached($startingTime, $this->getActiveId());
     }
 
-    /**
-     * @return int timestamp
-     */
     public function getLastFinishedPassTimestamp(): ?int
     {
         if ($this->getLastFinishedPass() === null || $this->getLastFinishedPass() === -1) {
@@ -300,24 +280,22 @@ class ilTestPassesSelector
         return $passes[$this->getLastFinishedPass()]['tstamp'];
     }
 
-    public function hasTestPassedOnce($activeId): bool
+    public function hasTestPassedOnce(int $active_id): bool
     {
-        global $DIC; /* @var ILIAS\DI\Container $DIC */
+        if (!isset($this->test_passed_once_cache[$active_id])) {
+            $this->test_passed_once_cache[$active_id] = false;
 
-        if (!isset($this->testPassedOnceCache[$activeId])) {
-            $this->testPassedOnceCache[$activeId] = false;
-
-            $res = $DIC->database()->queryF(
-                "SELECT passed_once FROM tst_result_cache WHERE active_fi = %s",
-                array('integer'),
-                array($activeId)
+            $res = $this->db->queryF(
+                'SELECT passed_once FROM tst_result_cache WHERE active_fi = %s',
+                ['integer'],
+                [$active_id]
             );
 
-            while ($row = $DIC->database()->fetchAssoc($res)) {
-                $this->testPassedOnceCache[$activeId] = (bool) $row['passed_once'];
+            while ($row = $this->db->fetchAssoc($res)) {
+                $this->test_passed_once_cache[$active_id] = (bool) $row['passed_once'];
             }
         }
 
-        return $this->testPassedOnceCache[$activeId];
+        return $this->test_passed_once_cache[$active_id];
     }
 }

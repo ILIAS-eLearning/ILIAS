@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Listing;
 
@@ -66,5 +66,15 @@ class Factory implements L\Factory
     public function characteristicValue(): L\CharacteristicValue\Factory
     {
         return new CharacteristicValue\Factory();
+    }
+
+    public function entity(): L\Entity\Factory
+    {
+        return new Entity\Factory();
+    }
+
+    public function property(): L\Property
+    {
+        return new Property();
     }
 }

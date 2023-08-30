@@ -253,10 +253,24 @@ il.News = {
 		var t = il.News;
 		t.current_id = id;
 
+		console.log("DELETE");
 		//$('#news_btn_delete').attr("value", il.Language.txt("update"));
 		$("#news_delete_news_title").html(t.items[id].title);
 
-		$('#ilNewsDeleteModal').modal('show');
+		const newsData = document.querySelector("[data-news-type='init']");
+		if (newsData) {
+			const signalId = newsData.dataset.newsDeleteModalSignal;
+			console.log(signalId);
+			$(document).trigger(
+				signalId,
+				{
+					id: signalId,
+					triggerer: $(this),
+					options: JSON.parse('[]'),
+				},
+			);
+		}
+		//$('#ilNewsDeleteModal').modal('show');
 
 		return false;
 	},

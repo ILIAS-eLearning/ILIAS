@@ -16,7 +16,10 @@
  *
  *********************************************************************/
 
-use ILIAS\DI\UIServices;
+declare(strict_types=1);
+
+use ILIAS\UI\Factory as UIFactory;
+use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\UI\Component\Button\Standard as StandardButton;
 
 /**
@@ -27,9 +30,6 @@ use ILIAS\UI\Component\Button\Standard as StandardButton;
  */
 class ilTestRandomQuestionSetConfigStateMessageHandler
 {
-    protected UIServices $ui;
-    protected ilLanguage $lng;
-    protected ilCtrl $ctrl;
     protected ilTestRandomQuestionSetConfigGUI $targetGUI;
 
     public const CONTEXT_GENERAL_CONFIG = 'generalConfigContext';
@@ -50,15 +50,13 @@ class ilTestRandomQuestionSetConfigStateMessageHandler
     protected string $sync_info_message = '';
 
     public function __construct(
-        ilLanguage $lng,
-        UIServices $ui,
-        ilCtrl $ctrl
+        private ilLanguage $lng,
+        private UIFactory $ui_factory,
+        private UIRenderer $ui_renderer,
+        private ilCtrl $ctrl
     ) {
-        $this->lng = $lng;
-        $this->ui = $ui;
-        $this->ctrl = $ctrl;
         $this->validationFailed = false;
-        $this->validationReports = array();
+        $this->validationReports = [];
     }
 
     /**
@@ -232,7 +230,7 @@ class ilTestRandomQuestionSetConfigStateMessageHandler
         );
         $label = $this->lng->txt('tst_btn_rebuild_random_question_stage');
 
-        return $this->ui->factory()->button()->standard($label, $href)->withLoadingAnimationOnClick(true);
+        return $this->ui_factory->button()->standard($label, $href)->withLoadingAnimationOnClick(true);
     }
 
     private function buildGeneralConfigSubTabLink(): string
@@ -265,7 +263,7 @@ class ilTestRandomQuestionSetConfigStateMessageHandler
      */
     private function isNoAvailableQuestionPoolsHintRequired(): bool
     {
-        if ($this->getContext() != self::CONTEXT_POOL_SELECTION) {
+        if ($this->getContext() !== self::CONTEXT_POOL_SELECTION) {
             return false;
         }
 
@@ -319,17 +317,17 @@ class ilTestRandomQuestionSetConfigStateMessageHandler
                 ilTestRandomQuestionSetConfigGUI::CMD_SHOW_SRC_POOL_DEF_LIST
             );
 
-            $link = $this->ui->factory()->link()->standard(
+            $link = $this->ui_factory->link()->standard(
                 $this->lng->txt('tst_msg_rand_quest_set_lost_pools_link'),
                 $action
             );
 
-            $msg_box = $this->ui->factory()->messageBox()->info($report)->withLinks(array($link));
+            $msg_box = $this->ui_factory->messageBox()->info($report)->withLinks(array($link));
         } else {
-            $msg_box = $this->ui->factory()->messageBox()->info($report);
+            $msg_box = $this->ui_factory->messageBox()->info($report);
         }
 
-        return $this->ui->renderer()->render($msg_box);
+        return $this->ui_renderer->render($msg_box);
     }
 
     protected function buildLastSyncMessage(): string
@@ -345,29 +343,29 @@ class ilTestRandomQuestionSetConfigStateMessageHandler
         if ($this->doesParticipantDataExists()) {
             $message .= '<br>' . $this->lng->txt('tst_msg_cannot_modify_random_question_set_conf_due_to_part');
 
-            $msg_box = $this->ui->factory()->messageBox()->info($message);
+            $msg_box = $this->ui_factory->messageBox()->info($message);
         } else {
             $href = $this->ctrl->getLinkTargetByClass(ilTestRandomQuestionSetConfigGUI::class, ilTestRandomQuestionSetConfigGUI::CMD_RESET_POOLSYNC);
             $label = $this->lng->txt('tst_btn_reset_pool_sync');
 
             $buttons = [
-                $this->ui->factory()->button()->standard($label, $href)
+                $this->ui_factory->button()->standard($label, $href)
             ];
 
-            $msg_box = $this->ui->factory()->messageBox()
+            $msg_box = $this->ui_factory->messageBox()
             ->info($message)
             ->withButtons($buttons);
         }
 
-        return $this->ui->renderer()->render($msg_box);
+        return $this->ui_renderer->render($msg_box);
     }
 
     protected function buildNotSyncedMessage(): string
     {
         $message = $this->lng->txt('tst_msg_rand_quest_set_not_sync');
         $button = $this->buildQuestionStageRebuildButton();
-        $msg_box = $this->ui->factory()->messageBox()->info($message)->withButtons(array($button));
+        $msg_box = $this->ui_factory->messageBox()->info($message)->withButtons(array($button));
 
-        return $this->ui->renderer()->render($msg_box);
+        return $this->ui_renderer->render($msg_box);
     }
 }

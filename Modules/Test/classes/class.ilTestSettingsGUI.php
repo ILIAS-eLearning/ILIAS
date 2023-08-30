@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * GUI class that manages the editing of general test settings/properties
  * shown on "general" subtab

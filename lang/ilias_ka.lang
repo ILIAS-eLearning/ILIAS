@@ -592,8 +592,6 @@ assessment#:#counter#:#მთვლელი
 assessment#:#create_date#:#შექმნილი
 assessment#:#create_gaps#:#ნაპრალების შექმნა
 assessment#:#create_new#:#ახალის შექმნა
-assessment#:#ctm_cannot_be_changed#:#This is a test in CTM-Mode. Settings cannot be changed anymore as CTM has been abandoned.###29 07 2022 new variable
-assessment#:#ctm_cannot_be_started#:#This is a test in CTM-Mode. The test cannot be started anymore as CTM has been abandoned.###29 07 2022 new variable
 assessment#:#customstyle#:#საკუთარი სტილი
 assessment#:#dashboard_tab#:#Dashboard###10 11 2018 new variable
 assessment#:#definition#:#განსაზღვრება სურათი
@@ -822,7 +820,6 @@ assessment#:#legend#:#ლეგენდა/წარწერა
 assessment#:#locked#:#დალუქული
 assessment#:#log_added_extratime#:#Added extra %d minutes for participant id %d###24 10 2013 new variable
 assessment#:#log_answer_changed_points#:#სახელმძღვანელო ცვლილება მონაწილის ტესტის ქულებში %s-დან %s-მდე %s-დან %s-ით
-assessment#:#log_could_not_enter_test_due_to_simultaneous_users#:#მომხმრებელმა ვერ გახსნა ტესტი რადგან უკვე მომხმარებელთა მაქსიმალურ რაოდენობას აქვს გახსნილი ტესტი.
 assessment#:#log_create_new_test#:#ახალი ტესტის შექმნა
 assessment#:#log_manual_feedback#:#%s დაემატა სახელმძღვანელო უკუკავშირსტესტის  მომხმარებლის %s-ს და კითხვების %s-ს
 assessment#:#log_mark_added#:#ქულა/შენიშვნა დაემატა
@@ -1246,11 +1243,6 @@ assessment#:#tst_add_quest_cont_edit_mode_RTE_info#:#Allows text formatting of q
 assessment#:#tst_addit_passes_blocked_after_passed_msg#:#You have passed the test. The test cannot be started again.###07 02 2020 new variable
 assessment#:#tst_all_test_competences#:#All Test Competence###26 09 2014 new variable
 assessment#:#tst_all_user_data_deleted#:#ამ ტესტის მომხმარებლების ყველა მონაცემი წაიშალა.
-assessment#:#tst_allowed_users#:#მონაწილეთა მაქსიმალური რაოდენობა ტესტის ერთდროულ წერაზე
-assessment#:#tst_allowed_users_desc#:#ILIAS will monitor the number of participants taking the test at the same time. If more users than maximally allowed try to access ILIAS will prevent them from starting the test.###07 11 2014 new variable
-assessment#:#tst_allowed_users_max#:#Max. Number of Participants###27 01 2015 new variable
-assessment#:#tst_allowed_users_time_gap#:#უმოქმედო დრო აქტიური მომხმარებლებისთვის
-assessment#:#tst_allowed_users_time_gap_desc#:#Participants that do not click in the test fort he indicated amount of time will be categorized as ‚inactive‘ and removed from the test.###07 11 2014 new variable
 assessment#:#tst_already_submitted#:#ტესტი უკვე დასრულდა და ჩაბარდა
 assessment#:#tst_analysis#:#Analysis###26 09 2014 new variable
 assessment#:#tst_anonymity#:#ანონიმურობა
@@ -1330,19 +1322,6 @@ assessment#:#tst_derive_new_pool#:#Derive New Question Pool###25 10 2016 new var
 assessment#:#tst_derive_new_pools#:#Derive New Question Pools###25 10 2016 new variable
 assessment#:#tst_dont_show_msg_again_in_current_session#:#Don't show this message again in my current session.###10 11 2018 new variable
 assessment#:#tst_dont_use_previous_answers#:#თქვენი წინა პასუხები არ გამოიყენება სტანდარტების ღირებულებად მომავალ ტესტის ჩაბარების დროს
-assessment#:#tst_dyn_keep_answ_freeze#:#Keep my current answers frozen###30 08 2015 new variable
-assessment#:#tst_dyn_quest_set_pool_deleted#:#The currently configured questionpool "%s" has been deleted.###30 08 2015 new variable
-assessment#:#tst_dyn_quest_set_src_qpl_summary_string_deleted#:#%s (Deleted Permanently)###24 10 2013 new variable
-assessment#:#tst_dyn_quest_set_src_qpl_summary_string_trashed#:#%s (Deleted) [%s Questions]###24 10 2013 new variable
-assessment#:#tst_dyn_test_msg_currently_finished_completely#:#Currently you have answered all questions from the source questin pool successfully. When there are new or edited questions in the question pool you can proceed the test.###24 10 2013 new variable
-assessment#:#tst_dyn_test_msg_currently_finished_selection#:#With the current question selection you have answered all questions successfully. Change the question selection to proceed the test.###24 10 2013 new variable
-assessment#:#tst_dyn_test_msg_pass_deletion_link#:#Delete Previous Answers###20 07 2014 new variable
-assessment#:#tst_dyn_test_pass_deletion_button#:#Reset All Testanswers###26 09 2014 new variable
-assessment#:#tst_dyn_unfreeze_answers#:#Answer once more###30 08 2015 new variable
-assessment#:#tst_dyn_unfreeze_answers_confirmation#:#There are questions to which your inital answers were fixed and you could not make any changes. Do you want to answer them one more time now and thus unfreeze your answers?###30 08 2015 new variable
-assessment#:#tst_dynamic_question_set_complete#:#Total-Statistic###07 11 2014 new variable
-assessment#:#tst_dynamic_question_set_selection#:#Test Question Selection###20 07 2014 new variable
-assessment#:#tst_dynamic_question_set_source_questionpool_summary_string#:#%s (Path: %s) [%s Questions]###24 10 2013 new variable
 assessment#:#tst_edit_competence_assign#:#Edit Assignment Properties###30 08 2015 new variable
 assessment#:#tst_edit_scoring#:#Edit Scoring
 assessment#:#tst_ending_time#:#დასრულები დრო
@@ -1492,8 +1471,6 @@ assessment#:#tst_mark_minimum_level#:#მინიმალური დონ�
 assessment#:#tst_mark_official_form#:#ოფიციალური ფორმა
 assessment#:#tst_mark_passed#:#ჩაბარებული
 assessment#:#tst_mark_short_form#:#მოკლე ფორმა
-assessment#:#tst_max_allowed_users_heading#:#ტესტს ერთდროულად მონაწილეთა მაქსიმალური რაოდენობა წერს
-assessment#:#tst_max_allowed_users_message#:#ტესტს ერთდროულად მონაწილეთა მაქსიმალური რაოდენობა წერს. გთხოვთ მოგვიანებით სცადოთ ან განაახლოთ ტესტი. თუ რომელიმე აქტიურმ მომხმარებელთაგან არააქტიურია %s წამზე მეტი ხანია, თქვენ შეძლებთ ამ ტესტის დაწყებას. Mადლობას გიხდით გაგებისთვის.
 assessment#:#tst_max_comp_points#:#Max. Competence Points###26 09 2014 new variable
 assessment#:#tst_maximum_points#:#მაქსიმალური ქულა
 assessment#:#tst_mc_label_none_above#:#None of the answers above###fau: testNav
@@ -1695,6 +1672,7 @@ assessment#:#tst_questions_hints_toolbar_cmd_reset_ordering_clipboard#:#Reset Hi
 assessment#:#tst_questions_inserted#:#კითხვები ჩაისვა
 assessment#:#tst_questions_removed#:#კითხვები ამოიშალა
 assessment#:#tst_random_nr_of_questions#:#რამდენი კითხვაა?
+assessment#:#tst_random_question_set_source_questionpool_summary_string#:#%s (Path: %s) [%s Questions]###24 10 2013 new variable
 assessment#:#tst_random_select_questionpool#:#აირჩიეთ კითხვების ნაკადი კითხვების ამოსარჩევად
 assessment#:#tst_reached_points#:#მიღწეული ქულები
 assessment#:#tst_reached_points_of_max#:#%s of %s###07 02 2020 new variable

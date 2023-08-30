@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -13,14 +14,11 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
-/**
- * Class ilDataCollectionImporter
- * @author Stefan Wanzenried <sw@studer-raimann.ch>
- * @author Fabian Schmid <fs@studer-raimann.ch>
- */
+
+declare(strict_types=1);
+
 class ilDataCollectionImporter extends ilXmlImporter
 {
     protected ilDataCollectionDataSet $ds;
@@ -46,7 +44,7 @@ class ilDataCollectionImporter extends ilXmlImporter
         string $a_xml,
         ilImportMapping $a_mapping
     ): void {
-        $parser = new ilDataSetImportParser($a_entity, $this->getSchemaVersion(), $a_xml, $this->ds, $a_mapping);
+        new ilDataSetImportParser($a_entity, $this->getSchemaVersion(), $a_xml, $this->ds, $a_mapping);
     }
 
     /**

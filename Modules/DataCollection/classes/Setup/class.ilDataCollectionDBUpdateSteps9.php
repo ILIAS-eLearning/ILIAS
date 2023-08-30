@@ -16,11 +16,13 @@
  *
  *********************************************************************/
 
-class ilDataCollectionDBUpdateSteps9 implements \ilDatabaseUpdateSteps
-{
-    protected \ilDBInterface $db;
+declare(strict_types=1);
 
-    public function prepare(\ilDBInterface $db): void
+class ilDataCollectionDBUpdateSteps9 implements ilDatabaseUpdateSteps
+{
+    protected ilDBInterface $db;
+
+    public function prepare(ilDBInterface $db): void
     {
         $this->db = $db;
     }
@@ -89,11 +91,11 @@ class ilDataCollectionDBUpdateSteps9 implements \ilDatabaseUpdateSteps
 
     public function step_5(): void
     {
-        if (!$this->db->indexExistsByFields('il_dcl_field_prop', array('id', 'field_id'))) {
-            $this->db->addIndex('il_dcl_field_prop', array('id', 'field_id'), 'i1');
+        if (!$this->db->indexExistsByFields('il_dcl_field_prop', ['id', 'field_id'])) {
+            $this->db->addIndex('il_dcl_field_prop', ['id', 'field_id'], 'i1');
         }
-        if (!$this->db->indexExistsByFields('il_dcl_tview_set', array('tableview_id'))) {
-            $this->db->addIndex('il_dcl_tview_set', array('tableview_id'), 'i1');
+        if (!$this->db->indexExistsByFields('il_dcl_tview_set', ['tableview_id'])) {
+            $this->db->addIndex('il_dcl_tview_set', ['tableview_id'], 'i1');
         }
     }
 

@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class ilTestMailNotification
  * @author Nadia Ahmad <nahmad@databay.de>

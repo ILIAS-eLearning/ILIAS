@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Class ilTestEvaluationUserDataTest
@@ -64,10 +64,8 @@ class ilTestEvaluationUserDataTest extends ilTestBaseTestCase
 
     public function testPassScoring(): void
     {
-        $expected = [1, 0, 20, 120, 12];
-
-        $this->testObj->setPassScoring($expected);
-        $this->assertEquals($expected, $this->testObj->getPassScoring());
+        $this->testObj->setPassScoring(1);
+        $this->assertEquals(1, $this->testObj->getPassScoring());
     }
 
     public function testPassed(): void
@@ -224,22 +222,22 @@ class ilTestEvaluationUserDataTest extends ilTestBaseTestCase
 
     public function testSetTimeOfWork(): void
     {
-        $this->testObj->setTimeOfWork(215);
-        $this->assertEquals(215, $this->testObj->timeOfWork);
+        $this->testObj->setTimeOfWork('215');
+        $this->assertEquals('215', $this->testObj->timeOfWork);
     }
 
     public function testFirstVisit(): void
     {
-        $this->testObj->setFirstVisit("2125");
+        $this->testObj->setFirstVisit(2125);
 
-        $this->assertEquals("2125", $this->testObj->getFirstVisit());
+        $this->assertEquals(2125, $this->testObj->getFirstVisit());
     }
 
     public function testLastVisit(): void
     {
-        $this->testObj->setLastVisit("2125");
+        $this->testObj->setLastVisit(2125);
 
-        $this->assertEquals("2125", $this->testObj->getLastVisit());
+        $this->assertEquals(2125, $this->testObj->getLastVisit());
     }
 
     public function testGetPasses(): void

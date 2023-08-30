@@ -20,8 +20,6 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Component\Input\Container\Form;
 
-use ILIAS\UI\Component\Input\Field\FormInput;
-
 /**
  * This is how a factory for forms looks like.
  */
@@ -61,7 +59,7 @@ interface Factory
      *        the data into the database. “Send Mail” would be an example of this.
      * ---
      * @param    string $post_url
-     * @param    array<mixed,\ILIAS\UI\Component\Input\Field\FormInput>    $inputs
+     * @param    array<mixed,\ILIAS\UI\Component\Input\Container\Form\FormInput>    $inputs
      * @return    \ILIAS\UI\Component\Input\Container\Form\Standard
      */
     public function standard(string $post_url, array $inputs): Standard;

@@ -27,6 +27,7 @@ use ILIAS\UI\Component as I;
 use ILIAS\Data\Range;
 use ILIAS\Data\Order;
 use Psr\Http\Message\ServerRequestInterface;
+use ILIAS\UI\URLBuilder;
 
 /**
  * Tests for the Data Table.
@@ -74,7 +75,8 @@ class DataTest extends ILIAS_UI_TestBase
         $this->assertEquals(800, $table->getNumberOfRows());
         $this->assertInstanceOf(Order::class, $table->getOrder());
         $this->assertInstanceOf(Range::class, $table->getRange());
-        $this->assertInstanceOf(I\Signal::class, $table->getActionSignal());
+        $this->assertInstanceOf(I\Signal::class, $table->getAsyncActionSignal());
+        $this->assertInstanceOf(I\Signal::class, $table->getMultiActionSignal());
         $this->assertInstanceOf(I\Signal::class, $table->getSelectionSignal());
         $this->assertFalse($table->hasSingleActions());
         $this->assertFalse($table->hasMultiActions());
@@ -118,11 +120,14 @@ class DataTest extends ILIAS_UI_TestBase
     public function testDataTableActions(): void
     {
         $f = $this->getFactory()->action();
-        $target = $this->getDataFactory()->uri('http://wwww.ilias.de?ref_id=1');
+        $df = new \ILIAS\Data\Factory();
+        $target = $df->uri('http://wwww.ilias.de?ref_id=1');
+        $url_builder = new URLBuilder($target);
+        list($builder, $token) = $url_builder->acquireParameter(['namespace'], 'rowids');
         $actions = [
-            $f->single('act1', 'p', $target),
-            $f->multi('act2', 'p', $target),
-            $f->standard('act0', 'p', $target)
+            $f->single('act1', $builder, $token),
+            $f->multi('act2', $builder, $token),
+            $f->standard('act0', $builder, $token)
         ];
         $cols = ['f0' => $this->getFactory()->column()->text("col1")];
         $table = $this->getFactory()->data('title', $cols, $this->getDataRetrieval())

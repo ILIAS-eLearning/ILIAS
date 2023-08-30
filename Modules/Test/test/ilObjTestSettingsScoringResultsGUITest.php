@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -28,6 +26,8 @@ use Psr\Http\Message\ServerRequestInterface;
  */
 class ilObjTestSettingsScoringResultsGUITest extends TestCase
 {
+    private ilObjTestSettingsScoringResultsGUI $testObj;
+
     protected function getUIComponents(): array
     {
         $test_helper = new UITestHelper();

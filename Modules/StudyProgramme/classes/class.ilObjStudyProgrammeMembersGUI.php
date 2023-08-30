@@ -118,7 +118,7 @@ class ilObjStudyProgrammeMembersGUI
                     $this->lng->txt('btn_back'),
                     $this->ctrl->getLinkTarget($this, $this->getDefaultCommand())
                 );
-                $dic = ilStudyProgrammeDIC::dic();
+                $dic = ilStudyProgrammeDIC::specificDicFor($this->object);
                 $mail_search = $dic['ilStudyProgrammeMailMemberSearchGUI'];
                 $mail_search->setAssignments($this->getAssignmentsById());
                 $mail_search->setBackTarget(

@@ -156,7 +156,7 @@ class InitResourceStorage
         // Artifacts
         $c[self::D_ARTIFACTS] = static function (Container $c): Artifacts {
             $flavour_data = is_readable(ilResourceStorageFlavourArtifact::PATH) ?
-                include_once ilResourceStorageFlavourArtifact::PATH
+                include ilResourceStorageFlavourArtifact::PATH
                 : [];
             return new Artifacts(
                 $flavour_data['machines'] ?? [],

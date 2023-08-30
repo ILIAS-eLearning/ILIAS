@@ -26,7 +26,7 @@ use ILIAS\UI\Component\Input\Field\File as FileInput;
 use ILIAS\UI\Component\Dropzone\File\Standard as StandardDropzone;
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 use ILIAS\UI\Component\Button\Button;
-use ILIAS\UI\Component\Input\Field\Input;
+use ILIAS\UI\Component\Input\Container\Form\FormInput;
 
 /**
  * @author  Thibeau Fuhrer <thibeau@sr.solutions>
@@ -35,6 +35,7 @@ class Standard extends File implements StandardDropzone
 {
     protected ?Button $upload_button = null;
     protected string $message;
+    protected bool $bulky = false;
 
     public function __construct(
         SignalGeneratorInterface $signal_generator,
@@ -44,7 +45,7 @@ class Standard extends File implements StandardDropzone
         string $message,
         string $post_url,
         FileInput $file_input,
-        ?Input $additional_input
+        ?FormInput $additional_input
     ) {
         parent::__construct(
             $signal_generator,
@@ -73,5 +74,17 @@ class Standard extends File implements StandardDropzone
     public function getUploadButton(): ?Button
     {
         return $this->upload_button;
+    }
+
+    public function withBulky(bool $bulky): StandardDropzone
+    {
+        $clone = clone $this;
+        $clone->bulky = $bulky;
+        return $clone;
+    }
+
+    public function isBulky(): bool
+    {
+        return $this->bulky;
     }
 }

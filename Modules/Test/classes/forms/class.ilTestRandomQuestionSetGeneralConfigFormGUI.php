@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * GUI class for random question set general config form
  *
@@ -136,7 +138,7 @@ class ilTestRandomQuestionSetGeneralConfigFormGUI extends ilPropertyFormGUI
         $questionAmountPerTest->setSize(4);
 
         $questionAmountPerTest->setValue(
-            $this->questionSetConfig->getQuestionAmountPerTest()
+            (string) $this->questionSetConfig->getQuestionAmountPerTest()
         );
 
         $questionAmountConfigModePerTest->addSubItem($questionAmountPerTest);

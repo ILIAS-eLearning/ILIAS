@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\Test\TestManScoringDoneHelper;
 
 /**
@@ -29,33 +31,18 @@ use ILIAS\Test\TestManScoringDoneHelper;
 class ilTestService
 {
     /**
-     * @access protected
-     * @var ilObjTest
-     */
-    protected $object = null;
-
-    /**
      * @access public
      * @param	ilObjTest $a_object
      */
-    public function __construct(ilObjTest $a_object)
-    {
-        $this->object = $a_object;
+    public function __construct(
+        protected ilObjTest $object,
+        protected ilDBInterface $db
+    ) {
     }
 
-    /**
-     * @access public
-     * @global	ilObjUser	$ilUser
-     * @param	integer		$active_id
-     * @param	boolean		$short
-     * @return	array		$passOverwiewData
-     */
-    public function getPassOverviewData($active_id, $short = false): array
+    public function getPassOverviewData(int $active_id, bool $short = false): array
     {
-        $passOverwiewData = array();
-
-        global $DIC;
-        $ilUser = $DIC['ilUser'];
+        $passOverwiewData = [];
 
         $scoredPass = $this->object->_getResultPass($active_id);
         $lastPass = ilObjTest::_getPass($active_id);
@@ -128,18 +115,14 @@ class ilTestService
 
     /**
      * Returns the list of answers of a users test pass and offers a scoring option
-     *
-     * @access public
-     * @param integer $active_id Active ID of the active user
-     * @param integer $pass Test pass
      */
-    public function getManScoringQuestionGuiList($activeId, $pass): array
+    public function getManScoringQuestionGuiList(int $active_id, int $pass): array
     {
         $manScoringQuestionTypes = ilObjAssessmentFolder::_getManualScoring();
 
-        $testResultData = $this->object->getTestResult($activeId, $pass);
+        $testResultData = $this->object->getTestResult($active_id, $pass);
 
-        $manScoringQuestionGuiList = array();
+        $manScoringQuestionGuiList = [];
 
         foreach ($testResultData as $questionData) {
             if (!isset($questionData['qid'])) {
@@ -162,54 +145,36 @@ class ilTestService
         return $manScoringQuestionGuiList;
     }
 
-    /**
-     * reads the flag wether manscoring is done for the given test active or not
-     *
-     * @access public
-     * @static
-     * @param int $activeId
-     * @return bool
-     */
-    public static function isManScoringDone(int $activeId): bool
+    public static function isManScoringDone(int $active_id): bool
     {
-        return (new TestManScoringDoneHelper())->isDone($activeId);
+        return (new TestManScoringDoneHelper())->isDone($active_id);
     }
 
-    /**
-     * stores the flag wether manscoring is done for the given test active or not
-     * @param int  $activeId
-     * @param bool $manScoringDone
-     */
     public static function setManScoringDone(int $activeId, bool $manScoringDone): void
     {
         (new TestManScoringDoneHelper())->setDone($activeId, $manScoringDone);
     }
 
-    public function buildVirtualSequence(ilTestSession $testSession)
+    public function buildVirtualSequence(ilTestSession $testSession): ilTestVirtualSequence
     {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-        $lng = $DIC['lng'];
-        $component_repository = $DIC['component.repository'];
-
-        $testSequenceFactory = new ilTestSequenceFactory($ilDB, $lng, $component_repository, $this->object);
+        $test_sequence_factory = new ilTestSequenceFactory($this->object, $this->db);
 
         if ($this->object->isRandomTest()) {
-            $virtualSequence = new ilTestVirtualSequenceRandomQuestionSet($ilDB, $this->object, $testSequenceFactory);
+            $virtual_sequence = new ilTestVirtualSequenceRandomQuestionSet($this->db, $this->object, $test_sequence_factory);
         } else {
-            $virtualSequence = new ilTestVirtualSequence($ilDB, $this->object, $testSequenceFactory);
+            $virtual_sequence = new ilTestVirtualSequence($this->db, $this->object, $test_sequence_factory);
         }
 
-        $virtualSequence->setActiveId($testSession->getActiveId());
+        $virtual_sequence->setActiveId($testSession->getActiveId());
 
-        $virtualSequence->init();
+        $virtual_sequence->init();
 
-        return $virtualSequence;
+        return $virtual_sequence;
     }
 
     public function getVirtualSequenceUserResults(ilTestVirtualSequence $virtualSequence): array
     {
-        $resultsByPass = array();
+        $resultsByPass = [];
 
         foreach ($virtualSequence->getUniquePasses() as $pass) {
             $results = $this->object->getTestResult(
@@ -223,7 +188,7 @@ class ilTestService
             $resultsByPass[$pass] = $results;
         }
 
-        $virtualPassResults = array();
+        $virtualPassResults = [];
 
         foreach ($virtualSequence->getQuestionsPassMap() as $questionId => $pass) {
             foreach ($resultsByPass[$pass] as $key => $questionResult) {
@@ -242,22 +207,17 @@ class ilTestService
         return $virtualPassResults;
     }
 
-    /**
-     * @param ilTestSequenceSummaryProvider $testSequence
-     * @param bool $obligationsFilter
-     * @return array
-     */
-    public function getQuestionSummaryData(ilTestSequenceSummaryProvider $testSequence, $obligationsFilterEnabled): array
+    public function getQuestionSummaryData(ilTestSequenceSummaryProvider $testSequence, bool $obligationsFilterEnabled): array
     {
         $result_array = $testSequence->getSequenceSummary($obligationsFilterEnabled);
 
-        $marked_questions = array();
+        $marked_questions = [];
 
         if ($this->object->getShowMarker()) {
             $marked_questions = ilObjTest::_getSolvedQuestions($testSequence->getActiveId());
         }
 
-        $data = array();
+        $data = [];
         $firstQuestion = true;
 
         foreach ($result_array as $key => $value) {

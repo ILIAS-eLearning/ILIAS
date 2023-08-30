@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Abstract parent class for all signature plugin classes.
  *
@@ -27,81 +29,53 @@
  */
 abstract class ilTestSignaturePlugin extends ilPlugin
 {
-    /** @var \ilTestSignatureGUI */
-    protected $GUIObject;
+    protected ilCtrl $ctrl;
+    protected ilGlobalTemplateInterface $tpl;
 
-    /**
-     * @param \ilTestSignatureGUI $GUIObject
-     */
-    public function setGUIObject($GUIObject)
+    protected ilTestSignatureGUI $GUIObject;
+
+    public function __construct()
+    {
+        global $DIC;
+        $this->ctrl = $DIC['ilCtrl'];
+        $this->tpl = $DIC['ilUser'];
+    }
+
+    public function setGUIObject(ilTestSignatureGUI $GUIObject): void
     {
         $this->GUIObject = $GUIObject;
     }
 
-    /**
-     * @return \ilTestSignatureGUI
-     */
     public function getGUIObject(): ilTestSignatureGUI
     {
         return $this->GUIObject;
     }
 
-    /**
-     * @param string $cmd
-     *
-     * @return string
-     */
-    protected function getLinkTargetForCmd($cmd): string
+    protected function getLinkTargetForCmd(string $cmd): string
     {
-        /** @var $ilCtrl ilCtrl */
-        global $DIC;
-        $ilCtrl = $DIC['ilCtrl'];
         return
             '//' . $_SERVER['HTTP_HOST']
             . substr($_SERVER['PHP_SELF'], 0, strlen($_SERVER['PHP_SELF']) - 10)
-            . '/' . $ilCtrl->getLinkTarget($this->getGUIObject(), $cmd, '', false, false);
+            . '/' . $this->ctrl->getLinkTarget($this->getGUIObject(), $cmd, '', false, false);
     }
 
-    /**
-     * @param string $cmd
-     * @param string $ressource
-     *
-     * @return string
-     */
-    protected function getLinkTargetForRessource($cmd, $ressource): string
+    protected function getLinkTargetForRessource(string $cmd, string $ressource): string
     {
-        /** @var $ilCtrl ilCtrl */
-        global $DIC;
-        $ilCtrl = $DIC['ilCtrl'];
         $link = 'http://' . $_SERVER['HTTP_HOST']
             . substr($_SERVER['PHP_SELF'], 0, strlen($_SERVER['PHP_SELF']) - 10)
             . '/'
-            . $ilCtrl->getLinkTarget($this->getGUIObject(), $cmd, '', false, false) . '&ressource=' . $ressource;
+            . $this->ctrl->getLinkTarget($this->getGUIObject(), $cmd, '', false, false) . '&ressource=' . $ressource;
         return $link;
     }
 
-    /**
-     * @param string $default_cmd
-     *
-     * @return string
-     */
-    protected function getFormAction($default_cmd): string
+    protected function getFormAction(string $default_cmd): string
     {
-        /** @var $ilCtrl ilCtrl */
-        global $DIC;
-        $ilCtrl = $DIC['ilCtrl'];
-        return $ilCtrl->getFormAction($this, $default_cmd);
+        return $this->ctrl->getFormAction($this, $default_cmd);
     }
 
-    /**
-     * Sets the content sections content conveniently.
-     */
-    protected function populatePluginCanvas($content)
+    protected function populatePluginCanvas(string $content): void
     {
-        /** @var $tpl ilTemplate */
-        global $DIC;
-        $tpl = $DIC['tpl'];
-        $tpl->setVariable($this->getGUIObject()->getTestOutputGUI()->getContentBlockName(), $content);
+        $this->tpl->setVariable($this->getGUIObject()->getTestOutputGUI()->getContentBlockName(), $content);
         return;
     }
 
@@ -122,13 +96,13 @@ abstract class ilTestSignaturePlugin extends ilPlugin
      *
      * @return void
      */
-    protected function handInFileForArchiving($active_fi, $pass, $filename, $filepath)
+    protected function handInFileForArchiving(int $active_fi, int $pass, string $filename, string $filepath): void
     {
         $archiver = new ilTestArchiver($this->getGUIObject()->getTest()->getId());
         $archiver->handInParticipantMisc($active_fi, $pass, $filename, $filepath);
     }
 
-    protected function redirectToTest($success)
+    protected function redirectToTest($success): void
     {
         $this->getGUIObject()->redirectToTest($success);
     }
@@ -144,9 +118,9 @@ abstract class ilTestSignaturePlugin extends ilPlugin
      * What you see here is called "The Arab Pattern". You will agree, that "Command-Class-Execution-Separation" would
      * have be to bulky as a name.
      *
-     * @param mixed|null $cmd Optional command for the plugin
+     * @param ?string $cmd Optional command for the plugin
      *
      * @return void
      */
-    abstract public function invoke($cmd = null);
+    abstract public function invoke(?string $cmd = null): void;
 }

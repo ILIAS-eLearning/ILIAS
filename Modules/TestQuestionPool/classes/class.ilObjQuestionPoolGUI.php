@@ -196,9 +196,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                     $this->lng,
                     $ilDB,
                     $ilUser,
-                    $randomGroup,
-                    $this->ref_id,
-                    $this->rbac
+                    $randomGroup
                 );
 
                 $gui->initQuestion((int) $this->qplrequest->raw('q_id'), $this->object->getId());
@@ -1292,9 +1290,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
             $this->lng,
             $this->db,
             $this->user,
-            new RandomGroup(),
-            $this->ref_id,
-            $this->rbac
+            new RandomGroup()
         );
         $this->ctrl->redirectByClass(get_class($p_gui), 'show');
     }

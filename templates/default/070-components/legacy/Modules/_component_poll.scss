@@ -2,6 +2,12 @@
 
 /* Modules/Poll */
 
+.ilPollAlert {
+	margin: 5px;
+	font-size: $il-font-size-small;
+	color: $il-warning-color;
+}
+
 .ilPollDescription {
 	margin: 5px;
 	font-size: $il-font-size-small;
@@ -14,6 +20,14 @@
 	margin: 1.5%;
 	font-size: $il-font-size-small;
 	font-style: italic;
+}
+
+.ilPollModeInfo {
+	display: inline-block;
+	width: 97%;
+	margin: 1.5%;
+	font-size: $il-font-size-small;
+	color: $il-text-light-color;
 }
 
 img.ilPollQuestionImage {
@@ -39,23 +53,8 @@ img.ilPollQuestionImage {
 	margin-bottom: 5px;
 }
 
-.ilPollQuestionResultBar {
-	width: 100%;
-	border: 1px solid $il-main-border-dark-color;
-	float: left;
-	height: 18px;
-}
-
-.ilPollQuestionResultBarInner {
-	background-color: $il-highlight-bg;
-	height: 18px;
-}
-
-.ilPollQuestionResultPerc {
-	float: right;
-	position: relative;
-	margin-top: -17px;
-	margin-right: 3px;
+.ilPollQuestionResult .progress .progress-bar {
+	background-color: $il-main-color;
 }
 
 .ilPollLegend {

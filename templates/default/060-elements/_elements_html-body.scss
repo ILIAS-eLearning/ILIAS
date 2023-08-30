@@ -1,5 +1,9 @@
 @use "../010-settings/" as *;
 
+* {
+	box-sizing: border-box;
+}
+
 html, body {
 	height:100%;
 	overflow: hidden;

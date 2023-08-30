@@ -593,8 +593,6 @@ assessment#:#counter#:#Counter
 assessment#:#create_date#:#Created
 assessment#:#create_gaps#:#Create and Refresh Gaps
 assessment#:#create_new#:#Create New
-assessment#:#ctm_cannot_be_changed#:#This is a test in CTM-Mode. Settings cannot be changed anymore as CTM has been abandoned.
-assessment#:#ctm_cannot_be_started#:#This is a test in CTM-Mode. The test cannot be started anymore as CTM has been abandoned.
 assessment#:#customstyle#:#Custom Style
 assessment#:#dashboard_tab#:#Dashboard
 assessment#:#definition#:#Definition
@@ -830,7 +828,6 @@ assessment#:#legend#:#Legend
 assessment#:#locked#:#locked
 assessment#:#log_added_extratime#:#Added extra %d minutes for participant id %d
 assessment#:#log_answer_changed_points#:#Manual change of points of test person %s from %d to %d points by %s
-assessment#:#log_could_not_enter_test_due_to_simultaneous_users#:#The user could not enter the test because the maximum number of simultaneous users has been reached
 assessment#:#log_create_new_test#:#Created new test
 assessment#:#log_manual_feedback#:#%s added manual feedback for test person %s and question %s: %s
 assessment#:#log_mark_added#:#Mark added
@@ -890,6 +887,7 @@ assessment#:#new_category#:#New Unit Category
 assessment#:#new_unit#:#New Unit
 assessment#:#next_question#:#Next
 assessment#:#next_question_rows#:#Questions %d - %d of %d →
+assessment#:#no_manual_feedback_export_info#:#Manual feedbacks will not be exported.
 assessment#:#no_passed_mark#:#At least one grade has to be a passing grade. For a grade to be a passing grade, it needs to have the appropriate box in the ‘Passed’ column checked.
 assessment#:#no_question_selected_for_move#:#Please check at least one question to move it!
 assessment#:#no_questions_available#:#There are no questions available!
@@ -1260,11 +1258,6 @@ assessment#:#tst_add_quest_cont_edit_mode_RTE_info#:#Allows text formatting of q
 assessment#:#tst_addit_passes_blocked_after_passed_msg#:#You have passed the test. The test cannot be started again.
 assessment#:#tst_all_test_competences#:#All Test Competence
 assessment#:#tst_all_user_data_deleted#:#All user data for this test has been removed!
-assessment#:#tst_allowed_users#:#Limit Number of Concurrent Participants
-assessment#:#tst_allowed_users_desc#:#ILIAS will monitor the number of participants taking the test at the same time. If the maximum number of users taking the test at the same time has been reached, ILIAS will prevent additional users from starting the test.
-assessment#:#tst_allowed_users_max#:#Max. Number of Participants
-assessment#:#tst_allowed_users_time_gap#:#Max. Idle Time Permitted for Active Participants
-assessment#:#tst_allowed_users_time_gap_desc#:#Participants who have not clicked on anything in the test for the indicated amount of time, will be categorised as ‘inactive’ and removed from the test.
 assessment#:#tst_already_submitted#:#The test has already been completed and submitted.
 assessment#:#tst_analysis#:#Analysis
 assessment#:#tst_anonymity#:#Privacy
@@ -1345,19 +1338,6 @@ assessment#:#tst_derive_new_pool#:#Derive New Question Pool
 assessment#:#tst_derive_new_pools#:#Derive New Question Pools
 assessment#:#tst_dont_show_msg_again_in_current_session#:#Don't show this message again in my current session.
 assessment#:#tst_dont_use_previous_answers#:#Your previous answers will not be used as default values in future test passes
-assessment#:#tst_dyn_keep_answ_freeze#:#Keep my current answers frozen
-assessment#:#tst_dyn_quest_set_pool_deleted#:#The currently configured question pool "%s" has been deleted.
-assessment#:#tst_dyn_quest_set_src_qpl_summary_string_deleted#:#%s (Removed Permanently)
-assessment#:#tst_dyn_quest_set_src_qpl_summary_string_trashed#:#%s (Removed) [%s Questions]
-assessment#:#tst_dyn_test_msg_currently_finished_completely#:#Currently you have answered all questions from the selected question pool successfully. You can proceed the test when there are new or edited questions in the question pool.
-assessment#:#tst_dyn_test_msg_currently_finished_selection#:#With the current question selection you have answered all questions successfully. Change the question selection to proceed the test.
-assessment#:#tst_dyn_test_msg_pass_deletion_link#:#Remove Previous Answers
-assessment#:#tst_dyn_test_pass_deletion_button#:#Reset All Answers
-assessment#:#tst_dyn_unfreeze_answers#:#Answer once more
-assessment#:#tst_dyn_unfreeze_answers_confirmation#:#There are questions to which your initial answers were fixed and you could not make any changes. Do you want to answer them one more time now and thus unfreeze your answers?
-assessment#:#tst_dynamic_question_set_complete#:#Total-Statistic
-assessment#:#tst_dynamic_question_set_selection#:#Test Question Selection and Selection-Statistic
-assessment#:#tst_dynamic_question_set_source_questionpool_summary_string#:#%s (Path: %s) [%s Questions]
 assessment#:#tst_edit_competence_assign#:#Edit Assignment Properties
 assessment#:#tst_edit_scoring#:#Edit Scoring
 assessment#:#tst_ending_time#:#Finishing Time
@@ -1392,7 +1372,8 @@ assessment#:#tst_filter_taxonomy#:#Taxonomy
 assessment#:#tst_final_information#:#Finishing the Test
 assessment#:#tst_finish_confirm_button#:#Yes, I want to finish the test
 assessment#:#tst_finish_confirm_cancel_button#:#No, go back to the previous question
-assessment#:#tst_finish_confirmation_question#:#You are going to finish this test and reach the maximum number of allowed test passes. You won’t be able to enter this test again to change your answers. Do you really want to finish the test?
+assessment#:#tst_finish_confirmation_question#:#You are going to finish this test. You won’t be able to enter this test attempt again to change your answers. Do you really want to finish this test?
+assessment#:#tst_finish_confirmation_question_no_attempts_left#:#You are going to finish this test and reach the maximum number of allowed test passes. You won’t be able to enter this test again to change your answers. Do you really want to finish the test?
 assessment#:#tst_finish_notification#:#Notification
 assessment#:#tst_finish_notification_advanced#:#Send complete test result
 assessment#:#tst_finish_notification_content_type#:#Content of e-mail
@@ -1510,8 +1491,6 @@ assessment#:#tst_mark_minimum_level#:#Minimum Level (in %)
 assessment#:#tst_mark_official_form#:#Official Form
 assessment#:#tst_mark_passed#:#Passed
 assessment#:#tst_mark_short_form#:#Short Form
-assessment#:#tst_max_allowed_users_heading#:#The maximum number of simultaneous users in this test has been reached
-assessment#:#tst_max_allowed_users_message#:#The maximum number of simultaneous active users in the test has been reached. Please try again later to start or resume the test. If one of the active users is inactive for more than %s seconds, you may be able to enter this test. Thank you for your understanding.
 assessment#:#tst_max_comp_points#:#Max. Competence Points
 assessment#:#tst_maximum_points#:#Maximum Points
 assessment#:#tst_mc_label_none_above#:#None of the answers above###fau: testNav
@@ -1716,6 +1695,7 @@ assessment#:#tst_questions_hints_toolbar_cmd_reset_ordering_clipboard#:#Reset Hi
 assessment#:#tst_questions_inserted#:#Question(s) inserted!
 assessment#:#tst_questions_removed#:#Question(s) removed!
 assessment#:#tst_random_nr_of_questions#:#How many questions?
+assessment#:#tst_random_question_set_source_questionpool_summary_string#:#%s (Path: %s) [%s Questions]
 assessment#:#tst_random_select_questionpool#:#Select the question pool to choose the questions from
 assessment#:#tst_reached_points#:#Reached Points
 assessment#:#tst_reached_points_of_max#:#%s of %s
@@ -2141,6 +2121,7 @@ badge#:#badge_backpack_no_groups#:#The Mozilla Backpack is empty or non-public.
 badge#:#badge_badge#:#Badge
 badge#:#badge_course_lp#:#Course LP
 badge#:#badge_course_lp_invalid#:#The following objects have a LP mode which is not supported: %s.
+badge#:#badge_create#:#Create Badge
 badge#:#badge_criteria#:#Criteria
 badge#:#badge_crs_merit#:#Merit
 badge#:#badge_deletion_confirmation#:#Are you sure you want to delete the following badges and all their respective assignments?
@@ -8099,6 +8080,8 @@ dateplaner#:#cal_create#:#Create
 dateplaner#:#cal_created_appointment#:#Created new appointment.
 dateplaner#:#cal_created_milestone#:#Milestone added.
 dateplaner#:#cal_created_milestone_resp_q#:#Milestone added. Please select users that are responsible to meet the milestone.
+dateplaner#:#cal_cronjob_remote_description#:#If activated, appointments of the calendar type "Web calendar" are automatically synchronised after the specified time interval.
+dateplaner#:#cal_cronjob_remote_title#:#External Calendar Synchronisation
 dateplaner#:#cal_crs_info#:#Course Information
 dateplaner#:#cal_crs_new_notification_body#:#a new appointment has been created in course "%s".
 dateplaner#:#cal_crs_new_notification_sub#:#New Appointment in Course "%s"
@@ -8579,6 +8562,8 @@ dcl#:#dcl_std_field_not_importable#:# - Standard fields are not importable.
 dcl#:#dcl_std_filter#:#Default Filter
 dcl#:#dcl_supported_filetypes#:#Allowed file-extensions
 dcl#:#dcl_supported_filetypes_desc#:#You can set the allowed extensions comma seperated. For example: pdf, docx
+dcl#:#dcl_switch_table#:#Switch Table
+dcl#:#dcl_switch_view#:#Change View
 dcl#:#dcl_table#:#Table
 dcl#:#dcl_table_create#:#Create Table
 dcl#:#dcl_table_edit#:#Update Table
@@ -9809,6 +9794,8 @@ glo#:#glo_box_last_presented#:#Box Last Presented
 glo#:#glo_boxes#:#Boxes
 glo#:#glo_boxes_really_reset#:#Do you really want to reset all boxes? All flashcards will be moved to the first box.
 glo#:#glo_boxes_reset#:#The boxes have been reset successfully.
+glo#:#glo_bulk_confirmation#:#Please check if all terms and definitions are listed correctly.
+glo#:#glo_bulk_creation#:#Bulk Creation
 glo#:#glo_change_to_collection_unavailable_info#:#To change the type of content assembly to "Collection Glossary", you first have to delete all existing terms within this glossary in tab "Content".
 glo#:#glo_change_to_standard_unavailable_info#:#To change the type of content assembly to "Standard Glossary", you first have to remove the selected glossaries in tab "Content".
 glo#:#glo_col_ordering_info#:#Order the titles of the metadata fields. They are presented as column headers in the table presentation of the glossary.
@@ -9818,6 +9805,7 @@ glo#:#glo_collection_info#:#The glossary automatically collects all terms from t
 glo#:#glo_content_assembly#:#Content Assembly
 glo#:#glo_copy#:#Copy Glossary
 glo#:#glo_copy_terms#:#Copy Terms
+glo#:#glo_create_term_definition_pairs#:#Create Term/Definition Pairs
 glo#:#glo_days_ago#:#%s days ago
 glo#:#glo_def_vs_term#:#Definition vs. Term
 glo#:#glo_def_vs_term_info#:#Show a definition first, the learner has to guess the term.
@@ -9848,9 +9836,13 @@ glo#:#glo_selected_terms_have_been_copied#:#The selected terms have been copied 
 glo#:#glo_show_definition#:#Show Definition
 glo#:#glo_show_term#:#Show Term
 glo#:#glo_term#:#Glossary Term
+glo#:#glo_term_definition_pairs#:#Term/Definition Pairs
+glo#:#glo_term_definition_pairs_info#:#Please enter a term and a definition pair in each line. Term and definition must be separated by a semicolon or a TAB character (usually provided by clipboard actions from spreadsheet applications).
+glo#:#glo_term_letter#:#Letter
 glo#:#glo_term_reference#:#Term Reference
 glo#:#glo_term_vs_def#:#Term vs. Definition
 glo#:#glo_term_vs_def_info#:#Show a term first, the learner has to guess the definition.
+glo#:#glo_terms_per_page#:#Terms per Page
 glo#:#glo_use_all_flashcards#:#Use All Flashcards (%s)
 glo#:#glo_use_remaining_flashcards#:#Use Remaining Flashcards (%s)
 grp#:#crs_add_grouping#:#Add Membership Limitation
@@ -10855,7 +10847,7 @@ mail#:#mail_absence_status#:#Enable Autoresponder
 mail#:#mail_absence_status_info#:#Activation of the automatic sending of an out of office message
 mail#:#mail_absent_from#:#Absent from
 mail#:#mail_absent_until#:#Absent until
-mail#:#mail_account_mail#:#Account Mail
+mail#:#mail_account_mail#:#Notify New Account Holders
 mail#:#mail_add_folder#:#Add New Sub-folder
 mail#:#mail_add_recipient#:#Please enter a recipient
 mail#:#mail_add_subfolder#:#Add Sub-folder
@@ -10962,6 +10954,8 @@ mail#:#mail_members_search_continue#:#Continue
 mail#:#mail_message_send#:#Message sent
 mail#:#mail_move_error#:#Error moving mail
 mail#:#mail_move_to#:#Move to:
+mail#:#mail_move_to_folder_btn_label#:#Move Mail
+mail#:#mail_move_to_folder_x#:#to "%s"
 mail#:#mail_moved#:#The mail has been moved
 mail#:#mail_moved_to_trash#:#Mail has been moved to trash
 mail#:#mail_multiple_role_recipients_found#:#%1$s (found multiple roles for recipient: %2$s)
@@ -11395,6 +11389,7 @@ meta#:#md_used#:#Current Number of Usages
 meta#:#meta_accessibility_restrictions#:#Accessibility Restrictions
 meta#:#meta_active#:#Active
 meta#:#meta_add#:#Add
+meta#:#meta_advmd_add_field#:#Add New Field
 meta#:#meta_advmd_select_options#:#Entries
 meta#:#meta_annotation#:#Annotation
 meta#:#meta_atomic#:#Atomic
@@ -12340,7 +12335,9 @@ obj#:#obj_tool_setting_use_news_open_settings#:#Open Settings of News Block and 
 obj#:#obj_user_decides_notification#:#Members have to manually activate notifications
 obj#:#obj_user_not_disable_not#:#Member are not allowed to deactivate notifications
 obj#:#online_input_byline#:#The object has been published and can be accessed by anyone with read access. Other access prerequisites or time-based access restrictions may still apply. This settings applies to the object wherever it is used in the repository.
+obj#:#select_object_type#:#Select Object Type
 obj#:#svy_results#:#Results
+obj#:#user_owns_no_objects#:#No Repository Objects Available
 objref#:#objref_custom_title#:#Use Own Title
 objref#:#objref_edit_ref#:#Link Target
 objref#:#objref_edit_title#:#Title
@@ -12582,30 +12579,36 @@ poll#:#poll_answer#:#Answer
 poll#:#poll_answers#:#Possible Answers
 poll#:#poll_barchart#:#Bar Chart
 poll#:#poll_block_message_already_voted#:#You already voted in this poll.
-poll#:#poll_block_message_inactive#:#This poll will be available from %s.
 poll#:#poll_block_message_no_answers#:#This poll is incomplete.
-poll#:#poll_block_message_offline#:#This poll is offline.
-poll#:#poll_block_results_available_on#:#The results will be available on %s.
+poll#:#poll_block_results_available_on#:#The results will be available %s.
+poll#:#poll_cannot_set_online_no_answers#:#The status cannot be changed to &quot;online&quot; because this poll has no question!
 poll#:#poll_comments#:#Comments
 poll#:#poll_copy#:#Copy Poll
-poll#:#poll_delete_votes#:#Delete All Votes
-poll#:#poll_delete_votes_sure#:#Are you sure you want to delete all votes?
+poll#:#poll_delete_votes#:#Delete Votes of All Users
+poll#:#poll_delete_votes_sure#:#Are you sure you want to delete the votes of all users who took part in this poll?
 poll#:#poll_edit#:#Edit Poll
+poll#:#poll_edit_question#:#Edit Question
 poll#:#poll_image#:#Image
 poll#:#poll_import#:#Import Poll
-poll#:#poll_max_number_of_answers#:#Maximum Number Of Answers per Participant
+poll#:#poll_limit_not_below_answer_count#:#The answer limit must be below the number of possible answers.
+poll#:#poll_limit_number_of_answers#:#Limit Number of Answers per Participant
+poll#:#poll_max_number_of_answers#:#Max. Answers
+poll#:#poll_max_number_of_answers_info#:#You may choose up to %s answers.
 poll#:#poll_mode#:#Mode
-poll#:#poll_mode_anonymous#:#Anonymous
-poll#:#poll_mode_anonymous_info#:#Votes cannot be traced back to participants.
-poll#:#poll_mode_personal#:#Personal
-poll#:#poll_mode_personal_info#:#A list of participants with their respective votes is available when having sufficient permission.
+poll#:#poll_mode_anonymous#:#Without Names / Anonymous
+poll#:#poll_mode_anonymous_info#:#In the tab ‘Results’ the names of participants are omitted.
+poll#:#poll_mode_personal#:#With Names
+poll#:#poll_mode_personal_info#:#In the tab ‘Results’ the names of participants and their respective answers are listed. Users with access to this tab can inspect who has given which answer.
 poll#:#poll_new#:#Add New Poll
 poll#:#poll_non_anonymous_warning#:#Your name and vote are visible for administrators in the results.
+poll#:#poll_notification_activated#:#Notification Activated
+poll#:#poll_notification_deactivated#:#Notification Deactivated
 poll#:#poll_notification_subscribe#:#Activate Notification
 poll#:#poll_notification_unsubscribe#:#Deactivate Notification
 poll#:#poll_percentage#:#Current Percentage
 poll#:#poll_piechart#:#Pie Chart
 poll#:#poll_population#:#%s Participants
+poll#:#poll_population_singular#:#1 Participant
 poll#:#poll_question#:#Question
 poll#:#poll_result#:#Results
 poll#:#poll_result_answers#:#Votes
@@ -12623,6 +12626,7 @@ poll#:#poll_view_results_always#:#Always
 poll#:#poll_view_results_never#:#Never
 poll#:#poll_vote#:#Vote
 poll#:#poll_vote_error_multi#:#Please select no more than %s answers.
+poll#:#poll_vote_error_multi_no_answer#:#Please select at least 1 answer.
 poll#:#poll_vote_error_single#:#Please select 1 answer.
 poll#:#poll_vote_notification_body#:#the following poll has received a vote.
 poll#:#poll_vote_notification_link#:#Link to Poll
@@ -12630,8 +12634,9 @@ poll#:#poll_vote_notification_reason#:#You are receiving this e-mail because you
 poll#:#poll_vote_notification_subject#:#Poll "%s": new vote
 poll#:#poll_votes_no_edit#:#This poll already contains votes. You cannot edit the poll until you delete these votes.
 poll#:#poll_voting_period_and_results#:#Voting Period and Results
+poll#:#poll_voting_period_ended_info#:#The voting period ended %s.
 poll#:#poll_voting_period_full_info#:#Voting period from %s to %s
-poll#:#poll_voting_period_info#:#Deadline for Voting: %s
+poll#:#poll_voting_period_info#:#The deadline for voting is %s.
 poll#:#poll_voting_period_limited#:#Limited Voting Period
 prg#:#access_ctr_by_orgu_position#:#Access control according to Organisational Unit Positions
 prg#:#active_only#:#active users only
@@ -16669,6 +16674,13 @@ ui#:#datetime_required#:#Time/Date required
 ui#:#duration_default_label_end#:#end
 ui#:#duration_default_label_start#:#start
 ui#:#duration_end_must_not_be_earlier_than_start#:#Start must not be later than end.
+ui#:#label_fieldselection#:#Field Selection
+ui#:#label_fieldselection_refresh#:#Apply
+ui#:#label_pagination_limit#:#Pagination Number of Rows
+ui#:#label_pagination_offset#:#Pagination Offset
+ui#:#label_sortation#:#Sortation
+ui#:#presentaion_table_collapse#:#collapse all
+ui#:#presentaion_table_expand#:#expand all
 ui#:#ui_chars_max#:#Maximum:
 ui#:#ui_chars_min#:#Minimum:
 ui#:#ui_chars_remaining#:#Characters remaining:

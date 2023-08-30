@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * TableGUI class for results by question
  *
@@ -28,21 +30,17 @@
  */
 class ilResultsByQuestionTableGUI extends ilTable2GUI
 {
-    public function __construct($a_parent_obj, $a_parent_cmd = "")
+    public function __construct(ilTestEvaluationGUI $parent_obj, string $parent_cmd = "")
     {
-        global $DIC;
-        $ilCtrl = $DIC['ilCtrl'];
-        $lng = $DIC['lng'];
+        parent::__construct($parent_obj, $parent_cmd);
 
-        parent::__construct($a_parent_obj, $a_parent_cmd);
+        $this->addColumn($this->lng->txt("question_id"), "qid", "");
+        $this->addColumn($this->lng->txt("question_title"), "question_title", "35%");
+        $this->addColumn($this->lng->txt("number_of_answers"), "number_of_answers", "15%");
+        $this->addColumn($this->lng->txt("output"), "", "20%");
+        $this->addColumn($this->lng->txt("file_uploads"), "", "20%");
 
-        $this->addColumn($lng->txt("question_id"), "qid", "");
-        $this->addColumn($lng->txt("question_title"), "question_title", "35%");
-        $this->addColumn($lng->txt("number_of_answers"), "number_of_answers", "15%");
-        $this->addColumn($lng->txt("output"), "", "20%");
-        $this->addColumn($lng->txt("file_uploads"), "", "20%");
-
-        $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
+        $this->setFormAction($this->ctrl->getFormAction($parent_obj));
         $this->setRowTemplate("tpl.table_results_by_question_row.html", "Modules/Test");
         $this->setDefaultOrderField("question_title");
         $this->setDefaultOrderDirection("asc");

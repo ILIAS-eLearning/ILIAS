@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class ilMyTestSolutionsGUI
  *
@@ -67,7 +69,8 @@ class ilMyTestSolutionsGUI
 
     public function executeCommand(): void
     {
-        global $DIC; /* @var ILIAS\DI\Container $DIC */
+        /* @var ILIAS\DI\Container $DIC */
+        global $DIC;
 
         if (!$DIC->ctrl()->getCmd()) {
             $DIC->ctrl()->setCmd(self::EVALGUI_CMD_SHOW_PASS_OVERVIEW);

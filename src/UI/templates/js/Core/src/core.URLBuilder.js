@@ -182,10 +182,7 @@ export default class URLBuilder {
     this.#parameters.set(parameter, value ?? '');
     this.#tokens.set(parameter, newToken);
 
-    return {
-      url: this,
-      token: newToken,
-    };
+    return [this, newToken];
   }
 
   /**

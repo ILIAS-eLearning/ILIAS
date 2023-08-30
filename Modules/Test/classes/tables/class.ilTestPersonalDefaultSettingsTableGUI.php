@@ -16,26 +16,22 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class ilTestPersonalDefaultSettingsTableGUI
  */
 class ilTestPersonalDefaultSettingsTableGUI extends ilTable2GUI
 {
-    public function __construct($parentObj, $cmd)
+    public function __construct(ilObjTestGUI $parent_obj, string $cmd)
     {
-        /**
-         * @var $ilCtrl ilCtrl
-         */
-        global $DIC;
-        $ilCtrl = $DIC['ilCtrl'];
+        $this->setId('tst_pers_def_set_' . $parent_obj->getObject()->getId());
 
-        $this->setId('tst_pers_def_set_' . $parentObj->getObject()->getId());
-
-        parent::__construct($parentObj, $cmd);
+        parent::__construct($parent_obj, $cmd);
 
         $this->setTitle($this->lng->txt('tst_defaults_available'));
         $this->setNoEntriesText($this->lng->txt('tst_defaults_not_defined'));
-        $this->setFormAction($ilCtrl->getFormAction($parentObj, $cmd));
+        $this->setFormAction($this->ctrl->getFormAction($parent_obj, $cmd));
 
         $this->setRowTemplate('tpl.il_as_tst_defaults_row.html', 'Modules/Test');
 
@@ -58,7 +54,7 @@ class ilTestPersonalDefaultSettingsTableGUI extends ilTable2GUI
     {
         parent::fillRow(array(
             'name' => $a_set['name'],
-            'checkbox' => ilLegacyFormElementsUtil::formCheckbox(false, 'chb_defaults[]', $a_set['test_defaults_id']),
+            'checkbox' => ilLegacyFormElementsUtil::formCheckbox(false, 'chb_defaults[]', (string) $a_set['test_defaults_id']),
             'tstamp' => ilDatePresentation::formatDate(new ilDateTime($a_set['tstamp'], IL_CAL_UNIX))
         ));
     }

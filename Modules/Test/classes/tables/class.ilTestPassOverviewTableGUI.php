@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class ilTestPassOverviewTableGUI
  */
@@ -33,7 +35,7 @@ class ilTestPassOverviewTableGUI extends ilTable2GUI
 
     protected string $passDeletionCommand = '';
 
-    public function __construct($parent, $cmd)
+    public function __construct(ilTestEvaluationGUI $parent, string $cmd)
     {
         $this->setId('tst_pass_overview_' . $parent->getObject()->getId());
         $this->setDefaultOrderField('pass');
@@ -50,10 +52,7 @@ class ilTestPassOverviewTableGUI extends ilTable2GUI
 
     public function init(): void
     {
-        global $DIC;
-        $ilCtrl = $DIC['ilCtrl'];
-
-        $ilCtrl->setParameter($this->parent_obj, 'active_id', $this->getActiveId());
+        $this->ctrl->setParameter($this->parent_obj, 'active_id', $this->getActiveId());
 
         $this->initColumns();
 
@@ -110,7 +109,7 @@ class ilTestPassOverviewTableGUI extends ilTable2GUI
                 $a_set['num_questions_total']
             ));
 
-            if ($this->getParentObject()->object->isOfferingQuestionHintsEnabled()) {
+            if ($this->getParentObject()->getObject()->isOfferingQuestionHintsEnabled()) {
                 $this->tpl->setVariable('VAL_HINTS', $a_set['hints']);
             }
 
@@ -147,7 +146,7 @@ class ilTestPassOverviewTableGUI extends ilTable2GUI
 
         if ($this->isResultPresentationEnabled()) {
             $this->addColumn($this->lng->txt('tst_answered_questions'));
-            if ($this->getParentObject()->object->isOfferingQuestionHintsEnabled()) {
+            if ($this->getParentObject()->getObject()->isOfferingQuestionHintsEnabled()) {
                 $this->addColumn($this->lng->txt('tst_question_hints_requested_hint_count_header'));
             }
             $this->addColumn($this->lng->txt('tst_reached_points'));
@@ -256,14 +255,11 @@ class ilTestPassOverviewTableGUI extends ilTable2GUI
 
     private function buildActionsHtml($actions, $pass): string
     {
-        global $DIC;
-        $ilCtrl = $DIC['ilCtrl'];
-
         if (!count($actions)) {
             return '';
         }
 
-        $ilCtrl->setParameter($this->parent_obj, 'pass', $pass);
+        $this->ctrl->setParameter($this->parent_obj, 'pass', $pass);
 
         if (count($actions) > 1) {
             $aslgui = new ilAdvancedSelectionListGUI();
@@ -271,7 +267,7 @@ class ilTestPassOverviewTableGUI extends ilTable2GUI
             $aslgui->setId($pass);
 
             foreach ($actions as $cmd => $label) {
-                $aslgui->addItem($label, $cmd, $ilCtrl->getLinkTarget($this->parent_obj, $cmd));
+                $aslgui->addItem($label, $cmd, $this->ctrl->getLinkTarget($this->parent_obj, $cmd));
             }
 
             $html = $aslgui->getHTML();
@@ -279,11 +275,11 @@ class ilTestPassOverviewTableGUI extends ilTable2GUI
             $cmd = key($actions);
             $label = current($actions);
 
-            $href = $ilCtrl->getLinkTarget($this->parent_obj, $cmd);
+            $href = $this->ctrl->getLinkTarget($this->parent_obj, $cmd);
             $html = '<a href="' . $href . '">' . $label . '</a>';
         }
 
-        $ilCtrl->setParameter($this->parent_obj, 'pass', '');
+        $this->ctrl->setParameter($this->parent_obj, 'pass', '');
 
         return $html;
     }

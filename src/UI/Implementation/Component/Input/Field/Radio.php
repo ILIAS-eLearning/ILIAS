@@ -15,6 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
 declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Input\Field;
@@ -30,7 +31,7 @@ use Closure;
 /**
  * This implements the radio input.
  */
-class Radio extends Input implements C\Input\Field\Radio
+class Radio extends FormInput implements C\Input\Field\Radio
 {
     use JavaScriptBindable;
     use Triggerer;
@@ -48,7 +49,7 @@ class Radio extends Input implements C\Input\Field\Radio
     /**
      * @inheritdoc
      */
-    protected function isClientSideValueOk($value): bool
+    public function isClientSideValueOk($value): bool
     {
         return ($value === '' || array_key_exists($value, $this->getOptions()));
     }
@@ -98,7 +99,7 @@ class Radio extends Input implements C\Input\Field\Radio
     /**
      * @inheritdoc
      */
-    public function withInput(InputData $input): C\Input\Field\Input
+    public function withInput(InputData $input): self
     {
         if ($this->getName() === null) {
             throw new LogicException("Can only collect if input has a name.");
@@ -130,7 +131,7 @@ class Radio extends Input implements C\Input\Field\Radio
      */
     public function getUpdateOnLoadCode(): Closure
     {
-        return fn ($id) => "$('#$id').on('input', function(event) {
+        return fn($id) => "$('#$id').on('input', function(event) {
 				il.UI.input.onFieldUpdate(event, '$id', $('#$id input:checked').val());
 			});
 			il.UI.input.onFieldUpdate(event, '$id', $('#$id input:checked').val());";

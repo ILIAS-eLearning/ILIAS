@@ -32,7 +32,7 @@ class ilObjectOwnershipManagementTableGUI extends ilTable2GUI
 
     protected int $user_id;
 
-    public function __construct(?object $parent_obj, string $parent_cmd, int $user_id, array $data = null)
+    public function __construct(?object $parent_obj, string $parent_cmd, int $user_id)
     {
         global $DIC;
 
@@ -59,48 +59,48 @@ class ilObjectOwnershipManagementTableGUI extends ilTable2GUI
 
         $this->setDefaultOrderField('title');
         $this->setDefaultOrderDirection('asc');
-
-        $this->initItems($data);
     }
 
-    protected function initItems(?array $data): void
+    public function initItems(array $data): void
     {
         $process_arr = [];
         $is_admin = false;
         $a_type = '';
-        if (!is_null($data) && sizeof($data)) {
-            if (!$this->user_id) {
-                $is_admin = $this->access->checkAccess('visible', '', SYSTEM_FOLDER_ID);
-            }
+        if ($data === []) {
+            return;
+        }
 
-            foreach ($data as $id => $item) {
-                // workspace objects won't have references
-                $refs = ilObject::_getAllReferences($id);
-                if ($refs) {
-                    foreach ($refs as $ref_id) {
-                        // objects in trash are hidden
-                        if (!$this->tree->isDeleted($ref_id)) {
-                            if ($this->user_id) {
-                                $readable = $this->access->checkAccessOfUser(
-                                    $this->user_id,
-                                    'read',
-                                    '',
-                                    $ref_id,
-                                    $a_type
-                                );
-                            } else {
-                                $readable = $is_admin;
-                            }
+        if (!$this->user_id) {
+            $is_admin = $this->access->checkAccess('visible', '', SYSTEM_FOLDER_ID);
+        }
 
-                            $process_arr[$ref_id] = [
-                                'obj_id' => $id,
-                                'ref_id' => $ref_id,
-                                'type' => ilObject::_lookupType($id),
-                                'title' => $item,
-                                'path' => $this->buildPath($ref_id),
-                                'readable' => $readable
-                            ];
+        foreach ($data as $id => $item) {
+            // workspace objects won't have references
+            $refs = ilObject::_getAllReferences($id);
+            if ($refs) {
+                foreach ($refs as $ref_id) {
+                    // objects in trash are hidden
+                    if (!$this->tree->isDeleted($ref_id)) {
+                        if ($this->user_id) {
+                            $readable = $this->access->checkAccessOfUser(
+                                $this->user_id,
+                                'read',
+                                '',
+                                $ref_id,
+                                $a_type
+                            );
+                        } else {
+                            $readable = $is_admin;
                         }
+
+                        $process_arr[$ref_id] = [
+                            'obj_id' => $id,
+                            'ref_id' => $ref_id,
+                            'type' => ilObject::_lookupType($id),
+                            'title' => $item,
+                            'path' => $this->buildPath($ref_id),
+                            'readable' => $readable
+                        ];
                     }
                 }
             }

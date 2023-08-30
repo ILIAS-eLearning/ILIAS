@@ -41,4 +41,9 @@ interface Standard extends File
      * Get the button to upload the files to the server.
      */
     public function getUploadButton(): ?Button;
+
+    /**
+     * Makes a dropzone bulky, this to ensure better visibility when the dropzone is to be displayed standalone.
+     */
+    public function withBulky(bool $bulky): File;
 }

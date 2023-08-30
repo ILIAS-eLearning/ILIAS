@@ -10,10 +10,18 @@
 // $author Thibeau Fuhrer <thibeau$sr.solutions>
 .ui-dropzone {
 	border: $il-dropzone-border-width $il-dropzone-border-style $il-dropzone-filelist-border-color;
+	border-radius: $il-dropzone-border-radius;
 	background: $il-dropzone-bg;
 	display: inline-block;
 	margin-bottom: $il-margin-xs-horizontal;
 	width: 100%;
+	&.ui-dropzone-bulky {
+		border: $il-dropzone-bulky-border-width $il-dropzone-bulky-border-style $il-dropzone-bulky-border-color;
+		border-radius: $il-dropzone-bulky-border-radius;
+		background-color: $il-main-dark-bg;
+		padding-top: $il-padding-xxlarge-horizontal;
+		padding-bottom: $il-padding-xxlarge-horizontal;
+	}
 }
 
 .ui-dropzone-wrapper {
@@ -23,21 +31,18 @@
 
 .ui-dropzone.highlight {
 	border: $il-dropzone-border-width $il-dropzone-border-style $il-dropzone-border-color;
-	border-radius: $il-dropzone-border-radius;
 	background: $il-dropzone-highlight-bg;
-	padding: calc($il-padding-base-vertical - $il-dropzone-border-width);
 }
 
 .ui-dropzone.highlight-current {
 	border: $il-dropzone-border-width $il-dropzone-border-style $il-dropzone-border-color-hover;
 	background-color: $il-dropzone-hover-bg;
-	padding: calc($il-padding-base-vertical - $il-dropzone-border-width);
 }
 
 .ui-dropzone-message {
 	font-size: $il-font-size-base;
-	margin-bottom: $il-margin-base-vertical;
 	float: right;
+	margin-right: $il-padding-large-horizontal;
 }
 
 .ui-dropzone .form-group {

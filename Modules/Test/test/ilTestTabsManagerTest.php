@@ -38,6 +38,7 @@ class ilTestTabsManagerTest extends ilTestBaseTestCase
         $this->tabs_mock = $this->createMock(ilTabsGUI::class);
         $this->setGlobalVariable("ilTabs", $this->tabs_mock);
         $this->addGlobal_ilAccess();
+        $this->addGlobal_ilCtrl();
         $this->addGlobal_lng();
 
         $this->testObj = new ilTestTabsManager(

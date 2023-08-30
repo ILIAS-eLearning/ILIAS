@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -13,19 +14,16 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
-/**
- * Export User Interface Class
- * @author       Michael Herren <mh@studer-raimann.ch>
- */
+ *********************************************************************/
+
+
+declare(strict_types=1);
+
 class ilDclExportGUI extends ilExportGUI
 {
     protected function buildExportTableGUI(): ilExportTableGUI
     {
-        $table = new ilDclExportTableGUI($this, 'listExportFiles', $this->obj);
-
-        return $table;
+        return new ilDclExportTableGUI($this, 'listExportFiles', $this->obj);
     }
 
     /**

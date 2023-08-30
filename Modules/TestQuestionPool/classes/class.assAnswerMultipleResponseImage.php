@@ -50,10 +50,16 @@ class ASS_AnswerMultipleResponseImage extends ASS_AnswerMultipleResponse
     * @param integer $order A nonnegative value representing a possible display or sort order
     * @param double $points_unchecked The points when the answer is not checked
     * @param string $a_image The image filename
+    * @param integer $id The database id of the answer
     * @access public
     */
-    public function __construct(string $answertext = "", float $points = 0.0, int $order = 0, int $id = -1, int $state = 0)
-    {
+    public function __construct(
+        string $answertext = '',
+        float $points = 0.0,
+        int $order = 0,
+        int $id = -1,
+        int $state = 0
+    ) {
         parent::__construct($answertext, $points, $order, $id, $state);
     }
 

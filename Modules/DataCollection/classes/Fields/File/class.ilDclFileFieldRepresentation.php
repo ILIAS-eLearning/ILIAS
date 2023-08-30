@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,7 +19,6 @@
 declare(strict_types=1);
 
 /**
- * @author       Thibeau Fuhrer <thibeau@sr.solutions>
  * @noinspection AutoloadingIssuesInspection
  */
 class ilDclFileFieldRepresentation extends ilDclBaseFieldRepresentation
@@ -56,7 +56,7 @@ class ilDclFileFieldRepresentation extends ilDclBaseFieldRepresentation
         //WORKAROUND
         // If field is from type file: if it's required but already has a value it is no longer required as the old value is taken as default without the form knowing about it.
         if ($record_id !== null && $record->getId()) {
-            $field_value = $record->getRecordFieldValue((int)$this->getField()->getId());
+            $field_value = $record->getRecordFieldValue($this->getField()->getId());
             if ($field_value) {
                 $input->setRequired(false);
             }

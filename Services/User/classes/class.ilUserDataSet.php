@@ -21,9 +21,17 @@
  */
 class ilUserDataSet extends ilDataSet
 {
-    protected array $temp_picture_dirs = array(); // Missing array type.
-    public array $multi = array(); // Missing array type.
+    private ilUserProfile $user_profile;
+    protected array $temp_picture_dirs = []; // Missing array type.
+    public array $multi = []; // Missing array type.
     protected array $users; // Missing array type.
+
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->user_profile = new ilUserProfile();
+    }
 
     public function getSupportedVersions(): array // Missing array type.
     {
@@ -309,7 +317,7 @@ class ilUserDataSet extends ilDataSet
                     foreach ($fields as $k => $f) {
                         $up_k = $this->convertToLeadingUpper($k);
                         // only change fields, when it is possible in profile
-                        if (ilUserProfile::userSettingVisible($k) &&
+                        if ($this->user_profile->userSettingVisible($k) &&
                             !$ilSetting->get("usr_settings_disable_" . $k) &&
                             ($f["method"] ?? "") != "" && isset($a_rec[$up_k])) {
                             $set_method = "set" . substr($f["method"], 3);

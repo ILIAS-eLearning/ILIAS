@@ -19,7 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
-use ILIAS\UI\Component\Input\Field\Input;
+use ILIAS\UI\Component\Input\Container\Form\FormInput;
 use ILIAS\UI\Component\Input\Field\OptionalGroup;
 use ILIAS\UI\Component\Input\Field\Group;
 use ILIAS\Refinery\Factory as Refinery;
@@ -38,9 +38,6 @@ class ilObjTestSettingsAccess extends TestSettings
         protected bool $password_enabled = false,
         protected ?string $password = null,
         protected bool $fixed_participants = false,
-        protected bool $limited_users_enabled = false,
-        protected ?int $limited_users_amount = null,
-        protected ?int $limited_users_time_gap = null
     ) {
         parent::__construct($test_id);
     }
@@ -50,7 +47,7 @@ class ilObjTestSettingsAccess extends TestSettings
         FieldFactory $f,
         Refinery $refinery,
         array $environment = null
-    ): Input {
+    ): FormInput {
         $inputs['access_window'] = $this->getInputAccessWindow($lng, $f, $refinery, $environment);
         $inputs['test_password'] = $this->getInputPassword($lng, $f, $refinery);
 
@@ -62,12 +59,6 @@ class ilObjTestSettingsAccess extends TestSettings
             $inputs['fixed_participants_enabled'] = $inputs['fixed_participants_enabled']
                 ->withDisabled(true);
         }
-
-        $inputs['limit_simultaneous_users'] = $this->getLimitSimultaneousUsersInput(
-            $lng,
-            $f,
-            $refinery
-        );
 
         return $f->section($inputs, $lng->txt('tst_settings_header_execution'));
     }
@@ -123,10 +114,9 @@ class ilObjTestSettingsAccess extends TestSettings
             $lng->txt('tst_starting_time_desc')
         )->withTimezone($environment['user_time_zone'])
             ->withFormat($environment['user_date_format']);
-        if ($this->getStartTime() !== null
-            && $this->getStartTime() !== 0) {
+        if ($this->getStartTime() !== null) {
             $sub_inputs_access_window['start_time'] = $sub_inputs_access_window['start_time']
-                ->withValue($this->getStartTime());
+                ->withValue($this->getStartTime()->setTimezone(new DateTimeZone($environment['user_time_zone'])));
         }
         if ($environment['participant_data_exists']) {
             $sub_inputs_access_window['start_time'] = $sub_inputs_access_window['start_time']->withDisabled(true);
@@ -137,10 +127,9 @@ class ilObjTestSettingsAccess extends TestSettings
             $lng->txt('tst_ending_time_desc')
         )->withTimezone($environment['user_time_zone'])
             ->withFormat($environment['user_date_format']);
-        if ($this->getEndTime() !== null
-            && $this->getEndTime() !== 0) {
+        if ($this->getEndTime() !== null) {
             $sub_inputs_access_window['end_time'] = $sub_inputs_access_window['end_time']
-                ->withValue($this->getEndTime());
+                ->withValue($this->getEndTime()->setTimezone(new DateTimeZone($environment['user_time_zone'])));
         }
 
         return $sub_inputs_access_window;
@@ -184,70 +173,6 @@ class ilObjTestSettingsAccess extends TestSettings
         );
     }
 
-    private function getLimitSimultaneousUsersInput(
-        \ilLanguage $lng,
-        FieldFactory $f,
-        Refinery $refinery
-    ): OptionalGroup {
-        $limit_simultaneous_users = $f->optionalGroup(
-            $this->getSubInputsSimultaneousLogins($lng, $f, $refinery),
-            $lng->txt('tst_allowed_users'),
-            $lng->txt('tst_allowed_users_desc')
-        )->withValue(null)
-            ->withAdditionalTransformation($this->getTrafoSimultaneousLogins($refinery));
-
-        if (!$this->getLimitedUsersEnabled()) {
-            return $limit_simultaneous_users;
-        }
-
-        return $limit_simultaneous_users->withValue(
-            [
-                'max_allowed_simultaneous_users' => $this->getLimitedUsersAmount() ?? 0,
-                'allowed_simultaneous_users_time_gap' => $this->getLimitedUsersTimeGap()
-            ]
-        );
-    }
-
-    private function getSubInputsSimultaneousLogins(
-        \ilLanguage $lng,
-        FieldFactory $f,
-        Refinery $refinery
-    ): array {
-        $sub_inputs_simultaneous['max_allowed_simultaneous_users'] = $f->numeric(
-            $lng->txt('tst_allowed_users_max')
-        )->withRequired(true)
-            ->withAdditionalTransformation($refinery->int()->isGreaterThan(0));
-
-        $sub_inputs_simultaneous['allowed_simultaneous_users_time_gap'] = $f->numeric(
-            $lng->txt('tst_allowed_users_time_gap'),
-            $lng->txt('tst_allowed_users_time_gap_desc')
-        )->withAdditionalTransformation($refinery->int()->isGreaterThanOrEqual(0));
-
-        return $sub_inputs_simultaneous;
-    }
-
-    private function getTrafoSimultaneousLogins(
-        Refinery $refinery
-    ): TransformationInterface {
-        return $refinery->custom()->transformation(
-            static function (?array $vs): array {
-                if ($vs === null) {
-                    return [
-                        'limit_simultaneous_users' => false,
-                        'max_allowed_simultaneous_users' => 0,
-                        'allowed_simultaneous_users_time_gap' => 0
-                    ];
-                }
-
-                return [
-                        'limit_simultaneous_users' => true,
-                        'max_allowed_simultaneous_users' => $vs['max_allowed_simultaneous_users'],
-                        'allowed_simultaneous_users_time_gap' => $vs['allowed_simultaneous_users_time_gap']
-                    ];
-            }
-        );
-    }
-
     public function toStorage(): array
     {
         return [
@@ -257,10 +182,7 @@ class ilObjTestSettingsAccess extends TestSettings
             'ending_time' => ['integer', $this->getEndTime() !== null ? $this->getEndTime()->getTimestamp() : 0],
             'password_enabled' => ['integer', (int) $this->getPasswordEnabled()],
             'password' => ['text', $this->getPassword()],
-            'fixed_participants' => ['integer', (int) $this->getFixedParticipants()],
-            'limit_users_enabled' => ['integer', (int) $this->getLimitedUsersEnabled()],
-            'allowedusers' => ['integer', $this->getLimitedUsersAmount()],
-            'alloweduserstimegap' => ['integer', $this->getLimitedUsersTimeGap()]
+            'fixed_participants' => ['integer', (int) $this->getFixedParticipants()]
         ];
     }
 
@@ -338,39 +260,6 @@ class ilObjTestSettingsAccess extends TestSettings
     {
         $clone = clone $this;
         $clone->fixed_participants = $fixed_participants;
-        return $clone;
-    }
-
-    public function getLimitedUsersEnabled(): bool
-    {
-        return $this->limited_users_enabled;
-    }
-    public function withLimitedUsersEnabled(bool $limited_users_enabled): self
-    {
-        $clone = clone $this;
-        $clone->limited_users_enabled = $limited_users_enabled;
-        return $clone;
-    }
-
-    public function getLimitedUsersAmount(): ?int
-    {
-        return $this->limited_users_amount;
-    }
-    public function withLimitedUsersAmount(?int $limited_users_amount): self
-    {
-        $clone = clone $this;
-        $clone->limited_users_amount = $limited_users_amount;
-        return $clone;
-    }
-
-    public function getLimitedUsersTimeGap(): ?int
-    {
-        return $this->limited_users_time_gap;
-    }
-    public function withLimitedUsersTimeGap(?int $limited_users_time_gap): self
-    {
-        $clone = clone $this;
-        $clone->limited_users_time_gap = $limited_users_time_gap;
         return $clone;
     }
 }

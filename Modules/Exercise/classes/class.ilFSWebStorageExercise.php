@@ -116,25 +116,4 @@ class ilFSWebStorageExercise extends ilFileSystemAbstractionStorage
     ): string {
         return $this->getAbsolutePath() . "/" . $a_file;
     }
-
-    /**
-     * @throws ilException
-     */
-    public function uploadAssignmentFiles(
-        array $a_files
-    ): void {
-        if (is_array($a_files["name"])) {
-            foreach ($a_files["name"] as $k => $name) {
-                if ($name != "") {
-                    $tmp_name = $a_files["tmp_name"][$k];
-                    ilFileUtils::moveUploadedFile(
-                        $tmp_name,
-                        basename($name),
-                        $this->getAbsolutePath() . DIRECTORY_SEPARATOR . basename($name),
-                        false
-                    );
-                }
-            }
-        }
-    }
 }
