@@ -78,7 +78,7 @@ class ilObjTestSettingsAdditional extends TestSettings
 
     public function getHideInfoTab(): bool
     {
-        return $this->hide_info_tab ?? false;
+        return $this->hide_info_tab;
     }
     public function withHideInfoTab(bool $hide_info_tab): self
     {
