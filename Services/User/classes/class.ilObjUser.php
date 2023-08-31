@@ -2819,6 +2819,7 @@ class ilObjUser extends ilObject
     ): bool {
         $webspace_dir = ilFileUtils::getWebspaceDir();
         $image_dir = $webspace_dir . "/usr_images";
+        ilFileUtils::makeDir($image_dir);
         $store_file = "usr_" . $obj_id . "." . "jpg";
 
         chmod($tmp_file, 0770);

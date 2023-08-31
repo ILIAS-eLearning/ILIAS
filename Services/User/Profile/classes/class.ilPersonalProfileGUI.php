@@ -157,6 +157,7 @@ class ilPersonalProfileGUI
             } else {
                 $webspace_dir = ilFileUtils::getWebspaceDir();
                 $image_dir = $webspace_dir . "/usr_images";
+                ilFileUtils::makeDir($image_dir);
                 $store_file = "usr_" . $ilUser->getID() . "." . "jpg";
 
                 // store filename
