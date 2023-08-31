@@ -448,18 +448,9 @@ class ilTestTabsManager
             $this->tabs->addTab(
                 self::TAB_ID_TEST,
                 $this->lng->txt('test'),
-                $this->ctrl->getLinkTargetByClass(ilObjTestGUI::class, 'testScreen')
+                $this->ctrl->getLinkTargetByClass(ilTestScreenGUI::class, 'testScreen')
             );
         }
-
-        $hideInfoTab = $this->getTestOBJ()->getMainSettings()->getAdditionalSettings()->getHideInfoTab();
-
-//        $this->ctrl->redirectByClass(ilObjTestGUI::class, 'testScreen');
-//        return;
-
-//        if ($hideInfoTab && !$this->needsResultsTab()) {
-//            return;
-//        }
 
         // questions tab
         if ($this->isWriteAccessGranted()) {
@@ -502,7 +493,7 @@ class ilTestTabsManager
         }
 
         // info tab
-        if ($this->isReadAccessGranted() && !$hideInfoTab) {
+        if ($this->isReadAccessGranted() && !$this->getTestOBJ()->getMainSettings()->getAdditionalSettings()->getHideInfoTab()) {
             $this->tabs->addTarget(
                 'info_short',
                 $this->ctrl->getLinkTargetByClass('ilObjTestGUI', 'infoScreen'),

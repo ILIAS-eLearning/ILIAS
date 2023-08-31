@@ -1371,6 +1371,7 @@ assessment#:#tst_exam_required_fields_not_filled_message#:#You need to fill out 
 assessment#:#tst_exam_start#:#Start Test
 assessment#:#tst_exam_use_previous_answers#:#Previous Answers
 assessment#:#tst_exam_use_previous_answers_label#:#If enabled answers from previous tests will be prefilled.
+assessment#:#tst_out_of_time_message#:#You have reached the maximum allowed processing time of the test!
 assessment#:#tst_extratime_added#:#The working time of the participant has been increased by %s minutes.
 assessment#:#tst_extratime_info#:#If you want to add the working time multiple times for the same participant, please insert the total amount of time you want to add.
 assessment#:#tst_extratime_notavailable#:#Extra time can be added only for tests with one pass and a maximum processing time.
