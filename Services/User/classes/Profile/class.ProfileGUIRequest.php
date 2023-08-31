@@ -80,9 +80,14 @@ class ProfileGUIRequest
         return $this->str('term');
     }
 
+    public function getToken(): string
+    {
+        return $this->str('token');
+    }
+
     public function getUserFileCapture(): string
     {
-        $capture = $this->str("userfile_capture");
+        $capture = $this->str('userfile_capture');
 
         if ($capture !== '') {
             return $capture;
