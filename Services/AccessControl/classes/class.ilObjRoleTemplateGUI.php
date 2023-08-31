@@ -491,7 +491,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
         parent::addAdminLocatorItems(true);
 
         $ilLocator->addItem(
-            $this->lng->txt(ilObject::_lookupType(
+            $this->lng->txt("obj_" . ilObject::_lookupType(
                 ilObject::_lookupObjId($_GET["ref_id"])
             )),
             $this->ctrl->getLinkTargetByClass("ilobjrolefoldergui", "view")
