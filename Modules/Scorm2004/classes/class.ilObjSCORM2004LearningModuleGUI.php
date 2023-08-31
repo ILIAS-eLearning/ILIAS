@@ -361,8 +361,8 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
         $obj_service = $this->getObjectService();
-		
-		$this->object->checkMasteryScoreValues();
+        
+        $this->object->checkMasteryScoreValues();
 
         include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
         $this->form = new ilPropertyFormGUI();
@@ -658,7 +658,7 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
     {
         $values = array();
         $values["Fobject_title"] = $this->object->getTitle();
-        $values["Fobject_description"] = $this->object->getDescription();
+        $values["Fobject_description"] = $this->object->getLongDescription();
         if (!$this->object->getOfflineStatus()) {
             $values["cobj_online"] = true;
         }
