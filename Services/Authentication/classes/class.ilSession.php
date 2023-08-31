@@ -253,9 +253,17 @@ class ilSession
 
         $ilDB->manipulate($q);
 
-        $params = session_get_cookie_params();
-        setcookie(session_name(), '', 0, $params['path'], $params['domain'], $params['secure'], isset($params['httponly']));
-        
+        try {
+            // only delete session cookie if it is set in the current request
+            if (isset($_COOKIE[session_name()]) && $_COOKIE[session_name()] == $a_session_id) {
+                $params = session_get_cookie_params();
+                setcookie(session_name(), '', 0, $params['path'], $params['domain'], $params['secure'], isset($params['httponly']));
+            }
+        } catch (\Throwable $e) {
+            // ignore
+            // this is needed for "header already"  sent errors when the random cleanup of expired sessions is triggered
+        }
+
         return true;
     }
 
