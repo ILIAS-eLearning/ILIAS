@@ -1604,7 +1604,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
         $xml_path = ilFileUtils::getDataDir() . '/' . $xml_file;
 
         if ($this->user_request->isPost()) {
-            $form = $this->initUserRoleAssignmentForm($xml_path)->withRequest($this->user_request->getRequest());
+            $form = $this->initUserRoleAssignmentForm($xml_path)[0]->withRequest($this->user_request->getRequest());
             $result = $form->getData();
         } else {
             $this->ilias->raiseError(
