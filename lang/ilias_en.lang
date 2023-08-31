@@ -16298,6 +16298,7 @@ user#:#clipboard_remove_btn#:#Remove from Clipboard
 user#:#clipboard_table_title#:#Clipboard (User Accounts)
 user#:#clipboard_user_added#:#Added selected users to clipboard.
 user#:#confirm_delete_starting_point#:#Are you sure you want to delete this rule?
+user#:#confirm_logout_for_email_change#:#You changed your email. To finalize this change, you will need to provide your password. The system is thus going to log you out and you will have 5 minutes to log in again. All other changes will be saved before logging you out.
 user#:#create_starting_point#:#Create Rule
 user#:#criteria#:#Criteria
 user#:#del_mail_body#:#Hello %1$s, %2$s You have not logged in to %3$s for a long time. Therefore, your ILIAS account is expected to be deleted on %4$s. In order to keep your ILIAS account, you must log in again before the aforementioned date.
@@ -16305,6 +16306,7 @@ user#:#del_mail_subject#:#Your ILIAS account will be deleted soon
 user#:#delete_inactive_user_accounts_frequency#:#Frequency
 user#:#delete_inactive_user_accounts_frequency_desc#:#Frequency, in which the deletion and e-mail distribution will be tested.
 user#:#editing_this_role#:#Role
+user#:#email_could_not_be_changed#:#The request to change your email could not be finalized.
 user#:#enable_local_user_administration#:#Enable Local User Administration
 user#:#enable_local_user_administration_info#:#If enabled, local user accounts can be administrated in categories and organisational units.
 user#:#feedhash#:#Newsfeedhash

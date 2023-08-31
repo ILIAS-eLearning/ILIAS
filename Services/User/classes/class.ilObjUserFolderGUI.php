@@ -3770,7 +3770,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
             "",
             $a_target
         )) {
-            ilUtil::redirect("ilias.php?baseClass=ilAdministrationGUI&ref_id=" . $a_target . "&jmpToUser=" . $a_user);
+            $this->ctrl->redirectToURL("ilias.php?baseClass=ilAdministrationGUI&ref_id=" . $a_target . "&jmpToUser=" . $a_user);
             exit;
         } else {
             if ($ilAccess->checkAccess(
