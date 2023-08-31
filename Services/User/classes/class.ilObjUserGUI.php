@@ -1429,7 +1429,7 @@ class ilObjUserGUI extends ilObjectGUI
 
         if ((int) $this->settings->get('session_reminder_enabled')) {
             $cb = new ilCheckboxInputGUI($this->lng->txt('session_reminder'), 'session_reminder_enabled');
-            $cb->setValue(1);
+            $cb->setValue('1');
             $this->form_gui->addItem($cb);
         }
 
