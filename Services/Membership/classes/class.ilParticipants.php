@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Base class for course and group participants
@@ -311,10 +311,6 @@ abstract class ilParticipants
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-
-        if (!is_array($a_type)) {
-            $a_type = array($a_type);
-        }
 
         $j2 = '';
         $a2 = '';
