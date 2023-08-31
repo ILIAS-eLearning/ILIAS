@@ -1782,6 +1782,31 @@ class ilAdvancedMDSettingsGUI
                 ,
                 "newline" => $perm[ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_PRG_EDIT_FIELD_PROPERTY][ilAdvancedMDPermissionHelper::SUBACTION_SUBSTITUTION_NEWLINE]
             );
+        } elseif ($a_obj_type == "orgu") {
+            $perm = $this->getPermissions()->hasPermissions(
+                ilAdvancedMDPermissionHelper::CONTEXT_SUBSTITUTION_ORG_UNIT,
+                (string) $a_field_id,
+                [
+                    ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_ORG_UNIT_SHOW_FIELD
+                    ,
+                    [
+                        ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_ORG_UNIT_EDIT_FIELD_PROPERTY,
+                        ilAdvancedMDPermissionHelper::SUBACTION_SUBSTITUTION_BOLD
+                    ]
+                    ,
+                    [
+                        ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_ORG_UNIT_EDIT_FIELD_PROPERTY,
+                        ilAdvancedMDPermissionHelper::SUBACTION_SUBSTITUTION_NEWLINE
+                    ]
+                ]
+            );
+            return [
+                "show" => $perm[ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_ORG_UNIT_SHOW_FIELD]
+                ,
+                "bold" => $perm[ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_ORG_UNIT_EDIT_FIELD_PROPERTY][ilAdvancedMDPermissionHelper::SUBACTION_SUBSTITUTION_BOLD]
+                ,
+                "newline" => $perm[ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_ORG_UNIT_EDIT_FIELD_PROPERTY][ilAdvancedMDPermissionHelper::SUBACTION_SUBSTITUTION_NEWLINE]
+            ];
         }
         return [];
     }
