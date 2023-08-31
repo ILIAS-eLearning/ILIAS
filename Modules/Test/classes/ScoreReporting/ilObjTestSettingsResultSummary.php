@@ -161,9 +161,10 @@ class ilObjTestSettingsResultSummary extends TestSettings
 
     public function toStorage(): array
     {
-        $dat = $this->getReportingDate()->setTimezone(new DateTimeZone('UTC'));
+        $dat = $this->getReportingDate();
         if ($dat) {
-            $dat = $dat->format(ilObjTestScoreSettingsDatabaseRepository::STORAGE_DATE_FORMAT);
+            $dat = $dat->setTimezone(new DateTimeZone('UTC'))
+                ->format(ilObjTestScoreSettingsDatabaseRepository::STORAGE_DATE_FORMAT);
         }
         return [
             'pass_deletion_allowed' => ['integer', (int) $this->getPassDeletionAllowed()],

@@ -62,7 +62,7 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
         protected UIRenderer $ui_renderer,
         protected Refinery $refinery,
         protected Request $request,
-        protected ilObjUser $activeUser
+        protected ilObjUser $active_user
     ) {
         parent::__construct($test_gui->getObject());
 
@@ -185,9 +185,9 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
 
         $environment = [];
         $environment['user_date_format'] = (new \ILIAS\Data\Factory())->dateFormat()->withTime24(
-            $this->activeUser->getDateFormat()
+            $this->active_user->getDateFormat()
         );
-        $environment['user_time_zone'] = $this->activeUser->getTimeZone();
+        $environment['user_time_zone'] = $this->active_user->getTimeZone();
 
         $anonymity_flag = (bool) $this->test_object->getAnonymity();
         $disabled_flag = ($this->areScoringSettingsWritable() === false);
