@@ -100,9 +100,9 @@ class ilDclReferenceRecordRepresentation extends ilDclBaseRecordRepresentation
 
     /**
      * function parses stored value to the variable needed to fill into the form for editing.
-     * @param string|int $value
+     * @param string|array $value
      */
-    public function parseFormInput($value): ?string
+    public function parseFormInput($value)
     {
         if (!$value || $value == []) {
             return null;
