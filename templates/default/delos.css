@@ -4755,6 +4755,13 @@ td.form-inline > div.form-group {
 .il-item .il-item-title .btn-link:focus-visible, .il-item .il-item-title a:focus-visible {
   display: block;
 }
+.il-item .il-item-actions {
+  display: inline-block;
+  float: right;
+}
+.il-item .il-item-actions .btn-default {
+  margin-right: 6px;
+}
 .il-item .il-item-divider {
   clear: both;
   padding: 10px 0 0 0;

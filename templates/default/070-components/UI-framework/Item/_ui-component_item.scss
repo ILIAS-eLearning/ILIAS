@@ -43,6 +43,14 @@ $il-item-gap-xs: 1px;
 		}
 	}
 
+	.il-item-actions {
+		display: inline-block;
+		float: right;
+		.btn-default {
+			margin-right: $il-padding-small-horizontal;
+		}
+	}
+
 	.il-item-divider {
 		clear: both;
 		padding: $il-item-divider-padding;

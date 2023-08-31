@@ -26,6 +26,7 @@ use ILIAS\UI\Component\Image\Image;
 use ILIAS\UI\Component\Player\Audio;
 use ILIAS\UI\Component\Symbol\Icon\Icon;
 use ILIAS\UI\Component\Symbol\Avatar\Avatar;
+use ILIAS\UI\Component\Button\Standard as ButtonStandard;
 
 class Standard extends Item implements C\Item\Standard
 {
@@ -37,6 +38,7 @@ class Standard extends Item implements C\Item\Standard
     protected $lead = null;
     protected ?C\Chart\ProgressMeter\ProgressMeter $chart = null;
     protected ?Audio $audio = null;
+    protected ?ButtonStandard $main_action = null;
 
     /**
      * @inheritdoc
@@ -160,5 +162,17 @@ class Standard extends Item implements C\Item\Standard
     public function getActions(): ?C\Dropdown\Standard
     {
         return $this->actions;
+    }
+
+    public function withMainAction(?ButtonStandard $button): C\Item\Standard
+    {
+        $clone = clone $this;
+        $clone->main_action = $button;
+        return $clone;
+    }
+
+    public function getMainAction(): ?ButtonStandard
+    {
+        return $this->main_action;
     }
 }

@@ -159,6 +159,12 @@ class Renderer extends AbstractComponentRenderer
             $tpl->setVariable("ACTIONS", $default_renderer->render($actions));
         }
 
+        // main action
+        $main_action = $component->getMainAction();
+        if ($main_action !== null) {
+            $tpl->setVariable("MAIN_ACTION", $default_renderer->render($main_action));
+        }
+
         return $tpl->get();
     }
 
@@ -248,7 +254,7 @@ class Renderer extends AbstractComponentRenderer
          * @var $component Notification
          */
         $component = $component->withAdditionalOnLoadCode(
-            fn ($id) => "il.UI.item.notification.getNotificationItemObject($($id)).registerAggregates($toggleable);"
+            fn($id) => "il.UI.item.notification.getNotificationItemObject($($id)).registerAggregates($toggleable);"
         );
 
         //Bind id
@@ -266,7 +272,7 @@ class Renderer extends AbstractComponentRenderer
              * @var $close_action Close
              */
             $close_action = $this->getUIFactory()->button()->close()->withAdditionalOnLoadCode(
-                fn ($id) => "il.UI.item.notification.getNotificationItemObject($($id)).registerCloseAction('$url',1);"
+                fn($id) => "il.UI.item.notification.getNotificationItemObject($($id)).registerCloseAction('$url',1);"
             );
             $tpl->setVariable("CLOSE_ACTION", $default_renderer->render($close_action));
         }
