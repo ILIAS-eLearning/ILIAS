@@ -98,7 +98,7 @@ class ilObjTestSettingsIntroduction extends TestSettings
 
     public function getExamConditionsCheckboxEnabled(): bool
     {
-        return $this->conditions_checkbox_enabled ?? false;
+        return $this->conditions_checkbox_enabled;
     }
     public function withExamConditionsCheckboxEnabled(bool $conditions_checkbox_enabled): self
     {
