@@ -317,7 +317,7 @@ class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
                     $allowPassIncrease = true
                 );
 
-                if ($executable["executable"] && $this->getTestOBJ()->areObligationsEnabled() && $this->getTestOBJ()->hasObligations($this->getTestOBJ()->getTestId())) {
+                if ($executable['executable'] && $this->getTestOBJ()->areObligationsEnabled() && $this->getTestOBJ()->hasObligations($this->getTestOBJ()->getTestId())) {
                     $this->addInfoMessage($this->lng->txt('tst_test_contains_obligatory_questions'));
                 }
             }

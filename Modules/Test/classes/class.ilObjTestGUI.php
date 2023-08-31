@@ -18,6 +18,7 @@
 
 declare(strict_types=1);
 
+use ILIAS\DI\Container;
 use ILIAS\Refinery\ConstraintViolationException;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
@@ -71,7 +72,7 @@ require_once './Modules/Test/classes/inc.AssessmentConstants.php';
  */
 class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDesktopItemHandling
 {
-    private $dic;
+    private Container $dic;
 
     private static $infoScreenChildClasses = array(
         'ilpublicuserprofilegui', 'ilobjportfoliogui'
@@ -103,7 +104,6 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
      * Constructor
      * @access public
      * @param mixed|null $refId
-     * @throws ilCtrlException
      */
     public function __construct($refId = null)
     {
@@ -288,7 +288,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                 break;
 
             case "iltestscreengui":
-                if (!$this->access->checkAccess("read", "", $this->testrequest->getRefId()) && !$this->access->checkAccess("visible", "", $this->testrequest->getRefId())) {
+                if (!$this->access->checkAccess('read', '', $this->testrequest->getRefId()) && !$this->access->checkAccess('visible', '', $this->testrequest->getRefId())) {
                     $this->redirectAfterMissingRead();
                 }
                 $this->prepareOutput();
@@ -2632,9 +2632,8 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
             $this->redirectAfterMissingRead();
             return '';
         }
-        $object = new ilObjTest($this->ref_id, true);
 
-        if ($object->getMainSettings()->getAdditionalSettings()->getHideInfoTab()) {
+        if ($this->object->getMainSettings()->getAdditionalSettings()->getHideInfoTab()) {
             $this->ctrl->redirectByClass(ilTestScreenGUI::class, 'testScreen');
             return '';
         }
@@ -2790,7 +2789,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
             case "postpone":
             case "outUserPassDetails":
             case "checkPassword":
-            $this->locator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget(new ilTestScreenGUI($this->object, $this->user), "testScreen"), "", $this->testrequest->getRefId());
+            $this->locator->addItem($this->object->getTitle(), $this->ctrl->getLinkTargetByClass(ilTestScreenGUI::class, 'testScreen'), '', $this->testrequest->getRefId());
                 break;
             case "eval_stat":
             case "evalAllUsers":
@@ -2806,7 +2805,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
             case "cancelImport":
                 break;
             default:
-                $this->locator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget(new ilTestScreenGUI($this->object, $this->user), "testScreen"), "", $this->testrequest->getRefId());
+                $this->locator->addItem($this->object->getTitle(), $this->ctrl->getLinkTargetByClass(ilTestScreenGUI::class, 'testScreen'), '', $this->testrequest->getRefId());
                 break;
         }
     }

@@ -1833,10 +1833,7 @@ class ilObjectListGUI
         if ($this->std_cmd_only) {
             return;
         }
-        $this->insertCommand(
-            $this->getCommandLink('testScreen'),
-            $this->lng->txt('tst_start_test')
-        );
+        $this->insertCommand($this->getCommandLink('testScreen'), $this->lng->txt('tst_start_test'));
     }
 
     public function insertInfoScreenCommand(): void
@@ -1857,7 +1854,7 @@ class ilObjectListGUI
      */
     public function insertCommonSocialCommands(bool $header_actions = false): void
     {
-        if ($this->std_cmd_only || ($this->user->getId() == ANONYMOUS_USER_ID)) {
+        if ($this->std_cmd_only || $this->user->isAnonymous()) {
             return;
         }
 
