@@ -1355,7 +1355,7 @@ class ilUserImportParser extends ilSaxParser
                             //update role entries
                             //-------------------
                             foreach ($this->roles as $role_id => $role) {
-                                if ($this->role_assign[$role_id]) {
+                                if (array_key_exists($role_id, $this->role_assign)) {
                                     switch ($role["action"]) {
                                         case "Assign":
                                             $this->assignToRole($updateUser, $this->role_assign[$role_id]);
