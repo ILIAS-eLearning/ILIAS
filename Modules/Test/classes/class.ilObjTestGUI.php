@@ -453,7 +453,11 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
                     $ilTabs,
                     $this->getTestObject()->getScoreSettingsRepository(),
                     $this->getTestObject()->getTestId(),
-                    ...$this->ui
+                    $this->ui[0],
+                    $this->ui[1],
+                    $this->ui[2],
+                    $this->ui[3],
+                    $this->user
                 );
 
                 $this->ctrl->forwardCommand($gui);

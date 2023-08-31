@@ -21,7 +21,6 @@ declare(strict_types=1);
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\Refinery\Factory as Refinery;
-use ILIAS\UI\Component\Input\Field;
 use ILIAS\UI\Component\Input\Container\Form\Form;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
@@ -63,6 +62,7 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
     protected UIRenderer $ui_renderer;
     protected Refinery $refinery;
     protected ilTabsGUI $tabs;
+    protected ilObjUser $active_user;
 
 
     public function __construct(
@@ -80,7 +80,8 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
         UIFactory $ui_factory,
         UIRenderer $ui_renderer,
         Refinery $refinery,
-        Request $request
+        Request $request,
+        ilObjUser $active_user
     ) {
         $this->ctrl = $ctrl;
         $this->access = $access;
@@ -92,6 +93,7 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
         $this->testOBJ = $testGUI->getObject();
         $this->tpl = $main_template;
         $this->tabs = $tabs;
+        $this->active_user = $active_user;
 
         $this->testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory(
             $this->tree,
@@ -223,14 +225,30 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
             $this->refinery
         ];
 
-        $anonymity_flag = (bool) $this->testOBJ->getAnonymity();
+        $environment = [];
+        $df = (new \ILIAS\Data\Factory())->dateFormat();
+        switch ($this->active_user->getDateFormat()) {
+            case ilCalendarSettings::DATE_FORMAT_DMY:
+                $date_format = $df->germanShort();
+                break;
+            case ilCalendarSettings::DATE_FORMAT_MDY:
+                //americanShort
+                $date_format = $df->custom()->month()->slash()->day()->slash()->year()->get();
+                break;
+            case ilCalendarSettings::DATE_FORMAT_YMD:
+            default:
+                $date_format = $df->standard();
+        }
+        $environment['user_date_format'] = $date_format->toString() . 'H:i';
+        $environment['user_time_zone'] = $this->active_user->getTimeZone();
+
         $disabled_flag = ($this->areScoringSettingsWritable() === false);
 
         $settings = $this->loadScoreSettings();
         $sections = [
             'scoring' => $settings->getScoringSettings()->toForm(...$ui_pack)
                 ->withDisabled($disabled_flag),
-            'summary' => $settings->getResultSummarySettings()->toForm(...$ui_pack),
+            'summary' => $settings->getResultSummarySettings()->toForm(...array_merge($ui_pack, [$environment])),
             'details' => $settings->getResultDetailsSettings()->toForm(
                 ...array_merge($ui_pack, [['taxonomy_options' => $this->getTaxonomyOptions()]])
             ),

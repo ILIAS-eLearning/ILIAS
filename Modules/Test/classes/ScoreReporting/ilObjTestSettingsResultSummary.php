@@ -70,8 +70,13 @@ class ilObjTestSettingsResultSummary extends TestSettings
                 self::SCORE_REPORTING_DATE => $f->group(
                     [
                     $f->dateTime($lng->txt('tst_reporting_date'), "")
+                        ->withTimezone($environment['user_time_zone'])
                         ->withUseTime(true)
-                        ->withValue($this->getReportingDate())
+                        ->withValue(
+                            $this->getReportingDate()?->setTimezone(
+                                new DateTimeZone($environment['user_time_zone'])
+                            )->format($environment['user_date_format'])
+                        )
                         ->withRequired(true)
                     ],
                     $lng->txt('tst_results_access_date'),
@@ -156,7 +161,8 @@ class ilObjTestSettingsResultSummary extends TestSettings
     {
         $dat = $this->getReportingDate();
         if ($dat) {
-            $dat = $dat->format(ilObjTestScoreSettingsDatabaseRepository::STORAGE_DATE_FORMAT);
+            $dat = $dat->setTimezone(new DateTimeZone('UTC'))
+                ->format(ilObjTestScoreSettingsDatabaseRepository::STORAGE_DATE_FORMAT);
         }
         return [
             'pass_deletion_allowed' => ['integer', (int) $this->getPassDeletionAllowed()],

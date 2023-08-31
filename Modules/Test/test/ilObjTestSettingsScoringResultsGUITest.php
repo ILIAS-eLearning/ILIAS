@@ -80,7 +80,8 @@ class ilObjTestSettingsScoringResultsGUITest extends TestCase
             $ui_factory,
             $ui_renderer,
             $refinery,
-            $request
+            $request,
+            $this->getMockBuilder(ilObjUser::class)->disableOriginalConstructor()->getMock(),
         );
 
         $this->assertInstanceOf(ilObjTestSettingsScoringResultsGUI::class, $this->testObj);
