@@ -146,83 +146,99 @@ class ilPersonalProfileGUI
     public function uploadUserPicture(): void
     {
         global $DIC;
-
         $ilUser = $DIC['ilUser'];
 
-        if ($this->workWithUserSetting("upload")) {
-            if (!$this->form->hasFileUpload("userfile") && $this->profile_request->getUserFileCapture() == "") {
-                if ($this->form->getItemByPostVar("userfile")->getDeletionFlag()) {
-                    $ilUser->removeUserPicture();
-                }
-            } else {
-                $webspace_dir = ilFileUtils::getWebspaceDir();
-                $image_dir = $webspace_dir . "/usr_images";
-                ilFileUtils::makeDir($image_dir);
-                $store_file = "usr_" . $ilUser->getID() . "." . "jpg";
+        if (!$this->workWithUserSetting("upload")) {
+            return;
+        }
 
-                // store filename
-                $ilUser->setPref("profile_image", $store_file);
-                $ilUser->update();
+        if (!$this->form->hasFileUpload("userfile")
+            && $this->profile_request->getUserFileCapture() == ""
+            && $this->form->getItemByPostVar("userfile")->getDeletionFlag()) {
+            $ilUser->removeUserPicture();
+            return;
+        }
 
-                // move uploaded file
-                // begin patch profile-image-patch – Killing 1.3.2021
-                if ($this->form->hasFileUpload("userfile")) {
-                    $pi = pathinfo($_FILES["userfile"]["name"]);
-                    $uploaded_file = $this->form->moveFileUpload(
-                        $image_dir,
-                        "userfile",
-                        "upload_" . $ilUser->getId() . "." . $pi["extension"]
-                    );
-                    if (!$uploaded_file) {
-                        $this->tpl->setOnScreenMessage('failure', $this->lng->txt("upload_error", true));
-                        $this->ctrl->redirect($this, "showProfile");
-                    }
-                } else {        // cam capture png
-                    $uploaded_file = $image_dir . "/" . "upload_" . $ilUser->getId() . ".png";
-                    $img = $this->profile_request->getUserFileCapture();
-                    $img = str_replace(['data:image/png;base64,', ' '], ['', '+'], $img);
-                    $data = base64_decode($img);
-                    $success = file_put_contents($uploaded_file, $data);
-                    if (!$success) {
-                        $this->tpl->setOnScreenMessage('failure', $this->lng->txt("upload_error", true));
-                        $this->ctrl->redirect($this, "showProfile");
-                    }
-                }
-                // end patch profile-image-patch – Killing 1.3.2021
-                chmod($uploaded_file, 0770);
+        $webspace_dir = ilFileUtils::getWebspaceDir();
+        $image_dir = $webspace_dir . "/usr_images";
+        ilFileUtils::makeDir($image_dir);
+        $store_file = "usr_" . $ilUser->getID() . "." . "jpg";
 
-                // take quality 100 to avoid jpeg artefacts when uploading jpeg files
-                // taking only frame [0] to avoid problems with animated gifs
-                $show_file = "$image_dir/usr_" . $ilUser->getId() . ".jpg";
-                $thumb_file = "$image_dir/usr_" . $ilUser->getId() . "_small.jpg";
-                $xthumb_file = "$image_dir/usr_" . $ilUser->getId() . "_xsmall.jpg";
-                $xxthumb_file = "$image_dir/usr_" . $ilUser->getId() . "_xxsmall.jpg";
-                $uploaded_file = ilShellUtil::escapeShellArg($uploaded_file);
-                $show_file = ilShellUtil::escapeShellArg($show_file);
-                $thumb_file = ilShellUtil::escapeShellArg($thumb_file);
-                $xthumb_file = ilShellUtil::escapeShellArg($xthumb_file);
-                $xxthumb_file = ilShellUtil::escapeShellArg($xxthumb_file);
+        // store filename
+        $ilUser->setPref("profile_image", $store_file);
+        $ilUser->update();
 
-                if (ilShellUtil::isConvertVersionAtLeast("6.3.8-3")) {
-                    ilShellUtil::execConvert(
-                        $uploaded_file . "[0] -geometry 200x200^ -gravity center -extent 200x200 -quality 100 JPEG:" . $show_file
-                    );
-                    ilShellUtil::execConvert(
-                        $uploaded_file . "[0] -geometry 100x100^ -gravity center -extent 100x100 -quality 100 JPEG:" . $thumb_file
-                    );
-                    ilShellUtil::execConvert(
-                        $uploaded_file . "[0] -geometry 75x75^ -gravity center -extent 75x75 -quality 100 JPEG:" . $xthumb_file
-                    );
-                    ilShellUtil::execConvert(
-                        $uploaded_file . "[0] -geometry 30x30^ -gravity center -extent 30x30 -quality 100 JPEG:" . $xxthumb_file
-                    );
-                } else {
-                    ilShellUtil::execConvert($uploaded_file . "[0] -geometry 200x200 -quality 100 JPEG:" . $show_file);
-                    ilShellUtil::execConvert($uploaded_file . "[0] -geometry 100x100 -quality 100 JPEG:" . $thumb_file);
-                    ilShellUtil::execConvert($uploaded_file . "[0] -geometry 75x75 -quality 100 JPEG:" . $xthumb_file);
-                    ilShellUtil::execConvert($uploaded_file . "[0] -geometry 30x30 -quality 100 JPEG:" . $xxthumb_file);
-                }
+        // move uploaded file
+        // begin patch profile-image-patch – Killing 1.3.2021
+        if ($this->form->hasFileUpload("userfile")) {
+            $pi = pathinfo($_FILES["userfile"]["name"]);
+            $uploaded_file = $this->form->moveFileUpload(
+                $image_dir,
+                "userfile",
+                "upload_" . $ilUser->getId() . "." . $pi["extension"]
+            );
+            if (!$uploaded_file) {
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt("upload_error", true));
+                $this->ctrl->redirect($this, "showProfile");
             }
+
+            $this->convertUserPicture($uploaded_file, $image_dir);
+            chmod($uploaded_file, 0770);
+            return;
+        }
+
+        $uploaded_file = $image_dir . "/" . "upload_" . $ilUser->getId() . ".png";
+        $img = str_replace(
+            ['data:image/png;base64,', ' '],
+            ['', '+'],
+            $this->profile_request->getUserFileCapture()
+        );
+        $data = base64_decode($img);
+        $success = file_put_contents($uploaded_file, $data);
+        if (!$success) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("upload_error", true));
+            $this->ctrl->redirect($this, "showProfile");
+        }
+
+        $this->convertUserPicture($uploaded_file, $image_dir);
+        chmod($uploaded_file, 0770);
+    }
+
+    private function convertUserPicture(string $uploaded_file, string $image_dir): void
+    {
+        global $DIC;
+        $ilUser = $DIC['ilUser'];
+
+        // take quality 100 to avoid jpeg artefacts when uploading jpeg files
+        // taking only frame [0] to avoid problems with animated gifs
+        $show_file = "$image_dir/usr_" . $ilUser->getId() . ".jpg";
+        $thumb_file = "$image_dir/usr_" . $ilUser->getId() . "_small.jpg";
+        $xthumb_file = "$image_dir/usr_" . $ilUser->getId() . "_xsmall.jpg";
+        $xxthumb_file = "$image_dir/usr_" . $ilUser->getId() . "_xxsmall.jpg";
+        $uploaded_file = ilShellUtil::escapeShellArg($uploaded_file);
+        $show_file = ilShellUtil::escapeShellArg($show_file);
+        $thumb_file = ilShellUtil::escapeShellArg($thumb_file);
+        $xthumb_file = ilShellUtil::escapeShellArg($xthumb_file);
+        $xxthumb_file = ilShellUtil::escapeShellArg($xxthumb_file);
+
+        if (ilShellUtil::isConvertVersionAtLeast("6.3.8-3")) {
+            ilShellUtil::execConvert(
+                $uploaded_file . "[0] -geometry 200x200^ -gravity center -extent 200x200 -quality 100 JPEG:" . $show_file
+            );
+            ilShellUtil::execConvert(
+                $uploaded_file . "[0] -geometry 100x100^ -gravity center -extent 100x100 -quality 100 JPEG:" . $thumb_file
+            );
+            ilShellUtil::execConvert(
+                $uploaded_file . "[0] -geometry 75x75^ -gravity center -extent 75x75 -quality 100 JPEG:" . $xthumb_file
+            );
+            ilShellUtil::execConvert(
+                $uploaded_file . "[0] -geometry 30x30^ -gravity center -extent 30x30 -quality 100 JPEG:" . $xxthumb_file
+            );
+        } else {
+            ilShellUtil::execConvert($uploaded_file . "[0] -geometry 200x200 -quality 100 JPEG:" . $show_file);
+            ilShellUtil::execConvert($uploaded_file . "[0] -geometry 100x100 -quality 100 JPEG:" . $thumb_file);
+            ilShellUtil::execConvert($uploaded_file . "[0] -geometry 75x75 -quality 100 JPEG:" . $xthumb_file);
+            ilShellUtil::execConvert($uploaded_file . "[0] -geometry 30x30 -quality 100 JPEG:" . $xxthumb_file);
         }
     }
 
@@ -764,6 +780,7 @@ class ilPersonalProfileGUI
         }
 
         $this->form->setValuesByPost();
+        $this->tempStorePicture();
         $this->showPersonalData(true);
     }
 
@@ -1207,8 +1224,6 @@ class ilPersonalProfileGUI
     {
         global $DIC;
 
-        $lng = $DIC['lng'];
-        $ilCtrl = $DIC['ilCtrl'];
         $tpl = $DIC['tpl'];
         $ilTabs = $DIC['ilTabs'];
 
@@ -1292,5 +1307,17 @@ class ilPersonalProfileGUI
     {
         $main_tpl = $this->tpl;
         $main_tpl->setRightContent($this->checklist->render($active_step));
+    }
+
+    private function tempStorePicture(): void
+    {
+        $capture = $this->profile_request->getUserFileCapture();
+
+        if ($capture !== '') {
+            $this->form->getItemByPostVar('userfile')->setImage($capture);
+            $hidden_user_picture_carry = new ilHiddenInputGUI('user_picture_carry');
+            $hidden_user_picture_carry->setValue($capture);
+            $this->form->addItem($hidden_user_picture_carry);
+        }
     }
 }
