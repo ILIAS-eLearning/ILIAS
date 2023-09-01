@@ -32,7 +32,6 @@ use ILIAS\HTTP\Services as HTTPServices;
  */
 class ilTestScreenGUI
 {
-    private readonly ILIAS\DI\Container $dic;
     private readonly UIFactory $ui_factory;
     private readonly UIRenderer $ui_renderer;
     private readonly ilLanguage $lng;
@@ -52,18 +51,17 @@ class ilTestScreenGUI
     ) {
         /** @var ILIAS\DI\Container $DIC **/
         global $DIC;
-        $this->dic = $DIC;
-        $this->ui_factory = $this->dic->ui()->factory();
-        $this->ui_renderer = $this->dic->ui()->renderer();
-        $this->lng = $this->dic->language();
-        $this->ctrl = $this->dic->ctrl();
-        $this->tpl = $this->dic->ui()->mainTemplate();
-        $this->http = $this->dic->http();
-        $this->tabs = $this->dic->tabs();
-        $this->access = $this->dic->access();
+        $this->ui_factory = $DIC->ui()->factory();
+        $this->ui_renderer = $DIC->ui()->renderer();
+        $this->lng = $DIC->language();
+        $this->ctrl = $DIC->ctrl();
+        $this->tpl = $DIC->ui()->mainTemplate();
+        $this->http = $DIC->http();
+        $this->tabs = $DIC->tabs();
+        $this->access = $DIC->access();
         $this->ref_id = $this->object->getRefId();
 
-        $db = $this->dic->database();
+        $db = $DIC->database();
         $this->test_session_factory = new ilTestSessionFactory($this->object, $db, $this->user);
         $this->test_sequence_factory = new ilTestSequenceFactory($this->object, $db);
 
@@ -226,24 +224,36 @@ class ilTestScreenGUI
         }
 
         $test_behaviour_settings = $main_settings->getTestBehaviourSettings();
+        $processing_time_enabled = $test_behaviour_settings->getProcessingTimeEnabled();
+        $processing_time_as_minutes = $test_behaviour_settings->getProcessingTimeAsMinutes();
 
-        return $this->ui_factory->launcher()
+        $launcher = $this->ui_factory->launcher()
             ->inline($data_factory->link($this->lng->txt('tst_exam_start'), $url->withParameter('launcher_id', 'exam_modal')))
-            ->withStatusIcon($this->ui_factory->symbol()->icon()->standard('ps', 'authentification needed', 'large'))
-            ->withStatusMessageBox($this->ui_factory->messageBox()->info(
-                (($exam_conditions_enabled || $password_enabled) ? 'You will be asked for the password and/or your approval of the exam conditions when you start the test.' : '') . ' ' .
-                ($test_behaviour_settings->getProcessingTimeEnabled() ? sprintf('Your Time-Limit is %s minutes.', $test_behaviour_settings->getProcessingTimeAsMinutes()) : '') . ' ' .
-                (($this->object->getNrOfTries() !== 0) ? sprintf('Your limit of test attempts is %s.', $this->object->getNrOfTries()) : '')
-            ))
-            ->withDescription(
-                ($test_behaviour_settings->getProcessingTimeEnabled() ? '<p>' . sprintf('You will have <b>%s minutes</b> to answer all questions.', $test_behaviour_settings->getProcessingTimeAsMinutes()) . '</p>' : '') .
-                '</p>' . 'Please make sure that you have the time to complete the test and that you will be undisturbed. There is no way for you to pause or re-take this test.' . '</p>'
-            )
             ->withInputs(
                 $this->ui_factory->input()->field()->group($modal_inputs),
                 function (Result $result) {$this->evaluateTestScreenModalForm($result);},
                 $this->ui_factory->messageBox()->info($this->lng->txt('tst_exam_conditions_modal_desc'))
-            );
+            )
+            ->withDescription(
+                '</p>' . 'Please make sure that you have the time to complete the test and that you will be undisturbed. There is no way for you to pause or re-take this test.' . '</p>' .
+                ($processing_time_enabled ? '<p>' . sprintf('You will have <b>%s minutes</b> to answer all questions.', $processing_time_as_minutes) . '</p>' : '')
+            )
+        ;
+
+        if ($exam_conditions_enabled || $password_enabled) {
+            $launcher->withStatusIcon($this->ui_factory->symbol()->icon()->standard('ps', 'authentification needed', 'large'));
+        }
+
+        if ($exam_conditions_enabled || $password_enabled || $processing_time_enabled || $this->object->getNrOfTries() !== 0) {
+            $launcher
+                ->withStatusMessageBox($this->ui_factory->messageBox()->info(
+                    (($exam_conditions_enabled || $password_enabled) ? 'You will be asked for the password and/or your approval of the exam conditions when you start the test.' : '') . ' ' .
+                    ($processing_time_enabled ? sprintf('Your Time-Limit is %s minutes.', $processing_time_as_minutes) : '') . ' ' .
+                    (($this->object->getNrOfTries() !== 0) ? sprintf('Your limit of test attempts is %s.', $this->object->getNrOfTries()) : '')
+                ));
+        }
+
+        return $launcher;
     }
 
     private function handleTestScreenRenderOutOfTimeMessage(array $elements): array
@@ -330,7 +340,7 @@ class ilTestScreenGUI
             if ((count($existing_passes) - count($this->test_passes_selector->getClosedPasses())) === 1) {
                 return 'showContinueButton';
             }
-            if (count($existing_passes) < $nr_of_tries) {
+            if ($nr_of_tries === 0 || count($existing_passes) < $nr_of_tries) {
                 return ($exam_conditions_enabled || $password_enabled || $access_code_enabled || $allow_previous_answers_enabled) ? 'showModal' : 'showStartButton';
             }
         }
