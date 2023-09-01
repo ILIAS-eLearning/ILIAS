@@ -182,7 +182,7 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
             $this->tpl->parseCurrentBlock();
         }
 
-        if (!ilObjUser::_lookupActive($a_set['usr_id'])) {
+        if (!$a_set['active']) {
             $this->tpl->setCurrentBlock('access_warning');
             $this->tpl->setVariable('PARENT_ACCESS', $this->lng->txt('usr_account_inactive'));
             $this->tpl->parseCurrentBlock();
