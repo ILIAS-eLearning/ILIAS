@@ -4404,6 +4404,115 @@ hr.il-divider-with-label {
   font-family: Monospace, Courier;
 }
 
+.il-input-rating .il-input-rating__text {
+  clear: both;
+}
+
+.il-input-rating .il-input-rating__stars {
+  float: left;
+}
+
+.il-input-rating input.il-input-rating-scaleoption {
+  float: right;
+  padding: 0;
+  margin: 0 0 0 -20px;
+  opacity: 0;
+}
+
+.il-input-rating .glyphicon-star:before {
+  content: "★" !important;
+}
+
+.il-input-rating .glyphicon-star-empty:before {
+  content: "☆";
+}
+
+.il-input-rating .glyphicon-saltire:before {
+  content: "☓";
+}
+
+.il-input-rating .il-input-rating-star {
+  float: right;
+  position: relative;
+  display: block;
+  margin-top: -3px;
+  margin-bottom: 0px;
+  font-size: 160%;
+  color: #e2e8ef;
+}
+
+.il-input-rating .il-input-rating-reset {
+  font-size: 120%;
+  margin-top: -8px;
+  font-weight: bold;
+  color: #161616;
+}
+
+.il-input-rating .il-input-rating-scaleoption:checked ~ .il-input-rating-star {
+  color: #3a4c65;
+}
+
+.il-input-rating span.label {
+  font-size: 90%;
+  margin-left: 125px;
+  margin-top: 6px;
+  position: absolute;
+  display: none;
+  color: #161616;
+  text-wrap: nowrap;
+}
+
+.il-input-rating.disabled .il-input-rating-scaleoption:checked ~ .il-input-rating-star,
+.il-input-rating.disabled .il-input-rating-star:hover ~ .il-input-rating-star,
+.il-input-rating.disabled .il-input-rating-star:hover {
+  color: #737373 !important;
+}
+.il-input-rating.disabled .il-input-rating-reset {
+  display: none;
+}
+
+.il-input-rating-scaleoption:checked + label + span {
+  display: block;
+}
+
+/* targets hovering in IE10+ */
+@media all and (hover), (-ms-high-contrast: none), (-ms-high-contrast: active) {
+  .il-input-rating .il-input-rating-reset:hover,
+  .il-input-rating .il-input-rating-star:hover,
+  .il-input-rating .il-input-rating-star:hover ~ .il-input-rating-star {
+    color: #3a4c65;
+  }
+  .il-input-rating:hover span.label,
+  .il-input-rating .il-input-rating-star:hover + span.label .il-input-rating-reset {
+    display: none;
+  }
+  .il-input-rating .il-input-rating-star:hover + span.label,
+  .il-input-rating span.label:hover {
+    display: block;
+  }
+  .il-input-rating:not(:hover) .il-input-rating-scaleoption:checked + label + span {
+    display: block !important;
+  }
+}
+/* targets hovering in FF and can't be combined with the query above */
+@-moz-document url-prefix() {
+  .il-input-rating .il-input-rating-reset:hover,
+  .il-input-rating .il-input-rating-star:hover,
+  .il-input-rating .il-input-rating-star:hover ~ .il-input-rating-star {
+    color: #3a4c65;
+  }
+  .il-input-rating:hover span.label,
+  .il-input-rating .il-input-rating-star:hover + span.label .il-input-rating-reset {
+    display: none;
+  }
+  .il-input-rating .il-input-rating-star:hover + span.label,
+  .il-input-rating span.label:hover {
+    display: block;
+  }
+  .il-input-rating:not(:hover) .il-input-rating-scaleoption:checked + label + span {
+    display: block !important;
+  }
+}
 .il-standard-form {
   background-color: white;
   margin-top: 6px;

@@ -1,0 +1,21 @@
+<div class="input-group il-input-rating<!-- BEGIN disabled --> disabled<!-- END disabled -->" id="{ID}">
+	<!-- BEGIN txt -->
+	<p class="il-input-rating__text">
+		{TEXT}
+	</p>
+	<!-- END txt -->
+
+	<div class="il-input-rating__stars">
+		<!-- BEGIN scaleoption -->
+		<input type="radio" id="{OPT_ID}" name="{NAME}" value="{OPT_VALUE}"  aria-label="{ARIALABEL}" class="il-input-rating-scaleoption" {DISABLED}{SELECTED}/>
+		<label class="glyphicon-star il-input-rating-star" for="{OPT_ID}"></label>
+		<span class="label">
+			{OPTIONLABEL}
+			<label class="glyphicon-saltire il-input-rating-reset" for="{RESET_ID}"></label>
+		</span>
+		<!-- END scaleoption -->
+	</div>
+
+	<input type="radio" id="{ID}-0" name="{NAME}" value="0" class="il-input-rating-scaleoption reset-option" {DISABLED}<!-- BEGIN selected_0 -->checked="checked" <!-- END selected_0 --> />
+
+</div>

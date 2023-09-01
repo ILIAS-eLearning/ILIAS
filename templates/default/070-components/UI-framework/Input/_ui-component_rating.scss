@@ -1,0 +1,111 @@
+@use "../../../010-settings/" as *;
+
+.il-input-rating .il-input-rating__text {
+  clear: both;
+}
+.il-input-rating .il-input-rating__stars {
+  float: left;
+}
+
+.il-input-rating input.il-input-rating-scaleoption {
+  float: right;
+  padding: 0;
+  margin: 0 0 0 -20px;
+  opacity: 0;
+}
+.il-input-rating .glyphicon-star:before {
+  content: "\2605" !important;
+}
+.il-input-rating .glyphicon-star-empty:before {
+  content: "\2606";
+}
+.il-input-rating .glyphicon-saltire:before {
+  content: "\2613";
+}
+.il-input-rating .il-input-rating-star {
+  float: right;
+  position: relative;
+  display: block;
+  margin-top: -3px;
+  margin-bottom: 0px;
+  font-size: 160%;
+  color: $il-highlight-bg;
+}
+
+.il-input-rating .il-input-rating-reset {
+  font-size: 120%;
+  margin-top: -8px;
+  font-weight: bold;
+  color: $il-text-color;
+}
+
+.il-input-rating .il-input-rating-scaleoption:checked ~ .il-input-rating-star {
+  color: $il-link-hover-color;
+}
+.il-input-rating span.label {
+  font-size: 90%;
+  margin-left: 125px;
+  margin-top: 6px;
+  position: absolute;
+  display: none;
+  color: $il-text-color;
+  text-wrap: nowrap;
+}
+
+
+.il-input-rating.disabled {
+  .il-input-rating-scaleoption:checked ~ .il-input-rating-star,
+  .il-input-rating-star:hover ~ .il-input-rating-star,
+  .il-input-rating-star:hover {
+    color: $il-neutral-light-color !important;
+  }
+
+  .il-input-rating-reset {
+    display: none;
+  }
+}
+
+.il-input-rating-scaleoption:checked + label + span {
+  display: block;
+}
+
+/* targets hovering in IE10+ */
+@media all and (hover), (-ms-high-contrast: none), (-ms-high-contrast: active) {
+
+  .il-input-rating .il-input-rating-reset:hover,
+  .il-input-rating .il-input-rating-star:hover,
+  .il-input-rating .il-input-rating-star:hover ~ .il-input-rating-star {
+    color: $il-link-hover-color;
+  }
+  .il-input-rating:hover span.label,
+  .il-input-rating .il-input-rating-star:hover + span.label .il-input-rating-reset {
+    display: none;
+  }
+  .il-input-rating .il-input-rating-star:hover + span.label,
+  .il-input-rating span.label:hover {
+    display: block;
+  }
+  .il-input-rating:not(:hover) .il-input-rating-scaleoption:checked + label + span {
+    display: block !important;
+  }
+}
+
+/* targets hovering in FF and can't be combined with the query above */
+@-moz-document url-prefix() {
+  .il-input-rating .il-input-rating-reset:hover,
+  .il-input-rating .il-input-rating-star:hover,
+  .il-input-rating .il-input-rating-star:hover ~ .il-input-rating-star {
+    color: $il-link-hover-color;
+  }
+  .il-input-rating:hover span.label,
+  .il-input-rating .il-input-rating-star:hover + span.label .il-input-rating-reset {
+    display: none;
+  }
+  .il-input-rating .il-input-rating-star:hover + span.label,
+  .il-input-rating span.label:hover {
+    display: block;
+  }
+  .il-input-rating:not(:hover) .il-input-rating-scaleoption:checked + label + span {
+    display: block !important;
+  }
+}

@@ -150,6 +150,9 @@ class Renderer extends AbstractComponentRenderer
             case ($component instanceof F\ColorPicker):
                 return $this->renderColorPickerField($component);
 
+            case ($component instanceof F\Rating):
+                return $this->renderRatingField($component);
+
             default:
                 throw new LogicException("Cannot render '" . get_class($component) . "'");
         }
@@ -903,6 +906,7 @@ class Renderer extends AbstractComponentRenderer
             Component\Input\Field\Hidden::class,
             Component\Input\Field\ColorPicker::class,
             Component\Input\Field\Markdown::class,
+            Component\Input\Field\Rating::class,
         ];
     }
 
@@ -1040,6 +1044,43 @@ class Renderer extends AbstractComponentRenderer
         $tpl->setVariable('VALUE', $component->getValue());
         $id = $this->bindJSandApplyId($component, $tpl);
 
+        return $this->wrapInFormContext($component, $tpl->get());
+    }
+
+    protected function renderRatingField(F\Rating $component): string
+    {
+        $tpl = $this->getTemplate("tpl.rating.html", true, true);
+        $id = $this->bindJSandApplyId($component, $tpl);
+
+        $option_labels = $component->getOptionLabels();
+
+        foreach (range(5, 1, -1) as $option) {
+            $tpl->setCurrentBlock('scaleoption');
+            $tpl->setVariable('OPTIONLABEL', $option_labels[$option - 1] ?? '');
+            $tpl->setVariable('ARIALABEL', $option_labels[$option - 1] ?? (string)$option);
+            $tpl->setVariable('OPT_VALUE', (string)$option);
+            $tpl->setVariable('OPT_ID', $id . '-' . $option);
+            $tpl->setVariable('RESET_ID', $id . '-0');
+            $tpl->setVariable('NAME', $component->getName());
+
+            if ((string)$component->getValue() === (string)$option) {
+                $tpl->setVariable("SELECTED", ' checked="checked"');
+            }
+            if ($component->isDisabled()) {
+                $tpl->setVariable("DISABLED", 'disabled="disabled"');
+            }
+            $tpl->parseCurrentBlock();
+        }
+
+        if ($txt = $component->getQuestionText()) {
+            $tpl->setVariable('TEXT', $txt);
+        }
+
+        if ($component->isDisabled()) {
+            $this->maybeDisable($component, $tpl);
+            $tpl->touchBlock('disabled');
+        }
+        $this->applyName($component, $tpl);
         return $this->wrapInFormContext($component, $tpl->get());
     }
 }

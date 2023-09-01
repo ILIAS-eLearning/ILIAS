@@ -756,4 +756,39 @@ interface Factory
      * @return \ILIAS\UI\Component\Input\Field\Markdown
      */
     public function markdown(MarkdownRenderer $md_renderer, string $label, string $byline = null): Markdown;
+
+    /**
+     * ---
+     * description:
+     *   purpose: >
+     *      The Rating Input allows to express an individual assessment or evaluation
+     *      of a product, service, or item  using a numerical value.
+     *      The Rating Input is presented in form of the known five-star-concept,
+     *      where users can select a specific number of stars to indicate their
+     *      level of satisfaction or preference, where more stars generally signify
+     *      a higher rating.
+     *   composition: >
+     *      Internally, the input consist of radios; visually, the user is presented with
+     *      five stars to select. A preceding text may be used to describe the issue to be rated.
+     *   effect: >
+     *      When clicking a star it is highlighted as well as all prior/lower stars.
+     *      If options are labeled, the according label is shown next to th input.
+     *      The selection can be reset with a small "x" next to the input.
+     *      Values are fixed to 1-5; they will have to be translated by a transformation, e.g..
+     * context:
+     *   - The Rating Input is used in UI-Forms.
+     *
+     * rules:
+     *   usage:
+     *      1: >
+     *        If you label the options, you MUST do so from "bad" to "good"; lower values
+     *        express less agreement/satisfaction, while higher values mean more
+     *        agreement/satisfaction.
+     *
+     * ---
+     * @param string      $label
+     * @param string|null $byline
+     * @return \ILIAS\UI\Component\Input\Field\Rating
+     */
+    public function rating(string $label, ?string $byline = null): Rating;
 }
