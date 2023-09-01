@@ -932,6 +932,7 @@ class ilObjUserGUI extends ilObjectGUI
             }
         } else {
             $this->form_gui->setValuesByPost();
+            $this->tabs_gui->activateTab('properties');
             $tpl->setContent($this->form_gui->getHtml());
         }
     }
