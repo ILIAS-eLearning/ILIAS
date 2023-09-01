@@ -233,6 +233,7 @@ class ilPersonalSettingsGUI
                 $ipass->setInfo(ilSecuritySettingsChecker::getPasswordRequirementsInfo());
             }
             $ipass->setRequired(true);
+            $ipass->setUseStripSlashes(false);
 
             $this->form->addItem($ipass);
             $this->form->addCommandButton('savePassword', $this->lng->txt('save'));
