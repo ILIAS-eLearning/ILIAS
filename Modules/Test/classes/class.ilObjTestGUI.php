@@ -2859,8 +2859,8 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         global $DIC;
         $main_tpl = $DIC->ui()->mainTemplate();
 
-        $main_tpl->setOnScreenMessage('info', $DIC->language()->txt("no_permission"), true);
-        $DIC->ctrl()->redirectByClass('ilObjTestGUI', "infoScreen");
+        $main_tpl->setOnScreenMessage('failure', $DIC->language()->txt("no_permission"), true);
+        $DIC->ctrl()->redirectByClass(ilTestScreenGUI::class, 'testScreen');
     }
 
     /**
