@@ -458,10 +458,10 @@ class ilObjUserGUI extends ilObjectGUI
                     $this->form_gui->getInput('chat_broadcast_typing') ? 'y' : 'n'
                 );
             }
-            if ((int) $this->settings->get('session_reminder_enabled')) {
+            if ($this->settings->get('session_reminder_enabled') === '1') {
                 $user_object->setPref(
                     'session_reminder_enabled',
-                    (int) $this->form_gui->getInput('session_reminder_enabled')
+                    $this->form_gui->getInput('session_reminder_enabled')
                 );
             }
             $user_object->writePrefs();
@@ -818,7 +818,7 @@ class ilObjUserGUI extends ilObjectGUI
             if ($this->isSettingChangeable('hide_own_online_status')) {
                 $this->object->setPref(
                     'hide_own_online_status',
-                    ($this->form_gui->getInput('hide_own_online_status') ?? false)
+                    ($this->form_gui->getInput('hide_own_online_status') ?? '0')
                 );
             }
             if ($this->isSettingChangeable('bs_allow_to_contact_me')) {
@@ -844,10 +844,10 @@ class ilObjUserGUI extends ilObjectGUI
             // this ts is needed by ilSecuritySettings
             $this->object->setLastPasswordChangeTS(time());
 
-            if ((int) $this->settings->get('session_reminder_enabled')) {
+            if ($this->settings->get('session_reminder_enabled') === '1') {
                 $this->object->setPref(
                     'session_reminder_enabled',
-                    (int) $this->form_gui->getInput('session_reminder_enabled')
+                    $this->form_gui->getInput('session_reminder_enabled')
                 );
             }
 
@@ -863,7 +863,7 @@ class ilObjUserGUI extends ilObjectGUI
             }
             $this->user->setPref(
                 'send_info_mails',
-                ($this->form_gui->getInput('send_mail') == 'y') ? 'y' : 'n'
+                ($this->form_gui->getInput('send_mail') === 'y') ? 'y' : 'n'
             );
             $this->user->writePrefs();
 

@@ -45,7 +45,7 @@ class ilUserDefinedFields
     /**
      * @var array<int,array<string,mixed>>
      */
-    public array $definitions = array();
+    public array $definitions = [];
     private int $field_visible_registration = 0;
 
     private function __construct()
@@ -107,12 +107,12 @@ class ilUserDefinedFields
 
     public function getDefinitions(): array // Missing array type.
     {
-        return $this->definitions ?: array();
+        return $this->definitions ?: [];
     }
 
     public function getDefinition(int $a_id): array // Missing array type.
     {
-        return $this->definitions[$a_id] ?? array();
+        return $this->definitions[$a_id] ?? [];
     }
 
     public function getVisibleDefinitions(): array // Missing array type.
@@ -214,7 +214,7 @@ class ilUserDefinedFields
         if (ilObject::_lookupType($a_obj_id) == 'grp') {
             return $this->getGroupExportableFields();
         }
-        return array();
+        return [];
     }
 
 
@@ -259,7 +259,7 @@ class ilUserDefinedFields
      */
     public function setFieldValues(array $a_values): void
     {
-        $this->field_values = array();
+        $this->field_values = [];
         foreach ($a_values as $value) {
             if (strlen($value)) {
                 $this->field_values[] = $value;
@@ -269,7 +269,7 @@ class ilUserDefinedFields
 
     public function getFieldValues(): array // Missing array type.
     {
-        return $this->field_values ?: array();
+        return $this->field_values ?: [];
     }
 
     public function enableVisible(bool $a_visible): void
@@ -405,7 +405,7 @@ class ilUserDefinedFields
     public function validateValues(): int
     {
         $number = 0;
-        $unique = array();
+        $unique = [];
         foreach ($this->getFieldValues() as $value) {
             if (!strlen($value)) {
                 continue;
@@ -445,23 +445,23 @@ class ilUserDefinedFields
         // Add definition entry
         $next_id = $ilDB->nextId('udf_definition');
 
-        $values = array(
-            'field_id' => array('integer',$next_id),
-            'field_name' => array('text',$this->getFieldName()),
-            'field_type' => array('integer', $this->getFieldType()),
-            'field_values' => array('clob',serialize($this->getFieldValues())),
-            'visible' => array('integer', (int) $this->enabledVisible()),
-            'changeable' => array('integer', (int) $this->enabledChangeable()),
-            'required' => array('integer', (int) $this->enabledRequired()),
-            'searchable' => array('integer', (int) $this->enabledSearchable()),
-            'export' => array('integer', (int) $this->enabledExport()),
-            'course_export' => array('integer', (int) $this->enabledCourseExport()),
-            'registration_visible' => array('integer', (int) $this->enabledVisibleRegistration()),
-            'visible_lua' => array('integer', (int) $this->enabledVisibleLocalUserAdministration()),
-            'changeable_lua' => array('integer', (int) $this->enabledChangeableLocalUserAdministration()),
-            'group_export' => array('integer', (int) $this->enabledGroupExport()),
-            'certificate' => array('integer', (int) $this->enabledCertificate()),
-        );
+        $values = [
+            'field_id' => ['integer',$next_id],
+            'field_name' => ['text',$this->getFieldName()],
+            'field_type' => ['integer', $this->getFieldType()],
+            'field_values' => ['clob',serialize($this->getFieldValues())],
+            'visible' => ['integer', (int) $this->enabledVisible()],
+            'changeable' => ['integer', (int) $this->enabledChangeable()],
+            'required' => ['integer', (int) $this->enabledRequired()],
+            'searchable' => ['integer', (int) $this->enabledSearchable()],
+            'export' => ['integer', (int) $this->enabledExport()],
+            'course_export' => ['integer', (int) $this->enabledCourseExport()],
+            'registration_visible' => ['integer', (int) $this->enabledVisibleRegistration()],
+            'visible_lua' => ['integer', (int) $this->enabledVisibleLocalUserAdministration()],
+            'changeable_lua' => ['integer', (int) $this->enabledChangeableLocalUserAdministration()],
+            'group_export' => ['integer', (int) $this->enabledGroupExport()],
+            'certificate' => ['integer', (int) $this->enabledCertificate()],
+        ];
 
         $ilDB->insert('udf_definition', $values);
 
@@ -493,27 +493,23 @@ class ilUserDefinedFields
 
     public function update(int $a_id): void
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
-        $values = array(
-            'field_name' => array('text',$this->getFieldName()),
-            'field_type' => array('integer', $this->getFieldType()),
-            'field_values' => array('clob',serialize($this->getFieldValues())),
-            'visible' => array('integer', (int) $this->enabledVisible()),
-            'changeable' => array('integer', (int) $this->enabledChangeable()),
-            'required' => array('integer', (int) $this->enabledRequired()),
-            'searchable' => array('integer', (int) $this->enabledSearchable()),
-            'export' => array('integer', (int) $this->enabledExport()),
-            'course_export' => array('integer', (int) $this->enabledCourseExport()),
-            'registration_visible' => array('integer', (int) $this->enabledVisibleRegistration()),
-            'visible_lua' => array('integer', (int) $this->enabledVisibleLocalUserAdministration()),
-            'changeable_lua' => array('integer', (int) $this->enabledChangeableLocalUserAdministration()),
-            'group_export' => array('integer', (int) $this->enabledGroupExport()),
-            'certificate' => array('integer', (int) $this->enabledCertificate())
-        );
-        $ilDB->update('udf_definition', $values, array('field_id' => array('integer',$a_id)));
+        $values = [
+            'field_name' => ['text',$this->getFieldName()],
+            'field_type' => ['integer', $this->getFieldType()],
+            'field_values' => ['clob',serialize($this->getFieldValues())],
+            'visible' => ['integer', (int) $this->enabledVisible()],
+            'changeable' => ['integer', (int) $this->enabledChangeable()],
+            'required' => ['integer', (int) $this->enabledRequired()],
+            'searchable' => ['integer', (int) $this->enabledSearchable()],
+            'export' => ['integer', (int) $this->enabledExport()],
+            'course_export' => ['integer', (int) $this->enabledCourseExport()],
+            'registration_visible' => ['integer', (int) $this->enabledVisibleRegistration()],
+            'visible_lua' => ['integer', (int) $this->enabledVisibleLocalUserAdministration()],
+            'changeable_lua' => ['integer', (int) $this->enabledChangeableLocalUserAdministration()],
+            'group_export' => ['integer', (int) $this->enabledGroupExport()],
+            'certificate' => ['integer', (int) $this->enabledCertificate()]
+        ];
+        $this->db->update('udf_definition', $values, ['field_id' => ['integer',$a_id]]);
         $this->__read();
     }
 
@@ -526,7 +522,7 @@ class ilUserDefinedFields
         $query = "SELECT * FROM udf_definition ";
         $res = $this->db->query($query);
 
-        $this->definitions = array();
+        $this->definitions = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $this->definitions[$row->field_id]['field_id'] = $row->field_id;
             $this->definitions[$row->field_id]['field_name'] = $row->field_name;
@@ -534,13 +530,13 @@ class ilUserDefinedFields
             $this->definitions[$row->field_id]['il_id'] = 'il_' . $ilSetting->get('inst_id', '0') . '_udf_' . $row->field_id;
 
             // #16953
-            $tmp = $sort = array();
+            $tmp = $sort = [];
             $is_numeric = true;
             foreach ((array) unserialize($row->field_values, ['allowed_classes' => false]) as $item) {
                 if (!is_numeric($item)) {
                     $is_numeric = false;
                 }
-                $sort[] = array("value" => $item);
+                $sort[] = ["value" => $item];
             }
             foreach (ilArrayUtil::sortArray($sort, "value", "asc", $is_numeric) as $item) {
                 $tmp[] = $item["value"];
@@ -573,7 +569,7 @@ class ilUserDefinedFields
         $definition = $this->getDefinition($a_field_id);
 
         $counter = 0;
-        $new_values = array();
+        $new_values = [];
         foreach ($definition['field_values'] as $value) {
             if ($counter++ != $a_value_id) {
                 $new_values[] = $value;
@@ -582,9 +578,9 @@ class ilUserDefinedFields
             }
         }
 
-        $values = array(
-            'field_values' => array('clob',serialize($new_values)));
-        $ilDB->update('udf_definition', $values, array('field_id' => array('integer',$a_field_id)));
+        $values = [
+            'field_values' => ['clob',serialize($new_values)]];
+        $ilDB->update('udf_definition', $values, ['field_id' => ['integer',$a_field_id]]);
 
 
         // sets value to '' where old value is $old_value
@@ -608,7 +604,7 @@ class ilUserDefinedFields
     {
         $xml_writer->xmlStartTag("UDFDefinitions");
         foreach ($this->getDefinitions() as $definition) {
-            $attributes = array(
+            $attributes = [
                 "Id" => $definition ["il_id"],
                 "Type" => $definition["field_type"] == UDF_TYPE_SELECT ? "SELECT" : "TEXT",
                 "Visible" => $definition["visible"] ? "TRUE" : "FALSE",
@@ -621,9 +617,8 @@ class ilUserDefinedFields
                 "Export" => $definition["export"] ? "TRUE" : "FALSE",
                 "RegistrationVisible" => $definition["visib_reg"] ? "TRUE" : "FALSE",
                 "LocalUserAdministrationVisible" => $definition["visib_lua"] ? "TRUE" : "FALSE",
-                "LocalUserAdministrationChangeable" => $definition["changeable_lua"] ? "TRUE" : "FALSE",
-
-            );
+                "LocalUserAdministrationChangeable" => $definition["changeable_lua"] ? "TRUE" : "FALSE"
+            ];
             $xml_writer->xmlStartTag("UDFDefinition", $attributes);
             $xml_writer->xmlElement('UDFName', null, $definition['field_name']);
             if ($definition["field_type"] == UDF_TYPE_SELECT) {

@@ -598,10 +598,10 @@ class ilPersonalProfileGUI
 
         foreach ($this->user_defined_fields->getVisibleDefinitions() as $field_id => $definition) {
             $value = $user_defined_data['f_' . $field_id] ?? '';
-
+            $changeable = $definition['changeable'] === 1 ? true : false;
             $fprop = ilCustomUserFieldsHelper::getInstance()->getFormPropertyForDefinition(
                 $definition,
-                $definition['changeable'] ?? false,
+                $changeable,
                 $value
             );
             if ($fprop instanceof ilFormPropertyGUI) {
