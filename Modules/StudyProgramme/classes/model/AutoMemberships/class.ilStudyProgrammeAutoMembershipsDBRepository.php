@@ -19,10 +19,10 @@ declare(strict_types=1);
  *********************************************************************/
 
 /**
-* Class ilStudyProgrammeAutoMembershipsDBRepository
-*
-* @author Nils Haagen <nils.haagen@concepts-and-training.de>
-*/
+ * Class ilStudyProgrammeAutoMembershipsDBRepository
+ *
+ * @author Nils Haagen <nils.haagen@concepts-and-training.de>
+ */
 class ilStudyProgrammeAutoMembershipsDBRepository implements ilStudyProgrammeAutoMembershipsRepository
 {
     private const TABLE = 'prg_auto_membership';
@@ -32,6 +32,7 @@ class ilStudyProgrammeAutoMembershipsDBRepository implements ilStudyProgrammeAut
     private const FIELD_ENABLED = 'enabled';
     private const FIELD_EDITOR_ID = 'last_usr_id';
     private const FIELD_LAST_EDITED = 'last_edited';
+    private const FIELD_SEARCH_RECURSIVE = 'search_recursive';
 
     protected ilDBInterface $db;
     protected int$current_usr_id;
@@ -53,7 +54,8 @@ class ilStudyProgrammeAutoMembershipsDBRepository implements ilStudyProgrammeAut
             . self::FIELD_SOURCE_ID . ','
             . self::FIELD_ENABLED . ','
             . self::FIELD_EDITOR_ID . ','
-            . self::FIELD_LAST_EDITED
+            . self::FIELD_LAST_EDITED . ','
+            . self::FIELD_SEARCH_RECURSIVE
             . PHP_EOL . 'FROM ' . self::TABLE
             . PHP_EOL . 'WHERE ' . self::FIELD_PRG_OBJ_ID . ' = '
             . $this->db->quote($prg_obj_id, 'integer');
@@ -66,7 +68,8 @@ class ilStudyProgrammeAutoMembershipsDBRepository implements ilStudyProgrammeAut
                 (int) $rec[self::FIELD_SOURCE_ID],
                 (bool) $rec[self::FIELD_ENABLED],
                 (int) $rec[self::FIELD_EDITOR_ID],
-                new DateTimeImmutable($rec[self::FIELD_LAST_EDITED])
+                new DateTimeImmutable($rec[self::FIELD_LAST_EDITED]),
+                (bool) $rec[self::FIELD_SEARCH_RECURSIVE]
             );
         }
         return $ret;
@@ -78,7 +81,8 @@ class ilStudyProgrammeAutoMembershipsDBRepository implements ilStudyProgrammeAut
         int $source_id,
         bool $enabled,
         int $last_edited_usr_id = null,
-        DateTimeImmutable $last_edited = null
+        DateTimeImmutable $last_edited = null,
+        bool $search_recursive = false
     ): ilStudyProgrammeAutoMembershipSource {
         if (is_null($last_edited_usr_id)) {
             $last_edited_usr_id = $this->current_usr_id;
@@ -92,7 +96,8 @@ class ilStudyProgrammeAutoMembershipsDBRepository implements ilStudyProgrammeAut
             $source_id,
             $enabled,
             $last_edited_usr_id,
-            $last_edited
+            $last_edited,
+            $search_recursive
         );
     }
 
@@ -121,7 +126,8 @@ class ilStudyProgrammeAutoMembershipsDBRepository implements ilStudyProgrammeAut
                         self::FIELD_SOURCE_ID => ['integer', $ams->getSourceId()],
                         self::FIELD_ENABLED => ['integer', $ams->isEnabled()],
                         self::FIELD_EDITOR_ID => ['integer', $current_usr_id],
-                        self::FIELD_LAST_EDITED => ['timestamp', $now]
+                        self::FIELD_LAST_EDITED => ['timestamp', $now],
+                        self::FIELD_SEARCH_RECURSIVE => ['integer', $ams->isSearchRecursive()]
                     ]
                 );
             }
@@ -157,17 +163,27 @@ class ilStudyProgrammeAutoMembershipsDBRepository implements ilStudyProgrammeAut
      */
     public static function getProgrammesFor(string $source_type, int $source_id): array
     {
-        global $ilDB;
-        $query = 'SELECT ' . self::FIELD_PRG_OBJ_ID
-            . PHP_EOL . 'FROM ' . self::TABLE . ' prgs'
-            . PHP_EOL . 'INNER JOIN object_reference oref ON '
-            . 'prgs.' . self::FIELD_PRG_OBJ_ID . ' =  oref.obj_id'
-            . PHP_EOL . 'WHERE ' . self::FIELD_SOURCE_TYPE . ' = ' . $ilDB->quote($source_type, 'text')
-            . PHP_EOL . 'AND ' . self::FIELD_SOURCE_ID . ' = ' . $ilDB->quote($source_id, 'integer')
-            . PHP_EOL . 'AND ' . self::FIELD_ENABLED . ' = 1'
-            . PHP_EOL . 'AND oref.deleted IS NULL';
+        global $DIC;
+        $db = $DIC["ilDB"];
 
-        $res = $ilDB->query($query);
-        return $ilDB->fetchAll($res);
+        $q = "SELECT path FROM tree WHERE child = " . $db->quote($source_id, "integer");
+        $res = $db->query($q);
+        $row = $db->fetchAssoc($res);
+        $path = explode(".", $row["path"] ?? "");
+
+        $query = 'SELECT ' . self::FIELD_PRG_OBJ_ID . PHP_EOL
+            . 'FROM ' . self::TABLE . ' prgs' . PHP_EOL
+            . 'INNER JOIN object_reference oref ON ' . PHP_EOL
+            . 'prgs.' . self::FIELD_PRG_OBJ_ID . ' =  oref.obj_id' . PHP_EOL
+            . 'WHERE ('
+            . self::FIELD_SOURCE_ID . ' = ' . $db->quote($source_id, 'integer') . PHP_EOL
+            . ' OR (' . $db->in(self::FIELD_SOURCE_ID, $path, false, 'integer') . ' AND search_recursive = 1)' . PHP_EOL
+            . ')' . PHP_EOL
+            . 'AND ' . self::FIELD_ENABLED . ' = 1' . PHP_EOL
+            . 'AND ' . self::FIELD_SOURCE_TYPE . ' = ' . $db->quote($source_type, 'text') . PHP_EOL
+            . 'AND oref.deleted IS NULL';
+
+        $res = $db->query($query);
+        return $db->fetchAll($res);
     }
 }

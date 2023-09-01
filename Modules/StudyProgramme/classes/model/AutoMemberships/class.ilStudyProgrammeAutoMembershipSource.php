@@ -44,13 +44,17 @@ class ilStudyProgrammeAutoMembershipSource
     protected int $last_edited_usr_id;
     protected DateTimeImmutable $last_edited;
 
+    // cat-tms-patch start #8290
+    protected bool $search_recursive;
+
     public function __construct(
         int $prg_obj_id,
         string $source_type,
         int $source_id,
         bool $enabled,
         int $last_edited_usr_id,
-        DateTimeImmutable $last_edited
+        DateTimeImmutable $last_edited,
+        bool $search_recursive
     ) {
         if (!in_array($source_type, [
             self::TYPE_ROLE,
@@ -67,7 +71,9 @@ class ilStudyProgrammeAutoMembershipSource
         $this->enabled = $enabled;
         $this->last_edited_usr_id = $last_edited_usr_id;
         $this->last_edited = $last_edited;
+        $this->search_recursive = $search_recursive;
     }
+    // cat-tms-patch end #8290
 
     public function getPrgObjId(): int
     {
@@ -98,4 +104,11 @@ class ilStudyProgrammeAutoMembershipSource
     {
         return $this->last_edited;
     }
+
+    // cat-tms-patch start #8290
+    public function isSearchRecursive(): bool
+    {
+        return $this->search_recursive;
+    }
+    // cat-tms-patch end #8290
 }

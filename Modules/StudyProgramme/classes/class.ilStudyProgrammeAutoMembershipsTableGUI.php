@@ -49,6 +49,9 @@ class ilStudyProgrammeAutoMembershipsTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt('last_edited_by'), 'editor');
         $this->addColumn($this->lng->txt('last_edited'), 'last');
         $this->addColumn($this->lng->txt('status'), 'status');
+        // cat-tms-patch start #8290
+        $this->addColumn($this->lng->txt('search_for_orgu_members_recursive'), 'search_recursive');
+        // cat-tms-patch end #8290
         $this->addColumn($this->lng->txt('actions'), 'actions');
         $this->setSelectAllCheckbox(ilObjStudyProgrammeAutoMembershipsGUI::CHECKBOX_SOURCE_IDS . '[]');
         $this->setEnableAllCommand(true);
@@ -57,11 +60,26 @@ class ilStudyProgrammeAutoMembershipsTableGUI extends ilTable2GUI
 
     protected function fillRow(array $a_set): void
     {
-        [$ams, $title, $usr, $actions] = $a_set;
+        /** @var ilStudyProgrammeAutoMembershipSource $ams */
+        list($ams, $title, $usr, $actions) = $a_set;
+
+        $username = ilObjUser::_lookupName($ams->getLastEditorId());
+        $editor = implode(' ', [
+            $username['firstname'],
+            $username['lastname'],
+            '(' . $username['login'] . ')'
+        ]);
 
         $id = $ams->getSourceType() . '-' . $ams->getSourceId();
         $status = $ams->isEnabled() ? $this->lng->txt('active') : $this->lng->txt('inactive');
         $date = $this->getDatePresentation($ams->getLastEdited()->getTimestamp());
+
+        // cat-tms-patch start #8290
+        $search_recursive = $this->lng->txt("no");
+        if ($ams->isSearchRecursive()) {
+            $search_recursive = $this->lng->txt("yes");
+        }
+        // cat-tms-patch end #8290
 
         $this->tpl->setVariable("ID", $id);
         $this->tpl->setVariable("TYPE", $this->lng->txt($ams->getSourceType()));
@@ -69,6 +87,9 @@ class ilStudyProgrammeAutoMembershipsTableGUI extends ilTable2GUI
         $this->tpl->setVariable("EDITOR", $usr);
         $this->tpl->setVariable("LAST_EDITED", $date);
         $this->tpl->setVariable("STATUS", $status);
+        // cat-tms-patch start #8290
+        $this->tpl->setVariable("SEARCH_RECURSIVE", $search_recursive);
+        // cat-tms-patch end #8290
         $this->tpl->setVariable("ACTIONS", $actions);
     }
 
