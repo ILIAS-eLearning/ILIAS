@@ -82,7 +82,13 @@ class ProfileGUIRequest
 
     public function getUserFileCapture(): string
     {
-        return $this->str('userfile_capture');
+        $capture = $this->str("userfile_capture");
+
+        if ($capture !== '') {
+            return $capture;
+        }
+
+        return $this->str('user_picture_carry');
     }
 
     private function int(string $key): int
