@@ -15245,6 +15245,7 @@ search#:#search_filter_cd#:#Filter nach Erstellungsdatum
 search#:#search_for_crs_members#:#Nach Kursen suchen
 search#:#search_for_grp_members#:#Nach Gruppen suchen
 search#:#search_for_orgu_members#:#Nach Organisationseinheiten suchen
+search#:#search_for_orgu_members_recursive#:#Darunterliegende einbeziehen?
 search#:#search_for_role_members#:#Nach Rollen suchen
 search#:#search_for_users#:#Nach Benutzern suchen
 search#:#search_grp_title#:#Gruppenname

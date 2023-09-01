@@ -15176,6 +15176,7 @@ search#:#search_filter_cd#:#Filter by Creation Date
 search#:#search_for_crs_members#:#Search for Courses
 search#:#search_for_grp_members#:#Search for Groups
 search#:#search_for_orgu_members#:#Search for Organisational Units
+search#:#search_for_orgu_members_recursive#:#Include Subunits?
 search#:#search_for_role_members#:#Search for Roles
 search#:#search_for_users#:#Search for Users
 search#:#search_grp_title#:#Group Name
