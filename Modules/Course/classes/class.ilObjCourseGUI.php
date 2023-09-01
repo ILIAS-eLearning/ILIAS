@@ -1768,7 +1768,7 @@ class ilObjCourseGUI extends ilContainerGUI
         }
     }
     
-    public function readMemberData($ids, $selected_columns = null)
+    public function readMemberData($ids, $selected_columns = null, bool $skip_names = false)
     {
         include_once './Services/Tracking/classes/class.ilObjUserTracking.php';
         $this->show_tracking =
@@ -1808,10 +1808,19 @@ class ilObjCourseGUI extends ilContainerGUI
         }
 
         foreach ((array) $ids as $usr_id) {
-            $name = ilObjUser::_lookupName($usr_id);
-            $tmp_data['firstname'] = $name['firstname'];
-            $tmp_data['lastname'] = $name['lastname'];
-            $tmp_data['login'] = ilObjUser::_lookupLogin($usr_id);
+            /**
+             * When building the members table in a course, user names are
+             * already read out via ilUserQuery::getUserListData (#31394).
+             * Adding skip_name as a parameter here is not super elegant, but
+             * seems like the only practical way avoid unnecessarily reading
+             * out the names again.
+             */
+            if (!$skip_names) {
+                $name = ilObjUser::_lookupName($usr_id);
+                $tmp_data['firstname'] = $name['firstname'];
+                $tmp_data['lastname'] = $name['lastname'];
+                $tmp_data['login'] = $name['login'];
+            }
             $tmp_data['passed'] = $this->object->getMembersObject()->hasPassed($usr_id) ? 1 : 0;
             if ($this->object->getStatusDetermination() == ilObjCourse::STATUS_DETERMINATION_LP) {
                 $tmp_data['passed_info'] = $this->object->getMembersObject()->getPassedInfo($usr_id);
