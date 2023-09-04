@@ -3,15 +3,20 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
+
+declare(strict_types=1);
 
 class ilPDSelectedItemsBlockMembershipsProvider implements ilPDSelectedItemsBlockProvider
 {
@@ -35,13 +40,10 @@ class ilPDSelectedItemsBlockMembershipsProvider implements ilPDSelectedItemsBloc
         );
     }
 
-    /**
-     * Gets all objects the current user is member of
-     */
     protected function getObjectsByMembership(array $objTypes = []): array
     {
-        $short_desc = $this->settings->get("rep_shorten_description");
-        $short_desc_max_length = (int) $this->settings->get("rep_shorten_description_length");
+        $short_desc = $this->settings->get('rep_shorten_description');
+        $short_desc_max_length = (int) $this->settings->get('rep_shorten_description_length');
 
         if (!is_array($objTypes) || $objTypes === []) {
             $objTypes = $this->repository->getValidObjectTypes();
@@ -54,7 +56,7 @@ class ilPDSelectedItemsBlockMembershipsProvider implements ilPDSelectedItemsBloc
             $parentRefId = $item->getParentRefId();
             $title = $item->getTitle();
             $parentTreeLftValue = $item->getParentLftTree();
-            $parentTreeLftValue = sprintf("%010d", $parentTreeLftValue);
+            $parentTreeLftValue = sprintf('%010d', $parentTreeLftValue);
 
             if (!$this->access->checkAccess('visible', '', $refId)) {
                 continue;
@@ -92,7 +94,7 @@ class ilPDSelectedItemsBlockMembershipsProvider implements ilPDSelectedItemsBloc
         return $references;
     }
 
-    public function getItems(array $object_type_white_list = array()): array
+    public function getItems(array $object_type_white_list = []): array
     {
         return $this->getObjectsByMembership($object_type_white_list);
     }

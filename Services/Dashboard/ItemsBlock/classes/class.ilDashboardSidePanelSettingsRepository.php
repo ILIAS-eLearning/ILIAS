@@ -18,24 +18,19 @@
 
 declare(strict_types=1);
 
-/**
- * Dashboard side panel settings Repo
- *
- * @author Alexander Killing <killing@leifos.de>
- */
 class ilDashboardSidePanelSettingsRepository
 {
-    public const CALENDAR = "cal";
-    public const NEWS = "news";
-    public const MAIL = "mail";
-    public const TASKS = "task";
+    public const CALENDAR = 'cal';
+    public const NEWS = 'news';
+    public const MAIL = 'mail';
+    public const TASKS = 'task';
 
     protected ilSetting $setting;
 
     public function __construct(ilSetting $dashboard_settings = null)
     {
         $this->setting = is_null($dashboard_settings)
-            ? new ilSetting("dash")
+            ? new ilSetting('dash')
             : $dashboard_settings;
     }
 
@@ -65,8 +60,8 @@ class ilDashboardSidePanelSettingsRepository
      */
     public function getPositions(): array
     {
-        $positions = $this->setting->get('side_panel_positions', "");
-        if ($positions !== "") {
+        $positions = $this->setting->get('side_panel_positions', '');
+        if ($positions !== '') {
             return unserialize($positions, ['allowed_classes' => false]);
         }
         return $this->getValidModules();
@@ -77,19 +72,17 @@ class ilDashboardSidePanelSettingsRepository
         return in_array($mod, $this->getValidModules());
     }
 
-    // Enable module
     public function enable(string $mod, bool $active): void
     {
         if ($this->isValidModule($mod)) {
-            $this->setting->set("enable_" . $mod, $active ? '1' : '0');
+            $this->setting->set('enable_' . $mod, $active ? '1' : '0');
         }
     }
 
-    // Is module enabled?
     public function isEnabled(string $mod): bool
     {
         if ($this->isValidModule($mod)) {
-            return (bool) $this->setting->get("enable_" . $mod, '1');
+            return (bool) $this->setting->get('enable_' . $mod, '1');
         }
         return false;
     }

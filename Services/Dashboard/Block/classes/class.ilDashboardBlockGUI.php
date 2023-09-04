@@ -18,9 +18,10 @@
 
 declare(strict_types=1);
 
+use ILIAS\HTTP\Services;
+use ILIAS\Refinery\Factory;
 use ILIAS\UI\Component\MessageBox\MessageBox;
 use ILIAS\UI\Implementation\Component\ReplaceSignal;
-use JetBrains\PhpStorm\NoReturn;
 use ILIAS\UI\Component\Card\RepositoryObject;
 use ILIAS\UI\Component\Item\Item;
 use ILIAS\Services\Dashboard\Block\BlockDTO;
@@ -34,15 +35,15 @@ use ILIAS\Filesystem\Stream\Streams;
 abstract class ilDashboardBlockGUI extends ilBlockGUI
 {
     private string $content;
-    private ilRbacSystem $rbacsystem;
+    private readonly ilRbacSystem $rbacsystem;
     protected int $requested_item_ref_id;
     private mixed $object_cache;
-    private ilTree $tree;
+    private readonly ilTree $tree;
     private mixed $objDefinition;
-    protected ilSetting $settings;
-    protected ilLogger $logging;
-    protected ILIAS\HTTP\Services $http;
-    private ILIAS\Refinery\Factory $refinery;
+    protected readonly ilSetting $settings;
+    protected readonly ilLogger $logging;
+    protected readonly Services $http;
+    private readonly Factory $refinery;
     protected ilPDSelectedItemsBlockViewSettings $viewSettings;
     /** @var array<string, BlockDTO[]>  */
     protected array $data;
@@ -57,7 +58,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
         $this->settings = $DIC->settings();
         $this->object_cache = $DIC['ilObjDataCache'];
         $this->tree = $DIC->repositoryTree();
-        $this->objDefinition = $DIC["objDefinition"];
+        $this->objDefinition = $DIC['objDefinition'];
         $this->new_rendering = true;
         $this->rbacsystem = $DIC->rbac()->system();
         $this->init();
@@ -70,7 +71,6 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
     abstract public function addCustomCommandsToActionMenu(ilObjectListGUI $itemListGui, int $ref_id): void;
 
     abstract public function emptyHandling(): string;
-
 
     protected function getCardForData(BlockDTO $data): ?RepositoryObject
     {
@@ -100,7 +100,6 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
             }
             $groupedCards[] = $this->factory->item()->group((string) $title, $items);
         }
-
 
         return $groupedCards;
     }
@@ -145,7 +144,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
         return $this->getNoItemFoundContent();
     }
 
-    public function getNoItemFoundContent(): string
+    final public function getNoItemFoundContent(): string
     {
         return $this->emptyHandling();
     }
@@ -161,7 +160,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
         $this->initViewSettings();
         $this->main_tpl->addJavaScript('Services/Dashboard/Block/js/ReplaceModalContent.js');
         $this->viewSettings->parse();
-        $this->requested_item_ref_id = (int) ($this->http->request()->getQueryParams()["item_ref_id"] ?? 0);
+        $this->requested_item_ref_id = (int) ($this->http->request()->getQueryParams()['item_ref_id'] ?? 0);
         $this->initData();
 
         $this->ctrl->setParameter($this, 'view', $this->viewSettings->getCurrentView());
@@ -172,7 +171,6 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
         }
     }
 
-    #[NoReturn]
     protected function initAndShow(): void
     {
         $this->init();
@@ -203,20 +201,20 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
     }
 
     /**
-     * @param array<string, BlockDTO[]> $a_data
+     * @param array<string, BlockDTO[]> $data
      */
-    public function setData(array $a_data): void
+    public function setData(array $data): void
     {
         $this->data = array_filter(array_map(
             static fn($group) => array_filter($group, fn($item) => $item instanceof BlockDTO),
-            $a_data
+            $data
         ));
     }
 
     /**
      * @return array<string, BlockDTO[]>
      */
-    public function getData(): array
+    final public function getData(): array
     {
         return parent::getData();
     }
@@ -271,7 +269,6 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
         uasort($groups['ended'], $orderByDate);
         $groups['not_dated'] = $this->sortByTitle($groups['not_dated']);
 
-        // map keys to titles
         foreach ($groups as $key => $group) {
             $groups[$this->lng->txt('pd_' . $key)] = $group;
             unset($groups[$key]);
@@ -304,7 +301,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
                 $title = $this->lng->txt('objs_' . $type_title);
             } else {
                 $pl = ilObjectPlugin::getPluginObjectByType($type_title);
-                $title = $pl->txt("objs_" . $type_title);
+                $title = $pl->txt('objs_' . $type_title);
             }
 
             if (isset($type['items'])) {
@@ -348,7 +345,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
         return $grouped_items;
     }
 
-    protected function isRootNode(int $refId): bool
+    final protected function isRootNode(int $refId): bool
     {
         return $this->tree->getRootId() === $refId;
     }
@@ -390,18 +387,17 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
             $this->ctrl->setParameter($this, 'presentation', null);
         }
 
-
         if ($this->removeMultipleEnabled()) {
             $roundtrip_modal = $this->ui->factory()->modal()->roundtrip(
                 $this->getRemoveMultipleActionText(),
                 $this->ui->factory()->legacy('PH')
             );
+            $this->ctrl->setParameterByClass(self::class, 'page', 'manage');
+            $this->ctrl->setParameterByClass(self::class, 'replaceSignal', $roundtrip_modal->getReplaceSignal()->getId());
             $roundtrip_modal = $roundtrip_modal->withAsyncRenderUrl(
-                $this->ctrl->getLinkTarget(
-                    $this,
-                    'removeFromDeskRoundtrip'
-                ) . '&page=manage&replaceSignal=' . $roundtrip_modal->getReplaceSignal()->getId()
+                $this->ctrl->getLinkTarget($this, 'removeFromDeskRoundtrip')
             );
+            $this->ctrl->clearParametersByClass(self::class);
             $this->addBlockCommand(
                 $this->ctrl->getLinkTarget($this, 'manage'),
                 $this->getRemoveMultipleActionText(),
@@ -429,16 +425,14 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
                     return $this->{$cmd . 'Object'}();
                 }
         }
-        return "";
+        return '';
     }
 
-    #[NoReturn]
-    public function viewDashboardObject(): void
+    final public function viewDashboardObject(): void
     {
         $this->initAndShow();
     }
 
-    #[NoReturn]
     public function changePDItemSortingObject(): void
     {
         $this->viewSettings->storeActorSortingMode(
@@ -448,7 +442,6 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
         $this->initAndShow();
     }
 
-    #[NoReturn]
     public function changePDItemPresentationObject(): void
     {
         $this->viewSettings->storeActorPresentationMode(
@@ -457,7 +450,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
         $this->initAndShow();
     }
 
-    protected function cancel(): void
+    final protected function cancel(): void
     {
         $this->ctrl->returnToParent($this);
     }
@@ -491,7 +484,6 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
         }
     }
 
-    #[NoReturn]
     public function removeFromDeskRoundtripObject(): void
     {
         $page = '';
@@ -551,9 +543,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
         $this->ctrl->clearParameters($this);
         $button = $this->ui->factory()->button()->standard($this->getRemoveMultipleActionText(), '#')
             ->withOnLoadCode(function ($id) use ($url): string {
-                return "
-                        il.Dashboard.replaceModalContent('$id', " . $this->viewSettings->getCurrentView() . ", '$url');
-                ";
+                return "il.Dashboard.replaceModalContent('$id', " . $this->viewSettings->getCurrentView() . ", '$url');";
             });
 
         $grouped_items = [];
@@ -594,7 +584,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
 
     protected function renderManageList(array $grouped_items): string
     {
-        $this->ctrl->setParameter($this, "manage", "1");
+        $this->ctrl->setParameter($this, 'manage', '1');
         $title = '';
         if (
             $this->viewSettings->isSelectedItemsViewActive() ||
@@ -655,16 +645,16 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
     /**
      * @throws ilException
      */
-    public function byType(string $a_type): ilObjectListGUI
+    public function byType(string $type): ilObjectListGUI
     {
-        $class = $this->objDefinition->getClassName($a_type);
+        $class = $this->objDefinition->getClassName($type);
         if (!$class) {
-            throw new ilException(sprintf("Could not find a class for object type: %s", $a_type));
+            throw new ilException(sprintf('Could not find a class for object type: %s', $type));
         }
 
-        $location = $this->objDefinition->getLocation($a_type);
+        $location = $this->objDefinition->getLocation($type);
         if (!$location) {
-            throw new ilException(sprintf("Could not find a class location for object type: %s", $a_type));
+            throw new ilException(sprintf('Could not find a class location for object type: %s', $type));
         }
 
         $full_class = 'ilObj' . $class . 'ListGUI';

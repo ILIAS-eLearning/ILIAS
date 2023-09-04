@@ -23,27 +23,25 @@ use ILIAS\UI\Renderer;
 
 class ilDashboardSortationTableGUI extends ilTable2GUI
 {
-    private Renderer $uiRenderer;
-    private Factory $uiFactory;
+    private readonly Renderer $uiRenderer;
+    private readonly Factory $uiFactory;
+    private readonly ilDashboardSidePanelSettingsRepository $side_panel_settings;
     private ilPDSelectedItemsBlockViewSettings $viewSettings;
-    private ilDashboardSidePanelSettingsRepository $side_panel_settings;
 
-    public function __construct($a_parent_obj, $a_parent_cmd)
+    public function __construct(ilObjDashboardSettingsGUI $parent_obj, string $parent_cmd)
     {
         global $DIC;
+
         $this->uiFactory = $DIC->ui()->factory();
         $this->uiRenderer = $DIC->ui()->renderer();
         $this->viewSettings = new ilPDSelectedItemsBlockViewSettings($DIC->user());
         $this->side_panel_settings = new ilDashboardSidePanelSettingsRepository();
-        parent::__construct($a_parent_obj, $a_parent_cmd);
+        parent::__construct($parent_obj, $parent_cmd);
         $this->lng->loadLanguageModule('mme');
         $this->initColumns();
         $this->setFormAction($this->ctrl->getFormAction($this->parent_obj));
         $this->addCommandButton('saveSettings', $this->lng->txt('save'));
-        $this->setRowTemplate(
-            'tpl.dashboard_sortation_row.html',
-            'Services/Dashboard'
-        );
+        $this->setRowTemplate('tpl.dashboard_sortation_row.html', 'Services/Dashboard');
         $this->setEnableNumInfo(false);
         $this->initData();
     }

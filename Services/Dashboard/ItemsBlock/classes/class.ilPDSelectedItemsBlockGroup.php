@@ -3,25 +3,27 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
-/**
- * Class ilPDSelectedItemsBlockGroup
- */
+declare(strict_types=1);
+
 class ilPDSelectedItemsBlockGroup
 {
     protected bool $has_icon = false;
     protected string $icon_path = '';
     protected string $label = '';
-    protected array $items = array();
+    protected array $items = [];
 
     public function getLabel(): string
     {
@@ -46,9 +48,6 @@ class ilPDSelectedItemsBlockGroup
         $this->items = $items;
     }
 
-    /**
-     * @param array $item
-     */
     public function pushItem(array $item): void
     {
         $this->items[] = $item;

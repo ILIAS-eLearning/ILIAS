@@ -25,7 +25,7 @@ use ILIAS\Services\Dashboard\Block\BlockDTO;
  */
 class ilSelectedItemsBlockGUI extends ilDashboardBlockGUI
 {
-    private ilFavouritesManager $favourites;
+    private readonly ilFavouritesManager $favourites;
 
     public function __construct()
     {
@@ -46,12 +46,12 @@ class ilSelectedItemsBlockGUI extends ilDashboardBlockGUI
     public function emptyHandling(): string
     {
         $this->lng->loadLanguageModule('rep');
-        $txt = $this->lng->txt("rep_fav_intro1") . "<br>";
+        $txt = $this->lng->txt('rep_fav_intro1') . '<br>';
         $txt .= sprintf(
             $this->lng->txt('rep_fav_intro2'),
             $this->getRepositoryTitle()
-        ) . "<br>";
-        $txt .= $this->lng->txt("rep_fav_intro3");
+        ) . '<br>';
+        $txt .= $this->lng->txt('rep_fav_intro3');
         $mbox = $this->ui->factory()->messageBox()->info($txt);
         $mbox = $mbox->withLinks(
             [
@@ -99,8 +99,8 @@ class ilSelectedItemsBlockGUI extends ilDashboardBlockGUI
     {
         $this->ctrl->setParameter($this, 'item_ref_id', $ref_id);
         $itemListGui->addCustomCommand(
-            $this->ctrl->getLinkTarget($this, "removeFromDesk"),
-            "rep_remove_from_favourites",
+            $this->ctrl->getLinkTarget($this, 'removeFromDesk'),
+            'rep_remove_from_favourites',
         );
         $this->ctrl->clearParameterByClass(self::class, 'item_ref_id');
     }
@@ -122,9 +122,9 @@ class ilSelectedItemsBlockGUI extends ilDashboardBlockGUI
 
     public function removeFromDeskObject(): void
     {
-        $this->lng->loadLanguageModule("rep");
+        $this->lng->loadLanguageModule('rep');
         $this->favourites->remove($this->user->getId(), $this->requested_item_ref_id);
-        $this->main_tpl->setOnScreenMessage('success', $this->lng->txt("rep_removed_from_favourites"), true);
+        $this->main_tpl->setOnScreenMessage('success', $this->lng->txt('rep_removed_from_favourites'), true);
         $this->returnToContext();
     }
 

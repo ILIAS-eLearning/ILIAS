@@ -27,24 +27,15 @@ class BlockDTO
     public function __construct(
         private string $type,
         private int $ref_id,
-        private int $obj_id,
+        private readonly int $obj_id,
         private string $title,
         private string $description,
         private ?ilDateTime $startDate = null,
         private ?ilDateTime $endDate = null,
         private array $additional_data = []
-    ) {
-        $this->type = $type;
-        $this->ref_id = $ref_id;
-        $this->obj_id = $obj_id;
-        $this->title = $title;
-        $this->description = $description;
-        $this->startDate = $startDate;
-        $this->endDate = $endDate;
-        $this->additional_data = $additional_data;
-    }
+    ) {}
 
-    public function getType(): string
+    final public function getType(): string
     {
         return $this->type;
     }
@@ -54,7 +45,7 @@ class BlockDTO
         $this->type = $type;
     }
 
-    public function getRefId(): int
+    final public function getRefId(): int
     {
         return $this->ref_id;
     }
@@ -64,17 +55,12 @@ class BlockDTO
         $this->ref_id = $ref_id;
     }
 
-    public function getObjId(): int
+    final public function getObjId(): int
     {
         return $this->obj_id;
     }
 
-    public function setObjId(int $obj_id): void
-    {
-        $this->obj_id = $obj_id;
-    }
-
-    public function getTitle(): string
+    final public function getTitle(): string
     {
         return $this->title;
     }
@@ -84,7 +70,7 @@ class BlockDTO
         $this->title = $title;
     }
 
-    public function getDescription(): string
+    final public function getDescription(): string
     {
         return $this->description;
     }
@@ -94,7 +80,7 @@ class BlockDTO
         $this->description = $description;
     }
 
-    public function getStartDate(): ?ilDateTime
+    final public function getStartDate(): ?ilDateTime
     {
         return $this->startDate;
     }
@@ -104,7 +90,7 @@ class BlockDTO
         $this->startDate = $startDate;
     }
 
-    public function getEndDate(): ?ilDateTime
+    final public function getEndDate(): ?ilDateTime
     {
         return $this->endDate;
     }
@@ -114,27 +100,27 @@ class BlockDTO
         $this->endDate = $endDate;
     }
 
-    public function hasNotStarted(): bool
+    final public function hasNotStarted(): bool
     {
         return $this->startDate && $this->startDate->get(IL_CAL_UNIX) > time();
     }
 
-    public function hasEnded(): bool
+    final public function hasEnded(): bool
     {
         return $this->endDate && $this->endDate->get(IL_CAL_UNIX) < time();
     }
 
-    public function isRunning(): bool
+    final public function isRunning(): bool
     {
         return !$this->hasNotStarted() && !$this->hasEnded();
     }
 
-    public function isDated(): bool
+    final public function isDated(): bool
     {
         return $this->startDate || $this->endDate;
     }
 
-    public function getAdditionalData(): array
+    final public function getAdditionalData(): array
     {
         return $this->additional_data;
     }

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -16,16 +14,14 @@ declare(strict_types=1);
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
+
+declare(strict_types=1);
 
 interface ilPDSelectedItemsBlockMembershipsObjectRepository
 {
     /**
-     * @param ilObjUser $user
      * @param string[] $objTypes
-     * @param string $actorLanguageCode
-     * @return Generator|ilPDSelectedItemBlockMembershipsDTO[]|Generator<ilPDSelectedItemBlockMembershipsDTO>
      */
     public function getForUser(ilObjUser $user, array $objTypes, string $actorLanguageCode): Generator;
 }

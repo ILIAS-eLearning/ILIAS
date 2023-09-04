@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\GlobalScreen\Scope\Layout\Provider\AbstractModificationProvider;
 use ILIAS\GlobalScreen\Scope\Layout\Provider\ModificationProvider;
 use ILIAS\GlobalScreen\ScreenContext\Stack\ContextCollection;
@@ -24,12 +26,7 @@ use ILIAS\GlobalScreen\Scope\Layout\Factory\MainBarModification;
 use ILIAS\UI\Component\MainControls\MainBar;
 use ILIAS\GlobalScreen\ScreenContext\AdditionalData\Collection;
 
-/**
- * Class DashboardLayoutProvider
- *
- * @author Nils Haagen <nils.haagen@concepts-and-training.de>
- */
-class DashboardLayoutProvider extends AbstractModificationProvider implements ModificationProvider
+class DashboardLayoutProvider extends AbstractModificationProvider
 {
     protected ?Collection $data_collection;
 
@@ -41,15 +38,13 @@ class DashboardLayoutProvider extends AbstractModificationProvider implements Mo
     public function getMainBarModification(CalledContexts $screen_context_stack): ?MainBarModification
     {
         $this->data_collection = $screen_context_stack->current()->getAdditionalData();
-        if (!$this->data_collection->is(\ilDashboardGUI::DISENGAGE_MAINBAR, true)) {
+        if (!$this->data_collection->is(ilDashboardGUI::DISENGAGE_MAINBAR, true)) {
             return null;
         }
 
         return $this->globalScreen()->layout()->factory()->mainbar()
             ->withModification(
-                function (?MainBar $mainbar): ?MainBar {
-                    return $mainbar !== null ? $mainbar->withActive($mainbar::NONE_ACTIVE) : null;
-                }
+                static fn (?MainBar $mainbar): ?MainBar => ($mainbar !== null) ? $mainbar->withActive($mainbar::NONE_ACTIVE) : null
             )
             ->withLowPriority();
     }
