@@ -1787,4 +1787,8 @@ if ($ilDB->tableExists('adv_md_values_text') &&
     ");
 }
 ?>
+<#105>
+<?php
+    $ilDB->manipulate("DELETE FROM rbac_operations WHERE operation='create_dbk'");
+?>
 
