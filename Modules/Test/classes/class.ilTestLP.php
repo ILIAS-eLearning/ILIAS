@@ -30,7 +30,7 @@ use ILIAS\Test\InternalRequestService;
 class ilTestLP extends ilObjectLP
 {
     private InternalRequestService $request;
-    protected ilObjTest $test_object;
+    protected ?ilObjTest $test_object = null;
 
     public function __construct(int $obj_id)
     {

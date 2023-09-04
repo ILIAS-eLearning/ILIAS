@@ -102,7 +102,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
     public function &getHeaderNames(): array
     {
-        $headernames = array();
+        $headernames = [];
         if ($this->object->getAnonymity()) {
             array_push($headernames, $this->lng->txt("counter"));
         } else {
@@ -125,7 +125,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
     public function &getHeaderVars(): array
     {
-        $headervars = array();
+        $headervars = [];
         if ($this->object->getAnonymity()) {
             array_push($headervars, "counter");
         } else {
@@ -237,7 +237,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
                 }
                 if (!$remove) {
                     // build the evaluation row
-                    $evaluationrow = array();
+                    $evaluationrow = [];
                     if ($this->object->getAnonymity()) {
                         $evaluationrow['name'] = $counter;
                         $evaluationrow['login'] = '';
@@ -457,7 +457,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
         $this->tpl->setContent($form->getHTML());
 
-        $tables = array();
+        $tables = [];
 
         for ($pass = 0; $pass <= $data->getParticipant($active_id)->getLastPass(); $pass++) {
             $finishdate = ilObjTest::lookupPassResultsUpdateTimestamp($active_id, $pass);
@@ -483,7 +483,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
                     $questions = $data->getParticipant($active_id)->getQuestions(0);
                 }
 
-                $tableData = array();
+                $tableData = [];
 
                 $counter = 0;
                 foreach ((array) $questions as $question) {
@@ -562,7 +562,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         );
 
         $eval = $this->object->getCompleteEvaluationData();
-        $data = array();
+        $data = [];
         $foundParticipants = $eval->getParticipants();
         if (count($foundParticipants)) {
             $this->toolbar->setFormName('form_output_eval');
@@ -639,7 +639,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         $table_gui->setData($data);
         $this->tpl->setVariable('AGGREGATED_RESULTS', $table_gui->getHTML());
 
-        $rows = array();
+        $rows = [];
         $counter = 0;
         foreach ($eval->getQuestionTitles() as $question_id => $question_title) {
             $answered = 0;
@@ -1206,7 +1206,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         $tpl->setVariable("PASS_DETAILS", $this->ctrl->getHTML($overviewTableGUI));
 
         $data = $this->object->getCompleteEvaluationData();
-        $percent =$data->getParticipant($active_id)->getPass($pass)->getReachedPoints() / $data->getParticipant($active_id)->getPass($pass)->getMaxPoints() * 100;
+        $percent = $data->getParticipant($active_id)->getPass($pass)->getReachedPoints() / $data->getParticipant($active_id)->getPass($pass)->getMaxPoints() * 100;
         $result = $data->getParticipant($active_id)->getPass($pass)->getReachedPoints() . " " . strtolower($this->lng->txt("of")) . " " . $data->getParticipant($active_id)->getPass($pass)->getMaxPoints() . " (" . sprintf("%2.2f", $percent) . " %" . ")";
         $tpl->setCurrentBlock('total_score');
         $tpl->setVariable("TOTAL_RESULT_TEXT", $this->lng->txt('tst_stat_result_resultspoints'));
@@ -1481,7 +1481,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             $this->tpl->setOnScreenMessage('info', $this->lng->txt("tst_no_evaluation_data"));
             return;
         } else {
-            $rows = array();
+            $rows = [];
             foreach ($data->getQuestionTitles() as $question_id => $question_title) {
                 $answered = 0;
                 $reached = 0;
@@ -1810,7 +1810,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         $ilDB = $this->db;
 
         $resultData = $this->object->getTestResult($active_id, $pass, false, $considerHiddenQuestions);
-        $questionIds = array();
+        $questionIds = [];
         foreach ($resultData as $resultItemKey => $resultItemValue) {
             if ($resultItemKey === 'test' || $resultItemKey === 'pass') {
                 continue;
@@ -1845,7 +1845,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
         $questionList->load();
 
-        $filteredTestResult = array();
+        $filteredTestResult = [];
 
         foreach ($resultData as $resultItemKey => $resultItemValue) {
             if ($resultItemKey === 'test' || $resultItemKey === 'pass') {

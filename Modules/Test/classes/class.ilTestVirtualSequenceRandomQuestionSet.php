@@ -26,40 +26,40 @@ declare(strict_types=1);
  */
 class ilTestVirtualSequenceRandomQuestionSet extends ilTestVirtualSequence implements ilTestRandomQuestionSequence
 {
-    private array $questionsSourcePoolDefinitionMap;
+    private array $questions_source_pool_definition_map;
 
-    public function __construct(ilDBInterface $db, ilObjTest $testOBJ, ilTestSequenceFactory $testSequenceFactory)
+    public function __construct(ilDBInterface $db, ilObjTest $test_obj, ilTestSequenceFactory $test_sequence_facory)
     {
-        parent::__construct($db, $testOBJ, $testSequenceFactory);
+        parent::__construct($db, $test_obj, $test_sequence_facory);
 
-        $this->questionsSourcePoolDefinitionMap = array();
+        $this->questions_source_pool_definition_map = [];
     }
 
-    public function getResponsibleSourcePoolDefinitionId($questionId)
+    public function getResponsibleSourcePoolDefinitionId(int $question_id): ?int
     {
-        return $this->questionsSourcePoolDefinitionMap[$questionId];
+        return $this->questions_source_pool_definition_map[$question_id];
     }
 
-    protected function fetchQuestionsFromPasses(int $activeId, array $passes): void
+    protected function fetchQuestionsFromPasses(int $active_id, array $passes): void
     {
-        $this->questionsPassMap = array();
+        $this->questions_pass_map = [];
 
         foreach ($passes as $pass) {
-            $handledSourcePoolDefinitions = array_flip($this->questionsSourcePoolDefinitionMap);
+            $handled_source_pool_definitions = array_flip($this->questions_source_pool_definition_map);
 
-            $testSequence = $this->getTestSequence($activeId, $pass);
+            $test_sequence = $this->getTestSequence($active_id, $pass);
 
-            foreach ($testSequence->getOrderedSequenceQuestions() as $questionId) {
-                $definitionId = $testSequence->getResponsibleSourcePoolDefinitionId($questionId);
+            foreach ($test_sequence->getOrderedSequenceQuestions() as $question_id) {
+                $definition_id = $test_sequence->getResponsibleSourcePoolDefinitionId($question_id);
 
-                if (isset($handledSourcePoolDefinitions[$definitionId])) {
+                if (isset($handled_source_pool_definitions[$definition_id])) {
                     continue;
                 }
 
-                if ($this->wasAnsweredInThisPass($testSequence, $questionId)) {
-                    $this->questionsPassMap[$questionId] = $pass;
+                if ($this->wasAnsweredInThisPass($test_sequence, $question_id)) {
+                    $this->questions_pass_map[$questionId] = $pass;
 
-                    $this->questionsSourcePoolDefinitionMap[$questionId] = $definitionId;
+                    $this->questions_source_pool_definition_map[$question_id] = $definition_id;
                 }
             }
         }
