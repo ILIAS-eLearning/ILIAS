@@ -765,17 +765,21 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
     }
 
 
-    public static function visibleUserResultExists($testObjId, $userId): bool
+    public static function visibleUserResultExists($test_obj_id, $user_id): bool
     {
-        $testOBJ = ilObjectFactory::getInstanceByObjId($testObjId, false);
+        global $DIC;
+        $ilDB = $DIC['ilDB'];
+        $ilUser = $DIC['ilUser'];
 
-        if (!($testOBJ instanceof ilObjTest)) {
+        $test_obj = ilObjectFactory::getInstanceByObjId($test_obj_id, false);
+
+        if (!($test_obj instanceof ilObjTest)) {
             return false;
         }
 
-        $testSessionFactory = new ilTestSessionFactory($testOBJ, $this->db, $this->user);
-        $testSession = $testSessionFactory->getSessionByUserId($userId);
+        $test_session_factory = new ilTestSessionFactory($test_obj, $ilDB, $ilUser);
+        $test_session = $test_session_factory->getSessionByUserId($user_id);
 
-        return $testOBJ->canShowTestResults($testSession);
+        return $test_obj->canShowTestResults($test_session);
     }
 }
