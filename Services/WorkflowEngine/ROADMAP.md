@@ -2,14 +2,4 @@
 
 ## Short Term
 
-- UI Legacy Components Removal
-
-## Mid Term
-
-### Abandon undocumented plugin slot
-
-### Improve Architecture
-
-## Long Term
-
-- Adding a web-based editor for Workflows
+- Removal of removal-code in ILIAS 10
