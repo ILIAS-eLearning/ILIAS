@@ -48,18 +48,18 @@ class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
     {
         return "prtt";
     }
-        
+
     public function executeCommand()
     {
         $ilNavigationHistory = $this->nav_history;
-                
+
         // add entry to navigation history
         if (!$this->getCreationMode() &&
             $this->getAccessHandler()->checkAccess("read", "", $this->node_id)) {
             $link = $this->ctrl->getLinkTarget($this, "view");
             $ilNavigationHistory->addItem($this->node_id, $link, "prtt");
         }
-        
+
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd("view");
 
@@ -69,37 +69,37 @@ class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
                 $this->prepareOutput();
                 $this->handlePageCall($cmd);
                 break;
-                
+
             case "ilnotegui":
                 $this->preview();
                 break;
-            
+
             case "ilinfoscreengui":
                 $this->prepareOutput();
                 $this->addHeaderAction("view");
                 $this->infoScreenForward();
                 break;
-            
+
             case "ilcommonactiondispatchergui":
                 $gui = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
                 $this->prepareOutput();
                 $this->ctrl->forwardCommand($gui);
                 break;
-            
+
             case "ilpermissiongui":
                 $this->prepareOutput();
                 $this->tabs_gui->activateTab("id_permissions");
                 $perm_gui = new ilPermissionGUI($this);
                 $this->ctrl->forwardCommand($perm_gui);
                 break;
-            
+
             case "ilobjectcopygui":
                 $this->prepareOutput();
                 $cp = new ilObjectCopyGUI($this);
                 $cp->setType("prtt");
                 $this->ctrl->forwardCommand($cp);
                 break;
-            
+
             case 'ilexportgui':
                 $this->prepareOutput();
                 $this->tabs_gui->activateTab("export");
@@ -107,7 +107,7 @@ class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
                 $exp_gui->addFormat("xml");
                 $this->ctrl->forwardCommand($exp_gui);
                 break;
-            
+
             case "ilobjstylesheetgui":
                 $this->ctrl->setReturn($this, "editStyleProperties");
                 $style_gui = new ilObjStyleSheetGUI("", $this->object->getStyleSheetId(), false, false);
@@ -130,19 +130,19 @@ class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
                     $this->ctrl->redirectByClass("ilobjstylesheetgui", "edit");
                 }
                 break;
-            
+
             default:
                 $this->addHeaderAction($cmd);
                 return ilObject2GUI::executeCommand();
         }
     }
-        
+
     protected function setTabs()
     {
         $ilHelp = $this->help;
-        
+
         $ilHelp->setScreenIdComponent("prtt");
-        
+
         if ($this->checkPermissionBool("write")) {
             $this->tabs_gui->addTab(
                 "pages",
@@ -150,7 +150,7 @@ class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
                 $this->ctrl->getLinkTarget($this, "view")
             );
         }
-            
+
         if ($this->checkPermissionBool("read")) {
             $this->tabs_gui->addTab(
                 "id_info",
@@ -158,33 +158,33 @@ class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
                 $this->ctrl->getLinkTargetByClass(array("ilobjportfoliotemplategui", "ilinfoscreengui"), "showSummary")
             );
         }
-                
+
         if ($this->checkPermissionBool("write")) {
             $this->tabs_gui->addTab(
                 "settings",
                 $this->lng->txt("settings"),
                 $this->ctrl->getLinkTarget($this, "edit")
             );
-            
+
             $this->tabs_gui->addTab(
                 "export",
                 $this->lng->txt("export"),
                 $this->ctrl->getLinkTargetByClass("ilexportgui", "")
             );
         }
-            
+
         if ($this->checkPermissionBool("read")) {
             $this->tabs_gui->addNonTabbedLink(
                 "preview",
-                $this->lng->txt("user_profile_preview"),
+                $this->lng->txt("preview"),
                 $this->ctrl->getLinkTarget($this, "preview")
             );
         }
-        
+
         // will add permissions if needed
         ilObject2GUI::setTabs();
     }
-    
+
     /**
     * this one is called from the info button in the repository
     * not very nice to set cmdClass/Cmd manually, if everything
@@ -196,7 +196,7 @@ class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
         $this->ctrl->setCmdClass("ilinfoscreengui");
         $this->infoScreenForward();
     }
-    
+
     /**
     * show information screen
     */
@@ -204,25 +204,25 @@ class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
     {
         $ilTabs = $this->tabs;
         $ilToolbar = $this->toolbar;
-        
+
         $ilTabs->activateTab("id_info");
 
         $this->checkPermission("visible");
-    
+
         if ($this->checkPermissionBool("read")) {
             $this->lng->loadLanguageModule("cntr");
-            
+
             $button = ilLinkButton::getInstance();
             $button->setPrimary(true);
             $button->setCaption("prtf_create_portfolio_from_template");
             $button->setUrl($this->ctrl->getLinkTarget($this, "createfromtemplate"));
             $ilToolbar->addButtonInstance($button);
         }
-                
+
         $info = new ilInfoScreenGUI($this);
 
         $info->enablePrivateNotes();
-        
+
         if ($this->checkPermissionBool("read")) {
             $info->enableNews();
         }
@@ -232,20 +232,20 @@ class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
         if ($this->checkPermissionBool("write")) {
             $news_set = new ilSetting("news");
             $enable_internal_rss = $news_set->get("enable_rss_for_internal");
-            
+
             if ($enable_internal_rss) {
                 $info->setBlockProperty("news", "settings", true);
                 $info->setBlockProperty("news", "public_notifications_option", true);
             }
         }
-        
+
         // standard meta data
         $info->addMetaDataSections($this->object->getId(), 0, $this->object->getType());
-        
+
         $this->ctrl->forwardCommand($info);
     }
-    
-    
+
+
     //
     // CREATE/EDIT
     //
@@ -253,7 +253,7 @@ class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
     protected function initDidacticTemplate(ilPropertyFormGUI $a_form)
     {
         $ilUser = $this->user;
-        
+
         $all = ilObjPortfolio::getPortfoliosOfUser($ilUser->getId());
         if (sizeof($all)) {
             $opts = array("" => $this->lng->txt("please_select"));
@@ -265,11 +265,11 @@ class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
             $prtf->setOptions($opts);
             $a_form->addItem($prtf);
         }
-        
+
         // yeah, I know.
         return $a_form;
     }
-    
+
     protected function afterSave(ilObject $a_new_object)
     {
         if ($_POST["prtf"]) {
@@ -282,29 +282,29 @@ class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
         $this->ctrl->setParameter($this, "prt_id", $a_new_object->getId());
         $this->ctrl->redirect($this, "view");
     }
-        
+
     protected function initEditCustomForm(ilPropertyFormGUI $a_form)
     {
         $obj_service = $this->object_service;
         // activation/availability
-        
+
         $this->lng->loadLanguageModule('rep');
-        
+
         $section = new ilFormSectionHeaderGUI();
         $section->setTitle($this->lng->txt('rep_activation_availability'));
         $a_form->addItem($section);
-        
+
         // additional info only with multiple references
         $act_obj_info = $act_ref_info = "";
         if (sizeof(ilObject::_getAllReferences($this->object->getId())) > 1) {
             $act_obj_info = ' ' . $this->lng->txt('rep_activation_online_object_info');
             $act_ref_info = $this->lng->txt('rep_activation_access_ref_info');
         }
-        
+
         $online = new ilCheckboxInputGUI($this->lng->txt('rep_activation_online'), 'online');
         $online->setInfo($this->lng->txt('prtt_activation_online_info') . $act_obj_info);
         $a_form->addItem($online);
-                
+
         $dur = new ilDateDurationInputGUI($this->lng->txt("rep_visibility_until"), "access_period");
         $dur->setShowTime(true);
         $dur->setEndText($this->lng->txt('rep_activation_limited_end'));
@@ -313,7 +313,7 @@ class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
         $visible = new ilCheckboxInputGUI($this->lng->txt('rep_activation_limited_visibility'), 'access_visiblity');
         $visible->setInfo($this->lng->txt('prtt_activation_limited_visibility_info'));
         $dur->addSubItem($visible);
-        
+
         $section = new ilFormSectionHeaderGUI();
         $section->setTitle($this->lng->txt('obj_presentation'));
         $a_form->addItem($section);
@@ -321,13 +321,13 @@ class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
         // tile image
         $obj_service->commonSettings()->legacyForm($a_form, $this->object)->addTileImage();
 
-    
+
         parent::initEditCustomForm($a_form);
 
         $tit = $a_form->getItemByPostVar("title");
         $tit->setInfo($this->lng->txt('prtt_title_info'));
     }
-    
+
     protected function getEditFormCustomValues(array &$a_values)
     {
         $a_values["online"] = $this->object->isOnline();
@@ -338,16 +338,16 @@ class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
             ? new ilDateTime($this->object->getActivationEndDate(), IL_CAL_UNIX)
             : null;
         $a_values["access_visiblity"] = $this->object->getActivationVisibility();
-        
+
         parent::getEditFormCustomValues($a_values);
     }
-    
+
     public function updateCustom(ilPropertyFormGUI $a_form)
     {
         $obj_service = $this->object_service;
 
         $this->object->setOnline($a_form->getInput("online"));
-        
+
         // activation
         $period = $a_form->getItemByPostVar("access_period");
         if ($period->getStart() && $period->getEnd()) {
@@ -363,12 +363,12 @@ class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
 
         $obj_service->commonSettings()->legacyForm($a_form, $this->object)->saveTileImage();
     }
-    
-    
+
+
     //
     // PAGES
     //
-    
+
     /**
      * Get portfolio template page instance
      *
@@ -385,7 +385,7 @@ class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
         $page->setPortfolioId($a_portfolio_id);
         return $page;
     }
-    
+
     /**
      * Get portfolio template page gui instance
      *
@@ -403,12 +403,12 @@ class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
         $page_gui->setAdditional($this->getAdditional());
         return $page_gui;
     }
-    
+
     public function getPageGUIClassName()
     {
         return "ilportfoliotemplatepagegui";
     }
-    
+
     protected function initCopyPageFormOptions(ilPropertyFormGUI $a_form)
     {
         // always existing prtft
@@ -426,12 +426,12 @@ class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
         $prtf->setOptions($options);
         $a_form->addItem($prtf);
     }
-    
-    
+
+
     //
     // BLOG
     //
-    
+
     /**
      * Init blog template page form
      *
@@ -452,10 +452,10 @@ class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
             $this->object->getTitle());
         $form->addCommandButton("saveBlog", $this->lng->txt("save"));
         $form->addCommandButton("view", $this->lng->txt("cancel"));
-        
+
         return $form;
     }
-    
+
     /**
      * Create new portfolio blog template page
      */
@@ -481,28 +481,28 @@ class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
         $form->setValuesByPost();
         $this->tpl->setContent($form->getHtml());
     }
-    
-    
+
+
     //
     // TRANSMOGRIFIER
     //
-        
+
     public function preview($a_return = false, $a_content = false, $a_show_notes = true)
     {
         if (!$this->checkPermissionBool("write") &&
             $this->checkPermissionBool("read")) {
             $this->lng->loadLanguageModule("cntr");
-            
+
             $button = ilLinkButton::getInstance();
             $button->setPrimary(true);
             $button->setCaption("prtf_create_portfolio_from_template");
             $button->setUrl($this->ctrl->getLinkTarget($this, "createfromtemplate"));
             $this->tpl->setHeaderActionMenu($button->render());
         }
-        
+
         return parent::preview($a_return, $a_content, $a_show_notes);
     }
-    
+
     public function createFromTemplateOld()
     {
         $this->ctrl->setParameterByClass("ilobjportfoliogui", "prtt_pre", $this->object->getId());

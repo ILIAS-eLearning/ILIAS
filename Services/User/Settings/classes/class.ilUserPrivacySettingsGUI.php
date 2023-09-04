@@ -163,7 +163,11 @@ class ilUserPrivacySettingsGUI
 
         $pub_profile = new ilPublicUserProfileGUI($user->getId());
         if ($this->profile_mode->isEnabled()) {
-            $html .= $pub_profile->getEmbeddable();
+            $pub_profile_legacy = $this->uiFactory->legacy($pub_profile->getEmbeddable());
+            $html .= $this->uiRenderer->render($this->uiFactory->panel()->standard(
+                $this->lng->txt('user_profile_preview'),
+                $pub_profile_legacy
+            ));
         } else {
             if (!$this->checklist_status->anyVisibilitySettings()) {
                 $html .= $this->uiRenderer->render(
