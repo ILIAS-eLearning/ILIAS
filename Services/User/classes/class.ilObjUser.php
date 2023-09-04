@@ -464,7 +464,7 @@ class ilObjUser extends ilObject
             "firstname" => ["text", $this->firstname],
             "lastname" => ["text", $this->lastname],
             "email" => ["text", trim($this->email)],
-            "second_email" => ["text", trim($this->second_email)],
+            "second_email" => ["text", trim($this->second_email ?? '')],
             "birthday" => ['date', $this->getBirthday()],
             "hobby" => ["text", $this->hobby],
             "institution" => ["text", $this->institution],

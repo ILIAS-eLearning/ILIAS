@@ -555,7 +555,7 @@ class ilObjUserGUI extends ilObjectGUI
         // Todo: this has to be fixed. Do not mix user folder id and category id
         if ($this->usrf_ref_id != USER_FOLDER_ID) {
             // check if user is assigned to category
-            if (!$rbacsystem->checkAccess('cat_administrate_users', $this->object->getTimeLimitOwner())) {
+            if (!$this->rbac_system->checkAccess('cat_administrate_users', $this->object->getTimeLimitOwner())) {
                 $this->ilias->raiseError($this->lng->txt('msg_no_perm_modify_user'), $this->ilias->error_obj->MESSAGE);
             }
         }
@@ -754,7 +754,7 @@ class ilObjUserGUI extends ilObjectGUI
         // if called from local administration $this->usrf_ref_id is category id
         // Todo: this has to be fixed. Do not mix user folder id and category id
         if ($this->usrf_ref_id != USER_FOLDER_ID
-            && !$this->rbac_review->checkAccess('cat_administrate_users', $this->object->getTimeLimitOwner())) {
+            && !$this->rbac_system->checkAccess('cat_administrate_users', $this->object->getTimeLimitOwner())) {
             $this->ilias->raiseError($this->lng->txt('msg_no_perm_modify_user'), $this->ilias->error_obj->MESSAGE);
         }
         $this->initForm('edit');
@@ -895,7 +895,7 @@ class ilObjUserGUI extends ilObjectGUI
         } else {
             $this->form_gui->setValuesByPost();
             $this->tabs_gui->activateTab('properties');
-            $tpl->setContent($this->form_gui->getHtml());
+            $this->tpl->setContent($this->form_gui->getHtml());
         }
     }
 
