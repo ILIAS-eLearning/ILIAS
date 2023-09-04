@@ -135,11 +135,11 @@ class ilTestSequence implements ilTestQuestionSequence, ilTestSequenceSummaryPro
         );
         if ($result->numRows()) {
             $row = $this->db->fetchAssoc($result);
-            $this->sequencedata = array(
+            $this->sequencedata = [
                 "sequence" => unserialize($row["sequence"] ?? ''),
                 "postponed" => unserialize($row["postponed"] ?? ''),
                 "hidden" => unserialize($row["hidden"] ?? '')
-            );
+            ];
             if (!is_array($this->sequencedata["sequence"])) {
                 $this->sequencedata["sequence"] = [];
             }
@@ -411,9 +411,9 @@ class ilTestSequence implements ilTestQuestionSequence, ilTestSequenceSummaryPro
 
     public function getPositionOfSequence(int $sequence): int
     {
-        $correctedsequence = $this->getCorrectedSequence();
-        $sequencekey = array_search($sequence, $correctedsequence);
-        if ($sequencekey !== false) {
+        $corrected_sequence = $this->getCorrectedSequence();
+        $sequence_key = array_search($sequence, $corrected_sequence);
+        if ($sequence_key !== false) {
             return $sequencekey + 1;
         }
         return 0;
@@ -494,32 +494,32 @@ class ilTestSequence implements ilTestQuestionSequence, ilTestSequenceSummaryPro
 
     protected function getCorrectedSequence(): array
     {
-        $correctedsequence = $this->sequencedata["sequence"];
-        if (!$this->isConsiderHiddenQuestionsEnabled()) {
-            if (is_array($this->sequencedata["hidden"])) {
-                foreach ($this->sequencedata["hidden"] as $question_id) {
-                    $correctedsequence = $this->ensureQuestionNotInSequence($correctedsequence, $question_id);
-                }
+        $corrected_sequence = $this->sequencedata["sequence"];
+        if (!$this->isConsiderHiddenQuestionsEnabled()
+            && is_array($this->sequencedata["hidden"])) {
+            foreach ($this->sequencedata["hidden"] as $question_id) {
+                $corrected_sequence = $this->ensureQuestionNotInSequence($corrected_sequence, $question_id);
             }
         }
         if (!$this->isConsiderOptionalQuestionsEnabled()) {
-            foreach ($this->optionalQuestions as $questionId) {
-                $correctedsequence = $this->ensureQuestionNotInSequence($correctedsequence, $questionId);
+            foreach ($this->optionalQuestions as $question_id) {
+                $corrected_sequence = $this->ensureQuestionNotInSequence($corrected_sequence, $question_id);
             }
         }
         if (is_array($this->sequencedata["postponed"])) {
             foreach ($this->sequencedata["postponed"] as $question_id) {
-                $foundsequence = array_search($question_id, $this->questions);
-                if ($foundsequence !== false) {
-                    $sequencekey = array_search($foundsequence, $correctedsequence);
-                    if ($sequencekey !== false) {
-                        unset($correctedsequence[$sequencekey]);
-                        array_push($correctedsequence, $foundsequence);
-                    }
+                $found_sequence = array_search($question_id, $this->questions);
+                if ($found_sequence === false) {
+                    continue;
+                }
+                $sequence_key = array_search($found_sequence, $corrected_sequence);
+                if ($sequence_key !== false) {
+                    unset($corrected_sequence[$sequence_key]);
+                    array_push($corrected_sequence, $found_sequence);
                 }
             }
         }
-        return array_values($correctedsequence);
+        return array_values($corrected_sequence);
     }
 
     public function getSequenceForQuestion(int $question_id): ?int
