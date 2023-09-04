@@ -189,7 +189,7 @@ class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
         if ($this->checkPermissionBool("read")) {
             $this->tabs_gui->addNonTabbedLink(
                 "preview",
-                $this->lng->txt("user_profile_preview"),
+                $this->lng->txt("preview"),
                 $this->ctrl->getLinkTarget($this, "preview")
             );
         }
