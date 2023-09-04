@@ -381,10 +381,10 @@ class ilTestSequence implements ilTestQuestionSequence, ilTestSequenceSummaryPro
     public function isNextQuestionPresented(int $question_id): bool
     {
         $next_question_id = $this->getQuestionForSequence(
-            $this->getNextSequence($this->getSequenceForQuestion($question_id))
+            $this->getNextSequence($this->getSequenceForQuestion($question_id)) ?? 0
         );
 
-        if (!$next_question_id) {
+        if ($next_question_id === null) {
             return false;
         }
 
@@ -414,7 +414,7 @@ class ilTestSequence implements ilTestQuestionSequence, ilTestSequenceSummaryPro
         $corrected_sequence = $this->getCorrectedSequence();
         $sequence_key = array_search($sequence, $corrected_sequence);
         if ($sequence_key !== false) {
-            return $sequencekey + 1;
+            return $sequence_key + 1;
         }
         return 0;
     }
@@ -549,12 +549,12 @@ class ilTestSequence implements ilTestQuestionSequence, ilTestSequenceSummaryPro
 
     public function getNextSequence(int $sequence): ?int
     {
-        $correctedsequence = $this->getCorrectedSequence();
-        $sequencekey = array_search($sequence, $correctedsequence);
-        if ($sequencekey !== false) {
-            $nextsequencekey = $sequencekey + 1;
-            if (array_key_exists($nextsequencekey, $correctedsequence)) {
-                return $correctedsequence[$nextsequencekey];
+        $corrected_sequence = $this->getCorrectedSequence();
+        $sequence_key = array_search($sequence, $corrected_sequence);
+        if ($sequence_key !== false) {
+            $next_sequence_key = $sequence_key + 1;
+            if (array_key_exists($next_sequence_key, $corrected_sequence)) {
+                return $corrected_sequence[$next_sequence_key];
             }
         }
         return null;
