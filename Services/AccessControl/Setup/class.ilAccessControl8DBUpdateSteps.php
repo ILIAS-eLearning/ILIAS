@@ -35,4 +35,8 @@ class ilAccessControl8DBUpdateSteps implements ilDatabaseUpdateSteps
             $this->db->addIndex('rbac_fa', ['assign', 'parent'], 'i3');
         }
     }
+    public function step_2(): void
+    {
+        $this->db->manipulate("DELETE FROM rbac_operations WHERE operation='create_dbk'");
+    }
 }
