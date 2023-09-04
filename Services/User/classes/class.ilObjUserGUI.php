@@ -1842,8 +1842,9 @@ class ilObjUserGUI extends ilObjectGUI
 
         $ilTabs->activateTab("role_assignment");
 
-        if (!$rbacsystem->checkAccess("edit_roleassignment", $this->usrf_ref_id) &&
-            !$access->isCurrentUserBasedOnPositionsAllowedTo("read_users", array($this->object->getId()))
+        if ($this->object->getId() === (int) ANONYMOUS_USER_ID
+            || !$rbacsystem->checkAccess("edit_roleassignment", $this->usrf_ref_id)
+                && !$access->isCurrentUserBasedOnPositionsAllowedTo("read_users", array($this->object->getId()))
         ) {
             $this->ilias->raiseError(
                 $this->lng->txt("msg_no_perm_assign_role_to_user"),
