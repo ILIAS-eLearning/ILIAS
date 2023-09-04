@@ -120,7 +120,7 @@ class ilComponentUpdatePluginObjective implements Setup\Objective
         $plugin_admin = $environment->getResource(Setup\Environment::RESOURCE_PLUGIN_ADMIN);
         $ini = $environment->getResource(Setup\Environment::RESOURCE_ILIAS_INI);
         $client_ini = $environment->getResource(Setup\Environment::RESOURCE_CLIENT_INI);
-
+        $component_factory = $environment->getResource(Setup\Environment::RESOURCE_COMPONENT_FACTORY);
 
         // ATTENTION: This is a total abomination. It only exists to allow various
         // sub components of the various readers to run. This is a memento to the
@@ -242,6 +242,7 @@ class ilComponentUpdatePluginObjective implements Setup\Objective
         };
         $GLOBALS["DIC"]["ilObjDataCache"] = new ilObjectDataCache();
         $GLOBALS["DIC"]["ilSetting"] = new ilSetting();
+        $GLOBALS["DIC"]["component.factory"] = $component_factory;
         $GLOBALS["DIC"]["objDefinition"] = new ilObjectDefinition();
         $GLOBALS["DIC"]["rbacadmin"] = new class () extends ilRbacAdmin {
             public function __construct()
