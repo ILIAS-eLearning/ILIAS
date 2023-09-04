@@ -418,9 +418,12 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
      */
     public static function hasFinished($a_user_id, $a_obj_id): bool
     {
+        /** @var ILIAS\DI\Container $DIC */
         global $DIC;
+
         $ilDB = $DIC['ilDB'];
         $lng = $DIC['lng'];
+        $ilUser = $DIC['ilUser'];
 
         if (!isset(self::$hasFinishedCache["{$a_user_id}:{$a_obj_id}"])) {
             $testOBJ = ilObjectFactory::getInstanceByObjId($a_obj_id);
@@ -432,7 +435,7 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
             $activeId = $partData->getActiveIdByUserId($a_user_id);
 
             /** @noinspection PhpParamsInspection */
-            $testSessionFactory = new ilTestSessionFactory($testOBJ, $ilDB, $ilDB->user());
+            $testSessionFactory = new ilTestSessionFactory($testOBJ, $ilDB, $ilUser);
             $testSession = $testSessionFactory->getSession($activeId);
             /** @noinspection PhpParamsInspection */
             $testPassesSelector = new ilTestPassesSelector($ilDB, $testOBJ);
