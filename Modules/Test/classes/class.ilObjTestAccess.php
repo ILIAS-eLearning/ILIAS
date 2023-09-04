@@ -432,7 +432,7 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
             $activeId = $partData->getActiveIdByUserId($a_user_id);
 
             /** @noinspection PhpParamsInspection */
-            $testSessionFactory = new ilTestSessionFactory($testOBJ, $this->db, $this->user);
+            $testSessionFactory = new ilTestSessionFactory($testOBJ, $ilDB, $ilDB->user());
             $testSession = $testSessionFactory->getSession($activeId);
             /** @noinspection PhpParamsInspection */
             $testPassesSelector = new ilTestPassesSelector($ilDB, $testOBJ);
