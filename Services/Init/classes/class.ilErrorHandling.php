@@ -37,7 +37,7 @@ use Whoops\Handler\HandlerInterface;
  */
 class ilErrorHandling extends PEAR
 {
-    protected ?RunInterface $whoops;
+    protected ?RunInterface $whoops = null;
 
     protected string $message;
     protected bool $DEBUG_ENV;
