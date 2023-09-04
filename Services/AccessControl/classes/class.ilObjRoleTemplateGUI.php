@@ -19,7 +19,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 {
     const FORM_MODE_EDIT = 1;
     const FORM_MODE_CREATE = 2;
-    
+
     /**
     * ILIAS3 object type abbreviation
     * @var		string
@@ -43,15 +43,15 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
         global $DIC;
 
         $lng = $DIC['lng'];
-        
+
         $lng->loadLanguageModule('rbac');
-        
+
         $this->type = "rolt";
         parent::__construct($a_data, $a_id, $a_call_by_reference, false);
         $this->rolf_ref_id = &$this->ref_id;
         $this->ctrl->saveParameter($this, "obj_id");
     }
-    
+
     public function executeCommand()
     {
         global $DIC;
@@ -70,13 +70,13 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
                 }
                 $cmd .= "Object";
                 $this->$cmd();
-                    
+
                 break;
         }
 
         return true;
     }
-    
+
     /**
      * Init create form
      * @param bool creation mode
@@ -90,9 +90,9 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
         if ($this->creation_mode) {
             $this->ctrl->setParameter($this, "new_type", 'rolt');
         }
-        
+
         $form->setFormAction($this->ctrl->getFormAction($this));
-        
+
         if ($a_mode == self::FORM_MODE_CREATE) {
             $form->setTitle($this->lng->txt('rolt_new'));
             $form->addCommandButton('save', $this->lng->txt('rolt_new'));
@@ -101,7 +101,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
             $form->addCommandButton('update', $this->lng->txt('save'));
         }
         $form->addCommandButton('cancel', $this->lng->txt('cancel'));
-        
+
         $title = new ilTextInputGUI($this->lng->txt('title'), 'title');
         if ($a_mode != self::FORM_MODE_CREATE) {
             if ($this->object->isInternalTemplate()) {
@@ -113,9 +113,9 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
         $title->setMaxLength(70);
         $title->setRequired(true);
         $form->addItem($title);
-        
+
         $desc = new ilTextAreaInputGUI($this->lng->txt('description'), 'desc');
-        
+
         if ($a_mode != self::FORM_MODE_CREATE) {
             $desc->setValue($this->object->getDescription());
         }
@@ -140,7 +140,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
         return $form;
     }
 
-    
+
     /**
     * create new role definition template
     *
@@ -161,7 +161,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
         $this->tpl->setContent($form->getHTML());
         return true;
     }
-    
+
     /**
      * Create new object
      */
@@ -172,11 +172,11 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
         $rbacsystem = $DIC['rbacsystem'];
 
         $this->tabs_gui->activateTab('settings');
-        
+
         if (!$rbacsystem->checkAccess("write", $this->rolf_ref_id)) {
             $this->ilias->raiseError($this->lng->txt("msg_no_perm_write"), $this->ilias->error_obj->MESSAGE);
         }
-        
+
         if (!$form) {
             $form = $this->initFormRoleTemplate(self::FORM_MODE_EDIT);
         }
@@ -200,7 +200,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
         if (!$rbacsystem->checkAccess("write", $this->rolf_ref_id)) {
             $this->ilias->raiseError($this->lng->txt("msg_no_perm_modify_rolt"), $this->ilias->error_obj->WARNING);
         }
-        
+
         $form = $this->initFormRoleTemplate(self::FORM_MODE_EDIT);
         if ($form->checkInput()) {
             if (!$this->object->isInternalTemplate()) {
@@ -216,11 +216,11 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
             ilUtil::sendSuccess($this->lng->txt("saved_successfully"), true);
             $this->ctrl->returnToParent($this);
         }
-        
+
         $form->setValuesByPost();
         $this->editObject($form);
     }
-    
+
 
 
     /**
@@ -252,7 +252,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
                 $roltObj->getId(),
                 $form->getInput('protected') ? 'y' : 'n'
             );
-            
+
             ilUtil::sendSuccess($this->lng->txt("rolt_added"), true);
             // redirect to permission screen
             $this->ctrl->setParameter($this, 'obj_id', $roltObj->getId());
@@ -393,7 +393,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 
         // update object data entry (to update last modification date)
         $this->object->update();
-        
+
         ilUtil::sendSuccess($this->lng->txt("saved_successfully"), true);
         $this->ctrl->redirect($this, "perm");
     }
@@ -486,16 +486,22 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
     protected function addAdminLocatorItems($a_do_not_add_object = false)
     {
         global $DIC;
-
         $ilLocator = $DIC['ilLocator'];
-        
+
         parent::addAdminLocatorItems(true);
-                
+
         $ilLocator->addItem(
-            ilObject::_lookupTitle(
+            $this->lng->txt("obj_" . ilObject::_lookupType(
                 ilObject::_lookupObjId($_GET["ref_id"])
-            ),
+            )),
             $this->ctrl->getLinkTargetByClass("ilobjrolefoldergui", "view")
         );
+
+        if ($_GET["obj_id"] > 0) {
+            $ilLocator->addItem(
+                ilObjRole::_getTranslation($this->object->getTitle()),
+                $this->ctrl->getLinkTarget($this, 'perm')
+            );
+        }
     }
 } // END class.ilObjRoleTemplateGUI

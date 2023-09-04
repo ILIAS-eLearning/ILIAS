@@ -398,6 +398,7 @@ class ilPasswordAssistanceGUI
         $password = new ilPasswordInputGUI($this->lng->txt('password'), 'password');
         $password->setInfo(\ilUtil::getPasswordRequirementsInfo());
         $password->setRequired(true);
+        $password->setUseStripSlashes(false);
         $form->addItem($password);
 
         $key = new ilHiddenInputGUI('key');
