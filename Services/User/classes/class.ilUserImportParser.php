@@ -1720,7 +1720,7 @@ class ilUserImportParser extends ilSaxParser
                 }
 
                 if (is_null($this->userObj->getLogin())) {
-                    $this->logFailure("---", sprintf($lng->txt("usrimport_xml_element_for_action_required"), "User", "Insert"));
+                    $this->logFailure("---", sprintf($lng->txt("usrimport_xml_element_for_action_required"), "Login", "Insert"));
                 }
 
                 if ($user_id === (int) ANONYMOUS_USER_ID || $user_id === (int) SYSTEM_USER_ID) {
