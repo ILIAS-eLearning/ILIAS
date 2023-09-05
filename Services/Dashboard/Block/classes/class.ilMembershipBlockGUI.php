@@ -22,15 +22,6 @@ use ILIAS\Services\Dashboard\Block\BlockDTO;
 
 class ilMembershipBlockGUI extends ilDashboardBlockGUI
 {
-    private ilFavouritesManager $favourites;
-
-    public function __construct()
-    {
-        global $DIC;
-        parent::__construct();
-        $this->favourites = new ilFavouritesManager();
-    }
-
     public function initViewSettings(): void
     {
         $this->viewSettings = new ilPDSelectedItemsBlockViewSettings(
@@ -76,23 +67,6 @@ class ilMembershipBlockGUI extends ilDashboardBlockGUI
     public function getBlockType(): string
     {
         return 'pdmem';
-    }
-
-    public function addToDeskObject(): void
-    {
-        $this->favourites->add($this->user->getId(), $this->requested_item_ref_id);
-        $this->main_tpl->setOnScreenMessage('success', $this->lng->txt("rep_added_to_favourites"), true);
-        $this->returnToContext();
-    }
-
-    public function addCustomCommandsToActionMenu(ilObjectListGUI $itemListGui, int $ref_id): void
-    {
-        $this->ctrl->setParameter($this, "item_ref_id", $ref_id);
-        $itemListGui->addCustomCommand(
-            $this->ctrl->getLinkTarget($this, "addToDesk"),
-            "rep_add_to_favourites"
-        );
-        $this->ctrl->clearParameterByClass(self::class, "item_ref_id");
     }
 
     public function confirmedRemoveObject(): void
