@@ -176,7 +176,7 @@ class ilTestRandomQuestionSetGeneralConfigFormGUI extends ilPropertyFormGUI
                 );
 
                 $this->questionSetConfig->setQuestionAmountPerTest(
-                    $this->getItemByPostVar('quest_amount_per_test')->getValue()
+                    (int) $this->getItemByPostVar('quest_amount_per_test')->getValue()
                 );
 
                 break;

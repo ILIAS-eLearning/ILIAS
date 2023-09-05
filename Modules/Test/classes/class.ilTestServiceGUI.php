@@ -1174,20 +1174,20 @@ class ilTestServiceGUI
         $this->tpl->setContent($solution);
     }
 
-    protected function populatePassFinishDate(ilTemplate $tpl, string $pass_finish_date): void
+    protected function populatePassFinishDate(ilTemplate $tpl, int $pass_finish_date): void
     {
-        $oldValue = ilDatePresentation::useRelativeDates();
+        $old_value = ilDatePresentation::useRelativeDates();
         ilDatePresentation::setUseRelativeDates(false);
-        $pass_finish_date = ilDatePresentation::formatDate(new ilDateTime($pass_finish_date, IL_CAL_UNIX));
-        ilDatePresentation::setUseRelativeDates($oldValue);
+        $pass_finish_date_string = ilDatePresentation::formatDate(new ilDateTime($pass_finish_date, IL_CAL_UNIX));
+        ilDatePresentation::setUseRelativeDates($old_value);
         $tpl->setVariable("PASS_FINISH_DATE_LABEL", $this->lng->txt('tst_pass_finished_on'));
-        $tpl->setVariable("PASS_FINISH_DATE_VALUE", $pass_finish_date);
+        $tpl->setVariable("PASS_FINISH_DATE_VALUE", $pass_finish_date_string);
     }
 
     protected function populateExamId(ilTemplate $tpl, int $active_id, int $pass): void
     {
         if ($this->object->isShowExamIdInTestResultsEnabled()) {
-            $tpl->setVariable("EXAM_ID_TXT", $this->lng->txt('exam_id'));
+            $tpl->setVariable('EXAM_ID_TXT', $this->lng->txt('exam_id'));
             $tpl->setVariable('EXAM_ID', ilObjTest::lookupExamId(
                 $active_id,
                 $pass

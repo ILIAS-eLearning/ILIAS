@@ -24,5 +24,5 @@
  */
 interface ilTestRandomQuestionSequence
 {
-    public function getResponsibleSourcePoolDefinitionId($questionId);
+    public function getResponsibleSourcePoolDefinitionId(int $question_id): ?int;
 }

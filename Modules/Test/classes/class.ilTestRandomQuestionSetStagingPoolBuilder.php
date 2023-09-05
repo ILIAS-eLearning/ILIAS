@@ -35,15 +35,10 @@ class ilTestRandomQuestionSetStagingPoolBuilder
 
     // =================================================================================================================
 
-    public function rebuild(ilTestRandomQuestionSetSourcePoolDefinitionList $sourcePoolDefinitionList)
+    public function rebuild(ilTestRandomQuestionSetSourcePoolDefinitionList $source_pool_definition_list): void
     {
         $this->reset();
-
-        // fau: taxFilter/typeFilter - copy only the needed questions, and copy every question only once
-        // TODO-RND2017: remove non cheap methods and rename cheap ones
-        #$this->build($sourcePoolDefinitionList);
-        $this->buildCheap($sourcePoolDefinitionList);
-        // fau.
+        $this->buildCheap($source_pool_definition_list);
     }
 
     public function reset()
@@ -130,7 +125,7 @@ class ilTestRandomQuestionSetStagingPoolBuilder
     {
         // TODO-RND2017: refactor using assQuestionList and wrap with assQuestionListCollection for unioning
 
-        $questionIdMappingPerPool = array();
+        $questionIdMappingPerPool = [];
 
         // select questions to be copied by the definitions
         // note: a question pool may appear many times in this list

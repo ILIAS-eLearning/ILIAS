@@ -26,9 +26,9 @@ declare(strict_types=1);
  */
 class ilTestSequenceRandomQuestionSet extends ilTestSequence implements ilTestRandomQuestionSequence
 {
-    private $responsibleSourcePoolDefinitionByQuestion = array();
+    private $responsibleSourcePoolDefinitionByQuestion = [];
 
-    public function loadQuestions(ilTestQuestionSetConfig $testQuestionSetConfig = null, $taxonomyFilterSelection = array())
+    public function loadQuestions()
     {
         $this->questions = [];
 
@@ -78,10 +78,10 @@ class ilTestSequenceRandomQuestionSet extends ilTestSequence implements ilTestRa
         return ($result->numRows() > 0) ? true : false;
     }
 
-    public function getResponsibleSourcePoolDefinitionId($questionId)
+    public function getResponsibleSourcePoolDefinitionId(int $question_id): ?int
     {
-        if (isset($this->responsibleSourcePoolDefinitionByQuestion[$questionId])) {
-            return $this->responsibleSourcePoolDefinitionByQuestion[$questionId];
+        if (isset($this->responsibleSourcePoolDefinitionByQuestion[$question_id])) {
+            return $this->responsibleSourcePoolDefinitionByQuestion[$question_id];
         }
 
         return null;

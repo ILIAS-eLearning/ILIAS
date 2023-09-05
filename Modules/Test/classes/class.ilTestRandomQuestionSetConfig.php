@@ -47,7 +47,7 @@ class ilTestRandomQuestionSetConfig extends ilTestQuestionSetConfig
         return $this->requirePoolsWithHomogeneousScoredQuestions;
     }
 
-    public function setQuestionAmountConfigurationMode(string $questionAmountConfigurationMode): void
+    public function setQuestionAmountConfigurationMode(?string $questionAmountConfigurationMode): void
     {
         $this->questionAmountConfigurationMode = $questionAmountConfigurationMode;
     }
@@ -79,7 +79,7 @@ class ilTestRandomQuestionSetConfig extends ilTestQuestionSetConfig
         return false;
     }
 
-    public function setQuestionAmountPerTest(int $questionAmountPerTest): void
+    public function setQuestionAmountPerTest(?int $questionAmountPerTest): void
     {
         $this->questionAmountPerTest = $questionAmountPerTest;
     }

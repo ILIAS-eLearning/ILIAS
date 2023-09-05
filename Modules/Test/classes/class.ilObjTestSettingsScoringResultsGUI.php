@@ -21,7 +21,6 @@ declare(strict_types=1);
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\Refinery\Factory as Refinery;
-use ILIAS\UI\Component\Input\Field;
 use ILIAS\UI\Component\Input\Container\Form\Form;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
@@ -62,7 +61,8 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
         protected UIFactory $ui_factory,
         protected UIRenderer $ui_renderer,
         protected Refinery $refinery,
-        protected Request $request
+        protected Request $request,
+        protected ilObjUser $active_user
     ) {
         parent::__construct($test_gui->getObject());
 
@@ -182,6 +182,13 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
             $this->refinery
         ];
 
+
+        $environment = [];
+        $environment['user_date_format'] = (new \ILIAS\Data\Factory())->dateFormat()->withTime24(
+            $this->active_user->getDateFormat()
+        );
+        $environment['user_time_zone'] = $this->active_user->getTimeZone();
+
         $anonymity_flag = (bool) $this->test_object->getAnonymity();
         $disabled_flag = ($this->areScoringSettingsWritable() === false);
 
@@ -189,7 +196,7 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
         $sections = [
             'scoring' => $settings->getScoringSettings()->toForm(...$ui_pack)
                 ->withDisabled($disabled_flag),
-            'summary' => $settings->getResultSummarySettings()->toForm(...$ui_pack),
+            'summary' => $settings->getResultSummarySettings()->toForm(...array_merge($ui_pack, [$environment])),
             'details' => $settings->getResultDetailsSettings()->toForm(
                 ...array_merge($ui_pack, [['taxonomy_options' => $this->getTaxonomyOptions()]])
             ),

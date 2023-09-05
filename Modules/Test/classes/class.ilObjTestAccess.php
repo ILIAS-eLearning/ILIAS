@@ -418,9 +418,12 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
      */
     public static function hasFinished($a_user_id, $a_obj_id): bool
     {
+        /** @var ILIAS\DI\Container $DIC */
         global $DIC;
+
         $ilDB = $DIC['ilDB'];
         $lng = $DIC['lng'];
+        $ilUser = $DIC['ilUser'];
 
         if (!isset(self::$hasFinishedCache["{$a_user_id}:{$a_obj_id}"])) {
             $testOBJ = ilObjectFactory::getInstanceByObjId($a_obj_id);
@@ -432,7 +435,7 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
             $activeId = $partData->getActiveIdByUserId($a_user_id);
 
             /** @noinspection PhpParamsInspection */
-            $testSessionFactory = new ilTestSessionFactory($testOBJ, $this->db, $this->user);
+            $testSessionFactory = new ilTestSessionFactory($testOBJ, $ilDB, $ilUser);
             $testSession = $testSessionFactory->getSession($activeId);
             /** @noinspection PhpParamsInspection */
             $testPassesSelector = new ilTestPassesSelector($ilDB, $testOBJ);
@@ -762,17 +765,21 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
     }
 
 
-    public static function visibleUserResultExists($testObjId, $userId): bool
+    public static function visibleUserResultExists($test_obj_id, $user_id): bool
     {
-        $testOBJ = ilObjectFactory::getInstanceByObjId($testObjId, false);
+        global $DIC;
+        $ilDB = $DIC['ilDB'];
+        $ilUser = $DIC['ilUser'];
 
-        if (!($testOBJ instanceof ilObjTest)) {
+        $test_obj = ilObjectFactory::getInstanceByObjId($test_obj_id, false);
+
+        if (!($test_obj instanceof ilObjTest)) {
             return false;
         }
 
-        $testSessionFactory = new ilTestSessionFactory($testOBJ, $this->db, $this->user);
-        $testSession = $testSessionFactory->getSessionByUserId($userId);
+        $test_session_factory = new ilTestSessionFactory($test_obj, $ilDB, $ilUser);
+        $test_session = $test_session_factory->getSessionByUserId($user_id);
 
-        return $testOBJ->canShowTestResults($testSession);
+        return $test_obj->canShowTestResults($test_session);
     }
 }

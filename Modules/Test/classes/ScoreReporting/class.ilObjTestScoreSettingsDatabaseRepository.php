@@ -70,7 +70,8 @@ class ilObjTestScoreSettingsDatabaseRepository implements ScoreSettingsRepositor
         if ($reporting_date) {
             $reporting_date = \DateTimeImmutable::createFromFormat(
                 self::STORAGE_DATE_FORMAT,
-                $reporting_date
+                $reporting_date,
+                new DateTimeZone('UTC')
             );
         } else {
             $reporting_date = null;

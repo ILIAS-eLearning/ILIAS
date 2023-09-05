@@ -706,14 +706,12 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
     /**
     * Load the test question id's from the database
     *
-    * @param int|null|string $active_id
-     *
     */
-    public function loadQuestions($active_id = "", $pass = null): void
+    public function loadQuestions(int $active_id = 0, ?int $pass = null): void
     {
         $this->questions = [];
         if ($this->isRandomTest()) {
-            if (strcmp($active_id, "") == 0) {
+            if ($active_id === 0) {
                 $active_id = $this->getActiveIdOfUser($this->user->getId());
             }
             if (is_null($pass)) {
@@ -6817,7 +6815,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         $this->logAction(
             sprintf(
                 $this->lng->txtlng('assessment', 'log_manual_feedback', ilObjAssessmentFolder::_getLogLanguage()),
-                $this->user->getFullname() . ' (' . $ilUser->getLogin() . ')',
+                $this->user->getFullname() . ' (' . $this->user->getLogin() . ')',
                 $username,
                 assQuestion::_getQuestionTitle($question_id),
                 $feedback
@@ -6909,7 +6907,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
     /**
     * Get test Object ID for question ID
     */
-    public static function _lookupTestObjIdForQuestionId($q_id)
+    public static function _lookupTestObjIdForQuestionId(int $q_id): ?int
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];

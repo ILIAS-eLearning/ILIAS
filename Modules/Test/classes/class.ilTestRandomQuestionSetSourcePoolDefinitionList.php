@@ -206,11 +206,11 @@ class ilTestRandomQuestionSetSourcePoolDefinitionList implements Iterator
         $this->setTrashedPools($trashedPools);
     }
 
-    public function saveDefinitions()
+    public function saveDefinitions(): void
     {
-        foreach ($this as $sourcePoolDefinition) {
+        foreach ($this as $source_pool_definition) {
             /** @var ilTestRandomQuestionSetSourcePoolDefinition $definition */
-            $sourcePoolDefinition->saveToDb();
+            $source_pool_definition->saveToDb();
         }
     }
 

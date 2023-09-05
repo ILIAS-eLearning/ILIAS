@@ -161,77 +161,85 @@ class ilPersonalProfileGUI
 
     public function uploadUserPicture(): void
     {
-        if ($this->workWithUserSetting('upload')) {
-            if (!$this->form->hasFileUpload('userfile') && $this->profile_request->getUserFileCapture() == '') {
-                if ($this->form->getItemByPostVar('userfile')->getDeletionFlag()) {
-                    $this->user->removeUserPicture();
-                }
-            } else {
-                // User has uploaded a file of a captured image
-                $this->uploads->process();
-                $existing_rid = $this->irss->manage()->find($this->user->getAvatarRid());
-                $revision_title = 'Avatar for user ' . $this->user->getLogin();
-
-                // move uploaded file
-                if ($this->form->hasFileUpload('userfile') && $this->uploads->hasBeenProcessed()) {
-                    $uploads = $this->uploads->getResults();
-                    // this implementation uses the $_FILES superglobal since
-                    // the file has to be identified by the name of the input field
-                    $upload_tmp_name = $_FILES['userfile']['tmp_name'];
-                    $avatar_upload_result = $uploads[$upload_tmp_name] ?? null;
-                    if ($avatar_upload_result !== null) {
-                        if ($existing_rid === null) {
-                            $rid = $this->irss->manage()->upload(
-                                $avatar_upload_result,
-                                $this->stakeholder,
-                                $revision_title
-                            );
-                        } else {
-                            $rid = $existing_rid;
-                            $this->irss->manage()->replaceWithUpload(
-                                $existing_rid,
-                                $avatar_upload_result,
-                                $this->stakeholder,
-                                $revision_title
-                            );
-                        }
-                    }
-                    if ($avatar_upload_result === null || !isset($rid)) {
-                        $this->tpl->setOnScreenMessage('failure', $this->lng->txt('upload_error', true));
-                        $this->ctrl->redirect($this, 'showProfile');
-                    }
-                } else {
-                    // cam capture png
-                    $img = $this->profile_request->getUserFileCapture();
-                    $img = str_replace(['data:image/png;base64,', ' '], ['', '+'], $img);
-                    $data = base64_decode($img);
-                    if ($data === false) {
-                        $this->tpl->setOnScreenMessage('failure', $this->lng->txt('upload_error', true));
-                        $this->ctrl->redirect($this, 'showProfile');
-                    }
-                    $stream = Streams::ofString($data);
-
-                    if ($existing_rid === null) {
-                        $rid = $this->irss->manage()->stream(
-                            $stream,
-                            $this->stakeholder,
-                            $revision_title
-                        );
-                    } else {
-                        $rid = $existing_rid;
-                        $this->irss->manage()->replaceWithStream(
-                            $rid,
-                            $stream,
-                            $this->stakeholder,
-                            $revision_title
-                        );
-                    }
-                }
-                $this->user->setAvatarRid($rid->serialize());
-                $this->irss->flavours()->ensure($rid, new ilUserProfilePictureDefinition()); // Create different sizes
-                $this->user->update();
-            }
+        if (!$this->workWithUserSetting('upload')) {
+            return;
         }
+
+        if (!$this->form->hasFileUpload('userfile')
+            && $this->profile_request->getUserFileCapture() == ''
+            && $this->form->getItemByPostVar('userfile')->getDeletionFlag()) {
+            $this->user->removeUserPicture();
+        }
+
+        // User has uploaded a file of a captured image
+        $this->uploads->process();
+        $existing_rid = $this->irss->manage()->find($this->user->getAvatarRid());
+        $revision_title = 'Avatar for user ' . $this->user->getLogin();
+
+        // move uploaded file
+        if ($this->form->hasFileUpload('userfile') && $this->uploads->hasBeenProcessed()) {
+            $uploads = $this->uploads->getResults();
+            // this implementation uses the $_FILES superglobal since
+            // the file has to be identified by the name of the input field
+            $upload_tmp_name = $_FILES['userfile']['tmp_name'];
+            $avatar_upload_result = $uploads[$upload_tmp_name] ?? null;
+            if ($avatar_upload_result !== null) {
+                if ($existing_rid === null) {
+                    $rid = $this->irss->manage()->upload(
+                        $avatar_upload_result,
+                        $this->stakeholder,
+                        $revision_title
+                    );
+                } else {
+                    $rid = $existing_rid;
+                    $this->irss->manage()->replaceWithUpload(
+                        $existing_rid,
+                        $avatar_upload_result,
+                        $this->stakeholder,
+                        $revision_title
+                    );
+                }
+            }
+            if ($avatar_upload_result === null || !isset($rid)) {
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt('upload_error', true));
+                $this->ctrl->redirect($this, 'showProfile');
+            }
+            $this->user->setAvatarRid($rid->serialize());
+            $this->irss->flavours()->ensure($rid, new ilUserProfilePictureDefinition()); // Create different sizes
+            $this->user->update();
+            return;
+        }
+
+        $img = str_replace(
+            ['data:image/png;base64,', ' '],
+            ['', '+'],
+            $this->profile_request->getUserFileCapture()
+        );
+        $data = base64_decode($img);
+        if ($data === false) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('upload_error', true));
+            $this->ctrl->redirect($this, 'showProfile');
+        }
+        $stream = Streams::ofString($data);
+
+        if ($existing_rid === null) {
+            $rid = $this->irss->manage()->stream(
+                $stream,
+                $this->stakeholder,
+                $revision_title
+            );
+        } else {
+            $rid = $existing_rid;
+            $this->irss->manage()->replaceWithStream(
+                $rid,
+                $stream,
+                $this->stakeholder,
+                $revision_title
+            );
+        }
+        $this->user->setAvatarRid($rid->serialize());
+        $this->irss->flavours()->ensure($rid, new ilUserProfilePictureDefinition()); // Create different sizes
+        $this->user->update();
     }
 
     public function removeUserPicture(): void
@@ -590,10 +598,10 @@ class ilPersonalProfileGUI
 
         foreach ($this->user_defined_fields->getVisibleDefinitions() as $field_id => $definition) {
             $value = $user_defined_data['f_' . $field_id] ?? '';
-
+            $changeable = $definition['changeable'] === 1 ? true : false;
             $fprop = ilCustomUserFieldsHelper::getInstance()->getFormPropertyForDefinition(
                 $definition,
-                $definition['changeable'] ?? false,
+                $changeable,
                 $value
             );
             if ($fprop instanceof ilFormPropertyGUI) {
@@ -731,6 +739,7 @@ class ilPersonalProfileGUI
         }
 
         $this->form->setValuesByPost();
+        $this->tempStorePicture();
         $this->showPersonalData(true);
     }
 
@@ -1199,5 +1208,17 @@ class ilPersonalProfileGUI
     {
         $main_tpl = $this->tpl;
         $main_tpl->setRightContent($this->checklist->render($active_step));
+    }
+
+    private function tempStorePicture(): void
+    {
+        $capture = $this->profile_request->getUserFileCapture();
+
+        if ($capture !== '') {
+            $this->form->getItemByPostVar('userfile')->setImage($capture);
+            $hidden_user_picture_carry = new ilHiddenInputGUI('user_picture_carry');
+            $hidden_user_picture_carry->setValue($capture);
+            $this->form->addItem($hidden_user_picture_carry);
+        }
     }
 }

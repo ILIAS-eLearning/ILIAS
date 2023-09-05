@@ -129,7 +129,6 @@ interface Standard extends Icon
     public const CADM = 'cadm';	//Contact
     public const GRPR = 'grpr';	//Group Reference Object
     public const BDGA = 'bdga';	//Badge Settings
-    public const WFE = 'wfe';	//WorkflowEngine
     public const IASS = 'iass';	//Individual Assessment
     public const COPA = 'copa';	//Content Page
     public const CPAD = 'cpad';	//Content Page Admnistration

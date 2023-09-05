@@ -659,30 +659,6 @@ class ilMailFolderGUI
         }
         $this->ctrl->clearParametersByClass(ilMailFormGUI::class);
 
-
-        $this->ctrl->setParameter($this, 'mail_id', $mailId);
-        $this->ctrl->setParameter($this, 'mobj_id', $mailData['folder_id']);
-        $print_url = $this->ctrl->getLinkTarget($this, 'printMail');
-        $this->ctrl->clearParameters($this);
-        $print_btn = $this->ui_factory->button()
-                                      ->standard($this->lng->txt('print'), '#')
-                                      ->withOnLoadCode(static fn($id): string => "
-                document.getElementById('$id').addEventListener('click', function() {
-                    const frm = this.closest('form'),
-                        action = frm.action;
-
-                    frm.action = '$print_url';
-                    frm.target = '_blank';
-                    frm.submit();
-
-                    frm.action = action;
-                    frm.removeAttribute('target');
-
-                    return false;
-                });
-            ");
-        $this->toolbar->addComponent($print_btn);
-
         if ($sender && $sender->getId() && !$sender->isAnonymous()) {
             $linked_fullname = $sender->getPublicName();
             $picture = ilUtil::img(
@@ -809,7 +785,7 @@ class ilMailFolderGUI
                     ) . ($folder['type'] === 'trash' ? ' (' . $this->lng->txt('delete') . ')' : '');
                 }
 
-                $move_links[] = $this->ui_factory->link()->standard(
+                $move_links[] = $this->ui_factory->button()->shy(
                     sprintf(
                         $this->lng->txt('mail_move_to_folder_x'),
                         $folder_name
@@ -840,12 +816,36 @@ class ilMailFolderGUI
         }
 
         if ($move_links !== []) {
-            $this->toolbar->addSeparator();
             $this->toolbar->addComponent(
                 $this->ui_factory->dropdown()->standard($move_links)
                                              ->withLabel($this->lng->txt('mail_move_to_folder_btn_label'))
             );
         }
+
+        $this->toolbar->addSeparator();
+
+        $this->ctrl->setParameter($this, 'mail_id', $mailId);
+        $this->ctrl->setParameter($this, 'mobj_id', $mailData['folder_id']);
+        $print_url = $this->ctrl->getLinkTarget($this, 'printMail');
+        $this->ctrl->clearParameters($this);
+        $print_btn = $this->ui_factory->button()
+                                      ->standard($this->lng->txt('print'), '#')
+                                      ->withOnLoadCode(static fn($id): string => "
+                document.getElementById('$id').addEventListener('click', function() {
+                    const frm = this.closest('form'),
+                        action = frm.action;
+
+                    frm.action = '$print_url';
+                    frm.target = '_blank';
+                    frm.submit();
+
+                    frm.action = action;
+                    frm.removeAttribute('target');
+
+                    return false;
+                });
+            ");
+        $this->toolbar->addComponent($print_btn);
 
         $prevMail = $this->umail->getPreviousMail($mailId);
         $nextMail = $this->umail->getNextMail($mailId);

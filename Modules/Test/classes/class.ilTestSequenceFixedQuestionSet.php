@@ -27,10 +27,9 @@ declare(strict_types=1);
 class ilTestSequenceFixedQuestionSet extends ilTestSequence
 {
     /**
-     * @param int $questionId
      * @param ilTestReindexedSequencePositionMap $reindexedSequencePositionMap
      */
-    public function removeQuestion($questionId, ilTestReindexedSequencePositionMap $reindexedSequencePositionMap): void
+    public function removeQuestion(int $question_id, ilTestReindexedSequencePositionMap $reindexedSequencePositionMap): void
     {
         foreach ($this->sequencedata['sequence'] as $key => $oldSequenceElement) {
             $newSequenceElement = $reindexedSequencePositionMap->getNewSequencePosition($oldSequenceElement);
@@ -44,17 +43,17 @@ class ilTestSequenceFixedQuestionSet extends ilTestSequence
 
         $this->sequencedata['sequence'] = array_values($this->sequencedata['sequence']);
 
-        $this->sequencedata['postponed'] = $this->removeArrayValue($this->sequencedata['postponed'], $questionId);
-        $this->sequencedata['hidden'] = $this->removeArrayValue($this->sequencedata['hidden'], $questionId);
+        $this->sequencedata['postponed'] = $this->removeArrayValue($this->sequencedata['postponed'], $question_id);
+        $this->sequencedata['hidden'] = $this->removeArrayValue($this->sequencedata['hidden'], $question_id);
 
-        $this->optionalQuestions = $this->removeArrayValue($this->optionalQuestions, $questionId);
+        $this->optionalQuestions = $this->removeArrayValue($this->optionalQuestions, $question_id);
 
-        $this->alreadyPresentedQuestions = $this->removeArrayValue($this->alreadyPresentedQuestions, $questionId);
+        $this->alreadyPresentedQuestions = $this->removeArrayValue($this->alreadyPresentedQuestions, $question_id);
 
-        $this->alreadyCheckedQuestions = $this->removeArrayValue($this->alreadyCheckedQuestions, $questionId);
+        $this->alreadyCheckedQuestions = $this->removeArrayValue($this->alreadyCheckedQuestions, $question_id);
     }
 
-    private function removeArrayValue($array, $value)
+    private function removeArrayValue(array $array, int $value): array
     {
         foreach ($array as $key => $val) {
             if ($val == $value) {

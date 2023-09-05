@@ -124,7 +124,6 @@ class Standard extends Icon implements C\Symbol\Icon\Standard
         self::CADM,
         self::GRPR,
         self::BDGA,
-        self::WFE,
         self::IASS,
         self::COPA,
         self::CPAD,

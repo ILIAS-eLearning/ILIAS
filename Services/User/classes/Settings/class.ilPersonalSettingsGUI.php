@@ -233,6 +233,7 @@ class ilPersonalSettingsGUI
                 $ipass->setInfo(ilSecuritySettingsChecker::getPasswordRequirementsInfo());
             }
             $ipass->setRequired(true);
+            $ipass->setUseStripSlashes(false);
 
             $this->form->addItem($ipass);
             $this->form->addCommandButton('savePassword', $this->lng->txt('save'));
@@ -461,7 +462,7 @@ class ilPersonalSettingsGUI
         if (ilSessionReminder::isGloballyActivated()) {
             $cb = new ilCheckboxInputGUI($this->lng->txt('session_reminder'), 'session_reminder_enabled');
             $cb->setInfo($this->lng->txt('session_reminder_info'));
-            $cb->setValue(1);
+            $cb->setValue('1');
             $cb->setChecked((bool) $this->user->getPref('session_reminder_enabled'));
 
             $expires = ilSession::getSessionExpireValue();

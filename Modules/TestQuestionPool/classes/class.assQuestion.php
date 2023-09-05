@@ -2518,8 +2518,12 @@ abstract class assQuestion
             }
 
             if (self::isForcePassResultUpdateEnabled() || $old_points != $points || $rowsnum == 0) {
+                $test_id = ilObjTest::_lookupTestObjIdForQuestionId($question_id);
+                if ($test_id === null) {
+                    return false;
+                }
                 $test = new ilObjTest(
-                    ilObjTest::_lookupTestObjIdForQuestionId($question_id),
+                    $test_id,
                     false
                 );
                 $test->updateTestPassResults($active_id, $pass, $obligationsEnabled);
