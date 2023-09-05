@@ -24,6 +24,7 @@ use ILIAS\UI\Component;
 use ILIAS\UI\Component\Image\Image;
 use ILIAS\UI\Component\Modal\InterruptiveItem;
 use ILIAS\UI\Component\Card\Card;
+use ILIAS\Data\URI;
 
 /**
  * Interface Factory
@@ -238,4 +239,60 @@ interface Factory
      * @return \ILIAS\UI\Component\Modal\LightboxCardPage
      */
     public function lightboxCardPage(Card $card): LightboxCardPage;
+
+    /**
+     * ---
+     * description:
+     *   purpose: >
+     *      A Modal interrupts a user to focus on a certain task or/and
+     *      prompts for information without the user losing the current context.
+     *      The Dialog Modal is async by default and merely provides a wrapper,
+     *      its contents are defined by the Modal Response.
+     *   composition: >
+     *      The Dialog Modal uses the HTML dialog tag.
+     *   effect: >
+     *      The contents of Dialog Modal are loaded asynchronously by default;
+     *      actions of Forms and targets of Links are "wrapped" to RPCs and thus
+     *      stay in context of the Dialog, i.e. you may take roundtrips to the
+     *      server and modify the Dialog's content without closing it.
+     * context:
+     *   - The Dialog Modal requires a Modal Response.
+     *
+     * rules:
+     *   usage:
+     *     1: >
+     *      The server MUST answer with a ModalResponse Component
+     *      to a request to the url provided to the Dialog.
+     * ---
+     * @return \ILIAS\UI\Component\Modal\Dialog
+     */
+    public function dialog(URI $async_url): Dialog;
+
+    /**
+     * ---
+     * description:
+     *   purpose: >
+     *      A Modal Response serves as a formalized wrapper around output of
+     *      asynchrounous requests in order to provide contents of a Modal.
+     *      It allows for dedicated changes to recurring parts of Modals,
+     *      such as Title, Content or Buttons.
+     *   composition: >
+     *      The Modal Response renders specific sections to be handled by
+     *      the Dialog Modal.
+     *   effect: >
+     *       The sections of the Modal Response are rendered to their respective
+     *       parts of the Dialog Modal.
+     *       Forms and Links are automatically turned into async requests to
+     *       stay in context of the Dialog.
+     *       You may also tell the Dialog to close - after the request has been processed.
+     * context:
+     *   - The Modal Response is used for Dialog Modals.
+     *
+     * ---
+     * @return \ILIAS\UI\Component\Modal\ModalResponse
+     */
+    public function modalResponse(
+        string $title = '',
+        ?\ILIAS\UI\Component\Component ...$content
+    ): ModalResponse;
 }

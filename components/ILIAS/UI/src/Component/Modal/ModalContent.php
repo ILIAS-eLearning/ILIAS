@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,23 +16,13 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
-namespace ILIAS\UI\Component\Divider;
+declare(strict_types=1);
 
-use ILIAS\UI\Component\Component;
-use ILIAS\UI\Component\Modal\ModalContent;
+namespace ILIAS\UI\Component\Modal;
 
 /**
- * Horizontal Divider
+ * Defines allowed content(parts) of a DialogModal
  */
-interface Horizontal extends Component, ModalContent
+interface ModalContent
 {
-    /**
-     * Get the label of the divider
-     */
-    public function getLabel(): ?string;
-
-    /**
-     * Get a divider like this, but with another label
-     */
-    public function withLabel(string $label): Horizontal;
 }
