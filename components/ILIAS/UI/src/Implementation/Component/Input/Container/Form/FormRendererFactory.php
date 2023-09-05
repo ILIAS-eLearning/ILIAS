@@ -40,7 +40,6 @@ class FormRendererFactory extends Render\DefaultRendererFactory
                 $this->tpl_factory,
                 $this->lng,
                 $this->js_binding,
-                //$this->refinery,
                 $this->image_path_resolver,
                 $this->data_factory,
                 $this->help_text_retriever,
