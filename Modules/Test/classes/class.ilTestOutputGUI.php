@@ -320,14 +320,13 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
         $this->test_session->setLastSequence($sequence_element ?? 0);
         $this->test_session->saveToDb();
 
-
         $questionId = $this->testSequence->getQuestionForSequence($sequence_element ?? 0);
 
         if (!(int) $questionId && $this->test_session->isObjectiveOriented()) {
             $this->handleTearsAndAngerNoObjectiveOrientedQuestion();
         }
 
-        if (!$this->testSequence->isQuestionPresented($questionId)) {
+        if ($questionId !== null && !$this->testSequence->isQuestionPresented($questionId)) {
             $this->testSequence->setQuestionPresented($questionId);
             $this->testSequence->saveToDb();
         }

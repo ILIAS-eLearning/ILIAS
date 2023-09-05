@@ -44,6 +44,7 @@ class ilTestScreenGUI
     private readonly ilTabsGUI $tabs;
     private readonly ilAccessHandler $access;
     private readonly int $ref_id;
+    private readonly ilObjTestMainSettings $main_settings;
 
     public function __construct(
         private readonly ilObjTest $object,
@@ -60,6 +61,7 @@ class ilTestScreenGUI
         $this->tabs = $DIC->tabs();
         $this->access = $DIC->access();
         $this->ref_id = $this->object->getRefId();
+        $this->main_settings = $this->object->getMainSettings();
 
         $db = $DIC->database();
         $this->test_session_factory = new ilTestSessionFactory($this->object, $db, $this->user);
@@ -94,6 +96,7 @@ class ilTestScreenGUI
         $elements = [];
 
         $elements = $this->handleTestScreenRenderIntroduction($elements);
+        $elements = $this->handleTestScreenRenderAccessCode($elements);
         $elements = $this->handleTestScreenRenderSessionSettings($elements);
 
         switch ($this->evaluateTestScreenSwitchValue()) {
@@ -117,10 +120,25 @@ class ilTestScreenGUI
 
     private function handleTestScreenRenderIntroduction(array $elements): array
     {
-        if ($this->object->getMainSettings()?->getIntroductionSettings()->getIntroductionEnabled() && !empty($this->object->getIntroduction())) {
+        if (
+            $this->object->getMainSettings()->getIntroductionSettings()->getIntroductionEnabled() &&
+            !empty($this->object->getIntroduction())
+        ) {
             $elements[] = $this->ui_factory->panel()->standard(
                 $this->lng->txt('tst_introduction'),
                 $this->ui_factory->messageBox()->info($this->object->getIntroduction())
+            );
+        }
+
+        return $elements;
+    }
+
+    private function handleTestScreenRenderAccessCode(array $elements): array
+    {
+        if ($this->user->isAnonymous()) {
+            $elements[] = $this->ui_factory->panel()->standard(
+                $this->lng->txt('tst_exam_access_code'),
+                $this->ui_factory->messageBox()->info($this->test_session_factory->getSession()->getAccessCodeFromSession() ?? $this->lng->txt('tst_access_code_not_found'))
             );
         }
 
@@ -153,7 +171,7 @@ class ilTestScreenGUI
 
         $elements[] = $this->ui_factory->button()->primary(
             $this->lng->txt('tst_resume_test'),
-            $this->ctrl->getLinkTarget((new ilTestPlayerFactory($this->object))->getPlayerGUI(), 'resumePlayer')
+            $this->ctrl->getLinkTarget((new ilTestPlayerFactory($this->object))->getPlayerGUI(), ilTestPlayerCommands::RESUME_PLAYER)
         );
 
         return $elements;
@@ -185,13 +203,12 @@ class ilTestScreenGUI
 
     private function getTestScreenModal(): Launcher
     {
-        $main_settings = $this->object->getMainSettings();
         $anonymous = $this->user->isAnonymous();
         $data_factory = new Factory();
         $url = $data_factory->uri($this->http->request()->getUri()->__toString());
         $modal_inputs = [];
 
-        $exam_conditions_enabled = $main_settings->getIntroductionSettings()->getExamConditionsCheckboxEnabled();
+        $exam_conditions_enabled = $this->main_settings->getIntroductionSettings()->getExamConditionsCheckboxEnabled();
 
         if ($exam_conditions_enabled) {
             $modal_inputs[] = $this->ui_factory->input()->field()->checkbox(
@@ -200,7 +217,7 @@ class ilTestScreenGUI
             )->withDedicatedName('exam_conditions')->withRequired(true);
         }
 
-        $password_enabled = $main_settings->getAccessSettings()->getPasswordEnabled();
+        $password_enabled = $this->main_settings->getAccessSettings()->getPasswordEnabled();
 
         if ($password_enabled) {
             $modal_inputs[] = $this->ui_factory->input()->field()->text(
@@ -216,17 +233,16 @@ class ilTestScreenGUI
             )->withDedicatedName('exam_access_code');
         }
 
-        if ($main_settings->getParticipantFunctionalitySettings()->getUsePreviousAnswerAllowed()) {
+        if ($this->main_settings->getParticipantFunctionalitySettings()->getUsePreviousAnswerAllowed()) {
             $modal_inputs[] = $this->ui_factory->input()->field()->checkbox(
                 $this->lng->txt('tst_exam_use_previous_answers'),
                 $this->lng->txt('tst_exam_use_previous_answers_label')
             )->withDedicatedName('exam_use_previous_answers');
         }
 
-        $test_behaviour_settings = $main_settings->getTestBehaviourSettings();
+        $test_behaviour_settings = $this->main_settings->getTestBehaviourSettings();
         $processing_time_enabled = $test_behaviour_settings->getProcessingTimeEnabled();
         $processing_time_as_minutes = $test_behaviour_settings->getProcessingTimeAsMinutes();
-
         $launcher = $this->ui_factory->launcher()
             ->inline($data_factory->link($this->lng->txt('tst_exam_start'), $url->withParameter('launcher_id', 'exam_modal')))
             ->withInputs(
@@ -235,8 +251,8 @@ class ilTestScreenGUI
                 $this->ui_factory->messageBox()->info($this->lng->txt('tst_exam_conditions_modal_desc'))
             )
             ->withDescription(
-                '</p>' . 'Please make sure that you have the time to complete the test and that you will be undisturbed. There is no way for you to pause or re-take this test.' . '</p>' .
-                ($processing_time_enabled ? '<p>' . sprintf('You will have <b>%s minutes</b> to answer all questions.', $processing_time_as_minutes) . '</p>' : '')
+                '</p>' . $this->lng->txt('tst_disclaimer') . '</p>' .
+                ($processing_time_enabled ? ('<p>' . sprintf($this->lng->txt('tst_time_limit_message_long'), $processing_time_as_minutes) . '</p>') : '')
             )
         ;
 
@@ -247,9 +263,9 @@ class ilTestScreenGUI
         if ($exam_conditions_enabled || $password_enabled || $processing_time_enabled || $this->object->getNrOfTries() !== 0) {
             $launcher
                 ->withStatusMessageBox($this->ui_factory->messageBox()->info(
-                    (($exam_conditions_enabled || $password_enabled) ? 'You will be asked for the password and/or your approval of the exam conditions when you start the test.' : '') . ' ' .
-                    ($processing_time_enabled ? sprintf('Your Time-Limit is %s minutes.', $processing_time_as_minutes) : '') . ' ' .
-                    (($this->object->getNrOfTries() !== 0) ? sprintf('Your limit of test attempts is %s.', $this->object->getNrOfTries()) : '')
+                    (($exam_conditions_enabled || $password_enabled) ? $this->lng->txt('tst_launcher_message') : '') . ' ' .
+                    ($processing_time_enabled ? sprintf($this->lng->txt('tst_time_limit_message'), $processing_time_as_minutes) : '') . ' ' .
+                    (($this->object->getNrOfTries() !== 0) ? sprintf($this->lng->txt('tst_attempt_limit_message'), $this->object->getNrOfTries()) : '')
                 ));
         }
 
@@ -265,12 +281,11 @@ class ilTestScreenGUI
 
     private function evaluateTestScreenModalForm(Result $result): void
     {
-        $main_settings = $this->object->getMainSettings();
         $anonymous = $this->user->isAnonymous();
 
         if ($result->isOK()) {
             $conditions_met = true;
-            $access_settings_password = $main_settings->getAccessSettings()->getPassword();
+            $access_settings_password = $this->main_settings->getAccessSettings()->getPassword();
             foreach ($result->value() as $key => $value) {
                 if (!$conditions_met) {
                     break;
@@ -293,8 +308,10 @@ class ilTestScreenGUI
                         }
                         break;
                     case 'exam_access_code':
-                        if (!empty($value) && $anonymous) {
-                            ilSession::set('tst_access_code', $value);
+                        if ($anonymous && !empty($value)) {
+                            $this->test_session_factory->getSession()->setAccessCodeToSession($value);
+                        } else {
+                            $this->test_session_factory->getSession()->unsetAccessCodeInSession();
                         }
                         break;
                     case 'exam_use_previous_answers':
@@ -308,15 +325,20 @@ class ilTestScreenGUI
             } elseif ($conditions_met) {
                 if (
                     !$anonymous &&
-                    $main_settings->getParticipantFunctionalitySettings()->getUsePreviousAnswerAllowed() &&
-                    isset($exam_use_previous_answers_value)
+                    isset($exam_use_previous_answers_value) &&
+                    $this->main_settings->getParticipantFunctionalitySettings()->getUsePreviousAnswerAllowed()
                 ) {
                     $this->user->setPref('tst_use_previous_answers', $exam_use_previous_answers_value);
                 }
+
                 if (isset($password) && $password === $access_settings_password) {
                     ilSession::set('tst_password_' . $this->object->getTestId(), $password);
+                } else {
+                    ilSession::set('tst_password_' . $this->object->getTestId(), '');
+                    $this->test_session_factory->getSession()->setPasswordChecked(false);
                 }
-                $this->ctrl->redirectByClass((new ilTestPlayerFactory($this->object))->getPlayerGUI()::class, 'startTest');
+
+                $this->ctrl->redirectByClass((new ilTestPlayerFactory($this->object))->getPlayerGUI()::class, ilTestPlayerCommands::INIT_TEST);
             }
         }
     }
@@ -330,18 +352,22 @@ class ilTestScreenGUI
         $existing_passes = $this->test_passes_selector->getExistingPasses();
         $nr_of_tries = $this->object->getNrOfTries();
 
-        $main_settings = $this->object->getMainSettings();
-        $exam_conditions_enabled = $main_settings->getIntroductionSettings()->getExamConditionsCheckboxEnabled();
-        $password_enabled = $main_settings->getAccessSettings()->getPasswordEnabled();
-        $access_code_enabled = $main_settings->getGeneralSettings()->getAnonymity();
-        $allow_previous_answers_enabled = $main_settings->getParticipantFunctionalitySettings()->getUsePreviousAnswerAllowed();
+        $exam_conditions_enabled = $this->main_settings->getIntroductionSettings()->getExamConditionsCheckboxEnabled();
+        $password_enabled = $this->main_settings->getAccessSettings()->getPasswordEnabled();
+        $access_code_enabled = $this->main_settings->getGeneralSettings()->getAnonymity();
+        $allow_previous_answers_enabled = $this->main_settings->getParticipantFunctionalitySettings()->getUsePreviousAnswerAllowed();
 
         if ($nr_of_tries === 0 || count($existing_passes) <= $nr_of_tries) {
             if ((count($existing_passes) - count($this->test_passes_selector->getClosedPasses())) === 1) {
                 return 'showContinueButton';
             }
             if ($nr_of_tries === 0 || count($existing_passes) < $nr_of_tries) {
-                return ($exam_conditions_enabled || $password_enabled || $access_code_enabled || $allow_previous_answers_enabled) ? 'showModal' : 'showStartButton';
+                return (
+                    $exam_conditions_enabled ||
+                    $password_enabled ||
+                    $allow_previous_answers_enabled ||
+                    ($access_code_enabled && $this->user->isAnonymous())
+                ) ? 'showModal' : 'showStartButton';
             }
         }
 

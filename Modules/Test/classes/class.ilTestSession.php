@@ -443,15 +443,7 @@ class ilTestSession
 
     public function doesAccessCodeInSessionExists(): bool
     {
-        if (!is_array(ilSession::get(self::ACCESS_CODE_SESSION_INDEX))) {
-            return false;
-        }
-        $session_code = ilSession::get(self::ACCESS_CODE_SESSION_INDEX);
-        if (!isset($session_code[$this->getTestId()])) {
-            return false;
-        }
-
-        return isset($session_code[$this->getTestId()]);
+        return is_array(ilSession::get(self::ACCESS_CODE_SESSION_INDEX)) && isset(ilSession::get(self::ACCESS_CODE_SESSION_INDEX)[$this->getTestId()]);
     }
 
     public function createNewAccessCode(): string

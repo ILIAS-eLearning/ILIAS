@@ -1245,6 +1245,7 @@ assessment#:#toplist_col_score#:#Score
 assessment#:#toplist_col_wtime#:#Working Time
 assessment#:#true#:#True
 assessment#:#tst_access_code_created#:#To provide you with permanent access to your test results and to offer you a possibility to resume this test, a unique test access code was created. Please make a note of this code so that you can continue the test later.
+assessment#:#tst_access_code_not_found#:#No access code found!
 assessment#:#tst_activate_skill_service#:#Competence Service
 assessment#:#tst_activate_skill_service_desc#:#Before and after the period during which the test is available,  the test's title will be displayed, but participants wonâ€™t be able to take the test. Access, including to tests already in progress, will be prevented once the period of availability has ended.
 assessment#:#tst_activation_limited_visibility_info#:#Before and after the indicated period it is only the test's title that will be displayed. The participants cannot take the test. Further access, including to tests already in progress, will be prevented at the end of the period.
@@ -1282,6 +1283,7 @@ assessment#:#tst_answered_questions_of_total#:#%s of %s
 assessment#:#tst_answered_questions_test#:#Questions answered in this test
 assessment#:#tst_attached_xls_file#:#You can find the test results for this participant in the attached Excel file.
 assessment#:#tst_attempt#:#Attempt
+assessment#:#tst_attempt_limit_message#:#Your limit of test attempts is %s.
 assessment#:#tst_back_to_pass_details#:#Back to Pass Details
 assessment#:#tst_back_to_question_list#:#Back to Question List
 assessment#:#tst_back_to_top#:#Back to Top
@@ -1337,6 +1339,7 @@ assessment#:#tst_delete_dyn_test_results_btn#:#Remove Test Results
 assessment#:#tst_delete_missing_mark#:#Please select at least one mark step to remove it
 assessment#:#tst_derive_new_pool#:#Derive New Question Pool
 assessment#:#tst_derive_new_pools#:#Derive New Question Pools
+assessment#:#tst_disclaimer#:#Please make sure that you have the time to complete the test and that you will be undisturbed. There is no way for you to pause or re-take this test.
 assessment#:#tst_dont_show_msg_again_in_current_session#:#Don't show this message again in my current session.
 assessment#:#tst_dont_use_previous_answers#:#Your previous answers will not be used as default values in future test passes
 assessment#:#tst_edit_competence_assign#:#Edit Assignment Properties
@@ -1371,7 +1374,6 @@ assessment#:#tst_exam_required_fields_not_filled_message#:#You need to fill out 
 assessment#:#tst_exam_start#:#Start Test
 assessment#:#tst_exam_use_previous_answers#:#Previous Answers
 assessment#:#tst_exam_use_previous_answers_label#:#If enabled answers from previous tests will be prefilled.
-assessment#:#tst_out_of_time_message#:#You have reached the maximum allowed processing time of the test!
 assessment#:#tst_extratime_added#:#The working time of the participant has been increased by %s minutes.
 assessment#:#tst_extratime_info#:#If you want to add the working time multiple times for the same participant, please insert the total amount of time you want to add.
 assessment#:#tst_extratime_notavailable#:#Extra time can be added only for tests with one pass and a maximum processing time.
@@ -1485,6 +1487,7 @@ assessment#:#tst_introduction_desc#:#Shows an introductory message on the tab â€
 assessment#:#tst_introduction_text#:#Introductory Message
 assessment#:#tst_invited_nobody#:#No users, groups or roles have been added as fixed test participants
 assessment#:#tst_invited_selected_users#:#The selected users have been added as fixed test participants
+assessment#:#tst_launcher_message#:#You will be asked for the password and/or your approval of the exam conditions when you start the test.
 assessment#:#tst_level#:#Competence Level
 assessment#:#tst_limit_nr_of_tries#:#Limit Number of Test Passes
 assessment#:#tst_link_only_unassigned#:#You have selected at least one question that is already linked to a question pool. Only unassigned questions can be added to a question pool.
@@ -1580,6 +1583,7 @@ assessment#:#tst_objectives_progress_header#:#Learning Objectives Progress
 assessment#:#tst_old_style_rnd_quest_set_broken#:#This random test is in a irreparable state, because one or more connected question pools have been deleted. Therefor participants cannot take the test any longer.
 assessment#:#tst_optional_questions_confirmation_fixed_test#:#<b>Question related to already passed learning objectives were answered in previous passes.</b><br /><br />You want to navigate to a question, that relates to an already passed learning objective.<br />You can choose:<br /><br />I you proceed, you can work on or simply review these questions. If you change your answers that were adopted from previous passes, you can also degrade your learning objective result.<br /><br />If you decide to not work on or review these questions, you can go back. The questions will be considered in the evaluation in every case.
 assessment#:#tst_optional_questions_confirmation_non_fixed_test#:#<b>Question related to already passed learning objectives are optional.</b><br /><br />You want to navigate to a question, that relates to an already passed learning objective.<br />You can choose:<br /><br />I you proceed, you can work on these questions. Your answers from previous attempts were not adopted, since new random questions were selected for this attempt. With working on this questions you can also degrade your learning objective result.<br /><br />If you decide to not work on these questions, you can go back. In this case these questions won't be considered in the evaluation.
+assessment#:#tst_out_of_time_message#:#You have reached the maximum allowed processing time of the test!
 assessment#:#tst_participant#:#Participant
 assessment#:#tst_participant_fullname_pattern#:#%2$s, %1$s
 assessment#:#tst_participant_status#:#Participant Status
@@ -1900,6 +1904,8 @@ assessment#:#tst_text_count_system#:#Scoring System
 assessment#:#tst_threshold#:#Thresholds (in %)
 assessment#:#tst_time_already_spent#:#You started the test at: %s. Your maximum processing time is %s.
 assessment#:#tst_time_already_spent_left#:#You have %s left.
+assessment#:#tst_time_limit_message#:#Your Time-Limit is %s minutes.
+assessment#:#tst_time_limit_message_long#:#You will have <b>%s minutes</b> to answer all questions.
 assessment#:#tst_title_output#:#Show Question Title
 assessment#:#tst_title_output_full#:#Question Titles and Available Points
 assessment#:#tst_title_output_hide_points#:#Only Question Titles
