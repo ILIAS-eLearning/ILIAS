@@ -1842,8 +1842,9 @@ class ilObjUserGUI extends ilObjectGUI
 
         $ilTabs->activateTab("role_assignment");
 
-        if (!$rbacsystem->checkAccess("edit_roleassignment", $this->usrf_ref_id) &&
-            !$access->isCurrentUserBasedOnPositionsAllowedTo("read_users", array($this->object->getId()))
+        if ($this->object->getId() === (int) ANONYMOUS_USER_ID
+            || !$rbacsystem->checkAccess("edit_roleassignment", $this->usrf_ref_id)
+                && !$access->isCurrentUserBasedOnPositionsAllowedTo("read_users", array($this->object->getId()))
         ) {
             $this->ilias->raiseError(
                 $this->lng->txt("msg_no_perm_assign_role_to_user"),
@@ -2146,7 +2147,7 @@ class ilObjUserGUI extends ilObjectGUI
      */
     protected function handleIgnoredRequiredFields(): bool
     {
-        $profileMaybeIncomplete = false;
+        $profile_maybe_incomplete = false;
 
         foreach (ilUserProfile::getIgnorableRequiredSettings() as $fieldName) {
             $elm = $this->form_gui->getItemByPostVar($fieldName);
@@ -2156,7 +2157,7 @@ class ilObjUserGUI extends ilObjectGUI
             }
 
             if ($elm->getRequired()) {
-                $profileMaybeIncomplete = true;
+                $profile_maybe_incomplete = true;
 
                 // Flag as optional
                 $elm->setRequired(false);
@@ -2170,16 +2171,15 @@ class ilObjUserGUI extends ilObjectGUI
             if (!$elm) {
                 continue;
             }
-
-            if ($elm->getRequired() && $definition['changeable'] && $definition['required'] && $definition['visible']) {
-                $profileMaybeIncomplete = true;
+            if ($elm->getRequired() && $definition['required']) {
+                $profile_maybe_incomplete = true;
 
                 // Flag as optional
                 $elm->setRequired(false);
             }
         }
 
-        return $profileMaybeIncomplete;
+        return $profile_maybe_incomplete;
     }
 
     protected function showAcceptedTermsOfService(): void

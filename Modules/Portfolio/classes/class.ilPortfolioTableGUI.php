@@ -113,7 +113,7 @@ class ilPortfolioTableGUI extends ilTable2GUI
             "URL_ACTION",
             $ilCtrl->getLinkTargetByClass($prtf_path, "preview")
         );
-        $this->tpl->setVariable("TXT_ACTION", $lng->txt("user_profile_preview"));
+        $this->tpl->setVariable("TXT_ACTION", $lng->txt("preview"));
         $this->tpl->parseCurrentBlock();
 
         $this->tpl->setVariable(

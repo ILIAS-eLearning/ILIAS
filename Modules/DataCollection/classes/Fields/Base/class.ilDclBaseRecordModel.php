@@ -39,7 +39,7 @@ class ilDclBaseRecordModel
     protected int $id = 0;
     protected int $table_id;
     protected ?ilDclTable $table = null;
-    protected int $last_edit_by;
+    protected ?int $last_edit_by = null;
     protected int $owner = 0;
     protected ilDateTime $last_update;
     protected ilDateTime $create_date;
@@ -234,12 +234,12 @@ class ilDclBaseRecordModel
         return $this->owner;
     }
 
-    public function getLastEditBy(): int
+    public function getLastEditBy(): ?int
     {
         return $this->last_edit_by;
     }
 
-    public function setLastEditBy(int $last_edit_by): void
+    public function setLastEditBy(?int $last_edit_by): void
     {
         $this->last_edit_by = $last_edit_by;
     }

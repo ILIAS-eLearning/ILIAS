@@ -218,7 +218,7 @@ class ilPortfolioRepositoryGUI
             //	... preview
             $ctrl->setParameterByClass("ilobjportfoliogui", "prt_id", $port["id"]);
             $preview_action = $ctrl->getLinkTargetByClass($prtf_path, "preview");
-            $action[] = $f->button()->shy($lng->txt("user_profile_preview"), $preview_action);
+            $action[] = $f->button()->shy($lng->txt("preview"), $preview_action);
             //	... edit content
             $action[] = $f->button()->shy(
                 $lng->txt("prtf_edit_content"),
