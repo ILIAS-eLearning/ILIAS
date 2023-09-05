@@ -37,7 +37,6 @@ class ilTestScreenGUI
     private readonly ilLanguage $lng;
     private readonly ilCtrl $ctrl;
     private readonly ilGlobalTemplateInterface $tpl;
-    private readonly ilTestSessionFactory $test_session_factory;
     private readonly ilTestSequenceFactory $test_sequence_factory;
     private readonly HTTPServices $http;
     private readonly ilTestPassesSelector $test_passes_selector;
@@ -45,6 +44,7 @@ class ilTestScreenGUI
     private readonly ilAccessHandler $access;
     private readonly int $ref_id;
     private readonly ilObjTestMainSettings $main_settings;
+    private readonly ilTestSession $test_session;
 
     public function __construct(
         private readonly ilObjTest $object,
@@ -64,14 +64,12 @@ class ilTestScreenGUI
         $this->main_settings = $this->object->getMainSettings();
 
         $db = $DIC->database();
-        $this->test_session_factory = new ilTestSessionFactory($this->object, $db, $this->user);
+        $this->test_session = (new ilTestSessionFactory($this->object, $db, $this->user))->getSession();
         $this->test_sequence_factory = new ilTestSequenceFactory($this->object, $db);
 
-        $test_session = $this->test_session_factory->getSession();
-
         $this->test_passes_selector = new ilTestPassesSelector($db, $this->object);
-        $this->test_passes_selector->setActiveId($test_session->getActiveId());
-        $this->test_passes_selector->setLastFinishedPass($test_session->getLastFinishedPass());
+        $this->test_passes_selector->setActiveId($this->test_session->getActiveId());
+        $this->test_passes_selector->setLastFinishedPass($this->test_session->getLastFinishedPass());
     }
 
     public function executeCommand(): void
@@ -138,7 +136,7 @@ class ilTestScreenGUI
         if ($this->user->isAnonymous()) {
             $elements[] = $this->ui_factory->panel()->standard(
                 $this->lng->txt('tst_exam_access_code'),
-                $this->ui_factory->messageBox()->info($this->test_session_factory->getSession()->getAccessCodeFromSession() ?? $this->lng->txt('tst_access_code_not_found'))
+                $this->ui_factory->messageBox()->info($this->test_session->getAccessCodeFromSession() ?? $this->lng->txt('tst_access_code_not_found'))
             );
         }
 
@@ -147,8 +145,6 @@ class ilTestScreenGUI
 
     private function handleTestScreenRenderSessionSettings(array $elements): array
     {
-        $testSession = $this->test_session_factory->getSession();
-
         $elements[] = $this->ui_factory->panel()->standard($this->lng->txt('tst_session_settings'),[
             $this->ui_factory->item()->standard($this->lng->txt('tst_nr_of_tries'))->withDescription(
                 $this->object->getNrOfTries() === 0
@@ -156,9 +152,9 @@ class ilTestScreenGUI
                     : (string) $this->object->getNrOfTries()
             ),
             $this->ui_factory->item()->standard($this->lng->txt('tst_nr_of_tries_of_user'))->withDescription(
-                ($testSession->getPass() == false)
+                ($this->test_session->getPass() == false)
                     ? $this->lng->txt('tst_no_tries')
-                    : (string) $this->test_sequence_factory->getSequenceByTestSession($testSession)->getPass()
+                    : (string) $this->test_sequence_factory->getSequenceByTestSession($this->test_session)->getPass()
             )
         ]);
 
@@ -309,9 +305,9 @@ class ilTestScreenGUI
                         break;
                     case 'exam_access_code':
                         if ($anonymous && !empty($value)) {
-                            $this->test_session_factory->getSession()->setAccessCodeToSession($value);
+                            $this->test_session->setAccessCodeToSession($value);
                         } else {
-                            $this->test_session_factory->getSession()->unsetAccessCodeInSession();
+                            $this->test_session->unsetAccessCodeInSession();
                         }
                         break;
                     case 'exam_use_previous_answers':
@@ -335,7 +331,7 @@ class ilTestScreenGUI
                     ilSession::set('tst_password_' . $this->object->getTestId(), $password);
                 } else {
                     ilSession::set('tst_password_' . $this->object->getTestId(), '');
-                    $this->test_session_factory->getSession()->setPasswordChecked(false);
+                    $this->test_session->setPasswordChecked(false);
                 }
 
                 $this->ctrl->redirectByClass((new ilTestPlayerFactory($this->object))->getPlayerGUI()::class, ilTestPlayerCommands::INIT_TEST);
