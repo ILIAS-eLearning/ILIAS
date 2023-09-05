@@ -79,7 +79,7 @@
 		"mockery/mockery": "^1.4",
 		"friendsofphp/php-cs-fixer": "^3.15",
 		"sebastian/environment": "^5.0",
-		"captainhook/captainhook": "^5.10",
+		"captainhook/captainhook": "^5.16",
 		"captainhook/plugin-composer": "^5.3",
 		"phpstan/phpstan": "^1.9",
 		"rector/rector": "^0.15.17"
@@ -211,10 +211,10 @@
 		},
 		"phpmailer/phpmailer" : {
 			"source" : "https://github.com/PHPMailer/PHPMailer",
-			"used_version" : "v6.8.0",
+			"used_version" : "v6.8.1",
 			"wrapped_by" : "Services/Mail",
 			"added_by" : "Maximilian Becker <mbecker@databay.de>",
-			"last_update" : "2023-03-13",
+			"last_update" : "2023-09-05",
 			"last_update_by" : "Michael Jansen <mjansen@databay.de>",
 			"approved-by": "Jour Fixe",
 			"approved-date": "YYYY-MM-DD"
@@ -492,11 +492,11 @@
 		},
 		"captainhook/captainhook": {
 			"source": "https://github.com/captainhookphp/captainhook",
-			"used_version": "5.10",
+			"used_version": "5.16.1",
 			"added_by": "Michael Jansen <mjansen@databay.de>",
 			"wrapped_by": null,
-			"last_update": "2022-08-12",
-			"last_update_by": "",
+			"last_update": "2023-09-05",
+			"last_update_by": "mjansen",
 			"approved-by": "JF",
 			"approved-date": "2021-11-21"
 		},
