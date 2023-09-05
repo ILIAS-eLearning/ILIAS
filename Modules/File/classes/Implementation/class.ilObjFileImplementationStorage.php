@@ -18,7 +18,6 @@
 
 use ILIAS\ResourceStorage\Resource\StorableResource;
 use ILIAS\ResourceStorage\Services;
-use ILIAS\DI\Container;
 use ILIAS\Modules\File\Settings\General;
 
 /**
@@ -27,20 +26,15 @@ use ILIAS\Modules\File\Settings\General;
  */
 class ilObjFileImplementationStorage extends ilObjFileImplementationAbstract implements ilObjFileImplementationInterface
 {
-    protected StorableResource $resource;
     protected Services $storage;
     protected bool $download_with_uploaded_filename;
 
     /**
      * ilObjFileImplementationStorage constructor.
      */
-    public function __construct(StorableResource $resource)
+    public function __construct(protected StorableResource $resource)
     {
         global $DIC;
-        /**
-         * @var $DIC Container
-         */
-        $this->resource = $resource;
         $settings = new General();
         $this->storage = $DIC->resourceStorage();
         $this->download_with_uploaded_filename = $settings->isDownloadWithUploadedFileName();
@@ -86,7 +80,7 @@ class ilObjFileImplementationStorage extends ilObjFileImplementationAbstract imp
     public function getDirectory(int $a_version = 0): string
     {
         $consumer = $this->storage->consume()->stream($this->resource->getIdentification());
-        if ($a_version) {
+        if ($a_version !== 0) {
             $consumer->setRevisionNumber($a_version);
         }
         $stream = $consumer->getStream();
@@ -125,7 +119,7 @@ class ilObjFileImplementationStorage extends ilObjFileImplementationAbstract imp
                 $this->resource->getSpecificRevision($a_hist_entry_id) :
                 $this->resource->getCurrentRevision();
             return \ilObjFileAccess::_isFileInline($revision->getTitle());
-        } catch (Exception $e) {
+        } catch (Exception) {
             return false;
         }
     }

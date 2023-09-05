@@ -67,17 +67,19 @@ class ilObjFileListGUI extends ilObjectListGUI
         if ($img !== null && $img->exists()) {
             return $img->getFullPath();
         }
-
         // Fallback to use a flavour as tile image
-        if ($this->use_flavor_for_cards && ($flavour_path = $this->getCardImageFallbackPath(
+        if (!$this->use_flavor_for_cards) {
+            // Fallback to use a default tile image
+            return ilUtil::getImagePath('cont_tile/cont_tile_default_' . $this->type . '.svg');
+        }
+        if (($flavour_path = $this->getCardImageFallbackPath(
             $this->obj_id,
             $this->type
-        )) !== '') {
-            return $flavour_path;
+        )) === '') {
+            // Fallback to use a default tile image
+            return ilUtil::getImagePath('cont_tile/cont_tile_default_' . $this->type . '.svg');
         }
-
-        // Fallback to use a default tile image
-        return ilUtil::getImagePath('cont_tile/cont_tile_default_' . $this->type . '.svg');
+        return $flavour_path;
     }
 
     /**
@@ -198,15 +200,15 @@ class ilObjFileListGUI extends ilObjectListGUI
         // Display a warning if a file is not a hidden Unix file, and
         // the filename extension is missing
         if (null === $revision && !preg_match('/^\\.|\\.[a-zA-Z0-9]+$/', $this->title)) {
-            $props[] = array(
+            $props[] = [
                 "alert" => false,
                 "property" => $DIC->language()->txt("filename_interoperability"),
                 "value" => $DIC->language()->txt("filename_extension_missing"),
-                'propertyNameVisible' => false,
-            );
+                'propertyNameVisible' => false
+            ];
         }
 
-        $props[] = array(
+        $props[] = [
             "alert" => false,
             "property" => $DIC->language()->txt("type"),
             "value" => ilObjFileAccess::_getFileExtension(
@@ -214,15 +216,15 @@ class ilObjFileListGUI extends ilObjectListGUI
                     ($file_data['title'] ?? "") :
                     $this->title
             ),
-            'propertyNameVisible' => false,
-        );
+            'propertyNameVisible' => false
+        ];
 
-        $props[] = array(
+        $props[] = [
             "alert" => false,
             "property" => $DIC->language()->txt("size"),
             "value" => ilUtil::formatSize($file_data['size'] ?? 0, 'short'),
-            'propertyNameVisible' => false,
-        );
+            'propertyNameVisible' => false
+        ];
         $version = $file_data['version'] ?? 1;
         if ($version > 1) {
             // add versions link
@@ -232,30 +234,30 @@ class ilObjFileListGUI extends ilObjectListGUI
             } else {
                 $value = $DIC->language()->txt("version") . ": $version";
             }
-            $props[] = array(
+            $props[] = [
                 "alert" => false,
                 "property" => $DIC->language()->txt("version"),
                 "value" => $value,
-                "propertyNameVisible" => false,
-            );
+                "propertyNameVisible" => false
+            ];
         }
 
         if (isset($file_data["date"])) {
-            $props[] = array(
+            $props[] = [
                 "alert" => false,
                 "property" => $DIC->language()->txt("last_update"),
                 "value" => ilDatePresentation::formatDate(new ilDateTime($file_data["date"], IL_CAL_DATETIME)),
-                'propertyNameVisible' => false,
-            );
+                'propertyNameVisible' => false
+            ];
         }
 
         if (isset($file_data["page_count"]) && (int) $file_data["page_count"] > 0) {
-            $props[] = array(
+            $props[] = [
                 "alert" => false,
                 "property" => $DIC->language()->txt("page_count"),
                 "value" => $file_data["page_count"],
-                'propertyNameVisible' => true,
-            );
+                'propertyNameVisible' => true
+            ];
         }
 
         return $props;

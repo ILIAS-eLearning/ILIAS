@@ -74,7 +74,10 @@ class Settings extends ilSetting implements Setting
 
     public function isPreviewEnabled(): bool
     {
-        return $this->isPreviewPossible() && $this->strToBool($this->get(self::F_PREVIEW_ENABLED, '1'));
+        if (!$this->isPreviewPossible()) {
+            return false;
+        }
+        return $this->strToBool($this->get(self::F_PREVIEW_ENABLED, '1'));
     }
 
     public function setMaximumPreviews(int $max_previews): void

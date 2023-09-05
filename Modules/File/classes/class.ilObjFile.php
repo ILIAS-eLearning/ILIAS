@@ -87,7 +87,9 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
 
     protected function initImplementation(): void
     {
-        if ($this->resource_id && ($id = $this->manager->find($this->resource_id)) !== null) {
+        if ($this->resource_id && ($id = $this->manager->find(
+            $this->resource_id
+        )) instanceof \ILIAS\ResourceStorage\Identification\ResourceIdentification) {
             $resource = $this->manager->getResource($id);
             $this->implementation = new ilObjFileImplementationStorage($resource);
             $this->max_version = $resource->getMaxRevision();
@@ -222,7 +224,7 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
 
     public function setImportantInfo(string $a_important_info): void
     {
-        $this->important_info = !empty($a_important_info) ? $a_important_info : null;
+        $this->important_info = empty($a_important_info) ? null : $a_important_info;
     }
 
     public function getVersion(): int
@@ -284,6 +286,9 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
         return $this->implementation->getFileSize();
     }
 
+    /**
+     * @return never
+     */
     public function setFileSize(int $a_size): void
     {
         throw new LogicException('cannot change filesize');
@@ -294,6 +299,9 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
         return $this->implementation->getFileType();
     }
 
+    /**
+     * @return never
+     */
     public function setFileType(string $a_type): void
     {
         throw new LogicException('cannot change filetype');
@@ -309,6 +317,9 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
         return $this->max_version;
     }
 
+    /**
+     * @return never
+     */
     public function setMaxVersion(int $a_max_version): void
     {
         throw new LogicException('cannot change max-version');
@@ -373,6 +384,7 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
 
     /**
      * @param $a_action
+     * @return never
      * @deprecated
      */
     public function setAction(string $a_action): void
@@ -512,6 +524,9 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
         }
     }
 
+    /**
+     * @return array{file_id: int[]|string[], file_name: string[], f_mode: string[], important_info: string[]|null[], page_count: int[]|string[], rating: bool[]|string[], rid: string[], on_click_mode: int[]|string[], downloads: int[]|string[]}
+     */
     private function getArrayForDatabase(): array
     {
         return [
@@ -657,14 +672,12 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
     {
         $fileExtension = ilObjFileAccess::_getFileExtension($new_filename);
         $titleExtension = ilObjFileAccess::_getFileExtension($new_title);
-        if ($titleExtension != $fileExtension && strlen($fileExtension) > 0) {
+        if ($titleExtension !== $fileExtension && strlen($fileExtension) > 0) {
             // remove old extension
             $pi = pathinfo($this->getFileName());
             $suffix = $pi["extension"];
-            if ($suffix != "") {
-                if (substr($new_title, strlen($new_title) - strlen($suffix) - 1) == "." . $suffix) {
-                    $new_title = substr($new_title, 0, strlen($new_title) - strlen($suffix) - 1);
-                }
+            if ($suffix != "" && substr($new_title, strlen($new_title) - strlen($suffix) - 1) === "." . $suffix) {
+                $new_title = substr($new_title, 0, strlen($new_title) - strlen($suffix) - 1);
             }
             $new_title .= '.' . $fileExtension;
         }

@@ -68,7 +68,7 @@ class General extends ilSetting implements Setting
         $this->set(self::F_SHOW_AMOUNT_OF_DOWNLOADS, $this->boolToStr($value));
     }
 
-    public function setInlineFileExtensions(array $extensions)
+    public function setInlineFileExtensions(array $extensions): void
     {
         $extensions = array_map(function (string $extension): string {
             return strtolower(trim($extension, " \t\n\r\0\x0B,"));

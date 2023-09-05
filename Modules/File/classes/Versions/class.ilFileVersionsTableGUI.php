@@ -103,6 +103,7 @@ class ilFileVersionsTableGUI extends ilTable2GUI
 
     protected function fillRow(array $a_set): void
     {
+        $action_entries = [];
         $hist_id = $a_set["hist_entry_id"];
 
         // split params

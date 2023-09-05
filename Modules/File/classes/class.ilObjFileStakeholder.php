@@ -24,18 +24,16 @@ use ILIAS\ResourceStorage\Identification\ResourceIdentification;
  */
 class ilObjFileStakeholder extends AbstractResourceStakeholder
 {
-    protected int $owner = 6;
     private int $current_user;
     protected ?ilDBInterface $database = null;
 
     /**
      * ilObjFileStakeholder constructor.
      */
-    public function __construct(int $owner = 6)
+    public function __construct(protected int $owner = 6)
     {
         global $DIC;
         $this->current_user = (int) ($DIC->isDependencyAvailable('user') ? $DIC->user()->getId() : ANONYMOUS_USER_ID);
-        $this->owner = $owner;
     }
 
     /**
@@ -92,7 +90,7 @@ class ilObjFileStakeholder extends AbstractResourceStakeholder
                 ['text'],
                 [$object_id]
             );
-        } catch (Throwable $t) {
+        } catch (Throwable) {
             return false;
         }
         return true;

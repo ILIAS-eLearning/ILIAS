@@ -72,10 +72,10 @@ class ilFileObjectDatabaseObjective implements ilDatabaseUpdateSteps
     public function step_2(): void
     {
         $this->abortIfNotPrepared();
-
-        if (!$this->database->tableExists('file_data') ||
-            $this->database->tableColumnExists('file_data', 'downloads')
-        ) {
+        if (!$this->database->tableExists('file_data')) {
+            return;
+        }
+        if ($this->database->tableColumnExists('file_data', 'downloads')) {
             return;
         }
 
@@ -186,20 +186,24 @@ class ilFileObjectDatabaseObjective implements ilDatabaseUpdateSteps
     public function step_5(): void
     {
         $this->abortIfNotPrepared();
-        if ($this->database->tableExists('file_data') && !$this->database->tableColumnExists(
+        if (!$this->database->tableExists('file_data')) {
+            return;
+        }
+        if ($this->database->tableColumnExists(
             'file_data',
             'important_info'
         )) {
-            $this->database->addTableColumn(
-                'file_data',
-                'important_info',
-                [
-                    'type' => 'blob',
-                    'notnull' => false,
-                    'default' => null
-                ]
-            );
+            return;
         }
+        $this->database->addTableColumn(
+            'file_data',
+            'important_info',
+            [
+                'type' => 'blob',
+                'notnull' => false,
+                'default' => null
+            ]
+        );
     }
 
     /**

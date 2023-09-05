@@ -102,7 +102,7 @@ class ilModulesFileTest extends TestCase
 
         $this->db_mock->expects($this->any())
                       ->method('fetchAssoc')
-                      ->willReturnCallback(function (ilDBStatement $statement) {
+                      ->willReturnCallback(function (ilDBStatement $statement): ?array {
                           $row = $statement->fetchAssoc();
                           $query = end($row);
                           if (str_contains($query, 'last_update')) {

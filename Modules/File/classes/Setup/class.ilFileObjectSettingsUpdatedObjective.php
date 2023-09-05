@@ -25,7 +25,7 @@ class ilFileObjectSettingsUpdatedObjective implements Setup\Objective
     {
         return hash(
             "sha256",
-            get_class($this)
+            static::class
         );
     }
 

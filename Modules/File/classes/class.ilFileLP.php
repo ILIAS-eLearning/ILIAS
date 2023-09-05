@@ -28,11 +28,11 @@ class ilFileLP extends ilObjectLP
      */
     public static function getDefaultModes(bool $a_lp_active): array
     {
-        return array(
+        return [
             ilLPObjSettings::LP_MODE_DEACTIVATED,
             ilLPObjSettings::LP_MODE_CONTENT_VISITED,
             ilLPObjSettings::LP_MODE_MANUAL
-        );
+        ];
     }
 
     public function getDefaultMode(): int
@@ -42,10 +42,10 @@ class ilFileLP extends ilObjectLP
 
     public function getValidModes(): array
     {
-        return array(
+        return [
             ilLPObjSettings::LP_MODE_DEACTIVATED,
             ilLPObjSettings::LP_MODE_CONTENT_VISITED,
             ilLPObjSettings::LP_MODE_MANUAL
-        );
+        ];
     }
 }

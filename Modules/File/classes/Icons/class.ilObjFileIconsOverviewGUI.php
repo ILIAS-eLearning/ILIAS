@@ -74,29 +74,15 @@ class ilObjFileIconsOverviewGUI
             $this->ctrl->forwardCommand($upload_handler);
         }
 
-        switch ($cmd = $this->ctrl->getCmd(self::CMD_INDEX)) {
-            case self::CMD_OPEN_CREATION_FORM:
-                $this->openCreationForm();
-                break;
-            case self::CMD_OPEN_UPDATING_FORM:
-                $this->openUpdatingForm();
-                break;
-            case self::CMD_CHANGE_ACTIVATION:
-                $this->changeActivation();
-                break;
-            case self::CMD_CREATE:
-                $this->create();
-                break;
-            case self::CMD_UPDATE:
-                $this->update();
-                break;
-            case self::CMD_DELETE:
-                $this->delete();
-                break;
-            default:
-                $this->index();
-                break;
-        }
+        match ($cmd = $this->ctrl->getCmd(self::CMD_INDEX)) {
+            self::CMD_OPEN_CREATION_FORM => $this->openCreationForm(),
+            self::CMD_OPEN_UPDATING_FORM => $this->openUpdatingForm(),
+            self::CMD_CHANGE_ACTIVATION => $this->changeActivation(),
+            self::CMD_CREATE => $this->create(),
+            self::CMD_UPDATE => $this->update(),
+            self::CMD_DELETE => $this->delete(),
+            default => $this->index(),
+        };
     }
 
     private function index(): void
@@ -272,7 +258,7 @@ class ilObjFileIconsOverviewGUI
         // delete icon from irss
         $is_deleted_from_irss = false;
         $id = $this->storage->manage()->find($rid);
-        if ($id !== null) {
+        if ($id instanceof \ILIAS\ResourceStorage\Identification\ResourceIdentification) {
             $this->storage->manage()->remove($id, new ilObjFileIconStakeholder());
             $is_deleted_from_irss = true;
         }

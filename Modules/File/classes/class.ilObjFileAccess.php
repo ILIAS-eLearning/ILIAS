@@ -71,30 +71,29 @@ class ilObjFileAccess extends ilObjectAccess implements ilWACCheckingClass
      */
     public static function _getCommands(): array
     {
-        $commands = array();
-        $commands[] = array(
-            "permission" => "read",
-            "cmd" => "sendfile",
-            "lang_var" => "download",
-            "default" => true,
-        );
-        $commands[] = array(
-            "permission" => "write",
-            "cmd" => ilFileVersionsGUI::CMD_UNZIP_CURRENT_REVISION,
-            "lang_var" => "unzip",
-        );
-        $commands[] = array(
-            "permission" => "write",
-            "cmd" => "versions",
-            "lang_var" => "versions",
-        );
-        $commands[] = array(
-            "permission" => "write",
-            "cmd" => "edit",
-            "lang_var" => "settings",
-        );
-
-        return $commands;
+        return [
+            [
+                "permission" => "read",
+                "cmd" => "sendfile",
+                "lang_var" => "download",
+                "default" => true
+            ],
+            [
+                "permission" => "write",
+                "cmd" => ilFileVersionsGUI::CMD_UNZIP_CURRENT_REVISION,
+                "lang_var" => "unzip"
+            ],
+            [
+                "permission" => "write",
+                "cmd" => "versions",
+                "lang_var" => "versions"
+            ],
+            [
+                "permission" => "write",
+                "cmd" => "edit",
+                "lang_var" => "settings"
+            ]
+        ];
     }
 
     /**
@@ -111,12 +110,16 @@ class ilObjFileAccess extends ilObjectAccess implements ilWACCheckingClass
         if (isset($t_arr[2]) && $t_arr[2] == "wsp") {
             return ilSharedResourceGUI::hasAccess($t_arr[1]);
         }
-
-        if ($t_arr[0] != "file" || ((int) $t_arr[1]) <= 0) {
+        if ($t_arr[0] != "file") {
             return false;
         }
-        return $ilAccess->checkAccess("visible", "", $t_arr[1])
-            || $ilAccess->checkAccess("read", "", $t_arr[1]);
+        if (((int) $t_arr[1]) <= 0) {
+            return false;
+        }
+        if ($ilAccess->checkAccess("visible", "", $t_arr[1])) {
+            return true;
+        }
+        return (bool) $ilAccess->checkAccess("read", "", $t_arr[1]);
     }
 
     public static function _shouldDownloadDirectly(int $obj_id): bool
@@ -139,7 +142,6 @@ class ilObjFileAccess extends ilObjectAccess implements ilWACCheckingClass
     }
 
     /**
-     * @param int $a_id
      * @deprecated
      */
     public static function _lookupFileSize(int $a_id, bool $by_reference = true): int
@@ -147,7 +149,7 @@ class ilObjFileAccess extends ilObjectAccess implements ilWACCheckingClass
         try {
             $obj = new ilObjFile($a_id, $by_reference);
             return $obj->getFileSize();
-        } catch (Throwable $t) {
+        } catch (Throwable) {
             return 0;
         }
     }
@@ -176,9 +178,8 @@ class ilObjFileAccess extends ilObjectAccess implements ilWACCheckingClass
     {
         if (preg_match('/\.([a-z0-9]+)\z/i', $a_file_name, $matches) == 1) {
             return strtolower($matches[1]);
-        } else {
-            return '';
         }
+        return '';
     }
 
     /**
@@ -191,8 +192,8 @@ class ilObjFileAccess extends ilObjectAccess implements ilWACCheckingClass
      */
     public static function _isFileHidden(string $a_file_name): bool
     {
-        return substr($a_file_name, 0, 1) == '.' || substr($a_file_name, -1, 1) == '~'
-            || substr($a_file_name, 0, 2) == '~$'
+        return str_starts_with($a_file_name, '.') || str_ends_with($a_file_name, '~')
+            || str_starts_with($a_file_name, '~$')
             || $a_file_name == 'Thumbs.db';
     }
 
@@ -245,46 +246,40 @@ class ilObjFileAccess extends ilObjectAccess implements ilWACCheckingClass
             if ($nth_copy == null) {
                 $nth_copy = $matches[1] + 1;
             }
+        } elseif (str_ends_with($filenameWithoutExtension, ' ' . $lng->txt('copy_of_suffix'))) {
+            // this is going to be the second copy of the filename
+            $filenameWithoutCopy = substr(
+                $filenameWithoutExtension,
+                0,
+                -strlen(
+                    ' '
+                    . $lng->txt('copy_of_suffix')
+                )
+            );
+            if ($nth_copy == null) {
+                $nth_copy = 2;
+            }
         } else {
-            if (substr($filenameWithoutExtension, -strlen(' ' . $lng->txt('copy_of_suffix')))
-                == ' ' . $lng->txt('copy_of_suffix')
-            ) {
-                // this is going to be the second copy of the filename
-                $filenameWithoutCopy = substr(
-                    $filenameWithoutExtension,
-                    0,
-                    -strlen(
-                        ' '
-                        . $lng->txt('copy_of_suffix')
-                    )
-                );
-                if ($nth_copy == null) {
-                    $nth_copy = 2;
-                }
-            } else {
-                // this is going to be the first copy of the filename
-                $filenameWithoutCopy = $filenameWithoutExtension;
-                if ($nth_copy == null) {
-                    $nth_copy = 1;
-                }
+            // this is going to be the first copy of the filename
+            $filenameWithoutCopy = $filenameWithoutExtension;
+            if ($nth_copy == null) {
+                $nth_copy = 1;
             }
         }
 
         // Construct the new filename
         if ($nth_copy > 1) {
             // this is at least the second copy of the filename, append " - Copy ($nth_copy)"
-            $newFilename = $filenameWithoutCopy . sprintf(
+            return $filenameWithoutCopy . sprintf(
                 ' '
                 . $lng->txt('copy_n_of_suffix'),
                 $nth_copy
             )
                 . $extension;
-        } else {
-            // this is the first copy of the filename, append " - Copy"
-            $newFilename = $filenameWithoutCopy . ' ' . $lng->txt('copy_of_suffix') . $extension;
         }
 
-        return $newFilename;
+        // this is the first copy of the filename, append " - Copy"
+        return $filenameWithoutCopy . ' ' . $lng->txt('copy_of_suffix') . $extension;
     }
 
     /**

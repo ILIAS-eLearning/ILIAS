@@ -76,14 +76,13 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 
     private function buildForm(): \ILIAS\UI\Component\Input\Container\Form\Standard
     {
-        $form = $this->ui_factory->input()->container()->form()->standard(
+        return $this->ui_factory->input()->container()->form()->standard(
             $this->ctrl->getLinkTarget($this, self::CMD_SAVE_SETTINGS),
             [
                 $this->file_object_settings->asFormSection(),
                 $this->preview_settings->asFormSection(),
             ]
         );
-        return $form;
     }
 
     public function executeCommand(): void

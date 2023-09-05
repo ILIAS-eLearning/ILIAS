@@ -113,13 +113,13 @@ class ilFileXMLWriter extends ilXmlWriter
      */
     public function setAttachFileContents(int $attachFileContents): void
     {
-        if ($attachFileContents == ilFileXMLWriter::$CONTENT_ATTACH_GZIP_ENCODED && !function_exists("gzencode")) {
+        if ($attachFileContents === ilFileXMLWriter::$CONTENT_ATTACH_GZIP_ENCODED && !function_exists("gzencode")) {
             throw new ilFileException(
                 "Inflating with gzip is not supported",
                 ilFileException::$ID_DEFLATE_METHOD_MISMATCH
             );
         }
-        if ($attachFileContents == ilFileXMLWriter::$CONTENT_ATTACH_ZLIB_ENCODED && !function_exists("gzcompress")) {
+        if ($attachFileContents === ilFileXMLWriter::$CONTENT_ATTACH_ZLIB_ENCODED && !function_exists("gzcompress")) {
             throw new ilFileException(
                 "Inflating with zlib (compress/uncompress) is not supported",
                 ilFileException::$ID_DEFLATE_METHOD_MISMATCH
@@ -132,14 +132,14 @@ class ilFileXMLWriter extends ilXmlWriter
     {
         $this->__buildHeader();
 
-        $attribs = array(
+        $attribs = [
             "obj_id" => "il_" . IL_INST_ID . "_file_" . $this->file->getId(),
             "version" => $this->file->getVersion(),
             "max_version" => $this->file->getMaxVersion(),
             "size" => $this->file->getFileSize(),
             "type" => $this->file->getFileType(),
-            "action" => $this->file->getAction(),
-        );
+            "action" => $this->file->getAction()
+        ];
 
         $this->xmlStartTag("File", $attribs);
         $this->xmlElement("Filename", null, $this->file->getFileName());
@@ -154,15 +154,15 @@ class ilFileXMLWriter extends ilXmlWriter
             $this->xmlStartTag("Versions");
 
             foreach ($versions as $version) {
-                $attribs = array(
+                $attribs = [
                     "version" => $version["version"],
                     "max_version" => $version["max_version"],
                     "date" => strtotime($version["date"]),
                     "usr_id" => "il_" . IL_INST_ID . "_usr_" . $version["user_id"],
                     "action" => $version["action"],
                     "rollback_version" => $version["rollback_version"],
-                    "rollback_user_id" => $version["rollback_user_id"],
-                );
+                    "rollback_user_id" => $version["rollback_user_id"]
+                ];
 
                 $content = "";
 

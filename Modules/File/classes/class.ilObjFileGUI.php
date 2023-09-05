@@ -57,7 +57,7 @@ class ilObjFileGUI extends ilObject2GUI
     public const CMD_UPLOAD_FILES = "uploadFiles";
 
     /**
-     * @var ilObjFile $object
+     * @var \ilObjFile|null $object
      */
     public ?ilObject $object = null;
     public ilLanguage $lng;
@@ -127,21 +127,17 @@ class ilObjFileGUI extends ilObject2GUI
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
 
-        if (!$this->getCreationMode()) {
-            if ($this->id_type == self::REPOSITORY_NODE_ID
-                && $this->checkPermissionBool("read")
-            ) {
-                $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $this->node_id);
-                $link = $ilCtrl->getLinkTargetByClass("ilrepositorygui", "infoScreen");
-                $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $this->ref_id);
-
-                // add entry to navigation history
-                $ilNavigationHistory->addItem(
-                    $this->node_id,
-                    $link,
-                    ilObjFile::OBJECT_TYPE
-                );
-            }
+        if (!$this->getCreationMode() && ($this->id_type == self::REPOSITORY_NODE_ID
+                && $this->checkPermissionBool("read"))) {
+            $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $this->node_id);
+            $link = $ilCtrl->getLinkTargetByClass("ilrepositorygui", "infoScreen");
+            $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $this->ref_id);
+            // add entry to navigation history
+            $ilNavigationHistory->addItem(
+                $this->node_id,
+                $link,
+                ilObjFile::OBJECT_TYPE
+            );
         }
 
         $this->prepareOutput();
@@ -272,8 +268,8 @@ class ilObjFileGUI extends ilObject2GUI
 
         $inputs = $form->getInputs();
         // use label of first input as title, because UI Component forms don't support form-titles yet
-        $title = (!empty($inputs)) ?
-            $inputs[array_key_first($inputs)]->getLabel() : '';
+        $title = ($inputs === []) ?
+            '' : $inputs[array_key_first($inputs)]->getLabel();
 
         $tpl = new ilTemplate("tpl.creation_acc_head.html", true, true, "Services/Object");
         $tpl->setVariable("TITLE", $this->lng->txt("option") . " " . $form_type . ": " . $title);
@@ -292,10 +288,12 @@ class ilObjFileGUI extends ilObject2GUI
         }
 
         // see bug #0016217
-        if (method_exists($this, "getCreationFormTitle")) {
-            if (!empty(($title = $this->getCreationFormTitle($form_type)))) {
-                $form->setTitle($title);
-            }
+        if (method_exists($this, "getCreationFormTitle") && !empty(
+            ($title = $this->getCreationFormTitle(
+                $form_type
+            ))
+        )) {
+            $form->setTitle($title);
         }
 
         $tpl = new ilTemplate("tpl.creation_acc_head.html", true, true, "Services/Object");
@@ -307,7 +305,7 @@ class ilObjFileGUI extends ilObject2GUI
     protected function getCreationFormsHTML(array $a_forms): string
     {
         // abort if empty array was passed
-        if (empty($a_forms)) {
+        if ($a_forms === []) {
             return '';
         }
 
@@ -343,6 +341,7 @@ class ilObjFileGUI extends ilObject2GUI
      */
     protected function initCreationForms($a_new_type): array
     {
+        $forms = [];
         $forms[self::CFORM_NEW] = $this->initUploadForm();
 
         // repository only
@@ -355,6 +354,7 @@ class ilObjFileGUI extends ilObject2GUI
 
     public function initUploadForm(): Standard
     {
+        $inputs = [];
         $this->ctrl->setParameterByClass(self::class, 'new_type', $this->getType());
         $this->ctrl->setParameterByClass(
             self::class,
@@ -469,15 +469,10 @@ class ilObjFileGUI extends ilObject2GUI
             );
         }
 
-        switch ($this->id_type) {
-            case self::WORKSPACE_NODE_ID:
-                $link = $this->ctrl->getLinkTargetByClass(ilObjWorkspaceRootFolderGUI::class);
-                break;
-            case self::REPOSITORY_NODE_ID:
-            default:
-                $link = ilLink::_getLink($this->requested_ref_id);
-                break;
-        }
+        $link = match ($this->id_type) {
+            self::WORKSPACE_NODE_ID => $this->ctrl->getLinkTargetByClass(ilObjWorkspaceRootFolderGUI::class),
+            default => ilLink::_getLink($this->requested_ref_id),
+        };
 
         $this->ctrl->redirectToURL($link);
     }
@@ -495,6 +490,7 @@ class ilObjFileGUI extends ilObject2GUI
      */
     public function update(): void
     {
+        $data = [];
         $form = $this->initPropertiesForm();
         $form = $form->withRequest($this->request);
         $inputs = $form->getData();
@@ -507,11 +503,7 @@ class ilObjFileGUI extends ilObject2GUI
         $title = $title_and_description->getTitle();
         // bugfix mantis 26045:
         $filename = empty($data["name"]) ? $this->object->getFileName() : $data["name"];
-        if ('' === trim($title)) {
-            $title = $filename;
-        } else {
-            $title = $this->object->checkFileExtension($filename, $title);
-        }
+        $title = '' === trim($title) ? $filename : $this->object->checkFileExtension($filename, $title);
         $this->object->handleChangedObjectTitle($title);
 
         $description = $title_and_description->getLongDescription();
@@ -843,7 +835,7 @@ class ilObjFileGUI extends ilObject2GUI
             $ilTabs->addTab(
                 "id_info",
                 $lng->txt("info_short"),
-                $this->ctrl->getLinkTargetByClass(array("ilobjfilegui", "ilinfoscreengui"), "showSummary")
+                $this->ctrl->getLinkTargetByClass(["ilobjfilegui", "ilinfoscreengui"], "showSummary")
             );
         }
 
@@ -859,7 +851,7 @@ class ilObjFileGUI extends ilObject2GUI
             $ilTabs->addTab(
                 'learning_progress',
                 $lng->txt('learning_progress'),
-                $this->ctrl->getLinkTargetByClass(array(__CLASS__, 'illearningprogressgui'), '')
+                $this->ctrl->getLinkTargetByClass([self::class, 'illearningprogressgui'], '')
             );
         }
 
@@ -897,33 +889,30 @@ class ilObjFileGUI extends ilObject2GUI
         $lng = $DIC['lng'];
         $ilAccess = $DIC['ilAccess'];
 
-        if ($a_additional && substr($a_additional, -3) == "wsp") {
+        if ($a_additional && str_ends_with($a_additional, "wsp")) {
             ilObjectGUI::_gotoSharedWorkspaceNode((int) $a_target);
         }
 
         // added support for direct download goto links
-        if ($a_additional && substr($a_additional, -8) == "download") {
+        if ($a_additional && str_ends_with($a_additional, "download")) {
             ilObjectGUI::_gotoRepositoryNode($a_target, "sendfile");
         }
 
         // static method, no workspace support yet
 
         if ($ilAccess->checkAccess("visible", "", $a_target)
-            || $ilAccess->checkAccess("read", "", $a_target)
-        ) {
+            || $ilAccess->checkAccess("read", "", $a_target)) {
             ilObjectGUI::_gotoRepositoryNode($a_target, "infoScreen");
-        } else {
-            if ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID)) {
-                $main_tpl->setOnScreenMessage(
-                    'failure',
-                    sprintf(
-                        $lng->txt("msg_no_perm_read_item"),
-                        ilObject::_lookupTitle(ilObject::_lookupObjId($a_target))
-                    ),
-                    true
-                );
-                ilObjectGUI::_gotoRepositoryRoot();
-            }
+        } elseif ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID)) {
+            $main_tpl->setOnScreenMessage(
+                'failure',
+                sprintf(
+                    $lng->txt("msg_no_perm_read_item"),
+                    ilObject::_lookupTitle(ilObject::_lookupObjId($a_target))
+                ),
+                true
+            );
+            ilObjectGUI::_gotoRepositoryRoot();
         }
 
         $ilErr->raiseError($lng->txt("msg_no_perm_read"), $ilErr->FATAL);
@@ -942,7 +931,7 @@ class ilObjFileGUI extends ilObject2GUI
         }
     }
 
-    protected function initHeaderAction($a_sub_type = null, $a_sub_id = null): ?\ilObjectListGUI
+    protected function initHeaderAction(?string $a_sub_type = null, ?int $a_sub_id = null): ?\ilObjectListGUI
     {
         $lg = parent::initHeaderAction($a_sub_type, $a_sub_id);
         if ($lg instanceof ilObjectListGUI && $this->object->hasRating()) {
