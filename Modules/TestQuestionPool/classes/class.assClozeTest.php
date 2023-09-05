@@ -1326,7 +1326,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
                 "gap_$index",
                 $this->dic->refinery()->kindlyTo()->string()
             );
-
+            $value = htmlentities($value, ENT_QUOTES, 'UTF-8');
             if ($value === "") {
                 continue;
             }
