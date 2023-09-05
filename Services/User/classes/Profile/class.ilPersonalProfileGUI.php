@@ -210,10 +210,15 @@ class ilPersonalProfileGUI
             return;
         }
 
+        $capture = $this->profile_request->getUserFileCapture();
+        if ($capture === null) {
+            return;
+        }
+
         $img = str_replace(
             ['data:image/png;base64,', ' '],
             ['', '+'],
-            $this->profile_request->getUserFileCapture()
+            $capture
         );
         $data = base64_decode($img);
         if ($data === false) {
