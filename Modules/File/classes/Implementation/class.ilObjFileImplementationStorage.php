@@ -67,8 +67,7 @@ class ilObjFileImplementationStorage extends ilObjFileImplementationAbstract imp
     }
     public function getFileName(): string
     {
-        $current_revision = $this->resource->getCurrentRevision();
-        return $current_revision->getInformation()->getTitle();
+        return $this->resource->getCurrentRevision()->getInformation()->getTitle();
     }
 
 

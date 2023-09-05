@@ -34,8 +34,6 @@ class ilFileKioskModeView extends ilKioskModeView
 {
     private const CMD_TOGGLE_LEARNING_PROGRESS = 'toggleManualLearningProgress';
 
-//    private const CMD_LP_TO_COMPLETED = 'lp_completed';
-//    private const CMD_LP_TO_INCOMPLETE = 'lp_incomplete';
 
     protected ilObjFile $file_obj;
     protected ilObjUser $user;
