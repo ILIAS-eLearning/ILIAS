@@ -100,11 +100,14 @@ class ilCustomUserFieldsHelper
                     $definition['field_name'],
                     'udf_' . $definition['field_id']
                 );
-                $fprop->setDisabled(!$a_changeable);
+
                 $fprop->setValue((string) $a_default_value);
                 $fprop->setSize(40);
                 $fprop->setMaxLength(255);
                 $fprop->setRequired((bool) $definition['required']);
+                if (!$a_changeable && (!$definition['required'] || $a_default_value)) {
+                    $fprop->setDisabled(true);
+                }
                 break;
 
             case UDF_TYPE_WYSIWYG:
@@ -112,10 +115,13 @@ class ilCustomUserFieldsHelper
                     $definition['field_name'],
                     'udf_' . $definition['field_id']
                 );
-                $fprop->setDisabled(!$a_changeable);
+
                 $fprop->setValue((string) $a_default_value);
                 $fprop->setUseRte(true);
                 $fprop->setRequired((bool) $definition['required']);
+                if (!$a_changeable && (!$definition['required'] || $a_default_value)) {
+                    $fprop->setDisabled(true);
+                }
                 break;
 
             case UDF_TYPE_SELECT:
@@ -123,13 +129,15 @@ class ilCustomUserFieldsHelper
                     $definition['field_name'],
                     'udf_' . $definition['field_id']
                 );
-                $fprop->setDisabled(!$a_changeable);
 
                 $user_defined_fields = ilUserDefinedFields::_getInstance();
 
                 $fprop->setOptions($user_defined_fields->fieldValuesToSelectArray($definition['field_values']));
                 $fprop->setValue($a_default_value);
                 $fprop->setRequired((bool) $definition['required']);
+                if (!$a_changeable && (!$definition['required'] || $a_default_value)) {
+                    $fprop->setDisabled(true);
+                }
                 break;
 
             default:
