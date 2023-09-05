@@ -10986,6 +10986,7 @@ mail#:#mail_smtp_status_info#:#If enabled, ILIAS will dispatch external e-mails 
 mail#:#mail_smtp_user#:#User
 mail#:#mail_subject_prefix#:#Mail Subject
 mail#:#mail_subject_prefix_info#:#Enter a text, which will be prepended to the subject line of outgoing auto generated e-mails. It is recommended the usage of a prefix for supporting message filtering by users.
+mail#:#mail_subject_to_long#:#The subject is to long.
 mail#:#mail_sure_delete#:#Are you sure you want to delete the marked mail(s)?
 mail#:#mail_sure_delete_entry#:#Are you sure you want to delete the following entries?
 mail#:#mail_sure_delete_file#:#Are you sure you want to delete the selected files?

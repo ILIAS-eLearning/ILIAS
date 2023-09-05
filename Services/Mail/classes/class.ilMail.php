@@ -911,6 +911,11 @@ class ilMail
             }
         }
 
+        if (ilStr::strLen($subject) > 255) {
+            // https://mantis.ilias.de/view.php?id=37881
+            $errors[] = new ilMailError('mail_subject_to_long');
+        }
+
         return $errors;
     }
 

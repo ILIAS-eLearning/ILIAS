@@ -78,6 +78,10 @@ abstract class ilMailNotification
 
     protected function setSubject(string $a_subject): string
     {
+        if (ilStr::strLen($a_subject) > 255) {
+            $a_subject = ilStr::subStr($a_subject, 0, 255);
+        }
+
         return $this->subject = $a_subject;
     }
 
