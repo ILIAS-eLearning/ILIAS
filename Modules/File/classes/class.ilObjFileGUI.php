@@ -946,11 +946,6 @@ class ilObjFileGUI extends ilObject2GUI
         return $lg;
     }
 
-    protected function getAccessHandler(): \ilAccessHandler
-    {
-        return $this->access;
-    }
-
     protected function getCtrl(): \ilCtrl
     {
         return $this->ctrl;

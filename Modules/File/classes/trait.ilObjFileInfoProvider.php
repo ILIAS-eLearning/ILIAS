@@ -142,7 +142,7 @@ trait ilObjFileInfoProvider
         return $file_info;
     }
 
-    abstract protected function getAccessHandler(): ilAccessHandler;
+    abstract protected function getAccessHandler(); // must be compatible with ilObject2GUI::getAccessHandler()
 
     abstract protected function getCtrl(): ilCtrl;
 
