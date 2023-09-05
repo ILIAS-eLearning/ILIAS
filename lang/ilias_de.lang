@@ -5296,7 +5296,7 @@ common#:#pro#:#Pro
 common#:#proceed#:#Fortfahren
 common#:#profile#:#Profil
 common#:#profile_changed#:#ILIAS eLearning - Ihre Profildaten wurden geändert
-common#:#profile_incomplete#:#Ihr Profil ist nicht vollständig. Bitte geben Sie alle erforderlichen Daten an
+common#:#profile_incomplete#:#Ihr Profil ist nicht vollständig. Bitte geben Sie alle erforderlichen Daten an.
 common#:#profile_of#:#Profil von
 common#:#properties#:#Eigenschaften
 common#:#proxy#:#Proxy
@@ -5746,7 +5746,6 @@ common#:#udf_delete_sure#:#Sind Sie sicher, dass Sie dieses Feld und alle zugeh�
 common#:#udf_duplicate_entries#:#Die Werte müssen eindeutig sein.
 common#:#udf_field_deleted#:#Das Feld wurde gelöscht.
 common#:#udf_name_already_exists#:#Ein Feld mit diesem Namen existiert bereits. Bitte wählen Sie einen anderen Feldnamen.
-common#:#udf_required_and_visible_requires_changeable#:#Wenn die Einstellungen "Erforderliche Angabe" und "Sichtbar in den persönlichen Daten" aktiviert sind, muss auch "Kann durch Benutzer selbst im Profil geändert werden" aktiviert sein
 common#:#udf_required_requires_visib_reg#:#Die Einstellung "Erforderliche Angabe" erfordert die Einstellung "Sichtbar im Registrierungsformular"
 common#:#udf_type_date#:#Datum
 common#:#udf_type_datetime#:#Datum und Uhrzeit
