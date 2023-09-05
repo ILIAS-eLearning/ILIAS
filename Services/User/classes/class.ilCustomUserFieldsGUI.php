@@ -383,12 +383,6 @@ class ilCustomUserFieldsGUI
                 $valid = false;
             }
 
-            if ($access['required'] && $access['visible'] && !$access['changeable']) {
-                $this->confirm_change = true;
-                $form->getItemByPostVar("access")->setAlert($lng->txt('udf_required_and_visible_requires_changeable'));
-                $valid = false;
-            }
-
             if (!$this->field_id && $user_field_definitions->nameExists($form->getInput("name"))) {
                 $form->getItemByPostVar("name")->setAlert($lng->txt('udf_name_already_exists'));
                 $valid = false;
@@ -710,31 +704,16 @@ class ilCustomUserFieldsGUI
                 }
             }
         }
-
-        $valid = true;
-
+        
         foreach ($a_fields as $field_id => $definition) {
             if (isset($_POST['chb']['required_' . $field_id]) && (int) $_POST['chb']['required_' . $field_id] &&
                 (!isset($_POST['chb']['visib_reg_' . $field_id]) || !(int) $_POST['chb']['visib_reg_' . $field_id])) {
                 $this->confirm_change = true;
     
                 ilUtil::sendFailure($lng->txt('invalid_visible_required_options_selected'));
-                $valid = false;
+                $this->listUserDefinedFields();
+                return false;
             }
-
-            if (isset($_POST['chb']['required_' . $field_id]) && (int) $_POST['chb']['required_' . $field_id] &&
-                isset($_POST['chb']['visible_' . $field_id]) && (int) $_POST['chb']['visible_' . $field_id] &&
-                (!isset($_POST['chb']['changeable_' . $field_id]) || !(int) $_POST['chb']['changeable_' . $field_id])) {
-                $this->confirm_change = true;
-
-                ilUtil::sendFailure($lng->txt('udf_required_and_visible_requires_changeable'));
-                $valid = false;
-            }
-        }
-
-        if (!$valid) {
-            $this->listUserDefinedFields();
-            return false;
         }
         
         foreach ($a_fields as $field_id => $definition) {

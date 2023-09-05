@@ -17,26 +17,26 @@ class ilCustomUserFieldsHelper
      * @var ilLanguage
      */
     private $lng = null;
-    
+
     /**
      * @var ilPluginAdmin
      */
     private $plugin_admin = null;
-    
+
     /**
      * @var ilLogger
      */
     private $logger = null;
-    
+
     public function __construct()
     {
         global $DIC;
-        
+
         $this->lng = $DIC->language();
         $this->logger = $DIC->logger()->usr();
         $this->plugin_admin = $DIC['ilPluginAdmin'];
     }
-    
+
     /**
      * Get instance
      * @return ilCustomUserFieldsHelper
@@ -48,7 +48,7 @@ class ilCustomUserFieldsHelper
         }
         return self::$instance = new self();
     }
-    
+
     /**
      * Get udf types
      * @return type
@@ -66,7 +66,7 @@ class ilCustomUserFieldsHelper
         }
         return $types;
     }
-    
+
     /**
      * Get plugin for udf type
      * @return ilUDFDefinitionPlugin
@@ -80,7 +80,7 @@ class ilCustomUserFieldsHelper
         }
         return null;
     }
-    
+
     /**
      * Get plugins for fields
      * @param array $def_ids
@@ -89,7 +89,7 @@ class ilCustomUserFieldsHelper
     public function getActivePlugins()
     {
         $plugins = array();
-        
+
         include_once './Services/User/classes/class.ilUDFDefinitionPlugin.php';
         foreach (
             $this->plugin_admin->getActivePluginsForSlot(
@@ -110,7 +110,7 @@ class ilCustomUserFieldsHelper
         }
         return $plugins;
     }
-    
+
     /**
      * Get form property for definition
      * @param array $definition
@@ -119,46 +119,52 @@ class ilCustomUserFieldsHelper
     public function getFormPropertyForDefinition($definition, $a_changeable = true, $a_default_value = null)
     {
         $fprop = null;
-        
+
         switch ($definition['field_type']) {
             case UDF_TYPE_TEXT:
                 $fprop = new ilTextInputGUI(
                     $definition['field_name'],
                     'udf_' . $definition['field_id']
                 );
-                $fprop->setDisabled(!$a_changeable);
                 $fprop->setValue($a_default_value);
                 $fprop->setSize(40);
                 $fprop->setMaxLength(255);
                 $fprop->setRequired($definition['required'] ? true : false);
+                if (!$a_changeable && (!$definition['required'] || $a_default_value)) {
+                    $fprop->setDisabled(true);
+                }
                 break;
-            
+
             case UDF_TYPE_WYSIWYG:
                 $fprop = new ilTextAreaInputGUI(
                     $definition['field_name'],
                     'udf_' . $definition['field_id']
                 );
-                $fprop->setDisabled(!$a_changeable);
                 $fprop->setValue($a_default_value);
                 $fprop->setUseRte(true);
                 $fprop->setRequired($definition['required'] ? true : false);
+                if (!$a_changeable && (!$definition['required'] || $a_default_value)) {
+                    $fprop->setDisabled(true);
+                }
                 break;
-            
+
             case UDF_TYPE_SELECT:
                 $fprop = new ilSelectInputGUI(
                     $definition['field_name'],
                     'udf_' . $definition['field_id']
                 );
-                $fprop->setDisabled(!$a_changeable);
-                
+
                 include_once './Services/User/classes/class.ilUserDefinedFields.php';
                 $user_defined_fields = ilUserDefinedFields::_getInstance();
-                
+
                 $fprop->setOptions($user_defined_fields->fieldValuesToSelectArray($definition['field_values']));
                 $fprop->setValue($a_default_value);
                 $fprop->setRequired($definition['required'] ? true : false);
+                if (!$a_changeable && (!$definition['required'] || $a_default_value)) {
+                    $fprop->setDisabled(true);
+                }
                 break;
-            
+
             default:
                 // should be a plugin
                 foreach ($this->getActivePlugins() as $plugin) {
@@ -169,7 +175,7 @@ class ilCustomUserFieldsHelper
                 }
                 break;
         }
-        
+
         return $fprop;
     }
 }
