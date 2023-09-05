@@ -18,22 +18,21 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\UI\Component\Input\Container\Form;
+namespace ILIAS\UI\Component\Dialog;
 
-use ILIAS\UI\Component\Dialog\DialogContent;
+use ILIAS\UI\Component\Component;
+use ILIAS\UI\Component\Button\Button;
 
 /**
- * This describes a standard form.
+ * Defines the allowed content of a Dialog
  */
-interface Standard extends FormWithPostURL, DialogContent
+interface DialogContent extends Component
 {
-    /**
-     * Sets the label of the submit button of the form
-     */
-    public function withSubmitLabel(string $label): Standard;
+    public function getDialogTitle(): string;
 
     /**
-     * Gets the submit label of the form.
+     * @return Button[]
      */
-    public function getSubmitLabel(): ?string;
+    public function getDialogButtons(): array;
+
 }

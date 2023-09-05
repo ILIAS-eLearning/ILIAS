@@ -18,22 +18,25 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\UI\Component\Input\Container\Form;
+namespace ILIAS\UI\Component\Dialog;
 
-use ILIAS\UI\Component\Dialog\DialogContent;
+use ILIAS\UI\Component\Component;
+use ILIAS\UI\Component\JavaScriptBindable;
+use ILIAS\UI\Component\Signal;
+use ILIAS\Data\URI;
 
 /**
- * This describes a standard form.
+ * This describes a Dialog.
  */
-interface Standard extends FormWithPostURL, DialogContent
+interface Dialog extends Component, JavaScriptBindable
 {
     /**
-     * Sets the label of the submit button of the form
+     * Get the signal to load and show this Dialog.
      */
-    public function withSubmitLabel(string $label): Standard;
+    public function getShowSignal(?URI $uri = null): Signal;
 
     /**
-     * Gets the submit label of the form.
+     * Get the signal to close this Dialog.
      */
-    public function getSubmitLabel(): ?string;
+    public function getCloseSignal(): Signal;
 }

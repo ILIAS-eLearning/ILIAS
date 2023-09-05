@@ -27,7 +27,7 @@ use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Component;
 use LogicException;
 
-class Renderer extends AbstractComponentRenderer
+class NoButtonsContextRenderer extends AbstractComponentRenderer
 {
     /**
      * @inheritdoc
@@ -36,32 +36,42 @@ class Renderer extends AbstractComponentRenderer
     {
         $this->checkComponent($component);
 
-        if ($component instanceof Form\Standard) {
-            return $this->renderStandard($component, $default_renderer);
-        }
-
+        return $this->renderNoSubmit($component, $default_renderer);
         throw new LogicException("Cannot render: " . get_class($component));
     }
 
-    protected function renderStandard(Form\Standard $component, RendererInterface $default_renderer): string
-    {
-        $tpl = $this->getTemplate("tpl.standard.html", true, true);
-        if ($component->getDedicatedName() !== null) {
-            $tpl->setVariable("NAME", 'name="' . $component->getDedicatedName() . '"');
-        }
+    protected function renderNoSubmit(
+        Form\Form $component,
+        RendererInterface $default_renderer
+    ): string {
+        $tpl = $this->getTemplate("tpl.no_submit.html", true, true);
 
         $this->maybeAddRequired($component, $tpl);
         $this->addPostURL($component, $tpl);
         $this->maybeAddError($component, $tpl);
 
-        $submit_button = $this->getUIFactory()->button()->standard(
-            $component->getSubmitLabel() ?? $this->txt("save"),
-            ""
+        $tpl->setVariable("INPUTS", $default_renderer->render($component->getInputGroup()));
+
+        $enriched_component = $component->withAdditionalOnLoadCode(
+            static function (string $id) use ($component): string {
+                return "
+                    // @TODO: we need to refactor the signal-management to prevent using jQuery here.
+                    $(document).on('{$component->getSubmitSignal()}', function () {
+                        let form = document.getElementById('$id');
+                        if (!form instanceof HTMLFormElement) {
+                            throw new Error(`Element '$id' is not an instance of HTMLFormElement.`);
+                        }
+                        
+                        // @TODO: we should use the triggering button as an emitter here. When doing
+                        // so, please also change file.js processFormSubmissionHook().
+                        form.requestSubmit();
+                    });
+                ";
+            }
         );
 
-        $tpl->setVariable("BUTTONS_TOP", $default_renderer->render($submit_button));
-        $tpl->setVariable("BUTTONS_BOTTOM", $default_renderer->render($submit_button));
-        $tpl->setVariable("INPUTS", $default_renderer->render($component->getInputGroup()));
+        $id = $this->bindJavaScript($enriched_component) ?? $this->createId();
+        $tpl->setVariable("ID", $id);
 
         return $tpl->get();
     }
@@ -99,6 +109,7 @@ class Renderer extends AbstractComponentRenderer
     {
         return [
             Component\Input\Container\Form\Standard::class,
+            FormWithoutSubmitButton::class,
         ];
     }
 }

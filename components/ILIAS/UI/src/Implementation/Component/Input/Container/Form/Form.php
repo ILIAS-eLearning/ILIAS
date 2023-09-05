@@ -61,4 +61,20 @@ abstract class Form extends Container implements C\Input\Container\Form\Form
     {
         return new PostDataFromServerRequest($request);
     }
+
+    /**
+     * @inheritdoc
+     */
+    public function getDialogButtons(): array
+    {
+        return [];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getDialogTitle(): string
+    {
+        return '';
+    }
 }
