@@ -16,7 +16,6 @@
  *
  *********************************************************************/
 
-use ILIAS\DI\Container;
 use ILIAS\FileUpload\MimeType;
 use ILIAS\Modules\File\Settings\General;
 
@@ -38,7 +37,6 @@ class ilObjFileAccess extends ilObjectAccess implements ilWACCheckingClass
 
     protected static array $preload_list_gui_data = [];
 
-
     protected function checkAccessToObjectId(int $obj_id): bool
     {
         global $DIC;
@@ -59,8 +57,6 @@ class ilObjFileAccess extends ilObjectAccess implements ilWACCheckingClass
     {
         return false;
     }
-
-
 
     /**
      * get commands
@@ -141,7 +137,6 @@ class ilObjFileAccess extends ilObjectAccess implements ilWACCheckingClass
 
         return (((int) $result['on_click_mode']) === ilObjFile::CLICK_MODE_DOWNLOAD);
     }
-
 
     /**
      * @param int $a_id
@@ -234,8 +229,12 @@ class ilObjFileAccess extends ilObjectAccess implements ilWACCheckingClass
         // we can match it against $filenameWithoutExtension, and retrieve the number of the copy.
         // for example, if copy_n_of_suffix is 'Copy (%1s)', this creates the regular
         // expression '/ Copy \\([0-9]+)\\)$/'.
-        $nthCopyRegex = preg_replace('/([\^$.\[\]|()?*+{}])/', '\\\\${1}', ' '
-            . $lng->txt('copy_n_of_suffix'));
+        $nthCopyRegex = preg_replace(
+            '/([\^$.\[\]|()?*+{}])/',
+            '\\\\${1}',
+            ' '
+            . $lng->txt('copy_n_of_suffix')
+        );
         $nthCopyRegex = '/' . preg_replace('/%1\\\\\$s/', '([0-9]+)', $nthCopyRegex) . '$/';
 
         // Get the filename without any previously added number of copy.
@@ -251,8 +250,14 @@ class ilObjFileAccess extends ilObjectAccess implements ilWACCheckingClass
                 == ' ' . $lng->txt('copy_of_suffix')
             ) {
                 // this is going to be the second copy of the filename
-                $filenameWithoutCopy = substr($filenameWithoutExtension, 0, -strlen(' '
-                    . $lng->txt('copy_of_suffix')));
+                $filenameWithoutCopy = substr(
+                    $filenameWithoutExtension,
+                    0,
+                    -strlen(
+                        ' '
+                        . $lng->txt('copy_of_suffix')
+                    )
+                );
                 if ($nth_copy == null) {
                     $nth_copy = 2;
                 }
@@ -268,8 +273,11 @@ class ilObjFileAccess extends ilObjectAccess implements ilWACCheckingClass
         // Construct the new filename
         if ($nth_copy > 1) {
             // this is at least the second copy of the filename, append " - Copy ($nth_copy)"
-            $newFilename = $filenameWithoutCopy . sprintf(' '
-                    . $lng->txt('copy_n_of_suffix'), $nth_copy)
+            $newFilename = $filenameWithoutCopy . sprintf(
+                ' '
+                . $lng->txt('copy_n_of_suffix'),
+                $nth_copy
+            )
                 . $extension;
         } else {
             // this is the first copy of the filename, append " - Copy"
@@ -299,15 +307,19 @@ class ilObjFileAccess extends ilObjectAccess implements ilWACCheckingClass
 
         self::$preload_list_gui_data = [];
 
-        $set = $DIC->database()->query("SELECT obj_id,max(hdate) latest" . " FROM history"
+        $set = $DIC->database()->query(
+            "SELECT obj_id,max(hdate) latest" . " FROM history"
             . " WHERE obj_type = " . $DIC->database()->quote("file", "text") . " AND "
-            . $DIC->database()->in("obj_id", $obj_ids, "", "integer") . " GROUP BY obj_id");
+            . $DIC->database()->in("obj_id", $obj_ids, "", "integer") . " GROUP BY obj_id"
+        );
         while ($row = $DIC->database()->fetchAssoc($set)) {
             self::$preload_list_gui_data[(int) $row["obj_id"]]["date"] = $row["latest"];
         }
 
-        $set = $DIC->database()->query("SELECT file_size, version, file_id, page_count, rid" . " FROM file_data" . " WHERE "
-            . $DIC->database()->in("file_id", $obj_ids, "", "integer"));
+        $set = $DIC->database()->query(
+            "SELECT file_size, version, file_id, page_count, rid" . " FROM file_data" . " WHERE "
+            . $DIC->database()->in("file_id", $obj_ids, "", "integer")
+        );
         while ($row = $DIC->database()->fetchAssoc($set)) {
             self::$preload_list_gui_data[(int) $row["file_id"]]["size"] = $row["file_size"] ?? 0;
             self::$preload_list_gui_data[(int) $row["file_id"]]["version"] = $row["version"];
@@ -315,12 +327,14 @@ class ilObjFileAccess extends ilObjectAccess implements ilWACCheckingClass
             self::$preload_list_gui_data[(int) $row["file_id"]]["rid"] = $row["rid"];
         }
 
-        $res = $DIC->database()->query("SELECT rid, file_id  FROM file_data WHERE rid IS NOT NULL AND " . $DIC->database()->in(
-            'file_id',
-            $obj_ids,
-            false,
-            'integer'
-        ));
+        $res = $DIC->database()->query(
+            "SELECT rid, file_id  FROM file_data WHERE rid IS NOT NULL AND " . $DIC->database()->in(
+                'file_id',
+                $obj_ids,
+                false,
+                'integer'
+            )
+        );
         $rids = [];
 
         while ($row = $DIC->database()->fetchObject($res)) {
@@ -336,7 +350,8 @@ class ilObjFileAccess extends ilObjectAccess implements ilWACCheckingClass
                 self::$preload_list_gui_data[(int) $file_id]["mime"] = $max->getInformation()->getMimeType();
                 self::$preload_list_gui_data[(int) $file_id]["version"] = $max->getVersionNumber();
                 self::$preload_list_gui_data[(int) $file_id]["size"] = $max->getInformation()->getSize() ?? 0;
-                self::$preload_list_gui_data[(int) $file_id]["date"] = $max->getInformation()->getCreationDate()->format(DATE_ATOM);
+                self::$preload_list_gui_data[(int) $file_id]["date"] = $max->getInformation()->getCreationDate(
+                )->format(DATE_ATOM);
             }
         }
     }

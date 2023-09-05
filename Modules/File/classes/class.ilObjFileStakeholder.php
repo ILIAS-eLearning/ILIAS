@@ -34,7 +34,7 @@ class ilObjFileStakeholder extends AbstractResourceStakeholder
     public function __construct(int $owner = 6)
     {
         global $DIC;
-        $this->current_user = (int)($DIC->isDependencyAvailable('user') ? $DIC->user()->getId() : ANONYMOUS_USER_ID);
+        $this->current_user = (int) ($DIC->isDependencyAvailable('user') ? $DIC->user()->getId() : ANONYMOUS_USER_ID);
         $this->owner = $owner;
     }
 
@@ -80,9 +80,8 @@ class ilObjFileStakeholder extends AbstractResourceStakeholder
         );
         $d = $this->database->fetchObject($r);
 
-        return (isset($d->file_id) ? (int)$d->file_id : null);
+        return (isset($d->file_id) ? (int) $d->file_id : null);
     }
-
 
     public function resourceHasBeenDeleted(ResourceIdentification $identification): bool
     {

@@ -21,8 +21,6 @@ use ILIAS\UI\Component\Input\Field\UploadHandler;
 use ILIAS\ResourceStorage\Services;
 use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
 use ILIAS\UI\Component\Input\Container\Form\Standard;
-use ILIAS\UI\Implementation\Component\Dropzone\File\File as Dropzone;
-use ILIAS\UI\Implementation\Component\Input\Field\Radio;
 use ILIAS\File\Icon\IconDatabaseRepository;
 use ILIAS\Modules\File\Settings\General;
 use ILIAS\Refinery\String\Group;
@@ -58,9 +56,8 @@ class ilObjFileGUI extends ilObject2GUI
     public const CMD_VERSIONS = "versions";
     public const CMD_UPLOAD_FILES = "uploadFiles";
 
-
     /**
-    * @var ilObjFile $object
+     * @var ilObjFile $object
      */
     public ?ilObject $object = null;
     public ilLanguage $lng;
@@ -79,7 +76,6 @@ class ilObjFileGUI extends ilObject2GUI
     protected \ILIAS\UI\Renderer $renderer;
     protected \Psr\Http\Message\ServerRequestInterface $request;
     protected \ILIAS\Data\Factory $data_factory;
-
 
     /**
      * Constructor
@@ -372,10 +368,14 @@ class ilObjFileGUI extends ilObject2GUI
             $this->lng->txt('upload_files'),
             null,
             $this->ui->factory()->input()->field()->group([
-                self::PARAM_TITLE => $this->ui->factory()->input()->field()->text($this->lng->txt('title'))->withAdditionalTransformation(
+                self::PARAM_TITLE => $this->ui->factory()->input()->field()->text(
+                    $this->lng->txt('title')
+                )->withAdditionalTransformation(
                     $this->getEmptyStringToNullTransformation()
                 ),
-                self::PARAM_DESCRIPTION => $this->ui->factory()->input()->field()->textarea($this->lng->txt('description'))->withAdditionalTransformation(
+                self::PARAM_DESCRIPTION => $this->ui->factory()->input()->field()->textarea(
+                    $this->lng->txt('description')
+                )->withAdditionalTransformation(
                     $this->getEmptyStringToNullTransformation()
                 ),
             ])
@@ -500,7 +500,7 @@ class ilObjFileGUI extends ilObject2GUI
         $inputs = $form->getData();
 
         /**
-        * @var $title_and_description ilObjectPropertyTitleAndDescription
+         * @var $title_and_description ilObjectPropertyTitleAndDescription
          */
         $title_and_description = $inputs['file_info']['title_and_description'];
 
@@ -622,8 +622,6 @@ class ilObjFileGUI extends ilObject2GUI
             ["tile_image" => $tile_image],
             $this->lng->txt('settings_presentation_header')
         );
-
-
 
         return $this->inputs->container()->form()->standard(
             $this->ctrl->getLinkTargetByClass(self::class, 'update'),
@@ -916,10 +914,14 @@ class ilObjFileGUI extends ilObject2GUI
             ilObjectGUI::_gotoRepositoryNode($a_target, "infoScreen");
         } else {
             if ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID)) {
-                $main_tpl->setOnScreenMessage('failure', sprintf(
-                    $lng->txt("msg_no_perm_read_item"),
-                    ilObject::_lookupTitle(ilObject::_lookupObjId($a_target))
-                ), true);
+                $main_tpl->setOnScreenMessage(
+                    'failure',
+                    sprintf(
+                        $lng->txt("msg_no_perm_read_item"),
+                        ilObject::_lookupTitle(ilObject::_lookupObjId($a_target))
+                    ),
+                    true
+                );
                 ilObjectGUI::_gotoRepositoryRoot();
             }
         }

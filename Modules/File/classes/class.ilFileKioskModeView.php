@@ -13,7 +13,8 @@
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 declare(strict_types=1);
 
@@ -33,7 +34,6 @@ use ILIAS\Refinery\Factory as Refinery;
 class ilFileKioskModeView extends ilKioskModeView
 {
     private const CMD_TOGGLE_LEARNING_PROGRESS = 'toggleManualLearningProgress';
-
 
     protected ilObjFile $file_obj;
     protected ilObjUser $user;
@@ -81,7 +81,8 @@ class ilFileKioskModeView extends ilKioskModeView
     public function buildControls(State $state, ControlBuilder $builder): void
     {
         $learning_progress = \ilObjectLP::getInstance($this->file_obj->getId());
-        if ($learning_progress->getCurrentMode() === \ilLPObjSettings::LP_MODE_MANUAL) { //TODO: create and implement handling for second lp mode
+        if ($learning_progress->getCurrentMode(
+        ) === \ilLPObjSettings::LP_MODE_MANUAL) { //TODO: create and implement handling for second lp mode
             $this->buildLearningProgressToggleControl($builder);
         }
     }
@@ -124,9 +125,17 @@ class ilFileKioskModeView extends ilKioskModeView
     protected function toggleLearningProgress(): void
     {
         if (!ilLPStatus::_hasUserCompleted($this->file_obj->getId(), $this->user->getId())) {
-            ilLPStatus::writeStatus($this->file_obj->getId(), $this->user->getId(), ilLPStatus::LP_STATUS_COMPLETED_NUM);
+            ilLPStatus::writeStatus(
+                $this->file_obj->getId(),
+                $this->user->getId(),
+                ilLPStatus::LP_STATUS_COMPLETED_NUM
+            );
         } else {
-            ilLPStatus::writeStatus($this->file_obj->getId(), $this->user->getId(), ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM);
+            ilLPStatus::writeStatus(
+                $this->file_obj->getId(),
+                $this->user->getId(),
+                ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM
+            );
         }
     }
 }

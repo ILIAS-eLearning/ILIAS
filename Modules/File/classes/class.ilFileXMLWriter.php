@@ -68,12 +68,10 @@ class ilFileXMLWriter extends ilXmlWriter
         $this->attachFileContents = ilFileXMLWriter::$CONTENT_ATTACH_NO;
     }
 
-
     public function setFile(ilObjFile $file): void
     {
         $this->file = &$file;
     }
-
 
     /**
      * Set omit header
@@ -85,7 +83,6 @@ class ilFileXMLWriter extends ilXmlWriter
         $this->omit_header = $a_val;
     }
 
-
     /**
      * Get omit header
      *
@@ -95,7 +92,6 @@ class ilFileXMLWriter extends ilXmlWriter
     {
         return $this->omit_header;
     }
-
 
     /**
      * Set file target directories
@@ -109,7 +105,6 @@ class ilFileXMLWriter extends ilXmlWriter
         $this->target_dir_absolute = $a_abs;
     }
 
-
     /**
      * set attachment content mode
      *
@@ -119,14 +114,19 @@ class ilFileXMLWriter extends ilXmlWriter
     public function setAttachFileContents(int $attachFileContents): void
     {
         if ($attachFileContents == ilFileXMLWriter::$CONTENT_ATTACH_GZIP_ENCODED && !function_exists("gzencode")) {
-            throw new ilFileException("Inflating with gzip is not supported", ilFileException::$ID_DEFLATE_METHOD_MISMATCH);
+            throw new ilFileException(
+                "Inflating with gzip is not supported",
+                ilFileException::$ID_DEFLATE_METHOD_MISMATCH
+            );
         }
         if ($attachFileContents == ilFileXMLWriter::$CONTENT_ATTACH_ZLIB_ENCODED && !function_exists("gzcompress")) {
-            throw new ilFileException("Inflating with zlib (compress/uncompress) is not supported", ilFileException::$ID_DEFLATE_METHOD_MISMATCH);
+            throw new ilFileException(
+                "Inflating with zlib (compress/uncompress) is not supported",
+                ilFileException::$ID_DEFLATE_METHOD_MISMATCH
+            );
         }
         $this->attachFileContents = $attachFileContents;
     }
-
 
     public function start(): bool
     {
@@ -209,24 +209,23 @@ class ilFileXMLWriter extends ilXmlWriter
         return true;
     }
 
-
     public function getXML(): string
     {
         return $this->xmlDumpMem(false);
     }
 
-
     public function __buildHeader(): bool
     {
         if (!$this->getOmitHeader()) {
-            $this->xmlSetDtdDef("<!DOCTYPE File PUBLIC \"-//ILIAS//DTD FileAdministration//EN\" \"" . ILIAS_HTTP_PATH . "/xml/ilias_file_3_8.dtd\">");
+            $this->xmlSetDtdDef(
+                "<!DOCTYPE File PUBLIC \"-//ILIAS//DTD FileAdministration//EN\" \"" . ILIAS_HTTP_PATH . "/xml/ilias_file_3_8.dtd\">"
+            );
             $this->xmlSetGenCmt("Exercise Object");
             $this->xmlHeader();
         }
 
         return true;
     }
-
 
     public function __buildFooter(): void
     {

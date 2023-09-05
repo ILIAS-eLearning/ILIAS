@@ -18,7 +18,6 @@
 
 declare(strict_types=1);
 
-use ILIAS\DI\Container;
 use ILIAS\File\Icon\IconDatabaseRepository;
 use ILIAS\Modules\File\Settings\General;
 
@@ -91,12 +90,14 @@ class ilFileObjectDatabaseObjective implements ilDatabaseUpdateSteps
             ]
         );
 
-        $this->database->manipulate("
+        $this->database->manipulate(
+            "
             UPDATE file_data SET downloads = (
                 SELECT COALESCE(SUM(read_event.read_count), 0) FROM read_event 
                     WHERE read_event.obj_id = file_data.file_id
             );
-        ");
+        "
+        );
     }
 
     /**
@@ -185,7 +186,10 @@ class ilFileObjectDatabaseObjective implements ilDatabaseUpdateSteps
     public function step_5(): void
     {
         $this->abortIfNotPrepared();
-        if ($this->database->tableExists('file_data') && !$this->database->tableColumnExists('file_data', 'important_info')) {
+        if ($this->database->tableExists('file_data') && !$this->database->tableColumnExists(
+            'file_data',
+            'important_info'
+        )) {
             $this->database->addTableColumn(
                 'file_data',
                 'important_info',

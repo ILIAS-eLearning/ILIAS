@@ -16,9 +16,6 @@
  *
  *********************************************************************/
 
-use ILIAS\FileUpload\DTO\ProcessingStatus;
-use ILIAS\FileUpload\DTO\UploadResult;
-use ILIAS\FileUpload\FileUpload;
 use Psr\Http\Message\RequestInterface;
 
 /**

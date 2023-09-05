@@ -32,6 +32,5 @@ trait ilObjFileTransformation
         });
     }
 
-
     abstract protected function getRefinery(): Factory;
 }

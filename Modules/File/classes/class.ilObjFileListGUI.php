@@ -160,7 +160,6 @@ class ilObjFileListGUI extends ilObjectListGUI
         return $frame;
     }
 
-
     /**
      * Returns the icon image type.
      * For most objects, this is same as the object type, e.g. 'cat','fold'.
@@ -218,7 +217,6 @@ class ilObjFileListGUI extends ilObjectListGUI
             'propertyNameVisible' => false,
         );
 
-
         $props[] = array(
             "alert" => false,
             "property" => $DIC->language()->txt("size"),
@@ -251,7 +249,7 @@ class ilObjFileListGUI extends ilObjectListGUI
             );
         }
 
-        if (isset($file_data["page_count"]) && (int)$file_data["page_count"] > 0) {
+        if (isset($file_data["page_count"]) && (int) $file_data["page_count"] > 0) {
             $props[] = array(
                 "alert" => false,
                 "property" => $DIC->language()->txt("page_count"),
@@ -322,7 +320,6 @@ class ilObjFileListGUI extends ilObjectListGUI
                 $access_granted = false;
             }
         }
-
 
         return parent::getCommandLink($cmd);
     }

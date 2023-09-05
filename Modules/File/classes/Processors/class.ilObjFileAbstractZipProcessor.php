@@ -193,7 +193,6 @@ abstract class ilObjFileAbstractZipProcessor extends ilObjFileAbstractProcessor
         yield from $directories_with_parents;
     }
 
-
     /**
      * Creates an IRSS resource from the given filepath.
      */
@@ -238,8 +237,7 @@ abstract class ilObjFileAbstractZipProcessor extends ilObjFileAbstractProcessor
     {
         $type = ($this->isWorkspace()) ?
             ilObject::_lookupType($this->tree->lookupObjectId($parent_id)) :
-            ilObject::_lookupType($parent_id, true)
-        ;
+            ilObject::_lookupType($parent_id, true);
 
         switch ($type) {
             case 'wfld':

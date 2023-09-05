@@ -30,8 +30,6 @@ class ilObjFileUnzipRecursiveProcessor extends ilObjFileAbstractZipProcessor
      */
     private array $path_map = [];
 
-
-
     public function process(
         ResourceIdentification $rid,
         string $title = null,
@@ -64,7 +62,14 @@ class ilObjFileUnzipRecursiveProcessor extends ilObjFileAbstractZipProcessor
             $parent_id_of_iteration = (int) ($this->path_map[$dir_name] ?? $base_node);
             $rid_of_iteration = $this->storeZippedFile($file_path);
 
-            $file_obj = $this->createFileObj($rid_of_iteration, $parent_id_of_iteration, null, null, $copyright_id, true);
+            $file_obj = $this->createFileObj(
+                $rid_of_iteration,
+                $parent_id_of_iteration,
+                null,
+                null,
+                $copyright_id,
+                true
+            );
         }
 
         $this->closeZip();

@@ -29,8 +29,13 @@ class NullIcon implements Icon
     private bool $active = false;
     private bool $is_default_icon = false;
     private array $suffixes = [];
-    public function __construct(string $rid = "", bool $active = false, bool $is_default_icon = false, array $suffixes = [])
-    {
+
+    public function __construct(
+        string $rid = "",
+        bool $active = false,
+        bool $is_default_icon = false,
+        array $suffixes = []
+    ) {
         $this->rid = $rid;
         $this->active = $active;
         $this->is_default_icon = $is_default_icon;

@@ -16,9 +16,7 @@
  *
  *********************************************************************/
 
-use ILIAS\FileUpload\Handler\FileInfoResult;
 use ILIAS\FileUpload\Handler\HandlerResult;
-use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
 use ILIAS\FileUpload\DTO\UploadResult;
 use ILIAS\FileUpload\Handler\BasicHandlerResult;
 

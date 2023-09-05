@@ -26,6 +26,7 @@
  *
  * @extends ilSaxParser
  */
+
 use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\FileUpload\MimeType;
 
@@ -352,7 +353,9 @@ class ilFileXMLParser extends ilSaxParser
                     "/"
                 ) . "/" . $files[2];// because [0] = "." [1] = ".."
                 if (!file_exists($version["tmpFilename"])) {
-                    ilLoggerFactory::getLogger('file')->error(__METHOD__ . ' "' . ($version["tmpFilename"]) . '" file not found.');
+                    ilLoggerFactory::getLogger('file')->error(
+                        __METHOD__ . ' "' . ($version["tmpFilename"]) . '" file not found.'
+                    );
 
                     continue;
                 }

@@ -44,7 +44,6 @@ trait ilObjFileCopyrightInput
         return $copyright_input;
     }
 
-
     abstract protected function getUIFactory(): ILIAS\UI\Factory;
 
     abstract protected function getLanguage(): \ilLanguage;

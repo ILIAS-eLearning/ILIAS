@@ -136,7 +136,7 @@ class ilFileVersionsGUI
                 break;
             case self::CMD_CREATE_NEW_VERSION:
                 $this->saveVersion(ilFileVersionFormGUI::MODE_ADD);
-            // no break
+                // no break
             case self::CMD_CREATE_REPLACING_VERSION:
                 $this->saveVersion(ilFileVersionFormGUI::MODE_REPLACE);
                 break;
@@ -552,7 +552,9 @@ class ilFileVersionsGUI
     {
         $form_action = $this->ctrl->getFormActionByClass(self::class, self::CMD_PROCESS_UNZIP);
 
-        $inputs[self::KEY_FILE_RID] = $this->ui->factory()->input()->field()->hidden()->withValue($this->file->getResourceId());
+        $inputs[self::KEY_FILE_RID] = $this->ui->factory()->input()->field()->hidden()->withValue(
+            $this->file->getResourceId()
+        );
         $inputs[self::KEY_FILE_STRUCTURE] = $this->ui->factory()->input()->field()->checkbox(
             $this->lng->txt('take_over_structure'),
             $this->lng->txt('take_over_structure_info'),
@@ -569,9 +571,11 @@ class ilFileVersionsGUI
         if ($rights !== null) {
             $zip_copyright_description = $zip_md->getRights()->getDescription();
             $zip_copyright_id = ilMDCopyrightSelectionEntry::_extractEntryId($zip_copyright_description);
-            $copyright_inheritance_input = $this->ui->factory()->input()->field()->hidden()->withValue((string) $zip_copyright_id);
+            $copyright_inheritance_input = $this->ui->factory()->input()->field()->hidden()->withValue(
+                (string) $zip_copyright_id
+            );
             $copyright_options[self::KEY_INHERIT_COPYRIGHT] = $this->ui->factory()->input()->field()->group(
-                [self::KEY_COPYRIGHT_ID =>  $copyright_inheritance_input],
+                [self::KEY_COPYRIGHT_ID => $copyright_inheritance_input],
                 $this->lng->txt("copyright_inherited"),
                 sprintf(
                     $this->lng->txt("copyright_inherited_info"),
@@ -583,7 +587,7 @@ class ilFileVersionsGUI
         // add the option to collectively select the copyright for all unzipped files independent of the original copyright of the zip
         $copyright_selection_input = $this->getCopyrightSelectionInput('set_license_for_all_files');
         $copyright_options[self::KEY_SELECT_COPYRIGHT] = $this->ui->factory()->input()->field()->group(
-            [self::KEY_COPYRIGHT_ID =>  $copyright_selection_input],
+            [self::KEY_COPYRIGHT_ID => $copyright_selection_input],
             $this->lng->txt("copyright_custom"),
             $this->lng->txt("copyright_custom_info")
         );

@@ -16,10 +16,8 @@
  *
  *********************************************************************/
 
-use ILIAS\Refinery;
 use ILIAS\Setup;
 use ILIAS\Setup\Environment;
-use ILIAS\Setup\Objective;
 
 class ilFileObjectSettingsUpdatedObjective implements Setup\Objective
 {

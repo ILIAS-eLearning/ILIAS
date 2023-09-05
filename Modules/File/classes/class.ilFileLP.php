@@ -35,12 +35,10 @@ class ilFileLP extends ilObjectLP
         );
     }
 
-
     public function getDefaultMode(): int
     {
         return ilLPObjSettings::LP_MODE_DEACTIVATED;
     }
-
 
     public function getValidModes(): array
     {

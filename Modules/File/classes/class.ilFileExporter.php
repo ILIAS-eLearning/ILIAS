@@ -31,7 +31,6 @@ class ilFileExporter extends ilXmlExporter
     {
     }
 
-
     /**
      * Get tail dependencies
      * @param string        entity
@@ -60,7 +59,6 @@ class ilFileExporter extends ilXmlExporter
         ];
     }
 
-
     /**
      * Get xml representation
      * @param string        entity
@@ -88,7 +86,6 @@ class ilFileExporter extends ilXmlExporter
 
         return $xml;
     }
-
 
     /**
      * Returns schema versions that the component can export to.

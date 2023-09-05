@@ -16,7 +16,6 @@
  *
  *********************************************************************/
 
-use ILIAS\DI\Container;
 use ILIAS\Filesystem\Stream\FileStream;
 use ILIAS\FileUpload\DTO\UploadResult;
 use ILIAS\FileUpload\FileUpload;
@@ -381,7 +380,6 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
         throw new LogicException('cannot change action');
     }
 
-
     public function handleChangedObjectTitle(string $new_title): void
     {
         $this->setTitle($new_title);
@@ -398,7 +396,6 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
         $this->updateCopyright();
         $this->notifyCreation($this->getId(), $this->getDescription());
     }
-
 
     protected function doRead(): void
     {
@@ -628,7 +625,6 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
     {
         //
     }
-
 
     /**
      * @param null $version_ids

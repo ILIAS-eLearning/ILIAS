@@ -22,7 +22,6 @@ use ILIAS\ResourceStorage\Flavour\Definition\PagesToExtract;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 use ILIAS\UI\Component\Modal\LightboxImagePage;
 use ILIAS\Modules\File\Preview\Settings;
-use ILIAS\Modules\File\Preview\Form;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>

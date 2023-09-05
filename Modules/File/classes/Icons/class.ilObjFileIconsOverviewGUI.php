@@ -20,8 +20,6 @@ declare(strict_types=1);
 
 namespace ILIAS\File\Icon;
 
-use ILIAS\UI\Component\MessageBox\MessageBox;
-
 /**
  * @property \ilFileServicesSettings $file_settings
  * @author Lukas Zehnder <lukas@sr.solutions>
@@ -138,7 +136,10 @@ class ilObjFileIconsOverviewGUI
     private function openUpdatingForm(): void
     {
         $to_str = $this->refinery->to()->string();
-        $rid = $this->wrapper->query()->has(self::P_RID) ? $rid = $this->wrapper->query()->retrieve(self::P_RID, $to_str) : "";
+        $rid = $this->wrapper->query()->has(self::P_RID) ? $rid = $this->wrapper->query()->retrieve(
+            self::P_RID,
+            $to_str
+        ) : "";
         $this->ctrl->setParameter($this, self::P_RID, $rid); //store rid for giving icon to form in update function
         $icon = $this->icon_repo->getIconByRid($rid);
         $icon_form_ui = new IconFormUI($icon, IconFormUI::MODE_EDIT, $this->icon_repo);
@@ -151,7 +152,10 @@ class ilObjFileIconsOverviewGUI
     public function changeActivation(): void
     {
         $to_str = $this->refinery->to()->string();
-        $rid = $this->wrapper->query()->has(self::P_RID) ? $rid = $this->wrapper->query()->retrieve(self::P_RID, $to_str) : "";
+        $rid = $this->wrapper->query()->has(self::P_RID) ? $rid = $this->wrapper->query()->retrieve(
+            self::P_RID,
+            $to_str
+        ) : "";
         $icon = $this->icon_repo->getIconByRid($rid);
         $suffixes = $icon->getSuffixes();
         $icon->isActive();
@@ -212,7 +216,6 @@ class ilObjFileIconsOverviewGUI
                     );
                 }
 
-
                 $this->main_tpl->setOnScreenMessage('success', $this->lng->txt('msg_success_icon_created'), true);
                 $this->ctrl->redirect($this, self::CMD_INDEX);
             } else {
@@ -226,7 +229,10 @@ class ilObjFileIconsOverviewGUI
     public function update(): void
     {
         $to_str = $this->refinery->to()->string();
-        $rid = $this->wrapper->query()->has(self::P_RID) ? $rid = $this->wrapper->query()->retrieve(self::P_RID, $to_str) : "";
+        $rid = $this->wrapper->query()->has(self::P_RID) ? $rid = $this->wrapper->query()->retrieve(
+            self::P_RID,
+            $to_str
+        ) : "";
         $this->ctrl->saveParameter(
             $this,
             self::P_RID
@@ -258,7 +264,10 @@ class ilObjFileIconsOverviewGUI
     public function delete(): void
     {
         $to_str = $this->refinery->to()->string();
-        $rid = $this->wrapper->query()->has(self::P_RID) ? $rid = $this->wrapper->query()->retrieve(self::P_RID, $to_str) : "";
+        $rid = $this->wrapper->query()->has(self::P_RID) ? $rid = $this->wrapper->query()->retrieve(
+            self::P_RID,
+            $to_str
+        ) : "";
 
         // delete icon from irss
         $is_deleted_from_irss = false;

@@ -18,7 +18,6 @@
 
 use ILIAS\ResourceStorage\Resource\StorableResource;
 use ILIAS\ResourceStorage\Services;
-use ILIAS\UI\NotImplementedException;
 use ILIAS\DI\Container;
 use ILIAS\Modules\File\Settings\General;
 
@@ -65,12 +64,11 @@ class ilObjFileImplementationStorage extends ilObjFileImplementationAbstract imp
         }
         return $stream->getStream()->getMetadata('uri');
     }
+
     public function getFileName(): string
     {
         return $this->resource->getCurrentRevision()->getInformation()->getTitle();
     }
-
-
 
     public function getFileSize(): int
     {

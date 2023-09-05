@@ -19,11 +19,7 @@
 namespace ILIAS\Modules\File\Settings;
 
 use ILIAS\Administration\Setting;
-use ILIAS\ResourceStorage\Flavour\Engine\GDEngine;
-use ILIAS\ResourceStorage\Flavour\Engine\ImagickEngine;
-use ILIAS\UI\Component\Input\Field\Group;
 use ilSetting;
-use ILIAS\UI\Component\Input\Field\Section;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
@@ -46,7 +42,6 @@ class General extends ilSetting implements Setting
         'pdf',
         'png',
     ];
-
 
     public function __construct()
     {
