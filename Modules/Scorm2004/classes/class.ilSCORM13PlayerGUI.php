@@ -414,7 +414,7 @@ class ilSCORM13PlayerGUI
         $config['package_url'] = $this->getDataDirectory() . "/";
 
         //editor
-        //        $config['envEditor'] = $this->envEditor;
+        $config['envEditor'] = 0;
 
         //debug
         $config['debug'] = $this->slm->getDebug();
