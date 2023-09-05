@@ -44,6 +44,8 @@ use ILIAS\Data\Factory as DataFactory;
 use ILIAS\UI\HelpTextRetriever;
 use ILIAS\UI\Help;
 use ILIAS\UI\Implementation\Component\Input\UploadLimitResolver;
+use ILIAS\UI\Implementation\Component\MessageBox\MessageBoxRendererFactory;
+use ILIAS\UI\Implementation\Component\Input\Container\Form\FormRendererFactory;
 
 class ilIndependentTemplateFactory implements TemplateFactory
 {
@@ -146,6 +148,9 @@ class NoUIFactory implements Factory
     {
     }
     public function entity(): C\Entity\Factory
+    {
+    }
+    public function dialog(): C\Dialog\Factory
     {
     }
 }
@@ -434,6 +439,28 @@ trait BaseUITestTrait
                         $tpl_factory,
                         $lng,
                         $js_binding,
+                        $image_path_resolver,
+                        $data_factory,
+                        $help_text_retriever,
+                        $this->getUploadLimitResolver()
+                    ),
+                    new MessageBoxRendererFactory(
+                        $ui_factory,
+                        $tpl_factory,
+                        $lng,
+                        $js_binding,
+                        $refinery,
+                        $image_path_resolver,
+                        $data_factory,
+                        $help_text_retriever,
+                        $this->getUploadLimitResolver()
+                    ),
+                    new FormRendererFactory(
+                        $ui_factory,
+                        $tpl_factory,
+                        $lng,
+                        $js_binding,
+                        $refinery,
                         $image_path_resolver,
                         $data_factory,
                         $help_text_retriever,

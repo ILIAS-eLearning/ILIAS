@@ -18,32 +18,35 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\UI\Implementation\Component\Input\Container\Form;
+namespace ILIAS\UI\Implementation\Component\Dialog;
 
-use ILIAS\UI\Component\Input\Container\Form as F;
-use ILIAS\UI\Implementation\Component\Input;
-use ILIAS\UI\Component\Button;
+use ILIAS\UI\Component\Dialog as I;
 use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
+use ILIAS\Data\URI;
 
-class Factory implements F\Factory
+/**
+ * Implementation of factory for dialog(content)
+ */
+class Factory implements I\Factory
 {
     public function __construct(
-        protected Input\Field\Factory $field_factory,
-        protected SignalGeneratorInterface $signal_generator,
+        protected SignalGeneratorInterface $signal_generator
     ) {
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function standard(string $post_url, array $inputs): F\Standard
+    public function standard(URI $async_url): I\Dialog
     {
-        return new Standard(
-            $this->signal_generator,
-            $this->field_factory,
-            new Input\FormInputNameSource(),
-            $post_url,
-            $inputs
-        );
+        return new Standard($this->signal_generator, $async_url);
+    }
+
+    public function response(I\DialogContent $content): Response
+    {
+        return new Response($content);
+    }
+
+    public function close(): Response
+    {
+        return (new Response(null))
+            ->withCloseModal(true);
     }
 }
