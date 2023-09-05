@@ -94,6 +94,7 @@ class InitUIFramework
                 $c["ui.signal_generator"],
                 $c["ui.factory.interruptive_item"],
                 $c["ui.factory.input.field"],
+                $c["ui.factory.button"],
             );
         };
         $c["ui.factory.dropzone"] = function ($c) {
