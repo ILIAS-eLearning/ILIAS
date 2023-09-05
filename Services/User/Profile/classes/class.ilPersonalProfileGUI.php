@@ -187,11 +187,16 @@ class ilPersonalProfileGUI
             return;
         }
 
+        $capture = $this->profile_request->getUserFileCapture();
+        if ($capture === null) {
+            return;
+        }
+
         $uploaded_file = $image_dir . "/" . "upload_" . $ilUser->getId() . ".png";
         $img = str_replace(
             ['data:image/png;base64,', ' '],
             ['', '+'],
-            $this->profile_request->getUserFileCapture()
+            $capture
         );
         $data = base64_decode($img);
         $success = file_put_contents($uploaded_file, $data);
