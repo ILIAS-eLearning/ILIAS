@@ -432,8 +432,8 @@
 			"approved-date": "YYYY-MM-DD"
 		},
 		"phpstan/phpstan": {
-			"source": "https://github.com/phpstan/phpstanr",
-			"used_version": "1.9.8",
+			"source": "https://github.com/phpstan/phpstan",
+			"used_version": "1.10.23",
 			"added_by": "Michael Jansen <mjansen@databay.de>",
 			"wrapped_by": null,
 			"last_update": "2023-09-05",
