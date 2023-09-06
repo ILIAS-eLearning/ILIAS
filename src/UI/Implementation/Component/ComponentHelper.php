@@ -186,6 +186,32 @@ trait ComponentHelper
     }
 
     /**
+     * Checks if every input is an instance of the given class(es). Group inputs are checked
+     * recursively, but only up to a maximum depth of 255.
+     *
+     * @param \ILIAS\UI\Component\Input\Input[] $values
+     * @param string|string[] $classes name(s) of classes
+     * @throws InvalidArgumentException	if any element is not an instance of $classes
+     */
+    protected function checkInputListElements(string $which, array $values, $classes, int $depth = 0): void
+    {
+        if (255 < $depth) {
+            throw new \LogicException('Input nesting limit of 255 exceeded.');
+        }
+
+        $classes = $this->toArray($classes);
+        foreach ($values as $value) {
+            foreach ($classes as $class) {
+                $this->checkArgInstanceOf($which, $value, $class);
+            }
+
+            if ($value instanceof \ILIAS\UI\Component\Input\Group) {
+                $this->checkInputListElements($which, $value->getInputs(), $classes, $depth + 1);
+            }
+        }
+    }
+
+    /**
      * Wrap the given value in an array if it is no array.
      *
      * @param	mixed	$value

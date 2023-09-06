@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
 * TableGUI class for evaluation of all users
 *
@@ -27,33 +29,20 @@
 */
 class ilEvaluationAllTableGUI extends ilTable2GUI
 {
-    protected $anonymity;
+    public function __construct(
+        ilObjTestGUI|ilTestEvaluationGUI $parent_obj,
+        string $parent_cmd,
+        private ilSetting $settings,
+        private bool $anonymity = false,
+        private bool $offeringQuestionHintsEnabled = false
+    ) {
+        parent::__construct($parent_obj, $parent_cmd);
 
-    /**
-     * flag for offering question hints
-     *
-     * @var boolean
-     */
-    protected $offeringQuestionHintsEnabled = null;
-
-    public function __construct($a_parent_obj, $a_parent_cmd, $anonymity = false, $offeringQuestionHintsEnabled = false)
-    {
-        global $DIC;
-        $ilCtrl = $DIC['ilCtrl'];
-        $lng = $DIC['lng'];
-
-        $this->setId("tst_eval_all");
-        parent::__construct($a_parent_obj, $a_parent_cmd);
-
-        $this->lng = $lng;
-        $this->ctrl = $ilCtrl;
+        $this->setId('tst_eval_all');
         $this->setFormName('evaluation_all');
         $this->setStyle('table', 'fullwidth');
-        $this->addColumn($lng->txt("name"), "name", "");
-        $this->addColumn($lng->txt("login"), "login", "");
-
-        $this->anonymity = $anonymity;
-        $this->offeringQuestionHintsEnabled = $offeringQuestionHintsEnabled;
+        $this->addColumn($this->lng->txt("name"), "name", "");
+        $this->addColumn($this->lng->txt("login"), "login", "");
 
         if (!$this->anonymity) {
             foreach ($this->getSelectedColumns() as $c) {
@@ -96,26 +85,19 @@ class ilEvaluationAllTableGUI extends ilTable2GUI
             }
         }
 
-        $this->addColumn($lng->txt("tst_reached_points"), "reached", "");
+        $this->addColumn($this->lng->txt("tst_reached_points"), "reached", "");
 
         if ($this->offeringQuestionHintsEnabled) {
-            $this->addColumn($lng->txt("tst_question_hints_requested_hint_count_header"), "hint_count", "");
+            $this->addColumn($this->lng->txt("tst_question_hints_requested_hint_count_header"), "hint_count", "");
         }
 
-        $this->addColumn($lng->txt("tst_mark"), "mark", "");
+        $this->addColumn($this->lng->txt("tst_mark"), "mark", "");
 
-        if ($this->parent_obj->getObject()->getECTSOutput()) {
-            foreach ($this->getSelectedColumns() as $c) {
-                if (strcmp($c, 'ects_grade') == 0) {
-                    $this->addColumn($this->lng->txt("ects_grade"), 'ects_grade', '');
-                }
-            }
-        }
-        $this->addColumn($lng->txt("tst_answered_questions"), "answered", "");
-        $this->addColumn($lng->txt("working_time"), "working_time", "");
-        $this->addColumn($lng->txt("detailed_evaluation"), "", "");
+        $this->addColumn($this->lng->txt("tst_answered_questions"), "answered", "");
+        $this->addColumn($this->lng->txt("working_time"), "working_time", "");
+        $this->addColumn($this->lng->txt("detailed_evaluation"), "", "");
 
-        $this->setFormAction($this->ctrl->getFormAction($a_parent_obj, $a_parent_cmd));
+        $this->setFormAction($this->ctrl->getFormAction($parent_obj, $parent_cmd));
         $this->setRowTemplate("tpl.table_evaluation_all.html", "Modules/Test");
         $this->setDefaultOrderField("name");
         $this->setDefaultOrderDirection("asc");
@@ -159,66 +141,58 @@ class ilEvaluationAllTableGUI extends ilTable2GUI
 
     public function getSelectableColumns(): array
     {
-        global $DIC;
-        $lng = $DIC['lng'];
         $cols = [];
         if (!$this->anonymity) {
             $cols["gender"] = array(
-                "txt" => $lng->txt("gender"),
+                "txt" => $this->lng->txt("gender"),
                 "default" => false
             );
             $cols["email"] = array(
-                "txt" => $lng->txt("email"),
+                "txt" => $this->lng->txt("email"),
                 "default" => false
             );
             $cols["institution"] = array(
-                "txt" => $lng->txt("institution"),
+                "txt" => $this->lng->txt("institution"),
                 "default" => false
             );
             $cols["street"] = array(
-                "txt" => $lng->txt("street"),
+                "txt" => $this->lng->txt("street"),
                 "default" => false
             );
             $cols["city"] = array(
-                "txt" => $lng->txt("city"),
+                "txt" => $this->lng->txt("city"),
                 "default" => false
             );
             $cols["zipcode"] = array(
-                "txt" => $lng->txt("zipcode"),
+                "txt" => $this->lng->txt("zipcode"),
                 "default" => false
             );
             if ($this->isFieldEnabledEnoughByAdministration('country')) {
                 $cols["country"] = array(
-                    "txt" => $lng->txt("country"),
+                    "txt" => $this->lng->txt("country"),
                     "default" => false
                 );
             }
             if ($this->isFieldEnabledEnoughByAdministration('sel_country')) {
                 $cols["sel_country"] = array(
-                    "txt" => $lng->txt("country"),
+                    "txt" => $this->lng->txt("country"),
                     "default" => false
                 );
             }
             $cols["department"] = array(
-                "txt" => $lng->txt("department"),
+                "txt" => $this->lng->txt("department"),
                 "default" => false
             );
             $cols["matriculation"] = array(
-                "txt" => $lng->txt("matriculation"),
+                "txt" => $this->lng->txt("matriculation"),
                 "default" => false
             );
             if ($this->parent_obj->getObject()->isShowExamIdInTestResultsEnabled()) {
                 $cols["exam_id"] = array(
-                    "txt" => $lng->txt("exam_id_label"),
+                    "txt" => $this->lng->txt("exam_id_label"),
                     "default" => false
                 );
             }
-        }
-        if ($this->parent_obj->getObject()->getECTSOutput()) {
-            $cols["ects_grade"] = array(
-                "txt" => $lng->txt("ects_grade"),
-                "default" => false
-            );
         }
         return $cols;
     }
@@ -228,12 +202,7 @@ class ilEvaluationAllTableGUI extends ilTable2GUI
     */
     public function initFilter(): void
     {
-        global $DIC;
-        $lng = $DIC['lng'];
-        $rbacreview = $DIC['rbacreview'];
-        $ilUser = $DIC['ilUser'];
-
-        $ti = new ilTextInputGUI($lng->txt("name"), "name");
+        $ti = new ilTextInputGUI($this->lng->txt("name"), "name");
         $ti->setMaxLength(64);
         $ti->setValidationRegexp('/^[^%]*$/is');
         $ti->setSize(20);
@@ -241,7 +210,7 @@ class ilEvaluationAllTableGUI extends ilTable2GUI
         $ti->readFromSession();
 
         // group
-        $ti = new ilTextInputGUI($lng->txt("grp"), "group");
+        $ti = new ilTextInputGUI($this->lng->txt("grp"), "group");
         $ti->setMaxLength(64);
         $ti->setValidationRegexp('/^[^%]*$/is');
         $ti->setSize(20);
@@ -249,7 +218,7 @@ class ilEvaluationAllTableGUI extends ilTable2GUI
         $ti->readFromSession();
 
         // course
-        $ti = new ilTextInputGUI($lng->txt("course"), "course");
+        $ti = new ilTextInputGUI($this->lng->txt("course"), "course");
         $ti->setMaxLength(64);
         $ti->setSize(20);
         $ti->setValidationRegexp('/^[^%]*$/is');
@@ -257,7 +226,6 @@ class ilEvaluationAllTableGUI extends ilTable2GUI
         $ti->readFromSession();
 
         $si = new ilCheckboxInputGUI($this->lng->txt("passed_only"), "passed_only");
-        //		$si->setOptionTitle();
         $this->addFilterItem($si);
         $si->readFromSession();
     }
@@ -329,13 +297,6 @@ class ilEvaluationAllTableGUI extends ilTable2GUI
                     $this->tpl->parseCurrentBlock();
                 }
             }
-            if ($this->parent_obj->object->getECTSOutput()) {
-                if (strcmp($c, 'ects_grade') == 0) {
-                    $this->tpl->setCurrentBlock('ects_grade');
-                    $this->tpl->setVariable("ECTS_GRADE", $a_set['ects_grade']);
-                    $this->tpl->parseCurrentBlock();
-                }
-            }
         }
         $reachedPercent = !$a_set['max'] ? 0 : $a_set['reached'] / $a_set['max'] * 100;
         $reached = $a_set['reached'] . " " . strtolower($this->lng->txt("of")) . " " . $a_set['max'] . " (" . sprintf("%2.2f", $reachedPercent) . " %)";
@@ -378,26 +339,23 @@ class ilEvaluationAllTableGUI extends ilTable2GUI
 
     protected function isFieldEnabledEnoughByAdministration($fieldIdentifier): bool
     {
-        global $DIC;
-        $ilSetting = $DIC['ilSetting'];
-
-        if ($ilSetting->get("usr_settings_hide_" . $fieldIdentifier)) { // visible
+        if ($this->settings->get("usr_settings_hide_" . $fieldIdentifier)) { // visible
             return false;
         }
 
-        if (!$ilSetting->get('usr_settings_visib_reg_' . $fieldIdentifier)) { // visib_reg
+        if (!$this->settings->get('usr_settings_visib_reg_' . $fieldIdentifier)) { // visib_reg
             return false;
         }
 
-        if (!$ilSetting->get('usr_settings_visib_lua_' . $fieldIdentifier)) { // visib_lua
+        if (!$this->settings->get('usr_settings_visib_lua_' . $fieldIdentifier)) { // visib_lua
             return false;
         }
 
-        if ($ilSetting->get("usr_settings_disable_" . $fieldIdentifier)) { // changeable
+        if ($this->settings->get("usr_settings_disable_" . $fieldIdentifier)) { // changeable
             return false;
         }
 
-        if (!$ilSetting->get('usr_settings_changeable_lua_' . $fieldIdentifier)) { // changeable_lua
+        if (!$this->settings->get('usr_settings_changeable_lua_' . $fieldIdentifier)) { // changeable_lua
             return false;
         }
 

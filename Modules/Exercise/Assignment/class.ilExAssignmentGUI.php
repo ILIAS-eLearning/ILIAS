@@ -303,7 +303,7 @@ class ilExAssignmentGUI
             foreach ($files as $file) {
                 $cnt++;
                 // get mime type
-                $mime = ilObjMediaObject::getMimeType($file['fullpath']);
+                $mime = $file['mime'] ?? ilObjMediaObject::getMimeType($file['fullpath']);
 
                 $ui_factory = $DIC->ui()->factory();
                 $ui_renderer = $DIC->ui()->renderer();

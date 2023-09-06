@@ -78,8 +78,11 @@ If i18n is enabled and a page is copied (e.g. because of a new translation), it 
 
 See also https://mantis.ilias.de/view.php?id=29057
 
-
 ## Long Term
+
+### Internal Links for More Contexts
+
+Internal links are not supported in all contexts. The behaviour of the different link targets is not well defined and thus a general usability issue. A separate activation of these (e.g. only in the learning module) might be feasible. If possible the link concepts should be revised completely.
 
 ### Integration of new question service
 

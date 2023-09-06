@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,8 +16,10 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
-use ILIAS\UI\Component\Input\Field\Input;
+use ILIAS\UI\Component\Input\Container\Form\FormInput;
 use ILIAS\Refinery\Factory as Refinery;
 
 class ilObjTestSettingsResultSummary extends TestSettings
@@ -51,7 +51,7 @@ class ilObjTestSettingsResultSummary extends TestSettings
         FieldFactory $f,
         Refinery $refinery,
         array $environment = null
-    ): Input {
+    ): FormInput {
         $trafo = $refinery->custom()->transformation(
             function ($v) {
                 list($mode, $date) = $v;
@@ -72,8 +72,13 @@ class ilObjTestSettingsResultSummary extends TestSettings
                 self::SCORE_REPORTING_DATE => $f->group(
                     [
                     $f->dateTime($lng->txt('tst_reporting_date'), "")
-                        ->withUseTime(true)
-                        ->withValue($this->getReportingDate())
+                        ->withTimezone($environment['user_time_zone'])
+                        ->withFormat($environment['user_date_format'])
+                        ->withValue(
+                            $this->getReportingDate()?->setTimezone(
+                                new DateTimeZone($environment['user_time_zone'])
+                            )
+                        )
                         ->withRequired(true)
                     ],
                     $lng->txt('tst_results_access_date'),
@@ -158,7 +163,8 @@ class ilObjTestSettingsResultSummary extends TestSettings
     {
         $dat = $this->getReportingDate();
         if ($dat) {
-            $dat = $dat->format(ilObjTestScoreSettingsDatabaseRepository::STORAGE_DATE_FORMAT);
+            $dat = $dat->setTimezone(new DateTimeZone('UTC'))
+                ->format(ilObjTestScoreSettingsDatabaseRepository::STORAGE_DATE_FORMAT);
         }
         return [
             'pass_deletion_allowed' => ['integer', (int) $this->getPassDeletionAllowed()],

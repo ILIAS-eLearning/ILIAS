@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class ilTestScoring
  *
@@ -37,60 +39,37 @@
  */
 class ilTestScoring
 {
-    /** @var ilObjTest $test */
-    protected $test;
+    private bool $preserve_manual_scores = false;
+    private array $recalculated_passes = [];
+    private int $question_id = 0;
 
-    /** @var bool $preserve_manual_scores */
-    protected $preserve_manual_scores;
-
-    private $recalculatedPasses;
-
-    /**
-     * @var int
-     */
-    protected $questionId = 0;
-
-    public function __construct(ilObjTest $test)
-    {
-        $this->test = $test;
-        $this->preserve_manual_scores = false;
-
-        $this->recalculatedPasses = array();
+    public function __construct(
+        private ilObjTest $test,
+        private ilDBInterface $db
+    ) {
     }
 
-    /**
-     * @param boolean $preserve_manual_scores
-     */
-    public function setPreserveManualScores($preserve_manual_scores)
+    public function setPreserveManualScores(bool $preserve_manual_scores): void
     {
         $this->preserve_manual_scores = $preserve_manual_scores;
     }
 
-    /**
-     * @return boolean
-     */
     public function getPreserveManualScores(): bool
     {
         return $this->preserve_manual_scores;
     }
 
-    /**
-     * @return int
-     */
     public function getQuestionId(): int
     {
-        return $this->questionId;
+        return $this->question_id;
     }
 
-    /**
-     * @param int $questionId
-     */
-    public function setQuestionId(int $questionId)
+    public function setQuestionId(int $question_id): void
     {
-        $this->questionId = $questionId;
+        $this->question_id = $question_id;
     }
 
-    public function recalculateSolutions()
+    public function recalculateSolutions(): void
     {
         $participants = $this->test->getCompleteEvaluationData(false)->getParticipants();
         if (is_array($participants)) {
@@ -98,18 +77,12 @@ class ilTestScoring
                 if (is_object($userdata) && is_array($userdata->getPasses())) {
                     $this->recalculatePasses($userdata, $active_id);
                 }
-                assQuestion::_updateTestResultCache($active_id);
+                $this->test->updateTestResultCache($active_id);
             }
         }
     }
 
-    /**
-     * Updates passed status of the Test
-     *
-     * @param $active_id
-     * @param $pass
-     */
-    public function recalculateSolution($active_id, $pass)
+    public function recalculateSolution(int $active_id, int $pass): void
     {
         $user_data = $this
             ->test
@@ -118,14 +91,10 @@ class ilTestScoring
             ->getPass($pass);
 
         $this->recalculatePass($user_data, $active_id, $pass);
-        assQuestion::_updateTestResultCache($active_id);
+        $this->test->updateTestResultCache($active_id);
     }
 
-    /**
-     * @param $userdata
-     * @param $active_id
-     */
-    public function recalculatePasses($userdata, $active_id)
+    public function recalculatePasses(ilTestEvaluationUserData $userdata, int $active_id): void
     {
         $passes = $userdata->getPasses();
         foreach ($passes as $pass => $passdata) {
@@ -136,13 +105,11 @@ class ilTestScoring
         }
     }
 
-    /**
-     * @param $passdata
-     * @param $active_id
-     * @param $pass
-     */
-    public function recalculatePass($passdata, $active_id, $pass)
-    {
+    public function recalculatePass(
+        ilTestEvaluationPassData $passdata,
+        int $active_id,
+        int $pass
+    ) {
         $questions = $passdata->getAnsweredQuestions();
         if (is_array($questions)) {
             foreach ($questions as $questiondata) {
@@ -150,42 +117,37 @@ class ilTestScoring
                     continue;
                 }
 
-                $question_gui = $this->test->createQuestionGUI("", $questiondata['id']);
+                $question_gui = $this->test->createQuestionGUI('', $questiondata['id']);
                 $this->recalculateQuestionScore($question_gui, $active_id, $pass, $questiondata);
             }
         }
     }
 
-    /**
-     * @param $question_gui $question_gui
-     * @param $active_id
-     * @param $pass
-     * @param $questiondata
-     */
-    public function recalculateQuestionScore($question_gui, $active_id, $pass, $questiondata)
-    {
-        /** @var assQuestionGUI $question_gui */
-        if (is_object($question_gui)) {
-            $reached = $question_gui->object->calculateReachedPoints($active_id, $pass);
-            $actual_reached = $question_gui->object->adjustReachedPointsByScoringOptions($reached, $active_id, $pass);
+    public function recalculateQuestionScore(
+        assQuestionGUI $question_gui,
+        int $active_id,
+        int $pass,
+        array $questiondata
+    ): void {
+        $reached = $question_gui->object->calculateReachedPoints($active_id, $pass);
+        $actual_reached = $question_gui->object->adjustReachedPointsByScoringOptions($reached, $active_id, $pass);
 
-            if ($this->preserve_manual_scores == true && $questiondata['manual'] == '1') {
-                // Do we need processing here?
-            } else {
-                assQuestion::setForcePassResultUpdateEnabled(true);
+        if ($this->preserve_manual_scores == true && $questiondata['manual'] == '1') {
+            // Do we need processing here?
+        } else {
+            assQuestion::setForcePassResultUpdateEnabled(true);
 
-                assQuestion::_setReachedPoints(
-                    $active_id,
-                    $questiondata['id'],
-                    $actual_reached,
-                    $question_gui->object->getMaximumPoints(),
-                    $pass,
-                    false,
-                    true
-                );
+            assQuestion::_setReachedPoints(
+                $active_id,
+                $questiondata['id'],
+                $actual_reached,
+                $question_gui->object->getMaximumPoints(),
+                $pass,
+                false,
+                true
+            );
 
-                assQuestion::setForcePassResultUpdateEnabled(false);
-            }
+            assQuestion::setForcePassResultUpdateEnabled(false);
         }
     }
 
@@ -206,56 +168,51 @@ class ilTestScoring
 
     public function resetRecalculatedPassesByActives()
     {
-        $this->recalculatedPasses = array();
+        $this->recalculated_passes = [];
     }
 
     public function getRecalculatedPassesByActives(): array
     {
-        return $this->recalculatedPasses;
+        return $this->recalculated_passes;
     }
 
-    public function addRecalculatedPassByActive($activeId, $pass)
+    public function addRecalculatedPassByActive(int $active_id, int $pass): void
     {
-        if (! array_key_exists($activeId, $this->recalculatedPasses)
-            || !is_array($this->recalculatedPasses[$activeId])
+        if (! array_key_exists($active_id, $this->recalculated_passes)
+            || !is_array($this->recalculated_passes[$active_id])
         ) {
-            $this->recalculatedPasses[$activeId] = array();
+            $this->recalculated_passes[$active_id] = [];
         }
 
-        $this->recalculatedPasses[$activeId][] = $pass;
+        $this->recalculated_passes[$active_id][] = $pass;
     }
 
-    public function removeAllQuestionResults($questionId)
+    public function removeAllQuestionResults($question_id)
     {
-        global $DIC; /* @var ILIAS\DI\Container $DIC */
-
         $query = "DELETE FROM tst_test_result WHERE question_fi = %s";
-        $DIC->database()->manipulateF($query, array('integer'), array($questionId));
-    }
-
-    public function updatePassAndTestResults($activeIds)
-    {
-        global $DIC; /* @var ILIAS\DI\Container $DIC */
-
-        foreach ($activeIds as $activeId) {
-            $passSelector = new ilTestPassesSelector($DIC->database(), $this->test);
-            $passSelector->setActiveId($activeId);
-
-            foreach ($passSelector->getExistingPasses() as $pass) {
-                assQuestion::_updateTestPassResults($activeId, $pass, $this->test->areObligationsEnabled());
-            }
-
-            assQuestion::_updateTestResultCache($activeId);
-        }
+        $this->db->manipulateF($query, array('integer'), array($question_id));
     }
 
     /**
-     * @return int
+     *
+     * @param array<int> $active_ids
      */
+    public function updatePassAndTestResults(array $active_ids): void
+    {
+        foreach ($active_ids as $active_id) {
+            $passSelector = new ilTestPassesSelector($this->db, $this->test);
+            $passSelector->setActiveId($active_id);
+
+            foreach ($passSelector->getExistingPasses() as $pass) {
+                $this->test->updateTestPassResults($active_id, $pass, $this->test->areObligationsEnabled());
+            }
+
+            $this->test->updateTestResultCache($active_id);
+        }
+    }
+
     public function getNumManualScorings(): int
     {
-        global $DIC; /* @var ILIAS\DI\Container $DIC */
-
         $query = "
 			SELECT COUNT(*) num_manual_scorings
 			FROM tst_test_result tres
@@ -279,9 +236,9 @@ class ilTestScoring
             $values[] = $this->getQuestionId();
         }
 
-        $res = $DIC->database()->queryF($query, $types, $values);
+        $res = $this->db->queryF($query, $types, $values);
 
-        while ($row = $DIC->database()->fetchAssoc($res)) {
+        while ($row = $this->db->fetchAssoc($res)) {
             return (int) $row['num_manual_scorings'];
         }
 

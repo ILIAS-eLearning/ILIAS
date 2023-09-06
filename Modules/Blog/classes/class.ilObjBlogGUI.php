@@ -31,6 +31,7 @@ use ILIAS\Blog\StandardGUIRequest;
  */
 class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 {
+    protected \ILIAS\Blog\InternalDomainService $domain;
     protected \ILIAS\Blog\InternalGUIService $gui;
     protected \ILIAS\Notes\Service $notes;
     protected \ILIAS\Blog\ReadingTime\BlogSettingsGUI $reading_time_gui;
@@ -82,6 +83,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
         $service = $DIC->blog()->internal();
 
         $domain = $service->domain();
+        $this->domain = $domain;
         $this->settings = $domain->settings();
         $this->user = $domain->user();
         $this->tree = $domain->repositoryTree();
@@ -817,7 +819,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 
             case "ilblogexercisegui":
                 $this->ctrl->setReturn($this, "render");
-                $gui = new ilBlogExerciseGUI($this->node_id);
+                $gui = $this->gui->exercise()->ilBlogExerciseGUI($this->node_id);
                 $this->ctrl->forwardCommand($gui);
                 break;
 
@@ -859,8 +861,8 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 
     protected function triggerAssignmentTool(): void
     {
-        $be = new ilBlogExercise($this->node_id);
-        $be_gui = new ilBlogExerciseGUI($this->node_id);
+        $be = $this->domain->exercise($this->node_id);
+        $be_gui = $this->gui->exercise()->ilBlogExerciseGUI($this->node_id);
         $assignments = $be->getAssignmentsOfBlog();
         if (count($assignments) > 0) {
             $ass_ids = array_map(static function ($i) {

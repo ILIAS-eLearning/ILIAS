@@ -36,7 +36,7 @@ class ilAdvancedMDParser extends ilSaxParser implements ilSaxSubsetParser
     protected array $record_ids = [];
 
     // local adv md record support
-    protected ?array $local_record = [];
+    protected ?array $local_record = null;
     protected array $local_rec_map = [];
     protected array $local_rec_fields_map = [];
 
@@ -115,7 +115,7 @@ class ilAdvancedMDParser extends ilSaxParser implements ilSaxSubsetParser
                     (string) $a_attribs['id'],
                     (string) $a_attribs['sub_type'],
                     (int) $a_attribs['sub_id'],
-                    (int) $a_attribs['local_rec_id']
+                    isset($a_attribs['local_rec_id']) ? (int) $a_attribs['local_rec_id'] : null
                 );
                 break;
         }

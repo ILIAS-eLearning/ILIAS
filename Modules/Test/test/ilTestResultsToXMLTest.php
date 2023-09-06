@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class ilTestResultsToXMLTest
  * @author Marvin Beym <mbeym@databay.de>
@@ -28,10 +28,12 @@ class ilTestResultsToXMLTest extends ilTestBaseTestCase
 
     protected function setUp(): void
     {
+        global $DIC;
         parent::setUp();
 
         $this->testObj = new ilTestResultsToXML(
             0,
+            $DIC['ilDB'],
             false
         );
     }

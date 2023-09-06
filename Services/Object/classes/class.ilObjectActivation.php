@@ -335,8 +335,8 @@ class ilObjectActivation
         if ($item['type'] == 'sess') {
             $info = ilSessionAppointment::_lookupAppointment((int) $item['obj_id']);
             // #11987
-            $item['masked_start'] = $item['start'];
-            $item['masked_end'] = $item['end'] ?? "";
+            $item['masked_start'] = $item['start'] ?? '';
+            $item['masked_end'] = $item['end'] ?? '';
             $item['start'] = $info['start'] ?? '';
             $item['end'] = $info['end'] ?? '';
         }

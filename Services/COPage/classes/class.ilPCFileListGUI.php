@@ -78,7 +78,6 @@ class ilPCFileListGUI extends ilPageContentGUI
     public function insert(ilPropertyFormGUI $a_form = null): void
     {
         $ilTabs = $this->tabs;
-
         $sub_command = $this->sub_command;
 
         if (in_array($sub_command, ["insertNew", "insertFromRepository", "insertFromWorkspace"])) {
@@ -254,10 +253,19 @@ class ilPCFileListGUI extends ilPageContentGUI
 
         $this->updated = $this->pg_obj->update();
         if ($this->updated === true) {
-            $this->ctrl->returnToParent($this, "jump" . $this->hier_id);
+            $this->afterCreation();
         } else {
             $this->insert();
         }
+    }
+
+    public function afterCreation(): void
+    {
+        $this->pg_obj->stripHierIDs();
+        $this->pg_obj->addHierIDs();
+        $this->ctrl->setParameter($this, "hier_id", $this->content_obj->readHierId());
+        $this->ctrl->setParameter($this, "pc_id", $this->content_obj->readPCId());
+        $this->ctrl->redirect($this, "editFiles");
     }
 
     /**

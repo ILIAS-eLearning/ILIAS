@@ -1956,7 +1956,6 @@ class ilPageObjectGUI
 
         $btpl->setVariable("TXT_SAVING", $lng->txt("cont_saving"));
         $btpl->setVariable("SRC_LOADER", \ilUtil::getImagePath("loader.svg"));
-        $btpl->setVariable("CHAR_STYLE_SELECTOR", ilPCParagraphGUI::getCharStyleSelector($a_par_type, true, $a_style_id));
         ilTooltipGUI::addTooltip(
             "ilAdvSelListAnchorElement_char_style_selection",
             $lng->txt("cont_more_character_styles"),
@@ -2024,7 +2023,11 @@ class ilPageObjectGUI
         $link_xml = $this->page_linker->getLinkXML($med_links);
 
         $media_obj = new ilObjMediaObject($this->request->getMobId());
-        $pg_obj = $this->getPageObject();
+        if ($this->request->getPageType() === "mep") {
+            $pg_obj = new ilMediaPoolPage($this->request->getPageId());
+        } else {
+            $pg_obj = $this->getPageObject();
+        }
         $pg_obj->buildDom();
 
         $xml = "<dummy>";

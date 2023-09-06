@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Class ilEvaluationAllTableGUITest
@@ -59,7 +59,7 @@ class ilEvaluationAllTableGUITest extends ilTestBaseTestCase
 
         $this->parentObj_mock = $this->getMockBuilder(ilObjTestGUI::class)->disableOriginalConstructor()->onlyMethods(array('getObject'))->getMock();
         $this->parentObj_mock->expects($this->any())->method('getObject')->willReturn($this->createMock(ilObjTest::class));
-        $this->tableGui = new ilEvaluationAllTableGUI($this->parentObj_mock, "");
+        $this->tableGui = new ilEvaluationAllTableGUI($this->parentObj_mock, "", $this->createMock(ilSetting::class));
     }
 
     public function test_instantiateObject_shouldReturnInstance(): void
@@ -72,6 +72,7 @@ class ilEvaluationAllTableGUITest extends ilTestBaseTestCase
         $tableGui = new ilEvaluationAllTableGUI(
             $this->parentObj_mock,
             "",
+            $this->createMock(ilSetting::class),
             false,
             false
         );
@@ -83,6 +84,7 @@ class ilEvaluationAllTableGUITest extends ilTestBaseTestCase
         $tableGui = new ilEvaluationAllTableGUI(
             $this->parentObj_mock,
             "",
+            $this->createMock(ilSetting::class),
             true,
             true
         );
@@ -94,6 +96,7 @@ class ilEvaluationAllTableGUITest extends ilTestBaseTestCase
         $tableGui = new ilEvaluationAllTableGUI(
             $this->parentObj_mock,
             "",
+            $this->createMock(ilSetting::class),
             true,
             false
         );
@@ -105,6 +108,7 @@ class ilEvaluationAllTableGUITest extends ilTestBaseTestCase
         $tableGui = new ilEvaluationAllTableGUI(
             $this->parentObj_mock,
             "",
+            $this->createMock(ilSetting::class),
             false,
             true
         );
@@ -154,6 +158,7 @@ class ilEvaluationAllTableGUITest extends ilTestBaseTestCase
         $tableGui = new ilEvaluationAllTableGUI(
             $this->parentObj_mock,
             "",
+            $this->createMock(ilSetting::class),
             false,
             false
         );
@@ -163,6 +168,7 @@ class ilEvaluationAllTableGUITest extends ilTestBaseTestCase
         $tableGui = new ilEvaluationAllTableGUI(
             $this->parentObj_mock,
             "",
+            $this->createMock(ilSetting::class),
             true,
             false
         );

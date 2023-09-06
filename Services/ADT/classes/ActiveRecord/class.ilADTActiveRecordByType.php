@@ -206,7 +206,7 @@ class ilADTActiveRecordByType
                     $sub_table = array_pop($sub_tables);
                 }
                 while ($row = $this->db->fetchAssoc($set)) {
-                    $element_id = $row[$this->getElementIdColumn()];
+                    $element_id = (string) $row[$this->getElementIdColumn()];
                     if (in_array($element_id, $element_ids)) {
                         $has_data = true;
 

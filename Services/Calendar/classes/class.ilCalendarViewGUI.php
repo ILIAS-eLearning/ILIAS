@@ -163,13 +163,8 @@ class ilCalendarViewGUI
         $schedule = null;
         switch ($this->presentation_type) {
             case self::CAL_PRESENTATION_AGENDA_LIST:
-
-                //if($this->period_end_day == "")
-                //{
-                $this->period = ilCalendarAgendaListGUI::getPeriod();
-
                 $end_date = clone $this->seed;
-                switch ($this->period) {
+                switch (ilCalendarAgendaListGUI::getPeriod()) {
                     case ilCalendarAgendaListGUI::PERIOD_DAY:
                         $schedule = new ilCalendarSchedule($this->seed, ilCalendarSchedule::TYPE_DAY, $user, true);
                         $end_date->increment(IL_CAL_DAY, 1);

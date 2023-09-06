@@ -36,8 +36,8 @@ class ilPDSelectedItemsBlockViewSettings implements ilPDSelectedItemsBlockConsta
         self::VIEW_SELECTED_ITEMS => 'favourites',
         self::VIEW_RECOMMENDED_CONTENT => 'recommended_content',
         self::VIEW_MY_MEMBERSHIPS => 'memberships',
-        self::VIEW_LEARNING_SEQUENCES => 'learningsequences',
-        self::VIEW_MY_STUDYPROGRAMME => 'studyprogramme',
+        self::VIEW_LEARNING_SEQUENCES => 'learning_sequences',
+        self::VIEW_MY_STUDYPROGRAMME => 'study_programmes',
     ];
 
     /** @var string[] */
@@ -47,10 +47,10 @@ class ilPDSelectedItemsBlockViewSettings implements ilPDSelectedItemsBlockConsta
     ];
     /** @var string[] */
     protected static array $availableSortOptions = [
-            self::SORT_BY_LOCATION,
-            self::SORT_BY_TYPE,
-            self::SORT_BY_START_DATE,
-            self::SORT_BY_ALPHABET,
+        self::SORT_BY_LOCATION,
+        self::SORT_BY_TYPE,
+        self::SORT_BY_START_DATE,
+        self::SORT_BY_ALPHABET,
     ];
 
     /**
@@ -142,6 +142,16 @@ class ilPDSelectedItemsBlockViewSettings implements ilPDSelectedItemsBlockConsta
     public function getStudyProgrammeView(): int
     {
         return self::VIEW_MY_STUDYPROGRAMME;
+    }
+
+    public function getLearningSequenceView(): int
+    {
+        return self::VIEW_LEARNING_SEQUENCES;
+    }
+
+    public function getRecommendedContentView(): int
+    {
+        return self::VIEW_RECOMMENDED_CONTENT;
     }
 
     public function getListPresentationMode(): string
@@ -263,7 +273,7 @@ class ilPDSelectedItemsBlockViewSettings implements ilPDSelectedItemsBlockConsta
     }
 
     /**
-     * @param string[]  $active
+     * @param string[] $active
      */
     public function storeViewPresentation(int $view, string $default, array $active): void
     {
@@ -289,6 +299,65 @@ class ilPDSelectedItemsBlockViewSettings implements ilPDSelectedItemsBlockConsta
         return (!$val)
             ? $this->getAvailablePresentationsByView($view)
             : unserialize($val, ['allowed_classes' => false]);
+    }
+
+    /**
+     * @param int[] $positions
+     */
+    public function setViewPositions(array $positions): void
+    {
+        $this->settings->set('pd_view_positions', serialize($positions));
+    }
+
+    /**
+     * @return int[]
+     */
+    public function getViewPositions(): array
+    {
+        $val = $this->settings->get('pd_view_positions', '');
+        return (!$val)
+            ? self::$availableViews
+            : unserialize($val, ['allowed_classes' => false]);
+    }
+
+    public function isViewEnabled(int $view): bool
+    {
+        switch ($view) {
+            case $this->getMembershipsView():
+                return $this->enabledMemberships();
+            case $this->getSelectedItemsView():
+                return $this->enabledSelectedItems();
+            case $this->getStudyProgrammeView():
+                return $this->enabledStudyProgrammes();
+            case $this->getRecommendedContentView():
+                return $this->enabledRecommendedContent();
+            case $this->getLearningSequenceView():
+                return $this->enabledLearningSequences();
+            default:
+                return false;
+        }
+    }
+
+    public function enableView(int $view, bool $status): void
+    {
+        switch ($view) {
+            case $this->getMembershipsView():
+                $this->enableMemberships($status);
+                break;
+            case $this->getSelectedItemsView():
+                $this->enableSelectedItems($status);
+                break;
+            case $this->getStudyProgrammeView():
+                $this->enableStudyProgrammes($status);
+                break;
+            case $this->getRecommendedContentView():
+                break;
+            case $this->getLearningSequenceView():
+                $this->enableLearningSequences($status);
+                break;
+            default:
+                throw new InvalidArgumentException('Unknown view: $view');
+        }
     }
 
     public function enabledMemberships(): bool
@@ -463,7 +532,7 @@ class ilPDSelectedItemsBlockViewSettings implements ilPDSelectedItemsBlockConsta
 
     public function enabledRecommendedContent(): bool
     {
-        return (int) $this->settings->get('disable_recommended_content', '1') === 0;
+        return true;
     }
 
     public function enabledLearningSequences(): bool
@@ -474,11 +543,6 @@ class ilPDSelectedItemsBlockViewSettings implements ilPDSelectedItemsBlockConsta
     public function enabledStudyProgrammes(): bool
     {
         return (int) $this->settings->get('disable_study_programmes', '1') === 0;
-    }
-
-    public function enableRecommendedContent(bool $status): void
-    {
-        $this->settings->set('disable_recommended_content', $status ? "0" : "1");
     }
 
     public function enableLearningSequences(bool $status): void

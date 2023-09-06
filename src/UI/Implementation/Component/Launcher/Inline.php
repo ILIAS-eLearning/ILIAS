@@ -120,7 +120,8 @@ class Inline implements C\Launcher\Inline
         $modal = $this->modal_factory->roundtrip(
             $this->getButtonLabel(),
             $instruction,
-            $fields->getInputs()
+            $fields->getInputs(),
+            $this->getTarget()->getURL()->__toString()
         );
         $clone = clone $this;
         $clone->modal = $modal;

@@ -58,7 +58,7 @@ class ilTermsOfServiceWithdrawalGUIHelper
         $template->setVariable(
             'BTN_TOS_WITHDRAWAL',
             $this->uiRenderer->render(
-                $this->uiFactory->button()->standard($this->lng->txt('withdraw_consent'), 'logout.php?withdraw_consent')
+                $this->uiFactory->button()->standard($this->lng->txt('withdraw_consent'), ilStartUpGUI::logoutUrl(['withdraw_consent' => '']))
             )
         );
 

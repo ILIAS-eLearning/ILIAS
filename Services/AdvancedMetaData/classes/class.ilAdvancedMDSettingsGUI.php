@@ -195,12 +195,12 @@ class ilAdvancedMDSettingsGUI
         return null;
     }
 
-    protected function getOidFromQuery(): ?int
+    protected function getOidFromQuery(): ?string
     {
         if ($this->http->wrapper()->query()->has('oid')) {
             return $this->http->wrapper()->query()->retrieve(
                 'oid',
-                $this->refinery->kindlyTo()->int()
+                $this->refinery->kindlyTo()->string()
             );
         }
         return null;
@@ -926,32 +926,35 @@ class ilAdvancedMDSettingsGUI
             )
         );
 
-        $filter_warn = array();
+        $filter_warn = [];
         if ($perm[ilAdvancedMDPermissionHelper::ACTION_RECORD_CREATE_FIELD]) {
             // type selection
-            $types = new ilSelectInputGUI("", "ftype");
-            $options = array();
+            $field_buttons = [];
             foreach (ilAdvancedMDFieldDefinition::getValidTypes() as $type) {
                 $field = ilAdvancedMDFieldDefinition::getInstance(null, $type);
-                $options[$type] = $this->lng->txt($field->getTypeTitle());
+
+                $this->ctrl->setParameter($this, 'ftype', $type);
+                $create_link = $this->ctrl->getLinkTarget($this, 'createField');
+                $this->ctrl->clearParameterByClass(strtolower(self::class), 'ftype');
+
+                $field_buttons[] = $this->ui_factory->button()->shy(
+                    $this->lng->txt($field->getTypeTitle()),
+                    $create_link
+                );
 
                 if (!$field->isFilterSupported()) {
                     $filter_warn[] = $this->lng->txt($field->getTypeTitle());
                 }
             }
-            $types->setOptions($options);
 
             if (count($this->toolbar->getItems())) {
                 $this->toolbar->addSeparator();
             }
-            $this->toolbar->addInputItem($types);
 
-            $this->toolbar->setFormAction($this->ctrl->getFormAction($this, "createField"));
-
-            $button = ilSubmitButton::getInstance();
-            $button->setCaption("add");
-            $button->setCommand("createField");
-            $this->toolbar->addButtonInstance($button);
+            $dropdown = $this->ui_factory->dropdown()
+                                         ->standard($field_buttons)
+                                         ->withLabel($this->lng->txt('meta_advmd_add_field'));
+            $this->toolbar->addComponent($dropdown);
         }
 
         // #17092
@@ -1805,6 +1808,31 @@ class ilAdvancedMDSettingsGUI
                 ,
                 "newline" => $perm[ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_PRG_EDIT_FIELD_PROPERTY][ilAdvancedMDPermissionHelper::SUBACTION_SUBSTITUTION_NEWLINE]
             );
+        } elseif ($a_obj_type == "orgu") {
+            $perm = $this->getPermissions()->hasPermissions(
+                ilAdvancedMDPermissionHelper::CONTEXT_SUBSTITUTION_ORG_UNIT,
+                (string) $a_field_id,
+                [
+                    ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_ORG_UNIT_SHOW_FIELD
+                    ,
+                    [
+                        ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_ORG_UNIT_EDIT_FIELD_PROPERTY,
+                        ilAdvancedMDPermissionHelper::SUBACTION_SUBSTITUTION_BOLD
+                    ]
+                    ,
+                    [
+                        ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_ORG_UNIT_EDIT_FIELD_PROPERTY,
+                        ilAdvancedMDPermissionHelper::SUBACTION_SUBSTITUTION_NEWLINE
+                    ]
+                ]
+            );
+            return [
+                "show" => $perm[ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_ORG_UNIT_SHOW_FIELD]
+                ,
+                "bold" => $perm[ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_ORG_UNIT_EDIT_FIELD_PROPERTY][ilAdvancedMDPermissionHelper::SUBACTION_SUBSTITUTION_BOLD]
+                ,
+                "newline" => $perm[ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_ORG_UNIT_EDIT_FIELD_PROPERTY][ilAdvancedMDPermissionHelper::SUBACTION_SUBSTITUTION_NEWLINE]
+            ];
         }
         return [];
     }

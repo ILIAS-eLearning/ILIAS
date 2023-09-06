@@ -386,11 +386,23 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
     {
         parent::addAdminLocatorItems(true);
 
-        $this->locator->addItem(
-            ilObject::_lookupTitle(
-                ilObject::_lookupObjId($this->object->getRefId())
-            ),
-            $this->ctrl->getLinkTargetByClass("ilobjrolefoldergui", "view")
-        );
+        $query = $this->http->wrapper()->query();
+
+        if ($query->has('ref_id')) {
+            $ref_id = $query->retrieve('ref_id', $this->refinery->kindlyTo()->int());
+            $this->locator->addItem(
+                $this->lng->txt('obj_' . ilObject::_lookupType(
+                    ilObject::_lookupObjId($ref_id)
+                )),
+                $this->ctrl->getLinkTargetByClass("ilobjrolefoldergui", "view")
+            );
+        }
+
+        if ($query->has('obj_id')) {
+            $this->locator->addItem(
+                ilObjRole::_getTranslation($this->object->getTitle()),
+                $this->ctrl->getLinkTarget($this, 'perm')
+            );
+        }
     }
 } // END class.ilObjRoleTemplateGUI

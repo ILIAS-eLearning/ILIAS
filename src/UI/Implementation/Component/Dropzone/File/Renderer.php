@@ -93,6 +93,10 @@ class Renderer extends AbstractComponentRenderer
             $template->setVariable('BUTTON', $default_renderer->render($upload_button));
         }
 
+        if ($dropzone->isBulky()) {
+            $template->touchBlock('bulky');
+        }
+
         $dropzone = $this->initClientsideDropzone($dropzone);
         $dropzone = $dropzone->withAdditionalDrop($modal->getShowSignal());
 

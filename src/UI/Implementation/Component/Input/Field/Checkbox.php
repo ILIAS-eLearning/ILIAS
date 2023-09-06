@@ -15,6 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
 declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Input\Field;
@@ -31,7 +32,7 @@ use InvalidArgumentException;
 /**
  * This implements the checkbox input.
  */
-class Checkbox extends Input implements C\Input\Field\Checkbox, C\Changeable, C\Onloadable
+class Checkbox extends FormInput implements C\Input\Field\Checkbox, C\Changeable, C\Onloadable
 {
     use JavaScriptBindable;
 
@@ -50,7 +51,7 @@ class Checkbox extends Input implements C\Input\Field\Checkbox, C\Changeable, C\
     /**
      * @inheritdoc
      */
-    protected function isClientSideValueOk($value): bool
+    public function isClientSideValueOk($value): bool
     {
         if ($value == "checked" || $value === "" || is_bool($value)) {
             return true;
@@ -63,7 +64,7 @@ class Checkbox extends Input implements C\Input\Field\Checkbox, C\Changeable, C\
     /**
      * @inheritdoc
      */
-    public function withValue($value): C\Input\Field\Input
+    public function withValue($value): self
     {
         $value = $value ?? false;
 
@@ -80,7 +81,7 @@ class Checkbox extends Input implements C\Input\Field\Checkbox, C\Changeable, C\
     /**
      * @inheritdoc
      */
-    public function withInput(InputData $input): C\Input\Field\Input
+    public function withInput(InputData $input): self
     {
         if ($this->getName() === null) {
             throw new LogicException("Can only collect if input has a name.");
@@ -139,7 +140,7 @@ class Checkbox extends Input implements C\Input\Field\Checkbox, C\Changeable, C\
      */
     public function getUpdateOnLoadCode(): Closure
     {
-        return fn ($id) => "$('#$id').on('input', function(event) {
+        return fn($id) => "$('#$id').on('input', function(event) {
 			    il.UI.input.onFieldUpdate(event, '$id', $('#$id').prop('checked').toString());
 		    });
 		    il.UI.input.onFieldUpdate(event, '$id', $('#$id').prop('checked').toString());";

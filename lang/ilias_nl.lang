@@ -592,8 +592,6 @@ assessment#:#counter#:#Teller
 assessment#:#create_date#:#Aangemaakt
 assessment#:#create_gaps#:#Gaten aanmaken
 assessment#:#create_new#:#Aanmaken van een nieuwe
-assessment#:#ctm_cannot_be_changed#:#This is a test in CTM-Mode. Settings cannot be changed anymore as CTM has been abandoned.###29 07 2022 new variable
-assessment#:#ctm_cannot_be_started#:#This is a test in CTM-Mode. The test cannot be started anymore as CTM has been abandoned.###29 07 2022 new variable
 assessment#:#customstyle#:#Aangepaste Stijl
 assessment#:#dashboard_tab#:#Dashboard###10 11 2018 new variable
 assessment#:#definition#:#Definitie
@@ -822,7 +820,6 @@ assessment#:#legend#:#Legende
 assessment#:#locked#:#Gesloten
 assessment#:#log_added_extratime#:#Extra %d minuten zijn toegevoegd aan deelnemer %d
 assessment#:#log_answer_changed_points#:#De handmatige verandering van punten %s van %d to %d door %s
-assessment#:#log_could_not_enter_test_due_to_simultaneous_users#:#De gebruiker kan de toets niet maken omdat het maximum aantal gebruikers is bereikt.
 assessment#:#log_create_new_test#:#Maak een nieuwe toets
 assessment#:#log_manual_feedback#:#%s toegevoegde handmatige feedback voor toets persoon %s en vraag %s: %s
 assessment#:#log_mark_added#:#Punt toegevoegd
@@ -1158,13 +1155,13 @@ assessment#:#set_manscoring_done#:#"Markeer deze deelnemer als ""Scorende Deelne
 assessment#:#set_manual_feedback#:#Handmatige feedback geven
 assessment#:#shape#:#Vorm
 assessment#:#showSuggestedSolution#:#Voorgestelde oplossing
+assessment#:#show_all_test_properties_on_info_page#:#Toon de volledige informatiepagina
+assessment#:#show_all_test_properties_on_info_page_byline#:#Indien aangevinkt wordt de complete Toets informatie pagina getoond (inclusief de toets eigenschappen). Indien niet aangevinkt wordt alleen de inleidende tekst (indien aanwezig) en de vereiste eigenschappen getoond op de Toets Informatie Bladzijde.
 assessment#:#show_answer_overview#:#Toon antwoordenoverzicht
 assessment#:#show_detailed_results#:#Toon gedetailleerde resultaten voor gebruiker.
 assessment#:#show_examview_html#:#Toon examenbeeld op de pagina waar toets wordt ingediend.
 assessment#:#show_pass_overview#:#Toon gemarkeerde afgelopen toetsen
 assessment#:#show_user_answers#:#Toon gebruikers gemarkeerde antwoorden.
-assessment#:#showinfo#:#Toon de volledige informatiepagina
-assessment#:#showinfo_desc#:#Indien aangevinkt wordt de complete Toets informatie pagina getoond (inclusief de toets eigenschappen). Indien niet aangevinkt wordt alleen de inleidende tekst (indien aanwezig) en de vereiste eigenschappen getoond op de Toets Informatie Bladzijde.
 assessment#:#shuffle_answers#:#Antwoorden mixen
 assessment#:#sign_submission#:#Digitaal handtekening voor voltooien toets
 assessment#:#sign_submission_info#:#Als dit is ingeschakeld, èn een handtekening plugin is geinstalleeerd and geactiveerd, moeten deelnemers de toets digitaal ondertekenen.
@@ -1246,11 +1243,6 @@ assessment#:#tst_add_quest_cont_edit_mode_RTE_info#:#Allows text formatting of q
 assessment#:#tst_addit_passes_blocked_after_passed_msg#:#You have passed the test. The test cannot be started again.###07 02 2020 new variable
 assessment#:#tst_all_test_competences#:#Alle toets Competenties
 assessment#:#tst_all_user_data_deleted#:#Alle gebruikersgegevens van deze toets zijn verwijderd!
-assessment#:#tst_allowed_users#:#Maximum aantal gebruikers die deze toets kunnen gebruiken
-assessment#:#tst_allowed_users_desc#:#ILIAS houdt het aantal deelnemers die de toets tegelijkertijd doen in de gaten. Als het toegestane maximum is bereikt, zal ILIAS nieuwe deelnemers niet toelaten dat ze de toets beginnen.
-assessment#:#tst_allowed_users_max#:#Max. Number of Participants###06 02 2015 new variable
-assessment#:#tst_allowed_users_time_gap#:#Inactieve tijd voor actieve gebruikers
-assessment#:#tst_allowed_users_time_gap_desc#:#Deelnemers die niet op tijd klikken in de toets worden beschouwd als inactief en worden verwijderd van de toets.
 assessment#:#tst_already_submitted#:#De toets is al beeindigd en opgestuurd
 assessment#:#tst_analysis#:#Analyse
 assessment#:#tst_anonymity#:#Anonimiteit
@@ -1330,19 +1322,6 @@ assessment#:#tst_derive_new_pool#:#Derive New Question Pool###25 10 2016 new var
 assessment#:#tst_derive_new_pools#:#Derive New Question Pools###25 10 2016 new variable
 assessment#:#tst_dont_show_msg_again_in_current_session#:#Don't show this message again in my current session.###10 11 2018 new variable
 assessment#:#tst_dont_use_previous_answers#:#Je vorige antwoorden zullen niet gebruikt worden als standaardwaarden in toekomstige toetspogingen
-assessment#:#tst_dyn_keep_answ_freeze#:#Keep my current answers frozen###30 08 2015 new variable
-assessment#:#tst_dyn_quest_set_pool_deleted#:#The currently configured questionpool "%s" has been deleted.###30 08 2015 new variable
-assessment#:#tst_dyn_quest_set_src_qpl_summary_string_deleted#:#%s (Permanent verwijderd)
-assessment#:#tst_dyn_quest_set_src_qpl_summary_string_trashed#:#%s (Verwijderde) [%s Vragen]
-assessment#:#tst_dyn_test_msg_currently_finished_completely#:#Je hebt alle vragen van de vragenpool juist bentwoord. Zodra er nieuwe of aangepaste vragen zijn, kun je doorgaan met de toets.
-assessment#:#tst_dyn_test_msg_currently_finished_selection#:#Met de huidige vragenselectie heb je alle vragen juist beantwoord. Wijzig de vragenselectie om door te gaan met de toets.
-assessment#:#tst_dyn_test_msg_pass_deletion_link#:#Verwijder eerdere antwoorden
-assessment#:#tst_dyn_test_pass_deletion_button#:#Zet alle toetsantwoorden terug
-assessment#:#tst_dyn_unfreeze_answers#:#Answer once more###30 08 2015 new variable
-assessment#:#tst_dyn_unfreeze_answers_confirmation#:#There are questions to which your inital answers were fixed and you could not make any changes. Do you want to answer them one more time now and thus unfreeze your answers?###30 08 2015 new variable
-assessment#:#tst_dynamic_question_set_complete#:#Totale Statistiek
-assessment#:#tst_dynamic_question_set_selection#:#Toetsvraag selectie
-assessment#:#tst_dynamic_question_set_source_questionpool_summary_string#:#%s (Pad: %s) [%s Vragen]
 assessment#:#tst_edit_competence_assign#:#Edit Assignment Properties###30 08 2015 new variable
 assessment#:#tst_edit_scoring#:#Wijzig Scores
 assessment#:#tst_ending_time#:#Eindtijd
@@ -1379,7 +1358,7 @@ assessment#:#tst_finish_confirm_cancel_button#:#Nee, ga terug naar de vorige vra
 assessment#:#tst_finish_confirmation_question#:#Je wilt de toets beeïndigen en het maximum aantal toegelaten pogingen overschrijden. Je zult niet meer in staat zijn om deze toets aan te passen. Ben je zeker dat je deze toets wilt beeïndigen
 assessment#:#tst_finish_notification#:#Mail bij beëindiging
 assessment#:#tst_finish_notification_advanced#:#Stuur volledige toets resultaten naar de toets eigenaar
-assessment#:#tst_finish_notification_content#:#Content of e-mail###06 02 2015 new variable
+assessment#:#tst_finish_notification_content_type#:#Content of e-mail###06 02 2015 new variable
 assessment#:#tst_finish_notification_desc#:#Sends an e-mail to the test owner for every user that has completed the test.###06 02 2015 new variable
 assessment#:#tst_finish_notification_no#:#Verzend geen mailbericht als een gebruiker een toets afmaakt
 assessment#:#tst_finish_notification_simple#:#Stuur gebruikersnaam en einddatum naar de toets eigenaar
@@ -1492,8 +1471,6 @@ assessment#:#tst_mark_minimum_level#:#Minimum niveau (in %
 assessment#:#tst_mark_official_form#:#Officiëel formulier
 assessment#:#tst_mark_passed#:#Geslaagd
 assessment#:#tst_mark_short_form#:#Korte aanduiding
-assessment#:#tst_max_allowed_users_heading#:#Het maximum aantal gebruikers voor de toets is bereikt.
-assessment#:#tst_max_allowed_users_message#:#Het maximum aantal gebruikers voor de toets is bereikt. Probeer laten opnieuw
 assessment#:#tst_max_comp_points#:#Max. competentie-punten
 assessment#:#tst_maximum_points#:#Maximum aantal punten
 assessment#:#tst_mc_label_none_above#:#None of the answers above###fau: testNav
@@ -1695,6 +1672,7 @@ assessment#:#tst_questions_hints_toolbar_cmd_reset_ordering_clipboard#:#Herstel 
 assessment#:#tst_questions_inserted#:#Vraag(vragen) ingevoegd!
 assessment#:#tst_questions_removed#:#Vraag(vragen) verwijderd!
 assessment#:#tst_random_nr_of_questions#:#Hoe veel vragen
+assessment#:#tst_random_question_set_source_questionpool_summary_string#:#%s (Pad: %s) [%s Vragen]
 assessment#:#tst_random_select_questionpool#:#Selecteer een vragenpool om een vraag te kiezen
 assessment#:#tst_reached_points#:#Gehaalde punten
 assessment#:#tst_reached_points_of_max#:#%s of %s###07 02 2020 new variable

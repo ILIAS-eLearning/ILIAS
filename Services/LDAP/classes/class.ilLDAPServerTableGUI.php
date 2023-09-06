@@ -25,6 +25,8 @@ class ilLDAPServerTableGUI extends ilTable2GUI
 {
     private ilRbacSystem $rbacSystem;
     private int $ref_id = 0 ;
+    private \ILIAS\UI\Factory $ui_factory;
+    private \ILIAS\UI\Renderer $ui_renderer;
 
     public function __construct(?object $a_parent_obj, string $a_parent_cmd = "", string $a_template_context = "")
     {
@@ -32,6 +34,8 @@ class ilLDAPServerTableGUI extends ilTable2GUI
 
         global $DIC;
         $this->rbacSystem = $DIC->rbac()->system();
+        $this->ui_factory = $DIC->ui()->factory();
+        $this->ui_renderer = $DIC->ui()->renderer();
 
         $http_wrapper = $DIC->http()->wrapper();
         $refinery = $DIC->refinery();
@@ -84,34 +88,35 @@ class ilLDAPServerTableGUI extends ilTable2GUI
 
         //actions
         if ($this->rbacSystem->checkAccess("write", $this->ref_id)) {
-            $list = new ilAdvancedSelectionListGUI();
-            $list->setSelectionHeaderClass('small');
-            $list->setItemLinkClass('small');
-            $list->setId('actl_' . $a_set['server_id']);
-            $list->setListTitle($this->lng->txt('actions'));
-            $list->addItem($this->lng->txt('edit'), '', $this->ctrl->getLinkTarget($this->getParentObject(), 'editServerSettings'));
+            $dropdown_elements = [];
+
+            $dropdown_elements[] = $this->ui_factory->link()->standard(
+                $this->lng->txt('edit'),
+                $this->ctrl->getLinkTarget($this->getParentObject(), 'editServerSettings')
+            );
 
             if ($a_set['active']) {
-                $list->addItem(
+                $dropdown_elements[] = $this->ui_factory->link()->standard(
                     $this->lng->txt('deactivate'),
-                    '',
                     $this->ctrl->getLinkTarget($this->getParentObject(), 'deactivateServer')
                 );
             } else {
-                $list->addItem(
+                $dropdown_elements[] = $this->ui_factory->link()->standard(
                     $this->lng->txt('activate'),
-                    '',
                     $this->ctrl->getLinkTarget($this->getParentObject(), 'activateServer')
                 );
             }
 
-            $list->addItem(
+            $dropdown_elements[] = $this->ui_factory->link()->standard(
                 $this->lng->txt('delete'),
-                '',
                 $this->ctrl->getLinkTarget($this->getParentObject(), 'confirmDeleteServerSettings')
             );
 
-            $this->tpl->setVariable('ACTIONS', $list->getHTML());
+            $dropdown = $this->ui_factory->dropdown()->standard([
+                $dropdown_elements
+            ])->withLabel($this->lng->txt('actions'));
+
+            $this->tpl->setVariable('ACTIONS', $this->ui_renderer->render($dropdown));
         }
     }
 }

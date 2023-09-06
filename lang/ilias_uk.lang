@@ -592,8 +592,6 @@ assessment#:#counter#:#Лічильник
 assessment#:#create_date#:#Створений
 assessment#:#create_gaps#:#Створити проміжок
 assessment#:#create_new#:#Створити новий
-assessment#:#ctm_cannot_be_changed#:#This is a test in CTM-Mode. Settings cannot be changed anymore as CTM has been abandoned.###29 07 2022 new variable
-assessment#:#ctm_cannot_be_started#:#This is a test in CTM-Mode. The test cannot be started anymore as CTM has been abandoned.###29 07 2022 new variable
 assessment#:#customstyle#:#Custom Style###06 11 2008 new variable
 assessment#:#dashboard_tab#:#Dashboard###10 11 2018 new variable
 assessment#:#definition#:#Definition###03 Nov 2005 new variable
@@ -822,7 +820,6 @@ assessment#:#legend#:#Умовне позначення
 assessment#:#locked#:#заблокований
 assessment#:#log_added_extratime#:#Added extra %d minutes for participant id %d###24 10 2013 new variable
 assessment#:#log_answer_changed_points#:#Manual change of points of test person %s from %d to %d points by %s###12 11 2006 new variable
-assessment#:#log_could_not_enter_test_due_to_simultaneous_users#:#The user could not enter the test because the maximum number of simultaneous users has been reached###25 02 2007 new variable
 assessment#:#log_create_new_test#:#Створити новий тест
 assessment#:#log_manual_feedback#:#%s added manual feedback for test person %s and question %s: %s###24 02 2009 new variable
 assessment#:#log_mark_added#:#Оцінка додана
@@ -1158,13 +1155,13 @@ assessment#:#set_manscoring_done#:#Mark this participant as "Scored Participant"
 assessment#:#set_manual_feedback#:#Set Manual Feedback###10 05 2007 new variable
 assessment#:#shape#:#Форма
 assessment#:#showSuggestedSolution#:#Suggested solution###24 02 2009 new variable
+assessment#:#show_all_test_properties_on_info_page#:#Show the complete Information Page###15 09 2008 new variable
+assessment#:#show_all_test_properties_on_info_page_byline#:#If checked, the complete Test Information Page will be shown (including the test properties). If unchecked, only the introduction text (if available) and the required properties will be shown on the Test Information Page. ###15 09 2008 new variable
 assessment#:#show_answer_overview#:#Show Answer Overview###24 10 2013 new variable
 assessment#:#show_detailed_results#:#Show User's Detailed Results (Marked Pass)###23 07 2008 new variable
 assessment#:#show_examview_html#:#Show exam view on the test submission page.###24 10 2013 new variable
 assessment#:#show_pass_overview#:#Show Marked Pass Overview###31 05 2007 new variable
 assessment#:#show_user_answers#:#Show User's Marked Anwers###31 05 2007 new variable
-assessment#:#showinfo#:#Show the complete Information Page###15 09 2008 new variable
-assessment#:#showinfo_desc#:#If checked, the complete Test Information Page will be shown (including the test properties). If unchecked, only the introduction text (if available) and the required properties will be shown on the Test Information Page. ###15 09 2008 new variable
 assessment#:#shuffle_answers#:#Перерозташувати відповіді
 assessment#:#sign_submission#:#Digitally sign test submissions###24 10 2013 new variable
 assessment#:#sign_submission_info#:#If this is activated and a signature plugin is installed and active, participants will be send to digitally sign their submissions.###24 10 2013 new variable
@@ -1248,11 +1245,6 @@ assessment#:#tst_add_quest_cont_edit_mode_RTE_info#:#Allows text formatting of q
 assessment#:#tst_addit_passes_blocked_after_passed_msg#:#You have passed the test. The test cannot be started again.###07 02 2020 new variable
 assessment#:#tst_all_test_competences#:#All Test Competence###26 09 2014 new variable
 assessment#:#tst_all_user_data_deleted#:#Усі дані користувача по цьому тесту були видалені!
-assessment#:#tst_allowed_users#:#Maximum Number of Users Running the Test Simultaneously###25 02 2007 new variable
-assessment#:#tst_allowed_users_desc#:#ILIAS will monitor the number of participants taking the test at the same time. If more users than maximally allowed try to access ILIAS will prevent them from starting the test.###07 11 2014 new variable
-assessment#:#tst_allowed_users_max#:#Max. Number of Participants###27 01 2015 new variable
-assessment#:#tst_allowed_users_time_gap#:#Idle Time for Active Users###25 02 2007 new variable
-assessment#:#tst_allowed_users_time_gap_desc#:#Participants that do not click in the test fort he indicated amount of time will be categorized as ‚inactive‘ and removed from the test.###07 11 2014 new variable
 assessment#:#tst_already_submitted#:#Test has already been finish and submitted.###06 09 2006 new variable
 assessment#:#tst_analysis#:#Analysis###26 09 2014 new variable
 assessment#:#tst_anonymity#:#Anonymity###25 02 2007 new variable
@@ -1332,19 +1324,6 @@ assessment#:#tst_derive_new_pool#:#Derive New Question Pool###25 10 2016 new var
 assessment#:#tst_derive_new_pools#:#Derive New Question Pools###25 10 2016 new variable
 assessment#:#tst_dont_show_msg_again_in_current_session#:#Don't show this message again in my current session.###10 11 2018 new variable
 assessment#:#tst_dont_use_previous_answers#:#Your previous answers will not be used as default values in future test passes###25 02 2007 new variable
-assessment#:#tst_dyn_keep_answ_freeze#:#Keep my current answers frozen###30 08 2015 new variable
-assessment#:#tst_dyn_quest_set_pool_deleted#:#The currently configured questionpool "%s" has been deleted.###30 08 2015 new variable
-assessment#:#tst_dyn_quest_set_src_qpl_summary_string_deleted#:#%s (Deleted Permanently)###24 10 2013 new variable
-assessment#:#tst_dyn_quest_set_src_qpl_summary_string_trashed#:#%s (Deleted) [%s Questions]###24 10 2013 new variable
-assessment#:#tst_dyn_test_msg_currently_finished_completely#:#Currently you have answered all questions from the source questin pool successfully. When there are new or edited questions in the question pool you can proceed the test.###24 10 2013 new variable
-assessment#:#tst_dyn_test_msg_currently_finished_selection#:#With the current question selection you have answered all questions successfully. Change the question selection to proceed the test.###24 10 2013 new variable
-assessment#:#tst_dyn_test_msg_pass_deletion_link#:#Delete Previous Answers###20 07 2014 new variable
-assessment#:#tst_dyn_test_pass_deletion_button#:#Reset All Testanswers###26 09 2014 new variable
-assessment#:#tst_dyn_unfreeze_answers#:#Answer once more###30 08 2015 new variable
-assessment#:#tst_dyn_unfreeze_answers_confirmation#:#There are questions to which your inital answers were fixed and you could not make any changes. Do you want to answer them one more time now and thus unfreeze your answers?###30 08 2015 new variable
-assessment#:#tst_dynamic_question_set_complete#:#Total-Statistic###07 11 2014 new variable
-assessment#:#tst_dynamic_question_set_selection#:#Test Question Selection###20 07 2014 new variable
-assessment#:#tst_dynamic_question_set_source_questionpool_summary_string#:#%s (Path: %s) [%s Questions]###24 10 2013 new variable
 assessment#:#tst_edit_competence_assign#:#Edit Assignment Properties###30 08 2015 new variable
 assessment#:#tst_edit_scoring#:#Edit Scoring###28 08 2012 new variable
 assessment#:#tst_ending_time#:#Кінцевий час
@@ -1381,7 +1360,7 @@ assessment#:#tst_finish_confirm_cancel_button#:#No, go back to the previous answ
 assessment#:#tst_finish_confirmation_question#:#You are going to finish this test and reach the maximum number of allowed test passes. You won't be able to enter this test again to change your answers. Do you really want to finish the test?###01 Mar 2006 new variable
 assessment#:#tst_finish_notification#:#Mail on completion###24 07 2009 new variable
 assessment#:#tst_finish_notification_advanced#:#Send complete test result to test owner###24 07 2009 new variable
-assessment#:#tst_finish_notification_content#:#Content of e-mail###27 01 2015 new variable
+assessment#:#tst_finish_notification_content_type#:#Content of e-mail###27 01 2015 new variable
 assessment#:#tst_finish_notification_desc#:#Sends an e-mail to the test owner for every user that has completed the test.###27 01 2015 new variable
 assessment#:#tst_finish_notification_no#:#No e-mail###06 02 2015 new variable
 assessment#:#tst_finish_notification_simple#:#Send user name and finish date to test owner###24 07 2009 new variable
@@ -1494,8 +1473,6 @@ assessment#:#tst_mark_minimum_level#:#Мінімальний рівень (в %)
 assessment#:#tst_mark_official_form#:#Офіціальна форма
 assessment#:#tst_mark_passed#:#Пройдений
 assessment#:#tst_mark_short_form#:#Коротка форма
-assessment#:#tst_max_allowed_users_heading#:#The maximum number of simultaneous users in this test has been reached###25 02 2007 new variable
-assessment#:#tst_max_allowed_users_message#:#The maximum number of simultaneous active users in the test has been reached. Please try again later to start or resume the test. If one of the active users is inactive for more than %s seconds, you may be able to enter this test. Thank you for your understanding.###25 02 2007 new variable
 assessment#:#tst_max_comp_points#:#Max. Competence Points###26 09 2014 new variable
 assessment#:#tst_maximum_points#:#Максимум балів
 assessment#:#tst_mc_label_none_above#:#None of the answers above###fau: testNav
@@ -1697,6 +1674,7 @@ assessment#:#tst_questions_hints_toolbar_cmd_reset_ordering_clipboard#:#Reset Hi
 assessment#:#tst_questions_inserted#:#Питання вставлені!
 assessment#:#tst_questions_removed#:#Питання виделені!
 assessment#:#tst_random_nr_of_questions#:#Скільки питань?
+assessment#:#tst_random_question_set_source_questionpool_summary_string#:#%s (Path: %s) [%s Questions]###24 10 2013 new variable
 assessment#:#tst_random_select_questionpool#:#Виберіть пул питань для вибору питань з
 assessment#:#tst_reached_points#:#Досягнуті бали
 assessment#:#tst_reached_points_of_max#:#%s of %s###07 02 2020 new variable

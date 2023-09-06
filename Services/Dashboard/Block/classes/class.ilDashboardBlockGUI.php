@@ -43,8 +43,6 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
     protected ilLogger $logging;
     protected ILIAS\HTTP\Services $http;
     private ILIAS\Refinery\Factory $refinery;
-    protected ILIAS\UI\Factory $factory;
-    protected ILIAS\UI\Renderer $renderer;
     protected ilPDSelectedItemsBlockViewSettings $viewSettings;
     /** @var array<string, BlockDTO[]>  */
     protected array $data;
@@ -53,9 +51,6 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
     {
         parent::__construct();
         global $DIC;
-
-        $this->factory = $DIC->ui()->factory();
-        $this->renderer = $DIC->ui()->renderer();
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
         $this->logging = $DIC->logger()->root();
@@ -162,6 +157,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
 
     public function init(): void
     {
+        $this->lng->loadLanguageModule('dash');
         $this->initViewSettings();
         $this->main_tpl->addJavaScript('Services/Dashboard/Block/js/ReplaceModalContent.js');
         $this->viewSettings->parse();
@@ -172,7 +168,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
         if ($this->viewSettings->isTilePresentation()) {
             $this->setPresentation(self::PRES_MAIN_LEG);
         } else {
-            $this->setPresentation(self::PRES_MAIN_LIST);
+            $this->setPresentation(self::PRES_SEC_LIST);
         }
     }
 
@@ -212,7 +208,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
     public function setData(array $a_data): void
     {
         $this->data = array_filter(array_map(
-            static fn ($group) => array_filter($group, fn ($item) => $item instanceof BlockDTO),
+            static fn($group) => array_filter($group, fn($item) => $item instanceof BlockDTO),
             $a_data
         ));
     }
@@ -271,7 +267,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
         };
 
         uasort($groups['upcoming'], $orderByDate);
-        uasort($groups['ongoing'], static fn (BlockDTO $left, BlockDTO $right): int => $orderByDate($left, $right, false));
+        uasort($groups['ongoing'], static fn(BlockDTO $left, BlockDTO $right): int => $orderByDate($left, $right, false));
         uasort($groups['ended'], $orderByDate);
         $groups['not_dated'] = $this->sortByTitle($groups['not_dated']);
 
@@ -334,7 +330,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
         $data = array_merge(...array_values($data));
 
         $parent_ref_ids = array_values(array_unique(
-            array_map(fn (BlockDTO $item): ?int => $this->tree->getParentId($item->getRefId()), $data)
+            array_map(fn(BlockDTO $item): ?int => $this->tree->getParentId($item->getRefId()), $data)
         ));
         $this->object_cache->preloadReferenceCache($parent_ref_ids);
 
@@ -372,23 +368,24 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
     public function addCommandActions(): void
     {
         $sortings = $this->viewSettings->getSelectableSortingModes();
-        foreach ($sortings as $sorting) {
-            $this->ctrl->setParameter($this, 'sorting', $sorting);
-            $this->addBlockCommand(
-                $this->ctrl->getLinkTarget($this, 'changePDItemSorting'),
-                $this->lng->txt(ilObjDashboardSettingsGUI::DASH_SORT_PREFIX . $sorting),
-                $this->ctrl->getLinkTarget($this, 'changePDItemSorting', '', true)
-            );
-            $this->ctrl->setParameter($this, 'sorting', null);
+        if (count($sortings) > 1) {
+            foreach ($sortings as $sorting) {
+                $this->addSortOption(
+                    $sorting,
+                    $this->lng->txt(ilObjDashboardSettingsGUI::DASH_SORT_PREFIX . $sorting),
+                    $sorting === $this->viewSettings->getEffectiveSortingMode()
+                );
+            }
+            $this->setSortTarget($this->ctrl->getLinkTarget($this, 'changePDItemSorting'));
         }
 
         $presentations = $this->viewSettings->getSelectablePresentationModes();
         foreach ($presentations as $presentation) {
             $this->ctrl->setParameter($this, 'presentation', $presentation);
-            $this->addBlockCommand(
-                $this->ctrl->getLinkTarget($this, 'changePDItemPresentation'),
+            $this->addPresentation(
                 $this->lng->txt('pd_presentation_mode_' . $presentation),
-                $this->ctrl->getLinkTarget($this, 'changePDItemPresentation', '', true)
+                $this->ctrl->getLinkTarget($this, 'changePDItemPresentation'),
+                $presentation === $this->viewSettings->getEffectivePresentationMode()
             );
             $this->ctrl->setParameter($this, 'presentation', null);
         }
@@ -576,7 +573,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
                     $items[] = $item;
                 }
             }
-            $group->setItems(array_map(static fn (BlockDTO $item): array => $item->toArray(), $items));
+            $group->setItems(array_map(static fn(BlockDTO $item): array => $item->toArray(), $items));
             $grouped_items[] = $group;
         }
         $top_tb->addStickyItem($button);
@@ -697,7 +694,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
     {
         uasort(
             $data,
-            static fn (BlockDTO $left, BlockDTO $right): int => $asc ?
+            static fn(BlockDTO $left, BlockDTO $right): int => $asc ?
                 strcmp($left->getTitle(), $right->getTitle()) :
                 strcmp($right->getTitle(), $left->getTitle())
         );

@@ -52,4 +52,18 @@ class GUIService
     {
         return new \ilObjGlossaryGUI([], $ref_id, true, false);
     }
+
+    public function TermDefinitionBulkCreationGUI(\ilObjGlossary $glossary): \ilTermDefinitionBulkCreationGUI
+    {
+        return new \ilTermDefinitionBulkCreationGUI($this->domain_service, $this->gui_service, $glossary);
+    }
+
+    public function PresentationFullGUI(
+        \ilGlossaryPresentationGUI $parent_object,
+        \ilObjGlossary $glossary,
+        bool $offline_mode,
+        int $tax_node = 0
+    ) {
+        return new \ilPresentationFullGUI($parent_object, $glossary, $offline_mode, $tax_node);
+    }
 }

@@ -87,4 +87,14 @@ class PresentationGUIRequest
     {
         return $this->int("box_id");
     }
+
+    public function getCurrentPage(): int
+    {
+        return $this->int("current_page");
+    }
+
+    public function getPageLength(): int
+    {
+        return $this->int("page_length");
+    }
 }

@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * @author        Björn Heyser <bheyser@databay.de>
  * @version        $Id$
@@ -24,27 +26,31 @@
  */
 class ilTestExportFactory
 {
-    /**
-     * @var ilObjTest
-     */
-    protected $testOBJ;
-
-    public function __construct(ilObjTest $testOBJ)
-    {
-        $this->testOBJ = $testOBJ;
+    public function __construct(
+        private ilObjTest $test_obj,
+        private ilLanguage $lng,
+        private ilLogger $logger,
+        private ilTree $tree,
+        private ilComponentRepository $component_repository
+    ) {
     }
 
     /**
      * @param string $mode
-     * @return ilTestExportDynamicQuestionSet|ilTestExportFixedQuestionSet|ilTestExportRandomQuestionSet
+     * @return ilTestExportFixedQuestionSet|ilTestExportRandomQuestionSet
      */
     public function getExporter($mode = "xml")
     {
-        if ($this->testOBJ->isFixedTest()) {
-            return new ilTestExportFixedQuestionSet($this->testOBJ, $mode);
-        } elseif ($this->testOBJ->isRandomTest()) {
-            return new ilTestExportRandomQuestionSet($this->testOBJ, $mode);
+        if ($this->test_obj->isFixedTest()) {
+            return new ilTestExportFixedQuestionSet($this->test_obj, $mode);
         }
-        return new ilTestExportDynamicQuestionSet($this->testOBJ, $mode);
+        return new ilTestExportRandomQuestionSet(
+            $this->test_obj,
+            $this->lng,
+            $this->logger,
+            $this->tree,
+            $this->component_repository,
+            $mode
+        );
     }
 }

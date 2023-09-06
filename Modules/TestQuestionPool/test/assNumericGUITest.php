@@ -31,6 +31,8 @@ class assNumericGUITest extends assBaseTestCase
     {
         parent::setUp();
 
+        $this->setGlobalVariable('ilLog', $this->createMock(ilLogger::class));
+
         $ilCtrl_mock = $this->getMockBuilder(ilCtrl::class)->disableOriginalConstructor()->getMock();
         $ilCtrl_mock->expects($this->any())->method('saveParameter');
         $ilCtrl_mock->expects($this->any())->method('saveParameterByClass');

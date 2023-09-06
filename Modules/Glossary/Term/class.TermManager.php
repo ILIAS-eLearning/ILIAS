@@ -129,4 +129,43 @@ class TermManager
         }
         $refs->update();
     }
+
+    public function getDataArrayFromInputString(string $input): array
+    {
+        $rows = explode("\n", $input);
+        $data = [];
+        foreach ($rows as $row) {
+            $cells = explode(";", $row);
+            if (count($cells) === 1) {
+                $cells = explode("\t", $row);
+            }
+            $data[] = [
+                "term" => trim($cells[0] ?? ""),
+                "definition" => trim($cells[1] ?? "")
+            ];
+        }
+        return $data;
+    }
+
+    public function createTermDefinitionPairsFromBulkInputString(string $input, string $language): void
+    {
+        foreach ($this->getDataArrayFromInputString($input) as $data) {
+            $term = new \ilGlossaryTerm();
+            $term->setGlossaryId($this->glossary->getId());
+            $term->setTerm($data["term"]);
+            $term->setLanguage($language);
+            $term->setShortText($data["definition"]);
+            $term->create(true);
+
+            $page_object = new \ilGlossaryDefPage();
+            $page_object->setId($term->getId());
+            $page_object->setParentId($this->glossary->getId());
+            $page_object->create(false);
+            $paragraph = new \ilPCParagraph($page_object);
+            $paragraph->create($page_object, "pg");
+            $paragraph->setLanguage($language);
+            $paragraph->setText($data["definition"]);
+            $page_object->update();
+        }
+    }
 }

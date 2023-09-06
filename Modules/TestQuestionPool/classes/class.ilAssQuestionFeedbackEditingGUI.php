@@ -205,7 +205,7 @@ class ilAssQuestionFeedbackEditingGUI
 
         if ($form->checkInput()) {
             $this->feedbackOBJ->saveGenericFormProperties($form);
-            if ($this->questionOBJ->hasSpecificFeedback()){
+            if ($this->questionOBJ->hasSpecificFeedback()) {
                 $this->feedbackOBJ->saveSpecificFormProperties($form);
             }
             $this->questionOBJ->cleanupMediaObjectUsage();

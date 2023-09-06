@@ -70,6 +70,8 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
     protected GlobalHttpState $http;
     protected Factory $refinery;
 
+    protected ilLogger $logger;
+
 
     protected string $prev_link = '';
     protected string $next_link = '';
@@ -79,6 +81,7 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
         global $DIC;
 
 
+        $this->logger = $DIC->logger()->src();
         $this->ilias = $DIC['ilias'];
         $this->locator = $DIC['ilLocator'];
         $this->ctrl = $DIC->ctrl();
@@ -283,6 +286,11 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
     }
 
     public function cancelDelete(): void
+    {
+        $this->showSavedResults();
+    }
+
+    public function cancelObject(): void
     {
         $this->showSavedResults();
     }

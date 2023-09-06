@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\Test;
 
 use ILIAS\Repository\BaseGUIRequest;
@@ -42,7 +44,7 @@ class InternalRequestService
         return $this->raw($key) !== null;
     }
 
-    public function hasRefId(): int
+    public function hasRefId(): bool
     {
         return $this->raw('ref_id') !== null;
     }
@@ -66,6 +68,11 @@ class InternalRequestService
     public function getQuestionId(): int
     {
         return $this->int('q_id');
+    }
+
+    public function getQuestionIds(): array
+    {
+        return $this->intArray('q_id');
     }
 
     public function getCallingTest(): int

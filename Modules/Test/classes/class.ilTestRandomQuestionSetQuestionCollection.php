@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * @author		Björn Heyser <bheyser@databay.de>
  * @version		$Id$
@@ -29,7 +31,7 @@ class ilTestRandomQuestionSetQuestionCollection implements
 {
     private $questions = [];
 
-    public function setQuestions($questions)
+    public function setQuestions(array $questions): void
     {
         $this->questions = $questions;
     }
@@ -57,7 +59,7 @@ class ilTestRandomQuestionSetQuestionCollection implements
 
     public function key(): ?string
     {
-        return key($this->questions);
+        return (string) key($this->questions);
     }
 
     public function valid(): bool

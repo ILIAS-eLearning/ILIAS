@@ -595,8 +595,6 @@ assessment#:#counter#:#Števec
 assessment#:#create_date#:#Ustvarjeno
 assessment#:#create_gaps#:#Ustvarite in posodobite praznine
 assessment#:#create_new#:#Ustvari novo
-assessment#:#ctm_cannot_be_changed#:#This is a test in CTM-Mode. Settings cannot be changed anymore as CTM has been abandoned.###19 08 2022 new variable
-assessment#:#ctm_cannot_be_started#:#This is a test in CTM-Mode. The test cannot be started anymore as CTM has been abandoned.###19 08 2022 new variable
 assessment#:#customstyle#:#Lastni slog
 assessment#:#dashboard_tab#:#Nadzorna plošča
 assessment#:#definition#:#Opredelitev
@@ -827,7 +825,6 @@ assessment#:#legend#:#Legenda
 assessment#:#locked#:#zaklenjeno
 assessment#:#log_added_extratime#:#Udeležencu z ID %d je bilo dodeljenih dodatnih %d minut za obdelavo.
 assessment#:#log_answer_changed_points#:#%s je ročno dodelil točke udeležencu %s od %d na %d točk
-assessment#:#log_could_not_enter_test_due_to_simultaneous_users#:#Udeleženec ni mogel začeti testa, ker je bilo doseženo maksimalno število sočasnih udeležencev za ta test
 assessment#:#log_create_new_test#:#Ustvarjen je bil nov test
 assessment#:#log_manual_feedback#:#%s je ustvaril ročno oceno za udeleženca %s in vprašanje %s %s: %s
 assessment#:#log_mark_added#:#Ocena dodana
@@ -1163,13 +1160,13 @@ assessment#:#set_manscoring_done#:#Označi kot ocenjeno
 assessment#:#set_manual_feedback#:#Ročna povratna informacija
 assessment#:#shape#:#Oblika
 assessment#:#showSuggestedSolution#:#Vrsta
+assessment#:#show_all_test_properties_on_info_page#:#Prikaži lastnosti testa
+assessment#:#show_all_test_properties_on_info_page_byline#:#Uporabnikom se na zavihku 'Info' prikažejo vse značilnosti testa, npr. zaporedje, ocena ali poročilo o rezultatih.
 assessment#:#show_answer_overview#:#Pokaži pregled odgovorov
 assessment#:#show_detailed_results#:#Podrobni rezultati testov (ocenjeno opravljanje testa)
 assessment#:#show_examview_html#:#Na zaslonu
 assessment#:#show_pass_overview#:#Pregled rezultatov (ocenjeno opravljanje testa)
 assessment#:#show_user_answers#:#Odgovori (ocenjeno opravljanje testa)
-assessment#:#showinfo#:#Prikaži lastnosti testa
-assessment#:#showinfo_desc#:#Uporabnikom se na zavihku 'Info' prikažejo vse značilnosti testa, npr. zaporedje, ocena ali poročilo o rezultatih.
 assessment#:#shuffle_answers#:#Pomešaj odgovore
 assessment#:#sign_submission#:#Digitalni podpis
 assessment#:#sign_submission_info#:#Nameščen in aktiviran mora biti vtičnik za podpis, ki omogoča poziv udeležencev k podpisu ob oddaji testa.
@@ -1251,11 +1248,6 @@ assessment#:#tst_add_quest_cont_edit_mode_RTE_info#:#Allows text formatting of q
 assessment#:#tst_addit_passes_blocked_after_passed_msg#:#You have passed the test. The test cannot be started again.
 assessment#:#tst_all_test_competences#:#Vse testne kompetence
 assessment#:#tst_all_user_data_deleted#:#Podatki vseh udeležencev testa so bili izbrisani!
-assessment#:#tst_allowed_users#:#Omejite število hkratnih udeležencev
-assessment#:#tst_allowed_users_desc#:#ILIAS preverja število udeležencev, ki hkrati sodelujejo v testu. Če poskuša dostopati več uporabnikov od največjega dovoljenega števila, jim bo Ilias preprečil dostop do testa.
-assessment#:#tst_allowed_users_max#:#Maksimalno število
-assessment#:#tst_allowed_users_time_gap#:#Čas neaktivnosti udeležencev
-assessment#:#tst_allowed_users_time_gap_desc#:#Udeleženci, ki v določenem časovnem obdobju ne kliknejo na test, bodo ocenjeni kot "neaktivni" in odstranjeni iz testa.
 assessment#:#tst_already_submitted#:#Test je že končan in odgovori so bili poslani.
 assessment#:#tst_analysis#:#Analiza
 assessment#:#tst_anonymity#:#Varstvo podatkov
@@ -1335,19 +1327,6 @@ assessment#:#tst_derive_new_pool#:#Izpelji novo skupino vprašanj
 assessment#:#tst_derive_new_pools#:#Ustvarite nove skupine vprašanj
 assessment#:#tst_dont_show_msg_again_in_current_session#:#Ne prikaži več tega sporočila med mojo trenutno sejo.
 assessment#:#tst_dont_use_previous_answers#:#Vaši prejšnji odgovori ne bodo uporabljeni kot privzete vrednosti pri prihodnjih opravljanjih testa
-assessment#:#tst_dyn_keep_answ_freeze#:#Obdrži zaklenjene odgovore
-assessment#:#tst_dyn_quest_set_pool_deleted#:#Trenutno konfigurirano področje vprašanj "%s" je izbrisano.
-assessment#:#tst_dyn_quest_set_src_qpl_summary_string_deleted#:#%s (trajno izbrisano)
-assessment#:#tst_dyn_quest_set_src_qpl_summary_string_trashed#:#%s (trenutno v košu) [%s vprašanja]
-assessment#:#tst_dyn_test_msg_currently_finished_completely#:#Trenutno ste uspešno odgovorili na vsa vprašanja iz izbrane skupine vprašanj. Test lahko nadaljujete takoj, ko bodo v skupini vprašanj nova ali spremenjena vprašanja.
-assessment#:#tst_dyn_test_msg_currently_finished_selection#:#Uspešno ste odgovorili na vsa vprašanja iz aktualnega nabora vprašanj. Za nadaljevanje testa spremenite nabor vprašanj.
-assessment#:#tst_dyn_test_msg_pass_deletion_link#:#Odstrani dosedanje odgovore
-assessment#:#tst_dyn_test_pass_deletion_button#:#Ponastavi vse odgovore
-assessment#:#tst_dyn_unfreeze_answers#:#Ponovno odgovori
-assessment#:#tst_dyn_unfreeze_answers_confirmation#:#Obstajajo vprašanja, za katera so bili vaši začetni odgovori zaklenjeni in jih ni mogoče spremeniti. Ali zdaj želite ponovno odgovoriti na vprašanja in odkleniti zaklenjene odgovore?
-assessment#:#tst_dynamic_question_set_complete#:#Stanje obdelave obstoječih vprašanj
-assessment#:#tst_dynamic_question_set_selection#:#Nabor testnih vprašanj in izbirna statistika
-assessment#:#tst_dynamic_question_set_source_questionpool_summary_string#:#%s (sled: %s) [%s vprašanja]
 assessment#:#tst_edit_competence_assign#:#Obdelaj značilnosti dodelitve
 assessment#:#tst_edit_scoring#:#Drugo ocenjevanje
 assessment#:#tst_ending_time#:#Zaključek
@@ -1385,7 +1364,7 @@ assessment#:#tst_finish_confirm_cancel_button#:#Ne, rad bi se vrnil na prejšnji
 assessment#:#tst_finish_confirmation_question#:#Kmalu boste zaključili ta test in dosegli maksimalno število dovoljenih opravljanj testa. Po tem se ne boste mogli znova prijaviti na ta test, da bi spremenili svoje odgovore. Ali res želite dokončati test?
 assessment#:#tst_finish_notification#:#Obveščanje
 assessment#:#tst_finish_notification_advanced#:#Celoten rezultat testa na uporabnika
-assessment#:#tst_finish_notification_content#:#Vsebina obvestila
+assessment#:#tst_finish_notification_content_type#:#Vsebina obvestila
 assessment#:#tst_finish_notification_desc#:#Za vsakega udeleženca, ki zaključi test, prejme imetnik testa e-pošto z naslednjimi informacijami.
 assessment#:#tst_finish_notification_no#:#Ni obvestila
 assessment#:#tst_finish_notification_simple#:#Le uporabniško ime in datum zaključka
@@ -1498,8 +1477,6 @@ assessment#:#tst_mark_minimum_level#:#Najnižji odstotek (v %)
 assessment#:#tst_mark_official_form#:#Uradno ime
 assessment#:#tst_mark_passed#:#Opravljeno
 assessment#:#tst_mark_short_form#:#Kratko ime
-assessment#:#tst_max_allowed_users_heading#:#Doseženo je bilo maksimalno število sočasnih uporabnikov za ta test
-assessment#:#tst_max_allowed_users_message#:#Doseženo je bilo maksimalno število sočasnih udeležencev za ta test Poskusite test ponovno odpreti ali nadaljevati nekoliko pozneje. Če so aktivni udeleženci neaktivni več kot %s sekund, imate možnost, da opravljate ta test. Hvala za razumevanje.
 assessment#:#tst_max_comp_points#:#maks. Kompetenčne točke
 assessment#:#tst_maximum_points#:#Maksimalno število točk
 assessment#:#tst_mc_label_none_above#:#Nobeden od zgornjih odgovorov
@@ -1699,6 +1676,7 @@ assessment#:#tst_questions_hints_toolbar_cmd_reset_ordering_clipboard#:#Ponastav
 assessment#:#tst_questions_inserted#:#Vstavljeno/a vprašanje/a!
 assessment#:#tst_questions_removed#:#Odstranjeno/a vprašanje/a!
 assessment#:#tst_random_nr_of_questions#:#Koliko vprašanj?
+assessment#:#tst_random_question_set_source_questionpool_summary_string#:#%s (sled: %s) [%s vprašanja]
 assessment#:#tst_random_select_questionpool#:#Izberite skupino vprašanj, iz katere želite uporabiti vprašanja.
 assessment#:#tst_reached_points#:#Dosežene točke
 assessment#:#tst_reached_points_of_max#:#%s od %s

@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class ilObjUserFolder
  * @author Stefan Meyer <meyer@leifos.com>

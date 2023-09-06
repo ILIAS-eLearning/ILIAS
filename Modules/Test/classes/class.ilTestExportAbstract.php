@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * @author Fabian Helfer <fhelfer@databay.de>
@@ -39,12 +39,13 @@ abstract class ilTestExportAbstract
         bool $passedonly = false,
         ilLanguage $lng = null
     ) {
+        /** @var ILIAS\DI\Container $DIC */
         global $DIC;
         $this->test_obj = $test_obj;
         $this->filter_key_participants = $filter_key_participants;
         $this->filtertext = $filtertext;
         $this->passedonly = $passedonly;
-        $this->lng = $lng ?? $DIC->language();
+        $this->lng = $lng ?? $DIC['lng'];
         $this->complete_data = $this->test_obj->getCompleteEvaluationData(true, $this->filter_key_participants, $this->filtertext);
         $this->aggregated_data = $this->test_obj->getAggregatedResultsData();
         $this->additionalFields = $this->test_obj->getEvaluationAdditionalFields();
@@ -92,9 +93,6 @@ abstract class ilTestExportAbstract
             $datarow2[] = $this->complete_data->getParticipant($active_id)->getReached();
             $datarow2[] = $this->complete_data->getParticipant($active_id)->getMaxpoints();
             $datarow2[] = $this->complete_data->getParticipant($active_id)->getMark();
-            if ($test_obj->getECTSOutput()) {
-                $datarow2[] = $this->complete_data->getParticipant($active_id)->getECTSMark();
-            }
             $datarow2[] = $this->complete_data->getParticipant($active_id)->getQuestionsWorkedThrough();
             $datarow2[] = $this->complete_data->getParticipant($active_id)->getNumberOfQuestions();
             $datarow2[] = $this->complete_data->getParticipant($active_id)->getQuestionsWorkedThroughInPercent() / 100.0;
@@ -130,7 +128,7 @@ abstract class ilTestExportAbstract
             $pct = $this->complete_data->getParticipant($active_id)->getMaxpoints() ? $median / $this->complete_data->getParticipant(
                 $active_id
             )->getMaxpoints() * 100.0 : 0;
-            $mark = $test_obj->mark_schema->getMatchingMark($pct);
+            $mark = $test_obj->getMarkSchema()->getMatchingMark($pct);
             $mark_short_name = "";
             if (is_object($mark)) {
                 $mark_short_name = $mark->getShortName();
@@ -210,9 +208,6 @@ abstract class ilTestExportAbstract
         $datarow[] = $this->lng->txt("tst_stat_result_resultspoints");
         $datarow[] = $lng->txt("maximum_points");
         $datarow[] = $lng->txt("tst_stat_result_resultsmarks");
-        if ($test_obj->getECTSOutput()) {
-            $datarow[] = $lng->txt("ects_grade");
-        }
         $datarow[] = $lng->txt("tst_stat_result_qworkedthrough");
         $datarow[] = $lng->txt("tst_stat_result_qmax");
         $datarow[] = $lng->txt("tst_stat_result_pworkedthrough");

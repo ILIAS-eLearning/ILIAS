@@ -182,8 +182,8 @@ class ilRoleAssignmentTableGUI extends ilTable2GUI
             $disabled = false;
             // disable checkbox for system role for the system user
             if (
-                ($usr_id == SYSTEM_USER_ID && $role["obj_id"] == SYSTEM_ROLE_ID) ||
-                (!in_array(SYSTEM_ROLE_ID, $rbacreview->assignedRoles($ilUser->getId())) && $role["obj_id"] == SYSTEM_ROLE_ID)
+                ($usr_id === (int) SYSTEM_USER_ID && $role["obj_id"] === (int) SYSTEM_ROLE_ID) ||
+                (!in_array(SYSTEM_ROLE_ID, $rbacreview->assignedRoles($ilUser->getId())) && $role["obj_id"] === (int) SYSTEM_ROLE_ID)
             ) {
                 $disabled = true;
             }

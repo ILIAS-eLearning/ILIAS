@@ -71,7 +71,7 @@ class ilHelpMappingTableGUI extends ilTable2GUI
             $chaps = $lm_tree->getFilteredSubTree($hc, array("pg"));
             unset($chaps[0]);
         } else {
-            $chaps = ilStructureObject::getChapterList($this->parent_obj->object->getId());
+            $chaps = ilStructureObject::getChapterList($this->parent_obj->getObject()->getId());
         }
 
         $this->setData($chaps);

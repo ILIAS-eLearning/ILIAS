@@ -546,7 +546,7 @@ class ilColumnGUI
         $this->blocks[IL_COL_CENTER] = array();
 
         $user_id = 0;
-        if ($this->getColType() === "pd") {
+        if ($this->getColType() === 'pd') {
             $user_id = $ilUser->getId();
             $positions = array_flip($this->dash_side_panel_settings->getPositions());
         }
@@ -578,9 +578,11 @@ class ilColumnGUI
                     if ($side == IL_COL_LEFT) {
                         $side = IL_COL_RIGHT;
                     }
-                    if ($this->getColType() === 'pd' && in_array(substr($type, 2), $this->dash_side_panel_settings->getValidModules())) {
+
+                    if ($this->getColType() === 'pd' && in_array(substr($type, 2), $this->dash_side_panel_settings->getValidModules(), true)) {
                         $nr = $positions[substr($type, 2)] ?? $nr;
                     }
+
                     $this->blocks[$side][] = array(
                         "nr" => $nr,
                         "class" => $class,

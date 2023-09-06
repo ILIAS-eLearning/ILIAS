@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -15,6 +16,10 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
+use ILIAS\Test\InternalRequestService;
+
 /**
  * Export User Interface Class
  *
@@ -29,21 +34,22 @@
  */
 class ilTestExportGUI extends ilExportGUI
 {
-    private \ILIAS\Test\InternalRequestService $testrequest;
+    public function __construct(
+        ilObjTestGUI $parent_gui,
+        private ilDBInterface $db,
+        private ilLogger $logger,
+        private ilObjectDataCache $obj_cache,
+        private ilComponentRepository $component_repository,
+        Generator $active_export_plugins,
+        private array $selected_files
+    ) {
+        parent::__construct($parent_gui, null);
 
-    public function __construct($a_parent_gui, $a_main_obj = null)
-    {
-        global $DIC;
-        $component_factory = $DIC["component.factory"];
-        $this->testrequest = $DIC->test()->internal()->request();
-        parent::__construct($a_parent_gui, $a_main_obj);
-
-        #$this->addFormat('xml', $a_parent_gui->lng->txt('ass_create_export_file'), $this, 'createTestExport');
-        $this->addFormat('xml', $DIC->language()->txt('ass_create_export_file'));
-        $this->addFormat('xmlres', $DIC->language()->txt('ass_create_export_file_with_results'), $this, 'createTestExportWithResults');
-        $this->addFormat('csv', $DIC->language()->txt('ass_create_export_test_results'), $this, 'createTestResultsExport');
-        $this->addFormat('arc', $DIC->language()->txt('ass_create_export_test_archive'), $this, 'createTestArchiveExport');
-        foreach ($component_factory->getActivePluginsInSlot("texp") as $plugin) {
+        $this->addFormat('xml', $this->lng->txt('ass_create_export_file'));
+        $this->addFormat('xmlres', $this->lng->txt('ass_create_export_file_with_results'), $this, 'createTestExportWithResults');
+        $this->addFormat('csv', $this->lng->txt('ass_create_export_test_results'), $this, 'createTestResultsExport');
+        $this->addFormat('arc', $this->lng->txt('ass_create_export_test_archive'), $this, 'createTestArchiveExport');
+        foreach ($active_export_plugins as $plugin) {
             $plugin->setTest($this->obj);
             $this->addFormat(
                 $plugin->getFormat(),
@@ -68,61 +74,48 @@ class ilTestExportGUI extends ilExportGUI
      */
     public function createTestExportWithResults()
     {
-        /**
-         * @var $lng ilLanguage
-         * @var $ilCtrl ilCtrl
-         */
-        global $DIC;
-        $lng = $DIC['lng'];
-        $ilCtrl = $DIC['ilCtrl'];
-
-        $expFactory = new ilTestExportFactory($this->obj);
-        $test_exp = $expFactory->getExporter('xml');
+        $export_factory = new ilTestExportFactory(
+            $this->obj,
+            $this->lng,
+            $this->logger,
+            $this->tree,
+            $this->component_repository
+        );
+        $test_exp = $export_factory->getExporter('xml');
         $test_exp->setResultExportingEnabledForTestExport(true);
         $test_exp->buildExportFile();
-        $this->tpl->setOnScreenMessage('success', $lng->txt('exp_file_created'), true);
-        $ilCtrl->redirectByClass('iltestexportgui');
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('exp_file_created'), true);
+        $this->ctrl->redirectByClass('iltestexportgui');
     }
 
-    /**
-     * Create results export file
-     */
     public function createTestResultsExport()
     {
-        /**
-         * @var $lng ilLanguage
-         * @var $ilCtrl ilCtrl
-         */
-        global $DIC;
-        $lng = $DIC['lng'];
-        $ilCtrl = $DIC['ilCtrl'];
-
-        $expFactory = new ilTestExportFactory($this->obj);
-        $test_exp = $expFactory->getExporter('results');
+        $export_factory = new ilTestExportFactory(
+            $this->obj,
+            $this->lng,
+            $this->logger,
+            $this->tree,
+            $this->component_repository
+        );
+        $test_exp = $export_factory->getExporter('results');
         $test_exp->buildExportFile();
-        $this->tpl->setOnScreenMessage('success', $lng->txt('exp_file_created'), true);
-        $ilCtrl->redirectByClass('iltestexportgui');
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('exp_file_created'), true);
+        $this->ctrl->redirectByClass('iltestexportgui');
     }
 
     public function createTestArchiveExport()
     {
-        global $DIC;
-        $ilAccess = $DIC['ilAccess'];
-        $ilCtrl = $DIC['ilCtrl'];
-        $ilDB = $DIC['ilDB'];
-        $lng = $DIC['lng'];
-
-        if ($ilAccess->checkAccess("write", "", $this->obj->getRefId())) {
+        if ($this->access->checkAccess('write', '', $this->obj->getRefId())) {
             // prepare generation before contents are processed (for mathjax)
-            ilPDFGeneratorUtils::prepareGenerationRequest("Test", PDF_USER_RESULT);
+            ilPDFGeneratorUtils::prepareGenerationRequest('Test', PDF_USER_RESULT);
 
-            $evaluation = new ilTestEvaluation($ilDB, $this->obj->getTestId());
+            $evaluation = new ilTestEvaluation($this->db, $this->obj->getTestId());
             $allActivesPasses = $evaluation->getAllActivesPasses();
-            $participantData = new ilTestParticipantData($ilDB, $lng);
+            $participantData = new ilTestParticipantData($this->db, $this->lng);
             $participantData->setActiveIdsFilter(array_keys($allActivesPasses));
             $participantData->load($this->obj->getTestId());
 
-            $archiveService = new ilTestArchiveService($this->obj);
+            $archiveService = new ilTestArchiveService($this->obj, $this->lng, $this->obj_cache);
             $archiveService->setParticipantData($participantData);
             $archiveService->archivePassesByActives($allActivesPasses);
 
@@ -130,7 +123,7 @@ class ilTestExportGUI extends ilExportGUI
             $test_ref = $this->obj->getRefId();
             $archive_exp = new ilTestArchiver($test_id, $test_ref);
 
-            $scoring = new ilTestScoring($this->obj);
+            $scoring = new ilTestScoring($this->obj, $this->db);
             $best_solution = $scoring->calculateBestSolutionForTest();
 
             $tmpFileName = ilFileUtils::ilTempnam();
@@ -149,38 +142,35 @@ class ilTestExportGUI extends ilExportGUI
             $archive_exp->updateTestArchive();
             $archive_exp->compressTestArchive();
         } else {
-            $this->tpl->setOnScreenMessage('info', "cannot_export_archive", true);
+            $this->tpl->setOnScreenMessage('info', 'cannot_export_archive', true);
         }
-        $ilCtrl->redirectByClass('iltestexportgui');
+        $this->ctrl->redirectByClass('iltestexportgui');
     }
 
     public function listExportFiles(): void
     {
-        global $DIC;
-        $tpl = $DIC['tpl'];
-        $ilToolbar = $DIC['ilToolbar'];
-        $ilCtrl = $DIC['ilCtrl'];
-        $lng = $DIC['lng'];
-
-        $ilToolbar->setFormAction($ilCtrl->getFormAction($this));
+        $this->toolbar->setFormAction($this->ctrl->getFormAction($this));
 
         if (count($this->getFormats()) > 1) {
             foreach ($this->getFormats() as $f) {
-                $options[$f["key"]] = $f["txt"];
+                $options[$f['key']] = $f['txt'];
             }
-            $si = new ilSelectInputGUI($lng->txt("type"), "format");
+            $si = new ilSelectInputGUI($this->lng->txt('type'), 'format');
             $si->setOptions($options);
-            $ilToolbar->addInputItem($si, true);
-            $ilToolbar->addFormButton($lng->txt("exp_create_file"), "createExportFile");
+            $this->toolbar->addInputItem($si, true);
+            $this->toolbar->addFormButton($this->lng->txt('exp_create_file'), 'createExportFile');
         } else {
-            $format = $this->getFormats();
-            $format = $format[0];
-            $ilToolbar->addFormButton($lng->txt("exp_create_file") . " (" . $format["txt"] . ")", "create_" . $format["key"]);
+            $format = $this->getFormats()[0];
+            $this->toolbar->addFormButton(
+                $this->lng->txt('exp_create_file')
+                . ' (' . $format['txt'] . ')',
+                'create_' . $format['key']
+            );
         }
 
         $archiver = new ilTestArchiver($this->getParentGUI()->getTestObject()->getId());
         $archive_dir = $archiver->getZipExportDirectory();
-        $archive_files = array();
+        $archive_files = [];
 
         if (file_exists($archive_dir) && is_dir($archive_dir)) {
             $archive_files = scandir($archive_dir);
@@ -188,20 +178,23 @@ class ilTestExportGUI extends ilExportGUI
 
         $export_dir = $this->obj->getExportDirectory();
         $export_files = $this->obj->getExportFiles($export_dir);
-        $data = array();
+        $data = [];
         if (count($export_files) > 0) {
             foreach ($export_files as $exp_file) {
-                $file_arr = explode("__", $exp_file);
+                $file_arr = explode('__', $exp_file);
                 if ($file_arr[0] == $exp_file) {
                     continue;
                 }
 
-                array_push($data, array(
-                    'file' => $exp_file,
-                    'size' => filesize($export_dir . "/" . $exp_file),
-                    'timestamp' => $file_arr[0],
-                    'type' => $this->getExportTypeFromFileName($exp_file)
-                ));
+                array_push(
+                    $data,
+                    [
+                        'file' => $exp_file,
+                        'size' => filesize($export_dir . '/' . $exp_file),
+                        'timestamp' => $file_arr[0],
+                        'type' => $this->getExportTypeFromFileName($exp_file)
+                    ]
+                );
             }
         }
 
@@ -210,29 +203,25 @@ class ilTestExportGUI extends ilExportGUI
                 if ($exp_file == '.' || $exp_file == '..') {
                     continue;
                 }
-                $file_arr = explode("_", $exp_file);
-
-                if (!$file_arr[0] || !is_numeric($file_arr[0])) {
-                    $file_arr[0] = (new \DateTimeImmutable())->format('U');
-                }
+                $file_arr = explode('_', $exp_file);
 
                 $data[] = [
                     'file' => $exp_file,
-                    'size' => filesize($archive_dir . "/" . $exp_file),
-                    'timestamp' => $file_arr[0],
+                    'size' => filesize($archive_dir . '/' . $exp_file),
+                    'timestamp' => $file_arr[4],
                     'type' => $this->getExportTypeFromFileName($exp_file)
                 ];
             }
         }
 
         $table = $this->buildExportTableGUI();
-        $table->setSelectAllCheckbox("file");
+        $table->setSelectAllCheckbox('file');
         foreach ($this->getCustomColumns() as $c) {
-            $table->addCustomColumn($c["txt"], $c["obj"], $c["func"]);
+            $table->addCustomColumn($c['txt'], $c['obj'], $c['func']);
         }
 
         foreach ($this->getCustomMultiCommands() as $c) {
-            $table->addCustomMultiCommand($c["txt"], "multi_" . $c["func"]);
+            $table->addCustomMultiCommand($c['txt'], 'multi_' . $c['func']);
         }
 
         $table->resetFormats();
@@ -241,7 +230,8 @@ class ilTestExportGUI extends ilExportGUI
         }
 
         $table->setData($data);
-        $tpl->setContent($table->getHTML());
+        $this->tpl->setOnScreenMessage('info', $this->lng->txt('no_manual_feedback_export_info'), true);
+        $this->tpl->setContent($table->getHTML());
     }
 
     private function getExportTypeFromFileName(string $export_file)
@@ -255,31 +245,19 @@ class ilTestExportGUI extends ilExportGUI
 
     public function download(): void
     {
-        /**
-         * @var $lng ilLanguage
-         * @var $ilCtrl ilCtrl
-         */
-        global $DIC;
-        $lng = $DIC['lng'];
-        $ilCtrl = $DIC['ilCtrl'];
-        $file = array();
-        if ($this->testrequest->isset('file') && $this->testrequest->raw('file')) {
-            $file = array($this->testrequest->raw('file'));
+        if ($this->selected_files === []) {
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('no_checkbox'), true);
+            $this->ctrl->redirect($this, 'listExportFiles');
         }
 
-        if ($file === array()) {
-            $this->tpl->setOnScreenMessage('info', $lng->txt('no_checkbox'), true);
-            $ilCtrl->redirect($this, 'listExportFiles');
-        }
-
-        if (count($file) > 1) {
-            $this->tpl->setOnScreenMessage('info', $lng->txt('select_max_one_item'), true);
-            $ilCtrl->redirect($this, 'listExportFiles');
+        if (count($this->selected_files) > 1) {
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('select_max_one_item'), true);
+            $this->ctrl->redirect($this, 'listExportFiles');
         }
 
         $archiver = new ilTestArchiver($this->getParentGUI()->getTestObject()->getId());
 
-        $filename = basename($file[0]);
+        $filename = basename($this->selected_files[0]);
         $exportFile = $this->obj->getExportDirectory() . '/' . $filename;
         $archiveFile = $archiver->getZipExportDirectory() . '/' . $filename;
 
@@ -291,27 +269,16 @@ class ilTestExportGUI extends ilExportGUI
             ilFileDelivery::deliverFileLegacy($archiveFile, $filename);
         }
 
-        $ilCtrl->redirect($this, 'listExportFiles');
+        $this->ctrl->redirect($this, 'listExportFiles');
     }
 
-    /**
-     * Delete files
-     */
     public function delete(): void
     {
-        /**
-         * @var $lng ilLanguage
-         * @var $ilCtrl ilCtrl
-         */
-        global $DIC;
-        $lng = $DIC['lng'];
-        $ilCtrl = $DIC['ilCtrl'];
-
         $archiver = new ilTestArchiver($this->getParentGUI()->getTestObject()->getId());
         $archiveDir = $archiver->getZipExportDirectory();
 
         $export_dir = $this->obj->getExportDirectory();
-        foreach ($_POST['file'] as $file) {
+        foreach ($this->selected_files as $file) {
             $file = basename($file);
             $dir = substr($file, 0, strlen($file) - 4);
 
@@ -332,7 +299,7 @@ class ilTestExportGUI extends ilExportGUI
                 ilFileUtils::delDir($exp_dir);
             }
         }
-        $this->tpl->setOnScreenMessage('success', $lng->txt('msg_deleted_export_files'), true);
-        $ilCtrl->redirect($this, 'listExportFiles');
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_deleted_export_files'), true);
+        $this->ctrl->redirect($this, 'listExportFiles');
     }
 }

@@ -363,9 +363,6 @@
 /* Small Drop Menus */
 .caret {
   display: inline-block;
-  width: 0;
-  height: 0;
-  margin-left: 2px;
   vertical-align: middle;
   border-top: 4px dashed;
   border-top: 4px solid \9 ;
@@ -376,6 +373,7 @@
 .dropup,
 .dropdown {
   position: relative;
+  display: inline-block;
 }
 
 .dropdown-toggle:focus {
@@ -450,15 +448,6 @@
   left: 0;
 }
 
-.dropdown-header {
-  display: block;
-  padding: 3px 20px;
-  font-size: 0.75rem;
-  line-height: 1.428571429;
-  color: #737373;
-  white-space: nowrap;
-}
-
 .dropdown-backdrop {
   position: fixed;
   top: 0;
@@ -495,7 +484,9 @@
   border-bottom: 1px solid #dddddd;
 }
 .dropdown-header > h2 {
-  margin-bottom: 2px;
+  margin-top: 15px;
+  margin-bottom: 1px;
+  font-size: 1rem;
 }
 
 .dropdown-menu {
@@ -504,6 +495,12 @@
   border: 0 none;
   -webkit-box-shadow: 3px 9px 9px 0 rgba(0, 0, 0, 0.3);
   box-shadow: 3px 9px 9px 0 rgba(0, 0, 0, 0.3);
+}
+.dropdown-menu .row {
+  margin-bottom: 15px;
+}
+.dropdown-menu .row > ul[class*=col-] {
+  padding-left: 15px;
 }
 .dropdown-menu li > a,
 .dropdown-menu li > .btn-link {
@@ -870,6 +867,17 @@ textarea {
   font-family: inherit;
   font-size: inherit;
   line-height: inherit;
+}
+
+menu,
+article,
+aside,
+details,
+footer,
+header,
+nav,
+section {
+  display: block;
 }
 
 table {
@@ -1968,6 +1976,7 @@ th {
 }
 
 /* Responsive container system from Bootstrap 5 has been removed */
+.hidden,
 .visible-xs-block,
 .visible-xs-inline,
 .visible-xs-inline-block,
@@ -2186,6 +2195,42 @@ th {
     display: none !important;
   }
 }
+.l-bar__container,
+.l-bar__group {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.l-bar__container:not(:empty) {
+  margin-bottom: -9px;
+}
+.l-bar__container:not(:empty).l-bar__container--space-between {
+  justify-content: space-between;
+}
+
+.l-bar__container > .l-bar__group {
+  margin-right: 15px;
+}
+.l-bar__container > .l-bar__group:last-child {
+  margin-right: 0;
+}
+
+.l-bar__container > .l-bar__element,
+.l-bar__group > .l-bar__element {
+  margin-right: 3px;
+  margin-bottom: 9px;
+}
+.l-bar__container > .l-bar__element:last-child,
+.l-bar__group > .l-bar__element:last-child {
+  margin-right: 0;
+}
+
+* {
+  box-sizing: border-box;
+}
+
 html, body {
   height: 100%;
   overflow: hidden;
@@ -2235,6 +2280,12 @@ button {
   input, select {
     max-width: 100%;
   }
+}
+
+input[type=text],
+input[type=submit],
+select {
+  min-height: 28px;
 }
 
 ul, ol, p {
@@ -2397,15 +2448,12 @@ a:hover, a:focus {
   color: #3a4c65;
   text-decoration: underline;
 }
-a:focus {
-  outline: none;
-  outline-offset: 0px;
-}
-a:focus:focus-visible {
+a:focus-visible {
+  position: relative;
   outline: 2px solid #FFFFFF;
-  outline-offset: 5px;
+  outline-offset: 4px;
 }
-a:focus:focus-visible::after {
+a:focus-visible::after {
   content: " ";
   position: absolute;
   top: -2px;
@@ -2414,6 +2462,9 @@ a:focus:focus-visible::after {
   bottom: -2px;
   border: 2px solid #FFFFFF;
   outline: 3px solid #0078D7;
+}
+a:active, a.engaged {
+  outline: none;
 }
 
 small,
@@ -2677,170 +2728,813 @@ code {
   }
 }
 
-.btn {
-  display: inline-block;
-  margin-bottom: 0;
-  font-weight: 400;
-  text-align: center;
-  white-space: nowrap;
+.btn, .il-link.link-bulky,
+.il-drilldown .menulevel {
+  display: inline-flex;
   vertical-align: middle;
-  touch-action: manipulation;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
-  background-image: none;
-  border: 1px solid transparent;
-  padding: 3px 9px;
-  font-size: 0.75rem;
-  line-height: 1.428571429;
-  border-radius: 0px;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
   user-select: none;
-}
-.btn:focus-visible {
-  position: relative;
-  outline: 2px solid #FFFFFF;
-  outline-offset: 4px;
-}
-.btn:focus-visible::after {
-  content: " ";
-  position: absolute;
-  top: -2px;
-  left: -2px;
-  right: -2px;
-  bottom: -2px;
-  border: 2px solid #FFFFFF;
-  outline: 3px solid #0078D7;
-}
-.btn:active, .btn.engaged {
-  outline: none;
-}
-.btn:focus, .btn.focus, .btn:active:focus, .btn:active.focus, .btn.active:focus, .btn.active.focus {
-  outline: none;
-  outline-offset: 0px;
-}
-.btn:focus:focus-visible, .btn.focus:focus-visible, .btn:active:focus:focus-visible, .btn:active.focus:focus-visible, .btn.active:focus:focus-visible, .btn.active.focus:focus-visible {
-  outline: 2px solid #FFFFFF;
-  outline-offset: 5px;
-}
-.btn:focus:focus-visible::after, .btn.focus:focus-visible::after, .btn:active:focus:focus-visible::after, .btn:active.focus:focus-visible::after, .btn.active:focus:focus-visible::after, .btn.active.focus:focus-visible::after {
-  content: " ";
-  position: absolute;
-  top: -2px;
-  left: -2px;
-  right: -2px;
-  bottom: -2px;
-  border: 2px solid #FFFFFF;
-  outline: 3px solid #0078D7;
-}
-.btn:hover, .btn:focus, .btn.focus {
-  color: white;
+  touch-action: manipulation;
+  font-family: "Open Sans", Verdana, Arial, Helvetica, sans-serif;
+  text-align: center;
+  line-height: inherit;
+  font-size: inherit;
+  font-weight: 400;
   text-decoration: none;
+  min-height: 28px;
+  min-width: 28px;
+  font-size: 0.75rem;
+  padding: 3px 6px;
+  gap: 6px;
 }
-.btn:active, .btn.active {
-  background-image: none;
-  outline: 0;
-}
-.btn.disabled, .btn[disabled], fieldset[disabled] .btn {
-  cursor: not-allowed;
-  filter: alpha(opacity=65);
-  opacity: 0.65;
-  -webkit-box-shadow: none;
-  box-shadow: none;
+.btn + .btn, .il-link.link-bulky + .btn,
+.il-drilldown .menulevel + .btn, .btn + .il-link.link-bulky, .il-link.link-bulky + .il-link.link-bulky,
+.il-drilldown .menulevel + .il-link.link-bulky,
+.il-drilldown .btn + .menulevel,
+.il-drilldown .il-link.link-bulky + .menulevel,
+.il-drilldown .menulevel + .menulevel {
+  margin-left: 3px;
 }
 
-a.btn.disabled, fieldset[disabled] a.btn {
+a.btn.disabled, a.disabled.il-link.link-bulky,
+.il-drilldown a.disabled.menulevel, fieldset[disabled] a.btn, fieldset[disabled] a.il-link.link-bulky,
+fieldset[disabled] .il-drilldown a.menulevel,
+.il-drilldown fieldset[disabled] a.menulevel {
   pointer-events: none;
 }
 
-input.btn {
-  display: inline-block;
+input.btn, input.il-link.link-bulky,
+.il-drilldown input.menulevel {
   min-width: 60px;
-  vertical-align: top;
 }
 @media (max-width: 768px) {
-  input.btn {
+  input.btn, input.il-link.link-bulky,
+  .il-drilldown input.menulevel {
     min-width: 0;
   }
 }
 
 .btn-default {
-  color: white;
+  min-height: 28px;
+  min-width: 28px;
+  font-size: 0.75rem;
+  padding: 3px 6px;
+  gap: 6px;
   background-color: #4c6586;
-  border-color: #4c6586;
-}
-.btn-default:focus, .btn-default.focus {
   color: white;
-  background-color: #3a4c65;
-  border-color: #1e2835;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #4c6586;
+  border-radius: 0px;
 }
 .btn-default:hover {
-  color: white;
+  text-decoration: none;
   background-color: #3a4c65;
-  border-color: #36485f;
-}
-.btn-default:active, .btn-default.active, .open > .btn-default.dropdown-toggle {
   color: white;
-  background-color: #3a4c65;
-  background-image: none;
-  border-color: #36485f;
-}
-.btn-default:active:hover, .btn-default:active:focus, .btn-default:active.focus, .btn-default.active:hover, .btn-default.active:focus, .btn-default.active.focus, .open > .btn-default.dropdown-toggle:hover, .open > .btn-default.dropdown-toggle:focus, .open > .btn-default.dropdown-toggle.focus {
-  color: white;
-  background-color: #2d3b4f;
-  border-color: #1e2835;
-}
-.btn-default.disabled:hover, .btn-default.disabled:focus, .btn-default.disabled.focus, .btn-default[disabled]:hover, .btn-default[disabled]:focus, .btn-default[disabled].focus, fieldset[disabled] .btn-default:hover, fieldset[disabled] .btn-default:focus, fieldset[disabled] .btn-default.focus {
-  background-color: #4c6586;
-  border-color: #4c6586;
-}
-.btn-default .badge {
-  color: #4c6586;
-  background-color: white;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #3a4c65;
 }
 .btn-default:focus-visible {
   position: relative;
+  outline: 2px solid #FFFFFF;
+  outline-offset: 4px;
+}
+.btn-default:focus-visible::after {
+  content: " ";
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  border: 2px solid #FFFFFF;
+  outline: 3px solid #0078D7;
+}
+.btn-default:active, .btn-default.engaged {
+  outline: none;
+}
+.btn-default:active {
+  transform: scale(0.95);
+  background-color: #273445;
+  color: white;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #273445;
+}
+.btn-default[disabled],
+.btn-default fieldset[disabled] {
+  background-color: #b0b0b0;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #b0b0b0;
+  color: black;
+  cursor: not-allowed;
+  transform: none;
+}
+.btn-default.engaged {
+  background-color: white;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #4c6586;
+  color: #161616;
 }
 
 .btn-primary {
-  color: white;
+  min-height: 28px;
+  min-width: 28px;
+  font-size: 0.75rem;
+  padding: 3px 6px;
+  gap: 6px;
   background-color: #557b2e;
-  border-color: #557b2e;
-}
-.btn-primary:focus, .btn-primary.focus {
   color: white;
-  background-color: #3b5620;
-  border-color: #151e0b;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #557b2e;
+  border-radius: 0px;
 }
 .btn-primary:hover {
-  color: white;
+  text-decoration: none;
   background-color: #3b5620;
-  border-color: #364e1d;
-}
-.btn-primary:active, .btn-primary.active, .open > .btn-primary.dropdown-toggle {
   color: white;
-  background-color: #3b5620;
-  background-image: none;
-  border-color: #364e1d;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #3b5620;
 }
-.btn-primary:active:hover, .btn-primary:active:focus, .btn-primary:active.focus, .btn-primary.active:hover, .btn-primary.active:focus, .btn-primary.active.focus, .open > .btn-primary.dropdown-toggle:hover, .open > .btn-primary.dropdown-toggle:focus, .open > .btn-primary.dropdown-toggle.focus {
+.btn-primary:focus-visible {
+  position: relative;
+  outline: 2px solid #FFFFFF;
+  outline-offset: 4px;
+}
+.btn-primary:focus-visible::after {
+  content: " ";
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  border: 2px solid #FFFFFF;
+  outline: 3px solid #0078D7;
+}
+.btn-primary:active, .btn-primary.engaged {
+  outline: none;
+}
+.btn-primary:active {
+  transform: scale(0.95);
+  background-color: #223112;
   color: white;
-  background-color: #293c16;
-  border-color: #151e0b;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #223112;
 }
-.btn-primary.disabled:hover, .btn-primary.disabled:focus, .btn-primary.disabled.focus, .btn-primary[disabled]:hover, .btn-primary[disabled]:focus, .btn-primary[disabled].focus, fieldset[disabled] .btn-primary:hover, fieldset[disabled] .btn-primary:focus, fieldset[disabled] .btn-primary.focus {
-  background-color: #557b2e;
-  border-color: #557b2e;
+.btn-primary[disabled],
+.btn-primary fieldset[disabled] {
+  background-color: #b0b0b0;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #b0b0b0;
+  color: black;
+  cursor: not-allowed;
+  transform: none;
 }
-.btn-primary .badge {
-  color: #557b2e;
+.btn-primary.engaged {
   background-color: white;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #557b2e;
+  color: #161616;
+}
+
+.btn-ctrl, .il-viewcontrol-section > .btn-default, .il-viewcontrol-section > .btn-link,
+.il-viewcontrol-section .btn-group > .btn-default,
+.il-viewcontrol-section .btn-group > .btn-link,
+.il-viewcontrol-pagination__sectioncontrol > .btn-default,
+.il-viewcontrol-pagination__sectioncontrol > .btn-link,
+.il-viewcontrol-pagination__num-of-items > .btn-default,
+.il-viewcontrol-pagination__num-of-items > .btn-link,
+.il-viewcontrol-pagination > .btn-default,
+.il-viewcontrol-pagination > .btn-link,
+.il-viewcontrol-pagination .dropdown > .btn-default,
+.il-viewcontrol-pagination .dropdown > .btn-link,
+.il-viewcontrol-pagination .last > .btn-default,
+.il-viewcontrol-pagination .last > .btn-link,
+.il-viewcontrol-mode > .btn-default,
+.il-viewcontrol-mode > .btn-link, .il-viewcontrol-sortation .btn-default.btn {
+  display: inline-flex;
+  vertical-align: middle;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  user-select: none;
+  touch-action: manipulation;
+  font-family: "Open Sans", Verdana, Arial, Helvetica, sans-serif;
+  text-align: center;
+  line-height: inherit;
+  font-size: inherit;
+  font-weight: 400;
+  text-decoration: none;
+  min-height: 2.6rem;
+  min-width: 2.6rem;
+  font-size: 0.75rem;
+  padding: 3px 6px;
+  gap: 6px;
+  background-color: #e2e8ef;
+  color: #4c6586;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #e2e8ef;
+  border-radius: 10px;
+}
+.btn-ctrl + .btn-ctrl, .il-viewcontrol-section > .btn-default + .btn-ctrl, .il-viewcontrol-section > .btn-link + .btn-ctrl,
+.il-viewcontrol-section .btn-group > .btn-default + .btn-ctrl,
+.il-viewcontrol-section .btn-group > .btn-link + .btn-ctrl,
+.il-viewcontrol-pagination__sectioncontrol > .btn-default + .btn-ctrl,
+.il-viewcontrol-pagination__sectioncontrol > .btn-link + .btn-ctrl,
+.il-viewcontrol-pagination__num-of-items > .btn-default + .btn-ctrl,
+.il-viewcontrol-pagination__num-of-items > .btn-link + .btn-ctrl,
+.il-viewcontrol-pagination > .btn-default + .btn-ctrl,
+.il-viewcontrol-pagination > .btn-link + .btn-ctrl,
+.il-viewcontrol-pagination .dropdown > .btn-default + .btn-ctrl,
+.il-viewcontrol-pagination .dropdown > .btn-link + .btn-ctrl,
+.il-viewcontrol-pagination .last > .btn-default + .btn-ctrl,
+.il-viewcontrol-pagination .last > .btn-link + .btn-ctrl,
+.il-viewcontrol-mode > .btn-default + .btn-ctrl,
+.il-viewcontrol-mode > .btn-link + .btn-ctrl, .il-viewcontrol-sortation .btn-default.btn + .btn-ctrl, .il-viewcontrol-section > .btn-ctrl + .btn-default, .il-viewcontrol-section > .btn-default + .btn-default, .il-viewcontrol-section > .btn-link + .btn-default,
+.il-viewcontrol-section .il-viewcontrol-section.btn-group > .btn-default + .btn-default,
+.il-viewcontrol-section .il-viewcontrol-section.btn-group > .btn-link + .btn-default,
+.il-viewcontrol-section.il-viewcontrol-pagination__sectioncontrol > .btn-default + .btn-default,
+.il-viewcontrol-section.il-viewcontrol-pagination__sectioncontrol > .btn-link + .btn-default,
+.il-viewcontrol-section.il-viewcontrol-pagination__num-of-items > .btn-default + .btn-default,
+.il-viewcontrol-section.il-viewcontrol-pagination__num-of-items > .btn-link + .btn-default,
+.il-viewcontrol-section.il-viewcontrol-pagination > .btn-default + .btn-default,
+.il-viewcontrol-section.il-viewcontrol-pagination > .btn-link + .btn-default,
+.il-viewcontrol-pagination .il-viewcontrol-section.dropdown > .btn-default + .btn-default,
+.il-viewcontrol-pagination .il-viewcontrol-section.dropdown > .btn-link + .btn-default,
+.il-viewcontrol-pagination .il-viewcontrol-section.last > .btn-default + .btn-default,
+.il-viewcontrol-pagination .il-viewcontrol-section.last > .btn-link + .btn-default,
+.il-viewcontrol-section.il-viewcontrol-mode > .btn-default + .btn-default,
+.il-viewcontrol-section.il-viewcontrol-mode > .btn-link + .btn-default, .il-viewcontrol-sortation .il-viewcontrol-section > .btn-default.btn + .btn-default, .il-viewcontrol-section > .btn-ctrl + .btn-link, .il-viewcontrol-section > .btn-default + .btn-link, .il-viewcontrol-section > .btn-link + .btn-link,
+.il-viewcontrol-section .il-viewcontrol-section.btn-group > .btn-default + .btn-link,
+.il-viewcontrol-section .il-viewcontrol-section.btn-group > .btn-link + .btn-link,
+.il-viewcontrol-section.il-viewcontrol-pagination__sectioncontrol > .btn-default + .btn-link,
+.il-viewcontrol-section.il-viewcontrol-pagination__sectioncontrol > .btn-link + .btn-link,
+.il-viewcontrol-section.il-viewcontrol-pagination__num-of-items > .btn-default + .btn-link,
+.il-viewcontrol-section.il-viewcontrol-pagination__num-of-items > .btn-link + .btn-link,
+.il-viewcontrol-section.il-viewcontrol-pagination > .btn-default + .btn-link,
+.il-viewcontrol-section.il-viewcontrol-pagination > .btn-link + .btn-link,
+.il-viewcontrol-pagination .il-viewcontrol-section.dropdown > .btn-default + .btn-link,
+.il-viewcontrol-pagination .il-viewcontrol-section.dropdown > .btn-link + .btn-link,
+.il-viewcontrol-pagination .il-viewcontrol-section.last > .btn-default + .btn-link,
+.il-viewcontrol-pagination .il-viewcontrol-section.last > .btn-link + .btn-link,
+.il-viewcontrol-section.il-viewcontrol-mode > .btn-default + .btn-link,
+.il-viewcontrol-section.il-viewcontrol-mode > .btn-link + .btn-link, .il-viewcontrol-sortation .il-viewcontrol-section > .btn-default.btn + .btn-link,
+.il-viewcontrol-section .btn-group > .btn-ctrl + .btn-default,
+.il-viewcontrol-section .btn-group.il-viewcontrol-section > .btn-default + .btn-default,
+.il-viewcontrol-section .btn-group.il-viewcontrol-section > .btn-link + .btn-default,
+.il-viewcontrol-section .btn-group > .btn-default + .btn-default,
+.il-viewcontrol-section .btn-group > .btn-link + .btn-default,
+.il-viewcontrol-section .btn-group.il-viewcontrol-pagination__sectioncontrol > .btn-default + .btn-default,
+.il-viewcontrol-section .btn-group.il-viewcontrol-pagination__sectioncontrol > .btn-link + .btn-default,
+.il-viewcontrol-section .btn-group.il-viewcontrol-pagination__num-of-items > .btn-default + .btn-default,
+.il-viewcontrol-section .btn-group.il-viewcontrol-pagination__num-of-items > .btn-link + .btn-default,
+.il-viewcontrol-section .btn-group.il-viewcontrol-pagination > .btn-default + .btn-default,
+.il-viewcontrol-section .btn-group.il-viewcontrol-pagination > .btn-link + .btn-default,
+.il-viewcontrol-pagination .il-viewcontrol-section .btn-group.dropdown > .btn-default + .btn-default,
+.il-viewcontrol-section .il-viewcontrol-pagination .btn-group.dropdown > .btn-default + .btn-default,
+.il-viewcontrol-pagination .il-viewcontrol-section .btn-group.dropdown > .btn-link + .btn-default,
+.il-viewcontrol-section .il-viewcontrol-pagination .btn-group.dropdown > .btn-link + .btn-default,
+.il-viewcontrol-pagination .il-viewcontrol-section .btn-group.last > .btn-default + .btn-default,
+.il-viewcontrol-section .il-viewcontrol-pagination .btn-group.last > .btn-default + .btn-default,
+.il-viewcontrol-pagination .il-viewcontrol-section .btn-group.last > .btn-link + .btn-default,
+.il-viewcontrol-section .il-viewcontrol-pagination .btn-group.last > .btn-link + .btn-default,
+.il-viewcontrol-section .btn-group.il-viewcontrol-mode > .btn-default + .btn-default,
+.il-viewcontrol-section .btn-group.il-viewcontrol-mode > .btn-link + .btn-default,
+.il-viewcontrol-sortation .il-viewcontrol-section .btn-group > .btn-default.btn + .btn-default,
+.il-viewcontrol-section .il-viewcontrol-sortation .btn-group > .btn-default.btn + .btn-default,
+.il-viewcontrol-section .btn-group > .btn-ctrl + .btn-link,
+.il-viewcontrol-section .btn-group.il-viewcontrol-section > .btn-default + .btn-link,
+.il-viewcontrol-section .btn-group.il-viewcontrol-section > .btn-link + .btn-link,
+.il-viewcontrol-section .btn-group > .btn-default + .btn-link,
+.il-viewcontrol-section .btn-group > .btn-link + .btn-link,
+.il-viewcontrol-section .btn-group.il-viewcontrol-pagination__sectioncontrol > .btn-default + .btn-link,
+.il-viewcontrol-section .btn-group.il-viewcontrol-pagination__sectioncontrol > .btn-link + .btn-link,
+.il-viewcontrol-section .btn-group.il-viewcontrol-pagination__num-of-items > .btn-default + .btn-link,
+.il-viewcontrol-section .btn-group.il-viewcontrol-pagination__num-of-items > .btn-link + .btn-link,
+.il-viewcontrol-section .btn-group.il-viewcontrol-pagination > .btn-default + .btn-link,
+.il-viewcontrol-section .btn-group.il-viewcontrol-pagination > .btn-link + .btn-link,
+.il-viewcontrol-pagination .il-viewcontrol-section .btn-group.dropdown > .btn-default + .btn-link,
+.il-viewcontrol-section .il-viewcontrol-pagination .btn-group.dropdown > .btn-default + .btn-link,
+.il-viewcontrol-pagination .il-viewcontrol-section .btn-group.dropdown > .btn-link + .btn-link,
+.il-viewcontrol-section .il-viewcontrol-pagination .btn-group.dropdown > .btn-link + .btn-link,
+.il-viewcontrol-pagination .il-viewcontrol-section .btn-group.last > .btn-default + .btn-link,
+.il-viewcontrol-section .il-viewcontrol-pagination .btn-group.last > .btn-default + .btn-link,
+.il-viewcontrol-pagination .il-viewcontrol-section .btn-group.last > .btn-link + .btn-link,
+.il-viewcontrol-section .il-viewcontrol-pagination .btn-group.last > .btn-link + .btn-link,
+.il-viewcontrol-section .btn-group.il-viewcontrol-mode > .btn-default + .btn-link,
+.il-viewcontrol-section .btn-group.il-viewcontrol-mode > .btn-link + .btn-link,
+.il-viewcontrol-sortation .il-viewcontrol-section .btn-group > .btn-default.btn + .btn-link,
+.il-viewcontrol-section .il-viewcontrol-sortation .btn-group > .btn-default.btn + .btn-link,
+.il-viewcontrol-pagination__sectioncontrol > .btn-ctrl + .btn-default,
+.il-viewcontrol-pagination__sectioncontrol.il-viewcontrol-section > .btn-default + .btn-default,
+.il-viewcontrol-pagination__sectioncontrol.il-viewcontrol-section > .btn-link + .btn-default,
+.il-viewcontrol-section .il-viewcontrol-pagination__sectioncontrol.btn-group > .btn-default + .btn-default,
+.il-viewcontrol-section .il-viewcontrol-pagination__sectioncontrol.btn-group > .btn-link + .btn-default,
+.il-viewcontrol-pagination__sectioncontrol > .btn-default + .btn-default,
+.il-viewcontrol-pagination__sectioncontrol > .btn-link + .btn-default,
+.il-viewcontrol-pagination__sectioncontrol.il-viewcontrol-pagination__num-of-items > .btn-default + .btn-default,
+.il-viewcontrol-pagination__sectioncontrol.il-viewcontrol-pagination__num-of-items > .btn-link + .btn-default,
+.il-viewcontrol-pagination__sectioncontrol.il-viewcontrol-pagination > .btn-default + .btn-default,
+.il-viewcontrol-pagination__sectioncontrol.il-viewcontrol-pagination > .btn-link + .btn-default,
+.il-viewcontrol-pagination .il-viewcontrol-pagination__sectioncontrol.dropdown > .btn-default + .btn-default,
+.il-viewcontrol-pagination .il-viewcontrol-pagination__sectioncontrol.dropdown > .btn-link + .btn-default,
+.il-viewcontrol-pagination .il-viewcontrol-pagination__sectioncontrol.last > .btn-default + .btn-default,
+.il-viewcontrol-pagination .il-viewcontrol-pagination__sectioncontrol.last > .btn-link + .btn-default,
+.il-viewcontrol-pagination__sectioncontrol.il-viewcontrol-mode > .btn-default + .btn-default,
+.il-viewcontrol-pagination__sectioncontrol.il-viewcontrol-mode > .btn-link + .btn-default,
+.il-viewcontrol-sortation .il-viewcontrol-pagination__sectioncontrol > .btn-default.btn + .btn-default,
+.il-viewcontrol-pagination__sectioncontrol > .btn-ctrl + .btn-link,
+.il-viewcontrol-pagination__sectioncontrol.il-viewcontrol-section > .btn-default + .btn-link,
+.il-viewcontrol-pagination__sectioncontrol.il-viewcontrol-section > .btn-link + .btn-link,
+.il-viewcontrol-section .il-viewcontrol-pagination__sectioncontrol.btn-group > .btn-default + .btn-link,
+.il-viewcontrol-section .il-viewcontrol-pagination__sectioncontrol.btn-group > .btn-link + .btn-link,
+.il-viewcontrol-pagination__sectioncontrol > .btn-default + .btn-link,
+.il-viewcontrol-pagination__sectioncontrol > .btn-link + .btn-link,
+.il-viewcontrol-pagination__sectioncontrol.il-viewcontrol-pagination__num-of-items > .btn-default + .btn-link,
+.il-viewcontrol-pagination__sectioncontrol.il-viewcontrol-pagination__num-of-items > .btn-link + .btn-link,
+.il-viewcontrol-pagination__sectioncontrol.il-viewcontrol-pagination > .btn-default + .btn-link,
+.il-viewcontrol-pagination__sectioncontrol.il-viewcontrol-pagination > .btn-link + .btn-link,
+.il-viewcontrol-pagination .il-viewcontrol-pagination__sectioncontrol.dropdown > .btn-default + .btn-link,
+.il-viewcontrol-pagination .il-viewcontrol-pagination__sectioncontrol.dropdown > .btn-link + .btn-link,
+.il-viewcontrol-pagination .il-viewcontrol-pagination__sectioncontrol.last > .btn-default + .btn-link,
+.il-viewcontrol-pagination .il-viewcontrol-pagination__sectioncontrol.last > .btn-link + .btn-link,
+.il-viewcontrol-pagination__sectioncontrol.il-viewcontrol-mode > .btn-default + .btn-link,
+.il-viewcontrol-pagination__sectioncontrol.il-viewcontrol-mode > .btn-link + .btn-link,
+.il-viewcontrol-sortation .il-viewcontrol-pagination__sectioncontrol > .btn-default.btn + .btn-link,
+.il-viewcontrol-pagination__num-of-items > .btn-ctrl + .btn-default,
+.il-viewcontrol-pagination__num-of-items.il-viewcontrol-section > .btn-default + .btn-default,
+.il-viewcontrol-pagination__num-of-items.il-viewcontrol-section > .btn-link + .btn-default,
+.il-viewcontrol-section .il-viewcontrol-pagination__num-of-items.btn-group > .btn-default + .btn-default,
+.il-viewcontrol-section .il-viewcontrol-pagination__num-of-items.btn-group > .btn-link + .btn-default,
+.il-viewcontrol-pagination__num-of-items.il-viewcontrol-pagination__sectioncontrol > .btn-default + .btn-default,
+.il-viewcontrol-pagination__num-of-items.il-viewcontrol-pagination__sectioncontrol > .btn-link + .btn-default,
+.il-viewcontrol-pagination__num-of-items > .btn-default + .btn-default,
+.il-viewcontrol-pagination__num-of-items > .btn-link + .btn-default,
+.il-viewcontrol-pagination__num-of-items.il-viewcontrol-pagination > .btn-default + .btn-default,
+.il-viewcontrol-pagination__num-of-items.il-viewcontrol-pagination > .btn-link + .btn-default,
+.il-viewcontrol-pagination .il-viewcontrol-pagination__num-of-items.dropdown > .btn-default + .btn-default,
+.il-viewcontrol-pagination .il-viewcontrol-pagination__num-of-items.dropdown > .btn-link + .btn-default,
+.il-viewcontrol-pagination .il-viewcontrol-pagination__num-of-items.last > .btn-default + .btn-default,
+.il-viewcontrol-pagination .il-viewcontrol-pagination__num-of-items.last > .btn-link + .btn-default,
+.il-viewcontrol-pagination__num-of-items.il-viewcontrol-mode > .btn-default + .btn-default,
+.il-viewcontrol-pagination__num-of-items.il-viewcontrol-mode > .btn-link + .btn-default,
+.il-viewcontrol-sortation .il-viewcontrol-pagination__num-of-items > .btn-default.btn + .btn-default,
+.il-viewcontrol-pagination__num-of-items > .btn-ctrl + .btn-link,
+.il-viewcontrol-pagination__num-of-items.il-viewcontrol-section > .btn-default + .btn-link,
+.il-viewcontrol-pagination__num-of-items.il-viewcontrol-section > .btn-link + .btn-link,
+.il-viewcontrol-section .il-viewcontrol-pagination__num-of-items.btn-group > .btn-default + .btn-link,
+.il-viewcontrol-section .il-viewcontrol-pagination__num-of-items.btn-group > .btn-link + .btn-link,
+.il-viewcontrol-pagination__num-of-items.il-viewcontrol-pagination__sectioncontrol > .btn-default + .btn-link,
+.il-viewcontrol-pagination__num-of-items.il-viewcontrol-pagination__sectioncontrol > .btn-link + .btn-link,
+.il-viewcontrol-pagination__num-of-items > .btn-default + .btn-link,
+.il-viewcontrol-pagination__num-of-items > .btn-link + .btn-link,
+.il-viewcontrol-pagination__num-of-items.il-viewcontrol-pagination > .btn-default + .btn-link,
+.il-viewcontrol-pagination__num-of-items.il-viewcontrol-pagination > .btn-link + .btn-link,
+.il-viewcontrol-pagination .il-viewcontrol-pagination__num-of-items.dropdown > .btn-default + .btn-link,
+.il-viewcontrol-pagination .il-viewcontrol-pagination__num-of-items.dropdown > .btn-link + .btn-link,
+.il-viewcontrol-pagination .il-viewcontrol-pagination__num-of-items.last > .btn-default + .btn-link,
+.il-viewcontrol-pagination .il-viewcontrol-pagination__num-of-items.last > .btn-link + .btn-link,
+.il-viewcontrol-pagination__num-of-items.il-viewcontrol-mode > .btn-default + .btn-link,
+.il-viewcontrol-pagination__num-of-items.il-viewcontrol-mode > .btn-link + .btn-link,
+.il-viewcontrol-sortation .il-viewcontrol-pagination__num-of-items > .btn-default.btn + .btn-link,
+.il-viewcontrol-pagination > .btn-ctrl + .btn-default,
+.il-viewcontrol-pagination.il-viewcontrol-section > .btn-default + .btn-default,
+.il-viewcontrol-pagination.il-viewcontrol-section > .btn-link + .btn-default,
+.il-viewcontrol-section .il-viewcontrol-pagination.btn-group > .btn-default + .btn-default,
+.il-viewcontrol-section .il-viewcontrol-pagination.btn-group > .btn-link + .btn-default,
+.il-viewcontrol-pagination.il-viewcontrol-pagination__sectioncontrol > .btn-default + .btn-default,
+.il-viewcontrol-pagination.il-viewcontrol-pagination__sectioncontrol > .btn-link + .btn-default,
+.il-viewcontrol-pagination.il-viewcontrol-pagination__num-of-items > .btn-default + .btn-default,
+.il-viewcontrol-pagination.il-viewcontrol-pagination__num-of-items > .btn-link + .btn-default,
+.il-viewcontrol-pagination > .btn-default + .btn-default,
+.il-viewcontrol-pagination > .btn-link + .btn-default,
+.il-viewcontrol-pagination .il-viewcontrol-pagination.dropdown > .btn-default + .btn-default,
+.il-viewcontrol-pagination .il-viewcontrol-pagination.dropdown > .btn-link + .btn-default,
+.il-viewcontrol-pagination .il-viewcontrol-pagination.last > .btn-default + .btn-default,
+.il-viewcontrol-pagination .il-viewcontrol-pagination.last > .btn-link + .btn-default,
+.il-viewcontrol-pagination.il-viewcontrol-mode > .btn-default + .btn-default,
+.il-viewcontrol-pagination.il-viewcontrol-mode > .btn-link + .btn-default,
+.il-viewcontrol-sortation .il-viewcontrol-pagination > .btn-default.btn + .btn-default,
+.il-viewcontrol-pagination > .btn-ctrl + .btn-link,
+.il-viewcontrol-pagination.il-viewcontrol-section > .btn-default + .btn-link,
+.il-viewcontrol-pagination.il-viewcontrol-section > .btn-link + .btn-link,
+.il-viewcontrol-section .il-viewcontrol-pagination.btn-group > .btn-default + .btn-link,
+.il-viewcontrol-section .il-viewcontrol-pagination.btn-group > .btn-link + .btn-link,
+.il-viewcontrol-pagination.il-viewcontrol-pagination__sectioncontrol > .btn-default + .btn-link,
+.il-viewcontrol-pagination.il-viewcontrol-pagination__sectioncontrol > .btn-link + .btn-link,
+.il-viewcontrol-pagination.il-viewcontrol-pagination__num-of-items > .btn-default + .btn-link,
+.il-viewcontrol-pagination.il-viewcontrol-pagination__num-of-items > .btn-link + .btn-link,
+.il-viewcontrol-pagination > .btn-default + .btn-link,
+.il-viewcontrol-pagination > .btn-link + .btn-link,
+.il-viewcontrol-pagination .il-viewcontrol-pagination.dropdown > .btn-default + .btn-link,
+.il-viewcontrol-pagination .il-viewcontrol-pagination.dropdown > .btn-link + .btn-link,
+.il-viewcontrol-pagination .il-viewcontrol-pagination.last > .btn-default + .btn-link,
+.il-viewcontrol-pagination .il-viewcontrol-pagination.last > .btn-link + .btn-link,
+.il-viewcontrol-pagination.il-viewcontrol-mode > .btn-default + .btn-link,
+.il-viewcontrol-pagination.il-viewcontrol-mode > .btn-link + .btn-link,
+.il-viewcontrol-sortation .il-viewcontrol-pagination > .btn-default.btn + .btn-link,
+.il-viewcontrol-pagination .dropdown > .btn-ctrl + .btn-default,
+.il-viewcontrol-pagination .dropdown.il-viewcontrol-section > .btn-default + .btn-default,
+.il-viewcontrol-pagination .dropdown.il-viewcontrol-section > .btn-link + .btn-default,
+.il-viewcontrol-section .il-viewcontrol-pagination .dropdown.btn-group > .btn-default + .btn-default,
+.il-viewcontrol-pagination .il-viewcontrol-section .dropdown.btn-group > .btn-default + .btn-default,
+.il-viewcontrol-section .il-viewcontrol-pagination .dropdown.btn-group > .btn-link + .btn-default,
+.il-viewcontrol-pagination .il-viewcontrol-section .dropdown.btn-group > .btn-link + .btn-default,
+.il-viewcontrol-pagination .dropdown.il-viewcontrol-pagination__sectioncontrol > .btn-default + .btn-default,
+.il-viewcontrol-pagination .dropdown.il-viewcontrol-pagination__sectioncontrol > .btn-link + .btn-default,
+.il-viewcontrol-pagination .dropdown.il-viewcontrol-pagination__num-of-items > .btn-default + .btn-default,
+.il-viewcontrol-pagination .dropdown.il-viewcontrol-pagination__num-of-items > .btn-link + .btn-default,
+.il-viewcontrol-pagination .dropdown.il-viewcontrol-pagination > .btn-default + .btn-default,
+.il-viewcontrol-pagination .dropdown.il-viewcontrol-pagination > .btn-link + .btn-default,
+.il-viewcontrol-pagination .dropdown > .btn-default + .btn-default,
+.il-viewcontrol-pagination .dropdown > .btn-link + .btn-default,
+.il-viewcontrol-pagination .dropdown.last > .btn-default + .btn-default,
+.il-viewcontrol-pagination .dropdown.last > .btn-link + .btn-default,
+.il-viewcontrol-pagination .dropdown.il-viewcontrol-mode > .btn-default + .btn-default,
+.il-viewcontrol-pagination .dropdown.il-viewcontrol-mode > .btn-link + .btn-default,
+.il-viewcontrol-sortation .il-viewcontrol-pagination .dropdown > .btn-default.btn + .btn-default,
+.il-viewcontrol-pagination .il-viewcontrol-sortation .dropdown > .btn-default.btn + .btn-default,
+.il-viewcontrol-pagination .dropdown > .btn-ctrl + .btn-link,
+.il-viewcontrol-pagination .dropdown.il-viewcontrol-section > .btn-default + .btn-link,
+.il-viewcontrol-pagination .dropdown.il-viewcontrol-section > .btn-link + .btn-link,
+.il-viewcontrol-section .il-viewcontrol-pagination .dropdown.btn-group > .btn-default + .btn-link,
+.il-viewcontrol-pagination .il-viewcontrol-section .dropdown.btn-group > .btn-default + .btn-link,
+.il-viewcontrol-section .il-viewcontrol-pagination .dropdown.btn-group > .btn-link + .btn-link,
+.il-viewcontrol-pagination .il-viewcontrol-section .dropdown.btn-group > .btn-link + .btn-link,
+.il-viewcontrol-pagination .dropdown.il-viewcontrol-pagination__sectioncontrol > .btn-default + .btn-link,
+.il-viewcontrol-pagination .dropdown.il-viewcontrol-pagination__sectioncontrol > .btn-link + .btn-link,
+.il-viewcontrol-pagination .dropdown.il-viewcontrol-pagination__num-of-items > .btn-default + .btn-link,
+.il-viewcontrol-pagination .dropdown.il-viewcontrol-pagination__num-of-items > .btn-link + .btn-link,
+.il-viewcontrol-pagination .dropdown.il-viewcontrol-pagination > .btn-default + .btn-link,
+.il-viewcontrol-pagination .dropdown.il-viewcontrol-pagination > .btn-link + .btn-link,
+.il-viewcontrol-pagination .dropdown > .btn-default + .btn-link,
+.il-viewcontrol-pagination .dropdown > .btn-link + .btn-link,
+.il-viewcontrol-pagination .dropdown.last > .btn-default + .btn-link,
+.il-viewcontrol-pagination .dropdown.last > .btn-link + .btn-link,
+.il-viewcontrol-pagination .dropdown.il-viewcontrol-mode > .btn-default + .btn-link,
+.il-viewcontrol-pagination .dropdown.il-viewcontrol-mode > .btn-link + .btn-link,
+.il-viewcontrol-sortation .il-viewcontrol-pagination .dropdown > .btn-default.btn + .btn-link,
+.il-viewcontrol-pagination .il-viewcontrol-sortation .dropdown > .btn-default.btn + .btn-link,
+.il-viewcontrol-pagination .last > .btn-ctrl + .btn-default,
+.il-viewcontrol-pagination .last.il-viewcontrol-section > .btn-default + .btn-default,
+.il-viewcontrol-pagination .last.il-viewcontrol-section > .btn-link + .btn-default,
+.il-viewcontrol-section .il-viewcontrol-pagination .last.btn-group > .btn-default + .btn-default,
+.il-viewcontrol-pagination .il-viewcontrol-section .last.btn-group > .btn-default + .btn-default,
+.il-viewcontrol-section .il-viewcontrol-pagination .last.btn-group > .btn-link + .btn-default,
+.il-viewcontrol-pagination .il-viewcontrol-section .last.btn-group > .btn-link + .btn-default,
+.il-viewcontrol-pagination .last.il-viewcontrol-pagination__sectioncontrol > .btn-default + .btn-default,
+.il-viewcontrol-pagination .last.il-viewcontrol-pagination__sectioncontrol > .btn-link + .btn-default,
+.il-viewcontrol-pagination .last.il-viewcontrol-pagination__num-of-items > .btn-default + .btn-default,
+.il-viewcontrol-pagination .last.il-viewcontrol-pagination__num-of-items > .btn-link + .btn-default,
+.il-viewcontrol-pagination .last.il-viewcontrol-pagination > .btn-default + .btn-default,
+.il-viewcontrol-pagination .last.il-viewcontrol-pagination > .btn-link + .btn-default,
+.il-viewcontrol-pagination .last.dropdown > .btn-default + .btn-default,
+.il-viewcontrol-pagination .last.dropdown > .btn-link + .btn-default,
+.il-viewcontrol-pagination .last > .btn-default + .btn-default,
+.il-viewcontrol-pagination .last > .btn-link + .btn-default,
+.il-viewcontrol-pagination .last.il-viewcontrol-mode > .btn-default + .btn-default,
+.il-viewcontrol-pagination .last.il-viewcontrol-mode > .btn-link + .btn-default,
+.il-viewcontrol-sortation .il-viewcontrol-pagination .last > .btn-default.btn + .btn-default,
+.il-viewcontrol-pagination .il-viewcontrol-sortation .last > .btn-default.btn + .btn-default,
+.il-viewcontrol-pagination .last > .btn-ctrl + .btn-link,
+.il-viewcontrol-pagination .last.il-viewcontrol-section > .btn-default + .btn-link,
+.il-viewcontrol-pagination .last.il-viewcontrol-section > .btn-link + .btn-link,
+.il-viewcontrol-section .il-viewcontrol-pagination .last.btn-group > .btn-default + .btn-link,
+.il-viewcontrol-pagination .il-viewcontrol-section .last.btn-group > .btn-default + .btn-link,
+.il-viewcontrol-section .il-viewcontrol-pagination .last.btn-group > .btn-link + .btn-link,
+.il-viewcontrol-pagination .il-viewcontrol-section .last.btn-group > .btn-link + .btn-link,
+.il-viewcontrol-pagination .last.il-viewcontrol-pagination__sectioncontrol > .btn-default + .btn-link,
+.il-viewcontrol-pagination .last.il-viewcontrol-pagination__sectioncontrol > .btn-link + .btn-link,
+.il-viewcontrol-pagination .last.il-viewcontrol-pagination__num-of-items > .btn-default + .btn-link,
+.il-viewcontrol-pagination .last.il-viewcontrol-pagination__num-of-items > .btn-link + .btn-link,
+.il-viewcontrol-pagination .last.il-viewcontrol-pagination > .btn-default + .btn-link,
+.il-viewcontrol-pagination .last.il-viewcontrol-pagination > .btn-link + .btn-link,
+.il-viewcontrol-pagination .last.dropdown > .btn-default + .btn-link,
+.il-viewcontrol-pagination .last.dropdown > .btn-link + .btn-link,
+.il-viewcontrol-pagination .last > .btn-default + .btn-link,
+.il-viewcontrol-pagination .last > .btn-link + .btn-link,
+.il-viewcontrol-pagination .last.il-viewcontrol-mode > .btn-default + .btn-link,
+.il-viewcontrol-pagination .last.il-viewcontrol-mode > .btn-link + .btn-link,
+.il-viewcontrol-sortation .il-viewcontrol-pagination .last > .btn-default.btn + .btn-link,
+.il-viewcontrol-pagination .il-viewcontrol-sortation .last > .btn-default.btn + .btn-link,
+.il-viewcontrol-mode > .btn-ctrl + .btn-default,
+.il-viewcontrol-mode.il-viewcontrol-section > .btn-default + .btn-default,
+.il-viewcontrol-mode.il-viewcontrol-section > .btn-link + .btn-default,
+.il-viewcontrol-section .il-viewcontrol-mode.btn-group > .btn-default + .btn-default,
+.il-viewcontrol-section .il-viewcontrol-mode.btn-group > .btn-link + .btn-default,
+.il-viewcontrol-mode.il-viewcontrol-pagination__sectioncontrol > .btn-default + .btn-default,
+.il-viewcontrol-mode.il-viewcontrol-pagination__sectioncontrol > .btn-link + .btn-default,
+.il-viewcontrol-mode.il-viewcontrol-pagination__num-of-items > .btn-default + .btn-default,
+.il-viewcontrol-mode.il-viewcontrol-pagination__num-of-items > .btn-link + .btn-default,
+.il-viewcontrol-mode.il-viewcontrol-pagination > .btn-default + .btn-default,
+.il-viewcontrol-mode.il-viewcontrol-pagination > .btn-link + .btn-default,
+.il-viewcontrol-pagination .il-viewcontrol-mode.dropdown > .btn-default + .btn-default,
+.il-viewcontrol-pagination .il-viewcontrol-mode.dropdown > .btn-link + .btn-default,
+.il-viewcontrol-pagination .il-viewcontrol-mode.last > .btn-default + .btn-default,
+.il-viewcontrol-pagination .il-viewcontrol-mode.last > .btn-link + .btn-default,
+.il-viewcontrol-mode > .btn-default + .btn-default,
+.il-viewcontrol-mode > .btn-link + .btn-default,
+.il-viewcontrol-sortation .il-viewcontrol-mode > .btn-default.btn + .btn-default,
+.il-viewcontrol-mode > .btn-ctrl + .btn-link,
+.il-viewcontrol-mode.il-viewcontrol-section > .btn-default + .btn-link,
+.il-viewcontrol-mode.il-viewcontrol-section > .btn-link + .btn-link,
+.il-viewcontrol-section .il-viewcontrol-mode.btn-group > .btn-default + .btn-link,
+.il-viewcontrol-section .il-viewcontrol-mode.btn-group > .btn-link + .btn-link,
+.il-viewcontrol-mode.il-viewcontrol-pagination__sectioncontrol > .btn-default + .btn-link,
+.il-viewcontrol-mode.il-viewcontrol-pagination__sectioncontrol > .btn-link + .btn-link,
+.il-viewcontrol-mode.il-viewcontrol-pagination__num-of-items > .btn-default + .btn-link,
+.il-viewcontrol-mode.il-viewcontrol-pagination__num-of-items > .btn-link + .btn-link,
+.il-viewcontrol-mode.il-viewcontrol-pagination > .btn-default + .btn-link,
+.il-viewcontrol-mode.il-viewcontrol-pagination > .btn-link + .btn-link,
+.il-viewcontrol-pagination .il-viewcontrol-mode.dropdown > .btn-default + .btn-link,
+.il-viewcontrol-pagination .il-viewcontrol-mode.dropdown > .btn-link + .btn-link,
+.il-viewcontrol-pagination .il-viewcontrol-mode.last > .btn-default + .btn-link,
+.il-viewcontrol-pagination .il-viewcontrol-mode.last > .btn-link + .btn-link,
+.il-viewcontrol-mode > .btn-default + .btn-link,
+.il-viewcontrol-mode > .btn-link + .btn-link,
+.il-viewcontrol-sortation .il-viewcontrol-mode > .btn-default.btn + .btn-link, .il-viewcontrol-sortation .btn-ctrl + .btn-default.btn, .il-viewcontrol-sortation .il-viewcontrol-section > .btn-default + .btn-default.btn, .il-viewcontrol-sortation .il-viewcontrol-section > .btn-link + .btn-default.btn,
+.il-viewcontrol-section .il-viewcontrol-sortation .btn-group > .btn-default + .btn-default.btn,
+.il-viewcontrol-sortation .il-viewcontrol-section .btn-group > .btn-default + .btn-default.btn,
+.il-viewcontrol-section .il-viewcontrol-sortation .btn-group > .btn-link + .btn-default.btn,
+.il-viewcontrol-sortation .il-viewcontrol-section .btn-group > .btn-link + .btn-default.btn,
+.il-viewcontrol-sortation .il-viewcontrol-pagination__sectioncontrol > .btn-default + .btn-default.btn,
+.il-viewcontrol-sortation .il-viewcontrol-pagination__sectioncontrol > .btn-link + .btn-default.btn,
+.il-viewcontrol-sortation .il-viewcontrol-pagination__num-of-items > .btn-default + .btn-default.btn,
+.il-viewcontrol-sortation .il-viewcontrol-pagination__num-of-items > .btn-link + .btn-default.btn,
+.il-viewcontrol-sortation .il-viewcontrol-pagination > .btn-default + .btn-default.btn,
+.il-viewcontrol-sortation .il-viewcontrol-pagination > .btn-link + .btn-default.btn,
+.il-viewcontrol-pagination .il-viewcontrol-sortation .dropdown > .btn-default + .btn-default.btn,
+.il-viewcontrol-sortation .il-viewcontrol-pagination .dropdown > .btn-default + .btn-default.btn,
+.il-viewcontrol-pagination .il-viewcontrol-sortation .dropdown > .btn-link + .btn-default.btn,
+.il-viewcontrol-sortation .il-viewcontrol-pagination .dropdown > .btn-link + .btn-default.btn,
+.il-viewcontrol-pagination .il-viewcontrol-sortation .last > .btn-default + .btn-default.btn,
+.il-viewcontrol-sortation .il-viewcontrol-pagination .last > .btn-default + .btn-default.btn,
+.il-viewcontrol-pagination .il-viewcontrol-sortation .last > .btn-link + .btn-default.btn,
+.il-viewcontrol-sortation .il-viewcontrol-pagination .last > .btn-link + .btn-default.btn,
+.il-viewcontrol-sortation .il-viewcontrol-mode > .btn-default + .btn-default.btn,
+.il-viewcontrol-sortation .il-viewcontrol-mode > .btn-link + .btn-default.btn, .il-viewcontrol-sortation .btn-default.btn + .btn-default.btn {
+  margin-left: 3px;
+}
+.btn-ctrl:hover, .il-viewcontrol-section > .btn-default:hover, .il-viewcontrol-section > .btn-link:hover,
+.il-viewcontrol-section .btn-group > .btn-default:hover,
+.il-viewcontrol-section .btn-group > .btn-link:hover,
+.il-viewcontrol-pagination__sectioncontrol > .btn-default:hover,
+.il-viewcontrol-pagination__sectioncontrol > .btn-link:hover,
+.il-viewcontrol-pagination__num-of-items > .btn-default:hover,
+.il-viewcontrol-pagination__num-of-items > .btn-link:hover,
+.il-viewcontrol-pagination > .btn-default:hover,
+.il-viewcontrol-pagination > .btn-link:hover,
+.il-viewcontrol-pagination .dropdown > .btn-default:hover,
+.il-viewcontrol-pagination .dropdown > .btn-link:hover,
+.il-viewcontrol-pagination .last > .btn-default:hover,
+.il-viewcontrol-pagination .last > .btn-link:hover,
+.il-viewcontrol-mode > .btn-default:hover,
+.il-viewcontrol-mode > .btn-link:hover, .il-viewcontrol-sortation .btn-default.btn:hover {
+  text-decoration: none;
+  background-color: white;
+  color: #4c6586;
+  border-width: 1px;
+  border-style: solid;
+  border-color: white;
+}
+.btn-ctrl:focus-visible, .il-viewcontrol-section > .btn-default:focus-visible, .il-viewcontrol-section > .btn-link:focus-visible,
+.il-viewcontrol-section .btn-group > .btn-default:focus-visible,
+.il-viewcontrol-section .btn-group > .btn-link:focus-visible,
+.il-viewcontrol-pagination__sectioncontrol > .btn-default:focus-visible,
+.il-viewcontrol-pagination__sectioncontrol > .btn-link:focus-visible,
+.il-viewcontrol-pagination__num-of-items > .btn-default:focus-visible,
+.il-viewcontrol-pagination__num-of-items > .btn-link:focus-visible,
+.il-viewcontrol-pagination > .btn-default:focus-visible,
+.il-viewcontrol-pagination > .btn-link:focus-visible,
+.il-viewcontrol-pagination .dropdown > .btn-default:focus-visible,
+.il-viewcontrol-pagination .dropdown > .btn-link:focus-visible,
+.il-viewcontrol-pagination .last > .btn-default:focus-visible,
+.il-viewcontrol-pagination .last > .btn-link:focus-visible,
+.il-viewcontrol-mode > .btn-default:focus-visible,
+.il-viewcontrol-mode > .btn-link:focus-visible, .il-viewcontrol-sortation .btn-default.btn:focus-visible {
+  position: relative;
+  outline: 2px solid #FFFFFF;
+  outline-offset: 4px;
+}
+.btn-ctrl:focus-visible::after, .il-viewcontrol-section > .btn-default:focus-visible::after, .il-viewcontrol-section > .btn-link:focus-visible::after,
+.il-viewcontrol-section .btn-group > .btn-default:focus-visible::after,
+.il-viewcontrol-section .btn-group > .btn-link:focus-visible::after,
+.il-viewcontrol-pagination__sectioncontrol > .btn-default:focus-visible::after,
+.il-viewcontrol-pagination__sectioncontrol > .btn-link:focus-visible::after,
+.il-viewcontrol-pagination__num-of-items > .btn-default:focus-visible::after,
+.il-viewcontrol-pagination__num-of-items > .btn-link:focus-visible::after,
+.il-viewcontrol-pagination > .btn-default:focus-visible::after,
+.il-viewcontrol-pagination > .btn-link:focus-visible::after,
+.il-viewcontrol-pagination .dropdown > .btn-default:focus-visible::after,
+.il-viewcontrol-pagination .dropdown > .btn-link:focus-visible::after,
+.il-viewcontrol-pagination .last > .btn-default:focus-visible::after,
+.il-viewcontrol-pagination .last > .btn-link:focus-visible::after,
+.il-viewcontrol-mode > .btn-default:focus-visible::after,
+.il-viewcontrol-mode > .btn-link:focus-visible::after, .il-viewcontrol-sortation .btn-default.btn:focus-visible::after {
+  content: " ";
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  border: 2px solid #FFFFFF;
+  outline: 3px solid #0078D7;
+}
+.btn-ctrl:active, .il-viewcontrol-section > .btn-default:active, .il-viewcontrol-section > .btn-link:active,
+.il-viewcontrol-section .btn-group > .btn-default:active,
+.il-viewcontrol-section .btn-group > .btn-link:active,
+.il-viewcontrol-pagination__sectioncontrol > .btn-default:active,
+.il-viewcontrol-pagination__sectioncontrol > .btn-link:active,
+.il-viewcontrol-pagination__num-of-items > .btn-default:active,
+.il-viewcontrol-pagination__num-of-items > .btn-link:active,
+.il-viewcontrol-pagination > .btn-default:active,
+.il-viewcontrol-pagination > .btn-link:active,
+.il-viewcontrol-pagination .dropdown > .btn-default:active,
+.il-viewcontrol-pagination .dropdown > .btn-link:active,
+.il-viewcontrol-pagination .last > .btn-default:active,
+.il-viewcontrol-pagination .last > .btn-link:active,
+.il-viewcontrol-mode > .btn-default:active,
+.il-viewcontrol-mode > .btn-link:active, .il-viewcontrol-sortation .btn-default.btn:active, .btn-ctrl.engaged, .il-viewcontrol-section > .engaged.btn-default, .il-viewcontrol-section > .engaged.btn-link,
+.il-viewcontrol-section .btn-group > .engaged.btn-default,
+.il-viewcontrol-section .btn-group > .engaged.btn-link,
+.il-viewcontrol-pagination__sectioncontrol > .engaged.btn-default,
+.il-viewcontrol-pagination__sectioncontrol > .engaged.btn-link,
+.il-viewcontrol-pagination__num-of-items > .engaged.btn-default,
+.il-viewcontrol-pagination__num-of-items > .engaged.btn-link,
+.il-viewcontrol-pagination > .engaged.btn-default,
+.il-viewcontrol-pagination > .engaged.btn-link,
+.il-viewcontrol-pagination .dropdown > .engaged.btn-default,
+.il-viewcontrol-pagination .dropdown > .engaged.btn-link,
+.il-viewcontrol-pagination .last > .engaged.btn-default,
+.il-viewcontrol-pagination .last > .engaged.btn-link,
+.il-viewcontrol-mode > .engaged.btn-default,
+.il-viewcontrol-mode > .engaged.btn-link, .il-viewcontrol-sortation .engaged.btn-default.btn {
+  outline: none;
+}
+.btn-ctrl:active, .il-viewcontrol-section > .btn-default:active, .il-viewcontrol-section > .btn-link:active,
+.il-viewcontrol-section .btn-group > .btn-default:active,
+.il-viewcontrol-section .btn-group > .btn-link:active,
+.il-viewcontrol-pagination__sectioncontrol > .btn-default:active,
+.il-viewcontrol-pagination__sectioncontrol > .btn-link:active,
+.il-viewcontrol-pagination__num-of-items > .btn-default:active,
+.il-viewcontrol-pagination__num-of-items > .btn-link:active,
+.il-viewcontrol-pagination > .btn-default:active,
+.il-viewcontrol-pagination > .btn-link:active,
+.il-viewcontrol-pagination .dropdown > .btn-default:active,
+.il-viewcontrol-pagination .dropdown > .btn-link:active,
+.il-viewcontrol-pagination .last > .btn-default:active,
+.il-viewcontrol-pagination .last > .btn-link:active,
+.il-viewcontrol-mode > .btn-default:active,
+.il-viewcontrol-mode > .btn-link:active, .il-viewcontrol-sortation .btn-default.btn:active {
+  transform: scale(0.95);
+  background-color: white;
+  color: #4c6586;
+  border-width: 1px;
+  border-style: solid;
+  border-color: white;
+}
+.btn-ctrl[disabled], .il-viewcontrol-section > [disabled].btn-default, .il-viewcontrol-section > [disabled].btn-link,
+.il-viewcontrol-section .btn-group > [disabled].btn-default,
+.il-viewcontrol-section .btn-group > [disabled].btn-link,
+.il-viewcontrol-pagination__sectioncontrol > [disabled].btn-default,
+.il-viewcontrol-pagination__sectioncontrol > [disabled].btn-link,
+.il-viewcontrol-pagination__num-of-items > [disabled].btn-default,
+.il-viewcontrol-pagination__num-of-items > [disabled].btn-link,
+.il-viewcontrol-pagination > [disabled].btn-default,
+.il-viewcontrol-pagination > [disabled].btn-link,
+.il-viewcontrol-pagination .dropdown > [disabled].btn-default,
+.il-viewcontrol-pagination .dropdown > [disabled].btn-link,
+.il-viewcontrol-pagination .last > [disabled].btn-default,
+.il-viewcontrol-pagination .last > [disabled].btn-link,
+.il-viewcontrol-mode > [disabled].btn-default,
+.il-viewcontrol-mode > [disabled].btn-link, .il-viewcontrol-sortation [disabled].btn-default.btn,
+.btn-ctrl fieldset[disabled],
+.il-viewcontrol-section > .btn-default fieldset[disabled],
+.il-viewcontrol-section > .btn-link fieldset[disabled],
+.il-viewcontrol-section .btn-group > .btn-default fieldset[disabled],
+.il-viewcontrol-section .btn-group > .btn-link fieldset[disabled],
+.il-viewcontrol-pagination__sectioncontrol > .btn-default fieldset[disabled],
+.il-viewcontrol-pagination__sectioncontrol > .btn-link fieldset[disabled],
+.il-viewcontrol-pagination__num-of-items > .btn-default fieldset[disabled],
+.il-viewcontrol-pagination__num-of-items > .btn-link fieldset[disabled],
+.il-viewcontrol-pagination > .btn-default fieldset[disabled],
+.il-viewcontrol-pagination > .btn-link fieldset[disabled],
+.il-viewcontrol-pagination .dropdown > .btn-default fieldset[disabled],
+.il-viewcontrol-pagination .dropdown > .btn-link fieldset[disabled],
+.il-viewcontrol-pagination .last > .btn-default fieldset[disabled],
+.il-viewcontrol-pagination .last > .btn-link fieldset[disabled],
+.il-viewcontrol-mode > .btn-default fieldset[disabled],
+.il-viewcontrol-mode > .btn-link fieldset[disabled],
+.il-viewcontrol-sortation .btn-default.btn fieldset[disabled] {
+  background-color: white;
+  border-width: 1px;
+  border-style: solid;
+  border-color: white;
+  color: rgba(76, 101, 134, 0.9);
+  cursor: not-allowed;
+  transform: none;
+}
+.btn-ctrl.engaged, .il-viewcontrol-section > .engaged.btn-default, .il-viewcontrol-section > .engaged.btn-link,
+.il-viewcontrol-section .btn-group > .engaged.btn-default,
+.il-viewcontrol-section .btn-group > .engaged.btn-link,
+.il-viewcontrol-pagination__sectioncontrol > .engaged.btn-default,
+.il-viewcontrol-pagination__sectioncontrol > .engaged.btn-link,
+.il-viewcontrol-pagination__num-of-items > .engaged.btn-default,
+.il-viewcontrol-pagination__num-of-items > .engaged.btn-link,
+.il-viewcontrol-pagination > .engaged.btn-default,
+.il-viewcontrol-pagination > .engaged.btn-link,
+.il-viewcontrol-pagination .dropdown > .engaged.btn-default,
+.il-viewcontrol-pagination .dropdown > .engaged.btn-link,
+.il-viewcontrol-pagination .last > .engaged.btn-default,
+.il-viewcontrol-pagination .last > .engaged.btn-link,
+.il-viewcontrol-mode > .engaged.btn-default,
+.il-viewcontrol-mode > .engaged.btn-link, .il-viewcontrol-sortation .engaged.btn-default.btn {
+  background-color: white;
+  border-width: 3px;
+  border-style: solid;
+  border-color: #e2e8ef;
+  color: #000;
+}
+.btn-ctrl.engaged, .il-viewcontrol-section > .engaged.btn-default, .il-viewcontrol-section > .engaged.btn-link,
+.il-viewcontrol-section .btn-group > .engaged.btn-default,
+.il-viewcontrol-section .btn-group > .engaged.btn-link,
+.il-viewcontrol-pagination__sectioncontrol > .engaged.btn-default,
+.il-viewcontrol-pagination__sectioncontrol > .engaged.btn-link,
+.il-viewcontrol-pagination__num-of-items > .engaged.btn-default,
+.il-viewcontrol-pagination__num-of-items > .engaged.btn-link,
+.il-viewcontrol-pagination > .engaged.btn-default,
+.il-viewcontrol-pagination > .engaged.btn-link,
+.il-viewcontrol-pagination .dropdown > .engaged.btn-default,
+.il-viewcontrol-pagination .dropdown > .engaged.btn-link,
+.il-viewcontrol-pagination .last > .engaged.btn-default,
+.il-viewcontrol-pagination .last > .engaged.btn-link,
+.il-viewcontrol-mode > .engaged.btn-default,
+.il-viewcontrol-mode > .engaged.btn-link, .il-viewcontrol-sortation .engaged.btn-default.btn, .open .btn-ctrl, .open .il-viewcontrol-section > .btn-default, .open .il-viewcontrol-section > .btn-link,
+.open .il-viewcontrol-section .btn-group > .btn-default,
+.il-viewcontrol-section .open .btn-group > .btn-default,
+.open .il-viewcontrol-section .btn-group > .btn-link,
+.il-viewcontrol-section .open .btn-group > .btn-link,
+.open .il-viewcontrol-pagination__sectioncontrol > .btn-default,
+.open .il-viewcontrol-pagination__sectioncontrol > .btn-link,
+.open .il-viewcontrol-pagination__num-of-items > .btn-default,
+.open .il-viewcontrol-pagination__num-of-items > .btn-link,
+.open .il-viewcontrol-pagination > .btn-default,
+.open .il-viewcontrol-pagination > .btn-link,
+.open .il-viewcontrol-pagination .dropdown > .btn-default,
+.il-viewcontrol-pagination .open .dropdown > .btn-default,
+.open .il-viewcontrol-pagination .dropdown > .btn-link,
+.il-viewcontrol-pagination .open .dropdown > .btn-link,
+.open .il-viewcontrol-pagination .last > .btn-default,
+.il-viewcontrol-pagination .open .last > .btn-default,
+.open .il-viewcontrol-pagination .last > .btn-link,
+.il-viewcontrol-pagination .open .last > .btn-link,
+.open .il-viewcontrol-mode > .btn-default,
+.open .il-viewcontrol-mode > .btn-link, .open .il-viewcontrol-sortation .btn-default.btn, .il-viewcontrol-sortation .open .btn-default.btn {
+  border: 1px solid #4c6586;
+  background-color: white;
+}
+.open .btn-ctrl, .open .il-viewcontrol-section > .btn-default, .open .il-viewcontrol-section > .btn-link,
+.open .il-viewcontrol-section .btn-group > .btn-default,
+.il-viewcontrol-section .open .btn-group > .btn-default,
+.open .il-viewcontrol-section .btn-group > .btn-link,
+.il-viewcontrol-section .open .btn-group > .btn-link,
+.open .il-viewcontrol-pagination__sectioncontrol > .btn-default,
+.open .il-viewcontrol-pagination__sectioncontrol > .btn-link,
+.open .il-viewcontrol-pagination__num-of-items > .btn-default,
+.open .il-viewcontrol-pagination__num-of-items > .btn-link,
+.open .il-viewcontrol-pagination > .btn-default,
+.open .il-viewcontrol-pagination > .btn-link,
+.open .il-viewcontrol-pagination .dropdown > .btn-default,
+.il-viewcontrol-pagination .open .dropdown > .btn-default,
+.open .il-viewcontrol-pagination .dropdown > .btn-link,
+.il-viewcontrol-pagination .open .dropdown > .btn-link,
+.open .il-viewcontrol-pagination .last > .btn-default,
+.il-viewcontrol-pagination .open .last > .btn-default,
+.open .il-viewcontrol-pagination .last > .btn-link,
+.il-viewcontrol-pagination .open .last > .btn-link,
+.open .il-viewcontrol-mode > .btn-default,
+.open .il-viewcontrol-mode > .btn-link, .open .il-viewcontrol-sortation .btn-default.btn, .il-viewcontrol-sortation .open .btn-default.btn {
+  box-shadow: none;
 }
 
 .btn-link {
+  padding: 0;
+  text-align: left;
+  white-space: normal;
+  vertical-align: baseline;
+  font-size: inherit;
   font-weight: 400;
   color: #4c6586;
-  border-radius: 0;
 }
 .btn-link, .btn-link:active, .btn-link.active, .btn-link[disabled], fieldset[disabled] .btn-link {
   background-color: transparent;
@@ -2855,86 +3549,170 @@ input.btn {
   text-decoration: underline;
   background-color: transparent;
 }
-.btn-link[disabled]:hover, .btn-link[disabled]:focus, fieldset[disabled] .btn-link:hover, fieldset[disabled] .btn-link:focus {
+.btn-link[disabled], fieldset[disabled] .btn-link {
+  background-color: #b0b0b0;
   color: black;
+  border: 1px solid #b0b0b0;
+}
+.btn-link[disabled]:hover, .btn-link[disabled]:focus, fieldset[disabled] .btn-link:hover, fieldset[disabled] .btn-link:focus {
   text-decoration: none;
+}
+.btn-link.engaged {
+  color: #161616;
+  background-color: #e2e8ef;
+}
+
+.btn-bulky,
+.il-link.link-bulky,
+.il-drilldown .menulevel {
+  min-height: 50.4px;
+  width: 100%;
+  font-size: 0.875rem;
+  padding: 6px 12px;
+  gap: 6px;
+  background-color: #f0f0f0;
+  color: #161616;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #f0f0f0;
+  border-radius: 0px;
+}
+.btn-bulky:hover,
+.il-link.link-bulky:hover,
+.il-drilldown .menulevel:hover {
+  text-decoration: none;
+  background-color: #e2e8ef;
+  color: #161616;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #e2e8ef;
+}
+.btn-bulky:focus-visible,
+.il-link.link-bulky:focus-visible,
+.il-drilldown .menulevel:focus-visible {
+  position: relative;
+  outline: 2px solid #FFFFFF;
+  outline-offset: 4px;
+}
+.btn-bulky:focus-visible::after,
+.il-link.link-bulky:focus-visible::after,
+.il-drilldown .menulevel:focus-visible::after {
+  content: " ";
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  border: 2px solid #FFFFFF;
+  outline: 3px solid #0078D7;
+}
+.btn-bulky:active, .btn-bulky.engaged,
+.il-link.link-bulky:active,
+.il-link.link-bulky.engaged,
+.il-drilldown .menulevel:active,
+.il-drilldown .menulevel.engaged {
+  outline: none;
+}
+.btn-bulky:active,
+.il-link.link-bulky:active,
+.il-drilldown .menulevel:active {
+  background-color: #bdbdbd;
+  color: #161616;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #bdbdbd;
+}
+.btn-bulky[disabled],
+.btn-bulky fieldset[disabled],
+.il-link.link-bulky[disabled],
+.il-link.link-bulky fieldset[disabled],
+.il-drilldown .menulevel[disabled],
+.il-drilldown .menulevel fieldset[disabled] {
+  background-color: #b0b0b0;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #b0b0b0;
+  color: black;
+  cursor: not-allowed;
+}
+.btn-bulky.engaged,
+.il-link.link-bulky.engaged,
+.il-drilldown .menulevel.engaged {
+  background-color: #e2e8ef;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #f0f0f0;
+  color: inherit;
+}
+.btn-bulky .button-content_v-align-top,
+.il-link.link-bulky .button-content_v-align-top,
+.il-drilldown .menulevel .button-content_v-align-top {
+  display: flex;
+  text-align: left;
+  gap: 6px;
+  align-items: start;
+}
+.btn-bulky .button-content_grow,
+.il-link.link-bulky .button-content_grow,
+.il-drilldown .menulevel .button-content_grow {
+  flex-grow: 1;
+}
+
+.il-maincontrols-slate .btn-bulky,
+.il-maincontrols-slate .il-link.link-bulky,
+.il-drilldown .btn-bulky,
+.il-drilldown .il-link.link-bulky {
+  margin-bottom: 2px;
+}
+.il-maincontrols-slate .btn-bulky .bulky-label,
+.il-maincontrols-slate .il-link.link-bulky .bulky-label,
+.il-drilldown .btn-bulky .bulky-label,
+.il-drilldown .il-link.link-bulky .bulky-label {
+  flex-grow: 1;
+  text-align: left;
+}
+
+.il-drilldown .menulevel {
+  justify-content: space-between;
+  text-align: left;
+  margin-bottom: 2px;
 }
 
 .btn-lg, .btn-group-lg > .btn {
-  padding: 6px 12px;
+  min-height: 50.4px;
+  min-width: 50.4px;
   font-size: 1rem;
-  line-height: 1.33;
-  border-radius: 0px;
+  padding: 9px 15px;
+  gap: 6px;
 }
 
 .btn-sm, .btn-group-sm > .btn {
+  min-height: 25px;
+  min-width: 25px;
+  font-size: 0.625rem;
   padding: 3px 6px;
-  font-size: 0.75rem;
-  line-height: 1.5;
-  border-radius: 0px;
-}
-
-.btn-xs, .btn-group-xs > .btn {
-  padding: 1px 3px;
-  font-size: 0.75rem;
-  line-height: 1.5;
-  border-radius: 0px;
-}
-
-.btn[disabled], .btn[disabled]:hover, .btn[disabled]:focus, .btn[disabled]:active, .btn[disabled].active,
-.btn fieldset[disabled],
-.btn fieldset[disabled]:hover,
-.btn fieldset[disabled]:focus,
-.btn fieldset[disabled]:active,
-.btn fieldset[disabled].active, .btn.btn-tag[disabled], .btn.btn-tag[disabled]:hover, .btn.btn-tag[disabled]:focus, .btn.btn-tag[disabled]:active, .btn.btn-tag[disabled].active,
-.btn.btn-tag fieldset[disabled],
-.btn.btn-tag fieldset[disabled]:hover,
-.btn.btn-tag fieldset[disabled]:focus,
-.btn.btn-tag fieldset[disabled]:active,
-.btn.btn-tag fieldset[disabled].active {
-  background-color: #b0b0b0;
-  border-color: #b0b0b0;
-  color: black;
-  cursor: default;
-}
-.btn.engaged, .btn.engaged:hover, .btn.engaged:active, .btn.engaged.active, .btn.btn-tag.engaged, .btn.btn-tag.engaged:hover, .btn.btn-tag.engaged:active, .btn.btn-tag.engaged.active {
-  background-color: white;
-  color: #161616;
+  gap: 6px;
 }
 
 button > .glyphicon {
   pointer-events: none;
 }
 
-a[disabled], a[disabled]:hover, a[disabled]:focus, a[disabled]:active, a[disabled].active, a fieldset[disabled], a fieldset[disabled]:hover, a fieldset[disabled]:focus, a fieldset[disabled]:active, a fieldset[disabled].active {
-  background-color: #b0b0b0;
-  color: black;
-  border-color: #b0b0b0;
-  padding: 0;
-  cursor: default;
-}
-
 .il-btn-month .dropdown-menu {
   min-width: 250px;
 }
 
-.btn.btn-link {
-  padding: 0;
-  text-align: left;
-  white-space: normal;
-  vertical-align: baseline;
-  font-size: inherit;
-}
-
-.btn-bulky {
-  width: 100%;
-}
-
 .il-btn-with-loading-animation {
   background-image: url("./images/loader.svg");
+  background-color: #b0b0b0;
+  border-color: #b0b0b0;
   background-repeat: no-repeat;
   background-position: right center;
   padding-right: 18px;
+}
+.il-btn-with-loading-animation:hover {
+  background-color: #b0b0b0;
+  border-color: #b0b0b0;
 }
 
 .minimize, .close {
@@ -3137,7 +3915,7 @@ button .minimize, button .close {
   z-index: 300;
 }
 .il-card .il-card-repository-head .icon {
-  filter: brightness(5);
+  filter: invert(50%);
 }
 .il-card .il-card-repository-head > div {
   padding: 6px 6px;
@@ -3360,20 +4138,36 @@ button .minimize, button .close {
 }
 
 .badge {
+  min-width: 10px;
   font-size: 0.625rem;
   margin-left: -4px;
-  position: absolute;
+  position: relative;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  color: white;
+  line-height: 1;
+  border-radius: 10px;
+}
+.badge:empty {
+  display: none;
+}
+
+.il-counter {
+  position: relative;
 }
 
 .il-counter-novelty {
   padding: 2px 4px;
-  margin-top: -5px;
+  position: absolute;
+  top: -5px;
   background-color: #B54F00;
 }
 
 .il-counter-status {
   padding: 2px 4px;
-  margin-top: 10px;
+  position: absolute;
+  bottom: -5px;
   background-color: #737373;
 }
 
@@ -3434,10 +4228,18 @@ hr.il-divider-with-label {
 
 .ui-dropzone {
   border: 1px dashed #757575;
+  border-radius: 0px;
   background: white;
   display: inline-block;
   margin-bottom: 3px;
   width: 100%;
+}
+.ui-dropzone.ui-dropzone-bulky {
+  border: 1px dashed #757575;
+  border-radius: 4px;
+  background-color: #f9f9f9;
+  padding-top: 15px;
+  padding-bottom: 15px;
 }
 
 .ui-dropzone-wrapper {
@@ -3447,21 +4249,18 @@ hr.il-divider-with-label {
 
 .ui-dropzone.highlight {
   border: 1px dashed #757575;
-  border-radius: 0px;
   background: #FFFFD6;
-  padding: 2px;
 }
 
 .ui-dropzone.highlight-current {
   border: 1px dashed #5c5c5c;
   background-color: #FFF9BC;
-  padding: 2px;
 }
 
 .ui-dropzone-message {
   font-size: 0.875rem;
-  margin-bottom: 3px;
   float: right;
+  margin-right: 12px;
 }
 
 .ui-dropzone .form-group {
@@ -3471,6 +4270,72 @@ hr.il-divider-with-label {
 .ui-dropzone .form-group input,
 .ui-dropzone .form-group textarea {
   width: 100%;
+}
+
+.c-entity.__container {
+  display: grid;
+  grid-template-areas: "f-blocking f-blocking f-blocking f-blocking actions" "second-id f-prop f-prop f-prop actions" "second-id prim-id prim-id prim-id actions" "second-id status status status status" "second-id f-details f-details f-details f-details" "second-id availab availab availab availab" "second-id details details details details" "second-id reaction reaction f-reaction f-reaction";
+  grid-template-columns: min-content auto auto min-content min-content;
+  border: 1px solid #dddddd;
+  background-color: white;
+  padding: 4.5px 7.5px;
+}
+.c-entity.__container > *:not(:empty) {
+  padding: 4.5px 7.5px;
+}
+.c-entity.__blocking-conditions {
+  grid-area: f-blocking;
+  font-size: 1.115rem;
+}
+.c-entity.__actions {
+  display: flex;
+  justify-content: end;
+  grid-area: actions;
+}
+.c-entity.__actions .dropdown {
+  height: max-content;
+}
+.c-entity.__secondary-identifier {
+  grid-area: second-id;
+}
+.c-entity.__secondary-identifier.--string, .c-entity.__secondary-identifier.--shy, .c-entity.__secondary-identifier.--shylink {
+  width: 10rem;
+}
+.c-entity.__secondary-identifier.--symbol {
+  min-width: 3rem;
+}
+.c-entity.__secondary-identifier.--image {
+  width: 15rem;
+}
+.c-entity.__primary-identifier {
+  grid-area: prim-id;
+  font-weight: 600;
+  font-size: 1.5rem;
+}
+.c-entity.__featured {
+  grid-area: f-prop;
+  font-size: 1.115rem;
+}
+.c-entity.__personal-status {
+  grid-area: status;
+}
+.c-entity.__main-details {
+  grid-area: f-details;
+}
+.c-entity.__availability {
+  grid-area: availab;
+}
+.c-entity.__details {
+  grid-area: details;
+}
+.c-entity.__reactions {
+  grid-area: reaction;
+}
+.c-entity.__featured-reactions {
+  display: flex;
+  justify-content: end;
+  grid-area: f-reaction;
+  min-width: max-content;
 }
 
 .il-input-tag {
@@ -4138,50 +5003,70 @@ input[type=checkbox]:focus:focus-visible {
   }
 }
 .c-launcher .btn-bulky {
+  background-color: #557b2e;
+  color: white;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #557b2e;
+  border-radius: 10px;
   min-width: 50%;
   width: max-content;
-  border-radius: 10px;
-  color: white;
-  background-color: #557b2e;
-  border-color: #557b2e;
-  padding: 12px 15px;
-  font-size: 1rem;
-  line-height: 1.428571429;
-  border-radius: 10px;
-}
-.c-launcher .btn-bulky:focus, .c-launcher .btn-bulky.focus {
-  color: white;
-  background-color: #3b5620;
-  border-color: #151e0b;
 }
 .c-launcher .btn-bulky:hover {
-  color: white;
+  text-decoration: none;
   background-color: #3b5620;
-  border-color: #364e1d;
-}
-.c-launcher .btn-bulky:active, .c-launcher .btn-bulky.active, .open > .c-launcher .btn-bulky.dropdown-toggle {
   color: white;
-  background-color: #3b5620;
-  background-image: none;
-  border-color: #364e1d;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #3b5620;
 }
-.c-launcher .btn-bulky:active:hover, .c-launcher .btn-bulky:active:focus, .c-launcher .btn-bulky:active.focus, .c-launcher .btn-bulky.active:hover, .c-launcher .btn-bulky.active:focus, .c-launcher .btn-bulky.active.focus, .open > .c-launcher .btn-bulky.dropdown-toggle:hover, .open > .c-launcher .btn-bulky.dropdown-toggle:focus, .open > .c-launcher .btn-bulky.dropdown-toggle.focus {
+.c-launcher .btn-bulky:focus-visible {
+  position: relative;
+  outline: 2px solid #FFFFFF;
+  outline-offset: 4px;
+}
+.c-launcher .btn-bulky:focus-visible::after {
+  content: " ";
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  border: 2px solid #FFFFFF;
+  outline: 3px solid #0078D7;
+}
+.c-launcher .btn-bulky:active, .c-launcher .btn-bulky.engaged {
+  outline: none;
+}
+.c-launcher .btn-bulky:active {
+  transform: scale(0.95);
+  background-color: #223112;
   color: white;
-  background-color: #293c16;
-  border-color: #151e0b;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #223112;
 }
-.c-launcher .btn-bulky.disabled:hover, .c-launcher .btn-bulky.disabled:focus, .c-launcher .btn-bulky.disabled.focus, .c-launcher .btn-bulky[disabled]:hover, .c-launcher .btn-bulky[disabled]:focus, .c-launcher .btn-bulky[disabled].focus, fieldset[disabled] .c-launcher .btn-bulky:hover, fieldset[disabled] .c-launcher .btn-bulky:focus, fieldset[disabled] .c-launcher .btn-bulky.focus {
-  background-color: #557b2e;
-  border-color: #557b2e;
+.c-launcher .btn-bulky[disabled],
+.c-launcher .btn-bulky fieldset[disabled] {
+  background-color: #b0b0b0;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #b0b0b0;
+  color: black;
+  cursor: not-allowed;
+  transform: none;
 }
-.c-launcher .btn-bulky .badge {
-  color: #557b2e;
+.c-launcher .btn-bulky.engaged {
   background-color: white;
+  border-width: 3px;
+  border-style: solid;
+  border-color: #557b2e;
+  color: #000;
 }
 .c-launcher .btn-bulky[disabled] {
   cursor: not-allowed;
 }
-.c-launcher .btn-bulky .glyph {
+.c-launcher .btn-bulky:not([disabled]) .glyph {
   color: white;
 }
 @media screen and (max-width: 768px) {
@@ -4214,42 +5099,11 @@ input[type=checkbox]:focus:focus-visible {
   width: 45px;
 }
 
-* {
-  box-sizing: border-box;
-}
-
-menu,
-article,
-aside,
-details,
-footer,
-header,
-nav,
-section {
-  display: block;
-}
-
 /*
 *********************
 grid-based layout
 *********************
 */
-@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
-  body {
-    background-image: url("../../templates/default/images/HeaderIcon.svg");
-    background-position: center 43%;
-    background-repeat: no-repeat;
-    display: -ms-flexbox;
-    align-items: center;
-    justify-content: center;
-  }
-  body:after {
-    content: "Microsoft Internet Explorer is no longer supported!";
-  }
-  body .il-layout-page {
-    display: none;
-  }
-}
 .il-layout-page {
   background: white;
   display: grid;
@@ -4353,7 +5207,6 @@ nav.il-maincontrols {
 }
 
 .il-maincontrols-mainbar {
-  background-color: white;
   display: grid;
   height: 100%;
   grid-template-columns: 80px 329px;
@@ -4361,30 +5214,9 @@ nav.il-maincontrols {
   width: 80px;
 }
 .il-mainbar {
-  background-color: #2c2c2c;
   grid-column: 1;
   grid-row: 1;
   z-index: 997;
-  box-shadow: 1px 3px 4px rgba(0, 0, 0, 0.1);
-}
-
-.il-mainbar-tools-button {
-  display: flex;
-  flex-direction: row;
-}
-
-.il-mainbar-tools-button button {
-  height: 80px;
-  width: 80px;
-}
-
-.il-mainbar-tools-entries button {
-  height: 80px;
-  width: 80px;
-}
-.il-mainbar-tools-entries.engaged {
-  display: flex;
-  flex-direction: row;
 }
 
 .il-mainbar-slates {
@@ -4413,8 +5245,8 @@ main {
 footer {
   background-color: white;
   min-height: auto;
-  padding: 10px 0 10px 5px;
   text-align: center;
+  height: 45px;
 }
 
 /*
@@ -4461,9 +5293,9 @@ footer {
     display: -ms-grid;
     -ms-grid-columns: 1fr;
     grid-template-columns: 1fr;
-    -ms-grid-rows: 0 3.75rem;
-    grid-template-rows: 0 3.75rem;
-    grid-template-rows: 0 calc(3.75rem + 1.2 * env(safe-area-inset-bottom));
+    -ms-grid-rows: 0 60px;
+    grid-template-rows: 0 60px;
+    grid-template-rows: 0 calc(60px + 1.2 * env(safe-area-inset-bottom));
   }
   .il-layout-page .nav.il-maincontrols .il-maincontrols-mainbar .il-mainbar-close-slates {
     display: none;
@@ -4495,9 +5327,9 @@ footer {
   .il-layout-page.with-mainbar-slates-engaged .nav.il-maincontrols .il-maincontrols-mainbar {
     -ms-grid-columns: 1fr;
     grid-template-columns: 1fr;
-    -ms-grid-rows: 1fr 3.75rem;
-    grid-template-rows: 1fr 3.75rem;
-    grid-template-rows: 1fr calc(3.75rem + 1.2 * env(safe-area-inset-bottom));
+    -ms-grid-rows: 1fr 60px;
+    grid-template-rows: 1fr 60px;
+    grid-template-rows: 1fr calc(60px + 1.2 * env(safe-area-inset-bottom));
     width: 100%;
   }
   .il-layout-page.with-mainbar-slates-engaged .nav.il-maincontrols .il-maincontrols-mainbar .il-mainbar {
@@ -4591,12 +5423,11 @@ footer {
     width: 100%;
   }
   .il-mainbar {
-    background-color: #2c2c2c;
     box-shadow: none;
     display: -ms-flexbox;
     display: flex;
-    max-height: 3.75rem;
-    max-height: calc(3.75rem + 1.2 * env(safe-area-inset-bottom));
+    max-height: 60px;
+    max-height: calc(60px + 1.2 * env(safe-area-inset-bottom));
     overflow: hidden;
     z-index: 997;
   }
@@ -4607,11 +5438,11 @@ footer {
     flex-direction: row;
   }
   .il-mainbar-tools-button button {
-    height: 3.75rem;
+    height: 60px;
     width: 80px;
   }
   .il-mainbar-tools-entries button {
-    height: 3.75rem;
+    height: 60px;
     width: 80px;
   }
   .il-mainbar-tools-entries.engaged {
@@ -4621,7 +5452,7 @@ footer {
     flex-direction: row;
   }
   .il-mainbar-tools-entries .il-mainbar-tools-entries-bg {
-    height: 3.75rem;
+    height: 60px;
   }
   .il-mainbar-slates {
     -ms-grid-column: 2;
@@ -4642,7 +5473,7 @@ footer {
     display: flex;
     flex-direction: column;
     min-height: calc(100vh - 45px);
-    padding-bottom: 3.75rem;
+    padding-bottom: 60px;
   }
   .il-layout-page-content > div {
     flex-grow: 1;
@@ -4732,6 +5563,14 @@ footer {
   color: #161616;
 }
 
+.c-listing-property__propertylabel:after {
+  content: ":";
+}
+
+.c-listing-property + .c-listing-property {
+  margin-top: 6px;
+}
+
 .clearfix:before, .clearfix:after {
   display: table;
   content: " ";
@@ -4814,7 +5653,7 @@ footer {
   color: #161616;
   font-size: 1.115rem;
   font-weight: 400;
-  margin-bottom: 27px;
+  margin-bottom: 6px;
   margin-top: 0;
   padding: 6px 12px;
 }
@@ -4916,7 +5755,7 @@ footer {
   color: #161616;
   font-size: 1rem;
   font-weight: 400;
-  margin-top: -4.5px;
+  margin-top: -3px;
 }
 
 #il_right_col .il-workflow {
@@ -4942,71 +5781,31 @@ footer {
   padding: 15px 15px;
 }
 
+.c-listing-entity {
+  list-style: none;
+  padding-left: 0;
+}
+
 .il-maincontrols-slate.disengaged {
   display: none;
 }
-.il-maincontrols-slate .btn-bulky {
-  padding: 15px 40px 15px 9px;
-}
-.il-maincontrols-slate .link-bulky {
-  padding: 15px 9px 15px 9px;
-}
-.il-maincontrols-slate .btn-bulky,
-.il-maincontrols-slate .link-bulky {
-  align-items: flex-start;
-  background-color: #f0f0f0;
-  border: none;
-  display: flex;
-  margin-bottom: 2px;
-  position: relative;
-}
-.il-maincontrols-slate .btn-bulky.engaged::before, .il-maincontrols-slate .btn-bulky.disengaged::before,
-.il-maincontrols-slate .link-bulky.engaged::before,
-.il-maincontrols-slate .link-bulky.disengaged::before {
+.il-maincontrols-slate .btn-bulky.engaged::after, .il-maincontrols-slate .btn-bulky.disengaged::after,
+.il-maincontrols-slate .link-bulky.engaged::after,
+.il-maincontrols-slate .link-bulky.disengaged::after {
   font-family: "il-icons";
   font-size: 1.0625rem;
-  position: absolute;
-  right: 9px;
-  top: 15px;
-  line-height: 20px;
 }
-.il-maincontrols-slate .btn-bulky.engaged::before,
-.il-maincontrols-slate .link-bulky.engaged::before {
+.il-maincontrols-slate .btn-bulky.engaged::after,
+.il-maincontrols-slate .link-bulky.engaged::after {
   content: " \e604";
 }
-.il-maincontrols-slate .btn-bulky.disengaged::before,
-.il-maincontrols-slate .link-bulky.disengaged::before {
+.il-maincontrols-slate .btn-bulky.disengaged::after,
+.il-maincontrols-slate .link-bulky.disengaged::after {
   content: " \e606";
-}
-.il-maincontrols-slate .btn-bulky:focus,
-.il-maincontrols-slate .link-bulky:focus {
-  color: inherit;
-}
-.il-maincontrols-slate .btn-bulky:hover, .il-maincontrols-slate .btn-bulky.engaged,
-.il-maincontrols-slate .link-bulky:hover,
-.il-maincontrols-slate .link-bulky.engaged {
-  background-color: rgba(76, 101, 134, 0.3);
-  color: inherit;
 }
 .il-maincontrols-slate .btn-bulky .icon,
 .il-maincontrols-slate .link-bulky .icon {
-  margin-right: 6px;
   filter: invert(50%);
-}
-.il-maincontrols-slate .btn-bulky .icon.small,
-.il-maincontrols-slate .link-bulky .icon.small {
-  min-width: 20px;
-}
-.il-maincontrols-slate .btn-bulky .icon.medium,
-.il-maincontrols-slate .link-bulky .icon.medium {
-  min-width: 35px;
-}
-.il-maincontrols-slate .btn-bulky .bulky-label,
-.il-maincontrols-slate .link-bulky .bulky-label {
-  font-size: 0.875rem;
-  line-height: 20px;
-  text-align: left;
-  word-break: normal;
 }
 .il-maincontrols-slate .il-maincontrols-slate .btn-bulky {
   background-color: #f9f9f9;
@@ -5029,19 +5828,10 @@ footer {
   font-size: 1.0625rem;
   margin-right: 10px;
 }
-.il-maincontrols-slate #il-tag-slate-container .btn-bulky, .il-maincontrols-slate #ilHelpPanel .btn-bulky {
-  padding: 6px;
-  text-align: center;
-  text-transform: uppercase;
-}
 .il-maincontrols-slate #il-tag-slate-container .btn-bulky .glyph :before, .il-maincontrols-slate #ilHelpPanel .btn-bulky .glyph :before {
   content: " \e605";
   font-family: "il-icons";
   font-size: 1.0625rem;
-  margin-right: 10px;
-}
-.il-maincontrols-slate #il-tag-slate-container .btn-bulky .bulky-label, .il-maincontrols-slate #ilHelpPanel .btn-bulky .bulky-label {
-  margin-top: 3px;
 }
 .il-maincontrols-slate .panel-body::after {
   content: "";
@@ -5073,16 +5863,16 @@ footer {
   padding: 0;
 }
 .il-maincontrols-slate-content p, .il-maincontrols-slate-content h1, .il-maincontrols-slate-content h2, .il-maincontrols-slate-content h3, .il-maincontrols-slate-content li {
-  padding: 9px 18px;
+  padding: 2px 4px;
 }
 .il-maincontrols-slate-content > hr {
-  margin: 9px 0;
+  margin: 2px 0;
 }
 .il-maincontrols-slate-content li.jstree-node {
   padding: 3px 0;
 }
 .il-maincontrols-slate-content li.il-workflow-step {
-  padding: 0 18px;
+  padding: 0 4px;
 }
 
 .il-maincontrols-slate-close button,
@@ -5191,14 +5981,8 @@ footer {
   margin-top: 0;
   top: 32px;
 }
-.il-maincontrols-metabar > li > .il-link.link-bulky {
-  display: block;
-  text-align: center;
-  padding: 3px 9px;
-  line-height: 60px;
-  border: 1px solid transparent;
-}
 .il-maincontrols-metabar > li > .btn-bulky, .il-maincontrols-metabar > li > .link-bulky {
+  border: 1px solid transparent;
   background-color: transparent;
   height: 60px;
   min-width: 60px;
@@ -5215,7 +5999,7 @@ footer {
 .il-maincontrols-metabar > li > .btn-bulky.engaged, .il-maincontrols-metabar > li > .link-bulky.engaged {
   box-shadow: 1px 3px 4px rgba(0, 0, 0, 0.1);
   background-color: #fafafa;
-  border: none;
+  border: 1px solid transparent;
   color: initial;
   outline-color: transparent;
 }
@@ -5303,6 +6087,15 @@ footer {
   }
 }
 
+/*
+	These classes are used to limit the number of rows when displaying larger chunks of text.
+	The mixin receives $height-in-rows as an integer. The classes il-multi-line-cap-2,3,5,10
+	can be used to limit the number of rows for text to 2,3,5 or 10 lines in any template,
+	e.g. the Standard Listing Panels limit the property values to 3 lines using il-multi-line-cap-3
+
+	Technical discussion can be found in https://mantis.ilias.de/view.php?id=21583
+	The background/gradient fallback can be removed as soon as all browsers support line-clamp.
+ */
 .sr-only {
   position: absolute;
   width: 1px;
@@ -5323,89 +6116,126 @@ footer {
   clip: auto;
 }
 
-.il-maincontrols-mainbar .btn-bulky,
-.il-maincontrols-mainbar .il-link.link-bulky,
-.il-maincontrols-metabar .btn-bulky,
-.il-maincontrols-metabar .il-link.link-bulky {
+.il-mainbar {
+  box-shadow: 1px 3px 4px rgba(0, 0, 0, 0.1);
+}
+
+.il-mainbar-triggers .btn-bulky,
+.il-mainbar-triggers .il-link.link-bulky,
+.il-mainbar-tools-button .btn-bulky,
+.il-mainbar-tools-button .il-link.link-bulky,
+.il-mainbar-tool-trigger-item .btn-bulky,
+.il-mainbar-tool-trigger-item .il-link.link-bulky {
+  height: 80px;
+  width: 80px;
+  padding: 0;
+  border: 0;
+  border-bottom: 1px solid #dddddd;
+  flex-flow: column nowrap;
+  justify-content: center;
+  gap: 1px;
   font-size: 0.625rem;
   line-height: 0.83125rem;
 }
-.il-maincontrols-mainbar .btn-bulky:focus, .il-maincontrols-mainbar .btn-bulky:active,
-.il-maincontrols-mainbar .il-link.link-bulky:focus,
-.il-maincontrols-mainbar .il-link.link-bulky:active,
-.il-maincontrols-metabar .btn-bulky:focus,
-.il-maincontrols-metabar .btn-bulky:active,
-.il-maincontrols-metabar .il-link.link-bulky:focus,
-.il-maincontrols-metabar .il-link.link-bulky:active {
-  box-shadow: none;
+.il-mainbar-triggers .btn-bulky .bulky-label,
+.il-mainbar-triggers .il-link.link-bulky .bulky-label,
+.il-mainbar-tools-button .btn-bulky .bulky-label,
+.il-mainbar-tools-button .il-link.link-bulky .bulky-label,
+.il-mainbar-tool-trigger-item .btn-bulky .bulky-label,
+.il-mainbar-tool-trigger-item .il-link.link-bulky .bulky-label {
+  /* edge, chrome, safari go here... */
+  /* may come with next firefox 68, https://caniuse.com/#search=clamp */
+  word-break: break-word;
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
 }
-.il-maincontrols-mainbar .btn-bulky:focus-visible, .il-maincontrols-mainbar .btn-bulky:active:focus-visible,
-.il-maincontrols-mainbar .il-link.link-bulky:focus-visible,
-.il-maincontrols-mainbar .il-link.link-bulky:active:focus-visible,
-.il-maincontrols-metabar .btn-bulky:focus-visible,
-.il-maincontrols-metabar .btn-bulky:active:focus-visible,
-.il-maincontrols-metabar .il-link.link-bulky:focus-visible,
-.il-maincontrols-metabar .il-link.link-bulky:active:focus-visible {
-  border: 3px solid #0078D7;
-  outline: none;
-}
-.il-maincontrols-mainbar .btn-bulky:focus-visible::after, .il-maincontrols-mainbar .btn-bulky:active:focus-visible::after,
-.il-maincontrols-mainbar .il-link.link-bulky:focus-visible::after,
-.il-maincontrols-mainbar .il-link.link-bulky:active:focus-visible::after,
-.il-maincontrols-metabar .btn-bulky:focus-visible::after,
-.il-maincontrols-metabar .btn-bulky:active:focus-visible::after,
-.il-maincontrols-metabar .il-link.link-bulky:focus-visible::after,
-.il-maincontrols-metabar .il-link.link-bulky:active:focus-visible::after {
-  content: none;
-}
-.il-maincontrols-mainbar .bulky-label,
-.il-maincontrols-metabar .bulky-label {
-  white-space: normal;
-  display: block;
-}
-
-.il-maincontrols-mainbar .il-item-shy,
-.il-maincontrols-metabar .il-item-shy {
-  margin-bottom: 2px;
-}
-.il-maincontrols-mainbar .il-item-shy:not(:hover),
-.il-maincontrols-metabar .il-item-shy:not(:hover) {
-  background: #f9f9f9;
-}
-
-.il-maincontrols-mainbar .btn:active, .il-maincontrols-mainbar a:active,
-.il-maincontrols-metabar .btn:active,
-.il-maincontrols-metabar a:active {
-  outline: 0;
-  outline-offset: 0;
-}
-.il-maincontrols-mainbar > .il-metabar-slate-auxillary,
-.il-maincontrols-metabar > .il-metabar-slate-auxillary {
-  display: none;
-}
-
-.il-mainbar-triggers {
-  background: #2c2c2c;
-  display: flex;
+.il-mainbar-triggers .btn-bulky .bulky-label,
+.il-mainbar-triggers .il-link.link-bulky .bulky-label,
+.il-mainbar-tools-button .btn-bulky .bulky-label,
+.il-mainbar-tools-button .il-link.link-bulky .bulky-label,
+.il-mainbar-tool-trigger-item .btn-bulky .bulky-label,
+.il-mainbar-tool-trigger-item .il-link.link-bulky .bulky-label {
   position: relative;
-  width: 80px;
-  z-index: 1;
+  max-height: 3em;
+  overflow: hidden;
+  line-height: 1.5;
+}
+.il-mainbar-triggers .btn-bulky .bulky-label:after,
+.il-mainbar-triggers .il-link.link-bulky .bulky-label:after,
+.il-mainbar-tools-button .btn-bulky .bulky-label:after,
+.il-mainbar-tools-button .il-link.link-bulky .bulky-label:after,
+.il-mainbar-tool-trigger-item .btn-bulky .bulky-label:after,
+.il-mainbar-tool-trigger-item .il-link.link-bulky .bulky-label:after {
+  content: "";
+  text-align: right;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 30%;
+  height: 1.5em;
+  background: linear-gradient(to right, rgba(255, 255, 255, 0), rgb(255, 255, 255) 80%);
+}
+@supports (-webkit-line-clamp: 2) {
+  .il-mainbar-triggers .btn-bulky .bulky-label,
+  .il-mainbar-triggers .il-link.link-bulky .bulky-label,
+  .il-mainbar-tools-button .btn-bulky .bulky-label,
+  .il-mainbar-tools-button .il-link.link-bulky .bulky-label,
+  .il-mainbar-tool-trigger-item .btn-bulky .bulky-label,
+  .il-mainbar-tool-trigger-item .il-link.link-bulky .bulky-label {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
+  .il-mainbar-triggers .btn-bulky .bulky-label:after,
+  .il-mainbar-triggers .il-link.link-bulky .bulky-label:after,
+  .il-mainbar-tools-button .btn-bulky .bulky-label:after,
+  .il-mainbar-tools-button .il-link.link-bulky .bulky-label:after,
+  .il-mainbar-tool-trigger-item .btn-bulky .bulky-label:after,
+  .il-mainbar-tool-trigger-item .il-link.link-bulky .bulky-label:after {
+    display: none;
+  }
+}
+@supports (-moz-line-clamp: 2) {
+  .il-mainbar-triggers .btn-bulky .bulky-label,
+  .il-mainbar-triggers .il-link.link-bulky .bulky-label,
+  .il-mainbar-tools-button .btn-bulky .bulky-label,
+  .il-mainbar-tools-button .il-link.link-bulky .bulky-label,
+  .il-mainbar-tool-trigger-item .btn-bulky .bulky-label,
+  .il-mainbar-tool-trigger-item .il-link.link-bulky .bulky-label {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -moz-box;
+    -moz-line-clamp: 2;
+    -moz-box-orient: vertical;
+  }
+  .il-mainbar-triggers .btn-bulky .bulky-label:after,
+  .il-mainbar-triggers .il-link.link-bulky .bulky-label:after,
+  .il-mainbar-tools-button .btn-bulky .bulky-label:after,
+  .il-mainbar-tools-button .il-link.link-bulky .bulky-label:after,
+  .il-mainbar-tool-trigger-item .btn-bulky .bulky-label:after,
+  .il-mainbar-tool-trigger-item .il-link.link-bulky .bulky-label:after {
+    display: none;
+  }
+}
+
+.il-mainbar-triggers .il-mainbar-entries {
+  min-width: 100%;
+  list-style: none;
+  padding: 0px;
+  margin: 0px;
 }
 .il-mainbar-triggers .btn-bulky,
 .il-mainbar-triggers .il-link.link-bulky {
-  align-items: center;
   background: #2c2c2c;
-  border: 0;
-  border-bottom: 1px solid #dddddd;
+}
+.il-mainbar-triggers .btn-bulky .bulky-label,
+.il-mainbar-triggers .il-link.link-bulky .bulky-label {
   color: white;
-  display: inline-flex;
-  flex-flow: column wrap;
-  height: 80px;
-  justify-content: center;
-  margin-bottom: 0;
-  padding: 0;
-  width: 80px;
-  width: 100%;
+  text-align: center;
 }
 .il-mainbar-triggers .btn-bulky .icon,
 .il-mainbar-triggers .il-link.link-bulky .icon {
@@ -5472,27 +6302,14 @@ footer {
 .il-mainbar-triggers .il-link.link-bulky .glyph {
   color: white;
 }
-.il-mainbar-triggers .btn-bulky .bulky-label,
-.il-mainbar-triggers .il-link.link-bulky .bulky-label {
-  color: white;
-  display: -webkit-box;
-  margin-top: 6px;
-  white-space: normal;
-  word-break: break-word;
-  padding: 0 2px;
-  text-align: center;
-  overflow: hidden;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-}
 .il-mainbar-triggers.engaged {
-  background: white;
+  background: #2c2c2c;
 }
 @media (hover: none) {
   .il-mainbar-triggers .btn-bulky:hover,
   .il-mainbar-triggers .il-link.link-bulky:hover {
     background-color: #2c2c2c;
-    color: white;
+    color: #2c2c2c;
   }
   .il-mainbar-triggers .btn-bulky:hover .icon,
   .il-mainbar-triggers .il-link.link-bulky:hover .icon {
@@ -5517,31 +6334,38 @@ footer {
   }
 }
 
-.il-mainbar-entries {
-  min-width: 100%;
-  list-style: none;
-  padding: 0px;
-  margin: 0px;
-}
-
 .il-mainbar-slates {
   box-shadow: 1px 3px 4px rgba(0, 0, 0, 0.1);
   background: white;
   display: none;
   position: relative;
-  width: 329px;
-}
-.il-mainbar-slates .bulky-label {
-  margin-top: auto;
-  margin-bottom: auto;
 }
 
+.il-maincontrols-mainbar {
+  background-color: #2c2c2c;
+}
+
+.il-maincontrols-mainbar .il-item-shy,
+.il-maincontrols-metabar .il-item-shy {
+  margin-bottom: 2px;
+}
+.il-maincontrols-mainbar .il-item-shy:not(:hover),
+.il-maincontrols-metabar .il-item-shy:not(:hover) {
+  background: #f9f9f9;
+}
+
+.il-maincontrols-mainbar > .il-metabar-slate-auxillary,
+.il-maincontrols-metabar > .il-metabar-slate-auxillary {
+  display: none;
+}
+
+.il-mainbar-tools-button {
+  flex-direction: row;
+}
 .il-mainbar-tools-button .btn-bulky,
 .il-mainbar-tools-button .btn-bulky.engaged {
   background-color: #B54F00;
-  border: 0;
   color: white;
-  padding: 0;
 }
 .il-mainbar-tools-button .btn-bulky .icon,
 .il-mainbar-tools-button .btn-bulky.engaged .icon {
@@ -5567,7 +6391,6 @@ footer {
 .il-mainbar-tools-entries .il-link.link-bulky {
   background-color: #4c6586;
   color: white;
-  padding: 0;
 }
 .il-mainbar-tools-entries .btn-bulky .icon, .il-mainbar-tools-entries .btn-bulky .icon,
 .il-mainbar-tools-entries .il-link.link-bulky .icon {
@@ -5627,20 +6450,12 @@ footer {
 }
 
 .il-mainbar-close-slates {
-  align-items: flex-end;
   display: flex;
-  flex-shrink: 0;
-  height: 45px;
-  margin-top: auto;
 }
 .il-mainbar-close-slates .btn-bulky {
+  min-height: 45px;
   background-color: transparent;
   border-top: 1px solid #dddddd;
-  display: flex;
-  flex-direction: row;
-  height: 45px;
-  justify-content: center;
-  align-items: center;
 }
 .il-mainbar-close-slates .btn-bulky .bulky-label {
   position: absolute;
@@ -5656,7 +6471,7 @@ footer {
   content: " \e605";
   display: block;
   font-family: "il-icons";
-  font-size: 1.5rem;
+  font-size: 1.2rem;
 }
 .il-mainbar-close-slates .btn-bulky .glyph .glyphicon {
   display: none;
@@ -5680,11 +6495,6 @@ footer {
   border: none;
 }
 
-/*
-**************************************************************
-       mobile Layout
-**************************************************************
-*/
 @media only screen and (max-width: 768px) {
   .il-mainbar-entries {
     display: flex;
@@ -5692,34 +6502,38 @@ footer {
     width: 100%;
     flex-flow: row wrap;
   }
+  .il-mainbar-tools-entries-bg {
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  }
   .il-mainbar-triggers {
-    background: #2c2c2c;
-    display: flex;
-    position: relative;
     width: 100%;
     z-index: 1;
   }
   .il-mainbar-triggers .btn-bulky,
-  .il-mainbar-triggers .il-link.link-bulky {
+  .il-mainbar-triggers .il-link.link-bulky,
+  .il-mainbar-tools-button .btn-bulky,
+  .il-mainbar-tools-button .il-link.link-bulky {
     flex-shrink: 0;
     border: 0;
-    height: 3.75rem;
+    height: 60px;
     width: 80px;
   }
   .il-mainbar-triggers .btn-bulky .icon.small,
-  .il-mainbar-triggers .il-link.link-bulky .icon.small {
+  .il-mainbar-triggers .il-link.link-bulky .icon.small,
+  .il-mainbar-tools-button .btn-bulky .icon.small,
+  .il-mainbar-tools-button .il-link.link-bulky .icon.small {
     height: 20px;
     width: 20px;
   }
   .il-mainbar-tools-entries.engaged {
-    height: 3.75rem;
+    height: 60px;
   }
   .il-mainbar-tools-entries.engaged .il-mainbar-remove-tool {
     top: 0;
   }
   .il-mainbar-tools-entries.engaged .il-mainbar-remove-tool .close {
     font-size: 2.5rem;
-    height: 3.75rem;
+    height: 60px;
   }
 }
 @media only screen and (min-width: 768px) {
@@ -5736,7 +6550,6 @@ footer {
   background-color: white;
   padding: 10px 0 10px 5px;
   border-top: 1px solid #dddddd;
-  height: 45px;
 }
 
 .il-maincontrols-footer {
@@ -6029,22 +6842,17 @@ footer {
   margin: 0;
   list-style: none;
 }
-.il-drilldown .menulevel, .il-drilldown .menulevel:focus, .il-drilldown .menulevel:active {
-  text-align: left;
-  background: transparent;
-  border: none;
-}
 .il-drilldown header {
   position: relative;
   display: flex;
   align-items: center;
-  min-height: 50px;
+  min-height: 80px;
   margin-bottom: 2px;
-  padding: 6px 12px;
-  padding-left: 0;
+  padding: 9px 15px;
   z-index: initial;
 }
 .il-drilldown header h2 {
+  font-size: 1.115rem;
   margin: 0;
 }
 .il-drilldown header .backnav {
@@ -6057,6 +6865,8 @@ footer {
 }
 .il-drilldown header .backnav .btn-bulky {
   height: 100%;
+  background-color: transparent;
+  border: none;
 }
 .il-drilldown header.show-backnav {
   padding-left: 39px;
@@ -6078,52 +6888,22 @@ footer {
 .il-drilldown .engaged ~ ul > li > hr {
   display: block;
 }
-.il-drilldown .menulevel,
-.il-drilldown .btn-bulky,
-.il-drilldown .link-bulky {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  min-height: 50px;
-  padding: 6px 12px;
-  margin-bottom: 2px;
-  font-size: 0.875rem;
-  line-height: 0.9916666667rem;
-}
 .il-drilldown hr {
   margin: 6px 0;
-}
-.il-drilldown .menulevel {
-  background-color: #f0f0f0;
-}
-.il-drilldown .menulevel:hover {
-  background-color: rgba(76, 101, 134, 0.3);
-  color: inherit;
-}
-.il-drilldown .menulevel .glyphicon-triangle-right:before {
-  margin-left: 12px;
 }
 .il-drilldown .btn-bulky,
 .il-drilldown .link-bulky {
   background-color: transparent;
+  border-color: transparent;
 }
 .il-drilldown .btn-bulky:hover,
 .il-drilldown .link-bulky:hover {
-  background-color: rgba(76, 101, 134, 0.3);
+  background-color: #e2e8ef;
   color: inherit;
 }
 .il-drilldown .btn-bulky .icon,
 .il-drilldown .link-bulky .icon {
-  margin-right: 12px;
   filter: invert(50%);
-}
-.il-drilldown .btn-bulky .bulky-label,
-.il-drilldown .link-bulky .bulky-label {
-  flex-grow: 1;
-  white-space: normal;
-  text-align: left;
-  word-break: normal;
 }
 
 div.alert div {
@@ -6228,7 +7008,7 @@ div.alert ul > li:before {
   filter: alpha(opacity=0);
   opacity: 0;
 }
-.modal-backdrop.in {
+.modal-backdrop.fade.in {
   filter: alpha(opacity=50);
   opacity: 0.5;
 }
@@ -6372,6 +7152,11 @@ div.alert ul > li:before {
   color: #161616;
   font-size: 0.875rem;
 }
+.panel .panel-viewcontrols:not(:empty) {
+  justify-content: center;
+  margin: 15px 15px;
+  margin-bottom: 6px;
+}
 .panel .panel-body {
   padding: 15px 15px;
   background-color: white;
@@ -6393,9 +7178,17 @@ div.alert ul > li:before {
 }
 
 .panel-flex .panel-heading {
+  display: grid;
+}
+.panel-flex .panel-title {
+  margin-right: auto;
+}
+.panel-flex .panel-controls {
+  margin-left: auto;
+  float: right;
   display: flex;
-  justify-content: space-between;
-  flex-flow: row wrap;
+  gap: 9px;
+  justify-content: flex-end;
 }
 .panel-flex .ilHeader {
   display: flex;
@@ -6410,25 +7203,6 @@ div.alert ul > li:before {
   flex-grow: 99;
   flex-shrink: 1;
   order: 1;
-}
-.panel-flex .il-viewcontrol-sortation {
-  flex-shrink: 1;
-  order: 2;
-  margin-right: 9px;
-  margin-left: auto;
-}
-.panel-flex .panel-heading .dropdown {
-  flex-shrink: 1;
-  order: 3;
-}
-.panel-flex .il-viewcontrol-pagination, .panel-flex .il-viewcontrol-section {
-  flex-grow: 1;
-  flex-shrink: 1;
-  flex-basis: 100%;
-  order: 4;
-  background-color: #f9f9f9;
-  text-align: center;
-  padding-top: 9px;
 }
 
 .panel-primary h2.ilHeader {
@@ -8336,74 +9110,6 @@ div.alert ul > li:before {
 .il-table-presentation-viewcontrols > div {
   padding: 6px;
 }
-.il-table-presentation-viewcontrols .btn-default:not(.disabled):not(.engaged) {
-  color: #4c6586;
-  background-color: white;
-  border-color: #4c6586;
-}
-.il-table-presentation-viewcontrols .btn-default:not(.disabled):not(.engaged):focus, .il-table-presentation-viewcontrols .btn-default:not(.disabled):not(.engaged).focus {
-  color: #4c6586;
-  background-color: #e6e6e6;
-  border-color: #1e2835;
-}
-.il-table-presentation-viewcontrols .btn-default:not(.disabled):not(.engaged):hover {
-  color: #4c6586;
-  background-color: #e6e6e6;
-  border-color: #36485f;
-}
-.il-table-presentation-viewcontrols .btn-default:not(.disabled):not(.engaged):active, .il-table-presentation-viewcontrols .btn-default:not(.disabled):not(.engaged).active, .open > .il-table-presentation-viewcontrols .btn-default:not(.disabled):not(.engaged).dropdown-toggle {
-  color: #4c6586;
-  background-color: #e6e6e6;
-  background-image: none;
-  border-color: #36485f;
-}
-.il-table-presentation-viewcontrols .btn-default:not(.disabled):not(.engaged):active:hover, .il-table-presentation-viewcontrols .btn-default:not(.disabled):not(.engaged):active:focus, .il-table-presentation-viewcontrols .btn-default:not(.disabled):not(.engaged):active.focus, .il-table-presentation-viewcontrols .btn-default:not(.disabled):not(.engaged).active:hover, .il-table-presentation-viewcontrols .btn-default:not(.disabled):not(.engaged).active:focus, .il-table-presentation-viewcontrols .btn-default:not(.disabled):not(.engaged).active.focus, .open > .il-table-presentation-viewcontrols .btn-default:not(.disabled):not(.engaged).dropdown-toggle:hover, .open > .il-table-presentation-viewcontrols .btn-default:not(.disabled):not(.engaged).dropdown-toggle:focus, .open > .il-table-presentation-viewcontrols .btn-default:not(.disabled):not(.engaged).dropdown-toggle.focus {
-  color: #4c6586;
-  background-color: #d4d4d4;
-  border-color: #1e2835;
-}
-.il-table-presentation-viewcontrols .btn-default:not(.disabled):not(.engaged).disabled:hover, .il-table-presentation-viewcontrols .btn-default:not(.disabled):not(.engaged).disabled:focus, .il-table-presentation-viewcontrols .btn-default:not(.disabled):not(.engaged).disabled.focus, .il-table-presentation-viewcontrols .btn-default:not(.disabled):not(.engaged)[disabled]:hover, .il-table-presentation-viewcontrols .btn-default:not(.disabled):not(.engaged)[disabled]:focus, .il-table-presentation-viewcontrols .btn-default:not(.disabled):not(.engaged)[disabled].focus, fieldset[disabled] .il-table-presentation-viewcontrols .btn-default:not(.disabled):not(.engaged):hover, fieldset[disabled] .il-table-presentation-viewcontrols .btn-default:not(.disabled):not(.engaged):focus, fieldset[disabled] .il-table-presentation-viewcontrols .btn-default:not(.disabled):not(.engaged).focus {
-  background-color: white;
-  border-color: #4c6586;
-}
-.il-table-presentation-viewcontrols .btn-default:not(.disabled):not(.engaged) .badge {
-  color: white;
-  background-color: #4c6586;
-}
-.il-table-presentation-viewcontrols .btn-default.engaged {
-  color: white;
-  background-color: #4c6586;
-  border-color: #4c6586;
-}
-.il-table-presentation-viewcontrols .btn-default.engaged:focus, .il-table-presentation-viewcontrols .btn-default.engaged.focus {
-  color: white;
-  background-color: #3a4c65;
-  border-color: #1e2835;
-}
-.il-table-presentation-viewcontrols .btn-default.engaged:hover {
-  color: white;
-  background-color: #3a4c65;
-  border-color: #36485f;
-}
-.il-table-presentation-viewcontrols .btn-default.engaged:active, .il-table-presentation-viewcontrols .btn-default.engaged.active, .open > .il-table-presentation-viewcontrols .btn-default.engaged.dropdown-toggle {
-  color: white;
-  background-color: #3a4c65;
-  background-image: none;
-  border-color: #36485f;
-}
-.il-table-presentation-viewcontrols .btn-default.engaged:active:hover, .il-table-presentation-viewcontrols .btn-default.engaged:active:focus, .il-table-presentation-viewcontrols .btn-default.engaged:active.focus, .il-table-presentation-viewcontrols .btn-default.engaged.active:hover, .il-table-presentation-viewcontrols .btn-default.engaged.active:focus, .il-table-presentation-viewcontrols .btn-default.engaged.active.focus, .open > .il-table-presentation-viewcontrols .btn-default.engaged.dropdown-toggle:hover, .open > .il-table-presentation-viewcontrols .btn-default.engaged.dropdown-toggle:focus, .open > .il-table-presentation-viewcontrols .btn-default.engaged.dropdown-toggle.focus {
-  color: white;
-  background-color: #2d3b4f;
-  border-color: #1e2835;
-}
-.il-table-presentation-viewcontrols .btn-default.engaged.disabled:hover, .il-table-presentation-viewcontrols .btn-default.engaged.disabled:focus, .il-table-presentation-viewcontrols .btn-default.engaged.disabled.focus, .il-table-presentation-viewcontrols .btn-default.engaged[disabled]:hover, .il-table-presentation-viewcontrols .btn-default.engaged[disabled]:focus, .il-table-presentation-viewcontrols .btn-default.engaged[disabled].focus, fieldset[disabled] .il-table-presentation-viewcontrols .btn-default.engaged:hover, fieldset[disabled] .il-table-presentation-viewcontrols .btn-default.engaged:focus, fieldset[disabled] .il-table-presentation-viewcontrols .btn-default.engaged.focus {
-  background-color: #4c6586;
-  border-color: #4c6586;
-}
-.il-table-presentation-viewcontrols .btn-default.engaged .badge {
-  color: #4c6586;
-  background-color: white;
-}
 .il-table-presentation-viewcontrols .il-viewcontrol-pagination {
   order: 1;
 }
@@ -8762,40 +9468,250 @@ td.c-table-data__cell--highlighted {
   display: none;
 }
 
-.il-viewcontrol-sortation .dropdown-toggle .caret {
+.il-viewcontrol-section,
+.il-viewcontrol-pagination,
+.il-viewcontrol-mode,
+.il-viewcontrol-pagination__sectioncontrol {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.il-viewcontrol-section,
+.il-viewcontrol-pagination,
+.il-viewcontrol-mode {
+  width: fit-content;
+  min-height: 2.6rem;
+  min-width: 2.6rem;
+  border: 1px solid #e2e8ef;
+  padding: 3px;
+  background-color: #e2e8ef;
+  border-radius: 10px;
+}
+
+.il-viewcontrol-section > .btn-default, .il-viewcontrol-section > .btn-link, .il-viewcontrol-section > .btn-ctrl, .il-viewcontrol-sortation .il-viewcontrol-section > .btn-default.btn, .il-viewcontrol-section > .btn-default, .il-viewcontrol-section > .btn-link,
+.il-viewcontrol-section .btn-group.il-viewcontrol-section > .btn-default,
+.il-viewcontrol-section .btn-group.il-viewcontrol-section > .btn-link,
+.il-viewcontrol-pagination__sectioncontrol.il-viewcontrol-section > .btn-default,
+.il-viewcontrol-pagination__sectioncontrol.il-viewcontrol-section > .btn-link,
+.il-viewcontrol-pagination__num-of-items.il-viewcontrol-section > .btn-default,
+.il-viewcontrol-pagination__num-of-items.il-viewcontrol-section > .btn-link,
+.il-viewcontrol-pagination.il-viewcontrol-section > .btn-default,
+.il-viewcontrol-pagination.il-viewcontrol-section > .btn-link,
+.il-viewcontrol-pagination .dropdown.il-viewcontrol-section > .btn-default,
+.il-viewcontrol-pagination .dropdown.il-viewcontrol-section > .btn-link,
+.il-viewcontrol-pagination .last.il-viewcontrol-section > .btn-default,
+.il-viewcontrol-pagination .last.il-viewcontrol-section > .btn-link,
+.il-viewcontrol-mode.il-viewcontrol-section > .btn-default,
+.il-viewcontrol-mode.il-viewcontrol-section > .btn-link,
+.il-viewcontrol-section .btn-group > .btn-default,
+.il-viewcontrol-section .btn-group > .btn-link,
+.il-viewcontrol-section .btn-group > .btn-ctrl,
+.il-viewcontrol-section .il-viewcontrol-sortation .btn-group > .btn-default.btn,
+.il-viewcontrol-sortation .il-viewcontrol-section .btn-group > .btn-default.btn,
+.il-viewcontrol-section .il-viewcontrol-section.btn-group > .btn-default,
+.il-viewcontrol-section .il-viewcontrol-section.btn-group > .btn-link,
+.il-viewcontrol-section .btn-group > .btn-default,
+.il-viewcontrol-section .btn-group > .btn-link,
+.il-viewcontrol-section .il-viewcontrol-pagination__sectioncontrol.btn-group > .btn-default,
+.il-viewcontrol-section .il-viewcontrol-pagination__sectioncontrol.btn-group > .btn-link,
+.il-viewcontrol-section .il-viewcontrol-pagination__num-of-items.btn-group > .btn-default,
+.il-viewcontrol-section .il-viewcontrol-pagination__num-of-items.btn-group > .btn-link,
+.il-viewcontrol-section .il-viewcontrol-pagination.btn-group > .btn-default,
+.il-viewcontrol-section .il-viewcontrol-pagination.btn-group > .btn-link,
+.il-viewcontrol-section .il-viewcontrol-pagination .dropdown.btn-group > .btn-default,
+.il-viewcontrol-pagination .il-viewcontrol-section .dropdown.btn-group > .btn-default,
+.il-viewcontrol-section .il-viewcontrol-pagination .dropdown.btn-group > .btn-link,
+.il-viewcontrol-pagination .il-viewcontrol-section .dropdown.btn-group > .btn-link,
+.il-viewcontrol-section .il-viewcontrol-pagination .last.btn-group > .btn-default,
+.il-viewcontrol-pagination .il-viewcontrol-section .last.btn-group > .btn-default,
+.il-viewcontrol-section .il-viewcontrol-pagination .last.btn-group > .btn-link,
+.il-viewcontrol-pagination .il-viewcontrol-section .last.btn-group > .btn-link,
+.il-viewcontrol-section .il-viewcontrol-mode.btn-group > .btn-default,
+.il-viewcontrol-section .il-viewcontrol-mode.btn-group > .btn-link,
+.il-viewcontrol-pagination__sectioncontrol > .btn-default,
+.il-viewcontrol-pagination__sectioncontrol > .btn-link,
+.il-viewcontrol-pagination__sectioncontrol > .btn-ctrl,
+.il-viewcontrol-sortation .il-viewcontrol-pagination__sectioncontrol > .btn-default.btn,
+.il-viewcontrol-section.il-viewcontrol-pagination__sectioncontrol > .btn-default,
+.il-viewcontrol-section.il-viewcontrol-pagination__sectioncontrol > .btn-link,
+.il-viewcontrol-section .btn-group.il-viewcontrol-pagination__sectioncontrol > .btn-default,
+.il-viewcontrol-section .btn-group.il-viewcontrol-pagination__sectioncontrol > .btn-link,
+.il-viewcontrol-pagination__sectioncontrol > .btn-default,
+.il-viewcontrol-pagination__sectioncontrol > .btn-link,
+.il-viewcontrol-pagination__num-of-items.il-viewcontrol-pagination__sectioncontrol > .btn-default,
+.il-viewcontrol-pagination__num-of-items.il-viewcontrol-pagination__sectioncontrol > .btn-link,
+.il-viewcontrol-pagination.il-viewcontrol-pagination__sectioncontrol > .btn-default,
+.il-viewcontrol-pagination.il-viewcontrol-pagination__sectioncontrol > .btn-link,
+.il-viewcontrol-pagination .dropdown.il-viewcontrol-pagination__sectioncontrol > .btn-default,
+.il-viewcontrol-pagination .dropdown.il-viewcontrol-pagination__sectioncontrol > .btn-link,
+.il-viewcontrol-pagination .last.il-viewcontrol-pagination__sectioncontrol > .btn-default,
+.il-viewcontrol-pagination .last.il-viewcontrol-pagination__sectioncontrol > .btn-link,
+.il-viewcontrol-mode.il-viewcontrol-pagination__sectioncontrol > .btn-default,
+.il-viewcontrol-mode.il-viewcontrol-pagination__sectioncontrol > .btn-link,
+.il-viewcontrol-pagination__num-of-items > .btn-default,
+.il-viewcontrol-pagination__num-of-items > .btn-link,
+.il-viewcontrol-pagination__num-of-items > .btn-ctrl,
+.il-viewcontrol-sortation .il-viewcontrol-pagination__num-of-items > .btn-default.btn,
+.il-viewcontrol-section.il-viewcontrol-pagination__num-of-items > .btn-default,
+.il-viewcontrol-section.il-viewcontrol-pagination__num-of-items > .btn-link,
+.il-viewcontrol-section .btn-group.il-viewcontrol-pagination__num-of-items > .btn-default,
+.il-viewcontrol-section .btn-group.il-viewcontrol-pagination__num-of-items > .btn-link,
+.il-viewcontrol-pagination__sectioncontrol.il-viewcontrol-pagination__num-of-items > .btn-default,
+.il-viewcontrol-pagination__sectioncontrol.il-viewcontrol-pagination__num-of-items > .btn-link,
+.il-viewcontrol-pagination__num-of-items > .btn-default,
+.il-viewcontrol-pagination__num-of-items > .btn-link,
+.il-viewcontrol-pagination.il-viewcontrol-pagination__num-of-items > .btn-default,
+.il-viewcontrol-pagination.il-viewcontrol-pagination__num-of-items > .btn-link,
+.il-viewcontrol-pagination .dropdown.il-viewcontrol-pagination__num-of-items > .btn-default,
+.il-viewcontrol-pagination .dropdown.il-viewcontrol-pagination__num-of-items > .btn-link,
+.il-viewcontrol-pagination .last.il-viewcontrol-pagination__num-of-items > .btn-default,
+.il-viewcontrol-pagination .last.il-viewcontrol-pagination__num-of-items > .btn-link,
+.il-viewcontrol-mode.il-viewcontrol-pagination__num-of-items > .btn-default,
+.il-viewcontrol-mode.il-viewcontrol-pagination__num-of-items > .btn-link,
+.il-viewcontrol-pagination > .btn-default,
+.il-viewcontrol-pagination > .btn-link,
+.il-viewcontrol-pagination > .btn-ctrl,
+.il-viewcontrol-sortation .il-viewcontrol-pagination > .btn-default.btn,
+.il-viewcontrol-section.il-viewcontrol-pagination > .btn-default,
+.il-viewcontrol-section.il-viewcontrol-pagination > .btn-link,
+.il-viewcontrol-section .btn-group.il-viewcontrol-pagination > .btn-default,
+.il-viewcontrol-section .btn-group.il-viewcontrol-pagination > .btn-link,
+.il-viewcontrol-pagination__sectioncontrol.il-viewcontrol-pagination > .btn-default,
+.il-viewcontrol-pagination__sectioncontrol.il-viewcontrol-pagination > .btn-link,
+.il-viewcontrol-pagination__num-of-items.il-viewcontrol-pagination > .btn-default,
+.il-viewcontrol-pagination__num-of-items.il-viewcontrol-pagination > .btn-link,
+.il-viewcontrol-pagination > .btn-default,
+.il-viewcontrol-pagination > .btn-link,
+.il-viewcontrol-pagination .dropdown.il-viewcontrol-pagination > .btn-default,
+.il-viewcontrol-pagination .dropdown.il-viewcontrol-pagination > .btn-link,
+.il-viewcontrol-pagination .last.il-viewcontrol-pagination > .btn-default,
+.il-viewcontrol-pagination .last.il-viewcontrol-pagination > .btn-link,
+.il-viewcontrol-mode.il-viewcontrol-pagination > .btn-default,
+.il-viewcontrol-mode.il-viewcontrol-pagination > .btn-link,
+.il-viewcontrol-pagination .dropdown > .btn-default,
+.il-viewcontrol-pagination .dropdown > .btn-link,
+.il-viewcontrol-pagination .dropdown > .btn-ctrl,
+.il-viewcontrol-pagination .il-viewcontrol-sortation .dropdown > .btn-default.btn,
+.il-viewcontrol-sortation .il-viewcontrol-pagination .dropdown > .btn-default.btn,
+.il-viewcontrol-pagination .il-viewcontrol-section.dropdown > .btn-default,
+.il-viewcontrol-pagination .il-viewcontrol-section.dropdown > .btn-link,
+.il-viewcontrol-pagination .il-viewcontrol-section .btn-group.dropdown > .btn-default,
+.il-viewcontrol-section .il-viewcontrol-pagination .btn-group.dropdown > .btn-default,
+.il-viewcontrol-pagination .il-viewcontrol-section .btn-group.dropdown > .btn-link,
+.il-viewcontrol-section .il-viewcontrol-pagination .btn-group.dropdown > .btn-link,
+.il-viewcontrol-pagination .il-viewcontrol-pagination__sectioncontrol.dropdown > .btn-default,
+.il-viewcontrol-pagination .il-viewcontrol-pagination__sectioncontrol.dropdown > .btn-link,
+.il-viewcontrol-pagination .il-viewcontrol-pagination__num-of-items.dropdown > .btn-default,
+.il-viewcontrol-pagination .il-viewcontrol-pagination__num-of-items.dropdown > .btn-link,
+.il-viewcontrol-pagination .il-viewcontrol-pagination.dropdown > .btn-default,
+.il-viewcontrol-pagination .il-viewcontrol-pagination.dropdown > .btn-link,
+.il-viewcontrol-pagination .dropdown > .btn-default,
+.il-viewcontrol-pagination .dropdown > .btn-link,
+.il-viewcontrol-pagination .last.dropdown > .btn-default,
+.il-viewcontrol-pagination .last.dropdown > .btn-link,
+.il-viewcontrol-pagination .il-viewcontrol-mode.dropdown > .btn-default,
+.il-viewcontrol-pagination .il-viewcontrol-mode.dropdown > .btn-link,
+.il-viewcontrol-pagination .last > .btn-default,
+.il-viewcontrol-pagination .last > .btn-link,
+.il-viewcontrol-pagination .last > .btn-ctrl,
+.il-viewcontrol-pagination .il-viewcontrol-sortation .last > .btn-default.btn,
+.il-viewcontrol-sortation .il-viewcontrol-pagination .last > .btn-default.btn,
+.il-viewcontrol-pagination .il-viewcontrol-section.last > .btn-default,
+.il-viewcontrol-pagination .il-viewcontrol-section.last > .btn-link,
+.il-viewcontrol-pagination .il-viewcontrol-section .btn-group.last > .btn-default,
+.il-viewcontrol-section .il-viewcontrol-pagination .btn-group.last > .btn-default,
+.il-viewcontrol-pagination .il-viewcontrol-section .btn-group.last > .btn-link,
+.il-viewcontrol-section .il-viewcontrol-pagination .btn-group.last > .btn-link,
+.il-viewcontrol-pagination .il-viewcontrol-pagination__sectioncontrol.last > .btn-default,
+.il-viewcontrol-pagination .il-viewcontrol-pagination__sectioncontrol.last > .btn-link,
+.il-viewcontrol-pagination .il-viewcontrol-pagination__num-of-items.last > .btn-default,
+.il-viewcontrol-pagination .il-viewcontrol-pagination__num-of-items.last > .btn-link,
+.il-viewcontrol-pagination .il-viewcontrol-pagination.last > .btn-default,
+.il-viewcontrol-pagination .il-viewcontrol-pagination.last > .btn-link,
+.il-viewcontrol-pagination .dropdown.last > .btn-default,
+.il-viewcontrol-pagination .dropdown.last > .btn-link,
+.il-viewcontrol-pagination .last > .btn-default,
+.il-viewcontrol-pagination .last > .btn-link,
+.il-viewcontrol-pagination .il-viewcontrol-mode.last > .btn-default,
+.il-viewcontrol-pagination .il-viewcontrol-mode.last > .btn-link,
+.il-viewcontrol-mode > .btn-default,
+.il-viewcontrol-mode > .btn-link,
+.il-viewcontrol-mode > .btn-ctrl,
+.il-viewcontrol-sortation .il-viewcontrol-mode > .btn-default.btn,
+.il-viewcontrol-section.il-viewcontrol-mode > .btn-default,
+.il-viewcontrol-section.il-viewcontrol-mode > .btn-link,
+.il-viewcontrol-section .btn-group.il-viewcontrol-mode > .btn-default,
+.il-viewcontrol-section .btn-group.il-viewcontrol-mode > .btn-link,
+.il-viewcontrol-pagination__sectioncontrol.il-viewcontrol-mode > .btn-default,
+.il-viewcontrol-pagination__sectioncontrol.il-viewcontrol-mode > .btn-link,
+.il-viewcontrol-pagination__num-of-items.il-viewcontrol-mode > .btn-default,
+.il-viewcontrol-pagination__num-of-items.il-viewcontrol-mode > .btn-link,
+.il-viewcontrol-pagination.il-viewcontrol-mode > .btn-default,
+.il-viewcontrol-pagination.il-viewcontrol-mode > .btn-link,
+.il-viewcontrol-pagination .dropdown.il-viewcontrol-mode > .btn-default,
+.il-viewcontrol-pagination .dropdown.il-viewcontrol-mode > .btn-link,
+.il-viewcontrol-pagination .last.il-viewcontrol-mode > .btn-default,
+.il-viewcontrol-pagination .last.il-viewcontrol-mode > .btn-link,
+.il-viewcontrol-mode > .btn-default,
+.il-viewcontrol-mode > .btn-link {
+  min-height: 1.9rem;
+  min-width: 1.9rem;
+  border-radius: 10px;
+}
+
+.il-viewcontrol-sortation .btn-default.btn {
+  border-radius: 10px;
+}
+
+.il-viewcontrol-pagination__sectioncontrol .browse,
+.il-viewcontrol-pagination .browse,
+.il-viewcontrol-section .browse {
+  display: inline-block;
+}
+
+.il-viewcontrol-section .glyphicon {
+  vertical-align: middle;
+}
+.il-viewcontrol-section .glyphicon::before {
+  top: 0;
+  vertical-align: middle;
+}
+
+.il-viewcontrol-pagination .glyph .glyphicon {
+  vertical-align: middle;
+}
+.il-viewcontrol-pagination .glyph .glyphicon::before {
+  top: 0;
+  vertical-align: middle;
+}
+
+.il-viewcontrol-fieldselection .dropdown-menu {
+  padding: 15px 9px;
+}
+
+.il-viewcontrol-sortation .dropdown-toggle .caret,
+.il-viewcontrol-pagination__num-of-items .dropdown-toggle .caret,
+.il-viewcontrol-fieldselection .dropdown-toggle .caret {
+  display: inline;
   border: none;
   vertical-align: initial;
-  width: 8px;
-  height: 8px;
 }
+
 .il-viewcontrol-sortation .dropdown-toggle .caret:before {
   content: "⇵";
 }
 
-.il-viewcontrol-pagination .dropdown {
-  display: inline;
+.il-viewcontrol-pagination__num-of-items .dropdown-toggle .caret:before {
+  font-family: il-icons;
+  font-size: 0.8rem;
+  content: "\e900";
 }
 
-.il-viewcontrol-pagination .btn {
-  vertical-align: top;
-}
-.il-viewcontrol-pagination .btn.engaged {
-  background-color: white;
-  padding: 0px 6px 0px 6px;
-  border: 1px solid #4c6586;
-  font-weight: 400;
-}
-
-.il-viewcontrol-pagination .dropdown-toggle {
-  padding-top: 0;
-  padding-bottom: 0;
-}
-
-.ilBlockContent .il-viewcontrol-section .btn.btn-default {
-  background-color: transparent;
-  border: 0;
-  color: #4c6586;
-  padding: 3px 3px;
+.il-viewcontrol-fieldselection .dropdown-toggle .caret:before {
+  font-family: "Glyphicons Halflings";
+  font-size: 0.8rem;
+  content: "\e105";
 }
 
 .il-viewcontrol-pagination .engaged, .il-viewcontrol-mode .engaged {
@@ -8803,21 +9719,27 @@ td.c-table-data__cell--highlighted {
   cursor: default;
 }
 
-.il-viewcontrol-mode .btn + .btn {
-  border-left-color: #dddddd;
+.il-viewcontrol-pagination__sectioncontrol .form-group.row {
+  align-items: center;
+  height: 100%;
+  margin: 0;
+  gap: 9px;
 }
-.il-viewcontrol-mode .btn:not(:last-child):hover {
-  border-right-color: #dddddd;
+.il-viewcontrol-pagination__sectioncontrol .form-group.row label {
+  width: fit-content;
+  margin-left: 9px;
+  margin-bottom: 0;
 }
-
-.panel-secondary .il-viewcontrol-section .btn-default, .panel-secondary .il-viewcontrol-section .btn-default:active {
-  background-color: transparent;
-  border-color: transparent;
-  color: #4c6586;
-  box-shadow: none;
+.il-viewcontrol-pagination__sectioncontrol .form-group.row label:after {
+  content: ":";
 }
-.panel-secondary .il-viewcontrol-section .glyphicon {
-  font-size: 0.875rem;
+.il-viewcontrol-pagination__sectioncontrol .form-group.row [class*=col-] {
+  width: auto;
+  flex-grow: 1;
+  padding: 0;
+}
+.il-viewcontrol-pagination__sectioncontrol .form-group.row input[type=number] {
+  width: 5rem;
 }
 
 div#agreement {
@@ -9010,8 +9932,9 @@ h2.ilHeader {
 #headerimage {
   width: 45px;
   height: 45px;
-  margin-top: 3px;
-  margin-right: 10px;
+  margin-top: 6px;
+  margin-right: 6px;
+  margin-bottom: 6px;
   float: left;
 }
 @media only screen and (max-width: 768px) {
@@ -9675,15 +10598,6 @@ tbody.collapse.in {
   padding-left: 12px;
 }
 
-.btn-group.open .dropdown-toggle {
-  -webkit-box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
-  box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
-}
-.btn-group.open .dropdown-toggle.btn-link {
-  -webkit-box-shadow: none;
-  box-shadow: none;
-}
-
 .btn .caret {
   margin-left: 0;
 }
@@ -9782,6 +10696,258 @@ tbody.collapse.in {
   pointer-events: none;
 }
 
+.carousel {
+  position: relative;
+}
+
+.carousel-inner {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  min-height: 400px;
+}
+.carousel-inner .item:not(.text-only) .item-content {
+  display: flex;
+  justify-content: center;
+}
+.carousel-inner .item:not(.text-only) .item-content.item-vertical {
+  flex-direction: column;
+}
+.carousel-inner > .item {
+  display: none;
+  position: relative;
+  -webkit-transition: 0.6s ease-in-out left;
+  -o-transition: 0.6s ease-in-out left;
+  transition: 0.6s ease-in-out left;
+}
+.carousel-inner > .item > img,
+.carousel-inner > .item > a > img,
+.carousel-inner > .item .item-content > img,
+.carousel-inner > .item .item-content > a > img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  line-height: 1;
+}
+@media all and (transform-3d), (-webkit-transform-3d) {
+  .carousel-inner > .item {
+    -webkit-transition: -webkit-transform 0.6s ease-in-out;
+    -moz-transition: -moz-transform 0.6s ease-in-out;
+    -o-transition: -o-transform 0.6s ease-in-out;
+    transition: transform 0.6s ease-in-out;
+    -webkit-backface-visibility: hidden;
+    -moz-backface-visibility: hidden;
+    backface-visibility: hidden;
+    -webkit-perspective: 1000px;
+    -moz-perspective: 1000px;
+    perspective: 1000px;
+  }
+  .carousel-inner > .item.next, .carousel-inner > .item.active.right {
+    -webkit-transform: translate3d(100%, 0, 0);
+    transform: translate3d(100%, 0, 0);
+    left: 0;
+  }
+  .carousel-inner > .item.prev, .carousel-inner > .item.active.left {
+    -webkit-transform: translate3d(-100%, 0, 0);
+    transform: translate3d(-100%, 0, 0);
+    left: 0;
+  }
+  .carousel-inner > .item.next.left, .carousel-inner > .item.prev.right, .carousel-inner > .item.active {
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+    left: 0;
+  }
+}
+.carousel-inner > .active,
+.carousel-inner > .next,
+.carousel-inner > .prev {
+  display: block;
+}
+.carousel-inner > .active {
+  left: 0;
+}
+.carousel-inner > .next,
+.carousel-inner > .prev {
+  position: absolute;
+  top: 0;
+  width: 100%;
+}
+.carousel-inner > .next {
+  left: 100%;
+}
+.carousel-inner > .prev {
+  left: -100%;
+}
+.carousel-inner > .next.left,
+.carousel-inner > .prev.right {
+  left: 0;
+}
+.carousel-inner > .active.left {
+  left: -100%;
+}
+.carousel-inner > .active.right {
+  left: 100%;
+}
+
+.carousel-control {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 15%;
+  filter: alpha(opacity=50);
+  opacity: 0.5;
+  font-size: 20px;
+  color: white;
+  text-align: center;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+  background-color: rgba(0, 0, 0, 0);
+}
+.carousel-control.right {
+  left: auto;
+  right: 0;
+}
+.carousel-control:hover, .carousel-control:focus {
+  outline: 0;
+  color: white;
+  text-decoration: none;
+  filter: alpha(opacity=90);
+  opacity: 0.9;
+}
+.carousel-control .icon-prev,
+.carousel-control .icon-next,
+.carousel-control .glyphicon-chevron-left,
+.carousel-control .glyphicon-chevron-right {
+  position: absolute;
+  top: 50%;
+  margin-top: -10px;
+  z-index: 5;
+  display: inline-block;
+}
+.carousel-control .icon-prev,
+.carousel-control .glyphicon-chevron-left {
+  left: 50%;
+  margin-left: -10px;
+}
+.carousel-control .icon-next,
+.carousel-control .glyphicon-chevron-right {
+  right: 50%;
+  margin-right: -10px;
+}
+.carousel-control .icon-prev,
+.carousel-control .icon-next {
+  width: 20px;
+  height: 20px;
+  line-height: 1;
+  font-family: serif;
+}
+.carousel-control .icon-prev:before {
+  content: "‹";
+}
+.carousel-control .icon-next:before {
+  content: "›";
+}
+
+.carousel-indicators {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  z-index: 15;
+  width: 60%;
+  margin-left: -30%;
+  padding-left: 0;
+  list-style: none;
+  text-align: center;
+}
+.carousel-indicators li {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  margin: 1px;
+  text-indent: -999px;
+  border: 1px solid white;
+  border-radius: 10px;
+  cursor: pointer;
+  background-color: #000 \9 ;
+  background-color: rgba(0, 0, 0, 0);
+}
+.carousel-indicators .active {
+  margin: 0;
+  width: 12px;
+  height: 12px;
+  background-color: white;
+}
+
+.carousel-caption {
+  position: absolute;
+  left: 15%;
+  right: 15%;
+  bottom: 20px;
+  z-index: 10;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  color: white;
+  text-align: center;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+}
+.carousel-caption .btn {
+  text-shadow: none;
+}
+
+@media screen and (min-width: 768px) {
+  .carousel-control .glyphicon-chevron-left,
+  .carousel-control .glyphicon-chevron-right,
+  .carousel-control .icon-prev,
+  .carousel-control .icon-next {
+    width: 30px;
+    height: 30px;
+    margin-top: -10px;
+    font-size: 30px;
+  }
+  .carousel-control .glyphicon-chevron-left,
+  .carousel-control .icon-prev {
+    margin-left: -10px;
+  }
+  .carousel-control .glyphicon-chevron-right,
+  .carousel-control .icon-next {
+    margin-right: -10px;
+  }
+  .carousel-caption {
+    left: 20%;
+    right: 20%;
+    padding-bottom: 30px;
+  }
+  .carousel-indicators {
+    bottom: 20px;
+  }
+}
+@media screen and (min-width: 768px) {
+  .carousel-control .glyphicon-chevron-left,
+  .carousel-control .glyphicon-chevron-right,
+  .carousel-control .icon-prev,
+  .carousel-control .icon-next {
+    width: 30px;
+    height: 30px;
+    margin-top: -10px;
+    font-size: 30px;
+  }
+  .carousel-control .glyphicon-chevron-left,
+  .carousel-control .icon-prev {
+    margin-left: -10px;
+  }
+  .carousel-control .glyphicon-chevron-right,
+  .carousel-control .icon-next {
+    margin-right: -10px;
+  }
+  .carousel-caption {
+    left: 20%;
+    right: 20%;
+    padding-bottom: 30px;
+  }
+  .carousel-indicators {
+    bottom: 20px;
+  }
+}
 .input-group {
   position: relative;
   display: table;
@@ -10181,7 +11347,6 @@ ul.il-book-obj-selection li {
   -webkit-hyphens: auto;
   hyphens: auto;
   width: 100%;
-  background-color: #f9f9f9;
   position: relative;
 }
 #chat_messages .messageContainer {
@@ -10205,12 +11370,14 @@ ul.il-book-obj-selection li {
   width: 100%;
 }
 
-#message-controls .msg-control {
-  display: inline-block;
+.chatroom-centered-checkboxes {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 5px;
 }
-#message-controls .msg-control label {
-  position: relative;
-  top: 5px;
+.chatroom-centered-checkboxes label {
+  margin: 0 5px 0 0;
 }
 
 @media only screen and (max-width: 768px) {
@@ -11103,6 +12270,12 @@ div#right_bottom_area iframe {
 }
 
 /* Modules/Poll */
+.ilPollAlert {
+  margin: 5px;
+  font-size: 0.75rem;
+  color: #B54F00;
+}
+
 .ilPollDescription {
   margin: 5px;
   font-size: 0.75rem;
@@ -11115,6 +12288,14 @@ div#right_bottom_area iframe {
   margin: 1.5%;
   font-size: 0.75rem;
   font-style: italic;
+}
+
+.ilPollModeInfo {
+  display: inline-block;
+  width: 97%;
+  margin: 1.5%;
+  font-size: 0.75rem;
+  color: #6f6f6f;
 }
 
 img.ilPollQuestionImage {
@@ -11140,23 +12321,8 @@ img.ilPollQuestionImage {
   margin-bottom: 5px;
 }
 
-.ilPollQuestionResultBar {
-  width: 100%;
-  border: 1px solid #757575;
-  float: left;
-  height: 18px;
-}
-
-.ilPollQuestionResultBarInner {
-  background-color: #e2e8ef;
-  height: 18px;
-}
-
-.ilPollQuestionResultPerc {
-  float: right;
-  position: relative;
-  margin-top: -17px;
-  margin-right: 3px;
+.ilPollQuestionResult .progress .progress-bar {
+  background-color: #4c6586;
 }
 
 .ilPollLegend {
@@ -14195,7 +15361,7 @@ input[type=checkbox]:focus:focus-visible::after {
 .form-control {
   display: block;
   width: 100%;
-  height: 25.142857148px;
+  height: 28px;
   padding: 3px 9px;
   font-size: 0.75rem;
   line-height: 1.428571429;
@@ -14238,6 +15404,10 @@ input[type=checkbox]:focus:focus-visible::after {
   cursor: not-allowed;
 }
 textarea .form-control {
+  height: auto;
+}
+
+textarea.form-control {
   height: auto;
 }
 
@@ -14518,12 +15688,12 @@ fieldset[disabled] .checkbox label {
 }
 
 .ilFormFooter {
-  padding: 3px 15px 3px 0;
+  margin: 0;
+  padding: 3px 0 3px 0;
 }
 
 .ilFormFooter .ilFormCmds {
   text-align: right;
-  padding: 0;
 }
 
 /* jQuery ui autocomplete menu */
@@ -14771,9 +15941,6 @@ div.ilStartupSection form.form-horizontal {
   border-radius: 3px;
   text-align: left;
   width: 40em;
-}
-div.ilStartupSection form.form-horizontal .ilFormFooter {
-  margin: 0;
 }
 div.ilStartupSection form.form-horizontal .ilFormHeader {
   padding: 9px 15px;

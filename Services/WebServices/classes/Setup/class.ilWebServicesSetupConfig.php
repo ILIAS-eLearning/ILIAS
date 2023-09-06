@@ -14,10 +14,16 @@ class ilWebServicesSetupConfig implements Setup\Config
     protected string $rpc_server_host;
     protected int $rpc_server_port;
 
+    /**
+     * @var int
+     */
+    protected $soap_response_timeout;
+
     public function __construct(
         bool $soap_user_administration,
         string $soap_wsdl_path,
         int $soap_connect_timeout,
+        int $soap_response_timeout,
         string $rpc_server_host,
         int $rpc_server_port
     ) {
@@ -26,6 +32,7 @@ class ilWebServicesSetupConfig implements Setup\Config
         $this->soap_connect_timeout = $soap_connect_timeout;
         $this->rpc_server_host = $rpc_server_host;
         $this->rpc_server_port = $rpc_server_port;
+        $this->soap_response_timeout = $soap_response_timeout;
     }
 
     public function isSOAPUserAdministration(): bool
@@ -51,5 +58,10 @@ class ilWebServicesSetupConfig implements Setup\Config
     public function getRPCServerPort(): int
     {
         return $this->rpc_server_port;
+    }
+
+    public function getSoapResponseTimeout(): int
+    {
+        return $this->soap_response_timeout;
     }
 }

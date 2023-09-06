@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 class ilStudyProgrammeMailMemberSearchGUI
 {
     protected ilCtrl $ctrl;
@@ -29,6 +29,7 @@ class ilStudyProgrammeMailMemberSearchGUI
 
     protected array $assignments = [];
     protected array $user_ids = [];
+    protected ilPRGPermissionsHelper $permission_helper;
     private ?string $back_target = null;
 
     public function __construct(
@@ -37,7 +38,8 @@ class ilStudyProgrammeMailMemberSearchGUI
         ilLanguage $lng,
         ilAccessHandler $access,
         ILIAS\HTTP\Wrapper\WrapperFactory $http_wrapper,
-        ILIAS\Refinery\Factory $refinery
+        ILIAS\Refinery\Factory $refinery,
+        ilPRGPermissionsHelper $permission_helper
     ) {
         $this->ctrl = $ctrl;
         $this->tpl = $tpl;
@@ -45,6 +47,7 @@ class ilStudyProgrammeMailMemberSearchGUI
         $this->access = $access;
         $this->http_wrapper = $http_wrapper;
         $this->refinery = $refinery;
+        $this->permission_helper = $permission_helper;
 
         $this->lng->loadLanguageModule('mail');
         $this->lng->loadLanguageModule('search');
@@ -122,7 +125,19 @@ class ilStudyProgrammeMailMemberSearchGUI
             $data[$user_id]['name'] = $publicName;
         }
 
-        return $data;
+        $allowed_user_ids = $this->permission_helper->filterUserIds(
+            array_keys($data),
+            ilOrgUnitOperation::OP_MANAGE_MEMBERS
+        );
+
+        $ret = [];
+        foreach ($data as $usr_id => $entry) {
+            if (in_array($usr_id, $allowed_user_ids)) {
+                $ret[$usr_id] = $entry;
+            }
+        }
+        
+        return $ret;
     }
 
     protected function getPRGMembersGUI(): ilObjStudyProgrammeMembersGUI

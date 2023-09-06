@@ -16,22 +16,16 @@
  *
  *********************************************************************/
 
-/**
- * Class ilTestDetailedEvaluationStatisticsTableGUI
- */
+declare(strict_types=1);
+
 class ilTestDetailedEvaluationStatisticsTableGUI extends ilTable2GUI
 {
-    /**
-     * @inheritdoc
-     */
-    public function __construct($a_parent_obj, $a_parent_cmd = '', $a_template_context = '')
+    public function __construct(ilTestEvaluationGUI $parent_obj, string $parent_cmd = '', string $template_context = '')
     {
-        global $DIC;
+        $this->setId('ass_eval_det_' . $template_context);
+        parent::__construct($parent_obj, $parent_cmd, '');
 
-        $this->setId('ass_eval_det_' . $a_template_context);
-        parent::__construct($a_parent_obj, $a_parent_cmd, '');
-
-        $this->setFormAction($DIC->ctrl()->getFormAction($this->getParentObject(), $this->getParentCmd()));
+        $this->setFormAction($this->ctrl->getFormAction($this->getParentObject(), $this->getParentCmd()));
 
         $this->setRowTemplate('tpl.table_evaluation_detail_row.html', 'Modules/Test');
         $this->setShowRowsSelector(false);

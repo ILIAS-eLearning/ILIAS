@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -13,25 +14,17 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
-/**
- * Class ilDclBaseFieldModel
- * @author  Michael Herren <mh@studer-raimann.ch>
- * @author  Martin Studer <ms@studer-raimann.ch>
- * @author  Marcel Raimann <mr@studer-raimann.ch>
- * @author  Fabian Schmid <fs@studer-raimann.ch>
- * @author  Oskar Truffer <ot@studer-raimann.ch>
- * @ingroup ModulesDataCollection
- */
+declare(strict_types=1);
+
 class ilDclBaseFieldModel
 {
     protected string $id = "";
     protected int $table_id = 0;
     protected string $title = "";
     protected string $description = "";
-    protected int $datatypeId = 0;
+    protected int $datatype_id = 0;
     protected ?int $order = null;
     protected bool $unique;
     /** @var ilDclFieldProperty[] */
@@ -75,7 +68,7 @@ class ilDclBaseFieldModel
         $this->lng = $DIC->language();
 
         if ($a_id != 0) {
-            $this->id = $a_id;
+            $this->id = (string)$a_id;
             $this->doRead();
         }
     }
@@ -95,7 +88,8 @@ class ilDclBaseFieldModel
     public static function _getFieldIdByTitle(string $title, int $table_id): int
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
+
         $result = $ilDB->query(
             'SELECT id FROM il_dcl_field WHERE title = ' . $ilDB->quote($title, 'text') . ' AND table_id = '
             . $ilDB->quote($table_id, 'integer')
@@ -114,7 +108,7 @@ class ilDclBaseFieldModel
      */
     public function setId($a_id): void
     {
-        $this->id = $a_id;
+        $this->id = (string)$a_id;
     }
 
     /**
@@ -184,19 +178,19 @@ class ilDclBaseFieldModel
     {
         //unset the cached datatype.
         $this->datatype = null;
-        $this->datatypeId = $a_id;
+        $this->datatype_id = $a_id;
     }
 
     /**
      * Get datatype_id
      */
-    public function getDatatypeId(): int
+    public function getDatatypeId(): ?int
     {
         if ($this->isStandardField()) {
             return ilDclStandardField::_getDatatypeForId($this->getId());
         }
 
-        return $this->datatypeId;
+        return $this->datatype_id;
     }
 
     public function isUnique(): bool
@@ -206,7 +200,7 @@ class ilDclBaseFieldModel
 
     public function setUnique(?bool $unique): void
     {
-        $this->unique = $unique ? 1 : 0;
+        $this->unique = (bool) $unique;
     }
 
     public function getDatatype(): ilDclDatatype
@@ -243,7 +237,7 @@ class ilDclBaseFieldModel
     protected function loadDatatype(): void
     {
         if ($this->datatype == null) {
-            $this->datatype = ilDclCache::getDatatype($this->datatypeId);
+            $this->datatype = ilDclCache::getDatatype($this->datatype_id);
         }
     }
 
@@ -305,7 +299,7 @@ class ilDclBaseFieldModel
                 $this->setDescription($rec["description"]);
             }
             $this->setDatatypeId($rec["datatype_id"]);
-            $this->setUnique($rec["is_unique"]);
+            $this->setUnique((bool)$rec["is_unique"]);
         }
 
         $this->loadProperties();
@@ -327,23 +321,20 @@ class ilDclBaseFieldModel
 
     public function doCreate(): void
     {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-
         if (!ilDclTable::_tableExists($this->getTableId())) {
             throw new ilException("The field does not have a related table!");
         }
 
-        $id = $ilDB->nextId("il_dcl_field");
+        $id = $this->db->nextId("il_dcl_field");
         $this->setId($id);
         $query = "INSERT INTO il_dcl_field (" . "id" . ", table_id" . ", datatype_id" . ", title" . ", description" . ", is_unique"
-            . " ) VALUES (" . $ilDB->quote($this->getId(), "integer") . "," . $ilDB->quote(
+            . " ) VALUES (" . $this->db->quote($this->getId(), "integer") . "," . $this->db->quote(
                 $this->getTableId(),
                 "integer"
             ) . ","
-            . $ilDB->quote($this->getDatatypeId(), "integer") . "," . $ilDB->quote($this->getTitle(), "text") . ","
-            . $ilDB->quote($this->getDescription(), "text") . "," . $ilDB->quote($this->isUnique(), "integer") . ")";
-        $ilDB->manipulate($query);
+            . $this->db->quote($this->getDatatypeId(), "integer") . "," . $this->db->quote($this->getTitle(), "text") . ","
+            . $this->db->quote($this->getDescription(), "text") . "," . $this->db->quote($this->isUnique(), "integer") . ")";
+        $this->db->manipulate($query);
 
         $this->updateTableFieldSetting();
 
@@ -362,39 +353,36 @@ class ilDclBaseFieldModel
 
     public function doUpdate(): void
     {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-
-        $ilDB->update(
+        $this->db->update(
             "il_dcl_field",
-            array(
-                "table_id" => array(
+            [
+                "table_id" => [
                     "integer",
                     $this->getTableId(),
-                ),
-                "datatype_id" => array(
+                ],
+                "datatype_id" => [
                     "text",
                     $this->getDatatypeId(),
-                ),
-                "title" => array(
+                ],
+                "title" => [
                     "text",
                     $this->getTitle(),
-                ),
-                "description" => array(
+                ],
+                "description" => [
                     "text",
                     $this->getDescription(),
-                ),
-                "is_unique" => array(
+                ],
+                "is_unique" => [
                     "integer",
                     $this->isUnique(),
-                ),
-            ),
-            array(
-                "id" => array(
+                ],
+            ],
+            [
+                "id" => [
                     "integer",
                     $this->getId(),
-                ),
-            )
+                ],
+            ]
         );
         $this->updateTableFieldSetting();
         $this->updateProperties();
@@ -426,17 +414,14 @@ class ilDclBaseFieldModel
      */
     public function doDelete(): void
     {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-
         // delete tablefield setting.
         ilDclTableFieldSetting::getInstance($this->getTableId(), $this->getId())->delete();
 
-        $query = "DELETE FROM il_dcl_field_prop WHERE field_id = " . $ilDB->quote($this->getId(), "text");
-        $ilDB->manipulate($query);
+        $query = "DELETE FROM il_dcl_field_prop WHERE field_id = " . $this->db->quote($this->getId(), "text");
+        $this->db->manipulate($query);
 
-        $query = "DELETE FROM il_dcl_field WHERE id = " . $ilDB->quote($this->getId(), "text");
-        $ilDB->manipulate($query);
+        $query = "DELETE FROM il_dcl_field WHERE id = " . $this->db->quote($this->getId(), "text");
+        $this->db->manipulate($query);
 
         foreach ($this->getViewSettings() as $field_setting) {
             $field_setting->delete();
@@ -448,7 +433,7 @@ class ilDclBaseFieldModel
      */
     public function getViewSettings(): array
     {
-        return ilDclTableViewFieldSetting::where(array('field' => $this->getId()))->get();
+        return ilDclTableViewFieldSetting::where(['field' => $this->getId()])->get();
     }
 
     public function getViewSetting(int $tableview_id): ilDclTableViewFieldSetting
@@ -466,7 +451,7 @@ class ilDclBaseFieldModel
         return !$this->order ? 0 : $this->order;
     }
 
-    public function setOrder(string $order): void
+    public function setOrder(int $order): void
     {
         $this->order = $order;
     }
@@ -489,37 +474,23 @@ class ilDclBaseFieldModel
         return (isset($this->property[$key]) && $this->property[$key]->getValue() != null);
     }
 
-    /**
-     * Returns a certain property of a field
-     * @return ?mixed
-     */
-    public function getProperty(string $key)
+    public function getProperty(string $key): mixed
     {
         $instance = $this->getPropertyInstance($key);
 
         return ($instance !== null) ? $instance->getValue() : null;
     }
 
-    /**
-     * Return ActiveRecord of property
-     * @return ?ilDclFieldProperty
-     */
-    public function getPropertyInstance(string $key)
+    public function getPropertyInstance(string $key): ?ilDclFieldProperty
     {
         $this->loadProperties();
         if ($this->hasProperty($key)) {
-            $value = $this->property[$key];
-
-            return $value;
+            return $this->property[$key];
         }
 
         return null;
     }
 
-    /**
-     * Set a property for a field (does not save)
-     * @param string|array|int $value
-     */
     public function setProperty(string $key, $value): ?ilDclFieldProperty
     {
         $this->loadProperties();
@@ -528,7 +499,7 @@ class ilDclBaseFieldModel
         } else {
             $property = new ilDclFieldProperty();
             $property->setName($key);
-            $property->setFieldId($this->getId());
+            $property->setFieldId((int)$this->getId());
             $property->setValue($value);
 
             $this->property[$key] = $property;
@@ -575,10 +546,7 @@ class ilDclBaseFieldModel
         return true;
     }
 
-    /**
-     * @param mixed $value
-     */
-    protected function normalizeValue($value)
+    protected function normalizeValue(mixed $value)
     {
         if (is_string($value)) {
             $value = trim(preg_replace("/\\s+/uism", " ", $value));
@@ -596,14 +564,14 @@ class ilDclBaseFieldModel
         $this->setTitle($original->getTitle());
         $this->setDatatypeId($original->getDatatypeId());
         $this->setDescription($original->getDescription());
-        $this->setOrder($original->getOrder());
+        $this->setOrder((string)$original->getOrder());
         $this->setUnique($original->isUnique());
         $this->setExportable($original->getExportable());
         $this->doCreate();
         $this->cloneProperties($original);
 
         // mandatory for all cloning functions
-        ilDclCache::setCloneOf($original_id, $this->getId(), ilDclCache::TYPE_FIELD);
+        ilDclCache::setCloneOf($original_id, (int)$this->getId(), ilDclCache::TYPE_FIELD);
     }
 
     public function afterClone(array $records)
@@ -621,7 +589,7 @@ class ilDclBaseFieldModel
         }
         foreach ($orgProps as $prop_name) {
             $fieldprop_obj = new ilDclFieldProperty();
-            $fieldprop_obj->setFieldId($this->getId());
+            $fieldprop_obj->setFieldId((int)$this->getId());
             $fieldprop_obj->setName($prop_name);
 
             $value = $originalField->getProperty($prop_name);
@@ -656,20 +624,17 @@ class ilDclBaseFieldModel
         string $direction = "asc",
         bool $sort_by_status = false
     ): ?ilDclRecordQueryObject {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-
         $sql_obj = new ilDclRecordQueryObject();
 
         $select_str = "sort_stloc_{$this->getId()}.value AS field_{$this->getId()}";
         $join_str
             = "LEFT JOIN il_dcl_record_field AS sort_record_field_{$this->getId()} ON (sort_record_field_{$this->getId()}.record_id = record.id AND sort_record_field_{$this->getId()}.field_id = "
-            . $ilDB->quote($this->getId(), 'integer') . ") ";
+            . $this->db->quote($this->getId(), 'integer') . ") ";
         $join_str .= "LEFT JOIN il_dcl_stloc{$this->getStorageLocation()}_value AS sort_stloc_{$this->getId()} ON (sort_stloc_{$this->getId()}.record_field_id = sort_record_field_{$this->getId()}.id)";
 
         $sql_obj->setSelectStatement($select_str);
         $sql_obj->setJoinStatement($join_str);
-        $sql_obj->setOrderStatement("field_{$this->getId()} {$direction}");
+        $sql_obj->setOrderStatement("field_{$this->getId()} $direction");
 
         return $sql_obj;
     }
@@ -765,14 +730,14 @@ class ilDclBaseFieldModel
      */
     public function fillPropertiesForm(ilPropertyFormGUI &$form): bool
     {
-        $values = array(
+        $values = [
             'table_id' => $this->getTableId(),
             'field_id' => $this->getId(),
             'title' => $this->getTitle(),
             'datatype' => $this->getDatatypeId(),
             'description' => $this->getDescription(),
             'unique' => $this->isUnique(),
-        );
+        ];
 
         $properties = $this->getValidFieldProperties();
         foreach ($properties as $prop) {
@@ -798,17 +763,16 @@ class ilDclBaseFieldModel
      */
     public function getConfirmationGUI(ilPropertyFormGUI $form): ilConfirmationGUI
     {
-        global $DIC;
         $ilConfirmationGUI = new ilConfirmationGUI();
         $ilConfirmationGUI->setFormAction($form->getFormAction());
-        $ilConfirmationGUI->addHiddenItem('confirmed', 1);
+        $ilConfirmationGUI->addHiddenItem('confirmed', "1");
         $ilConfirmationGUI->addHiddenItem('field_id', $form->getInput('field_id'));
         $ilConfirmationGUI->addHiddenItem('title', $form->getInput('title'));
         $ilConfirmationGUI->addHiddenItem('description', $form->getInput('description'));
         $ilConfirmationGUI->addHiddenItem('datatype', $form->getInput('datatype'));
         $ilConfirmationGUI->addHiddenItem('unique', $form->getInput('unique'));
-        $ilConfirmationGUI->setConfirm($DIC->language()->txt('dcl_update_field'), 'update');
-        $ilConfirmationGUI->setCancel($DIC->language()->txt('cancel'), 'edit');
+        $ilConfirmationGUI->setConfirm($this->lng->txt('dcl_update_field'), 'update');
+        $ilConfirmationGUI->setCancel($this->lng->txt('cancel'), 'edit');
 
         return $ilConfirmationGUI;
     }

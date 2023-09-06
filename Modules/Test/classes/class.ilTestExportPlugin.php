@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Abstract parent class for all event hook plugin classes.
  * @author  Michael Jansen <mjansen@databay.de>
@@ -24,15 +26,8 @@
  */
 abstract class ilTestExportPlugin extends ilPlugin
 {
-    /**
-     * @var ilObjTest
-     */
-    protected $test;
-
-    /**
-     * @var int
-     */
-    protected $timestmap = -1;
+    protected ilObjTest $test;
+    protected int $timestmap = -1;
 
     /**
      * @var array
@@ -42,50 +37,44 @@ abstract class ilTestExportPlugin extends ilPlugin
         'csv'
     );
     private \ilGlobalTemplateInterface $main_tpl;
+    private \ilLanguage $lng;
+    private \ilCtrl $ctrl;
+
     public function __construct(
         \ilDBInterface $db,
         \ilComponentRepositoryWrite $component_repository,
         string $id
     ) {
-        parent::__construct($db, $component_repository, $id);
+        /** @var ILIAS\DI\Container $DIC */
         global $DIC;
-        $this->main_tpl = $DIC->ui()->mainTemplate();
+        $this->main_tpl = $DIC['tpl'];
+        $this->lng = $DIC['lng'];
+        $this->ctrl = $DIC['ilCtrl'];
+
+        parent::__construct($db, $component_repository, $id);
     }
 
-    /**
-     * @param ilObjTest $test
-     */
-    final public function setTest($test)
+    final public function setTest(ilObjTest $test): void
     {
         $this->test = $test;
     }
 
-    /**
-     * @return ilObjTest
-     */
     final protected function getTest(): ilObjTest
     {
         return $this->test;
     }
 
-    /**
-     * @param int $timestmap
-     */
-    public function setTimestmap($timestmap)
+    public function setTimestmap(int $timestmap): void
     {
         $this->timestmap = $timestmap;
     }
 
-    /**
-     * @return int
-     */
     public function getTimestmap(): int
     {
         return $this->timestmap;
     }
 
     /**
-     * @return string
      * @throws ilException
      */
     final public function getFormat(): string
@@ -114,16 +103,8 @@ abstract class ilTestExportPlugin extends ilPlugin
     /**
      * @throws ilException
      */
-    final public function export()
+    final public function export(): void
     {
-        /**
-         * @var $lng;
-         * @var $ilCtrl ilCtrl
-         */
-        global $DIC;
-        $lng = $DIC['lng'];
-        $ilCtrl = $DIC['ilCtrl'];
-
         if (!$this->getTest() instanceof ilObjTest) {
             throw new ilException('Incomplete object configuration. Please pass an instance of ilObjTest before calling the export!');
         }
@@ -136,11 +117,11 @@ abstract class ilTestExportPlugin extends ilPlugin
             } else {
                 $this->main_tpl->setOnScreenMessage('failure', $this->txt($e->getMessage()), true);
             }
-            $ilCtrl->redirectByClass('iltestexportgui');
+            $this->ctrl->redirectByClass('iltestexportgui');
         }
 
-        $this->main_tpl->setOnScreenMessage('success', $lng->txt('exp_file_created'), true);
-        $ilCtrl->redirectByClass('iltestexportgui');
+        $this->main_tpl->setOnScreenMessage('success', $this->lng->txt('exp_file_created'), true);
+        $this->ctrl->redirectByClass('iltestexportgui');
     }
 
     /**
@@ -149,7 +130,7 @@ abstract class ilTestExportPlugin extends ilPlugin
      * @throws ilException
      * @param string $export_path The path to store the export file
      */
-    abstract protected function buildExportFile(ilTestExportFilename $export_path);
+    abstract protected function buildExportFile(ilTestExportFilename $export_path): void;
 
     /**
      * A unique identifier which describes your export type, e.g. imsm

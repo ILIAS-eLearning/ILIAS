@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -13,18 +14,10 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
-/**
- * Class ilDclBaseFieldModel
- * @author  Martin Studer <ms@studer-raimann.ch>
- * @author  Marcel Raimann <mr@studer-raimann.ch>
- * @author  Fabian Schmid <fs@studer-raimann.ch>
- * @author  Oskar Truffer <ot@studer-raimann.ch>
- * @version $Id:
- * @ingroup ModulesDataCollection
- */
+declare(strict_types=1);
+
 class ilDclRatingRecordFieldModel extends ilDclBaseRecordFieldModel
 {
     protected int $dcl_obj_id;
@@ -78,7 +71,7 @@ class ilDclRatingRecordFieldModel extends ilDclBaseRecordFieldModel
         $val = ilRating::getOverallRatingForObject(
             $this->getRecord()->getId(),
             "dcl_record",
-            $this->getField()->getId(),
+            (int)$this->getField()->getId(),
             "dcl_field"
         );
 
@@ -93,7 +86,7 @@ class ilDclRatingRecordFieldModel extends ilDclBaseRecordFieldModel
         return ilRating::getOverallRatingForObject(
             $this->getRecord()->getId(),
             "dcl_record",
-            $this->getField()->getId(),
+            (int)$this->getField()->getId(),
             "dcl_field"
         );
     }

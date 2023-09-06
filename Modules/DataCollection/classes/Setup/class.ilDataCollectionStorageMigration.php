@@ -21,7 +21,6 @@ declare(strict_types=1);
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 
 /**
- * @author       Thibeau Fuhrer <thibeau@sr.solutions>
  * @noinspection AutoloadingIssuesInspection
  */
 class ilDataCollectionStorageMigration implements \ILIAS\Setup\Migration
@@ -141,7 +140,7 @@ class ilDataCollectionStorageMigration implements \ILIAS\Setup\Migration
                     ['integer', 'text'],
                     [(int) $legacy_file_record->id, 'file']
                 );
-            } catch (Exception $e) {
+            } catch (Exception) {
                 continue;
             }
         }

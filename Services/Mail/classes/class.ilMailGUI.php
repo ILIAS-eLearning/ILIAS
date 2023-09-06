@@ -123,7 +123,7 @@ class ilMailGUI implements ilCtrlBaseClassInterface
 
                 $recipients = '';
                 if ($this->http->wrapper()->query()->has($key)) {
-                    $to = $this->http->wrapper()->query()->retrieve(
+                    $recipients = $this->http->wrapper()->query()->retrieve(
                         $key,
                         $this->refinery->kindlyTo()->string()
                     );

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -13,20 +14,15 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
-/**
- * @author  Martin Studer <ms@studer-raimann.ch>
- * @author  Marcel Raimann <mr@studer-raimann.ch>
- * @author  Fabian Schmid <fs@studer-raimann.ch>
- * @author  Oskar Truffer <ot@studer-raimann.ch>
- * @author  Stefan Wanzenried <sw@studer-raimann.ch>
- * @version $Id:
- * @ingroup ModulesDataCollection
- */
+
+declare(strict_types=1);
+
 class ilDclFieldListGUI
 {
+    protected \ILIAS\UI\Factory $ui_factory;
+    protected \ILIAS\UI\Renderer $renderer;
     protected ilCtrl $ctrl;
     protected ilLanguage $lng;
     protected ilToolbarGUI $toolbar;
@@ -56,17 +52,19 @@ class ilDclFieldListGUI
         $this->tpl = $DIC->ui()->mainTemplate();
         $this->tabs = $DIC->tabs();
         $this->toolbar = $DIC->toolbar();
+        $this->ui_factory = $DIC->ui()->factory();
+        $this->renderer = $DIC->ui()->renderer();
 
-        $this->ctrl->saveParameterByClass('ilDclTableEditGUI', 'table_id');
+        $this->ctrl->saveParameterByClass(ilDclTableEditGUI::class, 'table_id');
         $locator->addItem(
             ilDclCache::getTableCache($this->table_id)->getTitle(),
-            $this->ctrl->getLinkTargetByClass('ilDclTableEditGUI', 'edit')
+            $this->ctrl->getLinkTargetByClass(ilDclTableEditGUI::class, 'edit')
         );
         $this->tpl->setLocator();
 
         if (!$this->checkAccess()) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
-            $this->ctrl->redirectByClass('ildclrecordlistgui', 'listRecords');
+            $this->ctrl->redirectByClass(ilDclRecordListGUI::class, 'listRecords');
         }
     }
 
@@ -127,7 +125,7 @@ class ilDclFieldListGUI
         foreach ($field_ids as $field_id) {
             /** @var ilDclBaseFieldModel $field */
             $field = ilDclCache::getFieldCache($field_id);
-            $conf->addItem('dcl_field_ids[]', $field_id, $field->getTitle());
+            $conf->addItem('dcl_field_ids[]', (string)$field_id, $field->getTitle());
         }
 
         $conf->setConfirm($this->lng->txt('delete'), 'deleteFields');
@@ -183,42 +181,22 @@ class ilDclFieldListGUI
     public function listFields(): void
     {
         //add button
-        $add_new = ilLinkButton::getInstance();
-        $add_new->setPrimary(true);
-        $add_new->setCaption("dcl_add_new_field");
-        $add_new->setUrl($this->ctrl->getLinkTargetByClass('ildclfieldeditgui', 'create'));
+        $add_new = $this->ui_factory->button()->primary(
+            $this->lng->txt("dcl_add_new_field"),
+            $this->ctrl->getLinkTargetByClass(ilDclFieldEditGUI::class, 'create')
+        );
         $this->toolbar->addStickyItem($add_new);
 
-        $this->toolbar->addSeparator();
-
-        // Show tableswitcher
-        $tables = $this->parent_obj->getDataCollectionObject()->getTables();
-
-        foreach ($tables as $table) {
-            $options[$table->getId()] = $table->getTitle();
-        }
-        $table_selection = new ilSelectInputGUI('', 'table_id');
-        $table_selection->setOptions($options);
-        $table_selection->setValue($this->table_id);
-
-        $this->toolbar->setFormAction($this->ctrl->getFormActionByClass("ilDclFieldListGUI", "doTableSwitch"));
-        $this->toolbar->addText($this->lng->txt("dcl_select"));
-        $this->toolbar->addInputItem($table_selection);
-        $this->toolbar->addFormButton($this->lng->txt('change'), 'doTableSwitch');
+        $switcher = new ilDclSwitcher($this->toolbar, $this->ui_factory, $this->ctrl, $this->lng);
+        $switcher->addTableSwitcherToToolbar(
+            $this->parent_obj->getDataCollectionObject()->getTables(),
+            self::class,
+            'listFields'
+        );
 
         //table gui
         $list = new ilDclFieldListTableGUI($this, $this->ctrl->getCmd(), $this->table_id);
         $this->tpl->setContent($list->getHTML());
-    }
-
-    /*
-     * doTableSwitch
-     */
-    public function doTableSwitch(): void
-    {
-        $table_id = $this->http->wrapper()->post()->retrieve('table_id', $this->refinery->kindlyTo()->int());
-        $this->ctrl->setParameterByClass("ilObjDataCollectionGUI", "table_id", $table_id);
-        $this->ctrl->redirectByClass("ilDclFieldListGUI", "listFields");
     }
 
     protected function checkAccess(): bool

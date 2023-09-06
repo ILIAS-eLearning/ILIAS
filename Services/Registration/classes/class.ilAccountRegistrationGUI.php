@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class ilAccountRegistrationGUI
  * @author       Stefan Meyer <smeyer.ilias@gmx.de>
@@ -30,6 +30,8 @@ class ilAccountRegistrationGUI
     protected bool $code_was_used;
     protected ilTermsOfServiceDocumentEvaluation $termsOfServiceEvaluation;
     protected ilRecommendedContentManager $recommended_content_manager;
+
+    protected ilUserProfile $user_profile;
 
     protected ?ilPropertyFormGUI $form = null;
 
@@ -72,6 +74,8 @@ class ilAccountRegistrationGUI
 
         $this->termsOfServiceEvaluation = $DIC['tos.document.evaluator'];
         $this->recommended_content_manager = new ilRecommendedContentManager();
+
+        $this->user_profile = new ilUserProfile();
 
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
@@ -152,19 +156,15 @@ class ilAccountRegistrationGUI
             }
         }
 
-        // standard fields
-        //TODO-PHP8-REVIEW please check if there is a need for this static call. It looks like of odd to me, that
-        //we need a global static state variable in class that changes the behaviour of all instances.
-        $up = new ilUserProfile();
-        ilUserProfile::setMode(ilUserProfile::MODE_REGISTRATION);
-        $up->skipGroup("preferences");
+        $this->user_profile->setMode(ilUserProfile::MODE_REGISTRATION);
+        $this->user_profile->skipGroup("preferences");
 
-        $up->setAjaxCallback(
+        $this->user_profile->setAjaxCallback(
             $this->ctrl->getLinkTarget($this, 'doProfileAutoComplete', '', true)
         );
         $this->lng->loadLanguageModule("user");
         // add fields to form
-        $up->addStandardFieldsToForm($this->form, null, $custom_fields);
+        $this->user_profile->addStandardFieldsToForm($this->form, null, $custom_fields);
         unset($custom_fields);
 
         // set language selection to current display language
@@ -334,7 +334,7 @@ class ilAccountRegistrationGUI
         }
 
         // no valid role could be determined
-        if (!$valid_role) {
+        if (!$valid_role && (!isset($selected_role) || $selected_role !== '')) {
             $this->tpl->setOnScreenMessage('info', $this->lng->txt("registration_no_valid_role"));
             $form_valid = false;
         }
@@ -389,16 +389,12 @@ class ilAccountRegistrationGUI
 
         $this->userObj = new ilObjUser();
 
-        $up = new ilUserProfile();
-        ilUserProfile::setMode(ilUserProfile::MODE_REGISTRATION);
-
-        $map = [];
-        $up->skipGroup("preferences");
-        $up->skipGroup("settings");
-        $up->skipField("password");
-        $up->skipField("birthday");
-        $up->skipField("upload");
-        foreach ($up->getStandardFields() as $k => $v) {
+        $this->user_profile->skipGroup("preferences");
+        $this->user_profile->skipGroup("settings");
+        $this->user_profile->skipField("password");
+        $this->user_profile->skipField("birthday");
+        $this->user_profile->skipField("upload");
+        foreach ($this->user_profile->getStandardFields() as $k => $v) {
             if ($v["method"]) {
                 $method = "set" . substr($v["method"], 3);
                 if (method_exists($this->userObj, $method)) {

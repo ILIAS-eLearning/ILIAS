@@ -593,8 +593,6 @@ assessment#:#counter#:#Counter
 assessment#:#create_date#:#Created
 assessment#:#create_gaps#:#Create and Refresh Gaps
 assessment#:#create_new#:#Create New
-assessment#:#ctm_cannot_be_changed#:#This is a test in CTM-Mode. Settings cannot be changed anymore as CTM has been abandoned.
-assessment#:#ctm_cannot_be_started#:#This is a test in CTM-Mode. The test cannot be started anymore as CTM has been abandoned.
 assessment#:#customstyle#:#Custom Style
 assessment#:#dashboard_tab#:#Dashboard
 assessment#:#definition#:#Definition
@@ -638,6 +636,8 @@ assessment#:#ects_grade_f_desc#:#considerable further work is required
 assessment#:#ects_grade_fx_desc#:#some more work required before the credit can be awarded
 assessment#:#ects_output_of_ects_grades#:#Output of ECTS grades
 assessment#:#edit_answer#:#Edit Answer
+assessment#:#edit_concluding_remarks#:#Edit Concluding Remarks
+assessment#:#edit_introduction#:#Edit Introduction
 assessment#:#edit_page#:#Edit Page
 assessment#:#edit_question#:#Edit Question
 assessment#:#edit_test_questions#:#List View
@@ -828,7 +828,6 @@ assessment#:#legend#:#Legend
 assessment#:#locked#:#locked
 assessment#:#log_added_extratime#:#Added extra %d minutes for participant id %d
 assessment#:#log_answer_changed_points#:#Manual change of points of test person %s from %d to %d points by %s
-assessment#:#log_could_not_enter_test_due_to_simultaneous_users#:#The user could not enter the test because the maximum number of simultaneous users has been reached
 assessment#:#log_create_new_test#:#Created new test
 assessment#:#log_manual_feedback#:#%s added manual feedback for test person %s and question %s: %s
 assessment#:#log_mark_added#:#Mark added
@@ -888,6 +887,7 @@ assessment#:#new_category#:#New Unit Category
 assessment#:#new_unit#:#New Unit
 assessment#:#next_question#:#Next
 assessment#:#next_question_rows#:#Questions %d - %d of %d →
+assessment#:#no_manual_feedback_export_info#:#Manual feedbacks will not be exported.
 assessment#:#no_passed_mark#:#At least one grade has to be a passing grade. For a grade to be a passing grade, it needs to have the appropriate box in the ‘Passed’ column checked.
 assessment#:#no_question_selected_for_move#:#Please check at least one question to move it!
 assessment#:#no_questions_available#:#There are no questions available!
@@ -1168,13 +1168,15 @@ assessment#:#set_manscoring_done#:#Mark as ‘Scored Participant’
 assessment#:#set_manual_feedback#:#Manual Feedback
 assessment#:#shape#:#Shape
 assessment#:#showSuggestedSolution#:#Type
+assessment#:#show_all_test_properties_on_info_page#:#Show all Test Properties
+assessment#:#show_all_test_properties_on_info_page_byline#:#Users will be presented with a complete list of test properties in the ‘Info’ tab, i.e. information on scoring and reporting.
 assessment#:#show_answer_overview#:#Show Answer Overview
 assessment#:#show_detailed_results#:#Show User’s Detailed Results (Marked Pass)
 assessment#:#show_examview_html#:#On screen
+assessment#:#show_old_concluding_remarks#:#Show old conlcuding remarks
+assessment#:#show_old_introduction#:#Show old introduction
 assessment#:#show_pass_overview#:#Show Marked Pass Overview
 assessment#:#show_user_answers#:#Show User’s Marked Answers
-assessment#:#showinfo#:#Show all Test Properties
-assessment#:#showinfo_desc#:#Users will be presented with a complete list of test properties in the ‘Info’ tab, i.e. information on scoring and reporting.
 assessment#:#shuffle_answers#:#Shuffle Answers
 assessment#:#sign_submission#:#Digitally Sign Test Submissions
 assessment#:#sign_submission_info#:#Enable the use of external signature plugins that can be used to require participants to digitally sign their submissions.
@@ -1256,11 +1258,6 @@ assessment#:#tst_add_quest_cont_edit_mode_RTE_info#:#Allows text formatting of q
 assessment#:#tst_addit_passes_blocked_after_passed_msg#:#You have passed the test. The test cannot be started again.
 assessment#:#tst_all_test_competences#:#All Test Competence
 assessment#:#tst_all_user_data_deleted#:#All user data for this test has been removed!
-assessment#:#tst_allowed_users#:#Limit Number of Concurrent Participants
-assessment#:#tst_allowed_users_desc#:#ILIAS will monitor the number of participants taking the test at the same time. If the maximum number of users taking the test at the same time has been reached, ILIAS will prevent additional users from starting the test.
-assessment#:#tst_allowed_users_max#:#Max. Number of Participants
-assessment#:#tst_allowed_users_time_gap#:#Max. Idle Time Permitted for Active Participants
-assessment#:#tst_allowed_users_time_gap_desc#:#Participants who have not clicked on anything in the test for the indicated amount of time, will be categorised as ‘inactive’ and removed from the test.
 assessment#:#tst_already_submitted#:#The test has already been completed and submitted.
 assessment#:#tst_analysis#:#Analysis
 assessment#:#tst_anonymity#:#Privacy
@@ -1341,19 +1338,6 @@ assessment#:#tst_derive_new_pool#:#Derive New Question Pool
 assessment#:#tst_derive_new_pools#:#Derive New Question Pools
 assessment#:#tst_dont_show_msg_again_in_current_session#:#Don't show this message again in my current session.
 assessment#:#tst_dont_use_previous_answers#:#Your previous answers will not be used as default values in future test passes
-assessment#:#tst_dyn_keep_answ_freeze#:#Keep my current answers frozen
-assessment#:#tst_dyn_quest_set_pool_deleted#:#The currently configured question pool "%s" has been deleted.
-assessment#:#tst_dyn_quest_set_src_qpl_summary_string_deleted#:#%s (Removed Permanently)
-assessment#:#tst_dyn_quest_set_src_qpl_summary_string_trashed#:#%s (Removed) [%s Questions]
-assessment#:#tst_dyn_test_msg_currently_finished_completely#:#Currently you have answered all questions from the selected question pool successfully. You can proceed the test when there are new or edited questions in the question pool.
-assessment#:#tst_dyn_test_msg_currently_finished_selection#:#With the current question selection you have answered all questions successfully. Change the question selection to proceed the test.
-assessment#:#tst_dyn_test_msg_pass_deletion_link#:#Remove Previous Answers
-assessment#:#tst_dyn_test_pass_deletion_button#:#Reset All Answers
-assessment#:#tst_dyn_unfreeze_answers#:#Answer once more
-assessment#:#tst_dyn_unfreeze_answers_confirmation#:#There are questions to which your initial answers were fixed and you could not make any changes. Do you want to answer them one more time now and thus unfreeze your answers?
-assessment#:#tst_dynamic_question_set_complete#:#Total-Statistic
-assessment#:#tst_dynamic_question_set_selection#:#Test Question Selection and Selection-Statistic
-assessment#:#tst_dynamic_question_set_source_questionpool_summary_string#:#%s (Path: %s) [%s Questions]
 assessment#:#tst_edit_competence_assign#:#Edit Assignment Properties
 assessment#:#tst_edit_scoring#:#Edit Scoring
 assessment#:#tst_ending_time#:#Finishing Time
@@ -1388,10 +1372,11 @@ assessment#:#tst_filter_taxonomy#:#Taxonomy
 assessment#:#tst_final_information#:#Finishing the Test
 assessment#:#tst_finish_confirm_button#:#Yes, I want to finish the test
 assessment#:#tst_finish_confirm_cancel_button#:#No, go back to the previous question
-assessment#:#tst_finish_confirmation_question#:#You are going to finish this test and reach the maximum number of allowed test passes. You won’t be able to enter this test again to change your answers. Do you really want to finish the test?
+assessment#:#tst_finish_confirmation_question#:#You are going to finish this test. You won’t be able to enter this test attempt again to change your answers. Do you really want to finish this test?
+assessment#:#tst_finish_confirmation_question_no_attempts_left#:#You are going to finish this test and reach the maximum number of allowed test passes. You won’t be able to enter this test again to change your answers. Do you really want to finish the test?
 assessment#:#tst_finish_notification#:#Notification
 assessment#:#tst_finish_notification_advanced#:#Send complete test result
-assessment#:#tst_finish_notification_content#:#Content of e-mail
+assessment#:#tst_finish_notification_content_type#:#Content of e-mail
 assessment#:#tst_finish_notification_desc#:#Sends an e-mail to the test owner for every user that has completed the test.
 assessment#:#tst_finish_notification_no#:#No e-mail
 assessment#:#tst_finish_notification_simple#:#Send username and finish date
@@ -1506,8 +1491,6 @@ assessment#:#tst_mark_minimum_level#:#Minimum Level (in %)
 assessment#:#tst_mark_official_form#:#Official Form
 assessment#:#tst_mark_passed#:#Passed
 assessment#:#tst_mark_short_form#:#Short Form
-assessment#:#tst_max_allowed_users_heading#:#The maximum number of simultaneous users in this test has been reached
-assessment#:#tst_max_allowed_users_message#:#The maximum number of simultaneous active users in the test has been reached. Please try again later to start or resume the test. If one of the active users is inactive for more than %s seconds, you may be able to enter this test. Thank you for your understanding.
 assessment#:#tst_max_comp_points#:#Max. Competence Points
 assessment#:#tst_maximum_points#:#Maximum Points
 assessment#:#tst_mc_label_none_above#:#None of the answers above###fau: testNav
@@ -1615,6 +1598,7 @@ assessment#:#tst_password_form#:#Enter Test Password
 assessment#:#tst_password_introduction#:#This test can only be accessed with a test password. Please enter the test password to start the test.
 assessment#:#tst_percent_solved#:#Percent Solved
 assessment#:#tst_player_answer_saved_and_locked#:#Answer is saved and locked and can no longer be changed
+assessment#:#tst_please_select_source_pool#:#Please select a question pool.
 assessment#:#tst_please_select_target_for_pool_derives#:#Please select a target conatainer.
 assessment#:#tst_position#:#Question %s of %s
 assessment#:#tst_position_without_total#:#Question %s
@@ -1629,7 +1613,7 @@ assessment#:#tst_print#:#Test and Assessment - Print View
 assessment#:#tst_proceed#:#Proceed
 assessment#:#tst_processing_time#:#Limit Duration of Test
 assessment#:#tst_processing_time_desc#:#Participants can work through the test only for a specified period of time. Time is clocking away from the moment a user starts a test for the first time. Suspending the test does not stop the clock. If the number of possible test passes is limited an additional feature for granting extra time to participants appears in the tab 'Dashboard'.
-assessment#:#tst_processing_time_duration#:#Maximum Duration of the Test
+assessment#:#tst_processing_time_duration#:#Maximum Duration of the Test im Minutes
 assessment#:#tst_processing_time_duration_desc#:#Maximum of time granted to take the test.
 assessment#:#tst_qbt_filter_question_title#:#Title of Question
 assessment#:#tst_qst_added_to_pool_p#:#Successfully added the questions to the selected pool.
@@ -1711,6 +1695,7 @@ assessment#:#tst_questions_hints_toolbar_cmd_reset_ordering_clipboard#:#Reset Hi
 assessment#:#tst_questions_inserted#:#Question(s) inserted!
 assessment#:#tst_questions_removed#:#Question(s) removed!
 assessment#:#tst_random_nr_of_questions#:#How many questions?
+assessment#:#tst_random_question_set_source_questionpool_summary_string#:#%s (Path: %s) [%s Questions]
 assessment#:#tst_random_select_questionpool#:#Select the question pool to choose the questions from
 assessment#:#tst_reached_points#:#Reached Points
 assessment#:#tst_reached_points_of_max#:#%s of %s
@@ -1802,7 +1787,9 @@ assessment#:#tst_setting_enable_obligations_info#:#Only if all compulsory questi
 assessment#:#tst_setting_enable_obligations_label#:#Compulsory Questions
 assessment#:#tst_setting_offer_hints_info#:#Participants request hints to answer a question. With every hint presented the maximum number of points to be earned decreases.
 assessment#:#tst_setting_offer_hints_label#:#Hints
-assessment#:#tst_settings_conflict_message#:#The current configuration uses settings combinations that are not allowed.
+assessment#:#tst_settings_conflict_compulsory_and_lock#:#"Compulsory Questions" cannot be used together with "Answer Lock".
+assessment#:#tst_settings_conflict_postpone_and_lock#:#"Unanswered questions will be enqueued" cannot be used together with "Lock Answers After Moving to Next Question".
+assessment#:#tst_settings_conflict_shuffle_and_lock#:#"Shuffle Questions" cannot be used together with "Lock Answers After Moving to Next Question".
 assessment#:#tst_settings_header_execution#:#Administering the Test: Access
 assessment#:#tst_settings_header_intro#:#Information Before Start of Test
 assessment#:#tst_settings_header_test_run#:#Administering the Test: Test Run
@@ -2134,6 +2121,7 @@ badge#:#badge_backpack_no_groups#:#The Mozilla Backpack is empty or non-public.
 badge#:#badge_badge#:#Badge
 badge#:#badge_course_lp#:#Course LP
 badge#:#badge_course_lp_invalid#:#The following objects have a LP mode which is not supported: %s.
+badge#:#badge_create#:#Create Badge
 badge#:#badge_criteria#:#Criteria
 badge#:#badge_crs_merit#:#Merit
 badge#:#badge_deletion_confirmation#:#Are you sure you want to delete the following badges and all their respective assignments?
@@ -2781,7 +2769,7 @@ chatroom#:#anonymous_hint#:#Make sure to set the proper permissions in the ‘Pe
 chatroom#:#auto_scroll#:#Scroll to Bottom
 chatroom#:#autogen_usernames#:#Auto Generated User Names
 chatroom#:#autogen_usernames_info#:#Pattern for auto generated user names that is assigned to anonymous user accounts. ‘#’ will be automatically replaced by a number.
-chatroom#:#ban_question#:#Do you really want to ban the user from current room?
+chatroom#:#ban_question#:#Do you really want to ban the user from chat?
 chatroom#:#ban_table_title#:#Banned Users
 chatroom#:#banned#:#You have been banned from this chat room
 chatroom#:#bans#:#Bans
@@ -2805,6 +2793,7 @@ chatroom#:#chat_deletion_section_head#:#Deletion of old Messages
 chatroom#:#chat_enable_history#:#Enable History
 chatroom#:#chat_enable_history_info#:#Everybody can read and export past public chat messages in the tab „History“. Messages from within private rooms are only accessible by invited users.
 chatroom#:#chat_error_log_info#:#Please define an absolute server path to the chat server's error log file (e.g.: /var/www/ilias/data/chat_error.log). If you do not specify a path, the chat server will automatically create a file located in the chat server directory.
+chatroom#:#chat_functions#:#Chat Functions
 chatroom#:#chat_https_cert_info#:#Please define an absolute server path to the SSL certificate file (e.g.: /etc/ssl/certs/server.pem).
 chatroom#:#chat_https_dhparam_info#:#Please define an absolute server path to a file (e.g.: /etc/ssl/private/dhparam.pem), used for the negotiation of Diffie Hellman parameters (e.g. generated via: openssl dhparam -out /etc/ssl/private/dhparam.pem 2048 ).
 chatroom#:#chat_https_key_info#:#Please define an absolute server path to the private key file (e.g..: /etc/ssl/private/server.key).
@@ -2890,7 +2879,7 @@ chatroom#:#chtr_ban_ts_tbl_head#:#Timestamp
 chatroom#:#chtr_new#:#New Chat Room
 chatroom#:#chtr_server_status#:#Server Status
 chatroom#:#clear_room_history#:#Delete Message History
-chatroom#:#clear_room_history_question#:#Do you really want to delete all messages of the current room?
+chatroom#:#clear_room_history_question#:#Do you really want to delete all messages?
 chatroom#:#client_chatserver_connection#:#Client to Server Connection
 chatroom#:#client_proxy_info#:#If the Server is not accessible with the default IP-Address and Port, it is possible to configure a custom URL for Client to Server connection.
 chatroom#:#connection_url_info#:#Please insert an URL for the Server connection.
@@ -2899,7 +2888,6 @@ chatroom#:#delete_private_room#:#Delete Private Room
 chatroom#:#delete_private_room_question#:#Confirm delete private room?
 chatroom#:#dhparam#:#Diffie-Hellman Parameter
 chatroom#:#display_past_msgs#:#Number of Past Messages
-chatroom#:#display_past_msgs_suffix#:#Messages
 chatroom#:#duration_from#:#From
 chatroom#:#duration_to#:#To
 chatroom#:#end_whisper#:#Cancel
@@ -2917,13 +2905,14 @@ chatroom#:#ilias_proxy_info#:#If the Server is not accessible with the default I
 chatroom#:#invite_to_private_room#:#Invite to Chat Room
 chatroom#:#invite_username#:#Username
 chatroom#:#key#:#Key
-chatroom#:#kick_question#:#Do you really want to kick the user from current room?
+chatroom#:#kick_question#:#Do you really want to kick the user from chat?
 chatroom#:#kicked#:#You have been kicked from this chat room
 chatroom#:#kicked_from_private_room#:#You have been kicked from the private room <b>#title#</b>.
 chatroom#:#leave_private_room#:#Leave Private Room
 chatroom#:#left_private_room#:#Left private room
 chatroom#:#lost_connection#:#The connection to the chat server was interrupted.
 chatroom#:#main#:#Main Room
+chatroom#:#messages#:#Messages
 chatroom#:#no_further_users#:#No other users present
 chatroom#:#no_messages#:#There are no saved messages for the given period.
 chatroom#:#no_username_given#:#Please choose a username
@@ -2959,6 +2948,7 @@ chatroom#:#user_kicked#:#The user <b>#user#</b> has been kicked.
 chatroom#:#users#:#Users
 chatroom#:#welcome_to_chat#:#Welcome to the chat room
 chatroom#:#whisper_to#:#Whisper to <b>#user#</b>
+chatroom#:#write_message#:#New Message
 chatroom_adm#:#chat_cannot_connect_to_server#:#ILIAS cannot build a socket connection to the chat server.
 chatroom_adm#:#chat_enabled#:#Enable Chat
 chatroom_adm#:#chatserver_settings_title#:#Chatserver Settings
@@ -5010,7 +5000,6 @@ common#:#obj_wbrs#:#Weblink
 common#:#obj_wbrs_desc#:#General settings for Web Links
 common#:#obj_webr#:#Weblink
 common#:#obj_webr_duplicate#:#Copy Weblink list
-common#:#obj_wfe#:#Workflow Engine
 common#:#obj_wfld#:#Folder
 common#:#obj_wiki#:#Wiki
 common#:#obj_wiki_duplicate#:#Copy Wiki
@@ -5814,6 +5803,7 @@ common#:#usrimport_no_insert_ext_account_exists#:#Can't perform ‘Insert’ act
 common#:#usrimport_no_update_ext_account_exists#:#Can't perform ‘Update’ action. External account already exists.
 common#:#usrimport_with_specified_role_not_permitted#:#Import with specified role not permitted.
 common#:#usrimport_wrong_file_count#:#Too many files in import-folder. Please try again.
+common#:#usrimport_xml_anonymous_or_root_not_allowed#:#Neither the system-account nor the anonymous account can be changed through the import.
 common#:#usrimport_xml_attribute_missing#:#Attribute "%2$s" in element "%1$s" is missing.
 common#:#usrimport_xml_attribute_value_illegal#:#Value "%3$s" of attribute "%2$s" in element "%1$s" is illegal.
 common#:#usrimport_xml_attribute_value_inapplicable#:#Value "%3$s" of attribute "%2$s" in element "%1$s" is inapplicable for "%4$s" action.
@@ -7296,8 +7286,8 @@ crs#:#crs_agree#:#Acceptance
 crs#:#crs_agreement_header#:#User Agreement
 crs#:#crs_agreement_required#:#You have to accept the user agreement, if you want to register to this course.
 crs#:#crs_at_least_one_admin#:#There has to be at least one course administrator.
-crs#:#crs_auto_notification#:#Welcome-Mail For New Members
-crs#:#crs_auto_notification_info#:#New members get a mail notification when added to the course.
+crs#:#crs_auto_notification#:#Welcome Mail
+crs#:#crs_auto_notification_info#:#New members receive an e-mail notification when added to the course.
 crs#:#crs_awrn_current_course#:#Current Course
 crs#:#crs_awrn_current_course_info#:#If the user navigates to a course in the repository, all members of the course are listed.
 crs#:#crs_awrn_support_contacts#:#Tutorial Support
@@ -7311,11 +7301,11 @@ crs#:#crs_cancel_subscr_request#:#Delete Membership Request
 crs#:#crs_cancel_subscription#:#User left course "%s"
 crs#:#crs_cancel_subscription_body#:#%s has cancelled his/her membership for the course "%s".
 crs#:#crs_cancel_subscription_body2#:#There might be other members on a waiting list of your course. You should check for the waiting list now. To view the members of your course, click here:
-crs#:#crs_cancellation_end#:#Limit 'Unsubscribe from Course'
-crs#:#crs_cancellation_end_info#:#Until the date selected members can unsubscribe from the course.
-crs#:#crs_cancellation_end_rbac_info#:#The cancellation deadline was met on %s, a cancellation is not possible anymore.
+crs#:#crs_cancellation_end#:#Set Latest Exit Date
+crs#:#crs_cancellation_end_info#:#Members can leave the course until the date selected.
+crs#:#crs_cancellation_end_rbac_info#:#The cancellation deadline was on %s. It is therefore no longer possible to cancel your participation in this course.
 crs#:#crs_cannot_find_role#:#Can't find this role.
-crs#:#crs_cdf_edit_member#:#Edit Course Relevant User Data
+crs#:#crs_cdf_edit_member#:#Edit Course-Specific User Data
 crs#:#crs_cdf_tbl_last_edit#:#Updated (Course-specific Data)
 crs#:#crs_checklist_objective#:#Checklist Objective
 crs#:#crs_contact#:#Contact
@@ -7331,7 +7321,7 @@ crs#:#crs_course_group_notification_link#:#Link:
 crs#:#crs_course_period_not_valid#:#The period is not valid.
 crs#:#crs_course_status_of_users#:#Passing the Course
 crs#:#crs_create_date#:#Create date
-crs#:#crs_custom_user_fields#:#Course Relevant User Data
+crs#:#crs_custom_user_fields#:#Course-Specific User Data
 crs#:#crs_dates#:#Dates
 crs#:#crs_deactivate_notification#:#Deactivate Notification
 crs#:#crs_delete_objectve_sure#:#Are you sure, you want to delete the selected objectives?
@@ -7511,7 +7501,7 @@ crs#:#crs_map_settings#:#Map
 crs#:#crs_materials#:#Materials
 crs#:#crs_max_and_min_members_invalid#:#The minimum number must be smaller than the maximum number of members.
 crs#:#crs_max_and_min_members_needed#:#Set a minimum or maximum number of members - or both.
-crs#:#crs_max_members_needed#:#A maximum number of members is needed for the waiting list feature.
+crs#:#crs_max_members_needed#:#The waiting list feature requires you to set the maximum number of members allowed to sign up for the course.
 crs#:#crs_max_members_reached#:#The maximum number of members has been reached
 crs#:#crs_mem_contact#:#Tutorial Support
 crs#:#crs_mem_contacts#:#Tutorial Support
@@ -7524,7 +7514,7 @@ crs#:#crs_members#:#Members
 crs#:#crs_members_deleted#:#Selected members were successfully removed from course.
 crs#:#crs_members_groups#:#Memberships in Groups
 crs#:#crs_members_map#:#Course Members Map
-crs#:#crs_members_print_title#:#Course members
+crs#:#crs_members_print_title#:#Course Members
 crs#:#crs_min_one_admin#:#There has to be at least one administrator assigned to this course.
 crs#:#crs_my_courses_groups_enabled#:#My Courses and Groups
 crs#:#crs_my_courses_groups_enabled_info#:#If activated, the section 'My Courses and Groups' is visible.
@@ -7599,7 +7589,7 @@ crs#:#crs_objective_wiz_final_limit_info#:#Here you can define the limits for th
 crs#:#crs_objective_wiz_materials#:#Assign Course Material
 crs#:#crs_objective_wiz_materials_info#:#You can assign course materials that are recommended for processing the learning objective.
 crs#:#crs_objective_wiz_self#:#Initial Test Questions
-crs#:#crs_objective_wiz_self_info#:#Please define the initial test questions. Initial tests are intended to examine the previous knowledge of the course participants.
+crs#:#crs_objective_wiz_self_info#:#Please set the initial test questions. Initial tests are intended to examine the previous knowledge of the course members.
 crs#:#crs_objective_wiz_self_limit#:#Limits for Initial Test
 crs#:#crs_objective_wiz_self_limit_info#:#Please define the limits for initial test questions.
 crs#:#crs_objective_wiz_title#:#Describe Learning Objective
@@ -7631,17 +7621,17 @@ crs#:#crs_ref_member_update_info#:#All new members of the parent course are auto
 crs#:#crs_ref_missing_access#:#The option cannot be selected because you do not have "Manage Members" permission for either course.
 crs#:#crs_ref_missing_parent_crs#:#The option cannot be selected because this course link does not have a parent course.
 crs#:#crs_reg#:#Registration Settings
-crs#:#crs_reg_code#:#Admission per Link
-crs#:#crs_reg_code_enabled_info#:#Besides the chosen registration procedure and permissions this option allows users to enter directly by using the following link.
+crs#:#crs_reg_code#:#Admission via Link
+crs#:#crs_reg_code_enabled_info#:#Irrespective of the main registration procedure and permissions that have been selected, this option allows users to gain admission directly by using the following link.
 crs#:#crs_reg_code_link#:#Link for Direct Admission
-crs#:#crs_reg_max_info#:#Define the maximum number of users that can be assigned to this course.
-crs#:#crs_reg_no_selfreg#:#No Self-enrolment
-crs#:#crs_reg_password_info#:#Users need to type in this password when joining the course.
+crs#:#crs_reg_max_info#:#Set the maximum number of users that can join this course.
+crs#:#crs_reg_no_selfreg#:#No Self-Enrolment
+crs#:#crs_reg_password_info#:#Users need to type in this password in order to join the course.
 crs#:#crs_reg_subject#:#Message
 crs#:#crs_reg_until#:#Registration Period
 crs#:#crs_reg_user_already_subscribed#:#You have already requested membership for this course
 crs#:#crs_registration#:#Course Registration
-crs#:#crs_registration_confirmation_info#:#Interested users can send a request/message to course administrator.
+crs#:#crs_registration_confirmation_info#:#Users who wish to join the course can send a membership request/message to a course administrator.
 crs#:#crs_registration_deactivated#:#Only course administrators can add users to the course.
 crs#:#crs_registration_limited#:#Limited Registration Period
 crs#:#crs_registration_limited_info#:#Members can only register for this course during a specific period of time.
@@ -7661,10 +7651,10 @@ crs#:#crs_settings_saved#:#Settings saved
 crs#:#crs_shorten_breadcrumb#:#Breadcrumb
 crs#:#crs_show_all_obj#:#Expand All
 crs#:#crs_show_member_export#:#Participants List
-crs#:#crs_show_member_export_info#:#Course Members may print a list of participants.
+crs#:#crs_show_member_export_info#:#Course members may generate and print a list of participants.
 crs#:#crs_show_member_export_settings#:#Participants List
 crs#:#crs_show_members#:#Show Members
-crs#:#crs_show_members_info#:#If activated, course members can access the members gallery.
+crs#:#crs_show_members_info#:#Allow course members to see a list of all course participants via the ‘Members’ tab.
 crs#:#crs_size#:#File size
 crs#:#crs_sort_activation#:#Sort by Activation
 crs#:#crs_sort_manual#:#Sort Manually
@@ -7700,10 +7690,10 @@ crs#:#crs_subscription_min_members#:#Minimum Number
 crs#:#crs_subscription_min_members_err#:#The minimum number is not allowed to be greater than the maximum number of participants.
 crs#:#crs_subscription_min_members_info#:#Define the number of users that is minimally required for this course to be held at all. If this number is not met either after the date until which users can register or unsubscribe from the course a mail will be send to those course administrators or tutors that have activated the 'Notification' flag in the 'Members'-tab.
 crs#:#crs_subscription_options_confirmation#:#Request Membership
-crs#:#crs_subscription_options_direct#:#Join Directly
+crs#:#crs_subscription_options_direct#:#Self Registration
 crs#:#crs_subscription_options_password#:#Join with Course Password
 crs#:#crs_subscription_successful#:#You have joined the course
-crs#:#crs_sure_delete_selected_archives#:#Are you sure to delete the selected archives
+crs#:#crs_sure_delete_selected_archives#:#Are you sure to delete the selected archives?
 crs#:#crs_syllabus#:#Syllabus
 crs#:#crs_sys_default#:#System Default
 crs#:#crs_table_start_objects#:#Start Objects
@@ -7771,7 +7761,7 @@ crs#:#crs_unsubscribe_sure#:#Are you sure you want to unsubscribe from this cour
 crs#:#crs_unsubscribed_from_crs#:#You have been unsubscribed from this course.
 crs#:#crs_update_subscr_request#:#Update Membership Request
 crs#:#crs_user_agreement#:#Released Data Types
-crs#:#crs_user_agreement_info#:#Visible Personal Data for Course Administrators
+crs#:#crs_user_agreement_info#:#Personal Data Visible to Course Administrators
 crs#:#crs_user_already_assigned#:#The chosen user is already assigned to this course.
 crs#:#crs_users_added#:#Added user to the course
 crs#:#crs_users_already_assigned#:#The user is already assigned to this course
@@ -7789,16 +7779,16 @@ crs#:#crs_view_timing_relative#:#Relative Dates
 crs#:#crs_view_timings#:#Timings View Type
 crs#:#crs_visibility#:#Visibility
 crs#:#crs_visibility_limitless#:#Unlimited
-crs#:#crs_visibility_until#:#Limited Availability Period
+crs#:#crs_visibility_until#:#Limited Period of Availability
 crs#:#crs_visibility_until_info#:#The course will be visible to it's members in a specific period of time.
 crs#:#crs_visibility_unvisible#:#The course is not visible.
-crs#:#crs_wait_info#:#If the maximum number of users is exceeded, new registrations will be placed on a waiting list.
+crs#:#crs_wait_info#:#If the maximum number of course members has already been reached, subsequent registrations will be placed on a waiting list.
 crs#:#crs_waiting_list#:#Waiting List
 crs#:#crs_waiting_list_autofill#:#With Auto-Fill
-crs#:#crs_waiting_list_autofill_info#:#Participants are recruited from the waiting list automatically on cancellations. This should not be used with the "Request Membership" registration procedure as autofill will bypass it.
+crs#:#crs_waiting_list_autofill_info#:#Users are moved automatically from the waiting list to the active list of course members if cancellations create free spaces.  This should not be used in conjunction with the ‘Request Membership‘ registration procedure, as auto-fill will bypass it.
 crs#:#crs_waiting_list_no_autofill#:#Without Auto-Fill
-crs#:#crs_warn_no_max_set_on_waiting_list#:#The maximum number of course members is exceeded. You can set yourself on the waiting list. You will receive a message from a course administrator when your request has been approved or rejected.
-crs#:#crs_warn_wl_set_on_waiting_list#:#Some users are already assigned to the waiting list. You can add your join request to the waiting list. You will receive a message from a course administrator when your request has been approved or rejected.
+crs#:#crs_warn_no_max_set_on_waiting_list#:#The maximum number of course members has unfortunately already been reached. You can add your request to join to the waiting list. You will receive a message from a course administrator when your request has been approved or rejected.
+crs#:#crs_warn_wl_set_on_waiting_list#:#There are already users on the waiting list for this course.  You can, however, still request to join the waiting list. You will receive a message from a course administrator when your request has been approved or rejected.
 crs#:#crs_wiz_back#:#Back
 crs#:#crs_wiz_next#:#Save
 crs#:#crs_xml#:#XML
@@ -7862,8 +7852,8 @@ crs#:#sess_attendance_list#:#Attendance List
 crs#:#sess_gen_attendance_list#:#Generate List
 crs#:#sess_join_info#:#Please click Attend if you want to take part at this session.
 crs#:#sess_limit#:#Limit Number of Sessions Shown
-crs#:#sess_limit_info#:#Participants are not presented with the list of all sessions but a limited number of sessions.
-crs#:#sess_num_next#:#Number of Following Sessions (from tomorrow)
+crs#:#sess_limit_info#:#Participants are not presented with a list of all sessions, but rather a limited number of sessions.
+crs#:#sess_num_next#:#Number of Future Sessions (from tomorrow)
 crs#:#sess_num_prev#:#Number of Past Sessions (until yesterday)
 crs#:#sess_print_attendance_list#:#Print List
 crs#:#sess_signature#:#Signature
@@ -7883,7 +7873,7 @@ crs#:#timings_cron_reminder_started_subject#:#Der Bearbeitungszeitraum hat begon
 crs#:#timings_edit#:#Edit Timings
 crs#:#timings_of#:#Timings Off
 crs#:#timings_reminder_notifications#:#Course Timings Notifications
-crs#:#timings_reminder_notifications_info#:#If enabled, course participants will be notified about exceeded timing materials.
+crs#:#timings_reminder_notifications_info#:#Notify course members when they exceed timing materials.
 crs#:#timings_timings#:#Timings
 crs#:#timings_timings_off#:#Switch Timings Administration Off
 crs#:#timings_timings_on#:#Switch Timings Administration On
@@ -7914,7 +7904,7 @@ dash#:#dash_enable_task#:#Tasks
 dash#:#dash_favourites#:#Favourites
 dash#:#dash_info_sure_remove_from_favs#:#Are you sure you want to remove the following objects from your Favourites?
 dash#:#dash_item_removed#:#Recommendation has been removed from the list.
-dash#:#dash_learningsequences#:#My Learning Sequences
+dash#:#dash_learning_sequences#:#My Learning Sequences
 dash#:#dash_list#:#List
 dash#:#dash_main_panel#:#Main Panel
 dash#:#dash_make_favourite#:#Add to Favourites
@@ -7929,12 +7919,13 @@ dash#:#dash_sort_by_location#:#Sort by Location
 dash#:#dash_sort_by_start_date#:#Sort by Period of Event
 dash#:#dash_sort_by_type#:#Sort by Type
 dash#:#dash_sortation#:#Sortation
-dash#:#dash_studyprogramme#:#My Study Programmes
+dash#:#dash_study_programmes#:#My Study Programmes
 dash#:#dash_tile#:#Tile
 dash#:#dash_view_courses_groups#:#Section ‘My Courses and Groups’
 dash#:#dash_view_favourites#:#Section ‘Favourites’
 dash#:#favourites_disabled_info#:#Add to favorites is deactivated. You may change this inside the repository settings.
 dash#:#memberships_disabled_info#:#Subscriptions are deactivated. You may change this inside the course settings.
+dash#:#topitem_block#:#Block
 dateplaner#:#Fr_long#:#Friday
 dateplaner#:#Fr_short#:#Fr
 dateplaner#:#Mo_long#:#Monday
@@ -8089,6 +8080,8 @@ dateplaner#:#cal_create#:#Create
 dateplaner#:#cal_created_appointment#:#Created new appointment.
 dateplaner#:#cal_created_milestone#:#Milestone added.
 dateplaner#:#cal_created_milestone_resp_q#:#Milestone added. Please select users that are responsible to meet the milestone.
+dateplaner#:#cal_cronjob_remote_description#:#If activated, appointments of the calendar type "Web calendar" are automatically synchronised after the specified time interval.
+dateplaner#:#cal_cronjob_remote_title#:#External Calendar Synchronisation
 dateplaner#:#cal_crs_info#:#Course Information
 dateplaner#:#cal_crs_new_notification_body#:#a new appointment has been created in course "%s".
 dateplaner#:#cal_crs_new_notification_sub#:#New Appointment in Course "%s"
@@ -8569,6 +8562,8 @@ dcl#:#dcl_std_field_not_importable#:# - Standard fields are not importable.
 dcl#:#dcl_std_filter#:#Default Filter
 dcl#:#dcl_supported_filetypes#:#Allowed file-extensions
 dcl#:#dcl_supported_filetypes_desc#:#You can set the allowed extensions comma seperated. For example: pdf, docx
+dcl#:#dcl_switch_table#:#Switch Table
+dcl#:#dcl_switch_view#:#Change View
 dcl#:#dcl_table#:#Table
 dcl#:#dcl_table_create#:#Create Table
 dcl#:#dcl_table_edit#:#Update Table
@@ -9799,6 +9794,8 @@ glo#:#glo_box_last_presented#:#Box Last Presented
 glo#:#glo_boxes#:#Boxes
 glo#:#glo_boxes_really_reset#:#Do you really want to reset all boxes? All flashcards will be moved to the first box.
 glo#:#glo_boxes_reset#:#The boxes have been reset successfully.
+glo#:#glo_bulk_confirmation#:#Please check if all terms and definitions are listed correctly.
+glo#:#glo_bulk_creation#:#Bulk Creation
 glo#:#glo_change_to_collection_unavailable_info#:#To change the type of content assembly to "Collection Glossary", you first have to delete all existing terms within this glossary in tab "Content".
 glo#:#glo_change_to_standard_unavailable_info#:#To change the type of content assembly to "Standard Glossary", you first have to remove the selected glossaries in tab "Content".
 glo#:#glo_col_ordering_info#:#Order the titles of the metadata fields. They are presented as column headers in the table presentation of the glossary.
@@ -9808,6 +9805,7 @@ glo#:#glo_collection_info#:#The glossary automatically collects all terms from t
 glo#:#glo_content_assembly#:#Content Assembly
 glo#:#glo_copy#:#Copy Glossary
 glo#:#glo_copy_terms#:#Copy Terms
+glo#:#glo_create_term_definition_pairs#:#Create Term/Definition Pairs
 glo#:#glo_days_ago#:#%s days ago
 glo#:#glo_def_vs_term#:#Definition vs. Term
 glo#:#glo_def_vs_term_info#:#Show a definition first, the learner has to guess the term.
@@ -9838,9 +9836,13 @@ glo#:#glo_selected_terms_have_been_copied#:#The selected terms have been copied 
 glo#:#glo_show_definition#:#Show Definition
 glo#:#glo_show_term#:#Show Term
 glo#:#glo_term#:#Glossary Term
+glo#:#glo_term_definition_pairs#:#Term/Definition Pairs
+glo#:#glo_term_definition_pairs_info#:#Please enter a term and a definition pair in each line. Term and definition must be separated by a semicolon or a TAB character (usually provided by clipboard actions from spreadsheet applications).
+glo#:#glo_term_letter#:#Letter
 glo#:#glo_term_reference#:#Term Reference
 glo#:#glo_term_vs_def#:#Term vs. Definition
 glo#:#glo_term_vs_def_info#:#Show a term first, the learner has to guess the definition.
+glo#:#glo_terms_per_page#:#Terms per Page
 glo#:#glo_use_all_flashcards#:#Use All Flashcards (%s)
 glo#:#glo_use_remaining_flashcards#:#Use Remaining Flashcards (%s)
 grp#:#crs_add_grouping#:#Add Membership Limitation
@@ -10845,7 +10847,7 @@ mail#:#mail_absence_status#:#Enable Autoresponder
 mail#:#mail_absence_status_info#:#Activation of the automatic sending of an out of office message
 mail#:#mail_absent_from#:#Absent from
 mail#:#mail_absent_until#:#Absent until
-mail#:#mail_account_mail#:#Account Mail
+mail#:#mail_account_mail#:#Notify New Account Holders
 mail#:#mail_add_folder#:#Add New Sub-folder
 mail#:#mail_add_recipient#:#Please enter a recipient
 mail#:#mail_add_subfolder#:#Add Sub-folder
@@ -10952,6 +10954,8 @@ mail#:#mail_members_search_continue#:#Continue
 mail#:#mail_message_send#:#Message sent
 mail#:#mail_move_error#:#Error moving mail
 mail#:#mail_move_to#:#Move to:
+mail#:#mail_move_to_folder_btn_label#:#Move Mail
+mail#:#mail_move_to_folder_x#:#to "%s"
 mail#:#mail_moved#:#The mail has been moved
 mail#:#mail_moved_to_trash#:#Mail has been moved to trash
 mail#:#mail_multiple_role_recipients_found#:#%1$s (found multiple roles for recipient: %2$s)
@@ -11385,6 +11389,7 @@ meta#:#md_used#:#Current Number of Usages
 meta#:#meta_accessibility_restrictions#:#Accessibility Restrictions
 meta#:#meta_active#:#Active
 meta#:#meta_add#:#Add
+meta#:#meta_advmd_add_field#:#Add New Field
 meta#:#meta_advmd_select_options#:#Entries
 meta#:#meta_annotation#:#Annotation
 meta#:#meta_atomic#:#Atomic
@@ -12330,7 +12335,9 @@ obj#:#obj_tool_setting_use_news_open_settings#:#Open Settings of News Block and 
 obj#:#obj_user_decides_notification#:#Members have to manually activate notifications
 obj#:#obj_user_not_disable_not#:#Member are not allowed to deactivate notifications
 obj#:#online_input_byline#:#The object has been published and can be accessed by anyone with read access. Other access prerequisites or time-based access restrictions may still apply. This settings applies to the object wherever it is used in the repository.
+obj#:#select_object_type#:#Select Object Type
 obj#:#svy_results#:#Results
+obj#:#user_owns_no_objects#:#No Repository Objects Available
 objref#:#objref_custom_title#:#Use Own Title
 objref#:#objref_edit_ref#:#Link Target
 objref#:#objref_edit_title#:#Title
@@ -12572,30 +12579,36 @@ poll#:#poll_answer#:#Answer
 poll#:#poll_answers#:#Possible Answers
 poll#:#poll_barchart#:#Bar Chart
 poll#:#poll_block_message_already_voted#:#You already voted in this poll.
-poll#:#poll_block_message_inactive#:#This poll will be available from %s.
 poll#:#poll_block_message_no_answers#:#This poll is incomplete.
-poll#:#poll_block_message_offline#:#This poll is offline.
-poll#:#poll_block_results_available_on#:#The results will be available on %s.
+poll#:#poll_block_results_available_on#:#The results will be available %s.
+poll#:#poll_cannot_set_online_no_answers#:#The status cannot be changed to &quot;online&quot; because this poll has no question!
 poll#:#poll_comments#:#Comments
 poll#:#poll_copy#:#Copy Poll
-poll#:#poll_delete_votes#:#Delete All Votes
-poll#:#poll_delete_votes_sure#:#Are you sure you want to delete all votes?
+poll#:#poll_delete_votes#:#Delete Votes of All Users
+poll#:#poll_delete_votes_sure#:#Are you sure you want to delete the votes of all users who took part in this poll?
 poll#:#poll_edit#:#Edit Poll
+poll#:#poll_edit_question#:#Edit Question
 poll#:#poll_image#:#Image
 poll#:#poll_import#:#Import Poll
-poll#:#poll_max_number_of_answers#:#Maximum Number Of Answers per Participant
+poll#:#poll_limit_not_below_answer_count#:#The answer limit must be below the number of possible answers.
+poll#:#poll_limit_number_of_answers#:#Limit Number of Answers per Participant
+poll#:#poll_max_number_of_answers#:#Max. Answers
+poll#:#poll_max_number_of_answers_info#:#You may choose up to %s answers.
 poll#:#poll_mode#:#Mode
-poll#:#poll_mode_anonymous#:#Anonymous
-poll#:#poll_mode_anonymous_info#:#Votes cannot be traced back to participants.
-poll#:#poll_mode_personal#:#Personal
-poll#:#poll_mode_personal_info#:#A list of participants with their respective votes is available when having sufficient permission.
+poll#:#poll_mode_anonymous#:#Without Names / Anonymous
+poll#:#poll_mode_anonymous_info#:#In the tab ‘Results’ the names of participants are omitted.
+poll#:#poll_mode_personal#:#With Names
+poll#:#poll_mode_personal_info#:#In the tab ‘Results’ the names of participants and their respective answers are listed. Users with access to this tab can inspect who has given which answer.
 poll#:#poll_new#:#Add New Poll
 poll#:#poll_non_anonymous_warning#:#Your name and vote are visible for administrators in the results.
+poll#:#poll_notification_activated#:#Notification Activated
+poll#:#poll_notification_deactivated#:#Notification Deactivated
 poll#:#poll_notification_subscribe#:#Activate Notification
 poll#:#poll_notification_unsubscribe#:#Deactivate Notification
 poll#:#poll_percentage#:#Current Percentage
 poll#:#poll_piechart#:#Pie Chart
 poll#:#poll_population#:#%s Participants
+poll#:#poll_population_singular#:#1 Participant
 poll#:#poll_question#:#Question
 poll#:#poll_result#:#Results
 poll#:#poll_result_answers#:#Votes
@@ -12613,6 +12626,7 @@ poll#:#poll_view_results_always#:#Always
 poll#:#poll_view_results_never#:#Never
 poll#:#poll_vote#:#Vote
 poll#:#poll_vote_error_multi#:#Please select no more than %s answers.
+poll#:#poll_vote_error_multi_no_answer#:#Please select at least 1 answer.
 poll#:#poll_vote_error_single#:#Please select 1 answer.
 poll#:#poll_vote_notification_body#:#the following poll has received a vote.
 poll#:#poll_vote_notification_link#:#Link to Poll
@@ -12620,8 +12634,9 @@ poll#:#poll_vote_notification_reason#:#You are receiving this e-mail because you
 poll#:#poll_vote_notification_subject#:#Poll "%s": new vote
 poll#:#poll_votes_no_edit#:#This poll already contains votes. You cannot edit the poll until you delete these votes.
 poll#:#poll_voting_period_and_results#:#Voting Period and Results
+poll#:#poll_voting_period_ended_info#:#The voting period ended %s.
 poll#:#poll_voting_period_full_info#:#Voting period from %s to %s
-poll#:#poll_voting_period_info#:#Deadline for Voting: %s
+poll#:#poll_voting_period_info#:#The deadline for voting is %s.
 poll#:#poll_voting_period_limited#:#Limited Voting Period
 prg#:#access_ctr_by_orgu_position#:#Access control according to Organisational Unit Positions
 prg#:#active_only#:#active users only
@@ -14070,10 +14085,6 @@ rbac#:#webr_edit_permission#:#User can change permission settings
 rbac#:#webr_read#:#User can read and use weblinks
 rbac#:#webr_visible#:#Weblink is visible
 rbac#:#webr_write#:#User can edit settings of weblinks
-rbac#:#wfe_edit_permission#:#User can change permission settings of Workflow Engine administration
-rbac#:#wfe_read#:#User has read access to administration of Workflow Engine
-rbac#:#wfe_visible#:#Administration of Workflow Engine is visible
-rbac#:#wfe_write#:#User can edit settings of Workflow Engine administration
 rbac#:#wiki_activate_wiki_protection#:#Set Wiki Pages to Read-Only
 rbac#:#wiki_copy#:#User can copy wiki
 rbac#:#wiki_delete#:#User can move or delete wiki
@@ -16659,6 +16670,13 @@ ui#:#datetime_required#:#Time/Date required
 ui#:#duration_default_label_end#:#end
 ui#:#duration_default_label_start#:#start
 ui#:#duration_end_must_not_be_earlier_than_start#:#Start must not be later than end.
+ui#:#label_fieldselection#:#Field Selection
+ui#:#label_fieldselection_refresh#:#Apply
+ui#:#label_pagination_limit#:#Pagination Number of Rows
+ui#:#label_pagination_offset#:#Pagination Offset
+ui#:#label_sortation#:#Sortation
+ui#:#presentaion_table_collapse#:#collapse all
+ui#:#presentaion_table_expand#:#expand all
 ui#:#ui_chars_max#:#Maximum:
 ui#:#ui_chars_min#:#Minimum:
 ui#:#ui_chars_remaining#:#Characters remaining:
@@ -16784,7 +16802,7 @@ user#:#user_profile_info_std#:#Default User Profile Info
 user#:#user_profile_info_text_info#:#This text is presented on top of the form for entering personal data.
 user#:#user_profile_portfolio#:#If you would like to use a portfolio as your profile, go to the portfolio section and select ‘Set As My Profile’ from the drop-down menu to the right of the portfolio you wish to use.
 user#:#user_profile_portfolio_selected#:#You are currently using a portfolio as your profile. Activation can be set there using the ‘Share’ tab.
-user#:#user_profile_preview#:#Preview
+user#:#user_profile_preview#:#Preview of Profile
 user#:#user_profile_prompt_text_info#:#This text will replace the default info text, if a user has been prompted to the profile.
 user#:#user_prompt_incomplete#:#Only if profile is incomplete
 user#:#user_prompt_incomplete_info#:#If the user has to enter required fields, the profile will be shown after login.
@@ -16857,37 +16875,6 @@ webr#:#webr_set_to_list#:#Set to Weblink List
 webr#:#webr_sort_manual#:#Sort Manually
 webr#:#webr_sort_title#:#Titles in Alphabetical Order
 webr#:#webr_sorting#:#Weblink Sorting
-wfe#:#context_by_id#:#Context By ID
-wfe#:#context_by_mask#:#Masked Context
-wfe#:#context_id#:#Context ID
-wfe#:#context_type#:#Context Type
-wfe#:#dashboard#:#Dashboard
-wfe#:#definition_deleted#:#Workflow-Definition deleted.
-wfe#:#definitions#:#Process Definitions
-wfe#:#delete_definition#:#Delete Definition
-wfe#:#input_static_variables_desc#:#The process requires the following data for its starts:
-wfe#:#input_variables_desc#:#The process requires the following data to start:
-wfe#:#input_variables_required#:#Input required
-wfe#:#instances#:#Process Instances
-wfe#:#obj_wfe_desc#:#Process Automation
-wfe#:#process_definition_file#:#Process Definition File
-wfe#:#process_definition_file_info#:#BPMN2-Models
-wfe#:#process_started#:#Process started
-wfe#:#start_event_form_header#:#Relevant Events for the Start of Workflows
-wfe#:#start_listening#:#Activate Listener
-wfe#:#start_process#:#Start Process
-wfe#:#static_input_form_header#:#Input Data for All Instances of the Workflow
-wfe#:#stop_listening#:#Deactivate Listener
-wfe#:#subject_by_id#:#Subject By ID
-wfe#:#subject_by_mask#:#Masked Subject
-wfe#:#subject_id#:#Subject ID
-wfe#:#subject_type#:#Subject Type
-wfe#:#upload_parse_success#:#Process Definition uploaded, parsed and stored.
-wfe#:#upload_process#:#Upload Process Definition
-wfe#:#wfe_request_missing_process_id#:#The process id is missing, cannot perform the desired action.
-wfe#:#wfe_started_listening#:#Process armed
-wfe#:#wfe_stopped_listening#:#Process disarmed
-wfe#:#wfe_sure_to_delete_process_def#:#Are you sure you want to delete the definition?
 wfld#:#wfld_add#:#Create Folder
 wfld#:#wfld_alphabetically_asc#:#Alphabetically, asc.
 wfld#:#wfld_alphabetically_desc#:#Alphabetically, desc.

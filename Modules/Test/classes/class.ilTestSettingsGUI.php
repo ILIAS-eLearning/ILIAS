@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * GUI class that manages the editing of general test settings/properties
  * shown on "general" subtab
@@ -24,7 +26,7 @@
  */
 abstract class ilTestSettingsGUI
 {
-    public function __construct(protected ilObjTest $testOBJ)
+    public function __construct(protected ilObjTest $test_object)
     {
     }
 

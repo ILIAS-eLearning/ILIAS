@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * @author		Björn Heyser <bheyser@databay.de>
  * @version		$Id$
@@ -72,15 +74,12 @@ class ilTestParticipantData
     /**
      * @return callable
      */
-    public function getParticipantAccessFilter(): ?callable
+    public function getParticipantAccessFilter(): ?Closure
     {
         return $this->participantAccessFilter;
     }
 
-    /**
-     * @param callable $participantAccessFilter
-     */
-    public function setParticipantAccessFilter($participantAccessFilter): void
+    public function setParticipantAccessFilter(Closure $participantAccessFilter): void
     {
         $this->participantAccessFilter = $participantAccessFilter;
     }

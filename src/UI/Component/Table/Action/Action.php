@@ -25,11 +25,5 @@ use ILIAS\Data\URI;
 
 interface Action extends \ILIAS\UI\Component\Component
 {
-    public function getLabel(): string;
-    /**
-     * Each Row (see RowBuilder) has an id; when triggering an action,
-     * those ids will be relayed by this parameter.
-     */
-    public function getParameterName(): string;
-    public function getTarget(): Signal|URI;
+    public function withAsync(bool $async = true): self;
 }

@@ -1,0 +1,16 @@
+<div class="dropdown il-viewcontrol il-viewcontrol-fieldselection l-bar__element"<!-- BEGIN id --> id="{ID}" <!-- END id -->>
+    <button class="btn btn-ctrl dropdown-toggle" type="button" data-toggle="dropdown"<!-- BEGIN aria_label --> aria-label="{ARIA_LABEL}"<!-- END aria_label --> aria-haspopup="true" aria-expanded="false" aria-controls="{ID_MENU}"><span class="caret"></span></button>
+    
+    <ul id="{ID_MENU}" class="dropdown-menu">
+        <!-- BEGIN option -->
+        <li><input type="checkbox" value="{OPTION_VALUE}" id="{OPTION_ID}" {CHECKED} /> <label for="{OPTION_ID}">{OPTION_LABEL}</label> </li>
+        <!-- END option -->
+        {BUTTON}
+    </ul>
+
+    <div class="il-viewcontrol-value" role="none">
+        <!-- BEGIN value -->
+        <input  type="hidden" name="{NAME}[]" value="{VALUE}" />
+        <!-- END value -->
+    </div>
+</div>

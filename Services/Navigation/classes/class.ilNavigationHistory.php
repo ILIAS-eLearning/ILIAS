@@ -140,7 +140,7 @@ class ilNavigationHistory
                 " WHERE usr_id = " . $ilDB->quote($ilUser->getId(), "integer")
             );
             $rec = $ilDB->fetchAssoc($set);
-            $db_entries = unserialize($rec["last_visited"], ["allowed_classes" => false]);
+            $db_entries = unserialize((string) $rec["last_visited"], ["allowed_classes" => false]);
             $cnt = count($items);
             if (is_array($db_entries)) {
                 foreach ($db_entries as $rec) {

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -15,16 +16,8 @@
  *
  *********************************************************************/
 
-/**
- * Class ilDclDatatype
- * @author  Martin Studer <ms@studer-raimann.ch>
- * @author  Marcel Raimann <mr@studer-raimann.ch>
- * @author  Fabian Schmid <fs@studer-raimann.ch>
- * @author  Oskar Truffer <ot@studer-raimann.ch>
- * @author  Stefan Wanzenried <sw@studer-raimann.ch>
- * @version $Id:
- * @ingroup ModulesDataCollection
- */
+declare(strict_types=1);
+
 class ilDclDatatype
 {
     public const INPUTFORMAT_NONE = 0;
@@ -128,7 +121,7 @@ class ilDclDatatype
         $ilDB = $DIC['ilDB'];
 
         if (self::$datatype_cache == null) {
-            self::$datatype_cache = array();
+            self::$datatype_cache = [];
 
             $query = "SELECT * FROM il_dcl_datatype ORDER BY sort";
             $set = $ilDB->query($query);

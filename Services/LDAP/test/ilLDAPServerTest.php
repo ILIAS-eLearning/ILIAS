@@ -29,6 +29,8 @@ use PHPUnit\Framework\TestCase;
  */
 class ilLDAPServerTest extends TestCase
 {
+    private Container $dic;
+
     protected function setUp(): void
     {
         $this->dic = new Container();

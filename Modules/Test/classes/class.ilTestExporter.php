@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Used for container export with tests
  *
@@ -25,7 +27,21 @@
  */
 class ilTestExporter extends ilXmlExporter
 {
-    private $ds;
+    private ilLanguage $lng;
+    private ilLogger $log;
+    private ilTree $tree;
+    private ilComponentRepository $component_repository;
+
+    public function __construct()
+    {
+        global $DIC;
+        $this->lng = $DIC['lng'];
+        $this->log = $DIC['ilLog'];
+        $this->tree = $DIC['tree'];
+        $this->component_repository = $DIC['component.repository'];
+
+        parent::__construct();
+    }
 
     /**
      * Initialisation
@@ -34,46 +50,42 @@ class ilTestExporter extends ilXmlExporter
     {
     }
 
-    public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id): string
+    public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $id): string
     {
-        $tst = new ilObjTest($a_id, false);
-        $expFactory = new ilTestExportFactory($tst);
-        $testExport = $expFactory->getExporter('xml');
-        $zip = $testExport->buildExportFile();
+        $tst = new ilObjTest((int) $id, false);
+        $tst->read();
+        $test_export_factory = new ilTestExportFactory($tst, $this->lng, $this->log, $this->tree, $this->component_repository);
+        $test_export = $test_export_factory->getExporter('xml');
+        $zip = $test_export->buildExportFile();
 
-        global $DIC; /* @var ILIAS\DI\Container $DIC */
-        $DIC['ilLog']->write(__METHOD__ . ': Created zip file ' . $zip);
+        $this->log->write(__METHOD__ . ': Created zip file ' . $zip);
         return ''; // Sagt mjansen
     }
 
     /**
-     * Get tail dependencies
-     * @param		string		entity
-     * @param		string		target release
-     * @param		array		ids
-     * @return        array        array of array with keys "component", entity", "ids"
+     * @param array<int> ids
+     * @return array<array> array of array with keys 'component', 'entity', 'ids'
      */
     public function getXmlExportTailDependencies(string $a_entity, string $a_target_release, array $a_ids): array
     {
         if ($a_entity == 'tst') {
-            $deps = array();
+            $deps = [];
 
-            $taxIds = $this->getDependingTaxonomyIds($a_ids);
+            $tax_ids = $this->getDependingTaxonomyIds($a_ids);
 
-            if (count($taxIds)) {
-                $deps[] = array(
+            if (count($tax_ids)) {
+                $deps[] = [
                     'component' => 'Services/Taxonomy',
                     'entity' => 'tax',
-                    'ids' => $taxIds
-                );
+                    'ids' => $tax_ids
+                ];
             }
 
-            // service settings
-            $deps[] = array(
-                "component" => "Services/Object",
-                "entity" => "common",
-                "ids" => $a_ids
-            );
+            $deps[] = [
+                'component' => 'Services/Object',
+                'entity' => 'common',
+                'ids' => $a_ids
+            ];
 
             return $deps;
         }
@@ -82,20 +94,20 @@ class ilTestExporter extends ilXmlExporter
     }
 
     /**
-     * @param array $testObjIds
-     * @return array $taxIds
+     * @param array<int> $testObjIds
+     * @return array<int> $taxIds
      */
-    private function getDependingTaxonomyIds($testObjIds): array
+    private function getDependingTaxonomyIds(array $test_obj_ids): array
     {
-        $taxIds = array();
+        $tax_ids = [];
 
-        foreach ($testObjIds as $testObjId) {
-            foreach (ilObjTaxonomy::getUsageOfObject($testObjId) as $taxId) {
-                $taxIds[$taxId] = $taxId;
+        foreach ($test_obj_ids as $test_obj_id) {
+            foreach (ilObjTaxonomy::getUsageOfObject($test_obj_id) as $tax_id) {
+                $tax_ids[$tax_id] = $tax_id;
             }
         }
 
-        return $taxIds;
+        return $tax_ids;
     }
 
     /**
@@ -107,13 +119,14 @@ class ilTestExporter extends ilXmlExporter
      */
     public function getValidSchemaVersions(string $a_entity): array
     {
-        return array(
-            "4.1.0" => array(
-                "namespace" => "http://www.ilias.de/Modules/Test/htlm/4_1",
-                "xsd_file" => "ilias_tst_4_1.xsd",
-                "uses_dataset" => false,
-                "min" => "4.1.0",
-                "max" => "")
-        );
+        return [
+            '4.1.0' => [
+                'namespace' => 'http://www.ilias.de/Modules/Test/htlm/4_1',
+                'xsd_file' => 'ilias_tst_4_1.xsd',
+                'uses_dataset' => false,
+                'min' => '4.1.0',
+                'max' => ''
+            ]
+        ];
     }
 }

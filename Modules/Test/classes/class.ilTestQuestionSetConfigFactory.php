@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Factory for test question set config
  *
@@ -26,22 +28,16 @@
  */
 class ilTestQuestionSetConfigFactory
 {
-    private ilTree $tree;
-    private ilDBInterface $db;
-    private ilComponentRepository $component_repository;
-    private ilObjTest $testOBJ;
     private ?ilTestQuestionSetConfig $testQuestionSetConfig = null;
 
     public function __construct(
-        ilTree $tree,
-        ilDBInterface $db,
-        ilComponentRepository $component_repository,
-        ilObjTest $testOBJ
+        protected ilTree $tree,
+        protected ilDBInterface $db,
+        protected ilLanguage $lng,
+        protected ilLogger $log,
+        protected ilComponentRepository $component_repository,
+        protected ilObjTest $test_obj
     ) {
-        $this->tree = $tree;
-        $this->db = $db;
-        $this->component_repository = $component_repository;
-        $this->testOBJ = $testOBJ;
     }
 
     /**
@@ -50,39 +46,25 @@ class ilTestQuestionSetConfigFactory
      */
     public function getQuestionSetConfig(): ilTestQuestionSetConfig
     {
-        return $this->getQuestionSetConfigByType();
-    }
-
-    /**
-     * creates and returns an instance of a test question set config
-     * that corresponds to the passed question set type (test mode)
-     */
-    public function getQuestionSetConfigByType(): ilTestQuestionSetConfig
-    {
         if ($this->testQuestionSetConfig === null) {
-            if ($this->testOBJ->isFixedTest()) {
+            if ($this->test_obj->isFixedTest()) {
                 $this->testQuestionSetConfig = new ilTestFixedQuestionSetConfig(
                     $this->tree,
                     $this->db,
+                    $this->lng,
+                    $this->log,
                     $this->component_repository,
-                    $this->testOBJ
+                    $this->test_obj
                 );
             }
-            if ($this->testOBJ->isRandomTest()) {
+            if ($this->test_obj->isRandomTest()) {
                 $this->testQuestionSetConfig = new ilTestRandomQuestionSetConfig(
                     $this->tree,
                     $this->db,
+                    $this->lng,
+                    $this->log,
                     $this->component_repository,
-                    $this->testOBJ
-                );
-            }
-
-            if ($this->testOBJ->isDynamicTest()) {
-                $this->testQuestionSetConfig = new ilObjTestDynamicQuestionSetConfig(
-                    $this->tree,
-                    $this->db,
-                    $this->component_repository,
-                    $this->testOBJ
+                    $this->test_obj
                 );
             }
 

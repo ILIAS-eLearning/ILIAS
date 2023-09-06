@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,14 +18,9 @@
 
 declare(strict_types=1);
 
-use ILIAS\ResourceStorage\Manager\Manager;
 use ILIAS\ResourceStorage\Revision\Revision;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
-use ILIAS\ResourceStorage\Resource\StorableResource;
 
-/**
- * @author Fabian Schmid <fabian@sr.solutions>
- */
 trait ilDclFileFieldHelper
 {
     private function valueToRID(?string $value): ?ResourceIdentification
@@ -45,16 +41,6 @@ trait ilDclFileFieldHelper
         $rid = $this->valueToRID($value);
         if ($rid !== null) {
             return $this->irss->manage()->getCurrentRevision($rid);
-        }
-
-        return null;
-    }
-
-    private function valueToResource(?string $value): ?StorableResource
-    {
-        $rid = $this->valueToRID($value);
-        if ($rid !== null) {
-            return $this->irss->manage()->getResource($rid);
         }
 
         return null;

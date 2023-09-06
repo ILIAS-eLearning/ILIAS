@@ -25,7 +25,7 @@ use ILIAS\UI\Component as C;
 use ILIAS\UI\Implementation\Component\Listing\Factory;
 
 /**
- * Test on button implementation.
+ * Test on Listing implementation.
  */
 class ListingTest extends ILIAS_UI_TestBase
 {
@@ -55,6 +55,14 @@ class ListingTest extends ILIAS_UI_TestBase
         $this->assertInstanceOf(
             "ILIAS\\UI\\Component\\Listing\\CharacteristicValue\\Factory",
             $f->characteristicValue()
+        );
+        $this->assertInstanceOf(
+            "ILIAS\\UI\\Component\\Listing\\Entity\\Factory",
+            $f->entity()
+        );
+        $this->assertInstanceOf(
+            "ILIAS\\UI\\Component\\Listing\\Property",
+            $f->property()
         );
     }
 

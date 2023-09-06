@@ -34,6 +34,7 @@ use ilObjectFactory;
  */
 class ObjectManager
 {
+    protected \ilLogger $log;
     protected ilSetting $settings;
     protected ObjectDBRepository $object_repo;
     protected int $obj_id;
@@ -57,6 +58,7 @@ class ObjectManager
         $this->domain_service = $domain_service;
         $this->container_repo = $repo_service->repositoryContainer();
         $this->object_repo = $repo_service->object();
+        $this->log = $this->domain_service->log();
     }
 
     /**
@@ -126,6 +128,9 @@ class ObjectManager
      */
     public function cloneTo(int $obj_id): void
     {
+        $this->log->debug("Cloning style from ref id: " . $this->ref_id .
+            ", obj id: " . $this->obj_id . ", style id: " . $this->getStyleId() . ", to new obj id: " .
+            $obj_id);
         $style_id = $this->getStyleId();
         if ($style_id > 0 && !ilObjStyleSheet::_lookupStandard($style_id)) {
             $style_obj = ilObjectFactory::getInstanceByObjId($style_id);

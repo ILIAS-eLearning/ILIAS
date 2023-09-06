@@ -1,4 +1,18 @@
-/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /* fau: testNav - new script for test player control of editable questions. */
 
@@ -379,6 +393,24 @@ il.TestPlayerQuestionEditControl = new function() {
             $('#tst_revert_changes_action').attr('href','#');
         }
     }
+    this.checkNavigationForKSButton = function(event) {
+        // attributes of the clicked link
+        var element = event.target;
+        var link = $(element).attr('data-action');
+        // check explictly again at navigation
+        detectFormChange();
+
+        if (answerChanged                               // answer has been changed
+            && link                                     // link is not an anchor
+            && link.charAt(0) != '#'                    // link is not a fragment
+        ) {
+            event.stopImmediatePropagation();
+            // remember the url for saveWithNavigation()
+            navUrl = link;
+            saveWithNavigation();
+        }
+    }
+
 
     /**
      * Event handler for clicked links on the test page

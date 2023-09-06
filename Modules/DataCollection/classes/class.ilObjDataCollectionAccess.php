@@ -14,17 +14,10 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
-/**
- * Class ilObjDataCollectionAccess
- * @author  Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @author  Martin Studer <ms@studer-raimann.ch>
- * @author  Marcel Raimann <mr@studer-raimann.ch>
- * @author  Fabian Schmid <fs@studer-raimann.ch>
- * @version $Id: class.ilObjDataCollectionAccess.php 15678 2008-01-06 20:40:55Z akill $
- */
+declare(strict_types=1);
+
 class ilObjDataCollectionAccess extends ilObjectAccess
 {
     /**
@@ -39,11 +32,11 @@ class ilObjDataCollectionAccess extends ilObjectAccess
      */
     public static function _getCommands(): array
     {
-        $commands = array(
-            array("permission" => "read", "cmd" => "render", "lang_var" => "show", "default" => true),
-            array("permission" => "write", "cmd" => "listRecords", "lang_var" => "edit_content"),
-            array("permission" => "write", "cmd" => "edit", "lang_var" => "settings"),
-        );
+        $commands = [
+            ["permission" => "read", "cmd" => "render", "lang_var" => "show", "default" => true],
+            ["permission" => "write", "cmd" => "listRecords", "lang_var" => "edit_content"],
+            ["permission" => "write", "cmd" => "edit", "lang_var" => "settings"],
+        ];
 
         return $commands;
     }
@@ -255,22 +248,11 @@ class ilObjDataCollectionAccess extends ilObjectAccess
         return $ilAccess->checkAccess("read", "", $ref);
     }
 
-    /**
-     * This only checks access to the tableview - if the full access check is required, use hasAccessTo($ref_id, $table_id, $tableview_id)
-     * @param integer|ilDclTableView $tableview can be object or id
-     */
-    public static function hasAccessToTableView($tableview, ?int $user_id = 0): bool
+    public static function hasAccessToTableView(ilDclTableView $tableview, ?int $user_id = 0): bool
     {
         global $DIC;
         $rbacreview = $DIC['rbacreview'];
         $ilUser = $DIC['ilUser'];
-        if (!$tableview) {
-            return false;
-        }
-
-        if (is_numeric($tableview)) {
-            $tableview = ilDclTableView::find($tableview);
-        }
 
         $assigned_roles = $rbacreview->assignedRoles($user_id ?: $ilUser->getId());
         $allowed_roles = $tableview->getRoles();
@@ -281,8 +263,6 @@ class ilObjDataCollectionAccess extends ilObjectAccess
     /**
      * returns true if either the table is visible for all users, or no tables are visible and this is
      * the table with the lowest order (getFirstVisibleTableId())
-     * @param $table_id
-     * @return bool
      */
     protected static function hasAccessToTable(int $table_id, int $ref_id): bool
     {

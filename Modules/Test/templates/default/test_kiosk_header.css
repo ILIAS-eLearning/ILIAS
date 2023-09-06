@@ -1,0 +1,12 @@
+/**
+ * this is an abomination for release_8 + release_9!
+ * @todo Implement proper "kiosk-handling" for ILIAS 10.
+ */
+
+body .il-layout-page {
+    grid-template-rows: auto 0px 1fr !important;
+}
+body header .header-inner {
+    display:none !important;
+}
+

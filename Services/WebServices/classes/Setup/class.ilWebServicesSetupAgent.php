@@ -1,8 +1,22 @@
 <?php
 
-declare(strict_types=1);
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
-/* Copyright (c) 2020 Daniel Weise <daniel.weise@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
 
 use ILIAS\Setup;
 use ILIAS\Refinery;
@@ -30,7 +44,7 @@ class ilWebServicesSetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function getConfigInput(Setup\Config $config = null): UI\Component\Input\Field\Input
+    public function getConfigInput(Setup\Config $config = null): UI\Component\Input\Container\Form\FormInput
     {
         throw new \LogicException("Not yet implemented.");
     }
@@ -45,8 +59,9 @@ class ilWebServicesSetupAgent implements Setup\Agent
                 (bool) ($data["soap_user_administration"] ?? false),
                 $data["soap_wsdl_path"] ?? "",
                 (int) ($data["soap_connect_timeout"] ?? ilSoapClient::DEFAULT_CONNECT_TIMEOUT),
+                (int) ($data["soap_response_timeout"] ?? ilSoapClient::DEFAULT_RESPONSE_TIMEOUT),
                 $data["rpc_server_host"] ?? "",
-                (int) ($data["rpc_server_port"] ?? 0)
+                (int) ($data["rpc_server_port"] ?? 0),
             );
         });
     }

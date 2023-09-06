@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -13,18 +14,17 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
-/**
- * Class ilDclGenericMultiInputGUI
- * @author Michael Herren <mh@studer-raimann.ch>
- * @author Theodor Truffer <tt@studer-raimann.ch>
- */
+ *********************************************************************/
+
+declare(strict_types=1);
+
 class ilDclGenericMultiInputGUI extends ilFormPropertyGUI
 {
     public const HOOK_IS_LINE_REMOVABLE = "hook_is_line_removable";
     public const HOOK_IS_INPUT_DISABLED = "hook_is_disabled";
     public const HOOK_BEFORE_INPUT_RENDER = "hook_before_render";
+    protected \ILIAS\UI\Factory $ui_factory;
+    protected \ILIAS\UI\Renderer $renderer;
 
     protected array $cust_attr = [];
     protected array $value = [];
@@ -37,6 +37,19 @@ class ilDclGenericMultiInputGUI extends ilFormPropertyGUI
     protected bool $show_label = false;
     protected int $limit = 999999;
     protected bool $allow_empty_fields = false;
+
+    public function __construct(string $a_title = "", string $a_postvar = "")
+    {
+        global $DIC;
+
+        $this->ui_factory = $DIC->ui()->factory();
+        $this->renderer = $DIC->ui()->renderer();
+
+        parent::__construct($a_title, $a_postvar);
+
+        $this->setType("line_select");
+        $this->setMulti(true);
+    }
 
     public function getLimit(): int
     {
@@ -56,16 +69,6 @@ class ilDclGenericMultiInputGUI extends ilFormPropertyGUI
     public function setAllowEmptyFields(bool $allow_empty_fields): void
     {
         $this->allow_empty_fields = $allow_empty_fields;
-    }
-
-    /**
-     * Constructor
-     */
-    public function __construct(string $a_title = "", string $a_postvar = "")
-    {
-        parent::__construct($a_title, $a_postvar);
-        $this->setType("line_select");
-        $this->setMulti(true);
     }
 
     /**
@@ -185,7 +188,6 @@ class ilDclGenericMultiInputGUI extends ilFormPropertyGUI
 
     /**
      * Check input, strip slashes etc. set alert, if input is not ok.
-     * @return    boolean        Input ok, true/false
      */
     public function checkInput(): bool
     {
@@ -237,7 +239,7 @@ class ilDclGenericMultiInputGUI extends ilFormPropertyGUI
         return $this->cust_attr;
     }
 
-    protected function createInputPostVar(int $iterator_id, ilFormPropertyGUI $input): string
+    protected function createInputPostVar(string $iterator_id, ilFormPropertyGUI $input): string
     {
         if ($this->getMulti()) {
             return $this->getPostVar() . '[' . $iterator_id . '][' . $input->getPostVar() . ']';
@@ -250,7 +252,7 @@ class ilDclGenericMultiInputGUI extends ilFormPropertyGUI
      * Render item
      * @throws ilTemplateException
      */
-    public function render(int $iterator_id = 0, bool $clean_render = false): string
+    public function render(string $iterator_id = "0", bool $clean_render = false): string
     {
         $tpl = new ilTemplate("tpl.prop_generic_multi_line.html", true, true, 'Modules/DataCollection');
 
@@ -312,21 +314,21 @@ class ilDclGenericMultiInputGUI extends ilFormPropertyGUI
         }
 
         if ($this->getMulti() && !$this->getDisabled()) {
-            $tpl->setVariable('IMAGE_MINUS', ilGlyphGUI::get(ilGlyphGUI::REMOVE));
-
             $show_remove = true;
             $is_removeable_hook = $this->getHook(self::HOOK_IS_LINE_REMOVABLE);
             if ($is_removeable_hook !== false && !$clean_render) {
                 $show_remove = $is_removeable_hook($this->getValue());
             }
-
-            $image_minus = ($show_remove) ? ilGlyphGUI::get(ilGlyphGUI::REMOVE) : '<span class="glyphicon glyphicon-minus hide"></span>';
             $tpl->setCurrentBlock('multi_icons');
-            $tpl->setVariable('IMAGE_PLUS', ilGlyphGUI::get(ilGlyphGUI::ADD));
-            $tpl->setVariable('IMAGE_MINUS', $image_minus);
+            $tpl->setVariable('IMAGE_PLUS', $this->renderer->render($this->ui_factory->symbol()->glyph()->add()));
+            if ($show_remove) {
+                $tpl->setVariable('IMAGE_MINUS', $this->renderer->render($this->ui_factory->symbol()->glyph()->remove()));
+            } else {
+                $tpl->setVariable('IMAGE_MINUS', '<span class="glyphicon glyphicon-minus hide"></span>');
+            }
             if ($this->multi_sortable) {
-                $tpl->setVariable('IMAGE_UP', ilGlyphGUI::get(ilGlyphGUI::UP));
-                $tpl->setVariable('IMAGE_DOWN', ilGlyphGUI::get(ilGlyphGUI::DOWN));
+                $tpl->setVariable('IMAGE_UP', $this->renderer->render($this->ui_factory->symbol()->glyph()->up()));
+                $tpl->setVariable('IMAGE_DOWN', $this->renderer->render($this->ui_factory->symbol()->glyph()->down()));
             }
             $tpl->parseCurrentBlock();
         }
@@ -339,20 +341,18 @@ class ilDclGenericMultiInputGUI extends ilFormPropertyGUI
      */
     public function insert(ilTemplate $a_tpl): void
     {
-        $output = "";
-
-        $output .= $this->render(0, true);
+        $output = $this->render("0", true);
 
         if ($this->getMulti() && is_array($this->line_values) && count($this->line_values) > 0) {
             $counter = 0;
             foreach ($this->line_values as $i => $data) {
                 $object = $this;
                 $object->setValue($data);
-                $output .= $object->render($i);
+                $output .= $object->render((string)$i);
                 $counter++;
             }
         } else {
-            $output .= $this->render(1, true);
+            $output .= $this->render("1", true);
         }
 
         if ($this->getMulti()) {
@@ -376,9 +376,7 @@ class ilDclGenericMultiInputGUI extends ilFormPropertyGUI
      */
     public function getTableFilterHTML(): string
     {
-        $html = $this->render();
-
-        return $html;
+        return $this->render();
     }
 
     /**
@@ -386,9 +384,7 @@ class ilDclGenericMultiInputGUI extends ilFormPropertyGUI
      */
     public function getToolbarHTML(): string
     {
-        $html = $this->render("toolbar");
-
-        return $html;
+        return $this->render("toolbar");
     }
 
     public function getSubItems(): array

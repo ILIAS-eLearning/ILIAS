@@ -571,7 +571,7 @@ class ilExSubmission
                 // blog/portfolio/text submissions
                 if ($a_only_valid &&
                     !$row["filename"] &&
-                    !(trim($row["atext"]))) {
+                    !(trim((string) $row["atext"]))) {
                     continue;
                 }
 

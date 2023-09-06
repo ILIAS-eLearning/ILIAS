@@ -37,7 +37,8 @@ $il-form-label-text-align: left;
 //** Minimal size of non-empty buttons inside forms
 $il-button-min-width-forms: 60px;
 
-$il-input-height-base: ceil($il-line-height-computed + $il-padding-base-vertical * 2 + 2);
+$il-input-line-height-base: ceil($il-line-height-computed + $il-padding-base-vertical * 2 + 2);
+$il-input-min-height: $il-line-height-computed + ((2+2*$il-padding-base-vertical)); // Make inputs at least the height of their button counterpart (base line-height + padding + border) 
 $il-input-color: $il-text-color;
 $il-input-bg: $il-main-bg;
 $il-input-border-color: $il-main-border-dark-color;

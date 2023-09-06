@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Class ilObjAssessmentFolder
@@ -34,7 +34,7 @@ class ilObjAssessmentFolder extends ilObject
     public const ASS_PROC_LOCK_MODE_DB = 'db';
 
     private const SETTINGS_KEY_SKL_TRIG_NUM_ANSWERS_BARRIER = 'ass_skl_trig_num_answ_barrier';
-    public const DEFAULT_SKL_TRIG_NUM_ANSWERS_BARRIER = 1;
+    public const DEFAULT_SKL_TRIG_NUM_ANSWERS_BARRIER = '1';
 
     public ilSetting $setting;
 
@@ -51,7 +51,7 @@ class ilObjAssessmentFolder extends ilObject
 
         return (int) $assSettings->get(
             self::SETTINGS_KEY_SKL_TRIG_NUM_ANSWERS_BARRIER,
-            (string) self::DEFAULT_SKL_TRIG_NUM_ANSWERS_BARRIER
+            self::DEFAULT_SKL_TRIG_NUM_ANSWERS_BARRIER
         );
     }
 
@@ -389,16 +389,13 @@ class ilObjAssessmentFolder extends ilObject
      */
     public function getNrOfLogEntries(int $test_obj_id): int
     {
-        global $DIC;
-        $ilDB = $DIC->database();
-
-        $result = $ilDB->queryF(
+        $result = $this->db->queryF(
             "SELECT COUNT(obj_fi) logcount FROM ass_log WHERE obj_fi = %s",
             ['integer'],
             [$test_obj_id]
         );
         if ($result->numRows()) {
-            $row = $ilDB->fetchAssoc($result);
+            $row = $this->db->fetchAssoc($result);
             return (int) $row["logcount"];
         }
 
@@ -411,17 +408,13 @@ class ilObjAssessmentFolder extends ilObject
      */
     public function deleteLogEntries(array $a_array): void
     {
-        global $DIC;
-        $ilDB = $DIC->database();
-        $ilUser = $DIC->user();
-
         foreach ($a_array as $object_id) {
-            $affectedRows = $ilDB->manipulateF(
+            $affectedRows = $this->db->manipulateF(
                 "DELETE FROM ass_log WHERE obj_fi = %s",
                 ['integer'],
                 [$object_id]
             );
-            self::_addLog($ilUser->getId(), $object_id, $this->lng->txt("assessment_log_deleted"));
+            self::_addLog($this->user->getId(), $object_id, $this->lng->txt("assessment_log_deleted"));
         }
     }
 
@@ -467,7 +460,7 @@ class ilObjAssessmentFolder extends ilObject
     {
         return $this->setting->get(
             'ass_skl_trig_num_answ_barrier',
-            (string) self::DEFAULT_SKL_TRIG_NUM_ANSWERS_BARRIER
+            self::DEFAULT_SKL_TRIG_NUM_ANSWERS_BARRIER
         );
     }
 

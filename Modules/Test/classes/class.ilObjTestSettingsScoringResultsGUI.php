@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,10 +16,11 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\Refinery\Factory as Refinery;
-use ILIAS\UI\Component\Input\Field;
 use ILIAS\UI\Component\Input\Container\Form\Form;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
@@ -47,8 +46,6 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
     public const CMD_CANCEL_RECALC = 'cancelSaveForm';
     private const F_CONFIRM_SETTINGS = 'f_settings';
 
-    private ilTestQuestionSetConfigFactory $testQuestionSetConfigFactory;
-
     public function __construct(
         protected ilCtrlInterface $ctrl,
         protected ilAccessHandler $access,
@@ -56,7 +53,7 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
         protected ilTree $tree,
         protected ilDBInterface $db,
         protected ilComponentRepository $component_repository,
-        protected ilObjTestGUI $testGUI,
+        protected ilObjTestGUI $test_gui,
         protected \ilGlobalTemplateInterface $tpl,
         protected ilTabsGUI $tabs,
         protected ScoreSettingsRepository $score_settings_repo,
@@ -64,22 +61,16 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
         protected UIFactory $ui_factory,
         protected UIRenderer $ui_renderer,
         protected Refinery $refinery,
-        protected Request $request
+        protected Request $request,
+        protected ilObjUser $active_user
     ) {
-        parent::__construct($testGUI->getObject());
+        parent::__construct($test_gui->getObject());
 
-        $this->testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory(
-            $this->tree,
-            $this->db,
-            $this->component_repository,
-            $this->testOBJ
-        );
+        $template_id = $this->test_object->getTemplate();
 
-        $templateId = $this->testOBJ->getTemplate();
-
-        if ($templateId) {
+        if ($template_id) {
             $this->settingsTemplate = new ilSettingsTemplate(
-                (int)$templateId,
+                (int)$template_id,
                 ilObjAssessmentFolderGUI::getSettingsTemplateConfig()
             );
         }
@@ -99,9 +90,9 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
      */
     public function executeCommand()
     {
-        if (!$this->access->checkAccess('write', '', $this->testGUI->getRefId())) {
+        if (!$this->access->checkAccess('write', '', $this->test_gui->getRefId())) {
             $this->tpl->setOnScreenMessage('info', $this->lng->txt('cannot_edit_test'), true);
-            $this->ctrl->redirect($this->testGUI, 'infoScreen');
+            $this->ctrl->redirect($this->test_gui, 'infoScreen');
         }
 
         $this->tabs->activateTab(ilTestTabsManager::TAB_ID_SETTINGS);
@@ -124,7 +115,7 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
                             ->withRequest($this->getRelayedRequest())
                             ->getData();
                         $this->storeScoreSettings($settings);
-                        $this->testOBJ->recalculateScores(true);
+                        $this->test_object->recalculateScores(true);
                         $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified_and_recalc"), true);
                         $this->ctrl->redirect($this, self::CMD_SHOW_FORM);
                         break;
@@ -191,14 +182,21 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
             $this->refinery
         ];
 
-        $anonymity_flag = (bool) $this->testOBJ->getAnonymity();
+
+        $environment = [];
+        $environment['user_date_format'] = (new \ILIAS\Data\Factory())->dateFormat()->withTime24(
+            $this->active_user->getDateFormat()
+        );
+        $environment['user_time_zone'] = $this->active_user->getTimeZone();
+
+        $anonymity_flag = (bool) $this->test_object->getAnonymity();
         $disabled_flag = ($this->areScoringSettingsWritable() === false);
 
         $settings = $this->loadScoreSettings();
         $sections = [
             'scoring' => $settings->getScoringSettings()->toForm(...$ui_pack)
                 ->withDisabled($disabled_flag),
-            'summary' => $settings->getResultSummarySettings()->toForm(...$ui_pack),
+            'summary' => $settings->getResultSummarySettings()->toForm(...array_merge($ui_pack, [$environment])),
             'details' => $settings->getResultDetailsSettings()->toForm(
                 ...array_merge($ui_pack, [['taxonomy_options' => $this->getTaxonomyOptions()]])
             ),
@@ -225,13 +223,13 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
 
     private function isScoreReportingAvailable(): bool
     {
-        if (!$this->testOBJ->getScoreReporting()) {
+        if (!$this->test_object->getScoreReporting()) {
             return false;
         }
 
         if (
-            $this->testOBJ->getScoreReporting() == ilObjTest::SCORE_REPORTING_DATE
-            && $this->testOBJ->getReportingDate() > time()
+            $this->test_object->getScoreReporting() == ilObjTestSettingsResultSummary::SCORE_REPORTING_DATE
+            && $this->test_object->getReportingDate() > time()
         ) {
             return false;
         }
@@ -241,7 +239,7 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
 
     private function areScoringSettingsWritable(): bool
     {
-        if (!$this->testOBJ->participantDataExist()) {
+        if (!$this->test_object->participantDataExist()) {
             return true;
         }
 
@@ -254,8 +252,8 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
 
     protected function getTaxonomyOptions(): array
     {
-        $available_taxonomy_ids = ilObjTaxonomy::getUsageOfObject($this->testOBJ->getId());
-        $taxononmy_translator = new ilTestTaxonomyFilterLabelTranslater($this->db);
+        $available_taxonomy_ids = ilObjTaxonomy::getUsageOfObject($this->test_object->getId());
+        $taxononmy_translator = new ilTestQuestionFilterLabelTranslater($this->db, $this->lng);
         $taxononmy_translator->loadLabelsFromTaxonomyIds($available_taxonomy_ids);
 
         $taxonomy_options = [];
@@ -276,7 +274,7 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
         );
 
         return
-            $this->testOBJ->participantDataExist() &&
+            $this->test_object->participantDataExist() &&
             $this->areScoringSettingsWritable() &&
             $settings_changed;
     }

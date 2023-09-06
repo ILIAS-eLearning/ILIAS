@@ -56,9 +56,11 @@ class ilObjectProperties
 
     public function withPropertyIsOnline(
         ilObjectPropertyIsOnline $property_is_online
-    ): void {
-        $this->core_properties = $this->core_properties
+    ): self {
+        $clone = clone $this;
+        $clone->core_properties = $this->core_properties
             ->withPropertyIsOnline($property_is_online);
+        return $clone;
     }
 
     public function getPropertyTitleAndIconVisibility(): ilObjectProperty

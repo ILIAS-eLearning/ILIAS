@@ -16,8 +16,12 @@
  *
  *********************************************************************/
 
-use ILIAS\UI\Renderer;
-use ILIAS\UI\Factory;
+declare(strict_types=1);
+
+use ILIAS\UI\Factory as UIFactory;
+use ILIAS\UI\Renderer as UIRenderer;
+use ILIAS\UI\Component\Component;
+use ILIAS\UI\Component\Modal\Interruptive;
 
 /**
 *
@@ -29,6 +33,10 @@ use ILIAS\UI\Factory;
 
 class ilListOfQuestionsTableGUI extends ilTable2GUI
 {
+    private bool $user_has_attempts_left = true;
+    /** @var Component[] $command_buttons */
+    private array $command_buttons = [];
+    private Interruptive $finish_test_modal;
     protected ?bool $showPointsEnabled = false;
     protected ?bool $showMarkerEnabled = false;
 
@@ -39,18 +47,13 @@ class ilListOfQuestionsTableGUI extends ilTable2GUI
 
     protected ?bool $finishTestButtonEnabled = false;
 
-    protected Renderer $renderer;
-    protected Factory $factory;
-
-    public function __construct($a_parent_obj, $a_parent_cmd)
-    {
-        parent::__construct($a_parent_obj, $a_parent_cmd);
-
-        global $DIC;
-        $this->lng = $DIC['lng'];
-        $this->ctrl = $DIC['ilCtrl'];
-        $this->renderer = $DIC->ui()->renderer();
-        $this->factory = $DIC->ui()->factory();
+    public function __construct(
+        ilTestPlayerAbstractGUI $parent_obj,
+        string $parent_cmd,
+        private UIFactory $ui_factory,
+        private UIRenderer $ui_renderer
+    ) {
+        parent::__construct($parent_obj, $parent_cmd);
 
         $this->setFormName('listofquestions');
         $this->setStyle('table', 'fullwidth');
@@ -59,7 +62,7 @@ class ilListOfQuestionsTableGUI extends ilTable2GUI
 
         $this->setLimit(999);
 
-        $this->setFormAction($this->ctrl->getFormAction($a_parent_obj, $a_parent_cmd));
+        $this->setFormAction($this->ctrl->getFormAction($parent_obj, $parent_cmd));
 
         $this->enable('header');
         $this->disable('sort');
@@ -103,18 +106,61 @@ class ilListOfQuestionsTableGUI extends ilTable2GUI
         }
 
         // command buttons
-
-        $this->addCommandButton(
-            ilTestPlayerCommands::SHOW_QUESTION,
-            $this->lng->txt('tst_resume_test')
+        $this->command_buttons[] = $this->ui_factory->button()->standard(
+            $this->lng->txt('tst_resume_test'),
+            $this->ctrl->getLinkTarget($this->parent_obj, ilTestPlayerCommands::SHOW_QUESTION)
         );
 
         if (!$this->areObligationsNotAnswered() && $this->isFinishTestButtonEnabled()) {
-            $button = ilSubmitButton::getInstance();
-            $button->setCaption('finish_test');
-            $button->setCommand(ilTestPlayerCommands::FINISH_TEST);
-            $this->addCommandButtonInstance($button);
+            $this->addFinishTestButton();
         }
+    }
+
+    public function userHasAttemptsLeft(): bool
+    {
+        return $this->user_has_attempts_left;
+    }
+
+    public function setUserHasAttemptsLeft(bool $user_has_attempts_left): void
+    {
+        $this->user_has_attempts_left = $user_has_attempts_left;
+    }
+
+    private function addFinishTestButton(): void
+    {
+        if ($this->userHasAttemptsLeft()) {
+            $message = $this->lng->txt('tst_finish_confirmation_question');
+        } else {
+            $message = $this->lng->txt('tst_finish_confirmation_question_no_attempts_left');
+        }
+        $this->finish_test_modal = $this->ui_factory->modal()->interruptive(
+            $this->lng->txt('finish_test'),
+            $message,
+            $this->ctrl->getLinkTarget(
+                $this->parent_obj,
+                ilTestPlayerCommands::FINISH_TEST
+            )
+        )->withActionButtonLabel($this->lng->txt('tst_finish_confirm_button'));
+
+        $this->command_buttons[] = $this->ui_factory->button()->standard($this->lng->txt('finish_test'), '')
+                           ->withOnClick($this->finish_test_modal->getShowSignal());
+    }
+
+    public function getHTML(): string
+    {
+        foreach ($this->command_buttons as $top_item) {
+            $this->tpl->setCurrentBlock('tbl_header_html');
+            $this->tpl->setVariable(
+                "HEADER_HTML",
+                $this->ui_renderer->render($top_item)
+            );
+            $this->tpl->parseCurrentBlock();
+        }
+
+        $finish_test_modal = isset($this->finish_test_modal)
+            ? $this->ui_renderer->render($this->finish_test_modal) : '';
+
+        return parent::getHTML() . $finish_test_modal;
     }
 
     public function fillRow(array $a_set): void
@@ -160,8 +206,8 @@ class ilListOfQuestionsTableGUI extends ilTable2GUI
 
             // obligatory icon
             if ($a_set["obligatory"]) {
-                $obligatory = $this->renderer->render(
-                    $this->factory->symbol()->icon()->custom(
+                $obligatory = $this->ui_renderer->render(
+                    $this->ui_factory->symbol()->icon()->custom(
                         ilUtil::getImagePath('icon_alert.svg'),
                         $this->lng->txt('question_obligatory')
                     )

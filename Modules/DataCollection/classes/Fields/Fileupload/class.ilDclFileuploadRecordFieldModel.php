@@ -16,7 +16,8 @@
  *
  *********************************************************************/
 
-use ILIAS\FileUpload\MimeType;
+declare(strict_types=1);
+
 use ILIAS\Filesystem\Stream\Streams;
 
 /**
@@ -150,16 +151,14 @@ class ilDclFileuploadRecordFieldModel extends ilDclBaseRecordFieldModel
      */
     public function parseExportValue($value): ?string
     {
-        if (!$value || !ilObject2::_exists($value) || ilObject2::_lookupType($value) != "file") {
+        if (!$value || !ilObject2::_exists((int)$value) || ilObject2::_lookupType((int)$value) != "file") {
             return null;
         }
 
         $file = $value;
         if ($file != "-") {
-            $file_obj = new ilObjFile($file, false);
-            $file_name = $file_obj->getFileName();
-
-            return $file_name;
+            $file_obj = new ilObjFile((int)$file, false);
+            return $file_obj->getFileName();
         }
 
         return $file;
@@ -167,7 +166,6 @@ class ilDclFileuploadRecordFieldModel extends ilDclBaseRecordFieldModel
 
     /**
      * Returns sortable value for the specific field-types
-     * @param int $value
      */
     public function parseSortingValue($value, bool $link = true): string
     {
@@ -179,9 +177,6 @@ class ilDclFileuploadRecordFieldModel extends ilDclBaseRecordFieldModel
         return $file_obj->getTitle();
     }
 
-    /**
-     * @inheritDoc
-     */
     public function setValueFromForm(ilPropertyFormGUI $form): void
     {
         $value = $form->getInput("field_" . $this->getField()->getId());
@@ -196,11 +191,11 @@ class ilDclFileuploadRecordFieldModel extends ilDclBaseRecordFieldModel
      */
     public function afterClone(): void
     {
-        $field = ilDclCache::getCloneOf($this->getField()->getId(), ilDclCache::TYPE_FIELD);
+        $field = ilDclCache::getCloneOf((int)$this->getField()->getId(), ilDclCache::TYPE_FIELD);
         $record = ilDclCache::getCloneOf($this->getRecord()->getId(), ilDclCache::TYPE_RECORD);
         $record_field = ilDclCache::getRecordFieldCache($record, $field);
 
-        if (!$record_field || !$record_field->getValue()) {
+        if (!$record_field->getValue()) {
             return;
         }
 

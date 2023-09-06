@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
 * Class ilTestEvaluationPassData
 *
@@ -32,77 +34,19 @@
 class ilTestEvaluationPassData
 {
     /**
-    * Answered questions
-    *
-    * @var array
+    * @var array<int>
     */
-    public $answeredQuestions;
-
-    /**
-    * Working time
-    *
-    * @var int
-    */
-    private $workingtime;
-
-    /**
-    * Question count
-    *
-    * @var int
-    */
-    private $questioncount;
-
-    /**
-    * Maximum points
-    *
-    * @var int
-    */
-    private $maxpoints;
-
-    /**
-    * Reached points
-    *
-    * @var int
-    */
-    private $reachedpoints;
-
-    /**
-    * Number of answered questions
-    *
-    * @var int
-    */
-    private $nrOfAnsweredQuestions;
-
-    /**
-    * Test pass
-    *
-    * @var integer
-    */
-    public $pass;
-
-    /**
-     * the number of hints that was requested by participant
-     *
-     * @var integer
-     */
-    private $requestedHintsCount = null;
-
-    /**
-     * the points that were deducted for the hints requested by participant
-     *
-     * @var integer
-     */
-    private $deductedHintPoints = null;
-
-    /**
-     * the fact wether all obligatory questions are answered
-     *
-     * @var boolean
-     */
-    private $obligationsAnswered = null;
-
-    /** @var string */
-    private $examId = '';
+    public array $answeredQuestions;
+    private int $workingtime;
+    private int $questioncount;
+    private float $maxpoints;
+    private float $reachedpoints;
+    private int $nrOfAnsweredQuestions;
+    private int $pass;
+    private ?int $requestedHintsCount = null;
+    private ?float $deductedHintPoints = null;
+    private bool $obligationsAnswered = false;
+    private string $exam_id = '';
 
     public function __sleep()
     {
@@ -117,7 +61,7 @@ class ilTestEvaluationPassData
     */
     public function __construct()
     {
-        $this->answeredQuestions = array();
+        $this->answeredQuestions = [];
     }
 
     public function getNrOfAnsweredQuestions(): int
@@ -125,17 +69,17 @@ class ilTestEvaluationPassData
         return $this->nrOfAnsweredQuestions;
     }
 
-    public function setNrOfAnsweredQuestions($nrOfAnsweredQuestions)
+    public function setNrOfAnsweredQuestions(int $nrOfAnsweredQuestions): void
     {
         $this->nrOfAnsweredQuestions = $nrOfAnsweredQuestions;
     }
 
-    public function getReachedPoints(): int
+    public function getReachedPoints(): float
     {
         return $this->reachedpoints;
     }
 
-    public function setReachedPoints($reachedpoints)
+    public function setReachedPoints(float $reachedpoints): void
     {
         $this->reachedpoints = $reachedpoints;
     }
@@ -145,7 +89,7 @@ class ilTestEvaluationPassData
         return $this->maxpoints;
     }
 
-    public function setMaxPoints($maxpoints)
+    public function setMaxPoints(float $maxpoints): void
     {
         $this->maxpoints = $maxpoints;
     }
@@ -155,7 +99,7 @@ class ilTestEvaluationPassData
         return $this->questioncount;
     }
 
-    public function setQuestionCount($questioncount)
+    public function setQuestionCount(int $questioncount): void
     {
         $this->questioncount = $questioncount;
     }
@@ -165,7 +109,7 @@ class ilTestEvaluationPassData
         return $this->workingtime;
     }
 
-    public function setWorkingTime($workingtime)
+    public function setWorkingTime(int $workingtime): void
     {
         $this->workingtime = $workingtime;
     }
@@ -175,9 +119,9 @@ class ilTestEvaluationPassData
         return $this->pass;
     }
 
-    public function setPass($a_pass)
+    public function setPass(int $pass): void
     {
-        $this->pass = $a_pass;
+        $this->pass = $pass;
     }
 
     public function getAnsweredQuestions(): array
@@ -185,28 +129,34 @@ class ilTestEvaluationPassData
         return $this->answeredQuestions;
     }
 
-    public function addAnsweredQuestion($question_id, $max_points, $reached_points, $isAnswered, $sequence = null, $manual = 0)
-    {
-        $this->answeredQuestions[] = array(
+    public function addAnsweredQuestion(
+        int $question_id,
+        float $max_points,
+        float $reached_points,
+        bool $isAnswered,
+        ?int $sequence = null,
+        int $manual = 0
+    ): void {
+        $this->answeredQuestions[] = [
             "id" => $question_id,
             "points" => round($max_points, 2),
             "reached" => round($reached_points, 2),
             'isAnswered' => $isAnswered,
             "sequence" => $sequence,
             'manual' => $manual
-        );
+        ];
     }
 
-    public function getAnsweredQuestion($index)
+    public function getAnsweredQuestion(int $index): ?array
     {
         if (array_key_exists($index, $this->answeredQuestions)) {
             return $this->answeredQuestions[$index];
-        } else {
-            return null;
         }
+
+        return null;
     }
 
-    public function getAnsweredQuestionByQuestionId($question_id)
+    public function getAnsweredQuestionByQuestionId(int $question_id): ?array
     {
         foreach ($this->answeredQuestions as $question) {
             if ($question["id"] == $question_id) {
@@ -221,70 +171,39 @@ class ilTestEvaluationPassData
         return count($this->answeredQuestions);
     }
 
-    /**
-     * Getter for $requestedHintsCount
-     *
-     * @return integer $requestedHintsCount
-     */
     public function getRequestedHintsCount(): ?int
     {
         return $this->requestedHintsCount;
     }
 
-    /**
-     * Setter for $requestedHintsCount
-     *
-     * @param integer $requestedHintsCount
-     */
-    public function setRequestedHintsCount($requestedHintsCount)
+    public function setRequestedHintsCount(int $requestedHintsCount): void
     {
         $this->requestedHintsCount = $requestedHintsCount;
     }
 
-    /**
-     * Getter for $deductedHintPoints
-     *
-     * @return integer $deductedHintPoints
-     */
-    public function getDeductedHintPoints(): ?int
+    public function getDeductedHintPoints(): ?float
     {
         return $this->deductedHintPoints;
     }
 
-    /**
-     * Setter for $deductedHintPoints
-     *
-     * @param integer $deductedHintPoints
-     */
-    public function setDeductedHintPoints($deductedHintPoints)
+    public function setDeductedHintPoints(float $deductedHintPoints): void
     {
         $this->deductedHintPoints = $deductedHintPoints;
     }
 
-    /**
-     * setter for property obligationsAnswered
-     *
-     * @param boolean $obligationsAnswered
-     */
-    public function setObligationsAnswered($obligationsAnswered)
+    public function setObligationsAnswered(bool $obligationsAnswered): void
     {
-        $this->obligationsAnswered = (bool) $obligationsAnswered;
+        $this->obligationsAnswered = $obligationsAnswered;
     }
 
-    /**
-     * @return string
-     */
     public function getExamId(): string
     {
-        return $this->examId;
+        return $this->exam_id;
     }
 
-    /**
-     * @param string $examId
-     */
-    public function setExamId(string $examId): void
+    public function setExamId(string $exam_id): void
     {
-        $this->examId = $examId;
+        $this->exam_id = $exam_id;
     }
 
     /**
@@ -293,9 +212,6 @@ class ilTestEvaluationPassData
      * to determine this information by iterating
      * over the added questions.
      * if both wasn't possible the method throws an exception
-     *
-     * @throws ilTestEvaluationException
-     * @return boolean
      */
     public function areObligationsAnswered(): ?bool
     {
@@ -303,7 +219,7 @@ class ilTestEvaluationPassData
             return $this->obligationsAnswered;
         }
 
-        if (is_array($this->answeredQuestions) && count($this->answeredQuestions)) {
+        if (is_array($this->answeredQuestions) && $this->answeredQuestions !== []) {
             foreach ($this->answeredQuestions as $question) {
                 if (!$question['isAnswered']) {
                     return false;
@@ -318,4 +234,4 @@ class ilTestEvaluationPassData
             'nor the property array property ilTestEvaluationPassData::answeredQuestions contains elements!'
         );
     }
-} // END ilTestEvaluationPassData
+}

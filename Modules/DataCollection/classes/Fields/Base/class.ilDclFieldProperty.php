@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -13,14 +14,10 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
-/**
- * Class ilDclFieldProperty
- * @author  Michael Herren <mh@studer-raimann.ch>
- * @ingroup ModulesDataCollection
- */
+declare(strict_types=1);
+
 class ilDclFieldProperty extends ActiveRecord
 {
     /**
@@ -104,10 +101,7 @@ class ilDclFieldProperty extends ActiveRecord
         $this->name = $name;
     }
 
-    /**
-     * @return string|array
-     */
-    public function getValue()
+    public function getValue(): string
     {
         return $this->value;
     }

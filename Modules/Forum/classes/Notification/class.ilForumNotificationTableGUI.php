@@ -39,7 +39,7 @@ class ilForumNotificationTableGUI extends ilTable2GUI
         $this->lng = $DIC->language();
         $this->ctrl = $DIC->ctrl();
 
-        $this->setId('frmevents_' . $settings_gui->getRefId() . '_' . $type);
+        $this->setId('frmev_' . $settings_gui->getRefId() . substr($type, 0, 3));
 
         parent::__construct($settings_gui, $cmd);
 
