@@ -743,7 +743,11 @@ class ilMailFormGUI
 
         $placeholders = new ilManualPlaceholderInputGUI('m_message');
         $placeholders->setInstructionText($this->lng->txt('mail_nacc_use_placeholder'));
-        $placeholders->setAdviseText(sprintf($this->lng->txt('placeholders_advise'), '<br />'));
+        try {
+            $placeholders->setAdviseText(sprintf($this->lng->txt('placeholders_advise'), '<br />'));
+        } catch (Throwable $e) {
+            $placeholders->setAdviseText($this->lng->txt('placeholders_advise'));
+        }
         foreach ($context->getPlaceholders() as $key => $value) {
             $placeholders->addPlaceholder($value['placeholder'], $value['label']);
         }
