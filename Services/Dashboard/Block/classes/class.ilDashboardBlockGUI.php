@@ -28,7 +28,7 @@ use ILIAS\Filesystem\Stream\Streams;
 
 /**
  * @ilCtrl_IsCalledBy ilDashboardBlockGUI: ilColumnGUI
- * @ilCtrl_Calls      ilDashboardBlockGUI: ilCommonActionDispatcherGUI
+ * @ilCtrl_Calls ilDashboardBlockGUI: ilCommonActionDispatcherGUI
  */
 abstract class ilDashboardBlockGUI extends ilBlockGUI
 {
