@@ -381,7 +381,11 @@ class ilMailTemplateGUI
             'm_message'
         );
         $placeholders->setInstructionText($this->lng->txt('mail_nacc_use_placeholder'));
-        $placeholders->setAdviseText(sprintf($this->lng->txt('placeholders_advise'), '<br />'));
+        try {
+            $placeholders->setAdviseText(sprintf($this->lng->txt('placeholders_advise'), '<br />'));
+        } catch (Throwable $e) {
+            $placeholders->setAdviseText($this->lng->txt('placeholders_advise'));
+        }
 
         $context = ilMailTemplateContextService::getTemplateContextById($contextId);
         foreach ($context->getPlaceholders() as $value) {
@@ -460,7 +464,11 @@ class ilMailTemplateGUI
         );
         $placeholders->setDisabled(!$this->isEditingAllowed());
         $placeholders->setInstructionText($this->lng->txt('mail_nacc_use_placeholder'));
-        $placeholders->setAdviseText(sprintf($this->lng->txt('placeholders_advise'), '<br />'));
+        try {
+            $placeholders->setAdviseText(sprintf($this->lng->txt('placeholders_advise'), '<br />'));
+        } catch (Throwable $e) {
+            $placeholders->setAdviseText($this->lng->txt('placeholders_advise'));
+        }
         $placeholders->supportsRerenderSignal(
             'context',
             $this->ctrl->getLinkTarget($this, 'getAjaxPlaceholdersById', '', true)
