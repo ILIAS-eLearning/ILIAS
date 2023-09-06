@@ -704,7 +704,7 @@ class ilFileSystemGUI
                 $name,
                 true
             );
-        // end upload
+            // end upload
         } elseif ($uploaded_file) {
             // check if the file is in the ftp directory and readable
             if (ilUploadFiles::_checkUploadFile($uploaded_file)) {
@@ -935,7 +935,8 @@ class ilFileSystemGUI
                 "method" => "unzipFile",
                 "name" => $this->lng->txt("unzip"),
                 "int" => true,
-                "single" => true
+                "single" => true,
+                "id" => "unzip_file"
             ),
             3 => array(
                 "object" => $this,
