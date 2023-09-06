@@ -78,7 +78,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
         $card = $itemListGui->getAsCard(
             $data->getRefId(),
             $data->getObjId(),
-            $data->getDescription(),
+            $data->getType(),
             $data->getTitle(),
             $data->getDescription()
         );
@@ -112,7 +112,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
         $list_item = $itemListGui->getAsListItem(
             $data->getRefId(),
             $data->getObjId(),
-            $data->getDescription(),
+            $data->getType(),
             $data->getTitle(),
             $data->getDescription()
         );
