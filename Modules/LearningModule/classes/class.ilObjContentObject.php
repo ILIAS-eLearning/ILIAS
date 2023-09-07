@@ -962,7 +962,7 @@ class ilObjContentObject extends ilObject
             " WHERE id = " . $ilDB->quote($this->getId(), "integer");
         $ilDB->manipulate($q);
         // #14661
-        $this->notes->domain()->activateComments($this->getId());
+        $this->notes->domain()->activateComments($this->getId(), $this->publicNotes());
     }
 
     /**
