@@ -272,7 +272,9 @@ class ilNoteGUI
 
     public function getCommentsHTML(): string
     {
-        $this->gui->initJavascript();
+        if ($this->ajax) {
+            $this->gui->initJavascript();
+        }
         $ilCtrl = $this->ctrl;
         $ilCtrl->setParameter($this, "notes_type", Note::PUBLIC);
         $this->requested_note_type = Note::PUBLIC;
@@ -290,15 +292,17 @@ class ilNoteGUI
         if ($this->requested_note_type === Note::PRIVATE && $ilUser->getId() !== ANONYMOUS_USER_ID) {
             $content = $this->getNoteListHTML(Note::PRIVATE, $a_init_form);
         }
-
         // #15948 - public enabled vs. comments_settings
         if ($this->requested_note_type === Note::PUBLIC) {
             $active = true;
             // news items (in timeline) do not check, if the object has news activated!
             if (!is_array($this->rep_obj_id) && $this->news_id === 0) {
-                $active = $this->manager->commentsActive($this->rep_obj_id);
-            }
 
+                // if common object settings are used, we check for activation
+                if ($this->comments_settings) {
+                    $active = $this->manager->commentsActive($this->rep_obj_id);
+                }
+            }
             if ($active) {
                 $content = $this->getNoteListHTML(Note::PUBLIC, $a_init_form);
             }
