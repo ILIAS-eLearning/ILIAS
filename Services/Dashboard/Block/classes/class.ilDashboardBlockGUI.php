@@ -18,7 +18,6 @@
 
 declare(strict_types=1);
 
-use ILIAS\UI\Component\MessageBox\MessageBox;
 use ILIAS\UI\Implementation\Component\ReplaceSignal;
 use JetBrains\PhpStorm\NoReturn;
 use ILIAS\UI\Component\Card\RepositoryObject;
@@ -35,6 +34,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
 {
     private string $content;
     private ilRbacSystem $rbacsystem;
+    protected ilFavouritesManager $favourites_manager;
     protected int $requested_item_ref_id;
     private mixed $object_cache;
     private ilTree $tree;
@@ -44,7 +44,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
     protected ILIAS\HTTP\Services $http;
     private ILIAS\Refinery\Factory $refinery;
     protected ilPDSelectedItemsBlockViewSettings $viewSettings;
-    /** @var array<string, BlockDTO[]>  */
+    /** @var array<string, BlockDTO[]> */
     protected array $data;
 
     public function __construct()
@@ -60,6 +60,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
         $this->objDefinition = $DIC["objDefinition"];
         $this->new_rendering = true;
         $this->rbacsystem = $DIC->rbac()->system();
+        $this->favourites_manager = new ilFavouritesManager();
         $this->init();
     }
 
@@ -67,14 +68,16 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
 
     abstract public function initData(): void;
 
-    abstract public function addCustomCommandsToActionMenu(ilObjectListGUI $itemListGui, int $ref_id): void;
-
     abstract public function emptyHandling(): string;
 
+    public function addCustomCommandsToActionMenu(ilObjectListGUI $itemListGui, int $ref_id): void
+    {
+    }
 
     protected function getCardForData(BlockDTO $data): ?RepositoryObject
     {
         $itemListGui = $this->byType($data->getType());
+        $this->addCustomCommandsToActionMenu($itemListGui, $data->getRefId());
         $card = $itemListGui->getAsCard(
             $data->getRefId(),
             $data->getObjId(),
@@ -100,7 +103,6 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
             }
             $groupedCards[] = $this->factory->item()->group((string) $title, $items);
         }
-
 
         return $groupedCards;
     }
@@ -158,6 +160,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
     public function init(): void
     {
         $this->lng->loadLanguageModule('dash');
+        $this->lng->loadLanguageModule('rep');
         $this->initViewSettings();
         $this->main_tpl->addJavaScript('Services/Dashboard/Block/js/ReplaceModalContent.js');
         $this->viewSettings->parse();
@@ -207,10 +210,12 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
      */
     public function setData(array $a_data): void
     {
-        $this->data = array_filter(array_map(
-            static fn($group) => array_filter($group, fn($item) => $item instanceof BlockDTO),
-            $a_data
-        ));
+        $this->data = array_filter(
+            array_map(
+                static fn($group) => array_filter($group, static fn($item) => $item instanceof BlockDTO),
+                $a_data
+            )
+        );
     }
 
     /**
@@ -390,7 +395,6 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
             $this->ctrl->setParameter($this, 'presentation', null);
         }
 
-
         if ($this->removeMultipleEnabled()) {
             $roundtrip_modal = $this->ui->factory()->modal()->roundtrip(
                 $this->getRemoveMultipleActionText(),
@@ -491,6 +495,20 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
         }
     }
 
+    public function addToDeskObject(): void
+    {
+        $this->favourites_manager->add($this->user->getId(), $this->requested_item_ref_id);
+        $this->main_tpl->setOnScreenMessage('success', $this->lng->txt("rep_added_to_favourites"), true);
+        $this->returnToContext();
+    }
+
+    public function removeFromDeskObject(): void
+    {
+        $this->favourites_manager->remove($this->user->getId(), $this->requested_item_ref_id);
+        $this->main_tpl->setOnScreenMessage('success', $this->lng->txt("rep_removed_from_favourites"), true);
+        $this->returnToContext();
+    }
+
     #[NoReturn]
     public function removeFromDeskRoundtripObject(): void
     {
@@ -500,7 +518,10 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
         }
 
         if ($this->http->wrapper()->query()->has('replaceSignal')) {
-            $signalId = $this->http->wrapper()->query()->retrieve('replaceSignal', $this->refinery->kindlyTo()->string());
+            $signalId = $this->http->wrapper()->query()->retrieve(
+                'replaceSignal',
+                $this->refinery->kindlyTo()->string()
+            );
             $replace_signal = new ReplaceSignal($signalId);
         }
 
@@ -649,7 +670,9 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
     }
 
     abstract public function removeMultipleEnabled(): bool;
+
     abstract public function getRemoveMultipleActionText(): string;
+
     abstract public function confirmedRemoveObject(): void;
 
     /**

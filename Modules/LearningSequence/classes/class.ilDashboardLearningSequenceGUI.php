@@ -111,10 +111,6 @@ class ilDashboardLearningSequenceGUI extends ilDashboardBlockGUI
         return 'pdlern';
     }
 
-    public function addCustomCommandsToActionMenu(ilObjectListGUI $itemListGui, int $ref_id): void
-    {
-    }
-
     public function confirmedRemoveObject(): void
     {
         $refIds = (array) ($this->http->request()->getParsedBody()['ref_id'] ?? []);

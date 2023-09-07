@@ -24,15 +24,7 @@ use ILIAS\Services\Dashboard\Block\BlockDTO;
 
 class ilStudyProgrammeDashboardViewGUI extends ilDashboardBlockGUI
 {
-    private ilFavouritesManager $favourites;
     protected ?string $visible_on_pd_mode = null;
-
-    public function __construct()
-    {
-        global $DIC;
-        parent::__construct();
-        $this->favourites = new ilFavouritesManager();
-    }
 
     public function initViewSettings(): void
     {
@@ -76,13 +68,6 @@ class ilStudyProgrammeDashboardViewGUI extends ilDashboardBlockGUI
         $this->setData(['' => $items]);
     }
 
-    public function addToDeskObject(): void
-    {
-        $this->favourites->add($this->user->getId(), $this->requested_item_ref_id);
-        $this->main_tpl->setOnScreenMessage('success', $this->lng->txt("rep_added_to_favourites"), true);
-        $this->returnToContext();
-    }
-
     protected function isReadable(ilObjStudyProgramme $prg): bool
     {
         if ($this->getVisibleOnPDMode() === ilObjStudyProgrammeAdmin::SETTING_VISIBLE_ON_PD_ALLWAYS) {
@@ -106,16 +91,6 @@ class ilStudyProgrammeDashboardViewGUI extends ilDashboardBlockGUI
     public function getBlockType(): string
     {
         return 'pdprg';
-    }
-
-    public function addCustomCommandsToActionMenu(ilObjectListGUI $itemListGui, int $ref_id): void
-    {
-        $this->ctrl->setParameter($this, "item_ref_id", $ref_id);
-        $itemListGui->addCustomCommand(
-            $this->ctrl->getLinkTarget($this, "addToDesk"),
-            "rep_add_to_favourites"
-        );
-        $this->ctrl->clearParameterByClass(self::class, "item_ref_id");
     }
 
     public function confirmedRemoveObject(): void

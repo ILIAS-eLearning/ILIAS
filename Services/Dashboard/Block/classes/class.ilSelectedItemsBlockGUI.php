@@ -25,14 +25,6 @@ use ILIAS\Services\Dashboard\Block\BlockDTO;
  */
 class ilSelectedItemsBlockGUI extends ilDashboardBlockGUI
 {
-    private ilFavouritesManager $favourites;
-
-    public function __construct()
-    {
-        parent::__construct();
-        $this->favourites = new ilFavouritesManager();
-    }
-
     public function initViewSettings(): void
     {
         $this->viewSettings = new ilPDSelectedItemsBlockViewSettings(
@@ -95,16 +87,6 @@ class ilSelectedItemsBlockGUI extends ilDashboardBlockGUI
         return 'pditems';
     }
 
-    public function addCustomCommandsToActionMenu(ilObjectListGUI $itemListGui, int $ref_id): void
-    {
-        $this->ctrl->setParameter($this, 'item_ref_id', $ref_id);
-        $itemListGui->addCustomCommand(
-            $this->ctrl->getLinkTarget($this, "removeFromDesk"),
-            "rep_remove_from_favourites",
-        );
-        $this->ctrl->clearParameterByClass(self::class, 'item_ref_id');
-    }
-
     public function confirmedRemoveObject(): void
     {
         $refIds = (array) ($this->http->request()->getParsedBody()['ref_id'] ?? []);
@@ -113,19 +95,11 @@ class ilSelectedItemsBlockGUI extends ilDashboardBlockGUI
         }
 
         foreach ($refIds as $ref_id) {
-            $this->favourites->remove($this->user->getId(), (int) $ref_id);
+            $this->favourites_manager->remove($this->user->getId(), (int) $ref_id);
         }
 
         $this->main_tpl->setOnScreenMessage('success', $this->lng->txt('pd_remove_multi_confirm'), true);
         $this->ctrl->returnToParent($this);
-    }
-
-    public function removeFromDeskObject(): void
-    {
-        $this->lng->loadLanguageModule("rep");
-        $this->favourites->remove($this->user->getId(), $this->requested_item_ref_id);
-        $this->main_tpl->setOnScreenMessage('success', $this->lng->txt("rep_removed_from_favourites"), true);
-        $this->returnToContext();
     }
 
     public function removeMultipleEnabled(): bool

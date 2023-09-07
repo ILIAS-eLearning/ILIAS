@@ -22,14 +22,11 @@ use ILIAS\Services\Dashboard\Block\BlockDTO;
 
 class ilDashboardRecommendedContentGUI extends ilDashboardBlockGUI
 {
-    private ilFavouritesManager $favourites;
-
     public function __construct()
     {
         global $DIC;
         parent::__construct();
         $request = $DIC->repository()->internal()->gui()->standardRequest();
-        $this->favourites = new ilFavouritesManager();
     }
 
     protected function removeRecommendationObject(): void
@@ -115,18 +112,6 @@ class ilDashboardRecommendedContentGUI extends ilDashboardBlockGUI
             $this->ctrl->getLinkTarget($this, "removeRecommendation"),
             "dash_remove_from_list"
         );
-        $itemListGui->addCustomCommand(
-            $this->ctrl->getLinkTarget($this, "addToDesk"),
-            "rep_add_to_favourites"
-        );
-        $this->ctrl->clearParameterByClass(self::class, "item_ref_id");
-    }
-
-    public function addToDeskObject(): void
-    {
-        $this->favourites->add($this->user->getId(), $this->requested_item_ref_id);
-        $this->main_tpl->setOnScreenMessage('success', $this->lng->txt("rep_added_to_favourites"), true);
-        $this->returnToContext();
     }
 
     public function confirmedRemoveObject(): void
