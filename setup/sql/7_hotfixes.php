@@ -1791,4 +1791,14 @@ if ($ilDB->tableExists('adv_md_values_text') &&
 <?php
     $ilDB->manipulate("DELETE FROM rbac_operations WHERE operation='create_dbk'");
 ?>
-
+<#106>
+<?php
+if ($ilDB->tableExists('tst_tests') && $ilDB->tableColumnExists('tst_tests', 'redirection_url')) {
+    $ilDB->modifyTableColumn('tst_tests', 'redirection_url', [
+        'type' => 'text',
+        'length' => 256,
+        'notnull' => false,
+        'default' => null
+    ]);
+}
+?>
