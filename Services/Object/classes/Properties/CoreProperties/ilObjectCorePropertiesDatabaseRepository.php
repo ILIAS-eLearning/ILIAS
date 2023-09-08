@@ -37,7 +37,7 @@ class ilObjectCorePropertiesDatabaseRepository implements ilObjectCoreProperties
             return $this->getDefaultCoreProperties();
         }
 
-        $data =  $this->retrieveDataForObjectId($object_id);
+        $data = $this->retrieveDataForObjectId($object_id);
         return new ilObjectCoreProperties(
             new ilObjectPropertyTitleAndDescription(array_shift($data), array_shift($data)),
             new ilObjectPropertyIsOnline(array_shift($data)),
@@ -134,7 +134,7 @@ class ilObjectCorePropertiesDatabaseRepository implements ilObjectCoreProperties
             return '';
         }
 
-        return $this->database->fetchAssoc($statement)['description'];
+        return $this->database->fetchAssoc($statement)['description'] ?? '';
     }
 
     protected function storeLongDescription(string $long_description, array $where): void
