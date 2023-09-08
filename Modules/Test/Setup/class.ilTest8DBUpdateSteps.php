@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,9 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
+
 class ilTest8DBUpdateSteps implements ilDatabaseUpdateSteps
 {
     protected ilDBInterface $db;
@@ -29,5 +30,17 @@ class ilTest8DBUpdateSteps implements ilDatabaseUpdateSteps
     public function step_1(): void
     {
         $this->db->dropTableColumn('tst_tests', 'mc_scoring');
+    }
+
+    public function step_2(): void
+    {
+        if ($this->db->tableExists('tst_tests') && $this->db->tableColumnExists('tst_tests', 'redirection_url')) {
+            $this->db->modifyTableColumn('tst_tests', 'redirection_url', [
+                'type' => 'text',
+                'length' => 256,
+                'notnull' => false,
+                'default' => null
+            ]);
+        }
     }
 }
