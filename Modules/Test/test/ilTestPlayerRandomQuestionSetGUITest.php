@@ -53,7 +53,7 @@ class ilTestPlayerRandomQuestionSetGUITest extends ilTestBaseTestCase
         $this->addGlobal_uiFactory();
         $this->addGlobal_uiRenderer();
 
-        $this->testObj = new ilTestPlayerRandomQuestionSetGUI($this->createMock(ilObjTest::class));
+        $this->testObj = new ilTestPlayerRandomQuestionSetGUI($this->getTestObjMock());
     }
 
     public function test_instantiateObject_shouldReturnInstance(): void
