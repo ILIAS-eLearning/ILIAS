@@ -7677,7 +7677,7 @@ crs#:#crs_status_changed_body#:#Ihr Status in Kurs "%s" wurde geändert.
 crs#:#crs_status_determination#:#Bestimmung des Status "Bestanden"
 crs#:#crs_status_determination_lp#:#Aus Lernfortschritt ableiten
 crs#:#crs_status_determination_lp_info#:#Wechselt der Lernfortschritt auf „Bearbeitet“, wird der Status „Bestanden“ gesetzt. Die Kursadministration oder Kursbetreuung kann den Status manuell im Reiter „Lernfortschritt » Benutzer“ überschreiben.
-crs#:#crs_status_determination_manual#:#Nur manuell setzen
+crs#:#crs_status_determination_manual#:#Manuell setzen
 crs#:#crs_status_determination_sync#:#Der Lernfortschritt dieses Kurses wird automatisch auf „Bestanden“ gesetzt, sobald jemand alle dafür erforderlichen Aktivitäten abgeschlossen hat. Bereits erzielte Lernfortschritte werden berücksichtigt. Ein manuell gesetzter Status bleibt unverändert. Möchten Sie den Status „Bestanden“ jetzt automatisch bestimmen?###Modified as part of gender mainstreaming activities for ILIAS 8
 crs#:#crs_structure#:#Kursstruktur
 crs#:#crs_subject_course_group_notification#:#Mail-Zusammenfassung für %s
@@ -8988,8 +8988,8 @@ exc#:#exc_comment_for_learner_info#:#Es wird eine Benachrichtigung an den Teilne
 exc#:#exc_compare_selected_submissions#:#Vergleiche ausgewählte Lösungsabgaben
 exc#:#exc_compare_submissions#:#Vergleiche Lösungsabgaben
 exc#:#exc_completion_by_submission#:#Automatisch bei Abgabe
-exc#:#exc_completion_by_submission_info#:#Reicht ein Teilnehmer eine Lösung ein, wird der Lernfortschrittstatus automatisch auf „Bestanden“ gesetzt. Personen mit dem Recht „Abgaben und Noten bearbeiten“ können den Status manuell überschreiben. Das Ändern dieser Einstellung hat keine Auswirkung auf bereits erfolgte Bewertungen.
-exc#:#exc_completion_by_tutor#:#Nur manuell setzen
+exc#:#exc_completion_by_submission_info#:#Wird für eine Übungseinheit eine Lösung eingereicht, setzt ILIAS den Status automatisch auf „Bestanden“. Personen mit dem Recht „Abgaben und Noten bearbeiten“ können den Status manuell überschreiben. Das Ändern dieser Einstellung hat keine Auswirkung auf bereits erfolgte Bewertungen.
+exc#:#exc_completion_by_tutor#:#Manuell setzen
 exc#:#exc_conf_del_assignments#:#Möchten Sie die folgenden Übungseinheiten wirklich löschen?
 exc#:#exc_copy#:#Übung kopieren
 exc#:#exc_copy_zip_error#:#Die Abgabe kann nicht geöffnet werden. Es ist ein Fehler beim Kopieren der Dateien aufgetreten.
