@@ -911,7 +911,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             ilObjUser::_lookupFullname($this->object->_getUserIdFromActiveId($active_id))
         );
 
-        $results = $this->results_factory->for($this->object, $active_id, $pass);
+        $results = $this->results_factory->for($this->object, $active_id, $pass, false);
 
         $table = $results->getTable($title);
 
@@ -1111,8 +1111,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         }
 
         //$questionAnchorNav = $this->object->canShowSolutionPrintview();
-        $questionAnchorNav =
-            $this->object->getShowSolutionListOwnAnswers();
+        //$questionAnchorNav = $this->object->getShowSolutionListOwnAnswers();
 
         $tpl = new ilTemplate('tpl.il_as_tst_pass_details_overview_participants.html', true, true, "Modules/Test");
 
@@ -1148,19 +1147,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             $gradingMessageBuilder->sendMessage();
         }
 
-        $overviewTableGUI = $this->getPassDetailsOverviewTableGUI(
-            $result_array,
-            $active_id,
-            $pass,
-            $this,
-            "outUserPassDetails",
-            $command_solution_details,
-            $questionAnchorNav,
-            $objectivesList
-        );
-        $overviewTableGUI->setTitle($testResultHeaderLabelBuilder->getPassDetailsHeaderLabel($pass + 1));
-        $tpl->setVariable("PASS_DETAILS", $this->ctrl->getHTML($overviewTableGUI));
-
         $data = $this->object->getCompleteEvaluationData();
         $percent = $data->getParticipant($active_id)->getPass($pass)->getReachedPoints() / $data->getParticipant($active_id)->getPass($pass)->getMaxPoints() * 100;
         $result = $data->getParticipant($active_id)->getPass($pass)->getReachedPoints() . " " . strtolower($this->lng->txt("of")) . " " . $data->getParticipant($active_id)->getPass($pass)->getMaxPoints() . " (" . sprintf("%2.2f", $percent) . " %" . ")";
@@ -1168,22 +1154,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         $tpl->setVariable("TOTAL_RESULT_TEXT", $this->lng->txt('tst_stat_result_resultspoints'));
         $tpl->setVariable("TOTAL_RESULT", $result);
         $tpl->parseCurrentBlock();
-
-        if ($this->object->getShowSolutionListOwnAnswers()) {
-            $list_of_answers = $this->getPassListOfAnswers(
-                $result_array,
-                $active_id,
-                $pass,
-                $this->object->getShowSolutionListComparison(),
-                false,
-                false,
-                false,
-                true,
-                $objectivesList,
-                $testResultHeaderLabelBuilder
-            );
-            $tpl->setVariable("LIST_OF_ANSWERS", $list_of_answers);
-        }
 
         $tpl->setVariable("TEXT_RESULTS", $testResultHeaderLabelBuilder->getPassDetailsHeaderLabel($pass + 1));
         $tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
@@ -1207,7 +1177,21 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             $this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print_hide_content.css", "Modules/Test"), "print");
         }
 
-        $this->tpl->setContent($tpl->get());
+        $title = sprintf(
+            $this->lng->txt("tst_result_user_name_pass"),
+            $pass + 1,
+            ilObjUser::_lookupFullname($this->object->_getUserIdFromActiveId($active_id))
+        );
+        $results = $this->results_factory->for($this->object, $active_id, $pass, true);
+        $table = $results->getTable($title);
+
+        $tpl->setVariable("LIST_OF_ANSWERS", $table->render());
+
+        $this->tpl->addCss(ilObjStyleSheet::getContentStylePath(0));
+
+        $this->tpl->setContent(
+            $tpl->get()
+        );
     }
 
     public function outUserResultsOverview()
