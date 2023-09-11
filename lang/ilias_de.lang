@@ -5981,7 +5981,7 @@ cont#:#cont_std_filter_title_3#:#Titel/Beschreibung
 cont#:#cont_std_filter_title_4#:#Schlagwort
 cont#:#cont_std_filter_title_5#:#Autor
 cont#:#cont_std_filter_title_6#:#Copyright
-cont#:#cont_std_filter_title_7#:#Tutorielle Betreuung
+cont#:#cont_std_filter_title_7#:#Kontaktperson
 cont#:#cont_std_filter_title_8#:#Objekttyp
 cont#:#cont_std_filter_title_9#:#Online/Offline
 cont#:#cont_std_record_title#:#Standard
@@ -7509,8 +7509,8 @@ crs#:#crs_max_and_min_members_invalid#:#Die minimale Anzahl muss kleiner als die
 crs#:#crs_max_and_min_members_needed#:#Setzen Sie eine minimale oder maximale Anzahl - oder beides.
 crs#:#crs_max_members_needed#:#Für die Warteliste wird eine maximale Anzahl Mitglieder benötigt.
 crs#:#crs_max_members_reached#:#Die maximale Mitgliederanzahl wurde überschritten
-crs#:#crs_mem_contact#:#Tutorielle Betreuung
-crs#:#crs_mem_contacts#:#Tutorielle Betreuung
+crs#:#crs_mem_contact#:#Kontaktperson
+crs#:#crs_mem_contacts#:#Kontaktpersonen
 crs#:#crs_mem_send_mail#:#Mail verschicken
 crs#:#crs_mem_tbl_header#:#Kursteilnehmer
 crs#:#crs_member#:#Mitglied
@@ -9251,11 +9251,11 @@ exc#:#exc_select_portfolio_unlink#:#Portfolio entfernen
 exc#:#exc_send_assignment#:#Übungseinheit per Mail verschicken
 exc#:#exc_settings_feedback#:#Rückmeldung
 exc#:#exc_settings_feedback_file#:#Datei
-exc#:#exc_settings_feedback_file_info#:#Tutoren laden ihre Datei hoch. Der jeweilige Teilnehmer erhält eine Benachrichtigung und die Datei wird ihm in der Übungseinheiten-Übersicht angezeigt.
+exc#:#exc_settings_feedback_file_info#:#Rückmeldungen werden als Datei hochgeladen und im Reiter „Übungseinheiten“ angezeigt. Die Teilnehmerinnen und Teilnehmer werden darüber per Mail benachrichtigt.
 exc#:#exc_settings_feedback_mail#:#per Mail
-exc#:#exc_settings_feedback_mail_info#:#Tutoren geben ihre Rückmeldungen zur Abgabe in ein Mail-Formular ein. Die Mail wird dem entsprechenden Teilnehmer gesendet.
+exc#:#exc_settings_feedback_mail_info#:#Rückmeldungen zur jeweiligen Abgabe werden in ein Mailformular eingegeben und von ILIAS versandt.
 exc#:#exc_settings_feedback_text#:#Texteingabe
-exc#:#exc_settings_feedback_text_info#:#Tutoren geben ihre Rückmeldungen in ein Textfeld ein. Der jeweilige Teilnehmer erhält eine Benachrichtigung und der Text wird ihm in der Übungseinheiten-Übersicht angezeigt.
+exc#:#exc_settings_feedback_text_info#:#Rückmeldungen zur jeweiligen Abgabe werden in ein Textfeld eingegeben und im Reiter „Übungseinheiten“ angezeigt. Zusätzlich erhalten Teilnehmerinnen und Teilnehmer eine Benachrichtigung per Mail.
 exc#:#exc_show_peer_review#:#Peer-Feedback anzeigen
 exc#:#exc_show_submissions#:#Lösungsabgaben veröffentlichen
 exc#:#exc_show_submissions_info#:#Alle Lösungsabgaben einer Übungseinheit können nach dem Abgabetermin von allen Teilnehmern eingesehen werden.
@@ -9269,7 +9269,7 @@ exc#:#exc_submission_file#:#Dateiabgabe
 exc#:#exc_submission_no_new_files#:#Keine neuen Abgaben vorhanden.
 exc#:#exc_submission_notification#:#Benachrichtigung bei Abgabe
 exc#:#exc_submission_notification_body#:#Eine neue Abgabe für die Übung "%s" liegt vor.
-exc#:#exc_submission_notification_info#:#Sie werden per Mail benachrichtigt, sobald neue Lösungen abgegeben wurden. Dies ist eine persönliche Einstellung, die nur für Sie gilt. Andere Tutoren der Übung sind davon nicht betroffen.
+exc#:#exc_submission_notification_info#:#Sie werden per Mail benachrichtigt, sobald neue Lösungen abgegeben wurden. Dies ist eine persönliche Einstellung, die nur für Sie gilt. Andere Personen, die Abgaben bewerten erhalten nur dann eine Mail, wenn auch sie diese Checkbox aktivieren.
 exc#:#exc_submission_notification_link#:#Link zur Übung: %s
 exc#:#exc_submission_notification_subject#:#Eine neue Abgabe für die Übung "%s" liegt vor
 exc#:#exc_submission_text#:#Textabgabe
@@ -9300,7 +9300,7 @@ exc#:#exc_tbl_filter_has_submission#:#Hat abgegeben
 exc#:#exc_tbl_filter_submission#:#Abgabe
 exc#:#exc_tbl_individual_deadline#:#Individueller Abgabetermin
 exc#:#exc_tbl_mark#:#Note
-exc#:#exc_tbl_notice#:#Notiz für Tutoren
+exc#:#exc_tbl_notice#:#Interne Anmerkung
 exc#:#exc_tbl_sent_time#:#Übungseinheit verschickt am
 exc#:#exc_tbl_status#:#Bewertung
 exc#:#exc_tbl_status_time#:#Bewertet am
@@ -9324,7 +9324,7 @@ exc#:#exc_team_by_random_info#:#Teilnehmer werden automatisch und zufällig zu T
 exc#:#exc_team_by_tutors#:#Durch Tutoren
 exc#:#exc_team_by_tutors_info#:#Tutoren organisieren die Teams.
 exc#:#exc_team_by_tutors_manual#:#Manuell
-exc#:#exc_team_by_tutors_manual_info#:#Tutoren ordnen die Teilnehmer manuell den Teams zu.
+exc#:#exc_team_by_tutors_manual_info#:#Personen mit dem Recht „Abgaben und Noten bearbeiten“ ordnen die Teilnehmerinnen und Teilnehmer manuell den Teams zu.
 exc#:#exc_team_creation#:#Erstellung
 exc#:#exc_team_formation#:#Organisation der Teams
 exc#:#exc_team_log#:#Team Log
@@ -9334,7 +9334,6 @@ exc#:#exc_team_log_create_team#:#Team erstellt.
 exc#:#exc_team_log_remove_file#:#Datei %s entfernt.
 exc#:#exc_team_log_remove_member#:#Mitglied %s entfernt.
 exc#:#exc_team_management_tutor#:#Team-Management durch Tutoren
-exc#:#exc_team_management_tutor_info#:#Bei Aktivierung dieser Option können Teilnehmer ihre Teams nicht selbst organisieren.
 exc#:#exc_team_max_small_than_members#:#Die maximale Anzahl von Teilnehmern kann nicht auf %s gesetzt werden, da einige Teams %s Teilnehmer erhalten müssen.
 exc#:#exc_team_member_add#:#Team-Mitglied hinzufügen (Suche)
 exc#:#exc_team_member_container_add#:#Team-Mitglied aus Kurs/Gruppe hinzufügen
@@ -9394,7 +9393,7 @@ exercise#:#exc_admin_settings#:#Übungs-Administration
 exercise#:#exc_comment#:#Stellungnahme
 exercise#:#exc_comment_for_learner#:#Rückmeldung für Teilnehmer
 exercise#:#exc_failed#:#Nicht bestanden
-exercise#:#exc_feedback_from_tutor#:#Bewertung des Tutors
+exercise#:#exc_feedback_from_tutor#:#Bewertung
 exercise#:#exc_grading#:#Bewertung
 exercise#:#exc_mark#:#Note
 exercise#:#exc_notgraded#:#Nicht bewertet
@@ -9945,7 +9944,7 @@ grp#:#grp_mail_wl_sub#:#Ihre Anmeldung für Gruppe "%s"
 grp#:#grp_map_location#:#Standort auf Gruppenkarte
 grp#:#grp_map_settings#:#Einstellungen Karte
 grp#:#grp_max_and_min_members_invalid#:#Die minimale Anzahl muss kleiner als die maximale Anzahl sein.
-grp#:#grp_mem_contacts#:#Tutorielle Betreuung
+grp#:#grp_mem_contacts#:#Kontaktperson
 grp#:#grp_mem_tbl_header#:#Gruppenteilnehmer
 grp#:#grp_member_administration#:#Teilnehmerverwaltung
 grp#:#grp_members#:#Mitglieder
@@ -14773,7 +14772,7 @@ sess#:#sess_mail_type#:#Mail an Teilnehmer
 sess#:#sess_material_assigned#:#Zugeordnet
 sess#:#sess_material_not_assigned#:#Nicht zugeordnet
 sess#:#sess_max_members_needed#:#Für die Warteliste wird eine maximale Anzahl Mitglieder benötigt.
-sess#:#sess_mem_contacts#:#Tutorielle Betreuung
+sess#:#sess_mem_contacts#:#Kontaktperson
 sess#:#sess_mem_tbl_header#:#Sitzungsteilnehmer
 sess#:#sess_member_administration#:#Teilnehmerverwaltung
 sess#:#sess_members#:#Teilnehmer

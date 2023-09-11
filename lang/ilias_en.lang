@@ -9327,7 +9327,6 @@ exc#:#exc_team_log_create_team#:#Team created.
 exc#:#exc_team_log_remove_file#:#Removed file %s.
 exc#:#exc_team_log_remove_member#:#Removed member %s.
 exc#:#exc_team_management_tutor#:#Team Management by Tutors
-exc#:#exc_team_management_tutor_info#:#If activated participants cannot organize teams themselves.
 exc#:#exc_team_max_small_than_members#:#Maximal Number of Participants can not be set as %s because some teams need to be set with %s participants.
 exc#:#exc_team_member_add#:#Add Team Member (Search)
 exc#:#exc_team_member_container_add#:#Add Team Member from Course/Group
