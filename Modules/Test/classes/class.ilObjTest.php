@@ -134,8 +134,10 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         $this->component_repository = $DIC['component.repository'];
         $this->component_factory = $DIC['component.factory'];
         $this->filesystem_web = $DIC->filesystem()->web();
-        $this->testManScoringDoneHelper = new TestManScoringDoneHelper();
-        $this->participant_access_filter = new ilTestParticipantAccessFilterFactory($DIC['ilAccess']);
+
+        $local_dic = $this->getLocalDIC();
+        $this->participant_access_filter = $local_dic['participantAccessFilterFactory'];
+        $this->testManScoringDoneHelper = $local_dic['manScoringDoneHelper'];
 
         $this->mark_schema = new ASS_MarkSchema($DIC['ilDB'], $DIC['lng'], $DIC['ilUser']->getId());
         $this->mark_schema->createSimpleSchema(
