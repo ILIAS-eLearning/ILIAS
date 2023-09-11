@@ -27,6 +27,7 @@ class ilTestResultsFactory
     protected ilObjTest $test_obj;
     protected int $active_id;
     protected int $pass_id;
+    protected bool $is_user_output = true;
 
     /**
      * @param ilQuestionResult[] $question_results
@@ -45,11 +46,13 @@ class ilTestResultsFactory
         ilObjTest $test_obj,
         int $active_id,
         int $pass_id,
+        bool $is_user_output = true
     ): self {
         $clone = clone $this;
         $clone->test_obj = $test_obj;
         $clone->active_id = $active_id;
         $clone->pass_id = $pass_id;
+        $clone->is_user_output = $is_user_output;
         return $clone;
     }
 
@@ -143,10 +146,15 @@ class ilTestResultsFactory
         $settings_summary = $settings->getResultSummarySettings();
         $settings_result = $settings->getResultDetailsSettings();
 
+
+        $show_best_solution = $this->is_user_output ?
+            $settings_result->getShowSolutionListOwnAnswers() :
+            (bool)ilSession::get('tst_results_show_best_solutions');
+
         $environment = (new ilTestResultsSettings())
             ->withShowHiddenQuestions(false)
             ->withShowOptionalQuestions(true)
-            ->withShowBestSolution((bool)ilSession::get('tst_results_show_best_solutions'))
+            ->withShowBestSolution($show_best_solution)
             ->withShowFeedback($settings_result->getShowSolutionFeedback());
 
         return $environment;
