@@ -63,6 +63,6 @@ class ObserverHandler implements ObserverHandlerInterface
                 'Cannot call observers via relative or invalid path.'
             );
         }
-        $this->callObservers($category);
+        $this->callObservers($categories[$category]);
     }
 }
