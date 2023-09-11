@@ -44,7 +44,7 @@ class ilADTIntegerDefinition extends ilADTDefinition
         return $this->min_value;
     }
 
-    public function setMin(int $a_value): void
+    public function setMin(?int $a_value): void
     {
         $this->min_value = $this->handleNumber($a_value);
     }
@@ -54,7 +54,7 @@ class ilADTIntegerDefinition extends ilADTDefinition
         return $this->max_value;
     }
 
-    public function setMax(int $a_value): void
+    public function setMax(?int $a_value): void
     {
         $this->max_value = $this->handleNumber($a_value);
     }

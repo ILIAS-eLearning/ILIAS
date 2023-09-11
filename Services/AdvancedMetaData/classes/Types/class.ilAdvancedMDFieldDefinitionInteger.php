@@ -66,8 +66,8 @@ class ilAdvancedMDFieldDefinitionInteger extends ilAdvancedMDFieldDefinition
     protected function initADTDefinition(): ilADTDefinition
     {
         $def = ilADTFactory::getInstance()->getDefinitionInstanceByType('Integer');
-        $def->setMin((int) $this->getMin());
-        $def->setMax((int) $this->getMax());
+        $def->setMin($this->getMin());
+        $def->setMax($this->getMax());
         $def->setSuffix((string) ($this->getSuffixTranslations()[$this->language] ?? $this->getSuffix()));
         return $def;
     }
