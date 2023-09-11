@@ -44,8 +44,7 @@ function with_all_view_controls(): string
         array_reduce(
             array_keys($presentation_options),
             static function ($carry, $item) use ($presentation_options, $url) {
-                $section = 'with_view_controls';
-                $carry[$presentation_options[$item]] = "$url&mode=$item#$section";
+                $carry[$presentation_options[$item]] = "$url&mode=$item";
                 return $carry;
             },
             []
