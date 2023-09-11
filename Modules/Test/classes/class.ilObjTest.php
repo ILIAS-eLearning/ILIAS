@@ -5968,7 +5968,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
     /**
      * @deprecated: use ilTestParticipantData instead
      */
-    public static function _getUserIdFromActiveId($active_id)
+    public static function _getUserIdFromActiveId(int $active_id): int
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -5985,12 +5985,12 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         }
     }
 
-    public function _getLastAccess($active_id)
+    public function _getLastAccess(int $active_id): string
     {
         $result = $this->db->queryF(
             "SELECT finished FROM tst_times WHERE active_fi = %s ORDER BY finished DESC",
-            array('integer'),
-            array($active_id)
+            ['integer'],
+            [$active_id]
         );
         if ($result->numRows()) {
             $row = $this->db->fetchAssoc($result);
@@ -5999,7 +5999,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         return "";
     }
 
-    public static function lookupLastTestPassAccess($activeId, $passIndex)
+    public static function lookupLastTestPassAccess(int $active_id, int $pass_index): ?int
     {
         /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
@@ -6014,8 +6014,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
 
         $res = $ilDB->queryF(
             $query,
-            array('integer', 'integer'),
-            array($activeId, $passIndex)
+            ['integer', 'integer'],
+            [$active_id, $pass_index]
         );
 
         while ($row = $ilDB->fetchAssoc($res)) {
@@ -6042,7 +6042,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
     }
 
     /**
-    * Reads an QTI material tag an creates a text string
+    * Reads an QTI material tag and creates a text string
     *
     * @return string text or xhtml string
     * @access public
@@ -6053,10 +6053,10 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         $mobs = [];
         for ($i = 0; $i < $a_material->getMaterialCount(); $i++) {
             $material = $a_material->getMaterial($i);
-            if (strcmp($material['type'], 'mattext') === 0) {
+            if ($material['type'] === 'mattext') {
                 $result .= $material['material']->getContent();
             }
-            if (strcmp($material['type'], 'matimage') === 0) {
+            if ($material['type'] === 'matimage') {
                 $matimage = $material['material'];
                 if (preg_match('/(il_([0-9]+)_mob_([0-9]+))/', $matimage->getLabel(), $matches)) {
                     $mobs[] = [

@@ -1174,8 +1174,11 @@ class ilTestServiceGUI
         $this->tpl->setContent($solution);
     }
 
-    protected function populatePassFinishDate(ilTemplate $tpl, int $pass_finish_date): void
+    protected function populatePassFinishDate(ilTemplate $tpl, ?int $pass_finish_date): void
     {
+        if ($pass_finish_date === null) {
+            return;
+        }
         $old_value = ilDatePresentation::useRelativeDates();
         ilDatePresentation::setUseRelativeDates(false);
         $pass_finish_date_string = ilDatePresentation::formatDate(new ilDateTime($pass_finish_date, IL_CAL_UNIX));
