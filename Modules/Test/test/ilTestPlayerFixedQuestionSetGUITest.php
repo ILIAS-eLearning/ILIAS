@@ -53,7 +53,7 @@ class ilTestPlayerFixedQuestionSetGUITest extends ilTestBaseTestCase
         $this->addGlobal_uiRenderer();
 
         $this->testObj = new ilTestPlayerFixedQuestionSetGUI(
-            $this->createMock(ilObjTest::class)
+            $this->getTestObjMock()
         );
     }
 
