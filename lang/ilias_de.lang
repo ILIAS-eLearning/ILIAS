@@ -16489,7 +16489,7 @@ trac#:#trac_lp_determination_info_crs#:#Auswahl der Materialien, anhand derer de
 trac#:#trac_lp_determination_info_crs_tutor#:#Wählen Sie diejenigen Objekte aus, welche zur Bestimmung des Lernfortschritts beitragen sollen.
 trac#:#trac_lp_determination_info_mob#:#Auswahl der Medienobjekte, anhand derer der Gesamtstatus des Mediacast ermittelt wird.
 trac#:#trac_lp_determination_info_sco#:#Auswahl der SCOx, anhand derer der Gesamtstatus des SCORM-Moduls ermittelt wird.
-trac#:#trac_lp_determination_tutor#:#Auswahl von Objekten, die den Lernfortschrittschritt bestimmen
+trac#:#trac_lp_determination_tutor#:#Auswahl von Objekten, die den Lernfortschritt bestimmen
 trac#:#trac_lp_filter#:#Filter
 trac#:#trac_lp_learner_access#:#Eigenen Lernfortschritt einsehen
 trac#:#trac_lp_learner_access_info#:#Wenn aktiviert, können Benutzer ihren eigenen Lernfortschritt einsehen.
