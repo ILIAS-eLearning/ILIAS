@@ -48,8 +48,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
     protected ilTestAccess $testAccess;
     protected ilTestProcessLockerFactory $processLockerFactory;
 
-    protected ilTestParticipantAccessFilterFactory $participant_access_filter;
-
     /**
      * ilTestEvaluationGUI constructor
      *
@@ -64,6 +62,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         global $DIC;
         $this->participant_access_filter = new ilTestParticipantAccessFilterFactory($this->access);
         $this->ui = $DIC->ui();
+
         $this->processLockerFactory = new ilTestProcessLockerFactory(
             new ilSetting('assessment'),
             $this->db

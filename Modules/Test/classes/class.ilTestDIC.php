@@ -19,6 +19,8 @@
 declare(strict_types=1);
 
 use Pimple\Container;
+use ILIAS\Test\TestManScoringDoneHelper;
+use ILIAS\Test\InternalRequestService;
 
 class ilTestDIC
 {
@@ -38,13 +40,11 @@ class ilTestDIC
         $dic = $DIC;
         $container = new Container();
 
-        $dic['shuffler'] = static function ($c) use ($dic): ilTestShuffler {
-            return new ilTestShuffler(
-                $dic['refinery']
-            );
-        };
-        $dic['factory.results'] = static function ($c) use ($dic): ilTestResultsFactory {
-            return new ilTestResultsFactory(
+        $dic['shuffler'] = static fn($c): ilTestShuffler =>
+            new ilTestShuffler($dic['refinery']);
+
+        $dic['factory.results'] = static fn($c): ilTestResultsFactory =>
+            new ilTestResultsFactory(
                 $c['shuffler'],
                 $dic['ui.factory'],
                 $dic['ui.renderer'],
@@ -53,7 +53,13 @@ class ilTestDIC
                 $dic['http'],
                 $dic['lng']
             );
-        };
+
+        $dic['participantAccessFilterFactory'] = static fn($c): ilTestParticipantAccessFilterFactory =>
+            new ilTestParticipantAccessFilterFactory($dic['ilAccess']);
+        $dic['manScoringDoneHelper'] = static fn($c): TestManScoringDoneHelper =>
+            new TestManScoringDoneHelper();
+        $dic['request.internal'] = static fn($c): InternalRequestService =>
+            new InternalRequestService($dic['http'], $dic['refinery']);
 
         return $dic;
     }

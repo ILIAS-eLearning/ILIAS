@@ -141,20 +141,23 @@ class ilTestServiceGUI
         $this->rbac_system = $DIC['rbacsystem'];
         $this->obj_cache = $DIC['ilObjDataCache'];
         $this->skills_service = $DIC->skills();
-        $this->participant_access_filter = new ilTestParticipantAccessFilterFactory($DIC['ilAccess']);
         $this->post_wrapper = $DIC->http()->wrapper()->post();
-        $this->testrequest = $DIC->test()->internal()->request();
+
         $this->questioninfo = $DIC->testQuestionPool()->questionInfo();
         $this->service = new ilTestService($this->object, $this->db, $this->questioninfo);
+
         $this->lng->loadLanguageModule('cert');
         $this->ref_id = $this->object->getRefId();
         $this->testSessionFactory = new ilTestSessionFactory($this->object, $this->db, $this->user);
         $this->testSequenceFactory = new ilTestSequenceFactory($this->object, $this->db, $this->questioninfo);
         $this->objective_oriented_container = null;
+
         $this->ui_factory = $DIC['ui.factory'];
         $this->ui_renderer = $DIC['ui.renderer'];
 
         $local_dic = $object->getLocalDIC();
+        $this->testrequest = $local_dic['request.internal'];
+        $this->participant_access_filter = $local_dic['participantAccessFilterFactory'];
         $this->shuffler = $local_dic['shuffler'];
         $this->results_factory = $local_dic['factory.results'];
     }
