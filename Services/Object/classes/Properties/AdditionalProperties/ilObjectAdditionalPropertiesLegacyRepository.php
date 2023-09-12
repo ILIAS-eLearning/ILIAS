@@ -33,9 +33,9 @@ class ilObjectAdditionalPropertiesLegacyRepository implements ilObjectAdditional
     ) {
     }
 
-    public function getFor(?int $object_id): ilObjectAdditionalProperties
+    public function getFor(int $object_id): ilObjectAdditionalProperties
     {
-        if ($object_id === null) {
+        if ($object_id === 0) {
             return $this->getDefaultAdditionalProperties();
         }
 

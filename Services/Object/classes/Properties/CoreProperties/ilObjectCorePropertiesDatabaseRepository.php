@@ -31,9 +31,9 @@ class ilObjectCorePropertiesDatabaseRepository implements ilObjectCoreProperties
     ) {
     }
 
-    public function getFor(?int $object_id): ilObjectCoreProperties
+    public function getFor(int $object_id): ilObjectCoreProperties
     {
-        if ($object_id === null) {
+        if ($object_id === 0) {
             return $this->getDefaultCoreProperties();
         }
 
