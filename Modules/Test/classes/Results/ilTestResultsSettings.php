@@ -29,6 +29,7 @@ class ilTestResultsSettings
     protected bool $show_best_solution = true;
     protected bool $show_feedback = true;
     protected bool $question_text_only = false;
+    protected bool $show_recapitulation = false;
 
 
     public function __construct(
@@ -91,5 +92,14 @@ class ilTestResultsSettings
         return $this->question_text_only;
     }
 
-
+    public function withShowRecapitulation(bool $flag): self
+    {
+        $clone = clone $this;
+        $clone->show_recapitulation = $flag;
+        return $clone;
+    }
+    public function getShowRecapitulation(): bool
+    {
+        return $this->show_recapitulation;
+    }
 }

@@ -198,6 +198,10 @@ class ilTestResultsOverviewTable
             }
             $contents[] = $answers;
 
+            if ($recap = $question->getRecapitulation()) {
+                $contents[] = $ui_factory->legacy($recap);
+            }
+
             $content = $ui_factory->layout()->alignment()->vertical(...$contents);
 
             switch($question->getCorrect()) {

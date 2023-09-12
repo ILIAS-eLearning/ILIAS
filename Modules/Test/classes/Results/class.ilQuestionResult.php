@@ -38,7 +38,8 @@ class ilQuestionResult
         protected string $best_solution,
         protected string $feedback,
         protected bool $workedthrough,
-        protected bool $answered
+        protected bool $answered,
+        protected ?string $recapitulation
     ) {
     }
 
@@ -95,5 +96,9 @@ class ilQuestionResult
     public function isAnswered(): bool
     {
         return $this->answered;
+    }
+    public function getRecapitulation(): ?string
+    {
+        return $this->recapitulation;
     }
 }

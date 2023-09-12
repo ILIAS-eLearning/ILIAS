@@ -69,7 +69,6 @@ class ilTestResultsFactory
             $settings->getShowOptionalQuestions()
         );
 
-
         // params of getSolutionOutput
         $graphical_output = false;
         $result_output = false;
@@ -130,6 +129,11 @@ class ilTestResultsFactory
 
             $feedback = $question_gui->getGenericFeedbackOutput($this->active_id, $this->pass_id);
 
+            $recapitulation = null;
+            if ($this->is_user_output && $settings->getShowRecapitulation()) {
+                $recapitulation = $question_gui->object->getSuggestedSolutionOutput();
+            }
+
             $question_results[] = new ilQuestionResult(
                 $qid,
                 $type,
@@ -140,7 +144,8 @@ class ilTestResultsFactory
                 $best_solution,
                 $feedback,
                 $workedthrough,
-                $answered
+                $answered,
+                $recapitulation
             );
         }
 
@@ -165,7 +170,9 @@ class ilTestResultsFactory
             ->withShowOptionalQuestions(true)
             ->withShowBestSolution($show_best_solution)
             ->withShowFeedback($settings_result->getShowSolutionFeedback())
-            ->withQuestionTextOnly($settings_result->getShowSolutionAnswersOnly());
+            ->withQuestionTextOnly($settings_result->getShowSolutionAnswersOnly())
+            ->withShowRecapitulation($settings_result->getShowSolutionSuggested())
+        ;
 
         return $environment;
     }

@@ -32,6 +32,7 @@ class TestResultsSettingsTest extends TestCase
         $this->assertTrue($trs->getShowBestSolution());
         $this->assertTrue($trs->getShowFeedback());
         $this->assertFalse($trs->getQuestionTextOnly());
+        $this->assertFalse($trs->getShowRecapitulation());
     }
 
     public function testTestResultsSettingsBasicProps(): void
@@ -47,5 +48,7 @@ class TestResultsSettingsTest extends TestCase
         $this->assertFalse($trs->withShowFeedback(false)->getShowFeedback());
         $this->assertTrue($trs->withQuestionTextOnly(true)->getQuestionTextOnly());
         $this->assertFalse($trs->withQuestionTextOnly(false)->getQuestionTextOnly());
+        $this->assertTrue($trs->withShowRecapitulation(true)->getShowRecapitulation());
+        $this->assertFalse($trs->withShowRecapitulation(false)->getShowRecapitulation());
     }
 }
