@@ -36,7 +36,8 @@ class TestResultsQuestionResultsTest extends TestCase
             $best_solution = 'he had better done that',
             $feedback = 'give it another try',
             $worked_through = true,
-            $answered = true
+            $answered = true,
+            $recapitulation = 'some recap'
         );
 
         $this->assertEquals($id, $qr->getId());
@@ -49,5 +50,6 @@ class TestResultsQuestionResultsTest extends TestCase
         $this->assertEquals($feedback, $qr->getFeedback());
         $this->assertTrue($qr->isWorkedThrough());
         $this->assertTrue($qr->isAnswered());
+        $this->assertEquals($recapitulation, $qr->getRecapitulation());
     }
 }
