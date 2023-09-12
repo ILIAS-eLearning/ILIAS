@@ -28,6 +28,7 @@ class ilTestResultsSettings
     protected bool $show_optional_questions = false;
     protected bool $show_best_solution = true;
     protected bool $show_feedback = true;
+    protected bool $question_text_only = false;
 
 
     public function __construct(
@@ -78,4 +79,17 @@ class ilTestResultsSettings
     {
         return $this->show_feedback;
     }
+
+    public function withQuestionTextOnly(bool $flag): self
+    {
+        $clone = clone $this;
+        $clone->question_text_only = $flag;
+        return $clone;
+    }
+    public function getQuestionTextOnly(): bool
+    {
+        return $this->question_text_only;
+    }
+
+
 }
