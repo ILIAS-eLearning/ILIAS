@@ -1158,17 +1158,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         $tpl->setVariable("TEXT_RESULTS", $testResultHeaderLabelBuilder->getPassDetailsHeaderLabel($pass + 1));
         $tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 
-        $uname = $this->object->userLookupFullName($user_id, true);
-        $user_data = $this->getAdditionalUsrDataHtmlAndPopulateWindowTitle($testSession, $active_id, true);
-        if (!$this->getObjectiveOrientedContainer()->isObjectiveOrientedPresentationRequired()) {
-            if ($this->object->getAnonymity()) {
-                $tpl->setVariable("TEXT_HEADING", $this->lng->txt("tst_result_pass"));
-            } else {
-                $tpl->setVariable("TEXT_HEADING", sprintf($this->lng->txt("tst_result_user_name_pass"), $pass + 1, $uname));
-                $tpl->setVariable("USER_DATA", $user_data);
-            }
-        }
-
         $this->populateExamId($tpl, $active_id, (int) $pass);
         $this->populatePassFinishDate($tpl, ilObjTest::lookupLastTestPassAccess($active_id, $pass));
 
