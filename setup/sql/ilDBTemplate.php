@@ -35318,9 +35318,6 @@ $ilDB->insert("rbac_operations", array(
 'ops_id' => array('integer', '22'), 'operation' => array('text', 'create_glo'), 'description' => array('text', 'create new glossary'), 'class' => array('text', 'create'), 'op_order' => array('integer', '9999')));
 
 $ilDB->insert("rbac_operations", array(
-'ops_id' => array('integer', '23'), 'operation' => array('text', 'create_dbk'), 'description' => array('text', 'create new digibook'), 'class' => array('text', 'create'), 'op_order' => array('integer', '9999')));
-
-$ilDB->insert("rbac_operations", array(
 'ops_id' => array('integer', '24'), 'operation' => array('text', 'create_exc'), 'description' => array('text', 'create new exercise'), 'class' => array('text', 'create'), 'op_order' => array('integer', '9999')));
 
 $ilDB->insert("rbac_operations", array(
@@ -47349,7 +47346,7 @@ $ilDB->insert("settings", array(
 'module' => array('text', 'common'), 'keyword' => array('text', 'db_hotfixes_5_3'), 'value' => array('clob', '18')));
 
 $ilDB->insert("settings", array(
-'module' => array('text', 'common'), 'keyword' => array('text', 'db_hotfixes_7'), 'value' => array('clob', '104')));
+'module' => array('text', 'common'), 'keyword' => array('text', 'db_hotfixes_7'), 'value' => array('clob', '105')));
 
 $ilDB->insert("settings", array(
 'module' => array('text', 'common'), 'keyword' => array('text', 'db_update_running'), 'value' => array('clob', '0')));

@@ -15636,7 +15636,6 @@ INSERT INTO `rbac_operations` VALUES (19,'create_crs','create new course','creat
 INSERT INTO `rbac_operations` VALUES (20,'create_lm','create new learning module','create',9999);
 INSERT INTO `rbac_operations` VALUES (21,'create_sahs','create new SCORM/AICC learning module','create',9999);
 INSERT INTO `rbac_operations` VALUES (22,'create_glo','create new glossary','create',9999);
-INSERT INTO `rbac_operations` VALUES (23,'create_dbk','create new digibook','create',9999);
 INSERT INTO `rbac_operations` VALUES (24,'create_exc','create new exercise','create',9999);
 INSERT INTO `rbac_operations` VALUES (25,'create_file','upload new file','create',9999);
 INSERT INTO `rbac_operations` VALUES (26,'create_fold','create new folder','create',9999);
@@ -19938,7 +19937,7 @@ INSERT INTO `settings` VALUES ('common','dbupwarn_tos_migr_54x','1');
 INSERT INTO `settings` VALUES ('common','dbupwarn_tstfixqstseq','1');
 INSERT INTO `settings` VALUES ('common','dbup_tst_skl_thres_mig_done','1');
 INSERT INTO `settings` VALUES ('common','db_hotfixes_5_3','18');
-INSERT INTO `settings` VALUES ('common','db_hotfixes_7','104');
+INSERT INTO `settings` VALUES ('common','db_hotfixes_7','105');
 INSERT INTO `settings` VALUES ('common','db_update_running','0');
 INSERT INTO `settings` VALUES ('common','db_version','5751');
 INSERT INTO `settings` VALUES ('common','default_repository_view','flat');
@@ -25032,4 +25031,4 @@ CREATE TABLE `xmlvalue_seq` (
 
 
 
--- Dump completed on 2023-07-20 18:09:40
+-- Dump completed on 2023-09-12 16:24:46
