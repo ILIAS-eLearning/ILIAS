@@ -933,6 +933,7 @@ assessment#:#new_category#:#Nieuwe categorie
 assessment#:#new_unit#:#Nieuwe eenheid
 assessment#:#next_question#:#Sla op en ga naar volgende vraag
 assessment#:#next_question_rows#:#Vragen %d - %d van %d >>
+assessment#:#no_manual_feedback_export_info#:#Manual feedbacks will not be exported.###12 09 2023 new variable
 assessment#:#no_passed_mark#:#Je moet 1 punt op geslaagd zetten! Het punten schema is niet opgeslaan
 assessment#:#no_question_selected_for_move#:#Selecteer tenminste één vraag om te verplaatsen!
 assessment#:#no_questions_available#:#Er zijn geen vragen beschikbaar
@@ -1661,6 +1662,7 @@ assessment#:#tst_password_form#:#Invoeren toets wachtwoord
 assessment#:#tst_password_introduction#:#De toets kan enkel gestart worden met het juiste wachtwoord. Type het wachtwoord om de toets te starten
 assessment#:#tst_percent_solved#:#Percentage gescoord
 assessment#:#tst_player_answer_saved_and_locked#:#Answer is saved and locked and can no longer be changed###21 12 2022 new variable
+assessment#:#tst_please_select_source_pool#:#Please select a question pool.###12 09 2023 new variable
 assessment#:#tst_please_select_target_for_pool_derives#:#Please select a target conatainer.###25 10 2016 new variable
 assessment#:#tst_position#:#Vragen %s van %s
 assessment#:#tst_position_without_total#:#Question %s###23 12 2015 new variable
@@ -5725,7 +5727,6 @@ common#:#udf_delete_sure#:#Ben je zeker dat je het veld wilt verwijderen en alle
 common#:#udf_duplicate_entries#:#De waarden moeten uniek zijn
 common#:#udf_field_deleted#:#Veld verwijderd
 common#:#udf_name_already_exists#:#Dit veldnaam bestaat reeds.Gelieve een andere naam te kiezen
-common#:#udf_required_and_visible_requires_changeable#:#When a field is ‘Required’ and ‘Visible in Personal Data’, it must also be ‘Changeable in Profile’###01 02 2023 new variable
 common#:#udf_required_requires_visib_reg#:#Als veld op "vereist" staat, moet het ook "zichtbaar" zijn tijdens registratie.
 common#:#udf_type_date#:#Date Field
 common#:#udf_type_datetime#:#Date and Time
@@ -5852,6 +5853,7 @@ common#:#usrimport_no_insert_ext_account_exists#:#Kan geen 'invoeg' actie uitvoe
 common#:#usrimport_no_update_ext_account_exists#:#Kan geen 'update' actie uitvoeren. Externe gebruiker bestaat al.
 common#:#usrimport_with_specified_role_not_permitted#:#Importeren met specifieke rol is niet toegelaten.
 common#:#usrimport_wrong_file_count#:#Too many files in import-folder. Please try again.###30 04 2021 new variable
+common#:#usrimport_xml_anonymous_or_root_not_allowed#:#Neither the system-account nor the anonymous account can be changed through the import.###12 09 2023 new variable
 common#:#usrimport_xml_attribute_missing#:#Attribuut "%2$s" in element "%1$s" is niet aanwezig
 common#:#usrimport_xml_attribute_value_illegal#:#Waarde "%3$s" van attribuut "%2$s" in element "%1$s" is ongeldig
 common#:#usrimport_xml_attribute_value_inapplicable#:#Waarde "%3$s" van attribuut "%2$s" in element "%1$s" is ongeldig voor "%4$s" actie.

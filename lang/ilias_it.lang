@@ -947,6 +947,7 @@ assessment#:#new_category#:#Nuova categoria di unità
 assessment#:#new_unit#:#Nuova unità
 assessment#:#next_question#:#Domanda successiva
 assessment#:#next_question_rows#:#Domande %d - %d di %d >>
+assessment#:#no_manual_feedback_export_info#:#Manual feedbacks will not be exported.###12 09 2023 new variable
 assessment#:#no_passed_mark#:#Devi scegliere almeno un voto come SUPERATO! Lo schema voti non e' stato salvato.
 assessment#:#no_question_selected_for_move#:#Per favore seleziona almeno una domanda da spostare!
 assessment#:#no_questions_available#:#Non ci sono domande disponibili!
@@ -1675,6 +1676,7 @@ assessment#:#tst_password_form#:#Password di accesso del test
 assessment#:#tst_password_introduction#:#Questo test può essere fatto solo dopo l'inserimento di una password. Inseriscila qui per favore.
 assessment#:#tst_percent_solved#:#Percentuale risolta
 assessment#:#tst_player_answer_saved_and_locked#:#Answer is saved and locked and can no longer be changed###21 12 2022 new variable
+assessment#:#tst_please_select_source_pool#:#Please select a question pool.###12 09 2023 new variable
 assessment#:#tst_please_select_target_for_pool_derives#:#Selezionare un contenitore di destinazione.
 assessment#:#tst_position#:#Domanda %s di %s
 assessment#:#tst_position_without_total#:#Domanda %s
@@ -5739,7 +5741,6 @@ common#:#udf_delete_sure#:#Sei sicuro di voler eliminare questo campo e con esso
 common#:#udf_duplicate_entries#:#I valori devono essere unici.
 common#:#udf_field_deleted#:#Campo eliminato.
 common#:#udf_name_already_exists#:#Questo nome di campo esiste già. Scegli un nome diverso.
-common#:#udf_required_and_visible_requires_changeable#:#When a field is ‘Required’ and ‘Visible in Personal Data’, it must also be ‘Changeable in Profile’###01 02 2023 new variable
 common#:#udf_required_requires_visib_reg#:#Quando il campo è impostato su "obbligatorio", deve essere impostato su "visibile in registrazione".
 common#:#udf_type_date#:#Campo Data
 common#:#udf_type_datetime#:#Data e Ora
@@ -5866,6 +5867,7 @@ common#:#usrimport_no_insert_ext_account_exists#:#Non e' possibile eseguire l'az
 common#:#usrimport_no_update_ext_account_exists#:#Non è possibile eseguire l'azione di "Update". Esistono già account esterni.
 common#:#usrimport_with_specified_role_not_permitted#:#Importazione con ruolo specificato non consentita.
 common#:#usrimport_wrong_file_count#:#La cartella import-folder contiene troppi elementi. Riprova.
+common#:#usrimport_xml_anonymous_or_root_not_allowed#:#Neither the system-account nor the anonymous account can be changed through the import.###12 09 2023 new variable
 common#:#usrimport_xml_attribute_missing#:#Attributo " %2$s" nell'elemento " %1$s" mancante.
 common#:#usrimport_xml_attribute_value_illegal#:#Il valore " %3$s" dell'attributo " %2$s" nell'elemento " %1$s" non è consentito.
 common#:#usrimport_xml_attribute_value_inapplicable#:#Il valore " %3$s" dell'attributo " %2$s" nell'elemento " %1$s" non è applicabile per l'azione " %4$s".

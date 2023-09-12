@@ -933,6 +933,7 @@ assessment#:#new_category#:#Kategorija nove jedinice
 assessment#:#new_unit#:#Nova jedinica
 assessment#:#next_question#:#Sljedeće
 assessment#:#next_question_rows#:#Pitanja %d - %d od %d »
+assessment#:#no_manual_feedback_export_info#:#Manual feedbacks will not be exported.###12 09 2023 new variable
 assessment#:#no_passed_mark#:#Barem jednu ocjenu morate odrediti kao PROLAZ! Shema ocjena nije spremljena.
 assessment#:#no_question_selected_for_move#:#Molimo odaberite najmanje jedno pitanje za pomicanje!
 assessment#:#no_questions_available#:#Nema dostupnih pitanja!
@@ -1661,6 +1662,7 @@ assessment#:#tst_password_form#:#Unesi lozinku za test
 assessment#:#tst_password_introduction#:#Ovom se testu može pristupiti samo s lozinkom za test. Unesite lozinku za test kako biste ga pokrenuli.
 assessment#:#tst_percent_solved#:#Posto riješeno
 assessment#:#tst_player_answer_saved_and_locked#:#Answer is saved and locked and can no longer be changed###21 12 2022 new variable
+assessment#:#tst_please_select_source_pool#:#Please select a question pool.###12 09 2023 new variable
 assessment#:#tst_please_select_target_for_pool_derives#:#Molimo odaberite ciljni kontejner.
 assessment#:#tst_position#:#Pitanje %s od %s
 assessment#:#tst_position_without_total#:#Pitanje %s
@@ -5725,7 +5727,6 @@ common#:#udf_delete_sure#:#Jeste li sigurni da želite izbrisati ovo polje i sve
 common#:#udf_duplicate_entries#:#Vrijednosti moraju biti jedinstvene.
 common#:#udf_field_deleted#:#Izbrisano polje.
 common#:#udf_name_already_exists#:#Ovo ime polja već postoji. Odaberite drugo ime.
-common#:#udf_required_and_visible_requires_changeable#:#When a field is ‘Required’ and ‘Visible in Personal Data’, it must also be ‘Changeable in Profile’###01 02 2023 new variable
 common#:#udf_required_requires_visib_reg#:#Kada je polje postavljeno na 'obavezno', mora biti postavljeno na 'vidljivo u registraciji'
 common#:#udf_type_date#:#Datum
 common#:#udf_type_datetime#:#Datum i vrijeme
@@ -5852,6 +5853,7 @@ common#:#usrimport_no_insert_ext_account_exists#:#Nije moguće izvršiti radnju 
 common#:#usrimport_no_update_ext_account_exists#:#Nije moguće izvršiti radnju 'Ažuriraj'. Vanjski račun već postoji.
 common#:#usrimport_with_specified_role_not_permitted#:#Uvoz s navedenom ulogom nije dopušten.
 common#:#usrimport_wrong_file_count#:#Too many files in import-folder. Please try again.###04 06 2021 new variable
+common#:#usrimport_xml_anonymous_or_root_not_allowed#:#Neither the system-account nor the anonymous account can be changed through the import.###12 09 2023 new variable
 common#:#usrimport_xml_attribute_missing#:#Nedostaje atribut "%2$s" u elementu "%1$s".
 common#:#usrimport_xml_attribute_value_illegal#:#Vrijednost "%3$s" atributa "%2$s" u elementu "%1$s" je protuzakonita.
 common#:#usrimport_xml_attribute_value_inapplicable#:#Vrijednost "%3$s" atributa "%2$s" u elementu "%1$s" nije primjenjiva za radnju "%4$s".

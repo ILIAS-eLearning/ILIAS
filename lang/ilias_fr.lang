@@ -933,6 +933,7 @@ assessment#:#new_category#:#Nouvelle Catégorie d'Unité
 assessment#:#new_unit#:#Nouvelle Unité
 assessment#:#next_question#:#Suivant
 assessment#:#next_question_rows#:#Questions %d - %d sur %d >>
+assessment#:#no_manual_feedback_export_info#:#Manual feedbacks will not be exported.###12 09 2023 new variable
 assessment#:#no_passed_mark#:#Vous devez définir au moins une appréciation de REUSSITE. L'échelle d'évaluation n'a pas été enregistrée.
 assessment#:#no_question_selected_for_move#:#Veuillez cocher au moins une question pour la déplacer
 assessment#:#no_questions_available#:#Il n'y a pas de questions disponibles !
@@ -1661,6 +1662,7 @@ assessment#:#tst_password_form#:#Entrer le mot de passe du test
 assessment#:#tst_password_introduction#:#L'accès à ce test requiert la saisie d'un mot de passe. Veuillez saisir ce mot de passe pour commencer le test
 assessment#:#tst_percent_solved#:#Pourcentage de Réussite
 assessment#:#tst_player_answer_saved_and_locked#:#Answer is saved and locked and can no longer be changed###21 12 2022 new variable
+assessment#:#tst_please_select_source_pool#:#Please select a question pool.###12 09 2023 new variable
 assessment#:#tst_please_select_target_for_pool_derives#:#Veuillez sélectionner un conteneur cible.
 assessment#:#tst_position#:#Question %s sur %s
 assessment#:#tst_position_without_total#:#Question %s
@@ -5725,7 +5727,6 @@ common#:#udf_delete_sure#:#Êtes-vous sûr de vouloir supprimer ce champ et tout
 common#:#udf_duplicate_entries#:#Ces valeurs doivent être uniques.
 common#:#udf_field_deleted#:#Zone supprimée.
 common#:#udf_name_already_exists#:#Ce nom de champ existe déjà. Veuillez en choisir un autre.
-common#:#udf_required_and_visible_requires_changeable#:#When a field is ‘Required’ and ‘Visible in Personal Data’, it must also be ‘Changeable in Profile’###01 02 2023 new variable
 common#:#udf_required_requires_visib_reg#:#Lorsque la zone est mise à  "requis", elle doit être mise "visible à  l'inscription"
 common#:#udf_type_date#:#Zone date
 common#:#udf_type_datetime#:#Date et Heure
@@ -5852,6 +5853,7 @@ common#:#usrimport_no_insert_ext_account_exists#:#Impossible d'effectuer l'actio
 common#:#usrimport_no_update_ext_account_exists#:#Impossible d'effectuer l'action "Update". Le compte externe existe déjà.
 common#:#usrimport_with_specified_role_not_permitted#:#L'importation avec le rôle spécifié n'est pas autorisée.
 common#:#usrimport_wrong_file_count#:#Too many files in import-folder. Please try again.###30 04 2021 new variable
+common#:#usrimport_xml_anonymous_or_root_not_allowed#:#Neither the system-account nor the anonymous account can be changed through the import.###12 09 2023 new variable
 common#:#usrimport_xml_attribute_missing#:#L'attribut "%2$s" dans l'élément "%1$s" est manquant.
 common#:#usrimport_xml_attribute_value_illegal#:#La valeur "%3$s" de l'attribut "%2$s" dans l'élément "%1$s" n'est pas autorisée.
 common#:#usrimport_xml_attribute_value_inapplicable#:#La valeur "%3$s" de l'attribut "%2$s" dans l'élément "%1$s" n'est pas applicable pour l'action "%4$s".

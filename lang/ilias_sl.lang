@@ -947,6 +947,7 @@ assessment#:#new_category#:#Nova kategorija enot
 assessment#:#new_unit#:#Nova enota
 assessment#:#next_question#:#Naprej
 assessment#:#next_question_rows#:#Vprašanja %d - %d od%d »
+assessment#:#no_manual_feedback_export_info#:#Manual feedbacks will not be exported.###12 09 2023 new variable
 assessment#:#no_passed_mark#:#Vsaj eno oceno morate označiti kot OPRAVLJENO! Shema ocenjevanja ni bila shranjena!
 assessment#:#no_question_selected_for_move#:#Izberite najmanj eno vprašanje za pomikanje!
 assessment#:#no_questions_available#:#Nobenih vprašanj ni na voljo!
@@ -1675,6 +1676,7 @@ assessment#:#tst_password_form#:#Vnos gesla za test
 assessment#:#tst_password_introduction#:#Obdelavo tega testa lahko začnete oz. jo nadaljujete samo z geslom Tukaj vnesite geslo za test.
 assessment#:#tst_percent_solved#:#Odstotek rešitev
 assessment#:#tst_player_answer_saved_and_locked#:#Answer is saved and locked and can no longer be changed###21 12 2022 new variable
+assessment#:#tst_please_select_source_pool#:#Please select a question pool.###12 09 2023 new variable
 assessment#:#tst_please_select_target_for_pool_derives#:#Izberite ciljno shrambo.
 assessment#:#tst_position#:#Vprašanje %s od %s
 assessment#:#tst_position_without_total#:#Vprašanje %s
@@ -5739,7 +5741,6 @@ common#:#udf_delete_sure#:#Ali ste prepričani, da želite izbrisati to polje in
 common#:#udf_duplicate_entries#:#Vrednosti morajo biti edinstvene.
 common#:#udf_field_deleted#:#Polje je bilo iIzbrisano.
 common#:#udf_name_already_exists#:#Polje s tem imenom že obstaja. Izberite drugo ime polja.
-common#:#udf_required_and_visible_requires_changeable#:#When a field is ‘Required’ and ‘Visible in Personal Data’, it must also be ‘Changeable in Profile’###01 02 2023 new variable
 common#:#udf_required_requires_visib_reg#:#Nastavitev "Obvezen podatek" zahteva nastavitev "Vidno v obrazcu za registracijo".
 common#:#udf_type_date#:#Date
 common#:#udf_type_datetime#:#Datum in čas
@@ -5866,6 +5867,7 @@ common#:#usrimport_no_insert_ext_account_exists#:#Uvoz ni mogoč. Zunanji uporab
 common#:#usrimport_no_update_ext_account_exists#:#Posodobitev ni mogoča. Zunanji uporabniški račun že obstaja.
 common#:#usrimport_with_specified_role_not_permitted#:#Nimate pravic za uvoz uporabnikov z navedeno vlogo.
 common#:#usrimport_wrong_file_count#:#Too many files in import-folder. Please try again.
+common#:#usrimport_xml_anonymous_or_root_not_allowed#:#Neither the system-account nor the anonymous account can be changed through the import.###12 09 2023 new variable
 common#:#usrimport_xml_attribute_missing#:#Atribut "%2$s" manjka v elementu "%1$s".
 common#:#usrimport_xml_attribute_value_illegal#:#Vrednost "%3$s" atributa "%2$s" v elementu "%1$s" ni veljavna.
 common#:#usrimport_xml_attribute_value_inapplicable#:#Vrednosti "%3$s" atributa "%2$s" v elementu "%1$s" ni mogoče uporabiti za dejanje "%4$s".

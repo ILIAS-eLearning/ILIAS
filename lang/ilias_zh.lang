@@ -932,6 +932,7 @@ assessment#:#new_category#:#New Unit Category###24 10 2013 new variable
 assessment#:#new_unit#:#New Unit###24 10 2013 new variable
 assessment#:#next_question#:#保存并跳转到下一题
 assessment#:#next_question_rows#:#Questions %d - %d of %d >>问题
+assessment#:#no_manual_feedback_export_info#:#Manual feedbacks will not be exported.###12 09 2023 new variable
 assessment#:#no_passed_mark#:#您至少要设置一个标记PASSED!这个标记模式没被保存.
 assessment#:#no_question_selected_for_move#:#要移除它请至少要检查一个题目!
 assessment#:#no_questions_available#:#无有效题目！
@@ -1660,6 +1661,7 @@ assessment#:#tst_password_form#:#Enter Test Password###26 09 2014 new variable
 assessment#:#tst_password_introduction#:#这个测试只能通过输入一个测试密码才能访问。请输入这个测试的密码开始测试。
 assessment#:#tst_percent_solved#:#已完成的百分比
 assessment#:#tst_player_answer_saved_and_locked#:#Answer is saved and locked and can no longer be changed###21 12 2022 new variable
+assessment#:#tst_please_select_source_pool#:#Please select a question pool.###12 09 2023 new variable
 assessment#:#tst_please_select_target_for_pool_derives#:#Please select a target conatainer.###25 10 2016 new variable
 assessment#:#tst_position#:#Question %s of %s问题的
 assessment#:#tst_position_without_total#:#Question %s###23 12 2015 new variable
@@ -5724,7 +5726,6 @@ common#:#udf_delete_sure#:#您真的要删除这个字段，以及所有已分�
 common#:#udf_duplicate_entries#:#这个值必须是唯一的。
 common#:#udf_field_deleted#:#已删除字段。
 common#:#udf_name_already_exists#:#这个字段名称已经存在。请选择一个不同的名称
-common#:#udf_required_and_visible_requires_changeable#:#When a field is ‘Required’ and ‘Visible in Personal Data’, it must also be ‘Changeable in Profile’###01 02 2023 new variable
 common#:#udf_required_requires_visib_reg#:#当字段设置为“必填”时，它必需被设置为“注册中可见”。
 common#:#udf_type_date#:#日期字段
 common#:#udf_type_datetime#:#日期和时间
@@ -5851,6 +5852,7 @@ common#:#usrimport_no_insert_ext_account_exists#:#不能执行“插入”行为
 common#:#usrimport_no_update_ext_account_exists#:#不能执行“更新”行为。外部账号已经存在。
 common#:#usrimport_with_specified_role_not_permitted#:#不允许导入指定的角色
 common#:#usrimport_wrong_file_count#:#Too many files in import-folder. Please try again.###30 04 2021 new variable
+common#:#usrimport_xml_anonymous_or_root_not_allowed#:#Neither the system-account nor the anonymous account can be changed through the import.###12 09 2023 new variable
 common#:#usrimport_xml_attribute_missing#:#元素“%1$s”中缺失“%2$s属性。
 common#:#usrimport_xml_attribute_value_illegal#:#元素“%1$s”中的属性“%2$s”的值“%3$s”是非法的。
 common#:#usrimport_xml_attribute_value_inapplicable#:#元素“%1$s”中的属性“%2$s”的值“%3$s”无法应用到“%4$s”行为中。

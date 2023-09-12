@@ -933,6 +933,7 @@ assessment#:#new_category#:#新ユニットカテゴリ
 assessment#:#new_unit#:#新ユニット
 assessment#:#next_question#:#次
 assessment#:#next_question_rows#:#問題 %dの%d - %d >>
+assessment#:#no_manual_feedback_export_info#:#Manual feedbacks will not be exported.###12 09 2023 new variable
 assessment#:#no_passed_mark#:#合格のマークを1つはセットしなけれなりません! 採点尺度が保存されませんでした。
 assessment#:#no_question_selected_for_move#:#移動する問題の最低一つにチェックしてください!
 assessment#:#no_questions_available#:#問題がありません!
@@ -1661,6 +1662,7 @@ assessment#:#tst_password_form#:#テストパスワードを入力
 assessment#:#tst_password_introduction#:#テストのパスワードがないとテストにはアクセスできません。テストを開始するためにテストのパスワードを入力してください。
 assessment#:#tst_percent_solved#:#正解率
 assessment#:#tst_player_answer_saved_and_locked#:#回答は保存されてロックされ変更できなくなります。
+assessment#:#tst_please_select_source_pool#:#Please select a question pool.###12 09 2023 new variable
 assessment#:#tst_please_select_target_for_pool_derives#:#目標のコンテナを選択してください。
 assessment#:#tst_position#:#問題 %s の%s
 assessment#:#tst_position_without_total#:#問題 %s
@@ -5725,7 +5727,6 @@ common#:#udf_delete_sure#:#本当にこの欄と全ての割り当てユーザ�
 common#:#udf_duplicate_entries#:#値はユニークでなければなりません。
 common#:#udf_field_deleted#:#欄を削除しました。
 common#:#udf_name_already_exists#:#この欄の名称は既に使用されています。別の名前を使用してください。
-common#:#udf_required_and_visible_requires_changeable#:#フィールドが"必須"で"パーソナルデータ中に表示"の際は、'プロファイル内で表示可'にする必要があります。
 common#:#udf_required_requires_visib_reg#:#欄が"必須項目"に設定されていると、"登録中表示"に設定しなければなりません。
 common#:#udf_type_date#:#日付
 common#:#udf_type_datetime#:#日付と時間
@@ -5852,6 +5853,7 @@ common#:#usrimport_no_insert_ext_account_exists#:#挿入アクションを実行
 common#:#usrimport_no_update_ext_account_exists#:#更新アクションが実行できません。外部アカウントが既に存在します。
 common#:#usrimport_with_specified_role_not_permitted#:#指定した役割のインポートはアクセス許可されません。
 common#:#usrimport_wrong_file_count#:#インポートフォルダーにたくさんファイルがありすぎます。もう一度やり直してください。
+common#:#usrimport_xml_anonymous_or_root_not_allowed#:#Neither the system-account nor the anonymous account can be changed through the import.###12 09 2023 new variable
 common#:#usrimport_xml_attribute_missing#:#要素 "%1$s" の属性 "%2$s" がありません。
 common#:#usrimport_xml_attribute_value_illegal#:#要素 "%1$s" の属性 "%2$s" の値 "%3$s" がありません。
 common#:#usrimport_xml_attribute_value_inapplicable#:#要素"%1$s"の属性 "%2$s"の値"%3$s"はアクション"%4$s"には不適切です。

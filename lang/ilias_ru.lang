@@ -933,6 +933,7 @@ assessment#:#new_category#:#New Unit Category
 assessment#:#new_unit#:#New Unit
 assessment#:#next_question#:#Следующий
 assessment#:#next_question_rows#:#Вопрос %d - %d из %d >>
+assessment#:#no_manual_feedback_export_info#:#Manual feedbacks will not be exported.###12 09 2023 new variable
 assessment#:#no_passed_mark#:#Вы должны установить хоть одну пометку СДАН! Схема отметок не была сохранена.
 assessment#:#no_question_selected_for_move#:#Пожалуйста, выберите хотя бы один вопрос для перемещения!
 assessment#:#no_questions_available#:#Нет доступных вопросов.
@@ -1661,6 +1662,7 @@ assessment#:#tst_password_form#:#Enter Test Password###26 09 2014 new variable
 assessment#:#tst_password_introduction#:#Этот тест доступен только по паролю. Пожалуйста введите пароль, чтобы начать тест
 assessment#:#tst_percent_solved#:#Процент выполнения
 assessment#:#tst_player_answer_saved_and_locked#:#Answer is saved and locked and can no longer be changed###21 12 2022 new variable
+assessment#:#tst_please_select_source_pool#:#Please select a question pool.###12 09 2023 new variable
 assessment#:#tst_please_select_target_for_pool_derives#:#Please select a target conatainer.###25 10 2016 new variable
 assessment#:#tst_position#:#Вопрос %s из %s
 assessment#:#tst_position_without_total#:#Question %s###23 12 2015 new variable
@@ -5725,7 +5727,6 @@ common#:#udf_delete_sure#:#Are you sure you want to delete this field and all as
 common#:#udf_duplicate_entries#:#The values have to be unique.
 common#:#udf_field_deleted#:#Deleted field.
 common#:#udf_name_already_exists#:#This field name already exists. Please choose a different name.
-common#:#udf_required_and_visible_requires_changeable#:#When a field is ‘Required’ and ‘Visible in Personal Data’, it must also be ‘Changeable in Profile’###01 02 2023 new variable
 common#:#udf_required_requires_visib_reg#:#When field is set to "required", it must be set to "visible in registration"
 common#:#udf_type_date#:#Date Field
 common#:#udf_type_datetime#:#Date and Time
@@ -5852,6 +5853,7 @@ common#:#usrimport_no_insert_ext_account_exists#:#Can't perform "Insert" action.
 common#:#usrimport_no_update_ext_account_exists#:#Can't perform "Update" action. External account already exists.
 common#:#usrimport_with_specified_role_not_permitted#:#Импорт с определением роли не разрешен.
 common#:#usrimport_wrong_file_count#:#Too many files in import-folder. Please try again.###30 04 2021 new variable
+common#:#usrimport_xml_anonymous_or_root_not_allowed#:#Neither the system-account nor the anonymous account can be changed through the import.###12 09 2023 new variable
 common#:#usrimport_xml_attribute_missing#:#Атрибут "%2$s" в элементе "%1$s" пропущен.
 common#:#usrimport_xml_attribute_value_illegal#:#Значение "%3$s" атрибута "%2$s" в элементе "%1$s" некорректно.
 common#:#usrimport_xml_attribute_value_inapplicable#:#Значение "%3$s" атрибута "%2$s" в элементе "%1$s" неприменимо для действия "%4$s".

@@ -947,6 +947,7 @@ assessment#:#new_category#:#Új mértékegység-kategória
 assessment#:#new_unit#:#Új mértékegység
 assessment#:#next_question#:#Következő
 assessment#:#next_question_rows#:#Kérdések %d - %d (összesen: %d) >>
+assessment#:#no_manual_feedback_export_info#:#Manual feedbacks will not be exported.###12 09 2023 new variable
 assessment#:#no_passed_mark#:#A sikeres vizsgához meg kell jelölni legalább egy érdemjegyet. Az érdemjegyképzést nem mentettük.
 assessment#:#no_question_selected_for_move#:#Legalább egy kérdést jelöljön ki az áthelyezéshez!
 assessment#:#no_questions_available#:#Nincsenek elérhető kérdések.
@@ -1675,6 +1676,7 @@ assessment#:#tst_password_form#:#Adja meg a tesztjelszót
 assessment#:#tst_password_introduction#:#Ez a teszt csak tesztjelszóval érhető el. Adja meg a teszthez tartozó jelszót a teszt elkezdéséhez!
 assessment#:#tst_percent_solved#:#Elért százalék
 assessment#:#tst_player_answer_saved_and_locked#:#Answer is saved and locked and can no longer be changed###21 12 2022 new variable
+assessment#:#tst_please_select_source_pool#:#Please select a question pool.###12 09 2023 new variable
 assessment#:#tst_please_select_target_for_pool_derives#:#Válassza ki a cél tárolót.
 assessment#:#tst_position#:#%s / %s kérdés
 assessment#:#tst_position_without_total#:#%s. kérdés
@@ -5739,7 +5741,6 @@ common#:#udf_delete_sure#:#Biztos, hogy törli ezt a mezőt és minden hozzáren
 common#:#udf_duplicate_entries#:#Az értékeknek egyedieknek kell lenniük.
 common#:#udf_field_deleted#:#Törölt mező
 common#:#udf_name_already_exists#:#Ez a mezőnév már létezik. Válasszon egy másik nevet!
-common#:#udf_required_and_visible_requires_changeable#:#When a field is ‘Required’ and ‘Visible in Personal Data’, it must also be ‘Changeable in Profile’###01 02 2023 new variable
 common#:#udf_required_requires_visib_reg#:#Ha a mező 'kötelező', a 'Látható a Regisztráció alatt' opciót is be kell állítani
 common#:#udf_type_date#:#Dátum
 common#:#udf_type_datetime#:#Dátum és idő
@@ -5866,6 +5867,7 @@ common#:#usrimport_no_insert_ext_account_exists#:#Nem hajtható végre a 'Beszú
 common#:#usrimport_no_update_ext_account_exists#:#Nem hajtható végre a 'Frissítés' művelet. A külső felhasználói fiók már létezik.
 common#:#usrimport_with_specified_role_not_permitted#:#Az import a megadott szereppel nem engedélyezett.
 common#:#usrimport_wrong_file_count#:#Túl sok a fájl az importálandó mappában. Próbálja újra.
+common#:#usrimport_xml_anonymous_or_root_not_allowed#:#Neither the system-account nor the anonymous account can be changed through the import.###12 09 2023 new variable
 common#:#usrimport_xml_attribute_missing#:#Hiányzik a '%2$s' tulajdonság a '%1$s' elemből.
 common#:#usrimport_xml_attribute_value_illegal#:#Nem érvényes a '%2$s' tulajdonság '%3$s' értéke a '%1$s' elemben.
 common#:#usrimport_xml_attribute_value_inapplicable#:#'%2$s' attribútum '%3$s' értéke '%1$s' elemben nem használható '%4$s' tevékenységhez.

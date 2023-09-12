@@ -933,6 +933,7 @@ assessment#:#new_category#:#New Unit Category###24 10 2013 new variable
 assessment#:#new_unit#:#New Unit###24 10 2013 new variable
 assessment#:#next_question#:#შემდეგეი
 assessment#:#next_question_rows#:#კითხვები %d - %d  %d -დან >>
+assessment#:#no_manual_feedback_export_info#:#Manual feedbacks will not be exported.###12 09 2023 new variable
 assessment#:#no_passed_mark#:#თქვენ უნდა აირჩიოთ სულ მცირე ერთი ნიშანი ჩაბარებულად! ნიშნის სქემა არ შეინახა.
 assessment#:#no_question_selected_for_move#:#გთხოვთ შეამოწმოთ სულ მცირე ერთი კითხვა იმისათვის რომ გადაადგილოთ ის.
 assessment#:#no_questions_available#:#შესაძლო კითხვები არ არსებობს!
@@ -1661,6 +1662,7 @@ assessment#:#tst_password_form#:#Enter Test Password###26 09 2014 new variable
 assessment#:#tst_password_introduction#:#ტესტის დაწყება მხოლოდ პაროლი შეყვანის შემთხვევაშია შესაძლებელი. გთხოვთ შეიყვანოთ პაროლი ტესტის დასაწყებად
 assessment#:#tst_percent_solved#:#პროცენტი ამოიხსნა
 assessment#:#tst_player_answer_saved_and_locked#:#Answer is saved and locked and can no longer be changed###21 12 2022 new variable
+assessment#:#tst_please_select_source_pool#:#Please select a question pool.###12 09 2023 new variable
 assessment#:#tst_please_select_target_for_pool_derives#:#Please select a target conatainer.###25 10 2016 new variable
 assessment#:#tst_position#:#კითხვა %s %sის
 assessment#:#tst_position_without_total#:#Question %s###23 12 2015 new variable
@@ -5725,7 +5727,6 @@ common#:#udf_delete_sure#:#დარწმუნებული ხართ რ
 common#:#udf_duplicate_entries#:#ეს ღირებულებები უნდა იყოს უნიკალური
 common#:#udf_field_deleted#:#წაშლილი ველი
 common#:#udf_name_already_exists#:#ეს ველი უკვე არსებობს. გთხოვთ აირჩიოთ სხვა სახელი
-common#:#udf_required_and_visible_requires_changeable#:#When a field is ‘Required’ and ‘Visible in Personal Data’, it must also be ‘Changeable in Profile’###01 02 2023 new variable
 common#:#udf_required_requires_visib_reg#:#როდესაც ველი დაყენებულია " მოთხოვნილ"ზე ის ასევე დაყენებული უნდა იყოს " ხილვადი რეგისტრაციაში" ზე
 common#:#udf_type_date#:#თარიღი
 common#:#udf_type_datetime#:#თარიღი და დრო
@@ -5852,6 +5853,7 @@ common#:#usrimport_no_insert_ext_account_exists#:#ვერ ახორცი�
 common#:#usrimport_no_update_ext_account_exists#:#ვერ ახორციელებს " განახლება" მოქმედებას. Gარე ანგარიში უკვე არსებობს
 common#:#usrimport_with_specified_role_not_permitted#:#განსაზღვრული პასუხისმგებლობის გადმოტანა არ არის დაშვებული
 common#:#usrimport_wrong_file_count#:#Too many files in import-folder. Please try again.###30 04 2021 new variable
+common#:#usrimport_xml_anonymous_or_root_not_allowed#:#Neither the system-account nor the anonymous account can be changed through the import.###12 09 2023 new variable
 common#:#usrimport_xml_attribute_missing#:#განსაზღვრება ,,%s 2$" ელემენტში ,,%s 1 $" დაკარგულია
 common#:#usrimport_xml_attribute_value_illegal#:#ღირებულება ,, %s 3 $" განსაზღვრების ,, %s2 $" ელემენტში ,,%s1$" არალეგალურია
 common#:#usrimport_xml_attribute_value_inapplicable#:#ღირებულება ,, %s3$" განსაზღვრების ,,%s2$"'' ელემენტში ,,%s1$" არ არის შესატყვისი ,,%s4$" მოქმედებისთვის
