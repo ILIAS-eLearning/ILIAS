@@ -48,7 +48,7 @@ class ilADTExternalLinkPresentationBridge extends ilADTPresentationBridge
         $presentation_value = $this->getADT()->getUrl();
         $presentation_clickable = ilUtil::makeClickable($presentation_value);
 
-        if (!strlen($this->getADT()->getTitle())) {
+        if (!strlen((string) $this->getADT()->getTitle())) {
             return $this->decorate($presentation_clickable);
         }
 
