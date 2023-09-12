@@ -208,7 +208,7 @@ class ilObjCourseGUI extends ilContainerGUI
         if (
             strlen($this->object->getImportantInformation()) ||
             strlen($this->object->getSyllabus()) ||
-            strlen($this->object->getTargetGroup()) ||
+            strlen((string) $this->object->getTargetGroup()) ||
             count($files)) {
             $info->addSection($this->lng->txt('crs_general_informations'));
         }
@@ -226,7 +226,7 @@ class ilObjCourseGUI extends ilContainerGUI
                 ilUtil::makeClickable($this->object->getSyllabus(), true)
             ));
         }
-        if (strlen($this->object->getTargetGroup())) {
+        if (strlen((string) $this->object->getTargetGroup())) {
             $info->addProperty(
                 $this->lng->txt('crs_target_group'),
                 nl2br(
