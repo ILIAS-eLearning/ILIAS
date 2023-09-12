@@ -107,14 +107,11 @@ class arField
         return self::isDateFieldType($this->getFieldType());
     }
 
-    /**
-     * @var
-     */
     protected string $fieldtype;
     protected ?int $length = null;
     protected bool $is_primary = false;
     protected string $name = '';
-    protected bool $not_null = false;
+    protected bool $is_notnull = false;
     protected bool $has_field = false;
     protected bool $sequence = false;
     protected bool $index = false;
