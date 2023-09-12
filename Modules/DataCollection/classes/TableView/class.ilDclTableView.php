@@ -342,7 +342,7 @@ class ilDclTableView extends ActiveRecord
                 'tableview_id' => $this->getId(),
                 'il_dcl_tfield_set.table_id' => $this->getTableId(),
             ]
-        )->innerjoin('il_dcl_tfield_set', 'field', 'field', ['field_order'])->orderBy('field_order')->get();
+        )->innerjoin('il_dcl_tfield_set', 'field', 'field', [])->orderBy('il_dcl_tfield_set.field_order')->get();
     }
 
     /**
