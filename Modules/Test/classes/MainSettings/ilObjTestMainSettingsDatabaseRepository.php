@@ -86,6 +86,7 @@ class ilObjTestMainSettingsDatabaseRepository implements MainSettingsRepository
             . 'sequence_settings,' . PHP_EOL
             . 'show_summary,' . PHP_EOL
             . 'show_marker,' . PHP_EOL
+            . 'show_questionlist,' . PHP_EOL
             . 'enable_examview,' . PHP_EOL
             . 'showfinalstatement,' . PHP_EOL
             . 'finalstatement,' . PHP_EOL
@@ -168,7 +169,8 @@ class ilObjTestMainSettingsDatabaseRepository implements MainSettingsRepository
                 (bool) $row['show_cancel'],
                 (bool) $row['sequence_settings'],
                 $row['show_summary'],
-                (bool) $row['show_marker']
+                (bool) $row['show_marker'],
+                (bool) $row['show_questionlist']
             ),
             new ilObjTestSettingsFinishing(
                 $test_id,
