@@ -1845,7 +1845,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
                         $txt .= "<div class=\"small\">" . $data["description"] . "</div>";
                     }
 
-                    $cgui->addItem("q_id[]", $data["question_id"], $txt);
+                    $cgui->addItem("q_id[]", (string) $data["question_id"], $txt);
                 }
             }
         }
