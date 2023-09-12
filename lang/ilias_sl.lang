@@ -12436,7 +12436,7 @@ prg#:#msg_unmark_accredited#:#Unmarked %s users accredited.###19 08 2022 new var
 prg#:#msg_unmark_accredited_failed#:#Unmarking accredited not successful for:###19 08 2022 new variable
 prg#:#msg_update_from_settings#:#Updated %s users from settings:###19 08 2022 new variable
 prg#:#msg_update_from_settings_failed#:#Updated from settings failed:###19 08 2022 new variable
-prg#:#msg_update_individual_plan#:#Successfully updated individual plan (%)###19 08 2022 new variable
+prg#:#msg_update_individual_plan#:#Successfully updated individual plan (%s)###19 08 2022 new variable
 prg#:#msg_update_individual_plan_failed#:#Update  of individual plan failed###19 08 2022 new variable
 prg#:#no_srctype_or_id#:#Id and type may not be empty.
 prg#:#not_a_valid_cat_id#:#%s is not a valid ref-id of a category.

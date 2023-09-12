@@ -12344,7 +12344,7 @@ prg#:#msg_unmark_accredited#:#Unmarked %s users accredited.###29 07 2022 new var
 prg#:#msg_unmark_accredited_failed#:#Unmarking accredited not successful for:###29 07 2022 new variable
 prg#:#msg_update_from_settings#:#Updated %s users from settings:###29 07 2022 new variable
 prg#:#msg_update_from_settings_failed#:#Updated from settings failed:###29 07 2022 new variable
-prg#:#msg_update_individual_plan#:#Successfully updated individual plan (%)###29 07 2022 new variable
+prg#:#msg_update_individual_plan#:#Successfully updated individual plan (%s)###29 07 2022 new variable
 prg#:#msg_update_individual_plan_failed#:#Update  of individual plan failed###29 07 2022 new variable
 prg#:#no_srctype_or_id#:#Id and type may not be empty.###29 07 2022 new variable
 prg#:#not_a_valid_cat_id#:#%s is not a valid ref-id of a category.###07 02 2020 new variable
