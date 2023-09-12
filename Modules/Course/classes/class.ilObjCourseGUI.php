@@ -207,7 +207,7 @@ class ilObjCourseGUI extends ilContainerGUI
         if (
             strlen($this->object->getImportantInformation()) ||
             strlen($this->object->getSyllabus()) ||
-            strlen($this->object->getTargetGroup()) ||
+            strlen((string) $this->object->getTargetGroup()) ||
             count($files)) {
             $info->addSection($this->lng->txt('crs_general_informations'));
         }
@@ -225,7 +225,7 @@ class ilObjCourseGUI extends ilContainerGUI
                 ilUtil::makeClickable($this->object->getSyllabus(), true)
             ));
         }
-        if (strlen($this->object->getTargetGroup())) {
+        if (strlen((string) $this->object->getTargetGroup())) {
             $info->addProperty(
                 $this->lng->txt('crs_target_group'),
                 nl2br(
@@ -1598,9 +1598,9 @@ class ilObjCourseGUI extends ilContainerGUI
              * out the names again.
              */
             if (!$skip_names) {
-            $name = ilObjUser::_lookupName($usr_id);
-            $tmp_data['firstname'] = $name['firstname'];
-            $tmp_data['lastname'] = $name['lastname'];
+                $name = ilObjUser::_lookupName($usr_id);
+                $tmp_data['firstname'] = $name['firstname'];
+                $tmp_data['lastname'] = $name['lastname'];
                 $tmp_data['login'] = $name['login'];
             }
             $tmp_data['passed'] = $this->object->getMembersObject()->hasPassed($usr_id) ? 1 : 0;
