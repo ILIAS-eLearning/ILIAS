@@ -86,27 +86,34 @@ class ilTestResultsFactory
             $graphical_output = false;
             $result_output = false;
             $show_question_only = false;
-            $show_feedback = false;
+            $show_feedback = false; //general
             $show_correct_solution = false;
             $show_manual_scoring = false;
             $show_question_text = false;
+            $show_inline_feedback = true;
 
             $question_gui = $this->test_obj->createQuestionGUI("", $qid);
             $shuffle_trafo = $this->shuffler->getAnswerShuffleFor($qid, $this->active_id, $this->pass_id);
             $question_gui->object->setShuffler($shuffle_trafo);
 
             $graphical_output = true;
+            $show_inline_feedback = true;
             $usr_solution = $question_gui->getSolutionOutput(
                 $this->active_id,
                 $this->pass_id,
                 $graphical_output,
                 $result_output,
                 $show_question_only,
-                $show_feedback
+                $show_feedback,
+                $show_correct_solution,
+                $show_manual_scoring,
+                $show_question_text,
+                $show_inline_feedback
             );
 
             $graphical_output = false;
             $show_correct_solution = true;
+            $show_inline_feedback = false;
             $best_solution = $question_gui->getSolutionOutput(
                 $this->active_id,
                 $this->pass_id,
@@ -114,7 +121,10 @@ class ilTestResultsFactory
                 $result_output,
                 $show_question_only,
                 $show_feedback,
-                $show_correct_solution
+                $show_correct_solution,
+                $show_manual_scoring,
+                $show_question_text,
+                $show_inline_feedback
             );
 
             $feedback = $question_gui->getGenericFeedbackOutput($this->active_id, $this->pass_id);
@@ -145,10 +155,8 @@ class ilTestResultsFactory
         $settings = $this->test_obj->getScoreSettings();
         $settings_summary = $settings->getResultSummarySettings();
         $settings_result = $settings->getResultDetailsSettings();
-
-
         $show_best_solution = $this->is_user_output ?
-            $settings_result->getShowSolutionListOwnAnswers() :
+            $settings_result->getShowSolutionListComparison() :
             (bool)ilSession::get('tst_results_show_best_solutions');
 
         $environment = (new ilTestResultsSettings())
