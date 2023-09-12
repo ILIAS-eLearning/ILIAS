@@ -318,8 +318,7 @@ class ilTestBaseTestCase extends TestCase
 
     protected function addGlobal_skillService(): void
     {
-        $skillMock = $this->getMockBuilder(SkillService::class)->disableOriginalConstructor()->getMock();
-        $this->setGlobalVariable("skill", $this->createMock(SkillService::class));
+        $this->setGlobalVariable("skill", $this->createMock(ILIAS\Skill\Service\SkillService::class));
     }
 
     protected function addGlobal_objectService(): void
