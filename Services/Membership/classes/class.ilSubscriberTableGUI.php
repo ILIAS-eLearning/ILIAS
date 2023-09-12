@@ -90,7 +90,7 @@ class ilSubscriberTableGUI extends ilTable2GUI
 
         if ($this->getShowSubject()) {
             $this->addColumn($this->lng->txt('application_date'), 'sub_time', "20%");
-            $this->addColumn($this->lng->txt('subject'), 'subject', '60%');
+            $this->addColumn($this->lng->txt('message'), 'subject', '60%');
         } else {
             $this->addColumn($this->lng->txt('application_date'), 'sub_time', "60%");
         }
