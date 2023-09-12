@@ -69,6 +69,17 @@ class ilTestResultsFactory
             $settings->getShowOptionalQuestions()
         );
 
+
+        // params of getSolutionOutput
+        $graphical_output = false;
+        $result_output = false;
+        $show_question_only = $settings->getQuestionTextOnly();
+        $show_feedback = false; //general
+        $show_correct_solution = false;
+        $show_manual_scoring = false;
+        $show_question_text = false;
+        $show_inline_feedback = true;
+
         foreach ($results as $idx => $qresult) {
             if (! is_numeric($idx)) {
                 continue;
@@ -81,16 +92,6 @@ class ilTestResultsFactory
             $usr_score = $qresult['reached'];
             $workedthrough = (bool)$qresult['workedthrough'];
             $answered = (bool)$qresult['answered'];
-
-            // params of getSolutionOutput
-            $graphical_output = false;
-            $result_output = false;
-            $show_question_only = false;
-            $show_feedback = false; //general
-            $show_correct_solution = false;
-            $show_manual_scoring = false;
-            $show_question_text = false;
-            $show_inline_feedback = true;
 
             $question_gui = $this->test_obj->createQuestionGUI("", $qid);
             $shuffle_trafo = $this->shuffler->getAnswerShuffleFor($qid, $this->active_id, $this->pass_id);
@@ -163,7 +164,8 @@ class ilTestResultsFactory
             ->withShowHiddenQuestions(false)
             ->withShowOptionalQuestions(true)
             ->withShowBestSolution($show_best_solution)
-            ->withShowFeedback($settings_result->getShowSolutionFeedback());
+            ->withShowFeedback($settings_result->getShowSolutionFeedback())
+            ->withQuestionTextOnly($settings_result->getShowSolutionAnswersOnly());
 
         return $environment;
     }
