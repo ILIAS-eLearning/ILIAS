@@ -13171,7 +13171,7 @@ rbac#:#adve_edit_permission#:#Rechteeinstellungen ändern
 rbac#:#adve_read#:#Zugriff auf die Editoreinstellungen
 rbac#:#adve_visible#:#Editoreinstellungen sind sichtbar
 rbac#:#adve_write#:#Editoreinstellungen bearbeiten
-rbac#:#amend_grading#:#Finalisierte Bewertung ändern
+rbac#:#amend_grading#:#Abschließende Bewertung ändern
 rbac#:#assf_edit_permission#:#Rechteeinstellungen ändern
 rbac#:#assf_read#:#Zugriff auf die Test und Assessment-Administration
 rbac#:#assf_visible#:#Test und Assessment-Administration ist sichtbar
