@@ -59,6 +59,7 @@ abstract class ilBlockGUI
     private string $activePresentation = '';
     private string $activeSortOption = '';
     private string $sort_target = '';
+    protected \ILIAS\UI\Renderer $renderer;
     protected Factory $factory;
     protected object $gui_object;
     protected \ILIAS\Block\StandardGUIRequest $request;
