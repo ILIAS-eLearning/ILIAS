@@ -46,6 +46,11 @@ class ilSkinStyle
     protected string $font_directory = '';
 
     /**
+     * Directory to store sound into
+     */
+    protected string $sound_directory = '';
+
+    /**
      * Css file name of the skin
      */
     protected string $css_file = '';
