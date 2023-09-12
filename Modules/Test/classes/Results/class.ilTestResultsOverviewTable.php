@@ -28,6 +28,7 @@ use ILIAS\UI\URLBuilder;
 class ilTestResultsOverviewTable
 {
     private const ENV = 'e';
+    private const LNG = 'l';
     private const URL_NAMESPACE = ['taresult', 'vc'];
     private const PARAM_MODE = 'm';
     private const MODE_OPT_ALL = "all";
@@ -61,7 +62,10 @@ class ilTestResultsOverviewTable
             $this->getViewControls($ui_factory, $lng, $target, $mode, $sortation),
             $this->getMapping()
         )
-        ->withEnvironment([self::ENV => $environment])
+        ->withEnvironment([
+            self::ENV => $environment,
+            self::LNG => $lng
+        ])
         ->withData($results);
     }
 
@@ -161,6 +165,7 @@ class ilTestResultsOverviewTable
     {
         return function ($row, $question, $ui_factory, $environment) {
             $env = $environment[self::ENV];
+            $lng = $environment[self::LNG];
 
             $title = sprintf(
                 '%s [ID: %s]',
@@ -206,13 +211,23 @@ class ilTestResultsOverviewTable
 
             switch($question->getCorrect()) {
                 case ilQuestionResult::CORRECT_FULL:
+                    $icon_name = 'icon_ok.svg';
+                    $label = $lng->txt("answer_is_right");
+                    break;
                 case ilQuestionResult::CORRECT_PARTIAL:
+                    $icon_name = 'icon_mostly_ok.svg';
+                    $label = $lng->txt("answer_is_not_correct_but_positive");
+                    break;
                 case ilQuestionResult::CORRECT_NONE:
-                    $correct_icon = $ui_factory->symbol()->icon()
-                        ->standard('pequ', 'Question')
-                        ->withSize('small');
+                    $icon_name = 'icon_not_ok.svg';
+                    $label = $lng->txt("answer_is_wrong");
                     break;
             }
+            $path = ilUtil::getImagePath($icon_name);
+            $correct_icon = $ui_factory->symbol()->icon()->custom(
+                $path,
+                $label
+            );
 
             return $row
                 ->withHeadline($title)
