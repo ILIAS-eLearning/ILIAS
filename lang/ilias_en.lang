@@ -1339,6 +1339,8 @@ assessment#:#tst_dont_show_msg_again_in_current_session#:#Don't show this messag
 assessment#:#tst_dont_use_previous_answers#:#Your previous answers will not be used as default values in future test passes
 assessment#:#tst_edit_competence_assign#:#Edit Assignment Properties
 assessment#:#tst_edit_scoring#:#Edit Scoring
+assessment#:#tst_enable_questionlist#:#Show 'List of Questions’
+assessment#:#tst_enable_questionlist_description#:#Participants can switch on a list of test questions on the left of the actual question.
 assessment#:#tst_ending_time#:#Finishing Time
 assessment#:#tst_ending_time_before_starting_time#:#Please enter a date for the end of the test that is after the start date.
 assessment#:#tst_ending_time_desc#:#Time from which participants can no longer submit answers. <b>Important</b>: Do <b>not</b> use this option for e-exams/distance exams. Instead, use the function "Limit processing time", see below. Only then will the test be ended on the server side and each participant's last entry automatically saved as an authorised answer.
@@ -1816,8 +1818,8 @@ assessment#:#tst_show_solution_signature#:#Signature Placeholder
 assessment#:#tst_show_solution_signature_desc#:#The prepared printout version will contain a signature placeholder for the participant. Please mind to activate ‘Table of Detailed Test Results’ to use this functionality.
 assessment#:#tst_show_solution_suggested#:#Content for Recapitulation
 assessment#:#tst_show_solution_suggested_desc#:#If content for recapitulation was assigned to the test questions in the first place, this content will be shown in the ‘Table of Detailed Test Results’-table. Participants get an opportunity for remedial learning. For this option to become effective you have to activate ‘Table of Detailed Test Results’ under ‘Access to Test Results’.
-assessment#:#tst_show_summary#:#Show ‘List of Questions’
-assessment#:#tst_show_summary_description#:#Participants can switch on a list of test questions on the left of the actual question. Additionally, they are presented with a button ‘List of Questions’. On that screen the overall status of all questions will be displayed.
+assessment#:#tst_show_summary#:#Show ‘Test Pass Overview’
+assessment#:#tst_show_summary_description#:#Participants are presented with a button ‘Test Pass Overview’. On that screen the overall status of all questions will be displayed..
 assessment#:#tst_show_toplist#:#Ranking
 assessment#:#tst_shuffle_questions#:#Shuffle Questions
 assessment#:#tst_shuffle_questions_description#:#Shuffles the sequence of questions for every participant and every test pass.

@@ -3862,7 +3862,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         // solution details
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "show_summary");
-        $a_xml_writer->xmlElement("fieldentry", null, sprintf("%d", $main_settings->getParticipantFunctionalitySettings()->getQuestionListMode()));
+        $a_xml_writer->xmlElement("fieldentry", null, sprintf("%d", $main_settings->getParticipantFunctionalitySettings()->getUsrPassOverviewMode()));
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
         // solution details
@@ -5871,7 +5871,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
     */
     public function getListOfQuestionsSettings()
     {
-        return $this->getMainSettings()->getParticipantFunctionalitySettings()->getQuestionListMode();
+        return $this->getMainSettings()->getParticipantFunctionalitySettings()->getUsrPassOverviewMode();
     }
 
     public function getListOfQuestions(): bool
@@ -6362,7 +6362,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
             'use_previous_answers' => (int) $main_settings->getParticipantFunctionalitySettings()->getUsePreviousAnswerAllowed(),
             'ShowCancel' => (int) $main_settings->getParticipantFunctionalitySettings()->getSuspendTestAllowed(),
             'SequenceSettings' => (int) $main_settings->getParticipantFunctionalitySettings()->getPostponedQuestionsMoveToEnd(),
-            'ListOfQuestionsSettings' => $main_settings->getParticipantFunctionalitySettings()->getQuestionListMode(),
+            'ListOfQuestionsSettings' => $main_settings->getParticipantFunctionalitySettings()->getUsrPassOverviewMode(),
             'ShowMarker' => (int) $main_settings->getParticipantFunctionalitySettings()->getQuestionMarkingEnabled(),
 
             'enable_examview' => $main_settings->getFinishingSettings()->getShowAnswerOverview(),
@@ -6486,7 +6486,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
                 ->withUsePreviousAnswerAllowed((bool) $testsettings['use_previous_answers'])
                 ->withSuspendTestAllowed((bool) $testsettings['ShowCancel'])
                 ->withPostponedQuestionsMoveToEnd((bool) $testsettings['SequenceSettings'])
-                ->withQuestionListMode($testsettings['ListOfQuestionsSettings'])
+                ->withUsrPassOverviewMode($testsettings['ListOfQuestionsSettings'])
                 ->withQuestionMarkingEnabled((bool) $testsettings['ShowMarker'])
             )
             ->withFinishingSettings(
