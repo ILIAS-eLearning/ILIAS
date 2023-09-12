@@ -1339,6 +1339,8 @@ assessment#:#tst_dont_show_msg_again_in_current_session#:#Diese Meldung in meine
 assessment#:#tst_dont_use_previous_answers#:#Ihre vorherigen Antworten werden in zukünftigen Testdurchläufen nicht als vorgegebene Werte verwendet
 assessment#:#tst_edit_competence_assign#:#Bearbeite Zuordnungs-Eigenschaften
 assessment#:#tst_edit_scoring#:#Ändere Bewertung
+assessment#:#tst_enable_questionlist#:#Fragenlist’
+assessment#:#tst_enable_questionlist_description#:#Teilnehmer können sich links neben den Testfragen eine Fragenliste anzeigen lassen.
 assessment#:#tst_ending_time#:#Ende
 assessment#:#tst_ending_time_before_starting_time#:#Bitte geben Sie für das Ende des Tests ein Datum ein, das nach dem Startdatum liegt.
 assessment#:#tst_ending_time_desc#:#Zeitpunkt, ab dem Teilnehmer keine Antworten mehr abgeben können. <b>Wichtig</b>: Benutzen Sie diese Option <b>nicht</b> für E-Klausuren/Fernklausuren. Verwenden Sie stattdessen die Funktion „Bearbeitungsdauer begrenzen“, siehe unten. Nur dann wird der Test serverseitig beendet und die letzte Eingabe jedes Teilnehmers automatisch gespeichert.
@@ -1816,8 +1818,8 @@ assessment#:#tst_show_solution_signature#:#Platzhalter für Unterschrift
 assessment#:#tst_show_solution_signature_desc#:#Ist die Option „Detaillierte Testergebnisse anzeigen“ oder „Druckbare Liste der Antworten“ aktiviert, fügt ILIAS zusätzlich ein Unterschriftenfeld in den Ausdruck ein. In diesem kann die Person, die den Test durchgeführt hat, unterschreiben.
 assessment#:#tst_show_solution_suggested#:#Inhalte zur Wiederholung
 assessment#:#tst_show_solution_suggested_desc#:#Falls den Fragen im Test Inhalte zur Wiederholung des Stoffs zugeordnet wurden, werden diese angezeigt. Sie müssen die Option "Detaillierte Testergebnissen anzeigen" aktivieren, um diese Funktion zu nutzen. Teilnehmerinnen und Teilnehmer können so etwaige Wissenslücken schließen.
-assessment#:#tst_show_summary#:#Fragenliste und Bearbeitungstand anzeigen
-assessment#:#tst_show_summary_description#:#Teilnehmer können sich links neben den Testfragen eine Fragenliste anzeigen lassen. Mit dem Button 'Bearbeitungsstand' rufen die Teilnehmer eine Übersicht auf, die zeigt, welche Fragen sie jeweils bereits bearbeitet oder markiert haben. Das Verhalten der Übersicht 'Bearbeitungsstand' können Sie noch weiter konfigurieren:
+assessment#:#tst_show_summary#:#Übersicht Testdurchlauf
+assessment#:#tst_show_summary_description#:#Mit der Schaltfläche 'Übersicht Testdurchlauf' können Teilnehmer eine Übersicht aufrufen, die zeigt, welche Fragen sie jeweils bereits bearbeitet oder markiert haben. Das Verhalten der 'Übersicht Testdurchlauf' können Sie noch weiter konfigurieren:
 assessment#:#tst_show_toplist#:#Platzierung
 assessment#:#tst_shuffle_questions#:#Fragen mischen
 assessment#:#tst_shuffle_questions_description#:#Die Reihenfolge der Fragen wird pro Teilnehmer und pro Testdurchlauf neu gemischt.

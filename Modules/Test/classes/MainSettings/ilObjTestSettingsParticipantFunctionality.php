@@ -130,8 +130,8 @@ class ilObjTestSettingsParticipantFunctionality extends TestSettings
 
         $enable_usrpass_questionlist = $f->optionalGroup(
             $sub_inputs_usrpass_questionlist,
-            $lng->txt('Xtst_show_summary'),
-            $lng->txt('Xtst_show_summary_description')
+            $lng->txt('tst_show_summary'),
+            $lng->txt('tst_show_summary_description')
         )->withValue(null)
             ->withAdditionalTransformation($trafo);
 
