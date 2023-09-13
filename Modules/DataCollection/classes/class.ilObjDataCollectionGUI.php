@@ -547,11 +547,11 @@ class ilObjDataCollectionGUI extends ilObject2GUI
 
     protected function updateCustom(ilPropertyFormGUI $form): void
     {
-        $this->object->setOnline($form->getInput("is_online"));
-        $this->object->setRating($form->getInput("rating"));
-        $this->object->setPublicNotes($form->getInput("public_notes"));
-        $this->object->setApproval($form->getInput("approval"));
-        $this->object->setNotification($form->getInput("notification"));
+        $this->object->setOnline((bool)$form->getInput("is_online"));
+        $this->object->setRating((bool)$form->getInput("rating"));
+        $this->object->setPublicNotes((bool)$form->getInput("public_notes"));
+        $this->object->setApproval((bool)$form->getInput("approval"));
+        $this->object->setNotification((bool)$form->getInput("notification"));
 
         $this->object_service->commonSettings()->legacyForm($form, $this->object)->saveTileImage();
 
