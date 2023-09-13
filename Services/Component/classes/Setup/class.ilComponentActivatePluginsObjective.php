@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\Setup;
 use ILIAS\DI;
@@ -90,7 +90,7 @@ class ilComponentActivatePluginsObjective implements Setup\Objective
             );
         }
 
-        $ORIG_DIC = $this->initEnvironment($environment);
+        $ORIG_DIC = $this->initEnvironment($environment, $component_repository, $component_factory);
         $plugin = $component_factory->getPlugin($info->getId());
         $plugin->activate();
         $GLOBALS["DIC"] = $ORIG_DIC;
@@ -109,13 +109,15 @@ class ilComponentActivatePluginsObjective implements Setup\Objective
         return $plugin->isActivationPossible($environment);
     }
 
-    protected function initEnvironment(Setup\Environment $environment)
-    {
+    protected function initEnvironment(
+        Setup\Environment $environment,
+        \ilComponentRepository $component_repository,
+        \ilComponentFactory $component_factory
+    ) {
         $db = $environment->getResource(Setup\Environment::RESOURCE_DATABASE);
         $plugin_admin = $environment->getResource(Setup\Environment::RESOURCE_PLUGIN_ADMIN);
         $ini = $environment->getResource(Setup\Environment::RESOURCE_ILIAS_INI);
         $client_ini = $environment->getResource(Setup\Environment::RESOURCE_CLIENT_INI);
-        $component_repository = $environment->getResource(Setup\Environment::RESOURCE_COMPONENT_REPOSITORY);
 
         // ATTENTION: This is a total abomination. It only exists to allow various
         // sub components of the various readers to run. This is a memento to the
@@ -124,11 +126,12 @@ class ilComponentActivatePluginsObjective implements Setup\Objective
         $DIC = $GLOBALS["DIC"];
         $GLOBALS["DIC"] = new DI\Container();
         $GLOBALS["DIC"]["component.repository"] = $component_repository;
+        $GLOBALS["DIC"]["component.factory"] = $component_factory;
         $GLOBALS["DIC"]["ilDB"] = $db;
         $GLOBALS["DIC"]["ilIliasIniFile"] = $ini;
         $GLOBALS["DIC"]["ilClientIniFile"] = $client_ini;
         $GLOBALS["DIC"]["ilLog"] = new NullLogger();
-        $GLOBALS["DIC"]["ilLoggerFactory"] = new class() extends ilLoggerFactory {
+        $GLOBALS["DIC"]["ilLoggerFactory"] = new class () extends ilLoggerFactory {
             public function __construct()
             {
             }
@@ -147,7 +150,7 @@ class ilComponentActivatePluginsObjective implements Setup\Objective
         $GLOBALS["DIC"]["ilias"] = null;
         $GLOBALS["ilLog"] = $GLOBALS["DIC"]["ilLog"];
         $GLOBALS["DIC"]["ilErr"] = null;
-        $GLOBALS["DIC"]["tree"] = new class() extends ilTree {
+        $GLOBALS["DIC"]["tree"] = new class () extends ilTree {
             public function __construct()
             {
             }
@@ -155,7 +158,7 @@ class ilComponentActivatePluginsObjective implements Setup\Objective
         $GLOBALS["DIC"]["ilAppEventHandler"] = null;
         $GLOBALS["DIC"]["ilSetting"] = new ilSetting();
         $GLOBALS["DIC"]["objDefinition"] = new ilObjectDefinition();
-        $GLOBALS["DIC"]["ilUser"] = new class() extends ilObjUser {
+        $GLOBALS["DIC"]["ilUser"] = new class () extends ilObjUser {
             public array $prefs = [];
 
             public function __construct()
