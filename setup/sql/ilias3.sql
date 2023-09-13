@@ -3478,6 +3478,7 @@ CREATE TABLE `cron_job` (
 INSERT INTO `cron_job` VALUES ('book_notification','Modules/BookingManager',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'ilBookCronNotification',NULL,NULL,NULL,NULL);
 INSERT INTO `cron_job` VALUES ('book_pref_book','Modules/BookingManager',1,NULL,1,0,0,1680261007,NULL,NULL,NULL,NULL,NULL,NULL,'ilBookingPrefBookCron',NULL,NULL,NULL,NULL);
 INSERT INTO `cron_job` VALUES ('cal_consultation','Services/Calendar',0,0,0,0,0,0,0,0,'','',0,0,'ilConsultationHourCron','Services/Calendar/classes/ConsultationHours/',0,0,0);
+INSERT INTO `cron_job` VALUES ('cal_remote_reader','Services/Calendar',3,1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'ilCalendarCronRemoteReader','Services/Calendar/classes/Cron/',NULL,NULL,NULL);
 INSERT INTO `cron_job` VALUES ('certificate','Services/Certificate',2,1,1,0,0,1680261007,NULL,NULL,NULL,NULL,NULL,NULL,'ilCertificateCron',NULL,NULL,NULL,NULL);
 INSERT INTO `cron_job` VALUES ('copg_history_cleanup','Services/COPage',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'ilCleanCOPageHistoryCronjob','Services/COPage/Cron',NULL,NULL,NULL);
 INSERT INTO `cron_job` VALUES ('crs_timings_reminder','Modules/Course',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'ilTimingsCronReminder',NULL,NULL,NULL,NULL);
@@ -7042,6 +7043,7 @@ CREATE TABLE `il_db_steps` (
 --
 
 INSERT INTO `il_db_steps` VALUES ('ilAccessControl8DBUpdateSteps',1,'2023-05-17 16:34:13.559863','2023-05-17 16:34:13.572716');
+INSERT INTO `il_db_steps` VALUES ('ilAccessControl8DBUpdateSteps',2,'2023-09-13 14:08:44.613103','2023-09-13 14:08:44.613794');
 INSERT INTO `il_db_steps` VALUES ('ilBibliograficDB80',1,'2023-03-31 13:10:08.334649','2023-03-31 13:10:08.339628');
 INSERT INTO `il_db_steps` VALUES ('ilCalendarDBUpdateSteps8',1,'2023-05-17 16:34:13.573649','2023-05-17 16:34:13.585092');
 INSERT INTO `il_db_steps` VALUES ('ilCertificateDatabaseUpdateSteps',1,'2023-03-31 13:10:08.340522','2023-03-31 13:10:08.351832');
@@ -9380,7 +9382,7 @@ INSERT INTO `il_object_def` VALUES ('logs','LoggingSettings','Services/Logging',
 INSERT INTO `il_object_def` VALUES ('lrss','LearningResourcesSettings','Modules/LearningModule','Modules/LearningModule/classes',0,0,'sys',0,0,0,1,1,0,0,NULL,0,0,1,0,1,0,0,0,0);
 INSERT INTO `il_object_def` VALUES ('lso','LearningSequence','Modules/LearningSequence','Modules/LearningSequence/classes',1,1,'0',0,0,1,1,0,0,30,'lso',300,1,1,0,0,0,0,0,0);
 INSERT INTO `il_object_def` VALUES ('lsos','LearningSequenceAdmin','Modules/LearningSequence','Modules/LearningSequence/classes',0,0,'sys',0,0,0,1,1,0,0,NULL,0,0,1,0,1,0,0,0,0);
-INSERT INTO `il_object_def` VALUES ('lti','LTIConsumer','Modules/LTIConsumer','Modules/LTIConsumer/classes',1,1,'db',0,1,1,1,0,0,120,'lres',0,0,1,0,0,0,0,0,1);
+INSERT INTO `il_object_def` VALUES ('lti','LTIConsumer','Modules/LTIConsumer','Modules/LTIConsumer/classes',1,1,'db',0,1,0,1,0,0,120,'lres',0,0,1,0,0,0,0,0,1);
 INSERT INTO `il_object_def` VALUES ('ltis','LTIAdministration','Services/LTI','Services/LTI/classes',0,0,'sys',0,0,0,1,1,0,0,NULL,0,0,1,0,1,0,0,0,0);
 INSERT INTO `il_object_def` VALUES ('ltiv','LTIConsumerVerification','Modules/LTIConsumer','Modules/LTIConsumer/classes/Verification',0,0,'0',0,0,0,0,0,0,90,NULL,150,0,0,0,0,0,0,0,0);
 INSERT INTO `il_object_def` VALUES ('mail','Mail','Services/Mail','Services/Mail/classes',0,0,'sys',0,0,0,1,0,0,0,NULL,0,0,1,0,1,0,0,0,0);
@@ -13090,7 +13092,7 @@ INSERT INTO `object_data` VALUES (34,'typ','lm','Learning module Object',-1,'200
 INSERT INTO `object_data` VALUES (35,'typ','notf','Note Folder Object',-1,'2002-12-21 00:04:00','2002-12-21 00:04:00','',NULL);
 INSERT INTO `object_data` VALUES (36,'typ','note','Note Object',-1,'2002-12-21 00:04:00','2002-12-21 00:04:00','',NULL);
 INSERT INTO `object_data` VALUES (37,'typ','frm','Forum object',-1,'2002-07-15 15:54:22','2003-08-15 12:36:40','',NULL);
-INSERT INTO `object_data` VALUES (70,'lng','en','installed',-1,NULL,'2023-07-28 17:12:14','',NULL);
+INSERT INTO `object_data` VALUES (70,'lng','en','installed',-1,NULL,'2023-09-13 14:08:44','',NULL);
 INSERT INTO `object_data` VALUES (71,'lng','de','not_installed',6,'2003-08-15 10:25:19','2015-12-22 16:29:24','',NULL);
 INSERT INTO `object_data` VALUES (72,'lng','es','not_installed',6,'2003-08-15 10:25:19','2003-08-15 10:25:19','',NULL);
 INSERT INTO `object_data` VALUES (73,'lng','it','not_installed',6,'2003-08-15 10:25:19','2003-08-15 10:25:19','',NULL);
@@ -15743,7 +15745,6 @@ INSERT INTO `rbac_operations` VALUES (19,'create_crs','create new course','creat
 INSERT INTO `rbac_operations` VALUES (20,'create_lm','create new learning module','create',9999);
 INSERT INTO `rbac_operations` VALUES (21,'create_sahs','create new SCORM/AICC learning module','create',9999);
 INSERT INTO `rbac_operations` VALUES (22,'create_glo','create new glossary','create',9999);
-INSERT INTO `rbac_operations` VALUES (23,'create_dbk','create new digibook','create',9999);
 INSERT INTO `rbac_operations` VALUES (24,'create_exc','create new exercise','create',9999);
 INSERT INTO `rbac_operations` VALUES (25,'create_file','upload new file','create',9999);
 INSERT INTO `rbac_operations` VALUES (26,'create_fold','create new folder','create',9999);
@@ -20084,7 +20085,7 @@ INSERT INTO `settings` VALUES ('common','ilfrmnoti1','1');
 INSERT INTO `settings` VALUES ('common','ilfrmreadidx1','1');
 INSERT INTO `settings` VALUES ('common','ilfrmthri2','1');
 INSERT INTO `settings` VALUES ('common','ilGlobalTstPoolUsageSettingInitilisation','1');
-INSERT INTO `settings` VALUES ('common','ilias_version','8.4.0');
+INSERT INTO `settings` VALUES ('common','ilias_version','8.5.0');
 INSERT INTO `settings` VALUES ('common','ilinc_akclassvalues_required','1');
 INSERT INTO `settings` VALUES ('common','ilmpathix','1');
 INSERT INTO `settings` VALUES ('common','iloscmsgidx1','1');
@@ -20345,6 +20346,7 @@ INSERT INTO `settings` VALUES ('common','shib_hos_type','external_wayf');
 INSERT INTO `settings` VALUES ('common','shib_idp_list','');
 INSERT INTO `settings` VALUES ('common','show_user_activity','1');
 INSERT INTO `settings` VALUES ('common','soap_connect_timeout','10');
+INSERT INTO `settings` VALUES ('common','soap_response_timeout','5');
 INSERT INTO `settings` VALUES ('common','soap_user_administration','0');
 INSERT INTO `settings` VALUES ('common','soap_wsdl_path','');
 INSERT INTO `settings` VALUES ('common','sty_media_cont_mig','1');
@@ -25050,4 +25052,4 @@ CREATE TABLE `xmlvalue_seq` (
 
 
 
--- Dump completed on 2023-07-28 17:12:15
+-- Dump completed on 2023-09-13 14:08:45
