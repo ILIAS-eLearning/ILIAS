@@ -918,6 +918,7 @@ assessment#:#new_category#:#New Unit Category
 assessment#:#new_unit#:#New Unit
 assessment#:#next_question#:#Järgmine
 assessment#:#next_question_rows#:#Küsimus % - %/%-st >>
+assessment#:#no_manual_feedback_export_info#:#Manual feedbacks will not be exported.###13 09 2023 new variable
 assessment#:#no_passed_mark#:#Vähemalt üks hinne peab olema määratud 'LÄBITUD'! Hindeskeemi ei salvestatud.
 assessment#:#no_question_selected_for_move#:#Palun vali vähemalt üks küsimus, et seda eemaldada!
 assessment#:#no_questions_available#:#Mitte ühtegi küsimust ei leitud!
@@ -1646,6 +1647,7 @@ assessment#:#tst_password_form#:#Enter Test Password
 assessment#:#tst_password_introduction#:#Sellesse testi saab siseneda ainult testi parooliga. Palun sisesta testi käivitumiseks parool.
 assessment#:#tst_percent_solved#:#Lahendusprotsent
 assessment#:#tst_player_answer_saved_and_locked#:#Answer is saved and locked and can no longer be changed###21 12 2022 new variable
+assessment#:#tst_please_select_source_pool#:#Please select a question pool.###13 09 2023 new variable
 assessment#:#tst_please_select_target_for_pool_derives#:#Please select a target conatainer.###25 10 2016 new variable
 assessment#:#tst_position#:#%s. küsimus %sst
 assessment#:#tst_position_without_total#:#Question %s###23 12 2015 new variable
@@ -2800,8 +2802,6 @@ chatroom#:#chat_auth_token_info#:#Please define unique strings used by ILIAS for
 chatroom#:#chat_ban#:#Blokeering
 chatroom#:#chat_broadcast_typing#:#Broadcast Typing###31 03 2023 new variable
 chatroom#:#chat_broadcast_typing_info#:#Allow participants in conversations or chatrooms to see when you are typing a message.###31 03 2023 new variable
-chatroom#:#chat_broadcast_typing_no#:#Typing will not be broadcasted to other chat participants###31 03 2023 new variable
-chatroom#:#chat_broadcast_typing_yes#:#Typing will be broadcasted to other chat participants###31 03 2023 new variable
 chatroom#:#chat_connection_disconnected#:#Disconnected
 chatroom#:#chat_connection_established#:#Connection established
 chatroom#:#chat_create_private_room_button#:#Create private room
@@ -5731,7 +5731,6 @@ common#:#udf_delete_sure#:#Kas oled kindel, et soovid kustutada selle välja ja 
 common#:#udf_duplicate_entries#:#Väärtus peab olema unikaalne.
 common#:#udf_field_deleted#:#Väli kustutatud.
 common#:#udf_name_already_exists#:#Antud nimega väli on juba olemas. Palun vali teistsugune nimi.
-common#:#udf_required_and_visible_requires_changeable#:#When a field is ‘Required’ and ‘Visible in Personal Data’, it must also be ‘Changeable in Profile’###01 02 2023 new variable
 common#:#udf_required_requires_visib_reg#:#Muutes välja täitmise "kohustuslikuks" peate valima "registreerimisel nähtav"
 common#:#udf_type_date#:#Kuupäev
 common#:#udf_type_datetime#:#Kuupäev ja kellaaeg
@@ -5859,6 +5858,7 @@ common#:#usrimport_no_insert_ext_account_exists#:#Lisada ei saa. Väline konto o
 common#:#usrimport_no_update_ext_account_exists#:#Uuendada ei saa. Väline konto juba olemas.
 common#:#usrimport_with_specified_role_not_permitted#:#Import with specified role not permitted.
 common#:#usrimport_wrong_file_count#:#Too many files in import-folder. Please try again.###30 04 2021 new variable
+common#:#usrimport_xml_anonymous_or_root_not_allowed#:#Neither the system-account nor the anonymous account can be changed through the import.###13 09 2023 new variable
 common#:#usrimport_xml_attribute_missing#:#Attribute "%2$s" in element "%1$s" is missing.
 common#:#usrimport_xml_attribute_value_illegal#:#Value "%3$s" of attribute "%2$s" in element "%1$s" is illegal.
 common#:#usrimport_xml_attribute_value_inapplicable#:#Value "%3$s" of attribute "%2$s" in element "%1$s" is inapplicable for "%4$s" action.
@@ -8133,6 +8133,8 @@ dateplaner#:#cal_create#:#Loo
 dateplaner#:#cal_created_appointment#:#Uus kohtumine lisatud.
 dateplaner#:#cal_created_milestone#:#Verstapost on lisatud.
 dateplaner#:#cal_created_milestone_resp_q#:#Verstapost on lisatud. alun vali kasutajad, kes on kohustatud verstapostini jõudma.
+dateplaner#:#cal_cronjob_remote_description#:#If activated, appointments of the calendar type "Web calendar" are automatically synchronised after the specified time interval.###13 09 2023 new variable
+dateplaner#:#cal_cronjob_remote_title#:#External Calendar Synchronisation###13 09 2023 new variable
 dateplaner#:#cal_crs_info#:#Course Information###31 08 2017 new variable
 dateplaner#:#cal_crs_new_notification_body#:#kursusesse "%s" on loodud uus kohtumine.
 dateplaner#:#cal_crs_new_notification_sub#:#New Appointment in Course "%s"
@@ -10969,6 +10971,7 @@ mail#:#mail_smtp_status_info#:#If enabled, ILIAS will dispatch external emails t
 mail#:#mail_smtp_user#:#User###31 08 2017 new variable
 mail#:#mail_subject_prefix#:#Mail Subject
 mail#:#mail_subject_prefix_info#:#Enter a text, which will be prepended to the subject line of outgoing auto generated e-mails.
+mail#:#mail_subject_too_long#:#The subject is too long.###13 09 2023 new variable
 mail#:#mail_sure_delete#:#Are you sure you want to delete the marked mail(s)?
 mail#:#mail_sure_delete_entry#:#Kas oled kindel, et soovid järgmised kontaktid kustutada
 mail#:#mail_sure_delete_file#:#The file will be removed permanently

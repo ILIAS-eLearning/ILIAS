@@ -918,6 +918,7 @@ assessment#:#new_category#:#New Unit Category###24 10 2013 new variable
 assessment#:#new_unit#:#New Unit###24 10 2013 new variable
 assessment#:#next_question#:#Vazhdo
 assessment#:#next_question_rows#:#Pyetjet %d - %d nga %d >>
+assessment#:#no_manual_feedback_export_info#:#Manual feedbacks will not be exported.###13 09 2023 new variable
 assessment#:#no_passed_mark#:#Duhet të vendoset së paku një notë në KALON! Skema e notave nuk është ruajtur.###10 Jul 2006 content changed
 assessment#:#no_question_selected_for_move#:#Ju lutem zgjedh së paku një pyetje për ta zhvendosur!
 assessment#:#no_questions_available#:#Nuk ka asnjë pyetje në dispozicion!
@@ -1646,6 +1647,7 @@ assessment#:#tst_password_form#:#Enter Test Password###26 09 2014 new variable
 assessment#:#tst_password_introduction#:#This test can only be accessed with a test password. Please enter the test password to start the test###10 Jul 2006 new variable
 assessment#:#tst_percent_solved#:#Përqind e zgjidhur
 assessment#:#tst_player_answer_saved_and_locked#:#Answer is saved and locked and can no longer be changed###21 12 2022 new variable
+assessment#:#tst_please_select_source_pool#:#Please select a question pool.###13 09 2023 new variable
 assessment#:#tst_please_select_target_for_pool_derives#:#Please select a target conatainer.###25 10 2016 new variable
 assessment#:#tst_position#:#Question %s of %s###10 Jul 2006 new variable
 assessment#:#tst_position_without_total#:#Question %s###23 12 2015 new variable
@@ -2800,8 +2802,6 @@ chatroom#:#chat_auth_token_info#:#Please define unique strings used by ILIAS for
 chatroom#:#chat_ban#:#Ban###06 08 2011 new variable
 chatroom#:#chat_broadcast_typing#:#Broadcast Typing###31 03 2023 new variable
 chatroom#:#chat_broadcast_typing_info#:#Allow participants in conversations or chatrooms to see when you are typing a message.###31 03 2023 new variable
-chatroom#:#chat_broadcast_typing_no#:#Typing will not be broadcasted to other chat participants###31 03 2023 new variable
-chatroom#:#chat_broadcast_typing_yes#:#Typing will be broadcasted to other chat participants###31 03 2023 new variable
 chatroom#:#chat_connection_disconnected#:#Disconnected###06 08 2011 new variable
 chatroom#:#chat_connection_established#:#Connection established###06 08 2011 new variable
 chatroom#:#chat_create_private_room_button#:#Create private room###06 08 2011 new variable
@@ -5731,7 +5731,6 @@ common#:#udf_delete_sure#:#Are you sure you want to delete this field and all as
 common#:#udf_duplicate_entries#:#The values have to be unique.###27 Jan 2006 new variable
 common#:#udf_field_deleted#:#Deleted field.###27 Jan 2006 new variable
 common#:#udf_name_already_exists#:#This field name already exists. Please choose a different name.###27 Jan 2006 new variable
-common#:#udf_required_and_visible_requires_changeable#:#When a field is ‘Required’ and ‘Visible in Personal Data’, it must also be ‘Changeable in Profile’###01 02 2023 new variable
 common#:#udf_required_requires_visib_reg#:#When field is set to "required", it must be set to "visible in registration"###29 09 2009 new variable
 common#:#udf_type_date#:#Date Field###25 09 2007 new variable
 common#:#udf_type_datetime#:#Date and Time###23 07 2008 new variable
@@ -5859,6 +5858,7 @@ common#:#usrimport_no_insert_ext_account_exists#:#Can't perform "Insert" action.
 common#:#usrimport_no_update_ext_account_exists#:#Can't perform "Update" action. External account already exists.###26 10 2006 new variable
 common#:#usrimport_with_specified_role_not_permitted#:#Import with specified role not permitted. ### 2006-8-11 --- Add new translation here.
 common#:#usrimport_wrong_file_count#:#Too many files in import-folder. Please try again.###30 04 2021 new variable
+common#:#usrimport_xml_anonymous_or_root_not_allowed#:#Neither the system-account nor the anonymous account can be changed through the import.###13 09 2023 new variable
 common#:#usrimport_xml_attribute_missing#:#Mungon atributi "%2$s" në elementin "%1$s"
 common#:#usrimport_xml_attribute_value_illegal#:#Vlera "%3$s" e atributit "%2$s" në elementin "%1$s" është jovalide.
 common#:#usrimport_xml_attribute_value_inapplicable#:#Vlera "%3$s" e atributit "%2$s" në elementin "%1$s" nuk aplikohet për veprimin "%4$s"
@@ -8133,6 +8133,8 @@ dateplaner#:#cal_create#:#Create###02 06 2008 new variable
 dateplaner#:#cal_created_appointment#:#Created new appointment.###28 10 2009 new variable
 dateplaner#:#cal_created_milestone#:#Added milestone.###18 08 2009 new variable
 dateplaner#:#cal_created_milestone_resp_q#:#Added milestone. Please select users that are responsible to meet the milestone.###18 08 2009 new variable
+dateplaner#:#cal_cronjob_remote_description#:#If activated, appointments of the calendar type "Web calendar" are automatically synchronised after the specified time interval.###13 09 2023 new variable
+dateplaner#:#cal_cronjob_remote_title#:#External Calendar Synchronisation###13 09 2023 new variable
 dateplaner#:#cal_crs_info#:#Course Information###31 08 2017 new variable
 dateplaner#:#cal_crs_new_notification_body#:#a new appointment has been created in course "%s".###16 07 2010 new variable
 dateplaner#:#cal_crs_new_notification_sub#:#New Appointment in Course "%s"###16 07 2010 new variable
@@ -10969,6 +10971,7 @@ mail#:#mail_smtp_status_info#:#If enabled, ILIAS will dispatch external emails t
 mail#:#mail_smtp_user#:#User###31 08 2017 new variable
 mail#:#mail_subject_prefix#:#Mail Subject###12 10 2009 new variable
 mail#:#mail_subject_prefix_info#:#Enter a text, which will be prepended to the subject line of outgoing auto generated e-mails###12 10 2009 new variable
+mail#:#mail_subject_too_long#:#The subject is too long.###13 09 2023 new variable
 mail#:#mail_sure_delete#:#A jeni të sigurt për të fshirë e-mailin e shënjuar
 mail#:#mail_sure_delete_entry#:#A jeni të sigurt për të fshirë të dhënat në vijim
 mail#:#mail_sure_delete_file#:#Skedari do të fshihet në mënyrë permanente

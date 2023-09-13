@@ -918,6 +918,7 @@ assessment#:#new_category#:#Нова категория единици
 assessment#:#new_unit#:#Нова единица
 assessment#:#next_question#:#Следващ
 assessment#:#next_question_rows#:#Въпроси %d - %d от %d >&gt
+assessment#:#no_manual_feedback_export_info#:#Manual feedbacks will not be exported.###13 09 2023 new variable
 assessment#:#no_passed_mark#:#Трябва да настроите поне една оценка на ИЗДЪРЖАЛ! Схемата с оценките не е съхранена.
 assessment#:#no_question_selected_for_move#:#Моля, маркирайте поне един въпрос, за да го преместите!
 assessment#:#no_questions_available#:#Няма налични въпроси!
@@ -1646,6 +1647,7 @@ assessment#:#tst_password_form#:#Въвеждане на парола за те�
 assessment#:#tst_password_introduction#:# Достъпът до този тест е възможен само с парола за тест. Моля, въведете паролата за теста, за да започнете теста
 assessment#:#tst_percent_solved#:#Процент решени
 assessment#:#tst_player_answer_saved_and_locked#:#Answer is saved and locked and can no longer be changed###21 12 2022 new variable
+assessment#:#tst_please_select_source_pool#:#Please select a question pool.###13 09 2023 new variable
 assessment#:#tst_please_select_target_for_pool_derives#:#Моля, изберете целеви контейнер.
 assessment#:#tst_position#:#Въпрос %s от %s
 assessment#:#tst_position_without_total#:#Въпрос %s
@@ -2800,8 +2802,6 @@ chatroom#:#chat_auth_token_info#:#Моля, дефинирайте уникал�
 chatroom#:#chat_ban#:#Забрана###22 06 2022 new variable
 chatroom#:#chat_broadcast_typing#:#Broadcast Typing###31 03 2023 new variable
 chatroom#:#chat_broadcast_typing_info#:#Allow participants in conversations or chatrooms to see when you are typing a message.###31 03 2023 new variable
-chatroom#:#chat_broadcast_typing_no#:#Typing will not be broadcasted to other chat participants###31 03 2023 new variable
-chatroom#:#chat_broadcast_typing_yes#:#Typing will be broadcasted to other chat participants###31 03 2023 new variable
 chatroom#:#chat_connection_disconnected#:#Прекъснато връзка
 chatroom#:#chat_connection_established#:#Връзката е установена
 chatroom#:#chat_create_private_room_button#:#Създаване на частна стая
@@ -5731,7 +5731,6 @@ common#:#udf_delete_sure#:#Сигурни ли сте, че искате да и
 common#:#udf_duplicate_entries#:#Стойностите трябва да са уникални.
 common#:#udf_field_deleted#:#Изтрито поле.
 common#:#udf_name_already_exists#:#Наименованието на това поле вече съществува. Моля, изберете друго име.
-common#:#udf_required_and_visible_requires_changeable#:#When a field is ‘Required’ and ‘Visible in Personal Data’, it must also be ‘Changeable in Profile’###01 02 2023 new variable
 common#:#udf_required_requires_visib_reg#:#Когато полето е зададено като "задължително", то трябва да е зададено като "видимо при регистрация"
 common#:#udf_type_date#:#Поле за дата
 common#:#udf_type_datetime#:#Дата и час
@@ -5859,6 +5858,7 @@ common#:#usrimport_no_insert_ext_account_exists#:#Не може да се изв
 common#:#usrimport_no_update_ext_account_exists#:#Не може да се извърши действието "Актуализиране". Външният акаунт вече съществува.
 common#:#usrimport_with_specified_role_not_permitted#:#Импортът с посочената роля не е разрешен.
 common#:#usrimport_wrong_file_count#:#Толкова много файлове в папката за импортиране. Моля, опитайте отново.
+common#:#usrimport_xml_anonymous_or_root_not_allowed#:#Neither the system-account nor the anonymous account can be changed through the import.###13 09 2023 new variable
 common#:#usrimport_xml_attribute_missing#:#Атрибутът "%2$s" в елемента "%1$s" липсва.
 common#:#usrimport_xml_attribute_value_illegal#:#Стойността "%3$s" на атрибута "%2$s" в елемента "%1$s" е незаконна.
 common#:#usrimport_xml_attribute_value_inapplicable#:#Стойността "%3$s" на атрибута "%2$s" в елемента "%1$s" е неприложима за действието "%4$s".
@@ -8133,6 +8133,8 @@ dateplaner#:#cal_create#:#Create
 dateplaner#:#cal_created_appointment#:#Създадена нова среща.
 dateplaner#:#cal_created_milestone#:#Прибавен етап.
 dateplaner#:#cal_created_milestone_resp_q#:#Прибавен крайъгълен камък. Моля, изберете потребителите, които са отговорни за изпълнението на етапа.
+dateplaner#:#cal_cronjob_remote_description#:#If activated, appointments of the calendar type "Web calendar" are automatically synchronised after the specified time interval.###13 09 2023 new variable
+dateplaner#:#cal_cronjob_remote_title#:#External Calendar Synchronisation###13 09 2023 new variable
 dateplaner#:#cal_crs_info#:#Информация за курса
 dateplaner#:#cal_crs_new_notification_body#:#в курс "%s" е създадена нова среща.
 dateplaner#:#cal_crs_new_notification_sub#:#Ново назначение в курс "%s"
@@ -10969,6 +10971,7 @@ mail#:#mail_smtp_status_info#:#Ако е разрешено, ILIAS ще изпр
 mail#:#mail_smtp_user#:#Потребител
 mail#:#mail_subject_prefix#:#Темата на съобщението
 mail#:#mail_subject_prefix_info#:#Введете текст, който ще бъде добавен към реда на темата на автоматично генерираните изходящи имейли
+mail#:#mail_subject_too_long#:#The subject is too long.###13 09 2023 new variable
 mail#:#mail_sure_delete#:#Сигурни ли сте, че желаете да изтриете маркираната поща
 mail#:#mail_sure_delete_entry#:#Сигурни ли сте, че желаете да изтриете следните записи
 mail#:#mail_sure_delete_file#:#Файлът ще бъде премахнат трайно
