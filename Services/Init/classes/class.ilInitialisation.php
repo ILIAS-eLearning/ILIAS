@@ -1406,7 +1406,9 @@ class ilInitialisation
             !$GLOBALS['DIC']['ilAuthSession']->isAuthenticated() or
             $GLOBALS['DIC']['ilAuthSession']->isExpired()
         ) {
-            ilSession::_destroy($_COOKIE[session_name()], ilSession::SESSION_CLOSE_EXPIRE);
+            if ($GLOBALS['DIC']['ilAuthSession']->isExpired()) {
+                ilSession::_destroy($_COOKIE[session_name()], ilSession::SESSION_CLOSE_EXPIRE);
+            }
 
             ilLoggerFactory::getLogger('init')->debug('Current session is invalid: ' . $GLOBALS['DIC']['ilAuthSession']->getId());
             $current_script = substr(strrchr($_SERVER["PHP_SELF"], "/"), 1);
