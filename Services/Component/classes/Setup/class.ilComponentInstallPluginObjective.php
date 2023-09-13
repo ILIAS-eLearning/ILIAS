@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -94,7 +95,7 @@ class ilComponentInstallPluginObjective implements Setup\Objective
             );
         }
 
-        $ORIG_DIC = $this->initEnvironment($environment, $component_repository);
+        $ORIG_DIC = $this->initEnvironment($environment, $component_repository, $component_factory);
         $plugin = $component_factory->getPlugin($info->getId());
         $plugin->install();
         $plugin->update();
@@ -114,13 +115,15 @@ class ilComponentInstallPluginObjective implements Setup\Objective
         return !$plugin->isInstalled();
     }
 
-    protected function initEnvironment(Setup\Environment $environment, \ilComponentRepository $component_repository)
-    {
+    protected function initEnvironment(
+        Setup\Environment $environment,
+        \ilComponentRepository $component_repository,
+        \ilComponentFactory $component_factory
+    ) {
         $db = $environment->getResource(Setup\Environment::RESOURCE_DATABASE);
         $plugin_admin = $environment->getResource(Setup\Environment::RESOURCE_PLUGIN_ADMIN);
         $ini = $environment->getResource(Setup\Environment::RESOURCE_ILIAS_INI);
         $client_ini = $environment->getResource(Setup\Environment::RESOURCE_CLIENT_INI);
-
 
         // ATTENTION: This is a total abomination. It only exists to allow various
         // sub components of the various readers to run. This is a memento to the
@@ -178,6 +181,7 @@ class ilComponentInstallPluginObjective implements Setup\Objective
         $GLOBALS["DIC"]["ilAppEventHandler"] = null;
         $GLOBALS["DIC"]["ilSetting"] = new ilSetting();
         $GLOBALS["DIC"]["component.repository"] = $component_repository;
+        $GLOBALS["DIC"]["component.factory"] = $component_factory;
         $GLOBALS["DIC"]["objDefinition"] = new ilObjectDefinition();
         $GLOBALS["DIC"]["ilUser"] = new class () extends ilObjUser {
             public array $prefs = [];

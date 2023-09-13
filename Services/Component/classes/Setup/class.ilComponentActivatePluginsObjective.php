@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -13,8 +14,8 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
+
 
 declare(strict_types=1);
 
@@ -89,7 +90,7 @@ class ilComponentActivatePluginsObjective implements Setup\Objective
             );
         }
 
-        $ORIG_DIC = $this->initEnvironment($environment);
+        $ORIG_DIC = $this->initEnvironment($environment, $component_repository, $component_factory);
         $plugin = $component_factory->getPlugin($info->getId());
         $plugin->activate();
         $GLOBALS["DIC"] = $ORIG_DIC;
@@ -108,13 +109,15 @@ class ilComponentActivatePluginsObjective implements Setup\Objective
         return $plugin->isActivationPossible($environment);
     }
 
-    protected function initEnvironment(Setup\Environment $environment)
-    {
+    protected function initEnvironment(
+        Setup\Environment $environment,
+        \ilComponentRepository $component_repository,
+        \ilComponentFactory $component_factory
+    ) {
         $db = $environment->getResource(Setup\Environment::RESOURCE_DATABASE);
         $plugin_admin = $environment->getResource(Setup\Environment::RESOURCE_PLUGIN_ADMIN);
         $ini = $environment->getResource(Setup\Environment::RESOURCE_ILIAS_INI);
         $client_ini = $environment->getResource(Setup\Environment::RESOURCE_CLIENT_INI);
-        $component_repository = $environment->getResource(Setup\Environment::RESOURCE_COMPONENT_REPOSITORY);
 
         // ATTENTION: This is a total abomination. It only exists to allow various
         // sub components of the various readers to run. This is a memento to the
@@ -123,6 +126,7 @@ class ilComponentActivatePluginsObjective implements Setup\Objective
         $DIC = $GLOBALS["DIC"];
         $GLOBALS["DIC"] = new DI\Container();
         $GLOBALS["DIC"]["component.repository"] = $component_repository;
+        $GLOBALS["DIC"]["component.factory"] = $component_factory;
         $GLOBALS["DIC"]["ilDB"] = $db;
         $GLOBALS["DIC"]["ilIliasIniFile"] = $ini;
         $GLOBALS["DIC"]["ilClientIniFile"] = $client_ini;
