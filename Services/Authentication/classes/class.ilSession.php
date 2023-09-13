@@ -256,7 +256,7 @@ class ilSession
         try {
             // only delete session cookie if it is set in the current request
             if (isset($_COOKIE[session_name()]) && $_COOKIE[session_name()] === $a_session_id) {
-                \ilUtil::setCookie(session_name(), '', false,true);
+                \ilUtil::setCookie(session_name(), '', false, true);
             }
         } catch (\Throwable $e) {
             // ignore
