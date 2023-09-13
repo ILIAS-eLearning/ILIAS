@@ -117,8 +117,8 @@ class ilComponentUpdatePluginObjective implements Setup\Objective
 
     protected function initEnvironment(
         Setup\Environment $environment,
-        ilComponentRepository $component_repository,
-        ilComponentFactory $component_factory
+        \ilComponentRepository $component_repository,
+        \ilComponentFactory $component_factory
     ): array {
         $db = $environment->getResource(Setup\Environment::RESOURCE_DATABASE);
         $plugin_admin = $environment->getResource(Setup\Environment::RESOURCE_PLUGIN_ADMIN);
