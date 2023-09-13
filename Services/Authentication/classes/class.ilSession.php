@@ -256,9 +256,6 @@ class ilSession
         try {
             // only delete session cookie if it is set in the current request
             if (isset($_COOKIE[session_name()]) && $_COOKIE[session_name()] === $a_session_id) {
-                //$params = session_get_cookie_params();
-               // setcookie(session_name(), '', 0, $params['path'], $params['domain'], $params['secure'], isset($params['httponly']));
-
                 \ilUtil::setCookie(session_name(), '', false,true);
             }
         } catch (\Throwable $e) {
