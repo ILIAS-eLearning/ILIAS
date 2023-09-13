@@ -594,7 +594,7 @@ assessment#:#create_date#:#Erzeugt
 assessment#:#create_gaps#:#Lücken erzeugen und aktualisieren
 assessment#:#create_new#:#Erstelle neue
 assessment#:#customstyle#:#Eigenes Stylesheet
-assessment#:#dashboard_tab#:#Dashboard
+assessment#:#dashboard_tab#:#Teilnehmer
 assessment#:#definition#:#Definition
 assessment#:#definition_image#:#Bild
 assessment#:#definition_text#:#Text
@@ -1077,7 +1077,7 @@ assessment#:#question_marking#:#Fragen markieren
 assessment#:#question_marking_description#:#Teilnehmer erhalten die Möglichkeit, Fragen für sich zu markieren. Die Markierungen werden auch in der Übersicht 'Bearbeitungsstand' angezeigt, sofern diese aktiviert ist.
 assessment#:#question_not_answered#:#Die Frage wurde nicht beantwortet
 assessment#:#question_saved_for_upload#:#Die Frage wurde automatisch gespeichert, um das Hochladen einer Datei zu ermöglichen. Wenn Sie die Bearbeitung dieser Frage jetzt abbrechen, beachten Sie bitte, dass Sie die Frage im Fragenpool löschen müssen, wenn Sie sie nicht behalten wollen.
-assessment#:#question_summary#:#Stand der Bearbeitung
+assessment#:#question_summary#:#Bearbeitungsstand
 assessment#:#question_summary_btn#:#Bearbeitungsstand
 assessment#:#question_title#:#Fragentitel
 assessment#:#question_type#:#Fragetyp
