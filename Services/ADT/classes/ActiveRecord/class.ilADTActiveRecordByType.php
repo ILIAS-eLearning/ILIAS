@@ -196,15 +196,18 @@ class ilADTActiveRecordByType
 
         // read minimum tables
         foreach ($this->mapElementsToTables() as $table => $element_ids) {
+            $sub_table = '';
+            $sub_tables = explode('_', $table);
+            if ($sub_tables !== false) {
+                $sub_table = array_pop($sub_tables);
+            }
+            if (isset(self::$preloaded[$sub_table]) && !$a_return_additional_data) {
+                continue;
+            }
             $sql = "SELECT * FROM " . $table .
                 " WHERE " . $this->properties->buildPrimaryWhere();
             $set = $this->db->query($sql);
             if ($this->db->numRows($set)) {
-                $sub_table = '';
-                $sub_tables = explode('_', $table);
-                if ($sub_tables !== false) {
-                    $sub_table = array_pop($sub_tables);
-                }
                 while ($row = $this->db->fetchAssoc($set)) {
                     $element_id = $row[$this->getElementIdColumn()];
                     if (in_array($element_id, $element_ids)) {
