@@ -154,6 +154,9 @@ class ilNestedSetTree implements ilTreeImplementation
      */
     public function getRelation(array $a_node_a, array $a_node_b): int
     {
+        if ($a_node_a === [] || $a_node_b === []) {
+            return ilTree::RELATION_NONE;
+        }
         if ($a_node_a['child'] == $a_node_b['child']) {
             return ilTree::RELATION_EQUALS;
         }
