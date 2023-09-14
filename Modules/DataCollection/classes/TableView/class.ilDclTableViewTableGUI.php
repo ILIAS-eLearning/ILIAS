@@ -76,7 +76,7 @@ class ilDclTableViewTableGUI extends ilTable2GUI
         $this->setLimit();
 
         $this->setId('dcl_tableviews');
-        $this->setTitle($this->lng->txt("dcl_tableviews_table"));
+        $this->setTitle($this->table->getTitle());
         $this->setStyle('table', $this->getStyle('table') . ' ' . 'dcl_record_list');
     }
 
