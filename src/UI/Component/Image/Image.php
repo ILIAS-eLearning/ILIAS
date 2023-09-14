@@ -51,33 +51,26 @@ interface Image extends Component, JavaScriptBindable, Clickable, Block
     public function getSource(): string;
 
     /**
-     * Add image sources for different display conditions. You will also need to add
-     * the image source you specified as Source here again.
+     * Add an additional source (path) pointing to an image of higher resolution
+     * than the one set through `withSource()`.
+     * The corresponding image will be asynchronously loaded once the size of the
+     * final image on the screen is defined. The high res source will be used,
+     * if the size of the image shown on the screen is bigger than
+     * `$min_width_in_pixels`. If multiple additional high res sources are defined,
+     * the one with the biggest `$min_width_in_pixels` that is still
+     * smaller than the actual size of the image on the screen will be chosen.
+     * To take advantage of this functionality the source set through `withSource()`
+     * must be small as it will always be loaded first.
+     */
+    public function withAddiontalHighResSource(string $source, int $min_width_in_pixels): Image;
+
+    /**
+     * Returns an associative array containing all additional resources as
+     * `$min_width_in_pixels => $source` entries.
      *
-     * @param array<string> $source_set <condition_descriptor> => <source>
-     * The condition descriptor is either of the form "<display density>x" or
-     * "<source width>w". If you use condition descriptors defined by source width
-     * you also need to set the Sizes Selector Statement.
+     * @return array<integer, string>
      */
-    public function withSourceSet(array $source_set): Image;
-
-    /**
-     * Get the image sources
-     * @return array<string> <condition_descripter> => <source>
-     */
-    public function getSourceSet(): ?array;
-
-    /**
-     * Defines how the browser selects the right image to use.
-     * See: https://developer.mozilla.org/en-US/docs/Web/API/HTMLImageElement/sizes
-     * Must be set if multiple sources with width condition descriptors are set.
-     */
-    public function withSizesSelectorStatement(string $sizes_selector): Image;
-
-    /**
-     * Get the image sizes selector statement
-     */
-    public function getSizesSelectorStatement(): ?string;
+    public function getAdditionalHighResSources(): array;
 
     /**
      * Get the type of the image

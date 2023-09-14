@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Image;
 
@@ -68,9 +68,6 @@ class Renderer extends AbstractComponentRenderer
 
         $tpl->setCurrentBlock($component->getType());
         $tpl->setVariable("SOURCE", $component->getSource());
-        if ($component->getSourceSet() !== null) {
-            $tpl = $this->addSourceSetToTemplate($tpl, $component);
-        }
         $tpl->setVariable("ALT", htmlspecialchars($component->getAlt()));
         $tpl->parseCurrentBlock();
 
@@ -79,28 +76,6 @@ class Renderer extends AbstractComponentRenderer
         }
 
         return $tpl->get();
-    }
-
-    protected function addSourceSetToTemplate(Template $tpl, Component\Component $component): Template
-    {
-        $source_set_array = $component->getSourceSet();
-        $sizes = $component->getSizesSelectorStatement();
-        $source_set_string = '';
-        foreach ($source_set_array as $condition_descriptor => $source) {
-            if (substr($condition_descriptor, -1) === true && $sizes === null) {
-                return $tpl;
-            }
-            $source_set_string .= "{$source} {$condition_descriptor}, ";
-        }
-
-        $srcset_attributes_string = 'srcset="' . substr($source_set_string, 0, -2) . '" ';
-
-        if ($sizes !== null) {
-            $srcset_attributes_string .= 'sizes="' . $sizes . '" ';
-        }
-
-        $tpl->setVariable('SRC_SET_ATTRIBUTES', $srcset_attributes_string);
-        return $tpl;
     }
 
     /**
