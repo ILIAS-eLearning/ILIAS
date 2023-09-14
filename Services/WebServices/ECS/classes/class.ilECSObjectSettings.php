@@ -331,18 +331,17 @@ abstract class ilECSObjectSettings
      *
      * Processes post data from addSettingstoForm()
      * to be used in ilObject->update() AFTER object data has been updated
-     *
-     * @return bool
      */
-    public function handleSettingsUpdate(): bool
+    public function handleSettingsUpdate(ilPropertyFormGUI $form): bool
     {
-        $ecs_export = (bool) $_POST['ecs_export'];
-        $selected_receivers = (array) $_POST['ecs_sid'];
-        return $this->handleSettings($ecs_export, $selected_receivers);
+        return $this->handleSettings(
+            (bool) $form->getInput("ecs_export"),
+            (array) $form->getInput("ecs_sid")
+        );
     }
 
 
-    protected function handleSettings(
+    private function handleSettings(
         bool $ecs_export,
         array $selected_receivers
     ): bool {

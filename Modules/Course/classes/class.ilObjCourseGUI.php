@@ -907,7 +907,7 @@ class ilObjCourseGUI extends ilContainerGUI
 
         // Update ecs export settings
         $ecs = new ilECSCourseSettings($this->object);
-        if (!$ecs->handleSettingsUpdate()) {
+        if (!$ecs->handleSettingsUpdate($form)) {
             $form->setValuesByPost();
             $this->tpl->setOnScreenMessage('failure', $GLOBALS['DIC']->language()->txt('err_check_input'));
             $this->editObject($form);

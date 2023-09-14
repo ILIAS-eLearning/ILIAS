@@ -753,7 +753,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 
             // Update ecs export settings
             $ecs = new ilECSLearningModuleSettings($this->lm);
-            if ($ecs->handleSettingsUpdate()) {
+            if ($ecs->handleSettingsUpdate($form)) {
                 $valid = true;
             }
         }
