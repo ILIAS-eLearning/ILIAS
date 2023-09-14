@@ -54,6 +54,7 @@ class ilLPObjSettings
     const LP_MODE_CMIX_COMPL_OR_PASSED_WITH_FAILED = 29;
 
     const LP_DEFAULT_VISITS = 30; // ???
+    const LP_MODE_RUBRIC = 92;
 
     const LP_MODE_LTI_OUTCOME = 31;
     
@@ -131,6 +132,9 @@ class ilLPObjSettings
 
         ,self::LP_MODE_INDIVIDUAL_ASSESSMENT => array('ilLPStatusIndividualAssessment',
             'trac_mode_individual_assessment', 'trac_mode_individual_assessment_info')
+
+        , self::LP_MODE_RUBRIC => array('ilLPStatusRubric',
+            'trac_mode_rubric', 'trac_mode_rubric_info')
 
         ,self::LP_MODE_CMIX_COMPLETED => array(ilLPStatusCmiXapiCompleted::class,
             'trac_mode_cmix_completed', 'trac_mode_cmix_completed_info')

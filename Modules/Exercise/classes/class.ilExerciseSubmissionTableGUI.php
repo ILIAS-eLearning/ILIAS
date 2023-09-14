@@ -101,6 +101,20 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
         
         $selected = $this->getSelectedColumns();
         $columns = $this->parseColumns();
+
+        $olp = ilObjectLP::getInstance($this->exc->getId());
+        $this->lp_mode = $olp->getCurrentMode();
+
+        if ($this->lp_mode === 92) {
+            $columns['trac_mode_rubric'] = ['Rubric Card', 'trac_mode_rubric'];
+            $selected['trac_mode_rubric'] = 'trac_mode_rubric';
+            $this->cols_order[] = 'trac_mode_rubric';
+        } else {
+            $columns['trac_mode_rubric'] = ['', ''];
+            $selected['trac_mode_rubric'] = 'trac_mode_rubric';
+            $this->cols_order[] = 'trac_mode_rubric';
+        }
+
         foreach ($this->cols_order as $id) {
             if (in_array($id, $this->cols_mandatory) ||
                 in_array($id, $selected)) {
@@ -352,10 +366,26 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
                         
         
         // selectable columns
+        $cols = $this->getSelectedColumns();
+        if ($this->lp_mode === 92) {
+            $cols['trac_mode_rubric'] = 'trac_mode_rubric';
+        }
             
-        foreach ($this->getSelectedColumns() as $col) {
+        foreach ($cols as $col) {
             $include_seconds = false;
             switch ($col) {
+                
+                case 'trac_mode_rubric':
+                    include_once("./Services/Tracking/classes/repository_statistics/class.ilLPListOfObjectsGUI.php");
+                    $ilCtrl->setParameterByClass('illplistofobjectsgui', 'user_id', $a_user_id);
+                    $ilCtrl->setParameterByClass('illplistofobjectsgui', 'details_id', $this->exc->getRefId());
+                    $url_link = $ilCtrl->getLinkTargetByClass(array("ilobjexercisegui", "illearningprogressgui", "illplistofobjectsgui"), 'edituser');
+                    $this->lng->loadLanguageModule("trac");
+                    $link = "<a href=\"${url_link}\">" . $this->lng->txt('trac_mode_rubric') . "</a>";
+                    $this->tpl->setVariable("RUBRIC_LINK", $link);
+                    $this->tpl->setVariable("RUBRIC_DISABLED", "disabled='disabled'");
+                    break;
+
                 case "image":
                     if (!$a_ass->hasTeam()) {
                         if ($usr_obj = ilObjectFactory::getInstanceByObjId($a_user_id, false)) {

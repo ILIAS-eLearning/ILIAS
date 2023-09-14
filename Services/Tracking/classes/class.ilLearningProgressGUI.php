@@ -54,6 +54,8 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
                     $this->__setSubTabs(self::LP_ACTIVE_MATRIX);
                 } elseif (stristr($this->ctrl->getCmd(), "summary")) {
                     $this->__setSubTabs(self::LP_ACTIVE_SUMMARY);
+                } else if (stristr($this->ctrl->getCmd(), "rubric")) {
+                    $this->__setSubTabs(self::LP_ACTIVE_RUBRIC);
                 } else {
                     $this->__setSubTabs(self::LP_ACTIVE_OBJECTS);
                 }
