@@ -20,7 +20,6 @@ declare(strict_types=1);
 
 namespace ILIAS\MetaData\Editor\Full\Services\Inputs;
 
-use ILIAS\UI\Component\Input\Field\FormInput;
 use ILIAS\UI\Component\Input\Field\Section;
 use ILIAS\UI\Component\Input\Field\Group;
 use ILIAS\UI\Component\Input\Field\Factory as UIFactory;

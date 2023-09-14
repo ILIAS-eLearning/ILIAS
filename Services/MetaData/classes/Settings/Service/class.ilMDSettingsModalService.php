@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Component\Modal\RoundTrip;
-use ILIAS\UI\Component\Input\Field\Input;
+use ILIAS\UI\Component\Input\Container\Form\FormInput;
 
 class ilMDSettingsModalService
 {
@@ -47,7 +47,7 @@ class ilMDSettingsModalService
     public function modalWithForm(
         string $modal_title,
         string $post_url,
-        Input ...$inputs
+        FormInput ...$inputs
     ): RoundTrip {
         /*
          * This is only here to carry some js, since there's no way to get to
