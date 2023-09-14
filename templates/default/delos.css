@@ -11595,8 +11595,8 @@ td.dcl_actions {
 }
 
 .ilDclTableDescription {
-  padding: 15px 0;
-  font-size: 0.75rem;
+  padding: 15px 15px;
+  font-size: 0.875rem;
 }
 
 .ilDclRecordViewNavWrapper {
