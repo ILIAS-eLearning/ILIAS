@@ -521,9 +521,6 @@
 			"approved-date": "2023-03-20"
 		},
 		"patches": {
-			"tecnickcom/tcpdf": {
-				"ILIAS TCPDF Patches": "./libs/composer/patches/tcpdf.patch"
-			},
 			"phpmailer/phpmailer": {
 				"ILIAS PhpMailer Patches": "./libs/composer/patches/phpmailer.patch"
 			},
