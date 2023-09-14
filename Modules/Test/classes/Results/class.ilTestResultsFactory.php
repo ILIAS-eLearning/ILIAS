@@ -76,7 +76,7 @@ class ilTestResultsFactory
         $show_feedback = false; //general
         $show_correct_solution = false;
         $show_manual_scoring = false;
-        $show_question_text = false;
+        $show_question_text = true;
         $show_inline_feedback = true;
 
         foreach ($results as $idx => $qresult) {
@@ -126,6 +126,11 @@ class ilTestResultsFactory
                 $show_question_text,
                 $show_inline_feedback
             );
+
+            if ($show_question_only) {
+                $usr_solution = $this->ui_renderer->render($this->ui_factory->legacy('<div class="ilc_question_Standard">' . $usr_solution . '</div>'));
+                $best_solution = $this->ui_renderer->render($this->ui_factory->legacy('<div class="ilc_question_Standard">' . $best_solution . '</div>'));
+            }
 
             $feedback = $question_gui->getGenericFeedbackOutput($this->active_id, $this->pass_id);
 
