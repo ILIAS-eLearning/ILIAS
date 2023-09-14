@@ -31,7 +31,10 @@
 
 # Directories
 /data
-/Customizing/global
+/Customizing/global/agreement
+/Customizing/global/plugins
+/Customizing/global/scripts
+/Customizing/global/skin
 /Customizing/clients
 /setup/sql/ilDBTemplate
 virtual-data

@@ -135,8 +135,27 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
         $info->enableLearningProgress(true);
         $info->setFormAction($ilCtrl->getFormAction($this));
         $this->__appendUserInfo($info, $this->tracked_user);
-        $this->__appendLPDetails($info, $this->details_obj_id, $this->tracked_user->getId());
-        $this->__showObjectDetails($info, $this->details_obj_id, false);
+        // START PATCH JKN RUBRIC
+        include_once('./Services/Tracking/classes/rubric/class.ilLPRubricGrade.php');
+        include_once('./Services/Tracking/classes/rubric/class.ilLPRubricGradeGUI.php');
+        //if the user is viewing history show the old status/mark/etc.
+        if (
+            $this->details_mode === 92 && $_REQUEST['grader_history'] !== 'current'
+            && !is_null($_REQUEST['grader_history'])
+        ) {
+            $marks = ilLPRubricGrade::_lookupRubricHistoryLP($_REQUEST['grader_history']);
+            include_once("./Services/Tracking/classes/class.ilLearningProgressBaseGUI.php");
+            $status_path = ilLearningProgressBaseGUI::_getImagePathForStatus($marks['status']);
+            $status_text = ilLearningProgressBaseGUI::_getStatusText($marks['status']);
+            $info->addSection($this->lng->txt("trac_progress") . ": " . ilObject::_lookupTitle($this->details_obj_id));
+            $info->addProperty($this->lng->txt('trac_mode'), $this->lng->txt('trac_mode_rubric'));
+            $info->addProperty($this->lng->txt('trac_status'), ilUtil::img($status_path, $status_text) . " " . $status_text);
+            $info->addProperty($this->lng->txt('trac_mark'), $marks['mark']);
+            $info->addProperty($this->lng->txt('trac_comment'), $marks['comments']);
+        } else {
+            $this->__appendLPDetails($info, $this->details_obj_id, $this->tracked_user->getId());
+            $this->__showObjectDetails($info, $this->details_obj_id, false);
+        }
         
         // Finally set template variable
         $this->tpl->setVariable("LM_INFO", $info->getHTML());
@@ -170,6 +189,47 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
         }
         
         $this->tpl->setVariable("LEGEND", $this->__getLegendHTML());
+
+        if ($this->details_mode == ilLPObjSettings::LP_MODE_RUBRIC) {
+            $rubricObj = new ilLPRubricGrade($this->getObjId());
+            $rubricGui = new ilLPRubricGradeGUI();
+            $a_user = ilObjectFactory::getInstanceByObjId($_SESSION['_authsession_user_id']);
+            if ($rubricObj->objHasRubric() && $rubricObj->isRubricComplete()) {
+                $rubricGui->setUserHistoryId($_REQUEST['grader_history']);
+                $rubricGui->setUserHistory($rubricObj->getUserHistory($_SESSION['_authsession_user_id']));
+                $rubricGui->setRubricData($rubricObj->load());
+                $rubricGui->setUserData($rubricObj->getRubricUserGradeData($_SESSION['_authsession_user_id'], $_REQUEST['grader_history']));
+                $rubricGui->setRubricComment($rubricObj->getRubricComment($_SESSION['_authsession_user_id'], $_REQUEST['grader_history']));
+                $this->tpl->setVariable(
+                    "LP_OBJECTS",
+                    $rubricGui->getStudentViewHTML(
+                        $this->ctrl->getFormAction($this),
+                        $a_user->getFullname(),
+                        $_SESSION['_authsession_user_id']
+                    )
+                );
+            }
+        }
+    }
+
+    function viewHistory()
+    {
+        $this->ctrl->setParameter($this, 'grader_history', $_POST['grader_history']);
+        $this->ctrl->redirect($this, 'details');
+    }
+
+    public function exportGradedPdf()
+    {
+        include_once("./Services/Tracking/classes/rubric/class.ilRubricPDF.php");
+        $rubricPDF = new ilRubricPDF($this->getObjId());
+        $rubricPDF->exportGradedPDF();
+    }
+
+    public function exportPDF()
+    {
+        include_once("./Services/Tracking/classes/rubric/class.ilRubricPDF.php");
+        $rubricPDF = new ilRubricPDF($this->getObjId());
+        $rubricPDF->exportPDF();
     }
 
     public function __showProgressList()
