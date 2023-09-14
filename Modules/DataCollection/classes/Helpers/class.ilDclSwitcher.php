@@ -44,7 +44,9 @@ class ilDclSwitcher
     {
         $links = [];
 
+        $this->ctrl->clearParameterByClass(ilObjDataCollectionGUI::class, "tableview_id");
         $this->ctrl->clearParameterByClass($target_class, "tableview_id");
+
         foreach ($tables as $table) {
             $this->ctrl->setParameterByClass($target_class, "table_id", $table->getId());
             $links[] = $this->ui_factory->link()->standard($table->getTitle(), $this->ctrl->getLinkTargetByClass($target_class, $target_cmd));

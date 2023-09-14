@@ -123,8 +123,7 @@ class ilDclDetailedViewGUI
         $this->ctrl->setParameter($this, 'tableview_id', $this->tableview_id);
 
         if (!$this->checkAccess()) {
-            $ref_id = $this->http->wrapper()->query()->retrieve('ref_id', $this->refinery->kindlyTo()->int());
-            if ($this->table->getVisibleTableViews($ref_id, true)) {
+            if ($this->table->getVisibleTableViews($this->dcl_gui_object->getRefId(), true)) {
                 $this->offerAlternativeViews();
             } else {
                 $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
@@ -205,7 +204,7 @@ class ilDclDetailedViewGUI
 
             $html = str_ireplace(
                 "[" . $field->getTitle() . "]",
-                $this->record_obj->getRecordFieldSingleHTML($field->getId()),
+                $this->record_obj->getRecordFieldSingleHTML($field->getId(), ['tableview_id' => $this->tableview_id]),
                 $html
             );
         }

@@ -347,7 +347,7 @@ class ilDclRecordListGUI
 
                 $field_id = $this->http->wrapper()
                                        ->query()
-                                       ->retrieve('field_id', $this->refinery->kindlyTo()->int());
+                                       ->retrieve('field_id', $this->refinery->kindlyTo()->string());
 
 
 

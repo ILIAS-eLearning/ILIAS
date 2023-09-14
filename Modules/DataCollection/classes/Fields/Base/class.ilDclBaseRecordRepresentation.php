@@ -97,7 +97,7 @@ class ilDclBaseRecordRepresentation
      */
     public function getSingleHTML(?array $options = null, bool $link = true): string
     {
-        return $this->getHTML($link);
+        return $this->getHTML($link, $options);
     }
 
     /**

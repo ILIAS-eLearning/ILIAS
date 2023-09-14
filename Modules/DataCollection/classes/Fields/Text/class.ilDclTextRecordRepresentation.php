@@ -59,13 +59,13 @@ class ilDclTextRecordRepresentation extends ilDclBaseRecordRepresentation
         ) && $link && ilDclDetailedViewDefinition::isActive($this->getTableViewId())) {
             $this->ctrl->clearParametersByClass("ilDclDetailedViewGUI");
             $this->ctrl->setParameterByClass(
-                'ilDclDetailedViewGUI',
+                ilDclDetailedViewGUI::class,
                 'record_id',
                 $this->getRecordField()->getRecord()->getId()
             );
             $this->ctrl->setParameterByClass('ilDclDetailedViewGUI', 'tableview_id', $this->getTableViewId());
             $html = '<a href="' . $this->ctrl->getLinkTargetByClass(
-                "ilDclDetailedViewGUI",
+                ilDclDetailedViewGUI::class,
                 'renderRecord'
             ) . '">' . $value . '</a>';
         } else {

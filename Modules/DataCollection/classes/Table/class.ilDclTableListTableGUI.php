@@ -71,9 +71,9 @@ class ilDclTableListTableGUI extends ilTable2GUI
         $this->setShowTemplates(false);
         $this->setEnableHeader(true);
         $this->setEnableTitle(true);
+        $this->setTitle($this->lng->txt('dcl_table_list_tables'));
         $this->setDefaultOrderDirection('asc');
 
-        $this->setTitle($this->lng->txt('dcl_table_list_tables'));
         $this->setRowTemplate('tpl.table_list_row.html', 'Modules/DataCollection');
         $this->setStyle('table', $this->getStyle('table') . ' ' . 'dcl_record_list');
 
