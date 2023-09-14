@@ -20,9 +20,11 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Component\Modal;
 
+use ILIAS\UI\Component\Component;
+
 /**
- * Defines allowed content(parts) of a DialogModal
+ *
  */
-interface ModalContent
+interface DialogResponse extends Component
 {
 }

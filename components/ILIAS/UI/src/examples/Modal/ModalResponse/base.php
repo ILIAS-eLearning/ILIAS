@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\UI\examples\Modal\ModalResponse;
+namespace ILIAS\UI\examples\Modal\DialogResponse;
 
 use ILIAS\UI\URLBuilder;
 
@@ -27,7 +27,7 @@ function base()
         "Title 3" => "Description 3"
     ]);
 
-    $response = $ui_factory->modal()->modalResponse(
+    $response = $ui_factory->modal()->dialogResponse(
         'This is the title of the Modal',
         ...$out
     );

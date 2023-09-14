@@ -15,8 +15,8 @@
 
 import il from 'il';
 import DOMParser from 'DOMParser';
-import ModalFactory from './modal.factory';
+import DialogFactory from './dialog.factory';
 
 il.UI = il.UI || {};
 il.UI.modal = il.UI.modal || {};
-il.UI.modal.dialog = new ModalFactory(DOMParser);
+il.UI.modal.dialog = new DialogFactory(DOMParser);

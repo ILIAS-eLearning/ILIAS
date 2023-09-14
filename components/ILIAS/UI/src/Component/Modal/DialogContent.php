@@ -18,17 +18,25 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\UI\Component\Input\Container\Form;
+namespace ILIAS\UI\Component\Modal;
 
 use ILIAS\UI\Component\Component;
-use ILIAS\Refinery\Transformation;
-use Psr\Http\Message\ServerRequestInterface;
-use ILIAS\UI\Component\Input\Container\Container;
-use ILIAS\UI\Component\Input\Input;
+use ILIAS\UI\Component\Button\Button;
 
 /**
- * This describes commonalities between all forms.
+ * Defines the allowed content of a DialogModal
  */
-interface Form extends Container
+interface DialogContent
 {
+    public function getDialogTitle(): string;
+
+    /**
+     * @return Button[]
+     */
+    public function getDialogButtons(): array;
+
+    /**
+     * @return Component[]
+     */
+    public function getDialogContent(): array;
 }
