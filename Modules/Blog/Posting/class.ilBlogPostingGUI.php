@@ -255,6 +255,7 @@ class ilBlogPostingGUI extends ilPageObjectGUI
     ): string {
         $this->setTemplateOutput(false);
 
+        $this->setPresentationTitle("");
         if (!$this->getAbstractOnly() && !$this->showPageHeading()) {
             if ($a_title !== "") {
                 $this->setPresentationTitle($a_title);
@@ -263,7 +264,6 @@ class ilBlogPostingGUI extends ilPageObjectGUI
             }
         }
         $this->getBlogPosting()->increaseViewCnt();
-
         return parent::showPage();
     }
 
