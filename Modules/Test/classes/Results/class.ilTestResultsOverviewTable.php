@@ -174,9 +174,9 @@ class ilTestResultsOverviewTable
             );
 
             $important = [
-                'ID:' => (string)$question->getId(),
-                'type: ' => $question->getType(),
-                'score: ' => sprintf(
+                $lng->txt('question_id') => (string)$question->getId(),
+                $lng->txt('question_type') => $question->getType(),
+                $lng->txt('points') => sprintf(
                     '%s/%s (%s%%)',
                     (string)$question->getUserScore(),
                     (string)$question->getQuestionScore(),
@@ -187,25 +187,30 @@ class ilTestResultsOverviewTable
             $user_answer = $question->getUserAnswer();
             $best_solution = $env->getShowBestSolution() ? $question->getBestSolution() : '';
 
-            $answers = $ui_factory->layout()->alignment()->horizontal()->evenlyDistributed(
-                $ui_factory->listing()->descriptive(['your answer' => $user_answer]),
-                $ui_factory->listing()->descriptive(['best solution' => $best_solution])
-            );
 
             $feedback = $ui_factory->listing()->descriptive([
-                'feedback' => $question->getFeedback()
+                $lng->txt('tst_feedback') => $question->getFeedback()
             ]);
 
             $contents = [];
+
             $contents[] = $stats;
             if ($env->getShowFeedback()) {
                 $contents[] = $feedback;
             }
-            $contents[] = $answers;
 
             if ($recap = $question->getRecapitulation()) {
-                $contents[] = $ui_factory->legacy($recap);
+                $contents[] = $ui_factory->listing()->descriptive([
+                    $lng->txt('suggested_solution') => $recap
+                ]);
             }
+
+
+            $answers = $ui_factory->layout()->alignment()->horizontal()->evenlyDistributed(
+                $ui_factory->listing()->descriptive([$lng->txt('tst_header_participant') => $user_answer]),
+                $ui_factory->listing()->descriptive([$lng->txt('tst_header_solution') => $best_solution])
+            );
+            $contents[] = $answers;
 
             $content = $ui_factory->layout()->alignment()->vertical(...$contents);
 
