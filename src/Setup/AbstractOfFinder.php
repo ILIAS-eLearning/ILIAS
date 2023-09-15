@@ -33,7 +33,9 @@ abstract class AbstractOfFinder
      * @var string[]
      */
     protected array $ignore = [
-        '.*/src/',
+        '.*/src/Setup/',
+        '.*/src/GlobalScreen/',
+        '.*/Customizing/.*/src/',
         '.*/libs/',
         '.*/test/',
         '.*/tests/',
@@ -101,7 +103,7 @@ abstract class AbstractOfFinder
             "|",
             array_map(
                 // fix path-separators to respect windows' backspaces.
-                fn ($v): string => "(" . str_replace('/', '(/|\\\\)', $v) . ")",
+                fn($v): string => "(" . str_replace('/', '(/|\\\\)', $v) . ")",
                 $ignore
             )
         );
