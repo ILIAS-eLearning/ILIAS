@@ -57,7 +57,9 @@ class ilSkillTemplateReference extends ilSkillTreeNode
             " WHERE skl_node_id = " . $ilDB->quote($this->getId(), "integer")
         );
         $rec = $ilDB->fetchAssoc($set);
-        $this->setSkillTemplateId((int) $rec["templ_id"]);
+        if ($rec = $ilDB->fetchAssoc($set)) {
+            $this->setSkillTemplateId((int) $rec["templ_id"]);
+        }
     }
 
     public function create(): void

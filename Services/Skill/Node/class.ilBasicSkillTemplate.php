@@ -52,4 +52,16 @@ class ilBasicSkillTemplate extends ilBasicSkill
 
         return $skill;
     }
+
+    public function delete(): void
+    {
+        $ilDB = $this->db;
+
+        $ilDB->manipulate(
+            "DELETE FROM skl_templ_ref WHERE "
+            . " templ_id = " . $ilDB->quote($this->getId(), "integer")
+        );
+
+        parent::delete();
+    }
 }
