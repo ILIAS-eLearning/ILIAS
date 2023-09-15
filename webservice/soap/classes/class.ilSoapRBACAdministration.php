@@ -421,7 +421,7 @@ class ilSoapRBACAdministration extends ilSoapAdministration
                 );
             }
 
-            include_once './Services/AccessControl/classes/class.ilObjRole.php';
+            include_once './components/ILIAS/AccessControl/classes/class.ilObjRole.php';
             $role = new ilObjRole();
             $role->setTitle($object_data['title']);
             $role->setDescription($object_data['description']);
@@ -489,7 +489,7 @@ class ilSoapRBACAdministration extends ilSoapAdministration
                 );
             }
 
-            include_once './Services/AccessControl/classes/class.ilObjRole.php';
+            include_once './components/ILIAS/AccessControl/classes/class.ilObjRole.php';
             $role = new ilObjRole();
             $role->setTitle($object_data['title']);
             $role->setDescription($object_data['description']);
@@ -727,7 +727,7 @@ class ilSoapRBACAdministration extends ilSoapAdministration
             );
         }
 
-        include_once './Services/Search/classes/class.ilQueryParser.php';
+        include_once './components/ILIAS/Search/classes/class.ilQueryParser.php';
 
         $query_parser = new ilQueryParser($key);
         $query_parser->setMinWordLength(3);
@@ -737,7 +737,7 @@ class ilSoapRBACAdministration extends ilSoapAdministration
             return $this->raiseError($query_parser->getMessage(), 'Client');
         }
 
-        include_once './Services/Search/classes/class.ilObjectSearchFactory.php';
+        include_once './components/ILIAS/Search/classes/class.ilObjectSearchFactory.php';
 
         $object_search = ilObjectSearchFactory::_getObjectSearchInstance($query_parser);
         $object_search->setFilter(array("role", "rolt"));

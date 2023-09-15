@@ -1,0 +1,15 @@
+{
+    "maintenance_model": "Classic",
+    "first_maintainer": "",
+    "second_maintainer": "",
+    "implicit_maintainers": [
+    ],
+    "coordinator": [
+        ""
+    ],
+    "tester": "",
+    "testcase_writer": "",
+    "path": "components/ILIAS/Excel",
+    "belong_to_component": "None",
+    "used_in_components": []
+}

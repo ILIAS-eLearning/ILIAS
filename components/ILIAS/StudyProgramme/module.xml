@@ -1,0 +1,57 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<module xmlns="http://www.w3.org" version="$Id: modules.xml 15671 2008-01-04 13:08:30Z klees $"
+	id="prg">
+	<baseclasses>
+	</baseclasses>
+	<objectgroups>
+		<objectgroup id="prg" name="StudyProgramme" default_pres_pos="30"/>
+	</objectgroups>
+	<objects>
+		<object id="prg" class_name="StudyProgramme" dir="classes" default_pos="30" default_pres_pos="30" checkbox="1" inherit="1" translate="db" allow_link="0" allow_copy="1" rbac="1" export="0" workspace="0" repository="1" orgunit_permissions="1">
+			<subobj id="rolf" max="1">rolf</subobj>
+			<subobj id="crsr" max="1">crsr</subobj>
+
+			<sub_type id="prg_type" amet="1" />
+
+			<parent id="prg">prg</parent>
+			<parent id="cat">cat</parent>
+			<parent id="recf">recf</parent>
+			<parent id="root">root</parent>
+		</object>
+		<object id="prgs" class_name="StudyProgrammeAdmin" dir="classes" checkbox="0" inherit="0" translate="sys" rbac="1" system="1" administration="1">
+			<parent id="adm" max="1">adm</parent>
+		</object>
+		<copage>
+			<pagecontent pc_type="prgstatusinfo" name="PRGStatusInfo" directory="classes/PageEditor" int_links="0" style_classes="0" xsl="0" def_enabled="0" top_item="1" order_nr="127"/>
+		</copage>
+	</objects>
+	<events>
+		<event type="listen" id="components/ILIAS/User" />
+		<event type="listen" id="components/ILIAS/Tracking" />
+		<event type="listen" id="components/ILIAS/Tree" />
+		<event type="listen" id="components/ILIAS/Object" />
+		<event type="listen" id="components/ILIAS/ContainerReference" />
+		<event type="listen" id="components/ILIAS/AccessControl" />
+		<event type="listen" id="components/ILIAS/StudyProgramme" />
+		<event type="listen" id="components/ILIAS/Course" />
+		<event type="listen" id="components/ILIAS/Group" />
+		<event type="listen" id="components/ILIAS/OrgUnit" />
+
+		<event type="raise" id="userAssigned" />
+		<event type="raise" id="userDeassigned" />
+		<event type="raise" id="userSuccessful" />
+	</events>
+	<crons>
+		<cron id="prg_invalidate_expired_progresses" class="ilPrgInvalidateExpiredProgressesCronJob" />
+		<cron id="prg_restart_assignments_temporal_progress" class="ilPrgRestartAssignmentsCronJob" />
+		<cron id="prg_user_not_restarted" class="ilPrgUserNotRestartedCronJob" />
+		<cron id="prg_user_risky_to_fail" class="ilPrgUserRiskyToFailCronJob" />
+		<cron id="prg_update_progress" class="ilPrgUpdateProgressCronJob" />
+	</crons>
+	<mailtemplates>
+		<context id="prg_context_manual" class="ilStudyProgrammeMailTemplateContext" />
+	</mailtemplates>
+	<pluginslots>
+		<pluginslot id="prgtypehk" name="StudyProgrammeTypeHook" />
+	</pluginslots>
+</module>

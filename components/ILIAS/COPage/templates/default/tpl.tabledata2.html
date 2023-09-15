@@ -1,0 +1,49 @@
+<div id="copg-ed-table-area">
+<style type="text/css">
+#tinytarget_ifr {
+    border: 2px solid #FFBB88 !important;
+}
+</style>
+
+<form action="{FORMACTION}" id="post" name="post" method="post">
+<input type="hidden" id="dtform_type" name="type" value="" />
+<input type="hidden" id="dtform_command" name="action" value="" />
+<input type="hidden" id="dtform_nr" name="id" value="" />
+<table id="ed_datatable" data-copg-ed-type="data-table" data-pcid="{PCID}" data-hierid="{HIERID}">
+<!-- BEGIN row -->
+<tr>
+	<!-- BEGIN empty_td -->
+	<th>&nbsp;</th>
+	<!-- END  empty_td -->
+	<!-- BEGIN col_icon -->
+	<th data-copg-ed-type="data-column-head" data-nr="{NR_COLUMN}" data-caption="{COLUMN_CAPTION}" data-pcid="{PCID_COLUMN}">
+
+	</th>
+	<!-- END col_icon -->
+	<!-- BEGIN row_icon -->
+	<th data-copg-ed-type="data-row-head" data-nr="{NR_ROW}" data-caption="{ROW_CAPTION}" data-pcid="{PCID_ROW}">
+
+	</th>
+	<!-- END row_icon -->
+	<!-- BEGIN cell -->
+	<td {COLSPAN} {ROWSPAN} id="td_{PAR_TA_ID}" <!-- BEGIN cell_type -->data-copg-ed-type="data-cell"<!-- END cell_type --> data-row="{PAR_ROW}" data-column="{PAR_COLUMN}">
+	<div id="div_{PAR_TA_ID}" style="padding:3px 10px;">{PAR_TA_CONTENT}</div><!-- td_div_end -->
+	</td>
+	<!-- END cell -->
+</tr>
+<!-- END row -->
+</table>
+</form>
+
+<!-- BEGIN int_link_prep -->
+{INT_LINK_PREP}
+<!-- END int_link_prep -->
+</div>
+
+<!-- BEGIN script -->
+<script type="module">
+	import editor from './components/ILIAS/COPage/Editor/js/src/editor.js';
+	window.il.copg = window.il.copg || {};
+	window.il.copg.editor = editor;
+</script>
+<!-- END script -->

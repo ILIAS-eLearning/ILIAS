@@ -1,0 +1,14 @@
+{
+    "maintenance_model": "Classic",
+    "first_maintainer": "ukohnle(21855)",
+    "second_maintainer": "smeyer(191)",
+    "implicit_maintainers": [],
+    "coordinator": [
+        ""
+    ],
+    "tester": "atoedt(3139)",
+    "testcase_writer": "atoedt(3139)",
+    "path": "components/ILIAS/LTI",
+    "belong_to_component": "LTI",
+    "used_in_components": []
+}

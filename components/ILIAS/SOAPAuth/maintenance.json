@@ -1,0 +1,14 @@
+{
+    "maintenance_model": "Classic",
+    "first_maintainer": "PerPascalSeeland(31492)",
+    "second_maintainer": "mjansen(8784)",
+    "implicit_maintainers": [],
+    "coordinator": [
+        ""
+    ],
+    "tester": "",
+    "testcase_writer": "",
+    "path": "components/ILIAS/SOAPAuth",
+    "belong_to_component": "SOAP",
+    "used_in_components": []
+}

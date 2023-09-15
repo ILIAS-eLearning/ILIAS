@@ -1,0 +1,14 @@
+{
+    "maintenance_model": "Classic",
+    "first_maintainer": "akill(149)",
+    "second_maintainer": "smeyer(191)",
+    "implicit_maintainers": [],
+    "coordinator": [
+        ""
+    ],
+    "tester": "atoedt(3139)",
+    "testcase_writer": "atoedt(3139)",
+    "path": "components/ILIAS/Help",
+    "belong_to_component": "Online Help",
+    "used_in_components": []
+}

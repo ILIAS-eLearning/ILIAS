@@ -48,7 +48,7 @@ class ilSoapUtils extends ilSoapAdministration
             return $this->raiseError($this->getMessage(), $this->getMessageCode());
         }
 
-        include_once "./Services/MediaObjects/classes/class.ilObjMediaObject.php";
+        include_once "./components/ILIAS/MediaObjects/classes/class.ilObjMediaObject.php";
         return ilObjMediaObject::_saveTempFileAsMediaObject($name, $tmp_name);
     }
 
@@ -64,7 +64,7 @@ class ilSoapUtils extends ilSoapAdministration
             return $this->raiseError($this->getMessage(), $this->getMessageCode());
         }
 
-        include_once "./Services/MediaObjects/classes/class.ilObjMediaObject.php";
+        include_once "./components/ILIAS/MediaObjects/classes/class.ilObjMediaObject.php";
         return ilObjMediaObject::_getMobsOfObject($a_type, $a_id);
     }
 
@@ -87,7 +87,7 @@ class ilSoapUtils extends ilSoapAdministration
         $ilLog = $DIC['ilLog'];
         $ilUser = $DIC['ilUser'];
 
-        include_once('Services/CopyWizard/classes/class.ilCopyWizardOptions.php');
+        include_once('components/ILIAS/CopyWizard/classes/class.ilCopyWizardOptions.php');
         $cp_options = ilCopyWizardOptions::_getInstance($copy_identifier);
 
         // Check owner of copy procedure
@@ -148,7 +148,7 @@ class ilSoapUtils extends ilSoapAdministration
 
         $ilUser = $DIC->user();
 
-        include_once('Services/CopyWizard/classes/class.ilCopyWizardOptions.php');
+        include_once('components/ILIAS/CopyWizard/classes/class.ilCopyWizardOptions.php');
         $cp_options = ilCopyWizardOptions::_getInstance($copy_identifier);
 
         // Check owner of copy procedure
@@ -260,7 +260,7 @@ class ilSoapUtils extends ilSoapAdministration
         $cp_options->dropFirstNode();
         if ($cp_options->isSOAPEnabled()) {
             // Start next soap call
-            include_once 'Services/WebServices/SOAP/classes/class.ilSoapClient.php';
+            include_once 'components/ILIAS/WebServices/SOAP/classes/class.ilSoapClient.php';
             $soap_client = new ilSoapClient();
             $soap_client->setResponseTimeout(1);
             $soap_client->enableWSDL(true);
@@ -280,7 +280,7 @@ class ilSoapUtils extends ilSoapAdministration
 
         if ($cp_options->isSOAPEnabled()) {
             // Start next soap call
-            include_once 'Services/WebServices/SOAP/classes/class.ilSoapClient.php';
+            include_once 'components/ILIAS/WebServices/SOAP/classes/class.ilSoapClient.php';
             $soap_client = new ilSoapClient();
             $soap_client->setResponseTimeout(1);
             $soap_client->enableWSDL(true);
@@ -331,7 +331,7 @@ class ilSoapUtils extends ilSoapAdministration
         }
 
         // rbac log
-        include_once "Services/AccessControl/classes/class.ilRbacLog.php";
+        include_once "components/ILIAS/AccessControl/classes/class.ilRbacLog.php";
         $rbac_log_roles = $rbacreview->getParentRoleIds($new_obj->getRefId(), false);
         $rbac_log = ilRbacLog::gatherFaPa($new_obj->getRefId(), array_keys($rbac_log_roles), true);
         ilRbacLog::add(ilRbacLog::COPY_OBJECT, $new_obj->getRefId(), $rbac_log, true);
@@ -446,7 +446,7 @@ class ilSoapUtils extends ilSoapAdministration
         }
 
         // rbac log
-        include_once "Services/AccessControl/classes/class.ilRbacLog.php";
+        include_once "components/ILIAS/AccessControl/classes/class.ilRbacLog.php";
         $rbac_log_roles = $rbacreview->getParentRoleIds($new_ref_id, false);
         $rbac_log = ilRbacLog::gatherFaPa($new_ref_id, array_keys($rbac_log_roles), true);
         ilRbacLog::add(ilRbacLog::LINK_OBJECT, $new_ref_id, $rbac_log, true);
@@ -473,7 +473,7 @@ class ilSoapUtils extends ilSoapAdministration
         $ilLog = $DIC->logger()->user();
 
         $ilLog->debug('Started deletion of inactive user objects with expired confirmation hash values (dual opt in) ...');
-        require_once 'Services/Registration/classes/class.ilRegistrationSettings.php';
+        require_once 'components/ILIAS/Registration/classes/class.ilRegistrationSettings.php';
         $oRegSettigs = new ilRegistrationSettings();
         $query = '';
 

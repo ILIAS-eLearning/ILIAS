@@ -27,7 +27,7 @@ if (
 ) {
     $factory = $DIC->ui()->factory();
     $message_box = $factory->messageBox()->failure("The file shib_login.php must be protected by Shibboleth, otherwise you cannot use Shibboleth authentication.")->withButtons([
-        $factory->button()->standard('Open Documentation', './Services/AuthShibboleth/README.md')
+        $factory->button()->standard('Open Documentation', './components/ILIAS/AuthShibboleth/README.md')
     ]);
 
     $DIC->ui()->mainTemplate()->setContent($DIC->ui()->renderer()->render($message_box));

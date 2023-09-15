@@ -1,0 +1,14 @@
+{
+    "maintenance_model": "Classic",
+    "first_maintainer": "mbecker(27266)",
+    "second_maintainer": "",
+    "implicit_maintainers": [],
+    "coordinator": [
+        ""
+    ],
+    "tester": "richtera(41247)",
+    "testcase_writer": "mbecker(27266)",
+    "path": "components/ILIAS/WorkflowEngine",
+    "belong_to_component": "Workflow Engine",
+    "used_in_components": []
+}

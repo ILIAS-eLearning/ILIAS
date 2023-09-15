@@ -66,7 +66,7 @@ abstract class AbstractProvider implements Provider
         }
         $reflector = new \ReflectionClass($this);
 
-        $re = "/.*[\\\|\\/](?P<provider>(Services|Modules)[\\\|\\/].*)[\\\|\\/]classes/m";
+        $re = "/.*[\\\|\\/](?P<provider>(components\/ILIAS)[\\\|\\/].*)[\\\|\\/]classes/m";
 
         preg_match($re, str_replace("\\", "/", $reflector->getFileName()), $matches);
 

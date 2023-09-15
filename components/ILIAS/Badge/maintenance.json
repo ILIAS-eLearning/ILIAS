@@ -1,0 +1,14 @@
+{
+    "maintenance_model": "Classic",
+    "first_maintainer": "mjansen(8784)",
+    "second_maintainer": "",
+    "implicit_maintainers": [],
+    "coordinator": [
+        ""
+    ],
+    "tester": "Thomas.schroeder(38330)",
+    "testcase_writer": "atoedt(3139)",
+    "path": "components/ILIAS/Badge",
+    "belong_to_component": "Badges",
+    "used_in_components": []
+}

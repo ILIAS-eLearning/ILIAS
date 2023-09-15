@@ -1,6 +1,0 @@
-<?xml version = "1.0" encoding = "UTF-8"?>
-<service xmlns="http://www.w3.org" id="saml">
-	<events>
-		<event type="listen" id="Services/Authentication" />
-	</events>
-</service>

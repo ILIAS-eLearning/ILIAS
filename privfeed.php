@@ -9,10 +9,10 @@
 * @version $Id$
 */
 
-include_once "Services/Context/classes/class.ilContext.php";
+include_once "components/ILIAS/Context/classes/class.ilContext.php";
 ilContext::init(ilContext::CONTEXT_RSS_AUTH);
 
-require_once("Services/Init/classes/class.ilInitialisation.php");
+require_once("components/ILIAS/Init/classes/class.ilInitialisation.php");
 ilInitialisation::initILIAS();
 
 global $lng, $ilSetting;
@@ -30,12 +30,12 @@ if (!isset($_SERVER['PHP_AUTH_PW']) || !isset($_SERVER['PHP_AUTH_USER'])) {
        (md5($_SERVER['PHP_AUTH_PW']) == ilObjUser::_getFeedPass($_GET["user_id"]) &&
         $_SERVER['PHP_AUTH_USER'] == ilObjUser::_lookupLogin($_GET["user_id"]))
         && $feed_set->get("enable_private_feed")) {
-        include_once("./Services/Feeds/classes/class.ilUserFeedWriter.php");
+        include_once("./components/ILIAS/Feeds/classes/class.ilUserFeedWriter.php");
         // Third parameter is true for private feed
         $writer = new ilUserFeedWriter($_GET["user_id"], $_GET["hash"], true);
         $writer->showFeed();
     } elseif ($_GET["ref_id"] != "" && md5($_SERVER['PHP_AUTH_PW']) == ilObjUser::_getFeedPass(ilObjUser::_lookupId($_SERVER['PHP_AUTH_USER']))) {
-        include_once("./Services/Feeds/classes/class.ilObjectFeedWriter.php");
+        include_once("./components/ILIAS/Feeds/classes/class.ilObjectFeedWriter.php");
         // Second parameter is optional to pass on to database-level to get news for logged-in users
         $writer = new ilObjectFeedWriter($_GET["ref_id"], ilObjUser::_lookupId($_SERVER['PHP_AUTH_USER']));
         $writer->showFeed();
@@ -48,8 +48,8 @@ if (!isset($_SERVER['PHP_AUTH_PW']) || !isset($_SERVER['PHP_AUTH_USER'])) {
             exit;
         }
 
-        include_once("./Services/Feeds/classes/class.ilFeedItem.php");
-        include_once("./Services/Feeds/classes/class.ilFeedWriter.php");
+        include_once("./components/ILIAS/Feeds/classes/class.ilFeedItem.php");
+        include_once("./components/ILIAS/Feeds/classes/class.ilFeedWriter.php");
 
         $blankFeedWriter = new ilFeedWriter();
         $feed_item = new ilFeedItem();

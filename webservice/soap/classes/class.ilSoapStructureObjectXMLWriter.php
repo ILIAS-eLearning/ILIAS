@@ -2,7 +2,7 @@
 
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once "./Services/Xml/classes/class.ilXmlWriter.php";
+include_once "./components/ILIAS/Xml/classes/class.ilXmlWriter.php";
 
 /**
  * XML writer class

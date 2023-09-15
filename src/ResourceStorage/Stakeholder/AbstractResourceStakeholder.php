@@ -78,7 +78,7 @@ abstract class AbstractResourceStakeholder implements ResourceStakeholder
         }
         $reflector = new \ReflectionClass($this);
 
-        $re = "/.*[\\\|\\/](?P<provider>(Services|Modules)[\\\|\\/].*)[\\\|\\/]classes/m";
+        $re = "/.*[\\\|\\/](?P<provider>(components\/ILIAS)[\\\|\\/].*)[\\\|\\/]classes/m";
 
         preg_match($re, str_replace("\\", "/", $reflector->getFileName()), $matches);
 

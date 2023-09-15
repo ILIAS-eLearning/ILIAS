@@ -1,0 +1,19 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<service xmlns="http://www.w3.org" version="$Id$" id="src">
+	<baseclasses>
+		<baseclass name="ilSearchControllerGUI" dir="classes" />
+	</baseclasses>
+	<objects>
+		<object id="seas" class_name="SearchSettings" dir="classes"
+			checkbox="0" inherit="0" translate="sys" rbac="1" system="1" administration="1">
+			<parent id="adm" max="1">adm</parent>
+		</object>
+	</objects>
+	<events>		
+		<event type="listen" id="components/ILIAS/Object" />
+	</events>
+	<crons>
+		<cron id="src_lucene_indexer" class="ilLuceneIndexer" path="components/ILIAS/Search/classes/Lucene/" />
+	</crons>
+	<logging />
+</service>

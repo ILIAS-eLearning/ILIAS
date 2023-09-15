@@ -44,8 +44,8 @@ function build() {
     then
      continue
     fi
-    mkdir -p ${BUILD_BASE_FOLDER}/Services/${NAME}
-    cp -r ${SERVICE}/* ${BUILD_BASE_FOLDER}/Services/${NAME}
+    mkdir -p ${BUILD_BASE_FOLDER}/components/ILIAS/${NAME}
+    cp -r ${SERVICE}/* ${BUILD_BASE_FOLDER}/components/ILIAS/${NAME}
   done
 
   declare -a MODULES

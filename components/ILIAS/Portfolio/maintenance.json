@@ -1,0 +1,14 @@
+{
+    "maintenance_model": "Classic",
+    "first_maintainer": "akill(149)",
+    "second_maintainer": "",
+    "implicit_maintainers": [],
+    "coordinator": [
+        ""
+    ],
+    "tester": "KlausVorkauf(5890)",
+    "testcase_writer": "KlausVorkauf(5890)",
+    "path": "components/ILIAS/Portfolio",
+    "belong_to_component": "Portfolio",
+    "used_in_components": []
+}

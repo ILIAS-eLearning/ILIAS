@@ -7,10 +7,10 @@ declare(strict_types=1);
  *
  * @author  Stefan Meyer <smeyer.ilias@gmx.de>
  */
-include_once './Services/Context/classes/class.ilContext.php';
+include_once './components/ILIAS/Context/classes/class.ilContext.php';
 ilContext::init(ilContext::CONTEXT_LTI_PROVIDER);
 
-require_once("Services/Init/classes/class.ilInitialisation.php");
+require_once("components/ILIAS/Init/classes/class.ilInitialisation.php");
 ilInitialisation::initILIAS();
 
 // authentication is done here ->

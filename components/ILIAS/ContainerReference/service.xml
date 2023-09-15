@@ -1,0 +1,14 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<service xmlns="http://www.w3.org" version="$Id$"
+	id="cntr">
+	<baseclasses>
+	</baseclasses>
+	<objects>
+	</objects>
+	<events>		
+		<event type="listen" id="components/ILIAS/Course" />
+		<event type="listen" id="components/ILIAS/Category" />
+		<event type="listen" id="components/ILIAS/StudyProgramme" />
+		<event type="raise" id="deleteReference" />
+	</events>
+</service>

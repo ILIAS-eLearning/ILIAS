@@ -168,7 +168,7 @@ class Renderer extends AbstractComponentRenderer
         if ($for_ui_demo) {
             $additional_js_files = [
                 iljQueryUtil::getLocaljQueryPath(),
-                './Services/JavaScript/js/Basic.js',
+                './components/ILIAS/JavaScript/js/Basic.js',
                 ilUIFramework::BOOTSTRAP_JS,
                 './node_modules/jquery-migrate/jquery-migrate.min.js',
             ];

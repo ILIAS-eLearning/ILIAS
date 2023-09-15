@@ -1,0 +1,14 @@
+{
+    "maintenance_model": "Classic",
+    "first_maintainer": "PerPascalSeeland(31492)",
+    "second_maintainer": "",
+    "implicit_maintainers": [],
+    "coordinator": [
+        ""
+    ],
+    "tester": "bogen(13815)",
+    "testcase_writer": "bogen(13815)",
+    "path": "components/ILIAS/RemoteWiki",
+    "belong_to_component": "ECS Interface",
+    "used_in_components": []
+}

@@ -1,0 +1,11 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<service xmlns="http://www.w3.org" version="$Id$" id="mmbr">
+	<baseclasses>
+		<baseclass name="ilMembershipOverviewGUI" dir="classes" />
+	</baseclasses>
+	<crons>
+		<cron id="mem_notification" class="ilMembershipCronNotifications" path="components/ILIAS/Membership/classes/Cron" />
+		<cron id="mem_min_members" class="ilMembershipCronMinMembers" path="components/ILIAS/Membership/classes/Cron" />
+	</crons>
+	<logging />
+</service>
