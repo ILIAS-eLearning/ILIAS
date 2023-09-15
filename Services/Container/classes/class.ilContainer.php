@@ -552,6 +552,7 @@ class ilContainer extends ilObject
                 $new_obj->update();
             } else {
                 $new_obj->setStyleSheetId($this->getStyleSheetId());
+                $new_obj->update();
             }
         }
 
