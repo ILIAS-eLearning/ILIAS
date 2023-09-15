@@ -210,6 +210,19 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
                 );
             }
         }
+
+        // END PATCH JKN RUBRIC
+
+        //START PATCH JKN GRADEBOOK
+        if ($this->details_mode == ilLPObjSettings::LP_MODE_GRADEBOOK) {
+            include_once("./Services/Tracking/classes/gradebook/class.ilLPGradebookGradeGUI.php");
+            include_once("./Services/Tracking/classes/gradebook/class.ilLPGradebookGrade.php");
+            $gradebookObj = new ilLPGradebookGrade($this->getObjId());
+            $gradebookGui = new ilLPGradebookGradeGUI($this->getObjId());
+            $gradebookGui->setUserGradeData($gradebookObj->getUserGradeData($_SESSION['_authsession_user_id']));
+            $this->tpl->setVariable("LP_OBJECTS", $gradebookGui->getStudentViewHTML());
+        }
+        //END PATCH JKN GRADEBOOK
     }
 
     function viewHistory()

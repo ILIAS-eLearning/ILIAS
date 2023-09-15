@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+
+<div class="ilAdminRow">
+    <div class="alert alert-danger" id="save-issue" role="alert"></div>
+    <div class="alert alert-success" role="alert"></div>
+    <div class="alert alert-info" role="alert"></div>
+</div>
+
+
+<div id="grade-header">
+    <div class="col-md-12">
+        <div class="col-md-6">
+            <div class="input-group">
+            <span class="input-group-addon" >
+                <a class='user-change user-left' id="prev" href="#">
+                    <span class="glyphicon glyphicon-arrow-left user-change user-left" aria-hidden="true"></span>
+                </a>
+            </span>
+                <select id='gradebook-users' class="form-control">
+                    {USER_OPTIONS}
+                </select>
+                <span class="input-group-addon" >
+                <a class='user-change' id="next" href="#">
+                    <span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span>
+                </a>
+            </span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="col-md-8 col-md-offset-1">
+                <select class="form-control pull-right" id="revision">
+                    {GRADEBOOK_REVISIONS}
+                </select>
+            </div>
+            <div class="col-md-3">
+                <input id='changeRevision' class="btn btn-default btn-sm pull-right" type="button" value="Change">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="confirm-revision-change" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                Confirm Revision Switch
+            </div>
+            <div class="modal-body">
+                Are you sure you want to switch from</br>
+                <span id="originalRevision"></span></br>
+                To Revision</br>
+                <span id="newRevision"></span></br>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <a id='confirmChangeRevision' class="btn btn-warning btn-ok">Change Revision</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id='grade-bar' class="col-md-12">
+    <div class="col-md-4">
+        <h3 id="overall-grade"></h3>
+    </div>
+    <div class="col-md-4">
+        <h3 id="adjusted-grade"></h3>
+    </div>
+    <div class="col-md-4">
+        <h3 id="overall-progress"></h3>
+    </div>
+</div>
+
+<div id="courseStatusTop" class="col-md-12">
+    <div class="col-md-5">
+        <h2>
+            {OVERALL_STATUS}
+        </h2>
+        <span class="pull-left"></span>
+    </div>
+</div>
+
+<div id='grade-table' class="col-md-12">
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>{LPTYPE}</th>
+            <th>{DEPTH}</th>
+            <th>{WEIGHT}</th>
+            <th>{ACTUAL}</th>
+            <th>{ADJUSTED}</th>
+            <th>{STATUS}</th>
+            <th>{OBJECT}</th>
+            <th>{TITLE}</th>
+            <th>{GRADED_ON}</th>
+            <th>{GRADED_BY}</th>
+        </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <div style="margin-top:20px;"><div class="panel panel-default">
+
+        <div class="panel-body">
+                <div class="col-md-2 col-md-offset-10">
+                    <div id="courseStatusBottom" class=" pull-right"></div>
+                </div>
+                <div class="col-md-2 col-md-offset-10">
+                    <div id="saveButtonBottom" class=" pull-right"></div>
+                </div>
+        </div>
+
+    </div></div>
+</div>
+<div style="margin-top:20px;">{LEGEND}</div>
+</body>
+</html> 

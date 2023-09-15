@@ -54,9 +54,21 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
                     $this->__setSubTabs(self::LP_ACTIVE_MATRIX);
                 } elseif (stristr($this->ctrl->getCmd(), "summary")) {
                     $this->__setSubTabs(self::LP_ACTIVE_SUMMARY);
+                // START PATCH JKN RUBRIC
                 } else if (stristr($this->ctrl->getCmd(), "rubric")) {
                     $this->__setSubTabs(self::LP_ACTIVE_RUBRIC);
-                } else {
+                }
+                // END PATCH JKN RUBRIC
+                // START PATCH JKN GRADEBOOK
+                else if (stristr($this->ctrl->getCmd(), "showGradebookWeight")) {
+                    $this->__setSubTabs(self::LP_ACTIVE_GRADEBOOK);
+                } else if (stristr($this->ctrl->getCmd(), "showGradebookCourseParticipants")) {
+                    $this->__setSubTabs(self::LP_ACTIVE_PARTICIPANT);
+                } else if (stristr($this->ctrl->getCmd(), "showGradebookStudentGrade")) {
+                    $this->__setSubTabs(self::LP_ACTIVE_GRADEBYSTUDENT);
+                }
+                // END PATCH JKN GRADEBOOK 
+                else {
                     $this->__setSubTabs(self::LP_ACTIVE_OBJECTS);
                 }
                 $loo_gui = new ilLPListOfObjectsGUI($this->getMode(), $this->getRefId());
