@@ -3436,8 +3436,12 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
                     $result_summary_settings = $result_summary_settings->withPassDeletionAllowed((bool) $metadata["entry"]);
                     break;
                 case "show_summary":
-                    $participant_functionality_settings = $participant_functionality_settings->withQuestionListMode((int) $metadata["entry"]);
+                    $participant_functionality_settings = $participant_functionality_settings->withUsrPassOverviewMode((int) $metadata["entry"]);
                     break;
+                case "question_list":
+                    $participant_functionality_settings = $participant_functionality_settings->withQuestionListEnabled((bool) $metadata["entry"]);
+                    break;
+
                 case "reporting_date":
                     $result_summary_settings = $result_summary_settings->withReportingDate(
                         $metadata['ReportingDate'] !== null ?
@@ -3869,6 +3873,11 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "score_reporting");
         $a_xml_writer->xmlElement("fieldentry", null, sprintf("%d", $this->getScoreReporting()));
+        $a_xml_writer->xmlEndTag("qtimetadatafield");
+
+        $a_xml_writer->xmlStartTag("qtimetadatafield");
+        $a_xml_writer->xmlElement("fieldlabel", null, "question_list");
+        $a_xml_writer->xmlElement("fieldentry", null, sprintf("%d", $main_settings->getParticipantFunctionalitySettings()->getQuestionListEnabled()));
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
         $a_xml_writer->xmlStartTag("qtimetadatafield");
