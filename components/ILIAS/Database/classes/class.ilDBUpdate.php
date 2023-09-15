@@ -243,7 +243,7 @@ class ilDBUpdate
         return (int) $version;
     }
 
-    private function readCustomUpdatesInfo(bool $a_force = false): void
+    public function readCustomUpdatesInfo(bool $a_force = false): void
     {
         if ($this->custom_updates_info_read && !$a_force) {
             return;

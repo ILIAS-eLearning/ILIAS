@@ -6442,7 +6442,7 @@ Cells and its content are responsively adapted if the size of the screen is chan
         'PresentationTable' => 'While both the Entity Listing and the Presentation Table share an explorative character, the Presentation Table might still list all kinds of aggregated data; Entity Listings provide solely Entities. Also, Presentation Table will not display all information at once, so the Entity Listing will widen the range of anticipated user intents.',
       ),
     ),
-    'background' => '../../../docu/UI-Repository-Item_proposal.md, ../../../docu/ux-guide-repository-objects-properties-and-actions.md',
+    'background' => '../../docu/UI-Repository-Item_proposal.md, ../../docu/ux-guide-repository-objects-properties-and-actions.md',
     'context' => 
     array (
     ),
