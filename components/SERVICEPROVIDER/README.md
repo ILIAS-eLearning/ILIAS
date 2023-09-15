@@ -1,0 +1,3 @@
+# Serviceprovider
+
+... for customized plugins
