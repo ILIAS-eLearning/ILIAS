@@ -1968,7 +1968,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
                     if (
                         $this->settings->get(
                             'session_allow_client_maintenance',
-                            ilSessionControl::DEFAULT_ALLOW_CLIENT_MAINTENANCE
+                            (string) ilSessionControl::DEFAULT_ALLOW_CLIENT_MAINTENANCE
                         )
                     ) {
                         // has to be done BEFORE updating the setting!

@@ -31,39 +31,6 @@
     "enabled": true,
     "actions": [
       {
-        "action": "\\CaptainHook\\App\\Hook\\PHP\\Action\\Linting",
-        "options": [],
-        "conditions": []
-      },
-      {
-        "action": "libs/composer/vendor/friendsofphp/php-cs-fixer/php-cs-fixer fix --config=./CI/PHP-CS-Fixer/code-format.php_cs --using-cache=no --dry-run -vvv {$STAGED_FILES|of-type:php}",
-        "options": [],
-        "conditions": [
-          {
-            "exec": "\\CaptainHook\\App\\Hook\\Condition\\FileStaged\\Any",
-            "args": [
-              [
-                "*.php"
-              ]
-            ]
-          }
-        ]
-      },
-      {
-        "action": "npx eslint --fix {$STAGED_FILES|of-type:js}",
-        "options": [],
-        "conditions": [
-          {
-            "exec": "\\CaptainHook\\App\\Hook\\Condition\\FileStaged\\Any",
-            "args": [
-              [
-                "*.js"
-              ]
-            ]
-          }
-        ]
-      },
-      {
         "action": "CI/sort_langfile_entries.sh check",
         "options": [],
         "conditions": [
