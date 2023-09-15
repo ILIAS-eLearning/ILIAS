@@ -129,7 +129,7 @@ class ilVirtualSkillTreeExplorerGUI extends ilExplorerBaseGUI
     {
         $lng = $this->lng;
 
-        $a_parent_id_parts = explode(":", $a_node["id"]);
+        $a_parent_id_parts = explode(":", (string) $a_node["id"]);
         $a_parent_skl_tree_id = (int) $a_parent_id_parts[0];
         $a_parent_skl_template_tree_id = isset($a_parent_id_parts[1]) ? (int) $a_parent_id_parts[1] : 0;
 
@@ -155,7 +155,7 @@ class ilVirtualSkillTreeExplorerGUI extends ilExplorerBaseGUI
      */
     public function getNodeIcon($a_node): string
     {
-        $a_id_parts = explode(":", $a_node["id"]);
+        $a_id_parts = explode(":", (string) $a_node["id"]);
         $a_skl_template_tree_id = isset($a_id_parts[1]) ? (int) $a_id_parts[1] : 0;
 
         // root?
@@ -188,7 +188,7 @@ class ilVirtualSkillTreeExplorerGUI extends ilExplorerBaseGUI
 
         // we have a tree id like <skl_tree_id>:<skl_template_tree_id> here
         // use this, if you want a "common" skill id in format <skill_id>:<tref_id>
-        $id_parts = explode(":", $a_node["id"]);
+        $id_parts = explode(":", (string) $a_node["id"]);
         if (!isset($id_parts[1]) || $id_parts[1] == 0) {
             // skill in main tree
             $skill_id = $a_node["id"];
