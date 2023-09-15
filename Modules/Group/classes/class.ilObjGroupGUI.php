@@ -932,8 +932,8 @@ class ilObjGroupGUI extends ilContainerGUI
         $profile_data = ilObjUser::_readUsersProfileData($ids);
         $members = [];
         foreach ($ids as $usr_id) {
-            $tmp_data['notification'] = $this->object->members_obj->isNotificationEnabled($usr_id) ? 1 : 0;
-            $tmp_data['contact'] = $this->object->members_obj->isContact($usr_id) ? 1 : 0;
+            $tmp_data['notification'] = (bool) $this->object->members_obj->isNotificationEnabled((int) $usr_id) ? 1 : 0;
+            $tmp_data['contact'] = (bool) $this->object->members_obj->isContact((int) $usr_id) ? 1 : 0;
 
             foreach ((array) ($profile_data[$usr_id] ?? []) as $field => $value) {
                 $tmp_data[$field] = $value;
