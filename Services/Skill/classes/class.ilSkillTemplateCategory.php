@@ -38,6 +38,8 @@ class ilSkillTemplateCategory extends ilSkillTreeNode
 
     public function delete()
     {
+        $ilDB = $this->db;
+
         $sctp_id = $this->getId();
         $childs = $this->skill_tree->getChildsByTypeFilter(
             $sctp_id,
@@ -56,6 +58,11 @@ class ilSkillTemplateCategory extends ilSkillTreeNode
                     break;
             }
         }
+
+        $ilDB->manipulate(
+            "DELETE FROM skl_templ_ref WHERE "
+            . " templ_id = " . $ilDB->quote($this->getId(), "integer")
+        );
 
         parent::delete();
     }
