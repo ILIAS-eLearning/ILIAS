@@ -464,6 +464,11 @@ class Container extends \Pimple\Container
         return new \ILIAS\Certificate\Service\CertificateService($this);
     }
 
+    public function fileDelivery(): \ILIAS\FileDelivery\Services
+    {
+        return $this['file_delivery'];
+    }
+
     /**
      * Note: Only use isDependencyAvailable if strictly required. The need for this,
      * mostly points to some underlying problem needing to be solved instead of using this.
