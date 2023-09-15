@@ -115,7 +115,7 @@ class ImplementationOfAgentFinder implements AgentFinder
         // TODO: This seems to be something that rather belongs to components/ILIAS/Component/
         // but we put it here anyway for the moment. This seems to be something that
         // could go away when we unify components/ILIAS/Modules/Plugins to one common concept.
-        $path = "[/]Customizing/global/plugins/.*/.*/" . $name . "/.*";
+        $path = "[/]components/SERVICEPROVIDER/.*/.*/" . $name . "/.*";
         $agent_classes = iterator_to_array($this->interface_finder->getMatchingClassNames(
             Agent::class,
             [],
@@ -180,12 +180,12 @@ class ImplementationOfAgentFinder implements AgentFinder
     {
         $directories =
             new \RecursiveIteratorIterator(
-                new \RecursiveDirectoryIterator(__DIR__ . "/../../Customizing/global/plugins/")
+                new \RecursiveDirectoryIterator(__DIR__ . "/../../components/SERVICEPROVIDER/")
             );
         $names = [];
         foreach ($directories as $dir) {
             $groups = [];
-            if (preg_match("%^" . __DIR__ . "/[.][.]/[.][.]/Customizing/global/plugins/((Modules)|(Services))/((\\w+/){2})([^/\.]+)(/|$)%", (string) $dir, $groups)) {
+            if (preg_match("%^" . __DIR__ . "/[.][.]/[.][.]/components/SERVICEPROVIDER/([^/\.]+)(/|$)%", (string) $dir, $groups)) {
                 $name = $groups[6];
                 if (isset($names[$name])) {
                     continue;

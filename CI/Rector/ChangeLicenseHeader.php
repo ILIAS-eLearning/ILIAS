@@ -28,7 +28,7 @@ use Rector\NodeTypeResolver\Node\AttributeKey as AttributeKeys;
 final class ChangeLicenseHeader extends AbstractRector
 {
     public const EXISTING_LICENSE_PATTERN = '(copyright|Copyright|GPL-3\.0|GPLv3|LICENSE)';
-    public const IGNORE_SUBPATHS = '(lib|vendor|data|Customizing)';
+    public const IGNORE_SUBPATHS = '(lib|vendor|data|Customizing|components/SERVICEPROVIDER)';
     private string $license_header_default = "/**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.

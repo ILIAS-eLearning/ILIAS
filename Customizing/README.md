@@ -5,7 +5,6 @@
 1. [Introduction](#introduction)
 1. [System Language Changes](#system-language-changes)
 1. [Skins and Styles](#skins-and-styles)
-1. [Plugins](#plugins)
 
 <!-- /MarkdownTOC -->
 
@@ -50,9 +49,3 @@ Example:
 
 You find all information about how to create your own skin in the [Custom
 Styles](/templates/Readme.md#custom-styles) documentation.
-
-<a name="plugins"></a>
-## Plugins
-
-Plugins are installed under `/global/plugins`. Each plugin should come with its
-own documentation stating the exact target directory.

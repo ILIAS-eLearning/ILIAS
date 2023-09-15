@@ -20,7 +20,7 @@ use ILIAS\Setup;
 
 class ilComponentBuildPluginInfoObjective extends Setup\Artifact\BuildArtifactObjective
 {
-    protected const BASE_PATH = "./Customizing/global/plugins/";
+    protected const BASE_PATH = "./components/SERVICEPROVIDER/";
     protected const PLUGIN_PHP = "plugin.php";
     protected const PLUGIN_CLASS_FILE = "classes/class.il%sPlugin.php";
 

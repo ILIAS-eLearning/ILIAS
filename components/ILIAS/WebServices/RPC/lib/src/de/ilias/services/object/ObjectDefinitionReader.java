@@ -45,7 +45,7 @@ public class ObjectDefinitionReader {
 	private static HashMap<File, ObjectDefinitionReader> instances = new HashMap<File, ObjectDefinitionReader>();
 	
 	public static final String objectPropertyName = "LuceneObjectDefinition.xml";
-	public static final String pluginPath = "Customizing/global/plugins";
+	public static final String pluginPath = "components/SERVICEPROVIDER";
 
 
 	private Vector<File> objectPropertyFiles = new Vector<File>();

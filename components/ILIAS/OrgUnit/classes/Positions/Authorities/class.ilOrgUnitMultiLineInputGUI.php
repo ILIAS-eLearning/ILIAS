@@ -221,7 +221,7 @@ class ilOrgUnitMultiLineInputGUI extends \ilFormPropertyGUI
             "tpl.multi_line_input.html",
             true,
             true,
-            'Customizing/global/plugins/Services/Repository/RepositoryObject/LiveVoting'
+            'components/SERVICEPROVIDER/Repository/RepositoryObject/LiveVoting'
         );
         $class = 'multi_input_line';
         $this->addCustomAttribute('class', $class, true);

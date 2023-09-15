@@ -33,7 +33,7 @@ priority ‘low’, ‘normal’ or ‘high’ and can have a status like ‘new
 
 ```php
 <?php
-require_once('./Customizing/global/plugins/Libraries/ActiveRecord/class.ActiveRecord.php');
+require_once('./components/SERVICEPROVIDER/Libraries/ActiveRecord/class.ActiveRecord.php');
 require_once(dirname(__FILE__) . '/../../Connector/class.arConnectorSession.php');
  
 /**
