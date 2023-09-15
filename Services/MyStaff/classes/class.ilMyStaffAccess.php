@@ -354,7 +354,7 @@ class ilMyStaffAccess extends ilObjectAccess
 				and orgu_ua.user_id = " . $DIC->database()->quote(
             $user_id,
             'integer'
-        ) . " AND perm.operations REGEXP '[\\[,]\"?"
+        ) . " AND perm.operations REGEXP '[\\\[,]\"?"
             . $operation->getOperationId() . "\"?[\],]'
 				WHERE perm.parent_id = -1";
 
