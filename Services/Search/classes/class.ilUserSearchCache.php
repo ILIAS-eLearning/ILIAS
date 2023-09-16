@@ -467,10 +467,10 @@ class ilUserSearchCache
         $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $this->search_result = (array) unserialize((string) $row->search_result);
-            if (strlen($row->checked)) {
+            if (strlen((string) $row->checked)) {
                 $this->checked = (array) unserialize((string) $row->checked);
             }
-            if (strlen($row->failed)) {
+            if (strlen((string) $row->failed)) {
                 $this->failed = (array) unserialize((string) $row->failed);
             }
             $this->page_number = (int) $row->page;
