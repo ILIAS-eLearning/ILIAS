@@ -446,9 +446,9 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
         $info["news_title"] =
             ilStr::shortenWords(
                 ilNewsItem::determineNewsTitle(
-                    $news["context_obj_type"],
-                    $news["title"],
-                    $news["content_is_lang_var"],
+                    $news["context_obj_type"] ?? "",
+                    $news["title"] ?? "",
+                    $news["content_is_lang_var"] ?? false,
                     $news["agg_ref_id"] ?? 0,
                     $news["aggregation"] ?? []
                 )
@@ -790,9 +790,9 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
             $tpl->setVariable(
                 "VAL_TITLE",
                 ilNewsItem::determineNewsTitle(
-                    $item["context_obj_type"],
-                    $item["title"],
-                    $item["content_is_lang_var"],
+                    $item["context_obj_type"] ?? "",
+                    $item["title"] ?? "",
+                    $item["content_is_lang_var"] ?? false,
                     $item["agg_ref_id"] ?? 0,
                     $item["aggregation"] ?? []
                 )
@@ -818,6 +818,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
                               ->withTargetURL($ilCtrl->getLinkTarget($this, "showNews"), "news_page")
                               ->withTotalEntries(count($this->getData()))
                               ->withPageSize(1)
+                              ->withMaxPaginationButtons(10)
                               ->withCurrentPage($curr_cnt - 1);
         $panel = $panel->withViewControls([$pagination]);
 
