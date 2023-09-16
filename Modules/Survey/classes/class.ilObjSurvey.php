@@ -976,7 +976,7 @@ class ilObjSurvey extends ilObject
             if (strcmp($data["outro"], "survey_finished") === 0) {
                 $this->setOutro($this->lng->txt("survey_finished"));
             } else {
-                $this->setOutro(ilRTE::_replaceMediaObjectImageSrc($data["outro"], 1));
+                $this->setOutro(ilRTE::_replaceMediaObjectImageSrc((string) $data["outro"], 1));
             }
             $this->setShowQuestionTitles((bool) $data["show_question_titles"]);
             $this->setStartDate((string) ($data["startdate"] ?? ""));
