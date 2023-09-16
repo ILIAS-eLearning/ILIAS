@@ -121,7 +121,7 @@ class ilBookingReservation
     public function setStatus(?int $a_status): void
     {
         if ($a_status === null) {
-            $this->status = null;
+            $this->status = 0;
         }
         if (self::isValidStatus((int) $a_status)) {
             $this->status = (int) $a_status;
