@@ -103,7 +103,6 @@ class ilObjContentObject extends ilObject
     public function create(
         bool $a_no_meta_data = false
     ): int {
-        $this->setOfflineStatus(true);
         $id = parent::create();
 
         // meta data will be created by
