@@ -31,8 +31,6 @@ class ilObjFileBasedLM extends ilObject
     ) {
         global $DIC;
 
-        // default is offline
-        $this->setOfflineStatus(true);
 
         $this->db = $DIC->database();
         // this also calls read() method! (if $a_id is set)
