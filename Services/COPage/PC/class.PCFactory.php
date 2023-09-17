@@ -76,7 +76,7 @@ class PCFactory
             $mal_node = $child_node->firstChild;
             //echo "ilPageObject::getContentObject:nodename:".$mal_node->node_name().":<br>";
             $id_arr = explode("_", $mal_node->getAttribute("OriginId"));
-            $mob_id = $id_arr[count($id_arr) - 1];
+            $mob_id = (int) $id_arr[count($id_arr) - 1];
 
             // see also #32331
             if (\ilObject::_lookupType($mob_id) !== "mob") {

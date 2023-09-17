@@ -21,7 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\Repository\Form;
 
 use ILIAS\UI\Component\Input\Container\Form;
-use ILIAS\UI\Component\Input\Field\FormInput;
+use ILIAS\UI\Component\Input\Container\Form\FormInput;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
