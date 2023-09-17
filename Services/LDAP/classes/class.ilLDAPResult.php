@@ -35,7 +35,7 @@ class ilLDAPResult
      */
     private $result;
 
-    private ?array $rows;
+    private array $rows = [];
     private ?array $last_row;
 
     /**
@@ -114,7 +114,6 @@ class ilLDAPResult
     private function addEntriesToRows(array $entries): void
     {
         $num = $entries['count'];
-        $this->rows = [];
         if ($num === 0) {
             return;
         }
