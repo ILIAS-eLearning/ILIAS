@@ -34,6 +34,10 @@ This component implements the ILIAS page editor as being used e.g. in learning m
  
 - See [MediaObjects/Readme](../MediaObjects/README.md)
 
+## Accordions and Media
+
+- Accordions currently to not interact with media when being closed. Players will continue to play, See [ROADMAP.md](ROADMAP.md)
+
 ## Editing: Save, Cancel, Finish
 
 - The text editing in slate in ILIAS 7 contained a "Save and Return" and "Cancel" button. However, save actions have been performed during editing process e.g. due to auto-saving or the creation of new text paragraphs (hitting return) or creating surrounding sections. This made the semantics of both buttons weak, since the save button was not the only trigger for save actions and the cancel button did not tell which action is currently "cancelled". See https://mantis.ilias.de/view.php?id=31436

@@ -48,6 +48,11 @@ See https://mantis.ilias.de/view.php?id=29680
 
 This code is copied from an older mediawiki version. I compares two versions of page HTML outputs and marks differences. The code should either be replaced by a lib that provides the same functionality, refactored and integrated into own code or at least replaced by an up-to-date code excerpt from mediawiki.
 
+
+### Accordions and Media
+
+Currently media players continue to play if accordions are being closed. A generalised event handling should allow components to act on show/hide events.
+
 ### Lower Cyclomatic Complexity (Ongoing)
 
 This component suffers from record high cyclomatic complexity numbers. Refactorings should target and split up methods and classes to gain better maintainability.
