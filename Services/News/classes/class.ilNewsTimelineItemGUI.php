@@ -148,7 +148,10 @@ class ilNewsTimelineItemGUI implements ilTimelineItemInt
             $tpl->parseCurrentBlock();
         }
 
-        $tpl->setVariable("USER_IMAGE", ilObjUser::_getPersonalPicturePath($i->getUserId(), "small"));
+        $p = $this->gui->profile();
+        $tpl->setVariable("USER_AVATAR", $this->gui->ui()->renderer()->render(
+            $p->getAvatar($i->getUserId())
+        ));
         $tpl->setVariable(
             "TITLE",
             ilNewsItem::determineNewsTitle($i->getContextObjType(), $i->getTitle(), $i->getContentIsLangVar())
@@ -157,9 +160,8 @@ class ilNewsTimelineItemGUI implements ilTimelineItemInt
         // content
         $tpl->setVariable("CONTENT", $news_renderer->getTimelineContent());
 
-        $tpl->setVariable("TXT_USR", ilUserUtil::getNamePresentation(
+        $tpl->setVariable("TXT_USR", $p->getNamePresentation(
             $i->getUserId(),
-            false,
             true,
             $this->ctrl->getLinkTargetByClass("ilnewstimelinegui")
         ));

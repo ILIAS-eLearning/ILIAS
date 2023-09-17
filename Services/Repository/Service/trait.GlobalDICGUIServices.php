@@ -34,6 +34,7 @@ use ILIAS\Repository\Link\LinkAdapterGUI;
 use ILIAS\Repository\Symbol\SymbolAdapterGUI;
 use ILIAS\Repository\Listing\ListingAdapterGUI;
 use ILIAS\Repository\HTTP\HTTPUtil;
+use ILIAS\Repository\Profile\ProfileGUI;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -51,6 +52,11 @@ trait GlobalDICGUIServices
     public function ui(): UIServices
     {
         return $this->DIC->ui();
+    }
+
+    public function lng(): \ilLanguage
+    {
+        return $this->DIC->language();
     }
 
     public function object(): \ilObjectService
@@ -197,6 +203,14 @@ trait GlobalDICGUIServices
     public function listing(
     ): ListingAdapterGUI {
         return new ListingAdapterGUI(
+        );
+    }
+
+    public function profile(): ProfileGUI
+    {
+        return new ProfileGUI(
+            $this->lng(),
+            $this->ui()->factory()
         );
     }
 }

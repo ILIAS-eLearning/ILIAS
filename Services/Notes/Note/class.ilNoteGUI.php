@@ -782,8 +782,9 @@ class ilNoteGUI
         $img_alt = "";
         $avatar = null;
         if ($note->getType() === Note::PUBLIC) {
-            $avatar = ilObjUser::_getAvatar($note->getAuthor());
-            $title = ilUserUtil::getNamePresentation($note->getAuthor(), false, false);
+            $p = $this->gui->profile();
+            $avatar = $p->getAvatar($note->getAuthor());
+            $title = $p->getNamePresentation($note->getAuthor());
             $properties[$this->lng->txt("create_date")] = $creation_date;
         } else {
             $title = $creation_date;
