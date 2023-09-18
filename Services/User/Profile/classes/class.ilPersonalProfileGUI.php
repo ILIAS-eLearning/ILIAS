@@ -892,6 +892,7 @@ class ilPersonalProfileGUI
                 $this->lng->txt('saved_successfully')
             );
             $this->showPublicProfile();
+            return;
         }
 
         $this->tpl->setOnScreenMessage('failure', $this->lng->txt('email_could_not_be_changed'));
