@@ -36,15 +36,15 @@ class ilDclMobRecordRepresentation extends ilDclFileuploadRecordRepresentation
         if (is_array($value) && $has_ilfilehash) {
             $ilfilehash = $this->http->wrapper()->post()->retrieve('ilfilehash', $this->refinery->kindlyTo()->string());
 
-            $this->ctrl->setParameterByClass("ildclrecordlistgui", "ilfilehash", $ilfilehash);
+            $this->ctrl->setParameterByClass(ilDclRecordListGUI::class, "ilfilehash", $ilfilehash);
             $this->ctrl->setParameterByClass(
-                "ildclrecordlistgui",
+                ilDclRecordListGUI::class,
                 "field_id",
                 $this->getRecordField()->getField()->getId()
             );
 
             return '<a href="' . $this->ctrl->getLinkTargetByClass(
-                "ildclrecordlistgui",
+                    ilDclRecordListGUI::class,
                 "sendFile"
             ) . '">' . $value['name'] . '</a>';
         }

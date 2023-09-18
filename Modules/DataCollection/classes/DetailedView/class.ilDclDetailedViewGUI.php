@@ -165,7 +165,7 @@ class ilDclDetailedViewGUI
         $ilTabs->setTabActive("id_content");
 
         if (!$this->tableview_id) {
-            $ilCtrl->redirectByClass("ildclrecordlistgui", "listRecords");
+            $ilCtrl->redirectByClass(ilDclRecordListGUI::class, "listRecords");
         }
 
         // see ilObjDataCollectionGUI->executeCommand about instantiation

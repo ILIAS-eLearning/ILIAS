@@ -573,7 +573,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI
                 );
                 break;
         }
-        $this->ctrl->redirectByClass("ildclrecordlistgui", "show");
+        $this->ctrl->redirectByClass(ilDclRecordListGUI::class, "show");
     }
 
     protected function addHeaderAction(): void
@@ -581,7 +581,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI
         ilObjectListGUI::prepareJsLinks(
             $this->ctrl->getLinkTarget($this, "redrawHeaderAction", "", true),
             "",
-            $this->ctrl->getLinkTargetByClass(["ilcommonactiondispatchergui", "iltagginggui"], "", "", true)
+            $this->ctrl->getLinkTargetByClass([ilCommonActionDispatcherGUI::class, ilTaggingGUI::class], "", "", true)
         );
 
         $dispatcher = new ilCommonActionDispatcherGUI(ilCommonActionDispatcherGUI::TYPE_REPOSITORY, $this->access, "dcl", $this->ref_id, $this->obj_id);

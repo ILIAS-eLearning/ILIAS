@@ -63,7 +63,7 @@ class ilDclTableListGUI
 
         if (!$this->checkAccess()) {
             $main_tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
-            $this->ctrl->redirectByClass('ildclrecordlistgui', 'listRecords');
+            $this->ctrl->redirectByClass(ilDclRecordListGUI::class, 'listRecords');
         }
     }
 

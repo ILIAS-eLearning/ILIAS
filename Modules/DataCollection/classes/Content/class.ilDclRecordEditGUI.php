@@ -145,9 +145,9 @@ class ilDclRecordEditGUI
             $mode = $this->http->wrapper()->query()->retrieve('mode', $this->refinery->kindlyTo()->string());
 
             $this->ctrl->saveParameter($this, 'mode');
-            $this->ctrl->setParameterByClass("ildclrecordlistgui", "mode", $mode);
+            $this->ctrl->setParameterByClass(ilDclRecordListGUI::class, "mode", $mode);
         }
-        $this->ctrl->setParameterByClass('ildclrecordlistgui', 'tableview_id', $this->tableview_id);
+        $this->ctrl->setParameterByClass(ilDclRecordListGUI::class, 'tableview_id', $this->tableview_id);
         $this->ctrl->saveParameter($this, 'redirect');
         if ($this->record_id) {
             $this->record = ilDclCache::getRecordCache($this->record_id);
@@ -220,7 +220,7 @@ class ilDclRecordEditGUI
      */
     public function cancelDelete(): void
     {
-        $this->ctrl->redirectByClass("ildclrecordlistgui", "listRecords");
+        $this->ctrl->redirectByClass(ilDclRecordListGUI::class, "listRecords");
     }
 
     /**
@@ -238,7 +238,7 @@ class ilDclRecordEditGUI
 
         $record->doDelete();
         $this->tpl->setOnScreenMessage('success', $this->lng->txt("dcl_record_deleted"), true);
-        $this->ctrl->redirectByClass("ildclrecordlistgui", "listRecords");
+        $this->ctrl->redirectByClass(ilDclRecordListGUI::class, "listRecords");
     }
 
     /**
@@ -680,7 +680,7 @@ class ilDclRecordEditGUI
             ) . $this->form->getHTML();
             exit();
         } else {
-            $this->ctrl->redirectByClass("ildclrecordlistgui", "listRecords");
+            $this->ctrl->redirectByClass(ilDclRecordListGUI::class, "listRecords");
         }
     }
 
@@ -696,17 +696,17 @@ class ilDclRecordEditGUI
                 $redirect = $this->http->wrapper()->query()->retrieve('redirect', $this->refinery->kindlyTo()->int());
                 switch ($redirect) {
                     case self::REDIRECT_DETAIL:
-                        $this->ctrl->setParameterByClass('ilDclDetailedViewGUI', 'record_id', $this->record_id);
-                        $this->ctrl->setParameterByClass('ilDclDetailedViewGUI', 'table_id', $this->table_id);
-                        $this->ctrl->setParameterByClass('ilDclDetailedViewGUI', 'tableview_id', $this->tableview_id);
-                        $this->ctrl->redirectByClass("ilDclDetailedViewGUI", "renderRecord");
+                        $this->ctrl->setParameterByClass(ilDclDetailedViewGUI::class, 'record_id', $this->record_id);
+                        $this->ctrl->setParameterByClass(ilDclDetailedViewGUI::class, 'table_id', $this->table_id);
+                        $this->ctrl->setParameterByClass(ilDclDetailedViewGUI::class, 'tableview_id', $this->tableview_id);
+                        $this->ctrl->redirectByClass(ilDclDetailedViewGUI::class, "renderRecord");
                         break;
                     case self::REDIRECT_RECORD_LIST:
-                        $this->ctrl->redirectByClass("ildclrecordlistgui", "listRecords");
+                        $this->ctrl->redirectByClass(ilDclRecordListGUI::class, "listRecords");
                         break;
                 }
             }
-            $this->ctrl->redirectByClass("ildclrecordlistgui", "listRecords");
+            $this->ctrl->redirectByClass(ilDclRecordListGUI::class, "listRecords");
         }
     }
 
@@ -714,7 +714,7 @@ class ilDclRecordEditGUI
     {
         if (!$this->ctrl->isAsynch()) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('dcl_msg_no_perm_edit'), true);
-            $this->ctrl->redirectByClass('ildclrecordlistgui', 'listRecords');
+            $this->ctrl->redirectByClass(ilDclRecordListGUI::class, 'listRecords');
         } else {
             echo $this->lng->txt('dcl_msg_no_perm_edit');
             exit();

@@ -36,7 +36,7 @@ class ilDclTableViewEditFieldsTableGUI extends ilTable2GUI
         $this->addColumn($lng->txt('dcl_filter_changeable'), "", 'auto');
 
         $ilCtrl->saveParameter($this, 'tableview_id');
-        $this->setFormAction($ilCtrl->getFormActionByClass('ildcltablevieweditgui'));
+        $this->setFormAction($ilCtrl->getFormActionByClass(ilDclTableViewEditGUI::class));
         $this->addCommandButton('saveTable', $lng->txt('dcl_save'));
 
         $this->setExternalSegmentation(true);
