@@ -485,7 +485,7 @@ class ilPersonalSettingsGUI
                 $max_value
             );
 
-            $lead_time_gui->setValue($value);
+            $lead_time_gui->setValue((string) $value);
             $lead_time_gui->setSize(3);
             $lead_time_gui->setMinValue($min_value);
             $lead_time_gui->setMaxValue($max_value);
@@ -617,8 +617,8 @@ class ilPersonalSettingsGUI
             }
 
             if (ilSessionReminder::isGloballyActivated()) {
-                $this->user->setPref('session_reminder_enabled', (int) $this->form->getInput('session_reminder_enabled'));
-                $this->user->setPref('session_reminder_lead_time', $this->form->getInput('session_reminder_lead_time'));
+                $this->user->setPref('session_reminder_enabled', $this->form->getInput('session_reminder_enabled'));
+                $this->user->setPref('session_reminder_lead_time', (string) $this->form->getInput('session_reminder_lead_time'));
             }
 
             if ($this->starting_point_repository->isPersonalStartingPointEnabled()) {
