@@ -34,7 +34,10 @@ class ilMemberViewGUI
         }
         $tree = $DIC->repositoryTree();
         $lng = $DIC->language();
-        $ilTabs = $DIC->tabs();
+        $ilToolbar = $DIC->toolbar();
+        $ui = $DIC->ui();
+        $ilTab = $DIC->tabs();
+        $ilLogger = $DIC->logger();
 
         // No course or group in path => aborting
         if (!$tree->checkForParentType($a_ref_id, 'crs') &&
@@ -43,16 +46,39 @@ class ilMemberViewGUI
         }
 
         // TODO: check edit_permission
+        $ilLogger->root()->debug("\n\n\n");
+        $ilLogger->root()->debug('Command class: ' . $ilCtrl->getCmdClass());
+        $ilLogger->root()->debug('Command: ' . $ilCtrl->getCmd());
+        $ilLogger->root()->debug("\n\n\n");
 
         $type = ilObject::_lookupType(ilObject::_lookupObjId($a_ref_id));
-        if (($type === 'crs' || $type === 'grp') && $ilAccess->checkAccess('write', '', $a_ref_id)) {
+
+        $isCourseOrGroupContentTab =
+            (
+                $ilCtrl->getCmd() === 'view' &&
+                ($type === 'crs' || $type === 'grp')
+            ) || (
+                $ilCtrl->getCmd() === '' &&
+                $type === 'crs' &&
+                strtolower($ilCtrl->getCmdClass()) === 'ilobjcoursegui'
+            ) || (
+                $ilCtrl->getCmd() === '' &&
+                $type === 'grp' &&
+                strtolower($ilCtrl->getCmdClass()) === 'ilobjgroupgui'
+            );
+
+        if (
+            $isCourseOrGroupContentTab &&
+            $ilAccess->checkAccess('write', '', $a_ref_id)
+        ) {
             $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $a_ref_id);
             $ilCtrl->setParameterByClass("ilrepositorygui", "mv", "1");
             $ilCtrl->setParameterByClass("ilrepositorygui", "set_mode", "flat");
-            $ilTabs->addNonTabbedLink(
-                "members_view",
-                $lng->txt('mem_view_activate'),
-                $ilCtrl->getLinkTargetByClass("ilrepositorygui", "")
+            $ilToolbar->addComponent(
+                $ui->factory()->button()->standard(
+                    $lng->txt('mem_view_activate'),
+                    $ilCtrl->getLinkTargetByClass("ilrepositorygui", "")
+                )
             );
             $ilCtrl->clearParametersByClass("ilrepositorygui");
             return true;
