@@ -898,16 +898,13 @@ class ilObjQuestionPool extends ilObject
     {
         $result = [];
         $query_result = $this->db->query(
-            'SELECT qpl_questions.*, qpl_qst_type.type_tag FROM qpl_questions, qpl_qst_type WHERE qpl_questions.question_type_fi = qpl_qst_type.question_type_id AND ' . $ilDB->in(
-                'qpl_questions.question_id',
-                $question_ids,
-                false,
-                'integer'
-            ) . ' ORDER BY qpl_questions.title'
+            'SELECT qpl_questions.*, qpl_qst_type.type_tag FROM qpl_questions, qpl_qst_type WHERE qpl_questions.question_type_fi = qpl_qst_type.question_type_id AND '
+            . $this->db->in('qpl_questions.question_id', $question_ids, false, 'integer')
+            . ' ORDER BY qpl_questions.title'
         );
         if ($query_result->numRows()) {
-            while ($row = $ilDB->fetchAssoc($query_result)) {
-                if (!$this->questioninfo->isUsedInRandomTest($row["question_id"])) {
+            while ($row = $this->db->fetchAssoc($query_result)) {
+                if (!assQuestion::_isUsedInRandomTest($row['question_id'])) {
                     array_push($result, $row);
                 } else {
                     // the question was used in a random test prior to ILIAS 3.7 so it was inserted

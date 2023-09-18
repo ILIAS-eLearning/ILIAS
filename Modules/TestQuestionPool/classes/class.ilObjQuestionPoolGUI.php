@@ -24,6 +24,7 @@ use ILIAS\Taxonomy\Service;
 use Psr\Http\Message\ServerRequestInterface as HttpRequest;
 use ILIAS\DI\UIServices as UIServices;
 use ILIAS\TestQuestionPool\QuestionInfoService as QuestionInfoService;
+use ILIAS\UI\URLBuilder;
 
 /**
  * Class ilObjQuestionPoolGUI
@@ -102,6 +103,21 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         $this->ctrl->saveParameterByClass('ilobjquestionpoolgui', 'consumer_context');
 
         $this->lng->loadLanguageModule('assessment');
+
+
+        $this->df = new \ILIAS\Data\Factory();
+        $this->request = $DIC->http()->request();
+        $here_uri = $this->df->uri($this->request->getUri()->__toString());
+        $url_builder = new URLBuilder($here_uri);
+        $query_params_namespace = ['qpool', 'table'];
+        list($url_builder, $action_parameter_token, $row_id_token) = $url_builder->acquireParameters(
+            $query_params_namespace,
+            "action", //this is the actions's parameter name
+            "qids"   //this is the parameter name to be used for row-ids
+        );
+        $this->url_builder = $url_builder;
+        $this->action_parameter_token = $action_parameter_token;
+        $this->row_id_token = $row_id_token;
     }
 
     protected function getQueryParamString(string $param): ?string
@@ -462,13 +478,90 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
 
             case 'ilobjquestionpoolgui':
             case '':
+
+                //table actions.
+                if ($action = $this->getQueryParamString($this->action_parameter_token)) {
+                    $ids = $this->request_wrapper->retrieve(
+                        $this->row_id_token->getName(),
+                        $this->refinery->custom()->transformation(fn($v) => $v)
+                    );
+
+                    if ($ids === 'ALL_OBJECTS') {
+                        die('all questions: ' . $action);
+                    }
+
+                    if (! is_array($ids)) {
+                        $ids = explode(',', $ids);
+                    }
+                    $ids = array_map('intval', $ids);
+
+
+                    $class = strtolower(assQuestionGUI::_getGUIClassNameForId(current($ids)));
+                    $this->ctrl->setParameterByClass("ilAssQuestionPageGUI", "q_id", current($ids));
+                    $this->ctrl->setParameterByClass("ilAssQuestionPreviewGUI", "q_id", current($ids));
+                    $this->ctrl->setParameterByClass('ilAssQuestionFeedbackEditingGUI', 'q_id', current($ids));
+                    $this->ctrl->setParameterByClass('ilAssQuestionHintsGUI', 'q_id', current($ids));
+                    $this->ctrl->setParameterByClass($class, "q_id", current($ids));
+
+
+                    switch ($action) {
+                        case 'preview':
+                            $url = $this->ctrl->getLinkTargetByClass('ilAssQuestionPreviewGUI', ilAssQuestionPreviewGUI::CMD_SHOW);
+                            $this->ctrl->redirectToURL($url);
+                            break;
+                        case 'statistics':
+                            $url = $this->ctrl->getLinkTargetByClass('ilAssQuestionPreviewGUI', ilAssQuestionPreviewGUI::CMD_STATISTICS);
+                            $this->ctrl->redirectToURL($url);
+                            break;
+                        case 'edit_question':
+                            $url = $this->ctrl->getLinkTargetByClass($class, 'editQuestion');
+                            $this->ctrl->redirectToURL($url);
+                            break;
+                        case 'edit_page':
+                            $url = $this->ctrl->getLinkTargetByClass('ilAssQuestionPageGUI', 'edit');
+                            $this->ctrl->redirectToURL($url);
+                            break;
+                        case 'feedback':
+                            $url = $this->ctrl->getLinkTargetByClass('ilAssQuestionFeedbackEditingGUI', ilAssQuestionFeedbackEditingGUI::CMD_SHOW);
+                            $this->ctrl->redirectToURL($url);
+                            break;
+                        case 'hints':
+                            $url = $this->ctrl->getLinkTargetByClass('ilAssQuestionHintsGUI', ilAssQuestionHintsGUI::CMD_SHOW_LIST);
+                            $this->ctrl->redirectToURL($url);
+                            break;
+                        case 'move':
+                            $ret = $this->moveQuestions($ids);
+                            $this->ctrl->redirect($this, 'questions');
+                            break;
+                        case 'copy':
+                            $this->copyQuestions($ids);
+                            $this->ctrl->redirect($this, 'questions');
+                            break;
+                        case 'delete':
+                            $this->confirmDeleteQuestions($ids);
+                            break;
+                        case 'export':
+                            $this->exportQuestions($ids);
+                            $this->ctrl->redirect($this, 'questions');
+                            // no break
+                        case 'comments':
+                        default:
+                            throw new \Exception("'$action'" . " not implemented");
+                    }
+                    break;
+                }
+
+
                 if ($cmd == 'questions') {
                     $this->ctrl->setParameter($this, 'q_id', '');
                 }
-
                 $cmd .= 'Object';
+                //die($cmd);
                 $ret = $this->$cmd();
                 break;
+
+
+
 
             default:
                 if (in_array($cmd, ['editQuestion', 'save', 'suggestedsolution']) && !$ilAccess->checkAccess(
@@ -1001,9 +1094,33 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         $this->editQuestionForm($type);
     }
 
+    public function confirmDeleteQuestions(array $ids): void
+    {
+        $rbacsystem = $this->rbac_system;
+
+        $questionIdsToDelete = array_filter(array_map('intval', $ids));
+        if (0 === count($questionIdsToDelete)) {
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('qpl_delete_select_none'), true);
+            $this->ctrl->redirect($this, 'questions');
+        }
+
+        $this->tpl->setOnScreenMessage('question', $this->lng->txt('qpl_confirm_delete_questions'));
+        $deleteable_questions = $this->object->getDeleteableQuestionDetails($questionIdsToDelete);
+        $table_gui = new ilQuestionBrowserTableGUI($this, 'questions', (($rbacsystem->checkAccess('write', $this->qplrequest->getRefId()) ? true : false)), true);
+        $table_gui->setShowRowsSelector(false);
+        $table_gui->setLimit(PHP_INT_MAX);
+        $table_gui->setEditable($rbacsystem->checkAccess('write', $this->qplrequest->getRefId()));
+        $table_gui->setData($deleteable_questions);
+        $this->tpl->setVariable('ADM_CONTENT', $table_gui->getHTML());
+    }
+
     /**
+<<<<<<< HEAD
      * delete questions confirmation screen
      */
+=======
+    * delete questions confirmation screen
+>>>>>>> b0231002fd6 (FR, Data Table for QuestionPool)
     public function deleteQuestionsObject(): void
     {
         $rbacsystem = $this->rbac_system;
@@ -1033,6 +1150,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         $table_gui->setData($deleteable_questions);
         $this->tpl->setVariable('ADM_CONTENT', $table_gui->getHTML());
     }
+    */
 
     /**
      * delete questions after confirmation
@@ -1057,6 +1175,26 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         $this->ctrl->redirect($this, 'questions');
     }
 
+    public function exportQuestions(array $ids): void
+    {
+        if ($ids !== []) {
+            $qpl_exp = new ilQuestionpoolExport($this->object, 'xml', $ids);
+            // @PHP8-CR: This seems to be a pointer to an issue with exports. I like to leave this open for now and
+            // schedule a thorough examination / analysis for later, eventually involved T&A TechSquad
+            $export_file = $qpl_exp->buildExportFile();
+            $filename = $export_file;
+            $filename = preg_replace('/.*\//', '', $filename);
+            if ($export_file === '') {
+                $export_file = 'StandIn';
+            }
+            ilFileDelivery::deliverFileLegacy($export_file, $filename);
+            exit();
+        } else {
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('qpl_export_select_none'), true);
+        }
+    }
+
+/*
     public function exportQuestionObject(): void
     {
         // export button was pressed
@@ -1078,7 +1216,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         }
         $this->ctrl->redirect($this, 'questions');
     }
-
+*/
     public function filterQuestionBrowserObject(): void
     {
         $enableComments = $this->rbac_system->checkAccess('write', $this->qplrequest->getRefId());
@@ -1175,6 +1313,9 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         $table_gui = $this->buildQuestionBrowserTableGUI($tax_ids);
         $table_gui->setPreventDoubleSubmission(false);
 
+
+        $out = [];
+
         if ($this->rbac_system->checkAccess('write', $this->qplrequest->getRefId())) {
             $toolbar = new ilToolbarGUI();
             $btn = $this->ui->factory()->button()->primary(
@@ -1198,11 +1339,16 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
             }
 
             $this->tpl->setContent(
-                $this->ctrl->getHTML($toolbar) . $this->ctrl->getHTML($table_gui)
+                $out[] = $this->ctrl->getHTML($toolbar)
             );
-        } else {
-            $this->tpl->setContent($this->ctrl->getHTML($table_gui));
         }
+        $out[] = $this->ctrl->getHTML($table_gui);
+
+        $out[] = '<hr><hr>';
+        $out[] = $this->getTable();
+
+
+        $this->tpl->setContent(implode('', $out));
     }
 
     protected function fetchAuthoringQuestionIdParamater(): int
@@ -1335,7 +1481,31 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         $this->ctrl->redirect($this, 'questions');
     }
 
-    public function copyObject(): void
+    public function copyQuestions(array $ids): void
+    {
+        if ($ids) {
+            foreach ($ids as $id) {
+                $this->object->copyToClipboard($id);
+            }
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('qpl_copy_insert_clipboard'), true);
+        } else {
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('qpl_copy_select_none'), true);
+        }
+    }
+
+    public function moveQuestions(array $ids): void
+    {
+        if ($ids) {
+            foreach ($ids as $id) {
+                $this->object->moveToClipboard($id);
+            }
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('qpl_move_insert_clipboard'), true);
+        } else {
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('qpl_move_select_none'), true);
+        }
+    }
+
+    /*public function copyObject(): void
     {
         if (isset($_POST['q_id']) && is_array($_POST['q_id']) && count($_POST['q_id']) > 0) {
             foreach ($_POST['q_id'] as $key => $value) {
@@ -1350,10 +1520,16 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         }
         $this->ctrl->redirect($this, 'questions');
     }
+<<<<<<< HEAD
 
     /**
      * mark one or more question objects for moving
      */
+=======
+    */
+    /*
+
+>>>>>>> b0231002fd6 (FR, Data Table for QuestionPool)
     public function moveObject(): void
     {
         if (isset($_POST['q_id']) && is_array($_POST['q_id']) && count($_POST['q_id']) > 0) {
@@ -1369,6 +1545,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         }
         $this->ctrl->redirect($this, 'questions');
     }
+    */
 
     public function createExportExcel(): void
     {
@@ -1850,6 +2027,35 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
 
         $table_gui->setQuestionData($data);
 
+
+
+
+
         return $table_gui;
+    }
+
+    protected function getTable() //: QuestionTable
+    {
+        global $DIC;
+        $f = $DIC['ui.factory'];
+
+        $table = new QuestionTable(
+            $f,
+            $this->df,
+            $this->url_builder,
+            $this->action_parameter_token,
+            $this->row_id_token,
+            $this->db,
+            $this->lng,
+            $this->component_repository,
+            $this->rbac_system,
+            $this->object->getId(),
+            (int)$this->qplrequest->getRefId()
+        );
+
+        $r = $DIC['ui.renderer'];
+        return $r->render($table->getTable()->withRequest($this->request));
+
+        return $table;
     }
 } // END class.ilObjQuestionPoolGUI
