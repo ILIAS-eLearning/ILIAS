@@ -957,6 +957,9 @@ ilias.questions.showFeedback =function(a_id) {
 		}
 	}
 
+	// JKN PATCH START
+	jQuery('#feedback'+a_id).css("white-space", "pre-wrap");
+	// JKN PATCH END
 	jQuery('#feedback'+a_id).html(fbtext);
 	jQuery('#feedback'+a_id).slideToggle(400, 'swing', function(){
 		if (typeof MathJax != "undefined") {
