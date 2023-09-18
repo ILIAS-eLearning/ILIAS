@@ -384,7 +384,10 @@ class ilLMPresentationLinker implements \ILIAS\COPage\PageLinker
                                 if ($showViewInFrameset) {
                                     $ltarget = "_parent";
                                 } else {
-                                    $ltarget = "_top";
+                                    // START PATCH JKN
+                                    //$ltarget = "_top";
+                                    $ltarget = "_blank";
+                                    // END PATCH JKN
                                 }
                             }
                             // scorm always in 1window view and link target
@@ -477,7 +480,11 @@ class ilLMPresentationLinker implements \ILIAS\COPage\PageLinker
                         } else {
                             $href = ILIAS_HTTP_PATH . "/goto.php?target=" . $obj_type . "_" . $target_id . "&amp;client_id=" . CLIENT_ID;
                         }
-                        $ltarget = ilFrameTargetInfo::_getFrame("MainContent");
+                        // START PATCH JKN
+                        //$ltarget = ilFrameTargetInfo::_getFrame("MainContent");
+                        $ltarget = $nframe = "_blank";
+                        // END PATCH JKN
+
                         if ($this->embed_mode) {
                             $ltarget = "_blank";
                         }
