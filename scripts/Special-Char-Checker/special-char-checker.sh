@@ -10,7 +10,7 @@
 # which are usually used by old printers. Sometimes these hidden characters
 # like hidden spaces, tabs or newlines are added to the code accidentally.
 
-source CI/Import/Functions.sh
+source scripts/Import/Functions.sh
 
 # get the files from this PR to the last head
 

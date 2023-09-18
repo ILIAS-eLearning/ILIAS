@@ -25,5 +25,5 @@ Make sure you have a updated composer classmap before running rector!
 How to run for a component such as Modules/File:
 
 ```bash
-./libs/composer/vendor/bin/rector process --clear-cache --no-diffs --config ./CI/Rector/ilUtils/ilutil_rector.php Modules/File
+./libs/composer/vendor/bin/rector process --clear-cache --no-diffs --config ./scripts/Rector/ilUtils/ilutil_rector.php Modules/File
 ```

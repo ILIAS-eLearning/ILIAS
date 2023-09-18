@@ -32,9 +32,9 @@ HASH=$(git rev-parse HEAD)
 URL="https://github.com/ILIAS-eLearning/ILIAS/commit/${HASH}"
 BRANCH=$(git rev-parse --abbrev-ref HEAD)
 
-source "./CI/Style-To-Repo/build.sh"
-source "./CI/Style-To-Repo/deploy.sh"
-source "./CI/Style-To-Repo/cleanup.sh"
+source "./scripts/Style-To-Repo/build.sh"
+source "./scripts/Style-To-Repo/deploy.sh"
+source "./scripts/Style-To-Repo/cleanup.sh"
 
 NOW=$(date +'%d.%m.%Y %I:%M:%S')
 echo "[${NOW}] Build style folder."

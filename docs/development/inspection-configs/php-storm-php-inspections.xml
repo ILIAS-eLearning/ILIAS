@@ -391,7 +391,7 @@
   <inspection_tool class="PhpAssignmentReplaceableWithPrefixExpressionInspection" enabled="false" level="INFORMATION" enabled_by_default="false" />
   <inspection_tool class="PhpCSFixerValidationInspection" enabled="true" level="WEAK WARNING" enabled_by_default="true">
     <option name="CODING_STANDARD" value="Custom" />
-    <option name="CUSTOM_RULESET_PATH" value="$PROJECT_DIR$/CI/PHP-CS-Fixer/code-format.php_cs" />
+    <option name="CUSTOM_RULESET_PATH" value="$PROJECT_DIR$/scripts/PHP-CS-Fixer/code-format.php_cs" />
   </inspection_tool>
   <inspection_tool class="PhpClosureCanBeConvertedToShortArrowFunctionInspection" enabled="false" level="INFORMATION" enabled_by_default="false" />
   <inspection_tool class="PhpComposerDuplicatedRequirementInspection" enabled="false" level="WEAK WARNING" enabled_by_default="false" />

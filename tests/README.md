@@ -221,7 +221,7 @@ autoload.php -> {ILIAS root}/libs/composer/vendor/autoload.php
 - Name it properly like global test suite.
 - Select the test scope radio option -> Defined in Configuration file
 - Tick use alternative configuration file
-- Enter the path -> {ILIAS root}/CI/PHPUnit/phpunit.xml
+- Enter the path -> {ILIAS root}/scripts/PHPUnit/phpunit.xml
 - Set the path custom working directory to the ILIAS root.
 - Hit the OK button to save the changes
 
@@ -248,13 +248,13 @@ executable directly.
 Bash (all additional arguments passed are passed to the `PHPUnit` test runner):
 
 ```bash
-./CI/PHPUnit/run_tests.sh
+./scripts/PHPUnit/run_tests.sh
 ```
 
 Executable:
 
 ```bash
-./libs/composer/vendor/phpunit/phpunit/phpunit -c ./CI/PHPUnit/phpunit.xml
+./libs/composer/vendor/phpunit/phpunit/phpunit -c ./scripts/PHPUnit/phpunit.xml
 ```
 
 #### Execution Order
@@ -268,7 +268,7 @@ The random order seed is printed after the respective test suites have been adde
 PHPUnit 9.5.20 #StandWithUkraine
 
 Runtime:       PHP 8.1.5
-Configuration: ./CI/PHPUnit/phpunit.xml
+Configuration: ./scripts/PHPUnit/phpunit.xml
 Random Seed:   1651495463
 ```
 
@@ -276,7 +276,7 @@ To achieve the same test execution order given for the failed test run, make sur
 on the same code (GIT hash). Afterwads, execute `PHPUnit` with the addtional `--random-order-seed` option.
 
 ```bash
-./CI/PHPUnit/run_tests.sh --random-order-seed 1651495463
+./scripts/PHPUnit/run_tests.sh --random-order-seed 1651495463
 ```
 
 <a name="guidelines"></a>

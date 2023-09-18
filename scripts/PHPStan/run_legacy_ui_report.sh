@@ -1,7 +1,7 @@
 #!/bin/bash
 
 RE="(Services|Modules)"
-CONFIG=CI/PHPStan/legacy_ui.neon
+CONFIG=scripts/PHPStan/legacy_ui.neon
 MEMORY_LIMIT=2G
 REPORT_FORMAT=csv
 REPORT_DIRECTORY=Reports

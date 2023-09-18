@@ -17,7 +17,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: build and deploy
-        run: CI/Style-To-Repo/build-and-deploy.sh
+        run: scripts/Style-To-Repo/build-and-deploy.sh
         env:
           STYLE_REPO_PUSH_SECRET: ${{ secrets.STYLE_REPO_PUSH_SECRET }}
           STYLE_REPO_USER_NAME: ${{ vars.STYLE_REPO_USER_NAME }}

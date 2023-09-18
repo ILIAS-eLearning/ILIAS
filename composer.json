@@ -26,10 +26,10 @@
 			"./libs/composer/vendor/bin/phpunit -c ./components/ILIAS/PHPUnit/config/PhpUnitConfig.xml --colors=always --disallow-todo-tests"
 		],
 		"test-php": [
-			"./CI/PHPUnit/run_tests.sh"
+			"./scripts/PHPUnit/run_tests.sh"
 		],
 		"rector": [
-			"./libs/composer/vendor/bin/rector process --config ./CI/Rector/basic_rector.php --no-diffs"
+			"./libs/composer/vendor/bin/rector process --config ./scripts/Rector/basic_rector.php --no-diffs"
 		]
 	},
 	"require": {
@@ -88,7 +88,7 @@
 		"psr-4" : {
 			"ILIAS\\Tests\\" : "./tests",
 			"ILIAS\\" : "./src",
-			"ILIAS\\CI\\" : "./CI"
+			"ILIAS\\CI\\" : "./scripts"
 		},
 		"classmap": [
 			"./components/ILIAS/",

@@ -13,7 +13,7 @@
  * https://github.com/ILIAS-eLearning
  */
 
-import copyright from '../../../../../CI/Copyright-Checker/copyright';
+import copyright from '../../../../../scripts/Copyright-Checker/copyright';
 
 export default {
   external: [

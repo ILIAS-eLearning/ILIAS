@@ -31,7 +31,7 @@
     "enabled": true,
     "actions": [
       {
-        "action": "CI/sort_langfile_entries.sh check",
+        "action": "scripts/sort_langfile_entries.sh check",
         "options": [],
         "conditions": [
           {

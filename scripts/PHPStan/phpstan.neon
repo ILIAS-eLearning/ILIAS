@@ -5,7 +5,7 @@ parameters:
     excludePaths:
         - '%currentWorkingDirectory%/vendor/*'
         - '%currentWorkingDirectory%/Customizing/*'
-        - '%currentWorkingDirectory%/CI/*'
+        - '%currentWorkingDirectory%/scripts/*'
         - '%currentWorkingDirectory%/data/*'
         - '%currentWorkingDirectory%/dicto/*'
         - '%currentWorkingDirectory%/docs/*'

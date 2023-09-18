@@ -38,7 +38,7 @@ docu will only cover the [`iife`](https://rollupjs.org/guide/en/#outputformat) o
 A minimal version of this file should look like this:
 
 ```javascript
-import copyright from './CI/Copyright-Checker/copyright';
+import copyright from './scripts/Copyright-Checker/copyright';
 
 export default {
   input: './src/index.js',
@@ -56,7 +56,7 @@ If your bundle is working with globals they must be announced in this config fil
 demonstrates this when working with the global ILIAS namespace `il` and the browsers `document` object.
 
 ```javascript
-import copyright from './CI/Copyright-Checker/copyright';
+import copyright from './scripts/Copyright-Checker/copyright';
 
 export default {
   external: [
@@ -100,8 +100,8 @@ this.
 
 ```javascript
 import terser from '@rollup/plugin-terser';
-import copyright from './CI/Copyright-Checker/copyright';
-import preserveCopyright from './CI/Copyright-Checker/preserveCopyright';
+import copyright from './scripts/Copyright-Checker/copyright';
+import preserveCopyright from './scripts/Copyright-Checker/preserveCopyright';
 
 export default {
   input: './src/index.js',
@@ -134,7 +134,7 @@ compatible with `rollup.js` by default. To be able to transpile CommonJS module 
 [`@rollup/plugin-commonjs`](https://www.npmjs.com/package/@rollup/plugin-commonjs) plugin as well.
 
 ```javascript
-import copyright from './CI/Copyright-Checker/copyright';
+import copyright from './scripts/Copyright-Checker/copyright';
 import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 

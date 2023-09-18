@@ -545,16 +545,16 @@ We are currently not enforcing code style, **but eventually will**.
 
 ### PHP
 
-Use [PHPStan](../../../CI/PHPStan/README.md) to check your files:
+Use [PHPStan](../../../scripts/PHPStan/README.md) to check your files:
 ```
-./CI/PHPStan/run_check.sh src/UI/...
+./scripts/PHPStan/run_check.sh src/UI/...
 ```
 There are different [levels of checks](https://phpstan.org/user-guide/rule-levels),
 you can e.g. run 
 ```
 ./libs/composer/vendor/bin/phpstan analyse --level 8 src/UI/...
 ```
-to override `./CI/PHPStan/phpstan.neon`, however, level 9/max is the desired goal.
+to override `./scripts/PHPStan/phpstan.neon`, however, level 9/max is the desired goal.
 
 ### Java Script
 
