@@ -37,7 +37,6 @@ class ilMemberViewGUI
         $ilToolbar = $DIC->toolbar();
         $ui = $DIC->ui();
         $ilTab = $DIC->tabs();
-        $ilLogger = $DIC->logger();
 
         // No course or group in path => aborting
         if (!$tree->checkForParentType($a_ref_id, 'crs') &&
@@ -46,10 +45,6 @@ class ilMemberViewGUI
         }
 
         // TODO: check edit_permission
-        $ilLogger->root()->debug("\n\n\n");
-        $ilLogger->root()->debug('Command class: ' . $ilCtrl->getCmdClass());
-        $ilLogger->root()->debug('Command: ' . $ilCtrl->getCmd());
-        $ilLogger->root()->debug("\n\n\n");
 
         $type = ilObject::_lookupType(ilObject::_lookupObjId($a_ref_id));
 
