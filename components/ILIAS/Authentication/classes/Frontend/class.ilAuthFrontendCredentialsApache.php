@@ -87,7 +87,7 @@ class ilAuthFrontendCredentialsApache extends ilAuthFrontendCredentials
 
         $this->ctrl->redirectToURL(
             ilUtil::getHtmlPath(
-                './sso/index.php?force_mode_apache=1&' .
+                './cli/sso/index.php?force_mode_apache=1&' .
                 'r=' . urlencode($path) .
                 '&cookie_path=' . urlencode(IL_COOKIE_PATH) .
                 '&ilias_path=' . urlencode(ILIAS_HTTP_PATH)
