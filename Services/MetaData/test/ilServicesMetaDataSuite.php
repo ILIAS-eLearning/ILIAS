@@ -35,16 +35,18 @@ class ilServicesMetaDataSuite extends TestSuite
             /** @var SplFileInfo $test_file */
             require_once $test_file->getPathname();
 
-            $className = preg_replace('/(.*?)(\.php)/', '$1', $test_file->getBasename());
+            $class_name = preg_replace('/.*test\/(.*?)(\.php)/', '$1', $test_file->getPathname());
+            $class_name = str_replace('/', '\\', $class_name);
+            $class_name = '\\ILIAS\\MetaData\\' . $class_name;
 
-            if (class_exists($className)) {
-                $reflection = new ReflectionClass($className);
+            if (class_exists($class_name)) {
+                $reflection = new ReflectionClass($class_name);
                 if (
                     !$reflection->isAbstract() &&
                     !$reflection->isInterface() &&
                     $reflection->isSubclassOf(TestCase::class)
                 ) {
-                    $suite->addTestSuite($className);
+                    $suite->addTestSuite($class_name);
                 }
             }
         }
