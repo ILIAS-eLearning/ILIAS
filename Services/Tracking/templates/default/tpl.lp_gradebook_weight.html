@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Gradebook</title>
+</head>
+<body>
+
+<div class="ilAdminRow">
+    <div class="alert alert-danger" id="save-issue" role="alert"></div>
+    <div class="alert alert-success" role="alert"></div>
+    <div class="alert alert-info" role="alert"></div>
+</div>
+
+<div class="ilFormHeader"><h3 class="ilHeader"><a name=""></a>Gradebook List</h3>
+</div>
+
+<div class="ilTableFilterSec">
+    <fieldset class="ilTableFilter">
+        <form action="" method="POST">
+            <div class="form-group" id="il_prop_cont_title_en">
+
+                <div class="col-sm-8">
+                    <div class="col-sm-4">  <select id='gradebook_select' name="revision_id" class="form-control">{LOADED_GRADEBOOKS}</select></div>
+                    <div class="col-sm-4">  <input type="submit" class="btn btn-default" id='load' value="Load"></div>
+                </div>
+
+                <div class="col-sm-4">
+                    <label class="col-sm-6 col-form-label">Passing Grade</label>
+                    <div class="col-sm-6 input-group has-success has-feedback">
+                        <div class="input-group-addon">%</div>
+                        <input name="passing_grade" class="form-control" id="passing_grade" aria-describedby="passing_gradeWarningStatus" onkeyup="validate(this)" onblur="validate(this)" type="text" value="{PASSING_GRADE_VALUE}">
+                    </div>
+                </div>
+
+               
+            </div>
+            <div class="form-group">
+           
+
+            </div>
+            <span>
+             
+            </span>
+        </form>
+    </fieldset>
+</div>
+
+<div id="gradebookContainer">
+    {GRADEBOOK}
+</div>
+<div class="text-right">
+    <input type="submit" class="btn btn-default" id='save' value="Save">
+</div>
+
+</body>
+</html> 

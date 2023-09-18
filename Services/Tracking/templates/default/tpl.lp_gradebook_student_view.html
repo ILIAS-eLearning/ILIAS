@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+
+<div class="ilFormHeader">
+    <div class="col-md-12 course-participants">
+        <div class="col-md-3">
+            <h3 class="all-grades">{OVERALL_GRADE}</h3>
+        </div>
+        <div  class="col-md-3 text-right">
+            <h3 class="all-grades">{OVERALL_PROGRESS}</h3>
+        </div>
+        <div  class="col-md-3 text-right">
+            <h3 class="all-grades">{PASSING_GRADE}</h3>
+        </div>
+    </div>
+
+</div>
+
+</br>
+
+<div class="row">
+
+    <div id='grade-table' class="col-md-12">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>{LPTYPE}</th>
+                <th>{DEPTH}</th>
+                <th>{WEIGHT}</th>
+                <th>{ACTUAL}</th>
+                <th>{ADJUSTED}</th>
+                <th>{STATUS}</th>
+                <th>{OBJECT}</th>
+                <th>{TITLE}</th>
+                <th>{GRADED_ON}</th>
+                <th>{GRADED_BY}</th>
+            </tr>
+            </thead>
+            <tbody>
+            {STUDENT}
+            </tbody>
+        </table>
+    </div>
+
+
+</div>
+
+
+</body>
+</html> 

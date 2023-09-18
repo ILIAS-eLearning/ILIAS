@@ -56,6 +56,9 @@ class ilLPObjSettings
     const LP_DEFAULT_VISITS = 30; // ???
     const LP_MODE_RUBRIC = 92;
 
+    // START PATCH JKN GRADEBOOK
+    const LP_MODE_GRADEBOOK = 93;
+
     const LP_MODE_LTI_OUTCOME = 31;
     
     const LP_MODE_COURSE_REFERENCE = 32;
@@ -135,6 +138,9 @@ class ilLPObjSettings
 
         , self::LP_MODE_RUBRIC => array('ilLPStatusRubric',
             'trac_mode_rubric', 'trac_mode_rubric_info')
+
+        , self::LP_MODE_GRADEBOOK => array('ilLPStatusGradebook',
+            'trac_mode_gradebook', 'trac_mode_gradebook_info')
 
         ,self::LP_MODE_CMIX_COMPLETED => array(ilLPStatusCmiXapiCompleted::class,
             'trac_mode_cmix_completed', 'trac_mode_cmix_completed_info')

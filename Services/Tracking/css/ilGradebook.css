@@ -1,0 +1,286 @@
+/* GRADEBOOK WEIGHT START */
+
+
+#sortable_1
+{
+    display: none;
+    min-width: 100%;
+    background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAAkCAMAAAB/qqA+AAAABlBMVEUAAAAAAAClZ7nPAAAAAnRSTlMNAMM9s3UAAAAXSURBVHjajcEBAQAAAIKg/H/aCQZ70AUBjAATb6YPDgAAAABJRU5ErkJggg==") left top repeat;
+    background-size: auto 98px;
+}
+
+
+#gradebookContainer .row-color
+{
+    width: 100%;
+    display: block;
+    padding: 7px;
+}
+
+#gradebookContainer ul
+{
+    list-style: none;
+}
+
+#gradebookContainer li span.listObject
+{
+    border-radius: 4px;
+    border: 1px solid darkgrey;
+    padding-top: 8px;
+    padding-bottom: 13px;
+    padding-right: 13px;
+    padding-left: 5px;
+    margin-left: 15px;
+}
+
+#gradebookContainer li span.listObject img
+{
+    margin-right: 10px;
+}
+
+#gradebookContainer li span.obj-learning-progress
+{
+    margin-left: 15px;
+    font-size: 20px;
+}
+
+#gradebookContainer li span.color-picker
+{
+    margin-left: 15px;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+#gradebookContainer li a
+{
+    text-decoration: none;
+}
+
+
+#gradebookContainer li .glyphicon
+{
+    top: 6px!important;
+}
+
+
+.weight-required
+{
+    background-color: orange;
+}
+
+.weight-invalid
+{
+    background-color: #e89999;
+}
+
+.weight-valid
+{
+    background-color: #6ab96a;
+}
+
+#gradebookContainer input
+{
+    width: 40px;
+}
+
+.glyphicon-move
+{
+    margin-right: 20px;
+    font-size: 20px;
+}
+
+.ui-state-highlight
+{
+    height: 48px;
+    background-color: yellow;
+}
+
+#gradebookContainer .btn
+{
+    display: inline-block;
+    padding: 6px 12px;
+    margin-bottom: 0;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.42857143;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background-image: none;
+    border: 1px solid transparent;
+    border-radius: 4px;
+}
+
+
+#gradebookContainer .btn-primary
+{
+    color: #fff;
+    background-color: #428bca;
+    border-color: #357ebd;
+}
+
+.weight
+{
+    margin-left: 10px;
+}
+
+.checkbox label .toggle,.checkbox-inline .toggle{margin-left:-20px;margin-right:5px}
+.toggle{position:relative;overflow:hidden}
+.toggle input[type=checkbox]{display:none}
+.toggle-group{position:absolute;width:200%;top:0;bottom:0;left:0;transition:left .35s;-webkit-transition:left .35s;-moz-user-select:none;-webkit-user-select:none}
+.toggle.off .toggle-group{left:-100%}
+.toggle-on{position:absolute;top:0;bottom:0;left:0;right:50%;margin:0;border:0;border-radius:0}
+.toggle-off{position:absolute;top:0;bottom:0;left:50%;right:0;margin:0;border:0;border-radius:0}
+.toggle-handle{position:relative;margin:0 auto;padding-top:0;padding-bottom:0;height:100%;width:0;border-width:0 1px}
+.toggle.btn{min-width:59px;min-height:34px}
+.toggle-on.btn{padding-right:24px}
+.toggle-off.btn{padding-left:24px}
+.toggle.btn-lg{min-width:79px;min-height:45px}
+.toggle-on.btn-lg{padding-right:31px}
+.toggle-off.btn-lg{padding-left:31px}
+.toggle-handle.btn-lg{width:40px}
+.toggle.btn-sm{min-width:50px;min-height:30px}
+.toggle-on.btn-sm{padding-right:20px}
+.toggle-off.btn-sm{padding-left:20px}
+.toggle.btn-xs{min-width:35px;min-height:22px}
+.toggle-on.btn-xs{padding-right:12px}
+.toggle-off.btn-xs{padding-left:12px}
+
+.alert
+{
+    display: none;
+}
+
+/* GRADE BY STUDENT START */
+
+
+#grade-table
+{
+    margin-bottom: 50px;
+}
+
+
+.user-change
+{
+    cursor: pointer;
+}
+
+#grade-header
+{
+    margin-top: 13px!important;
+}
+
+#grade-bar
+{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.avg-grade
+{
+    background-color: rgb(179, 230, 255);
+    text-align: center;
+    border: 1px solid #CCCCCC;
+    border-radius: 5px;
+}
+
+.course-participants h4
+{
+    margin-top: 10px;
+}
+
+.all-grades
+{
+    font-size: 19px;
+    color: #909090;
+    text-transform: uppercase;
+    margin-bottom:25px!important;
+    margin-top: 8px!important;
+}
+
+.course-participants
+{
+    margin-bottom: 30px;
+}
+
+#saveButton
+{
+    margin-top: 30px;
+}
+
+#courseStatusBottom img
+{
+    padding: 2px;
+    float: left;
+}
+
+#overallStatus
+{
+    float: right;
+}
+
+.invalid-input
+{
+    border-color: red;
+}
+
+#gradebookContainer input.weight:disabled
+{
+    color:transparent;
+}
+
+#gradebookContainer .btn-default
+{
+    color: white;
+    background-color: #708bae;
+}
+
+#gradebookContainer .btn-default.active
+{
+    color: white;
+    background-color: #557196;
+}
+
+#gradebookContainer .btn-success
+{
+    color: #fff;
+    background-color: #4b8512;
+    font-weight: bold;
+}
+
+
+#courseStatusTop
+{
+    margin-bottom:10px;
+}
+
+#courseStatusTop h2
+{
+    float: left;
+}
+
+#courseStatusTop img
+{
+    padding: 13px;
+}
+
+#overallStatusTop
+{
+    margin: 10px;
+    float: right;
+}
+
+#saveButtonTop
+{
+    margin: 10px;
+}
+
+#saveButtonBottom
+{
+    margin-top: 10px;
+} 
