@@ -94,7 +94,6 @@
 			"./components/ILIAS/",
 			"./components/SERVICEPROVIDER/",
 			"./libs/ilias",
-			"./webservice/soap",
 			"./setup/classes"
 		],
 		"exclude-from-classmap": [

@@ -12,7 +12,7 @@ class ilServicesWebServicesSuite extends TestSuite
         include_once("./components/ILIAS/WebServices_/test/ilRPCServerSettingsTest.php");
         $suite->addTestSuite(ilRPCServerSettingsTest::class);
 
-        include_once './webservice/soap/test/ilSoapFunctionsTest.php';
+        include_once './components/ILIAS/soaptest/ilSoapFunctionsTest.php';
         $suite->addTestSuite(ilSoapFunctionsTest::class);
 
         return $suite;
