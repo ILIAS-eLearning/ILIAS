@@ -43,11 +43,13 @@ class ilCalendarCronRemoteReader extends ilCronJob
 
     public function getTitle(): string
     {
+        $this->lng->loadLanguageModule('dateplaner');
         return $this->lng->txt('cal_cronjob_remote_title');
     }
 
     public function getDescription(): string
     {
+        $this->lng->loadLanguageModule('dateplaner');
         return $this->lng->txt('cal_cronjob_remote_description');
     }
 
