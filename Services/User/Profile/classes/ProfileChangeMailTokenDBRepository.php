@@ -24,10 +24,12 @@ class ProfileChangeMailTokenDBRepository implements ProfileChangeMailTokenReposi
 {
     private const TABLE_NAME = 'usr_change_email_token';
     private const VALIDITY = 300;
+    private \ilDBInterface $db;
 
     public function __construct(
-        private \ilDBInterface $db
+        \ilDBInterface $db
     ) {
+        $this->db = $db;
         $this->deleteExpiredEntries();
     }
 
