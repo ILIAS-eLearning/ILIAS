@@ -116,7 +116,6 @@ class ilPersonalProfileGUI
         $ilCtrl = $DIC['ilCtrl'];
         $tpl = $DIC['tpl'];
         $ilTabs = $DIC['ilTabs'];
-        $lng = $DIC['lng'];
 
         $next_class = $this->ctrl->getNextClass();
 
@@ -170,10 +169,11 @@ class ilPersonalProfileGUI
             return;
         }
 
-        if (!$this->form->hasFileUpload("userfile")
-            && $this->profile_request->getUserFileCapture() == ""
-            && $this->form->getItemByPostVar("userfile")->getDeletionFlag()) {
-            $ilUser->removeUserPicture();
+        if (!$this->form->hasFileUpload('userfile')
+            && $this->profile_request->getUserFileCapture() === '') {
+            if ($this->form->getItemByPostVar("userfile")->getDeletionFlag()) {
+                $ilUser->removeUserPicture();
+            }
             return;
         }
 
