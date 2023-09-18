@@ -179,6 +179,17 @@ class InfoScreenGUI
         */
         $toolbar->setFormAction($this->ctrl->getFormAction($output_gui, "infoScreen"));
 
+        // introduction
+        if ($survey->getIntroduction() !== '') {
+            $introduction = $survey->getIntroduction();
+            $info->addSection($this->lng->txt("introduction"));
+            $info->addProperty("", $survey->prepareTextareaOutput($introduction) .
+                "<br />" . $info->getHiddenToggleButton());
+        } else {
+            $info->addSection($this->lng->txt("show_details"));
+            $info->addProperty("", $info->getHiddenToggleButton());
+        }
+
         $info->hideFurtherSections(false);
 
         if (!$this->feature_config->usesAppraisees()) {
