@@ -634,20 +634,23 @@ class ilDclTable
         if ($this->getObjId() != ilObjDataCollection::_lookupObjectId($ref_id)) {
             return false;
         }
-        if (ilObjDataCollectionAccess::hasWriteAccess($ref_id) || ilObjDataCollectionAccess::hasEditAccess($ref_id)) {
+        if (ilObjDataCollectionAccess::hasWriteAccess($ref_id)) {
             return true;
         }
         if (!ilObjDataCollectionAccess::hasAddRecordAccess($ref_id)) {
             return false;
         }
+        if ($this->getEditByOwner()) {
+            return $this->doesRecordBelongToUser($record);
+        }
         if (!$this->checkLimit()) {
             return false;
         }
-        if ($this->getEditPerm() && !$this->getEditByOwner()) {
+        if (ilObjDataCollectionAccess::hasEditAccess($ref_id)) {
             return true;
         }
-        if ($this->getEditByOwner()) {
-            return $this->doesRecordBelongToUser($record);
+        if ($this->getEditPerm() && !$this->getEditByOwner()) {
+            return true;
         }
 
         return false;
@@ -726,9 +729,29 @@ class ilDclTable
     public function checkLimit(): bool
     {
         if ($this->getLimited()) {
+            $from = null;
+            $to = null;
             $now = new ilDateTime(date("Y-m-d H:i:s"), IL_CAL_DATE);
-            $from = new ilDateTime($this->getLimitStart(), IL_CAL_DATE);
-            $to = new ilDateTime($this->getLimitEnd(), IL_CAL_DATE);
+
+            if ($this->getLimitStart() != "") {
+                $from = new ilDateTime($this->getLimitStart(), IL_CAL_DATE);
+            }
+            if ($this->getLimitEnd() != "") {
+                $to = new ilDateTime($this->getLimitEnd(), IL_CAL_DATE);
+            }
+
+            if ($from == null && $to == null) {
+                return true;
+            }
+            if ($from <= $now && $now <= $to) {
+                return true;
+            }
+            if ($from <= $now && $to == null) {
+                return true;
+            }
+            if ($from == null && $now <= $to) {
+                return true;
+            }
 
             return ($from <= $now && $now <= $to);
         }
