@@ -555,7 +555,7 @@ for processing input securely:
   `Transformation`s and combinators so that they can be reused throughout the system.
   It thus is the tool to transform primitive input data into semantically richer
   structures in a declarative way.
-* A **[`Constraint`](../../src/Refinery/Constraint.php)** is a check on some data in
+* A **[`Constraint`](../../components/ILIAS/Refinery/src/Constraint.php)** is a check on some data in
   conjunction with a builder for a human-readable error-message. Like `Transformation`s,
   `Constraint`s can be combined. The [Refinery](../../Refinery) offers a collection
    of readymade `Constraint`s and combinators.
@@ -655,7 +655,7 @@ some potential for future improvements in the libraries as well as in general.
 The code presented in the following was discussed in [this PR](https://github.com/ILIAS-eLearning/ILIAS/pull/1189)
 and is now [part of the ILIAS-core](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/Modules/StudyProgramme/classes/class.ilObjStudyProgrammeSettingsGUI.php#L159).
 Since we want to show case how input data can be secured here, we refer to the
-explanation of the [Inputs in the UI-Framework](https://github.com/ILIAS-eLearning/ILIAS/tree/trunk/src/UI/Component/Input/README.md)
+explanation of the [Inputs in the UI-Framework](https://github.com/ILIAS-eLearning/ILIAS/tree/trunk/components/ILIAS/UI/src/Component/Input/README.md)
 for further explanation regarding visual aspects of the form.
 
 We first will have a look into [`ilObjStudyProgrammeSettingsGUI::update`](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/Modules/StudyProgramme/classes/class.ilObjStudyProgrammeSettingsGUI.php#L159) 

@@ -5,7 +5,7 @@ Uploading Files in ILIAS
 ## \ILIAS\UI\Component\Input\Field\File
 In most cases, files are uploaded via a form. This may only be done with the new forms from the UI service. For this purpose a new form field `File` can be added to its form.
 
-General Information for the Inputs you find in [src/UI/Component/Input/README.md](../../src/UI/Component/Input/README.md)
+General Information for the Inputs you find in [components/ILIAS/UI/src/Component/Input/README.md](../../components/ILIAS/UI/src/Component/Input/README.md)
 
 ```php
 global $DIC;

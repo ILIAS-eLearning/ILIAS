@@ -17,8 +17,8 @@
 
 import { describe, it } from 'mocha';
 import { expect } from 'chai';
-import URLBuilder from '../../../src/UI/templates/js/Core/src/core.URLBuilder';
-import URLBuilderToken from '../../../src/UI/templates/js/Core/src/core.URLBuilderToken';
+import URLBuilder from '../../../components/ILIAS/UI/src/templates/js/Core/src/core.URLBuilder';
+import URLBuilderToken from '../../../components/ILIAS/UI/src/templates/js/Core/src/core.URLBuilderToken';
 
 describe('URLBuilder and URLBuilderToken are available', () => {
   it('URLBuilder', () => {

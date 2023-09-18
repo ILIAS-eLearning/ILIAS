@@ -169,27 +169,27 @@ Examples:
 subdirectory structure (omit the `templates` subdirectory). E.g. to replace the
 template file `Services/XYZ/templates/tpl.xyz.html` create a new
 version at `Customizing/global/skin/myskin/Services/XYZ/tpl.xyz.html`. A template of a UI Component located in 
-`src/UI/templates/default/XYZ/tpl.xyz.html` can be customized by creating a 
+`components/ILIAS/UI/src/templates/default/XYZ/tpl.xyz.html` can be customized by creating a 
 `Customizing/global/skin/myskin/UI/XYZ/tpl.xyz.html` file.
 
 The following list contains some standard template files, that are often changed in
 skins:
 
 - [Standard Layout](https://test6.ilias.de/goto_test6_stys_21_LayoutPageStandardStandard_default_delos.html?), 
-template file: src/UI/templates/default/Layout/tpl.standardpage.html, the frame of the DOM for the complete ILIAS page. 
+template file: components/ILIAS/UI/src/templates/default/Layout/tpl.standardpage.html, the frame of the DOM for the complete ILIAS page. 
 Also checkout the according scss variable under section Layout (UI Layout Page).
 - [Meta Bar](https://test6.ilias.de/goto_test6_stys_21_MainControlsMetaBarMetaBar_default_delos.html?) 
-template file: src/UI/templates/default/MainControls/tpl.metabar.html, the Bar on the top holding Notification, Search User Avatar, etc.
+template file: components/ILIAS/UI/src/templates/default/MainControls/tpl.metabar.html, the Bar on the top holding Notification, Search User Avatar, etc.
 Also checkout the according metabar scss variables.
 - [Main Bar](https://test6.ilias.de/goto_test6_stys_21_MainControlsMainBarMainBar_default_delos.html?) 
-template directory: src/UI/templates/default/MainControls/tpl.mainbar.html, the Bar on the left holding triggers for opening the slates for
+template directory: components/ILIAS/UI/src/templates/default/MainControls/tpl.mainbar.html, the Bar on the left holding triggers for opening the slates for
 accessing Repository, Dasbhoard etc. Content.
 Also checkout the according mainbar scss variables.
 - [Slate](https://test6.ilias.de/goto_test6_stys_21_MainControlsSlateFactorySlate_default_delos.html?) 
-template directory: src/UI/templates/default/MainControls/Slate/tpl.slate.html, the Slates triggered by opening items of the Main Bar.
+template directory: components/ILIAS/UI/src/templates/default/MainControls/Slate/tpl.slate.html, the Slates triggered by opening items of the Main Bar.
 Also checkout the according slate scss variables.
 - [Breadcrumbs](https://test6.ilias.de/goto_test6_stys_21_BreadcrumbsBreadcrumbsBreadcrumbs_default_delos.html?)
-template directory: src/UI/templates/default/Breadcrumbs/tpl.breadcrumbs.html, Breadcrumbs working as locator on the top of the page.
+template directory: components/ILIAS/UI/src/templates/default/Breadcrumbs/tpl.breadcrumbs.html, Breadcrumbs working as locator on the top of the page.
 Also checkout the breadcrumb scss variables.
 
 * Startup Screens (Login, Registration, ...): `Services/Init/templates/default/tpl .startup_screen.html`
@@ -263,20 +263,20 @@ for ILIAS think an manually move changes that are still needed from oder version
 Also, most importantly the following components have been introduced:
 
 - [Standard Layout](https://test6.ilias.de/goto_test6_stys_21_LayoutPageStandardStandard_default_delos.html?), 
-template directory: src/UI/templates/default/Layout, the frame of the DOM for the complete ILIAS page. 
+template directory: components/ILIAS/UI/src/templates/default/Layout, the frame of the DOM for the complete ILIAS page. 
 Also checkout the according scss variable under section Layout (UI Layout Page).
 - [Meta Bar](https://test6.ilias.de/goto_test6_stys_21_MainControlsMetaBarMetaBar_default_delos.html?) 
-template directory: src/UI/templates/default/MainControls, the Bar on the top holding Notification, Search User Avatar, etc.
+template directory: components/ILIAS/UI/src/templates/default/MainControls, the Bar on the top holding Notification, Search User Avatar, etc.
 Also checkout the according metabar scss variables.
 - [Main Bar](https://test6.ilias.de/goto_test6_stys_21_MainControlsMainBarMainBar_default_delos.html?) 
-template directory: src/UI/templates/default/MainControls, the Bar on the left holding triggers for opening the slates for
+template directory: components/ILIAS/UI/src/templates/default/MainControls, the Bar on the left holding triggers for opening the slates for
 accessing Repository, Dasbhoard etc. Content.
 Also checkout the according mainbar scss variables.
 - [Slate](https://test6.ilias.de/goto_test6_stys_21_MainControlsSlateFactorySlate_default_delos.html?) 
-template directory: src/UI/templates/default/MainControls/Slate, the Slates triggered by opening items of the Main Bar.
+template directory: components/ILIAS/UI/src/templates/default/MainControls/Slate, the Slates triggered by opening items of the Main Bar.
 Also checkout the according slate scss variables.
 - [Breadcrumbs](https://test6.ilias.de/goto_test6_stys_21_BreadcrumbsBreadcrumbsBreadcrumbs_default_delos.html?)
-template directory: src/UI/templates/default/Breadcrumbs, Breadcrumbs working as locator on the top of the page.
+template directory: components/ILIAS/UI/src/templates/default/Breadcrumbs, Breadcrumbs working as locator on the top of the page.
 Also checkout the breadcrumb scss variables.
 
 See above section on information on how to customize those components.

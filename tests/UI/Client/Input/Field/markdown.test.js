@@ -5,9 +5,9 @@
  * @author Thibeau Fuhrer <thibeau@sr.solutions>
  */
 
-import MarkdownFactory from "../../../../../src/UI/templates/js/Input/Field/src/Markdown/markdown.factory";
-import PreviewRenderer from "../../../../../src/UI/templates/js/Input/Field/src/Markdown/preview.renderer";
-import Markdown from "../../../../../src/UI/templates/js/Input/Field/src/Markdown/markdown.class";
+import MarkdownFactory from "../../../../../components/ILIAS/UI/src/templates/js/Input/Field/src/Markdown/markdown.factory";
+import PreviewRenderer from "../../../../../components/ILIAS/UI/src/templates/js/Input/Field/src/Markdown/preview.renderer";
+import Markdown from "../../../../../components/ILIAS/UI/src/templates/js/Input/Field/src/Markdown/markdown.class";
 import {assert, expect} from "chai";
 import {JSDOM} from "jsdom";
 

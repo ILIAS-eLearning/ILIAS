@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import filter from "../../../../../src/UI/templates/js/Input/Container/src/filter.main.js";
+import filter from "../../../../../components/ILIAS/UI/src/templates/js/Input/Container/src/filter.main.js";
 
 describe('filter components are there', function() {
   it('filter', function() {

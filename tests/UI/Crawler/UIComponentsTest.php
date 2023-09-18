@@ -30,7 +30,7 @@ use PHPUnit\Framework\TestCase;
 class UIComponentsTest extends TestCase
 {
     protected Crawler\FactoriesCrawler $crawler;
-    protected string $path_to_base_factory = "src/UI/Factory.php";
+    protected string $path_to_base_factory = "components/ILIAS/UI/src/Factory.php";
 
 
     protected function setUp(): void

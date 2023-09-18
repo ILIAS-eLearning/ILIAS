@@ -2,11 +2,11 @@ import { expect } from 'chai';
 import {JSDOM} from 'jsdom';
 import fs from 'fs';
 
-import ddmodel from '../../../../../src/UI/templates/js/Menu/src/drilldown.model.js';
-import ddmapping from '../../../../../src/UI/templates/js/Menu/src/drilldown.mapping.js';
-import ddpersistence from '../../../../../src/UI/templates/js/Menu/src/drilldown.persistence.js';
-import dd from '../../../../../src/UI/templates/js/Menu/src/drilldown.main.js';
-import drilldown from '../../../../../src/UI/templates/js/Menu/src/drilldown.instances.js';
+import ddmodel from '../../../../../components/ILIAS/UI/src/templates/js/Menu/src/drilldown.model.js';
+import ddmapping from '../../../../../components/ILIAS/UI/src/templates/js/Menu/src/drilldown.mapping.js';
+import ddpersistence from '../../../../../components/ILIAS/UI/src/templates/js/Menu/src/drilldown.persistence.js';
+import dd from '../../../../../components/ILIAS/UI/src/templates/js/Menu/src/drilldown.main.js';
+import drilldown from '../../../../../components/ILIAS/UI/src/templates/js/Menu/src/drilldown.instances.js';
 
 describe('drilldown', function() {
    

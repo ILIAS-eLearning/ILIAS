@@ -41,7 +41,7 @@ If you are interested, you can read more about why we switched preprocessors fro
 
 HTML templates are only responsible for a well structured HTML document, which displays the bare content of the website and nothing else.
 
-They can be found in `src/UI/templates/default` for modern UI components or in `Modules/` and `Services/` for legacy components.
+They can be found in `components/ILIAS/UI/src/templates/default` for modern UI components or in `Modules/` and `Services/` for legacy components.
 
 ### Guidelines
 * New class names MUST follow the naming convention outlined in this document.

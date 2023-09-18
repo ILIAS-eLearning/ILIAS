@@ -93,6 +93,6 @@ return
             'less_variables' =>
                 array(
                 ),
-            'path' => 'src/UI/Factory',
+            'path' => 'components/ILIAS/UI/src/Factory',
             'namespace' => 'ILIAS\\UI\\Factory',
 );

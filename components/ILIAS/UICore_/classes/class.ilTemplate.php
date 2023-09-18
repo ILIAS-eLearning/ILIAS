@@ -351,7 +351,7 @@ class ilTemplate extends HTML_Template_ITX
                 $style = ilStyleDefinition::getCurrentStyle();
                 $skin = ilStyleDefinition::getCurrentSkin();
                 $base_path = "./Customizing/global/skin/";
-                $ui_path = "/" . str_replace("src/UI/templates/default", "UI", $a_tplname);
+                $ui_path = "/" . str_replace("components/ILIAS/UI/src/templates/default", "UI", $a_tplname);
                 $fname = $base_path . ilStyleDefinition::getCurrentSkin() . "/" . $style . "/" . $ui_path;
 
                 if (!file_exists($fname)) {

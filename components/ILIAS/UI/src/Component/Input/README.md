@@ -1,0 +1,212 @@
+# Input Handling in the UI-Framework
+
+The model used for implementing inputs in the UI-framework is build by four basic
+blocks:
+
+* A *field* defines, which visual input elements a user can see, which constraints
+  are put on those fields and which values developers on the server side retrieve
+  from these inputs. *fields* can also be arranged to *groups* which allow to place
+  constraints on a collection of such fields. Such *groups* may also alter the visual 
+  appearance of *fields*.
+* A *container* defines, which means of submitting the forms are used and how
+  the fields are displayed together.
+* A *constraint* puts some restriction on the values supplied by the user.
+  Constraints can also be used independently from the UI-framework, as they are
+  [implemented in the Refinery](src/Refinery/README.md).
+* A *transformation* defines, how a value supplied by the user should be processed.
+  Like constraints, transformations are [implemented in the Refinery](src/Refinery/README.md)
+  and can thus be used independently from the UI-framework.
+
+To create a form, the developer uses fields from the UI-framework. She may then
+enrich them with constraints and transformations to adopt the general input
+elements to the case at hand. She may also group the fields in various ways.
+She then uses a container for the fields, e.g. a property form, to define what
+the general appearance of the inputs is and how they should be transmitted from
+the client to the server. She may also bind a final transformation to the whole
+form, to tie all inputs together.
+
+The form then is rendered and displayed like every other UI-component. The user
+fills in the fields and submits the form back to the server in the defined way.
+
+The developer passes the request retrieved from the user to the form. The form
+internally uses the constraints and transformations put on the fields to evaluate
+if the inputs of the users are corrected and what the result is. Depending on
+the result, the developer can either choose to do further processing on the valid
+result or display the form again to the client, now showing the problems with the
+input.
+
+## Fields
+
+A [input field](components/ILIAS/UI/src/Component/Input/Field/Input.php) in the model can be thought of
+as two things, glued together:
+
+* The look of the field, which is defined by the renderer belonging to the field
+  in the same way as this is defined for other UI components. Most of the methods
+  in the `Input`-interface account to that part of the model.
+* The content of the field, which is roughly the thing the user supplied to the
+  input field, but in a more abstract way.
+
+Since the first part is similar to other UI components, we focus on the second
+part. The `field`-model allows developers to talk about the input of users
+without knowing the actual value the user supplied, which together with
+`Transformation` and `Constraint` is a powerful abstraction to compose forms.
+
+Think of the input as a box containing a value, but do not have the key to the
+box, so you cannot open it to inspect the value:
+
+```
+*---*
+| ? |
+*---*
+```
+
+You still have the possibility to modify that value by applying a transformation
+to it via `withAdditionalTransformation`:
+
+```
+*---*                                      *------*
+| ? |->withAdditionalTransformation(f) =>  | f(?) |
+*---*                                      *------*
+```
+
+The box now contains another value, i.e. the (still unknown) value one would
+get after applying the known transformation to the previous (unknown) value.
+It is of course possible to stack multiple transformation onto each other.
+
+One also could define constraints the value needs to define via `withAdditionalConstraint`.
+The constraints are the interleaved with the transformations in the order
+they were defined:
+
+```
+*---*
+| ? |->withAdditionalTransformation(f)->withAdditionalContraint(c)->withAdditionalTransformation(g)
+*---*
+
+   *--------------*
+=> | g(c(f( ? ))) |
+   *--------------*
+```
+
+The facility to fill in the yet unknown value `?` with client input then belongs
+to the container which will be explained in the following.
+
+This model allows for easily building new inputs from existing ones by adding new
+constraints or transformations to them. Since the data processing is bound to the
+fields, it can be exchanged with them and makes it easy to share components in the
+system. This will allow for fields that contain tightly defined or even complex
+datastructures without the burden on the users of the field to know about the
+details of the data retrieval from the client.
+
+## Containers
+
+An input container defines the means how the data entered by the user reaches the
+server and how the post processing of the values from the client is performed. It
+may also define visual appearance of the inputs. Two instances of containers that
+will be created are the standard form, known and loved by every ILIAS user, and the
+filter. Since these tasks may be rather diverse depending on the type of container,
+there is no common interface for containers and a general description of their
+tasks is hard.
+
+Instead of describing general container responsibilities we thus walk through
+the abstract [Form class](components/ILIAS/UI/src/Implementation/Component/Input/Container/Form/Form.php).
+
+First thing to note is that the class implements the `NameSource` interface.
+Developers do not need to assign HTML-side `name`s to the input fields to make
+the fields composable. This task is done automatically at the moment the form is
+constructed. The implementation of `NameSource` in `getNewName` is rather simple. 
+
+Second thing to notice is that Form internally uses an input group. This done
+for code sharing. The things that the form adds on top of the group are the
+naming and the actual request handling.
+
+The request handling is performed in `withRequest`. The HTTP-Request is checked
+for general sanity and the data in POST is extracted. That data then is simply
+passed on two the input group which takes care of the further processing together
+with the fields contained in it.
+
+The developer in turn can retrieve that data via `getData` which uses the input
+group again to get hold onto the data.
+
+Other types of container might use other mechanisms for data submission. A filter
+e.g. will likely be commiting its content via query parameters in the URL to make
+the results of the query cachable and maintain HTTP-semantics. Another type of
+form might submit its contents asynchronously.
+
+## How to add a new Input
+
+Inputs in the UI-Framework are meant to be extended by new inovative form of enabling
+inputs by the user. To ease the definition of new inputs, we propose several examples
+in this tutorial walking throught the steps of adding new inputs one by one.
+
+### Example 1, Basic numeric field Input
+This example describes how the basic numeric input was added.
+
+#### Step 1, define the interface
+As with all UI-Elements, the first step should be to define the interface in the
+respective [factory](components/ILIAS/UI/src/Component/Input/Field/Factory.php) class and the
+[interface](components/ILIAS/UI/src/Component/Input/Field/numeric.php) of the input itself. It is
+very possible the interface of your new input just extend the existing basic
+interface of inputs without adding any new specialities. This interface MUST be
+discussed in the JF.
+
+#### Step 2, Design necessary default constraints and transformation
+You may need new constraints or validation you may want to offer to the ILIAS
+core the enable other developers to profit from those. For our new numeric input,
+we propsed the "[isNumeric](src/Validation/Constraints/IsNumeric.php)" constraint, 
+which will be quite handy for our new input.
+
+#### Step 3, Write tests
+Next you should write your tests for the new input (e.g. see [numeric input](tests/UI/Component/Input/Field/NumericInputTest.php)), 
+constraints (see [isNumeric](tests/Validation/Constraints/StandardConstraintsTest.php))
+and transformation.
+
+#### Step 4, Implement the inputs
+Implement the input (e.g. see "[numeric](components/ILIAS/UI/src/Implementation/Component/Input/Field/Numeric.php)",
+you may attach your new constraint in the constructor if needed. Also, extend
+the renderer with the logic of [rendering](components/ILIAS/UI/src/Implementation/Component/Input/Field/Renderer.php)
+your component. You probably also need a new template (e.g. see [tpl.numeric.html](components/ILIAS/UI/src/templates/default/Input/tpl.numeric.html)).
+
+#### Step 5, Propose an example
+Finally do not forget to implement an [example](components/ILIAS/UI/src/examples/Input/Field/Numeric/numeric_inputs.php)
+showing ot power of your new component.
+
+### Example 2, Group Field Input
+The steps of adding a new input group are almost the same as adding a new input with
+the exception that you need to extend the group interface and class instead of the
+basic input. Note that this input group also extends input. You may therefore also
+attach transformations and validations as needed.
+
+### Example 3, Container Input
+TBD, see the form as example for such a container.
+
+## How to add a new Filter Input
+
+After an Input has been added to the UI-Framework, it is possible to declare them as a
+Filter Input. Existing Inputs can not automatically be used in Filters, because
+not every Input makes sense there. A new Filter Input MUST be discussed in the Jour Fixe.
+
+#### Step 1, Extend from the Filter Input Interface
+When an Input is suitable to also be used as a Filter Input, it must extend the [FilterInput](components/ILIAS/UI/src/Component/Input/Field/FilterInput.php)
+interface. This ensures that not suitable Inputs will not be accepted in a Filter.
+At the moment, the interface includes the `isComplex()` method. With this method, the
+developer decides if the Input can be directly edited when clicking on it or if it is
+too complex and has to be rendererd in a Popover. In the future, the interface may 
+provide methods which are necessary for a correct behaviour of Inputs within Filters. 
+When a new Filter Input is added, you must take care of these methods in the
+implementation of each Input.
+
+#### Step 2, Extend the Filter Context Renderer
+Due to a different appearance of Inputs in the Filter component, Filter Inputs can not
+use the standard Renderer like for Forms. Therefore, the [FilterContextRenderer](components/ILIAS/UI/src/Implementation/Component/Input/Field/FilterContextRenderer.php)
+was introduced. In this renderer, you must provide an appropriate presentation of each
+new Filter Input within the Filter.
+
+#### Step 3, Check the filter.js and adapt it if needed
+Much magic happens via Javascript, so that the Filter can work properly. When you add
+a new Filter Input, it is highly probable that you have to add some Javascript code
+especially for your Filter Input. To have an idea about the necessary changes, please
+search for "Multi Select" in the `filter.js` and check the extra code which was added
+for that Input.
+
+# Handle Files
+You find information how to handle File-Uploads in [Services/FileServices/README.md](../../../../Services/FileServices/README.md) 

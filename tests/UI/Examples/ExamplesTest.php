@@ -31,7 +31,7 @@ use ILIAS\FileUpload\FileUpload;
  */
 class ExamplesTest extends ILIAS_UI_TestBase
 {
-    protected string $path_to_base_factory = "src/UI/Factory.php";
+    protected string $path_to_base_factory = "components/ILIAS/UI/src/Factory.php";
     protected Container $dic;
 
     public function setUp(): void
@@ -176,13 +176,13 @@ class ExamplesTest extends ILIAS_UI_TestBase
     public function provideListOfFullscreenExamples(): array
     {
         return [
-            ['ILIAS\UI\examples\MainControls\Footer\renderFooterInFullscreenMode', "src/UI/examples/MainControls/Footer/footer.php"],
-            ['ILIAS\UI\examples\MainControls\Footer\renderFooterWithModalsInFullscreenMode', "src/UI/examples/MainControls/Footer/footer_with_modals.php"],
-            ['ILIAS\UI\examples\MainControls\MetaBar\renderMetaBarInFullscreenMode', "src/UI/examples/MainControls/MetaBar/base_metabar.php"],
-            ['ILIAS\UI\examples\Layout\Page\Standard\getUIMainbarExampleCondensed', "src/UI/examples/Layout/Page/Standard/ui_mainbar.php"],
-            ['ILIAS\UI\examples\Layout\Page\Standard\getUIMainbarExampleFull', "src/UI/examples/Layout/Page/Standard/ui_mainbar.php"],
-            ['ILIAS\UI\examples\Layout\Page\Standard\ui', "src/UI/examples/Layout/Page/Standard/ui.php"],
-            ['ILIAS\UI\examples\MainControls\ModeInfo\renderModeInfoFullscreenMode', "src/UI/examples/MainControls/ModeInfo/modeinfo.php"]
+            ['ILIAS\UI\examples\MainControls\Footer\renderFooterInFullscreenMode', "components/ILIAS/UI/src/examples/MainControls/Footer/footer.php"],
+            ['ILIAS\UI\examples\MainControls\Footer\renderFooterWithModalsInFullscreenMode', "components/ILIAS/UI/src/examples/MainControls/Footer/footer_with_modals.php"],
+            ['ILIAS\UI\examples\MainControls\MetaBar\renderMetaBarInFullscreenMode', "components/ILIAS/UI/src/examples/MainControls/MetaBar/base_metabar.php"],
+            ['ILIAS\UI\examples\Layout\Page\Standard\getUIMainbarExampleCondensed', "components/ILIAS/UI/src/examples/Layout/Page/Standard/ui_mainbar.php"],
+            ['ILIAS\UI\examples\Layout\Page\Standard\getUIMainbarExampleFull', "components/ILIAS/UI/src/examples/Layout/Page/Standard/ui_mainbar.php"],
+            ['ILIAS\UI\examples\Layout\Page\Standard\ui', "components/ILIAS/UI/src/examples/Layout/Page/Standard/ui.php"],
+            ['ILIAS\UI\examples\MainControls\ModeInfo\renderModeInfoFullscreenMode', "components/ILIAS/UI/src/examples/MainControls/ModeInfo/modeinfo.php"]
         ];
     }
 }

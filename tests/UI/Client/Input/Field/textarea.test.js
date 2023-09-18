@@ -2,8 +2,8 @@
  * @author Thibeau Fuhrer <thibeau@sr.solutions>
  */
 
-import TextareaFactory from "../../../../../src/UI/templates/js/Input/Field/src/Textarea/textarea.factory";
-import Textarea from "../../../../../src/UI/templates/js/Input/Field/src/Textarea/textarea.class";
+import TextareaFactory from "../../../../../components/ILIAS/UI/src/templates/js/Input/Field/src/Textarea/textarea.factory";
+import Textarea from "../../../../../components/ILIAS/UI/src/templates/js/Input/Field/src/Textarea/textarea.class";
 import {assert, expect} from "chai";
 import {JSDOM} from "jsdom";
 

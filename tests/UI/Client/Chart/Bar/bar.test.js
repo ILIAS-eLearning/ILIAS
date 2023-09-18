@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 
-import horizontal from "../../../../../src/UI/templates/js/Chart/Bar/src/bar.horizontal";
-import vertical from "../../../../../src/UI/templates/js/Chart/Bar/src/bar.vertical";
+import horizontal from "../../../../../components/ILIAS/UI/src/templates/js/Chart/Bar/src/bar.horizontal";
+import vertical from "../../../../../components/ILIAS/UI/src/templates/js/Chart/Bar/src/bar.vertical";
 
 
 describe('bar', function() {

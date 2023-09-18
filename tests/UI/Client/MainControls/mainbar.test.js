@@ -1,10 +1,10 @@
 //'use strict';
 import { expect } from 'chai';
 //import { assert } from 'chai';
-import mainbar from "../../../../src/UI/templates/js/MainControls/src/mainbar.main.js";
-import model from "../../../../src/UI/templates/js/MainControls/src/mainbar.model.js";
-import persistence from "../../../../src/UI/templates/js/MainControls/src/mainbar.persistence.js";
-import renderer from "../../../../src/UI/templates/js/MainControls/src/mainbar.renderer.js";
+import mainbar from "../../../../components/ILIAS/UI/src/templates/js/MainControls/src/mainbar.main.js";
+import model from "../../../../components/ILIAS/UI/src/templates/js/MainControls/src/mainbar.model.js";
+import persistence from "../../../../components/ILIAS/UI/src/templates/js/MainControls/src/mainbar.persistence.js";
+import renderer from "../../../../components/ILIAS/UI/src/templates/js/MainControls/src/mainbar.renderer.js";
 
 describe('mainbar components are there', function() {
     it('mainbar', function() {

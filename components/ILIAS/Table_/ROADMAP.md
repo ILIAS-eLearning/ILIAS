@@ -1,6 +1,6 @@
 ## Introduction
 
-The Legacy-Table-Service has been lingering and causing problems for user experience, accessibility, updatability, and consistency for a long while now. To avoid this state going on forever Services/Table is marked as depricated and will be removed with ILIAS 10. Please make sure you have moved your UI to the [Table of the UI-Framework](https://github.com/ILIAS-eLearning/ILIAS/tree/trunk/src/UI/Component/Table) until then.
+The Legacy-Table-Service has been lingering and causing problems for user experience, accessibility, updatability, and consistency for a long while now. To avoid this state going on forever Services/Table is marked as depricated and will be removed with ILIAS 10. Please make sure you have moved your UI to the [Table of the UI-Framework](https://github.com/ILIAS-eLearning/ILIAS/tree/trunk/components/ILIAS/UI/src/Component/Table) until then.
 
 ## Further process
 * Presentation of the project to remove Services/Table at the Jour Fixe for big projects for ILIAS 9 in February 2022.

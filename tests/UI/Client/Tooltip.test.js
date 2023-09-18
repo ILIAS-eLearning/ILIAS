@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import Tooltip from "../../../src/UI/templates/js/Core/src/core.Tooltip.js";
+import Tooltip from "../../../components/ILIAS/UI/src/templates/js/Core/src/core.Tooltip.js";
 
 describe("tooltip class exists", function() {
     it("Tooltip", function() {

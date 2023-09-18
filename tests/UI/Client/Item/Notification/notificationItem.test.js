@@ -2,8 +2,8 @@ import {expect} from "chai";
 import {JSDOM} from 'jsdom';
 import fs from 'fs';
 
-import {notificationItemFactory,notificationItemObject} from "../../../../../src/UI/templates/js/Item/src/notification.main";
-import {counterFactory} from "../../../../../src/UI/templates/js/Counter/src/counter.main";
+import {notificationItemFactory,notificationItemObject} from "../../../../../components/ILIAS/UI/src/templates/js/Item/src/notification.main";
+import {counterFactory} from "../../../../../components/ILIAS/UI/src/templates/js/Counter/src/counter.main";
 
 var test_dom_string = fs.readFileSync('./tests/UI/Client/Item/Notification/NotificationItemTest.html').toString();
 var test_document = new JSDOM( test_dom_string );

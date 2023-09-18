@@ -30,7 +30,7 @@ function build() {
   mkdir ${BUILD_BASE_FOLDER}/Modules
 
   cp -r ./templates/default/* ${BUILD_BASE_FOLDER}
-  cp -r ./src/UI/templates/default/* ${BUILD_BASE_FOLDER}/UI
+  cp -r ./components/ILIAS/UI/src/templates/default/* ${BUILD_BASE_FOLDER}/UI
 
 
   declare -a SERVICES

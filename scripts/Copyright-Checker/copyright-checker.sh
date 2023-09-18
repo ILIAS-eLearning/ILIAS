@@ -108,7 +108,7 @@ function is_ui_example() {
   fi
 
   file="$(realpath ${file})"
-  if [[ "${file}" == *"src/UI/examples"* ]]; then
+  if [[ "${file}" == *"components/ILIAS/UI/src/examples"* ]]; then
     return 0
   fi
 
