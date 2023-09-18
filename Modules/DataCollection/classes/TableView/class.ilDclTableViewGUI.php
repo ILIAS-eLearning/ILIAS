@@ -68,7 +68,7 @@ class ilDclTableViewGUI
 
         if (!$this->checkAccess()) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
-            $this->ctrl->redirectByClass('ildclrecordlistgui', 'listRecords');
+            $this->ctrl->redirectByClass(ilDclRecordListGUI::class, 'listRecords');
         }
     }
 
@@ -79,7 +79,7 @@ class ilDclTableViewGUI
         $next_class = $this->ctrl->getNextClass($this);
 
         switch ($next_class) {
-            case 'ildcltablevieweditgui':
+            case strtolower(ilDclTableViewEditGUI::class):
                 if ($this->http->wrapper()->query()->has('tableview_id')) {
                     $tableview_id = $this->http->wrapper()->query()->retrieve(
                         'tableview_id',
@@ -120,7 +120,7 @@ class ilDclTableViewGUI
     {
         $add_new = $this->ui_factory->button()->primary(
             $this->lng->txt("dcl_add_new_view"),
-            $this->ctrl->getLinkTargetByClass('ilDclTableViewEditGUI', 'add')
+            $this->ctrl->getLinkTargetByClass(ilDclTableViewEditGUI::class, 'add')
         );
         $this->toolbar->addStickyItem($add_new);
 
