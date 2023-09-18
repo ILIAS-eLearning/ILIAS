@@ -1,0 +1,14 @@
+{
+    "maintenance_model": "Classic",
+    "first_maintainer": "smeyer(191)",
+    "second_maintainer": "akill(149)",
+    "implicit_maintainers": [],
+    "coordinator": [
+        ""
+    ],
+    "tester": "iLUB Universität Bern",
+    "testcase_writer": "iLUB Universität Bern",
+    "path": "components/ILIAS/GroupReference_",
+    "belong_to_component": "Group",
+    "used_in_components": []
+}

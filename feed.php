@@ -20,10 +20,10 @@
  * News feed script.
  * @author Alexander Killing <killing@leifos.de>
  */
-include_once "components/ILIAS/Context/classes/class.ilContext.php";
+include_once "components/ILIAS/Context_/classes/class.ilContext.php";
 ilContext::init(ilContext::CONTEXT_RSS);
 
-require_once("components/ILIAS/Init/classes/class.ilInitialisation.php");
+require_once("components/ILIAS/Init_/classes/class.ilInitialisation.php");
 ilInitialisation::initILIAS();
 global $DIC;
 

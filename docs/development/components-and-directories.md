@@ -124,8 +124,8 @@ provided by the vendor in question. Hence a component folder might look as such:
 
 Each of these folder contains an according component. The `\src` directory
 in that folder contains the root of an according namespace, as described
-by [PSR-4](https://www.php-fig.org/psr/psr-4/). For example: `components/ILIAS/AccessControl`
-contains the component `ILIAS\AccessControl`, `components/ILIAS/AccessControl/src`
+by [PSR-4](https://www.php-fig.org/psr/psr-4/). For example: `components/ILIAS/AccessControl_`
+contains the component `ILIAS\AccessControl`, `components/ILIAS/AccessControl_/src`
 is the root of the namespace `ILIAS\AccessControl`.
 
 A components folder also contains this substructure:

@@ -1,0 +1,14 @@
+{
+    "maintenance_model": "Classic",
+    "first_maintainer": "akill(149)",
+    "second_maintainer": "",
+    "implicit_maintainers": [],
+    "coordinator": [
+        ""
+    ],
+    "tester": "suittenpointner(3458)",
+    "testcase_writer": "suittenpointner(3458)",
+    "path": "components/ILIAS/HTMLLearningModule_",
+    "belong_to_component": "Learning Module HTML",
+    "used_in_components": []
+}

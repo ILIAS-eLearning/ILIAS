@@ -1,0 +1,21 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<service xmlns="http://www.w3.org" version="$Id$" id="cert">
+	<baseclasses>
+	</baseclasses>
+	<objects>
+		<object id="cert" class_name="CertificateSettings" dir="classes"
+			checkbox="0" inherit="0" translate="sys" rbac="1" system="1" administration="1">
+			<parent id="adm" max="1">adm</parent>
+		</object>
+	</objects>
+	<events>
+		<event type="listen" id="components/ILIAS/Tracking_" />
+		<event type="listen" id="components/ILIAS/Certificate_" />
+		<event type="listen" id="components/ILIAS/User_" />
+		<event type="raise" id="certificateIssued" />
+	</events>
+	<crons>
+		<cron id="certificate" class="ilCertificateCron" />
+	</crons>
+	<logging />
+</service>

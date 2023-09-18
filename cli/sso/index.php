@@ -23,10 +23,10 @@ if (isset($_GET["client_id"])) {
 
 define('IL_COOKIE_PATH', $cookie_path);
 
-include_once './components/ILIAS/Context/classes/class.ilContext.php';
+include_once './components/ILIAS/Context_/classes/class.ilContext.php';
 ilContext::init(ilContext::CONTEXT_APACHE_SSO);
 
-require_once("components/ILIAS/Init/classes/class.ilInitialisation.php");
+require_once("components/ILIAS/Init_/classes/class.ilInitialisation.php");
 ilInitialisation::initILIAS();
 
 $ilCtrl->setCmd('doApacheAuthentication');

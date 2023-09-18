@@ -1,0 +1,14 @@
+{
+    "maintenance_model": "Classic",
+    "first_maintainer": "akill(149)",
+    "second_maintainer": "",
+    "implicit_maintainers": [],
+    "coordinator": [
+        ""
+    ],
+    "tester": "",
+    "testcase_writer": "",
+    "path": "components/ILIAS/Tasks_",
+    "belong_to_component": "Tasks",
+    "used_in_components": []
+}

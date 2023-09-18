@@ -1,0 +1,16 @@
+{
+    "maintenance_model": "Classic",
+    "first_maintainer": "kunkel(115)",
+    "second_maintainer": "katrin.grosskopf(68340)",
+    "implicit_maintainers": [],
+    "coordinator": [
+        ""
+    ],
+    "tester": "kunkel(115)",
+    "testcase_writer": "",
+    "path": "components/ILIAS/Language_",
+    "belong_to_component": "Language Handling",
+    "used_in_components": [
+        "All"
+    ]
+}

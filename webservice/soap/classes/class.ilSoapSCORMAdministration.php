@@ -88,8 +88,8 @@ class ilSoapSCORMAdministration extends ilSoapAdministration
             );
         }
 
-        require_once("./components/ILIAS/ScormAicc/classes/SCORM/class.ilSCORMObject.php");
-        require_once("./components/ILIAS/ScormAicc/classes/SCORM/class.ilSCORMResource.php");
+        require_once("./components/ILIAS/ScormAicc_/classes/SCORM/class.ilSCORMObject.php");
+        require_once("./components/ILIAS/ScormAicc_/classes/SCORM/class.ilSCORMResource.php");
 
         $imsFilename = $lm_obj->getDataDirectory() . DIRECTORY_SEPARATOR . "imsmanifest.xml";
 
@@ -166,8 +166,8 @@ class ilSoapSCORMAdministration extends ilSoapAdministration
             );
         }
 
-        include_once 'components/ILIAS/Tracking/classes/class.ilLPStatus.php';
-        include_once 'components/ILIAS/Tracking/classes/class.ilObjUserTracking.php';
+        include_once 'components/ILIAS/Tracking_/classes/class.ilLPStatus.php';
+        include_once 'components/ILIAS/Tracking_/classes/class.ilObjUserTracking.php';
 
         if (!ilObjUserTracking::_enabledLearningProgress()) {
             return $this->raiseError('Learning progress not enabled in this installation. Aborting!', 'Server');

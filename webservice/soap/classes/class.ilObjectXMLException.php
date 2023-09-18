@@ -21,7 +21,7 @@
     +-----------------------------------------------------------------------------+
 */
 
-include_once('components/ILIAS/Exceptions/classes/class.ilException.php');
+include_once('components/ILIAS/Exceptions_/classes/class.ilException.php');
 
 /**
  * Exception class for ObjectXMLWriter and ObjectXMLParser

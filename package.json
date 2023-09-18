@@ -227,7 +227,7 @@
       "introduction-date": "2015-08-11",
       "approved-by": "Jour Fixe",
       "developer": "akill",
-      "purpose": "components/ILIAS/Link, autolinking of external links",
+      "purpose": "components/ILIAS/Link_, autolinking of external links",
       "last-update-for-ilias": "5.4.13"
     },
     "@yaireo/tagify": {

@@ -1,0 +1,17 @@
+{
+    "maintenance_model": "Classic",
+    "first_maintainer": "",
+    "second_maintainer": "",
+    "implicit_maintainers": [
+        "gvollbach(25234)",
+        "mjansen(8784)"
+    ],
+    "coordinator": [
+        ""
+    ],
+    "tester": "",
+    "testcase_writer": "",
+    "path": "components/ILIAS/Math_",
+    "belong_to_component": "None",
+    "used_in_components": []
+}

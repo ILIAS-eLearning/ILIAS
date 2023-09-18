@@ -1,0 +1,14 @@
+{
+    "maintenance_model": "Classic",
+    "first_maintainer": "fawinike(44474)",
+    "second_maintainer": "",
+    "implicit_maintainers": [],
+    "coordinator": [
+        ""
+    ],
+    "tester": "",
+    "testcase_writer": "",
+    "path": "components/ILIAS/User_",
+    "belong_to_component": "User Service",
+    "used_in_components": []
+}

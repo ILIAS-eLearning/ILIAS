@@ -1,0 +1,14 @@
+{
+    "maintenance_model": "Classic",
+    "first_maintainer": "akill(149)",
+    "second_maintainer": "",
+    "implicit_maintainers": [],
+    "coordinator": [
+        ""
+    ],
+    "tester": "Fabian(27631)",
+    "testcase_writer": "Fabian(27631)",
+    "path": "components/ILIAS/Rating_",
+    "belong_to_component": "Rating",
+    "used_in_components": []
+}

@@ -1,0 +1,14 @@
+{
+    "maintenance_model": "Classic",
+    "first_maintainer": "smeyer(191)",
+    "second_maintainer": "",
+    "implicit_maintainers": [],
+    "coordinator": [
+        ""
+    ],
+    "tester": "nadine.bauser(34662)",
+    "testcase_writer": "nadine.bauser(34662)",
+    "path": "components/ILIAS/WebResource_",
+    "belong_to_component": "Weblink",
+    "used_in_components": []
+}

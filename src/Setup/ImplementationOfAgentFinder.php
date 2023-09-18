@@ -112,7 +112,7 @@ class ImplementationOfAgentFinder implements AgentFinder
      */
     public function getPluginAgent(string $name): Agent
     {
-        // TODO: This seems to be something that rather belongs to components/ILIAS/Component/
+        // TODO: This seems to be something that rather belongs to components/ILIAS/Component_/
         // but we put it here anyway for the moment. This seems to be something that
         // could go away when we unify components/ILIAS/Modules/Plugins to one common concept.
         $path = "[/]components/SERVICEPROVIDER/.*/.*/" . $name . "/.*";

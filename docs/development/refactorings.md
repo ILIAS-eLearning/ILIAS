@@ -89,7 +89,7 @@ with the comment ``@noRector`, e.g.:
 ```php
 /** @noRector  */
 $this->class_loader = include 
-"components/ILIAS/GlobalScreen/artifacts/global_screen_providers.php";
+"components/ILIAS/GlobalScreen_/artifacts/global_screen_providers.php";
 ```
 
 It's quite easy to write own rules for rector, currently done with the Rule 

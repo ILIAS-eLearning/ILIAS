@@ -1,0 +1,14 @@
+{
+    "maintenance_model": "Classic",
+    "first_maintainer": "smeyer(191)",
+    "second_maintainer": "",
+    "implicit_maintainers": [],
+    "coordinator": [
+        ""
+    ],
+    "tester": "Future Learning",
+    "testcase_writer": "FH Aachen",
+    "path": "components/ILIAS/Search_",
+    "belong_to_component": "Search",
+    "used_in_components": []
+}

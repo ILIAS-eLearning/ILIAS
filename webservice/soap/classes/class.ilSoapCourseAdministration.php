@@ -64,7 +64,7 @@ class ilSoapCourseAdministration extends ilSoapAdministration
             return $this->raiseError('Check access failed. No permission to create courses', 'Server');
         }
 
-        include_once("components/ILIAS/Course/classes/class.ilObjCourse.php");
+        include_once("components/ILIAS/Course_/classes/class.ilObjCourse.php");
 
         $newObj = new ilObjCourse();
         $newObj->setType('crs');
@@ -75,7 +75,7 @@ class ilSoapCourseAdministration extends ilSoapAdministration
         $newObj->putInTree($target_id);
         $newObj->setPermissions($target_id);
 
-        include_once 'components/ILIAS/Course/classes/class.ilCourseXMLParser.php';
+        include_once 'components/ILIAS/Course_/classes/class.ilCourseXMLParser.php';
 
         $xml_parser = new ilCourseXMLParser($newObj);
         $xml_parser->setXMLContent($crs_xml);
@@ -95,7 +95,7 @@ class ilSoapCourseAdministration extends ilSoapAdministration
             return $this->raiseError($this->getMessage(), $this->getMessageCode());
         }
 
-        include_once "./components/ILIAS/Utilities/classes/class.ilUtil.php";
+        include_once "./components/ILIAS/Utilities_/classes/class.ilUtil.php";
         global $DIC;
 
         $rbacsystem = $DIC['rbacsystem'];
@@ -188,13 +188,13 @@ class ilSoapCourseAdministration extends ilSoapAdministration
             return $this->raiseError('Cannot create user instance!', 'Server');
         }
 
-        include_once 'components/ILIAS/Course/classes/class.ilCourseParticipants.php';
+        include_once 'components/ILIAS/Course_/classes/class.ilCourseParticipants.php';
 
         $course_members = ilCourseParticipants::_getInstanceByObjId($tmp_course->getId());
 
         switch ($type) {
             case 'Admin':
-                require_once("components/ILIAS/Administration/classes/class.ilSetting.php");
+                require_once("components/ILIAS/Administration_/classes/class.ilSetting.php");
                 $settings = new ilSetting();
                 $course_members->add($tmp_user->getId(), ilParticipants::IL_CRS_ADMIN);
                 $course_members->updateNotification(
@@ -253,7 +253,7 @@ class ilSoapCourseAdministration extends ilSoapAdministration
             return $this->raiseError('Check access failed. No permission to write to course', 'Server');
         }
 
-        include_once 'components/ILIAS/Course/classes/class.ilCourseParticipants.php';
+        include_once 'components/ILIAS/Course_/classes/class.ilCourseParticipants.php';
 
         $course_members = ilCourseParticipants::_getInstanceByObjId($tmp_course->getId());
         if (!$course_members->checkLastAdmin(array($user_id))) {
@@ -303,7 +303,7 @@ class ilSoapCourseAdministration extends ilSoapAdministration
             return $this->raiseError('Check access failed. No permission to write to course', 'Server');
         }
 
-        include_once './components/ILIAS/Course/classes/class.ilCourseParticipants.php';
+        include_once './components/ILIAS/Course_/classes/class.ilCourseParticipants.php';
         $crs_members = ilCourseParticipants::_getInstanceByObjId($tmp_course->getId());
 
         if ($crs_members->isAdmin($user_id)) {
@@ -340,7 +340,7 @@ class ilSoapCourseAdministration extends ilSoapAdministration
             return $tmp_course;
         }
 
-        include_once 'components/ILIAS/Course/classes/class.ilCourseXMLWriter.php';
+        include_once 'components/ILIAS/Course_/classes/class.ilCourseXMLWriter.php';
         $xml_writer = new ilCourseXMLWriter($tmp_course);
         $xml_writer->start();
         return $xml_writer->getXML();
@@ -383,18 +383,18 @@ class ilSoapCourseAdministration extends ilSoapAdministration
         }
 
         // First delete old meta data
-        include_once 'components/ILIAS/MetaData/classes/class.ilMD.php';
+        include_once 'components/ILIAS/MetaData_/classes/class.ilMD.php';
 
         $md = new ilMD($tmp_course->getId(), 0, 'crs');
         $md->deleteAll();
 
-        include_once 'components/ILIAS/Course/classes/class.ilCourseParticipants.php';
+        include_once 'components/ILIAS/Course_/classes/class.ilCourseParticipants.php';
         ilCourseParticipants::_deleteAllEntries($tmp_course->getId());
 
-        include_once 'components/ILIAS/Course/classes/class.ilCourseWaitingList.php';
+        include_once 'components/ILIAS/Course_/classes/class.ilCourseWaitingList.php';
         ilCourseWaitingList::_deleteAll($tmp_course->getId());
 
-        include_once 'components/ILIAS/Course/classes/class.ilCourseXMLParser.php';
+        include_once 'components/ILIAS/Course_/classes/class.ilCourseXMLParser.php';
 
         $xml_parser = new ilCourseXMLParser($tmp_course);
         $xml_parser->setXMLContent($xml);
@@ -508,8 +508,8 @@ class ilSoapCourseAdministration extends ilSoapAdministration
         $ref_ids = array_unique($ref_ids);
 
         include_once 'webservice/soap/classes/class.ilXMLResultSetWriter.php';
-        include_once 'components/ILIAS/Course/classes/class.ilObjCourse.php';
-        include_once 'components/ILIAS/Course/classes/class.ilCourseXMLWriter.php';
+        include_once 'components/ILIAS/Course_/classes/class.ilObjCourse.php';
+        include_once 'components/ILIAS/Course_/classes/class.ilCourseXMLWriter.php';
 
         $xmlResultSet = new ilXMLResultSet();
         $xmlResultSet->addColumn("ref_id");

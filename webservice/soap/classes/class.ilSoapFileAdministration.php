@@ -65,9 +65,9 @@ class ilSoapFileAdministration extends ilSoapAdministration
         }
 
         // create object, put it into the tree and use the parser to update the settings
-        include_once './components/ILIAS/File/classes/class.ilFileXMLParser.php';
-        include_once './components/ILIAS/File/classes/class.ilFileException.php';
-        include_once './components/ILIAS/File/classes/class.ilObjFile.php';
+        include_once './components/ILIAS/File_/classes/class.ilFileXMLParser.php';
+        include_once './components/ILIAS/File_/classes/class.ilFileException.php';
+        include_once './components/ILIAS/File_/classes/class.ilObjFile.php';
 
         $file = new ilObjFile();
         try {
@@ -155,8 +155,8 @@ class ilSoapFileAdministration extends ilSoapAdministration
             );
         }
 
-        include_once './components/ILIAS/File/classes/class.ilFileXMLParser.php';
-        include_once './components/ILIAS/File/classes/class.ilFileException.php';
+        include_once './components/ILIAS/File_/classes/class.ilFileXMLParser.php';
+        include_once './components/ILIAS/File_/classes/class.ilFileException.php';
         $fileXMLParser = new ilFileXMLParser($file, $file_xml, $obj_id);
 
         try {
@@ -236,7 +236,7 @@ class ilSoapFileAdministration extends ilSoapAdministration
             );
         }
 
-        include_once './components/ILIAS/File/classes/class.ilFileXMLWriter.php';
+        include_once './components/ILIAS/File_/classes/class.ilFileXMLWriter.php';
 
         $xmlWriter = new ilFileXMLWriter();
         $xmlWriter->setFile($file);

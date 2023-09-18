@@ -22,10 +22,10 @@ if (!file_exists(getcwd() . '/ilias.ini.php')) {
     exit();
 }
 
-require_once 'components/ILIAS/Context/classes/class.ilContext.php';
+require_once 'components/ILIAS/Context_/classes/class.ilContext.php';
 ilContext::init(ilContext::CONTEXT_SAML);
 
-require_once 'components/ILIAS/Init/classes/class.ilInitialisation.php';
+require_once 'components/ILIAS/Init_/classes/class.ilInitialisation.php';
 ilInitialisation::initILIAS();
 
 /** @var ILIAS\DI\Container $DIC */

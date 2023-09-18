@@ -1,0 +1,18 @@
+{
+    "maintenance_model": "Classic",
+    "first_maintainer": "dstrassner(48931)",
+    "second_maintainer": "mbecker(27266)",
+    "implicit_maintainers": [],
+    "coordinator": [
+        ""
+    ],
+    "tester": "SIG EA",
+    "testcase_writer": "Fabian(27631)",
+    "path": "components/ILIAS/AssessmentQuestion_",
+    "belong_to_component": "None",
+    "used_in_components": [
+        "Test",
+        "TestQuestionPool",
+        "LearningModule"
+    ]
+}

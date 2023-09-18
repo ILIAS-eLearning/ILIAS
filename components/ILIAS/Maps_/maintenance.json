@@ -1,0 +1,14 @@
+{
+    "maintenance_model": "Classic",
+    "first_maintainer": "rklees(34047)",
+    "second_maintainer": "dkloepfer(42712)",
+    "implicit_maintainers": [],
+    "coordinator": [
+        ""
+    ],
+    "tester": "miriamhoelscher(25370)",
+    "testcase_writer": "rklees(34047)",
+    "path": "components/ILIAS/Maps_",
+    "belong_to_component": "Maps",
+    "used_in_components": []
+}

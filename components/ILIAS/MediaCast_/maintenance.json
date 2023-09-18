@@ -1,0 +1,14 @@
+{
+    "maintenance_model": "Classic",
+    "first_maintainer": "akill(149)",
+    "second_maintainer": "",
+    "implicit_maintainers": [],
+    "coordinator": [
+        ""
+    ],
+    "tester": "berggold(22199)",
+    "testcase_writer": "berggold(22199)",
+    "path": "components/ILIAS/MediaCast_",
+    "belong_to_component": "MediaCast",
+    "used_in_components": []
+}

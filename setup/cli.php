@@ -11,9 +11,9 @@ require_once(__DIR__ . "/../libs/composer/vendor/autoload.php");
 
 require_once(__DIR__ . "/../cli/inc.ilias_version.php");
 
-// according to ./components/ILIAS/Feeds/classes/class.ilExternalFeed.php:
+// according to ./components/ILIAS/Feeds_/classes/class.ilExternalFeed.php:
 if (!defined("MAGPIE_DIR")) {
-    define("MAGPIE_DIR", "./components/ILIAS/Feeds/magpierss/");
+    define("MAGPIE_DIR", "./components/ILIAS/Feeds_/magpierss/");
 }
 
 require_once(__DIR__ . "/classes/class.ilSetupObjective.php");

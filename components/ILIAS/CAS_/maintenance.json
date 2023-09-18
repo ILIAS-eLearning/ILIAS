@@ -1,0 +1,14 @@
+{
+    "maintenance_model": "Classic",
+    "first_maintainer": "PerPascalSeeland(31492)",
+    "second_maintainer": "",
+    "implicit_maintainers": [],
+    "coordinator": [
+        ""
+    ],
+    "tester": "vimotion(25105)",
+    "testcase_writer": "FH Aachen",
+    "path": "components/ILIAS/CAS_",
+    "belong_to_component": "Login, Auth & Registration",
+    "used_in_components": []
+}
