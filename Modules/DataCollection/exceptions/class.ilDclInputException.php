@@ -29,59 +29,60 @@ class ilDclInputException extends ilException
     public const WRONG_FILE_TYPE = 6;
     public const CUSTOM_MESSAGE = 7;
     public const REGEX_CONFIG_EXCEPTION = 8;
+    protected ilLanguage $lng;
 
-    protected string $exception_type;
+    protected int $exception_type;
     protected string $additional_text;
 
     /**
      * @param string $exception_type
      */
-    public function __construct($exception_type, $additional_text = "")
+    public function __construct(int $exception_type, $additional_text = "")
     {
+        global $DIC;
+        $this->lng = $DIC->language();
+
         $this->exception_type = $exception_type;
         $this->additional_text = $additional_text;
         parent::__construct($this->__toString(), $exception_type);
     }
 
-    public function getExceptionType(): string
+    public function getExceptionType(): int
     {
         return $this->exception_type;
     }
 
     public function __toString(): string
     {
-        global $DIC;
-        $lng = $DIC['lng'];
-
         switch ($this->exception_type) {
             case self::TYPE_EXCEPTION:
-                $message = $lng->txt('dcl_wrong_input_type');
+                $message = $this->lng->txt('dcl_wrong_input_type');
                 break;
             case self::LENGTH_EXCEPTION:
-                $message = $lng->txt('dcl_wrong_length');
+                $message = $this->lng->txt('dcl_wrong_length');
                 break;
             case self::REGEX_EXCEPTION:
-                $message = $lng->txt('dcl_wrong_regex');
+                $message = $this->lng->txt('dcl_wrong_regex');
                 break;
             case self::REGEX_CONFIG_EXCEPTION:
-                $message = $lng->txt('dcl_invalid_regex_config');
+                $message = $this->lng->txt('dcl_invalid_regex_config');
                 break;
             case self::UNIQUE_EXCEPTION:
-                $message = $lng->txt('dcl_unique_exception');
+                $message = $this->lng->txt('dcl_unique_exception');
                 break;
             case self::NOT_URL:
-                $message = $lng->txt('dcl_noturl_exception');
+                $message = $this->lng->txt('dcl_noturl_exception');
                 break;
             case self::NOT_IMAGE:
-                $message = $lng->txt('dcl_notimage_exception');
+                $message = $this->lng->txt('dcl_notimage_exception');
                 break;
             case self::WRONG_FILE_TYPE:
-                $message = $lng->txt('dcl_not_supported_file_type');
+                $message = $this->lng->txt('dcl_not_supported_file_type');
                 break;
             case self::CUSTOM_MESSAGE:
                 return $this->additional_text;
             default:
-                $message = $lng->txt('dcl_unknown_exception');
+                $message = $this->lng->txt('dcl_unknown_exception');
         }
 
         if (strlen($this->additional_text) > 0) {
