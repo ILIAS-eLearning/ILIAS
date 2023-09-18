@@ -13756,7 +13756,7 @@ rbac#:#rbac_delete_local_policies_info#:#Wählen Sie diese Einstellung, um alle 
 rbac#:#rbac_delete_role#:#Rolle löschen
 rbac#:#rbac_edit_condition#:#Vorbedingung bearbeiten
 rbac#:#rbac_form_copy_roles_adjust_button#:#Rechte anpassen
-rbac#:#rbac_form_copy_roles_adjust_type#:#Typ der Rechteanpassung
+rbac#:#rbac_form_copy_roles_adjust_type#:#Art der Rechteanpassung
 rbac#:#rbac_form_copy_roles_adjust_type_add#:#Rechte hinzufügen
 rbac#:#rbac_form_copy_roles_adjust_type_add_info#:#Fügt MARKIERTE Rechte der ausgewählten globalen Rollenvorlage zu den lokalen Rechtevorgabe hinzu.
 rbac#:#rbac_form_copy_roles_adjust_type_clone#:#Rechte kopieren
