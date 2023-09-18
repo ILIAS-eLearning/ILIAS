@@ -154,7 +154,10 @@ class ilUserPrivacySettingsGUI
         $lng = $this->lng;
 
         $html = "";
-        if ($this->checklist_status->anyVisibilitySettings()) {
+        if ($this->checklist_status->anyVisibilitySettings()
+            && ($this->isAwarnessSettingVisible()
+                || $this->isContactSettingVisible()
+                || $this->shouldDisplayChatSection())) {
             if (is_null($form)) {
                 $form = $this->initPrivacySettingsForm();
             }
