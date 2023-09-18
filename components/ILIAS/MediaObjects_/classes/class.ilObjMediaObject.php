@@ -460,7 +460,7 @@ class ilObjMediaObject extends ilObject
             ? ILIAS_HTTP_PATH
             : ".";
 
-        return $path . "/data/" . CLIENT_ID . "/mobs/mm_" . $a_mob_id . "/" . $location;
+        return $path . "/cli/" . CLIENT_ID . "/mobs/mm_" . $a_mob_id . "/" . $location;
     }
 
     /**

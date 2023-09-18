@@ -84,22 +84,16 @@ final class RootFolderTest extends TestCase
         'cli',
         'components',
         'Customizing',
-        'cron',
-        'data',
         'docs',
         'extern',
-        'include',
         'lang',
         'libs',
         'node_modules',
         'scripts',
         'setup',
-        'src',
         'templates',
         'test',
         'tests',
-        'webservice',
-        'xml',
         '.settings'
     ];
 
