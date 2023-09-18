@@ -56,8 +56,9 @@ class ilImportExportFactory
             // I removed this because it tages ages to track down errors
             // if the include class contains parse errors.
             // Alex, 20 Jul 2012
-            if (include_once "./" . $comp . "/classes/class." . $class . ".php") {
-                return $class;
+            $c = str_replace("_", "", $class);
+            if (include_once "./" . $comp . "/classes/class." . $c . ".php") {
+                return $c;
             }
         }
 

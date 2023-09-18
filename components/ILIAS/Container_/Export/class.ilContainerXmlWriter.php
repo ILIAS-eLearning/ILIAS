@@ -135,7 +135,7 @@ class ilContainerXmlWriter extends ilXmlWriter
 
     protected function buildHeader(): void
     {
-        $this->xmlSetDtdDef("<!DOCTYPE Container PUBLIC \"-//ILIAS//DTD Container//EN\" \"" . ILIAS_HTTP_PATH . "/xml/ilias_container_4_1.dtd\">");
+        $this->xmlSetDtdDef("<!DOCTYPE Container PUBLIC \"-//ILIAS//DTD Container//EN\" \"" . ILIAS_HTTP_PATH . "/components/ILIAS/Export_/xml/ilias_container_4_1.dtd\">");
         $this->xmlSetGenCmt("Container object");
         $this->xmlHeader();
     }

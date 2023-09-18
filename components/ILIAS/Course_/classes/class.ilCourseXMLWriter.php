@@ -112,7 +112,7 @@ class ilCourseXMLWriter extends ilXmlWriter
     // PRIVATE
     public function __buildHeader(): void
     {
-        $this->xmlSetDtdDef("<!DOCTYPE Course PUBLIC \"-//ILIAS//DTD Course//EN\" \"" . ILIAS_HTTP_PATH . "/xml/ilias_crs_5_0.dtd\">");
+        $this->xmlSetDtdDef("<!DOCTYPE Course PUBLIC \"-//ILIAS//DTD Course//EN\" \"" . ILIAS_HTTP_PATH . "/components/ILIAS/Export_/xml/ilias_crs_5_0.dtd\">");
         $this->xmlSetGenCmt("Export of ILIAS course " . $this->course_obj->getId() . " of installation " . $this->setting->get('inst_id') . ".");
         $this->xmlHeader();
     }

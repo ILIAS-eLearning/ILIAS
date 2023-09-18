@@ -64,7 +64,7 @@ class ilAdvancedMDRecordXMLWriter extends ilXmlWriter
     protected function buildHeader(): void
     {
         $this->xmlSetDtdDef("<!DOCTYPE AdvancedMetaDataRecords PUBLIC \"-//ILIAS//DTD AdvancedMetaDataRecords//EN\" \"" .
-            ILIAS_HTTP_PATH . "/components/ILIAS/AdvancedMetaData_/xml/ilias_advanced_meta_data_records_3_9.dtd\">");
+            ILIAS_HTTP_PATH . "/components/ILIAS/AdvancedMetaData_/components/ILIAS/Export_/xml/ilias_advanced_meta_data_records_3_9.dtd\">");
         $this->xmlSetGenCmt("Export of ILIAS Advanced meta data records of installation " . $this->settings->get('inst_id') . ".");
         $this->xmlHeader();
     }

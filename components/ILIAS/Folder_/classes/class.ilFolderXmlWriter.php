@@ -52,7 +52,7 @@ class ilFolderXmlWriter extends ilXmlWriter
 
     protected function buildHeader(): void
     {
-        $this->xmlSetDtdDef("<!DOCTYPE WebLinks PUBLIC \"-//ILIAS//DTD WebLinkAdministration//EN\" \"" . ILIAS_HTTP_PATH . "/xml/ilias_fold_4_5.dtd\">");
+        $this->xmlSetDtdDef("<!DOCTYPE WebLinks PUBLIC \"-//ILIAS//DTD WebLinkAdministration//EN\" \"" . ILIAS_HTTP_PATH . "/components/ILIAS/Export_/xml/ilias_fold_4_5.dtd\">");
         $this->xmlSetGenCmt("Export of a ILIAS Folder");
         $this->xmlHeader();
     }

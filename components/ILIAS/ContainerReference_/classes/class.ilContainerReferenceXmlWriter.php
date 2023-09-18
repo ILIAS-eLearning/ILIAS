@@ -79,7 +79,7 @@ class ilContainerReferenceXmlWriter extends ilXmlWriter
     {
         $ilSetting = $this->settings;
 
-        $this->xmlSetDtdDef("<!DOCTYPE container reference PUBLIC \"-//ILIAS//DTD Group//EN\" \"" . ILIAS_HTTP_PATH . "/xml/ilias_container_reference_4_3.dtd\">");
+        $this->xmlSetDtdDef("<!DOCTYPE container reference PUBLIC \"-//ILIAS//DTD Group//EN\" \"" . ILIAS_HTTP_PATH . "/components/ILIAS/Export_/xml/ilias_container_reference_4_3.dtd\">");
         $this->xmlSetGenCmt("Export of ILIAS container reference " . $this->getReference()->getId() . " of installation " . $ilSetting->get('inst_id') . ".");
         $this->xmlHeader();
     }
