@@ -236,10 +236,12 @@ class ilPasswordAssistanceGUI
                 $email
             ));
 
+            // JKN PATCH START
             $this->showMessageForm(
-                sprintf($this->lng->txt('pwassist_mail_sent'), $email),
+                sprintf($this->lng->txt('pwassist_unknown_username_or_email'), $username, $email),
                 self::PERMANENT_LINK_TARGET_PW
             );
+            // JKN PATCH END
             return;
         }
 
@@ -651,17 +653,31 @@ class ilPasswordAssistanceGUI
 
         if (is_array($logins) && count($logins) > 0) {
             $this->sendUsernameAssistanceMail($email, $logins);
+
+            // JKN PATCH START
+            $this->showMessageForm(
+                sprintf($this->lng->txt('pwassist_mail_sent_generic'), $email),
+                self::PERMANENT_LINK_TARGET_PW
+            );
+            // JKN PATCH END
+
         } else {
             \ilLoggerFactory::getLogger('usr')->info(sprintf(
                 'Could not sent username assistance emails to (reason: no user found): %s',
                 $email
             ));
+
+            // JKN PATCH START
+            $this->showMessageForm(
+                sprintf($this->lng->txt('pwassist_unknown_email'), $email),
+                self::PERMANENT_LINK_TARGET_NAME
+            );
+            // JKN PATCH END
+    
         }
 
-        $this->showMessageForm(
-            $this->lng->txt('pwassist_mail_sent_generic'),
-            self::PERMANENT_LINK_TARGET_NAME
-        );
+
+
     }
 
     /**

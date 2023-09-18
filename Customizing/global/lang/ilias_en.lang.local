@@ -96,3 +96,5 @@ trac#:#gradebook_mark_gradebook#:#Item can be marked directly in the gradebook
 trac#:#gradebook_mark_children#:#Learning progress is deteremined by its children
 trac#:#gradebook_mark_automated#:#Learning progress is set in the item itself
 trac#:#itgr#:#Item Group
+pwassist#:#pwassist_unknown_username_or_email#:#Could not process password assistance form (reason: no user found) %s / %s
+pwassist#:#pwassist_unknown_email#:#Could not process password assistance form (reason: no user found) %s
