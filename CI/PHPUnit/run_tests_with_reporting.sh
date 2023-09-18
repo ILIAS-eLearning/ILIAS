@@ -19,9 +19,9 @@ if [[ -e "$RESULTS_DATA_DIRECTORY_PHPUNIT_RESULTS_PATH" ]]
 		RESULT=`tail -n1 < "$RESULTS_DATA_DIRECTORY_PHPUNIT_RESULTS_PATH"`
 		SPLIT_RESULT=(`echo $RESULT | tr ':' ' '`)
 		PHP_VERSION=`php -r "echo PHP_MAJOR_VERSION . '_' . PHP_MINOR_VERSION;"`
-		if [ -e "include/inc.ilias_version.php" ]
+		if [ -e "cli/inc.ilias_version.php" ]
 			then
-				ILIAS_VERSION=`php -r "require_once 'include/inc.ilias_version.php'; echo ILIAS_VERSION_NUMERIC;"`
+				ILIAS_VERSION=`php -r "require_once 'cli/inc.ilias_version.php'; echo ILIAS_VERSION_NUMERIC;"`
 				ILIAS_VERSION=`echo "$ILIAS_VERSION" | tr . _`
 		fi
 

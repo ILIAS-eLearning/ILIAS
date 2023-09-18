@@ -45,8 +45,8 @@ class ilServicesCOPageSuite extends TestSuite
         require_once("./components/ILIAS/COPage/test/PCSectionTest.php");
         $suite->addTestSuite("PCSectionTest");
 
-        require_once("./include/inc.xml5compliance.php");
-        require_once("./include/inc.xsl5compliance.php");
+        require_once("./cli/inc.xml5compliance.php");
+        require_once("./cli/inc.xsl5compliance.php");
         require_once("./components/ILIAS/COPage/test/class.ilUnitTestPageConfig.php");
         require_once("./components/ILIAS/COPage/test/PageObjectTest.php");
         require_once("./components/ILIAS/COPage/test/class.ilUnitTestPageObject.php");

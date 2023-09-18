@@ -2,10 +2,10 @@
 
 ## ILIAS 9
 
-- Removed dependency to include/inc.xsl5compliance.php
+- Removed dependency to cli/inc.xsl5compliance.php
 - Moved xslt processing to internal service
 - Removed YUI dependencies from JS code
-- Removed dependency to include/inc.xml5compliance.php
+- Removed dependency to cli/inc.xml5compliance.php
 - Unit tests, June 23: 269 (+257)
 - LOC, June 23: 54275 (+6323)
 - Average class length, June 23: 65 (-12)

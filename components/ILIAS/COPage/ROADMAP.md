@@ -9,9 +9,9 @@ The following issues are mostly usability issues, that could be tackled as part 
 
 ## Short Term
 
-### Remove dependency to include/inc.xml5compliance.php
+### Remove dependency to cli/inc.xml5compliance.php
 
-Dom handling should be move to internal service, the dependency to include/inc.xml5compliance.php should be removed. More unit tests for dom transformations should be introduced.
+Dom handling should be move to internal service, the dependency to cli/inc.xml5compliance.php should be removed. More unit tests for dom transformations should be introduced.
 
 ### Remove YUI and jQuery dependencies
 
