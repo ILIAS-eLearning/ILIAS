@@ -237,7 +237,7 @@ class ilPasswordAssistanceGUI
             ));
 
             $this->showMessageForm(
-                sprintf($this->lng->txt('pwassist_mail_sent'), $email),
+                sprintf($this->lng->txt('pwassist_unknown_username_or_email'), $username, $email),
                 self::PERMANENT_LINK_TARGET_PW
             );
             return;
@@ -651,17 +651,27 @@ class ilPasswordAssistanceGUI
 
         if (is_array($logins) && count($logins) > 0) {
             $this->sendUsernameAssistanceMail($email, $logins);
+
+            $this->showMessageForm(
+                sprintf($this->lng->txt('pwassist_mail_sent_generic'), $email),
+                self::PERMANENT_LINK_TARGET_PW
+            );
+
         } else {
             \ilLoggerFactory::getLogger('usr')->info(sprintf(
                 'Could not sent username assistance emails to (reason: no user found): %s',
                 $email
             ));
+
+            $this->showMessageForm(
+                sprintf($this->lng->txt('pwassist_unknown_email'), $email),
+                self::PERMANENT_LINK_TARGET_NAME
+            );
+    
         }
 
-        $this->showMessageForm(
-            $this->lng->txt('pwassist_mail_sent_generic'),
-            self::PERMANENT_LINK_TARGET_NAME
-        );
+
+
     }
 
     /**
