@@ -51,6 +51,8 @@ class ilDclSwitcher
             $this->ctrl->setParameterByClass($target_class, "table_id", $table->getId());
             $links[] = $this->ui_factory->link()->standard($table->getTitle(), $this->ctrl->getLinkTargetByClass($target_class, $target_cmd));
         }
+        $this->ctrl->clearParameterByClass($target_class, "table_id");
+
         $this->addSwitcherToToolbar($links, $this->lng->txt('dcl_switch_table'));
     }
 

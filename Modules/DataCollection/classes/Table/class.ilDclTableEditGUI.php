@@ -271,6 +271,7 @@ class ilDclTableEditGUI
         }
 
         $this->form->addCommandButton('cancel', $this->lng->txt('cancel'));
+        $this->ctrl->setParameter($this, "table_id", $this->table_id);
         $this->form->setFormAction($this->ctrl->getFormAction($this, $a_mode));
         if ($a_mode == "edit") {
             $this->form->setTitle($this->lng->txt('dcl_edit_table'));
