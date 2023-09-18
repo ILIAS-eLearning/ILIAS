@@ -35,9 +35,9 @@ trait CreationCallbackTrait
         $class_name = 'ilObj' . $obj_definition->getClassName($callback_type) . 'GUI';
 
         if (strtolower($class_name) === 'ilobjitemgroupgui') {
-            $callback_obj = new $class_name((int) $this->requested_crtcb);
+            $callback_obj = new $class_name((int) $requested_crtcb);
         } else {
-            $callback_obj = new $class_name(null, $this->requested_crtcb, true, false);
+            $callback_obj = new $class_name(null, $requested_crtcb, true, false);
         }
         $callback_obj->afterSaveCallback($obj);
     }
