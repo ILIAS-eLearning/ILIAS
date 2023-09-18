@@ -166,7 +166,7 @@ class ComponentEntryTest extends TestCase
 
     public function testExamplePath(): void
     {
-        $this->assertEquals('src/UI/Entry1Title', $this->entry->getExamplesPath());
+        $this->assertEquals('components/ILIAS/UI/src/Entry1Title', $this->entry->getExamplesPath());
     }
 
     public function testExamplesNull(): void

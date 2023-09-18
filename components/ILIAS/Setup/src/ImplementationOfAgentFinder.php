@@ -86,7 +86,7 @@ class ImplementationOfAgentFinder implements AgentFinder
         // This is a list of all agent classes in the system (which we don't want to ignore).
         $agent_classes = $this->interface_finder->getMatchingClassNames(
             Agent::class,
-            ["[/]Customizing/.*"]
+            ["[/]components/.*"]
         );
         foreach ($agent_classes as $class_name) {
             $agents = $agents->withAdditionalAgent(
@@ -180,12 +180,12 @@ class ImplementationOfAgentFinder implements AgentFinder
     {
         $directories =
             new \RecursiveIteratorIterator(
-                new \RecursiveDirectoryIterator(__DIR__ . "/../../components/SERVICEPROVIDER/")
+                new \RecursiveDirectoryIterator(__DIR__ . "/../../../../components/SERVICEPROVIDER/")
             );
         $names = [];
         foreach ($directories as $dir) {
             $groups = [];
-            if (preg_match("%^" . __DIR__ . "/[.][.]/[.][.]/components/SERVICEPROVIDER/([^/\.]+)(/|$)%", (string) $dir, $groups)) {
+            if (preg_match("%^" . __DIR__ . "/[.][.]/[.][.]/[.][.]/[.][.]/components/SERVICEPROVIDER/([^/\.]+)(/|$)%", (string) $dir, $groups)) {
                 $name = $groups[6];
                 if (isset($names[$name])) {
                     continue;

@@ -8,7 +8,7 @@
     "coordinator": [],
     "tester": "",
     "testcase_writer": "",
-    "path": "src/HTTP",
+    "path": "components/ILIAS/HTTP",
     "belong_to_component": "HTTP-Request",
     "used_in_components": []
 }

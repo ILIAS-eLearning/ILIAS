@@ -10,7 +10,7 @@
     ],
     "tester": "",
     "testcase_writer": "",
-    "path": "src/DI",
+    "path": "components/ILIAS/DI",
     "belong_to_component": "None",
     "used_in_components": []
 }

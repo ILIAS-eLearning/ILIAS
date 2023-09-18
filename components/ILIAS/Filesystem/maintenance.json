@@ -8,7 +8,7 @@
   ],
   "tester": "",
   "testcase_writer": "",
-  "path": "src/Filesystem",
+  "path": "components/ILIAS/Filesystem",
   "belong_to_component": "None",
   "used_in_components": []
 }

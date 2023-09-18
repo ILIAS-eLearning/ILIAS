@@ -87,7 +87,7 @@
 	"autoload": {
 		"psr-4" : {
 			"ILIAS\\Tests\\" : "./tests",
-			"ILIAS\\" : "./src",
+			"ILIAS\\" : "./components/ILIAS/([A-Za-z]+)/",
 			"ILIAS\\CI\\" : "./scripts"
 		},
 		"classmap": [

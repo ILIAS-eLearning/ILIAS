@@ -345,7 +345,7 @@ class ilTemplate extends HTML_Template_ITX
             if ($fname === "" || !file_exists($fname)) {
                 $fname = "./" . $module_path . "templates/default/" . basename($a_tplname);
             }
-        } elseif (strpos($a_tplname, "src/UI") === 0) {
+        } elseif (strpos($a_tplname, "components/ILIAS/UI") === 0) {
             if (class_exists("ilStyleDefinition") // for testing
                 && ilStyleDefinition::getCurrentSkin() != "default") {
                 $style = ilStyleDefinition::getCurrentStyle();

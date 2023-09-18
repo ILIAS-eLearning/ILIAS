@@ -8,7 +8,7 @@
     ],
     "tester": "",
     "testcase_writer": "",
-    "path": "src/KioskMode",
+    "path": "components/ILIAS/KioskMode",
     "belong_to_component": "General Kiosk-Mode",
     "used_in_components": []
 }

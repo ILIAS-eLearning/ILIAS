@@ -6,7 +6,7 @@
 	"coordinator":          [],
 	"tester":               "",
 	"testcase_writer":      "",
-	"path":                 "src/ResourceStorage",
+	"path":                 "components/ILIAS/ResourceStorage",
 	"belong_to_component":  "IRSS",
 	"used_in_components":   []
 }

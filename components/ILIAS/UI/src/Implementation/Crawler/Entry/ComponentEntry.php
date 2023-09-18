@@ -356,7 +356,7 @@ class ComponentEntry extends AbstractEntryPart implements JsonSerializable
             $this->examples_namespace = str_replace(
                 "/",
                 "\\",
-                str_replace("src/UI", "\ILIAS\UI", $this->getExamplesPath())
+                str_replace("components/ILIAS/UI", "\ILIAS\UI", $this->getExamplesPath())
             );
         }
         return $this->examples_namespace;

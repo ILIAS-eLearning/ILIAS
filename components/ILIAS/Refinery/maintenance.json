@@ -9,7 +9,7 @@
     ],
     "tester": "",
     "testcase_writer": "",
-    "path": "src/Refinery",
+    "path": "components/ILIAS/Refinery",
     "belong_to_component": "Refinery",
     "used_in_components": [
         "All"

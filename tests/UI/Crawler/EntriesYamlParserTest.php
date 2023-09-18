@@ -124,7 +124,7 @@ class CrawlerTest extends TestCase
             $entries->getEntryById("CrawlerFixtureProperEntryProperEntry")->getId()
         );
         $this->assertEquals(
-            "src/UI/Crawler/Fixture/ProperEntry",
+            "components/ILIAS/UI/src/Crawler/Fixture/ProperEntry",
             $entries->getEntryById("CrawlerFixtureProperEntryProperEntry")->getPath()
         );
     }

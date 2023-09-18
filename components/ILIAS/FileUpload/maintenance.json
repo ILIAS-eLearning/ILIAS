@@ -8,7 +8,7 @@
     ],
     "tester": "",
     "testcase_writer": "",
-    "path": "src/FileUpload",
+    "path": "components/ILIAS/FileUpload",
     "belong_to_component": "None",
     "used_in_components": []
 }

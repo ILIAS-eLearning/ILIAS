@@ -6,7 +6,7 @@
 	"coordinator":          [],
 	"tester":               "",
 	"testcase_writer":      "",
-	"path":                 "src/GlobalScreen",
+	"path":                 "components/ILIAS/GlobalScreen",
 	"belong_to_component":  "GlobalScreen",
 	"used_in_components":   []
 }

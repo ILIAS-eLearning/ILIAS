@@ -8,7 +8,7 @@
 	],
 	"tester":               "",
 	"testcase_writer":      "",
-	"path":                 "src/BackgroundTasks",
+	"path":                 "components/ILIAS/BackgroundTasks",
 	"belong_to_component":  "None",
 	"used_in_components":   []
 }
