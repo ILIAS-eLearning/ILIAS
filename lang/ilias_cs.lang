@@ -644,7 +644,7 @@ assessment#:#enable_examview#:#Zapnout zobrazení zkoušky
 assessment#:#enable_examview_desc#:#Zapíná zobrazení testu ve tvaru zkoušky na konci jeho průchodu před vlastním odesláním odpovědí.
 assessment#:#end_tag#:#Znak konce
 assessment#:#enlarge#:#Zvětšit
-assessment#:#tst_exam_access_code_label#:#Vložte kód anonymního přístupu
+assessment#:#enter_anonymous_code#:#Vložte kód anonymního přístupu
 assessment#:#enter_enough_positive_points#:#Maxium dosažitelných bodů za otázku musí být větší, než 0! Vložte prosím odpovídající (nezáporné) body za tuto odpověď.
 assessment#:#enter_enough_positive_points_checked#:#At least one answer needs to score. Please enter a positive score for the selection of an answer.###07 02 2020 new variable
 assessment#:#enter_valid_values#:#Vložte prosím platnou hodnotu. Znaky budou vyhodnoceny jako chybné!

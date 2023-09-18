@@ -647,6 +647,7 @@ assessment#:#enable_examview#:#Overview of Answers Given
 assessment#:#enable_examview_desc#:#When they click on ‘Finish the Test’, participants are presented with an overview of the test’s questions and the answers they provided to those questions. From this overview, they are still able to click on ‘Back’ in order to return to the test and make changes to their answers as long as answers have not been locked (see ‘Answer Lock’ above).
 assessment#:#end_tag#:#End Tag
 assessment#:#enlarge#:#Enlarge
+assessment#:#enter_anonymous_code#:#Enter access code to continue your already started test:
 assessment#:#enter_enough_positive_points#:#The maximum available points must be greater than 0! Please enter sufficient positive points for your answers.
 assessment#:#enter_enough_positive_points_checked#:#At least one answer needs to score. Please enter a positive score for the selection of an answer.
 assessment#:#enter_valid_values#:#Please enter valid value. Chars will be evaluated as incorrect!

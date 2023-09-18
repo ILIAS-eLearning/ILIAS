@@ -644,7 +644,7 @@ assessment#:#enable_examview#:#Enable Exam View
 assessment#:#enable_examview_desc#:#Enables the view of the test in the shape of an exam at the end of the pass, prior to submission.
 assessment#:#end_tag#:#Конец тега
 assessment#:#enlarge#:#Увеличить
-assessment#:#tst_exam_access_code_label#:#Введите код доступа для анонимных пользователей
+assessment#:#enter_anonymous_code#:#Введите код доступа для анонимных пользователей
 assessment#:#enter_enough_positive_points#:#Максимальное доступное количество очков должно быть больше 0! Пожалуйста введите соответствующее количество положительных очков за ответы.
 assessment#:#enter_enough_positive_points_checked#:#At least one answer needs to score. Please enter a positive score for the selection of an answer.###07 02 2020 new variable
 assessment#:#enter_valid_values#:#Please enter valid value. Chars will be evaluated as incorrect!

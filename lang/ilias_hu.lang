@@ -644,7 +644,7 @@ assessment#:#enable_examview#:#Adott válaszok áttekintése
 assessment#:#enable_examview_desc#:#A résztvevők beadás előtt áttekinthetik az összes kérdést és a kérdésekre adott válaszaikat.
 assessment#:#end_tag#:#Zárócímke
 assessment#:#enlarge#:#növelés
-assessment#:#tst_exam_access_code_label#:#Adja meg az anonymous felhasználó belépési kódját
+assessment#:#enter_anonymous_code#:#Adja meg az anonymous felhasználó belépési kódját
 assessment#:#enter_enough_positive_points#:#A maximálisan elérhető pontszámnak magasabbnak kell lennie 0-nál. Megfelelő, nem negatív pontszámokat adjon válaszaihoz.
 assessment#:#enter_enough_positive_points_checked#:#A pontozáshoz legalább egy választ meg kell adnia. Kérjük, adjon meg egy pozitív számot a válasz megjelöléséhez.
 assessment#:#enter_valid_values#:#Érvényes számot adj meg! Karakterek hibásan lesznek értékelve!

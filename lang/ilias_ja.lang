@@ -647,7 +647,7 @@ assessment#:#enable_examview#:#試験表示を有効
 assessment#:#enable_examview_desc#:#テスト提出前に全般へ全問題と解答結果が表示されます。
 assessment#:#end_tag#:#エンドタグ
 assessment#:#enlarge#:#拡大
-assessment#:#tst_exam_access_code_label#:#匿名アクセスコードを入力
+assessment#:#enter_anonymous_code#:#匿名アクセスコードを入力
 assessment#:#enter_enough_positive_points#:#最高点は0以上にしなけれなりません! 答案に対する妥当な点数を入力してください。
 assessment#:#enter_enough_positive_points_checked#:#得点には回答が一つは必要です。回答選択肢として正の点数を入力してください。
 assessment#:#enter_valid_values#:#値を入力してください。不正な文字はチエックされます!

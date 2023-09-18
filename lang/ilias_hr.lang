@@ -644,7 +644,7 @@ assessment#:#enable_examview#:#Pregled danih odgovora
 assessment#:#enable_examview_desc#:#Sudionicima se prija predaje testa prikazuju sva pitanja i odgovori koje su dali.
 assessment#:#end_tag#:#Završna oznaka
 assessment#:#enlarge#:#Povećaj
-assessment#:#tst_exam_access_code_label#:#Unesite anonimni pristupni kod
+assessment#:#enter_anonymous_code#:#Unesite anonimni pristupni kod
 assessment#:#enter_enough_positive_points#:#Maksimalni broj bodova mora biti veći od 0! Unesite dovoljno pozitivnih bodova za odgovore.
 assessment#:#enter_enough_positive_points_checked#:#Barem jedan odgovor treba postići bodove. Unesite pozitivan broj bodova za odabir odgovora.
 assessment#:#enter_valid_values#:#Molimo, unesite važeću vrijednost. Unos znakova bit će ocijenjen kao pogrešan!
