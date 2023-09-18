@@ -166,9 +166,11 @@ class ilPersonalProfileGUI
         }
 
         if (!$this->form->hasFileUpload('userfile')
-            && $this->profile_request->getUserFileCapture() == ''
-            && $this->form->getItemByPostVar('userfile')->getDeletionFlag()) {
-            $this->user->removeUserPicture();
+            && $this->profile_request->getUserFileCapture() === '') {
+            if ($this->form->getItemByPostVar('userfile')->getDeletionFlag()) {
+                $this->user->removeUserPicture();
+            }
+            return;
         }
 
         // User has uploaded a file of a captured image
@@ -681,12 +683,9 @@ class ilPersonalProfileGUI
             if (ilMapUtil::isActivated()) {
                 // #17619 - proper escaping
                 $location = $this->form->getInput('location');
-                $lat = ilUtil::stripSlashes($location['latitude']);
-                $long = ilUtil::stripSlashes($location['longitude']);
-                $zoom = ilUtil::stripSlashes($location['zoom']);
-                $this->user->setLatitude(is_numeric($lat) ? $lat : null);
-                $this->user->setLongitude(is_numeric($long) ? $long : null);
-                $this->user->setLocationZoom(is_numeric($zoom) ? $zoom : null);
+                $this->user->setLatitude(is_numeric($location['latitude']) ? (string) $location['latitude'] : null);
+                $this->user->setLongitude(is_numeric($location['longitude']) ? (string) $location['longitude'] : null);
+                $this->user->setLocationZoom(is_numeric($location['zoom']) ? $location['zoom'] : null);
             }
 
             // Set user defined data

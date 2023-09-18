@@ -1793,43 +1793,43 @@ class ilObjectListGUI
         // note: the setting disable_my_offers is used for
         // presenting the favourites in the main section of the dashboard
         // see also bug #32014
-        if (!(bool) $this->settings->get('rep_favourites', '0')) {
+        if ($this->settings->get('rep_favourites', '0') === '0' ||
+            $this->user->getId() === ANONYMOUS_USER_ID) {
             return;
         }
 
         $type = ilObject::_lookupType(ilObject::_lookupObjId($this->getCommandId()));
 
-        if ($this->user->getId() != ANONYMOUS_USER_ID) {
-            // #17467 - add ref_id to link (in repository only!)
-            if (
-                is_object($this->container_obj) &&
-                !($this->container_obj instanceof ilAdministrationCommandHandling) &&
-                method_exists($this->container_obj, 'getObject') &&
-                is_object($this->container_obj->getObject())
-            ) {
-                $this->ctrl->setParameter(
-                    $this->container_obj,
-                    'ref_id',
-                    $this->container_obj->getObject()->getRefId()
-                );
-            }
-            if ($this->getContainerObject() instanceof ilDashboardBlockGUI) {
-                $this->ctrl->setParameter($this->container_obj, 'type', $type);
-                $this->ctrl->setParameter($this->container_obj, 'item_ref_id', $this->getCommandId());
-
-                if (!$this->fav_manager->ifIsFavourite($this->user->getId(), $this->getCommandId())) {
-                    // Pass type and object ID to ilAccess to improve performance
-                    if ($this->checkCommandAccess('read', '', $this->ref_id, $this->type, $this->obj_id)) {
-                        $cmd_link = $this->ctrl->getLinkTarget($this->container_obj, 'addToDesk');
-                        $this->insertCommand($cmd_link, $this->lng->txt('rep_add_to_favourites'));
-                    }
-                } else {
-                    $cmd_link = $this->ctrl->getLinkTarget($this->container_obj, 'removeFromDesk');
-                    $this->insertCommand($cmd_link, $this->lng->txt('rep_remove_from_favourites'));
-                }
-                $this->ctrl->clearParameters($this->container_obj);
-            }
+        // #17467 - add ref_id to link (in repository only!)
+        if (
+            is_object($this->container_obj) &&
+            !($this->container_obj instanceof ilAdministrationCommandHandling) &&
+            method_exists($this->container_obj, 'getObject') &&
+            is_object($this->container_obj->getObject())
+        ) {
+            $this->ctrl->setParameter(
+                $this->container_obj,
+                'ref_id',
+                $this->container_obj->getObject()->getRefId()
+            );
         }
+        if ($this->getContainerObject() instanceof ilDashboardBlockGUI) {
+            $this->ctrl->setParameter($this->container_obj, 'type', $type);
+            $this->ctrl->setParameter($this->container_obj, 'item_ref_id', $this->getCommandId());
+        }
+
+        if (!$this->fav_manager->ifIsFavourite($this->user->getId(), $this->getCommandId())) {
+            // Pass type and object ID to ilAccess to improve performance
+            if ($this->checkCommandAccess('read', '', $this->ref_id, $this->type, $this->obj_id)) {
+                $cmd_link = $this->ctrl->getLinkTarget($this->container_obj, 'addToDesk');
+                $this->insertCommand($cmd_link, $this->lng->txt('rep_add_to_favourites'));
+            }
+        } else {
+            $cmd_link = $this->ctrl->getLinkTarget($this->container_obj, 'removeFromDesk');
+            $this->insertCommand($cmd_link, $this->lng->txt('rep_remove_from_favourites'));
+        }
+
+        $this->ctrl->clearParameters($this->container_obj);
     }
 
     public function insertInfoScreenCommand(): void
