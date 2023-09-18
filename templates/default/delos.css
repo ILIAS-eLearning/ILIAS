@@ -1977,6 +1977,38 @@ th {
 }
 
 /* Responsive container system from Bootstrap 5 has been removed */
+.l-bar__container,
+.l-bar__group {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.l-bar__container:not(:empty) {
+  margin-bottom: -9px;
+}
+.l-bar__container:not(:empty).l-bar__container--space-between {
+  justify-content: space-between;
+}
+
+.l-bar__container > .l-bar__group {
+  margin-right: 15px;
+}
+.l-bar__container > .l-bar__group:last-child {
+  margin-right: 0;
+}
+
+.l-bar__container > .l-bar__element,
+.l-bar__group > .l-bar__element {
+  margin-right: 3px;
+  margin-bottom: 9px;
+}
+.l-bar__container > .l-bar__element:last-child,
+.l-bar__group > .l-bar__element:last-child {
+  margin-right: 0;
+}
+
 .hidden,
 .visible-xs-block,
 .visible-xs-inline,
