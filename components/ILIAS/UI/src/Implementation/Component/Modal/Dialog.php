@@ -47,13 +47,6 @@ class Dialog implements M\Dialog
         $this->close_signal = $signal_generator->create();
     }
 
-    public function withAsyncUrl(URI $url): self
-    {
-        $clone = clone $this;
-        $clone->async_url = $url;
-        return $clone;
-    }
-
     public function getAsyncUrl(): URI
     {
         return $this->async_url;

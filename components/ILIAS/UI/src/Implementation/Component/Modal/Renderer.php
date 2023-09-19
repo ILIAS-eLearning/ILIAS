@@ -45,7 +45,7 @@ class Renderer extends AbstractComponentRenderer
         if ($component instanceof Component\Modal\Dialog) {
             return $this->renderDialog($component, $default_renderer);
         }
-        if ($component instanceof Component\Modal\ModalResponse) {
+        if ($component instanceof Component\Modal\DialogResponse) {
             return $this->renderResponse($component, $default_renderer);
         }
 
@@ -282,7 +282,7 @@ class Renderer extends AbstractComponentRenderer
             Component\Modal\RoundTrip::class,
             Component\Modal\Lightbox::class,
             Component\Modal\Dialog::class,
-            Component\Modal\ModalResponse::class,
+            Component\Modal\DialogResponse::class,
         );
     }
 
@@ -333,9 +333,9 @@ class Renderer extends AbstractComponentRenderer
         return $tpl->get();
     }
 
-    protected function renderResponse(Component\Modal\ModalResponse $component, RendererInterface $default_renderer): string
+    protected function renderResponse(Component\Modal\DialogResponse $component, RendererInterface $default_renderer): string
     {
-        $tpl = $this->getTemplate('tpl.modalresponse.html', true, true);
+        $tpl = $this->getTemplate('tpl.dialogresponse.html', true, true);
         $tpl->setVariable('TITLE', $component->getTitle());
         $tpl->setVariable('COMMAND', $component->getCommand());
         $tpl->setVariable('CONTENT', $default_renderer->render(

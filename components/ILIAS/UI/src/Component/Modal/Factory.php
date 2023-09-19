@@ -256,12 +256,12 @@ interface Factory
      *      stay in context of the Dialog, i.e. you may take roundtrips to the
      *      server and modify the Dialog's content without closing it.
      * context:
-     *   - The Dialog Modal requires a Modal Response.
+     *   - The Dialog Modal requires a Dialog Response.
      *
      * rules:
      *   usage:
      *     1: >
-     *      The server MUST answer with a ModalResponse Component
+     *      The server MUST answer with a DialogResponse Component
      *      to a request to the url provided to the Dialog.
      * ---
      * @return \ILIAS\UI\Component\Modal\Dialog
@@ -272,27 +272,27 @@ interface Factory
      * ---
      * description:
      *   purpose: >
-     *      A Modal Response serves as a formalized wrapper around output of
-     *      asynchrounous requests in order to provide contents of a Modal.
-     *      It allows for dedicated changes to recurring parts of Modals,
+     *      A Dialog Response serves as a formalized wrapper around output of
+     *      asynchrounous requests in order to provide contents for a Dialog.
+     *      It allows for dedicated changes to recurring parts of Dialogs,
      *      such as Title, Content or Buttons.
      *   composition: >
-     *      The Modal Response renders specific sections to be handled by
+     *      The Dialog Response renders specific sections to be handled by
      *      the Dialog Modal.
      *   effect: >
-     *       The sections of the Modal Response are rendered to their respective
+     *       The sections of the Dialog Response are rendered to their respective
      *       parts of the Dialog Modal.
      *       Forms and Links are automatically turned into async requests to
      *       stay in context of the Dialog.
      *       You may also tell the Dialog to close - after the request has been processed.
      * context:
-     *   - The Modal Response is used for Dialog Modals.
+     *   - The Dialog Response is used for Dialog Modals.
      *
      * ---
-     * @return \ILIAS\UI\Component\Modal\ModalResponse
+     * @return \ILIAS\UI\Component\Modal\DialogResponse
      */
-    public function modalResponse(
+    public function dialogResponse(
         string $title = '',
         ?\ILIAS\UI\Component\Component ...$content
-    ): ModalResponse;
+    ): DialogResponse;
 }

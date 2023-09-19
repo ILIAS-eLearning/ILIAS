@@ -21,14 +21,14 @@ declare(strict_types=1);
 namespace ILIAS\UI\Component\Modal\InterruptiveItem;
 
 use ILIAS\UI\Component\Component;
-use ILIAS\UI\Component\Modal\ModalContent;
+use ILIAS\UI\Component\Modal\DialogContent;
 
 /**
  * Interface InterruptiveItem
  *
  * Represents an item to be displayed inside an interruptive modal
  */
-interface InterruptiveItem extends Component, ModalContent
+interface InterruptiveItem extends Component, DialogContent
 {
     /**
      * Return an ID of the item
