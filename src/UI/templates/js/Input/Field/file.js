@@ -69,14 +69,6 @@ il.UI.Input = il.UI.Input || {};
 				$(container + ' .il-input-file-dropzone button').attr("disabled", true);
 			});
 
-      myDropzone.on("addedfile", function (file) {
-        if (myDropzone.options.maxFileSize < file.size) {
-          $(file.previewElement).addClass('alert-danger');
-          alert("Too big file");
-          myDropzone.removeFile(file);
-        }
-      });
-
 			var success = function (files, new_file_id) {
 				debug(files);
 				var clone = input_template.clone();
