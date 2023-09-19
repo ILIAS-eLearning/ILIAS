@@ -2011,9 +2011,4 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 
         $gap->addItem($item);
     }
-
-    public function savePartial(): bool
-    {
-        return true;
-    }
 }

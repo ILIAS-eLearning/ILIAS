@@ -875,7 +875,7 @@ abstract class assQuestion
      */
     final public function persistWorkingState(int $active_id, $pass, bool $obligationsEnabled = false, bool $authorized = true): bool
     {
-        if (!$this->validateSolutionSubmit() && !$this->savePartial()) {
+        if (!$this instanceof ilAssQuestionPartiallySaveable && !$this->validateSolutionSubmit()) {
             return false;
         }
 
@@ -3674,11 +3674,6 @@ abstract class assQuestion
     protected function buildTestPresentationConfig(): ilTestQuestionConfig
     {
         return new ilTestQuestionConfig();
-    }
-
-    public function savePartial(): bool
-    {
-        return false;
     }
 
     /* doubles isInUse? */
