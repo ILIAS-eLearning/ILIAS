@@ -810,6 +810,10 @@ class ilUserImportParser extends ilSaxParser
         $rbacreview = $DIC['rbacreview'];
         $rbacadmin = $DIC['rbacadmin'];
         $tree = $DIC['tree'];
+        // JKN PATCH START
+        $ilAppEventHandler = $DIC['ilAppEventHandler'];
+        $ilLog = $DIC['ilLog'];
+        // JKN PATCH END
 
         // Do nothing, if the user is already assigned to the role.
         // Specifically, we do not want to put a course object or
@@ -834,6 +838,18 @@ class ilUserImportParser extends ilSaxParser
                     // https://docu.ilias.de/goto_docu_wiki_wpage_5620_1357.html
                     //$this->recommended_content_manager->addObjectRecommendation($a_user_obj->getId(), $ref_id);
                 }
+
+                // JKN PATCH START
+                $ilLog->write(__METHOD__.': Raise new event: Modules/Course|Group addParticipant');
+				$ilAppEventHandler->raise(
+					'Services/User',
+					"addParticipant",
+					array(
+						'obj_id' => $obj_id,
+						'usr_id' => $a_user_obj->getId(),
+						'role_id' => $a_role_id)
+				);
+                // JKN PATCH END
                 break;
             default:
                 break;

@@ -1,4 +1,8 @@
 <!-- language file start -->
+common#:#obj_root#:#Course Library - Home
+common#:#repository#:#Course Library
+ldap#:#ldap_mapping_info_type#:#Show Information also in the Course Library
+rep#:#rep_intro#:#Welcome to the Course Library!
 trac#:#rubric_label#:#Label
 trac#:#rubric_point#:#Points
 trac#:#rubric_group#:#Group

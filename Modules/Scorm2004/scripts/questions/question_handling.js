@@ -285,13 +285,43 @@ ilias.questions.assKprimChoice = function(a_id) {
 };
 
 ilias.questions.assTextQuestion = function(a_id) {
-	jQuery('#button'+a_id).prop("disabled",true);
-	jQuery('#textarea'+a_id).prop("disabled",true);
-	jQuery('#feedback'+a_id).addClass("ilc_qfeedr_FeedbackRight");
-	jQuery('#feedback'+a_id).html('<b>Answer submitted!</b><br>');
-	jQuery('#feedback'+a_id).slideToggle();
-	answers[a_id].passed = true;
-	ilias.questions.scormHandler(a_id,"neutral",jQuery('#textarea'+a_id).val());
+	// JKN PATCH START
+	var passed = false;
+	var words = jQuery('#textarea'+a_id).val().split(' ');
+	if(questions[a_id].text_rating === 'ci'){
+		for (var i = 0; i < words.length; i++) {
+			words[i] = words[i].toLowerCase();
+		}
+	}
+	switch(questions[a_id].relation){
+		case 'any':
+		case 'one':
+			for (var i = 0; i < words.length; i++) {
+				for(var j = 0; j < questions[a_id].answers.length; j++){
+					if( words[i] === questions[a_id].answers[j].text ){
+						passed = true;
+					}
+				}
+			}
+			break;
+		case 'all':
+			var tst_arr = [];
+			for(var i = 0; i < questions[a_id].answers.length; i++){
+				if(questions[a_id].text_rating === 'ci'){
+					tst_arr.push(questions[a_id].answers[i].text.toLowerCase());
+				} else {
+					tst_arr.push(questions[a_id].answers[i].text);
+				}
+			}
+			if(tst_arr.filter(function(i) {return words.indexOf(i) < 0;}).length === 0){
+				passed = true;
+			}
+			break;
+
+	}
+	answers[a_id].passed = passed;
+	ilias.questions.showFeedback(a_id);
+	// JKN PATCH END
 };
 
 ilias.questions.assOrderingQuestion = function(a_id) {
@@ -806,6 +836,11 @@ ilias.questions.showFeedback =function(a_id) {
 	{
 		var txt_wrong_answers = ilias.questions.txt.wrong_answers_single;
 	}
+	else if(questions[a_id].type == "assTextQuestion")
+	{
+		var txt_wrong_answers = questions[a_id].feedback['incorrect'];
+		ilias.questions.txt.all_answers_correct = questions[a_id].feedback['correct'];
+	}
 	else
 	{
 		var txt_wrong_answers = ilias.questions.txt.wrong_answers + ': ' +
@@ -922,6 +957,9 @@ ilias.questions.showFeedback =function(a_id) {
 		}
 	}
 
+	// JKN PATCH START
+	jQuery('#feedback'+a_id).css("white-space", "pre-wrap");
+	// JKN PATCH END
 	jQuery('#feedback'+a_id).html(fbtext);
 	jQuery('#feedback'+a_id).slideToggle(400, 'swing', function(){
 		if (typeof MathJax != "undefined") {
