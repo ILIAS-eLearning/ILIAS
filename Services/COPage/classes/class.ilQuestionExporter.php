@@ -93,7 +93,7 @@ class ilQuestionExporter
         }
 
         $type = $this->q_gui->object->getQuestionType();
-        if (method_exists($this, $type)) {
+        if($this->q_gui->object instanceof ilAssQuestionLMExportable) {
             $this->q_gui->object->setExportImagePath($a_image_path);
             $this->q_gui->object->feedbackOBJ->setPageObjectOutputMode($a_output_mode);
             $this->json = $this->q_gui->object->toJSON();
