@@ -17,6 +17,7 @@
  *********************************************************************/
 
 use ILIAS\Cron\Schedule\CronJobScheduleType;
+use ilias\components\ILIAS\RemoteWiki_\Registration_\classes\ilRegistrationSettings;
 
 /**
  * This cron send notifications about expiring user accounts

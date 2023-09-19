@@ -18,8 +18,8 @@
 
 declare(strict_types=1);
 
-require_once('libs/composer/vendor/autoload.php');
-include_once('./tests/UI/UITestHelper.php');
+require_once('vendor/composer/vendor/autoload.php');
+include_once('./components/ILIAS/UI/tests/UITestHelper.php');
 
 use PHPUnit\Framework\TestCase;
 
@@ -38,7 +38,7 @@ class ilKSDocumentationEntryGUITest extends TestCase
             'setParameterByClass'
         ])->getMock();
 
-        $entries_data = include './tests/UI/Crawler/Fixture/EntriesFixture.php';
+        $entries_data = include './components/ILIAS/UI/tests/Crawler/Fixture/EntriesFixture.php';
         $entries = new Entries();
         $entries->addEntriesFromArray($entries_data);
 

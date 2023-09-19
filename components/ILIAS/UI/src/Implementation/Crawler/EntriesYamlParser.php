@@ -281,7 +281,7 @@ class EntriesYamlParser implements YamlParser
         )
                 . self::toUpperCamelCase($entry_data['title'], ' ');
         $entry_data['abstract'] = preg_match("/Factory/", $entry_data['namespace']);
-        $entry_data['path'] = str_replace("/ILIAS", "src", str_replace("\\", "/", $entry_data['namespace']));
+        $entry_data['path'] = str_replace("/ILIAS/UI", "components/ILIAS/UI/src", str_replace("\\", "/", $entry_data['namespace']));
 
         try {
             $entry = new Entry\ComponentEntry($entry_data);

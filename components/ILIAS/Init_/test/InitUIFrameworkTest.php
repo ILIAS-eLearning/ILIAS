@@ -1,6 +1,6 @@
 <?php
 
-require_once("libs/composer/vendor/autoload.php");
+require_once("vendor/composer/vendor/autoload.php");
 
 use ILIAS\Refinery\Factory;
 use PHPUnit\Framework\TestCase;
@@ -39,7 +39,7 @@ class InitUIFrameworkTest extends TestCase
 
     /**
      * This checks only by example that the factory is loaded and ready to work.
-     * A complete check of the factory is performed in the Test cases of tests/UI
+     * A complete check of the factory is performed in the Test cases of components/ILIAS/UI/tests/
      */
     public function testByExampleThatFactoryIsLoaded(): void
     {
@@ -53,7 +53,7 @@ class InitUIFrameworkTest extends TestCase
 
     /**
      * This checks only by example that the renderer is all up and ready to work.
-     * A complete set of the rendering tests is performed in the Test cases of tests/UI
+     * A complete set of the rendering tests is performed in the Test cases of components/ILIAS/UI/tests/
      * Note that some additional dependencies are needed for this to run.
      */
     public function testByExampleThatRendererIsReadyToWork(): void

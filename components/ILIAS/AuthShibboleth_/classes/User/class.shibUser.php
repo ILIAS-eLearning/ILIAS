@@ -15,6 +15,9 @@
  *
  *********************************************************************/
 
+use ilias\components\ILIAS\RemoteWiki_\Registration_\classes\ilRegistrationMailNotification;
+use ilias\components\ILIAS\RemoteWiki_\Registration_\classes\ilRegistrationSettings;
+
 /**
  * Class shibUser
  *

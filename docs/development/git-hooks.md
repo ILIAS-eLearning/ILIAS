@@ -55,7 +55,7 @@ Once you installed the composer development dependencies, go to the ILIAS
 main directory and execute:
 
 ```bash
-libs/composer/vendor/bin/captainhook install
+vendor/composer/vendor/bin/captainhook install
 ```
 Executing this will create the hook script located in your `.git/hooks` directory,
 for each hook you choose to install while running the command.
@@ -105,7 +105,7 @@ You must reinstall captainhook with your local config. Go to the ILIAS
 main directory and execute:
 
 ```bash
-libs/composer/vendor/bin/captainhook install -c captainhook.local.json
+vendor/composer/vendor/bin/captainhook install -c captainhook.local.json
 ```
 
 The installation of the local file might respond with the following error:
@@ -117,7 +117,7 @@ In Builder.php line 55:
                                                                         
 ```
 
-In this case, you have to include the `"bootstrap": "libs/composer/vendor/autoload.php"` setting,
+In this case, you have to include the `"bootstrap": "vendor/composer/vendor/autoload.php"` setting,
 similar to [captainhook.json](../../captainhook.json).
 
 #### The Manual Way: Creating Git Hooks

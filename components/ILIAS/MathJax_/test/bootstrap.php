@@ -15,4 +15,4 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  */
 
-require_once 'libs/composer/vendor/autoload.php';
+require_once 'vendor/composer/vendor/autoload.php';

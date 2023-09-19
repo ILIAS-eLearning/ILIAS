@@ -22,6 +22,9 @@ use ILIAS\UI\Component\Symbol\Avatar\Avatar;
 use ILIAS\Data\DateFormat\DateFormat;
 use ILIAS\Data\DateFormat\Factory as DateFormatFactory;
 use ILIAS\Data\Factory as DataFactory;
+use ilias\components\ILIAS\RemoteWiki_\Registration_\exceptions\ilRegistrationHashNotFoundException;
+use ilias\components\ILIAS\RemoteWiki_\Registration_\classes\ilRegistrationSettings;
+use ilias\components\ILIAS\RemoteWiki_\Registration_\exceptions\ilRegConfirmationLinkExpiredException;
 
 /**
  * User class

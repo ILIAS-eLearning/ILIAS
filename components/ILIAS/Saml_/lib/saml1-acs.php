@@ -59,4 +59,4 @@ ilInitialisation::initILIAS();
 $factory = new ilSamlAuthFactory();
 $auth = $factory->auth();
 
-require_once 'libs/composer/vendor/simplesamlphp/simplesamlphp/modules/saml/www/sp/saml1-acs.php';
+require_once 'vendor/composer/vendor/simplesamlphp/simplesamlphp/modules/saml/www/sp/saml1-acs.php';

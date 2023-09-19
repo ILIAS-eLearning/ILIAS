@@ -21,7 +21,7 @@ declare(strict_types=1);
 chdir(__DIR__);
 chdir('..');
 
-require_once './libs/composer/vendor/autoload.php';
+require_once './vendor/composer/vendor/autoload.php';
 
 $cron = new ILIAS\Cron\CLI\App(
     new ILIAS\Cron\CLI\Commands\RunActiveJobsCommand()

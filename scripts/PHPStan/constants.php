@@ -42,7 +42,7 @@ const ABSOLUTE_PATH = '/';
 const ILIAS_DATA_DIR = './external_data';
 const ILIAS_WEB_DIR = './cli';
 const CLIENT_DATA_DIR = './external_data';
-const CLIENT_WEB_DIR = './data';
+const CLIENT_WEB_DIR = './cli';
 
 // Mail system specific constants
 const MAILPATH = 'mail';

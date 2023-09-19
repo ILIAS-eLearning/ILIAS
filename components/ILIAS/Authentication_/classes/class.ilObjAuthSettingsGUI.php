@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ilias\components\ILIAS\RemoteWiki_\Registration_\classes\ilRegistrationSettingsGUI;
+
 /**
  * @author Sascha Hofmann <saschahofmann@gmx.de>
  *

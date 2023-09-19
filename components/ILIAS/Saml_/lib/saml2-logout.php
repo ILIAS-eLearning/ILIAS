@@ -71,4 +71,4 @@ $GLOBALS['ilAppEventHandler']->raise(
     ]
 );
 
-require_once 'libs/composer/vendor/simplesamlphp/simplesamlphp/modules/saml/www/sp/saml2-logout.php';
+require_once 'vendor/composer/vendor/simplesamlphp/simplesamlphp/modules/saml/www/sp/saml2-logout.php';

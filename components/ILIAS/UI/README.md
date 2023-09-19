@@ -262,7 +262,7 @@ If you would like to implement a new component for the framework, you should per
    ``` php
     <?php declare(strict_types=1)
 
-    require_once(__DIR__."/../../../../libs/composer/vendor/autoload.php");
+    require_once(__DIR__."/../../../../vendor/composer/vendor/autoload.php");
     require_once(__DIR__."/../../Base.php");
 
     use \ILIAS\UI\Component as C;
@@ -552,7 +552,7 @@ Use [PHPStan](../../../scripts/PHPStan/README.md) to check your files:
 There are different [levels of checks](https://phpstan.org/user-guide/rule-levels),
 you can e.g. run 
 ```
-./libs/composer/vendor/bin/phpstan analyse --level 8 src/UI/...
+./vendor/composer/vendor/bin/phpstan analyse --level 8 src/UI/...
 ```
 to override `./scripts/PHPStan/phpstan.neon`, however, level 9/max is the desired goal.
 

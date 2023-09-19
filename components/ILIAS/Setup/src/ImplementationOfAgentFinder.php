@@ -90,7 +90,7 @@ class ImplementationOfAgentFinder implements AgentFinder
         );
         foreach ($agent_classes as $class_name) {
             $agents = $agents->withAdditionalAgent(
-                $this->getAgentNameByClassName($class_name),
+                $this->getAgentNameByClassName((string)$class_name),
                 new $class_name(
                     $this->refinery,
                     $this->data_factory,

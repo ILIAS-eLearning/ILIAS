@@ -19,7 +19,7 @@ declare(strict_types=1);
  *********************************************************************/
 
 chdir("../../../");
-require_once 'libs/composer/vendor/autoload.php';
+require_once 'vendor/composer/vendor/autoload.php';
 
 /**
  * see: https://github.com/AICC/CMI-5_Spec_Current/blob/quartz/cmi5_spec.md#fetch_url

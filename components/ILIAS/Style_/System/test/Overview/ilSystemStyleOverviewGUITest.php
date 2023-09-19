@@ -18,8 +18,8 @@
 
 declare(strict_types=1);
 
-require_once('libs/composer/vendor/autoload.php');
-include_once('./tests/UI/UITestHelper.php');
+require_once('vendor/composer/vendor/autoload.php');
+include_once('./components/ILIAS/UI/tests/UITestHelper.php');
 
 use ILIAS\HTTP\Wrapper\WrapperFactory;
 use ILIAS\Data\Factory as DataFactory;

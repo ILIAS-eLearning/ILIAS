@@ -17,6 +17,7 @@
  *********************************************************************/
 
 use ILIAS\User\Profile\ilUserProfileDefaultFields;
+use ilias\components\ILIAS\RemoteWiki_\Registration_\classes\ilRegistrationSettings;
 
 /**
  * Class ilUserProfile

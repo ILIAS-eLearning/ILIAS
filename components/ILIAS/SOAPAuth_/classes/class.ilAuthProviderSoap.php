@@ -17,6 +17,9 @@
 
 declare(strict_types=1);
 
+use ilias\components\ILIAS\RemoteWiki_\Registration_\classes\ilAccountRegistrationMail;
+use ilias\components\ILIAS\RemoteWiki_\Registration_\classes\ilRegistrationSettings;
+
 /**
  * Class ilAuthProviderSoap
  * @author Michael Jansen <mjansen@databay.de>

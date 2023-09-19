@@ -22,6 +22,9 @@ declare(strict_types=1);
  * Soap utitliy functions
  * @author Stefan Meyer <meyer@leifos.com>
  */
+
+use ilias\components\ILIAS\RemoteWiki_\Registration_\classes\ilRegistrationSettings;
+
 include_once './components/ILIAS/soapclasses/class.ilSoapAdministration.php';
 
 class ilSoapUtils extends ilSoapAdministration

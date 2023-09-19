@@ -20,6 +20,12 @@ use Psr\Http\Message\ServerRequestInterface;
 use ILIAS\UICore\PageContentProvider;
 use ILIAS\Refinery\Factory as RefineryFactory;
 use ILIAS\HTTP\Services as HTTPServices;
+use ilias\components\ILIAS\RemoteWiki_\Registration_\exceptions\ilRegistrationHashNotFoundException;
+use ilias\components\ILIAS\RemoteWiki_\Registration_\classes\ilAccountRegistrationGUI;
+use ilias\components\ILIAS\RemoteWiki_\Registration_\classes\ilAccountRegistrationMail;
+use ilias\components\ILIAS\RemoteWiki_\Registration_\classes\ilRegistrationCode;
+use ilias\components\ILIAS\RemoteWiki_\Registration_\classes\ilRegistrationSettings;
+use ilias\components\ILIAS\RemoteWiki_\Registration_\exceptions\ilRegConfirmationLinkExpiredException;
 
 /**
  * StartUp GUI class. Handles Login and Registration.

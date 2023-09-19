@@ -580,7 +580,7 @@ class ilRegistrationMailNotification extends \ilMimeMailNotification
 The usage could look like this:
 
 ```php
-$myMailNotification = new \ilRegistrationMailNotification();
+$myMailNotification = new \ilias\components\ILIAS\RemoteWiki_\Registration_\classes\ilRegistrationMailNotification();
 $myMailNotification->setRecipients([
     6,
     new ilObjUser(6),

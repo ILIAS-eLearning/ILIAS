@@ -29,7 +29,7 @@
 /ilias.ini.php
 /ilias.log
 /db_template_writer.php
-/setup/sql/dbupdate_custom.php
+/components/ILIAS/setup/sql/dbupdate_custom.php
 /install_client.php
 /components/ILIAS/GlobalScreen_/artifacts/global_screen_providers.php
 /components/ILIAS/Style_/System/data/data.php
@@ -45,7 +45,7 @@
 /Customizing/global
 /Customizing/clients
 virtual-data
-/libs/composer/vendor
+/vendor/composer/vendor
 
 # Node Modules
 /node_modules

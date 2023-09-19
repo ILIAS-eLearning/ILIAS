@@ -75,7 +75,7 @@ The rules will be applied to your code using the following command (the
 example applies the ule so Services/GlobalCache): 
 
 ```bash
-./libs/composer/vendor/bin/rector process --config ./scripts/Rector/basic_rector.php --no-diffs Services/GlobalCache
+./vendor/composer/vendor/bin/rector process --config ./scripts/Rector/basic_rector.php --no-diffs Services/GlobalCache
 ```
 There also is a composer script for the same command:
 

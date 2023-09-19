@@ -8,7 +8,7 @@ After implementing a `ToastProvider`, you need to perform a classmap update whic
 in the GlobalScreen-Service:
 
 ```bash
-./libs/composer/vendor/bin/composer dump-autoload
+./vendor/composer/vendor/bin/composer dump-autoload
 ```
 
 The following types are currently available via the Factory (`$this->toast_factory` in `AbstractToastProvider`):

@@ -1,7 +1,7 @@
 {
   "config": {
-    "vendor-directory": "libs/composer/vendor",
-    "bootstrap": "libs/composer/vendor/autoload.php"
+    "vendor-directory": "vendor/composer/vendor",
+    "bootstrap": "vendor/composer/vendor/autoload.php"
   },
   "commit-msg": {
     "enabled": false,
@@ -30,6 +30,11 @@
   "pre-commit": {
     "enabled": true,
     "actions": [
+      {
+        "action": "\\CaptainHook\\App\\Hook\\PHP\\Action\\Linting",
+        "options": [],
+        "conditions": []
+      },
       {
         "action": "scripts/sort_langfile_entries.sh check",
         "options": [],

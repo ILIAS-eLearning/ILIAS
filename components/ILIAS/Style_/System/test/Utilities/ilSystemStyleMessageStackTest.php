@@ -18,8 +18,8 @@
 
 declare(strict_types=1);
 
-require_once('libs/composer/vendor/autoload.php');
-include_once('./tests/UI/UITestHelper.php');
+require_once('vendor/composer/vendor/autoload.php');
+include_once('./components/ILIAS/UI/tests/UITestHelper.php');
 
 use PHPUnit\Framework\TestCase;
 use ILIAS\UI\Component\MessageBox\MessageBox as IMessageBox;

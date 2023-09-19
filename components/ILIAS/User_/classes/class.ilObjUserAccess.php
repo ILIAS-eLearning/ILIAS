@@ -16,6 +16,7 @@
  *
  *********************************************************************/
 
+use ilias\components\ILIAS\RemoteWiki_\Registration_\classes\ilRegistrationSettings;
 
 /**
  * Class ilObjUserAccess
