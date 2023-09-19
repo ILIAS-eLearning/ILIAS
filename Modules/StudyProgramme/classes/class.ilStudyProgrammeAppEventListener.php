@@ -294,6 +294,6 @@ class ilStudyProgrammeAppEventListener
             $id = $params['role_id'];
         }
 
-        ilObjStudyProgramme::removeMemberFromProgrammes($src_type, $id, $usr_id);
+        ilObjStudyProgramme::removeMemberFromProgrammes($src_type, $id, (int) $usr_id);
     }
 }
