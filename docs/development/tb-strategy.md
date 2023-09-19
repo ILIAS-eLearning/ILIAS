@@ -69,10 +69,9 @@ qualities regarding security, privacy, and availability.**
 We set the following goals:
 
 * The methods to assess and increase code quality, that we have developed for and
-  during the PHP 8 project,
-* will be employed regularly in our development process. They are continously strengthend
-  and enhanced to steadily improve the quality of our existing code and assess new
-  code.
+  during the PHP 8 project, will be employed regularly in our development process.
+  They are continously strengthend and enhanced to steadily improve the quality of
+  our existing code and assess new code.
 * We already have various automatisms and approaches that individual developers
   can use to improve their contributions to ILIAS. These tools are used naturally
   throughout our development process and thereby brought to full fruition.
