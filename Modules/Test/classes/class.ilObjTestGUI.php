@@ -68,7 +68,7 @@ require_once './Modules/Test/classes/inc.AssessmentConstants.php';
  *
  * @ingroup ModulesTest
  */
-class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
+class ilObjTestGUI extends ilContainerGUI implements ilCtrlBaseClassInterface
 {
     private static $infoScreenChildClasses = array(
         'ilpublicuserprofilegui', 'ilobjportfoliogui'
@@ -1022,6 +1022,18 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
         }
 
         $this->ctrl->redirectByClass('ilObjTestGUI', 'questions');
+    }
+
+    public function prepareOutput(bool $show_subobjects = true): bool
+    {
+        if (!$this->getCreationMode()) {
+            $settings = ilMemberViewSettings::getInstance();
+            if ($settings->isActive() && $settings->getContainer() != $this->object->getRefId()) {
+                $settings->setContainer($this->object->getRefId());
+                $this->rbac_system->initMemberView();
+            }
+        }
+        return parent::prepareOutput($show_subobjects);
     }
 
     private function userResultsGatewayObject()
