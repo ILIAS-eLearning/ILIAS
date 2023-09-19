@@ -77,31 +77,32 @@ class RatingInputTest extends ILIAS_UI_TestBase
             <label class="control-label col-sm-4 col-md-3 col-lg-2">label</label>
             <div class="col-sm-8 col-md-9 col-lg-10">
 
-                <div class="input-group il-input-rating" id="id_1">
-                    <div class="il-input-rating__stars">
-                        <input type="radio" id="id_1-5" name="name_0" value="5" aria-label="5" class="il-input-rating-scaleoption" />
-                        <label class="glyphicon-star il-input-rating-star" for="id_1-5"></label>
+                <fieldset class="input-group il-input-rating" id="id_1">
+                    <legend class="il-input-rating__text" id="id_1_desc"></legend>
+                    <div class="il-input-rating__stars" role="radiogroup">
+                        <input aria-describedby="id_1_desc" type="radio" id="id_1-5" name="name_0" value="5" class="il-input-rating-scaleoption" />
+                        <label class="glyphicon-star il-input-rating-star" for="id_1-5" aria-label="5" ></label>
                         <span class="label"><label class="glyphicon-saltire il-input-rating-reset" for="id_1-0"></label></span>
 
-                        <input type="radio" id="id_1-4" name="name_0" value="4" aria-label="4" class="il-input-rating-scaleoption" />
-                        <label class="glyphicon-star il-input-rating-star" for="id_1-4"></label>
+                        <input aria-describedby="id_1_desc" type="radio" id="id_1-4" name="name_0" value="4" class="il-input-rating-scaleoption" />
+                        <label class="glyphicon-star il-input-rating-star" for="id_1-4" aria-label="4" ></label>
                         <span class="label"><label class="glyphicon-saltire il-input-rating-reset" for="id_1-0"></label></span>
 
-                        <input type="radio" id="id_1-3" name="name_0" value="3" aria-label="3" class="il-input-rating-scaleoption" />
-                        <label class="glyphicon-star il-input-rating-star" for="id_1-3"></label>
+                        <input aria-describedby="id_1_desc" type="radio" id="id_1-3" name="name_0" value="3" class="il-input-rating-scaleoption" />
+                        <label class="glyphicon-star il-input-rating-star" for="id_1-3" aria-label="3"></label>
                         <span class="label"><label class="glyphicon-saltire il-input-rating-reset" for="id_1-0"></label></span>
 
-                        <input type="radio" id="id_1-2" name="name_0" value="2" aria-label="2" class="il-input-rating-scaleoption" />
-                        <label class="glyphicon-star il-input-rating-star" for="id_1-2"></label>
+                        <input aria-describedby="id_1_desc" type="radio" id="id_1-2" name="name_0" value="2" class="il-input-rating-scaleoption" />
+                        <label class="glyphicon-star il-input-rating-star" for="id_1-2" aria-label="2"></label>
                         <span class="label"><label class="glyphicon-saltire il-input-rating-reset" for="id_1-0"></label></span>
 
-                        <input type="radio" id="id_1-1" name="name_0" value="1" aria-label="1" class="il-input-rating-scaleoption" />
-                        <label class="glyphicon-star il-input-rating-star" for="id_1-1"></label>
+                        <input aria-describedby="id_1_desc" type="radio" id="id_1-1" name="name_0" value="1" class="il-input-rating-scaleoption" />
+                        <label class="glyphicon-star il-input-rating-star" for="id_1-1" aria-label="1"></label>
                         <span class="label"><label class="glyphicon-saltire il-input-rating-reset" for="id_1-0"></label></span>
                     </div>
 
                     <input type="radio" id="id_1-0" name="name_0" value="0" class="il-input-rating-scaleoption reset-option" />
-                </div>
+                </fieldset>
 
                 <div class="help-block">byline</div>
             </div>
@@ -124,32 +125,32 @@ class RatingInputTest extends ILIAS_UI_TestBase
             <label class="control-label col-sm-4 col-md-3 col-lg-2">label</label>
             <div class="col-sm-8 col-md-9 col-lg-10">
 
-                <div class="input-group il-input-rating disabled" id="id_1">
-                    <p class="il-input-rating__text">question text</p>
-                    <div class="il-input-rating__stars">
-                        <input type="radio" id="id_1-5" name="name_0" value="5" aria-label="l5" class="il-input-rating-scaleoption" disabled="disabled"/>
-                        <label class="glyphicon-star il-input-rating-star" for="id_1-5"></label>
+                <fieldset class="input-group il-input-rating disabled" id="id_1">
+                    <legend class="il-input-rating__text" id="id_1_desc">question text</legend>
+                    <div class="il-input-rating__stars" role="radiogroup">
+                        <input aria-describedby="id_1_desc" type="radio" id="id_1-5" name="name_0" value="5" class="il-input-rating-scaleoption" disabled="disabled"/>
+                        <label class="glyphicon-star il-input-rating-star" for="id_1-5" aria-label="l5"></label>
                         <span class="label">l5<label class="glyphicon-saltire il-input-rating-reset" for="id_1-0"></label></span>
 
-                        <input type="radio" id="id_1-4" name="name_0" value="4" aria-label="l4" class="il-input-rating-scaleoption" disabled="disabled" checked="checked"/>
-                        <label class="glyphicon-star il-input-rating-star" for="id_1-4"></label>
+                        <input aria-describedby="id_1_desc" type="radio" id="id_1-4" name="name_0" value="4" class="il-input-rating-scaleoption" disabled="disabled" checked="checked"/>
+                        <label class="glyphicon-star il-input-rating-star" for="id_1-4" aria-label="l4" ></label>
                         <span class="label">l4<label class="glyphicon-saltire il-input-rating-reset" for="id_1-0"></label></span>
 
-                        <input type="radio" id="id_1-3" name="name_0" value="3" aria-label="l3" class="il-input-rating-scaleoption" disabled="disabled"/>
-                        <label class="glyphicon-star il-input-rating-star" for="id_1-3"></label>
+                        <input aria-describedby="id_1_desc" type="radio" id="id_1-3" name="name_0" value="3" class="il-input-rating-scaleoption" disabled="disabled"/>
+                        <label class="glyphicon-star il-input-rating-star" for="id_1-3" aria-label="l3"></label>
                         <span class="label">l3<label class="glyphicon-saltire il-input-rating-reset" for="id_1-0"></label></span>
 
-                        <input type="radio" id="id_1-2" name="name_0" value="2" aria-label="l2" class="il-input-rating-scaleoption" disabled="disabled"/>
-                        <label class="glyphicon-star il-input-rating-star" for="id_1-2"></label>
+                        <input aria-describedby="id_1_desc" type="radio" id="id_1-2" name="name_0" value="2" class="il-input-rating-scaleoption" disabled="disabled"/>
+                        <label class="glyphicon-star il-input-rating-star" for="id_1-2" aria-label="l2"></label>
                         <span class="label">l2<label class="glyphicon-saltire il-input-rating-reset" for="id_1-0"></label></span>
 
-                        <input type="radio" id="id_1-1" name="name_0" value="1" aria-label="l1" class="il-input-rating-scaleoption" disabled="disabled"/>
-                        <label class="glyphicon-star il-input-rating-star" for="id_1-1"></label>
+                        <input aria-describedby="id_1_desc" type="radio" id="id_1-1" name="name_0" value="1" class="il-input-rating-scaleoption" disabled="disabled"/>
+                        <label class="glyphicon-star il-input-rating-star" for="id_1-1" aria-label="l1"></label>
                         <span class="label">l1<label class="glyphicon-saltire il-input-rating-reset" for="id_1-0"></label></span>
                     </div>
 
                     <input type="radio" id="id_1-0" name="name_0" value="0" class="il-input-rating-scaleoption reset-option" disabled="disabled" />
-                </div>
+                </fieldset>
 
                 <div class="help-block">byline</div>
             </div>

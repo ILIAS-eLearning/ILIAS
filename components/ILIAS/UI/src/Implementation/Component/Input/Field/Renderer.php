@@ -1051,6 +1051,8 @@ class Renderer extends AbstractComponentRenderer
     {
         $tpl = $this->getTemplate("tpl.rating.html", true, true);
         $id = $this->bindJSandApplyId($component, $tpl);
+        $aria_description_id = $id . '_desc';
+        $tpl->setVariable('DESCRIPTION_SRC_ID', $aria_description_id);
 
         $option_labels = $component->getOptionLabels();
 
@@ -1062,6 +1064,7 @@ class Renderer extends AbstractComponentRenderer
             $tpl->setVariable('OPT_ID', $id . '-' . $option);
             $tpl->setVariable('RESET_ID', $id . '-0');
             $tpl->setVariable('NAME', $component->getName());
+            $tpl->setVariable('DESCRIPTION_ID', $aria_description_id);
 
             if ((string)$component->getValue() === (string)$option) {
                 $tpl->setVariable("SELECTED", ' checked="checked"');
@@ -1071,6 +1074,7 @@ class Renderer extends AbstractComponentRenderer
             }
             $tpl->parseCurrentBlock();
         }
+        $tpl->setVariable('RESET_NAME', $component->getName());
 
         if ($txt = $component->getQuestionText()) {
             $tpl->setVariable('TEXT', $txt);
@@ -1080,7 +1084,7 @@ class Renderer extends AbstractComponentRenderer
             $this->maybeDisable($component, $tpl);
             $tpl->touchBlock('disabled');
         }
-        $this->applyName($component, $tpl);
+
         return $this->wrapInFormContext($component, $tpl->get());
     }
 }
