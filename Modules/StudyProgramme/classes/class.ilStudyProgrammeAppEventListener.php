@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Event listener for study programs. Has the following tasks:
@@ -294,6 +294,6 @@ class ilStudyProgrammeAppEventListener
             $id = $params['role_id'];
         }
 
-        ilObjStudyProgramme::removeMemberFromProgrammes($src_type, $id, $usr_id);
+        ilObjStudyProgramme::removeMemberFromProgrammes($src_type, $id, (int) $usr_id);
     }
 }
