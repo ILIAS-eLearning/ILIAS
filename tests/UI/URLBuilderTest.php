@@ -130,8 +130,8 @@ class URLBuilderTest extends TestCase
         $this->assertInstanceOf(URLBuilder::class, $url);
         $this->assertEquals(
             'https://www.ilias.de/foo/bar?var1=42&var2=foo'
-                . '&test' . $sep . urlencode('title[0]') . '=foo'
-                . '&test' . $sep . urlencode('title[1]') . '=bar'
+                . '&test' . $sep . urlencode('title[]') . '=foo'
+                . '&test' . $sep . urlencode('title[]') . '=bar'
                 . '#12345',
             (string) $url->buildURI()
         );
