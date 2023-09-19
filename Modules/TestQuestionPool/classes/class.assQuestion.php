@@ -317,19 +317,9 @@ abstract class assQuestion
 
     protected function ensureCurrentTestPass(int $active_id, int $pass): int
     {
-        if (is_int($pass) && $pass >= 0) {
+        if ($pass >= 0) {
             return $pass;
         }
-
-        return $this->lookupCurrentTestPass($active_id, $pass);
-    }
-
-    /**
-     * @deprecated Use ilObjTest::_getPass($active_id) instead
-     * @removal ILIAS 9
-     */
-    protected function lookupCurrentTestPass(int $active_id, int $pass): int
-    {
         return \ilObjTest::_getPass($active_id);
     }
 
@@ -667,7 +657,7 @@ abstract class assQuestion
      */
     public static function _getSuggestedSolutionOutput(int $question_id): string
     {
-        $question = self::_instantiateQuestion($question_id);
+        $question = self::instantiateQuestion($question_id);
         if (!is_object($question)) {
             return "";
         }
@@ -2136,15 +2126,6 @@ abstract class assQuestion
 
     /**
      * @deprecated use assQuestion::instantiateQuestion() instead.
-     * @removal ILIAS 9
-     */
-    public static function _instanciateQuestion(int $question_id): assQuestion
-    {
-        return self::_instantiateQuestion($question_id);
-    }
-
-    /**
-     * @deprecated use assQuestion::instantiateQuestion() instead.
      */
     public static function _instantiateQuestion(int $question_id): assQuestion
     {
@@ -2742,15 +2723,6 @@ abstract class assQuestion
         return "";
     }
 
-    /**
-     * @deprecated Use instantiateQuestionGUI (without legacy underscore & typos) instead.
-     * @removal ILIAS 9
-     */
-    public static function _instanciateQuestionGUI(int $question_id): assQuestionGUI
-    {
-        return self::instantiateQuestionGUI($question_id);
-    }
-
     public static function instantiateQuestionGUI(int $a_question_id): assQuestionGUI
     {
         //Shouldn't you live in assQuestionGUI, Mister?
@@ -2792,36 +2764,6 @@ abstract class assQuestion
         $worksheet->setFormattedExcelTitle($worksheet->getColumnCoord($col + 1) . $startrow, $this->getTitle());
 
         return $startrow;
-    }
-
-    /**
-     * Object getter
-     * @deprecated Simply do not use this.
-     * @removal ILIAS 9
-     */
-    public function __get($value)
-    {
-        throw new BadMethodCallException('assQuestion::__get is discouraged, used with: ' . $value);
-    }
-
-    /**
-     * Object setter
-     * @deprecated Simply do not use this.
-     * @removal ILIAS 9
-     */
-    public function __set($key, $value)
-    {
-        throw new BadMethodCallException('assQuestion::__set is discouraged, used with: ' . $key);
-    }
-
-    /**
-     * Object issetter
-     * @deprecated Simply do not use this.
-     * @removal ILIAS 9
-     */
-    public function __isset($key)
-    {
-        throw new BadMethodCallException('assQuestion::__isset is discouraged, used with: ' . $key);
     }
 
     public function getNrOfTries(): int

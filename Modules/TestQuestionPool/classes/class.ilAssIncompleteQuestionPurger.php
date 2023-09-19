@@ -84,7 +84,7 @@ class ilAssIncompleteQuestionPurger
     private function purgeQuestionIds($questionIds): void
     {
         foreach ($questionIds as $questionId) {
-            $question = assQuestion::_instantiateQuestion($questionId);
+            $question = assQuestion::instantiateQuestion($questionId);
             $question->delete($questionId);
         }
     }

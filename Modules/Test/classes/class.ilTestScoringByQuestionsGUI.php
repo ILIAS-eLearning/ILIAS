@@ -269,7 +269,7 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
             $qTitle = '';
 
             if ($lastAndHopefullyCurrentQuestionId) {
-                $question = assQuestion::_instantiateQuestion($lastAndHopefullyCurrentQuestionId);
+                $question = assQuestion::instantiateQuestion($lastAndHopefullyCurrentQuestionId);
                 $qTitle = $question->getTitle();
             }
 
