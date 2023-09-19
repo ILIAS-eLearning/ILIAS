@@ -32,7 +32,7 @@ function responses()
     $modal = $factory->modal()->dialog($uri);
 
     //setup a response-wrapper
-    $response = $factory->modal()->modalResponse();
+    $response = $factory->modal()->dialogResponse();
 
     //fill the response according to (query-)paramters
     $query = $DIC->http()->wrapper()->query();

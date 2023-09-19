@@ -109,10 +109,10 @@ class Factory implements M\Factory
         return new Dialog($this->signal_generator, $async_url);
     }
 
-    public function modalResponse(
+    public function dialogResponse(
         string $title = '',
         ?\ILIAS\UI\Component\Component ...$content
-    ): ModalResponse {
-        return new ModalResponse($this->button_factory, $title, ...$content);
+    ): DialogResponse {
+        return new DialogResponse($this->button_factory, $title, ...$content);
     }
 }

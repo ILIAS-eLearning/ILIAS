@@ -49,7 +49,7 @@ function parameters()
 
 
     //wrap answer in Modal Response
-    $response = $factory->modal()->modalResponse(
+    $response = $factory->modal()->dialogResponse(
         'This is a Simple Modal',
         ...$out
     );

@@ -21,12 +21,12 @@ declare(strict_types=1);
 namespace ILIAS\UI\Component\Divider;
 
 use ILIAS\UI\Component\Component;
-use ILIAS\UI\Component\Modal\ModalContent;
+use ILIAS\UI\Component\Modal\DialogContent;
 
 /**
  * Horizontal Divider
  */
-interface Horizontal extends Component, ModalContent
+interface Horizontal extends Component, DialogContent
 {
     /**
      * Get the label of the divider
