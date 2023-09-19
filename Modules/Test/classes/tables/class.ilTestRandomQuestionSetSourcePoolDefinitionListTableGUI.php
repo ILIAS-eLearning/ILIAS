@@ -135,6 +135,8 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListTableGUI extends ilTable2GU
                 )
             );
             $this->ctrl->clearParametersByClass(ilObjQuestionPoolGUI::class);
+        } else {
+            $this->tpl->setVariable('SOURCE_POOL_LABEL', $a_set['source_pool_label']);
         }
         // fau: taxFilter/typeFilter - set taxonomy/type filter label in a single coulumn each
         $this->tpl->setVariable('TAXONOMY_FILTER', $this->taxonomyLabelTranslater->getTaxonomyFilterLabel($a_set['taxonomy_filter'], '<br />'));

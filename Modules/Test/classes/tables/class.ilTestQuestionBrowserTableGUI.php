@@ -443,10 +443,11 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
                     )
                 );
                 $this->ctrl->clearParametersByClass(ilObjQuestionPoolGUI::class);
-                return;
             }
         }
-        $question_pool_content = $a_set['parent_title'];
+        if (!isset($question_pool_content)) {
+            $question_pool_content = $a_set['parent_title'];
+        }
         $this->tpl->setVariable("QUESTION_POOL", $question_pool_content);
     }
 
