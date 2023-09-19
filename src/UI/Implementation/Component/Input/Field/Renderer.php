@@ -601,7 +601,9 @@ class Renderer extends AbstractComponentRenderer
         $max_file_size = $component->getMaxFileFize() === -1
             ? $upload_limit
             : $component->getMaxFileFize();
-        $settings->max_file_size = min($max_file_size, $upload_limit) / 1024 / 1024; // dropzone.js expects MiB
+        // dropzone.js expects MiB, latest documentation is misleading, see
+        // https://github.com/dropzone/dropzone/issues/2197
+        $settings->max_file_size = min($max_file_size, $upload_limit) / 1024 / 1024;
         $settings->max_file_size_text = sprintf(
             $this->txt('ui_file_input_invalid_size'),
             (string) round($settings->max_file_size, 3)
@@ -676,7 +678,7 @@ class Renderer extends AbstractComponentRenderer
         $registry->register('./src/UI/templates/js/Input/Field/textarea.js');
         $registry->register('./src/UI/templates/js/Input/Field/input.js');
         $registry->register('./src/UI/templates/js/Input/Field/duration.js');
-        $registry->register('./libs/bower/bower_components/dropzone/dist/min/dropzone.min.js');
+        $registry->register('./node_modules/dropzone/dist/min/dropzone.min.js');
         $registry->register('./src/UI/templates/js/Input/Field/file.js');
         $registry->register('./src/UI/templates/js/Input/Field/groups.js');
     }
