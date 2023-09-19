@@ -313,7 +313,7 @@ class ilCourseParticipants extends ilParticipants
             " AND passed = " . $ilDB->quote(1, "integer");
         $res = $ilDB->query($sql);
         $res = $ilDB->fetchAssoc($res);
-        if ($res["origin_ts"]) {
+        if (($res["origin_ts"] ?? 0) > 0) {
             return date("Y-m-d H:i:s", $res["origin_ts"]);
         }
         return '';
