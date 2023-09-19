@@ -24,33 +24,33 @@ use ILIAS\UI\Component\Symbol\Avatar\Avatar;
 
 class ProfileGUI
 {
-    protected \ilLanguage $lng;
+    protected ProfileAdapter $profile;
     protected \ILIAS\UI\Factory $ui_factory;
 
     public function __construct(
-        \ilLanguage $lng,
+        ProfileAdapter $profile,
         \ILIAS\UI\Factory $ui_factory
     ) {
         $this->ui_factory = $ui_factory;
-        $this->lng = $lng;
+        $this->profile = $profile;
     }
 
     public function getAvatar(int $user_id): Avatar
     {
-        if (\ilObject::_lookupType($user_id) === 'usr') {
+        if ($this->profile->exists($user_id)) {
             $avatar = \ilObjUser::_getAvatar($user_id);
         } else {
-            $avatar = $this->ui_factory->symbol()->avatar()->letter($this->lng->txt("deleted"));
+            $avatar = $this->ui_factory->symbol()->avatar()->letter($this->profile->getDeletedUserAvatarText());
         }
         return $avatar;
     }
 
     public function getNamePresentation(int $user_id, bool $link_profile = false, string $back = ""): string
     {
-        if (\ilObject::_lookupType($user_id) === 'usr') {
+        if ($this->profile->exists($user_id)) {
             $name = \ilUserUtil::getNamePresentation($user_id, false, $link_profile, $back);
         } else {
-            $name = $this->lng->txt("deleted_user");
+            $name = $this->profile->getDeletedUserNamePresentation();
         }
         return $name;
     }

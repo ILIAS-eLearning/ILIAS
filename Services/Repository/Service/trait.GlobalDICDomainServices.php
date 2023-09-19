@@ -27,6 +27,7 @@ use ILIAS\ResourceStorage;
 use ILIAS\Refinery;
 use ILIAS\Repository\Object\ObjectAdapterInterface;
 use ILIAS\Repository\Object\ObjectAdapter;
+use ILIAS\Repository\Profile\ProfileAdapter;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -103,5 +104,12 @@ trait GlobalDICDomainServices
     public function object(): ObjectAdapterInterface
     {
         return new ObjectAdapter();
+    }
+
+    public function profile(): ProfileAdapter
+    {
+        return new ProfileAdapter(
+            $this->lng()
+        );
     }
 }

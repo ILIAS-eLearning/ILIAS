@@ -54,11 +54,6 @@ trait GlobalDICGUIServices
         return $this->DIC->ui();
     }
 
-    public function lng(): \ilLanguage
-    {
-        return $this->DIC->language();
-    }
-
     public function object(): \ilObjectService
     {
         return $this->DIC->object();
@@ -209,7 +204,7 @@ trait GlobalDICGUIServices
     public function profile(): ProfileGUI
     {
         return new ProfileGUI(
-            $this->lng(),
+            $this->DIC->repository()->internal()->domain()->profile(),
             $this->ui()->factory()
         );
     }
