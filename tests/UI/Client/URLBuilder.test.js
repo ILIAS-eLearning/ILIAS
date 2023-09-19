@@ -120,8 +120,8 @@ describe('URLBuilder Test', () => {
     url = url.writeParameter(token1, ['foo', 'bar']);
     expect(url.getUrl().toString()).to.eql(
       'https://www.ilias.de/ilias.php?a=1'
-       + `&${encodeURIComponent('testing_arr[0]')}=foo`
-       + `&${encodeURIComponent('testing_arr[1]')}=bar`
+       + `&${encodeURIComponent('testing_arr[]')}=foo`
+       + `&${encodeURIComponent('testing_arr[]')}=bar`
        + '#123',
     );
   });
