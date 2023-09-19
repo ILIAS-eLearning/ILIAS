@@ -34,6 +34,7 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListTableGUI extends ilTable2GU
     private ?ilTestQuestionFilterLabelTranslater $taxonomyLabelTranslater = null;
     private \ILIAS\UI\Factory $ui_factory;
     private \ILIAS\UI\Renderer $ui_renderer;
+    private ilAccessHandler $access;
 
     public function __construct(
         ilTestRandomQuestionSetConfigGUI $parent_obj,
@@ -42,6 +43,7 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListTableGUI extends ilTable2GU
         private array $question_amount
     ) {
         global $DIC;
+        $this->access = $DIC->access();
         $this->ui_factory = $DIC->ui()->factory();
         $this->ui_renderer = $DIC->ui()->renderer();
 
@@ -118,19 +120,22 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListTableGUI extends ilTable2GU
             $this->tpl->setVariable('QUESTION_AMOUNT_INPUT_HTML', $questionAmountHTML);
             $this->tpl->parseCurrentBlock();
         }
-        $this->ctrl->setParameterByClass(ilObjQuestionPoolGUI::class, 'ref_id', $a_set['ref_id']);
-        $this->tpl->setVariable(
-            'SOURCE_POOL_LABEL',
-            $this->ui->renderer()->render(
-                $this->ui->factory()->link()->standard(
-                    $a_set['source_pool_label'],
-                    $this->ctrl->getLinkTargetByClass(
-                        [ilObjQuestionPoolGUI::class]
+
+        if ($this->access->checkAccess('read', '', $a_set['ref_id'])) {
+            $this->ctrl->setParameterByClass(ilObjQuestionPoolGUI::class, 'ref_id', $a_set['ref_id']);
+            $this->tpl->setVariable(
+                'SOURCE_POOL_LABEL',
+                $this->ui->renderer()->render(
+                    $this->ui->factory()->link()->standard(
+                        $a_set['source_pool_label'],
+                        $this->ctrl->getLinkTargetByClass(
+                            [ilObjQuestionPoolGUI::class]
+                        )
                     )
                 )
-            )
-        );
-        $this->ctrl->clearParametersByClass(ilObjQuestionPoolGUI::class);
+            );
+            $this->ctrl->clearParametersByClass(ilObjQuestionPoolGUI::class);
+        }
         // fau: taxFilter/typeFilter - set taxonomy/type filter label in a single coulumn each
         $this->tpl->setVariable('TAXONOMY_FILTER', $this->taxonomyLabelTranslater->getTaxonomyFilterLabel($a_set['taxonomy_filter'], '<br />'));
         #$this->tpl->setVariable('FILTER_TAXONOMY', $this->getTaxonomyTreeLabel($set['filter_taxonomy']));

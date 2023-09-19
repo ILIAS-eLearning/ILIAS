@@ -47,6 +47,7 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
 
     /** @var array<string, mixed> */
     private array $filter = [];
+    private ILIAS\DI\UIServices $ui;
 
     public function __construct(
         private ilTabsGUI $tabs,
@@ -423,32 +424,29 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
             "QUESTION_UPDATED",
             ilDatePresentation::formatDate(new ilDate($a_set["tstamp"], IL_CAL_UNIX))
         );
-        $qp_ref_id = ilObject::_getAllReferences($a_set["obj_fi"]);
         if (ilObject::_lookupType((int) $a_set["obj_fi"]) === 'qpl') {
-            $this->ctrl->setParameterByClass(ilObjQuestionPoolGUI::class, 'ref_id', current($qp_ref_id));
-            $question_pool_content = $this->ui->renderer()->render(
-                $this->ui->factory()->link()->standard(
-                    $a_set['parent_title'],
-                    $this->ctrl->getLinkTargetByClass(
-                        [ilObjQuestionPoolGUI::class]
+            $qp_ref_ids = ilObject::_getAllReferences($a_set["obj_fi"]);
+            $qp_references = [];
+            foreach ($qp_ref_ids as $reference) {
+                if ($this->access->checkAccess('read', '', $reference)) {
+                    $qp_references[] = $reference;
+                }
+            }
+            if (count($qp_references) === 1) {
+                $this->ctrl->setParameterByClass(ilObjQuestionPoolGUI::class, 'ref_id', $qp_references[0]);
+                $question_pool_content = $this->ui->renderer()->render(
+                    $this->ui->factory()->link()->standard(
+                        $a_set['parent_title'],
+                        $this->ctrl->getLinkTargetByClass(
+                            [ilObjQuestionPoolGUI::class]
+                        )
                     )
-                )
-            );
-            $this->ctrl->clearParametersByClass(ilObjQuestionPoolGUI::class);
-        } elseif (ilObject::_lookupType((int) $a_set["obj_fi"]) === 'tst') {
-            $this->ctrl->setParameterByClass(ilObjTestGUI::class, 'ref_id', current($qp_ref_id));
-            $question_pool_content = $this->ui->renderer()->render(
-                $this->ui->factory()->link()->standard(
-                    $a_set['parent_title'],
-                    $this->ctrl->getLinkTargetByClass(
-                        [ilObjTestGUI::class]
-                    )
-                )
-            );
-            $this->ctrl->clearParametersByClass(ilObjTestGUI::class);
-        } else {
-            $question_pool_content = $a_set['parent_title'];
+                );
+                $this->ctrl->clearParametersByClass(ilObjQuestionPoolGUI::class);
+                return;
+            }
         }
+        $question_pool_content = $a_set['parent_title'];
         $this->tpl->setVariable("QUESTION_POOL", $question_pool_content);
     }
 

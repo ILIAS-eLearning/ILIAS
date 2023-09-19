@@ -33,6 +33,7 @@ use ILIAS\TestQuestionPool\QuestionInfoService;
 class ilTestQuestionsTableGUI extends ilTable2GUI
 {
     private const CLASS_PATH_FOR_QUESTION_EDIT_LINKS = [ilRepositoryGUI::class, ilObjQuestionPoolGUI::class];
+    private ilAccessHandler $access;
 
     /**
      * @var bool
@@ -74,6 +75,8 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
         $this->setId('tst_qst_lst_' . $parent_ref_id);
 
         parent::__construct($parent_obj, $parent_cmd);
+        global $DIC;
+        $this->access = $DIC->access();
 
         $this->setFormName('questionbrowser');
         $this->setStyle('table', 'fullwidth');
@@ -221,21 +224,31 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
             }
         }
 
-        if (ilObject::_lookupType((int) $a_set["orig_obj_fi"]) == 'qpl') {
-            $qp_ref_id = ilObject::_getAllReferences($a_set["orig_obj_fi"]);
-            $this->ctrl->setParameterByClass(ilObjQuestionPoolGUI::class, 'ref_id', current($qp_ref_id));
-            $this->tpl->setVariable(
-                "QUESTION_POOL",
-                $this->ui_renderer->render(
-                    $this->ui_factory->link()->standard(
-                        ilObject::_lookupTitle($a_set["orig_obj_fi"]),
-                        $this->ctrl->getLinkTargetByClass(
-                            [ilObjQuestionPoolGUI::class]
+        if (ilObject::_lookupType((int) $a_set["orig_obj_fi"]) === 'qpl') {
+            $qp_ref_ids = ilObject::_getAllReferences($a_set["orig_obj_fi"]);
+            $qp_references = [];
+            foreach ($qp_ref_ids as $reference) {
+                if ($this->access->checkAccess('read', '', $reference)) {
+                    $qp_references[] = $reference;
+                }
+            }
+            if (count($qp_references) === 1) {
+                $this->ctrl->setParameterByClass(ilObjQuestionPoolGUI::class, 'ref_id', $qp_references[0]);
+                $this->tpl->setVariable(
+                    "QUESTION_POOL",
+                    $this->ui_renderer->render(
+                        $this->ui_factory->link()->standard(
+                            ilObject::_lookupTitle($a_set["orig_obj_fi"]),
+                            $this->ctrl->getLinkTargetByClass(
+                                [ilObjQuestionPoolGUI::class]
+                            )
                         )
                     )
-                )
-            );
-            $this->ctrl->clearParametersByClass(ilObjQuestionPoolGUI::class);
+                );
+                $this->ctrl->clearParametersByClass(ilObjQuestionPoolGUI::class);
+            } else {
+                $this->tpl->setVariable("QUESTION_POOL", $this->lng->txt('tst_question_not_from_pool_info'));
+            }
         } else {
             $this->tpl->setVariable("QUESTION_POOL", $this->lng->txt('tst_question_not_from_pool_info'));
         }
