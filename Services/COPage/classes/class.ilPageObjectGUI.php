@@ -37,6 +37,7 @@ class ilPageObjectGUI
     public const PREVIEW = "preview";
     public const OFFLINE = "offline";
     public const PRINTING = "print";
+    protected \ILIAS\TestQuestionPool\QuestionInfoService $questioninfo;
     protected \ILIAS\COPage\Page\PageManager $pm;
     protected \ILIAS\COPage\Link\LinkManager $link;
     protected \ILIAS\COPage\InternalGUIService $gui;
@@ -174,6 +175,8 @@ class ilPageObjectGUI
             ->gui()
             ->page()
             ->editRequest();
+
+        $this->questioninfo = $DIC->testQuestionPool()->questionInfo();
 
         $this->requested_old_nr = $this->request->getInt("old_nr");
         $this->requested_transl = $this->request->getString("transl");
@@ -936,7 +939,7 @@ class ilPageObjectGUI
 
                 // set context tabs
                 $questionGUI = assQuestionGUI::_getQuestionGUI(
-                    assQuestion::_getQuestionType(
+                    $this->questioninfo->getQuestionType(
                         $this->requested_q_id
                     ),
                     $this->requested_q_id

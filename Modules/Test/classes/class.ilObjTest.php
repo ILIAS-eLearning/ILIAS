@@ -7583,7 +7583,9 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
 
     public static function isQuestionObligationPossible(int $question_id): bool
     {
-        $class = assQuestion::_getQuestionType($question_id);
+        global $DIC;
+        $question_info = $DIC->testQuestionPool()->questionInfo();
+        $class = $question_info->getQuestionType($question_id);
         return call_user_func([$class, 'isObligationPossible'], $question_id);
     }
 
