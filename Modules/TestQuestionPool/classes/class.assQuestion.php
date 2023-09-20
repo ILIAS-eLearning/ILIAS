@@ -2117,14 +2117,6 @@ abstract class assQuestion
     }
 
     /**
-     * @deprecated use assQuestion::instantiateQuestion() instead.
-     */
-    public static function _instantiateQuestion(int $question_id): assQuestion
-    {
-        return self::instantiateQuestion($question_id);
-    }
-
-    /**
      * @param int $question_id
      * @return assQuestion
      * @throws InvalidArgumentException
