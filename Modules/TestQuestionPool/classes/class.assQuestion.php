@@ -1098,20 +1098,6 @@ abstract class assQuestion
         return ((int) $row["cnt"]) > 0;
     }
 
-    public static function getQuestionTypeFromDb(int $question_id): string
-    {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-
-        $result = $ilDB->queryF(
-            "SELECT qpl_qst_type.type_tag FROM qpl_qst_type, qpl_questions WHERE qpl_questions.question_id = %s AND qpl_questions.question_type_fi = qpl_qst_type.question_type_id",
-            array('integer'),
-            array($question_id)
-        );
-        $data = $ilDB->fetchAssoc($result);
-        return $data["type_tag"] ?? '';
-    }
-
     /**
      * @return string|array Or Array? @see Deletion methods here
      */
