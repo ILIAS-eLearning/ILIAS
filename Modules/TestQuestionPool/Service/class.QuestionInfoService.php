@@ -287,4 +287,57 @@ class QuestionInfoService
 
         return -1;
     }
+
+    public function getQuestionsMissingResultRecord(int $activeId, int $pass, array $questionIds): array
+    {
+        $IN_questionIds = $this->database->in('question_fi', $questionIds, false, 'integer');
+
+        $query = "
+			SELECT question_fi
+			FROM tst_test_result
+			WHERE active_fi = %s
+			AND pass = %s
+			AND $IN_questionIds
+		";
+
+        $res = $this->database->queryF(
+            $query,
+            array('integer', 'integer'),
+            array($activeId, $pass)
+        );
+
+        $questionsHavingResultRecord = array();
+
+        while ($row = $this->database->fetchAssoc($res)) {
+            $questionsHavingResultRecord[] = $row['question_fi'];
+        }
+
+        $questionsMissingResultRecordt = array_diff(
+            $questionIds,
+            $questionsHavingResultRecord
+        );
+
+        return $questionsMissingResultRecordt;
+    }
+
+    public function missingResultRecordExists(int $activeId, int $pass, array $questionIds): bool
+    {
+        $IN_questionIds = $this->database->in('question_fi', $questionIds, false, 'integer');
+
+        $query = "
+			SELECT COUNT(*) cnt
+			FROM tst_test_result
+			WHERE active_fi = %s
+			AND pass = %s
+			AND $IN_questionIds
+		";
+
+        $row = $this->database->fetchAssoc($this->database->queryF(
+            $query,
+            array('integer', 'integer'),
+            array($activeId, $pass)
+        ));
+
+        return $row['cnt'] < count($questionIds);
+    }
 }
