@@ -120,13 +120,13 @@ class assClozeTestExport extends assQuestionExport
         $a_xml_writer->xmlStartTag("flow");
 
         $questionText = $this->object->getQuestion() ? $this->object->getQuestion() : '&nbsp;';
-        $this->object->addQTIMaterial($a_xml_writer, $questionText);
+        $this->addQTIMaterial($a_xml_writer, $questionText);
 
         $text_parts = preg_split("/\[gap.*?\[\/gap\]/", $this->object->getClozeText());
 
         // add material with question text to presentation
         for ($i = 0; $i <= $this->object->getGapCount(); $i++) {
-            $this->object->addQTIMaterial($a_xml_writer, $text_parts[$i]);
+            $this->addQTIMaterial($a_xml_writer, $text_parts[$i]);
 
             if ($i < $this->object->getGapCount()) {
                 // add gap
@@ -454,7 +454,7 @@ class assClozeTestExport extends assQuestionExport
             $a_xml_writer->xmlStartTag("itemfeedback", $attrs);
             // qti flow_mat
             $a_xml_writer->xmlStartTag("flow_mat");
-            $this->object->addQTIMaterial($a_xml_writer, $feedback_allcorrect);
+            $this->addQTIMaterial($a_xml_writer, $feedback_allcorrect);
             $a_xml_writer->xmlEndTag("flow_mat");
             $a_xml_writer->xmlEndTag("itemfeedback");
         }
@@ -466,7 +466,7 @@ class assClozeTestExport extends assQuestionExport
             $a_xml_writer->xmlStartTag("itemfeedback", $attrs);
             // qti flow_mat
             $a_xml_writer->xmlStartTag("flow_mat");
-            $this->object->addQTIMaterial($a_xml_writer, $feedback_onenotcorrect);
+            $this->addQTIMaterial($a_xml_writer, $feedback_onenotcorrect);
             $a_xml_writer->xmlEndTag("flow_mat");
             $a_xml_writer->xmlEndTag("itemfeedback");
         }
@@ -504,7 +504,7 @@ class assClozeTestExport extends assQuestionExport
             ));
 
             $xmlWriter->xmlStartTag("flow_mat");
-            $this->object->addQTIMaterial($xmlWriter, $feedback);
+            $this->addQTIMaterial($xmlWriter, $feedback);
             $xmlWriter->xmlEndTag("flow_mat");
 
             $xmlWriter->xmlEndTag("itemfeedback");
