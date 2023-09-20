@@ -48,7 +48,7 @@ abstract class assQuestion
     protected \ILIAS\Test\TestParticipantInfoService $testParticipantInfo;
     protected ILIAS\HTTP\Services $http;
     protected ILIAS\Refinery\Factory $refinery;
-
+    protected \ILIAS\TestQuestionPool\QuestionFilesService $questionFilesService;
     protected ILIAS\DI\LoggingServices $ilLog;
 
     protected int $id;
@@ -179,6 +179,7 @@ abstract class assQuestion
         $ilDB = $DIC['ilDB'];
         $ilLog = $DIC->logger();
         $this->questioninfo = $DIC->testQuestionPool()->questionInfo();
+        $this->questionFilesService = $DIC->testQuestionPool()->questionFiles();
         $this->testParticipantInfo = $DIC->test()->testParticipantInfo();
         $this->current_user = $DIC['ilUser'];
         $this->lng = $lng;
@@ -796,7 +797,6 @@ abstract class assQuestion
     /**
     * Returns the image path for web accessable images of a question.
     * The image path is under the CLIENT_WEB_DIR in assessment/REFERENCE_ID_OF_QUESTION_POOL/ID_OF_QUESTION/images
-    *
     */
     public function getImagePath($question_id = null, $object_id = null): string
     {
@@ -808,12 +808,7 @@ abstract class assQuestion
             $object_id = $this->obj_id;
         }
 
-        return $this->buildImagePath($question_id, $object_id);
-    }
-
-    public function buildImagePath($questionId, $parentObjectId): string
-    {
-        return CLIENT_WEB_DIR . "/assessment/{$parentObjectId}/{$questionId}/images/";
+        return $this->questionFilesService->buildImagePath($question_id, $object_id);
     }
 
     public function getSuggestedSolutionPathWeb(): string
