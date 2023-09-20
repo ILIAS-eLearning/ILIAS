@@ -31,10 +31,9 @@ class ilQtiMatImageSecurity
     protected ilQTIMatimage $imageMaterial;
     protected string $detectedMimeType = "";
 
-    public function __construct(ilQTIMatimage $imageMaterial)
+    public function __construct(ilQTIMatimage $imageMaterial, \ILIAS\TestQuestionPool\QuestionFilesService $questionFilesService)
     {
-        global $DIC;
-        $this->questionFilesService = $DIC->testQuestionPool()->questionFiles();
+        $this->questionFilesService = $questionFilesService;
 
         $this->setImageMaterial($imageMaterial);
 

@@ -55,7 +55,7 @@ class ilTestQuestionsTableGUITest extends ilTestBaseTestCase
             ->onlyMethods(['getObject'])
             ->getMock();
         $this->parentObj_mock->expects($this->any())->method('getObject')->willReturn($this->createMock(ilObjTest::class));
-        $this->tableGui = new ilTestQuestionsTableGUI($this->parentObj_mock, "", 0, $DIC['ui.factory'], $DIC['ui.renderer']);
+        $this->tableGui = new ilTestQuestionsTableGUI($this->parentObj_mock, "", 0, $DIC['ui.factory'], $DIC['ui.renderer'], $this->createMock(\ILIAS\TestQuestionPool\QuestionInfoService::class));
     }
 
     public function test_instantiateObject_shouldReturnInstance(): void
