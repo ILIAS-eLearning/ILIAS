@@ -120,7 +120,6 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
         $this->skills_service = $DIC->skills();
         $this->questioninfo = $DIC->testQuestionPool()->questionInfo();
         $this->type = 'tst';
-
         $this->testrequest = $DIC->test()->internal()->request();
         $ref_id = 0;
         if ($this->testrequest->hasRefId() && is_numeric($this->testrequest->getRefId())) {
@@ -578,7 +577,8 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
                     $this->access,
                     $this->http,
                     $this->refinery,
-                    $this->testrequest
+                    $this->testrequest,
+                    $this->questioninfo
                 );
                 $gui->setWriteAccess($this->access->checkAccess("write", "", $this->ref_id));
                 $gui->init();
@@ -1839,7 +1839,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
         if (count($removablequestions)) {
             foreach ($removablequestions as $data) {
                 if (in_array($data["question_id"], $checked_questions)) {
-                    $txt = $data["title"] . " (" . assQuestion::_getQuestionTypeName($data["type_tag"]) . ")";
+                    $txt = $data["title"] . " (" . $this->questioninfo->getQuestionType($data["question_id"]) . ")";
                     $txt .= ' [' . $this->lng->txt('question_id_short') . ': ' . $data['question_id'] . ']';
 
                     if ($data["description"]) {

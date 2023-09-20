@@ -1187,7 +1187,7 @@ abstract class assQuestionGUI
             }
         }
 
-        return assQuestion::_getQuestionTypeName($this->object->getQuestionType());
+        return $this->questioninfo->getQuestionType($this->object->getId());
     }
 
     protected function getTypeOptions(): array

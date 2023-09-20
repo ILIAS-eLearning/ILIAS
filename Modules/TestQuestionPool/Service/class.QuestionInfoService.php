@@ -191,19 +191,15 @@ class QuestionInfoService
      */
     public function usageNumber(int $question_id = 0): int
     {
-        if ($question_id < 1) {
-            $question_id = $this->getId();
-        }
-
-        $result = $this->db->queryF(
+        $result = $this->database->queryF(
             "SELECT COUNT(qpl_questions.question_id) question_count FROM qpl_questions, tst_test_question WHERE qpl_questions.original_id = %s AND qpl_questions.question_id = tst_test_question.question_fi",
             array('integer'),
             array($question_id)
         );
-        $row = $this->db->fetchAssoc($result);
+        $row = $this->database->fetchAssoc($result);
         $count = (int) $row["question_count"];
 
-        $result = $this->db->queryF(
+        $result = $this->database->queryF(
             "
 			SELECT tst_active.test_fi
 			FROM qpl_questions
@@ -214,7 +210,7 @@ class QuestionInfoService
             array('integer'),
             array($question_id)
         );
-        $count += (int) $this->db->numRows($result);
+        $count += (int) $this->database->numRows($result);
 
         return $count;
     }

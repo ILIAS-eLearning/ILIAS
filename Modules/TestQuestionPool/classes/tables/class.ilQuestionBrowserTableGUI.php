@@ -493,7 +493,7 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
             }
             if (strcmp($c, 'type') == 0) {
                 $this->tpl->setCurrentBlock('type');
-                $this->tpl->setVariable("QUESTION_TYPE", assQuestion::_getQuestionTypeName($a_set["type_tag"]));
+                $this->tpl->setVariable("QUESTION_TYPE", $this->questioninfo->getQuestionType($a_set["question_id"]));
                 $this->tpl->parseCurrentBlock();
             }
         }
