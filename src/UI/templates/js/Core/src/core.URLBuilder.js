@@ -121,7 +121,7 @@ export default class URLBuilder {
           if (Array.isArray(value)) {
             value.forEach(
               (v) => {
-                url += `${encodeURIComponent(`${key}[]`)}=${encodeURIComponent(v)}&`;
+                url += `${encodeURIComponent(`${key}`)}%5B%5D=${encodeURIComponent(v)}&`;
               },
             );
           } else {

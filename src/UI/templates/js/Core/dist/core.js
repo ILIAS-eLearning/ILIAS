@@ -478,7 +478,7 @@
               if (Array.isArray(value)) {
                 value.forEach(
                   (v) => {
-                    url += `${encodeURIComponent(key + '[]')}=${encodeURIComponent(v)}&`;
+                    url += `${encodeURIComponent(`${key}`)}[]=${encodeURIComponent(v)}&`;
                   },
                 );
               } else {
