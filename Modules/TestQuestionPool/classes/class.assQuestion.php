@@ -222,11 +222,6 @@ abstract class assQuestion
         return self::$forcePassResultsUpdateEnabled;
     }
 
-    public static function fetchMimeTypeIdentifier(string $contentType): string
-    {
-        return current(explode(';', $contentType));
-    }
-
     protected function getQuestionAction(): string
     {
         if (!isset($_POST['cmd']) || !isset($_POST['cmd'][$this->questionActionCmd])) {
@@ -256,8 +251,6 @@ abstract class assQuestion
 
         return true;
     }
-
-
 
     protected function log(int $active_id, string $langVar): void
     {
@@ -929,18 +922,12 @@ abstract class assQuestion
     /**
      * @return string|array Or Array? @see Deletion methods here
      */
-    public function getAdditionalTableName()
-    {
-        return "";
-    }
+    abstract public function getAdditionalTableName();
 
     /**
      * @return string|array Or Array? @see Deletion methods here
      */
-    public function getAnswerTableName()
-    {
-        return "";
-    }
+    abstract public function getAnswerTableName();
 
     public function deleteAnswers(int $question_id): void
     {

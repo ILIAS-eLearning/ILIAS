@@ -91,8 +91,8 @@ class ilQtiMatImageSecurity
         }
 
         if ($this->getImageMaterial()->getImagetype()) {
-            $declaredMimeType = assQuestion::fetchMimeTypeIdentifier($this->getImageMaterial()->getImagetype());
-            $detectedMimeType = assQuestion::fetchMimeTypeIdentifier($this->getDetectedMimeType());
+            $declaredMimeType = current(explode(';', $this->getImageMaterial()->getImagetype()));
+            $detectedMimeType = current(explode(';', $this->getDetectedMimeType()));
 
             if ($declaredMimeType != $detectedMimeType) {
                 // since ilias exports jpeg declared pngs itself, we skip this validation ^^
