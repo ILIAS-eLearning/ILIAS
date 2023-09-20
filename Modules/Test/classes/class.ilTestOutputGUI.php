@@ -948,7 +948,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
             $isNextPrimary = false;
         }
 
-        $questionsMissingResult = assQuestion::getQuestionsMissingResultRecord(
+        $questionsMissingResult = $this->questioninfo->getQuestionsMissingResultRecord(
             $this->test_session->getActiveId(),
             $this->test_session->getPass(),
             $this->testSequence->getOrderedSequenceQuestions()
