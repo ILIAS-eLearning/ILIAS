@@ -242,4 +242,14 @@ class QuestionInfoService
         );
         return $this->database->numRows($result) === 1;
     }
+
+    public function isUsedInRandomTest(int $question_id): bool
+    {
+        $result = $this->database->queryF(
+            "SELECT test_random_question_id FROM tst_test_rnd_qst WHERE question_fi = %s",
+            array('integer'),
+            array($question_id)
+        );
+        return $this->database->numRows($result) > 0;
+    }
 }

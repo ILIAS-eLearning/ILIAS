@@ -1848,19 +1848,6 @@ abstract class assQuestion
         return false;
     }
 
-    public static function _isUsedInRandomTest(int $question_id): bool
-    {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-
-        $result = $ilDB->queryF(
-            "SELECT test_random_question_id FROM tst_test_rnd_qst WHERE question_fi = %s",
-            array('integer'),
-            array($question_id)
-        );
-        return $ilDB->numRows($result) > 0;
-    }
-
     /**
      * Returns the points, a learner has reached answering the question.
      * The points are calculated from the given answers.
