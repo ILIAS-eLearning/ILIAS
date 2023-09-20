@@ -2341,16 +2341,6 @@ abstract class assQuestion
     }
 
     /**
-     * Checks if a given string contains HTML or not
-     *
-     * @deprecated use ilUtil::isHTML() (or successor) instead
-     */
-    public function isHTML($a_text): bool
-    {
-        return ilUtil::isHTML($a_text);
-    }
-
-    /**
      * @deprecated use ilUtil::prepareTextareaOutput() (or successor) instead
      */
     public function prepareTextareaOutput(string $txt_output, bool $prepare_for_latex_output = false, bool $omitNl2BrWhenTextArea = false)
@@ -2395,7 +2385,7 @@ abstract class assQuestion
         $attrs = array(
             "texttype" => "text/plain"
         );
-        if ($this->isHTML($a_material)) {
+        if (ilUtil::isHTML($a_material)) {
             $attrs["texttype"] = "text/xhtml";
         }
         $a_xml_writer->xmlElement("mattext", $attrs, ilRTE::_replaceMediaObjectImageSrc($a_material, 0));
