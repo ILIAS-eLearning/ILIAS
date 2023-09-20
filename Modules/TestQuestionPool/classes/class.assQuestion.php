@@ -99,11 +99,6 @@ abstract class assQuestion
     protected Container $dic;
 
     /**
-     * Contains the output type of a question
-     */
-    protected int $outputType = OUTPUT_JAVASCRIPT;
-
-    /**
      * Array of suggested solutions
      *
      * @var array
@@ -352,11 +347,6 @@ abstract class assQuestion
         $this->comment = $comment;
     }
 
-    public function setOutputType(int $outputType = OUTPUT_HTML): void
-    {
-        $this->outputType = $outputType;
-    }
-
     public function setShuffle(?bool $shuffle = true): void
     {
         $this->shuffle = $shuffle ?? false;
@@ -422,11 +412,6 @@ abstract class assQuestion
     public function getMinimumThumbSize(): int
     {
         return self::MINIMUM_THUMB_SIZE;
-    }
-
-    public function getOutputType(): int
-    {
-        return $this->outputType;
     }
 
     public function getAuthor(): string

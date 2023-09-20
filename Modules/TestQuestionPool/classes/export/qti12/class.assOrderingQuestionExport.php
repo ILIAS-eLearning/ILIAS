@@ -116,9 +116,7 @@ class assOrderingQuestionExport extends assQuestionExport
             "rcardinality" => "Ordered"
         );
 
-        if ($this->object->getOutputType() == OUTPUT_JAVASCRIPT) {
-            $attrs["output"] = "javascript";
-        }
+        $attrs["output"] = "javascript";
         $a_xml_writer->xmlStartTag("response_lid", $attrs);
         $solution = $this->object->getSuggestedSolution(0) ?? [];
         if (count($solution)) {
