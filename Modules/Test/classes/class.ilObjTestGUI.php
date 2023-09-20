@@ -3023,9 +3023,9 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
         $question_gui = assQuestion::instantiateQuestionGUI($sourceQuestionId);
 
         $newtitle = $question_gui->object->getTitle();
-        if ($question_gui->object->questionTitleExists($targetParentId, $question_gui->object->getTitle())) {
+        if ($this->questioninfo->questionTitleExistsInPool($targetParentId, $question_gui->object->getTitle())) {
             $counter = 2;
-            while ($question_gui->object->questionTitleExists($targetParentId, $question_gui->object->getTitle() . " ($counter)")) {
+            while ($this->questioninfo->questionTitleExistsInPool($targetParentId, $question_gui->object->getTitle() . " ($counter)")) {
                 $counter++;
             }
             $newtitle = $question_gui->object->getTitle() . " ($counter)";
