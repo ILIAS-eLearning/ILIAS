@@ -1763,14 +1763,6 @@ abstract class assQuestion
         ilObjQuestionPool::_updateQuestionCount($this->getObjId());
     }
 
-    /**
-     * @deprecated
-     */
-    public function setNewOriginalId(int $newId): void
-    {
-        self::saveOriginalId($this->getId(), $newId);
-    }
-
     public static function saveOriginalId(int $questionId, int $originalId): void
     {
         global $DIC;
