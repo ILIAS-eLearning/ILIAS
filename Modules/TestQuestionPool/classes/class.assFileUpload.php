@@ -689,7 +689,10 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
      */
     public function saveWorkingData($active_id, $pass = null, $authorized = true): bool
     {
-        $pass = $this->ensureCurrentTestPass($active_id, $pass);
+        if ($pass === null || $pass < 0) {
+            $pass = \ilObjTest::_getPass($active_id);
+        }
+
         $test_id = $this->testParticipantInfo->lookupTestIdByActiveId($active_id);
 
         $upload_handling_required = $this->isFileUploadAvailable() && $this->checkUpload();

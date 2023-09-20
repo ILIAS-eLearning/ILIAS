@@ -257,13 +257,7 @@ abstract class assQuestion
         return true;
     }
 
-    protected function ensureCurrentTestPass(int $active_id, int $pass): int
-    {
-        if ($pass >= 0) {
-            return $pass;
-        }
-        return \ilObjTest::_getPass($active_id);
-    }
+
 
     protected function log(int $active_id, string $langVar): void
     {
