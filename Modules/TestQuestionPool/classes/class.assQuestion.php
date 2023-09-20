@@ -1418,24 +1418,6 @@ abstract class assQuestion
         return 0;
     }
 
-    public static function _getTitle(int $a_q_id): string
-    {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-
-        $result = $ilDB->queryF(
-            "SELECT title FROM qpl_questions WHERE question_id = %s",
-            array('integer'),
-            array($a_q_id)
-        );
-
-        if ($result->numRows() == 1) {
-            $row = $ilDB->fetchAssoc($result);
-            return $row["title"];
-        }
-        return "";
-    }
-
     public static function _getQuestionText(int $a_q_id): string
     {
         global $DIC;
