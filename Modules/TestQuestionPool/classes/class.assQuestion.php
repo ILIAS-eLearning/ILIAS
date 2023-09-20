@@ -2874,17 +2874,6 @@ abstract class assQuestion
         return $row['obj_fi'];
     }
 
-    /**
-     * returns the parent object id for given original question id
-     * (should be a qpl id, but theoretically it can be a tst id, too)
-     *
-     * @deprecated: use assQuestion::lookupParentObjId() instead
-     */
-    public static function lookupOriginalParentObjId(int $originalQuestionId): int
-    {
-        return self::lookupParentObjId($originalQuestionId);
-    }
-
     protected function duplicateQuestionHints(int $originalQuestionId, int $duplicateQuestionId): void
     {
         $hintIds = ilAssQuestionHintList::duplicateListForQuestion($originalQuestionId, $duplicateQuestionId);
