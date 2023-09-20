@@ -612,26 +612,6 @@ abstract class assQuestion
     }
 
     /**
-     * @return array Database row as associative array having qpl_questions.*, qpl_qst_type.type_tag
-     */
-    public static function _getQuestionInfo(int $question_id): array
-    {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-
-        $result = $ilDB->queryF(
-            "SELECT qpl_questions.*, qpl_qst_type.type_tag FROM qpl_qst_type, qpl_questions WHERE qpl_questions.question_id = %s AND qpl_questions.question_type_fi = qpl_qst_type.question_type_id",
-            array('integer'),
-            array($question_id)
-        );
-
-        if ($ilDB->numRows($result)) {
-            return $ilDB->fetchAssoc($result);
-        }
-        return [];
-    }
-
-    /**
      * @return string HTML
      * @throws ilWACException
      */

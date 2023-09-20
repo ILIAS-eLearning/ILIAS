@@ -95,7 +95,7 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
         $complete_feedback = $this->object->getCompleteManualFeedback($qst_id);
 
         if (is_numeric($qst_id)) {
-            $info = assQuestion::_getQuestionInfo($qst_id);
+            $info = $this->questioninfo->getQuestionInfo($qst_id);
             $selected_questionData = $info;
         }
 
