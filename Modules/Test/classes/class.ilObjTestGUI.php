@@ -808,7 +808,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
                 $questionGUI->object->setObjId($this->object->getId());
                 $questionGUI->setQuestionTabs();
 
-                if ($questionGUI->object->isInActiveTest()) {
+                if ($this->questioninfo->isInActiveTest($questionGUI->object->getId())) {
                     $this->tpl->setOnScreenMessage('failure', $this->lng->txt("question_is_part_of_running_test"), true);
                     $this->ctrl->redirectByClass('ilAssQuestionPreviewGUI', ilAssQuestionPreviewGUI::CMD_SHOW);
                 }
@@ -834,7 +834,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
                 $questionGUI->object->setObjId($this->object->getId());
                 $questionGUI->setQuestionTabs();
 
-                if ($questionGUI->object->isInActiveTest()) {
+                if ($this->questioninfo->isInActiveTest($questionGUI->object->getId())) {
                     $this->tpl->setOnScreenMessage('failure', $this->lng->txt("question_is_part_of_running_test"), true);
                     $this->ctrl->redirectByClass('ilAssQuestionPreviewGUI', ilAssQuestionPreviewGUI::CMD_SHOW);
                 }
@@ -920,7 +920,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
                     $questionGui->setEditContext(assQuestionGUI::EDIT_CONTEXT_AUTHORING);
                     $questionGui->object->setObjId($this->object->getId());
 
-                    if (in_array($cmd, ['editQuestion', 'save', 'suggestedsolution']) && $questionGui->object->isInActiveTest()) {
+                    if (in_array($cmd, ['editQuestion', 'save', 'suggestedsolution']) && $this->questioninfo->isInActiveTest($questionGUI->object->getId())) {
                         $this->tpl->setOnScreenMessage('failure', $this->lng->txt("question_is_part_of_running_test"), true);
                         $this->ctrl->redirectByClass('ilAssQuestionPreviewGUI', ilAssQuestionPreviewGUI::CMD_SHOW);
                     }

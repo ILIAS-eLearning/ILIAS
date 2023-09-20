@@ -3028,18 +3028,6 @@ abstract class assQuestion
         return new ilTestQuestionConfig();
     }
 
-    /* doubles isInUse? */
-    public function isInActiveTest(): bool
-    {
-        $query = 'SELECT user_fi FROM tst_active ' . PHP_EOL
-            . 'JOIN tst_test_question ON tst_test_question.test_fi = tst_active.test_fi ' . PHP_EOL
-            . 'JOIN qpl_questions ON qpl_questions.question_id = tst_test_question.question_fi ' . PHP_EOL
-            . 'WHERE qpl_questions.obj_fi = ' . $this->db->quote($this->getObjId(), 'integer');
-
-        $res = $this->db->query($query);
-        return $res->numRows() > 0;
-    }
-
     protected ?assQuestionSuggestedSolutionsDatabaseRepository $suggestedsolution_repo = null;
     protected function getSuggestedSolutionsRepo(): assQuestionSuggestedSolutionsDatabaseRepository
     {
