@@ -78,7 +78,7 @@ class ilTestFixedQuestionSetConfig extends ilTestQuestionSetConfig
 
             $clone_test_obj->questions[$key] = $question_orig->duplicate(true, '', '', '', $clone_test_obj->getId());
 
-            $original_id = assQuestion::_getOriginalId($question_id);
+            $original_id = $this->questioninfo->getOriginalId($question_id);
 
             $question_clone = assQuestion::instantiateQuestion($clone_test_obj->questions[$key]);
             $question_clone->saveToDb($original_id);

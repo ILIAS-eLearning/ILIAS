@@ -4633,7 +4633,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
                 $this->lng,
                 $this->log,
                 $this->component_repository,
-                $this
+                $this,
+                $this->questioninfo
             );
 
             $questionSetConfig->loadFromDb();
@@ -4680,7 +4681,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
     {
         $original_id = 0;
         if ($question_id !== 0) {
-            $original_id = assQuestion::_getOriginalId($question_id);
+            $original_id = $this->questioninfo->getOriginalId($question_id);
         }
         ilObjAssessmentFolder::_addLog($this->user->getId(), $this->getId(), $logtext, $question_id, $original_id, true, $this->getRefId());
     }
@@ -8071,7 +8072,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         // Added temporarily bugfix smeyer
         $test_session_factory->reset();
 
-        $test_sequence_factory = new ilTestSequenceFactory($test_obj, $ilDB, $this->questioninfo);
+        $test_sequence_factory = new ilTestSequenceFactory($test_obj, $ilDB, $DIC->testQuestionPool()->questionInfo());
 
         $test_session = $test_session_factory->getSession($active_id);
         $test_sequence = $test_sequence_factory->getSequenceByActiveIdAndPass($active_id, $test_session->getPass());

@@ -36,7 +36,8 @@ class ilTestQuestionSetConfigFactory
         protected ilLanguage $lng,
         protected ilLogger $log,
         protected ilComponentRepository $component_repository,
-        protected ilObjTest $test_obj
+        protected ilObjTest $test_obj,
+        protected \ILIAS\TestQuestionPool\QuestionInfoService $questioninfo
     ) {
     }
 
@@ -54,7 +55,8 @@ class ilTestQuestionSetConfigFactory
                     $this->lng,
                     $this->log,
                     $this->component_repository,
-                    $this->test_obj
+                    $this->test_obj,
+                    $this->questioninfo
                 );
             }
             if ($this->test_obj->isRandomTest()) {
@@ -64,7 +66,8 @@ class ilTestQuestionSetConfigFactory
                     $this->lng,
                     $this->log,
                     $this->component_repository,
-                    $this->test_obj
+                    $this->test_obj,
+                    $this->questioninfo
                 );
             }
 

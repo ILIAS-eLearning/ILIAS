@@ -287,7 +287,7 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
         $thisObjId = $this->getObjId();
 
         $clone = $this;
-        $original_id = assQuestion::_getOriginalId($this->id);
+        $original_id = $this->questioninfo->getOriginalId($this->id);
         $clone->id = -1;
 
         if ((int) $testObjId > 0) {
@@ -335,7 +335,7 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
         }
         // duplicate the question in database
         $clone = $this;
-        $original_id = assQuestion::_getOriginalId($this->id);
+        $original_id = $this->questioninfo->getOriginalId($this->id);
         $clone->id = -1;
         $source_questionpool_id = $this->getObjId();
         $clone->setObjId($target_questionpool_id);
@@ -1020,7 +1020,7 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
     {
         global $DIC;
         $ilLog = $DIC['ilLog'];
-        $question_id = $this->getOriginalId();
+        $question_id = $this->questioninfo->getOriginalId();
         $imagepath = $this->getImagePath();
         $imagepath_original = str_replace("/$this->id/images", "/$question_id/images", $imagepath);
         ilFileUtils::delDir($imagepath_original);

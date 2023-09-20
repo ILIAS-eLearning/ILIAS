@@ -268,4 +268,23 @@ class QuestionInfoService
 
         return $row['cnt'] > 0;
     }
+
+    public function getOriginalId(int $question_id): int
+    {
+        $result = $this->database->queryF(
+            "SELECT * FROM qpl_questions WHERE question_id = %s",
+            array('integer'),
+            array($question_id)
+        );
+        if ($this->database->numRows($result) > 0) {
+            $row = $this->database->fetchAssoc($result);
+            if ($row["original_id"] > 0) {
+                return $row["original_id"];
+            }
+
+            return (int) $row["question_id"];
+        }
+
+        return -1;
+    }
 }

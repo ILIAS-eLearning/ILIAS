@@ -807,7 +807,8 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
             $this->lng,
             $this->logging_services->root(),
             $this->component_repository,
-            $this->object
+            $this->object,
+            $this->questioninfo
         );
         $questionSetConfig->loadFromDb();
 
