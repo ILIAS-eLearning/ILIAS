@@ -400,29 +400,6 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
     }
 
     /**
-    * Gets the multiple choice output type which is either OUTPUT_ORDER (=0) or OUTPUT_RANDOM (=1).
-    *
-    * @return integer The output type of the assMultipleChoice object
-    * @see $output_type
-    */
-    public function getOutputType(): int
-    {
-        return $this->output_type;
-    }
-
-    /**
-     * Sets the output type of the assMultipleChoice object
-     *
-     * @param int|string $output_type A nonnegative integer value specifying the output type. It is OUTPUT_ORDER (=0) or OUTPUT_RANDOM (=1).
-     *
-     * @see    $response
-     */
-    public function setOutputType($output_type = OUTPUT_ORDER): void
-    {
-        $this->output_type = $output_type;
-    }
-
-    /**
      * Adds a possible answer for a multiple choice question. A ASS_AnswerBinaryStateImage object will be
      * created and assigned to the array $this->answers.
      *
