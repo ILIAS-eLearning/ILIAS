@@ -38,6 +38,7 @@ class ilObjQuestionPool extends ilObject
     public int $online = 0;
     private ?bool $show_taxonomies = null;
     private bool $skill_service_enabled;
+    private \ILIAS\TestQuestionPool\QuestionInfoService $questioninfo;
 
     /**
     * Constructor
@@ -50,7 +51,7 @@ class ilObjQuestionPool extends ilObject
         global $DIC;
         $this->component_repository = $DIC['component.repository'];
         $this->benchmark = $DIC['ilBench'];
-
+        $this->questioninfo = $DIC->testQuestionPool()->questionInfo();
         $this->type = 'qpl';
         parent::__construct($a_id, $a_call_by_reference);
 
@@ -935,7 +936,7 @@ class ilObjQuestionPool extends ilObject
         $query_result = $this->db->query('SELECT qpl_questions.*, qpl_qst_type.type_tag FROM qpl_questions, qpl_qst_type WHERE qpl_questions.question_type_fi = qpl_qst_type.question_type_id AND ' . $ilDB->in('qpl_questions.question_id', $question_ids, false, 'integer') . ' ORDER BY qpl_questions.title');
         if ($query_result->numRows()) {
             while ($row = $ilDB->fetchAssoc($query_result)) {
-                if (!assQuestion::_isUsedInRandomTest($row['question_id'])) {
+                if (!$this->questioninfo->isUsedInRandomTest($row["question_id"])) {
                     array_push($result, $row);
                 } else {
                     // the question was used in a random test prior to ILIAS 3.7 so it was inserted
