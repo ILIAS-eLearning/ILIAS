@@ -215,7 +215,7 @@ class assNumericGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjust
         $template->setVariable("NUMERIC_SIZE", $this->object->getMaxChars());
         $questiontext = $this->object->getQuestion();
         if ($show_question_text == true) {
-            $template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, true));
+            $template->setVariable("QUESTIONTEXT", ilLegacyFormElementsUtil::prepareTextareaOutput($questiontext, true));
         }
         $questionoutput = $template->get();
         //$feedback = ($show_feedback) ? $this->getAnswerFeedbackOutput($active_id, $pass) : ""; // Moving new method
@@ -228,7 +228,7 @@ class assNumericGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjust
             );
 
             $solutiontemplate->setVariable("ILC_FB_CSS_CLASS", $cssClass);
-            $solutiontemplate->setVariable("FEEDBACK", $this->object->prepareTextareaOutput($feedback, true));
+            $solutiontemplate->setVariable("FEEDBACK", ilLegacyFormElementsUtil::prepareTextareaOutput($feedback, true));
         }
         $solutiontemplate->setVariable("SOLUTION_OUTPUT", $questionoutput);
 
@@ -254,7 +254,7 @@ class assNumericGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjust
         }
         $template->setVariable("NUMERIC_SIZE", $this->object->getMaxChars());
         $questiontext = $this->object->getQuestion();
-        $template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, true));
+        $template->setVariable("QUESTIONTEXT", ilLegacyFormElementsUtil::prepareTextareaOutput($questiontext, true));
         $questionoutput = $template->get();
         if (!$show_question_only) {
             // get page object output
@@ -295,7 +295,7 @@ class assNumericGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjust
         }
         $template->setVariable("NUMERIC_SIZE", $this->object->getMaxChars());
         $questiontext = $this->object->getQuestion();
-        $template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, true));
+        $template->setVariable("QUESTIONTEXT", ilLegacyFormElementsUtil::prepareTextareaOutput($questiontext, true));
         $questionoutput = $template->get();
         $pageoutput = $this->outQuestionPage("", $is_postponed, $active_id, $questionoutput);
         return $pageoutput;
@@ -309,7 +309,7 @@ class assNumericGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjust
     public function getSpecificFeedbackOutput(array $userSolution): string
     {
         $output = "";
-        return $this->object->prepareTextareaOutput($output, true);
+        return ilLegacyFormElementsUtil::prepareTextareaOutput($output, true);
     }
 
     public function writeQuestionSpecificPostData(ilPropertyFormGUI $form): void

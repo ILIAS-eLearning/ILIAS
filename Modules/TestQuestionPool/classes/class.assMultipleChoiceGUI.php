@@ -300,7 +300,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
                             );
                             if (strlen($fb)) {
                                 $template->setCurrentBlock("feedback");
-                                $template->setVariable("FEEDBACK", $this->object->prepareTextareaOutput($fb, true));
+                                $template->setVariable("FEEDBACK", ilLegacyFormElementsUtil::prepareTextareaOutput($fb, true));
                                 $template->parseCurrentBlock();
                             }
                         }
@@ -315,7 +315,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
                     );
                     if (strlen($fb)) {
                         $template->setCurrentBlock("feedback");
-                        $template->setVariable("FEEDBACK", $this->object->prepareTextareaOutput($fb, true));
+                        $template->setVariable("FEEDBACK", ilLegacyFormElementsUtil::prepareTextareaOutput($fb, true));
                         $template->parseCurrentBlock();
                     }
                 }
@@ -331,14 +331,14 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
                         );
                         if (strlen($fb)) {
                             $template->setCurrentBlock("feedback");
-                            $template->setVariable("FEEDBACK", $this->object->prepareTextareaOutput($fb, true));
+                            $template->setVariable("FEEDBACK", ilLegacyFormElementsUtil::prepareTextareaOutput($fb, true));
                             $template->parseCurrentBlock();
                         }
                     }
                 }
             }
             $template->setCurrentBlock("answer_row");
-            $template->setVariable("ANSWER_TEXT", $this->object->prepareTextareaOutput($answer->getAnswertext(), true));
+            $template->setVariable("ANSWER_TEXT", ilLegacyFormElementsUtil::prepareTextareaOutput($answer->getAnswertext(), true));
             $checked = false;
             if ($result_output) {
                 $pointschecked = $this->object->answers[$answer_id]->getPointsChecked();
@@ -378,7 +378,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
             $questiontext .= $this->buildFocusAnchorHtml();
         }
         if ($show_question_text == true) {
-            $template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, true));
+            $template->setVariable("QUESTIONTEXT", ilLegacyFormElementsUtil::prepareTextareaOutput($questiontext, true));
         }
         $questionoutput = $template->get();
         $feedback = ($show_feedback && !$this->isTestPresentationContext()) ? $this->getGenericFeedbackOutput((int) $active_id, $pass) : "";
@@ -390,7 +390,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
             );
 
             $solutiontemplate->setVariable("ILC_FB_CSS_CLASS", $cssClass);
-            $solutiontemplate->setVariable("FEEDBACK", $this->object->prepareTextareaOutput($feedback, true));
+            $solutiontemplate->setVariable("FEEDBACK", ilLegacyFormElementsUtil::prepareTextareaOutput($feedback, true));
         }
         $solutiontemplate->setVariable("SOLUTION_OUTPUT", $questionoutput);
 
@@ -452,7 +452,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
             $template->setCurrentBlock("answer_row");
             $template->setVariable("QID", $this->object->getId());
             $template->setVariable("ANSWER_ID", $answer_id);
-            $template->setVariable("ANSWER_TEXT", $this->object->prepareTextareaOutput($answer->getAnswertext(), true));
+            $template->setVariable("ANSWER_TEXT", ilLegacyFormElementsUtil::prepareTextareaOutput($answer->getAnswertext(), true));
             foreach ($user_solution as $mc_solution) {
                 if (strcmp($mc_solution, $answer_id) == 0) {
                     $template->setVariable("CHECKED_ANSWER", " checked=\"checked\"");
@@ -476,7 +476,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
         if ($showInlineFeedback && $this->hasInlineFeedback()) {
             $questiontext .= $this->buildFocusAnchorHtml();
         }
-        $template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, true));
+        $template->setVariable("QUESTIONTEXT", ilLegacyFormElementsUtil::prepareTextareaOutput($questiontext, true));
         $questionoutput = $template->get();
         if (!$show_question_only) {
             // get page object output
@@ -572,7 +572,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
             $template->setCurrentBlock("answer_row");
             $template->setVariable("QID", $this->object->getId());
             $template->setVariable("ANSWER_ID", $answer_id);
-            $template->setVariable("ANSWER_TEXT", $this->object->prepareTextareaOutput($answer->getAnswertext(), true));
+            $template->setVariable("ANSWER_TEXT", ilLegacyFormElementsUtil::prepareTextareaOutput($answer->getAnswertext(), true));
             foreach ($user_solution as $mc_solution) {
                 if (strcmp($mc_solution, $answer_id) == 0) {
                     $template->setVariable("CHECKED_ANSWER", " checked=\"checked\"");
@@ -582,7 +582,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
         }
 
         $questiontext = $this->object->getQuestion();
-        $template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, true));
+        $template->setVariable("QUESTIONTEXT", ilLegacyFormElementsUtil::prepareTextareaOutput($questiontext, true));
         $template->setVariable("QUESTION_ID", $this->object->getId());
         if ($this->object->getSelectionLimit()) {
             $template->setVariable('SELECTION_LIMIT_HINT', sprintf(
@@ -660,7 +660,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
     {
         // No return value, this question type supports inline specific feedback.
         $output = "";
-        return $this->object->prepareTextareaOutput($output, true);
+        return ilLegacyFormElementsUtil::prepareTextareaOutput($output, true);
     }
 
     public function writeQuestionSpecificPostData(ilPropertyFormGUI $form): void
@@ -916,7 +916,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
                     $fb = $this->object->feedbackOBJ->getSpecificAnswerFeedbackTestPresentation($this->object->getId(), 0, $answer_id);
                     if (strlen($fb)) {
                         $template->setCurrentBlock("feedback");
-                        $template->setVariable("FEEDBACK", $this->object->prepareTextareaOutput($fb, true));
+                        $template->setVariable("FEEDBACK", ilLegacyFormElementsUtil::prepareTextareaOutput($fb, true));
                         $template->parseCurrentBlock();
                     }
                 }
@@ -927,7 +927,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
             $fb = $this->object->feedbackOBJ->getSpecificAnswerFeedbackTestPresentation($this->object->getId(), 0, $answer_id);
             if (strlen($fb)) {
                 $template->setCurrentBlock("feedback");
-                $template->setVariable("FEEDBACK", $this->object->prepareTextareaOutput($fb, true));
+                $template->setVariable("FEEDBACK", ilLegacyFormElementsUtil::prepareTextareaOutput($fb, true));
                 $template->parseCurrentBlock();
             }
         }
@@ -939,7 +939,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
                 $fb = $this->object->feedbackOBJ->getSpecificAnswerFeedbackTestPresentation($this->object->getId(), 0, $answer_id);
                 if (strlen($fb)) {
                     $template->setCurrentBlock("feedback");
-                    $template->setVariable("FEEDBACK", $this->object->prepareTextareaOutput($fb, true));
+                    $template->setVariable("FEEDBACK", ilLegacyFormElementsUtil::prepareTextareaOutput($fb, true));
                     $template->parseCurrentBlock();
                 }
             }

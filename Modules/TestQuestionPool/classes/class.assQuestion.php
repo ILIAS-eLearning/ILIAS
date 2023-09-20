@@ -575,7 +575,7 @@ abstract class assQuestion
                     $solutionValue = $solution->getValue();
                     $solutionValue = $this->fixSvgToPng($solutionValue);
                     $solutionValue = $this->fixUnavailableSkinImageSources($solutionValue);
-                    $output[] = $this->prepareTextareaOutput($solutionValue, true);
+                    $output[] = ilLegacyFormElementsUtil::prepareTextareaOutput($solutionValue, true);
                     break;
             }
         }
@@ -1918,18 +1918,6 @@ abstract class assQuestion
             }
         }
         return $points;
-    }
-
-    /**
-     * @deprecated use ilUtil::prepareTextareaOutput() (or successor) instead
-     */
-    public function prepareTextareaOutput(string $txt_output, bool $prepare_for_latex_output = false, bool $omitNl2BrWhenTextArea = false)
-    {
-        return ilLegacyFormElementsUtil::prepareTextareaOutput(
-            $txt_output,
-            $prepare_for_latex_output,
-            $omitNl2BrWhenTextArea
-        );
     }
 
     /**

@@ -261,13 +261,13 @@ class assFileUploadGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
 
         if (strlen($this->object->getAllowedExtensions())) {
             $template->setCurrentBlock("allowed_extensions");
-            $template->setVariable("TXT_ALLOWED_EXTENSIONS", $this->object->prepareTextareaOutput($this->lng->txt("allowedextensions") . ": " . $this->object->getAllowedExtensions()));
+            $template->setVariable("TXT_ALLOWED_EXTENSIONS", ilLegacyFormElementsUtil::prepareTextareaOutput($this->lng->txt("allowedextensions") . ": " . $this->object->getAllowedExtensions()));
             $template->parseCurrentBlock();
         }
         $template->setVariable("CMD_UPLOAD", self::HANDLE_FILE_UPLOAD);
-        $template->setVariable("TEXT_UPLOAD", $this->object->prepareTextareaOutput($this->lng->txt('upload')));
-        $template->setVariable("TXT_UPLOAD_FILE", $this->object->prepareTextareaOutput($this->lng->txt('file_add')));
-        $template->setVariable("TXT_MAX_SIZE", $this->object->prepareTextareaOutput($this->lng->txt('file_notice') . " " . $this->object->getMaxFilesizeAsString()));
+        $template->setVariable("TEXT_UPLOAD", ilLegacyFormElementsUtil::prepareTextareaOutput($this->lng->txt('upload')));
+        $template->setVariable("TXT_UPLOAD_FILE", ilLegacyFormElementsUtil::prepareTextareaOutput($this->lng->txt('file_add')));
+        $template->setVariable("TXT_MAX_SIZE", ilLegacyFormElementsUtil::prepareTextareaOutput($this->lng->txt('file_notice') . " " . $this->object->getMaxFilesizeAsString()));
 
         if (($active_id > 0) && (!$show_correct_solution)) {
             $reached_points = $this->object->getReachedPoints($active_id, $pass);
@@ -291,7 +291,7 @@ class assFileUploadGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
             $template->setVariable("RESULT_OUTPUT", sprintf($resulttext, $reached_points));
         }
         if ($show_question_text == true) {
-            $template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($this->object->getQuestion(), true));
+            $template->setVariable("QUESTIONTEXT", ilLegacyFormElementsUtil::prepareTextareaOutput($this->object->getQuestion(), true));
         }
         $questionoutput = $template->get();
         $solutiontemplate = new ilTemplate("tpl.il_as_tst_solution_output.html", true, true, "Modules/TestQuestionPool");
@@ -303,7 +303,7 @@ class assFileUploadGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
             );
 
             $solutiontemplate->setVariable("ILC_FB_CSS_CLASS", $cssClass);
-            $solutiontemplate->setVariable("FEEDBACK", $this->object->prepareTextareaOutput($feedback, true));
+            $solutiontemplate->setVariable("FEEDBACK", ilLegacyFormElementsUtil::prepareTextareaOutput($feedback, true));
         }
         $solutiontemplate->setVariable("SOLUTION_OUTPUT", $questionoutput);
         $solutionoutput = $solutiontemplate->get();
@@ -340,14 +340,14 @@ class assFileUploadGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
 
         if (strlen($this->object->getAllowedExtensions())) {
             $template->setCurrentBlock("allowed_extensions");
-            $template->setVariable("TXT_ALLOWED_EXTENSIONS", $this->object->prepareTextareaOutput($this->lng->txt("allowedextensions") . ": " . $this->object->getAllowedExtensions()));
+            $template->setVariable("TXT_ALLOWED_EXTENSIONS", ilLegacyFormElementsUtil::prepareTextareaOutput($this->lng->txt("allowedextensions") . ": " . $this->object->getAllowedExtensions()));
             $template->parseCurrentBlock();
         }
-        $template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($this->object->getQuestion(), true));
+        $template->setVariable("QUESTIONTEXT", ilLegacyFormElementsUtil::prepareTextareaOutput($this->object->getQuestion(), true));
         $template->setVariable("CMD_UPLOAD", $this->getQuestionActionCmd());
-        $template->setVariable("TEXT_UPLOAD", $this->object->prepareTextareaOutput($this->lng->txt('upload')));
-        $template->setVariable("TXT_UPLOAD_FILE", $this->object->prepareTextareaOutput($this->lng->txt('file_add')));
-        $template->setVariable("TXT_MAX_SIZE", $this->object->prepareTextareaOutput($this->lng->txt('file_notice') . " " . $this->object->getMaxFilesizeAsString()));
+        $template->setVariable("TEXT_UPLOAD", ilLegacyFormElementsUtil::prepareTextareaOutput($this->lng->txt('upload')));
+        $template->setVariable("TXT_UPLOAD_FILE", ilLegacyFormElementsUtil::prepareTextareaOutput($this->lng->txt('file_add')));
+        $template->setVariable("TXT_MAX_SIZE", ilLegacyFormElementsUtil::prepareTextareaOutput($this->lng->txt('file_notice') . " " . $this->object->getMaxFilesizeAsString()));
 
         $questionoutput = $template->get();
         if (!$show_question_only) {
@@ -387,14 +387,14 @@ class assFileUploadGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
 
         if (strlen($this->object->getAllowedExtensions())) {
             $template->setCurrentBlock("allowed_extensions");
-            $template->setVariable("TXT_ALLOWED_EXTENSIONS", $this->object->prepareTextareaOutput($this->lng->txt("allowedextensions") . ": " . $this->object->getAllowedExtensions()));
+            $template->setVariable("TXT_ALLOWED_EXTENSIONS", ilLegacyFormElementsUtil::prepareTextareaOutput($this->lng->txt("allowedextensions") . ": " . $this->object->getAllowedExtensions()));
             $template->parseCurrentBlock();
         }
-        $template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($this->object->getQuestion(), true));
+        $template->setVariable("QUESTIONTEXT", ilLegacyFormElementsUtil::prepareTextareaOutput($this->object->getQuestion(), true));
         $template->setVariable("CMD_UPLOAD", self::HANDLE_FILE_UPLOAD);
-        $template->setVariable("TEXT_UPLOAD", $this->object->prepareTextareaOutput($this->lng->txt('upload')));
-        $template->setVariable("TXT_UPLOAD_FILE", $this->object->prepareTextareaOutput($this->lng->txt('file_add')));
-        $template->setVariable("TXT_MAX_SIZE", $this->object->prepareTextareaOutput($this->lng->txt('file_notice') . " " . $this->object->getMaxFilesizeAsString()));
+        $template->setVariable("TEXT_UPLOAD", ilLegacyFormElementsUtil::prepareTextareaOutput($this->lng->txt('upload')));
+        $template->setVariable("TXT_UPLOAD_FILE", ilLegacyFormElementsUtil::prepareTextareaOutput($this->lng->txt('file_add')));
+        $template->setVariable("TXT_MAX_SIZE", ilLegacyFormElementsUtil::prepareTextareaOutput($this->lng->txt('file_notice') . " " . $this->object->getMaxFilesizeAsString()));
 
         $questionoutput = $template->get();
         //if (!$show_question_only) {
@@ -409,7 +409,7 @@ class assFileUploadGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
     public function getSpecificFeedbackOutput(array $userSolution): string
     {
         $output = "";
-        return $this->object->prepareTextareaOutput($output, true);
+        return ilLegacyFormElementsUtil::prepareTextareaOutput($output, true);
     }
 
     /**
