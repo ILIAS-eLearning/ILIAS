@@ -718,4 +718,10 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
             "upper" => $this->getUpperLimit()
         );
     }
+
+    public function getAnswerTableName()
+    {
+        return '';
+    }
+
 }
