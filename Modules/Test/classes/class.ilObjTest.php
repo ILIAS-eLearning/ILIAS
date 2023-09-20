@@ -6547,7 +6547,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
                 ->withHighscoreTopNum($testsettings['highscore_top_num'])
             )
         ;
-        $this->getScoreSettingsRepository()->store($s);
+        $this->getScoreSettingsRepository()->store($score_settings);
         $this->saveToDb();
 
         return true;
