@@ -2082,7 +2082,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         return $this->test_session->getLastSequence();
     }
 
-    protected function getSequenceElementParameter(): int
+    protected function getSequenceElementParameter(): ?int
     {
         if ($this->testrequest->isset('sequence')) {
             return $this->testrequest->int('sequence');
@@ -2491,7 +2491,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
         // enable the auto saving function
         // the autosave url is asynch because it will be used by an ajax request
-        if ($questionGUI->isAutosaveable() && $this->object->getAutosave()) {
+        if ($questionGUI instanceof ilAssQuestionAutosaveable && $this->object->getAutosave()) {
             $config['autosaveUrl'] = $this->ctrl->getLinkTarget($this, ilTestPlayerCommands::AUTO_SAVE, '', true);
             $config['autosaveInterval'] = $this->object->getMainSettings()->getQuestionBehaviourSettings()->getAutosaveInterval();
         } else {

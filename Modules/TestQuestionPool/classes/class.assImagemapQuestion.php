@@ -711,11 +711,6 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
         return $this->ensureNonNegativePoints($reachedPoints);
     }
 
-    public function isAutosaveable(): bool
-    {
-        return false; // #15217
-    }
-
     /**
      * Saves the learners input of the question to the database.
      *

@@ -18,7 +18,7 @@
 
 require_once './Modules/Test/classes/inc.AssessmentConstants.php';
 
-class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
+class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable, ilAssQuestionLMExportable, ilAssQuestionAutosaveable
 {
     private $answerType;
     private $long_menu_text;

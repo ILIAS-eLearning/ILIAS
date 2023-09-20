@@ -1119,11 +1119,6 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
         return true;
     }
 
-    public function isAutosaveable(): bool
-    {
-        return false;
-    }
-
     public function buildTestPresentationConfig(): ilTestQuestionConfig
     {
         return parent::buildTestPresentationConfig()
