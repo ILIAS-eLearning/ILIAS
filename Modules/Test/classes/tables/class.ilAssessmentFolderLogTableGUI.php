@@ -24,12 +24,15 @@ declare(strict_types=1);
  */
 class ilAssessmentFolderLogTableGUI extends ilTable2GUI
 {
+    protected \ILIAS\TestQuestionPool\QuestionInfoService $questioninfo;
+
     public function __construct(
         ilObjAssessmentFolderGUI $parent_obj,
         string $parent_cmd
     ) {
         parent::__construct($parent_obj, $parent_cmd);
-
+        global $DIC;
+        $this->questioninfo = $DIC->testQuestionPool()->questionInfo();
         $this->setFormName('showlog');
         $this->setStyle('table', 'fullwidth');
 
@@ -63,9 +66,9 @@ class ilAssessmentFolderLogTableGUI extends ilTable2GUI
 
         $title = "";
         if ($a_set["question_fi"] || $a_set["original_fi"]) {
-            $title = assQuestion::_getQuestionTitle((int) $a_set["question_fi"]);
+            $title = $this->questioninfo->getQuestionTitle((int) $a_set["question_fi"]);
             if ($title === '') {
-                $title = assQuestion::_getQuestionTitle((int) $a_set["original_fi"]);
+                $title = $this->questioninfo->getQuestionTitle((int) $a_set["original_fi"]);
             }
             $title = $this->lng->txt("assessment_log_question") . ": " . $title;
         }

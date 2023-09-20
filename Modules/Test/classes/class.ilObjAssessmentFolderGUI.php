@@ -25,6 +25,7 @@ declare(strict_types=1);
  */
 class ilObjAssessmentFolderGUI extends ilObjectGUI
 {
+    protected \ILIAS\TestQuestionPool\QuestionInfoService $questioninfo;
     protected \ILIAS\Test\InternalRequestService $testrequest;
 
     public function __construct($a_data, int $a_id = 0, bool $a_call_by_reference = true, bool $a_prepare_output = true)
@@ -32,6 +33,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
         global $DIC;
         $rbacsystem = $DIC['rbacsystem'];
         $this->testrequest = $DIC->test()->internal()->request();
+        $this->questioninfo = $DIC->testQuestionPool()->questionInfo();
         $this->type = "assf";
         parent::__construct($a_data, $a_id, $a_call_by_reference, false);
 
@@ -351,9 +353,9 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
             }
             $title = "";
             if ($log["question_fi"] || $log["original_fi"]) {
-                $title = assQuestion::_getQuestionTitle((int) $log["question_fi"]);
+                $title = $this->questioninfo->getQuestionTitle((int) $log["question_fi"]);
                 if ($title === '') {
-                    $title = assQuestion::_getQuestionTitle((int) $log["original_fi"]);
+                    $title = $this->questioninfo->getQuestionTitle((int) $log["original_fi"]);
                 }
                 $title = $this->lng->txt("assessment_log_question") . ": " . $title;
             }
