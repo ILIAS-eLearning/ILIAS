@@ -163,4 +163,18 @@ class QuestionInfoService
 
         return $row['cnt'] > 0;
     }
+
+    /**
+     * Checks whether the question is a clone of another question or not
+     */
+    public function isClone(int $question_id): bool
+    {
+        $result = $this->database->queryF(
+            "SELECT COUNT(original_id) cnt FROM qpl_questions WHERE question_id = %s",
+            array('integer'),
+            array($question_id)
+        );
+        $row = $this->database->fetchAssoc($result);
+        return ((int) $row["cnt"]) > 0;
+    }
 }
