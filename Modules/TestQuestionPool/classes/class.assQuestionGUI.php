@@ -66,6 +66,7 @@ abstract class assQuestionGUI
     private ilDBInterface $db;
     private ilLogger $logger;
     private ilComponentRepository $component_repository;
+    private \ILIAS\TestQuestionPool\QuestionInfoService $questioninfo;
 
     protected \ILIAS\Notes\GUIService $notes_gui;
 
@@ -140,6 +141,7 @@ abstract class assQuestionGUI
         $this->tree = $DIC['tree'];
         $this->db = $DIC->database();
         $this->logger = $DIC['ilLog'];
+        $this->questioninfo = $DIC->testQuestionPool()->questionInfo();
         $this->component_repository = $DIC['component.repository'];
         $this->ctrl->saveParameter($this, "q_id");
         $this->ctrl->saveParameter($this, "prev_qid");
@@ -429,7 +431,7 @@ abstract class assQuestionGUI
 
     public function assessment(): void
     {
-        $stats_table = new ilQuestionCumulatedStatisticsTableGUI($this, 'assessment', '', $this->object);
+        $stats_table = new ilQuestionCumulatedStatisticsTableGUI($this, 'assessment', '', $this->object, $this->questioninfo);
         $usage_table = new ilQuestionUsagesTableGUI($this, 'assessment', '', $this->object);
 
         $this->tpl->setContent(implode('<br />', array(

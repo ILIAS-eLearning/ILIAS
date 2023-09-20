@@ -60,6 +60,7 @@ abstract class assQuestion
 
     protected const DEFAULT_THUMB_SIZE = 150;
     protected const MINIMUM_THUMB_SIZE = 20;
+    private \ILIAS\TestQuestionPool\QuestionInfoService $questioninfo;
 
     protected ILIAS\HTTP\Services $http;
     protected ILIAS\Refinery\Factory $refinery;
@@ -199,7 +200,7 @@ abstract class assQuestion
         $tpl = $DIC['tpl'];
         $ilDB = $DIC['ilDB'];
         $ilLog = $DIC->logger();
-
+        $this->questioninfo = $DIC->testQuestionPool()->questionInfo();
         $this->current_user = $DIC['ilUser'];
         $this->lng = $lng;
         $this->tpl = $tpl;
@@ -608,27 +609,6 @@ abstract class assQuestion
         }
 
         return $this->external_id;
-    }
-
-    /**
-    * Returns the maximum points, a learner can reach answering the question
-    */
-    public static function _getMaximumPoints(int $question_id): float
-    {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-
-        $points = 0.0;
-        $result = $ilDB->queryF(
-            "SELECT points FROM qpl_questions WHERE question_id = %s",
-            array('integer'),
-            array($question_id)
-        );
-        if ($ilDB->numRows($result) == 1) {
-            $row = $ilDB->fetchAssoc($result);
-            $points = (float) $row["points"];
-        }
-        return $points;
     }
 
     /**
@@ -1378,63 +1358,6 @@ abstract class assQuestion
         $result = $this->db->query("SELECT * FROM tst_test_result WHERE " . $this->db->in('question_fi', $found_id, false, 'integer'));
 
         return $this->db->numRows($result);
-    }
-
-    public static function _getTotalRightAnswers(int $a_q_id): int
-    {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-
-        $result = $ilDB->queryF(
-            "SELECT question_id FROM qpl_questions WHERE original_id = %s OR question_id = %s",
-            array('integer','integer'),
-            array($a_q_id, $a_q_id)
-        );
-        if ($result->numRows() == 0) {
-            return 0;
-        }
-
-        $found_id = [];
-        while ($row = $ilDB->fetchAssoc($result)) {
-            $found_id[] = $row["question_id"];
-        }
-
-        $result = $ilDB->query("SELECT * FROM tst_test_result WHERE " . $ilDB->in('question_fi', $found_id, false, 'integer'));
-        $answers = [];
-        while ($row = $ilDB->fetchAssoc($result)) {
-            $reached = $row["points"];
-            $max = self::_getMaximumPoints($row["question_fi"]);
-            $answers[] = array("reached" => $reached, "max" => $max);
-        }
-        $max = 0.0;
-        $reached = 0.0;
-        foreach ($answers as $key => $value) {
-            $max += $value["max"];
-            $reached += $value["reached"];
-        }
-        if ($max > 0) {
-            return $reached / $max;
-        }
-        return 0;
-    }
-
-    public static function _getQuestionText(int $a_q_id): string
-    {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-
-        $result = $ilDB->queryF(
-            "SELECT question_text FROM qpl_questions WHERE question_id = %s",
-            array('integer'),
-            array($a_q_id)
-        );
-
-        if ($result->numRows() == 1) {
-            $row = $ilDB->fetchAssoc($result);
-            return $row["question_text"] ?? '';
-        }
-
-        return "";
     }
 
     public static function isFileAvailable(string $file): bool
