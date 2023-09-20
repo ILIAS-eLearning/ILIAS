@@ -1067,7 +1067,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
                 array_push($answers, str_replace(",", "\\,", $item->getAnswerText()));
             }
             // fau: fixGapReplace - use replace function
-            $output = $this->replaceFirstGap($output, "[_gap]" . $this->prepareTextareaOutput(join(",", $answers), true) . "[/_gap]");
+            $output = $this->replaceFirstGap($output, "[_gap]" . ilLegacyFormElementsUtil::prepareTextareaOutput(join(",", $answers), true) . "[/_gap]");
             // fau.
         }
         $output = str_replace("_gap]", "gap]", $output);

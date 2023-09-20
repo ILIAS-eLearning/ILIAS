@@ -66,7 +66,7 @@ abstract class assQuestionGUI
     private ilDBInterface $db;
     private ilLogger $logger;
     private ilComponentRepository $component_repository;
-    private \ILIAS\TestQuestionPool\QuestionInfoService $questioninfo;
+    protected \ILIAS\TestQuestionPool\QuestionInfoService $questioninfo;
 
     protected \ILIAS\Notes\GUIService $notes_gui;
 
@@ -1152,12 +1152,12 @@ abstract class assQuestionGUI
         if ($this->object->isAdditionalContentEditingModePageObject()) {
             return $output;
         }
-        return $this->object->prepareTextareaOutput($output, true);
+        return ilLegacyFormElementsUtil::prepareTextareaOutput($output, true);
     }
 
     public function getGenericFeedbackOutputForCorrectSolution(): string
     {
-        return $this->object->prepareTextareaOutput(
+        return ilLegacyFormElementsUtil::prepareTextareaOutput(
             $this->object->feedbackOBJ->getGenericFeedbackTestPresentation($this->object->getId(), true),
             true
         );
@@ -1165,7 +1165,7 @@ abstract class assQuestionGUI
 
     public function getGenericFeedbackOutputForIncorrectSolution(): string
     {
-        return $this->object->prepareTextareaOutput(
+        return ilLegacyFormElementsUtil::prepareTextareaOutput(
             $this->object->feedbackOBJ->getGenericFeedbackTestPresentation($this->object->getId(), false),
             true
         );
@@ -1356,7 +1356,7 @@ abstract class assQuestionGUI
                 $solutionContent = $this->object->fixSvgToPng($solutionContent);
                 $solutionContent = $this->object->fixUnavailableSkinImageSources($solutionContent);
                 $question = new ilTextAreaInputGUI($this->lng->txt("solutionText"), "solutiontext");
-                $question->setValue($this->object->prepareTextareaOutput($solutionContent));
+                $question->setValue(ilLegacyFormElementsUtil::prepareTextareaOutput($solutionContent));
                 $question->setRequired(true);
                 $question->setRows(10);
                 $question->setCols(80);
