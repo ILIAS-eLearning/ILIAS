@@ -18,13 +18,6 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\MetaData\Paths\Steps;
-
-/**
- * The string representation of these tokens must not occur as
- * names of metadata elements.
- */
-enum StepToken: string
+class ilMDCopyrightException extends ilException
 {
-    case SUPER = '^';
 }

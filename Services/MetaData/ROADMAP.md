@@ -5,6 +5,12 @@
 Reused constants should be collected into bespoke classes as 
 appropriate, instead of being scattered across the component.
 
+### Clean up Remains of Migration for Ilias 10
+
+With ILIAS 10, the migration ilMDLOMConformanceMigration can be deleted. To clean up the migration, the following table columns should be dropped:
+
+- il_md_cpr_selections: copyright, language, costs, cpr_restrictions, migrated
+
 ### Metadata Schema
 
 Check whether renaming the currently incorrect preset schema

@@ -18,9 +18,6 @@
 
 declare(strict_types=1);
 
-/**
- * @author  Tim Schmitz <schmitz@leifos.de>
- */
 class ilMDLOMUpdateSteps implements ilDatabaseUpdateSteps
 {
     protected \ilDBInterface $db;

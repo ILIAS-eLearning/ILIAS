@@ -23,7 +23,6 @@ namespace ILIAS\MetaData\Paths;
 /**
  * The string representation of these tokens must not occur in the
  * names of metadata elements.
- * @author Tim Schmitz <schmitz@leifos.de>
  */
 enum Token: string
 {

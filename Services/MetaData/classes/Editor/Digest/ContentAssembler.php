@@ -275,15 +275,19 @@ class ContentAssembler
             $set->getRoot()
         )->lastElementAtFinalStep();
         $cp_description = $cp_description_el?->getData()->value();
+
+        $current_id = 0;
         if ($cp_description !== '' && $cp_description !== null) {
             $current_id = $this->copyright_handler->extractCPEntryID($cp_description);
-        } else {
-            $current_id = $this->copyright_handler->getDefaultCPEntryID();
         }
 
         $options = [];
         $outdated = [];
         foreach ($this->copyright_handler->getCPEntries() as $entry) {
+            if ($current_id === 0 && $entry->isDefault()) {
+                $current_id = $entry->id();
+            }
+
             //give the option to block harvesting
             $sub_inputs = [];
             if (
@@ -300,14 +304,14 @@ class ContentAssembler
                     );
             }
 
-            $option = $ff->group($sub_inputs, $entry->getTitle());
-            $identifier = $this->copyright_handler->createIdentifierForID($entry->getEntryId());
+            $option = $ff->group($sub_inputs, $entry->title());
+            $identifier = $this->copyright_handler->createIdentifierForID($entry->id());
 
             // outdated entries throw an error when selected
-            if ($entry->getOutdated()) {
+            if ($entry->isOutdated()) {
                 $option = $option->withLabel(
                     '(' . $this->presenter->utilities()->txt('meta_copyright_outdated') .
-                    ') ' . $entry->getTitle()
+                    ') ' . $entry->title()
                 );
                 $outdated[] = $identifier;
             }

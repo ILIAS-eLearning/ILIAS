@@ -18,13 +18,17 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\MetaData\Paths\Steps;
+namespace ILIAS\MetaData\Copyright;
 
-/**
- * The string representation of these tokens must not occur as
- * names of metadata elements.
- */
-enum StepToken: string
+use ILIAS\UI\Component\Image\Image;
+use ILIAS\UI\Component\Link\Link;
+use ILIAS\UI\Component\Legacy\Legacy;
+
+interface RendererInterface
 {
-    case SUPER = '^';
+    /**
+     * Returns a string in a legacy UI component if only a string can be returned.
+     * @return Image[]|Link[]|Legacy[]
+     */
+    public function toUIComponents(CopyrightData $copyright): array;
 }

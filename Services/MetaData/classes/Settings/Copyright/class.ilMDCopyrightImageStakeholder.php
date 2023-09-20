@@ -18,13 +18,24 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\MetaData\Paths\Steps;
+use ILIAS\ResourceStorage\Stakeholder\AbstractResourceStakeholder;
 
-/**
- * The string representation of these tokens must not occur as
- * names of metadata elements.
- */
-enum StepToken: string
+class ilMDCopyrightImageStakeholder extends AbstractResourceStakeholder
 {
-    case SUPER = '^';
+    protected int $owner = 6;
+
+    public function __construct(int $owner = 6)
+    {
+        $this->owner = $owner;
+    }
+
+    public function getId(): string
+    {
+        return 'copyright_image';
+    }
+
+    public function getOwnerOfNewResources(): int
+    {
+        return $this->owner;
+    }
 }

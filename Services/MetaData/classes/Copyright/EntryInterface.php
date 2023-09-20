@@ -18,13 +18,21 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\MetaData\Paths\Steps;
+namespace ILIAS\MetaData\Copyright;
 
-/**
- * The string representation of these tokens must not occur as
- * names of metadata elements.
- */
-enum StepToken: string
+interface EntryInterface
 {
-    case SUPER = '^';
+    public function id(): int;
+
+    public function title(): string;
+
+    public function description(): string;
+
+    public function isDefault(): bool;
+
+    public function isOutdated(): bool;
+
+    public function position(): int;
+
+    public function copyrightData(): CopyrightDataInterface;
 }
