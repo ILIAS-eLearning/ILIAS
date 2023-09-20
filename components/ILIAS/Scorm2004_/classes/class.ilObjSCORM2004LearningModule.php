@@ -603,7 +603,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
         }
 
         if (count($usersToDelete) > 0) {
-            // include_once("./components/ILIAS/Tracking_/classes/class.ilLPMarks.php");
+            // include_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/Tracking_/classes/class.ilLPMarks.php");
             // ilLPMarks::_deleteForUsers($this->getId(), $usersToDelete);
             $this->deleteTrackingDataOfUsers($usersToDelete);
         }

@@ -17,7 +17,7 @@
  */
 
 declare(strict_types=1);
-require_once("./components/ILIAS/Form_/classes/class.ilFormPropertyGUI.php");
+require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/Form_/classes/class.ilFormPropertyGUI.php");
 
 /**
  * Class ilDclGenericMultiInputGUI

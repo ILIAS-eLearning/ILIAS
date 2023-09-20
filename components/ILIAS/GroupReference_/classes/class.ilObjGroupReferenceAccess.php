@@ -2,7 +2,7 @@
 
 /* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./components/ILIAS/ContainerReference_/classes/class.ilContainerReferenceAccess.php");
+include_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/ContainerReference_/classes/class.ilContainerReferenceAccess.php");
 
 /**
  * @author Fabian Wolf <wolf@leifos.com>
@@ -29,7 +29,7 @@ class ilObjGroupReferenceAccess extends ilContainerReferenceAccess
         switch ($permission) {
             case 'visible':
             case 'read':
-                include_once './components/ILIAS/GroupReference_/classes/class.ilObjGroupReference.php';
+                include_once substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . '/components/ILIAS/GroupReference_/classes/class.ilObjGroupReference.php';
                 $target_ref_id = ilObjGroupReference::_lookupTargetRefId($obj_id);
 
                 if (!$ilAccess->checkAccessOfUser($user_id, $permission, $cmd, $target_ref_id)) {
@@ -72,7 +72,7 @@ class ilObjGroupReferenceAccess extends ilContainerReferenceAccess
                 array("permission" => "write", "cmd" => "editReference", "lang_var" => "edit")
             );
         } else {
-            include_once('./components/ILIAS/Group_/classes/class.ilObjGroupAccess.php');
+            include_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . '/components/ILIAS/Group_/classes/class.ilObjGroupAccess.php');
             $commands = ilObjGroupAccess::_getCommands();
         }
         return $commands;

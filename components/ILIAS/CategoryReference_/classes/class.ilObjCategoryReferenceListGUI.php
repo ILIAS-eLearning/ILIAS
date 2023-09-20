@@ -103,7 +103,7 @@ class ilObjCategoryReferenceListGUI extends ilObjCategoryListGUI
         $this->reference_ref_id = $ref_id;
         $this->reference_obj_id = $obj_id;
 
-        include_once('./components/ILIAS/ContainerReference_/classes/class.ilContainerReference.php');
+        include_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . '/components/ILIAS/ContainerReference_/classes/class.ilContainerReference.php');
         $target_obj_id = ilContainerReference::_lookupTargetId($obj_id);
 
         $target_ref_ids = ilObject::_getAllReferences($target_obj_id);

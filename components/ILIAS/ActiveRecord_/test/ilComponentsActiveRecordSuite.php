@@ -21,7 +21,7 @@ declare(strict_types=1);
 use PHPUnit\Framework\TestSuite;
 
 /** @noRector */
-require_once 'vendor/composer/vendor/autoload.php';
+require_once substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . '/vendor/composer/vendor/autoload.php';
 
 class ilComponentsActiveRecordSuite extends TestSuite
 {
@@ -29,10 +29,10 @@ class ilComponentsActiveRecordSuite extends TestSuite
     {
         $self = new self();
         /** @noRector */
-        require_once("./components/ILIAS/ActiveRecord_/test/ilServicesActiveRecordConnectorTest.php");
+        require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/ActiveRecord_/test/ilServicesActiveRecordConnectorTest.php");
         $self->addTestSuite("ilServicesActiveRecordConnectorTest");
         /** @noRector */
-        require_once("./components/ILIAS/ActiveRecord_/test/ilServicesActiveRecordFieldTest.php");
+        require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/ActiveRecord_/test/ilServicesActiveRecordFieldTest.php");
         $self->addTestSuite("ilServicesActiveRecordFieldTest");
 
         return $self;

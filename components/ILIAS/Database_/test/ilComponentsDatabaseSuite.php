@@ -35,10 +35,10 @@ class ilComponentsDatabaseSuite extends TestSuite
     {
         $suite = new self();
         /** @noRector */
-        require_once('./components/ILIAS/Database_/test/Setup/ilDatabaseSetupSuite.php');
+        require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . '/components/ILIAS/Database_/test/Setup/ilDatabaseSetupSuite.php');
         $suite->addTestSuite(ilDatabaseSetupSuite::suite());
 
-        require_once('./components/ILIAS/Database_/test/Integrity/Suite.php');
+        require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . '/components/ILIAS/Database_/test/Integrity/Suite.php');
         $suite->addTestSuite(IntegritySuite::suite());
 
         return $suite;

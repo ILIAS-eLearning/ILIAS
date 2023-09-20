@@ -22,7 +22,7 @@ declare(strict_types=1);
 use PHPUnit\Framework\TestSuite;
 
 /** @noRector */
-require_once 'vendor/composer/vendor/autoload.php';
+require_once substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . '/vendor/composer/vendor/autoload.php';
 
 class ilComponentsOrgUnitSuite extends TestSuite
 {
@@ -30,31 +30,31 @@ class ilComponentsOrgUnitSuite extends TestSuite
     {
         $suite = new self();
         /** @noRector */
-        require_once("./components/ILIAS/OrgUnit_/test/ilModulesOrgUnitTest.php");
+        require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/OrgUnit_/test/ilModulesOrgUnitTest.php");
         $suite->addTestSuite("ilModulesOrgUnitTest");
         /** @noRector */
-        require_once("./components/ILIAS/OrgUnit_/test/ilOrgUnitOperationContextRegisteredObjectiveTest.php");
+        require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/OrgUnit_/test/ilOrgUnitOperationContextRegisteredObjectiveTest.php");
         $suite->addTestSuite("ilOrgUnitOperationContextRegisteredObjectiveTest");
         /** @noRector */
-        require_once("./components/ILIAS/OrgUnit_/test/ilOrgUnitOperationRegisteredObjectiveTest.php");
+        require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/OrgUnit_/test/ilOrgUnitOperationRegisteredObjectiveTest.php");
         $suite->addTestSuite("ilOrgUnitOperationRegisteredObjectiveTest");
 
-        require_once("./components/ILIAS/OrgUnit_/test/ilModulesOrgUnitAuthorityTest.php");
+        require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/OrgUnit_/test/ilModulesOrgUnitAuthorityTest.php");
         $suite->addTestSuite("ilModulesOrgUnitAuthorityTest");
 
-        require_once("./components/ILIAS/OrgUnit_/test/ilModulesOrgUnitPositionTest.php");
+        require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/OrgUnit_/test/ilModulesOrgUnitPositionTest.php");
         $suite->addTestSuite("ilModulesOrgUnitPositionTest");
 
-        require_once("./components/ILIAS/OrgUnit_/test/ilModulesOrgUnitUserAssignmentTest.php");
+        require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/OrgUnit_/test/ilModulesOrgUnitUserAssignmentTest.php");
         $suite->addTestSuite("ilModulesOrgUnitUserAssignmentTest");
 
-        require_once("./components/ILIAS/OrgUnit_/test/ilModulesOrgUnitOperationContextTest.php");
+        require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/OrgUnit_/test/ilModulesOrgUnitOperationContextTest.php");
         $suite->addTestSuite("ilModulesOrgUnitOperationContextTest");
 
-        require_once("./components/ILIAS/OrgUnit_/test/ilModulesOrgUnitOperationTest.php");
+        require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/OrgUnit_/test/ilModulesOrgUnitOperationTest.php");
         $suite->addTestSuite("ilModulesOrgUnitOperationTest");
 
-        require_once("./components/ILIAS/OrgUnit_/test/ilModulesOrgUnitPermissionTest.php");
+        require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/OrgUnit_/test/ilModulesOrgUnitPermissionTest.php");
         $suite->addTestSuite("ilModulesOrgUnitPermissionTest");
 
         return $suite;

@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-require_once "./components/ILIAS/Test_/classes/inc.AssessmentConstants.php";
+require_once substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/Test_/classes/inc.AssessmentConstants.php";
 
 /**
 * Scoring class for tests

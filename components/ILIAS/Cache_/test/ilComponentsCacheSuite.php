@@ -17,7 +17,7 @@ declare(strict_types=1);
 
 use PHPUnit\Framework\TestSuite;
 
-require_once 'vendor/composer/vendor/autoload.php';
+require_once substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . '/vendor/composer/vendor/autoload.php';
 
 /**
  * Personal workspace test suite
@@ -29,7 +29,7 @@ class ilComponentsCacheSuite extends TestSuite
     {
         $suite = new self();
 
-        require_once("./components/ILIAS/Cache_/test/ilCacheTest.php");
+        require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/Cache_/test/ilCacheTest.php");
         $suite->addTestSuite("ilCacheTest");
 
         return $suite;

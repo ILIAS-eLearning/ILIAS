@@ -86,7 +86,7 @@ class ilSubStyleAssignmentGUI
      */
     public function addAssignment(): void
     {
-        include_once 'components/ILIAS/Search_/classes/class.ilSearchRootSelector.php';
+        include_once substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . '/components/ILIAS/Search_/classes/class.ilSearchRootSelector.php';
         $exp = new ilSearchRootSelector(
             $this->ctrl->getLinkTarget($this->getParentGui(), 'addStyleCatAssignment')
         );

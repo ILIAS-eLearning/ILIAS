@@ -26,7 +26,7 @@ class ilComponentsAccessControlSuite extends TestSuite
     {
         $suite = new ilComponentsAccessControlSuite();
         /** @noRector */
-        include_once("./components/ILIAS/AccessControl_/test/ilRBACTest.php");
+        include_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/AccessControl_/test/ilRBACTest.php");
         $suite->addTestSuite(ilRBACTest::class);
         return $suite;
     }

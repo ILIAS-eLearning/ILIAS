@@ -21,7 +21,7 @@ class ilComponentsRegistrationSuite extends TestSuite
     public static function suite(): self
     {
         $suite = new self();
-        include_once("./components/ILIAS/Registration_/test/ilRegistrationSettingsTest.php");
+        include_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/Registration_/test/ilRegistrationSettingsTest.php");
         $suite->addTestSuite(ilRegistrationSettingsTest::class);
         return $suite;
     }

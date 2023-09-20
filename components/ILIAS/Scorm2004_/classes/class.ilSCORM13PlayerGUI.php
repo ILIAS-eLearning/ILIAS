@@ -452,7 +452,7 @@ class ilSCORM13PlayerGUI
 
 
         $this->tpl->setVariable('JSON_LANGSTRINGS', json_encode($langstrings));
-        // include_once("./components/ILIAS/YUI_/classes/class.ilYuiUtil.php");
+        // include_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/YUI_/classes/class.ilYuiUtil.php");
         // $this->tpl->setVariable('YUI_PATH', ilYuiUtil::getLocalPath());
         // $this->tpl->setVariable('TREE_JS', "./components/ILIAS/UIComponent_/NestedList/js/ilNestedList.js");
         $this->tpl->setVariable('TREE_JS', "./components/ILIAS/Scorm2004_/scripts/ilNestedList.js");
@@ -1210,7 +1210,7 @@ class ilSCORM13PlayerGUI
     //     */
     //    public function getMimetype($filename)
     //    {
-    //        include_once("./components/ILIAS/MediaObjects_/classes/class.ilObjMediaObject.php");
+    //        include_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/MediaObjects_/classes/class.ilObjMediaObject.php");
     //        return ilObjMediaObject::getMimeType($filename);
     //    }
 
@@ -1220,7 +1220,7 @@ class ilSCORM13PlayerGUI
     //    */
     //    public function get_max_attempts()
     //    {
-    //        include_once "./components/ILIAS/ScormAicc_/classes/SCORM/class.ilObjSCORMInitData.php";
+    //        include_once substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/ScormAicc_/classes/SCORM/class.ilObjSCORMInitData.php";
     //        return ilObjSCORMInitData::get_max_attempts($this->packageId);
     //    }
 

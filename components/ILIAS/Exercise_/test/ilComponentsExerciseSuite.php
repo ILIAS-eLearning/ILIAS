@@ -28,7 +28,7 @@ class ilComponentsExerciseSuite extends TestSuite
     public static function suite()
     {
         /** @noRector  */
-        require_once "./components/ILIAS/Exercise_/test/PeerReview/ExcPeerReviewTest.php";
+        require_once substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/Exercise_/test/PeerReview/ExcPeerReviewTest.php";
         $suite = new ilComponentsExerciseSuite();
         $suite->addTestSuite("ExcPeerReviewTest");
 

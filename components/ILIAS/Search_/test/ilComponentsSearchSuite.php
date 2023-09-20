@@ -26,8 +26,8 @@ class ilComponentsSearchSuite extends TestSuite
     {
         $suite = new ilComponentsSearchSuite();
 
-        include_once("./components/ILIAS/Search_/test/ilSearchLuceneQueryParserTest.php");
-        include_once("./components/ILIAS/Search_/test/ilObjSearchRpcClientCoordinatorTest.php");
+        include_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/Search_/test/ilSearchLuceneQueryParserTest.php");
+        include_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/Search_/test/ilObjSearchRpcClientCoordinatorTest.php");
         $suite->addTestSuite(ilSearchLuceneQueryParserTest::class);
         $suite->addTestSuite(ilObjSearchRpcClientCoordinatorTest::class);
         return $suite;

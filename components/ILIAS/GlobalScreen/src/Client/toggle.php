@@ -17,7 +17,7 @@ declare(strict_types=1);
  *
  *********************************************************************/
 /** @noRector  */
-require_once('../Scope/MainMenu/Collector/Renderer/Hasher.php');
+require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . '/Scope/MainMenu/Collector/Renderer/Hasher.php');
 /** @noRector  */
 require_once('ItemState.php');
 /** @noRector  */

@@ -17,7 +17,7 @@
  *********************************************************************/
 
 // still needed, since constants are defined in ilUserDefinedFields
-include_once("./components/ILIAS/User_/classes/class.ilUserDefinedFields.php");
+include_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/User_/classes/class.ilUserDefinedFields.php");
 
 /**
  * @author Stefan Meyer <smeyer.ilias@gmx.de>

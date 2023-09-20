@@ -29,7 +29,7 @@
  * @package ilias
  */
 
-include_once "./components/ILIAS/soapclasses/class.ilSoapStructureObject.php";
+include_once substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/soapclasses/class.ilSoapStructureObject.php";
 
 class ilSoapGLOTermDefinitionStructureObject extends ilSoapStructureObject
 {

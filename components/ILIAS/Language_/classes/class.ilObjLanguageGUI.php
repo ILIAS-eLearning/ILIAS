@@ -28,7 +28,7 @@ declare(strict_types=1);
 * @extends ilObjectGUI
 */
 
-require_once "./components/ILIAS/Object_/classes/class.ilObjectGUI.php";
+require_once substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/Object_/classes/class.ilObjectGUI.php";
 
 class ilObjLanguageGUI extends ilObjectGUI
 {

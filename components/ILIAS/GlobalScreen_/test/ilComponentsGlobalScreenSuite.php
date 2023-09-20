@@ -24,7 +24,7 @@ class ilComponentsGlobalScreenSuite extends TestSuite
     {
         $suite = new self();
         /** @noRector */
-        require_once("./components/ILIAS/GlobalScreen_/test/ilServicesGlobalScreenTest.php");
+        require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/GlobalScreen_/test/ilServicesGlobalScreenTest.php");
         $suite->addTestSuite("ilServicesGlobalScreenTest");
 
         return $suite;

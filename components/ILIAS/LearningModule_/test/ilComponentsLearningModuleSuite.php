@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 use PHPUnit\Framework\TestSuite;
 
-require_once 'vendor/composer/vendor/autoload.php';
+require_once substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . '/vendor/composer/vendor/autoload.php';
 
 /**
  * Learning module test suite
@@ -32,7 +32,7 @@ class ilComponentsLearningModuleSuite extends TestSuite
     {
         $suite = new self();
 
-        require_once("./components/ILIAS/LearningModule_/test/LMEditingGUIRequestTest.php");
+        require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/LearningModule_/test/LMEditingGUIRequestTest.php");
         $suite->addTestSuite("LMEditingGUIRequestTest");
 
         return $suite;

@@ -19,8 +19,8 @@ declare(strict_types=1);
  ********************************************************************
  */
 
-require_once "components/ILIAS/Language_/classes/class.ilLanguage.php";
-require_once "components/ILIAS/Language_/classes/class.ilLanguageDetectorFactory.php";
+require_once substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/Language_/classes/class.ilLanguage.php";
+require_once substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/Language_/classes/class.ilLanguageDetectorFactory.php";
 
 /**
  * Class ilLanguageDetection

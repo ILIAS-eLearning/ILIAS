@@ -25,7 +25,7 @@ class ilComponentsMembershipSuite extends TestSuite
     public static function suite(): ilComponentsMembershipSuite
     {
         /** @noRector  */
-        require_once("./components/ILIAS/Membership_/test/ilWaitingListTest.php");
+        require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/Membership_/test/ilWaitingListTest.php");
         $suite = new ilComponentsMembershipSuite();
         $suite->addTestSuite("ilWaitingListTest");
 

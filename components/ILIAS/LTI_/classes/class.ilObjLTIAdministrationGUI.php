@@ -207,7 +207,7 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
     // create global role LTI-User
     protected function createLtiUserRole(): void
     {
-        // include_once './components/ILIAS/AccessControl_/classes/class.ilObjRole.php';
+        // include_once substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . '/components/ILIAS/AccessControl_/classes/class.ilObjRole.php';
         $role = new ilObjRole();
         $role->setTitle("il_lti_global_role");
         $role->setDescription("This global role should only contain the permission 'read' for repository and categories. Do not rename this role.");

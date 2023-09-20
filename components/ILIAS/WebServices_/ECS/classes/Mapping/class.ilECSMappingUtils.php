@@ -165,7 +165,7 @@ class ilECSMappingUtils
     public static function getRoleMappingInfo($a_role_type_info = 0): array
     {
         //KEEP!!! until the defines are turned into proper constants
-        include_once './components/ILIAS/Membership_/classes/class.ilParticipants.php';
+        include_once substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . '/components/ILIAS/Membership_/classes/class.ilParticipants.php';
         $roles = array(
             ilParticipants::IL_CRS_ADMIN => array(
                 'role' => ilParticipants::IL_CRS_ADMIN,

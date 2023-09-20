@@ -24,10 +24,10 @@ class ilComponentsCourseSuite extends TestSuite
         $suite = new self();
 
         /** @noRector  */
-        include_once './components/ILIAS/Course_/test/ilCourseMailTemplateTutorContextTest.php';
+        include_once substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . '/components/ILIAS/Course_/test/ilCourseMailTemplateTutorContextTest.php';
         $suite->addTestSuite("ilCourseMailTemplateTutorContextTest");
 
-        include_once './components/ILIAS/Course_/test/Timings/ilTimingAcceptedTest.php';
+        include_once substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . '/components/ILIAS/Course_/test/Timings/ilTimingAcceptedTest.php';
         $suite->addTestSuite(ilTimingAcceptedTest::class);
 
         return $suite;

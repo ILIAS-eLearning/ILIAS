@@ -27,7 +27,7 @@ declare(strict_types=1);
  * Soap exercise administration methods
  * @author  Roland Küstermann <roland@kuestermann.com>
  */
-include_once './components/ILIAS/soapclasses/class.ilSoapAdministration.php';
+include_once substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . '/components/ILIAS/soapclasses/class.ilSoapAdministration.php';
 
 class ilSoapExerciseAdministration extends ilSoapAdministration
 {
@@ -69,9 +69,9 @@ class ilSoapExerciseAdministration extends ilSoapAdministration
         }
 
         // create object, put it into the tree and use the parser to update the settings
-        include_once './components/ILIAS/Exercise_/classes/class.ilObjExercise.php';
-        include_once './components/ILIAS/Exercise_/classes/class.ilExerciseXMLParser.php';
-        include_once './components/ILIAS/Exercise_/exceptions/class.ilExerciseException.php';
+        include_once substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . '/components/ILIAS/Exercise_/classes/class.ilObjExercise.php';
+        include_once substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . '/components/ILIAS/Exercise_/classes/class.ilExerciseXMLParser.php';
+        include_once substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . '/components/ILIAS/Exercise_/exceptions/class.ilExerciseException.php';
 
         $exercise = new ilObjExercise();
         $exercise->create();
@@ -154,8 +154,8 @@ class ilSoapExerciseAdministration extends ilSoapAdministration
             );
         }
 
-        include_once './components/ILIAS/Exercise_/classes/class.ilExerciseXMLParser.php';
-        include_once './components/ILIAS/Exercise_/exceptions/class.ilExerciseException.php';
+        include_once substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . '/components/ILIAS/Exercise_/classes/class.ilExerciseXMLParser.php';
+        include_once substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . '/components/ILIAS/Exercise_/exceptions/class.ilExerciseException.php';
         $exerciseXMLParser = new ilExerciseXMLParser($exercise, $exercise_xml, $obj_id);
 
         try {
@@ -237,7 +237,7 @@ class ilSoapExerciseAdministration extends ilSoapAdministration
             );
         }
 
-        include_once './components/ILIAS/Exercise_/classes/class.ilExerciseXMLWriter.php';
+        include_once substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . '/components/ILIAS/Exercise_/classes/class.ilExerciseXMLWriter.php';
 
         $xmlWriter = new ilExerciseXMLWriter();
         $xmlWriter->setExercise($exercise);

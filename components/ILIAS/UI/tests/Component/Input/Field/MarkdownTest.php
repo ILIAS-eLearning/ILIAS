@@ -34,7 +34,7 @@ use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\UI\Implementation\Render\JavaScriptBinding;
 
-require_once( "./vendor/composer/vendor/autoload.php");
+require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/vendor/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../../Base.php");
 require_once(__DIR__ . "/InputTest.php");
 

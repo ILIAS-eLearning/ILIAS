@@ -91,7 +91,7 @@ class ilWikiUtil
         bool $a_collect_non_ex = false,
         bool $a_offline = false
     ) {
-        include_once("./components/ILIAS/Wiki_/libs/Sanitizer.php");
+        include_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/Wiki_/libs/Sanitizer.php");
         $collect = array();
         // both from mediawiki DefaulSettings.php
         $wgLegalTitleChars = " %!\"$&'()*,\\-.\\/0-9:;=?@A-Z\\\\^_`a-z~\\x80-\\xFF+";

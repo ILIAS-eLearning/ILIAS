@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 use PHPUnit\Framework\TestSuite;
 
-require_once 'vendor/composer/vendor/autoload.php';
+require_once substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . '/vendor/composer/vendor/autoload.php';
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -31,117 +31,117 @@ class ilComponentsCOPageSuite extends TestSuite
     {
         $suite = new self();
 
-        require_once("./components/ILIAS/COPage_/test/COPageTestBase.php");
+        require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/COPage_/test/COPageTestBase.php");
 
-        require_once("./components/ILIAS/COPage_/test/EditorEditSessionRepositoryTest.php");
+        require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/COPage_/test/EditorEditSessionRepositoryTest.php");
         $suite->addTestSuite("EditorEditSessionRepositoryTest");
 
-        require_once("./components/ILIAS/COPage_/test/PCMapEditorSessionRepositoryTest.php");
+        require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/COPage_/test/PCMapEditorSessionRepositoryTest.php");
         $suite->addTestSuite("PCMapEditorSessionRepositoryTest");
 
-        require_once("./components/ILIAS/COPage_/test/PCParagraphTest.php");
+        require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/COPage_/test/PCParagraphTest.php");
         $suite->addTestSuite("PCParagraphTest");
 
-        require_once("./components/ILIAS/COPage_/test/PCSectionTest.php");
+        require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/COPage_/test/PCSectionTest.php");
         $suite->addTestSuite("PCSectionTest");
 
-        require_once("./cli/inc.xml5compliance.php");
+        require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/cli/inc.xml5compliance.php");
         require_once("./cli/inc.xsl5compliance.php");
-        require_once("./components/ILIAS/COPage_/test/class.ilUnitTestPageConfig.php");
-        require_once("./components/ILIAS/COPage_/test/PageObjectTest.php");
-        require_once("./components/ILIAS/COPage_/test/class.ilUnitTestPageObject.php");
-        require_once("./components/ILIAS/COPage_/test/class.ilUnitTestPageManager.php");
-        require_once("./components/ILIAS/COPage_/test/class.ilUnitTestPCDefinition.php");
+        require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/COPage_/test/class.ilUnitTestPageConfig.php");
+        require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/COPage_/test/PageObjectTest.php");
+        require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/COPage_/test/class.ilUnitTestPageObject.php");
+        require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/COPage_/test/class.ilUnitTestPageManager.php");
+        require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/COPage_/test/class.ilUnitTestPCDefinition.php");
         $suite->addTestSuite("PageObjectTest");
 
-        require_once("./components/ILIAS/COPage_/test/PCBlogTest.php");
+        require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/COPage_/test/PCBlogTest.php");
         $suite->addTestSuite("PCBlogTest");
 
-        require_once("./components/ILIAS/COPage_/test/PCContentIncludeTest.php");
+        require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/COPage_/test/PCContentIncludeTest.php");
         $suite->addTestSuite("PCContentIncludeTest");
 
-        require_once("./components/ILIAS/COPage_/test/PCDataTableTest.php");
+        require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/COPage_/test/PCDataTableTest.php");
         $suite->addTestSuite("PCDataTableTest");
 
-        require_once("./components/ILIAS/COPage_/test/PCTableDataTest.php");
+        require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/COPage_/test/PCTableDataTest.php");
         $suite->addTestSuite("PCTableDataTest");
 
-        require_once("./components/ILIAS/COPage_/test/PCContentTemplateTest.php");
+        require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/COPage_/test/PCContentTemplateTest.php");
         $suite->addTestSuite("PCContentTemplateTest");
 
-        require_once("./components/ILIAS/COPage_/test/PCFileListTest.php");
+        require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/COPage_/test/PCFileListTest.php");
         $suite->addTestSuite("PCFileListTest");
 
-        require_once("./components/ILIAS/COPage_/test/PCGridTest.php");
+        require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/COPage_/test/PCGridTest.php");
         $suite->addTestSuite("PCGridTest");
 
-        require_once("./components/ILIAS/COPage_/test/PCInteractiveImageTest.php");
+        require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/COPage_/test/PCInteractiveImageTest.php");
         $suite->addTestSuite("PCInteractiveImageTest");
 
-        require_once("./components/ILIAS/COPage_/test/PCListTest.php");
+        require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/COPage_/test/PCListTest.php");
         $suite->addTestSuite("PCListTest");
 
-        require_once("./components/ILIAS/COPage_/test/PCLoginPageElementTest.php");
+        require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/COPage_/test/PCLoginPageElementTest.php");
         $suite->addTestSuite("PCLoginPageElementTest");
 
-        require_once("./components/ILIAS/COPage_/test/PCMapTest.php");
+        require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/COPage_/test/PCMapTest.php");
         $suite->addTestSuite("PCMapTest");
 
-        require_once("./components/ILIAS/COPage_/test/PCMediaObjectTest.php");
+        require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/COPage_/test/PCMediaObjectTest.php");
         $suite->addTestSuite("PCMediaObjectTest");
 
-        require_once("./components/ILIAS/COPage_/test/PCPlaceholderTest.php");
+        require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/COPage_/test/PCPlaceholderTest.php");
         $suite->addTestSuite("PCPlaceHolderTest");
 
-        require_once("./components/ILIAS/COPage_/test/PCPluggedTest.php");
+        require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/COPage_/test/PCPluggedTest.php");
         $suite->addTestSuite("PCPluggedTest");
 
-        require_once("./components/ILIAS/COPage_/test/PCProfileTest.php");
+        require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/COPage_/test/PCProfileTest.php");
         $suite->addTestSuite("PCProfileTest");
 
-        require_once("./components/ILIAS/COPage_/test/PCQuestionTest.php");
+        require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/COPage_/test/PCQuestionTest.php");
         $suite->addTestSuite("PCQuestionTest");
 
-        require_once("./components/ILIAS/COPage_/test/PCQuestionOverviewTest.php");
+        require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/COPage_/test/PCQuestionOverviewTest.php");
         $suite->addTestSuite("PCQuestionOverviewTest");
 
-        require_once("./components/ILIAS/COPage_/test/PCResourcesTest.php");
+        require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/COPage_/test/PCResourcesTest.php");
         $suite->addTestSuite("PCResourcesTest");
 
-        require_once("./components/ILIAS/COPage_/test/PCSkillsTest.php");
+        require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/COPage_/test/PCSkillsTest.php");
         $suite->addTestSuite("PCSkillsTest");
 
-        require_once("./components/ILIAS/COPage_/test/PCSourceCodeTest.php");
+        require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/COPage_/test/PCSourceCodeTest.php");
         $suite->addTestSuite("PCSourceCodeTest");
 
-        require_once("./components/ILIAS/COPage_/test/PCTabsTest.php");
+        require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/COPage_/test/PCTabsTest.php");
         $suite->addTestSuite("PCTabsTest");
 
-        require_once("./components/ILIAS/COPage_/test/PCVerificationTest.php");
+        require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/COPage_/test/PCVerificationTest.php");
         $suite->addTestSuite("PCVerificationTest");
 
-        require_once("./components/ILIAS/COPage_/test/ID/ContentIdManagerTest.php");
+        require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/COPage_/test/ID/ContentIdManagerTest.php");
         $suite->addTestSuite(\ILIAS\COPage\Test\ID\ContentIdManagerTest::class);
 
-        require_once("./components/ILIAS/COPage_/test/Compare/PageCompareTest.php");
+        require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/COPage_/test/Compare/PageCompareTest.php");
         $suite->addTestSuite(\ILIAS\COPage\Test\Compare\PageCompareTest::class);
 
-        require_once("./components/ILIAS/COPage_/test/Page/PageContentManagerTest.php");
+        require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/COPage_/test/Page/PageContentManagerTest.php");
         $suite->addTestSuite(\ILIAS\COPage\Test\Page\PageContentManagerTest::class);
 
-        require_once("./components/ILIAS/COPage_/test/PC/PCFactoryTest.php");
+        require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/COPage_/test/PC/PCFactoryTest.php");
         $suite->addTestSuite(\ILIAS\COPage\Test\PC\PCFactoryTest::class);
 
-        require_once("./components/ILIAS/COPage_/test/PC/PCDefinitionTest.php");
+        require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/COPage_/test/PC/PCDefinitionTest.php");
         $suite->addTestSuite(\ILIAS\COPage\Test\PC\PCDefinitionTest::class);
 
-        require_once("./components/ILIAS/COPage_/test/Link/LinkManagerTest.php");
+        require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/COPage_/test/Link/LinkManagerTest.php");
         $suite->addTestSuite(\ILIAS\COPage\Test\Link\LinkManagerTest::class);
 
-        require_once("./components/ILIAS/COPage_/test/PC/FileList/FileListManagerTest.php");
+        require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/COPage_/test/PC/FileList/FileListManagerTest.php");
         $suite->addTestSuite(\ILIAS\COPage\Test\PC\FileList\FileListManagerTest::class);
 
-        require_once("./components/ILIAS/COPage_/test/Layout/PageLayoutTest.php");
+        require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/COPage_/test/Layout/PageLayoutTest.php");
         $suite->addTestSuite(\ILIAS\COPage\Test\Layout\PageLayoutTest::class);
 
         return $suite;

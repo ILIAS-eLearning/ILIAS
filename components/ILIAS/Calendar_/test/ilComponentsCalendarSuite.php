@@ -16,7 +16,7 @@ class ilComponentsCalendarSuite extends TestSuite
     public static function suite(): self
     {
         $suite = new ilComponentsCalendarSuite();
-        include_once './components/ILIAS/Calendar_/test/class.ilCalendarRecurrenceCalculationTest.php';
+        include_once substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . '/components/ILIAS/Calendar_/test/class.ilCalendarRecurrenceCalculationTest.php';
         $suite->addTestSuite(ilCalendarRecurrenceCalculationTest::class);
         return $suite;
     }

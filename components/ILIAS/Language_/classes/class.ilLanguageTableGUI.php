@@ -19,7 +19,7 @@ declare(strict_types=1);
  ********************************************************************
  */
 
-include_once "./components/ILIAS/Table_/classes/class.ilTable2GUI.php";
+include_once substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/Table_/classes/class.ilTable2GUI.php";
 
 /**
 * TableGUI class for

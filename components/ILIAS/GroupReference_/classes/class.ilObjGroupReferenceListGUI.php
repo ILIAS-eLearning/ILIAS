@@ -2,7 +2,7 @@
 
 /* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once "./components/ILIAS/Group_/classes/class.ilObjGroupListGUI.php";
+include_once substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/Group_/classes/class.ilObjGroupListGUI.php";
 
 /**
  * @author Fabian Wolf <wolf@leifos.com>
@@ -109,7 +109,7 @@ class ilObjGroupReferenceListGUI extends ilObjGroupListGUI
         $this->reference_obj_id = $obj_id;
 
 
-        include_once('./components/ILIAS/ContainerReference_/classes/class.ilContainerReference.php');
+        include_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . '/components/ILIAS/ContainerReference_/classes/class.ilContainerReference.php');
         $target_obj_id = ilContainerReference::_lookupTargetId($obj_id);
 
         $target_ref_ids = ilObject::_getAllReferences($target_obj_id);
@@ -122,7 +122,7 @@ class ilObjGroupReferenceListGUI extends ilObjGroupListGUI
         parent::initItem($target_ref_id, $target_obj_id, $type, $target_title, $target_description);
 
         // general commands array
-        include_once('./components/ILIAS/GroupReference_/classes/class.ilObjGroupReferenceAccess.php');
+        include_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . '/components/ILIAS/GroupReference_/classes/class.ilObjGroupReferenceAccess.php');
         $this->commands = ilObjGroupReferenceAccess::_getCommands($this->reference_ref_id);
 
         if ($ilAccess->checkAccess('write', '', $this->reference_ref_id) or $this->deleted) {

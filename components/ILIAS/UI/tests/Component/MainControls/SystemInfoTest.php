@@ -25,7 +25,7 @@ use ILIAS\UI\Implementation\Component\Symbol\Factory;
 use ILIAS\UI\Implementation\Render\JavaScriptBinding;
 use ILIAS\UI\Component\MainControls\SystemInfo as SystemInfoAlias;
 
-require_once("vendor/composer/vendor/autoload.php");
+require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/vendor/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../Base.php");
 
 /**

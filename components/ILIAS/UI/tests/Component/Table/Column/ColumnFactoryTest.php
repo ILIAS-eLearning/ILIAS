@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-require_once 'components/ILIAS/UI/tests/AbstractFactoryTest.php';
+require_once substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . '/components/ILIAS/UI/tests/AbstractFactoryTest.php';
 
 use ILIAS\UI\Component\Table\Column;
 use ILIAS\Data;

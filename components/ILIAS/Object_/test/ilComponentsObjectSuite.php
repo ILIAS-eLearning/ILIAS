@@ -26,7 +26,7 @@ class ilComponentsObjectSuite extends TestSuite
     {
         $suite = new ilComponentsObjectSuite();
 
-        include_once("./components/ILIAS/Object_/test/ilObjectTest.php");
+        include_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/Object_/test/ilObjectTest.php");
         $suite->addTestSuite("ilObjectTest");
 
         return $suite;

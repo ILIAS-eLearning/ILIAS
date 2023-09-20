@@ -51,7 +51,7 @@ abstract class AbstractOfFinder
     public function __construct()
     {
         $this->root = substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS"));
-        $external_classmap = include(__DIR__ ."/../../../../vendor/composer/vendor/composer/autoload_classmap.php");
+        $external_classmap = include(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/vendor/composer/vendor/composer/autoload_classmap.php");
         $this->classmap = $external_classmap ?: null;
     }
 

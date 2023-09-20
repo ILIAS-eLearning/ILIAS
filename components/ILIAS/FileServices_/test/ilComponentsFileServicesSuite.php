@@ -18,7 +18,7 @@ declare(strict_types=1);
 
 use PHPUnit\Framework\TestSuite;
 
-require_once 'vendor/composer/vendor/autoload.php';
+require_once substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . '/vendor/composer/vendor/autoload.php';
 
 class ilComponentsFileServicesSuite extends TestSuite
 {
@@ -26,7 +26,7 @@ class ilComponentsFileServicesSuite extends TestSuite
     {
         $suite = new self();
 
-        require_once("./components/ILIAS/FileServices_/test/ilServicesFileServicesTest.php");
+        require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/FileServices_/test/ilServicesFileServicesTest.php");
         $suite->addTestSuite("ilServicesFileServicesTest");
 
         return $suite;

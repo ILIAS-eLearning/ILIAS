@@ -56,10 +56,10 @@ class ilObjGroupReferenceGUI extends ilContainerReferenceGUI
      */
     public static function _goto($a_target)
     {
-        include_once('./components/ILIAS/ContainerReference_/classes/class.ilContainerReference.php');
+        include_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . '/components/ILIAS/ContainerReference_/classes/class.ilContainerReference.php');
         $target_ref_id = ilContainerReference::_lookupTargetRefId(ilObject::_lookupObjId($a_target));
 
-        include_once('./components/ILIAS/Group_/classes/class.ilObjGroupGUI.php');
+        include_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . '/components/ILIAS/Group_/classes/class.ilObjGroupGUI.php');
         ilObjGroupGUI::_goto($target_ref_id);
     }
 }

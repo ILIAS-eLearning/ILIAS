@@ -12,7 +12,7 @@ class ilComponentsPrivacySecuritySuite extends TestSuite
     {
         $suite = new ilComponentsPrivacySecuritySuite();
 
-        include_once("./components/ILIAS/PrivacySecurity_/test/ilPrivacySettingsTest.php");
+        include_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/PrivacySecurity_/test/ilPrivacySettingsTest.php");
         $suite->addTestSuite(ilPrivacySettingsTest::class);
         return $suite;
     }

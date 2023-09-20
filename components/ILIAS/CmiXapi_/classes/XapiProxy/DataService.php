@@ -36,7 +36,7 @@ class DataService
 //        define('IL_COOKIE_EXPIRE', 0);
 //        define('IL_COOKIE_PATH', '/');
 //        define('IL_COOKIE_DOMAIN', '');
-        require_once("components/ILIAS/Init_/classes/class.ilInitialisation.php");
+        require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/Init_/classes/class.ilInitialisation.php");
         \ilContext::init(\ilContext::CONTEXT_SCORM);
         \ilInitialisation::initILIAS();
         // Remember original values
@@ -49,7 +49,7 @@ class DataService
         // $_SERVER['REQUEST_URI'] = '';
         // $_SERVER['PHP_SELF']    = '/index.php';
         // $_SERVER['HTTP_HOST']   = self::getIniHost();
-        // require_once "./components/ILIAS/Utilities_/classes/class.ilUtil.php";
+        // require_once substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/Utilities_/classes/class.ilUtil.php";
         // //ilInitialisation::initIliasIniFile();
         // ilInitialisation::initClientIniFile();
         // ilInitialisation::initDatabase();

@@ -27,26 +27,26 @@ class ilComponentsLearningSequenceSuite extends TestSuite
         $suite = new ilComponentsLearningSequenceSuite();
 
         // add each test class of the component
-        require_once("./components/ILIAS/LearningSequence_/test/Activation/ilLearningSequenceActivationTest.php");
-        require_once("./components/ILIAS/LearningSequence_/test/Activation/ilLearningSequenceActivationDBTest.php");
-        require_once("./components/ILIAS/LearningSequence_/test/LearnerProgress/ilLearnerProgressDBTest.php");
-        require_once("./components/ILIAS/LearningSequence_/test/LearnerProgress/ilLSLPTest.php");
-        require_once("./components/ILIAS/LearningSequence_/test/LearnerProgress/ilLSLPEventHandlerTest.php");
-        require_once("./components/ILIAS/LearningSequence_/test/LearnerProgress/LSLearnerItemTest.php");
-        require_once("./components/ILIAS/LearningSequence_/test/LSItems/ilLSItemsDBTest.php");
-        require_once("./components/ILIAS/LearningSequence_/test/LSItems/LSItemTest.php");
-        require_once("./components/ILIAS/LearningSequence_/test/PostConditions/ilLSPostConditionTest.php");
-        require_once("./components/ILIAS/LearningSequence_/test/PostConditions/ilLSPostConditionDBTest.php");
-        require_once("./components/ILIAS/LearningSequence_/test/Settings/ilLearningSequenceSettingsTest.php");
-        require_once("./components/ILIAS/LearningSequence_/test/Settings/ilLearningSequenceSettingsDBTest.php");
-        require_once("./components/ILIAS/LearningSequence_/test/LSControlBuilderTest.php");
-        require_once("./components/ILIAS/LearningSequence_/test/LSLocatorBuilderTest.php");
-        require_once("./components/ILIAS/LearningSequence_/test/LSTOCBuilderTest.php");
-        require_once("./components/ILIAS/LearningSequence_/test/LSUrlBuilderTest.php");
-        require_once("./components/ILIAS/LearningSequence_/test/LSItems/LSItemTest.php");
-        require_once("./components/ILIAS/LearningSequence_/test/LearnerProgress/LSLearnerItemTest.php");
-        require_once("./components/ILIAS/LearningSequence_/test/GlobalSettings/GlobalSettingsTest.php");
-        require_once("./components/ILIAS/LearningSequence_/test/LearnerProgress/ilLSLPEventHandlerTest.php");
+        require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/LearningSequence_/test/Activation/ilLearningSequenceActivationTest.php");
+        require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/LearningSequence_/test/Activation/ilLearningSequenceActivationDBTest.php");
+        require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/LearningSequence_/test/LearnerProgress/ilLearnerProgressDBTest.php");
+        require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/LearningSequence_/test/LearnerProgress/ilLSLPTest.php");
+        require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/LearningSequence_/test/LearnerProgress/ilLSLPEventHandlerTest.php");
+        require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/LearningSequence_/test/LearnerProgress/LSLearnerItemTest.php");
+        require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/LearningSequence_/test/LSItems/ilLSItemsDBTest.php");
+        require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/LearningSequence_/test/LSItems/LSItemTest.php");
+        require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/LearningSequence_/test/PostConditions/ilLSPostConditionTest.php");
+        require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/LearningSequence_/test/PostConditions/ilLSPostConditionDBTest.php");
+        require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/LearningSequence_/test/Settings/ilLearningSequenceSettingsTest.php");
+        require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/LearningSequence_/test/Settings/ilLearningSequenceSettingsDBTest.php");
+        require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/LearningSequence_/test/LSControlBuilderTest.php");
+        require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/LearningSequence_/test/LSLocatorBuilderTest.php");
+        require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/LearningSequence_/test/LSTOCBuilderTest.php");
+        require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/LearningSequence_/test/LSUrlBuilderTest.php");
+        require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/LearningSequence_/test/LSItems/LSItemTest.php");
+        require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/LearningSequence_/test/LearnerProgress/LSLearnerItemTest.php");
+        require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/LearningSequence_/test/GlobalSettings/GlobalSettingsTest.php");
+        require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/LearningSequence_/test/LearnerProgress/ilLSLPEventHandlerTest.php");
 
         $suite->addTestSuite("ilLearningSequenceActivationTest");
         $suite->addTestSuite("ilLearningSequenceActivationDBTest");

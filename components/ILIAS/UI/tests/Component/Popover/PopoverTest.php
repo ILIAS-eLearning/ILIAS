@@ -21,7 +21,7 @@ declare(strict_types=1);
 use ILIAS\UI\Implementation as I;
 use ILIAS\UI\Component\Popover\Popover;
 
-require_once( "./vendor/composer/vendor/autoload.php");
+require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/vendor/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../Base.php");
 
 /**

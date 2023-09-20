@@ -18,7 +18,7 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
-//require_once "components/ILIAS/MetaData_/classes/class.ilMDLanguageItem.php";
+//require_once substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/MetaData_/classes/class.ilMDLanguageItem.php";
 /** @defgroup ModulesScormAicc components/ILIAS/ScormAicc_
  */
 /**
@@ -1230,7 +1230,7 @@ class ilObjSAHSLearningModule extends ilObject
 
 
             // set/copy stylesheet
-            /*		include_once("./components/ILIAS/Style_/Content/classes/class.ilObjStyleSheet.php");
+            /*		include_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/Style_/Content/classes/class.ilObjStyleSheet.php");
                     $style_id = $this->getStyleSheetId();
                     if ($style_id > 0 && !ilObjStyleSheet::_lookupStandard($style_id))
                     {

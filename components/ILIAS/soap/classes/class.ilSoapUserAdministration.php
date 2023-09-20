@@ -27,7 +27,7 @@
  * @version $Id$
  * @package ilias
  */
-include_once './components/ILIAS/soapclasses/class.ilSoapAdministration.php';
+include_once substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . '/components/ILIAS/soapclasses/class.ilSoapAdministration.php';
 
 class ilSoapUserAdministration extends ilSoapAdministration
 {
@@ -48,19 +48,19 @@ class ilSoapUserAdministration extends ilSoapAdministration
         }
 
         // now try authentication
-        include_once './components/ILIAS/Authentication_/classes/Frontend/class.ilAuthFrontendCredentials.php';
+        include_once substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . '/components/ILIAS/Authentication_/classes/Frontend/class.ilAuthFrontendCredentials.php';
         $credentials = new ilAuthFrontendCredentials();
         $credentials->setUsername($username);
         $credentials->setPassword($password);
 
-        include_once './components/ILIAS/Authentication_/classes/Provider/class.ilAuthProviderFactory.php';
+        include_once substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . '/components/ILIAS/Authentication_/classes/Provider/class.ilAuthProviderFactory.php';
         $provider_factory = new ilAuthProviderFactory();
         $providers = $provider_factory->getProviders($credentials);
 
-        include_once './components/ILIAS/Authentication_/classes/class.ilAuthStatus.php';
+        include_once substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . '/components/ILIAS/Authentication_/classes/class.ilAuthStatus.php';
         $status = ilAuthStatus::getInstance();
 
-        include_once './components/ILIAS/Authentication_/classes/Frontend/class.ilAuthFrontendFactory.php';
+        include_once substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . '/components/ILIAS/Authentication_/classes/Frontend/class.ilAuthFrontendFactory.php';
         $frontend_factory = new ilAuthFrontendFactory();
         $frontend_factory->setContext(ilAuthFrontendFactory::CONTEXT_CLI);
         $frontend = $frontend_factory->getFrontend(
@@ -98,7 +98,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
             return $this->raiseError($this->getMessage(), $this->getMessageCode());
         }
 
-        include_once './components/ILIAS/Authentication_/classes/class.ilSession.php';
+        include_once substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . '/components/ILIAS/Authentication_/classes/class.ilSession.php';
         ilSession::setClosingContext(ilSession::SESSION_CLOSE_USER);
         $GLOBALS['DIC']['ilAuthSession']->logout();
         return true;
@@ -155,9 +155,9 @@ class ilSoapUserAdministration extends ilSoapAdministration
             return $this->raiseError($this->getMessage(), $this->getMessageCode());
         }
 
-        include_once './components/ILIAS/User_/classes/class.ilUserImportParser.php';
-        include_once './components/ILIAS/AccessControl_/classes/class.ilObjRole.php';
-        include_once './components/ILIAS/Object_/classes/class.ilObjectFactory.php';
+        include_once substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . '/components/ILIAS/User_/classes/class.ilUserImportParser.php';
+        include_once substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . '/components/ILIAS/AccessControl_/classes/class.ilObjRole.php';
+        include_once substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . '/components/ILIAS/Object_/classes/class.ilObjectFactory.php';
         global $DIC;
 
         $rbacreview = $DIC['rbacreview'];
@@ -365,7 +365,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
 
             if ($a_folder !== self::USER_FOLDER_ID && $a_folder !== 0) {
                 $ilLog->write(__METHOD__ . ': ' . $a_folder);
-                include_once './components/ILIAS/AccessControl_/classes/class.ilObjRole.php';
+                include_once substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . '/components/ILIAS/AccessControl_/classes/class.ilObjRole.php';
                 if (!ilObjRole::_getAssignUsersStatus($a_role)) {
                     $ilLog->write(__METHOD__ . ': No assignment allowed');
                     $checked_roles[$a_role] = false;
@@ -493,14 +493,14 @@ class ilSoapUserAdministration extends ilSoapAdministration
                 }
 
                 $event_obj_id = ilObject::_lookupObjId($ref_id);
-                include_once 'components/ILIAS/Session_/classes/class.ilEventParticipants.php';
+                include_once substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . '/components/ILIAS/Session_/classes/class.ilEventParticipants.php';
                 $event_part = new ilEventParticipants($event_obj_id);
                 $member_ids = array_keys($event_part->getParticipants());
                 $data = ilObjUser::_getUsersForIds($member_ids, $active);
                 break;
         }
 
-        include_once './components/ILIAS/User_/classes/class.ilUserXMLWriter.php';
+        include_once substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . '/components/ILIAS/User_/classes/class.ilUserXMLWriter.php';
 
         $xmlWriter = new ilUserXMLWriter();
         $xmlWriter->setObjects($data);
@@ -525,7 +525,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
             return $this->raiseError($this->getMessage(), $this->getMessageCode());
         }
 
-        include_once './components/ILIAS/AccessControl_/classes/class.ilObjRole.php';
+        include_once substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . '/components/ILIAS/AccessControl_/classes/class.ilObjRole.php';
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
@@ -575,7 +575,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
         }
 
         $data = ilObjUser::_getUsersForRole($role_id, $active);
-        include_once './components/ILIAS/User_/classes/class.ilUserXMLWriter.php';
+        include_once substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . '/components/ILIAS/User_/classes/class.ilUserXMLWriter.php';
 
         $xmlWriter = new ilUserXMLWriter();
         $xmlWriter->setAttachRoles($attachRoles);
@@ -593,8 +593,8 @@ class ilSoapUserAdministration extends ilSoapAdministration
      **/
     private function getImportProtocolAsXML(array $a_array): string
     {
-        include_once './components/ILIAS/soapclasses/class.ilXMLResultSet.php';
-        include_once './components/ILIAS/soapclasses/class.ilXMLResultSetWriter.php';
+        include_once substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . '/components/ILIAS/soapclasses/class.ilXMLResultSet.php';
+        include_once substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . '/components/ILIAS/soapclasses/class.ilXMLResultSetWriter.php';
 
         $xmlResultSet = new ilXMLResultSet();
         $xmlResultSet->addColumn("userid");
@@ -629,8 +629,8 @@ class ilSoapUserAdministration extends ilSoapAdministration
      */
     private function getUserMappingAsXML(array $a_array)
     {
-        include_once './components/ILIAS/soapclasses/class.ilXMLResultSet.php';
-        include_once './components/ILIAS/soapclasses/class.ilXMLResultSetWriter.php';
+        include_once substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . '/components/ILIAS/soapclasses/class.ilXMLResultSet.php';
+        include_once substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . '/components/ILIAS/soapclasses/class.ilXMLResultSetWriter.php';
 
         $xmlResultSet = new ilXMLResultSet();
         $xmlResultSet->addColumn("userid");
@@ -730,7 +730,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
             $data[] = $row;
         }
 
-        include_once './components/ILIAS/User_/classes/class.ilUserXMLWriter.php';
+        include_once substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . '/components/ILIAS/User_/classes/class.ilUserXMLWriter.php';
 
         $xmlWriter = new ilUserXMLWriter();
         $xmlWriter->setAttachRoles($attach_roles);
@@ -819,7 +819,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
 
         $data = ilObjUser::_getUserData($a_user_ids);
 
-        include_once './components/ILIAS/User_/classes/class.ilUserXMLWriter.php';
+        include_once substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . '/components/ILIAS/User_/classes/class.ilUserXMLWriter.php';
         $xmlWriter = new ilUserXMLWriter();
         $xmlWriter->setAttachRoles($attach_roles);
         $xmlWriter->setObjects($data);

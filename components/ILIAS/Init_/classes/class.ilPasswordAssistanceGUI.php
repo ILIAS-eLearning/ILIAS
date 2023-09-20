@@ -306,7 +306,7 @@ class ilPasswordAssistanceGUI
     {
         global $DIC;
 
-        require_once 'cli/inc.pwassist_session_handler.php';
+        require_once substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . '/cli/inc.pwassist_session_handler.php';
 
         // Create a new session id
         // #9700 - this didn't do anything before?!
@@ -414,7 +414,7 @@ class ilPasswordAssistanceGUI
         }
 
         // Retrieve the session, and check if it is valid
-        require_once 'cli/inc.pwassist_session_handler.php';
+        require_once substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . '/cli/inc.pwassist_session_handler.php';
         $pwassist_session = db_pwassist_session_read($pwassist_id);
         if (
             !is_array($pwassist_session) ||
@@ -460,7 +460,7 @@ class ilPasswordAssistanceGUI
      */
     public function submitAssignPasswordForm(): void
     {
-        require_once 'cli/inc.pwassist_session_handler.php';
+        require_once substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . '/cli/inc.pwassist_session_handler.php';
 
         // We need to fetch this before form instantiation
         $pwassist_id = ilUtil::stripSlashes($_POST['key']);
@@ -660,7 +660,7 @@ class ilPasswordAssistanceGUI
     {
         global $DIC;
 
-        require_once 'cli/inc.pwassist_session_handler.php';
+        require_once substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . '/cli/inc.pwassist_session_handler.php';
 
         $login_url = $this->buildUrl(
             'pwassist.php',

@@ -24,8 +24,8 @@ use ILIAS\FileUpload\Location;
 use ILIAS\HTTP\Services as HTTPServices;
 use ILIAS\Refinery\Factory as Refinery;
 
-require_once("./components/ILIAS/Object_/classes/class.ilObjectGUI.php");
-require_once("components/ILIAS/Language_/classes/class.ilObjLanguageAccess.php");
+require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/Object_/classes/class.ilObjectGUI.php");
+require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/Language_/classes/class.ilObjLanguageAccess.php");
 
 
 /**
@@ -106,7 +106,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
     */
     protected function assignObject(): void
     {
-        require_once("components/ILIAS/Language_/classes/class.ilObjLanguageExt.php");
+        require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/Language_/classes/class.ilObjLanguageExt.php");
         $this->object = new ilObjLanguageExt($this->id);
     }
 
@@ -152,7 +152,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
     protected function getViewTable(): \ilLanguageExtTableGUI
     {
         // create and configure the table object
-        include_once "./components/ILIAS/Language_/classes/class.ilLanguageExtTableGUI.php";
+        include_once substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/Language_/classes/class.ilLanguageExtTableGUI.php";
         $table_gui = new ilLanguageExtTableGUI($this, "view", array(
             "langmode" => $this->langmode,
             "lang_key" => $this->object->key,
@@ -454,7 +454,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
 
     protected function initNewImportForm(): ilPropertyFormGUI
     {
-        require_once("./components/ILIAS/Form_/classes/class.ilPropertyFormGUI.php");
+        require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/Form_/classes/class.ilPropertyFormGUI.php");
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this));
         $form->setTitle($this->lng->txt("language_import_file"));
@@ -536,7 +536,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
     */
     public function exportObject(): void
     {
-        require_once("./components/ILIAS/Form_/classes/class.ilPropertyFormGUI.php");
+        require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/Form_/classes/class.ilPropertyFormGUI.php");
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this));
         $form->setTitle($this->lng->txt("language_export_file"));
@@ -628,7 +628,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
     */
     public function maintainObject(): void
     {
-        require_once("./components/ILIAS/Form_/classes/class.ilPropertyFormGUI.php");
+        require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/Form_/classes/class.ilPropertyFormGUI.php");
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this));
         $form->setTitle($this->lng->txt("language_maintenance"));
@@ -789,7 +789,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
         $translate_key = "lang_translate_" . $this->object->key;
         $translate = (bool) $ilSetting->get($translate_key, '0');
         
-        require_once("./components/ILIAS/Form_/classes/class.ilPropertyFormGUI.php");
+        require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/Form_/classes/class.ilPropertyFormGUI.php");
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this));
         $form->setTitle($this->lng->txt("language_settings"));
@@ -831,7 +831,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
         $data[] = $total;
 
         // create and configure the table object
-        include_once "components/ILIAS/Table_/classes/class.ilTable2GUI.php";
+        include_once substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/Table_/classes/class.ilTable2GUI.php";
         $table_gui = new ilTable2GUI($this, "statistics");
         $table_gui->setRowTemplate("tpl.lang_statistics_row.html", "components/ILIAS/Language_");
         $table_gui->setEnableTitle(false);
@@ -1013,7 +1013,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
             $ilCtrl->redirect($this, "view");
         }
 
-        include_once "components/ILIAS/Form_/classes/class.ilPropertyFormGUI.php";
+        include_once substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/Form_/classes/class.ilPropertyFormGUI.php";
         $form = new ilPropertyFormGUI();
         $form->setFormAction($ilCtrl->getFormAction($this, "saveNewEntry"));
         $form->setTitle($this->lng->txt("adm_missing_entry_add"));

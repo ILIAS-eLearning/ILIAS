@@ -21,7 +21,7 @@
     +-----------------------------------------------------------------------------+
 */
 
-include_once "./components/ILIAS/Course_/classes/class.ilObjCourseListGUI.php";
+include_once substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/Course_/classes/class.ilObjCourseListGUI.php";
 
 /**
 *
@@ -128,7 +128,7 @@ class ilObjCourseReferenceListGUI extends ilObjCourseListGUI
         $this->reference_obj_id = $obj_id;
 
 
-        include_once('./components/ILIAS/ContainerReference_/classes/class.ilContainerReference.php');
+        include_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . '/components/ILIAS/ContainerReference_/classes/class.ilContainerReference.php');
         $target_obj_id = ilContainerReference::_lookupTargetId($obj_id);
 
         $target_ref_ids = ilObject::_getAllReferences($target_obj_id);
@@ -141,7 +141,7 @@ class ilObjCourseReferenceListGUI extends ilObjCourseListGUI
         parent::initItem($target_ref_id, $target_obj_id, $type, $target_title, $target_description);
 
         // general commands array
-        include_once('./components/ILIAS/CourseReference_/classes/class.ilObjCourseReferenceAccess.php');
+        include_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . '/components/ILIAS/CourseReference_/classes/class.ilObjCourseReferenceAccess.php');
         $this->commands = ilObjCourseReferenceAccess::_getCommands($this->reference_ref_id);
 
         if ($ilAccess->checkAccess('write', '', $this->reference_ref_id) or $this->deleted) {

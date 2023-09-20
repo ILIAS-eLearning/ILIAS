@@ -20,14 +20,14 @@ declare(strict_types=1);
 
 use org\bovigo\vfs;
 
-require_once 'vendor/composer/vendor/autoload.php';
-require_once 'components/ILIAS/User_/classes/class.ilUserPasswordManager.php';
-require_once 'components/ILIAS/User_/classes/class.ilUserPasswordEncoderFactory.php';
-require_once 'components/ILIAS/Password_/classes/class.ilBasePasswordEncoder.php';
-require_once 'components/ILIAS/Utilities_/classes/class.ilUtil.php';
-require_once 'components/ILIAS/User_/classes/class.ilObjUser.php';
-require_once 'components/ILIAS/User_/exceptions/class.ilUserException.php';
-require_once 'components/ILIAS/User_/test/ilUserBaseTest.php';
+require_once substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . '/vendor/composer/vendor/autoload.php';
+require_once substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . '/components/ILIAS/User_/classes/class.ilUserPasswordManager.php';
+require_once substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . '/components/ILIAS/User_/classes/class.ilUserPasswordEncoderFactory.php';
+require_once substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . '/components/ILIAS/Password_/classes/class.ilBasePasswordEncoder.php';
+require_once substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . '/components/ILIAS/Utilities_/classes/class.ilUtil.php';
+require_once substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . '/components/ILIAS/User_/classes/class.ilObjUser.php';
+require_once substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . '/components/ILIAS/User_/exceptions/class.ilUserException.php';
+require_once substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . '/components/ILIAS/User_/test/ilUserBaseTest.php';
 
 class ilObjUserPasswordTest extends ilUserBaseTest
 {

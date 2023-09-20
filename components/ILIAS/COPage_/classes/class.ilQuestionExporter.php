@@ -16,7 +16,7 @@
  *********************************************************************/
 
 
-require_once("./components/ILIAS/TestQuestionPool_/classes/class.assQuestionGUI.php");
+require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/TestQuestionPool_/classes/class.assQuestionGUI.php");
 
 /**
  * Scorm 2004 Question Exporter

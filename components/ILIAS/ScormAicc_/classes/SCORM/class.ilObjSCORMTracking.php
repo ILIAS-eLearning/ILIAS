@@ -143,7 +143,7 @@ class ilObjSCORMTracking
 
         // update status
         // if ($b_updateStatus == true) {
-        // include_once("./components/ILIAS/Tracking_/classes/class.ilLPStatusWrapper.php");
+        // include_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/Tracking_/classes/class.ilLPStatusWrapper.php");
         // ilLPStatusWrapper::_updateStatus($obj_id, $user_id);
         // }
 

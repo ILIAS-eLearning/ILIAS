@@ -30,7 +30,7 @@ use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper;
 use ILIAS\DI\LoggingServices;
 use ILIAS\Skill\Service\SkillService;
 
-require_once "./components/ILIAS/Test_/classes/inc.AssessmentConstants.php";
+require_once substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/Test_/classes/inc.AssessmentConstants.php";
 
 /**
 * Service GUI class for tests. This class is the parent class for all

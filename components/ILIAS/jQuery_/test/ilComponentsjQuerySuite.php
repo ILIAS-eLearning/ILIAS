@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 use PHPUnit\Framework\TestSuite;
 
-require_once 'vendor/composer/vendor/autoload.php';
+require_once substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . '/vendor/composer/vendor/autoload.php';
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -31,7 +31,7 @@ class ilComponentsjQuerySuite extends TestSuite
     {
         $suite = new self();
 
-        require_once("./components/ILIAS/jQuery_/test/PathTest.php");
+        require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/jQuery_/test/PathTest.php");
         $suite->addTestSuite("PathTest");
 
         return $suite;

@@ -68,15 +68,15 @@ class ilLanguageDetectorFactory
     {
         switch ($type) {
             case self::HTTP_REQUEST_DETECTOR:
-                require_once "components/ILIAS/Language_/classes/class.ilHttpRequestsLanguageDetector.php";
+                require_once substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/Language_/classes/class.ilHttpRequestsLanguageDetector.php";
                 return new ilHttpRequestsLanguageDetector($this->request_information["HTTP_ACCEPT_LANGUAGE"]);
 
             case self::DEFAULT_DETECTOR:
-                require_once "components/ILIAS/Language_/classes/class.ilDefaultLanguageDetector.php";
+                require_once substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/Language_/classes/class.ilDefaultLanguageDetector.php";
                 return new ilDefaultLanguageDetector($this->client_ini);
         }
 
-        require_once "components/ILIAS/Language_/exceptions/class.ilLanguageException.php";
+        require_once substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/Language_/exceptions/class.ilLanguageException.php";
         throw new ilLanguageException(__METHOD__ . sprintf("Cannot create language detector instance for type %s!", $type));
     }
 }

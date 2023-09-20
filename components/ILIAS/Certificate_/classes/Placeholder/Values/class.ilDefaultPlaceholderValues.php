@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-require_once 'components/ILIAS/Calendar_/classes/class.ilDateTime.php'; // Required because of global contant IL_CAL_DATE
+require_once substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . '/components/ILIAS/Calendar_/classes/class.ilDateTime.php'; // Required because of global contant IL_CAL_DATE
 
 /**
  * Collection of basic placeholder values that can be used

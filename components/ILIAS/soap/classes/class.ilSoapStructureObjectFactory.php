@@ -69,19 +69,19 @@ class ilSoapStructureObjectFactory
         switch ($type) {
             case "glo":
             case "lm":
-                include_once "./components/ILIAS/soapclasses/class.ilSoapRepositoryStructureObject.php";
+                include_once substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/soapclasses/class.ilSoapRepositoryStructureObject.php";
                 return "ilSoapRepositoryStructureObject";
             case "st":
-                include_once "./components/ILIAS/soapclasses/class.ilSoapLMChapterStructureObject.php";
+                include_once substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/soapclasses/class.ilSoapLMChapterStructureObject.php";
                 return "ilSoapLMChapterStructureObject";
             case "pg":
-                include_once "./components/ILIAS/soapclasses/class.ilSoapLMPageStructureObject.php";
+                include_once substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/soapclasses/class.ilSoapLMPageStructureObject.php";
                 return "ilSoapLMPageStructureObject";
             case "git":
-                include_once "./components/ILIAS/soapclasses/class.ilSoapGLOTermStructureObject.php";
+                include_once substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/soapclasses/class.ilSoapGLOTermStructureObject.php";
                 return "ilSoapGLOTermStructureObject";
             case "term":
-                include_once "./components/ILIAS/soapclasses/class.ilSoapGLOTermDefinitionStructureObject.php";
+                include_once substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/soapclasses/class.ilSoapGLOTermDefinitionStructureObject.php";
                 return "ilSoapGLOTermDefinitionStructureObject";
         }
 

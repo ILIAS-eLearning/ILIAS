@@ -871,7 +871,7 @@ class ilObjLTIConsumer extends ilObject2
         }
 
         if ($this->getProvider()->isGradeSynchronization()) {
-            include_once("components/ILIAS/LTIConsumer_/classes/class.ilLTIConsumerGradeService.php");
+            include_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/LTIConsumer_/classes/class.ilLTIConsumerGradeService.php");
             $gradeservice = new ilLTIConsumerGradeService();
             $launch_vars['custom_lineitem_url'] = self::getIliasHttpPath() . "/components/ILIAS/LTIConsumer_/ltiservices.php/gradeservice/" . $contextId . "/lineitems/" . $this->id . "/lineitem";
 

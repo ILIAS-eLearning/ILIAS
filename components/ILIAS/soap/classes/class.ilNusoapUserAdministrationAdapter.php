@@ -21,7 +21,7 @@
  * @version $Id$
  * @package ilias
  */
-require_once('./vendor/composer/vendor/autoload.php');
+require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . '/vendor/composer/vendor/autoload.php');
 
 use ILIAS\BackgroundTasks\Implementation\TaskManager\AsyncTaskManager;
 use ILIAS\OrgUnit\Webservices\SOAP\AddUserIdToPositionInOrgUnit;
@@ -36,10 +36,10 @@ use ILIAS\OrgUnit\Webservices\SOAP\SuperiorPositionId;
 use ILIAS\OrgUnit\Webservices\SOAP\UserIdsOfPosition;
 use ILIAS\OrgUnit\Webservices\SOAP\UserIdsOfPositionAndOrgUnit;
 
-include_once './components/ILIAS/soaplib/nusoap.php';
-include_once './components/ILIAS/soapinclude/inc.soap_functions.php';
-require_once('./components/ILIAS/WebServices_/SOAP/classes/class.ilSoapHook.php');
-require_once('./components/ILIAS/Init_/classes/class.ilInitialisation.php');
+include_once substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . '/components/ILIAS/soaplib/nusoap.php';
+include_once substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . '/components/ILIAS/soapinclude/inc.soap_functions.php';
+require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . '/components/ILIAS/WebServices_/SOAP/classes/class.ilSoapHook.php');
+require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . '/components/ILIAS/Init_/classes/class.ilInitialisation.php');
 
 class ilNusoapUserAdministrationAdapter
 {

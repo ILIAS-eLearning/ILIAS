@@ -18,7 +18,7 @@
 
 use PHPUnit\Framework\TestCase;
 
-require_once("./components/ILIAS/MediaObjects_/ImageMap/class.ilMapArea.php");
+require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/MediaObjects_/ImageMap/class.ilMapArea.php");
 
 /**
  * @author Alexander Killing <killing@leifos.de>

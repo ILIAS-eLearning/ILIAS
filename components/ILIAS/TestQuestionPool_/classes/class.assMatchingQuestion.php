@@ -21,7 +21,7 @@ declare(strict_types=1);
 use ILIAS\Refinery\Random\Group as RandomGroup;
 use ILIAS\Refinery\Random\Seed\RandomSeed;
 
-require_once './components/ILIAS/Test_/classes/inc.AssessmentConstants.php';
+require_once substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . '/components/ILIAS/Test_/classes/inc.AssessmentConstants.php';
 
 /**
  * Class for matching questions

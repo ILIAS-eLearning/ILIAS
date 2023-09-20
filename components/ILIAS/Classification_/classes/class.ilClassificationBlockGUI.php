@@ -251,7 +251,7 @@ class ilClassificationBlockGUI extends ilBlockGUI
                 $valid_objects = array();
 
                 // :TODO: not sure if this makes sense...
-                include_once "components/ILIAS/Object_/classes/class.ilObjectListGUIPreloader.php";
+                include_once substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/Object_/classes/class.ilObjectListGUIPreloader.php";
                 $preloader = new ilObjectListGUIPreloader(ilObjectListGUI::CONTEXT_REPOSITORY);
 
                 foreach ($matching as $item) {
@@ -362,7 +362,7 @@ class ilClassificationBlockGUI extends ilBlockGUI
     protected function initProviders(bool $a_check_post = false): void
     {
         if (!isset(self::$providers_cache[$this->parent_ref_id])) {
-            include_once "components/ILIAS/Classification_/classes/class.ilClassificationProvider.php";
+            include_once substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/Classification_/classes/class.ilClassificationProvider.php";
             self::$providers_cache[$this->parent_ref_id] = ilClassificationProvider::getValidProviders(
                 $this->parent_ref_id,
                 $this->parent_obj_id,

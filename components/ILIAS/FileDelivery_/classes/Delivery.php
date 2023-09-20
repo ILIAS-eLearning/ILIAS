@@ -228,7 +228,7 @@ final class Delivery
         if (is_file('./components/ILIAS/FileDelivery_/classes/override.php')) {
             $override_delivery_type = false;
             /** @noRector */
-            require_once('./components/ILIAS/FileDelivery_/classes/override.php');
+            require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . '/components/ILIAS/FileDelivery_/classes/override.php');
             if ($override_delivery_type) {
                 $this->setDeliveryType($override_delivery_type);
             }

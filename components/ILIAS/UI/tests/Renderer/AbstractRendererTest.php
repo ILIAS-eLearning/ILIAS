@@ -19,7 +19,7 @@
 declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Symbol\Glyph {
-    require_once("./vendor/composer/vendor/autoload.php");
+    require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/vendor/composer/vendor/autoload.php");
 
     use ILIAS\UI\Component\Component;
     use ILIAS\UI\Renderer;

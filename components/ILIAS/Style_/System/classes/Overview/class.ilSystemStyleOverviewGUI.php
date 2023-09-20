@@ -443,7 +443,7 @@ class ilSystemStyleOverviewGUI
 
     protected function getCreationFormsHTML(array $a_forms): string
     {
-        include_once('./components/ILIAS/Accordion_/classes/class.ilAccordionGUI.php');
+        include_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . '/components/ILIAS/Accordion_/classes/class.ilAccordionGUI.php');
 
         $acc = new ilAccordionGUI();
         $acc->setBehaviour(ilAccordionGUI::FIRST_OPEN);

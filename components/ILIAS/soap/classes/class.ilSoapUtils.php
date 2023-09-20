@@ -25,7 +25,7 @@ declare(strict_types=1);
 
 use ilias\components\ILIAS\RemoteWiki_\Registration_\classes\ilRegistrationSettings;
 
-include_once './components/ILIAS/soapclasses/class.ilSoapAdministration.php';
+include_once substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . '/components/ILIAS/soapclasses/class.ilSoapAdministration.php';
 
 class ilSoapUtils extends ilSoapAdministration
 {
@@ -51,7 +51,7 @@ class ilSoapUtils extends ilSoapAdministration
             return $this->raiseError($this->getMessage(), $this->getMessageCode());
         }
 
-        include_once "./components/ILIAS/MediaObjects_/classes/class.ilObjMediaObject.php";
+        include_once substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/MediaObjects_/classes/class.ilObjMediaObject.php";
         return ilObjMediaObject::_saveTempFileAsMediaObject($name, $tmp_name);
     }
 
@@ -67,7 +67,7 @@ class ilSoapUtils extends ilSoapAdministration
             return $this->raiseError($this->getMessage(), $this->getMessageCode());
         }
 
-        include_once "./components/ILIAS/MediaObjects_/classes/class.ilObjMediaObject.php";
+        include_once substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/MediaObjects_/classes/class.ilObjMediaObject.php";
         return ilObjMediaObject::_getMobsOfObject($a_type, $a_id);
     }
 
@@ -90,7 +90,7 @@ class ilSoapUtils extends ilSoapAdministration
         $ilLog = $DIC['ilLog'];
         $ilUser = $DIC['ilUser'];
 
-        include_once('components/ILIAS/CopyWizard_/classes/class.ilCopyWizardOptions.php');
+        include_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . '/components/ILIAS/CopyWizard_/classes/class.ilCopyWizardOptions.php');
         $cp_options = ilCopyWizardOptions::_getInstance($copy_identifier);
 
         // Check owner of copy procedure
@@ -151,7 +151,7 @@ class ilSoapUtils extends ilSoapAdministration
 
         $ilUser = $DIC->user();
 
-        include_once('components/ILIAS/CopyWizard_/classes/class.ilCopyWizardOptions.php');
+        include_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . '/components/ILIAS/CopyWizard_/classes/class.ilCopyWizardOptions.php');
         $cp_options = ilCopyWizardOptions::_getInstance($copy_identifier);
 
         // Check owner of copy procedure
@@ -263,7 +263,7 @@ class ilSoapUtils extends ilSoapAdministration
         $cp_options->dropFirstNode();
         if ($cp_options->isSOAPEnabled()) {
             // Start next soap call
-            include_once 'components/ILIAS/WebServices_/SOAP/classes/class.ilSoapClient.php';
+            include_once substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . '/components/ILIAS/WebServices_/SOAP/classes/class.ilSoapClient.php';
             $soap_client = new ilSoapClient();
             $soap_client->setResponseTimeout(1);
             $soap_client->enableWSDL(true);
@@ -272,7 +272,7 @@ class ilSoapUtils extends ilSoapAdministration
         } else {
             ilLoggerFactory::getLogger('obj')->warning('SOAP clone call failed. Calling clone method manually');
             $cp_options->read();
-            include_once('./components/ILIAS/soapinclude/inc.soap_functions.php');
+            include_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . '/components/ILIAS/soapinclude/inc.soap_functions.php');
             $res = ilSoapFunctions::ilClone($sid, $cp_options->getCopyId());
         }
     }
@@ -283,7 +283,7 @@ class ilSoapUtils extends ilSoapAdministration
 
         if ($cp_options->isSOAPEnabled()) {
             // Start next soap call
-            include_once 'components/ILIAS/WebServices_/SOAP/classes/class.ilSoapClient.php';
+            include_once substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . '/components/ILIAS/WebServices_/SOAP/classes/class.ilSoapClient.php';
             $soap_client = new ilSoapClient();
             $soap_client->setResponseTimeout(1);
             $soap_client->enableWSDL(true);
@@ -292,7 +292,7 @@ class ilSoapUtils extends ilSoapAdministration
         } else {
             ilLoggerFactory::getLogger('obj')->warning('SOAP clone call failed. Calling clone method manually');
             $cp_options->read();
-            include_once('./components/ILIAS/soapinclude/inc.soap_functions.php');
+            include_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . '/components/ILIAS/soapinclude/inc.soap_functions.php');
             $res = ilSoapFunctions::ilCloneDependencies($sid, $cp_options->getCopyId());
         }
     }
@@ -334,7 +334,7 @@ class ilSoapUtils extends ilSoapAdministration
         }
 
         // rbac log
-        include_once "components/ILIAS/AccessControl_/classes/class.ilRbacLog.php";
+        include_once substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/AccessControl_/classes/class.ilRbacLog.php";
         $rbac_log_roles = $rbacreview->getParentRoleIds($new_obj->getRefId(), false);
         $rbac_log = ilRbacLog::gatherFaPa($new_obj->getRefId(), array_keys($rbac_log_roles), true);
         ilRbacLog::add(ilRbacLog::COPY_OBJECT, $new_obj->getRefId(), $rbac_log, true);
@@ -449,7 +449,7 @@ class ilSoapUtils extends ilSoapAdministration
         }
 
         // rbac log
-        include_once "components/ILIAS/AccessControl_/classes/class.ilRbacLog.php";
+        include_once substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/AccessControl_/classes/class.ilRbacLog.php";
         $rbac_log_roles = $rbacreview->getParentRoleIds($new_ref_id, false);
         $rbac_log = ilRbacLog::gatherFaPa($new_ref_id, array_keys($rbac_log_roles), true);
         ilRbacLog::add(ilRbacLog::LINK_OBJECT, $new_ref_id, $rbac_log, true);
@@ -476,7 +476,7 @@ class ilSoapUtils extends ilSoapAdministration
         $ilLog = $DIC->logger()->user();
 
         $ilLog->debug('Started deletion of inactive user objects with expired confirmation hash values (dual opt in) ...');
-        require_once 'components/ILIAS/Registration_/classes/class.ilRegistrationSettings.php';
+        require_once substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . '/components/ILIAS/Registration_/classes/class.ilRegistrationSettings.php';
         $oRegSettigs = new ilRegistrationSettings();
         $query = '';
 

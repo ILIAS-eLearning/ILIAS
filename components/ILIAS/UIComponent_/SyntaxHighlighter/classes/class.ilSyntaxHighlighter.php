@@ -114,7 +114,7 @@ class ilSyntaxHighlighter
 
     public function highlight(string $a_code): string
     {
-        include_once("./vendor/composer/vendor/geshi/geshi/src/geshi.php");
+        include_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/vendor/composer/vendor/geshi/geshi/src/geshi.php");
         $geshi = new Geshi(html_entity_decode($a_code), $this->lang);
 
         //var_dump($geshi->get_supported_languages()); exit;

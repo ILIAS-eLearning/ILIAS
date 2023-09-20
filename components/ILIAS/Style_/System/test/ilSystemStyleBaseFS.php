@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-require_once('vendor/composer/vendor/autoload.php');
+require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . '/vendor/composer/vendor/autoload.php');
 
 use PHPUnit\Framework\TestCase;
 
@@ -44,7 +44,7 @@ abstract class ilSystemStyleBaseFS extends TestCase
         }
 
         /** @noRector */
-        include_once('./components/ILIAS/UI/tests/Base.php');
+        include_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . '/components/ILIAS/UI/tests/Base.php');
         $this->lng = new ilLanguageMock();
 
         $this->file_system = new ilFileSystemHelper($this->lng, $this->message_stack);

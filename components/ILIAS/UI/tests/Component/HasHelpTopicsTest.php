@@ -23,7 +23,7 @@ use ILIAS\UI\Implementation\Component\HasHelpTopics;
 use ILIAS\UI\Component\HasHelpTopics as IHasHelpTopics;
 use ILIAS\UI\Help\Topic;
 
-require_once("vendor/composer/vendor/autoload.php");
+require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/vendor/composer/vendor/autoload.php");
 
 /**
  * @author  Richard Klees <richard.klees@concepts-and-training.de>

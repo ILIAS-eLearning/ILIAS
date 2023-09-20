@@ -13,7 +13,7 @@ class ilComponentsContextSuite extends TestSuite
     {
         $suite = new ilComponentsContextSuite();
 
-        require_once("components/ILIAS/Context_/test/ilContextTest.php");
+        require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/Context_/test/ilContextTest.php");
 
         $suite->addTestSuite("ilContextTest");
 

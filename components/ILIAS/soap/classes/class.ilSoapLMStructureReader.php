@@ -21,8 +21,8 @@
    +-----------------------------------------------------------------------------+
   */
 
-include_once "./components/ILIAS/soapclasses/class.ilSoapStructureReader.php";
-include_once "./components/ILIAS/soapclasses/class.ilSoapStructureObjectFactory.php";
+include_once substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/soapclasses/class.ilSoapStructureReader.php";
+include_once substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/soapclasses/class.ilSoapStructureObjectFactory.php";
 
 /**
  * class for reading a learning module as structure object

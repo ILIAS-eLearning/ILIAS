@@ -18,8 +18,8 @@
 
 namespace ILIAS\OrgUnit\Webservices\SOAP;
 
-require_once('./components/ILIAS/soapclasses/class.ilSoapAdministration.php');
-require_once('./components/ILIAS/WebServices_/SOAP/classes/class.ilSoapPluginException.php');
+require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . '/components/ILIAS/soapclasses/class.ilSoapAdministration.php');
+require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . '/components/ILIAS/WebServices_/SOAP/classes/class.ilSoapPluginException.php');
 
 use ilOrgUnitSOAPServicesPlugin;
 use ilSoapAdministration;

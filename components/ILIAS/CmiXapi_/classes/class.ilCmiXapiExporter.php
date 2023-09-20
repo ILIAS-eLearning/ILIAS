@@ -44,7 +44,7 @@ class ilCmiXapiExporter extends ilXmlExporter
 
         /*
         $this->main_object = $a_main_object;
-        include_once("./components/ILIAS/CmiXapi_/classes/class.ilCmiXapiDataSet.php");
+        include_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/CmiXapi_/classes/class.ilCmiXapiDataSet.php");
         $this->dataset = new ilCmiXapiDataSet($this->main_object->getRefId());
         $this->getXmlRepresentation(self::ENTITY, self::SCHEMA_VERSION, $this->main_object->getRefId());
         */

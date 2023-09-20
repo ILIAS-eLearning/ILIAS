@@ -23,7 +23,7 @@ use ILIAS\UI\Implementation\Component\MainControls\ModeInfo;
 use ILIAS\UI\Implementation\Component\SignalGenerator;
 use ILIAS\UI\Implementation\Component\Symbol\Factory;
 
-require_once("vendor/composer/vendor/autoload.php");
+require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/vendor/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../Base.php");
 
 /**

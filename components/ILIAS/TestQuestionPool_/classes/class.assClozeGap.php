@@ -18,7 +18,7 @@
 use ILIAS\Refinery\Transformation;
 use ILIAS\Refinery\Random\Transformation\ShuffleTransformation;
 
-require_once './components/ILIAS/Test_/classes/inc.AssessmentConstants.php';
+require_once substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . '/components/ILIAS/Test_/classes/inc.AssessmentConstants.php';
 
 /**
  * Class for cloze question gaps

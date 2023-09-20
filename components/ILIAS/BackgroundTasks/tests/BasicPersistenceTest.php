@@ -37,9 +37,9 @@ use ILIAS\BackgroundTasks\Dependencies\Injector;
 use Mockery;
 use PHPUnit\Framework\TestCase;
 
-require_once("vendor/composer/vendor/autoload.php");
-require_once("./components/ILIAS/ActiveRecord_/Connector/class.arConnector.php");
-require_once("./components/ILIAS/ActiveRecord_/Connector/class.arConnectorMap.php");
+require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/vendor/composer/vendor/autoload.php");
+require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/ActiveRecord_/Connector/class.arConnector.php");
+require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/ActiveRecord_/Connector/class.arConnectorMap.php");
 
 /**
  * Class BackgroundTaskTest

@@ -22,7 +22,7 @@ use ILIAS\TA\Questions\assQuestionSuggestedSolutionsDatabaseRepository;
 use ILIAS\DI\Container;
 use Psr\Http\Message\ServerRequestInterface;
 
-require_once './components/ILIAS/Test_/classes/inc.AssessmentConstants.php';
+require_once substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . '/components/ILIAS/Test_/classes/inc.AssessmentConstants.php';
 
 /**
  * Abstract basic class which is to be extended by the concrete assessment question type classes

@@ -19,8 +19,8 @@
 
 declare(strict_types=1);
 
-include_once("./components/ILIAS/UICore_/lib/html-it/IT.php");
-include_once("./components/ILIAS/UICore_/lib/html-it/ITX.php");
+include_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/UICore_/lib/html-it/IT.php");
+include_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/UICore_/lib/html-it/ITX.php");
 
 class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
 {
@@ -639,7 +639,7 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
     {
         $html = "";
 
-        include_once("./components/ILIAS/UIComponent_/classes/class.ilUIHookProcessor.php");
+        include_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/UIComponent_/classes/class.ilUIHookProcessor.php");
         $html = $this->locator->getHTML();
         $uip = new ilUIHookProcessor(
             "components/ILIAS/Locator_",

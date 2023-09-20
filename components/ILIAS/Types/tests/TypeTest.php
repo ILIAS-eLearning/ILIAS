@@ -5,8 +5,8 @@ use ILIAS\BackgroundTasks\Types\SingleType;
 use ILIAS\BackgroundTasks\Types\TupleType;
 use PHPUnit\Framework\TestCase;
 
-require_once("vendor/composer/vendor/autoload.php");
-require_once("./components/ILIAS/User_/classes/class.ilObjUser.php");
+require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/vendor/composer/vendor/autoload.php");
+require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/User_/classes/class.ilObjUser.php");
 
 /**
  * Class BackgroundTaskTest

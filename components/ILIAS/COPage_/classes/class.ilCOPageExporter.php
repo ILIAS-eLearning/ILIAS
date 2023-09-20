@@ -63,7 +63,7 @@ class ilCOPageExporter extends ilXmlExporter
         foreach ($component_repository->getPluginSlotById("pgcp")->getActivePlugins() as $plugin) {
             $plugin_name = $plugin->getName();
             if ($plugin->supportsExport()) {
-                require_once('components/SERVICEPROVIDER/COPage/PageComponent/'
+                require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . '/components/SERVICEPROVIDER/COPage/PageComponent/'
                     . $plugin_name . '/classes/class.il' . $plugin_name . 'Exporter.php');
 
                 $this->plugin_dependencies[$plugin_name] = array(

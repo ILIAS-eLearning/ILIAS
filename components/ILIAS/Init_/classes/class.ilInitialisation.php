@@ -29,7 +29,7 @@ use ILIAS\FileUpload\Processor\InsecureFilenameSanitizerPreProcessor;
 use ILIAS\FileUpload\Processor\SVGBlacklistPreProcessor;
 use ilias\components\ILIAS\RemoteWiki_\Registration_\classes\ilAccountRegistrationGUI;
 
-require_once("vendor/composer/vendor/autoload.php");
+require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/vendor/composer/vendor/autoload.php");
 
 // needed for slow queries, etc.
 if (!isset($GLOBALS['ilGlobalStartTime']) || !$GLOBALS['ilGlobalStartTime']) {

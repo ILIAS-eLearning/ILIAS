@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'vendor/composer/vendor/autoload.php';
+require_once substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . '/vendor/composer/vendor/autoload.php';
 
 use ILIAS\Data;
 use PHPUnit\Framework\TestCase;

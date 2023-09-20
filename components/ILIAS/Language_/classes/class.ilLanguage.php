@@ -104,7 +104,7 @@ class ilLanguage
             $this->lang_key = $this->lang_default;
         }
 
-        require_once("./components/ILIAS/Language_/classes/class.ilCachedLanguage.php");
+        require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/Language_/classes/class.ilCachedLanguage.php");
         $this->global_cache = ilCachedLanguage::getInstance($this->lang_key);
         if ($this->global_cache->isActive()) {
             $this->cached_modules = $this->global_cache->getTranslations();
@@ -291,7 +291,7 @@ class ilLanguage
      */
     public static function _getInstalledLanguages(): array
     {
-        include_once "./components/ILIAS/Object_/classes/class.ilObject.php";
+        include_once substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/Object_/classes/class.ilObject.php";
         $langlist = ilObject::_getObjectsByType("lng");
 
         $languages = [];

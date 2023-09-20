@@ -49,7 +49,7 @@ if ($request_wrapper->has('new_footer_2_ui')
 
 function renderFooterWithModalsInFullscreenMode(Container $dic): string
 {
-    require_once("components/ILIAS/UI/src/examples/MainControls/Footer/footer.php");
+    require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/UI/src/examples/MainControls/Footer/footer.php");
 
     $f = $dic->ui()->factory();
     $renderer = $dic->ui()->renderer();

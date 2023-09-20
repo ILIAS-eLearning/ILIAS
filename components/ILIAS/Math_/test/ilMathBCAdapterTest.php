@@ -16,7 +16,7 @@
  *
  *********************************************************************/
 
-require_once 'components/ILIAS/Math_/test/ilMathBaseAdapterTest.php';
+require_once substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . '/components/ILIAS/Math_/test/ilMathBaseAdapterTest.php';
 
 class ilMathBCAdapterTest extends ilMathBaseAdapterTest
 {

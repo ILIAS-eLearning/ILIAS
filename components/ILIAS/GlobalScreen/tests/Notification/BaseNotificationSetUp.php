@@ -31,7 +31,7 @@ use PHPUnit\Framework\TestCase;
 use ILIAS\UI\Implementation\Component as I;
 use ILIAS\UI\Implementation\Component\Counter\Factory;
 
-require_once('./vendor/composer/vendor/autoload.php');
+require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . '/vendor/composer/vendor/autoload.php');
 require_once(__DIR__ . "/../../../UI/tests/Base.php");
 
 /**

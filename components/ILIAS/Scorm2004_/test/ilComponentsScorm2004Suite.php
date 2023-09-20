@@ -64,7 +64,7 @@ class ilComponentsScorm2004Suite extends TestSuite
         }
 
         if (defined('ILIAS_PHPUNIT_CONTEXT')) {
-//            include_once("./components/ILIAS/PHPUnit/classes/class.ilUnitUtil.php");
+//            include_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/PHPUnit/classes/class.ilUnitUtil.php");
 //            ilUnitUtil::performInitialisation();
         } else {
             chdir(__DIR__);

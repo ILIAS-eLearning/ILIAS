@@ -120,13 +120,13 @@ class ilCalendarRemoteAccessHandler
 
     protected function initIlias()
     {
-        include_once './components/ILIAS/Context_/classes/class.ilContext.php';
+        include_once substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . '/components/ILIAS/Context_/classes/class.ilContext.php';
         ilContext::init(ilContext::CONTEXT_ICAL);
 
-        include_once './components/ILIAS/Authentication_/classes/class.ilAuthFactory.php';
+        include_once substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . '/components/ILIAS/Authentication_/classes/class.ilAuthFactory.php';
         ilAuthFactory::setContext(ilAuthFactory::CONTEXT_CALENDAR_TOKEN);
 
-        include_once './components/ILIAS/Init_/classes/class.ilInitialisation.php';
+        include_once substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . '/components/ILIAS/Init_/classes/class.ilInitialisation.php';
         ilInitialisation::initILIAS();
 
         global $DIC;

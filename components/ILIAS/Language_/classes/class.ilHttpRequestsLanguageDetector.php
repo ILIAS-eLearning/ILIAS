@@ -19,7 +19,7 @@ declare(strict_types=1);
  ********************************************************************
  */
 
-require_once "components/ILIAS/Language_/interfaces/interface.ilLanguageDetector.php";
+require_once substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/Language_/interfaces/interface.ilLanguageDetector.php";
 
 /**
  * Class ilHttpRequestsLanguageDetector
@@ -61,7 +61,7 @@ class ilHttpRequestsLanguageDetector implements ilLanguageDetector
             }
         }
 
-        require_once "components/ILIAS/Language_/exceptions/class.ilLanguageException.php";
+        require_once substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/Language_/exceptions/class.ilLanguageException.php";
         throw new ilLanguageException("Could not extract any language information from request.");
     }
 }

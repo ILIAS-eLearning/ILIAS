@@ -24,12 +24,12 @@ class ilComponentsWebResourceSuite extends TestSuite
 {
     public static function suite(): self
     {
-        require_once("./components/ILIAS/WebResource_/test/ilWebResourceParameterTest.php");
-        require_once("./components/ILIAS/WebResource_/test/ilWebResourceItemsContainerTest.php");
-        require_once("./components/ILIAS/WebResource_/test/ilWebResourceDatabaseRepositoryTest.php");
-        require_once("./components/ILIAS/WebResource_/test/ilWebResourceItemTest.php");
-        require_once("./components/ILIAS/WebResource_/test/ilWebResourceItemInternalTest.php");
-        require_once("./components/ILIAS/WebResource_/test/ilWebResourceItemExternalTest.php");
+        require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/WebResource_/test/ilWebResourceParameterTest.php");
+        require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/WebResource_/test/ilWebResourceItemsContainerTest.php");
+        require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/WebResource_/test/ilWebResourceDatabaseRepositoryTest.php");
+        require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/WebResource_/test/ilWebResourceItemTest.php");
+        require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/WebResource_/test/ilWebResourceItemInternalTest.php");
+        require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/WebResource_/test/ilWebResourceItemExternalTest.php");
 
         $suite = new self();
         $suite->addTestSuite(ilWebResourceParameterTest::class);

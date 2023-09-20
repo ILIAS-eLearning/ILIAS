@@ -23,7 +23,7 @@ use Sabre\DAV\INode;
 use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\Exception\Forbidden;
 
-require_once "./components/ILIAS/WebDAV_/test/webdav_overrides.php";
+require_once substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/WebDAV_/test/webdav_overrides.php";
 
 class ilDAVContainerTest extends TestCase
 {

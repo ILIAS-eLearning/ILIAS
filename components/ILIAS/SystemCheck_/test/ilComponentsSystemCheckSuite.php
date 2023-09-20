@@ -12,7 +12,7 @@ class ilComponentsSystemCheckSuite extends TestSuite
     {
         $suite = new ilComponentsSystemCheckSuite();
 
-        include_once("./components/ILIAS/SystemCheck_/test/ilSystemCheckTaskTest.php");
+        include_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/SystemCheck_/test/ilSystemCheckTaskTest.php");
         $suite->addTestSuite(ilSystemCheckTaskTest::class);
         return $suite;
     }

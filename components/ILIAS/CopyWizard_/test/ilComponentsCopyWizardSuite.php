@@ -12,7 +12,7 @@ class ilComponentsCopyWizardSuite extends TestSuite
     {
         $suite = new ilComponentsCopyWizardSuite();
 
-        include_once("./components/ILIAS/CopyWizard_/test/ilCopyWizardOptionsTest.php");
+        include_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/CopyWizard_/test/ilCopyWizardOptionsTest.php");
         $suite->addTestSuite(ilCopyWizardOptionsTest::class);
         return $suite;
     }

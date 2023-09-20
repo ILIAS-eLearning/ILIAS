@@ -11,7 +11,7 @@ class ilComponentsAdvancedMetaDataSuite extends TestSuite
     {
         $suite = new self();
 
-        include_once './components/ILIAS/AdvancedMetaData_/test/record/ilAdvancedMDRecordObjectOrderingsTest.php';
+        include_once substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . '/components/ILIAS/AdvancedMetaData_/test/record/ilAdvancedMDRecordObjectOrderingsTest.php';
         $suite->addTestSuite(ilAdvancedMDRecordObjectOrderingsTest::class);
 
         return $suite;

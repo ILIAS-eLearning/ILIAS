@@ -63,15 +63,15 @@ if (isset($_GET["client_id"])) {
 }
 define('IL_COOKIE_PATH', $cookie_path);
 
-require_once 'components/ILIAS/Context_/classes/class.ilContext.php';
+require_once substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . '/components/ILIAS/Context_/classes/class.ilContext.php';
 ilContext::init(ilContext::CONTEXT_SAML);
 
-require_once 'components/ILIAS/Init_/classes/class.ilInitialisation.php';
+require_once substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . '/components/ILIAS/Init_/classes/class.ilInitialisation.php';
 ilInitialisation::initILIAS();
 
 $iliasHttpPath = ILIAS_HTTP_PATH;
 
-require_once 'components/ILIAS/Saml_/classes/class.ilSamlAuthFactory.php';
+require_once substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . '/components/ILIAS/Saml_/classes/class.ilSamlAuthFactory.php';
 $factory = new ilSamlAuthFactory();
 $auth = $factory->auth();
 

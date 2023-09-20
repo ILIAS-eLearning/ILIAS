@@ -20,7 +20,7 @@
  | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
  +-----------------------------------------------------------------------------+
 */
-require_once('./components/ILIAS/soapclasses/class.ilSoapAdministration.php');
+require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . '/components/ILIAS/soapclasses/class.ilSoapAdministration.php');
 
 /**
  * Soap data-collection administration methods
@@ -45,7 +45,7 @@ class ilSoapDataCollectionAdministration extends ilSoapAdministration
             return $this->raiseError($this->getMessage(), $this->getMessageCode());
         }
 
-        require_once "components/ILIAS/DataCollection_/classes/class.ilObjDataCollection.php";
+        require_once substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/DataCollection_/classes/class.ilObjDataCollection.php";
         if (!$target_obj = new ilObjDataCollection($target_ref_id)) {
             return $this->raiseError('No valid target given.', 'CLIENT');
         }
@@ -65,7 +65,7 @@ class ilSoapDataCollectionAdministration extends ilSoapAdministration
         }
 
         try {
-            require_once "components/ILIAS/DataCollection_/classes/Content/class.ilDclContentExporter.php";
+            require_once substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/DataCollection_/classes/Content/class.ilDclContentExporter.php";
             $exporter = new ilDclContentExporter($target_ref_id, $table_id);
             return $exporter->export($format, $filepath);
         } catch (ilException $exception) {

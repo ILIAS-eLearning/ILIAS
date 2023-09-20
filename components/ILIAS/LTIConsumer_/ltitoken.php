@@ -26,7 +26,7 @@ use Firebase\JWT\JWK;
 
 chdir("../../../");
 
-require_once("components/ILIAS/Init_/classes/class.ilInitialisation.php");
+require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/Init_/classes/class.ilInitialisation.php");
 
 ilContext::init(ilContext::CONTEXT_SCORM);
 ilInitialisation::initILIAS();

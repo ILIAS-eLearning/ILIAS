@@ -13,7 +13,7 @@ class ilStudyProgrammeSettingsTest extends \PHPUnit\Framework\TestCase
 
         global $DIC;
         if (!$DIC) {
-            include_once("./components/ILIAS/PHPUnit/classes/class.ilUnitUtil.php");
+            include_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/PHPUnit/classes/class.ilUnitUtil.php");
             try {
                 ilUnitUtil::performInitialisation();
             } catch (\Exception $e) {

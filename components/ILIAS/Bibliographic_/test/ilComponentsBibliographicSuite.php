@@ -40,10 +40,10 @@ class ilComponentsBibliographicSuite extends TestSuite
     {
         $suite = new self();
         /** @noRector */
-        require_once("./components/ILIAS/Bibliographic_/test/ilBibtechParserTest.php");
+        require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/Bibliographic_/test/ilBibtechParserTest.php");
         $suite->addTestSuite("ilBibtechParserTest");
         /** @noRector */
-        require_once("./components/ILIAS/Bibliographic_/test/ilRisParserTest.php");
+        require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/Bibliographic_/test/ilRisParserTest.php");
         $suite->addTestSuite("ilRisParserTest");
 
         return $suite;

@@ -21,7 +21,7 @@ declare(strict_types=1);
 
 use PHPUnit\Framework\TestSuite;
 
-require_once 'vendor/composer/vendor/autoload.php';
+require_once substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . '/vendor/composer/vendor/autoload.php';
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -32,12 +32,12 @@ class ilComponentsSkillSuite extends TestSuite
     {
         $suite = new self();
 
-        require_once("./components/ILIAS/Skill_/test/SkillCategoryTest.php");
-        require_once("./components/ILIAS/Skill_/test/SkillInternalFactoryServiceTest.php");
-        require_once("./components/ILIAS/Skill_/test/SkillInternalPersonalFactoryTest.php");
-        require_once("./components/ILIAS/Skill_/test/SkillInternalProfileFactoryTest.php");
-        require_once("./components/ILIAS/Skill_/test/SkillPersonalTest.php");
-        require_once("./components/ILIAS/Skill_/test/SkillProfileTest.php");
+        require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/Skill_/test/SkillCategoryTest.php");
+        require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/Skill_/test/SkillInternalFactoryServiceTest.php");
+        require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/Skill_/test/SkillInternalPersonalFactoryTest.php");
+        require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/Skill_/test/SkillInternalProfileFactoryTest.php");
+        require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/Skill_/test/SkillPersonalTest.php");
+        require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/Skill_/test/SkillProfileTest.php");
         $suite->addTestSuite(SkillCategoryTest::class);
         $suite->addTestSuite(SkillInternalFactoryServiceTest::class);
         $suite->addTestSuite(SkillInternalPersonalFactoryTest::class);

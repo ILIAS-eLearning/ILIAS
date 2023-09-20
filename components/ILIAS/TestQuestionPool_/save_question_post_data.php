@@ -3,8 +3,8 @@
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 chdir("../../..");
-require_once "./cli/inc.header.php";
-include_once "./components/ILIAS/soapinclude/inc.soap_functions.php";
+require_once substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/cli/inc.header.php";
+include_once substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/soapinclude/inc.soap_functions.php";
 $results = array();
 foreach ($_POST as $key => $value) {
     if (preg_match("/value_(\d+)_1/", $key, $matches)) {

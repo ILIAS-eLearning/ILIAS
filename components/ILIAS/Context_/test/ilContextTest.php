@@ -12,7 +12,7 @@ class ilContextTest extends TestCase
 {
     protected function setUp(): void
     {
-        require_once("components/ILIAS/Context_/test/class.ilContextExtended.php");
+        require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/Context_/test/class.ilContextExtended.php");
     }
 
     /**

@@ -29,8 +29,8 @@ declare(strict_types=1);
  * @author Stefan Meyer <meyer@leifos.com>
  */
 
-include_once './components/ILIAS/soaplib/nusoap.php';
-include_once("./components/ILIAS/Authentication_/classes/class.ilAuthUtils.php");        // to get auth mode constants
+include_once substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . '/components/ILIAS/soaplib/nusoap.php';
+include_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/Authentication_/classes/class.ilAuthUtils.php");        // to get auth mode constants
 
 class ilSoapAdministration
 {
@@ -153,7 +153,7 @@ class ilSoapAdministration
     {
         if (ilContext::getType() === ilContext::CONTEXT_SOAP) {
             try {
-                require_once("components/ILIAS/Init_/classes/class.ilInitialisation.php");
+                require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/Init_/classes/class.ilInitialisation.php");
                 ilInitialisation::reinitILIAS();
             } catch (Exception $e) {
             }
@@ -162,7 +162,7 @@ class ilSoapAdministration
 
     protected function initAuthenticationObject(): void
     {
-        include_once './components/ILIAS/Authentication_/classes/class.ilAuthFactory.php';
+        include_once substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . '/components/ILIAS/Authentication_/classes/class.ilAuthFactory.php';
         ilAuthFactory::setContext(ilAuthFactory::CONTEXT_SOAP);
     }
 
@@ -245,14 +245,14 @@ class ilSoapAdministration
 
     public function getInstallationInfoXML(): string
     {
-        include_once "components/ILIAS/Context_/classes/class.ilContext.php";
+        include_once substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/Context_/classes/class.ilContext.php";
         ilContext::init(ilContext::CONTEXT_SOAP_WITHOUT_CLIENT);
 
-        require_once("components/ILIAS/Init_/classes/class.ilInitialisation.php");
+        require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/Init_/classes/class.ilInitialisation.php");
         ilInitialisation::initILIAS();
 
         $clientdirs = glob(ILIAS_WEB_DIR . "/*", GLOB_ONLYDIR);
-        require_once("components/ILIAS/soapclasses/class.ilSoapInstallationInfoXMLWriter.php");
+        require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/soapclasses/class.ilSoapInstallationInfoXMLWriter.php");
         $writer = new ilSoapInstallationInfoXMLWriter();
         $writer->start();
         if (is_array($clientdirs)) {
@@ -269,14 +269,14 @@ class ilSoapAdministration
      */
     public function getClientInfoXML(string $clientid)
     {
-        include_once "components/ILIAS/Context_/classes/class.ilContext.php";
+        include_once substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/Context_/classes/class.ilContext.php";
         ilContext::init(ilContext::CONTEXT_SOAP_WITHOUT_CLIENT);
 
-        require_once("components/ILIAS/Init_/classes/class.ilInitialisation.php");
+        require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/Init_/classes/class.ilInitialisation.php");
         ilInitialisation::initILIAS();
 
         $clientdir = ILIAS_WEB_DIR . "/" . $clientid;
-        require_once("components/ILIAS/soapclasses/class.ilSoapInstallationInfoXMLWriter.php");
+        require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/soapclasses/class.ilSoapInstallationInfoXMLWriter.php");
         $writer = new ilSoapInstallationInfoXMLWriter();
         $writer->start();
         if (!$writer->addClient($clientdir)) {

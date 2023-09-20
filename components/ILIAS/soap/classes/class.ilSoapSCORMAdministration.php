@@ -27,7 +27,7 @@
  * @version $Id: class.ilSoapExerciseAdministration.php 12992 2007-01-25 10:04:26Z rkuester $
  * @package ilias
  */
-include_once './components/ILIAS/soapclasses/class.ilSoapAdministration.php';
+include_once substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . '/components/ILIAS/soapclasses/class.ilSoapAdministration.php';
 
 class ilSoapSCORMAdministration extends ilSoapAdministration
 {
@@ -88,8 +88,8 @@ class ilSoapSCORMAdministration extends ilSoapAdministration
             );
         }
 
-        require_once("./components/ILIAS/ScormAicc_/classes/SCORM/class.ilSCORMObject.php");
-        require_once("./components/ILIAS/ScormAicc_/classes/SCORM/class.ilSCORMResource.php");
+        require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/ScormAicc_/classes/SCORM/class.ilSCORMObject.php");
+        require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/ScormAicc_/classes/SCORM/class.ilSCORMResource.php");
 
         $imsFilename = $lm_obj->getDataDirectory() . DIRECTORY_SEPARATOR . "imsmanifest.xml";
 
@@ -157,7 +157,7 @@ class ilSoapSCORMAdministration extends ilSoapAdministration
             return $this->raiseError('No ref_id given. Aborting!', 'Client');
         }
 
-        include_once 'cli/inc.header.php';
+        include_once substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . '/cli/inc.header.php';
 
         if (!$obj_id = ilObject::_lookupObjectId($a_ref_id)) {
             return $this->raiseError(
@@ -166,8 +166,8 @@ class ilSoapSCORMAdministration extends ilSoapAdministration
             );
         }
 
-        include_once 'components/ILIAS/Tracking_/classes/class.ilLPStatus.php';
-        include_once 'components/ILIAS/Tracking_/classes/class.ilObjUserTracking.php';
+        include_once substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . '/components/ILIAS/Tracking_/classes/class.ilLPStatus.php';
+        include_once substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . '/components/ILIAS/Tracking_/classes/class.ilObjUserTracking.php';
 
         if (!ilObjUserTracking::_enabledLearningProgress()) {
             return $this->raiseError('Learning progress not enabled in this installation. Aborting!', 'Server');

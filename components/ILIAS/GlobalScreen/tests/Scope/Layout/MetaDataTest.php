@@ -23,7 +23,7 @@ use PHPUnit\Framework\TestCase;
 use ILIAS\GlobalScreen\Scope\Layout\MetaContent\MetaContent;
 use ILIAS\Data\Meta\Html;
 
-require_once('./vendor/composer/vendor/autoload.php');
+require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . '/vendor/composer/vendor/autoload.php');
 
 /**
  * Class MetaDataTest

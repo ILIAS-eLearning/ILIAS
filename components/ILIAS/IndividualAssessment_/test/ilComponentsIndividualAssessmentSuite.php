@@ -26,17 +26,17 @@ class ilComponentsIndividualAssessmentSuite extends TestSuite
     {
         $suite = new ilComponentsIndividualAssessmentSuite();
 
-        require_once("./components/ILIAS/IndividualAssessment_/test/AccessControl/ilIndividualAssessmentAccessHandlerTest.php");
-        require_once("./components/ILIAS/IndividualAssessment_/test/Members/ilIndividualAssessmentMemberTest.php");
-        require_once("./components/ILIAS/IndividualAssessment_/test/Members/ilIndividualAssessmentMembersTest.php");
-        require_once("./components/ILIAS/IndividualAssessment_/test/Members/ilIndividualAssessmentMembersStorageDBTest.php");
-        require_once("./components/ILIAS/IndividualAssessment_/test/Settings/ilIndividualAssessmentSettingsTest.php");
-        require_once("./components/ILIAS/IndividualAssessment_/test/Settings/ilIndividualAssessmentInfoSettingsTest.php");
-        require_once("./components/ILIAS/IndividualAssessment_/test/Settings/ilIndividualAssessmentCommonSettingsGUITest.php");
-        require_once("./components/ILIAS/IndividualAssessment_/test/Settings/ilIndividualAssessmentSettingsStorageDBTest.php");
-        require_once("./components/ILIAS/IndividualAssessment_/test/ilIndividualAssessmentDataSetTest.php");
-        require_once("./components/ILIAS/IndividualAssessment_/test/ilIndividualAssessmentExporterTest.php");
-        require_once("./components/ILIAS/IndividualAssessment_/test/ilIndividualAssessmentUserGradingTest.php");
+        require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/IndividualAssessment_/test/AccessControl/ilIndividualAssessmentAccessHandlerTest.php");
+        require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/IndividualAssessment_/test/Members/ilIndividualAssessmentMemberTest.php");
+        require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/IndividualAssessment_/test/Members/ilIndividualAssessmentMembersTest.php");
+        require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/IndividualAssessment_/test/Members/ilIndividualAssessmentMembersStorageDBTest.php");
+        require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/IndividualAssessment_/test/Settings/ilIndividualAssessmentSettingsTest.php");
+        require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/IndividualAssessment_/test/Settings/ilIndividualAssessmentInfoSettingsTest.php");
+        require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/IndividualAssessment_/test/Settings/ilIndividualAssessmentCommonSettingsGUITest.php");
+        require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/IndividualAssessment_/test/Settings/ilIndividualAssessmentSettingsStorageDBTest.php");
+        require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/IndividualAssessment_/test/ilIndividualAssessmentDataSetTest.php");
+        require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/IndividualAssessment_/test/ilIndividualAssessmentExporterTest.php");
+        require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/IndividualAssessment_/test/ilIndividualAssessmentUserGradingTest.php");
 
         $suite->addTestSuite('ilIndividualAssessmentAccessHandlerTest');
         $suite->addTestSuite('ilIndividualAssessmentMemberTest');

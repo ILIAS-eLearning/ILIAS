@@ -197,7 +197,7 @@ class ilEditClipboardGUI
             $id = explode(":", $obj_id);
             if ($id[0] === "mob") {
                 $ilUser->removeObjectFromClipboard($id[1], "mob");
-                include_once("./components/ILIAS/MediaObjects_/classes/class.ilObjMediaObject.php");
+                include_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/MediaObjects_/classes/class.ilObjMediaObject.php");
                 $mob = new ilObjMediaObject($id[1]);
                 $mob->delete();			// this method don't delete, if mob is used elsewhere
             }

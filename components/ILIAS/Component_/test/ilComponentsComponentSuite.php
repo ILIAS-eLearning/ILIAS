@@ -24,31 +24,31 @@ class ilComponentsComponentSuite extends TestSuite
     {
         $suite = new self();
 
-        require_once("./components/ILIAS/Component_/test/ilComponentDefinitionReaderTest.php");
+        require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/Component_/test/ilComponentDefinitionReaderTest.php");
         $suite->addTestSuite(ilComponentDefinitionReaderTest::class);
 
-        require_once("./components/ILIAS/Component_/test/ilComponentInfoTest.php");
+        require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/Component_/test/ilComponentInfoTest.php");
         $suite->addTestSuite(ilComponentInfoTest::class);
 
-        require_once("./components/ILIAS/Component_/test/ilPluginSlotInfoTest.php");
+        require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/Component_/test/ilPluginSlotInfoTest.php");
         $suite->addTestSuite(ilPluginSlotInfoTest::class);
 
-        require_once("./components/ILIAS/Component_/test/ilPluginInfoTest.php");
+        require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/Component_/test/ilPluginInfoTest.php");
         $suite->addTestSuite(ilPluginInfoTest::class);
 
-        require_once("./components/ILIAS/Component_/test/Setup/ilComponentDefinitionInfoProcessorTest.php");
+        require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/Component_/test/Setup/ilComponentDefinitionInfoProcessorTest.php");
         $suite->addTestSuite(ilComponentDefinitionInfoProcessorTest::class);
 
-        require_once("./components/ILIAS/Component_/test/Setup/ilComponentBuildPluginInfoObjectiveTest.php");
+        require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/Component_/test/Setup/ilComponentBuildPluginInfoObjectiveTest.php");
         $suite->addTestSuite(ilComponentBuildPluginInfoObjectiveTest::class);
 
-        require_once("./components/ILIAS/Component_/test/ilArtifactComponentRepositoryTest.php");
+        require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/Component_/test/ilArtifactComponentRepositoryTest.php");
         $suite->addTestSuite(ilArtifactComponentRepositoryTest::class);
 
-        require_once("./components/ILIAS/Component_/test/ilPluginStateDBOverIlDBInterfaceTest.php");
+        require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/Component_/test/ilPluginStateDBOverIlDBInterfaceTest.php");
         $suite->addTestSuite(ilPluginStateDBOverIlDBInterfaceTest::class);
 
-        require_once("./components/ILIAS/Component_/test/Settings/ilPluginsOverviewTableTest.php");
+        require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/Component_/test/Settings/ilPluginsOverviewTableTest.php");
         $suite->addTestSuite(ilPluginsOverviewTableTest::class);
 
         return $suite;

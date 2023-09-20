@@ -19,7 +19,7 @@ declare(strict_types=1);
 use PHPUnit\Framework\TestSuite;
 
 /** @noRector */
-require_once 'vendor/composer/vendor/autoload.php';
+require_once substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . '/vendor/composer/vendor/autoload.php';
 
 class ilComponentsEmployeeTalkSuite extends TestSuite
 {
@@ -27,7 +27,7 @@ class ilComponentsEmployeeTalkSuite extends TestSuite
     {
         $suite = new self();
         /** @noRector */
-        require_once("./components/ILIAS/EmployeeTalk_/test/ilModulesEmployeeTalkVEventTest.php");
+        require_once(substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/components/ILIAS/EmployeeTalk_/test/ilModulesEmployeeTalkVEventTest.php");
         $suite->addTestSuite("ilModulesEmployeeTalkVEventTest");
 
         return $suite;
