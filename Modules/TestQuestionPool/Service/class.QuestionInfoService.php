@@ -177,4 +177,45 @@ class QuestionInfoService
         $row = $this->database->fetchAssoc($result);
         return ((int) $row["cnt"]) > 0;
     }
+
+    /**
+     * Checks whether the question is in use or not in pools or tests
+     */
+    public function isInUse(int $question_id = 0): bool
+    {
+        return $this->usageNumber($question_id) > 0;
+    }
+
+    /**
+     * Returns the number of place the question is in use in pools or tests
+     */
+    public function usageNumber(int $question_id = 0): int
+    {
+        if ($question_id < 1) {
+            $question_id = $this->getId();
+        }
+
+        $result = $this->db->queryF(
+            "SELECT COUNT(qpl_questions.question_id) question_count FROM qpl_questions, tst_test_question WHERE qpl_questions.original_id = %s AND qpl_questions.question_id = tst_test_question.question_fi",
+            array('integer'),
+            array($question_id)
+        );
+        $row = $this->db->fetchAssoc($result);
+        $count = (int) $row["question_count"];
+
+        $result = $this->db->queryF(
+            "
+			SELECT tst_active.test_fi
+			FROM qpl_questions
+			INNER JOIN tst_test_rnd_qst ON tst_test_rnd_qst.question_fi = qpl_questions.question_id
+			INNER JOIN tst_active ON tst_active.active_id = tst_test_rnd_qst.active_fi
+			WHERE qpl_questions.original_id = %s
+			GROUP BY tst_active.test_fi",
+            array('integer'),
+            array($question_id)
+        );
+        $count += (int) $this->db->numRows($result);
+
+        return $count;
+    }
 }

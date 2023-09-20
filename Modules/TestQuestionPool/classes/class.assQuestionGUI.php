@@ -1179,7 +1179,7 @@ abstract class assQuestionGUI
 
     public function outQuestionType(): string
     {
-        $count = $this->object->usageNumber();
+        $count = $this->questioninfo->usageNumber($this->object->getId());
 
         if ($this->object->_questionExistsInPool($this->object->getId()) && $count) {
             if ($this->rbacsystem->checkAccess("write", $this->request->getRefId())) {

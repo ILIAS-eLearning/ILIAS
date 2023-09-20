@@ -44,6 +44,7 @@ class ilQuestionEditGUI
     private bool $selfassessmenteditingmode = false;
     private ?int $defaultnroftries = null;
     private ?ilPageConfig $page_config = null;
+    private \ILIAS\TestQuestionPool\QuestionInfoService $questioninfo;
 
     public function __construct()
     {
@@ -54,6 +55,7 @@ class ilQuestionEditGUI
         $this->request = $DIC->testQuestionPool()->internal()->request();
         $this->lng = $DIC->language();
         $this->rbac_system = $DIC->rbac()->system();
+        $this->questioninfo = $DIC->testQuestionPool()->questionInfo();
 
         if ($this->request->raw('qpool_ref_id')) {
             $this->setPoolRefId($this->request->raw('qpool_ref_id'));
@@ -146,7 +148,7 @@ class ilQuestionEditGUI
                     );
                 }
 
-                $count = $q_gui->object->usageNumber();
+                $count = $this->questioninfo->usageNumber($q_gui->object->getId());
                 if ($count > 0) {
                     if ($this->rbac_system->checkAccess('write', $this->getPoolRefId())) {
                         $this->main_tpl->setOnScreenMessage('info', sprintf($this->lng->txt('qpl_question_is_in_use'), $count));
