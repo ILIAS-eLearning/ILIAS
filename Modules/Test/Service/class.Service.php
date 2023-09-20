@@ -38,4 +38,9 @@ class Service
     {
         return new InternalService($this->DIC);
     }
+
+    public function testParticipantInfo(): TestParticipantInfoService
+    {
+        return new TestParticipantInfoService($this->DIC->database());
+    }
 }

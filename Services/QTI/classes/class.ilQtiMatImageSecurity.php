@@ -27,11 +27,15 @@ declare(strict_types=1);
  */
 class ilQtiMatImageSecurity
 {
+    private \ILIAS\TestQuestionPool\QuestionFilesService $questionFilesService;
     protected ilQTIMatimage $imageMaterial;
     protected string $detectedMimeType = "";
 
     public function __construct(ilQTIMatimage $imageMaterial)
     {
+        global $DIC;
+        $this->questionFilesService = $DIC->testQuestionPool()->questionFiles();
+
         $this->setImageMaterial($imageMaterial);
 
         if (!strlen($this->getImageMaterial()->getRawContent())) {
@@ -78,11 +82,11 @@ class ilQtiMatImageSecurity
 
     protected function validateContent(): bool
     {
-        if ($this->getImageMaterial()->getImagetype() && !assQuestion::isAllowedImageMimeType($this->getImageMaterial()->getImagetype())) {
+        if ($this->getImageMaterial()->getImagetype() && !$this->questionFilesService->isAllowedImageMimeType($this->getImageMaterial()->getImagetype())) {
             return false;
         }
 
-        if (!assQuestion::isAllowedImageMimeType($this->getDetectedMimeType())) {
+        if (!$this->questionFilesService->isAllowedImageMimeType($this->getDetectedMimeType())) {
             return false;
         }
 
@@ -118,7 +122,7 @@ class ilQtiMatImageSecurity
             $extension = $this->determineFileExtension($this->getImageMaterial()->getLabel());
         }
 
-        return assQuestion::isAllowedImageFileExtension($this->getDetectedMimeType(), $extension);
+        return $this->questionFilesService->isAllowedImageFileExtension($this->getDetectedMimeType(), $extension);
     }
 
     public function sanitizeLabel(): void
