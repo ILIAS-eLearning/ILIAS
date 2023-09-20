@@ -1517,27 +1517,6 @@ abstract class assQuestion
         return $page->getXMLContent();
     }
 
-    public static function _getQuestionType(int $question_id): string
-    {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-
-        if ($question_id < 1) {
-            return "";
-        }
-        $result = $ilDB->queryF(
-            "SELECT type_tag FROM qpl_questions, qpl_qst_type WHERE qpl_questions.question_id = %s AND qpl_questions.question_type_fi = qpl_qst_type.question_type_id",
-            array('integer'),
-            array($question_id)
-        );
-        if ($result->numRows() == 1) {
-            $data = $ilDB->fetchAssoc($result);
-            return $data["type_tag"];
-        }
-
-        return "";
-    }
-
     public function setOriginalId(?int $original_id): void
     {
         $this->original_id = $original_id;
@@ -2105,8 +2084,8 @@ abstract class assQuestion
         $ilCtrl = $DIC['ilCtrl'];
         $ilDB = $DIC['ilDB'];
         $lng = $DIC['lng'];
-
-        $question_type = assQuestion::_getQuestionType($question_id);
+        $questioninfo = $DIC->testQuestionPool()->questionInfo();
+        $question_type = $questioninfo->getQuestionType($question_id);
         if ($question_type === '') {
             throw new InvalidArgumentException('No question with ID ' . $question_id . ' exists');
         }
@@ -2618,8 +2597,10 @@ abstract class assQuestion
 
     public static function _needsManualScoring(int $question_id): bool
     {
+        global $DIC;
+        $questioninfo = $DIC->testQuestionPool()->questionInfo();
         $scoring = ilObjAssessmentFolder::_getManualScoringTypes();
-        $questiontype = assQuestion::_getQuestionType($question_id);
+        $questiontype = $questioninfo->getQuestionType($question_id);
         if (in_array($questiontype, $scoring)) {
             return true;
         }
@@ -2684,9 +2665,9 @@ abstract class assQuestion
         $ilDB = $DIC['ilDB'];
         $lng = $DIC['lng'];
         $ilUser = $DIC['ilUser'];
-
+        $questioninfo = $DIC->testQuestionPool()->questionInfo();
         if (strcmp($a_question_id, "") != 0) {
-            $question_type = assQuestion::_getQuestionType($a_question_id);
+            $question_type = $questioninfo->getQuestionType($a_question_id);
 
             $question_type_gui = $question_type . 'GUI';
             $question_gui = new $question_type_gui();
