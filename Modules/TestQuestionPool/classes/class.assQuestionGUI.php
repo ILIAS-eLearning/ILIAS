@@ -451,7 +451,7 @@ abstract class assQuestionGUI
         $lng = $DIC['lng'];
 
         if (($question_type === '') && ($question_id > 0)) {
-            $question_type = assQuestion::getQuestionTypeFromDb($question_id);
+            $question_type = $DIC->testQuestionPool()->questionInfo()->getQuestionType($question_id);
         }
 
         if ($question_type === '') {
@@ -476,7 +476,8 @@ abstract class assQuestionGUI
      */
     public static function _getGUIClassNameForId($a_q_id): string
     {
-        $q_type = assQuestion::getQuestionTypeFromDb($a_q_id);
+        global $DIC;
+        $q_type = $DIC->testQuestionPool()->questionInfo()->getQuestionType($a_q_id);
         $class_name = assQuestionGUI::_getClassNameForQType($q_type);
         return $class_name;
     }
