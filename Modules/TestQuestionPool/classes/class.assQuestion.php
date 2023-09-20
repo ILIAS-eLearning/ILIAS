@@ -1082,23 +1082,6 @@ abstract class assQuestion
     }
 
     /**
-    * Checks whether the question is a clone of another question or not
-    */
-    public function isClone(int $question_id = 0): bool
-    {
-        if ($question_id < 1) {
-            $question_id = $this->id;
-        }
-        $result = $this->db->queryF(
-            "SELECT COUNT(original_id) cnt FROM qpl_questions WHERE question_id = %s",
-            array('integer'),
-            array($question_id)
-        );
-        $row = $this->db->fetchAssoc($result);
-        return ((int) $row["cnt"]) > 0;
-    }
-
-    /**
      * @return string|array Or Array? @see Deletion methods here
      */
     public function getAdditionalTableName()
