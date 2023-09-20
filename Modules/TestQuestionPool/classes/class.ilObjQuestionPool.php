@@ -273,9 +273,9 @@ class ilObjQuestionPool extends ilObject
     {
         $question = $this->createQuestion('', $question_id);
         $newtitle = $question->object->getTitle();
-        if ($question->object->questionTitleExists($this->getId(), $question->object->getTitle())) {
+        if ($this->questioninfo->questionTitleExistsInPool($this->getId(), $question->object->getTitle())) {
             $counter = 2;
-            while ($question->object->questionTitleExists($this->getId(), $question->object->getTitle() . ' (' . $counter . ')')) {
+            while ($this->questioninfo->questionTitleExistsInPool($this->getId(), $question->object->getTitle() . ' (' . $counter . ')')) {
                 $counter++;
             }
             $newtitle = $question->object->getTitle() . ' (' . $counter . ')';
@@ -294,9 +294,9 @@ class ilObjQuestionPool extends ilObject
         } else {
             // the question is copied into another question pool
             $newtitle = $question_gui->object->getTitle();
-            if ($question_gui->object->questionTitleExists($this->getId(), $question_gui->object->getTitle())) {
+            if ($this->questioninfo->questionTitleExistsInPool($this->getId(), $question_gui->object->getTitle())) {
                 $counter = 2;
-                while ($question_gui->object->questionTitleExists($this->getId(), $question_gui->object->getTitle() . ' (' . $counter . ')')) {
+                while ($this->questioninfo->questionTitleExistsInPool($this->getId(), $question_gui->object->getTitle() . ' (' . $counter . ')')) {
                     $counter++;
                 }
                 $newtitle = $question_gui->object->getTitle() . ' (' . $counter . ')';

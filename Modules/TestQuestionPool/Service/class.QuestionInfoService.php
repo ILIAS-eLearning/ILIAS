@@ -351,4 +351,14 @@ class QuestionInfoService
         $res = $this->database->query($query);
         return $res->numRows() > 0;
     }
+
+    public function questionTitleExistsInPool(int $questionpool_id, string $title): bool
+    {
+        $result = $this->database->queryF(
+            "SELECT * FROM qpl_questions WHERE obj_fi = %s AND title = %s",
+            array('integer','text'),
+            array($questionpool_id, $title)
+        );
+        return $result->numRows() > 0;
+    }
 }

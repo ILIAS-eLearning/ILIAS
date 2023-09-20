@@ -347,22 +347,6 @@ abstract class assQuestion
         return false;
     }
 
-    /**
-    * Returns TRUE if the question title exists in a question pool in the database
-    */
-    public function questionTitleExists(int $questionpool_id, string $title): bool
-    {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-
-        $result = $ilDB->queryF(
-            "SELECT * FROM qpl_questions WHERE obj_fi = %s AND title = %s",
-            array('integer','text'),
-            array($questionpool_id, $title)
-        );
-        return ($result->numRows() > 0) ? true : false;
-    }
-
     public function setTitle(string $title = ""): void
     {
         $this->title = $title;
