@@ -80,7 +80,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 
         $this->initProcessLocker($this->test_session->getActiveId());
 
-        $test_sequence_factory = new ilTestSequenceFactory($this->object, $this->db);
+        $test_sequence_factory = new ilTestSequenceFactory($this->object, $this->db, $this->questioninfo);
         $this->testSequence = $test_sequence_factory->getSequenceByTestSession($this->test_session);
         $this->testSequence->loadFromDb();
         $this->testSequence->loadQuestions();
@@ -332,7 +332,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
             $this->testSequence->saveToDb();
         }
 
-        $isQuestionWorkedThrough = assQuestion::_isWorkedThrough(
+        $isQuestionWorkedThrough = $this->questioninfo->lookupResultRecordExist(
             $this->test_session->getActiveId(),
             $questionId,
             $this->test_session->getPass()
@@ -568,7 +568,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
     {
         $questionId = $this->testSequence->getQuestionForSequence($sequenceElement);
 
-        $isQuestionWorkedThrough = assQuestion::_isWorkedThrough(
+        $isQuestionWorkedThrough = $this->questioninfo->lookupResultRecordExist(
             $this->test_session->getActiveId(),
             $questionId,
             $this->test_session->getPass()
