@@ -388,30 +388,6 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
     }
 
     /**
-    * Gets the single choice output type which is either OUTPUT_ORDER (=0) or OUTPUT_RANDOM (=1).
-    *
-    * @return integer The output type of the assSingleChoice object
-    * @access public
-    * @see $output_type
-    */
-    public function getOutputType(): int
-    {
-        return $this->output_type;
-    }
-
-    /**
-    * Sets the output type of the assSingleChoice object
-    *
-    * @param integer $output_type A nonnegative integer value specifying the output type. It is OUTPUT_ORDER (=0) or OUTPUT_RANDOM (=1).
-    * @access public
-    * @see $response
-    */
-    public function setOutputType($output_type = OUTPUT_ORDER): void
-    {
-        $this->output_type = $output_type;
-    }
-
-    /**
     * Adds a possible answer for a single choice question. A ASS_AnswerBinaryStateImage object will be
     * created and assigned to the array $this->answers.
     *

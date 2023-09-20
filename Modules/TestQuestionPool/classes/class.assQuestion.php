@@ -222,21 +222,9 @@ abstract class assQuestion
         return self::$forcePassResultsUpdateEnabled;
     }
 
-
-
     public static function fetchMimeTypeIdentifier(string $contentType): string
     {
         return current(explode(';', $contentType));
-    }
-
-    // hey: prevPassSolutions - question action actracted (heavy use in fileupload refactoring)
-    private function generateExternalId(int $question_id): string
-    {
-        if ($question_id > 0) {
-            return 'il_' . IL_INST_ID . '_qst_' . $question_id;
-        }
-
-        return uniqid('', true);
     }
 
     protected function getQuestionAction(): string
@@ -510,9 +498,11 @@ abstract class assQuestion
     public function getExternalId(): string
     {
         if ($this->external_id === null || $this->external_id === '') {
-            return $this->generateExternalId($this->getId());
+            if ($this->getId() > 0) {
+                return 'il_' . IL_INST_ID . '_qst_' . $this->getId();
+            }
+            return uniqid('', true);
         }
-
         return $this->external_id;
     }
 
