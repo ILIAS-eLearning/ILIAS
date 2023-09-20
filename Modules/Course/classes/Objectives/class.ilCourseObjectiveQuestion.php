@@ -461,7 +461,8 @@ class ilCourseObjectiveQuestion
 
     public static function _lookupMaximumPointsOfQuestion(int $a_question_id): float
     {
-        return assQuestion::_getMaximumPoints($a_question_id);
+        global $DIC;
+        return $DIC->testQuestionPool()->questionInfo()->getMaximumPoints($a_question_id);
     }
 
     public function getNumberOfQuestionsByTest(int $a_test_ref_id): int

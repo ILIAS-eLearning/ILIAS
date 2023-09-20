@@ -49,7 +49,7 @@ require_once "./Modules/Test/classes/inc.AssessmentConstants.php";
 class ilTestServiceGUI
 {
     protected InternalRequestService $testrequest;
-
+    protected \ILIAS\TestQuestionPool\QuestionInfoService $questioninfo;
     protected ?ilTestService $service = null;
     protected ilDBInterface $db;
     protected ilLanguage $lng;
@@ -144,7 +144,7 @@ class ilTestServiceGUI
         $this->post_wrapper = $DIC->http()->wrapper()->post();
 
         $this->testrequest = $DIC->test()->internal()->request();
-
+        $this->questioninfo = $DIC->testQuestionPool()->questionInfo();
         $this->lng->loadLanguageModule('cert');
 
         $this->ref_id = $this->object->getRefId();

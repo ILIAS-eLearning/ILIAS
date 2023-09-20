@@ -139,7 +139,7 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
                             'active_id' => $active_id,
                             'qst_id' => $questionData['qid'],
                             'reached_points' => assQuestion::_getReachedPoints($active_id, $questionData['qid'], $passNr - 1),
-                            'maximum_points' => assQuestion::_getMaximumPoints($questionData['qid']),
+                            'maximum_points' => $this->questioninfo->getMaximumPoints($questionData['qid']),
                             'name' => $participant->getName()
                         ] + $feedback;
                     }
@@ -152,7 +152,7 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
         $table->setTitle($this->lng->txt('tst_man_scoring_by_qst'));
 
         if ($selected_questionData) {
-            $maxpoints = assQuestion::_getMaximumPoints($selected_questionData['question_id']);
+            $maxpoints = $this->questioninfo->getMaximumPoints($selected_questionData['question_id']);
             $table->setCurQuestionMaxPoints($maxpoints);
             $maxpoints = ' (' . $maxpoints . ' ' . $this->lng->txt('points') . ')';
             if ($maxpoints == 1) {
@@ -226,7 +226,7 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
                 if (!isset($manPointsPost[$pass][$active_id])) {
                     $manPointsPost[$pass][$active_id] = [];
                 }
-                $maxPointsByQuestionId[$qst_id] = assQuestion::_getMaximumPoints($qst_id);
+                $maxPointsByQuestionId[$qst_id] = $this->questioninfo->getMaximumPoints($qst_id);
                 $manPointsPost[$pass][$active_id][$qst_id] = (float) $reached_points;
                 if ($reached_points > $maxPointsByQuestionId[$qst_id]) {
                     $this->tpl->setOnScreenMessage('failure', sprintf($this->lng->txt('tst_save_manscoring_failed'), $pass + 1), false);
