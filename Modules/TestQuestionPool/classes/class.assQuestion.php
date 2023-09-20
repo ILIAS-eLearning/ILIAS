@@ -767,28 +767,6 @@ abstract class assQuestion
         );
     }
 
-    /**
-     * Move an uploaded media file to an public accessible temp dir to present it
-     *
-     * @param string $file File path
-     * @param string $name Name of the file
-     * @return string|bool Tempname or false
-     */
-    public function moveUploadedMediaFile(string $file, string $name)
-    {
-        $mediatempdir = CLIENT_WEB_DIR . "/assessment/temp";
-        if (!@is_dir($mediatempdir)) {
-            ilFileUtils::createDirectory($mediatempdir);
-        }
-        $temp_name = tempnam($mediatempdir, $name . "_____");
-        $temp_name = str_replace("\\", "/", $temp_name);
-        @unlink($temp_name);
-        if (!ilFileUtils::moveUploadedFile($file, $name, $temp_name)) {
-            return false;
-        }
-        return $temp_name;
-    }
-
     public function getSuggestedSolutionPath(): string
     {
         return CLIENT_WEB_DIR . "/assessment/$this->obj_id/$this->id/solution/";
