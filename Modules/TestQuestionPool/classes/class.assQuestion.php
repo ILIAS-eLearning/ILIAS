@@ -40,28 +40,12 @@ require_once './Modules/Test/classes/inc.AssessmentConstants.php';
  */
 abstract class assQuestion
 {
-    public const IMG_MIME_TYPE_JPG = 'image/jpeg';
-    public const IMG_MIME_TYPE_PNG = 'image/png';
-    public const IMG_MIME_TYPE_GIF = 'image/gif';
-
     protected const HAS_SPECIFIC_FEEDBACK = true;
-
-    protected static $allowedFileExtensionsByMimeType = array(
-        self::IMG_MIME_TYPE_JPG => ['jpg', 'jpeg'],
-        self::IMG_MIME_TYPE_PNG => ['png'],
-        self::IMG_MIME_TYPE_GIF => ['gif']
-    );
-
-    protected static $allowedCharsetsByMimeType = array(
-        self::IMG_MIME_TYPE_JPG => ['binary'],
-        self::IMG_MIME_TYPE_PNG => ['binary'],
-        self::IMG_MIME_TYPE_GIF => ['binary']
-    );
 
     protected const DEFAULT_THUMB_SIZE = 150;
     protected const MINIMUM_THUMB_SIZE = 20;
     protected \ILIAS\TestQuestionPool\QuestionInfoService $questioninfo;
-
+    protected \ILIAS\Test\TestParticipantInfoService $testParticipantInfo;
     protected ILIAS\HTTP\Services $http;
     protected ILIAS\Refinery\Factory $refinery;
 
@@ -176,12 +160,6 @@ abstract class assQuestion
 
     protected ilAssQuestionLifecycle $lifecycle;
 
-    protected static $allowedImageMaterialFileExtensionsByMimeType = array(
-        'image/jpeg' => ['jpg', 'jpeg'],
-        'image/png' => ['png'],
-        'image/gif' => ['gif']
-    );
-
     protected ilObjUser $current_user;
 
     /**
@@ -201,6 +179,7 @@ abstract class assQuestion
         $ilDB = $DIC['ilDB'];
         $ilLog = $DIC->logger();
         $this->questioninfo = $DIC->testQuestionPool()->questionInfo();
+        $this->testParticipantInfo = $DIC->test()->testParticipantInfo();
         $this->current_user = $DIC['ilUser'];
         $this->lng = $lng;
         $this->tpl = $tpl;
@@ -243,37 +222,11 @@ abstract class assQuestion
         return self::$forcePassResultsUpdateEnabled;
     }
 
-    public static function isAllowedImageMimeType($mimeType): bool
-    {
-        return (bool) count(self::getAllowedFileExtensionsForMimeType($mimeType));
-    }
+
 
     public static function fetchMimeTypeIdentifier(string $contentType): string
     {
         return current(explode(';', $contentType));
-    }
-
-    public static function getAllowedFileExtensionsForMimeType(string $mimeType): array
-    {
-        foreach (self::$allowedFileExtensionsByMimeType as $allowedMimeType => $extensions) {
-            $rexCharsets = implode('|', self::$allowedCharsetsByMimeType[$allowedMimeType]);
-            $rexMimeType = preg_quote($allowedMimeType, '/');
-
-            $rex = '/^' . $rexMimeType . '(;(\s)*charset=(' . $rexCharsets . '))*$/';
-
-            if (!preg_match($rex, $mimeType)) {
-                continue;
-            }
-
-            return $extensions;
-        }
-
-        return [];
-    }
-
-    public static function isAllowedImageFileExtension(string $mimeType, string $fileExtension): bool
-    {
-        return in_array(strtolower($fileExtension), self::getAllowedFileExtensionsForMimeType($mimeType), true);
     }
 
     // hey: prevPassSolutions - question action actracted (heavy use in fileupload refactoring)
@@ -324,45 +277,12 @@ abstract class assQuestion
         return \ilObjTest::_getPass($active_id);
     }
 
-    /**
-     * @refactor Move to ilObjTest or similar
-     */
-    protected function lookupTestId(int $active_id): int
-    {
-        $result = $this->db->queryF(
-            "SELECT test_fi FROM tst_active WHERE active_id = %s",
-            array('integer'),
-            array($active_id)
-        );
-        $test_id = -1;
-        if ($this->db->numRows($result) > 0) {
-            $row = $this->db->fetchAssoc($result);
-            $test_id = (int) $row["test_fi"];
-        }
-
-        return $test_id;
-    }
-
     protected function log(int $active_id, string $langVar): void
     {
         if (ilObjAssessmentFolder::_enabledAssessmentLogging()) {
             $message = $this->lng->txtlng('assessment', $langVar, ilObjAssessmentFolder::_getLogLanguage());
             assQuestion::logAction($message, $active_id, $this->getId());
         }
-    }
-
-    /**
-     * @return array	all allowed file extensions for image material
-     */
-    public static function getAllowedImageMaterialFileExtensions(): array
-    {
-        $extensions = [];
-
-        foreach (self::$allowedImageMaterialFileExtensionsByMimeType as $mimeType => $mimeExtensions) {
-            /** @noinspection SlowArrayOperationsInLoopInspection */
-            $extensions = array_merge($extensions, $mimeExtensions);
-        }
-        return array_unique($extensions);
     }
 
     public function getShuffler(): Transformation

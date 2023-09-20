@@ -43,4 +43,9 @@ class Service
     {
         return new QuestionInfoService($this->DIC->database());
     }
+
+    public function questionFiles(): QuestionFilesService
+    {
+        return new QuestionFilesService();
+    }
 }

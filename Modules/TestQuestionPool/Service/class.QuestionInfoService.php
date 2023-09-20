@@ -210,7 +210,7 @@ class QuestionInfoService
             array('integer'),
             array($question_id)
         );
-        $count += (int) $this->database->numRows($result);
+        $count += $this->database->numRows($result);
 
         return $count;
     }

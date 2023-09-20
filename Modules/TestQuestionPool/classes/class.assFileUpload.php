@@ -690,7 +690,7 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
     public function saveWorkingData($active_id, $pass = null, $authorized = true): bool
     {
         $pass = $this->ensureCurrentTestPass($active_id, $pass);
-        $test_id = $this->lookupTestId($active_id);
+        $test_id = $this->testParticipantInfo->lookupTestIdByActiveId($active_id);
 
         $upload_handling_required = $this->isFileUploadAvailable() && $this->checkUpload();
         $upload_file_data = [];
@@ -822,7 +822,7 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
     {
         parent::removeIntermediateSolution($active_id, $pass);
 
-        $test_id = $this->lookupTestId($active_id);
+        $test_id = $this->testParticipantInfo->lookupTestIdByActiveId($active_id);
         if ($test_id !== -1) {
             $this->deleteUnusedFiles($test_id, $active_id, $pass);
         }
