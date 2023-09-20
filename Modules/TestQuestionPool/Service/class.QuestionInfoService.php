@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace ILIAS\TestQuestionPool;
 
@@ -22,7 +22,7 @@ class QuestionInfoService
             array('integer'),
             array($question_id)
         );
-        if ($result->numRows() == 1) {
+        if ($result->numRows() === 1) {
             $data = $this->database->fetchAssoc($result);
             return $data["title"];
         }
@@ -41,7 +41,7 @@ class QuestionInfoService
             array($question_id)
         );
 
-        if ($result->numRows() == 1) {
+        if ($result->numRows() === 1) {
             $data = $this->database->fetchAssoc($result);
             return $data["type_tag"];
         }
@@ -57,7 +57,7 @@ class QuestionInfoService
             array($a_q_id)
         );
 
-        if ($result->numRows() == 1) {
+        if ($result->numRows() === 1) {
             $row = $this->database->fetchAssoc($result);
             return $row["question_text"];
         }
@@ -72,7 +72,7 @@ class QuestionInfoService
             array('integer','integer'),
             array($a_q_id, $a_q_id)
         );
-        if ($result->numRows() == 0) {
+        if ($result->numRows() === 0) {
             return 0;
         }
 
@@ -109,10 +109,24 @@ class QuestionInfoService
             array('integer'),
             array($question_id)
         );
-        if ($this->database->numRows($result) == 1) {
+        if ($this->database->numRows($result) === 1) {
             $row = $this->database->fetchAssoc($result);
             $points = (float) $row["points"];
         }
         return $points;
+    }
+
+    public function getQuestionInfo(int $question_id): array
+    {
+        $result = $this->database->queryF(
+            "SELECT qpl_questions.*, qpl_qst_type.type_tag FROM qpl_qst_type, qpl_questions WHERE qpl_questions.question_id = %s AND qpl_questions.question_type_fi = qpl_qst_type.question_type_id",
+            array('integer'),
+            array($question_id)
+        );
+
+        if ($this->database->numRows($result)) {
+            return $this->database->fetchAssoc($result);
+        }
+        return array();
     }
 }

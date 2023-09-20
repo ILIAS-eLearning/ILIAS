@@ -92,7 +92,7 @@ class ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI extends ilTa
         }
         $scoring = ilObjAssessmentFolder::_getManualScoring();
         foreach ($questions as $data) {
-            $info = assQuestion::_getQuestionInfo($data['question_id']);
+            $info = $this->questioninfo->getQuestionInfo($data['question_id']);
             $type = $info["question_type_fi"];
             if (in_array($type, $scoring)) {
                 $maxpoints = $this->questioninfo->getMaximumPoints($data["question_id"]);
