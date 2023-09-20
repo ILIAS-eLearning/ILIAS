@@ -1757,41 +1757,6 @@ abstract class assQuestion
     }
 
     /**
-    * Returns true if the question already exists in the database
-    *
-    * @param integer $question_id The database id of the question
-    * @result boolean True, if the question exists, otherwise False
-    * @access public
-    */
-    public function _questionExists($question_id)
-    {
-        if ($question_id < 1) {
-            return false;
-        }
-
-        $result = $this->db->queryF(
-            "SELECT question_id FROM qpl_questions WHERE question_id = %s",
-            array('integer'),
-            array($question_id)
-        );
-        return $result->numRows() == 1;
-    }
-
-    public function _questionExistsInPool(int $question_id): bool
-    {
-        if ($question_id < 1) {
-            return false;
-        }
-
-        $result = $this->db->queryF(
-            "SELECT question_id FROM qpl_questions INNER JOIN object_data ON obj_fi = obj_id WHERE question_id = %s AND type = 'qpl'",
-            array('integer'),
-            array($question_id)
-        );
-        return $this->db->numRows($result) == 1;
-    }
-
-    /**
      * @param int $question_id
      * @return assQuestion
      * @throws InvalidArgumentException

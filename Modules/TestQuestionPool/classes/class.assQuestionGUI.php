@@ -693,7 +693,7 @@ abstract class assQuestionGUI
             $ilUser->setPref("tst_lastquestiontype", $this->object->getQuestionType());
             $ilUser->writePref("tst_lastquestiontype", $this->object->getQuestionType());
             $this->object->saveToDb();
-            $originalexists = $this->object->_questionExists($this->object->getOriginalId());
+            $originalexists = $this->questioninfo->questionExists($this->object->getOriginalId());
 
             if ($this->request->raw("calling_test") && $originalexists && assQuestion::_isWriteable($this->object->getOriginalId(), $ilUser->getId())) {
                 $this->ctrl->redirect($this, "originalSyncForm");
@@ -736,7 +736,7 @@ abstract class assQuestionGUI
             $ilUser->writePref("tst_lastquestiontype", $this->object->getQuestionType());
             $this->object->saveToDb();
             $originalexists = !is_null($this->object->getOriginalId()) &&
-                $this->object->_questionExistsInPool($this->object->getOriginalId());
+                $$this->questioninfo->questionExistsInPool($this->object->getOriginalId());
 
             if (($this->request->raw("calling_test") ||
                     ($this->request->isset('calling_consumer')
@@ -831,7 +831,7 @@ abstract class assQuestionGUI
             $ilUser->writePref("tst_lastquestiontype", $this->object->getQuestionType());
             $this->object->saveToDb($old_id);
             $originalexists = !is_null($this->object->getOriginalId()) &&
-                $this->object->_questionExistsInPool($this->object->getOriginalId());
+                $this->questioninfo->questionExistsInPool($this->object->getOriginalId());
             if (($this->request->raw("calling_test") || ($this->request->isset('calling_consumer')
                         && (int) $this->request->raw('calling_consumer')))
                 && $originalexists && assQuestion::_isWriteable($this->object->getOriginalId(), $ilUser->getId())) {
@@ -1181,7 +1181,7 @@ abstract class assQuestionGUI
     {
         $count = $this->questioninfo->usageNumber($this->object->getId());
 
-        if ($this->object->_questionExistsInPool($this->object->getId()) && $count) {
+        if ($this->questioninfo->questionExistsInPool($this->object->getId()) && $count) {
             if ($this->rbacsystem->checkAccess("write", $this->request->getRefId())) {
                 $this->tpl->setOnScreenMessage('info', sprintf($this->lng->txt("qpl_question_is_in_use"), $count));
             }
@@ -1327,7 +1327,7 @@ abstract class assQuestionGUI
                         $this->getSuggestedSolutionsRepo()->update([$solution]);
 
                         $originalexists = $this->object->getOriginalId() &&
-                            $this->object->_questionExistsInPool($this->object->getOriginalId());
+                            $this->questioninfo->questionExistsInPool($this->object->getOriginalId());
                         if (($this->request->raw("calling_test") || ($this->request->isset('calling_consumer')
                                     && (int) $this->request->raw('calling_consumer'))) && $originalexists
                             && assQuestion::_isWriteable($this->object->getOriginalId(), $ilUser->getId())) {

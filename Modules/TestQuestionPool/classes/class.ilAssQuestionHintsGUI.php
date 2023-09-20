@@ -68,6 +68,7 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
         $this->main_tpl = $DIC->ui()->mainTemplate();
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
+        $this->questioninfo = $DIC->testQuestionPool()->questionInfo();
         parent::__construct($questionGUI);
 
         $this->hintOrderingClipboard = new ilAssQuestionHintsOrderingClipboard($questionGUI->object);
@@ -276,7 +277,7 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
 
         $this->main_tpl->setOnScreenMessage('success', $lng->txt('tst_question_hints_delete_success_msg'), true);
 
-        $originalexists = $this->questionOBJ->_questionExistsInPool((int) $this->questionOBJ->getOriginalId());
+        $originalexists = $this->questioninfo->questionExistsInPool((int) $this->questionOBJ->getOriginalId());
 
         global $DIC;
         $ilUser = $DIC['ilUser'];
@@ -333,7 +334,7 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
 
         $this->main_tpl->setOnScreenMessage('success', $lng->txt('tst_question_hints_save_order_success_msg'), true);
 
-        $originalexists = $this->questionOBJ->_questionExistsInPool((int) $this->questionOBJ->getOriginalId());
+        $originalexists = $this->questioninfo->questionExistsInPool((int) $this->questionOBJ->getOriginalId());
 
         global $DIC;
         $ilUser = $DIC['ilUser'];
