@@ -2130,28 +2130,6 @@ abstract class assQuestion
     }
 
     /**
-     * Checks if an array of question ids is answered by a user or not
-     *
-     * @param int user_id
-     * @param array $question_ids user id array
-     */
-    public static function _areAnswered(int $a_user_id, array $a_question_ids): bool
-    {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-
-        $res = $ilDB->queryF(
-            "SELECT DISTINCT(question_fi) FROM tst_test_result JOIN tst_active " .
-            "ON (active_id = active_fi) " .
-            "WHERE " . $ilDB->in('question_fi', $a_question_ids, false, 'integer') .
-            " AND user_fi = %s",
-            array('integer'),
-            array($a_user_id)
-        );
-        return ($res->numRows() == count($a_question_ids)) ? true : false;
-    }
-
-    /**
      * @deprecated use ilUtil::prepareTextareaOutput() (or successor) instead
      */
     public function prepareTextareaOutput(string $txt_output, bool $prepare_for_latex_output = false, bool $omitNl2BrWhenTextArea = false)

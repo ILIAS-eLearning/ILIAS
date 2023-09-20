@@ -129,4 +129,23 @@ class QuestionInfoService
         }
         return array();
     }
+
+    /**
+     * Checks if an array of question ids is answered by a user or not
+     *
+     * @param int user_id
+     * @param int[] $question_ids user id array
+     */
+    public function areQuestionsAnsweredByUser(int $a_user_id, array $a_question_ids): bool
+    {
+        $res = $this->database->queryF(
+            "SELECT DISTINCT(question_fi) FROM tst_test_result JOIN tst_active " .
+            "ON (active_id = active_fi) " .
+            "WHERE " . $this->database->in('question_fi', $a_question_ids, false, 'integer') .
+            " AND user_fi = %s",
+            array('integer'),
+            array($a_user_id)
+        );
+        return $res->numRows() === count($a_question_ids);
+    }
 }
