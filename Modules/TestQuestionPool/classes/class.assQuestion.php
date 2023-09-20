@@ -342,10 +342,7 @@ abstract class assQuestion
     *
     * @return boolean True, if the question is complete for use, otherwise false
     */
-    public function isComplete(): bool
-    {
-        return false;
-    }
+    abstract public function isComplete(): bool;
 
     public function setTitle(string $title = ""): void
     {
