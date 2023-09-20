@@ -25,7 +25,7 @@ require_once './Modules/Test/classes/inc.AssessmentConstants.php';
  * @version       $Id: class.assFormulaQuestion.php 1236 2010-02-15 15:44:16Z hschottm $
  * @ingroup       ModulesTestQuestionPool
  */
-class assFormulaQuestion extends assQuestion implements iQuestionCondition
+class assFormulaQuestion extends assQuestion implements iQuestionCondition, ilAssQuestionAutosaveable
 {
     private array $variables;
     private array $results;

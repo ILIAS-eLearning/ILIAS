@@ -1835,7 +1835,7 @@ abstract class assQuestionGUI
 
     public function isAutosaveable(): bool
     {
-        return $this->object->isAutosaveable();
+        return $this->object instanceof ilAssQuestionAutosaveable;
     }
 
     protected function writeQuestionGenericPostData(): void

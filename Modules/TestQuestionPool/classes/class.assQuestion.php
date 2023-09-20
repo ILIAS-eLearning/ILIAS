@@ -2958,11 +2958,6 @@ abstract class assQuestion
         return false;
     }
 
-    public function isAutosaveable(): bool
-    {
-        return true;
-    }
-
     protected static function getNumExistingSolutionRecords(int $activeId, int $pass, int $questionId): int
     {
         global $DIC;
@@ -3332,8 +3327,6 @@ abstract class assQuestion
         }
     }
     // hey.
-
-
 
     /**
      * @param int|null $step
