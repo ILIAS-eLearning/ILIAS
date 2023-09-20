@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace ILIAS\TestQuestionPool;
 
@@ -66,5 +68,10 @@ class QuestionFilesService
     public function isAllowedImageFileExtension(string $mimeType, string $fileExtension): bool
     {
         return in_array(strtolower($fileExtension), $this->getAllowedFileExtensionsForMimeType($mimeType), true);
+    }
+
+    public function buildImagePath($questionId, $parentObjectId): string
+    {
+        return CLIENT_WEB_DIR . '/assessment/' . $parentObjectId . '/' . $questionId . '/images/';
     }
 }

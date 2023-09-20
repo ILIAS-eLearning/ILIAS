@@ -861,8 +861,8 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
         global $DIC;
         $ilLog = $DIC['ilLog'];
 
-        $sourcePath = $this->buildImagePath($sourceQuestionId, $sourceParentId);
-        $targetPath = $this->buildImagePath($targetQuestionId, $targetParentId);
+        $sourcePath = $this->questionFilesService->buildImagePath($sourceQuestionId, $sourceParentId);
+        $targetPath = $this->questionFilesService->buildImagePath($targetQuestionId, $targetParentId);
 
         foreach ($this->getAnswers() as $answer) {
             $filename = $answer->getImageFile();
