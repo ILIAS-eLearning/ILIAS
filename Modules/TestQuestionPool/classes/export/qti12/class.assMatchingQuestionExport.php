@@ -171,7 +171,7 @@ class assMatchingQuestionExport extends assQuestionExport
                 $attrs = array(
                     "texttype" => "text/plain"
                 );
-                if ($this->object->isHTML($definition->getText())) {
+                if (ilUtil::isHTML($definition->text)) {
                     $attrs["texttype"] = "text/xhtml";
                 }
                 $a_xml_writer->xmlElement("mattext", $attrs, $definition->getText());
@@ -214,7 +214,7 @@ class assMatchingQuestionExport extends assQuestionExport
                 $attrs = array(
                     "texttype" => "text/plain"
                 );
-                if ($this->object->isHTML($term->getText())) {
+                if ($this->object->isHTML($term->text)) {
                     $attrs["texttype"] = "text/xhtml";
                 }
                 $a_xml_writer->xmlElement("mattext", $attrs, $term->getText());
