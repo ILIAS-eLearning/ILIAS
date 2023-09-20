@@ -50,6 +50,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
     private array $mob_ids;
     private array $file_ids = [];
     private bool $online;
+    protected \ILIAS\TestQuestionPool\QuestionInfoService $questioninfo;
     private InternalRequestService $testrequest;
     private ASS_MarkSchema $mark_schema;
     public int $test_id = -1;
@@ -151,7 +152,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         parent::__construct($id, $a_call_by_reference);
 
         $this->lng->loadLanguageModule("assessment");
-
+        $this->questioninfo = $DIC->testQuestionPool()->questionInfo();
         $this->score_settings = null;
 
         $this->question_set_config_factory = new ilTestQuestionSetConfigFactory(
@@ -6817,7 +6818,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
                 $this->lng->txtlng('assessment', 'log_manual_feedback', ilObjAssessmentFolder::_getLogLanguage()),
                 $this->user->getFullname() . ' (' . $this->user->getLogin() . ')',
                 $username,
-                assQuestion::_getQuestionTitle($question_id),
+                $this->questioninfo->getQuestionTitle($question_id),
                 $feedback
             )
         );

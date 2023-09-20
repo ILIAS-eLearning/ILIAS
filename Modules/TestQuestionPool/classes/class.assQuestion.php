@@ -1538,28 +1538,6 @@ abstract class assQuestion
         return "";
     }
 
-    public static function _getQuestionTitle(int $question_id): string
-    {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-
-        if ($question_id < 1) {
-            return "";
-        }
-
-        $result = $ilDB->queryF(
-            "SELECT title FROM qpl_questions WHERE qpl_questions.question_id = %s",
-            array('integer'),
-            array($question_id)
-        );
-        if ($result->numRows() == 1) {
-            $data = $ilDB->fetchAssoc($result);
-            return $data["title"];
-        }
-
-        return "";
-    }
-
     public function setOriginalId(?int $original_id): void
     {
         $this->original_id = $original_id;
