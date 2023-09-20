@@ -1025,22 +1025,6 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     }
 
     /**
-    * Returns true if the question type supports JavaScript output
-    *
-    * @return boolean TRUE if the question type supports JavaScript output, FALSE otherwise
-    * @access public
-    */
-    public function supportsJavascriptOutput(): bool
-    {
-        return true;
-    }
-
-    public function supportsNonJsOutput(): bool
-    {
-        return false;
-    }
-
-    /**
      * {@inheritdoc}
      */
     public function setExportDetailsXLS(ilAssExcelFormatHelper $worksheet, int $startrow, int $col, int $active_id, int $pass): int

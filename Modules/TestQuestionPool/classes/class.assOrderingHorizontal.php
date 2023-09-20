@@ -600,16 +600,6 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
         $this->separator = $a_value;
     }
 
-    public function supportsJavascriptOutput(): bool
-    {
-        return true;
-    }
-
-    public function supportsNonJsOutput(): bool
-    {
-        return false;
-    }
-
     /**
      * Returns a JSON representation of the question
      */

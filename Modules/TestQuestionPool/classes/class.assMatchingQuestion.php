@@ -1425,16 +1425,6 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         return json_encode($result);
     }
 
-    public function supportsJavascriptOutput(): bool
-    {
-        return true;
-    }
-
-    public function supportsNonJsOutput(): bool
-    {
-        return false;
-    }
-
     public function setMatchingMode($matchingMode): void
     {
         $this->matchingMode = $matchingMode;
