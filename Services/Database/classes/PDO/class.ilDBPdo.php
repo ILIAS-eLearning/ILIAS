@@ -251,7 +251,7 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface
      */
     public function quoteIdentifier($identifier, $check_option = false)
     {
-        return '`' . $identifier . '`';
+        return ($identifier === '1' || $identifier === '0') ? $identifier : '`' . $identifier . '`';
     }
 
 
