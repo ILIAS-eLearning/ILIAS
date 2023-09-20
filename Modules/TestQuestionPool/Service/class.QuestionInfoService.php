@@ -48,4 +48,20 @@ class QuestionInfoService
 
         return "";
     }
+
+    public function getQuestionText(int $a_q_id): string
+    {
+        $result = $this->database->queryF(
+            "SELECT question_text FROM qpl_questions WHERE question_id = %s",
+            array('integer'),
+            array($a_q_id)
+        );
+
+        if ($result->numRows() == 1) {
+            $row = $this->database->fetchAssoc($result);
+            return $row["question_text"];
+        }
+
+        return "";
+    }
 }
