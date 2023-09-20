@@ -57,7 +57,7 @@ class assFileUploadImport extends assQuestionImport
         $this->object->setComment($item->getComment());
         $this->object->setAuthor($item->getAuthor());
         $this->object->setOwner($ilUser->getId());
-        $this->object->setQuestion($this->object->QTIMaterialToString($item->getQuestiontext()));
+        $this->object->setQuestion($this->QTIMaterialToString($item->getQuestiontext()));
         $this->object->setObjId($questionpool_id);
         $this->object->setPoints($item->getMetadataEntry("points"));
         $this->object->setMaxSize($item->getMetadataEntry("maxsize") ? (int) $item->getMetadataEntry("maxsize") : null);

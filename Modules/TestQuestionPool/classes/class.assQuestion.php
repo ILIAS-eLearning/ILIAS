@@ -1919,34 +1919,6 @@ abstract class assQuestion
         }
         return $points;
     }
-
-    /**
-    * Reads an QTI material tag and creates a text or XHTML string
-    * @return string text or xhtml string
-    */
-    public function QTIMaterialToString(ilQTIMaterial $a_material): string
-    {
-        $result = "";
-        $mobs = ilSession::get('import_mob_xhtml') ?? [];
-        for ($i = 0; $i < $a_material->getMaterialCount(); $i++) {
-            $material = $a_material->getMaterial($i);
-            if (strcmp($material["type"], "mattext") == 0) {
-                $result .= $material["material"]->getContent();
-            }
-            if (strcmp($material["type"], "matimage") == 0) {
-                $matimage = $material["material"];
-                if (preg_match("/(il_([0-9]+)_mob_([0-9]+))/", $matimage->getLabel(), $matches)) {
-                    $mobs[] = [
-                        "mob" => $matimage->getLabel(),
-                        "uri" => $matimage->getUri()
-                    ];
-                }
-            }
-        }
-        ilSession::set('import_mob_xhtml', $mobs);
-        return $result;
-    }
-
     public function buildHashedImageFilename(string $plain_image_filename, bool $unique = false): string
     {
         $extension = "";
