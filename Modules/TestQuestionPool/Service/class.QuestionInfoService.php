@@ -252,4 +252,20 @@ class QuestionInfoService
         );
         return $this->database->numRows($result) > 0;
     }
+
+    public function originalQuestionExists(int $questionId): bool
+    {
+        $query = "
+			SELECT COUNT(dupl.question_id) cnt
+			FROM qpl_questions dupl
+			INNER JOIN qpl_questions orig
+			ON orig.question_id = dupl.original_id
+			WHERE dupl.question_id = %s
+		";
+
+        $res = $this->database->queryF($query, array('integer'), array($questionId));
+        $row = $this->database->fetchAssoc($res);
+
+        return $row['cnt'] > 0;
+    }
 }

@@ -3053,7 +3053,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
 
             $original_question_id = $questionInstance->getOriginalId();
             if ($original_question_id !== null
-                && assQuestion::originalQuestionExists($original_question_id)) {
+                && $this->questioninfo->originalQuestionExists($original_question_id)) {
                 $oldOriginal = assQuestion::instantiateQuestion($original_question_id);
                 $oldOriginal->delete($oldOriginal->getId());
             }
@@ -3106,7 +3106,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
 
         if ($this->testrequest->isset('q_id') && is_array($this->testrequest->raw('q_id'))) {
             foreach ($this->testrequest->raw('q_id') as $q_id) {
-                if (!assQuestion::originalQuestionExists($q_id)) {
+                if (!$this->questioninfo->originalQuestionExists($q_id)) {
                     continue;
                 }
 

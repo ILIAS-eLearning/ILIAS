@@ -1718,24 +1718,7 @@ abstract class assQuestion
         return -1;
     }
 
-    public static function originalQuestionExists(int $questionId): bool
-    {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
 
-        $query = "
-			SELECT COUNT(dupl.question_id) cnt
-			FROM qpl_questions dupl
-			INNER JOIN qpl_questions orig
-			ON orig.question_id = dupl.original_id
-			WHERE dupl.question_id = %s
-		";
-
-        $res = $ilDB->queryF($query, array('integer'), array($questionId));
-        $row = $ilDB->fetchAssoc($res);
-
-        return $row['cnt'] > 0;
-    }
 
     public function syncWithOriginal(): void
     {
