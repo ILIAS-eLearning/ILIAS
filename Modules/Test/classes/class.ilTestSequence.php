@@ -66,7 +66,8 @@ class ilTestSequence implements ilTestQuestionSequence, ilTestSequenceSummaryPro
     public function __construct(
         protected ilDBInterface $db,
         protected int $active_id,
-        protected int $pass
+        protected int $pass,
+        protected \ILIAS\TestQuestionPool\QuestionInfoService $questioninfo
     ) {
         $this->sequencedata = [
             "sequence" => [],
@@ -609,7 +610,7 @@ class ilTestSequence implements ilTestQuestionSequence, ilTestSequenceSummaryPro
         foreach ($correctedsequence as $sequence) {
             $question = ilObjTest::_instanciateQuestion($this->getQuestionForSequence($sequence));
             if (is_object($question)) {
-                $worked_through = $question->_isWorkedThrough($this->active_id, $question->getId(), $this->pass);
+                $worked_through = $this->questioninfo->lookupResultRecordExist($this->active_id, $question->getId(), $this->pass);
                 $solved = 0;
                 if (array_key_exists($question->getId(), $solved_questions)) {
                     $solved = $solved_questions[$question->getId()]["solved"];

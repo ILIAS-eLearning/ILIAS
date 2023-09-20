@@ -161,7 +161,9 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
             $this->lng,
             $this->log,
             $this->component_repository,
-            $this
+            $this,
+            $this,
+            $this->questioninfo
         );
     }
 
@@ -1108,7 +1110,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
     {
         $testSequenceFactory = new ilTestSequenceFactory(
             $this,
-            $this->db
+            $this->db,
+            $this->questioninfo
         );
 
         foreach ($activeIds as $activeId) {
@@ -1764,7 +1767,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
             $pass = (int) $results['pass'];
         }
 
-        $testSequenceFactory = new ilTestSequenceFactory($this, $this->db);
+        $testSequenceFactory = new ilTestSequenceFactory($this, $this->db, $this->questioninfo);
         $testSequence = $testSequenceFactory->getSequenceByActiveIdAndPass($active_id, $pass);
 
         $testSequence->setConsiderHiddenQuestionsEnabled($considerHiddenQuestions);
@@ -5492,7 +5495,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         }
         $workedthrough = 0;
         foreach ($this->questions as $value) {
-            if (assQuestion::_isWorkedThrough($active_id, $value, $pass)) {
+            if ($this->questioninfo->lookupResultRecordExist($active_id, $value, $pass)) {
                 $workedthrough += 1;
             }
         }
@@ -8068,7 +8071,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         // Added temporarily bugfix smeyer
         $test_session_factory->reset();
 
-        $test_sequence_factory = new ilTestSequenceFactory($test_obj, $ilDB);
+        $test_sequence_factory = new ilTestSequenceFactory($test_obj, $ilDB, $this->questioninfo);
 
         $test_session = $test_session_factory->getSession($active_id);
         $test_sequence = $test_sequence_factory->getSequenceByActiveIdAndPass($active_id, $test_session->getPass());

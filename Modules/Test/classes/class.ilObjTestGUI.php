@@ -78,6 +78,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
     private ilTestPlayerFactory $test_player_factory;
     private ilTestSessionFactory $test_session_factory;
     private ilTestSequenceFactory $test_sequence_factory;
+    private \ILIAS\TestQuestionPool\QuestionInfoService $questioninfo;
     protected ilTestTabsManager $tabs_manager;
     private ilTestObjectiveOrientedContainer $objective_oriented_container;
     protected ilTestAccess $test_access;
@@ -117,7 +118,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
         $this->help = $DIC['ilHelp'];
         $this->obj_data_cache = $DIC['ilObjDataCache'];
         $this->skills_service = $DIC->skills();
-
+        $this->questioninfo = $DIC->testQuestionPool()->questionInfo();
         $this->type = 'tst';
 
         $this->testrequest = $DIC->test()->internal()->request();
@@ -158,7 +159,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
 
             $this->test_player_factory = new ilTestPlayerFactory($this->object);
             $this->test_session_factory = new ilTestSessionFactory($this->object, $this->db, $this->user);
-            $this->test_sequence_factory = new ilTestSequenceFactory($this->object, $this->db);
+            $this->test_sequence_factory = new ilTestSequenceFactory($this->object, $this->db, $this->questioninfo);
             $this->setTestAccess(new ilTestAccess($this->ref_id, $this->object->getTestId()));
         } else {
             $this->setCreationMode(true); // I think?

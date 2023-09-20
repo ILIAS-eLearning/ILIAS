@@ -142,17 +142,15 @@ class ilTestServiceGUI
         $this->skills_service = $DIC->skills();
         $this->participant_access_filter = new ilTestParticipantAccessFilterFactory($DIC['ilAccess']);
         $this->post_wrapper = $DIC->http()->wrapper()->post();
-
         $this->testrequest = $DIC->test()->internal()->request();
         $this->questioninfo = $DIC->testQuestionPool()->questionInfo();
+        $this->service = new ilTestService($this->object, $this->db, $this->questioninfo);
         $this->lng->loadLanguageModule('cert');
 
         $this->ref_id = $this->object->getRefId();
-
-        $this->service = new ilTestService($this->object, $this->db);
-
+        $this->testrequest = $DIC->test()->internal()->request();
         $this->testSessionFactory = new ilTestSessionFactory($this->object, $this->db, $this->user);
-        $this->testSequenceFactory = new ilTestSequenceFactory($this->object, $this->db);
+        $this->testSequenceFactory = new ilTestSequenceFactory($this->object, $this->db, $this->questioninfo);
 
         $this->objective_oriented_container = null;
     }

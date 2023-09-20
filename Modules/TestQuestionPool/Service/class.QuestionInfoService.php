@@ -148,4 +148,19 @@ class QuestionInfoService
         );
         return $res->numRows() === count($a_question_ids);
     }
+
+    public function lookupResultRecordExist(int $activeId, int $questionId, int $pass): bool
+    {
+        $query = "
+			SELECT COUNT(*) cnt
+			FROM tst_test_result
+			WHERE active_fi = %s
+			AND question_fi = %s
+			AND pass = %s
+		";
+
+        $row = $this->database->fetchAssoc($this->database->queryF($query, array('integer', 'integer', 'integer'), array($activeId, $questionId, $pass)));
+
+        return $row['cnt'] > 0;
+    }
 }

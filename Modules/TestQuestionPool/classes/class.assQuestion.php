@@ -2121,15 +2121,6 @@ abstract class assQuestion
     }
 
     /**
-     * Returns true if the question was worked through in the given pass
-     * Worked through means that the user entered at least one value
-     */
-    public static function _isWorkedThrough(int $active_id, int $question_id, int $pass): bool
-    {
-        return self::lookupResultRecordExist($active_id, $question_id, $pass);
-    }
-
-    /**
      * @deprecated use ilUtil::prepareTextareaOutput() (or successor) instead
      */
     public function prepareTextareaOutput(string $txt_output, bool $prepare_for_latex_output = false, bool $omitNl2BrWhenTextArea = false)
@@ -3350,24 +3341,6 @@ abstract class assQuestion
         );
 
         return $questionsMissingResultRecordt;
-    }
-
-    public static function lookupResultRecordExist(int $activeId, int $questionId, int $pass): bool
-    {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-
-        $query = "
-			SELECT COUNT(*) cnt
-			FROM tst_test_result
-			WHERE active_fi = %s
-			AND question_fi = %s
-			AND pass = %s
-		";
-
-        $row = $ilDB->fetchAssoc($ilDB->queryF($query, array('integer', 'integer', 'integer'), array($activeId, $questionId, $pass)));
-
-        return $row['cnt'] > 0;
     }
 
     public function fetchValuePairsFromIndexedValues(array $indexedValues): array
