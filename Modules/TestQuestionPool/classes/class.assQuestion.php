@@ -60,7 +60,7 @@ abstract class assQuestion
 
     protected const DEFAULT_THUMB_SIZE = 150;
     protected const MINIMUM_THUMB_SIZE = 20;
-    private \ILIAS\TestQuestionPool\QuestionInfoService $questioninfo;
+    protected \ILIAS\TestQuestionPool\QuestionInfoService $questioninfo;
 
     protected ILIAS\HTTP\Services $http;
     protected ILIAS\Refinery\Factory $refinery;
