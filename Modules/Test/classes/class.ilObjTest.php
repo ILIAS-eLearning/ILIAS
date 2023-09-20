@@ -162,7 +162,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
             $this->log,
             $this->component_repository,
             $this,
-            $this,
             $this->questioninfo
         );
     }

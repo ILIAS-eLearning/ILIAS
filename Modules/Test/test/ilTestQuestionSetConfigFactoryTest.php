@@ -42,6 +42,7 @@ class ilTestQuestionSetConfigFactoryTest extends ilTestBaseTestCase
             $DIC['ilLog'],
             $DIC['component.repository'],
             $this->createMock(ilObjTest::class),
+            $this->createMock(\ILIAS\TestQuestionPool\QuestionInfoService::class)
         );
     }
 

@@ -185,16 +185,18 @@ class ilQTIParser extends ilSaxParser
 
     protected ?string $questionSetType = null;
 
+    protected \ILIAS\TestQuestionPool\QuestionFilesService $questionfiles;
+
     public function __construct(?string $a_xml_file, int $a_mode = self::IL_MO_PARSE_QTI, int $a_qpl_id = 0, $a_import_idents = "")
     {
-        global $lng;
+        global $DIC;
 
         $this->parser_mode = $a_mode;
-
+        $this->questionfiles = $DIC->testQuestionPool()->questionFiles();
         parent::__construct($a_xml_file);
 
         $this->qpl_id = $a_qpl_id;
-        $this->lng = $lng;
+        $this->lng = $DIC->language();
         if (is_array($a_import_idents)) {
             $this->import_idents = &$a_import_idents;
         }
@@ -834,7 +836,7 @@ class ilQTIParser extends ilSaxParser
                     break;
                 }
                 try {
-                    $matImageSecurity = new ilQtiMatImageSecurity($this->matimage);
+                    $matImageSecurity = new ilQtiMatImageSecurity($this->matimage, $this->questionfiles);
                     $matImageSecurity->sanitizeLabel();
                 } catch (Exception $e) {
                     break;
