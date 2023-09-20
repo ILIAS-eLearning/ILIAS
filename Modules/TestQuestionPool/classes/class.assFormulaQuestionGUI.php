@@ -760,7 +760,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
             $this->saveTaxonomyAssignments();
             $this->object->saveToDb();
             $originalexists = false;
-            if ($this->object->getOriginalId() != null && $this->object->_questionExistsInPool($this->object->getOriginalId())) {
+            if ($this->object->getOriginalId() != null && $this->questioninfo->questionExistsInPool($this->object->getOriginalId())) {
                 $originalexists = true;
             }
             if (($this->request->raw("calling_test") || ($this->request->isset('calling_consumer') && (int) $this->request->raw('calling_consumer')))

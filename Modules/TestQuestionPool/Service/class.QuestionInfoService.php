@@ -214,4 +214,32 @@ class QuestionInfoService
 
         return $count;
     }
+
+    public function questionExists(int $question_id): bool
+    {
+        if ($question_id < 1) {
+            return false;
+        }
+
+        $result = $this->database->queryF(
+            "SELECT question_id FROM qpl_questions WHERE question_id = %s",
+            array('integer'),
+            array($question_id)
+        );
+        return $result->numRows() === 1;
+    }
+
+    public function questionExistsInPool(int $question_id): bool
+    {
+        if ($question_id < 1) {
+            return false;
+        }
+
+        $result = $this->database->queryF(
+            "SELECT question_id FROM qpl_questions INNER JOIN object_data ON obj_fi = obj_id WHERE question_id = %s AND type = 'qpl'",
+            array('integer'),
+            array($question_id)
+        );
+        return $this->database->numRows($result) === 1;
+    }
 }

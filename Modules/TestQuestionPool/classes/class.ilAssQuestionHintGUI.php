@@ -37,11 +37,14 @@ class ilAssQuestionHintGUI extends ilAssQuestionHintAbstractGUI
     public const CMD_CANCEL_FORM = 'cancelForm';
     public const CMD_CONFIRM_FORM = 'confirmForm';
     private \ilGlobalTemplateInterface $main_tpl;
+    private \ILIAS\TestQuestionPool\QuestionInfoService $questioninfo;
+
     public function __construct(assQuestionGUI $questionGUI)
     {
         parent::__construct($questionGUI);
         global $DIC;
         $this->main_tpl = $DIC->ui()->mainTemplate();
+        $this->questioninfo = $DIC->testQuestionPool()->questionInfo();
     }
 
     /**
@@ -155,7 +158,7 @@ class ilAssQuestionHintGUI extends ilAssQuestionHintAbstractGUI
                 $this->questionOBJ->updateTimestamp();
             }
 
-            $originalexists = $this->questionOBJ->_questionExistsInPool((int) $this->questionOBJ->getOriginalId());
+            $originalexists = $this->questioninfo->questionExistsInPool((int) $this->questionOBJ->getOriginalId());
             if ($this->request->raw('calling_test') && $originalexists && assQuestion::_isWriteable($this->questionOBJ->getOriginalId(), $ilUser->getId())) {
                 $ilCtrl->redirectByClass('ilAssQuestionHintsGUI', ilAssQuestionHintsGUI::CMD_CONFIRM_SYNC);
             }
