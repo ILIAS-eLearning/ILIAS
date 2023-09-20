@@ -552,21 +552,6 @@ abstract class assQuestion
         return $this->outputType;
     }
 
-    public function supportsJavascriptOutput(): bool
-    {
-        return false;
-    }
-
-    public function supportsNonJsOutput(): bool
-    {
-        return true;
-    }
-
-    public function requiresJsSwitch(): bool
-    {
-        return $this->supportsJavascriptOutput() && $this->supportsNonJsOutput();
-    }
-
     public function getAuthor(): string
     {
         return $this->author;
