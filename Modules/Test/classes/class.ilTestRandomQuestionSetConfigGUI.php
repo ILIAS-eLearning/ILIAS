@@ -79,7 +79,8 @@ class ilTestRandomQuestionSetConfigGUI
         private ilObjectDefinition $obj_definition,
         private ilObjectDataCache $obj_cache,
         private ilTestProcessLockerFactory $processLockerFactory,
-        private InternalRequestService $testrequest
+        private InternalRequestService $testrequest,
+        private \ILIAS\TestQuestionPool\QuestionInfoService $questioninfo
     ) {
         $this->questionSetConfig = new ilTestRandomQuestionSetConfig(
             $this->tree,
@@ -87,7 +88,8 @@ class ilTestRandomQuestionSetConfigGUI
             $this->lng,
             $this->log,
             $this->component_repository,
-            $this->test_obj
+            $this->test_obj,
+            $this->questioninfo
         );
         $this->questionSetConfig->loadFromDb();
 

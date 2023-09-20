@@ -39,7 +39,9 @@ class ilTestExportRandomQuestionSet extends ilTestExport
         private ilLogger $logger,
         private ilTree $tree,
         private ilComponentRepository $component_repository,
+        protected \ILIAS\TestQuestionPool\QuestionInfoService $questioninfo,
         string $mode = "xml"
+
     ) {
         parent::__construct($test_obj, $mode);
     }
@@ -80,7 +82,8 @@ class ilTestExportRandomQuestionSet extends ilTestExport
             $this->lng,
             $this->logger,
             $this->component_repository,
-            $this->test_obj
+            $this->test_obj,
+            $this->questioninfo
         );
         $question_set_config->loadFromDb();
 

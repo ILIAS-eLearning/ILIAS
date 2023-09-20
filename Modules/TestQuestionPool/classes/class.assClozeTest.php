@@ -933,7 +933,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
         $thisObjId = $this->getObjId();
 
         $clone = $this;
-        $original_id = assQuestion::_getOriginalId($this->id);
+        $original_id = $this->questioninfo->getOriginalId($this->id);
         $clone->id = -1;
 
         if ((int) $testObjId > 0) {
@@ -987,7 +987,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
         $thisObjId = $this->getObjId();
 
         $clone = $this;
-        $original_id = assQuestion::_getOriginalId($this->getId());
+        $original_id = $this->questioninfo->getOriginalId($this->getId());
         $clone->id = -1;
         $clone->setObjId($target_questionpool_id);
         if ($title) {

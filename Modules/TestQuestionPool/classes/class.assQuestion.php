@@ -796,10 +796,11 @@ abstract class assQuestion
 
     public static function logAction(string $logtext, int $active_id, int $question_id): void
     {
-        $original_id = self::_getOriginalId($question_id);
+        global $DIC;
+        $original_id = $DIC->testQuestionPool()->questionInfo()->getOriginalId($question_id);
 
         ilObjAssessmentFolder::_addLog(
-            $GLOBALS['DIC']['ilUser']->getId(),
+            $DIC->user()->getId(),
             ilObjTest::_getObjectIDFromActiveID($active_id),
             $logtext,
             $question_id,
@@ -1696,29 +1697,6 @@ abstract class assQuestion
         }
         return $href;
     }
-
-    public static function _getOriginalId(int $question_id): int
-    {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-        $result = $ilDB->queryF(
-            "SELECT * FROM qpl_questions WHERE question_id = %s",
-            array('integer'),
-            array($question_id)
-        );
-        if ($ilDB->numRows($result) > 0) {
-            $row = $ilDB->fetchAssoc($result);
-            if ($row["original_id"] > 0) {
-                return $row["original_id"];
-            }
-
-            return (int) $row["question_id"];
-        }
-
-        return -1;
-    }
-
-
 
     public function syncWithOriginal(): void
     {

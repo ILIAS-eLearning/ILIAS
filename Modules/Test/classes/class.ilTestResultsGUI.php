@@ -65,7 +65,8 @@ class ilTestResultsGUI
         private UIFactory $ui_factory,
         private UIRenderer $ui_renderer,
         private SkillService $skills_service,
-        private InternalRequestService $testrequest
+        private InternalRequestService $testrequest,
+        private \ILIAS\TestQuestionPool\QuestionInfoService $questioninfo
     ) {
     }
 

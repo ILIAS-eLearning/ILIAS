@@ -300,7 +300,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
 
         $clone = $this;
 
-        $original_id = assQuestion::_getOriginalId($this->id);
+        $original_id = $this->questioninfo->getOriginalId($this->id);
         $clone->id = -1;
 
         if ((int) $testObjId > 0) {
@@ -347,7 +347,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
         // duplicate the question in database
         $clone = $this;
 
-        $original_id = assQuestion::_getOriginalId($this->id);
+        $original_id = $this->questioninfo->getOriginalId($this->id);
         $clone->id = -1;
         $source_questionpool_id = $this->getObjId();
         $clone->setObjId($target_questionpool_id);
@@ -858,7 +858,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
 
     public function syncWithOriginal(): void
     {
-        if ($this->getOriginalId()) {
+        if ($this->questioninfo->getOriginalId()) {
             $this->syncImages();
             parent::syncWithOriginal();
         }
@@ -1027,8 +1027,8 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
         global $DIC;
         $ilLog = $DIC['ilLog'];
         $imagepath = $this->getImagePath();
-        $question_id = $this->getOriginalId();
-        $originalObjId = parent::lookupParentObjId($this->getOriginalId());
+        $question_id = $this->questioninfo->getOriginalId();
+        $originalObjId = parent::lookupParentObjId($this->questioninfo->getOriginalId());
         $imagepath_original = $this->getImagePath($question_id, $originalObjId);
 
         ilFileUtils::delDir($imagepath_original);
