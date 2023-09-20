@@ -58,7 +58,8 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
         private ilAccessHandler $access,
         private GlobalHttpState $http_state,
         private Refinery $refinery,
-        private InternalRequestService $testrequest
+        private InternalRequestService $testrequest,
+        private ILIAS\TestQuestionPool\QuestionInfoService $questioninfo
     ) {
         $this->setId('qpl_brows_tabl_' . $this->test_obj->getId());
 
@@ -408,7 +409,7 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
         $this->tpl->setVariable("QUESTION_ID", $a_set["question_id"]);
         $this->tpl->setVariable("QUESTION_TITLE", $a_set["title"]);
         $this->tpl->setVariable("QUESTION_COMMENT", $a_set["description"]);
-        $this->tpl->setVariable("QUESTION_TYPE", assQuestion::_getQuestionTypeName($a_set["type_tag"]));
+        $this->tpl->setVariable("QUESTION_TYPE", $this->questioninfo->getQuestionType($a_set["question_id"]));
         $this->tpl->setVariable("QUESTION_AUTHOR", $a_set["author"]);
         $this->tpl->setVariable("QUESTION_LIFECYCLE", $this->getTranslatedLifecycle($a_set['lifecycle']));
         $this->tpl->setVariable(

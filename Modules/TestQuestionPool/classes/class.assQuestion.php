@@ -2375,22 +2375,7 @@ abstract class assQuestion
         return str_replace('ass', 'ilAss', $questionType) . 'Feedback';
     }
 
-    public static function _getQuestionTypeName($type_tag): string
-    {
-        global $DIC;
-        if (file_exists("./Modules/TestQuestionPool/classes/class." . $type_tag . ".php")) {
-            $lng = $DIC['lng'];
-            return $lng->txt($type_tag);
-        }
-        $component_factory = $DIC['component.factory'];
 
-        foreach ($component_factory->getActivePluginsInSlot("qst") as $pl) {
-            if ($pl->getQuestionType() === $type_tag) {
-                return $pl->getQuestionTypeTranslation();
-            }
-        }
-        return "";
-    }
 
     public static function instantiateQuestionGUI(int $a_question_id): assQuestionGUI
     {
