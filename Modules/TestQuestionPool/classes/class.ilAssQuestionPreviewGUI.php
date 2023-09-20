@@ -133,8 +133,6 @@ class ilAssQuestionPreviewGUI
         $this->questionGUI->outAdditionalOutput();
 
         $this->questionGUI->populateJavascriptFilesRequiredForWorkForm($this->tpl);
-        $this->questionOBJ->setOutputType(OUTPUT_JAVASCRIPT); // TODO: remove including depending stuff
-
         $this->questionGUI->setTargetGui($this);
         $this->questionGUI->setQuestionActionCmd(self::CMD_HANDLE_QUESTION_ACTION);
 
