@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+use ILIAS\TestQuestionPool\QuestionInfoService;
+
 /**
  * @ilCtrl_Calls ilAssQuestionHintsGUI: ilAssQuestionHintGUI
  *
@@ -49,6 +51,7 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
     private $hintOrderingClipboard = null;
     private ilLanguage $lng;
     private ilCtrl $ctrl;
+    private QuestionInfoService $questioninfo;
 
     /**
      * @var bool
