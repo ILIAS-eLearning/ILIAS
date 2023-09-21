@@ -2,9 +2,11 @@
 
 declare(strict_types=1);
 
-use ILIAS\Data\Factory;
+use ILIAS\Data\Factory as DataFactory;
+use ILIAS\Data\Link;
 use ILIAS\Data\Result;
 use ILIAS\UI\Component\Launcher\Launcher;
+use ILIAS\UI\Component\Launcher\Factory as LauncherFactory;
 use ILIAS\UI\Component\MessageBox\MessageBox;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
@@ -46,7 +48,7 @@ class ilTestScreenGUI
     private readonly int $ref_id;
     private readonly ilObjTestMainSettings $main_settings;
     private readonly ilTestSession $test_session;
-    private readonly Factory $data_factory;
+    private readonly DataFactory $data_factory;
 
     public function __construct(
         private readonly ilObjTest $object,
@@ -64,7 +66,7 @@ class ilTestScreenGUI
         $this->access = $DIC->access();
         $this->ref_id = $this->object->getRefId();
         $this->main_settings = $this->object->getMainSettings();
-        $this->data_factory = new Factory();
+        $this->data_factory = new DataFactory();
 
         $db = $DIC->database();
         $this->test_session = (new ilTestSessionFactory($this->object, $db, $this->user))->getSession();
@@ -96,33 +98,14 @@ class ilTestScreenGUI
 
         $elements = [];
 
-        $elements = $this->handleTestScreenRenderIntroduction($elements);
-        $elements = $this->handleTestScreenRenderPreviousAccessCode($elements);
-        $elements = $this->handleTestScreenRenderSessionSettings($elements);
+        $elements = $this->handleRenderIntroduction($elements);
+        $elements = $this->handleRenderPreviousAccessCode($elements);
+        $elements = $this->handleRenderSessionSettings($elements);
 
-        if (!$this->object->getOfflineStatus()) {
-            switch ($this->evaluateTestScreenSwitchValue()) {
-                case 'showLauncher':
-                    $elements = $this->handleTestScreenRenderLauncher($elements);
-                    break;
-                case 'showStartButton':
-                    $elements = $this->handleTestScreenRenderTimeRestriction($elements);
-                    $elements = $this->renderTestScreenStartButton($elements);
-                    break;
-                case 'showContinueButton':
-                    $elements = $this->handleTestScreenRenderTimeRestriction($elements);
-                    $elements = $this->renderTestScreenResumeButton($elements);
-                    break;
-                case 'showOutOfTimeMessage':
-                    $elements = $this->renderTestScreenOutOfTimeMessage($elements);
-                    break;
-            }
-        }
-
-        $this->tpl->setContent($this->ui_renderer->render($elements));
+        $this->tpl->setContent($this->ui_renderer->render(!$this->object->getOfflineStatus() ? $this->handleRenderLauncher($elements) : $elements));
     }
 
-    private function handleTestScreenRenderIntroduction(array $elements): array
+    private function handleRenderIntroduction(array $elements): array
     {
         $introduction = $this->object->getIntroduction();
 
@@ -139,7 +122,7 @@ class ilTestScreenGUI
         return $elements;
     }
 
-    private function handleTestScreenRenderPreviousAccessCode(array $elements): array
+    private function handleRenderPreviousAccessCode(array $elements): array
     {
         if ($this->user->isAnonymous()) {
             $elements[] = $this->ui_factory->panel()->standard(
@@ -151,7 +134,7 @@ class ilTestScreenGUI
         return $elements;
     }
 
-    private function handleTestScreenRenderSessionSettings(array $elements): array
+    private function handleRenderSessionSettings(array $elements): array
     {
         $elements[] = $this->ui_factory->panel()->standard($this->lng->txt('tst_session_settings'),[
             $this->ui_factory->item()->standard($this->lng->txt('tst_nr_of_tries'))->withDescription(
@@ -169,9 +152,9 @@ class ilTestScreenGUI
         return $elements;
     }
 
-    private function handleTestScreenRenderLauncher(array $elements): array
+    private function handleRenderLauncher(array $elements): array
     {
-        $launcher = $this->getTestScreenLauncher();
+        $launcher = $this->getLauncher();
         $request = $this->http->request();
 
         if (array_key_exists('launcher_id', $request->getQueryParams()) && $request->getQueryParams()['launcher_id'] === 'exam_modal') {
@@ -179,28 +162,6 @@ class ilTestScreenGUI
         }
 
         $elements[] = $launcher;
-
-        return $elements;
-    }
-
-    private function renderTestScreenStartButton(array $elements): array
-    {
-        $elements[] = $this->ui_factory->button()->primary(
-            $this->lng->txt('tst_exam_start'),
-            $this->ctrl->getLinkTarget((new ilTestPlayerFactory($this->object))->getPlayerGUI(), 'startTest')
-        );
-
-        return $elements;
-    }
-
-    private function renderTestScreenResumeButton(array $elements): array
-    {
-        ilSession::set('tst_password_' . $this->object->getTestId(), $this->object->getPassword());
-
-        $elements[] = $this->ui_factory->button()->primary(
-            $this->lng->txt('tst_resume_test'),
-            $this->ctrl->getLinkTarget((new ilTestPlayerFactory($this->object))->getPlayerGUI(), ilTestPlayerCommands::RESUME_PLAYER)
-        );
 
         return $elements;
     }
@@ -247,21 +208,48 @@ class ilTestScreenGUI
         return $elements;
     }
 
-
-
-    private function getTestScreenLauncher(): Launcher
+    private function getLauncher(): Launcher
     {
-        $launcher = $this->ui_factory->launcher()
-            ->inline($this->data_factory->link($this->lng->txt('tst_exam_start'), $this->data_factory->uri($this->http->request()->getUri()->__toString())->withParameter('launcher_id', 'exam_modal')))
-            ->withInputs(
-                $this->ui_factory->input()->field()->group($this->getTestScreenModalInputs()),
-                function (Result $result) {$this->evaluateTestScreenModalForm($result);},
-                $this->getTestScreenModalMessageBox()
-            )
-            ->withDescription($this->getTestScreenLauncherDescription())
-        ;
+        $launcher = $this->ui_factory->launcher();
 
-        $launcher = $this->handleTestScreenLauncherLocked($launcher);
+        if ($this->isUserOutOfTime()) {
+            return $launcher
+                ->inline($this->data_factory->link('', $this->data_factory->uri($this->http->request()->getUri()->__toString())))
+                ->withButtonLabel($this->lng->txt('tst_out_of_time_message'), false)
+            ;
+        }
+
+        if ($this->hasAvailablePasses()) {
+            if ($this->lastPassSuspended() && $this->insideProcessingTime()) {
+                ilSession::set('tst_password_' . $this->object->getTestId(), $this->object->getPassword());
+
+                return $launcher
+                    ->inline($this->getResumeLauncherLink())
+                    ->withDescription($this->getResumeLauncherDescription())
+                ;
+            }
+
+            if ($this->newPassCanBeStarted()) {
+                if ($this->isModalLauncherNeeded()) {
+                    return $launcher
+                        ->inline($this->getModalLauncherLink())
+                        ->withDescription($this->getModalLauncherDescription())
+                        ->withInputs(
+                            $this->ui_factory->input()->field()->group($this->getModalLauncherInputs()),
+                            function (Result $result) {$this->evaluateLauncherModalForm($result);},
+                            $this->getModalLauncherMessageBox()
+                        )
+                    ;
+                }
+
+                return $launcher
+                    ->inline($this->getStartLauncherLink())
+                    ->withDescription($this->getStartLauncherDescription())
+                ;
+            }
+        }
+
+        $launcher = $this->handleLauncherLocked($launcher);
 
         $launcher = $this->handleTestScreenLauncherStatusIcon($launcher);
 
@@ -270,7 +258,105 @@ class ilTestScreenGUI
         return $launcher;
     }
 
-    private function getTestScreenModalInputs(): array
+    private function getResumeLauncherLink(): Link
+    {
+        $url = $this->ctrl->getLinkTarget((new ilTestPlayerFactory($this->object))->getPlayerGUI(), ilTestPlayerCommands::RESUME_PLAYER);
+        return $this->data_factory->link($this->lng->txt('tst_resume_test'), $this->data_factory->uri($url));
+    }
+
+    private function getResumeLauncherDescription(): string
+    {
+        $test_behaviour_settings = $this->main_settings->getTestBehaviourSettings();
+
+        $launcher_description = '';
+        $launcher_description_elements = [];
+
+        if ($test_behaviour_settings->getProcessingTimeEnabled()) {
+            $launcher_description_elements[] = sprintf($this->lng->txt('tst_time_limit_message'), $test_behaviour_settings->getProcessingTimeAsMinutes());
+        }
+
+        if ($this->object->isEndingTimeEnabled() && !$this->object->endingTimeReached()) {
+            $launcher_description_elements[] = $this->lng->txt('tst_disclaimer');
+            $launcher_description_elements[] = sprintf(
+                $this->lng->txt('detail_starting_time_not_reached'),
+                ilDatePresentation::formatDate(new ilDateTime($this->object->getStartingTime(), IL_CAL_UNIX))
+            );
+        }
+
+        foreach ($launcher_description_elements as $launcher_description_element) {
+            $launcher_description .=  '<p>' . $launcher_description_element . '</p>';
+        }
+
+        return $launcher_description;
+    }
+
+    private function getModalLauncherLink(): Link
+    {
+        $url = $this->http->request()->getUri()->__toString();
+        $uri = $this->data_factory->uri($url)->withParameter('launcher_id', 'exam_modal');
+        return $this->data_factory->link($this->lng->txt('tst_exam_start'), $uri);
+    }
+
+    private function getModalLauncherDescription(): string
+    {
+        $test_behaviour_settings = $this->main_settings->getTestBehaviourSettings();
+
+        $launcher_description = '';
+        $launcher_description_elements = [];
+
+        if ($test_behaviour_settings->getProcessingTimeEnabled()) {
+            $launcher_description_elements[] = sprintf($this->lng->txt('tst_time_limit_message'), $test_behaviour_settings->getProcessingTimeAsMinutes());
+        }
+
+        if ($this->object->isEndingTimeEnabled() && !$this->object->endingTimeReached()) {
+            $launcher_description_elements[] = $this->lng->txt('tst_disclaimer');
+        }
+
+        if ($this->object->isStartingTimeEnabled() && !$this->object->startingTimeReached()) {
+            $launcher_description_elements[] = sprintf(
+                $this->lng->txt('detail_starting_time_not_reached'),
+                ilDatePresentation::formatDate(new ilDateTime($this->object->getStartingTime(), IL_CAL_UNIX))
+            );
+        }
+
+        if ($this->object->isEndingTimeEnabled()) {
+            if ($this->object->endingTimeReached()) {
+                $launcher_description_elements[] = sprintf(
+                    $this->lng->txt('detail_ending_time_reached'),
+                    ilDatePresentation::formatDate(new ilDateTime($this->object->getEndingTime(), IL_CAL_UNIX))
+                );
+            } else {
+                $launcher_description_elements[] = sprintf(
+                    $this->lng->txt('tst_exam_ending_time_message'),
+                    ilDatePresentation::formatDate(new ilDateTime($this->object->getEndingTime(), IL_CAL_UNIX))
+                );
+            }
+        }
+
+        foreach ($launcher_description_elements as $launcher_description_element) {
+            $launcher_description .=  '<p>' . $launcher_description_element . '</p>';
+        }
+
+        return $launcher_description;
+    }
+
+    private function getModalLauncherMessageBox(): ?MessageBox
+    {
+        $exam_conditions_enabled = $this->main_settings->getIntroductionSettings()->getExamConditionsCheckboxEnabled();
+        $password_enabled = $this->main_settings->getAccessSettings()->getPasswordEnabled();
+
+        if ($exam_conditions_enabled && $password_enabled) {
+            $modal_message_box_message = $this->lng->txt('tst_exam_modal_message_conditions_and_password');
+        } elseif ($exam_conditions_enabled) {
+            $modal_message_box_message = $this->lng->txt('tst_exam_modal_message_conditions');
+        } elseif ($password_enabled) {
+            $modal_message_box_message = $this->lng->txt('tst_exam_modal_message_password');
+        }
+
+        return isset($modal_message_box_message) ? $this->ui_factory->messageBox()->info($modal_message_box_message) : null;
+    }
+
+    private function getModalLauncherInputs(): array
     {
         if ($this->main_settings->getIntroductionSettings()->getExamConditionsCheckboxEnabled()) {
             $modal_inputs[] = $this->ui_factory->input()->field()->checkbox(
@@ -310,7 +396,19 @@ class ilTestScreenGUI
         return $modal_inputs ?? [];
     }
 
-    private function evaluateTestScreenModalForm(Result $result): void
+    private function getStartLauncherLink(): Link
+    {
+        $url = $this->ctrl->getLinkTarget((new ilTestPlayerFactory($this->object))->getPlayerGUI(), ilTestPlayerCommands::START_TEST);
+        return $this->data_factory->link($this->lng->txt('tst_exam_start'), $this->data_factory->uri($url));
+    }
+
+    private function getStartLauncherDescription(): string
+    {
+        // TODO: Implement getStartLauncherDescription() method.
+        return '';
+    }
+
+    private function evaluateLauncherModalForm(Result $result): void
     {
         if ($result->isOK()) {
             $conditions_met = true;
@@ -373,82 +471,17 @@ class ilTestScreenGUI
         }
     }
 
-    private function getTestScreenModalMessageBox(): ?MessageBox
-    {
-        $exam_conditions_enabled = $this->main_settings->getIntroductionSettings()->getExamConditionsCheckboxEnabled();
-        $password_enabled = $this->main_settings->getAccessSettings()->getPasswordEnabled();
-
-        if ($exam_conditions_enabled && $password_enabled) {
-            $modal_message_box_message = $this->lng->txt('tst_exam_modal_message_conditions_and_password');
-        } elseif ($exam_conditions_enabled) {
-            $modal_message_box_message = $this->lng->txt('tst_exam_modal_message_conditions');
-        } elseif ($password_enabled) {
-            $modal_message_box_message = $this->lng->txt('tst_exam_modal_message_password');
-        }
-
-        return isset($modal_message_box_message) ? $this->ui_factory->messageBox()->info($modal_message_box_message) : null;
-    }
-
-    private function getTestScreenLauncherDescription(): string
-    {
-        $test_behaviour_settings = $this->main_settings->getTestBehaviourSettings();
-
-        $launcher_description = '';
-        $launcher_description_elements = [];
-
-        if ($test_behaviour_settings->getProcessingTimeEnabled()) {
-            $launcher_description_elements[] = sprintf($this->lng->txt('tst_time_limit_message'), $test_behaviour_settings->getProcessingTimeAsMinutes());
-        }
-
-        if ($this->object->isEndingTimeEnabled() && !$this->object->endingTimeReached()) {
-            $launcher_description_elements[] = $this->lng->txt('tst_disclaimer');
-        }
-
-        if ($this->object->isStartingTimeEnabled() && !$this->object->startingTimeReached()) {
-            $launcher_description_elements[] = sprintf(
-                $this->lng->txt('detail_starting_time_not_reached'),
-                ilDatePresentation::formatDate(new ilDateTime($this->object->getStartingTime(), IL_CAL_UNIX))
-            );
-        }
-
-        if ($this->object->isEndingTimeEnabled()) {
-            if ($this->object->endingTimeReached()) {
-                $launcher_description_elements[] = sprintf(
-                    $this->lng->txt('detail_ending_time_reached'),
-                    ilDatePresentation::formatDate(new ilDateTime($this->object->getEndingTime(), IL_CAL_UNIX))
-                );
-            } else {
-                $launcher_description_elements[] = sprintf(
-                    $this->lng->txt('tst_exam_ending_time_message'),
-                    ilDatePresentation::formatDate(new ilDateTime($this->object->getEndingTime(), IL_CAL_UNIX))
-                );
-            }
-        }
-
-        foreach ($launcher_description_elements as $launcher_description_element) {
-            $launcher_description .=  '<p>' . $launcher_description_element . '</p>';
-        }
-
-        return $launcher_description;
-    }
-
-    private function handleTestScreenLauncherLocked(Launcher $launcher): Launcher
+    private function handleLauncherLocked(Launcher|LauncherFactory $launcher): Launcher
     {
         if ($this->object->isStartingTimeEnabled() && !$this->object->startingTimeReached()) {
-            return $launcher
-                ->withButtonLabel($this->lng->txt('tst_launcher_button_label_cannot_start_yet'), false)
-                ->withInputs($this->ui_factory->input()->field()->group([]), function () {})
-                ;
+            $launcher = $launcher->withButtonLabel($this->lng->txt('tst_launcher_button_label_cannot_start_yet'), false);
         }
 
         if ($this->object->isEndingTimeEnabled() && $this->object->endingTimeReached()) {
-            return $launcher
-                ->withButtonLabel($this->lng->txt('tst_launcher_button_label_cannot_start_anymore'), false)
-                ->withInputs($this->ui_factory->input()->field()->group([]), function () {})
-                ;
+            $launcher = $launcher->withButtonLabel($this->lng->txt('tst_launcher_button_label_cannot_start_anymore'), false);
         }
 
-        return $launcher;
+        return $launcher->withInputs($this->ui_factory->input()->field()->group([]), function () {});
     }
 
     private function handleTestScreenLauncherStatusIcon(Launcher $launcher): Launcher
@@ -511,26 +544,6 @@ class ilTestScreenGUI
         return $launcher;
     }
 
-
-
-    private function evaluateTestScreenSwitchValue(): string
-    {
-        if ($this->isUserOutOfTime()) {
-            return 'showOutOfTimeMessage';
-        }
-
-        if ($this->hasAvailablePasses()) {
-            if ($this->lastPassSuspended() && $this->insideProcessingTime()) {
-                return 'showContinueButton';
-            }
-            if ($this->newPassCanBeStarted()) {
-                return $this->isLauncherNeeded() ? 'showLauncher' : 'showStartButton';
-            }
-        }
-
-        return '';
-    }
-
     private function isUserOutOfTime(): bool
     {
         $active_id = $this->test_passes_selector->getActiveId();
@@ -557,7 +570,7 @@ class ilTestScreenGUI
         return $nr_of_tries === 0 || count($this->test_passes_selector->getExistingPasses()) < $nr_of_tries;
     }
 
-    private function isLauncherNeeded(): bool
+    private function isModalLauncherNeeded(): bool
     {
         return (
             $this->main_settings->getIntroductionSettings()->getExamConditionsCheckboxEnabled()
