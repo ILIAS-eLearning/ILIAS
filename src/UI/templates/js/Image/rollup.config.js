@@ -13,21 +13,28 @@
  * https://github.com/ILIAS-eLearning
  */
 
+import terser from '@rollup/plugin-terser';
 import copyright from '../../../../../CI/Copyright-Checker/copyright';
+import preserveCopyright from '../../../../../CI/Copyright-Checker/preserveCopyright';
 
 export default {
   external: [
-    'il',
-    'jquery',
+    'il'
   ],
-  input: './src/core.js',
+  input: './src/image.js',
   output: {
-    file: './dist/core.js',
+    file: './dist/image.min.js',
     format: 'iife',
     banner: copyright,
     globals: {
-      il: 'il',
-      jquery: '$',
+      il: 'il'
     },
-  },
+    plugins: [
+      terser({
+        format: {
+          comments: preserveCopyright,
+        },
+      }),
+    ],
+  }
 };

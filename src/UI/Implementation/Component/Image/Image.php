@@ -85,11 +85,16 @@ class Image implements C\Image\Image
     /**
      * @inheritdoc
      */
-    public function withAddiontalHighResSource(string $source, int $min_width_in_pixels): C\Image\Image
+    public function withAdditionalHighResSource(string $source, int $min_width_in_pixels): C\Image\Image
     {
-        $this->additional_high_res_sources[$min_width_in_pixels] = $source;
+        $clone = clone $this;
+        $clone->additional_high_res_sources[$min_width_in_pixels] = $source;
+        return $clone;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getAdditionalHighResSources(): array
     {
         return $this->additional_high_res_sources;

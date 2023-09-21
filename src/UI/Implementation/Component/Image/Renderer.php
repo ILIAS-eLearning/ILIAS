@@ -21,7 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\UI\Implementation\Component\Image;
 
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
-use ILIAS\UI\Implementation\Render\Template;
+use ILIAS\UI\Implementation\Render\ResourceRegistry;
 use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Component;
 
@@ -41,6 +41,16 @@ class Renderer extends AbstractComponentRenderer
          */
         $this->checkComponent($component);
         $tpl = $this->getTemplate("tpl.image.html", true, true);
+
+        if ($component->getAdditionalHighResSources() !== []) {
+            $additional_high_res_sources = $component->getAdditionalHighResSources();
+            $component = $component->withAdditionalOnLoadCode(
+                static function ($id) use ($additional_high_res_sources) {
+                    return "il.UI.image.loadHighResImage(document.getElementById('{$id}'), "
+                        . json_encode($additional_high_res_sources) . ");";
+                }
+            );
+        }
 
         $id = $this->bindJavaScript($component);
         if (!empty($component->getAction())) {
@@ -84,5 +94,14 @@ class Renderer extends AbstractComponentRenderer
     protected function getComponentInterfaceName(): array
     {
         return [Component\Image\Image::class];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function registerResources(ResourceRegistry $registry): void
+    {
+        parent::registerResources($registry);
+        $registry->register('./src/UI/templates/js/Image/dist/image.min.js');
     }
 }
