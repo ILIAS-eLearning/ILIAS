@@ -41,6 +41,8 @@ class ilServicesLanguageSuite extends TestSuite
             ),
             '/BaseTest\.php$/'
         ) as $file) {
+            /** @var SplFileInfo $file */
+            require_once $file->getPathname();
         }
 
         foreach (new RegExIterator(
@@ -50,6 +52,9 @@ class ilServicesLanguageSuite extends TestSuite
             ),
             '/(?<!Base)Test\.php$/'
         ) as $file) {
+            /** @var SplFileInfo $file */
+            require_once $file->getPathname();
+
             $className = preg_replace('/(.*?)(\.php)/', '$1', $file->getBasename());
             if (class_exists($className)) {
                 $reflection = new ReflectionClass($className);
