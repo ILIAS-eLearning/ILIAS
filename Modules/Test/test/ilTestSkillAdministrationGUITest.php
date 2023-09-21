@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+use ILIAS\TestQuestionPool\QuestionInfoService;
+
 /**
  * Class ilTestSkillAdministrationGUITest
  * @author Marvin Beym <mbeym@databay.de>
@@ -39,6 +41,7 @@ class ilTestSkillAdministrationGUITest extends ilTestBaseTestCase
             $this->createMock(ilTree::class),
             $this->createMock(ilComponentRepository::class),
             $this->createMock(ilObjTest::class),
+            $this->createMock(QuestionInfoService::class),
             201
         );
     }

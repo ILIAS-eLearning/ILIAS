@@ -777,7 +777,15 @@ class assFormulaQuestionGUI extends assQuestionGUI
 
                     $test = new ilObjTest($this->request->raw("calling_test"), true);
 
-                    $testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory($tree, $ilDB, $component_repository, $test);
+                    $testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory(
+                        $tree,
+                        $ilDB,
+                        $this->lng,
+                        $this->logger,
+                        $component_repository,
+                        $test,
+                        $this->questioninfo
+                    );
 
                     $test->insertQuestion(
                         $testQuestionSetConfigFactory->getQuestionSetConfig(),

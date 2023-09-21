@@ -431,7 +431,8 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
             $this->lng,
             $this->log,
             $this->component_repository,
-            $this->test_obj
+            $this->test_obj,
+            $this->questioninfo
         );
 
         return $testQuestionSetConfigFactory->getQuestionSetConfig();

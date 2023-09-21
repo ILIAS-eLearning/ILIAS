@@ -6841,7 +6841,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
 
     public function &createTestSequence($active_id, $pass, $shuffle)
     {
-        $this->testSequence = new ilTestSequence($active_id, $pass, $this->isRandomTest());
+        $this->testSequence = new ilTestSequence($active_id, $pass, $this->isRandomTest(), $this->questioninfo);
     }
 
     /**

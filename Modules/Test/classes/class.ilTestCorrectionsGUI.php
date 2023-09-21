@@ -23,6 +23,7 @@ use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\Refinery\Factory as RefineryFactory;
 use ILIAS\Test\InternalRequestService;
 use Psr\Http\Message\RequestInterface;
+use ILIAS\TestQuestionPool\QuestionInfoService;
 
 /**
  * Class ilTestCorrectionsGUI
@@ -53,7 +54,8 @@ class ilTestCorrectionsGUI
         protected RefineryFactory $refinery,
         protected RequestInterface $request,
         private InternalRequestService $testrequest,
-        protected ilObjTest $testOBJ
+        protected ilObjTest $testOBJ,
+        protected QuestionInfoService $questioninfo
     ) {
         $this->testAccess = new ilTestAccess($testOBJ->getRefId(), $testOBJ->getTestId());
     }
@@ -100,7 +102,8 @@ class ilTestCorrectionsGUI
                 'showQuestionList',
                 $this->testOBJ->getRefId(),
                 $this->ui_factory,
-                $this->ui_renderer
+                $this->ui_renderer,
+                $this->questioninfo
             );
 
             $table_gui->setQuestionRemoveRowButtonEnabled(true);
