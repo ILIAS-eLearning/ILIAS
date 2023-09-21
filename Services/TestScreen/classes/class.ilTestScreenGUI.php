@@ -68,7 +68,7 @@ class ilTestScreenGUI
 
         $db = $DIC->database();
         $this->test_session = (new ilTestSessionFactory($this->object, $db, $this->user))->getSession();
-        $this->test_sequence_factory = new ilTestSequenceFactory($this->object, $db);
+        $this->test_sequence_factory = new ilTestSequenceFactory($this->object, $db, $DIC->testQuestionPool()->questionInfo());
 
         $this->test_passes_selector = new ilTestPassesSelector($db, $this->object);
         $this->test_passes_selector->setActiveId($this->test_session->getActiveId());
