@@ -16,10 +16,12 @@
 
 export default class HighResImageLoader {
   /**
-     * Add a image DOM element to the Map() of images needing to be replaced.
+     * Load a higher resolution image depending on the actual size of
+     * the image on the screenb and the available additional high
+     * resolution sources.
      *
      * @param {HTMLImgElement|HTMLAnchorElement} image
-     * @param {Object[]} definitions
+     * @param {Object[]} definitions Definitions of available high resolution sources.
      */
   static async loadHighResImage(image, definitions) {
     let img = image;
