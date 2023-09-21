@@ -153,7 +153,8 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                 $this->lng,
                 $this->logging_services->root(),
                 $this->component_repository,
-                $this->object
+                $this->object,
+                $this->questioninfo
             );
 
             $this->test_player_factory = new ilTestPlayerFactory($this->object);
@@ -345,7 +346,8 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                     $this->ui_factory,
                     $this->ui_renderer,
                     $this->skills_service,
-                    $this->testrequest
+                    $this->testrequest,
+                    $this->questioninfo
                 );
 
                 $gui->setTestAccess($this->getTestAccess());
@@ -556,7 +558,8 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                     $this->obj_definition,
                     $this->obj_data_cache,
                     $test_process_locker_factory,
-                    $this->testrequest
+                    $this->testrequest,
+                    $this->questioninfo
                 );
                 $this->ctrl->forwardCommand($gui);
                 break;
@@ -2167,7 +2170,8 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
             'questions',
             $this->object->getRefId(),
             $this->ui_factory,
-            $this->ui_renderer
+            $this->ui_renderer,
+            $this->questioninfo
         );
 
         $isset = ilSession::get('tst_qst_move_' . $this->object->getTestId()) !== null;
