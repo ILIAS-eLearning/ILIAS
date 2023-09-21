@@ -525,7 +525,7 @@ class ilMaterializedPathTree implements ilTreeImplementation
 
         $res = $this->db->query($query);
         $row = $this->db->fetchAssoc($res);
-        if ($row[$this->getTree()->getTreePk()] == $this->getTree()->getTreeId()) {
+        if ($row[$this->getTree()->getTreePk()] ?? null == $this->getTree()->getTreeId()) {
             $path = (string) $row['path'];
         } else {
             return [];
