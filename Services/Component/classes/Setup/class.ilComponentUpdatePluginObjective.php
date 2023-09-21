@@ -190,7 +190,7 @@ class ilComponentUpdatePluginObjective implements Setup\Objective
             {
             }
         };
-        $GLOBALS["DIC"]["ilLog"] = new class () extends ilLog {
+        $GLOBALS["DIC"]["ilLog"] = new class () extends ilLogger {
             public function __construct()
             {
             }
@@ -219,11 +219,11 @@ class ilComponentUpdatePluginObjective implements Setup\Objective
             }
             public static function getRootLogger(): ilLogger
             {
-                return $GLOBALS["DIC"]["ilLogger"];
+                return $GLOBALS["DIC"]["ilLog"];
             }
             public static function getLogger(string $a_component_id): ilLogger
             {
-                return $GLOBALS["DIC"]["ilLogger"];
+                return $GLOBALS["DIC"]["ilLog"];
             }
         };
         $GLOBALS["ilLog"] = $GLOBALS["DIC"]["ilLog"];
