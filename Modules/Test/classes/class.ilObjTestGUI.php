@@ -605,6 +605,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                     $this->tree,
                     $this->component_repository,
                     $this->getTestObject(),
+                    $this->questioninfo,
                     $this->ref_id
                 );
                 $this->ctrl->forwardCommand($gui);
@@ -863,7 +864,8 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                     $this->refinery,
                     $this->request,
                     $this->testrequest,
-                    $this->getTestObject()
+                    $this->getTestObject(),
+                    $this->questioninfo
                 );
                 $this->ctrl->forwardCommand($gui);
                 break;

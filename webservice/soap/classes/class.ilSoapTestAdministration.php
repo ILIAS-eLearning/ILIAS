@@ -421,6 +421,7 @@ class ilSoapTestAdministration extends ilSoapAdministration
 
         $lng = $DIC['lng'];
         $ilDB = $DIC['ilDB'];
+        $questioninfo = $DIC->testQuestionPool()->questionInfo();
 
         $result = $ilDB->queryF(
             "SELECT tst_tests.random_test FROM tst_active, tst_tests WHERE tst_active.active_id = %s AND tst_tests.test_id = tst_active.test_fi",
@@ -434,7 +435,7 @@ class ilSoapTestAdministration extends ilSoapAdministration
         $is_random = $row["random_test"];
 
         include_once "./Modules/Test/classes/class.ilTestSequence.php";
-        $sequence = new ilTestSequence($active_id, $pass, $is_random);
+        $sequence = new ilTestSequence($ilDB, $active_id, $pass, $questioninfo);
         return $sequence->getSequenceForQuestion($question_id);
     }
 
@@ -457,6 +458,7 @@ class ilSoapTestAdministration extends ilSoapAdministration
 
         $lng = $DIC['lng'];
         $ilDB = $DIC['ilDB'];
+        $questioninfo = $DIC->testQuestionPool()->questionInfo();
 
         $result = $ilDB->queryF(
             "SELECT tst_tests.random_test FROM tst_active, tst_tests WHERE tst_active.active_id = %s AND tst_tests.test_id = tst_active.test_fi",
@@ -470,7 +472,7 @@ class ilSoapTestAdministration extends ilSoapAdministration
         $is_random = $row["random_test"];
 
         include_once "./Modules/Test/classes/class.ilTestSequence.php";
-        $sequence = new ilTestSequence($active_id, $pass, $is_random);
+        $sequence = new ilTestSequence($ilDB, $active_id, $pass, $questioninfo);
         $result = $ilDB->queryF(
             "SELECT question_fi, points FROM tst_test_result WHERE active_fi = %s AND pass = %s",
             array('integer', 'integer'),
@@ -514,6 +516,7 @@ class ilSoapTestAdministration extends ilSoapAdministration
 
         $lng = $DIC['lng'];
         $ilDB = $DIC['ilDB'];
+        $questioninfo = $DIC->testQuestionPool()->questionInfo();
 
         $result = $ilDB->queryF(
             "SELECT tst_tests.random_test FROM tst_active, tst_tests WHERE tst_active.active_id = %s AND tst_tests.test_id = tst_active.test_fi",
@@ -527,7 +530,7 @@ class ilSoapTestAdministration extends ilSoapAdministration
         $is_random = $row["random_test"];
 
         include_once "./Modules/Test/classes/class.ilTestSequence.php";
-        $sequence = new ilTestSequence($active_id, $pass, $is_random);
+        $sequence = new ilTestSequence($ilDB, $active_id, $pass, $questioninfo);
         return $sequence->getUserQuestionCount();
     }
 

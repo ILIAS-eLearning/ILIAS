@@ -107,7 +107,8 @@ class ilObjTestSettingsMainGUI extends ilTestSettingsGUI
             $this->lng,
             $DIC['ilLog'],
             $this->component_repository,
-            $this->test_gui->getTestObject()
+            $this->test_gui->getTestObject(),
+            $DIC->testQuestionPool()->questionInfo()
         );
 
         $this->lng->loadLanguageModule('validation');

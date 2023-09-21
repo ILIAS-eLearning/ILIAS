@@ -64,7 +64,7 @@ abstract class assQuestionGUI
 
     private ilTree $tree;
     private ilDBInterface $db;
-    private ilLogger $logger;
+    protected ilLogger $logger;
     private ilComponentRepository $component_repository;
     protected \ILIAS\TestQuestionPool\QuestionInfoService $questioninfo;
 
@@ -706,7 +706,15 @@ abstract class assQuestionGUI
                 $_GET["ref_id"] = $this->request->raw("test_ref_id");
                 $test = new ilObjTest($this->request->raw("test_ref_id"), true);
 
-                $testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory($this->tree, $this->db, $this->component_repository, $test);
+                $testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory(
+                    $this->tree,
+                    $this->db,
+                    $this->component_repository,
+                    $this->logger,
+                    $this->component_repository,
+                    $test,
+                    $this->questioninfo
+                );
 
                 $test->insertQuestion($testQuestionSetConfigFactory->getQuestionSetConfig(), $this->object->getId());
 
@@ -758,7 +766,8 @@ abstract class assQuestionGUI
                         $this->lng,
                         $this->logger,
                         $this->component_repository,
-                        $test
+                        $test,
+                        $this->questioninfo
                     );
 
                     $test->insertQuestion(
@@ -797,7 +806,8 @@ abstract class assQuestionGUI
                             $this->lng,
                             $this->logger,
                             $this->component_repository,
-                            $test
+                            $test,
+                            $this->questioninfo
                         );
                         $test->insertQuestion(
                             $testQuestionSetConfigFactory->getQuestionSetConfig(),
@@ -850,7 +860,8 @@ abstract class assQuestionGUI
                         $this->lng,
                         $this->logger,
                         $this->component_repository,
-                        $test
+                        $test,
+                        $this->questioninfo
                     );
 
                     $test->insertQuestion(

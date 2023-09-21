@@ -121,7 +121,7 @@ class ilObjTestXMLParser extends ilSaxParser
 
             case 'RandomQuestionSourcePoolTitle':
             case 'RandomQuestionSourcePoolPath':
-                if ($this->sourcePoolDefinition instanceof ilTestRandomQuestionSetSourcePoolDefinition) {
+                if ($this->sourcePoolDequestioninffinition instanceof ilTestRandomQuestionSetSourcePoolDefinition) {
                     $this->cdata = '';
                 }
                 break;
@@ -214,7 +214,7 @@ class ilObjTestXMLParser extends ilSaxParser
             $this->log,
             $this->component_repository,
             $this->test_obj,
-            $this->questionInfo
+            $this->questioninfo
         );
 
         if (!$questionSetConfig->isValidQuestionAmountConfigurationMode($attr['amountMode'])) {
