@@ -80,30 +80,46 @@ var ilSingleChoiceWizardInputTemplate = {
 		var that = this;
 
 		if (typeof tinyMCE == 'undefined' || $(rootel).closest('table').find('textarea').size() == 0) {
-			$(rootel).find('div.' + this.tag_button + '_add .glyph').click(function(e) {
-				that.addRow(e);
+			$(rootel).find('div.' + this.tag_button + '_add .glyph').on('click keypress', function(e) {
+				if (e.type == 'keypress' && e.key === 'Enter') {
+					that.addRow(e);
+				}
 			});
-			$(rootel).find('div.' + this.tag_button + '_remove .glyph').click(function(e) {
-				that.removeRow(e);
+			$(rootel).find('div.' + this.tag_button + '_remove .glyph').on('click keypress', function(e) {
+				if (e.type == 'keypress' && e.key === 'Enter') {
+					that.removeRow(e);
+				}
 			});
-			$(rootel).find('div.' + this.tag_button + '_up .glyph').click(function(e) {
-				that.moveRowUp(e);
+			$(rootel).find('div.' + this.tag_button + '_up .glyph').on('click keypress', function(e) {
+				if (e.type == 'keypress' && e.key === 'Enter') {
+					that.moveRowUp(e);
+				}
 			});
-			$(rootel).find('div.' + this.tag_button + '_down .glyph').click(function(e) {
-				that.moveRowDown(e);
+			$(rootel).find('div.' + this.tag_button + '_down .glyph').on('click keypress', function(e) {
+				if (e.type == 'keypress' && e.key === 'Enter') {
+					that.moveRowDown(e);
+				}
 			});
 		} else {
-			$(rootel).find('div.' + this.tag_button + '_add .glyph').click((e) => {
-				that.onClickHandler('add', e);
+			$(rootel).find('div.' + this.tag_button + '_add .glyph').on('click keypress', (e) => {
+				if (e.type == 'keypress' && e.key === 'Enter') {
+					that.onClickHandler('add', e);
+				}
 			});
-			$(rootel).find('div.' + this.tag_button + '_remove .glyph').click((e) => {
-				that.onClickHandler('remove', e);
+			$(rootel).find('div.' + this.tag_button + '_remove .glyph').on('click keypress', (e) => {
+				if (e.type == 'keypress' && e.key === 'Enter') {
+					that.onClickHandler('remove', e);
+				}
 			});
-			$(rootel).find('div.' + this.tag_button + '_up .glyph').click((e) => {
-				that.onClickHandler('up', e);
+			$(rootel).find('div.' + this.tag_button + '_up .glyph').on('click keypress', (e) => {
+				if (e.type == 'keypress' && e.key === 'Enter') {
+					that.onClickHandler('up', e);
+				}
 			});
-			$(rootel).find('div.' + this.tag_button + '_down .glyph').click((e) => {
-				that.onClickHandler('down', e);
+			$(rootel).find('div.' + this.tag_button + '_down .glyph').on('click keypress', (e) => {
+				if (e.type == 'keypress' && e.key === 'Enter') {
+					that.onClickHandler('down', e);
+				}
 			});
 		}
 	}

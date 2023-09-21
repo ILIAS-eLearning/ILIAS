@@ -466,10 +466,18 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
                 $tpl->setCurrentBlock("move");
                 $tpl->setVariable("ID", $this->getPostVar() . "[$i]");
                 $tpl->setVariable("UP_BUTTON", $this->renderer->render(
-                    $this->glyph_factory->up()
+                    $this->glyph_factory->up()->withAdditionalOnLoadCode(
+                        function (string $id) {
+                            return "document.getElementById('$id').setAttribute('tabindex', '0');";
+                        }
+                    )
                 ));
                 $tpl->setVariable("DOWN_BUTTON", $this->renderer->render(
-                    $this->glyph_factory->down()
+                    $this->glyph_factory->down()->withAdditionalOnLoadCode(
+                        function (string $id) {
+                            return "document.getElementById('$id').setAttribute('tabindex', '0');";
+                        }
+                    )
                 ));
                 $tpl->parseCurrentBlock();
             }
@@ -488,10 +496,18 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
                 $tpl->setVariable("DISABLED_POINTS", " disabled=\"disabled\"");
             }
             $tpl->setVariable("ADD_BUTTON", $this->renderer->render(
-                $this->glyph_factory->add()
+                $this->glyph_factory->add()->withAdditionalOnLoadCode(
+                    function (string $id) {
+                        return "document.getElementById('$id').setAttribute('tabindex', '0');";
+                    }
+                )
             ));
             $tpl->setVariable("REMOVE_BUTTON", $this->renderer->render(
-                $this->glyph_factory->remove()
+                $this->glyph_factory->remove()->withAdditionalOnLoadCode(
+                    function (string $id) {
+                        return "document.getElementById('$id').setAttribute('tabindex', '0');";
+                    }
+                )
             ));
             $tpl->parseCurrentBlock();
             $i++;
