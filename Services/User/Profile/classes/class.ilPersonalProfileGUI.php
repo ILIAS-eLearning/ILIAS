@@ -722,7 +722,6 @@ class ilPersonalProfileGUI
         global $DIC;
 
         $ilTabs = $DIC['ilTabs'];
-        $ilUser = $DIC['ilUser'];
         $ilHelp = $DIC['ilHelp'];
 
         $ilHelp->setScreenIdComponent("user");
@@ -967,7 +966,9 @@ class ilPersonalProfileGUI
         $this->initPersonalDataForm();
 
         if (!$this->form->checkInput()
-            || $this->emailChanged() && $this->addEmailChangeModal()
+            || !$this->emailCompletionForced()
+                && $this->emailChanged()
+                && $this->addEmailChangeModal()
             || $this->loginChanged() && !$this->updateLoginOrSetErrorMessages()) {
             $this->form->setValuesByPost();
             $this->showPersonalData(true);
@@ -986,6 +987,20 @@ class ilPersonalProfileGUI
         $email_input = $this->form->getItemByPostVar('usr_email');
         if ($email_input !== null && !$email_input->getDisabled()
             && $this->form->getInput('usr_email') !== $this->user->getEmail()) {
+            return true;
+        }
+
+        return false;
+    }
+
+    private function emailCompletionForced() : bool
+    {
+        $current_email = $this->user->getEmail();
+        if (
+            $this->user->getProfileIncomplete()
+            && $this->setting->get('require_email') === '1'
+            && ($current_email === null || $current_email === '')
+        ) {
             return true;
         }
 
@@ -1096,6 +1111,10 @@ class ilPersonalProfileGUI
             $value = $this->form->getInput("usr_" . $f);
             switch ($f) {
                 case 'email':
+                    if ($this->emailCompletionForced()) {
+                        $this->user->setEmail($value);
+                    }
+
                     break;
                 case "birthday":
                     $value = $item->getDate();
