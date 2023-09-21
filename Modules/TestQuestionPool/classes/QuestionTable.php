@@ -202,20 +202,23 @@ class QuestionTable extends ilAssQuestionList implements Table\DataRetrieval
             $this->buildAction('edit_page', 'single'),
             $this->buildAction('feedback', 'single'),
             $this->buildAction('hints', 'single'),
-            $this->buildAction('comments', 'single')
+            $this->buildAction('comments', 'single', true)
         );
     }
 
-    protected function buildAction(string $act, $type): array
+    protected function buildAction(string $act, string $type, bool $async = false): array
     {
-        return [
-            $act => $this->ui_factory->table()->action()
+        $action = $this->ui_factory->table()->action()
             ->$type(
                 $this->lng->txt($act),
                 $this->url_builder->withParameter($this->action_parameter_token, $act),
                 $this->row_id_token
-            )
-        ];
+            );
+        if ($async) {
+            $action = $action->withAsync(true);
+        }
+
+        return [$act => $action];
     }
 
 

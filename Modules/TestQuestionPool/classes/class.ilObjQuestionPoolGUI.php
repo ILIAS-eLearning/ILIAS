@@ -553,8 +553,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                                 'quest',
                                 current($ids)
                             );
-
-
                             echo ''
                                 . '<script>'
                                 . ilNoteGUI::getListCommentsJSCall($ajax_hash, '')

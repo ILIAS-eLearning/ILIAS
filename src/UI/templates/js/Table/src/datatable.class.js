@@ -231,12 +231,17 @@ export default class DataTable {
         if (this.#jquery(html).first().prop('tagName') === 'SCRIPT') {
           this.#jquery.globalEval(this.#jquery(html).first().text());
         } else {
-          this.#responseContent.innerHTML = html;
-          modalId = this.#responseContainer.id;
+          if (this.#jquery(html).first().hasClass('modal')) {
+            this.#modalResponseArea.innerHTML = html;
+            modalId = this.#jquery(html).first().get(0).id;
+          } else {
+            this.#responseContent.innerHTML = html;
+            modalId = this.#responseContainer.id;
+          }
+          const tmp = this.#jquery(`<div>${html}</div>`);
+          tmp.find("[data-replace-marker='script']").each((idx, s) => this.#jquery.globalEval(s.innerHTML));
+          il.UI.modal.showModal(modalId, {}, { id: modalId });
         }
-        const tmp = this.#jquery(`<div>${html}</div>`);
-        tmp.find("[data-replace-marker='script']").each((idx, s) => this.#jquery.globalEval(s.innerHTML));
-        il.UI.modal.showModal(modalId, {}, { id: modalId });
       },
     );
   }
