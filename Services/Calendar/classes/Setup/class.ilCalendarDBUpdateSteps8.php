@@ -40,4 +40,15 @@ class ilCalendarDBUpdateSteps8 implements ilDatabaseUpdateSteps
             $this->db->addIndex('cal_entries', ['enda'], 'i4');
         }
     }
+
+    public function step_2(): void
+    {
+        $this->db->modifyTableColumn(
+            'cal_entries',
+            'title',
+            [
+                'length' => 255
+            ]
+        );
+    }
 }
