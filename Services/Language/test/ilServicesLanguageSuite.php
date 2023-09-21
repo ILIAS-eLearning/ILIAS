@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -16,17 +14,15 @@ declare(strict_types=1);
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
+
+declare(strict_types=1);
 
 use PHPUnit\Framework\TestSuite;
 use PHPUnit\Framework\TestCase;
 
-require_once __DIR__ . '/bootstrap.php';
-
 /**
  * Class ilServicesLanguageSuite
- * @author  Sílvia Mariné <silvia.marine@kroepelin-projekte.de>
  */
 class ilServicesLanguageSuite extends TestSuite
 {
@@ -45,8 +41,6 @@ class ilServicesLanguageSuite extends TestSuite
             ),
             '/BaseTest\.php$/'
         ) as $file) {
-            /** @var SplFileInfo $file */
-            require_once $file->getPathname();
         }
 
         foreach (new RegExIterator(
@@ -56,9 +50,6 @@ class ilServicesLanguageSuite extends TestSuite
             ),
             '/(?<!Base)Test\.php$/'
         ) as $file) {
-            /** @var SplFileInfo $file */
-            require_once $file->getPathname();
-
             $className = preg_replace('/(.*?)(\.php)/', '$1', $file->getBasename());
             if (class_exists($className)) {
                 $reflection = new ReflectionClass($className);
