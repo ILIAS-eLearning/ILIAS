@@ -22,8 +22,6 @@ declare(strict_types=1);
 use PHPUnit\Framework\TestSuite;
 use PHPUnit\Framework\TestCase;
 
-require_once __DIR__ . '/bootstrap.php';
-
 /**
  * Class ilServicesLanguageSuite
  * @author  Sílvia Mariné <silvia.marine@kroepelin-projekte.de>
