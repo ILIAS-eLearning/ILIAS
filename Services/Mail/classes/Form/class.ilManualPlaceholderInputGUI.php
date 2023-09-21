@@ -131,6 +131,7 @@ class ilManualPlaceholderInputGUI extends ilSubEnabledFormPropertyGUI
 
         if ($this->getRerenderTriggerElementName() && $this->getRerenderUrl()) {
             $subtpl->setVariable('RERENDER_URL', $this->getRerenderUrl());
+            $subtpl->setVariable('RERENDER_DEPENDENCY_ELM_ID_OUTER', $this->dependencyElementId);
             $subtpl->setVariable('RERENDER_TRIGGER_ELM_NAME', $this->getRerenderTriggerElementName());
         }
 
