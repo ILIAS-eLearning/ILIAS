@@ -1372,13 +1372,10 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
             $questionPageParser->setQuestionMapping($qtiParser->getImportMapping());
             $questionPageParser->startParsing();
 
-            if (isset($_POST["ident"]) && is_array($_POST["ident"]) && count($_POST["ident"]) == $qtiParser->getNumImportedItems()) {
-                // import test results
-                if (@file_exists(ilSession::get("tst_import_results_file"))) {
-                    $results = new ilTestResultsImportParser(ilSession::get("tst_import_results_file"), $newObj);
-                    $results->setQuestionIdMapping($qtiParser->getQuestionIdMapping());
-                    $results->startParsing();
-                }
+            if (@file_exists(ilSession::get("tst_import_results_file"))) {
+                $results = new ilTestResultsImportParser(ilSession::get("tst_import_results_file"), $newObj);
+                $results->setQuestionIdMapping($qtiParser->getQuestionIdMapping());
+                $results->startParsing();
             }
             $newObj->update();
         }

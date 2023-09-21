@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -103,7 +104,7 @@ class ilTestResultsImportParser extends ilSaxParser
                     case 'tst_active':
                         if (!$this->user_criteria_checked) {
                             $this->user_criteria_checked = true;
-                            if ($ilDB->tableColumnExists('usr_data', $a_attribs['user_criteria'])) {
+                            if (isset($a_attribs['user_criteria']) && $ilDB->tableColumnExists('usr_data', $a_attribs['user_criteria'])) {
                                 $analyzer = new ilDBAnalyzer();
                                 $info = $analyzer->getFieldInformation('usr_data');
                                 $this->user_criteria_field = $a_attribs['user_criteria'];
@@ -111,7 +112,7 @@ class ilTestResultsImportParser extends ilSaxParser
                             }
                         }
                         $usr_id = ANONYMOUS_USER_ID;
-                        if (strlen($this->user_criteria_field)) {
+                        if (isset($this->user_criteria_field) && $this->user_criteria_field !== '') {
                             $result = $ilDB->queryF(
                                 "SELECT usr_id FROM usr_data WHERE " . $this->user_criteria_field . " =  %s",
                                 array($this->user_criteria_type),
@@ -145,8 +146,8 @@ class ilTestResultsImportParser extends ilSaxParser
                     case 'tst_test_rnd_qst':
                         $nextId = $ilDB->nextId('tst_test_rnd_qst');
                         $newActiveId = $this->active_id_mapping[$a_attribs['active_fi']];
-                        $newQuestionId = $this->question_id_mapping[$a_attribs['question_fi']];
-                        $newSrcPoolDefId = $this->src_pool_def_id_mapping[$a_attribs['src_pool_def_fi']];
+                        $newQuestionId = $this->question_id_mapping[$a_attribs['question_fi']] ?? 0;
+                        $newSrcPoolDefId = $this->src_pool_def_id_mapping[$a_attribs['src_pool_def_fi']] ?? 0;
                         $ilDB->insert('tst_test_rnd_qst', array(
                             'test_random_question_id' => array('integer', $nextId),
                             'active_fi' => array('integer', $newActiveId),
@@ -224,7 +225,7 @@ class ilTestResultsImportParser extends ilSaxParser
                         $affectedRows = $ilDB->insert("tst_solutions", array(
                             "solution_id" => array("integer", $next_id),
                             "active_fi" => array("integer", $this->active_id_mapping[$a_attribs['active_fi']]),
-                            "question_fi" => array("integer", $this->question_id_mapping[$a_attribs['question_fi']]),
+                            "question_fi" => array("integer", $this->question_id_mapping[$a_attribs['question_fi']] ?? 0),
                             "value1" => array("clob", (strlen($a_attribs['value1'])) ? $a_attribs['value1'] : null),
                             "value2" => array("clob", (strlen($a_attribs['value2'])) ? $a_attribs['value2'] : null),
                             "pass" => array("integer", $a_attribs['pass']),
@@ -236,7 +237,7 @@ class ilTestResultsImportParser extends ilSaxParser
                         $affectedRows = $ilDB->manipulateF(
                             "INSERT INTO tst_test_result (test_result_id, active_fi, question_fi, points, pass, manual, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s)",
                             array('integer', 'integer','integer', 'float', 'integer', 'integer','integer'),
-                            array($next_id, $this->active_id_mapping[$a_attribs['active_fi']], $this->question_id_mapping[$a_attribs['question_fi']], $a_attribs['points'], $a_attribs['pass'], (strlen($a_attribs['manual'])) ? $a_attribs['manual'] : 0, $a_attribs['tstamp'])
+                            array($next_id, $this->active_id_mapping[$a_attribs['active_fi']], $this->question_id_mapping[$a_attribs['question_fi']] ?? 0, $a_attribs['points'], $a_attribs['pass'], (strlen($a_attribs['manual'])) ? $a_attribs['manual'] : 0, $a_attribs['tstamp'])
                         );
                         break;
                     case 'tst_times':
@@ -298,7 +299,7 @@ class ilTestResultsImportParser extends ilSaxParser
         }
 
         if ($attribs['tries'] > 0) {
-            return $attribs['tries'] - 1;
+            return (int) $attribs['tries'] - 1;
         }
 
         return null;
@@ -311,7 +312,7 @@ class ilTestResultsImportParser extends ilSaxParser
         }
 
         if ($attribs['tries'] > 0) {
-            return $attribs['tries'] - 1;
+            return (int) $attribs['tries'] - 1;
         }
 
         return null;

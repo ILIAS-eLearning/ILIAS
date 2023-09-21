@@ -261,13 +261,15 @@ class ilTestPassesSelector
     {
         $reg = '/^(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})$/';
         $date = $this->testOBJ->getReportingDate();
-        $matches = null;
+        $matches = [];
 
         if (!preg_match($reg, $date, $matches)) {
             return false;
         }
 
-        $repTS = mktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]);
+        $matches = array_map('intval', $matches);
+
+        $repTS = mktime((int) $matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]);
 
         return time() >= $repTS;
     }
