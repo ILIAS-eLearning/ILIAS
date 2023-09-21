@@ -119,7 +119,7 @@ class LegacyPathHelperTest extends TestCase
      */
     public function testDeriveFilesystemFromWithRelativeLibsTargetWhichShouldSucceed(): void
     {
-        $target = './libs/bower/bower_components/mediaelement/build';
+        $target = './vendor/bower/bower_components/mediaelement/build';
 
         $this->filesystemsMock
             ->shouldReceive('libs')
@@ -136,7 +136,7 @@ class LegacyPathHelperTest extends TestCase
      */
     public function testDeriveFilesystemFromWithAbsoluteLibsTargetWhichShouldSucceed(): void
     {
-        $target = $this->libsPath . 'libs/bower/bower_components/mediaelement/build';
+        $target = $this->libsPath . '/vendor/bower/bower_components/mediaelement/build';
 
         $this->filesystemsMock
             ->shouldReceive('libs')

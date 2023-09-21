@@ -21,7 +21,7 @@ declare(strict_types=1);
 use PHPUnit\Framework\TestCase;
 use ILIAS\DI\Container;
 
-require_once __DIR__ . substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/vendor/composer/vendor/autoload.php";
+require_once substr(__FILE__, 0, strpos(__FILE__, "components/ILIAS")) . "/vendor/composer/vendor/autoload.php";
 
 /**
  * Test clipboard repository

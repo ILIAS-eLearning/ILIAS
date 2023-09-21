@@ -222,8 +222,8 @@ final class LegacyPathHelper
         $storage = CLIENT_DATA_DIR;
         $customizing = ILIAS_ABSOLUTE_PATH . '/Customizing';
         $customizingRelativeWithLeadingDot = './Customizing';
-        $libs = ILIAS_ABSOLUTE_PATH . '/libs';
-        $libsRelativeWithLeadingDot = "./libs";
+        $libs = ILIAS_ABSOLUTE_PATH . '/vendor';
+        $libsRelativeWithLeadingDot = "./vendor";
         $temp = CLIENT_DATA_DIR . "/temp";
         $nodeModules = ILIAS_ABSOLUTE_PATH . '/node_modules';
         $nodeModulesWithLeadingDot = './node_modules';
