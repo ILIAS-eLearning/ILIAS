@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+use ILIAS\TestQuestionPool\QuestionInfoService;
+
 /**
 *
 * @author Helmut Schottmüller <ilias@aurealis.de>
@@ -28,6 +30,7 @@
 class ilQuestionBrowserTableGUI extends ilTable2GUI
 {
     private \ILIAS\TestQuestionPool\InternalRequestService $request;
+    private QuestionInfoService $questioninfo;
     protected \ILIAS\Notes\Service $notes;
     protected \ILIAS\UI\Factory $ui_factory;
     protected \ILIAS\UI\Renderer $renderer;
@@ -63,6 +66,7 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
         $this->request = $DIC->testQuestionPool()->internal()->request();
         $this->lng = $lng;
         $this->ctrl = $ilCtrl;
+        $this->questioninfo = $DIC->testQuestionPool()->questionInfo();
 
         $this->renderer = $DIC->ui()->renderer();
         $this->ui_factory = $DIC->ui()->factory();
