@@ -327,7 +327,7 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
 
         if ($show_question_text) {
             $question_text = $this->object->getQuestion();
-            $template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($question_text, true));
+            $template->setVariable("QUESTIONTEXT", ilLegacyFormElementsUtil::prepareTextareaOutput($question_text, true));
         }
         if (($active_id > 0) && (!$show_correct_solution)) {
             $correct_solution = $this->getUserSolution($active_id, $pass);
@@ -354,7 +354,7 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
             );
 
             $solution_template->setVariable("ILC_FB_CSS_CLASS", $cssClass);
-            $solution_template->setVariable("FEEDBACK", $this->object->prepareTextareaOutput($feedback, true));
+            $solution_template->setVariable("FEEDBACK", ilLegacyFormElementsUtil::prepareTextareaOutput($feedback, true));
         }
 
         $solution_template->setVariable("SOLUTION_OUTPUT", $question_output);
@@ -416,7 +416,7 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
             . ')');
 
         $question_text = $this->object->getQuestion();
-        $template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($question_text, true));
+        $template->setVariable("QUESTIONTEXT", ilLegacyFormElementsUtil::prepareTextareaOutput($question_text, true));
         $template->setVariable('LONGMENU_TEXT', $this->getLongMenuTextWithInputFieldsInsteadOfGaps($user_solution));
         return $template;
     }
@@ -443,7 +443,7 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
             ) . '</td> </tr>';
         }
         $feedback .= '</tbody></table>';
-        return $this->object->prepareTextareaOutput($feedback, true);
+        return ilLegacyFormElementsUtil::prepareTextareaOutput($feedback, true);
     }
 
 
@@ -508,7 +508,7 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
         foreach ($text_array as $key => $value) {
             $answer_is_correct = false;
             $user_value = '';
-            $return_value .= $this->object->prepareTextareaOutput($value, true);
+            $return_value .= ilLegacyFormElementsUtil::prepareTextareaOutput($value, true);
             if ($key < sizeof($text_array) - 1) {
                 if (!array_key_exists($key, $correct_answers)) {
                     $this->tpl->setOnScreenMessage('failure', $this->lng->txt('longmenu_answeroptions_differ'));

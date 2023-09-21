@@ -90,7 +90,7 @@ class assMatchingQuestionExport extends assQuestionExport
         // add flow to presentation
         $a_xml_writer->xmlStartTag("flow");
         // add material with question text to presentation
-        $this->object->addQTIMaterial($a_xml_writer, $this->object->getQuestion());
+        $this->addQTIMaterial($a_xml_writer, $this->object->getQuestion());
         // add answers to presentation
         $attrs = array(
             "ident" => "MQ",
@@ -171,7 +171,7 @@ class assMatchingQuestionExport extends assQuestionExport
                 $attrs = array(
                     "texttype" => "text/plain"
                 );
-                if ($this->object->isHTML($definition->getText())) {
+                if (ilUtil::isHTML($definition->text)) {
                     $attrs["texttype"] = "text/xhtml";
                 }
                 $a_xml_writer->xmlElement("mattext", $attrs, $definition->getText());
@@ -214,7 +214,7 @@ class assMatchingQuestionExport extends assQuestionExport
                 $attrs = array(
                     "texttype" => "text/plain"
                 );
-                if ($this->object->isHTML($term->getText())) {
+                if ($this->object->isHTML($term->text)) {
                     $attrs["texttype"] = "text/xhtml";
                 }
                 $a_xml_writer->xmlElement("mattext", $attrs, $term->getText());
@@ -347,7 +347,7 @@ class assMatchingQuestionExport extends assQuestionExport
             $a_xml_writer->xmlStartTag("itemfeedback", $attrs);
             // qti flow_mat
             $a_xml_writer->xmlStartTag("flow_mat");
-            $this->object->addQTIMaterial($a_xml_writer, $feedback_allcorrect);
+            $this->addQTIMaterial($a_xml_writer, $feedback_allcorrect);
             $a_xml_writer->xmlEndTag("flow_mat");
             $a_xml_writer->xmlEndTag("itemfeedback");
         }
@@ -359,7 +359,7 @@ class assMatchingQuestionExport extends assQuestionExport
             $a_xml_writer->xmlStartTag("itemfeedback", $attrs);
             // qti flow_mat
             $a_xml_writer->xmlStartTag("flow_mat");
-            $this->object->addQTIMaterial($a_xml_writer, $feedback_onenotcorrect);
+            $this->addQTIMaterial($a_xml_writer, $feedback_onenotcorrect);
             $a_xml_writer->xmlEndTag("flow_mat");
             $a_xml_writer->xmlEndTag("itemfeedback");
         }

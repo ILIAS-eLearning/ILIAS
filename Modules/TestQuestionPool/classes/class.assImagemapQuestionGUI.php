@@ -500,7 +500,7 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         $solutiontemplate = new ilTemplate("tpl.il_as_tst_solution_output.html", true, true, "Modules/TestQuestionPool");
         $questiontext = $this->object->getQuestion();
         if ($show_question_text == true) {
-            $template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, true));
+            $template->setVariable("QUESTIONTEXT", ilLegacyFormElementsUtil::prepareTextareaOutput($questiontext, true));
         }
 
         $template->setVariable("IMG_SRC", ilWACSignedPath::signFile($imagepath));
@@ -546,7 +546,7 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
             );
 
             $solutiontemplate->setVariable("ILC_FB_CSS_CLASS", $cssClass);
-            $solutiontemplate->setVariable("FEEDBACK", $this->object->prepareTextareaOutput($feedback, true));
+            $solutiontemplate->setVariable("FEEDBACK", ilLegacyFormElementsUtil::prepareTextareaOutput($feedback, true));
         }
         $solutiontemplate->setVariable("SOLUTION_OUTPUT", $questionoutput);
 
@@ -609,7 +609,7 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
             $template->parseCurrentBlock();
         }
         $questiontext = $this->object->getQuestion();
-        $template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, true));
+        $template->setVariable("QUESTIONTEXT", ilLegacyFormElementsUtil::prepareTextareaOutput($questiontext, true));
         $template->setVariable("IMG_SRC", ilWACSignedPath::signFile($imagepath));
         $template->setVariable("IMG_ALT", $this->lng->txt("imagemap"));
         $template->setVariable("IMG_TITLE", $this->lng->txt("imagemap"));
@@ -678,7 +678,7 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
             }
         }
         $questiontext = $this->object->getQuestion();
-        $template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, true));
+        $template->setVariable("QUESTIONTEXT", ilLegacyFormElementsUtil::prepareTextareaOutput($questiontext, true));
         $template->setVariable("IMG_SRC", ilWACSignedPath::signFile($imagepath));
         $template->setVariable("IMG_ALT", $this->lng->txt("imagemap"));
         $template->setVariable("IMG_TITLE", $this->lng->txt("imagemap"));
@@ -760,7 +760,7 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
         $output .= '</tbody></table>';
 
-        return $this->object->prepareTextareaOutput($output, true);
+        return ilLegacyFormElementsUtil::prepareTextareaOutput($output, true);
     }
 
     /**

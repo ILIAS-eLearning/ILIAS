@@ -90,7 +90,7 @@ class assSingleChoiceExport extends assQuestionExport
         // add flow to presentation
         $a_xml_writer->xmlStartTag("flow");
         // add material with question text to presentation
-        $this->object->addQTIMaterial($a_xml_writer, $this->object->getQuestion());
+        $this->addQTIMaterial($a_xml_writer, $this->object->getQuestion());
         // add answers to presentation
         $attrs = array(
             "ident" => "MCSR",
@@ -138,7 +138,7 @@ class assSingleChoiceExport extends assQuestionExport
             $a_xml_writer->xmlStartTag("response_label", $attrs);
 
             if (strlen($answer->getImage())) {
-                $this->object->addQTIMaterial($a_xml_writer, $answer->getAnswertext(), false, false);
+                $this->addQTIMaterial($a_xml_writer, $answer->getAnswertext(), false, false);
                 $imagetype = "image/jpeg";
                 if (preg_match("/.*\.(png|gif)$/", $answer->getImage(), $matches)) {
                     $imagetype = "image/" . $matches[1];
@@ -167,7 +167,7 @@ class assSingleChoiceExport extends assQuestionExport
                 }
                 $a_xml_writer->xmlEndTag("material");
             } else {
-                $this->object->addQTIMaterial($a_xml_writer, $answer->getAnswertext());
+                $this->addQTIMaterial($a_xml_writer, $answer->getAnswertext());
             }
             $a_xml_writer->xmlEndTag("response_label");
         }
@@ -295,7 +295,7 @@ class assSingleChoiceExport extends assQuestionExport
                 0,
                 $index
             );
-            $this->object->addQTIMaterial($a_xml_writer, $fb);
+            $this->addQTIMaterial($a_xml_writer, $fb);
             $a_xml_writer->xmlEndTag("flow_mat");
             $a_xml_writer->xmlEndTag("itemfeedback");
         }
@@ -307,7 +307,7 @@ class assSingleChoiceExport extends assQuestionExport
             $a_xml_writer->xmlStartTag("itemfeedback", $attrs);
             // qti flow_mat
             $a_xml_writer->xmlStartTag("flow_mat");
-            $this->object->addQTIMaterial($a_xml_writer, $feedback_allcorrect);
+            $this->addQTIMaterial($a_xml_writer, $feedback_allcorrect);
             $a_xml_writer->xmlEndTag("flow_mat");
             $a_xml_writer->xmlEndTag("itemfeedback");
         }
@@ -319,7 +319,7 @@ class assSingleChoiceExport extends assQuestionExport
             $a_xml_writer->xmlStartTag("itemfeedback", $attrs);
             // qti flow_mat
             $a_xml_writer->xmlStartTag("flow_mat");
-            $this->object->addQTIMaterial($a_xml_writer, $feedback_onenotcorrect);
+            $this->addQTIMaterial($a_xml_writer, $feedback_onenotcorrect);
             $a_xml_writer->xmlEndTag("flow_mat");
             $a_xml_writer->xmlEndTag("itemfeedback");
         }

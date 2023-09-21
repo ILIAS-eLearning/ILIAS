@@ -32,6 +32,7 @@ class ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI extends ilTa
     public const PARENT_SAVE_SCORING_CMD = 'saveManScoringByQuestion';
 
     private ?float $curQuestionMaxPoints = null;
+    protected \ILIAS\TestQuestionPool\QuestionInfoService $questioninfo;
 
     protected bool $first_row_rendered = false;
 
@@ -41,7 +42,8 @@ class ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI extends ilTa
     public function __construct(ilTestScoringByQuestionsGUI $parent_obj, private ilAccess $access)
     {
         parent::__construct($parent_obj, self::PARENT_DEFAULT_CMD);
-
+        global $DIC;
+        $this->questioninfo = $DIC->testQuestionPool()->questionInfo();
         $this->setFilterCommand(self::PARENT_APPLY_FILTER_CMD);
         $this->setResetCommand(self::PARENT_RESET_FILTER_CMD);
 
@@ -90,10 +92,10 @@ class ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI extends ilTa
         }
         $scoring = ilObjAssessmentFolder::_getManualScoring();
         foreach ($questions as $data) {
-            $info = assQuestion::_getQuestionInfo($data['question_id']);
+            $info = $this->questioninfo->getQuestionInfo($data['question_id']);
             $type = $info["question_type_fi"];
             if (in_array($type, $scoring)) {
-                $maxpoints = assQuestion::_getMaximumPoints($data["question_id"]);
+                $maxpoints = $this->questioninfo->getMaximumPoints($data["question_id"]);
                 if ($maxpoints == 1) {
                     $maxpoints = ' (' . $maxpoints . ' ' . $this->lng->txt('point') . ')';
                 } else {

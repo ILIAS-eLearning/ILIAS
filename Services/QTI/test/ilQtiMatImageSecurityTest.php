@@ -25,7 +25,7 @@ class ilQtiMatImageSecurityTest extends TestCase
 {
     public function testConstruct(): void
     {
-        $this->assertInstanceOf(ilQtiMatImageSecurity::class, new ilQtiMatImageSecurity($this->image()));
+        $this->assertInstanceOf(ilQtiMatImageSecurity::class, new ilQtiMatImageSecurity($this->image(), $this->createMock(\ILIAS\TestQuestionPool\QuestionFilesService::class)));
     }
 
     private function image(): ilQTIMatimage

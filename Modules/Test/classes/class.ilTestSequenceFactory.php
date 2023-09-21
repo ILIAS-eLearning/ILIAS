@@ -30,7 +30,8 @@ class ilTestSequenceFactory
 
     public function __construct(
         private ilObjTest $test_obj,
-        private ilDBInterface $db
+        private ilDBInterface $db,
+        private \ILIAS\TestQuestionPool\QuestionInfoService $questioninfo
     ) {
     }
 
@@ -61,7 +62,8 @@ class ilTestSequenceFactory
                 $this->test_sequences[$activeId][$pass] = new ilTestSequenceFixedQuestionSet(
                     $this->db,
                     $activeId,
-                    $pass
+                    $pass,
+                    $this->questioninfo
                 );
             }
 
@@ -69,7 +71,8 @@ class ilTestSequenceFactory
                 $this->test_sequences[$activeId][$pass] = new ilTestSequenceRandomQuestionSet(
                     $this->db,
                     $activeId,
-                    $pass
+                    $pass,
+                    $this->questioninfo
                 );
             }
         }

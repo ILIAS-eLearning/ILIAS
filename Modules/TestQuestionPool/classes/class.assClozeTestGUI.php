@@ -384,7 +384,7 @@ JS;
 
         // questiontext
         $question = new ilTextAreaInputGUI($this->lng->txt("question"), "question");
-        $question->setValue($this->object->prepareTextareaOutput($this->object->getQuestion()));
+        $question->setValue(ilLegacyFormElementsUtil::prepareTextareaOutput($this->object->getQuestion()));
         $question->setRequired(true);
         $question->setRows(10);
         $question->setCols(80);
@@ -892,8 +892,8 @@ JS;
                     break;
             }
         }
-        $template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($this->object->getQuestion(), true));
-        $template->setVariable("CLOZETEXT", $this->object->prepareTextareaOutput($output, true));
+        $template->setVariable("QUESTIONTEXT", ilLegacyFormElementsUtil::prepareTextareaOutput($this->object->getQuestion(), true));
+        $template->setVariable("CLOZETEXT", ilLegacyFormElementsUtil::prepareTextareaOutput($output, true));
         $questionoutput = $template->get();
         if (!$show_question_only) {
             // get page object output
@@ -1067,11 +1067,11 @@ JS;
         if ($show_question_text) {
             $template->setVariable(
                 "QUESTIONTEXT",
-                $this->object->prepareTextareaOutput($this->object->getQuestion(), true)
+                ilLegacyFormElementsUtil::prepareTextareaOutput($this->object->getQuestion(), true)
             );
         }
 
-        $template->setVariable("CLOZETEXT", $this->object->prepareTextareaOutput($output, true));
+        $template->setVariable("CLOZETEXT", ilLegacyFormElementsUtil::prepareTextareaOutput($output, true));
         // generate the question output
         $solutiontemplate = new ilTemplate("tpl.il_as_tst_solution_output.html", true, true, "Modules/TestQuestionPool");
         $questionoutput = $template->get();
@@ -1095,7 +1095,7 @@ JS;
             );
 
             $solutiontemplate->setVariable("ILC_FB_CSS_CLASS", $cssClass);
-            $solutiontemplate->setVariable("FEEDBACK", $this->object->prepareTextareaOutput($feedback, true));
+            $solutiontemplate->setVariable("FEEDBACK", ilLegacyFormElementsUtil::prepareTextareaOutput($feedback, true));
         }
 
         $solutiontemplate->setVariable("SOLUTION_OUTPUT", $questionoutput);
@@ -1154,7 +1154,7 @@ JS;
             }
         }
         //$test = new ilObjTest($this->object->active_id);
-        return $this->object->prepareTextareaOutput($output, true);
+        return ilLegacyFormElementsUtil::prepareTextareaOutput($output, true);
     }
 
     public function getTestOutput(
@@ -1252,8 +1252,8 @@ JS;
             }
         }
 
-        $template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($this->object->getQuestion(), true));
-        $template->setVariable("CLOZETEXT", $this->object->prepareTextareaOutput($output, true));
+        $template->setVariable("QUESTIONTEXT", ilLegacyFormElementsUtil::prepareTextareaOutput($this->object->getQuestion(), true));
+        $template->setVariable("CLOZETEXT", ilLegacyFormElementsUtil::prepareTextareaOutput($output, true));
         $questionoutput = $template->get();
         $pageoutput = $this->outQuestionPage("", $is_postponed, $active_id, $questionoutput);
         return $pageoutput;
@@ -1282,7 +1282,7 @@ JS;
         }
         $feedback .= '</tbody></table>';
 
-        return $this->object->prepareTextareaOutput($feedback, true);
+        return ilLegacyFormElementsUtil::prepareTextareaOutput($feedback, true);
     }
 
     /**

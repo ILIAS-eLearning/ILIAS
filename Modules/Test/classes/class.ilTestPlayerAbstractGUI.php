@@ -2082,7 +2082,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         return $this->test_session->getLastSequence();
     }
 
-    protected function getSequenceElementParameter(): int
+    protected function getSequenceElementParameter(): ?int
     {
         if ($this->testrequest->isset('sequence')) {
             return $this->testrequest->int('sequence');
@@ -2219,7 +2219,6 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
             $question_gui->setPresentationContext(assQuestionGUI::PRESENTATION_CONTEXT_TEST);
             $question_gui->object->setObligationsToBeConsidered($this->object->areObligationsEnabled());
             $question_gui->populateJavascriptFilesRequiredForWorkForm($tpl);
-            $question_gui->object->setOutputType(OUTPUT_JAVASCRIPT);
             $question_gui->object->setShuffler($this->buildQuestionAnswerShuffler(
                 $question_id,
                 $this->test_session->getActiveId(),
@@ -2255,7 +2254,6 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         $question->setProcessLocker($process_locker_factory->getLocker());
 
         $question->setObligationsToBeConsidered($this->object->areObligationsEnabled());
-        $question->setOutputType(OUTPUT_JAVASCRIPT);
 
         $this->initTestQuestionConfig($question);
 
@@ -2491,7 +2489,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
         // enable the auto saving function
         // the autosave url is asynch because it will be used by an ajax request
-        if ($questionGUI->isAutosaveable() && $this->object->getAutosave()) {
+        if ($questionGUI instanceof ilAssQuestionAutosaveable && $this->object->getAutosave()) {
             $config['autosaveUrl'] = $this->ctrl->getLinkTarget($this, ilTestPlayerCommands::AUTO_SAVE, '', true);
             $config['autosaveInterval'] = $this->object->getMainSettings()->getQuestionBehaviourSettings()->getAutosaveInterval();
         } else {

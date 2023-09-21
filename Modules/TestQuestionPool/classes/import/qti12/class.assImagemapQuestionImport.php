@@ -76,7 +76,7 @@ class assImagemapQuestionImport extends assQuestionImport
                                 $ident = $response_label->getIdent();
                                 $answerhint = "";
                                 foreach ($response_label->material as $mat) {
-                                    $answerhint .= $this->object->QTIMaterialToString($mat);
+                                    $answerhint .= $this->QTIMaterialToString($mat);
                                 }
                                 $answers[$ident] = array(
                                     "answerhint" => $answerhint,
@@ -195,7 +195,7 @@ class assImagemapQuestionImport extends assQuestionImport
         $this->object->setComment($item->getComment());
         $this->object->setAuthor($item->getAuthor());
         $this->object->setOwner($ilUser->getId());
-        $this->object->setQuestion($this->object->QTIMaterialToString($item->getQuestiontext()));
+        $this->object->setQuestion($this->QTIMaterialToString($item->getQuestiontext()));
         $this->object->setObjId($questionpool_id);
         $this->object->setIsMultipleChoice($item->getMetadataEntry("IS_MULTIPLE_CHOICE"));
         $areas = array("2" => "rect", "1" => "circle", "3" => "poly");
@@ -230,11 +230,11 @@ class assImagemapQuestionImport extends assQuestionImport
         }
         // handle the import of media objects in XHTML code
         foreach ($feedbacks as $ident => $material) {
-            $m = $this->object->QTIMaterialToString($material);
+            $m = $this->QTIMaterialToString($material);
             $feedbacks[$ident] = $m;
         }
         foreach ($feedbacksgeneric as $correctness => $material) {
-            $m = $this->object->QTIMaterialToString($material);
+            $m = $this->QTIMaterialToString($material);
             $feedbacksgeneric[$correctness] = $m;
         }
         $questiontext = $this->object->getQuestion();

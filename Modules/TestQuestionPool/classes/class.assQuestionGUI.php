@@ -66,6 +66,7 @@ abstract class assQuestionGUI
     private ilDBInterface $db;
     private ilLogger $logger;
     private ilComponentRepository $component_repository;
+    protected \ILIAS\TestQuestionPool\QuestionInfoService $questioninfo;
 
     protected \ILIAS\Notes\GUIService $notes_gui;
 
@@ -140,6 +141,7 @@ abstract class assQuestionGUI
         $this->tree = $DIC['tree'];
         $this->db = $DIC->database();
         $this->logger = $DIC['ilLog'];
+        $this->questioninfo = $DIC->testQuestionPool()->questionInfo();
         $this->component_repository = $DIC['component.repository'];
         $this->ctrl->saveParameter($this, "q_id");
         $this->ctrl->saveParameter($this, "prev_qid");
@@ -429,7 +431,7 @@ abstract class assQuestionGUI
 
     public function assessment(): void
     {
-        $stats_table = new ilQuestionCumulatedStatisticsTableGUI($this, 'assessment', '', $this->object);
+        $stats_table = new ilQuestionCumulatedStatisticsTableGUI($this, 'assessment', '', $this->object, $this->questioninfo);
         $usage_table = new ilQuestionUsagesTableGUI($this, 'assessment', '', $this->object);
 
         $this->tpl->setContent(implode('<br />', array(
@@ -449,7 +451,7 @@ abstract class assQuestionGUI
         $lng = $DIC['lng'];
 
         if (($question_type === '') && ($question_id > 0)) {
-            $question_type = assQuestion::getQuestionTypeFromDb($question_id);
+            $question_type = $DIC->testQuestionPool()->questionInfo()->getQuestionType($question_id);
         }
 
         if ($question_type === '') {
@@ -474,7 +476,8 @@ abstract class assQuestionGUI
      */
     public static function _getGUIClassNameForId($a_q_id): string
     {
-        $q_type = assQuestion::getQuestionTypeFromDb($a_q_id);
+        global $DIC;
+        $q_type = $DIC->testQuestionPool()->questionInfo()->getQuestionType($a_q_id);
         $class_name = assQuestionGUI::_getClassNameForQType($q_type);
         return $class_name;
     }
@@ -690,7 +693,7 @@ abstract class assQuestionGUI
             $ilUser->setPref("tst_lastquestiontype", $this->object->getQuestionType());
             $ilUser->writePref("tst_lastquestiontype", $this->object->getQuestionType());
             $this->object->saveToDb();
-            $originalexists = $this->object->_questionExists($this->object->getOriginalId());
+            $originalexists = $this->questioninfo->questionExists($this->object->getOriginalId());
 
             if ($this->request->raw("calling_test") && $originalexists && assQuestion::_isWriteable($this->object->getOriginalId(), $ilUser->getId())) {
                 $this->ctrl->redirect($this, "originalSyncForm");
@@ -733,7 +736,7 @@ abstract class assQuestionGUI
             $ilUser->writePref("tst_lastquestiontype", $this->object->getQuestionType());
             $this->object->saveToDb();
             $originalexists = !is_null($this->object->getOriginalId()) &&
-                $this->object->_questionExistsInPool($this->object->getOriginalId());
+                $$this->questioninfo->questionExistsInPool($this->object->getOriginalId());
 
             if (($this->request->raw("calling_test") ||
                     ($this->request->isset('calling_consumer')
@@ -828,7 +831,7 @@ abstract class assQuestionGUI
             $ilUser->writePref("tst_lastquestiontype", $this->object->getQuestionType());
             $this->object->saveToDb($old_id);
             $originalexists = !is_null($this->object->getOriginalId()) &&
-                $this->object->_questionExistsInPool($this->object->getOriginalId());
+                $this->questioninfo->questionExistsInPool($this->object->getOriginalId());
             if (($this->request->raw("calling_test") || ($this->request->isset('calling_consumer')
                         && (int) $this->request->raw('calling_consumer')))
                 && $originalexists && assQuestion::_isWriteable($this->object->getOriginalId(), $ilUser->getId())) {
@@ -1149,12 +1152,12 @@ abstract class assQuestionGUI
         if ($this->object->isAdditionalContentEditingModePageObject()) {
             return $output;
         }
-        return $this->object->prepareTextareaOutput($output, true);
+        return ilLegacyFormElementsUtil::prepareTextareaOutput($output, true);
     }
 
     public function getGenericFeedbackOutputForCorrectSolution(): string
     {
-        return $this->object->prepareTextareaOutput(
+        return ilLegacyFormElementsUtil::prepareTextareaOutput(
             $this->object->feedbackOBJ->getGenericFeedbackTestPresentation($this->object->getId(), true),
             true
         );
@@ -1162,7 +1165,7 @@ abstract class assQuestionGUI
 
     public function getGenericFeedbackOutputForIncorrectSolution(): string
     {
-        return $this->object->prepareTextareaOutput(
+        return ilLegacyFormElementsUtil::prepareTextareaOutput(
             $this->object->feedbackOBJ->getGenericFeedbackTestPresentation($this->object->getId(), false),
             true
         );
@@ -1176,15 +1179,15 @@ abstract class assQuestionGUI
 
     public function outQuestionType(): string
     {
-        $count = $this->object->usageNumber();
+        $count = $this->questioninfo->usageNumber($this->object->getId());
 
-        if ($this->object->_questionExistsInPool($this->object->getId()) && $count) {
+        if ($this->questioninfo->questionExistsInPool($this->object->getId()) && $count) {
             if ($this->rbacsystem->checkAccess("write", $this->request->getRefId())) {
                 $this->tpl->setOnScreenMessage('info', sprintf($this->lng->txt("qpl_question_is_in_use"), $count));
             }
         }
 
-        return assQuestion::_getQuestionTypeName($this->object->getQuestionType());
+        return $this->questioninfo->getQuestionType($this->object->getId());
     }
 
     protected function getTypeOptions(): array
@@ -1324,7 +1327,7 @@ abstract class assQuestionGUI
                         $this->getSuggestedSolutionsRepo()->update([$solution]);
 
                         $originalexists = $this->object->getOriginalId() &&
-                            $this->object->_questionExistsInPool($this->object->getOriginalId());
+                            $this->questioninfo->questionExistsInPool($this->object->getOriginalId());
                         if (($this->request->raw("calling_test") || ($this->request->isset('calling_consumer')
                                     && (int) $this->request->raw('calling_consumer'))) && $originalexists
                             && assQuestion::_isWriteable($this->object->getOriginalId(), $ilUser->getId())) {
@@ -1353,7 +1356,7 @@ abstract class assQuestionGUI
                 $solutionContent = $this->object->fixSvgToPng($solutionContent);
                 $solutionContent = $this->object->fixUnavailableSkinImageSources($solutionContent);
                 $question = new ilTextAreaInputGUI($this->lng->txt("solutionText"), "solutiontext");
-                $question->setValue($this->object->prepareTextareaOutput($solutionContent));
+                $question->setValue(ilLegacyFormElementsUtil::prepareTextareaOutput($solutionContent));
                 $question->setRequired(true);
                 $question->setRows(10);
                 $question->setCols(80);
@@ -1835,7 +1838,7 @@ abstract class assQuestionGUI
 
     public function isAutosaveable(): bool
     {
-        return $this->object->isAutosaveable();
+        return $this->object instanceof ilAssQuestionAutosaveable;
     }
 
     protected function writeQuestionGenericPostData(): void

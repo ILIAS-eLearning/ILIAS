@@ -228,7 +228,7 @@ class ilTestScoringGUI extends ilTestServiceGUI
         $maxPointsExceeded = false;
         foreach ($questionGuiList as $questionId => $questionGui) {
             $reachedPoints = $form->getItemByPostVar("question__{$questionId}__points")->getValue();
-            $maxPoints = assQuestion::_getMaximumPoints($questionId);
+            $maxPoints = $this->questioninfo->getMaximumPoints($questionId);
 
             if ($reachedPoints > $maxPoints) {
                 $maxPointsExceeded = true;
@@ -400,7 +400,7 @@ class ilTestScoringGUI extends ilTestServiceGUI
 
             $nonedit = new ilNonEditableValueGUI($this->lng->txt('tst_manscoring_input_max_points_for_question'), "question__{$questionId}__maxpoints");
             if ($initValues) {
-                $nonedit->setValue(assQuestion::_getMaximumPoints($questionId));
+                $nonedit->setValue($this->questioninfo->getMaximumPoints($questionId));
             }
             $form->addItem($nonedit);
 

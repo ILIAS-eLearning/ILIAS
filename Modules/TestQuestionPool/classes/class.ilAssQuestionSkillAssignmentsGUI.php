@@ -536,7 +536,7 @@ class ilAssQuestionSkillAssignmentsGUI
         $questionId = (int) $_POST['question_id'];
 
         if ($this->isTestQuestion($questionId) && $this->isSyncOriginalPossibleAndAllowed($questionId)) {
-            $question = assQuestion::_instantiateQuestion($questionId);
+            $question = assQuestion::instantiateQuestion($questionId);
 
             $question->syncSkillAssignments(
                 $question->getObjId(),

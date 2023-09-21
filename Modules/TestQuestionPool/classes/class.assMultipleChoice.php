@@ -33,7 +33,7 @@ require_once './Modules/Test/classes/inc.AssessmentConstants.php';
  *
  * @ingroup		ModulesTestQuestionPool
  */
-class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjustable, ilObjAnswerScoringAdjustable, iQuestionCondition, ilAssSpecificFeedbackOptionLabelProvider
+class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjustable, ilObjAnswerScoringAdjustable, iQuestionCondition, ilAssSpecificFeedbackOptionLabelProvider, ilAssQuestionLMExportable, ilAssQuestionAutosaveable
 {
     /**
      * The given answers of the multiple choice question
@@ -300,7 +300,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
 
         $clone = $this;
 
-        $original_id = assQuestion::_getOriginalId($this->id);
+        $original_id = $this->questioninfo->getOriginalId($this->id);
         $clone->id = -1;
 
         if ((int) $testObjId > 0) {
@@ -347,7 +347,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
         // duplicate the question in database
         $clone = $this;
 
-        $original_id = assQuestion::_getOriginalId($this->id);
+        $original_id = $this->questioninfo->getOriginalId($this->id);
         $clone->id = -1;
         $source_questionpool_id = $this->getObjId();
         $clone->setObjId($target_questionpool_id);
@@ -397,29 +397,6 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
         $clone->onCopy($sourceParentId, $sourceQuestionId, $clone->getObjId(), $clone->getId());
 
         return $clone->id;
-    }
-
-    /**
-    * Gets the multiple choice output type which is either OUTPUT_ORDER (=0) or OUTPUT_RANDOM (=1).
-    *
-    * @return integer The output type of the assMultipleChoice object
-    * @see $output_type
-    */
-    public function getOutputType(): int
-    {
-        return $this->output_type;
-    }
-
-    /**
-     * Sets the output type of the assMultipleChoice object
-     *
-     * @param int|string $output_type A nonnegative integer value specifying the output type. It is OUTPUT_ORDER (=0) or OUTPUT_RANDOM (=1).
-     *
-     * @see    $response
-     */
-    public function setOutputType($output_type = OUTPUT_ORDER): void
-    {
-        $this->output_type = $output_type;
     }
 
     /**
@@ -858,7 +835,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
 
     public function syncWithOriginal(): void
     {
-        if ($this->getOriginalId()) {
+        if ($this->questioninfo->getOriginalId()) {
             $this->syncImages();
             parent::syncWithOriginal();
         }
@@ -1027,8 +1004,8 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
         global $DIC;
         $ilLog = $DIC['ilLog'];
         $imagepath = $this->getImagePath();
-        $question_id = $this->getOriginalId();
-        $originalObjId = parent::lookupParentObjId($this->getOriginalId());
+        $question_id = $this->questioninfo->getOriginalId();
+        $originalObjId = parent::lookupParentObjId($this->questioninfo->getOriginalId());
         $imagepath_original = $this->getImagePath($question_id, $originalObjId);
 
         ilFileUtils::delDir($imagepath_original);

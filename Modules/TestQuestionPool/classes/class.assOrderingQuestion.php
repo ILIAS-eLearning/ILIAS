@@ -34,7 +34,7 @@ use ILIAS\TA\Questions\Ordering\assOrderingQuestionDatabaseRepository as OQRepos
  *
  * @ingroup     ModulesTestQuestionPool
  */
-class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdjustable, ilObjAnswerScoringAdjustable, iQuestionCondition
+class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdjustable, ilObjAnswerScoringAdjustable, iQuestionCondition, ilAssQuestionLMExportable, ilAssQuestionAutosaveable
 {
     public const ORDERING_ELEMENT_FORM_FIELD_POSTVAR = 'order_elems';
 
@@ -219,7 +219,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         $thisObjId = $this->getObjId();
 
         $clone = clone $this;
-        $original_id = assQuestion::_getOriginalId($this->id);
+        $original_id = $this->questioninfo->getOriginalId($this->id);
         $clone->id = -1;
 
         if ((int) $testObjId > 0) {
@@ -269,7 +269,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         // duplicate the question in database
         $clone = clone $this;
         $this_id = $this->getId();
-        $original_id = assQuestion::_getOriginalId($this_id);
+        $original_id = $this->questioninfo->getOriginalId($this_id);
         $clone->id = -1;
         $source_questionpool_id = $this->getObjId();
         $clone->setObjId($target_questionpool_id);
@@ -1022,22 +1022,6 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     public function getOrderElements(): array
     {
         return $this->getOrderingElementList()->getRandomIdentifierIndexedElements();
-    }
-
-    /**
-    * Returns true if the question type supports JavaScript output
-    *
-    * @return boolean TRUE if the question type supports JavaScript output, FALSE otherwise
-    * @access public
-    */
-    public function supportsJavascriptOutput(): bool
-    {
-        return true;
-    }
-
-    public function supportsNonJsOutput(): bool
-    {
-        return false;
     }
 
     /**

@@ -534,7 +534,7 @@ class ilContainer extends ilObject
         $new_session_id = ilSession::_duplicate($session_id);
         // Start cloning process using soap call
         $soap_client = new ilSoapClient();
-        $soap_client->setResponseTimeout(5);
+        $soap_client->setResponseTimeout($soap_client->getResponseTimeout());
         $soap_client->enableWSDL(true);
 
         $ilLog->write(__METHOD__ . ': Trying to call Soap client...');

@@ -67,7 +67,8 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
         string $parent_cmd,
         private int $parent_ref_id,
         private UIFactory $ui_factory,
-        private UIRenderer $ui_renderer
+        private UIRenderer $ui_renderer,
+        private \ILIAS\TestQuestionPool\QuestionInfoService $questioninfo
     ) {
         parent::__construct($parent_obj, $parent_cmd);
 
@@ -202,7 +203,7 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
             $this->tpl->setVariable("QUESTION_COMMENT", $a_set["description"] ? $a_set["description"] : '&nbsp;');
         }
 
-        $this->tpl->setVariable("QUESTION_TYPE", assQuestion::_getQuestionTypeName($a_set["type_tag"]));
+        $this->tpl->setVariable("QUESTION_TYPE", $this->questioninfo->getQuestionType($a_set['question_id']));
         $this->tpl->setVariable("QUESTION_POINTS", $a_set["points"]);
 
         if ($this->isColumnSelected('author')) {

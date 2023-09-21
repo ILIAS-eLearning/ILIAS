@@ -58,7 +58,7 @@ class assFormulaQuestionImport extends assQuestionImport
         $this->object->setComment($item->getComment());
         $this->object->setAuthor($item->getAuthor());
         $this->object->setOwner($ilUser->getId());
-        $this->object->setQuestion($this->object->QTIMaterialToString($item->getQuestiontext()));
+        $this->object->setQuestion($this->QTIMaterialToString($item->getQuestiontext()));
         $this->object->setObjId($questionpool_id);
         if (preg_match_all("/(\\\$v\\d+)/ims", $this->object->getQuestion(), $matches)) {
             foreach ($matches[1] as $variable) {

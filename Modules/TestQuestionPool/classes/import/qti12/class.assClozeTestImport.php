@@ -70,7 +70,7 @@ class assClozeTestImport extends assQuestionImport
             switch ($entry["type"]) {
                 case "material":
 
-                    $materialString = $this->object->QTIMaterialToString(
+                    $materialString = $this->QTIMaterialToString(
                         $presentation->material[$entry["index"]]
                     );
 
@@ -124,7 +124,7 @@ class assClozeTestImport extends assQuestionImport
                                 $ident = $response_label->getIdent();
                                 $answertext = "";
                                 foreach ($response_label->material as $mat) {
-                                    $answertext .= $this->object->QTIMaterialToString($mat);
+                                    $answertext .= $this->QTIMaterialToString($mat);
                                 }
                                 $answers[$ident] = array(
                                     "answertext" => $answertext,
@@ -316,11 +316,11 @@ class assClozeTestImport extends assQuestionImport
 
         // handle the import of media objects in XHTML code
         foreach ($feedbacks as $ident => $material) {
-            $m = $this->object->QTIMaterialToString($material);
+            $m = $this->QTIMaterialToString($material);
             $feedbacks[$ident] = $m;
         }
         foreach ($feedbacksgeneric as $correctness => $material) {
-            $m = $this->object->QTIMaterialToString($material);
+            $m = $this->QTIMaterialToString($material);
             $feedbacksgeneric[$correctness] = $m;
         }
         $questiontext = $this->object->getQuestion();
