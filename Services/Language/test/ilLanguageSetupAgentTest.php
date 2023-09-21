@@ -24,7 +24,6 @@ use ILIAS\Setup\Objective\NullObjective;
 
 /**
  * Class ilLanguageSetupAgentTest
- * @author  Christian Knof <christian.knof@kroepelin-projekte.de>
  */
 class ilLanguageSetupAgentTest extends ilLanguageBaseTest
 {

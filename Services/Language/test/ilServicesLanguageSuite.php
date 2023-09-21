@@ -23,7 +23,6 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * Class ilServicesLanguageSuite
- * @author  Sílvia Mariné <silvia.marine@kroepelin-projekte.de>
  */
 class ilServicesLanguageSuite extends TestSuite
 {
