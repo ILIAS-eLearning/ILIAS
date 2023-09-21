@@ -1786,15 +1786,10 @@ class ilObjectListGUI
 
     public function insertSubscribeCommand(): void
     {
-        if ($this->std_cmd_only) {
-            return;
-        }
-
-        // note: the setting disable_my_offers is used for
-        // presenting the favourites in the main section of the dashboard
-        // see also bug #32014
-        if ($this->settings->get('rep_favourites', '0') === '0' ||
-            $this->user->getId() === ANONYMOUS_USER_ID) {
+        if ($this->std_cmd_only
+            || $this->user->getId() === ANONYMOUS_USER_ID
+            || !$this->getContainerObject() instanceof ilDesktopItemHandling
+            || $this->settings->get('rep_favourites', '0') === '0') {
             return;
         }
 
