@@ -32,7 +32,8 @@ function with_fields()
             $ui_factory->input()->field()->checkbox('Understood', 'ok')
     ]);
     $evaluation = function (Result $result, Launcher &$launcher) use ($ctrl, $ui_factory) {
-        if ($result->isOK() && $result->value()[0]) {
+        $values = $result->value();
+        if ($result->isOK() && reset($values)) {
             $ctrl->redirectToURL(
                 (string)$launcher->getTarget()->getURL()->withParameter('launcher_redirect', 'terms accepted (' . $launcher->getButtonLabel() . ')')
             );
@@ -75,7 +76,8 @@ function with_fields()
             $ui_factory->input()->field()->password('pwd', 'Password')
     ]);
     $evaluation = function (Result $result, Launcher &$launcher) use ($ctrl, $ui_factory) {
-        if ($result->isOK() && $result->value()[0]->toString() === 'ilias') {
+        $values = $result->value();
+        if ($result->isOK() && reset($values)?->toString() === 'ilias') {
             $ctrl->redirectToURL(
                 (string)$launcher->getTarget()->getURL()->withParameter('launcher_redirect', 'password protected')
             );
