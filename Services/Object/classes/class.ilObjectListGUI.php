@@ -1243,8 +1243,9 @@ class ilObjectListGUI
 
     public function determineProperties(): array
     {
-        $props = $this->getProperties();
-        $props = $this->getCustomProperties($props);
+        $props = $this->getCustomProperties(
+            $this->getProperties()
+        );
 
         if ($this->context != self::CONTEXT_WORKSPACE && $this->context != self::CONTEXT_WORKSPACE_SHARING) {
             // add learning progress custom property
@@ -3228,7 +3229,6 @@ class ilObjectListGUI
         if ($def_cmd_link != '') {    // #24256
             if ($def_cmd_frame != '' && ($modified_link == $def_cmd_link)) {
                 $image = $image->withAdditionalOnLoadCode(function ($id) use (
-                    $def_command,
                     $def_cmd_frame,
                     $def_cmd_link
                 ): string {
@@ -3242,7 +3242,6 @@ class ilObjectListGUI
 
                 $button =
                     $ui->factory()->button()->shy($title, "")->withAdditionalOnLoadCode(function ($id) use (
-                        $def_command,
                         $def_cmd_frame,
                         $def_cmd_link
                     ): string {
@@ -3311,7 +3310,9 @@ class ilObjectListGUI
 
         $l = [];
         foreach ($this->determineProperties() as $p) {
-            if (($p['alert'] ?? false) && $p['property'] !== $this->lng->txt('learning_progress')) {
+            if (($p['alert'] ?? false)
+                && isset($p['property'])
+                && $p['property'] ?? '' !== $this->lng->txt('learning_progress')) {
                 $l[(string) $p['property']] = (string) $p['value'];
             }
         }
