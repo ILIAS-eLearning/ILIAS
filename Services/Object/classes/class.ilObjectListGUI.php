@@ -1830,7 +1830,7 @@ class ilObjectListGUI
 
     public function insertTestScreenCommand(): void
     {
-        if ($this->std_cmd_only) {
+        if ($this->std_cmd_only || $this->type !== 'tst') {
             return;
         }
         $this->insertCommand($this->getCommandLink('testScreen'), $this->lng->txt('tst_start_test'));
@@ -1860,7 +1860,7 @@ class ilObjectListGUI
 
         $this->lng->loadLanguageModule('notes');
         $this->lng->loadLanguageModule('tagging');
-        $cmd_frame = $this->getCommandFrame('testScreen');
+        $cmd_frame = $this->getCommandFrame('infoScreen');
 
         // reference objects have translated ids, revert to originals
         $note_ref_id = $this->ref_id;
