@@ -3846,7 +3846,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
     }
     
     /**
-     * Remove lm glossary
+     * Remove lm glossary, as well remove all autolinks.
      *
      * @param
      * @return
@@ -3859,6 +3859,9 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
         $this->object->removeAutoGlossary((int) $_GET["glo_id"]);
         $this->object->update();
         
+        // JKN PATCH START
+        $this->object->unLinkGlossaryTerms((int)$_GET["glo_ref_id"]);
+        // JKN PATCH END
         ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
         $ilCtrl->redirect($this, "editGlossaries");
     }

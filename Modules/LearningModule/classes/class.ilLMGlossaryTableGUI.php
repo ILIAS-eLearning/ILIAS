@@ -38,7 +38,13 @@ class ilLMGlossaryTableGUI extends ilTable2GUI
         parent::__construct($a_parent_obj, $a_parent_cmd);
         $data = array();
         foreach ($a_lm->getAutoGlossaries() as $glo_id) {
-            $data[] = array("glo_id" => $glo_id, "title" => ilObject::_lookupTitle($glo_id));
+             // JKN PATCH START
+            $data[] = array(
+                "glo_id" => $glo_id,
+                "title" => ilObject::_lookupTitle($glo_id),
+                "glo_ref_id" => array_shift(ilObject::_getAllReferences($glo_id))
+            );
+            // JKN PATCH END
         }
         $this->setData($data);
         $this->setTitle($lng->txt("cont_auto_glossaries"));
@@ -62,6 +68,9 @@ class ilLMGlossaryTableGUI extends ilTable2GUI
         $ilCtrl = $this->ctrl;
 
         $ilCtrl->setParameter($this->parent_obj, "glo_id", $a_set["glo_id"]);
+        // JKN PATCH START
+        $ilCtrl->setParameter($this->parent_obj, "glo_ref_id", $a_set["glo_ref_id"]);
+        // JKN PATCH END
         $this->tpl->setCurrentBlock("cmd");
         $this->tpl->setVariable("CMD_HREF", $ilCtrl->getLinkTarget($this->parent_obj, "removeLMGlossary"));
         $this->tpl->setVariable("CMD_TXT", $lng->txt("remove"));

@@ -851,6 +851,16 @@ class ilObjGlossaryGUI extends ilObjectGUI
         $_SESSION["il_text_lang_" . $_GET["ref_id"]] = $_POST["term_language"];
         $term->create();
 
+        // JKN PATCH START
+         //auto update the linked learning modules to the glossary..
+         $linked_lms = ilObjGlossary::lookUpLinkedContentPages($this->object->getId());
+         foreach($linked_lms as $linked_lm){
+             $content_object = new ilObjLearningModule($linked_lm, false);
+             $content_object->unLinkGlossaryTerms($this->object->getRefId());
+             $content_object->autoLinkGlossaryTerms($this->object->getRefId());
+         }
+        // JKN PATCH END
+
         // add first definition
         $def = new ilGlossaryDefinition();
         $def->setTermId($term->getId());
@@ -1109,6 +1119,25 @@ class ilObjGlossaryGUI extends ilObjectGUI
     public function deleteTerms()
     {
         foreach ($_POST["id"] as $id) {
+
+            // JKN PATCH START
+            //auto update the linked learning modules to the glossary.
+            $term = new ilGlossaryTerm($id);
+            $single_term = [
+                'term' => $term->getTerm(),
+                'language' => $term->getLanguage(),
+                'id' => $term->getId(),
+                'glo_id' => $term->getGlossaryId()
+            ];
+
+            $linked_lms = ilObjGlossary::lookUpLinkedContentPages($this->object->getId());
+
+            foreach($linked_lms as $linked_lm){
+                $content_object = new ilObjLearningModule($linked_lm, false);
+                $content_object->unLinkGlossaryTerm($single_term);
+            }
+            // JKN PATCH END
+
             if (ilGlossaryTermReferences::isReferenced($this->object->getId(), $id)) {
                 $refs = new ilGlossaryTermReferences($this->object->getId());
                 $refs->deleteTerm($id);
