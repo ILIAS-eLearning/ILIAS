@@ -24,12 +24,12 @@ use ILIAS\UI\Component\Table as I;
 */
 
 use ILIAS\UI\Factory as UIFactory;
+use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Data\Range;
 use ILIAS\Data\Order;
-//use ILIAS\UI\Renderer as UIRenderer;
-use  ILIAS\UI\Component\Table;
-
+use ILIAS\UI\Component\Table;
+use ILIAS\UI\Component\Input\Container\Filter\Standard as Filter;
 use ILIAS\UI\URLBuilder;
 use ILIAS\UI\URLBuilderToken;
 use Psr\Http\Message\ServerRequestInterface;
@@ -38,6 +38,7 @@ class QuestionTable extends ilAssQuestionList implements Table\DataRetrieval
 {
     public function __construct(
         protected UIFactory $ui_factory,
+        protected UIRenderer $ui_renderer,
         protected DataFactory $data_factory,
         protected URLBuilder $url_builder,
         protected URLBuilderToken $action_parameter_token,
@@ -50,17 +51,60 @@ class QuestionTable extends ilAssQuestionList implements Table\DataRetrieval
         protected int $request_ref_id
     ) {
         parent::__construct($db, $lng, $component_repository);
+        $this->setAvailableTaxonomyIds(ilObjTaxonomy::getUsageOfObject($parent_obj_id));
     }
 
     public function getTable(): Table\Data
     {
         return $this->ui_factory->table()->data(
-            'a data table from a repository',
+            $this->lng->txt('questions'),
             $this->getColums(),
             $this
         )
         ->withActions($this->getActions());
     }
+
+    /**
+     * Filters should be part of the Table; for now, since they are not fully
+     * integrated, they are rendered and applied seperately
+     */
+    public function getFilter(ilUIService $ui_service, string $action): Filter
+    {
+        $lifecycle_options = array_merge(
+            ['' => $this->lng->txt('qst_lifecycle_filter_all')],
+            ilAssQuestionLifecycle::getDraftInstance()->getSelectOptions($this->lng)
+        );
+        $question_type_options = [
+            '' => $this->lng->txt('filter_all_question_types')
+        ];
+        $question_types = ilObjQuestionPool::_getQuestionTypes();
+        foreach ($question_types as $translation => $row) {
+            $question_type_options[$row['type_tag']] = $translation;
+        }
+
+        $field_factory = $this->ui_factory->input()->field();
+        $filter_inputs = [
+            'title' => $field_factory->text($this->lng->txt("title")),
+            'description' => $field_factory->text($this->lng->txt("description")),
+            'author' => $field_factory->text($this->lng->txt("author")),
+            'lifecycle' => $field_factory->select($this->lng->txt("qst_lifecycle"), $lifecycle_options),
+            'type' => $field_factory->select($this->lng->txt("type"), $question_type_options),
+            'commented' => $field_factory->select($this->lng->txt("ass_commented_questions_only"), ['1' => $this->lng->txt('yes'), '0' => $this->lng->txt('no')]),
+        ];
+
+        $active = array_fill(0, count($filter_inputs), true);
+
+        $filter = $ui_service->filter()->standard(
+            "question_table_filter_id",
+            $action,
+            $filter_inputs,
+            $active,
+            true,
+            true
+        );
+        return $filter;
+    }
+
 
     public function getColums(): array
     {
@@ -69,24 +113,19 @@ class QuestionTable extends ilAssQuestionList implements Table\DataRetrieval
         $date_format = $df->withTime24($this->data_factory->dateFormat()->germanShort());
 
         return  [
-            //'obj_fi' => $f->text($this->lng->txt('obj_fi')),
-            //'question_id' => $f->text($this->lng->txt('question_id')),
-            //'external_id' => $f->text($this->lng->txt('external_id')),
             'title' => $f->text($this->lng->txt('title')),
             'description' => $f->text($this->lng->txt('description')),
             'ttype' => $f->text($this->lng->txt('question_type')),
             'points' => $f->number($this->lng->txt('points')),
-            'statistics' => $f->text($this->lng->txt('statistics')), //take out, it's an action, really
             'author' => $f->text($this->lng->txt('author')),
             'title' => $f->text($this->lng->txt('title')),
             'lifecycle' => $f->text($this->lng->txt('qst_lifecycle')),
-            'comments' => $f->text($this->lng->txt('comments')),
             'created' => $f->date($this->lng->txt('create_date'), $date_format),
             'tstamp' => $f->date($this->lng->txt('last_update'), $date_format),
-            'taxonomies' => $f->text($this->lng->txt('taxonomies')),
-            'nodes' => $f->text($this->lng->txt('nodes')),
-            'feedback' => $f->text($this->lng->txt('feedback')),
-            'hints' => $f->text($this->lng->txt('hints'))
+            'taxonomies' => $f->text($this->lng->txt('qpl_settings_subtab_taxonomies'))
+                ->withIsSortable(false),
+            'feedback' => $f->boolean($this->lng->txt('feedback'), $this->lng->txt('yes'), $this->lng->txt('no')),
+            'hints' => $f->boolean($this->lng->txt('hints'), $this->lng->txt('yes'), $this->lng->txt('no')),
         ];
     }
 
@@ -104,7 +143,27 @@ class QuestionTable extends ilAssQuestionList implements Table\DataRetrieval
             $row_id = (string)$record['question_id'];
             $record['created'] = (new \DateTimeImmutable())->setTimestamp($record['created']);
             $record['tstamp'] = (new \DateTimeImmutable())->setTimestamp($record['tstamp']);
-            $record['taxonomies'] = implode(',', $record['taxonomies']);
+
+            $lifecycle = ilAssQuestionLifecycle::getInstance($record['lifecycle']);
+            $record['lifecycle'] = $lifecycle->getTranslation($this->lng);
+
+            $taxonomies = [];
+            foreach ($record['taxonomies'] as $taxonomy_id => $tax_data) {
+                $taxonomy = new ilObjTaxonomy($taxonomy_id);
+                $title = ilObject::_lookupTitle($taxonomy_id);
+
+                $nodes = [];
+                foreach ($tax_data as $ids => $node) {
+                    $nodes[] = ilTaxonomyNode::_lookupTitle($node['node_id']);
+                }
+                $taxonomies[] = ilObject::_lookupTitle($taxonomy_id);
+                $taxonomies[] = $this->ui_renderer->render(
+                    $this->ui_factory->listing()->unordered($nodes)
+                );
+            }
+
+            $record['taxonomies'] = implode('', $taxonomies);
+
             yield $row_builder->buildDataRow($row_id, $record)
                 ->withDisabledAction('move', $no_write_access)
                 ->withDisabledAction('copy', $no_write_access)
@@ -126,13 +185,13 @@ class QuestionTable extends ilAssQuestionList implements Table\DataRetrieval
     {
         $this->setParentObjId($this->parent_obj_id);
         $this->load();
-        return $this->getQuestionDataArray();
+        //return $this->getQuestionDataArray();
+        return $this->postOrder($this->getQuestionDataArray(), $order);
     }
 
     protected function getActions(): array
     {
-        return
-        array_merge(
+        return array_merge(
             $this->buildAction('copy', 'standard'),
             $this->buildAction('move', 'standard'),
             $this->buildAction('delete', 'standard'),
@@ -157,5 +216,24 @@ class QuestionTable extends ilAssQuestionList implements Table\DataRetrieval
                 $this->row_id_token
             )
         ];
+    }
+
+
+    protected function postOrder(array $list, \ILIAS\Data\Order $order): array
+    {
+        [$aspect, $direction] = $order->join('', function ($i, $k, $v) {
+            return [$k, $v];
+        });
+        usort($list, static function (array $a, array $b) use ($aspect): int {
+            if (is_numeric($a[$aspect]) || is_bool($a[$aspect])) {
+                return $a[$aspect] <=> $b[$aspect];
+            }
+            return strcmp($a[$aspect], $b[$aspect]);
+        });
+
+        if ($direction === $order::DESC) {
+            $list = array_reverse($list);
+        }
+        return $list;
     }
 }

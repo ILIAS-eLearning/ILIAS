@@ -41,6 +41,7 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
     protected array $filter = [];
 
     protected $taxIds = array();
+    protected ilObjQuestionPool $pool_obj;
 
     /**
      * @var bool
@@ -49,6 +50,7 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
 
     public function __construct($a_parent_obj, $a_parent_cmd, $a_write_access = false, $confirmdelete = false, $taxIds = array(), $enableCommenting = false)
     {
+        $this->pool_obj = $a_parent_obj->object;
         $this->setQuestionCommentingEnabled($enableCommenting);
 
         // Bugfix: #0019539
