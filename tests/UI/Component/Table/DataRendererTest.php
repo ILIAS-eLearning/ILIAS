@@ -367,9 +367,15 @@ EOT;
 <td class="c-table-data__cell c-table-data__rowselection" role="gridcell" tabindex="-1">
     <input type="checkbox" value="row_id-1" class="c-table-data__row-selector">
 </td>
-<td class="c-table-data__cell c-table-data__cell--text " role="gridcell" aria-colindex="1" tabindex="-1">v1</td>
-<td class="c-table-data__cell c-table-data__cell--text " role="gridcell" aria-colindex="2" tabindex="-1">v2</td>
-<td class="c-table-data__cell c-table-data__cell--number " role="gridcell" aria-colindex="3" tabindex="-1">3</td>
+<td class="c-table-data__cell c-table-data__cell--text " role="gridcell" aria-colindex="1" tabindex="-1">
+    <span class="c-table-data__cell__col-title">Field 1:</span>v1
+</td>
+<td class="c-table-data__cell c-table-data__cell--text " role="gridcell" aria-colindex="2" tabindex="-1">
+    <span class="c-table-data__cell__col-title">Field 2:</span>v2
+</td>
+<td class="c-table-data__cell c-table-data__cell--number " role="gridcell" aria-colindex="3" tabindex="-1">
+    <span class="c-table-data__cell__col-title">Field 3:</span>3
+</td>
 <td class="c-table-data__cell c-table-data__rowaction" role="gridcell" tabindex="-1">
     <div class="dropdown">
         <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" id="id_3" aria-label="actions" aria-haspopup="true" aria-expanded="false" aria-controls="id_3_menu"><span class="caret"></span></button>
