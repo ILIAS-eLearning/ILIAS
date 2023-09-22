@@ -314,7 +314,7 @@ class ilLPGradebookGrade extends ilLPGradebook
             $status = ilLPStatus::_lookupStatus($revision_object['obj_id'], $usr_id, false);
             //if mark is 0 and status isn't completed, or mark is null or empty assume 100 (for adjusted);
             $mark = (($mark == 0 && !in_array((int)$status, [2, 3])) || is_null($mark)) ? 100 : $mark;
-            $adjusted = $mark * ($revision_object['object_weight'] * 0.01);
+            $adjusted = (int)$mark * ((int) $revision_object['object_weight'] * 0.01);
         } else {
             $gradebook_grade = array_shift(ilGradebookGradesConfig::where([
                 'usr_id' => $usr_id,
