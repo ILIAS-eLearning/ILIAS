@@ -36,294 +36,316 @@ include_once './Services/Calendar/classes/class.ilCalendarCategoryAssignments.ph
  */
 class ilCalendarExport
 {
+    protected const BYTE_LIMIT = 1000000;
     const EXPORT_CALENDARS = 1;
     const EXPORT_APPOINTMENTS = 2;
 
+    /**
+     * @var int
+     */
     protected $export_type = self::EXPORT_CALENDARS;
-    
     /**
      * @var ilLogger
      */
-    private $logger = null;
-
-
-    protected $calendars = array();
-    protected $user_settings = null;
-    protected $appointments = array();
-    protected $writer = null;
-    
-    public function __construct($a_calendar_ids = array())
-    {
-        $this->logger = $GLOBALS['DIC']->logger()->cal();
-        
-        
-        $this->calendars = $a_calendar_ids;
-        $this->writer = new ilICalWriter();
-        
-        $this->user_settings = ilCalendarUserSettings::_getInstanceByUserId($GLOBALS['DIC']['ilUser']->getId());
-    }
-    
+    protected $logger = null;
     /**
-     * Get user settings
-     * @return ilCalendarUserSettings
+     * @var ilObjUser
      */
-    public function getUserSettings()
+    protected $il_user;
+    /**
+     * @var int[]
+     */
+    protected $calendars;
+    /**
+     * @var ilCalendarUserSettings
+     */
+    protected $user_settings;
+    /**
+     * @var array
+     */
+    protected $appointments;
+    /**
+     * @var illCalStringBuilder
+     */
+    protected $str_builder_export;
+
+    /**
+     * @param int[] $a_calendar_ids
+     */
+    public function __construct(array $a_calendar_ids = [])
+    {
+        global $DIC;
+        $this->il_user = $DIC->user();
+        $this->logger = $DIC->logger()->cal();
+        $this->calendars = $a_calendar_ids;
+        $this->appointments = [];
+        $this->user_settings = ilCalendarUserSettings::_getInstanceByUserId($this->il_user->getId());
+        $this->str_builder_export = new illCalStringBuilder();
+    }
+
+    public function getUserSettings() : ilCalendarUserSettings
     {
         return $this->user_settings;
     }
-    
 
-    public function setExportType($a_type)
-    {
-        $this->export_type = $a_type;
-    }
-
-    public function setAppointments($a_apps)
+    public function setAppointments($a_apps) : void
     {
         $this->appointments = $a_apps;
     }
 
-    public function getAppointments()
+    public function getAppointments() : array
     {
         return $this->appointments;
     }
 
-    public function setCalendarIds($a_cal_ids)
+    /**
+     * @param int[] $a_cal_ids
+     */
+    public function setCalendarIds(array $a_cal_ids) : void
     {
         $this->calendars = $a_cal_ids;
     }
 
-    public function getCalendarIds()
+    /**
+     * @return int[]
+     */
+    public function getCalendarIds() : array
     {
-        return (array) $this->calendars;
+        return $this->calendars;
     }
 
-    public function getExportType()
+    public function setExportType(int $a_type) : void
+    {
+        $this->export_type = $a_type;
+    }
+
+    public function getExportType() : int
     {
         return $this->export_type;
     }
     
-    public function export()
+    public function export() : void
     {
-        $this->writer->addLine('BEGIN:VCALENDAR');
-        $this->writer->addLine('VERSION:2.0');
-        $this->writer->addLine('METHOD:PUBLISH');
-        $this->writer->addLine('PRODID:-//ilias.de/NONSGML ILIAS Calendar V4.4//EN');
-        
-        $this->addTimezone();
-
+        $this->str_builder_export->clear();
+        $str_builder_prefix = new illCalStringBuilder();
+        $str_builder_prefix->addLine('BEGIN:VCALENDAR');
+        $str_builder_prefix->addLine('VERSION:2.0');
+        $str_builder_prefix->addLine('METHOD:PUBLISH');
+        $str_builder_prefix->addLine('PRODID:-//ilias.de/NONSGML ILIAS Calendar V4.4//EN');
+        $str_builder_prefix->append($this->createTimezones());
+        $str_builder_suffix = new illCalStringBuilder();
+        $str_builder_suffix->addLine('END:VCALENDAR');
+        $this->str_builder_export->append($str_builder_prefix);
         switch ($this->getExportType()) {
             case self::EXPORT_CALENDARS:
-                $this->addCategories();
+                $byte_sum = $str_builder_prefix->byteCount() + $str_builder_suffix->byteCount();
+                $remaining_bytes = self::BYTE_LIMIT - $byte_sum;
+                $str_builder_body = $this->addCategories($remaining_bytes);
+                $this->str_builder_export->append($str_builder_body);
                 break;
 
             case self::EXPORT_APPOINTMENTS:
-                $this->addAppointments();
+                $str_builder_body = $this->addAppointments();
+                $this->str_builder_export->append($str_builder_body);
                 break;
         }
-        $this->writer->addLine('END:VCALENDAR');
+        $this->str_builder_export->append($str_builder_suffix);
     }
     
-    protected function addTimezone()
+    protected function createTimezones() : illCalStringBuilder
     {
+        $str_builder = new illCalStringBuilder();
         if ($this->getUserSettings()->getExportTimeZoneType() == ilCalendarUserSettings::CAL_EXPORT_TZ_UTC) {
-            return;
+            return $str_builder;
         }
         
-        $this->writer->addLine('X-WR-TIMEZONE:' . $GLOBALS['DIC']['ilUser']->getTimeZone());
+        $str_builder->addLine('X-WR-TIMEZONE:' . $this->il_user->getTimeZone());
         
         include_once './Services/Calendar/classes/class.ilCalendarUtil.php';
-        $tzid_file = ilCalendarUtil::getZoneInfoFile($GLOBALS['DIC']['ilUser']->getTimeZone());
+        $tzid_file = ilCalendarUtil::getZoneInfoFile($this->il_user->getTimeZone());
         if (!is_file($tzid_file)) {
             $tzid_file = ilCalendarUtil::getZoneInfoFile('Europe/Berlin');
         }
         $reader = fopen($tzid_file, 'r');
         while ($line = fgets($reader)) {
             $line = str_replace("\n", '', $line);
-            $this->writer->addLine($line);
+            $str_builder->addLine($line);
         }
+        return $str_builder;
     }
     
-    protected function addCategories()
+    protected function addCategories(int $remaining_bytes) : illCalStringBuilder
     {
+        $single_appointments = [];
+        $str_builder_appointments = new illCalStringBuilder();
+
         foreach ($this->calendars as $category_id) {
             foreach (ilCalendarCategoryAssignments::_getAssignedAppointments(array($category_id)) as $app_id) {
-                $this->addAppointment($app_id);
+                $appointment = new ilCalendarEntry($app_id);
+                if ($this->isRepeatingAppointment($appointment)) {
+                    $str_builder_appointment = $this->createAppointment($appointment);
+                    $str_builder_appointments->append($str_builder_appointment);
+                    continue;
+                }
+                $single_appointments[] = $appointment;
             }
         }
+
+        usort($single_appointments, function (ilCalendarEntry $a, ilCalendarEntry $b) {
+            return $a->getStart() > $b->getStart();
+        });
+
+        $single_appointments = array_filter($single_appointments, function (ilCalendarEntry $a) {
+            $time_now = new ilDateTime(time(), IL_CAL_UNIX);
+            $str_time_now = $time_now->get(IL_CAL_FKT_DATE, 'Ymd', ilTimeZone::UTC);
+            $str_time_start = $a->getStart()->get(IL_CAL_FKT_DATE, 'Ymd', $this->il_user->getTimeZone());
+            $start = new DateTimeImmutable($str_time_start);
+            $now = new DateTimeImmutable($str_time_now);
+            $lower_bound = $now->sub(new DateInterval('P30D'));
+            $upper_bound = $now->add(new DateInterval('P365D'));
+            return $lower_bound <= $start && $start <= $upper_bound;
+        });
+
+        foreach ($single_appointments as $appointment) {
+            $str_builder_appointment = $this->createAppointment($appointment);
+            if (($str_builder_appointments->byteCount() + $str_builder_appointment->byteCount()) > $remaining_bytes) {
+                break;
+            }
+            $str_builder_appointments->append($str_builder_appointment);
+        }
+
+        return $str_builder_appointments;
     }
 
-    protected function addAppointments()
+    protected function isRepeatingAppointment(ilCalendarEntry $appointment) : bool
     {
+        return count(ilCalendarRecurrences::_getRecurrences($appointment->getEntryId())) > 0;
+    }
+
+    protected function addAppointments() : illCalStringBuilder
+    {
+        $str_builder_appointments = new illCalStringBuilder();
         foreach ($this->getAppointments() as $app) {
-            $this->addAppointment($app);
+            $str_builder_appointment = $this->createAppointment($app);
+            $str_builder_appointments->append($str_builder_appointment);
         }
+        return $str_builder_appointments;
     }
 
-    protected function addAppointment($a_app_id)
+    protected function createAppointment(ilCalendarEntry $appointment) : illCalStringBuilder
     {
-        $app = new ilCalendarEntry($a_app_id);
-        if ($app->isMilestone()) {
-            $this->createVTODO($app);
+        if ($appointment->isMilestone()) {
+            return $this->createVTODO($appointment);
         } else {
-            $this->createVEVENT($app);
+            return $this->createVEVENT($appointment);
         }
     }
-    
-    protected function createVTODO($app)
-    {
-        // TODO
-        return true;
-    }
-    
-    /**
-     * Create VEVENT entry
-     * @global ilObjUser $ilUser
-     * @param ilCalendarEntry $app
-     */
-    protected function createVEVENT($app)
-    {
-        global $DIC;
 
-        $ilUser = $DIC['ilUser'];
-        
+    protected function createVTODO(ilCalendarEntry $app) : illCalStringBuilder
+    {
+        return new illCalStringBuilder();
+    }
+
+    protected function createVEVENT(ilCalendarEntry $app) : illCalStringBuilder
+    {
+        $str_builder = new illCalStringBuilder();
         if (!$app->getStart() instanceof ilDateTime) {
             $this->logger->notice('Cannot create appointment for app_id: ' . $app->getEntryId());
-            return false;
+            return $str_builder;
         }
         $test_date = $app->getStart()->get(IL_CAL_FKT_DATE, 'Ymd');
         if (!strlen($test_date)) {
-            return false;
+            return $str_builder;
         }
-
-
-        $this->writer->addLine('BEGIN:VEVENT');
-
         $now = new ilDateTime(time(), IL_CAL_UNIX);
-        $this->writer->addLine('DTSTAMP:' . $now->get(IL_CAL_FKT_DATE, 'Ymd\THis\Z', ilTimeZone::UTC));
 
-        $this->writer->addLine('UID:' . ilICalWriter::escapeText(
+        $str_builder->addLine('BEGIN:VEVENT');
+        $str_builder->addLine('DTSTAMP:'
+            . $now->get(IL_CAL_FKT_DATE, 'Ymd\THis\Z', ilTimeZone::UTC));
+        $str_builder->addLine('UID:' . ilICalWriter::escapeText(
             $app->getEntryId() . '_' . CLIENT_ID . '@' . ILIAS_HTTP_PATH
         ));
-        
             
         $last_mod = $app->getLastUpdate()->get(IL_CAL_FKT_DATE, 'Ymd\THis\Z', ilTimeZone::UTC);
-        #$last_mod = $app->getLastUpdate()->get(IL_CAL_FKT_DATE,'Ymd\THis\Z',$ilUser->getTimeZone());
-        $this->writer->addLine('LAST-MODIFIED:' . $last_mod);
+        $str_builder->addLine('LAST-MODIFIED:' . $last_mod);
+
+        $startInit = $app->getStart();
+        $endInit = $app->getEnd();
 
         // begin-patch aptar
-        include_once './Services/Calendar/classes/class.ilCalendarRecurrences.php';
-        if ($rec = ilCalendarRecurrences::_getFirstRecurrence($app->getEntryId())) {
-            // Set starting time to first appointment that matches the recurrence rule
-            include_once './Services/Calendar/classes/class.ilCalendarRecurrenceCalculator.php';
-            $calc = new ilCalendarRecurrenceCalculator($app, $rec);
-
-            $pStart = $app->getStart();
-            $pEnd = clone $app->getStart();
-            $pEnd->increment(IL_CAL_YEAR, 5);
-            $appDiff = $app->getEnd()->get(IL_CAL_UNIX) - $app->getStart()->get(IL_CAL_UNIX);
-            $recs = $calc->calculateDateList($pStart, $pEnd);
-            
-            // defaults
-            $startInit = $app->getStart();
-            $endInit = $app->getEnd();
-            foreach ($recs as $dt) {
-                $startInit = $dt;
-                $endInit = clone($dt);
-                $endInit->setDate($startInit->get(IL_CAL_UNIX) + $appDiff, IL_CAL_UNIX);
-                break;
-            }
-        } else {
-            $startInit = $app->getStart();
-            $endInit = $app->getEnd();
-        }
-
-        
         if ($app->isFullday()) {
             // According to RFC 5545 3.6.1 DTEND is not inclusive.
             // But ILIAS stores inclusive dates in the database.
             $endInit->increment(IL_CAL_DAY, 1);
-
-            $start = $startInit->get(IL_CAL_FKT_DATE, 'Ymd', $ilUser->getTimeZone());
-            $end = $endInit->get(IL_CAL_FKT_DATE, 'Ymd', $ilUser->getTimeZone());
-            
-            $this->writer->addLine('DTSTART;VALUE=DATE:' . $start);
-            $this->writer->addLine('DTEND;VALUE=DATE:' . $end);
+            $start = $startInit->get(IL_CAL_FKT_DATE, 'Ymd', $this->il_user->getTimeZone());
+            $end = $endInit->get(IL_CAL_FKT_DATE, 'Ymd', $this->il_user->getTimeZone());
+            $str_builder->addLine('DTSTART;VALUE=DATE:' . $start);
+            $str_builder->addLine('DTEND;VALUE=DATE:' . $end);
         } else {
             if ($this->getUserSettings()->getExportTimeZoneType() == ilCalendarUserSettings::CAL_EXPORT_TZ_UTC) {
                 $start = $app->getStart()->get(IL_CAL_FKT_DATE, 'Ymd\THis\Z', ilTimeZone::UTC);
                 $end = $app->getEnd()->get(IL_CAL_FKT_DATE, 'Ymd\THis\Z', ilTimeZone::UTC);
-                $this->writer->addLine('DTSTART:' . $start);
-                $this->writer->addLine('DTEND:' . $end);
+                $str_builder->addLine('DTSTART:' . $start);
+                $str_builder->addLine('DTEND:' . $end);
             } else {
-                $start = $startInit->get(IL_CAL_FKT_DATE, 'Ymd\THis', $ilUser->getTimeZone());
-                $end = $endInit->get(IL_CAL_FKT_DATE, 'Ymd\THis', $ilUser->getTimeZone());
-                $this->writer->addLine('DTSTART;TZID=' . $ilUser->getTimezone() . ':' . $start);
-                $this->writer->addLine('DTEND;TZID=' . $ilUser->getTimezone() . ':' . $end);
+                $start = $startInit->get(IL_CAL_FKT_DATE, 'Ymd\THis', $this->il_user->getTimeZone());
+                $end = $endInit->get(IL_CAL_FKT_DATE, 'Ymd\THis', $this->il_user->getTimeZone());
+                $str_builder->addLine('DTSTART;TZID=' . $this->il_user->getTimezone() . ':' . $start);
+                $str_builder->addLine('DTEND;TZID=' . $this->il_user->getTimezone() . ':' . $end);
             }
         }
         // end-patch aptar
 
-        $this->createRecurrences($app);
-        
-        $this->writer->addLine('SUMMARY:' . ilICalWriter::escapeText($app->getPresentationTitle(false)));
+        $str_builder->append($this->createRecurrences($app));
+        $str_builder->addLine('SUMMARY:' . ilICalWriter::escapeText($app->getPresentationTitle(false)));
         if (strlen($app->getDescription())) {
-            $this->writer->addLine('DESCRIPTION:' . ilICalWriter::escapeText($app->getDescription()));
+            $str_builder->addLine('DESCRIPTION:' . ilICalWriter::escapeText($app->getDescription()));
         }
         if (strlen($app->getLocation())) {
-            $this->writer->addLine('LOCATION:' . ilICalWriter::escapeText($app->getLocation()));
+            $str_builder->addLine('LOCATION:' . ilICalWriter::escapeText($app->getLocation()));
         }
 
         // TODO: URL
-        $this->buildAppointmentUrl($app);
-
-        $this->writer->addLine('END:VEVENT');
+        $str_builder->append($this->buildAppointmentUrl($app));
+        $str_builder->addLine('END:VEVENT');
+        return $str_builder;
     }
     
-    protected function createRecurrences($app)
+    protected function createRecurrences(ilCalendarEntry $app) : illCalStringBuilder
     {
-        global $DIC;
-
-        $ilUser = $DIC['ilUser'];
-
+        $str_builder = new illCalStringBuilder();
         include_once './Services/Calendar/classes/class.ilCalendarRecurrences.php';
         foreach (ilCalendarRecurrences::_getRecurrences($app->getEntryId()) as $rec) {
             foreach (ilCalendarRecurrenceExclusions::getExclusionDates($app->getEntryId()) as $excl) {
-                $this->writer->addLine($excl->toICal());
+                $str_builder->addLine($excl->toICal());
             }
-            $recurrence_ical = $rec->toICal($ilUser->getId());
+            $recurrence_ical = $rec->toICal($this->il_user->getId());
             if (strlen($recurrence_ical)) {
-                $this->writer->addLine($recurrence_ical);
+                $str_builder->addLine($recurrence_ical);
             }
         }
+        return $str_builder;
     }
     
-    
-    public function getExportString()
+    public function getExportString() : string
     {
-        return $this->writer->__toString();
+        $writer = $this->str_builder_export->asWriter();
+        return $writer->__toString();
     }
 
-    /**
-     * Build url from calendar entry
-     * @param ilCalendarEntry $entry
-     * @return string
-     */
-    protected function buildAppointmentUrl(ilCalendarEntry $entry)
+    protected function buildAppointmentUrl(ilCalendarEntry $entry) : illCalStringBuilder
     {
+        $str_builder = new illCalStringBuilder();
         $cat = ilCalendarCategory::getInstanceByCategoryId(
-            current((array) ilCalendarCategoryAssignments::_lookupCategories($entry->getEntryId()))
+            current(ilCalendarCategoryAssignments::_lookupCategories($entry->getEntryId()))
         );
-
         if ($cat->getType() != ilCalendarCategory::TYPE_OBJ) {
-            $this->writer->addLine('URL;VALUE=URI:' . ILIAS_HTTP_PATH);
+            $str_builder->addLine('URL;VALUE=URI:' . ILIAS_HTTP_PATH);
         } else {
             $refs = ilObject::_getAllReferences($cat->getObjId());
-
             include_once './Services/Link/classes/class.ilLink.php';
-            $this->writer->addLine(
-                'URL;VALUE=URI:' . ilLink::_getLink(current((array) $refs))
-            );
+            $str_builder->addLine('URL;VALUE=URI:' . ilLink::_getLink(current($refs)));
         }
+        return $str_builder;
     }
 }
