@@ -2678,7 +2678,10 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         $info->addProperty($this->lng->txt("author"), $this->object->getAuthor());
         $info->addProperty($this->lng->txt("title"), $this->object->getTitle());
 
-        $info->hideFurtherSections(false);
+        if ($this->type !== 'tst') {
+            $info->hideFurtherSections(false);
+        }
+
         $info->addSection($this->lng->txt("tst_sequence_properties"));
         $info->addProperty(
             $this->lng->txt("tst_sequence"),
