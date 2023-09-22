@@ -451,7 +451,12 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
             }
             // #15434
             if (!$this->checkAcceptance($user_id)) {
-                $ud = array();
+                $ud = [
+                    'active' => $ud['active'],
+                    'firstname' => $ud['firstname'],
+                    'lastname' => $ud['lastname'],
+                    'login' => $ud['login']
+                ];
             }
                         
             $a_user_data[$user_id] = array_merge($ud, $course_user_data[$user_id]);
