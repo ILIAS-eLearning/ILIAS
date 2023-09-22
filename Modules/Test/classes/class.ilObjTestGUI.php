@@ -18,8 +18,8 @@
 
 declare(strict_types=1);
 
-use ILIAS\DI\Container;
 use ILIAS\Refinery\ConstraintViolationException;
+use ILIAS\TestQuestionPool\QuestionInfoService;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\HTTP\Services as HTTPServices;
@@ -72,8 +72,6 @@ require_once './Modules/Test/classes/inc.AssessmentConstants.php';
  */
 class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDesktopItemHandling
 {
-    private Container $dic;
-
     private static $infoScreenChildClasses = array(
         'ilpublicuserprofilegui', 'ilobjportfoliogui'
     );
@@ -81,7 +79,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
     private ilTestQuestionSetConfigFactory $test_question_set_config_factory;
     private ilTestPlayerFactory $test_player_factory;
     private ilTestSessionFactory $test_session_factory;
-    private \ILIAS\TestQuestionPool\QuestionInfoService $questioninfo;
+    private QuestionInfoService $questioninfo;
     protected ilTestTabsManager $tabs_manager;
     private ilTestObjectiveOrientedContainer $objective_oriented_container;
     protected ilTestAccess $test_access;
@@ -109,10 +107,11 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
     {
         /** @var ILIAS\DI\Container $DIC */
         global $DIC;
-        $this->dic = $DIC;
         $this->navigation_history = $DIC['ilNavigationHistory'];
         $this->component_repository = $DIC['component.repository'];
         $this->component_factory = $DIC['component.factory'];
+        $this->ui_factory = $DIC['ui.factory'];
+        $this->ui_renderer = $DIC['ui.renderer'];
         $this->http = $DIC['http'];
         $this->error = $DIC['ilErr'];
         $this->db = $DIC['ilDB'];
@@ -121,9 +120,6 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         $this->obj_data_cache = $DIC['ilObjDataCache'];
         $this->skills_service = $DIC->skills();
         $this->questioninfo = $DIC->testQuestionPool()->questionInfo();
-        $this->ui_factory = $DIC->ui()->factory();
-        $this->ui_renderer = $DIC->ui()->renderer();
-
         $this->type = 'tst';
         $this->testrequest = $DIC->test()->internal()->request();
         $ref_id = 0;
@@ -293,7 +289,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                 }
                 $this->prepareOutput();
                 $this->addHeaderAction();
-                $this->ctrl->forwardCommand(new ilTestScreenGUI($this->object, $this->user), 'testScreen');
+                $this->ctrl->forwardCommand(new ilTestScreenGUI($this->object, $this->user));
                 break;
 
             case 'ilobjectmetadatagui':
