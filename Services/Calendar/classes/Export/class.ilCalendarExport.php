@@ -202,8 +202,7 @@ class ilCalendarExport
             $start = new DateTimeImmutable($str_time_start);
             $now = new DateTimeImmutable($str_time_now);
             $lower_bound = $now->sub(new DateInterval('P30D'));
-            $upper_bound = $now->add(new DateInterval('P365D'));
-            return $lower_bound <= $start && $start <= $upper_bound;
+            return $lower_bound <= $start;
         });
 
         foreach ($single_appointments as $appointment) {
