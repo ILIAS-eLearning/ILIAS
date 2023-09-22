@@ -53,10 +53,11 @@ class ilMathJaxConfigCheckedObjective implements Setup\Objective
 
     public function achieve(Setup\Environment $environment): Setup\Environment
     {
+        /** @var ilSettingsFactory $factory */
         $factory = $environment->getResource(Setup\Environment::RESOURCE_SETTINGS_FACTORY);
         $interaction = $environment->getResource(Setup\Environment::RESOURCE_ADMIN_INTERACTION);
 
-        $repo = new ilMathJaxConfigSettingsRepository($factory);
+        $repo = new ilMathJaxConfigSettingsRepository($factory->settingsFor('MathJax'));
         if (!empty($new_config = $this->checkClientScriptUrl($repo->getConfig(), $interaction))) {
             $repo->updateConfig($new_config);
         }
