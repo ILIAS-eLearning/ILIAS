@@ -182,5 +182,7 @@ class ilNotificationUpdateSteps implements ilDatabaseUpdateSteps
                 'default' => ''
             ]);
         }
+
+        $this->db->manipulate('TRUNCATE TABLE notification_osd');
     }
 }
