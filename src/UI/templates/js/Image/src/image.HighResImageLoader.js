@@ -46,7 +46,7 @@ export default class HighResImageLoader {
     let neededSource = '';
     sources.forEach(
       (source, size) => {
-        if (size < expectedSize) {
+        if (size <= expectedSize) {
           neededSource = source;
         }
       },
