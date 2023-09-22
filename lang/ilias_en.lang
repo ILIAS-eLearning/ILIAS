@@ -1497,6 +1497,7 @@ assessment#:#tst_invited_nobody#:#No users, groups or roles have been added as f
 assessment#:#tst_invited_selected_users#:#The selected users have been added as fixed test participants
 assessment#:#tst_launcher_button_label_cannot_start_yet#:#You cannot start the test yet.
 assessment#:#tst_launcher_button_label_cannot_start_anymore#:#You cannot start the test anymore.
+assessment#:#tst_launcher_button_label_passes_limit_reached#:#No further test passes possible
 assessment#:#tst_level#:#Competence Level
 assessment#:#tst_limit_nr_of_tries#:#Limit Number of Test Passes
 assessment#:#tst_link_only_unassigned#:#You have selected at least one question that is already linked to a question pool. Only unassigned questions can be added to a question pool.

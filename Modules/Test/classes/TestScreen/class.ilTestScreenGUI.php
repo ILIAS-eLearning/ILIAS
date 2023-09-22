@@ -207,8 +207,8 @@ class ilTestScreenGUI
             }
         } else {
             $launcher = $launcher
-                ->inline($this->data_factory->link($this->lng->txt('crs_loc_passes_reached'), $this->data_factory->uri($this->http->request()->getUri()->__toString())))
-                ->withButtonLabel($this->lng->txt('tst_launcher_button_label_no_tries_left'), false)
+                ->inline($this->data_factory->link('', $this->data_factory->uri($this->http->request()->getUri()->__toString())))
+                ->withButtonLabel($this->lng->txt('tst_launcher_button_label_passes_limit_reached'), false)
             ;
         }
 
