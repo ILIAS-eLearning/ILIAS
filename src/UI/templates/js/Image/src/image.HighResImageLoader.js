@@ -21,7 +21,7 @@ export default class HighResImageLoader {
      * resolution sources.
      *
      * @param {HTMLImgElement|HTMLAnchorElement} image
-     * @param {object[]} definitions Definitions of available high resolution sources.
+     * @param {object<number, string>} definitions Definitions of available high resolution sources.
      */
   static async loadHighResImage(image, definitions) {
     let img = image;

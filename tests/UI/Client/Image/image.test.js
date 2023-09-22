@@ -26,8 +26,26 @@ import HighResImageLoader from '../../../../src/UI/templates/js/Image/src/image.
  * @type {string}
  */
 const imageId = 'test_img_id';
+
+/**
+ * Content of Template File for Image
+ *
+ * @type {string}
+ */
 const imageTemplate = String(fs.readFileSync('./src/UI/templates/default/Image/tpl.image.html'));
+
+/**
+ * Source for the Image
+ *
+ * @type {string}
+ */
 const imageSrc = './src/UI/examples/Image/mountains-144w.jpg';
+
+/**
+ * Definition for Additional High Res Sources
+ *
+ * @type {object<number, string>}
+ */
 const imageDefinitions = {
   300: './src/UI/examples/Image/mountains-301w.jpg',
   600: './src/UI/examples/Image/mountains-602w.jpg',
@@ -55,10 +73,8 @@ class MockImage {
   }
 }
 /**
- * Initializes the global window and document variable that holds a mocked
- * DOM containing the textarea html.
+ * Initializes the Image Element.
  *
- * @param {string} type
  * @param {number} width
  * @param {bool} linked
  * @return {HTMLElement}
@@ -81,6 +97,12 @@ function initImage(width, linked = false) {
   return div.firstChild;
 }
 
+/**
+ * Add Surrounding Anchor Element to DOM-String of Image
+ *
+ * @param {string} initActionSections
+ * @return {string}
+ */
 function initActionSections(imageSubTemplate) {
   const startSection = extractPart(imageTemplate, '<!-- BEGIN action_begin -->', '<!-- END action_begin -->')
     .replace('{ID}', ` id='${imageId}'`);
@@ -89,6 +111,14 @@ function initActionSections(imageSubTemplate) {
   return startSection + imageSubTemplate + endSection;
 }
 
+/**
+ * Extract DOM-String from Template DOM-String
+ *
+ * @param {string} text
+ * @param {string} startPattern
+ * @param {string} endPattern
+ * @return {string}
+ */
 function extractPart(text, startPattern, endPattern) {
   const matches = text.match(new RegExp(`${startPattern}\n(?<match>.*)\n${endPattern}`));
   return matches.groups.match;
