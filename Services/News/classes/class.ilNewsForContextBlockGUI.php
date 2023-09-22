@@ -512,8 +512,8 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
                 }
                 $curr_cnt++;
             }
-            $news = new ilNewsItem($c["id"]);
-            if ($c["ref_id"] > 0) {
+            $news = new ilNewsItem($c["id"] ?? 0);
+            if (($c["ref_id"] ?? 0) > 0) {
                 $news_context = (int) $c["ref_id"];
             }
         }
