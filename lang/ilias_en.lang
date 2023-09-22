@@ -1361,11 +1361,9 @@ assessment#:#tst_eval_total_passed_average_points#:#Average points of passed tes
 assessment#:#tst_eval_total_passed_average_time#:#Average processing time of all passed tests
 assessment#:#tst_eval_total_persons#:#Total number of participants who started the test
 assessment#:#tst_exam_previous_access_code#:#Previous Access Code
-assessment#:#tst_exam_access_code_invalid_message#:#The given access code is not valid!
 assessment#:#tst_exam_access_code_label#:#Enter access code to continue your already started test.
 assessment#:#tst_exam_conditions#:#Exam Conditions
 assessment#:#tst_exam_conditions_label#:#Check to accept the conditions.
-assessment#:#tst_exam_starting_time_message#:#The test will commence on %s.
 assessment#:#tst_exam_ending_time_message#:#The test cannot be started after %s.
 assessment#:#tst_launcher_status_message_conditions_and_password#:#You will be asked for the password and your approval of the exam conditions when you start the test.
 assessment#:#tst_launcher_status_message_conditions#:#You will be asked for your approval of the exam conditions when you start the test.
@@ -1374,7 +1372,6 @@ assessment#:#tst_exam_modal_message_conditions_and_password#:#Please confirm the
 assessment#:#tst_exam_modal_message_conditions#:#Please confirm the conditions to start the test.
 assessment#:#tst_exam_modal_message_password#:#Please enter the password to start the test.
 assessment#:#tst_exam_conditions_not_checked_message#:#You need to accept the exam conditions!
-assessment#:#tst_exam_continue#:#Continue
 assessment#:#tst_exam_password#:#Test Password
 assessment#:#tst_exam_password_invalid_message#:#The given password is not valid!
 assessment#:#tst_exam_password_label#:#Password
@@ -1496,7 +1493,6 @@ assessment#:#tst_introduction_text#:#Introductory Message
 assessment#:#tst_invited_nobody#:#No users, groups or roles have been added as fixed test participants
 assessment#:#tst_invited_selected_users#:#The selected users have been added as fixed test participants
 assessment#:#tst_launcher_button_label_cannot_start_yet#:#You cannot start the test yet.
-assessment#:#tst_launcher_button_label_cannot_start_anymore#:#You cannot start the test anymore.
 assessment#:#tst_launcher_button_label_passes_limit_reached#:#No further test passes possible
 assessment#:#tst_level#:#Competence Level
 assessment#:#tst_limit_nr_of_tries#:#Limit Number of Test Passes
