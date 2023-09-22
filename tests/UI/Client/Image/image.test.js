@@ -13,46 +13,89 @@ const imageId = 'test_img_id';
 const imageTemplate = String(fs.readFileSync('./src/UI/templates/default/Image/tpl.image.html'));
 const imageSrc = './src/UI/examples/Image/mountains-144w.jpg';
 const imageDefinitions = {
-  300: 'file:///srv/http/ilias-trunk/src/UI/examples/Image/mountains-301w.jpg',
-  600: 'file:///srv/http/ilias-trunk/src/UI/examples/Image/mountains-602w.jpg',
+  300: './src/UI/examples/Image/mountains-301w.jpg',
+  600: './src/UI/examples/Image/mountains-602w.jpg',
 };
 
-function initMock() {
-  HighResImageLoader.loadBestSource = function (source) {
-    return new Promise((resolve) => {
-      resolve(source);
-    });
-  };
-}
+class MockImage {
+  /**
+     * @type {string}
+     */
+  src = '';
 
+  /**
+     * @type {object}
+     */
+  onload;
+
+  constructor() {
+    const me = this;
+    const callOnLoad = setInterval(async () => {
+      if (me.src !== '' && me.onload !== undefined) {
+        me.onload();
+        clearInterval(callOnLoad);
+      }
+    }, 5);
+  }
+}
 /**
  * Initializes the global window and document variable that holds a mocked
  * DOM containing the textarea html.
  *
  * @param {string} type
  * @param {number} width
+ * @param {bool} linked
  * @return {HTMLElement}
  */
-function initImage(type, width) {
-  initMock();
-  const startPattern = `<!-- BEGIN ${type} -->`;
-  const endPattern = `<!-- END ${type} -->`;
-  const imageSubTemplate = imageTemplate.match(new RegExp(`${startPattern}\n(?<image>.*)\n${endPattern}`))
-  const imageSubTemplateWithReplacements = imageSubTemplate['groups'].image
-    .replace('{IMG_ID}', ` width='${width}' id='${imageId}'`)
-    .replace('{SOURCE}', imageSrc);
-  const dom = new JSDOM();
+function initImage(width, linked = false) {
+  const imageSubTemplate = extractPart(imageTemplate, '<!-- BEGIN responsive -->', '<!-- END responsive -->');
+  let imageSubTemplateWithReplacements = imageSubTemplate.replace('{SOURCE}', imageSrc);
+
+  if (linked) {
+    imageSubTemplateWithReplacements = initActionSections(imageSubTemplateWithReplacements)
+      .replace('{IMG_ID}', ` width='${width}`);
+  } else {
+    imageSubTemplateWithReplacements = imageSubTemplateWithReplacements
+      .replace('{IMG_ID}', ` width='${width}' id='${imageId}'`);
+  }
+
+  const dom = new JSDOM('');
   const div = dom.window.document.createElement('DIV');
-  console.log(dom.window.document.location.toString());
   div.innerHTML = `${imageSubTemplateWithReplacements}`;
-  const img = div.firstChild;
-  return img;
+  return div.firstChild;
+}
+
+function initActionSections(imageSubTemplate) {
+  const startSection = extractPart(imageTemplate, '<!-- BEGIN action_begin -->', '<!-- END action_begin -->')
+    .replace('{ID}', ` id='${imageId}'`);
+  const endSection = extractPart(imageTemplate, '<!-- BEGIN action_end -->', '<!-- END action_end -->');
+
+  return startSection + imageSubTemplate + endSection;
+}
+
+function extractPart(text, startPattern, endPattern) {
+  const matches = text.match(new RegExp(`${startPattern}\n(?<match>.*)\n${endPattern}`));
+  return matches.groups.match;
 }
 
 describe('HighResImageLoader', () => {
-  it('returns right image for standard image.', async () => {
-    const img = initImage('responsive', 300);
-    await HighResImageLoader.loadHighResImage(img, imageDefinitions);
-    assert.equal(img.src, '');
+  it('Returns right image for image without action.', () => {
+    Object.keys(imageDefinitions).forEach(async (key) => {
+      const img = initImage(key);
+      img.ownerDocument.defaultView.Image = MockImage;
+      await HighResImageLoader.loadHighResImage(img, imageDefinitions);
+
+      assert.equal(img.src, imageDefinitions[key]);
+    });
+  });
+
+  it('Returns right image for image with action.', () => {
+    Object.keys(imageDefinitions).forEach(async (key) => {
+      const img = initImage(key, true);
+      img.ownerDocument.defaultView.Image = MockImage;
+      await HighResImageLoader.loadHighResImage(img, imageDefinitions);
+
+      assert.equal(img.src, imageDefinitions[key]);
+    });
   });
 });

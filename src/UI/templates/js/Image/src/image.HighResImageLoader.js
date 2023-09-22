@@ -21,7 +21,7 @@ export default class HighResImageLoader {
      * resolution sources.
      *
      * @param {HTMLImgElement|HTMLAnchorElement} image
-     * @param {Object[]} definitions Definitions of available high resolution sources.
+     * @param {object[]} definitions Definitions of available high resolution sources.
      */
   static async loadHighResImage(image, definitions) {
     let img = image;
@@ -33,7 +33,7 @@ export default class HighResImageLoader {
     const neededSource = HighResImageLoader.#determineBestSource(sortedSources, img.width);
 
     if (neededSource !== '') {
-      img.src = await HighResImageLoader.#loadBestSource(neededSource);
+      img.src = await HighResImageLoader.#loadBestSource(neededSource, image.ownerDocument.defaultView.Image);
     }
   }
 
@@ -56,11 +56,12 @@ export default class HighResImageLoader {
 
   /**
      * @param {string} source
+     * @param {object} Image
      * @return {Promise<string>}
      */
-  static #loadBestSource(source) {
+  static #loadBestSource(source, Image) {
     return new Promise((resolve) => {
-      const img = new window.Image();
+      const img = new Image();
       img.src = source;
       img.onload = () => resolve(source);
     });
