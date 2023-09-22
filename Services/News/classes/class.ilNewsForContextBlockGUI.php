@@ -1345,6 +1345,9 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 
     protected function getListItemForData(array $data): ?\ILIAS\UI\Component\Item\Item
     {
+        if ((int) ($data["id"] ?? 0) === 0) {
+            return null;
+        }
         $info = $this->getInfoForData($data);
 
         $props = [
