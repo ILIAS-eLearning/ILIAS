@@ -1284,7 +1284,7 @@ assessment#:#tst_answered_questions_of_total#:#%s of %s
 assessment#:#tst_answered_questions_test#:#Questions answered in this test
 assessment#:#tst_attached_xls_file#:#You can find the test results for this participant in the attached Excel file.
 assessment#:#tst_attempt#:#Attempt
-assessment#:#tst_attempt_limit_message#:#Your limit of test attempts is <b>%s<b>.
+assessment#:#tst_attempt_limit_message#:#Your limit of test attempts is <b>%s</b>.
 assessment#:#tst_back_to_pass_details#:#Back to Pass Details
 assessment#:#tst_back_to_question_list#:#Back to Question List
 assessment#:#tst_back_to_top#:#Back to Top
