@@ -23,6 +23,7 @@
  */
 class ilSurveyQuestionTableGUI extends ilTable2GUI
 {
+    protected \ILIAS\DI\UIServices $ui;
     protected ilObjSurvey $object;
     protected bool $read_only;
 
@@ -38,6 +39,7 @@ class ilSurveyQuestionTableGUI extends ilTable2GUI
         $this->lng = $DIC->language();
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
+        $this->ui = $DIC->ui();
 
         $this->object = $a_survey_obj;
         $this->read_only = $a_read_only;
@@ -266,9 +268,9 @@ class ilSurveyQuestionTableGUI extends ilTable2GUI
                     $obligatory = "<input type=\"checkbox\" name=\"obligatory[" .
                         $a_set["id"] . "]\" value=\"1\"" . $checked . " />";
                 } elseif ($a_set["obligatory"]) {
-                    $obligatory = "<img src=\"" . ilUtil::getImagePath("obligatory.png", "Modules/Survey") .
-                        "\" alt=\"" . $lng->txt("question_obligatory") .
-                        "\" title=\"" . $lng->txt("question_obligatory") . "\" />";
+                    $obligatory = $this->ui->renderer()->render(
+                        $this->ui->factory()->symbol()->icon()->custom(ilUtil::getImagePath("icon_checked.svg"), $lng->txt("question_obligatory"))
+                    );
                 }
                 $this->tpl->setVariable("OBLIGATORY", $obligatory);
                 break;
