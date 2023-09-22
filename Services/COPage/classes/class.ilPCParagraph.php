@@ -1843,29 +1843,49 @@ class ilPCParagraph extends ilPageContent
     public function autoLinkGlossaries($a_glos)
     {
         if (is_array($a_glos) && count($a_glos) > 0) {
+            
+            // JKN PATCH START
+            include_once("./Modules/Glossary/classes/class.ilGlossaryTerm.php");
+            // JKN PATCH END
+
             // check which terms occur in the text (we may
             // get some false positives due to the strip_tags, but
             // we do not want to find strong or list or other stuff
             // within the tags
+          
             $text = strip_tags($this->getText());
+          
             $found_terms = array();
+        
+   
             foreach ($a_glos as $glo) {
                 if (ilObject::_lookupType($glo) == "glo") {
                     $ref_ids = ilObject::_getAllReferences($glo);
                     $glo_ref_id = current($ref_ids);
                     if ($glo_ref_id > 0) {
                         $terms = ilGlossaryTerm::getTermList($glo_ref_id);
+
                         foreach ($terms as $t) {
                             if (is_int(stripos($text, $t["term"]))) {
                                 $found_terms[$t["id"]] = $t;
+                            }
+
+                            //now check the alternates
+                            foreach($t['alternates'] as $alternate) {
+                                if (is_int(stripos($text, $alternate))) {
+                                    $found_terms[$t["id"]] = $t;
+                                }
                             }
                         }
                     }
                 }
             }
+
             // did we find anything? -> modify content
             if (count($found_terms) > 0) {
+                // JKN PATCH START
                 self::linkTermsInDom($this->dom, $found_terms, $this->par_node);
+                // JKN PATCH END
             }
         }
     }
@@ -1903,63 +1923,82 @@ class ilPCParagraph extends ilPageContent
 
         include_once("./Services/Utilities/classes/class.ilStr.php");
 
+        // JKN PATCH START
+        $found_terms = [];
+
         foreach ($parnodes as $parnode) {
             $textnodes = $xpath->query('.//text()', $parnode);
             foreach ($textnodes as $node) {
                 $p = $node->getNodePath();
 
-                // we do not change text nodes inside of links
-                if (!is_int(strpos($p, "/IntLink")) &&
-                    !is_int(strpos($p, "/ExtLink"))) {
-                    $node_val = $node->nodeValue;
+             // we do not change text nodes inside of links
+             if (!is_int(strpos($p, "/IntLink")) &&
+             !is_int(strpos($p, "/ExtLink"))) {
 
-                    // all terms
-                    foreach ($a_terms as $t) {
-                        $pos = ilStr::strIPos($node_val, $t["term"]);
+             $node_val = $node->nodeValue;
+             // all terms
+             foreach ($a_terms as $t) {
 
-                        // if term found
-                        while (is_int($pos)) {
-                            // check if we are in a tex tag, see #22261
-                            $tex_bpos = ilStr::strrPos(ilStr::subStr($node_val, 0, $pos), "[tex]");
-                            $tex_epos = ilStr::strPos($node_val, "[/tex]", $tex_bpos);
-                            if ($tex_bpos > 0 && $tex_epos > 0 && $tex_bpos < $pos && $tex_epos > $pos) {
-                                $pos += ilStr::strLen($t["term"]);
-                            } else {
+                 $pos = ilStr::strIPos($node_val, $t["term"]);
+                 foreach($t['alternates'] as $alt){
+                     //go through the alternatives, if there's an earlier version of one of the
+                     //alt spellings, highlight that one instead.
+                     $alt_pos = ilStr::strIPos($node_val, $alt);
+                     if((($alt_pos < $pos) || ($alt_pos === $pos && strlen($alt) > $t['termlength']) || !is_int($pos)) && is_int($alt_pos)){
+                         array_push($t["alternates"],$t['term']);
+                         $t["term"] = trim($alt);
+                         $pos = $alt_pos;
+                     }
+                 }
+               
 
-                                // check if the string is not included in another word
-                                // note that []
-                                $valid_limiters = array("", " ", "&nbsp;", ".", ",", ":", ";", "!", "?", "\"", "'", "(", ")");
-                                $b = ($pos > 0)
-                                    ? ilStr::subStr($node_val, $pos - 1, 1)
-                                    : "";
-                                $a = ilStr::subStr($node_val, $pos + ilStr::strLen($t["term"]), 1);
-                                if ((in_array($b, $valid_limiters) || htmlentities($b, null, 'utf-8') == "&nbsp;") && in_array($a, $valid_limiters)) {
-                                    $mid = '[iln term="' . $t["id"] . '"]' .
-                                        ilStr::subStr($node_val, $pos, ilStr::strLen($t["term"])) .
-                                        "[/iln]";
+                 // if term found
+                 while  (is_int($pos)) {
 
-                                    $node_val = ilStr::subStr($node_val, 0, $pos) .
-                                        $mid .
-                                        ilStr::subStr($node_val, $pos + ilStr::strLen($t["term"]));
+                     // check if we are in a tex tag, see #22261
+                     $tex_bpos = ilStr::strrPos(ilStr::subStr($node_val, 0, $pos), "[tex]");
+                     $tex_epos = ilStr::strPos($node_val, "[/tex]", $tex_bpos);
+                     if ($tex_bpos > 0 && $tex_epos > 0 && $tex_bpos < $pos && $tex_epos > $pos) {
+                         $pos += ilStr::strLen($t["term"]);
+                     } else {
+                         // check if the string is not included in another word
+                         // note that []
+                         $valid_limiters = array("", " ","  ", "&nbsp;", ".", ",", ":", ";", "!", "?", "\"", "'", "(", ")");
+                         $b = ($pos > 0)
+                             ? ilStr::subStr($node_val, $pos - 1, 1)
+                             : "";
+                         $a = ilStr::subStr($node_val, $pos + ilStr::strLen($t["term"]), 1);
 
-                                    $pos += ilStr::strLen($mid);
-                                } else {
-                                    $pos += ilStr::strLen($t["term"]);
-                                }
-                            }
-                            $pos = ilStr::strIPos($node_val, $t["term"], $pos);
-                        }
+                         if ((in_array($b, $valid_limiters) || htmlentities($b, null, 'utf-8') == "&nbsp;")
+                             && in_array($a, $valid_limiters) && !in_array($t['term'],$found_terms) ) {
 
-                        // insert [iln] tags
+                             $mid = '[iln term="' . $t["id"] . '"]' .
+                                 ilStr::subStr($node_val, $pos, ilStr::strLen($t["term"])) .
+                                 "[/iln]";
+
+                             $node_val = ilStr::subStr($node_val, 0, $pos) .
+                                 $mid .
+                                 ilStr::subStr($node_val, $pos + ilStr::strLen($t["term"]));
+
+                             array_push($found_terms, $t["term"]);
+                             foreach($t["alternates"] as $alt){
+                                 array_push($found_terms,$alt);
+                             }
+
+                             $pos += ilStr::strLen($mid);
+
+                         } else {
+                             $pos += ilStr::strLen($t["term"]);
+                         }
                     }
-
-                    $node->nodeValue = $node_val;
+                     $pos = ilStr::strIPos($node_val, $t["term"], $pos);
+                    }
+                 // insert [iln] tags
                 }
-
-                //				var_dump($p);
-//				var_dump($node->nodeValue);
+             $node->nodeValue = $node_val;
             }
-
+        }
+            // JKN PATCH END
 
             // dump paragraph node
             $text = $a_dom->saveXML($parnode);
@@ -2003,6 +2042,60 @@ class ilPCParagraph extends ilPageContent
     }
 
 
+    // JKN PATCH START
+     /**
+     * UnLink terms in a dom page object in bb style
+     *
+     * @param
+     * @return
+     */
+    protected static function unlinkTermsInDom($a_dom, $a_terms, $a_par_node = null)
+    {
+
+        // JKN PATCH START
+        foreach ($a_terms as $k => $t) {
+            foreach ($t['alternates'] as $alt) {
+                array_push($a_terms, array("term" => $alt,
+                    "language" => $t["language"],
+                    "id" => $t["id"],
+                    "glo_id" => $t["glo_id"],
+                ));
+            }
+        }
+        // JKN PATCH END
+
+
+        foreach ($a_terms as $k => $t) {
+            $a_terms[$k]["termlength"] = strlen($t["term"]);
+        }
+        if ($a_dom instanceof php4DOMDocument) {
+            $a_dom = $a_dom->myDOMDocument;
+        }
+        if ($a_par_node instanceof php4DOMElement) {
+            $a_par_node = $a_par_node->myDOMNode;
+        }
+        $a_terms = ilUtil::sortArray($a_terms, "termlength", "asc", true);
+        $xpath = new DOMXPath($a_dom);
+
+        if ($a_par_node == null) {
+            $parnodes = $xpath->query("//Paragraph[@Characteristic != 'Code']");
+        } else {
+            $parnodes = $xpath->query(".//Paragraph[@Characteristic != 'Code']", $a_par_node->parentNode);
+        }
+        include_once("./Services/Utilities/classes/class.ilStr.php");
+        foreach ($parnodes as $parnode) {
+            $textnodes = $xpath->query('//IntLink', $parnode);
+            foreach ($textnodes as $node) {
+                if(in_array($node->nodeValue, array_column($a_terms, 'term'))) {
+                    $node->parentNode->insertBefore($node->lastChild, $node->nextSibling);
+                    $node->parentNode->removeChild($node);
+                }
+            }
+        }
+    }
+    // JKN PATCH END
+
+
     /**
      * Auto link glossary of whole page
      *
@@ -2018,6 +2111,23 @@ class ilPCParagraph extends ilPageContent
 
         $a_page->update();
     }
+
+    // JKN PATCH START
+    /**
+     * Remove Auto Link Glossary Terms,.
+     *
+     * @param
+     * @return
+     */
+    public static function removeLinkGlossariesPage($a_page, $a_terms)
+    {
+        $a_page->buildDom();
+        $a_dom = $a_page->getDom();
+        self::unlinkTermsInDom($a_dom, $a_terms);
+
+        $a_page->update();
+    }
+    // JKN PATCH END
 
     /**
      * After page has been updated (or created)

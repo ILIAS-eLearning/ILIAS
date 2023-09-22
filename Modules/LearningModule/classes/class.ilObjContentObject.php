@@ -2708,6 +2708,70 @@ class ilObjContentObject extends ilObject
         }
         return $glos;
     }
+
+    // JKN PATCH START
+    /**
+     * Unlink a single term
+     * @param $term
+     */
+    public function unLinkGlossaryTerm($term)
+    {
+        include_once("./Modules/LearningModule/classes/class.ilLMPage.php");
+        $pages = ilLMPage::getAllPages($this->getType(), $this->getId());
+        // determine terms that occur in the page
+        $found_pages = array();
+        foreach ($pages as $p) {
+            $pg = new ilLMPage($p["id"]);
+            $c = $pg->getXMLContent();
+            if (is_int(stripos($c, $term["term"]))) {
+                $found_pages[$p["id"]]["terms"][] = $term;
+                if (!is_object($found_pages[$p["id"]]["page"])) {
+                    $found_pages[$p["id"]]["page"] = $pg;
+                }
+            }
+        }
+        include_once("./Services/COPage/classes/class.ilPCParagraph.php");
+        foreach ($found_pages as $id => $fp) {
+            ilPCParagraph::removeLinkGlossariesPage($fp["page"], $fp["terms"]);
+        }
+    }
+
+    /**
+     * Unlink all terms in a Learning module page when a glossary is removed.
+     * @param $a_glo_ref_id
+     */
+    public function unLinkGlossaryTerms($a_glo_ref_id)
+    {
+        include_once("./Modules/Glossary/classes/class.ilGlossaryTerm.php");
+        $terms = ilGlossaryTerm::getTermList($a_glo_ref_id);
+
+        // each get page: get content
+        include_once("./Modules/LearningModule/classes/class.ilLMPage.php");
+        $pages = ilLMPage::getAllPages($this->getType(), $this->getId());
+
+        // determine terms that occur in the page
+        $found_pages = array();
+        foreach ($pages as $p) {
+            $pg = new ilLMPage($p["id"]);
+            $c = $pg->getXMLContent();
+
+            foreach ($terms as $t) {
+                if (is_int(stripos($c, $t["term"]))) {
+                    $found_pages[$p["id"]]["terms"][] = $t;
+                    if (!is_object($found_pages[$p["id"]]["page"])) {
+                        $found_pages[$p["id"]]["page"] = $pg;
+                    }
+                }
+            }
+            reset($terms);
+        }
+        include_once("./Services/COPage/classes/class.ilPCParagraph.php");
+
+        foreach ($found_pages as $id => $fp) {
+            ilPCParagraph::removeLinkGlossariesPage($fp["page"], $fp["terms"]);
+        }
+    }
+    // JKN PATCH END
     
     /**
      * Auto link glossary terms
@@ -2721,30 +2785,35 @@ class ilObjContentObject extends ilObject
         $terms = ilGlossaryTerm::getTermList($a_glo_ref_id);
 
         // each get page: get content
-        $pages = ilLMPage::getAllPages($this->getType(), $this->getId());
-        
+        // JKN PATCH START
+        $pages = ilLMPage::getAllPages($this->getType(), $this->getId(),"");
+
         // determine terms that occur in the page
         $found_pages = array();
         foreach ($pages as $p) {
-            $pg = new ilLMPage($p["id"]);
+            $pg = new ilLMPage($p["id"],0,$p['lang']);
             $c = $pg->getXMLContent();
             foreach ($terms as $t) {
+
                 if (is_int(stripos($c, $t["term"]))) {
-                    $found_pages[$p["id"]]["terms"][] = $t;
-                    if (!is_object($found_pages[$p["id"]]["page"])) {
-                        $found_pages[$p["id"]]["page"] = $pg;
+                    $found_pages[$p["id"]]['terms'][] = $t;
+                    if(!$found_pages[$p["id"]]['pages'][$p['lang']]){
+                        $found_pages[$p["id"]]["pages"][$p['lang']] = $pg;
                     }
                 }
             }
-            reset($terms);
         }
-        
+
+
         // ilPCParagraph autoLinkGlossariesPage with page and terms
         foreach ($found_pages as $id => $fp) {
-            ilPCParagraph::autoLinkGlossariesPage($fp["page"], $fp["terms"]);
+            foreach($fp['pages'] as $lang => $page) {
+                ilPCParagraph::autoLinkGlossariesPage($page, $fp["terms"]);
+
+            }
         }
+        // JKN PATCH END
     }
-    
 
     ////
     //// Online help

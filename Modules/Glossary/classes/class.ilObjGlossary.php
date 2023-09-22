@@ -480,6 +480,32 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
         return $glos;
     }
 
+    // JKN PATCH START
+    /**
+     * Lookup linked content pages in ilias LM's
+     *
+     * @param
+     * @return
+     */
+    public static function lookUpLinkedContentPages($a_id)
+    {
+        global $DIC;
+
+        $db = $DIC->database();
+
+        // read auto glossaries
+        $set = $db->query(
+            "SELECT * FROM lm_glossaries " .
+            " WHERE glo_id = " . $db->quote($a_id, "integer")
+        );
+        $lm = array();
+        while ($rec = $db->fetchAssoc($set)) {
+            $lm[] = $rec["lm_id"];
+        }
+        return $lm;
+    }
+    // JKN PATCH END
+
     /**
     * Get term list
     */
