@@ -66,6 +66,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
     protected ilComponentRepository $component_repository;
     protected ilNavigationHistory $navigation_history;
 
+    protected ilUIService $ui_service;
+
     public function __construct()
     {
         /** @var ILIAS\DI\Container $DIC */
@@ -118,6 +120,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         $this->url_builder = $url_builder;
         $this->action_parameter_token = $action_parameter_token;
         $this->row_id_token = $row_id_token;
+
+        $this->ui_service = $DIC->uiService();
     }
 
     protected function getQueryParamString(string $param): ?string
@@ -471,11 +475,11 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                 $this->ctrl->forwardCommand($gui);
 
                 break;
-
-            case 'ilquestionbrowsertablegui':
-                $this->ctrl->forwardCommand($this->buildQuestionBrowserTableGUI($taxIds = [])); // no tax ids required
-                break;
-
+                /*
+                            case 'ilquestionbrowsertablegui':
+                                $this->ctrl->forwardCommand($this->buildQuestionBrowserTableGUI($taxIds = [])); // no tax ids required
+                                break;
+                */
             case 'ilobjquestionpoolgui':
             case '':
 
@@ -543,8 +547,23 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                         case 'export':
                             $this->exportQuestions($ids);
                             $this->ctrl->redirect($this, 'questions');
-                            // no break
+                            break;
                         case 'comments':
+                            $ajax_hash = ilCommonActionDispatcherGUI::buildAjaxHash(
+                                1,
+                                $this->object->getRefId(),
+                                'quest',
+                                $this->object->getId(),
+                                'quest',
+                                current($ids)
+                            );
+                            echo ''
+                                . '<script>'
+                                . ilNoteGUI::getListCommentsJSCall($ajax_hash, '')
+                                . '</script>'
+                            ;
+                            exit();
+
                         default:
                             throw new \Exception("'$action'" . " not implemented");
                     }
@@ -1166,7 +1185,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         }
 
         $this->ctrl->setParameter($this, 'q_id', '');
-
         $this->ctrl->redirect($this, 'questions');
     }
 
@@ -1216,7 +1234,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         }
         $this->ctrl->redirect($this, 'questions');
     }
-*/
     public function filterQuestionBrowserObject(): void
     {
         $enableComments = $this->rbac_system->checkAccess('write', $this->qplrequest->getRefId());
@@ -1243,6 +1260,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         $table_gui->resetFilter();
         $this->questionsObject();
     }
+*/
 
     protected function renoveImportFailsObject(): void
     {
@@ -1310,9 +1328,10 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         }
         $tax_ids = ilObjTaxonomy::getUsageOfObject($this->object->getId());
 
-        $table_gui = $this->buildQuestionBrowserTableGUI($tax_ids);
-        $table_gui->setPreventDoubleSubmission(false);
-
+        /*
+                $table_gui = $this->buildQuestionBrowserTableGUI($tax_ids);
+                $table_gui->setPreventDoubleSubmission(false);
+        */
 
         $out = [];
 
@@ -1342,12 +1361,15 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                 $out[] = $this->ctrl->getHTML($toolbar)
             );
         }
-        $out[] = $this->ctrl->getHTML($table_gui);
 
-        $out[] = '<hr><hr>';
+
+        /*
+                $out[] = $this->ctrl->getHTML($table_gui);
+                $out[] = '<hr><hr>';
+                $this->ctrl->getHTML($table_gui);
+        */
+
         $out[] = $this->getTable();
-
-
         $this->tpl->setContent(implode('', $out));
     }
 
@@ -1976,71 +1998,14 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         $ilErr->raiseError($lng->txt('msg_no_perm_read_lm'), $ilErr->FATAL);
     }
 
-    /**
-     * @param array          $taxIds
-     * @return ilQuestionBrowserTableGUI
-     * @global ilDBInterface $ilDB
-     * @global ilLanguage    $lng
-     * @global ilRbacSystem  $rbacsystem
-     */
-    private function buildQuestionBrowserTableGUI($taxIds): ilQuestionBrowserTableGUI
+    protected function getTable(): string
     {
-        $writeAccess = (bool) $this->rbac_system->checkAccess('write', $this->qplrequest->getRefId());
-        $enableCommenting = $writeAccess;
-
-        $table_gui = new ilQuestionBrowserTableGUI(
-            $this,
-            'questions',
-            $writeAccess,
-            false,
-            $taxIds,
-            $enableCommenting
-        );
-
-        $table_gui->setEditable($writeAccess);
-        $questionList = new ilAssQuestionList($this->db, $this->lng, $this->component_repository);
-        $questionList->setParentObjId($this->object->getId());
-
-        foreach ($table_gui->getFilterItems() as $item) {
-            if (substr($item->getPostVar(), 0, strlen('tax_')) == 'tax_') {
-                $v = $item->getValue();
-
-                if (is_array($v) && count($v) && !(int) $v[0]) {
-                    continue;
-                }
-
-                $taxId = substr($item->getPostVar(), strlen('tax_'));
-
-                $questionList->addTaxonomyFilter(
-                    $taxId,
-                    $item->getValue(),
-                    $this->object->getId(),
-                    $this->object->getType()
-                );
-            } elseif ($item->getValue() != false) {
-                $questionList->addFieldFilter($item->getPostVar(), $item->getValue());
-            }
-        }
-
-        $questionList->load();
-        $data = $questionList->getQuestionDataArray();
-
-        $table_gui->setQuestionData($data);
-
-
-
-
-
-        return $table_gui;
-    }
-
-    protected function getTable() //: QuestionTable
-    {
-        global $DIC;
-        $f = $DIC['ui.factory'];
+        $f = $this->ui->factory();
+        $r = $this->ui->renderer();
 
         $table = new QuestionTable(
             $f,
+            $r,
             $this->df,
             $this->url_builder,
             $this->action_parameter_token,
@@ -2053,9 +2018,23 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
             (int)$this->qplrequest->getRefId()
         );
 
-        $r = $DIC['ui.renderer'];
-        return $r->render($table->getTable()->withRequest($this->request));
+        /**
+         * Filters should be part of the Table; for now, since they are not fully
+         * integrated, they are rendered and applied seperately
+         */
+        $filter_action = $this->ctrl->getLinkTarget($this, 'questions');
+        $filter = $table->getFilter($this->ui_service, $filter_action);
 
-        return $table;
+        $filter_params = $this->ui_service->filter()->getData($filter);
+        if ($filter_params) {
+            foreach (array_filter($filter_params) as $item => $value) {
+                $table->addFieldFilter($item, $value);
+            }
+        }
+
+        return $r->render([
+            $filter,
+            $table->getTable()->withRequest($this->request)
+        ]);
     }
-} // END class.ilObjQuestionPoolGUI
+}

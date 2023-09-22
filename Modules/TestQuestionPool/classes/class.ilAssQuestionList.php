@@ -642,9 +642,30 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
 
             $row['ttype'] = $this->lng->txt($row['type_tag']);
 
+            $row['feedback'] = $this->hasGenericFeedback((int)$row['question_id']);
+            $row['hints'] = $this->hasHints((int)$row['question_id']);
+
             $this->questions[ $row['question_id'] ] = $row;
         }
     }
+
+    protected function hasGenericFeedback(int $question_id): bool
+    {
+        $res = $this->db->queryF(
+            "SELECT * FROM qpl_fb_generic WHERE question_fi = %s",
+            ['integer'],
+            [$question_id]
+        );
+        return $this->db->numRows($res) > 0;
+    }
+
+    protected function hasHints(int $question_id): bool
+    {
+        $questionHintList = ilAssQuestionHintList::getListByQuestionId($question_id);
+        return iterator_count($questionHintList) > 0;
+    }
+
+
 
     private function loadTaxonomyAssignmentData($parentObjId, $questionId): array
     {

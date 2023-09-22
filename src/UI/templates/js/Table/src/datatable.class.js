@@ -228,9 +228,8 @@ export default class DataTable {
     }).done(
       (html) => {
         let modalId = '';
-        if (this.#jquery(html).first().hasClass('modal')) {
-          this.#modalResponseArea.innerHTML = html;
-          modalId = this.#jquery(html).first().get(0).id;
+        if (this.#jquery(html).first().prop('tagName') === 'SCRIPT') {
+          this.#jquery.globalEval(this.#jquery(html).first().text());
         } else {
           this.#responseContent.innerHTML = html;
           modalId = this.#responseContainer.id;

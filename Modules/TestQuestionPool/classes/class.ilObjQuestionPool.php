@@ -904,7 +904,7 @@ class ilObjQuestionPool extends ilObject
         );
         if ($query_result->numRows()) {
             while ($row = $this->db->fetchAssoc($query_result)) {
-                if (!assQuestion::_isUsedInRandomTest($row['question_id'])) {
+                if (!$this->questioninfo->isUsedInRandomTest($row['question_id'])) {
                     array_push($result, $row);
                 } else {
                     // the question was used in a random test prior to ILIAS 3.7 so it was inserted
