@@ -50,13 +50,14 @@ class ilObjDataCollectionAccess extends ilObjectAccess
         $ilAccess = $DIC['ilAccess'];
 
         $t_arr = explode("_", $target);
+        $ref_id = (int) $t_arr[1];
 
-        if ($t_arr[0] != "dcl" || ((int) $t_arr[1]) <= 0) {
+        if ($t_arr[0] != "dcl" || $ref_id <= 0) {
             return false;
         }
 
-        if ($ilAccess->checkAccess("read", "", $t_arr[1]) ||
-            $ilAccess->checkAccess("visible", "", $t_arr[1])) {
+        if ($ilAccess->checkAccess("read", "", $ref_id) ||
+            $ilAccess->checkAccess("visible", "", $ref_id)) {
             return true;
         }
 
