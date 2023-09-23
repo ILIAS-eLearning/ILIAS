@@ -22,6 +22,8 @@ use ILIAS\Notes\Service;
 
 class ilDclBaseRecordModel
 {
+    protected \ILIAS\UI\Factory $ui_factory;
+    protected \ILIAS\UI\Renderer $renderer;
     protected Service $notes;
 
     /**
@@ -48,6 +50,8 @@ class ilDclBaseRecordModel
         $this->db = $DIC->database();
         $this->event = $DIC->event();
         $this->user = $DIC->user();
+        $this->ui_factory = $DIC->ui()->factory();
+        $this->renderer = $DIC->ui()->renderer();
 
         if ($a_id && $a_id != 0) {
             $this->id = $a_id;
@@ -553,7 +557,6 @@ class ilDclBaseRecordModel
             case 'create_date':
                 return ilDatePresentation::formatDate($this->getCreateDate());
             case 'comments':
-                $nComments = $this->getNrOfComments();
 
                 $ref_id = $this->http->wrapper()->query()->retrieve('ref_id', $this->refinery->kindlyTo()->int());
 
@@ -566,11 +569,16 @@ class ilDclBaseRecordModel
                     'dcl',
                     $this->getId()
                 );
-                $ajax_link = ilNoteGUI::getListCommentsJSCall($ajax_hash, '');
+                $update_code = "il.UI.counter.getCounterObject($(\".ilc_page_Page\")).incrementStatusCount(1);";
+                $ajax_link = ilNoteGUI::getListCommentsJSCall($ajax_hash, $update_code);
+                $nr_comments = $this->getNrOfComments();
 
-                return "<a class='dcl_comment' href='#' onclick=\"return " . $ajax_link . "\">
-                        <img src='" . ilUtil::getImagePath("comment_unlabeled.svg")
-                    . "' alt='$nComments Comments'><span class='ilHActProp'>$nComments</span></a>";
+                $comment_glyph = $this->ui_factory->symbol()->glyph()->comment()->withCounter(
+                    $this->ui_factory->counter()->status($nr_comments)
+                )->withAdditionalOnLoadCode(function ($id) use ($ajax_link): string {
+                    return "document.getElementById('$id').onclick = function (event) { $ajax_link; };";
+                });
+                return $this->renderer->render($comment_glyph);
         }
 
         return "";
