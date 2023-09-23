@@ -1582,7 +1582,7 @@ class ilObjMediaObject extends ilObject
     public static function getForbiddenFileTypes(): array
     {
         $mset = new ilSetting("mobs");
-        if (trim($mset->get("black_list_file_types")) == "") {
+        if (trim((string) $mset->get("black_list_file_types")) === "") {
             return array();
         }
         return array_map(
@@ -1599,7 +1599,7 @@ class ilObjMediaObject extends ilObject
     public static function getAllowedFileTypes(): array
     {
         $mset = new ilSetting("mobs");
-        if (trim($mset->get("restricted_file_types")) == "") {
+        if (trim((string) $mset->get("restricted_file_types")) === "") {
             return array();
         }
         return array_map(
