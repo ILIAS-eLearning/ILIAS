@@ -10349,6 +10349,8 @@ link#:#link_wpages#:#Wikiseiten
 lm#:#lm_btn_lp_toggle_state_completed#:#Auf "Nicht bearbeitet" setzen
 lm#:#lm_btn_lp_toggle_state_not_completed#:#Auf "Bearbeitet" setzen
 lm#:#lm_copy#:#ILIAS-Lernmodul kopieren
+lm#:#lm_edit_chapters#:#Kapitel bearbeiten
+lm#:#lm_edit_lm_settings#:#Lernmoduleinstellungen bearbeiten
 lm#:#lm_est_reading_time#:#Geschätzte Lesedauer
 lm#:#lm_est_reading_time_info#:#In Lernmodulen kann eine geschätzte Lesezeit ermittelt und angezeigt werden.
 lm#:#lm_page_type_lm#:#Lernmodulseite
