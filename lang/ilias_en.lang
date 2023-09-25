@@ -10570,6 +10570,7 @@ lso#:#lso_members_gallery#:#Learning Sequence Members Gallery
 lso#:#lso_members_print_title#:#Learning sequence members
 lso#:#lso_min_one_admin#:#There has to be at least one administrator assigned to this learning sequence.
 lso#:#lso_msg_member_assigned#:#User(s) assigned as learning sequence member(s)
+lso#:#lso_multidownload_not_available#:#Downloading multiple objects is currently not available for Learning Sequence Objects.
 lso#:#lso_new_status#:#Your new status is:
 lso#:#lso_notification#:#Notification
 lso#:#lso_notification_explanation_admin#:#You receive mail from ILIAS because you are learning sequence administrator with notification enabled.
