@@ -1315,6 +1315,7 @@ class ilObjLTIConsumer extends ilObject2
 
     public static function sendResponseJson(array $obj): void
     {
+        global $DIC;
         try {
             header('Content-Type: application/json; charset=utf-8');
             header('Cache-Control: no-store');
