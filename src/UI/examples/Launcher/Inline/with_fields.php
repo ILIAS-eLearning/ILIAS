@@ -90,8 +90,8 @@ function with_fields()
         ->withInputs($group, $evaluation, $instruction)
         ->withStatusIcon($icon)
         ->withStatusMessageBox($status_message)
-        ->withSubmitLabel('Begin Exam')
-        ->withCancelButtonLabel('Cancel')
+        ->withModalSubmitLabel('Begin Exam')
+        ->withModalCancelLabel('Cancel')
     ;
 
     if (array_key_exists('launcher_id', $request->getQueryParams()) && $request->getQueryParams()['launcher_id'] === 'l3') {
