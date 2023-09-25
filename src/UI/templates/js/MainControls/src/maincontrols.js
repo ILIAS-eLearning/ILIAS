@@ -19,7 +19,6 @@ import MetabarFactory from './metabar.factory';
 import Slate from './slate.class';
 
 il.UI = il.UI || {};
-il.UI.table = il.UI.table || {};
 il.UI.maincontrols = il.UI.maincontrols || {};
 il.UI.maincontrols.metabar = new MetabarFactory($);
 il.UI.maincontrols.slate = new Slate($);

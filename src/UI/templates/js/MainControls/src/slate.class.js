@@ -23,17 +23,22 @@ export default class Slate {
   /**
    * @type {string}
    */
-  clsEngaged = 'engaged';
+  classForEngaged = 'engaged';
 
   /**
    * @type {string}
    */
-  clsDisEngaged = 'disengaged';
+  classForDisEngaged = 'disengaged';
 
   /**
    * @type {string}
    */
-  clsSingleSlate = 'il-maincontrols-slate';
+  classForSingleSlate = 'il-maincontrols-slate';
+
+  /**
+   * @type {string}
+   */
+  replacementType = 'content';
 
   /**
    * @param {jQuery} jquery
@@ -90,12 +95,12 @@ export default class Slate {
       return;
     }
     if (this.isEngaged(slate)) {
-      triggerer.addClass(this.clsEngaged);
-      triggerer.removeClass(this.clsDisEngaged);
+      triggerer.addClass(this.classForEngaged);
+      triggerer.removeClass(this.classForDisEngaged);
       slate.trigger('in_view');
     } else {
-      triggerer.removeClass(this.clsEngaged);
-      triggerer.addClass(this.clsDisEngaged);
+      triggerer.removeClass(this.classForEngaged);
+      triggerer.addClass(this.classForDisEngaged);
     }
   }
 
@@ -116,7 +121,7 @@ export default class Slate {
    * @return {bool}
    */
   isEngaged(slate) {
-    return slate.hasClass(this.clsEngaged);
+    return slate.hasClass(this.classForEngaged);
   }
 
   /**
@@ -124,8 +129,8 @@ export default class Slate {
    * @return {void}
    */
   engage(slate) {
-    slate.removeClass(this.clsDisEngaged);
-    slate.addClass(this.clsEngaged);
+    slate.removeClass(this.classForDisEngaged);
+    slate.addClass(this.classForEngaged);
     slate.attr('aria-expanded', 'true');
     slate.attr('aria-hidden', 'false');
   }
@@ -135,8 +140,8 @@ export default class Slate {
    * @return {void}
    */
   disengage(slate) {
-    slate.removeClass(this.clsEngaged);
-    slate.addClass(this.clsDisEngaged);
+    slate.removeClass(this.classForEngaged);
+    slate.addClass(this.classForDisEngaged);
     slate.attr('aria-expanded', 'false');
     slate.attr('aria-hidden', 'true');
   }
@@ -148,6 +153,6 @@ export default class Slate {
    */
   replaceFromSignal(id, signalData) {
     const { url } = signalData.options;
-    il.UI.core.replaceContent(this.id, url, 'content');
+    il.UI.core.replaceContent(id, url, this.replacementType);
   }
 }
