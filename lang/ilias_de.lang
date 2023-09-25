@@ -349,6 +349,7 @@ adn#:#administrative_notification_description#:#Bereitstellen systemweiter Ankü
 adn#:#btn_cancel#:#Abbrechen
 adn#:#btn_delete#:#Löschen
 adn#:#btn_delete_confirm#:#Möchten Sie diese Ankündigung löschen?
+adn#:#btn_duplicate#:#Duplizieren
 adn#:#btn_edit#:#Bearbeiten
 adn#:#btn_reset#:#Zurücksetzen
 adn#:#btn_reset_confirm#:#Möchten Sie diese Ankündigung für alle Benutzer zurücksetzen?
@@ -365,6 +366,9 @@ adn#:#msg_error_false_date_configuration#:#Mit dieser Konfiguration von Daten ka
 adn#:#msg_event_date_end#:#Ende Ereignis
 adn#:#msg_event_date_start#:#Beginn Ereignis
 adn#:#msg_form_title#:#Ankündigung
+adn#:#msg_has_language_limitation#:#Auf ausgewählte Sprachen beschränken
+adn#:#msg_has_language_limitation_info#:#Benachrichtigung wird nur Personen mit einer der nachfolgend ausgewählten Sprachen angezeigt.
+adn#:#msg_languages#:#Sprachen
 adn#:#msg_limit_to_roles#:#Auf ausgewählte Rollen beschränken
 adn#:#msg_limit_to_roles_info#:#Benachrichtigung wird nur Personen mit einer der nachfolgend ausgewählten Rollen angezeigt.
 adn#:#msg_limited_to_role_ids#:#Anzeige
@@ -373,10 +377,12 @@ adn#:#msg_permanent_info#:#Ankündigungen permanent oder zeitlich begrenzt anzei
 adn#:#msg_permanent_no#:#Zeitlich begrenzt
 adn#:#msg_permanent_yes#:#Permanent
 adn#:#msg_presentation#:#Anzeige
+adn#:#msg_show_to_all_languages#:#Allen Sprachen anzeigen
 adn#:#msg_show_to_all_roles#:#Allen Rollen anzeigen
 adn#:#msg_show_to_all_roles_info#:#Die Benachrichtigung wird allen Benutzern angezeigt und ist auch im Öffentlichen Bereich für nicht-eingeloggte Personen sichtbar.
 adn#:#msg_success_created#:#Ankündigung erstellt
 adn#:#msg_success_deleted#:#Ankündigung erfolgreich gelöscht
+adn#:#msg_success_duplicated#:#Ankündigung erfolgreich dupliziert
 adn#:#msg_success_reset#:#Ankündigung zurückgesetzt
 adn#:#msg_success_updated#:#Ankündigung aktualisiert
 adn#:#msg_table_title#:#Ankündigungen
