@@ -16740,6 +16740,7 @@ ui#:#ui_link_url#:#URL
 ui#:#ui_md_input_edit#:#Edit
 ui#:#ui_md_input_view#:#View
 ui#:#ui_numeric_only#:#Please insert a whole number.
+ui#:#ui_table_no_records#:#No records
 ui#:#ui_tag_required#:#Please insert at least one tag.
 ui#:#ui_transcription#:#Transcript
 user#:#all_roles_has_starting_point#:#All the roles have starting points

@@ -100,6 +100,11 @@ class Renderer extends AbstractComponentRenderer
         $data = $component->getData();
         $component_id = $id;
 
+        if (empty($data)) {
+            $this->renderEmptyPresentationRow($tpl, $default_renderer, $this->txt('ui_table_no_records'));
+            return $tpl->get();
+        }
+
         foreach ($data as $record) {
             $row = $row_mapping(
                 new PresentationRow($component->getSignalGenerator(), $component_id),
@@ -244,7 +249,13 @@ class Renderer extends AbstractComponentRenderer
         $tpl->setVariable('VIEW_CONTROLS', $default_renderer->render($component->getViewControls()));
 
         $this->renderTableHeader($default_renderer, $component, $tpl);
-        $this->appendTableRows($tpl, $rows, $default_renderer);
+
+        // if the generator is empty, and thus invalid, we render an empty row.
+        if ($rows->valid()) {
+            $this->appendTableRows($tpl, $rows, $default_renderer);
+        } else {
+            $this->renderFullWidthDataCell($component, $tpl, $this->txt('ui_table_no_records'));
+        }
 
         if ($component->hasMultiActions()) {
             $multi_actions = $component->getMultiActions();
@@ -358,6 +369,26 @@ class Renderer extends AbstractComponentRenderer
         }
     }
 
+    /**
+     * Renders a full-width cell with a single message within, indication there is no
+     * data to display. This is achieved using a <td> colspan attribute.
+     */
+    protected function renderFullWidthDataCell(Component\Table\Data $component, Template $tpl, string $content): void
+    {
+        $cell_tpl = $this->getTemplate('tpl.datacell.html', true, true);
+        $cell_tpl->setCurrentBlock('cell');
+        $cell_tpl->setVariable('CELL_CONTENT', $content);
+        $cell_tpl->setVariable('COL_SPAN', count($component->getVisibleColumns()));
+        $cell_tpl->setVariable('COL_TYPE', 'full-width');
+        $cell_tpl->setVariable('COL_INDEX', '1');
+        $cell_tpl->parseCurrentBlock();
+
+        $tpl->setCurrentBlock('row');
+        $tpl->setVariable('ALTERNATION', 'even');
+        $tpl->setVariable('CELLS', $cell_tpl->get());
+        $tpl->parseCurrentBlock();
+    }
+
     protected function appendTableRows(
         Template $tpl,
         \Generator $rows,
@@ -372,6 +403,13 @@ class Renderer extends AbstractComponentRenderer
             $tpl->setVariable('CELLS', $row_contents);
             $tpl->parseCurrentBlock();
         }
+    }
+
+    protected function renderEmptyPresentationRow(Template $tpl, RendererInterface $default_renderer, string $content): void
+    {
+        $row_tpl = $this->getTemplate('tpl.presentationrow_empty.html', true, true);
+        $row_tpl->setVariable('CONTENT', $content);
+        $tpl->setVariable('ROW', $row_tpl->get());
     }
 
     /**

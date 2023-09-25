@@ -389,4 +389,45 @@ EOT;
         $expected = $this->brutallyTrimHTML($expected);
         $this->assertEquals($expected, $actual);
     }
+
+    public function testRenderEmptyDataCell(): void
+    {
+        $data = new class () implements Component\Table\DataRetrieval {
+            public function getRows(
+                Component\Table\DataRowBuilder $row_builder,
+                array $visible_column_ids,
+                Data\Range $range,
+                Data\Order $order,
+                ?array $filter_data,
+                ?array $additional_parameters
+            ): Generator {
+                yield from [];
+            }
+
+            public function getTotalRowCount(?array $filter_data, ?array $additional_parameters): ?int
+            {
+                return null;
+            }
+        };
+
+        $columns = [
+            'f1' => $this->getUIFactory()->table()->column()->text('f1'),
+            'f2' => $this->getUIFactory()->table()->column()->text('f2'),
+            'f3' => $this->getUIFactory()->table()->column()->text('f3'),
+            'f4' => $this->getUIFactory()->table()->column()->text('f4'),
+            'f5' => $this->getUIFactory()->table()->column()->text('f5'),
+        ];
+
+        $table = $this->getUIFactory()->table()->data('', $columns, $data);
+
+        $html = $this->getDefaultRenderer()->render($table);
+
+        $translation = $this->getLanguage()->txt('ui_table_no_records');
+        $column_count = count($columns);
+
+        // check that the empty cell is stretched over all columns.
+        $this->assertTrue(str_contains($html, "colspan=\"$column_count\""));
+        // check that the cell contains the default message.
+        $this->assertTrue(str_contains($html, $translation));
+    }
 }

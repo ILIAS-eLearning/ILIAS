@@ -61,31 +61,6 @@ class PresentationTest extends ILIAS_UI_TestBase
         $this->assertEquals(array('dk' => 'dv'), $pt->getData());
     }
 
-    public function testBareTableRendering(): void
-    {
-        $r = $this->getDefaultRenderer();
-        $f = $this->getFactory();
-        $pt = $f->presentation('title', [], function (): void {
-        });
-        $expected = <<<EXP
-        <div class="il-table-presentation" id="id_3">
-            <h3 class="ilHeader">title</h3>
-            <div class="il-table-presentation-viewcontrols">
-                <div class="btn-group">
-                    <button class="btn btn-default" id="id_1">presentation_table_expand</button>
-                    <button class="btn btn-default" id="id_2">presentation_table_collapse</button>
-                </div>
-            </div>
-            <div class="il-table-presentation-data"></div>
-        </div>
-EXP;
-
-        $this->assertHTMLEquals(
-            $this->brutallyTrimHTML($expected),
-            $this->brutallyTrimHTML($r->render($pt->withData([])))
-        );
-    }
-
     public function testRowConstruction(): void
     {
         $f = $this->getFactory();
@@ -308,5 +283,18 @@ EXP;
             $this->brutallyTrimHTML($expected),
             $this->brutallyTrimHTML($this->brutallyTrimSignals($actual))
         );
+    }
+
+    public function testRenderEmptyTableEntry(): void
+    {
+        $mapping = fn(PresentationRow $row, mixed $record, \ILIAS\UI\Factory $ui_factory, mixed $environment) => $row;
+
+        $table = $this->getFactory()->presentation('', [], $mapping);
+
+        $html = $this->getDefaultRenderer()->render($table);
+
+        $translation = $this->getLanguage()->txt('ui_table_no_records');
+
+        $this->assertTrue(str_contains($html, $translation));
     }
 }
