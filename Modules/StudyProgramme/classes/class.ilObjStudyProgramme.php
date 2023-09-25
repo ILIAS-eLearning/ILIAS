@@ -1742,7 +1742,7 @@ class ilObjStudyProgramme extends ilContainer
     {
         // We only use courses via crs_refs
         $type = ilObject::_lookupType($a_obj_id);
-        if ($type == "crs") {
+        if ($type == "crsr") {
             require_once("Services/ContainerReference/classes/class.ilContainerReference.php");
             $crs_reference_obj_ids = ilContainerReference::_lookupSourceIds($a_obj_id);
             foreach ($crs_reference_obj_ids as $obj_id) {
