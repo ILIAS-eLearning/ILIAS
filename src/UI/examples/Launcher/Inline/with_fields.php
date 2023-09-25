@@ -32,8 +32,7 @@ function with_fields()
             $ui_factory->input()->field()->checkbox('Understood', 'ok')
     ]);
     $evaluation = function (Result $result, Launcher &$launcher) use ($ctrl, $ui_factory) {
-        $values = $result->value();
-        if ($result->isOK() && reset($values)) {
+        if ($result->isOK() && ($values = $result->value()) && reset($values)) {
             $ctrl->redirectToURL(
                 (string)$launcher->getTarget()->getURL()->withParameter('launcher_redirect', 'terms accepted (' . $launcher->getButtonLabel() . ')')
             );
