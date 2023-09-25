@@ -2168,7 +2168,6 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
             $question_gui->setPresentationContext(assQuestionGUI::PRESENTATION_CONTEXT_TEST);
             $question_gui->object->setObligationsToBeConsidered($this->object->areObligationsEnabled());
             $question_gui->populateJavascriptFilesRequiredForWorkForm($tpl);
-            $question_gui->object->setOutputType(OUTPUT_JAVASCRIPT);
             $question_gui->object->setShuffler($this->shuffler->getAnswerShuffleFor(
                 $question_id,
                 $this->test_session->getActiveId(),

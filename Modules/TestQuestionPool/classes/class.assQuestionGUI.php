@@ -710,7 +710,7 @@ abstract class assQuestionGUI
                 $testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory(
                     $this->tree,
                     $this->db,
-                    $this->component_repository,
+                    $this->lng,
                     $this->logger,
                     $this->component_repository,
                     $test,
