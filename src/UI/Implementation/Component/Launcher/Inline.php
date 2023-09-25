@@ -20,7 +20,6 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Launcher;
 
-use ILIAS\Data\Result\Ok;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 use ILIAS\Data\Link;
 use ILIAS\UI\Component as C;
@@ -140,13 +139,9 @@ class Inline implements C\Launcher\Inline
     public function getResult(): ?Result
     {
         if ($this->request && $this->request->getMethod() == "POST") {
-            $form = $this->modal->withRequest($this->request)->getForm();
-
-            foreach ($form->getInputs() as $input) {
-                $result[$input->getDedicatedName()] = $input->getValue();
-            }
-
-            return isset($result) ? new OK($result) : $form->getInputGroup()->getContent();
+            $modal = $this->modal->withRequest($this->request);
+            $result = $modal->getForm()->getInputGroup()->getContent();
+            return $result;
         }
         return null;
     }

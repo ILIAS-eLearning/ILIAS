@@ -332,38 +332,38 @@ class ilTestScreenGUI
     private function getModalLauncherInputs(): array
     {
         if ($this->main_settings->getIntroductionSettings()->getExamConditionsCheckboxEnabled()) {
-            $modal_inputs[] = $this->ui_factory->input()->field()->checkbox(
+            $modal_inputs['exam_conditions'] = $this->ui_factory->input()->field()->checkbox(
                 $this->lng->txt('tst_exam_conditions'),
                 $this->lng->txt('tst_exam_conditions_label')
-            )->withDedicatedName('exam_conditions')->withRequired(true);
+            )->withRequired(true);
         }
 
         if ($this->main_settings->getAccessSettings()->getPasswordEnabled()) {
-            $modal_inputs[] = $this->ui_factory->input()->field()->text(
+            $modal_inputs['exam_password'] = $this->ui_factory->input()->field()->text(
                 $this->lng->txt('tst_exam_password'),
                 $this->lng->txt('tst_exam_password_label')
-            )->withDedicatedName('exam_password')->withRequired(true);
+            )->withRequired(true);
         }
 
         if ($this->user->isAnonymous()) {
             $access_code_input = $this->ui_factory->input()->field()->text(
                 $this->lng->txt('tst_exam_access_code'),
                 $this->lng->txt('tst_exam_access_code_label')
-            )->withDedicatedName('exam_access_code');
+            );
 
             $access_code_from_session = $this->test_session->getAccessCodeFromSession();
             if ($access_code_from_session) {
                 $access_code_input = $access_code_input->withValue($access_code_from_session);
             }
 
-            $modal_inputs[] = $access_code_input;
+            $modal_inputs['exam_access_code'] = $access_code_input;
         }
 
         if ($this->main_settings->getParticipantFunctionalitySettings()->getUsePreviousAnswerAllowed()) {
-            $modal_inputs[] = $this->ui_factory->input()->field()->checkbox(
+            $modal_inputs['exam_use_previous_answers'] = $this->ui_factory->input()->field()->checkbox(
                 $this->lng->txt('tst_exam_use_previous_answers'),
                 $this->lng->txt('tst_exam_use_previous_answers_label')
-            )->withDedicatedName('exam_use_previous_answers');
+            );
         }
 
         return $modal_inputs ?? [];
