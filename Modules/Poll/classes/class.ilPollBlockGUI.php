@@ -372,7 +372,10 @@ class ilPollBlockGUI extends ilBlockGUI
             $this->getRefId()
         );
 
-        if (!$this->poll_block->getMessage($this->user->getId())) {
+        if (
+            !$this->poll_block->getMessage($this->user->getId()) &&
+            !$this->user->isAnonymous()
+        ) {
             // notification
             if (ilNotification::hasNotification(ilNotification::TYPE_POLL, $this->user->getId(), $this->poll_block->getPoll()->getId())) {
                 $this->addBlockCommand(
