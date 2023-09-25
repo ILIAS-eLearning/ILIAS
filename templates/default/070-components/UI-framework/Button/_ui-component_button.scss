@@ -19,7 +19,8 @@
   // padding y is only a small buffer for when the button contains multiple lines
   $padding-small-y: l.$il-padding-small-vertical,
   $inner-spacing: l.$il-padding-small-horizontal,
-  $set-full-width: false
+  $set-full-width: false,
+  $button_active-transform: none
 );
 @use "../../../030-tools/_tool_browser-prefixes" as *;
 

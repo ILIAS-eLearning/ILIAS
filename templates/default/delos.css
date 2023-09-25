@@ -1,4 +1,7 @@
 @charset "UTF-8";
+/*
+* Dependencies
+*/
 /*!
  * Datetimepicker for Bootstrap 3
  * version : 4.17.37
@@ -681,8 +684,9 @@ table.mceToolbar tbody, table.mceToolbar tr, table.mceToolbar td {
 }
 
 /*
-* Dependencies
-*/ /* print less */
+* Normalize
+*/
+/* print less */
 @media print {
   * {
     /* see bug 0022342 */
@@ -890,9 +894,6 @@ th {
   padding: 0;
 }
 
-/*
-* Normalize
-*/
 .row {
   --bs-gutter-x: 30px;
   --bs-gutter-y: 0;
@@ -2227,6 +2228,9 @@ th {
   margin-right: 0;
 }
 
+/*
+* Elements
+*/
 * {
   box-sizing: border-box;
 }
@@ -2601,8 +2605,9 @@ code {
   }
 }
 /*
-* Elements
+* Components
 */
+/* UI Framework */
 .c-tooltip__container {
   position: relative;
   display: inline-block;
@@ -2816,7 +2821,7 @@ input.btn, input.il-link.link-bulky,
   outline: none;
 }
 .btn-default:active {
-  transform: scale(0.95);
+  transform: none;
   background-color: #273445;
   color: white;
   border-width: 1px;
@@ -2881,7 +2886,7 @@ input.btn, input.il-link.link-bulky,
   outline: none;
 }
 .btn-primary:active {
-  transform: scale(0.95);
+  transform: none;
   background-color: #223112;
   color: white;
   border-width: 1px;
@@ -3396,7 +3401,7 @@ input.btn, input.il-link.link-bulky,
 .il-viewcontrol-pagination .last > .btn-link:active,
 .il-viewcontrol-mode > .btn-default:active,
 .il-viewcontrol-mode > .btn-link:active, .il-viewcontrol-sortation .btn-default.btn:active {
-  transform: scale(0.95);
+  transform: none;
   background-color: white;
   color: #4c6586;
   border-width: 1px;
@@ -5039,7 +5044,7 @@ input[type=checkbox]:focus:focus-visible {
   outline: none;
 }
 .c-launcher .btn-bulky:active {
-  transform: scale(0.95);
+  transform: none;
   background-color: #223112;
   color: white;
   border-width: 1px;
@@ -9806,6 +9811,7 @@ td.c-table-data__cell--highlighted {
   width: 5rem;
 }
 
+/* Component parts from old delos.scss */
 div#agreement {
   width: 100%;
   height: 375px;
@@ -10526,6 +10532,7 @@ div.il_info {
   text-align: left;
 }
 
+/* Adapted from Bootstrap 3 */
 .fade {
   opacity: 0;
   -webkit-transition: opacity 0.15s linear;
@@ -11151,6 +11158,7 @@ tbody.collapse.in {
   clip: auto;
 }
 
+/* Legacy Modules & Services */
 /* Modules/Bibliographic */
 span.bibl_text_inline_Emph {
   font-style: italic;
@@ -18764,13 +18772,6 @@ img.ilUserXXSmall {
   padding: 5px;
 }
 
-/*
-* Components
-*/
-/* UI Framework */
-/* Component parts from old delos.scss */
-/* Adapted from Bootstrap 3 */
-/* Legacy Modules & Services */
 /*
 	These classes are used to limit the number of rows when displaying larger chunks of text.
 	The mixin receives $height-in-rows as an integer. The classes il-multi-line-cap-2,3,5,10
