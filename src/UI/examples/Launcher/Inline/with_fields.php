@@ -75,8 +75,7 @@ function with_fields()
             $ui_factory->input()->field()->password('pwd', 'Password')
     ]);
     $evaluation = function (Result $result, Launcher &$launcher) use ($ctrl, $ui_factory) {
-        $values = $result->value();
-        if ($result->isOK() && reset($values)?->toString() === 'ilias') {
+        if ($result->isOK() && ($values = $result->value()) && reset($values)?->toString() === 'ilias') {
             $ctrl->redirectToURL(
                 (string)$launcher->getTarget()->getURL()->withParameter('launcher_redirect', 'password protected')
             );
