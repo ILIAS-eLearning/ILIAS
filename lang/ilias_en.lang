@@ -1359,7 +1359,6 @@ assessment#:#tst_eval_total_passed#:#Total passed tests
 assessment#:#tst_eval_total_passed_average_points#:#Average points of passed tests
 assessment#:#tst_eval_total_passed_average_time#:#Average processing time of all passed tests
 assessment#:#tst_eval_total_persons#:#Total number of participants who started the test
-assessment#:#tst_exam_previous_access_code#:#Previous Access Code
 assessment#:#tst_exam_access_code_label#:#Enter access code to continue your already started test.
 assessment#:#tst_exam_conditions#:#Exam Conditions
 assessment#:#tst_exam_conditions_label#:#Check to accept the conditions.
@@ -1491,8 +1490,6 @@ assessment#:#tst_introduction_desc#:#Shows an introductory message on the tab â€
 assessment#:#tst_introduction_text#:#Introductory Message
 assessment#:#tst_invited_nobody#:#No users, groups or roles have been added as fixed test participants
 assessment#:#tst_invited_selected_users#:#The selected users have been added as fixed test participants
-assessment#:#tst_launcher_button_label_cannot_start_yet#:#You cannot start the test yet.
-assessment#:#tst_launcher_button_label_cannot_start_anymore#:#You cannot start the test anymore.
 assessment#:#tst_launcher_button_label_passes_limit_reached#:#You have reached the limit of possible test passes
 assessment#:#tst_level#:#Competence Level
 assessment#:#tst_limit_nr_of_tries#:#Limit Number of Test Passes
