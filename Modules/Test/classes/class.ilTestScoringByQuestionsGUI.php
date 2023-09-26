@@ -32,7 +32,7 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
     {
         return 'showManScoringByQuestionParticipantsTable';
     }
-    
+
     /**
      * @return string
      */
@@ -40,7 +40,7 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
     {
         return 'man_scoring_by_qst';
     }
-    
+
     /**
      * @param array $manPointsPost
      */
@@ -50,7 +50,7 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
 
         $tpl = $DIC->ui()->mainTemplate();
         $ilAccess = $DIC->access();
-        
+
         $DIC->tabs()->activateTab(ilTestTabsManager::TAB_ID_MANUAL_SCORING);
 
         if (
@@ -101,7 +101,7 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
                 ilTestParticipantAccessFilter::getScoreParticipantsUserFilter($this->ref_id)
             );
             $participantData->load($this->object->getTestId());
-                
+
             foreach ($participantData->getActiveIds() as $active_id) {
                 $participant = $participants[$active_id];
                 $testResultData = $this->object->getTestResult($active_id, $passNr - 1);
@@ -135,7 +135,7 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
                             'qst_id' => $questionData['qid'],
                             'reached_points' => assQuestion::_getReachedPoints($active_id, $questionData['qid'], $passNr - 1),
                             'maximum_points' => assQuestion::_getMaximumPoints($questionData['qid']),
-			    'name' => $participant->getName()
+                'name' => $participant->getName()
                         ] + $feedback;
                     }
                 }
@@ -206,17 +206,17 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
 
         foreach ($participantData->getActiveIds() as $active_id) {
             $questions = $activeData[$active_id];
-            
+
             // check for existing test result data
             if (!$this->object->getTestResult($active_id, $pass)) {
                 if (false == isset($skipParticipant[$pass])) {
                     $skipParticipant[$pass] = [];
                 }
                 $skipParticipant[$pass][$active_id] = true;
-                
+
                 continue;
             }
-            
+
             foreach ((array) $questions as $qst_id => $reached_points) {
                 if (false == isset($manPointsPost[$pass])) {
                     $manPointsPost[$pass] = [];
@@ -233,14 +233,14 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
                 }
             }
         }
-        
+
         $changed_one = false;
         $lastAndHopefullyCurrentQuestionId = null;
 
         foreach ($participantData->getActiveIds() as $active_id) {
             $questions = $activeData[$active_id];
             $update_participant = false;
-            
+
             if (false == $skipParticipant[$pass][$active_id]) {
                 foreach ((array) $questions as $qst_id => $reached_points) {
                     $this->saveFeedback($active_id, $qst_id, $pass, $ajax);
@@ -349,11 +349,11 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
         $active_id = (int) $_GET['active_id'];
         $pass = (int) $_GET['pass_id'];
         $question_id = (int) $_GET['qst_id'];
-        
+
         if (!$this->getTestAccess()->checkScoreParticipantsAccessForActiveId($active_id)) {
             exit; // illegal ajax call
         }
-        
+
         $data = $this->object->getCompleteEvaluationData(false);
         $participant = $data->getParticipant($active_id);
         $question_gui = $this->object->createQuestionGUI('', $question_id);
@@ -601,10 +601,19 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
     {
         $feedback = null;
         if ($this->doesValueExistsInPostArray('feedback', $active_id, $qst_id, $pass)) {
-            $feedback = ilUtil::stripSlashes($_POST['feedback'][$pass][$active_id][$qst_id]);
+            $feedback = ilUtil::stripSlashes(
+                $_POST['feedback'][$pass][$active_id][$qst_id],
+                false,
+                ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment")
+            );
         } elseif ($this->doesValueExistsInPostArray('m_feedback', $active_id, $qst_id, $pass)) {
-            $feedback = ilUtil::stripSlashes($_POST['m_feedback'][$pass][$active_id][$qst_id]);
+            $feedback = ilUtil::stripSlashes(
+                $_POST['m_feedback'][$pass][$active_id][$qst_id],
+                false,
+                ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment")
+            );
         }
+
         $this->saveFinalization($active_id, $qst_id, $pass, $feedback, $is_single_feedback);
     }
 
