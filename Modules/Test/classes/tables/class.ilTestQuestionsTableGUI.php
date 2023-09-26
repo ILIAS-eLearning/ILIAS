@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
+use ILIAS\TestQuestionPool\QuestionInfoService;
 
 /**
 *
@@ -68,7 +69,7 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
         private int $parent_ref_id,
         private UIFactory $ui_factory,
         private UIRenderer $ui_renderer,
-        private \ILIAS\TestQuestionPool\QuestionInfoService $questioninfo
+        private QuestionInfoService $questioninfo
     ) {
         parent::__construct($parent_obj, $parent_cmd);
 
