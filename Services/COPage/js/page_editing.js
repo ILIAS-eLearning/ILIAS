@@ -1393,6 +1393,9 @@ var ilCOPage =
 	// extract pc ids
 	extractPCIdsFromResponse: function(str)
 	{
+		// JKN PATCH START
+		str = str.trim();
+		// JKN PATCH END
 		//ilCOPage.pc_id_str = "";
 		ilCOPage.error_str = "";
 		if (str.substr(0,3) == "###")
@@ -1413,6 +1416,9 @@ var ilCOPage =
 	// extract class
 	extractClassFromResponse: function(str)
 	{
+		// JKN PATCH START
+		str = str.trim();
+		// JKN PATCH END
 		var end = str.indexOf("###", 0);
 		ilCOPage.response_class = str.substr(0,
 			end);

@@ -407,7 +407,9 @@ class ilSearchGUI extends ilSearchBaseGUI
         $this->showSearch();
 
         if (!count($result->getResults())) {
-            ilUtil::sendInfo($this->lng->txt('search_no_match'));
+            // JKN PATCH START
+            ilUtil::sendInfo("<div style='font-size:26px;'>".$this->lng->txt('search_no_match')."</div>");
+            // JKN PATCH END
         }
 
         if ($result->isLimitReached()) {

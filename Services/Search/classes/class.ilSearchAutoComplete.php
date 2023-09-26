@@ -75,9 +75,10 @@ class ilSearchAutoComplete
         
         $settings = new ilSearchSettings();
         
+        // JKN PATCH START
         $object_types = array('cat','dbk','crs','fold','frm','grp','lm','sahs','glo','mep','htlm','exc','file','qpl','tst','svy','spl',
-            'chat', 'webr','mcst','sess','pg','st','gdf','wiki', 'copa');
-
+            'chat', 'webr','mcst','sess','pg','st','gdf','wiki', 'copa','xtrn');
+        // JKN PATCH END
         $set = $ilDB->query("SELECT title, obj_id FROM object_data WHERE "
             . $ilDB->like('title', 'text', $a_str . "%") . " AND "
             . $ilDB->in('type', $object_types, false, 'text') . " ORDER BY title");

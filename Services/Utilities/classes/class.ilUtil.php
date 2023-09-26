@@ -3025,6 +3025,11 @@ class ilUtil
             $array_sortby = 0;
         }
 
+        // JKN PATCH START
+        $a[$array_sortby] = iconv('UTF-8', 'ASCII//TRANSLIT', $a[$array_sortby]);
+        $b[$array_sortby] = iconv('UTF-8', 'ASCII//TRANSLIT', $b[$array_sortby]);
+        // JKN PATCH END
+
         // this comparison should give optimal results if
         // locale is provided and mb string functions are supported
         if ($array_sortorder == "asc") {
