@@ -224,8 +224,24 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
                 if (false == isset($manPointsPost[$pass][$active_id])) {
                     $manPointsPost[$pass][$active_id] = [];
                 }
+
+                $feedback_text = $this->retrieveFeedback($active_id, $qst_id, $pass);
+
+                /**
+                 * 26.09.23 sk: Ok, this is a hack, but to do this right we need
+                 * to go through the whole flow here. It is very convoluted and
+                 * I'm unsure what would happen if I would really change something.
+                 * This feature is in urgent need of refactoring and a repo.
+                 */
+                $current_feedback_info = ilObjTest::getSingleManualFeedback($active_id, $qst_id, $pass);
+                if ($current_feedback_info['finalized_evaluation'] === 1) {
+                    $reached_points = assQuestion::_getReachedPoints($active_id, $qst_id, $pass);
+                    $feedback_text = $current_feedback_info['feedback'];
+                }
+
                 $maxPointsByQuestionId[$qst_id] = assQuestion::_getMaximumPoints($qst_id);
                 $manPointsPost[$pass][$active_id][$qst_id] = $reached_points;
+
                 if ($reached_points > $maxPointsByQuestionId[$qst_id]) {
                     ilUtil::sendFailure(sprintf($this->lng->txt('tst_save_manscoring_failed'), $pass + 1));
                     $this->showManScoringByQuestionParticipantsTable($manPointsPost);
@@ -243,8 +259,7 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
 
             if (false == $skipParticipant[$pass][$active_id]) {
                 foreach ((array) $questions as $qst_id => $reached_points) {
-                    $this->saveFeedback($active_id, $qst_id, $pass, $ajax);
-
+                    $this->saveFinalization((int) $active_id, (int) $qst_id, (int) $pass, $feedback_text, $ajax);
                     // fix #35543: save manual points only if they differ from the existing points
                     // this prevents a question being set to "answered" if only feedback is entered
                     $old_points = assQuestion::_getReachedPoints($active_id, $qst_id, $pass);
@@ -591,30 +606,22 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
         );
     }
 
-    /**
-     * @param $active_id
-     * @param $qst_id
-     * @param $pass
-     * @param $is_single_feedback
-     */
-    protected function saveFeedback($active_id, $qst_id, $pass, $is_single_feedback)
+    protected function retrieveFeedback(int $active_id, int $qst_id, int $pass) : ?string
     {
-        $feedback = null;
-        if ($this->doesValueExistsInPostArray('feedback', $active_id, $qst_id, $pass)) {
-            $feedback = ilUtil::stripSlashes(
-                $_POST['feedback'][$pass][$active_id][$qst_id],
-                false,
-                ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment")
-            );
-        } elseif ($this->doesValueExistsInPostArray('m_feedback', $active_id, $qst_id, $pass)) {
-            $feedback = ilUtil::stripSlashes(
-                $_POST['m_feedback'][$pass][$active_id][$qst_id],
-                false,
-                ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment")
-            );
+        $feedback = $_POST['feedback'];
+        if ($feedback === null || $feedback === '') {
+            $feedback = $_POST['m_feedback'];
         }
 
-        $this->saveFinalization($active_id, $qst_id, $pass, $feedback, $is_single_feedback);
+        if ($feedback === null || $feedback === '') {
+            return null;
+        }
+
+        return ilUtil::stripSlashes(
+            $feedback[$pass][$active_id][$qst_id],
+            false,
+            ilObjAdvancedEditing::_getUsedHTMLTagsAsString('assessment')
+        );
     }
 
     /**
