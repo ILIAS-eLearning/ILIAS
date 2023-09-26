@@ -573,13 +573,26 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
 
     protected function saveFeedback(int $active_id, int $qst_id, int $pass, bool $is_single_feedback): void
     {
-        $feedback = null;
-        if ($this->doesValueExistsInPostArray('feedback', $active_id, $qst_id, $pass)) {
-            $feedback = ilUtil::stripSlashes($_POST['feedback'][$pass][$active_id][$qst_id]);
-        } elseif ($this->doesValueExistsInPostArray('m_feedback', $active_id, $qst_id, $pass)) {
-            $feedback = ilUtil::stripSlashes($_POST['m_feedback'][$pass][$active_id][$qst_id]);
-        }
+        $feedback = $this->retrieveFeedback($active_id, $qst_id, $pass);
         $this->saveFinalization($active_id, $qst_id, $pass, $feedback, $is_single_feedback);
+    }
+
+    protected function retrieveFeedback(int $active_id, int $qst_id, int $pass): ?string
+    {
+        $feedback = $this->testrequest->raw('feedback');
+        if ($feedback === null || $feedback === '') {
+            $feedback = $this->testrequest->raw('m_feedback');
+        }
+
+        if ($feedback === null || $feedback === '') {
+            return null;
+        }
+
+        return ilUtil::stripSlashes(
+            $feedback[$pass][$active_id][$qst_id],
+            false,
+            ilObjAdvancedEditing::_getUsedHTMLTagsAsString('assessment')
+        );
     }
 
     protected function saveFinalization(
