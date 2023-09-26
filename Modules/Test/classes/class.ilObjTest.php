@@ -6670,7 +6670,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
     * @return string The feedback text
     * @access public
     */
-    public static function getManualFeedback($active_id, $question_id, $pass): string
+    public static function getManualFeedback(int $active_id, int $question_id, int $pass): string
     {
         $feedback = "";
         $row = self::getSingleManualFeedback((int) $active_id, (int) $question_id, (int) $pass);
