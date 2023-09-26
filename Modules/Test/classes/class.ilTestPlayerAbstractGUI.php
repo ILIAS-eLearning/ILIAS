@@ -1724,7 +1724,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
     {
         $navigation_toolbar = new ilTestNavigationToolbarGUI($this->ctrl, $this->lng, $this);
         $navigation_toolbar->setSuspendTestButtonEnabled($this->object->getShowCancel());
-        $navigation_toolbar->setQuestionListButtonEnabled($this->object->getListOfQuestions());
+        $navigation_toolbar->setUserPassOverviewEnabled($this->object->getUsrPassOverviewEnabled());
         $navigation_toolbar->setFinishTestCommand($this->getFinishTestCommand());
         return $navigation_toolbar;
     }

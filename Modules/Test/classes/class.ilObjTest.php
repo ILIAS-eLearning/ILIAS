@@ -5888,6 +5888,11 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         return $this->getMainSettings()->getParticipantFunctionalitySettings()->getQuestionListEnabled();
     }
 
+    public function getUsrPassOverviewEnabled(): bool
+    {
+        return $this->getMainSettings()->getParticipantFunctionalitySettings()->getUsrPassOverviewEnabled();
+    }
+
     public function getListOfQuestionsStart(): bool
     {
         return $this->getMainSettings()->getParticipantFunctionalitySettings()->getShownQuestionListAtBeginning();
