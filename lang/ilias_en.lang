@@ -1340,7 +1340,6 @@ assessment#:#tst_delete_dyn_test_results_btn#:#Remove Test Results
 assessment#:#tst_delete_missing_mark#:#Please select at least one mark step to remove it
 assessment#:#tst_derive_new_pool#:#Derive New Question Pool
 assessment#:#tst_derive_new_pools#:#Derive New Question Pools
-assessment#:#tst_disclaimer#:#Please make sure that you have the time to complete the test and that you will be undisturbed. There is no way for you to pause or re-take this test.
 assessment#:#tst_dont_show_msg_again_in_current_session#:#Don't show this message again in my current session.
 assessment#:#tst_dont_use_previous_answers#:#Your previous answers will not be used as default values in future test passes
 assessment#:#tst_edit_competence_assign#:#Edit Assignment Properties

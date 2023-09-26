@@ -249,7 +249,6 @@ class ilTestScreenGUI
                     ilDatePresentation::formatDate(new ilDateTime($this->object->getEndingTime(), IL_CAL_UNIX))
                 );
             } else {
-                $launcher_description_elements[] = $this->lng->txt('tst_disclaimer');
                 $launcher_description_elements[] = sprintf(
                     $this->lng->txt('tst_exam_ending_time_message'),
                     ilDatePresentation::formatDate(new ilDateTime($this->object->getEndingTime(), IL_CAL_UNIX))
@@ -279,10 +278,6 @@ class ilTestScreenGUI
 
         if ($test_behaviour_settings->getProcessingTimeEnabled()) {
             $launcher_description_elements[] = sprintf($this->lng->txt('tst_time_limit_message'), $test_behaviour_settings->getProcessingTimeAsMinutes());
-        }
-
-        if ($this->object->isEndingTimeEnabled() && !$this->object->endingTimeReached()) {
-            $launcher_description_elements[] = $this->lng->txt('tst_disclaimer');
         }
 
         if ($this->object->isStartingTimeEnabled() && !$this->object->startingTimeReached()) {
@@ -380,10 +375,6 @@ class ilTestScreenGUI
         $launcher_description = '';
         $launcher_description_elements = [];
         $test_behaviour_settings = $this->main_settings->getTestBehaviourSettings();
-
-        if ($this->object->isEndingTimeEnabled() && !$this->object->endingTimeReached()) {
-            $launcher_description_elements[] = $this->lng->txt('tst_disclaimer');
-        }
 
         if ($test_behaviour_settings->getProcessingTimeEnabled()) {
             $launcher_description_elements[] = sprintf($this->lng->txt('tst_time_limit_message'), $test_behaviour_settings->getProcessingTimeAsMinutes());
