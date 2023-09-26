@@ -613,10 +613,19 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
     {
         $feedback = null;
         if ($this->doesValueExistsInPostArray('feedback', $active_id, $qst_id, $pass)) {
-            $feedback = ilUtil::stripSlashes($_POST['feedback'][$pass][$active_id][$qst_id]);
+            $feedback = ilUtil::stripSlashes(
+                $_POST['feedback'][$pass][$active_id][$qst_id],
+                false,
+                ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment")
+            );
         } elseif ($this->doesValueExistsInPostArray('m_feedback', $active_id, $qst_id, $pass)) {
-            $feedback = ilUtil::stripSlashes($_POST['m_feedback'][$pass][$active_id][$qst_id]);
+            $feedback = ilUtil::stripSlashes(
+                $_POST['m_feedback'][$pass][$active_id][$qst_id],
+                false,
+                ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment")
+            );
         }
+
         $this->saveFinalization($active_id, $qst_id, $pass, $feedback, $is_single_feedback);
     }
 
