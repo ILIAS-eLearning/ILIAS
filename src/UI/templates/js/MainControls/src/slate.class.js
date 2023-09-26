@@ -14,31 +14,68 @@
  *
  ******************************************************************** */
 
+/**
+ * @type {string}
+ */
+const replacementType = 'content';
+
+/**
+ * @type {string}
+ */
+const classForEngaged = 'engaged';
+
+/**
+ * @type {string}
+ */
+const classForDisEngaged = 'disengaged';
+
+/**
+ * @param {jQueryDomObject} slate
+ * @return {bool}
+ */
+function isEngaged(slate) {
+  return slate.hasClass(classForEngaged);
+}
+
+/**
+ * @param {jQueryDomObject} slate
+ * @return {void}
+ */
+function engage(slate) {
+  slate.removeClass(classForDisEngaged);
+  slate.addClass(classForEngaged);
+  slate.attr('aria-expanded', 'true');
+  slate.attr('aria-hidden', 'false');
+}
+
+/**
+ * @param {jQueryDomObject} slate
+ * @return {void}
+ */
+function disengage(slate) {
+  slate.removeClass(classForEngaged);
+  slate.addClass(classForDisEngaged);
+  slate.attr('aria-expanded', 'false');
+  slate.attr('aria-hidden', 'true');
+}
+
+/**
+ * @param {jQueryDomObject} slate
+ * @return {void}
+ */
+function toggle(slate) {
+  if (isEngaged(slate)) {
+    disengage(slate);
+  } else {
+    engage(slate);
+  }
+}
+
 export default class Slate {
   /**
    * @type {jQuery}
    */
   #jquery;
-
-  /**
-   * @type {string}
-   */
-  #classForEngaged = 'engaged';
-
-  /**
-   * @type {string}
-   */
-  #classForDisEngaged = 'disengaged';
-
-  /**
-   * @type {string}
-   */
-  #classForSingleSlate = 'il-maincontrols-slate';
-
-  /**
-   * @type {string}
-   */
-  #replacementType = 'content';
 
   /**
    * @type {function}
@@ -77,7 +114,7 @@ export default class Slate {
     if (signalType === 'toggle') {
       this.#onToggleSignal(slate, triggerer, isInMetabarMore);
     } else if (signalType === 'engage') {
-      this.#engage(slate);
+      engage(slate);
     } else if (signalType === 'replace') {
       this.#replaceFromSignal(id, signalData);
     } else {
@@ -100,22 +137,22 @@ export default class Slate {
       if (metabar.getEngagedSlates().length > 0) {
         metabar.disengageAllSlates();
       } else {
-        this.#toggle(slate);
+        toggle(slate);
       }
       return;
     }
 
-    this.#toggle(slate);
+    toggle(slate);
     if (isInMetabarMore) {
       return;
     }
-    if (this.#isEngaged(slate)) {
-      triggerer.addClass(this.#classForEngaged);
-      triggerer.removeClass(this.#classForDisEngaged);
+    if (isEngaged(slate)) {
+      triggerer.addClass(classForEngaged);
+      triggerer.removeClass(classForDisEngaged);
       slate.trigger('in_view');
     } else {
-      triggerer.removeClass(this.#classForEngaged);
-      triggerer.addClass(this.#classForDisEngaged);
+      triggerer.removeClass(classForEngaged);
+      triggerer.addClass(classForDisEngaged);
     }
   }
 
@@ -123,43 +160,7 @@ export default class Slate {
    * @param {jQueryDomObject} slate
    * @return {void}
    */
-  #toggle(slate) {
-    if (this.#isEngaged(slate)) {
-      this.disengage(slate);
-    } else {
-      this.#engage(slate);
-    }
-  }
-
-  /**
-   * @param {jQueryDomObject} slate
-   * @return {bool}
-   */
-  #isEngaged(slate) {
-    return slate.hasClass(this.#classForEngaged);
-  }
-
-  /**
-   * @param {jQueryDomObject} slate
-   * @return {void}
-   */
-  #engage(slate) {
-    slate.removeClass(this.#classForDisEngaged);
-    slate.addClass(this.#classForEngaged);
-    slate.attr('aria-expanded', 'true');
-    slate.attr('aria-hidden', 'false');
-  }
-
-  /**
-   * @param {jQueryDomObject} slate
-   * @return {void}
-   */
-  disengage(slate) {
-    slate.removeClass(this.#classForEngaged);
-    slate.addClass(this.#classForDisEngaged);
-    slate.attr('aria-expanded', 'false');
-    slate.attr('aria-hidden', 'true');
-  }
+  disengage = disengage;
 
   /**
    * @param {string} id
@@ -168,6 +169,6 @@ export default class Slate {
    */
   #replaceFromSignal(id, signalData) {
     const { url } = signalData.options;
-    this.#coreReplaceContent(id, url, this.#replacementType);
+    this.#coreReplaceContent(id, url, replacementType);
   }
 }

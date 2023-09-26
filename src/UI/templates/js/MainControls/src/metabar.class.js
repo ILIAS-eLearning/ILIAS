@@ -14,6 +14,67 @@
  *
  ******************************************************************** */
 
+/**
+ * @type {string}
+ */
+const classForBtnEngaged = 'engaged';
+
+/**
+ * @type {string}
+ */
+const classForEntries = 'il-maincontrols-metabar';
+
+/**
+ * @type {string}
+ */
+const classForSlates = 'il-metabar-slates';
+
+/**
+ * @type {string}
+ */
+const classForMoreBtn = 'il-metabar-more-button';
+
+/**
+ * @type {string}
+ */
+const classForMoreSlate = 'il-metabar-more-slate';
+
+/**
+ * @type {string}
+ */
+const classForSingleSlate = 'il-maincontrols-slate';
+
+/**
+ * @type {string}
+ */
+const classForSlateEngaged = 'engaged';
+
+/**
+ * @param {jQueryDomObject} btn
+ * @return {void}
+ */
+function engageButton(btn) {
+  btn.addClass(classForBtnEngaged);
+  btn.attr('aria-expanded', true);
+}
+
+/**
+ * @param {jQueryDomObject} btn
+ * @return {void}
+ */
+function disengageButton(btn) {
+  btn.removeClass(classForBtnEngaged);
+  btn.attr('aria-expanded', false);
+}
+
+/**
+ * @param {jQueryDomObject} btn
+ * @return {void}
+ */
+function isEngaged(btn) {
+  return btn.hasClass(classForBtnEngaged);
+}
+
 export default class Metabar {
   /**
    * @type {jQuery}
@@ -24,41 +85,6 @@ export default class Metabar {
    * @type {string}
    */
   #id;
-
-  /**
-   * @type {string}
-   */
-  #classForBtnEngaged = 'engaged';
-
-  /**
-   * @type {string}
-   */
-  #classForEntries = 'il-maincontrols-metabar';
-
-  /**
-   * @type {string}
-   */
-  #classForSlates = 'il-metabar-slates';
-
-  /**
-   * @type {string}
-   */
-  #classForMoreBtn = 'il-metabar-more-button';
-
-  /**
-   * @type {string}
-   */
-  #classForMoreSlate = 'il-metabar-more-slate';
-
-  /**
-   * @type {string}
-   */
-  #classForSingleSlate = 'il-maincontrols-slate';
-
-  /**
-   * @type {string}
-   */
-  #classForSlateEngaged = 'engaged';
 
   /**
    * @type {bool}
@@ -130,7 +156,7 @@ export default class Metabar {
     });
 
     // close metabar when user clicks anywhere
-    this.#jquery(`.${this.#classForEntries}`).on('click', () => {
+    this.#jquery(`.${classForEntries}`).on('click', () => {
       this.#propagationStopped = true;
     });
     this.#jquery('body').on('click', () => {
@@ -142,7 +168,7 @@ export default class Metabar {
     });
 
     // close metabar slate when focus moves out
-    this.#jquery(`.${this.#classForSlates} > .${this.#classForSingleSlate}`).on('focusout', (event) => {
+    this.#jquery(`.${classForSlates} > .${classForSingleSlate}`).on('focusout', (event) => {
       if (!this.#pageIsSmallScreen()) {
         const nextFocusTarget = event.relatedTarget;
         const currentSlate = event.currentTarget;
@@ -159,13 +185,13 @@ export default class Metabar {
    */
   #onClickEntry(event, signalData) {
     const btn = signalData.triggerer;
-    if (this.#isEngaged(btn)) {
-      this.#disengageButton(btn);
+    if (isEngaged(btn)) {
+      disengageButton(btn);
     } else {
       this.disengageAllSlates();
       this.disengageAllButtons();
-      if (btn.parents(`.${this.#classForMoreSlate}`).length === 0) {
-        this.#engageButton(btn);
+      if (btn.parents(`.${classForMoreSlate}`).length === 0) {
+        engageButton(btn);
       }
     }
   }
@@ -179,40 +205,14 @@ export default class Metabar {
   }
 
   /**
-   * @param {jQueryDomObject} btn
-   * @return {void}
-   */
-  #engageButton(btn) {
-    btn.addClass(this.#classForBtnEngaged);
-    btn.attr('aria-expanded', true);
-  }
-
-  /**
-   * @param {jQueryDomObject} btn
-   * @return {void}
-   */
-  #disengageButton(btn) {
-    btn.removeClass(this.#classForBtnEngaged);
-    btn.attr('aria-expanded', false);
-  }
-
-  /**
-   * @param {jQueryDomObject} btn
-   * @return {void}
-   */
-  #isEngaged(btn) {
-    return btn.hasClass(this.#classForBtnEngaged);
-  }
-
-  /**
    * @return {void}
    */
   disengageAllButtons() {
-    this.#jquery(`#${this.#id}.${this.#classForEntries}`)
-      .children('li').children(`.btn.${this.#classForBtnEngaged}`)
+    this.#jquery(`#${this.#id}.${classForEntries}`)
+      .children('li').children(`.btn.${classForBtnEngaged}`)
       .each(
         (i, btn) => {
-          this.#disengageButton(this.#jquery(btn));
+          disengageButton(this.#jquery(btn));
         },
       );
   }
@@ -237,7 +237,7 @@ export default class Metabar {
   }
 
   getEngagedSlates() {
-    const search = `#${this.#id} .${this.#classForSingleSlate}.${this.#classForSlateEngaged}`;
+    const search = `#${this.#id} .${classForSingleSlate}.${classForSlateEngaged}`;
     return this.#jquery(search);
   }
 
@@ -256,8 +256,8 @@ export default class Metabar {
     }
 
     // unfortunately, this does not work properly via a class
-    this.#jquery(`.${this.#classForEntries}`).css('visibility', 'visible');
-    this.#jquery(`#${this.#id} .${this.#classForSlates}`).children(`.${this.#classForSingleSlate}`)
+    this.#jquery(`.${classForEntries}`).css('visibility', 'visible');
+    this.#jquery(`#${this.#id} .${classForSlates}`).children(`.${classForSingleSlate}`)
       .attr('aria-hidden', true);
   }
 
@@ -284,9 +284,9 @@ export default class Metabar {
    */
   #tagMoreButton() {
     if (this.getMoreButton().length === 0) {
-      const entries = this.#jquery(`#${this.#id}.${this.#classForEntries}`).find('.btn, .il-link');
+      const entries = this.#jquery(`#${this.#id}.${classForEntries}`).find('.btn, .il-link');
       const more = entries.last();
-      this.#jquery(more).addClass(this.#classForMoreBtn);
+      this.#jquery(more).addClass(classForMoreBtn);
     }
   }
 
@@ -295,9 +295,9 @@ export default class Metabar {
    */
   #tagMoreSlate() {
     if (this.#getMoreSlate().length === 0) {
-      const slates = this.#jquery(`#${this.#id} .${this.#classForSlates}`).children(`.${this.#classForSingleSlate}`);
+      const slates = this.#jquery(`#${this.#id} .${classForSlates}`).children(`.${classForSingleSlate}`);
       const more = slates.last();
-      this.#jquery(more).addClass(this.#classForMoreSlate);
+      this.#jquery(more).addClass(classForMoreSlate);
     }
   }
 
@@ -305,23 +305,23 @@ export default class Metabar {
    * @return {void}
    */
   getMoreButton() {
-    return this.#jquery(`.${this.#classForMoreBtn}`);
+    return this.#jquery(`.${classForMoreBtn}`);
   }
 
   /**
    * @return {void}
    */
   #getMoreSlate() {
-    return this.#jquery(`.${this.#classForMoreSlate}`);
+    return this.#jquery(`.${classForMoreSlate}`);
   }
 
   /**
    * @return {void}
    */
   #getMetabarEntries() {
-    return this.#jquery(`#${this.#id}.${this.#classForEntries}`)
+    return this.#jquery(`#${this.#id}.${classForEntries}`)
       .children('li').children('.btn, .il-link')
-      .not(`.${this.#classForMoreBtn}`);
+      .not(`.${classForMoreBtn}`);
   }
 
   /**
@@ -339,7 +339,6 @@ export default class Metabar {
    * @return {void}
    */
   #collectCounters() {
-    window.top.x = this.#counterFactory;
     const moreSlateCounter = this.#counterFactory.getCounterObjectOrNull(this.#getMoreSlate());
     if (moreSlateCounter) {
       this.#counterFactory.getCounterObject(this.getMoreButton())
