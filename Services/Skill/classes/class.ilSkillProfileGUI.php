@@ -944,8 +944,14 @@ class ilSkillProfileGUI
     public function exportProfiles()
     {
         $ilCtrl = $this->ctrl;
+        $lng = $this->lng;
+
+        if (!$this->checkPermissionBool("write")) {
+            return;
+        }
 
         if (!is_array($_POST["id"]) || count($_POST["id"]) == 0) {
+            ilUtil::sendInfo($lng->txt("no_checkbox"), true);
             $ilCtrl->redirect($this, "");
         }
 
