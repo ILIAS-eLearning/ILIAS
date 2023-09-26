@@ -1233,64 +1233,48 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
     protected function showSideList($current_sequence_element): void
     {
-        $side_list_active = $this->user->getPref('side_list_of_questions');
-        if (!$side_list_active) {
-            return;
-        }
-        if ($side_list_active) {
-            $questionSummaryData = $this->service->getQuestionSummaryData($this->testSequence, false);
+        $questionSummaryData = $this->service->getQuestionSummaryData($this->testSequence, false);
+        $questions = [];
+        $active = 0;
 
-            //TODO
-            global $DIC;
-            $f = $DIC['ui.factory'];
-            $lng = $DIC['lng'];
-            $ctrl = $DIC['ilCtrl'];
-            $questions = [];
-
-            $active = 0;
-            foreach ($questionSummaryData as $idx => $row) {
-                $title = ilLegacyFormElementsUtil::prepareFormOutput($row['title']);
-                if (strlen($row['description'])) {
-                    $description = " title=\"" . htmlspecialchars($row['description']) . "\" ";
-                } else {
-                    $description = "";
-                }
-
-                if (!$row['disabled']) {
-                    $ctrl->setParameter($this, 'pmode', '');
-                    $ctrl->setParameter($this, 'sequence', $row['sequence']);
-                    $action = $ctrl->getLinkTarget($this, ilTestPlayerCommands::SHOW_QUESTION);
-                    $ctrl->setParameter($this, 'pmode', ilTestPlayerAbstractGUI::PRESENTATION_MODE_VIEW);
-                    $ctrl->setParameter($this, 'sequence', $this->getCurrentSequenceElement($current_sequence_element));
-                }
-
-                $status = ILIAS\UI\Component\Listing\Workflow\Step::NOT_STARTED;
-
-                if ($row['worked_through']
-                    || $row['isAnswered']
-                    //|| $row['sequence'] == $current_sequence_element
-
-                ) {
-                    $status = ILIAS\UI\Component\Listing\Workflow\Step::IN_PROGRESS;
-                }
-
-
-                $questions[] = $f->listing()->workflow()->step($title, $description, $action)
-                    ->withStatus($status);
-                $active = $row['sequence'] == $current_sequence_element ? $idx : $active;
+        foreach ($questionSummaryData as $idx => $row) {
+            $title = ilLegacyFormElementsUtil::prepareFormOutput($row['title']);
+            if (strlen($row['description'])) {
+                $description = " title=\"" . htmlspecialchars($row['description']) . "\" ";
+            } else {
+                $description = "";
             }
 
-            $question_listing = $f->listing()->workflow()->linear(
-                $this->lng->txt('mainbar_button_label_questionlist'),
-                $questions
-            )->withActive($active);
+            if (!$row['disabled']) {
+                $this->ctrl->setParameter($this, 'pmode', '');
+                $this->ctrl->setParameter($this, 'sequence', $row['sequence']);
+                $action = $this->ctrl->getLinkTarget($this, ilTestPlayerCommands::SHOW_QUESTION);
+                $this->ctrl->setParameter($this, 'pmode', ilTestPlayerAbstractGUI::PRESENTATION_MODE_VIEW);
+                $this->ctrl->setParameter($this, 'sequence', $this->getCurrentSequenceElement($current_sequence_element));
+            }
 
+            $status = ILIAS\UI\Component\Listing\Workflow\Step::NOT_STARTED;
 
-            $this->global_screen->tool()->context()->current()->addAdditionalData(
-                ilTestPlayerLayoutProvider::TEST_PLAYER_QUESTIONLIST,
-                $question_listing
-            );
+            if ($row['worked_through'] || $row['isAnswered']) {
+                $status = ILIAS\UI\Component\Listing\Workflow\Step::IN_PROGRESS;
+            }
+
+            $questions[] = $this->ui_factory->listing()->workflow()
+                ->step($title, $description, $action)
+                ->withStatus($status);
+            $active = $row['sequence'] == $current_sequence_element ? $idx : $active;
         }
+
+        $question_listing = $this->ui_factory->listing()->workflow()->linear(
+            $this->lng->txt('mainbar_button_label_questionlist'),
+            $questions
+        )->withActive($active);
+
+
+        $this->global_screen->tool()->context()->current()->addAdditionalData(
+            ilTestPlayerLayoutProvider::TEST_PLAYER_QUESTIONLIST,
+            $question_listing
+        );
     }
 
     abstract protected function isQuestionSummaryFinishTestButtonRequired();

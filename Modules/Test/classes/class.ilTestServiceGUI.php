@@ -68,13 +68,6 @@ class ilTestServiceGUI
     protected HTTPServices $http;
     protected ilCtrl $ctrl;
     protected ilToolbarGUI $toolbar;
-
-/*
-    public ilLanguage $lng;
-    public ilGlobalTemplateInterface|ilTemplate $tpl;
-    public ilCtrl $ctrl;
-*/
-
     protected ilTabsGUI $tabs;
     protected ilObjectDataCache $obj_cache;
     protected ilComponentRepository $component_repository;
