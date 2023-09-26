@@ -1951,6 +1951,11 @@ abstract class assQuestionGUI
         $this->ctrl->redirectByClass('ilAssQuestionHintsGUI', ilAssQuestionHintsGUI::CMD_SHOW_LIST);
     }
 
+    protected function escapeTemplatePlaceholders(string $text): string
+    {
+        return str_replace(['{','}'], ['&#123;','&#125;'], $text);
+    }
+
     protected function buildEditForm(): ilPropertyFormGUI
     {
         $this->editQuestion(true); // TODO bheyser: editQuestion should be added to the abstract base class with a unified signature
