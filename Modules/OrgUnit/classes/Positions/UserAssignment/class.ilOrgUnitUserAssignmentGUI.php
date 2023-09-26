@@ -110,12 +110,20 @@ class ilOrgUnitUserAssignmentGUI extends BaseCommands
 
     protected function delete()
     {
+        // JKN PATCH START
+        global $DIC;
+        $ilAppEventHandler = $DIC['ilAppEventHandler'];
         $r = $this->http()->request();
         $ua = ilOrgUnitUserAssignmentQueries::getInstance()
             ->getAssignmentOrFail($_POST['usr_id'], $r->getQueryParams()['position_id'], $this->getParentRefId());
         $ua->delete();
+        $ilAppEventHandler->raise("Modules/Orgunit", "removeFromOrg", array(
+            "usr_id" => $_POST['usr_id'],
+            "orgu_ref_id" => $this->getParentRefId()
+        ));
         ilUtil::sendSuccess($this->txt('remove_successful'), true);
         $this->cancel();
+        // JKN PATCH END
     }
 
 
