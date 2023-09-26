@@ -169,7 +169,7 @@ class SkillAdminGUIRequest extends SkillGUIRequest
      */
     public function getProfileIds(): array
     {
-        return $this->getIds();
+        return $this->getInterruptiveItemIds();
     }
 
     public function getUserLogin(): string
@@ -199,5 +199,31 @@ class SkillAdminGUIRequest extends SkillGUIRequest
     public function getSelectedIds(string $post_var): array
     {
         return $this->strArray($post_var);
+    }
+
+    public function getTableTreeAction(): string
+    {
+        return $this->getTableAction("skl_tree_table_action");
+    }
+
+    public function getTableProfileAction(): string
+    {
+        return $this->getTableAction("skl_profile_table_action");
+    }
+
+    /**
+     * @return int[]|string
+     */
+    public function getTableTreeIds(): array|string
+    {
+        return $this->getTableIds("skl_tree_table_tree_ids");
+    }
+
+    /**
+     * @return int[]|string
+     */
+    public function getTableProfileIds(): array|string
+    {
+        return $this->getTableIds("skl_profile_table_profile_ids");
     }
 }
