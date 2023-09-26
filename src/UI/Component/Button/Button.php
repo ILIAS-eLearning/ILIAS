@@ -60,7 +60,7 @@ interface Button extends Component, JavaScriptBindable, Clickable, Hoverable, En
      * The button will still have an action afterwards, this might be usefull
      * at some point where we want to reactivate the button client side.
      */
-    public function withUnavailableAction(): Button;
+    public function withUnavailableAction(bool $flag = true): Button;
 
     /**
      * Get a button like this, but with an additional/replaced aria-label.
