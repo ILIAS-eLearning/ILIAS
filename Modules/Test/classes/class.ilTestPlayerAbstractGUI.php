@@ -981,7 +981,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
             $questionNavigationGUI->setDiscardSolutionButtonEnabled(true);
             // fau: testNav - set answere status in question header
             $questionGui->getQuestionHeaderBlockBuilder()->setQuestionAnswered(true);
-            // fau.
+        // fau.
         } elseif ($this->object->isPostponingEnabled()) {
             $questionNavigationGUI->setSkipQuestionLinkTarget(
                 $this->ctrl->getLinkTarget($this, ilTestPlayerCommands::SKIP_QUESTION)
@@ -2243,7 +2243,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
             return $this->cachedQuestionObjects[$question_id];
         }
 
-        $question = assQuestion::_instantiateQuestion($question_id);
+        $question = assQuestion::instantiateQuestion($question_id);
 
         $ass_settings = new ilSetting('assessment');
 
