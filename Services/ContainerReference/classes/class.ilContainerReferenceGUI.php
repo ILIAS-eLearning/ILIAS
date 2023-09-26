@@ -239,6 +239,8 @@ class ilContainerReferenceGUI extends ilObjectGUI
         $a_new_object->setTitleType($this->form->getInput('title_type'));
         if ($this->form->getInput('title_type') == ilContainerReference::TITLE_TYPE_CUSTOM) {
             $a_new_object->setTitle($this->form->getInput('title'));
+        } elseif ($this->form->getInput('title_type') == ilContainerReference::TITLE_TYPE_REUSE) {
+            $a_new_object->setTitle(ilObject::_lookupTitle($a_new_object->getTargetId()));
         }
 
         $a_new_object->update();
@@ -349,7 +351,7 @@ class ilContainerReferenceGUI extends ilObjectGUI
             array_merge(
                 array($this->getTargetType()),
                 array("root", "cat", "grp", "fold", "crs")
-        )
+            )
         );
         $repo->setInfo($this->lng->txt($this->getReferenceType() . '_edit_info'));
 
