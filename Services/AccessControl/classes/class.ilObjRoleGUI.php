@@ -597,7 +597,7 @@ class ilObjRoleGUI extends ilObjectGUI
             'role',
             (string) $this->object->getId(),
             ilObjRole::_getTranslation($this->object->getTitle()),
-            ilUtil::getImagePath('icon_role.svg')
+            ilUtil::getImagePath('standard/icon_role.svg')
         );
 
         $this->tpl->setContent($confirm->getHTML());

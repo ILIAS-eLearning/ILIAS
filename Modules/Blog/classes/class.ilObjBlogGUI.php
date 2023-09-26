@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\GlobalScreen\ScreenContext\ContextServices;
 use ILIAS\Blog\StandardGUIRequest;
@@ -2467,7 +2467,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 
                     $lg->addHeaderIcon(
                         "not_icon",
-                        ilUtil::getImagePath("notification_on.svg"),
+                        ilUtil::getImagePath("media/notification_on.svg"),
                         $this->lng->txt("blog_notification_activated")
                     );
                 } else {
@@ -2478,7 +2478,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 
                     $lg->addHeaderIcon(
                         "not_icon",
-                        ilUtil::getImagePath("notification_off.svg"),
+                        ilUtil::getImagePath("media/notification_off.svg"),
                         $this->lng->txt("blog_notification_deactivated")
                     );
                 }

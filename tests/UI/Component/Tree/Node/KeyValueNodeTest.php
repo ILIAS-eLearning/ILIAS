@@ -80,7 +80,7 @@ EOT;
 			<li id="" class="c-tree__node c-tree__node--simple" role="treeitem">
 				<span class="c-tree__node__line">
 					<span class="c-tree__node__label">
-						<img class="icon small" src="./templates/default/images/icon_default.svg" alt=""/>
+						<img class="icon small" src="./templates/default/images/standard/icon_default.svg" alt=""/>
 						Label
 					</span>
 					<span class="c-tree__node__value">Value</span>

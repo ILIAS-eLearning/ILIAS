@@ -61,10 +61,10 @@ a.ilc_marker_Marker {
   display: block;
   cursor: pointer;
   background-repeat: no-repeat;
-  background-image: url("../../../libs/ilias/Style/basic_style/images/icon_pin.svg");
+  background-image: url("../../../libs/ilias/Style/basic_style/images/standard/icon_pin.svg");
 }
 a.ilc_marker_Marker:hover {
-  background-image: url("../../../libs/ilias/Style/basic_style/images/icon_pin_on.svg");
+  background-image: url("../../../libs/ilias/Style/basic_style/images/standard/icon_pin_on.svg");
   background-repeat: no-repeat;
 }
 a.ilc_page_rnavlink_RightNavigationLink {

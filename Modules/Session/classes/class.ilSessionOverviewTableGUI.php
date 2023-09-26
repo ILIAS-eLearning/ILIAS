@@ -152,7 +152,7 @@ class ilSessionOverviewTableGUI extends ilTable2GUI
             if ($a_set['event_' . $event_obj->getId()]) {
                 $icon = $this->ui_factory->symbol()->icon()->custom(ilUtil::getImagePath('icon_ok.svg'), $this->lng->txt('event_participated'));
             } else {
-                $icon = $this->ui_factory->symbol()->icon()->custom(ilUtil::getImagePath('icon_not_ok.svg'), $this->lng->txt('event_not_participated'));
+                $icon = $this->ui_factory->symbol()->icon()->custom(ilUtil::getImagePath('standard/icon_not_ok.svg'), $this->lng->txt('event_not_participated'));
             }
             $this->tpl->setVariable("IMAGE_PARTICIPATED", $this->renderer->render($icon));
             $this->tpl->parseCurrentBlock();

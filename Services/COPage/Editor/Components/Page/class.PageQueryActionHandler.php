@@ -104,7 +104,7 @@ class PageQueryActionHandler implements Server\QueryActionHandler
         $o->backUrl = $ctrl->getLinkTarget($this->page_gui, "edit");
         $o->pasting = in_array(\ilEditClipboard::getAction(), ["copy", "cut"]) &&
             count($this->user->getPCClipboardContent()) > 0;
-        $o->loaderUrl = \ilUtil::getImagePath("loader.svg");
+        $o->loaderUrl = \ilUtil::getImagePath("media/loader.svg");
         return new Server\Response($o);
     }
 
@@ -227,7 +227,7 @@ class PageQueryActionHandler implements Server\QueryActionHandler
             ]
         );
         $tpl->setVariable("SWITCH", $html);
-        $tpl->setVariable("SRC_LOADER", \ilUtil::getImagePath("loader.svg"));
+        $tpl->setVariable("SRC_LOADER", \ilUtil::getImagePath("media/loader.svg"));
 
         return $tpl->get();
     }

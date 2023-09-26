@@ -88,7 +88,7 @@ class ilSkillLearningHistoryProvider extends ilAbstractLearningHistoryProvider i
                 $entries[] = $this->getFactory()->entry(
                     $text,
                     $text,
-                    ilUtil::getImagePath("icon_skmg.svg"),
+                    ilUtil::getImagePath("standard/icon_skmg.svg"),
                     $ts->get(IL_CAL_UNIX),
                     $c["trigger_obj_id"]
                 );
@@ -109,7 +109,7 @@ class ilSkillLearningHistoryProvider extends ilAbstractLearningHistoryProvider i
                 $entries[] = $this->getFactory()->entry(
                     $text1,
                     $text1,
-                    ilUtil::getImagePath("icon_skmg.svg"),
+                    ilUtil::getImagePath("standard/icon_skmg.svg"),
                     $ts->get(IL_CAL_UNIX),
                     $c["trigger_obj_id"]
                 );

@@ -68,7 +68,7 @@ class ilECSServerTableGUI extends ilTable2GUI
             $this->tpl->setVariable('IMAGE_OK', ilUtil::getImagePath('icon_ok.svg'));
             $this->tpl->setVariable('TXT_OK', $this->lng->txt('ecs_activated'));
         } else {
-            $this->tpl->setVariable('IMAGE_OK', ilUtil::getImagePath('icon_not_ok.svg'));
+            $this->tpl->setVariable('IMAGE_OK', ilUtil::getImagePath('standard/icon_not_ok.svg'));
             $this->tpl->setVariable('TXT_OK', $this->lng->txt('ecs_inactivated'));
         }
 

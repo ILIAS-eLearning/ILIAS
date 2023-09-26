@@ -75,10 +75,10 @@ $il-test-working-time-font-weight: $il-font-weight-bold;
             background-size: 10px;
             background-position: 0px 5px;
             &.unanswered {
-                background-image: url('images/answered_not.svg');
+                background-image: url('images/object/answered_not.svg');
             }
             &.answered {
-                background-image: url('images/answered.svg');
+                background-image: url('images/object/answered.svg');
             }
             &.active {
                 font-weight: $il-font-weight-bold;

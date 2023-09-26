@@ -1159,10 +1159,10 @@ abstract class assQuestion
     protected static $imageSourceFixReplaceMap = array(
         'ok.svg' => 'ok.png',
         'not_ok.svg' => 'not_ok.png',
-        'checkbox_checked.svg' => 'checkbox_checked.png',
-        'checkbox_unchecked.svg' => 'checkbox_unchecked.png',
-        'radiobutton_checked.svg' => 'radiobutton_checked.png',
-        'radiobutton_unchecked.svg' => 'radiobutton_unchecked.png'
+        'object/checkbox_checked.svg' => 'checkbox_checked.png',
+        'object/checkbox_unchecked.svg' => 'checkbox_unchecked.png',
+        'object/radiobutton_checked.svg' => 'radiobutton_checked.png',
+        'object/radiobutton_unchecked.svg' => 'radiobutton_unchecked.png'
     );
 
     public function fixSvgToPng(string $imageFilenameContainingString): string

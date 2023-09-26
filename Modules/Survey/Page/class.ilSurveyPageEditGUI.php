@@ -1437,7 +1437,7 @@ class ilSurveyPageEditGUI
 
                 $ttpl->setCurrentBlock("multi_cmds");
                 $ttpl->setVariable("MCMD_ALT", $lng->txt("commands"));
-                $ttpl->setVariable("MCMD_IMG", ilUtil::getImagePath("arrow_downright.svg"));
+                $ttpl->setVariable("MCMD_IMG", ilUtil::getImagePath("nav/arrow_downright.svg"));
                 $ttpl->parseCurrentBlock();
             }
 

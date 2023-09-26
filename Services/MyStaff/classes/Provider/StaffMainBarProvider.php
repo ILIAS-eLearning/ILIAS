@@ -59,7 +59,7 @@ class StaffMainBarProvider extends AbstractStaticMainMenuProvider
 
         $title = $this->dic->language()->txt("mm_staff_list");
         $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(
-            ilUtil::getImagePath("icon_stff.svg"),
+            ilUtil::getImagePath("standard/icon_stff.svg"),
             $title
         );
 
@@ -89,7 +89,7 @@ class StaffMainBarProvider extends AbstractStaticMainMenuProvider
 
         $title = $this->dic->language()->txt("mm_enrolments");
         $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(
-            ilUtil::getImagePath("icon_enrl.svg"),
+            ilUtil::getImagePath("standard/icon_enrl.svg"),
             $title
         );
 

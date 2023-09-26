@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\EmployeeTalk\Provider;
 
@@ -59,7 +59,7 @@ final class MyStaffListEntryProvider extends AbstractStaticMainMenuProvider
         $title = $this->dic->language()->txt("mm_org_etal");
         $action = "ilias.php?baseClass=ilAdministrationGUI&ref_id=" . ilObjOrgUnit::getRootOrgRefId() . "&cmd=jump";
         $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(
-            \ilUtil::getImagePath('icon_etal.svg'),
+            \ilUtil::getImagePath('standard/icon_etal.svg'),
             $title
         );
 

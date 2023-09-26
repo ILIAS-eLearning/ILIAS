@@ -501,7 +501,7 @@ class ilUserPrivacySettingsGUI
         if ($this->shouldShowOnScreenChatOptions() && $this->chatSettings->get('enable_browser_notifications', '0')) {
             $pageTemplate->addJavaScript('./Services/Notifications/js/browser_notifications.js');
 
-            $tpl->setVariable('ALERT_IMAGE_SRC', ilUtil::getImagePath('icon_alert.svg'));
+            $tpl->setVariable('ALERT_IMAGE_SRC', ilUtil::getImagePath('standard/icon_alert.svg'));
             $tpl->setVariable('BROWSER_NOTIFICATION_TOGGLE_LABEL', $this->lng->txt('osc_enable_browser_notifications_label'));
 
             $this->lng->toJSMap([

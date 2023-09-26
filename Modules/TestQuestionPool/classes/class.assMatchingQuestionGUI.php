@@ -516,7 +516,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
                     );
                     $template->setVariable('URL_PREVIEW', $this->object->getImagePathWeb() . $definition->getPicture());
                     $template->setVariable("TEXT_PREVIEW", $this->lng->txt('preview'));
-                    $template->setVariable("IMG_PREVIEW", ilUtil::getImagePath('enlarge.svg'));
+                    $template->setVariable("IMG_PREVIEW", ilUtil::getImagePath('media/enlarge.svg'));
                     $template->parseCurrentBlock();
                 } else {
                     $template->setCurrentBlock('definition_text');
@@ -552,7 +552,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
                     );
                     $template->setVariable('URL_PREVIEW', $this->object->getImagePathWeb() . $term->getPicture());
                     $template->setVariable("TEXT_PREVIEW", $this->lng->txt('preview'));
-                    $template->setVariable("IMG_PREVIEW", ilUtil::getImagePath('enlarge.svg'));
+                    $template->setVariable("IMG_PREVIEW", ilUtil::getImagePath('media/enlarge.svg'));
                     $template->parseCurrentBlock();
                 } else {
                     $template->setCurrentBlock('term_text');
@@ -690,7 +690,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
                 $template->setVariable("THUMB_TITLE", $this->lng->txt("image"));
                 $template->setVariable("TEXT_DEFINITION", (strlen($definition->getText())) ? ilLegacyFormElementsUtil::prepareTextareaOutput($definition->getText(), true, true) : '');
                 $template->setVariable("TEXT_PREVIEW", $this->lng->txt('preview'));
-                $template->setVariable("IMG_PREVIEW", ilUtil::getImagePath('enlarge.svg'));
+                $template->setVariable("IMG_PREVIEW", ilUtil::getImagePath('media/enlarge.svg'));
                 $template->parseCurrentBlock();
             } else {
                 $template->setCurrentBlock("definition_text");
@@ -725,7 +725,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
                 $template->setVariable("THUMB_TITLE", $this->lng->txt("image"));
                 $template->setVariable("TEXT_PREVIEW", $this->lng->txt('preview'));
                 $template->setVariable("TEXT_TERM", (strlen($term->getText())) ? ilLegacyFormElementsUtil::prepareTextareaOutput($term->getText(), true, true) : '');
-                $template->setVariable("IMG_PREVIEW", ilUtil::getImagePath('enlarge.svg'));
+                $template->setVariable("IMG_PREVIEW", ilUtil::getImagePath('media/enlarge.svg'));
                 $template->parseCurrentBlock();
             } else {
                 $template->setCurrentBlock("term_text");
@@ -884,7 +884,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
                 $template->setVariable("THUMB_TITLE", $this->lng->txt("image"));
                 $template->setVariable("TEXT_DEFINITION", (strlen($definition->getText())) ? ilLegacyFormElementsUtil::prepareTextareaOutput($definition->getText(), true, true) : '');
                 $template->setVariable("TEXT_PREVIEW", $this->lng->txt('preview'));
-                $template->setVariable("IMG_PREVIEW", ilUtil::getImagePath('enlarge.svg'));
+                $template->setVariable("IMG_PREVIEW", ilUtil::getImagePath('media/enlarge.svg'));
                 $template->parseCurrentBlock();
             } else {
                 $template->setCurrentBlock("definition_text");
@@ -919,7 +919,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
                 $template->setVariable("THUMB_TITLE", $this->lng->txt("image"));
                 $template->setVariable("TEXT_PREVIEW", $this->lng->txt('preview'));
                 $template->setVariable("TEXT_TERM", (strlen($term->getText())) ? ilLegacyFormElementsUtil::prepareTextareaOutput($term->getText(), true, true) : '');
-                $template->setVariable("IMG_PREVIEW", ilUtil::getImagePath('enlarge.svg'));
+                $template->setVariable("IMG_PREVIEW", ilUtil::getImagePath('media/enlarge.svg'));
                 $template->parseCurrentBlock();
             } else {
                 $template->setCurrentBlock("term_text");

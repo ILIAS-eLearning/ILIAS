@@ -65,7 +65,7 @@ class ilAvailableRolesStatusTableGUI extends ilTable2GUI
             $img_path = ilUtil::getImagePath("icon_ok.svg");
             $img_info = $this->lng->txt("info_assigned");
         } else {
-            $img_path = ilUtil::getImagePath("icon_not_ok.svg");
+            $img_path = ilUtil::getImagePath("standard/icon_not_ok.svg");
             $img_info = $this->lng->txt("info_not_assigned");
         }
         $this->tpl->setVariable("ICON", $this->renderer->render(

@@ -159,7 +159,7 @@ EOT;
 
         $expected = <<<EOT
 <div class="il-item il-item-shy">
-    <img class="icon name small" src="./templates/default/images/icon_default.svg" alt="aria_label" />
+    <img class="icon name small" src="./templates/default/images/standard/icon_default.svg" alt="aria_label" />
 	<div class="content">
 		<div class="il-item-title">shy</div>
 	</div>

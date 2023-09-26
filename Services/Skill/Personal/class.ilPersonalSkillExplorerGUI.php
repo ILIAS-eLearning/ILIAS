@@ -247,7 +247,7 @@ class ilPersonalSkillExplorerGUI extends ilTreeExplorerGUI
     {
         $t = $a_node["type"];
         if ($t == "sktr") {
-            return ilUtil::getImagePath("icon_skll.svg");
+            return ilUtil::getImagePath("standard/icon_skll.svg");
         }
         return ilUtil::getImagePath("icon_" . $t . ".svg");
     }

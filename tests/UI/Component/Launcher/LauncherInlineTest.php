@@ -197,7 +197,7 @@ class LauncherInlineTest extends ILIAS_UI_TestBase
             <div class="alert alert-info" role="status">
                 <div class="ilAccHeadingHidden"><a id="il_message_focus" name="il_message_focus">info_message</a></div>message</div>
         </div>
-        <div class="c-launcher__status__icon"><img class="icon course small" src="./templates/default/images/icon_default.svg" alt="some icon"/></div>
+        <div class="c-launcher__status__icon"><img class="icon course small" src="./templates/default/images/standard/icon_default.svg" alt="some icon"/></div>
     </div>
     <div class="c-launcher__description">
         some description

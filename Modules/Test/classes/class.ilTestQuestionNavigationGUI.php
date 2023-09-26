@@ -589,10 +589,10 @@ class ilTestQuestionNavigationGUI
     private function getQuestionMarkIconSource(): string
     {
         if ($this->isQuestionMarked()) {
-            return ilUtil::getImagePath('marked.svg');
+            return ilUtil::getImagePath('media/marked.svg');
         }
 
-        return ilUtil::getImagePath('marked_.svg');
+        return ilUtil::getImagePath('object/marked_.svg');
     }
 
     // fau: testNav - add parameter for template purpose

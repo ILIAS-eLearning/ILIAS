@@ -218,7 +218,7 @@ class ilDclTableViewTableGUI extends ilTable2GUI
         $this->tpl->setVariable("TITLE_LINK", $this->ctrl->getLinkTargetByClass('ildcltablevieweditgui'));
         $this->tpl->setVariable("DESCRIPTION", $a_set->getDescription());
 
-        $icon = $this->ui_factory->symbol()->icon()->custom(ilUtil::getImagePath('icon_not_ok_monochrome.svg'), $this->lng->txt("yes"));
+        $icon = $this->ui_factory->symbol()->icon()->custom(ilUtil::getImagePath('standard/icon_not_ok_monochrome.svg'), $this->lng->txt("yes"));
         if ($a_set->validateConfigCompletion()) {
             $icon = $this->ui_factory->symbol()->icon()->custom(ilUtil::getImagePath('icon_ok_monochrome.svg'), $this->lng->txt("no"));
         }

@@ -899,7 +899,7 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
 
             if ($this->object->gotItems($this->node_id)) {
                 $toolbar->setLeadingImage(
-                    ilUtil::getImagePath("arrow_upright.svg"),
+                    ilUtil::getImagePath("nav/arrow_upright.svg"),
                     $lng->txt("actions")
                 );
                 $toolbar->addFormButton(

@@ -101,7 +101,7 @@ class ilMStListCoursesGUI extends ilPropertyFormGUI
 
         $this->table = new ilMStListCoursesTableGUI($this, self::CMD_INDEX);
         $DIC->ui()->mainTemplate()->setTitle($DIC->language()->txt('mst_list_courses'));
-        $DIC->ui()->mainTemplate()->setTitleIcon(ilUtil::getImagePath('icon_enrl.svg'));
+        $DIC->ui()->mainTemplate()->setTitleIcon(ilUtil::getImagePath('standard/icon_enrl.svg'));
         $DIC->ui()->mainTemplate()->setContent($this->table->getHTML());
     }
 

@@ -858,7 +858,7 @@ class ilObjWikiGUI extends ilObjectGUI
         // :TODO: sorting
 
         // Form action and save button
-        $this->form_gui->setTitleIcon(ilUtil::getImagePath("icon_wiki.svg"));
+        $this->form_gui->setTitleIcon(ilUtil::getImagePath("standard/icon_wiki.svg"));
         if ($a_mode !== "create") {
             $this->form_gui->setTitle($lng->txt("wiki_settings"));
             $this->form_gui->addCommandButton("saveSettings", $lng->txt("save"));

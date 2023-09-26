@@ -238,7 +238,7 @@ class assFileUploadGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
             $table_gui = new assFileUploadFileTableGUI($this, 'gotoquestion');
             $table_gui->setTitle(
                 $this->lng->txt('already_delivered_files'),
-                'icon_file.svg',
+                'standard/icon_file.svg',
                 $this->lng->txt('already_delivered_files')
             );
             $table_gui->setData($files);
@@ -323,7 +323,7 @@ class assFileUploadGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
             $table_gui = new assFileUploadFileTableGUI(null, $this->getQuestionActionCmd(), 'ilAssQuestionPreview');
             $table_gui->setTitle(
                 $this->lng->txt('already_delivered_files'),
-                'icon_file.svg',
+                'standard/icon_file.svg',
                 $this->lng->txt('already_delivered_files')
             );
             $table_gui->setData($files);
@@ -370,7 +370,7 @@ class assFileUploadGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
             $table_gui = new assFileUploadFileTableGUI(null, $this->getQuestionActionCmd());
             $table_gui->setTitle(
                 $this->lng->txt('already_delivered_files'),
-                'icon_file.svg',
+                'standard/icon_file.svg',
                 $this->lng->txt('already_delivered_files')
             );
             $table_gui->setData($files);

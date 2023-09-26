@@ -34,7 +34,7 @@ class ilDclBooleanRecordRepresentation extends ilDclBaseRecordRepresentation
             );
         } else {
             $icon = $this->factory->symbol()->icon()->custom(
-                ilUtil::getImagePath('icon_not_ok_monochrome.svg'),
+                ilUtil::getImagePath('standard/icon_not_ok_monochrome.svg'),
                 $this->lng->txt("no")
             );
         }

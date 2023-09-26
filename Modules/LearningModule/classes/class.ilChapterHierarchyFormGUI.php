@@ -267,17 +267,17 @@ class ilChapterHierarchyFormGUI extends ilHierarchyFormGUI
                 ? "_sc"
                 : "";
 
-            $img = "icon_pg" . $img_sc . ".svg";
+            $img = "standard/icon_pg" . $img_sc . ".svg";
 
             if (!$active) {
-                $img = "icon_pg_d" . $img_sc . ".svg";
+                $img = "standard/icon_pg_d" . $img_sc . ".svg";
             } else {
                 $contains_dis = ilLMPage::_lookupContainsDeactivatedElements(
                     $a_item["node_id"],
                     $this->lm_type
                 );
                 if ($contains_dis) {
-                    $img = "icon_pg_del" . $img_sc . ".svg";
+                    $img = "standard/icon_pg_del" . $img_sc . ".svg";
                 }
             }
         }

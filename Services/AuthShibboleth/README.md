@@ -62,7 +62,7 @@ Also see:
 - https://spaces.internet2.edu/display/SHIB2/NativeSPSessionInitiator (SP 2.x)
 
 If one choses to use an external WAYF, provide an URL to an image that is to
-be used for the login button. The default is 'images/shib_login_button.png'
+be used for the login button. The default is 'images/auth/shib_login_button.svg'
 
 If the custom login is chosen, the login area can be freely designed using
 the login instructions text area. It is possible to use HTML code in that

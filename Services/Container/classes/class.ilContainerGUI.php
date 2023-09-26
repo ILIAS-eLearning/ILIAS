@@ -489,7 +489,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 
             if ($this->object->gotItems()) {
                 $toolbar->setLeadingImage(
-                    ilUtil::getImagePath("arrow_upright.svg"),
+                    ilUtil::getImagePath("nav/arrow_upright.svg"),
                     $lng->txt("actions")
                 );
                 $toolbar->addFormButton(
@@ -1536,9 +1536,9 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 
         $t->addFormButton($this->lng->txt("cancel"), "cancelMoveLink");
         $t->setCloseFormTag(false);
-        $t->setLeadingImage(ilUtil::getImagePath("arrow_upright.svg"), " ");
+        $t->setLeadingImage(ilUtil::getImagePath("nav/arrow_upright.svg"), " ");
         $output = $t->getHTML() . $output;
-        $t->setLeadingImage(ilUtil::getImagePath("arrow_downright.svg"), " ");
+        $t->setLeadingImage(ilUtil::getImagePath("nav/arrow_downright.svg"), " ");
         $t->setCloseFormTag(true);
         $t->setOpenFormTag(false);
         $output .= "<br />" . $t->getHTML();

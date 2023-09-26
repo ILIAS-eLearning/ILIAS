@@ -554,9 +554,9 @@ class ilMailSearchGUI
         }
 
         if (count($users) || count($visible_groups) || count($relations)) {
-            $this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.svg"));
+            $this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("nav/arrow_downright.svg"));
             $this->tpl->setVariable("ALT_ARROW", '');
-            $this->tpl->setVariable("IMG_ARROW_UP", ilUtil::getImagePath("arrow_upright.svg"));
+            $this->tpl->setVariable("IMG_ARROW_UP", ilUtil::getImagePath("nav/arrow_upright.svg"));
             $this->tpl->setVariable("ALT_ARROW_UP", '');
 
             if ($this->isDefaultRequestContext()) {

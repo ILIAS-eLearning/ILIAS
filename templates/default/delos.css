@@ -3703,7 +3703,7 @@ button > .glyphicon {
 }
 
 .il-btn-with-loading-animation {
-  background-image: url("./images/loader.svg");
+  background-image: url("./images/media/loader.svg");
   background-color: #b0b0b0;
   border-color: #b0b0b0;
   background-repeat: no-repeat;
@@ -7617,7 +7617,7 @@ div.alert ul > li:before {
   padding: 0;
 }
 .il-popover i.icon-refresh {
-  background: url("./images/loading.gif") no-repeat;
+  background: url("./images/media/loading.gif") no-repeat;
   height: 30px;
 }
 .il-popover .il-popover-title-container {
@@ -10099,7 +10099,7 @@ div.ilHeaderBanner img.ilHeaderImg {
 }
 
 div.ilBox {
-  background: url("./images/FramedBack.png") repeat-x;
+  background: url("./images/contentstyle/FramedBack.png") repeat-x;
   border: 1px solid #dddddd;
   padding: 10px;
   margin-bottom: 20px;
@@ -13282,10 +13282,10 @@ div.ilc_Page.readonly textarea[disabled] {
   background-position: 0px 5px;
 }
 #tst_output #tst_left ul.shortlist li.unanswered {
-  background-image: url("images/answered_not.svg");
+  background-image: url("images/object/answered_not.svg");
 }
 #tst_output #tst_left ul.shortlist li.answered {
-  background-image: url("images/answered.svg");
+  background-image: url("images/object/answered.svg");
 }
 #tst_output #tst_left ul.shortlist li.active {
   font-weight: 600;
@@ -13378,7 +13378,7 @@ li.ilWikiBlockItem {
   cursor: pointer;
   color: #4c6586;
   font-size: 1rem;
-  background-image: url("./images/tree_col.svg");
+  background-image: url("./images/nav/tree_col.svg");
   background-repeat: no-repeat;
   background-color: #f9f9f9;
   background-position: 15px 9px;
@@ -13405,7 +13405,7 @@ li.ilWikiBlockItem {
 }
 
 .il_HAccordionHeadActive, .il_VAccordionHeadActive {
-  background-image: url("./images/tree_exp.svg");
+  background-image: url("./images/nav/tree_exp.svg");
   background-color: #e2e8ef;
 }
 
@@ -14388,11 +14388,11 @@ div.il_ContainerListItem {
 }
 
 .ilContainerBlockHeaderExpanded {
-  background-image: url("./images/tree_exp.svg");
+  background-image: url("./images/nav/tree_exp.svg");
 }
 
 .ilContainerBlockHeaderCollapsed {
-  background-image: url("./images/tree_col.svg");
+  background-image: url("./images/nav/tree_col.svg");
 }
 
 .ilContainerBlock {
@@ -15097,7 +15097,7 @@ div.ilc_question_MultipleChoice .ilc_qanswer_Answer > div:first-child {
 div.ilCOPGMediaPrint {
   background-color: #f9f9f9 !important;
   position: relative !important;
-  background-image: url("./images/play.svg") !important;
+  background-image: url("./images/media/play.svg") !important;
   background-position: 50% 50% !important;
   background-repeat: no-repeat !important;
   background-size: auto 90% !important;
@@ -16138,7 +16138,7 @@ a.mailunread, a.mailunread:visited {
   color: #f0f0f0;
   /* margin-top: -240px; */
   top: 0;
-  background: url("./images/black60.png");
+  background: url("./images/media/black60.png");
 }
 
 .ilPlayerPreviewOverlay img {
@@ -16156,11 +16156,11 @@ a.mailunread, a.mailunread:visited {
 }
 
 .mejs-overlay-button {
-  background-image: url("./images/bigplay.svg");
+  background-image: url("./images/media/bigplay.svg");
 }
 
 .ilPlayerPreviewPlayButton {
-  background: url("./images/bigplay.svg") no-repeat scroll 0 0 transparent;
+  background: url("./images/media/bigplay.svg") no-repeat scroll 0 0 transparent;
   height: 100px;
   left: 50%;
   margin: -50px 0 0 -50px;
@@ -17203,21 +17203,21 @@ div.ilc_PredTextPlaceHolderThumb {
   padding: 5px 2px 5px 0;
   border: 1px solid #2c2c2c;
   font-size: 0.625rem;
-  background: url("./images/question_placeholder_thumb.png") no-repeat center;
+  background: url("./images/placeholder/question_placeholder_thumb.png") no-repeat center;
   background-color: white;
   font-weight: 600;
 }
 
 div.ilc_MediaPlaceHolderThumb {
-  background-image: url("./images/media_placeholder_thumb.png");
+  background-image: url("./images/placeholder/media_placeholder_thumb.png");
 }
 
 div.ilc_TextPlaceHolderThumb {
-  background-image: url("./images/text_placeholder_thumb.png");
+  background-image: url("./images/placeholder/text_placeholder_thumb.png");
 }
 
 div.ilc_PredTextPlaceHolderThumb {
-  background-image: url("./images/pred_text_placeholder_thumb.png");
+  background-image: url("./images/placeholder/pred_text_placeholder_thumb.png");
 }
 
 div.ilc_HeadlineThumb {
@@ -17919,7 +17919,7 @@ div.il_ExplorerItemDescription {
 }
 
 .jstree li, .jstree.jstree-default li i {
-  background: url("./images/jstree.svg") no-repeat;
+  background: url("./images/nav/jstree.svg") no-repeat;
   vertical-align: top;
 }
 
@@ -18987,7 +18987,7 @@ div.framed {
 	border: 1px solid #9eadba;
 	padding: 0 10px;
 	background-color: white;
-	background-image: url(images/FramedBack.png);
+	background-image: url(images/contentstyle/FramedBack.png);
 	background-repeat: repeat-x;
 }
 */

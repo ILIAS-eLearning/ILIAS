@@ -72,7 +72,7 @@ class ilCalendarChangedAppointmentsTableGUI extends ilTable2GUI
 
         if ($a_set["milestone"]) {
             $this->tpl->setCurrentBlock("img_ms");
-            $this->tpl->setVariable("IMG_MS", ilUtil::getImagePath("icon_ms.svg"));
+            $this->tpl->setVariable("IMG_MS", ilUtil::getImagePath("standard/icon_ms.svg"));
             $this->tpl->setVariable("ALT_MS", $this->lng->txt("cal_milestone"));
             $this->tpl->parseCurrentBlock();
         }

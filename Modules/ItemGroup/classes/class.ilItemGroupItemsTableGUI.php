@@ -110,7 +110,7 @@ class ilItemGroupItemsTableGUI extends ilTable2GUI
             $this->tpl->setVariable("CHECKED", "checked='checked'");
         } else {
             $i = $f->symbol()->icon()->custom(
-                ilUtil::getImagePath("icon_not_ok.svg"),
+                ilUtil::getImagePath("standard/icon_not_ok.svg"),
                 $this->lng->txt("no")
             );
             $this->tpl->setVariable("IMG_ASSIGNED", $r->render($i));

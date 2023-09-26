@@ -605,7 +605,7 @@ class ilExplorer
             if ($this->getId() !== "") {
                 $mtpl->setVariable("ID", 'id="' . $this->getId() . '"');
             }
-            $mtpl->setVariable("IMG_SPACE", ilUtil::getImagePath("spacer.png", false));
+            $mtpl->setVariable("IMG_SPACE", ilUtil::getImagePath("media/spacer.png", false));
             $mtpl->setCurrentBlock("content");
             $mtpl->setVariable("EXPLORER", $html);
             $mtpl->setVariable("EXP_REFRESH", $lng->txt("refresh"));

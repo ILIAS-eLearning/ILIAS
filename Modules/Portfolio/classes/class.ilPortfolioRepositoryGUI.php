@@ -88,7 +88,7 @@ class ilPortfolioRepositoryGUI
 
         $tpl->setTitle($lng->txt("portfolio"));
         $tpl->setTitleIcon(
-            ilUtil::getImagePath("icon_prtf.svg"),
+            ilUtil::getImagePath("standard/icon_prtf.svg"),
             $lng->txt("portfolio")
         );
 
@@ -207,7 +207,7 @@ class ilPortfolioRepositoryGUI
         foreach (ilObjPortfolio::getPortfoliosOfUser($this->user_id) as $port) {
             // icon
             $icon = $f->symbol()->icon()->custom(
-                ilUtil::getImagePath("icon_prtf.svg"),
+                ilUtil::getImagePath("standard/icon_prtf.svg"),
                 $lng->txt("obj_portfolio"),
                 "medium"
             );

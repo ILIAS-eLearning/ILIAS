@@ -378,7 +378,7 @@ class ilContentStyleSettingsGUI
         $this->tpl->parseCurrentBlock();
 
         $this->tpl->setCurrentBlock("tbl_action_row");
-        $this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.svg"));
+        $this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("nav/arrow_downright.svg"));
         $this->tpl->parseCurrentBlock();
     }
 

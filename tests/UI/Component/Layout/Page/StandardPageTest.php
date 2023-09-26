@@ -83,7 +83,7 @@ class StandardPageTest extends ILIAS_UI_TestBase
             $this->crumbs,
             $this->logo,
             $this->responsive_logo,
-            'favicon.ico',
+            'logo/favicon.ico',
             $this->overlay,
             null,
             $this->title
@@ -158,7 +158,7 @@ class StandardPageTest extends ILIAS_UI_TestBase
 
     public function testWithFaviconPath(): void
     {
-        $this->assertEquals("favicon.ico", $this->stdpage->getFaviconPath());
+        $this->assertEquals("logo/favicon.ico", $this->stdpage->getFaviconPath());
         $this->assertEquals(
             "test",
             $this->stdpage->withFaviconPath("test")->getFaviconPath()
@@ -263,7 +263,7 @@ class StandardPageTest extends ILIAS_UI_TestBase
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>View Title: Short Title</title>
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link rel="icon" href="logo/favicon.ico" type="image/x-icon">
     <script type="application/javascript">var il = il ||{}; window.il = il;</script>
     <style></style>
 </head>
@@ -309,7 +309,7 @@ class StandardPageTest extends ILIAS_UI_TestBase
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>:</title>
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link rel="icon" href="logo/favicon.ico" type="image/x-icon">
     <script type="application/javascript">var il = il ||{}; window.il = il;</script>
     <style></style>
 </head>
@@ -362,7 +362,7 @@ class StandardPageTest extends ILIAS_UI_TestBase
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 ' . $meta_datum_1_html . $meta_datum_2_html . '
     <title>:</title>
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link rel="icon" href="logo/favicon.ico" type="image/x-icon">
     <script type="application/javascript">var il = il ||{}; window.il = il;</script>
     <style></style>
 </head>
@@ -425,7 +425,7 @@ class StandardPageTest extends ILIAS_UI_TestBase
             $crumbs,
             $this->logo,
             $this->responsive_logo,
-            'favicon.ico',
+            'logo/favicon.ico',
             $this->overlay,
             null,
             $this->title
@@ -442,7 +442,7 @@ class StandardPageTest extends ILIAS_UI_TestBase
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>:</title>
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link rel="icon" href="logo/favicon.ico" type="image/x-icon">
     <script type="application/javascript">var il = il ||{}; window.il = il;</script>
     <style></style>
 </head>

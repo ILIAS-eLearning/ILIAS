@@ -66,7 +66,7 @@ class ilForumNotificationTableGUI extends ilTable2GUI
             $this->lng->txt('enabled')
         );
         $icon_not_ok = $this->ui_factory->symbol()->icon()->custom(
-            ilUtil::getImagePath('icon_not_ok.svg'),
+            ilUtil::getImagePath('standard/icon_not_ok.svg'),
             $this->lng->txt('disabled')
         );
         $icon = $user_toggle_noti === 0 ? $icon_ok : $icon_not_ok;

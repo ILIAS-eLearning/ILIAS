@@ -1073,7 +1073,7 @@ class ilObjCategoryGUI extends ilContainerGUI
         $table = new ilCategoryAssignRoleTableGUI($this, "assignRoles");
         $tmp_obj = ilObjectFactory::getInstanceByObjId($this->cat_request->getObjId());
         $title = $this->lng->txt('role_assignment') . ' (' . $tmp_obj->getFullname() . ')';
-        $table->setTitle($title, "icon_role.svg", $this->lng->txt("role_assignment"));
+        $table->setTitle($title, "standard/icon_role.svg", $this->lng->txt("role_assignment"));
         $table->setData($f_result);
         $this->tpl->setContent($table->getHTML());
     }

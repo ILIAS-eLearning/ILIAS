@@ -70,7 +70,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
             $this->getTemplate();
             $this->setLocator();
             $this->setTabs();
-            $this->tpl->setTitleIcon(ilUtil::getImagePath("icon_lm.svg"));
+            $this->tpl->setTitleIcon(ilUtil::getImagePath("standard/icon_lm.svg"));
             $this->tpl->setTitle($this->object->getTitle());
             $navigationHistory->addItem(
                 $this->object->getRefId(),
@@ -577,7 +577,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
     {
         global $DIC;
         $baseClass = $refId = $DIC->http()->wrapper()->query()->retrieve('baseClass', $DIC->refinery()->kindlyTo()->string());
-        $this->tpl->setTitleIcon(ilUtil::getImagePath("icon_lm.svg"));
+        $this->tpl->setTitleIcon(ilUtil::getImagePath("standard/icon_lm.svg"));
         $this->tpl->setTitle($this->object->getTitle());
         $this->tpl->setDescription($this->object->getDescription());
         if ($this->object && $this->object->getOfflineStatus()) {

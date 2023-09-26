@@ -972,7 +972,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
         $form_gui = new ilChapterHierarchyFormGUI($this->lm->getType(), $this->requested_transl);
         $form_gui->setFormAction($ilCtrl->getFormAction($this));
         $form_gui->setTitle($this->lm->getTitle());
-        $form_gui->setIcon(ilUtil::getImagePath("icon_lm.svg"));
+        $form_gui->setIcon(ilUtil::getImagePath("standard/icon_lm.svg"));
         $form_gui->setTree($this->lm_tree);
         $form_gui->setMaxDepth(0);
         $this->tree->readRootId();
@@ -983,7 +983,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
         if ($this->lm->getLayoutPerPage()) {
             $form_gui->addMultiCommand($lng->txt("cont_set_layout"), "setPageLayoutInHierarchy");
         }
-        $form_gui->setDragIcon(ilUtil::getImagePath("icon_st.svg"));
+        $form_gui->setDragIcon(ilUtil::getImagePath("standard/icon_st.svg"));
         $form_gui->addCommand($lng->txt("cont_save_all_titles"), "saveAllTitles");
         $up_gui = "ilobjlearningmodulegui";
 
@@ -1373,7 +1373,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
             }
 
             $this->tpl->setCurrentBlock("operation");
-            $this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.svg"));
+            $this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("nav/arrow_downright.svg"));
             $this->tpl->parseCurrentBlock();
         }
     }

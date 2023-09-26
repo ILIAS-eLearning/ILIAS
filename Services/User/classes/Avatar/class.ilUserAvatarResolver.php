@@ -162,7 +162,7 @@ class ilUserAvatarResolver
         // Fallback Image
         if ($this->letter_avatars_activated === false) {
             return $this->ui->symbol()->avatar()->picture(
-                \ilUtil::getImagePath('no_photo_xsmall.jpg'),
+                \ilUtil::getImagePath('placeholder/no_photo_xsmall.jpg'),
                 $this->for_user->getLogin()
             );
         }

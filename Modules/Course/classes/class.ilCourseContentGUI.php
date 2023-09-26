@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=0);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=0);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=0);
 
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory;
@@ -226,7 +226,7 @@ class ilCourseContentGUI
                 $icon = ilUtil::getImagePath("icon_ok.svg");
             } else {
                 $accomplished = 'not_accomplished';
-                $icon = ilUtil::getImagePath("icon_not_ok.svg");
+                $icon = ilUtil::getImagePath("standard/icon_not_ok.svg");
             }
             $this->tpl->setCurrentBlock("start_row");
             $this->tpl->setVariable("EDITED_IMG", $icon);

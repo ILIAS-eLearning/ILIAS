@@ -1816,7 +1816,7 @@ class ilObject
                         return call_user_func(array($class_name, "_getIcon"), $type, $size, $obj_id);
                     }
                 }
-                return ilUtil::getImagePath("icon_cmps.svg");
+                return ilUtil::getImagePath("standard/icon_cmps.svg");
             }
 
             return ilUtil::getImagePath("icon_" . $type . ".svg");

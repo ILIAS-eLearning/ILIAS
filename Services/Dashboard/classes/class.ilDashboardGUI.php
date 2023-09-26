@@ -249,8 +249,8 @@ class ilDashboardGUI implements ilCtrlBaseClassInterface
         ilBlockSetting::preloadPDBlockSettings();
 
         $this->tpl->setTitle($this->lng->txt("dash_dashboard"));
-        $this->tpl->setTitleIcon(ilUtil::getImagePath("icon_dshs.svg"), $this->lng->txt("dash_dashboard"));
-        $this->tpl->setVariable("IMG_SPACE", ilUtil::getImagePath("spacer.png"));
+        $this->tpl->setTitleIcon(ilUtil::getImagePath("standard/icon_dshs.svg"), $this->lng->txt("dash_dashboard"));
+        $this->tpl->setVariable("IMG_SPACE", ilUtil::getImagePath("media/spacer.png"));
 
         $this->tpl->setContent($this->getCenterColumnHTML());
         $this->tpl->setRightContent($this->getRightColumnHTML());
@@ -340,9 +340,9 @@ class ilDashboardGUI implements ilCtrlBaseClassInterface
     {
         $this->tpl->loadStandardTemplate();
 
-        $this->tpl->setTitleIcon(ilUtil::getImagePath("icon_pd.svg"));
+        $this->tpl->setTitleIcon(ilUtil::getImagePath("standard/icon_pd.svg"));
         $this->tpl->setTitle($this->lng->txt("personal_desktop"));
-        $this->tpl->setVariable('IMG_SPACE', ilUtil::getImagePath('spacer.png'));
+        $this->tpl->setVariable('IMG_SPACE', ilUtil::getImagePath('media/spacer.png'));
     }
 
     public function setTabs(): void

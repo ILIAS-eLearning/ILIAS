@@ -376,7 +376,7 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
         if ($rowData['obligatory'] && !$this->isQuestionManagingEnabled()) {
             return $this->ui_renderer->render(
                 $this->ui_factory->symbol()->icon()->custom(
-                    ilUtil::getImagePath('icon_alert.svg'),
+                    ilUtil::getImagePath('standard/icon_alert.svg'),
                     $this->lng->txt('question_obligatory')
                 )
             );

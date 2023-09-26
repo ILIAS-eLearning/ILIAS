@@ -258,7 +258,7 @@ class ilGlossaryPresentationGUI implements ilCtrlBaseClassInterface
         $title = $this->glossary->getTitle();
 
         $this->tpl->setTitle($title);
-        $this->tpl->setTitleIcon(ilUtil::getImagePath("icon_glo.svg"));
+        $this->tpl->setTitleIcon(ilUtil::getImagePath("standard/icon_glo.svg"));
 
         $this->setLocator();
     }
@@ -475,7 +475,7 @@ class ilGlossaryPresentationGUI implements ilCtrlBaseClassInterface
                 $this->setLocator();
             }
 
-            $tpl->setTitleIcon(ilUtil::getImagePath("icon_glo.svg"));
+            $tpl->setTitleIcon(ilUtil::getImagePath("standard/icon_glo.svg"));
             $tpl->setTitle($this->lng->txt("cont_term") . ": " . $term->getTerm());
 
             // advmd block
@@ -669,10 +669,10 @@ class ilGlossaryPresentationGUI implements ilCtrlBaseClassInterface
         $xml .= "</dummy>";
 
         if (!$this->offlineMode()) {
-            $enlarge_path = ilUtil::getImagePath("enlarge.svg", false, "output");
+            $enlarge_path = ilUtil::getImagePath("media/enlarge.svg", false, "output");
             $wb_path = ilFileUtils::getWebspaceDir("output") . "/";
         } else {
-            $enlarge_path = "images/enlarge.svg";
+            $enlarge_path = "images/media/enlarge.svg";
             $wb_path = "";
         }
 
@@ -720,7 +720,7 @@ class ilGlossaryPresentationGUI implements ilCtrlBaseClassInterface
 
         // set title header
         $this->tpl->setTitle($this->glossary->getTitle());
-        $this->tpl->setTitleIcon(ilUtil::getImagePath("icon_glo.svg"));
+        $this->tpl->setTitleIcon(ilUtil::getImagePath("standard/icon_glo.svg"));
 
         // create table
         $tbl = new ilTableGUI();
@@ -916,7 +916,7 @@ class ilGlossaryPresentationGUI implements ilCtrlBaseClassInterface
             $this->setTabs();
             $ilTabs->activateTab("print_view");
         } else {
-            $tpl->setTitleIcon(ilUtil::getImagePath("icon_glo.svg"));
+            $tpl->setTitleIcon(ilUtil::getImagePath("standard/icon_glo.svg"));
             $term = new ilGlossaryTerm($this->term_id);
             $tpl->setTitle($this->lng->txt("cont_term") . ": " . $term->getTerm());
             $this->showDefinitionTabs("print_view");

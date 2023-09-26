@@ -242,10 +242,10 @@ class ilLMTOCExplorerGUI extends ilLMExplorerGUI
                 ? "_sc"
                 : "";
 
-            $a_name = "icon_pg" . $img_sc . ".svg";
+            $a_name = "standard/icon_pg" . $img_sc . ".svg";
 
             if (!$active && !$this->getOfflineMode()) {
-                $a_name = "icon_pg_d" . $img_sc . ".svg";
+                $a_name = "standard/icon_pg_d" . $img_sc . ".svg";
             }
         }
 

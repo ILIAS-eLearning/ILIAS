@@ -72,7 +72,7 @@ class ilMediaPoolExplorerGUI extends ilTreeExplorerGUI
     public function getNodeIcon($a_node): string
     {
         if ($a_node["child"] == $this->getNodeId($this->getRootNode())) {
-            $icon = ilUtil::getImagePath("icon_mep.svg");
+            $icon = ilUtil::getImagePath("standard/icon_mep.svg");
         } else {
             $icon = ilUtil::getImagePath("icon_" . $a_node["type"] . ".svg");
         }
