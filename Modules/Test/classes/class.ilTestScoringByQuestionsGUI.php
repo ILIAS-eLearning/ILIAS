@@ -235,7 +235,7 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
                  * This feature is in urgent need of refactoring and a repo.
                  */
                 $current_feedback_info = ilObjTest::getSingleManualFeedback($active_id, $qst_id, $pass);
-                if ($current_feedback_info['finalized_evaluation'] === 1) {
+                if (isset($current_feedback_info['finalized_evaluation']) && $current_feedback_info['finalized_evaluation'] === 1) {
                     $reached_points = assQuestion::_getReachedPoints($active_id, $qst_id, $pass);
                     $feedback_text = $current_feedback_info['feedback'];
                 }
