@@ -2271,6 +2271,11 @@ abstract class assQuestionGUI
         $ilCtrl->redirectByClass('ilAssQuestionHintsGUI', ilAssQuestionHintsGUI::CMD_SHOW_LIST);
     }
 
+    protected function escapeTemplatePlaceholders(string $text) : string
+    {
+        return str_replace(['{','}'], ['&#123;','&#125;'], $text);
+    }
+
     /**
      *
      */

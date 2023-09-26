@@ -518,7 +518,7 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
                     );
                 } else {
                     $items[$j] = array(
-                        'answer' => str_replace(['{','}'], ['&#123;','&#125;'], $value[$j]->getAnswerText()),
+                        'answer' => $this->escapeTemplatePlaceholders($value[$j]->getAnswerText()),
                         'points' => $value[$j]->getPoints(),
                         'error' => false
                     );
