@@ -682,13 +682,15 @@ class ilSoapObjectAdministration extends ilSoapAdministration
             return $this->__raiseError("Parent with ID $a_target_id has been deleted.", 'Client');
         }
 
-        $allowed_types = array('root','cat','grp','crs','fold');
+        // JKN PATCH START
+        $allowed_types = array('root','cat','grp','crs','fold','orgu');
         if (!in_array($target_obj->getType(), $allowed_types)) {
             return $this->__raiseError(
-                'No valid target type. Target must be reference id of "course, group, category or folder"',
+                'No valid target type. Target must be reference id of "course, group, category, organization or folder"',
                 'Client'
             );
         }
+        // JKN PATCH END
 
         $allowed_subtypes = $target_obj->getPossibleSubObjects();
 
@@ -1405,10 +1407,12 @@ class ilSoapObjectAdministration extends ilSoapAdministration
         $objDefinition = $DIC['objDefinition'];
         $rbacsystem = $DIC['rbacsystem'];
         
-        $allowed_types = array('root','cat','grp','crs','fold');
+        // JKN PATCH START
+        $allowed_types = array('root','cat','grp','crs','fold','orgu');
         if (!in_array($target_type, $allowed_types)) {
-            return $this->__raiseError('No valid target type. Target must be reference id of "course, group, category or folder"', 'Client');
+            return $this->__raiseError('No valid target type. Target must be reference id of "course, group, category, organization or folder"', 'Client');
         }
+        // JKN PATCH END
 
         $allowed_subtypes = $objDefinition->getSubObjects($target_type);
         $allowed = array();
@@ -1440,12 +1444,14 @@ class ilSoapObjectAdministration extends ilSoapAdministration
         }
         if ($a_action == 'create') {
             if (count($a_object_data['references']) > 1) {
-                if (in_array($a_object_data['type'], array('cat','crs','grp','fold'))) {
+                // JKN PATCH START
+                if (in_array($a_object_data['type'], array('cat','crs','grp','fold','orgu'))) {
                     return $this->__raiseError(
                         "Cannot create references for type " . $a_object_data['type'],
                         'Client'
                     );
                 }
+                // JKN PATCH END
             }
             if (count($a_object_data['references']) == 1) {
                 if ($a_target_id != $a_object_data['references'][0]['parent_id']) {
