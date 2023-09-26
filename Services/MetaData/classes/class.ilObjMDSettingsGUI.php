@@ -462,7 +462,7 @@ class ilObjMDSettingsGUI extends ilObjectGUI
         $positions = $this->http->wrapper()->post()->retrieve(
             'order',
             $this->refinery->kindlyTo()->dictOf(
-                $this->refinery->kindlyTo()->int()
+                $this->refinery->kindlyTo()->string()
             )
         );
         asort($positions);
