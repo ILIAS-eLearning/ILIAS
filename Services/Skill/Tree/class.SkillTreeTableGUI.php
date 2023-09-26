@@ -62,7 +62,7 @@ class SkillTreeTableGUI extends \ilTable2GUI
         $this->setTitle($this->lng->txt(""));
 
         if ($this->management_access_manager->hasCreateTreePermission()) {
-            $this->addColumn("", "", "", true);
+            $this->addColumn("", "", "1", true);
         }
         $this->addColumn($this->lng->txt("title"), "title");
         $this->addColumn($this->lng->txt("actions"));
