@@ -932,7 +932,7 @@ ilias.questions.showFeedback =function(a_id) {
 				fbtext = txt_wrong_answers + '<br />' + ilias.questions.txt.tries_remaining + ': '+ rem + "<br />";
 			}
 
-			if (questions[a_id].feedback['onenotcorrect'])
+			if (questions[a_id].feedback['onenotcorrect'] && rem === 0 )
 			{
 				fbtext += questions[a_id].feedback['onenotcorrect'];
 			}
