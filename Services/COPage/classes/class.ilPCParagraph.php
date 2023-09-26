@@ -2054,13 +2054,16 @@ class ilPCParagraph extends ilPageContent
 
         // JKN PATCH START
         foreach ($a_terms as $k => $t) {
-            foreach ($t['alternates'] as $alt) {
-                array_push($a_terms, array("term" => $alt,
-                    "language" => $t["language"],
-                    "id" => $t["id"],
-                    "glo_id" => $t["glo_id"],
-                ));
+            if(array_key_exists('alternates', $t)){
+                foreach ($t['alternates'] as $alt) {
+                    array_push($a_terms, array("term" => $alt,
+                        "language" => $t["language"],
+                        "id" => $t["id"],
+                        "glo_id" => $t["glo_id"],
+                    ));
+                }
             }
+
         }
         // JKN PATCH END
 
