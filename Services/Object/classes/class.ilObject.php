@@ -1819,9 +1819,9 @@ class ilObject
                 return ilUtil::getImagePath("standard/icon_cmps.svg");
             }
 
-            return ilUtil::getImagePath("icon_" . $type . ".svg");
+            return ilUtil::getImagePath("standard/icon_" . $type . ".svg");
         } else {
-            return "./images/icon_" . $type . ".svg";
+            return "./images/standard/icon_" . $type . ".svg";
         }
     }
 

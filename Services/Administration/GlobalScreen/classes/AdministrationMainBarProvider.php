@@ -117,17 +117,17 @@ class AdministrationMainBarProvider extends AbstractStaticMainMenuProvider
     protected function getIconForGroup(string $group, string $title): Icon
     {
         $icon_map = array(
-            "maintenance" => "standard/icon_sysa",
+            "maintenance" => "icon_sysa",
             "layout_and_navigation" => "icon_laya",
-            "repository_and_objects" => "standard/icon_repa",
-            "personal_workspace" => "standard/icon_pwsa",
-            "achievements" => "standard/icon_achva",
-            "communication" => "standard/icon_coma",
-            "user_administration" => "standard/icon_usra",
-            "search_and_find" => "standard/icon_safa",
-            "extending_ilias" => "standard/icon_exta"
+            "repository_and_objects" => "icon_repa",
+            "personal_workspace" => "icon_pwsa",
+            "achievements" => "icon_achva",
+            "communication" => "icon_coma",
+            "user_administration" => "icon_usra",
+            "search_and_find" => "icon_safa",
+            "extending_ilias" => "icon_exta"
         );
-        $icon_path = \ilUtil::getImagePath($icon_map[$group] . ".svg");
+        $icon_path = \ilUtil::getImagePath("standard/" . $icon_map[$group] . ".svg");
         return $this->dic->ui()->factory()->symbol()->icon()->custom($icon_path, $title);
     }
 

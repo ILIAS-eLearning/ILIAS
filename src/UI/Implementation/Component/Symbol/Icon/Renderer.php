@@ -93,13 +93,22 @@ class Renderer extends AbstractComponentRenderer
     protected function getStandardIconPath(Component\Symbol\Icon\Icon $icon): string
     {
         $name = $icon->getName();
-        if (!in_array($name, $icon->getAllStandardHandles())) {
+        $is_in_standard_icon_list = in_array($name, $icon->getAllStandardHandles());
+        $is_in_page_editor_icon_list = in_array($name, $icon->getAllStandardPageEditorHandles());
+        if (!$is_in_standard_icon_list && !$is_in_page_editor_icon_list) {
             $name = self::DEFAULT_ICON_NAME;
         }
         $pattern = self::ICON_NAME_PATTERN;
 
+        $icon_path_name = '';
         $icon_name = sprintf($pattern, $name);
-        return $this->getImagePathResolver()->resolveImagePath($icon_name);
+        if ($is_in_page_editor_icon_list) {
+            $icon_path_name = 'page_editor/' . $icon_name;
+        } else {
+            $icon_path_name = 'standard/' . $icon_name;
+        }
+
+        return $this->getImagePathResolver()->resolveImagePath($icon_path_name);
     }
 
     /**
