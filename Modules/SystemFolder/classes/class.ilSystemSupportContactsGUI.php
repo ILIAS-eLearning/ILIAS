@@ -79,7 +79,7 @@ class ilSystemSupportContactsGUI
         $this->tpl->printToStdout();
     }
 
-    
+    // JKN PATCH START
     /**
      * Get footer link
      *
@@ -89,29 +89,18 @@ class ilSystemSupportContactsGUI
     {
         global $DIC;
 
-        $ilCtrl = $DIC->ctrl();
-        $ilUser = $DIC->user();
-        
-        include_once("./Modules/SystemFolder/classes/class.ilSystemSupportContacts.php");
+        $http = $DIC->http();
+        $request_scheme =
+            isset($http->request()->getServerParams()['HTTPS'])
+            && $http->request()->getServerParams()['HTTPS'] !== 'off'
+            ? 'https' : 'http';
+        $url = $request_scheme . '://'
+            . $http->request()->getServerParams()['HTTP_HOST']
+            . $http->request()->getServerParams()['REQUEST_URI'];
 
-        $users = ilSystemSupportContacts::getValidSupportContactIds();
-        if (count($users) > 0) {
-            // #17847 - we cannot use a proper GUI on the login screen
-            if (!$ilUser->getId() || $ilUser->getId() == ANONYMOUS_USER_ID) {
-                return "mailto:" . ilUtil::prepareFormOutput(ilSystemSupportContacts::getMailsToAddress());
-            } else {
-                return $ilCtrl->getLinkTargetByClass("ilsystemsupportcontactsgui", "", "", false, false);
-            }
-        }
-
-
-        /*$m = ilUtil::prepareFormOutput(ilSystemSupportContacts::getMailsToAddress());
-        if ($m != "")
-        {
-            return "mailto:".$m;
-        }*/
-        return "";
+        return "mailto:support@cpkn.ca?subject=Support%20Request&body=*%20*%20*%0D%0A" . CLIENT_ID . "%0A" . rawurlencode($url);
     }
+    // JKN PATCH END
 
     /**
      * Get footer text
