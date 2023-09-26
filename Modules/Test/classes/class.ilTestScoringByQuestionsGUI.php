@@ -482,7 +482,7 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
             $disable = true;
             $hidden_points = new ilHiddenInputGUI($scoring_post_var);
             $scoring_post_var = $scoring_post_var . '_disabled';
-            $hidden_points->setValue($reached_points);
+            $hidden_points->setValue((string) $reached_points);
             $form->addItem($hidden_points);
         }
 
