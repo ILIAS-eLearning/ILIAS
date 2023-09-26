@@ -41,10 +41,24 @@ export default class Slate {
   #replacementType = 'content';
 
   /**
-   * @param {jQuery} jquery
+   * @type {function}
    */
-  constructor(jquery) {
+  #coreReplaceContent;
+
+  /**
+   * @type {MetabarFactory}
+   */
+  #metabarFactory;
+
+  /**
+   * @param {jQuery} jquery
+   * @param {function} coreReplaceContent
+   * @param {MetabarFactory} metabarFactory
+   */
+  constructor(jquery, coreReplaceContent, metabarFactory) {
     this.#jquery = jquery;
+    this.#coreReplaceContent = coreReplaceContent;
+    this.#metabarFactory = metabarFactory;
   }
 
   /**
@@ -80,7 +94,8 @@ export default class Slate {
   #onToggleSignal(slate, triggerer, isInMetabarMore) {
     // special case for metabar-more
     const metabarId = slate.closest('.il-maincontrols-metabar').attr('id');
-    const metabar = il.UI.maincontrols.metabar.get(metabarId);
+    const metabar = this.#metabarFactory.get(metabarId);
+
     if (triggerer.attr('id') === metabar.getMoreButton().attr('id')) {
       if (metabar.getEngagedSlates().length > 0) {
         metabar.disengageAllSlates();
@@ -153,6 +168,6 @@ export default class Slate {
    */
   #replaceFromSignal(id, signalData) {
     const { url } = signalData.options;
-    il.UI.core.replaceContent(id, url, this.#replacementType);
+    this.#coreReplaceContent(id, url, this.#replacementType);
   }
 }

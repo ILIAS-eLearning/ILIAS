@@ -17,8 +17,21 @@ import il from 'il';
 import $ from 'jquery';
 import MetabarFactory from './metabar.factory';
 import Slate from './slate.class';
+import replaceContent from '../../Core/src/core.replaceContent';
+import { counterFactory } from '../../Counter/src/counter.main';
 
 il.UI = il.UI || {};
 il.UI.maincontrols = il.UI.maincontrols || {};
-il.UI.maincontrols.metabar = new MetabarFactory($);
-il.UI.maincontrols.slate = new Slate($);
+
+il.UI.maincontrols.metabar = new MetabarFactory(
+  $,
+  il.UI.page.isSmallScreen,
+  counterFactory($),
+  () => il.UI.maincontrols.mainbar.disengageAll(),
+  (slate) => il.UI.maincontrols.slate.disengage(slate),
+);
+il.UI.maincontrols.slate = new Slate(
+  $,
+  replaceContent($),
+  il.UI.maincontrols.metabar,
+);

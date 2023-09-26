@@ -27,10 +27,44 @@ export default class MetabarFactory {
   #instances = [];
 
   /**
-   * @param {jQuery} jquery
+   * @type {function}
    */
-  constructor(jquery) {
+  #pageIsSmallScreen;
+
+  /**
+   * @type {counterFactory}
+   */
+  #counterFactory;
+
+  /**
+   * @type {function}
+   */
+  #disengageMainbar;
+
+  /**
+   * @type {function}
+   */
+  #disengageSlate;
+
+  /**
+   * @param {jQuery} jquery
+   * @param {function} pageIsSmallScreen
+   * @param {counterFactory} counterFactory
+   * @param {function} disengageMainbar
+   * @param {function} disengageSlate
+   */
+  constructor(
+    jquery,
+    pageIsSmallScreen,
+    counterFactory,
+    disengageMainbar,
+    disengageSlate,
+  ) {
     this.#jquery = jquery;
+    this.#pageIsSmallScreen = pageIsSmallScreen;
+    this.#counterFactory = counterFactory;
+    this.#disengageMainbar = disengageMainbar;
+    this.#disengageSlate = disengageSlate;
   }
 
   /**
@@ -46,6 +80,10 @@ export default class MetabarFactory {
     this.#instances[componentId] = new Metabar(
       this.#jquery,
       componentId,
+      this.#pageIsSmallScreen,
+      this.#counterFactory,
+      this.#disengageMainbar,
+      this.#disengageSlate,
     );
   }
 

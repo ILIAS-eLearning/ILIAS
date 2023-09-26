@@ -66,12 +66,47 @@ export default class Metabar {
   #propagationStopped;
 
   /**
+   * @type {function}
+   */
+  #pageIsSmallScreen;
+
+  /**
+   * @type {counterFactory}
+   */
+  #counterFactory;
+
+  /**
+   * @type {function}
+   */
+  #disengageMainbar;
+
+  /**
+   * @type {function}
+   */
+  #disengageSlate;
+
+  /**
    * @param {jQuery} jquery
    * @param {string} componentId
+   * @param {function} pageIsSmallScreen
+   * @param {counterFactory} counterFactory
+   * @param {function} disengageMainbar
+   * @param {function} disengageSlate
    */
-  constructor(jquery, componentId) {
+  constructor(
+    jquery,
+    componentId,
+    pageIsSmallScreen,
+    counterFactory,
+    disengageMainbar,
+    disengageSlate,
+  ) {
     this.#jquery = jquery;
     this.#id = componentId;
+    this.#pageIsSmallScreen = pageIsSmallScreen;
+    this.#counterFactory = counterFactory;
+    this.#disengageMainbar = disengageMainbar;
+    this.#disengageSlate = disengageSlate;
   }
 
   /**
@@ -84,8 +119,8 @@ export default class Metabar {
   ) {
     this.#jquery(document).on(entrySignal, (event, signalData) => {
       this.#onClickEntry(event, signalData);
-      if (il.UI.page.isSmallScreen() && il.UI.maincontrols.mainbar) {
-        il.UI.maincontrols.mainbar.disengageAll();
+      if (this.#pageIsSmallScreen()) {
+        this.#disengageMainbar();
       }
       return false;
     });
@@ -108,7 +143,7 @@ export default class Metabar {
 
     // close metabar slate when focus moves out
     this.#jquery(`.${this.#classForSlates} > .${this.#classForSingleSlate}`).on('focusout', (event) => {
-      if (!il.UI.page.isSmallScreen()) {
+      if (!this.#pageIsSmallScreen()) {
         const nextFocusTarget = event.relatedTarget;
         const currentSlate = event.currentTarget;
         if (!this.#jquery.contains(currentSlate, nextFocusTarget)) {
@@ -188,7 +223,7 @@ export default class Metabar {
   disengageAllSlates() {
     this.getEngagedSlates().each(
       (i, slate) => {
-        il.UI.maincontrols.slate.disengage(this.#jquery(slate));
+        this.#disengageSlate(this.#jquery(slate));
       },
     );
   }
@@ -214,7 +249,7 @@ export default class Metabar {
     this.#tagMoreButton();
     this.#tagMoreSlate();
 
-    if (il.UI.page.isSmallScreen()) {
+    if (this.#pageIsSmallScreen()) {
       this.#initCondensed();
     } else {
       this.#initWide();
@@ -304,9 +339,10 @@ export default class Metabar {
    * @return {void}
    */
   #collectCounters() {
-    const moreSlateCounter = il.UI.counter.getCounterObjectOrNull(this.#getMoreSlate());
+    window.top.x = this.#counterFactory;
+    const moreSlateCounter = this.#counterFactory.getCounterObjectOrNull(this.#getMoreSlate());
     if (moreSlateCounter) {
-      il.UI.counter.getCounterObject(this.getMoreButton())
+      this.#counterFactory.getCounterObject(this.getMoreButton())
         .setNoveltyTo(moreSlateCounter.getNoveltyCount())
         .setStatusTo(moreSlateCounter.getStatusCount());
     }
