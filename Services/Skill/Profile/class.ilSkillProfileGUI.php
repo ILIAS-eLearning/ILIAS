@@ -976,8 +976,14 @@ class ilSkillProfileGUI
     public function exportProfiles(): void
     {
         $ilCtrl = $this->ctrl;
+        $lng = $this->lng;
+
+        if (!$this->skill_tree_access_manager->hasManageProfilesPermission()) {
+            return;
+        }
 
         if (empty($this->requested_profile_ids)) {
+            $this->tpl->setOnScreenMessage('info', $lng->txt("no_checkbox"), true);
             $ilCtrl->redirect($this, "");
         }
 
