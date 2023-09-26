@@ -97,10 +97,10 @@ abstract class Button implements C\Button\Button
     /**
      * @inheritdoc
      */
-    public function withUnavailableAction(): C\Button\Button
+    public function withUnavailableAction(bool $flag = true): C\Button\Button
     {
         $clone = clone $this;
-        $clone->active = false;
+        $clone->active = !$flag;
         return $clone;
     }
 

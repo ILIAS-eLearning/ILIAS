@@ -34,11 +34,6 @@ class ilTestQuestionNavigationGUI
     private \ILIAS\DI\UIServices $ui;
 
     /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
      * @var string
      */
     private $editSolutionCommand = '';
@@ -120,11 +115,13 @@ class ilTestQuestionNavigationGUI
     /**
      * @param ilLanguage $lng
      */
-    public function __construct(ilLanguage $lng)
-    {
-        $this->lng = $lng;
-        global $DIC;
-        $this->ui = $DIC->ui();
+
+
+    public function __construct(
+        protected ilLanguage $lng,
+        protected \ILIAS\UI\Factory $ui_factory,
+        protected \ILIAS\UI\Renderer $ui_renderer
+    ) {
     }
 
     /**
@@ -380,81 +377,6 @@ class ilTestQuestionNavigationGUI
     {
         $tpl = $this->getTemplate('actions');
 
-        $actions = new ilGroupedListGUI();
-        $actions->setAsDropDown(true, true);
-
-        if ($this->getQuestionMarkLinkTarget()) {
-            $actions->addEntry(
-                $this->getQuestionMarkActionLabel(),
-                $this->getQuestionMarkLinkTarget(),
-                '',
-                '',
-                'ilTestQuestionAction',
-                'tst_mark_question_action'
-            );
-            $actions->addSeparator();
-        }
-
-        if ($this->getRevertChangesLinkTarget()) {
-            $actions->addEntry(
-                $this->lng->txt('tst_revert_changes'),
-                $this->getRevertChangesLinkTarget(),
-                '',
-                '',
-                'ilTestQuestionAction ilTestRevertChangesAction',
-                'tst_revert_changes_action'
-            );
-        } else {
-            $actions->addEntry(
-                $this->lng->txt('tst_revert_changes'),
-                '#',
-                '',
-                '',
-                'ilTestQuestionAction ilTestRevertChangesAction disabled',
-                'tst_revert_changes_action'
-            );
-        }
-
-        if ($this->isDiscardSolutionButtonEnabled()) {
-            $actions->addEntry(
-                $this->lng->txt('discard_answer'),
-                '#',
-                '',
-                '',
-                'ilTestQuestionAction ilTestDiscardSolutionAction',
-                'tst_discard_solution_action'
-            );
-        } else {
-            $actions->addEntry(
-                $this->lng->txt('discard_answer'),
-                '#',
-                '',
-                '',
-                'ilTestQuestionAction ilTestDiscardSolutionAction disabled',
-                'tst_discard_solution_action'
-            );
-        }
-
-        if ($this->getSkipQuestionLinkTarget()) {
-            $actions->addEntry(
-                $this->lng->txt('postpone_question'),
-                $this->getSkipQuestionLinkTarget(),
-                '',
-                '',
-                'ilTestQuestionAction',
-                'tst_skip_question_action'
-            );
-        } elseif (self::SHOW_DISABLED_COMMANDS) {
-            $actions->addEntry(
-                $this->lng->txt('postpone_question'),
-                '#',
-                '',
-                '',
-                'ilTestQuestionAction disabled',
-                'tst_skip_question_action'
-            );
-        }
-
         if ($this->getQuestionMarkLinkTarget()) {
             $this->renderActionsIcon(
                 $tpl,
@@ -464,13 +386,32 @@ class ilTestQuestionNavigationGUI
             );
         }
 
-        $list = new ilAdvancedSelectionListGUI();
-        $list->setSelectionHeaderClass('btn-primary');
-        $list->setId('QuestionActions');
-        $list->setListTitle($this->lng->txt("actions"));
-        $list->setStyle(1);
-        $list->setGroupedList($actions);
-        $tpl->setVariable('ACTION_MENU', $list->getHTML());
+        $actions = [
+            $this->ui_factory->button()->shy(
+                $this->getQuestionMarkActionLabel(),
+                $this->getQuestionMarkLinkTarget()
+            )->withUnavailableAction(!$this->getQuestionMarkLinkTarget()),
+
+            $this->ui_factory->divider()->horizontal(),
+
+            $this->ui_factory->button()->shy(
+                $this->lng->txt('tst_revert_changes'),
+                $this->getRevertChangesLinkTarget()
+            )->withUnavailableAction(!$this->getRevertChangesLinkTarget()),
+
+            $this->ui_factory->button()->shy(
+                $this->lng->txt('discard_answer'),
+                '#'
+            )->withUnavailableAction(!$this->isDiscardSolutionButtonEnabled()),
+
+            $this->ui_factory->button()->shy(
+                $this->lng->txt('postpone_question'),
+                $this->getSkipQuestionLinkTarget()
+            )->withUnavailableAction(!$this->getSkipQuestionLinkTarget())
+        ];
+
+        $list = $this->ui_factory->dropdown()->standard($actions)->withLabel($this->lng->txt("actions"));
+        $tpl->setVariable('ACTION_MENU', $this->ui_renderer->render($list));
 
         return $tpl->get();
     }

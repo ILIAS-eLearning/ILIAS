@@ -1731,7 +1731,11 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
     protected function buildReadOnlyStateQuestionNavigationGUI($questionId): ilTestQuestionNavigationGUI
     {
-        $navigationGUI = new ilTestQuestionNavigationGUI($this->lng);
+        $navigationGUI = new ilTestQuestionNavigationGUI(
+            $this->lng,
+            $this->ui_factory,
+            $this->ui_renderer
+        );
 
         if (!$this->isParticipantsAnswerFixed($questionId)) {
             $navigationGUI->setEditSolutionCommand(ilTestPlayerCommands::EDIT_SOLUTION);
@@ -1761,7 +1765,11 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
     protected function buildEditableStateQuestionNavigationGUI($questionId): ilTestQuestionNavigationGUI
     {
-        $navigationGUI = new ilTestQuestionNavigationGUI($this->lng);
+        $navigationGUI = new ilTestQuestionNavigationGUI(
+            $this->lng,
+            $this->ui_factory,
+            $this->ui_renderer
+        );
 
         if ($this->object->isForceInstantFeedbackEnabled()) {
             $navigationGUI->setSubmitSolutionCommand(ilTestPlayerCommands::SUBMIT_SOLUTION);
