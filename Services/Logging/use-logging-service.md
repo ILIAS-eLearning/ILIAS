@@ -1,3 +1,8 @@
+> This documentation does not warrant completeness or correctness, and is probably outdated. Reports of
+missing or wrong information using the [ILIAS issue tracker](https://mantis.ilias.de)
+or contributions via [Pull Request](../../docs/development/contributing.md#pull-request-to-the-repositories)
+are greatly appreciated.
+
 # Using the Logging Service
 
 Starting with release 5.1 a new logging service based on [Monolog](https://github.com/Seldaek/monolog) is available.
