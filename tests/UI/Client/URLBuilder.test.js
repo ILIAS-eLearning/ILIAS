@@ -55,8 +55,7 @@ describe('URLBuilder Test', () => {
   it('acquireParameter()', () => {
     const u = new URLBuilder(new URL('https://www.ilias.de/ilias.php?a=1#123'));
     const result = u.acquireParameter(['testing'], 'name');
-    const { url } = result;
-    const { token } = result;
+    const [url, token] = result;
     expect(url).to.be.instanceOf(URLBuilder);
     expect(token).to.be.instanceOf(URLBuilderToken);
     expect(token.getName()).to.eql('testing_name');
@@ -68,25 +67,25 @@ describe('URLBuilder Test', () => {
   it('acquireParameter() with long namespace', () => {
     const u = new URLBuilder(new URL('https://www.ilias.de/ilias.php?a=1#123'));
     const result = u.acquireParameter(['testing', 'my', 'object'], 'name');
-    const { url } = result;
+    const [url] = result;
     expect(url.getUrl().toString()).to.eql('https://www.ilias.de/ilias.php?a=1&testing_my_object_name=#123');
   });
 
   it('acquireParameter() with value', () => {
     const u = new URLBuilder(new URL('https://www.ilias.de/ilias.php?a=1#123'));
     const result = u.acquireParameter(['testing'], 'name', 'foo');
-    const { url } = result;
+    const [url] = result;
     expect(url.getUrl().toString()).to.eql('https://www.ilias.de/ilias.php?a=1&testing_name=foo#123');
   });
 
   it('acquireParameter() with same name', () => {
     const u = new URLBuilder(new URL('https://www.ilias.de/ilias.php?a=1#123'));
     const result = u.acquireParameter(['testing'], 'name', 'foo');
-    const { url } = result;
+    const [url] = result;
     expect(url.getUrl().toString()).to.eql('https://www.ilias.de/ilias.php?a=1&testing_name=foo#123');
 
     const result2 = url.acquireParameter(['nottesting'], 'name', 'bar');
-    const { url: url2 } = result2;
+    const [url2] = result2;
     expect(url2.getUrl().toString()).to.eql('https://www.ilias.de/ilias.php?a=1&testing_name=foo&nottesting_name=bar#123');
   });
 
@@ -105,20 +104,32 @@ describe('URLBuilder Test', () => {
   it('writeParameter()', () => {
     const u = new URLBuilder(new URL('https://www.ilias.de/ilias.php?a=1#123'));
     const result = u.acquireParameter(['testing'], 'name', 'foo');
-    let { url } = result;
-    const { token } = result;
+    let url = result.shift();
+    const token = result.shift();
     expect(url.getUrl().toString()).to.eql('https://www.ilias.de/ilias.php?a=1&testing_name=foo#123');
 
     url = url.writeParameter(token, 'bar');
     expect(url).to.be.instanceOf(URLBuilder);
     expect(url.getUrl().toString()).to.eql('https://www.ilias.de/ilias.php?a=1&testing_name=bar#123');
+
+    const u1 = new URLBuilder(new URL('https://www.ilias.de/ilias.php?a=1#123'));
+    const result1 = u1.acquireParameter(['testing'], 'arr');
+    url = result1.shift();
+    const token1 = result1.shift();
+    url = url.writeParameter(token1, ['foo', 'bar']);
+    expect(url.getUrl().toString()).to.eql(
+      'https://www.ilias.de/ilias.php?a=1'
+       + `&${encodeURIComponent('testing_arr')}%5B%5D=foo`
+       + `&${encodeURIComponent('testing_arr')}%5B%5D=bar`
+       + '#123',
+    );
   });
 
   it('deleteParameter()', () => {
     const u = new URLBuilder(new URL('https://www.ilias.de/ilias.php?a=1#123'));
     const result = u.acquireParameter(['testing'], 'name', 'foo');
-    let { url } = result;
-    const { token } = result;
+    let url = result.shift();
+    const token = result.shift();
     expect(url.getUrl().toString()).to.eql('https://www.ilias.de/ilias.php?a=1&testing_name=foo#123');
 
     url = url.deleteParameter(token);
