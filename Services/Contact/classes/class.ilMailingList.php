@@ -36,6 +36,7 @@ class ilMailingList
     public const MODE_ADDRESSBOOK = 1;
     public const MODE_TEMPORARY = 2;
     private int $mode;
+    private bool $exists = false;
 
     public function __construct(ilObjUser $user, int $id = 0)
     {
@@ -87,6 +88,7 @@ class ilMailingList
         );
 
         $this->mail_id = $nextId;
+        $this->exists = true;
 
         return true;
     }
@@ -137,6 +139,7 @@ class ilMailingList
                 ['integer', 'integer'],
                 [$this->getId(), $this->getUserId()]
             );
+            $this->exists = false;
 
             return true;
         }
@@ -163,6 +166,7 @@ class ilMailingList
                 $this->setCreatedate($row->createdate);
                 $this->setChangedate($row->changedate);
                 $this->setMode((int) $row->lmode);
+                $this->exists = true;
             }
         }
     }
@@ -295,5 +299,9 @@ class ilMailingList
     public function getMode(): int
     {
         return $this->mode;
+    }
+    public function doesExist(): bool
+    {
+        return $this->exists;
     }
 }
