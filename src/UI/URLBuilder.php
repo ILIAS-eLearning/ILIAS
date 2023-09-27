@@ -217,7 +217,9 @@ class URLBuilder
 
     /**
      * Create the query part of the URL from all parameters
-     * Claimed parameters overwrite base parameters in array_merge()
+     * Claimed parameters overwrite base parameters in array_merge(),
+     * numeric indizes of array-parameters are being removed to ensure
+     * continous numeration (p[1]=A&p[2]=B --> p[]=A&p[]=B).
      */
     private function buildQuery(): string
     {
