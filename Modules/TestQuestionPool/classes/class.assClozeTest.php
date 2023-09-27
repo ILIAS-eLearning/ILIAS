@@ -1320,13 +1320,13 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
     public function fetchSolutionSubmit($submit): array
     {
         $solutionSubmit = [];
-
+        $purifier = $this->getHtmlUserSolutionPurifier();
         foreach ($this->getGaps() as $index => $gap) {
             $value = $this->dic->http()->wrapper()->post()->retrieve(
                 "gap_$index",
                 $this->dic->refinery()->kindlyTo()->string()
             );
-            $value = htmlentities($value, ENT_QUOTES, 'UTF-8');
+            $value = $purifier->purify($value);
             if ($value === "") {
                 continue;
             }
