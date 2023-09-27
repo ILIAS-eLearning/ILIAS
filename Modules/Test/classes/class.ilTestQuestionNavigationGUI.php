@@ -368,14 +368,10 @@ class ilTestQuestionNavigationGUI
         $this->anythingRendered = true;
     }
 
-    // fau: testNav - generate question actions menu
-    /**
-     * Get the HTML of an actions menu below the title
-     * @return string
-     */
     public function getActionsHTML(): string
     {
         $tpl = $this->getTemplate('actions');
+        $actions = [];
 
         if ($this->getQuestionMarkLinkTarget()) {
             $this->renderActionsIcon(
@@ -384,38 +380,38 @@ class ilTestQuestionNavigationGUI
                 $this->getQuestionMarkIconLabel(),
                 'ilTestMarkQuestionIcon'
             );
-        }
-
-        $actions = [
-            $this->ui_factory->button()->shy(
+            $actions[] = $this->ui_factory->button()->shy(
                 $this->getQuestionMarkActionLabel(),
                 $this->getQuestionMarkLinkTarget()
-            )->withUnavailableAction(!$this->getQuestionMarkLinkTarget()),
+            );
+        }
 
-            $this->ui_factory->divider()->horizontal(),
-
-            $this->ui_factory->button()->shy(
-                $this->lng->txt('tst_revert_changes'),
-                $this->getRevertChangesLinkTarget()
-            )->withUnavailableAction(!$this->getRevertChangesLinkTarget()),
-
-            $this->ui_factory->button()->shy(
-                $this->lng->txt('discard_answer'),
-                '#'
-            )->withUnavailableAction(!$this->isDiscardSolutionButtonEnabled()),
-
-            $this->ui_factory->button()->shy(
+        if ($this->getSkipQuestionLinkTarget()) {
+            $actions[] = $this->ui_factory->button()->shy(
                 $this->lng->txt('postpone_question'),
                 $this->getSkipQuestionLinkTarget()
-            )->withUnavailableAction(!$this->getSkipQuestionLinkTarget())
-        ];
+            );
+        }
+
+        if ($actions !== []) {
+            $actions[] = $this->ui_factory->divider()->horizontal();
+        }
+
+        $actions[] = $this->ui_factory->button()->shy(
+            $this->lng->txt('tst_revert_changes'),
+            $this->getRevertChangesLinkTarget()
+        )->withUnavailableAction(!$this->getRevertChangesLinkTarget());
+
+        $actions[] = $this->ui_factory->button()->shy(
+            $this->lng->txt('discard_answer'),
+            '#'
+        )->withUnavailableAction(!$this->isDiscardSolutionButtonEnabled());
 
         $list = $this->ui_factory->dropdown()->standard($actions)->withLabel($this->lng->txt("actions"));
         $tpl->setVariable('ACTION_MENU', $this->ui_renderer->render($list));
 
         return $tpl->get();
     }
-    // fau.
 
 
     /**
