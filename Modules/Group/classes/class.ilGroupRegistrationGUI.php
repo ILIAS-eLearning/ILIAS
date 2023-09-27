@@ -493,12 +493,10 @@ class ilGroupRegistrationGUI extends ilRegistrationGUI
                 );
 
                 ilUtil::sendSuccess($this->lng->txt("application_completed"), true);
-                $ilCtrl->setParameterByClass(
-                    "ilrepositorygui",
-                    "ref_id",
-                    $tree->getParentId($this->container->getRefId())
-                );
-                $ilCtrl->redirectByClass("ilrepositorygui", "");
+                // JKN PATCH START
+                $ilCtrl->setParameterByClass(self::class, 'ref_id', $this->container->getRefId());
+                $ilCtrl->redirect($this, "show");
+                // JKN PATCH END
                 break;
             
             default:

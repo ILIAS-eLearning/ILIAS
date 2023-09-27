@@ -1,2 +1,4 @@
+crs#:#crs_reg_user_already_subscribed#:#En attente d'approbation de la demande d'inscription
+grp#:#grp_already_assigned#:#En attente d'approbation de la demande d'inscription.
 pwassist#:#pwassist_unknown_username_or_email#:#n'a pas pu traiter l'assistance de mot de passe (raison: Il n'existe pas d'utilisateur avec ce nom) %s / %s
 pwassist#:#pwassist_unknown_email#:#n'a pas pu traiter l'assistance de mot de passe (raison: Il n'existe pas d'utilisateur avec ce nom) %s
