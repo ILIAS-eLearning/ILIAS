@@ -1217,8 +1217,8 @@ class ilCalendarAppointmentGUI
         $app_id = $this->getAppointmentIdFromQuery();
         $entry = new ilCalendarEntry($app_id);
         $start = ilDatePresentation::formatPeriod(
-            $dstart = new ilDateTime($dstart, IL_CAL_UNIX),
-            $dend = new ilDateTime($dend, IL_CAL_UNIX)
+            new ilDateTime($dstart, IL_CAL_UNIX),
+            new ilDateTime($dend, IL_CAL_UNIX)
         );
 
         $this->ctrl->setParameter($this, 'dstart', (int) $dstart);
@@ -1409,7 +1409,7 @@ class ilCalendarAppointmentGUI
             $booking = new ilBookingEntry($entry->getContextId());
             $booking->cancelBooking($entry->getEntryId());
 
-        // do NOT delete original entry
+            // do NOT delete original entry
         } elseif ($category->getType() == ilCalendarCategory::TYPE_BOOK) {
             $booking = new ilBookingReservation($entry->getContextId());
             $booking->setStatus(ilBookingReservation::STATUS_CANCELLED);
