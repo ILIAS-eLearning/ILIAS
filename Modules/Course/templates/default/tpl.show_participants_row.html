@@ -34,7 +34,9 @@
 	<!--  END access_time -->
 	<td class="std">
 		<!--  BEGIN grade -->
-		<input type="checkbox" name="passed[]" value="{VAL_PASSED_ID}" {VAL_PASSED_CHECKED} />
+		<!-- JKN PATCH START -->
+		{GRADE_STATUS}
+		<!-- JKN PATCH END -->
 		<!--  END grade -->{VAL_PASSED_TXT}
 	</td>
 	<!-- BEGIN passed_info_col -->

@@ -141,12 +141,21 @@ class ilLPStatusManualByTutor extends ilLPStatus
             case "crs":
             case "grp":
                 // completed?
-                $set = $ilDB->query($q = "SELECT usr_id FROM ut_lp_marks " .
-                    "WHERE obj_id = " . $ilDB->quote($a_obj_id, 'integer') . " " .
-                    "AND usr_id = " . $ilDB->quote($a_user_id, 'integer') . " " .
+                // JKN PATCH START
+                $set = $ilDB->query($q = "SELECT ut.usr_id,status,passed,failed  FROM ut_lp_marks ut " .
+                "INNER JOIN obj_members om ON om.obj_id = ut.obj_id AND om.usr_id = ut.usr_id " .
+                "WHERE ut.obj_id = " . $ilDB->quote($a_obj_id, 'integer') . " " .
+                "AND ut.usr_id = " . $ilDB->quote($a_user_id, 'integer') . " " .
+                // JKN PATCH END
                     "AND completed = '1' ");
                 if ($rec = $ilDB->fetchAssoc($set)) {
                     $status = self::LP_STATUS_COMPLETED_NUM;
+                    // JKN PATCH START
+                    // adds the check to see if a user has failed.
+                    if((int) $rec['failed'] === 1){
+                        $status = self::LP_STATUS_FAILED_NUM;
+                    }
+                    // JKN PATCH END
                 } else {
                     include_once './Services/Tracking/classes/class.ilChangeEvent.php';
                     if (ilChangeEvent::hasAccessed($a_obj_id, $a_user_id)) {
@@ -206,7 +215,15 @@ class ilLPStatusManualByTutor extends ilLPStatus
      */
     public static function _lookupFailedForObject($a_obj_id, $a_user_ids = null)
     {
-        return array();
+        // JKN PATCH START
+        if (!$a_user_ids) {
+            $a_user_ids = self::getMembers($a_obj_id);
+            if (!$a_user_ids) {
+                return array();
+            }
+        }
+        return self::_lookupStatusForObject($a_obj_id, self::LP_STATUS_FAILED_NUM, $a_user_ids);
+        // JKN PATCH END
     }
     
     /**

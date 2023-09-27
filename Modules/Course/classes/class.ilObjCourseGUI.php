@@ -1864,13 +1864,14 @@ class ilObjCourseGUI extends ilContainerGUI
         return $members ? $members : array();
     }
     
+    // JKN PATCH START
     /**
      * sync course status and lp status
      *
      * @param int $a_member_id
-     * @param bool $a_has_passed
+     * @param int $status
      */
-    public function updateLPFromStatus($a_member_id, $a_has_passed)
+    public function updateLPFromStatus($a_member_id, $status)
     {
         global $DIC;
 
@@ -1884,22 +1885,32 @@ class ilObjCourseGUI extends ilContainerGUI
             if ($olp->getCurrentMode() == ilLPObjSettings::LP_MODE_MANUAL_BY_TUTOR) {
                 include_once 'Services/Tracking/classes/class.ilLPMarks.php';
                 $marks = new ilLPMarks($this->object->getId(), $a_member_id);
-                
-                // only if status has changed
-                if ($marks->getCompleted() != $a_has_passed) {
-                    $marks->setCompleted($a_has_passed);
+                $pass_fail_array = [
+                    ilLPStatus::LP_STATUS_COMPLETED_NUM,
+                    ilLPStatus::LP_STATUS_FAILED_NUM
+                ];
+                if($marks->getCompleted() && !in_array($status, $pass_fail_array)){
+                    //if they're compelted and their status is not failed or completed, set completed to 0.
+                    $marks->setCompleted(0);
                     $marks->update();
-                    
-                    // as course is origin of LP status change, block syncing
-                    include_once("./Modules/Course/classes/class.ilCourseAppEventListener.php");
-                    ilCourseAppEventListener::setBlockedForLP(true);
-
-                    include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
-                    ilLPStatusWrapper::_updateStatus($this->object->getId(), $a_member_id);
                 }
+
+                if(!$marks->getCompleted() && in_array($status, $pass_fail_array)){
+                    //if they're not and their status is in failed or completed, set completed to 1.
+                    $marks->setCompleted(1);
+                    $marks->update();
+                }
+
+                // as course is origin of LP status change, block syncing
+                include_once("./Modules/Course/classes/class.ilCourseAppEventListener.php");
+                ilCourseAppEventListener::setBlockedForLP(true);
+
+                include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
+                ilLPStatusWrapper::_updateStatus($this->object->getId(), $a_member_id);
             }
         }
     }
+    // JKN PATCH END
 
 
 
