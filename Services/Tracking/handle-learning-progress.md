@@ -1,3 +1,8 @@
+> This documentation does not warrant completeness or correctness, and is probably outdated. Reports of
+missing or wrong information using the [ILIAS issue tracker](https://mantis.ilias.de)
+or contributions via [Pull Request](../../docs/development/contributing.md#pull-request-to-the-repositories)
+are greatly appreciated.
+
 # Learning Progress
 
 ## Core concepts
