@@ -94,9 +94,9 @@ class ilSkillProfileGUI
     protected string $requested_table_action = "";
 
     /**
-     * @var int[]|string
+     * @var string[]
      */
-    protected array|string $requested_table_profile_ids = [];
+    protected array $requested_table_profile_ids = [];
     protected bool $local_context = false;
 
     public function __construct(SkillTreeAccess $skill_tree_access_manager, int $skill_tree_id = 0)
@@ -296,9 +296,6 @@ class ilSkillProfileGUI
                 "profile_ids"
             );
 
-        $uri_delete = $this->df->uri(
-            ILIAS_HTTP_PATH . "/" . $ilCtrl->getLinkTarget($this, "deleteProfiles")
-        );
         $url_builder_delete = new \ILIAS\UI\URLBuilder($this->df->uri($this->request->getUri()->__toString()));
         list($url_builder_delete, $action_parameter_token_delete, $row_id_token_delete) =
             $url_builder_delete->acquireParameters(
@@ -419,35 +416,34 @@ class ilSkillProfileGUI
         };
 
         if ($this->query->has($action_parameter_token_delete->getName())) {
-            $action = $this->admin_gui_request->getTableProfileAction();
-            $ids = $this->admin_gui_request->getTableProfileIds();
-
-            if ($action === "deleteProfiles") {
+            if ($this->requested_table_action === "deleteProfiles") {
                 $items = [];
-                if ($ids === "ALL_OBJECTS") {
-                    $profiles = $this->skill_tree_id
-                        ? $this->profile_manager->getProfilesForSkillTree($this->skill_tree_id)
-                        : $this->profile_manager->getProfilesForAllSkillTrees();
-                    foreach ($profiles as $profile) {
-                        $items[] = $this->ui_fac->modal()->interruptiveItem()->standard(
-                            (string) $profile->getId(),
-                            $profile->getTitle()
-                        );
+                foreach ($this->requested_table_profile_ids as $id) {
+                    if ($id === "ALL_OBJECTS") {
+                        $profiles = $this->skill_tree_id
+                            ? $this->profile_manager->getProfilesForSkillTree($this->skill_tree_id)
+                            : $this->profile_manager->getProfilesForAllSkillTrees();
+                        foreach ($profiles as $profile) {
+                            $items[] = $this->ui_fac->modal()->interruptiveItem()->standard(
+                                (string) $profile->getId(),
+                                $profile->getTitle()
+                            );
+                        }
+                        break;
                     }
-                } elseif (is_array($ids)) {
-                    foreach ($ids as $id) {
-                        $items[] = $this->ui_fac->modal()->interruptiveItem()->standard(
-                            (string) $id,
-                            $this->profile_manager->lookupTitle($id)
-                        );
-                    }
+                    $items[] = $this->ui_fac->modal()->interruptiveItem()->standard(
+                        $id,
+                        $this->profile_manager->lookupTitle((int) $id)
+                    );
                 }
                 echo($this->ui_ren->renderAsync([
                     $this->ui_fac->modal()->interruptive(
                         "",
                         empty($items) ? $lng->txt("no_checkbox") : $lng->txt("skmg_delete_profiles"),
                         $ilCtrl->getFormAction($this, "deleteProfiles")
-                    )->withAffectedItems($items)
+                    )
+                        ->withAffectedItems($items)
+                        ->withActionButtonLabel(empty($items) ? $lng->txt("ok") : $lng->txt("delete"))
                 ]));
                 exit();
             }
@@ -1209,7 +1205,10 @@ class ilSkillProfileGUI
         }
 
         $profiles_to_export = [];
-        if ($this->requested_table_action === "exportProfiles" && $this->requested_table_profile_ids === "ALL_OBJECTS") {
+        if ($this->requested_table_action === "exportProfiles"
+            && !empty($this->requested_table_profile_ids)
+            && $this->requested_table_profile_ids[0] === "ALL_OBJECTS"
+        ) {
             $profiles = $this->skill_tree_id
                 ? $this->profile_manager->getProfilesForSkillTree($this->skill_tree_id)
                 : $this->profile_manager->getProfilesForAllSkillTrees();
@@ -1217,7 +1216,7 @@ class ilSkillProfileGUI
                 $profiles_to_export[] = $profile->getId();
             }
         } elseif ($this->requested_table_action == "exportProfiles") {
-            $profiles_to_export = $this->requested_table_profile_ids;
+            $profiles_to_export = array_map("intval", $this->requested_table_profile_ids);
         }
 
         if (empty($profiles_to_export)) {

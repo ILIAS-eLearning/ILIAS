@@ -70,9 +70,9 @@ class ilObjSkillTreeGUI extends ilObjectGUI
     protected string $requested_table_action = "";
 
     /**
-     * @var int[]|string
+     * @var string[]
      */
-    protected array|string $requested_table_tree_ids = [];
+    protected array $requested_table_tree_ids = [];
 
     /**
      * @param string|array $a_data
@@ -454,14 +454,17 @@ class ilObjSkillTreeGUI extends ilObjectGUI
     {
         $ctrl = $this->ctrl;
 
-        if ($this->requested_table_action == "deleteTrees" && $this->requested_table_tree_ids === "ALL_OBJECTS") {
+        if ($this->requested_table_action == "deleteTrees"
+            && !empty($this->requested_table_tree_ids)
+            && $this->requested_table_tree_ids[0] === "ALL_OBJECTS"
+        ) {
             $all_trees = $this->skill_tree_manager->getTrees();
             foreach ($all_trees as $tree_obj) {
                 $tree = $this->skill_tree_factory->getTreeById($tree_obj->getId());
                 $this->requested_node_ids[] = $tree->readRootId();
             }
         } elseif ($this->requested_table_action == "deleteTrees") {
-            $this->requested_node_ids = $this->requested_table_tree_ids;
+            $this->requested_node_ids = array_map("intval", $this->requested_table_tree_ids);
         }
 
         $this->deleteNodes($this);
@@ -537,7 +540,7 @@ class ilObjSkillTreeGUI extends ilObjectGUI
         $ilTabs->activateTab("skills");
 
         if ($this->requested_table_action == "editTree" && !empty($this->requested_table_tree_ids)) {
-            $node_id = $this->requested_table_tree_ids[0];
+            $node_id = (int) $this->requested_table_tree_ids[0];
             $tree_id = $this->skill_tree_repo->getTreeIdForNodeId($node_id);
             $tree_obj = $this->skill_tree_manager->getTree($tree_id);
             $ilCtrl->setParameter($this, "ref_id", $tree_obj->getRefId());

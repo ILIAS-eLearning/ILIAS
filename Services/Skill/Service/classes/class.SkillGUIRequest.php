@@ -113,24 +113,6 @@ class SkillGUIRequest
     }
 
     /**
-     * get int array kindly from string
-     * @return int[]|array<int|string, int>
-     */
-    protected function strToIntArray(string $key): array
-    {
-        if (!is_string($key)) {
-            return [];
-        }
-        $t = $this->refinery->custom()->transformation(
-            static function (string $str): array {
-                $str_arr = strlen($str) > 0 ? explode(",", $str) : [];
-                return array_map('intval', $str_arr);
-            }
-        );
-        return (array) ($this->get($key, $t) ?? []);
-    }
-
-    /**
      * get bool parameter kindly
      */
     protected function bool(string $key): bool
@@ -215,17 +197,11 @@ class SkillGUIRequest
     }
 
     /**
-     * @return int[]|string
+     * @return string[]
      */
-    protected function getTableIds(string $key): array|string
+    protected function getTableIds(string $key): array
     {
-        if ($this->isArray($key)) {
-            return $this->intArray($key);
-        } elseif ($this->str($key) === "ALL_OBJECTS") {
-            return $this->str($key);
-        } else {
-            return $this->strToIntArray($key);
-        }
+        return $this->strArray($key);
     }
 
     protected function getTableAction(string $key): string

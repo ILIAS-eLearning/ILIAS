@@ -212,17 +212,17 @@ class SkillAdminGUIRequest extends SkillGUIRequest
     }
 
     /**
-     * @return int[]|string
+     * @return string[]
      */
-    public function getTableTreeIds(): array|string
+    public function getTableTreeIds(): array
     {
         return $this->getTableIds("skl_tree_table_tree_ids");
     }
 
     /**
-     * @return int[]|string
+     * @return string[]
      */
-    public function getTableProfileIds(): array|string
+    public function getTableProfileIds(): array
     {
         return $this->getTableIds("skl_profile_table_profile_ids");
     }
