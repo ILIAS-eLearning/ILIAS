@@ -81,11 +81,11 @@ class ilPersonalProfileGUI
      */
     protected $checklist_status;
 
-    protected UIFactory $ui_factory;
-    protected UIRenderer $ui_renderer;
-    protected ilAuthSession $auth_session;
-    protected ?Interruptive $email_change_confirmation_modal = null;
-    private ProfileChangeMailTokenRepository $change_mail_token_repo;
+    protected $ui_factory;
+    protected $ui_renderer;
+    protected $auth_session;
+    protected $email_change_confirmation_modal = null;
+    private $change_mail_token_repo;
 
     /**
      * constructor
