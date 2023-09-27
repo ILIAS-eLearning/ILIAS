@@ -1,4 +1,6 @@
 <!-- language file start -->
+crs#:#crs_reg_user_already_subscribed#:#Waiting for approval of registration request
+grp#:#grp_already_assigned#:#Waiting for approval of registration request.
 common#:#obj_root#:#Course Library - Home
 common#:#repository#:#Course Library
 ldap#:#ldap_mapping_info_type#:#Show Information also in the Course Library

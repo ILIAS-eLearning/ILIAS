@@ -337,7 +337,9 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
                     $sub_data = $this->participants->getSubscriberData($ilUser->getId());
                     $sub->setValue($sub_data['subject']);
                     $sub->setInfo('');
-                    ilUtil::sendFailure($this->lng->txt('crs_reg_user_already_subscribed'));
+                    // JKN PATCH START
+                    ilUtil::sendInfo($this->lng->txt('crs_reg_user_already_subscribed'));
+                    // JKN PATCH End
                     $this->enableRegistration(false);
                 }
                 $txt->addSubItem($sub);
@@ -481,12 +483,10 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
                 $this->participants->sendNotification($this->participants->NOTIFY_SUBSCRIPTION_REQUEST, $ilUser->getId());
                 
                 ilUtil::sendSuccess($this->lng->txt("application_completed"), true);
-                $ilCtrl->setParameterByClass(
-                    "ilrepositorygui",
-                    "ref_id",
-                    $tree->getParentId($this->container->getRefId())
-                );
-                $ilCtrl->redirectByClass("ilrepositorygui", "");
+                // JKN PATCH START
+                $ilCtrl->setParameterByClass(self::class, 'ref_id', $this->container->getRefId());
+                $ilCtrl->redirect($this, "show");
+                // JKN PATCH END
                 break;
             
             default:
