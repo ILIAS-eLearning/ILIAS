@@ -794,7 +794,7 @@ class ilObjectCopyGUI
 
         return $this->ui_factory->input()->container()->form()
             ->standard($form_action, $input)
-            ->withSubmitCaption($this->lng->txt('next'));
+            ->withSubmitLabel($this->lng->txt('next'));
     }
 
     protected function showItemSelection(bool $copy_page = false): void
