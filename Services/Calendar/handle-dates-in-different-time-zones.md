@@ -1,3 +1,8 @@
+> This documentation does not warrant completeness or correctness, and is probably outdated. Reports of
+missing or wrong information using the [ILIAS issue tracker](https://mantis.ilias.de)
+or contributions via [Pull Request](../../docs/development/contributing.md#pull-request-to-the-repositories)
+are greatly appreciated.
+
 # How to handle dates in different time zones
 
 With release 3.10.0 ILIAS introduces support for individual user time zones. On the presentation, side dates should always be displayed in the time zone of the currently logged in user. With the revision of the calendar in 3.10.0, new classes for the manipulation and presentation of dates have been introduced.
