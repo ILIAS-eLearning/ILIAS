@@ -115,9 +115,9 @@ class ilTestScreenGUI
 
         if ($exam_conditions_enabled && $password_enabled) {
             $message_box_message_elements[] = $this->lng->txt('tst_launcher_status_message_conditions_and_password');
-        } else if ($exam_conditions_enabled) {
+        } elseif ($exam_conditions_enabled) {
             $message_box_message_elements[] = $this->lng->txt('tst_launcher_status_message_conditions');
-        } else if ($password_enabled) {
+        } elseif ($password_enabled) {
             $message_box_message_elements[] = $this->lng->txt('tst_launcher_status_message_password');
         }
 
@@ -146,7 +146,7 @@ class ilTestScreenGUI
         }
 
         foreach ($message_box_message_elements as $message_box_message_element) {
-            $message_box_message .=  ' ' . $message_box_message_element;
+            $message_box_message .= ' ' . $message_box_message_element;
         }
 
         if (!empty($message_box_message)) {
@@ -223,7 +223,7 @@ class ilTestScreenGUI
             if ($this->lastPassSuspended()) {
                 ilSession::set('tst_password_' . $this->object->getTestId(), $this->object->getPassword());
 
-                $launcher =  $launcher->inline($this->getResumeLauncherLink());
+                $launcher = $launcher->inline($this->getResumeLauncherLink());
             }
             if ($this->newPassCanBeStarted()) {
                 if ($this->isModalLauncherNeeded()) {
@@ -231,7 +231,9 @@ class ilTestScreenGUI
                         ->inline($this->getModalLauncherLink())
                         ->withInputs(
                             $this->ui_factory->input()->field()->group($this->getModalLauncherInputs()),
-                            function (Result $result) {$this->evaluateLauncherModalForm($result);},
+                            function (Result $result) {
+                                $this->evaluateLauncherModalForm($result);
+                            },
                             $this->getModalLauncherMessageBox()
                         )
                     ;
