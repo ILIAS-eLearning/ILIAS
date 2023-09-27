@@ -1317,7 +1317,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
     public function fetchSolutionSubmit($submit)
     {
         $solutionSubmit = array();
-
+        $purifier = $this->getHtmlUserSolutionPurifier();
         foreach ($submit as $key => $value) {
             if (preg_match("/^gap_(\d+)/", $key, $matches)) {
                 $value = ilUtil::stripSlashes($value, false);
@@ -1330,7 +1330,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
                             } elseif ($gap->getType() == CLOZE_NUMERIC) {
                                 $value = str_replace(",", ".", $value);
                             }
-                            $value = htmlentities($value);
+                            $value = $purifier->purify($value);
                             $solutionSubmit[trim($matches[1])] = $value;
                         }
                     }
