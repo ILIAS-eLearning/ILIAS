@@ -125,6 +125,16 @@ class URLBuilderTest extends TestCase
             'https://www.ilias.de/foo/bar?var1=42&var2=foo&test' . $sep . 'title=foobar#12345',
             (string) $url->buildURI()
         );
+
+        $url = $result[0]->withParameter($result[1], ['foo', 'bar']);
+        $this->assertInstanceOf(URLBuilder::class, $url);
+        $this->assertEquals(
+            'https://www.ilias.de/foo/bar?var1=42&var2=foo'
+                . '&test' . $sep . urlencode('title[]') . '=foo'
+                . '&test' . $sep . urlencode('title[]') . '=bar'
+                . '#12345',
+            (string) $url->buildURI()
+        );
     }
 
     public function test_delete_param(): void
