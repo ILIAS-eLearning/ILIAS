@@ -287,6 +287,7 @@ ilias.questions.assKprimChoice = function(a_id) {
 ilias.questions.assTextQuestion = function(a_id) {
 	// JKN PATCH START
 	var passed = false;
+	var paragraph = jQuery('#textarea'+a_id).val();
 	var words = jQuery('#textarea'+a_id).val().split(' ');
 	if(questions[a_id].text_rating === 'ci'){
 		for (var i = 0; i < words.length; i++) {
@@ -342,20 +343,12 @@ ilias.questions.assTextQuestion = function(a_id) {
 	      	tst_arr.forEach(function(i) { 
 	        //foreach array of words that need to have at least (1) completed in the group.
 		        i.forEach( (element) => {
-		        	var pattern = "^"+element.trim()+"$";
+		        	var pattern = element.trim();
 		          	pattern = pattern.replaceAll("*", ".*");
 		          	pattern =  new RegExp(pattern);
-
-		          	//foreach word
-		          	words.forEach((word) => {
-
-		            	//if the word is in the list of words (words array)
-		            	if(pattern.test(word)) {
-		            		tst_arr[i];
-		              		correct_arr.push(i);
-		              		return true;
-		            	}
-		        	});  
+					  if(pattern.test(paragraph)){
+						correct_arr.push(i);
+					}
 		        });
 		        return true;
 	    	});
@@ -568,45 +561,22 @@ ilias.questions.assTextSubset = function(a_id) {
 		var found = false;
 		for (var c=0;c<questions[a_id].correct_answers.length;c++)
 		{
-			if(questions[a_id].correct_answers[c]["answertext"].indexOf("|")){
-				var alt_words = questions[a_id].correct_answers[c]["answertext"].split("|");
-				alt_words.forEach((element) => {
-					element = element.trim();
-					var pattern = element.replaceAll("*", ".*");
-					pattern = "^"+pattern+"$";
-					pattern =  new RegExp(pattern);
-					if(questions[a_id].matching_method == "ci"){
-						element = element.toLowerCase();
-					}
-					if(element == answer || pattern.test(answer) && questions[a_id].correct_answers[c]["points"] > 0)
-					{
-						found = true;
-
-						// check if answer was given multiple times
-						for (var j=0;j<i;j++) {
-							var old_answer = a_node.get(j).value;
-							if(questions[a_id].matching_method == "ci")
-							{
-								old_answer = old_answer.toLowerCase();
-							}
-							if(old_answer == answer)
-							{
-								found = false;
-								j = i;
-							}
-						}
-					}
-				});
-			}else{
-				var correct_answer = questions[a_id].correct_answers[c]["answertext"];
-				if(questions[a_id].matching_method == "ci")
-				{
-					correct_answer = correct_answer.toLowerCase();
+			var alt_words = questions[a_id].correct_answers[c]["answertext"].split("|");
+			alt_words.forEach((element) => {
+				element = element.trim();
+				var pattern = element.replaceAll("*", ".*");
+					pattern = pattern.replaceAll('(', '\\(');
+					pattern = pattern.replaceAll(')', '\\)');
+				pattern = "^"+pattern+"$"; 
+				
+				pattern =  new RegExp(pattern);
+				if(questions[a_id].matching_method == "ci"){
+					element = element.toLowerCase();
 				}
-				if(correct_answer == answer && questions[a_id].correct_answers[c]["points"] > 0)
+				if(element == answer || pattern.test(answer) && questions[a_id].correct_answers[c]["points"] > 0)
 				{
 					found = true;
-
+ 
 					// check if answer was given multiple times
 					for (var j=0;j<i;j++) {
 						var old_answer = a_node.get(j).value;
@@ -621,8 +591,8 @@ ilias.questions.assTextSubset = function(a_id) {
 						}
 					}
 				}
-			}
-			
+			});
+		
 		}
 		if(found === false)
 		{
