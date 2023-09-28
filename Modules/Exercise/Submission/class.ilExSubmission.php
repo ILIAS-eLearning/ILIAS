@@ -758,7 +758,7 @@ class ilExSubmission
             " ORDER BY download_time DESC";
         $lu_set = $ilDB->query($q);
         $lu_rec = $ilDB->fetchAssoc($lu_set);
-        return $lu_rec["download_time"];
+        return $lu_rec["download_time"] ?? "";
     }
 
     public function downloadFiles(
