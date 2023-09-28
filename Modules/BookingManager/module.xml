@@ -22,5 +22,10 @@
 		<cron id="book_notification" class="ilBookCronNotification" />
 		<cron id="book_pref_book" class="ilBookingPrefBookCron" />
 	</crons>
+	<!-- JKN PATCH START -->
+	<events>		
+		<event type="raise" id="participantBooked" />
+	</events>
+	<!-- JKN PATCH END -->
 	<logging />
 </module>
