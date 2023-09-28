@@ -358,8 +358,14 @@ abstract class ilPageObject
         if ($this->old_nr == 0) {
             $query = "SELECT * FROM page_object" .
                 " WHERE page_id = " . $this->db->quote($this->id, "integer") .
-                " AND parent_type=" . $this->db->quote($this->getParentType(), "text") .
-                " AND lang = " . $this->db->quote($this->getLanguage(), "text");
+                // JKN PATCH START
+                " AND parent_type=" . $this->db->quote($this->getParentType(), "text");
+
+                $languages = self::lookupTranslations($this->getParentType(), $this->getId());
+                if ($this->getLanguage() != "-" && isset($languages[$this->getLanguage()])) {
+                   $query .=   " AND lang = " . $this->db->quote($this->getLanguage(), "text");
+                }
+                // JKN PATCH END
             $pg_set = $this->db->query($query);
             $this->page_record = $this->db->fetchAssoc($pg_set);
             $this->setActive($this->page_record["active"]);
@@ -4961,7 +4967,9 @@ abstract class ilPageObject
         );
         $langs = array();
         while ($rec = $db->fetchAssoc($set)) {
-            $langs[] = $rec["lang"];
+            // JKN PATCH START
+            $langs[$rec["lang"]] = $rec["lang"];
+            // JKN PATCH END
         }
         return $langs;
     }
