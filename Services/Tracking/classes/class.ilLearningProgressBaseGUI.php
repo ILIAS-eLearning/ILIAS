@@ -963,6 +963,9 @@ class ilLearningProgressBaseGUI
             $marks->setComment($form->getInput("comment"));
             
             // JKN PATCH START
+
+            $marks->update();
+            
             // $do_lp = false;
             
             // // status/completed is optional
