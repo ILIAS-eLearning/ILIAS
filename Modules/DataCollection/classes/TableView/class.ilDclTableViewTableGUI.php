@@ -220,7 +220,7 @@ class ilDclTableViewTableGUI extends ilTable2GUI
 
         $icon = $this->ui_factory->symbol()->icon()->custom(ilUtil::getImagePath('standard/icon_not_ok_monochrome.svg'), $this->lng->txt("yes"));
         if ($a_set->validateConfigCompletion()) {
-            $icon = $this->ui_factory->symbol()->icon()->custom(ilUtil::getImagePath('icon_ok_monochrome.svg'), $this->lng->txt("no"));
+            $icon = $this->ui_factory->symbol()->icon()->custom(ilUtil::getImagePath('standard/icon_ok_monochrome.svg'), $this->lng->txt("no"));
         }
         $this->tpl->setVariable("ICON_CONFIG", $this->renderer->render($icon));
         $this->tpl->setVariable('ACTIONS', $this->buildAction($a_set->getId()));

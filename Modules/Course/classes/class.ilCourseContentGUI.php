@@ -223,7 +223,7 @@ class ilCourseContentGUI
 
             if ($start_obj->isFullfilled($this->user->getId(), $ref_id)) {
                 $accomplished = 'accomplished';
-                $icon = ilUtil::getImagePath("icon_ok.svg");
+                $icon = ilUtil::getImagePath("standard/icon_ok.svg");
             } else {
                 $accomplished = 'not_accomplished';
                 $icon = ilUtil::getImagePath("standard/icon_not_ok.svg");

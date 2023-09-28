@@ -2808,7 +2808,7 @@ class ilObjCourseGUI extends ilContainerGUI
                 if (!$noti->isCurrentUserActive()) {
                     $lg->addHeaderIcon(
                         "not_icon",
-                        ilUtil::getImagePath("media/notification_off.svg"),
+                        ilUtil::getImagePath("object/notification_off.svg"),
                         $this->lng->txt("crs_notification_deactivated")
                     );
 
@@ -2817,7 +2817,7 @@ class ilObjCourseGUI extends ilContainerGUI
                 } else {
                     $lg->addHeaderIcon(
                         "not_icon",
-                        ilUtil::getImagePath("media/notification_on.svg"),
+                        ilUtil::getImagePath("object/notification_on.svg"),
                         $this->lng->txt("crs_notification_activated")
                     );
 

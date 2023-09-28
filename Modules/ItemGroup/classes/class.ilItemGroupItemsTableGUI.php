@@ -103,7 +103,7 @@ class ilItemGroupItemsTableGUI extends ilTable2GUI
 
         if (in_array($a_set["child"], $this->items)) {
             $i = $f->symbol()->icon()->custom(
-                ilUtil::getImagePath("icon_ok.svg"),
+                ilUtil::getImagePath("standard/icon_ok.svg"),
                 $this->lng->txt("yes")
             );
             $this->tpl->setVariable("IMG_ASSIGNED", $r->render($i));

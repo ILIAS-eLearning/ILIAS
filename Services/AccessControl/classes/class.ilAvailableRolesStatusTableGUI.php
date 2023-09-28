@@ -62,7 +62,7 @@ class ilAvailableRolesStatusTableGUI extends ilTable2GUI
     protected function fillRow(array $a_set): void
     {
         if ($a_set["img"] == ilObjectPermissionStatusGUI::IMG_OK) {
-            $img_path = ilUtil::getImagePath("icon_ok.svg");
+            $img_path = ilUtil::getImagePath("standard/icon_ok.svg");
             $img_info = $this->lng->txt("info_assigned");
         } else {
             $img_path = ilUtil::getImagePath("standard/icon_not_ok.svg");

@@ -858,7 +858,7 @@ class ilHierarchyFormGUI extends ilFormGUI
 
     public function getChildIcon(array $a_item): string
     {
-        return ilUtil::getImagePath("icon_" . $a_item["type"] . ".svg");
+        return ilUtil::getImagePath("standard/icon_" . $a_item["type"] . ".svg");
     }
 
     public function getChildIconAlt(array $a_item): string

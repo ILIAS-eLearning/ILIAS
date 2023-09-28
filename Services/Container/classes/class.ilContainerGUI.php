@@ -680,7 +680,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         string $a_type,
         bool $a_show_image = true
     ): void {
-        $icon = ilUtil::getImagePath("icon_" . $a_type . ".svg");
+        $icon = ilUtil::getImagePath("standard/icon_" . $a_type . ".svg");
         $title = $this->lng->txt("objs_" . $a_type);
 
         if ($a_show_image) {
@@ -707,7 +707,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 
         $nbsp = true;
         if ($ilSetting->get("icon_position_in_lists") === "item_rows") {
-            $icon = ilUtil::getImagePath("icon_" . $a_image_type . ".svg");
+            $icon = ilUtil::getImagePath("standard/icon_" . $a_image_type . ".svg");
             $alt = $this->lng->txt("obj_" . $a_image_type);
 
             if ($ilSetting->get('custom_icons')) {

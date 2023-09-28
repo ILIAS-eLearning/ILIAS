@@ -62,7 +62,7 @@ class ilForumNotificationTableGUI extends ilTable2GUI
     private function getIcon(int $user_toggle_noti): string
     {
         $icon_ok = $this->ui_factory->symbol()->icon()->custom(
-            ilUtil::getImagePath('icon_ok.svg'),
+            ilUtil::getImagePath('standard/icon_ok.svg'),
             $this->lng->txt('enabled')
         );
         $icon_not_ok = $this->ui_factory->symbol()->icon()->custom(

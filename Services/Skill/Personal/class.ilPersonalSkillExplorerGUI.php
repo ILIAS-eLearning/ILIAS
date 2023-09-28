@@ -249,7 +249,7 @@ class ilPersonalSkillExplorerGUI extends ilTreeExplorerGUI
         if ($t == "sktr") {
             return ilUtil::getImagePath("standard/icon_skll.svg");
         }
-        return ilUtil::getImagePath("icon_" . $t . ".svg");
+        return ilUtil::getImagePath("standard/icon_" . $t . ".svg");
     }
 
     /**

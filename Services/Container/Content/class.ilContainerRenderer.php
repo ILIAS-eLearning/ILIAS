@@ -650,7 +650,7 @@ class ilContainerRenderer
         }
 
         if ($a_type !== "" && $ilSetting->get("icon_position_in_lists") !== "item_rows") {
-            $icon = ilUtil::getImagePath("icon_" . $a_type . ".svg");
+            $icon = ilUtil::getImagePath("standard/icon_" . $a_type . ".svg");
 
             $a_tpl->setCurrentBlock("container_header_row_image");
             $a_tpl->setVariable("HEADER_IMG", $icon);

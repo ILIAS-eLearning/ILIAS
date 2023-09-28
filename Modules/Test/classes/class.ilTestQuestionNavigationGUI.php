@@ -589,7 +589,7 @@ class ilTestQuestionNavigationGUI
     private function getQuestionMarkIconSource(): string
     {
         if ($this->isQuestionMarked()) {
-            return ilUtil::getImagePath('media/marked.svg');
+            return ilUtil::getImagePath('object/marked.svg');
         }
 
         return ilUtil::getImagePath('object/marked_.svg');

@@ -161,7 +161,7 @@ class ilProgressBar
             $this->main_tpl->addJavaScript("Services/UIComponent/ProgressBar/js/progress_bar.js");
             $tpl->setCurrentBlock('async_status');
             $tpl->setVariable('ASYNC_STATUS_ID', $this->unique_id);
-            $tpl->setVariable('ICON_OK', ilUtil::getImagePath('icon_ok.svg'));
+            $tpl->setVariable('ICON_OK', ilUtil::getImagePath('standard/icon_ok.svg'));
             $tpl->setVariable('AJAX_URL', $this->ajax_url);
             $tpl->setVariable('AJAX_TIMEOUT', 1000 * $this->ajax_timeout);
             $tpl->parseCurrentBlock();

@@ -100,7 +100,7 @@ class ilPageLayoutTableGUI extends ilTable2GUI
         }
 
         if ($a_set['active']) {
-            $this->tpl->setVariable("IMG_ACTIVE", ilUtil::getImagePath("icon_ok.svg"));
+            $this->tpl->setVariable("IMG_ACTIVE", ilUtil::getImagePath("standard/icon_ok.svg"));
         } else {
             $this->tpl->setVariable("IMG_ACTIVE", ilUtil::getImagePath("standard/icon_not_ok.svg"));
         }

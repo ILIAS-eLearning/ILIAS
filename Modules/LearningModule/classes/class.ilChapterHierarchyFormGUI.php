@@ -251,7 +251,7 @@ class ilChapterHierarchyFormGUI extends ilHierarchyFormGUI
     */
     public function getChildIcon(array $a_item): string
     {
-        $img = "icon_" . $a_item["type"] . ".svg";
+        $img = "standard/icon_" . $a_item["type"] . ".svg";
 
         if ($a_item["type"] == "pg") {
             $lm_set = new ilSetting("lm");
@@ -310,7 +310,7 @@ class ilChapterHierarchyFormGUI extends ilHierarchyFormGUI
                 }
             }
         }
-        return ilUtil::getImagePath("icon_" . $a_item["type"] . ".svg");
+        return ilUtil::getImagePath("standard/icon_" . $a_item["type"] . ".svg");
     }
 
     /**

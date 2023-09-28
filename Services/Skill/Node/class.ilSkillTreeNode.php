@@ -455,7 +455,7 @@ class ilSkillTreeNode
             ? "_off"
             : "";
 
-        $a_name = "icon_" . $a_type . $a_size . $off . ".svg";
+        $a_name = "standard/icon_" . $a_type . $a_size . $off . ".svg";
         if ($a_type == "sktr") {
             $tid = ilSkillTemplateReference::_lookupTemplateId($a_obj_id);
             $type = ilSkillTreeNode::_lookupType($tid);

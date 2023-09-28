@@ -128,7 +128,7 @@ class ilMailExplorer extends ilTreeExplorerGUI
                 $iconType = 'local';
             }
 
-            $icon = ilUtil::getImagePath('icon_' . $iconType . '.svg');
+            $icon = ilUtil::getImagePath('standard/icon_' . $iconType . '.svg');
         }
 
         return $icon;

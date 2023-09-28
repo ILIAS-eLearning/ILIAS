@@ -157,7 +157,7 @@ class ilCalendarManageTableGUI extends ilTable2GUI
 
             case ilCalendarCategory::TYPE_OBJ:
                 $type = ilObject::_lookupType($a_set['obj_id']);
-                $this->tpl->setVariable('IMG_SRC', ilUtil::getImagePath('icon_' . $type . '.svg'));
+                $this->tpl->setVariable('IMG_SRC', ilUtil::getImagePath('standard/icon_' . $type . '.svg'));
                 $this->tpl->setVariable('IMG_ALT', $this->lng->txt('cal_type_' . $type));
                 break;
 

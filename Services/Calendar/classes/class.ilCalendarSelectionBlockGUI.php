@@ -432,7 +432,7 @@ class ilCalendarSelectionBlockGUI extends ilBlockGUI
 
             case ilCalendarCategory::TYPE_OBJ:
                 $img_type = $obj_type === 'tals' ? 'etal' : $obj_type;
-                $a_tpl->setVariable('IMG_SRC', ilUtil::getImagePath('icon_' . $img_type . '.svg'));
+                $a_tpl->setVariable('IMG_SRC', ilUtil::getImagePath('standard/icon_' . $img_type . '.svg'));
                 $a_tpl->setVariable('IMG_ALT', $this->lng->txt('cal_type_' . $obj_type));
                 break;
 

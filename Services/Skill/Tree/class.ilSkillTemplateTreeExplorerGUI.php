@@ -128,7 +128,7 @@ class ilSkillTemplateTreeExplorerGUI extends ilTreeExplorerGUI
                 (int) $this->draft[$a_node["child"]]
             );
         } else {
-            $icon = ilUtil::getImagePath("icon_" . $a_node["type"] . ".svg");
+            $icon = ilUtil::getImagePath("standard/icon_" . $a_node["type"] . ".svg");
         }
 
         return $icon;

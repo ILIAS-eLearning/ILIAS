@@ -447,7 +447,7 @@ class ilMediaPoolTableGUI extends ilTable2GUI
                 }
 
                 $this->tpl->setCurrentBlock("tbl_content");
-                $this->tpl->setVariable("IMG", ilUtil::img(ilUtil::getImagePath("icon_" . $a_set["type"] . ".svg")));
+                $this->tpl->setVariable("IMG", ilUtil::img(ilUtil::getImagePath("standard/icon_" . $a_set["type"] . ".svg")));
                 $ilCtrl->setParameter($this->parent_obj, $this->folder_par, $this->current_folder);
                 break;
 
@@ -531,7 +531,7 @@ class ilMediaPoolTableGUI extends ilTable2GUI
                     } else {
                         $this->tpl->setVariable(
                             "IMG",
-                            ilUtil::img(ilUtil::getImagePath("icon_" . $a_set["type"] . ".svg"))
+                            ilUtil::img(ilUtil::getImagePath("standard/icon_" . $a_set["type"] . ".svg"))
                         );
                     }
                     if ($med && ilUtil::deducibleSize($med->getFormat()) &&

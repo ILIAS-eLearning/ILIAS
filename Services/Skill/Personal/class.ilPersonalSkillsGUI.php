@@ -925,7 +925,7 @@ class ilPersonalSkillsGUI
         $ilCtrl->saveParameter($this, "tref_id");
 
         $tpl->setTitle(ilSkillTreeNode::_lookupTitle($this->requested_skill_id));
-        $tpl->setTitleIcon(ilUtil::getImagePath("icon_" .
+        $tpl->setTitleIcon(ilUtil::getImagePath("standard/icon_" .
             ilSkillTreeNode::_lookupType($this->requested_skill_id) .
             ".svg"));
 
@@ -1112,7 +1112,7 @@ class ilPersonalSkillsGUI
         $ilCtrl->saveParameter($this, "tref_id");
 
         $tpl->setTitle(ilSkillTreeNode::_lookupTitle($this->requested_skill_id));
-        $tpl->setTitleIcon(ilUtil::getImagePath("icon_" .
+        $tpl->setTitleIcon(ilUtil::getImagePath("standard/icon_" .
             ilSkillTreeNode::_lookupType($this->requested_skill_id) .
             ".svg"));
 

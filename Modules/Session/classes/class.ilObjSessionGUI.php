@@ -1352,7 +1352,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 
                 {
                     $this->tpl->setVariable("IMAGE_PARTICIPATED", $event_part->hasParticipated($user_id) ?
-                                            ilUtil::getImagePath('icon_ok.svg') :
+                                            ilUtil::getImagePath('standard/icon_ok.svg') :
                                             ilUtil::getImagePath('standard/icon_not_ok.svg'));
 
                     $this->tpl->setVariable("PARTICIPATED", $event_part->hasParticipated($user_id) ?

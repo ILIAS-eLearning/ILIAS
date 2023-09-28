@@ -49,7 +49,7 @@ class ilLMEditorExplorerGUI extends ilLMExplorerGUI
         if ($a_node["child"] == $this->getNodeId($this->getRootNode())) {
             $icon = ilUtil::getImagePath("standard/icon_lm.svg");
         } else {
-            $a_name = "icon_" . $a_node["type"] . ".svg";
+            $a_name = "standard/icon_" . $a_node["type"] . ".svg";
             if ($a_node["type"] == "pg") {
                 $lm_set = new ilSetting("lm");
                 $active = ilLMPage::_lookupActive(

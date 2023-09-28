@@ -174,7 +174,7 @@ class ilVirtualSkillTreeExplorerGUI extends ilExplorerBaseGUI
             if ($type == "sctp") {
                 $type = "scat";
             }
-            $icon = ilUtil::getImagePath("icon_" . $type . ".svg");
+            $icon = ilUtil::getImagePath("standard/icon_" . $type . ".svg");
         }
 
         return $icon;

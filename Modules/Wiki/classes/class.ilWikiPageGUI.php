@@ -299,7 +299,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
 
                 $lg->addHeaderIcon(
                     "not_icon",
-                    ilUtil::getImagePath("media/notification_on.svg"),
+                    ilUtil::getImagePath("object/notification_on.svg"),
                     $this->lng->txt("wiki_notification_activated")
                 );
             } else {
@@ -312,7 +312,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
 
                     $lg->addHeaderIcon(
                         "not_icon",
-                        ilUtil::getImagePath("media/notification_on.svg"),
+                        ilUtil::getImagePath("object/notification_on.svg"),
                         $this->lng->txt("wiki_page_notification_activated")
                     );
                 } else {
@@ -321,7 +321,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
 
                     $lg->addHeaderIcon(
                         "not_icon",
-                        ilUtil::getImagePath("media/notification_off.svg"),
+                        ilUtil::getImagePath("object/notification_off.svg"),
                         $this->lng->txt("wiki_notification_deactivated")
                     );
                 }

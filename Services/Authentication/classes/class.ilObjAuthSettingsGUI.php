@@ -102,7 +102,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
         // icon handlers
 
         $icon_ok = $this->renderer->render(
-            $this->ui->symbol()->icon()->custom(ilUtil::getImagePath("icon_ok.svg"), $this->lng->txt("enabled"))
+            $this->ui->symbol()->icon()->custom(ilUtil::getImagePath("standard/icon_ok.svg"), $this->lng->txt("enabled"))
         );
         $icon_not_ok = $this->renderer->render(
             $this->ui->symbol()->icon()->custom(ilUtil::getImagePath("standard/icon_not_ok.svg"), $this->lng->txt("disabled"))

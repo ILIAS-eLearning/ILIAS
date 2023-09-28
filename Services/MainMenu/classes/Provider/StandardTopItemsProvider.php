@@ -155,7 +155,7 @@ class StandardTopItemsProvider extends AbstractStaticMainMenuProvider
             ->withPosition(50);
 
         $title = $f("mm_organisation");
-        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("icon_orga.svg"), $title);
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("standard/icon_orga.svg"), $title);
 
         $organisation = $this->mainmenu->topParentItem($this->getOrganisationIdentification())
             ->withVisibilityCallable($this->basic_access_helper->isUserLoggedIn())

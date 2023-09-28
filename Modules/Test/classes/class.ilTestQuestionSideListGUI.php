@@ -193,7 +193,7 @@ class ilTestQuestionSideListGUI
 
             if ($row['marked']) {
                 $tpl->setCurrentBlock("mark_icon");
-                $tpl->setVariable("ICON_SRC", ilUtil::getImagePath('media/marked.svg'));
+                $tpl->setVariable("ICON_SRC", ilUtil::getImagePath('object/marked.svg'));
                 $tpl->setVariable("ICON_TEXT", $this->lng->txt('tst_question_marked'));
                 $tpl->setVariable("ICON_CLASS", 'ilTestMarkQuestionIcon');
                 $tpl->parseCurrentBlock();

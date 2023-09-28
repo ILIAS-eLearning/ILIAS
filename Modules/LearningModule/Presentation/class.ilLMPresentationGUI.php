@@ -884,7 +884,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
 
                 $lg->addHeaderIcon(
                     "not_icon",
-                    ilUtil::getImagePath("media/notification_on.svg"),
+                    ilUtil::getImagePath("object/notification_on.svg"),
                     $this->lng->txt("cont_notification_activated")
                 );
             } else {
@@ -897,7 +897,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
 
                     $lg->addHeaderIcon(
                         "not_icon",
-                        ilUtil::getImagePath("media/notification_on.svg"),
+                        ilUtil::getImagePath("object/notification_on.svg"),
                         $this->lng->txt("cont_page_notification_activated")
                     );
                 } else {
@@ -906,7 +906,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
 
                     $lg->addHeaderIcon(
                         "not_icon",
-                        ilUtil::getImagePath("media/notification_off.svg"),
+                        ilUtil::getImagePath("object/notification_off.svg"),
                         $this->lng->txt("cont_notification_deactivated")
                     );
                 }

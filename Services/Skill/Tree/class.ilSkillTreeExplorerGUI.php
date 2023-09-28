@@ -117,7 +117,7 @@ class ilSkillTreeExplorerGUI extends ilVirtualSkillTreeExplorerGUI
                 (int) ($this->vtree->isDraft($a_node["id"]) || $this->vtree->isOutdated($a_node["id"]))
             );
         } else {
-            $icon = ilUtil::getImagePath("icon_" . $a_node["type"] . ".svg");
+            $icon = ilUtil::getImagePath("standard/icon_" . $a_node["type"] . ".svg");
         }
 
         return $icon;

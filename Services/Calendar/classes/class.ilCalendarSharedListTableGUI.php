@@ -63,7 +63,7 @@ class ilCalendarSharedListTableGUI extends ilTable2GUI
             $this->tpl->setVariable('DESCRIPTION', $a_set['description']);
         }
 
-        $this->tpl->setVariable('TYPE_IMG', ilUtil::getImagePath('icon_' . $a_set['type'] . '.svg'));
+        $this->tpl->setVariable('TYPE_IMG', ilUtil::getImagePath('standard/icon_' . $a_set['type'] . '.svg'));
         $this->tpl->setVariable('ALT_IMG', $this->lng->txt('obj_' . $a_set['type']));
 
         if ($a_set['writable']) {

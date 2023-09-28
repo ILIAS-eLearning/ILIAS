@@ -275,7 +275,7 @@ class ilTestParticipantsTableGUI extends ilTable2GUI
     protected function buildOkIcon(): string
     {
         return $this->ui_renderer->render($this->ui_factory->symbol()->icon()->custom(
-            ilUtil::getImagePath("icon_ok.svg"),
+            ilUtil::getImagePath("standard/icon_ok.svg"),
             $this->lng->txt("ok")
         ));
     }

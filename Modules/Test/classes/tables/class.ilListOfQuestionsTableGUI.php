@@ -181,7 +181,7 @@ class ilListOfQuestionsTableGUI extends ilTable2GUI
                 $this->tpl->setVariable(
                     "HREF_MARKED",
                     ilUtil::img(
-                        ilUtil::getImagePath('media/marked.svg'),
+                        ilUtil::getImagePath('object/marked.svg'),
                         $this->lng->txt("tst_question_marked"),
                         '24px',
                         '24px'
