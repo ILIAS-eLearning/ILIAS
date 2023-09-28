@@ -162,7 +162,6 @@ class ilDidacticTemplateSettingsGUI
         if (!$query->has('didactic_template_table_action')) {
             return;
         }
-        // $ids = $query->retrieve('didactic_template_template_ids', $this->refinery->custom()->transformation(fn ($v) => $v));
         $action = $query->retrieve('didactic_template_table_action', $this->refinery->to()->string());
 
         $ids = $this->http->wrapper()->query()->retrieve(
@@ -172,7 +171,6 @@ class ilDidacticTemplateSettingsGUI
                     return $q_ids;
                 }
                 return strlen($q_ids) > 0 ? explode(',', $q_ids) : [];
-                ;
             })
         );
 
@@ -187,15 +185,12 @@ class ilDidacticTemplateSettingsGUI
                 $this->copyTemplate((int) $ids[0]);
                 break;
             case 'activateTemplates':
-                //$ids = strlen($ids) > 0 ? explode(',', $ids) : [];
                 $this->activateTemplates($ids);
                 break;
             case 'deactivateTemplates':
-                //$ids = strlen($ids) > 0 ? explode(',', $ids) : [];
                 $this->deactivateTemplates($ids);
                 break;
             case 'confirmDelete':
-                //$ids = strlen($ids) > 0 ? explode(',', $ids) : [];
                 $this->confirmDelete($ids);
                 break;
         }
