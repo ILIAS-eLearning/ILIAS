@@ -1494,6 +1494,7 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
         $redirection_url = new ilTextInputGUI($this->lng->txt('redirection_url'), 'redirection_url');
         $redirection_url->setValue((string) $this->testOBJ->getRedirectionUrl());
         $redirection_url->setRequired(true);
+        $redirection_url->setMaxLength(128);
         $rm_enabled->addSubItem($redirection_url);
 
         $form->addItem($rm_enabled);
