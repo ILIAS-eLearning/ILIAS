@@ -329,6 +329,9 @@ class ilAnswerWizardInputGUI extends ilTextInputGUI
         $tpl->setVariable("ANSWER_TEXT", $this->getTextInputLabel($lng));
         $tpl->setVariable("POINTS_TEXT", $this->getPointsInputLabel($lng));
         $tpl->setVariable("COMMANDS_TEXT", $lng->txt('actions'));
+        // JKN PATCH START
+        $tpl->setVariable("WILDCARD", $lng->txt('essay_wildcard_alternate'));
+        // JKN PATCH END
 
         $a_tpl->setCurrentBlock("prop_generic");
         $a_tpl->setVariable("PROP_GENERIC", $tpl->get());

@@ -145,6 +145,9 @@ class ilEssayKeywordWizardInputGUI extends ilSingleChoiceWizardInputGUI
         $tpl->setVariable("DELETE_IMAGE_QUESTION", $lng->txt('delete_image_question'));
         $tpl->setVariable("ANSWER_TEXT", $lng->txt('answer_text'));
         $tpl->setVariable("POINTS_TEXT", $lng->txt('points'));
+        // JKN PATCH START
+        $tpl->setVariable("WILDCARD", $lng->txt('essay_wildcard_alternate'));
+        // JKN PATCH END
         $tpl->setVariable("COMMANDS_TEXT", $lng->txt('actions'));
         $tpl->setVariable("POINTS_CHECKED_TEXT", $lng->txt('checkbox_checked'));
 
