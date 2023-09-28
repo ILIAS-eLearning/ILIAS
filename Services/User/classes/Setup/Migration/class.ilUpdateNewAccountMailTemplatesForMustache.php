@@ -59,6 +59,7 @@ class ilUpdateNewAccountMailTemplatesForMustache implements Migration
         $this->replace($lang, '[IF_NO_PASSWORD]', '{{#IF_NO_PASSWORD}}');
         $this->replace($lang, '[IF_TARGET]', '{{#IF_TARGET}}');
         $this->replace($lang, '[IF_TIMELIMIT]', '{{#IF_TIMELIMIT}}');
+        $this->replaceRemainingBrackets($lang);
     }
 
     public function getRemainingAmountOfSteps(): int
@@ -105,6 +106,17 @@ class ilUpdateNewAccountMailTemplatesForMustache implements Migration
             . " body = REPLACE(body, '" . $search . "', '" . $replacement . "')" . PHP_EOL
             . " WHERE lang = " . $this->db->quote($lang, ilDBConstants::T_TEXT) . PHP_EOL
             . "    AND type = 'nacc'"
+        ;
+        $this->db->manipulate($q);
+    }
+
+    protected function replaceRemainingBrackets(string $lang): void
+    {
+        $q = 'UPDATE mail_template' . PHP_EOL
+            . ' SET subject = REGEXP_REPLACE(subject, "\\[([[:upper:]]+)\\]", "{{$1}}"),' . PHP_EOL
+            . ' body = REGEXP_REPLACE(body, "\\[([[:upper:]]+)\\]", "{{$1}}"),' . PHP_EOL
+            . ' WHERE lang = ' . $this->db->quote($lang, ilDBConstants::T_TEXT) . PHP_EOL
+            . '    AND type = \'nacc\''
         ;
         $this->db->manipulate($q);
     }
