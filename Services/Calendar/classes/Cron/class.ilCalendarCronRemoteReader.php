@@ -25,6 +25,7 @@ class ilCalendarCronRemoteReader extends ilCronJob
     private const DEFAULT_SYNC_HOURS = 1;
 
     private ilLanguage $lng;
+    private ilLogger $logger;
 
     private ?ilCalendarSettings $calendar_settings = null;
 
@@ -33,6 +34,7 @@ class ilCalendarCronRemoteReader extends ilCronJob
         global $DIC;
 
         $this->lng = $DIC->language();
+        $this->logger = $DIC->logger()->cal();
         $this->calendar_settings = ilCalendarSettings::_getInstance();
     }
 
@@ -99,12 +101,17 @@ class ilCalendarCronRemoteReader extends ilCronJob
         $counter = 0;
         foreach (ilCalendarCategories::lookupRemoteCalendars() as $remoteCalendar) {
             $status = ilCronJobResult::STATUS_CRASHED;
+
             $reader = new ilCalendarRemoteReader($remoteCalendar->getRemoteUrl());
             $reader->setUser($remoteCalendar->getRemoteUser());
             $reader->setPass($remoteCalendar->getRemotePass());
+            try {
             $reader->read();
             $reader->import($remoteCalendar);
-
+            } catch (Exception $e) {
+                $this->logger->warning('Remote Calendar: ' . $remoteCalendar->getCategoryID());
+                $this->logger->warning('Reading remote calendar failed with message: ' . $e->getMessage());
+            }
             $remoteCalendar->setRemoteSyncLastExecution(new ilDateTime(time(), IL_CAL_UNIX));
             $remoteCalendar->update();
             $status = ilCronJobResult::STATUS_OK;

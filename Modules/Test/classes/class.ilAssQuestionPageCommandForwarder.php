@@ -28,6 +28,7 @@ declare(strict_types=1);
  */
 class ilAssQuestionPageCommandForwarder
 {
+    private \ILIAS\TestQuestionPool\QuestionInfoService $questioninfo;
     protected ?ilObjTest $testObj;
 
     protected \ILIAS\Test\InternalRequestService $testrequest;
@@ -49,6 +50,7 @@ class ilAssQuestionPageCommandForwarder
         $ctrl = $DIC->ctrl();
         $main_template = $DIC->ui()->mainTemplate();
         $lng = $DIC->language();
+        $this->questioninfo = $DIC->testQuestionPool()->questionInfo();
 
         $this->testrequest = $DIC->test()->internal()->request();
 
@@ -79,7 +81,7 @@ class ilAssQuestionPageCommandForwarder
         $q_gui->object->setObjId($this->getTestObj()->getId());
         $question = &$q_gui->object;
 
-        if ($ctrl->getCmd() === 'edit' && $question->isInActiveTest()) {
+        if ($ctrl->getCmd() === 'edit' && $this->questioninfo->isInActiveTest($this->testrequest->getQuestionId())) {
             $main_template->setOnScreenMessage('failure', $lng->txt("question_is_part_of_running_test"));
             $ctrl->redirectByClass('ilAssQuestionPreviewGUI', ilAssQuestionPreviewGUI::CMD_SHOW);
         }

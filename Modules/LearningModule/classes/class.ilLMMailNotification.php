@@ -32,6 +32,7 @@ class ilLMMailNotification extends ilMailNotification
         global $DIC;
         parent::__construct($a_is_personal_workspace);
         $this->user = $DIC->user();
+        $this->questioninfo = $DIC->testQuestionPool()->questionInfo();
     }
 
     public function setQuestionId(int $a_val): void
@@ -80,7 +81,7 @@ class ilLMMailNotification extends ilMailNotification
                     $this->appendBody("\n");
 
                     $this->appendBody(
-                        $this->getLanguageText('question') . ": " . assQuestion::_getTitle($this->getQuestionId())
+                        $this->getLanguageText('question') . ": " . $this->questioninfo->getQuestionTitle($this->getQuestionId())
                     );
                     $this->appendBody("\n");
                     $this->appendBody("\n\n");

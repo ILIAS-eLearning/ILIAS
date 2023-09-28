@@ -50,6 +50,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
     private array $mob_ids;
     private array $file_ids = [];
     private bool $online;
+    protected \ILIAS\TestQuestionPool\QuestionInfoService $questioninfo;
     private InternalRequestService $testrequest;
     private ASS_MarkSchema $mark_schema;
     public int $test_id = -1;
@@ -151,7 +152,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         parent::__construct($id, $a_call_by_reference);
 
         $this->lng->loadLanguageModule("assessment");
-
+        $this->questioninfo = $DIC->testQuestionPool()->questionInfo();
         $this->score_settings = null;
 
         $this->question_set_config_factory = new ilTestQuestionSetConfigFactory(
@@ -160,7 +161,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
             $this->lng,
             $this->log,
             $this->component_repository,
-            $this
+            $this,
+            $this->questioninfo
         );
     }
 
@@ -1107,7 +1109,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
     {
         $testSequenceFactory = new ilTestSequenceFactory(
             $this,
-            $this->db
+            $this->db,
+            $this->questioninfo
         );
 
         foreach ($activeIds as $activeId) {
@@ -1763,7 +1766,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
             $pass = (int) $results['pass'];
         }
 
-        $testSequenceFactory = new ilTestSequenceFactory($this, $this->db);
+        $testSequenceFactory = new ilTestSequenceFactory($this, $this->db, $this->questioninfo);
         $testSequence = $testSequenceFactory->getSequenceByActiveIdAndPass($active_id, $pass);
 
         $testSequence->setConsiderHiddenQuestionsEnabled($considerHiddenQuestions);
@@ -4629,7 +4632,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
                 $this->lng,
                 $this->log,
                 $this->component_repository,
-                $this
+                $this,
+                $this->questioninfo
             );
 
             $questionSetConfig->loadFromDb();
@@ -4676,7 +4680,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
     {
         $original_id = 0;
         if ($question_id !== 0) {
-            $original_id = assQuestion::_getOriginalId($question_id);
+            $original_id = $this->questioninfo->getOriginalId($question_id);
         }
         ilObjAssessmentFolder::_addLog($this->user->getId(), $this->getId(), $logtext, $question_id, $original_id, true, $this->getRefId());
     }
@@ -5491,7 +5495,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         }
         $workedthrough = 0;
         foreach ($this->questions as $value) {
-            if (assQuestion::_isWorkedThrough($active_id, $value, $pass)) {
+            if ($this->questioninfo->lookupResultRecordExist($active_id, $value, $pass)) {
                 $workedthrough += 1;
             }
         }
@@ -6543,7 +6547,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
                 ->withHighscoreTopNum($testsettings['highscore_top_num'])
             )
         ;
-        $this->getScoreSettingsRepository()->store($s);
+        $this->getScoreSettingsRepository()->store($score_settings);
         $this->saveToDb();
 
         return true;
@@ -6666,7 +6670,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
     * @return string The feedback text
     * @access public
     */
-    public static function getManualFeedback($active_id, $question_id, $pass): string
+    public static function getManualFeedback(int $active_id, int $question_id, int $pass): string
     {
         $feedback = "";
         $row = self::getSingleManualFeedback((int) $active_id, (int) $question_id, (int) $pass);
@@ -6817,7 +6821,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
                 $this->lng->txtlng('assessment', 'log_manual_feedback', ilObjAssessmentFolder::_getLogLanguage()),
                 $this->user->getFullname() . ' (' . $this->user->getLogin() . ')',
                 $username,
-                assQuestion::_getQuestionTitle($question_id),
+                $this->questioninfo->getQuestionTitle($question_id),
                 $feedback
             )
         );
@@ -6837,7 +6841,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
 
     public function &createTestSequence($active_id, $pass, $shuffle)
     {
-        $this->testSequence = new ilTestSequence($active_id, $pass, $this->isRandomTest());
+        $this->testSequence = new ilTestSequence($active_id, $pass, $this->isRandomTest(), $this->questioninfo);
     }
 
     /**
@@ -7582,7 +7586,9 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
 
     public static function isQuestionObligationPossible(int $question_id): bool
     {
-        $class = assQuestion::_getQuestionType($question_id);
+        global $DIC;
+        $question_info = $DIC->testQuestionPool()->questionInfo();
+        $class = $question_info->getQuestionType($question_id);
         return call_user_func([$class, 'isObligationPossible'], $question_id);
     }
 
@@ -8065,7 +8071,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         // Added temporarily bugfix smeyer
         $test_session_factory->reset();
 
-        $test_sequence_factory = new ilTestSequenceFactory($test_obj, $ilDB);
+        $test_sequence_factory = new ilTestSequenceFactory($test_obj, $ilDB, $DIC->testQuestionPool()->questionInfo());
 
         $test_session = $test_session_factory->getSession($active_id);
         $test_sequence = $test_sequence_factory->getSequenceByActiveIdAndPass($active_id, $test_session->getPass());

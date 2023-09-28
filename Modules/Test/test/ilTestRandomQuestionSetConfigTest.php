@@ -36,7 +36,8 @@ class ilTestRandomQuestionSetConfigTest extends ilTestBaseTestCase
             $this->createMock(ilLanguage::class),
             $this->createMock(ilLogger::class),
             $this->createMock(ilComponentRepository::class),
-            $this->getMockBuilder(ilObjTest::class)->disableOriginalConstructor()->getMock()
+            $this->getMockBuilder(ilObjTest::class)->disableOriginalConstructor()->getMock(),
+            $this->getMockBuilder(\ILIAS\TestQuestionPool\QuestionInfoService::class)->disableOriginalConstructor()->getMock()
         );
     }
 

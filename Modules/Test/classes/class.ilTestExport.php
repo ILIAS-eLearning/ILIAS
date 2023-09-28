@@ -292,7 +292,7 @@ abstract class ilTestExport
 
     protected function getQuestionQtiXml($questionId): string
     {
-        $questionOBJ = assQuestion::_instantiateQuestion($questionId);
+        $questionOBJ = assQuestion::instantiateQuestion($questionId);
         $xml = $questionOBJ->toXML(false);
 
         // still neccessary? there is an include header flag!?

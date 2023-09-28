@@ -100,6 +100,7 @@ class ilObjTestSettingsFinishing extends TestSettings
             'redirect_url' => $f->text(
                 $lng->txt('redirection_url')
             )->withRequired(true)
+            ->withAdditionalTransformation($refinery->string()->hasMaxLength(4000))
         ];
 
         $redirection_input = $f->optionalGroup(

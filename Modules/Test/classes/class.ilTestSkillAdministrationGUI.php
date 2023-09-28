@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\TestQuestionPool\QuestionInfoService;
+
 /**
  * @author		Björn Heyser <bheyser@databay.de>
  * @version		$Id$
@@ -40,6 +42,7 @@ class ilTestSkillAdministrationGUI
         private ilTree $tree,
         private ilComponentRepository $component_repository,
         private ilObjTest $test_obj,
+        private QuestionInfoService $questioninfo,
         private int $ref_id
     ) {
     }
@@ -164,7 +167,8 @@ class ilTestSkillAdministrationGUI
             $this->lng,
             $this->log,
             $this->component_repository,
-            $this->test_obj
+            $this->test_obj,
+            $this->questioninfo
         );
 
         $question_set_config = $question_set_config_factory->getQuestionSetConfig();

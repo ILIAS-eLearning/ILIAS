@@ -494,7 +494,8 @@ class ilTestExpressPageObjectGUI extends ilAssQuestionPageGUI
                 $this->lng,
                 $this->log,
                 $this->component_repository,
-                $this->test_object
+                $this->test_object,
+                $this->questioninfo
             );
             $test_question_set_config = $test_question_set_config_factory->getQuestionSetConfig();
 

@@ -10401,6 +10401,8 @@ link#:#link_wpages#:#Wiki Pages
 lm#:#lm_btn_lp_toggle_state_completed#:#Set Not Completed
 lm#:#lm_btn_lp_toggle_state_not_completed#:#Set Completed
 lm#:#lm_copy#:#Copy Learning Module
+lm#:#lm_edit_chapters#:#Edit Chapters
+lm#:#lm_edit_lm_settings#:#Edit Learning Module Settings
 lm#:#lm_est_reading_time#:#Estimated Reading Time
 lm#:#lm_est_reading_time_info#:#In Learning Modules in the repository the estimated reading time can be determined and displayed.
 lm#:#lm_page_type_lm#:#LM Page
@@ -16738,6 +16740,7 @@ ui#:#ui_link_url#:#URL
 ui#:#ui_md_input_edit#:#Edit
 ui#:#ui_md_input_view#:#View
 ui#:#ui_numeric_only#:#Please insert a whole number.
+ui#:#ui_table_no_records#:#No records
 ui#:#ui_tag_required#:#Please insert at least one tag.
 ui#:#ui_transcription#:#Transcript
 user#:#all_roles_has_starting_point#:#All the roles have starting points

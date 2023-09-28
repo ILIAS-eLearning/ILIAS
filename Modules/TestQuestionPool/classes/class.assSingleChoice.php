@@ -31,7 +31,7 @@ require_once './Modules/Test/classes/inc.AssessmentConstants.php';
  *
  * @ingroup		ModulesTestQuestionPool
  */
-class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjustable, ilObjAnswerScoringAdjustable, iQuestionCondition, ilAssSpecificFeedbackOptionLabelProvider
+class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjustable, ilObjAnswerScoringAdjustable, iQuestionCondition, ilAssSpecificFeedbackOptionLabelProvider, ilAssQuestionLMExportable, ilAssQuestionAutosaveable
 {
     private bool $isSingleline = true;
 
@@ -287,7 +287,7 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
         $thisObjId = $this->getObjId();
 
         $clone = $this;
-        $original_id = assQuestion::_getOriginalId($this->id);
+        $original_id = $this->questioninfo->getOriginalId($this->id);
         $clone->id = -1;
 
         if ((int) $testObjId > 0) {
@@ -335,7 +335,7 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
         }
         // duplicate the question in database
         $clone = $this;
-        $original_id = assQuestion::_getOriginalId($this->id);
+        $original_id = $this->questioninfo->getOriginalId($this->id);
         $clone->id = -1;
         $source_questionpool_id = $this->getObjId();
         $clone->setObjId($target_questionpool_id);
@@ -385,30 +385,6 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
         $clone->onCopy($sourceParentId, $sourceQuestionId, $clone->getObjId(), $clone->getId());
 
         return $clone->id;
-    }
-
-    /**
-    * Gets the single choice output type which is either OUTPUT_ORDER (=0) or OUTPUT_RANDOM (=1).
-    *
-    * @return integer The output type of the assSingleChoice object
-    * @access public
-    * @see $output_type
-    */
-    public function getOutputType(): int
-    {
-        return $this->output_type;
-    }
-
-    /**
-    * Sets the output type of the assSingleChoice object
-    *
-    * @param integer $output_type A nonnegative integer value specifying the output type. It is OUTPUT_ORDER (=0) or OUTPUT_RANDOM (=1).
-    * @access public
-    * @see $response
-    */
-    public function setOutputType($output_type = OUTPUT_ORDER): void
-    {
-        $this->output_type = $output_type;
     }
 
     /**
@@ -1020,7 +996,7 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
     {
         global $DIC;
         $ilLog = $DIC['ilLog'];
-        $question_id = $this->getOriginalId();
+        $question_id = $this->questioninfo->getOriginalId();
         $imagepath = $this->getImagePath();
         $imagepath_original = str_replace("/$this->id/images", "/$question_id/images", $imagepath);
         ilFileUtils::delDir($imagepath_original);
@@ -1349,8 +1325,8 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
     {
         parent::afterSyncWithOriginal($origQuestionId, $dupQuestionId, $origParentObjId, $dupParentObjId);
 
-        $origImagePath = $this->buildImagePath($origQuestionId, $origParentObjId);
-        $dupImagePath = $this->buildImagePath($dupQuestionId, $dupParentObjId);
+        $origImagePath = $this->questionFilesService->buildImagePath($origQuestionId, $origParentObjId);
+        $dupImagePath = $this->questionFilesService->buildImagePath($dupQuestionId, $dupParentObjId);
 
         ilFileUtils::delDir($origImagePath);
         if (is_dir($dupImagePath)) {

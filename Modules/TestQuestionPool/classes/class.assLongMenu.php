@@ -18,7 +18,7 @@
 
 require_once './Modules/Test/classes/inc.AssessmentConstants.php';
 
-class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
+class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable, ilAssQuestionLMExportable, ilAssQuestionAutosaveable
 {
     private $answerType;
     private $long_menu_text;
@@ -508,7 +508,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
 
         $clone = $this;
 
-        $original_id = assQuestion::_getOriginalId($this->id);
+        $original_id = $this->questioninfo->getOriginalId($this->id);
         $clone->id = -1;
 
         if ((int) $testObjId > 0) {
@@ -547,7 +547,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
         // duplicate the question in database
         $clone = $this;
 
-        $original_id = assQuestion::_getOriginalId($this->id);
+        $original_id = $this->questioninfo->getOriginalId($this->id);
         $clone->id = -1;
         $source_questionpool_id = $this->getObjId();
         $clone->setObjId($target_questionpool_id);

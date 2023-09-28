@@ -1059,7 +1059,8 @@ class ilObjMediaObject extends ilObject
                 switch ($cont_type) {
                     case "qpl":
                         // Question Pool *Question* Text (Test)
-                        $qinfo = assQuestion::_getQuestionInfo($id);
+                        global $DIC;
+                        $qinfo = $DIC->testQuestionPool()->questionInfo()->getQuestionInfo($id);
                         if (isset($qinfo["original_id"]) && $qinfo["original_id"] > 0) {
                             $obj_id = ilObjTest::_lookupTestObjIdForQuestionId($id);	// usage in test
                         } else {
@@ -1149,7 +1150,8 @@ class ilObjMediaObject extends ilObject
                         }
 
                         // Question Pool Question Pages
-                        $qinfo = assQuestion::_getQuestionInfo($id);
+                        global $DIC;
+                        $qinfo = $DIC->testQuestionPool()->questionInfo()->getQuestionInfo($id);
                         if ($qinfo["original_id"] > 0) {
                             $obj_id = ilObjTest::_lookupTestObjIdForQuestionId($id);	// usage in test
                         } else {
@@ -1580,7 +1582,7 @@ class ilObjMediaObject extends ilObject
     public static function getForbiddenFileTypes(): array
     {
         $mset = new ilSetting("mobs");
-        if (trim($mset->get("black_list_file_types")) == "") {
+        if (trim((string) $mset->get("black_list_file_types")) === "") {
             return array();
         }
         return array_map(
@@ -1597,7 +1599,7 @@ class ilObjMediaObject extends ilObject
     public static function getAllowedFileTypes(): array
     {
         $mset = new ilSetting("mobs");
-        if (trim($mset->get("restricted_file_types")) == "") {
+        if (trim((string) $mset->get("restricted_file_types")) === "") {
             return array();
         }
         return array_map(

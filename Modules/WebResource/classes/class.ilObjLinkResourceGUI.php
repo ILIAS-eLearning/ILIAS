@@ -1275,7 +1275,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI
             $position = $this->http->wrapper()->post()->retrieve(
                 'position',
                 $this->refinery->kindlyTo()->dictOf(
-                    $this->refinery->kindlyTo()->int()
+                    $this->refinery->kindlyTo()->string()
                 )
             );
         }

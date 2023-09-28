@@ -116,7 +116,7 @@ class ilObjectPropertyTileImage implements ilObjectProperty
         $timg->setInfo($language->txt(self::INPUT_BYLINE));
         $timg->setSuffixes(self::SUPPORTED_FILE_EXTENSIONS);
         $timg->setUseCache(false);
-        if ($this->tile_image->exists()) {
+        if ($this->tile_image?->exists()) {
             $timg->setImage($this->tile_image->getFullPath());
         } else {
             $timg->setImage('');

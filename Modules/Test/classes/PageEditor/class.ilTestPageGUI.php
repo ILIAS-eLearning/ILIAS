@@ -26,4 +26,7 @@ declare(strict_types=1);
  */
 class ilTestPageGUI extends ilPageObjectGUI
 {
+    public function getTabs(string $a_activate = ""): void
+    {
+    }
 }

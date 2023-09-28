@@ -95,7 +95,7 @@ class assSingleChoiceImport extends assQuestionImport
                                             }
                                         }
                                     } else {
-                                        $answertext = $this->object->QTIMaterialToString($mat);
+                                        $answertext = $this->QTIMaterialToString($mat);
                                     }
                                 }
                                 $answers[$ident] = array(
@@ -207,7 +207,7 @@ class assSingleChoiceImport extends assQuestionImport
         $this->object->setComment($item->getComment());
         $this->object->setAuthor($item->getAuthor());
         $this->object->setOwner($ilUser->getId());
-        $this->object->setQuestion($this->object->QTIMaterialToString($item->getQuestiontext()));
+        $this->object->setQuestion($this->QTIMaterialToString($item->getQuestiontext()));
         $this->object->setObjId($questionpool_id);
         $this->object->setShuffle($shuffle);
         $thumb_size = (int) $item->getMetadataEntry("thumb_size");
@@ -257,11 +257,11 @@ class assSingleChoiceImport extends assQuestionImport
         }
 
         foreach ($feedbacks as $ident => $material) {
-            $m = $this->object->QTIMaterialToString($material);
+            $m = $this->QTIMaterialToString($material);
             $feedbacks[$ident] = $m;
         }
         foreach ($feedbacksgeneric as $correctness => $material) {
-            $m = $this->object->QTIMaterialToString($material);
+            $m = $this->QTIMaterialToString($material);
             $feedbacksgeneric[$correctness] = $m;
         }
         // handle the import of media objects in XHTML code

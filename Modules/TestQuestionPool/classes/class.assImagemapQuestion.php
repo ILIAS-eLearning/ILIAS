@@ -31,7 +31,7 @@ require_once './Modules/Test/classes/inc.AssessmentConstants.php';
  *
  * @ingroup		ModulesTestQuestionPool
  */
-class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdjustable, ilObjAnswerScoringAdjustable, iQuestionCondition
+class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdjustable, ilObjAnswerScoringAdjustable, iQuestionCondition, ilAssQuestionLMExportable
 {
     private \ILIAS\TestQuestionPool\InternalRequestService $request; // Hate it.
 
@@ -218,7 +218,7 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
         $thisObjId = $this->getObjId();
 
         $clone = $this;
-        $original_id = assQuestion::_getOriginalId($this->id);
+        $original_id = $this->questioninfo->getOriginalId($this->id);
         $clone->id = -1;
 
         if ((int) $testObjId > 0) {
@@ -267,7 +267,7 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
         // duplicate the question in database
         $clone = $this;
 
-        $original_id = assQuestion::_getOriginalId($this->id);
+        $original_id = $this->questioninfo->getOriginalId($this->id);
         $clone->id = -1;
         $source_questionpool_id = $this->getObjId();
         $clone->setObjId($target_questionpool_id);
@@ -711,11 +711,6 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
         return $this->ensureNonNegativePoints($reachedPoints);
     }
 
-    public function isAutosaveable(): bool
-    {
-        return false; // #15217
-    }
-
     /**
      * Saves the learners input of the question to the database.
      *
@@ -825,7 +820,7 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
 
     public function syncWithOriginal(): void
     {
-        if ($this->getOriginalId()) {
+        if ($this->questioninfo->getOriginalId()) {
             parent::syncWithOriginal();
         }
     }

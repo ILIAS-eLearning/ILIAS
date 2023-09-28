@@ -36,7 +36,8 @@ class ilTestService
      */
     public function __construct(
         protected ilObjTest $object,
-        protected ilDBInterface $db
+        protected ilDBInterface $db,
+        protected \ILIAS\TestQuestionPool\QuestionInfoService $questioninfo
     ) {
     }
 
@@ -157,7 +158,7 @@ class ilTestService
 
     public function buildVirtualSequence(ilTestSession $testSession): ilTestVirtualSequence
     {
-        $test_sequence_factory = new ilTestSequenceFactory($this->object, $this->db);
+        $test_sequence_factory = new ilTestSequenceFactory($this->object, $this->db, $this->questioninfo);
 
         if ($this->object->isRandomTest()) {
             $virtual_sequence = new ilTestVirtualSequenceRandomQuestionSet($this->db, $this->object, $test_sequence_factory);

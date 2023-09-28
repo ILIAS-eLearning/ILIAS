@@ -30,6 +30,7 @@ use ILIAS\Refinery\Transformation as TransformationInterface;
 use ILIAS\Data\Factory as DataFactory;
 use Psr\Http\Message\ServerRequestInterface;
 use ILIAS\Refinery\Constraint;
+use ILIAS\TestQuestionPool\QuestionInfoService;
 
 /**
  *
@@ -84,7 +85,8 @@ class ilObjTestSettingsMainGUI extends ilTestSettingsGUI
         protected ilDBInterface $db,
         protected ilComponentRepository $component_repository,
         protected ilObjUser $activeUser,
-        protected ilObjTestGUI $test_gui
+        protected ilObjTestGUI $test_gui,
+        protected QuestionInfoService $questioninfo
     ) {
         /** @var ILIAS\DI\Container $DIC */
         global $DIC;
@@ -107,7 +109,8 @@ class ilObjTestSettingsMainGUI extends ilTestSettingsGUI
             $this->lng,
             $DIC['ilLog'],
             $this->component_repository,
-            $this->test_gui->getTestObject()
+            $this->test_gui->getTestObject(),
+            $this->questioninfo
         );
 
         $this->lng->loadLanguageModule('validation');

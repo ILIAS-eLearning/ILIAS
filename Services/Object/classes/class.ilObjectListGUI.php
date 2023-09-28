@@ -1243,8 +1243,9 @@ class ilObjectListGUI
 
     public function determineProperties(): array
     {
-        $props = $this->getProperties();
-        $props = $this->getCustomProperties($props);
+        $props = $this->getCustomProperties(
+            $this->getProperties()
+        );
 
         if ($this->context != self::CONTEXT_WORKSPACE && $this->context != self::CONTEXT_WORKSPACE_SHARING) {
             // add learning progress custom property
@@ -1786,15 +1787,10 @@ class ilObjectListGUI
 
     public function insertSubscribeCommand(): void
     {
-        if ($this->std_cmd_only) {
-            return;
-        }
-
-        // note: the setting disable_my_offers is used for
-        // presenting the favourites in the main section of the dashboard
-        // see also bug #32014
-        if ($this->settings->get('rep_favourites', '0') === '0' ||
-            $this->user->getId() === ANONYMOUS_USER_ID) {
+        if ($this->std_cmd_only
+            || $this->user->getId() === ANONYMOUS_USER_ID
+            || !$this->getContainerObject() instanceof ilDesktopItemHandling
+            || $this->settings->get('rep_favourites', '0') === '0') {
             return;
         }
 
@@ -1813,23 +1809,23 @@ class ilObjectListGUI
                 $this->container_obj->getObject()->getRefId()
             );
         }
-        if ($this->getContainerObject() instanceof ilDashboardBlockGUI) {
+        if ($this->getContainerObject() instanceof ilDesktopItemHandling) {
             $this->ctrl->setParameter($this->container_obj, 'type', $type);
             $this->ctrl->setParameter($this->container_obj, 'item_ref_id', $this->getCommandId());
-        }
 
-        if (!$this->fav_manager->ifIsFavourite($this->user->getId(), $this->getCommandId())) {
-            // Pass type and object ID to ilAccess to improve performance
-            if ($this->checkCommandAccess('read', '', $this->ref_id, $this->type, $this->obj_id)) {
-                $cmd_link = $this->ctrl->getLinkTarget($this->container_obj, 'addToDesk');
-                $this->insertCommand($cmd_link, $this->lng->txt('rep_add_to_favourites'));
+            if (!$this->fav_manager->ifIsFavourite($this->user->getId(), $this->getCommandId())) {
+                // Pass type and object ID to ilAccess to improve performance
+                if ($this->checkCommandAccess('read', '', $this->ref_id, $this->type, $this->obj_id)) {
+                    $cmd_link = $this->ctrl->getLinkTarget($this->container_obj, 'addToDesk');
+                    $this->insertCommand($cmd_link, $this->lng->txt('rep_add_to_favourites'));
+                }
+            } else {
+                $cmd_link = $this->ctrl->getLinkTarget($this->container_obj, 'removeFromDesk');
+                $this->insertCommand($cmd_link, $this->lng->txt('rep_remove_from_favourites'));
             }
-        } else {
-            $cmd_link = $this->ctrl->getLinkTarget($this->container_obj, 'removeFromDesk');
-            $this->insertCommand($cmd_link, $this->lng->txt('rep_remove_from_favourites'));
-        }
 
-        $this->ctrl->clearParameters($this->container_obj);
+            $this->ctrl->clearParameters($this->container_obj);
+        }
     }
 
     public function insertInfoScreenCommand(): void
@@ -3233,7 +3229,6 @@ class ilObjectListGUI
         if ($def_cmd_link != '') {    // #24256
             if ($def_cmd_frame != '' && ($modified_link == $def_cmd_link)) {
                 $image = $image->withAdditionalOnLoadCode(function ($id) use (
-                    $def_command,
                     $def_cmd_frame,
                     $def_cmd_link
                 ): string {
@@ -3247,7 +3242,6 @@ class ilObjectListGUI
 
                 $button =
                     $ui->factory()->button()->shy($title, "")->withAdditionalOnLoadCode(function ($id) use (
-                        $def_command,
                         $def_cmd_frame,
                         $def_cmd_link
                     ): string {
@@ -3316,7 +3310,9 @@ class ilObjectListGUI
 
         $l = [];
         foreach ($this->determineProperties() as $p) {
-            if (($p['alert'] ?? false) && $p['property'] !== $this->lng->txt('learning_progress')) {
+            if (($p['alert'] ?? false)
+                && isset($p['property'])
+                && $p['property'] ?? '' !== $this->lng->txt('learning_progress')) {
                 $l[(string) $p['property']] = (string) $p['value'];
             }
         }

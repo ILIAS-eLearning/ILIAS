@@ -1,6 +1,5 @@
 <?php
 
-declare(strict_types=0);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -30,6 +29,7 @@ class ilCourseObjectiveQuestionAssignmentTableGUI extends ilTable2GUI
 
     private int $objective_id = 0;
     private ilObject $course_obj;
+    private \ILIAS\TestQuestionPool\QuestionInfoService $questioninfo;
 
     protected ilObjectDefinition $objDefinition;
     protected ilTree $tree;
@@ -43,6 +43,7 @@ class ilCourseObjectiveQuestionAssignmentTableGUI extends ilTable2GUI
         $this->settings = ilLOSettings::getInstanceByObjId($this->course_obj->getId());
         $this->objDefinition = $DIC['objDefinition'];
         $this->tree = $DIC->repositoryTree();
+        $this->questioninfo = $DIC->testQuestionPool()->questionInfo();
 
         parent::__construct($a_parent_obj, 'materialAssignment');
         $this->lng->loadLanguageModule('crs');
@@ -144,7 +145,7 @@ class ilCourseObjectiveQuestionAssignmentTableGUI extends ilTable2GUI
                 $tmp_question = ilObjTest::_instanciateQuestion($question_data['question_id']);
                 #$sub['qst_txt'] = $tmp_question->_getQuestionText($question_data['question_id']);
                 $sub['qst_txt'] = '';
-                $sub['qst_points'] = assQuestion::_getMaximumPoints($question_data['question_id']);
+                $sub['qst_points'] = $this->questioninfo->getMaximumPoints($question_data['question_id']);
 
                 $sub['title'] = $tmp_question->getTitle();
                 $sub['description'] = $tmp_question->getComment();

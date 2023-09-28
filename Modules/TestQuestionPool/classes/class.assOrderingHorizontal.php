@@ -29,7 +29,7 @@ require_once './Modules/Test/classes/inc.AssessmentConstants.php';
  *
  * @ingroup	ModulesTestQuestionPool
  */
-class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringAdjustable, iQuestionCondition
+class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringAdjustable, iQuestionCondition, ilAssQuestionLMExportable, ilAssQuestionAutosaveable
 {
     protected const HAS_SPECIFIC_FEEDBACK = false;
 
@@ -161,7 +161,7 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
 
         $clone = $this;
 
-        $original_id = assQuestion::_getOriginalId($this->id);
+        $original_id = $this->questioninfo->getOriginalId($this->id);
         $clone->id = -1;
 
         if ((int) $testObjId > 0) {
@@ -206,7 +206,7 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
         // duplicate the question in database
         $clone = $this;
 
-        $original_id = assQuestion::_getOriginalId($this->id);
+        $original_id = $this->questioninfo->getOriginalId($this->id);
         $clone->id = -1;
         $source_questionpool_id = $this->getObjId();
         $clone->setObjId($target_questionpool_id);
@@ -598,16 +598,6 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
     public function setSeparator($a_value): void
     {
         $this->separator = $a_value;
-    }
-
-    public function supportsJavascriptOutput(): bool
-    {
-        return true;
-    }
-
-    public function supportsNonJsOutput(): bool
-    {
-        return false;
     }
 
     /**

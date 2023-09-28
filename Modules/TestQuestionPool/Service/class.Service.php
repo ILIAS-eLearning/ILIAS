@@ -38,4 +38,14 @@ class Service
     {
         return new InternalService($this->DIC);
     }
+
+    public function questionInfo(): QuestionInfoService
+    {
+        return new QuestionInfoService($this->DIC->database());
+    }
+
+    public function questionFiles(): QuestionFilesService
+    {
+        return new QuestionFilesService();
+    }
 }

@@ -30,7 +30,7 @@ use ILIAS\Filesystem\Stream\Streams;
  * @ilCtrl_IsCalledBy ilDashboardBlockGUI: ilColumnGUI
  * @ilCtrl_Calls ilDashboardBlockGUI: ilCommonActionDispatcherGUI
  */
-abstract class ilDashboardBlockGUI extends ilBlockGUI
+abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHandling
 {
     private string $content;
     private ilRbacSystem $rbacsystem;
@@ -81,7 +81,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
         $card = $itemListGui->getAsCard(
             $data->getRefId(),
             $data->getObjId(),
-            $data->getDescription(),
+            $data->getType(),
             $data->getTitle(),
             $data->getDescription()
         );
@@ -114,7 +114,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI
         $list_item = $itemListGui->getAsListItem(
             $data->getRefId(),
             $data->getObjId(),
-            $data->getDescription(),
+            $data->getType(),
             $data->getTitle(),
             $data->getDescription()
         );

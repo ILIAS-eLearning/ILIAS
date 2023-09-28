@@ -323,8 +323,8 @@ class ilMDCopyrightSelectionEntry
         while ($row = $this->db->fetchObject($res)) {
             $this->setTitle($row->title);
             $this->setDescription($row->description);
-            $this->setCopyright($row->copyright);
-            $this->setLanguage($row->language);
+            $this->setCopyright((string) $row->copyright);
+            $this->setLanguage((string) $row->language);
             $this->setCosts((bool) $row->costs);
             $this->setOutdated((bool) $row->outdated);
             $this->setOrderPosition((int) $row->position);

@@ -58,7 +58,7 @@ class assErrorTextImport extends assQuestionImport
         $this->object->setComment($item->getComment());
         $this->object->setAuthor($item->getAuthor());
         $this->object->setOwner($ilUser->getId());
-        $this->object->setQuestion($this->object->QTIMaterialToString($item->getQuestiontext()));
+        $this->object->setQuestion($this->QTIMaterialToString($item->getQuestiontext()));
         $this->object->setObjId($questionpool_id);
         $this->object->setPointsWrong($item->getMetadataEntry("points_wrong"));
         $this->object->setErrorText($item->getMetadataEntry("errortext"));

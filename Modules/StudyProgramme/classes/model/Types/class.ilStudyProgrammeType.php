@@ -41,7 +41,6 @@ class ilStudyProgrammeType
     protected DateTime $create_date;
     protected DateTime $last_update;
     protected string $icon;
-    protected ilLog $log;
     protected ilObjUser $user;
     protected array $active_plugins;
     protected ilLanguage $lng;

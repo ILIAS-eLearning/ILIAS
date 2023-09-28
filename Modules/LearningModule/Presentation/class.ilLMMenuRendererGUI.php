@@ -87,6 +87,7 @@ class ilLMMenuRendererGUI
         $request = $lm_pres_service->getRequest();
         $this->requested_obj_id = $request->getObjId();
         $this->requested_ref_id = $request->getRefId();
+        $this->lng->loadLanguageModule("lm");
     }
 
     public function render(): string
@@ -187,17 +188,25 @@ class ilLMMenuRendererGUI
         // edit learning module
         if (!$this->offline) {
             if ($ilAccess->checkAccess("write", "", $this->requested_ref_id)) {
-                if ($this->current_page <= 0) {
-                    $link = $this->ctrl->getLinkTargetByClass(["ilLMEditorGUI", "ilobjlearningmodulegui"], "chapters");
-                } else {
-                    $link = ILIAS_HTTP_PATH . "/ilias.php?baseClass=ilLMEditorGUI&ref_id=" . $this->requested_ref_id .
-                        "&obj_id=" . $this->current_page . "&to_page=1";
-                }
-                $this->toolbar->addComponent(
-                    $this->ui_factory->button()->standard(
+                $actions = [];
+
+                if ($this->current_page > 0) {
+                    $actions[] = $this->ui_factory->button()->shy(
                         $this->lng->txt("edit_page"),
-                        $link
-                    )
+                        ILIAS_HTTP_PATH . "/ilias.php?baseClass=ilLMEditorGUI&ref_id=" . $this->requested_ref_id .
+                        "&obj_id=" . $this->current_page . "&to_page=1"
+                    );
+                }
+                $actions[] = $this->ui_factory->button()->shy(
+                    $this->lng->txt("lm_edit_chapters"),
+                    $this->ctrl->getLinkTargetByClass(["ilLMEditorGUI", "ilobjlearningmodulegui"], "chapters")
+                );
+                $actions[] = $this->ui_factory->button()->shy(
+                    $this->lng->txt("lm_edit_lm_settings"),
+                    $this->ctrl->getLinkTargetByClass(["ilLMEditorGUI", "ilobjlearningmodulegui"], "properties")
+                );
+                $this->toolbar->addComponent(
+                    $this->ui_factory->dropdown()->standard($actions)
                 );
             }
         }

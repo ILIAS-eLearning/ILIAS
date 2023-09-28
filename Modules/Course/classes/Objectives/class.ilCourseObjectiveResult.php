@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=0);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -34,12 +32,14 @@ class ilCourseObjectiveResult
     private int $user_id;
 
     protected ilDBInterface $db;
+    protected \ILIAS\TestQuestionPool\QuestionInfoService $questioninfo;
 
     public function __construct(int $a_usr_id)
     {
         global $DIC;
 
         $this->db = $DIC->database();
+        $this->questioninfo = $DIC->testQuestionPool()->questionInfo();
 
         $this->user_id = $a_usr_id;
     }
@@ -218,7 +218,7 @@ class ilCourseObjectiveResult
         $all_pretest_answered = false;
         $all_final_answered = false;
         foreach ($objectives as $data) {
-            if (assQuestion::_areAnswered($this->getUserId(), $data['questions'])) {
+            if ($this->questioninfo->areQuestionsAnsweredByUser($this->getUserId(), $data['questions'])) {
                 if ($data['tst_status']) {
                     $all_final_answered = true;
                 } else {

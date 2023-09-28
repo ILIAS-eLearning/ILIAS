@@ -21,6 +21,7 @@ declare(strict_types=1);
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\Test\InternalRequestService;
+use ILIAS\TestQuestionPool\QuestionInfoService;
 
 /**
  * GUI class that manages the question set configuration for continues tests
@@ -79,7 +80,8 @@ class ilTestRandomQuestionSetConfigGUI
         private ilObjectDefinition $obj_definition,
         private ilObjectDataCache $obj_cache,
         private ilTestProcessLockerFactory $processLockerFactory,
-        private InternalRequestService $testrequest
+        private InternalRequestService $testrequest,
+        private QuestionInfoService $questioninfo
     ) {
         $this->questionSetConfig = new ilTestRandomQuestionSetConfig(
             $this->tree,
@@ -87,7 +89,8 @@ class ilTestRandomQuestionSetConfigGUI
             $this->lng,
             $this->log,
             $this->component_repository,
-            $this->test_obj
+            $this->test_obj,
+            $this->questioninfo
         );
         $this->questionSetConfig->loadFromDb();
 

@@ -190,7 +190,7 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
         $thisObjId = $this->getObjId();
 
         $clone = $this;
-        $original_id = assQuestion::_getOriginalId($this->id);
+        $original_id = $this->questioninfo->getOriginalId($this->id);
         $clone->id = -1;
 
         if ((int) $testObjId > 0) {
@@ -234,7 +234,7 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
         }
         // duplicate the question in database
         $clone = $this;
-        $original_id = assQuestion::_getOriginalId($this->id);
+        $original_id = $this->questioninfo->getOriginalId($this->id);
         $clone->id = -1;
         $source_questionpool_id = $this->getObjId();
         $clone->setObjId($target_questionpool_id);
@@ -689,8 +689,11 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
      */
     public function saveWorkingData($active_id, $pass = null, $authorized = true): bool
     {
-        $pass = $this->ensureCurrentTestPass($active_id, $pass);
-        $test_id = $this->lookupTestId($active_id);
+        if ($pass === null || $pass < 0) {
+            $pass = \ilObjTest::_getPass($active_id);
+        }
+
+        $test_id = $this->testParticipantInfo->lookupTestIdByActiveId($active_id);
 
         $upload_handling_required = $this->isFileUploadAvailable() && $this->checkUpload();
         $upload_file_data = [];
@@ -822,7 +825,7 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
     {
         parent::removeIntermediateSolution($active_id, $pass);
 
-        $test_id = $this->lookupTestId($active_id);
+        $test_id = $this->testParticipantInfo->lookupTestIdByActiveId($active_id);
         if ($test_id !== -1) {
             $this->deleteUnusedFiles($test_id, $active_id, $pass);
         }
@@ -895,7 +898,7 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
         }
 
         if ($this->isCompletionBySubmissionEnabled()) {
-            $maxpoints = assQuestion::_getMaximumPoints($this->getId());
+            $maxpoints = $this->questioninfo->getMaximumPoints($this->getId());
 
             if ($this->getUploadedFiles($active_id, $pass, $authorized)) {
                 $points = $maxpoints;
@@ -1117,11 +1120,6 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
     public static function isObligationPossible(int $questionId): bool
     {
         return true;
-    }
-
-    public function isAutosaveable(): bool
-    {
-        return false;
     }
 
     public function buildTestPresentationConfig(): ilTestQuestionConfig

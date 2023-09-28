@@ -39,7 +39,7 @@ class Presentation extends Table implements T\Presentation
      */
     private array $environment = [];
 
-    private array $records;
+    private array $records = [];
     protected Signal $signal_toggle_all;
 
     public function __construct(

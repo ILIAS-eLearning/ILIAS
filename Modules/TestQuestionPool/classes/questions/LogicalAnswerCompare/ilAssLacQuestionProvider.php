@@ -54,7 +54,7 @@ class ilAssLacQuestionProvider
     public function getQuestion(): assQuestion
     {
         if ($this->question === null && $this->questionId) {
-            $this->question = assQuestion::_instantiateQuestion($this->questionId);
+            $this->question = assQuestion::instantiateQuestion($this->questionId);
         }
 
         return $this->question;

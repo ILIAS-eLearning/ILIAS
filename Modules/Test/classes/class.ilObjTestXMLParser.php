@@ -26,6 +26,7 @@ declare(strict_types=1);
  */
 class ilObjTestXMLParser extends ilSaxParser
 {
+    private \ILIAS\TestQuestionPool\QuestionInfoService $questioninfo;
     protected ?ilObjTest $test_obj = null;
 
     private ilDBInterface $db;
@@ -46,7 +47,7 @@ class ilObjTestXMLParser extends ilSaxParser
         $this->log = $DIC['ilLog'];
         $this->tree = $DIC['tree'];
         $this->component_repository = $DIC['component.repository'];
-
+        $this->questioninfo = $DIC->testQuestionPool()->questionInfo();
         parent::__construct($path_to_file, $throw_exception);
     }
 
@@ -120,7 +121,7 @@ class ilObjTestXMLParser extends ilSaxParser
 
             case 'RandomQuestionSourcePoolTitle':
             case 'RandomQuestionSourcePoolPath':
-                if ($this->sourcePoolDefinition instanceof ilTestRandomQuestionSetSourcePoolDefinition) {
+                if ($this->sourcePoolDequestioninffinition instanceof ilTestRandomQuestionSetSourcePoolDefinition) {
                     $this->cdata = '';
                 }
                 break;
@@ -212,7 +213,8 @@ class ilObjTestXMLParser extends ilSaxParser
             $this->lng,
             $this->log,
             $this->component_repository,
-            $this->test_obj
+            $this->test_obj,
+            $this->questioninfo
         );
 
         if (!$questionSetConfig->isValidQuestionAmountConfigurationMode($attr['amountMode'])) {

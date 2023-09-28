@@ -514,8 +514,8 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
                 }
                 $curr_cnt++;
             }
-            $news = new ilNewsItem($c["id"]);
-            if ($c["ref_id"] > 0) {
+            $news = new ilNewsItem($c["id"] ?? 0);
+            if (($c["ref_id"] ?? 0) > 0) {
                 $news_context = (int) $c["ref_id"];
             }
         }
@@ -1345,6 +1345,9 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 
     protected function getListItemForData(array $data): ?\ILIAS\UI\Component\Item\Item
     {
+        if ((int) ($data["id"] ?? 0) === 0) {
+            return null;
+        }
         $info = $this->getInfoForData($data);
 
         $props = [

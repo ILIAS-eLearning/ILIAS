@@ -939,7 +939,7 @@ class ilObjRoleGUI extends ilObjectGUI
 
         // protected admin role
         if ($this->object->getId() != SYSTEM_ROLE_ID
-            || (!$this->rbac_review->isAssigned($ilUser->getId(), SYSTEM_ROLE_ID)
+            || ($this->rbac_review->isAssigned($ilUser->getId(), SYSTEM_ROLE_ID)
                 || !ilSecuritySettings::_getInstance()->isAdminRoleProtected())) {
             // add member
             ilRepositorySearchGUI::fillAutoCompleteToolbar(

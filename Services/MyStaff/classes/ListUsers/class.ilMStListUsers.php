@@ -94,7 +94,7 @@ class ilMStListUsers
         while ($user = $this->dic->database()->fetchAssoc($result)) {
             $list_user = new ilMStListUser();
             $list_user->setUsrId(intval($user['usr_id']));
-            $list_user->setGender($user['gender']);
+            $list_user->setGender($user['gender'] ?? "");
             $list_user->setTitle($user['title'] ?? "");
             $list_user->setInstitution($user['institution'] ?? "");
             $list_user->setDepartment($user['department'] ?? "");
@@ -109,8 +109,8 @@ class ilMStListUsers
             $list_user->setLogin($user['login']);
             $list_user->setFirstname($user['firstname']);
             $list_user->setLastname($user['lastname']);
-            $list_user->setEmail($user['email']);
-            $list_user->setSecondEmail($user['second_email']);
+            $list_user->setEmail($user['email'] ?? "");
+            $list_user->setSecondEmail($user['second_email'] ?? "");
 
             $user_data[] = $list_user;
         }

@@ -35,6 +35,7 @@ class ilMailingList
     private readonly ilDBInterface $db;
 
     private int $mode;
+    private bool $exists = false;
 
     public function __construct(ilObjUser $user, private int $mail_id = 0)
     {
@@ -84,6 +85,7 @@ class ilMailingList
         );
 
         $this->mail_id = $nextId;
+        $this->exists = true;
 
         return true;
     }
@@ -134,6 +136,7 @@ class ilMailingList
                 ['integer', 'integer'],
                 [$this->getId(), $this->getUserId()]
             );
+            $this->exists = false;
 
             return true;
         }
@@ -160,6 +163,7 @@ class ilMailingList
                 $this->setCreatedate($row->createdate);
                 $this->setChangedate($row->changedate);
                 $this->setMode((int) $row->lmode);
+                $this->exists = true;
             }
         }
     }
@@ -291,5 +295,9 @@ class ilMailingList
     public function getMode(): int
     {
         return $this->mode;
+    }
+    public function doesExist(): bool
+    {
+        return $this->exists;
     }
 }

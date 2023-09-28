@@ -1216,8 +1216,8 @@ class ilCalendarAppointmentGUI
         $app_id = $this->getAppointmentIdFromQuery();
         $entry = new ilCalendarEntry($app_id);
         $start = ilDatePresentation::formatPeriod(
-            $dstart = new ilDateTime($dstart, IL_CAL_UNIX),
-            $dend = new ilDateTime($dend, IL_CAL_UNIX)
+            new ilDateTime($dstart, IL_CAL_UNIX),
+            new ilDateTime($dend, IL_CAL_UNIX)
         );
 
         $this->ctrl->setParameter($this, 'dstart', (int) $dstart);

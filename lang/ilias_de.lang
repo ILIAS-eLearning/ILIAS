@@ -10408,6 +10408,8 @@ link#:#link_wpages#:#Wikiseiten
 lm#:#lm_btn_lp_toggle_state_completed#:#Auf "Nicht bearbeitet" setzen
 lm#:#lm_btn_lp_toggle_state_not_completed#:#Auf "Bearbeitet" setzen
 lm#:#lm_copy#:#ILIAS-Lernmodul kopieren
+lm#:#lm_edit_chapters#:#Kapitel bearbeiten
+lm#:#lm_edit_lm_settings#:#Lernmoduleinstellungen bearbeiten
 lm#:#lm_est_reading_time#:#Geschätzte Lesedauer
 lm#:#lm_est_reading_time_info#:#In Lernmodulen kann eine geschätzte Lesezeit ermittelt und angezeigt werden.
 lm#:#lm_page_type_lm#:#Lernmodulseite
@@ -16741,6 +16743,7 @@ ui#:#ui_link_url#:#URL
 ui#:#ui_md_input_edit#:#Bearbeiten
 ui#:#ui_md_input_view#:#Vorschau
 ui#:#ui_numeric_only#:#Bitte geben sie eine ganze Zahl ein.
+ui#:#ui_table_no_records#:#Keine Einträge
 ui#:#ui_tag_required#:#Bitte geben sie mindestens ein Tag ein.
 ui#:#ui_transcription#:#Abschrift
 user#:#all_roles_has_starting_point#:#Alle Rollen mit definierter Startseite

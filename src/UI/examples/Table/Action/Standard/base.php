@@ -33,12 +33,12 @@ function base()
 
     //define standard (both single and multi) actions for the table
     $actions = [
-        'some_action' => $f->table()->action()->standard(
+        $f->table()->action()->standard(
             'do this',
             $url_builder->withParameter($action_token, "do_something"),
             $id_token
         ),
-        'some_other_action' => $f->table()->action()->standard(
+        $f->table()->action()->standard(
             'do something else',
             $url_builder->withParameter($action_token, "do_something_else"),
             $id_token

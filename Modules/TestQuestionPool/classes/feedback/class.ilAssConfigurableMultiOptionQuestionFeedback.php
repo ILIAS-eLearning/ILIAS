@@ -58,7 +58,7 @@ abstract class ilAssConfigurableMultiOptionQuestionFeedback extends ilAssMultiOp
             $form->addItem($feedback);
 
             foreach ($this->getAnswerOptionsByAnswerIndex() as $index => $answer) {
-                $propertyLabel = $this->questionOBJ->prepareTextareaOutput(
+                $propertyLabel = ilLegacyFormElementsUtil::prepareTextareaOutput(
                     $this->buildAnswerOptionLabel($index, $answer),
                     true
                 );
@@ -88,7 +88,7 @@ abstract class ilAssConfigurableMultiOptionQuestionFeedback extends ilAssMultiOp
                         $this->getSpecificAnswerFeedbackPageObjectId($this->questionOBJ->getId(), 0, $index)
                     );
                 } else {
-                    $value = $this->questionOBJ->prepareTextareaOutput(
+                    $value = ilLegacyFormElementsUtil::prepareTextareaOutput(
                         $this->getSpecificAnswerFeedbackContent($this->questionOBJ->getId(), 0, $index)
                     );
                 }

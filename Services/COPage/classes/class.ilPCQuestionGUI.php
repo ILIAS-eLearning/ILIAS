@@ -23,6 +23,7 @@
  */
 class ilPCQuestionGUI extends ilPageContentGUI
 {
+    protected \ILIAS\TestQuestionPool\QuestionInfoService $questioninfo;
     protected ilPropertyFormGUI $form_gui;
     protected int $scormlmid;
     protected bool $selfassessmentmode;
@@ -50,6 +51,7 @@ class ilPCQuestionGUI extends ilPageContentGUI
         $this->toolbar = $DIC->toolbar();
         $ilCtrl = $DIC->ctrl();
         $this->scormlmid = $a_pg_obj->parent_id;
+        $this->questioninfo = $DIC->testQuestionPool()->questionInfo();
         parent::__construct($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
         $ilCtrl->saveParameter($this, array("qpool_ref_id"));
     }
@@ -391,7 +393,7 @@ class ilPCQuestionGUI extends ilPageContentGUI
         );
 
         if ($q_id > 0) {
-            if (assQuestion::_getQuestionType($q_id) != "assTextQuestion") {
+            if ($this->questioninfo->getQuestionType($q_id) != "assTextQuestion") {
                 $tabCommands = assQuestionGUI::getCommandsFromClassConstants('ilAssQuestionFeedbackEditingGUI');
                 $tabLink = ilUtil::appendUrlParameterString(
                     $ilCtrl->getLinkTargetByClass('ilAssQuestionFeedbackEditingGUI', ilAssQuestionFeedbackEditingGUI::CMD_SHOW),

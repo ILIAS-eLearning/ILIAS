@@ -367,20 +367,67 @@ EOT;
 <td class="c-table-data__cell c-table-data__rowselection" role="gridcell" tabindex="-1">
     <input type="checkbox" value="row_id-1" class="c-table-data__row-selector">
 </td>
-<td class="c-table-data__cell c-table-data__cell--text " role="gridcell" aria-colindex="1" tabindex="-1">v1</td>
-<td class="c-table-data__cell c-table-data__cell--text " role="gridcell" aria-colindex="2" tabindex="-1">v2</td>
-<td class="c-table-data__cell c-table-data__cell--number " role="gridcell" aria-colindex="3" tabindex="-1">3</td>
+<td class="c-table-data__cell c-table-data__cell--text " role="gridcell" aria-colindex="1" tabindex="-1">
+    <span class="c-table-data__cell__col-title">Field 1:</span>v1
+</td>
+<td class="c-table-data__cell c-table-data__cell--text " role="gridcell" aria-colindex="2" tabindex="-1">
+    <span class="c-table-data__cell__col-title">Field 2:</span>v2
+</td>
+<td class="c-table-data__cell c-table-data__cell--number " role="gridcell" aria-colindex="3" tabindex="-1">
+    <span class="c-table-data__cell__col-title">Field 3:</span>3
+</td>
 <td class="c-table-data__cell c-table-data__rowaction" role="gridcell" tabindex="-1">
     <div class="dropdown">
         <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" id="id_3" aria-label="actions" aria-haspopup="true" aria-expanded="false" aria-controls="id_3_menu"><span class="caret"></span></button>
         <ul id="id_3_menu" class="dropdown-menu">
-            <li><button class="btn btn-link" data-action="http://wwww.ilias.de?ref_id=1&namespace_param%5B0%5D=row_id-1" id="id_1">label1</button></li>
-            <li><button class="btn btn-link" data-action="http://wwww.ilias.de?ref_id=1&namespace_param%5B0%5D=row_id-1" id="id_2">label2</button></li>
+            <li><button class="btn btn-link" data-action="http://wwww.ilias.de?ref_id=1&namespace_param%5B%5D=row_id-1" id="id_1">label1</button></li>
+            <li><button class="btn btn-link" data-action="http://wwww.ilias.de?ref_id=1&namespace_param%5B%5D=row_id-1" id="id_2">label2</button></li>
         </ul>
     </div>
 </td>
 EOT;
         $expected = $this->brutallyTrimHTML($expected);
         $this->assertEquals($expected, $actual);
+    }
+
+    public function testRenderEmptyDataCell(): void
+    {
+        $data = new class () implements Component\Table\DataRetrieval {
+            public function getRows(
+                Component\Table\DataRowBuilder $row_builder,
+                array $visible_column_ids,
+                Data\Range $range,
+                Data\Order $order,
+                ?array $filter_data,
+                ?array $additional_parameters
+            ): Generator {
+                yield from [];
+            }
+
+            public function getTotalRowCount(?array $filter_data, ?array $additional_parameters): ?int
+            {
+                return null;
+            }
+        };
+
+        $columns = [
+            'f1' => $this->getUIFactory()->table()->column()->text('f1'),
+            'f2' => $this->getUIFactory()->table()->column()->text('f2'),
+            'f3' => $this->getUIFactory()->table()->column()->text('f3'),
+            'f4' => $this->getUIFactory()->table()->column()->text('f4'),
+            'f5' => $this->getUIFactory()->table()->column()->text('f5'),
+        ];
+
+        $table = $this->getUIFactory()->table()->data('', $columns, $data);
+
+        $html = $this->getDefaultRenderer()->render($table);
+
+        $translation = $this->getLanguage()->txt('ui_table_no_records');
+        $column_count = count($columns);
+
+        // check that the empty cell is stretched over all columns.
+        $this->assertTrue(str_contains($html, "colspan=\"$column_count\""));
+        // check that the cell contains the default message.
+        $this->assertTrue(str_contains($html, $translation));
     }
 }

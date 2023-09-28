@@ -49,7 +49,8 @@ class ilObjTestSettingsMainGUITest extends ilTestBaseTestCase
             $this->createMock(ilDBInterface::class),
             $this->createMock(ilComponentRepository::class),
             $this->getMockBuilder(ilObjUser::class)->disableOriginalConstructor()->getMock(),
-            $objTestGui_mock
+            $objTestGui_mock,
+            $this->createMock(ILIAS\TestQuestionPool\QuestionInfoService::class)
         );
     }
 

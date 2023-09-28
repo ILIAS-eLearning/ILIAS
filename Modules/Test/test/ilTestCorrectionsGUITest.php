@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\TestQuestionPool\QuestionInfoService;
+
 /**
  * Class ilTestCorrectionsGUITest
  * @author Marvin Beym <mbeym@databay.de>
@@ -54,7 +56,8 @@ class ilTestCorrectionsGUITest extends ilTestBaseTestCase
             $DIC['refinery'],
             $DIC->http()->request(),
             $this->createMock(ILIAS\Test\InternalRequestService::class),
-            $this->createMock(ilObjTest::class)
+            $this->createMock(ilObjTest::class),
+            $this->createMock(QuestionInfoService::class)
         );
     }
 

@@ -476,7 +476,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         $template = new ilTemplate("tpl.il_as_qpl_nested_ordering_output_solution.html", true, true, "Modules/TestQuestionPool");
         $template->setVariable('SOLUTION_OUTPUT', $solution_html);
         if ($show_question_text == true) {
-            $template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($this->object->getQuestion(), true));
+            $template->setVariable("QUESTIONTEXT", ilLegacyFormElementsUtil::prepareTextareaOutput($this->object->getQuestion(), true));
         }
         $questionoutput = $template->get();
 
@@ -498,7 +498,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
                 );
 
                 $solutiontemplate->setVariable("ILC_FB_CSS_CLASS", $cssClass);
-                $solutiontemplate->setVariable("FEEDBACK", $this->object->prepareTextareaOutput($feedback, true));
+                $solutiontemplate->setVariable("FEEDBACK", ilLegacyFormElementsUtil::prepareTextareaOutput($feedback, true));
             }
         }
 
@@ -535,7 +535,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         $template->setVariable('NESTED_ORDERING', $answers->getHTML());
         $template->parseCurrentBlock();
 
-        $template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($this->object->getQuestion(), true));
+        $template->setVariable("QUESTIONTEXT", ilLegacyFormElementsUtil::prepareTextareaOutput($this->object->getQuestion(), true));
 
         if ($show_question_only) {
             return $template->get();
@@ -584,7 +584,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         $template->setVariable('NESTED_ORDERING', $orderingGUI->getHTML());
         $template->parseCurrentBlock();
 
-        $template->setVariable('QUESTIONTEXT', $this->object->prepareTextareaOutput($this->object->getQuestion(), true));
+        $template->setVariable('QUESTIONTEXT', ilLegacyFormElementsUtil::prepareTextareaOutput($this->object->getQuestion(), true));
 
         $pageoutput = $this->outQuestionPage('', $isPostponed, $activeId, $template->get());
 

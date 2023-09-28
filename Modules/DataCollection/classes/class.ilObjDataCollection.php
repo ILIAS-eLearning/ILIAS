@@ -121,13 +121,12 @@ class ilObjDataCollection extends ilObject2
             return;
         }
 
-        $dclObj = new ilObjDataCollection($ref_id);
+        $obj_dcl = new ilObjDataCollection($ref_id);
 
-        if ($dclObj->getNotification() != true) {
+        if ($obj_dcl->getNotification() != true) {
             return;
         }
         $obj_table = ilDclCache::getTableCache($a_table_id);
-        $obj_dcl = $obj_table->getCollectionObject();
 
         // recipients
         $users = ilNotification::getNotificationsForObject(
@@ -141,8 +140,6 @@ class ilObjDataCollection extends ilObject2
 
         ilNotification::updateNotificationTime(ilNotification::TYPE_DATA_COLLECTION, $obj_dcl->getId(), $users);
 
-        $http = $DIC->http();
-        $refinery = $DIC->refinery();
         $ref_id = $http->wrapper()->query()->retrieve('ref_id', $refinery->kindlyTo()->int());
 
         $link = ilLink::_getLink($ref_id);
@@ -155,10 +152,8 @@ class ilObjDataCollection extends ilObject2
             // the user responsible for the action should not be notified
             $record = ilDclCache::getRecordCache($a_record_id);
             $ilDclTable = new ilDclTable($record->getTableId());
-            if ($user_id != $user->getId() && $ilDclTable->hasPermissionToViewRecord(filter_input(
-                INPUT_GET,
-                'ref_id'
-            ), $record, $user_id)) {
+
+            if ($user_id != $user->getId() && $ilDclTable->hasPermissionToViewRecord($ref_id, $record, $user_id)) {
                 // use language of recipient to compose message
                 $ulng = ilLanguageFactory::_getLanguageOfUser($user_id);
                 $ulng->loadLanguageModule('dcl');

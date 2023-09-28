@@ -224,7 +224,6 @@ function base()
         /** take care of the async-call; 'delete'-action asks for it. */
         if ($action === 'delete') {
             $items = [];
-            $ids = explode(',', $ids);
             foreach ($ids as $id) {
                 $items[] = $f->modal()->interruptiveItem()->keyValue($id, $row_id_token->getName(), $id);
             }
@@ -240,7 +239,7 @@ function base()
         }
         if ($action === 'info') {
             echo(
-                $r->render($f->messageBox()->info('an info message: <br>' . $ids))
+                $r->render($f->messageBox()->info('an info message: <br><li>' . implode('<li>', $ids)))
                 . '<script data-replace-marker="script">console.log("ASYNC JS, too");</script>'
             );
             exit();

@@ -82,7 +82,7 @@ class ilSelfEvaluationSimpleTableGUI extends ilTable2GUI
         $this->setTitle($title);
         $this->setLimit(9999);
 
-        $this->addColumn("", "", "", true);
+        $this->addColumn("", "", "1", true);
         $this->addColumn($this->lng->txt("skmg_skill_level"));
         $this->addColumn($this->lng->txt("description"));
 

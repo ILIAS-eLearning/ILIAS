@@ -22,7 +22,7 @@
  *
  * @package     Modules/TestQuestionPool
  */
-class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustable, ilObjAnswerScoringAdjustable, ilAssSpecificFeedbackOptionLabelProvider
+class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustable, ilObjAnswerScoringAdjustable, ilAssSpecificFeedbackOptionLabelProvider, ilAssQuestionLMExportable, ilAssQuestionAutosaveable
 {
     public const NUM_REQUIRED_ANSWERS = 4;
 
@@ -738,7 +738,7 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
 
         $clone = $this;
 
-        $original_id = assQuestion::_getOriginalId($this->id);
+        $original_id = $this->questioninfo->getOriginalId($this->id);
         $clone->id = -1;
 
         if ((int) $testObjId > 0) {
@@ -817,7 +817,7 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
         // duplicate the question in database
         $clone = $this;
 
-        $original_id = assQuestion::_getOriginalId($this->id);
+        $original_id = $this->questioninfo->getOriginalId($this->id);
         $clone->id = -1;
         $source_questionpool_id = $this->getObjId();
         $clone->setObjId($target_questionpool_id);
@@ -861,8 +861,8 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
         global $DIC;
         $ilLog = $DIC['ilLog'];
 
-        $sourcePath = $this->buildImagePath($sourceQuestionId, $sourceParentId);
-        $targetPath = $this->buildImagePath($targetQuestionId, $targetParentId);
+        $sourcePath = $this->questionFilesService->buildImagePath($sourceQuestionId, $sourceParentId);
+        $targetPath = $this->questionFilesService->buildImagePath($targetQuestionId, $targetParentId);
 
         foreach ($this->getAnswers() as $answer) {
             $filename = $answer->getImageFile();

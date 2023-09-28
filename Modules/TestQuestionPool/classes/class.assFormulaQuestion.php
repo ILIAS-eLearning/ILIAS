@@ -25,7 +25,7 @@ require_once './Modules/Test/classes/inc.AssessmentConstants.php';
  * @version       $Id: class.assFormulaQuestion.php 1236 2010-02-15 15:44:16Z hschottm $
  * @ingroup       ModulesTestQuestionPool
  */
-class assFormulaQuestion extends assQuestion implements iQuestionCondition
+class assFormulaQuestion extends assQuestion implements iQuestionCondition, ilAssQuestionAutosaveable
 {
     private array $variables;
     private array $results;
@@ -716,7 +716,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
 
         $clone = $this;
 
-        $original_id = assQuestion::_getOriginalId($this->id);
+        $original_id = $this->questioninfo->getOriginalId($this->id);
         $clone->id = -1;
 
         if ((int) $testObjId > 0) {
@@ -763,7 +763,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
         // duplicate the question in database
         $clone = $this;
 
-        $original_id = assQuestion::_getOriginalId($this->id);
+        $original_id = $this->questioninfo->getOriginalId($this->id);
         $clone->id = -1;
         $source_questionpool_id = $this->getObjId();
         $clone->setObjId($target_questionpool_id);

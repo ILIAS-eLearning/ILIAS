@@ -191,7 +191,7 @@ class assMatchingQuestionImport extends assQuestionImport
         $this->object->setComment($item->getComment());
         $this->object->setAuthor($item->getAuthor());
         $this->object->setOwner($ilUser->getId());
-        $this->object->setQuestion($this->object->QTIMaterialToString($item->getQuestiontext()));
+        $this->object->setQuestion($this->QTIMaterialToString($item->getQuestiontext()));
         $this->object->setObjId($questionpool_id);
         $extended_shuffle = $item->getMetadataEntry("shuffle");
         $this->object->setThumbGeometry($item->getMetadataEntry("thumb_geometry"));
@@ -268,7 +268,7 @@ class assMatchingQuestionImport extends assQuestionImport
         }
 
         foreach ($feedbacksgeneric as $correctness => $material) {
-            $m = $this->object->QTIMaterialToString($material);
+            $m = $this->QTIMaterialToString($material);
             $feedbacksgeneric[$correctness] = $m;
         }
 

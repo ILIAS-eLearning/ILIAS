@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -16,8 +14,9 @@ declare(strict_types=1);
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\Tests\Language\Setup;
 
@@ -36,10 +35,10 @@ class ilLanguageSetupAgentTest extends TestCase
 
     public function setUp(): void
     {
-        $this->refinery = new Refinery($this->createMock(DataFactory::class), $this->createMock(\ilLanguage::class));
+        $refinery = new Refinery($this->createMock(DataFactory::class), $this->createMock(\ilLanguage::class));
         $setup_language = $this->createMock(\ilSetupLanguage::class);
 
-        $this->obj = new \ilLanguageSetupAgent($this->refinery, null, $setup_language);
+        $this->obj = new \ilLanguageSetupAgent($refinery, null, $setup_language);
     }
 
     public function testCreate(): void
