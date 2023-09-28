@@ -1241,6 +1241,11 @@ class ilUserImportParser extends ilSaxParser
                                         break;
                                 }
                             }
+                            // JKN PATCH START
+                            if (!is_null($this->userObj->getLogin())) {
+                                $updateUser->setLogin($this->userObj->getLogin());
+                            }
+                            // JKN PATCH END
                             if (!is_null($this->userObj->getFirstname())) {
                                 $updateUser->setFirstname($this->userObj->getFirstname());
                             }

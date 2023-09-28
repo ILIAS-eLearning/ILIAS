@@ -243,8 +243,14 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
         $userObj->setTitle($userObj->getFullname());
         $userObj->setDescription($userObj->getEmail());
 
-        // set user language
-        $userObj->setLanguage($consumer->getLanguage());
+        // JKN PATCH START
+        // set user language to system language or the users passed language if applicable.
+        $language = array_key_exists('lang',$_POST) ? $_POST['lang'] : $ilSetting->get("language");
+        $userObj->setLanguage($language);
+        if(array_key_exists('lang', $_POST)) {
+            $userObj->setLanguage($_POST['lang']);
+        }
+        // JKN PATCH END
 
         // Time limit
         $userObj->setTimeLimitOwner(7);

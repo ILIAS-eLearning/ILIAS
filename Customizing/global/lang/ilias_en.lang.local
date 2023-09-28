@@ -1,4 +1,10 @@
 <!-- language file start -->
+crs#:#crs_subscribe_member_body#:#Your registration to "%s" has been accepted.\n
+crs#:#crs_mail_permanent_link#:#You can access this course from your dashboard, or by using the following link:
+crs#:#crs_added_member_body#:#Your registration to "%s" has been accepted.\n\n
+crs#:#crs_reject_subscriber_body#:#Thank you for your request to enroll into "%s".\n\nUnfortunately, we are unable to complete your request at this time.
+crs#:#crs_dismiss_member_body#:#Your membership has been terminated in course "%s".
+form#:#form_link_internal#:#Inside LMS
 crs#:#crs_reg_user_already_subscribed#:#Waiting for approval of registration request
 grp#:#grp_already_assigned#:#Waiting for approval of registration request.
 common#:#obj_root#:#Course Library - Home

@@ -1200,7 +1200,7 @@ class ilObjectDefinition // extends ilSaxParser
                     "checkbox" => "1",
                     "inherit" => "0",
                     "component" => "",
-                    "translate" => "0",
+                    "translate" => "db",
                     "devmode" => "0",
                     "allow_link" => "1",
                     "allow_copy" => $pl->allowCopy() ? '1' : '0',

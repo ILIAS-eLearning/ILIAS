@@ -1413,6 +1413,14 @@ class ilObjUserFolderGUI extends ilObjectGUI
         // global roles
         $got_globals = false;
         $global_selects = [];
+
+        // JKN PATCH START
+        $global_roles_assignment_info = $ui->input()->field()->text($this->lng->txt("roles_of_import_global"))
+        ->withDisabled(true)
+        ->withValue($this->lng->txt("assign_global_role"));
+        // JKN PATCH END
+
+
         foreach ($roles as $role_id => $role) {
             if ($role["type"] == "Global") {
                 if (!$got_globals) {
