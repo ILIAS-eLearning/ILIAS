@@ -38,7 +38,7 @@ class ilLikeUserOrgUnitSearch extends ilAbstractSearch
 
         $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $this->search_result->addEntry($row->user_id, 'user', $this->__prepareFound($row));
+            $this->search_result->addEntry((int) $row->user_id, 'user', $this->__prepareFound($row));
         }
         return $this->search_result;
     }
