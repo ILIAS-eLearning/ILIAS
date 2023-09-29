@@ -1,4 +1,24 @@
+acc#:#acc_dashboard#:#Tableau de bord###18 05 2020 new variable
+assessment#:#dashboard_tab#:#Tableau de bord
+common#:#reg_mail_body_2_confirmation#:#Ce lien n’est valide que pendant %s, après quoi vous devrez recommencer depuis le début. 
+common#:#reg_mail_body_3_confirmation#:#Si ce courriel ne signifie rien pour vous, il est possible que quelqu'un ait entré votre adresse courriel intentionnellement ou accidentellement. Dans ce cas, merci d'ignorer ce message.
+common#:#reg_mail_body_forgot_password_info#:#Pour obtenir votre mot de passe, veuillez utiliser la fonction "Mot de passe oublié ?" sur l'écran de connexion afin de demander un nouveau mot de passe pour ce compte.
+common#:#register#:#S’inscrire
+common#:#registration#:#S’inscrire
+common#:#salutation_n#:#Aucun titre de civilité souhaité
+common#:#second_email#:#Deuxième adresse courriel
+common#:#obj_dshs#:#Tableau de bord###18 05 2020 new variable
+common#:#mm_dashboard#:#Tableau de bord###18 05 2020 new variable
 crs#:#crs_reg_user_already_subscribed#:#En attente d'approbation de la demande d'inscription
+form#:#form_retype_email#:#Entrez de nouveau votre adresse courriel
+registration#:#reg_mail_body_activation#:#Pour activer votre compte et confirmer que vous êtes bien le propriétaire de cette adresse courriel, cliquez sur le lien ci-dessous:
+dash#:#dash_dashboard#:#Tableau de bord###18 05 2020 new variable
+common#:#mm_favorites#:#Favoris###18 05 2020 new variable
+dash#:#dash_favourites#:#Favoris###18 05 2020 new variable
 grp#:#grp_already_assigned#:#En attente d'approbation de la demande d'inscription.
 pwassist#:#pwassist_unknown_username_or_email#:#n'a pas pu traiter l'assistance de mot de passe (raison: Il n'existe pas d'utilisateur avec ce nom) %s / %s
 pwassist#:#pwassist_unknown_email#:#n'a pas pu traiter l'assistance de mot de passe (raison: Il n'existe pas d'utilisateur avec ce nom) %s
+rep#:#rep_fav_intro1#:#Vous n’avez pas encore sélectionné de favoris. Pour ce faire, vous devez suivre deux étapes :###18 05 2020 new variable
+rep#:#rep_fav_intro2#:#cliquez sur '%s' et sélectionnez un objet d’apprentissage disponible pour votre rôle, p. ex. un module d’apprentissage ou un forum.###18 05 2020 new variable
+rep#:#rep_fav_intro3#:#Lorsque vous avez trouvé quelque chose qui vous intéresse, vous pouvez facilement l’ajouter à vos favoris. Sélectionnez-le et choisissez « Ajouter aux favoris ».###18 05 2020 new variable
+tagging#:#no_tag_text_2#:#cliquez sur '%s' et sélectionnez un objet d’apprentissage disponible pour votre rôle, p. ex. un module d’apprentissage ou un forum.###19 03 2021 new variable

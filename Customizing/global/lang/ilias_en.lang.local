@@ -1,17 +1,24 @@
 <!-- language file start -->
-crs#:#crs_subscribe_member_body#:#Your registration to "%s" has been accepted.\n
-crs#:#crs_mail_permanent_link#:#You can access this course from your dashboard, or by using the following link:
-crs#:#crs_added_member_body#:#Your registration to "%s" has been accepted.\n\n
+common#:#repository#:#Course Library
+common#:#obj_root#:#Course Library - Home
+common#:#login_to_ilias#:#Login
+content#:#cont_alternates#:#Alternate Spellings (comma separated)
 crs#:#crs_reject_subscriber_body#:#Thank you for your request to enroll into "%s".\n\nUnfortunately, we are unable to complete your request at this time.
 crs#:#crs_dismiss_member_body#:#Your membership has been terminated in course "%s".
-form#:#form_link_internal#:#Inside LMS
 crs#:#crs_reg_user_already_subscribed#:#Waiting for approval of registration request
+crs#:#crs_subscribe_member_body#:#Your registration to "%s" has been accepted.\n
+crs#:#crs_mail_permanent_link#:#You can access this course from your dashboard, or by using the following link:
+crs#:#crs_added_member_body#:#We are pleased to announce your registration for the course "%s".
+form#:#form_link_internal#:#Inside LMS
 grp#:#grp_already_assigned#:#Waiting for approval of registration request.
-common#:#obj_root#:#Course Library - Home
-common#:#repository#:#Course Library
 ldap#:#ldap_mapping_info_type#:#Show Information also in the Course Library
+pwassist#:#pwassist_unknown_username_or_email#:#Could not process password assistance form (reason: no user found) %s / %s
+pwassist#:#pwassist_unknown_email#:#Could not process password assistance form (reason: no user found) %s
+pwassist#:#password_assistance#:#Password and Username Assistance
+pwassist#:#pwassist_mail_body#:#You (or someone at %3$s) have requested password assistance for the user account "%4$s".\n\nTo reset your password, please:\n\n1. Click the link or enter the following address in your browser: \n%6$s\n\nImportant: The address is a single line. If you see this address split into multiple lines, then your e-mail program has inserted these line breaks.\n\n2. Enter your username and a new password.  Click Submit.\n\nFor security reasons, you can only perform this action once. The link will only remain active for a limited time before it becomes invalid.\n\nPlease note:\n\n- If you have made this request by accident: Delete this mail.\n\n- If you did not request password assistance: Please contact: %5$s.\n\n***************************************
+pwassist#:#pwassist_mail_subject#:#Password and Username Assistance
+pwassist#:#pwassist_username_mail_body#:#You (or somebody with IP  %3$s) have requested username assistance for the account listed under e-mail address '%4$s'.\n\nThe username found for this account is:\n%1$s\n\n If required please use this username to retrieve your password at: \n%6$s\n\nIf you do not require password assistance, please login as usual.\n\nPlease note:\n\n- If you have requested this e-mail by accident: Delete this e-mail.\n\n- If you did not request username assistance please contact: %5$s.\n\n***************************************
 rep#:#rep_intro#:#Welcome to the Course Library!
-content#:#cont_alternates#:#Alternate Spellings (comma separated)
 trac#:#rubric_label#:#Label
 trac#:#rubric_point#:#Points
 trac#:#rubric_group#:#Group
@@ -68,14 +75,6 @@ trac#:#rubric_card_please_complete#:#Please Click Here to Continue Editing Rubri
 trac#:#rubric_exercise_graded#:#Rubric Graded: 
 trac#:#rubric_is_now_available#:#is now available.
 trac#:#rubric_anonymized#:#Disable Anonymized under Statistics and Learning Progress to enable Rubric.
-common#:#login_to_ilias#:#Login
-pwassist#:#password_assistance#:#Password and Username Assistance
-pwassist#:#pwassist_mail_body#:#You (or someone at %3$s) have requested password assistance for the user account "%4$s".\n\nTo reset your password, please:\n\n1. Click the link or enter the following address in your browser: \n%6$s\n\nImportant: The address is a single line. If you see this address split into multiple lines, then your e-mail program has inserted these line breaks.\n\n2. Enter your username and a new password.  Click Submit.\n\nFor security reasons, you can only perform this action once. The link will only remain active for a limited time before it becomes invalid.\n\nPlease note:\n\n- If you have made this request by accident: Delete this mail.\n\n- If you did not request password assistance: Please contact: %5$s.\n\n***************************************
-pwassist#:#pwassist_mail_subject#:#Password and Username Assistance
-pwassist#:#pwassist_username_mail_body#:#You (or somebody with IP  %3$s) have requested username assistance for the account listed under e-mail address '%4$s'.\n\nThe username found for this account is:\n%1$s\n\n If required please use this username to retrieve your password at: \n%6$s\n\nIf you do not require password assistance, please login as usual.\n\nPlease note:\n\n- If you have requested this e-mail by accident: Delete this e-mail.\n\n- If you did not request username assistance please contact: %5$s.\n\n***************************************
-crs#:#crs_subscribe_member_body#:#Your registration to "%s" has been confirmed.\nThe course will be listed on your Personal Desktop page.
-crs#:#crs_mail_permanent_link#:#Click on the following link to access the course:
-crs#:#crs_added_member_body#:#Your registration to "%s" has been confirmed.\n\nThe course will be listed on your Personal Desktop page.
 trac#:#trac_mode_gradebook#:#Manual by Gradebook
 trac#:#trac_mode_gradebook_info#:#The learning progress status will be determined by the Grade Book
 trac#:#trac_gradebook_gradebystudent#:#Grade By Student
@@ -109,5 +108,3 @@ trac#:#gradebook_mark_gradebook#:#Item can be marked directly in the gradebook
 trac#:#gradebook_mark_children#:#Learning progress is deteremined by its children
 trac#:#gradebook_mark_automated#:#Learning progress is set in the item itself
 trac#:#itgr#:#Item Group
-pwassist#:#pwassist_unknown_username_or_email#:#Could not process password assistance form (reason: no user found) %s / %s
-pwassist#:#pwassist_unknown_email#:#Could not process password assistance form (reason: no user found) %s
