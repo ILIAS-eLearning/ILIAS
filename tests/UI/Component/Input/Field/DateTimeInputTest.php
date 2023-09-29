@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 require_once(__DIR__ . "/../../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../../Base.php");
@@ -83,7 +83,7 @@ class DateTimeInputTest extends ILIAS_UI_TestBase
     {
         $format = $this->data_factory->dateFormat()->germanShort();
         $datetime = $this->factory->datetime('label', 'byline')
-            ->withFormat($format);
+                                  ->withFormat($format);
 
         $this->assertEquals(
             $format,
@@ -146,23 +146,6 @@ class DateTimeInputTest extends ILIAS_UI_TestBase
         $datetime = $this->factory->datetime('label', 'byline');
         $tz = 'NOT/aValidTZ';
         $datetime->withTimeZone($tz);
-    }
-
-    public function test_jsConfigRendering(): void
-    {
-        $datetime = $this->factory->datetime('label', 'byline');
-        $js_binding = $this->getJavaScriptBinding();
-        $this->getDefaultRenderer($js_binding)->render($datetime);
-
-        $expected = '$("#id_1").datetimepicker({'
-            . '"showClear":true,'
-            . '"sideBySide":true,'
-            . '"format":"YYYY-MM-DD",'
-            . '"locale":"en"'
-            . '});';
-
-        $onload_js = array_shift($js_binding->on_load_code);
-        $this->assertEquals($expected, $onload_js);
     }
 
     public function test_withValueThatIsDateTimeImmutable(): void

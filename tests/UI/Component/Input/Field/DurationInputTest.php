@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 require_once(__DIR__ . "/../../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../../Base.php");
@@ -173,13 +173,13 @@ class DurationInputTest extends ILIAS_UI_TestBase
                  <div class="form-group row">
                     <label for="id_2" class="control-label col-sm-4 col-md-3 col-lg-2">' . $label_start . '</label>
                     <div class="col-sm-8 col-md-9 col-lg-10">
-                       <div class="input-group date il-input-datetime" id="id_2"><input type="text" name="" placeholder="YYYY-MM-DD" class="form-control form-control-sm" /><span class="input-group-addon"><a tabindex="0" class="glyph" href="#" aria-label="calendar"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></a></span></div>
+                       <div class="input-group date il-input-datetime" id=""><input type="date" name="" placeholder="YYYY-MM-DD" class="form-control form-control-sm" /></div>
                     </div>
                  </div>
                  <div class="form-group row">
                     <label for="id_3" class="control-label col-sm-4 col-md-3 col-lg-2">' . $label_end . '</label>
                     <div class="col-sm-8 col-md-9 col-lg-10">
-                       <div class="input-group date il-input-datetime" id="id_3"><input type="text" name="" placeholder="YYYY-MM-DD" class="form-control form-control-sm" /><span class="input-group-addon"><a tabindex="0" class="glyph" href="#" aria-label="calendar"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></a></span></div>
+                       <div class="input-group date il-input-datetime" id=""><input type="date" name="" placeholder="YYYY-MM-DD" class="form-control form-control-sm" /></div>
                     </div>
                  </div>
               </div>
@@ -212,13 +212,13 @@ class DurationInputTest extends ILIAS_UI_TestBase
                      <div class="form-group row">
                         <label for="id_2" class="control-label col-sm-4 col-md-3 col-lg-2">' . $other_start_label . '</label>
                         <div class="col-sm-8 col-md-9 col-lg-10">
-                           <div class="input-group date il-input-datetime" id="id_2"><input type="text" name="" placeholder="YYYY-MM-DD" class="form-control form-control-sm" /><span class="input-group-addon"><a tabindex="0" class="glyph" href="#" aria-label="calendar"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></a></span></div>
+                           <div class="input-group date il-input-datetime" id=""><input type="date" name="" placeholder="YYYY-MM-DD" class="form-control form-control-sm" /></div>
                         </div>
                      </div>
                      <div class="form-group row">
                         <label for="id_3" class="control-label col-sm-4 col-md-3 col-lg-2">' . $other_end_label . '</label>
                         <div class="col-sm-8 col-md-9 col-lg-10">
-                           <div class="input-group date il-input-datetime" id="id_3"><input type="text" name="" placeholder="YYYY-MM-DD" class="form-control form-control-sm" /><span class="input-group-addon"><a tabindex="0" class="glyph" href="#" aria-label="calendar"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></a></span></div>
+                           <div class="input-group date il-input-datetime" id=""><input type="date" name="" placeholder="YYYY-MM-DD" class="form-control form-control-sm" /></div>
                         </div>
                      </div>
                   </div>

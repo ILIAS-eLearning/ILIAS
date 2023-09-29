@@ -298,9 +298,8 @@ EOT;
                                 <div class="form-group row">
                                     <label for="id_3" class="control-label col-sm-4 col-md-3 col-lg-2">tst_reporting_date<span class="asterisk">*</span></label>
                                     <div class="col-sm-8 col-md-9 col-lg-10">
-                                        <div class="input-group date il-input-datetime" id="id_3">
-                                            <input type="text" name="" placeholder="YYYY-MM-DD H:mm" class="form-control form-control-sm" />
-                                            <span class="input-group-addon"><a tabindex="0" class="glyph" href="#" aria-label="calendar"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></a></span>
+                                        <div class="input-group date il-input-datetime" id="">
+                                            <input type="date" name="" placeholder="YYYY-MM-DD H:mm" class="form-control form-control-sm" />
                                         </div>
                                     </div>
                                 </div>

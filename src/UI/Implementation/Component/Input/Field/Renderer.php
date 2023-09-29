@@ -44,7 +44,11 @@ class Renderer extends AbstractComponentRenderer
 {
     public const DYNAMIC_INPUT_ID_PLACEHOLDER = 'DYNAMIC_INPUT_ID';
 
-    public const DATEPICKER_MINMAX_FORMAT = 'Y/m/d';
+    public const DATETIME_DATEPICKER_MINMAX_FORMAT = 'Y-m-d\Th:m';
+    public const DATE_DATEPICKER_MINMAX_FORMAT = 'Y-m-d';
+    public const TYPE_DATE = 'date';
+    public const TYPE_DATETIME = 'datetime-local';
+    public const TYPE_TIME = 'time';
 
     public const DATEPICKER_FORMAT_MAPPING = [
         'd' => 'DD',
@@ -628,11 +632,10 @@ class Renderer extends AbstractComponentRenderer
         $f = $this->getUIFactory();
 
         if ($component->getTimeOnly() === true) {
-            $cal_glyph = $f->symbol()->glyph()->time("#");
             $format = $component::TIME_FORMAT;
+            $dt_type = self::TYPE_TIME;
         } else {
-            $cal_glyph = $f->symbol()->glyph()->calendar("#");
-
+            $dt_type = self::TYPE_DATE;
             $format = $this->getTransformedDateFormat(
                 $component->getFormat(),
                 self::DATEPICKER_FORMAT_MAPPING
@@ -640,9 +643,9 @@ class Renderer extends AbstractComponentRenderer
 
             if ($component->getUseTime() === true) {
                 $format .= ' ' . $component::TIME_FORMAT;
+                $dt_type = self::TYPE_DATETIME;
             }
         }
-        $tpl->setVariable("CALENDAR_GLYPH", $default_renderer->render($cal_glyph));
 
         $config = [
             'showClear' => true,
@@ -652,13 +655,20 @@ class Renderer extends AbstractComponentRenderer
         ];
         $config = array_merge($config, $component->getAdditionalPickerconfig());
 
+        $tpl->setVariable("DTTYPE", $dt_type);
+
+        $min_max_format = self::DATE_DATEPICKER_MINMAX_FORMAT;
+        if ($dt_type === self::TYPE_DATETIME) {
+            $min_max_format = self::DATETIME_DATEPICKER_MINMAX_FORMAT;
+        }
+
         $min_date = $component->getMinValue();
         if (!is_null($min_date)) {
-            $config['minDate'] = date_format($min_date, self::DATEPICKER_MINMAX_FORMAT);
+            $tpl->setVariable("MIN_DATE", date_format($min_date, $min_max_format));
         }
         $max_date = $component->getMaxValue();
         if (!is_null($max_date)) {
-            $config['maxDate'] = date_format($max_date, self::DATEPICKER_MINMAX_FORMAT);
+            $tpl->setVariable("MAX_DATE", date_format($max_date, $min_max_format));
         }
 
         $tpl->setVariable("PLACEHOLDER", $format);
@@ -667,21 +677,11 @@ class Renderer extends AbstractComponentRenderer
             $tpl->setVariable("VALUE", $component->getValue());
         }
 
-        $disabled = $component->isDisabled();
+        if ($component->isDisabled()) {
+            $tpl->setVariable("DISABLED", "disabled");
+        }
 
-        /**
-         * @var $component F\DateTime
-         */
-        $component = $component->withAdditionalOnLoadCode(function ($id) use ($config, $disabled) {
-            $js = '$("#' . $id . '").datetimepicker(' . json_encode($config) . ');';
-            if ($disabled) {
-                $js .= '$("#' . $id . ' input").prop(\'disabled\', true);';
-            }
-            return $js;
-        });
-
-        $id = $this->bindJSandApplyId($component, $tpl);
-        return $this->wrapInFormContext($component, $tpl->get(), $id);
+        return $this->wrapInFormContext($component, $tpl->get(), $this->createId());
     }
 
     protected function renderDurationField(F\Duration $component, RendererInterface $default_renderer): string
@@ -689,16 +689,6 @@ class Renderer extends AbstractComponentRenderer
         $tpl = $this->getTemplate("tpl.duration.html", true, true);
         $this->applyName($component, $tpl);
 
-        /**
-         * @var $component F\Duration
-         */
-        $component = $component->withAdditionalOnLoadCode(
-            function ($id) {
-                return "$(document).ready(function() {
-                    il.UI.Input.duration.init('$id');
-                });";
-            }
-        );
         $id = $this->bindJSandApplyId($component, $tpl);
 
         $input_html = '';
