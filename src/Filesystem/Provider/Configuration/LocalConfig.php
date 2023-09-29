@@ -90,7 +90,7 @@ final class LocalConfig
         string $rootPath,
         int $fileAccessPublic = 0744,
         int $fileAccessPrivate = 0700,
-        int $directoryAccessPublic = 0755,
+        int $directoryAccessPublic = 0775,
         int $directoryAccessPrivate = 0700,
         int $lockMode = LOCK_EX,
         int $linkBehaviour = self::SKIP_LINKS
