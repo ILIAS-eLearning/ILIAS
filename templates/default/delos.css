@@ -9110,10 +9110,12 @@ grid-based layout
   height: 100%;
   overflow: hidden;
   width: 100%;
+  /* JKN PATCH START
   hyphens: auto;
   -webkit-hyphens: auto;
   -ms-hyphens: auto;
-  -moz-hyphens: auto;
+  -moz-hyphens: auto; 
+  JKN PATCH END */
 }
 .il-layout-page .il-maincontrols-mainbar .il-mainbar-close-slates {
   display: none;
