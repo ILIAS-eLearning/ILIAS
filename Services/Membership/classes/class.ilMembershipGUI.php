@@ -1413,6 +1413,12 @@ class ilMembershipGUI
      */
     public function assignFromWaitingList()
     {
+
+        // JKN PATCH START
+        global $DIC;
+        $ilAppEventHandler = $DIC['ilAppEventHandler'];
+        // JKN PATCH END
+
         if (!array_key_exists('waiting', $_POST) || !count($_POST["waiting"])) {
             ilUtil::sendFailure($this->lng->txt("crs_no_users_selected"), true);
             $this->ctrl->redirect($this, 'participants');
@@ -1436,6 +1442,15 @@ class ilMembershipGUI
             }
             if ($this instanceof ilGroupMembershipGUI) {
                 include_once './Modules/Group/classes/class.ilGroupMembershipMailNotification.php';
+
+                // JKN PATCH START
+                $ilAppEventHandler->raise("Modules/Group", "userAssignedFromWaitingList", [
+                    "usr_id" => $user_id,
+                    "obj_id" => $this->getParentObject()->getId()
+                ]);
+                // JKN PATCH END
+
+
                 $this->getMembersObject()->add($user_id, IL_GRP_MEMBER);
                 $this->getMembersObject()->sendNotification(
                     ilGroupMembershipMailNotification::TYPE_ACCEPTED_SUBSCRIPTION_MEMBER,
@@ -1510,6 +1525,11 @@ class ilMembershipGUI
      */
     protected function refuseFromList()
     {
+        // JKN PATCH START
+        global $DIC;
+        $ilAppEventHandler = $DIC['ilAppEventHandler'];
+        // JKN PATCH END
+
         if (!array_key_exists('waiting', $_POST) || !count($_POST['waiting'])) {
             ilUtil::sendFailure($this->lng->txt('no_checkbox'), true);
             $this->ctrl->redirect($this, 'participants');
@@ -1525,6 +1545,14 @@ class ilMembershipGUI
             }
             if ($this instanceof ilGroupMembershipGUI) {
                 include_once './Modules/Group/classes/class.ilGroupMembershipMailNotification.php';
+
+                // JKN PATCH START
+                $ilAppEventHandler->raise("Modules/Group", "userRefusedFromWaitingList", [
+                    "usr_id" => $user_id,
+                    "obj_id" => $this->getParentObject()->getId()
+                ]);
+                // JKN PATCH END
+
                 $this->getMembersObject()->sendNotification(
                     ilGroupMembershipMailNotification::TYPE_REFUSED_SUBSCRIPTION_MEMBER,
                     $user_id,
