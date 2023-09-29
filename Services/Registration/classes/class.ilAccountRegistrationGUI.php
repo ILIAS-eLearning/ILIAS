@@ -507,7 +507,7 @@ class ilAccountRegistrationGUI
 
         if ($access_limit) {
             $this->userObj->setTimeLimitUnlimited(false);
-            $this->userObj->setTimeLimitUntil($access_limit);
+            $this->userObj->setTimeLimitUntil((int) $access_limit);
         } else {
             $this->userObj->setTimeLimitUnlimited(true);
             $this->userObj->setTimeLimitUntil(time());
