@@ -98,7 +98,10 @@ class ilSystemSupportContactsGUI
             . $http->request()->getServerParams()['HTTP_HOST']
             . $http->request()->getServerParams()['REQUEST_URI'];
 
-        return "mailto:support@cpkn.ca?subject=Support%20Request&body=*%20*%20*%0D%0A" . CLIENT_ID . "%0A" . rawurlencode($url);
+        $admin_email = $DIC->settings()->get("admin_email", "support@cpkn.ca");
+        $client_id = CLIENT_ID;
+        $encoded_url = rawurlencode($url);
+        return "mailto:$admin_email?subject=Support%20Request&body=%0D%0A%0D%0A***%0D%0A$client_id%0D%0A$encoded_url%20";
     }
     // JKN PATCH END
 
