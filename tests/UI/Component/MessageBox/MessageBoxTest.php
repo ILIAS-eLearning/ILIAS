@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 require_once(__DIR__ . "/../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../Base.php");
@@ -42,7 +42,7 @@ class MessageBoxTest extends ILIAS_UI_TestBase
         return new IC\Link\Factory();
     }
 
-    public function messagebox_type_provider(): array
+    public function getMessageboxTypeProvider(): array
     {
         return array( array(C\MessageBox\MessageBox::FAILURE)
         , array(C\MessageBox\MessageBox::SUCCESS)
@@ -74,9 +74,9 @@ class MessageBoxTest extends ILIAS_UI_TestBase
     }
 
     /**
-     * @dataProvider messagebox_type_provider
+     * @dataProvider getMessageboxTypeProvider
      */
-    public function test_implements_factory_interface(string $factory_method): void
+    public function testImplementsFactoryInterface(string $factory_method): void
     {
         $f = $this->getMessageBoxFactory();
 
@@ -85,9 +85,9 @@ class MessageBoxTest extends ILIAS_UI_TestBase
     }
 
     /**
-     * @dataProvider messagebox_type_provider
+     * @dataProvider getMessageboxTypeProvider
      */
-    public function test_messagebox_types(string $factory_method): void
+    public function testMessageboxTypes(string $factory_method): void
     {
         $f = $this->getMessageBoxFactory();
         $g = $f->$factory_method("Lorem ipsum dolor sit amet.");
@@ -97,9 +97,9 @@ class MessageBoxTest extends ILIAS_UI_TestBase
     }
 
     /**
-     * @dataProvider messagebox_type_provider
+     * @dataProvider getMessageboxTypeProvider
      */
-    public function test_messagebox_messagetext(string $factory_method): void
+    public function testMessageboxMessagetext(string $factory_method): void
     {
         $f = $this->getMessageBoxFactory();
         $g = $f->$factory_method("Lorem ipsum dolor sit amet.");
@@ -109,9 +109,9 @@ class MessageBoxTest extends ILIAS_UI_TestBase
     }
 
     /**
-     * @dataProvider messagebox_type_provider
+     * @dataProvider getMessageboxTypeProvider
      */
-    public function test_with_buttons(string $factory_method): void
+    public function testWithButtons(string $factory_method): void
     {
         $f = $this->getMessageBoxFactory();
         $bf = $this->getButtonFactory();
@@ -125,9 +125,9 @@ class MessageBoxTest extends ILIAS_UI_TestBase
     }
 
     /**
-     * @dataProvider messagebox_type_provider
+     * @dataProvider getMessageboxTypeProvider
      */
-    public function test_with_links(string $factory_method): void
+    public function testWithLinks(string $factory_method): void
     {
         $f = $this->getMessageBoxFactory();
         $lf = $this->getLinkFactory();
@@ -144,9 +144,9 @@ class MessageBoxTest extends ILIAS_UI_TestBase
     }
 
     /**
-     * @dataProvider messagebox_type_provider
+     * @dataProvider getMessageboxTypeProvider
      */
-    public function test_with_buttons_and_links(string $factory_method): void
+    public function testWithButtonsAndLinks(string $factory_method): void
     {
         $f = $this->getMessageBoxFactory();
         $bf = $this->getButtonFactory();
@@ -165,9 +165,9 @@ class MessageBoxTest extends ILIAS_UI_TestBase
     }
 
     /**
-     * @dataProvider messagebox_type_provider
+     * @dataProvider getMessageboxTypeProvider
      */
-    public function test_render_simple(string $factory_method): void
+    public function testRenderSimple(string $factory_method): void
     {
         $f = $this->getMessageBoxFactory();
         $r = $this->getDefaultRenderer();
@@ -183,9 +183,9 @@ class MessageBoxTest extends ILIAS_UI_TestBase
     }
 
     /**
-     * @dataProvider messagebox_type_provider
+     * @dataProvider getMessageboxTypeProvider
      */
-    public function test_render_with_buttons(string $factory_method): void
+    public function testRenderWithButtons(string $factory_method): void
     {
         $f = $this->getMessageBoxFactory();
         $bf = $this->getButtonFactory();
@@ -207,9 +207,9 @@ class MessageBoxTest extends ILIAS_UI_TestBase
     }
 
     /**
-     * @dataProvider messagebox_type_provider
+     * @dataProvider getMessageboxTypeProvider
      */
-    public function test_render_with_links(string $factory_method): void
+    public function testRenderWithLinks(string $factory_method): void
     {
         $f = $this->getMessageBoxFactory();
         $lf = $this->getLinkFactory();
@@ -234,9 +234,9 @@ class MessageBoxTest extends ILIAS_UI_TestBase
     }
 
     /**
-     * @dataProvider messagebox_type_provider
+     * @dataProvider getMessageboxTypeProvider
      */
-    public function test_render_with_buttons_and_links(string $factory_method): void
+    public function testRenderWithButtonsAndLinks(string $factory_method): void
     {
         $f = $this->getMessageBoxFactory();
         $bf = $this->getButtonFactory();

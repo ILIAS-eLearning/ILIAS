@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 require_once(__DIR__ . "/../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../Base.php");
@@ -37,14 +37,14 @@ class ItemTest extends ILIAS_UI_TestBase
         return new I\Component\Item\Factory();
     }
 
-    public function test_implements_factory_interface(): void
+    public function testImplementsFactoryInterface(): void
     {
         $f = $this->getFactory();
 
         $this->assertInstanceOf("ILIAS\\UI\\Component\\Item\\Standard", $f->standard("title"));
     }
 
-    public function test_get_title(): void
+    public function testGetTitle(): void
     {
         $f = $this->getFactory();
         $c = $f->standard("title");
@@ -52,7 +52,7 @@ class ItemTest extends ILIAS_UI_TestBase
         $this->assertEquals("title", $c->getTitle());
     }
 
-    public function test_with_description(): void
+    public function testWithDescription(): void
     {
         $f = $this->getFactory();
 
@@ -61,7 +61,7 @@ class ItemTest extends ILIAS_UI_TestBase
         $this->assertEquals("description", $c->getDescription());
     }
 
-    public function test_with_properties(): void
+    public function testWithProperties(): void
     {
         $f = $this->getFactory();
 
@@ -71,7 +71,7 @@ class ItemTest extends ILIAS_UI_TestBase
         $this->assertEquals($c->getProperties(), $props);
     }
 
-    public function test_with_progress(): void
+    public function testWithProgress(): void
     {
         $f = $this->getFactory();
         $chart = new I\Component\Chart\ProgressMeter\ProgressMeter(100, 50);
@@ -81,7 +81,7 @@ class ItemTest extends ILIAS_UI_TestBase
         $this->assertEquals($c->getProgress(), $chart);
     }
 
-    public function test_with_actions(): void
+    public function testWithActions(): void
     {
         $f = $this->getFactory();
 
@@ -94,7 +94,7 @@ class ItemTest extends ILIAS_UI_TestBase
         $this->assertEquals($c->getActions(), $actions);
     }
 
-    public function test_with_color(): void
+    public function testWithColor(): void
     {
         $f = $this->getFactory();
         $df = new Data\Factory();
@@ -106,7 +106,7 @@ class ItemTest extends ILIAS_UI_TestBase
         $this->assertEquals($c->getColor(), $color);
     }
 
-    public function test_with_lead_image(): void
+    public function testWithLeadImage(): void
     {
         $f = $this->getFactory();
 
@@ -117,7 +117,7 @@ class ItemTest extends ILIAS_UI_TestBase
         $this->assertEquals($c->getLead(), $image);
     }
 
-    public function test_with_lead_icon(): void
+    public function testWithLeadIcon(): void
     {
         $f = $this->getFactory();
 
@@ -128,7 +128,7 @@ class ItemTest extends ILIAS_UI_TestBase
         $this->assertEquals($icon, $c->getLead());
     }
 
-    public function test_with_lead_letter_avatar(): void
+    public function testWithLeadLetterAvatar(): void
     {
         $f = $this->getFactory();
 
@@ -139,7 +139,7 @@ class ItemTest extends ILIAS_UI_TestBase
         $this->assertEquals($avatar, $c->getLead());
     }
 
-    public function test_with_lead_picture_avatar(): void
+    public function testWithLeadPictureAvatar(): void
     {
         $f = $this->getFactory();
 
@@ -150,7 +150,7 @@ class ItemTest extends ILIAS_UI_TestBase
         $this->assertEquals($avatar, $c->getLead());
     }
 
-    public function test_with_lead_text(): void
+    public function testWithLeadText(): void
     {
         $f = $this->getFactory();
 
@@ -159,7 +159,7 @@ class ItemTest extends ILIAS_UI_TestBase
         $this->assertEquals("text", $c->getLead());
     }
 
-    public function test_with_no_lead(): void
+    public function testWithNoLead(): void
     {
         $f = $this->getFactory();
 
@@ -168,7 +168,7 @@ class ItemTest extends ILIAS_UI_TestBase
         $this->assertEquals(null, $c->getLead());
     }
 
-    public function test_with_audio_player(): void
+    public function testWithAudioPlayer(): void
     {
         $f = $this->getFactory();
 
@@ -178,7 +178,7 @@ class ItemTest extends ILIAS_UI_TestBase
         $this->assertEquals($c->getAudioPlayer(), $audio);
     }
 
-    public function test_render_base(): void
+    public function testRenderBase(): void
     {
         $f = $this->getFactory();
         $r = $this->getDefaultRenderer();
@@ -235,7 +235,7 @@ EOT;
         );
     }
 
-    public function test_render_lead_image(): void
+    public function testRenderLeadImage(): void
     {
         $f = $this->getFactory();
         $r = $this->getDefaultRenderer();
@@ -264,7 +264,7 @@ EOT;
         );
     }
 
-    public function test_render_lead_icon(): void
+    public function testRenderLeadIcon(): void
     {
         $f = $this->getFactory();
         $r = $this->getDefaultRenderer();
@@ -293,7 +293,7 @@ EOT;
         );
     }
 
-    public function test_render_lead_letter_avatar(): void
+    public function testRenderLeadLetterAvatar(): void
     {
         $f = $this->getFactory();
         $r = $this->getDefaultRenderer();
@@ -325,7 +325,7 @@ EOT;
         );
     }
 
-    public function test_render_lead_picture_avatar(): void
+    public function testRenderLeadPictureAvatar(): void
     {
         $f = $this->getFactory();
         $r = $this->getDefaultRenderer();
@@ -356,7 +356,7 @@ EOT;
         );
     }
 
-    public function test_render_progress(): void
+    public function testRenderProgress(): void
     {
         $f = $this->getFactory();
         $r = $this->getDefaultRenderer();
@@ -404,7 +404,7 @@ EOT;
         );
     }
 
-    public function test_render_progress_and_lead_image(): void
+    public function testRenderProgressAndLeadImage(): void
     {
         $f = $this->getFactory();
         $r = $this->getDefaultRenderer();
@@ -456,7 +456,7 @@ EOT;
         );
     }
 
-    public function test_render_progress_and_lead_icon(): void
+    public function testRenderProgressAndLeadIcon(): void
     {
         $f = $this->getFactory();
         $r = $this->getDefaultRenderer();
@@ -508,7 +508,7 @@ EOT;
         );
     }
 
-    public function test_render_lead_text_and_color(): void
+    public function testRenderLeadTextAndColor(): void
     {
         $f = $this->getFactory();
         $r = $this->getDefaultRenderer();
@@ -539,7 +539,7 @@ EOT;
         );
     }
 
-    public function test_shy_title_and_various_properties(): void
+    public function testShyTitleAndVariousProperties(): void
     {
         $f = $this->getFactory();
         $r = $this->getDefaultRenderer();
@@ -594,7 +594,7 @@ EOT);
         $this->assertEquals($expected, $html);
     }
 
-    public function test_link_title(): void
+    public function testLinkTitle(): void
     {
         $f = $this->getFactory();
         $r = $this->getDefaultRenderer();
@@ -609,7 +609,7 @@ EOT;
         $this->assertHTMLEquals($expected, $html);
     }
 
-    public function test_render_audio_player(): void
+    public function testRenderAudioPlayer(): void
     {
         $f = $this->getFactory();
         $r = $this->getDefaultRenderer();
