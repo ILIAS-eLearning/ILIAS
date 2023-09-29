@@ -529,10 +529,6 @@ class ilWkhtmlToPdfConfigFormGUI
         $form->getItemByPostVar('print_media_type')->setValue(1);
         $form->getItemByPostVar('print_media_type')->setChecked($config->getPrintMediaType());
         $form->getItemByPostVar('javascript_delay')->setValue($config->getJavascriptDelay());
-        #$form->getItemByPostVar('checkbox_svg')->setValue($config->getCheckboxSvg());
-        #$form->getItemByPostVar('checkbox_checked_svg')->setValue($config->getCheckboxCheckedSvg());
-        #$form->getItemByPostVar('radio_button_svg')->setValue($config->getRadioButtonSvg());
-        #$form->getItemByPostVar('radio_button_checked_svg')->setValue($config->getRadioButtonCheckedSvg());
         $form->getItemByPostVar('header_select')->setValue($config->getHeaderType());
         $form->getItemByPostVar('head_text_left')->setValue($config->getHeaderTextLeft());
         $form->getItemByPostVar('head_text_center')->setValue($config->getHeaderTextCenter());
