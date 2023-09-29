@@ -121,7 +121,7 @@ class MarkdownTest extends ILIAS_UI_TestBase
         };
     }
 
-    public function test_render(): void
+    public function testRender(): void
     {
         $label = 'test_label';
 
@@ -172,7 +172,7 @@ class MarkdownTest extends ILIAS_UI_TestBase
         $this->assertEquals($expected, $html);
     }
 
-    public function test_render_with_byline(): void
+    public function testRenderWithByline(): void
     {
         $label = 'test_label';
         $byline = 'test_byline';
@@ -229,7 +229,7 @@ class MarkdownTest extends ILIAS_UI_TestBase
         $this->assertEquals($expected, $html);
     }
 
-    public function test_render_with_limits(): void
+    public function testRenderWithLimits(): void
     {
         $label = 'test_label';
         $byline = 'test_byline';
@@ -289,7 +289,7 @@ class MarkdownTest extends ILIAS_UI_TestBase
         $this->assertEquals($expected, $html);
     }
 
-    public function test_render_with_disabled(): void
+    public function testRenderWithDisabled(): void
     {
         $label = 'test_label';
         $byline = 'test_byline';
@@ -346,7 +346,7 @@ class MarkdownTest extends ILIAS_UI_TestBase
         $this->assertEquals($expected, $html);
     }
 
-    public function test_render_with_required(): void
+    public function testRenderWithRequired(): void
     {
         $label = 'test_label';
         $byline = 'test_byline';
@@ -403,7 +403,7 @@ class MarkdownTest extends ILIAS_UI_TestBase
         $this->assertEquals($expected, $html);
     }
 
-    public function test_render_with_error(): void
+    public function testRenderWithError(): void
     {
         $label = 'test_label';
         $byline = 'test_byline';

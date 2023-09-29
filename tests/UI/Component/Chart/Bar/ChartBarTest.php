@@ -75,14 +75,14 @@ class ChartBarTest extends ILIAS_UI_TestBase
         return $dataset;
     }
 
-    public function test_implements_factory_interface(): void
+    public function testImplementsFactoryInterface(): void
     {
         $f = $this->getFactory();
 
         $this->assertInstanceOf("ILIAS\\UI\\Component\\Chart\\Bar\\Factory", $f);
     }
 
-    public function test_get_instances(): void
+    public function testGetInstances(): void
     {
         $f = $this->getFactory();
 
@@ -104,7 +104,7 @@ class ChartBarTest extends ILIAS_UI_TestBase
         $this->assertInstanceOf("ILIAS\\UI\\Component\\Chart\\Bar\\Vertical", $vertical);
     }
 
-    public function test_empty_dataset(): void
+    public function testEmptyDataset(): void
     {
         $f = $this->getFactory();
         $df = $this->getDataFactory();
@@ -122,7 +122,7 @@ class ChartBarTest extends ILIAS_UI_TestBase
     }
 
     /*
-    public function test_invalid_dataset_dimension() : void
+    public function testInvalidDatasetDimension() : void
     {
         $f = $this->getFactory();
         $df = $this->getDataFactory();
@@ -140,7 +140,7 @@ class ChartBarTest extends ILIAS_UI_TestBase
     }
     */
 
-    public function test_with_title(): void
+    public function testWithTitle(): void
     {
         $f = $this->getFactory();
 
@@ -156,7 +156,7 @@ class ChartBarTest extends ILIAS_UI_TestBase
         $this->assertEquals("Alternative title for Horizontal Bar", $horizontal1->getTitle());
     }
 
-    public function test_with_title_invisible(): void
+    public function testWithTitleInvisible(): void
     {
         $f = $this->getFactory();
 
@@ -172,7 +172,7 @@ class ChartBarTest extends ILIAS_UI_TestBase
         $this->assertEquals(false, $horizontal1->isTitleVisible());
     }
 
-    public function test_with_tooltips_invisible(): void
+    public function testWithTooltipsInvisible(): void
     {
         $f = $this->getFactory();
 
@@ -188,7 +188,7 @@ class ChartBarTest extends ILIAS_UI_TestBase
         $this->assertEquals(false, $horizontal1->isTooltipsVisible());
     }
 
-    public function test_with_legend_invisible(): void
+    public function testWithLegendInvisible(): void
     {
         $f = $this->getFactory();
 
@@ -204,7 +204,7 @@ class ChartBarTest extends ILIAS_UI_TestBase
         $this->assertEquals(false, $horizontal1->isLegendVisible());
     }
 
-    public function test_with_legend_position(): void
+    public function testWithLegendPosition(): void
     {
         $f = $this->getFactory();
 
@@ -220,7 +220,7 @@ class ChartBarTest extends ILIAS_UI_TestBase
         $this->assertEquals("left", $horizontal1->getLegendPosition());
     }
 
-    public function test_with_invalid_legend_position(): void
+    public function testWithInvalidLegendPosition(): void
     {
         $f = $this->getFactory();
 
@@ -237,7 +237,7 @@ class ChartBarTest extends ILIAS_UI_TestBase
         $horizontal = $horizontal->withLegendPosition("middle");
     }
 
-    public function test_with_dataset(): void
+    public function testWithDataset(): void
     {
         $f = $this->getFactory();
 
@@ -254,7 +254,7 @@ class ChartBarTest extends ILIAS_UI_TestBase
         $this->assertEquals($e_dataset, $horizontal1->getDataset());
     }
 
-    public function test_with_bar_configs(): void
+    public function testWithBarConfigs(): void
     {
         $f = $this->getFactory();
         $df = $this->getDataFactory();
@@ -278,7 +278,7 @@ class ChartBarTest extends ILIAS_UI_TestBase
         $this->assertEquals($bars, $horizontal1->getBarConfigs());
     }
 
-    public function test_index_axis(): void
+    public function testIndexAxis(): void
     {
         $f = $this->getFactory();
         $df = $this->getDataFactory();
@@ -300,7 +300,7 @@ class ChartBarTest extends ILIAS_UI_TestBase
         $this->assertEquals("x", $vertical->getIndexAxis());
     }
 
-    public function test_render_horizontal(): void
+    public function testRenderHorizontal(): void
     {
         $r = $this->getDefaultRenderer();
         $f = $this->getFactory();
@@ -333,7 +333,7 @@ EOT;
         $this->assertHTMLEquals("<div>" . $expected_html . "</div>", "<div>" . $html . "</div>");
     }
 
-    public function test_render_vertical(): void
+    public function testRenderVertical(): void
     {
         $r = $this->getDefaultRenderer();
         $f = $this->getFactory();

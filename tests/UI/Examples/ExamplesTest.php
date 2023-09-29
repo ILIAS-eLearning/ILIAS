@@ -119,7 +119,7 @@ class ExamplesTest extends ILIAS_UI_TestBase
     }
 
     /**
-     * @dataProvider provideExampleFullFunctionNamesAndPath
+     * @dataProvider getFullFunctionNamesAndPathExample
      */
     public function testAllExamplesRenderAString(string $example_function_name, string $example_path): void
     {
@@ -143,7 +143,7 @@ class ExamplesTest extends ILIAS_UI_TestBase
         return $crawler->crawlFactory($this->path_to_base_factory);
     }
 
-    public function provideExampleFullFunctionNamesAndPath(): array
+    public function getFullFunctionNamesAndPathExample(): array
     {
         $function_names = [];
         foreach ($this->getEntriesFromCrawler() as $entry) {
@@ -158,7 +158,7 @@ class ExamplesTest extends ILIAS_UI_TestBase
     }
 
     /**
-     * @dataProvider provideListOfFullscreenExamples
+     * @dataProvider getListOfFullscreenExamples
      */
     public function testFullscreenModeExamples(string $example_function_name, string $example_path): void
     {
@@ -173,7 +173,7 @@ class ExamplesTest extends ILIAS_UI_TestBase
         }
     }
 
-    public function provideListOfFullscreenExamples(): array
+    public function getListOfFullscreenExamples(): array
     {
         return [
             ['ILIAS\UI\examples\MainControls\Footer\renderFooterInFullscreenMode', "src/UI/examples/MainControls/Footer/footer.php"],
