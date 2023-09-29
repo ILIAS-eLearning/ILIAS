@@ -276,16 +276,19 @@ class ContentAssembler
         )->lastElementAtFinalStep();
         $cp_description = $cp_description_el?->getData()->value();
 
-        $current_id = 0;
-        if ($cp_description !== '' && $cp_description !== null) {
-            $current_id = $this->copyright_handler->extractCPEntryID($cp_description);
-        }
-
+        $current_id = $this->copyright_handler->extractCPEntryID((string) $cp_description);
+        $default_id = 0;
         $options = [];
         $outdated = [];
+        $current_id_exists = false;
+        $is_custom = !is_null($cp_description) && !$current_id;
+
         foreach ($this->copyright_handler->getCPEntries() as $entry) {
-            if ($current_id === 0 && $entry->isDefault()) {
-                $current_id = $entry->id();
+            if ($entry->isDefault()) {
+                $default_id = $entry->id();
+            }
+            if ($current_id === $entry->id()) {
+                $current_id_exists = true;
             }
 
             //give the option to block harvesting
@@ -321,16 +324,19 @@ class ContentAssembler
         //custom input as the last option
         $custom_text = $ff
             ->textarea($this->presenter->utilities()->txt('meta_description'))
-            ->withValue($current_id === 0 ? $cp_description : '');
+            ->withValue($is_custom ? (string) $cp_description : '');
         $custom = $ff->group(
             [self::CUSTOM_CP_DESCRIPTION => $custom_text],
             $this->presenter->utilities()->txt('meta_cp_own')
         );
         $options[self::CUSTOM_CP] = $custom;
 
-        $value = $current_id === 0 ?
-            self::CUSTOM_CP :
-            $this->copyright_handler->createIdentifierForID($current_id);
+        $value = self::CUSTOM_CP;
+        if (!$is_custom) {
+            $id = ($current_id && $current_id_exists) ? $current_id : $default_id;
+            $value = $this->copyright_handler->createIdentifierForID($id);
+        }
+
         $copyright = $ff
             ->switchableGroup(
                 $options,
