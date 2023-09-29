@@ -23,6 +23,9 @@ trac#:#rubric_label#:#Label
 trac#:#rubric_point#:#Points
 trac#:#rubric_group#:#Group
 trac#:#rubric_regrade#:#Regrade
+trac#:#rubric_regraded_by#:#Regraded By
+trac#:#rubric_regrade_warning#:#The student's current grade will be archived and your learning progress status will be reset. This action cannot be undone. Are you sure you want to proceed?
+trac#:#rubric_current#:#Current Rubic
 trac#:#rubric_comment#:#Comment
 trac#:#rubric_group_name#:#Group Name
 trac#:#rubric_total#:#Total
