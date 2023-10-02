@@ -311,15 +311,23 @@ class ilTestParticipantsGUI
         $search_btn->setUrl($this->ctrl->getLinkTargetByClass('ilRepositorySearchGUI', 'start'));
 
         $toolbar->addSeparator();
-        $toolbar->addButtonInstance($search_btn);
+
+        $search_btn = $DIC->ui()->factory()->button()->standard(
+            $DIC->language()->txt('tst_search_users'),
+            $DIC->ctrl()->getLinkTargetByClass('ilRepositorySearchGUI', 'start')
+        );
+        $toolbar->addComponent($search_btn);
     }
 
     protected function addFinishAllPassesButton(ilToolbarGUI $toolbar): void
     {
-        $finish_all_user_passes_btn = ilLinkButton::getInstance();
-        $finish_all_user_passes_btn->setCaption('finish_all_user_passes');
-        $finish_all_user_passes_btn->setUrl($this->ctrl->getLinkTargetByClass('iltestevaluationgui', 'finishAllUserPasses'));
-        $toolbar->addButtonInstance($finish_all_user_passes_btn);
+        global $DIC; /* @var ILIAS\DI\Container $DIC */
+
+        $finish_all_user_passes_btn = $DIC->ui()->factory()->button()->standard(
+            $DIC->language()->txt('finish_all_user_passes'),
+            $DIC->ctrl()->getLinkTargetByClass('iltestevaluationgui', 'finishAllUserPasses')
+        );
+        $toolbar->addComponent($finish_all_user_passes_btn);
     }
 
     protected function saveClientIpCmd(): void

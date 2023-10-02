@@ -71,16 +71,14 @@ class ilTestPlayerConfirmationModalTest extends ilTestBaseTestCase
     public function testAddButton(): void
     {
         $this->addGlobal_lng();
+        $this->addGlobal_uiFactory();
+
         $expected = [];
 
         foreach ([51, 291, 15, 681] as $id) {
-            $button = ilLinkButton::getInstance();
-            $button->setId((string) $id);
-            $expected[] = $button;
-        }
-
-        foreach ($expected as $button) {
+            $button = $this->testObj->buildModalButtonInstance((string) $id);
             $this->testObj->addButton($button);
+            $expected[] = $button;
         }
 
         $this->assertEquals($expected, $this->testObj->getButtons());

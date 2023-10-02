@@ -75,11 +75,7 @@ class ilMarkSchemaGUI
     {
         $this->ensureMarkSchemaCanBeEdited();
 
-        if ($this->saveMarkSchemaFormData()) {
-            $this->object->getMarkSchema()->addMarkStep();
-        } else {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('mark_schema_invalid'), true);
-        }
+        $this->object->getMarkSchema()->addMarkStep();
         $this->showMarkSchema();
     }
 
@@ -212,17 +208,19 @@ class ilMarkSchemaGUI
         $mark_schema_table = new ilMarkSchemaTableGUI($this, 'showMarkSchema', $this->object);
 
         if ($this->object->canEditMarks()) {
-            $create_simple_mark_schema_button = ilSubmitButton::getInstance();
-            $create_simple_mark_schema_button->setCaption($this->lng->txt('tst_mark_create_simple_mark_schema'), false);
-            $create_simple_mark_schema_button->setCommand('addSimpleMarkSchema');
-            $this->toolbar->addButtonInstance($create_simple_mark_schema_button);
+            global $DIC;
+            $button = $DIC->ui()->factory()->button()->standard(
+                $this->lng->txt('tst_mark_create_simple_mark_schema'),
+                $this->ctrl->getFormAction($this, 'addSimpleMarkSchema')
+            );
+            $this->toolbar->addComponent($button);
 
-            $create_new_mark_step_button = ilButton::getInstance();
-            $create_new_mark_step_button->setCaption($this->lng->txt('tst_mark_create_new_mark_step'), false);
-            $create_new_mark_step_button->setButtonType(ilButton::BUTTON_TYPE_SUBMIT);
-            $create_new_mark_step_button->setForm('form_' . $mark_schema_table->getId());
-            $create_new_mark_step_button->setName('addMarkStep');
-            $this->toolbar->addButtonInstance($create_new_mark_step_button);
+            $button = $DIC->ui()->factory()->button()->standard(
+                $this->lng->txt('tst_mark_create_new_mark_step'),
+                $this->ctrl->getFormAction($this, 'addMarkStep')
+            );
+            $this->toolbar->addComponent($button);
+
         }
 
 

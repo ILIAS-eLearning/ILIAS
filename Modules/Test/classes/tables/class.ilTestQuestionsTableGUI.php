@@ -275,11 +275,7 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
         $removeUrl = $this->ctrl->getLinkTarget($this->getParentObject(), $this->getParentCmd());
         $this->ctrl->setParameter($this->getParentObject(), 'removeQid', '');
 
-        $button = ilLinkButton::getInstance();
-        $button->setCaption('remove_question');
-        $button->setUrl($removeUrl);
-
-        return $button->render();
+        return $this->ui_renderer->render($this->ui_factory->button()->standard($this->lng->txt('remove_question'), $removeUrl));
     }
 
     protected function buildQuestionTitleLink(array $rowData): string

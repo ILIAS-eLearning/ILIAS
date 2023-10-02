@@ -276,7 +276,7 @@ class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 
 
         $selections = [
-            'user' => $this->getUsersSolutionFromPreviewOrDatabase($active_id, $pass)
+            'user' => $this->getUsersSolutionFromPreviewOrDatabase((int) $active_id, $pass)
         ];
         $selections['best'] = $this->object->getBestSelection();
 

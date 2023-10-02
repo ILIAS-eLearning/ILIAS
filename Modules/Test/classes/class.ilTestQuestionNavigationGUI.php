@@ -29,6 +29,7 @@ class ilTestQuestionNavigationGUI
     public const SHOW_DISABLED_COMMANDS = false;
 
     public const CSS_CLASS_SUBMIT_BUTTONS = 'ilc_qsubmit_Submit';
+    private \ILIAS\DI\UIServices $ui;
 
     /**
      * @var ilLanguage
@@ -120,6 +121,8 @@ class ilTestQuestionNavigationGUI
     public function __construct(ilLanguage $lng)
     {
         $this->lng = $lng;
+        global $DIC;
+        $this->ui = $DIC->ui();
     }
 
     /**
@@ -663,13 +666,17 @@ class ilTestQuestionNavigationGUI
      */
     private function renderSubmitButton(ilTemplate $tpl, $command, $label, $primary = false)
     {
-        $button = ilSubmitButton::getInstance();
-        $button->setCommand($command);
-        $button->setCaption($label);
-        $button->setPrimary($primary);
-        $button->addCSSClass(self::CSS_CLASS_SUBMIT_BUTTONS);
-
-        $this->renderButtonInstance($tpl, $button);
+        if ($primary) {
+            $this->renderButtonInstance(
+                $tpl,
+                $this->ui->factory()->button()->primary($label, $command)
+            );
+        } else {
+            $this->renderButtonInstance(
+                $tpl,
+                $this->ui->factory()->button()->standard($label, $command)
+            );
+        }
     }
 
     /**
@@ -680,27 +687,7 @@ class ilTestQuestionNavigationGUI
      */
     private function renderLinkButton(ilTemplate $tpl, $href, $label)
     {
-        $button = ilLinkButton::getInstance();
-        $button->setUrl($href);
-        $button->setCaption($label);
-
-        $this->renderButtonInstance($tpl, $button);
-    }
-
-    /**
-     * @param ilTemplate $tpl
-     * @param $htmlId
-     * @param $label
-     * @param $cssClass
-     */
-    private function renderJsLinkedButton(ilTemplate $tpl, $htmlId, $label, $cssClass)
-    {
-        $button = ilLinkButton::getInstance();
-        $button->setId($htmlId);
-        $button->addCSSClass($cssClass);
-        $button->setCaption($label);
-
-        $this->renderButtonInstance($tpl, $button);
+        $this->renderButtonInstance($tpl, $this->ui->factory()->button()->standard($label, $href));
     }
 
     /**

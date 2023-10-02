@@ -65,17 +65,23 @@ class ilTestResultsToolbarGUI extends ilToolbarGUI
         if (count($this->getParticipantSelectorOptions())) {
             $this->addSeparator();
 
-            $sel = new ilSelectInputGUI('', 'active_id');
-            $sel->setOptions($this->getParticipantSelectorOptionsWithHintOption());
-            $this->addInputItem($sel);
+            $dropdown = $this->ui->factory()->dropdown()
+                                            ->standard($this->getParticipantSelectorOptionsWithHintOption())
+                                            ->withLabel($this->lng->txt('tst_res_jump_to_participant_btn'));
+            $this->addComponent($dropdown);
+            /*
+                        $sel = new ilSelectInputGUI('', 'active_id');
+                        $sel->setOptions($this->getParticipantSelectorOptionsWithHintOption());
+                        $this->addInputItem($sel);
 
-            $link = ilLinkButton::getInstance(); // always returns a new instance
-            $link->setUrl('#');
-            $link->setId('ilTestResultParticipantJumper');
-            $link->setCaption($this->lng->txt('tst_res_jump_to_participant_btn'), false);
-            $this->addButtonInstance($link);
+                        $link = ilLinkButton::getInstance(); // always returns a new instance
+                        $link->setUrl('#');
+                        $link->setId('ilTestResultParticipantJumper');
+                        $link->setCaption($this->lng->txt('tst_res_jump_to_participant_btn'), false);
+                        $this->addButtonInstance($link);
 
-            $this->tpl->addJavaScript('Modules/Test/js/ilTestResultParticipantSelector.js');
+                        $this->tpl->addJavaScript('Modules/Test/js/ilTestResultParticipantSelector.js');
+            */
         }
     }
 
