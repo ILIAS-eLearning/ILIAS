@@ -1,6 +1,6 @@
 @use "../../../010-settings/"as *;
 @use "../../../010-settings/legacy-settings/legacy-settings_symbol" as *;
-@use "../../../030-tools/tool_focus-outline" as *;
+@use "../../../030-tools/tool_focus-outline" as f;
 @use "../../../030-tools/tool_screen-reader-only" as *;
 @use "../../../030-tools/tool_multi-line-cap" as t-line-cap;
 @use "../../../050-layout/basics" as *;
@@ -71,6 +71,15 @@ $il-slate-bulky-link-padding: $il-slate-bulky-padding-vertical $il-padding-base-
 	.il-link.link-bulky {
 		height:$il-mainbar-btn-height;
 		width: $il-mainbar-btn-width;
+	}
+}
+
+.il-mainbar-triggers,
+.il-mainbar-tools-button,
+.il-mainbar-tool-trigger-item,
+.il-maincontrols-metabar {
+	.btn-bulky,
+	.il-link.link-bulky {
 		padding: $il-mainbar-btn-padding;
 		border: 0;
 		border-bottom: $il-mainbar-btn-border;
@@ -80,6 +89,7 @@ $il-slate-bulky-link-padding: $il-slate-bulky-padding-vertical $il-padding-base-
 		gap: $il-mainbar-btn-label-icon-gap;
 		font-size: $il-mainbar-btn-label-size;
 		line-height: $il-mainbar-btn-label-size * $il-line-height-large;
+		@include f.il-focus-border-only();
 		.bulky-label {
 			@include t-line-cap.il-multi-line-cap-mixin(2);
 			word-break: break-word;
