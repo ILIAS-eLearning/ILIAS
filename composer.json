@@ -18,11 +18,10 @@
 		],
 		"post-install-cmd": [
 			"@php libs/composer/rmdirs.php",
-			"[ $COMPOSER_DEV_MODE -eq 0 ] && npm install --omit=dev --ignore-scripts || npm install --ignore-scripts"
+			"[ $COMPOSER_DEV_MODE -eq 0 ] && npm ci --omit=dev --ignore-scripts || npm ci --ignore-scripts"
 		],
 		"post-update-cmd": [
-			"@php libs/composer/rmdirs.php",
-			"[ $COMPOSER_DEV_MODE -eq 0 ] && npm update --omit=dev --ignore-scripts || npm update --ignore-scripts"
+			"@php libs/composer/rmdirs.php"
 		],
 		"test-php-all": [
 			"./libs/composer/vendor/bin/phpunit -c ./Services/PHPUnit/config/PhpUnitConfig.xml --colors=always --disallow-todo-tests"
