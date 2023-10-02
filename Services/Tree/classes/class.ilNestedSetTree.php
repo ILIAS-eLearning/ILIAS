@@ -168,7 +168,7 @@ class ilNestedSetTree implements ilTreeImplementation
         }
 
         // if node is also parent of node b => sibling
-        if ($a_node_a['parent'] == $a_node_b['parent']) {
+        if (($a_node_a['parent'] ?? null) === ($a_node_b['parent'] ?? null)) {
             return ilTree::RELATION_SIBLING;
         }
         return ilTree::RELATION_NONE;
