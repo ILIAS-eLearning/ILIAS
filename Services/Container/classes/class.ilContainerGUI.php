@@ -489,7 +489,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 
             if ($this->object->gotItems()) {
                 $toolbar->setLeadingImage(
-                    ilUtil::getImagePath("arrow_upright.svg"),
+                    ilUtil::getImagePath("nav/arrow_upright.svg"),
                     $lng->txt("actions")
                 );
                 $toolbar->addFormButton(
@@ -680,7 +680,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         string $a_type,
         bool $a_show_image = true
     ): void {
-        $icon = ilUtil::getImagePath("icon_" . $a_type . ".svg");
+        $icon = ilUtil::getImagePath("standard/icon_" . $a_type . ".svg");
         $title = $this->lng->txt("objs_" . $a_type);
 
         if ($a_show_image) {
@@ -707,7 +707,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 
         $nbsp = true;
         if ($ilSetting->get("icon_position_in_lists") === "item_rows") {
-            $icon = ilUtil::getImagePath("icon_" . $a_image_type . ".svg");
+            $icon = ilUtil::getImagePath("standard/icon_" . $a_image_type . ".svg");
             $alt = $this->lng->txt("obj_" . $a_image_type);
 
             if ($ilSetting->get('custom_icons')) {
@@ -1536,9 +1536,9 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 
         $t->addFormButton($this->lng->txt("cancel"), "cancelMoveLink");
         $t->setCloseFormTag(false);
-        $t->setLeadingImage(ilUtil::getImagePath("arrow_upright.svg"), " ");
+        $t->setLeadingImage(ilUtil::getImagePath("nav/arrow_upright.svg"), " ");
         $output = $t->getHTML() . $output;
-        $t->setLeadingImage(ilUtil::getImagePath("arrow_downright.svg"), " ");
+        $t->setLeadingImage(ilUtil::getImagePath("nav/arrow_downright.svg"), " ");
         $t->setCloseFormTag(true);
         $t->setOpenFormTag(false);
         $output .= "<br />" . $t->getHTML();

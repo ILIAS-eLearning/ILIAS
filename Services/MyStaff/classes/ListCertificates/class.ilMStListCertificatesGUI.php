@@ -102,7 +102,7 @@ class ilMStListCertificatesGUI
 
         $this->table = new ilMStListCertificatesTableGUI($this, self::CMD_INDEX);
         $this->main_tpl->setTitle($this->language->txt('mst_list_certificates'));
-        $this->main_tpl->setTitleIcon(ilUtil::getImagePath('icon_cert.svg'));
+        $this->main_tpl->setTitleIcon(ilUtil::getImagePath('standard/icon_cert.svg'));
         $this->main_tpl->setContent($this->table->getHTML());
     }
 

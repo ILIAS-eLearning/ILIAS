@@ -222,12 +222,12 @@ class ilParticipantsTestResultsTableGUI extends ilTable2GUI
 
     protected function buildPassedIcon(): string
     {
-        return $this->buildImageIcon(ilUtil::getImagePath("icon_ok.svg"), $this->lng->txt("passed"));
+        return $this->buildImageIcon(ilUtil::getImagePath("standard/icon_ok.svg"), $this->lng->txt("passed"));
     }
 
     protected function buildFailedIcon(): string
     {
-        return $this->buildImageIcon(ilUtil::getImagePath("icon_not_ok.svg"), $this->lng->txt("failed"));
+        return $this->buildImageIcon(ilUtil::getImagePath("standard/icon_not_ok.svg"), $this->lng->txt("failed"));
     }
 
     protected function buildImageIcon(string $icon_name, string $label): string

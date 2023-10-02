@@ -32,7 +32,7 @@ function with_object_icon_and_actions()
     );
 
     $image = $f->image()->responsive(
-        "./templates/default/images/HeaderIcon.svg",
+        "./templates/default/images/logo/HeaderIcon.svg",
         "Thumbnail Example"
     );
 

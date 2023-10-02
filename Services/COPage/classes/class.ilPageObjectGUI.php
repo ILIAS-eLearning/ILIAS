@@ -1394,17 +1394,17 @@ class ilPageObjectGUI
         $cell_path = '';
         $item_path = '';
         if ($this->getOutputMode() == "edit") {
-            $col_path = ilUtil::getImagePath("col.svg");
-            $row_path = ilUtil::getImagePath("row.svg");
-            $item_path = ilUtil::getImagePath("icon_peadl.svg");
-            $cell_path = ilUtil::getImagePath("cell.svg");
+            $col_path = ilUtil::getImagePath("object/col.svg");
+            $row_path = ilUtil::getImagePath("object/row.svg");
+            $item_path = ilUtil::getImagePath("page_editor/icon_peadl.svg");
+            $cell_path = ilUtil::getImagePath("object/cell.svg");
         }
 
         if ($this->getOutputMode() != "offline") {
-            $enlarge_path = ilUtil::getImagePath("enlarge.svg");
+            $enlarge_path = ilUtil::getImagePath("media/enlarge.svg");
             $wb_path = ilFileUtils::getWebspaceDir("output") . "/";
         } else {
-            $enlarge_path = "images/enlarge.svg";
+            $enlarge_path = "images/media/enlarge.svg";
             $wb_path = "";
         }
         $pg_title_class = ($this->getOutputMode() == "print")
@@ -1958,7 +1958,7 @@ class ilPageObjectGUI
         );*/
 
         $btpl->setVariable("TXT_SAVING", $lng->txt("cont_saving"));
-        $btpl->setVariable("SRC_LOADER", \ilUtil::getImagePath("loader.svg"));
+        $btpl->setVariable("SRC_LOADER", \ilUtil::getImagePath("media/loader.svg"));
         ilTooltipGUI::addTooltip(
             "ilAdvSelListAnchorElement_char_style_selection",
             $lng->txt("cont_more_character_styles"),
@@ -2051,7 +2051,7 @@ class ilPageObjectGUI
         //echo "<b>XML:</b>".htmlentities($xml);
         // determine target frames for internal links
         $wb_path = ilFileUtils::getWebspaceDir("output") . "/";
-        $enlarge_path = ilUtil::getImagePath("enlarge.svg");
+        $enlarge_path = ilUtil::getImagePath("media/enlarge.svg");
         $params = array('mode' => $mode, 'enlarge_path' => $enlarge_path,
             'link_params' => "ref_id=" . $this->requested_ref_id,'fullscreen_link' => "",
                         'enable_html_mob' => ilObjMediaObject::isTypeAllowed("html") ? "y" : "n",

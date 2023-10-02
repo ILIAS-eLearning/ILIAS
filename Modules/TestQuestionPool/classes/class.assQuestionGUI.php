@@ -2020,7 +2020,7 @@ abstract class assQuestionGUI
     {
         switch ($correctness) {
             case self::CORRECTNESS_NOT_OK:
-                $icon_name = 'icon_not_ok.svg';
+                $icon_name = 'standard/icon_not_ok.svg';
                 $label = $this->lng->txt("answer_is_wrong");
                 break;
             case self::CORRECTNESS_MOSTLY_OK:

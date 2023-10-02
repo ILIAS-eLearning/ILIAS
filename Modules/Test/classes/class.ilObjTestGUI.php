@@ -1321,7 +1321,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         $importVerificationTpl->setVariable("FOUND_QUESTIONS_INTRODUCTION", $this->lng->txt("tst_import_verify_found_questions"));
         $importVerificationTpl->setVariable("VERIFICATION_HEADING", $this->lng->txt("import_tst"));
         $importVerificationTpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-        $importVerificationTpl->setVariable("ARROW", ilUtil::getImagePath("arrow_downright.svg"));
+        $importVerificationTpl->setVariable("ARROW", ilUtil::getImagePath("nav/arrow_downright.svg"));
         $importVerificationTpl->setVariable("QUESTIONPOOL_ID", $QplOrTstID);
         $importVerificationTpl->setVariable("VALUE_IMPORT", $this->lng->txt("import"));
         $importVerificationTpl->setVariable("VALUE_CANCEL", $this->lng->txt("cancel"));

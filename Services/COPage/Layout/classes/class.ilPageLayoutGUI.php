@@ -182,7 +182,7 @@ class ilPageLayoutGUI extends ilPageObjectGUI
             $this->lng->txt("settings"),
             $ilCtrl->getLinkTarget($this, "properties")
         );
-        $tpl->setTitleIcon(ilUtil::getImagePath("icon_pg.svg"));
+        $tpl->setTitleIcon(ilUtil::getImagePath("standard/icon_pg.svg"));
         $tpl->setTitle($this->layout_object->getTitle());
         $tpl->setDescription("");
     }

@@ -248,7 +248,7 @@ class ilCalendarMonthGUI extends ilCalendarViewGUI
             if ($item['event']->isMilestone()) {
                 $event_tpl->setCurrentBlock('fullday_ms_icon');
                 $event_tpl->setVariable('ALT_FD_MS', $this->lng->txt("cal_milestone"));
-                $event_tpl->setVariable('SRC_FD_MS', ilUtil::getImagePath("icon_ms.svg"));
+                $event_tpl->setVariable('SRC_FD_MS', ilUtil::getImagePath("standard/icon_ms.svg"));
                 $event_tpl->parseCurrentBlock();
             }
 

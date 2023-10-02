@@ -105,7 +105,7 @@ class ilObjMediaPoolSubItemListGUI extends ilSubItemListGUI
                 $this->tpl->setVariable("LINKED_IMAGE", ilUtil::img($target));
             // end-patch mime_filter
             } else {
-                $this->tpl->setVariable("SUB_ITEM_IMAGE", ilUtil::img(ilUtil::getImagePath("icon_" . "mob" . ".gif")));
+                $this->tpl->setVariable("SUB_ITEM_IMAGE", ilUtil::img(ilUtil::getImagePath("standard/icon_" . "mob" . ".gif")));
             }
             if (ilUtil::deducibleSize($med->getFormat()) && $med->getLocationType() === "Reference") {
                 $size = getimagesize($med->getLocation());

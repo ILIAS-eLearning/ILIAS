@@ -467,7 +467,7 @@ class ilPCTableGUI extends ilPageContentGUI
         $content = "<dummy>" . $content . "</dummy>";
 
         $wb_path = ilFileUtils::getWebspaceDir("output") . "/";
-        $enlarge_path = ilUtil::getImagePath("enlarge.svg");
+        $enlarge_path = ilUtil::getImagePath("media/enlarge.svg");
         $params = array('mode' => $a_mode,
             'webspace_path' => $wb_path, 'enlarge_path' => $enlarge_path);
         $output = $xsl->process($content, $params);
@@ -1253,7 +1253,7 @@ class ilPCTableGUI extends ilPageContentGUI
         $content = "<dummy>" . $content . "</dummy>";
 
         $wb_path = ilFileUtils::getWebspaceDir("output") . "/";
-        $enlarge_path = ilUtil::getImagePath("enlarge.svg");
+        $enlarge_path = ilUtil::getImagePath("media/enlarge.svg");
         $params = array('webspace_path' => $wb_path, 'enlarge_path' => $enlarge_path);
         $output = $this->xsl->process($content, $params);
 

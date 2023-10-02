@@ -1034,7 +1034,7 @@ class ilGlobalTemplate implements ilGlobalTemplateInterface
 
             $this->setCurrentBlock("tree_mode");
             $this->setVariable("LINK_MODE", $this->tree_flat_link);
-            $this->setVariable("IMG_TREE", ilUtil::getImagePath("icon_sidebar_on.svg"));
+            $this->setVariable("IMG_TREE", ilUtil::getImagePath("standard/icon_sidebar_on.svg"));
             if ($ilSetting->get("tree_frame") === "right") {
                 $this->setVariable("RIGHT", "Right");
             }
@@ -1089,7 +1089,7 @@ class ilGlobalTemplate implements ilGlobalTemplateInterface
 
         // Add arrow if desired.
         if ($this->admin_panel_arrow) {
-            $toolb->setLeadingImage(ilUtil::getImagePath("arrow_upright.svg"), $lng->txt("actions"));
+            $toolb->setLeadingImage(ilUtil::getImagePath("nav/arrow_upright.svg"), $lng->txt("actions"));
         }
 
         $this->fillPageFormAction();
@@ -1105,7 +1105,7 @@ class ilGlobalTemplate implements ilGlobalTemplateInterface
 
             // Replace previously set arrow image.
             if ($this->admin_panel_arrow) {
-                $toolb->setLeadingImage(ilUtil::getImagePath("arrow_downright.svg"), $lng->txt("actions"));
+                $toolb->setLeadingImage(ilUtil::getImagePath("nav/arrow_downright.svg"), $lng->txt("actions"));
             }
 
             $this->setVariable("ADM_PANEL2", $toolb->getHTML());

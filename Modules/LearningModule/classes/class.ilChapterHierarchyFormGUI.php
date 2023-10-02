@@ -251,7 +251,7 @@ class ilChapterHierarchyFormGUI extends ilHierarchyFormGUI
     */
     public function getChildIcon(array $a_item): string
     {
-        $img = "icon_" . $a_item["type"] . ".svg";
+        $img = "standard/icon_" . $a_item["type"] . ".svg";
 
         if ($a_item["type"] == "pg") {
             $lm_set = new ilSetting("lm");
@@ -267,17 +267,17 @@ class ilChapterHierarchyFormGUI extends ilHierarchyFormGUI
                 ? "_sc"
                 : "";
 
-            $img = "icon_pg" . $img_sc . ".svg";
+            $img = "standard/icon_pg" . $img_sc . ".svg";
 
             if (!$active) {
-                $img = "icon_pg_d" . $img_sc . ".svg";
+                $img = "standard/icon_pg_d" . $img_sc . ".svg";
             } else {
                 $contains_dis = ilLMPage::_lookupContainsDeactivatedElements(
                     $a_item["node_id"],
                     $this->lm_type
                 );
                 if ($contains_dis) {
-                    $img = "icon_pg_del" . $img_sc . ".svg";
+                    $img = "standard/icon_pg_del" . $img_sc . ".svg";
                 }
             }
         }
@@ -310,7 +310,7 @@ class ilChapterHierarchyFormGUI extends ilHierarchyFormGUI
                 }
             }
         }
-        return ilUtil::getImagePath("icon_" . $a_item["type"] . ".svg");
+        return ilUtil::getImagePath("standard/icon_" . $a_item["type"] . ".svg");
     }
 
     /**

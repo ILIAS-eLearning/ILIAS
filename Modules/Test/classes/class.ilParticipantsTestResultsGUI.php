@@ -284,7 +284,7 @@ class ilParticipantsTestResultsGUI
                 "chbUser[]",
                 (string) $active_id,
                 $username,
-                ilUtil::getImagePath("icon_usr.svg"),
+                ilUtil::getImagePath("standard/icon_usr.svg"),
                 $this->lng->txt("usr")
             );
         }

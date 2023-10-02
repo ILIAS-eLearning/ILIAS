@@ -205,8 +205,8 @@ class ilWkhtmlToPdfConfigTest extends TestCase
 
     public function testGetCommandLineConfigWithCheckedCheckbox(): void
     {
-        $this->config->setCheckboxCheckedSvg('checkbox_checked.svg');
-        $exp = ' --zoom 1 --enable-external-links --disable-forms --orientation Portrait --page-size A4 --javascript-delay 500 --checkbox-checked-svg "checkbox_checked.svg" --margin-bottom 0.5cm --margin-left 0.5cm --margin-right 2cm --margin-top 2cm --quiet ' . self::COOKIE_STRING;
+        $this->config->setCheckboxCheckedSvg('object/checkbox_checked.svg');
+        $exp = ' --zoom 1 --enable-external-links --disable-forms --orientation Portrait --page-size A4 --javascript-delay 500 --checkbox-checked-svg "object/checkbox_checked.svg" --margin-bottom 0.5cm --margin-left 0.5cm --margin-right 2cm --margin-top 2cm --quiet ' . self::COOKIE_STRING;
         $this->assertSame($exp, $this->config->getCommandLineConfig());
     }
 
@@ -219,8 +219,8 @@ class ilWkhtmlToPdfConfigTest extends TestCase
 
     public function testGetCommandLineConfigWithCheckedRadiobutton(): void
     {
-        $this->config->setRadioButtonCheckedSvg('radiobutton_checked.svg');
-        $exp = ' --zoom 1 --enable-external-links --disable-forms --orientation Portrait --page-size A4 --javascript-delay 500 --radiobutton-checked-svg "radiobutton_checked.svg" --margin-bottom 0.5cm --margin-left 0.5cm --margin-right 2cm --margin-top 2cm --quiet ' . self::COOKIE_STRING;
+        $this->config->setRadioButtonCheckedSvg('object/radiobutton_checked.svg');
+        $exp = ' --zoom 1 --enable-external-links --disable-forms --orientation Portrait --page-size A4 --javascript-delay 500 --radiobutton-checked-svg "object/radiobutton_checked.svg" --margin-bottom 0.5cm --margin-left 0.5cm --margin-right 2cm --margin-top 2cm --quiet ' . self::COOKIE_STRING;
         $this->assertSame($exp, $this->config->getCommandLineConfig());
     }
 

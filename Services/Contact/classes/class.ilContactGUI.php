@@ -206,7 +206,7 @@ class ilContactGUI
             );
             $this->has_sub_tabs = true;
         } else {
-            $this->tpl->setTitleIcon(ilUtil::getImagePath('icon_cadm.svg'));
+            $this->tpl->setTitleIcon(ilUtil::getImagePath('standard/icon_cadm.svg'));
 
             $this->help->setScreenIdComponent('contacts');
 

@@ -57,8 +57,8 @@ function renderFooterInFullscreenMode(Container $dic): string
 {
     $f = $dic->ui()->factory();
     $renderer = $dic->ui()->renderer();
-    $logo = $f->image()->responsive("templates/default/images/HeaderIcon.svg", "ILIAS");
-    $responsive_logo = $f->image()->responsive("templates/default/images/HeaderIconResponsive.svg", "ILIAS");
+    $logo = $f->image()->responsive("templates/default/images/logo/HeaderIcon.svg", "ILIAS");
+    $responsive_logo = $f->image()->responsive("templates/default/images/logo/HeaderIconResponsive.svg", "ILIAS");
     $breadcrumbs = pageFooterDemoCrumbs($f);
     $metabar = pageFooterDemoMetabar($f);
     $mainbar = pageFooterDemoMainbar($f);
@@ -74,7 +74,7 @@ function renderFooterInFullscreenMode(Container $dic): string
         $breadcrumbs,
         $logo,
         $responsive_logo,
-        "./templates/default/images/favicon.ico",
+        "./templates/default/images/logo/favicon.ico",
         $tc,
         $footer,
         'UI PAGE FOOTER DEMO', //page title

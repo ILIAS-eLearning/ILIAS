@@ -730,7 +730,7 @@ class ilObjSkillTreeGUI extends ilObjectGUI
                     "id[]",
                     (string) $node_obj->getId(),
                     $obj_title,
-                    ilUtil::getImagePath("icon_" . $node_obj->getType() . ".svg")
+                    ilUtil::getImagePath("standard/icon_" . $node_obj->getType() . ".svg")
                 );
             }
         }

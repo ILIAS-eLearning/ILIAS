@@ -922,7 +922,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
                 "item_id[]",
                 $item_id,
                 $item->getTitle(),
-                ilUtil::getImagePath("icon_mcst.svg")
+                ilUtil::getImagePath("standard/icon_mcst.svg")
             );
         }
 

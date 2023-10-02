@@ -201,7 +201,7 @@ class ilSessionMaterialsTableGUI extends ilTable2GUI
         }
         if (in_array($a_set['ref_id'], $this->getMaterialItems())) {
             $ass_glyph = $this->ui->symbol()->icon()->custom(
-                ilUtil::getImagePath("icon_ok.svg"),
+                ilUtil::getImagePath("standard/icon_ok.svg"),
                 $this->lng->txt("assigned")
             );
             $this->tpl->setVariable("ASSIGNED_IMG_OK", $this->renderer->render($ass_glyph));

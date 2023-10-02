@@ -372,7 +372,7 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
             $this->tpl->parseCurrentBlock();
 
             if ($a_set["complete"] == 0) {
-                $icon = $this->ui_factory->symbol()->icon()->custom(ilUtil::getImagePath("icon_alert.svg"), $this->lng->txt("warning_question_not_complete"));
+                $icon = $this->ui_factory->symbol()->icon()->custom(ilUtil::getImagePath("standard/icon_alert.svg"), $this->lng->txt("warning_question_not_complete"));
                 $this->tpl->setCurrentBlock("qpl_warning");
                 $this->tpl->setVariable("ICON_WARNING", $this->renderer->render($icon));
                 $this->tpl->parseCurrentBlock();

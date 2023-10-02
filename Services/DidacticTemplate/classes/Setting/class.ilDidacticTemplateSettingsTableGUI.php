@@ -130,8 +130,8 @@ class ilDidacticTemplateSettingsTableGUI extends ilTable2GUI
         $this->tpl->setVariable(
             'VAL_IMAGE',
             $a_set['enabled'] ?
-                ilUtil::getImagePath('icon_ok.svg') :
-                ilUtil::getImagePath('icon_not_ok.svg')
+                ilUtil::getImagePath('standard/icon_ok.svg') :
+                ilUtil::getImagePath('standard/icon_not_ok.svg')
         );
         $this->tpl->setVariable(
             'VAL_ENABLED_TXT',

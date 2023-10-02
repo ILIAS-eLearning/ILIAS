@@ -1120,10 +1120,10 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
             $this->setCurrentBlock("tree_mode");
             $this->setVariable("LINK_MODE", $this->tree_flat_link);
             if ($this->settings->get("tree_frame") == "right") {
-                $this->setVariable("IMG_TREE", ilUtil::getImagePath("icon_sidebar_on.svg"));
+                $this->setVariable("IMG_TREE", ilUtil::getImagePath("standard/icon_sidebar_on.svg"));
                 $this->setVariable("RIGHT", "Right");
             } else {
-                $this->setVariable("IMG_TREE", ilUtil::getImagePath("icon_sidebar_on.svg"));
+                $this->setVariable("IMG_TREE", ilUtil::getImagePath("standard/icon_sidebar_on.svg"));
             }
             $this->setVariable("ALT_TREE", $this->lng->txt($this->tree_flat_mode . "view"));
             $this->setVariable("TARGET_TREE", ilFrameTargetInfo::_getFrame("MainContent"));
@@ -1192,7 +1192,7 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
 
         // Add arrow if desired.
         if ($this->admin_panel_arrow) {
-            $toolb->setLeadingImage(ilUtil::getImagePath("arrow_upright.svg"), $this->lng->txt("actions"));
+            $toolb->setLeadingImage(ilUtil::getImagePath("nav/arrow_upright.svg"), $this->lng->txt("actions"));
         }
 
         $this->fillPageFormAction();
@@ -1208,7 +1208,7 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
 
             // Replace previously set arrow image.
             if ($this->admin_panel_arrow) {
-                $toolb->setLeadingImage(ilUtil::getImagePath("arrow_downright.svg"), $this->lng->txt("actions"));
+                $toolb->setLeadingImage(ilUtil::getImagePath("nav/arrow_downright.svg"), $this->lng->txt("actions"));
             }
 
             $this->setVariable("ADM_PANEL2", $toolb->getHTML());

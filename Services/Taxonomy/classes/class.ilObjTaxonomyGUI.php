@@ -730,7 +730,7 @@ class ilObjTaxonomyGUI extends ilObject2GUI
 
         $tpl->setTitle(ilObject::_lookupTitle($this->getCurrentTaxonomyId()));
         $tpl->setDescription(ilObject::_lookupDescription($this->getCurrentTaxonomyId()));
-        $tpl->setTitleIcon(ilUtil::getImagePath("icon_tax.svg"));
+        $tpl->setTitleIcon(ilUtil::getImagePath("standard/icon_tax.svg"));
 
         $ilTabs->setBackTarget(
             $lng->txt("back"),

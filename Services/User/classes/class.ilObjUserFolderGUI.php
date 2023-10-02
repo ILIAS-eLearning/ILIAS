@@ -2999,7 +2999,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this));
 
-        $form->setTitleIcon(ilUtil::getImagePath('icon_mail.svg'));
+        $form->setTitleIcon(ilUtil::getImagePath('standard/icon_mail.svg'));
         $form->setTitle($this->lng->txt('user_new_account_mail'));
         $form->setDescription($this->lng->txt('user_new_account_mail_desc'));
 

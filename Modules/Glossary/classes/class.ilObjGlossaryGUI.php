@@ -1070,7 +1070,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
                 ilGlossaryTerm::_lookGlossaryTerm($this->term_id));
         } else {
             parent::setTitleAndDescription();
-            $this->tpl->setTitleIcon(ilUtil::getImagePath("icon_glo.svg"));
+            $this->tpl->setTitleIcon(ilUtil::getImagePath("standard/icon_glo.svg"));
             $this->tpl->setTitle($this->lng->txt("glo") . ": " . $title);
         }
     }

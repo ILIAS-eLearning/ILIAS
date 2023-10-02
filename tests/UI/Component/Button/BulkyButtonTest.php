@@ -191,7 +191,7 @@ class BulkyButtonTest extends ILIAS_UI_TestBase
 
         $expected = ''
             . '<button class="btn btn-bulky" data-action="http://www.ilias.de" id="id_1">'
-            . '	<img class="icon someExample small" src="./templates/default/images/icon_default.svg" alt=""/>'
+            . '	<img class="icon someExample small" src="./templates/default/images/standard/icon_default.svg" alt=""/>'
             . '	<span class="bulky-label">label</span>'
             . '</button>';
 
@@ -209,7 +209,7 @@ class BulkyButtonTest extends ILIAS_UI_TestBase
 
         $expected = ''
             . '<button class="btn btn-bulky" data-action="http://www.ilias.de" id="id_1" role="menuitem">'
-            . ' <img class="icon someExample small" src="./templates/default/images/icon_default.svg" alt=""/>'
+            . ' <img class="icon someExample small" src="./templates/default/images/standard/icon_default.svg" alt=""/>'
             . '	<span class="bulky-label">label</span>'
             . '</button>';
 
@@ -228,7 +228,7 @@ class BulkyButtonTest extends ILIAS_UI_TestBase
 
         $expected = ''
             . '<button class="btn btn-bulky" data-action="http://www.ilias.de" id="id_1" role="menuitem" aria-haspopup="true">'
-            . ' <img class="icon someExample small" src="./templates/default/images/icon_default.svg" alt=""/>'
+            . ' <img class="icon someExample small" src="./templates/default/images/standard/icon_default.svg" alt=""/>'
             . '	<span class="bulky-label">label</span>'
             . '</button>';
 
@@ -247,7 +247,7 @@ class BulkyButtonTest extends ILIAS_UI_TestBase
 
         $expected = ''
             . '<button class="btn btn-bulky" data-action="http://www.ilias.de" id="id_1" role="menuitem" aria-haspopup="true">'
-            . ' <img class="icon someExample small" src="./templates/default/images/icon_default.svg" alt=""/>'
+            . ' <img class="icon someExample small" src="./templates/default/images/standard/icon_default.svg" alt=""/>'
             . '	<span class="bulky-label">Example</span>'
             . '</button>';
 
@@ -267,7 +267,7 @@ class BulkyButtonTest extends ILIAS_UI_TestBase
         $expected = <<<EXP
 <div class="c-tooltip__container">
 <button class="btn btn-bulky" data-action="http://www.ilias.de" id="id_1" role="menuitem" aria-describedby="id_2">
-    <img class="icon someExample small" src="./templates/default/images/icon_default.svg" alt="" /><span class="bulky-label">Example</span>
+    <img class="icon someExample small" src="./templates/default/images/standard/icon_default.svg" alt="" /><span class="bulky-label">Example</span>
     </button>
 <div id="id_2" role="tooltip" class="c-tooltip c-tooltip--hidden"><p>tooltip: a</p></div>
 </div>

@@ -624,7 +624,7 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
 
             $return->addHeaderIcon(
                 'cert_icon',
-                ilUtil::getImagePath('icon_cert.svg'),
+                ilUtil::getImagePath('standard/icon_cert.svg'),
                 $DIC->language()->txt('download_certificate'),
                 null,
                 null,

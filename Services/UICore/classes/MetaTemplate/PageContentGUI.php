@@ -557,7 +557,7 @@ class PageContentGUI
 
         // Add arrow if desired.
         if ($this->should_display_admin_panel_arrow) {
-            $current_toolbar->setLeadingImage(\ilUtil::getImagePath("arrow_upright.svg"), $lng->txt("actions"));
+            $current_toolbar->setLeadingImage(\ilUtil::getImagePath("nav/arrow_upright.svg"), $lng->txt("actions"));
         }
 
         $this->fillPageFormAction();
@@ -573,7 +573,7 @@ class PageContentGUI
 
             // Replace previously set arrow image.
             if ($this->should_display_admin_panel_arrow) {
-                $current_toolbar->setLeadingImage(\ilUtil::getImagePath("arrow_downright.svg"), $lng->txt("actions"));
+                $current_toolbar->setLeadingImage(\ilUtil::getImagePath("nav/arrow_downright.svg"), $lng->txt("actions"));
             }
 
             $this->template->setVariable("ADM_PANEL2", $current_toolbar->getHTML());

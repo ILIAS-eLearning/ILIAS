@@ -308,10 +308,10 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 
             if ($this->renderPurposeSupportsFormHtml() || $this->isRenderPurposePrintPdf()) {
                 if (strcmp($user_solution, $answer_id) == 0) {
-                    $template->setVariable("SOLUTION_IMAGE", ilUtil::getHtmlPath(ilUtil::getImagePath("radiobutton_checked.png")));
+                    $template->setVariable("SOLUTION_IMAGE", ilUtil::getHtmlPath(ilUtil::getImagePath("object/radiobutton_checked.png")));
                     $template->setVariable("SOLUTION_ALT", $this->lng->txt("checked"));
                 } else {
-                    $template->setVariable("SOLUTION_IMAGE", ilUtil::getHtmlPath(ilUtil::getImagePath("radiobutton_unchecked.png")));
+                    $template->setVariable("SOLUTION_IMAGE", ilUtil::getHtmlPath(ilUtil::getImagePath("object/radiobutton_unchecked.png")));
                     $template->setVariable("SOLUTION_ALT", $this->lng->txt("unchecked"));
                 }
             } else {
@@ -371,7 +371,7 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
                     $template->setCurrentBlock("preview");
                     $template->setVariable("URL_PREVIEW", $this->object->getImagePathWeb() . $answer->getImage());
                     $template->setVariable("TEXT_PREVIEW", $this->lng->txt('preview'));
-                    $template->setVariable("IMG_PREVIEW", ilUtil::getImagePath('enlarge.svg'));
+                    $template->setVariable("IMG_PREVIEW", ilUtil::getImagePath('media/enlarge.svg'));
                     $template->setVariable("ANSWER_IMAGE_URL", $this->object->getImagePathWeb() . $this->object->getThumbPrefix() . $answer->getImage());
                     list($width, $height, $type, $attr) = getimagesize($this->object->getImagePath() . $answer->getImage());
                     $alt = $answer->getImage();
@@ -450,7 +450,7 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
                     $template->setCurrentBlock("preview");
                     $template->setVariable("URL_PREVIEW", $this->object->getImagePathWeb() . $answer->getImage());
                     $template->setVariable("TEXT_PREVIEW", $this->lng->txt('preview'));
-                    $template->setVariable("IMG_PREVIEW", ilUtil::getImagePath('enlarge.svg'));
+                    $template->setVariable("IMG_PREVIEW", ilUtil::getImagePath('media/enlarge.svg'));
                     $template->setVariable("ANSWER_IMAGE_URL", $this->object->getImagePathWeb() . $this->object->getThumbPrefix() . $answer->getImage());
                     list($width, $height, $type, $attr) = getimagesize($this->object->getImagePath() . $answer->getImage());
                     $alt = $answer->getImage();

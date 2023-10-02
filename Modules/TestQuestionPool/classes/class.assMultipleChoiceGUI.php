@@ -350,7 +350,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
             foreach ($user_solution as $mc_solution) {
                 if (strcmp($mc_solution, $answer_id) == 0) {
                     if ($this->renderPurposeSupportsFormHtml() || $this->isRenderPurposePrintPdf()) {
-                        $template->setVariable("SOLUTION_IMAGE", ilUtil::getHtmlPath(ilUtil::getImagePath("checkbox_checked.png")));
+                        $template->setVariable("SOLUTION_IMAGE", ilUtil::getHtmlPath(ilUtil::getImagePath("object/checkbox_checked.png")));
                         $template->setVariable("SOLUTION_ALT", $this->lng->txt("checked"));
                     } else {
                         $template->setVariable('QID', $this->object->getId());
@@ -363,7 +363,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
             }
             if (!$checked) {
                 if ($this->renderPurposeSupportsFormHtml() || $this->isRenderPurposePrintPdf()) {
-                    $template->setVariable("SOLUTION_IMAGE", ilUtil::getHtmlPath(ilUtil::getImagePath("checkbox_unchecked.png")));
+                    $template->setVariable("SOLUTION_IMAGE", ilUtil::getHtmlPath(ilUtil::getImagePath("object/checkbox_unchecked.png")));
                     $template->setVariable("SOLUTION_ALT", $this->lng->txt("unchecked"));
                 } else {
                     $template->setVariable('QID', $this->object->getId());
@@ -418,7 +418,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
                     $template->setCurrentBlock("preview");
                     $template->setVariable("URL_PREVIEW", $this->object->getImagePathWeb() . $answer->getImage());
                     $template->setVariable("TEXT_PREVIEW", $this->lng->txt('preview'));
-                    $template->setVariable("IMG_PREVIEW", ilUtil::getImagePath('enlarge.svg'));
+                    $template->setVariable("IMG_PREVIEW", ilUtil::getImagePath('media/enlarge.svg'));
                     $template->setVariable("ANSWER_IMAGE_URL", $this->object->getImagePathWeb() . $this->object->getThumbPrefix() . $answer->getImage());
                     list($width, $height, $type, $attr) = getimagesize($this->object->getImagePath() . $answer->getImage());
                     $alt = $answer->getImage();
@@ -538,7 +538,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
                     $template->setCurrentBlock("preview");
                     $template->setVariable("URL_PREVIEW", $this->object->getImagePathWeb() . $answer->getImage());
                     $template->setVariable("TEXT_PREVIEW", $this->lng->txt('preview'));
-                    $template->setVariable("IMG_PREVIEW", ilUtil::getImagePath('enlarge.svg'));
+                    $template->setVariable("IMG_PREVIEW", ilUtil::getImagePath('media/enlarge.svg'));
                     $template->setVariable("ANSWER_IMAGE_URL", $this->object->getImagePathWeb() . $this->object->getThumbPrefix() . $answer->getImage());
                     list($width, $height, $type, $attr) = getimagesize($this->object->getImagePath() . $answer->getImage());
                     $alt = $answer->getImage();

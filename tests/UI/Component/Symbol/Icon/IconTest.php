@@ -30,7 +30,7 @@ use ILIAS\UI\Component\Symbol\Icon\Custom;
  */
 class IconTest extends ILIAS_UI_TestBase
 {
-    public const ICON_PATH = __DIR__ . '/../../../../../templates/default/images/';
+    public const ICON_PATH = __DIR__ . '/../../../../../templates/default/images/standard/';
     public const ICON_PATH_REL = './templates/default/images/';
 
     private function getIconFactory(): I\Component\Symbol\Icon\Factory
@@ -125,7 +125,7 @@ class IconTest extends ILIAS_UI_TestBase
     {
         $ico = $this->getIconFactory()->standard('crs', 'Course', 'medium');
         $html = $this->normalizeHTML($this->getDefaultRenderer()->render($ico));
-        $path = self::ICON_PATH_REL . 'icon_crs.svg';
+        $path = self::ICON_PATH_REL . 'standard/icon_crs.svg';
         $expected = "<img class=\"icon crs medium\" src=\"$path\" alt=\"Course\"/>";
         $this->assertEquals($expected, $html);
         return $ico;
@@ -138,7 +138,7 @@ class IconTest extends ILIAS_UI_TestBase
     {
         $ico = $ico->withDisabled(true);
         $html = $this->normalizeHTML($this->getDefaultRenderer()->render($ico));
-        $path = self::ICON_PATH_REL . 'icon_crs.svg';
+        $path = self::ICON_PATH_REL . 'standard/icon_crs.svg';
         $expected = "<img class=\"icon crs medium disabled\" src=\"$path\" alt=\"Course\" aria-disabled=\"true\"/>";
         $this->assertEquals($expected, $html);
     }
@@ -158,10 +158,10 @@ imgtag;
 
     public function testRenderingCustom(): Custom
     {
-        $path = './templates/default/images/icon_fold.svg';
+        $path = './templates/default/images/standard/icon_fold.svg';
         $ico = $this->getIconFactory()->custom($path, 'Custom', 'medium');
         $html = $this->normalizeHTML($this->getDefaultRenderer()->render($ico));
-        $expected = '<img class="icon custom medium" src="./templates/default/images/icon_fold.svg" alt="Custom"/>';
+        $expected = '<img class="icon custom medium" src="./templates/default/images/standard/icon_fold.svg" alt="Custom"/>';
         $this->assertEquals($expected, $html);
         return $ico;
     }
@@ -186,7 +186,7 @@ imgtag;
             return 'alert();';
         });
         $html = $this->normalizeHTML($this->getDefaultRenderer()->render($ico));
-        $path = self::ICON_PATH_REL . 'icon_crs.svg';
+        $path = self::ICON_PATH_REL . 'standard/icon_crs.svg';
         $expected = "<img  aria-disabled=\"true\"/>";
         $expected = $this->normalizeHTML("<img id=\"id_1\" class=\"icon crs medium\" src=\"$path\" alt=\"Course\"/>");
         $this->assertEquals($expected, $html);

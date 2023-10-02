@@ -240,7 +240,7 @@ class ilNewsTimelineGUI
             $ttpl->setVariable("EDIT_MODAL", $this->getEditModal($form));
             //$ttpl->setVariable("DELETE_MODAL", $this->getDeleteModal());
             $this->renderDeleteModal($ttpl);
-            $ttpl->setVariable("LOADER", ilUtil::getImagePath("loader.svg"));
+            $ttpl->setVariable("LOADER", ilUtil::getImagePath("media/loader.svg"));
             $this->tpl->setContent($ttpl->get());
             $html = $ttpl->get();
         } else {
