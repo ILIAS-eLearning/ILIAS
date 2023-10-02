@@ -2904,7 +2904,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         if ($this->create_question_mode) {
             return;
         }
-
+exit;
         $this->ctrl->saveParameter($this, 'q_mode');
 
         $this->ctrl->setParameterByClass('iltestexpresspageobjectgui', 'test_express_mode', 1);
@@ -2942,19 +2942,15 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                 $this->toolbar->addSeparator();
             }
 
-            $btn = ilLinkButton::getInstance();
-            $btn->setCaption("test_prev_question");
-            $btn->setUrl($this->ctrl->getLinkTargetByClass('iltestexpresspageobjectgui', 'prevQuestion'));
-            $this->toolbar->addButtonInstance($btn);
+            $btn = $this->ui[0]->linkButton()->standard($lng->txt("test_prev_question"), $this->ctrl->getLinkTargetByClass('iltestexpresspageobjectgui', 'prevQuestion'));
+            $this->toolbar->addComponent($btn);
 
             if (count($options) <= 1 || $optionKeys[0] == $qid) {
                 $btn->setDisabled(true);
             }
 
-            $btn = ilLinkButton::getInstance();
-            $btn->setCaption("test_next_question");
-            $btn->setUrl($this->ctrl->getLinkTargetByClass('iltestexpresspageobjectgui', 'nextQuestion'));
-            $this->toolbar->addButtonInstance($btn);
+            $btn = $this->ui[0]->linkButton()->standard($lng->txt("test_next_question"), $this->ctrl->getLinkTargetByClass('iltestexpresspageobjectgui', 'nextQuestion'));
+            $this->toolbar->addComponent($btn);
 
             if (count($options) <= 1 || $optionKeys[count($optionKeys) - 1] == $qid) {
                 $btn->setDisabled(true);

@@ -280,62 +280,44 @@ class ilTestNavigationToolbarGUI extends ilToolbarGUI
 
     private function addSuspendTestButton()
     {
-        $btn = ilTestPlayerNavButton::getInstance();
-        $btn->setNextCommand(ilTestPlayerCommands::SUSPEND_TEST);
-        $btn->setUrl($this->ctrl->getLinkTarget(
-            $this->playerGUI,
-            ilTestPlayerCommands::SUSPEND_TEST
-        ));
-        $btn->setCaption('cancel_test');
-        //$btn->setDisabled($this->isDisabledStateEnabled());
-        $btn->addCSSClass('ilTstNavElem');
-        $this->addButtonInstance($btn);
+        $button = $this->ui->factory()->button()->standard(
+            $this->lng->txt('cancel_test'),
+            $this->ctrl->getLinkTarget($this->playerGUI, ilTestPlayerCommands::SUSPEND_TEST)
+        );
+        $this->addComponent($button);
     }
 
     private function addQuestionListButton()
     {
-        $btn = ilTestPlayerNavButton::getInstance();
-        $btn->setNextCommand(ilTestPlayerCommands::QUESTION_SUMMARY);
-        $btn->setUrl($this->ctrl->getLinkTarget(
-            $this->playerGUI,
-            ilTestPlayerCommands::QUESTION_SUMMARY
-        ));
-        $btn->setCaption('question_summary_btn');
-        //$btn->setDisabled($this->isDisabledStateEnabled());
-        $btn->addCSSClass('ilTstNavElem');
-        $this->addButtonInstance($btn);
+        $button = $this->ui->factory()->button()->standard(
+            $this->lng->txt('question_summary_btn'),
+            $this->ctrl->getLinkTarget($this->playerGUI, ilTestPlayerCommands::QUESTION_SUMMARY)
+        );
+        $this->addComponent($button);
     }
 
     private function addQuestionSelectionButton()
     {
-        $btn = ilTestPlayerNavButton::getInstance();
-        $btn->setNextCommand(ilTestPlayerCommands::SHOW_QUESTION_SELECTION);
-        $btn->setUrl($this->ctrl->getLinkTarget(
-            $this->playerGUI,
-            ilTestPlayerCommands::SHOW_QUESTION_SELECTION
-        ));
-        $btn->setCaption('tst_change_dyn_test_question_selection');
-        //$btn->setDisabled($this->isDisabledStateEnabled());
-        $btn->addCSSClass('ilTstNavElem');
-        $this->addButtonInstance($btn);
+        $button = $this->ui->factory()->button()->standard(
+            $this->lng->txt('tst_change_dyn_test_question_selection'),
+            $this->ctrl->getLinkTarget($this->playerGUI, ilTestPlayerCommands::SHOW_QUESTION_SELECTION)
+        );
+        $this->addComponent($button);
     }
 
     private function addQuestionTreeButton()
     {
-        $btn = ilTestPlayerNavButton::getInstance();
-        $btn->setNextCommand(ilTestPlayerCommands::TOGGLE_SIDE_LIST);
-        $btn->setUrl($this->ctrl->getLinkTarget(
-            $this->playerGUI,
-            ilTestPlayerCommands::TOGGLE_SIDE_LIST
-        ));
         if ($this->isQuestionTreeVisible()) {
-            $btn->setCaption('tst_hide_side_list');
+            $btn_cap = $this->lng->txt('tst_hide_side_list');
         } else {
-            $btn->setCaption('tst_show_side_list');
+            $btn_cap = $this->lng->txt('tst_show_side_list');
         }
-        //$btn->setDisabled($this->isDisabledStateEnabled());
-        $btn->addCSSClass('ilTstNavElem');
-        $this->addButtonInstance($btn);
+
+        $button = $this->ui->factory()->button()->standard(
+            $btn_cap,
+            $this->ctrl->getLinkTarget($this->playerGUI, ilTestPlayerCommands::TOGGLE_SIDE_LIST)
+        );
+        $this->addComponent($button);
     }
 
     private function addFinishTestButton(): void

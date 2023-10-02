@@ -42,6 +42,12 @@ class ilParticipantsTestResultsGUI
     public const CMD_PERFORM_DELETE_ALL_USER_RESULTS = 'confirmDeleteAllUserResults';
     public const CMD_CONFIRM_DELETE_SELECTED_USER_RESULTS = 'deleteSingleUserResults';
     public const CMD_PERFORM_DELETE_SELECTED_USER_RESULTS = 'confirmDeleteSelectedUserData';
+    private \ILIAS\DI\UIServices $ui;
+
+    /**
+     * @var ilObjTest
+     */
+    protected $testObj;
 
     protected ?ilObjTest $test_obj = null;
     protected ?ilTestQuestionSetConfig $question_set_config = null;
@@ -203,10 +209,8 @@ class ilParticipantsTestResultsGUI
 
     protected function addDeleteAllTestResultsButton(ilToolbarGUI $toolbar)
     {
-        $delete_all_results_btn = ilLinkButton::getInstance();
-        $delete_all_results_btn->setCaption('delete_all_user_data');
-        $delete_all_results_btn->setUrl($this->ctrl->getLinkTarget($this, 'deleteAllUserResults'));
-        $toolbar->addButtonInstance($delete_all_results_btn);
+        $delete_all_results_btn = $this->ui_factory->button()->standard($this->lng->txt('delete_all_user_data'), $this->ctrl->getLinkTarget($this, 'deleteAllUserResults'));
+        $toolbar->addComponent($delete_all_results_btn);
     }
 
     /**
@@ -362,7 +366,7 @@ class ilParticipantsTestResultsGUI
         }
 
 
-        $template = $this->createUserResults($show_pass_details, $show_answers, $show_reached_points, $show_user_results);
+        $template = $this->createUserResults($show_pass_details, $show_answers, $show_reached_points, (bool)$show_user_results);
 
         if ($template instanceof ilTemplate) {
             $this->main_tpl->setVariable("ADM_CONTENT", $template->get());

@@ -1010,7 +1010,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
     {
         $processing_time = $this->getMainSettings()->getTestBehaviourSettings()->getProcessingTime();
         if ($processing_time && $processing_time !== '') {
-            if (preg_match("/(\d{2}):(\d{2}):(\d{2})/is", $processing_time, $matches)) {
+            if (preg_match("/(\d{2}):(\d{2}):(\d{2})/is", (string) $processing_time, $matches)) {
                 return array(
                     'hh' => $matches[1],
                     'mm' => $matches[2],
@@ -1018,6 +1018,17 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
                 );
             }
         }
+    }
+
+    public function getProcessingTimeAsMinutes()
+    {
+        if ($this->processing_time !== null) {
+            if (preg_match("/(\d{2}):(\d{2}):(\d{2})/is", (string)$this->processing_time, $matches)) {
+                return ($matches[1] * 60) + $matches[2];
+            }
+        }
+
+        return self::DEFAULT_PROCESSING_TIME_MINUTES;
     }
 
     /**
@@ -1030,7 +1041,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
     public function getProcessingTimeInSeconds($active_id = ""): int
     {
         $processing_time = $this->getMainSettings()->getTestBehaviourSettings()->getProcessingTime() ?? '';
-        if (preg_match("/(\d{2}):(\d{2}):(\d{2})/", $processing_time, $matches)) {
+        if (preg_match("/(\d{2}):(\d{2}):(\d{2})/", (string)$processing_time, $matches)) {
             $extratime = $this->getExtraTime($active_id) * 60;
             return ($matches[1] * 3600) + ($matches[2] * 60) + $matches[3] + $extratime;
         } else {

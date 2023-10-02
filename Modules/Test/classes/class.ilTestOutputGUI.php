@@ -424,7 +424,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
         $this->populateTestNavigationToolbar($navigationToolbarGUI);
 
         // fau: testNav - enable the question navigation in edit mode
-        $this->populateQuestionNavigation($sequence_element, false, $isNextPrimary);
+        $this->populateQuestionNavigation($sequence_element, $isNextPrimary);
         // fau.
 
         if ($instantResponse) {

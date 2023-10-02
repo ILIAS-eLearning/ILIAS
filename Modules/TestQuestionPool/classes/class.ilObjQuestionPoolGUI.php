@@ -46,6 +46,7 @@ use ILIAS\DI\RBACServices;
  */
 class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
 {
+    protected \ILIAS\DI\UIServices $ui;
     private \ILIAS\TestQuestionPool\QuestionInfoService $questioninfo;
     public ?ilObject $object;
     protected ILIAS\TestQuestionPool\InternalRequestService $qplrequest;
@@ -70,6 +71,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         $this->component_factory = $DIC['component.factory'];
         $this->component_repository = $DIC['component.repository'];
         $this->navigation_history = $DIC['ilNavigationHistory'];
+        $this->ui = $DIC->ui();
         $this->questioninfo = $DIC->testQuestionPool()->questionInfo();
         $this->qplrequest = $DIC->testQuestionPool()->internal()->request();
         parent::__construct('', $this->qplrequest->raw('ref_id'), true, false);
@@ -1065,11 +1067,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         ilSession::set('test_id', '');
         $qsa_import_fails = new ilAssQuestionSkillAssignmentImportFails($this->object->getId());
         if ($qsa_import_fails->failedImportsRegistered()) {
-            $button = ilLinkButton::getInstance();
-            $button->setUrl($this->ctrl->getLinkTarget($this, 'renoveImportFails'));
-            $button->setCaption('ass_skl_import_fails_remove_btn');
-
-            $this->tpl->setOnScreenMessage('failure', $qsa_import_fails->getFailedImportsMessage($this->lng) . '<br />' . $button->render());
+            $button = $this->ui->factory()->button()->standard($this->lng->txt('ass_skl_import_fails_remove_btn'), $this->ctrl->getLinkTarget($this, 'renoveImportFails'));
+            $this->tpl->setOnScreenMessage('failure', $qsa_import_fails->getFailedImportsMessage($this->lng) . '<br />' . $this->ui->renderer()->render($button));
         }
         $tax_ids = ilObjTaxonomy::getUsageOfObject($this->object->getId());
 
@@ -1078,23 +1077,24 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
 
         if ($this->rbac_system->checkAccess('write', $this->qplrequest->getRefId())) {
             $toolbar = new ilToolbarGUI();
-            $btn = ilLinkButton::getInstance();
-            $btn->setCaption('ass_create_question');
-            $btn->setUrl($this->ctrl->getLinkTarget($this, 'createQuestionForm'));
-            $btn->setPrimary(true);
-            $toolbar->addButtonInstance($btn);
+            $btn = $this->ui->factory()->button()->primary(
+                $this->lng->txt('ass_create_question'),
+                $this->ctrl->getLinkTarget($this, 'createQuestionForm')
+            );
+            $toolbar->addComponent($btn);
 
-
-            $btn_import = ilLinkButton::getInstance();
-            $btn_import->setCaption('import');
-            $btn_import->setUrl($this->ctrl->getLinkTarget($this, 'importQuestions'));
-            $toolbar->addButtonInstance($btn_import);
+            $btn_import = $this->ui->factory()->button()->standard(
+                $this->lng->txt('import'),
+                $this->ctrl->getLinkTarget($this, 'importQuestions')
+            );
+            $toolbar->addComponent($btn_import);
 
             if (ilSession::get('qpl_clipboard') != null && count(ilSession::get('qpl_clipboard'))) {
-                $btn_paste = ilLinkButton::getInstance();
-                $btn_paste->setCaption('paste');
-                $btn_paste->setUrl($this->ctrl->getLinkTarget($this, 'paste'));
-                $toolbar->addButtonInstance($btn_paste);
+                $btn_paste = $this->ui->factory()->button()->standard(
+                    $this->lng->txt('paste'),
+                    $this->ctrl->getLinkTarget($this, 'paste')
+                );
+                $toolbar->addComponent($btn_paste);
             }
 
             $this->tpl->setContent(

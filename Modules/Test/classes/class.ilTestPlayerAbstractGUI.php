@@ -40,6 +40,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
     public const PRESENTATION_MODE_EDIT = 'edit';
 
     public const FIXED_SHUFFLER_SEED_MIN_LENGTH = 8;
+    private \ILIAS\DI\UIServices $ui;
 
     public bool $maxProcessingTimeReached;
     public bool $endingTimeReached;
@@ -53,9 +54,10 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
     public function __construct(ilObjTest $object)
     {
         parent::__construct($object);
-
+        global $DIC;
         $this->ref_id = $this->testrequest->getRefId();
         $this->passwordChecker = new ilTestPasswordChecker($this->rbac_system, $this->user, $this->object, $this->lng);
+        $this->ui = $DIC->ui();
     }
 
     protected function checkReadAccess()
@@ -193,104 +195,95 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         $this->tpl->parseCurrentBlock();
     }
 
-    protected function populateQuestionNavigation($sequence_element, bool $disabled, $primary_next): void
+    protected function populateQuestionNavigation($sequence_element, $primary_next): void
     {
         if (!$this->isFirstQuestionInSequence($sequence_element)) {
-            $this->populatePreviousButtons($disabled);
+            $this->populatePreviousButtons();
         }
 
         if (!$this->isLastQuestionInSequence($sequence_element)) {
-            $this->populateNextButtons($disabled, $primary_next);
+            $this->populateNextButtons($primary_next);
         }
     }
 
-    protected function populatePreviousButtons(bool $disabled): void
+    protected function populatePreviousButtons(): void
     {
-        $this->populateUpperPreviousButtonBlock($disabled);
-        $this->populateLowerPreviousButtonBlock($disabled);
+        $this->populateUpperPreviousButtonBlock();
+        $this->populateLowerPreviousButtonBlock();
     }
 
-    protected function populateNextButtons(bool $disabled, $primary_next): void
+    protected function populateNextButtons($primary_next): void
     {
-        $this->populateUpperNextButtonBlock($disabled, $primary_next);
-        $this->populateLowerNextButtonBlock($disabled, $primary_next);
+        $this->populateUpperNextButtonBlock($primary_next);
+        $this->populateLowerNextButtonBlock($primary_next);
     }
 
-    protected function populateLowerNextButtonBlock(bool $disabled, $primary_next): void
+    protected function populateLowerNextButtonBlock($primary_next): void
     {
-        $button = $this->buildNextButtonInstance($disabled, $primary_next);
-        $button->setId('bottomnextbutton');
+        $button = $this->buildNextButtonInstance($primary_next);
 
         $this->tpl->setCurrentBlock("next_bottom");
-        $this->tpl->setVariable("BTN_NEXT_BOTTOM", $button->render());
+        $this->tpl->setVariable("BTN_NEXT_BOTTOM", $this->ui_renderer->render($button));
         $this->tpl->parseCurrentBlock();
     }
 
-    protected function populateUpperNextButtonBlock($disabled, $primaryNext)
+    protected function populateUpperNextButtonBlock($primaryNext)
     {
-        $button = $this->buildNextButtonInstance($disabled, $primaryNext);
-        $button->setId('nextbutton');
+        $button = $this->buildNextButtonInstance($primaryNext);
 
         $this->tpl->setCurrentBlock("next");
-        $this->tpl->setVariable("BTN_NEXT", $button->render());
+        $this->tpl->setVariable("BTN_NEXT", $this->ui_renderer->render($button));
         $this->tpl->parseCurrentBlock();
     }
 
-    protected function populateLowerPreviousButtonBlock($disabled)
+    protected function populateLowerPreviousButtonBlock()
     {
-        $button = $this->buildPreviousButtonInstance($disabled);
-        $button->setId('bottomprevbutton');
+        $button = $this->buildPreviousButtonInstance();
 
         $this->tpl->setCurrentBlock("prev_bottom");
-        $this->tpl->setVariable("BTN_PREV_BOTTOM", $button->render());
+        $this->tpl->setVariable("BTN_PREV_BOTTOM", $this->ui_renderer->render($button));
         $this->tpl->parseCurrentBlock();
     }
 
-    protected function populateUpperPreviousButtonBlock($disabled)
+    protected function populateUpperPreviousButtonBlock()
     {
-        $button = $this->buildPreviousButtonInstance($disabled);
-        $button->setId('prevbutton');
+        $button = $this->buildPreviousButtonInstance();
 
         $this->tpl->setCurrentBlock("prev");
-        $this->tpl->setVariable("BTN_PREV", $button->render());
+        $this->tpl->setVariable("BTN_PREV", $this->ui_renderer->render($button));
         $this->tpl->parseCurrentBlock();
     }
 
     /**
-     * @param bool $disabled
      * @param bool $primaryNext
-     * @return ilButtonBase|ilLinkButton|ilTestPlayerNavButton
+     * @return \ILIAS\UI\Component\Button\Primary
      */
-    private function buildNextButtonInstance($disabled, $primaryNext)
+    private function buildNextButtonInstance($primaryNext)
     {
-        $button = ilTestPlayerNavButton::getInstance();
-        // fau: testNav - set glyphicon and primary
-        $button->setPrimary($primaryNext);
-        $button->setRightGlyph('glyphicon glyphicon-arrow-right');
-        // fau.
-        $button->setNextCommand(ilTestPlayerCommands::NEXT_QUESTION);
-        $button->setUrl($this->ctrl->getLinkTarget($this, ilTestPlayerCommands::NEXT_QUESTION));
-        $button->setCaption('next_question');
-        $button->addCSSClass('ilTstNavElem');
-        //$button->setDisabled($disabled);
+        if ($primaryNext) {
+            $button = $this->ui->factory()->button()->primary(
+                $this->lng->txt('next_question') . '<span class="glyphicon glyphicon-arrow-right"></span> ',
+                $this->ctrl->getLinkTarget($this, ilTestPlayerCommands::NEXT_QUESTION)
+            );
+        } else {
+            $button = $this->ui->factory()->button()->standard(
+                $this->lng->txt('next_question') . '<span class="glyphicon glyphicon-arrow-right"></span> ',
+                $this->ctrl->getLinkTarget($this, ilTestPlayerCommands::NEXT_QUESTION)
+            );
+        }
         return $button;
     }
 
     /**
      * @param $disabled
-     * @return ilTestPlayerNavButton
+     * @return \ILIAS\UI\Component\Button\Primary
      */
-    private function buildPreviousButtonInstance($disabled): ilTestPlayerNavButton
+    private function buildPreviousButtonInstance()
     {
-        $button = ilTestPlayerNavButton::getInstance();
-        // fau: testNav - set glyphicon and primary
-        $button->setLeftGlyph('glyphicon glyphicon-arrow-left');
-        // fau.
-        $button->setNextCommand(ilTestPlayerCommands::PREVIOUS_QUESTION);
-        $button->setUrl($this->ctrl->getLinkTarget($this, ilTestPlayerCommands::PREVIOUS_QUESTION));
-        $button->setCaption('previous_question');
-        $button->addCSSClass('ilTstNavElem');
-        //$button->setDisabled($disabled);
+        $button = $this->ui->factory()->button()->primary(
+            $this->lng->txt('previous_question') . '<span class="glyphicon glyphicon-arrow-left"></span> ',
+            $this->ctrl->getLinkTarget($this, ilTestPlayerCommands::PREVIOUS_QUESTION)
+        );
         return $button;
     }
 
@@ -1954,12 +1947,15 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
         $tpl->setVariable('QUESTION_OUTPUT', $pageoutput);
 
+        /*
         $button = ilLinkButton::getInstance();
         $button->setId('tst_confirm_feedback');
         $button->setUrl($navUrl);
         $button->setCaption('proceed');
         $button->setPrimary(true);
-        $tpl->setVariable('BUTTON', $button->render());
+        */
+        $button = $this->ui->factory()->button()->primary($this->lng->txt('proceed'), $navUrl);
+        $tpl->setVariable('BUTTON', $this->ui->renderer()->render($button));
 
         $modal = ilModalGUI::getInstance();
         $modal->setType(ilModalGUI::TYPE_LARGE);
@@ -2317,19 +2313,14 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
         $tpl->setVariable('CONFIRMATION_TEXT', $this->lng->txt('discard_answer_confirmation'));
 
-        $button = ilSubmitButton::getInstance();
-        $button->setCommand(ilTestPlayerCommands::DISCARD_SOLUTION);
-        $button->setCaption('discard_answer');
+        $button = $this->ui_factory->button()->standard($this->lng->txt('discard_answer'), '#');
         $tpl->setCurrentBlock('buttons');
-        $tpl->setVariable('BUTTON', $button->render());
+        $tpl->setVariable('BUTTON', $this->ui_renderer->render($button));
         $tpl->parseCurrentBlock();
 
-        $button = ilLinkButton::getInstance();
-        $button->setId('tst_cancel_discard_button');
-        $button->setCaption('cancel');
-        $button->setPrimary(true);
+        $button = $this->ui_factory->button()->primary($this->lng->txt('cancel'), '#');
         $tpl->setCurrentBlock('buttons');
-        $tpl->setVariable('BUTTON', $button->render());
+        $tpl->setVariable('BUTTON', $this->ui_renderer->render($button));
         $tpl->parseCurrentBlock();
 
         $modal = ilModalGUI::getInstance();
@@ -2362,14 +2353,17 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         }
         $tpl->setVariable('CONFIRMATION_TEXT', $text);
 
-
+        /*
         $button = ilLinkButton::getInstance();
         $button->setId('tst_save_on_navigation_button');
         $button->setUrl('#');
         $button->setCaption('tst_save_and_proceed');
         $button->setPrimary(true);
+        */
+        $button = $this->ui->factory()->button()->primary($this->lng->txt('tst_save_and_proceed'), '#');
+
         $tpl->setCurrentBlock('buttons');
-        $tpl->setVariable('BUTTON', $button->render());
+        $tpl->setVariable('BUTTON', $this->ui->renderer()->render($button));
         $tpl->parseCurrentBlock();
 
         $button = ilLinkButton::getInstance();
