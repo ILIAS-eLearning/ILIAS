@@ -1,4 +1,6 @@
 <!-- language file start -->
+assessment#:#essay_wildcard_alternate#:#Wildcards (*) May also be used to denote multiple spelling options. A wildcard prefix allows multiple characters to be added before a word only, a suffix allows additional characters at the end of a word and a wildcard internally allows additional characters inside a word. They can be combined if desired. To enter multiple alternate answer texts, please seperate them with the | character.
+assessment#:#cloze_wildcard#:#Wildcards (*) May also be used to denote multiple spelling options. A wildcard prefix allows multiple characters to be added before a word only, a suffix allows additional characters at the end of a word and a wildcard internally allows additional characters inside a word. They can be combined if desired.
 common#:#repository#:#Course Library
 common#:#obj_root#:#Course Library - Home
 common#:#login_to_ilias#:#Login
