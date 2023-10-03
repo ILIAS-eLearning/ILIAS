@@ -41,8 +41,10 @@ class ilDclDatetimeRecordFieldModel extends ilDclBaseRecordFieldModel
      */
     public function parseExportValue($value): ?string
     {
-        $date = new ilDate($value, IL_CAL_DATE);
-        return $date->get(IL_CAL_DATE);
+        if ($value === null) {
+            return null;
+        }
+        return (new ilDate($value, IL_CAL_DATE))->get(IL_CAL_DATE);
     }
 
     /**
@@ -52,5 +54,11 @@ class ilDclDatetimeRecordFieldModel extends ilDclBaseRecordFieldModel
     public function parseSortingValue($value, bool $link = true): ?int
     {
         return strtotime($value);
+    }
+
+    public function getFormulaValue(): string
+    {
+        $value = $this->getValue();
+        return (string)strtotime($value ? $value : '');
     }
 }
