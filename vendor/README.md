@@ -43,23 +43,28 @@ All external dependencies are re-evaluated on every major update of ILIAS. The
 [Criteria for Accepting Dependencies](#criteria-for-accepting-dependencies) apply.
 
 ### Process for Re-Evaluation of Dependencies
-* When the beta branch of ILIAS is split from `trunk` all entries in
-`requires` will be removed from `composer.json` and all entries in
-`dependencies` and `devDependencies` from  `package.json`.
-* Each ILIAS maintainer adds the dependencies s/he will need and take responsibility
-for to a corresponding page in the Feature Wiki.
+* As soon as the beta branch of ILIAS has been split from `trunk` two files
+`composer_new.json` and `packages_new.json` are created in `trunk` containing a
+skeleton json.
+* Each ILIAS maintainer creates a PR against `composer_new.json` and/or
+`packages_new.json` for the dependencies s/he will need and take responsibility
+for. S/he also adds an entry to the corresponding section of the agenda for the
+corresponding Jour Fixe (see next point). The entry contains the name of the
+dependency, the used version, an explanation specifying why the dependency is
+needed, and her/his name. A template is provided in the corresponding agenda.
 * The second Jour Fixe after the branch is split up is mostly dedicated to
 reviewing the list of dependencies. The Technical Board is responsible for
 organising it.
 * If a previously used dependency is either not added to the list anymore, or if
 nobody can be found to take care of a dependency, or if a dependency does not
 conform to the [Criteria for Accepting Dependencies](#criteria-for-accepting-dependencies)
-the dependency is removed. Maintainers are responsible to find solutions for the
-missing dependency until coding completed.
-* The Technical Board takes care of adding the corresponding information to
-`composer.json` and `package.json`. At this moment all entries in `extra` will
-also be removed and replaced with the current information as decided at the
-special Jour Fixe.
+the dependency is removed.
+* The Technical Board merges the accepted PRs after the corresponding Jour Fixe.
+* Maintainers are asked to find solutions for the dependencies that where removed
+until four weeks after the dependencies have been discussed at the Jour Fixe.
+* Four weeks after the dependencies have been discussed at the Jour Fixe the
+Technical Board replaces the `composer.json` and `packages.json` file in the
+`trunk` branch with the corresponding `composer_new.json` and `packages_new.json`.
 
 ## Deprecated Locations
 
