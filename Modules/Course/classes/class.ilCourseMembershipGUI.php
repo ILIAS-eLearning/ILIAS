@@ -219,15 +219,43 @@ class ilCourseMembershipGUI extends ilMembershipGUI
         $rbacadmin = $DIC['rbacadmin'];
         
         $visible_members = (array) $_POST['visible_member_ids'];
-        $passed = (array) $_POST['passed'];
+        // JKN PATCH START
+        $statuses = (array) $_POST['status'];
+        // JKN PATCH END
         $blocked = (array) $_POST['blocked'];
         $contact = (array) $_POST['contact'];
         $notification = (array) $_POST['notification'];
         
         foreach ($visible_members as $member_id) {
             if ($ilAccess->checkAccess("grade", "", $this->getParentObject()->getRefId())) {
-                $this->getMembersObject()->updatePassed($member_id, in_array($member_id, $passed), true);
-                $this->updateLPFromStatus($member_id, in_array($member_id, $passed));
+                // JKN PATCH START
+                if($statuses[$member_id]){
+                    include_once './Services/Tracking/classes/class.ilChangeEvent.php';
+                    $status = ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM;
+                    switch($statuses[$member_id]){
+                        case ilLPStatus::LP_STATUS_FAILED:
+                            $status = ilLPStatus::LP_STATUS_FAILED_NUM;
+                            $this->getMembersObject()->updateFailed($member_id, true, true);
+                            break;
+                        case ilLPStatus::LP_STATUS_COMPLETED:
+                            $status = ilLPStatus::LP_STATUS_COMPLETED_NUM;
+                            $this->getMembersObject()->updatePassed($member_id, true, true);
+                            break;
+                        case ilLPStatus::LP_STATUS_NOT_ATTEMPTED:
+                            ilChangeEvent::_deleteReadEventsForUsers($this->getParentObject()->getId(),[$member_id]);
+                            break;
+                        case ilLPStatus::LP_STATUS_IN_PROGRESS:
+                            ilChangeEvent::_recordReadEvent(
+                                $this->getParentObject()->getType(),
+                                $this->getParentObject()->getRefId(),
+                                $this->getParentObject()->getId(),
+                                $member_id
+                            );
+                            break;
+                    }
+                    $this->updateLPFromStatus($member_id, $status);
+                }
+                // JKN PATCH END
             }
             
             if ($this->getMembersObject()->isAdmin($member_id) or $this->getMembersObject()->isTutor($member_id)) {
