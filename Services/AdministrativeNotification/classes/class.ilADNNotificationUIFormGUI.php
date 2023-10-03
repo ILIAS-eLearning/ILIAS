@@ -266,7 +266,7 @@ class ilADNNotificationUIFormGUI
         }
 
         $limited_to_languages = $field->multiSelect('', $lang_options)->withValue(
-            $this->notification->getLimitedToLanguages()
+            array_intersect($this->notification->getLimitedToLanguages(), $installed_languages)
         );
 
         $lang_value = $this->notification->hasLanguageLimitation()

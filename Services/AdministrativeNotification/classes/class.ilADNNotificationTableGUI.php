@@ -167,17 +167,17 @@ class ilADNNotificationTableGUI extends ilTable2GUI
             $languages_text = $this->lng->txt("none");
             if (!empty($limited_to_languages)) {
                 $this->lng->loadLanguageModule("meta");
-                $languages_text = "";
-                $counter = 0;
-                // if the notification has a language limitation and languages have been specified
-                // these languages are iterated through and the text is built from their translations
-                foreach ($limited_to_languages as $limited_to_language) {
-                    $languages_text .= $this->lng->txt("meta_l_" . $limited_to_language);
-                    $counter++;
-                    if ($counter < count($limited_to_languages)) {
-                        $languages_text .= ", ";
-                    }
-                }
+                // text is comma separated list of languages if the notification has a language limitation
+                // and the languages have been specified
+                $languages_text = implode(
+                    ', ',
+                    array_map(
+                        function (string $lng_code): string {
+                            return $this->lng->txt("meta_l_" . $lng_code);
+                        },
+                        $limited_to_languages
+                    )
+                );
             }
         }
 

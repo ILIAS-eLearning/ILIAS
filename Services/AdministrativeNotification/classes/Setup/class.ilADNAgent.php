@@ -97,19 +97,4 @@ class ilADNAgent implements Setup\Agent
     {
         return [];
     }
-
-    /**
-     * @return array{updateADNDatabase: ObjectiveConstructor}
-     */
-    public function getNamedObjectives(?Config $config = null): array
-    {
-        return [
-            'updateADNDatabase' => new ObjectiveConstructor(
-                'executes all administrative notification database update steps.',
-                function (): Setup\Objective {
-                    return $this->getUpdateObjective();
-                }
-            ),
-        ];
-    }
 }
