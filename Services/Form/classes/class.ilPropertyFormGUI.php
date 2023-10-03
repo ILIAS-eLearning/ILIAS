@@ -666,7 +666,7 @@ class ilPropertyFormGUI extends ilFormGUI
         if ($this->getMode() == "std" &&
             $this->getTitle() == "" &&
             is_object($fi) && $fi->getType() == "section_header"
-            ) {
+        ) {
             $this->setTitle($fi->getTitle());
             unset($this->items[0]);
         }
@@ -1036,7 +1036,7 @@ class ilPropertyFormGUI extends ilFormGUI
                     "type" => $_FILES[$a_field]["type"][$a_index][$a_sub_index],
                     "error" => $_FILES[$a_field]["error"][$a_index][$a_sub_index],
                     "size" => $_FILES[$a_field]["size"][$a_index][$a_sub_index],
-                    "is_upload" => true
+                    "is_upload" => $_FILES[$a_field]["is_upload"][$a_index][$a_sub_index] ?? true
                 );
             }
         } elseif ($a_sub_index) {
@@ -1047,7 +1047,7 @@ class ilPropertyFormGUI extends ilFormGUI
                     "type" => $_FILES[$a_field]["type"][$a_index],
                     "error" => $_FILES[$a_field]["error"][$a_index],
                     "size" => $_FILES[$a_field]["size"][$a_index],
-                    "is_upload" => true
+                    "is_upload" => $_FILES[$a_field]["is_upload"][$a_index] ?? true
                 );
             }
         } else {
@@ -1058,7 +1058,7 @@ class ilPropertyFormGUI extends ilFormGUI
                     "type" => $_FILES[$a_field]["type"],
                     "error" => $_FILES[$a_field]["error"],
                     "size" => $_FILES[$a_field]["size"],
-                    "is_upload" => true
+                    "is_upload" => $_FILES[$a_field]["is_upload"] ?? true
                 );
             }
         }
@@ -1145,6 +1145,7 @@ class ilPropertyFormGUI extends ilFormGUI
                                 $_FILES[$field]["type"][$idx][$idx2] = $type;
                                 $_FILES[$field]["error"][$idx][$idx2] = 0;
                                 $_FILES[$field]["size"][$idx][$idx2] = filesize($full_file);
+                                $_FILES[$field]["is_upload"][$idx][$idx2] = false;
                             }
                         } elseif ($idx != "") {
                             if (!$_FILES[$field]["tmp_name"][$idx]) {
@@ -1153,6 +1154,7 @@ class ilPropertyFormGUI extends ilFormGUI
                                 $_FILES[$field]["type"][$idx] = $type;
                                 $_FILES[$field]["error"][$idx] = 0;
                                 $_FILES[$field]["size"][$idx] = filesize($full_file);
+                                $_FILES[$field]["is_upload"][$idx] = false;
                             }
                         } else {
                             if (!$_FILES[$field]["tmp_name"]) {
@@ -1161,6 +1163,7 @@ class ilPropertyFormGUI extends ilFormGUI
                                 $_FILES[$field]["type"] = $type;
                                 $_FILES[$field]["error"] = 0;
                                 $_FILES[$field]["size"] = filesize($full_file);
+                                $_FILES[$field]["is_upload"] = false;
                             }
                         }
                     }

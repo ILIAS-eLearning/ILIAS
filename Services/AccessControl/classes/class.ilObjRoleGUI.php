@@ -1027,7 +1027,7 @@ class ilObjRoleGUI extends ilObjectGUI
         if (
             $this->object->getId() != SYSTEM_ROLE_ID ||
                 (
-                    !$rbacreview->isAssigned($ilUser->getId(), SYSTEM_ROLE_ID) or
+                    $rbacreview->isAssigned($ilUser->getId(), SYSTEM_ROLE_ID) ||
                     !ilSecuritySettings::_getInstance()->isAdminRoleProtected()
                 )
         ) {

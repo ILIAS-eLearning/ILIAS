@@ -3700,7 +3700,7 @@ class ilUtil
                 ? $security->getPasswordMaxLength()
                 : 10;
             if ($min > $max) {
-                $max = $max + 1;
+                $max = $min + 1;
             }
             $random = new \ilRandom();
             $length = $random->int($min, $max);

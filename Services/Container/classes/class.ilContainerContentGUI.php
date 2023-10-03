@@ -524,9 +524,8 @@ abstract class ilContainerContentGUI
             foreach ($this->embedded_block["type"] as $k => $type) {
                 if (is_array($this->items[$type]) &&
                     $this->renderer->addTypeBlock($type)) {
-                    // :TODO: obsolete?
-                    if ($type == 'sess') {
-                        $this->items['sess'] = ilUtil::sortArray($this->items['sess'], 'start', 'ASC', true, true);
+                    if ($this->hasForcedOrderByStartDate($type)) {
+                        $this->items[$type] = ilUtil::sortArray($this->items[$type], 'start', 'ASC', true, true);
                     }
                     
                     $position = 1;
@@ -542,6 +541,11 @@ abstract class ilContainerContentGUI
                 }
             }
         }
+    }
+
+    protected function hasForcedOrderByStartDate(string $type) : bool
+    {
+        return $type === 'sess' && get_class($this) === ilContainerSessionsContentGUI::class;
     }
     
     /**
@@ -580,7 +584,7 @@ abstract class ilContainerContentGUI
             $item_list_gui->enableDownloadCheckbox($a_item_data["ref_id"], true);
         }
         
-        if ($this->getContainerGUI()->isActiveItemOrdering() && ($a_item_data['type'] != 'sess' || get_class($this) != 'ilContainerSessionsContentGUI')) {
+        if ($this->getContainerGUI()->isActiveItemOrdering() && !$this->hasForcedOrderByStartDate($a_item_data['type'])) {
             $item_list_gui->setPositionInputField(
                 $a_pos_prefix . "[" . $a_item_data["ref_id"] . "]",
                 sprintf('%d', (int) $a_position * 10)

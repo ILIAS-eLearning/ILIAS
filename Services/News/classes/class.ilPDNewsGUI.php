@@ -99,6 +99,7 @@ class ilPDNewsGUI
     public function displayHeader()
     {
         $this->tpl->setTitle($this->lng->txt("news"));
+        $this->tpl->setTitleIcon(ilUtil::getImagePath("icon_nwss.svg"));
         
         // display infopanel if something happened
         ilUtil::infoPanel();

@@ -8589,9 +8589,9 @@ dcl#:#dcl_save_record#:#Eintrag speichern
 dcl#:#dcl_select#:#Auswahl der Tabelle
 dcl#:#dcl_selection_options#:#Optionen
 dcl#:#dcl_selection_type#:#Typ
-dcl#:#dcl_selection_type_combobox#:#Combobox (Dropdown)
+dcl#:#dcl_selection_type_combobox#:#Einfachauswahl (Dropdown)
 dcl#:#dcl_selection_type_multi#:#Mehrfachauswahl
-dcl#:#dcl_selection_type_single#:#Einfachauswahl
+dcl#:#dcl_selection_type_single#:#Einfachauswahl (Liste)
 dcl#:#dcl_simulate_import#:#Import simulieren
 dcl#:#dcl_simulate_info#:#Hierbei werden keine Datensätze angelegt, sondern nur Feedback zu Fehlern in der Import-Datei gegeben. Dadurch können Sie fehlerhafte Imports vermeiden.
 dcl#:#dcl_skipped_delete_records#:#%s Datensätze wurden aufgrund der Rechteeinstellungen nicht gelöscht
@@ -16297,6 +16297,7 @@ user#:#clipboard_remove_btn#:#Aus Zwischenablage entfernen
 user#:#clipboard_table_title#:#Zwischenablage (Benutzerkonten)
 user#:#clipboard_user_added#:#Die ausgewählten Benutzer wurden der Zwischenablage hinzugefügt.
 user#:#confirm_delete_starting_point#:#Sind Sie sich sicher, dass diese Regel gelöscht werden soll?
+user#:#confirm_logout_for_email_change#:#Sie haben Ihre E-Mail-Adresse geändert. Um diese Änderung abzuschliessen, ist die Eingabe Ihres Passworts notwendig. Sie werden daher abgemeldet und haben daraufhin 5 Minuten Zeit, sich wieder anzumelden, um die Änderungen abzuschliessen. Alle anderen Änderungen werden gespeichert, bevor Sie abgemeldet werden.
 user#:#create_starting_point#:#Regel erstellen
 user#:#criteria#:#Kriterium
 user#:#del_mail_body#:#Hallo %1$s, %2$s Sie haben sich seit längerer Zeit nicht mehr auf %3$s angemeldet. Daher wird ihr ILIAS-Konto voraussichtlich am %4$s gelöscht. Um Ihr ILIAS-Konto zu behalten, müssen Sie sich vor dem genannten Tag erneut einloggen.
@@ -16304,7 +16305,10 @@ user#:#del_mail_subject#:#Ihr ILIAS-Konto wird bald gelöscht
 user#:#delete_inactive_user_accounts_frequency#:#Intervall
 user#:#delete_inactive_user_accounts_frequency_desc#:#Intervall, mit welchem auf Löschung sowie auf E-Mail-Versand getestet wird.
 user#:#editing_this_role#:#Regel editieren
+user#:#email_could_not_be_changed#:#Ihre E-Mail-Adresse konnte nicht geändert werden.
 user#:#enable_local_user_administration#:#Lokale Benutzerverwaltung aktivieren
+user#:#enable_local_user_administration#:#Lokale Konten
+user#:#enable_local_user_administration_info#:#In Kategorien und Organisationseinheiten erscheint ein Reiter „Lokale Konten”. Dort können lokale ILIAS-Konten angelegt, importiert und verwaltet werden. Damit können auch Personen ohne Zugriff auf die Administration neue ILIAS-Konten anlegen.
 user#:#enable_local_user_administration_info#:#Wenn aktiviert, können Benutzerzugänge in Kategorien und Organisationseinheiten angelegt und verwaltet werden.
 user#:#feedhash#:#Newsfeed-Hash
 user#:#has_role#:#Rolle

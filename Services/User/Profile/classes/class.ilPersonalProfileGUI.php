@@ -1,5 +1,26 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+use ILIAS\UI\Factory as UIFactory;
+use ILIAS\UI\Renderer as UIRenderer;
+use ILIAS\UI\Component\Modal\Interruptive;
+use ILIAS\User\Profile\ProfileChangeMailTokenRepository;
+use ILIAS\User\Profile\ProfileChangeMailTokenDBRepository;
 
 /**
  * GUI class for personal profile
@@ -11,6 +32,9 @@
  */
 class ilPersonalProfileGUI
 {
+    private const PERSONAL_DATA_FORM_ID = 'pd';
+    public const CHANGE_EMAIL_CMD = 'changeEmail';
+
     /**
      * @var ilAppEventHandler
      */
@@ -57,6 +81,12 @@ class ilPersonalProfileGUI
      */
     protected $checklist_status;
 
+    protected $ui_factory;
+    protected $ui_renderer;
+    protected $auth_session;
+    protected $email_change_confirmation_modal = null;
+    private $change_mail_token_repo;
+
     /**
      * constructor
      * @param \ilTermsOfServiceDocumentEvaluation|null $termsOfServiceEvaluation
@@ -100,6 +130,11 @@ class ilPersonalProfileGUI
         $this->checklist_status = new ilProfileChecklistStatus();
 
         $this->user_settings_config = new ilUserSettingsConfig();
+
+        $this->ui_factory = $DIC['ui.factory'];
+        $this->ui_renderer = $DIC['ui.renderer'];
+        $this->auth_session = $DIC['ilAuthSession'];
+        $this->change_mail_token_repo = new ProfileChangeMailTokenDBRepository($DIC['ilDB']);
     }
 
     /**
@@ -113,7 +148,6 @@ class ilPersonalProfileGUI
         $ilCtrl = $DIC['ilCtrl'];
         $tpl = $DIC['tpl'];
         $ilTabs = $DIC['ilTabs'];
-        $lng = $DIC['lng'];
 
         $next_class = $this->ctrl->getNextClass();
 
@@ -264,7 +298,6 @@ class ilPersonalProfileGUI
         global $DIC;
 
         $ilUser = $DIC['ilUser'];
-        $ilSetting = $DIC['ilSetting'];
 
         //init checking var
         $form_valid = true;
@@ -618,7 +651,7 @@ class ilPersonalProfileGUI
         );
 
         ilSession::setClosingContext(ilSession::SESSION_CLOSE_USER);
-        $GLOBALS['DIC']['ilAuthSession']->logout();
+        $this->auth_session->logout();
 
         $this->ctrl->redirectToUrl('login.php?tos_withdrawal_type=' . $withdrawalType . '&cmd=force_login');
     }
@@ -689,7 +722,6 @@ class ilPersonalProfileGUI
         global $DIC;
 
         $ilTabs = $DIC['ilTabs'];
-        $ilUser = $DIC['ilUser'];
         $ilHelp = $DIC['ilHelp'];
 
         $ilHelp->setScreenIdComponent("user");
@@ -865,8 +897,13 @@ class ilPersonalProfileGUI
                 ilUtil::sendInfo($lng->txt("profile_incomplete"));
             }
         }
-        $this->tpl->setContent($it . $this->form->getHTML());
 
+        $modal = '';
+        if ($this->email_change_confirmation_modal !== null) {
+            $modal = $this->ui_renderer->render($this->email_change_confirmation_modal);
+        }
+
+        $this->tpl->setContent($it . $this->form->getHTML() . $modal);
         $this->tpl->printToStdout();
     }
 
@@ -876,16 +913,12 @@ class ilPersonalProfileGUI
     public function initPersonalDataForm()
     {
         global $DIC;
-
-        $ilSetting = $DIC['ilSetting'];
         $lng = $DIC['lng'];
         $ilUser = $DIC['ilUser'];
-        $styleDefinition = $DIC['styleDefinition'];
-        $rbacreview = $DIC['rbacreview'];
 
-        include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
         $this->form = new ilPropertyFormGUI();
         $this->form->setFormAction($this->ctrl->getFormAction($this));
+        $this->form->setId(self::PERSONAL_DATA_FORM_ID);
 
         // user defined fields
         $user_defined_data = $ilUser->getUserDefinedData();
@@ -930,133 +963,231 @@ class ilPersonalProfileGUI
     */
     public function savePersonalData()
     {
-        global $DIC;
-
-        $tpl = $DIC['tpl'];
-        $lng = $DIC['lng'];
-        $ilCtrl = $DIC['ilCtrl'];
-        $ilUser = $DIC['ilUser'];
-        $ilSetting = $DIC['ilSetting'];
-
         $this->initPersonalDataForm();
-        if ($this->form->checkInput()) {
-            $form_valid = true;
 
-            // if form field name differs from setter
-            $map = array(
-                "firstname" => "FirstName",
-                "lastname" => "LastName",
-                "title" => "UTitle",
-                "sel_country" => "SelectedCountry",
-                "phone_office" => "PhoneOffice",
-                "phone_home" => "PhoneHome",
-                "phone_mobile" => "PhoneMobile",
-                "referral_comment" => "Comment",
-                "interests_general" => "GeneralInterests",
-                "interests_help_offered" => "OfferingHelp",
-                "interests_help_looking" => "LookingForHelp"
-            );
-            include_once("./Services/User/classes/class.ilUserProfile.php");
-            $up = new ilUserProfile();
-            foreach ($up->getStandardFields() as $f => $p) {
-                // if item is part of form, it is currently valid (if not disabled)
-                $item = $this->form->getItemByPostVar("usr_" . $f);
-                if ($item && !$item->getDisabled()) {
-                    $value = $this->form->getInput("usr_" . $f);
-                    switch ($f) {
-                        case "birthday":
-                            $value = $item->getDate();
-                            $ilUser->setBirthday($value
-                                ? $value->get(IL_CAL_DATE)
-                                : "");
-                            break;
-                        case "second_email":
-                            $ilUser->setSecondEmail($value);
-                            break;
-                        default:
-                            $m = ucfirst($f);
-                            if (isset($map[$f])) {
-                                $m = $map[$f];
-                            }
-                            $ilUser->{"set" . $m}($value);
-                            break;
-                    }
-                }
-            }
-            $ilUser->setFullname();
+        if (!$this->form->checkInput()
+            || !$this->emailCompletionForced()
+                && $this->emailChanged()
+                && $this->addEmailChangeModal()
+            || $this->loginChanged() && !$this->updateLoginOrSetErrorMessages()) {
+            $this->form->setValuesByPost();
+            $this->showPersonalData(true);
+            return;
+        }
+        $this->savePersonalDataForm();
 
-            // check map activation
-            include_once("./Services/Maps/classes/class.ilMapUtil.php");
-            if (ilMapUtil::isActivated()) {
-                // #17619 - proper escaping
-                $location = $this->form->getInput("location");
-                $lat = ilUtil::stripSlashes($location["latitude"]);
-                $long = ilUtil::stripSlashes($location["longitude"]);
-                $zoom = ilUtil::stripSlashes($location["zoom"]);
-                $ilUser->setLatitude(is_numeric($lat) ? $lat : null);
-                $ilUser->setLongitude(is_numeric($long) ? $long : null);
-                $ilUser->setLocationZoom(is_numeric($zoom) ? $zoom : null);
-            }
+        $this->checklist_status->saveStepSucess(ilProfileChecklistStatus::STEP_PROFILE_DATA);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
 
-            // Set user defined data
-            $defs = $this->user_defined_fields->getVisibleDefinitions();
-            $udf = array();
-            foreach ($defs as $definition) {
-                $f = "udf_" . $definition['field_id'];
-                $item = $this->form->getItemByPostVar($f);
-                if ($item && !$item->getDisabled()) {
-                    $udf[$definition['field_id']] = $this->form->getInput($f);
-                }
-            }
-            $ilUser->setUserDefinedData($udf);
+        $this->ctrl->redirect($this, "showPublicProfile");
+    }
 
-            // if loginname is changeable -> validate
-            $un = $this->form->getInput('username');
-            if ((int) $ilSetting->get('allow_change_loginname') &&
-               $un != $ilUser->getLogin()) {
-                if (!strlen($un) || !ilUtil::isLogin($un)) {
-                    ilUtil::sendFailure($lng->txt('form_input_not_valid'));
-                    $this->form->getItemByPostVar('username')->setAlert($this->lng->txt('login_invalid'));
-                    $form_valid = false;
-                } elseif (ilObjUser::_loginExists($un, $ilUser->getId())) {
-                    ilUtil::sendFailure($lng->txt('form_input_not_valid'));
-                    $this->form->getItemByPostVar('username')->setAlert($this->lng->txt('loginname_already_exists'));
-                    $form_valid = false;
-                } else {
-                    $ilUser->setLogin($un);
-
-                    try {
-                        $ilUser->updateLogin($ilUser->getLogin());
-                    } catch (ilUserException $e) {
-                        ilUtil::sendFailure($lng->txt('form_input_not_valid'));
-                        $this->form->getItemByPostVar('username')->setAlert($e->getMessage());
-                        $form_valid = false;
-                    }
-                }
-            }
-
-            // everthing's ok. save form data
-            if ($form_valid) {
-                $this->uploadUserPicture();
-
-                // profile ok
-                $ilUser->setProfileIncomplete(false);
-
-                // save user data & object_data
-                $ilUser->setTitle($ilUser->getFullname());
-                $ilUser->setDescription($ilUser->getEmail());
-
-                $ilUser->update();
-
-                $this->checklist_status->saveStepSucess(ilProfileChecklistStatus::STEP_PROFILE_DATA);
-                ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
-
-                $ilCtrl->redirect($this, "showPublicProfile");
-            }
+    private function emailChanged() : bool
+    {
+        $email_input = $this->form->getItemByPostVar('usr_email');
+        if ($email_input !== null && !$email_input->getDisabled()
+            && $this->form->getInput('usr_email') !== $this->user->getEmail()) {
+            return true;
         }
 
-        $this->form->setValuesByPost();
-        $this->showPersonalData(true);
+        return false;
+    }
+
+    private function emailCompletionForced() : bool
+    {
+        $current_email = $this->user->getEmail();
+        if (
+            $this->user->getProfileIncomplete()
+            && $this->setting->get('require_email') === '1'
+            && ($current_email === null || $current_email === '')
+        ) {
+            return true;
+        }
+
+        return false;
+    }
+
+    private function addEmailChangeModal() : bool
+    {
+        $form_id = 'form_' . self::PERSONAL_DATA_FORM_ID;
+        $modal = $this->ui_factory->modal()->interruptive(
+            $this->lng->txt('confirm'),
+            $this->lng->txt('confirm_logout_for_email_change'),
+            '#'
+        )->withActionButtonLabel('change');
+        $this->email_change_confirmation_modal = $modal->withOnLoad($modal->getShowSignal())
+            ->withAdditionalOnLoadCode(
+                static function ($id) use ($form_id) {
+                    return "var button = {$id}.querySelector('input[type=\"submit\"]'); "
+                    . "button.addEventListener('click', (e) => {e.preventDefault();"
+                    . "document.getElementById('{$form_id}').submit();});";
+                }
+            );
+
+        $this->form->setFormAction($this->ctrl->getFormActionByClass(self::class, 'goToEmailConfirmation'));
+        return true;
+    }
+
+    private function loginChanged() : bool
+    {
+        $login = $this->form->getInput('username');
+        if ((int) $this->setting->get('allow_change_loginname')
+           && $login !== $this->user->getLogin()) {
+            return true;
+        }
+
+        return false;
+    }
+
+    private function updateLoginOrSetErrorMessages() : bool
+    {
+        $login = $this->form->getInput('username');
+        if ($login === '' || !ilUtil::isLogin($login)) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('form_input_not_valid'));
+            $this->form->getItemByPostVar('username')->setAlert($this->lng->txt('login_invalid'));
+            return false;
+        }
+
+        if (ilObjUser::_loginExists($login, $this->user->getId())) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('form_input_not_valid'));
+            $this->form->getItemByPostVar('username')->setAlert($this->lng->txt('loginname_already_exists'));
+            return false;
+        }
+
+        $this->user->setLogin($login);
+
+        try {
+            $this->user->updateLogin($this->user->getLogin());
+            return true;
+        } catch (ilUserException $e) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('form_input_not_valid'));
+            $this->form->getItemByPostVar('username')->setAlert($e->getMessage());
+            return false;
+        }
+    }
+
+    public function goToEmailConfirmation() : void
+    {
+        $this->initPersonalDataForm();
+        if (!$this->form->checkInput()
+            || $this->loginChanged() && !$this->updateLoginOrSetErrorMessages()) {
+            $this->form->setValuesByPost();
+            $this->showPersonalData(true);
+            return;
+        }
+        $this->savePersonalDataForm();
+
+        ilSession::setClosingContext(ilSession::SESSION_CLOSE_USER);
+        $this->auth_session->logout();
+        session_unset();
+        $token = $this->change_mail_token_repo->getNewTokenForUser($this->user, $this->form->getInput('usr_email'));
+        $this->ctrl->redirectToURL('login.php?cmd=force_login&target=usr_' . self::CHANGE_EMAIL_CMD . $token);
+    }
+
+    private function savePersonalDataForm() : void
+    {
+        // if form field name differs from setter
+        $map = [
+            "firstname" => "FirstName",
+            "lastname" => "LastName",
+            "title" => "UTitle",
+            "sel_country" => "SelectedCountry",
+            "phone_office" => "PhoneOffice",
+            "phone_home" => "PhoneHome",
+            "phone_mobile" => "PhoneMobile",
+            "referral_comment" => "Comment",
+            "interests_general" => "GeneralInterests",
+            "interests_help_offered" => "OfferingHelp",
+            "interests_help_looking" => "LookingForHelp"
+        ];
+        $up = new ilUserProfile();
+        foreach (array_keys($up->getStandardFields()) as $f) {
+            // if item is part of form, it is currently valid (if not disabled)
+            $item = $this->form->getItemByPostVar("usr_" . $f);
+            if (!$item || $item->getDisabled()) {
+                continue;
+            }
+
+            $value = $this->form->getInput("usr_" . $f);
+            switch ($f) {
+                case 'email':
+                    if ($this->emailCompletionForced()) {
+                        $this->user->setEmail($value);
+                    }
+
+                    break;
+                case "birthday":
+                    $value = $item->getDate();
+                    $this->user->setBirthday($value
+                        ? $value->get(IL_CAL_DATE)
+                        : "");
+                    break;
+                case "second_email":
+                    $this->user->setSecondEmail($value);
+                    break;
+                default:
+                    $m = $map[$f] ?? ucfirst($f);
+                    $this->user->{"set" . $m}($value);
+                    break;
+            }
+        }
+        $this->user->setFullname();
+
+        // check map activation
+        if (ilMapUtil::isActivated()) {
+            // #17619 - proper escaping
+            $location = $this->form->getInput("location");
+            $lat = ilUtil::stripSlashes($location["latitude"]);
+            $long = ilUtil::stripSlashes($location["longitude"]);
+            $zoom = ilUtil::stripSlashes($location["zoom"]);
+            $this->user->setLatitude(is_numeric($lat) ? $lat : null);
+            $this->user->setLongitude(is_numeric($long) ? $long : null);
+            $this->user->setLocationZoom(is_numeric($zoom) ? $zoom : null);
+        }
+
+        // Set user defined data
+        $defs = $this->user_defined_fields->getVisibleDefinitions();
+        $udf = [];
+        foreach ($defs as $definition) {
+            $f = "udf_" . $definition['field_id'];
+            $item = $this->form->getItemByPostVar($f);
+            if ($item && !$item->getDisabled()) {
+                $udf[$definition['field_id']] = $this->form->getInput($f);
+            }
+        }
+        $this->user->setUserDefinedData($udf);
+
+        $this->uploadUserPicture();
+
+        // profile ok
+        $this->user->setProfileIncomplete(false);
+
+        // save user data & object_data
+        $this->user->setTitle($this->user->getFullname());
+        $this->user->setDescription($this->user->getEmail());
+
+        $this->user->update();
+    }
+
+    public function changeEmail() : void
+    {
+        $token = $_GET['token'];
+        $new_email = $this->change_mail_token_repo->getNewEmailForUser($this->user, $token);
+
+        if ($new_email !== '') {
+            $this->user->setEmail($new_email);
+            $this->user->update();
+            $this->change_mail_token_repo->deleteEntryByToken($token);
+            $this->tpl->setOnScreenMessage(
+                'success',
+                $this->lng->txt('saved_successfully')
+            );
+            $this->showPublicProfile();
+            return;
+        }
+
+        $this->tpl->setOnScreenMessage('failure', $this->lng->txt('email_could_not_be_changed'));
+        $this->showPublicProfile();
     }
 
     //

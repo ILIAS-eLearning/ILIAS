@@ -1069,7 +1069,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
         foreach ($this->getGaps() as $gap_index => $gap) {
             $answers = array();
             foreach ($gap->getItemsRaw() as $item) {
-                array_push($answers, str_replace(",", "\\,", $item->getAnswerText()));
+                array_push($answers, str_replace([',', '['], ["\\,", '[&hairsp;'], $item->getAnswerText()));
             }
             // fau: fixGapReplace - use replace function
             $output = $this->replaceFirstGap($output, "[_gap]" . $this->prepareTextareaOutput(join(",", $answers), true) . "[/_gap]");
@@ -1122,7 +1122,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
                 if ($replace_gap_index == $gap_index) {
                     // fau: fixGapReplace - use replace function
                     $output = $this->replaceFirstGap($output, '');
-                // fau.
+                    // fau.
                 } else {
                     // fau: fixGapReplace - use replace function
                     $output = $this->replaceFirstGap($output, "[_gap]" . join(",", $answers) . "[/_gap]");
@@ -1317,7 +1317,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
     public function fetchSolutionSubmit($submit)
     {
         $solutionSubmit = array();
-
+        $purifier = $this->getHtmlUserSolutionPurifier();
         foreach ($submit as $key => $value) {
             if (preg_match("/^gap_(\d+)/", $key, $matches)) {
                 $value = ilUtil::stripSlashes($value, false);
@@ -1330,7 +1330,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
                             } elseif ($gap->getType() == CLOZE_NUMERIC) {
                                 $value = str_replace(",", ".", $value);
                             }
-                            $value = htmlentities($value);
+                            $value = $purifier->purify($value);
                             $solutionSubmit[trim($matches[1])] = $value;
                         }
                     }

@@ -915,7 +915,7 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
                 $this->testOBJ->setStartingTimeEnabled(false);
             }
         }
-        
+
         $ending_time = $form->getInput('ending_time');
         if (is_string($ending_time) && $ending_time !== '') {
             $this->testOBJ->setEndingTime((new ilDateTime($ending_time, IL_CAL_DATETIME))->get(IL_CAL_UNIX));
@@ -1517,6 +1517,7 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
         $redirection_url = new ilTextInputGUI($this->lng->txt('redirection_url'), 'redirection_url');
         $redirection_url->setValue((string) $this->testOBJ->getRedirectionUrl());
         $redirection_url->setRequired(true);
+        $redirection_url->setMaxLength(128);
         $rm_enabled->addSubItem($redirection_url);
 
         $form->addItem($rm_enabled);

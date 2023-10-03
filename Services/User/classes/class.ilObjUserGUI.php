@@ -2101,14 +2101,25 @@ class ilObjUserGUI extends ilObjectGUI
         global $DIC;
 
         $ilUser = $DIC['ilUser'];
+
+        /** @var ilCtrl $ilCtrl */
         $ilCtrl = $DIC['ilCtrl'];
+
+        if (strstr($a_target, ilPersonalProfileGUI::CHANGE_EMAIL_CMD) === $a_target
+            && $ilUser->getId() !== ANONYMOUS_USER_ID) {
+            $class = ilPersonalProfileGUI::class;
+            $cmd = ilPersonalProfileGUI::CHANGE_EMAIL_CMD;
+            $ilCtrl->clearParametersByClass($class);
+            $ilCtrl->setParameterByClass($class, 'token', str_replace($cmd, '', $a_target));
+            $ilCtrl->redirectByClass(['ildashboardgui', $class], $cmd);
+        }
 
         // #10888
         if ($a_target == md5("usrdelown")) {
             if ($ilUser->getId() != ANONYMOUS_USER_ID &&
                 $ilUser->hasDeletionFlag()) {
                 $ilCtrl->initBaseClass("ildashboardgui");
-                $ilCtrl->redirectByClass(array("ildashboardgui", "ilpersonalsettingsgui"), "deleteOwnAccount3");
+                $ilCtrl->redirectByClass(['ildashboardgui', 'ilpersonalsettingsgui'], "deleteOwnAccount3");
             }
             exit("This account is not flagged for deletion."); // #12160
         }

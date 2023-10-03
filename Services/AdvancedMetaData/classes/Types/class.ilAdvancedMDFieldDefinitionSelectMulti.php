@@ -59,38 +59,7 @@ class ilAdvancedMDFieldDefinitionSelectMulti extends ilAdvancedMDFieldDefinition
      */
     public function importCustomDefinitionFormPostValues(ilPropertyFormGUI $a_form, string $language = '')
     {
-        if (!$this->useDefaultLanguageMode($language)) {
-            return $this->importTranslatedFormPostValues($a_form, $language);
-        }
-        if (!strlen($language)) {
-            $language = ilAdvancedMDRecord::_getInstanceByRecordId($this->getRecordId())->getDefaultLanguage();
-        }
-
-
-        $old = $this->getOptionTranslation($language);
-        $new = $a_form->getInput("opts");
-
-
-        $missing = array_diff_assoc($old, $new);
-
-        if (sizeof($missing)) {
-            $this->confirmed_objects = $this->buildConfirmedObjects($a_form);
-            if (!is_array($this->confirmed_objects)) {
-                $search = ilADTFactory::getInstance()->getSearchBridgeForDefinitionInstance($this->getADTDefinition(), false, false);
-                foreach ($missing as $missing_idx => $missing_value) {
-                    $in_use = $this->findBySingleValue($search, $missing_idx);
-                    if (is_array($in_use)) {
-                        foreach ($in_use as $item) {
-                            $this->confirm_objects[$missing_idx][] = $item;
-                            $this->confirm_objects_values[$missing_idx] = $old[$missing_idx];
-                        }
-                    }
-                }
-            }
-        }
-        
-        $this->old_options = $old;
-        $this->setOptionTranslationsForLanguage($new, $language);
+        $this->importNewSelectOptions(false, $a_form, $language);
     }
 
     

@@ -1791,4 +1791,25 @@ if ($ilDB->tableExists('adv_md_values_text') &&
 <?php
     $ilDB->manipulate("DELETE FROM rbac_operations WHERE operation='create_dbk'");
 ?>
-
+<#106>
+<?php
+    if (!$ilDB->tableExists('usr_change_email_token')) {
+        $ilDB->createTable(
+            'usr_change_email_token',
+            [
+                'token' => [
+                    'type' => 'text',
+                    'length' => 32
+                ],
+                'new_email' => [
+                    'type' => 'text',
+                    'length' => 256
+                ],
+                'valid_until' => [
+                    'type' => 'integer',
+                    'length' => 8
+                ]
+            ]
+        );
+    }
+?>

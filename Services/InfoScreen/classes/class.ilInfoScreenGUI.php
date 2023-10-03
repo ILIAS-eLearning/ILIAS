@@ -577,68 +577,72 @@ class ilInfoScreenGUI
                 }
             }
         }
-                
-                
-        // creation date
-        $this->addProperty(
-            $lng->txt("create_date"),
-            ilDatePresentation::formatDate(new ilDateTime($a_obj->getCreateDate(), IL_CAL_DATETIME))
-        );
 
-        // owner
-        if ($ilUser->getId() != ANONYMOUS_USER_ID and $a_obj->getOwner()) {
-            include_once './Services/Object/classes/class.ilObjectFactory.php';
-            include_once './Services/User/classes/class.ilObjUser.php';
-            
-            if (ilObjUser::userExists(array($a_obj->getOwner()))) {
-                $ownerObj = ilObjectFactory::getInstanceByObjId($a_obj->getOwner(), false);
-            } else {
-                $ownerObj = ilObjectFactory::getInstanceByObjId(6, false);
+        if ($ilAccess->checkAccess("write", "", $ref_id) ||
+            $ilAccess->checkAccess("edit_permissions", "", $ref_id)) {
+
+            // creation date
+            $this->addProperty(
+                $lng->txt("create_date"),
+                ilDatePresentation::formatDate(new ilDateTime($a_obj->getCreateDate(), IL_CAL_DATETIME))
+            );
+
+            // owner
+            if ($ilUser->getId() != ANONYMOUS_USER_ID and $a_obj->getOwner()) {
+                include_once './Services/Object/classes/class.ilObjectFactory.php';
+                include_once './Services/User/classes/class.ilObjUser.php';
+
+                if (ilObjUser::userExists(array($a_obj->getOwner()))) {
+                    $ownerObj = ilObjectFactory::getInstanceByObjId($a_obj->getOwner(), false);
+                } else {
+                    $ownerObj = ilObjectFactory::getInstanceByObjId(6, false);
+                }
+
+                if (!is_object($ownerObj) || $ownerObj->getType() != "usr") {        // root user deleted
+                    $this->addProperty($lng->txt("owner"), $lng->txt("no_owner"));
+                } elseif ($ownerObj->hasPublicProfile()) {
+                    $ilCtrl->setParameterByClass("ilpublicuserprofilegui", "user_id", $ownerObj->getId());
+                    $this->addProperty($lng->txt("owner"), $ownerObj->getPublicName(),
+                        $ilCtrl->getLinkTargetByClass("ilpublicuserprofilegui", "getHTML"));
+                } else {
+                    $this->addProperty($lng->txt("owner"), $ownerObj->getPublicName());
+                }
             }
 
-            if (!is_object($ownerObj) || $ownerObj->getType() != "usr") {		// root user deleted
-                $this->addProperty($lng->txt("owner"), $lng->txt("no_owner"));
-            } elseif ($ownerObj->hasPublicProfile()) {
-                $ilCtrl->setParameterByClass("ilpublicuserprofilegui", "user_id", $ownerObj->getId());
-                $this->addProperty($lng->txt("owner"), $ownerObj->getPublicName(), $ilCtrl->getLinkTargetByClass("ilpublicuserprofilegui", "getHTML"));
-            } else {
-                $this->addProperty($lng->txt("owner"), $ownerObj->getPublicName());
-            }
-        }
-
-        // change event
-        require_once 'Services/Tracking/classes/class.ilChangeEvent.php';
-        if (ilChangeEvent::_isActive()) {
-            if ($ilUser->getId() != ANONYMOUS_USER_ID) {
-                $readEvents = ilChangeEvent::_lookupReadEvents($a_obj->getId());
-                $count_users = 0;
-                $count_members = 0;
-                $count_user_reads = 0;
-                $count_anonymous_reads = 0;
-                foreach ($readEvents as $evt) {
-                    if ($evt['usr_id'] == ANONYMOUS_USER_ID) {
-                        $count_anonymous_reads += $evt['read_count'];
-                    } else {
-                        $count_user_reads += $evt['read_count'];
-                        $count_users++;
-                        /* to do: if ($evt['user_id'] is member of $this->getRefId())
-                        {
-                            $count_members++;
-                        }*/
+            // change event
+            require_once 'Services/Tracking/classes/class.ilChangeEvent.php';
+            if (ilChangeEvent::_isActive()) {
+                if ($ilUser->getId() != ANONYMOUS_USER_ID) {
+                    $readEvents = ilChangeEvent::_lookupReadEvents($a_obj->getId());
+                    $count_users = 0;
+                    $count_members = 0;
+                    $count_user_reads = 0;
+                    $count_anonymous_reads = 0;
+                    foreach ($readEvents as $evt) {
+                        if ($evt['usr_id'] == ANONYMOUS_USER_ID) {
+                            $count_anonymous_reads += $evt['read_count'];
+                        } else {
+                            $count_user_reads += $evt['read_count'];
+                            $count_users++;
+                            /* to do: if ($evt['user_id'] is member of $this->getRefId())
+                            {
+                                $count_members++;
+                            }*/
+                        }
+                    }
+                    if ($count_anonymous_reads > 0) {
+                        $this->addProperty($this->lng->txt("readcount_anonymous_users"), $count_anonymous_reads);
+                    }
+                    if ($count_user_reads > 0) {
+                        $this->addProperty($this->lng->txt("readcount_users"), $count_user_reads);
+                    }
+                    if ($count_users > 0) {
+                        $this->addProperty($this->lng->txt("accesscount_registered_users"), $count_users);
                     }
                 }
-                if ($count_anonymous_reads > 0) {
-                    $this->addProperty($this->lng->txt("readcount_anonymous_users"), $count_anonymous_reads);
-                }
-                if ($count_user_reads > 0) {
-                    $this->addProperty($this->lng->txt("readcount_users"), $count_user_reads);
-                }
-                if ($count_users > 0) {
-                    $this->addProperty($this->lng->txt("accesscount_registered_users"), $count_users);
-                }
             }
+            // END ChangeEvent: Display change event info
         }
-        // END ChangeEvent: Display change event info
 
         // WebDAV: Display locking information
         require_once('Services/WebDAV/classes/class.ilDAVActivationChecker.php');
