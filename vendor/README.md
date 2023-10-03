@@ -10,7 +10,7 @@ webroot of ILIAS. For more details on npm see [npm-readme](../docs/development/j
 
 No other external dependencies are allowed in ILIAS. Should you find an older
 dependency in the folder of your [component](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/docs/development/components-and-directories.md)
-you MUST remove it immediatly and either replace it by the corresponding version
+you MUST remove it immediately and either replace it by the corresponding version
 from one of the officially allowed dependeny managers (subject to approval by
 the Jour Fix, see below) or provide the corresponding functionality yourself.
 
