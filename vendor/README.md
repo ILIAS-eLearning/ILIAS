@@ -26,7 +26,7 @@ functionality is best integrated through this dependency and why we can trust
 this dependency to be properly maintained in the future.
 
 ## Criteria for Accepting Dependencies
-* The corresponding functionality is needed
+* The corresponding functionality is needed.
 * The corresponding functionality can not be easily implemented without the
 use of a external dependency/library.
 * The corresponding functionality should be maintained and used in a more
