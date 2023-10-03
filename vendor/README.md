@@ -19,7 +19,7 @@ Adding new dependencies to ILIAS depends on the approval of the Jour Fix and
 all dependencies MUST be reaproved for every new ILIAS version.
 If you want to add a new dependency to ILIAS:
 * Provide a PR against the corresponding file (`composer.json`, `package.json`) in
-the trunk-branch of ILIAS. Make sure to fill in all required Information (see below).
+the trunk-branch of ILIAS. Make sure to fill in all required information (see below).
 * Tag the PR with the tags "jour fixe" and "dependencies".
 * You will need to make the case at the next Jour Fixe why the corresponding
 functionality is best integrated through this dependency and why we can trust
