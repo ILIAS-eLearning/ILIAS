@@ -398,7 +398,7 @@ class ilExSubmission
             if ($this->team) {
                 $this->team->writeLog(
                     ilExAssignmentTeam::TEAM_LOG_ADD_FILE,
-                    $a_http_post_files["name"]
+                    $result->getName()
                 );
             }
 
