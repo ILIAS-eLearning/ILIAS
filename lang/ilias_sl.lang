@@ -1168,8 +1168,6 @@ assessment#:#show_examview_html#:#Na zaslonu
 assessment#:#show_pass_overview#:#Pregled rezultatov (ocenjeno opravljanje testa)
 assessment#:#show_user_answers#:#Odgovori (ocenjeno opravljanje testa)
 assessment#:#shuffle_answers#:#Pomešaj odgovore
-assessment#:#sign_submission#:#Digitalni podpis
-assessment#:#sign_submission_info#:#Nameščen in aktiviran mora biti vtičnik za podpis, ki omogoča poziv udeležencev k podpisu ob oddaji testa.
 assessment#:#skip_question#:#Ne odgovarjaj in naprej
 assessment#:#solutionText#:#Besedilo
 assessment#:#solution_contain_keywords#:#Točke so podeljene na podlagi uporabe naslednjih pojmov:

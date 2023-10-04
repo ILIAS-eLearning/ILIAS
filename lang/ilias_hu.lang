@@ -1163,8 +1163,6 @@ assessment#:#show_examview_html#:#Képernyőn
 assessment#:#show_pass_overview#:#Figyelembe vett tesztkitöltés áttekintése
 assessment#:#show_user_answers#:#Figyelembe vett tesztkitöltés válaszainak megjelenítése
 assessment#:#shuffle_answers#:#Kevert válaszok
-assessment#:#sign_submission#:#Tesztbeadványok digitális aláírása
-assessment#:#sign_submission_info#:#Ha ez be van kapcsolva, az aláíró-bővítményt telepítették és az aktív, akkor a résztvevők digitálisan aláírják beadványukat.
 assessment#:#skip_question#:#Válaszadás kihagyása és következő
 assessment#:#solutionText#:#Szöveg
 assessment#:#solution_contain_keywords#:#A pontozás a következő kulcsszavak előfordulása alapján történik:

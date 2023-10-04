@@ -1168,8 +1168,6 @@ assessment#:#show_examview_html#:#画面上に
 assessment#:#show_pass_overview#:#マークした試験状況を表示
 assessment#:#show_user_answers#:#マークしたユーザの解答を表示
 assessment#:#shuffle_answers#:#解答をシャッフル
-assessment#:#sign_submission#:#デジタル署名テスト送信
-assessment#:#sign_submission_info#:#アクティブ化されてシグネチャプラグインがインストール済で有効の場合に受験者はデジタル署名の提出を要求されます。
 assessment#:#skip_question#:#回答しないで次へ
 assessment#:#solutionText#:#テキスト
 assessment#:#solution_contain_keywords#:#点数は次のキーワードの発生を基準に承諾されます:

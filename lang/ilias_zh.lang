@@ -1162,8 +1162,6 @@ assessment#:#show_examview_html#:#Show exam view on the test submission page.###
 assessment#:#show_pass_overview#:#展示已标注通过的概况
 assessment#:#show_user_answers#:#展示用户的已标注答案
 assessment#:#shuffle_answers#:#简答题
-assessment#:#sign_submission#:#Digitally sign test submissions###24 10 2013 new variable
-assessment#:#sign_submission_info#:#If this is activated and a signature plugin is installed and active, participants will be send to digitally sign their submissions.###24 10 2013 new variable
 assessment#:#skip_question#:#Do not Answer and Next###08 10 2015 new variable
 assessment#:#solutionText#:#Text文档
 assessment#:#solution_contain_keywords#:#分数被授予是基于以下关键词：
