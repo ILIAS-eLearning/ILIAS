@@ -947,6 +947,8 @@ class Renderer extends AbstractComponentRenderer
                 $current_file_count = count($input->getDynamicInputs());
                 $translations = json_encode($input->getTranslations());
                 $is_disabled = ($input->isDisabled()) ? 'true' : 'false';
+                $php_upload_limit = $this->getUploadLimitResolver()->getPhpUploadLimitInBytes();
+                $should_upload_be_chunked = ($input->getMaxFileSize() > $php_upload_limit) ? 'true' : 'false';
                 return "
                     $(document).ready(function () {
                         il.UI.Input.File.init(
@@ -960,8 +962,8 @@ class Renderer extends AbstractComponentRenderer
                             '{$this->prepareDropzoneJsMimeTypes($input->getAcceptedMimeTypes())}',
                             $is_disabled,
                             $translations,
-                            '{$input->getUploadHandler()->supportsChunkedUploads()}',
-                            {$input->getMaxFileSize()}
+                            $should_upload_be_chunked,
+                            $php_upload_limit
                         );
                     });
                 ";

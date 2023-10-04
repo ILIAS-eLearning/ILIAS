@@ -82,7 +82,8 @@ class DataRendererTest extends ILIAS_UI_TestBase
             $this->getRefinery(),
             new ilImagePathResolver(),
             new \ILIAS\Data\Factory(),
-            new \ILIAS\UI\Help\TextRetriever\Echoing()
+            new \ILIAS\UI\Help\TextRetriever\Echoing(),
+            $this->getUploadLimitResolver()
         );
     }
 

@@ -27,6 +27,13 @@ interface FileUpload
 {
     public function getUploadHandler(): UploadHandler;
 
+    /**
+     * Get an instance like this with a local upload-size limitation. This value will take
+     * precedence over other implicit upload-limits which may apply.
+     *
+     * Please note that upload-limits greater than the PHP limit can only be applied if the
+     * corresponding @see UploadHandler supports chunked uploads.
+     */
     public function withMaxFileSize(int $size_in_bytes): FileUpload;
 
     public function getMaxFileSize(): int;
