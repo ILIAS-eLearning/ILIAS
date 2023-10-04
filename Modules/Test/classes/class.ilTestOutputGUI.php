@@ -140,20 +140,6 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 
                 break;
 
-            case 'iltestsignaturegui':
-                $this->checkTestExecutable();
-
-                $gui = new ilTestSignatureGUI(
-                    $this,
-                    $this->lng,
-                    $this->ctrl,
-                    $this->user,
-                    $this->tpl,
-                    $this->component_repository
-                );
-                $ret = $this->ctrl->forwardCommand($gui);
-                break;
-
             case 'iltestpasswordprotectiongui':
                 $this->checkTestExecutable();
 
