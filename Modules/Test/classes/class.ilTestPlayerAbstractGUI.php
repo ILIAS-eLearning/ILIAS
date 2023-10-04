@@ -740,10 +740,6 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         $activeId = $this->test_session->getActiveId();
         $lastFinishedPass = $this->test_session->getLastFinishedPass();
 
-        // handle test signature
-        if ($this->isTestSignRedirectRequired($activeId, $lastFinishedPass)) {
-            $this->ctrl->redirectByClass('ilTestSignatureGUI', 'invokeSignaturePlugin');
-        }
 
         // show final statement
         if (!$this->testrequest->isset('skipfinalstatement')) {
@@ -769,18 +765,6 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         $this->redirectBackCmd();
     }
 
-    protected function isTestSignRedirectRequired(int $active_id, int $last_finished_pass): bool
-    {
-        if (!$this->object->getSignSubmission()) {
-            return false;
-        }
-
-        if (!is_null(ilSession::get("signed_{$active_id}_{$last_finished_pass}"))) {
-            return false;
-        }
-
-        return $this->component_repository->getPluginSlotById('tsig')->hasActivePlugins();
-    }
 
     public function redirectBackCmd(): void
     {

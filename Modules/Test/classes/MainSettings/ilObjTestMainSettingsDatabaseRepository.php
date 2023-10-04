@@ -179,7 +179,6 @@ class ilObjTestMainSettingsDatabaseRepository implements MainSettingsRepository
                 $row['concluding_remarks_page_id'],
                 $row['redirection_mode'],
                 $row['redirection_url'],
-                (bool) $row['sign_submission'],
                 $row['mailnotification'],
                 (bool) $row['mailnottype'],
             ),
