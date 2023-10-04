@@ -68,16 +68,21 @@ class ilCalendarExport
      * @var ilICalWriter
      */
     protected $str_writer_export;
+    /**
+     * @var bool
+     */
+    protected $is_export_limited;
 
     /**
      * @param int[] $a_calendar_ids
      */
-    public function __construct(array $a_calendar_ids = [])
+    public function __construct(array $a_calendar_ids = [], bool $is_export_limited = false)
     {
         global $DIC;
         $this->il_user = $DIC->user();
         $this->logger = $DIC->logger()->cal();
         $this->calendars = $a_calendar_ids;
+        $this->is_export_limited = $is_export_limited;
         $this->appointments = [];
         $this->user_settings = ilCalendarUserSettings::_getInstanceByUserId($this->il_user->getId());
         $this->str_writer_export = new ilICalWriter();
@@ -195,19 +200,26 @@ class ilCalendarExport
             return $a->getStart() > $b->getStart();
         });
 
-        $single_appointments = array_filter($single_appointments, function (ilCalendarEntry $a) {
-            $time_now = new ilDateTime(time(), IL_CAL_UNIX);
-            $str_time_now = $time_now->get(IL_CAL_FKT_DATE, 'Ymd', ilTimeZone::UTC);
-            $str_time_start = $a->getStart()->get(IL_CAL_FKT_DATE, 'Ymd', $this->il_user->getTimeZone());
-            $start = new DateTimeImmutable($str_time_start);
-            $now = new DateTimeImmutable($str_time_now);
-            $lower_bound = $now->sub(new DateInterval('P30D'));
-            return $lower_bound <= $start;
-        });
+        // Apply a filter on limited exports only
+        if ($this->is_export_limited) {
+            $single_appointments = array_filter($single_appointments, function (ilCalendarEntry $a) {
+                $time_now = new ilDateTime(time(), IL_CAL_UNIX);
+                $str_time_now = $time_now->get(IL_CAL_FKT_DATE, 'Ymd', ilTimeZone::UTC);
+                $str_time_start = $a->getStart()->get(IL_CAL_FKT_DATE, 'Ymd', $this->il_user->getTimeZone());
+                $start = new DateTimeImmutable($str_time_start);
+                $now = new DateTimeImmutable($str_time_now);
+                $lower_bound = $now->sub(new DateInterval('P30D'));
+                return $lower_bound <= $start;
+            });
+        }
 
         foreach ($single_appointments as $appointment) {
             $str_writer_appointment = $this->createAppointment($appointment);
-            if (($str_writer_appointments->byteCount() + $str_writer_appointment->byteCount()) > $remaining_bytes) {
+            // Check byte count for limited exports only
+            if (
+                $this->is_export_limited &&
+                ($str_writer_appointments->byteCount() + $str_writer_appointment->byteCount()) > $remaining_bytes
+            ) {
                 break;
             }
             $str_writer_appointments->append($str_writer_appointment);
