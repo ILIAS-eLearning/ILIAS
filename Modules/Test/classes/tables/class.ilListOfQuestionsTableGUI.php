@@ -16,6 +16,9 @@
  *
  *********************************************************************/
 
+use ILIAS\UI\Factory as UIFactory;
+use ILIAS\UI\Renderer as UIRenderer;
+
 /**
 *
 * @author Helmut Schottmüller <ilias@aurealis.de>
@@ -35,6 +38,8 @@ class ilListOfQuestionsTableGUI extends ilTable2GUI
     protected ?bool $obligationsNotAnswered = false;
 
     protected ?bool $finishTestButtonEnabled = false;
+    protected UIFactory $ui_factory;
+    protected UIRenderer $ui_renderer;
 
     public function __construct($a_parent_obj, $a_parent_cmd)
     {
@@ -46,6 +51,8 @@ class ilListOfQuestionsTableGUI extends ilTable2GUI
 
         $this->lng = $lng;
         $this->ctrl = $ilCtrl;
+        $this->ui_factory = $DIC['ui.factory'];
+        $this->ui_renderer = $DIC['ui.renderer'];
 
         $this->setFormName('listofquestions');
         $this->setStyle('table', 'fullwidth');
@@ -155,12 +162,12 @@ class ilListOfQuestionsTableGUI extends ilTable2GUI
 
             // obligatory icon
             if ($a_set["obligatory"]) {
-                $icon = $this->factory->symbol()->icon()->custom(
+                $icon = $this->ui_factory->symbol()->icon()->custom(
                     ilUtil::getImagePath("icon_checked.svg"),
                     $this->lng->txt('question_obligatory')
 
                 );
-                $OBLIGATORY = $this->renderer->render($icon);
+                $OBLIGATORY = $this->ui_renderer->render($icon);
             } else {
                 $OBLIGATORY = '';
             }
