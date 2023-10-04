@@ -3502,9 +3502,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
                 case 'examid_in_test_res':
                     $result_details_settings = $result_details_settings->withShowExamIdInTestResults((bool) $metadata["entry"]);
                     break;
-                case 'sign_submission':
-                    $finishing_settings = $finishing_settings->withSignSubmission((bool) $metadata['entry']);
-                    break;
                 case 'skill_service':
                     $additional_settings = $additional_settings->withSkillsServiceEnabled((bool) $metadata['entry']);
                     break;
@@ -3626,7 +3623,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
             null,
             $settings->getRedirectionMode(),
             $settings->getRedirectionUrl(),
-            $settings->getSignSubmission(),
             $settings->getMailNotificationContentType(),
             $settings->getAlwaysSendMailNotification()
         );
@@ -4007,11 +4003,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         $a_xml_writer->xmlElement("fieldentry", null, (int) $main_settings->getFinishingSettings()->getShowAnswerOverview());
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
-        // sign_submission
-        $a_xml_writer->xmlStartTag("qtimetadatafield");
-        $a_xml_writer->xmlElement("fieldlabel", null, "sign_submission");
-        $a_xml_writer->xmlElement("fieldentry", null, sprintf("%d", (int) $main_settings->getFinishingSettings()->getSignSubmission()));
-        $a_xml_writer->xmlEndTag("qtimetadatafield");
 
         // skill_service
         $a_xml_writer->xmlStartTag("qtimetadatafield");
@@ -6378,7 +6369,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
             'ShowFinalStatement' => (int) $main_settings->getFinishingSettings()->getConcludingRemarksEnabled(),
             'redirection_mode' => $main_settings->getFinishingSettings()->getRedirectionMode(),
             'redirection_url' => $main_settings->getFinishingSettings()->getRedirectionUrl(),
-            'sign_submission' => (int) $main_settings->getFinishingSettings()->getSignSubmission(),
             'mailnotification' => $main_settings->getFinishingSettings()->getMailNotificationContentType(),
             'mailnottype' => (int) $main_settings->getFinishingSettings()->getAlwaysSendMailNotification(),
 
@@ -6505,7 +6495,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
                 ->withConcludingRemarksEnabled((bool) $testsettings['ShowFinalStatement'])
                 ->withRedirectionMode($testsettings['redirection_mode'])
                 ->withRedirectionUrl($testsettings['redirection_url'])
-                ->withSignSubmission((bool) $testsettings['sign_submission'])
                 ->withMailNotificationContentType($testsettings['mailnotification'])
                 ->withAlwaysSendMailNotification((bool) $testsettings['mailnottype'])
             )
@@ -7865,10 +7854,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         return $this->getScoreSettings()->getResultDetailsSettings()->getShowExamIdInTestResults();
     }
 
-    public function getSignSubmission(): bool
-    {
-        return $this->getMainSettings()->getFinishingSettings()->getSignSubmission();
-    }
 
     public function setQuestionSetType(string $question_set_type)
     {

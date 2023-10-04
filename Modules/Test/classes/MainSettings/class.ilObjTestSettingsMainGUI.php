@@ -662,7 +662,6 @@ class ilObjTestSettingsMainGUI extends ilTestSettingsGUI
             ->withConcludingRemarksEnabled($section['show_concluding_remarks'])
             ->withRedirectionMode($redirect_after_finish['redirect_mode'])
             ->withRedirectionUrl($redirect_after_finish['redirect_url'])
-            ->withSignSubmission($section['digitally_sign_submission'])
             ->withMailNotificationContentType($finish_notification['notification_content_type'])
             ->withAlwaysSendMailNotification($finish_notification['always_notify']);
     }
