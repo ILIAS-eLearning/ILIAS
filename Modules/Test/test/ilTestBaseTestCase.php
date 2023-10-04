@@ -57,6 +57,7 @@ class ilTestBaseTestCase extends TestCase
         $this->addGlobal_ilAppEventHandler();
         $this->addGlobal_objDefinition();
         $this->addGlobal_refinery();
+        $this->addGlobal_ilComponentFactory();
 
         $this->getMockBuilder(\ILIAS\DI\LoggingServices::class)->disableOriginalConstructor()->getMock();
 

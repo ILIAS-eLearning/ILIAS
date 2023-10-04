@@ -1857,7 +1857,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         if (count($removablequestions)) {
             foreach ($removablequestions as $data) {
                 if (in_array($data["question_id"], $checked_questions)) {
-                    $txt = $data["title"] . " (" . $this->questioninfo->getQuestionType($data["question_id"]) . ")";
+                    $txt = $data["title"] . " (" . $this->questioninfo->getQuestionTypeName($data["question_id"]) . ")";
                     $txt .= ' [' . $this->lng->txt('question_id_short') . ': ' . $data['question_id'] . ']';
 
                     if ($data["description"]) {

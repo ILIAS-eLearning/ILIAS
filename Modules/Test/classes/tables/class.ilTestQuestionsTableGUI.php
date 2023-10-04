@@ -204,7 +204,7 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
             $this->tpl->setVariable("QUESTION_COMMENT", $a_set["description"] ? $a_set["description"] : '&nbsp;');
         }
 
-        $this->tpl->setVariable("QUESTION_TYPE", $this->questioninfo->getQuestionType($a_set['question_id']));
+        $this->tpl->setVariable("QUESTION_TYPE", $this->questioninfo->getQuestionTypeName($a_set['question_id']));
         $this->tpl->setVariable("QUESTION_POINTS", $a_set["points"]);
 
         if ($this->isColumnSelected('author')) {

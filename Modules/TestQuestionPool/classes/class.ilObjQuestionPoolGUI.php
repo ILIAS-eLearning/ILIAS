@@ -1361,7 +1361,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                 $q_gui->object->setObjId($this->object->getId());
                 $title = $q_gui->object->getTitle();
                 if (!$title) {
-                    $title = $this->lng->txt('new') . ': ' . $this->questioninfo->getQuestionType($q_gui->object->getId());
+                    $title = $this->lng->txt('new') . ': ' . $this->questioninfo->getQuestionTypeName($q_gui->object->getId());
                 }
                 $ilLocator->addItem($title, $this->ctrl->getLinkTargetByClass(get_class($q_gui), 'editQuestion'));
             } else {
@@ -1385,7 +1385,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                 $q_gui->object->setObjId($this->object->getId());
                 $title = $q_gui->object->getTitle();
                 if (!$title) {
-                    $title = $this->lng->txt('new') . ': ' . $this->questioninfo->getQuestionType($q_gui->object->getId());
+                    $title = $this->lng->txt('new') . ': ' . $this->questioninfo->getQuestionTypeName($q_gui->object->getId());
                 }
                 $this->tpl->setTitle($title);
                 $this->tpl->setDescription($q_gui->object->getComment());
