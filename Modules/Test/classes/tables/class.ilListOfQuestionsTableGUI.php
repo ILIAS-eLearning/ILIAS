@@ -162,12 +162,12 @@ class ilListOfQuestionsTableGUI extends ilTable2GUI
 
             // obligatory icon
             if ($a_set["obligatory"]) {
-                $icon = $this->factory->symbol()->icon()->custom(
+                $icon = $this->ui_factory->symbol()->icon()->custom(
                     ilUtil::getImagePath("icon_checked.svg"),
                     $this->lng->txt('question_obligatory')
 
                 );
-                $OBLIGATORY = $this->renderer->render($icon);
+                $OBLIGATORY = $this->ui_renderer->render($icon);
             } else {
                 $OBLIGATORY = '';
             }
