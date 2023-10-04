@@ -260,16 +260,17 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
      */
     private function buildNextButtonInstance($primaryNext)
     {
+        $target = $this->ctrl->getLinkTarget($this, ilTestPlayerCommands::NEXT_QUESTION);
         if ($primaryNext) {
             $button = $this->ui->factory()->button()->primary(
                 $this->lng->txt('next_question') . '<span class="glyphicon glyphicon-arrow-right"></span> ',
-                $this->ctrl->getLinkTarget($this, ilTestPlayerCommands::NEXT_QUESTION)
-            );
+                ''
+            )->withOnLoadCode($this->getOnLoadCodeForNavigationButtons($target, ilTestPlayerCommands::NEXT_QUESTION));
         } else {
             $button = $this->ui->factory()->button()->standard(
                 $this->lng->txt('next_question') . '<span class="glyphicon glyphicon-arrow-right"></span> ',
-                $this->ctrl->getLinkTarget($this, ilTestPlayerCommands::NEXT_QUESTION)
-            );
+                ''
+            )->withOnLoadCode($this->getOnLoadCodeForNavigationButtons($target, ilTestPlayerCommands::NEXT_QUESTION));
         }
         return $button;
     }
@@ -280,11 +281,21 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
      */
     private function buildPreviousButtonInstance()
     {
-        $button = $this->ui->factory()->button()->primary(
-            $this->lng->txt('previous_question') . '<span class="glyphicon glyphicon-arrow-left"></span> ',
-            $this->ctrl->getLinkTarget($this, ilTestPlayerCommands::PREVIOUS_QUESTION)
-        );
+        $target = $this->ctrl->getLinkTarget($this, ilTestPlayerCommands::PREVIOUS_QUESTION);
+        $button = $this->ui->factory()->button()->standard(
+            '<span class="glyphicon glyphicon-arrow-left"></span> ' . $this->lng->txt('previous_question'),
+            ''
+        )->withOnLoadCode($this->getOnLoadCodeForNavigationButtons($target, ilTestPlayerCommands::PREVIOUS_QUESTION));
         return $button;
+    }
+
+    private function getOnLoadCodeForNavigationButtons(string $target, string $cmd): Closure
+    {
+        return static function (string $id) use ($target, $cmd): string {
+            return "document.getElementById('{$id}').addEventListener('click', "
+                . "(e) => {il.TestPlayerQuestionEditControl.checkNavigation('{$target}', '{$cmd}', e);}"
+                . ");";
+        };
     }
 
     /**
@@ -958,7 +969,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
             $questionNavigationGUI->setDiscardSolutionButtonEnabled(true);
             // fau: testNav - set answere status in question header
             $questionGui->getQuestionHeaderBlockBuilder()->setQuestionAnswered(true);
-        // fau.
+            // fau.
         } elseif ($this->object->isPostponingEnabled()) {
             $questionNavigationGUI->setSkipQuestionLinkTarget(
                 $this->ctrl->getLinkTarget($this, ilTestPlayerCommands::SKIP_QUESTION)
