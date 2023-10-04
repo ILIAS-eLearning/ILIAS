@@ -1163,8 +1163,6 @@ assessment#:#show_examview_html#:#Show exam view on the test submission page.
 assessment#:#show_pass_overview#:#Mostra il sommario dei voti
 assessment#:#show_user_answers#:#Mostra le risposte valutate degli utenti
 assessment#:#shuffle_answers#:#Mescola le risposte
-assessment#:#sign_submission#:#Firma digitale dei test inviati
-assessment#:#sign_submission_info#:#If this is activated and a signature plugin is installed and active, participants will be send to digitally sign their submissions.
 assessment#:#skip_question#:#Non rispondere e Avanti
 assessment#:#solutionText#:#testo
 assessment#:#solution_contain_keywords#:#Score is granted based on the occurence of the following keywords:

@@ -1163,8 +1163,6 @@ assessment#:#show_examview_html#:#Show exam view on the test submission page.
 assessment#:#show_pass_overview#:#Näita märgistatud soorituse ülevaadet
 assessment#:#show_user_answers#:#Näita kasutaja märgitud vastuseid
 assessment#:#shuffle_answers#:#Sega vastuseid
-assessment#:#sign_submission#:#Digitally sign test submissions
-assessment#:#sign_submission_info#:#If this is activated and a signature plugin is installed and active, participants will be send to digitally sign their submissions.
 assessment#:#skip_question#:#Do not Answer and Next###08 10 2015 new variable
 assessment#:#solutionText#:#Tekst
 assessment#:#solution_contain_keywords#:#Score is granted based on the occurence of the following keywords:
