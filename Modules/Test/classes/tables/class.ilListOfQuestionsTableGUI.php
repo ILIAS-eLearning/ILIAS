@@ -16,6 +16,9 @@
  *
  *********************************************************************/
 
+use ILIAS\UI\Factory;
+use ILIAS\UI\Renderer;
+
 /**
 *
 * @author Helmut Schottmüller <ilias@aurealis.de>
@@ -35,6 +38,8 @@ class ilListOfQuestionsTableGUI extends ilTable2GUI
     protected ?bool $obligationsNotAnswered = false;
 
     protected ?bool $finishTestButtonEnabled = false;
+    protected Factory $factory;
+    protected Renderer $renderer;
 
     public function __construct($a_parent_obj, $a_parent_cmd)
     {
@@ -46,6 +51,8 @@ class ilListOfQuestionsTableGUI extends ilTable2GUI
 
         $this->lng = $lng;
         $this->ctrl = $ilCtrl;
+        $this->factory = $DIC['ui.factory'];
+        $this->renderer = $DIC['ui.renderer'];
 
         $this->setFormName('listofquestions');
         $this->setStyle('table', 'fullwidth');
