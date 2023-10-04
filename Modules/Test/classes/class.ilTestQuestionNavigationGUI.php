@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\UI\Component\Button\Button;
+
 /**
  * @author		Björn Heyser <bheyser@databay.de>
  * @version		$Id$
@@ -648,10 +650,10 @@ class ilTestQuestionNavigationGUI
      * @param ilTemplate $tpl
      * @param $button
      */
-    private function renderButtonInstance(ilTemplate $tpl, $button)
+    private function renderButtonInstance(ilTemplate $tpl, Button $button)
     {
         $tpl->setCurrentBlock("button_instance");
-        $tpl->setVariable("BUTTON_INSTANCE", $button->render());
+        $tpl->setVariable("BUTTON_INSTANCE", $this->ui->renderer()->render($button));
         $tpl->parseCurrentBlock();
 
         $this->parseButtonsBlock($tpl);
