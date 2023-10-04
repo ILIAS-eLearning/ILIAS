@@ -350,20 +350,20 @@ class ilObjectCopyGUI
         $t->setFormAction($this->ctrl->getFormAction($this, "saveTarget"));
         $primary_button = $this->ui_factory->button()->primary(
             $this->getPrimaryButtonLabel(),
-            '#'
+            ''
         )->withOnLoadCode($this->getOnLoadCode('saveTarget'));
         $t->addComponent($primary_button);
         $t->addSeparator();
 
         $clipboard_btn = $this->ui_factory->button()->standard(
             $this->lng->txt('obj_insert_into_clipboard'),
-            '#'
+            ''
         )->withOnLoadCode($this->getOnLoadCode('keepObjectsInClipboard'));
         $t->addComponent($clipboard_btn);
 
         $cancel_btn = $this->ui_factory->button()->standard(
             $this->lng->txt('cancel'),
-            '#'
+            ''
         )->withOnLoadCode($this->getOnLoadCode('cancel'));
         $t->addComponent($cancel_btn);
 
