@@ -745,7 +745,7 @@ abstract class assQuestionGUI
             $ilUser->writePref("tst_lastquestiontype", $this->object->getQuestionType());
             $this->object->saveToDb();
             $originalexists = !is_null($this->object->getOriginalId()) &&
-                $$this->questioninfo->questionExistsInPool($this->object->getOriginalId());
+                $this->questioninfo->questionExistsInPool($this->object->getOriginalId());
 
             if (($this->request->raw("calling_test") ||
                     ($this->request->isset('calling_consumer')
