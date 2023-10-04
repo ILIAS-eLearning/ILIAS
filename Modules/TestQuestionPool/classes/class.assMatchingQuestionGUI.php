@@ -497,7 +497,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
                     }
 
                     $answerImageSrc = ilWACSignedPath::signFile(
-                        $this->object->getImagePathWeb() . ilLegacyFormElementsUtil::getThumbPrefix() . $definition->getPicture()
+                        $this->object->getImagePathWeb() . $this->object->getThumbPrefix() . $definition->getPicture()
                     );
 
                     $template->setCurrentBlock('definition_image');
@@ -533,7 +533,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
                     }
 
                     $answerImageSrc = ilWACSignedPath::signFile(
-                        $this->object->getImagePathWeb() . ilLegacyFormElementsUtil::getThumbPrefix() . $term->getPicture()
+                        $this->object->getImagePathWeb() . $this->object->getThumbPrefix() . $term->getPicture()
                     );
 
                     $template->setCurrentBlock('term_image');
@@ -680,8 +680,8 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
                 $template->setCurrentBlock("definition_picture");
                 $template->setVariable("DEFINITION_ID", $definition->getIdentifier());
                 $template->setVariable("IMAGE_HREF", $this->object->getImagePathWeb() . $definition->getPicture());
-                $thumbweb = $this->object->getImagePathWeb() . ilLegacyFormElementsUtil::getThumbPrefix() . $definition->getPicture();
-                $thumb = $this->object->getImagePath() . ilLegacyFormElementsUtil::getThumbPrefix() . $definition->getPicture();
+                $thumbweb = $this->object->getImagePathWeb() . $this->object->getThumbPrefix() . $definition->getPicture();
+                $thumb = $this->object->getImagePath() . $this->object->getThumbPrefix() . $definition->getPicture();
                 if (!@file_exists($thumb)) {
                     $this->object->rebuildThumbnails();
                 }
@@ -715,8 +715,8 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
                 $template->setCurrentBlock("term_picture");
                 $template->setVariable("TERM_ID", $term->getIdentifier());
                 $template->setVariable("IMAGE_HREF", $this->object->getImagePathWeb() . $term->getPicture());
-                $thumbweb = $this->object->getImagePathWeb() . ilLegacyFormElementsUtil::getThumbPrefix() . $term->getPicture();
-                $thumb = $this->object->getImagePath() . ilLegacyFormElementsUtil::getThumbPrefix() . $term->getPicture();
+                $thumbweb = $this->object->getImagePathWeb() . $this->object->getThumbPrefix() . $term->getPicture();
+                $thumb = $this->object->getImagePath() . $this->object->getThumbPrefix() . $term->getPicture();
                 if (!@file_exists($thumb)) {
                     $this->object->rebuildThumbnails();
                 }
@@ -874,8 +874,8 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
                 $template->setCurrentBlock("definition_picture");
                 $template->setVariable("DEFINITION_ID", $definition->getIdentifier());
                 $template->setVariable("IMAGE_HREF", $this->object->getImagePathWeb() . $definition->getPicture());
-                $thumbweb = $this->object->getImagePathWeb() . ilLegacyFormElementsUtil::getThumbPrefix() . $definition->getPicture();
-                $thumb = $this->object->getImagePath() . ilLegacyFormElementsUtil::getThumbPrefix() . $definition->getPicture();
+                $thumbweb = $this->object->getImagePathWeb() . $this->object->getThumbPrefix() . $definition->getPicture();
+                $thumb = $this->object->getImagePath() . $this->object->getThumbPrefix() . $definition->getPicture();
                 if (!@file_exists($thumb)) {
                     $this->object->rebuildThumbnails();
                 }
@@ -909,8 +909,8 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
                 $template->setCurrentBlock("term_picture");
                 $template->setVariable("TERM_ID", $term->getIdentifier());
                 $template->setVariable("IMAGE_HREF", $this->object->getImagePathWeb() . $term->getPicture());
-                $thumbweb = $this->object->getImagePathWeb() . ilLegacyFormElementsUtil::getThumbPrefix() . $term->getPicture();
-                $thumb = $this->object->getImagePath() . ilLegacyFormElementsUtil::getThumbPrefix() . $term->getPicture();
+                $thumbweb = $this->object->getImagePathWeb() . $this->object->getThumbPrefix() . $term->getPicture();
+                $thumb = $this->object->getImagePath() . $this->object->getThumbPrefix() . $term->getPicture();
                 if (!@file_exists($thumb)) {
                     $this->object->rebuildThumbnails();
                 }
@@ -1054,7 +1054,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
     protected function getAnswerStatisticImageHtml($picture): string
     {
-        $thumbweb = $this->object->getImagePathWeb() . ilLegacyFormElementsUtil::getThumbPrefix() . $picture;
+        $thumbweb = $this->object->getImagePathWeb() . $this->object->getThumbPrefix() . $picture;
         return '<img src="' . $thumbweb . '" alt="' . $picture . '" title="' . $picture . '"/>';
     }
 
