@@ -33,6 +33,10 @@ class ilListOfQuestionsTableGUITest extends ilTestBaseTestCase
 
         $lng_mock = $this->createMock(ilLanguage::class);
         $ctrl_mock = $this->createMock(ilCtrl::class);
+
+        $ui_factory_mock = $this->createMock(\ILIAS\UI\Factory::class);
+        $ui_renderer_mock = $this->createMock(\ILIAS\UI\Renderer::class);
+
         $ctrl_mock->expects($this->any())
                   ->method("getFormAction")
                   ->willReturnCallback(function () {
@@ -41,6 +45,10 @@ class ilListOfQuestionsTableGUITest extends ilTestBaseTestCase
 
         $this->setGlobalVariable("lng", $lng_mock);
         $this->setGlobalVariable("ilCtrl", $ctrl_mock);
+
+        $this->setGlobalVariable("ui.factory", $ui_factory_mock);
+        $this->setGlobalVariable("ui.renderer", $ui_renderer_mock);
+
         $this->setGlobalVariable("tpl", $this->createMock(ilGlobalPageTemplate::class));
         $this->setGlobalVariable("component.repository", $this->createMock(ilComponentRepository::class));
         $component_factory = $this->createMock(ilComponentFactory::class);

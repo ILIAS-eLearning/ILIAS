@@ -16,8 +16,8 @@
  *
  *********************************************************************/
 
-use ILIAS\UI\Factory;
-use ILIAS\UI\Renderer;
+use ILIAS\UI\Factory as UIFactory;
+use ILIAS\UI\Renderer as UIRenderer;
 
 /**
 *
@@ -38,8 +38,8 @@ class ilListOfQuestionsTableGUI extends ilTable2GUI
     protected ?bool $obligationsNotAnswered = false;
 
     protected ?bool $finishTestButtonEnabled = false;
-    protected Factory $factory;
-    protected Renderer $renderer;
+    protected UIFactory $ui_factory;
+    protected UIRenderer $ui_renderer;
 
     public function __construct($a_parent_obj, $a_parent_cmd)
     {
@@ -51,8 +51,8 @@ class ilListOfQuestionsTableGUI extends ilTable2GUI
 
         $this->lng = $lng;
         $this->ctrl = $ilCtrl;
-        $this->factory = $DIC['ui.factory'];
-        $this->renderer = $DIC['ui.renderer'];
+        $this->ui_factory = $DIC['ui.factory'];
+        $this->ui_renderer = $DIC['ui.renderer'];
 
         $this->setFormName('listofquestions');
         $this->setStyle('table', 'fullwidth');
