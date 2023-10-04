@@ -921,12 +921,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
         $this->backToInfoScreenCmd();
     }
 
-    /**
-     * @param ilTestNavigationToolbarGUI $navigationToolbarGUI
-     * @param                            $currentQuestionId
-     * @return bool
-     */
-    protected function handlePrimaryButton(ilTestNavigationToolbarGUI $navigationToolbarGUI, $currentQuestionId): bool
+    protected function handlePrimaryButton(ilTestNavigationToolbarGUI $navigationToolbarGUI, int $currentQuestionId): bool
     {
         $isNextPrimary = true;
 
@@ -940,16 +935,15 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
             $this->testSequence->getOrderedSequenceQuestions()
         );
 
-        if (!count($questionsMissingResult)) {
+        if ($questionsMissingResult === []) {
             $navigationToolbarGUI->setFinishTestButtonPrimary(true);
-            $isNextPrimary = false;
-        } elseif (count($questionsMissingResult) == 1) {
-            $lastOpenQuestion = current($questionsMissingResult);
+            return false;
+        }
 
-            if ($currentQuestionId == $lastOpenQuestion) {
-                $navigationToolbarGUI->setFinishTestButtonPrimary(true);
-                $isNextPrimary = false;
-            }
+        if (count($questionsMissingResult) === 1
+            && $currentQuestionId === current($questionsMissingResult)) {
+            $navigationToolbarGUI->setFinishTestButtonPrimary(true);
+            return false;
         }
 
         return $isNextPrimary;

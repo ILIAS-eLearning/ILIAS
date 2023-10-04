@@ -785,10 +785,10 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
         if (count($testPassesSelector->getReportablePasses())) {
             if ($this->getObjectiveOrientedContainer()->isObjectiveOrientedPresentationRequired()) {
-                $this->ctrl->redirectByClass(array('ilTestResultsGUI', 'ilTestEvalObjectiveOrientedGUI'));
+                $this->ctrl->redirectByClass(['ilTestResultsGUI', 'ilTestEvalObjectiveOrientedGUI']);
             }
 
-            $this->ctrl->redirectByClass(array('ilTestResultsGUI', 'ilMyTestResultsGUI', 'ilTestEvaluationGUI'));
+            $this->ctrl->redirectByClass(['ilTestResultsGUI', 'ilMyTestResultsGUI', 'ilTestEvaluationGUI']);
         }
 
         $this->backToInfoScreenCmd();
@@ -1529,7 +1529,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
     public function outUserResultsOverviewCmd()
     {
         $this->ctrl->redirectByClass(
-            array('ilRepositoryGUI', 'ilObjTestGUI', 'ilTestEvaluationGUI'),
+            ['ilRepositoryGUI', 'ilObjTestGUI', 'ilTestEvaluationGUI'],
             "outUserResultsOverview"
         );
     }
