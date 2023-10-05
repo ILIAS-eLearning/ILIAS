@@ -1178,8 +1178,6 @@ assessment#:#show_old_introduction#:#Show old introduction
 assessment#:#show_pass_overview#:#Show Marked Pass Overview
 assessment#:#show_user_answers#:#Show User’s Marked Answers
 assessment#:#shuffle_answers#:#Shuffle Answers
-assessment#:#sign_submission#:#Digitally Sign Test Submissions
-assessment#:#sign_submission_info#:#Enable the use of external signature plugins that can be used to require participants to digitally sign their submissions.
 assessment#:#skip_question#:#Do not Answer and Next
 assessment#:#solutionText#:#Text
 assessment#:#solution_contain_keywords#:#Score is granted based on the occurrence of the following keywords:
@@ -11366,9 +11364,19 @@ meta#:#md_advanced#:#Custom Metadata
 meta#:#md_aria_language_selection#:#Language Selection
 meta#:#md_copyright#:#Copyright
 meta#:#md_copyright_add#:#Add New Copyright
+meta#:#md_copyright_alt_text#:#Text Representation
+meta#:#md_copyright_alt_text_info#:#Used for image ‘alt’ attribute
 meta#:#md_copyright_edit#:#Edit Copyright
 meta#:#md_copyright_enable_info#:#Add a copyright section to the LOM Metadata of Objects, including a selection of selectable predefined copyrights.
 meta#:#md_copyright_enabled#:#Enable Copyright Selection
+meta#:#md_copyright_full_name#:#Full Name
+meta#:#md_copyright_image#:#Image
+meta#:#md_copyright_image_file#:#File
+meta#:#md_copyright_image_is_file#:#Upload File
+meta#:#md_copyright_image_is_link#:#Enter URL
+meta#:#md_copyright_image_link#:#URL
+meta#:#md_copyright_link#:#URL
+meta#:#md_copyright_link_info#:#Link to the licence
 meta#:#md_copyright_preview#:#Copyright (Preview)
 meta#:#md_copyright_selection#:#Available Copyrights
 meta#:#md_copyright_settings#:#Copyright Settings
@@ -15041,6 +15049,10 @@ skmg#:#skmg_selected_skills#:#Selected Competences
 skmg#:#skmg_self_evaluation#:#Self-Evaluation
 skmg#:#skmg_self_evaluation_byline#:#The self-evaluation will be excluded from target achievement. It is used for your guidance.
 skmg#:#skmg_self_evaluations#:#Self-Evaluations
+skmg#:#skmg_set_as_lp_trigger#:#Set as Learning Progress Trigger
+skmg#:#skmg_set_as_no_lp_trigger#:#Unset as Learning Progress Trigger
+skmg#:#skmg_set_as_no_suggested#:#Unset as Learning Material
+skmg#:#skmg_set_as_suggested#:#Set as Learning Material
 skmg#:#skmg_settings#:#Competence Management Settings
 skmg#:#skmg_show_all#:#Show All
 skmg#:#skmg_show_latest_entries#:#Show Latest Entries

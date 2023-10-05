@@ -131,7 +131,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
         $form_gui = new ilChapterHierarchyFormGUI($this->content_object->getType(), $this->requested_transl);
         $form_gui->setFormAction($ilCtrl->getFormAction($this));
         $form_gui->setTitle($this->obj->getTitle());
-        $form_gui->setIcon(ilUtil::getImagePath("icon_st.svg"));
+        $form_gui->setIcon(ilUtil::getImagePath("standard/icon_st.svg"));
         $form_gui->setTree($this->tree);
         $form_gui->setCurrentTopNodeId($this->obj->getId());
         $form_gui->addMultiCommand($lng->txt("delete"), "delete");
@@ -141,7 +141,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
         if ($this->content_object->getLayoutPerPage()) {
             $form_gui->addMultiCommand($lng->txt("cont_set_layout"), "setPageLayout");
         }
-        $form_gui->setDragIcon(ilUtil::getImagePath("icon_pg.svg"));
+        $form_gui->setDragIcon(ilUtil::getImagePath("standard/icon_pg.svg"));
         $form_gui->addCommand($lng->txt("cont_save_all_titles"), "saveAllTitles");
         $form_gui->addHelpItem($lng->txt("cont_chapters_after_pages"));
         $up_gui = "ilobjlearningmodulegui";
@@ -274,7 +274,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 
             // checkbox
             $this->tpl->setVariable("CHECKBOX_ID", $child["obj_id"]);
-            $this->tpl->setVariable("IMG_OBJ", ilUtil::getImagePath("icon_st.svg"));
+            $this->tpl->setVariable("IMG_OBJ", ilUtil::getImagePath("standard/icon_st.svg"));
 
             // type
             $this->ctrl->setParameterByClass("ilStructureObjectGUI", "obj_id", $child["obj_id"]);
@@ -539,7 +539,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
             );
         }
 
-        $this->tpl->setTitleIcon(ilUtil::getImagePath("icon_st.svg"));
+        $this->tpl->setTitleIcon(ilUtil::getImagePath("standard/icon_st.svg"));
         $this->tpl->setTitle(
             $this->lng->txt($this->obj->getType()) . ": " . $this->obj->getTitle()
         );

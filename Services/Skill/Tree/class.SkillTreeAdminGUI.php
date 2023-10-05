@@ -158,13 +158,15 @@ class SkillTreeAdminGUI
                 $lng->txt("edit"),
                 $url_builder_edit->withParameter($action_parameter_token_edit, "editTree"),
                 $row_id_token_edit
-            ),
-            "delete" => $this->ui_fac->table()->action()->multi(
+            )
+        ];
+        if ($this->skill_management_access_manager->hasCreateTreePermission()) {
+            $actions["delete"] = $this->ui_fac->table()->action()->multi(
                 $lng->txt("delete"),
                 $url_builder_delete->withParameter($action_parameter_token_delete, "deleteTrees"),
                 $row_id_token_delete
-            )
-        ];
+            );
+        }
 
         $data_retrieval = new class (
             $this->skill_manager,
@@ -192,11 +194,7 @@ class SkillTreeAdminGUI
                 foreach ($records as $idx => $record) {
                     $row_id = (string) $record["tree_id"];
 
-                    yield $row_builder->buildDataRow($row_id, $record)
-                        ->withDisabledAction(  // does not work for multi action yet, only for single action
-                            "delete",
-                            (!$this->skill_management_access_manager->hasCreateTreePermission())
-                        );
+                    yield $row_builder->buildDataRow($row_id, $record);
                 }
             }
 

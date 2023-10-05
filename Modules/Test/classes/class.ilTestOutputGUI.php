@@ -140,20 +140,6 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 
                 break;
 
-            case 'iltestsignaturegui':
-                $this->checkTestExecutable();
-
-                $gui = new ilTestSignatureGUI(
-                    $this,
-                    $this->lng,
-                    $this->ctrl,
-                    $this->user,
-                    $this->tpl,
-                    $this->component_repository
-                );
-                $ret = $this->ctrl->forwardCommand($gui);
-                break;
-
             case 'iltestpasswordprotectiongui':
                 $this->checkTestExecutable();
 
@@ -424,7 +410,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
         $this->populateTestNavigationToolbar($navigationToolbarGUI);
 
         // fau: testNav - enable the question navigation in edit mode
-        $this->populateQuestionNavigation($sequence_element, false, $isNextPrimary);
+        $this->populateQuestionNavigation($sequence_element, $isNextPrimary);
         // fau.
 
         if ($instantResponse) {
@@ -935,12 +921,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
         $this->backToInfoScreenCmd();
     }
 
-    /**
-     * @param ilTestNavigationToolbarGUI $navigationToolbarGUI
-     * @param                            $currentQuestionId
-     * @return bool
-     */
-    protected function handlePrimaryButton(ilTestNavigationToolbarGUI $navigationToolbarGUI, $currentQuestionId): bool
+    protected function handlePrimaryButton(ilTestNavigationToolbarGUI $navigationToolbarGUI, int $currentQuestionId): bool
     {
         $isNextPrimary = true;
 
@@ -954,16 +935,15 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
             $this->testSequence->getOrderedSequenceQuestions()
         );
 
-        if (!count($questionsMissingResult)) {
+        if ($questionsMissingResult === []) {
             $navigationToolbarGUI->setFinishTestButtonPrimary(true);
-            $isNextPrimary = false;
-        } elseif (count($questionsMissingResult) == 1) {
-            $lastOpenQuestion = current($questionsMissingResult);
+            return false;
+        }
 
-            if ($currentQuestionId == $lastOpenQuestion) {
-                $navigationToolbarGUI->setFinishTestButtonPrimary(true);
-                $isNextPrimary = false;
-            }
+        if (count($questionsMissingResult) === 1
+            && $currentQuestionId === current($questionsMissingResult)) {
+            $navigationToolbarGUI->setFinishTestButtonPrimary(true);
+            return false;
         }
 
         return $isNextPrimary;

@@ -138,7 +138,7 @@ class ilForumThreadFormGUI extends ilPropertyFormGUI
 
     private function generateInputItems(): void
     {
-        $this->setTitleIcon(ilUtil::getImagePath('icon_frm.svg'));
+        $this->setTitleIcon(ilUtil::getImagePath('standard/icon_frm.svg'));
         $this->setTableWidth('100%');
         $this->setTitle($this->lng->txt('forums_new_thread'));
         if ($this->isDraftContext) {

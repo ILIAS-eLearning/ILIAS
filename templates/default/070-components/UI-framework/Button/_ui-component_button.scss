@@ -246,7 +246,7 @@ button > .glyphicon {
 // button with loading animation
 //
 .il-btn-with-loading-animation {
-	background-image: url("#{s.$il-background-images-path}loader.svg");
+	background-image: url("#{s.$il-background-images-path}media/loader.svg");
   background-color: s.$il-disabled-btn-bg;
   border-color: s.$il-disabled-btn-border;
   &:hover {

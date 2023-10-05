@@ -85,7 +85,7 @@ class ilObjOrgUnitListGUI extends ilObjectListGUI
             $cmd_link,
             $this->lng->txt("info_short"),
             $cmd_frame,
-            ilUtil::getImagePath("icon_info.svg")
+            ilUtil::getImagePath("standard/icon_info.svg")
         );
     }
 

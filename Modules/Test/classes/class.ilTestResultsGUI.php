@@ -42,6 +42,7 @@ use ILIAS\Test\InternalRequestService;
 class ilTestResultsGUI
 {
     public const DEFAULT_CMD = 'show';
+    private \ILIAS\DI\UIServices $ui;
 
     protected ilTestAccess $testAccess;
     protected ilTestSession $testSession;
@@ -283,10 +284,8 @@ class ilTestResultsGUI
 
         $validator = new ilCertificateDownloadValidator();
         if ($validator->isCertificateDownloadable($this->user->getId(), $this->getTestObj()->getId())) {
-            $button = ilLinkButton::getInstance();
-            $button->setCaption('certificate');
-            $button->setUrl($this->ctrl->getFormActionByClass(ilTestEvaluationGUI::class, 'outCertificate'));
-            $this->toolbar->addButtonInstance($button);
+            $button = $this->ui->factory()->button()->standard('certficiate', $this->ctrl->getFormActionByClass(ilTestEvaluationGUI::class, 'outCertificate'));
+            $this->toolbar->addComponent($button);
         }
 
         $this->showNoResultsReportingMessage();

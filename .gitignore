@@ -67,3 +67,4 @@ phpstan-baseline.neon
 override.php
 Services/ResourceStorage/artifacts/flavour_data.php
 Services/FileHandlingDemo
+src/FileDelivery/artifacts

@@ -44,6 +44,7 @@ use ILIAS\DI\LoggingServices;
  */
 class ilTestEvaluationGUI extends ilTestServiceGUI
 {
+    private \ILIAS\DI\UIServices $ui;
     protected ilTestAccess $testAccess;
     protected ilTestProcessLockerFactory $processLockerFactory;
 
@@ -60,9 +61,9 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
     public function __construct(ilObjTest $object)
     {
         parent::__construct($object);
-
+        global $DIC;
         $this->participant_access_filter = new ilTestParticipantAccessFilterFactory($this->access);
-
+        $this->ui = $DIC->ui();
         $this->processLockerFactory = new ilTestProcessLockerFactory(
             new ilSetting('assessment'),
             $this->db
@@ -358,10 +359,8 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
         $this->tpl->addCss(ilUtil::getStyleSheetLocation('output', 'test_print.css', 'Modules/Test'), 'print');
 
-        $backBtn = ilLinkButton::getInstance();
-        $backBtn->setCaption('back');
-        $backBtn->setUrl($this->ctrl->getLinkTarget($this, 'outEvaluation'));
-        $this->toolbar->addInputItem($backBtn);
+        $backBtn = $this->ui->factory()->button()->standard($this->lng->txt('back'), $this->ctrl->getLinkTarget($this, 'outEvaluation'));
+        $this->toolbar->addComponent($backBtn);
 
         $this->object->setAccessFilteredParticipantList(
             $this->object->buildStatisticsAccessFilteredParticipantList()

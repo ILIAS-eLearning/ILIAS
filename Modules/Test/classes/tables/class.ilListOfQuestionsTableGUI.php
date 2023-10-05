@@ -181,7 +181,7 @@ class ilListOfQuestionsTableGUI extends ilTable2GUI
                 $this->tpl->setVariable(
                     "HREF_MARKED",
                     ilUtil::img(
-                        ilUtil::getImagePath('marked.svg'),
+                        ilUtil::getImagePath('object/marked.svg'),
                         $this->lng->txt("tst_question_marked"),
                         '24px',
                         '24px'
@@ -208,7 +208,7 @@ class ilListOfQuestionsTableGUI extends ilTable2GUI
             if ($a_set["obligatory"]) {
                 $obligatory = $this->ui_renderer->render(
                     $this->ui_factory->symbol()->icon()->custom(
-                        ilUtil::getImagePath('icon_alert.svg'),
+                        ilUtil::getImagePath('standard/icon_alert.svg'),
                         $this->lng->txt('question_obligatory')
                     )
                 );

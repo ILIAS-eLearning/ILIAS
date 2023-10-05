@@ -54,10 +54,10 @@
 		"tecnickcom/tcpdf": "^6.3",
 		"pimple/pimple" : "^3.0",
 		"symfony/yaml": "^5.3",
-		"guzzlehttp/psr7": "1.9.1",
+		"guzzlehttp/psr7": "^2.5",
 		"psr/http-message": "^1.0",
 		"dflydev/fig-cookies": "^1.0",
-		"ralouphie/getallheaders": "^2.0",
+		"ralouphie/getallheaders": "^3.0",
 		"league/flysystem": "^3.0",
 		"james-heinrich/getid3": "^1.9",
 		"phpoffice/phpspreadsheet": "^1.18.0",
@@ -521,9 +521,6 @@
 			"approved-date": "2023-03-20"
 		},
 		"patches": {
-			"tecnickcom/tcpdf": {
-				"ILIAS TCPDF Patches": "./libs/composer/patches/tcpdf.patch"
-			},
 			"phpmailer/phpmailer": {
 				"ILIAS PhpMailer Patches": "./libs/composer/patches/phpmailer.patch"
 			},

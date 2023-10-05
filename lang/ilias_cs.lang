@@ -1163,8 +1163,6 @@ assessment#:#show_examview_html#:#Zobrazit přehled zkoušky ve stránce odevzd�
 assessment#:#show_pass_overview#:#Zobrazit přehled označených průchodů
 assessment#:#show_user_answers#:#Zobrazit označené odpovědi uživatelů
 assessment#:#shuffle_answers#:#Zamíchat odpovědi
-assessment#:#sign_submission#:#Digitální podpis odevzdaného testu.
-assessment#:#sign_submission_info#:#Pokud je toto aktivováno, je nainstalován plugin podpisu a je aktivní, účastníci budou svá řešení testů zasílat digitálně podepsaná
 assessment#:#skip_question#:#Neodpovídat a Další
 assessment#:#solutionText#:#Text
 assessment#:#solution_contain_keywords#:#Body jsou přiděleny na základě výskytu následujících klíčových slov:

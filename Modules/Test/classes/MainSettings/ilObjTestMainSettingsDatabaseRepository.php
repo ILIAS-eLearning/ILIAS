@@ -92,7 +92,6 @@ class ilObjTestMainSettingsDatabaseRepository implements MainSettingsRepository
             . 'concluding_remarks_page_id,' . PHP_EOL
             . 'redirection_mode,' . PHP_EOL
             . 'redirection_url,' . PHP_EOL
-            . 'sign_submission,' . PHP_EOL
             . 'mailnotification,' . PHP_EOL
             . 'mailnottype,' . PHP_EOL
             . 'skill_service' . PHP_EOL
@@ -179,7 +178,6 @@ class ilObjTestMainSettingsDatabaseRepository implements MainSettingsRepository
                 $row['concluding_remarks_page_id'],
                 $row['redirection_mode'],
                 $row['redirection_url'],
-                (bool) $row['sign_submission'],
                 $row['mailnotification'],
                 (bool) $row['mailnottype'],
             ),

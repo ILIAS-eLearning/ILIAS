@@ -49,13 +49,13 @@ class UserMetaBarProvider extends AbstractStaticMetaBarProvider
             ->withAction("ilias.php?baseClass=ilDashboardGUI&cmd=jumpToProfile")
             ->withTitle($txt("personal_profile"))
             ->withPosition(1)
-            ->withSymbol($f->symbol()->icon()->custom(ilUtil::getImagePath("icon_profile.svg"), $txt("personal_profile")));
+            ->withSymbol($f->symbol()->icon()->custom(ilUtil::getImagePath("standard/icon_profile.svg"), $txt("personal_profile")));
 
         $children[] = $mb->linkItem($id('personal_settings'))
             ->withAction("ilias.php?baseClass=ilDashboardGUI&cmd=jumpToSettings")
             ->withTitle($txt("personal_settings"))
             ->withPosition(2)
-            ->withSymbol($f->symbol()->icon()->custom(ilUtil::getImagePath("icon_personal_settings.svg"), $txt("personal_settings")));
+            ->withSymbol($f->symbol()->icon()->custom(ilUtil::getImagePath("page_editor/icon_personal_settings.svg"), $txt("personal_settings")));
 
         $children[] = $mb->linkItem($id('logout'))
             ->withAction(ilStartUpGUI::logoutUrl())

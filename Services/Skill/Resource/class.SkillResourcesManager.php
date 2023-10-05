@@ -86,6 +86,47 @@ class SkillResourcesManager implements \ilSkillUsageInfo
         $this->skill_res_repo->addOrUpdate($skill_id, $tref_id, $level_id, $rep_ref_id, $imparting, $trigger);
     }
 
+    public function setResourceAsSuggested(
+        int $skill_id,
+        int $tref_id,
+        int $level_id,
+        int $rep_ref_id
+    ): void {
+        $this->skill_res_repo->updateImparting($skill_id, $tref_id, $level_id, $rep_ref_id, true);
+    }
+
+    public function setResourceAsNotSuggested(
+        int $skill_id,
+        int $tref_id,
+        int $level_id,
+        int $rep_ref_id
+    ): void {
+        $this->skill_res_repo->updateImparting($skill_id, $tref_id, $level_id, $rep_ref_id, false);
+    }
+
+    public function setResourceAsTrigger(
+        int $skill_id,
+        int $tref_id,
+        int $level_id,
+        int $rep_ref_id
+    ): void {
+        $obj_id = \ilObject::_lookupObjId($rep_ref_id);
+        $obj_type = \ilObject::_lookupType($obj_id);
+        if (!\ilObjectLP::isSupportedObjectType($obj_type)) {
+            return;
+        }
+        $this->skill_res_repo->updateTrigger($skill_id, $tref_id, $level_id, $rep_ref_id, true);
+    }
+
+    public function setResourceAsNoTrigger(
+        int $skill_id,
+        int $tref_id,
+        int $level_id,
+        int $rep_ref_id
+    ): void {
+        $this->skill_res_repo->updateTrigger($skill_id, $tref_id, $level_id, $rep_ref_id, false);
+    }
+
     public function removeResource(
         int $skill_id,
         int $tref_id,

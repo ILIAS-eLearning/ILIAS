@@ -1163,8 +1163,6 @@ assessment#:#show_examview_html#:#No ecrã
 assessment#:#show_pass_overview#:#Mostrar vista geral de tentativas marcadas
 assessment#:#show_user_answers#:#Mostrar respostas marcadas do utilizador
 assessment#:#shuffle_answers#:#Misturar respostas
-assessment#:#sign_submission#:#Assinar digitalmente submissões de teste
-assessment#:#sign_submission_info#:#Se estiver ativado e se houver um plugin de assinatura instalado e ativo, os participantes serão solicitados a assinar digitalmente a suas submissões.
 assessment#:#skip_question#:#Não responder e próximo
 assessment#:#solutionText#:#Texto
 assessment#:#solution_contain_keywords#:#A pontuação é garantida com base na ocorrência das seguintes palavras-chave:

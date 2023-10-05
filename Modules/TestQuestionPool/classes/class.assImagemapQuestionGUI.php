@@ -847,16 +847,17 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
             return '';
         }
 
-        $button = ilLinkButton::getInstance();
-        $button->setCaption('use_previous_solution');
-
-        $button->setUrl(ilUtil::appendUrlParameterString(
-            $this->ctrl->getLinkTargetByClass($this->getTargetGuiClass(), $this->getQuestionActionCmd()),
-            $this->buildSelectionParameter($this->object->currentSolution, null)
-        ));
+        global $DIC;
+        $button = $DIC->ui()->factory()->link()->standard(
+            $this->lng->txt('use_previous_solution'),
+            ilUtil::appendUrlParameterString(
+                $this->ctrl->getLinkTargetByClass($this->getTargetGuiClass(), $this->getQuestionActionCmd()),
+                $this->buildSelectionParameter($this->object->currentSolution, null)
+            )
+        );
 
         $tpl = new ilTemplate('tpl.tst_question_additional_behaviour_checkbox.html', true, true, 'Modules/TestQuestionPool');
-        $tpl->setVariable('BUTTON', $button->render());
+        $tpl->setVariable('BUTTON', $DIC->ui()->renderer()->render($button));
 
         return $tpl->get();
     }

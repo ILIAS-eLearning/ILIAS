@@ -1163,8 +1163,6 @@ assessment#:#show_examview_html#:#Na ekranie
 assessment#:#show_pass_overview#:#Pokaż podgląd zaznaczonych wykonań
 assessment#:#show_user_answers#:#Pokaż zaznaczone przez użytkownika odpowiedzi
 assessment#:#shuffle_answers#:#Mieszaj odpowiedzi
-assessment#:#sign_submission#:#Podpis cyfrowy
-assessment#:#sign_submission_info#:#Należy zainstalować, a następnie włączyć wtyczkę do podpisywania, aby móc poprosić uczestników o podpisanie testu.
 assessment#:#skip_question#:#Nie udzielaj odpowiedzi i przejdź do następnego pytania
 assessment#:#solutionText#:#Tekst
 assessment#:#solution_contain_keywords#:#Punkty naliczane są na podstawie występowania następujących pojęć:

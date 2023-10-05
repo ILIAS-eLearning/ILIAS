@@ -110,6 +110,48 @@ class SkillResourceDBRepository
         );
     }
 
+    public function updateImparting(
+        int $skill_id,
+        int $tref_id,
+        int $level_id,
+        int $rep_ref_id,
+        bool $imparting
+    ): void {
+        $this->db->update(
+            "skl_skill_resource",
+            [
+                "imparting" => ["integer", (int) $imparting]
+            ],
+            [
+                "base_skill_id" => ["integer", $skill_id],
+                "tref_id" => ["integer", $tref_id],
+                "level_id" => ["integer", $level_id],
+                "rep_ref_id" => ["integer", $rep_ref_id]
+            ]
+        );
+    }
+
+    public function updateTrigger(
+        int $skill_id,
+        int $tref_id,
+        int $level_id,
+        int $rep_ref_id,
+        bool $trigger
+    ): void {
+        $this->db->update(
+            "skl_skill_resource",
+            [
+                "ltrigger" => ["integer", (int) $trigger]
+            ],
+            [
+                "base_skill_id" => ["integer", $skill_id],
+                "tref_id" => ["integer", $tref_id],
+                "level_id" => ["integer", $level_id],
+                "rep_ref_id" => ["integer", $rep_ref_id]
+            ]
+        );
+    }
+
     public function remove(int $skill_id, int $tref_id, int $level_id, int $rep_ref_id): void
     {
         $this->db->manipulate(

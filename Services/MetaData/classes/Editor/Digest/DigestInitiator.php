@@ -45,7 +45,7 @@ class DigestInitiator
                     $this->services->structure()->structure()
                 ),
                 $this->services->editor()->linkFactory(),
-                $copyright_handler = new CopyrightHandler()
+                $copyright_handler = new CopyrightHandler($this->services->copyright()->repository())
             ),
             new ManipulatorAdapter(
                 $content_assembler,

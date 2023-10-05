@@ -29,12 +29,12 @@ class ilDclBooleanRecordRepresentation extends ilDclBaseRecordRepresentation
 
         if ($value) {
             $icon = $this->factory->symbol()->icon()->custom(
-                ilUtil::getImagePath('icon_ok_monochrome.svg'),
+                ilUtil::getImagePath('standard/icon_ok_monochrome.svg'),
                 $this->lng->txt("yes")
             );
         } else {
             $icon = $this->factory->symbol()->icon()->custom(
-                ilUtil::getImagePath('icon_not_ok_monochrome.svg'),
+                ilUtil::getImagePath('standard/icon_not_ok_monochrome.svg'),
                 $this->lng->txt("no")
             );
         }

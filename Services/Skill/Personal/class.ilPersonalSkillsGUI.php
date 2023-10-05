@@ -351,7 +351,7 @@ class ilPersonalSkillsGUI
         $cmd = $ilCtrl->getCmd("render");
 
         //$tpl->setTitle($lng->txt("skills"));
-        //$tpl->setTitleIcon(ilUtil::getImagePath("icon_skmg.svg"));
+        //$tpl->setTitleIcon(ilUtil::getImagePath("standard/icon_skmg.svg"));
 
         switch ($next_class) {
             default:
@@ -925,7 +925,7 @@ class ilPersonalSkillsGUI
         $ilCtrl->saveParameter($this, "tref_id");
 
         $tpl->setTitle(ilSkillTreeNode::_lookupTitle($this->requested_skill_id));
-        $tpl->setTitleIcon(ilUtil::getImagePath("icon_" .
+        $tpl->setTitleIcon(ilUtil::getImagePath("standard/icon_" .
             ilSkillTreeNode::_lookupType($this->requested_skill_id) .
             ".svg"));
 
@@ -1112,7 +1112,7 @@ class ilPersonalSkillsGUI
         $ilCtrl->saveParameter($this, "tref_id");
 
         $tpl->setTitle(ilSkillTreeNode::_lookupTitle($this->requested_skill_id));
-        $tpl->setTitleIcon(ilUtil::getImagePath("icon_" .
+        $tpl->setTitleIcon(ilUtil::getImagePath("standard/icon_" .
             ilSkillTreeNode::_lookupType($this->requested_skill_id) .
             ".svg"));
 
@@ -1242,7 +1242,7 @@ class ilPersonalSkillsGUI
             $this->ctrl->getLinkTarget($this, "showProfiles")
         );
         $this->setProfileId($this->requested_profile_id);
-        $this->tpl->setTitleIcon(ilUtil::getImagePath("icon_skmg.svg"));
+        $this->tpl->setTitleIcon(ilUtil::getImagePath("standard/icon_skmg.svg"));
         $this->tpl->setTitle($this->profile_manager->lookupTitle($this->getProfileId()));
 
         $this->tpl->setContent($this->getGapAnalysisHTML());

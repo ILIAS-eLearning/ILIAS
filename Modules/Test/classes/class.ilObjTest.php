@@ -1010,7 +1010,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
     {
         $processing_time = $this->getMainSettings()->getTestBehaviourSettings()->getProcessingTime();
         if ($processing_time && $processing_time !== '') {
-            if (preg_match("/(\d{2}):(\d{2}):(\d{2})/is", $processing_time, $matches)) {
+            if (preg_match("/(\d{2}):(\d{2}):(\d{2})/is", (string) $processing_time, $matches)) {
                 return array(
                     'hh' => $matches[1],
                     'mm' => $matches[2],
@@ -1018,6 +1018,17 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
                 );
             }
         }
+    }
+
+    public function getProcessingTimeAsMinutes()
+    {
+        if ($this->processing_time !== null) {
+            if (preg_match("/(\d{2}):(\d{2}):(\d{2})/is", (string)$this->processing_time, $matches)) {
+                return ($matches[1] * 60) + $matches[2];
+            }
+        }
+
+        return self::DEFAULT_PROCESSING_TIME_MINUTES;
     }
 
     /**
@@ -1030,7 +1041,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
     public function getProcessingTimeInSeconds($active_id = ""): int
     {
         $processing_time = $this->getMainSettings()->getTestBehaviourSettings()->getProcessingTime() ?? '';
-        if (preg_match("/(\d{2}):(\d{2}):(\d{2})/", $processing_time, $matches)) {
+        if (preg_match("/(\d{2}):(\d{2}):(\d{2})/", (string)$processing_time, $matches)) {
             $extratime = $this->getExtraTime($active_id) * 60;
             return ($matches[1] * 3600) + ($matches[2] * 60) + $matches[3] + $extratime;
         } else {
@@ -3491,9 +3502,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
                 case 'examid_in_test_res':
                     $result_details_settings = $result_details_settings->withShowExamIdInTestResults((bool) $metadata["entry"]);
                     break;
-                case 'sign_submission':
-                    $finishing_settings = $finishing_settings->withSignSubmission((bool) $metadata['entry']);
-                    break;
                 case 'skill_service':
                     $additional_settings = $additional_settings->withSkillsServiceEnabled((bool) $metadata['entry']);
                     break;
@@ -3615,7 +3623,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
             null,
             $settings->getRedirectionMode(),
             $settings->getRedirectionUrl(),
-            $settings->getSignSubmission(),
             $settings->getMailNotificationContentType(),
             $settings->getAlwaysSendMailNotification()
         );
@@ -3996,11 +4003,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         $a_xml_writer->xmlElement("fieldentry", null, (int) $main_settings->getFinishingSettings()->getShowAnswerOverview());
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
-        // sign_submission
-        $a_xml_writer->xmlStartTag("qtimetadatafield");
-        $a_xml_writer->xmlElement("fieldlabel", null, "sign_submission");
-        $a_xml_writer->xmlElement("fieldentry", null, sprintf("%d", (int) $main_settings->getFinishingSettings()->getSignSubmission()));
-        $a_xml_writer->xmlEndTag("qtimetadatafield");
 
         // skill_service
         $a_xml_writer->xmlStartTag("qtimetadatafield");
@@ -6367,7 +6369,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
             'ShowFinalStatement' => (int) $main_settings->getFinishingSettings()->getConcludingRemarksEnabled(),
             'redirection_mode' => $main_settings->getFinishingSettings()->getRedirectionMode(),
             'redirection_url' => $main_settings->getFinishingSettings()->getRedirectionUrl(),
-            'sign_submission' => (int) $main_settings->getFinishingSettings()->getSignSubmission(),
             'mailnotification' => $main_settings->getFinishingSettings()->getMailNotificationContentType(),
             'mailnottype' => (int) $main_settings->getFinishingSettings()->getAlwaysSendMailNotification(),
 
@@ -6494,7 +6495,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
                 ->withConcludingRemarksEnabled((bool) $testsettings['ShowFinalStatement'])
                 ->withRedirectionMode($testsettings['redirection_mode'])
                 ->withRedirectionUrl($testsettings['redirection_url'])
-                ->withSignSubmission((bool) $testsettings['sign_submission'])
                 ->withMailNotificationContentType($testsettings['mailnotification'])
                 ->withAlwaysSendMailNotification((bool) $testsettings['mailnottype'])
             )
@@ -7854,10 +7854,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         return $this->getScoreSettings()->getResultDetailsSettings()->getShowExamIdInTestResults();
     }
 
-    public function getSignSubmission(): bool
-    {
-        return $this->getMainSettings()->getFinishingSettings()->getSignSubmission();
-    }
 
     public function setQuestionSetType(string $question_set_type)
     {

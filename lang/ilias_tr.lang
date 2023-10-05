@@ -1163,8 +1163,6 @@ assessment#:#show_examview_html#:#Show exam view on the test submission page.###
 assessment#:#show_pass_overview#:#Geçti İşaretlilere Genel Bakışı Göster
 assessment#:#show_user_answers#:#Kullanıcının işaretli cevaplarını göster
 assessment#:#shuffle_answers#:#Cevapları Karıştır
-assessment#:#sign_submission#:#Digitally sign test submissions###24 10 2013 new variable
-assessment#:#sign_submission_info#:#If this is activated and a signature plugin is installed and active, participants will be send to digitally sign their submissions.###24 10 2013 new variable
 assessment#:#skip_question#:#Do not Answer and Next###08 10 2015 new variable
 assessment#:#solutionText#:#Metin
 assessment#:#solution_contain_keywords#:#Puan şu anahtar kelimelerin olmasına göre verilir:

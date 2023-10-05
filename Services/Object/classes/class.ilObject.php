@@ -1816,12 +1816,12 @@ class ilObject
                         return call_user_func(array($class_name, "_getIcon"), $type, $size, $obj_id);
                     }
                 }
-                return ilUtil::getImagePath("icon_cmps.svg");
+                return ilUtil::getImagePath("standard/icon_cmps.svg");
             }
 
-            return ilUtil::getImagePath("icon_" . $type . ".svg");
+            return ilUtil::getImagePath("standard/icon_" . $type . ".svg");
         } else {
-            return "./images/icon_" . $type . ".svg";
+            return "./images/standard/icon_" . $type . ".svg";
         }
     }
 

@@ -48,7 +48,6 @@ class ilSkillProfileGUI
     protected Factory $ui_fac;
     protected Renderer $ui_ren;
     protected \ILIAS\Data\Factory $df;
-    protected \ILIAS\Refinery\Factory $refinery;
     protected ServerRequestInterface $request;
     protected ArrayBasedRequestWrapper $query;
     protected int $id = 0;
@@ -112,7 +111,6 @@ class ilSkillProfileGUI
         $this->ui_fac = $DIC->ui()->factory();
         $this->ui_ren = $DIC->ui()->renderer();
         $this->df = new \ILIAS\Data\Factory();
-        $this->refinery = $DIC->refinery();
         $this->request = $DIC->http()->request();
         $this->query = $DIC->http()->wrapper()->query();
         $this->tree_service = $DIC->skills()->tree();
@@ -320,19 +318,21 @@ class ilSkillProfileGUI
                 $this->skill_tree_access_manager->hasManageProfilesPermission() ? $lng->txt("edit") : $lng->txt("show"),
                 $url_builder_edit->withParameter($action_parameter_token_edit, "editProfile"),
                 $row_id_token_edit
-            ),
-            "delete" => $this->ui_fac->table()->action()->multi(
+            )
+        ];
+        if ($this->skill_tree_access_manager->hasManageProfilesPermission()) {
+            $actions["delete"] = $this->ui_fac->table()->action()->multi(
                 $lng->txt("delete"),
                 $url_builder_delete->withParameter($action_parameter_token_delete, "deleteProfiles"),
                 $row_id_token_delete
             )
-                ->withAsync(),
-            "export" => $this->ui_fac->table()->action()->multi(
+                ->withAsync();
+            $actions["export"] = $this->ui_fac->table()->action()->multi(
                 $lng->txt("export"),
                 $url_builder_export->withParameter($action_parameter_token_export, "exportProfiles"),
                 $row_id_token_export
-            )
-        ];
+            );
+        }
 
         $data_retrieval = new class (
             $this->lng,
@@ -360,15 +360,7 @@ class ilSkillProfileGUI
                 foreach ($records as $idx => $record) {
                     $row_id = (string) $record["profile_id"];
 
-                    yield $row_builder->buildDataRow($row_id, $record)
-                                      ->withDisabledAction(  // does not work for multi action yet, only for single action
-                                          "delete",
-                                          (!$this->skill_tree_access_manager->hasManageProfilesPermission())
-                                      )
-                                      ->withDisabledAction(
-                                          "export",  // does not work for multi action yet, only for single action
-                                          (!$this->skill_tree_access_manager->hasManageProfilesPermission())
-                                      );
+                    yield $row_builder->buildDataRow($row_id, $record);
                 }
             }
 
@@ -429,12 +421,12 @@ class ilSkillProfileGUI
                                 $profile->getTitle()
                             );
                         }
-                        break;
+                    } else {
+                        $items[] = $this->ui_fac->modal()->interruptiveItem()->standard(
+                            $id,
+                            $this->profile_manager->lookupTitle((int) $id)
+                        );
                     }
-                    $items[] = $this->ui_fac->modal()->interruptiveItem()->standard(
-                        $id,
-                        $this->profile_manager->lookupTitle((int) $id)
-                    );
                 }
                 echo($this->ui_ren->renderAsync([
                     $this->ui_fac->modal()->interruptive(
@@ -709,7 +701,7 @@ class ilSkillProfileGUI
     {
         $ilCtrl = $this->ctrl;
 
-        if ($this->requested_table_action == "editProfile" && !empty($this->requested_table_profile_ids)) {
+        if ($this->requested_table_action === "editProfile" && !empty($this->requested_table_profile_ids)) {
             $ilCtrl->setParameter($this, "sprof_id", $this->requested_table_profile_ids[0]);
             $ilCtrl->redirect($this, "showLevels");
         }
@@ -1215,7 +1207,7 @@ class ilSkillProfileGUI
             foreach ($profiles as $profile) {
                 $profiles_to_export[] = $profile->getId();
             }
-        } elseif ($this->requested_table_action == "exportProfiles") {
+        } elseif ($this->requested_table_action === "exportProfiles") {
             $profiles_to_export = array_map("intval", $this->requested_table_profile_ids);
         }
 

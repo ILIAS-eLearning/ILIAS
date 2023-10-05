@@ -1163,8 +1163,6 @@ assessment#:#show_examview_html#:#Utiliser la vue examen sur la page de soumissi
 assessment#:#show_pass_overview#:#Afficher les Résultats
 assessment#:#show_user_answers#:#Afficher les Réponses de l'Utilisateur
 assessment#:#shuffle_answers#:#Mélanger les Réponses
-assessment#:#sign_submission#:#Signer électroniquement la soumission du test
-assessment#:#sign_submission_info#:#Lorsque activé, si un plugin de signature est installé et activé, les participants peuvent signer électroniquement la soumission de leur test.
 assessment#:#skip_question#:#Ne pas répondre et passer
 assessment#:#solutionText#:#Texte
 assessment#:#solution_contain_keywords#:#L'obtention des points est assujettie à la présence des mots clé suivants

@@ -1163,8 +1163,6 @@ assessment#:#show_examview_html#:#Show exam view on the test submission page.
 assessment#:#show_pass_overview#:#Показать обзор отмеченных верных ответов
 assessment#:#show_user_answers#:#Показать отмеченные пользователем ответы
 assessment#:#shuffle_answers#:#Перемешать ответы
-assessment#:#sign_submission#:#Digitally sign test submissions
-assessment#:#sign_submission_info#:#If this is activated and a signature plugin is installed and active, participants will be send to digitally sign their submissions.
 assessment#:#skip_question#:#Do not Answer and Next###08 10 2015 new variable
 assessment#:#solutionText#:#Текст
 assessment#:#solution_contain_keywords#:#Оценка определяется изходя из наличия следующих ключевых слов:

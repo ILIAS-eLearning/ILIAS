@@ -1,14 +1,16 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace ILIAS\TestQuestionPool;
 
 class QuestionInfoService
 {
-    private \ilDBInterface $database;
-
-    public function __construct(\ilDBInterface $db)
-    {
-        $this->database = $db;
+    public function __construct(
+        private \ilDBInterface $database,
+        private \ilComponentFactory $component_factory,
+        private \ilLanguage $lng
+    ) {
     }
 
     public function getQuestionTitle(int $question_id): string
@@ -46,6 +48,26 @@ class QuestionInfoService
             return $data["type_tag"];
         }
 
+        return "";
+    }
+
+    public function getQuestionTypeName(int $question_id): string
+    {
+        $question_type = $this->getQuestionType($question_id);
+
+        if ($question_type === '') {
+            return '';
+        }
+
+        if (file_exists("./Modules/TestQuestionPool/classes/class." . $question_type . ".php")) {
+            return $this->lng->txt($question_type);
+        }
+
+        foreach ($this->component_factory->getActivePluginsInSlot('qst') as $pl) {
+            if ($pl->getQuestionType() === $question_type) {
+                return $pl->getQuestionTypeTranslation();
+            }
+        }
         return "";
     }
 

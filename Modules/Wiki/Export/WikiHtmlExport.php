@@ -309,7 +309,7 @@ class WikiHtmlExport
         $this->log->debug("set title");
         $tpl->setTitle($this->wiki->getTitle());
         $tpl->setTitleIcon(
-            \ilUtil::getImagePath("icon_wiki.svg"),
+            \ilUtil::getImagePath("standard/icon_wiki.svg"),
             $lng->txt("obj_wiki")
         );
 

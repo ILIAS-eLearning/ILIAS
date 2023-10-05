@@ -1163,8 +1163,6 @@ assessment#:#show_examview_html#:#Na zaslonu
 assessment#:#show_pass_overview#:#Prikaži pregled rezultata ocijenjenog prolaza testa
 assessment#:#show_user_answers#:#Pokaži ocijenjene odgovore korisnika
 assessment#:#shuffle_answers#:#Pomiješaj odgovore
-assessment#:#sign_submission#:#Digitalni potpis za predaju testa
-assessment#:#sign_submission_info#:#Ako je ova opcija aktivirana te ako je instaliran i aktivan plugin za potpis, od sudionika će biti zatraženo da prilikom predaje digitalno potpišu test.
 assessment#:#skip_question#:#Nemoj odgovoriti i dalje
 assessment#:#solutionText#:#Tekst
 assessment#:#solution_contain_keywords#:#Bodovi će se dati na temelju korištenja sljedećih ključnih riječi:

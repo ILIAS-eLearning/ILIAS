@@ -745,7 +745,7 @@ abstract class assQuestionGUI
             $ilUser->writePref("tst_lastquestiontype", $this->object->getQuestionType());
             $this->object->saveToDb();
             $originalexists = !is_null($this->object->getOriginalId()) &&
-                $$this->questioninfo->questionExistsInPool($this->object->getOriginalId());
+                $this->questioninfo->questionExistsInPool($this->object->getOriginalId());
 
             if (($this->request->raw("calling_test") ||
                     ($this->request->isset('calling_consumer')
@@ -1199,7 +1199,7 @@ abstract class assQuestionGUI
             }
         }
 
-        return $this->questioninfo->getQuestionType($this->object->getId());
+        return $this->questioninfo->getQuestionTypeName($this->object->getId());
     }
 
     protected function getTypeOptions(): array
@@ -2020,7 +2020,7 @@ abstract class assQuestionGUI
     {
         switch ($correctness) {
             case self::CORRECTNESS_NOT_OK:
-                $icon_name = 'icon_not_ok.svg';
+                $icon_name = 'standard/icon_not_ok.svg';
                 $label = $this->lng->txt("answer_is_wrong");
                 break;
             case self::CORRECTNESS_MOSTLY_OK:

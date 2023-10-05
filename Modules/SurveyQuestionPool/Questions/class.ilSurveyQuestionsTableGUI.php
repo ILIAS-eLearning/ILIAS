@@ -213,7 +213,7 @@ class ilSurveyQuestionsTableGUI extends ilTable2GUI
         $this->tpl->parseCurrentBlock();
 
         if ((int) $a_set["complete"] === 0) {
-            $icon = $this->ui_factory->symbol()->icon()->custom(ilUtil::getImagePath("icon_alert.svg"), $this->lng->txt("warning_question_not_complete"));
+            $icon = $this->ui_factory->symbol()->icon()->custom(ilUtil::getImagePath("standard/icon_alert.svg"), $this->lng->txt("warning_question_not_complete"));
             $this->tpl->setCurrentBlock("qpl_warning");
             $this->tpl->setVariable("ICON_WARNING", $this->renderer->render($icon));
             $this->tpl->parseCurrentBlock();
@@ -272,7 +272,7 @@ class ilSurveyQuestionsTableGUI extends ilTable2GUI
                 $a_set["question_id"] . "]\" value=\"1\"" . $checked . " />";
         } elseif ($a_set["obligatory"]) {
             $obligatory = $this->ui->renderer()->render(
-                $this->ui->factory()->symbol()->icon()->custom(ilUtil::getImagePath("icon_checked.svg"), $this->lng->txt("question_obligatory"))
+                $this->ui->factory()->symbol()->icon()->custom(ilUtil::getImagePath("standard/icon_checked.svg"), $this->lng->txt("question_obligatory"))
             );
         }
         $this->tpl->setVariable("OBLIGATORY", $obligatory);

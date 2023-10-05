@@ -26,6 +26,7 @@ use ILIAS\MetaData\Structure\Services\Services as StructureServices;
 use ILIAS\MetaData\Vocabularies\Services\Services as VocabulariesServices;
 use ILIAS\MetaData\Repository\Services\Services as RepositoryServices;
 use ILIAS\MetaData\Editor\Services\Services as EditorServices;
+use ILIAS\MetaData\Copyright\Services\Services as CopyrightServices;
 
 class Services
 {
@@ -35,6 +36,7 @@ class Services
     protected RepositoryServices $repository_services;
     protected VocabulariesServices $vocabularies_services;
     protected EditorServices $editor_services;
+    protected CopyrightServices $copyright_services;
 
     public function __construct(GlobalContainer $dic)
     {
@@ -56,6 +58,9 @@ class Services
             $this->path_services,
             $this->structure_services,
             $this->repository_services
+        );
+        $this->copyright_services = new CopyrightServices(
+            $this->dic
         );
     }
 
@@ -87,5 +92,10 @@ class Services
     public function editor(): EditorServices
     {
         return $this->editor_services;
+    }
+
+    public function copyright(): CopyrightServices
+    {
+        return $this->copyright_services;
     }
 }

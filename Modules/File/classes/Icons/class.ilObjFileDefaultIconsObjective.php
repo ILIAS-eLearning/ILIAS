@@ -83,7 +83,7 @@ class ilObjFileDefaultIconsObjective implements \ILIAS\Setup\Objective
         $scan_result = scandir(self::PATH_DEFAULT_ICON_DIR);
         $default_icon_filenames = preg_grep("/^icon_file_/", $scan_result);
         foreach ($default_icon_filenames as $default_icon_filename) {
-            $icon_file_prefix = "icon_file_";
+            $icon_file_prefix = "standard/icon_file_";
             $icon_file_suffix = ".svg";
             $suffix = str_replace($icon_file_prefix, "", $default_icon_filename);
             $suffix = str_replace($icon_file_suffix, "", $suffix);

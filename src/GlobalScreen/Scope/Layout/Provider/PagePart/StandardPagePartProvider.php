@@ -127,7 +127,7 @@ class StandardPagePartProvider implements PagePartProvider
         }
 
         // Tools
-        $grid_icon = $f->symbol()->icon()->custom(ilUtil::getImagePath("icon_tool.svg"), $this->lang->txt('more'));
+        $grid_icon = $f->symbol()->icon()->custom(ilUtil::getImagePath("standard/icon_tool.svg"), $this->lang->txt('more'));
 
         if ($this->gs->collector()->tool()->hasItems()) {
             $tools_button = $f->button()->bulky($grid_icon, $this->lang->txt('tools'), "#")->withEngagedState(true);
@@ -189,7 +189,7 @@ class StandardPagePartProvider implements PagePartProvider
      */
     public function getLogo(): ?Image
     {
-        $std_logo = ilUtil::getImagePath("HeaderIcon.svg");
+        $std_logo = ilUtil::getImagePath("logo/HeaderIcon.svg");
 
         return $this->ui->factory()->image()
                         ->standard($std_logo, $this->lang->txt('rep_main_page'))
@@ -201,7 +201,7 @@ class StandardPagePartProvider implements PagePartProvider
      */
     public function getResponsiveLogo(): ?Image
     {
-        $responsive_logo = ilUtil::getImagePath("HeaderIconResponsive.svg");
+        $responsive_logo = ilUtil::getImagePath("logo/HeaderIconResponsive.svg");
 
         return $this->ui->factory()->image()
                         ->standard($responsive_logo, $this->lang->txt('rep_main_page'))
@@ -213,7 +213,7 @@ class StandardPagePartProvider implements PagePartProvider
      */
     public function getFaviconPath(): string
     {
-        return ilUtil::getImagePath("favicon.ico");
+        return ilUtil::getImagePath("logo/favicon.ico");
     }
 
     protected function getStartingPointAsUrl(): string

@@ -372,7 +372,7 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
             $this->tpl->parseCurrentBlock();
 
             if ($a_set["complete"] == 0) {
-                $icon = $this->ui_factory->symbol()->icon()->custom(ilUtil::getImagePath("icon_alert.svg"), $this->lng->txt("warning_question_not_complete"));
+                $icon = $this->ui_factory->symbol()->icon()->custom(ilUtil::getImagePath("standard/icon_alert.svg"), $this->lng->txt("warning_question_not_complete"));
                 $this->tpl->setCurrentBlock("qpl_warning");
                 $this->tpl->setVariable("ICON_WARNING", $this->renderer->render($icon));
                 $this->tpl->parseCurrentBlock();
@@ -492,12 +492,12 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
         foreach ($this->getSelectedColumns() as $c) {
             if (strcmp($c, 'description') == 0) {
                 $this->tpl->setCurrentBlock('description');
-                $this->tpl->setVariable("QUESTION_COMMENT", (strlen($a_set["description"])) ? $a_set["description"] : "&nbsp;");
+                $this->tpl->setVariable("QUESTION_COMMENT", (isset($a_set["description"]) && $a_set["description"] !== '') ? $a_set["description"] : "&nbsp;");
                 $this->tpl->parseCurrentBlock();
             }
             if (strcmp($c, 'type') == 0) {
                 $this->tpl->setCurrentBlock('type');
-                $this->tpl->setVariable("QUESTION_TYPE", $this->questioninfo->getQuestionType($a_set["question_id"]));
+                $this->tpl->setVariable("QUESTION_TYPE", $this->questioninfo->getQuestionTypeName($a_set["question_id"]));
                 $this->tpl->parseCurrentBlock();
             }
         }

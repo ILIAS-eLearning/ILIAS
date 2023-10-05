@@ -226,7 +226,7 @@ class ilLMTOCExplorerGUI extends ilLMExplorerGUI
         if ($a_node["type"] == "du") {
             $a_node["type"] = "lm";
         }
-        $a_name = "icon_" . $a_node["type"] . ".svg";
+        $a_name = "standard/icon_" . $a_node["type"] . ".svg";
         if ($a_node["type"] == "pg") {
             $lm_set = new ilSetting("lm");
             $active = ilLMPage::_lookupActive(
@@ -242,10 +242,10 @@ class ilLMTOCExplorerGUI extends ilLMExplorerGUI
                 ? "_sc"
                 : "";
 
-            $a_name = "icon_pg" . $img_sc . ".svg";
+            $a_name = "standard/icon_pg" . $img_sc . ".svg";
 
             if (!$active && !$this->getOfflineMode()) {
-                $a_name = "icon_pg_d" . $img_sc . ".svg";
+                $a_name = "standard/icon_pg_d" . $img_sc . ".svg";
             }
         }
 

@@ -135,7 +135,7 @@ class WikiPrintViewProviderGUI extends Export\AbstractPrintViewProvider
                 0,
                 false,
                 false,
-                \ilUtil::getImagePath("icon_pg.svg"),
+                \ilUtil::getImagePath("standard/icon_pg.svg"),
                 $lng->txt("wiki_page")
             );
         }
