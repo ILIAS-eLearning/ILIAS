@@ -359,7 +359,8 @@ class ilObjRoleGUI extends ilObjectGUI
         $rbacsystem = $DIC['rbacsystem'];
 
         if (!$rbacsystem->checkAccess('create_role', $this->obj_ref_id)) {
-            $ilErr->raiseError($this->lng->txt('permission_denied'), $ilErr->MESSAGE);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
+            $this->ctrl->redirectByClass(ilRepositoryGUI::class);
         }
 
         $this->initFormRoleProperties(self::MODE_GLOBAL_CREATE);
@@ -374,14 +375,12 @@ class ilObjRoleGUI extends ilObjectGUI
     {
         global $DIC;
 
-        $rbacsystem = $DIC['rbacsystem'];
         $rbacreview = $DIC['rbacreview'];
-        $ilSetting = $DIC['ilSetting'];
-        $ilErr = $DIC['ilErr'];
         $ilToolbar = $DIC['ilToolbar'];
 
         if (!$this->checkAccess('write', 'edit_permission')) {
-            $ilErr->raiseError($this->lng->txt("msg_no_perm_write"), $ilErr->MESSAGE);
+            $this->tpl->setOnScreenMessage('msg_no_perm_write', $this->lng->txt('permission_denied'), true);
+            $this->ctrl->redirectByClass(ilRepositoryGUI::class);
         }
 
         $this->tabs_gui->activateTab('edit_properties');
@@ -501,8 +500,8 @@ class ilObjRoleGUI extends ilObjectGUI
         }
 
         if (!$this->checkAccess('write', 'edit_permission')) {
-            $ilErr->raiseError($this->lng->txt('msg_no_perm_perm'), $ilErr->MESSAGE);
-            return true;
+            $this->tpl->setOnScreenMessage('msg_no_perm_write', $this->lng->txt('permission_denied'), true);
+            $this->ctrl->redirectByClass(ilRepositoryGUI::class);
         }
 
         // Show copy role button
@@ -644,13 +643,12 @@ class ilObjRoleGUI extends ilObjectGUI
     {
         global $DIC;
 
-        $ilErr = $DIC['ilErr'];
         $rbacreview = $DIC['rbacreview'];
         $ilUser = $DIC['ilUser'];
 
-        $access = $this->checkAccess('visible,write', 'edit_permission');
-        if (!$access) {
-            $ilErr->raiseError($this->lng->txt('msg_no_perm_perm'), $ilErr->WARNING);
+        if (!$this->checkAccess('visible,write', 'edit_permission')) {
+            $this->tpl->setOnScreenMessage('msg_no_perm_perm', $this->lng->txt('permission_denied'), true);
+            $this->ctrl->redirectByClass(ilRepositoryGUI::class);
         }
 
         $question = $this->lng->txt('rbac_role_delete_qst');
@@ -685,13 +683,10 @@ class ilObjRoleGUI extends ilObjectGUI
      */
     protected function performDeleteRoleObject()
     {
-        global $DIC;
-
-        $ilErr = $DIC['ilErr'];
-
         $access = $this->checkAccess('visible,write', 'edit_permission');
         if (!$access) {
-            $ilErr->raiseError($this->lng->txt('msg_no_perm_perm'), $ilErr->WARNING);
+            $this->tpl->setOnScreenMessage('msg_no_perm_perm', $this->lng->txt('permission_denied'), true);
+            $this->ctrl->redirectByClass(ilRepositoryGUI::class);
         }
 
         $this->object->setParent((int) $this->obj_ref_id);
@@ -716,11 +711,9 @@ class ilObjRoleGUI extends ilObjectGUI
         $objDefinition = $DIC['objDefinition'];
         $tree = $DIC['tree'];
 
-        // for role administration check write of global role folder
-        $access = $this->checkAccess('visible,write', 'edit_permission');
-
-        if (!$access) {
-            $this->ilias->raiseError($this->lng->txt("msg_no_perm_perm"), $this->ilias->error_obj->MESSAGE);
+        if (!$this->checkAccess('visible,write', 'edit_permission')) {
+            $this->tpl->setOnScreenMessage('msg_no_perm_perm', $this->lng->txt('permission_denied'), true);
+            $this->ctrl->redirectByClass(ilRepositoryGUI::class);
         }
 
         // rbac log
