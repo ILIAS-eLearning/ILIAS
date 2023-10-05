@@ -34,9 +34,7 @@ class ilUserAvatarResolver
     private bool $letter_avatars_activated;
     private ilUserProfilePictureDefinition $flavour_definition;
     private string $size;
-    private array $available_sizes = [];
     private bool $is_current_user;
-    private string $login_name;
     private ilObjUser $for_user;
     private bool $has_public_upload = false;
     private bool $has_public_profile = false;
