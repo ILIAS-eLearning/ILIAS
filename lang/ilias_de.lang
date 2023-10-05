@@ -8232,6 +8232,7 @@ dateplaner#:#cal_grp_others#:#Andere
 dateplaner#:#cal_grp_personal#:#Persönlich
 dateplaner#:#cal_ical_infoscreen#:#Abonnieren
 dateplaner#:#cal_ical_url#:#iCal-URL
+dateplaner#:#cal_ical_url_google#:#iCal-URL (Google Kalender)
 dateplaner#:#cal_import_appointments#:#Termine importieren
 dateplaner#:#cal_import_file#:#Importdatei
 dateplaner#:#cal_import_file_info#:#Wählen Sie die Datei aus, die Ihre Termine enthält.
@@ -8314,7 +8315,7 @@ dateplaner#:#cal_show_weeks_info#:#Zeigt die Wochen im Seitenblock "Kalender" an
 dateplaner#:#cal_start#:#Anfang
 dateplaner#:#cal_subscription#:#Abonnieren
 dateplaner#:#cal_subscription_header#:#Kalender-Adresse
-dateplaner#:#cal_subscription_info#:#Verwenden Sie die folgende Adresse, um mittels anderer Anwendungen auf Ihren Kalender zuzugreifen. Sie können diese Adresse kopieren und in jeden Kalender einfügen, der das iCal-Format unterstützt.
+dateplaner#:#cal_subscription_info#:#Verwenden Sie eine der folgenden Adressen, um mittels anderer Anwendungen auf Ihren Kalender zuzugreifen. Sie können diese Adresse kopieren und in jeden Kalender einfügen, der das iCal-Format unterstützt. Der Google-Kalender unterstützt keine iCal Dateien die größer als 1MB sind. Deshalb werden beim Export mit der iCal-URL für Google-Kalender alle Kalendertermine verworfen die älter als 30 Tage sind.
 dateplaner#:#cal_subscription_url#:#Kalender URL:
 dateplaner#:#cal_sync_cache#:#Termin-Cache
 dateplaner#:#cal_sync_cache_info#:#Wenn aktiviert, werden Kalendertermine zur Synchronisation mit externen Kalendern nur alle x-Minuten aktualisiert.

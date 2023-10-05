@@ -8,7 +8,6 @@ use ILIAS\UI\Renderer;
 /**
  * Show calendar subscription info
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
- * $Id$
  */
 class ilCalendarSubscriptionGUI
 {
@@ -114,8 +113,11 @@ class ilCalendarSubscriptionGUI
         $hash = $this->createToken($this->user->getId(), $selection, $id);
         $url = ILIAS_HTTP_PATH . '/calendar.php?client_id=' . CLIENT_ID . '&token=' . $hash;
 
-        $tpl->setVariable('LINK', $url);
+        $tpl->setVariable('LINK', $url . '&limited=0');
         $tpl->setVariable('TXT_PERMA', $this->lng->txt('cal_ical_url'));
+
+        $tpl->setVariable('LINK_LIMITED', $url . '&limited=1');
+        $tpl->setVariable('TXT_PERMA_LIMITED', $this->lng->txt('cal_ical_url_google'));
 
         $roundtrip = $this->ui_factory->modal()->roundtrip(
             $this->lng->txt('cal_calendar_subscription_modal_title'),
