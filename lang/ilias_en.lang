@@ -15049,6 +15049,10 @@ skmg#:#skmg_selected_skills#:#Selected Competences
 skmg#:#skmg_self_evaluation#:#Self-Evaluation
 skmg#:#skmg_self_evaluation_byline#:#The self-evaluation will be excluded from target achievement. It is used for your guidance.
 skmg#:#skmg_self_evaluations#:#Self-Evaluations
+skmg#:#skmg_set_as_lp_trigger#:#Set as Learning Progress Trigger
+skmg#:#skmg_set_as_no_lp_trigger#:#Unset as Learning Progress Trigger
+skmg#:#skmg_set_as_no_suggested#:#Unset as Learning Material
+skmg#:#skmg_set_as_suggested#:#Set as Learning Material
 skmg#:#skmg_settings#:#Competence Management Settings
 skmg#:#skmg_show_all#:#Show All
 skmg#:#skmg_show_latest_entries#:#Show Latest Entries
