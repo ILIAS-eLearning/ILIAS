@@ -39,6 +39,7 @@ class KeyRotationObjective extends BuildArtifactObjective
 
     public function build(): Setup\Artifact
     {
+        $current_keys = null;
         if (is_readable(self::KEY_ROTATION)) {
             /** @var array $current_keys */
             $current_keys = require self::KEY_ROTATION;

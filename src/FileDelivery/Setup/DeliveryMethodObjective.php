@@ -59,6 +59,11 @@ class DeliveryMethodObjective extends BuildArtifactObjective
         }
 
         try {
+            $command_exists = shell_exec("which apache2ctl");
+            if ($command_exists === null) {
+                return false;
+            }
+
             $loaded_modules = array_map(static function ($module) {
                 return explode(" ", trim($module))[0] ?? "";
             }, explode("\n", shell_exec("apache2ctl -M")));
