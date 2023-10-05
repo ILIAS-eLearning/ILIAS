@@ -535,39 +535,28 @@ class ilTestQuestionNavigationGUI
     private function getEditSolutionButtonLabel(): string
     {
         if ($this->isQuestionWorkedThrough()) {
-            return 'edit_answer';
+            return $this->lng->txt('edit_answer');
         }
 
-        return 'answer_question';
-    }
-
-    private function getSubmitSolutionButtonLabel(): string
-    {
-        if ($this->isForceInstantResponseEnabled()) {
-            return 'submit_and_check';
-        }
-
-        // fau: testNav - rename the submit button to simply "Save"
-        return 'save';
-        // fau.
+        return $this->lng->txt('answer_question');
     }
 
     private function getCheckButtonLabel(): string
     {
         if ($this->isAnswerFreezingEnabled()) {
-            return 'submit_and_check';
+            return $this->lng->txt('submit_and_check');
         }
 
-        return 'check';
+        return $this->lng->txt('check');
     }
 
     private function getRequestHintButtonLabel(): string
     {
         if ($this->hintRequestsExist()) {
-            return 'button_request_next_question_hint';
+            return $this->lng->txt('button_request_next_question_hint');
         }
 
-        return 'button_request_question_hint';
+        return $this->lng->txt('button_request_question_hint');
     }
 
     // fau: testNav - adjust mark icon and action labels
@@ -679,17 +668,6 @@ class ilTestQuestionNavigationGUI
                 $this->ui->factory()->button()->standard($label, $command)
             );
         }
-    }
-
-    /**
-     * @param ilTemplate $tpl
-     * @param $htmlId
-     * @param $label
-     * @param $cssClass
-     */
-    private function renderLinkButton(ilTemplate $tpl, $href, $label)
-    {
-        $this->renderButtonInstance($tpl, $this->ui->factory()->button()->standard($label, $href));
     }
 
     /**
