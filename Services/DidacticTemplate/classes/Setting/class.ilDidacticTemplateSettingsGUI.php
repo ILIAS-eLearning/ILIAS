@@ -19,7 +19,6 @@
 declare(strict_types=1);
 
 use ILIAS\Data\Order;
-use JetBrains\PhpStorm\NoReturn;
 use Psr\Http\Message\RequestInterface;
 use ILIAS\DI\Container;
 use ILIAS\HTTP\GlobalHttpState;
@@ -574,7 +573,7 @@ class ilDidacticTemplateSettingsGUI
     /**
      * @param string[] $template_ids
      */
-    #[NoReturn] protected function confirmDelete(array $template_ids): void
+    protected function confirmDelete(array $template_ids): never
     {
         $this->ctrl->setParameterByClass(ilDidacticTemplateSettingsGUI::class, 'tpls', implode(',', $template_ids));
         $del_action = $this->ctrl->getLinkTarget($this, 'deleteTemplates');
