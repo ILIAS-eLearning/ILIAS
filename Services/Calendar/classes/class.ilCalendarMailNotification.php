@@ -395,7 +395,7 @@ class ilCalendarMailNotification extends ilMailNotification
         include_once './Services/Calendar/classes/Export/class.ilCalendarExport.php';
         $export = new ilCalendarExport();
         $export->setExportType(ilCalendarExport::EXPORT_APPOINTMENTS);
-        $export->setAppointments(array($this->getAppointmentId()));
+        $export->setAppointments(array(new ilCalendarEntry($this->getAppointmentId())));
         $export->export();
 
         include_once './Services/Mail/classes/class.ilFileDataMail.php';
