@@ -454,7 +454,7 @@ class ilObjSkillTreeGUI extends ilObjectGUI
     {
         $ctrl = $this->ctrl;
 
-        if ($this->requested_table_action == "deleteTrees"
+        if ($this->requested_table_action === "deleteTrees"
             && !empty($this->requested_table_tree_ids)
             && $this->requested_table_tree_ids[0] === "ALL_OBJECTS"
         ) {
@@ -463,7 +463,7 @@ class ilObjSkillTreeGUI extends ilObjectGUI
                 $tree = $this->skill_tree_factory->getTreeById($tree_obj->getId());
                 $this->requested_node_ids[] = $tree->readRootId();
             }
-        } elseif ($this->requested_table_action == "deleteTrees") {
+        } elseif ($this->requested_table_action === "deleteTrees") {
             $this->requested_node_ids = array_map("intval", $this->requested_table_tree_ids);
         }
 
@@ -539,7 +539,7 @@ class ilObjSkillTreeGUI extends ilObjectGUI
 
         $ilTabs->activateTab("skills");
 
-        if ($this->requested_table_action == "editTree" && !empty($this->requested_table_tree_ids)) {
+        if ($this->requested_table_action === "editTree" && !empty($this->requested_table_tree_ids)) {
             $node_id = (int) $this->requested_table_tree_ids[0];
             $tree_id = $this->skill_tree_repo->getTreeIdForNodeId($node_id);
             $tree_obj = $this->skill_tree_manager->getTree($tree_id);
