@@ -44,6 +44,7 @@ class ilCustomUserFieldSettingsTableGUI extends ilTable2GUI
 
         parent::__construct($a_parent_obj, $a_parent_cmd);
         $this->setTitle($lng->txt("user_defined_list"));
+        $this->main_tpl->setOnScreenMessage('info', $lng->txt('usr_settings_explanation_profile'));
         $this->setLimit(9999);
 
         $this->addColumn("", "", 1);
