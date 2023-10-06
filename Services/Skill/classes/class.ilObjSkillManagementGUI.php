@@ -502,10 +502,18 @@ class ilObjSkillManagementGUI extends ilObjectGUI
         foreach ($_POST["id"] as $id) {
             if ($id != IL_FIRST_NODE) {
                 $node_obj = ilSkillTreeNodeFactory::getInstance($id);
+                $obj_title = (!in_array($node_obj->getType(), ["sktp", "sctp"]))
+                    ? $node_obj->getTitle()
+                    : $node_obj->getTitle() .
+                    " (" .
+                    $this->lng->txt("skmg_count_references") . " " .
+                    count(ilSkillTemplateReference::_lookupTrefIdsForTemplateId($node_obj->getId())) .
+                    ")";
+
                 $confirmation_gui->addItem(
                     "id[]",
                     $node_obj->getId(),
-                    $node_obj->getTitle(),
+                    $obj_title,
                     ilUtil::getImagePath("icon_" . $node_obj->getType() . ".svg")
                 );
             }
