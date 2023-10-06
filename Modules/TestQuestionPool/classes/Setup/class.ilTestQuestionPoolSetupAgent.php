@@ -52,4 +52,12 @@ class ilTestQuestionPoolSetupAgent extends NullAgent
             )
         );
     }
+
+    public function getMigrations(): array
+    {
+        return [
+            new ilTestQuestionPoolFileUploadQuestionMigration()
+        ];
+    }
+
 }
