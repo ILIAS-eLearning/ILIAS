@@ -60,6 +60,10 @@ class ilWkhtmlToPdfConfigFormGUI
         $form->addItem($this->buildGreyScaleForm());
         $form->addItem($this->buildPrintMediaTypeForm());
         $form->addItem($this->buildJavascriptDelayForm());
+        $form->addItem($this->buildCheckboxSvgForm());
+        $form->addItem($this->buildCheckedCheckboxSvgForm());
+        $form->addItem($this->buildRadiobuttonSvgForm());
+        $form->addItem($this->buildCheckedRadiobuttonSvgForm());
         $form->addItem($this->buildOverwriteDefaultFont());
     }
 
@@ -338,6 +342,26 @@ class ilWkhtmlToPdfConfigFormGUI
         return $footer_html_option;
     }
 
+    protected function buildCheckboxSvgForm(): ilTextInputGUI
+    {
+        return new ilTextInputGUI($this->translate('checkbox_svg'), 'checkbox_svg');
+    }
+
+    protected function buildCheckedCheckboxSvgForm(): ilTextInputGUI
+    {
+        return new ilTextInputGUI($this->translate('checkbox_checked_svg'), 'checkbox_checked_svg');
+    }
+
+    protected function buildRadiobuttonSvgForm(): ilTextInputGUI
+    {
+        return new ilTextInputGUI($this->translate('radio_button_svg'), 'radio_button_svg');
+    }
+
+    protected function buildCheckedRadiobuttonSvgForm(): ilTextInputGUI
+    {
+        return new ilTextInputGUI($this->translate('radio_button_checked_svg'), 'radio_button_checked_svg');
+    }
+
     /**
      * @return bool
      */
@@ -427,10 +451,9 @@ class ilWkhtmlToPdfConfigFormGUI
     private function isNotValidSize(array $sizes) {
         foreach($sizes as $size) {
             if(! preg_match('/(\d)+?(\W)*(cm|mm)$/', $size)){
-                if($size !== 0 && $size !== null) {
+                if($size !== 0 && $size !== null && $size !== "") {
                     return true;
                 }
-
             }
         }
 
@@ -440,10 +463,9 @@ class ilWkhtmlToPdfConfigFormGUI
     private function isNotValidText(array $texts) {
         foreach($texts as $text) {
             if(! preg_match('/[a-zA-Z\d ]+$/', $text)){
-                if($text !== '' && $text !== null) {
+                if($text !== '' && $text !== null && $text !== "") {
                     return true;
                 }
-
             }
         }
 
@@ -483,6 +505,10 @@ class ilWkhtmlToPdfConfigFormGUI
             'margin_bottom' => ilUtil::stripSlashes($form->getItemByPostVar('margin_bottom')->getValue()),
             'print_media_type' => (int) $form->getItemByPostVar('print_media_type')->getChecked(),
             'javascript_delay' => (int) $form->getItemByPostVar('javascript_delay')->getValue(),
+            'checkbox_svg' => $purifier->purify(ilUtil::stripSlashes($form->getItemByPostVar('checkbox_svg')->getValue())),
+            'checkbox_checked_svg' => $purifier->purify(ilUtil::stripSlashes($form->getItemByPostVar('checkbox_checked_svg')->getValue())),
+            'radio_button_svg' => $purifier->purify(ilUtil::stripSlashes($form->getItemByPostVar('radio_button_svg')->getValue())),
+            'radio_button_checked_svg' => $purifier->purify(ilUtil::stripSlashes($form->getItemByPostVar('radio_button_checked_svg')->getValue())),
             'header_select' => (int) $form->getItemByPostVar('header_select')->getValue(),
             'head_text_left' => $purifier->purify(ilUtil::stripSlashes($form->getItemByPostVar('head_text_left')->getValue())),
             'head_text_center' => $purifier->purify(ilUtil::stripSlashes($form->getItemByPostVar('head_text_center')->getValue())),
@@ -529,6 +555,10 @@ class ilWkhtmlToPdfConfigFormGUI
         $form->getItemByPostVar('print_media_type')->setValue(1);
         $form->getItemByPostVar('print_media_type')->setChecked($config->getPrintMediaType());
         $form->getItemByPostVar('javascript_delay')->setValue($config->getJavascriptDelay());
+        $form->getItemByPostVar('checkbox_svg')->setValue($config->getCheckboxSvg());
+        $form->getItemByPostVar('checkbox_checked_svg')->setValue($config->getCheckboxCheckedSvg());
+        $form->getItemByPostVar('radio_button_svg')->setValue($config->getRadioButtonSvg());
+        $form->getItemByPostVar('radio_button_checked_svg')->setValue($config->getRadioButtonCheckedSvg());
         $form->getItemByPostVar('header_select')->setValue($config->getHeaderType());
         $form->getItemByPostVar('head_text_left')->setValue($config->getHeaderTextLeft());
         $form->getItemByPostVar('head_text_center')->setValue($config->getHeaderTextCenter());
