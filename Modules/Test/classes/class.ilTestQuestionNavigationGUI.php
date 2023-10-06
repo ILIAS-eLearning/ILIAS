@@ -405,7 +405,14 @@ class ilTestQuestionNavigationGUI
         $actions[] = $this->ui_factory->button()->shy(
             $this->lng->txt('discard_answer'),
             '#'
-        )->withUnavailableAction(!$this->isDiscardSolutionButtonEnabled());
+        )
+        ->withUnavailableAction(!$this->isDiscardSolutionButtonEnabled())
+        ->withAdditionalOnLoadCode(
+            fn($id) => "document.getElementById('$id').addEventListener(
+                'click',
+                 ()=>$('#tst_discard_solution_modal').modal('show')
+            )"
+        );
 
         $list = $this->ui_factory->dropdown()->standard($actions)->withLabel($this->lng->txt("actions"));
         $tpl->setVariable('ACTION_MENU', $this->ui_renderer->render($list));
@@ -579,7 +586,7 @@ class ilTestQuestionNavigationGUI
     private function renderButtonInstance(ilTemplate $tpl, Button $button)
     {
         $tpl->setCurrentBlock("button_instance");
-        $tpl->setVariable("BUTTON_INSTANCE", $this->ui->renderer()->render($button));
+        $tpl->setVariable("BUTTON_INSTANCE", $this->ui_renderer->render($button));
         $tpl->parseCurrentBlock();
 
         $this->parseButtonsBlock($tpl);
@@ -597,12 +604,12 @@ class ilTestQuestionNavigationGUI
         if ($primary) {
             $this->renderButtonInstance(
                 $tpl,
-                $this->ui->factory()->button()->primary($label, $command)
+                $this->ui_factory->button()->primary($label, $command)
             );
         } else {
             $this->renderButtonInstance(
                 $tpl,
-                $this->ui->factory()->button()->standard($label, $command)
+                $this->ui_factory->button()->standard($label, $command)
             );
         }
     }
