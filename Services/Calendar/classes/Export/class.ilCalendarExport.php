@@ -168,41 +168,41 @@ class ilCalendarExport
                 }
                 $single_appointments[] = $appointment;
             }
-
-            usort($single_appointments, function (ilCalendarEntry $a, ilCalendarEntry $b) {
-                if($a->getStart() === $b->getStart()) {
-                    return 0;
-                }
-                return $a->getStart() > $b->getStart() ? 1 : -1;
-            });
-
-            // Apply a filter on limited exports only
-            if ($this->is_export_limited) {
-                $single_appointments = array_filter($single_appointments, function (ilCalendarEntry $a) {
-                    $time_now = new ilDateTime(time(), IL_CAL_UNIX);
-                    $str_time_now = $time_now->get(IL_CAL_FKT_DATE, 'Ymd', ilTimeZone::UTC);
-                    $str_time_start = $a->getStart()->get(IL_CAL_FKT_DATE, 'Ymd', $this->il_user->getTimeZone());
-                    $start = new DateTimeImmutable($str_time_start);
-                    $now = new DateTimeImmutable($str_time_now);
-                    $lower_bound = $now->sub(new DateInterval('P30D'));
-                    return $lower_bound <= $start;
-                });
-            }
-
-            foreach ($single_appointments as $appointment) {
-                $str_writer_appointment = $this->createAppointment($appointment);
-                // Check byte count for limited exports only
-                if (
-                    $this->is_export_limited &&
-                    ($str_writer_appointments->byteCount() + $str_writer_appointment->byteCount()) > $remaining_bytes
-                ) {
-                    break;
-                }
-                $str_writer_appointments->append($str_writer_appointment);
-            }
-
-            return $str_writer_appointments;
         }
+
+        usort($single_appointments, function (ilCalendarEntry $a, ilCalendarEntry $b) {
+            if($a->getStart() === $b->getStart()) {
+                return 0;
+            }
+            return $a->getStart() > $b->getStart() ? 1 : -1;
+        });
+
+        // Apply a filter on limited exports only
+        if ($this->is_export_limited) {
+            $single_appointments = array_filter($single_appointments, function (ilCalendarEntry $a) {
+                $time_now = new ilDateTime(time(), IL_CAL_UNIX);
+                $str_time_now = $time_now->get(IL_CAL_FKT_DATE, 'Ymd', ilTimeZone::UTC);
+                $str_time_start = $a->getStart()->get(IL_CAL_FKT_DATE, 'Ymd', $this->il_user->getTimeZone());
+                $start = new DateTimeImmutable($str_time_start);
+                $now = new DateTimeImmutable($str_time_now);
+                $lower_bound = $now->sub(new DateInterval('P30D'));
+                return $lower_bound <= $start;
+            });
+        }
+
+        foreach ($single_appointments as $appointment) {
+            $str_writer_appointment = $this->createAppointment($appointment);
+            // Check byte count for limited exports only
+            if (
+                $this->is_export_limited &&
+                ($str_writer_appointments->byteCount() + $str_writer_appointment->byteCount()) > $remaining_bytes
+            ) {
+                break;
+            }
+            $str_writer_appointments->append($str_writer_appointment);
+        }
+
+        return $str_writer_appointments;
     }
 
     protected function isRepeatingAppointment(ilCalendarEntry $appointment): bool
