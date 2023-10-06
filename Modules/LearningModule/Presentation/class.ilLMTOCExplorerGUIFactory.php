@@ -78,7 +78,7 @@ class ilLMTOCExplorerGUIFactory
                     $exp->setHighlightNode($page_id);
                 }
             } else {
-                $exp->setHighlightNode($lm_tree->getParentId($page_id));
+                $exp->setHighlightNode((int) $lm_tree->getParentId($page_id));
             }
         }
         if ($offline) {
