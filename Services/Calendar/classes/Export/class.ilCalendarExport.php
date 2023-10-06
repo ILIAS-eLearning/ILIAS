@@ -170,7 +170,10 @@ class ilCalendarExport
             }
 
             usort($single_appointments, function (ilCalendarEntry $a, ilCalendarEntry $b) {
-                return $a->getStart() > $b->getStart();
+                if($a->getStart() === $b->getStart()) {
+                    return 0;
+                }
+                return $a->getStart() > $b->getStart() ? 1 : -1;
             });
 
             // Apply a filter on limited exports only
