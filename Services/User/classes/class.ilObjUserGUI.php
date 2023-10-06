@@ -1182,14 +1182,14 @@ class ilObjUserGUI extends ilObjectGUI
         $acfrom = new ilDateTimeInputGUI($this->lng->txt("crs_from"), "time_limit_from");
         $acfrom->setRequired(true);
         $acfrom->setShowTime(true);
-        //		$ac->addSubItem($acfrom);
+        $acfrom->setMinuteStepSize(1);
         $op2->addSubItem($acfrom);
 
         // access.to
         $acto = new ilDateTimeInputGUI($this->lng->txt("crs_to"), "time_limit_until");
         $acto->setRequired(true);
         $acto->setShowTime(true);
-        //		$ac->addSubItem($acto);
+        $acto->setMinuteStepSize(1);
         $op2->addSubItem($acto);
 
         //		$this->form_gui->addItem($ac);
