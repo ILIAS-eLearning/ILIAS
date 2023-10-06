@@ -18,6 +18,14 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+use ILIAS\MetaData\Copyright\RendererInterface;
+use ILIAS\UI\Renderer as UIRenderer;
+use ILIAS\MetaData\Copyright\Renderer;
+use ILIAS\MetaData\Copyright\CopyrightData;
+use ILIAS\Data\URI;
+use ILIAS\MetaData\Copyright\CopyrightDataInterface;
+use ILIAS\MetaData\Copyright\NullCopyrightData;
+
 /**
  * @author  Stefan Meyer <meyer@leifos.com>
  * @version $Id$
@@ -40,6 +48,8 @@ class ilMDCopyrightSelectionEntry
     protected bool $outdated = false;
 
     protected int $order_position = 0;
+
+    protected CopyrightDataInterface $copyright_data;
 
     public function __construct(int $a_entry_id)
     {
@@ -87,6 +97,29 @@ class ilMDCopyrightSelectionEntry
         return $row->title ?? '';
     }
 
+    protected static function getCopyrightDataFromRow(stdClass $row): CopyrightDataInterface
+    {
+        return new CopyrightData(
+            $row->full_name ?? '',
+            !empty($row->link ?? '') ? new URI($row->link) : null,
+            !empty($row->image_link ?? '') ? new URI($row->image_link) : null,
+            $row->alt_text ?? ''
+        );
+    }
+
+    protected static function renderCopyrightFromRow(stdClass $row): string
+    {
+        global $DIC;
+
+        $renderer = new Renderer(
+            $DIC->ui()->factory()
+        );
+        $ui_renderer = $DIC->ui()->renderer();
+
+        $data = self::getCopyrightDataFromRow($row);
+        return $ui_renderer->render($renderer->toUIComponents($data));
+    }
+
     public static function _lookupCopyright(string $a_cp_string): string
     {
         global $DIC;
@@ -97,11 +130,12 @@ class ilMDCopyrightSelectionEntry
             return $a_cp_string;
         }
 
-        $query = "SELECT copyright FROM il_md_cpr_selections " .
+        $query = "SELECT full_name, link, image_link, alt_text FROM il_md_cpr_selections " .
             "WHERE entry_id = " . $ilDB->quote($entry_id, ilDBConstants::T_INTEGER) . " ";
         $res = $ilDB->query($query);
         $row = $ilDB->fetchObject($res);
-        return $row->copyright ?? '';
+
+        return self::renderCopyrightFromRow($row);
     }
 
     public static function lookupCopyrightByText(string $copyright_text): int
@@ -109,9 +143,38 @@ class ilMDCopyrightSelectionEntry
         global $DIC;
 
         $db = $DIC->database();
+        $full_name = '';
+        $link = '';
+        $image_link = '';
+        $alt_text = '';
+
+        //find the image
+        if (preg_match('/<\s*img((?:.|\n)*?)\/>/i', $copyright_text, $img_matches)) {
+            if (preg_match('/src\s*=\s*(?:"|\')(.*?)(?:"|\')/i', $img_matches[1], $src_matches)) {
+                $image_link = strip_tags($src_matches[1]);
+            }
+            if (preg_match('/alt\s*=\s*(?:"|\')(.*?)(?:"|\')/i', $img_matches[1], $alt_matches)) {
+                $alt_text = strip_tags($alt_matches[1]);
+            }
+        }
+
+        //find the link
+        if (preg_match('/<\s*a((?:.|\n)[^<]*?)<\s*\/a>/i', $copyright_text, $link_matches)) {
+            if (preg_match('/href\s*=\s*(?:"|\')(.*?)(?:"|\')/i', $link_matches[1], $name_matches)) {
+                $link = strip_tags($name_matches[1]);
+            }
+            if (preg_match('/>((?:\n|.)*)/i', $link_matches[1], $href_matches)) {
+                $full_name = strip_tags($href_matches[1]);
+            }
+        } else {
+            $full_name = strip_tags($copyright_text);
+        }
 
         $query = 'SELECT entry_id FROM il_md_cpr_selections ' .
-            'WHERE copyright = ' . $db->quote($copyright_text, 'text');
+            'WHERE full_name = ' . $db->quote($full_name, ilDBConstants::T_TEXT) .
+            ' AND link = ' . $db->quote($link, ilDBConstants::T_TEXT) .
+            ' AND image_link = ' . $db->quote($image_link, ilDBConstants::T_TEXT) .
+            ' AND alt_text = ' . $db->quote($alt_text, ilDBConstants::T_TEXT);
         $res = $db->query($query);
         while ($row = $db->fetchObject($res)) {
             return (int) $row->entry_id;
@@ -208,6 +271,28 @@ class ilMDCopyrightSelectionEntry
         return $this->description;
     }
 
+    public function getCopyrightData(): CopyrightDataInterface
+    {
+        if (isset($this->copyright_data)) {
+            return $this->copyright_data;
+        }
+        return new NullCopyrightData();
+    }
+
+    public function setCopyrightData(
+        string $full_name,
+        ?URI $link,
+        ?URI $image_link,
+        string $alt_text
+    ): void {
+        $this->copyright_data = new CopyrightData(
+            $full_name,
+            $link,
+            $image_link,
+            $alt_text
+        );
+    }
+
     public function setCopyright(string $a_copyright): void
     {
         $this->copyright = $a_copyright;
@@ -275,7 +360,10 @@ class ilMDCopyrightSelectionEntry
             'entry_id' => array('integer', $next_id),
             'title' => array('text', $this->getTitle()),
             'description' => array('clob', $this->getDescription()),
-            'copyright' => array('clob', $this->getCopyright()),
+            'full_name' => array('clob', $this->getCopyrightData()->fullName()),
+            'link' => array('clob', (string) $this->getCopyrightData()->link()),
+            'image_link' => array('clob', (string) $this->getCopyrightData()->imageLink()),
+            'alt_text' => array('clob', $this->getCopyrightData()->altText()),
             'language' => array('text', $this->getLanguage()),
             'costs' => array('integer', $this->getCosts()),
             'cpr_restrictions' => array('integer', $this->getCopyrightAndOtherRestrictions()),
@@ -290,7 +378,10 @@ class ilMDCopyrightSelectionEntry
         $this->db->update('il_md_cpr_selections', array(
             'title' => array('text', $this->getTitle()),
             'description' => array('clob', $this->getDescription()),
-            'copyright' => array('clob', $this->getCopyright()),
+            'full_name' => array('clob', $this->getCopyrightData()->fullName()),
+            'link' => array('clob', (string) $this->getCopyrightData()->link()),
+            'image_link' => array('clob', (string) $this->getCopyrightData()->imageLink()),
+            'alt_text' => array('clob', $this->getCopyrightData()->altText()),
             'language' => array('text', $this->getLanguage()),
             'costs' => array('integer', $this->getCosts()),
             'cpr_restrictions' => array('integer', $this->getCopyrightAndOtherRestrictions()),
@@ -324,7 +415,16 @@ class ilMDCopyrightSelectionEntry
         while ($row = $this->db->fetchObject($res)) {
             $this->setTitle($row->title);
             $this->setDescription($row->description);
-            $this->setCopyright($row->copyright);
+
+            $data = self::getCopyrightDataFromRow($row);
+            $this->setCopyrightData(
+                $data->fullName(),
+                $data->link(),
+                $data->imageLink(),
+                $data->altText()
+            );
+            $this->setCopyright(self::renderCopyrightFromRow($row));
+
             $this->setLanguage($row->language);
             $this->setCosts((bool) $row->costs);
             $this->setOutdated((bool) $row->outdated);
