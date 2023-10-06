@@ -531,7 +531,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
      */
     public function exportFileUploadsForAllParticipants()
     {
-        $question_object = assQuestion::instantiateQuestion($this->testrequest->raw("qid"));
+        $question_object = assQuestion::instantiateQuestion((int) $this->testrequest->raw("qid"));
         if ($question_object instanceof ilObjFileHandlingQuestionType) {
             $question_object->deliverFileUploadZIPFile(
                 $this->ref_id,

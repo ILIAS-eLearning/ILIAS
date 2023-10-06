@@ -1090,22 +1090,17 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
         $ilDB = $DIC['ilDB'];
         $lng = $DIC['lng'];
 
-        $exporter = new ilAssFileUploadUploadsExporter($ilDB, $lng);
+        $exporter = new ilAssFileUploadUploadsExporter(
+            $ilDB,
+            $lng,
+            $ref_id,
+            $test_id
+        );
 
-        $exporter->setRefId($ref_id);
-        $exporter->setTestId($test_id);
         $exporter->setTestTitle($test_title);
         $exporter->setQuestion($this);
 
-        $exporter->build();
-
-        ilFileDelivery::deliverFileLegacy(
-            $exporter->getFinalZipFilePath(),
-            $exporter->getDispoZipFileName(),
-            $exporter->getZipFileMimeType(),
-            false,
-            true
-        );
+        $exporter->buildAndDownload();
     }
 
     public function isCompletionBySubmissionEnabled(): bool
