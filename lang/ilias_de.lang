@@ -14966,6 +14966,7 @@ skmg#:#skmg_cont_profiles_info_empty#:#Es gibt keine Kompetenzprofile, die mit d
 skmg#:#skmg_cont_records_info_empty#:#Es gibt keine Kompetenzen, die mit dem derzeit geöffneten Objekt im Zusammenhang stehen.
 skmg#:#skmg_context_global#:#Global
 skmg#:#skmg_context_local#:#Lokal
+skmg#:#skmg_count_references#:#Anzahl referenzierter Kompetenzen:
 skmg#:#skmg_create_sctp#:#Vorlagenkategorie erstellen
 skmg#:#skmg_create_skill_category#:#Kategorie erstellen
 skmg#:#skmg_create_skill_template#:#Vorlage erstellen
