@@ -17274,6 +17274,18 @@ wiki#:#wiki_whole_wiki#:#Gesamtes Wiki
 wiki#:#wiki_wiki_page#:#Wiki-Seite
 wiki#:#wiki_wiki_search#:#Suche im Wiki
 wiki#:#wiki_wpg#:#Wiki-Seite
+wopi#:#activate_wopi#:#WOPI aktivieren
+wopi#:#msg_error_wopi_invalid_discorvery_url#:#Die eingegebene Discovery-URL ist ungültig oder kann nicht erreicht werden.
+wopi#:#msg_wopi_settings_modified#:#Einstellungen gespeichert
+wopi#:#open_external_editor#:#In externem Editor öffnen
+wopi#:#wopi_crawler_cronjob_description#:#Aktualisiert die Informationen des angebundenen WOPI-Dienstes.
+wopi#:#wopi_crawler_cronjob_no_apps#:#Es wurden keine WOPI-Apps in der Discovery gefunden.
+wopi#:#wopi_crawler_cronjob_not_activated#:#WOPI ist nicht aktiviert.
+wopi#:#wopi_crawler_cronjob_success#:#WOPI Informationen erfolgreich aktualisiert.
+wopi#:#wopi_crawler_cronjob_title#:#Update WOPI Discovery
+wopi#:#wopi_settings#:#WOPI
+wopi#:#wopi_url#:#WOPI Discovery URL
+wopi#:#wopi_url_byline#:#Vollständige URL des WOPI-Discovery, diese muss über den ILIAS-Server erreichbar sein. Die XML-Daten des Discover werden von ILIAS eingelesen und gespeichert, die Informationen werden regelmäßig durch den Cronjob "Update WOPI Discovery" aktualisiert.
 wsp#:#element_already_shared#:#Die Ressource ist für diese Person bereits freigegeben.###Modified as part of gender mainstreaming activities for ILIAS 8
 wsp#:#element_shared#:#Die Ressource wurde freigegeben.
 wsp#:#error_creating_certificate_pdf#:#Das Zertifikat konnte nicht erstellt werden. Bitte lassen Sie den Zertifikatsserver durch einen Administrator prüfen.

@@ -741,6 +741,25 @@ class ilObjFileGUI extends ilObject2GUI
             );
         }
 
+        // Add WOPI editor Button
+        if (
+            $this->checkPermissionBool("edit_file")
+            && $this->action_repo->hasActionForSuffix(
+                $this->object->getFileExtension()
+            )) {
+            $external_editor = $this->ui->factory()
+                                        ->button()
+                                        ->standard(
+                                            $this->lng->txt('open_external_editor'),
+                                            $this->ctrl->getLinkTargetByClass(
+                                                \ilWOPIEmbeddedApplicationGUI::class,
+                                                \ilWOPIEmbeddedApplicationGUI::CMD_INDEX
+                                            )
+                                        );
+            $this->toolbar->addComponent($external_editor);
+        }
+
+
         $info = $this->buildInfoScreen(false);
         $this->ctrl->forwardCommand($info);
     }

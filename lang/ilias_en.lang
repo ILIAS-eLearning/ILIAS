@@ -17268,6 +17268,18 @@ wiki#:#wiki_whole_wiki#:#Whole Wiki
 wiki#:#wiki_wiki_page#:#Wiki Page
 wiki#:#wiki_wiki_search#:#Wiki Search
 wiki#:#wiki_wpg#:#Wiki Page
+wopi#:#activate_wopi#:#Activate WOPI
+wopi#:#msg_error_wopi_invalid_discorvery_url#:#The Discovery URL entered is invalid or cannot be accessed.
+wopi#:#msg_wopi_settings_modified#:#Settings stored
+wopi#:#open_external_editor#:#Open in external Editor
+wopi#:#wopi_crawler_cronjob_description#:#Updates the information of the connected WOPI service.
+wopi#:#wopi_crawler_cronjob_no_apps#:#No WOPI apps were found in the discovery.
+wopi#:#wopi_crawler_cronjob_not_activated#:#WOPI is not activated.
+wopi#:#wopi_crawler_cronjob_success#:#WOPI information updated successfully.
+wopi#:#wopi_crawler_cronjob_title#:#Update WOPI Discovery
+wopi#:#wopi_settings#:#WOPI
+wopi#:#wopi_url#:#WOPI Discovery URL
+wopi#:#wopi_url_byline#:#Complete URL of the WOPI-Discovery, this must be accessible through the ILIAS server. The XML data of the Discover is read in and stored by ILIAS, the information is regularly updated by the cronjob "Update WOPI Discovery".
 wsp#:#element_already_shared#:#This object is already shared with this user.
 wsp#:#element_shared#:#Object shared.
 wsp#:#error_creating_certificate_pdf#:#The certificate could not be created. Please contact the administrator to check the certificate server.

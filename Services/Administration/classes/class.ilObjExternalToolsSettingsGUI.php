@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class ilObjExternalToolsSettingsGUI
  *
@@ -26,6 +26,7 @@ declare(strict_types=1);
  */
 class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 {
+    public const EDIT_WOPI = "editWopi";
     public ilRbacSystem $rbacsystem;
     public ilRbacReview $rbacreview;
 
@@ -51,6 +52,7 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
         $lng->loadLanguageModule("delic");
         $lng->loadLanguageModule("maps");
         $lng->loadLanguageModule("mathjax");
+        $lng->loadLanguageModule("wopi");
     }
 
     public function getAdminTabs(): void
@@ -191,6 +193,7 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
     {
         $maps = $a_cmd === 'editMaps';
         $mathjax = $a_cmd === 'editMathJax';
+        $wopi = $a_cmd === self::EDIT_WOPI;
 
         $this->tabs_gui->addSubTabTarget(
             "maps_extt_maps",
@@ -207,6 +210,14 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
             "",
             "",
             $mathjax
+        );
+        $this->tabs_gui->addSubTabTarget(
+            "wopi_settings",
+            $this->ctrl->getLinkTargetByClass(ilWOPIAdministrationGUI::class),
+            "",
+            "",
+            "",
+            $wopi
         );
     }
 
@@ -230,6 +241,11 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
             case 'ilecssettingsgui':
                 $this->tabs_gui->setTabActive('ecs_server_settings');
                 $this->ctrl->forwardCommand(new ilECSSettingsGUI());
+                break;
+
+            case strtolower(ilWOPIAdministrationGUI::class):
+                $this->initSubTabs(self::EDIT_WOPI);
+                $this->ctrl->forwardCommand(new ilWOPIAdministrationGUI());
                 break;
 
             case 'ilpermissiongui':

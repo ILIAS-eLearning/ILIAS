@@ -23,10 +23,14 @@ use ILIAS\UI\Component\Input\Container\Form\Form;
 use ILIAS\UI\Implementation\Component\Modal\Interruptive;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\ResourceStorage\Revision\RevisionStatus;
+use ILIAS\Services\WOPI\Discovery\ActionDBRepository;
+use ILIAS\Services\WOPI\Discovery\ActionRepository;
+use ILIAS\Services\WOPI\Embed\EmbeddedApplication;
+use ILIAS\Data\URI;
 
 /**
- * Class ilFileVersionsGUI
- * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @author Fabian Schmid <fabian@sr.solutions>
+ * @ilCtrl_Calls ilFileVersionsGUI: ilWOPIEmbeddedApplicationGUI
  */
 class ilFileVersionsGUI
 {
@@ -60,6 +64,8 @@ class ilFileVersionsGUI
 
     private ilToolbarGUI $toolbar;
     private \ILIAS\ResourceStorage\Services $storage;
+    private ActionRepository $action_repo;
+    private ?Revision $current_revision;
     protected \ILIAS\DI\UIServices $ui;
     private ilAccessHandler $access;
     private \ilWorkspaceAccessHandler $wsp_access;
@@ -102,6 +108,8 @@ class ilFileVersionsGUI
         $this->version_id = $this->http->wrapper()->query()->has(self::HIST_ID)
             ? $this->http->wrapper()->query()->retrieve(self::HIST_ID, $DIC->refinery()->kindlyTo()->int())
             : null;
+        $this->action_repo = new ActionDBRepository($DIC->database());
+        $this->current_revision = $this->getCurrentFileRevision();
     }
 
     /**
@@ -187,6 +195,24 @@ class ilFileVersionsGUI
                     )
                 );
                 return;
+            case strtolower(ilWOPIEmbeddedApplicationGUI::class):
+                $action = $this->action_repo->getActionForSuffix(
+                    $this->current_revision->getInformation()->getSuffix()
+                );
+
+                $embeded_application = new EmbeddedApplication(
+                    $this->current_revision->getIdentification(),
+                    $action,
+                    new ilObjFileStakeholder(),
+                    new URI(rtrim(ILIAS_HTTP_PATH, "/") . "/" . $this->ctrl->getLinkTarget($this, self::CMD_DEFAULT))
+                );
+
+                $this->ctrl->forwardCommand(
+                    new ilWOPIEmbeddedApplicationGUI(
+                        $embeded_application
+                    )
+                );
+                break;
             default:
                 $this->performCommand();
                 break;
@@ -258,8 +284,7 @@ class ilFileVersionsGUI
     private function index(): void
     {
         // Buttons
-        $current_file_revision = $this->getCurrentFileRevision();
-        $status = $current_file_revision?->getStatus();
+        $status = $this->current_revision?->getStatus();
 
         $btn_add_version = $this->ui->factory()->button()->standard(
             $this->lng->txt('file_new_version'),
@@ -280,8 +305,8 @@ class ilFileVersionsGUI
         $this->toolbar->addComponent($btn_replace_version);
 
         // only add unzip button if the current revision is a zip.
-        if (null !== $current_file_revision &&
-            ilObjFileAccess::isZIP($current_file_revision->getInformation()->getMimeType())
+        if (null !== $this->current_revision &&
+            ilObjFileAccess::isZIP($this->current_revision->getInformation()->getMimeType())
         ) {
             $btn_unzip = $this->ui->factory()->button()->standard(
                 $this->lng->txt('unzip'),
@@ -291,7 +316,22 @@ class ilFileVersionsGUI
         }
 
         // Editor
-        $suffix = $current_file_revision?->getInformation()?->getSuffix();
+        $suffix = $this->current_revision?->getInformation()?->getSuffix();
+
+        if ($this->action_repo->hasActionForSuffix(
+            $this->current_revision->getInformation()->getSuffix()
+        )) {
+            $external_editor = $this->ui->factory()
+                                        ->button()
+                                        ->standard(
+                                            $this->lng->txt('open_external_editor'),
+                                            $this->ctrl->getLinkTargetByClass(
+                                                [self::class, ilWOPIEmbeddedApplicationGUI::class],
+                                                \ilWOPIEmbeddedApplicationGUI::CMD_INDEX
+                                            )
+                                        );
+            $this->toolbar->addComponent($external_editor);
+        }
 
 
         // Publish
