@@ -920,7 +920,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
             $questionNavigationGUI->setDiscardSolutionButtonEnabled(true);
             // fau: testNav - set answere status in question header
             $questionGui->getQuestionHeaderBlockBuilder()->setQuestionAnswered(true);
-            // fau.
+        // fau.
         } elseif ($this->object->isPostponingEnabled()) {
             $questionNavigationGUI->setSkipQuestionLinkTarget(
                 $this->ctrl->getLinkTarget($this, ilTestPlayerCommands::SKIP_QUESTION)
@@ -2263,12 +2263,31 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
         $tpl->setVariable('CONFIRMATION_TEXT', $this->lng->txt('discard_answer_confirmation'));
 
-        $button = $this->ui_factory->button()->standard($this->lng->txt('discard_answer'), '#');
+        $button = $this->ui_factory->button()->standard($this->lng->txt('discard_answer'), '#')
+        ->withAdditionalOnLoadCode(
+            fn($id) => "document.getElementById('$id').addEventListener(
+                'click',
+                 (event)=>{
+                    let i = document.createElement('input');
+                    i.type = 'submit';
+                    i.name='cmd[discardSolution]';
+                    event.target.parentNode.appendChild(i);
+                    i.click();
+                }
+            )"
+        );
+
         $tpl->setCurrentBlock('buttons');
         $tpl->setVariable('BUTTON', $this->ui_renderer->render($button));
         $tpl->parseCurrentBlock();
 
-        $button = $this->ui_factory->button()->primary($this->lng->txt('cancel'), '#');
+        $button = $this->ui_factory->button()->primary($this->lng->txt('cancel'), '#')
+        ->withAdditionalOnLoadCode(
+            fn($id) => "document.getElementById('$id').addEventListener(
+                'click',
+                 ()=>$('#tst_discard_solution_modal').modal('hide')
+            );"
+        );
         $tpl->setCurrentBlock('buttons');
         $tpl->setVariable('BUTTON', $this->ui_renderer->render($button));
         $tpl->parseCurrentBlock();
