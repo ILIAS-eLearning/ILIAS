@@ -724,7 +724,13 @@ class ilObjSkillTreeGUI extends ilObjectGUI
                     $tree_obj = $this->skill_tree_manager->getTree($tree_id);
                     $obj_title = $tree_obj->getTitle();
                 } else {
-                    $obj_title = $node_obj->getTitle();
+                    $obj_title = (!in_array($node_obj->getType(), ["sktp", "sctp"]))
+                        ? $node_obj->getTitle()
+                        : $node_obj->getTitle() .
+                        " (" .
+                        $this->lng->txt("skmg_count_references") . " " .
+                        count(ilSkillTemplateReference::_lookupTrefIdsForTemplateId($node_obj->getId())) .
+                        ")";
                 }
                 $confirmation_gui->addItem(
                     "id[]",
