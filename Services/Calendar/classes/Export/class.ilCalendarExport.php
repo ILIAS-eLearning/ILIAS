@@ -214,7 +214,7 @@ class ilCalendarExport
     {
         $str_builder_appointments = new ilICalWriter();
         foreach ($this->getAppointments() as $app) {
-            $str_writer_appointment = $this->createAppointment($app);
+            $str_writer_appointment = $this->createAppointment(new ilCalendarEntry($app));
             $str_builder_appointments->append($str_writer_appointment);
         }
         return $str_builder_appointments;
