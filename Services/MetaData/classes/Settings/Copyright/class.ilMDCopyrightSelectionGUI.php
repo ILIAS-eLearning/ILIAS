@@ -422,11 +422,11 @@ class ilMDCopyrightSelectionGUI
 
         if (!isset($entry)) {
             $title = $this->lng->txt('md_copyright_add');
-            $post_url = $this->ctrl->getLinkTarget($this, 'saveEntry', '', true);
+            $post_url = $this->ctrl->getLinkTarget($this, 'saveEntry');
         } else {
             $title = $this->lng->txt('md_copyright_edit');
             $this->ctrl->setParameter($this, 'entry_id', $entry->id());
-            $post_url = $this->ctrl->getLinkTarget($this, 'updateEntry', '', true);
+            $post_url = $this->ctrl->getLinkTarget($this, 'updateEntry');
             $this->ctrl->clearParameters($this);
         }
 
