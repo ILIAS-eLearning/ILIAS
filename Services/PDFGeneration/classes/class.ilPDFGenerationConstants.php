@@ -40,4 +40,13 @@ class ilPDFGenerationConstants
             'Landscape' => 'Landscape'
         );
     }
+
+    public static function getFontStyles()
+    {
+        return array(
+            'serif' => 'serif' ,
+            'sans-serif' => 'sans-serif',
+            'monospace' => 'monospace'
+        );
+    }
 }
