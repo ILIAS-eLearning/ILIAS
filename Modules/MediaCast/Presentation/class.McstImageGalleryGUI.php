@@ -23,6 +23,7 @@
  */
 class McstImageGalleryGUI
 {
+    protected \ILIAS\MediaObjects\MediaType\MediaTypeManager $media_types;
     protected \ilObjMediaCast $media_cast;
     protected ilGlobalTemplateInterface $tpl;
     protected \ILIAS\DI\UIServices $ui;
@@ -42,6 +43,7 @@ class McstImageGalleryGUI
         $this->user = $DIC->user();
         $this->ctrl = $DIC->ctrl();
         $this->toolbar = $DIC->toolbar();
+        $this->media_types = $DIC->mediaObjects()->internal()->domain()->mediaType();
     }
 
     public function executeCommand(): void
@@ -81,8 +83,7 @@ class McstImageGalleryGUI
         foreach ($this->media_cast->getSortedItemsArray() as $item) {
             $mob = new \ilObjMediaObject($item["mob_id"]);
             $med = $mob->getMediaItem("Standard");
-
-            if (!in_array($med->getFormat(), ["image/png","image/jpeg","image/gif"])) {
+            if (!in_array($med->getFormat(), iterator_to_array($this->media_types->getAllowedImageMimeTypes()), true)) {
                 continue;
             }
 
@@ -107,7 +108,7 @@ class McstImageGalleryGUI
             $mob = new \ilObjMediaObject($item["mob_id"]);
             $med = $mob->getMediaItem("Standard");
 
-            if (!in_array($med->getFormat(), ["image/png","image/jpeg","image/gif"])) {
+            if (!in_array($med->getFormat(), iterator_to_array($this->media_types->getAllowedImageMimeTypes()), true)) {
                 continue;
             }
 

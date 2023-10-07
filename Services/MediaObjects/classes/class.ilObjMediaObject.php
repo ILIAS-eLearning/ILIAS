@@ -1584,61 +1584,12 @@ class ilObjMediaObject extends ilObject
         return $linked;
     }
 
-    /**
-     * Get restricted file types (this is for the input form, this list
-     * will be empty, if "allowed list" is empty)
-     */
-    public static function getRestrictedFileTypes(): array
-    {
-        return array_filter(self::getAllowedFileTypes(), function ($v) {
-            return !in_array($v, self::getForbiddenFileTypes());
-        });
-    }
-
-    /**
-     * Get forbidden file types
-     */
-    public static function getForbiddenFileTypes(): array
-    {
-        $mset = new ilSetting("mobs");
-        if (trim((string) $mset->get("black_list_file_types")) === "") {
-            return array();
-        }
-        return array_map(
-            function ($v) {
-                return strtolower(trim($v));
-            },
-            explode(",", $mset->get("black_list_file_types"))
-        );
-    }
-
-    /**
-     * Get allowed file types
-     */
-    public static function getAllowedFileTypes(): array
-    {
-        $mset = new ilSetting("mobs");
-        if (trim((string) $mset->get("restricted_file_types")) === "") {
-            return array();
-        }
-        return array_map(
-            function ($v) {
-                return strtolower(trim($v));
-            },
-            explode(",", $mset->get("restricted_file_types"))
-        );
-    }
-
     public static function isTypeAllowed(
         string $a_type
     ): bool {
-        if (in_array($a_type, self::getForbiddenFileTypes())) {
-            return false;
-        }
-        if (count(self::getAllowedFileTypes()) == 0 || in_array($a_type, self::getAllowedFileTypes())) {
-            return true;
-        }
-        return false;
+        global $DIC;
+        return in_array($a_type, iterator_to_array(
+            $DIC->mediaObjects()->internal()->domain()->mediaType()->getAllowedSuffixes()), true);
     }
 
     /**
@@ -1726,7 +1677,7 @@ class ilObjMediaObject extends ilObject
 
         $logger->debug("Generate preview pic...");
         $logger->debug("..." . $item->getFormat());
-        if (is_int(strpos($item->getFormat(), "video/mp4"))) {
+        if (in_array($item->getFormat(), ["video/mp4", "video/webm"])) {
             try {
                 if ($sec < 0) {
                     $sec = 0;
@@ -1771,6 +1722,10 @@ class ilObjMediaObject extends ilObject
         $ppics = array("mob_vpreview.jpg",
             "mob_vpreview.jpeg",
             "mob_vpreview.png");
+        $med = $this->getMediaItem("Standard");
+        if ($med && $med->getFormat() === "image/svg+xml" && $med->getLocationType() === "LocalFile") {
+            $ppics[] = $med->getLocation();
+        }
         foreach ($ppics as $p) {
             if (is_file($dir . "/" . $p)) {
                 if ($a_filename_only) {

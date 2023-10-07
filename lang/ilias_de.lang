@@ -11222,6 +11222,7 @@ mcst#:#mcst_autoplay#:#Autoplay
 mcst#:#mcst_autoplay_active#:#Autoplay (Standard 'an')
 mcst#:#mcst_autoplay_inactive#:#Autoplay (Standard 'aus')
 mcst#:#mcst_clear_purpose_title#:#Löschen
+mcst#:#mcst_confirm_deletion#:#Löschbestätigung
 mcst#:#mcst_converted_file#:#Datei wurde umgewandelt.
 mcst#:#mcst_copy#:#Mediacast kopieren
 mcst#:#mcst_current_value_info#:#Aktueller Wert des Formats
@@ -11248,6 +11249,7 @@ mcst#:#mcst_import#:#Mediacast importieren
 mcst#:#mcst_incl_files_in_rss#:#Dateianhänge
 mcst#:#mcst_incl_files_in_rss_info#:#Die Dateien der Mediacast-Beiträge werden als Anhang im Webfeed bereitgestellt.
 mcst#:#mcst_input_either_file_or_url#:#Bitte geben Sie entweder eine Datei oder eine URL an. Achten Sie bei Angabe einer Datei bitte auf die maximal erlaubte Upload-Größe.
+mcst#:#mcst_items#:#Einträge
 mcst#:#mcst_last_submission#:#Letzter Beitrag
 mcst#:#mcst_list#:#Liste
 mcst#:#mcst_manage#:#Verwalten
@@ -11363,7 +11365,7 @@ mep#:#mobs_activate_pages_info#:#Ermöglicht es, Seiteninhalte als Bausteine in 
 mep#:#mobs_always_show_file_manager#:#Dateistruktur immer anzeigen
 mep#:#mobs_always_show_file_manager_info#:#Wenn deaktiviert, wird die Dateistruktur für einfache Datentypen, wie z.B. Bilder, nicht angezeigt.
 mep#:#mobs_black_list_file_types#:#Verbotene Dateitypen
-mep#:#mobs_black_list_file_types_info#:#Diese Liste schränkt die Menge der erlaubten Dateitypen ein. Tragen Sie dazu die jeweilige Dateiendungen mit Komma getrennt ein (z.B. jpg,gif). Dies ist sinnvoll, wenn die vorangegangene Option leer ist (alle Typen erlaubt).
+mep#:#mobs_black_list_file_types_and_allowed_info#:#Diese Liste schränkt die Menge der erlaubten Dateitypen ein. Tragen Sie dazu die jeweilige Mime-Typen mit Komma getrennt ein (z.B. text/html, application/pdf). Aktuell erlaubte Mime-Typen:
 mep#:#mobs_restrict_file_types#:#Erlaubte Dateitypen
 mep#:#mobs_restrict_file_types_info#:#Bestimmen Sie alle Dateitypen, die in Medienobjekten hochgeladen werden dürfen. Tragen Sie dazu die jeweilige Dateiendungen mit Komma getrennt ein (z.B. jpg,gif). Wird kein Eintrag vorgenommen, sind alle Typen erlaubt.
 meta#:#adt_error_max_length#:#Der eingegebene Text ist zu lang. Bitte geben Sie einen kürzeren Text ein.

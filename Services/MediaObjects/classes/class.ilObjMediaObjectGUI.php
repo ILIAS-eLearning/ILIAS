@@ -219,8 +219,8 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 
             case "ilfilesystemgui":
                 $fs_gui = new ilFileSystemGUI(ilFileUtils::getWebspaceDir() . "/mobs/mm_" . $this->object->getId());
-                $fs_gui->setAllowedSuffixes(ilObjMediaObject::getRestrictedFileTypes());
-                $fs_gui->setForbiddenSuffixes(ilObjMediaObject::getForbiddenFileTypes());
+                $fs_gui->setAllowedSuffixes(iterator_to_array($this->media_type->getAllowedSuffixes()));
+                //$fs_gui->setForbiddenSuffixes(ilObjMediaObject::getForbiddenFileTypes());
                 $fs_gui->activateLabels(true, $this->lng->txt("cont_purpose"));
                 $fs_gui->setTableId("mobfs" . $this->object->getId());
                 $fs_gui->labelFile(
@@ -292,8 +292,8 @@ class ilObjMediaObjectGUI extends ilObjectGUI
         $radio_prop = new ilRadioGroupInputGUI($lng->txt("cont_resource"), "standard_type");
         $op1 = new ilRadioOption($lng->txt("cont_file"), "File");
         $up = new ilFileInputGUI("", "standard_file");
-        $up->setSuffixes(ilObjMediaObject::getRestrictedFileTypes());
-        $up->setForbiddenSuffixes(ilObjMediaObject::getForbiddenFileTypes());
+        $up->setSuffixes(iterator_to_array($this->media_type->getAllowedSuffixes()));
+        //$up->setForbiddenSuffixes(ilObjMediaObject::getForbiddenFileTypes());
         $up->setInfo("");
         if ($a_mode == "create" || $std_item->getLocationType() != "LocalFile") {
             $up->setRequired(true);
@@ -410,8 +410,8 @@ class ilObjMediaObjectGUI extends ilObjectGUI
         $radio_prop2->addOption($op4);
         $op2 = new ilRadioOption($lng->txt("cont_file"), "File");
         $up = new ilFileInputGUI("", "full_file");
-        $up->setSuffixes(ilObjMediaObject::getRestrictedFileTypes());
-        $up->setForbiddenSuffixes(ilObjMediaObject::getForbiddenFileTypes());
+        $up->setSuffixes(iterator_to_array($this->media_type->getAllowedSuffixes()));
+        //$up->setForbiddenSuffixes(ilObjMediaObject::getForbiddenFileTypes());
         $up->setInfo("");
         if ($a_mode == "create" || !$full_item || $full_item->getLocationType() != "LocalFile") {
             $up->setRequired(true);

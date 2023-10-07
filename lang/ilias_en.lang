@@ -11214,6 +11214,7 @@ mcst#:#mcst_autoplay#:#Autoplay
 mcst#:#mcst_autoplay_active#:#Autoplay (Default on)
 mcst#:#mcst_autoplay_inactive#:#Autoplay (Default off)
 mcst#:#mcst_clear_purpose_title#:#Delete
+mcst#:#mcst_confirm_deletion#:#Confirm Deletion
 mcst#:#mcst_converted_file#:#File has been converted.
 mcst#:#mcst_copy#:#Copy Mediacast
 mcst#:#mcst_current_value_info#:#Shows the current value of this format.
@@ -11240,6 +11241,7 @@ mcst#:#mcst_import#:#Import Mediacast
 mcst#:#mcst_incl_files_in_rss#:#Include Media Files as Attachment
 mcst#:#mcst_incl_files_in_rss_info#:#If enabled, media files are includes as attachments in the RSS feed. Otherwise the feed just notifies subscribers about new items.
 mcst#:#mcst_input_either_file_or_url#:#Please specify a file or an URL. If you provide a file, please note the maximum allowed upload file size.
+mcst#:#mcst_items#:#Items
 mcst#:#mcst_last_submission#:#Last Submission
 mcst#:#mcst_list#:#List
 mcst#:#mcst_manage#:#Manage
@@ -11355,7 +11357,7 @@ mep#:#mobs_activate_pages_info#:#Allows to create content snippets in media pool
 mep#:#mobs_always_show_file_manager#:#Always Show File Manager
 mep#:#mobs_always_show_file_manager_info#:#If deactivated the file manager for media objects will be hidden for simple mime types (e.g. images).
 mep#:#mobs_black_list_file_types#:#Forbidden File Types
-mep#:#mobs_black_list_file_types_info#:#Enter a comma separated list of file suffixes. This list will restrict the set of allowed file types. Usually you need this if the former list is empty (all file types are allowed).
+mep#:#mobs_black_list_file_types_and_allowed_info#:#Enter a comma separated list of mime types. This list will restrict the set of allowed file types. Currently allowed mime types are:
 mep#:#mobs_restrict_file_types#:#Allowed File Types
 mep#:#mobs_restrict_file_types_info#:#Enter a comma separated list of file suffixes (e.g. jpg,gif) that are allowed to be uploaded into media objects. If no value is entered, all file types are allowed.
 meta#:#adt_error_max_length#:#The text you have entered is too long. Please enter a shorter text.

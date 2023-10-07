@@ -408,6 +408,12 @@ il.VideoPlaylist = il.VideoPlaylist || {};
         } else {
           $("#med_" + v.id).removeClass("mcst-completed-preview");
         }
+        if (v.id === current) {
+          const dd = document.querySelector(".ilToolbarStickyItem .dropdown button");
+          if (dd) {
+            dd.innerHTML = "<span style='vertical-align: bottom; max-width:60px; display: inline-block; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;'>" + v.title + "</span> <span class='caret'></span>";
+          }
+        }
       });
 
     }

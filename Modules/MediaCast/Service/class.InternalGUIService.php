@@ -58,4 +58,18 @@ class InternalGUIService
             $this->domain_service->refinery()
         );
     }
+    public function getObjMediaCastGUI(): \ilObjMediaCastGUI
+    {
+        return new \ilObjMediaCastGUI(
+            "",
+            $this->standardRequest()->getRefId(),
+            true,
+            false
+        );
+    }
+
+    public function getMediaCastManageTableGUI(\ilObjMediaCastGUI $gui, string $table_cmd) : \ilMediaCastManageTableGUI
+    {
+        return new \ilMediaCastManageTableGUI($gui, $table_cmd);
+    }
 }
