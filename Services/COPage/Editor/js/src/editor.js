@@ -29,7 +29,7 @@ import PageModifier from "./ui/page-modifier.js";
 /**
  * Editor (mainly sets up dependency tree)
  */
-export default (function ($, il) {
+const editor = (function ($, il) {
 
   /**
    * @type {Controller}
@@ -41,7 +41,15 @@ export default (function ($, il) {
    * @param {string} form_action
    * @param {string} openPlaceHolderPcId
    */
-  function init(endpoint, form_action, openPlaceHolderPcId) {
+  function init() {
+
+    const initEl = document.getElementById('il-copg-init');
+    const endpoint = initEl.dataset.endpoint;
+    const form_action = initEl.dataset.formaction;
+    const openPlaceHolderPcId = initEl.dataset.openPlaceHolderPcId;
+    const openFormPcId = initEl.dataset.openFormPcId;
+    const openFormCName = initEl.dataset.openFormCname;
+    initEl.remove();
 
     // action factory (used to invoke actions from the ui)
     const actionFactory = new ActionFactory();
@@ -82,6 +90,11 @@ export default (function ($, il) {
             "PlaceHolder",
             openPlaceHolderPcId,
             ""));
+      } else if (openFormPcId !== "") {
+        dispatcher.dispatch(actionFactory.page().editor().componentForm(
+          openFormCName,
+          openFormPcId,
+            ""));
       }
     });
 
@@ -100,3 +113,6 @@ export default (function ($, il) {
   };
 
 })($, il);
+window.addEventListener('load', function () {
+  editor.init();
+}, false);

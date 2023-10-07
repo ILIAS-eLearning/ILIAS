@@ -113,10 +113,14 @@ class ilObjCourseGUI extends ilContainerGUI
 
         $this->tabs_gui->setTabActive('view_content');
         $this->checkPermission('read', 'view');
-        if ($this->view_manager->isAdminView()) {
-            parent::renderObject();
-            $this->addAdoptContentLinkToToolbar();
+
+        if (strtolower($this->std_request->getBaseClass()) === "iladministrationgui") {
+            parent::viewObject();
             return;
+        }
+
+        if ($this->isActiveAdministrationPanel()) {
+            $this->addAdoptContentLinkToToolbar();
         }
 
         // Fill meta header tags

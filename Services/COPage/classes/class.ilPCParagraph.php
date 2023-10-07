@@ -1238,7 +1238,7 @@ class ilPCParagraph extends ilPageContent
                         }
                         $chunks[] = array("level" => 1, "text" => trim(substr($c_text, $s1 + 7, $n - $s1 - 8)));
                         $c_text = $this->handleNextBr(substr($c_text, $n + 6));
-                    //echo "<br>ctext:".htmlentities($c_text)."<br>";
+                        //echo "<br>ctext:".htmlentities($c_text)."<br>";
                     } else {
                         $head .= substr($c_text, 0, $n);
                         $c_text = substr($c_text, $n);

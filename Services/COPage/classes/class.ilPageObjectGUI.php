@@ -43,6 +43,7 @@ class ilPageObjectGUI
     protected \ILIAS\COPage\InternalGUIService $gui;
     protected \ILIAS\COPage\PC\PCDefinition $pc_definition;
     protected \ILIAS\COPage\Xsl\XslManager $xsl;
+    protected \ILIAS\COPage\Editor\GUIService $editor_gui;
     protected int $requested_ref_id;
     protected int $requested_pg_id;
     protected string $requested_file_id;
@@ -248,6 +249,7 @@ class ilPageObjectGUI
         $this->gui = $DIC->copage()->internal()->gui();
         $this->link = $DIC->copage()->internal()->domain()->link();
         $this->pm = $DIC->copage()->internal()->domain()->page();
+        $this->editor_gui = $DIC->copage()->internal()->gui()->edit();
     }
 
     public function setTemplate(ilGlobalTemplateInterface $main_tpl): void
@@ -1114,7 +1116,6 @@ class ilPageObjectGUI
 
             // show prepending html
             $tpl->setVariable("PREPENDING_HTML", $this->getPrependingHtml());
-            $tpl->setVariable("TXT_CONFIRM_DELETE", $this->lng->txt("cont_confirm_delete"));
 
 
             // get js files for JS enabled editing
@@ -1132,8 +1133,7 @@ class ilPageObjectGUI
                 ));
                 $tpl->parseCurrentBlock();
 
-                $editor_init = new \ILIAS\COPage\Editor\UI\Init();
-                $editor_init->initUI($main_tpl, $this->getOpenPlaceHolder());
+                $this->editor_gui->init()->initUI($main_tpl);
             }
         } else {
             // presentation or preview here
@@ -1313,7 +1313,6 @@ class ilPageObjectGUI
             }
         }
 
-        //		}
         // get content
         $builded = $this->obj->buildDom();
 
@@ -1642,16 +1641,20 @@ class ilPageObjectGUI
             echo $tpl->get("edit_page");
             exit;
         }
+        $edit_init = "";
+        if ($this->getOutputMode() === "edit") {
+            $edit_init = $this->editor_gui->init()->getInitHtml($this->getOpenPlaceHolder());
+        }
         if ($this->outputToTemplate()) {
             $tpl->setVariable($this->getTemplateOutputVar(), $output);
-            $this->tpl->setVariable($this->getTemplateTargetVar(), $tpl->get());
+            $this->tpl->setVariable($this->getTemplateTargetVar(), $tpl->get() . $edit_init);
             return $output;
         } else {
             if ($this->getRawPageContent()) {		// e.g. needed in glossaries
-                return $output;
+                return $output . $edit_init;
             } else {
                 $tpl->setVariable($this->getTemplateOutputVar(), $output);
-                return $tpl->get();
+                return $tpl->get() . $edit_init;
             }
         }
     }
@@ -3052,4 +3055,9 @@ class ilPageObjectGUI
     {
         return [];
     }
+
+    public function afterDeleteContents(): void
+    {
+    }
+
 }

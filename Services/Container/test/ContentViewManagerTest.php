@@ -9,15 +9,15 @@ use PHPUnit\Framework\TestCase;
  *
  * @author Alexander Killing <killing@leifos.de>
  */
-class ContentViewManagerTest extends TestCase
+class ContentModeManagerTest extends TestCase
 {
     protected \ILIAS\Container\Content\ViewManager $manager;
 
     protected function setUp(): void
     {
         parent::setUp();
-        $view_repo = new \ILIAS\Container\Content\ViewSessionRepository();
-        $this->manager = new \ILIAS\Container\Content\ViewManager($view_repo);
+        $view_repo = new \ILIAS\Container\Content\ModeSessionRepository();
+        $this->manager = new \ILIAS\Container\Content\ModeManager($view_repo);
     }
 
     protected function tearDown(): void
@@ -31,15 +31,15 @@ class ContentViewManagerTest extends TestCase
     {
         $manager = $this->manager;
 
-        $manager->setAdminView();
+        $manager->setAdminMode();
 
         $this->assertEquals(
             true,
-            $manager->isAdminView()
+            $manager->isAdminMode()
         );
         $this->assertEquals(
             false,
-            $manager->isContentView()
+            $manager->isContentMode()
         );
     }
 
@@ -50,15 +50,15 @@ class ContentViewManagerTest extends TestCase
     {
         $manager = $this->manager;
 
-        $manager->setContentView();
+        $manager->setContentMode();
 
         $this->assertEquals(
             false,
-            $manager->isAdminView()
+            $manager->isAdminMode()
         );
         $this->assertEquals(
             true,
-            $manager->isContentView()
+            $manager->isContentMode()
         );
     }
 }

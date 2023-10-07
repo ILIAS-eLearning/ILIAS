@@ -29,7 +29,7 @@ class ilPCTableData extends ilPageContent
         $this->setType("td");
     }
 
-    public function newRowAfter(): void
+    public function newRowAfter(int $cnt = 1): void
     {
         $this->initTablePCNode();
         $td = $this->getDomNode();
@@ -53,7 +53,7 @@ class ilPCTableData extends ilPageContent
     }
 
 
-    public function newRowBefore(): void
+    public function newRowBefore(int $cnt = 1): void
     {
         $this->initTablePCNode();
         $td = $this->getDomNode();
@@ -107,7 +107,7 @@ class ilPCTableData extends ilPageContent
         $this->fixHideAndSpans();
     }
 
-    public function newColAfter(): void
+    public function newColAfter(int $cnt = 1): void
     {
         $this->initTablePCNode();
         $td = $this->getDomNode();
@@ -139,13 +139,12 @@ class ilPCTableData extends ilPageContent
                 } else {
                     $new_td = $row->appendChild($new_td);
                 }
-                $this->deleteTDContent($new_td);
             }
         }
         $this->fixHideAndSpans();
     }
 
-    public function newColBefore(): void
+    public function newColBefore(int $cnt = 1): void
     {
         $this->initTablePCNode();
         $td = $this->getDomNode();

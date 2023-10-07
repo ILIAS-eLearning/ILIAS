@@ -26,9 +26,12 @@
  */
 class ilPCSourceCode extends ilPCParagraph
 {
+    protected \ILIAS\Filesystem\Filesystem $tmp_fs;
+
     public function init(): void
     {
         $this->setType("src");
+        $this->tmp_fs = $this->domain->filesystem()->temp();
     }
 
     public static function getLangVars(): array
@@ -63,9 +66,9 @@ class ilPCSourceCode extends ilPCParagraph
                 $content .= $this->dom_util->dump($child);
             }
 
-            while ($context_node->has_child_nodes()) {
-                $node_del = $context_node->first_child();
-                $context_node->remove_child($node_del);
+            while ($context_node->firstChild) {
+                $node_del = $context_node->firstChild;
+                $node_del->parentNode->removeChild($node_del);
             }
 
             $content = str_replace("<br />", "<br/>", utf8_decode($content));
@@ -161,5 +164,15 @@ class ilPCSourceCode extends ilPCParagraph
             $a_text = $highl->highlight($a_text);
         }
         return $a_text;
+    }
+
+    public function importFile(string $tmpname): void
+    {
+        if ($tmpname != "") {
+            $this->setText(
+                $this->input2xml($this->tmp_fs->read($tmpname), 0, false)
+            );
+            $this->tmp_fs->delete($tmpname);
+        }
     }
 }

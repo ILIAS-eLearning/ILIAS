@@ -75,6 +75,11 @@ class ilPCSectionGUI extends ilPageContentGUI
                 $onload_code = array_merge($onload_code, $rep_sel->getOnloadCode());
             }
 
+            if (($params["validation"] ?? false) === true) {
+                $form->checkInput();
+                $form->setValuesByPost();
+            }
+
             $html = $params["ui_wrapper"]->getRenderedForm(
                 $form,
                 $params["buttons"]
@@ -234,13 +239,16 @@ class ilPCSectionGUI extends ilPageContentGUI
         $form->addItem($char_prop);
 
         // link input
-        $ac = new ilLinkInputGUI($this->lng->txt('cont_link'), 'link');
+        //
+        $cb = new ilCheckboxInputGUI($lng->txt("cont_link"), "link_cb");
+
+        $ac = new ilLinkInputGUI($this->lng->txt('cont_target'), 'link');
         if ($this->getPageConfig()->getEnableInternalLinks()) {
             $ac->setAllowedLinkTypes(ilLinkInputGUI::BOTH);
         } else {
             $ac->setAllowedLinkTypes(ilLinkInputGUI::EXT);
         }
-        $ac->setRequired(false);
+        $ac->setRequired(true);
         $ac->setInfo($this->lng->txt("copg_sec_link_info"));
         $ac->setInternalLinkDefault(
             $this->getPageConfig()->getIntLinkHelpDefaultType(),
@@ -259,37 +267,52 @@ class ilPCSectionGUI extends ilPageContentGUI
             $l = $this->content_obj->getLink();
             if ($l["LinkType"] == "IntLink") {
                 $ac->setValueByIntLinkAttributes($l["Type"], $l["Target"], $l["TargetFrame"]);
-            }
-            if ($l["LinkType"] == "ExtLink") {
+                $cb->setChecked(true);
+            } elseif ($l["LinkType"] == "ExtLink") {
                 $ac->setValue($l["Href"]);
+                $cb->setChecked(true);
+            } else {
+                $ac->setValue("https://");
             }
+        } else {
+            $ac->setValue("https://");
         }
-        $form->addItem($ac);
+        $form->addItem($cb);
+        $ac->setParentForm($form);
+        $cb->addSubItem($ac);
+
 
         // activation
 
         // active from
+        $act_cb = new ilCheckboxInputGUI($lng->txt("cont_activation"), "activation");
+        $form->addItem($act_cb);
         $dt_prop = new ilDateTimeInputGUI($lng->txt("cont_active_from"), "active_from");
-        if (!$a_insert && ($from = $this->content_obj->getActiveFrom()) != "") {
+        if (!$a_insert && ($from = $this->content_obj->getActiveFrom()) > 0) {
             $dt_prop->setDate(new ilDateTime($from, IL_CAL_UNIX));
+            $act_cb->setChecked(true);
         }
         $dt_prop->setShowTime(true);
-        $form->addItem($dt_prop);
+        $act_cb->addSubItem($dt_prop);
 
         // active to
         $dt_prop = new ilDateTimeInputGUI($lng->txt("cont_active_to"), "active_to");
-        if (!$a_insert && ($to = $this->content_obj->getActiveTo()) != "") {
+        if (!$a_insert && ($to = $this->content_obj->getActiveTo()) > 0) {
             $dt_prop->setDate(new ilDateTime($to, IL_CAL_UNIX));
+            $act_cb->setChecked(true);
         }
         $dt_prop->setShowTime(true);
-        $form->addItem($dt_prop);
+        $act_cb->addSubItem($dt_prop);
 
         // rep selector
         if ($this->getPageConfig()->getEnablePermissionChecks()) {
+            $perm_cb = new ilCheckboxInputGUI($lng->txt("cont_permission_handling"), "permission_handling");
+            $form->addItem($perm_cb);
+
             $rs = new ilRepositorySelector2InputGUI($lng->txt("cont_permission_object"), "permission_ref_id", false, $form);
             //$rs->setParent($this);
             $rs->setParentForm($form);
-            $form->addItem($rs);
+            $perm_cb->addSubItem($rs);
 
             // permission
             $options = array(
@@ -301,11 +324,14 @@ class ilPCSectionGUI extends ilPageContentGUI
             $si = new ilSelectInputGUI($lng->txt("permission"), "permission");
             $si->setInfo($lng->txt("cont_permission_object_desc"));
             $si->setOptions($options);
-            $form->addItem($si);
+            $perm_cb->addSubItem($si);
 
             if (!$a_insert) {
                 $si->setValue($this->content_obj->getPermission());
                 $rs->setValue($this->content_obj->getPermissionRefId());
+                if ($this->content_obj->getPermissionRefId() > 0) {
+                    $perm_cb->setChecked(true);
+                }
             }
         }
 
@@ -368,31 +394,42 @@ class ilPCSectionGUI extends ilPageContentGUI
     {
         $this->content_obj->setCharacteristic($form->getInput("characteristic"));
 
+        $activation = (bool) $form->getInput("activation");
         $from = $form->getItemByPostVar("active_from")->getDate();
-        if ($from) {
+        if ($activation && $from) {
             $this->content_obj->setActiveFrom($from->get(IL_CAL_UNIX));
         } else {
             $this->content_obj->setActiveFrom(0);
         }
 
         $to = $form->getItemByPostVar("active_to")->getDate();
-        if ($to) {
+        if ($activation && $to) {
             $this->content_obj->setActiveTo($to->get(IL_CAL_UNIX));
         } else {
             $this->content_obj->setActiveTo(0);
         }
 
         if ($this->getPageConfig()->getEnablePermissionChecks()) {
-            $this->content_obj->setPermissionRefId((int) $form->getInput("permission_ref_id"));
-            $this->content_obj->setPermission($form->getInput("permission"));
+            $permission_handling = (bool) $form->getInput("permission_handling");
+            if ($permission_handling) {
+                $this->content_obj->setPermissionRefId((int) $form->getInput("permission_ref_id"));
+                $this->content_obj->setPermission($form->getInput("permission"));
+            } else {
+                $this->content_obj->setPermissionRefId(0);
+                $this->content_obj->setPermission("");
+            }
         }
 
-        if ($form->getInput("link_mode") == "ext" && $form->getInput("link") != "") {
-            $this->content_obj->setExtLink($form->getInput("link"));
-        } elseif ($form->getInput("link_mode") == "int" && $form->getInput("link") != "") {
-            $la = $form->getItemByPostVar("link")->getIntLinkAttributes();
-            if (($la["Type"] ?? "") != "") {
-                $this->content_obj->setIntLink($la["Type"], $la["Target"], $la["TargetFrame"]);
+        if ($form->getInput("link_cb") !== "") {
+            if ($form->getInput("link_mode") == "ext" && $form->getInput("link") != "") {
+                $this->content_obj->setExtLink($form->getInput("link"));
+            } elseif ($form->getInput("link_mode") == "int" && $form->getInput("link") != "") {
+                $la = $form->getItemByPostVar("link")->getIntLinkAttributes();
+                if (($la["Type"] ?? "") != "") {
+                    $this->content_obj->setIntLink($la["Type"], $la["Target"], $la["TargetFrame"]);
+                }
+            } else {
+                $this->content_obj->setNoLink();
             }
         } else {
             $this->content_obj->setNoLink();

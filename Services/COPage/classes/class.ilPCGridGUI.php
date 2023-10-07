@@ -165,7 +165,7 @@ class ilPCGridGUI extends ilPageContentGUI
 
             if ($this->updated === true) {
                 $this->afterCreation();
-            //$this->ctrl->returnToParent($this, "jump".$this->hier_id);
+                //$this->ctrl->returnToParent($this, "jump".$this->hier_id);
             } else {
                 $this->insert();
             }

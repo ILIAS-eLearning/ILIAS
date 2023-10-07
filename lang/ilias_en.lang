@@ -4874,7 +4874,7 @@ common#:#obj_orgu_description#:#Creating and editing organisational structure
 common#:#obj_page#:#Page
 common#:#obj_pdfg#:#PDF Generation
 common#:#obj_pdfg_desc#:#Options for generation PDF documents
-common#:#obj_peac#:#Accordion
+common#:#obj_peac#:#Accordion/Carousel
 common#:#obj_peadl#:#Advanced List
 common#:#obj_peadt#:#Advanced Table
 common#:#obj_pecd#:#Code
@@ -6115,11 +6115,15 @@ content#:#cont_cc_imp#:#Important
 content#:#cont_cc_str#:#Strong
 content#:#cont_cc_sub#:#Subscript
 content#:#cont_cc_sup#:#Superscript
+content#:#cont_cell_properties#:#Table Cell Properties
 content#:#cont_center#:#Center
+content#:#cont_change_alignment#:#Change Alignment
 content#:#cont_change_notification_salutation#:#Hello %s,
 content#:#cont_change_notification_subject_lm#:#Learning Module "%1$s" has been changed: %2$s
 content#:#cont_change_object_reference#:#Change Object Reference
+content#:#cont_change_style#:#Change Style
 content#:#cont_change_type#:#Change Type
+content#:#cont_change_width#:#Change Width
 content#:#cont_chap_and_pages#:#Chapters and Pages
 content#:#cont_chap_select_target_now#:#Chapter marked for moving. Select target now.
 content#:#cont_chapters#:#Chapters
@@ -6158,6 +6162,8 @@ content#:#cont_click_next_or_save#:#Please click on the next point of the polygo
 content#:#cont_click_next_point#:#Please click on the next point of the polygon.
 content#:#cont_click_starting_point#:#Please click on the starting point of the polygon.
 content#:#cont_click_tl_corner#:#Please click on the top left corner of the desired area.
+content#:#cont_code_import_file#:#Import
+content#:#cont_code_manual_editing#:#Manuelle Eingabe
 content#:#cont_col_ordering#:#Column Ordering
 content#:#cont_colspan#:#Col. Span
 content#:#cont_commented_by#:#Commented by
@@ -6292,12 +6298,12 @@ content#:#cont_ed_insert_pcqst#:#Insert Question
 content#:#cont_ed_insert_plach#:#Insert Placeholder
 content#:#cont_ed_insert_prof#:#Insert Personal Data
 content#:#cont_ed_insert_qover#:#Insert Question Overview
-content#:#cont_ed_insert_repobj#:#Insert Resource List
+content#:#cont_ed_insert_repobj#:#Insert Item Group
 content#:#cont_ed_insert_sec#:#Insert Section
 content#:#cont_ed_insert_skills#:#Insert Competences
 content#:#cont_ed_insert_src#:#Insert Code
 content#:#cont_ed_insert_tab#:#Insert Advanced Table
-content#:#cont_ed_insert_tabs#:#Insert Accordion
+content#:#cont_ed_insert_tabs#:#Insert Accordion/Carousel
 content#:#cont_ed_insert_templ#:#Insert Content Template
 content#:#cont_ed_insert_vrfc#:#Insert Certificate
 content#:#cont_ed_item_down#:#Move Item Down
@@ -6305,12 +6311,14 @@ content#:#cont_ed_item_up#:#Move Item Up
 content#:#cont_ed_list#:# Advanced List
 content#:#cont_ed_moveafter#:#Move After
 content#:#cont_ed_movebefore#:#Move Before
-content#:#cont_ed_new_col_after#:#New Column After
-content#:#cont_ed_new_col_before#:#New Column Before
+content#:#cont_ed_new_col_after#:#New Columns After
+content#:#cont_ed_new_col_before#:#New Columns Before
 content#:#cont_ed_new_item_after#:#New Item After
 content#:#cont_ed_new_item_before#:#New Item Before
-content#:#cont_ed_new_row_after#:#New Row After
-content#:#cont_ed_new_row_before#:#New Row Before
+content#:#cont_ed_new_row_after#:#New Rows After
+content#:#cont_ed_new_row_before#:#New Rows Before
+content#:#cont_ed_nr_cols#:#Number of Columns
+content#:#cont_ed_nr_rows#:#Number of Rows
 content#:#cont_ed_par#:#Text
 content#:#cont_ed_paste#:#Paste
 content#:#cont_ed_paste_clip#:#Paste From Clipboard
@@ -6349,8 +6357,10 @@ content#:#cont_edit_shape_rectangle#:#Edit Shape (Rectangle)
 content#:#cont_edit_shape_whole_picture#:#Edit Shape (Whole Picture)
 content#:#cont_edit_src#:#Edit Source Code
 content#:#cont_edit_style#:#Edit Style
+content#:#cont_edit_table#:#Edit Table
 content#:#cont_edit_tabs#:#Properties
 content#:#cont_edit_term#:#Edit Term
+content#:#cont_edit_title#:#Change Title
 content#:#cont_element_refers_removed_itgr#:#This content element refers to an item group that has been removed in the meantime.
 content#:#cont_empty_question#:#Question editing not finished. Please either click and edit or delete question.
 content#:#cont_enable_page_history#:#Page History
@@ -6377,6 +6387,7 @@ content#:#cont_file_renamed#:#File has been renamed.
 content#:#cont_file_unzipped#:#File has been unzipped.
 content#:#cont_files#:#Files
 content#:#cont_finish_editing#:#Finish Editing
+content#:#cont_finish_table_editing#:#Finish Data Table Editing
 content#:#cont_first_open#:#First Panel Opened
 content#:#cont_first_page#:#First Page
 content#:#cont_first_row_style#:#First Row Style Class
@@ -6387,6 +6398,7 @@ content#:#cont_footer#:#Footer
 content#:#cont_footnote#:#Footnote
 content#:#cont_force_all_open#:#Force All Opened
 content#:#cont_format#:#Format
+content#:#cont_format_cells#:#Format Cells
 content#:#cont_fourth_edition#:#SCORM 2004 4th edition
 content#:#cont_fourth_edition_info#:#SCORM 2004 4th edition offers some advantages compared to the 3rd Edition: Data can be carried over between SCOs. Few learning modules actually use this feature and it has a negative Impact on performance.
 content#:#cont_free_pages#:#Free Pages
@@ -6423,6 +6435,7 @@ content#:#cont_grid_width_xl#:#Extra Large
 content#:#cont_grid_width_xl_info#:#E.g. wide desktop
 content#:#cont_hacc_needs_height#:#Please set a content height for horizontal accordions.
 content#:#cont_hacc_needs_width#:#Please set a content width for horizontal accordions.
+content#:#cont_has_row_header#:#Has a Header Row
 content#:#cont_header#:#Header
 content#:#cont_height#:#Height in pixels
 content#:#cont_help_no_valid_tooltip_id#:#The tooltip ID you have entered was not valid.
@@ -6442,6 +6455,27 @@ content#:#cont_ie_compatibility#:#Internet Explorer 7 Compatibility Mode
 content#:#cont_ie_compatibility_info#:#Reduces problems with displaying older SCORM Learning Modules that were optimised for the Internet Explorer. If the Compatibility Mode is switched off in newer versions of the Internet Explorer, this setting does not become effective.
 content#:#cont_ie_force_render#:#Force Internet Explorer to re-render
 content#:#cont_ie_force_render_info#:#Learning modules with many frames or iFrames will be displayed correctly after rendering the content once more.
+content#:#cont_iim_add_overlay#:#Add Overlay
+content#:#cont_iim_add_trigger#:#Add Trigger
+content#:#cont_iim_add_trigger_text#:#Please add a trigger. Afterwards edit size and position on the right screen.
+content#:#cont_iim_background_image#:#Background Image
+content#:#cont_iim_background_image_and_caption#:#Background Image and Caption
+content#:#cont_iim_edit#:#Edit Interactive Image
+content#:#cont_iim_edit_trigger#:#Edit Trigger
+content#:#cont_iim_finish_editing#:#Finish Editing Interactive Image
+content#:#cont_iim_horizontal#:#Horizontal
+content#:#cont_iim_lg#:#Large
+content#:#cont_iim_md#:#Medium
+content#:#cont_iim_no_overlay#:#No Overlay
+content#:#cont_iim_overview#:#Overview
+content#:#cont_iim_select_overlay#:#Select Overlay
+content#:#cont_iim_select_trigger#:#To edit an existing trigger, click it on the right screen.
+content#:#cont_iim_size#:#Size
+content#:#cont_iim_sm#:#Small
+content#:#cont_iim_tr_add_popup#:#Add Content-Popup
+content#:#cont_iim_tr_properties_info#:#The trigger will be presented on the right side. You may alter position and size using the mouse.
+content#:#cont_iim_trigger#:#Trigger
+content#:#cont_iim_vertical#:#Vertical
 content#:#cont_imagemap#:#Image Map
 content#:#cont_import#:#Import
 content#:#cont_import_id#:#identifier
@@ -6469,7 +6503,7 @@ content#:#cont_insert_page_from_clip#:#Paste Pages from Clipboard
 content#:#cont_insert_pagelayout#:#Insert Page from Template
 content#:#cont_insert_par#:#Insert Text
 content#:#cont_insert_profile#:#Publish Personal Data
-content#:#cont_insert_resources#:#Insert Resource List
+content#:#cont_insert_resources#:#Insert Item Group
 content#:#cont_insert_section#:#Insert Section
 content#:#cont_insert_skills#:#Insert Competence
 content#:#cont_insert_src#:#Insert source code
@@ -6571,6 +6605,7 @@ content#:#cont_lrs_settings#:#Settings
 content#:#cont_lvalue#:#Data element
 content#:#cont_maintenance#:#Maintenance
 content#:#cont_manifest#:#Manifest
+content#:#cont_manual_item_group#:#Manually Create Item Group
 content#:#cont_map_file_not_generated#:#Sorry. Unable to generate map file for editing.
 content#:#cont_marker#:#Marker
 content#:#cont_master_language_only#:#Master Language for Translation
@@ -6585,6 +6620,7 @@ content#:#cont_media#:#Images/Media
 content#:#cont_media_placeh#:#Click and edit to insert media
 content#:#cont_media_placehl#:#Media Placeholder
 content#:#cont_media_source#:#Media Source
+content#:#cont_merge_cells#:#Merge Cells
 content#:#cont_missing_preconditions#:#You need to fulfill the following preconditions to access the chapter "%s".
 content#:#cont_missing_snippet#:#Missing Content Snippet. The snippet has been deleted.
 content#:#cont_mob_def_prop#:#Default Properties
@@ -6674,6 +6710,7 @@ content#:#cont_operation_not_allowed#:#This operation is not allowed.
 content#:#cont_organization#:#Organization
 content#:#cont_organizations#:#Organizations
 content#:#cont_orig_size#:#Original Size
+content#:#cont_other_resources#:#Content (Other Remaining Resources)
 content#:#cont_out_of_focus_message#:#This page is not related to your current learning objective anymore.
 content#:#cont_out_of_focus_message_last_page#:#This is the last page of the content related to your current learning objective.
 content#:#cont_ov_all_correct#:#You have correctly answered all questions.
@@ -6704,6 +6741,7 @@ content#:#cont_paragraph_styles#:#Paragraph Styles
 content#:#cont_parameter#:#Parameter
 content#:#cont_parameters#:#parameters
 content#:#cont_paste_from_clipboard#:#Paste from clipboard
+content#:#cont_paste_from_spreadsheet#:#Paste From Spreadsheet
 content#:#cont_paste_table#:#Paste Table
 content#:#cont_pc_amdpl#:#Page List
 content#:#cont_pc_blog#:#Blog
@@ -6726,12 +6764,16 @@ content#:#cont_pc_par#:#Text
 content#:#cont_pc_prof#:#Personal Data
 content#:#cont_pc_qover#:#Question Overview
 content#:#cont_pc_qst#:#Question
+content#:#cont_pc_repobj#:#Item Group
 content#:#cont_pc_res#:#Resource
 content#:#cont_pc_sec#:#Section
 content#:#cont_pc_skills#:#Competence
+content#:#cont_pc_src#:#Source Code
 content#:#cont_pc_tab#:#Advanced Table
+content#:#cont_pc_tabs#:#Accordion/Carousel
 content#:#cont_pc_vacc#:#Accordion (Vertical)
 content#:#cont_pc_vrfc#:#Certificate
+content#:#cont_permission_handling#:#Permission Handling
 content#:#cont_permission_object#:#Permission Object
 content#:#cont_permission_object_desc#:#The section will only be presented for users that have the given permission on the permission object.
 content#:#cont_personal_clipboard#:#Personal Clipboard
@@ -6792,8 +6834,8 @@ content#:#cont_resource#:#Resource
 content#:#cont_resource_size#:#Original Resource Size / No Size Declaration
 content#:#cont_resource_size_info#:#Without size declaration the size can be controlled by the content style. If neither a size is declared nor the content style contains a rule that determines the size, only images will be displayed in their default size.
 content#:#cont_resource_type#:#type
-content#:#cont_resources#:#Resources
-content#:#cont_resources_of_type#:#Resources of Type
+content#:#cont_resources#:#Item Group
+content#:#cont_resources_of_type#:#Item Group by Type
 content#:#cont_restrict_forw_nav#:#Restrict Forward Navigation
 content#:#cont_restrict_forw_nav_info#:#A subsequent page can only be accessed when all test questions have been answered correctly on the current learning module page.
 content#:#cont_revision#:#Revision
@@ -6896,6 +6938,8 @@ content#:#cont_sequencing_info#:#Enable the sequencing and navigation behaviour 
 content#:#cont_set_alignment#:#Set Alignment
 content#:#cont_set_layout#:#Set Layout
 content#:#cont_set_link#:#Edit Link
+content#:#cont_set_manuall#:#Set Manually
+content#:#cont_set_properties#:#Set Properties
 content#:#cont_set_start_file#:#Set Start File
 content#:#cont_set_styles#:#Set Styles
 content#:#cont_set_tab_style_info#:#Activate checkboxes in table cells to set style.
@@ -6919,6 +6963,7 @@ content#:#cont_snippet_from_another_installation#:#Snippet comes from another in
 content#:#cont_snippets_used#:#Used Content Snippets
 content#:#cont_span#:#Span
 content#:#cont_special_page#:#Special Content Page
+content#:#cont_split_cell#:#Split Cell
 content#:#cont_spreadsheet_table#:#Spreadsheet Table
 content#:#cont_sqst#:#Survey Question (Assigned Material)
 content#:#cont_src#:#Source code
@@ -6942,22 +6987,36 @@ content#:#cont_subtitle_files#:#Media Subtitles
 content#:#cont_sur_block_format#:#Surrounding Section
 content#:#cont_switch_to_media_pool#:#Switch to other Media Pool
 content#:#cont_syntax_help#:#Syntax Help
+content#:#cont_tab_add_above#:#Add Panel Above
+content#:#cont_tab_add_below#:#Add Panel Below
 content#:#cont_tab_cont_height#:#Content Height
 content#:#cont_tab_cont_width#:#Content Width
+content#:#cont_tab_delete#:#Delete Panel
+content#:#cont_tab_move_bottom#:#Move To Bottom
+content#:#cont_tab_move_down#:#Move Downwards
+content#:#cont_tab_move_top#:#Move To Top
+content#:#cont_tab_move_up#:#Move Upwards
 content#:#cont_table#:#Table
+content#:#cont_table_adv_settings#:#Erweiterte Einstellungen
 content#:#cont_table_border#:#Table Border
 content#:#cont_table_border_info#:#Keep this empty to make content style settings effective. Values must include unit (like px).
+content#:#cont_table_cell_edit_info_1#:#Click on a table cell to select or deselect it.
+content#:#cont_table_cell_edit_info_2#:#Click on a row or column header to select or deselect the corresponding row or column.
+content#:#cont_table_cell_edit_info_3#:#Click on a second cell while holding shift to select all the cells in between.
 content#:#cont_table_cell_properties#:#Table Cell Properties
 content#:#cont_table_cellpadding#:#Table Cell Padding
 content#:#cont_table_cellpadding_info#:#Keep this empty to make content style settings effective. Values must include unit (like px).
 content#:#cont_table_edit_cells#:#Edit Cells
+content#:#cont_table_import_info#:#Please enter the table data separated by semicolon or TAB character for each column. Start a new row for each table row. Spreadsheet applications will usually use TAB characters for separation when transfered via clipboard. It should be possible to paste this data directly into the input field. No further formattings will be imported.
 content#:#cont_table_properties#:#Table Properties
+content#:#cont_table_style#:#Style
 content#:#cont_table_width#:#Table Width
 content#:#cont_tabs#:#Panels
 content#:#cont_tabs_acc_hor#:#Horizontal Accordion
 content#:#cont_tabs_acc_ver#:#Vertical Accordion
 content#:#cont_tabs_carousel#:#Carousel
 content#:#cont_tabs_confirm_deletion#:#Are you sure that all panels and their content should be deleted?
+content#:#cont_target#:#Target
 content#:#cont_target_missing#:#Target Missing
 content#:#cont_target_within_source#:#Target must not be within source object.
 content#:#cont_template#:#Template
@@ -7021,7 +7080,7 @@ content#:#cont_update_login_page#:#Edit Login Page Element
 content#:#cont_update_map#:#Edit Map
 content#:#cont_update_my_courses#:#Edit My Courses
 content#:#cont_update_profile#:#Edit Published Data
-content#:#cont_update_resources#:#Update Resource List
+content#:#cont_update_resources#:#Update Item Group
 content#:#cont_update_section#:#Update Section
 content#:#cont_update_skills#:#Edit Competence
 content#:#cont_update_verification#:#Edit Certificate
@@ -17194,3 +17253,4 @@ wsp#:#wsp_type_ltiv#:#Certificate: LTI Consumer
 wsp#:#wsp_type_scov#:#Certificate: SCORM
 wsp#:#wsp_type_tstv#:#Certificate: Test
 wsp#:#wsp_type_webr#:#Weblink
+wsp#:#wsp_type_wfld#:#Folder
