@@ -109,7 +109,7 @@ trait GlobalDICGUIServices
         return $this->DIC["ilLocator"];
     }
 
-    public function navigationHistory() : \ilNavigationHistory
+    public function navigationHistory(): \ilNavigationHistory
     {
         return $this->DIC["ilNavigationHistory"];
     }

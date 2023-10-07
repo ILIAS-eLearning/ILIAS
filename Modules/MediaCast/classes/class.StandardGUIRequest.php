@@ -135,7 +135,7 @@ class StandardGUIRequest
         return $this->str("mimetypes");
     }
 
-    public function getTableAction(string $action_parameter) : string
+    public function getTableAction(string $action_parameter): string
     {
         return $this->str($action_parameter);
     }

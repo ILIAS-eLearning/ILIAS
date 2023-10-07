@@ -87,7 +87,7 @@ class ilMediaCastManageTableGUI implements Table\DataRetrieval
             );
     }
 
-    protected function getColumns() : array
+    protected function getColumns(): array
     {
         $f = $this->ui->factory();
         $c = $f->table()->column();
@@ -168,7 +168,7 @@ class ilMediaCastManageTableGUI implements Table\DataRetrieval
         return null;
     }
 
-    public function handleCommand() : void
+    public function handleCommand(): void
     {
         $action = $this->request->getTableAction($this->action_parameter_token->getName());
         if ($action !== "") {
@@ -179,7 +179,7 @@ class ilMediaCastManageTableGUI implements Table\DataRetrieval
         }
     }
 
-    public function get() : Table\Data
+    public function get(): Table\Data
     {
         $f = $this->ui->factory();
         $a = $f->table()->action();
@@ -196,12 +196,14 @@ class ilMediaCastManageTableGUI implements Table\DataRetrieval
         $actions["editCastItem"] = $a->single(
             $this->lng->txt("edit"),
             $url_builder->withParameter($action_parameter_token, "editCastItem"),
-            $row_id_token);
+            $row_id_token
+        );
 
         $actions["showCastItem"] = $a->single(
             $this->lng->txt("show"),
             $url_builder->withParameter($action_parameter_token, "showCastItem"),
-            $row_id_token)->withAsync();
+            $row_id_token
+        )->withAsync();
 
         if ($this->playtime) {
             $actions["determinePlaytime"] = $a->single(

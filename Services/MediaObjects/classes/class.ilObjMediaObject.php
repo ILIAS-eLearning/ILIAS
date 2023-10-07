@@ -1589,7 +1589,8 @@ class ilObjMediaObject extends ilObject
     ): bool {
         global $DIC;
         return in_array($a_type, iterator_to_array(
-            $DIC->mediaObjects()->internal()->domain()->mediaType()->getAllowedSuffixes()), true);
+            $DIC->mediaObjects()->internal()->domain()->mediaType()->getAllowedSuffixes()
+        ), true);
     }
 
     /**

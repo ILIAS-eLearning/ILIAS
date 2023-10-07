@@ -6,21 +6,21 @@ class MediaTypeManagerTest extends TestCase
 {
     protected \ILIAS\MediaObjects\MediaType\MediaTypeManager $types;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
     }
 
-    protected function tearDown() : void
+    protected function tearDown(): void
     {
     }
 
-    protected function getTypeManager(array $mime_blacklist = []) : \ILIAS\MediaObjects\MediaType\MediaTypeManager
+    protected function getTypeManager(array $mime_blacklist = []): \ILIAS\MediaObjects\MediaType\MediaTypeManager
     {
         return new \ILIAS\MediaObjects\MediaType\MediaTypeManager($mime_blacklist);
     }
 
-    public function testIsImage() : void
+    public function testIsImage(): void
     {
         $this->assertEquals(
             true,
@@ -28,7 +28,7 @@ class MediaTypeManagerTest extends TestCase
         );
     }
 
-    public function testIsVideo() : void
+    public function testIsVideo(): void
     {
         $this->assertEquals(
             true,
@@ -36,7 +36,7 @@ class MediaTypeManagerTest extends TestCase
         );
     }
 
-    public function testIsAudio() : void
+    public function testIsAudio(): void
     {
         $this->assertEquals(
             true,
@@ -44,7 +44,7 @@ class MediaTypeManagerTest extends TestCase
         );
     }
 
-    public function testGetAudioSuffixes() : void
+    public function testGetAudioSuffixes(): void
     {
         $this->assertEquals(
             ["mp3"],
@@ -52,7 +52,7 @@ class MediaTypeManagerTest extends TestCase
         );
     }
 
-    public function testGetVideoSuffixes() : void
+    public function testGetVideoSuffixes(): void
     {
         $this->assertEquals(
             ["mp4", "webm"],
@@ -60,7 +60,7 @@ class MediaTypeManagerTest extends TestCase
         );
     }
 
-    public function testGetImageSuffixes() : void
+    public function testGetImageSuffixes(): void
     {
         $this->assertEquals(
             true,
@@ -68,7 +68,7 @@ class MediaTypeManagerTest extends TestCase
         );
     }
 
-    public function testGetOtherSuffixes() : void
+    public function testGetOtherSuffixes(): void
     {
         $this->assertEquals(
             true,
@@ -76,7 +76,7 @@ class MediaTypeManagerTest extends TestCase
         );
     }
 
-    public function testGetAudioMimeTypes() : void
+    public function testGetAudioMimeTypes(): void
     {
         $this->assertEquals(
             ["audio/mpeg"],
@@ -84,7 +84,7 @@ class MediaTypeManagerTest extends TestCase
         );
     }
 
-    public function testGetVideoMimeTypes() : void
+    public function testGetVideoMimeTypes(): void
     {
         $this->assertEquals(
             true,
@@ -92,7 +92,7 @@ class MediaTypeManagerTest extends TestCase
         );
     }
 
-    public function testGetImageMimeTypes() : void
+    public function testGetImageMimeTypes(): void
     {
         $this->assertEquals(
             true,
@@ -100,7 +100,7 @@ class MediaTypeManagerTest extends TestCase
         );
     }
 
-    public function testGetOtherMimeTypes() : void
+    public function testGetOtherMimeTypes(): void
     {
         $this->assertEquals(
             true,
@@ -108,7 +108,7 @@ class MediaTypeManagerTest extends TestCase
         );
     }
 
-    public function testGetAllowedVideoMimeTypes() : void
+    public function testGetAllowedVideoMimeTypes(): void
     {
         $tm = $this->getTypeManager(["video/webm"]);
 
@@ -122,7 +122,7 @@ class MediaTypeManagerTest extends TestCase
         );
     }
 
-    public function testGetAllowedVideoSuffixes() : void
+    public function testGetAllowedVideoSuffixes(): void
     {
         $tm = $this->getTypeManager(["video/webm"]);
 
@@ -140,7 +140,7 @@ class MediaTypeManagerTest extends TestCase
         );
     }
 
-    public function testIsHtmlAllowed() : void
+    public function testIsHtmlAllowed(): void
     {
         $tm = $this->getTypeManager([""]);
         $this->assertEquals(

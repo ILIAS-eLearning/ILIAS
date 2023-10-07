@@ -165,11 +165,11 @@ class MediaTypeManager
         return $this->isImage($mime);
     }
 
-    protected function mergeSuffixes(array ...$arr) : array
+    protected function mergeSuffixes(array ...$arr): array
     {
         $suffixes = [];
         foreach ($arr as $type) {
-            foreach ($type as $item){
+            foreach ($type as $item) {
                 $suffixes = array_merge($suffixes, array_values($item));
             }
         }
@@ -227,7 +227,7 @@ class MediaTypeManager
         }
     }
 
-    protected function getAllowedSubset(\Iterator $types) : \Iterator
+    protected function getAllowedSubset(\Iterator $types): \Iterator
     {
         foreach ($types as $type) {
             if (!in_array($type, $this->mime_blacklist, true)) {
@@ -327,7 +327,7 @@ class MediaTypeManager
         return $this->getAllowedSubset($this->getOtherMimeTypes());
     }
 
-    public function isHtmlAllowed() : bool
+    public function isHtmlAllowed(): bool
     {
         return in_array("text/html", iterator_to_array($this->getAllowedOtherMimeTypes()), true);
     }

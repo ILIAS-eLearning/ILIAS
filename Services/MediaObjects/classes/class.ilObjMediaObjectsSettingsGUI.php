@@ -168,7 +168,8 @@ class ilObjMediaObjectsSettingsGUI extends ilObjectGUI
 
         // black lis file types
         $ta = new ilTextAreaInputGUI($this->lng->txt("mobs_black_list_file_types"), "black_list_file_types");
-        $ta->setInfo($this->lng->txt("mobs_black_list_file_types_and_allowed_info") .
+        $ta->setInfo(
+            $this->lng->txt("mobs_black_list_file_types_and_allowed_info") .
             " " . implode(", ", iterator_to_array($this->media_types->getAllowedMimeTypes()))
         );
         $this->form->addItem($ta);

@@ -289,7 +289,7 @@ class ilMediaCreationGUI
         $ti = new \ilTextInputGUI($lng->txt("mob_url"), "url");
         $info = $lng->txt("mob_url_info1") . " " . implode(", ", $this->getSuffixes()) . ".";
         if (in_array(self::TYPE_VIDEO, $this->accept_types)) {
-            $info.= " " . $lng->txt("mob_url_info_video");
+            $info .= " " . $lng->txt("mob_url_info_video");
         }
         $ti->setInfo($info);
         $ti->setRequired(true);

@@ -68,7 +68,7 @@ class InternalGUIService
         );
     }
 
-    public function getMediaCastManageTableGUI(\ilObjMediaCastGUI $gui, string $table_cmd) : \ilMediaCastManageTableGUI
+    public function getMediaCastManageTableGUI(\ilObjMediaCastGUI $gui, string $table_cmd): \ilMediaCastManageTableGUI
     {
         return new \ilMediaCastManageTableGUI($gui, $table_cmd);
     }

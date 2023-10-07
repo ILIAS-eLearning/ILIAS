@@ -270,7 +270,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
         $tpl->setContent($this->gui->ui()->renderer()->render($new_table->get()));
     }
 
-    public function tableCommandObject() : void
+    public function tableCommandObject(): void
     {
         $new_table = $this->getManageTableGUI();
         $new_table->handleCommand();

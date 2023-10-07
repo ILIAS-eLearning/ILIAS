@@ -139,7 +139,7 @@ class VideoViewGUI
         return $autoplay;
     }
 
-    protected function getDropdown() : ?\ILIAS\UI\Component\Dropdown\Standard
+    protected function getDropdown(): ?\ILIAS\UI\Component\Dropdown\Standard
     {
 
         $actions = [];
