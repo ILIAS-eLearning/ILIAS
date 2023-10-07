@@ -331,17 +331,18 @@ class ilColumnGUI
         $this->repositoryitems = $a_repositoryitems;
     }
 
-    public function getRepositoryItems(): array {
+    public function getRepositoryItems(): array
+    {
         return $this->repositoryitems;
     }
 
     public function setItemPresentationManager(
         ItemPresentationManager $item_presentation
-    ) : void {
+    ): void {
         $this->item_presentation = $item_presentation;
     }
 
-    public function getItemPresentationManager() : ItemPresentationManager
+    public function getItemPresentationManager(): ItemPresentationManager
     {
         return $this->item_presentation;
     }

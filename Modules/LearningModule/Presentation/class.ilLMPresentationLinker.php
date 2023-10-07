@@ -145,7 +145,7 @@ class ilLMPresentationLinker implements \ILIAS\COPage\PageLinker
                     return $base . "&cmd=displayMediaFullscreen";
             }
             return "";
-        // handle online links
+            // handle online links
         } elseif (!$this->offline) {
             if ($this->from_page == "") {
                 // added if due to #23216 (from page has been set in lots of usual navigation links)

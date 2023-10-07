@@ -28,17 +28,20 @@ class TransformUtil
     protected const PH_START = "{{{{{";
     protected const PH_END = "}}}}}";
 
-    public function getPosOfPlaceholder(string $html, string $tag, int $offset = 0) : ?int {
+    public function getPosOfPlaceholder(string $html, string $tag, int $offset = 0): ?int
+    {
         $p = strpos($html, self::PH_START . $tag, $offset);
         return is_int($p) ? $p : null;
     }
 
-    public function getEndPosOfPlaceholder(string $html, int $offset = 0) : ?int {
+    public function getEndPosOfPlaceholder(string $html, int $offset = 0): ?int
+    {
         $p = strpos($html, self::PH_END, $offset);
         return is_int($p) ? ($p + strlen(self::PH_END)) : null;
     }
 
-    public function getPlaceholderParamString(string $html, string $tag) : ?string {
+    public function getPlaceholderParamString(string $html, string $tag): ?string
+    {
         $start = $this->getPosOfPlaceholder($html, $tag);
         if (is_int($start)) {
             $end = $this->getEndPosOfPlaceholder($html, $start);
@@ -48,7 +51,8 @@ class TransformUtil
         return null;
     }
 
-    public function getPlaceholderParams(string $html, string $tag) : ?array {
+    public function getPlaceholderParams(string $html, string $tag): ?array
+    {
         $tag_string = $this->getPlaceholderParamString($html, $tag);
         if (is_string($tag_string)) {
             return explode(";", $tag_string);
@@ -60,7 +64,8 @@ class TransformUtil
      * parameters of start and end tag must match
      * {{{{{StartTag;a;b;c}}}}}...inner content...{{{{{EndTag;a;b;c}}}}}
      */
-    public function getInnerContentOfPlaceholders(string $html, string $start_tag, string $end_tag) : ?string {
+    public function getInnerContentOfPlaceholders(string $html, string $start_tag, string $end_tag): ?string
+    {
         $start1 = $this->getPosOfPlaceholder($html, $start_tag);
         if (is_int($start1)) {
             $end1 = $this->getEndPosOfPlaceholder($html, $start1);
@@ -82,7 +87,8 @@ class TransformUtil
      * {{{{{StartTag;a;b;c}}}}}...inner content...{{{{{EndTag;a;b;c}}}}}
      * ...replacement...
      */
-    public function replaceInnerContentAndPlaceholders(string $html, string $start_tag, string $end_tag, string $replacement) : ?string {
+    public function replaceInnerContentAndPlaceholders(string $html, string $start_tag, string $end_tag, string $replacement): ?string
+    {
         $start1 = $this->getPosOfPlaceholder($html, $start_tag);
         if (is_int($start1)) {
             $end1 = $this->getEndPosOfPlaceholder($html, $start1);

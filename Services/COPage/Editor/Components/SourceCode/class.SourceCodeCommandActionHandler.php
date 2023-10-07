@@ -110,7 +110,7 @@ class SourceCodeCommandActionHandler implements Server\CommandActionHandler
     {
         $page = $this->page_gui->getPageObject();
 
-            /** @var \ilPCSourceCode $pc_src */
+        /** @var \ilPCSourceCode $pc_src */
         $pc_src = $page->getContentObjectForPcId($body["pcid"]);
         $src_gui = new \ilPCSourceCodeGUI($page, $pc_src, "", $body["pcid"]);
 

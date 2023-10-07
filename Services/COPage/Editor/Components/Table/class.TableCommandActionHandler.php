@@ -105,7 +105,7 @@ class TableCommandActionHandler implements Server\CommandActionHandler
         return $this->ui_wrapper->sendPage($this->page_gui, $updated);
     }
 
-    protected function setRowHeaderAndCharacteristic(\ilPCDataTable $tab, array $body) : void
+    protected function setRowHeaderAndCharacteristic(\ilPCDataTable $tab, array $body): void
     {
         if ($body["has_row_header"] ?? false) {
             $tab->setHeaderRows(1);

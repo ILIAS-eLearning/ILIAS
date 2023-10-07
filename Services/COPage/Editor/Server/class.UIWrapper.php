@@ -344,8 +344,7 @@ class UIWrapper
     public function getRenderedListingPanelTemplate(
         string $title = "",
         bool $leading_image = false
-    ): string
-    {
+    ): string {
         $ui = $this->ui;
         $f = $ui->factory();
         $r = $ui->renderer();

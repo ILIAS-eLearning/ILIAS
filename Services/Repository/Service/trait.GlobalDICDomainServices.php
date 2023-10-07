@@ -113,7 +113,7 @@ trait GlobalDICDomainServices
         );
     }
 
-    public function objectDataCache() : \ilObjectDataCache
+    public function objectDataCache(): \ilObjectDataCache
     {
         return $this->DIC["ilObjDataCache"];
     }

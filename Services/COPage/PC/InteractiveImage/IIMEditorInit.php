@@ -58,12 +58,12 @@ class IIMEditorInit
         );
     }
 
-    protected function sanitizeAttribute(string $attr) : string
+    protected function sanitizeAttribute(string $attr): string
     {
         return str_replace(["<", ">", "'", "\""], "", $attr);
     }
 
-    public function getInitHtml() : string
+    public function getInitHtml(): string
     {
         $ctrl = $this->ctrl;
 
@@ -82,7 +82,7 @@ EOT;
         $module_tag = <<<EOT
 <script type="module" src="./Services/COPage/PC/InteractiveImage/js/editor/src/editor.js"></script>
 EOT;
-        return $init_span.$module_tag;
+        return $init_span . $module_tag;
     }
 
 }

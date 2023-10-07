@@ -187,7 +187,7 @@ class ilPCDataTableEditorGUI implements \ILIAS\COPage\Editor\Components\PageComp
         \ilPageObjectGUI $page_gui,
         int $style_id,
         string $pcid
-    ) : string {
+    ): string {
         return $this->getTopActions($ui_wrapper, $page_gui) .
             $this->getEditForm($page_gui, $ui_wrapper, $style_id, $pcid) .
             $this->getAdvancedSettingsLink($page_gui, $pcid);
@@ -195,8 +195,8 @@ class ilPCDataTableEditorGUI implements \ILIAS\COPage\Editor\Components\PageComp
 
     protected function getAdvancedSettingsLink(
         \ilPageObjectGUI $page_gui,
-        string $pcid):string
-    {
+        string $pcid
+    ): string {
         $page = $page_gui->getPageObject();
         /** @var \ilPCDataTable $tab */
         $tab = $page->getContentObjectForPcId($pcid);
@@ -208,20 +208,20 @@ class ilPCDataTableEditorGUI implements \ILIAS\COPage\Editor\Components\PageComp
         return $this->ui->renderer()->renderAsync($link);
     }
 
-    protected function getCellInfo() : string
+    protected function getCellInfo(): string
     {
-        return "<div id='ilPageEditLegend' class='subtitle'>".
-            "<p>".$this->lng->txt("cont_table_cell_edit_info_1")."</p>".
-            "<p>".$this->lng->txt("cont_table_cell_edit_info_2")."</p>".
-            "<p>".$this->lng->txt("cont_table_cell_edit_info_3")."</p>".
+        return "<div id='ilPageEditLegend' class='subtitle'>" .
+            "<p>" . $this->lng->txt("cont_table_cell_edit_info_1") . "</p>" .
+            "<p>" . $this->lng->txt("cont_table_cell_edit_info_2") . "</p>" .
+            "<p>" . $this->lng->txt("cont_table_cell_edit_info_3") . "</p>" .
             "</div>";
     }
 
     protected function getCellActions(
         UIWrapper $ui_wrapper,
         ilPageObjectGUI $page_gui,
-        int $style_id = 0) : string
-    {
+        int $style_id = 0
+    ): string {
         $lng = $this->lng;
 
         $tab_gui = new ilPCDataTableGUI($page_gui->getPageObject(), null, "", "");
@@ -253,8 +253,8 @@ class ilPCDataTableEditorGUI implements \ILIAS\COPage\Editor\Components\PageComp
     protected function getMergeActions(
         UIWrapper $ui_wrapper,
         ilPageObjectGUI $page_gui,
-        int $style_id = 0) : string
-    {
+        int $style_id = 0
+    ): string {
         $lng = $this->lng;
 
         $html = $ui_wrapper->getRenderedButton(
@@ -265,7 +265,7 @@ class ilPCDataTableEditorGUI implements \ILIAS\COPage\Editor\Components\PageComp
             "Table"
         );
 
-        return '<div class="copg-edit-button-group">'.$html.'</div>';
+        return '<div class="copg-edit-button-group">' . $html . '</div>';
     }
 
     public function getModalNumberInputTemplate(): array
@@ -273,7 +273,10 @@ class ilPCDataTableEditorGUI implements \ILIAS\COPage\Editor\Components\PageComp
         $form = $this
             ->gui
             ->form(["ilPCDataTableGUI"], "#")
-            ->select("number", "#select-title#", [
+            ->select(
+                "number",
+                "#select-title#",
+                [
                 "1" => "1",
                 "2" => "2",
                 "3" => "3",
@@ -285,8 +288,9 @@ class ilPCDataTableEditorGUI implements \ILIAS\COPage\Editor\Components\PageComp
                 "9" => "9",
                 "10" => "10"
             ],
-            "",
-            "1")
+                "",
+                "1"
+            )
             ->required();
         $components = $this
             ->gui

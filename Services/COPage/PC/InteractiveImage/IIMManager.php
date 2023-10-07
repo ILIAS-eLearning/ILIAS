@@ -35,8 +35,7 @@ class IIMManager
 
     public function __construct(
         InternalDomainService $domain
-    )
-    {
+    ) {
         global $DIC;
         $this->domain = $domain;
         $this->dom_util = $DIC->copage()->internal()->domain()->domUtil();
@@ -47,8 +46,7 @@ class IIMManager
         FileUpload $upload,
         UploadResult $result,
         \ilObjMediaObject $mob = null
-    ): BasicHandlerResult
-    {
+    ): BasicHandlerResult {
         $this->log->debug("Handle mob upload");
         $title = $result->getName();
         $this->log->debug($title);
@@ -104,8 +102,7 @@ class IIMManager
         \ilObjMediaObject $mob,
         FileUpload $upload,
         UploadResult $result
-    ): BasicHandlerResult
-    {
+    ): BasicHandlerResult {
         $mob->addAdditionalFileFromUpload(
             $upload,
             $result,
@@ -123,31 +120,37 @@ class IIMManager
         );
     }
 
-    public function getOverlayWebPath(\ilObjMediaObject $mob, string $file) : string {
+    public function getOverlayWebPath(\ilObjMediaObject $mob, string $file): string
+    {
         return \ilObjMediaObject::_getURL($mob->getId()) . "/overlays/" . $file;
     }
 
-    public function getOverlayThumbnailPath(\ilObjMediaObject $mob, string $file) : string {
+    public function getOverlayThumbnailPath(\ilObjMediaObject $mob, string $file): string
+    {
         return \ilObjMediaObject::getThumbnailPath(
             $mob->getId(),
             $this->getOverlayThumbnailName($file)
         );
     }
 
-    protected function getOverlayThumbnailName(string $file) : string {
+    protected function getOverlayThumbnailName(string $file): string
+    {
         $piname = pathinfo($file);
         return basename($file, "." . $piname['extension']) . ".png";
     }
 
-    public function getOverlays(\ilObjMediaObject $mob) : array {
-        return array_map(function($file) use ($mob){
-            return [
-                "name" => $file,
-                "thumbpath" => $this->getOverlayThumbnailPath($mob, $file),
-                "webpath" => $this->getOverlayWebPath($mob, $file)
-            ];
-        },
-        $mob->getFilesOfDirectory("overlays"));
+    public function getOverlays(\ilObjMediaObject $mob): array
+    {
+        return array_map(
+            function ($file) use ($mob) {
+                return [
+                    "name" => $file,
+                    "thumbpath" => $this->getOverlayThumbnailPath($mob, $file),
+                    "webpath" => $this->getOverlayWebPath($mob, $file)
+                ];
+            },
+            $mob->getFilesOfDirectory("overlays")
+        );
     }
 
     /**

@@ -113,8 +113,7 @@ class ModalAdapterGUI
     public function form(
         \ILIAS\Repository\Form\FormAdapterGUI $form,
         string $on_form_submit_click = ""
-    ): self
-    {
+    ): self {
         if ($this->ctrl->isAsynch()) {
             $this->form = $form->asyncModal();
         } else {
@@ -132,7 +131,7 @@ class ModalAdapterGUI
             "#"
         )->withOnLoadCode(function ($id) use ($on_form_submit_click) {
             return
-                "$('#$id').click(function(event) {".$on_form_submit_click."});";
+                "$('#$id').click(function(event) {" . $on_form_submit_click . "});";
         });
         $this->action_buttons[] = $button;
         $this->ui_content = null;

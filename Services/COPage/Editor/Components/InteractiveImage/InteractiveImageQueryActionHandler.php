@@ -26,7 +26,6 @@ use ILIAS\FileUpload\Handler\BasicHandlerResult;
 use ILIAS\FileUpload\DTO\UploadResult;
 use ILIAS\FileUpload\Handler\HandlerResult;
 
-
 /**
  * @author Alexander Killing <killing@leifos.de>
  */
@@ -161,15 +160,15 @@ class InteractiveImageQueryActionHandler implements Server\QueryActionHandler
         return $tpl->get();
     }
 
-    protected function getSelectTriggerMessage() : string
+    protected function getSelectTriggerMessage(): string
     {
         $lng = $this->lng;
         return $this->section($this->ui_wrapper->getRenderedInfoBox(
-                $lng->txt("cont_iim_select_trigger")
+            $lng->txt("cont_iim_select_trigger")
         ));
     }
 
-    protected function getCommonSuccessMessage() : string
+    protected function getCommonSuccessMessage(): string
     {
         $lng = $this->lng;
         return $this->section($this->ui_wrapper->getRenderedSuccessBox(
@@ -177,13 +176,13 @@ class InteractiveImageQueryActionHandler implements Server\QueryActionHandler
         ));
     }
 
-    protected function getLoader() : string
+    protected function getLoader(): string
     {
         $lng = $this->lng;
         return $this->section("<img src='" . \ilUtil::getImagePath("loader.svg") . "' />");
     }
 
-    protected function getAddTriggerMessage() : string
+    protected function getAddTriggerMessage(): string
     {
         $lng = $this->lng;
         return $this->section($this->ui_wrapper->getRenderedInfoBox(
@@ -259,12 +258,12 @@ class InteractiveImageQueryActionHandler implements Server\QueryActionHandler
         return $pc->getBackgroundImage();
     }
 
-    protected function section(string $content) : string
+    protected function section(string $content): string
     {
         return "<div class='copg-slate-section'>" . $content . "</div>";
     }
 
-    protected function getTriggerBackButton() : string
+    protected function getTriggerBackButton(): string
     {
         return $this->section($this->ui_wrapper->getRenderedButton(
             $this->lng->txt("back"),
@@ -275,12 +274,12 @@ class InteractiveImageQueryActionHandler implements Server\QueryActionHandler
         ));
     }
 
-    protected function getTriggerHeader() : string
+    protected function getTriggerHeader(): string
     {
         return "<h2>" . $this->lng->txt("cont_iim_edit_trigger") . "</h2>";
     }
 
-    protected function getTriggerViewControls() : string
+    protected function getTriggerViewControls(): string
     {
         return $this->section($this->ui_wrapper->getRenderedViewControl(
             [
@@ -291,7 +290,8 @@ class InteractiveImageQueryActionHandler implements Server\QueryActionHandler
         ));
     }
 
-    protected function getTriggerPropertiesFormAdapter(): \ILIAS\Repository\Form\FormAdapterGUI {
+    protected function getTriggerPropertiesFormAdapter(): \ILIAS\Repository\Form\FormAdapterGUI
+    {
         return $this->gui->form(null, "#")
                           ->text(
                               "title",
@@ -305,27 +305,29 @@ class InteractiveImageQueryActionHandler implements Server\QueryActionHandler
                                   "Circle" => $this->lng->txt("cont_Circle"),
                                   "Poly" => $this->lng->txt("cont_Poly"),
                                   "Marker" => $this->lng->txt("cont_marker")
-                              ], "", "Rect"
+                              ],
+                              "",
+                              "Rect"
                           )->required();
     }
 
-    protected function getMessageArea() : string
+    protected function getMessageArea(): string
     {
         return "<div id='cont_iim_message'></div>";
     }
 
-    protected function getTriggerPropertiesInfo() : string
+    protected function getTriggerPropertiesInfo(): string
     {
         return $this->section($this->ui_wrapper->getRenderedInfoBox($this->lng->txt("cont_iim_tr_properties_info")));
     }
 
-    protected function getTriggerProperties() : string
+    protected function getTriggerProperties(): string
     {
-        $content = $this->getTriggerBackButton().
-            $this->getTriggerHeader().
+        $content = $this->getTriggerBackButton() .
+            $this->getTriggerHeader() .
             $this->getTriggerViewControls();
-        $content.= $this->getMessageArea();
-        $content.= $this->ui_wrapper->getRenderedAdapterForm(
+        $content .= $this->getMessageArea();
+        $content .= $this->ui_wrapper->getRenderedAdapterForm(
             $this->getTriggerPropertiesFormAdapter(),
             [["InteractiveImage", "trigger.properties.save", $this->lng->txt("save")]],
             "copg-iim-trigger-prop-form"
@@ -334,7 +336,8 @@ class InteractiveImageQueryActionHandler implements Server\QueryActionHandler
         return $content;
     }
 
-    protected function getTriggerOverlayFormAdapter(): \ILIAS\Repository\Form\FormAdapterGUI {
+    protected function getTriggerOverlayFormAdapter(): \ILIAS\Repository\Form\FormAdapterGUI
+    {
         return $this->gui->form(null, "#")
                          ->select(
                              "overlay",
@@ -344,20 +347,20 @@ class InteractiveImageQueryActionHandler implements Server\QueryActionHandler
                          );
     }
 
-    protected function getTriggerOverlay() : string
+    protected function getTriggerOverlay(): string
     {
-        $content = $this->getTriggerBackButton().
-            $this->getTriggerHeader().
+        $content = $this->getTriggerBackButton() .
+            $this->getTriggerHeader() .
             $this->getTriggerViewControls();
-        $content.= $this->getMessageArea();
-        $content.= $this->section($this->ui_wrapper->getRenderedButton(
+        $content .= $this->getMessageArea();
+        $content .= $this->section($this->ui_wrapper->getRenderedButton(
             $this->lng->txt("cont_iim_add_overlay"),
             "button",
             "trigger.add.overlay",
             null,
             "InteractiveImage"
         ));
-        $content.= $this->ui_wrapper->getRenderedAdapterForm(
+        $content .= $this->ui_wrapper->getRenderedAdapterForm(
             $this->getTriggerOverlayFormAdapter(),
             [["InteractiveImage", "trigger.overlay.save", $this->lng->txt("save")]],
             "copg-iim-trigger-overlay-form"
@@ -366,7 +369,8 @@ class InteractiveImageQueryActionHandler implements Server\QueryActionHandler
         return $content;
     }
 
-    protected function getTriggerPopupFormAdapter(): \ILIAS\Repository\Form\FormAdapterGUI {
+    protected function getTriggerPopupFormAdapter(): \ILIAS\Repository\Form\FormAdapterGUI
+    {
         return $this->gui->form(null, "#")
                          ->select(
                              "popup",
@@ -374,30 +378,32 @@ class InteractiveImageQueryActionHandler implements Server\QueryActionHandler
                              [
                              ]
                          )->select(
-                "size",
-                    $this->lng->txt("cont_iim_size"),
-                    [
+                             "size",
+                             $this->lng->txt("cont_iim_size"),
+                             [
                         "sm" => $this->lng->txt("cont_iim_sm"),
                         "md" => $this->lng->txt("cont_iim_md"),
                         "lg" => $this->lng->txt("cont_iim_lg")
-                    ], "", "md"
-                )->required();
+                    ],
+                             "",
+                             "md"
+                         )->required();
     }
 
-    protected function getTriggerPopup() : string
+    protected function getTriggerPopup(): string
     {
-        $content = $this->getTriggerBackButton().
-            $this->getTriggerHeader().
+        $content = $this->getTriggerBackButton() .
+            $this->getTriggerHeader() .
             $this->getTriggerViewControls();
-        $content.= $this->getMessageArea();
-        $content.= $this->section($this->ui_wrapper->getRenderedButton(
+        $content .= $this->getMessageArea();
+        $content .= $this->section($this->ui_wrapper->getRenderedButton(
             $this->lng->txt("cont_iim_tr_add_popup"),
             "button",
             "trigger.add.popup",
             null,
             "InteractiveImage"
         ));
-        $content.= $this->ui_wrapper->getRenderedAdapterForm(
+        $content .= $this->ui_wrapper->getRenderedAdapterForm(
             $this->getTriggerPopupFormAdapter(),
             [["InteractiveImage", "trigger.save.popup", $this->lng->txt("save")]],
             "copg-iim-trigger-popup-form"
@@ -408,32 +414,32 @@ class InteractiveImageQueryActionHandler implements Server\QueryActionHandler
     protected function getPopupOverview(): string
     {
         $content = $this->getTriggerBackButton();
-        $content.= "<h3>".$this->lng->txt("cont_content_popups")."</h3>";
-        $content.= $this->getMessageArea();
-        $content.= $this->section($this->ui_wrapper->getRenderedButton(
+        $content .= "<h3>" . $this->lng->txt("cont_content_popups") . "</h3>";
+        $content .= $this->getMessageArea();
+        $content .= $this->section($this->ui_wrapper->getRenderedButton(
             $this->lng->txt("cont_iim_tr_add_popup"),
             "button",
             "trigger.add.popup",
             null,
             "InteractiveImage"
         ));
-        $content.= $this->section($this->ui_wrapper->getRenderedListingPanelTemplate($this->lng->txt("cont_iim_overview")));
+        $content .= $this->section($this->ui_wrapper->getRenderedListingPanelTemplate($this->lng->txt("cont_iim_overview")));
         return $content;
     }
 
     protected function getOverlayOverview(): string
     {
         $content = $this->getTriggerBackButton();
-        $content.= "<h3>".$this->lng->txt("cont_overlay_images")."</h3>";
-        $content.= $this->getMessageArea();
-        $content.= $this->section($this->ui_wrapper->getRenderedButton(
+        $content .= "<h3>" . $this->lng->txt("cont_overlay_images") . "</h3>";
+        $content .= $this->getMessageArea();
+        $content .= $this->section($this->ui_wrapper->getRenderedButton(
             $this->lng->txt("cont_iim_add_overlay"),
             "button",
             "trigger.add.overlay",
             null,
             "InteractiveImage"
         ));
-        $content.= $this->section($this->ui_wrapper->getRenderedListingPanelTemplate($this->lng->txt("cont_iim_overview"), true));
+        $content .= $this->section($this->ui_wrapper->getRenderedListingPanelTemplate($this->lng->txt("cont_iim_overview"), true));
 
         return $content;
     }
@@ -448,9 +454,9 @@ class InteractiveImageQueryActionHandler implements Server\QueryActionHandler
         );
 
         $content = $this->getTriggerBackButton();
-        $content.= "<h3>".$this->lng->txt("cont_iim_background_image")."</h3>";
-        $content.= $this->getMessageArea();
-        $content.= $this->ui_wrapper->getRenderedAdapterForm(
+        $content .= "<h3>" . $this->lng->txt("cont_iim_background_image") . "</h3>";
+        $content .= $this->getMessageArea();
+        $content .= $this->ui_wrapper->getRenderedAdapterForm(
             $this->getPCInteractiveImageGUI()->getBackgroundPropertiesFormAdapter([get_class($this->page_gui), \ilPageEditorGUI::class, \ilPCInteractiveImageGUI::class]),
             [["InteractiveImage", "component.save", $this->lng->txt("save")]]
         );
@@ -480,7 +486,8 @@ class InteractiveImageQueryActionHandler implements Server\QueryActionHandler
         return $iim_gui;
     }
 
-    protected function getOverlayUploadFormAdapter(): \ILIAS\Repository\Form\FormAdapterGUI {
+    protected function getOverlayUploadFormAdapter(): \ILIAS\Repository\Form\FormAdapterGUI
+    {
         return $this->getPCInteractiveImageGUI()
                     ->getOverlayUploadFormAdapter([get_class($this->page_gui), \ilPageEditorGUI::class, \ilPCInteractiveImageGUI::class]);
     }

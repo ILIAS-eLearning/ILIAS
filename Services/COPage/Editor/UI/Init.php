@@ -73,7 +73,7 @@ class Init
         );
     }
 
-    protected function sanitizeAttribute(string $attr) : string
+    protected function sanitizeAttribute(string $attr): string
     {
         return str_replace(["<", ">", "'", "\""], "", $attr);
     }
@@ -82,8 +82,7 @@ class Init
         string $openPlaceHolderPcId = "",
         string $openFormPcId = "",
         string $openFormCName = ""
-    ) : string
-    {
+    ): string {
         $ctrl = $this->ctrl;
 
         $p1 = $this->sanitizeAttribute(
@@ -107,7 +106,7 @@ EOT;
         $module_tag = <<<EOT
 <script type="module" src="./Services/COPage/Editor/js/src/editor.js"></script>
 EOT;
-        return $init_span.$module_tag;
+        return $init_span . $module_tag;
     }
 
 }
