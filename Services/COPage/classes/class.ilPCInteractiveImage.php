@@ -396,21 +396,21 @@ class ilPCInteractiveImage extends ilPageContent
         foreach ($tr_nodes as $tr_node) {
             $childs = $tr_node->childNodes;
             $trigger_arr[] = array(
-                "Nr" => $tr_node->get_attribute("Nr"),
-                "Type" => $tr_node->get_attribute("Type"),
-                "Title" => $tr_node->get_attribute("Title"),
-                "OverlayX" => $tr_node->get_attribute("OverlayX"),
-                "OverlayY" => $tr_node->get_attribute("OverlayY"),
-                "MarkerX" => $tr_node->get_attribute("MarkerX"),
-                "MarkerY" => $tr_node->get_attribute("MarkerY"),
-                "Overlay" => $tr_node->get_attribute("Overlay"),
-                "PopupNr" => $tr_node->get_attribute("PopupNr"),
-                "PopupX" => $tr_node->get_attribute("PopupX"),
-                "PopupY" => $tr_node->get_attribute("PopupY"),
-                "PopupWidth" => $tr_node->get_attribute("PopupWidth"),
-                "PopupHeight" => $tr_node->get_attribute("PopupHeight"),
-                "PopupPosition" => $tr_node->get_attribute("PopupPosition"),
-                "PopupSize" => $tr_node->get_attribute("PopupSize")
+                "Nr" => $tr_node->getAttribute("Nr"),
+                "Type" => $tr_node->getAttribute("Type"),
+                "Title" => $tr_node->getAttribute("Title"),
+                "OverlayX" => $tr_node->getAttribute("OverlayX"),
+                "OverlayY" => $tr_node->getAttribute("OverlayY"),
+                "MarkerX" => $tr_node->getAttribute("MarkerX"),
+                "MarkerY" => $tr_node->getAttribute("MarkerY"),
+                "Overlay" => $tr_node->getAttribute("Overlay"),
+                "PopupNr" => $tr_node->getAttribute("PopupNr"),
+                "PopupX" => $tr_node->getAttribute("PopupX"),
+                "PopupY" => $tr_node->getAttribute("PopupY"),
+                "PopupWidth" => $tr_node->getAttribute("PopupWidth"),
+                "PopupHeight" => $tr_node->getAttribute("PopupHeight"),
+                "PopupPosition" => $tr_node->getAttribute("PopupPosition"),
+                "PopupSize" => $tr_node->getAttribute("PopupSize")
             );
         }
 
@@ -426,7 +426,7 @@ class ilPCInteractiveImage extends ilPageContent
     ): void {
         foreach ($this->iim_node->childNodes as $c) {
             if ($c->nodeName === "Trigger") {
-                if ($a_nr === $c->getAttribute("Nr")) {
+                if ($a_nr === (int) $c->getAttribute("Nr")) {
                     $c->parentNode->removeChild($c);
                 }
             }

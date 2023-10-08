@@ -39,7 +39,9 @@ class IIMManager
         global $DIC;
         $this->domain = $domain;
         $this->dom_util = $DIC->copage()->internal()->domain()->domUtil();
-        $this->log = $domain->log();
+        if (isset($DIC['ilLoggerFactory'])) {
+            $this->log = $domain->log();
+        }
     }
 
     public function handleUploadResult(

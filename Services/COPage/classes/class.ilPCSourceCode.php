@@ -26,12 +26,9 @@
  */
 class ilPCSourceCode extends ilPCParagraph
 {
-    protected \ILIAS\Filesystem\Filesystem $tmp_fs;
-
     public function init(): void
     {
         $this->setType("src");
-        $this->tmp_fs = $this->domain->filesystem()->temp();
     }
 
     public static function getLangVars(): array
@@ -168,11 +165,12 @@ class ilPCSourceCode extends ilPCParagraph
 
     public function importFile(string $tmpname): void
     {
-        if ($tmpname != "") {
+        if ($tmpname !== "") {
+            $tmpfs = $this->domain->filesystem()->temp();
             $this->setText(
-                $this->input2xml($this->tmp_fs->read($tmpname), 0, false)
+                $this->input2xml($tmpfs->read($tmpname), 0, false)
             );
-            $this->tmp_fs->delete($tmpname);
+            $tmpfs->delete($tmpname);
         }
     }
 }

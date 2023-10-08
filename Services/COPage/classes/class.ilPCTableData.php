@@ -139,6 +139,7 @@ class ilPCTableData extends ilPageContent
                 } else {
                     $new_td = $row->appendChild($new_td);
                 }
+                $this->deleteTDContent($new_td);
             }
         }
         $this->fixHideAndSpans();
