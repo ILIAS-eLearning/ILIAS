@@ -202,6 +202,14 @@ class ilObjQuestionPoolSettingsGeneralGUI
             $this->poolOBJ->setSkillServiceEnabled($skillService->getChecked());
         }
 
+        ilObjectServiceSettingsGUI::updateServiceSettingsForm(
+            $this->poolOBJ->getId(),
+            $form,
+            array(
+                ilObjectServiceSettingsGUI::TAXONOMIES
+            )
+        );
+
         $this->poolOBJ->saveToDb();
     }
 
@@ -266,6 +274,19 @@ class ilObjQuestionPoolSettingsGeneralGUI
             $skillService->setChecked($this->poolOBJ->isSkillServiceEnabled());
             $form->addItem($skillService);
         }
+
+        // additional features
+        $feat = new ilFormSectionHeaderGUI();
+        $feat->setTitle($this->lng->txt('obj_features'));
+        $form->addItem($feat);
+
+        ilObjectServiceSettingsGUI::initServiceSettingsForm(
+            $this->poolOBJ->getId(),
+            $form,
+            array(
+                ilObjectServiceSettingsGUI::TAXONOMIES
+            )
+        );
 
         return $form;
     }
