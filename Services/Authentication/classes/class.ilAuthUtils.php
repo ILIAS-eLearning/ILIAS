@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
 * static utility functions used to manage authentication modes
@@ -581,6 +581,7 @@ class ilAuthUtils
 
         $ilSetting = $DIC->settings();
 
+        //TODO fix casting strings like 2_1 (auth_key for first ldap server) to int to get it to 2
         switch ((int) $a_authmode) {
             // always enabled
             case self::AUTH_LOCAL:
@@ -611,7 +612,6 @@ class ilAuthUtils
     }
 
 
-
     /**
      * Check if password modification is enabled
      * @param int|string $a_authmode
@@ -619,42 +619,11 @@ class ilAuthUtils
      */
     public static function isPasswordModificationEnabled($a_authmode): bool
     {
-        global $DIC;
-
-        $ilSetting = $DIC['ilSetting'];
-
         if (self::isPasswordModificationHidden()) {
             return false;
         }
 
-        //TODO fix casting strings like 2_1 (auth_key for first ldap server) to int to get it to 2
-        switch ((int) $a_authmode) {
-            // No local passwords for these auth modes and default
-            default:
-            case self::AUTH_LDAP:
-            case self::AUTH_ECS:
-            case self::AUTH_SCRIPT:
-            case self::AUTH_PROVIDER_LTI:
-            case self::AUTH_OPENID_CONNECT:
-                return false;
-
-            case self::AUTH_SAML:
-                $idp = ilSamlIdp::getInstanceByIdpId(ilSamlIdp::getIdpIdByAuthMode((string) $a_authmode));
-                return $idp->isActive() && $idp->allowLocalAuthentication();
-
-            // Always for and local
-            case self::AUTH_LOCAL:
-            case self::AUTH_APACHE:
-                return true;
-
-            // Read setting:
-            case self::AUTH_SHIBBOLETH:
-                return $ilSetting->get("shib_auth_allow_local");
-            case self::AUTH_SOAP:
-                return $ilSetting->get("soap_auth_allow_local");
-            case self::AUTH_CAS:
-                return $ilSetting->get("cas_allow_local");
-        }
+        return self::isLocalPasswordEnabledForAuthMode($a_authmode);
     }
 
     /**
