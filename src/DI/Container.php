@@ -408,6 +408,11 @@ class Container extends \Pimple\Container
         return new \ILIAS\PersonalWorkspace\Service();
     }
 
+    public function taxonomy(): \ILIAS\Taxonomy\Service
+    {
+        return new \ILIAS\Taxonomy\Service($this);
+    }
+
     public function fileServiceSettings(): \ilFileServicesSettings
     {
         if ($this->file_service_settings === null) {

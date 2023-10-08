@@ -230,28 +230,12 @@ class ilObjTaxonomy extends ilObject2
      * @param int  $a_obj_id         object id
      * @param bool $a_include_titles include titles in array
      * @return array array of tax IDs or array of arrays with keys tax_id, title
+     * @deprecated Use $DIC->taxonomy()->domain()->usage()->getUsageOfObject() instead
      */
     public static function getUsageOfObject(int $a_obj_id, bool $a_include_titles = false): array
     {
         global $DIC;
-
-        $ilDB = $DIC->database();
-
-        $set = $ilDB->query(
-            "SELECT tax_id FROM tax_usage " .
-            " WHERE obj_id = " . $ilDB->quote($a_obj_id, "integer")
-        );
-        $tax = array();
-        while ($rec = $ilDB->fetchAssoc($set)) {
-            if (!$a_include_titles) {
-                $tax[] = (int) $rec["tax_id"];
-            } else {
-                $tax[] = array("tax_id" => (int) $rec["tax_id"],
-                               "title" => ilObject::_lookupTitle((int) $rec["tax_id"])
-                );
-            }
-        }
-        return $tax;
+        return $DIC->taxonomy()->internal()->domain()->usage()->getUsageOfObject($a_obj_id, $a_include_titles);
     }
 
     // Delete all usages of a taxonomy
