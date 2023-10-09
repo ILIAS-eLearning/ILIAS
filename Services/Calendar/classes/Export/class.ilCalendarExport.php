@@ -242,7 +242,7 @@ class ilCalendarExport
             return $str_writer;
         }
         $test_date = $app->getStart()->get(IL_CAL_FKT_DATE, 'Ymd');
-        if (!strlen($test_date)) {
+        if (!strlen((string) $test_date)) {
             return $str_writer;
         }
         $now = new ilDateTime(time(), IL_CAL_UNIX);
