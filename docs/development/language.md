@@ -38,6 +38,13 @@ avoid multiple entries of the same meaning.
 since we synchronise the variables when preparing a new ILIAS release. If a variable exists in a file of another 
 language but not in the English one, the entry will be removed from the file during synchronisation.
 
+7. When, for a new or upcoming version of ILIAS, the underlying functionality of a feature or object changes to 
+such an extent that the text_content of any corresponding language entries needs to be totally rewritten, create 
+instead NEW language entries. This prevents corrections or improvements that arise during ongoing work on the 
+current version of ILIAS (e.g. on the English language files or due to the gender mainstreaming process) from being 
+merged into the next version and thereby incorrectly reverting affected text_content to a previous (albeit slightly 
+improved or gender-conform) state.
+
 # Additional Information
 ## Loading Language Entries
 Adding new entries into language files will not make them available in the user interface automatically. You need to 
