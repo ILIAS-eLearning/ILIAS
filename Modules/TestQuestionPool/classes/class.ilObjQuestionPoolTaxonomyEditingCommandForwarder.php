@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+use ILIAS\Taxonomy\Service;
+
 /**
  * class can be used as forwarder for taxonomy editing context
  * @author		Björn Heyser <bheyser@databay.de>
@@ -23,7 +25,7 @@
  */
 class ilObjQuestionPoolTaxonomyEditingCommandForwarder
 {
-    protected \ILIAS\Taxonomy\Service $taxonomy;
+    protected Service $taxonomy;
     protected ilObjQuestionPool $poolOBJ;
     protected ilDBInterface $db;
     protected ilComponentRepository $component_repository;
@@ -38,7 +40,7 @@ class ilObjQuestionPoolTaxonomyEditingCommandForwarder
         ilCtrl $ctrl,
         ilTabsGUI $tabs,
         ilLanguage $lng,
-        \ILIAS\Taxonomy\Service $taxonomy
+        Service $taxonomy
     ) {
         $this->poolOBJ = $poolOBJ;
         $this->db = $db;

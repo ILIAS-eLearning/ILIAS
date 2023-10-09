@@ -205,9 +205,9 @@ class ilObjQuestionPoolSettingsGeneralGUI
         ilObjectServiceSettingsGUI::updateServiceSettingsForm(
             $this->poolOBJ->getId(),
             $form,
-            array(
+            [
                 ilObjectServiceSettingsGUI::TAXONOMIES
-            )
+            ]
         );
 
         $this->poolOBJ->saveToDb();
@@ -283,9 +283,9 @@ class ilObjQuestionPoolSettingsGeneralGUI
         ilObjectServiceSettingsGUI::initServiceSettingsForm(
             $this->poolOBJ->getId(),
             $form,
-            array(
+            [
                 ilObjectServiceSettingsGUI::TAXONOMIES
-            )
+            ]
         );
 
         return $form;
