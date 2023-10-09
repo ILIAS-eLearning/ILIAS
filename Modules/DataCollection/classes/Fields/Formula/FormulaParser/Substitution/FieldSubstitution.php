@@ -78,7 +78,7 @@ class FieldSubstitution
             // Workaround for standardfields - title my be ID
             $field = $table->getField($field_title);
             if ($field === null) {
-                throw new ilException(sprintf($this->lng->txt('dcl_err_formula_field_not_found'), $field_title));
+                throw new \ilException(sprintf($this->lng->txt('dcl_err_formula_field_not_found'), $field_title));
             }
         }
         self::$field_cache[$placeholder] = $field;
