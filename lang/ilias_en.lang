@@ -4875,9 +4875,7 @@ common#:#obj_objf_desc#:#Manage ILIAS object types and object permissions. (only
 common#:#obj_orgu#:#Organisational Unit
 common#:#obj_orgu_description#:#Creating and editing organisational structure
 common#:#obj_page#:#Page
-common#:#obj_pdfg#:#PDF Generation
-common#:#obj_pdfg_desc#:#Options for generation PDF documents
-common#:#obj_peac#:#Accordion/Carousel
+common#:#obj_peac#:#Accordion
 common#:#obj_peadl#:#Advanced List
 common#:#obj_peadt#:#Advanced Table
 common#:#obj_pecd#:#Code
@@ -5147,10 +5145,6 @@ common#:#path_to_zip#:#Path to Zip
 common#:#pathes#:#Paths
 common#:#pd_items_news#:#Include News of Personal Items
 common#:#pdf_export#:#PDF Export
-common#:#pdfg_edit_permission#:#User can change permission settings
-common#:#pdfg_read#:#User has read access to PDF Generation
-common#:#pdfg_visible#:#PDF Generation is visible
-common#:#pdfg_write#:#User can edit settings of PDF Generation
 common#:#perm_settings#:#Permissions
 common#:#perma_link#:#Permanent Link
 common#:#permission#:#Permission
@@ -12625,72 +12619,6 @@ pd#:#pd_upcoming#:#Upcoming
 pd#:#pd_view_select_at_least_one#:#You have to select at least one view, either ‘Selected Items’ and/or ‘My Memberships’.
 pdesk#:#bookmark_moved_ok#:#Bookmark has been moved.
 pdesk#:#bookmark_select_target#:#Please select target.
-pdfgen#:#checkbox_checked_svg#:#Path to checked checkbox svg
-pdfgen#:#checkbox_svg#:#Path to checkbox svg
-pdfgen#:#cleanup#:#Cleanup
-pdfgen#:#config#:#Config
-pdfgen#:#config_not_saved#:#Saving failed
-pdfgen#:#config_saved#:#Saved successfully
-pdfgen#:#configure#:#Configure Renderer
-pdfgen#:#enable_forms#:#Enable Forms
-pdfgen#:#enable_forms_info#:#Turn HTML form fields into pdf form fields
-pdfgen#:#external_links#:#Externel links
-pdfgen#:#external_links_info#:#Make links to remote web pages
-pdfgen#:#footer_height#:#Height Footer
-pdfgen#:#footer_html#:#Html
-pdfgen#:#footer_line#:#Footer line
-pdfgen#:#footer_show_pages#:#Show Pagenumbers
-pdfgen#:#footer_text#:#Text
-pdfgen#:#footer_text_center#:#Text center
-pdfgen#:#footer_text_left#:#Text left
-pdfgen#:#footer_text_right#:#Text right
-pdfgen#:#footer_type#:#Footer
-pdfgen#:#greyscale#:#Greyscale
-pdfgen#:#greyscale_info#:#PDF will be generated in grayscale
-pdfgen#:#head_text#:#Text
-pdfgen#:#header_height#:#Header Height
-pdfgen#:#header_line#:#Header line
-pdfgen#:#header_show_pages#:#Show Pagenumbers
-pdfgen#:#header_text_center#:#Text center
-pdfgen#:#header_text_left#:#Text left
-pdfgen#:#header_text_right#:#Text right
-pdfgen#:#header_type#:#Header
-pdfgen#:#html#:#Html
-pdfgen#:#image_scale#:#Image scale
-pdfgen#:#javascript_delay#:#Javascript delay
-pdfgen#:#javascript_delay_info#:#If JavaScript is used to render page content, add a delay to make sure the content appears in the PDF. The standard delay of 200ms should suffice in most cases.
-pdfgen#:#low_quality#:#Low quality
-pdfgen#:#low_quality_info#:#Generates lower quality pdf/ps. Useful to shrink the result document space
-pdfgen#:#margin#:#Margin 345
-pdfgen#:#margin_bottom#:#Margin bottom
-pdfgen#:#margin_info#:#Margin in mm e.g. 10mm
-pdfgen#:#margin_left#:#Margin left
-pdfgen#:#margin_right#:#Margin right
-pdfgen#:#margin_top#:#Margin top
-pdfgen#:#none#:#Keine
-pdfgen#:#orientation#:#Orientation
-pdfgen#:#output_options#:#Output options
-pdfgen#:#overwrite_font#:#Overwrite default font
-pdfgen#:#overwrite_font_info#:#Enter somthing similar to: 'serif', 'sans-serif', 'monospace' usw.
-pdfgen#:#page_settings#:#Page Settings
-pdfgen#:#page_size#:#Pagesize
-pdfgen#:#path#:#Path to wkhtmltopdf
-pdfgen#:#preferred_renderer#:#Preferred Renderer
-pdfgen#:#print_media_info#:#Use print media-type instead of screen
-pdfgen#:#print_media_type#:#Use print media type instead of screen
-pdfgen#:#problem_with_purposes#:#A problem in the configuration was detected, please use the button "Cleanup" to resolve this issue.
-pdfgen#:#radio_button_checked_svg#:#Path to checked radiobutton svg
-pdfgen#:#radio_button_svg#:#Path to radiobutton svg
-pdfgen#:#reset_to_default#:#Reset settings to default
-pdfgen#:#selected_renderer#:#Selected Renderer
-pdfgen#:#spacing#:#Spacing
-pdfgen#:#text#:#Text
-pdfgen#:#user_stylesheet#:#User stylesheet
-pdfgen#:#viewport#:#Viewport
-pdfgen#:#viewport_info#:#Viewport in pixels e.g. "1920*1080"
-pdfgen#:#webkit#:#wkhtmltopdf
-pdfgen#:#wkhtml_config#:#Configuration for WKHTML
-pdfgen#:#zoom#:#Zoom
 poll#:#poll_absolute#:#Current Votes
 poll#:#poll_activation_online_info#:#Activate this setting to make the poll accessible to users.
 poll#:#poll_add#:#Add Poll
