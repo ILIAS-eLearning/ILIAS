@@ -606,7 +606,7 @@ assessment#:#delete_image_header#:#Remove image
 assessment#:#delete_image_question#:#Do you really want to remove the image?
 assessment#:#delete_user_data#:#Remove Test Data of Selected Users
 assessment#:#description_maxchars#:#If nothing entered the maximum number of characters for this text answer is unlimited.
-assessment#:#detail_ending_time_reached#:#The maximum time available for completing this test has expired. This test has not been available since %s .
+assessment#:#detail_ending_time_reached#:#The maximum time available for completing this test has expired. This test has not been available since %s.
 assessment#:#detail_max_processing_time_reached#:#You have exceeded the maximum time available for completing this test! You are no longer allowed to continue with the test.
 assessment#:#detail_starting_time_not_reached#:#You cannot start the test yet. The test will be available from %s onwards.
 assessment#:#detailed_evaluation#:#Detailed Evaluation
