@@ -132,10 +132,9 @@ JS;
         if (!$hasErrors) {
             require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
 
-            $cloze_text = $this->object->getHtmlQuestionContentPurifier()->purify(
+            $cloze_text = $this->removeIndizesFromGapText(
                 $this->request->raw('cloze_text')
             );
-            $cloze_text = $this->removeIndizesFromGapText($cloze_text);
 
             $this->object->setQuestion(
                 $this->request->raw('question')
@@ -151,9 +150,6 @@ JS;
             return 0;
         }
 
-        $cloze_text = $this->applyIndizesToGapText(
-            $this->request->raw('cloze_text')
-        );
         return 1;
     }
 
@@ -285,8 +281,8 @@ JS;
             ) {
                 $assClozeGapCombinationObject->saveGapCombinationToDb(
                     $this->object->getId(),
-                    ilArrayUtil::stripSlashesRecursive($_POST['gap_combination']),
-                    ilArrayUtil::stripSlashesRecursive($_POST['gap_combination_values'])
+                    $_POST['gap_combination'],
+                    $_POST['gap_combination_values']
                 );
             }
         }
@@ -1777,8 +1773,8 @@ JS;
             }
         }
 
-        $combinationPoints = ilArrayUtil::stripSlashesRecursive($combinationPoints);
-        $combinationValues = ilArrayUtil::stripSlashesRecursive($combinationValues);
+        $combinationPoints = $combinationPoints;
+        $combinationValues = $combinationValues;
 
         $assClozeGapCombinationObject = new assClozeGapCombination();
         $assClozeGapCombinationObject->clearGapCombinationsFromDb($this->object->getId());
