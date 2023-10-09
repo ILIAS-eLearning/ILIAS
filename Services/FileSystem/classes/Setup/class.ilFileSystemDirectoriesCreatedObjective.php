@@ -52,7 +52,6 @@ class ilFileSystemDirectoriesCreatedObjective implements Setup\Objective
     public function getPreconditions(Setup\Environment $environment): array
     {
         $client_id = $environment->getResource(Setup\Environment::RESOURCE_CLIENT_ID);
-        $tmp_dir = $environment->getConfigFor("tmp_dir");
         $data_dir = $this->config->getDataDir();
         $web_dir = dirname(__DIR__, 4) . "/data";
         $root = dirname(__DIR__, 4);
@@ -65,6 +64,8 @@ class ilFileSystemDirectoriesCreatedObjective implements Setup\Objective
         $customizing_dir_objective = new Setup\Objective\NullObjective();
 
         if ($environment->hasConfigFor(Setup\CLI\InstallCommand::IMPORT)) {
+            $tmp_dir = $environment->getConfigFor("tmp_dir");
+
             $web_dir_objective = new ObjectiveWithPreconditions(
                 new ilFileSystemClientDirectoryRenamedObjective(
                     $web_dir
