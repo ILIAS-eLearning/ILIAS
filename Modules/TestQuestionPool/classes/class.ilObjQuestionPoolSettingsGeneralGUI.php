@@ -192,9 +192,6 @@ class ilObjQuestionPoolSettingsGeneralGUI
         $online = $form->getItemByPostVar('online');
         $this->poolOBJ->setOnline($online->getChecked());
 
-        $showTax = $form->getItemByPostVar('show_taxonomies');
-        $this->poolOBJ->setShowTaxonomies($showTax->getChecked());
-
         $DIC->object()->commonSettings()->legacyForm($form, $this->poolOBJ)->saveTileImage();
 
         if ($this->formPropertyExists($form, 'skill_service')) {
@@ -249,13 +246,6 @@ class ilObjQuestionPoolSettingsGeneralGUI
         $online->setInfo($this->lng->txt('qpl_settings_general_form_property_online_description'));
         $online->setChecked($this->poolOBJ->getOnline());
         $form->addItem($online);
-
-        // show taxonomies
-
-        $showTax = new ilCheckboxInputGUI($this->lng->txt('qpl_settings_general_form_property_show_taxonomies'), 'show_taxonomies');
-        $showTax->setInfo($this->lng->txt('qpl_settings_general_form_prop_show_tax_desc'));
-        $showTax->setChecked($this->poolOBJ->getShowTaxonomies());
-        $form->addItem($showTax);
 
         $section = new ilFormSectionHeaderGUI();
         $section->setTitle($this->lng->txt('tst_presentation_settings_section'));
