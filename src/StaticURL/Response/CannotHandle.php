@@ -16,17 +16,21 @@
  *
  *********************************************************************/
 
-/** @noRector */
+namespace ILIAS\StaticURL\Response;
 
-use ILIAS\StaticURL\Services;
+/**
+ * @author Fabian Schmid <fabian@sr.solutions>
+ */
+class CannotHandle implements Response
+{
+    public function getURIPath(): ?string
+    {
+        return null;
+    }
 
-require_once("libs/composer/vendor/autoload.php");
-ilInitialisation::initILIAS();
+    public function targetCanBeReached(): bool
+    {
+        return false;
+    }
 
-global $DIC;
-
-/** @var Services $static_url */
-$static_url = $DIC['static_url'];
-$static_url->handler()->performRedirect(
-    $static_url->builder()->getBaseURI()
-);
+}

@@ -16,17 +16,26 @@
  *
  *********************************************************************/
 
-/** @noRector */
+namespace ILIAS\StaticURL\Response;
 
-use ILIAS\StaticURL\Services;
+/**
+ * @author Fabian Schmid <fabian@sr.solutions>
+ */
+class CanHandleWithURIPath implements Response
+{
+    public function __construct(
+        private string $uri_path
+    ) {
+    }
 
-require_once("libs/composer/vendor/autoload.php");
-ilInitialisation::initILIAS();
+    public function getURIPath(): ?string
+    {
+        return $this->uri_path;
+    }
 
-global $DIC;
+    public function targetCanBeReached(): bool
+    {
+        return true;
+    }
 
-/** @var Services $static_url */
-$static_url = $DIC['static_url'];
-$static_url->handler()->performRedirect(
-    $static_url->builder()->getBaseURI()
-);
+}

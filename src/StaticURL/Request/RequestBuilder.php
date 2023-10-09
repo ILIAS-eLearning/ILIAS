@@ -16,17 +16,16 @@
  *
  *********************************************************************/
 
-/** @noRector */
+declare(strict_types=1);
 
-use ILIAS\StaticURL\Services;
+namespace ILIAS\StaticURL\Request;
 
-require_once("libs/composer/vendor/autoload.php");
-ilInitialisation::initILIAS();
+use ILIAS\Refinery\Factory;
 
-global $DIC;
-
-/** @var Services $static_url */
-$static_url = $DIC['static_url'];
-$static_url->handler()->performRedirect(
-    $static_url->builder()->getBaseURI()
-);
+/**
+ * @author Fabian Schmid <fabian@sr.solutions>
+ */
+interface RequestBuilder
+{
+    public function buildRequest(\ILIAS\HTTP\Services $http, Factory $refinery, array $handlers): ?Request;
+}

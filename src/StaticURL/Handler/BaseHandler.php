@@ -16,17 +16,24 @@
  *
  *********************************************************************/
 
-/** @noRector */
+declare(strict_types=1);
 
-use ILIAS\StaticURL\Services;
+namespace ILIAS\StaticURL\Handler;
 
-require_once("libs/composer/vendor/autoload.php");
-ilInitialisation::initILIAS();
+use ILIAS\StaticURL\Request\Request;
 
-global $DIC;
+/**
+ * @author Fabian Schmid <fabian@sr.solutions>
+ */
+abstract class BaseHandler
+{
+    public function __construct()
+    {
+    }
 
-/** @var Services $static_url */
-$static_url = $DIC['static_url'];
-$static_url->handler()->performRedirect(
-    $static_url->builder()->getBaseURI()
-);
+    public function canHandle(Request $request): bool
+    {
+        return $this->getNamespace() === $request->getNamespace();
+    }
+
+}

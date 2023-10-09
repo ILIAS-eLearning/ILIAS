@@ -16,17 +16,21 @@
  *
  *********************************************************************/
 
-/** @noRector */
+declare(strict_types=1);
 
-use ILIAS\StaticURL\Services;
+namespace ILIAS\StaticURL;
 
-require_once("libs/composer/vendor/autoload.php");
-ilInitialisation::initILIAS();
+use ILIAS\Setup\Agent;
+use ILIAS\Setup\Objective;
 
-global $DIC;
+/**
+ * @author Fabian Schmid <fabian@sr.solutions>
+ */
+class SetupAgent extends Agent\NullAgent implements Agent
+{
+    public function getBuildArtifactObjective(): Objective
+    {
+        return new ArtifactObjective();
+    }
 
-/** @var Services $static_url */
-$static_url = $DIC['static_url'];
-$static_url->handler()->performRedirect(
-    $static_url->builder()->getBaseURI()
-);
+}

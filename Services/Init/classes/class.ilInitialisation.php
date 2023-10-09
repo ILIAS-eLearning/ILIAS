@@ -418,6 +418,9 @@ class ilInitialisation
 
         // remove everything after the first .php in the path
         $ilias_http_path = preg_replace('/(http|https)(:\/\/)(.*?\/.*?\.php).*/', '$1$2$3', $ilias_http_path);
+        $ilias_http_path = preg_replace('/goto.php\/$/', '', $ilias_http_path);
+        $ilias_http_path = preg_replace('/goto.php$/', '', $ilias_http_path);
+        $ilias_http_path = preg_replace('/go\/.*$/', '', $ilias_http_path);
 
         $f = new \ILIAS\Data\Factory();
         $uri = $f->uri(ilFileUtils::removeTrailingPathSeparators($ilias_http_path));
@@ -1449,6 +1452,8 @@ class ilInitialisation
     {
         $init_http = new InitHttpServices();
         $init_http->init($container);
+
+        \ILIAS\StaticURL\Init::init($container);
     }
 
     /**

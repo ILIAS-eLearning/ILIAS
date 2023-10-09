@@ -16,17 +16,23 @@
  *
  *********************************************************************/
 
-/** @noRector */
+declare(strict_types=1);
 
-use ILIAS\StaticURL\Services;
+namespace ILIAS\StaticURL\Builder;
 
-require_once("libs/composer/vendor/autoload.php");
-ilInitialisation::initILIAS();
+use ILIAS\Data\URI;
+use ILIAS\Data\ReferenceId;
 
-global $DIC;
+/**
+ * @author Fabian Schmid <fabian@sr.solutions>
+ */
+interface URIBuilder
+{
+    public function build(
+        string $namespace,
+        ?ReferenceId $reference_id = null,
+        array $additional_parameters = []
+    ): URI;
 
-/** @var Services $static_url */
-$static_url = $DIC['static_url'];
-$static_url->handler()->performRedirect(
-    $static_url->builder()->getBaseURI()
-);
+    public function getBaseURI(): URI;
+}

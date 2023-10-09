@@ -342,7 +342,7 @@ class ilObjFileAccess extends ilObjectAccess implements ilWACCheckingClass
      */
     public static function _getPermanentDownloadLink(int $ref_id): string
     {
-        return ilLink::_getStaticLink($ref_id, "file", true, "_download");
+        return ilLink::_getStaticLink($ref_id, "file", true, "download");
     }
 
     /**

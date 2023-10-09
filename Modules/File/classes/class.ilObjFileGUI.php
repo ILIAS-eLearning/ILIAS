@@ -61,6 +61,7 @@ class ilObjFileGUI extends ilObject2GUI
     public const CMD_VERSIONS = "versions";
     public const CMD_UPLOAD_FILES = "uploadFiles";
 
+    public const CMD_SEND_FILE = "sendFile";
 
     /**
      * @var \ilObjFile|null $object
@@ -861,12 +862,12 @@ class ilObjFileGUI extends ilObject2GUI
         }
 
         // Download Launcher
-        if ($this->checkPermissionBool("read", "sendfile")) {
+        if ($this->checkPermissionBool("read", self::CMD_SEND_FILE)) {
             // get permanent download link for repository
             if ($this->id_type === self::REPOSITORY_NODE_ID) {
                 $download_target = ilObjFileAccess::_getPermanentDownloadLink($this->node_id);
             } else {
-                $download_target = $this->ctrl->getLinkTarget($this, "sendfile");
+                $download_target = $this->ctrl->getLinkTarget($this, self::CMD_SEND_FILE);
             }
             $url = $this->data_factory->uri($download_target);
             $link = $this->data_factory->link($this->lng->txt('file_download'), $url);
@@ -901,7 +902,6 @@ class ilObjFileGUI extends ilObject2GUI
                 }
             }
         }
-
 
         $info->hideFurtherSections(false);
 

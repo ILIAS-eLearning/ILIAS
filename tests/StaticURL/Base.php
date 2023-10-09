@@ -16,17 +16,11 @@
  *
  *********************************************************************/
 
-/** @noRector */
+namespace ILIAS\StaticURL\Tests;
 
-use ILIAS\StaticURL\Services;
-
-require_once("libs/composer/vendor/autoload.php");
-ilInitialisation::initILIAS();
-
-global $DIC;
-
-/** @var Services $static_url */
-$static_url = $DIC['static_url'];
-$static_url->handler()->performRedirect(
-    $static_url->builder()->getBaseURI()
-);
+/**
+ * @author Fabian Schmid <fabian@sr.solutions>
+ */
+abstract class Base extends \PHPUnit\Framework\TestCase
+{
+}
