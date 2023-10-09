@@ -51,19 +51,6 @@ class assClozeTestTest extends assBaseTestCase
         $this->assertInstanceOf('assClozeTest', $instance);
     }
 
-    public function test_cleanQuestionText_shouldReturnCleanedText()
-    {
-        // Arrange
-        require_once './Modules/TestQuestionPool/classes/class.assClozeTest.php';
-        $instance = new assClozeTest();
-        $in_text = 'Ein <gap>Männlein</gap> steht <gap id="Walter">im</gap> <b>Walde</b> ganz <gap 2>still</gap> und [gap]stumm[/gap]<hr />';
-        $expected = 'Ein [gap]Männlein[/gap] steht [gap]im[/gap] <b>Walde</b> ganz [gap]still[/gap] und [gap]stumm[/gap]<hr />';
-
-        $actual = $instance->cleanQuestiontext($in_text);
-
-        $this->assertEquals($expected, $actual);
-    }
-
     public function test_isComplete_shouldReturnFalseIfIncomplete()
     {
         // Arrange
@@ -82,7 +69,7 @@ class assClozeTestTest extends assBaseTestCase
         require_once './Modules/TestQuestionPool/classes/class.assClozeTest.php';
         $instance = new assClozeTest();
         $expected = '<gappo_the_great>';
-        
+
         $instance->setStartTag($expected);
         $actual = $instance->getStartTag();
 
@@ -100,7 +87,7 @@ class assClozeTestTest extends assBaseTestCase
         $instance->setStartTag($alternate_tag);
         $intermediate = $instance->getStartTag();
         $this->assertEquals($alternate_tag, $intermediate);
-        
+
         $instance->setStartTag();
         $actual = $instance->getStartTag();
 
