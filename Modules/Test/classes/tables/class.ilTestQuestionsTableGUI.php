@@ -225,45 +225,44 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
         } else {
             $this->tpl->setVariable("QUESTION_POOL", $this->lng->txt('tst_question_not_from_pool_info'));
         }
-        $actions = new ilAdvancedSelectionListGUI();
-        $actions->setId('qst' . $a_set["question_id"]);
-        $actions->setListTitle($this->lng->txt('actions'));
+        $actions = [];
 
-        $actions->addItem(
+        $actions[] = $this->ui_factory->link()->standard(
             $this->lng->txt('preview'),
-            '',
             $this->getPreviewLink($a_set)
         );
 
-        $actions->addItem(
+        $actions[] = $this->ui_factory->link()->standard(
             $this->lng->txt('statistics'),
-            '',
             $this->getQuestionEditLink($a_set, 'ilAssQuestionPreviewGUI', ilAssQuestionPreviewGUI::CMD_STATISTICS)
         );
 
         if ($this->isQuestionManagingEnabled()) {
             $editHref = $this->getQuestionEditLink($a_set, $a_set['type_tag'] . 'GUI', 'editQuestion');
-            $actions->addItem($this->lng->txt('edit_question'), '', $editHref);
+            $actions[] = $this->ui_factory->link()->standard($this->lng->txt('edit_question'), $editHref);
 
             $editPageHref = $this->getQuestionEditLink($a_set, 'ilAssQuestionPageGUI', 'edit');
-            $actions->addItem($this->lng->txt('edit_page'), '', $editPageHref);
+            $actions[] = $this->ui_factory->link()->standard($this->lng->txt('edit_page'), $editPageHref);
+
 
             $moveHref = $this->getEditLink($a_set, get_class($this->getParentObject()), 'moveQuestions');
-            $actions->addItem($this->lng->txt('move'), '', $moveHref);
+            $actions[] = $this->ui_factory->link()->standard($this->lng->txt('move'), $moveHref);
 
             $copyHref = $this->getEditLink($a_set, get_class($this->getParentObject()), 'copyQuestion');
-            $actions->addItem($this->lng->txt('copy'), '', $copyHref);
+            $actions[] = $this->ui_factory->link()->standard($this->lng->txt('copy'), $copyHref);
 
             $deleteHref = $this->getEditLink($a_set, get_class($this->getParentObject()), 'removeQuestions');
-            $actions->addItem($this->lng->txt('delete'), '', $deleteHref);
+            $actions[] = $this->ui_factory->link()->standard($this->lng->txt('delete'), $deleteHref);
 
             $feedbackHref = $this->getQuestionEditLink($a_set, 'ilAssQuestionFeedbackEditingGUI', ilAssQuestionFeedbackEditingGUI::CMD_SHOW);
-            $actions->addItem($this->lng->txt('tst_feedback'), '', $feedbackHref);
+            $actions[] = $this->ui_factory->link()->standard($this->lng->txt('tst_feedback'), $feedbackHref);
 
             $hintsHref = $this->getQuestionEditLink($a_set, 'ilAssQuestionHintsGUI', ilAssQuestionHintsGUI::CMD_SHOW_LIST);
-            $actions->addItem($this->lng->txt('tst_question_hints_tab'), '', $hintsHref);
+            $actions[] = $this->ui_factory->link()->standard($this->lng->txt('tst_question_hints_tab'), $hintsHref);
         }
-        $this->tpl->setVariable('ROW_ACTIONS', $actions->getHTML());
+        $dropdown = $this->ui_factory->dropdown()->standard($actions)->withLabel($this->lng->txt('actions'));
+
+        $this->tpl->setVariable('ROW_ACTIONS', $this->ui_renderer->render($dropdown));
         if ($this->isQuestionRemoveRowButtonEnabled()) {
             $this->tpl->setVariable('ROW_ACTIONS', $this->buildQuestionRemoveButton($a_set));
         }

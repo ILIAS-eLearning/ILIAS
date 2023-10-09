@@ -20,6 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS\MediaCast;
 
+use function Symfony\Component\DependencyInjection\Loader\Configurator\iterator;
+
 /**
  *
  * @author Alexander Killing <killing@leifos.de>
@@ -42,13 +44,13 @@ class MediaCastManager
     {
         switch ($view_mode) {
             case \ilObjMediaCast::VIEW_VCAST:
-                return $this->media_types->getVideoSuffixes();
+                return iterator_to_array($this->media_types->getAllowedVideoSuffixes());
                 break;
             case \ilObjMediaCast::VIEW_IMG_GALLERY:
-                return $this->media_types->getImageSuffixes();
+                return iterator_to_array($this->media_types->getAllowedImageSuffixes());
                 break;
             case \ilObjMediaCast::VIEW_PODCAST:
-                return $this->media_types->getAudioSuffixes();
+                return iterator_to_array($this->media_types->getAllowedAudioSuffixes());
                 break;
         }
         return [];

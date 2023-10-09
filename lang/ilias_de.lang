@@ -4878,7 +4878,7 @@ common#:#obj_orgu_description#:#Anlage und Verwaltung der Organisationsstruktur
 common#:#obj_page#:#Seite
 common#:#obj_pdfg#:#PDF-Erstellung
 common#:#obj_pdfg_desc#:#Administrationseinstellungen für die PDF-Erstellung
-common#:#obj_peac#:#Akkordeon
+common#:#obj_peac#:#Akkordeon/Karussell
 common#:#obj_peadl#:#Erweiterte Liste
 common#:#obj_peadt#:#Erweiterte Tabelle
 common#:#obj_pecd#:#Code
@@ -6120,11 +6120,15 @@ content#:#cont_cc_imp#:#Wichtig
 content#:#cont_cc_str#:#Stark
 content#:#cont_cc_sub#:#Tiefgestellt
 content#:#cont_cc_sup#:#Hochgestellt
+content#:#cont_cell_properties#:#Eigenschaften der Tabellenzellen
 content#:#cont_center#:#Mittig
+content#:#cont_change_alignment#:#Ausrichtung ändern
 content#:#cont_change_notification_salutation#:#Hallo %s,
 content#:#cont_change_notification_subject_lm#:#Das Lernmodule "%1$s" wurde geändert: %2$s
 content#:#cont_change_object_reference#:#Ändere Objektreferenz
+content#:#cont_change_style#:#Style ändern
 content#:#cont_change_type#:#Typ ändern
+content#:#cont_change_width#:#Breite ändern
 content#:#cont_chap_and_pages#:#Kapitel und Seiten
 content#:#cont_chap_select_target_now#:#Wählen Sie jetzt die Checkbox, hinter die das Kapitel verschoben werden soll.
 content#:#cont_chapters#:#Kapitel
@@ -6163,6 +6167,8 @@ content#:#cont_click_next_or_save#:#Bitte klicken Sie auf die nächste Ecke des 
 content#:#cont_click_next_point#:#Bitte klicken Sie auf die nächste Ecke des Polygons.
 content#:#cont_click_starting_point#:#Bitte klicken Sie auf den Startpunkt des Polygons.
 content#:#cont_click_tl_corner#:#Bitte klicken Sie in die obere linke Ecke des gewünschten Bereichs
+content#:#cont_code_import_file#:#Import
+content#:#cont_code_manual_editing#:#Manual Editing
 content#:#cont_col_ordering#:#Spaltenanordnung
 content#:#cont_colspan#:#Verbund Spalte
 content#:#cont_commented_by#:#Kommentiert von
@@ -6297,12 +6303,12 @@ content#:#cont_ed_insert_pcqst#:#Frage einfügen
 content#:#cont_ed_insert_plach#:#Platzhalter einfügen
 content#:#cont_ed_insert_prof#:#Persönliche Daten einfügen
 content#:#cont_ed_insert_qover#:#Fragenübersicht einfügen
-content#:#cont_ed_insert_repobj#:#Materialienliste einfügen
+content#:#cont_ed_insert_repobj#:#Objekteblock einfügen
 content#:#cont_ed_insert_sec#:#Block einfügen
 content#:#cont_ed_insert_skills#:#Kompetenzen einfügen
 content#:#cont_ed_insert_src#:#Programmcode einfügen
 content#:#cont_ed_insert_tab#:#Erweiterte Tabelle einfügen
-content#:#cont_ed_insert_tabs#:#Akkordeon einfügen
+content#:#cont_ed_insert_tabs#:#Akkordeon/Karussell einfügen
 content#:#cont_ed_insert_templ#:#Inhaltsvorlage einfügen
 content#:#cont_ed_insert_vrfc#:#Zertifikat einfügen
 content#:#cont_ed_item_down#:#Eintrag nach unten verschieben
@@ -6310,12 +6316,14 @@ content#:#cont_ed_item_up#:#Eintrag nach oben verschieben
 content#:#cont_ed_list#:#Erweiterte Liste
 content#:#cont_ed_moveafter#:#Verschieben nach
 content#:#cont_ed_movebefore#:#Verschieben vor
-content#:#cont_ed_new_col_after#:#Neue Spalte rechts
-content#:#cont_ed_new_col_before#:#Neue Spalte links
+content#:#cont_ed_new_col_after#:#Neue Spalten rechts
+content#:#cont_ed_new_col_before#:#Neue Spalten links
 content#:#cont_ed_new_item_after#:#Neuen Eintrag unterhalb
 content#:#cont_ed_new_item_before#:#Neuen Eintrag oberhalb
-content#:#cont_ed_new_row_after#:#Neue Zeile unterhalb
-content#:#cont_ed_new_row_before#:#Neue Zeile oberhalb
+content#:#cont_ed_new_row_after#:#Neue Zeilen unterhalb
+content#:#cont_ed_new_row_before#:#Neue Zeilen oberhalb
+content#:#cont_ed_nr_cols#:#Anzahl Spalten
+content#:#cont_ed_nr_rows#:#Anzahl Zeilen
 content#:#cont_ed_par#:#Text
 content#:#cont_ed_paste#:#Einfügen
 content#:#cont_ed_paste_clip#:#Aus Ablage einfügen
@@ -6354,8 +6362,10 @@ content#:#cont_edit_shape_rectangle#:#Umriss (Rechteck) bearbeiten
 content#:#cont_edit_shape_whole_picture#:#Umriss (gesamtes Bild) bearbeiten
 content#:#cont_edit_src#:#Programmcode bearbeiten
 content#:#cont_edit_style#:#Style bearbeiten
+content#:#cont_edit_table#:#Tabelle editieren
 content#:#cont_edit_tabs#:#Eigenschaften
 content#:#cont_edit_term#:#Begriff bearbeiten
+content#:#cont_edit_title#:#Titel ändern
 content#:#cont_element_refers_removed_itgr#:#Dieses Inhaltselement verweist auf einen Objekteblock, der in der Zwischenzeit gelöscht wurde.
 content#:#cont_empty_question#:#Die Frage ist noch nicht fertiggestellt. Bitte bearbeiten Sie diese abschließend oder löschen Sie die Frage.
 content#:#cont_enable_page_history#:#Seitenverlauf aktivieren
@@ -6382,6 +6392,7 @@ content#:#cont_file_renamed#:#Die Datei wurde umbenannt.
 content#:#cont_file_unzipped#:#Die Datei wurde entpackt.
 content#:#cont_files#:#Dateien
 content#:#cont_finish_editing#:#Bearbeitung beenden
+content#:#cont_finish_table_editing#:#Editieren der Tabelle beenden
 content#:#cont_first_open#:#Erstes Fach geöffnet
 content#:#cont_first_page#:#Erste Seite
 content#:#cont_first_row_style#:#Stil der ersten Zeile
@@ -6392,6 +6403,7 @@ content#:#cont_footer#:#Fußzeile
 content#:#cont_footnote#:#Fußnote
 content#:#cont_force_all_open#:#Alle immer geöffnet
 content#:#cont_format#:#Format
+content#:#cont_format_cells#:#Zellen formattieren
 content#:#cont_fourth_edition#:#Neueste Version 'SCORM 2004 4th edition'
 content#:#cont_fourth_edition_info#:#'SCORM 2004 4th edition' bietet gegenüber der '3rd edition' einige Erweiterungen. Es können Daten über SCO-Grenzen hinweg ausgetauscht werden. Diese Möglichkeiten werden allerdings nur selten genutzt und wirken sich negativ auf die Geschwindigkeit und auf zu löschende Daten aus.
 content#:#cont_free_pages#:#Freie Seiten
@@ -6428,6 +6440,7 @@ content#:#cont_grid_width_xl#:#Sehr groß (Extra Large)
 content#:#cont_grid_width_xl_info#:#z.B. Wide Desktop
 content#:#cont_hacc_needs_height#:#Bitte geben Sie für horizontale Akkordeons eine Höhe an.
 content#:#cont_hacc_needs_width#:#Bitte geben Sie für horizontale Akkordeons eine Breite an.
+content#:#cont_has_row_header#:#Kopfzeile
 content#:#cont_header#:#Kopfzeile
 content#:#cont_height#:#Höhe in Pixel
 content#:#cont_help_no_valid_tooltip_id#:#Die eingegebene Tooltip-ID ist nicht gültig.
@@ -6447,6 +6460,27 @@ content#:#cont_ie_compatibility#:#Internet Explorer 7 Kompatibilitätsmodus
 content#:#cont_ie_compatibility_info#:#Vermindert Darstellungsprobleme älterer SCORM-Lernmodule, die für den Internet Explorer optimiert wurden. Wenn bei neueren Versionen des Internet Explorers der Kompatibilitätsmodus deaktiviert ist, greift diese Einstellung nicht. <br />
 content#:#cont_ie_force_render#:#Internet Explorer neu rendern lassen
 content#:#cont_ie_force_render_info#:#Korrekte Anzeige der Inhalte des SCORM-Lernmoduls mit vielen Frames oder iFrames wird durch erneutes Rendern des Inhaltes erreicht.
+content#:#cont_iim_add_overlay#:#Overlay-Bild hinzufügen
+content#:#cont_iim_add_trigger#:#Auslöser hinzufügen
+content#:#cont_iim_add_trigger_text#:#Bitte fügen Sie einen Auslöser hinzu. Passen Sie anschließen im rechten Bereich Größe und Position an.
+content#:#cont_iim_background_image#:#Hintergrundbild
+content#:#cont_iim_background_image_and_caption#:#Hintergrundbild und Bildunterschrift
+content#:#cont_iim_edit#:#Interaktives Bild bearbeiten
+content#:#cont_iim_edit_trigger#:#Auslöser bearbeiten
+content#:#cont_iim_finish_editing#:#Bearbeitung des interaktiven Bildes beenden
+content#:#cont_iim_horizontal#:#Horizontal
+content#:#cont_iim_lg#:#Groß
+content#:#cont_iim_md#:#Mittel
+content#:#cont_iim_no_overlay#:#Kein Overlay-Bild
+content#:#cont_iim_overview#:#Übersicht
+content#:#cont_iim_select_overlay#:#Overlay-Bild auswählen
+content#:#cont_iim_select_trigger#:#Klicken Sie auf einen Auslöser im rechten Bereich um diesen zu bearbeiten.
+content#:#cont_iim_size#:#Größe
+content#:#cont_iim_sm#:#Klein
+content#:#cont_iim_tr_add_popup#:#Content-Popup hinzufügen
+content#:#cont_iim_tr_properties_info#:#Der Auslöser wird Ihnen auf der rechten Seite angezeigt. Sie können dort Größe und Position per Maus ändern.
+content#:#cont_iim_trigger#:#Auslöser
+content#:#cont_iim_vertical#:#Vertikal
 content#:#cont_imagemap#:#Image Map
 content#:#cont_import#:#Import
 content#:#cont_import_id#:#identifier
@@ -6474,7 +6508,7 @@ content#:#cont_insert_page_from_clip#:#Seite aus Zwischenablage einfügen
 content#:#cont_insert_pagelayout#:#Seite aus Vorlage einfügen
 content#:#cont_insert_par#:#Text einfügen
 content#:#cont_insert_profile#:#Persönliche Daten veröffentlichen
-content#:#cont_insert_resources#:#Materialienliste einfügen
+content#:#cont_insert_resources#:#Objekteblock einfügen
 content#:#cont_insert_section#:#Block einfügen
 content#:#cont_insert_skills#:#Kompetenz einfügen
 content#:#cont_insert_src#:#Programmcode einfügen
@@ -6576,6 +6610,7 @@ content#:#cont_lrs_settings#:#Einstellungen
 content#:#cont_lvalue#:#Datenelement
 content#:#cont_maintenance#:#Wartung
 content#:#cont_manifest#:#Manifest
+content#:#cont_manual_item_group#:#Manuell erstellter Objekteblock
 content#:#cont_map_file_not_generated#:#Die Imagemap-Datei konnte leider nicht generiert werden.
 content#:#cont_marker#:#Markierungspunkt
 content#:#cont_master_language_only#:#Basissprache für Übersetzung - Master
@@ -6590,6 +6625,7 @@ content#:#cont_media#:#Bilder/Audio/Video
 content#:#cont_media_placeh#:#Klicken und bearbeiten, um ein Medienobjekt einzufügen
 content#:#cont_media_placehl#:#Bild/Medien-Platzhalter
 content#:#cont_media_source#:#Medienquelle
+content#:#cont_merge_cells#:#Zellen verbinden
 content#:#cont_missing_preconditions#:#Sie müssen folgende Vorbedingungen erfüllen, um Zugang zu bekommen zu Kapitel "%s".
 content#:#cont_missing_snippet#:#Fehlender Inhaltsbaustein: Der Inhaltsbaustein wurde gelöscht.
 content#:#cont_mob_def_prop#:#Standardeinstellungen
@@ -6679,13 +6715,14 @@ content#:#cont_operation_not_allowed#:#Diese Aktion ist nicht erlaubt
 content#:#cont_organization#:#Organisation
 content#:#cont_organizations#:#Organisationen
 content#:#cont_orig_size#:#Originalgröße
+content#:#cont_other_resources#:#Inhalt (Andere Ressourcen)
 content#:#cont_out_of_focus_message#:#Diese Seite ist nicht mehr Teil der Inhalte des aktuellen Lernziels.
 content#:#cont_out_of_focus_message_last_page#:#Sie befinden sich auf der letzten Seite der Inhalte zum aktuellen Lernziel.
 content#:#cont_ov_all_correct#:#Sie haben alle Fragen richtig beantwortet.
 content#:#cont_ov_preview#:#Die Fragenübersicht funktioniert nicht im Seiteneditor-Kontext. Benutzen Sie stattdessen die Vorschau auf SCO- oder SCORM-Level.
 content#:#cont_ov_some_correct#:#Sie haben [x] von [y] Fragen richtig beantwortet.
 content#:#cont_ov_wrong_answered#:#Die folgenden Fragen wurden noch nicht oder falsch beantwortet
-content#:#cont_overlay_image#:#Bild für Overlay
+content#:#cont_overlay_image#:#Overlay-Bild
 content#:#cont_overlay_images#:#Overlay-Bilder
 content#:#cont_overlays_have_been_deleted#:#Overlays wurden gelöscht
 content#:#cont_page_activation#:#Seitenaktivierung
@@ -6709,6 +6746,7 @@ content#:#cont_paragraph_styles#:#Absatzformate
 content#:#cont_parameter#:#Parameter
 content#:#cont_parameters#:#Parameter
 content#:#cont_paste_from_clipboard#:#Aus Zwischenablage einfügen
+content#:#cont_paste_from_spreadsheet#:#Aus Tabellenkalkulation einfügen
 content#:#cont_paste_table#:#Tabelle einfügen
 content#:#cont_pc_amdpl#:#Seitenliste
 content#:#cont_pc_blog#:#Blog
@@ -6731,12 +6769,16 @@ content#:#cont_pc_par#:#Text
 content#:#cont_pc_prof#:#Persönliche Daten
 content#:#cont_pc_qover#:#Fragenübersicht
 content#:#cont_pc_qst#:#Frage
+content#:#cont_pc_repobj#:#Objekteblock
 content#:#cont_pc_res#:#Ressource
 content#:#cont_pc_sec#:#Block
 content#:#cont_pc_skills#:#Kompetenz
+content#:#cont_pc_src#:#Programmcode
 content#:#cont_pc_tab#:#Erweiterte Tabelle
+content#:#cont_pc_tabs#:#Akkordeon/Karussell
 content#:#cont_pc_vacc#:#Akkordeon (vertikal)
 content#:#cont_pc_vrfc#:#Zertifikat
+content#:#cont_permission_handling#:#Rechteabhängige Anzeige
 content#:#cont_permission_object#:#Berechtigungsobjekt
 content#:#cont_permission_object_desc#:#Falls ein Berechtigungsobjekt ausgewählt wird, wird der Block nur Benutzern mit dem gewählten Recht am Berechtigungsobjekt angezeigt.
 content#:#cont_personal_clipboard#:#Persönliche Zwischenablage
@@ -6797,8 +6839,8 @@ content#:#cont_resource#:#Ressource
 content#:#cont_resource_size#:#Originalgröße der Ressource / Keine Größenangabe
 content#:#cont_resource_size_info#:#Wird die Größenangabe weggelassen, kann die Größe durch den Content-Style beeinflusst werden. Ohne jegliche Regelung der Größe werden nur Bilddateien in ihrer Normalgröße angezeigt.
 content#:#cont_resource_type#:#Typ
-content#:#cont_resources#:#Ressourcen
-content#:#cont_resources_of_type#:#Inhalte vom Typ
+content#:#cont_resources#:#Objekteblock
+content#:#cont_resources_of_type#:#Objekteblock vom Typ
 content#:#cont_restrict_forw_nav#:#Vorwärtsblättern im Lernmodul reglementieren
 content#:#cont_restrict_forw_nav_info#:#Eine nachfolgende Seite kann erst dann aufgerufen werden, wenn auf der aktuellen Lernmodulseite alle Testfragen korrekt beantwortet wurden. Diese Funktion erfordert bei der Einstellung „Antwortversuche“ die Option „Speichere Antwortversuche“.
 content#:#cont_revision#:#Änderung
@@ -6901,6 +6943,8 @@ content#:#cont_sequencing_info#:#Aktiviert die Vorgaben des Lernmoduls zur inter
 content#:#cont_set_alignment#:#Ausrichtung setzen
 content#:#cont_set_layout#:#Layout setzen
 content#:#cont_set_link#:#Verweis ändern
+content#:#cont_set_manuall#:#Manuell setzen
+content#:#cont_set_properties#:#Eigenschaften setzen
 content#:#cont_set_start_file#:#Startdatei festlegen
 content#:#cont_set_styles#:#Styles bestimmen
 content#:#cont_set_tab_style_info#:#Checkboxen aktivieren, um die Tabellenzellen zu formatieren
@@ -6924,6 +6968,7 @@ content#:#cont_snippet_from_another_installation#:#Inhaltsbaustein stammt von ei
 content#:#cont_snippets_used#:#Genutzte Inhaltsbausteine
 content#:#cont_span#:#Zellen verbinden
 content#:#cont_special_page#:#Sonderseite
+content#:#cont_split_cell#:#Zelle auteilen
 content#:#cont_spreadsheet_table#:#Kalkulationstabelle
 content#:#cont_sqst#:#Frage in Umfrage (Material)
 content#:#cont_src#:#Programmiersprache
@@ -6947,22 +6992,36 @@ content#:#cont_subtitle_files#:#Untertitel Medienobjekte
 content#:#cont_sur_block_format#:#Umgebender Block
 content#:#cont_switch_to_media_pool#:#In anderen Medienpool wechseln
 content#:#cont_syntax_help#:#Syntax-Hilfe
+content#:#cont_tab_add_above#:#Fach oberhalb einfügen
+content#:#cont_tab_add_below#:#Fach unterhalb einfügen
 content#:#cont_tab_cont_height#:#Höhe Inhalt
 content#:#cont_tab_cont_width#:#Breite Inhalt
+content#:#cont_tab_delete#:#Fach löschen
+content#:#cont_tab_move_bottom#:#Ans Ende schieben
+content#:#cont_tab_move_down#:#Nach unten schieben
+content#:#cont_tab_move_top#:#An den Anfang schieben
+content#:#cont_tab_move_up#:#Nach oben schieben
 content#:#cont_table#:#Tabelle
+content#:#cont_table_adv_settings#:#Erweiterte Eigenschaften
 content#:#cont_table_border#:#Breite Tabellenrand
 content#:#cont_table_border_info#:#Werte sind inkl. Einheit anzugeben (z.B. px). Ist kein Wert eingetragen, werden die Werte aus dem Stylesheet übernommen.
+content#:#cont_table_cell_edit_info_1#:#Klicken Sie auf eine Tabellenzelle um sie auszuwählen oder die Auswahl aufzuheben.
+content#:#cont_table_cell_edit_info_2#:#Klicken Sie auf einen Spalten- oder Zeilenkopf um die gesamte Spalte oder Zeile auszuwählen.
+content#:#cont_table_cell_edit_info_3#:#Halten Sie die Shift-Taste beim Klicken auf eine Zelle um den Bereich zu erweitern.
 content#:#cont_table_cell_properties#:#Eigenschaften der Tabellenzellen
 content#:#cont_table_cellpadding#:#Innenabstand Tabellenzellen
 content#:#cont_table_cellpadding_info#:#Werte sind inkl. Einheit anzugeben (z.B. px). Ist kein Wert eingetragen, werden die Werte aus dem Stylesheet übernommen.
 content#:#cont_table_edit_cells#:#Zellen editieren
+content#:#cont_table_import_info#:#Geben Sie die Daten je Spalte getrennt durch ein Semikolon oder TAB ein. Für jede Tabellenzeile beginnen Sie auch hier eine neue Zeile. Üblicherweise trennen Tabellenkalkulationen die Daten, wenn sie per Zwischenablage übertragen werden, mit einem TAB. Diese können dann direkt hier eingefügt werden. Weitere Formatierungen werden nicht importiert.
 content#:#cont_table_properties#:#Eigenschaften der Tabelle
+content#:#cont_table_style#:#Style
 content#:#cont_table_width#:#Tabellenbreite
 content#:#cont_tabs#:#Fächer
 content#:#cont_tabs_acc_hor#:#Horizontales Akkordeon
 content#:#cont_tabs_acc_ver#:#Vertikales Akkordeon
 content#:#cont_tabs_carousel#:#Karussell
 content#:#cont_tabs_confirm_deletion#:#Sind Sie sicher, dass diese Fächer mit ihren Inhalten gelöscht werden sollen?
+content#:#cont_target#:#Ziel
 content#:#cont_target_missing#:#Zielpunkt fehlt
 content#:#cont_target_within_source#:#Das Ziel darf nicht innerhalb des Objektes liegen.
 content#:#cont_template#:#Vorlage
@@ -7026,7 +7085,7 @@ content#:#cont_update_login_page#:#Login-Seitenelemente aktualisieren
 content#:#cont_update_map#:#Karte bearbeiten
 content#:#cont_update_my_courses#:#Meine Kurse bearbeiten
 content#:#cont_update_profile#:#Veröffentlichte Daten bearbeiten
-content#:#cont_update_resources#:#Materialienliste aktualisieren
+content#:#cont_update_resources#:#Objekteblock aktualisieren
 content#:#cont_update_section#:#Block bearbeiten
 content#:#cont_update_skills#:#Kompetenz bearbeiten
 content#:#cont_update_verification#:#Zertifikat bearbeiten
@@ -9443,22 +9502,11 @@ file#:#file_download#:#Datei herunterladen
 file#:#file_import#:#Dateiimport
 file#:#file_new_version#:#Neue Version anlegen
 file#:#file_new_version_info#:#Eine neue Dateiversion anlegen. Alte Versionen bleiben erhalten.
-file#:#file_suffix_custom_black#:#Dateiendungen: Negativliste (Anpassungen)
-file#:#file_suffix_custom_black_info#:#Diese Dateiendungen werden aus der obigen Positivliste entfernt.
-file#:#file_suffix_custom_expl_black#:#Verbotene Dateiendungen
-file#:#file_suffix_custom_expl_black_info#:#Dateien mit diesen Endungen werden beim Upload nicht akzeptiert.
-file#:#file_suffix_custom_white#:#Dateiendungen: Positivliste (Anpassungen)
-file#:#file_suffix_custom_white_info#:#Diese Dateiendungen werden der obigen Positivliste hinzugefügt.
-file#:#file_suffix_default_white#:#Dateiendungen: Positivliste (Ausgangsliste)
-file#:#file_suffix_default_white_info#:#Voreingestellte Ausgangsliste für akzeptierte Dateiendungen.
-file#:#file_suffix_overall_white#:#Effektive Positivliste
-file#:#file_suffix_overall_white_info#:#Dies ist die endgültige Liste akzeptierter Dateiendungen.
 file#:#file_upload_info_file_with_critical_extension#:#Mindestens eine Datei enthält eine kritische oder unbekannte Dateiendung. Die Dateiendung wird bei jedem Download zu .sec geändert. Kontaktieren Sie gegebenfalls Ihren Administrator. Dateiname(n): %s
 file#:#file_uploaded_by#:#Version hochgeladen von
 file#:#form_icon_creation#:#Icon erstellen
 file#:#form_icon_updating#:#Icon aktualisieren
 file#:#general_upload_error_occured#:#Beim Verarbeiten der Datei ist ein unerwartetet Fehler aufgetreten.
-file#:#generate_sanitize_report#:#Report über nicht erreichbare Dateien
 file#:#input_active#:#Aktiv
 file#:#input_desc_active#:#Dieses Icon aktivieren.
 file#:#input_desc_icon#:#Bild welches als Icon für Dateien mit den spezifizierten Suffixen verwendet werden soll.
@@ -11163,6 +11211,7 @@ mcst#:#mcst_autoplay#:#Autoplay
 mcst#:#mcst_autoplay_active#:#Autoplay (Standard 'an')
 mcst#:#mcst_autoplay_inactive#:#Autoplay (Standard 'aus')
 mcst#:#mcst_clear_purpose_title#:#Löschen
+mcst#:#mcst_confirm_deletion#:#Löschbestätigung
 mcst#:#mcst_converted_file#:#Datei wurde umgewandelt.
 mcst#:#mcst_copy#:#Mediacast kopieren
 mcst#:#mcst_current_value_info#:#Aktueller Wert des Formats
@@ -11189,6 +11238,7 @@ mcst#:#mcst_import#:#Mediacast importieren
 mcst#:#mcst_incl_files_in_rss#:#Dateianhänge
 mcst#:#mcst_incl_files_in_rss_info#:#Die Dateien der Mediacast-Beiträge werden als Anhang im Webfeed bereitgestellt.
 mcst#:#mcst_input_either_file_or_url#:#Bitte geben Sie entweder eine Datei oder eine URL an. Achten Sie bei Angabe einer Datei bitte auf die maximal erlaubte Upload-Größe.
+mcst#:#mcst_items#:#Einträge
 mcst#:#mcst_last_submission#:#Letzter Beitrag
 mcst#:#mcst_list#:#Liste
 mcst#:#mcst_manage#:#Verwalten
@@ -11217,6 +11267,7 @@ mcst#:#mcst_play_cnt#:#Abgespielt
 mcst#:#mcst_play_time#:#Laufzeit
 mcst#:#mcst_podcast#:#Podcast
 mcst#:#mcst_prev_items#:#Vorherige Videos anzeigen
+mcst#:#mcst_preview#:#Vorschau
 mcst#:#mcst_preview_picture#:#Vorschaubild
 mcst#:#mcst_preview_picture_info#:#Nur von folgenden Dateitypen unterstützt:
 mcst#:#mcst_reference_info#:#URL zur Ressource, z.B. HTTP-Adresse.
@@ -11304,7 +11355,7 @@ mep#:#mobs_activate_pages_info#:#Ermöglicht es, Seiteninhalte als Bausteine in 
 mep#:#mobs_always_show_file_manager#:#Dateistruktur immer anzeigen
 mep#:#mobs_always_show_file_manager_info#:#Wenn deaktiviert, wird die Dateistruktur für einfache Datentypen, wie z.B. Bilder, nicht angezeigt.
 mep#:#mobs_black_list_file_types#:#Verbotene Dateitypen
-mep#:#mobs_black_list_file_types_info#:#Diese Liste schränkt die Menge der erlaubten Dateitypen ein. Tragen Sie dazu die jeweilige Dateiendungen mit Komma getrennt ein (z.B. jpg,gif). Dies ist sinnvoll, wenn die vorangegangene Option leer ist (alle Typen erlaubt).
+mep#:#mobs_black_list_file_types_and_allowed_info#:#Diese Liste schränkt die Menge der erlaubten Dateitypen ein. Tragen Sie dazu die jeweilige Mime-Typen mit Komma getrennt ein (z.B. text/html, application/pdf). Aktuell erlaubte Mime-Typen:
 mep#:#mobs_restrict_file_types#:#Erlaubte Dateitypen
 mep#:#mobs_restrict_file_types_info#:#Bestimmen Sie alle Dateitypen, die in Medienobjekten hochgeladen werden dürfen. Tragen Sie dazu die jeweilige Dateiendungen mit Komma getrennt ein (z.B. jpg,gif). Wird kein Eintrag vorgenommen, sind alle Typen erlaubt.
 meta#:#adt_error_max_length#:#Der eingegebene Text ist zu lang. Bitte geben Sie einen kürzeren Text ein.

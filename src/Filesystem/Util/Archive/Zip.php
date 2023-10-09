@@ -107,7 +107,15 @@ class Zip
      */
     public function addPath(string $path, ?string $path_inside_zip = null): void
     {
-        $this->streams[$path_inside_zip ?? basename($path)] = Streams::ofResource(fopen($path, 'r'));
+        $this->addStream(
+            Streams::ofResource(fopen($path, 'r')),
+            $path_inside_zip ?? basename($path)
+        );
+    }
+
+    public function addStream(FileStream $stream, string $path_inside_zip): void
+    {
+        $this->streams[$path_inside_zip] = $stream;
     }
 
     /**

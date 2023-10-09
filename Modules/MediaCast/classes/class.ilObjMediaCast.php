@@ -144,7 +144,6 @@ class ilObjMediaCast extends ilObject
     public function getSortedItemsArray(): array
     {
         $med_items = $this->getItemsArray();
-
         // sort by order setting
         switch ($this->getOrder()) {
             case ilObjMediaCast::ORDER_TITLE:

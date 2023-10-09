@@ -18,6 +18,8 @@
 
 namespace ILIAS\COPage\Editor\Server;
 
+use ILIAS\Repository\Form\FormAdapterGUI;
+
 /**
  *
  * @author Alexander Killing <killing@leifos.de>
@@ -41,11 +43,16 @@ class UIWrapper
         string $type,
         string $action,
         array $data = null,
-        string $component = ""
-    ): \ILIAS\UI\Component\Button\Standard {
+        string $component = "",
+        bool $primary = false
+    ): \ILIAS\UI\Component\Button\Button {
         $ui = $this->ui;
         $f = $ui->factory();
-        $b = $f->button()->standard($content, "");
+        if ($primary) {
+            $b = $f->button()->primary($content, "");
+        } else {
+            $b = $f->button()->standard($content, "");
+        }
         if ($data === null) {
             $data = [];
         }
@@ -63,11 +70,22 @@ class UIWrapper
         return $b;
     }
 
-    public function getRenderedInfoBox(string $text): string
+    public function getRenderedInfoBox(string $text, array $buttons = []): string
     {
         $ui = $this->ui;
         $f = $ui->factory();
         $m = $f->messageBox()->info($text);
+        if (count($buttons)) {
+            $m = $m->withButtons($buttons);
+        }
+        return $ui->renderer()->renderAsync($m);
+    }
+
+    public function getRenderedSuccessBox(string $text): string
+    {
+        $ui = $this->ui;
+        $f = $ui->factory();
+        $m = $f->messageBox()->success($text);
         return $ui->renderer()->renderAsync($m);
     }
 
@@ -86,10 +104,11 @@ class UIWrapper
         string $type,
         string $action,
         array $data = null,
-        string $component = ""
+        string $component = "",
+        bool $primary = false
     ): string {
         $ui = $this->ui;
-        $b = $this->getButton($content, $type, $action, $data, $component);
+        $b = $this->getButton($content, $type, $action, $data, $component, $primary);
         return $ui->renderer()->renderAsync($b);
     }
 
@@ -163,6 +182,36 @@ class UIWrapper
                 " data-copg-ed-type='form-button' data-copg-ed-action='" . $button[1] . "' data-copg-ed-component='" . $button[0] . "'",
                 $html
             );
+        }
+        return $html;
+    }
+
+    public function getRenderedAdapterForm(
+        FormAdapterGUI $form,
+        array $buttons,
+        string $id = ""
+    ): string {
+        $button_html = "";
+        foreach ($buttons as $button) {
+            $button_html .= $this->getRenderedButton(
+                $button[2],
+                "form-button",
+                $button[1],
+                null,
+                $button[0]
+            );
+        }
+        $html = $form->render();
+        $tag = "button";
+        $html = preg_replace("#\\<" . $tag . "(.*)/" . $tag . ">#iUs", "", $html, 1);
+        $footer_pos = stripos($html, "il-standard-form-footer");
+
+        $html =
+            substr($html, 0, $footer_pos) .
+            preg_replace("#\\<" . $tag . "(.*)/" . $tag . ">#iUs", $button_html, substr($html, $footer_pos), 1);
+
+        if ($id !== "") {
+            $html = str_replace("<form ", "<form id='$id' ", $html);
         }
         return $html;
     }
@@ -290,5 +339,33 @@ class UIWrapper
         $r = $ui->renderer();
         $i = $f->symbol()->icon()->standard($type, $type, 'medium');
         return $r->render($i);
+    }
+
+    public function getRenderedListingPanelTemplate(
+        string $title = "",
+        bool $leading_image = false
+    ): string {
+        $ui = $this->ui;
+        $f = $ui->factory();
+        $r = $ui->renderer();
+        $dd = $f->dropdown()->standard([
+            $f->link()->standard("#link-label#", "#")
+        ]);
+
+        $item = $f->item()->standard("#item-title#")->withActions($dd);
+        if ($leading_image) {
+            $item = $item->withLeadImage(
+                $f->image()->responsive("#img-src#", "#img-alt#")
+            );
+        }
+        $p = $f->panel()->listing()->standard(
+            $title,
+            [$f->item()->group(
+                "",
+                [$item]
+            )]
+        );
+
+        return $r->render($p);
     }
 }

@@ -399,28 +399,6 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
         return (bool) $res->numRows();
     }
 
-    public function getSubItems(
-        bool $a_admin_panel_enabled = false,
-        bool $a_include_side_block = false,
-        int $a_get_single = 0,
-        \ilContainerUserFilter $container_user_filter = null
-    ): array {
-        // Caching
-        if (isset($this->items[(int) $a_admin_panel_enabled][(int) $a_include_side_block])) {
-            return $this->items[(int) $a_admin_panel_enabled][(int) $a_include_side_block];
-        }
-
-        // Results are stored in $this->items
-        parent::getSubItems($a_admin_panel_enabled, $a_include_side_block, $a_get_single);
-        $this->items = ilContainerSessionsContentGUI::prepareSessionPresentationLimitation(
-            $this->items,
-            $this,
-            $a_admin_panel_enabled,
-            $a_include_side_block
-        );
-        return $this->items[(int) $a_admin_panel_enabled][(int) $a_include_side_block];
-    }
-
     public function getSubscriptionNotify(): bool
     {
         return true;

@@ -66,4 +66,13 @@ class InternalGUIService
             $this
         );
     }
+
+    public function edit(): Editor\GUIService
+    {
+        return new Editor\GUIService(
+            $this->domain_service,
+            $this
+        );
+    }
+
 }

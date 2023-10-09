@@ -30,6 +30,9 @@ class VideoSequence
 
     public function __construct(\ilObjMediaCast $cast)
     {
+        global $DIC;
+
+        $this->media_types = $DIC->mediaObjects()->internal()->domain()->mediaType();
         $this->media_cast = $cast;
         $this->init();
     }
@@ -66,7 +69,7 @@ class VideoSequence
                     $resource .= "&controls=0";
                 }
             }
-            if (in_array($mime, ["video/mp4", "video/vimeo", "video/youtube"])) {
+            if (in_array($mime, iterator_to_array($this->media_types->getAllowedVideoMimeTypes()), true)) {
                 $videos[] = new VideoItem(
                     $item["mob_id"],
                     $title,

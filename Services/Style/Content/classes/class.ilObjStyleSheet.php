@@ -2130,7 +2130,6 @@ class ilObjStyleSheet extends ilObject
         if ($a_template_type == "") {
             return self::$templates;
         }
-
         return self::$templates[$a_template_type];
     }
 

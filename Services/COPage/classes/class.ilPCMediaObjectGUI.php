@@ -567,7 +567,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
                 $this->tpl->setOnScreenMessage('success', $lng->txt("saved_media_object"), true);
                 $this->ctrl->redirectByClass("ilobjmediaobjectgui", "edit");
 
-            //$this->ctrl->returnToParent($this, "jump".$this->hier_id);
+                //$this->ctrl->returnToParent($this, "jump".$this->hier_id);
             } else {
                 $this->insert();
             }

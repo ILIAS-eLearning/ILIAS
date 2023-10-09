@@ -27,14 +27,25 @@ declare(strict_types=1);
  */
 class ilTestExportTableGUI extends ilExportTableGUI
 {
+    private \ILIAS\UI\Factory $ui_factory;
+    private \ILIAS\UI\Renderer $ui_renderer;
+
+    public function __construct(object $a_parent_obj, string $a_parent_cmd, ilObject $a_exp_obj)
+    {
+        global $DIC;
+        $this->ui_factory = $DIC->ui()->factory();
+        $this->ui_renderer = $DIC->ui()->renderer();
+
+        parent::__construct($a_parent_obj, $a_parent_cmd, $a_exp_obj);
+    }
+
     protected function formatActionsList(string $type, string $filename): string
     {
-        $list = new ilAdvancedSelectionListGUI();
-        $list->setListTitle($this->lng->txt('actions'));
         $this->ctrl->setParameter($this->getParentObject(), 'file', $filename);
-        $list->addItem($this->lng->txt('download'), '', $this->ctrl->getLinkTarget($this->getParentObject(), 'download'));
+        $actions[] = $this->ui_factory->link()->standard($this->lng->txt('download'), $this->ctrl->getLinkTarget($this->getParentObject(), 'download'));
         $this->ctrl->setParameter($this->getParentObject(), 'file', '');
-        return $list->getHTML();
+        $dropdown = $this->ui_factory->dropdown()->standard($actions)->withLabel($this->lng->txt('actions'));
+        return $this->ui_renderer->render($dropdown);
     }
 
     protected function initMultiCommands(): void

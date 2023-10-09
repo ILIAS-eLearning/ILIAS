@@ -23,6 +23,8 @@ declare(strict_types=1);
  */
 class ilTestPassOverviewTableGUI extends ilTable2GUI
 {
+    private \ILIAS\UI\Factory $ui_factory;
+    private \ILIAS\UI\Renderer $ui_renderer;
     protected bool $resultPresentationEnabled = false;
 
     protected bool $pdfPresentationEnabled = false;
@@ -46,6 +48,10 @@ class ilTestPassOverviewTableGUI extends ilTable2GUI
         // Don't set any limit because of print/pdf views. Furthermore, this view is part of different summary views, and no cmd ist passed to he calling method.
         $this->setLimit(PHP_INT_MAX);
         $this->disable('sort');
+
+        global $DIC;
+        $this->ui_factory = $DIC->ui()->factory();
+        $this->ui_renderer = $DIC->ui()->renderer();
 
         $this->setRowTemplate('tpl.il_as_tst_pass_overview_row.html', 'Modules/Test');
     }
@@ -260,17 +266,13 @@ class ilTestPassOverviewTableGUI extends ilTable2GUI
         }
 
         $this->ctrl->setParameter($this->parent_obj, 'pass', $pass);
-
+        $actions = [];
         if (count($actions) > 1) {
-            $aslgui = new ilAdvancedSelectionListGUI();
-            $aslgui->setListTitle($this->lng->txt('actions'));
-            $aslgui->setId($pass);
-
             foreach ($actions as $cmd => $label) {
-                $aslgui->addItem($label, $cmd, $this->ctrl->getLinkTarget($this->parent_obj, $cmd));
+                $actions[] = $this->ui_factory->link()->standard($label, $this->ctrl->getLinkTarget($this->parent_obj, $cmd));
             }
-
-            $html = $aslgui->getHTML();
+            $dropdown = $this->ui_factory->dropdown()->standard($actions)->withLabel($this->lng->txt('actions'));
+            $html = $this->ui_renderer->render($dropdown);
         } else {
             $cmd = key($actions);
             $label = current($actions);

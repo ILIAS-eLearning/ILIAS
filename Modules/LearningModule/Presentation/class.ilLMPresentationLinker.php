@@ -145,7 +145,7 @@ class ilLMPresentationLinker implements \ILIAS\COPage\PageLinker
                     return $base . "&cmd=displayMediaFullscreen";
             }
             return "";
-        // handle online links
+            // handle online links
         } elseif (!$this->offline) {
             if ($this->from_page == "") {
                 // added if due to #23216 (from page has been set in lots of usual navigation links)
@@ -340,7 +340,7 @@ class ilLMPresentationLinker implements \ILIAS\COPage\PageLinker
 
                 // anchor
                 $anc = $anc_add = "";
-                if ($int_link["Anchor"] != "") {
+                if (($int_link["Anchor"] ?? "") != "") {
                     $anc = $int_link["Anchor"];
                     $anc_add = "_" . rawurlencode($int_link["Anchor"]);
                 }
