@@ -20,6 +20,7 @@ require_once './Modules/Test/classes/inc.AssessmentConstants.php';
 
 use ILIAS\Refinery\Random\Group as RandomGroup;
 use ILIAS\DI\RBACServices;
+use ILIAS\Taxonomy\Service;
 
 /**
  * Class ilObjQuestionPoolGUI
@@ -48,7 +49,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
 {
     protected \ILIAS\DI\UIServices $ui;
     private \ILIAS\TestQuestionPool\QuestionInfoService $questioninfo;
-    protected \ILIAS\Taxonomy\Service $taxonomy;
+    protected Service $taxonomy;
     public ?ilObject $object;
     protected ILIAS\TestQuestionPool\InternalRequestService $qplrequest;
     protected ilDBInterface $db;
