@@ -55,6 +55,7 @@ class ilAssQuestionHintsTableGUI extends ilTable2GUI
     private $tableMode = null;
 
     private $hintOrderingClipboard = null;
+    private \ILIAS\DI\UIServices $ui;
 
     /**
      * Constructor
@@ -76,8 +77,8 @@ class ilAssQuestionHintsTableGUI extends ilTable2GUI
         ilAssQuestionHintsOrderingClipboard $hintOrderingClipboard = null
     ) {
         global $DIC;
-        $ilCtrl = $DIC['ilCtrl'];
         $lng = $DIC['lng'];
+        $this->ui = $DIC->ui();
 
         $this->questionOBJ = $questionOBJ;
         $this->tableMode = $tableMode;
@@ -279,33 +280,48 @@ class ilAssQuestionHintsTableGUI extends ilTable2GUI
         $lng = $DIC['lng'];
 
         if ($this->tableMode == self::TBL_MODE_ADMINISTRATION) {
-            $list = new ilAdvancedSelectionListGUI();
-            $list->setListTitle($lng->txt('actions'));
-            $list->setId("advsl_hint_{$a_set['hint_id']}_actions");
+            $actions = [];
 
             if ($this->questionOBJ->isAdditionalContentEditingModePageObject()) {
-                $editPointsHref = $ilCtrl->getLinkTargetByClass('ilAssQuestionHintGUI', ilAssQuestionHintGUI::CMD_SHOW_FORM);
-                $editPointsHref = ilUtil::appendUrlParameterString($editPointsHref, "hint_id={$a_set['hint_id']}", true);
-                $list->addItem($lng->txt('tst_question_hints_table_link_edit_hint_points'), '', $editPointsHref);
+                $actions[] = $this->ui->factory()->button()->shy(
+                    $lng->txt('tst_question_hints_table_link_edit_hint_points'),
+                    ilUtil::appendUrlParameterString(
+                        $ilCtrl->getLinkTargetByClass('ilAssQuestionHintGUI', ilAssQuestionHintGUI::CMD_SHOW_FORM),
+                        "hint_id={$a_set['hint_id']}",
+                        true)
+                );
 
-                $editPageHref = $ilCtrl->getLinkTargetByClass('ilasshintpagegui', 'edit');
-                $editPageHref = ilUtil::appendUrlParameterString($editPageHref, "hint_id={$a_set['hint_id']}", true);
-                $list->addItem($lng->txt('tst_question_hints_table_link_edit_hint_page'), '', $editPageHref);
+                $actions[] = $this->ui->factory()->button()->shy(
+                    $lng->txt('tst_question_hints_table_link_edit_hint_page'),
+                    ilUtil::appendUrlParameterString(
+                        $ilCtrl->getLinkTargetByClass('ilasshintpagegui', 'edit'),
+                        "hint_id={$a_set['hint_id']}",
+                        true)
+                );
             } else {
-                $editHref = $ilCtrl->getLinkTargetByClass('ilAssQuestionHintGUI', ilAssQuestionHintGUI::CMD_SHOW_FORM);
-                $editHref = ilUtil::appendUrlParameterString($editHref, "hint_id={$a_set['hint_id']}", true);
-                $list->addItem($lng->txt('tst_question_hints_table_link_edit_hint'), '', $editHref);
+                $actions[] = $this->ui->factory()->button()->shy(
+                    $lng->txt('tst_question_hints_table_link_edit_hint'),
+                    ilUtil::appendUrlParameterString(
+                        $ilCtrl->getLinkTargetByClass('ilAssQuestionHintGUI', ilAssQuestionHintGUI::CMD_SHOW_FORM),
+                        "hint_id={$a_set['hint_id']}",
+                        true)
+                );
             }
 
-            $deleteHref = $ilCtrl->getLinkTarget($this->parent_obj, ilAssQuestionHintsGUI::CMD_CONFIRM_DELETE);
-            $deleteHref = ilUtil::appendUrlParameterString($deleteHref, "hint_id={$a_set['hint_id']}", true);
-            $list->addItem($lng->txt('tst_question_hints_table_link_delete_hint'), '', $deleteHref);
+            $actions[] = $this->ui->factory()->button()->shy(
+                $lng->txt('tst_question_hints_table_link_delete_hint'),
+                ilUtil::appendUrlParameterString(
+                    $ilCtrl->getLinkTarget($this->parent_obj, ilAssQuestionHintGUI::CMD_CONFIRM_FORM),
+                    "hint_id={$a_set['hint_id']}",
+                    true)
+            );
 
-            $this->tpl->setVariable('ACTIONS', $list->getHTML());
+            $list = $this->ui->factory()->dropdown()->standard($actions)->withLabel($lng->txt('actions'));
 
+            $this->tpl->setVariable('ACTIONS', $this->ui->renderer()->render($list));
             $this->tpl->setVariable('HINT_ID', $a_set['hint_id']);
-
             $hintIndex = $a_set['hint_index'] * self::INDEX_TO_POSITION_FACTOR;
+
         } else {
             $showHref = $this->parent_obj->getHintPresentationLinkTarget($a_set['hint_id']);
 
