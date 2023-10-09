@@ -178,7 +178,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
         $text = str_replace("</gap>", "[/gap]", $text);
         $text = str_replace('GAPMASKEDDOLLAR', '$', $text);
         // fau.
-        return $text;
+        return $this->getHtmlQuestionContentPurifier()->purify($text);
     }
 
     // fau: fixGapReplace - add function replaceFirstGap()
