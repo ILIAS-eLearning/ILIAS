@@ -15400,8 +15400,8 @@ style#:#style_not_deleted#:#Der Style konnte aus folgenden Gründen nicht gelös
 style#:#style_page_layout_module_learning_module#:#ILIAS-Lernmodul
 style#:#style_page_layout_module_portfolio#:#Portfolio
 style#:#style_page_layout_module_scorm#:#SCORM
-style#:#style_support_reuse#:#Re-Use
-style#:#style_support_reuse_info#:#Allow sub-objects of the current container to re-use this content style.
+style#:#style_support_reuse#:#Wiederverwendung
+style#:#style_support_reuse_info#:#Unterobjekte dieses Containers können den Content-Style ebenfalls verwenden.
 style#:#styles_not_deleted#:#Die Styles konnten aus folgenden Gründen nicht gelöscht werden:
 style#:#sub_style#:#Sub-Style
 style#:#sub_style_id#:#Sub-Style-ID
