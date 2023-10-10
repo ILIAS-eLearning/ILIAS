@@ -2217,9 +2217,10 @@ abstract class assQuestionGUI
      */
     protected function addBackTab(ilTabsGUI $ilTabs)
     {
+        $this->ctrl->saveParameterByClass(ilAssQuestionPreviewGUI::class, 'prev_qid');
         $ilTabs->setBackTarget(
             $this->lng->txt('backtocallingpage'),
-            $this->ctrl->getLinkTargetByClass('ilAssQuestionPreviewGUI', ilAssQuestionPreviewGUI::CMD_SHOW)
+            $this->ctrl->getLinkTargetByClass(ilAssQuestionPreviewGUI::class, ilAssQuestionPreviewGUI::CMD_SHOW)
         );
     }
 
