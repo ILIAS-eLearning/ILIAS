@@ -374,10 +374,10 @@ class ilTestScreenGUI
             } elseif ($conditions_met) {
                 if (
                     !$anonymous &&
-                    isset($exam_use_previous_answers_value) &&
                     $this->main_settings->getParticipantFunctionalitySettings()->getUsePreviousAnswerAllowed()
                 ) {
-                    $this->user->setPref('tst_use_previous_answers', $exam_use_previous_answers_value);
+                    $this->user->setPref('tst_use_previous_answers', $exam_use_previous_answers_value ?? '0');
+                    $this->user->update();
                 }
 
                 if (isset($password) && $password === $access_settings_password) {
