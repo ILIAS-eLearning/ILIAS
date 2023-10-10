@@ -366,7 +366,7 @@ class ilParticipantsTestResultsGUI
         }
 
 
-        $template = $this->createUserResults($show_pass_details, $show_answers, $show_reached_points, (bool)$show_user_results);
+        $template = $this->createUserResults($show_pass_details, $show_answers, $show_reached_points, $show_user_results);
 
         if ($template instanceof ilTemplate) {
             $this->main_tpl->setVariable("ADM_CONTENT", $template->get());
@@ -381,7 +381,7 @@ class ilParticipantsTestResultsGUI
         bool $show_pass_details,
         bool $show_answers,
         bool $show_reached_points,
-        bool $show_user_results
+        array $show_user_results
     ): ilTemplate {
         $this->tabs->setBackTarget(
             $this->lng->txt('back'),
