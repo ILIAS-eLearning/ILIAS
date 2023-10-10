@@ -1,7 +1,4 @@
 <?php
-
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,18 +15,18 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * @author  Tim Schmitz <schmitz@leifos.de>
  */
 class ilCalendarDBUpdateSteps9 implements ilDatabaseUpdateSteps
 {
     protected \ilDBInterface $db;
-    protected ilSetting $calendarSettings;
 
     public function prepare(\ilDBInterface $db): void
     {
         $this->db = $db;
-        $this->calendarSettings = new ilSetting('calendar');
     }
 
     public function step_1(): void
@@ -59,9 +56,10 @@ class ilCalendarDBUpdateSteps9 implements ilDatabaseUpdateSteps
         if($this->db->tableExists('cal_entry_responsible')) {
             $this->db->dropTable('cal_entry_responsible');
         }
-        // Remove enable_grp_milestones from calendar settings
-        if(!is_null($this->calendarSettings->get('enable_grp_milestones', null))) {
-            $this->calendarSettings->delete('enable_grp_milestones');
-        }
+
+        $query = 'delete from settings where ' .
+            'keyword = ' . $this->db->quote('enable_grp_milestones', ilDBConstants::T_TEXT) . ' ' .
+            'and module = ' . $this->db->quote('calendar', ilDBConstants::T_TEXT);
+        $this->db->manipulate($query);
     }
 }
