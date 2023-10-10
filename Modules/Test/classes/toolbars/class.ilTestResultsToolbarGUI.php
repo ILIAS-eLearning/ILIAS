@@ -55,33 +55,26 @@ class ilTestResultsToolbarGUI extends ilToolbarGUI
         if ($this->getShowBestSolutionsLinkTarget() !== null
             && $this->getShowBestSolutionsLinkTarget() !== '') {
             $this->addSeparator();
-            $this->addButton($this->lng->txt('tst_btn_show_best_solutions'), $this->getShowBestSolutionsLinkTarget());
+            $this->addButton(
+                $this->lng->txt('tst_btn_show_best_solutions'),
+                $this->getShowBestSolutionsLinkTarget()
+            );
         } elseif ($this->getHideBestSolutionsLinkTarget() !== null
             && $this->getHideBestSolutionsLinkTarget() !== '') {
             $this->addSeparator();
-            $this->addButton($this->lng->txt('tst_btn_hide_best_solutions'), $this->getHideBestSolutionsLinkTarget());
+            $this->addButton(
+                $this->lng->txt('tst_btn_hide_best_solutions'),
+                $this->getHideBestSolutionsLinkTarget()
+            );
         }
 
         if (count($this->getParticipantSelectorOptions())) {
             $this->addSeparator();
 
             $dropdown = $this->ui->factory()->dropdown()
-                                            ->standard($this->getParticipantSelectorOptionsWithHintOption())
-                                            ->withLabel($this->lng->txt('tst_res_jump_to_participant_btn'));
+                ->standard($this->getParticipantSelectorLinksArray())
+                ->withLabel($this->lng->txt('tst_res_jump_to_participant_hint_opt'));
             $this->addComponent($dropdown);
-            /*
-                        $sel = new ilSelectInputGUI('', 'active_id');
-                        $sel->setOptions($this->getParticipantSelectorOptionsWithHintOption());
-                        $this->addInputItem($sel);
-
-                        $link = ilLinkButton::getInstance(); // always returns a new instance
-                        $link->setUrl('#');
-                        $link->setId('ilTestResultParticipantJumper');
-                        $link->setCaption($this->lng->txt('tst_res_jump_to_participant_btn'), false);
-                        $this->addButtonInstance($link);
-
-                        $this->tpl->addJavaScript('Modules/Test/js/ilTestResultParticipantSelector.js');
-            */
         }
     }
 
@@ -125,16 +118,11 @@ class ilTestResultsToolbarGUI extends ilToolbarGUI
         return $this->participantSelectorOptions;
     }
 
-    public function getParticipantSelectorOptionsWithHintOption(): array
+    public function getParticipantSelectorLinksArray(): array
     {
-        $options = array($this->lng->txt('tst_res_jump_to_participant_hint_opt'));
-
-        if (function_exists('array_replace')) {
-            return array_replace($options, $this->getParticipantSelectorOptions());
-        }
-
+        $options = [];
         foreach ($this->getParticipantSelectorOptions() as $key => $val) {
-            $options[$key] = $val;
+            $options[] = $this->ui->factory()->link()->standard($val, "#participant_active_{$key}");
         }
 
         return $options;

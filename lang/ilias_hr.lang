@@ -1685,7 +1685,7 @@ assessment#:#tst_report_after_test#:#Nudi rezultate testa kada je test završen
 assessment#:#tst_report_never#:#Nema dostupnih rezultata testa
 assessment#:#tst_reporting_date#:#Datum
 assessment#:#tst_res_jump_to_participant_btn#:#Skoči na
-assessment#:#tst_res_jump_to_participant_hint_opt#:#--Skoči na sudionika--
+assessment#:#tst_res_jump_to_participant_hint_opt#:#Skoči na sudionika
 assessment#:#tst_res_lo_objectives_header#:#Relevantni ciljevi učenja
 assessment#:#tst_res_lo_try_header#:#Pokušaj
 assessment#:#tst_res_lo_try_n#:#Pokušaj %s

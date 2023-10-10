@@ -1708,7 +1708,7 @@ assessment#:#tst_report_after_test#:#Offer test results when the test is finishe
 assessment#:#tst_report_never#:#No test results available
 assessment#:#tst_reporting_date#:#Date
 assessment#:#tst_res_jump_to_participant_btn#:#Jump
-assessment#:#tst_res_jump_to_participant_hint_opt#:#--Jump to Participant--
+assessment#:#tst_res_jump_to_participant_hint_opt#:#Jump to Participant
 assessment#:#tst_res_lo_objectives_header#:#Relevant Learning Objectives
 assessment#:#tst_res_lo_try_header#:#Attempt
 assessment#:#tst_res_lo_try_n#:#Attempt %s

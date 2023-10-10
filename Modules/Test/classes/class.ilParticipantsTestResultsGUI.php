@@ -446,9 +446,9 @@ class ilParticipantsTestResultsGUI
             $results = "";
             if ($active_id > 0) {
                 $results = $service_gui->getResultsOfUserOutput(
-                    $testSessionFactory->getSession($active_id),
-                    $active_id,
-                    $this->getTestObj()->_getResultPass($active_id),
+                    $testSessionFactory->getSession((int) $active_id),
+                    (int) $active_id,
+                    ilObjTest::_getResultPass((int) $active_id),
                     $this,
                     $show_pass_details,
                     $show_answers,

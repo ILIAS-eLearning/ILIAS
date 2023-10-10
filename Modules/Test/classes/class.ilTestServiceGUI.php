@@ -764,8 +764,16 @@ class ilTestServiceGUI
      * @param boolean $show_reached_points
      * @access public
      */
-    public function getResultsOfUserOutput($testSession, $active_id, $pass, $targetGUI, $show_pass_details = true, $show_answers = true, $show_question_only = false, $show_reached_points = false): string
-    {
+    public function getResultsOfUserOutput(
+        ilTestSession $testSession,
+        int $active_id,
+        int $pass,
+        ilParticipantsTestResultsGUI $targetGUI,
+        bool $show_pass_details = true,
+        bool $show_answers = true,
+        bool $show_question_only = false,
+        bool $show_reached_points = false
+    ): string {
         $template = new ilTemplate("tpl.il_as_tst_results_participant.html", true, true, "Modules/Test");
 
         if ($this->participantData instanceof ilTestParticipantData) {

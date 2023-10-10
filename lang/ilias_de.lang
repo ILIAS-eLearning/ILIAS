@@ -1708,7 +1708,7 @@ assessment#:#tst_report_after_test#:#Testergebnisse erst nach Abschluss eines Te
 assessment#:#tst_report_never#:#Die Testergebnisse sind nicht einsehbar
 assessment#:#tst_reporting_date#:#Datum
 assessment#:#tst_res_jump_to_participant_btn#:#Springe
-assessment#:#tst_res_jump_to_participant_hint_opt#:#--Zu Teilnehmer springen--
+assessment#:#tst_res_jump_to_participant_hint_opt#:#Zu Teilnehmer springen
 assessment#:#tst_res_lo_objectives_header#:#Relevante Lernziele
 assessment#:#tst_res_lo_try_header#:#Versuch
 assessment#:#tst_res_lo_try_n#:#%s. Versuch
