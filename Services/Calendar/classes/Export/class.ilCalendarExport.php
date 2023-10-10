@@ -222,11 +222,7 @@ class ilCalendarExport
 
     protected function createAppointment(ilCalendarEntry $appointment): ilICalWriter
     {
-        if ($appointment->isMilestone()) {
-            return $this->createVTODO($appointment);
-        } else {
-            return $this->createVEVENT($appointment);
-        }
+        $this->createVEVENT($appointment);
     }
 
     protected function createVTODO(ilCalendarEntry $app): ilICalWriter
