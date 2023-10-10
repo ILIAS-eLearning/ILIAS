@@ -16,20 +16,12 @@
  *
  *********************************************************************/
 
-/**
- * Online help application class
- *
- * @author Alexander Killing <killing@leifos.de>
- */
-class ilHelp
+declare(strict_types=1);
+
+class ilObjHelpSettings extends ilObject2
 {
-    /**
-     * @deprecated
-     */
-    public static function getObjCreationTooltipText(
-        string $a_type
-    ): string {
-        global $DIC;
-        return $DIC->help()->internal()->domain()->tooltips()->getTooltipPresentationText($a_type . "_create");
+    protected function initType(): void
+    {
+        $this->type = "hlps";
     }
 }

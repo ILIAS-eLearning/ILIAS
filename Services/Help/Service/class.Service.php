@@ -16,20 +16,30 @@
  *
  *********************************************************************/
 
-/**
- * Online help application class
- *
- * @author Alexander Killing <killing@leifos.de>
- */
-class ilHelp
+declare(strict_types=1);
+
+namespace ILIAS\Help;
+
+use ILIAS\DI\Container;
+
+class Service
 {
+    protected static ?InternalService $internal_service = null;
+    protected Container $DIC;
+
+    public function __construct(Container $DIC)
+    {
+        $this->DIC = $DIC;
+    }
+
     /**
-     * @deprecated
+     * Internal service, do not use in other components
      */
-    public static function getObjCreationTooltipText(
-        string $a_type
-    ): string {
-        global $DIC;
-        return $DIC->help()->internal()->domain()->tooltips()->getTooltipPresentationText($a_type . "_create");
+    public function internal(): InternalService
+    {
+        if (is_null(self::$internal_service)) {
+            self::$internal_service = new InternalService($this->DIC);
+        }
+        return self::$internal_service;
     }
 }

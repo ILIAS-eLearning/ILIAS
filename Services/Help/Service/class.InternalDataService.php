@@ -16,20 +16,15 @@
  *
  *********************************************************************/
 
-/**
- * Online help application class
- *
- * @author Alexander Killing <killing@leifos.de>
- */
-class ilHelp
+declare(strict_types=1);
+
+namespace ILIAS\Help;
+
+class InternalDataService
 {
-    /**
-     * @deprecated
-     */
-    public static function getObjCreationTooltipText(
-        string $a_type
-    ): string {
-        global $DIC;
-        return $DIC->help()->internal()->domain()->tooltips()->getTooltipPresentationText($a_type . "_create");
+    public function __construct()
+    {
+        //$this->..._factory = new ...\DataFactory();
     }
+
 }

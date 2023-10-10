@@ -16,20 +16,23 @@
  *
  *********************************************************************/
 
-/**
- * Online help application class
- *
- * @author Alexander Killing <killing@leifos.de>
- */
-class ilHelp
+declare(strict_types=1);
+
+namespace ILIAS\Help\Setup;
+
+use ILIAS\Setup;
+use ILIAS\Setup\Objective;
+use ILIAS\Setup\Metrics;
+
+class Agent extends Setup\Agent\NullAgent
 {
-    /**
-     * @deprecated
-     */
-    public static function getObjCreationTooltipText(
-        string $a_type
-    ): string {
-        global $DIC;
-        return $DIC->help()->internal()->domain()->tooltips()->getTooltipPresentationText($a_type . "_create");
+    public function getUpdateObjective(Setup\Config $config = null): Setup\Objective
+    {
+        return new \ilDatabaseUpdateStepsExecutedObjective(new ilHelpDBUpdateSteps());
+    }
+
+    public function getStatusObjective(Metrics\Storage $storage): Objective
+    {
+        return new \ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new ilHelpDBUpdateSteps());
     }
 }
