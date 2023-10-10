@@ -1878,8 +1878,8 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         if (($this->object->isEndingTimeEnabled() || $this->object->getEnableProcessingTime())
             && !$this->object->endingTimeReached()
             && !$this->object->isMaxProcessingTimeReached(
-                $this->object->getStartingTimeOfUser($activeId),
-                $activeId
+                $this->object->getStartingTimeOfUser($active_id),
+                $active_id
             )) {
             $this->tpl->setOnScreenMessage('info', $this->lng->txt('finish_pass_for_user_in_processing_time'));
         }
@@ -1955,8 +1955,8 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             return false;
         }
 
-        $access_filter = ilTestParticipantAccessFilter::getManageParticipantsUserFilter($this->ref_id);
-        $participant_list = new ilTestParticipantList($this->object);
+        $access_filter = $this->participant_access_filter->getManageParticipantsUserFilter($this->ref_id);
+        $participant_list = new ilTestParticipantList($this->object, $this->user, $this->lng, $this->db);
         $participant_list->initializeFromDbRows($this->object->getTestParticipants());
 
         foreach ($participant_list->getAccessFilteredList($access_filter) as $participant) {
