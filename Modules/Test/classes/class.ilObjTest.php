@@ -7087,7 +7087,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
     */
     public function getXMLZip(): string
     {
-        $expFactory = new ilTestExportFactory($this, $this->lng, $this->log, $this->tree, $this->component_repository);
+        $expFactory = new ilTestExportFactory($this, $this->lng, $this->log, $this->tree, $this->component_repository, $this->questioninfo);
         $test_exp = $expFactory->getExporter('xml');
         return $test_exp->buildExportFile();
     }

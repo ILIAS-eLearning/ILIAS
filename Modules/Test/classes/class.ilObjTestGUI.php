@@ -269,7 +269,8 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                     $this->obj_data_cache,
                     $this->component_repository,
                     $this->component_factory->getActivePluginsInSlot('texp'),
-                    $selected_files
+                    $selected_files,
+                    $this->questioninfo
                 );
                 $this->ctrl->forwardCommand($export_gui);
                 break;
@@ -2904,7 +2905,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         if ($this->create_question_mode) {
             return;
         }
-exit;
+        exit;
         $this->ctrl->saveParameter($this, 'q_mode');
 
         $this->ctrl->setParameterByClass('iltestexpresspageobjectgui', 'test_express_mode', 1);
