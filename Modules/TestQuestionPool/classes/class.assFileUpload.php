@@ -533,40 +533,6 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
         return $found;
     }
 
-    /**
-    * Delete uploaded files
-    *
-  * @param array Array with ID's of the file datasets
-    */
-    protected function deleteUploadedFiles($files, $test_id, $active_id, $authorized): void
-    {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-
-        $pass = null;
-        $active_id = null;
-        foreach ($files as $solution_id) {
-            $result = $ilDB->queryF(
-                'SELECT * FROM tst_solutions WHERE solution_id = %s AND authorized = %s',
-                ['integer', 'integer'],
-                [$solution_id, (int) $authorized]
-            );
-            if ($result->numRows() == 1) {
-                $data = $ilDB->fetchAssoc($result);
-                $pass = $data['pass'];
-                $active_id = $data['active_fi'];
-                @unlink($this->getFileUploadPath($test_id, $active_id) . $data['value1']);
-            }
-        }
-        foreach ($files as $solution_id) {
-            $affectedRows = $ilDB->manipulateF(
-                'DELETE FROM tst_solutions WHERE solution_id = %s AND authorized = %s',
-                ['integer', 'integer'],
-                [$solution_id, $authorized]
-            );
-        }
-    }
-
     // fau: testNav new function deleteUnusedFiles()
     /**
      * Delete all files that are neither used in an authorized or intermediate solution
@@ -574,8 +540,24 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
      * @param int	$active_id
      * @param int	$pass
      */
-    protected function deleteUnusedFiles($test_id, $active_id, $pass): void
+    protected function deleteUnusedFiles(array $rids_to_delete, $test_id, $active_id, $pass): void
     {
+        // Remove Resources from IRSS
+        if ($rids_to_delete !== []) {
+            foreach ($rids_to_delete as $rid_to_delete) {
+                $rid_to_delete = $this->irss->manage()->find($rid_to_delete);
+                if ($rid_to_delete === null) {
+                    continue;
+                }
+                $this->irss->manage()->remove(
+                    $rid_to_delete,
+                    new assFileUploadStakeholder()
+                );
+            }
+        }
+
+        // Legacy implementation for not yet migrated files
+
         // read all solutions (authorized and intermediate) from all steps
         $step = $this->getStep();
         $this->setStep(null);
@@ -699,6 +681,13 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
 
         $entered_values = false;
 
+        // RIDS to delete
+        // Unfortunately, at the moment it is not possible to delete the files from the IRSS, because the process takes
+        // place within the ProcessLocker and the IRSS tables cannot be used. we have to remove them after the lock.
+        // therefore we store the rids to delete in an array for later deletion.
+
+        $rids_to_delete = $this->resolveRIDStoDelete();
+
         $this->getProcessLocker()->executeUserSolutionUpdateLockOperation(
             function () use (
                 &$entered_values,
@@ -723,7 +712,7 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
                     }
                 } else {
                     if ($this->isFileReuseHandlingRequired()) {
-                        foreach ($_POST[self::REUSE_FILES_TBL_POSTVAR] as $solutionId) { // FSX TODO test
+                        foreach ($_POST[self::REUSE_FILES_TBL_POSTVAR] as $solutionId) {
                             $solution = $this->getSolutionRecordById($solutionId);
 
                             $this->saveCurrentSolution(
@@ -763,8 +752,14 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
                     $this->updateCurrentSolutionsAuthorization($active_id, $pass, true, true);
                 }
 
-                $this->deleteUnusedFiles($test_id, $active_id, $pass); // FSX TODO: test
             }
+        );
+
+        $this->deleteUnusedFiles(
+            $rids_to_delete,
+            $test_id,
+            $active_id,
+            $pass
         );
 
         if ($entered_values) {
@@ -788,26 +783,29 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
         return true;
     }
 
-    protected function removeSolutionRecordById(int $solution_id): int
+    protected function resolveRIDStoDelete(): array
     {
-        // Unfortunately, at the moment it is not possible to delete the files from the IRSS, because the process takes
-        // place within the ProcessLocker and the IRSS tables cannot be used.
-
-        // find corresponsing ResourceIdentification if available
-        /*
-        $result = $this->db->queryF(
-            "SELECT value1 FROM tst_solutions WHERE solution_id = %s AND value2 = %s",
-            ['integer', 'text'],
-            [$solution_id, 'rid']
-        );
-        if ($result->numRows() > 0) {
-            $rid = $this->irss->manage()->find($this->db->fetchAssoc($result)['value1']);
-            if ($rid !== null) {
-                $this->irss->manage()->remove($rid, new assFileUploadStakeholder());
+        $rids_to_delete = [];
+        if ($this->isFileDeletionAction()) {
+            if ($this->isFileDeletionSubmitAvailable()) {
+                $res = $this->db->query(
+                    "SELECT value1 FROM tst_solutions WHERE value2 = 'rid' AND " . $this->db->in(
+                        'solution_id',
+                        $_POST[self::DELETE_FILES_TBL_POSTVAR],
+                        false,
+                        'integer'
+                    )
+                );
+                while ($d = $this->db->fetchAssoc($res)) {
+                    $rids_to_delete[] = $d['value1'];
+                }
             }
         }
-        */
+        return $rids_to_delete;
+    }
 
+    protected function removeSolutionRecordById(int $solution_id): int
+    {
         return parent::removeSolutionRecordById($solution_id);
     }
 
@@ -841,7 +839,7 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
 
         $test_id = $this->testParticipantInfo->lookupTestIdByActiveId($active_id);
         if ($test_id !== -1) {
-            $this->deleteUnusedFiles($test_id, $active_id, $pass);
+            $this->deleteUnusedFiles([], $test_id, $active_id, $pass);
         }
     }
 
