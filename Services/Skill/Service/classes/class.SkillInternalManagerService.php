@@ -28,6 +28,7 @@ use ILIAS\Skill\Profile;
 use ILIAS\Skill\Personal;
 use ILIAS\Skill\Resource;
 use ILIAS\Skill\Level;
+use ILIAS\Skill\Table;
 
 /**
  * Skill internal manager service
@@ -126,5 +127,10 @@ class SkillInternalManagerService
     public function getResourceManager(): Resource\SkillResourcesManager
     {
         return new Resource\SkillResourcesManager();
+    }
+
+    public function getTableManager(): Table\SkillTableManager
+    {
+        return new Table\SkillTableManager();
     }
 }
