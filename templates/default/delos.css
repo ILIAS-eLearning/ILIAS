@@ -1,4 +1,7 @@
 @charset "UTF-8";
+/*
+* Dependencies
+*/
 /*!
  * Datetimepicker for Bootstrap 3
  * version : 4.17.37
@@ -681,8 +684,9 @@ table.mceToolbar tbody, table.mceToolbar tr, table.mceToolbar td {
 }
 
 /*
-* Dependencies
-*/ /* print less */
+* Normalize
+*/
+/* print less */
 @media print {
   * {
     /* see bug 0022342 */
@@ -890,9 +894,6 @@ th {
   padding: 0;
 }
 
-/*
-* Normalize
-*/
 .row {
   --bs-gutter-x: 30px;
   --bs-gutter-y: 0;
@@ -2227,6 +2228,9 @@ th {
   margin-right: 0;
 }
 
+/*
+* Elements
+*/
 * {
   box-sizing: border-box;
 }
@@ -2601,8 +2605,9 @@ code {
   }
 }
 /*
-* Elements
+* Components
 */
+/* UI Framework */
 .c-tooltip__container {
   position: relative;
   display: inline-block;
@@ -4998,9 +5003,6 @@ input[type=checkbox]:focus:focus-visible {
   .il-panel-listing-std-container .il-item .media-left {
     min-width: 50px;
   }
-  .panel-secondary .il-item .media-body {
-    width: auto;
-  }
 }
 .c-launcher .btn-bulky {
   background-color: #557b2e;
@@ -5571,12 +5573,10 @@ footer {
   margin-top: 6px;
 }
 
-.clearfix:before, .clearfix:after {
-  display: table;
-  content: " ";
-}
-.clearfix:after {
+.clearfix::after {
+  display: block;
   clear: both;
+  content: "";
 }
 
 /* common css for characteristic value listing */
@@ -5585,12 +5585,10 @@ footer {
   border-top: solid #dddddd 1px;
   padding: 12px 0;
 }
-.il-listing-characteristic-value-row:before, .il-listing-characteristic-value-row:after {
-  display: table;
-  content: " ";
-}
-.il-listing-characteristic-value-row:after {
+.il-listing-characteristic-value-row::after {
+  display: block;
   clear: both;
+  content: "";
 }
 
 .il-listing-characteristic-value-row:first-child {
@@ -7017,12 +7015,10 @@ div.alert ul > li:before {
   padding: 9px 15px;
   border-bottom: 1px solid #e5e5e5;
 }
-.modal-header:before, .modal-header:after {
-  display: table;
-  content: " ";
-}
-.modal-header:after {
+.modal-header::after {
+  display: block;
   clear: both;
+  content: "";
 }
 
 .modal-header .close {
@@ -7045,12 +7041,10 @@ div.alert ul > li:before {
   text-align: right;
   border-top: 1px solid #e5e5e5;
 }
-.modal-footer:before, .modal-footer:after {
-  display: table;
-  content: " ";
-}
-.modal-footer:after {
+.modal-footer::after {
+  display: block;
   clear: both;
+  content: "";
 }
 .modal-footer .btn + .btn {
   margin-bottom: 0;
@@ -7161,12 +7155,10 @@ div.alert ul > li:before {
   padding: 15px 15px;
   background-color: white;
 }
-.panel .panel-body:before, .panel .panel-body:after {
-  display: table;
-  content: " ";
-}
-.panel .panel-body:after {
+.panel .panel-body::after {
+  display: block;
   clear: both;
+  content: "";
 }
 
 .panel-footer {
@@ -9806,6 +9798,7 @@ td.c-table-data__cell--highlighted {
   width: 5rem;
 }
 
+/* Component parts from old delos.scss */
 div#agreement {
   width: 100%;
   height: 375px;
@@ -10526,6 +10519,7 @@ div.il_info {
   text-align: left;
 }
 
+/* Adapted from Bootstrap 3 */
 .fade {
   opacity: 0;
   -webkit-transition: opacity 0.15s linear;
@@ -10592,12 +10586,10 @@ tbody.collapse.in {
 .btn-toolbar {
   margin-left: -5px;
 }
-.btn-toolbar:before, .btn-toolbar:after {
-  display: table;
-  content: " ";
-}
-.btn-toolbar:after {
+.btn-toolbar::after {
+  display: block;
   clear: both;
+  content: "";
 }
 .btn-toolbar .btn,
 .btn-toolbar .btn-group,
@@ -10683,12 +10675,10 @@ tbody.collapse.in {
   width: 100%;
   max-width: 100%;
 }
-.btn-group-vertical > .btn-group:before, .btn-group-vertical > .btn-group:after {
-  display: table;
-  content: " ";
-}
-.btn-group-vertical > .btn-group:after {
+.btn-group-vertical > .btn-group::after {
+  display: block;
   clear: both;
+  content: "";
 }
 .btn-group-vertical > .btn-group > .btn {
   float: none;
@@ -11151,6 +11141,7 @@ tbody.collapse.in {
   clip: auto;
 }
 
+/* Legacy Modules & Services */
 /* Modules/Bibliographic */
 span.bibl_text_inline_Emph {
   font-style: italic;
@@ -18141,12 +18132,10 @@ a.ilMediaLightboxClose:hover {
   margin-bottom: 0;
   list-style: none;
 }
-.nav:before, .nav:after {
-  display: table;
-  content: " ";
-}
-.nav:after {
+.nav::after {
+  display: block;
   clear: both;
+  content: "";
 }
 .nav > li {
   position: relative;
@@ -18376,12 +18365,10 @@ a.ilMediaLightboxClose:hover {
   margin-bottom: 20px;
   border: 1px solid transparent;
 }
-.navbar:before, .navbar:after {
-  display: table;
-  content: " ";
-}
-.navbar:after {
+.navbar::after {
+  display: block;
   clear: both;
+  content: "";
 }
 @media (min-width: 768px) {
   .navbar {
@@ -18389,12 +18376,10 @@ a.ilMediaLightboxClose:hover {
   }
 }
 
-.navbar-header:before, .navbar-header:after {
-  display: table;
-  content: " ";
-}
-.navbar-header:after {
+.navbar-header::after {
+  display: block;
   clear: both;
+  content: "";
 }
 @media (min-width: 768px) {
   .navbar-header {
@@ -18410,12 +18395,10 @@ a.ilMediaLightboxClose:hover {
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
   -webkit-overflow-scrolling: touch;
 }
-.navbar-collapse:before, .navbar-collapse:after {
-  display: table;
-  content: " ";
-}
-.navbar-collapse:after {
+.navbar-collapse::after {
+  display: block;
   clear: both;
+  content: "";
 }
 .navbar-collapse.in {
   overflow-y: auto;
@@ -18765,13 +18748,6 @@ img.ilUserXXSmall {
 }
 
 /*
-* Components
-*/
-/* UI Framework */
-/* Component parts from old delos.scss */
-/* Adapted from Bootstrap 3 */
-/* Legacy Modules & Services */
-/*
 	These classes are used to limit the number of rows when displaying larger chunks of text.
 	The mixin receives $height-in-rows as an integer. The classes il-multi-line-cap-2,3,5,10
 	can be used to limit the number of rows for text to 2,3,5 or 10 lines in any template,
@@ -18809,14 +18785,18 @@ img.ilUserXXSmall {
   overflow: hidden;
 }
 
-.ilClearFloat {
+.ilClearFloat::after {
+  display: block;
   clear: both;
+  content: "";
 }
 
+.pull-right,
 .ilFloatRight {
   float: right;
 }
 
+.pull-left,
 .ilFloatLeft {
   float: left;
 }
