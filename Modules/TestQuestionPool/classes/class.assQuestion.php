@@ -3786,9 +3786,14 @@ abstract class assQuestion
     public function setQuestion($question = "")
     {
         $this->question = $question;
-        if (!is_null($question) && $question !== '') {
-            $this->question = $this->getHtmlQuestionContentPurifier()->purify($question);
-        }
+    }
+
+    public function getQuestionForHTMLOutput() : string
+    {
+        return $this->prepareTextareaOutput(
+            $this->getHtmlQuestionContentPurifier()->purify($this->question),
+            true
+        );
     }
 
     /**
