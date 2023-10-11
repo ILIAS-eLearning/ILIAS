@@ -225,7 +225,7 @@ class ilTestResultsImportParser extends ilSaxParser
                         $affectedRows = $ilDB->insert("tst_solutions", array(
                             "solution_id" => array("integer", $next_id),
                             "active_fi" => array("integer", $this->active_id_mapping[$a_attribs['active_fi']]),
-                            "question_fi" => array("integer", $this->question_id_mapping[$a_attribs['question_fi']] ?? 0),
+                            "question_fi" => array("integer", $this->question_id_mapping[$a_attribs['question_fi']]),
                             "value1" => array("clob", (strlen($a_attribs['value1'])) ? $a_attribs['value1'] : null),
                             "value2" => array("clob", (strlen($a_attribs['value2'])) ? $a_attribs['value2'] : null),
                             "pass" => array("integer", $a_attribs['pass']),
@@ -237,7 +237,7 @@ class ilTestResultsImportParser extends ilSaxParser
                         $affectedRows = $ilDB->manipulateF(
                             "INSERT INTO tst_test_result (test_result_id, active_fi, question_fi, points, pass, manual, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s)",
                             array('integer', 'integer','integer', 'float', 'integer', 'integer','integer'),
-                            array($next_id, $this->active_id_mapping[$a_attribs['active_fi']], $this->question_id_mapping[$a_attribs['question_fi']] ?? 0, $a_attribs['points'], $a_attribs['pass'], (strlen($a_attribs['manual'])) ? $a_attribs['manual'] : 0, $a_attribs['tstamp'])
+                            array($next_id, $this->active_id_mapping[$a_attribs['active_fi']], $this->question_id_mapping[$a_attribs['question_fi']], $a_attribs['points'], $a_attribs['pass'], (strlen($a_attribs['manual'])) ? $a_attribs['manual'] : 0, $a_attribs['tstamp'])
                         );
                         break;
                     case 'tst_times':
