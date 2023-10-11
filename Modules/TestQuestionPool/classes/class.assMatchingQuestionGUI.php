@@ -607,9 +607,8 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
             $template->parseCurrentBlock();
         }
 
-        $questiontext = $this->object->getQuestion();
         if ($show_question_text == true) {
-            $template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, true));
+            $template->setVariable("QUESTIONTEXT", $this->object->getQuestionForHTMLOutput());
         }
 
         $questionoutput = $template->get();
@@ -760,7 +759,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
         $template->setVariable("RESET_BUTTON", $this->lng->txt("reset_terms"));
 
-        $template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($this->object->getQuestion(), true));
+        $template->setVariable("QUESTIONTEXT", $this->object->getQuestionForHTMLOutput());
 
         $questionoutput = $template->get();
 
@@ -955,7 +954,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
         $template->setVariable("RESET_BUTTON", $this->lng->txt("reset_terms"));
 
-        $template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($this->object->getQuestion(), true));
+        $template->setVariable("QUESTIONTEXT", $this->object->getQuestionForHTMLOutput());
 
         return $this->outQuestionPage("", $is_postponed, $active_id, $template->get());
     }

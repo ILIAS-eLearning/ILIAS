@@ -2964,12 +2964,17 @@ abstract class assQuestion
         return $this->question;
     }
 
+    public function getQuestionForHTMLOutput(): string
+    {
+        return $this->prepareTextareaOutput(
+            $this->getHtmlQuestionContentPurifier()->purify($this->question),
+            true
+        );
+    }
+
     public function setQuestion(string $question = ""): void
     {
         $this->question = $question;
-        if ($question !== '') {
-            $this->question = $this->getHtmlQuestionContentPurifier()->purify($question);
-        }
     }
 
     /**
