@@ -264,7 +264,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition, ilAs
             return false;
         }
 
-        $text = $this->getQuestion();
+        $text = $this->getQuestionForHTMLOutput();
 
         foreach ($this->fetchAllVariables($this->getQuestion()) as $varObj) {
             if (isset($userdata[$varObj->getVariable()]) && strlen($userdata[$varObj->getVariable()])) {
