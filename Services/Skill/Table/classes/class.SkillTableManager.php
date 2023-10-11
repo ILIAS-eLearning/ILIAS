@@ -35,32 +35,29 @@ class SkillTableManager
 
     public function getSkillUsageTable(
         string $cskill_id,
-        array $usage, string $mode = ""
-    ): SkillUsageTable
-    {
+        array $usage,
+        string $mode = ""
+    ): SkillUsageTable {
         return new SkillUsageTable($cskill_id, $usage, $mode);
     }
 
     public function getAssignedObjectsTable(
         array $objects
-    ): AssignedObjectsTable
-    {
+    ): AssignedObjectsTable {
         return new AssignedObjectsTable($objects);
     }
 
     public function getSkillProfileLevelAssignmentTable(
         string $cskill_id,
         bool $update = false
-    ): SkillProfileLevelAssignmentTable
-    {
+    ): SkillProfileLevelAssignmentTable {
         return new SkillProfileLevelAssignmentTable($cskill_id, $update);
     }
 
     public function getSkillProfileUserAssignmentTable(
         Profile\SkillProfile $profile,
         Access\SkillTreeAccess $tree_access_manager
-    ): SkillProfileUserAssignmentTable
-    {
+    ): SkillProfileUserAssignmentTable {
         return new SkillProfileUserAssignmentTable($profile, $tree_access_manager);
     }
 }
