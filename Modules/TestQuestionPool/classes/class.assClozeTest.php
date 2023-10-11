@@ -165,7 +165,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
         $text = str_replace("</gap>", "[/gap]", $text);
         $text = str_replace('GAPMASKEDDOLLAR', '$', $text);
         // fau.
-        return $this->getHtmlQuestionContentPurifier()->purify($text);
+        return $text;
     }
 
     // fau: fixGapReplace - add function replaceFirstGap()
@@ -551,9 +551,8 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
     */
     public function setClozeText($cloze_text = "")
     {
-        $this->gaps = array();
-        $cloze_text = $this->cleanQuestiontext($cloze_text);
-        $this->cloze_text = $cloze_text;
+        $this->gaps = [];
+        $this->cloze_text = $this->cleanQuestiontext($cloze_text);
         $this->createGapsFromQuestiontext();
     }
 
@@ -582,12 +581,24 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
     * @return string The cloze text string as HTML
     * @see $cloze_text
     */
-    public function getClozeTextHTML() : string
+    public function getClozeTextForHTMLOutput() : string
     {
-        if ($this->cloze_text !== strip_tags($this->cloze_text)) {
-            return $this->cloze_text;
+        $gaps = [];
+        preg_match_all('/\[gap\].*\[\/gap\]/', $this->getClozeText(), $gaps);
+        $string_with_replaced_gaps = str_replace($gaps[0], '######GAP######', $this->getClozeText());
+        $cleaned_text = $this->getHtmlQuestionContentPurifier()->purify(
+            $string_with_replaced_gaps
+        );
+        $cleaned_text_with_gaps = preg_replace_callback('/######GAP######/', function ($match) use (&$gaps) {
+            return array_shift($gaps[0]);
+        }, $cleaned_text);
+
+        if ($this->isAdditionalContentEditingModePageObject()
+            || !(new ilSetting('advanced_editing'))->get('advanced_editing_javascript_editor') === 'tinymce') {
+            $cleaned_text_with_gaps = nl2br($cleaned_text_with_gaps);
         }
-        return nl2br($this->cloze_text);
+
+        return $this->prepareTextareaOutput($cleaned_text_with_gaps, true);
     }
 
     /**
