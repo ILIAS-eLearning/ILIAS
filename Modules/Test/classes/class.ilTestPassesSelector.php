@@ -269,7 +269,7 @@ class ilTestPassesSelector
 
         $matches = array_map('intval', $matches);
 
-        $repTS = mktime((int) $matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]);
+        $repTS = mktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]);
 
         return time() >= $repTS;
     }
