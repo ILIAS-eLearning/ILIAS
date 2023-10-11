@@ -904,7 +904,7 @@ JS;
                     break;
             }
         }
-        $template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($this->object->getQuestionForHTMLOutput(), true));
+        $template->setVariable("QUESTIONTEXT", $this->object->getQuestionForHTMLOutput());
         $template->setVariable("CLOZETEXT", $this->object->prepareTextareaOutput($output, true));
         $questionoutput = $template->get();
         if (!$show_question_only) {
