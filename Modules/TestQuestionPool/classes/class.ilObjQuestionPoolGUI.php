@@ -374,9 +374,11 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                 break;
 
             case 'ilobjtaxonomygui':
-                $obj = $this->object;
+                if (!$ilAccess->checkAccess('write', '', $this->object->getRefId())) {
+                    $this->redirectAfterMissingWrite();
+                }
                 $forwarder = new ilObjQuestionPoolTaxonomyEditingCommandForwarder(
-                    $obj,
+                    $this->object,
                     $ilDB,
                     $component_repository,
                     $ilCtrl,
