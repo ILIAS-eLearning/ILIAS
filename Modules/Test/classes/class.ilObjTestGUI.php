@@ -2462,7 +2462,7 @@ class ilObjTestGUI extends ilObjectGUI
         $table_gui = new ilTestHistoryTableGUI($this, 'history');
         $table_gui->setTestObject($this->object);
         include_once "./Modules/Test/classes/class.ilObjAssessmentFolder.php";
-        $log = &ilObjAssessmentFolder::_getLog(0, time(), $this->object->getId(), true);
+        $log = ilObjAssessmentFolder::_getLog(0, time(), $this->object->getId(), true);
         $table_gui->setData($log);
         $this->tpl->setVariable('ADM_CONTENT', $table_gui->getHTML());
     }
