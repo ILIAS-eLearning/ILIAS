@@ -35,7 +35,7 @@ class ilTestHistoryTableGUI extends ilTable2GUI
         parent::__construct($parent_obj, $parent_cmd);
 
         $this->setFormName('questionbrowser');
-        $this->setFormAction($ilCtrl->getFormAction($this->parent_obj, "history"));
+        $this->setFormAction($this->ctrl->getFormAction($this->parent_obj, "history"));
         $this->setStyle('table', 'fullwidth');
         $this->addColumn($this->lng->txt("assessment_log_datetime"), 'datetime', '25%');
         $this->addColumn($this->lng->txt("user"), 'user', '25%');
