@@ -1585,7 +1585,14 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
             'ilObjQuestionPoolSettingsGeneralGUI'
         );
 
-        $this->taxonomy->gui()->addSettingsSubTab($this->getObject()->getId());
+        if ($this->object->getShowTaxonomies()) {
+            $tabs->addSubTabTarget(
+                'qpl_settings_subtab_taxonomies',
+                $this->ctrl->getLinkTargetByClass('ilTaxonomySettingsGUI', ''),
+                '',
+                'ilTaxonomySettingsGUI'
+            );
+        }
     }
 
     /**

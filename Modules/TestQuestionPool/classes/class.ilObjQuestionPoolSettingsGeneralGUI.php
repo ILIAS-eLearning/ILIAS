@@ -192,20 +192,15 @@ class ilObjQuestionPoolSettingsGeneralGUI
         $online = $form->getItemByPostVar('online');
         $this->poolOBJ->setOnline($online->getChecked());
 
+        $showTax = $form->getItemByPostVar('show_taxonomies');
+        $this->poolOBJ->setShowTaxonomies($showTax->getChecked());
+
         $DIC->object()->commonSettings()->legacyForm($form, $this->poolOBJ)->saveTileImage();
 
         if ($this->formPropertyExists($form, 'skill_service')) {
             $skillService = $form->getItemByPostVar('skill_service');
             $this->poolOBJ->setSkillServiceEnabled($skillService->getChecked());
         }
-
-        ilObjectServiceSettingsGUI::updateServiceSettingsForm(
-            $this->poolOBJ->getId(),
-            $form,
-            [
-                ilObjectServiceSettingsGUI::TAXONOMIES
-            ]
-        );
 
         $this->poolOBJ->saveToDb();
     }
@@ -270,13 +265,10 @@ class ilObjQuestionPoolSettingsGeneralGUI
         $feat->setTitle($this->lng->txt('obj_features'));
         $form->addItem($feat);
 
-        ilObjectServiceSettingsGUI::initServiceSettingsForm(
-            $this->poolOBJ->getId(),
-            $form,
-            [
-                ilObjectServiceSettingsGUI::TAXONOMIES
-            ]
-        );
+        $showTax = new ilCheckboxInputGUI($this->lng->txt('qpl_settings_general_form_property_show_taxonomies'), 'show_taxonomies');
+        $showTax->setInfo($this->lng->txt('qpl_settings_general_form_prop_show_tax_desc'));
+        $showTax->setChecked($this->poolOBJ->getShowTaxonomies());
+        $form->addItem($showTax);
 
         return $form;
     }
