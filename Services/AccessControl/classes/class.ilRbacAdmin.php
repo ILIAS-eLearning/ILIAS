@@ -1,6 +1,5 @@
 <?php
 
-declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -16,6 +15,7 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+declare(strict_types=1);
 
 /**
  * Class ilRbacAdmin
@@ -145,7 +145,7 @@ class ilRbacAdmin
         int $a_usr_id,
         int $a_limit,
         array $a_limited_roles = []
-    ): void {
+    ): bool {
         $ilDB = $this->db;
         $ilAtomQuery = $this->db->buildAtomQuery();
         $ilAtomQuery->addTableLock('rbac_ua');
@@ -171,12 +171,14 @@ class ilRbacAdmin
         $ilAtomQuery->run();
 
         if (!$ret) {
-            return;
+            return false;
         }
 
         $this->rbacreview->setAssignedCacheEntry($a_role_id, $a_usr_id, true);
         $mapping = ilLDAPRoleGroupMapping::_getInstance();
         $mapping->assign($a_role_id, $a_usr_id);
+
+        return true;
     }
 
     /**
