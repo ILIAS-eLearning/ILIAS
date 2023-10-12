@@ -886,7 +886,7 @@ assessment#:#msg_selected_for_move#:#Fragen zum Verschieben ausgewählt
 assessment#:#new_category#:#Neue Einheiten-Kategorie
 assessment#:#new_unit#:#Neue Einheit
 assessment#:#next_question#:#Weiter
-assessment#:#next_question_rows#:#Fragen %d - %d von %d >>
+assessment#:#next_question_rows#:#Fragen %d - %d von %d →
 assessment#:#no_manual_feedback_export_info#:#Manuelle Rückmeldungen werden nicht exportiert.
 assessment#:#no_passed_mark#:#Sie müssen wenigstens einen Notenschritt als BESTANDEN markieren! Das Notenschema wurde nicht gespeichert!
 assessment#:#no_question_selected_for_move#:#Bitte wählen Sie mindestens eine Frage aus, um sie zu verschieben!
@@ -5999,7 +5999,7 @@ contact#:#contact_awrn_ap_contacts_info#:#Alle bestätigten Kontakte eines Benut
 contact#:#contact_awrn_req_contacts#:#Kontaktanfragen
 contact#:#contact_awrn_req_contacts_info#:#Alle Kontaktanfragen werden aufgelistet.
 content#:#Pages#:#Seiten
-content#:#add_menu_entry#:#Menüeintrag hinzufügen >>
+content#:#add_menu_entry#:#Menüeintrag hinzufügen →
 content#:#all#:#Alle
 content#:#all_pages#:#für das gesamte Lernmodul
 content#:#choose_public_mode#:#Zugriffsrecht für nicht angemeldete Benutzer
@@ -7169,7 +7169,7 @@ content#:#lm_menu_edit_entry#:#Menüeintrag bearbeiten
 content#:#lm_menu_entry_target#:#Ziel
 content#:#lm_menu_entry_title#:#Titel
 content#:#lm_menu_new_entry#:#Neuen Menüeintrag erstellen
-content#:#lm_menu_select_internal_object#:#Internes Objekt auswählen >>
+content#:#lm_menu_select_internal_object#:#Internes Objekt auswählen →
 content#:#lm_menu_select_object_to_add#:#Bitte klicken Sie auf das Objekt, welches Sie im Menü hinzufügen wollen
 content#:#lm_no_download_files#:#Zurzeit stehen keine Download-Dateien zur Verfügung.
 content#:#lm_only_one_download_per_type#:#Es kann nur eine Datei je Typ (XML und HTML) öffentlich freigeschaltet werden.
@@ -15625,7 +15625,7 @@ survey#:#add_phrase#:#Phrase hinzufügen
 survey#:#adm_no_special_users#:#Es sind keine speziellen Benutzer definiert, die Umfragen mehrfach durchführen können.
 survey#:#already_completed_survey#:#Sie haben die Umfrage bereits durchgeführt! Eine Umfrage kann kein zweites Mal durchgeführt werden.
 survey#:#anonymization#:#Anonymisierung
-survey#:#anonymize_anonymous_introduction#:#Um Ihnen Zugang zu dieser Umfrage gewähren zu können, müssen Sie einen 5stelligen Zugangsschlüssel verwenden, den Sie von der verantwortlichen Person für diese Umfrage erhalten.<br />Bitte geben Sie diesen Zugangsschlüssel in das obige Textfeld ein.
+survey#:#anonymize_anonymous_introduction#:#Um Ihnen Zugang zu dieser Umfrage gewähren zu können, müssen Sie einen fünfstelligen Zugangsschlüssel verwenden, den Sie von der verantwortlichen Person für diese Umfrage erhalten.<br />Bitte geben Sie diesen Zugangsschlüssel in das obige Textfeld ein.
 survey#:#answer#:#Antwort
 survey#:#apply#:#Übernehmen
 survey#:#arithmetic_mean#:#Arithmetisches Mittel
@@ -15665,7 +15665,7 @@ survey#:#constraints_list_of_entities#:#Mögliche Aufhänger für Verzweigungsre
 survey#:#constraints_no_nonessay_available#:#Es gibt keine vorangegangenen Fragen, die zur Erstellung von Verzweigungsregeln verwendet werden können. Folgende Typen werden unterstützt: Metrische, Single Choice und Multiple Choice Frage.
 survey#:#constraints_no_questions_or_questionblocks_selected#:#Bitte wählen Sie mindestens eine Frage oder einen Fragenblock aus!
 survey#:#contains#:#Beinhaltet
-survey#:#continue#:#Weiter >>
+survey#:#continue#:#Weiter →
 survey#:#create_date#:#Erstellt am
 survey#:#create_new#:#Erstelle neue
 survey#:#dc_agree#:#einverstanden
@@ -15740,8 +15740,8 @@ survey#:#end_date_reached#:#Sie können die Umfrage nicht mehr starten. Das letz
 survey#:#enter_anonymous_id#:#Zugangsschlüssel
 survey#:#enter_phrase_title#:#Bitte geben Sie einen Titel für die Phrase an
 survey#:#enter_valid_number_of_codes#:#Bitte geben Sie eine gültige Zahl ein, um Zugangsschlüssel zu generieren!
-survey#:#err_external_rcp_no_email#:#Die Importdaten müssen wenigstens ein 'email'-Spalte beinhalten, d.h. eine Zeile mit dem Titel 'email' und weitere Zeilen mit den jeweiligen E-Mail-Adressen.
-survey#:#err_external_rcp_no_email_column#:#Die Importdaten müssen wenigstens eine 'email'-Spalte beinhalten, d.h. eine Zeile mit dem Titel 'email' und weitere Zeilen mit den jeweiligen E-Mail-Adressen
+survey#:#err_external_rcp_no_email#:#Die Importdaten müssen wenigstens eine „email“-Spalte beinhalten, d.h. eine Zeile mit dem Titel „email“ und weitere Zeilen mit den jeweiligen E-Mail-Adressen.
+survey#:#err_external_rcp_no_email_column#:#Die Importdaten müssen wenigstens eine „email“-Spalte beinhalten, d.h. eine Zeile mit dem Titel „email“ und weitere Zeilen mit den jeweiligen E-Mail-Adressen.
 survey#:#err_maxvaluegeminvalue#:#Das Maximum muss größer oder gleich dem Minimum sein und höchstens gleich der maximalen Anzahl der Antworten.
 survey#:#err_minvalueganswers#:#Das Minium darf nicht größer als die maximale Anzahl der Antworten sein.
 survey#:#err_no_exact_answers#:#Bitte wählen Sie genau %s Antwort(en) aus.
@@ -15749,7 +15749,7 @@ survey#:#err_no_max_answers#:#Bitte wählen Sie höchstens %s Antworten aus.
 survey#:#err_no_min_answers#:#Bitte wählen Sie mindestens %s Antwort(en) aus.
 survey#:#err_no_pool_name#:#Bitte geben Sie den Namen eines Fragenpools an.
 survey#:#error_retrieving_anonymous_survey#:#Das System konnte Ihre Umfragedaten unter dem Zugangsschlüssel %s nicht finden. Bitte überprüfen Sie den Zugangsschlüssel!
-survey#:#error_save_code#:#Werte wurden nicht korrekt gespeichert. <b>Die E-Mail '%s' ist nicht gültig.</b>. Vorname: '%s', Nachname: '%s'.<br>
+survey#:#error_save_code#:#Werte wurden nicht korrekt gespeichert. <b>Die E-Mail %s ist nicht gültig.</b>. Vorname: „%s“, Nachname: „%s“.<br>
 survey#:#evaluation#:#Statistik
 survey#:#evaluation_access#:#Zugriff der Teilnehmer auf die Ergebnisse
 survey#:#evaluation_access_all#:#Alle registrierten ILIAS-Benutzer können auf die Ergebnisse zugreifen
@@ -15882,7 +15882,7 @@ survey#:#nr_max_answers#:#Maximum
 survey#:#nr_min_answers#:#Minimum
 survey#:#obligatory#:#Verpflichtend
 survey#:#off#:#Aus
-survey#:#offline#:#offline (nicht aktiviert)
+survey#:#offline#:#Offline (nicht aktiviert)
 survey#:#on#:#An
 survey#:#or#:#oder
 survey#:#orientation#:#Ausrichtung
@@ -15966,7 +15966,7 @@ survey#:#spl_move_insert_clipboard#:#Die ausgewählten Fragen wurden für zum Ve
 survey#:#spl_move_same_pool#:#Sie können Fragen nicht innerhalb des gleichen Fragenpools verschieben.
 survey#:#spl_move_select_none#:#Bitte wählen Sie mindestens eine Frage zum Verschieben aus.
 survey#:#spl_online_property#:#Online
-survey#:#spl_online_property_description#:#Wenn der Fragenpool nicht online ist, kann er nicht in Umfragen verwendet werden.
+survey#:#spl_online_property_description#:#Nur wenn der Fragenpool online ist, können die enthaltenen Fragen in Umfragen verwendet werden.
 survey#:#spl_paste_no_objects#:#Es sind keine Fragen in der Zwischenablage vorhanden. Bitte nutzen Sie hierfür die Kopieren- oder Verschieben-Schaltflächen.
 survey#:#spl_paste_success#:#Fragen eingefügt
 survey#:#spl_save_obligatory_state#:#„Verpflichtend“-Status speichern
@@ -16025,9 +16025,9 @@ survey#:#survey_360_sure_appraisee_close_admin#:#Wollen Sie wirklich die Umfrage
 survey#:#survey_360_sure_delete_appraises#:#Wollen Sie wirklich die folgenden Feedback-Nehmer entfernen?
 survey#:#survey_360_sure_delete_raters#:#Wollen Sie wirklich die folgenden Feedback-Geber für %s entfernen?
 survey#:#survey_access_codes#:#Authentifizierung mit Zugangsschlüsseln
-survey#:#survey_access_codes_info#:#Benutzer erhalten Zugang zur Umfrage, indem sie dem Reiter 'Info' einen Zugangsschlüssel eingeben. Diese Zugangsschlüssel werden im gleichnamigen Unterreiter im Reiter 'Teilnehmer' erzeugt.
+survey#:#survey_access_codes_info#:#Benutzer erhalten Zugang zur Umfrage, indem sie dem Reiter „Info“ einen Zugangsschlüssel eingeben. Diese Zugangsschlüssel werden im gleichnamigen Unterreiter im Reiter „Teilnehmer“ erzeugt.
 survey#:#survey_activate_skill_service#:#Kompetenz-Service aktivieren
-survey#:#survey_activate_skill_service_info#:#Es wird ein weiterer Reiter 'Kompetenzen' eingeblendet. Hier werden zunächst den Fragen Kompetenzen zugeordnet, danach werden den Schwellenwerte für die Erreichung bestimmter Kompetenzstufen gesetzt.
+survey#:#survey_activate_skill_service_info#:#Es wird ein weiterer Reiter „Kompetenzen“ eingeblendet. Hier werden zunächst den Fragen Kompetenzen zugeordnet, danach werden den Schwellenwerte für die Erreichung bestimmter Kompetenzstufen gesetzt.
 survey#:#survey_add_new_question#:#Frage erstellen
 survey#:#survey_assign_competence#:#Kompetenz zuordnen
 survey#:#survey_at_beginning#:#An den Anfang
@@ -16069,17 +16069,17 @@ survey#:#survey_execution_exit#:#Zurück zum Magazin
 survey#:#survey_execution_exit_360#:#Zurück
 survey#:#survey_execution_sure_finish#:#Wollen Sie wirklich die Umfrage beenden? Sie können danach Ihre Antworten nicht mehr korrigieren.
 survey#:#survey_existing_pool#:#Vorhandenen Fragenpool verwenden
-survey#:#survey_finish#:#Umfrage beenden >>
+survey#:#survey_finish#:#Umfrage beenden →
 survey#:#survey_finished#:#Die Umfrage ist beendet. Vielen Dank für Ihre Teilnahme!
 survey#:#survey_has_datasets_warning#:#Die Umfrage enthält bereits Teilnehmerdatensätze. Sie können die Fragen erst wieder bearbeiten, wenn Sie alle Teilnehmerdatensätze löschen.
 survey#:#survey_has_datasets_warning_page_view#:#Die Umfrage enthält bereits Teilnehmerdatensätze. Sie können die Fragen erst wieder bearbeiten, wenn Sie alle Teilnehmerdatensätze löschen.
 survey#:#survey_has_datasets_warning_page_view_link#:#Teilnehmerdatensätze bearbeiten
-survey#:#survey_introduction_info#:#Dieser Text wird dauerhaft auf dem Reiter 'Info' angezeigt.
+survey#:#survey_introduction_info#:#Dieser Text wird dauerhaft auf dem Reiter „Info“ angezeigt.
 survey#:#survey_is_offline#:#Sie können die Umfrage nicht starten! Die Umfrage ist offline (nicht aktiviert).
 survey#:#survey_jump_to#:#Springe zu Seite
 survey#:#survey_move_page#:#Seite verschieben
 survey#:#survey_new_pool#:#Neuen Fragenpool anlegen
-survey#:#survey_next#:#Weiter >>
+survey#:#survey_next#:#Weiter →
 survey#:#survey_next_question#:#Nächste Seite
 survey#:#survey_no_pool#:#Keinen Fragenpool verwenden
 survey#:#survey_not_available#:#n.a.
@@ -16102,7 +16102,7 @@ survey#:#survey_page_moved#:#Die Seite wurde verschoben.
 survey#:#survey_per_page_view#:#Seitenansicht
 survey#:#survey_pool_selection#:#Poolauswahl
 survey#:#survey_prev_question#:#Vorherige Seite
-survey#:#survey_previous#:#<< Zurück
+survey#:#survey_previous#:#← Zurück
 survey#:#survey_question_editor#:#Listenansicht
 survey#:#survey_question_obligatory#:#(Diese Frage ist eine Pflichtfrage. Sie muss beantwortet werden!)
 survey#:#survey_question_pool#:#Fragenpool
@@ -16133,11 +16133,11 @@ survey#:#survey_reminder_subject#:#Umfrage "%s" wurde noch nicht bearbeitet
 survey#:#survey_remove_competence#:#Kompetenz entfernen
 survey#:#survey_results_anonymization#:#Datenschutz
 survey#:#survey_results_anonymized#:#Ohne Namen / Anonyme Umfrage
-survey#:#survey_results_anonymized_info#:#Im Reiter 'Ergebnisse' werden die Namen der Teilnehmer durch Codes ersetzt. Benutzer mit Zugang zu diesem Reiter können die Antworten keinem Namen zuordnen, sondern nur einem Benutzer "iTXaF" (Beispiel).
+survey#:#survey_results_anonymized_info#:#Im Reiter „Ergebnisse“ werden die Namen der Teilnehmer durch Codes ersetzt. Benutzer mit Zugang zu diesem Reiter können die Antworten keinem Namen zuordnen, sondern nur einem Benutzer "iTXaF" (Beispiel).
 survey#:#survey_results_finished#:#Umfrage beendet
 survey#:#survey_results_not_started#:#Umfrage nicht begonnen
 survey#:#survey_results_personalized#:#Mit Namen
-survey#:#survey_results_personalized_info#:#Im Reiter 'Ergebnisse' werden Teilnehmer namentlich gelistet und ihre Antworten angezeigt. Alle Benutzer mit vollem Zugang zu diesem Reiter können einsehen, wer welche Antworten gegeben hat. Auch Benutzer mit eingeschränktem Zugang zum Reiter können bei niedriger Teilnehmeranzahl einzelne Antworten Teilnehmern zuordnen.
+survey#:#survey_results_personalized_info#:#Im Reiter „Ergebnisse“ werden Teilnehmer namentlich gelistet und ihre Antworten angezeigt. Alle Benutzer mit vollem Zugang zu diesem Reiter können einsehen, wer welche Antworten gegeben hat. Auch Benutzer mit eingeschränktem Zugang zum Reiter können bei niedriger Teilnehmeranzahl einzelne Antworten Teilnehmern zuordnen.
 survey#:#survey_results_started#:#Umfrage begonnen
 survey#:#survey_results_tutor_body#:#Im Anhang finden Sie die Ergebnisse der folgenden Umfrage
 survey#:#survey_results_tutor_subject#:#Ergebnisse der Umfrage "%s"
@@ -16149,7 +16149,7 @@ survey#:#survey_skill_level#:#Kompetenzstufe
 survey#:#survey_skill_max_scale_points#:#Max. Skalenpunkte
 survey#:#survey_skill_nr_q#:#Anzahl Fragen
 survey#:#survey_skill_thresholds#:#Kompetenz-Schwellenwert
-survey#:#survey_start#:#<< Zur Startseite
+survey#:#survey_start#:#← Zur Startseite
 survey#:#survey_sum_of_means#:#Summe des arithm. Mittels der Frage
 survey#:#survey_sure_delete_constraint#:#Wollen Sie wirklich die Verzweigungsregel "%1$s" der Frage "%2$s" löschen?
 survey#:#survey_sure_delete_questions#:#Wollen Sie wirklich die folgenden Fragen bzw. Überschriften löschen?
@@ -16210,7 +16210,7 @@ survey#:#svy_eval_view_charts#:#Grafik
 survey#:#svy_eval_view_tables#:#Tabelle
 survey#:#svy_eval_view_tables_charts#:#Tabelle und Grafik
 survey#:#svy_evaluation_access_all_info#:#Alle registrierten Benutzer, welche Zugriff auf die Umfrage haben, können auch deren Ergebnisse einsehen.
-survey#:#svy_evaluation_access_off_info#:#Nur Benutzer, welche die Umfrage bearbeiten können (Recht 'Einstellungen bearbeiten') haben Zugriff auf die Ergebnisse der Umfrage.
+survey#:#svy_evaluation_access_off_info#:#Nur Benutzer, welche die Umfrage bearbeiten können (Recht „Einstellungen bearbeiten“) haben Zugriff auf die Ergebnisse der Umfrage.
 survey#:#svy_evaluation_access_participants_info#:#Alle Benutzer, die an der Umfrage teilgenommen haben, können deren Ergebnisse einsehen nachdem sie die Umfrage abgeschlossen haben.
 survey#:#svy_export_files#:#Dateien exportieren
 survey#:#svy_export_format#:#Umfragen exportieren als
@@ -16329,10 +16329,10 @@ svy#:#svy_status#:#Status
 svy#:#svy_status_finished#:#Beendet
 svy#:#svy_status_in_progress#:#In Bearbeitung
 svy#:#svy_status_invited#:#Eingeladen
-svy#:#svy_user_added_appraisee#:#Umfrage '%1'
+svy#:#svy_user_added_appraisee#:#Umfrage „%1“
 svy#:#svy_user_added_appraisee_close_mail#:#Die Umfrage wurde für Ihre Feedback-Geber geschlossen.
 svy#:#svy_user_added_appraisee_mail#:#Sie wurden der Umfrage als Feedback-Nehmer hinzugefügt.
-svy#:#svy_user_added_rater#:#Umfrage '%1'
+svy#:#svy_user_added_rater#:#Umfrage „%1“
 svy#:#svy_user_added_rater_mail#:#Sie wurden als Feedback-Geber hinzugefügt.
 svy#:#svy_user_added_rater_reminder_mail#:#Bitte bewerten Sie noch die folgenden Feedback-Nehmer:
 svy#:#svy_user_not_found#:#Es wurde kein entsprechender Benutzer gefunden.
