@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+use ILIAS\Taxonomy\Service;
+
 /**
  * class can be used as forwarder for taxonomy editing context
  * @author		Björn Heyser <bheyser@databay.de>
@@ -23,6 +25,7 @@
  */
 class ilObjQuestionPoolTaxonomyEditingCommandForwarder
 {
+    protected Service $taxonomy;
     protected ilObjQuestionPool $poolOBJ;
     protected ilDBInterface $db;
     protected ilComponentRepository $component_repository;
@@ -36,7 +39,8 @@ class ilObjQuestionPoolTaxonomyEditingCommandForwarder
         ilComponentRepository $component_repository,
         ilCtrl $ctrl,
         ilTabsGUI $tabs,
-        ilLanguage $lng
+        ilLanguage $lng,
+        Service $taxonomy
     ) {
         $this->poolOBJ = $poolOBJ;
         $this->db = $db;
@@ -44,6 +48,7 @@ class ilObjQuestionPoolTaxonomyEditingCommandForwarder
         $this->ctrl = $ctrl;
         $this->tabs = $tabs;
         $this->lng = $lng;
+        $this->taxonomy = $taxonomy;
     }
 
     public function forward(): void
@@ -57,13 +62,17 @@ class ilObjQuestionPoolTaxonomyEditingCommandForwarder
 
         $questionList->load();
 
-        $taxGUI = new ilObjTaxonomyGUI();
+        $tax_gui = $this->taxonomy->gui()->getSettingsGUI(
+            $this->poolOBJ->getId(),
+            "",
+            true
+        )->withAssignedItemSorting(
+            $questionList,
+            'qpl',
+            $this->poolOBJ->getId(),
+            'quest'
+        );
 
-        $taxGUI->setAssignedObject($this->poolOBJ->getId());
-        $taxGUI->setMultiple(true);
-
-        $taxGUI->activateAssignedItemSorting($questionList, 'qpl', $this->poolOBJ->getId(), 'quest');
-
-        $this->ctrl->forwardCommand($taxGUI);
+        $this->ctrl->forwardCommand($tax_gui);
     }
 }

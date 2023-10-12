@@ -2618,8 +2618,10 @@ buddysystem#:#buddy_use_osd_info#:#Display a popup to indicate a user wants to a
 buddysystem#:#buddy_view_gallery#:#Gallery
 buddysystem#:#buddy_view_table#:#List
 cat#:#cat_copy#:#Copy Category
+cat#:#cat_hide_tax_in_side_block#:#Don't Present in Side Panel
 cat#:#cat_import#:#Import Category
 cat#:#cat_more_translations#:#More Translations
+cat#:#cat_show_tax_in_side_block#:#Present in Side Panel
 cert#:#cert_currently_no_certs#:#Currently you did not achieve any certificate, yet.
 cert#:#cert_description_label#:#Description
 cert#:#cert_download_label#:#Download
@@ -3302,8 +3304,9 @@ cntr#:#cntr_switch_to_new_editor_message#:#This is the supported standard editor
 cntr#:#cntr_switched_editor#:#Switched to new content.
 cntr#:#cntr_tax_list_info#:#The following are all taxonomies that have been defined for this object.
 cntr#:#cntr_tax_none_available#:#There are no taxonomies available.
+cntr#:#cntr_tax_settings_info#:#Taxonomies in categories classify and filter the objects contained in the category. After adding taxonomies, classifications can be made via the "Metadata" tabs and the "Taxonomy Assignment" sub-tabs of the respective objects. Taxonomies can additionally be displayed in the side block of the category's "Contents" tab to enable direct filtering of the assigned objects.
 cntr#:#cntr_taxonomy_definitions#:#Taxonomy Definition
-cntr#:#cntr_taxonomy_show_sideblock#:#Show taxonomy in side block
+cntr#:#cntr_taxonomy_show_sideblock#:#Present in Side Panel
 cntr#:#cntr_taxonomy_sideblock_settings#:#Presentation Settings
 cntr#:#cntr_text_media_editor#:#Customize Page
 cntr#:#cntr_view_by_type#:#Grouped-by-Type View
@@ -9878,7 +9881,11 @@ glo#:#glo_selected_glossaries_info#:#Terms are collected from the following glos
 glo#:#glo_selected_glossary_is_current_info#:#The selected glossary corresponds to the current glossary. Please select another glossary.
 glo#:#glo_selected_terms_have_been_copied#:#The selected terms have been copied to the clipboard. Please open the target glossary and click "Paste".
 glo#:#glo_show_definition#:#Show Definition
+glo#:#glo_show_in_presentation#:#Shown in Presentation View
+glo#:#glo_show_in_presentation_off#:#Hide in Presentation View
+glo#:#glo_show_in_presentation_on#:#Show in Presentation View
 glo#:#glo_show_term#:#Show Term
+glo#:#glo_tax_info#:#A taxonomy in a Glossary classifies and filters the terms. It always is available in the editing view. For the presentation view, the taxonomy must first be activated. In glossaries, only one taxonomy can be used.
 glo#:#glo_term#:#Glossary Term
 glo#:#glo_term_definition_pairs#:#Term/Definition Pairs
 glo#:#glo_term_definition_pairs_info#:#Please enter a term and a definition pair in each line. Term and definition must be separated by a semicolon or a TAB character (usually provided by clipboard actions from spreadsheet applications).
