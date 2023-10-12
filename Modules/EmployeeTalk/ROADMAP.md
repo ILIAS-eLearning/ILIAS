@@ -77,8 +77,6 @@ presented better:
 talks, and which are shared across the series. Currently this information
 is only conveyed through bylines. It might be worthwhile to introduce 
 separate tabs.
-- The metadata is supposed to be used for minuting, thus serving a function
-distinct from the other settings. It should be moved to a separate tab.
 - Currently, when changing the date of a series, all talks of the series
 except the talk where one has initiated the change are simply deleted, and
 new talks are created (except for talks in the series for which the
