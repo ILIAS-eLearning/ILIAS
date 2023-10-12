@@ -786,19 +786,17 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
     protected function resolveRIDStoDelete(): array
     {
         $rids_to_delete = [];
-        if ($this->isFileDeletionAction()) {
-            if ($this->isFileDeletionSubmitAvailable()) {
-                $res = $this->db->query(
-                    "SELECT value1 FROM tst_solutions WHERE value2 = 'rid' AND " . $this->db->in(
-                        'solution_id',
-                        $_POST[self::DELETE_FILES_TBL_POSTVAR],
-                        false,
-                        'integer'
-                    )
-                );
-                while ($d = $this->db->fetchAssoc($res)) {
-                    $rids_to_delete[] = $d['value1'];
-                }
+        if ($this->isFileDeletionAction() && $this->isFileDeletionSubmitAvailable()) {
+            $res = $this->db->query(
+                "SELECT value1 FROM tst_solutions WHERE value2 = 'rid' AND " . $this->db->in(
+                    'solution_id',
+                    $_POST[self::DELETE_FILES_TBL_POSTVAR],
+                    false,
+                    'integer'
+                )
+            );
+            while ($d = $this->db->fetchAssoc($res)) {
+                $rids_to_delete[] = $d['value1'];
             }
         }
         return $rids_to_delete;
