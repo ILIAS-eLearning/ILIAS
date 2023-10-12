@@ -12326,6 +12326,7 @@ note#:#note_enable_comments#:#Enable Comments
 note#:#note_enable_comments_del_tutor#:#Any Comment may be deleted by tutors
 note#:#note_enable_comments_del_tutor_info#:#User with "Edit Settings" permission for an object can delete any comment made in this object.
 note#:#note_enable_comments_del_user#:#Comments may be deleted by their authors
+note#:#note_enable_comments_del_user_info#:#Comments can be deleted by the person who created them.
 note#:#note_enable_comments_export_info#:#This option enables comments export for content objects like portfolio, blog and wiki.
 note#:#note_enable_notes#:#Enable Notes
 note#:#note_html_export_include_comments#:#Should comments be included in the export?

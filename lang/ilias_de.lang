@@ -12334,7 +12334,7 @@ note#:#note_enable_comments#:#Kommentare aktivieren
 note#:#note_enable_comments_del_tutor#:#Alle Kommentare im Objekt
 note#:#note_enable_comments_del_tutor_info#:#Benutzer mit dem Recht „Einstellungen bearbeiten“ an einem Objekt können alle darin gemachten Kommentare löschen.
 note#:#note_enable_comments_del_user#:#Eigene Kommentare löschen
-note#:#note_enable_comments_del_user#_info#:#Kommentare können von der Person, die sie erstellt hat, wieder gelöscht werden.
+note#:#note_enable_comments_del_user_info#:#Kommentare können von der Person, die sie erstellt hat, wieder gelöscht werden.
 note#:#note_enable_comments_export_info#:#Erlaubt innerhalb von Objekten wie Portfolios, Blogs oder Wikis die Kommentare zu exportieren.
 note#:#note_enable_notes#:#Notizen aktivieren
 note#:#note_html_export_include_comments#:#Sollen die Kommentare mit exportiert werden?
