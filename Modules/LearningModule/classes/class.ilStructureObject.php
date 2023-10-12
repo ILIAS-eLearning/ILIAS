@@ -23,6 +23,7 @@
  */
 class ilStructureObject extends ilLMObject
 {
+    protected \ILIAS\Help\Map\MapManager $help_map;
     public string $origin_id;
     public ilLMTree $tree;
 
@@ -30,15 +31,18 @@ class ilStructureObject extends ilLMObject
         ilObjLearningModule $a_content_obj,
         int $a_id = 0
     ) {
+        global $DIC;
+
         $this->setType("st");
         parent::__construct($a_content_obj, $a_id);
         $this->tree = new ilLMTree($this->getLMId());
+        $this->help_map = $DIC->help()->internal()->domain()->map();
     }
 
     public function delete(bool $a_delete_meta_data = true): void
     {
         // only relevant for online help authoring
-        ilHelpMapping::removeScreenIdsOfChapter($this->getId());
+        $this->help_map->removeScreenIdsOfChapter($this->getId());
 
         $node_data = $this->tree->getNodeData($this->getId());
         $this->delete_rec($this->tree, $a_delete_meta_data);

@@ -291,7 +291,7 @@ class assFileUploadGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
             $template->setVariable("RESULT_OUTPUT", sprintf($resulttext, $reached_points));
         }
         if ($show_question_text == true) {
-            $template->setVariable("QUESTIONTEXT", ilLegacyFormElementsUtil::prepareTextareaOutput($this->object->getQuestion(), true));
+            $template->setVariable("QUESTIONTEXT", $this->object->getQuestionForHTMLOutput());
         }
         $questionoutput = $template->get();
         $solutiontemplate = new ilTemplate("tpl.il_as_tst_solution_output.html", true, true, "Modules/TestQuestionPool");
@@ -343,7 +343,7 @@ class assFileUploadGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
             $template->setVariable("TXT_ALLOWED_EXTENSIONS", ilLegacyFormElementsUtil::prepareTextareaOutput($this->lng->txt("allowedextensions") . ": " . $this->object->getAllowedExtensions()));
             $template->parseCurrentBlock();
         }
-        $template->setVariable("QUESTIONTEXT", ilLegacyFormElementsUtil::prepareTextareaOutput($this->object->getQuestion(), true));
+        $template->setVariable("QUESTIONTEXT", $this->object->getQuestionForHTMLOutput());
         $template->setVariable("CMD_UPLOAD", $this->getQuestionActionCmd());
         $template->setVariable("TEXT_UPLOAD", ilLegacyFormElementsUtil::prepareTextareaOutput($this->lng->txt('upload')));
         $template->setVariable("TXT_UPLOAD_FILE", ilLegacyFormElementsUtil::prepareTextareaOutput($this->lng->txt('file_add')));
@@ -390,7 +390,7 @@ class assFileUploadGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
             $template->setVariable("TXT_ALLOWED_EXTENSIONS", ilLegacyFormElementsUtil::prepareTextareaOutput($this->lng->txt("allowedextensions") . ": " . $this->object->getAllowedExtensions()));
             $template->parseCurrentBlock();
         }
-        $template->setVariable("QUESTIONTEXT", ilLegacyFormElementsUtil::prepareTextareaOutput($this->object->getQuestion(), true));
+        $template->setVariable("QUESTIONTEXT", $this->object->getQuestionForHTMLOutput());
         $template->setVariable("CMD_UPLOAD", self::HANDLE_FILE_UPLOAD);
         $template->setVariable("TEXT_UPLOAD", ilLegacyFormElementsUtil::prepareTextareaOutput($this->lng->txt('upload')));
         $template->setVariable("TXT_UPLOAD_FILE", ilLegacyFormElementsUtil::prepareTextareaOutput($this->lng->txt('file_add')));

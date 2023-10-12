@@ -190,7 +190,7 @@ class SkillAdminGUIRequest extends SkillGUIRequest
      */
     public function getUserIds(): array
     {
-        return $this->getIds();
+        return $this->getInterruptiveItemIds();
     }
 
     /**
@@ -206,16 +206,6 @@ class SkillAdminGUIRequest extends SkillGUIRequest
         return $this->getTableAction("skl_tree_table_action");
     }
 
-    public function getTableProfileAction(): string
-    {
-        return $this->getTableAction("skl_profile_table_action");
-    }
-
-    public function getTableLevelResourcesAction(): string
-    {
-        return $this->getTableAction("skl_level_resources_table_action");
-    }
-
     /**
      * @return string[]
      */
@@ -224,12 +214,48 @@ class SkillAdminGUIRequest extends SkillGUIRequest
         return $this->getTableIds("skl_tree_table_tree_ids");
     }
 
+    public function getTableProfileAction(): string
+    {
+        return $this->getTableAction("skl_profile_table_action");
+    }
+
     /**
      * @return string[]
      */
     public function getTableProfileIds(): array
     {
         return $this->getTableIds("skl_profile_table_profile_ids");
+    }
+
+    public function getTableProfileLevelAssignmentAction(): string
+    {
+        return $this->getTableAction("skl_profile_level_assignment_table_action");
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getTableProfileLevelAssignmentIds(): array
+    {
+        return $this->getTableIds("skl_profile_level_assignment_table_level_ids");
+    }
+
+    public function getTableProfileUserAssignmentAction(): string
+    {
+        return $this->getTableAction("skl_profile_user_assignment_table_action");
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getTableProfileUserAssignmentIds(): array
+    {
+        return $this->getTableIds("skl_profile_user_assignment_table_ass_ids");
+    }
+
+    public function getTableLevelResourcesAction(): string
+    {
+        return $this->getTableAction("skl_level_resources_table_action");
     }
 
     /**

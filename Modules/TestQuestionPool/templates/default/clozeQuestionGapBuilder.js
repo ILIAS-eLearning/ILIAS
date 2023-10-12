@@ -366,17 +366,13 @@ var ClozeQuestionGapBuilder = (function () {
         value = $(this).val();
         id = $(this).attr('id').split('_');
         ClozeSettings.gaps_combination[id[3]][1][id[4]][id[5]] = value;
-      }
-      else {
-        if ($(this).attr('label') == 'select') {
-          value = parseInt($(this).val(), 10);
-          id = $(this).attr('id').split('_');
-          var old_value = ClozeSettings.gaps_combination[id[3]][0][id[4]];
-          ClozeSettings.gaps_combination[id[3]][0][id[4]] = value;
-          ClozeSettings.unused_gaps_comb[old_value] = false;
-          ClozeSettings.unused_gaps_comb[value] = true;
-        }
-
+      } else if ($(this).attr('label') == 'select') {
+        value = parseInt($(this).val(), 10);
+        id = $(this).attr('id').split('_');
+        var old_value = ClozeSettings.gaps_combination[id[3]][0][id[4]];
+        ClozeSettings.gaps_combination[id[3]][0][id[4]] = value;
+        ClozeSettings.unused_gaps_comb[old_value] = false;
+        ClozeSettings.unused_gaps_comb[value] = true;
       }
       pub.paintGaps();
     });
@@ -1394,11 +1390,8 @@ var ClozeGapCombinationBuilder = (function () {
       var value = parseInt(k, 10) + 1;
       if (pos === value) {
         buildOptionsSelect += '<option selected value="' + k + '">' + ClozeSettings.gap_text + ' ' + value + '</option>';
-      }
-      else {
-        if (ClozeSettings.unused_gaps_comb[k] === false) {
-          buildOptionsSelect += '<option value="' + k + '">' + ClozeSettings.gap_text + ' ' + value + '</option>';
-        }
+      } else if (ClozeSettings.unused_gaps_comb[k] === false) {
+        buildOptionsSelect += '<option value="' + k + '">' + ClozeSettings.gap_text + ' ' + value + '</option>';
       }
     });
     $('#gap_id_select_' + i + '_' + g).html(buildOptionsSelect);
@@ -1567,7 +1560,8 @@ var ClozeGapCombinationBuilder = (function () {
           var value = parseInt(k, 10) + 1;
           if (pos === value) {
             $.each(obj_inner_values.values, function (l, value) {
-              buildOptionsValue += '<option value="' + value.answer + '">' + value.answer + '</option>';
+              let cleaned_answer_value = value.answer.replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+              buildOptionsValue += '<option value="' + value.answer + '">' + cleaned_answer_value + '</option>';
             });
             if (obj_inner_values.type == 'numeric') {
               buildOptionsValue += '<option value="out_of_bound">' + ClozeSettings.outofbound_text + '</option>';

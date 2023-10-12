@@ -9,11 +9,7 @@ The following issues are mostly usability issues, that could be tackled as part 
 
 ## Short Term
 
-### Remove dependency to include/inc.xml5compliance.php
-
-Dom handling should be move to internal service, the dependency to include/inc.xml5compliance.php should be removed. More unit tests for dom transformations should be introduced.
-
-### Remove YUI and jQuery dependencies
+### Remove jQuery dependencies
 
 - Migrate from jQueryUI draggable to a non jQuery lib, e.g. https://shopify.github.io/draggable/ 
 
@@ -36,6 +32,10 @@ In general the old string manipulations should be replaced by DOM manipulations 
 ### Remove remaining hardcoded styles from code
 
 E.g. style_selector_reset and similar places.
+
+### Page Content Integration
+
+Relocate the classes to have all necessary files for a PC in one subfolder. Remove the special case conditionals for using the slate implementation. Simplify the ctrl flow and reuse of create/edit forms.
 
 ## Mid Term
 

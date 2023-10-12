@@ -77,4 +77,9 @@ class StandardGUIRequest
     {
         return $this->str("help_mode");
     }
+
+    public function getOrder(): array
+    {
+        return $this->intArray("order");
+    }
 }

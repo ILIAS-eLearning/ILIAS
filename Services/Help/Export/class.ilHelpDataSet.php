@@ -23,6 +23,21 @@
  */
 class ilHelpDataSet extends ilDataSet
 {
+    protected \ILIAS\Help\Tooltips\TooltipsManager $help_tooltips;
+    protected \ILIAS\Help\Map\MapManager $help_map;
+
+    public function __construct()
+    {
+        global $DIC;
+
+        $help_domain = $DIC->help()->internal()->domain();
+
+        parent::__construct();
+
+        $this->help_map = $help_domain->map();
+        $this->help_tooltips = $help_domain->tooltips();
+    }
+
     public function getSupportedVersions(): array
     {
         return array("4.3.0");
@@ -118,7 +133,7 @@ class ilHelpDataSet extends ilDataSet
                     }
 
                     if ($new_chap > 0) {
-                        ilHelpMapping::saveMappingEntry(
+                        $this->help_map->saveMappingEntry(
                             $new_chap,
                             $a_rec["Component"],
                             $a_rec["ScreenId"],
@@ -135,7 +150,7 @@ class ilHelpDataSet extends ilDataSet
                 // without module ID we do nothing
                 $module_id = $a_mapping->getMapping('Services/Help', 'help_module', 0);
                 if ($module_id) {
-                    ilHelp::addTooltip($a_rec["TtId"], $a_rec["TtText"], $module_id);
+                    $this->help_tooltips->addTooltip($a_rec["TtId"], $a_rec["TtText"], $module_id);
                 }
                 break;
         }

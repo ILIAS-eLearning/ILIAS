@@ -1685,7 +1685,7 @@ assessment#:#tst_report_after_test#:#Donner le score après la fin du test.
 assessment#:#tst_report_never#:#Pas de résultats de test disponible
 assessment#:#tst_reporting_date#:#Date
 assessment#:#tst_res_jump_to_participant_btn#:#Aller
-assessment#:#tst_res_jump_to_participant_hint_opt#:#--Aller au participant--
+assessment#:#tst_res_jump_to_participant_hint_opt#:#Aller au participant
 assessment#:#tst_res_lo_objectives_header#:#Objectifs d'apprentissage pertinents
 assessment#:#tst_res_lo_try_header#:#Tentative
 assessment#:#tst_res_lo_try_n#:#Tentative %s

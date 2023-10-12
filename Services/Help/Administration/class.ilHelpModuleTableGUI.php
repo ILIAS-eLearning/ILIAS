@@ -23,6 +23,7 @@
  */
 class ilHelpModuleTableGUI extends ilTable2GUI
 {
+    protected int $order_nr;
     protected ilAccessHandler $access;
     protected ilSetting $settings;
     protected bool $has_write_permission;
@@ -41,29 +42,29 @@ class ilHelpModuleTableGUI extends ilTable2GUI
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
         $this->has_write_permission = $a_has_write_permission;
+        $module_manager = $DIC->help()->internal()->domain()->module();
+        $this->order_nr = 0;
 
         $this->setId("help_mods");
 
         parent::__construct($a_parent_obj, $a_parent_cmd);
-        $this->getHelpModules();
+        $this->setData($module_manager->getHelpModules());
         $this->setTitle($lng->txt("help_modules"));
 
         $this->addColumn("", "", "1");
+        $this->addColumn($this->lng->txt("help_order"));
         $this->addColumn($this->lng->txt("title"));
         $this->addColumn($this->lng->txt("help_imported_on"));
+        $this->addColumn($this->lng->txt("active"));
         $this->addColumn($this->lng->txt("actions"));
 
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
-        $this->setRowTemplate("tpl.help_module_row.html", "Services/Help");
+        $this->setRowTemplate("tpl.help_module_row.html", "Services/Help/Administration");
+        $this->addCommandButton("saveOrdering", $lng->txt("sorting_save"));
 
         if ($this->has_write_permission) {
             $this->addMultiCommand("confirmHelpModulesDeletion", $lng->txt("delete"));
         }
-    }
-
-    public function getHelpModules(): void
-    {
-        $this->setData($this->parent_obj->getObject()->getHelpModules());
     }
 
     protected function fillRow(array $a_set): void
@@ -75,7 +76,7 @@ class ilHelpModuleTableGUI extends ilTable2GUI
         $ilCtrl->setParameter($this->parent_obj, "hm_id", $a_set["id"]);
         if ($this->has_write_permission) {
             $this->tpl->setCurrentBlock("cmd");
-            if ((int) $a_set["id"] === (int) $ilSetting->get("help_module")) {
+            if ($a_set["active"]) {
                 $this->tpl->setVariable(
                     "HREF_CMD",
                     $ilCtrl->getLinkTarget($this->parent_obj, "deactivateModule")
@@ -97,5 +98,12 @@ class ilHelpModuleTableGUI extends ilTable2GUI
             ilDatePresentation::formatDate(new ilDateTime($a_set["create_date"] ?? null, IL_CAL_DATETIME))
         );
         $this->tpl->setVariable("ID", $a_set["id"]);
+        $this->order_nr += 10;
+        $this->tpl->setVariable("ORDER_NR", $this->order_nr);
+        if ($a_set["active"]) {
+            $this->tpl->setVariable("ACTIVE", $this->lng->txt("yes"));
+        } else {
+            $this->tpl->setVariable("ACTIVE", $this->lng->txt("no"));
+        }
     }
 }

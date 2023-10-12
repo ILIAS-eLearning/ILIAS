@@ -24,6 +24,7 @@ use ILIAS\Skill\Service;
 use ILIAS\Skill\Tree;
 use ILIAS\Skill\Node;
 use ILIAS\Skill\Access;
+use ILIAS\Skill\Table;
 use ILIAS\UI\Component\Input\Container\Form;
 use ILIAS\GlobalScreen\ScreenContext;
 
@@ -45,6 +46,7 @@ class ilObjSkillTreeGUI extends ilObjectGUI
     protected Node\SkillTreeNodeManager $skill_tree_node_manager;
     protected Access\SkillTreeAccess $skill_tree_access_manager;
     protected Access\SkillManagementAccess $skill_management_access_manager;
+    protected Table\SkillTableManager $skill_table_manager;
     protected ilSkillTreeRepository $skill_tree_repo;
     protected Tree\SkillTreeFactory $skill_tree_factory;
     protected UIServices $ui;
@@ -136,6 +138,7 @@ class ilObjSkillTreeGUI extends ilObjectGUI
         $this->skill_management_access_manager = $skill_manager->getManagementAccessManager(
             $this->skill_tree_manager->getSkillManagementRefId()
         );
+        $this->skill_table_manager = $skill_manager->getTableManager();
     }
 
     public function executeCommand(): void
@@ -692,8 +695,8 @@ class ilObjSkillTreeGUI extends ilObjectGUI
         if (count($usages) > 0) {
             $html = "";
             foreach ($usages as $k => $usage) {
-                $tab = new ilSkillUsageTableGUI($this, "showUsage", $k, $usage, $mode);
-                $html .= $tab->getHTML() . "<br/><br/>";
+                $table = $this->skill_table_manager->getSkillUsageTable($k, $usage, $mode)->getComponent();
+                $html .= $this->ui->renderer()->render($table) . "<br/><br/>";
             }
             $tpl->setContent($html);
             $ilCtrl->saveParameter($a_gui, "tmpmode");
