@@ -24,7 +24,7 @@ class ProfileChangeMailTokenDBRepository implements ProfileChangeMailTokenReposi
 {
     private const TABLE_NAME = 'usr_change_email_token';
     private const VALIDITY = 300;
-    private \ilDBInterface $db;
+    private $db;
 
     public function __construct(
         \ilDBInterface $db

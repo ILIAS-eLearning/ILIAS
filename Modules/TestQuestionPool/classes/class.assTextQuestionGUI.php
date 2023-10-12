@@ -196,8 +196,6 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
         }
         $template->parseCurrentBlock();
 
-        $questiontext = $this->object->getQuestion();
-
         if (!$show_correct_solution) {
             $max_no_of_chars = $this->object->getMaxNumOfChars();
 
@@ -243,7 +241,7 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
             }
         }
         if ($show_question_text == true) {
-            $template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, true));
+            $template->setVariable("QUESTIONTEXT", $this->object->getQuestionForHTMLOutput());
         }
         $questionoutput = $template->get();
 
@@ -279,7 +277,6 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
         }
         return $solutionoutput;
     }
-
 
     private function getBestAnswer($asHtml)
     {
@@ -375,8 +372,7 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
             ));
         }
 
-        $questiontext = $this->object->getQuestion();
-        $template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, true));
+        $template->setVariable("QUESTIONTEXT", $this->object->getQuestionForHTMLOutput());
         $template->setVariable("QID", $this->object->getId());
 
         $questionoutput = $template->get();
@@ -436,8 +432,7 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 
         $template->setVariable("QID", $this->object->getId());
         $template->setVariable("ESSAY", $user_solution);
-        $questiontext = $this->object->getQuestion();
-        $template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, true));
+        $template->setVariable("QUESTIONTEXT", $this->object->getQuestionForHTMLOutput());
         $questionoutput = $template->get();
 
         $questionoutput .= $this->getJsCode();

@@ -19,6 +19,7 @@ class ilPermission2GUI
     protected $ilErr = null;
     protected $ctrl = null;
     protected $lng = null;
+    protected $tpl;
     const TAB_POSITION_PERMISSION_SETTINGS = "position_permission_settings";
 
 
@@ -33,7 +34,7 @@ class ilPermission2GUI
         $ilCtrl = $DIC['ilCtrl'];
         $ilErr = $DIC['ilErr'];
         $lng = $DIC['lng'];
-        
+
         if (!isset($ilErr)) {
             $ilErr = new ilErrorHandling();
             $ilErr->setErrorHandling(PEAR_ERROR_CALLBACK, array($ilErr,'errorHandler'));
@@ -49,25 +50,25 @@ class ilPermission2GUI
         $this->ctrl = &$ilCtrl;
 
         $this->gui_obj = $a_gui_obj;
-        
+
         $this->roles = array();
         $this->num_roles = 0;
     }
-    
 
 
-    
+
+
 
     // show owner sub tab
     public function owner()
     {
         $this->__initSubTabs("owner");
-        
+
         include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this, "owner"));
         $form->setTitle($this->lng->txt("info_owner_of_object"));
-        
+
         $login = new ilTextInputGUI($this->lng->txt("login"), "owner");
         $login->setDataSource($this->ctrl->getLinkTargetByClass(array(get_class($this),
             'ilRepositorySearchGUI'), 'doUserAutoComplete', '', true));
@@ -76,12 +77,12 @@ class ilPermission2GUI
         $login->setInfo($this->lng->txt("chown_warning"));
         $login->setValue(ilObjUser::_lookupLogin($this->gui_obj->object->getOwner()));
         $form->addItem($login);
-        
+
         $form->addCommandButton("changeOwner", $this->lng->txt("change_owner"));
-        
+
         $this->tpl->setContent($form->getHTML());
     }
-    
+
     public function changeOwner()
     {
         global $DIC;
@@ -94,7 +95,7 @@ class ilPermission2GUI
             $this->owner();
             return true;
         }
-        
+
         // no need to change?
         if ($user_id != $this->gui_obj->object->getOwner()) {
             $this->gui_obj->object->setOwner($user_id);
@@ -106,7 +107,7 @@ class ilPermission2GUI
                 ilRbacLog::add(ilRbacLog::CHANGE_OWNER, $this->gui_obj->object->getRefId(), array($user_id));
             }
         }
-        
+
         ilUtil::sendSuccess($this->lng->txt('owner_updated'), true);
 
         if (!$rbacsystem->checkAccess("edit_permission", $this->gui_obj->object->getRefId())) {
@@ -117,7 +118,7 @@ class ilPermission2GUI
         $this->ctrl->redirect($this, 'owner');
         return true;
     }
-    
+
     // init sub tabs
     public function __initSubTabs($a_cmd)
     {
@@ -143,7 +144,7 @@ class ilPermission2GUI
         if (ilOrgUnitGlobalSettings::getInstance()->isPositionAccessActiveForObject($this->gui_obj->object->getId())) {
             $ilTabs->addSubTabTarget(self::TAB_POSITION_PERMISSION_SETTINGS, $this->ctrl->getLinkTarget($this, ilPermissionGUI::CMD_PERM_POSITIONS), "", "", "", $perm_positions);
         }
-                                 
+
         $ilTabs->addSubTabTarget(
             "info_status_info",
             $this->ctrl->getLinkTargetByClass(array(get_class($this),"ilobjectpermissionstatusgui"), "perminfo"),
@@ -173,7 +174,7 @@ class ilPermission2GUI
             );
         }
     }
-    
+
     public function log()
     {
         include_once "Services/AccessControl/classes/class.ilRbacLog.php";

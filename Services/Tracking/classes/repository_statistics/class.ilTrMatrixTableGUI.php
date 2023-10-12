@@ -135,6 +135,14 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
         }
     }
 
+    public function numericOrdering($a_field) : bool
+    {
+        if ($a_field === 'read_count') {
+            return true;
+        }
+        return false;
+    }
+
     public function getSelectableColumns()
     {
         global $DIC;

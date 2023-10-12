@@ -215,7 +215,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
             $this->setFixedTextLength($data["fixed_textlen"]);
             $this->setIdenticalScoring(($data['tstamp'] == 0) ? true : $data["identical_scoring"]);
             $this->setFeedbackMode($data['feedback_mode'] === null ? ilAssClozeTestFeedback::FB_MODE_GAP_QUESTION : $data['feedback_mode']);
-            
+
             try {
                 $this->setLifecycle(ilAssQuestionLifecycle::getInstance($data['lifecycle']));
             } catch (ilTestQuestionPoolInvalidArgumentException $e) {
@@ -551,9 +551,8 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
     */
     public function setClozeText($cloze_text = "")
     {
-        $this->gaps = array();
-        $cloze_text = $this->cleanQuestiontext($cloze_text);
-        $this->cloze_text = $cloze_text;
+        $this->gaps = [];
+        $this->cloze_text = $this->cleanQuestiontext($cloze_text);
         $this->createGapsFromQuestiontext();
     }
 
@@ -582,12 +581,24 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
     * @return string The cloze text string as HTML
     * @see $cloze_text
     */
-    public function getClozeTextHTML() : string
+    public function getClozeTextForHTMLOutput() : string
     {
-        if ($this->cloze_text !== strip_tags($this->cloze_text)) {
-            return $this->cloze_text;
+        $gaps = [];
+        preg_match_all('/\[gap\].*\[\/gap\]/', $this->getClozeText(), $gaps);
+        $string_with_replaced_gaps = str_replace($gaps[0], '######GAP######', $this->getClozeText());
+        $cleaned_text = $this->getHtmlQuestionContentPurifier()->purify(
+            $string_with_replaced_gaps
+        );
+        $cleaned_text_with_gaps = preg_replace_callback('/######GAP######/', function ($match) use (&$gaps) {
+            return array_shift($gaps[0]);
+        }, $cleaned_text);
+
+        if ($this->isAdditionalContentEditingModePageObject()
+            || !(new ilSetting('advanced_editing'))->get('advanced_editing_javascript_editor') === 'tinymce') {
+            $cleaned_text_with_gaps = nl2br($cleaned_text_with_gaps);
         }
-        return nl2br($this->cloze_text);
+
+        return $this->prepareTextareaOutput($cleaned_text_with_gaps, true);
     }
 
     /**
@@ -1122,7 +1133,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
                 if ($replace_gap_index == $gap_index) {
                     // fau: fixGapReplace - use replace function
                     $output = $this->replaceFirstGap($output, '');
-                    // fau.
+                // fau.
                 } else {
                     // fau: fixGapReplace - use replace function
                     $output = $this->replaceFirstGap($output, "[_gap]" . join(",", $answers) . "[/_gap]");
@@ -1317,11 +1328,9 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
     public function fetchSolutionSubmit($submit)
     {
         $solutionSubmit = array();
-        $purifier = $this->getHtmlUserSolutionPurifier();
         foreach ($submit as $key => $value) {
             if (preg_match("/^gap_(\d+)/", $key, $matches)) {
-                $value = ilUtil::stripSlashes($value, false);
-                if (strlen($value)) {
+                if ($value !== null && $value !== '') {
                     $gap = $this->getGap($matches[1]);
                     if (is_object($gap)) {
                         if (!(($gap->getType() == CLOZE_SELECT) && ($value == -1))) {
@@ -1330,7 +1339,6 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
                             } elseif ($gap->getType() == CLOZE_NUMERIC) {
                                 $value = str_replace(",", ".", $value);
                             }
-                            $value = $purifier->purify($value);
                             $solutionSubmit[trim($matches[1])] = $value;
                         }
                     }
@@ -1348,8 +1356,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 
         foreach ($submit as $key => $value) {
             if (preg_match("/^gap_(\d+)/", $key, $matches)) {
-                $value = ilUtil::stripSlashes($value, false);
-                if (strlen($value)) {
+                if ($value !== null && $value !== '') {
                     $gap = $this->getGap($matches[1]);
                     if (is_object($gap)) {
                         if (!(($gap->getType() == CLOZE_SELECT) && ($value == -1))) {
@@ -1395,9 +1402,9 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
             $this->removeCurrentSolution($active_id, $pass, $authorized);
 
             foreach ($this->getSolutionSubmit() as $val1 => $val2) {
-                $value = trim(ilUtil::stripSlashes($val2, false));
-                if (strlen($value)) {
-                    $gap = $this->getGap(trim(ilUtil::stripSlashes($val1)));
+                $value = trim($val2);
+                if ($value !== null && $value !== '') {
+                    $gap = $this->getGap($val1);
                     if (is_object($gap)) {
                         if (!(($gap->getType() == CLOZE_SELECT) && ($value == -1))) {
                             $this->saveCurrentSolution($active_id, $pass, $val1, $value, $authorized);

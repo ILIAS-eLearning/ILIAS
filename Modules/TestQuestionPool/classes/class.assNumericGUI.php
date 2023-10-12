@@ -97,15 +97,15 @@ class assNumericGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjust
         $this->addQuestionFormCommandButtons($form);
 
         $errors = false;
-    
+
         if ($save) {
             $form->setValuesByPost();
             $errors = !$form->checkInput();
             $form->setValuesByPost(); // again, because checkInput now performs the whole stripSlashes handling and we need this if we don't want to have duplication of backslashes
-            
+
             $lower = $form->getItemByPostVar('lowerlimit');
             $upper = $form->getItemByPostVar('upperlimit');
-            
+
             if (!$this->checkRange($lower->getValue(), $upper->getValue())) {
                 global $DIC;
                 $lower->setAlert($DIC->language()->txt('qpl_numeric_lower_needs_valid_lower_alert'));
@@ -113,7 +113,7 @@ class assNumericGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjust
                 ilUtil::sendFailure($DIC->language()->txt("form_input_not_valid"));
                 $errors = true;
             }
-            
+
             if ($errors) {
                 $checkonly = false;
             }
@@ -190,7 +190,7 @@ class assNumericGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjust
         } else {
             array_push($solutions, array("value1" => sprintf($this->lng->txt("value_between_x_and_y"), $this->object->getLowerLimit(), $this->object->getUpperLimit())));
         }
-        
+
         // generate the question output
         require_once './Services/UICore/classes/class.ilTemplate.php';
         $template = new ilTemplate("tpl.il_as_qpl_numeric_output_solution.html", true, true, "Modules/TestQuestionPool");
@@ -225,9 +225,8 @@ class assNumericGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjust
             }
         }
         $template->setVariable("NUMERIC_SIZE", $this->object->getMaxChars());
-        $questiontext = $this->object->getQuestion();
         if ($show_question_text == true) {
-            $template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, true));
+            $template->setVariable("QUESTIONTEXT", $this->object->getQuestionForHTMLOutput());
         }
         $questionoutput = $template->get();
         //$feedback = ($show_feedback) ? $this->getAnswerFeedbackOutput($active_id, $pass) : ""; // Moving new method
@@ -238,7 +237,7 @@ class assNumericGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjust
                 $this->hasCorrectSolution($active_id, $pass) ?
                 ilAssQuestionFeedback::CSS_CLASS_FEEDBACK_CORRECT : ilAssQuestionFeedback::CSS_CLASS_FEEDBACK_WRONG
             );
-            
+
             $solutiontemplate->setVariable("ILC_FB_CSS_CLASS", $cssClass);
             $solutiontemplate->setVariable("FEEDBACK", $this->object->prepareTextareaOutput($feedback, true));
         }
@@ -266,8 +265,7 @@ class assNumericGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjust
             $template->setVariable("NUMERIC_VALUE", " value=\"" . $this->getPreviewSession()->getParticipantsSolution() . "\"");
         }
         $template->setVariable("NUMERIC_SIZE", $this->object->getMaxChars());
-        $questiontext = $this->object->getQuestion();
-        $template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, true));
+        $template->setVariable("QUESTIONTEXT", $this->object->getQuestionForHTMLOutput());
         $questionoutput = $template->get();
         if (!$show_question_only) {
             // get page object output
@@ -295,7 +293,7 @@ class assNumericGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjust
                 array('value1' => $use_post_solutions['numeric_result'])
             );
         } elseif ($active_id) {
-            
+
             // hey: prevPassSolutions - obsolete due to central check
             #include_once "./Modules/Test/classes/class.ilObjTest.php";
             #if (!ilObjTest::_getUsePreviousAnswers($active_id, true))
@@ -305,7 +303,7 @@ class assNumericGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjust
             $solutions = $this->object->getTestOutputSolutions($active_id, $pass);
             // hey.
         }
-        
+
         // generate the question output
         require_once './Services/UICore/classes/class.ilTemplate.php';
         $template = new ilTemplate("tpl.il_as_qpl_numeric_output.html", true, true, "Modules/TestQuestionPool");
@@ -315,8 +313,7 @@ class assNumericGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjust
             }
         }
         $template->setVariable("NUMERIC_SIZE", $this->object->getMaxChars());
-        $questiontext = $this->object->getQuestion();
-        $template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, true));
+        $template->setVariable("QUESTIONTEXT", $this->object->getQuestionForHTMLOutput());
         $questionoutput = $template->get();
         $pageoutput = $this->outQuestionPage("", $is_postponed, $active_id, $questionoutput);
         return $pageoutput;
@@ -471,11 +468,11 @@ class assNumericGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjust
         $tpl->setCurrentBlock('headercell');
         $tpl->setVariable('HEADER', $this->lng->txt('tst_answer_aggr_answer_header'));
         $tpl->parseCurrentBlock();
-        
+
         $tpl->setCurrentBlock('headercell');
         $tpl->setVariable('HEADER', $this->lng->txt('tst_answer_aggr_frequency_header'));
         $tpl->parseCurrentBlock();
-        
+
         foreach ($aggregate as $key => $value) {
             $tpl->setCurrentBlock('aggregaterow');
             $tpl->setVariable('OPTION', $key);
@@ -484,24 +481,24 @@ class assNumericGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjust
         }
         return $tpl;
     }
-    
+
     public function getAnswersFrequency($relevantAnswers, $questionIndex)
     {
         $answers = array();
-        
+
         foreach ($relevantAnswers as $ans) {
             if (!isset($answers[$ans['value1']])) {
                 $answers[$ans['value1']] = array(
                     'answer' => $ans['value1'], 'frequency' => 0
                 );
             }
-            
+
             $answers[$ans['value1']]['frequency']++;
         }
-        
+
         return $answers;
     }
-    
+
     public function populateCorrectionsFormProperties(ilPropertyFormGUI $form)
     {
         // points
@@ -513,11 +510,11 @@ class assNumericGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjust
         $points->setMinValue(0.0);
         $points->setMinvalueShouldBeGreater(true);
         $form->addItem($points);
-        
+
         $header = new ilFormSectionHeaderGUI();
         $header->setTitle($this->lng->txt("range"));
         $form->addItem($header);
-        
+
         // lower bound
         $lower_limit = new ilFormulaInputGUI($this->lng->txt("range_lower_limit"), "lowerlimit");
         $lower_limit->setSize(25);
@@ -525,7 +522,7 @@ class assNumericGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjust
         $lower_limit->setRequired(true);
         $lower_limit->setValue($this->object->getLowerLimit());
         $form->addItem($lower_limit);
-        
+
         // upper bound
         $upper_limit = new ilFormulaInputGUI($this->lng->txt("range_upper_limit"), "upperlimit");
         $upper_limit->setSize(25);
@@ -533,7 +530,7 @@ class assNumericGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjust
         $upper_limit->setRequired(true);
         $upper_limit->setValue($this->object->getUpperLimit());
         $form->addItem($upper_limit);
-        
+
         // reset input length, if max chars are set
         if ($this->object->getMaxChars() > 0) {
             $lower_limit->setSize($this->object->getMaxChars());
@@ -542,7 +539,7 @@ class assNumericGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjust
             $upper_limit->setMaxLength($this->object->getMaxChars());
         }
     }
-    
+
     /**
      * @param ilPropertyFormGUI $form
      */
