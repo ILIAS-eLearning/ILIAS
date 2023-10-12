@@ -15055,7 +15055,7 @@ skmg#:#skmg_items#:#Items
 skmg#:#skmg_level#:#Level
 skmg#:#skmg_list_skills#:#List Competences
 skmg#:#skmg_local_assignment_profiles#:#Allow Local Assignment of Global Profiles
-skmg#:#skmg_lp_triggers_level#:#Triggered by Completion
+skmg#:#skmg_lp_triggers_level#:#Completion Triggers Competence Record
 skmg#:#skmg_materials#:#Personal Resources
 skmg#:#skmg_materials_resources#:#Learning Materials
 skmg#:#skmg_new_level#:#New Level
@@ -15102,10 +15102,10 @@ skmg#:#skmg_selected_skills#:#Selected Competences
 skmg#:#skmg_self_evaluation#:#Self-Evaluation
 skmg#:#skmg_self_evaluation_byline#:#The self-evaluation will be excluded from target achievement. It is used for your guidance.
 skmg#:#skmg_self_evaluations#:#Self-Evaluations
-skmg#:#skmg_set_as_lp_trigger#:#Set as Learning Progress Trigger
-skmg#:#skmg_set_as_no_lp_trigger#:#Unset as Learning Progress Trigger
-skmg#:#skmg_set_as_no_suggested#:#Unset as Learning Material
-skmg#:#skmg_set_as_suggested#:#Set as Learning Material
+skmg#:#skmg_set_as_lp_trigger#:#Completion Should Trigger Competence Record
+skmg#:#skmg_set_as_no_lp_trigger#:#Completion Should Not Trigger Competence Record
+skmg#:#skmg_set_as_no_suggested#:#Do not Show as Learning Material
+skmg#:#skmg_set_as_suggested#:#Show as Learning Material
 skmg#:#skmg_settings#:#Competence Management Settings
 skmg#:#skmg_show_all#:#Show All
 skmg#:#skmg_show_latest_entries#:#Show Latest Entries

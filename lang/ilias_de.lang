@@ -15059,8 +15059,7 @@ skmg#:#skmg_items#:#Einträge
 skmg#:#skmg_level#:#Ausprägung
 skmg#:#skmg_list_skills#:#Kompetenzen auflisten
 skmg#:#skmg_local_assignment_profiles#:#Lokale Zuordnung von globalen Profilen erlauben
-skmg#:#skmg_lp_triggers_level#:#Gesetzt durch 'Bearbeitet'-Status
-skmg#:#skmg_lp_triggers_level_resources#:#Magazinobjekte gesetzt durch 'Bearbeitet'-Status
+skmg#:#skmg_lp_triggers_level#:#Bearbeitung schreibt Kompetenzeintrag
 skmg#:#skmg_materials#:#Persönliche Ressourcen
 skmg#:#skmg_materials_resources#:#Lerninhalte
 skmg#:#skmg_new_level#:#Neue Ausprägung
@@ -15107,10 +15106,10 @@ skmg#:#skmg_selected_skills#:#Ausgewählte Kompetenzen
 skmg#:#skmg_self_evaluation#:#Selbsteinschätzung
 skmg#:#skmg_self_evaluation_byline#:#Die Selbsteinschätzung wird bei der Erreichung Ihres Kompetenzziels nicht berücksichtigt. Sie dient zur Orientierung.
 skmg#:#skmg_self_evaluations#:#Selbsteinschätzungen
-skmg#:#skmg_set_as_lp_trigger#:#Als Lernfortschritt-Auslöser setzen
-skmg#:#skmg_set_as_no_lp_trigger#:#Als Lernfortschritt-Auslöser entfernen
-skmg#:#skmg_set_as_no_suggested#:#Als Lerninhalt entfernen
-skmg#:#skmg_set_as_suggested#:#Als Lerninhalt setzen
+skmg#:#skmg_set_as_lp_trigger#:#Bearbeitung soll Kompetenzeintrag auslösen
+skmg#:#skmg_set_as_no_lp_trigger#:#Bearbeitung soll keinen Kompetenzeintrag auslösen
+skmg#:#skmg_set_as_no_suggested#:#Nicht mehr als Lerninhalt anzeigen
+skmg#:#skmg_set_as_suggested#:#Als Lerninhalt anzeigen
 skmg#:#skmg_settings#:#Kompetenzmanagement Einstellungen
 skmg#:#skmg_show_all#:#Alle anzeigen
 skmg#:#skmg_show_latest_entries#:#Letzte Einträge anzeigen
