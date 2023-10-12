@@ -4117,7 +4117,7 @@ common#:#group#:#Gruppe
 common#:#group_members#:#Mitglieder
 common#:#group_name#:#Gruppenname
 common#:#group_new_registrations#:#Aufnahmeanträge
-common#:#group_password_registration_msg#:#Wenn Ihnen ein Gruppenadministrator das Gruppenpasswort mitgeteilt hat, können Sie zur Gruppe beitreten.
+common#:#group_password_registration_msg#:#Sobald Ihnen die Gruppenadministration das Gruppenpasswort mitgeteilt hat, können Sie der Gruppe beitreten.
 common#:#group_registration#:#Gruppenbeitritt
 common#:#group_registration_mode#:#Beitrittsverfahren
 common#:#group_registration_time#:#Zeitraum
@@ -4219,12 +4219,12 @@ common#:#il_astpl_loc_qualified#:#Qualifizierender Test
 common#:#il_blog_contributor#:#Blog-Autorenschaft###Modified as part of gender mainstreaming activities for ILIAS 8
 common#:#il_blog_editor#:#Blog-Redaktion###Modified as part of gender mainstreaming activities for ILIAS 8
 common#:#il_chat_moderator#:#Chatmoderation###Modified as part of gender mainstreaming activities for ILIAS 8
-common#:#il_crs_admin#:#Kursadministrator
+common#:#il_crs_admin#:#Kursadministration
 common#:#il_crs_member#:#Kursmitglied
 common#:#il_crs_non_member#:#Kein Kursmitglied
 common#:#il_crs_tutor#:#Kursbetreuung
 common#:#il_frm_moderator#:#Forenmoderation###Modified as part of gender mainstreaming activities for ILIAS 8
-common#:#il_grp_admin#:#Gruppenadministrator
+common#:#il_grp_admin#:#Gruppenadministration
 common#:#il_grp_member#:#Gruppenmitglied
 common#:#il_grp_status_closed#:#Geschlossene Gruppe
 common#:#il_grp_status_open#:#Offene Gruppe
@@ -5200,7 +5200,7 @@ common#:#preview#:#Vorschau
 common#:#preview_create#:#Vorschau erstellen
 common#:#preview_delete#:#Vorschau löschen
 common#:#preview_image_size#:#Grösse der Vorschau-Bilder
-common#:#preview_learner_info#:#Wenn aktiviert, wird Kurs- und Gruppenadministratoren die Möglichkeit angeboten, den Kurs oder die Gruppe aus Sicht eines fiktiven Kurs- bzw. Gruppenmitglieds zu betrachten.
+common#:#preview_learner_info#:#Wenn aktiviert, wird der Kurs- und Gruppenadministration die Möglichkeit angeboten, den Kurs oder die Gruppe aus Sicht eines fiktiven Kurs- bzw. Gruppenmitglieds zu betrachten.
 common#:#preview_loading#:#Lade Vorschau...
 common#:#preview_none#:#Vorschau (noch nicht vorhanden)
 common#:#preview_not_possible#:#Erstellung von Vorschaubildern ist derzeit nicht möglich, bitte lesen Sie die Dokumentation in %s.
@@ -7424,14 +7424,14 @@ crs#:#crs_hide_all_obj#:#Alle verbergen
 crs#:#crs_html#:#HTML
 crs#:#crs_import#:#Kurs importieren
 crs#:#crs_important_info#:#Wichtige Informationen
-crs#:#crs_info_agree#:#Ich bin damit einverstanden, dass die oben angegebenen Daten von Kursadministratoren eingesehen werden können.
+crs#:#crs_info_agree#:#Ich bin damit einverstanden, dass die oben angegebenen Daten von der Kursadministration eingesehen werden kann.
 crs#:#crs_info_agreement#:#Falls die folgenden Angaben in Ihrem Persönliche Profil vorliegen, können sie von der Kursadministration eingesehen werden:
 crs#:#crs_info_download#:#Dateien zum Herunterladen
 crs#:#crs_info_reg#:#Aufnahmeverfahren
 crs#:#crs_info_reg_confirmation#:#Sie müssen einen Aufnahmeantrag stellen, um in den Kurs aufgenommen zu werden. Beschreiben Sie im Feld Nachricht, warum Sie beitreten möchten. Sobald Ihr Antrag angenommen oder abgelehnt wurde, erhalten Sie eine Benachrichtigung.
 crs#:#crs_info_reg_deactivated#:#Zur Zeit ist keine Aufnahme möglich.
 crs#:#crs_info_reg_direct#:#Sie können diesem Kurs direkt beitreten.
-crs#:#crs_info_reg_password#:#Wenn Sie das Kurspasswort von einem Kursadministrator erhalten haben, können Sie in diesen Kurs beitreten.
+crs#:#crs_info_reg_password#:#Sobald Sie das Kurspasswort von der Kursadministration erhalten haben, können Sie diesem Kurs beitreten.
 crs#:#crs_info_settings#:#Kursinfo
 crs#:#crs_info_start#:#Bitte bearbeiten Sie zunächst alle unten aufgeführten Materialien.<br/>Wenn Sie alle Objekte bearbeitet haben, werden weitere Kursinhalte für Sie freigeschaltet.
 crs#:#crs_intro_course_group_notification_for#:#dies ist die Zusammenfassung der Nachrichten aus Ihren Kursen und Gruppen, für die die automatische Benachrichtigung aktiviert wurde.
@@ -7824,7 +7824,7 @@ crs#:#crs_unsubscribe_sure#:#Sind Sie sicher, dass Sie die Mitgliedschaft in die
 crs#:#crs_unsubscribed_from_crs#:#Ihre Kursmitgliedschaft wurde beendet.
 crs#:#crs_update_subscr_request#:#Aufnahmeantrag aktualisieren
 crs#:#crs_user_agreement#:#Angaben des Persönlichen Profils
-crs#:#crs_user_agreement_info#:#Für Kursadministratoren freigegebene Daten
+crs#:#crs_user_agreement_info#:#Für Kursadministration freigegebene Daten
 crs#:#crs_user_already_assigned#:#Die Person ist bereits Teilnehmer dieses Kurses.
 crs#:#crs_users_added#:#Benutzer wurde(n) in den Kurs aufgenommen
 crs#:#crs_users_already_assigned#:#Ein Benutzer ist bereits Mitglied dieses Kurses
@@ -9374,13 +9374,13 @@ exc#:#exc_team_assignment_adopt_user#:#Team aus Übungseinheit übernehmen
 exc#:#exc_team_at_least_one#:#Es muss mindestens ein Team-Mitglied geben.
 exc#:#exc_team_by_assignment#:#Übernahme von Übungseinheit
 exc#:#exc_team_by_assignment_info#:#Die Teams werden von einer bestehender Übungseinheit übernommen.
-exc#:#exc_team_by_participants#:#Durch Teilnehmer
-exc#:#exc_team_by_participants_info#:#Teilnehmer organisieren die Teams selbst.
+exc#:#exc_team_by_participants#:#Teams werden selbstorganisiert gebildet.
+exc#:#exc_team_by_participants_info#:#Teilnehmerinnen und Teilnehmer gründen Teams und ordnen Teammitglieder zu.
 exc#:#exc_team_by_random#:#Automatische, zufällige Zuordnung
 exc#:#exc_team_by_random_add_info#:#Bitte beachten Sie, dass Sie der Übung zunächst alle Teilnehmer zuordnen müssen, bevor Sie diese Option sinnvoll nutzen können.
 exc#:#exc_team_by_random_info#:#Teilnehmer werden automatisch und zufällig zu Teams zugeordnet.
-exc#:#exc_team_by_tutors#:#Durch Tutoren
-exc#:#exc_team_by_tutors_info#:#Tutoren organisieren die Teams.
+exc#:#exc_team_by_tutors#:#Teams werden vorgegeben.
+exc#:#exc_team_by_tutors_info#:#Personen mit dem Recht „Abgaben und Noten bearbeiten“ legen Teams an und verteilen die Teammitglieder.
 exc#:#exc_team_by_tutors_manual#:#Manuell
 exc#:#exc_team_by_tutors_manual_info#:#Personen mit dem Recht „Abgaben und Noten bearbeiten“ ordnen die Teilnehmerinnen und Teilnehmer manuell den Teams zu.
 exc#:#exc_team_creation#:#Erstellung
@@ -9950,8 +9950,8 @@ grp#:#grp_header_delete_members#:#Sie möchten folgende Mitglieder aus der Grupp
 grp#:#grp_header_waiting_list#:#Warteliste
 grp#:#grp_icon_settings#:#Icon
 grp#:#grp_import#:#Gruppe importieren
-grp#:#grp_info_agree#:#Ich bin damit einverstanden, dass die oben angegebenen Daten von Gruppenadministratoren eingesehen werden können.
-grp#:#grp_info_agreement#:#Die folgenden Daten können von Gruppenadministratoren eingesehen werden:
+grp#:#grp_info_agree#:#Ich bin damit einverstanden, dass die oben angegebenen Daten von der Gruppenadministration eingesehen werden können.
+grp#:#grp_info_agreement#:#Die folgenden Daten können von der Gruppenadministration eingesehen werden:
 grp#:#grp_info_new_grp_type#:#Neue Gruppenart
 grp#:#grp_info_settings#:#Gruppeninfo
 grp#:#grp_information#:#Wichtige Informationen
@@ -10024,15 +10024,15 @@ grp#:#grp_reg_deac_info_screen#:#Zur Zeit ist keine Aufnahme möglich.
 grp#:#grp_reg_direct#:#Direkter Beitritt
 grp#:#grp_reg_direct_info_screen#:#Sie können dieser Gruppe direkt beitreten.
 grp#:#grp_reg_disabled#:#Zur Zeit ist kein Beitritt möglich.
-grp#:#grp_reg_disabled_info#:#Nur Gruppenadministratoren können Benutzer in die Gruppe aufnehmen.
+grp#:#grp_reg_disabled_info#:#Nur die Gruppenadministration kann Personen in die Gruppe aufnehmen.
 grp#:#grp_reg_limited#:#Zeitlich begrenzter Beitritt
 grp#:#grp_reg_max_members_info#:#Ist die maximale Mitgliederanzahl erreicht, ist ein selbstständiger Beitritt nicht mehr möglich.
 grp#:#grp_reg_no_selfreg#:#Kein selbstständiger Beitritt
-grp#:#grp_reg_passwd_info_screen#:#Wenn Sie das Gruppenpasswort von einem Gruppenadministrator erhalten haben, können Sie in dieser Gruppe beitreten.
+grp#:#grp_reg_passwd_info_screen#:#Sobald Sie das Gruppenpasswort von der Gruppenadministration erhalten haben, können Sie in dieser Gruppe beitreten.
 grp#:#grp_reg_password_info#:#Benutzer müssen dieses Passwort eingeben, um der Gruppe beitreten zu können.
-grp#:#grp_reg_req_info_screen#:#Sie können die Aufnahme in diese Gruppe beantragen. Sobald ein Gruppenadministrator Ihren Antrag angenommen oder abgelehnt hat, werden Sie per Mail benachrichtigt.
+grp#:#grp_reg_req_info_screen#:#Sie können die Aufnahme in diese Gruppe beantragen. Sobald die Gruppenadministration Ihren Antrag angenommen oder abgelehnt hat, werden Sie per Mail benachrichtigt.
 grp#:#grp_reg_request#:#Beitritt nach Bestätigung
-grp#:#grp_reg_request_info#:#Der Beitritt erfolgt nur, wenn er durch einen Gruppenadministrator bestätigt wird.
+grp#:#grp_reg_request_info#:#Der Beitritt erfolgt nur, wenn er durch die Gruppenadministration bestätigt wird.
 grp#:#grp_reg_subject#:#Nachricht
 grp#:#grp_registration_unlimited#:#Zeitlich unbegrenzt
 grp#:#grp_role_status#:#Rolle/Status
@@ -10044,7 +10044,7 @@ grp#:#grp_setting_header_registration#:#Selbstständiger Beitritt durch Benutzer
 grp#:#grp_settings#:#Gruppeneinstellungen
 grp#:#grp_show_members#:#Mitgliedergalerie
 grp#:#grp_show_members_info#:#Alle Mitglieder können im Reiter "Mitglieder" die Mitgliedergalerie einsehen.
-grp#:#grp_subscription_min_members_info#:#Wird die geforderte Mindestanzahl an Mitgliedern nicht erreicht, kann die Gruppe nicht stattfinden. Wird die Mindestanzahl bis zum Ende des Beitrittszeitraums bzw. dem spätesten Gruppenaustritt nicht erreicht, versendet ILIAS eine Mail an jene Gruppenadministratoren, für die im Reiter 'Mitglieder' die Option 'Benachrichtigung' aktiviert ist.
+grp#:#grp_subscription_min_members_info#:#Wird die geforderte Mindestanzahl an Mitgliedern nicht erreicht, kann die Gruppe nicht stattfinden. Wird die Mindestanzahl bis zum Ende des Beitrittszeitraums bzw. dem spätesten Gruppenaustritt nicht erreicht, versendet ILIAS eine Mail an jene Personen der Gruppenadministration, für die im Reiter „Mitglieder“ die Option „Benachrichtigung“ aktiviert ist.
 grp#:#grp_sure_add_user_to_group#:#Wollen Sie den Benutzer wirklich der Gruppe hinzufügen?
 grp#:#grp_sure_create_group_add_user#:#Wollen Sie die Gruppen wirklich erstellen und den Benutzer hinzufügen?
 grp#:#grp_typ#:#Typ
@@ -10142,7 +10142,7 @@ iass#:#iass_further_field_headline#:#Detaillierte Informationen
 iass#:#iass_graded_by#:#Bewertet von
 iass#:#iass_info_emails_expl#:#Sie können mehrere Adressen mit einem Komma getrennt angeben.
 iass#:#iass_internal_note#:#Interne Anmerkungen zur Prüfung
-iass#:#iass_internal_note_info#:#Diese Notiz ist nur für Tutoren sichtbar, die Prüfungsdaten von Teilnehmern einsehen können. Die Teilnehmer selbst sehen die Prüfungsnotiz nicht.
+iass#:#iass_internal_note_info#:#Dieser Text ist nur für Personen sichtbar, die Prüfungsdaten einsehen können. Teilnehmerinnen und Teilnehmer sehen die interne Anmerkung zur Prüfung nicht.
 iass#:#iass_location#:#Ort
 iass#:#iass_mails#:#E-Mail
 iass#:#iass_may_not_finalize#:#Prüfung kann noch nicht abschließend bewertet werden. Bitte geben Sie eine Bewertung ab.
@@ -10518,7 +10518,7 @@ lso#:#last_access#:#Letzter Zugriff
 lso#:#last_visited_step#:#Zuletzt besuchter Schritt
 lso#:#learner_view#:#Übersicht
 lso#:#lp_not_relevant_post_cond#:#für Fortfahren aktuell nicht maßgeblich
-lso#:#lso_activation_online_info#:#Nur wenn die Lernsequenz online geschaltet ist, können Benutzer beitreten und Mitglieder auf die Lernsequenz zugreifen. Wenn nicht, ist die Lernsequenz nur für Administratoren und Tutoren verfügbar.
+lso#:#lso_activation_online_info#:#Nur wenn die Lernsequenz online geschaltet ist, können Personen beitreten und Mitglieder auf die Lernsequenz zugreifen. Wenn nicht, ist die Lernsequenz nur für Administration und Rollen mit dem Recht „Einstellungen bearbeiten“ verfügbar.
 lso#:#lso_at_least_one_admin#:#Dieser Lernsequenz muss mindestens ein Administrator zugeordnet sein.
 lso#:#lso_edit_permission#:#Rechteeinstellungen ändern
 lso#:#lso_header_delete_members#:#Sie möchten folgende Mitglieder aus der Lernsequenz austragen?
@@ -10704,7 +10704,7 @@ lti#:#lti_action_reset_provider_to_user_scope#:#Provider als benutzerdefinierten
 lti#:#lti_action_reset_providers_to_user_scope#:#Provider als benutzerdefinierten Provider zurücksetzen
 lti#:#lti_add_global_provider#:#Globalen Provider für alle Benutzer hinzufügen
 lti#:#lti_add_own_provider#:#Provider-Einstellungen anlegen
-lti#:#lti_admin#:#LTI-Rolle Administrator
+lti#:#lti_admin#:#LTI-Rolle „Administrator“
 lti#:#lti_at_least_one_prov_has_usages#:#Mindestens ein Provider konnte nicht gelöscht werden, da dieser Provider von LTI-Konsumenten (möglicherweise im Papierkorb) genutzt wird.
 lti#:#lti_auth_failed_invalid_key#:#Authentifizierung nicht möglich. Es wurde kein gültiger Consumer-Key übermittelt.
 lti#:#lti_con_content_item#:#Unterstützung für Deep Linking
@@ -10717,7 +10717,7 @@ lti#:#lti_con_key_type_rsa#:#RSA-Schlüssel
 lti#:#lti_con_key_type_rsa_public_key#:#Öffentlicher Schlüssel
 lti#:#lti_con_key_type_rsa_public_key_info#:#Tragen Sie den vom Tool (Provider) bereitgestellten Schlüssel im PEM-Format hier ein.
 lti#:#lti_con_prov_always_learner#:#LTI-Benutzer ist immer Lernender
-lti#:#lti_con_prov_always_learner_info#:#In der Regel wird die Rolle in ILIAS auf eine LTI-Rolle abgebildet. Kursadministratoren könnten im Provider mehr Rechte haben, z.B. um das Objekt zu manipulieren. Aktivieren Sie diese Option, um das Rollen-Mapping zu vermeiden.
+lti#:#lti_con_prov_always_learner_info#:#In der Regel wird die Rolle in ILIAS auf eine LTI-Rolle abgebildet. Die Kursadministration könnte im Provider mehr Rechte haben, z.B. um das Objekt zu manipulieren. Aktivieren Sie diese Option, um das Rollen-Mapping zu vermeiden.
 lti#:#lti_con_prov_authentication#:#Authentifizierung
 lti#:#lti_con_prov_availability#:#Verfügbarkeit
 lti#:#lti_con_prov_availability_create#:#für neue und bestehende Objekte
@@ -10738,7 +10738,7 @@ lti#:#lti_con_prov_icon#:#Icon
 lti#:#lti_con_prov_inc_usr_pic#:#Benutzerbild senden
 lti#:#lti_con_prov_inc_usr_pic_info#:#Links zu ILIAS-Benutzerbildern sind beim Start des LTI-Konsumenten enthalten.
 lti#:#lti_con_prov_instructor_email#:#E-Mail von Lehrenden
-lti#:#lti_con_prov_instructor_email_info#:#Abweichend von den zuvor gewählten Einstellungen kann für Lehrende die E-Mail-Adresse übertragen werden. Dazu müssen sie Kurs- oder GruppenadministratorInnen sein.
+lti#:#lti_con_prov_instructor_email_info#:#Abweichend von den zuvor gewählten Einstellungen kann für Lehrende die E-Mail-Adresse übertragen werden. Dazu müssen sie der Kurs- oder Gruppenadministration angehören.
 lti#:#lti_con_prov_instructor_name#:#Name von Lehrenden
 lti#:#lti_con_prov_instructor_name_info#:#Abweichend von den zuvor gewählten Einstellungen kann für Lehrende der Name übertragen werden.
 lti#:#lti_con_prov_key#:#Key
@@ -10810,7 +10810,7 @@ lti#:#lti_info_external_provider_label#:#Zusätzliche Informationen über diesen
 lti#:#lti_info_learning_progress_section#:#Info zur Ermittlung des Lernfortschritts
 lti#:#lti_info_privacy_section#:#Informationen über personenbezogene Daten, die beim Start an den Provider übermittelt wurden.###Modified as part of gender mainstreaming activities for ILIAS 8
 lti#:#lti_launch_url#:#URL
-lti#:#lti_member#:#LTI-Rolle Mitglied / Lerner
+lti#:#lti_member#:#LTI-Rolle „Member“ / „Learner“
 lti#:#lti_navigation#:#Navigation
 lti#:#lti_no_provider_selected#:#Kein Provider ausgewählt
 lti#:#lti_not_allowed#:#Zugriff nicht erlaubt. Sie wurden in den ursprünglichen LTI-Bereich umgeleitet.
@@ -10834,7 +10834,7 @@ lti#:#lti_success_accept_as_global_multi#:#Erfolgreich als Global-Provider für 
 lti#:#lti_success_delete_provider#:#Erfolgreich gelöscht
 lti#:#lti_success_reset_to_usr_def#:#Erfolgreich zurückgesetzt als benutzerdefinierter Provider
 lti#:#lti_success_reset_to_usr_def_multi#:#Erfolgreich zurückgesetzt als benutzerdefinierter Provider
-lti#:#lti_tutor#:#LTI-Rolle Tutor
+lti#:#lti_tutor#:#LTI-Rolle „Teaching Assistant“ / „Mentor“
 lti#:#lti_user_role_created#:#Die empfohlene globale Rolle für LTI-User wurde angelegt.
 lti#:#lti_user_role_info#:#In dieser Installation wurde die empfohlene globale Rolle für LTI-User noch nicht angelegt. Diese spezielle globale Rolle enthält nur Lese-Rechte für Magazin und Kategorien.
 lti#:#mastery_score#:#Mastery Score
@@ -10937,12 +10937,12 @@ mail#:#mail_email_usr_body#:#Dies ist eine Test-E-Mail um den Versand einer von 
 mail#:#mail_email_usr_subject#:#Test-E-Mail „Benutzer-Mail”
 mail#:#mail_empty_trash#:#Papierkorb leeren
 mail#:#mail_empty_trash_confirmation#:#Sind Sie sicher, dass alle Mails im Papierkorb gelöscht werden sollen?
-mail#:#mail_enable_crs_admin_notification#:#Kursadministratoren benachrichtigen
-mail#:#mail_enable_crs_admin_notification_info#:#In neuen Kursen ist im Reiter "Mitglieder" für Kursadministratoren und -tutoren die Einstellungen "Benachrichtigung über neue Mitglieder" standardmäßig aktiviert. Sie erhalten E-Mails, wenn ein Mitglied beitritt, den Kurs verlässt oder die Mindestanzahl an Teilnehmern zur Durchführung des Kurses nicht erreicht wird.
+mail#:#mail_enable_crs_admin_notification#:#Kursadministration benachrichtigen
+mail#:#mail_enable_crs_admin_notification_info#:#Kursbetreuung und Kursadministration erhalten in neuen Kursen Mails, wenn ein Mitglied beitritt, den Kurs verlässt oder die Mindestanzahl an Teilnehmerinnen und Teilnehmern zur Durchführung des Kurses nicht erreicht wird. Diese Einstellung kann für einzelne Kurse lokal im Reiter „Mitglieder“ geändert werden.
 mail#:#mail_enable_crs_member_notification#:#Mitglieder benachrichtigen
 mail#:#mail_enable_crs_member_notification_info#:#Mitglieder erhalten automatisch eine E-Mail, wenn sich ihr Mitgliedsstatus ändert. Diese Einstellung betrifft alle Kurse der Plattform.
-mail#:#mail_enable_grp_admin_notification#:#Gruppenadministratoren benachrichtigen
-mail#:#mail_enable_grp_admin_notification_info#:#In neuen Gruppen ist im Reiter "Mitglieder" für Gruppenadministratoren die Einstellungen "Benachrichtigungen" standardmäßig aktiviert. Sie erhalten E-Mails, wenn ein Mitglied beitritt, die Gruppe verlässt oder die Mindestanzahl an Teilnehmern zur Durchführung der Gruppe nicht erreicht wird.
+mail#:#mail_enable_grp_admin_notification#:#Gruppenadministration benachrichtigen
+mail#:#mail_enable_grp_admin_notification_info#:#Die Gruppenadministration erhält in neuen Gruppen Mails, wenn ein Mitglied beitritt, die Gruppe verlässt oder die Mindestanzahl an Teilnehmerinnen und Teilnehmern zur Durchführung der Gruppe nicht erreicht wird. Diese Einstellung kann für einzelne Gruppe lokal im Reiter „Mitglieder“ geändert werden.
 mail#:#mail_enable_grp_member_notification#:#Mitglieder benachrichtigen
 mail#:#mail_enable_grp_member_notification_info#:#Mitglieder erhalten automatisch eine E-Mail, wenn sich ihr Mitgliedsstatus ändert. Diese Einstellung betrifft alle Gruppen der Plattform.
 mail#:#mail_enable_lso_admin_notification#:#Administratoren der Lernsequenz benachrichtigen
@@ -11141,10 +11141,10 @@ mail#:#search_content#:#Suchergebnis
 mail#:#search_recipients#:#Personen suchen###Modified as part of gender mainstreaming activities for ILIAS 8
 mail#:#second_email_missing_info#:#Auswahl nicht möglich, da keine zweite E-Mail-Adresse eingetragen wurde
 mail#:#select_mail_with_subject_x#:#Wähle Mail mit Betreff „%s“
-mail#:#send_mail_admins#:#Alle Administratoren
-mail#:#send_mail_members#:#Alle Mitglieder
+mail#:#send_mail_admins#:#Administration
+mail#:#send_mail_members#:#Mitglied
 mail#:#send_mail_to#:#Mail an
-mail#:#send_mail_tutors#:#Alle Tutoren
+mail#:#send_mail_tutors#:#Kursbetreuung
 mail#:#show_mail_settings#:#Einstellungen anzeigen
 mail#:#show_mail_settings_info#:#Aktiviert die Anzeige der Mail-Einstellungen im Bereich 'Einstellungen' oder 'Mail'. Benutzer können die Mail-Einstellungen nur ändern, wenn die Konfiguration des Benutzer-Profils dies erlaubt. Wenn Benutzer nicht berechtigt sind, die Mail-Einstellung ihrer Profils zu ändern, dann gelten die globalen Einstellungen. Dies gilt auch dann, wenn Benutzer in der Vergangenheit die Berechtigung zum Ändern der Mail-Einstellungen hatten und persönliche Einstellungen vorgenommen haben.
 mail#:#system_notification_installation_changed_by#:#Geändert durch
@@ -12324,9 +12324,10 @@ note#:#note_comment_notification_user_has_written#:#%s hat geschrieben:
 note#:#note_comments_notification#:#Generelle Benachrichtigung über alle Kommentare
 note#:#note_comments_notification_info#:#Kommagetrennte Liste von ILIAS-Konten, welche jeden Kommentar als E-Mail erhalten.
 note#:#note_enable_comments#:#Kommentare aktivieren
-note#:#note_enable_comments_del_tutor#:#Jegliche Kommentare können von Tutoren gelöscht werden
+note#:#note_enable_comments_del_tutor#:#Alle Kommentare im Objekt
 note#:#note_enable_comments_del_tutor_info#:#Benutzer mit dem Recht „Einstellungen bearbeiten“ an einem Objekt können alle darin gemachten Kommentare löschen.
-note#:#note_enable_comments_del_user#:#Kommentare können von der Person gelöscht werden, die sie erstellt hat.###Modified as part of gender mainstreaming activities for ILIAS 8
+note#:#note_enable_comments_del_user#:#Eigene Kommentare löschen
+note#:#note_enable_comments_del_user#_info#:#Kommentare können von der Person, die sie erstellt hat, wieder gelöscht werden.
 note#:#note_enable_comments_export_info#:#Erlaubt innerhalb von Objekten wie Portfolios, Blogs oder Wikis die Kommentare zu exportieren.
 note#:#note_enable_notes#:#Notizen aktivieren
 note#:#note_html_export_include_comments#:#Sollen die Kommentare mit exportiert werden?
@@ -13222,7 +13223,7 @@ ps#:#ps_error_message_password_max_less_min#:#Maximale Passwortlänge darf nicht
 ps#:#ps_error_message_password_min1_because_chars#:#Minimale Passwortlänge darf nicht kleiner als %s sein.
 ps#:#ps_error_message_password_min2_because_chars_numbers#:#Minimale Passwortlänge darf nicht kleiner als %s sein, wenn das Passwort Buchstaben und Zahlen enthalten soll.
 ps#:#ps_error_message_password_min3_because_chars_numbers_sc#:#Minimale Passwortlänge darf nicht kleiner als %s sein, wenn das Passwort Buchstaben, Zahlen und Sonderzeichen enthalten soll.
-ps#:#ps_export_admin#:#Administratoren
+ps#:#ps_export_admin#:#Administration
 ps#:#ps_export_confirm#:#Zustimmung neuer Mitglieder beim Kursbeitritt, dass Kursverwaltung ihre persönlichen Profildaten einsehen kann
 ps#:#ps_export_confirm_group#:#Zustimmung neuer Mitglieder beim Gruppenbeitritt, dass Gruppenverwaltung ihre persönlichen Profildaten einsehen kann
 ps#:#ps_export_course#:#Export der Persönlichen Daten aus Kursen erlauben
@@ -13230,10 +13231,10 @@ ps#:#ps_export_data#:#Daten des Persönlichen Profils
 ps#:#ps_export_excel#:#Starte Excel-Export
 ps#:#ps_export_files#:#Exportdateien
 ps#:#ps_export_groups#:#Export der Persönlichen Daten aus Gruppen erlauben
-ps#:#ps_export_member#:#Teilnehmer
+ps#:#ps_export_member#:#Mitglieder
 ps#:#ps_export_settings#:#Einstellungen zum Export
 ps#:#ps_export_sub#:#Noch nicht freigeschaltete Benutzer
-ps#:#ps_export_tutor#:#Tutoren
+ps#:#ps_export_tutor#:#Kursbetreuung
 ps#:#ps_export_user_data#:#Benutzerdaten
 ps#:#ps_export_wait#:#Benutzer auf der Warteliste
 ps#:#ps_field_type#:#Datenfeldtyp
@@ -16651,12 +16652,12 @@ trac#:#trac_mode_course_reference#:#Vom Kurs übernommen
 trac#:#trac_mode_course_reference_info#:#Der Lernfortschrittmodus wird automatisch von dem Kurs übernommen, auf den dieser Kurslink verweist.
 trac#:#trac_mode_deactivated#:#Lernfortschritt ist deaktiviert
 trac#:#trac_mode_deactivated_info_new#:#Der Lernfortschrittsstatus wird nicht angezeigt und beeinflusst keine übergeordneten Objekte.
-trac#:#trac_mode_event#:#Tutoren erfassen Teilnahme
-trac#:#trac_mode_event_info#:#Tutoren prüfen, welche Teilnehmer an der Sitzung teilgenommen haben, und erfassen die Teilnahme händisch im Reiter 'Sitzungsteilnehmer verwalten'.
-trac#:#trac_mode_exercise_returned#:#Tutor entscheidet über den Status
-trac#:#trac_mode_exercise_returned_info#:#Tutoren entscheiden anhand der Einreichungen, ob Teilnehmer die Übung gelöst haben. Tutoren setzen händisch den Status auf 'Bearbeitet' oder 'Nicht bestanden'.
-trac#:#trac_mode_individual_assessment#:#Individuelle Bewertung durch Tutor/Trainer
-trac#:#trac_mode_individual_assessment_info#:#Der Teilnehmer muss abschließend bewertet werden, damit für diesen der Lernfortschritt gesetzt wird.
+trac#:#trac_mode_event#:#Teilnahmeliste abhaken
+trac#:#trac_mode_event_info#:#Personen mit dem Recht „Mitglieder verwalten“ erfassen die Teilnahme im Reiter „Teilnehmer“.
+trac#:#trac_mode_exercise_returned#:#Manuelle Bewertung
+trac#:#trac_mode_exercise_returned_info#:#Personen mit dem Recht „Einstellungen bearbeiten“ entscheiden anhand der Einreichungen, ob die Übungseinheit gelöst wurde. Im Reiter „Abgaben und Noten“ setzen sie händisch den jeweiligen Status.
+trac#:#trac_mode_individual_assessment#:#Manuelle Bewertung
+trac#:#trac_mode_individual_assessment_info#:#Im Reiter „Teilnehmer“ können Personen mit dem Recht „Teilnehmer bearbeiten“ die Bewertung abschließen. Dadurch ändert sich der jeweilige Lernfortschrittsstatus.
 trac#:#trac_mode_lti_outcome#:#Mastery Score muss erreicht werden
 trac#:#trac_mode_lti_outcome_info#:#Der Lernfortschritt gilt als abgeschlossen, wenn das Ergebnis des LTI-Outcome-Service mindestens so hoch wie der Mastery Score ist.
 trac#:#trac_mode_manual#:#Benutzer entscheidet selbst über den Status des Lernfortschritts für das gesamte Objekt.
