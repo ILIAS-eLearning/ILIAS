@@ -4420,7 +4420,7 @@ common#:#lang_timeformat#:#H:i:s
 common#:#lang_timeformat_no_sec#:#H:i
 common#:#lang_uninstall_changes#:#Uninstall Local Changes
 common#:#lang_uninstall_changes_confirm#:#Do you really want to clear all local changes of the selected languages and reset them to the default of the current ILIAS version?
-common#:#lang_uninstall_confirm#:#Do you really want to uninstall the selected languages?
+common#:#lang_uninstall_confirm#:#Do you really want to uninstall the selected languages? This also means that all local changes to the respective languages are irretrievably lost if they have not been saved or exported beforehand.
 common#:#langfile_found#:#Language file found
 common#:#language#:#Language
 common#:#language_not_installed#:#is not installed. Please install that language first

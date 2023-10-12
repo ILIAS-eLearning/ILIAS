@@ -4419,7 +4419,7 @@ common#:#lang_timeformat#:#H:i:s
 common#:#lang_timeformat_no_sec#:#H:i
 common#:#lang_uninstall_changes#:#Lokale Änderungen entfernen
 common#:#lang_uninstall_changes_confirm#:#Möchten Sie wirklich alle lokalen Änderungen an den ausgewählten Sprachen löschen und diese auf den Standard der aktuellen ILIAS-Version zurücksetzen?
-common#:#lang_uninstall_confirm#:#Möchten Sie die ausgewählten Sprachen wirklich deinstallieren?
+common#:#lang_uninstall_confirm#:#Möchten Sie die ausgewählten Sprachen wirklich deinstallieren? Damit gehen auch alle lokalen Änderungen an den jeweiligen Sprachen unwiederbringlich verloren, wenn diese nicht zuvor gesichert oder exportiert wurden.
 common#:#langfile_found#:#Sprachdatei gefunden
 common#:#language#:#Sprache
 common#:#language_not_installed#:#ist nicht installiert. Bitte installieren Sie die Sprache zuerst.
