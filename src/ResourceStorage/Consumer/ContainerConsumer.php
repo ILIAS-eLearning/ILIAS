@@ -16,23 +16,19 @@
  *
  *********************************************************************/
 
-declare(strict_types=1);
+namespace ILIAS\ResourceStorage\Consumer;
 
-namespace ILIAS\ResourceStorage\Resource;
-
-use ILIAS\ResourceStorage\Identification\ResourceIdentification;
-use ILIAS\ResourceStorage\Revision\Revision;
-use ILIAS\ResourceStorage\Revision\RevisionCollection;
-use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
+use ILIAS\Filesystem\Stream\FileStream;
+use ILIAS\Filesystem\Filesystem;
+use ILIAS\Filesystem\Util\Archive\Unzip;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions.ch>
  */
-class StorableFileResource extends AbstractStorableResource
+interface ContainerConsumer
 {
-    public function getType(): ResourceType
-    {
-        return ResourceType::SINGLE_FILE;
-    }
-
+    /**
+     * @description Currently we allow a Read-Only Unzip of the Container. This Consumers will provide a FileSystem later
+     */
+    public function getZIP(): Unzip;
 }

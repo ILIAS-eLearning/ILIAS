@@ -28,11 +28,11 @@ use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
 /**
  * @author Fabian Schmid <fabian@sr.solutions.ch>
  */
-class StorableFileResource extends AbstractStorableResource
+class StorableContainerResource extends AbstractStorableResource
 {
     public function getType(): ResourceType
     {
-        return ResourceType::SINGLE_FILE;
+        return ResourceType::CONTAINER;
     }
 
 }

@@ -28,11 +28,8 @@ use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
 /**
  * @author Fabian Schmid <fabian@sr.solutions.ch>
  */
-class StorableFileResource extends AbstractStorableResource
+enum ResourceType: int
 {
-    public function getType(): ResourceType
-    {
-        return ResourceType::SINGLE_FILE;
-    }
-
+    case SINGLE_FILE = 1;
+    case CONTAINER = 2;
 }

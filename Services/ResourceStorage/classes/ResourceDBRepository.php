@@ -21,6 +21,8 @@ namespace ILIAS\ResourceStorage\Resource\Repository;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 use ILIAS\ResourceStorage\Resource\StorableFileResource;
 use ILIAS\ResourceStorage\Resource\StorableResource;
+use ILIAS\ResourceStorage\Resource\ResourceType;
+use ILIAS\ResourceStorage\Resource\StorableContainerResource;
 
 /**
  * Class ResourceDBRepository
@@ -54,9 +56,14 @@ class ResourceDBRepository implements ResourceRepository
     /**
      * @inheritDoc
      */
-    public function blank(ResourceIdentification $identification): StorableResource
-    {
-        return new StorableFileResource($identification);
+    public function blank(
+        ResourceIdentification $identification,
+        ResourceType $type = ResourceType::SINGLE_FILE
+    ): StorableResource {
+        return match ($type) {
+            ResourceType::SINGLE_FILE => new StorableFileResource($identification),
+            ResourceType::CONTAINER => new StorableContainerResource($identification),
+        };
     }
 
     /**
@@ -67,12 +74,12 @@ class ResourceDBRepository implements ResourceRepository
         if (isset($this->cache[$identification->serialize()])) {
             return $this->cache[$identification->serialize()];
         }
-        $resource = $this->blank($identification);
 
-        $q = "SELECT " . self::IDENTIFICATION . ", storage_id FROM " . self::TABLE_NAME . " WHERE " . self::IDENTIFICATION . " = %s";
+        $q = "SELECT " . self::IDENTIFICATION . ", storage_id, rtype FROM " . self::TABLE_NAME . " WHERE " . self::IDENTIFICATION . " = %s";
         $r = $this->db->queryF($q, ['text'], [$identification->serialize()]);
         $d = $this->db->fetchObject($r);
 
+        $resource = $this->blank($identification, ResourceType::from($d->rtype));
         $resource->setStorageID($d->storage_id);
 
         $this->cache[$identification->serialize()] = $resource;
@@ -160,7 +167,10 @@ class ResourceDBRepository implements ResourceRepository
 
     public function populateFromArray(array $data): void
     {
-        $resource = $this->blank(new ResourceIdentification($data['rid']));
+        $resource = $this->blank(
+            new ResourceIdentification($data['rid']),
+            ResourceType::from($data['rtype'] ?? ResourceType::SINGLE_FILE->value)
+        );
         $resource->setStorageID($data['storage_id']);
         $this->cache[$data['rid']] = $resource;
     }
