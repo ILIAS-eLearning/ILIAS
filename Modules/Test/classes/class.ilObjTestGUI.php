@@ -2905,7 +2905,6 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         if ($this->create_question_mode) {
             return;
         }
-        exit;
         $this->ctrl->saveParameter($this, 'q_mode');
 
         $this->ctrl->setParameterByClass('iltestexpresspageobjectgui', 'test_express_mode', 1);
