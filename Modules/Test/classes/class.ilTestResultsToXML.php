@@ -48,7 +48,7 @@ class ilTestResultsToXML extends ilXmlWriter
         $ilSetting = $DIC['ilSetting'];
         $assessmentSetting = new ilSetting("assessment");
         $user_criteria = $assessmentSetting->get("user_criteria");
-        if (strlen($user_criteria) == 0) {
+        if (!$user_criteria || $user_criteria === '') {
             $user_criteria = 'usr_id';
         }
 
