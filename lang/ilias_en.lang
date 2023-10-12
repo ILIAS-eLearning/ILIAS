@@ -2270,6 +2270,8 @@ bibl#:#not_yet_migrated#:#This Object has not et been migrated. Please contact t
 bibl#:#obj_bibl_duplicate#:#Duplicate Bibliography
 bibl#:#order#:#Order
 bibl#:#override_entries#:#Override Entries
+bibl#:#replace_bibliography_file#:#Replace Bibliography File
+bibl#:#replace_bibliography_file_info#:#The current bibliography file will be replaced by the new file. All existing entries from the current file will be deleted.
 bibl#:#ris#:#Ris
 bibl#:#ris_default_a2#:#Location in Archives
 bibl#:#ris_default_au#:#Author

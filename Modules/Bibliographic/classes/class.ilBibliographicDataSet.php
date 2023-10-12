@@ -99,10 +99,12 @@ class ilBibliographicDataSet extends ilDataSet
                 $new_obj->setTitle($a_rec['title']);
                 $new_obj->setDescription($a_rec['description']);
                 $new_obj->setFilename($a_rec['fileName']);
-                $new_obj->setOnline(false);
                 if (!$new_obj->getId()) {
                     $new_obj->create();
                 }
+                $new_obj->getObjectProperties()->storePropertyIsOnline(
+                    new ilObjectPropertyIsOnline(true)
+                );
                 $this->import_bib_object = $new_obj;
                 $a_mapping->addMapping('Modules/Bibliographic', 'bibl', $a_rec['id'], $new_obj->getId());
                 $this->importLibraryFile($a_mapping);
@@ -122,8 +124,7 @@ class ilBibliographicDataSet extends ilDataSet
                     "id" => "integer",
                     "title" => "text",
                     "description" => "text",
-                    "filename" => "text",
-                    "is_online" => "integer",
+                    "filename" => "text"
                 );
             default:
                 return array();
@@ -169,8 +170,7 @@ class ilBibliographicDataSet extends ilDataSet
                             'id' => $bibl_id,
                             'title' => $obj->getTitle(),
                             'description' => $obj->getDescription(),
-                            'fileName' => $obj->getFilename(),
-                            'is_online' => $obj->getOnline(),
+                            'fileName' => $obj->getFilename()
                         );
                         $this->data[] = $data;
                     }

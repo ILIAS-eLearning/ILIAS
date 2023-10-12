@@ -2270,6 +2270,8 @@ bibl#:#not_yet_migrated#:#Dieses Objekt wurde noch nicht migriert. Wenden Sie si
 bibl#:#obj_bibl_duplicate#:#Literaturliste duplizieren
 bibl#:#order#:#Sortierung
 bibl#:#override_entries#:#Einträge überschreiben
+bibl#:#replace_bibliography_file#:#Literaturliste ersetzen
+bibl#:#replace_bibliography_file_info#:#Die aktuelle Literaturlisten-Datei wird durch die neue Datei ersetzt. Alle vorhandenen Einträge der aktuellen Datei werden dabei gelöscht.
 bibl#:#ris#:#Ris
 bibl#:#ris_default_a2#:#Zweiter Autor
 bibl#:#ris_default_au#:#Autor

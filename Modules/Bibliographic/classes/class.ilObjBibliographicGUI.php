@@ -18,6 +18,9 @@
 
 use ILIAS\ResourceStorage\Services;
 use ILIAS\DI\Container;
+use ILIAS\FileUpload\MimeType;
+use ILIAS\UI\Component\Input\Container\Form\Standard;
+use ILIAS\ResourceStorage\Revision\RevisionCollection;
 
 /**
  * Class ilObjBibliographicGUI
@@ -50,10 +53,20 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
     public const TAB_ID_PERMISSIONS = "id_permissions";
     public const TAB_ID_INFO = "id_info";
     public const CMD_SHOW_DETAILS = "showDetails";
-    public const CMD_EDIT = "edit";
     public const SUBTAB_SETTINGS = "settings";
     public const CMD_EDIT_OBJECT = 'editObject';
-    public const CMD_UPDATE_OBJECT = 'updateObject';
+    public const CMD_UPDATE_OBJECT = "updateObject";
+    public const CMD_SETTINGS = "settings";
+    public const CMD_OVERWRITE_BIBLIOGRAPHIC_FILE = "overwriteBibliographicFile";
+    public const CMD_REPLACE_BIBLIOGRAPHIC_FILE = "replaceBibliographicFile";
+    public const SECTION_REPLACE_BIBLIOGRAPHIC_FILE = 'section_replace_bibliographic_file';
+    public const PROP_BIBLIOGRAPHIC_FILE = "bibliographic_file";
+    public const SECTION_EDIT_BIBLIOGRAPHY = 'section_edit_bibliography';
+    public const PROP_TITLE_AND_DESC = 'title_and_desc';
+    public const SECTION_AVAILABILITY = 'section_availability';
+    public const PROP_ONLINE_STATUS = 'online_status';
+    public const SECTION_PRESENTATION = 'section_presentation';
+    public const PROP_TILE_IMAGE = 'tile_image';
 
     public ?ilObject $object = null;
     protected ?\ilBiblFactoryFacade $facade = null;
@@ -65,6 +78,9 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
     protected ilHelpGUI $help;
     protected Services $storage;
     protected \ilObjBibliographicStakeholder $stakeholder;
+    protected \ILIAS\HTTP\Services $http;
+    protected \ILIAS\UI\Factory $ui_factory;
+    protected \ILIAS\Refinery\Factory $refinery;
     protected ?string $cmd = self::CMD_SHOW_CONTENT;
 
     public function __construct(int $a_id = 0, int $a_id_type = self::REPOSITORY_NODE_ID, int $a_parent_node_id = 0)
@@ -74,6 +90,9 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
         $this->help = $DIC['ilHelp'];
         $this->storage = $DIC['resource_storage'];
         $this->stakeholder = new ilObjBibliographicStakeholder();
+        $this->http = $DIC->http();
+        $this->ui_factory = $DIC->ui()->factory();
+        $this->refinery = $DIC->refinery();
 
         parent::__construct($a_id, $a_id_type, $a_parent_node_id);
         $DIC->language()->loadLanguageModule('bibl');
@@ -167,12 +186,18 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
                 $this->tabs_gui->activateSubTab(self::SUB_TAB_FILTER);
                 $this->ctrl->forwardCommand(new ilBiblFieldFilterGUI($this->facade));
                 break;
+            case strtolower(ilObjBibliographicUploadHandlerGUI::class):
+                $rid = "";
+                if ($this->object && $this->object->getResourceId()) {
+                    $rid = $this->object->getResourceId()->serialize();
+                }
+                $this->ctrl->forwardCommand(new ilObjBibliographicUploadHandlerGUI($rid));
+                break;
             default:
                 $this->prepareOutput();
                 $cmd = $this->ctrl->getCmd(self::CMD_SHOW_CONTENT);
                 switch ($cmd) {
-                    case 'edit':
-                    case 'update':
+                    case self::CMD_SETTINGS:
                     case self::CMD_EDIT_OBJECT:
                     case self::CMD_UPDATE_OBJECT:
                         $this->initSubTabs();
@@ -292,22 +317,148 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 
     public function save(): void
     {
-        global $DIC;
-
         $form = $this->initCreationForms($this->getType());
         if ($form[self::CFORM_NEW]->checkInput()) {
             parent::save();
         } else {
             $form = $form[self::CFORM_NEW];
             $form->setValuesByPost();
-            $DIC->ui()->mainTemplate()->setContent($form->getHtml());
+            $this->ui()->mainTemplate()->setContent($form->getHtml());
+        }
+    }
+
+    public function updateObject(): void
+    {
+        $form = $this->getSettingsForm();
+        $form = $form->withRequest($this->http->request());
+        $result = $form->getInputGroup()->getContent();
+
+        if (!$result->isOK()) {
+            $this->tpl->setOnScreenMessage('failure', $result->error(), true);
+            $this->tpl->setContent(
+                $this->ui()->renderer()->render([$form])
+            );
+        } else {
+            $values = $result->value();
+
+            $this->object->getObjectProperties()->storePropertyTitleAndDescription(
+                $values[self::SECTION_EDIT_BIBLIOGRAPHY][self::PROP_TITLE_AND_DESC]
+            );
+            $this->object->getObjectProperties()->storePropertyIsOnline(
+                $values[self::SECTION_AVAILABILITY][self::PROP_ONLINE_STATUS]
+            );
+            $this->object->getObjectProperties()->storePropertyTileImage(
+                $values[self::SECTION_PRESENTATION][self::PROP_TILE_IMAGE]
+            );
+
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('changes_saved'), true);
+            $this->ctrl->redirect($this, self::CMD_SETTINGS);
         }
     }
 
     protected function afterSave(ilObject $a_new_object): void
     {
         $this->addNews($a_new_object->getId(), 'created');
-        $this->ctrl->redirect($this, self::CMD_EDIT);
+        $this->ctrl->redirect($this, self::CMD_EDIT_OBJECT);
+    }
+
+    protected function settings(): void
+    {
+        $this->tpl->setContent($this->ui()->renderer()->render($this->getSettingsForm()));
+    }
+
+
+    public function overwriteBibliographicFile(): void
+    {
+        $this->tabs()->clearTargets();
+        $this->tabs()->setBackTarget($this->lng->txt('back'), $this->ctrl->getLinkTarget($this, self::CMD_SHOW_CONTENT));
+        $this->tpl->setContent($this->ui()->renderer()->render($this->getReplaceBibliographicFileForm()));
+    }
+
+    public function replaceBibliographicFile(): void
+    {
+        $form = $this->getReplaceBibliographicFileForm();
+        $form = $form->withRequest($this->http->request());
+        $data = $form->getData();
+        if ($data !== null && $bibl_file_rid = $this->storage->manage()->find($data[self::SECTION_REPLACE_BIBLIOGRAPHIC_FILE][self::PROP_BIBLIOGRAPHIC_FILE][0])) {
+            /**
+             * @var $bibl_obj ilObjBibliographic
+             */
+            $bibl_obj = $this->getObject();
+            $bibl_filename = $this->storage->manage()->getResource($bibl_file_rid)->getCurrentRevision()->getTitle();
+            $bibl_filetype = $bibl_obj->determineFileTypeByFileName($bibl_filename);
+
+            $bibl_obj->setResourceId($bibl_file_rid);
+            $bibl_obj->setFilename($bibl_filename);
+            $bibl_obj->setFileType($bibl_filetype);
+            $bibl_obj->update();
+            $bibl_obj->parseFileToDatabase();
+
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('changes_saved'), true);
+            $this->ctrl->redirect($this, self::CMD_SHOW_CONTENT);
+        }
+
+        $this->tpl->setContent(
+            $this->ui()->renderer()->render([$form])
+        );
+    }
+
+
+    protected function getReplaceBibliographicFileForm(): Standard
+    {
+        /**
+        * @var $bibl_obj ilObjBibliographic
+         */
+        $bibl_obj = $this->getObject();
+        $rid = $bibl_obj->getResourceId() ? $bibl_obj->getResourceId()->serialize() : "";
+        $bibl_upload_handler = new ilObjBibliographicUploadHandlerGUI($rid);
+
+        $max_filesize_bytes = ilFileUtils::getUploadSizeLimitBytes();
+        $max_filesize_mb = round($max_filesize_bytes / 1024 / 1024, 1);
+        $info_file_limitations = $this->lng->txt('file_notice') . " " . number_format($max_filesize_mb, 1) . " MB <br>"
+            . $this->lng->txt('file_allowed_suffixes') . " .bib, .bibtex, .ris";
+        $section_replace_bibliographic_file = $this->ui_factory->input()->field()->section(
+            [
+                self::PROP_BIBLIOGRAPHIC_FILE => $this->ui_factory->input()->field()->file(
+                    $bibl_upload_handler,
+                    $this->lng->txt('bibliography_file'),
+                    $info_file_limitations
+                )->withMaxFileSize($max_filesize_bytes)
+                 ->withRequired(true)
+                 ->withAdditionalTransformation(
+                     $this->getValidBiblFileSuffixConstraint()
+                 )
+            ],
+            $this->lng->txt('replace_bibliography_file'),
+            $this->lng->txt('replace_bibliography_file_info')
+        );
+
+        return $this->ui_factory->input()->container()->form()->standard(
+            $this->ctrl->getFormAction($this, self::CMD_REPLACE_BIBLIOGRAPHIC_FILE),
+            [
+                self::SECTION_REPLACE_BIBLIOGRAPHIC_FILE => $section_replace_bibliographic_file
+            ]
+        );
+    }
+
+    protected function getValidBiblFileSuffixConstraint(): \ILIAS\Refinery\Constraint
+    {
+        return $this->refinery->custom()->constraint(
+            function ($bibl_file_input): bool {
+                global $DIC;
+                $rid = $bibl_file_input[0];
+                $resource_identifier = $DIC->resourceStorage()->manage()->find($rid);
+                if ($resource_identifier !== null) {
+                    $bibl_file = $DIC->resourceStorage()->manage()->getCurrentRevision($resource_identifier);
+                    $bibl_file_suffix = $bibl_file->getInformation()->getSuffix();
+                    if (in_array($bibl_file_suffix, ['ris', 'bib', 'bibtex'])) {
+                        return true;
+                    }
+                }
+                return false;
+            },
+            $this->lng->txt('msg_error_invalid_bibl_file_suffix')
+        );
     }
 
     /**
@@ -396,72 +547,61 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
      */
     public function editObject(): void
     {
-        $tpl = $this->tpl;
-        $ilTabs = $this->tabs_gui;
-        $ilErr = $this->error;
-
         if (!$this->checkPermissionBool("write")) {
-            $ilErr->raiseError($this->lng->txt("msg_no_perm_write"), $ilErr->MESSAGE);
+            $this->error->raiseError($this->lng->txt("msg_no_perm_write"), $this->error->MESSAGE);
         }
 
-        $ilTabs->activateTab("settings");
-
-        $form = $this->initEditForm();
-        $values = $this->getEditFormValues();
-        if ($values !== []) {
-            $form->setValuesByArray($values, true);
-        }
-
-        $this->addExternalEditFormCustom($form);
-
-        $tpl->setContent($form->getHTML());
+        $this->tabs_gui->activateTab("settings");
+        $form = $this->getSettingsForm();
+        $this->tpl->setContent($this->ui()->renderer()->render($form));
     }
 
-    public function initEditForm(): \ilPropertyFormGUI
+    public function getSettingsForm(): Standard
     {
-        global $DIC;
+        $field_factory = $this->ui_factory->input()->field();
 
-        $form = parent::initEditForm();
-        // Add File-Upload
-        $in_file = new ilFileInputGUI(
-            $DIC->language()
-                ->txt("bibliography_file"),
-            "bibliographic_file"
+        $section_edit_bibliography = $field_factory->section(
+            [
+                self::PROP_TITLE_AND_DESC => $this->object->getObjectProperties()->getPropertyTitleAndDescription()->toForm(
+                    $this->lng,
+                    $field_factory,
+                    $this->refinery
+                )
+            ],
+            $this->lng->txt('bibl_edit'),
+            ''
         );
-        $in_file->setSuffixes(array("ris", "bib", "bibtex"));
-        $in_file->setRequired(false);
-        $cb_override = new ilCheckboxInputGUI(
-            $DIC->language()
-                ->txt("override_entries"),
-            "override_entries"
+        $section_availability = $field_factory->section(
+            [
+                self::PROP_ONLINE_STATUS => $this->object->getObjectProperties()->getPropertyIsOnline()->toForm(
+                    $this->lng,
+                    $field_factory,
+                    $this->refinery
+                )
+            ],
+            $this->lng->txt('rep_activation_availability'),
+            ''
         );
-        $cb_override->addSubItem($in_file);
+        $section_presentation = $field_factory->section(
+            [
+                self::PROP_TILE_IMAGE => $this->object->getObjectProperties()->getPropertyTileImage()->toForm(
+                    $this->lng,
+                    $field_factory,
+                    $this->refinery
+                )
+            ],
+            $this->lng->txt('settings_presentation_header'),
+            ''
+        );
 
-        $form->addItem($cb_override);
-
-        $section_appearance = new ilFormSectionHeaderGUI();
-        $section_appearance->setTitle($this->lng->txt('cont_presentation'));
-        $form->addItem($section_appearance);
-        $DIC->object()->commonSettings()->legacyForm($form, $this->object)->addTileImage();
-
-        $form->setFormAction($DIC->ctrl()->getFormAction($this, "save"));
-
-        return $form;
-    }
-
-    protected function initEditCustomForm(ilPropertyFormGUI $a_form): void
-    {
-        global $DIC;
-
-        $DIC->tabs()->activateTab(self::SUBTAB_SETTINGS);
-        // is_online
-        $cb = new ilCheckboxInputGUI($DIC->language()->txt("online"), "is_online");
-        $a_form->addItem($cb);
-    }
-
-    public function getEditFormCustomValues(array &$values): void
-    {
-        $values["is_online"] = $this->object->getOnline();
+        return $this->ui_factory->input()->container()->form()->standard(
+            $this->ctrl->getFormAction($this, self::CMD_UPDATE_OBJECT),
+            [
+                self::SECTION_EDIT_BIBLIOGRAPHY => $section_edit_bibliography,
+                self::SECTION_AVAILABILITY => $section_availability,
+                self::SECTION_PRESENTATION => $section_presentation
+            ]
+        );
     }
 
     public function render(): void
@@ -478,7 +618,7 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 
         // if user has read permission and object is online OR user has write permissions
         $read_access = $DIC->access()->checkAccess('read', "", $this->object->getRefId());
-        $online = $this->object->getOnline();
+        $online = $this->object->getObjectProperties()->getPropertyIsOnline()->getIsOnline();
         $write_access = $DIC->access()->checkAccess('write', "", $this->object->getRefId());
         if (($read_access && $online) || $write_access) {
             $DIC->tabs()->activateTab(self::TAB_CONTENT);
@@ -488,6 +628,12 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
                 $this->ctrl()->getLinkTargetByClass(self::class, self::CMD_SEND_FILE)
             );
             $this->toolbar->addComponent($btn_download_original_file);
+
+            $btn_overwrite_bibliographic_file = $this->ui()->factory()->button()->standard(
+                $this->lng->txt('replace_bibliography_file'),
+                $this->ctrl()->getLinkTargetByClass(self::class, self::CMD_OVERWRITE_BIBLIOGRAPHIC_FILE)
+            );
+            $this->toolbar->addComponent($btn_overwrite_bibliographic_file);
 
             $table = new ilBiblEntryTableGUI($this, $this->facade, $this->ui());
             $html = $table->getHTML();
@@ -572,28 +718,6 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
     public function view(): void
     {
         $this->showContent();
-    }
-
-    /**
-     * updateSettings
-     */
-    public function updateCustom(ilPropertyFormGUI $a_form): void
-    {
-        global $DIC;
-
-        if ($DIC->access()->checkAccess('write', "", $this->object->getRefId())) {
-            if ($this->object->getOnline() != $a_form->getInput("is_online")) {
-                $this->object->setOnline($a_form->getInput("is_online"));
-            }
-
-            if (!empty($_FILES['bibliographic_file']['name'])) {
-                $this->addNews($this->object->getId(), 'updated');
-            }
-
-            $DIC->object()->commonSettings()->legacyForm($a_form, $this->object)->saveTileImage();
-        } else {
-            $this->handleNonAccess();
-        }
     }
 
     public function toggleNotification(): void
