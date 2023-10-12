@@ -392,8 +392,9 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
                 break;
 
             case "ilobjtaxonomygui":
-
-                require_once 'Modules/TestQuestionPool/classes/class.ilObjQuestionPoolTaxonomyEditingCommandForwarder.php';
+                if (!$ilAccess->checkAccess('write', '', $this->object->getRefId())) {
+                    $this->redirectAfterMissingWrite();
+                }
                 $forwarder = new ilObjQuestionPoolTaxonomyEditingCommandForwarder(
                     $this->object,
                     $ilDB,
