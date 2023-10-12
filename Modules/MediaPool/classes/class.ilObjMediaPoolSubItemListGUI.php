@@ -69,8 +69,17 @@ class ilObjMediaPoolSubItemListGUI extends ilSubItemListGUI
                     $this->tpl->setVariable('TARGET', $this->getItemListGUI()->getCommandFrame(''));
                     break;
                 
-                default:
-
+                case 'pg':
+                    $pool = new ilObjMediaPool($this->getRefId());
+                    $parent_id = $pool->getParentId($sub_item);
+                    if ($parent_id !== '') {
+                        $this->tpl->setVariable('LINK', ilLink::_getLink($this->getRefId(), 'mep', [], '_' . $parent_id));
+                        $this->tpl->setVariable('TARGET', $this->getItemListGUI()->getCommandFrame(''));
+                    } else {
+                        $this->tpl->setVariable('LINK', ilLink::_getLink($this->getRefId(), 'mep', []));
+                        $this->tpl->setVariable('TARGET', $this->getItemListGUI()->getCommandFrame(''));
+                    }
+                    break;
             }
             
             
