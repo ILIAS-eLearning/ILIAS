@@ -22,6 +22,8 @@ namespace ILIAS\ResourceStorage\Consumer;
 
 use ILIAS\ResourceStorage\Flavour\Flavour;
 use ILIAS\ResourceStorage\Revision\Revision;
+use ILIAS\FileDelivery\Services;
+use ILIAS\FileDelivery\Delivery\Disposition;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
@@ -29,6 +31,12 @@ use ILIAS\ResourceStorage\Revision\Revision;
  */
 class InlineSrcBuilder implements SrcBuilder
 {
+    public function __construct(
+        private Services $file_delivery
+    ) {
+
+    }
+
     public function getRevisionURL(
         Revision $revision,
         bool $signed = true
@@ -36,13 +44,23 @@ class InlineSrcBuilder implements SrcBuilder
         if ($signed) {
             throw new \RuntimeException('InlineSrcBuilder does not support signed URLs');
         }
-        $token = $revision->maybeGetToken();
-        if ($token !== null) {
-            $stream = $token->resolveStream();
-            $base64 = base64_encode((string)$stream);
-            $mime = $stream->getMimeType();
+        $sream_resolver = $revision->maybeStreamResolver();
+        if ($sream_resolver !== null) {
+            $stream = $sream_resolver->getStream();
+            if($sream_resolver->isInMemory()) {
+                $base64 = base64_encode((string)$stream);
+                $mime = $stream->getMimeType();
 
-            return "data:$mime;base64,$base64";
+                return "data:$mime;base64,$base64";
+            }
+
+            $this->file_delivery->buildTokenURL(
+                $stream,
+                $revision->getTitle(),
+                Disposition::INLINE,
+                6, // FSX TODO
+                1
+            );
         }
         return '';
     }

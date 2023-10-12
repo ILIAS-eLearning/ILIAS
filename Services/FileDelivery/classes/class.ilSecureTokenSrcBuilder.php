@@ -23,42 +23,44 @@ use ILIAS\ResourceStorage\Consumer\SrcBuilder;
 use ILIAS\ResourceStorage\Flavour\Flavour;
 use ILIAS\ResourceStorage\Revision\Revision;
 use ILIAS\ResourceStorage\StorageHandler\StorageHandler;
+use ILIAS\FileDelivery\Delivery\Disposition;
+use ILIAS\FileDelivery\Services;
 
 /**
- * Class ilWACSrcBuilder
- *
  * @author Fabian Schmid <fabian@sr.solutions>
  */
-class ilWACSrcBuilder extends InlineSrcBuilder implements SrcBuilder
+class ilSecureTokenSrcBuilder implements SrcBuilder
 {
-    public const WAC_BASE_URL = './Services/WebAccessChecker/wac.php';
-
-    public function getResourceURL(Revision $revision, bool $signed = true): string
-    {
-        $access_key = $revision->maybeGetToken()->getAccessKey();
-
-        return $this->signURL($access_key, $signed);
+    public function __construct(
+        private Services $file_delivery,
+    ) {
     }
 
+    public function getRevisionURL(Revision $revision, bool $signed = true): string
+    {
+        // get stream from revision
+        $stream = $revision->maybeStreamResolver()?->getStream();
+
+        return (string) $this->file_delivery->buildTokenURL(
+            $stream,
+            $revision->getTitle(),
+            Disposition::INLINE,
+            $GLOBALS['ilUser']->getId() ?? 0,
+            1
+        );
+    }
 
     public function getFlavourURLs(Flavour $flavour, bool $signed = true): \Generator
     {
-        foreach ($flavour->getAccessTokens() as $index => $token) {
-            if ($token->hasInMemoryStream()) {
-                yield from parent::getFlavourURLs($flavour, $signed);
-            } else {
-                $access_key = $token->getAccessKey();
-                yield $this->signURL($access_key, $signed);
-            }
+        foreach ($flavour->getStreamResolvers() as $stream_resolver) {
+            yield (string) $this->file_delivery->buildTokenURL(
+                $stream_resolver->getStream(),
+                '',
+                Disposition::INLINE,
+                $GLOBALS['ilUser']->getId() ?? 0,
+                1
+            );
         }
     }
 
-    protected function signURL(string $access_key, bool $sign): string
-    {
-        $url = "./data/" . CLIENT_NAME . "/sec/rs/" . $access_key;
-        if ($sign === false) {
-            return $url;
-        }
-        return ilWACSignedPath::signFile($url);
-    }
 }

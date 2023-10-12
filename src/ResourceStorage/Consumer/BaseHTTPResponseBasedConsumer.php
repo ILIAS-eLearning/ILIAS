@@ -74,7 +74,7 @@ abstract class BaseHTTPResponseBasedConsumer extends BaseConsumer implements Del
         );
         $revision = $this->stream_access->populateRevision($revision);
 
-        $response = $response->withBody($revision->maybeGetToken()->resolveStream());
+        $response = $response->withBody($revision->maybeStreamResolver()?->getStream());
 
         $this->http->saveResponse($response);
         $this->http->sendResponse();

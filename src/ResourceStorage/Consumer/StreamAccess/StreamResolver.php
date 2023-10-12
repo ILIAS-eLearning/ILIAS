@@ -20,18 +20,28 @@ declare(strict_types=1);
 
 namespace ILIAS\ResourceStorage\Consumer\StreamAccess;
 
+use ILIAS\Filesystem\Stream\FileStream;
+use ILIAS\ResourceStorage\Flavour\Flavour;
+use ILIAS\ResourceStorage\Revision\Revision;
+use ILIAS\ResourceStorage\StorageHandler\StorageHandlerFactory;
+
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
  * @internal
  */
-class UnlockKey
+class StreamResolver
 {
-    public function __serialize(): array
+    public function __construct(private FileStream $stream)
     {
-        return [];
     }
 
-    public function __unserialize(array $data): void
+    public function getStream(): FileStream
     {
+        return $this->stream;
+    }
+
+    public function isInMemory(): bool
+    {
+        return $this->stream->getMetadata('uri') === StreamAccess::PHP_MEMORY;
     }
 }

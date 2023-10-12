@@ -83,10 +83,14 @@ abstract class BaseDelivery
             date("D, j M Y H:i:s", strtotime('+5 days')) . " GMT"
         );
         $r = $r->withHeader(ResponseHeader::ETAG, md5($uri));
-        $r = $r->withHeader(
-            ResponseHeader::LAST_MODIFIED,
-            date("D, j M Y H:i:s", filemtime($uri) ?: time()) . " GMT"
-        );
+        try {
+            $r = $r->withHeader(
+                ResponseHeader::LAST_MODIFIED,
+                date("D, j M Y H:i:s", filemtime($uri) ?: time()) . " GMT"
+            );
+        } catch (\Throwable) {
+        }
+
         return $r;
     }
 }

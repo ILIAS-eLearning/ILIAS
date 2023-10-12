@@ -135,6 +135,7 @@ final class StreamDelivery extends BaseDelivery
             );
         } else { // handle subrequest, aka file in a ZIP
             $requested_zip = $payload->getUri();
+            $sub_request = urldecode($sub_request);
             $file_inside_zip_uri = "zip://$requested_zip#$sub_request";
             $file_inside_zip_stream = fopen($file_inside_zip_uri, 'rb');
 
@@ -147,7 +148,7 @@ final class StreamDelivery extends BaseDelivery
                 $file_inside_zip_uri,
                 $this->determineMimeType($file_inside_zip_uri),
                 basename($sub_request),
-                Disposition::INLINE
+                Disposition::INLINE // subrequests are always inline per default, browsers may change this to download
             );
 
             // we must use PHPResponseBuilder here, because the streams inside zips cant be delivered using XSendFile or others
