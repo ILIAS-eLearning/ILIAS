@@ -13588,6 +13588,7 @@ rbac#:#ecss_read#:#User can read general ECS settings
 rbac#:#ecss_visible#:#ECS settings are visible
 rbac#:#ecss_write#:#User can edit ECS settings
 rbac#:#edit_event#:#Edit Calendar
+rbac#:#edit_file#:#Edit File
 rbac#:#edit_in_online_editor#:#Open in online editor
 rbac#:#edit_learning_progress#:#Edit Learning Progress Settings
 rbac#:#edit_members#:#Manage members
@@ -13626,6 +13627,7 @@ rbac#:#feed_read#:#User can read content of web feed
 rbac#:#feed_write#:#User can edit web feed settings
 rbac#:#file_copy#:#User can copy file
 rbac#:#file_delete#:#User can move or delete file
+rbac#:#file_edit_file#:#Allow to edit the file in an external editor, if available
 rbac#:#file_edit_learning_progress#:#User can edit learning progress settings
 rbac#:#file_edit_permission#:#User can change permission settings
 rbac#:#file_read#:#User can download file

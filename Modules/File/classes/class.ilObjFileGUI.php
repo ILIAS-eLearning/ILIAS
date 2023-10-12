@@ -228,6 +228,33 @@ class ilObjFileGUI extends ilObject2GUI
             case strtolower(ilObjFileUploadHandlerGUI::class):
                 $this->ctrl->forwardCommand(new ilObjFileUploadHandlerGUI());
                 break;
+            case strtolower(ilWOPIEmbeddedApplicationGUI::class):
+                if (!$this->checkPermissionBool("edit_file")) {
+                    $this->error->raiseError($this->lng->txt("permission_denied"), $this->error->MESSAGE);
+                    return;
+                }
+                $action = $this->action_repo->getActionForSuffix(
+                    $this->object->getFileExtension()
+                );
+                if (null === $action) {
+                    $this->error->raiseError($this->lng->txt("no_action_avaliable"), $this->error->MESSAGE);
+                    return;
+                }
+
+                $embeded_application = new EmbeddedApplication(
+                    $this->storage->manage()->find($this->object->getResourceId()),
+                    $action,
+                    $this->stakeholder,
+                    new URI(ilLink::_getLink($this->object->getRefId()))
+                );
+
+
+                $this->ctrl->forwardCommand(
+                    new ilWOPIEmbeddedApplicationGUI(
+                        $embeded_application
+                    )
+                );
+                break;
 
             default:
                 // in personal workspace use object2gui

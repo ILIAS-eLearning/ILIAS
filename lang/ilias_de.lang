@@ -13597,6 +13597,7 @@ rbac#:#ecss_read#:#Lesezugriff auf Einstellungen der ECS-Administration
 rbac#:#ecss_visible#:#ECS-Administration ist sichtbar
 rbac#:#ecss_write#:#Einstellungen der ECS-Administration bearbeiten
 rbac#:#edit_event#:#Kalender bearbeiten
+rbac#:#edit_file#:#Datei bearbeiten
 rbac#:#edit_in_online_editor#:#In Online-Editor bearbeiten
 rbac#:#edit_learning_progress#:#Lernfortschrittseinstellungen bearbeiten
 rbac#:#edit_members#:#Teilnehmer bearbeiten
@@ -13635,6 +13636,7 @@ rbac#:#feed_read#:#Inhalt des Webfeeds lesen
 rbac#:#feed_write#:#Einstellungen des Webfeeds bearbeiten
 rbac#:#file_copy#:#Datei kopieren
 rbac#:#file_delete#:#Datei verschieben oder löschen
+rbac#:#file_edit_file#:#Bearbeitung in einem externen Editor erlauben, sofern vorhanden
 rbac#:#file_edit_learning_progress#:#Benutzer kann Lernfortschrittseinstellungen bearbeiten
 rbac#:#file_edit_permission#:#Rechteeinstellungen ändern
 rbac#:#file_read#:#Datei herunterladen
