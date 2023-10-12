@@ -74,8 +74,6 @@ class ilObjUserFolderGUI extends ilObjectGUI
     private ilAppEventHandler $event;
     private Filesystem $filesystem;
     private FileUpload $upload;
-    private Renderer $ui_renderer;
-    private UIFactory $ui_factory;
 
     public function __construct(
         $a_data,
@@ -88,8 +86,6 @@ class ilObjUserFolderGUI extends ilObjectGUI
         $this->event = $DIC['ilAppEventHandler'];
         $this->filesystem = $DIC->filesystem()->storage();
         $this->upload = $DIC['upload'];
-        $this->ui_renderer = $DIC['ui.renderer'];
-        $this->ui_factory = $DIC['ui.factory'];
         $this->dic->upload();
 
         $this->type = 'usrf';

@@ -38,8 +38,6 @@ class ilObjUserGUI extends ilObjectGUI
     private ilHelpGUI $help;
     private ilTabsGUI $tabs;
     private ilMailMimeSenderFactory $mail_sender_factory;
-    private UIFactory $ui_factory;
-    private Renderer $ui_renderer;
 
     private FileUpload $uploads;
     private ResourceStorageServices $irss;
@@ -66,9 +64,7 @@ class ilObjUserGUI extends ilObjectGUI
         $a_data,
         int $a_id,
         bool $a_call_by_reference = false,
-        bool $a_prepare_output = true,
-        UIFactory $ui_factory = null,
-        Renderer $ui_renderer = null
+        bool $a_prepare_output = true
     ) {
         /** @var ILIAS\DI\Container $DIC */
         global $DIC;
@@ -78,16 +74,6 @@ class ilObjUserGUI extends ilObjectGUI
         $this->mail_sender_factory = $DIC->mail()->mime()->senderFactory();
 
         $this->user_profile = new ilUserProfile();
-
-        if ($ui_factory === null) {
-            $ui_factory = $DIC['ui.factory'];
-        }
-        $this->ui_factory = $ui_factory;
-
-        if ($ui_renderer === null) {
-            $ui_renderer = $DIC['ui.renderer'];
-        }
-        $this->ui_renderer = $ui_renderer;
 
         $this->default_layout_and_style = $DIC['ilClientIniFile']->readVariable('layout', 'skin') .
                 ':' . $DIC['ilClientIniFile']->readVariable('layout', 'style');
