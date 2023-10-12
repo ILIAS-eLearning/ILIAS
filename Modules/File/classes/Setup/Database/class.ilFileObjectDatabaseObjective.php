@@ -207,6 +207,18 @@ class ilFileObjectDatabaseObjective implements ilDatabaseUpdateSteps
     }
 
     /**
+     * This step sets all files which were created before the "centralizing online/offline status" feature to online.
+     *
+     * It will update the offline value in the table object_data of each object of type file whose offline value currently is null
+     * (as this was not set for files before the feature) to 0 (online), which is the new default online status for files.
+     */
+    public function step_7(): void
+    {
+        $query = "UPDATE `object_data` SET `offline` = 0 WHERE `type` = \"file\" AND `offline` IS NULL";
+        $this->database->manipulate($query);
+    }
+
+    /**
      * Halts the execution of these update steps if no database was
      * provided.
      * @throws LogicException if the database update steps were not

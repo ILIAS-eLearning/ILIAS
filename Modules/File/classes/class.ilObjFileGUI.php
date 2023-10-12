@@ -529,6 +529,8 @@ class ilObjFileGUI extends ilObject2GUI
         $this->object->setOnclickMode((int) $inputs['file_info']['on_click_action']);
         $this->object->update();
 
+        $this->object->getObjectProperties()->storePropertyIsOnline($inputs['availability']['online_status']);
+
         $this->object->getObjectProperties()->storePropertyTileImage($inputs['presentation']['tile_image']);
 
         // BEGIN ChangeEvent: Record update event.
@@ -617,6 +619,18 @@ class ilObjFileGUI extends ilObject2GUI
             $this->lng->txt('file_info')
         );
 
+
+        $online_status = $this->object->getObjectProperties()->getPropertyIsOnline()->toForm(
+            $this->lng,
+            $this->ui->factory()->input()->field(),
+            $this->refinery
+        );
+        $availability_section = $this->inputs->field()->section(
+            ["online_status" => $online_status],
+            $this->lng->txt('rep_activation_availability')
+        );
+
+
         $tile_image = $this->object->getObjectProperties()->getPropertyTileImage()->toForm(
             $this->lng,
             $this->ui->factory()->input()->field(),
@@ -631,6 +645,7 @@ class ilObjFileGUI extends ilObject2GUI
             $this->ctrl->getLinkTargetByClass(self::class, 'update'),
             [
                 "file_info" => $file_info_section,
+                "availability" => $availability_section,
                 "presentation" => $presentation_section
             ]
         );
