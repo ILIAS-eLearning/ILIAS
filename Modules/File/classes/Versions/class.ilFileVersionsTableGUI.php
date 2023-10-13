@@ -19,6 +19,7 @@
 use ILIAS\DI\Container;
 use ILIAS\UI\Component\Modal\Modal;
 use ILIAS\Data\DataSize;
+use ILIAS\ResourceStorage\Revision\RevisionStatus;
 
 /**
  * Class ilFileVersionsTableGUI
@@ -29,6 +30,8 @@ class ilFileVersionsTableGUI extends ilTable2GUI
     private Container $dic;
     private int $current_version;
     private \ilObjFile $file;
+    private \ILIAS\ResourceStorage\Services $irss;
+    private bool $current_version_is_draft;
     protected \ILIAS\DI\UIServices $ui;
     protected bool $has_been_migrated = false;
 
@@ -47,10 +50,18 @@ class ilFileVersionsTableGUI extends ilTable2GUI
         global $DIC;
         $this->dic = $DIC;
         $this->ui = $DIC->ui();
+        $this->irss = $DIC->resourceStorage();
         $this->setId(self::class);
         parent::__construct($calling_gui_class, $a_parent_cmd, "");
         $this->file = $calling_gui_class->getFile();
-        $this->current_version = $this->file->getVersion();
+        $this->current_version = $this->file->getVersion(true);
+        $revision = $this->irss->manage()->getCurrentRevisionIncludingDraft(
+            $this->irss->manage()->find(
+                $this->file->getResourceId()
+            )
+        );
+
+        $this->current_version_is_draft = $revision->getStatus() === RevisionStatus::DRAFT;
 
         // General
         $this->setPrefix("versions");
@@ -154,12 +165,20 @@ class ilFileVersionsTableGUI extends ilTable2GUI
             $pseudo_modal->getShowSignal()
         );
         $this->modals[] = $pseudo_modal;
-        if ($this->current_version !== (int) $version) {
-            $action_entries['file_rollback'] = $this->dic->ui()->factory()->button()->shy(
-                $this->dic->language()->txt("file_rollback"),
-                $this->dic->ctrl()->getLinkTarget($this->parent_obj, ilFileVersionsGUI::CMD_ROLLBACK_VERSION)
-            );
+        if(!$this->current_version_is_draft) {
+            if ($this->current_version !== (int) $version) {
+                $action_entries['file_rollback'] = $this->dic->ui()->factory()->button()->shy(
+                    $this->dic->language()->txt("file_rollback"),
+                    $this->dic->ctrl()->getLinkTarget($this->parent_obj, ilFileVersionsGUI::CMD_ROLLBACK_VERSION)
+                );
+            } else {
+                $action_entries['unpublish'] = $this->dic->ui()->factory()->button()->shy(
+                    $this->dic->language()->txt("file_unpublish"),
+                    $this->dic->ctrl()->getLinkTarget($this->parent_obj, ilFileVersionsGUI::CMD_UNPUBLISH)
+                );
+            }
         }
+
         $actions = $this->dic->ui()->renderer()->render(
             $this->dic->ui()->factory()->dropdown()->standard($action_entries)->withLabel("Actions")
         );

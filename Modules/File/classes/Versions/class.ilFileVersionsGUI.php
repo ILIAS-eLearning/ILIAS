@@ -22,6 +22,7 @@ use ILIAS\ResourceStorage\Revision\Revision;
 use ILIAS\UI\Component\Input\Container\Form\Form;
 use ILIAS\UI\Implementation\Component\Modal\Interruptive;
 use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\ResourceStorage\Revision\RevisionStatus;
 
 /**
  * Class ilFileVersionsGUI
@@ -54,6 +55,8 @@ class ilFileVersionsGUI
     public const CMD_UNZIP_CURRENT_REVISION = 'unzipCurrentRevision';
     public const CMD_PROCESS_UNZIP = 'processUnzip';
     public const CMD_RENDER_DELETE_SELECTED_VERSIONS_MODAL = 'renderDeleteSelectedVersionsModal';
+    public const CMD_PUBLISH = 'publish';
+    public const CMD_UNPUBLISH = 'unpublish';
 
     private ilToolbarGUI $toolbar;
     private \ILIAS\ResourceStorage\Services $storage;
@@ -148,6 +151,12 @@ class ilFileVersionsGUI
             case self::CMD_RENDER_DELETE_SELECTED_VERSIONS_MODAL:
                 $this->renderDeleteSelectedVersionsModal();
                 break;
+            case self::CMD_PUBLISH:
+                $this->publish();
+                break;
+            case self::CMD_UNPUBLISH:
+                $this->unpublish();
+                break;
         }
     }
 
@@ -194,6 +203,20 @@ class ilFileVersionsGUI
         );
     }
 
+    private function publish(): void
+    {
+        $this->storage->manage()->publish($this->getIdentification());
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_obj_modified'), true);
+        $this->ctrl->redirect($this, self::CMD_DEFAULT);
+    }
+
+    private function unpublish(): void
+    {
+        $this->storage->manage()->unpublish($this->getIdentification());
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_obj_modified'), true);
+        $this->ctrl->redirect($this, self::CMD_DEFAULT);
+    }
+
     private function processUnzip(): void
     {
         $form = $this->getFileZipOptionsForm()->withRequest($this->http->request());
@@ -235,19 +258,26 @@ class ilFileVersionsGUI
     private function index(): void
     {
         // Buttons
+        $current_file_revision = $this->getCurrentFileRevision();
+        $status = $current_file_revision?->getStatus();
+
         $btn_add_version = $this->ui->factory()->button()->standard(
             $this->lng->txt('file_new_version'),
             $this->ctrl->getLinkTarget($this, self::CMD_ADD_NEW_VERSION)
         );
+        if ($status === RevisionStatus::DRAFT) {
+            $btn_add_version = $btn_add_version->withUnavailableAction();
+        }
         $this->toolbar->addComponent($btn_add_version);
 
         $btn_replace_version = $this->ui->factory()->button()->standard(
             $this->lng->txt('replace_file'),
             $this->ctrl->getLinkTarget($this, self::CMD_ADD_REPLACING_VERSION)
         );
+        if ($status === RevisionStatus::DRAFT) {
+            $btn_replace_version = $btn_replace_version->withUnavailableAction();
+        }
         $this->toolbar->addComponent($btn_replace_version);
-
-        $current_file_revision = $this->getCurrentFileRevision();
 
         // only add unzip button if the current revision is a zip.
         if (null !== $current_file_revision &&
@@ -258,6 +288,21 @@ class ilFileVersionsGUI
                 $this->ctrl->getLinkTarget($this, self::CMD_UNZIP_CURRENT_REVISION)
             );
             $this->toolbar->addComponent($btn_unzip);
+        }
+
+        // Editor
+        $suffix = $current_file_revision?->getInformation()?->getSuffix();
+
+
+        // Publish
+        if ($status === RevisionStatus::DRAFT) {
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('file_version_draft_info'));
+
+            $btn_publish = $this->ui->factory()->button()->standard(
+                $this->lng->txt('file_publish'),
+                $this->ctrl->getLinkTarget($this, self::CMD_PUBLISH)
+            );
+            $this->toolbar->addComponent($btn_publish);
         }
 
         $table = new ilFileVersionsTableGUI($this, self::CMD_DEFAULT);
@@ -615,11 +660,16 @@ class ilFileVersionsGUI
         );
     }
 
+    private function getIdentification(): ?\ILIAS\ResourceStorage\Identification\ResourceIdentification
+    {
+        return $this->storage->manage()->find($this->file->getResourceId());
+    }
+
     private function getCurrentFileRevision(): ?Revision
     {
-        $file_rid = $this->storage->manage()->find($this->file->getResourceId());
+        $file_rid = $this->getIdentification();
         if (null !== $file_rid) {
-            return $this->storage->manage()->getCurrentRevision($file_rid);
+            return $this->storage->manage()->getCurrentRevisionIncludingDraft($file_rid);
         }
 
         return null;

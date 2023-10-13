@@ -19,6 +19,7 @@
 use ILIAS\ResourceStorage\Resource\StorableResource;
 use ILIAS\ResourceStorage\Services;
 use ILIAS\Modules\File\Settings\General;
+use ILIAS\ResourceStorage\Revision\RevisionStatus;
 
 /**
  * Class ilObjFileImplementationStorage
@@ -144,7 +145,7 @@ class ilObjFileImplementationStorage extends ilObjFileImplementationAbstract imp
     public function getVersions(?array $version_ids = null): array
     {
         $versions = [];
-        foreach ($this->resource->getAllRevisions() as $revision) {
+        foreach ($this->resource->getAllRevisionsIncludingDraft() as $revision) {
             if (is_array($version_ids) && !in_array($revision->getVersionNumber(), $version_ids)) {
                 continue;
             }
@@ -153,7 +154,11 @@ class ilObjFileImplementationStorage extends ilObjFileImplementationAbstract imp
             $v->setVersion($revision->getVersionNumber());
             $v->setHistEntryId($revision->getVersionNumber());
             $v->setFilename($information->getTitle());
-            $v->setAction($revision->getVersionNumber() === 1 ? 'create' : 'new_version');
+            if ($revision->getStatus() === RevisionStatus::DRAFT) {
+                $v->setAction('draft');
+            } else {
+                $v->setAction($revision->getVersionNumber() === 1 ? 'create' : 'new_version');
+            }
             $v->setTitle($revision->getTitle());
             $v->setDate($information->getCreationDate()->format(DATE_ATOM));
             $v->setUserId($revision->getOwnerId() !== 0 ? $revision->getOwnerId() : 6);
@@ -170,13 +175,16 @@ class ilObjFileImplementationStorage extends ilObjFileImplementationAbstract imp
         return $this->resource->getStorageID();
     }
 
-    public function getVersion(): int
+    public function getVersion(bool $inclduing_drafts = false): int
     {
+        if ($inclduing_drafts) {
+            return $this->resource->getCurrentRevisionIncludingDraft()->getVersionNumber();
+        }
         return $this->resource->getCurrentRevision()->getVersionNumber();
     }
 
     public function getMaxVersion(): int
     {
-        return $this->resource->getMaxRevision();
+        return $this->resource->getMaxRevision(false);
     }
 }

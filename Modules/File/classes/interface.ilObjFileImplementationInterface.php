@@ -47,7 +47,7 @@ interface ilObjFileImplementationInterface
      */
     public function getFile(?int $a_hist_entry_id = null): string;
 
-    public function getVersion(): int;
+    public function getVersion(bool $inclduing_drafts = false): int;
 
     public function getMaxVersion(): int;
 
