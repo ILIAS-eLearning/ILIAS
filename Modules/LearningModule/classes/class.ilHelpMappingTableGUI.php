@@ -23,6 +23,7 @@
  */
 class ilHelpMappingTableGUI extends ilTable2GUI
 {
+    protected \ILIAS\Help\Map\MapManager $help_map;
     protected bool $validation;
     protected ilAccessHandler $access;
     public bool $online_help_mode = false;

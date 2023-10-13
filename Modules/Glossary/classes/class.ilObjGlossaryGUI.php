@@ -27,6 +27,7 @@
  */
 class ilObjGlossaryGUI extends ilObjectGUI implements \ILIAS\Taxonomy\Settings\ModifierGUIInterface
 {
+    protected \ILIAS\GlobalScreen\Services $global_screen;
     protected ?\ILIAS\Glossary\Taxonomy\TaxonomyManager $tax_manager = null;
     protected \ILIAS\Glossary\InternalDomainService $domain;
     protected \ILIAS\Glossary\InternalGUIService $gui;

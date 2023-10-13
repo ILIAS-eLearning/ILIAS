@@ -27,6 +27,14 @@ use ILIAS\UI\URLBuilderToken;
 
 class ilMediaCastManageTableGUI implements Table\DataRetrieval
 {
+    protected $parent_obj;
+    protected ilTemplate $tpl;
+    protected URLBuilder $url_builder;
+    protected \ILIAS\HTTP\Services $http;
+    protected \ILIAS\Data\Factory $df;
+    protected string $parent_cmd;
+    protected ilLanguage $lng;
+    protected ilCtrlInterface $ctrl;
     protected bool $preview;
     protected bool $playtime;
     protected ?ilObjMediaCast $mediacast;

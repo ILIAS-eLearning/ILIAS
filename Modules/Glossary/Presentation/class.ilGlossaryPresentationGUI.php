@@ -25,6 +25,7 @@ use ILIAS\Glossary\Presentation;
  */
 class ilGlossaryPresentationGUI implements ilCtrlBaseClassInterface
 {
+    protected \ILIAS\Glossary\Taxonomy\TaxonomyManager $tax_manager;
     protected \ILIAS\COPage\Xsl\XslManager $xsl;
     protected \ILIAS\GlobalScreen\Services $global_screen;
     protected \ILIAS\Glossary\InternalGUIService $gui;

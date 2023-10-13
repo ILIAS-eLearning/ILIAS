@@ -24,6 +24,7 @@ use ILIAS\Taxonomy\DomainService;
 
 class TaxonomyManager
 {
+    protected DomainService $tax_domain;
     protected \ilObjGlossary $glossary;
 
     public function __construct(
