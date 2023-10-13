@@ -18,11 +18,10 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\MetaData\Repository\Utilities;
+namespace ILIAS\MetaData\Repository\Utilities\Queries\Assignments;
 
 enum Action: string
 {
-    case READ = 'read';
     case CREATE = 'create';
     case UPDATE = 'update';
     case DELETE = 'delete';

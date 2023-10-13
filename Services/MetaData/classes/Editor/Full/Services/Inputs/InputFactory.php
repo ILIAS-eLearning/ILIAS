@@ -127,7 +127,7 @@ class InputFactory
              * If a data element can't be created, it needs to be excluded
              * from checking whether at least one input field is not empty.
              */
-            if ($this->db_dictionary->tagForElement($input_element)->create() === '') {
+            if (is_null($this->db_dictionary->tagForElement($input_element))) {
                 $exclude_required[] = $path_string;
             }
         }
@@ -189,14 +189,7 @@ class InputFactory
         string ...$excluded_input_keys
     ): Section|Group {
         $db_tag = $this->db_dictionary->tagForElement($context_element);
-        $needs_data = false;
-        foreach ($db_tag->expectedParameters() as $parameter) {
-            if ($parameter === ExpectedParameter::DATA) {
-                $needs_data = true;
-                break;
-            }
-        }
-        if ($db_tag->create() !== '' && !$needs_data) {
+        if (!is_null($db_tag) && !$db_tag->hasData()) {
             return $fields;
         }
         return $fields->withAdditionalTransformation(

@@ -29,11 +29,9 @@ use ILIAS\MetaData\Elements\Data\DataFactory;
 use ILIAS\MetaData\Repository\Utilities\DatabaseManipulator;
 use ILIAS\MetaData\Repository\Dictionary\LOMDictionaryInitiator as RepositoryDictionaryInitiator;
 use ILIAS\MetaData\Repository\Dictionary\DictionaryInterface as RepositoryDictionary;
-use ILIAS\MetaData\Repository\Dictionary\QueryProvider;
 use ILIAS\MetaData\Paths\Services\Services as PathServices;
 use ILIAS\MetaData\Structure\Services\Services as StructureServices;
 use ILIAS\MetaData\Repository\Dictionary\TagFactory as RepositoryTagFactory;
-use ILIAS\MetaData\Repository\Utilities\QueryExecutor;
 use ILIAS\MetaData\Repository\Utilities\DatabaseReader;
 use ILIAS\MetaData\Elements\Factory as ElementFactory;
 use ILIAS\MetaData\Repository\Validation\Cleaner;
@@ -45,6 +43,9 @@ use ILIAS\MetaData\Repository\Validation\Dictionary\DictionaryInterface as Valid
 use ILIAS\MetaData\Repository\Validation\Dictionary\TagFactory as ValidationTagFactory;
 use ILIAS\MetaData\Vocabularies\Services\Services as VocabulariesServices;
 use ILIAS\MetaData\DataHelper\Services\Services as DataHelperServices;
+use ILIAS\MetaData\Repository\Utilities\Queries\DatabaseQuerier;
+use ILIAS\MetaData\Repository\Utilities\Queries\Results\ResultFactory;
+use ILIAS\MetaData\Repository\Utilities\Queries\Assignments\AssignmentFactory;
 
 class Services
 {
@@ -91,10 +92,7 @@ class Services
             return $this->repository_dictionary;
         }
         return $this->repository_dictionary = (new RepositoryDictionaryInitiator(
-            new QueryProvider(
-                new RepositoryTagFactory(),
-                $this->dic->database()
-            ),
+            new RepositoryTagFactory(),
             $this->path_services->pathFactory(),
             $this->structure_services->structure()
         ))->get();
@@ -107,7 +105,8 @@ class Services
         }
         $logger = $this->dic->logger()->meta();
         $data_factory = new DataFactory();
-        $executor = new QueryExecutor(
+        $querier = new DatabaseQuerier(
+            new ResultFactory(),
             $this->dic->database(),
             $logger
         );
@@ -122,7 +121,8 @@ class Services
             ),
             new DatabaseManipulator(
                 $this->databaseDictionary(),
-                $executor,
+                $querier,
+                new AssignmentFactory(),
                 $logger
             ),
             new DatabaseReader(
@@ -130,7 +130,7 @@ class Services
                 $this->structure_services->structure(),
                 $this->databaseDictionary(),
                 $this->path_services->navigatorFactory(),
-                $executor,
+                $querier,
                 $logger
             ),
             new Cleaner(

@@ -18,52 +18,30 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\MetaData\Repository\Utilities;
+namespace ILIAS\MetaData\Repository\Utilities\Queries;
 
 use ILIAS\MetaData\Elements\RessourceID\RessourceIDInterface;
 use ILIAS\MetaData\Repository\Dictionary\TagInterface;
+use ILIAS\MetaData\Repository\Utilities\Queries\Results\RowInterface;
+use ILIAS\MetaData\Repository\Utilities\Queries\Assignments\AssignmentRowInterface;
 
-interface QueryExecutorInterface
+interface DatabaseQuerierInterface
 {
+    public function manipulate(
+        RessourceIDInterface $ressource_id,
+        AssignmentRowInterface $row
+    ): void;
+
     /**
-     * Keys are the ids
-     * @return string[]
+     * @return RowInterface[]
      */
     public function read(
-        TagInterface $tag,
         RessourceIDInterface $ressource_id,
-        int $super_id,
-        int ...$parent_ids
+        int $id_from_parent_table,
+        TagInterface ...$tags
     ): \Generator;
 
-    /**
-     * Returns ID of created element.
-     */
-    public function create(
-        TagInterface $tag,
-        RessourceIDInterface $ressource_id,
-        ?int $id,
-        string $data_value,
-        int $super_id,
-        int ...$parent_ids
-    ): int;
-
-    public function update(
-        TagInterface $tag,
-        RessourceIDInterface $ressource_id,
-        int $id,
-        string $data_value,
-        int $super_id,
-        int ...$parent_ids
-    ): void;
-
-    public function delete(
-        TagInterface $tag,
-        RessourceIDInterface $ressource_id,
-        int $id,
-        int $super_id,
-        int ...$parent_ids
-    ): void;
-
     public function deleteAll(RessourceIDInterface $ressource_id): void;
+
+    public function nextID(string $table): int;
 }

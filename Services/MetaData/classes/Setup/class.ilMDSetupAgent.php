@@ -40,6 +40,6 @@ class ilMDSetupAgent extends Setup\Agent\NullAgent
 
     public function getMigrations(): array
     {
-        return [new ilMDCopyrightMigration()];
+        return [new ilMDCopyrightMigration(), new ilMDLOMConformanceMigration()];
     }
 }

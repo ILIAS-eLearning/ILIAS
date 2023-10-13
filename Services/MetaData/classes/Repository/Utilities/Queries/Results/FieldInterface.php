@@ -18,22 +18,11 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\MetaData\Repository\Dictionary;
+namespace ILIAS\MetaData\Repository\Utilities\Queries\Results;
 
-class TagFactory
+interface FieldInterface
 {
-    public function containerWithRowInTable(string $table, string $parent = '')
-    {
-        return new Tag($table, true, '', $parent);
-    }
+    public function name(): string;
 
-    public function data(string $table, string $data_field, string $parent = '')
-    {
-        return new Tag($table, false, $data_field, $parent);
-    }
-
-    public function dataWithRowInTable(string $table, string $data_field, string $parent = '')
-    {
-        return new Tag($table, true, $data_field, $parent);
-    }
+    public function value(): string;
 }

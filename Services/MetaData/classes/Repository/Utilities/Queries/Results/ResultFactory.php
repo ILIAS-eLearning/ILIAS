@@ -18,10 +18,20 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\MetaData\Repository\Dictionary;
+namespace ILIAS\MetaData\Repository\Utilities\Queries\Results;
 
-enum ReturnedParameter: string
+class ResultFactory implements ResultFactoryInterface
 {
-    case MD_ID = 'md_id';
-    case DATA = 'md_data';
+    public function field(string $field, string $value): FieldInterface
+    {
+        return new Field($field, $value);
+    }
+
+    public function row(
+        int $id,
+        string $table,
+        FieldInterface ...$data
+    ): RowInterface {
+        return new Row($id, $table, ...$data);
+    }
 }

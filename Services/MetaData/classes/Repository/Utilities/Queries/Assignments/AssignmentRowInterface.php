@@ -18,22 +18,27 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\MetaData\Repository\Dictionary;
+namespace ILIAS\MetaData\Repository\Utilities\Queries\Assignments;
 
-class TagFactory
+interface AssignmentRowInterface
 {
-    public function containerWithRowInTable(string $table, string $parent = '')
-    {
-        return new Tag($table, true, '', $parent);
-    }
+    public function table(): string;
 
-    public function data(string $table, string $data_field, string $parent = '')
-    {
-        return new Tag($table, false, $data_field, $parent);
-    }
+    public function id(): int;
 
-    public function dataWithRowInTable(string $table, string $data_field, string $parent = '')
-    {
-        return new Tag($table, true, $data_field, $parent);
-    }
+    public function setId(int $id): void;
+
+    public function idFromParentTable(): int;
+
+    /**
+     * @return ActionAssignmentInterface[]
+     */
+    public function actions(): \Generator;
+
+    /**
+     * Note that this does **not** clone!
+     */
+    public function addAction(
+        ActionAssignmentInterface $assignment
+    ): void;
 }

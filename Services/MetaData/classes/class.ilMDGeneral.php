@@ -26,12 +26,28 @@ declare(strict_types=1);
  */
 class ilMDGeneral extends ilMDBase
 {
+    /**
+     * Compatibility fix for legacy MD classes for new db tables
+     */
+    private const STRUCTURE_TRANSLATION = [
+        'atomic' => 'Atomic',
+        'collection' => 'Collection',
+        'networked' => 'Networked',
+        'hierarchical' => 'Hierarchical',
+        'linear' => 'Linear'
+    ];
+
     protected ?ilMDLanguageItem $coverage_language = null;
 
     private string $coverage = '';
     private string $structure = '';
     private string $title = '';
     private ?ilMDLanguageItem $title_language = null;
+
+    /**
+     * Compatibility fix for legacy MD classes for new db tables
+     */
+    private int $coverage_id = 0;
 
     /**
      * @return array<string, string>
@@ -163,12 +179,12 @@ class ilMDGeneral extends ilMDBase
     // SET/GET
     public function setStructure(string $a_structure): bool
     {
-        switch (strtolower($a_structure)) {
-            case 'atomic':
-            case 'collection':
-            case 'networked':
-            case 'hierarchical':
-            case 'linear':
+        switch ($a_structure) {
+            case 'Atomic':
+            case 'Collection':
+            case 'Networked':
+            case 'Hierarchical':
+            case 'Linear':
                 $this->structure = $a_structure;
                 return true;
 
@@ -243,6 +259,7 @@ class ilMDGeneral extends ilMDBase
 
         if ($this->db->insert('il_meta_general', $fields)) {
             $this->setMetaId($next_id);
+            $this->createOrUpdateCoverage();
             return $this->getMetaId();
         }
         return 0;
@@ -250,7 +267,13 @@ class ilMDGeneral extends ilMDBase
 
     public function update(): bool
     {
-        return $this->getMetaId() && $this->db->update(
+        if (!$this->getMetaId()) {
+            return false;
+        }
+
+        $this->createOrUpdateCoverage();
+
+        return (bool) $this->db->update(
             'il_meta_general',
             $this->__getFields(),
             array("meta_general_id" => array('integer', $this->getMetaId()))
@@ -290,6 +313,8 @@ class ilMDGeneral extends ilMDBase
             $query = "DELETE FROM il_meta_general " .
                 "WHERE meta_general_id = " . $this->db->quote($this->getMetaId(), 'integer');
             $res = $this->db->manipulate($query);
+
+            $this->deleteAllCoverages();
             return true;
         }
 
@@ -301,15 +326,23 @@ class ilMDGeneral extends ilMDBase
      */
     public function __getFields(): array
     {
+        /**
+         * Compatibility fix for legacy MD classes for new db tables
+         */
+        $structure = (string) array_search(
+            $this->getStructure(),
+            self::STRUCTURE_TRANSLATION
+        );
+
         return array(
             'rbac_id' => array('integer', $this->getRBACId()),
             'obj_id' => array('integer', $this->getObjId()),
             'obj_type' => array('text', $this->getObjType()),
-            'general_structure' => array('text', $this->getStructure()),
+            'general_structure' => array('text', $structure),
             'title' => array('text', $this->getTitle()),
             'title_language' => array('text', $this->getTitleLanguageCode()),
-            'coverage' => array('text', $this->getCoverage()),
-            'coverage_language' => array('text', $this->getCoverageLanguageCode())
+            //'coverage' => array('text', $this->getCoverage()),
+            //'coverage_language' => array('text', $this->getCoverageLanguageCode())
         );
     }
 
@@ -321,15 +354,24 @@ class ilMDGeneral extends ilMDBase
 
             $res = $this->db->query($query);
             while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+                /**
+                 * Compatibility fix for legacy MD classes for new db tables
+                 */
+                if (key_exists($row->general_structure ?? '', self::STRUCTURE_TRANSLATION)) {
+                    $row->general_structure = self::STRUCTURE_TRANSLATION[$row->general_structure ?? ''];
+                }
+
                 $this->setRBACId((int) $row->rbac_id);
                 $this->setObjId((int) $row->obj_id);
                 $this->setObjType((string) $row->obj_type);
                 $this->setStructure((string) $row->general_structure);
                 $this->setTitle((string) $row->title);
                 $this->setTitleLanguage(new ilMDLanguageItem($row->title_language ?? ''));
-                $this->setCoverage((string) $row->coverage);
-                $this->setCoverageLanguage(new ilMDLanguageItem($row->coverage_language ?? ''));
+                //$this->setCoverage((string) $row->coverage);
+                //$this->setCoverageLanguage(new ilMDLanguageItem($row->coverage_language ?? ''));
             }
+
+            $this->readFirstCoverage();
         }
         return true;
     }
@@ -436,5 +478,99 @@ class ilMDGeneral extends ilMDBase
             return (int) $row->meta_general_id;
         }
         return 0;
+    }
+
+    /**
+     * Compatibility fix for legacy MD classes for new db tables
+     */
+    protected function createOrUpdateCoverage(): void
+    {
+        if ($this->getCoverage() === '' && $this->getCoverageLanguageCode() === '') {
+            return;
+        }
+
+        if (!$this->getCoverageId()) {
+            $this->db->insert(
+                'il_meta_coverage',
+                [
+                    'meta_coverage_id' => ['integer', $next_id = $this->db->nextId('il_meta_coverage')],
+                    'rbac_id' => ['integer', $this->getRBACId()],
+                    'obj_id' => ['integer', $this->getObjId()],
+                    'obj_type' => ['text', $this->getObjType()],
+                    'parent_type' => ['text', 'meta_general'],
+                    'parent_id' => ['integer', $this->getMetaId()],
+                    'coverage' => ['text', $this->getCoverage()],
+                    'coverage_language' => ['text', $this->getCoverageLanguageCode()]
+                ]
+            );
+            $this->coverage_id = $next_id;
+            return;
+        }
+
+        $this->db->update(
+            'il_meta_coverage',
+            [
+                'coverage' => ['text', $this->getCoverage()],
+                'coverage_language' => ['text', $this->getCoverageLanguageCode()]
+            ],
+            ['meta_coverage_id' => ['integer', $this->getCoverageId()]]
+        );
+    }
+
+    /**
+     * Compatibility fix for legacy MD classes for new db tables
+     */
+    protected function deleteAllCoverages(): void
+    {
+        $query = "DELETE FROM il_meta_coverage WHERE parent_type = 'meta_general'
+                AND parent_id = " . $this->db->quote($this->getMetaId(), 'integer');
+        $res = $this->db->manipulate($query);
+    }
+
+    /**
+     * Compatibility fix for legacy MD classes for new db tables
+     */
+    protected function readFirstCoverage(): void
+    {
+        $query = "SELECT * FROM il_meta_coverage WHERE meta_coverage_id = " .
+            $this->db->quote($this->getCoverageId(), 'integer');
+
+        $res = $this->db->query($query);
+        if ($row = $this->db->fetchAssoc($res)) {
+            $this->setCoverage((string) $row['coverage']);
+            $this->setCoverageLanguage(new ilMDLanguageItem((string) $row['coverage_language']));
+        }
+    }
+
+    /**
+     * Compatibility fix for legacy MD classes for new db tables
+     */
+    protected function getCoverageId(): int
+    {
+        return $this->coverage_id;
+    }
+
+    /**
+     * Compatibility fix for legacy MD classes for new db tables
+     */
+    protected function readCoverageId(int $parent_id): void
+    {
+        $query = "SELECT meta_coverage_id FROM il_meta_coverage WHERE parent_type = 'meta_general'
+                AND parent_id = " . $this->db->quote($parent_id, 'integer') .
+            " ORDER BY meta_coverage_id";
+
+        $res = $this->db->query($query);
+        if ($row = $this->db->fetchAssoc($res)) {
+            $this->coverage_id = (int) $row['meta_coverage_id'];
+        }
+    }
+
+    /**
+     * Compatibility fix for legacy MD classes for new db tables
+     */
+    public function setMetaId(int $a_meta_id, bool $a_read_data = true): void
+    {
+        $this->readCoverageId($a_meta_id);
+        parent::setMetaId($a_meta_id, $a_read_data);
     }
 }

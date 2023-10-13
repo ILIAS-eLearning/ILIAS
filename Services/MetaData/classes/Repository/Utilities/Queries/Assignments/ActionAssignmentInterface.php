@@ -18,23 +18,15 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\MetaData\Repository\Dictionary;
+namespace ILIAS\MetaData\Repository\Utilities\Queries\Assignments;
 
-enum ExpectedParameter: string
+use ILIAS\MetaData\Repository\Dictionary\TagInterface;
+
+interface ActionAssignmentInterface
 {
-    /**
-     * Entries in the expected params with this value should
-     * be ignored when reading.
-     */
-    case MD_ID = 'md_id';
-    case PARENT_MD_ID = 'parent_md_id';
-    case SECOND_PARENT_MD_ID ='second_parent_md_id';
-    case SUPER_MD_ID = 'super_md_id';
-    case RESSOURCE_IDS = 'ressource_ids';
+    public function action(): Action;
 
-    /**
-     * Entries in the expected params with this value should
-     * be ignored when reading or deleting.
-     */
-    case DATA = 'md_data';
+    public function tag(): TagInterface;
+
+    public function value(): string;
 }
