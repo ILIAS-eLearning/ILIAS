@@ -837,6 +837,7 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
 
         $test_id = $this->testParticipantInfo->lookupTestIdByActiveId($active_id);
         if ($test_id !== -1) {
+            // TODO: This can be removed with ILIAS 10
             $this->deleteUnusedFiles([], $test_id, $active_id, $pass);
         }
     }
