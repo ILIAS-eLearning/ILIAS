@@ -24,6 +24,7 @@ use ILIAS\Help\StandardGUIRequest;
  */
 class ilObjHelpSettingsGUI extends ilObject2GUI
 {
+    protected \ILIAS\Help\InternalGUIService $gui;
     protected \ILIAS\Help\InternalDomainService $domain;
     protected StandardGUIRequest $help_request;
     protected ilTabsGUI $tabs;
@@ -204,7 +205,7 @@ class ilObjHelpSettingsGUI extends ilObject2GUI
     {
         $this->checkPermission("write");
         $this->domain->module()->deactivate($this->help_request->getHelpModuleId());
-        $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
         $this->ctrl->redirect($this, "editSettings");
     }
 

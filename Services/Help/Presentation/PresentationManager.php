@@ -25,6 +25,8 @@ use ILIAS\Help\InternalDomainService;
 
 class PresentationManager
 {
+    protected \ILIAS\Help\Module\ModuleManager $module;
+    protected \ilObjUser $user;
     protected \ilSetting $settings;
 
     public function __construct(
