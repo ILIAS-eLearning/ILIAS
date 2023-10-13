@@ -144,6 +144,9 @@ class RevisionToComponent extends BaseToComponent implements ToComponent
     {
         return [
             $this->language->txt('create_date') => $this->formatDate($this->information->getCreationDate()),
+            $this->language->txt('revision_status') => $this->language->txt(
+                'revision_status_' . $this->revision->getStatus()->value
+            ),
         ];
     }
 }

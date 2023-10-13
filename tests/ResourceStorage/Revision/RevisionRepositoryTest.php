@@ -61,10 +61,12 @@ class RevisionRepositoryTest extends AbstractBaseTest
         $revision = $ar_revision_repo->blankFromUpload(
             $this->info_resolver,
             $this->resource,
-            $upload_result
+            $upload_result,
+            RevisionStatus::DRAFT
         );
 
         $this->assertEquals(100, $revision->getVersionNumber());
+        $this->assertEquals(RevisionStatus::DRAFT, $revision->getStatus());
     }
 
     public function testStream(): void

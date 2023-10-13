@@ -275,8 +275,10 @@ class Manager
             $resource,
             $stream,
             $info_resolver,
+            $draft ? RevisionStatus::DRAFT : RevisionStatus::PUBLISHED,
             true
         );
+
         $resource->addStakeholder($stakeholder);
 
         $this->resource_builder->store($resource);

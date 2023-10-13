@@ -35,6 +35,8 @@ abstract class BaseRevision implements Revision
     private ?StreamResolver $stream_resolver = null;
     private ResourceIdentification $identification;
 
+    protected RevisionStatus $status = RevisionStatus::PUBLISHED;
+
     /**
      * NullRevision constructor.
      */
@@ -72,5 +74,15 @@ abstract class BaseRevision implements Revision
     public function maybeStreamResolver(): ?StreamResolver
     {
         return $this->stream_resolver;
+    }
+
+    public function getStatus(): RevisionStatus
+    {
+        return $this->status;
+    }
+
+    public function setStatus(RevisionStatus $status): void
+    {
+        $this->status = $status;
     }
 }

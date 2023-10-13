@@ -163,7 +163,7 @@ class ilResourceStorageMigrationHelper
         $this->repositories->getStakeholderRepository()->register($resource_identification, $new_stakeholder);
 
         if ($new_owner_id !== null) {
-            foreach ($resource->getAllRevisions() as $revision) {
+            foreach ($resource->getAllRevisionsIncludingDraft() as $revision) {
                 $revision->setOwnerId($new_owner_id);
             }
         }
