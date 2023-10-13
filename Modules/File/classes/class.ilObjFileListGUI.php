@@ -22,6 +22,7 @@ use ILIAS\ResourceStorage\Flavour\Definition\FlavourDefinition;
 use ILIAS\ResourceStorage\Flavour\Definition\PagesToExtract;
 use ILIAS\ResourceStorage\Services;
 use ILIAS\Data\DataSize;
+use ILIAS\Services\WOPI\Discovery\ActionDBRepository;
 
 /**
  * Class ilObjFileListGUI
@@ -41,6 +42,7 @@ class ilObjFileListGUI extends ilObjectListGUI
     private FlavourDefinition $crop_definition;
     private FlavourDefinition $extract_definition;
     private IconDatabaseRepository $icon_repo;
+    private ActionDBRepository $action_repo;
     private Services $irss;
 
     public function __construct(int $context = self::CONTEXT_REPOSITORY)
@@ -48,9 +50,11 @@ class ilObjFileListGUI extends ilObjectListGUI
         global $DIC;
         parent::__construct($context);
 
+        $DIC->language()->loadLanguageModule('wopi');
         $this->irss = $DIC->resourceStorage();
         $this->crop_definition = new CropToSquare($this->persist, $this->max_size);
         $this->extract_definition = new PagesToExtract($this->persist, $this->max_size, 1, true);
+        $this->action_repo = new ActionDBRepository($DIC->database());
     }
 
     protected function getTileImagePath(): string
@@ -284,13 +288,15 @@ class ilObjFileListGUI extends ilObjectListGUI
         string $type,
         ?int $obj_id = null
     ): bool {
-        if (ilFileVersionsGUI::CMD_UNZIP_CURRENT_REVISION === $cmd) {
-            $file_data = ilObjFileAccess::getListGUIData($this->obj_id);
+        $data = ilObjFileAccess::getListGUIData($this->obj_id);
 
-            return ilObjFileAccess::isZIP($file_data['mime'] ?? null);
-        }
+        $additional_check = match ($cmd) {
+            ilFileVersionsGUI::CMD_UNZIP_CURRENT_REVISION => ilObjFileAccess::isZIP($data['mime'] ?? null),
+            'editExternal' => $this->action_repo->hasActionForSuffix($data['suffix'] ?? ''),
+            default => true,
+        };
 
-        return parent::checkCommandAccess(
+        return $additional_check && parent::checkCommandAccess(
             $permission,
             $cmd,
             $ref_id,

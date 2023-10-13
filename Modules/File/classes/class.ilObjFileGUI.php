@@ -730,6 +730,11 @@ class ilObjFileGUI extends ilObject2GUI
         $this->ctrl->redirectByClass(ilFileVersionsGUI::class, ilFileVersionsGUI::CMD_UNZIP_CURRENT_REVISION);
     }
 
+    protected function editExternal(): void
+    {
+        $this->ctrl->redirectByClass(ilWOPIEmbeddedApplicationGUI::class, ilWOPIEmbeddedApplicationGUI::CMD_INDEX);
+    }
+
     /**
      * this one is called from the info button in the repository
      * not very nice to set cmdClass/Cmd manually, if everything
