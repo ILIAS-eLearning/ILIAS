@@ -3790,8 +3790,14 @@ abstract class assQuestion
 
     public function getQuestionForHTMLOutput() : string
     {
+        $question_text = $this->getHtmlQuestionContentPurifier()->purify($this->question);
+        if ($this->isAdditionalContentEditingModePageObject()
+            || !(new ilSetting('advanced_editing'))->get('advanced_editing_javascript_editor') === 'tinymce') {
+            $question_text = nl2br($question_text);
+        }
         return $this->prepareTextareaOutput(
-            $this->getHtmlQuestionContentPurifier()->purify($this->question),
+            $question_text,
+            true,
             true
         );
     }
