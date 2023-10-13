@@ -86,7 +86,7 @@ class DataTest extends TestCase
                     if ($v === '') {
                         yield null;
                     } else {
-                        yield (int) $v;
+                        yield $v;
                     }
                 }
             }
