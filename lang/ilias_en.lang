@@ -11233,9 +11233,7 @@ mcst#:#mcst_duration#:#Play Time
 mcst#:#mcst_duration_info#:#If no value is entered, ILIAS tries do determine the play time automatically.
 mcst#:#mcst_edit_item#:#Edit Mediacast Item
 mcst#:#mcst_edit_settings#:#MediaCast Settings
-mcst#:#mcst_extract_preview_image#:#Extract Preview Image
 mcst#:#mcst_gallery#:#Tiles
-mcst#:#mcst_image_extracted#:#Image has been extracted.
 mcst#:#mcst_img_gallery#:#Image Gallery
 mcst#:#mcst_import#:#Import Mediacast
 mcst#:#mcst_incl_files_in_rss#:#Include Media Files as Attachment
@@ -11257,7 +11255,6 @@ mcst#:#mcst_new_items_det_lp_info#:#New items are automatically added to determi
 mcst#:#mcst_news_item_visibility_info#:#Public news can be accessed without authentication outside of ILIAS via RSS. Please do not include any confidential information.
 mcst#:#mcst_next_items#:#Next Items
 mcst#:#mcst_no_autoplay#:#No Autoplay
-mcst#:#mcst_no_extraction_possible#:#Sorry, it was not able to extract an image from the file.
 mcst#:#mcst_nr_items#:#Number of Items
 mcst#:#mcst_nr_videos#:#Number of Initial Videos
 mcst#:#mcst_ordering#:#Sorting
@@ -11275,7 +11272,6 @@ mcst#:#mcst_preview_picture#:#Preview Picture
 mcst#:#mcst_preview_picture_info#:#Only supported by the following main media types:
 mcst#:#mcst_reference_info#:#Provide URL pointing to resource
 mcst#:#mcst_save_order#:#Save Order
-mcst#:#mcst_second#:#Second
 mcst#:#mcst_set_playtime#:#Playtime has been set.
 mcst#:#mcst_settings#:#Mediacast Settings
 mcst#:#mcst_show_description#:#Show Description
@@ -12184,16 +12180,21 @@ mme#:#type_top_link_item#:#Link
 mme#:#type_top_parent_item#:#Container
 mob#:#mob_choose_from_pool#:#Choose from Media Pool
 mob#:#mob_external_url#:#External URL
+mob#:#mob_extract_preview_image#:#Extract Preview Image
 mob#:#mob_file#:#File
 mob#:#mob_file_could_not_be_uploaded#:#File could not be uploaded.
 mob#:#mob_general#:#General
+mob#:#mob_image_extracted#:#Image has been extracted.
 mob#:#mob_language#:#Language
 mob#:#mob_mime_type_not_allowed#:#The following mime types are not allowed at the destination.
 mob#:#mob_multi_srt_files#:#SRT Files
+mob#:#mob_no_extraction_possible#:#Sorry, it was not able to extract an image from the file.
 mob#:#mob_no_fixed_size_map_editing#:#Please define a fixed size for your image before using map areas. If your image is scaled by content style or other CSS rules, your map areas will not fit anymore.
 mob#:#mob_object#:#Object
 mob#:#mob_please_select_pool#:#Bitte wählen Sie einen Medienpool aus.
+mob#:#mob_preview_picture#:#Preview Picture
 mob#:#mob_really_delete_srt#:#Do you really want to delete the following srt files?
+mob#:#mob_second#:#Second
 mob#:#mob_srt_files_deleted#:#Subtitle files have been deleted.
 mob#:#mob_srt_not_allowed#:#Files with a .srt suffix are currently not allowed to be uploaded. If you would like to use srt files, contact your system administrator.
 mob#:#mob_subtitle_file#:#Subtitle File

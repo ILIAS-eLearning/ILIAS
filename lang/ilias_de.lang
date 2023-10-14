@@ -11241,9 +11241,7 @@ mcst#:#mcst_duration#:#Laufzeit
 mcst#:#mcst_duration_info#:#Wenn kein Wert eingegeben wird, bestimmt ILIAS die Laufzeit automatisch
 mcst#:#mcst_edit_item#:#Mediacast-Beitrag bearbeiten
 mcst#:#mcst_edit_settings#:#Einstellungen
-mcst#:#mcst_extract_preview_image#:#Vorschaubild erzeugen
 mcst#:#mcst_gallery#:#Kacheln
-mcst#:#mcst_image_extracted#:#Vorschaubild wurde erzeugt
 mcst#:#mcst_img_gallery#:#Bildergalerie
 mcst#:#mcst_import#:#Mediacast importieren
 mcst#:#mcst_incl_files_in_rss#:#Dateianhänge
@@ -11265,7 +11263,6 @@ mcst#:#mcst_new_items_det_lp_info#:#Neue Einträge werden automatisch zur Lernfo
 mcst#:#mcst_news_item_visibility_info#:#Öffentliche Nachrichten können von außerhalb und ohne Anmeldung gelesen werden. Sie sollten keine vertraulichen Informationen enthalten.
 mcst#:#mcst_next_items#:#Weitere Videos anzeigen
 mcst#:#mcst_no_autoplay#:#Kein Autoplay
-mcst#:#mcst_no_extraction_possible#:#Leider konnte kein Vorschaubild aus der Datei erzeugt werden.
 mcst#:#mcst_nr_items#:#Zahl der Objekte
 mcst#:#mcst_nr_videos#:#Anzahl initial angezeigter Videos
 mcst#:#mcst_ordering#:#Sortierung
@@ -11283,7 +11280,6 @@ mcst#:#mcst_preview_picture#:#Vorschaubild
 mcst#:#mcst_preview_picture_info#:#Nur von folgenden Dateitypen unterstützt:
 mcst#:#mcst_reference_info#:#URL zur Ressource, z.B. HTTP-Adresse.
 mcst#:#mcst_save_order#:#Sortierung speichern
-mcst#:#mcst_second#:#Sekunde
 mcst#:#mcst_set_playtime#:#Die Laufzeit wurde gesetzt.
 mcst#:#mcst_settings#:#Einstellungen des Mediacasts
 mcst#:#mcst_show_description#:#Beschreibung anzeigen
@@ -12192,16 +12188,21 @@ mme#:#type_top_link_item#:#Link
 mme#:#type_top_parent_item#:#Container
 mob#:#mob_choose_from_pool#:#Aus Medienpool
 mob#:#mob_external_url#:#Externe URL
+mob#:#mob_extract_preview_image#:#Vorschaubild erzeugen
 mob#:#mob_file#:#Datei
 mob#:#mob_file_could_not_be_uploaded#:#Datei konnte nicht hochgeladen werden.
 mob#:#mob_general#:#Allgemein
+mob#:#mob_image_extracted#:#Vorschaubild wurde erzeugt
 mob#:#mob_language#:#Sprache
 mob#:#mob_mime_type_not_allowed#:#Die folgenden Mime-Typen sind am Zielort nicht erlaubt.
 mob#:#mob_multi_srt_files#:#SRT-Dateien
+mob#:#mob_no_extraction_possible#:#Leider konnte kein Vorschaubild aus der Datei erzeugt werden.
 mob#:#mob_no_fixed_size_map_editing#:#Bitte bestimmen Sie eine feste Größe für ihr Bild, bevor Sie verlinkte Bereiche definieren. Die Bereiche werden nicht angepasst, wenn ihr Bild durch einen Content-Style oder andere CSS-Regeln skaliert wird.
 mob#:#mob_object#:#Objekt
 mob#:#mob_please_select_pool#:#Please select a media pool.
+mob#:#mob_preview_picture#:#Vorschaubild
 mob#:#mob_really_delete_srt#:#Möchten Sie wirklich die folgenden srt-Dateien löschen?
+mob#:#mob_second#:#Sekunde
 mob#:#mob_srt_files_deleted#:#Dateien für Untertitel wurden gelöscht.
 mob#:#mob_srt_not_allowed#:#Dateien vom Typ .srt können aktuell nicht hochgeladen werden. Um die Funktion zu aktivieren, muss diese durch einen Systemadministrator entsprechend konfiguriert werden (Administration > Datei-Services).
 mob#:#mob_subtitle_file#:#Datei für Untertitel

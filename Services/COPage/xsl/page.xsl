@@ -2850,6 +2850,9 @@
 				<xsl:if test="$width = '' and $height = ''">
 					<xsl:attribute name="style">max-width: 100%; width: 100%; max-height: 100%;</xsl:attribute>
 				</xsl:if>
+				<xsl:if test="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose=$curPurpose]/PreviewPic/@File != ''">
+					<xsl:attribute name="poster"><xsl:value-of select="$webspace_path"/>mobs/mm_<xsl:value-of select="substring-after($cmobid,'mob_')"/>/<xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose=$curPurpose]/PreviewPic/@File"/></xsl:attribute>
+				</xsl:if>
 				<xsl:if test="$mode != 'edit' and
 					(../MediaAliasItem[@Purpose = $curPurpose]/Parameter[@Name = 'autostart']/@Value = 'true' or
 					( not(../MediaAliasItem[@Purpose = $curPurpose]/Parameter) and
