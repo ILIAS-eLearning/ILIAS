@@ -6295,6 +6295,7 @@ content#:#cont_ed_insert_grid#:#Spaltenlayout einfügen
 content#:#cont_ed_insert_grid_info#:#Fügt ein responsives Spaltenlayout basierend auf einem Raster mit 12 Einheiten je Zeile ein.
 content#:#cont_ed_insert_iim#:#Interaktives Bild einfügen
 content#:#cont_ed_insert_incl#:#Inhaltsbaustein einfügen
+content#:#cont_ed_insert_lay#:#Layoutvorlage einfügen
 content#:#cont_ed_insert_lhist#:#Lernverlauf einfügen
 content#:#cont_ed_insert_list#:#Erweiterte Liste einfügen
 content#:#cont_ed_insert_lpe#:#Login-Seitenelement einfügen
@@ -6762,6 +6763,7 @@ content#:#cont_pc_grid#:#Spaltenlayout
 content#:#cont_pc_hacc#:#Akkordeon (horizontal)
 content#:#cont_pc_iim#:#Interaktives Bild
 content#:#cont_pc_incl#:#Inhaltsbaustein
+content#:#cont_pc_lay#:#Layoutvorlage
 content#:#cont_pc_list#:#Erweiterte Liste
 content#:#cont_pc_map#:#Karte
 content#:#cont_pc_media#:#Bild/Audio/Video
@@ -6769,6 +6771,7 @@ content#:#cont_pc_mob#:#Medienobjekt
 content#:#cont_pc_modified#:#Geänderte Inhalte
 content#:#cont_pc_new#:#Neue Inhalte
 content#:#cont_pc_par#:#Text
+content#:#cont_pc_plach#:#Platzhalter
 content#:#cont_pc_prof#:#Persönliche Daten
 content#:#cont_pc_qover#:#Fragenübersicht
 content#:#cont_pc_qst#:#Frage

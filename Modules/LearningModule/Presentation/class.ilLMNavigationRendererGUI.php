@@ -21,6 +21,8 @@
  */
 class ilLMNavigationRendererGUI
 {
+    protected ilToolbarGUI $toolbar;
+    protected \ILIAS\DI\UIServices $ui;
     protected string $requested_frame;
     protected int $requested_back_pg;
     protected int $requested_obj_id;
@@ -48,9 +50,13 @@ class ilLMNavigationRendererGUI
         ilGlobalTemplateInterface $main_tpl,
         int $requested_obj_id,
         string $requested_back_pg,
-        string $requested_frame
+        string $requested_frame,
+        ilToolbarGUI $toolbar,
+        \ILIAS\DI\UIServices $ui
     ) {
         $this->user = $user;
+        $this->toolbar = $toolbar;
+        $this->ui = $ui;
         $this->lm_tree = $service->getLMTree();
         $this->current_page = $service->getNavigationStatus()->getCurrentPage();
         $this->lm = $service->getLearningModule();
@@ -113,6 +119,13 @@ class ilLMNavigationRendererGUI
                 ? "images/media/spacer.png"
                 : ilUtil::getImagePath("media/spacer.png"));
             $tpl->parseCurrentBlock();
+            if ($top) {
+                $b = $this->ui->factory()->button()->standard(
+                    "<span class=\"glyphicon glyphicon-chevron-left \" aria-hidden=\"true\"></span>",
+                    $back_href
+                );
+                $this->toolbar->addStickyItem($b);
+            }
         } else {
             $pre_id = $this->navigation_status->getPredecessorPageId();
             if ($pre_id > 0) {
@@ -160,7 +173,25 @@ class ilLMNavigationRendererGUI
                 $tpl->setVariable("SPACER_PREV", $this->offline
                     ? "images/media/spacer.png"
                     : ilUtil::getImagePath("media/spacer.png"));
+
+                if ($top) {
+                    $b = $this->ui->factory()->button()->standard(
+                        "<span class=\"glyphicon glyphicon-chevron-left \" aria-hidden=\"true\"></span>",
+                        $prev_href
+                    );
+                    $this->toolbar->addStickyItem($b);
+                }
+            } else {
+                if ($top) {
+                    $b = $this->ui->factory()->button()->standard(
+                        "<span class=\"glyphicon glyphicon-chevron-left \" aria-hidden=\"true\"></span>",
+                        "#"
+                    )->withUnavailableAction();
+                    $this->toolbar->addStickyItem($b);
+                }
             }
+
+            $this->addDropdown();
 
             $succ_id = $this->navigation_status->getSuccessorPageId();
             if ($succ_id > 0) {
@@ -217,10 +248,162 @@ class ilLMNavigationRendererGUI
                         }
                     }
                 }
+                if ($top) {
+                    $b = $this->ui->factory()->button()->standard(
+                        "<span class=\"glyphicon glyphicon-chevron-right \" aria-hidden=\"true\"></span>",
+                        $succ_href
+                    );
+                    $this->toolbar->addStickyItem($b);
+                }
+            } else {
+                if ($top) {
+                    $b = $this->ui->factory()->button()->standard(
+                        "<span class=\"glyphicon glyphicon-chevron-right \" aria-hidden=\"true\"></span>",
+                        "#"
+                    )->withUnavailableAction();
+                    $this->toolbar->addStickyItem($b);
+                }
             }
         }
         $tpl->setVariable("CLASS", ($top) ? "tnav_Top" : "bnav_Bottom");
 
         return $tpl->get();
+    }
+
+    protected function addDropdown()
+    {
+        $nodes = $this->lm_tree->getSubTree($this->lm_tree->getNodeData($this->lm_tree->getRootId()));
+        //$nodes = $this->filterNonAccessibleNode($nodes);
+
+        foreach ($nodes as $node) {
+            $disabled = false;
+
+            // check page activation
+            $active = ilLMPage::_lookupActive(
+                $node["obj_id"],
+                $this->lm->getType(),
+                $this->lm_set->get("time_scheduled_page_activation")
+            );
+
+            if ($node["type"] === "pg" &&
+                !$active) {
+                continue;
+            }
+
+            $text = "";
+            $checked = false;
+
+            switch ($node["type"]) {
+                // page
+                case "pg":
+                    if ($this->lm->getTOCMode() !== "pages") {
+                        continue 2;
+                    }
+                    $text =
+                        ilLMPageObject::_getPresentationTitle(
+                            $node["obj_id"],
+                            $this->lm->getPageHeader(),
+                            $this->lm->isActiveNumbering(),
+                            $this->lm_set->get("time_scheduled_page_activation"),
+                            false,
+                            0,
+                            $this->lang
+                        );
+
+                    if ($this->user->getId() === ANONYMOUS_USER_ID &&
+                        $this->parent_gui->getObject()->getPublicAccessMode() === "selected") {
+                        if (!ilLMObject::_isPagePublic($node["obj_id"])) {
+                            $disabled = true;
+                            $text .= " (" . $this->lng->txt("cont_no_access") . ")";
+                        }
+                    }
+                    break;
+
+                    // learning module
+                case "du":
+                    $text = "";
+                    break;
+
+                    // chapter
+                case "st":
+                    $text =
+                        ilStructureObject::_getPresentationTitle(
+                            $node["obj_id"],
+                            ilLMObject::CHAPTER_TITLE,
+                            $this->lm->isActiveNumbering(),
+                            $this->lm_set->get("time_scheduled_page_activation"),
+                            false,
+                            0,
+                            $this->lang
+                        );
+                    if ($this->user->getId() === ANONYMOUS_USER_ID &&
+                        $this->parent_gui->getObject()->getPublicAccessMode() === "selected") {
+                        if (!ilLMObject::_isPagePublic($node["obj_id"])) {
+                            $disabled = true;
+                            $text .= " (" . $this->lng->txt("cont_no_access") . ")";
+                        }
+                    }
+                    break;
+            }
+
+            if (!ilObjContentObject::_checkPreconditionsOfPage(
+                $this->lm->getRefId(),
+                $this->lm->getId(),
+                $node["obj_id"]
+            )) {
+                $disabled = true;
+                $text .= " (" . $this->lng->txt("cont_no_access") . ")";
+            }
+
+            $href = $this->linker->getLink("layout", $node["obj_id"]);
+
+            if ($text !== "") {
+                if ($this->lm->getTOCMode() === "pages" && $this->current_page == $node["obj_id"]) {
+                    $text = "» " . $text;
+                }
+                if ($this->lm->getTOCMode() !== "pages") {
+                    if ($this->lm_tree->getParentId($this->current_page) == $node["obj_id"]) {
+                        $text = "» " . $text;
+                    }
+                }
+                $text = str_pad("", ($node["depth"] - 1) * 12, "&nbsp;") . $text;
+                $actions[] = $this->ui->factory()->button()->shy(
+                    $text,
+                    $href
+                );
+            }
+        }
+
+        if ($this->lm->getTOCMode() === "pages") {
+            $title = ilLMPageObject::_getPresentationTitle(
+                $this->current_page,
+                $this->lm->getPageHeader(),
+                $this->lm->isActiveNumbering(),
+                $this->lm_set->get("time_scheduled_page_activation"),
+                false,
+                0,
+                $this->lang
+            );
+        } else {
+            $st_id = $this->lm_tree->getParentId($this->current_page);
+            if ($st_id > 0) {
+                $title = ilStructureObject::_getPresentationTitle(
+                    $st_id,
+                    ilLMObject::CHAPTER_TITLE,
+                    $this->lm->isActiveNumbering(),
+                    $this->lm_set->get("time_scheduled_page_activation"),
+                    false,
+                    0,
+                    $this->lang
+                );
+            }
+        }
+
+        $title = "<span style='vertical-align: bottom; max-width:60px; display: inline-block; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;'>" . $title . "</span>";
+
+
+        $this->toolbar->addStickyItem(
+            $this->ui->factory()->dropdown()->standard($actions)->withLabel($title)
+        );
     }
 }

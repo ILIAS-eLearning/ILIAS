@@ -28,6 +28,7 @@ abstract class ilPageConfig
     public const SEC_PROTECT_EDITABLE = 1;      // current use can edit protected sections
     public const SEC_PROTECT_PROTECTED = 2;     // current use cannot edit protected sections
     protected \ILIAS\COPage\PC\PCDefinition $pc_definition;
+    protected int $layout_template_type = 0;
 
     protected bool $int_link_def_id_is_ref = false;
     protected ilLanguage $lng;
@@ -103,10 +104,27 @@ abstract class ilPageConfig
                 $this->page_obj_key = $key;
             }
         }
+        $this->init();
+        if ($this->getLayoutTemplateType() > 0) {
+            $templates = ilPageLayout::activeLayouts($this->getLayoutTemplateType());
+            if (count($templates) > 0) {
+                $this->setEnablePCType("LayoutTemplate", true);
+            }
+        }
     }
 
     public function init(): void
     {
+    }
+
+    public function setLayoutTemplateType(int $type): void
+    {
+        $this->layout_template_type = $type;
+    }
+
+    public function getLayoutTemplateType(): int
+    {
+        return $this->layout_template_type;
     }
 
     public function setEnablePCType(string $a_pc_type, bool $a_val): void

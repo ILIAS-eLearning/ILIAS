@@ -7,7 +7,7 @@
 	<xsl:template match="PageObject">
 		<table class="il-style-layout-preview-wrapper">
 			<tr>
-				<td valign="top">
+				<td valign="top" style="padding-left:0">
 					<xsl:apply-templates/>
 				</td>
 			</tr>
@@ -81,5 +81,29 @@
 			</xsl:if>
 			<xsl:apply-templates/>
 		</td>
+	</xsl:template>
+	<xsl:template match="Grid">
+		<div class="row row-flex row-flex-wrap" style="margin:0">
+			<xsl:apply-templates select="GridCell"/>
+		</div>
+	</xsl:template>
+
+	<!-- GridCell -->
+	<xsl:template match="GridCell">
+		<div style="padding-left:0; padding-right:0">
+			<xsl:attribute name="class">
+				<xsl:if test="@WIDTH_S != ''"> col-xs-<xsl:value-of select="@WIDTH_S"/></xsl:if>
+				<xsl:if test="@WIDTH_M != ''"> col-sm-<xsl:value-of select="@WIDTH_M"/></xsl:if>
+				<xsl:if test="@WIDTH_L != ''"> col-md-<xsl:value-of select="@WIDTH_L"/></xsl:if>
+				<xsl:if test="@WIDTH_XL != ''"> col-lg-<xsl:value-of select="@WIDTH_XL"/></xsl:if>
+				<xsl:if test="@WIDTH_S = '' and @WIDTH_M = '' and @WIDTH_L = '' and @WIDTH_XL = ''">col-xs-12</xsl:if>
+			</xsl:attribute>
+			<div class="flex-col flex-grow">
+				<div style="height:100%">	<!-- this div enforces margin collapsing, see bug 31536, for height see 32067 -->
+					<xsl:apply-templates select="PageContent"/>
+					<xsl:comment>End of Grid Cell</xsl:comment>
+				</div>
+			</div>
+		</div>
 	</xsl:template>
 </xsl:stylesheet>

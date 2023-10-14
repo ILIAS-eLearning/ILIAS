@@ -30,6 +30,8 @@ use ILIAS\COPage\Editor\Components\Tabs;
 use ILIAS\COPage\Editor\Components\Resources;
 use ILIAS\COPage\Editor\Components\SourceCode;
 use ILIAS\COPage\Editor\Components\InteractiveImage;
+use ILIAS\COPage\Editor\Components\LayoutTemplate;
+use ILIAS\COPage\Editor\Components\PlaceHolder;
 
 /**
  * Page editor json server
@@ -145,6 +147,12 @@ class Server
                 break;
             case "InteractiveImage":
                 $handler = new InteractiveImage\InteractiveImageCommandActionHandler($this->page_gui);
+                break;
+            case "LayoutTemplate":
+                $handler = new LayoutTemplate\LayoutTemplateCommandActionHandler($this->page_gui);
+                break;
+            case "PlaceHolder":
+                $handler = new PlaceHolder\PlaceHolderCommandActionHandler($this->page_gui);
                 break;
         }
 

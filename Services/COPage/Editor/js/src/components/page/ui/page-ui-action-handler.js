@@ -92,14 +92,18 @@ export default class PageUIActionHandler {
         // legacy
         console.log(model.getCurrentPCName());
 
-        if (!["Paragraph", "Grid", "MediaObject", "Section", "Tabs", "Resources", "DataTable", "SourceCode", "InteractiveImage"].includes(model.getCurrentPCName())) {
-          let ctype = this.ui.getPCTypeForName(params.cname);
-          client.sendForm(actionFactory.page().command().createLegacy(ctype, params.pcid,
-            params.hierid, params.pluginName));
+        if (!['Paragraph', 'LayoutTemplate', 'Grid', 'MediaObject', 'Section', 'Tabs', 'Resources', 'DataTable', 'SourceCode', 'InteractiveImage'].includes(model.getCurrentPCName())) {
+          const ctype = this.ui.getPCTypeForName(params.cname);
+          client.sendForm(actionFactory.page().command().createLegacy(
+            ctype,
+            params.pcid,
+            params.hierid,
+            params.pluginName,
+          ));
           form_sent = true;
         }
         // generic
-        if (["Grid", "MediaObject", "Section", "Tabs", "Resources", "DataTable", "SourceCode", "InteractiveImage"].includes(model.getCurrentPCName())) {
+        if (['LayoutTemplate', 'Grid', 'MediaObject', 'Section', 'Tabs', 'Resources', 'DataTable', 'SourceCode', 'InteractiveImage'].includes(model.getCurrentPCName())) {
           this.ui.showGenericCreationForm();
         }
         break;
@@ -113,12 +117,12 @@ export default class PageUIActionHandler {
         }
         break;
 
-      case "component.back":
+      case 'component.back':
         const pcid = model.getCurrentPCId();
         this.ui.pageModifier.redirectToPage(pcid);
         break;
 
-      case "component.save":
+      case 'component.save':
         this.sendInsertCommand(params, model);
         break;
 
@@ -126,12 +130,12 @@ export default class PageUIActionHandler {
         this.sendUpdateCommand(params);
         break;
 
-      case "component.update.back":
+      case 'component.update.back':
         this.sendUpdateBackCommand(params);
         break;
 
-      case "component.edit":
-        if (["MediaObject", "Section", "Resources"].includes(model.getCurrentPCName())) {   // generic load editing form
+      case 'component.edit':
+        if (['MediaObject', 'Section', 'Resources'].includes(model.getCurrentPCName())) { // generic load editing form
           this.ui.loadGenericEditingForm(params.cname, params.pcid, params.hierid);
         } else if (!['Paragraph', 'PlaceHolder'].includes(model.getCurrentPCName())) { // legacy underworld
           client.sendForm(actionFactory.page().command().editLegacy(
@@ -143,7 +147,7 @@ export default class PageUIActionHandler {
         }
         break;
 
-      case "component.form":
+      case 'component.form':
         this.ui.loadGenericEditingForm(params.cname, params.pcid, params.hierid);
         break;
 
@@ -257,7 +261,7 @@ export default class PageUIActionHandler {
 
     // if we sent a (legacy) form, deactivate everything
     if (form_sent === true) {
-      //this.ui.showPageHelp();
+      // this.ui.showPageHelp();
       this.ui.hideAddButtons();
       this.ui.hideDropareas();
       this.ui.disableDragDrop();
@@ -269,15 +273,15 @@ export default class PageUIActionHandler {
       this.ui.markCurrent();
     }
 
-    if (action.getComponent() === "Page") {
+    if (action.getComponent() === 'Page') {
       switch (action.getType()) {
         case ACTIONS.COMPONENT_AFTER_SAVE:
-          if (["SourceCode", "InteractiveImage"].includes(params.component)) {
+          if (['SourceCode', 'InteractiveImage'].includes(params.component)) {
             console.log(params.pcid);
             dispatcher.dispatch(actionFactory.page().editor().componentEdit(
               params.component,
               params.pcid,
-              ""
+              '',
             ));
           }
           break;
@@ -418,34 +422,34 @@ export default class PageUIActionHandler {
       for (const pair of data.entries()) {
         console.log(`${pair[0]}, ${pair[1]}`);
         return;
-      }*/
+      } */
 
       insert_action = af.page().command().insert(
         params.afterPcid,
         params.pcid,
         params.component,
-        data
+        data,
       );
 
-      this.ui.toolSlate.setContent("");
-      if (this.ui.uiModel.components[model.getCurrentPCName()] &&
-          this.ui.uiModel.components[model.getCurrentPCName()].icon) {
-        document.querySelector(".copg-new-content-placeholder img").src = this.ui.uiModel.loaderUrl;
+      this.ui.toolSlate.setContent('');
+      if (this.ui.uiModel.components[model.getCurrentPCName()]
+          && this.ui.uiModel.components[model.getCurrentPCName()].icon) {
+        document.querySelector('.copg-new-content-placeholder img').src = this.ui.uiModel.loaderUrl;
       }
 
-      this.client.sendCommand(insert_action).then(result => {
+      this.client.sendCommand(insert_action).then((result) => {
         const p = result.payload;
         if (p.formError) {
-          document.querySelector(".copg-new-content-placeholder img").outerHTML = this.ui.uiModel.components[model.getCurrentPCName()].icon;
+          document.querySelector('.copg-new-content-placeholder img').outerHTML = this.ui.uiModel.components[model.getCurrentPCName()].icon;
           this.ui.showFormAfterError(p.form);
         } else {
           this.ui.handlePageReloadResponse(result);
-          //after_pcid, pcid, component, data
+          // after_pcid, pcid, component, data
           dispatch.dispatch(af.page().editor().componentAfterSave(
             params.afterPcid,
             params.pcid,
             params.component,
-            params.data
+            params.data,
           ));
         }
       });
@@ -463,7 +467,7 @@ export default class PageUIActionHandler {
       params.data,
     );
 
-    this.client.sendCommand(update_action).then(result => {
+    this.client.sendCommand(update_action).then((result) => {
       const p = result.payload;
       if (p.formError) {
         this.ui.showFormAfterError(p.form);
@@ -482,10 +486,10 @@ export default class PageUIActionHandler {
     update_action = af.page().command().update(
       params.pcid,
       params.component,
-      params.data
+      params.data,
     );
 
-    this.client.sendCommand(update_action).then(result => {
+    this.client.sendCommand(update_action).then((result) => {
       this.ui.pageModifier.redirectToPage(params.pcid);
     });
   }

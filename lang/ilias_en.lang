@@ -6290,6 +6290,7 @@ content#:#cont_ed_insert_grid#:#Insert Column Layout
 content#:#cont_ed_insert_grid_info#:#Adds a responsive column layout based on a grid with 12 units per row.
 content#:#cont_ed_insert_iim#:#Insert Interactive Image
 content#:#cont_ed_insert_incl#:#Insert Content Snippet
+content#:#cont_ed_insert_lay#:#Insert Layout Template
 content#:#cont_ed_insert_lhist#:#Insert Learning History
 content#:#cont_ed_insert_list#:#Insert Advanced List
 content#:#cont_ed_insert_lpe#:#Insert Login Page Element
@@ -6757,6 +6758,7 @@ content#:#cont_pc_grid#:#Column Layout
 content#:#cont_pc_hacc#:#Accordion (Horizontal)
 content#:#cont_pc_iim#:#Interactive Image
 content#:#cont_pc_incl#:#Content Snippet
+content#:#cont_pc_lay#:#Layout Template
 content#:#cont_pc_list#:#Advanced List
 content#:#cont_pc_map#:#Map
 content#:#cont_pc_media#:#Image/Media
@@ -6764,6 +6766,7 @@ content#:#cont_pc_mob#:#Media
 content#:#cont_pc_modified#:#Modified Content
 content#:#cont_pc_new#:#New Content
 content#:#cont_pc_par#:#Text
+content#:#cont_pc_plach#:#Placeholder
 content#:#cont_pc_prof#:#Personal Data
 content#:#cont_pc_qover#:#Question Overview
 content#:#cont_pc_qst#:#Question

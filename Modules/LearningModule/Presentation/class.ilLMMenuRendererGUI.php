@@ -95,6 +95,7 @@ class ilLMMenuRendererGUI
         $ilCtrl = $this->ctrl;
         $ilAccess = $this->access;
         $ilTabs = $this->tabs;
+        $actions = [];
 
         $getcmd = "getHTML";
 
@@ -115,7 +116,7 @@ class ilLMMenuRendererGUI
         if (!$this->offline && $ilAccess->checkAccess("read", "", $this->requested_ref_id)) {
             $ilCtrl->setParameterByClass("illmpresentationgui", "obj_id", $this->requested_obj_id);
             if (!$content_active) {
-                $this->toolbar->addComponent(
+                $this->toolbar->addStickyItem(
                     $this->ui_factory->button()->standard($this->lng->txt("content"), $ilCtrl->getLinkTargetByClass("illmpresentationgui", "layout"))
                 );
             }
@@ -135,9 +136,12 @@ class ilLMMenuRendererGUI
                     array("illmpresentationgui", "ilinfoscreengui"),
                     "showSummary"
                 );
+                /*
                 $this->toolbar->addComponent(
                     $this->ui_factory->button()->standard($this->lng->txt("info_short"), $link)
-                );
+                );*/
+                $actions[] =
+                    $this->ui_factory->button()->shy($this->lng->txt("info_short"), $link);
             }
         }
         if (!$this->offline &&
@@ -172,10 +176,15 @@ class ilLMMenuRendererGUI
         $menu = new \ILIAS\LearningModule\Menu\ilLMMenuGUI($this->lm_pres_service);
         foreach ($menu->getEntries() as $entry) {
             if (is_object($entry["signal"])) {
-                $this->toolbar->addComponent(
-                    $this->ui_factory->button()->standard($entry["label"], '')
-                                     ->withOnClick($entry["signal"])
-                );
+                if ($this->lm_pres_service->getPresentationStatus()->getEmbedMode()) {
+                    $this->toolbar->addComponent(
+                        $this->ui_factory->button()->standard($entry["label"], '')
+                                         ->withOnClick($entry["signal"])
+                    );
+                } else {
+                    $actions[] = $this->ui_factory->button()->shy($entry["label"], '')
+                                                            ->withOnClick($entry["signal"]);
+                }
             }
             if (is_object($entry["modal"])) {
                 ($this->additional_content_collector)($entry["modal"]);
@@ -188,7 +197,6 @@ class ilLMMenuRendererGUI
         // edit learning module
         if (!$this->offline) {
             if ($ilAccess->checkAccess("write", "", $this->requested_ref_id)) {
-                $actions = [];
 
                 if ($this->current_page > 0) {
                     $actions[] = $this->ui_factory->button()->shy(
@@ -205,10 +213,12 @@ class ilLMMenuRendererGUI
                     $this->lng->txt("lm_edit_lm_settings"),
                     $this->ctrl->getLinkTargetByClass(["ilLMEditorGUI", "ilobjlearningmodulegui"], "properties")
                 );
-                $this->toolbar->addComponent(
-                    $this->ui_factory->dropdown()->standard($actions)
-                );
             }
+        }
+        if (count($actions) > 0) {
+            $this->toolbar->addStickyItem(
+                $this->ui_factory->dropdown()->standard($actions)
+            );
         }
 
         return $tabs_gui->$getcmd();
