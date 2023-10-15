@@ -10733,7 +10733,8 @@ lti#:#mastery_score#:#Mastery Score
 lti#:#mastery_score_info#:#Bei aktiviertem Lernfortschritt gilt das Objekt als abgeschlossen, wenn das Ergebnis des LTI-Outcome-Service mindestens so hoch wie der Mastery Score ist.
 lti#:#obj_tile_image_info#:#Ein Bild im quadratischen Format verwenden
 lti#:#online_info#:#Dadurch wird das Objekt für die Benutzer sichtbar und nutzbar.
-lti#:#prefix#:#Prefix
+lti#:#prefix#:#Präfix
+lti#:#prefix_info#:#Dieses Präfix wird dem Anmeldenamen vorangestellt. Damit ist die Eindeutigkeit von Anmeldenamen gewährleistet. Auch wird die Zuordnung von Benutzern zu LTI Konsumenten / Pattformen erleichtert.
 lti#:#provider_info#:#Provider bzw. Tool
 lti#:#settings_subtab#:#Einstellungen
 lti#:#show_statements#:#Lernerfahrungen anzeigen

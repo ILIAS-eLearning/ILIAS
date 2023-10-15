@@ -249,6 +249,7 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
         $ti_title->setRequired(true);
         $ti_description = new ilTextInputGUI($this->lng->txt("description"), 'description');
         $ti_prefix = new ilTextInputGUI($this->lng->txt("prefix"), 'prefix');
+        $ti_prefix->setInfo($this->lng->txt("prefix_info"));
         $ti_prefix->setRequired(true);
         #$ti_key = new ilTextInputGUI($this->lng->txt("lti_consumer_key"), 'key');
         #$ti_key->setRequired(true);

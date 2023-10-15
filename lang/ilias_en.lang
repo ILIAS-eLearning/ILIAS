@@ -10733,6 +10733,7 @@ lti#:#mastery_score_info#:#The Learning Progress will be evaluated from the Prov
 lti#:#obj_tile_image_info#:#Use an Image in Square Format
 lti#:#online_info#:#This makes the object visible and usable for the users.
 lti#:#prefix#:#Prefix
+lti#:#prefix_info#:#This prefix is put in front of the username (login). This ensures the uniqueness of usernames. It also facilitates the assignment of users to LTI consumers / platforms.
 lti#:#provider_info#:#Used Provider resp. Tool
 lti#:#settings_subtab#:#Settings
 lti#:#show_statements#:#Display Learning Experiences
