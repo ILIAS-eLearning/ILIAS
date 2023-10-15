@@ -937,4 +937,9 @@ class ilWikiPage extends ilPageObject
 
         return false;
     }
+
+    protected function preparePageForCompare(ilPageObject $page) : void
+    {
+        $page->setWikiRefId($this->getWikiRefId());
+    }
 }

@@ -4226,7 +4226,8 @@ s     */
         // get page objects
         $l_page = ilPageObjectFactory::getInstance($this->getParentType(), $this->getId(), $a_left);
         $r_page = ilPageObjectFactory::getInstance($this->getParentType(), $this->getId(), $a_right);
-
+        $this->preparePageForCompare($l_page);
+        $this->preparePageForCompare($r_page);
         $l_hashes = $l_page->getPageContentsHashes();
         $r_hashes = $r_page->getPageContentsHashes();
         // determine all deleted and changed page elements
@@ -4270,6 +4271,10 @@ s     */
                      "l_changes" => $l_hashes,
                      "r_changes" => $r_hashes
         );
+    }
+
+    protected function preparePageForCompare(ilPageObject $page) : void
+    {
     }
 
     /**
