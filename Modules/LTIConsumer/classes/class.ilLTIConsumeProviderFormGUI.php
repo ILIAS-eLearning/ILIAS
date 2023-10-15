@@ -187,7 +187,7 @@ class ilLTIConsumeProviderFormGUI extends ilPropertyFormGUI
         $item->addOption($op);
         $item->setValue($this->provider->getPrivacyIdent());
         $item->setInfo(
-            $DIC->language()->txt('conf_privacy_ident_info') . ' ' . ilCmiXapiUser::getIliasUuid()
+            $DIC->language()->txt('conf_privacy_ident_info') . ' ' . ilCmiXapiUser::getIliasUuid() . '.ilias'
         );
         $item->setRequired(false);
         $this->addItem($item);
