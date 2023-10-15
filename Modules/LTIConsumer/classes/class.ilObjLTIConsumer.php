@@ -658,6 +658,9 @@ class ilObjLTIConsumer extends ilObject2
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
 
         $roles = $DIC->access()->checkAccess('write', '', $this->getRefId()) ? "Instructor" : "Learner";
+        //todo if object is in course or group, roles would have to be taken from there s. Mantis 35435 - if necessary Jour Fixe topic
+        //$roles = "Administrator";
+
         if ($this->getProvider()->getAlwaysLearner() == true) {
             $roles = "Learner";
         }
