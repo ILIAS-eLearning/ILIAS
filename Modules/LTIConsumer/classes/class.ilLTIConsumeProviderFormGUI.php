@@ -277,7 +277,7 @@ class ilLTIConsumeProviderFormGUI extends ilPropertyFormGUI
         $item->addOption($op);
         $item->setValue((string) $this->provider->getPrivacyIdent());
         $item->setInfo(
-            $lng->txt('conf_privacy_ident_info') . ' ' . ilCmiXapiUser::getIliasUuid()
+            $lng->txt('conf_privacy_ident_info') . ' ' . ilCmiXapiUser::getIliasUuid() . '.ilias'
         );
         $item->setRequired(false);
         $this->addItem($item);
@@ -671,7 +671,7 @@ class ilLTIConsumeProviderFormGUI extends ilPropertyFormGUI
         $item->addOption($op);
         $item->setValue((string) $this->provider->getPrivacyIdent());
         $item->setInfo(
-            $lng->txt('conf_privacy_ident_info') . ' ' . ilCmiXapiUser::getIliasUuid()
+            $lng->txt('conf_privacy_ident_info') . ' ' . ilCmiXapiUser::getIliasUuid() . '.ilias'
         );
         $item->setRequired(false);
         $this->addItem($item);
