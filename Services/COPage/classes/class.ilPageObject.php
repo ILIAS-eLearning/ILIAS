@@ -2126,6 +2126,10 @@ s     */
         return $ret;
     }
 
+    public function preparePageForCompare(ilPageObject $page): void
+    {
+    }
+
     /**
      * Increase view cnt
      */
