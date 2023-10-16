@@ -1192,19 +1192,6 @@ of ILIAS. The file contains the following fields:
 
 [//]: # (END ShibbolethAuthentication)
 
-[//]: # (BEGIN SOAP)
-
-* **SOAP / Webservices**
-    * Authority to Sign off Code Changes: [Jephte](https://docu.ilias.de/goto_docu_usr_70542.html)
-        , [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
-    * Authority to Sign off Conceptual Changes: [Jephte](https://docu.ilias.de/goto_docu_usr_70542.html)
-    * Authority to Sign off Testcase Changes: [Jephte](https://docu.ilias.de/goto_docu_usr_70542.html)
-    * Authority to (De-)Assign Authoritiees: [Jephte](https://docu.ilias.de/goto_docu_usr_70542.html)
-	* Tester: [TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
-    * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
-
-[//]: # (END SOAP)
-
 [//]: # (BEGIN Staff)
 
 * **Staff**
@@ -1335,10 +1322,17 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN Tree)
 
 * **Tree**
+<<<<<<< HEAD
     * Authority to Sign off Code Changes: [fwolf](https://docu.ilias.de/goto_docu_usr_29018.html)
     * Authority to Sign off Conceptual Changes: [fwolf](https://docu.ilias.de/goto_docu_usr_29018.html)
     * Authority to Sign off Testcase Changes: [AUTHOR MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
     * Authority to (De-)Assign Authoritiees: [fwolf](https://docu.ilias.de/goto_docu_usr_29018.html)
+=======
+    * Authority to Sign off Code Changes: [Fabian Wolf](https://docu.ilias.de/goto_docu_usr_29018.html)
+    * Authority to Sign off Conceptual Changes: [Fabian Wolf](https://docu.ilias.de/goto_docu_usr_29018.html)
+    * Authority to Sign off Testcase Changes: [Fabian Wolf](https://docu.ilias.de/goto_docu_usr_29018.html)
+    * Authority to (De-)Assign Authoritiees: [Fabian Wolf](https://docu.ilias.de/goto_docu_usr_29018.html)
+>>>>>>> 69935403a01 (Docs: More Clean-Up in Maintenance.md)
 	* Tester: [TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
