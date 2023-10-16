@@ -254,7 +254,7 @@ class ilTreeTrashQueries
             $query .= 'and deleted <= ' . $this->db->quote($filter['deleted']['to']->get(IL_CAL_DATE), \ilDBConstants::T_TEXT) . ' ';
         }
 
-        if (isset($filter['deleted_by'])) {
+        if (isset($filter['deleted_by']) && !empty($filter['deleted_by'])) {
             $usr_id = \ilObjUser::_lookupId($filter['deleted_by']);
             if ($usr_id > 0) {
                 $query .= 'and deleted_by = ' . $this->db->quote($usr_id, \ilDBConstants::T_INTEGER) . ' ';
