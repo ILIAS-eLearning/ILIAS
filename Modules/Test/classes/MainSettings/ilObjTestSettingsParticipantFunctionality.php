@@ -154,7 +154,7 @@ class ilObjTestSettingsParticipantFunctionality extends TestSettings
             'use_previous_answers' => ['integer', (int) $this->getUsePreviousAnswerAllowed()],
             'show_cancel' => ['integer', (int) $this->getSuspendTestAllowed()],
             'sequence_settings' => ['integer', (int) $this->getPostponedQuestionsMoveToEnd()],
-            'show_summary' => ['integer', $this->getUsrPassOverviewMode()],
+            'usr_pass_overview_mode' => ['integer', $this->getUsrPassOverviewMode()],
             'show_marker' => ['integer', (int) $this->getQuestionMarkingEnabled()],
             'show_questionlist' => ['integer', $this->getQuestionListEnabled()]
         ];

@@ -67,11 +67,11 @@ class ilSeparateQuestionListSettingMigration implements Setup\Migration
     public function step(Environment $environment): void
     {
         $this->db->manipulate(
-            'UPDATE tst_tests SET show_questionlist = 1 WHERE show_summary > 0'
+            'UPDATE tst_tests SET show_questionlist = 1 WHERE usr_pass_overview_mode > 0'
         );
 
         $this->db->manipulate(
-            'UPDATE tst_tests SET show_questionlist = 0 WHERE show_summary = 0'
+            'UPDATE tst_tests SET show_questionlist = 0 WHERE usr_pass_overview_mode = 0'
         );
     }
 
