@@ -15080,6 +15080,7 @@ skmg#:#skmg_no_skills_selected_info#:#You have not selected or fulfilled any com
 skmg#:#skmg_no_trigger#:#No Trigger
 skmg#:#skmg_nr#:#Nr
 skmg#:#skmg_number#:#Number
+skmg#:#skmg_open#:#Open
 skmg#:#skmg_open_all_assigned_profiles#:#Open All Assigned Competence Profiles
 skmg#:#skmg_order#:#Order
 skmg#:#skmg_order_nr#:#Order Number
@@ -15095,6 +15096,7 @@ skmg#:#skmg_recommended_learning_material_global#:#Achieve your targets
 skmg#:#skmg_recommended_learning_material_grp#:#Achieve your targets in this group
 skmg#:#skmg_recommended_learning_material_info#:#Please work through the following learning materials to achieve the competence target. Select exactly one learning material per competence level.
 skmg#:#skmg_refresh_view#:#Refresh
+skmg#:#skmg_remove#:#Remove
 skmg#:#skmg_remove_levels#:#Remove Levels
 skmg#:#skmg_remove_skill#:#Remove Competence
 skmg#:#skmg_remove_trigger#:#Remove Trigger
@@ -15103,6 +15105,7 @@ skmg#:#skmg_save_order#:#Save Order
 skmg#:#skmg_save_self_evaluation#:#Finish Self-Evaluation
 skmg#:#skmg_save_settings#:#Save Settings
 skmg#:#skmg_sctp#:#Competence Template Category
+skmg#:#skmg_select_level#:#Select Competence Level
 skmg#:#skmg_select_skill#:#Click on a competence to add it to your personal competences.
 skmg#:#skmg_select_skill_level_assign#:#Please select a competence.
 skmg#:#skmg_select_trigger#:#Select Trigger

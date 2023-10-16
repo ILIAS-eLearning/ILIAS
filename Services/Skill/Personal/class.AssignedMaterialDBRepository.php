@@ -104,6 +104,27 @@ class AssignedMaterialDBRepository
         return $mat;
     }
 
+    /**
+     * Get all assigned materials (for a skill and user)
+     * @return AssignedMaterial[]
+     */
+    public function getAll(int $user_id, int $skill_id, int $tref_id): array
+    {
+        $ilDB = $this->db;
+
+        $set = $ilDB->query(
+            "SELECT * FROM skl_assigned_material " .
+            " WHERE skill_id = " . $ilDB->quote($skill_id, "integer") .
+            " AND tref_id = " . $ilDB->quote($tref_id, "integer") .
+            " AND user_id = " . $ilDB->quote($user_id, "integer")
+        );
+        $mat = [];
+        while ($rec = $ilDB->fetchAssoc($set)) {
+            $mat[] = $this->getFromRecord($rec);
+        }
+        return $mat;
+    }
+
     protected function getFromRecord(array $rec): AssignedMaterial
     {
         $rec['user_id'] = (int) $rec['user_id'];

@@ -70,6 +70,15 @@ class AssignedMaterialManager implements \ilSkillUsageInfo
     }
 
     /**
+     * Get all assigned materials (for a skill and user)
+     * @return AssignedMaterial[]
+     */
+    public function getAllAssignedMaterialsForSkill(int $user_id, int $skill_id, int $tref_id): array
+    {
+        return $this->ass_mat_repo->getAll($user_id, $skill_id, $tref_id);
+    }
+
+    /**
      * Count assigned materials (for a skill level and user)
      */
     public function countAssignedMaterials(int $user_id, int $tref_id, int $level_id): int
