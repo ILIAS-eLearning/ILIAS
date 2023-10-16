@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\UI\Factory as UIFactory;
+use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\UI\Component\Button\Button;
 
 /**
@@ -119,8 +121,8 @@ class ilTestQuestionNavigationGUI
 
     public function __construct(
         protected ilLanguage $lng,
-        protected \ILIAS\UI\Factory $ui_factory,
-        protected \ILIAS\UI\Renderer $ui_renderer
+        protected UIFactory $ui_factory,
+        protected UIRenderer $ui_renderer
     ) {
     }
 
