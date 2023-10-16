@@ -266,12 +266,12 @@ class ilTestPassOverviewTableGUI extends ilTable2GUI
         }
 
         $this->ctrl->setParameter($this->parent_obj, 'pass', $pass);
-        $actions = [];
+        $act = [];
         if (count($actions) > 1) {
             foreach ($actions as $cmd => $label) {
-                $actions[] = $this->ui_factory->link()->standard($label, $this->ctrl->getLinkTarget($this->parent_obj, $cmd));
+                $act[] = $this->ui_factory->link()->standard($label, $this->ctrl->getLinkTarget($this->parent_obj, $cmd));
             }
-            $dropdown = $this->ui_factory->dropdown()->standard($actions)->withLabel($this->lng->txt('actions'));
+            $dropdown = $this->ui_factory->dropdown()->standard($act)->withLabel($this->lng->txt('actions'));
             $html = $this->ui_renderer->render($dropdown);
         } else {
             $cmd = key($actions);
