@@ -3435,7 +3435,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
                 case 'pass_deletion_allowed':
                     $result_summary_settings = $result_summary_settings->withPassDeletionAllowed((bool) $metadata["entry"]);
                     break;
-                case "show_summary":
+                case "usr_pass_overview_mode":
                     $participant_functionality_settings = $participant_functionality_settings->withUsrPassOverviewMode((int) $metadata["entry"]);
                     break;
                 case "question_list":
@@ -3865,7 +3865,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
 
         // solution details
         $a_xml_writer->xmlStartTag("qtimetadatafield");
-        $a_xml_writer->xmlElement("fieldlabel", null, "show_summary");
+        $a_xml_writer->xmlElement("fieldlabel", null, "usr_pass_overview_mode");
         $a_xml_writer->xmlElement("fieldentry", null, sprintf("%d", $main_settings->getParticipantFunctionalitySettings()->getUsrPassOverviewMode()));
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 

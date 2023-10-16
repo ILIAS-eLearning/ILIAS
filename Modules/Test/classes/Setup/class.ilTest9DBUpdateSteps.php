@@ -202,4 +202,15 @@ class ilTest9DBUpdateSteps implements ilDatabaseUpdateSteps
             );
         }
     }
+
+    public function step_11(): void
+    {
+        if ($this->db->tableColumnExists('tst_tests', 'show_summary')) {
+            $this->db->renameTableColumn(
+                'tst_tests',
+                'show_summary',
+                'usr_pass_overview_mode'
+            );
+        }
+    }
 }
