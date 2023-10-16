@@ -592,32 +592,23 @@ class ilCalendarUtil
         $ilUser = $DIC['ilUser'];
         self::initDateTimePicker();
 
-        // weekStart is currently governed by locale and cannot be changed
         // fix for mantis 22994 => default to english language
         $language = 'en';
         if ($ilUser->getLanguage() != 'ar') {
             $language = $ilUser->getLanguage();
         }
         $default = array(
-            'locale' => $language
-            ,
-            'stepping' => 5
-            ,
-            'useCurrent' => false
-            ,
-            'calendarWeeks' => true
-            ,
-            'toolbarPlacement' => 'top'
-            // ,'showTodayButton' => true
-            ,
-            'showClear' => true
-            // ,'showClose' => true
-            ,
-            'keepInvalid' => true
-            ,
-            'sideBySide' => true
-            // ,'collapse' => false
-            ,
+            'locale' => $language,
+            'stepping' => 5,
+            'useCurrent' => false,
+            'calendarWeeks' => true,
+            'toolbarPlacement' => 'top',
+            //'showTodayButton' => true,
+            'showClear' => true,
+            //'showClose' => true,
+            'keepInvalid' => true,
+            'sideBySide' => true,
+            //'collapse' => false,
             'format' => self::getUserDateFormat((bool) $a_add_time)
         );
 
@@ -626,6 +617,21 @@ class ilCalendarUtil
             : array_merge($default, $a_custom_config);
 
         $code = [];
+
+        /**
+         * Whether the start of the week in the picker is Sunday or Monday
+         * should depend on the user calendar settings (#21666).
+         * Unfortunately this is not a direct config of the picker, but is
+         * inherent in the locale, so it needs to be shoehorned into there.
+         *
+         * 0 for Sunday, 1 for Monday
+         */
+        $start_of_week = ilCalendarUserSettings::_getInstanceByUserId($ilUser->getId())->getWeekStart();
+        $code[] =
+            'if (moment) {
+                moment.updateLocale("' . $language . '", {week: {dow: ' . $start_of_week . '}});
+            }';
+
         $code[] = '$("#' . $a_id . '").datetimepicker(' . json_encode($config) . ')';
 
         // optional 2nd picker aka duration
