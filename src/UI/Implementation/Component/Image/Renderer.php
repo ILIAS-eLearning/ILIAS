@@ -42,13 +42,21 @@ class Renderer extends AbstractComponentRenderer
         $this->checkComponent($component);
         $tpl = $this->getTemplate("tpl.image.html", true, true);
 
-        if ($component->getAdditionalHighResSources() !== []) {
-            $additional_high_res_sources = $component->getAdditionalHighResSources();
+        if (($sources = $component->getAdditionalHighResSources()) !== []) {
             $component = $component->withAdditionalOnLoadCode(
-                static function ($id) use ($additional_high_res_sources) {
-                    return "il.UI.image.loadHighResImage(document.getElementById('{$id}'), "
-                        . json_encode($additional_high_res_sources) . ");";
-                }
+                fn (string $id): string => "
+                    const imageElement = il.UI.image.getImageElement('$id');
+                    if (imageElement === null) {
+                        throw new Error(`Image '$id' not found.`);
+                    }
+
+                    $(window).load(() => {
+                        il.UI.image.loadHighResolutionSource(
+                            imageElement,
+                            {$this->getHighResSourceMapForJs($sources)}
+                        );
+                    });
+                "
             );
         }
 
@@ -103,5 +111,18 @@ class Renderer extends AbstractComponentRenderer
     {
         parent::registerResources($registry);
         $registry->register('./src/UI/templates/js/Image/dist/image.min.js');
+    }
+
+    /**
+     * @param array<int, string> $resources
+     */
+    protected function getHighResSourceMapForJs(array $resources): string
+    {
+        $map_entries = '';
+        foreach ($resources as $min_width => $source) {
+            $map_entries .= "[$min_width, '$source'],\n";
+        }
+
+        return "new Map([\n$map_entries])";
     }
 }

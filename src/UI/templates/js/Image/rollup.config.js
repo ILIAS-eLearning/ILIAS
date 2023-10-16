@@ -19,7 +19,8 @@ import preserveCopyright from '../../../../../CI/Copyright-Checker/preserveCopyr
 
 export default {
   external: [
-    'il'
+    'il',
+    'document',
   ],
   input: './src/image.js',
   output: {
@@ -27,7 +28,8 @@ export default {
     format: 'iife',
     banner: copyright,
     globals: {
-      il: 'il'
+      il: 'il',
+      document: 'document',
     },
     plugins: [
       terser({
@@ -36,5 +38,5 @@ export default {
         },
       }),
     ],
-  }
+  },
 };

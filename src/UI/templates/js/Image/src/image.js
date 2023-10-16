@@ -15,9 +15,12 @@
  ******************************************************************** */
 
 import il from 'il';
-import HighResImageLoader from './image.HighResImageLoader';
+import document from 'document';
+import getImageElement from './getImageElement';
+import loadHighResolutionSource from './loadHighResolutionSource';
 
 il.UI = il.UI || {};
 il.UI.image = il.UI.image || {};
 
-il.UI.image.loadHighResImage = HighResImageLoader.loadHighResImage;
+il.UI.image.getImageElement = (imageId) => getImageElement(document, imageId);
+il.UI.image.loadHighResolutionSource = loadHighResolutionSource;
