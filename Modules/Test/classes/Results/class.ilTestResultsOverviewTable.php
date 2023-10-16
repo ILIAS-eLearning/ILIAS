@@ -228,7 +228,7 @@ class ilTestResultsOverviewTable
                     $label = $lng->txt("answer_is_wrong");
                     break;
             }
-            $path = ilUtil::getImagePath($icon_name);
+            $path = ilUtil::getImagePath('standard/' . $icon_name);
             $correct_icon = $ui_factory->symbol()->icon()->custom(
                 $path,
                 $label
