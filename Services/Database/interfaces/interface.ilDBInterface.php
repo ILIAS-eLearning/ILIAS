@@ -1,6 +1,22 @@
 <?php
 
 /**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+/**
  * Interface ilDBInterface
  *
  * @author Oskar Truffer <ot@studer-raimann.ch>
@@ -186,6 +202,9 @@ interface ilDBInterface
 
 
     /**
+     * @description $where MUST contain existing columns only. statements like [1 => ['integer', 1]] will not work, use
+     * a full query and @see manipulate() instead in that case.
+     *
      * @param $table_name string
      * @param $values     array
      * @param $where      array
@@ -694,5 +713,4 @@ interface ilDBInterface
      * @return bool
      */
     public function primaryExistsByFields(string $table_name, array $fields) : bool;
-
 }
