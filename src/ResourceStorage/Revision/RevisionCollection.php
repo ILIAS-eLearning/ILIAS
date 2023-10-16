@@ -93,14 +93,16 @@ class RevisionCollection
 
     public function getCurrent(bool $including_drafts): Revision
     {
-        $v = array_values($this->revisions);
         if (!$including_drafts) {
-            $v = array_filter($v, static function (Revision $revision): bool {
+            $v = array_filter($this->revisions, static function (Revision $revision): bool {
                 return $revision->getStatus() === RevisionStatus::PUBLISHED;
             });
         }
-        sort($v);
-        $current = end($v);
+        usort($this->revisions, static function (Revision $a, Revision $b): int {
+            return $a->getVersionNumber() <=> $b->getVersionNumber();
+        });
+
+        $current = end($this->revisions);
         if (!$current instanceof Revision) {
             $current = new NullRevision($this->identification);
         }
