@@ -243,7 +243,7 @@ class ilTreeTrashQueries
             ) . ' ';
         }
 
-        if (isset($filter['deleted_by'])) {
+        if (isset($filter['deleted_by']) && !empty($filter['deleted_by'])) {
             $usr_id = \ilObjUser::_lookupId($filter['deleted_by']);
             if ($usr_id > 0) {
                 $query .= 'AND deleted_by = ' . $this->db->quote($usr_id, \ilDBConstants::T_INTEGER) . ' ';
