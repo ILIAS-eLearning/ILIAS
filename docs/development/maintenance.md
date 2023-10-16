@@ -1055,7 +1055,7 @@ of ILIAS. The file contains the following fields:
 
 [//]: # (END PersonalAndSharedResources)
 
-[//]: # (BEGIN PersonalProfile)
+[//]: # (BEGIN Poll)
 
 * **Poll**
     * Authority to Sign off Code Changes: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
