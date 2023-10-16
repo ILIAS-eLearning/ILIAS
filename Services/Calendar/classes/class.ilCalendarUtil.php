@@ -187,7 +187,7 @@ class ilCalendarUtil
                         $prev_month,
                         $days_in_prev_month - $first_day_offset + $i + 1,
                         $prev_year
-                ),
+                    ),
                     IL_CAL_UNIX
                 ));
             } elseif ($i < $days_in_month + $first_day_offset) {
@@ -202,7 +202,7 @@ class ilCalendarUtil
                         $a_month,
                         $i - $first_day_offset + 1,
                         $a_year
-                ),
+                    ),
                     IL_CAL_UNIX
                 ));
             } else {
@@ -215,7 +215,7 @@ class ilCalendarUtil
                         $next_month,
                         $i - $days_in_month - $first_day_offset + 1,
                         $next_year
-                ),
+                    ),
                     IL_CAL_UNIX
                 ));
             }
@@ -633,7 +633,7 @@ class ilCalendarUtil
 
         $tpl = $DIC['tpl'];
 
-        foreach(self::getCodeForPicker($a_id, $a_add_time, $a_custom_config, $a_id2, $a_custom_config2, $a_toggle_id, $a_subform_id) as $code) {
+        foreach (self::getCodeForPicker($a_id, $a_add_time, $a_custom_config, $a_id2, $a_custom_config2, $a_toggle_id, $a_subform_id) as $code) {
             $tpl->addOnLoadCode($code);
         }
     }
@@ -657,8 +657,6 @@ class ilCalendarUtil
         $ilUser = $DIC['ilUser'];
 
         self::initDateTimePicker();
-
-        // weekStart is currently governed by locale and cannot be changed
 
         // fix for mantis 22994 => default to english language
         $language = 'en';
@@ -685,6 +683,21 @@ class ilCalendarUtil
             : array_merge($default, $a_custom_config);
 
         $code = [];
+
+        /**
+         * Whether the start of the week in the picker is Sunday or Monday
+         * should depend on the user calendar settings (#21666).
+         * Unfortunately this is not a direct config of the picker, but is
+         * inherent in the locale, so it needs to be shoehorned into there.
+         *
+         * 0 for Sunday, 1 for Monday
+         */
+        $start_of_week = ilCalendarUserSettings::_getInstanceByUserId($ilUser->getId())->getWeekStart();
+        $code[] =
+            'if (moment) {
+                moment.updateLocale("' . $language . '", {week: {dow: ' . $start_of_week . '}});
+            }';
+
         $code[] = '$("#' . $a_id . '").datetimepicker(' . json_encode($config) . ')';
 
 
@@ -700,7 +713,6 @@ class ilCalendarUtil
 
             // duration limits, diff and subform handling
             $code[] = 'il.Form.initDateDurationPicker("' . $a_id . '","' . $a_id2 . '","' . $a_toggle_id . '","' . $a_subform_id . '");';
-
         } elseif ($a_subform_id) {
             // subform handling
             $code[] = 'il.Form.initDatePicker("' . $a_id . '","' . $a_subform_id . '");';
