@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Interface ilDBInterface
@@ -92,6 +92,8 @@ interface ilDBInterface
     public function fetchObject(ilDBStatement $query_result): ?stdClass;
 
     /**
+     * @description $where MUST contain existing columns only. statements like [1 => ['integer', 1]] will not work, use a full query and @see manipulate() instead in that case.
+     *
      * @return int The number of rows affected by the manipulation
      */
     public function update(string $table_name, array $values, array $where): int;
@@ -294,5 +296,5 @@ interface ilDBInterface
 
     public function cast(string $a_field_name, string $a_dest_type): string;
 
-    public function primaryExistsByFields(string $table_name, array $fields) : bool;
+    public function primaryExistsByFields(string $table_name, array $fields): bool;
 }
