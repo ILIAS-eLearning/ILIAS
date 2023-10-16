@@ -9567,6 +9567,8 @@ file#:#upload_info#:#Datei
 file#:#upload_info_desc#:#Sie können die Dateien und die Dateiversionen im Tab "Versionen" verwalten.
 file#:#version_uploaded#:#Version hochgeladen am
 file#:#versionname#:#Titel
+fils#:#add_upload_policy#:#Richtlinie hinzufügen
+fils#:#edit_upload_policy#:#Richtlinie bearbeiten
 fils#:#file_services#:#Datei-Services
 fils#:#file_services_description#:#Konfiguration der Datei-Service Einstellungen.
 fils#:#file_suffix_custom_expl_negative#:#Verbotene Dateiendungen
@@ -9579,6 +9581,24 @@ fils#:#file_suffix_default_positive#:#Dateiendungen: Positivliste (Ausgangsliste
 fils#:#file_suffix_default_positive_info#:#Voreingestellte Ausgangsliste für akzeptierte Dateiendungen.
 fils#:#file_suffix_overall_positive#:#Effektive Positivliste
 fils#:#file_suffix_overall_positive_info#:#Dies ist die endgültige Liste akzeptierter Dateiendungen.
+fils#:#policy_audience#:#Zielgruppe
+fils#:#policy_audience_all_users_option_desc#:#Richtlinie für alle Benutzer:innen anwenden.
+fils#:#policy_audience_global_roles_option_desc#:#Richtlinie für Benutzer:innen, welche bestimmte globale Rollen innehaben, anwenden.
+fils#:#policy_confirm_deletion#:#Wollen Sie die Richtlinie mit den nachfolgenden Eigenschaften wirklich löschen?:
+fils#:#policy_deletion_failure_not_found#:#Fehler: Die Richtlinie konnte nicht gelöscht werden, da sie nicht gefunden wurde.
+fils#:#policy_deletion_successful#:#Löschung der Richtlinie war erfolgreich.
+fils#:#policy_filter#:#Richtlinien-Filter
+fils#:#policy_no_validity_limitation_set#:#Unbefristet gültig
+fils#:#policy_scope#:#Anwendungsbereich
+fils#:#policy_table_info_no_policies#:#Es wurden noch keine Upload-Richtlinien angelegt.
+fils#:#policy_title_desc#:#Beschreibender Titel für die Richtlinie.
+fils#:#policy_upload_limit#:#Upload Limite
+fils#:#policy_upload_limit_desc#:#Upload Limite welche durch diese Richtlinie gesetzt wird in MB.
+fils#:#policy_valid_until#:#Gültig bis
+fils#:#policy_valid_until_desc#:#Legen Sie ein optionales "Gültig bis"-Datum fest, nach welchem die Richtlinie abläuft.
+fils#:#policy_validity#:#Gültigkeit
+fils#:#upload_limits#:#Upload Limits
+fils#:#upload_policies#:#Upload Richtlinien
 fold#:#fold_copy#:#Ordner kopieren
 fold#:#fold_import#:#Ordner importieren
 fold#:#fold_presentation#:#Darstellung
