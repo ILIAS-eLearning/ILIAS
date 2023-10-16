@@ -97,6 +97,7 @@ class ilTestResultsFactory
             $question_gui->object->setShuffler($shuffle_trafo);
 
             $graphical_output = true;
+            $show_correct_solution = false;
             $show_inline_feedback = $settings->getShowFeedback();
             $usr_solution = $question_gui->getSolutionOutput(
                 $this->active_id,
