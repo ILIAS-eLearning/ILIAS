@@ -166,7 +166,7 @@ class ilTestPlayerLayoutProvider extends AbstractModificationProvider implements
     {
         if ($this->isKioskModeEnabled($called_contexts)) {
             $title = $called_contexts->current()->getAdditionalData()->get(self::TEST_PLAYER_VIEW_TITLE);
-            if ($title == null) {
+            if (is_null($title)) {
                 $title = '';
             }
             return $this->globalScreen()->layout()->factory()->view_title()

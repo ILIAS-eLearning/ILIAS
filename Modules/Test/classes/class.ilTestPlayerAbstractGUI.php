@@ -2268,11 +2268,8 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
             fn($id) => "document.getElementById('$id').addEventListener(
                 'click',
                  (event)=>{
-                    let i = document.createElement('input');
-                    i.type = 'submit';
-                    i.name='cmd[discardSolution]';
-                    event.target.parentNode.appendChild(i);
-                    i.click();
+                    event.target.name = 'cmd[discardSolution]';
+                    event.target.form.requestSubmit(event.target);
                 }
             )"
         );
