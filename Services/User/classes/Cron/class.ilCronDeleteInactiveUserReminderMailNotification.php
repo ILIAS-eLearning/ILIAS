@@ -36,10 +36,6 @@ class ilCronDeleteInactiveUserReminderMailNotification extends ilMimeMailNotific
 
     public function send(): void
     {
-        global $DIC;
-
-        $lng = $DIC['lng'];
-
         $additional_information = $this->getAdditionalInformation();
 
         $old_val = ilDatePresentation::useRelativeDates();
@@ -65,6 +61,6 @@ class ilCronDeleteInactiveUserReminderMailNotification extends ilMimeMailNotific
         }
 
         ilDatePresentation::setUseRelativeDates($old_val);
-        ilDatePresentation::setLanguage($lng);
+        ilDatePresentation::setLanguage($this->getLanguage());
     }
 }

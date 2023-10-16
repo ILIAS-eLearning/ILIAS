@@ -29,12 +29,18 @@ class ilCronDeleteInactiveUserAccounts extends ilCronJob
     private const DEFAULT_INACTIVITY_PERIOD = 365;
     private const DEFAULT_REMINDER_PERIOD = 0;
 
-    private int $period;
-    private int $reminderTimer;
+    private const ACTION_USER_NONE = 0;
+    private const ACTION_USER_REMINDER_MAIL_SENT = 1;
+    private const ACTION_USER_DELETED = 2;
+
+    private int $delete_period;
+    private int $reminder_period;
     /** @var int[] */
     private array $include_roles;
+    private ilCronDeleteInactiveUserReminderMail $cron_delete_reminder_mail;
     private ilSetting $settings;
     private ilLanguage $lng;
+    private ilComponentLogger $log;
     private ilRbacReview $rbacReview;
     private ilObjectDataCache $objectDataCache;
     private \ILIAS\HTTP\GlobalHttpState $http;
@@ -44,57 +50,70 @@ class ilCronDeleteInactiveUserAccounts extends ilCronJob
 
     public function __construct()
     {
+        /** @var ILIAS\DI\Container $DIC */
         global $DIC;
-        $this->main_tpl = $DIC->ui()->mainTemplate();
 
-        if ($DIC) {
-            if (isset($DIC['http'])) {
-                $this->http = $DIC->http();
-            }
-
-            if (isset($DIC['lng'])) {
-                $this->lng = $DIC->language();
-            }
-
-            if (isset($DIC['refinery'])) {
-                $this->refinery = $DIC->refinery();
-            }
-
-            if (isset($DIC['ilObjDataCache'])) {
-                $this->objectDataCache = $DIC['ilObjDataCache'];
-            }
-
-            if (isset($DIC['rbacreview'])) {
-                $this->rbacReview = $DIC->rbac()->review();
-            }
-
-            if (isset($DIC['cron.repository'])) {
-                $this->cronRepository = $DIC->cron()->repository();
-            }
-
-            if (isset($DIC['ilSetting'])) {
-                $this->settings = $DIC->settings();
-
-                $include_roles = $DIC['ilSetting']->get(
-                    'cron_inactive_user_delete_include_roles',
-                    null
-                );
-                if ($include_roles === null) {
-                    $this->include_roles = [];
-                } else {
-                    $this->include_roles = array_filter(array_map('intval', explode(',', $include_roles)));
-                }
-
-                $this->period = (int) $this->settings->get(
-                    'cron_inactive_user_delete_period',
-                    (string) self::DEFAULT_INACTIVITY_PERIOD
-                );
-                $this->reminderTimer = (int) $this->settings->get(
-                    'cron_inactive_user_reminder_period',
-                    (string) self::DEFAULT_REMINDER_PERIOD
-                );
-            }
+        if (isset($DIC['ilDB'])) {
+            $this->cron_delete_reminder_mail = new ilCronDeleteInactiveUserReminderMail($DIC['ilDB']);
         }
+
+        if (isset($DIC['tpl'])) {
+            $this->main_tpl = $DIC['tpl'];
+        }
+        if (isset($DIC['http'])) {
+            $this->http = $DIC['http'];
+        }
+
+        if (isset($DIC['lng'])) {
+            $this->lng = $DIC['lng'];
+        }
+
+        if (isset($DIC['ilLog'])) {
+            $this->log = $DIC['ilLog'];
+        }
+
+        if (isset($DIC['refinery'])) {
+            $this->refinery = $DIC['refinery'];
+        }
+
+        if (isset($DIC['ilObjDataCache'])) {
+            $this->objectDataCache = $DIC['ilObjDataCache'];
+        }
+
+        if (isset($DIC['rbacreview'])) {
+            $this->rbacReview = $DIC['rbacreview'];
+        }
+
+        if (isset($DIC['cron.repository'])) {
+            $this->cronRepository = $DIC['cron.repository'];
+        }
+
+        if (isset($DIC['ilSetting'])) {
+            $this->settings = $DIC['ilSetting'];
+            $this->loadSettings();
+        }
+    }
+
+    private function loadSettings(): void
+    {
+        $include_roles = $this->settings->get(
+            'cron_inactive_user_delete_include_roles',
+            null
+        );
+        if ($include_roles === null) {
+            $this->include_roles = [];
+        } else {
+            $this->include_roles = array_filter(array_map('intval', explode(',', $include_roles)));
+        }
+
+        $this->delete_period = (int) $this->settings->get(
+            'cron_inactive_user_delete_period',
+            (string) self::DEFAULT_INACTIVITY_PERIOD
+        );
+        $this->reminder_period = (int) $this->settings->get(
+            'cron_inactive_user_reminder_period',
+            (string) self::DEFAULT_REMINDER_PERIOD
+        );
     }
 
     /**
@@ -102,9 +121,9 @@ class ilCronDeleteInactiveUserAccounts extends ilCronJob
      */
     protected function isDecimal($number): bool
     {
-        $number = (string) $number;
+        $number_as_string = (string) $number;
 
-        return strpos($number, ',') || strpos($number, '.');
+        return strpos($number_as_string, ',') || strpos($number_as_string, '.');
     }
 
     protected function getTimeDifferenceBySchedule(CronJobScheduleType $schedule_time, int $multiplier): int
@@ -183,71 +202,72 @@ class ilCronDeleteInactiveUserAccounts extends ilCronJob
 
     public function run(): ilCronJobResult
     {
-        global $DIC;
-
-        $rbacreview = $DIC->rbac()->review();
-        $ilLog = $DIC['ilLog'];
-
         $status = ilCronJobResult::STATUS_NO_ACTION;
-        $reminder_time = $this->reminderTimer;
-        $checkMail = $this->period - $reminder_time;
-        $usr_ids = ilObjUser::getUserIdsByInactivityPeriod($checkMail);
-        $counter = 0;
-        $userDeleted = 0;
-        $userMailsDelivered = 0;
+        $check_mail = $this->delete_period - $this->reminder_period;
+        $usr_ids = ilObjUser::getUserIdsByInactivityPeriod($check_mail);
+        $counters = [
+            self::ACTION_USER_NONE => 0,
+            self::ACTION_USER_REMINDER_MAIL_SENT => 0,
+            self::ACTION_USER_DELETED => 0
+        ];
         foreach ($usr_ids as $usr_id) {
             if ($usr_id === ANONYMOUS_USER_ID || $usr_id === SYSTEM_USER_ID) {
                 continue;
             }
 
-            $continue = true;
             foreach ($this->include_roles as $role_id) {
-                if ($rbacreview->isAssigned($usr_id, $role_id)) {
-                    $continue = false;
+                if ($this->rbacreview->isAssigned($usr_id, $role_id)) {
+                    $action_taken = $this->deleteUserOrSendReminderMail($usr_id);
+                    $counters[$action_taken]++;
                     break;
                 }
             }
-
-            if ($continue) {
-                continue;
-            }
-
-            /** @var $user ilObjUser */
-            $user = ilObjectFactory::getInstanceByObjId($usr_id);
-            $timestamp_last_login = strtotime($user->getLastLogin());
-            $grace_period_over = time() - ($this->period * 24 * 60 * 60);
-            if ($timestamp_last_login < $grace_period_over) {
-                $user->delete();
-                $userDeleted++;
-            } elseif ($reminder_time > 0) {
-                $timestamp_for_deletion = $timestamp_last_login - $grace_period_over;
-                $account_will_be_deleted_on = $this->calculateDeletionData($timestamp_for_deletion);
-                $mailSent = ilCronDeleteInactiveUserReminderMail::sendReminderMailIfNeeded(
-                    $user,
-                    $reminder_time,
-                    $account_will_be_deleted_on
-                );
-                if ($mailSent) {
-                    $userMailsDelivered++;
-                }
-            }
-            $counter++;
         }
 
-        if ($counter) {
+        if ($counters[self::ACTION_USER_REMINDER_MAIL_SENT] > 0
+            || $counters[self::ACTION_USER_DELETED] > 0) {
             $status = ilCronJobResult::STATUS_OK;
         }
 
-        ilCronDeleteInactiveUserReminderMail::removeEntriesFromTableIfLastLoginIsNewer();
-        $ilLog->write(
-            "CRON - ilCronDeleteInactiveUserAccounts::run(), deleted " .
-            "=> $userDeleted User(s), sent reminder mail to $userMailsDelivered User(s)"
+        $this->cron_delete_reminder_mail->removeEntriesFromTableIfLastLoginIsNewer();
+        $this->log->write(
+            'CRON - ilCronDeleteInactiveUserAccounts::run(), deleted '
+            . "=> {$counters[self::ACTION_USER_DELETED]} User(s), sent reminder "
+            . "mail to {$counters[self::ACTION_USER_REMINDER_MAIL_SENT]} User(s)"
         );
 
         $result = new ilCronJobResult();
         $result->setStatus($status);
 
         return $result;
+    }
+
+    private function deleteUserOrSendReminderMail($usr_id): int
+    {
+        $user = ilObjectFactory::getInstanceByObjId($usr_id);
+        $timestamp_last_login = strtotime($user->getLastLogin());
+        $grace_period_over = time() - ($this->delete_period * 24 * 60 * 60);
+
+        if ($timestamp_last_login < $grace_period_over) {
+            $user->delete();
+            return self::ACTION_USER_DELETED;
+        }
+
+        if ($this->reminder_period > 0) {
+            $timestamp_for_deletion = $timestamp_last_login - $grace_period_over;
+            $account_will_be_deleted_on = $this->calculateDeletionData($timestamp_for_deletion);
+            if(
+                $this->cron_delete_reminder_mail->sendReminderMailIfNeeded(
+                    $user,
+                    $$this->reminder_period,
+                    $account_will_be_deleted_on
+                )
+            ) {
+                return self::ACTION_USER_REMINDER_MAIL_SENT;
+            }
+        }
+
+        return self::ACTION_USER_NONE;
     }
 
     protected function calculateDeletionData(int $date_for_deletion): int
@@ -459,7 +479,7 @@ class ilCronDeleteInactiveUserAccounts extends ilCronJob
         }
 
         if ($this->reminderTimer > $reminder_period) {
-            ilCronDeleteInactiveUserReminderMail::flushDataTable();
+            $this->cron_delete_reminder_mail->flushDataTable();
         }
 
         $this->settings->set('cron_inactive_user_reminder_period', (string) $reminder_period);

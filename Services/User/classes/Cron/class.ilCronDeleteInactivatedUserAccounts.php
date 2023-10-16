@@ -34,57 +34,53 @@ class ilCronDeleteInactivatedUserAccounts extends ilCronJob
     private array $include_roles;
     private ilSetting $settings;
     private ilLanguage $lng;
-    private ilRbacReview $rbacReview;
+    private ilRbacReview $rbac_review;
     private ilObjectDataCache $objectDataCache;
     private \ILIAS\HTTP\GlobalHttpState $http;
     private \ILIAS\Refinery\Factory $refinery;
 
     public function __construct()
     {
+        /** @var ILIAS\DI\Container $DIC */
         global $DIC;
 
-        if ($DIC) {
-            if (isset($DIC['http'])) {
-                $this->http = $DIC->http();
+        if (isset($DIC['http'])) {
+            $this->http = $DIC['http'];
+        }
+
+        if (isset($DIC['lng'])) {
+            $this->lng = $DIC['lng'];
+        }
+
+        if (isset($DIC['refinery'])) {
+            $this->refinery = $DIC['refinery'];
+        }
+
+        if (isset($DIC['ilObjDataCache'])) {
+            $this->objectDataCache = $DIC['ilObjDataCache'];
+        }
+
+        if (isset($DIC['rbacreview'])) {
+            $this->rbac_review = $DIC['rbacreview'];
+        }
+
+        if (isset($DIC['ilSetting'])) {
+            $this->settings = $DIC['ilSetting'];
+
+            $include_roles = $this->settings->get(
+                'cron_inactivated_user_delete_include_roles',
+                null
+            );
+            if ($include_roles === null) {
+                $this->include_roles = [];
+            } else {
+                $this->include_roles = array_filter(array_map('intval', explode(',', $include_roles)));
             }
 
-            if (isset($DIC['lng'])) {
-                $this->lng = $DIC->language();
-            }
-
-            if (isset($DIC['refinery'])) {
-                $this->refinery = $DIC->refinery();
-            }
-
-            if (isset($DIC['ilObjDataCache'])) {
-                $this->objectDataCache = $DIC['ilObjDataCache'];
-            }
-
-            if (isset($DIC['rbacreview'])) {
-                $this->rbacReview = $DIC->rbac()->review();
-            }
-
-            $rbacreview = $DIC->rbac()->review();
-            $ilObjDataCache = $DIC['ilObjDataCache'];
-
-            if ($DIC['ilSetting']) {
-                $this->settings = $DIC->settings();
-
-                $include_roles = $this->settings->get(
-                    'cron_inactivated_user_delete_include_roles',
-                    null
-                );
-                if ($include_roles === null) {
-                    $this->include_roles = [];
-                } else {
-                    $this->include_roles = array_filter(array_map('intval', explode(',', $include_roles)));
-                }
-
-                $this->period = (int) $this->settings->get(
-                    'cron_inactivated_user_delete_period',
-                    (string) self::DEFAULT_INACTIVITY_PERIOD
-                );
-            }
+            $this->period = (int) $this->settings->get(
+                'cron_inactivated_user_delete_period',
+                (string) self::DEFAULT_INACTIVITY_PERIOD
+            );
         }
     }
 
@@ -147,22 +143,14 @@ class ilCronDeleteInactivatedUserAccounts extends ilCronJob
                 continue;
             }
 
-            $continue = true;
             foreach ($this->include_roles as $role_id) {
                 if ($rbacreview->isAssigned($usr_id, $role_id)) {
-                    $continue = false;
+                    $user = ilObjectFactory::getInstanceByObjId($usr_id);
+                    $user->delete();
+                    $counter++;
                     break;
                 }
             }
-
-            if ($continue) {
-                continue;
-            }
-
-            $user = ilObjectFactory::getInstanceByObjId($usr_id);
-            $user->delete();
-
-            $counter++;
         }
 
         if ($counter > 0) {
@@ -183,7 +171,7 @@ class ilCronDeleteInactivatedUserAccounts extends ilCronJob
         );
         $sub_mlist->setInfo($this->lng->txt('delete_inactivated_user_accounts_include_roles_desc'));
         $roles = [];
-        foreach ($this->rbacReview->getGlobalRoles() as $role_id) {
+        foreach ($this->rbac_review->getGlobalRoles() as $role_id) {
             if ($role_id !== ANONYMOUS_ROLE_ID) {
                 $roles[$role_id] = $this->objectDataCache->lookupTitle($role_id);
             }

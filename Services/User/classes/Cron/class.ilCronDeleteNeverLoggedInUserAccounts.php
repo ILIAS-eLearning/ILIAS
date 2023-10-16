@@ -191,7 +191,7 @@ class ilCronDeleteNeverLoggedInUserAccounts extends \ilCronJob
             'role_whitelist'
         );
         $roleWhiteList->setInfo($this->lng->txt('cron_users_without_login_del_role_whitelist_info'));
-        $roles = array();
+        $roles = [];
         foreach ($this->rbacreview->getGlobalRoles() as $role_id) {
             if ($role_id !== ANONYMOUS_ROLE_ID) {
                 $roles[$role_id] = $this->objectDataCache->lookupTitle($role_id);
