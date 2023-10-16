@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 require_once("libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../Base.php");
@@ -55,20 +55,16 @@ class ToastTest extends ILIAS_UI_TestBase
     /**
      * @dataProvider toast_provider
      */
-    public function test_toast(string $title, string $description, int $vanish_time, int $delay_time, string $action): void
+    public function test_toast(string $title, string $description, string $action): void
     {
         $toast = $this->getToastFactory()->standard($title, $this->getIconFactory()->standard('', ''))
                       ->withDescription($description)
-                      ->withVanishTime($vanish_time)
-                      ->withDelayTime($delay_time)
                       ->withAction($action)
                       ->withAdditionalLink($this->getLinkFactory()->standard('', ''));
 
         $this->assertNotNull($toast);
         $this->assertEquals($title, $toast->getTitle());
         $this->assertEquals($description, $toast->getDescription());
-        $this->assertEquals($vanish_time, $toast->getVanishTime());
-        $this->assertEquals($delay_time, $toast->getDelayTime());
         $this->assertEquals($action, $toast->getAction());
         $this->assertCount(1, $toast->getLinks());
         $this->assertInstanceOf(Link::class, $toast->getLinks()[0]);
@@ -79,7 +75,7 @@ class ToastTest extends ILIAS_UI_TestBase
     /**
      * @dataProvider toast_provider
      */
-    public function test_toast_container(string $title, string $description, int $vanish_time): void
+    public function test_toast_container(): void
     {
         $container = $this->getToastFactory()->container()->withAdditionalToast(
             $this->getToastFactory()->standard('', $this->getIconFactory()->standard('', ''))
@@ -94,9 +90,9 @@ class ToastTest extends ILIAS_UI_TestBase
     public function toast_provider(): array
     {
         return [
-            ['title', 'description', 5000, 500, 'test.php'],
-            ['', '', -5000, -500, ''],
-            ['"/><script>alert("hack")</script>', '"/><script>alert("hack")</script>', PHP_INT_MAX, PHP_INT_MIN, 'test.php']
+            ['title', 'description','test.php'],
+            ['', '', ''],
+            ['"/><script>alert("hack")</script>', '"/><script>alert("hack")</script>', 'test.php']
         ];
     }
 }

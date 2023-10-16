@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,12 +16,16 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\UI\Implementation\Render;
 
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Implementation\Component\Symbol\Glyph\Glyph;
 use ILIAS\UI\Implementation\Component\Symbol\Icon\Icon;
 use ILIAS\UI\Implementation\Component\Input\Field\Input;
+use ILIAS\UI\Implementation\Component\Toast\Toast;
+use ILIAS\UI\Implementation\Component\Toast\Container;
 
 /**
  * Loads renderers for components from the file system.
@@ -45,16 +47,20 @@ class FSLoader implements Loader
     private RendererFactory $icon_renderer_factory;
     private RendererFactory $field_renderer_factory;
 
+    private RendererFactory $toast_renderer_factory;
+
     public function __construct(
         RendererFactory $default_renderer_factory,
         RendererFactory $glyph_renderer_factory,
         RendererFactory $icon_renderer_factory,
-        RendererFactory $field_renderer_factory
+        RendererFactory $field_renderer_factory,
+        RendererFactory $toast_renderer_factory
     ) {
         $this->default_renderer_factory = $default_renderer_factory;
         $this->glyph_renderer_factory = $glyph_renderer_factory;
         $this->icon_renderer_factory = $icon_renderer_factory;
         $this->field_renderer_factory = $field_renderer_factory;
+        $this->toast_renderer_factory = $toast_renderer_factory;
     }
 
     /**
@@ -80,6 +86,9 @@ class FSLoader implements Loader
         }
         if ($component instanceof Input) {
             return $this->field_renderer_factory;
+        }
+        if ($component instanceof Toast || $component instanceof Container) {
+            return $this->toast_renderer_factory;
         }
         return $this->default_renderer_factory;
     }

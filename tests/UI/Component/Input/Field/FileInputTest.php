@@ -29,6 +29,7 @@ use ILIAS\UI\Implementation\Component\Input\Field\FieldRendererFactory;
 use ILIAS\UI\Implementation\Component\SignalGenerator;
 use ILIAS\UI\Implementation\Component\Symbol\Glyph\GlyphRendererFactory;
 use ILIAS\UI\Implementation\Component\Symbol\Icon\IconRendererFactory;
+use ILIAS\UI\Implementation\Component\Toast\ToastRendererFactory;
 use ILIAS\UI\Implementation\Render\DefaultRendererFactory;
 use ILIAS\UI\Implementation\Render\FSLoader;
 use ILIAS\UI\Implementation\Render\JavaScriptBinding;
@@ -579,6 +580,16 @@ class FileInputTest extends ILIAS_UI_TestBase
                             $js_binding,
                             $refinery,
                             $img_resolver
+                        ),
+                        new ToastRendererFactory(
+                            $ui_factory,
+                            $tpl_factory,
+                            $lng,
+                            $js_binding,
+                            $refinery,
+                            $img_resolver,
+                            5000,
+                            500
                         )
                     )
                 )
