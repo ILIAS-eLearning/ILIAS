@@ -3883,15 +3883,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
         $a_xml_writer->xmlStartTag("qtimetadatafield");
-        $a_xml_writer->xmlElement("fieldlabel", null, "question_list");
-        $a_xml_writer->xmlElement("fieldentry", null, sprintf("%d", $main_settings->getParticipantFunctionalitySettings()->getQuestionListEnabled()));
-        $a_xml_writer->xmlEndTag("qtimetadatafield");
-
-        $a_xml_writer->xmlStartTag("qtimetadatafield");
-        $a_xml_writer->xmlElement("fieldlabel", null, "solution_details");
-        $a_xml_writer->xmlElement("fieldentry", null, (int) $this->getShowSolutionDetails());
-        $a_xml_writer->xmlEndTag("qtimetadatafield");
-        $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "print_bs_with_res");
         $a_xml_writer->xmlElement("fieldentry", null, (int) $this->getShowSolutionDetails() ? (int) $this->isBestSolutionPrintedWithResult() : 0);
         $a_xml_writer->xmlEndTag("qtimetadatafield");
@@ -5921,14 +5912,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
     public function getShowPassDetails(): bool
     {
         return $this->getScoreSettings()->getResultDetailsSettings()->getShowPassDetails();
-    }
-
-    /**
-    * Returns if the solution details should be presented to the user or not
-    */
-    public function getShowSolutionDetails(): bool
-    {
-        return $this->getScoreSettings()->getResultDetailsSettings()->getShowSolutionDetails();
     }
 
     /**

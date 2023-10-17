@@ -1106,7 +1106,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         $result_array = $this->getFilteredTestResult($active_id, $pass, $considerHiddenQuestions, $considerOptionalQuestions);
 
         $command_solution_details = "";
-        if ($this->object->getShowSolutionDetails()) {
+        if ($this->object->getShowSolutionListComparison()) {
             $command_solution_details = "outCorrectSolution";
         }
 
