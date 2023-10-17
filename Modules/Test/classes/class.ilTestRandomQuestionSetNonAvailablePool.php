@@ -71,7 +71,7 @@ class ilTestRandomQuestionSetNonAvailablePool
      */
     public function getTitle(): string
     {
-        return $this->title;
+        return $this->title ?? '';
     }
 
     /**
@@ -131,10 +131,14 @@ class ilTestRandomQuestionSetNonAvailablePool
     {
         foreach ($row as $field => $value) {
             switch ($field) {
-                case 'pool_fi': $this->setId($value); break;
-                case 'pool_ref_id': $this->setRefId($value ? (int) $value : null); break;
-                case 'pool_title': $this->setTitle($value); break;
-                case 'pool_path': $this->setPath($value); break;
+                case 'pool_fi': $this->setId($value);
+                    break;
+                case 'pool_ref_id': $this->setRefId($value ? (int) $value : null);
+                    break;
+                case 'pool_title': $this->setTitle($value);
+                    break;
+                case 'pool_path': $this->setPath($value);
+                    break;
             }
         }
     }
