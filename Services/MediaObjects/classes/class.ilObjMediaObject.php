@@ -546,8 +546,9 @@ class ilObjMediaObject extends ilObject
 
                     // Caption
                     if ($item->getCaption() != "") {
-                        $xml .= "<Caption Align=\"bottom\">" .
-                            $this->escapeProperty($item->getCaption()) . "</Caption>";
+                        $xml .= "<Caption Align=\"bottom\">"
+                            . $this->rawData($item->getCaption())
+                            . "</Caption>";
                     }
 
                     // Text Representation
@@ -609,8 +610,9 @@ class ilObjMediaObject extends ilObject
 
                     // Caption
                     if ($item->getCaption() != "") {
-                        $xml .= "<Caption Align=\"bottom\">" .
-                            $this->escapeProperty($item->getCaption()) . "</Caption>";
+                        $xml .= "<Caption Align=\"bottom\">"
+                            . $this->rawData($item->getCaption())
+                            . "</Caption>";
                     }
 
                     // Text Representation
@@ -690,8 +692,9 @@ class ilObjMediaObject extends ilObject
 
                     // Caption
                     if ($item->getCaption() != "") {
-                        $xml .= "<Caption Align=\"bottom\">" .
-                            str_replace("&", "&amp;", $item->getCaption()) . "</Caption>";
+                        $xml .= "<Caption Align=\"bottom\">"
+                            . $this->rawData($item->getCaption())
+                            . "</Caption>";
                     }
 
                     // Text Representation
@@ -723,6 +726,10 @@ class ilObjMediaObject extends ilObject
         return htmlspecialchars($a_value);
     }
 
+    protected function rawData(string $value): string
+    {
+        return '<![CDATA[' . $value . ']]>';
+    }
 
     /**
      * Replace "&" (if not an "&amp;") with "&amp;"
