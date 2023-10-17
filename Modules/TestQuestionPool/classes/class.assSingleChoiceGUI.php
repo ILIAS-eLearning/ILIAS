@@ -301,7 +301,7 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
                 $template->setVariable("ANSWER_IMAGE_TITLE", ilLegacyFormElementsUtil::prepareFormOutput($alt));
                 $template->parseCurrentBlock();
             }
-            //if ($show_feedback) {
+
             if ($show_inline_feedback) {
                 $this->populateInlineFeedback($template, $answer_id, $user_solution);
             }
