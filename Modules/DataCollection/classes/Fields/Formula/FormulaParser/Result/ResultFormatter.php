@@ -66,10 +66,10 @@ class ResultFormatter
         // depending on the function, we need to format the date differently or return nothing
         $calculated_timestamp = (int) $result->getValue();
         switch ($result->getFromFunction()) {
-            case Functions::AVERAGE:
-                return $this->formatDateFromInt($calculated_timestamp);
             case Functions::MAX:
             case Functions::MIN:
+            case Functions::AVERAGE:
+                return $this->formatDateFromInt($calculated_timestamp);
             case Functions::SUM:
                 return '';
         }
