@@ -22,17 +22,12 @@ declare(strict_types=1);
 namespace ILIAS\Container\Skills;
 
 /**
- * @author famula@leifos.de
+ * @author Thomas Famula <famula@leifos.de>
  */
-class ContainerSkillInternalRepoService
+class SkillInternalFactoryService
 {
-    public function getContainerSkillRepo(): ContainerSkillDBRepository
+    public function containerSkill(): ContainerSkillFactory
     {
-        return new ContainerSkillDBRepository();
-    }
-
-    public function getContainerMemberSkillRepo(): ContainerMemberSkillDBRepository
-    {
-        return new ContainerMemberSkillDBRepository();
+        return new ContainerSkillFactory();
     }
 }

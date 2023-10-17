@@ -27,7 +27,7 @@ use ILIAS\Refinery;
 /**
  * @author Thomas Famula <famula@leifos.de>
  */
-class ContainerSkillInternalGUIService
+class SkillInternalGUIService
 {
     protected HTTP\Services $http;
     protected Refinery\Factory $refinery;

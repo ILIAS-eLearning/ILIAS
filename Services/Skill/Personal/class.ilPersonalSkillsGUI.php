@@ -131,7 +131,7 @@ class ilPersonalSkillsGUI
     protected Personal\SelfEvaluationManager $self_evaluation_manager;
     protected Resource\SkillResourcesManager $resource_manager;
     protected Table\SkillTableManager $table_manager;
-    protected ContainerSkills\ContainerSkillInternalFactoryService $cont_factory_service;
+    protected ContainerSkills\SkillInternalFactoryService $cont_factory_service;
     protected string $requested_list_mode = self::LIST_PROFILES;
     protected int $requested_node_id = 0;
     protected int $requested_profile_id = 0;
@@ -1368,10 +1368,8 @@ class ilPersonalSkillsGUI
         if ($a_skills == null) {
             foreach ($this->getObjectSkills() as $s) {
                 $a_skills[] = array(
-                    "cont_obj_id" => $s->getContainerObjectId(),
                     "base_skill_id" => $s->getBaseSkillId(),
-                    "tref_id" => $s->getTrefId(),
-                    "title" => $s->getTitle()
+                    "tref_id" => $s->getTrefId()
                 );
             }
         }
@@ -1404,10 +1402,8 @@ class ilPersonalSkillsGUI
             foreach ($a_skills as $s) {
                 /** @var XAxis $x_axis */
                 $skills[] = $this->cont_factory_service->containerSkill()->skill(
-                    (int) $s["cont_obj_id"],
                     (int) $s["base_skill_id"],
-                    (int) $s["tref_id"],
-                    $s["title"]
+                    (int) $s["tref_id"]
                 );
             }
         }

@@ -52,8 +52,8 @@ class ilSkillObjDeletionHandler
     public function processDeletion(): void
     {
         if ($this->obj_type == "usr" && ilObject::_lookupType($this->obj_id) == "usr") {
-            $this->personal_manager->removePersonalSkills($this->obj_id);
-            $this->assigned_material_manager->removeAssignedMaterials($this->obj_id);
+            $this->personal_manager->removePersonalSkillsForUser($this->obj_id);
+            $this->assigned_material_manager->removeAssignedMaterialsForUser($this->obj_id);
             $this->profile_manager->removeUserFromAllProfiles($this->obj_id);
             $this->profile_completion_manager->deleteEntriesForUser($this->obj_id);
             ilBasicSkill::removeAllUserData($this->obj_id);

@@ -27,7 +27,7 @@ use ILIAS\Refinery;
 /**
  * @author famula@leifos.de
  */
-class ContainerSkillInternalService
+class SkillInternalService
 {
     protected HTTP\Services $http;
     protected Refinery\Factory $refinery;
@@ -40,29 +40,29 @@ class ContainerSkillInternalService
         $this->refinery = $DIC->refinery();
     }
 
-    public function repo(): ContainerSkillInternalRepoService
+    public function repo(): SkillInternalRepoService
     {
-        return new ContainerSkillInternalRepoService();
+        return new SkillInternalRepoService();
     }
 
-    public function manager(): ContainerSkillInternalManagerService
+    public function manager(): SkillInternalManagerService
     {
-        return new ContainerSkillInternalManagerService();
+        return new SkillInternalManagerService();
     }
 
     /**
      * Skill service repos
      */
-    public function factory(): ContainerSkillInternalFactoryService
+    public function factory(): SkillInternalFactoryService
     {
-        return new ContainerSkillInternalFactoryService();
+        return new SkillInternalFactoryService();
     }
 
     public function gui(
         array $query_params = null,
         array $post_data = null
-    ): ContainerSkillInternalGUIService {
-        return new ContainerSkillInternalGUIService(
+    ): SkillInternalGUIService {
+        return new SkillInternalGUIService(
             $this->http,
             $this->refinery,
             $query_params = null,

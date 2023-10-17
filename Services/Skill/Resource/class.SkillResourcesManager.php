@@ -136,6 +136,11 @@ class SkillResourcesManager implements \ilSkillUsageInfo
         $this->skill_res_repo->remove($skill_id, $tref_id, $level_id, $rep_ref_id);
     }
 
+    public function removeResourcesForSkill(int $skill_node_id, bool $is_reference = false): void
+    {
+        $this->skill_res_repo->removeForSkill($skill_node_id, $is_reference);
+    }
+
     public function isLevelTooLow(int $tref_id, array $skill_levels, array $profile_levels, array $actual_levels): bool
     {
         $too_low = true;

@@ -91,9 +91,14 @@ class AssignedMaterialManager implements \ilSkillUsageInfo
         $this->ass_mat_repo->remove($user_id, $tref_id, $level_id, $wsp_id);
     }
 
-    public function removeAssignedMaterials(int $user_id): void
+    public function removeAssignedMaterialsForUser(int $user_id): void
     {
-        $this->ass_mat_repo->removeAll($user_id);
+        $this->ass_mat_repo->removeAllForUser($user_id);
+    }
+
+    public function removeAssignedMaterialsForSkill(int $skill_node_id, bool $is_reference = false): void
+    {
+        $this->ass_mat_repo->removeAllForSkill($skill_node_id, $is_reference);
     }
 
     /**

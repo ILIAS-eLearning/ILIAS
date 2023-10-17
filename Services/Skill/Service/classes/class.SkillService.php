@@ -21,7 +21,10 @@ declare(strict_types=1);
 
 namespace ILIAS\Skill\Service;
 
-use ILIAS\Container\Skills\ContainerSkillInternalService;
+use ILIAS\Container;
+use ILIAS\Survey;
+use ILIAS\Test;
+use ILIAS\TestQuestionPool;
 
 /**
  * Skill service
@@ -106,8 +109,32 @@ class SkillService implements SkillServiceInterface
     /**
      * Internal service for Skill classes in Container Service
      */
-    public function internalContainer(): ContainerSkillInternalService
+    public function internalContainer(): Container\Skills\SkillInternalService
     {
-        return new ContainerSkillInternalService();
+        return new Container\Skills\SkillInternalService();
     }
+
+    /**
+     * Internal service for Skill classes in Survey Module
+     */
+    /*public function internalSurvey(): Survey\Skills\SkillInternalService
+    {
+        return new Survey\Skills\SkillInternalService();
+    }*/
+
+    /**
+     * Internal service for Skill classes in Test Module
+     */
+    /*public function internalTest(): Test\Skills\SkillInternalService
+    {
+        //return new Test\Skills\SkillInternalService();
+    }*/
+
+    /**
+     * Internal service for Skill classes in Test Question Pool Module
+     */
+    /*public function internalTestQuestionPool(): TestQuestionPool\Skills\SkillInternalService
+    {
+        //return new TestQuestionPool\Skills\SkillInternalService();
+    }*/
 }
