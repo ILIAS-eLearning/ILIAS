@@ -67,7 +67,12 @@ class EmbeddedApplicationGSProvider extends AbstractModificationProvider
                 $uif->symbol()->glyph()->close(),
                 $this->dic->language()->txt('close'),
                 (string) $embedded_application->getBackTarget()
-            );
+            )->withAdditionalOnLoadCode(function ($id) {
+                return "$id.addEventListener('click', () => {
+                     return il.WOPI.save();
+                    });";
+            });
+
             return $this->factory->metabar()->withHighPriority()->withModification(
                 fn(?MetaBar $metabar): ?Metabar => $metabar !== null
                     ? $metabar->withClearedEntries()
