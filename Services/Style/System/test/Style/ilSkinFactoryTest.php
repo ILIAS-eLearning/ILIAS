@@ -119,6 +119,9 @@ class ilSkinFactoryTest extends ilSystemStyleBaseFSTest
 
     public function testImportSkin(): void
     {
+        $this->markTestSkipped('Unzipping is not possible due to missing dependencies');
+        return;
+
         if (!defined('PATH_TO_ZIP')) {
             if (file_exists('ilias.ini.php')) {
                 $ini = parse_ini_file('ilias.ini.php', true);
