@@ -4355,7 +4355,7 @@ common#:#info_available_roles#:#Available Roles
 common#:#info_change_user_view#:#Change User
 common#:#info_deactivate_sure#:#Are you sure that you want to deactivate the following user(s)?
 common#:#info_delete_sure#:#Are you sure that you want to delete the following item(s)?
-common#:#info_delete_warning_no_trash#:#(WARNING: Selected Objects will be removed irreversibly from System and may not be recovered anymore!)
+common#:#info_delete_warning_no_trash#:#(WARNING: The selected object(s) will be irretrievably deleted from the system. The recovery of any such deleted objects will not be possible).
 common#:#info_deleted#:#Object(s) Deleted
 common#:#info_err_user_not_exist#:#User with that login name or user_id does not exists
 common#:#info_from_role#:#Granted by Role / Ownership
