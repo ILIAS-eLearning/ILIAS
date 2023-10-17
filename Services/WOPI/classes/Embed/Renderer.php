@@ -26,16 +26,12 @@ namespace ILIAS\Services\WOPI\Embed;
 class Renderer
 {
     private \ILIAS\UI\Factory $ui_factory;
-    private \ILIAS\UI\Renderer $ui_renderer;
-    private \ILIAS\GlobalScreen\Scope\Layout\MetaContent\MetaContent $meta;
 
     public function __construct(
         private EmbeddedApplication $embedded_application
     ) {
         global $DIC;
         $this->ui_factory = $DIC->ui()->factory();
-        $this->ui_renderer = $DIC->ui()->renderer();
-        $this->meta = $DIC->globalScreen()->layout()->meta();
     }
 
     public function getComponent(): \ILIAS\UI\Component\Component
@@ -43,7 +39,7 @@ class Renderer
         $tpl = new \ilTemplate('tpl.wopi_container.html', true, true, 'Services/WOPI');
         $tpl->setVariable('EDITOR_URL', (string) $this->embedded_application->getActionLauncherURL());
         $tpl->setVariable('TOKEN', (string) $this->embedded_application->getToken());
-        $tpl->setVariable('TTL', (string) $this->embedded_application->getTTL());
+        $tpl->setVariable('TTL', (string) (time() + $this->embedded_application->getTTL()) * 1000); // in milliseconds
 
         return $this->ui_factory->legacy($tpl->get());
     }
