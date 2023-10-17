@@ -1110,9 +1110,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             $command_solution_details = "outCorrectSolution";
         }
 
-        //$questionAnchorNav = $this->object->canShowSolutionPrintview();
-        //$questionAnchorNav = $this->object->getShowSolutionListOwnAnswers();
-
         $tpl = new ilTemplate('tpl.il_as_tst_pass_details_overview_participants.html', true, true, "Modules/Test");
 
         $toolbar = $this->buildUserTestResultsToolbarGUI();
