@@ -87,6 +87,8 @@ class Crawler
                 }
 
                 $uri_string = rtrim((string) $action_urlsrc, '?');
+                // remove all after ?
+                $uri_string = explode('?', $uri_string)[0];
                 $actions[] = new Action(
                     0,
                     (string) $action_name,
