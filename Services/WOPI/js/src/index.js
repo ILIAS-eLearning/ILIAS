@@ -1,14 +1,27 @@
 import document from 'document';
-import window from 'window';
 import il from 'ilias';
 
 il.WOPI = {};
 il.WOPI.windowResize = function (e) {
-  const iframeWidth = e.parentElement.offsetWidth - 20;
-  const iframeHeight = document.getElementsByClassName('il-layout-page-content')[0].clientHeight - document.getElementsByClassName('il_HeaderInner')[0].clientHeight - 100;
+  const iframeWidth = e.parentElement.offsetWidth - 0;
+  const iframeHeight = document.getElementsByClassName('il-layout-page-content')[0].clientHeight - document.getElementsByClassName('il_HeaderInner')[0].clientHeight - document.getElementsByTagName('footer')[0].clientHeight - 100;
 
   e.setAttribute('width', iframeWidth);
   e.setAttribute('height', iframeHeight);
+};
+il.WOPI.postMessage = function (mobj) {
+  this.editorFrameWindow.postMessage(JSON.stringify(mobj), '*');
+};
+il.WOPI.save = function () {
+  this.postMessage({
+    MessageId: 'Action_Save',
+    SendTime: Date.now(),
+    Values: {
+      DontTerminateEdit: true,
+      DontSaveIfUnmodified: true,
+      Notify: false,
+    },
+  });
 };
 il.WOPI.init = function () {
   // BUILD IFRAME
@@ -27,6 +40,8 @@ il.WOPI.init = function () {
   editorFrame.setAttribute('frameBorder', '0');
   frameholder.appendChild(editorFrame);
   this.windowResize(editorFrame);
+  // eslint-disable-next-line max-len
+  this.editorFrameWindow = editorFrame.contentWindow || (editorFrame.contentDocument.document || editorFrame.contentDocument);
 
   // BUILD FORM
   const form = document.createElement('form');
@@ -49,7 +64,23 @@ il.WOPI.init = function () {
 
   // SEND FORM
   form.submit();
+  // Add event listener to receive messages from the editor
+  window.addEventListener(
+    'message',
+    (event) => {
+      const message = JSON.parse(event.data);
+      if (message.MessageId === 'App_LoadingStatus' && message.Values.Status === 'Document_Loaded') {
+        this.postMessage({
+          MessageId: 'Host_PostmessageReady',
+          SendTime: Date.now(),
+          Values: {},
+        });
+      }
+    },
+    false,
+  );
 
+  // Add event listener to resize the editor iframe
   document.defaultView.addEventListener('resize', () => {
     il.WOPI.windowResize(editorFrame);
   });

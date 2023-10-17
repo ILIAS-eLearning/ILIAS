@@ -9,7 +9,6 @@ export default {
     banner: copyright,
     globals: {
       document: 'document',
-      window: 'window',
       ilias: 'il',
     },
     plugins: [
