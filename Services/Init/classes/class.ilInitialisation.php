@@ -991,22 +991,21 @@ class ilInitialisation
 
     /**
      * go to login
-     *
-     * @param int $a_auth_stat
      */
     protected static function goToLogin()
     {
         ilLoggerFactory::getLogger('init')->debug('Redirecting to login page.');
 
+        $script = "login.php?target=" . $_GET["target"] . "&client_id=" . CLIENT_ID;
+
         if ($GLOBALS['DIC']['ilAuthSession']->isExpired()) {
             ilSession::setClosingContext(ilSession::SESSION_CLOSE_EXPIRE);
+
+            $script .= "&session_expired=1";
         }
         if (!$GLOBALS['DIC']['ilAuthSession']->isAuthenticated()) {
             ilSession::setClosingContext(ilSession::SESSION_CLOSE_LOGIN);
         }
-
-        $script = "login.php?target=" . $_GET["target"] . "&client_id=" . CLIENT_ID .
-            "&auth_stat=" . $a_auth_stat;
 
         self::redirect(
             $script,
@@ -1407,6 +1406,10 @@ class ilInitialisation
             !$GLOBALS['DIC']['ilAuthSession']->isAuthenticated() or
             $GLOBALS['DIC']['ilAuthSession']->isExpired()
         ) {
+            if ($GLOBALS['DIC']['ilAuthSession']->isExpired()) {
+                ilSession::_destroy($_COOKIE[session_name()], ilSession::SESSION_CLOSE_EXPIRE);
+            }
+
             ilLoggerFactory::getLogger('init')->debug('Current session is invalid: ' . $GLOBALS['DIC']['ilAuthSession']->getId());
             $current_script = substr(strrchr($_SERVER["PHP_SELF"], "/"), 1);
             if (self::blockedAuthentication($current_script)) {

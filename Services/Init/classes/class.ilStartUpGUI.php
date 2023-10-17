@@ -265,7 +265,7 @@ class ilStartUpGUI
         $page_editor_html = $this->purgePlaceholders($page_editor_html);
 
         // check expired session and send message
-        if ($GLOBALS['DIC']['ilAuthSession']->isExpired()) {
+        if ($GLOBALS['DIC']['ilAuthSession']->isExpired() || $this->httpRequest->getQueryParams()['session_expired'] ?? false) {
             ilUtil::sendFailure($GLOBALS['lng']->txt('auth_err_expired'));
         }
 

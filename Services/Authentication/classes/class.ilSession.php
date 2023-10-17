@@ -252,7 +252,17 @@ class ilSession
         ilSessionIStorage::destroySession($a_session_id);
 
         $ilDB->manipulate($q);
-        
+
+        try {
+            // only delete session cookie if it is set in the current request
+            if (isset($_COOKIE[session_name()]) && $_COOKIE[session_name()] === $a_session_id) {
+                \ilUtil::setCookie(session_name(), '', false, true);
+            }
+        } catch (\Throwable $e) {
+            // ignore
+            // this is needed for "header already"  sent errors when the random cleanup of expired sessions is triggered
+        }
+
         return true;
     }
 
