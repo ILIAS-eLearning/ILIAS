@@ -821,6 +821,11 @@ class ilTestRandomQuestionSetConfigGUI
     {
         $poolIds = $this->fetchPoolIdsParameter();
         $targetRef = $this->fetchTargetRefParameter();
+        if (!$this->access->checkAccess('write', '', $targetRef)) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_permission"), true);
+            $this->ctrl->setParameterByClass(ilObjTestGUI::class, 'ref_id', $this->testOBJ->getRefId());
+            $this->ctrl->redirectByClass(ilObjTestGUI::class);
+        }
 
         if (count($poolIds)) {
             foreach ($poolIds as $poolId) {
