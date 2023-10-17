@@ -196,24 +196,24 @@ class ilTestRandomQuestionSetSourcePoolDefinitionList implements Iterator
                 $trashedPools[$trashedPool->getId()] = $trashedPool;
             }
 
-            if (!$this->isLostPool($row['pool_id'])) {
-                if (!$row['pool_id']) {
-                    $lostPool = new ilTestRandomQuestionSetNonAvailablePool();
-                    $lostPool->assignDbRow($row);
+            if (!$this->isLostPool($row['pool_id'])
+                && !$row['pool_id']) {
+                $lostPool = new ilTestRandomQuestionSetNonAvailablePool();
+                $lostPool->assignDbRow($row);
 
-                    $lostPool->setUnavailabilityStatus(
-                        ilTestRandomQuestionSetNonAvailablePool::UNAVAILABILITY_STATUS_LOST
-                    );
+                $lostPool->setUnavailabilityStatus(
+                    ilTestRandomQuestionSetNonAvailablePool::UNAVAILABILITY_STATUS_LOST
+                );
 
-                    $this->addLostPool($lostPool);
+                $this->addLostPool($lostPool);
 
-                    if (isset($trashedPools[$lostPool->getId()])) {
-                        unset($trashedPools[$lostPool->getId()]);
-                    }
+                if (isset($trashedPools[$lostPool->getId()])) {
+                    unset($trashedPools[$lostPool->getId()]);
                 }
             }
 
-            if ($sourcePoolDefinition->getPoolTitle() !== $row['actual_pool_title']) {
+            if (isset($row['actual_pool_title'])
+                && $sourcePoolDefinition->getPoolTitle() !== $row['actual_pool_title']) {
                 $sourcePoolDefinition->setPoolTitle($row['actual_pool_title']);
                 $sourcePoolDefinition->saveToDb();
             }
