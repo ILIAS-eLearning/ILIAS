@@ -11,20 +11,24 @@
 <!-- BEGIN top_prev -->
 		<input type="submit" id="prevButton" class="btn btn-default" name="cmd[previous]" value="{BTN_PREV}" />
 <!-- END top_prev -->
+
 	</td>
 	<td class="submit">
-<!-- BEGIN suspend_survey -->
 		<div align="center">
+		<!-- BEGIN top_clear -->
+			<input type="submit" id="prevButtonClear" class="btn btn-default" name="cmd[clearInput]" value="{BTN_CLEAR}" />
+		<!-- END top_clear -->
+		<!-- BEGIN suspend_survey -->
 			<a href="{HREF_SUSPEND}" class="btn btn-default">{TEXT_SUSPEND}</a>
+		<!-- END suspend_survey -->
 		</div>
-<!-- END suspend_survey -->
 	</td>
 	<td align="right" width="33%" class="submit">
 <!-- BEGIN top_next -->
 		<input type="submit" id="nextButton" class="btn btn-default btn-primary" name="cmd[next]" value="{BTN_NEXT}" />
 <!-- END top_next -->
 	</td>
-	</tr>	
+	</tr>
 	<tr class="std">
 		<td colspan="3">
 			{PAGE}

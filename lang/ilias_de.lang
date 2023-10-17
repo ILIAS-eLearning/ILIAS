@@ -15448,6 +15448,8 @@ survey#:#categories#:#Antworten
 survey#:#category#:#Antwort
 survey#:#category_nr_selected#:#Anzahl der Auswahlen
 survey#:#chart#:#Diagramm
+survey#:#clear_input#:#Eingaben löschen
+survey#:#clear_survey_answer#:#In dieser Frage ist bereits mindestens eine Antwort vorhanden. Um eine Seite zurückgehen zu können löschen Sie bitte die Antwort(en).
 survey#:#codes#:#Zugangsschlüssel
 survey#:#codes_created#:#Zugangsschlüssel erzeugt
 survey#:#codes_deleted#:#Zugangsschlüssel gelöscht

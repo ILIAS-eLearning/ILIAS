@@ -280,6 +280,9 @@ class ilSurveyExecutionGUI
                     $this->request->getDirection()
                 );
                 break;
+            case "clearInput":
+                $this->clearInput();
+                break;
             case "default":
                 $this->outSurveyPage($this->request->getQuestionId());
                 break;
@@ -433,6 +436,9 @@ class ilSurveyExecutionGUI
                 if (!$this->preview) {
                     $stpl->setVariable("TEXT_SUSPEND", $this->lng->txt("cancel_survey"));
                     $stpl->setVariable("HREF_SUSPEND", $this->ctrl->getLinkTargetByClass("ilObjSurveyGUI", "infoScreen"));
+                    $stpl->setCurrentBlock("top_clear");
+                    $stpl->setVariable("BTN_CLEAR", $this->lng->txt("clear_input"));
+                    $stpl->parseCurrentBlock();
                 } else {
                     $this->ctrl->setParameterByClass("ilObjSurveyGUI", "pgov", $this->request->getTargetPosition());
                     $stpl->setVariable("TEXT_SUSPEND", $this->lng->txt("survey_cancel_preview"));
@@ -530,11 +536,22 @@ class ilSurveyExecutionGUI
             } else {
                 $this->tpl->setOnScreenMessage('failure', $this->lng->txt("svy_page_errors"), true);
             }
+        } elseif (count(array_keys($this->raw_post_data)) > 1 && (strcmp($navigationDirection, "previous") === 0)) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("clear_survey_answer"), true);
+            $page_error = 1;
         } else {
             $page_error = 0;
             $this->run_manager->clearErrors();
         }
         return $page_error;
+    }
+
+    public function clearInput(): void
+    {
+        $this->object->deleteWorkingData($this->request->getQuestionId(), $this->getCurrentRunId());
+        $this->ctrl->setParameter($this, "direction", "1");
+        $this->run_manager->clearErrors();
+        $this->outSurveyPage($this->request->getQuestionId());
     }
 
     /**

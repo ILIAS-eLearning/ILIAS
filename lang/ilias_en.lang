@@ -15447,6 +15447,8 @@ survey#:#categories#:#Answers
 survey#:#category#:#Answer
 survey#:#category_nr_selected#:#Number of selections
 survey#:#chart#:#Chart
+survey#:#clear_input#:#Clear Input
+survey#:#clear_survey_answer#:#This survey question has already at least one answer. To go back clear the input of this survey question.
 survey#:#codes#:#Access Codes
 survey#:#codes_created#:#Code(s) created
 survey#:#codes_deleted#:#Code(s) deleted
