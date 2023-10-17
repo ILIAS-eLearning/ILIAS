@@ -50,6 +50,7 @@ class ilTestPlayerLayoutProvider extends AbstractModificationProvider implements
     public const TEST_PLAYER_SHORT_TITLE = 'test_player_instance_name';
     public const TEST_PLAYER_QUESTIONLIST = 'test_player_questionlist';
 
+    private const MODIFICATION_PRIORITY = 5; //slightly above "low"
 
     public function isInterestedInContexts(): ContextCollection
     {
@@ -103,7 +104,7 @@ class ilTestPlayerLayoutProvider extends AbstractModificationProvider implements
 
         return $mainbar
             ->withModification($mainbar_modification)
-            ->withHighPriority();
+            ->withPriority(self::MODIFICATION_PRIORITY);
     }
 
     public function getMetaBarModification(CalledContexts $called_contexts): ?MetaBarModification
@@ -115,7 +116,8 @@ class ilTestPlayerLayoutProvider extends AbstractModificationProvider implements
                 return null;
             });
 
-            return $metaBar->withHighPriority();
+            return $metaBar
+                ->withPriority(self::MODIFICATION_PRIORITY);
         }
 
         return null;
@@ -130,7 +132,8 @@ class ilTestPlayerLayoutProvider extends AbstractModificationProvider implements
                 return null;
             });
 
-            return $footer->withHighPriority();
+            return $footer
+                ->withPriority(self::MODIFICATION_PRIORITY);
         }
 
         return null;
@@ -157,7 +160,7 @@ class ilTestPlayerLayoutProvider extends AbstractModificationProvider implements
                     return $title;
                 }
             )
-            ->withHighPriority();
+            ->withPriority(self::MODIFICATION_PRIORITY);
         }
         return null;
     }
@@ -175,7 +178,7 @@ class ilTestPlayerLayoutProvider extends AbstractModificationProvider implements
                     return $title;
                 }
             )
-            ->withHighPriority();
+            ->withPriority(self::MODIFICATION_PRIORITY);
         }
         return null;
     }
@@ -195,7 +198,7 @@ class ilTestPlayerLayoutProvider extends AbstractModificationProvider implements
                     return $title;
                 }
             )
-            ->withHighPriority();
+            ->withPriority(self::MODIFICATION_PRIORITY);
         }
         return null;
     }
