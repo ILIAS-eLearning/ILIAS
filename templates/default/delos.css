@@ -9087,6 +9087,11 @@ div.alert ul > li:before {
 .il-table-presentation-viewcontrols {
   margin-bottom: 6px;
 }
+@media print {
+  .il-table-presentation-viewcontrols {
+    display: none !important;
+  }
+}
 
 .il-table-presentation-row {
   background-color: white;

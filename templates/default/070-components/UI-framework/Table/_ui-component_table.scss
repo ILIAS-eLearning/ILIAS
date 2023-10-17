@@ -19,6 +19,9 @@ $il-table-presentation-details-viewcontrols-btn-bg: white;
 
 .il-table-presentation-viewcontrols {
     margin-bottom: $il-margin-large-vertical;
+    @media print {
+        display: none !important;
+    }
 }
 
 .il-table-presentation-row {
