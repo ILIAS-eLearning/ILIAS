@@ -1445,7 +1445,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         if (is_file(ilSession::get("tst_import_dir") . '/' . ilSession::get("tst_import_subdir") . "/manifest.xml")) {
             $newObj->saveToDb();
 
-            ilSession::set('tst_import_idents', $_POST['ident']);
+            ilSession::set('tst_import_idents', $_POST['ident'] ?? '');
             ilSession::set('tst_import_qst_parent', $questionParentObjId);
 
             $fileName = ilSession::get('tst_import_subdir') . '.zip';
