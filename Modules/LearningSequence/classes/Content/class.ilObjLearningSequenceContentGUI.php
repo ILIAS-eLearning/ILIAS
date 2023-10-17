@@ -82,7 +82,7 @@ class ilObjLearningSequenceContentGUI
     {
         $alert_icon = $this->ui_renderer->render(
             $this->ui_factory->symbol()->icon()
-                ->custom(ilUtil::getImagePath("icon_alert.svg"), $this->lng->txt("warning"))
+                ->custom(ilUtil::getImagePath("standard/icon_alert.svg"), $this->lng->txt("warning"))
                 ->withSize('small')
         );
         $table = new ilObjLearningSequenceContentTableGUI(

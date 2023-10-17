@@ -22,6 +22,7 @@ declare(strict_types=1);
 use ILIAS\Skill\Service\SkillInternalFactoryService;
 use ILIAS\Skill\Profile\SkillProfileManager;
 use ILIAS\Skill\Personal\AssignedMaterialManager;
+use ILIAS\Skill\Resource\SkillResourcesManager;
 
 /**
  * Skill usage
@@ -54,7 +55,7 @@ class ilSkillUsage implements ilSkillUsageInfo
      * @var ilSkillUsageInfo[]
      */
     protected array $classes = [ilBasicSkill::class, AssignedMaterialManager::class, SkillProfileManager::class,
-                                ilSkillResources::class, ilSkillUsage::class];
+                                SkillResourcesManager::class, ilSkillUsage::class];
 
     protected ilSkillTreeRepository $tree_repo;
     protected SkillInternalFactoryService $tree_factory;
@@ -212,7 +213,7 @@ class ilSkillUsage implements ilSkillUsageInfo
         $allnodes = [];
         foreach ($a_tree_ids as $t) {
             $vtree = $this->tree_factory->tree()->getGlobalVirtualTree();
-            $nodes = $vtree->getSubTreeForTreeId($t);
+            $nodes = $vtree->getSubTreeForTreeId((string) $t);
             foreach ($nodes as $n) {
                 $allnodes[] = $n;
             }

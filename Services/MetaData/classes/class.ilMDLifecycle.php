@@ -1,6 +1,5 @@
 <?php
 
-declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Meta Data class (element annotation)
  * @author  Stefan Meyer <meyer@leifos.com>
@@ -25,6 +26,16 @@ declare(strict_types=1);
  */
 class ilMDLifecycle extends ilMDBase
 {
+    /**
+     * Compatibility fix for legacy MD classes for new db tables
+     */
+    private const STATUS_TRANSLATION = [
+        'draft' => 'Draft',
+        'final' => 'Final',
+        'revised' => 'Revised',
+        'unavailable' => 'Unavailable'
+    ];
+
     private ?ilMDLanguageItem $version_language = null;
     private string $version = "";
     private string $status = "";
@@ -153,11 +164,19 @@ class ilMDLifecycle extends ilMDBase
      */
     public function __getFields(): array
     {
+        /**
+         * Compatibility fix for legacy MD classes for new db tables
+         */
+        $status = (string) array_search(
+            $this->getStatus(),
+            self::STATUS_TRANSLATION
+        );
+
         return array(
             'rbac_id' => array('integer', $this->getRBACId()),
             'obj_id' => array('integer', $this->getObjId()),
             'obj_type' => array('text', $this->getObjType()),
-            'lifecycle_status' => array('text', $this->getStatus()),
+            'lifecycle_status' => array('text', $status),
             'meta_version' => array('text', $this->getVersion()),
             'version_language' => array('text', $this->getVersionLanguageCode())
         );
@@ -171,12 +190,19 @@ class ilMDLifecycle extends ilMDBase
 
             $res = $this->db->query($query);
             while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+                /**
+                 * Compatibility fix for legacy MD classes for new db tables
+                 */
+                if (key_exists($row->lifecycle_status ?? '', self::STATUS_TRANSLATION)) {
+                    $row->lifecycle_status = self::STATUS_TRANSLATION[$row->lifecycle_status ?? ''];
+                }
+
                 $this->setRBACId((int) $row->rbac_id);
                 $this->setObjId((int) $row->obj_id);
-                $this->setObjType($row->obj_type);
-                $this->setStatus((string) $row->lifecycle_status);
-                $this->setVersion((string) $row->meta_version);
-                $this->setVersionLanguage(new ilMDLanguageItem((string) $row->version_language));
+                $this->setObjType($row->obj_type ?? '');
+                $this->setStatus($row->lifecycle_status ?? '');
+                $this->setVersion($row->meta_version ?? '');
+                $this->setVersionLanguage(new ilMDLanguageItem($row->version_language ?? ''));
             }
         }
         return true;

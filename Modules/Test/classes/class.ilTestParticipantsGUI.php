@@ -16,6 +16,11 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
+use ILIAS\UI\Factory as UIFactory;
+use ILiAS\UI\Renderer as UIRenderer;
+
 /**
  * Class ilTestParticipantsGUI
  *
@@ -30,10 +35,6 @@
  */
 class ilTestParticipantsGUI
 {
-    /**
-     * Command/Callback Constants
-     */
-
     public const CMD_SHOW = 'show';
     public const CMD_SET_FILTER = 'setFilter';
     public const CMD_RESET_FILTER = 'resetFilter';
@@ -41,123 +42,81 @@ class ilTestParticipantsGUI
 
     public const CALLBACK_ADD_PARTICIPANT = 'addParticipants';
 
-    /**
-     * @var ilObjTest
-     */
-    protected $testObj;
+    protected ilTestObjectiveOrientedContainer $objective_parent;
+    protected ilTestAccess $test_access;
 
-    /**
-     * @var ilTestQuestionSetConfig
-     */
-    protected $questionSetConfig;
+    protected ilTestParticipantAccessFilterFactory $participant_access_filter;
 
-    /**
-     * @var ilTestObjectiveOrientedContainer
-     */
-    protected $objectiveParent;
-
-    /**
-     * @var ilTestAccess
-     */
-    protected $testAccess;
-    private \ilGlobalTemplateInterface $main_tpl;
-
-    /**
-     * ilTestParticipantsGUI constructor.
-     * @param ilObjTest $testObj
-     */
-    public function __construct(ilObjTest $testObj, ilTestQuestionSetConfig $questionSetConfig)
-    {
-        global $DIC;
-        $this->main_tpl = $DIC->ui()->mainTemplate();
-        $this->testObj = $testObj;
-        $this->questionSetConfig = $questionSetConfig;
+    public function __construct(
+        protected ilObjTest $test_obj,
+        protected ilTestQuestionSetConfig $question_set_config,
+        protected ilAccess $access,
+        protected ilGlobalTemplateInterface $main_tpl,
+        protected UIFactory $ui_factory,
+        protected UIRenderer $ui_renderer,
+        protected ilLanguage $lng,
+        protected ilCtrl $ctrl,
+        protected ilDBInterface $db,
+        protected ilTabsGUI $tabs,
+        protected ilToolbarGUI $toolbar
+    ) {
+        $this->participant_access_filter = new ilTestParticipantAccessFilterFactory($access);
     }
 
-    /**
-     * @return ilObjTest
-     */
     public function getTestObj(): ilObjTest
     {
-        return $this->testObj;
+        return $this->test_obj;
     }
 
-    /**
-     * @param ilObjTest $testObj
-     */
-    public function setTestObj($testObj)
+    public function setTestObj(ilObjTest $test_obj): void
     {
-        $this->testObj = $testObj;
+        $this->test_obj = $test_obj;
     }
 
-    /**
-     * @return ilTestQuestionSetConfig
-     */
     public function getQuestionSetConfig(): ilTestQuestionSetConfig
     {
-        return $this->questionSetConfig;
+        return $this->question_set_config;
     }
 
-    /**
-     * @param ilTestQuestionSetConfig $questionSetConfig
-     */
-    public function setQuestionSetConfig($questionSetConfig)
+    public function setQuestionSetConfig(ilTestQuestionSetConfig $question_set_config): void
     {
-        $this->questionSetConfig = $questionSetConfig;
+        $this->question_set_config = $question_set_config;
     }
 
-    /**
-     * @return ilTestObjectiveOrientedContainer
-     */
     public function getObjectiveParent(): ilTestObjectiveOrientedContainer
     {
-        return $this->objectiveParent;
+        return $this->objective_parent;
     }
 
-    /**
-     * @param ilTestObjectiveOrientedContainer $objectiveParent
-     */
-    public function setObjectiveParent(ilTestObjectiveOrientedContainer $objectiveParent)
+    public function setObjectiveParent(ilTestObjectiveOrientedContainer $objective_parent): void
     {
-        $this->objectiveParent = $objectiveParent;
+        $this->objective_parent = $objective_parent;
     }
 
-    /**
-     * @return ilTestAccess
-     */
     public function getTestAccess(): ilTestAccess
     {
-        return $this->testAccess;
+        return $this->test_access;
     }
 
-    /**
-     * @param ilTestAccess $testAccess
-     */
-    public function setTestAccess(ilTestAccess $testAccess)
+    public function setTestAccess(ilTestAccess $test_access): void
     {
-        $this->testAccess = $testAccess;
+        $this->test_access = $test_access;
     }
 
-    /**
-     * Execute Command
-     */
-    public function executeCommand()
+    public function executeCommand(): void
     {
-        global $DIC; /* @var ILIAS\DI\Container $DIC */
-
-
-        switch ($DIC->ctrl()->getNextClass($this)) {
+        switch ($this->ctrl->getNextClass($this)) {
             case 'ilrepositorysearchgui':
                 $gui = new ilRepositorySearchGUI();
                 $gui->setCallback($this, self::CALLBACK_ADD_PARTICIPANT, array());
 
-                $gui->addUserAccessFilterCallable(ilTestParticipantAccessFilter::getManageParticipantsUserFilter(
+                $gui->addUserAccessFilterCallable($this->participant_access_filter->getManageParticipantsUserFilter(
                     $this->getTestObj()->getRefId()
                 ));
 
 
-                $DIC->ctrl()->setReturn($this, self::CMD_SHOW);
-                $DIC->ctrl()->forwardCommand($gui);
+                $this->ctrl->setReturn($this, self::CMD_SHOW);
+                $this->ctrl->forwardCommand($gui);
 
                 break;
 
@@ -165,149 +124,123 @@ class ilTestParticipantsGUI
                 $gui = new ilTestEvaluationGUI($this->getTestObj());
                 $gui->setObjectiveOrientedContainer($this->getObjectiveParent());
                 $gui->setTestAccess($this->getTestAccess());
-                $DIC->tabs()->clearTargets();
-                $DIC->tabs()->clearSubTabs();
+                $this->tabs->clearTargets();
+                $this->tabs->clearSubTabs();
 
-                $DIC->ctrl()->forwardCommand($gui);
+                $this->ctrl->forwardCommand($gui);
 
                 break;
 
             default:
 
-                $command = $DIC->ctrl()->getCmd(self::CMD_SHOW) . 'Cmd';
+                $command = $this->ctrl->getCmd(self::CMD_SHOW) . 'Cmd';
                 $this->{$command}();
         }
     }
 
-    public function addParticipants($a_user_ids = array()): ?bool
+    public function addParticipants($user_ids = []): ?bool
     {
-        global $DIC;
-        $filterCallback = ilTestParticipantAccessFilter::getManageParticipantsUserFilter($this->getTestObj()->getRefId());
-        $a_user_ids = call_user_func_array($filterCallback, [$a_user_ids]);
+        $filter_closure = $this->participant_access_filter->getManageParticipantsUserFilter($this->getTestObj()->getRefId());
+        $filtered_user_ids = $filter_closure($user_ids);
 
         $countusers = 0;
-        // add users
-        if (is_array($a_user_ids)) {
-            $i = 0;
-            foreach ($a_user_ids as $user_id) {
-                $client_ip = $_POST["client_ip"][$i] ?? '';
-                $this->getTestObj()->inviteUser($user_id, $client_ip);
-                $countusers++;
-                $i++;
-            }
+        foreach ($filtered_user_ids as $user_id) {
+            $client_ip = $_POST["client_ip"][$countusers] ?? '';
+            $this->getTestObj()->inviteUser($user_id, $client_ip);
+            $countusers++;
         }
+
         $message = "";
         if ($countusers) {
-            $message = $DIC->language()->txt("tst_invited_selected_users");
+            $message = $this->lng->txt("tst_invited_selected_users");
         }
         if (strlen($message)) {
             $this->main_tpl->setOnScreenMessage('info', $message, true);
         } else {
-            $this->main_tpl->setOnScreenMessage('info', $DIC->language()->txt("tst_invited_nobody"), true);
+            $this->main_tpl->setOnScreenMessage('info', $this->lng->txt("tst_invited_nobody"), true);
             return false;
         }
 
-        $DIC->ctrl()->redirect($this, self::CMD_SHOW);
+        $this->ctrl->redirect($this, self::CMD_SHOW);
         return null;
     }
 
-    /**
-     * @return ilTestParticipantsTableGUI
-     */
     protected function buildTableGUI(): ilTestParticipantsTableGUI
     {
-        global $DIC;
-        $tableGUI = new ilTestParticipantsTableGUI($this, self::CMD_SHOW);
+        $table_gui = new ilTestParticipantsTableGUI($this, self::CMD_SHOW, $this->ui_factory, $this->ui_renderer);
 
-        $tableGUI->setParticipantHasSolutionsFilterEnabled(
+        $table_gui->setParticipantHasSolutionsFilterEnabled(
             $this->getTestObj()->getFixedParticipants()
         );
 
         if ($this->getTestObj()->getFixedParticipants()) {
-            $tableGUI->setTitle($DIC->language()->txt('tst_tbl_invited_users'));
+            $table_gui->setTitle($this->lng->txt('tst_tbl_invited_users'));
         } else {
-            $tableGUI->setTitle($DIC->language()->txt('tst_tbl_participants'));
+            $table_gui->setTitle($this->lng->txt('tst_tbl_participants'));
         }
 
-        return $tableGUI;
+        return $table_gui;
     }
 
-    /**
-     * set table filter command
-     */
-    protected function setFilterCmd()
+    protected function setFilterCmd(): void
     {
-        $tableGUI = $this->buildTableGUI();
-        $tableGUI->initFilter($this->getTestObj()->getFixedParticipants());
-        $tableGUI->writeFilterToSession();
-        $tableGUI->resetOffset();
+        $table_gui = $this->buildTableGUI();
+        $table_gui->initFilter($this->getTestObj()->getFixedParticipants());
+        $table_gui->writeFilterToSession();
+        $table_gui->resetOffset();
         $this->showCmd();
     }
 
-    /**
-     * reset table filter command
-     */
-    protected function resetFilterCmd()
+    protected function resetFilterCmd(): void
     {
-        $tableGUI = $this->buildTableGUI();
-        $tableGUI->resetFilter();
-        $tableGUI->resetOffset();
+        $table_gui = $this->buildTableGUI();
+        $table_gui->resetFilter();
+        $table_gui->resetOffset();
         $this->showCmd();
     }
 
-    /**
-     * show command
-     */
-    public function showCmd()
+    public function showCmd(): void
     {
-        global $DIC; /* @var ILIAS\DI\Container $DIC */
-
-        $tableGUI = $this->buildTableGUI();
+        $table_gui = $this->buildTableGUI();
 
         if (!$this->getQuestionSetConfig()->areDepenciesBroken()) {
             if ($this->getTestObj()->getFixedParticipants()) {
-                $participantList = $this->getTestObj()->getInvitedParticipantList()->getAccessFilteredList(
-                    ilTestParticipantAccessFilter::getManageParticipantsUserFilter($this->getTestObj()->getRefId())
+                $participant_list = $this->getTestObj()->getInvitedParticipantList()->getAccessFilteredList(
+                    $this->participant_access_filter->getManageParticipantsUserFilter($this->getTestObj()->getRefId())
                 );
 
-                $tableGUI->setData($this->applyFilterCriteria($participantList->getParticipantsTableRows()));
-                $tableGUI->setRowKeyDataField('usr_id');
-                $tableGUI->setManageInviteesCommandsEnabled(true);
-                $tableGUI->setDescription($DIC->language()->txt("fixed_participants_hint"));
+                $table_gui->setData($this->applyFilterCriteria($participant_list->getParticipantsTableRows()));
+                $table_gui->setRowKeyDataField('usr_id');
+                $table_gui->setManageInviteesCommandsEnabled(true);
+                $table_gui->setDescription($this->lng->txt("fixed_participants_hint"));
             } else {
-                $participantList = $this->getTestObj()->getActiveParticipantList()->getAccessFilteredList(
-                    ilTestParticipantAccessFilter::getManageParticipantsUserFilter($this->getTestObj()->getRefId())
+                $participant_list = $this->getTestObj()->getActiveParticipantList()->getAccessFilteredList(
+                    $this->participant_access_filter->getManageParticipantsUserFilter($this->getTestObj()->getRefId())
                 );
 
-                $tableGUI->setData($participantList->getParticipantsTableRows());
-                $tableGUI->setRowKeyDataField('active_id');
+                $table_gui->setData($participant_list->getParticipantsTableRows());
+                $table_gui->setRowKeyDataField('active_id');
             }
 
-            $tableGUI->setManageResultsCommandsEnabled(true);
+            $table_gui->setManageResultsCommandsEnabled(true);
 
-            $this->initToolbarControls($participantList);
+            $this->initToolbarControls($participant_list);
         }
 
-        $tableGUI->setAnonymity($this->getTestObj()->getAnonymity());
+        $table_gui->setAnonymity($this->getTestObj()->getAnonymity());
 
-        $tableGUI->initColumns();
-        $tableGUI->initCommands();
+        $table_gui->initColumns();
+        $table_gui->initCommands();
 
-        $tableGUI->initFilter();
-        $tableGUI->setFilterCommand(self::CMD_SET_FILTER);
-        $tableGUI->setResetCommand(self::CMD_RESET_FILTER);
+        $table_gui->initFilter();
+        $table_gui->setFilterCommand(self::CMD_SET_FILTER);
+        $table_gui->setResetCommand(self::CMD_RESET_FILTER);
 
-        $DIC->ui()->mainTemplate()->setContent($DIC->ctrl()->getHTML($tableGUI));
+        $this->main_tpl->setContent($this->ctrl->getHTML($table_gui));
     }
 
-    /**
-     * @param array $in_rows
-     * @return array
-     */
-    protected function applyFilterCriteria($in_rows): array
+    protected function applyFilterCriteria(array $in_rows): array
     {
-        global $DIC; /* @var ILIAS\DI\Container $DIC */
-
         $selected_pax = ilSession::get('form_tst_participants_' . $this->getTestObj()->getRefId());
 
         if ($selected_pax === null || !isset($selected_pax['selection'])) {
@@ -326,12 +259,12 @@ class ilTestParticipantsGUI
         $with_result = array();
         $without_result = array();
         foreach ($in_rows as $row) {
-            $result = $DIC->database()->query(
+            $result = $this->db->query(
                 'SELECT count(solution_id) count
 				FROM tst_solutions
-				WHERE active_fi = ' . $DIC->database()->quote($row['active_id'])
+				WHERE active_fi = ' . $this->db->quote($row['active_id'])
             );
-            $count = $DIC->database()->fetchAssoc($result);
+            $count = $this->db->fetchAssoc($result);
             $count = $count['count'];
 
             if ($count == 0) {
@@ -347,96 +280,84 @@ class ilTestParticipantsGUI
         return $without_result;
     }
 
-    protected function initToolbarControls(ilTestParticipantList $participantList)
+    protected function initToolbarControls(ilTestParticipantList $participant_list): void
     {
-        global $DIC; /* @var ILIAS\DI\Container $DIC */
-
         if ($this->getTestObj()->getFixedParticipants()) {
-            $this->addUserSearchControls($DIC->toolbar());
+            $this->addUserSearchControls($this->toolbar);
         }
 
-        if ($this->getTestObj()->getFixedParticipants() && $participantList->hasUnfinishedPasses()) {
-            $DIC->toolbar()->addSeparator();
+        if ($this->getTestObj()->getFixedParticipants() && $participant_list->hasUnfinishedPasses()) {
+            $this->toolbar->addSeparator();
         }
 
-        if ($participantList->hasUnfinishedPasses()) {
-            $this->addFinishAllPassesButton($DIC->toolbar());
+        if ($participant_list->hasUnfinishedPasses()) {
+            $this->addFinishAllPassesButton($this->toolbar);
         }
     }
 
-    /**
-     * @param ilToolbarGUI $toolbar
-     * @param ilLanguage $lng
-     */
-    protected function addUserSearchControls(ilToolbarGUI $toolbar)
+    protected function addUserSearchControls(ilToolbarGUI $toolbar): void
     {
-        global $DIC; /* @var ILIAS\DI\Container $DIC */
         ilRepositorySearchGUI::fillAutoCompleteToolbar(
             $this,
             $toolbar,
             array(
-                'auto_complete_name' => $DIC->language()->txt('user'),
-                'submit_name' => $DIC->language()->txt('add')
+                'auto_complete_name' => $this->lng->txt('user'),
+                'submit_name' => $this->lng->txt('add')
             )
         );
 
         $search_btn = ilLinkButton::getInstance();
         $search_btn->setCaption('tst_search_users');
-        $search_btn->setUrl($DIC->ctrl()->getLinkTargetByClass('ilRepositorySearchGUI', 'start'));
+        $search_btn->setUrl($this->ctrl->getLinkTargetByClass('ilRepositorySearchGUI', 'start'));
 
         $toolbar->addSeparator();
-        $toolbar->addButtonInstance($search_btn);
+
+        $search_btn = $DIC->ui()->factory()->button()->standard(
+            $DIC->language()->txt('tst_search_users'),
+            $DIC->ctrl()->getLinkTargetByClass('ilRepositorySearchGUI', 'start')
+        );
+        $toolbar->addComponent($search_btn);
     }
 
-    /**
-     * @param ilToolbarGUI $toolbar
-     */
-    protected function addFinishAllPassesButton(ilToolbarGUI $toolbar)
+    protected function addFinishAllPassesButton(ilToolbarGUI $toolbar): void
     {
         global $DIC; /* @var ILIAS\DI\Container $DIC */
 
-        $finish_all_user_passes_btn = ilLinkButton::getInstance();
-        $finish_all_user_passes_btn->setCaption('finish_all_user_passes');
-        $finish_all_user_passes_btn->setUrl($DIC->ctrl()->getLinkTargetByClass('iltestevaluationgui', 'finishAllUserPasses'));
-        $toolbar->addButtonInstance($finish_all_user_passes_btn);
+        $finish_all_user_passes_btn = $DIC->ui()->factory()->button()->standard(
+            $DIC->language()->txt('finish_all_user_passes'),
+            $DIC->ctrl()->getLinkTargetByClass('iltestevaluationgui', 'finishAllUserPasses')
+        );
+        $toolbar->addComponent($finish_all_user_passes_btn);
     }
 
-    /**
-     * save client ip command
-     */
-    protected function saveClientIpCmd()
+    protected function saveClientIpCmd(): void
     {
-        global $DIC;
-        $filterCallback = ilTestParticipantAccessFilter::getManageParticipantsUserFilter($this->getTestObj()->getRefId());
-        $a_user_ids = call_user_func_array($filterCallback, [(array) $_POST["chbUser"]]);
+        $filter_closure = $this->participant_access_filter->getManageParticipantsUserFilter($this->getTestObj()->getRefId());
+        $a_user_ids = $filter_closure((array) $_POST["chbUser"]);
 
         if (is_array($a_user_ids)) {
             foreach ($a_user_ids as $user_id) {
                 $this->getTestObj()->setClientIP($user_id, $_POST["clientip_" . $user_id]);
             }
         } else {
-            $this->main_tpl->setOnScreenMessage('info', $DIC->language()->txt("select_one_user"), true);
+            $this->main_tpl->setOnScreenMessage('info', $this->lng->txt("select_one_user"), true);
         }
-        $DIC->ctrl()->redirect($this, self::CMD_SHOW);
+        $this->ctrl->redirect($this, self::CMD_SHOW);
     }
 
-    /**
-     * remove participants command
-     */
-    protected function removeParticipantsCmd()
+    protected function removeParticipantsCmd(): void
     {
-        global $DIC;
-        $filterCallback = ilTestParticipantAccessFilter::getManageParticipantsUserFilter($this->getTestObj()->getRefId());
-        $a_user_ids = call_user_func_array($filterCallback, [(array) $_POST["chbUser"]]);
+        $filter_closure = $this->participant_access_filter->getManageParticipantsUserFilter($this->getTestObj()->getRefId());
+        $a_user_ids = $filter_closure((array) $_POST["chbUser"]);
 
         if (is_array($a_user_ids)) {
             foreach ($a_user_ids as $user_id) {
                 $this->getTestObj()->disinviteUser($user_id);
             }
         } else {
-            $this->main_tpl->setOnScreenMessage('info', $DIC->language()->txt("select_one_user"), true);
+            $this->main_tpl->setOnScreenMessage('info', $this->lng->txt("select_one_user"), true);
         }
 
-        $DIC->ctrl()->redirect($this, self::CMD_SHOW);
+        $this->ctrl->redirect($this, self::CMD_SHOW);
     }
 }

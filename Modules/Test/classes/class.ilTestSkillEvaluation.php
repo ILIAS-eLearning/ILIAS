@@ -16,6 +16,9 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
+use ILIAS\DI\LoggingServices;
 use ILIAS\Skill\Service\SkillProfileService;
 use ILIAS\Skill\Service\SkillPersonalService;
 
@@ -29,100 +32,31 @@ use ILIAS\Skill\Service\SkillPersonalService;
  */
 class ilTestSkillEvaluation
 {
-    /**
-     * @var ilDBInterface
-     */
-    private $db;
+    private ilAssQuestionSkillAssignmentList $skillQuestionAssignmentList;
+    private ilTestSkillLevelThresholdList $skillLevelThresholdList;
+    private array $questions = [];
+    private array $maxPointsByQuestion = [];
+    private array $reachedPointsByQuestion;
+    private array $skillPointAccounts;
+    private array $reachedSkillLevels;
+    private int $userId;
+    private int $activeId;
+    private int $pass;
+    private int $numRequiredBookingsForSkillTriggering;
 
-    /**
-     * @var int
-     */
-    private $refId;
-
-    /**
-     * @var ilAssQuestionSkillAssignmentList
-     */
-    private $skillQuestionAssignmentList;
-
-    /**
-     * @var ilTestSkillLevelThresholdList
-     */
-    private $skillLevelThresholdList;
-
-    /**
-     * @var array
-     */
-    private $questions;
-
-    /**
-     * @var array
-     */
-    private $maxPointsByQuestion;
-
-    /**
-     * @var array
-     */
-    private $reachedPointsByQuestion;
-
-    /**
-     * @var array
-     */
-    private $skillPointAccounts;
-
-    /**
-     * @var array
-     */
-    private $reachedSkillLevels;
-
-    /**
-     * @var integer
-     */
-    private $userId;
-
-    /**
-     * @var integer
-     */
-    private $activeId;
-
-    /**
-     * @var integer
-     */
-    private $pass;
-
-    /**
-     * @var integer
-     */
-    private $numRequiredBookingsForSkillTriggering;
-
-    private SkillProfileService $skill_profile_service;
-    private SkillPersonalService $skill_personal_service;
 
     public function __construct(
-        ilDBInterface $db,
-        $testId,
-        $refId,
-        SkillProfileService $skill_profile_service = null,
-        SkillPersonalService $skill_personal_service = null
+        private ilDBInterface $db,
+        private LoggingServices $logging_services,
+        int $test_id,
+        private int $refId,
+        private SkillProfileService $skill_profile_service,
+        private SkillPersonalService $skill_personal_service
     ) {
-        global $DIC;
-
-        $this->db = $db;
-        $this->refId = $refId;
-
         $this->skillQuestionAssignmentList = new ilAssQuestionSkillAssignmentList($this->db);
 
         $this->skillLevelThresholdList = new ilTestSkillLevelThresholdList($this->db);
-        $this->skillLevelThresholdList->setTestId($testId);
-
-        $this->skill_profile_service = ($skill_profile_service == null)
-            ? $DIC->skills()->profile()
-            : $skill_profile_service;
-        $this->skill_personal_service = ($skill_personal_service == null)
-            ? $DIC->skills()->personal()
-            : $skill_personal_service;
-
-        $this->questions = array();
-        $this->maxPointsByQuestion = array();
+        $this->skillLevelThresholdList->setTestId($test_id);
     }
 
     public function getUserId(): int
@@ -160,7 +94,7 @@ class ilTestSkillEvaluation
         return $this->numRequiredBookingsForSkillTriggering;
     }
 
-    public function setNumRequiredBookingsForSkillTriggering($numRequiredBookingsForSkillTriggering)
+    public function setNumRequiredBookingsForSkillTriggering(int $numRequiredBookingsForSkillTriggering): void
     {
         $this->numRequiredBookingsForSkillTriggering = $numRequiredBookingsForSkillTriggering;
     }
@@ -178,7 +112,7 @@ class ilTestSkillEvaluation
     /**
      * @param array $testResults An array containing the test results for a given user
      */
-    public function evaluate($testResults)
+    public function evaluate(array $testResults): void
     {
         $this->reset();
 
@@ -388,9 +322,7 @@ class ilTestSkillEvaluation
             $this->getPass()
         );
 
-        /* @var ILIAS\DI\Container $DIC */ global $DIC;
-
-        $DIC->logger()->root()->info(
+        $this->logging_services->root()->info(
             "refId={$this->refId} / usrId={$this->getUserId()} / levelId={$skillLevelId} / trefId={$skillTrefId}"
         );
 
@@ -458,7 +390,7 @@ class ilTestSkillEvaluation
         return $matchingSkillProfiles;
     }
 
-    public function noProfileMatchingAssignedSkillExists($availableSkillProfiles): int
+    public function noProfileMatchingAssignedSkillExists(array $availableSkillProfiles): bool
     {
         $noProfileMatchingSkills = $this->skillQuestionAssignmentList->getUniqueAssignedSkills();
 
@@ -476,6 +408,6 @@ class ilTestSkillEvaluation
             }
         }
 
-        return count($noProfileMatchingSkills);
+        return $noProfileMatchingSkills !== [];
     }
 }

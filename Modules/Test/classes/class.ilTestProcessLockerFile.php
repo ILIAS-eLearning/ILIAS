@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * @author		Björn Heyser <bheyser@databay.de>
  * @version		$Id$
@@ -28,10 +30,7 @@ class ilTestProcessLockerFile extends ilTestProcessLocker
     public const PROCESS_NAME_RANDOM_PASS_BUILD = 'randomPassBuild';
     public const PROCESS_NAME_TEST_FINISH = 'testFinish';
 
-    /**
-     * @var ilTestProcessLockFileStorage
-     */
-    protected $lockFileStorage;
+    protected ilTestProcessLockFileStorage $lockFileStorage;
 
     /**
      * @var resource
@@ -123,7 +122,7 @@ class ilTestProcessLockerFile extends ilTestProcessLocker
 
     private function getLockFilePath($processName): string
     {
-        $path = $this->lockFileStorage->getPath();
+        $path = $this->lockFileStorage->getAbsolutePath();
         return $path . '/' . $processName . '.lock';
     }
 

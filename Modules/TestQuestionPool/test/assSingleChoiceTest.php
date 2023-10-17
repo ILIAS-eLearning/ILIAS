@@ -55,13 +55,6 @@ class assSingleChoiceTest extends assBaseTestCase
         $this->assertEquals('thumb.', $obj->getThumbPrefix());
     }
 
-    public function test_setOutputType_shouldReturngetOutputType(): void
-    {
-        $obj = new assSingleChoice();
-        $obj->setOutputType(0);
-        $this->assertEquals(0, $obj->getOutputType());
-    }
-
     /* Removed by @kergomard 17 NOV 2022, we should introduce this again
     public function test_getAnswerCount_shouldReturnCount(): void
     {

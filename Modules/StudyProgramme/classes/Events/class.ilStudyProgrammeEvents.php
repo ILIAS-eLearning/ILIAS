@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,23 +16,38 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 class ilStudyProgrammeEvents implements StudyProgrammeEvents
 {
-    protected ilAppEventHandler $app_event_handler;
-
     public function __construct(
-        ilLogger $logger,
-        ilAppEventHandler $app_event_handler,
-        PRGEventHandler $prg_event_handler
+        protected ilLogger $logger,
+        protected ilAppEventHandler $app_event_handler,
+        protected PRGEventHandler $prg_event_handler
     ) {
-        $this->logger = $logger;
-        $this->app_event_handler = $app_event_handler;
-        $this->prg_event_handler = $prg_event_handler;
     }
 
     public function raise(string $event, array $parameter): void
     {
-        $this->logger->debug("PRG raised: " . $event . ' (' . print_r($parameter, true) . ')');
+        $parameter_formatter = static function ($value) use (&$parameter_formatter) {
+            if (is_object($value)) {
+                return get_class($value);
+            }
+
+            if (is_array($value)) {
+                return array_map(
+                    $parameter_formatter,
+                    $value
+                );
+            }
+
+            return $value;
+        };
+
+        $this->logger->debug("PRG raised: " . $event . ' (' . var_export(array_map(
+            $parameter_formatter,
+            $parameter
+        ), true) . ')');
 
         if (in_array($event, [
             self::EVENT_USER_ASSIGNED,
@@ -54,7 +67,7 @@ class ilStudyProgrammeEvents implements StudyProgrammeEvents
             ])
             && $parameter["root_prg_id"] === $parameter["prg_id"]
         ) {
-            $cert = fn () => $this->app_event_handler->raise(self::COMPONENT, self::EVENT_USER_SUCCESSFUL, $parameter);
+            $cert = fn() => $this->app_event_handler->raise(self::COMPONENT, self::EVENT_USER_SUCCESSFUL, $parameter);
             $this->prg_event_handler->triggerCertificateOnce($cert, $parameter["root_prg_id"], $parameter["usr_id"]);
         }
 

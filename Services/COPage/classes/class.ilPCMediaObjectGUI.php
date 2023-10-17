@@ -145,7 +145,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
         $cmd = $this->ctrl->getCmd();
         if (is_object($this->content_obj)) {
             //$this->tpl->clearHeader();
-            $tpl->setTitleIcon(ilUtil::getImagePath("icon_mob.svg"));
+            $tpl->setTitleIcon(ilUtil::getImagePath("standard/icon_mob.svg"));
             $this->getTabs();
 
             $mob = $this->content_obj->getMediaObject();
@@ -162,7 +162,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
         switch ($next_class) {
             case "ilobjmediaobjectgui":
                 //$this->tpl->clearHeader();
-                $this->tpl->setTitleIcon(ilUtil::getImagePath("icon_mob.svg"));
+                $this->tpl->setTitleIcon(ilUtil::getImagePath("standard/icon_mob.svg"));
                 $this->tpl->setTitle($this->lng->txt("mob") . ": " .
                     $this->content_obj->getMediaObject()->getTitle());
                 $mob_gui = new ilObjMediaObjectGUI("", $this->content_obj->getMediaObject()->getId(), false, false);
@@ -567,7 +567,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
                 $this->tpl->setOnScreenMessage('success', $lng->txt("saved_media_object"), true);
                 $this->ctrl->redirectByClass("ilobjmediaobjectgui", "edit");
 
-            //$this->ctrl->returnToParent($this, "jump".$this->hier_id);
+                //$this->ctrl->returnToParent($this, "jump".$this->hier_id);
             } else {
                 $this->insert();
             }

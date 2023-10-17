@@ -16,211 +16,64 @@
  *
  *********************************************************************/
 
-/**
- * Class ilTestParticipantAccessFilter
- *
- * @author    Björn Heyser <info@bjoernheyser.de>
- * @version    $Id$
- *
- * @package    Modules/Test
- */
-class ilTestParticipantAccessFilter
+declare(strict_types=1);
+
+class ilTestParticipantAccessFilterFactory
 {
-    public const FILTER_MANAGE_PARTICIPANTS = 'manageParticipantsUserFilter';
-    public const FILTER_SCORE_PARTICIPANTS = 'scoreParticipantsUserFilter';
-    public const FILTER_ACCESS_RESULTS = 'accessResultsUserFilter';
-    public const FILTER_ACCESS_STATISTICS = 'accessStatisticsUserFilter';
-
-    public const CALLBACK_METHOD = 'filterCallback';
-
-    /**
-     * @var integer
-     */
-    protected $refId;
-
-    /**
-     * @var string
-     */
-    protected $filter;
-
-    /**
-     * @return int
-     */
-    public function getRefId(): int
-    {
-        return $this->refId;
+    public function __construct(
+        private ilAccess $access
+    ) {
     }
 
-    /**
-     * @param int $refId
-     */
-    public function setRefId($refId)
+    public function getManageParticipantsUserFilter(int $ref_id): Closure
     {
-        $this->refId = $refId;
+        return function (array $user_ids) use ($ref_id): array {
+            return $this->access->filterUserIdsByRbacOrPositionOfCurrentUser(
+                'write',
+                ilOrgUnitOperation::OP_MANAGE_PARTICIPANTS,
+                $ref_id,
+                $user_ids
+            );
+        };
     }
 
-    /**
-     * @return string
-     */
-    public function getFilter(): string
+    public function getScoreParticipantsUserFilter(int $ref_id): Closure
     {
-        return $this->filter;
+        return function (array $user_ids) use ($ref_id): array {
+            return $this->access->filterUserIdsByRbacOrPositionOfCurrentUser(
+                'write',
+                ilOrgUnitOperation::OP_SCORE_PARTICIPANTS,
+                $ref_id,
+                $user_ids
+            );
+        };
     }
 
-    /**
-     * @param string $filter
-     */
-    public function setFilter($filter)
+    public function getAccessResultsUserFilter(int $ref_id): Closure
     {
-        $this->filter = $filter;
+        return function (array $user_ids) use ($ref_id): array {
+            $perm = 'write';
+            if ($this->access->checkAccess('tst_results', '', $ref_id, 'tst')) {
+                $perm = 'tst_results';
+            }
+
+            return $this->access->filterUserIdsByRbacOrPositionOfCurrentUser(
+                $perm,
+                ilOrgUnitOperation::OP_ACCESS_RESULTS,
+                $ref_id,
+                $user_ids
+            );
+        };
     }
 
-    /**
-     * @param int[] $userIds
-     * @return int[]
-     */
-    public function filterCallback($userIds): array
+    public function getAccessStatisticsUserFilter(int $ref_id): Closure
     {
-        switch ($this->getFilter()) {
-            case self::FILTER_MANAGE_PARTICIPANTS:
-                return $this->manageParticipantsUserFilter($userIds);
+        return function (array $user_ids) use ($ref_id): array {
+            if ($this->access->checkAccess('tst_statistics', '', $ref_id)) {
+                return $user_ids;
+            }
 
-            case self::FILTER_SCORE_PARTICIPANTS:
-                return $this->scoreParticipantsUserFilter($userIds);
-
-            case self::FILTER_ACCESS_RESULTS:
-                return $this->accessResultsUserFilter($userIds);
-
-            case self::FILTER_ACCESS_STATISTICS:
-                return $this->accessStatisticsUserFilter($userIds);
-        }
-
-        throw new ilTestException('invalid user access filter mode chosen: ' . $this->getFilter());
-    }
-
-    /**
-     * @param int[] $userIds
-     * @return int[]
-     */
-    public function manageParticipantsUserFilter($userIds): array
-    {
-        global $DIC; /* @var ILIAS\DI\Container $DIC */
-
-        $userIds = $DIC->access()->filterUserIdsByRbacOrPositionOfCurrentUser(
-            'write',
-            ilOrgUnitOperation::OP_MANAGE_PARTICIPANTS,
-            $this->getRefId(),
-            $userIds
-        );
-
-        return $userIds;
-    }
-
-    /**
-     * @param int[] $userIds
-     * @return int[]
-     */
-    public function scoreParticipantsUserFilter($userIds): array
-    {
-        global $DIC; /* @var ILIAS\DI\Container $DIC */
-
-        $userIds = $DIC->access()->filterUserIdsByRbacOrPositionOfCurrentUser(
-            'write',
-            ilOrgUnitOperation::OP_SCORE_PARTICIPANTS,
-            $this->getRefId(),
-            $userIds
-        );
-
-        return $userIds;
-    }
-
-    /**
-     * @param int[] $userIds
-     * @return int[]
-     */
-    public function accessResultsUserFilter($userIds): array
-    {
-        /** @var ILIAS\DI\Container $DIC **/
-        global $DIC;
-
-        $ref_id = $this->getRefId();
-
-        $perm = 'write';
-
-        if ($DIC->access()->checkAccess('tst_results', '', $ref_id, 'tst')) {
-            $perm = 'tst_results';
-        }
-
-        $userIds = $DIC->access()->filterUserIdsByRbacOrPositionOfCurrentUser(
-            $perm,
-            ilOrgUnitOperation::OP_ACCESS_RESULTS,
-            $ref_id,
-            $userIds
-        );
-
-        return $userIds;
-    }
-
-    /**
-     * @param int[] $userIds
-     * @return int[]
-     */
-    public function accessStatisticsUserFilter($userIds): array
-    {
-        global $DIC; /* @var ILIAS\DI\Container $DIC */
-
-        if ($DIC->access()->checkAccess('tst_statistics', '', $this->getRefId())) {
-            return $userIds;
-        }
-
-        return $this->accessResultsUserFilter($userIds);
-    }
-
-    /**
-     * @param integer $refId
-     * @return callable
-     */
-    public static function getManageParticipantsUserFilter($refId)
-    {
-        $filter = new self();
-        $filter->setFilter(self::FILTER_MANAGE_PARTICIPANTS);
-        $filter->setRefId($refId);
-        return [$filter, self::CALLBACK_METHOD];
-    }
-
-    /**
-     * @param integer $refId
-     * @return callable
-     */
-    public static function getScoreParticipantsUserFilter($refId)
-    {
-        $filter = new self();
-        $filter->setFilter(self::FILTER_SCORE_PARTICIPANTS);
-        $filter->setRefId($refId);
-        return [$filter, self::CALLBACK_METHOD];
-    }
-
-    /**
-     * @param integer $refId
-     * @return callable
-     */
-    public static function getAccessResultsUserFilter($refId)
-    {
-        $filter = new self();
-        $filter->setFilter(self::FILTER_ACCESS_RESULTS);
-        $filter->setRefId($refId);
-        return [$filter, self::CALLBACK_METHOD];
-    }
-
-    /**
-     * @param integer $refId
-     * @return callable
-     */
-    public static function getAccessStatisticsUserFilter($refId)
-    {
-        $filter = new self();
-        $filter->setFilter(self::FILTER_ACCESS_STATISTICS);
-        $filter->setRefId($refId);
-        return [$filter, self::CALLBACK_METHOD];
+            return $this->accessResultsUserFilter($user_ids);
+        };
     }
 }

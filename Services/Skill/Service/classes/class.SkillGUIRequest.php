@@ -195,4 +195,25 @@ class SkillGUIRequest
     {
         return $this->intArray("id");
     }
+
+    /**
+     * @return string[]
+     */
+    protected function getTableIds(string $key): array
+    {
+        return $this->strArray($key);
+    }
+
+    protected function getTableAction(string $key): string
+    {
+        return $this->str($key);
+    }
+
+    /**
+     * @return int[]
+     */
+    protected function getInterruptiveItemIds(): array
+    {
+        return $this->intArray("interruptive_items");
+    }
 }

@@ -408,6 +408,11 @@ class Container extends \Pimple\Container
         return new \ILIAS\PersonalWorkspace\Service();
     }
 
+    public function taxonomy(): \ILIAS\Taxonomy\Service
+    {
+        return new \ILIAS\Taxonomy\Service($this);
+    }
+
     public function fileServiceSettings(): \ilFileServicesSettings
     {
         if ($this->file_service_settings === null) {
@@ -462,6 +467,11 @@ class Container extends \Pimple\Container
     public function certificate(): \ILIAS\Certificate\Service\CertificateService
     {
         return new \ILIAS\Certificate\Service\CertificateService($this);
+    }
+
+    public function fileDelivery(): \ILIAS\FileDelivery\Services
+    {
+        return $this['file_delivery'];
     }
 
     /**

@@ -35,22 +35,33 @@ require_once './Modules/Test/classes/inc.AssessmentConstants.php';
 class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjustable, ilGuiAnswerScoringAdjustable
 {
     private const DEFAULT_POINTS_WRONG = -1;
-    /**
-     * assErrorTextGUI constructor
-     *
-     * The constructor takes possible arguments an creates an instance of the assOrderingHorizontalGUI object.
-     *
-     * @param integer $id The database id of a single choice question object
-     * @access public
-     */
+
+    private ilTabsGUI $tabs;
+
     public function __construct($id = -1)
     {
+        global $DIC;
+        $this->tabs = $DIC->tabs();
+
         parent::__construct();
         $this->object = new assErrorText();
         $this->setErrorMessage($this->lng->txt("msg_form_save_error"));
         if ($id >= 0) {
             $this->object->loadFromDb($id);
         }
+
+        $this->tpl->addOnloadCode(
+            "let form = document.getElementById('form_orderinghorizontal');
+            let button = form.querySelector('input[name=\"cmd[save]\"]');
+            if (form && button) {
+                form.addEventListener('keydown', function (e) {
+                    if (e.key === 'Enter' && e.target.type !== 'textarea') {
+                        e.preventDefault();
+                        form.requestSubmit(button);
+                    }
+                })
+            }"
+        );
     }
 
     /**
@@ -122,6 +133,7 @@ class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
      */
     public function editQuestion($checkonly = false): bool
     {
+        $this->tabs->setTabActive('edit_question');
         $save = $this->isSaveCommand();
         $this->getQuestionTemplate();
 
@@ -264,7 +276,7 @@ class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 
 
         $selections = [
-            'user' => $this->getUsersSolutionFromPreviewOrDatabase($active_id, $pass)
+            'user' => $this->getUsersSolutionFromPreviewOrDatabase((int) $active_id, $pass)
         ];
         $selections['best'] = $this->object->getBestSelection();
 
@@ -283,7 +295,7 @@ class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
         }
 
         if ($show_question_text === true) {
-            $template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($this->object->getQuestion(), true));
+            $template->setVariable("QUESTIONTEXT", $this->object->getQuestionForHTMLOutput());
         }
 
         $correctness_icons = [
@@ -314,7 +326,7 @@ class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
             );
 
             $solutiontemplate->setVariable("ILC_FB_CSS_CLASS", $cssClass);
-            $solutiontemplate->setVariable("FEEDBACK", $this->object->prepareTextareaOutput($feedback, true));
+            $solutiontemplate->setVariable("FEEDBACK", ilLegacyFormElementsUtil::prepareTextareaOutput($feedback, true));
         }
 
         $solutiontemplate->setVariable("SOLUTION_OUTPUT", $questionoutput);
@@ -362,7 +374,7 @@ class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
         if ($this->object->getTextSize() >= 10) {
             $template->setVariable("STYLE", " style=\"font-size: " . $this->object->getTextSize() . "%;\"");
         }
-        $template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($this->object->getQuestion(), true));
+        $template->setVariable("QUESTIONTEXT", $this->object->getQuestionForHTMLOutput());
         $errortext = $this->object->assembleErrorTextOutput($selections);
         if ($this->getTargetGuiClass() !== null) {
             $this->ctrl->setParameterByClass($this->getTargetGuiClass(), 'errorvalue', '');
@@ -421,7 +433,7 @@ class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
         }
         $feedback .= '</tbody></table>';
 
-        return $this->object->prepareTextareaOutput($feedback, true);
+        return ilLegacyFormElementsUtil::prepareTextareaOutput($feedback, true);
     }
 
     /**

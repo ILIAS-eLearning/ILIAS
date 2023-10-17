@@ -16,6 +16,14 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
+use ILIAS\UI\Factory as UIFactory;
+use ILIAS\UI\Renderer as UIRenderer;
+use ILIAS\DI\LoggingServices;
+use ILIAS\Skill\Service\SkillService;
+use ILIAS\Test\InternalRequestService;
+
 /**
  * Class ilTestResultsGUI
  *
@@ -34,48 +42,33 @@
 class ilTestResultsGUI
 {
     public const DEFAULT_CMD = 'show';
+    private \ILIAS\DI\UIServices $ui;
 
-    /**
-     * @var ilObjTest
-     */
-    protected $testObj;
+    protected ilTestAccess $testAccess;
+    protected ilTestSession $testSession;
+    protected ilTestTabsManager $testTabs;
+    protected ilTestObjectiveOrientedContainer $objectiveParent;
 
-    /**
-     * @var ilTestQuestionSetConfig
-     */
-    protected $questionSetConfig;
 
-    /**
-     * @var ilTestAccess
-     */
-    protected $testAccess;
-
-    /**
-     * @var ilTestSession
-     */
-    protected $testSession;
-
-    /**
-     * @var ilTestTabsManager
-     */
-    protected $testTabs;
-
-    /**
-     * @var ilTestObjectiveOrientedContainer
-     */
-    protected $objectiveParent;
-    private \ilGlobalTemplateInterface $main_tpl;
-
-    /**
-     * ilTestParticipantsGUI constructor.
-     * @param ilObjTest $testObj
-     */
-    public function __construct(ilObjTest $testObj, ilTestQuestionSetConfig $questionSetConfig)
-    {
-        global $DIC;
-        $this->main_tpl = $DIC->ui()->mainTemplate();
-        $this->testObj = $testObj;
-        $this->questionSetConfig = $questionSetConfig;
+    public function __construct(
+        private ilObjTest $testObj,
+        private ilTestQuestionSetConfig $question_set_config,
+        private ilCtrl $ctrl,
+        private ilAccess $access,
+        private ilDBInterface $db,
+        private ilObjUser $user,
+        private ilLanguage $lng,
+        private LoggingServices $logging_services,
+        private ilComponentRepository $component_repository,
+        private ilTabsGUI $tabs,
+        private ilToolbarGUI $toolbar,
+        private ilGlobalTemplateInterface $main_tpl,
+        private UIFactory $ui_factory,
+        private UIRenderer $ui_renderer,
+        private SkillService $skills_service,
+        private InternalRequestService $testrequest,
+        private \ILIAS\TestQuestionPool\QuestionInfoService $questioninfo
+    ) {
     }
 
     /**
@@ -110,99 +103,80 @@ class ilTestResultsGUI
         $this->testObj = $testObj;
     }
 
-    /**
-     * @return ilTestQuestionSetConfig
-     */
     public function getQuestionSetConfig(): ilTestQuestionSetConfig
     {
-        return $this->questionSetConfig;
+        return $this->question_set_config;
     }
 
-    /**
-     * @param ilTestQuestionSetConfig $questionSetConfig
-     */
-    public function setQuestionSetConfig($questionSetConfig)
+    public function setQuestionSetConfig(ilTestQuestionSetConfig $question_set_config): void
     {
-        $this->questionSetConfig = $questionSetConfig;
+        $this->question_set_config = $question_set_config;
     }
 
-    /**
-     * @return ilTestAccess
-     */
     public function getTestAccess(): ilTestAccess
     {
         return $this->testAccess;
     }
 
-    /**
-     * @param ilTestAccess $testAccess
-     */
-    public function setTestAccess($testAccess)
+    public function setTestAccess(ilTestAccess $testAccess): void
     {
         $this->testAccess = $testAccess;
     }
 
-    /**
-     * @return ilTestSession
-     */
     public function getTestSession(): ilTestSession
     {
         return $this->testSession;
     }
 
-    /**
-     * @param ilTestSession $testSession
-     */
-    public function setTestSession($testSession)
+    public function setTestSession(ilTestSession $testSession): void
     {
         $this->testSession = $testSession;
     }
 
-    /**
-     * @return ilTestTabsManager
-     */
     public function getTestTabs(): ilTestTabsManager
     {
         return $this->testTabs;
     }
 
-    /**
-     * @param ilTestTabsManager $testTabs
-     */
-    public function setTestTabs($testTabs)
+    public function setTestTabs(ilTestTabsManager $testTabs): void
     {
         $this->testTabs = $testTabs;
     }
 
-    /**
-     * Execute Command
-     */
-    public function executeCommand()
+    public function executeCommand(): void
     {
-        global $DIC; /* @var ILIAS\DI\Container $DIC */
-
         $this->getTestTabs()->activateTab(ilTestTabsManager::TAB_ID_RESULTS);
         $this->getTestTabs()->getResultsSubTabs();
 
-        switch ($DIC->ctrl()->getNextClass()) {
+        switch ($this->ctrl->getNextClass()) {
             case 'ilparticipantstestresultsgui':
-
                 if (!$this->getTestAccess()->checkParticipantsResultsAccess()) {
                     ilObjTestGUI::accessViolationRedirect();
                 }
 
                 $this->getTestTabs()->activateSubTab(ilTestTabsManager::SUBTAB_ID_PARTICIPANTS_RESULTS);
 
-                $gui = new ilParticipantsTestResultsGUI();
+                $gui = new ilParticipantsTestResultsGUI(
+                    $this->ctrl,
+                    $this->lng,
+                    $this->db,
+                    $this->user,
+                    $this->tabs,
+                    $this->toolbar,
+                    $this->main_tpl,
+                    $this->ui_factory,
+                    $this->ui_renderer,
+                    new ilTestParticipantAccessFilterFactory($this->access),
+                    $this->testrequest
+                );
                 $gui->setTestObj($this->getTestObj());
                 $gui->setQuestionSetConfig($this->getQuestionSetConfig());
                 $gui->setTestAccess($this->getTestAccess());
                 $gui->setObjectiveParent($this->getObjectiveParent());
-                $DIC->ctrl()->forwardCommand($gui);
+                $this->ctrl->forwardCommand($gui);
                 break;
 
             case 'ilmytestresultsgui':
-
                 if (!$this->getTestTabs()->needsMyResultsSubTab()) {
                     ilObjTestGUI::accessViolationRedirect();
                 }
@@ -214,11 +188,10 @@ class ilTestResultsGUI
                 $gui->setTestAccess($this->getTestAccess());
                 $gui->setTestSession($this->getTestSession());
                 $gui->setObjectiveParent($this->getObjectiveParent());
-                $DIC->ctrl()->forwardCommand($gui);
+                $this->ctrl->forwardCommand($gui);
                 break;
 
             case 'iltestevalobjectiveorientedgui':
-
                 if (!$this->getTestTabs()->needsLoResultsSubTab()) {
                     ilObjTestGUI::accessViolationRedirect();
                 }
@@ -227,11 +200,10 @@ class ilTestResultsGUI
 
                 $gui = new ilTestEvalObjectiveOrientedGUI($this->getTestObj());
                 $gui->setObjectiveOrientedContainer($this->getObjectiveParent());
-                $DIC->ctrl()->forwardCommand($gui);
+                $this->ctrl->forwardCommand($gui);
                 break;
 
             case 'ilmytestsolutionsgui':
-
                 if (!$this->getTestTabs()->needsMySolutionsSubTab()) {
                     ilObjTestGUI::accessViolationRedirect();
                 }
@@ -242,129 +214,114 @@ class ilTestResultsGUI
                 $gui->setTestObj($this->getTestObj());
                 $gui->setTestAccess($this->getTestAccess());
                 $gui->setObjectiveParent($this->getObjectiveParent());
-                $DIC->ctrl()->forwardCommand($gui);
+                $this->ctrl->forwardCommand($gui);
                 break;
 
             case 'iltesttoplistgui':
-
                 if (!$this->getTestTabs()->needsHighSoreSubTab()) {
                     ilObjTestGUI::accessViolationRedirect();
                 }
 
                 $this->getTestTabs()->activateSubTab(ilTestTabsManager::SUBTAB_ID_HIGHSCORE);
 
-                $gui = new ilTestToplistGUI($this->getTestObj());
-                $DIC->ctrl()->forwardCommand($gui);
+                $gui = new ilTestToplistGUI(
+                    $this->getTestObj(),
+                    new ilTestTopList($this->getTestObj(), $this->db),
+                    $this->ctrl,
+                    $this->main_tpl,
+                    $this->lng,
+                    $this->user,
+                    $this->ui_factory,
+                    $this->ui_renderer
+                );
+                $this->ctrl->forwardCommand($gui);
                 break;
 
             case 'iltestskillevaluationgui':
-
                 $this->getTestTabs()->activateSubTab(ilTestTabsManager::SUBTAB_ID_SKILL_RESULTS);
 
-                global $DIC; /* @var ILIAS\DI\Container $DIC */
-                if ($this->getTestObj()->isDynamicTest()) {
-                    $dynamicQuestionSetConfig = new ilObjTestDynamicQuestionSetConfig(
-                        $DIC->repositoryTree(),
-                        $DIC->database(),
-                        $DIC['component.repository'],
-                        $this->getTestObj()
-                    );
-                    $dynamicQuestionSetConfig->loadFromDb();
-                    $questionList = new ilAssQuestionList($DIC->database(), $DIC->language(), $DIC['component.repository']);
-                    $questionList->setParentObjId($dynamicQuestionSetConfig->getSourceQuestionPoolId());
-                    $questionList->setQuestionInstanceTypeFilter(ilAssQuestionList::QUESTION_INSTANCE_TYPE_ORIGINALS);
-                } else {
-                    $questionList = new ilAssQuestionList($DIC->database(), $DIC->language(), $DIC['component.repository']);
-                    $questionList->setParentObjId($this->getTestObj()->getId());
-                    $questionList->setQuestionInstanceTypeFilter(ilAssQuestionList::QUESTION_INSTANCE_TYPE_DUPLICATES);
-                }
+                $questionList = new ilAssQuestionList($this->db, $this->lng, $this->component_repository);
+                $questionList->setParentObjId($this->getTestObj()->getId());
+                $questionList->setQuestionInstanceTypeFilter(ilAssQuestionList::QUESTION_INSTANCE_TYPE_DUPLICATES);
                 $questionList->load();
 
-                $testSessionFactory = new ilTestSessionFactory($this->getTestObj());
+                $testSessionFactory = new ilTestSessionFactory($this->getTestObj(), $this->db, $this->user);
                 $testSession = $testSessionFactory->getSession();
 
                 $gui = new ilTestSkillEvaluationGUI(
-                    $DIC->ctrl(),
-                    $DIC->tabs(),
-                    $DIC->ui()->mainTemplate(),
-                    $DIC->language(),
-                    $DIC->database(),
-                    $this->getTestObj()
+                    $this->getTestObj(),
+                    $this->ctrl,
+                    $this->main_tpl,
+                    $this->lng,
+                    $this->db,
+                    $this->logging_services,
+                    $this->skills_service,
+                    $this->testrequest
                 );
                 $gui->setQuestionList($questionList);
                 $gui->setTestSession($testSession);
                 $gui->setObjectiveOrientedContainer($this->getObjectiveParent());
 
-                $DIC->ctrl()->forwardCommand($gui);
+                $this->ctrl->forwardCommand($gui);
                 break;
 
             case strtolower(__CLASS__):
             default:
-
-                $command = $DIC->ctrl()->getCmd(self::DEFAULT_CMD) . 'Cmd';
+                $command = $this->ctrl->getCmd(self::DEFAULT_CMD) . 'Cmd';
                 $this->{$command}();
         }
     }
 
-    protected function showCmd()
+    protected function showCmd(): void
     {
-        global $DIC; /* @var ILIAS\DI\Container $DIC */
-
         if ($this->testObj->canShowTestResults($this->getTestSession())) {
             if ($this->objectiveParent->isObjectiveOrientedPresentationRequired()) {
-                $DIC->ctrl()->redirectByClass('ilTestEvalObjectiveOrientedGUI');
+                $this->ctrl->redirectByClass('ilTestEvalObjectiveOrientedGUI');
             }
 
-            $DIC->ctrl()->redirectByClass(array('ilMyTestResultsGUI', 'ilTestEvaluationGUI'));
+            $this->ctrl->redirectByClass(['ilMyTestResultsGUI', 'ilTestEvaluationGUI']);
         }
 
-        $toolbar = $DIC->toolbar();
         $validator = new ilCertificateDownloadValidator();
-        if ($validator->isCertificateDownloadable($DIC->user()->getId(), $this->getTestObj()->getId())) {
-            $button = ilLinkButton::getInstance();
-            $button->setCaption('certificate');
-            $button->setUrl($DIC->ctrl()->getFormActionByClass(ilTestEvaluationGUI::class, 'outCertificate'));
-            $toolbar->addButtonInstance($button);
+        if ($validator->isCertificateDownloadable($this->user->getId(), $this->getTestObj()->getId())) {
+            $button = $this->ui->factory()->button()->standard('certficiate', $this->ctrl->getFormActionByClass(ilTestEvaluationGUI::class, 'outCertificate'));
+            $this->toolbar->addComponent($button);
         }
 
         $this->showNoResultsReportingMessage();
     }
 
-    protected function showNoResultsReportingMessage()
+    protected function showNoResultsReportingMessage(): void
     {
-        global $DIC; /* @var ILIAS\DI\Container $DIC */
-
-        $message = $DIC->language()->txt('tst_res_tab_msg_res_after_taking_test');
+        $message = $this->lng->txt('tst_res_tab_msg_res_after_taking_test');
 
         switch ($this->testObj->getScoreReporting()) {
-            case ilObjTest::SCORE_REPORTING_FINISHED:
-
+            case ilObjTestSettingsResultSummary::SCORE_REPORTING_FINISHED:
                 if ($this->testObj->hasAnyTestResult($this->getTestSession())) {
-                    $message = $DIC->language()->txt('tst_res_tab_msg_res_after_finish_test');
+                    $message = $this->lng->txt('tst_res_tab_msg_res_after_finish_test');
                 }
 
                 break;
 
-            case ilObjTest::SCORE_REPORTING_DATE:
-
+            case ilObjTestSettingsResultSummary::SCORE_REPORTING_DATE:
                 $date = new ilDateTime($this->testObj->getReportingDate(), IL_CAL_TIMESTAMP);
 
                 if (!$this->testObj->hasAnyTestResult($this->getTestSession())) {
                     $message = sprintf(
-                        $DIC->language()->txt('tst_res_tab_msg_res_after_date_no_res'),
+                        $this->lng->txt('tst_res_tab_msg_res_after_date_no_res'),
                         ilDatePresentation::formatDate($date)
                     );
                     break;
                 }
 
                 $message = sprintf(
-                    $DIC->language()->txt('tst_res_tab_msg_res_after_date'),
+                    $this->lng->txt('tst_res_tab_msg_res_after_date'),
                     ilDatePresentation::formatDate($date)
                 );
                 break;
 
-            case ilObjTest::SCORE_REPORTING_AFTER_PASSED:
-                $message = $DIC->language()->txt('tst_res_tab_msg_res_after_test_passed');
+            case ilObjTestSettingsResultSummary::SCORE_REPORTING_AFTER_PASSED:
+                $message = $this->lng->txt('tst_res_tab_msg_res_after_test_passed');
                 break;
         }
 

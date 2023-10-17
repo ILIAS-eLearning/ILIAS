@@ -103,7 +103,6 @@ class ilObjContentObject extends ilObject
     public function create(
         bool $a_no_meta_data = false
     ): int {
-        $this->setOfflineStatus(true);
         $id = parent::create();
 
         // meta data will be created by
@@ -962,7 +961,7 @@ class ilObjContentObject extends ilObject
             " WHERE id = " . $ilDB->quote($this->getId(), "integer");
         $ilDB->manipulate($q);
         // #14661
-        $this->notes->domain()->activateComments($this->getId());
+        $this->notes->domain()->activateComments($this->getId(), $this->publicNotes());
     }
 
     /**

@@ -239,7 +239,7 @@ class ilMail
         $mails = [];
 
         $query =
-            "SELECT sender_id, m_subject, mail_id, m_status, send_time " .
+            "SELECT sender_id, m_subject, mail_id, m_status, send_time, import_name " .
             "FROM $this->table_mail " .
             "LEFT JOIN object_data ON obj_id = sender_id " .
             "WHERE user_id = %s AND folder_id = %s " .
@@ -899,6 +899,11 @@ class ilMail
             if ($string === '') {
                 $errors[] = new ilMailError($error);
             }
+        }
+
+        if (ilStr::strLen($subject) > 255) {
+            // https://mantis.ilias.de/view.php?id=37881
+            $errors[] = new ilMailError('mail_subject_too_long');
         }
 
         return $errors;

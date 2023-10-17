@@ -143,7 +143,7 @@ class ItemTest extends ILIAS_UI_TestBase
     {
         $f = $this->getFactory();
 
-        $avatar = new Picture('./templates/default/images/no_photo_xsmall.jpg', 'demo.user');
+        $avatar = new Picture('./templates/default/images/placeholder/no_photo_xsmall.jpg', 'demo.user');
 
         $c = $f->standard("title")->withLeadAvatar($avatar);
 
@@ -200,7 +200,7 @@ class ItemTest extends ILIAS_UI_TestBase
         $expected = <<<EOT
         <div class="il-item il-std-item ">
             <div class="il-item-title">Item Title</div>
-			<div class="dropdown"><button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" id="id_3" aria-label="actions" aria-haspopup="true" aria-expanded="false" aria-controls="id_3_menu"> <span class="caret"></span></button>
+			<div class="dropdown"><button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" id="id_3" aria-label="actions" aria-haspopup="true" aria-expanded="false" aria-controls="id_3_menu"><span class="caret"></span></button>
                 <ul id="id_3_menu" class="dropdown-menu">
 	                <li><button class="btn btn-link" data-action="https://www.ilias.de" id="id_1"  >ILIAS</button>
                     </li>
@@ -278,7 +278,7 @@ EOT;
 <div class="il-item il-std-item ">
 	<div class="media">
 		<div class="media-left">
-			<img class="icon name small" src="./templates/default/images/icon_default.svg" alt="aria_label" />
+			<img class="icon name small" src="./templates/default/images/standard/icon_default.svg" alt="aria_label" />
         </div>
 		<div class="media-body">
             <div class="il-item-title">title</div>
@@ -330,7 +330,7 @@ EOT;
         $f = $this->getFactory();
         $r = $this->getDefaultRenderer();
 
-        $avatar = new Picture('./templates/default/images/no_photo_xsmall.jpg', 'demo.user');
+        $avatar = new Picture('./templates/default/images/placeholder/no_photo_xsmall.jpg', 'demo.user');
 
         $c = $f->standard("title")->withLeadAvatar($avatar);
 
@@ -340,7 +340,7 @@ EOT;
     <div class="media">
         <div class="media-left">
             <span class="il-avatar il-avatar-picture il-avatar-size-large">
-                <img src="./templates/default/images/no_photo_xsmall.jpg" alt="user_avatar"/>
+                <img src="./templates/default/images/placeholder/no_photo_xsmall.jpg" alt="user_avatar"/>
             </span>
         </div>
         <div class="media-body">
@@ -471,7 +471,7 @@ EOT;
 <div class="il-item il-std-item ">
     <div class="media">
 		<div class="media-left">
-			<img class="icon name small" src="./templates/default/images/icon_default.svg" alt="aria_label" />
+			<img class="icon name small" src="./templates/default/images/standard/icon_default.svg" alt="aria_label" />
         </div>
 		<div class="media-body">
             <div class="il-item-title">title</div>
@@ -584,7 +584,7 @@ EOT;
         <div class="col-md-6 il-multi-line-cap-3">
             <span class="il-item-property-name">Property Icon</span>
             <span class="il-item-property-value">
-                <img class="icon name small" src="./templates/default/images/icon_default.svg" alt="aria_label"/>
+                <img class="icon name small" src="./templates/default/images/standard/icon_default.svg" alt="aria_label"/>
             </span>
         </div>
     </div>

@@ -15,6 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
 declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Input\Field;
@@ -275,7 +276,7 @@ class Duration extends Group implements C\Input\Field\Duration
     /**
      * @inheritdoc
      */
-    protected function isClientSideValueOk($value): bool
+    public function isClientSideValueOk($value): bool
     {
         return true;
     }

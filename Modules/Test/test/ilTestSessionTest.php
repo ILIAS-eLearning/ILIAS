@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class ilTestSessionTest
  * @author Marvin Beym <mbeym@databay.de>
@@ -28,10 +28,11 @@ class ilTestSessionTest extends ilTestBaseTestCase
 
     protected function setUp(): void
     {
+        global $DIC;
         parent::setUp();
         $this->addGlobal_ilUser();
 
-        $this->testObj = new ilTestSession();
+        $this->testObj = new ilTestSession($DIC['ilDB'], $DIC['ilUser']);
     }
 
     public function test_instantiateObject_shouldReturnInstance(): void
@@ -65,8 +66,8 @@ class ilTestSessionTest extends ilTestBaseTestCase
 
     public function testAnonymousId(): void
     {
-        $this->testObj->setAnonymousId(20);
-        $this->assertEquals(20, $this->testObj->getAnonymousId());
+        $this->testObj->setAnonymousId('20');
+        $this->assertEquals('20', $this->testObj->getAnonymousId());
     }
 
     public function testLastSequence(): void
@@ -135,14 +136,14 @@ class ilTestSessionTest extends ilTestBaseTestCase
     public function testSetAccessCodeToSession(): void
     {
         ilSession::set(ilTestSession::ACCESS_CODE_SESSION_INDEX, "");
-        $this->testObj->setAccessCodeToSession(17);
+        $this->testObj->setAccessCodeToSession('17');
         $this->assertEquals([17], ilSession::get(ilTestSession::ACCESS_CODE_SESSION_INDEX));
     }
 
     public function testUnsetAccessCodeInSession(): void
     {
         ilSession::set(ilTestSession::ACCESS_CODE_SESSION_INDEX, "");
-        $this->testObj->setAccessCodeToSession(17);
+        $this->testObj->setAccessCodeToSession('17');
         $this->assertEquals([17], ilSession::get(ilTestSession::ACCESS_CODE_SESSION_INDEX));
 
         $this->testObj->unsetAccessCodeInSession();
@@ -155,5 +156,13 @@ class ilTestSessionTest extends ilTestBaseTestCase
 
         $this->testObj->setUserId(ANONYMOUS_USER_ID);
         $this->assertTrue($this->testObj->isAnonymousUser());
+    }
+
+    public function testPasswordChecked(): void
+    {
+        $this->testObj->active_id = 20;
+        $this->testObj->setPasswordChecked(true);
+        $this->assertTrue(ilSession::get('pw_checked_20'));
+        $this->assertTrue($this->testObj->isPasswordChecked());
     }
 }

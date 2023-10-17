@@ -25,7 +25,7 @@ require_once './Modules/Test/classes/inc.AssessmentConstants.php';
  * @version       $Id: class.assFormulaQuestion.php 1236 2010-02-15 15:44:16Z hschottm $
  * @ingroup       ModulesTestQuestionPool
  */
-class assFormulaQuestion extends assQuestion implements iQuestionCondition
+class assFormulaQuestion extends assQuestion implements iQuestionCondition, ilAssQuestionAutosaveable
 {
     private array $variables;
     private array $results;
@@ -264,7 +264,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
             return false;
         }
 
-        $text = $this->getQuestion();
+        $text = $this->getQuestionForHTMLOutput();
 
         foreach ($this->fetchAllVariables($this->getQuestion()) as $varObj) {
             if (isset($userdata[$varObj->getVariable()]) && strlen($userdata[$varObj->getVariable()])) {
@@ -367,7 +367,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
                     case assFormulaQuestionResult::RESULT_CO_FRAC:
                         if (strlen($frac_helper)) {
                             $units .= ' &asymp; ' . $frac_helper . ', ';
-                        } elseif (is_array($userdata) && isset($userdata[$result]) && strlen($userdata[$result]["frac_helper"])) {
+                        } elseif (is_array($userdata) && isset($userdata[$result]) && isset($userdata[$result]["frac_helper"]) && $userdata[$result]["frac_helper"] !== '') {
                             if (!preg_match('-/-', $value)) {
                                 $units .= ' &asymp; ' . $userdata[$result]["frac_helper"] . ', ';
                             }
@@ -716,7 +716,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
 
         $clone = $this;
 
-        $original_id = assQuestion::_getOriginalId($this->id);
+        $original_id = $this->questioninfo->getOriginalId($this->id);
         $clone->id = -1;
 
         if ((int) $testObjId > 0) {
@@ -763,7 +763,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
         // duplicate the question in database
         $clone = $this;
 
-        $original_id = assQuestion::_getOriginalId($this->id);
+        $original_id = $this->questioninfo->getOriginalId($this->id);
         $clone->id = -1;
         $source_questionpool_id = $this->getObjId();
         $clone->setObjId($target_questionpool_id);

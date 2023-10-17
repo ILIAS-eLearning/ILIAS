@@ -167,7 +167,7 @@ class AccessFileUploadAnswer implements SimpleAccess
             return false;
         }
 
-        return $this->incident->any(fn (int $reference): bool => (
+        return $this->incident->any(fn(int $reference): bool => (
             ($this->checkResultsAccess)($reference, $test_id, $active_id)
         ), $references);
     }

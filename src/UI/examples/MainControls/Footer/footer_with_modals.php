@@ -10,16 +10,11 @@ function footer_with_modals(): string
 {
     global $DIC;
     $f = $DIC->ui()->factory();
-
     $renderer = $DIC->ui()->renderer();
-
-    $url = 'src/UI/examples/MainControls/Footer/footer_with_modals.php?new_footer_2_ui=1';
-
+    $url = $DIC->http()->request()->getUri()->__toString() . '&new_footer_2_ui=1';
     $page_demo = $f->link()->standard('See UI in fullscreen-mode', $url);
 
-    return $renderer->render([
-        $page_demo
-    ]);
+    return $renderer->render($page_demo);
 }
 
 function pageFooterDemo2Footer(): \ILIAS\UI\Component\MainControls\Footer
@@ -40,19 +35,17 @@ function pageFooterDemo2Footer(): \ILIAS\UI\Component\MainControls\Footer
 
 global $DIC;
 
-//Render Footer in Fullscreen mode
-if (basename($_SERVER["SCRIPT_FILENAME"]) == "footer_with_modals.php") {
-    chdir('../../../../../');
-    require_once("libs/composer/vendor/autoload.php");
+$request_wrapper = $DIC->http()->wrapper()->query();
+$refinery = $DIC->refinery();
+
+if ($request_wrapper->has('new_footer_2_ui')
+    && $request_wrapper->retrieve('new_footer_2_ui', $refinery->kindlyTo()->int()) === 1
+) {
     \ilInitialisation::initILIAS();
-    $refinery = $DIC->refinery();
-    $request_wrapper = $DIC->http()->wrapper()->query();
+    echo(renderFooterWithModalsInFullscreenMode($DIC));
+    exit();
 }
 
-
-if (isset($request_wrapper) && isset($refinery) && $request_wrapper->has('new_footer_2_ui') && $request_wrapper->retrieve('new_footer_2_ui', $refinery->kindlyTo()->string()) == '1') {
-    echo renderFooterWithModalsInFullscreenMode($DIC);
-}
 
 function renderFooterWithModalsInFullscreenMode(Container $dic): string
 {
@@ -60,8 +53,8 @@ function renderFooterWithModalsInFullscreenMode(Container $dic): string
 
     $f = $dic->ui()->factory();
     $renderer = $dic->ui()->renderer();
-    $logo = $f->image()->responsive("templates/default/images/HeaderIcon.svg", "ILIAS");
-    $responsive_logo = $f->image()->responsive("templates/default/images/HeaderIconResponsive.svg", "ILIAS");
+    $logo = $f->image()->responsive("templates/default/images/logo/HeaderIcon.svg", "ILIAS");
+    $responsive_logo = $f->image()->responsive("templates/default/images/logo/HeaderIconResponsive.svg", "ILIAS");
     $breadcrumbs = pageFooterDemoCrumbs($f);
     $metabar = pageFooterDemoMetabar($f);
     $mainbar = pageFooterDemoMainbar($f);
@@ -77,7 +70,7 @@ function renderFooterWithModalsInFullscreenMode(Container $dic): string
         $breadcrumbs,
         $logo,
         $responsive_logo,
-        "./templates/default/images/favicon.ico",
+        "./templates/default/images/logo/favicon.ico",
         $tc,
         $footer,
         'UI PAGE FOOTER DEMO', //page title

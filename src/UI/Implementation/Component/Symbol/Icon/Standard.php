@@ -124,7 +124,6 @@ class Standard extends Icon implements C\Symbol\Icon\Standard
         self::CADM,
         self::GRPR,
         self::BDGA,
-        self::WFE,
         self::IASS,
         self::COPA,
         self::CPAD,
@@ -140,6 +139,17 @@ class Standard extends Icon implements C\Symbol\Icon\Standard
         self::CMIS,
         self::TASK,
         self::REP,
+        self::LSO,
+        self::LSOS,
+        self::ADN,
+        self::NOTA,
+        self::GCON,
+        self::CON,
+        self::FILS,
+        self::TALA
+    ];
+
+    private static array $standard_page_editor_icons = [
         self::PEAC,
         self::PEADL,
         self::PEADT,
@@ -166,14 +176,6 @@ class Standard extends Icon implements C\Symbol\Icon\Standard
         self::PESC,
         self::PETMP,
         self::PEUSR,
-        self::LSO,
-        self::LSOS,
-        self::ADN,
-        self::NOTA,
-        self::GCON,
-        self::CON,
-        self::FILS,
-        self::TALA
     ];
 
     public function __construct(string $name, string $label, string $size, bool $is_disabled)
@@ -198,5 +200,14 @@ class Standard extends Icon implements C\Symbol\Icon\Standard
     public function getAllStandardHandles(): array
     {
         return self::$standard_icons;
+    }
+
+    /**
+     * get all defined constants
+     * @return string[]
+     */
+    public function getAllStandardPageEditorHandles(): array
+    {
+        return self::$standard_page_editor_icons;
     }
 }

@@ -14,18 +14,10 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
-/**
- * Class ilDclIliasReferenceRecordFieldModel
- * @author  Martin Studer <ms@studer-raimann.ch>
- * @author  Marcel Raimann <mr@studer-raimann.ch>
- * @author  Fabian Schmid <fs@studer-raimann.ch>
- * @author  Oskar Truffer <ot@studer-raimann.ch>
- * @version $Id:
- * @ingroup ModulesDataCollection
- */
+declare(strict_types=1);
+
 class ilDclIliasReferenceRecordFieldModel extends ilDclBaseRecordFieldModel
 {
     protected int $dcl_obj_id;
@@ -38,27 +30,19 @@ class ilDclIliasReferenceRecordFieldModel extends ilDclBaseRecordFieldModel
         $this->dcl_obj_id = $dclTable->getCollectionObject()->getId();
     }
 
-    /**
-     * @return false|object
-     */
-    public function getStatus()
+    public function getStatus(): ?stdClass
     {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-        $ilUser = $DIC['ilUser'];
         $obj_ref = $this->getValue();
         if (!$obj_ref) {
-            return false;
+            return null;
         }
-        $usr_id = $ilUser->getId();
+        $usr_id = $this->user->getId();
         $obj_id = ilObject2::_lookupObjectId($obj_ref);
-        $query
-            = "  SELECT status_changed, status
+        $query = "  SELECT status_changed, status
                     FROM ut_lp_marks
                     WHERE usr_id = " . $usr_id . " AND obj_id = " . $obj_id;
-        $result = $ilDB->query($query);
 
-        return ($result->numRows() == 0) ? false : $result->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
+        return $this->db->fetchObject($this->db->query($query));
     }
 
     public function getValueForRepresentation(): string
@@ -74,8 +58,6 @@ class ilDclIliasReferenceRecordFieldModel extends ilDclBaseRecordFieldModel
 
     public function getExportValue(): string
     {
-        $link = ilLink::_getStaticLink($this->getValue());
-
-        return $link;
+        return ilLink::_getStaticLink((int)$this->getValue());
     }
 }

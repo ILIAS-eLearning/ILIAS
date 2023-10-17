@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -13,19 +14,20 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
+
+declare(strict_types=1);
 
 /**
- * Class ilDclTableListGUI
- * @author       Theodor Truffer <tt@studer-raimann.ch>
  * @ilCtrl_Calls ilDclTableListGUI: ilDclFieldListGUI, ilDclFieldEditGUI, ilDclTableViewGUI, ilDclTableEditGUI
  */
 class ilDclTableListGUI
 {
+    protected \ILIAS\UI\Factory $ui_factory;
+    protected \ILIAS\UI\Renderer $renderer;
     protected ilCtrl $ctrl;
     protected ilLanguage $lng;
-    protected ilGlobalPageTemplate $tpl;
+    protected ilGlobalTemplateInterface $tpl;
     protected ilTabsGUI $tabs;
     protected ilToolbarGUI $toolbar;
     protected ILIAS\HTTP\Services $http;
@@ -41,11 +43,15 @@ class ilDclTableListGUI
     {
         global $DIC;
         $main_tpl = $DIC->ui()->mainTemplate();
-        $ilCtrl = $DIC['ilCtrl'];
-        $lng = $DIC['lng'];
-        $tpl = $DIC['tpl'];
-        $ilTabs = $DIC['ilTabs'];
-        $ilToolbar = $DIC['ilToolbar'];
+        $this->ctrl = $DIC->ctrl();
+        $this->lng = $DIC->language();
+        $this->tpl = $DIC->ui()->mainTemplate();
+        $this->tabs = $DIC->tabs();
+        $this->toolbar = $DIC->toolbar();
+        $this->http = $DIC->http();
+        $this->refinery = $DIC->refinery();
+        $this->ui_factory = $DIC->ui()->factory();
+        $this->renderer = $DIC->ui()->renderer();
 
         $this->parent_obj = $a_parent_obj;
         $this->obj_id = 0;
@@ -53,17 +59,11 @@ class ilDclTableListGUI
             $this->obj_id = ilObject::_lookupObjectId($a_parent_obj->getRefId());
         }
 
-        $this->ctrl = $ilCtrl;
-        $this->lng = $lng;
-        $this->tpl = $tpl;
-        $this->tabs = $ilTabs;
-        $this->toolbar = $ilToolbar;
-        $this->http = $DIC->http();
-        $this->refinery = $DIC->refinery();
+
 
         if (!$this->checkAccess()) {
             $main_tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
-            $this->ctrl->redirectByClass('ildclrecordlistgui', 'listRecords');
+            $this->ctrl->redirectByClass(ilDclRecordListGUI::class, 'listRecords');
         }
     }
 
@@ -155,10 +155,11 @@ class ilDclTableListGUI
 
     public function listTables(): void
     {
-        $add_new = ilLinkButton::getInstance();
-        $add_new->setPrimary(true);
-        $add_new->setCaption("dcl_add_new_table");
-        $add_new->setUrl($this->ctrl->getLinkTargetByClass('ilDclTableEditGUI', 'create'));
+
+        $add_new = $this->ui_factory->button()->primary(
+            $this->lng->txt("dcl_add_new_table"),
+            $this->ctrl->getLinkTargetByClass('ilDclTableEditGUI', 'create')
+        );
         $this->toolbar->addStickyItem($add_new);
 
         $table_gui = new ilDclTableListTableGUI($this);
@@ -220,7 +221,6 @@ class ilDclTableListGUI
     public function confirmDeleteTables(): void
     {
         //at least one table must exist
-        $tables = [];
         $has_dcl_table_ids = $this->http->wrapper()->post()->has('dcl_table_ids');
         if (!$has_dcl_table_ids) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('dcl_delete_tables_no_selection'), true);

@@ -201,7 +201,7 @@ class assOrderingQuestionImport extends assQuestionImport
         $this->object->setComment($item->getComment());
         $this->object->setAuthor($item->getAuthor());
         $this->object->setOwner($ilUser->getId());
-        $this->object->setQuestion($this->object->QTIMaterialToString($item->getQuestiontext()));
+        $this->object->setQuestion($this->QTIMaterialToString($item->getQuestiontext()));
         $this->object->setOrderingType($type);
         $this->object->setObjId($questionpool_id);
         $thumb_size = (int) $item->getMetadataEntry("thumb_geometry");
@@ -265,7 +265,7 @@ class assOrderingQuestionImport extends assQuestionImport
         }
 
         foreach ($feedbacksgeneric as $correctness => $material) {
-            $m = $this->object->QTIMaterialToString($material);
+            $m = $this->QTIMaterialToString($material);
             $feedbacksgeneric[$correctness] = $m;
         }
         $questiontext = $this->object->getQuestion();
@@ -326,7 +326,7 @@ class assOrderingQuestionImport extends assQuestionImport
             return $import_mapping;
         }
 
-        if (isset($tst_id)) {
+        if ($tst_id > 0) {
             $tst_object->questions[$question_counter++] = $this->object->getId();
             $import_mapping[$item->getIdent()] = ["pool" => 0, "test" => $this->object->getId()];
             return $import_mapping;

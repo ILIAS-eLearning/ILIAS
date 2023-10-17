@@ -65,9 +65,9 @@ class ilObjSCORMInitData
 
         //other variables
         $b_messageLog = 'false';
-//        if ($ilLog->current_log_level == 30) {
-//            $b_messageLog = 'true';
-//        }
+        //        if ($ilLog->current_log_level == 30) {
+        //            $b_messageLog = 'true';
+        //        }
         $launchId = '0';
         if ($DIC->http()->wrapper()->query()->has('autolaunch')) {
             $autoLaunch = $DIC->http()->wrapper()->query()->retrieve('autolaunch', $DIC->refinery()->kindlyTo()->string());

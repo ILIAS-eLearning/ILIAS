@@ -16,6 +16,10 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
+use ILIAS\UI\Component\Button\Button;
+
 /**
  * @author		Björn Heyser <bheyser@databay.de>
  * @version		$Id$
@@ -27,6 +31,7 @@ class ilTestQuestionNavigationGUI
     public const SHOW_DISABLED_COMMANDS = false;
 
     public const CSS_CLASS_SUBMIT_BUTTONS = 'ilc_qsubmit_Submit';
+    private \ILIAS\DI\UIServices $ui;
 
     /**
      * @var ilLanguage
@@ -118,6 +123,8 @@ class ilTestQuestionNavigationGUI
     public function __construct(ilLanguage $lng)
     {
         $this->lng = $lng;
+        global $DIC;
+        $this->ui = $DIC->ui();
     }
 
     /**
@@ -528,39 +535,28 @@ class ilTestQuestionNavigationGUI
     private function getEditSolutionButtonLabel(): string
     {
         if ($this->isQuestionWorkedThrough()) {
-            return 'edit_answer';
+            return $this->lng->txt('edit_answer');
         }
 
-        return 'answer_question';
-    }
-
-    private function getSubmitSolutionButtonLabel(): string
-    {
-        if ($this->isForceInstantResponseEnabled()) {
-            return 'submit_and_check';
-        }
-
-        // fau: testNav - rename the submit button to simply "Save"
-        return 'save';
-        // fau.
+        return $this->lng->txt('answer_question');
     }
 
     private function getCheckButtonLabel(): string
     {
         if ($this->isAnswerFreezingEnabled()) {
-            return 'submit_and_check';
+            return $this->lng->txt('submit_and_check');
         }
 
-        return 'check';
+        return $this->lng->txt('check');
     }
 
     private function getRequestHintButtonLabel(): string
     {
         if ($this->hintRequestsExist()) {
-            return 'button_request_next_question_hint';
+            return $this->lng->txt('button_request_next_question_hint');
         }
 
-        return 'button_request_question_hint';
+        return $this->lng->txt('button_request_question_hint');
     }
 
     // fau: testNav - adjust mark icon and action labels
@@ -587,10 +583,10 @@ class ilTestQuestionNavigationGUI
     private function getQuestionMarkIconSource(): string
     {
         if ($this->isQuestionMarked()) {
-            return ilUtil::getImagePath('marked.svg');
+            return ilUtil::getImagePath('object/marked.svg');
         }
 
-        return ilUtil::getImagePath('marked_.svg');
+        return ilUtil::getImagePath('object/marked_.svg');
     }
 
     // fau: testNav - add parameter for template purpose
@@ -643,10 +639,10 @@ class ilTestQuestionNavigationGUI
      * @param ilTemplate $tpl
      * @param $button
      */
-    private function renderButtonInstance(ilTemplate $tpl, $button)
+    private function renderButtonInstance(ilTemplate $tpl, Button $button)
     {
         $tpl->setCurrentBlock("button_instance");
-        $tpl->setVariable("BUTTON_INSTANCE", $button->render());
+        $tpl->setVariable("BUTTON_INSTANCE", $this->ui->renderer()->render($button));
         $tpl->parseCurrentBlock();
 
         $this->parseButtonsBlock($tpl);
@@ -661,44 +657,17 @@ class ilTestQuestionNavigationGUI
      */
     private function renderSubmitButton(ilTemplate $tpl, $command, $label, $primary = false)
     {
-        $button = ilSubmitButton::getInstance();
-        $button->setCommand($command);
-        $button->setCaption($label);
-        $button->setPrimary($primary);
-        $button->addCSSClass(self::CSS_CLASS_SUBMIT_BUTTONS);
-
-        $this->renderButtonInstance($tpl, $button);
-    }
-
-    /**
-     * @param ilTemplate $tpl
-     * @param $htmlId
-     * @param $label
-     * @param $cssClass
-     */
-    private function renderLinkButton(ilTemplate $tpl, $href, $label)
-    {
-        $button = ilLinkButton::getInstance();
-        $button->setUrl($href);
-        $button->setCaption($label);
-
-        $this->renderButtonInstance($tpl, $button);
-    }
-
-    /**
-     * @param ilTemplate $tpl
-     * @param $htmlId
-     * @param $label
-     * @param $cssClass
-     */
-    private function renderJsLinkedButton(ilTemplate $tpl, $htmlId, $label, $cssClass)
-    {
-        $button = ilLinkButton::getInstance();
-        $button->setId($htmlId);
-        $button->addCSSClass($cssClass);
-        $button->setCaption($label);
-
-        $this->renderButtonInstance($tpl, $button);
+        if ($primary) {
+            $this->renderButtonInstance(
+                $tpl,
+                $this->ui->factory()->button()->primary($label, $command)
+            );
+        } else {
+            $this->renderButtonInstance(
+                $tpl,
+                $this->ui->factory()->button()->standard($label, $command)
+            );
+        }
     }
 
     /**

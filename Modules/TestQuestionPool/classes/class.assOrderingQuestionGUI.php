@@ -476,7 +476,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         $template = new ilTemplate("tpl.il_as_qpl_nested_ordering_output_solution.html", true, true, "Modules/TestQuestionPool");
         $template->setVariable('SOLUTION_OUTPUT', $solution_html);
         if ($show_question_text == true) {
-            $template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($this->object->getQuestion(), true));
+            $template->setVariable("QUESTIONTEXT", $this->object->getQuestionForHTMLOutput());
         }
         $questionoutput = $template->get();
 
@@ -498,7 +498,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
                 );
 
                 $solutiontemplate->setVariable("ILC_FB_CSS_CLASS", $cssClass);
-                $solutiontemplate->setVariable("FEEDBACK", $this->object->prepareTextareaOutput($feedback, true));
+                $solutiontemplate->setVariable("FEEDBACK", ilLegacyFormElementsUtil::prepareTextareaOutput($feedback, true));
             }
         }
 
@@ -534,23 +534,20 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         $template->setCurrentBlock('nested_ordering_output');
         $template->setVariable('NESTED_ORDERING', $answers->getHTML());
         $template->parseCurrentBlock();
-
-        $template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($this->object->getQuestion(), true));
+        $template->setVariable("QUESTIONTEXT", $this->object->getQuestionForHTMLOutput());
 
         if ($show_question_only) {
             return $template->get();
         }
 
         return $this->getILIASPage($template->get());
-
-        //$this->tpl->addJavascript("./Modules/TestQuestionPool/templates/default/ordering.js");
     }
 
     public function getPresentationJavascripts(): array
     {
         global $DIC; /* @var ILIAS\DI\Container $DIC */
 
-        $files = array();
+        $files = [];
 
         if ($DIC->http()->agent()->isMobile() || $DIC->http()->agent()->isIpad()) {
             $files[] = './node_modules/@andxor/jquery-ui-touch-punch-fix/jquery.ui.touch-punch.js';
@@ -586,7 +583,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         $template->setVariable('NESTED_ORDERING', $orderingGUI->getHTML());
         $template->parseCurrentBlock();
 
-        $template->setVariable('QUESTIONTEXT', $this->object->prepareTextareaOutput($this->object->getQuestion(), true));
+        $template->setVariable('QUESTIONTEXT', $this->object->getQuestionForHTMLOutput());
 
         $pageoutput = $this->outQuestionPage('', $isPostponed, $activeId, $template->get());
 

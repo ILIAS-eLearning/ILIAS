@@ -61,7 +61,7 @@ class assQuestionExport
                 0,
                 $index
             );
-            $this->object->addQTIMaterial($a_xml_writer, $fb);
+            $this->addQTIMaterial($a_xml_writer, $fb);
             $a_xml_writer->xmlEndTag("flow_mat");
             $a_xml_writer->xmlEndTag("itemfeedback");
         }
@@ -146,7 +146,7 @@ class assQuestionExport
             $a_xml_writer->xmlStartTag("itemfeedback", $attrs);
             // qti flow_mat
             $a_xml_writer->xmlStartTag("flow_mat");
-            $this->object->addQTIMaterial($a_xml_writer, $feedback_allcorrect);
+            $this->addQTIMaterial($a_xml_writer, $feedback_allcorrect);
             $a_xml_writer->xmlEndTag("flow_mat");
             $a_xml_writer->xmlEndTag("itemfeedback");
         }
@@ -158,7 +158,7 @@ class assQuestionExport
             $a_xml_writer->xmlStartTag("itemfeedback", $attrs);
             // qti flow_mat
             $a_xml_writer->xmlStartTag("flow_mat");
-            $this->object->addQTIMaterial($a_xml_writer, $feedback_onenotcorrect);
+            $this->addQTIMaterial($a_xml_writer, $feedback_onenotcorrect);
             $a_xml_writer->xmlEndTag("flow_mat");
             $a_xml_writer->xmlEndTag("itemfeedback");
         }
@@ -245,5 +245,36 @@ class assQuestionExport
             $writer->xmlElement(self::ITEM_SOLUTIONHINT, $attrs, $data);
         }
         return $writer;
+    }
+
+    public function addQTIMaterial(ilXmlWriter $a_xml_writer, string $a_material, bool $close_material_tag = true, bool $add_mobs = true): void
+    {
+        $a_xml_writer->xmlStartTag("material");
+        $attrs = array(
+            "texttype" => "text/plain"
+        );
+        if (ilUtil::isHTML($a_material)) {
+            $attrs["texttype"] = "text/xhtml";
+        }
+        $a_xml_writer->xmlElement("mattext", $attrs, ilRTE::_replaceMediaObjectImageSrc($a_material, 0));
+        if ($add_mobs) {
+            $mobs = ilObjMediaObject::_getMobsOfObject("qpl:html", $this->object->getId());
+            foreach ($mobs as $mob) {
+                $moblabel = "il_" . IL_INST_ID . "_mob_" . $mob;
+                if (str_contains($a_material, "mm_$mob")) {
+                    if (ilObjMediaObject::_exists($mob)) {
+                        $mob_obj = new ilObjMediaObject($mob);
+                        $imgattrs = array(
+                            "label" => $moblabel,
+                            "uri" => "objects/" . "il_" . IL_INST_ID . "_mob_" . $mob . "/" . $mob_obj->getTitle()
+                        );
+                    }
+                    $a_xml_writer->xmlElement("matimage", $imgattrs, null);
+                }
+            }
+        }
+        if ($close_material_tag) {
+            $a_xml_writer->xmlEndTag("material");
+        }
     }
 }

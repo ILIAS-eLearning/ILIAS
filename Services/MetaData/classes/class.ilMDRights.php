@@ -1,6 +1,5 @@
 <?php
 
-declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Meta Data class (element rights)
  * @package ilias-core
@@ -24,6 +25,14 @@ declare(strict_types=1);
  */
 class ilMDRights extends ilMDBase
 {
+    /**
+     * Compatibility fix for legacy MD classes for new db tables
+     */
+    private const YES_NO_TRANSLATION = [
+        'yes' => 'Yes',
+        'no' => 'No'
+    ];
+
     private string $costs = '';
     private string $caor = '';
     private string $description = '';
@@ -155,12 +164,24 @@ class ilMDRights extends ilMDBase
      */
     public function __getFields(): array
     {
+        /**
+         * Compatibility fix for legacy MD classes for new db tables
+         */
+        $costs = (string) array_search(
+            $this->getCosts(),
+            self::YES_NO_TRANSLATION
+        );
+        $cpr_and_or = (string) array_search(
+            $this->getCopyrightAndOtherRestrictions(),
+            self::YES_NO_TRANSLATION
+        );
+
         return array(
             'rbac_id' => array('integer', $this->getRBACId()),
             'obj_id' => array('integer', $this->getObjId()),
             'obj_type' => array('text', $this->getObjType()),
-            'costs' => array('text', $this->getCosts()),
-            'cpr_and_or' => array('text', $this->getCopyrightAndOtherRestrictions()),
+            'costs' => array('text', $costs),
+            'cpr_and_or' => array('text', $cpr_and_or),
             'description' => array('text', $this->getDescription()),
             'description_language' => array('text', $this->getDescriptionLanguageCode())
         );
@@ -174,13 +195,23 @@ class ilMDRights extends ilMDBase
 
             $res = $this->db->query($query);
             while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+                /**
+                 * Compatibility fix for legacy MD classes for new db tables
+                 */
+                if (key_exists($row->costs ?? '', self::YES_NO_TRANSLATION)) {
+                    $row->costs = self::YES_NO_TRANSLATION[$row->costs ?? ''];
+                }
+                if (key_exists($row->cpr_and_or ?? '', self::YES_NO_TRANSLATION)) {
+                    $row->cpr_and_or = self::YES_NO_TRANSLATION[$row->cpr_and_or ?? ''];
+                }
+
                 $this->setRBACId((int) $row->rbac_id);
                 $this->setObjId((int) $row->obj_id);
-                $this->setObjType((string) $row->obj_type);
-                $this->setDescription((string) $row->description);
-                $this->setDescriptionLanguage(new ilMDLanguageItem((string) $row->description_language));
-                $this->setCosts((string) $row->costs);
-                $this->setCopyrightAndOtherRestrictions((string) $row->cpr_and_or);
+                $this->setObjType($row->obj_type ?? '');
+                $this->setDescription($row->description ?? '');
+                $this->setDescriptionLanguage(new ilMDLanguageItem($row->description_language ?? ''));
+                $this->setCosts($row->costs ?? '');
+                $this->setCopyrightAndOtherRestrictions($row->cpr_and_or ?? '');
             }
             return true;
         }

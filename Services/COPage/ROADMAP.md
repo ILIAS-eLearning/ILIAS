@@ -9,11 +9,7 @@ The following issues are mostly usability issues, that could be tackled as part 
 
 ## Short Term
 
-### Remove dependency to include/inc.xml5compliance.php
-
-Dom handling should be move to internal service, the dependency to include/inc.xml5compliance.php should be removed. More unit tests for dom transformations should be introduced.
-
-### Remove YUI and jQuery dependencies
+### Remove jQuery dependencies
 
 - Migrate from jQueryUI draggable to a non jQuery lib, e.g. https://shopify.github.io/draggable/ 
 
@@ -37,6 +33,10 @@ In general the old string manipulations should be replaced by DOM manipulations 
 
 E.g. style_selector_reset and similar places.
 
+### Page Content Integration
+
+Relocate the classes to have all necessary files for a PC in one subfolder. Remove the special case conditionals for using the slate implementation. Simplify the ctrl flow and reuse of create/edit forms.
+
 ## Mid Term
 
 ### Performance
@@ -47,6 +47,11 @@ See https://mantis.ilias.de/view.php?id=29680
 ### Replace or refactor mediawiki word-level-diff code
 
 This code is copied from an older mediawiki version. I compares two versions of page HTML outputs and marks differences. The code should either be replaced by a lib that provides the same functionality, refactored and integrated into own code or at least replaced by an up-to-date code excerpt from mediawiki.
+
+
+### Accordions and Media
+
+Currently media players continue to play if accordions are being closed. A generalised event handling should allow components to act on show/hide events.
 
 ### Lower Cyclomatic Complexity (Ongoing)
 
@@ -78,8 +83,11 @@ If i18n is enabled and a page is copied (e.g. because of a new translation), it 
 
 See also https://mantis.ilias.de/view.php?id=29057
 
-
 ## Long Term
+
+### Internal Links for More Contexts
+
+Internal links are not supported in all contexts. The behaviour of the different link targets is not well defined and thus a general usability issue. A separate activation of these (e.g. only in the learning module) might be feasible. If possible the link concepts should be revised completely.
 
 ### Integration of new question service
 

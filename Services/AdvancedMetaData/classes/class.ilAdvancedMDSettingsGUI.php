@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,11 +16,12 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\Refinery\Factory as RefineryFactory;
 use ILIAS\UI\Renderer;
 use Psr\Http\Message\RequestInterface;
-use Psr\Http\Message\ServerRequestInterface;
 use ILIAS\HTTP\GlobalHttpState;
 
 /**
@@ -196,12 +195,12 @@ class ilAdvancedMDSettingsGUI
         return null;
     }
 
-    protected function getOidFromQuery(): ?int
+    protected function getOidFromQuery(): ?string
     {
         if ($this->http->wrapper()->query()->has('oid')) {
             return $this->http->wrapper()->query()->retrieve(
                 'oid',
-                $this->refinery->kindlyTo()->int()
+                $this->refinery->kindlyTo()->string()
             );
         }
         return null;
@@ -316,10 +315,11 @@ class ilAdvancedMDSettingsGUI
         );
 
         if ($perm[ilAdvancedMDPermissionHelper::ACTION_MD_CREATE_RECORD]) {
-            $button = ilLinkButton::getInstance();
-            $button->setCaption("add");
-            $button->setUrl($this->ctrl->getLinkTarget($this, "createRecord"));
-            $ilToolbar->addButtonInstance($button);
+            $button = $this->ui_factory->button()->standard(
+                $this->lng->txt('add'),
+                $this->ctrl->getLinkTargetByClass(strtolower(self::class), "createRecord")
+            );
+            $ilToolbar->addComponent($button);
 
             if ($perm[ilAdvancedMDPermissionHelper::ACTION_MD_IMPORT_RECORDS]) {
                 $ilToolbar->addSeparator();
@@ -327,10 +327,11 @@ class ilAdvancedMDSettingsGUI
         }
 
         if ($perm[ilAdvancedMDPermissionHelper::ACTION_MD_IMPORT_RECORDS]) {
-            $button = ilLinkButton::getInstance();
-            $button->setCaption("import");
-            $button->setUrl($this->ctrl->getLinkTarget($this, "importRecords"));
-            $ilToolbar->addButtonInstance($button);
+            $button = $this->ui_factory->button()->standard(
+                $this->lng->txt('import'),
+                $this->ctrl->getLinkTargetByClass(strtolower(self::class), "importRecords")
+            );
+            $ilToolbar->addComponent($button);
         }
 
         $obj_type_context = ($this->obj_id > 0)
@@ -925,32 +926,35 @@ class ilAdvancedMDSettingsGUI
             )
         );
 
-        $filter_warn = array();
+        $filter_warn = [];
         if ($perm[ilAdvancedMDPermissionHelper::ACTION_RECORD_CREATE_FIELD]) {
             // type selection
-            $types = new ilSelectInputGUI("", "ftype");
-            $options = array();
+            $field_buttons = [];
             foreach (ilAdvancedMDFieldDefinition::getValidTypes() as $type) {
                 $field = ilAdvancedMDFieldDefinition::getInstance(null, $type);
-                $options[$type] = $this->lng->txt($field->getTypeTitle());
+
+                $this->ctrl->setParameter($this, 'ftype', $type);
+                $create_link = $this->ctrl->getLinkTarget($this, 'createField');
+                $this->ctrl->clearParameterByClass(strtolower(self::class), 'ftype');
+
+                $field_buttons[] = $this->ui_factory->button()->shy(
+                    $this->lng->txt($field->getTypeTitle()),
+                    $create_link
+                );
 
                 if (!$field->isFilterSupported()) {
                     $filter_warn[] = $this->lng->txt($field->getTypeTitle());
                 }
             }
-            $types->setOptions($options);
 
             if (count($this->toolbar->getItems())) {
                 $this->toolbar->addSeparator();
             }
-            $this->toolbar->addInputItem($types);
 
-            $this->toolbar->setFormAction($this->ctrl->getFormAction($this, "createField"));
-
-            $button = ilSubmitButton::getInstance();
-            $button->setCaption("add");
-            $button->setCommand("createField");
-            $this->toolbar->addButtonInstance($button);
+            $dropdown = $this->ui_factory->dropdown()
+                                         ->standard($field_buttons)
+                                         ->withLabel($this->lng->txt('meta_advmd_add_field'));
+            $this->toolbar->addComponent($dropdown);
         }
 
         // #17092
@@ -1560,10 +1564,6 @@ class ilAdvancedMDSettingsGUI
                         // currently only optional records for org unit (types)
                         unset($type_options[1]);
                         break;
-                    case "prg":
-                        // currently only optional records for study programme (types)
-                        unset($type_options[1]);
-                        break;
                     case "talt":
                         // currently only optional records for talk templates (types)
                         unset($type_options[1]);
@@ -1785,6 +1785,54 @@ class ilAdvancedMDSettingsGUI
                 ,
                 "newline" => $perm[ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_FILE_EDIT_FIELD_PROPERTY][ilAdvancedMDPermissionHelper::SUBACTION_SUBSTITUTION_NEWLINE]
             );
+        } elseif ($a_obj_type == "prg") {
+            $perm = $this->getPermissions()->hasPermissions(
+                ilAdvancedMDPermissionHelper::CONTEXT_SUBSTITUTION_PRG,
+                (string) $a_field_id,
+                [
+                    ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_PRG_SHOW_FIELD,
+                    [
+                        ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_PRG_EDIT_FIELD_PROPERTY,
+                        ilAdvancedMDPermissionHelper::SUBACTION_SUBSTITUTION_BOLD
+                    ],
+                    [
+                        ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_PRG_EDIT_FIELD_PROPERTY,
+                        ilAdvancedMDPermissionHelper::SUBACTION_SUBSTITUTION_NEWLINE
+                    ]
+                ]
+            );
+            return array(
+                "show" => $perm[ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_PRG_SHOW_FIELD]
+                ,
+                "bold" => $perm[ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_PRG_EDIT_FIELD_PROPERTY][ilAdvancedMDPermissionHelper::SUBACTION_SUBSTITUTION_BOLD]
+                ,
+                "newline" => $perm[ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_PRG_EDIT_FIELD_PROPERTY][ilAdvancedMDPermissionHelper::SUBACTION_SUBSTITUTION_NEWLINE]
+            );
+        } elseif ($a_obj_type == "orgu") {
+            $perm = $this->getPermissions()->hasPermissions(
+                ilAdvancedMDPermissionHelper::CONTEXT_SUBSTITUTION_ORG_UNIT,
+                (string) $a_field_id,
+                [
+                    ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_ORG_UNIT_SHOW_FIELD
+                    ,
+                    [
+                        ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_ORG_UNIT_EDIT_FIELD_PROPERTY,
+                        ilAdvancedMDPermissionHelper::SUBACTION_SUBSTITUTION_BOLD
+                    ]
+                    ,
+                    [
+                        ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_ORG_UNIT_EDIT_FIELD_PROPERTY,
+                        ilAdvancedMDPermissionHelper::SUBACTION_SUBSTITUTION_NEWLINE
+                    ]
+                ]
+            );
+            return [
+                "show" => $perm[ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_ORG_UNIT_SHOW_FIELD]
+                ,
+                "bold" => $perm[ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_ORG_UNIT_EDIT_FIELD_PROPERTY][ilAdvancedMDPermissionHelper::SUBACTION_SUBSTITUTION_BOLD]
+                ,
+                "newline" => $perm[ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_ORG_UNIT_EDIT_FIELD_PROPERTY][ilAdvancedMDPermissionHelper::SUBACTION_SUBSTITUTION_NEWLINE]
+            ];
         }
         return [];
     }

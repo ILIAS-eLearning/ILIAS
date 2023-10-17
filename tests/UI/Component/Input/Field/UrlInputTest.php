@@ -55,7 +55,7 @@ class UrlInputTest extends ILIAS_UI_TestBase
         $factory = $this->buildFactory();
         $url = $factory->url("Test Label", "Test Byline");
 
-        $this->assertInstanceOf(Field\Input::class, $url);
+        $this->assertInstanceOf(\ILIAS\UI\Component\Input\Container\Form\FormInput::class, $url);
         $this->assertInstanceOf(Field\Url::class, $url);
     }
 

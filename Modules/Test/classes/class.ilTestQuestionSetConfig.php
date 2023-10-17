@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * abstract parent class that manages/holds the data for a question set configuration
  * @author		Björn Heyser <bheyser@databay.de>
@@ -23,44 +25,21 @@
  */
 abstract class ilTestQuestionSetConfig
 {
-    protected ilTree $tree;
-    protected ilDBInterface $db;
-    protected ilComponentRepository $component_repository;
-    protected ilObjTest $testOBJ;
-
     public function __construct(
-        ilTree $tree,
-        ilDBInterface $db,
-        ilComponentRepository $component_repository,
-        ilObjTest $testOBJ
+        protected ilTree $tree,
+        protected ilDBInterface $db,
+        protected ilLanguage $lng,
+        protected ilLogger $log,
+        protected ilComponentRepository $component_repository,
+        protected ilObjTest $test_obj,
+        protected \ILIAS\TestQuestionPool\QuestionInfoService $questioninfo
     ) {
-        $this->tree = $tree;
-        $this->db = $db;
-        $this->component_repository = $component_repository;
-        $this->testOBJ = $testOBJ;
     }
 
-    /**
-     * loads the question set config for current test from the database
-     */
-    abstract public function loadFromDb();
-
-    /**
-     * saves the question set config for current test to the database
-     */
-    abstract public function saveToDb();
-
-    /**
-     * saves the question set config for test with given id to the database
-     *
-     * @param $testId
-     */
-    abstract public function cloneToDbForTestId($testId);
-
-    /**
-     * deletes the question set config for current test from the database
-     */
-    abstract public function deleteFromDb();
+    abstract public function loadFromDb(): void;
+    abstract public function saveToDb(): void;
+    abstract public function cloneToDbForTestId(int $testId): void;
+    abstract public function deleteFromDb(): void;
 
     public function areDepenciesInVulnerableState(): bool
     {
@@ -82,47 +61,25 @@ abstract class ilTestQuestionSetConfig
         return '';
     }
 
-    public function isValidRequestOnBrokenQuestionSetDepencies($nextClass, $cmd): bool
+    public function isValidRequestOnBrokenQuestionSetDepencies(string $next_class, string $cmd): bool
     {
         return true;
     }
 
     public function getHiddenTabsOnBrokenDepencies(): array
     {
-        return array();
+        return [];
     }
 
-    abstract public function isQuestionSetConfigured();
-
-    /**
-     * checks wether question set config related data exists or not
-     */
-    abstract public function doesQuestionSetRelatedDataExist();
-
-    /**
-     * removes all question set config related data
-     */
+    abstract public function isQuestionSetConfigured(): bool;
+    abstract public function doesQuestionSetRelatedDataExist(): bool;
     abstract public function removeQuestionSetRelatedData(): void;
+    abstract public function resetQuestionSetRelatedTestSettings(): void;
+    abstract public function cloneQuestionSetRelatedData(ilObjTest $clone_test_obj): void;
 
-    /**
-     * resets all test settings that depends on a non changed question set config
-     */
-    abstract public function resetQuestionSetRelatedTestSettings();
-
-    /**
-     * removes all question set config related data for cloned/copied test
-     *
-     * @param ilObjTest $cloneTestOBJ
-     */
-    abstract public function cloneQuestionSetRelatedData(ilObjTest $cloneTestOBJ);
-
-    /**
-     * @param integer $poolId
-     * @return string
-     */
-    public function getQuestionPoolPathString($poolId): string
+    public function getQuestionPoolPathString(int $pool_id): string
     {
-        $ref_id = current(ilObject::_getAllReferences($poolId));
+        $ref_id = current(ilObject::_getAllReferences($pool_id));
 
         $path = new ilPathGUI();
         $path->enableTextOnly(true);
@@ -137,5 +94,5 @@ abstract class ilTestQuestionSetConfig
         return (int) $refs_id;
     }
 
-    abstract public function isResultTaxonomyFilterSupported();
+    abstract public function isResultTaxonomyFilterSupported(): bool;
 }

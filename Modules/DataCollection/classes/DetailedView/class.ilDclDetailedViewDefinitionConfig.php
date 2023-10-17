@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -13,15 +14,10 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
-/**
- * View definition page configuration
- * @author  Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- * @ingroup ModulesDataCollection
- */
+declare(strict_types=1);
+
 class ilDclDetailedViewDefinitionConfig extends ilPageConfig
 {
     /**

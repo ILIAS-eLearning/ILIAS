@@ -126,6 +126,7 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
 
     public const QUESTION_INSTANCE_TYPE_ORIGINALS = 'QST_INSTANCE_TYPE_ORIGINALS';
     public const QUESTION_INSTANCE_TYPE_DUPLICATES = 'QST_INSTANCE_TYPE_DUPLICATES';
+    public const QUESTION_INSTANCE_TYPE_ALL = 'QST_INSTANCE_TYPE_ALL';
     private $questionInstanceTypeFilter = self::QUESTION_INSTANCE_TYPE_ORIGINALS;
 
     private $includeQuestionIdsFilter = null;
@@ -422,12 +423,12 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
     {
         switch ($this->getQuestionInstanceTypeFilter()) {
             case self::QUESTION_INSTANCE_TYPE_ORIGINALS:
-
                 return 'qpl_questions.original_id IS NULL';
-
             case self::QUESTION_INSTANCE_TYPE_DUPLICATES:
-
                 return 'qpl_questions.original_id IS NOT NULL';
+            case self::QUESTION_INSTANCE_TYPE_ALL:
+            default:
+                return null;
         }
 
         return null;
@@ -511,6 +512,14 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
             $tableJoin .= "
 				INNER JOIN	object_data
 				ON			object_data.obj_id = qpl_questions.obj_fi
+			";
+        }
+
+        if ($this->getParentObjectType() === 'tst'
+            && $this->getQuestionInstanceTypeFilter() === self::QUESTION_INSTANCE_TYPE_ALL) {
+            $tableJoin .= "
+            						INNER JOIN	tst_test_question tstquest
+			ON			tstquest.question_fi = qpl_questions.question_id
 			";
         }
 

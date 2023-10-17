@@ -299,7 +299,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
 
                 $lg->addHeaderIcon(
                     "not_icon",
-                    ilUtil::getImagePath("notification_on.svg"),
+                    ilUtil::getImagePath("object/notification_on.svg"),
                     $this->lng->txt("wiki_notification_activated")
                 );
             } else {
@@ -312,7 +312,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
 
                     $lg->addHeaderIcon(
                         "not_icon",
-                        ilUtil::getImagePath("notification_on.svg"),
+                        ilUtil::getImagePath("object/notification_on.svg"),
                         $this->lng->txt("wiki_page_notification_activated")
                     );
                 } else {
@@ -321,7 +321,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
 
                     $lg->addHeaderIcon(
                         "not_icon",
-                        ilUtil::getImagePath("notification_off.svg"),
+                        ilUtil::getImagePath("object/notification_off.svg"),
                         $this->lng->txt("wiki_notification_deactivated")
                     );
                 }
@@ -380,7 +380,6 @@ class ilWikiPageGUI extends ilPageObjectGUI
         );
 
         $callback = array($this, "observeNoteAction");
-
         // notes
         if (!$ilSetting->get("disable_comments") &&
             ilObjWiki::_lookupPublicNotes($this->getPageObject()->getParentId())) {

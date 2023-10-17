@@ -204,6 +204,8 @@ class ilRepositorySearchGUI
         $ilCtrl = $DIC->ctrl();
         $tree = $DIC->repositoryTree();
         $user = $DIC->user();
+        $ui_factory = $DIC->ui()->factory();
+        $ui_renderer = $DIC->ui()->renderer();
 
         if (!$toolbar instanceof ilToolbarGUI) {
             $toolbar = $ilToolbar;
@@ -295,10 +297,11 @@ class ilRepositorySearchGUI
             $toolbar->addSeparator();
 
             if ($a_options['add_search']) {
-                $button = ilLinkButton::getInstance();
-                $button->setCaption("search_users");
-                $button->setUrl($ilCtrl->getLinkTargetByClass('ilRepositorySearchGUI', ''));
-                $toolbar->addButtonInstance($button);
+                $button = $ui_factory->button()->standard(
+                    $lng->txt('search_users'),
+                    $ilCtrl->getLinkTargetByClass(strtolower(self::class), '')
+                );
+                $toolbar->addComponent($button);
             }
 
             if (is_numeric($a_options['add_from_container'])) {
@@ -316,10 +319,11 @@ class ilRepositorySearchGUI
 
                     $ilCtrl->setParameterByClass('ilRepositorySearchGUI', "list_obj", ilObject::_lookupObjId($parent_container_ref_id));
 
-                    $button = ilLinkButton::getInstance();
-                    $button->setCaption("search_add_members_from_container_" . $parent_container_type);
-                    $button->setUrl($ilCtrl->getLinkTargetByClass(array(get_class($parent_object),'ilRepositorySearchGUI'), 'listUsers'));
-                    $toolbar->addButtonInstance($button);
+                    $button = $ui_factory->button()->standard(
+                        $lng->txt('search_add_members_from_container_' . $parent_container_type),
+                        $ilCtrl->getLinkTargetByClass(array(get_class($parent_object),'ilRepositorySearchGUI'), 'listUsers')
+                    );
+                    $toolbar->addComponent($button);
                 }
             }
         }
@@ -954,8 +958,7 @@ class ilRepositorySearchGUI
             }
             switch ($info['type']) {
                 case ilUserSearchOptions::FIELD_TYPE_UDF_SELECT:
-                    // Do a phrase query for select fields
-                    $query_parser = $this->__parseQueryString('"' . $query_string . '"');
+                    $query_parser = $this->__parseQueryString($query_string);
 
                     // no break
                 case ilUserSearchOptions::FIELD_TYPE_UDF_TEXT:
@@ -975,9 +978,7 @@ class ilRepositorySearchGUI
                         $this->__storeEntries($result_obj);
                         break;
                     }
-
-                    // Do a phrase query for select fields
-                    $query_parser = $this->__parseQueryString('"' . $query_string . '"', true, true);
+                    $query_parser = $this->__parseQueryString($query_string, true, true);
 
                     // no break
                 case ilUserSearchOptions::FIELD_TYPE_TEXT:

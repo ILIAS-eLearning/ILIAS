@@ -92,7 +92,10 @@ final class ilEmployeeTalkAppointmentGUI implements ControlFlowCommandHandler
 
         $backClass = strtolower(ilObjEmployeeTalkGUI::class);
         $this->controlFlow->setParameterByClass($backClass, 'ref_id', $ref_id);
-        $this->tabs->setBackTarget($this->language->txt('back'), $this->controlFlow->getLinkTargetByClass(strtolower(ilObjEmployeeTalkGUI::class), ControlFlowCommand::DEFAULT));
+        $this->tabs->setBackTarget(
+            $this->language->txt('back'),
+            $this->controlFlow->getLinkTargetByClass(strtolower(ilObjEmployeeTalkGUI::class), ControlFlowCommand::UPDATE)
+        );
 
         switch ($this->editMode()) {
             case self::EDIT_MODE_SERIES:
@@ -102,7 +105,7 @@ final class ilEmployeeTalkAppointmentGUI implements ControlFlowCommandHandler
                 $this->executeAppointmentCommand($cmd);
                 break;
             default:
-                $this->controlFlow->redirectByClass(strtolower(ilObjEmployeeTalkGUI::class), ControlFlowCommand::DEFAULT);
+                $this->controlFlow->redirectByClass(strtolower(ilObjEmployeeTalkGUI::class), ControlFlowCommand::UPDATE);
                 break;
         }
     }
@@ -152,8 +155,9 @@ final class ilEmployeeTalkAppointmentGUI implements ControlFlowCommandHandler
         if ($form->checkInput()) {
             $reoccurrence = $this->loadRecurrenceSettings($form);
             $parent = $this->talk->getParent();
-            $this->deletePendingTalks($parent);
+            $old_talks = $this->getTalksInSeries($parent);
             $this->createRecurringTalks($form, $reoccurrence, $parent);
+            $this->deletePendingTalks($old_talks);
 
             $this->template->setOnScreenMessage('success', $this->language->txt('saved_successfully'), true);
         }
@@ -549,21 +553,37 @@ final class ilEmployeeTalkAppointmentGUI implements ControlFlowCommandHandler
         return true;
     }
 
-    private function deletePendingTalks(ilObjEmployeeTalkSeries $series): void
+    /**
+     * @return ilObjEmployeeTalk[]
+     */
+    private function getTalksInSeries(ilObjEmployeeTalkSeries $series): array
     {
+        $talks = [];
         $subItems = $series->getSubItems()['_all'];
 
         foreach ($subItems as $subItem) {
             if ($subItem['type'] === 'etal') {
                 $refId = intval($subItem['ref_id']);
                 $talk = new ilObjEmployeeTalk($refId, true);
-                $talkData = $talk->getData();
-                if ($talkData->isStandalone() || $talkData->isCompleted()) {
-                    continue;
-                }
-
-                $talk->delete();
+                $talks[] = $talk;
             }
+        }
+
+        return $talks;
+    }
+
+    /**
+     * @param ilObjEmployeeTalk[] $talks
+     */
+    private function deletePendingTalks(array $talks): void
+    {
+        foreach ($talks as $talk) {
+            $talkData = $talk->getData();
+            if ($talkData->isStandalone() || $talkData->isCompleted()) {
+                continue;
+            }
+
+            $talk->delete();
         }
     }
 
@@ -594,7 +614,8 @@ final class ilEmployeeTalkAppointmentGUI implements ControlFlowCommandHandler
             $data->getLocation(),
             $data->getEmployee(),
             false,
-            false
+            false,
+            $data->getTemplateId()
         );
     }
 }

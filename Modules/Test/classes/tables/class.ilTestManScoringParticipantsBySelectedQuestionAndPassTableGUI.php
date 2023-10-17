@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI
  * @author     Michael Jansen <mjansen@datababay.de>
@@ -30,26 +32,25 @@ class ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI extends ilTa
     public const PARENT_SAVE_SCORING_CMD = 'saveManScoringByQuestion';
 
     private ?float $curQuestionMaxPoints = null;
+    protected \ILIAS\TestQuestionPool\QuestionInfoService $questioninfo;
 
     protected bool $first_row_rendered = false;
 
     protected bool $first_row = true;
     protected array $filter = [];
 
-    public function __construct($parentObj)
+    public function __construct(ilTestScoringByQuestionsGUI $parent_obj, private ilAccess $access)
     {
+        parent::__construct($parent_obj, self::PARENT_DEFAULT_CMD);
+        global $DIC;
+        $this->questioninfo = $DIC->testQuestionPool()->questionInfo();
         $this->setFilterCommand(self::PARENT_APPLY_FILTER_CMD);
         $this->setResetCommand(self::PARENT_RESET_FILTER_CMD);
-        global $DIC;
 
-        $ilCtrl = $DIC->ctrl();
-        $tpl = $DIC->ui()->mainTemplate();
-        $tpl->addJavaScript('./node_modules/tinymce/tinymce.js');
-        $this->setId('man_scor_by_qst_' . $parentObj->getObject()->getId());
+        $this->main_tpl->addJavaScript('./node_modules/tinymce/tinymce.js');
+        $this->setId('man_scor_by_qst_' . $parent_obj->getObject()->getId());
 
-        parent::__construct($parentObj, self::PARENT_DEFAULT_CMD);
-
-        $this->setFormAction($ilCtrl->getFormAction($parentObj, self::PARENT_DEFAULT_CMD));
+        $this->setFormAction($this->ctrl->getFormAction($parent_obj, self::PARENT_DEFAULT_CMD));
         $this->setRowTemplate("tpl.il_as_tst_man_scoring_by_question_tblrow.html", "Modules/Test");
         $this->setShowRowsSelector(true);
 
@@ -91,10 +92,10 @@ class ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI extends ilTa
         }
         $scoring = ilObjAssessmentFolder::_getManualScoring();
         foreach ($questions as $data) {
-            $info = assQuestion::_getQuestionInfo($data['question_id']);
+            $info = $this->questioninfo->getQuestionInfo($data['question_id']);
             $type = $info["question_type_fi"];
             if (in_array($type, $scoring)) {
-                $maxpoints = assQuestion::_getMaximumPoints($data["question_id"]);
+                $maxpoints = $this->questioninfo->getMaximumPoints($data["question_id"]);
                 if ($maxpoints == 1) {
                     $maxpoints = ' (' . $maxpoints . ' ' . $this->lng->txt('point') . ')';
                 } else {
@@ -146,15 +147,11 @@ class ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI extends ilTa
 
     public function fillRow(array $a_set): void
     {
-        global $DIC;
-        $ilCtrl = $DIC->ctrl();
-        $ilAccess = $DIC->access();
-
         if (
-            $this->getParentObject()->object->anonymity == 1 ||
+            $this->getParentObject()->getObject()->getAnonymity() == 1 ||
             (
-                $this->getParentObject()->object->getAnonymity() == 2 &&
-                false == $ilAccess->checkAccess('write', '', $this->getParentObject()->object->getRefId())
+                $this->getParentObject()->getObject()->getAnonymity() == 2 &&
+                false == $this->access->checkAccess('write', '', $this->getParentObject()->getObject()->getRefId())
             )
         ) {
             $this->tpl->setVariable('VAL_NAME', $this->lng->txt("anonymous"));
@@ -196,13 +193,16 @@ class ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI extends ilTa
             $this->first_row = false;
         }
 
-        $ilCtrl->setParameter($this->getParentObject(), 'qst_id', $a_set['qst_id']);
-        $ilCtrl->setParameter($this->getParentObject(), 'active_id', $a_set['active_id']);
-        $ilCtrl->setParameter($this->getParentObject(), 'pass_id', $a_set['pass_id']);
-        $this->tpl->setVariable('VAL_LINK_ANSWER', $ilCtrl->getLinkTarget($this->getParentObject(), 'getAnswerDetail', '', true, false));
-        $ilCtrl->setParameter($this->getParentObject(), 'qst_id', '');
-        $ilCtrl->setParameter($this->getParentObject(), 'active_id', '');
-        $ilCtrl->setParameter($this->getParentObject(), 'pass_id', '');
+        $this->ctrl->setParameter($this->getParentObject(), 'qst_id', $a_set['qst_id']);
+        $this->ctrl->setParameter($this->getParentObject(), 'active_id', $a_set['active_id']);
+        $this->ctrl->setParameter($this->getParentObject(), 'pass_id', $a_set['pass_id']);
+        $this->tpl->setVariable(
+            'VAL_LINK_ANSWER',
+            $this->ctrl->getLinkTarget($this->getParentObject(), 'getAnswerDetail', '', true, false)
+        );
+        $this->ctrl->setParameter($this->getParentObject(), 'qst_id', '');
+        $this->ctrl->setParameter($this->getParentObject(), 'active_id', '');
+        $this->ctrl->setParameter($this->getParentObject(), 'pass_id', '');
         $this->tpl->setVariable('VAL_TXT_ANSWER', $this->lng->txt('tst_eval_show_answer'));
         $this->tpl->setVariable('ANSWER_TITLE', $this->lng->txt('answer_of') . ': ' . $a_set['name']);
     }

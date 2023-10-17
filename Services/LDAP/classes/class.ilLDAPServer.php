@@ -383,14 +383,17 @@ class ilLDAPServer
     public static function isAuthModeLDAP(string $a_auth_mode): bool
     {
         global $DIC;
+
         $logger = $DIC->logger()->auth();
 
-        if (!$a_auth_mode) {
+        if ($a_auth_mode === '') {
             $logger->error(__METHOD__ . ': No auth mode given..............');
             return false;
         }
+
         $auth_arr = explode('_', $a_auth_mode);
-        return ((int) $auth_arr[0] === ilAuthUtils::AUTH_LDAP) && $auth_arr[1];
+
+        return ((int) $auth_arr[0] === ilAuthUtils::AUTH_LDAP) && (isset($auth_arr[1]) && $auth_arr[1]);
     }
 
     /**
@@ -402,6 +405,7 @@ class ilLDAPServer
             $auth_arr = explode('_', $a_auth_mode);
             return (int) $auth_arr[1];
         }
+
         return null;
     }
 

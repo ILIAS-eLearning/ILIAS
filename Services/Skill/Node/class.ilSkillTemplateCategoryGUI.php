@@ -19,7 +19,7 @@ declare(strict_types=1);
  ********************************************************************
  */
 
-use ILIAS\Skill\Tree;
+use ILIAS\Skill\Node;
 
 /**
  * Skill template category GUI class
@@ -37,7 +37,7 @@ class ilSkillTemplateCategoryGUI extends ilSkillTreeNodeGUI
 
     protected int $tref_id = 0;
 
-    public function __construct(Tree\SkillTreeNodeManager $node_manager, int $a_node_id = 0, int $a_tref_id = 0)
+    public function __construct(Node\SkillTreeNodeManager $node_manager, int $a_node_id = 0, int $a_tref_id = 0)
     {
         global $DIC;
 
@@ -286,7 +286,7 @@ class ilSkillTemplateCategoryGUI extends ilSkillTreeNodeGUI
 
         $this->node_object->setTitle($this->form->getInput("title"));
         $this->node_object->setDescription($this->form->getInput("description"));
-        $this->node_object->setOrderNr($this->form->getInput("order_nr"));
+        $this->node_object->setOrderNr((int) $this->form->getInput("order_nr"));
         $this->node_object->setSelfEvaluation((bool) $this->form->getInput("self_eval"));
         $this->node_object->update();
     }
@@ -315,8 +315,8 @@ class ilSkillTemplateCategoryGUI extends ilSkillTreeNodeGUI
 
         $html = "";
         foreach ($usages as $k => $usage) {
-            $tab = new ilSkillUsageTableGUI($this, "showUsage", $k, $usage);
-            $html .= $tab->getHTML() . "<br/><br/>";
+            $table = $this->table_manager->getSkillUsageTable($k, $usage)->getComponent();
+            $html .= $this->ui_ren->render($table) . "<br/><br/>";
         }
 
         $tpl->setContent($html);

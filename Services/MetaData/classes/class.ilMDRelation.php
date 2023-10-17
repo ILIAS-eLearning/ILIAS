@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Meta Data class (element relation)
  * @package ilias-core
@@ -25,6 +25,24 @@ declare(strict_types=1);
  */
 class ilMDRelation extends ilMDBase
 {
+    /**
+     * Compatibility fix for legacy MD classes for new db tables
+     */
+    private const KIND_TRANSLATION = [
+        'ispartof' => 'IsPartOf',
+        'haspart' => 'HasPart',
+        'isversionof' => 'IsVersionOf',
+        'hasversion' => 'HasVersion',
+        'isformatof' => 'IsFormatOf',
+        'hasformat' => 'HasFormat',
+        'references' => 'References',
+        'isreferencedby' => 'IsReferencedBy',
+        'isbasedon' => 'IsBasedOn',
+        'isbasisfor' => 'IsBasisFor',
+        'requires' => 'Requires',
+        'isrequiredby' => 'IsRequiredBy'
+    ];
+
     private string $kind = '';
 
     // METHODS OF CHILD OBJECTS (Taxon)
@@ -161,11 +179,19 @@ class ilMDRelation extends ilMDBase
      */
     public function __getFields(): array
     {
+        /**
+         * Compatibility fix for legacy MD classes for new db tables
+         */
+        $kind = (string) array_search(
+            $this->getKind(),
+            self::KIND_TRANSLATION
+        );
+
         return array(
             'rbac_id' => array('integer', $this->getRBACId()),
             'obj_id' => array('integer', $this->getObjId()),
             'obj_type' => array('text', $this->getObjType()),
-            'kind' => array('text', $this->getKind())
+            'kind' => array('text', $kind)
         );
     }
 
@@ -177,6 +203,13 @@ class ilMDRelation extends ilMDBase
 
             $res = $this->db->query($query);
             while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+                /**
+                 * Compatibility fix for legacy MD classes for new db tables
+                 */
+                if (key_exists($row->kind ?? '', self::KIND_TRANSLATION)) {
+                    $row->kind = self::KIND_TRANSLATION[$row->kind ?? ''];
+                }
+
                 $this->setRBACId((int) $row->rbac_id);
                 $this->setObjId((int) $row->obj_id);
                 $this->setObjType($row->obj_type);

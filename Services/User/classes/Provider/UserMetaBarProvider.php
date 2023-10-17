@@ -49,22 +49,16 @@ class UserMetaBarProvider extends AbstractStaticMetaBarProvider
             ->withAction("ilias.php?baseClass=ilDashboardGUI&cmd=jumpToProfile")
             ->withTitle($txt("personal_profile"))
             ->withPosition(1)
-            ->withSymbol($f->symbol()->icon()->custom(ilUtil::getImagePath("icon_profile.svg"), $txt("personal_profile")));
+            ->withSymbol($f->symbol()->icon()->custom(ilUtil::getImagePath("standard/icon_profile.svg"), $txt("personal_profile")));
 
         $children[] = $mb->linkItem($id('personal_settings'))
             ->withAction("ilias.php?baseClass=ilDashboardGUI&cmd=jumpToSettings")
             ->withTitle($txt("personal_settings"))
             ->withPosition(2)
-            ->withSymbol($f->symbol()->icon()->custom(ilUtil::getImagePath("icon_personal_settings.svg"), $txt("personal_settings")));
-
-        $this->dic->ctrl()->setTargetScript('logout.php');
-        // Actually, we only need the CSRF token, but there is no other way to retrieve this.
-        $logoutUrl = $this->dic->ctrl()->getLinkTargetByClass([ilStartUpGUI::class], 'doLogout');
-        $logoutUrl .= '&lang=' . $this->dic->user()->getCurrentLanguage();
-        $this->dic->ctrl()->setTargetScript('ilias.php');
+            ->withSymbol($f->symbol()->icon()->custom(ilUtil::getImagePath("page_editor/icon_personal_settings.svg"), $txt("personal_settings")));
 
         $children[] = $mb->linkItem($id('logout'))
-            ->withAction($logoutUrl)
+            ->withAction(ilStartUpGUI::logoutUrl())
             ->withPosition(3)
             ->withTitle($txt("logout"))
             ->withSymbol($f->symbol()->glyph()->logout());

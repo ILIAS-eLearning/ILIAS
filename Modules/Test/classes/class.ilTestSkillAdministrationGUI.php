@@ -16,6 +16,10 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
+use ILIAS\TestQuestionPool\QuestionInfoService;
+
 /**
  * @author		Björn Heyser <bheyser@databay.de>
  * @version		$Id$
@@ -27,48 +31,28 @@
  */
 class ilTestSkillAdministrationGUI
 {
-    private ILIAS $ilias;
-    private ilCtrlInterface $ctrl;
-    private ilAccessHandler $access;
-    private ilTabsGUI $tabs;
-    private ilGlobalTemplateInterface $tpl;
-    private ilLanguage $lng;
-    private ilDBInterface $db;
-    private ilTree $tree;
-    private ilComponentRepository $component_repository;
-    private ilObjTest $testOBJ;
-    private $refId;
-
     public function __construct(
-        ILIAS $ilias,
-        ilCtrl $ctrl,
-        ilAccessHandler $access,
-        ilTabsGUI $tabs,
-        ilGlobalTemplateInterface $tpl,
-        ilLanguage $lng,
-        ilDBInterface $db,
-        ilTree $tree,
-        ilComponentRepository $component_repository,
-        ilObjTest $testOBJ,
-        $refId
+        private ilCtrl $ctrl,
+        private ilAccessHandler $access,
+        private ilTabsGUI $tabs,
+        private ilGlobalTemplateInterface $tpl,
+        private ilLanguage $lng,
+        private ilDBInterface $db,
+        private ilLogger $log,
+        private ilTree $tree,
+        private ilComponentRepository $component_repository,
+        private ilObjTest $test_obj,
+        private QuestionInfoService $questioninfo,
+        private int $ref_id
     ) {
-        $this->ilias = $ilias;
-        $this->ctrl = $ctrl;
-        $this->access = $access;
-        $this->tabs = $tabs;
-        $this->tpl = $tpl;
-        $this->lng = $lng;
-        $this->db = $db;
-        $this->tree = $tree;
-        $this->component_repository = $component_repository;
-        $this->testOBJ = $testOBJ;
-        $this->refId = $refId;
     }
 
     public function executeCommand()
     {
         if ($this->isAccessDenied()) {
-            $this->ilias->raiseError($this->lng->txt("permission_denied"), $this->ilias->error_obj->MESSAGE);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_permission"), true);
+            $this->ctrl->setParameterByClass(ilObjTestGUI::class, 'ref_id', $this->ref_id);
+            $this->ctrl->redirectByClass(ilObjTestGUI::class);
         }
 
         $nextClass = $this->ctrl->getNextClass();
@@ -78,7 +62,7 @@ class ilTestSkillAdministrationGUI
         switch ($nextClass) {
             case 'ilassquestionskillassignmentsgui':
 
-                $questionContainerId = $this->getQuestionContainerId();
+                $questionContainerId = $this->test_obj->getId();
 
                 $questionList = new ilAssQuestionList($this->db, $this->lng, $this->component_repository);
                 $questionList->setParentObjId($questionContainerId);
@@ -90,8 +74,8 @@ class ilTestSkillAdministrationGUI
                 $gui->setQuestionContainerId($questionContainerId);
                 $gui->setQuestionList($questionList);
 
-                if ($this->testOBJ->isFixedTest()) {
-                    $gui->setQuestionOrderSequence($this->testOBJ->getQuestions());
+                if ($this->test_obj->isFixedTest()) {
+                    $gui->setQuestionOrderSequence($this->test_obj->getQuestions());
                 } else {
                     $gui->setAssignmentConfigurationHintMessage($this->buildAssignmentConfigurationInPoolHintMessage());
                 }
@@ -102,9 +86,9 @@ class ilTestSkillAdministrationGUI
 
             case 'iltestskilllevelthresholdsgui':
 
-                $gui = new ilTestSkillLevelThresholdsGUI($this->ctrl, $this->tpl, $this->lng, $this->db, $this->testOBJ->getTestId());
-                $gui->setQuestionAssignmentColumnsEnabled(!$this->testOBJ->isRandomTest());
-                $gui->setQuestionContainerId($this->getQuestionContainerId());
+                $gui = new ilTestSkillLevelThresholdsGUI($this->ctrl, $this->tpl, $this->lng, $this->db, $this->test_obj->getTestId());
+                $gui->setQuestionAssignmentColumnsEnabled(!$this->test_obj->isRandomTest());
+                $gui->setQuestionContainerId($this->test_obj->getId());
                 $this->ctrl->forwardCommand($gui);
                 break;
         }
@@ -112,11 +96,11 @@ class ilTestSkillAdministrationGUI
 
     private function isAssignmentEditingRequired(): bool
     {
-        if (!$this->testOBJ->isFixedTest()) {
+        if (!$this->test_obj->isFixedTest()) {
             return false;
         }
 
-        if ($this->testOBJ->participantDataExist()) {
+        if ($this->test_obj->participantDataExist()) {
             return false;
         }
 
@@ -151,7 +135,7 @@ class ilTestSkillAdministrationGUI
 
     private function isAccessDenied(): bool
     {
-        if (!$this->testOBJ->isSkillServiceEnabled()) {
+        if (!$this->test_obj->isSkillServiceEnabled()) {
             return true;
         }
 
@@ -159,38 +143,16 @@ class ilTestSkillAdministrationGUI
             return true;
         }
 
-        if (!$this->access->checkAccess('write', '', $this->refId)) {
+        if (!$this->access->checkAccess('write', '', $this->ref_id)) {
             return true;
         }
 
         return false;
     }
 
-    private function getQuestionContainerId(): ?int
-    {
-        if ($this->testOBJ->isDynamicTest()) {
-            $questionSetConfigFactory = new ilTestQuestionSetConfigFactory(
-                $this->tree,
-                $this->db,
-                $this->component_repository,
-                $this->testOBJ
-            );
-
-            $questionSetConfig = $questionSetConfigFactory->getQuestionSetConfig();
-
-            return $questionSetConfig->getSourceQuestionPoolId();
-        }
-
-        return $this->testOBJ->getId();
-    }
-
     private function getRequiredQuestionInstanceTypeFilter(): ?string
     {
-        if ($this->testOBJ->isDynamicTest()) {
-            return ilAssQuestionList::QUESTION_INSTANCE_TYPE_ORIGINALS;
-        }
-
-        if ($this->testOBJ->isRandomTest()) {
+        if ($this->test_obj->isRandomTest()) {
             return ilAssQuestionList::QUESTION_INSTANCE_TYPE_DUPLICATES;
         }
 
@@ -199,18 +161,21 @@ class ilTestSkillAdministrationGUI
 
     private function buildAssignmentConfigurationInPoolHintMessage(): string
     {
-        $questionSetConfigFactory = new ilTestQuestionSetConfigFactory(
+        $question_set_config_factory = new ilTestQuestionSetConfigFactory(
             $this->tree,
             $this->db,
+            $this->lng,
+            $this->log,
             $this->component_repository,
-            $this->testOBJ
+            $this->test_obj,
+            $this->questioninfo
         );
 
-        $questionSetConfig = $questionSetConfigFactory->getQuestionSetConfig();
+        $question_set_config = $question_set_config_factory->getQuestionSetConfig();
 
-        if ($this->testOBJ->isRandomTest()) {
+        if ($this->test_obj->isRandomTest()) {
             $testMode = $this->lng->txt('tst_question_set_type_random');
-            $poolLinks = $questionSetConfig->getCommaSeparatedSourceQuestionPoolLinks();
+            $poolLinks = $question_set_config->getCommaSeparatedSourceQuestionPoolLinks();
 
             return sprintf($this->lng->txt('tst_qst_skl_cfg_in_pool_hint_rndquestset'), $testMode, $poolLinks);
         }

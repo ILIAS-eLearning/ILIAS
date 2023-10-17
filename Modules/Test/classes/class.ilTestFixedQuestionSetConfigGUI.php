@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * GUI class that manages the question set configuration for tests
  * requireing a once defined question set
@@ -89,8 +91,5 @@ class ilTestFixedQuestionSetConfigGUI
      */
     public function executeCommand()
     {
-        global $DIC; /* @var ILIAS\DI\Container $DIC */
-        $ctrl = $DIC['ilCtrl']; /* @var ilCtrl $ctrl */
-        //switch( $ctrl->getNextClass() )
     }
 }

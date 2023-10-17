@@ -22,6 +22,7 @@ namespace ILIAS\Chatroom\Setup;
 
 use ilDatabaseUpdateSteps;
 use ilDBInterface;
+use ilDBConstants;
 
 class UpdateSteps implements ilDatabaseUpdateSteps
 {
@@ -40,7 +41,7 @@ class UpdateSteps implements ilDatabaseUpdateSteps
 
         $this->dropColumnWhenExists('chatroom_history', 'sub_room');
         $this->dropColumnWhenExists('chatroom_settings', 'allow_private_rooms');
-        $this->dropColumnWhenExists('chatroom_history', 'private_rooms_enabled');
+        $this->dropColumnWhenExists('chatroom_settings', 'private_rooms_enabled');
     }
 
     public function step_2(): void
@@ -60,5 +61,26 @@ class UpdateSteps implements ilDatabaseUpdateSteps
         if ($this->db->tableExists($table)) {
             $this->db->dropTable($table);
         }
+    }
+
+    public function step_3(): void
+    {
+        $this->dropColumnWhenExists('chatroom_settings', 'restrict_history');
+    }
+
+    public function step_4(): void
+    {
+        $query = '
+            UPDATE object_data
+            INNER JOIN chatroom_settings ON object_data.obj_id = chatroom_settings.object_id
+            SET object_data.offline = IF(chatroom_settings.online_status = 1, 0, 1)
+            WHERE object_data.type = %s
+        ';
+
+        $this->db->manipulateF(
+            $query,
+            [ilDBConstants::T_TEXT],
+            ['chtr']
+        );
     }
 }

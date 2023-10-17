@@ -1,8 +1,8 @@
 @use "../../010-settings/" as *;
 @use "../../030-tools/tool_clearfix" as *;
-@use "../../030-tools/legacy-bootstrap-mixins/border-radius" as *;
-@use "../../030-tools/legacy-bootstrap-mixins/vendor-prefixes" as *;
-@use "../../030-tools/legacy-bootstrap-mixins/border-radius" as *;
+@use "../../030-tools/_tool_border-radius" as *;
+@use "../../030-tools/_tool_browser-prefixes" as *;
+@use "../../030-tools/_tool_border-radius" as *;
 @use "../../070-components/UI-framework/Button/ui-component_button" as c-btns;
 
 // section based on bootstrap 3 - see /templates/default/Guidelines_SCSS-Coding.md
@@ -102,7 +102,6 @@
 //
 // Remix the default button sizing classes into new ones for easier manipulation.
 
-.btn-group-xs > .btn { @extend .btn-xs; }
 .btn-group-sm > .btn { @extend .btn-sm; }
 .btn-group-lg > .btn { @extend .btn-lg; }
 
@@ -118,17 +117,6 @@
 .btn-group > .btn-lg + .dropdown-toggle {
   padding-right: 12px;
   padding-left: 12px;
-}
-
-// The clickable button for toggling the menu
-// Remove the gradient and set the same inset shadow as the :active state
-.btn-group.open .dropdown-toggle {
-  @include box-shadow(inset 0 3px 5px rgba(0, 0, 0, .125));
-
-  // Show no shadow for `.btn-link` since it has no other button styles.
-  &.btn-link {
-    @include box-shadow(none);
-  }
 }
 
 

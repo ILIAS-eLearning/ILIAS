@@ -19,7 +19,7 @@ declare(strict_types=1);
  ********************************************************************
  */
 
-use ILIAS\Skill\Tree\SkillTreeNodeManager;
+use ILIAS\Skill\Node\SkillTreeNodeManager;
 use ILIAS\Skill\Personal\SelfEvaluationManager;
 
 /**
@@ -82,7 +82,7 @@ class ilSelfEvaluationSimpleTableGUI extends ilTable2GUI
         $this->setTitle($title);
         $this->setLimit(9999);
 
-        $this->addColumn("", "", "", true);
+        $this->addColumn("", "", "1", true);
         $this->addColumn($this->lng->txt("skmg_skill_level"));
         $this->addColumn($this->lng->txt("description"));
 

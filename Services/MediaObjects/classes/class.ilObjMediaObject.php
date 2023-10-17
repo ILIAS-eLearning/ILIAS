@@ -19,6 +19,9 @@
 use ILIAS\Filesystem\Util\Convert\ImageOutputOptions;
 use ILIAS\Filesystem\Util\Convert\LegacyImages;
 use ILIAS\FileUpload\MimeType;
+use ILIAS\FileUpload\FileUpload;
+use ILIAS\FileUpload\DTO\UploadResult;
+use ILIAS\FileUpload\Location;
 
 define("IL_MODE_ALIAS", 1);
 define("IL_MODE_OUTPUT", 2);
@@ -1059,7 +1062,8 @@ class ilObjMediaObject extends ilObject
                 switch ($cont_type) {
                     case "qpl":
                         // Question Pool *Question* Text (Test)
-                        $qinfo = assQuestion::_getQuestionInfo($id);
+                        global $DIC;
+                        $qinfo = $DIC->testQuestionPool()->questionInfo()->getQuestionInfo($id);
                         if (isset($qinfo["original_id"]) && $qinfo["original_id"] > 0) {
                             $obj_id = ilObjTest::_lookupTestObjIdForQuestionId($id);	// usage in test
                         } else {
@@ -1149,7 +1153,8 @@ class ilObjMediaObject extends ilObject
                         }
 
                         // Question Pool Question Pages
-                        $qinfo = assQuestion::_getQuestionInfo($id);
+                        global $DIC;
+                        $qinfo = $DIC->testQuestionPool()->questionInfo()->getQuestionInfo($id);
                         if ($qinfo["original_id"] > 0) {
                             $obj_id = ilObjTest::_lookupTestObjIdForQuestionId($id);	// usage in test
                         } else {
@@ -1448,6 +1453,22 @@ class ilObjMediaObject extends ilObject
         ilMediaSvgSanitizer::sanitizeDir($mob_dir);	// see #20339
     }
 
+    public function addAdditionalFileFromUpload(
+        FileUpload $upload,
+        UploadResult $result,
+        string $subdir
+    ): void {
+        $mob_dir = self::_getRelativeDirectory($this->getId());
+        $mob_dir .= "/" . $subdir;
+        $upload->moveOneFileTo(
+            $result,
+            $mob_dir,
+            Location::WEB,
+            $result->getName(),
+            true
+        );
+    }
+
     public function uploadSrtFile(
         string $a_tmp_name,
         string $a_language,
@@ -1563,61 +1584,13 @@ class ilObjMediaObject extends ilObject
         return $linked;
     }
 
-    /**
-     * Get restricted file types (this is for the input form, this list
-     * will be empty, if "allowed list" is empty)
-     */
-    public static function getRestrictedFileTypes(): array
-    {
-        return array_filter(self::getAllowedFileTypes(), function ($v) {
-            return !in_array($v, self::getForbiddenFileTypes());
-        });
-    }
-
-    /**
-     * Get forbidden file types
-     */
-    public static function getForbiddenFileTypes(): array
-    {
-        $mset = new ilSetting("mobs");
-        if (trim($mset->get("black_list_file_types")) == "") {
-            return array();
-        }
-        return array_map(
-            function ($v) {
-                return strtolower(trim($v));
-            },
-            explode(",", $mset->get("black_list_file_types"))
-        );
-    }
-
-    /**
-     * Get allowed file types
-     */
-    public static function getAllowedFileTypes(): array
-    {
-        $mset = new ilSetting("mobs");
-        if (trim($mset->get("restricted_file_types")) == "") {
-            return array();
-        }
-        return array_map(
-            function ($v) {
-                return strtolower(trim($v));
-            },
-            explode(",", $mset->get("restricted_file_types"))
-        );
-    }
-
     public static function isTypeAllowed(
         string $a_type
     ): bool {
-        if (in_array($a_type, self::getForbiddenFileTypes())) {
-            return false;
-        }
-        if (count(self::getAllowedFileTypes()) == 0 || in_array($a_type, self::getAllowedFileTypes())) {
-            return true;
-        }
-        return false;
+        global $DIC;
+        return in_array($a_type, iterator_to_array(
+            $DIC->mediaObjects()->internal()->domain()->mediaType()->getAllowedSuffixes()
+        ), true);
     }
 
     /**
@@ -1705,7 +1678,7 @@ class ilObjMediaObject extends ilObject
 
         $logger->debug("Generate preview pic...");
         $logger->debug("..." . $item->getFormat());
-        if (is_int(strpos($item->getFormat(), "video/mp4"))) {
+        if (in_array($item->getFormat(), ["video/mp4", "video/webm"])) {
             try {
                 if ($sec < 0) {
                     $sec = 0;
@@ -1750,6 +1723,10 @@ class ilObjMediaObject extends ilObject
         $ppics = array("mob_vpreview.jpg",
             "mob_vpreview.jpeg",
             "mob_vpreview.png");
+        $med = $this->getMediaItem("Standard");
+        if ($med && $med->getFormat() === "image/svg+xml" && $med->getLocationType() === "LocalFile") {
+            $ppics[] = $med->getLocation();
+        }
         foreach ($ppics as $p) {
             if (is_file($dir . "/" . $p)) {
                 if ($a_filename_only) {

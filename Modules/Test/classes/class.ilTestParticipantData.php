@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * @author		Björn Heyser <bheyser@databay.de>
  * @version		$Id$
@@ -34,7 +36,7 @@ class ilTestParticipantData
      */
     protected $lng;
 
-    private array $activeIdsFilter;
+    private array $active_ids_filter;
 
     private array $userIdsFilter;
 
@@ -58,13 +60,13 @@ class ilTestParticipantData
         $this->db = $db;
         $this->lng = $lng;
 
-        $this->activeIdsFilter = array();
-        $this->userIdsFilter = array();
-        $this->anonymousIdsFilter = array();
+        $this->active_ids_filter = [];
+        $this->userIdsFilter = [];
+        $this->anonymousIdsFilter = [];
 
-        $this->byActiveId = array();
-        $this->byUserId = array();
-        $this->byAnonymousId = array();
+        $this->byActiveId = [];
+        $this->byUserId = [];
+        $this->byAnonymousId = [];
 
         $this->scoredParticipantsFilterEnabled = false;
     }
@@ -72,15 +74,12 @@ class ilTestParticipantData
     /**
      * @return callable
      */
-    public function getParticipantAccessFilter(): ?callable
+    public function getParticipantAccessFilter(): ?Closure
     {
         return $this->participantAccessFilter;
     }
 
-    /**
-     * @param callable $participantAccessFilter
-     */
-    public function setParticipantAccessFilter($participantAccessFilter): void
+    public function setParticipantAccessFilter(Closure $participantAccessFilter): void
     {
         $this->participantAccessFilter = $participantAccessFilter;
     }
@@ -103,8 +102,8 @@ class ilTestParticipantData
 
     public function load($testId): void
     {
-        $this->byActiveId = array();
-        $this->byUserId = array();
+        $this->byActiveId = [];
+        $this->byUserId = [];
 
         $query = "
 			SELECT		ta.active_id,
@@ -122,10 +121,10 @@ class ilTestParticipantData
 			AND 		{$this->getScoredParticipantsFilterExpression()}
 		";
 
-        $res = $this->db->queryF($query, array('integer'), array($testId));
+        $res = $this->db->queryF($query, ['integer'], [$testId]);
 
-        $rows = array();
-        $accessFilteredUsrIds = array();
+        $rows = [];
+        $accessFilteredUsrIds = [];
 
         while ($row = $this->db->fetchAssoc($res)) {
             $accessFilteredUsrIds[] = $row['user_id'];
@@ -162,7 +161,7 @@ class ilTestParticipantData
 
     public function getConditionalExpression(): string
     {
-        $conditions = array();
+        $conditions = [];
 
         if (count($this->getActiveIdsFilter())) {
             $conditions[] = $this->db->in('active_id', $this->getActiveIdsFilter(), false, 'integer');
@@ -183,14 +182,14 @@ class ilTestParticipantData
         return '1 = 1';
     }
 
-    public function setActiveIdsFilter($activeIdsFilter): void
+    public function setActiveIdsFilter(array $active_ids_filter): void
     {
-        $this->activeIdsFilter = $activeIdsFilter;
+        $this->active_ids_filter = $active_ids_filter;
     }
 
     public function getActiveIdsFilter(): array
     {
-        return $this->activeIdsFilter;
+        return $this->active_ids_filter;
     }
 
     public function setUserIdsFilter($userIdsFilter): void
@@ -245,7 +244,7 @@ class ilTestParticipantData
 
     public function getFormatedFullnameByActiveId($activeId): string
     {
-        return $this->buildFormatedFullname($this->byActiveId[$activeId]);
+        return ilObjTestAccess::_getParticipantData($activeId);
     }
 
     public function getFileSystemCompliantFullnameByActiveId($activeId): string
@@ -259,10 +258,10 @@ class ilTestParticipantData
 
     public function getOptionArray(): array
     {
-        $options = array();
+        $options = [];
 
         foreach ($this->byActiveId as $activeId => $usrData) {
-            $options[$activeId] = $this->buildFormatedFullname($usrData);
+            $options[$activeId] = ilObjTestAccess::_getParticipantData($activeId);
         }
 
         asort($options);
@@ -270,18 +269,9 @@ class ilTestParticipantData
         return $options;
     }
 
-    private function buildFormatedFullname($usrData): string
-    {
-        return sprintf(
-            $this->lng->txt('tst_participant_fullname_pattern'),
-            $usrData['firstname'],
-            $usrData['lastname']
-        );
-    }
-
     public function getAnonymousActiveIds(): array
     {
-        $anonymousActiveIds = array();
+        $anonymousActiveIds = [];
 
         foreach ($this->byActiveId as $activeId => $active) {
             if ($active['user_id'] == ANONYMOUS_USER_ID) {

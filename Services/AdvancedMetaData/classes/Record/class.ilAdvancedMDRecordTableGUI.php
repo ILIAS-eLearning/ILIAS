@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * @author  Stefan Meyer <meyer@leifos.com>
@@ -143,14 +143,6 @@ class ilAdvancedMDRecordTableGUI extends ilTable2GUI
 
                 $type_options = $options;
                 switch ($obj_type["obj_type"]) {
-                    case "orgu":
-                        // currently only optional records for org unit (types)
-                        unset($type_options[1]);
-                        break;
-                    case "prg":
-                        // currently only optional records for study programme (types)
-                        unset($type_options[1]);
-                        break;
                     case "talt":
                         // currently only optional records for talk templates (types)
                         unset($type_options[1]);

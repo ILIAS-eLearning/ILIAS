@@ -38,7 +38,7 @@ class LinkManager
 
     protected function getDefaultMediaCollector(): \Closure
     {
-        return fn (int $id) => \ilMediaItem::_getMapAreasIntLinks($id);
+        return fn(int $id) => \ilMediaItem::_getMapAreasIntLinks($id);
     }
 
     public function getInternalLinks(
@@ -89,7 +89,7 @@ class LinkManager
                 $id_arr = explode("_", $oid);
                 $id = $id_arr[count($id_arr) - 1];
 
-                $med_links = $media_collector($id);
+                $med_links = $media_collector((int) $id);
                 foreach ($med_links as $key => $med_link) {
                     $links[$key] = $med_link;
                 }
@@ -178,7 +178,7 @@ class LinkManager
 
     protected function getDefaultLMTypeLookuper(): \Closure
     {
-        return fn (int $id) => \ilLMObject::_lookupType($id);
+        return fn(int $id) => \ilLMObject::_lookupType($id);
     }
 
     /**

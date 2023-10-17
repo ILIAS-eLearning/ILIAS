@@ -30,6 +30,7 @@ use ILIAS\Services\ResourceStorage\Resources\UI\RevisionListingUI;
  * @author Fabian Schmid <fabian@sr.solutions>
  *
  * @ilCtrl_IsCalledBy ilResourceOverviewGUI: ilObjFileServicesGUI
+ * @ilCtrl_Calls     ilResourceOverviewGUI: ilResourceCollectionGUI
  */
 class ilResourceOverviewGUI
 {
@@ -75,6 +76,18 @@ class ilResourceOverviewGUI
         $this->tabs = $DIC->tabs();
     }
 
+    /**
+     * @return void
+     * @throws ilCtrlException
+     */
+    protected function initBackTab(): void
+    {
+        $this->tabs->clearTargets();
+        $this->tabs->setBackTarget(
+            $this->language->txt('back'),
+            $this->ctrl->getLinkTarget($this, self::CMD_INDEX)
+        );
+    }
 
     final public function executeCommand(): void
     {
@@ -124,6 +137,7 @@ class ilResourceOverviewGUI
             if ($uri !== null) {
                 $this->ctrl->redirectToURL($uri);
             }
+            $this->initBackTab();
             $this->main_tpl->setOnScreenMessage('info', $this->language->txt('resource_no_stakeholder_uri'));
         } else {
             // TODO list all stakeholders and it's locations
@@ -134,11 +148,7 @@ class ilResourceOverviewGUI
 
     private function showRevisions(): void
     {
-        $this->tabs->clearTargets();
-        $this->tabs->setBackTarget(
-            $this->language->txt('back'),
-            $this->ctrl->getLinkTarget($this, self::CMD_INDEX)
-        );
+        $this->initBackTab();
 
         $rid = $this->getResourceIdFromRequest();
         $resource = $this->irss->manage()->getResource($rid);

@@ -88,7 +88,7 @@ class ilPortfolioRepositoryGUI
 
         $tpl->setTitle($lng->txt("portfolio"));
         $tpl->setTitleIcon(
-            ilUtil::getImagePath("icon_prtf.svg"),
+            ilUtil::getImagePath("standard/icon_prtf.svg"),
             $lng->txt("portfolio")
         );
 
@@ -207,7 +207,7 @@ class ilPortfolioRepositoryGUI
         foreach (ilObjPortfolio::getPortfoliosOfUser($this->user_id) as $port) {
             // icon
             $icon = $f->symbol()->icon()->custom(
-                ilUtil::getImagePath("icon_prtf.svg"),
+                ilUtil::getImagePath("standard/icon_prtf.svg"),
                 $lng->txt("obj_portfolio"),
                 "medium"
             );
@@ -221,7 +221,7 @@ class ilPortfolioRepositoryGUI
             //	... preview
             $ctrl->setParameterByClass("ilobjportfoliogui", "prt_id", $port["id"]);
             $preview_action = $ctrl->getLinkTargetByClass($prtf_path, "preview");
-            $action[] = $f->button()->shy($lng->txt("user_profile_preview"), $preview_action);
+            $action[] = $f->button()->shy($lng->txt("preview"), $preview_action);
             //	... edit content
             $action[] = $f->button()->shy(
                 $lng->txt("prtf_edit_content"),

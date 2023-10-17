@@ -27,6 +27,7 @@ use ILIAS\Blog\StandardGUIRequest;
  */
 class ilBlogExerciseGUI
 {
+    protected \ILIAS\Blog\Exercise\BlogExercise $blog_exercise;
     protected StandardGUIRequest $blog_request;
     protected ilCtrl $ctrl;
     protected ilObjUser $user;
@@ -37,23 +38,24 @@ class ilBlogExerciseGUI
     protected \ILIAS\DI\UIServices $ui;
     private \ilGlobalTemplateInterface $main_tpl;
 
-    public function __construct(int $a_node_id)
-    {
-        global $DIC;
-        $this->main_tpl = $DIC->ui()->mainTemplate();
-
-        $this->ctrl = $DIC->ctrl();
-        $this->user = $DIC->user();
-        $this->lng = $DIC->language();
+    public function __construct(
+        int $a_node_id,
+        \ILIAS\Blog\Exercise\BlogExercise $blog_exercise,
+        ilLanguage $lng,
+        ilObjUser $user,
+        \ILIAS\Blog\InternalGUIService $gui
+    ) {
+        $this->main_tpl = $gui->ui()->mainTemplate();
+        $this->ctrl = $gui->ctrl();
+        $this->user = $user;
+        $this->lng = $lng;
         $this->node_id = $a_node_id;
-        $this->blog_request = $DIC->blog()
-            ->internal()
-            ->gui()
-            ->standardRequest();
+        $this->blog_request = $gui->standardRequest();
 
         $this->ass_id = $this->blog_request->getAssId();
         $this->file = $this->blog_request->getAssFile();
-        $this->ui = $DIC->ui();
+        $this->ui = $gui->ui();
+        $this->blog_exercise = $blog_exercise;
     }
 
     public function executeCommand(): void
@@ -74,6 +76,7 @@ class ilBlogExerciseGUI
         }
     }
 
+    /*
     public static function checkExercise(
         int $a_node_id
     ): string {
@@ -91,8 +94,9 @@ class ilBlogExerciseGUI
             return implode("<br />", $info);
         }
         return "";
-    }
+    }*/
 
+    /*
     protected static function getExerciseInfo(
         int $a_assignment_id
     ): string {
@@ -201,7 +205,7 @@ class ilBlogExerciseGUI
             ->withButtons($buttons);
 
         return $ui->renderer()->render($elements);
-    }
+    }*/
 
     protected function downloadExcAssFile(): void
     {
@@ -302,7 +306,7 @@ class ilBlogExerciseGUI
 
     public function getActionButtons(): array
     {
-        $be = new ilBlogExercise($this->node_id);
+        $be = $this->blog_exercise;
 
         $buttons = [];
         foreach ($be->getAssignmentsOfBlog() as $exercise) {

@@ -39,6 +39,7 @@ class ilHelpMappingTableGUI extends ilTable2GUI
         $this->access = $DIC->access();
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
+        $this->help_map = $DIC->help()->internal()->domain()->map();
 
         $this->setId("lm_help_map");
         $this->validation = $a_validation;
@@ -71,7 +72,7 @@ class ilHelpMappingTableGUI extends ilTable2GUI
             $chaps = $lm_tree->getFilteredSubTree($hc, array("pg"));
             unset($chaps[0]);
         } else {
-            $chaps = ilStructureObject::getChapterList($this->parent_obj->object->getId());
+            $chaps = ilStructureObject::getChapterList($this->parent_obj->getObject()->getId());
         }
 
         $this->setData($chaps);
@@ -85,7 +86,7 @@ class ilHelpMappingTableGUI extends ilTable2GUI
         $this->tpl->setVariable("VAL_TITLE", $a_set["title"]);
         $this->tpl->setVariable("PAGE_ID", $a_set["obj_id"]);
 
-        $screen_ids = ilHelpMapping::getScreenIdsOfChapter($a_set["obj_id"]);
+        $screen_ids = $this->help_map->getScreenIdsOfChapter($a_set["obj_id"]);
 
         $this->tpl->setVariable(
             "SCREEN_IDS",

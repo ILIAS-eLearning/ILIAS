@@ -42,7 +42,15 @@ class ListingFactoryTest extends AbstractFactoryTest
         "characteristicValue" => [
             "context" => false,
             "rules" => false
-        ]
+        ],
+        "entity" => [
+            "context" => false,
+            "rules" => false
+        ],
+        "property" => [
+            "rules" => false
+        ],
+
     ];
 
 

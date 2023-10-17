@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\Glossary;
 
 use ILIAS\DI\Container;
@@ -25,6 +25,8 @@ use ILIAS\Glossary\Term\TermManager;
 use ILIAS\Glossary\Flashcard\FlashcardManager;
 use ILIAS\Repository\GlobalDICDomainServices;
 use ILIAS\Glossary\Flashcard\FlashcardShuffleManager;
+use ILIAS\Glossary\Presentation\PresentationManager;
+use ILIAS\Glossary\Taxonomy\TaxonomyManager;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -46,16 +48,10 @@ class InternalDomainService
         $this->initDomainServices($DIC);
     }
 
-    /*
-    public function access(int $ref_id, int $user_id) : Access\AccessManager
+    public function log(): \ilLogger
     {
-        return new Access\AccessManager(
-            $this,
-            $this->access,
-            $ref_id,
-            $user_id
-        );
-    }*/
+        return $this->logger()->glo();
+    }
 
     public function term(\ilObjGlossary $glossary, int $user_id = 0): TermManager
     {
@@ -86,5 +82,26 @@ class InternalDomainService
     public function flashcardShuffle(): FlashcardShuffleManager
     {
         return new FlashcardShuffleManager();
+    }
+
+    public function presentation(\ilObjGlossary $glossary, int $user_id = 0): PresentationManager
+    {
+        if ($user_id == 0) {
+            $user_id = $this->user()->getId();
+        }
+        return new PresentationManager(
+            $this,
+            $this->repo_service->presentationSession(),
+            $glossary,
+            $user_id
+        );
+    }
+
+    public function taxonomy(\ilObjGlossary $glossary): TaxonomyManager
+    {
+        return new TaxonomyManager(
+            $this->DIC->taxonomy()->domain(),
+            $glossary
+        );
     }
 }

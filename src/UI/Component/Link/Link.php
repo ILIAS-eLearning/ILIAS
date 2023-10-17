@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\UI\Component\Link;
 
@@ -55,4 +55,15 @@ interface Link extends Component, HasContentLanguage, HasHelpTopics, JavaScriptB
      * See comment in withLanguageOfReferencedContent
      */
     public function getLanguageOfReferencedResource(): ?LanguageTag;
+
+    /**
+     * Relationships between the current and the referenced page are
+     * added as a rel attribute.
+     */
+    public function withAdditionalRelationshipToReferencedResource(Relationship $type): Link;
+
+    /**
+     * @return IsRelationship[]
+     */
+    public function getRelationshipsToReferencedResource(): array;
 }

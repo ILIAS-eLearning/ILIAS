@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -13,13 +14,10 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
-/**
- * Class ilDclTextSelectionRecordRepresentation
- * @author  Theodor Truffer <tt@studer-raimann.ch>
- */
+declare(strict_types=1);
+
 class ilDclTextSelectionRecordRepresentation extends ilDclSelectionRecordRepresentation
 {
     public const PROP_SELECTION_TYPE = 'text_selection_type';

@@ -94,7 +94,7 @@ class assOrderingHorizontalExport extends assQuestionExport
         // add flow to presentation
         $a_xml_writer->xmlStartTag("flow");
         // add material with question text to presentation
-        $this->object->addQTIMaterial($a_xml_writer, $this->object->getQuestion());
+        $this->addQTIMaterial($a_xml_writer, $this->object->getQuestion());
         // add answers to presentation
         $a_xml_writer->xmlEndTag("flow");
         $a_xml_writer->xmlEndTag("presentation");

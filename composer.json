@@ -41,6 +41,9 @@
 		"ext-json": "*",
 		"ext-simplexml": "*",
 		"ext-libxml": "*",
+		"ext-xml": "*",
+		"ext-zip": "*",
+		"ext-imagick": "*",
 		"cweagans/composer-patches": "^1.7",
 		"filp/whoops": "^2.15.1",
 		"monolog/monolog": "^2.3.5",
@@ -51,10 +54,10 @@
 		"tecnickcom/tcpdf": "^6.3",
 		"pimple/pimple" : "^3.0",
 		"symfony/yaml": "^5.3",
-		"guzzlehttp/psr7": "1.9.1",
+		"guzzlehttp/psr7": "^2.5",
 		"psr/http-message": "^1.0",
 		"dflydev/fig-cookies": "^1.0",
-		"ralouphie/getallheaders": "^2.0",
+		"ralouphie/getallheaders": "^3.0",
 		"league/flysystem": "^3.0",
 		"james-heinrich/getid3": "^1.9",
 		"phpoffice/phpspreadsheet": "^1.18.0",
@@ -67,9 +70,9 @@
 		"guzzlehttp/guzzle": "^7.0",
 		"simplesamlphp/simplesamlphp": "^1.19.8",
 		"seld/jsonlint": "^1.8",
-		"ext-xml": "*",
 		"jasig/phpcas": "^1.4",
-		"league/commonmark": "^2.3"
+		"league/commonmark": "^2.3",
+		"ifsnop/mysqldump-php": "2.10"
 	},
 	"require-dev": {
 		"mikey179/vfsstream": "^1.6",
@@ -77,9 +80,9 @@
 		"mockery/mockery": "^1.4",
 		"friendsofphp/php-cs-fixer": "^3.15",
 		"sebastian/environment": "^5.0",
-		"captainhook/captainhook": "^5.10",
+		"captainhook/captainhook": "^5.16",
 		"captainhook/plugin-composer": "^5.3",
-		"phpstan/phpstan": "^1.9",
+		"phpstan/phpstan": "^1.10",
 		"rector/rector": "^0.15.17"
 	},
 	"autoload": {
@@ -209,10 +212,10 @@
 		},
 		"phpmailer/phpmailer" : {
 			"source" : "https://github.com/PHPMailer/PHPMailer",
-			"used_version" : "v6.8.0",
+			"used_version" : "v6.8.1",
 			"wrapped_by" : "Services/Mail",
 			"added_by" : "Maximilian Becker <mbecker@databay.de>",
-			"last_update" : "2023-03-13",
+			"last_update" : "2023-09-05",
 			"last_update_by" : "Michael Jansen <mjansen@databay.de>",
 			"approved-by": "Jour Fixe",
 			"approved-date": "YYYY-MM-DD"
@@ -430,12 +433,12 @@
 			"approved-date": "YYYY-MM-DD"
 		},
 		"phpstan/phpstan": {
-			"source": "https://github.com/phpstan/phpstanr",
-			"used_version": "1.9.8",
+			"source": "https://github.com/phpstan/phpstan",
+			"used_version": "1.10.23",
 			"added_by": "Michael Jansen <mjansen@databay.de>",
 			"wrapped_by": null,
-			"last_update": "2023-01-09",
-			"last_update_by": "",
+			"last_update": "2023-09-05",
+			"last_update_by": "Michael Jansen <mjansen@databay.de>",
 			"approved-by": "TB",
 			"approved-date": "2022-05-03"
 		},
@@ -490,11 +493,11 @@
 		},
 		"captainhook/captainhook": {
 			"source": "https://github.com/captainhookphp/captainhook",
-			"used_version": "5.10",
+			"used_version": "5.16.1",
 			"added_by": "Michael Jansen <mjansen@databay.de>",
 			"wrapped_by": null,
-			"last_update": "2022-08-12",
-			"last_update_by": "",
+			"last_update": "2023-09-05",
+			"last_update_by": "Michael Jansen <mjansen@databay.de>",
 			"approved-by": "JF",
 			"approved-date": "2021-11-21"
 		},
@@ -518,10 +521,17 @@
 			"approved-by": "JF",
 			"approved-date": "2023-03-20"
 		},
+		"ifsnop/mysqldump-php": {
+			"source": "https://github.com/ifsnop/mysqldump-php",
+			"used_version": "2.10",
+			"added_by": "Daniel Weise <dweise@conceptsandtraining.de>",
+			"wrapped_by": null,
+			"last_update": "2023-02-06",
+			"last_update_by": "",
+			"approved-by": "",
+			"approved-date": ""
+		},
 		"patches": {
-			"tecnickcom/tcpdf": {
-				"ILIAS TCPDF Patches": "./libs/composer/patches/tcpdf.patch"
-			},
 			"phpmailer/phpmailer": {
 				"ILIAS PhpMailer Patches": "./libs/composer/patches/phpmailer.patch"
 			},

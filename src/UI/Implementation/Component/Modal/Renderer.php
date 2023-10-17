@@ -172,7 +172,7 @@ class Renderer extends AbstractComponentRenderer
     ): string {
         $items_of_class = array_filter(
             $items,
-            fn ($i) => $i instanceof $class_name
+            fn($i) => $i instanceof $class_name
         );
         $rendered_items = '';
         foreach ($items_of_class as $item) {
@@ -211,7 +211,7 @@ class Renderer extends AbstractComponentRenderer
 
             // render submit in modal footer.
             $submit = $this->getUIFactory()->button()->standard(
-                $modal->getSubmitCaption() ?? $this->txt('save'),
+                $modal->getSubmitLabel() ?? $this->txt('save'),
                 ''
             )->withOnClick($modal->getForm()->getSubmitSignal());
             $tpl->setCurrentBlock('with_submit');

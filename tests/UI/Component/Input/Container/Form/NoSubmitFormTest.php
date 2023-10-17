@@ -24,7 +24,6 @@ use ILIAS\UI\Implementation\Component\Input\NameSource;
 use ILIAS\UI\Component\Input\Container\Form\Factory as FormFactory;
 use ILIAS\UI\Component\Input\Field\Factory as InputFactory;
 use ILIAS\UI\Implementation\Component\SignalGenerator;
-use ILIAS\UI\Component\Input\Field\Input;
 use ILIAS\Refinery\Factory as Refinery;
 use Psr\Http\Message\ServerRequestInterface;
 

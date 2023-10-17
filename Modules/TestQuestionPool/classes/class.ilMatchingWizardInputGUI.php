@@ -327,10 +327,10 @@ class ilMatchingWizardInputGUI extends ilTextInputGUI
             $tpl->setVariable("ROW_IDENTIFIER", $value->getIdentifier());
             $tpl->setVariable("ID", $this->getPostVar() . "[answer][$i]");
             $tpl->setVariable("ADD_BUTTON", $this->renderer->render(
-                $this->glyph_factory->add()
+                $this->glyph_factory->add()->withAction('#')
             ));
             $tpl->setVariable("REMOVE_BUTTON", $this->renderer->render(
-                $this->glyph_factory->remove()
+                $this->glyph_factory->remove()->withAction('#')
             ));
             $tpl->parseCurrentBlock();
             $i++;

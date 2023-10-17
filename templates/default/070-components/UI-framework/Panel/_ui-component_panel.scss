@@ -1,7 +1,7 @@
 @use "sass:math";
 @use "../../../010-settings/" as *;
 @use "../../../010-settings/legacy-settings/legacy-settings_panel" as ls;
-@use "../../../030-tools/legacy-bootstrap-mixins/border-radius" as *;
+@use "../../../030-tools/_tool_border-radius" as *;
 @use "../../../030-tools/tool_clearfix" as *;
 @use "../../../050-layout/basics" as *;
 @use "../../../050-layout/standardpage/" as *;
@@ -50,6 +50,12 @@
 		}
 	}
 
+	.panel-viewcontrols:not(:empty) {
+		justify-content: center;
+		margin: $il-margin-xxxlarge-vertical $il-margin-xlarge-horizontal;
+		margin-bottom: $il-margin-xxxlarge-vertical - $il-margin-xlarge-vertical; // to compensate margin of inner elements - see l-bar system
+	}
+
 	.panel-body {
 		padding: $il-padding-xxxlarge-vertical $il-padding-xlarge-horizontal;
 		background-color: $il-main-bg;
@@ -67,9 +73,17 @@
 //Special assignments for Panels using Flex layouts (Standard, Secondary, Report and Sub)
 .panel-flex{
 	.panel-heading {
+		display: grid;
+	}
+	.panel-title{
+		margin-right: auto;
+	}
+	.panel-controls {
+		margin-left: auto;
+		float: right;
 		display: flex;
-		justify-content: space-between;
-		flex-flow: row wrap;
+		gap: $il-margin-base-horizontal;
+		justify-content: flex-end;
 	}
 	.ilHeader{
 		display: flex;
@@ -84,26 +98,6 @@
 		flex-grow: 99;
 		flex-shrink: 1;
 		order: 1;
-	}
-	.il-viewcontrol-sortation {
-		flex-shrink: 1;
-		order: 2;
-		margin-right: $il-margin-base-horizontal;
-		margin-left: auto;
-	}
-	.panel-heading .dropdown {
-		flex-shrink: 1;
-		order: 3;
-	}
-
-	.il-viewcontrol-pagination, .il-viewcontrol-section {
-		flex-grow: 1;
-		flex-shrink: 1;
-		flex-basis: 100%;
-		order: 4;
-		background-color:$il-main-dark-bg;
-		text-align:center;
-		padding-top:$il-padding-base-horizontal;
 	}
 }
 

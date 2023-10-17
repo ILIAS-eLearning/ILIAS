@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -28,11 +26,12 @@ class ilTestTopListTest extends ilTestBaseTestCase
 
     protected function setUp(): void
     {
+        global $DIC;
         parent::setUp();
 
-        $this->addGlobal_ilDB();
+        $this->addGlobal_lng();
 
-        $this->testObj = new ilTestTopList($this->createMock(ilObjTest::class));
+        $this->testObj = new ilTestTopList($this->createMock(ilObjTest::class), $DIC['ilDB']);
     }
 
     public function test_instantiateObject_shouldReturnInstance(): void

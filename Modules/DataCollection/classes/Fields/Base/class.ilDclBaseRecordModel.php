@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -15,20 +16,14 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\Notes\Service;
 
-/**
- * Class ilDclBaseRecordModel
- * @author  Martin Studer <ms@studer-raimann.ch>
- * @author  Marcel Raimann <mr@studer-raimann.ch>
- * @author  Fabian Schmid <fs@studer-raimann.ch>
- * @author  Oskar Truffer <ot@studer-raimann.ch>
- * @author  Stefan Wanzenried <sw@studer-raimann.ch>
- * @version $Id:
- * @ingroup ModulesDataCollection
- */
 class ilDclBaseRecordModel
 {
+    protected \ILIAS\UI\Factory $ui_factory;
+    protected \ILIAS\UI\Renderer $renderer;
     protected Service $notes;
 
     /**
@@ -38,7 +33,7 @@ class ilDclBaseRecordModel
     protected int $id = 0;
     protected int $table_id;
     protected ?ilDclTable $table = null;
-    protected int $last_edit_by;
+    protected ?int $last_edit_by = null;
     protected int $owner = 0;
     protected ilDateTime $last_update;
     protected ilDateTime $create_date;
@@ -55,6 +50,8 @@ class ilDclBaseRecordModel
         $this->db = $DIC->database();
         $this->event = $DIC->event();
         $this->user = $DIC->user();
+        $this->ui_factory = $DIC->ui()->factory();
+        $this->renderer = $DIC->ui()->renderer();
 
         if ($a_id && $a_id != 0) {
             $this->id = $a_id;
@@ -126,6 +123,8 @@ class ilDclBaseRecordModel
         }
         if (null !== $rec["last_update"]) {
             $this->setLastUpdate(new ilDateTime($rec["last_update"], IL_CAL_DATETIME));
+        } else {
+            $this->setLastUpdate(new ilDateTime($rec["create_date"], IL_CAL_DATETIME));
         }
         $this->setOwner((int) $rec["owner"]);
         if (null !== $rec["last_edit_by"]) {
@@ -231,12 +230,12 @@ class ilDclBaseRecordModel
         return $this->owner;
     }
 
-    public function getLastEditBy(): int
+    public function getLastEditBy(): ?int
     {
         return $this->last_edit_by;
     }
 
-    public function setLastEditBy(int $last_edit_by): void
+    public function setLastEditBy(?int $last_edit_by): void
     {
         $this->last_edit_by = $last_edit_by;
     }
@@ -309,7 +308,7 @@ class ilDclBaseRecordModel
      * Get Field Value
      * @return int|string|array|null
      */
-    public function getRecordFieldValue(?int $field_id)
+    public function getRecordFieldValue(?string $field_id)
     {
         if ($field_id === null) {
             return null;
@@ -528,10 +527,9 @@ class ilDclBaseRecordModel
     {
         switch ($field_id) {
             case "last_edit_by":
-                return $this->getLastEditBy();
+                return ilObjUser::_lookupName($this->getLastEditBy())['login'];
             case 'owner':
-                $usr_data = ilObjUser::_lookupName($this->getOwner());
-                return $usr_data['login'];
+                return ilObjUser::_lookupName($this->getOwner())['login'];
         }
 
         return $this->{$field_id};
@@ -549,7 +547,7 @@ class ilDclBaseRecordModel
     {
         switch ($field_id) {
             case 'id':
-                return $this->getId();
+                return (string)$this->getId();
             case 'owner':
                 return ilUserUtil::getNamePresentation($this->getOwner());
             case 'last_edit_by':
@@ -559,7 +557,6 @@ class ilDclBaseRecordModel
             case 'create_date':
                 return ilDatePresentation::formatDate($this->getCreateDate());
             case 'comments':
-                $nComments = $this->getNrOfComments();
 
                 $ref_id = $this->http->wrapper()->query()->retrieve('ref_id', $this->refinery->kindlyTo()->int());
 
@@ -572,11 +569,16 @@ class ilDclBaseRecordModel
                     'dcl',
                     $this->getId()
                 );
-                $ajax_link = ilNoteGUI::getListCommentsJSCall($ajax_hash, '');
+                $update_code = "il.UI.counter.getCounterObject($(\".ilc_page_Page\")).incrementStatusCount(1);";
+                $ajax_link = ilNoteGUI::getListCommentsJSCall($ajax_hash, $update_code);
+                $nr_comments = $this->getNrOfComments();
 
-                return "<a class='dcl_comment' href='#' onclick=\"return " . $ajax_link . "\">
-                        <img src='" . ilUtil::getImagePath("comment_unlabeled.svg")
-                    . "' alt='{$nComments} Comments'><span class='ilHActProp'>{$nComments}</span></a>";
+                $comment_glyph = $this->ui_factory->symbol()->glyph()->comment()->withCounter(
+                    $this->ui_factory->counter()->status($nr_comments)
+                )->withAdditionalOnLoadCode(function ($id) use ($ajax_link): string {
+                    return "document.getElementById('$id').onclick = function (event) { $ajax_link; };";
+                });
+                return $this->renderer->render($comment_glyph);
         }
 
         return "";

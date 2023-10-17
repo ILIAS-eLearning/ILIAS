@@ -1,5 +1,32 @@
 @use "../../../010-settings/legacy-settings/legacy-settings_symbol" as legacy-setting-symbol;
+@use "../../../010-settings/" as s;
+@use "../../../030-tools/_tool_buttons" as *;
 @use "../../../050-layout/basics/" as layout-basics;
+
+.c-launcher {
+    .btn-bulky {
+        @include make-button($set-basics: false, $set-design: true, $set-size: false,
+            $button-color: s.$il-btn-primary-bg,
+            $button-text-color: s.$il-btn-primary-color,
+            $border-radius: s.$il-border-radius-secondary-large,
+
+            $disabled_bg-color: s.$il-disabled-btn-bg,
+            $disabled_text-color: s.$il-disabled-btn-color,
+            $disabled_border-color: s.$il-disabled-btn-border,
+            );
+        min-width: 50%;
+        width: max-content;
+        &[disabled] {
+            cursor: not-allowed;
+        }
+        &:not([disabled]) .glyph {
+            color: s.$il-text-color-invert;
+        }
+        @media screen and (max-width: s.$il-grid-float-breakpoint-max) {
+            min-width: 100%;
+        }
+    }
+}
 
 .c-launcher__status {
     display: flex;

@@ -37,6 +37,7 @@ abstract class ilContainerContentGUI
 
     public const VIEW_MODE_LIST = 0;
     public const VIEW_MODE_TILE = 1;
+    protected \ILIAS\Container\Content\ItemPresentationManager $item_presentation;
 
     protected ilGlobalTemplateInterface $tpl;
     protected ilCtrl $ctrl;
@@ -51,7 +52,6 @@ abstract class ilContainerContentGUI
     protected ilContainerRenderer $renderer;
     public ilContainerGUI $container_gui;
     public ilContainer $container_obj;
-    public bool $adminCommands = false;
     protected ilLogger $log;
     protected int $view_mode;
     protected array $embedded_block = [];
@@ -64,10 +64,13 @@ abstract class ilContainerContentGUI
     protected BlockSessionRepository $block_repo;
     protected int $block_limit = 0;
     protected array $type_grps = [];
+    protected int $force_details;
+    protected ?ilContainerUserFilter $container_user_filter;
 
-    public function __construct(ilContainerGUI $container_gui_obj)
-    {
-        /** @var \ILIAS\DI\Container $DIC */
+    public function __construct(
+        ilContainerGUI $container_gui_obj,
+        \ILIAS\Container\Content\ItemPresentationManager $item_presentation
+    ) {
         global $DIC;
 
         $this->tpl = $DIC["tpl"];
@@ -116,6 +119,9 @@ abstract class ilContainerContentGUI
             ->repo()
             ->content()
             ->block();
+        $this->item_presentation = $item_presentation;
+
+        $this->block_limit = (int) ilContainer::_lookupContainerSetting($container_gui_obj->getObject()->getId(), "block_limit");
     }
 
     protected function getViewMode(): int
@@ -125,7 +131,16 @@ abstract class ilContainerContentGUI
 
     protected function getDetailsLevel(int $a_item_id): int
     {
-        return $this->details_level;
+        if ($this->getContainerGUI()->isActiveAdministrationPanel()) {
+            return self::DETAILS_DEACTIVATED;
+        }
+        if ($this->item_manager->getExpanded($a_item_id) !== null) {
+            return $this->item_manager->getExpanded($a_item_id);
+        }
+        if ($a_item_id === $this->force_details) {
+            return self::DETAILS_ALL;
+        }
+        return self::DETAILS_TITLE;
     }
 
     public function getContainerObject(): ilContainer
@@ -259,10 +274,31 @@ abstract class ilContainerContentGUI
     }
 
     /**
-     * Get content HTML for main column, this one must be
+     * Get content HTML for main column, this one may be
      * overwritten in derived classes.
      */
-    abstract public function getMainContent(): string;
+    public function getMainContent(): string
+    {
+        $ilAccess = $this->access;
+
+        $tpl = new ilTemplate(
+            "tpl.container_page.html",
+            true,
+            true,
+            "Services/Container"
+        );
+        // Show introduction, if repository is empty
+        if (!$this->item_presentation->hasItems() &&
+            $this->getContainerObject()->getRefId() == ROOT_FOLDER_ID &&
+            $ilAccess->checkAccess("write", "", $this->getContainerObject()->getRefId())) {
+            $html = $this->getIntroduction();
+        } else {	// show item list otherwise
+            $html = $this->renderItemList();
+        }
+        $tpl->setVariable("CONTAINER_PAGE_CONTENT", $html);
+
+        return $tpl->get();
+    }
 
     /**
      * Init container renderer
@@ -272,6 +308,7 @@ abstract class ilContainerContentGUI
         $sorting = ilContainerSorting::_getInstance($this->getContainerObject()->getId());
 
         $this->renderer = new ilContainerRenderer(
+            $this->item_presentation,
             ($this->getContainerGUI()->isActiveAdministrationPanel() && !$this->clipboard->hasEntries()),
             $this->getContainerGUI()->isMultiDownloadEnabled(),
             $this->getContainerGUI()->isActiveOrdering() && (get_class($this) !== "ilContainerObjectiveGUI") // no block sorting in objective view
@@ -323,28 +360,6 @@ abstract class ilContainerContentGUI
         }
 
         return $html;
-    }
-
-    protected function clearAdminCommandsDetermination(): void
-    {
-        $this->adminCommands = false;
-    }
-
-    protected function determineAdminCommands(
-        int $a_ref_id,
-        bool $a_admin_com_included_in_list = false
-    ): void {
-        $rbacsystem = $this->rbacsystem;
-
-        if (!$this->adminCommands) {
-            if (!$this->getContainerGUI()->isActiveAdministrationPanel()) {
-                if ($rbacsystem->checkAccess("delete", $a_ref_id)) {
-                    $this->adminCommands = true;
-                }
-            } else {
-                $this->adminCommands = $a_admin_com_included_in_list;
-            }
-        }
     }
 
     protected function getItemGUI(array $item_data): ilObjectListGUI
@@ -452,8 +467,7 @@ abstract class ilContainerContentGUI
         if (isset($this->embedded_block["type"]) && is_array($this->embedded_block["type"])) {
             foreach ($this->embedded_block["type"] as $type) {
                 if (isset($this->items[$type]) && is_array($this->items[$type]) && $this->renderer->addTypeBlock($type)) {
-                    // :TODO: obsolete?
-                    if ($type === 'sess') {
+                    if ($this->hasForcedOrderByStartDate($type)) {
                         $this->items['sess'] = ilArrayUtil::sortArray($this->items['sess'], 'start', 'ASC', true, true);
                     }
 
@@ -470,6 +484,11 @@ abstract class ilContainerContentGUI
                 }
             }
         }
+    }
+
+    protected function hasForcedOrderByStartDate(string $type): bool
+    {
+        return $type === 'sess' && get_class($this) === ilContainerSessionsContentGUI::class;
     }
 
     /**
@@ -517,7 +536,7 @@ abstract class ilContainerContentGUI
             $item_list_gui->enableDownloadCheckbox((int) $a_item_data["ref_id"]);
         }
 
-        if ($this->getContainerGUI()->isActiveItemOrdering() && ($a_item_data['type'] !== 'sess' || get_class($this) !== 'ilContainerSessionsContentGUI')) {
+        if ($this->getContainerGUI()->isActiveItemOrdering() && !$this->hasForcedOrderByStartDate($a_item_data['type'])) {
             $item_list_gui->setPositionInputField(
                 $a_pos_prefix . "[" . $a_item_data["ref_id"] . "]",
                 sprintf('%d', $a_position * 10)
@@ -646,12 +665,6 @@ abstract class ilContainerContentGUI
             false,
             $asynch_url
         );
-        $this->determineAdminCommands(
-            $a_item_data["ref_id"],
-            $item_list_gui->adminCommandsIncluded()
-        );
-
-
         return $html;
     }
 
@@ -905,16 +918,6 @@ abstract class ilContainerContentGUI
                 // :TODO: show it multiple times?
                 $this->renderer->addItemToBlock($a_itgr["ref_id"], $item["type"], $item["child"], $html2, true);
             }
-        }
-    }
-
-    protected function handleSessionExpand(): void
-    {
-        $expand = $this->request->getExpand();
-        if ($expand > 0) {
-            $this->item_manager->setExpanded(abs($expand), self::DETAILS_ALL);
-        } elseif ($expand < 0) {
-            $this->item_manager->setExpanded(abs($expand), self::DETAILS_TITLE);
         }
     }
 }

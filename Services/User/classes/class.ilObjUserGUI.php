@@ -45,6 +45,8 @@ class ilObjUserGUI extends ilObjectGUI
     private ResourceStorageServices $irss;
     private ResourceStakeholder $stakeholder;
 
+    private ilUserProfile $user_profile;
+
     private string $requested_letter = '';
     private string $requested_baseClass = '';
     private string $requested_search = '';
@@ -75,6 +77,7 @@ class ilObjUserGUI extends ilObjectGUI
         $this->help = $DIC['ilHelp'];
         $this->mail_sender_factory = $DIC->mail()->mime()->senderFactory();
 
+        $this->user_profile = new ilUserProfile();
 
         if ($ui_factory === null) {
             $ui_factory = $DIC['ui.factory'];
@@ -149,7 +152,7 @@ class ilObjUserGUI extends ilObjectGUI
             $this->tpl->setTitle('[' . $this->object->getLogin() . '] ' . $this->object->getTitle());
             $this->tpl->setDescription($this->object->getLongDescription());
             $this->tpl->setTitleIcon(
-                ilUtil::getImagePath('icon_' . $this->object->getType() . '.svg'),
+                ilUtil::getImagePath('standard/icon_' . $this->object->getType() . '.svg'),
                 $this->lng->txt('obj_' . $this->object->getType())
             );
         } else {
@@ -455,10 +458,10 @@ class ilObjUserGUI extends ilObjectGUI
                     $this->form_gui->getInput('chat_broadcast_typing') ? 'y' : 'n'
                 );
             }
-            if ((int) $this->settings->get('session_reminder_enabled')) {
+            if ($this->settings->get('session_reminder_enabled') === '1') {
                 $user_object->setPref(
                     'session_reminder_enabled',
-                    (int) $this->form_gui->getInput('session_reminder_enabled')
+                    $this->form_gui->getInput('session_reminder_enabled')
                 );
             }
             $user_object->writePrefs();
@@ -485,7 +488,7 @@ class ilObjUserGUI extends ilObjectGUI
             }
 
             if ($profile_maybe_incomplete) {
-                if (ilUserProfile::isProfileIncomplete($this->object)) {
+                if ($this->user_profile->isProfileIncomplete($this->object)) {
                     $this->object->setProfileIncomplete(true);
                     $this->object->update();
                 }
@@ -552,7 +555,7 @@ class ilObjUserGUI extends ilObjectGUI
         // Todo: this has to be fixed. Do not mix user folder id and category id
         if ($this->usrf_ref_id != USER_FOLDER_ID) {
             // check if user is assigned to category
-            if (!$rbacsystem->checkAccess('cat_administrate_users', $this->object->getTimeLimitOwner())) {
+            if (!$this->rbac_system->checkAccess('cat_administrate_users', $this->object->getTimeLimitOwner())) {
                 $this->ilias->raiseError($this->lng->txt('msg_no_perm_modify_user'), $this->ilias->error_obj->MESSAGE);
             }
         }
@@ -666,9 +669,22 @@ class ilObjUserGUI extends ilObjectGUI
         if ($this->isSettingChangeable('referral_comment')) {
             $user->setComment($this->form_gui->getInput('referral_comment'));
         }
-        $user->setGeneralInterests($this->form_gui->getInput('interests_general'));
-        $user->setOfferingHelp($this->form_gui->getInput('interests_help_offered'));
-        $user->setLookingForHelp($this->form_gui->getInput('interests_help_looking'));
+
+        $general_interests = is_array($this->form_gui->getInput('interests_general'))
+            ? $this->form_gui->getInput('interests_general')
+            : [];
+        $user->setGeneralInterests($general_interests);
+
+        $offering_help = is_array($this->form_gui->getInput('interests_help_offered'))
+            ? $this->form_gui->getInput('interests_help_offered')
+            : [];
+        $user->setOfferingHelp($offering_help);
+
+        $looking_for_help = is_array($this->form_gui->getInput('interests_help_looking'))
+            ? $this->form_gui->getInput('interests_help_looking')
+            : [];
+        $user->setLookingForHelp($looking_for_help);
+
         $user->setClientIP($this->form_gui->getInput('client_ip'));
         $user->setLatitude($this->form_gui->getInput('latitude'));
         $user->setLongitude($this->form_gui->getInput('longitude'));
@@ -738,7 +754,7 @@ class ilObjUserGUI extends ilObjectGUI
         // if called from local administration $this->usrf_ref_id is category id
         // Todo: this has to be fixed. Do not mix user folder id and category id
         if ($this->usrf_ref_id != USER_FOLDER_ID
-            && !$this->rbac_review->checkAccess('cat_administrate_users', $this->object->getTimeLimitOwner())) {
+            && !$this->rbac_system->checkAccess('cat_administrate_users', $this->object->getTimeLimitOwner())) {
             $this->ilias->raiseError($this->lng->txt('msg_no_perm_modify_user'), $this->ilias->error_obj->MESSAGE);
         }
         $this->initForm('edit');
@@ -754,8 +770,11 @@ class ilObjUserGUI extends ilObjectGUI
             // if not allowed or empty -> do no change password
             if (ilAuthUtils::_allowPasswordModificationByAuthMode(
                 ilAuthUtils::_getAuthMode($this->form_gui->getInput('auth_mode'))
-            )
-                && trim($this->form_gui->getInput('passwd')) != '') {
+            ) && trim($this->form_gui->getInput('passwd')) !== ''
+                && ($this->user->getId() === (int) SYSTEM_USER_ID
+                    || !in_array(SYSTEM_ROLE_ID, $this->rbac_review->assignedRoles($this->object->getId()))
+                    || in_array(SYSTEM_ROLE_ID, $this->rbac_review->assignedRoles($this->user->getId())))
+            ) {
                 $this->object->setPasswd($this->form_gui->getInput('passwd'), ilObjUser::PASSWD_PLAIN);
             }
 
@@ -799,7 +818,7 @@ class ilObjUserGUI extends ilObjectGUI
             if ($this->isSettingChangeable('hide_own_online_status')) {
                 $this->object->setPref(
                     'hide_own_online_status',
-                    ($this->form_gui->getInput('hide_own_online_status') ?? false)
+                    ($this->form_gui->getInput('hide_own_online_status') ?? '0')
                 );
             }
             if ($this->isSettingChangeable('bs_allow_to_contact_me')) {
@@ -825,10 +844,10 @@ class ilObjUserGUI extends ilObjectGUI
             // this ts is needed by ilSecuritySettings
             $this->object->setLastPasswordChangeTS(time());
 
-            if ((int) $this->settings->get('session_reminder_enabled')) {
+            if ($this->settings->get('session_reminder_enabled') === '1') {
                 $this->object->setPref(
                     'session_reminder_enabled',
-                    (int) $this->form_gui->getInput('session_reminder_enabled')
+                    $this->form_gui->getInput('session_reminder_enabled')
                 );
             }
 
@@ -844,7 +863,7 @@ class ilObjUserGUI extends ilObjectGUI
             }
             $this->user->setPref(
                 'send_info_mails',
-                ($this->form_gui->getInput('send_mail') == 'y') ? 'y' : 'n'
+                ($this->form_gui->getInput('send_mail') === 'y') ? 'y' : 'n'
             );
             $this->user->writePrefs();
 
@@ -859,7 +878,7 @@ class ilObjUserGUI extends ilObjectGUI
             if ($profile_maybe_incomplete) {
                 /** @var ilObjUser $user */
                 $user = $this->object;
-                if (ilUserProfile::isProfileIncomplete($user)) {
+                if ($this->user_profile->isProfileIncomplete($user)) {
                     $this->object->setProfileIncomplete(true);
                     $this->object->update();
                 }
@@ -875,7 +894,8 @@ class ilObjUserGUI extends ilObjectGUI
             }
         } else {
             $this->form_gui->setValuesByPost();
-            $tpl->setContent($this->form_gui->getHTML());
+            $this->tabs_gui->activateTab('properties');
+            $this->tpl->setContent($this->form_gui->getHtml());
         }
     }
 
@@ -1029,6 +1049,11 @@ class ilObjUserGUI extends ilObjectGUI
         if ($a_mode == 'create') {
             $pw->setRequiredOnAuth(true);
         }
+        if ($this->user->getId() !== (int) SYSTEM_USER_ID
+            && in_array(SYSTEM_ROLE_ID, $this->rbac_review->assignedRoles($this->object->getId()))
+            && !in_array(SYSTEM_ROLE_ID, $this->rbac_review->assignedRoles($this->user->getId()))) {
+            $pw->setDisabled(true);
+        }
         $pw->setInfo(ilSecuritySettingsChecker::getPasswordRequirementsInfo());
         $this->form_gui->addItem($pw);
 
@@ -1070,11 +1095,13 @@ class ilObjUserGUI extends ilObjectGUI
         $acfrom = new ilDateTimeInputGUI($this->lng->txt('crs_from'), 'time_limit_from');
         $acfrom->setRequired(true);
         $acfrom->setShowTime(true);
+        $acfrom->setMinuteStepSize(1);
         $op2->addSubItem($acfrom);
 
         $acto = new ilDateTimeInputGUI($this->lng->txt('crs_to'), 'time_limit_until');
         $acto->setRequired(true);
         $acto->setShowTime(true);
+        $acto->setMinuteStepSize(1);
         $op2->addSubItem($acto);
 
         $this->form_gui->addItem($radg);
@@ -1405,7 +1432,7 @@ class ilObjUserGUI extends ilObjectGUI
 
         if ((int) $this->settings->get('session_reminder_enabled')) {
             $cb = new ilCheckboxInputGUI($this->lng->txt('session_reminder'), 'session_reminder_enabled');
-            $cb->setValue(1);
+            $cb->setValue('1');
             $this->form_gui->addItem($cb);
         }
 
@@ -1571,19 +1598,40 @@ class ilObjUserGUI extends ilObjectGUI
         $assigned_roles = array_intersect($assigned_roles_all, $posted_roles);
         $assigned_global_roles_all = array_intersect($assigned_roles_all, $global_roles_all);
         $assigned_global_roles = array_intersect($assigned_global_roles_all, $posted_roles);
+
+        $user_not_allowed_to_change_admin_role_assginements =
+            !in_array(SYSTEM_ROLE_ID, $this->rbac_review->assignedRoles($this->user->getId()));
+
+        if ($user_not_allowed_to_change_admin_role_assginements
+            && in_array(SYSTEM_ROLE_ID, $assigned_roles_all)) {
+            $selected_roles[] = SYSTEM_ROLE_ID;
+        }
+
         $posted_global_roles = array_intersect($selected_roles, $global_roles_all);
 
-        if ((empty($selected_roles) and count($assigned_roles_all) == count($assigned_roles))
-            || (empty($posted_global_roles) and count($assigned_global_roles_all) == count($assigned_global_roles))) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('msg_min_one_role') . '<br/>' . $this->lng->txt('action_aborted'), true);
+        if (empty($selected_roles) && count($assigned_roles_all) === count($assigned_roles)
+             || empty($posted_global_roles) && count($assigned_global_roles_all) === count($assigned_global_roles)) {
+            $this->tpl->setOnScreenMessage(
+                'failure',
+                $this->lng->txt('msg_min_one_role') . '<br/>' . $this->lng->txt('action_aborted'),
+                true
+            );
             $this->ctrl->redirect($this, 'roleassignment');
         }
 
         foreach (array_diff($assigned_roles, $selected_roles) as $role) {
+            if ($this->object->getId() === (int) SYSTEM_USER_ID && $role === SYSTEM_ROLE_ID
+                || $user_not_allowed_to_change_admin_role_assginements && $role === SYSTEM_ROLE_ID) {
+                continue;
+            }
             $this->rbac_admin->deassignUser($role, $this->object->getId());
         }
 
         foreach (array_diff($selected_roles, $assigned_roles) as $role) {
+            if ($this->object->getId() === (int) SYSTEM_USER_ID && $role === SYSTEM_ROLE_ID
+                || $user_not_allowed_to_change_admin_role_assginements && $role === SYSTEM_ROLE_ID) {
+                continue;
+            }
             $this->rbac_admin->assignUser($role, $this->object->getId(), false);
         }
 
@@ -1602,8 +1650,9 @@ class ilObjUserGUI extends ilObjectGUI
     {
         $this->tabs->activateTab('role_assignment');
 
-        if (!$this->rbac_system->checkAccess('edit_roleassignment', $this->usrf_ref_id) &&
-            !$this->access->isCurrentUserBasedOnPositionsAllowedTo('read_users', [$this->object->getId()])
+        if ($this->object->getId() === (int) ANONYMOUS_USER_ID
+            || !$this->rbac_system->checkAccess('edit_roleassignment', $this->usrf_ref_id)
+                && !$this->access->isCurrentUserBasedOnPositionsAllowedTo('read_users', [$this->object->getId()])
         ) {
             $this->ilias->raiseError(
                 $this->lng->txt('msg_no_perm_assign_role_to_user'),
@@ -1832,7 +1881,18 @@ class ilObjUserGUI extends ilObjectGUI
         global $DIC;
 
         $ilUser = $DIC['ilUser'];
+
+        /** @var ilCtrl $ilCtrl */
         $ilCtrl = $DIC['ilCtrl'];
+
+        if (strstr($a_target, ilPersonalProfileGUI::CHANGE_EMAIL_CMD) === $a_target
+            && $ilUser->getId() !== ANONYMOUS_USER_ID) {
+            $class = ilPersonalProfileGUI::class;
+            $cmd = ilPersonalProfileGUI::CHANGE_EMAIL_CMD;
+            $ilCtrl->clearParametersByClass($class);
+            $ilCtrl->setParameterByClass($class, 'token', str_replace($cmd, '', $a_target));
+            $ilCtrl->redirectByClass(['ildashboardgui', $class], $cmd);
+        }
 
         // #10888
         if ($a_target == md5('usrdelown')) {
@@ -1887,7 +1947,7 @@ class ilObjUserGUI extends ilObjectGUI
     {
         $profile_maybe_incomplete = false;
 
-        foreach (ilUserProfile::getIgnorableRequiredSettings() as $fieldName) {
+        foreach ($this->user_profile->getIgnorableRequiredSettings() as $fieldName) {
             $elm = $this->form_gui->getItemByPostVar($fieldName);
 
             if (!$elm) {
@@ -1910,7 +1970,7 @@ class ilObjUserGUI extends ilObjectGUI
                 continue;
             }
 
-            if ($elm->getRequired() && $definition['changeable'] && $definition['required'] && $definition['visible']) {
+            if ($elm->getRequired() && $definition['required']) {
                 $profile_maybe_incomplete = true;
 
                 // Flag as optional

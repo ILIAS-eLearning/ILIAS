@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\Repository;
 
 use ILIAS\DI\RBACServices;
@@ -27,6 +27,7 @@ use ILIAS\ResourceStorage;
 use ILIAS\Refinery;
 use ILIAS\Repository\Object\ObjectAdapterInterface;
 use ILIAS\Repository\Object\ObjectAdapter;
+use ILIAS\Repository\Profile\ProfileAdapter;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -103,5 +104,17 @@ trait GlobalDICDomainServices
     public function object(): ObjectAdapterInterface
     {
         return new ObjectAdapter();
+    }
+
+    public function profile(): ProfileAdapter
+    {
+        return new ProfileAdapter(
+            $this->lng()
+        );
+    }
+
+    public function objectDataCache(): \ilObjectDataCache
+    {
+        return $this->DIC["ilObjDataCache"];
     }
 }

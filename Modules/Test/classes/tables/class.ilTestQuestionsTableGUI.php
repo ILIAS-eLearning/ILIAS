@@ -16,8 +16,11 @@
  *
  *********************************************************************/
 
-use ILIAS\UI\Renderer;
-use ILIAS\UI\Factory;
+declare(strict_types=1);
+
+use ILIAS\UI\Factory as UIFactory;
+use ILIAS\UI\Renderer as UIRenderer;
+use ILIAS\TestQuestionPool\QuestionInfoService;
 
 /**
 *
@@ -59,24 +62,18 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
     protected float $totalPoints = 0;
     protected string $totalWorkingTime = '';
     private int $position = 0;
-    private int $parent_ref_id;
 
-    protected Renderer $renderer;
-    protected Factory $factory;
+    public function __construct(
+        ilObjTestGUI|ilTestCorrectionsGUI $parent_obj,
+        string $parent_cmd,
+        private int $parent_ref_id,
+        private UIFactory $ui_factory,
+        private UIRenderer $ui_renderer,
+        private QuestionInfoService $questioninfo
+    ) {
+        parent::__construct($parent_obj, $parent_cmd);
 
-    public function __construct($a_parent_obj, $a_parent_cmd, $parentRefId)
-    {
-        global $DIC;
-
-        $this->renderer = $DIC->ui()->renderer();
-        $this->factory = $DIC->ui()->factory();
-
-        $this->setId('tst_qst_lst_' . $parentRefId);
-
-        $this->parent_ref_id = (int) $parentRefId;
-
-        parent::__construct($a_parent_obj, $a_parent_cmd);
-
+        $this->setId('tst_qst_lst_' . $parent_ref_id);
         $this->setFormName('questionbrowser');
         $this->setStyle('table', 'fullwidth');
 
@@ -84,7 +81,7 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
 
         $this->setRowTemplate("tpl.il_as_tst_questions_row.html", "Modules/Test");
 
-        $this->setFormAction($this->ctrl->getFormAction($a_parent_obj, $a_parent_cmd));
+        $this->setFormAction($this->ctrl->getFormAction($parent_obj, $parent_cmd));
 
         $this->disable('sort');
         $this->enable('header');
@@ -207,7 +204,7 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
             $this->tpl->setVariable("QUESTION_COMMENT", $a_set["description"] ? $a_set["description"] : '&nbsp;');
         }
 
-        $this->tpl->setVariable("QUESTION_TYPE", assQuestion::_getQuestionTypeName($a_set["type_tag"]));
+        $this->tpl->setVariable("QUESTION_TYPE", $this->questioninfo->getQuestionTypeName($a_set['question_id']));
         $this->tpl->setVariable("QUESTION_POINTS", $a_set["points"]);
 
         if ($this->isColumnSelected('author')) {
@@ -228,45 +225,44 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
         } else {
             $this->tpl->setVariable("QUESTION_POOL", $this->lng->txt('tst_question_not_from_pool_info'));
         }
-        $actions = new ilAdvancedSelectionListGUI();
-        $actions->setId('qst' . $a_set["question_id"]);
-        $actions->setListTitle($this->lng->txt('actions'));
+        $actions = [];
 
-        $actions->addItem(
+        $actions[] = $this->ui_factory->link()->standard(
             $this->lng->txt('preview'),
-            '',
             $this->getPreviewLink($a_set)
         );
 
-        $actions->addItem(
+        $actions[] = $this->ui_factory->link()->standard(
             $this->lng->txt('statistics'),
-            '',
             $this->getQuestionEditLink($a_set, 'ilAssQuestionPreviewGUI', ilAssQuestionPreviewGUI::CMD_STATISTICS)
         );
 
         if ($this->isQuestionManagingEnabled()) {
             $editHref = $this->getQuestionEditLink($a_set, $a_set['type_tag'] . 'GUI', 'editQuestion');
-            $actions->addItem($this->lng->txt('edit_question'), '', $editHref);
+            $actions[] = $this->ui_factory->link()->standard($this->lng->txt('edit_question'), $editHref);
 
             $editPageHref = $this->getQuestionEditLink($a_set, 'ilAssQuestionPageGUI', 'edit');
-            $actions->addItem($this->lng->txt('edit_page'), '', $editPageHref);
+            $actions[] = $this->ui_factory->link()->standard($this->lng->txt('edit_page'), $editPageHref);
+
 
             $moveHref = $this->getEditLink($a_set, get_class($this->getParentObject()), 'moveQuestions');
-            $actions->addItem($this->lng->txt('move'), '', $moveHref);
+            $actions[] = $this->ui_factory->link()->standard($this->lng->txt('move'), $moveHref);
 
             $copyHref = $this->getEditLink($a_set, get_class($this->getParentObject()), 'copyQuestion');
-            $actions->addItem($this->lng->txt('copy'), '', $copyHref);
+            $actions[] = $this->ui_factory->link()->standard($this->lng->txt('copy'), $copyHref);
 
             $deleteHref = $this->getEditLink($a_set, get_class($this->getParentObject()), 'removeQuestions');
-            $actions->addItem($this->lng->txt('delete'), '', $deleteHref);
+            $actions[] = $this->ui_factory->link()->standard($this->lng->txt('delete'), $deleteHref);
 
             $feedbackHref = $this->getQuestionEditLink($a_set, 'ilAssQuestionFeedbackEditingGUI', ilAssQuestionFeedbackEditingGUI::CMD_SHOW);
-            $actions->addItem($this->lng->txt('tst_feedback'), '', $feedbackHref);
+            $actions[] = $this->ui_factory->link()->standard($this->lng->txt('tst_feedback'), $feedbackHref);
 
             $hintsHref = $this->getQuestionEditLink($a_set, 'ilAssQuestionHintsGUI', ilAssQuestionHintsGUI::CMD_SHOW_LIST);
-            $actions->addItem($this->lng->txt('tst_question_hints_tab'), '', $hintsHref);
+            $actions[] = $this->ui_factory->link()->standard($this->lng->txt('tst_question_hints_tab'), $hintsHref);
         }
-        $this->tpl->setVariable('ROW_ACTIONS', $actions->getHTML());
+        $dropdown = $this->ui_factory->dropdown()->standard($actions)->withLabel($this->lng->txt('actions'));
+
+        $this->tpl->setVariable('ROW_ACTIONS', $this->ui_renderer->render($dropdown));
         if ($this->isQuestionRemoveRowButtonEnabled()) {
             $this->tpl->setVariable('ROW_ACTIONS', $this->buildQuestionRemoveButton($a_set));
         }
@@ -278,11 +274,7 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
         $removeUrl = $this->ctrl->getLinkTarget($this->getParentObject(), $this->getParentCmd());
         $this->ctrl->setParameter($this->getParentObject(), 'removeQid', '');
 
-        $button = ilLinkButton::getInstance();
-        $button->setCaption('remove_question');
-        $button->setUrl($removeUrl);
-
-        return $button->render();
+        return $this->ui_renderer->render($this->ui_factory->button()->standard($this->lng->txt('remove_question'), $removeUrl));
     }
 
     protected function buildQuestionTitleLink(array $rowData): string
@@ -378,9 +370,9 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
         }
 
         if ($rowData['obligatory'] && !$this->isQuestionManagingEnabled()) {
-            return $this->renderer->render(
-                $this->factory->symbol()->icon()->custom(
-                    ilUtil::getImagePath('icon_alert.svg'),
+            return $this->ui_renderer->render(
+                $this->ui_factory->symbol()->icon()->custom(
+                    ilUtil::getImagePath('standard/icon_alert.svg'),
                     $this->lng->txt('question_obligatory')
                 )
             );
@@ -392,7 +384,7 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
 
     protected function buildPositionInput($questionId, $position): string
     {
-        return '<input type="text" name="order[q_' . $questionId . ']" value="' . $position . '" maxlength="4" size="4" />';
+        return '<input type="text" name="order[' . $questionId . ']" value="' . $position . '" maxlength="4" size="4" />';
     }
 
     protected function buildTableSaveCommandLabel(): string

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -15,11 +16,8 @@
  *
  *********************************************************************/
 
-/**
- * Class ilDclTextFieldRepresentation
- * @author  Michael Herren <mh@studer-raimann.ch>
- * @version 1.0.0
- */
+declare(strict_types=1);
+
 class ilDclTextRecordRepresentation extends ilDclBaseRecordRepresentation
 {
     public const LINK_MAX_LENGTH = 40;
@@ -61,13 +59,13 @@ class ilDclTextRecordRepresentation extends ilDclBaseRecordRepresentation
         ) && $link && ilDclDetailedViewDefinition::isActive($this->getTableViewId())) {
             $this->ctrl->clearParametersByClass("ilDclDetailedViewGUI");
             $this->ctrl->setParameterByClass(
-                'ilDclDetailedViewGUI',
+                ilDclDetailedViewGUI::class,
                 'record_id',
                 $this->getRecordField()->getRecord()->getId()
             );
             $this->ctrl->setParameterByClass('ilDclDetailedViewGUI', 'tableview_id', $this->getTableViewId());
             $html = '<a href="' . $this->ctrl->getLinkTargetByClass(
-                "ilDclDetailedViewGUI",
+                ilDclDetailedViewGUI::class,
                 'renderRecord'
             ) . '">' . $value . '</a>';
         } else {

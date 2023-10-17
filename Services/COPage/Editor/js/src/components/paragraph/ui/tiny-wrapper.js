@@ -704,6 +704,10 @@ export default class TinyWrapper {
       let cl = ed.dom.getRoot().className;
       let c = html.p2br(ed.getContent());
 
+      if (this.getDataTableMode()) {
+        cl = "ilc_Paragraph ilc_text_block_TableContent";
+      }
+
       cl = "copg-input-ghost " + cl;
       this.log(cl);
       const cl_arr = cl.split("_");

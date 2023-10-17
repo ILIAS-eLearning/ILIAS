@@ -593,10 +593,8 @@ assessment#:#counter#:#Counter
 assessment#:#create_date#:#Created
 assessment#:#create_gaps#:#Create and Refresh Gaps
 assessment#:#create_new#:#Create New
-assessment#:#ctm_cannot_be_changed#:#This is a test in CTM-Mode. Settings cannot be changed anymore as CTM has been abandoned.
-assessment#:#ctm_cannot_be_started#:#This is a test in CTM-Mode. The test cannot be started anymore as CTM has been abandoned.
 assessment#:#customstyle#:#Custom Style
-assessment#:#dashboard_tab#:#Dashboard
+assessment#:#dashboard_tab#:#Participants
 assessment#:#definition#:#Definition
 assessment#:#definition_image#:#Definition Image
 assessment#:#definition_text#:#Definition Text
@@ -638,6 +636,8 @@ assessment#:#ects_grade_f_desc#:#considerable further work is required
 assessment#:#ects_grade_fx_desc#:#some more work required before the credit can be awarded
 assessment#:#ects_output_of_ects_grades#:#Output of ECTS grades
 assessment#:#edit_answer#:#Edit Answer
+assessment#:#edit_concluding_remarks#:#Edit Concluding Remarks
+assessment#:#edit_introduction#:#Edit Introduction
 assessment#:#edit_page#:#Edit Page
 assessment#:#edit_question#:#Edit Question
 assessment#:#edit_test_questions#:#List View
@@ -828,7 +828,6 @@ assessment#:#legend#:#Legend
 assessment#:#locked#:#locked
 assessment#:#log_added_extratime#:#Added extra %d minutes for participant id %d
 assessment#:#log_answer_changed_points#:#Manual change of points of test person %s from %d to %d points by %s
-assessment#:#log_could_not_enter_test_due_to_simultaneous_users#:#The user could not enter the test because the maximum number of simultaneous users has been reached
 assessment#:#log_create_new_test#:#Created new test
 assessment#:#log_manual_feedback#:#%s added manual feedback for test person %s and question %s: %s
 assessment#:#log_mark_added#:#Mark added
@@ -845,6 +844,7 @@ assessment#:#log_user_not_entered_values#:#User did not enter values
 assessment#:#log_user_solution_willingly_deleted#:#User deleted the answer.
 assessment#:#log_wrong_test_password_entered#:#Participant entered wrong test password.
 assessment#:#longmenu#:#Longmenu
+assessment#:#longmenu_answeroptions_differ#:#This question does not work correctly, as there are not the same amount of gaps in the text as in the correction options.
 assessment#:#longmenu_text#:#Long Menu Text
 assessment#:#mailnottype#:#Send a notification every time a test attempt is completed.
 assessment#:#mailnottype_desc#:#Notify the owner of the test <strong>even if</strong> the number of test attempts has not been limited.
@@ -887,6 +887,7 @@ assessment#:#new_category#:#New Unit Category
 assessment#:#new_unit#:#New Unit
 assessment#:#next_question#:#Next
 assessment#:#next_question_rows#:#Questions %d - %d of %d →
+assessment#:#no_manual_feedback_export_info#:#Manual feedbacks will not be exported.
 assessment#:#no_passed_mark#:#At least one grade has to be a passing grade. For a grade to be a passing grade, it needs to have the appropriate box in the ‘Passed’ column checked.
 assessment#:#no_question_selected_for_move#:#Please check at least one question to move it!
 assessment#:#no_questions_available#:#There are no questions available!
@@ -1076,8 +1077,8 @@ assessment#:#question_marking#:#Flagging Questions
 assessment#:#question_marking_description#:#Participants are given the option to flag test questions for themselves. The flags are shown in the ‘List of Questions’, if that feature it has been activated.
 assessment#:#question_not_answered#:#The question was not answered
 assessment#:#question_saved_for_upload#:#The question was saved automatically in order to reserve hard disk space to store the uploaded file. If you cancel this form now, be aware that you must delete the question in the question pool if you do not want to keep it!
-assessment#:#question_summary#:#Dashboard
-assessment#:#question_summary_btn#:#Dashboard
+assessment#:#question_summary#:#Test Attempt Overview
+assessment#:#question_summary_btn#:#Test Attempt Overview
 assessment#:#question_title#:#Question Title
 assessment#:#question_type#:#Question Type
 assessment#:#questionpool_not_entered#:#Please enter a name for a question pool!
@@ -1167,16 +1168,16 @@ assessment#:#set_manscoring_done#:#Mark as ‘Scored Participant’
 assessment#:#set_manual_feedback#:#Manual Feedback
 assessment#:#shape#:#Shape
 assessment#:#showSuggestedSolution#:#Type
+assessment#:#show_all_test_properties_on_info_page#:#Show all Test Properties
+assessment#:#show_all_test_properties_on_info_page_byline#:#Users will be presented with a complete list of test properties in the ‘Info’ tab, i.e. information on scoring and reporting.
 assessment#:#show_answer_overview#:#Show Answer Overview
 assessment#:#show_detailed_results#:#Show User’s Detailed Results (Marked Pass)
 assessment#:#show_examview_html#:#On screen
+assessment#:#show_old_concluding_remarks#:#Show old conlcuding remarks
+assessment#:#show_old_introduction#:#Show old introduction
 assessment#:#show_pass_overview#:#Show Marked Pass Overview
 assessment#:#show_user_answers#:#Show User’s Marked Answers
-assessment#:#showinfo#:#Show all Test Properties
-assessment#:#showinfo_desc#:#Users will be presented with a complete list of test properties in the ‘Info’ tab, i.e. information on scoring and reporting.
 assessment#:#shuffle_answers#:#Shuffle Answers
-assessment#:#sign_submission#:#Digitally Sign Test Submissions
-assessment#:#sign_submission_info#:#Enable the use of external signature plugins that can be used to require participants to digitally sign their submissions.
 assessment#:#skip_question#:#Do not Answer and Next
 assessment#:#solutionText#:#Text
 assessment#:#solution_contain_keywords#:#Score is granted based on the occurrence of the following keywords:
@@ -1255,11 +1256,6 @@ assessment#:#tst_add_quest_cont_edit_mode_RTE_info#:#Allows text formatting of q
 assessment#:#tst_addit_passes_blocked_after_passed_msg#:#You have passed the test. The test cannot be started again.
 assessment#:#tst_all_test_competences#:#All Test Competence
 assessment#:#tst_all_user_data_deleted#:#All user data for this test has been removed!
-assessment#:#tst_allowed_users#:#Limit Number of Concurrent Participants
-assessment#:#tst_allowed_users_desc#:#ILIAS will monitor the number of participants taking the test at the same time. If the maximum number of users taking the test at the same time has been reached, ILIAS will prevent additional users from starting the test.
-assessment#:#tst_allowed_users_max#:#Max. Number of Participants
-assessment#:#tst_allowed_users_time_gap#:#Max. Idle Time Permitted for Active Participants
-assessment#:#tst_allowed_users_time_gap_desc#:#Participants who have not clicked on anything in the test for the indicated amount of time, will be categorised as ‘inactive’ and removed from the test.
 assessment#:#tst_already_submitted#:#The test has already been completed and submitted.
 assessment#:#tst_analysis#:#Analysis
 assessment#:#tst_anonymity#:#Privacy
@@ -1340,19 +1336,6 @@ assessment#:#tst_derive_new_pool#:#Derive New Question Pool
 assessment#:#tst_derive_new_pools#:#Derive New Question Pools
 assessment#:#tst_dont_show_msg_again_in_current_session#:#Don't show this message again in my current session.
 assessment#:#tst_dont_use_previous_answers#:#Your previous answers will not be used as default values in future test passes
-assessment#:#tst_dyn_keep_answ_freeze#:#Keep my current answers frozen
-assessment#:#tst_dyn_quest_set_pool_deleted#:#The currently configured question pool "%s" has been deleted.
-assessment#:#tst_dyn_quest_set_src_qpl_summary_string_deleted#:#%s (Removed Permanently)
-assessment#:#tst_dyn_quest_set_src_qpl_summary_string_trashed#:#%s (Removed) [%s Questions]
-assessment#:#tst_dyn_test_msg_currently_finished_completely#:#Currently you have answered all questions from the selected question pool successfully. You can proceed the test when there are new or edited questions in the question pool.
-assessment#:#tst_dyn_test_msg_currently_finished_selection#:#With the current question selection you have answered all questions successfully. Change the question selection to proceed the test.
-assessment#:#tst_dyn_test_msg_pass_deletion_link#:#Remove Previous Answers
-assessment#:#tst_dyn_test_pass_deletion_button#:#Reset All Answers
-assessment#:#tst_dyn_unfreeze_answers#:#Answer once more
-assessment#:#tst_dyn_unfreeze_answers_confirmation#:#There are questions to which your initial answers were fixed and you could not make any changes. Do you want to answer them one more time now and thus unfreeze your answers?
-assessment#:#tst_dynamic_question_set_complete#:#Total-Statistic
-assessment#:#tst_dynamic_question_set_selection#:#Test Question Selection and Selection-Statistic
-assessment#:#tst_dynamic_question_set_source_questionpool_summary_string#:#%s (Path: %s) [%s Questions]
 assessment#:#tst_edit_competence_assign#:#Edit Assignment Properties
 assessment#:#tst_edit_scoring#:#Edit Scoring
 assessment#:#tst_ending_time#:#Finishing Time
@@ -1387,10 +1370,11 @@ assessment#:#tst_filter_taxonomy#:#Taxonomy
 assessment#:#tst_final_information#:#Finishing the Test
 assessment#:#tst_finish_confirm_button#:#Yes, I want to finish the test
 assessment#:#tst_finish_confirm_cancel_button#:#No, go back to the previous question
-assessment#:#tst_finish_confirmation_question#:#You are going to finish this test and reach the maximum number of allowed test passes. You won’t be able to enter this test again to change your answers. Do you really want to finish the test?
+assessment#:#tst_finish_confirmation_question#:#You are going to finish this test. You won’t be able to enter this test attempt again to change your answers. Do you really want to finish this test?
+assessment#:#tst_finish_confirmation_question_no_attempts_left#:#You are going to finish this test and reach the maximum number of allowed test passes. You won’t be able to enter this test again to change your answers. Do you really want to finish the test?
 assessment#:#tst_finish_notification#:#Notification
 assessment#:#tst_finish_notification_advanced#:#Send complete test result
-assessment#:#tst_finish_notification_content#:#Content of e-mail
+assessment#:#tst_finish_notification_content_type#:#Content of e-mail
 assessment#:#tst_finish_notification_desc#:#Sends an e-mail to the test owner for every user that has completed the test.
 assessment#:#tst_finish_notification_no#:#No e-mail
 assessment#:#tst_finish_notification_simple#:#Send username and finish date
@@ -1505,8 +1489,6 @@ assessment#:#tst_mark_minimum_level#:#Minimum Level (in %)
 assessment#:#tst_mark_official_form#:#Official Form
 assessment#:#tst_mark_passed#:#Passed
 assessment#:#tst_mark_short_form#:#Short Form
-assessment#:#tst_max_allowed_users_heading#:#The maximum number of simultaneous users in this test has been reached
-assessment#:#tst_max_allowed_users_message#:#The maximum number of simultaneous active users in the test has been reached. Please try again later to start or resume the test. If one of the active users is inactive for more than %s seconds, you may be able to enter this test. Thank you for your understanding.
 assessment#:#tst_max_comp_points#:#Max. Competence Points
 assessment#:#tst_maximum_points#:#Maximum Points
 assessment#:#tst_mc_label_none_above#:#None of the answers above###fau: testNav
@@ -1614,6 +1596,7 @@ assessment#:#tst_password_form#:#Enter Test Password
 assessment#:#tst_password_introduction#:#This test can only be accessed with a test password. Please enter the test password to start the test.
 assessment#:#tst_percent_solved#:#Percent Solved
 assessment#:#tst_player_answer_saved_and_locked#:#Answer is saved and locked and can no longer be changed
+assessment#:#tst_please_select_source_pool#:#Please select a question pool.
 assessment#:#tst_please_select_target_for_pool_derives#:#Please select a target conatainer.
 assessment#:#tst_position#:#Question %s of %s
 assessment#:#tst_position_without_total#:#Question %s
@@ -1628,7 +1611,7 @@ assessment#:#tst_print#:#Test and Assessment - Print View
 assessment#:#tst_proceed#:#Proceed
 assessment#:#tst_processing_time#:#Limit Duration of Test
 assessment#:#tst_processing_time_desc#:#Participants can work through the test only for a specified period of time. Time is clocking away from the moment a user starts a test for the first time. Suspending the test does not stop the clock. If the number of possible test passes is limited an additional feature for granting extra time to participants appears in the tab 'Dashboard'.
-assessment#:#tst_processing_time_duration#:#Maximum Duration of the Test
+assessment#:#tst_processing_time_duration#:#Maximum Duration of the Test im Minutes
 assessment#:#tst_processing_time_duration_desc#:#Maximum of time granted to take the test.
 assessment#:#tst_qbt_filter_question_title#:#Title of Question
 assessment#:#tst_qst_added_to_pool_p#:#Successfully added the questions to the selected pool.
@@ -1710,6 +1693,7 @@ assessment#:#tst_questions_hints_toolbar_cmd_reset_ordering_clipboard#:#Reset Hi
 assessment#:#tst_questions_inserted#:#Question(s) inserted!
 assessment#:#tst_questions_removed#:#Question(s) removed!
 assessment#:#tst_random_nr_of_questions#:#How many questions?
+assessment#:#tst_random_question_set_source_questionpool_summary_string#:#%s (Path: %s) [%s Questions]
 assessment#:#tst_random_select_questionpool#:#Select the question pool to choose the questions from
 assessment#:#tst_reached_points#:#Reached Points
 assessment#:#tst_reached_points_of_max#:#%s of %s
@@ -1724,7 +1708,7 @@ assessment#:#tst_report_after_test#:#Offer test results when the test is finishe
 assessment#:#tst_report_never#:#No test results available
 assessment#:#tst_reporting_date#:#Date
 assessment#:#tst_res_jump_to_participant_btn#:#Jump
-assessment#:#tst_res_jump_to_participant_hint_opt#:#--Jump to Participant--
+assessment#:#tst_res_jump_to_participant_hint_opt#:#Jump to Participant
 assessment#:#tst_res_lo_objectives_header#:#Relevant Learning Objectives
 assessment#:#tst_res_lo_try_header#:#Attempt
 assessment#:#tst_res_lo_try_n#:#Attempt %s
@@ -1801,7 +1785,9 @@ assessment#:#tst_setting_enable_obligations_info#:#Only if all compulsory questi
 assessment#:#tst_setting_enable_obligations_label#:#Compulsory Questions
 assessment#:#tst_setting_offer_hints_info#:#Participants request hints to answer a question. With every hint presented the maximum number of points to be earned decreases.
 assessment#:#tst_setting_offer_hints_label#:#Hints
-assessment#:#tst_settings_conflict_message#:#The current configuration uses settings combinations that are not allowed.
+assessment#:#tst_settings_conflict_compulsory_and_lock#:#"Compulsory Questions" cannot be used together with "Answer Lock".
+assessment#:#tst_settings_conflict_postpone_and_lock#:#"Unanswered questions will be enqueued" cannot be used together with "Lock Answers After Moving to Next Question".
+assessment#:#tst_settings_conflict_shuffle_and_lock#:#"Shuffle Questions" cannot be used together with "Lock Answers After Moving to Next Question".
 assessment#:#tst_settings_header_execution#:#Administering the Test: Access
 assessment#:#tst_settings_header_intro#:#Information Before Start of Test
 assessment#:#tst_settings_header_test_run#:#Administering the Test: Test Run
@@ -1978,7 +1964,7 @@ auth#:#auth_auth_settings#:#Settings
 auth#:#auth_cas_ldap#:#Synchronization using LDAP
 auth#:#auth_cas_ldap_info#:#If enabled, the synchronization of user accounts and role assignments is done using an existing LDAP configuration.
 auth#:#auth_cron_destroy_expired_sessions#:#Deletion of Expired Sessions
-auth#:#auth_cron_destroy_expired_sessions_desc#:#This job deletes expires sessions. 
+auth#:#auth_cron_destroy_expired_sessions_desc#:#This job deletes expires sessions.
 auth#:#auth_err_expired#:#Your session has been deactivated due to inactivity.
 auth#:#auth_err_invalid_user_account#:#Authentication failed due to an internal failure.
 auth#:#auth_err_ldap_exception#:#Authentication failed due to an internal authentication failure (LDAP).
@@ -2133,6 +2119,7 @@ badge#:#badge_backpack_no_groups#:#The Mozilla Backpack is empty or non-public.
 badge#:#badge_badge#:#Badge
 badge#:#badge_course_lp#:#Course LP
 badge#:#badge_course_lp_invalid#:#The following objects have a LP mode which is not supported: %s.
+badge#:#badge_create#:#Create Badge
 badge#:#badge_criteria#:#Criteria
 badge#:#badge_crs_merit#:#Merit
 badge#:#badge_deletion_confirmation#:#Are you sure you want to delete the following badges and all their respective assignments?
@@ -2631,8 +2618,10 @@ buddysystem#:#buddy_use_osd_info#:#Display a popup to indicate a user wants to a
 buddysystem#:#buddy_view_gallery#:#Gallery
 buddysystem#:#buddy_view_table#:#List
 cat#:#cat_copy#:#Copy Category
+cat#:#cat_hide_tax_in_side_block#:#Don't Present in Side Panel
 cat#:#cat_import#:#Import Category
 cat#:#cat_more_translations#:#More Translations
+cat#:#cat_show_tax_in_side_block#:#Present in Side Panel
 cert#:#cert_currently_no_certs#:#Currently you did not achieve any certificate, yet.
 cert#:#cert_description_label#:#Description
 cert#:#cert_download_label#:#Download
@@ -2730,6 +2719,7 @@ certificate#:#certificate_settings#:#Certificate Settings
 certificate#:#certificate_short_name#:#Certificate file short title
 certificate#:#certificate_short_name_description#:#Please enter a short title for the certificate name. The short title will be part of the certificate name: YYMMDD_[surname]_[SHORT_TITLE]_certificate.pdf.
 certificate#:#certificate_text#:#Certificate Text
+certificate#:#certificate_text_info#:#Please enter the certificate text. If the WYSIWYG editor is disabled in the ILIAS administration, you can still use valid XHTML to format the text.
 certificate#:#certificate_unit_description#:#Enter units of measure as VALUE[cm|mm|in|pt|pc|px|em], e.g. 10mm or 3in
 certificate#:#certificate_usage#:#Please note that the usage of certificates is only available if the ILIAS Java-Server is running. The configuration for Java-Server is available in Administration » General Settings » Server, sub-tab Java-Server.
 certificate#:#certificate_var_max_points#:#46
@@ -2779,7 +2769,7 @@ chatroom#:#anonymous_hint#:#Make sure to set the proper permissions in the ‘Pe
 chatroom#:#auto_scroll#:#Scroll to Bottom
 chatroom#:#autogen_usernames#:#Auto Generated User Names
 chatroom#:#autogen_usernames_info#:#Pattern for auto generated user names that is assigned to anonymous user accounts. ‘#’ will be automatically replaced by a number.
-chatroom#:#ban_question#:#Do you really want to ban the user from current room?
+chatroom#:#ban_question#:#Do you really want to ban the user from chat?
 chatroom#:#ban_table_title#:#Banned Users
 chatroom#:#banned#:#You have been banned from this chat room
 chatroom#:#bans#:#Bans
@@ -2789,8 +2779,6 @@ chatroom#:#chat_auth_token_info#:#Please define unique strings used by ILIAS for
 chatroom#:#chat_ban#:#Ban
 chatroom#:#chat_broadcast_typing#:#Broadcast Typing
 chatroom#:#chat_broadcast_typing_info#:#If enabled, your typing will be broadcasted to other participants of a conversation or chat room.
-chatroom#:#chat_broadcast_typing_no#:#Typing will not be broadcasted to other chat participants
-chatroom#:#chat_broadcast_typing_yes#:#Typing will be broadcasted to other chat participants
 chatroom#:#chat_connection_disconnected#:#--- <b>#username#</b> left the chat room ---
 chatroom#:#chat_connection_established#:#+++ <b>#username#</b> has entered chat room +++
 chatroom#:#chat_deletion_disabled#:#Disabled
@@ -2805,6 +2793,7 @@ chatroom#:#chat_deletion_section_head#:#Deletion of old Messages
 chatroom#:#chat_enable_history#:#Enable History
 chatroom#:#chat_enable_history_info#:#Everybody can read and export past public chat messages in the tab „History“. Messages from within private rooms are only accessible by invited users.
 chatroom#:#chat_error_log_info#:#Please define an absolute server path to the chat server's error log file (e.g.: /var/www/ilias/data/chat_error.log). If you do not specify a path, the chat server will automatically create a file located in the chat server directory.
+chatroom#:#chat_functions#:#Chat Functions
 chatroom#:#chat_https_cert_info#:#Please define an absolute server path to the SSL certificate file (e.g.: /etc/ssl/certs/server.pem).
 chatroom#:#chat_https_dhparam_info#:#Please define an absolute server path to a file (e.g.: /etc/ssl/private/dhparam.pem), used for the negotiation of Diffie Hellman parameters (e.g. generated via: openssl dhparam -out /etc/ssl/private/dhparam.pem 2048 ).
 chatroom#:#chat_https_key_info#:#Please define an absolute server path to the private key file (e.g..: /etc/ssl/private/server.key).
@@ -2890,7 +2879,7 @@ chatroom#:#chtr_ban_ts_tbl_head#:#Timestamp
 chatroom#:#chtr_new#:#New Chat Room
 chatroom#:#chtr_server_status#:#Server Status
 chatroom#:#clear_room_history#:#Delete Message History
-chatroom#:#clear_room_history_question#:#Do you really want to delete all messages of the current room?
+chatroom#:#clear_room_history_question#:#Do you really want to delete all messages?
 chatroom#:#client_chatserver_connection#:#Client to Server Connection
 chatroom#:#client_proxy_info#:#If the Server is not accessible with the default IP-Address and Port, it is possible to configure a custom URL for Client to Server connection.
 chatroom#:#connection_url_info#:#Please insert an URL for the Server connection.
@@ -2899,7 +2888,6 @@ chatroom#:#delete_private_room#:#Delete Private Room
 chatroom#:#delete_private_room_question#:#Confirm delete private room?
 chatroom#:#dhparam#:#Diffie-Hellman Parameter
 chatroom#:#display_past_msgs#:#Number of Past Messages
-chatroom#:#display_past_msgs_suffix#:#Messages
 chatroom#:#duration_from#:#From
 chatroom#:#duration_to#:#To
 chatroom#:#end_whisper#:#Cancel
@@ -2917,13 +2905,14 @@ chatroom#:#ilias_proxy_info#:#If the Server is not accessible with the default I
 chatroom#:#invite_to_private_room#:#Invite to Chat Room
 chatroom#:#invite_username#:#Username
 chatroom#:#key#:#Key
-chatroom#:#kick_question#:#Do you really want to kick the user from current room?
+chatroom#:#kick_question#:#Do you really want to kick the user from chat?
 chatroom#:#kicked#:#You have been kicked from this chat room
 chatroom#:#kicked_from_private_room#:#You have been kicked from the private room <b>#title#</b>.
 chatroom#:#leave_private_room#:#Leave Private Room
 chatroom#:#left_private_room#:#Left private room
 chatroom#:#lost_connection#:#The connection to the chat server was interrupted.
 chatroom#:#main#:#Main Room
+chatroom#:#messages#:#Messages
 chatroom#:#no_further_users#:#No other users present
 chatroom#:#no_messages#:#There are no saved messages for the given period.
 chatroom#:#no_username_given#:#Please choose a username
@@ -2959,6 +2948,7 @@ chatroom#:#user_kicked#:#The user <b>#user#</b> has been kicked.
 chatroom#:#users#:#Users
 chatroom#:#welcome_to_chat#:#Welcome to the chat room
 chatroom#:#whisper_to#:#Whisper to <b>#user#</b>
+chatroom#:#write_message#:#New Message
 chatroom_adm#:#chat_cannot_connect_to_server#:#ILIAS cannot build a socket connection to the chat server.
 chatroom_adm#:#chat_enabled#:#Enable Chat
 chatroom_adm#:#chatserver_settings_title#:#Chatserver Settings
@@ -3314,8 +3304,9 @@ cntr#:#cntr_switch_to_new_editor_message#:#This is the supported standard editor
 cntr#:#cntr_switched_editor#:#Switched to new content.
 cntr#:#cntr_tax_list_info#:#The following are all taxonomies that have been defined for this object.
 cntr#:#cntr_tax_none_available#:#There are no taxonomies available.
+cntr#:#cntr_tax_settings_info#:#Taxonomies in categories classify and filter the objects contained in the category. After adding taxonomies, classifications can be made via the "Metadata" tabs and the "Taxonomy Assignment" sub-tabs of the respective objects. Taxonomies can additionally be displayed in the side block of the category's "Contents" tab to enable direct filtering of the assigned objects.
 cntr#:#cntr_taxonomy_definitions#:#Taxonomy Definition
-cntr#:#cntr_taxonomy_show_sideblock#:#Show taxonomy in side block
+cntr#:#cntr_taxonomy_show_sideblock#:#Present in Side Panel
 cntr#:#cntr_taxonomy_sideblock_settings#:#Presentation Settings
 cntr#:#cntr_text_media_editor#:#Customize Page
 cntr#:#cntr_view_by_type#:#Grouped-by-Type View
@@ -4109,9 +4100,7 @@ common#:#glo_added#:#Glossary added
 common#:#glo_import#:#Import Glossary
 common#:#glo_mode#:#Mode
 common#:#glo_mode_desc#:#A virtual glossary works like a normal glossary. Additionally it contains the terms from all glossaries that are located on the same level in the repository like the virtual glossary (level) respectively from all glossaries that are located downwards in the repository from the position of the virtual glossary (subtree).
-common#:#glo_mode_level#:#Current repository container
 common#:#glo_mode_normal#:#Standard Glossary
-common#:#glo_mode_subtree#:#Current container and all sub-containers
 common#:#glo_new#:#New Glossary
 common#:#global#:#Global
 common#:#global_default#:#Global Default
@@ -4348,7 +4337,7 @@ common#:#lang_timeformat#:#H:i:s
 common#:#lang_timeformat_no_sec#:#H:i
 common#:#lang_uninstall_changes#:#Uninstall Local Changes
 common#:#lang_uninstall_changes_confirm#:#Do you really want to clear all local changes of the selected languages and reset them to the default of the current ILIAS version?
-common#:#lang_uninstall_confirm#:#Do you really want to uninstall the selected languages?
+common#:#lang_uninstall_confirm#:#Do you really want to uninstall the selected languages? This also means that all local changes to the respective languages are irretrievably lost if they have not been saved or exported beforehand.
 common#:#langfile_found#:#Language file found
 common#:#language#:#Language
 common#:#language_not_installed#:#is not installed. Please install that language first
@@ -4615,7 +4604,7 @@ common#:#msg_clear_clipboard#:#Clipboard cleared
 common#:#msg_cloned#:#Selected object(s) copied
 common#:#msg_copy_clipboard#:#Please select the location to which the selected objects should be pasted and click the button ‘Paste’.
 common#:#msg_copy_clipboard_container#:#Now, please select the desired location, where the selected objects should be pasted into and click the button ‘Continue’.
-common#:#msg_copy_clipboard_source#:#Now, please select the desired course or group, whose content should be copied and click the button ‘Continue’.
+common#:#msg_copy_clipboard_source#:#Now, please select the desired course or group, whose content should be copied and click the button ‘Next’.
 common#:#msg_cut_clipboard#:#Now, please select the desired location, where the selected objects should be pasted into and click the button ‘Paste’.
 common#:#msg_cut_copied#:#Selected object(s) moved.
 common#:#msg_deleted_export_files#:#Export file(s) deleted
@@ -4888,7 +4877,7 @@ common#:#obj_orgu_description#:#Creating and editing organisational structure
 common#:#obj_page#:#Page
 common#:#obj_pdfg#:#PDF Generation
 common#:#obj_pdfg_desc#:#Options for generation PDF documents
-common#:#obj_peac#:#Accordion
+common#:#obj_peac#:#Accordion/Carousel
 common#:#obj_peadl#:#Advanced List
 common#:#obj_peadt#:#Advanced Table
 common#:#obj_pecd#:#Code
@@ -5012,7 +5001,6 @@ common#:#obj_wbrs#:#Weblink
 common#:#obj_wbrs_desc#:#General settings for Web Links
 common#:#obj_webr#:#Weblink
 common#:#obj_webr_duplicate#:#Copy Weblink list
-common#:#obj_wfe#:#Workflow Engine
 common#:#obj_wfld#:#Folder
 common#:#obj_wiki#:#Wiki
 common#:#obj_wiki_duplicate#:#Copy Wiki
@@ -5323,7 +5311,7 @@ common#:#report_accessibility_issue#:#Report Accessibility Issue
 common#:#report_accessibility_link#:#Reported Link:
 common#:#report_accessibility_link_mailto#:#Reported%20Link:
 common#:#repository#:#Repository
-common#:#repository_admin#:#Repository Trash and Permissions
+common#:#repository_admin#:#Repository and Trash
 common#:#repository_admin_desc#:#Set permissions for repository items, restore or remove objects from system trash
 common#:#require_email#:#Require e-mail
 common#:#require_gender#:#Require salutation
@@ -5688,7 +5676,6 @@ common#:#udf_delete_sure#:#Are you sure you want to delete this field and all as
 common#:#udf_duplicate_entries#:#The values have to be unique.
 common#:#udf_field_deleted#:#Deleted field.
 common#:#udf_name_already_exists#:#This field name already exists. Please choose a different name.
-common#:#udf_required_and_visible_requires_changeable#:#When a field is ‘Required’ and ‘Visible in Personal Data‘, it must also be ‘Changeable in Profile’
 common#:#udf_required_requires_visib_reg#:#When a field is ‘Required’, it must also be ‘Visible in Registration’
 common#:#udf_type_date#:#Date
 common#:#udf_type_datetime#:#Date and Time
@@ -5816,6 +5803,7 @@ common#:#usrimport_no_insert_ext_account_exists#:#Can't perform ‘Insert’ act
 common#:#usrimport_no_update_ext_account_exists#:#Can't perform ‘Update’ action. External account already exists.
 common#:#usrimport_with_specified_role_not_permitted#:#Import with specified role not permitted.
 common#:#usrimport_wrong_file_count#:#Too many files in import-folder. Please try again.
+common#:#usrimport_xml_anonymous_or_root_not_allowed#:#Neither the system-account nor the anonymous account can be changed through the import.
 common#:#usrimport_xml_attribute_missing#:#Attribute "%2$s" in element "%1$s" is missing.
 common#:#usrimport_xml_attribute_value_illegal#:#Value "%3$s" of attribute "%2$s" in element "%1$s" is illegal.
 common#:#usrimport_xml_attribute_value_inapplicable#:#Value "%3$s" of attribute "%2$s" in element "%1$s" is inapplicable for "%4$s" action.
@@ -5961,6 +5949,7 @@ cont#:#cont_really_remove_skill_from_course#:#Do you really want to remove these
 cont#:#cont_select_fields#:#Select Fields
 cont#:#cont_show_more#:#Show More
 cont#:#cont_skill#:#Competence
+cont#:#cont_skill_ass_profiles#:#Assigned Profiles of Members
 cont#:#cont_skill_assigned_comp#:#Competence Selection
 cont#:#cont_skill_assigned_profiles#:#Profile Selection
 cont#:#cont_skill_deletion_not_possible#:#Deletion of global competence profiles is not possible. Please select only local competence profiles.
@@ -5970,7 +5959,7 @@ cont#:#cont_skill_no_profile_selected#:#Please select a profile.
 cont#:#cont_skill_no_skill#:#No value (Reset)
 cont#:#cont_skill_no_skills_selected#:#No competences have been selected yet. Please add at least one competence first under "Competence Selection".
 cont#:#cont_skill_profile#:#Profile
-cont#:#cont_skill_profiles#:#Assigned Profiles of Members
+cont#:#cont_skill_profiles#:#Competence Profiles
 cont#:#cont_skill_publish#:#Publish
 cont#:#cont_skill_publish_auto#:#Automatic
 cont#:#cont_skill_publish_auto_info#:#Competence assignments for members are immediately visible for members.
@@ -5980,8 +5969,8 @@ cont#:#cont_skill_really_delete_profile_from_list#:#Do you really want to delete
 cont#:#cont_skill_really_delete_profiles_from_list#:#Do you really want to delete these profiles?
 cont#:#cont_skill_really_remove_profile_from_list#:#Do you really want to remove this profile from the list?
 cont#:#cont_skill_really_remove_profiles_from_list#:#Do you really want to remove these profiles from the list?
+cont#:#cont_skill_records#:#Competence Records
 cont#:#cont_skill_removal_not_possible#:#Removing of local competence profiles is not possible. Please select only global competence profiles.
-cont#:#cont_skill_show#:#Show
 cont#:#cont_std_filter_title_1#:#Title
 cont#:#cont_std_filter_title_2#:#Description
 cont#:#cont_std_filter_title_3#:#Title/Description
@@ -6129,11 +6118,15 @@ content#:#cont_cc_imp#:#Important
 content#:#cont_cc_str#:#Strong
 content#:#cont_cc_sub#:#Subscript
 content#:#cont_cc_sup#:#Superscript
+content#:#cont_cell_properties#:#Table Cell Properties
 content#:#cont_center#:#Center
+content#:#cont_change_alignment#:#Change Alignment
 content#:#cont_change_notification_salutation#:#Hello %s,
 content#:#cont_change_notification_subject_lm#:#Learning Module "%1$s" has been changed: %2$s
 content#:#cont_change_object_reference#:#Change Object Reference
+content#:#cont_change_style#:#Change Style
 content#:#cont_change_type#:#Change Type
+content#:#cont_change_width#:#Change Width
 content#:#cont_chap_and_pages#:#Chapters and Pages
 content#:#cont_chap_select_target_now#:#Chapter marked for moving. Select target now.
 content#:#cont_chapters#:#Chapters
@@ -6172,6 +6165,8 @@ content#:#cont_click_next_or_save#:#Please click on the next point of the polygo
 content#:#cont_click_next_point#:#Please click on the next point of the polygon.
 content#:#cont_click_starting_point#:#Please click on the starting point of the polygon.
 content#:#cont_click_tl_corner#:#Please click on the top left corner of the desired area.
+content#:#cont_code_import_file#:#Import
+content#:#cont_code_manual_editing#:#Manuelle Eingabe
 content#:#cont_col_ordering#:#Column Ordering
 content#:#cont_colspan#:#Col. Span
 content#:#cont_commented_by#:#Commented by
@@ -6306,12 +6301,12 @@ content#:#cont_ed_insert_pcqst#:#Insert Question
 content#:#cont_ed_insert_plach#:#Insert Placeholder
 content#:#cont_ed_insert_prof#:#Insert Personal Data
 content#:#cont_ed_insert_qover#:#Insert Question Overview
-content#:#cont_ed_insert_repobj#:#Insert Resource List
+content#:#cont_ed_insert_repobj#:#Insert Item Group
 content#:#cont_ed_insert_sec#:#Insert Section
 content#:#cont_ed_insert_skills#:#Insert Competences
 content#:#cont_ed_insert_src#:#Insert Code
 content#:#cont_ed_insert_tab#:#Insert Advanced Table
-content#:#cont_ed_insert_tabs#:#Insert Accordion
+content#:#cont_ed_insert_tabs#:#Insert Accordion/Carousel
 content#:#cont_ed_insert_templ#:#Insert Content Template
 content#:#cont_ed_insert_vrfc#:#Insert Certificate
 content#:#cont_ed_item_down#:#Move Item Down
@@ -6319,12 +6314,14 @@ content#:#cont_ed_item_up#:#Move Item Up
 content#:#cont_ed_list#:# Advanced List
 content#:#cont_ed_moveafter#:#Move After
 content#:#cont_ed_movebefore#:#Move Before
-content#:#cont_ed_new_col_after#:#New Column After
-content#:#cont_ed_new_col_before#:#New Column Before
+content#:#cont_ed_new_col_after#:#New Columns After
+content#:#cont_ed_new_col_before#:#New Columns Before
 content#:#cont_ed_new_item_after#:#New Item After
 content#:#cont_ed_new_item_before#:#New Item Before
-content#:#cont_ed_new_row_after#:#New Row After
-content#:#cont_ed_new_row_before#:#New Row Before
+content#:#cont_ed_new_row_after#:#New Rows After
+content#:#cont_ed_new_row_before#:#New Rows Before
+content#:#cont_ed_nr_cols#:#Number of Columns
+content#:#cont_ed_nr_rows#:#Number of Rows
 content#:#cont_ed_par#:#Text
 content#:#cont_ed_paste#:#Paste
 content#:#cont_ed_paste_clip#:#Paste From Clipboard
@@ -6363,8 +6360,10 @@ content#:#cont_edit_shape_rectangle#:#Edit Shape (Rectangle)
 content#:#cont_edit_shape_whole_picture#:#Edit Shape (Whole Picture)
 content#:#cont_edit_src#:#Edit Source Code
 content#:#cont_edit_style#:#Edit Style
+content#:#cont_edit_table#:#Edit Table
 content#:#cont_edit_tabs#:#Properties
 content#:#cont_edit_term#:#Edit Term
+content#:#cont_edit_title#:#Change Title
 content#:#cont_element_refers_removed_itgr#:#This content element refers to an item group that has been removed in the meantime.
 content#:#cont_empty_question#:#Question editing not finished. Please either click and edit or delete question.
 content#:#cont_enable_page_history#:#Page History
@@ -6391,6 +6390,7 @@ content#:#cont_file_renamed#:#File has been renamed.
 content#:#cont_file_unzipped#:#File has been unzipped.
 content#:#cont_files#:#Files
 content#:#cont_finish_editing#:#Finish Editing
+content#:#cont_finish_table_editing#:#Finish Data Table Editing
 content#:#cont_first_open#:#First Panel Opened
 content#:#cont_first_page#:#First Page
 content#:#cont_first_row_style#:#First Row Style Class
@@ -6401,6 +6401,7 @@ content#:#cont_footer#:#Footer
 content#:#cont_footnote#:#Footnote
 content#:#cont_force_all_open#:#Force All Opened
 content#:#cont_format#:#Format
+content#:#cont_format_cells#:#Format Cells
 content#:#cont_fourth_edition#:#SCORM 2004 4th edition
 content#:#cont_fourth_edition_info#:#SCORM 2004 4th edition offers some advantages compared to the 3rd Edition: Data can be carried over between SCOs. Few learning modules actually use this feature and it has a negative Impact on performance.
 content#:#cont_free_pages#:#Free Pages
@@ -6437,6 +6438,7 @@ content#:#cont_grid_width_xl#:#Extra Large
 content#:#cont_grid_width_xl_info#:#E.g. wide desktop
 content#:#cont_hacc_needs_height#:#Please set a content height for horizontal accordions.
 content#:#cont_hacc_needs_width#:#Please set a content width for horizontal accordions.
+content#:#cont_has_row_header#:#Has a Header Row
 content#:#cont_header#:#Header
 content#:#cont_height#:#Height in pixels
 content#:#cont_help_no_valid_tooltip_id#:#The tooltip ID you have entered was not valid.
@@ -6456,6 +6458,27 @@ content#:#cont_ie_compatibility#:#Internet Explorer 7 Compatibility Mode
 content#:#cont_ie_compatibility_info#:#Reduces problems with displaying older SCORM Learning Modules that were optimised for the Internet Explorer. If the Compatibility Mode is switched off in newer versions of the Internet Explorer, this setting does not become effective.
 content#:#cont_ie_force_render#:#Force Internet Explorer to re-render
 content#:#cont_ie_force_render_info#:#Learning modules with many frames or iFrames will be displayed correctly after rendering the content once more.
+content#:#cont_iim_add_overlay#:#Add Overlay
+content#:#cont_iim_add_trigger#:#Add Trigger
+content#:#cont_iim_add_trigger_text#:#Please add a trigger. Afterwards edit size and position on the right screen.
+content#:#cont_iim_background_image#:#Background Image
+content#:#cont_iim_background_image_and_caption#:#Background Image and Caption
+content#:#cont_iim_edit#:#Edit Interactive Image
+content#:#cont_iim_edit_trigger#:#Edit Trigger
+content#:#cont_iim_finish_editing#:#Finish Editing Interactive Image
+content#:#cont_iim_horizontal#:#Horizontal
+content#:#cont_iim_lg#:#Large
+content#:#cont_iim_md#:#Medium
+content#:#cont_iim_no_overlay#:#No Overlay
+content#:#cont_iim_overview#:#Overview
+content#:#cont_iim_select_overlay#:#Select Overlay
+content#:#cont_iim_select_trigger#:#To edit an existing trigger, click it on the right screen.
+content#:#cont_iim_size#:#Size
+content#:#cont_iim_sm#:#Small
+content#:#cont_iim_tr_add_popup#:#Add Content-Popup
+content#:#cont_iim_tr_properties_info#:#The trigger will be presented on the right side. You may alter position and size using the mouse.
+content#:#cont_iim_trigger#:#Trigger
+content#:#cont_iim_vertical#:#Vertical
 content#:#cont_imagemap#:#Image Map
 content#:#cont_import#:#Import
 content#:#cont_import_id#:#identifier
@@ -6483,7 +6506,7 @@ content#:#cont_insert_page_from_clip#:#Paste Pages from Clipboard
 content#:#cont_insert_pagelayout#:#Insert Page from Template
 content#:#cont_insert_par#:#Insert Text
 content#:#cont_insert_profile#:#Publish Personal Data
-content#:#cont_insert_resources#:#Insert Resource List
+content#:#cont_insert_resources#:#Insert Item Group
 content#:#cont_insert_section#:#Insert Section
 content#:#cont_insert_skills#:#Insert Competence
 content#:#cont_insert_src#:#Insert source code
@@ -6585,6 +6608,7 @@ content#:#cont_lrs_settings#:#Settings
 content#:#cont_lvalue#:#Data element
 content#:#cont_maintenance#:#Maintenance
 content#:#cont_manifest#:#Manifest
+content#:#cont_manual_item_group#:#Manually Create Item Group
 content#:#cont_map_file_not_generated#:#Sorry. Unable to generate map file for editing.
 content#:#cont_marker#:#Marker
 content#:#cont_master_language_only#:#Master Language for Translation
@@ -6599,6 +6623,7 @@ content#:#cont_media#:#Images/Media
 content#:#cont_media_placeh#:#Click and edit to insert media
 content#:#cont_media_placehl#:#Media Placeholder
 content#:#cont_media_source#:#Media Source
+content#:#cont_merge_cells#:#Merge Cells
 content#:#cont_missing_preconditions#:#You need to fulfill the following preconditions to access the chapter "%s".
 content#:#cont_missing_snippet#:#Missing Content Snippet. The snippet has been deleted.
 content#:#cont_mob_def_prop#:#Default Properties
@@ -6688,6 +6713,7 @@ content#:#cont_operation_not_allowed#:#This operation is not allowed.
 content#:#cont_organization#:#Organization
 content#:#cont_organizations#:#Organizations
 content#:#cont_orig_size#:#Original Size
+content#:#cont_other_resources#:#Content (Other Remaining Resources)
 content#:#cont_out_of_focus_message#:#This page is not related to your current learning objective anymore.
 content#:#cont_out_of_focus_message_last_page#:#This is the last page of the content related to your current learning objective.
 content#:#cont_ov_all_correct#:#You have correctly answered all questions.
@@ -6718,6 +6744,7 @@ content#:#cont_paragraph_styles#:#Paragraph Styles
 content#:#cont_parameter#:#Parameter
 content#:#cont_parameters#:#parameters
 content#:#cont_paste_from_clipboard#:#Paste from clipboard
+content#:#cont_paste_from_spreadsheet#:#Paste From Spreadsheet
 content#:#cont_paste_table#:#Paste Table
 content#:#cont_pc_amdpl#:#Page List
 content#:#cont_pc_blog#:#Blog
@@ -6740,12 +6767,16 @@ content#:#cont_pc_par#:#Text
 content#:#cont_pc_prof#:#Personal Data
 content#:#cont_pc_qover#:#Question Overview
 content#:#cont_pc_qst#:#Question
+content#:#cont_pc_repobj#:#Item Group
 content#:#cont_pc_res#:#Resource
 content#:#cont_pc_sec#:#Section
 content#:#cont_pc_skills#:#Competence
+content#:#cont_pc_src#:#Source Code
 content#:#cont_pc_tab#:#Advanced Table
+content#:#cont_pc_tabs#:#Accordion/Carousel
 content#:#cont_pc_vacc#:#Accordion (Vertical)
 content#:#cont_pc_vrfc#:#Certificate
+content#:#cont_permission_handling#:#Permission Handling
 content#:#cont_permission_object#:#Permission Object
 content#:#cont_permission_object_desc#:#The section will only be presented for users that have the given permission on the permission object.
 content#:#cont_personal_clipboard#:#Personal Clipboard
@@ -6806,8 +6837,8 @@ content#:#cont_resource#:#Resource
 content#:#cont_resource_size#:#Original Resource Size / No Size Declaration
 content#:#cont_resource_size_info#:#Without size declaration the size can be controlled by the content style. If neither a size is declared nor the content style contains a rule that determines the size, only images will be displayed in their default size.
 content#:#cont_resource_type#:#type
-content#:#cont_resources#:#Resources
-content#:#cont_resources_of_type#:#Resources of Type
+content#:#cont_resources#:#Item Group
+content#:#cont_resources_of_type#:#Item Group by Type
 content#:#cont_restrict_forw_nav#:#Restrict Forward Navigation
 content#:#cont_restrict_forw_nav_info#:#A subsequent page can only be accessed when all test questions have been answered correctly on the current learning module page.
 content#:#cont_revision#:#Revision
@@ -6910,6 +6941,8 @@ content#:#cont_sequencing_info#:#Enable the sequencing and navigation behaviour 
 content#:#cont_set_alignment#:#Set Alignment
 content#:#cont_set_layout#:#Set Layout
 content#:#cont_set_link#:#Edit Link
+content#:#cont_set_manuall#:#Set Manually
+content#:#cont_set_properties#:#Set Properties
 content#:#cont_set_start_file#:#Set Start File
 content#:#cont_set_styles#:#Set Styles
 content#:#cont_set_tab_style_info#:#Activate checkboxes in table cells to set style.
@@ -6933,6 +6966,7 @@ content#:#cont_snippet_from_another_installation#:#Snippet comes from another in
 content#:#cont_snippets_used#:#Used Content Snippets
 content#:#cont_span#:#Span
 content#:#cont_special_page#:#Special Content Page
+content#:#cont_split_cell#:#Split Cell
 content#:#cont_spreadsheet_table#:#Spreadsheet Table
 content#:#cont_sqst#:#Survey Question (Assigned Material)
 content#:#cont_src#:#Source code
@@ -6956,22 +6990,36 @@ content#:#cont_subtitle_files#:#Media Subtitles
 content#:#cont_sur_block_format#:#Surrounding Section
 content#:#cont_switch_to_media_pool#:#Switch to other Media Pool
 content#:#cont_syntax_help#:#Syntax Help
+content#:#cont_tab_add_above#:#Add Panel Above
+content#:#cont_tab_add_below#:#Add Panel Below
 content#:#cont_tab_cont_height#:#Content Height
 content#:#cont_tab_cont_width#:#Content Width
+content#:#cont_tab_delete#:#Delete Panel
+content#:#cont_tab_move_bottom#:#Move To Bottom
+content#:#cont_tab_move_down#:#Move Downwards
+content#:#cont_tab_move_top#:#Move To Top
+content#:#cont_tab_move_up#:#Move Upwards
 content#:#cont_table#:#Table
+content#:#cont_table_adv_settings#:#Erweiterte Einstellungen
 content#:#cont_table_border#:#Table Border
 content#:#cont_table_border_info#:#Keep this empty to make content style settings effective. Values must include unit (like px).
+content#:#cont_table_cell_edit_info_1#:#Click on a table cell to select or deselect it.
+content#:#cont_table_cell_edit_info_2#:#Click on a row or column header to select or deselect the corresponding row or column.
+content#:#cont_table_cell_edit_info_3#:#Click on a second cell while holding shift to select all the cells in between.
 content#:#cont_table_cell_properties#:#Table Cell Properties
 content#:#cont_table_cellpadding#:#Table Cell Padding
 content#:#cont_table_cellpadding_info#:#Keep this empty to make content style settings effective. Values must include unit (like px).
 content#:#cont_table_edit_cells#:#Edit Cells
+content#:#cont_table_import_info#:#Please enter the table data separated by semicolon or TAB character for each column. Start a new row for each table row. Spreadsheet applications will usually use TAB characters for separation when transfered via clipboard. It should be possible to paste this data directly into the input field. No further formattings will be imported.
 content#:#cont_table_properties#:#Table Properties
+content#:#cont_table_style#:#Style
 content#:#cont_table_width#:#Table Width
 content#:#cont_tabs#:#Panels
 content#:#cont_tabs_acc_hor#:#Horizontal Accordion
 content#:#cont_tabs_acc_ver#:#Vertical Accordion
 content#:#cont_tabs_carousel#:#Carousel
 content#:#cont_tabs_confirm_deletion#:#Are you sure that all panels and their content should be deleted?
+content#:#cont_target#:#Target
 content#:#cont_target_missing#:#Target Missing
 content#:#cont_target_within_source#:#Target must not be within source object.
 content#:#cont_template#:#Template
@@ -7035,7 +7083,7 @@ content#:#cont_update_login_page#:#Edit Login Page Element
 content#:#cont_update_map#:#Edit Map
 content#:#cont_update_my_courses#:#Edit My Courses
 content#:#cont_update_profile#:#Edit Published Data
-content#:#cont_update_resources#:#Update Resource List
+content#:#cont_update_resources#:#Update Item Group
 content#:#cont_update_section#:#Update Section
 content#:#cont_update_skills#:#Edit Competence
 content#:#cont_update_verification#:#Edit Certificate
@@ -7086,9 +7134,7 @@ content#:#glo_full_definitions#:#Full Definitions
 content#:#glo_full_definitions_info#:#Terms and definitions are fully displayed in the main view.
 content#:#glo_hide_taxonomy#:#Hide Taxonomy
 content#:#glo_list_usages#:#List Usages
-content#:#glo_mode_level_info#:#All terms of glossaries on the same level in the repository will be included.
 content#:#glo_mode_normal_info#:#All terms created within this glossary will be included.
-content#:#glo_mode_subtree_info#:#All terms of glossaries on the same level and subsequent levels in the repository will be included.
 content#:#glo_online_info#:#Only if the glossary is online, users are able to use the glossary.
 content#:#glo_presentation_mode#:#Presentation Mode
 content#:#glo_presentation_view#:#Presentation View
@@ -7299,8 +7345,8 @@ crs#:#crs_agree#:#Acceptance
 crs#:#crs_agreement_header#:#User Agreement
 crs#:#crs_agreement_required#:#You have to accept the user agreement, if you want to register to this course.
 crs#:#crs_at_least_one_admin#:#There has to be at least one course administrator.
-crs#:#crs_auto_notification#:#Welcome-Mail For New Members
-crs#:#crs_auto_notification_info#:#New members get a mail notification when added to the course.
+crs#:#crs_auto_notification#:#Welcome Mail
+crs#:#crs_auto_notification_info#:#New members receive an e-mail notification when added to the course.
 crs#:#crs_awrn_current_course#:#Current Course
 crs#:#crs_awrn_current_course_info#:#If the user navigates to a course in the repository, all members of the course are listed.
 crs#:#crs_awrn_support_contacts#:#Tutorial Support
@@ -7314,11 +7360,11 @@ crs#:#crs_cancel_subscr_request#:#Delete Membership Request
 crs#:#crs_cancel_subscription#:#User left course "%s"
 crs#:#crs_cancel_subscription_body#:#%s has cancelled his/her membership for the course "%s".
 crs#:#crs_cancel_subscription_body2#:#There might be other members on a waiting list of your course. You should check for the waiting list now. To view the members of your course, click here:
-crs#:#crs_cancellation_end#:#Limit 'Unsubscribe from Course'
-crs#:#crs_cancellation_end_info#:#Until the date selected members can unsubscribe from the course.
-crs#:#crs_cancellation_end_rbac_info#:#The cancellation deadline was met on %s, a cancellation is not possible anymore.
+crs#:#crs_cancellation_end#:#Set Latest Exit Date
+crs#:#crs_cancellation_end_info#:#Members can leave the course until the date selected.
+crs#:#crs_cancellation_end_rbac_info#:#The cancellation deadline was on %s. It is therefore no longer possible to cancel your participation in this course.
 crs#:#crs_cannot_find_role#:#Can't find this role.
-crs#:#crs_cdf_edit_member#:#Edit Course Relevant User Data
+crs#:#crs_cdf_edit_member#:#Edit Course-Specific User Data
 crs#:#crs_cdf_tbl_last_edit#:#Updated (Course-specific Data)
 crs#:#crs_checklist_objective#:#Checklist Objective
 crs#:#crs_contact#:#Contact
@@ -7334,7 +7380,7 @@ crs#:#crs_course_group_notification_link#:#Link:
 crs#:#crs_course_period_not_valid#:#The period is not valid.
 crs#:#crs_course_status_of_users#:#Passing the Course
 crs#:#crs_create_date#:#Create date
-crs#:#crs_custom_user_fields#:#Course Relevant User Data
+crs#:#crs_custom_user_fields#:#Course-Specific User Data
 crs#:#crs_dates#:#Dates
 crs#:#crs_deactivate_notification#:#Deactivate Notification
 crs#:#crs_delete_objectve_sure#:#Are you sure, you want to delete the selected objectives?
@@ -7514,7 +7560,7 @@ crs#:#crs_map_settings#:#Map
 crs#:#crs_materials#:#Materials
 crs#:#crs_max_and_min_members_invalid#:#The minimum number must be smaller than the maximum number of members.
 crs#:#crs_max_and_min_members_needed#:#Set a minimum or maximum number of members - or both.
-crs#:#crs_max_members_needed#:#A maximum number of members is needed for the waiting list feature.
+crs#:#crs_max_members_needed#:#The waiting list feature requires you to set the maximum number of members allowed to sign up for the course.
 crs#:#crs_max_members_reached#:#The maximum number of members has been reached
 crs#:#crs_mem_contact#:#Tutorial Support
 crs#:#crs_mem_contacts#:#Tutorial Support
@@ -7527,7 +7573,7 @@ crs#:#crs_members#:#Members
 crs#:#crs_members_deleted#:#Selected members were successfully removed from course.
 crs#:#crs_members_groups#:#Memberships in Groups
 crs#:#crs_members_map#:#Course Members Map
-crs#:#crs_members_print_title#:#Course members
+crs#:#crs_members_print_title#:#Course Members
 crs#:#crs_min_one_admin#:#There has to be at least one administrator assigned to this course.
 crs#:#crs_my_courses_groups_enabled#:#My Courses and Groups
 crs#:#crs_my_courses_groups_enabled_info#:#If activated, the section 'My Courses and Groups' is visible.
@@ -7602,7 +7648,7 @@ crs#:#crs_objective_wiz_final_limit_info#:#Here you can define the limits for th
 crs#:#crs_objective_wiz_materials#:#Assign Course Material
 crs#:#crs_objective_wiz_materials_info#:#You can assign course materials that are recommended for processing the learning objective.
 crs#:#crs_objective_wiz_self#:#Initial Test Questions
-crs#:#crs_objective_wiz_self_info#:#Please define the initial test questions. Initial tests are intended to examine the previous knowledge of the course participants.
+crs#:#crs_objective_wiz_self_info#:#Please set the initial test questions. Initial tests are intended to examine the previous knowledge of the course members.
 crs#:#crs_objective_wiz_self_limit#:#Limits for Initial Test
 crs#:#crs_objective_wiz_self_limit_info#:#Please define the limits for initial test questions.
 crs#:#crs_objective_wiz_title#:#Describe Learning Objective
@@ -7634,17 +7680,17 @@ crs#:#crs_ref_member_update_info#:#All new members of the parent course are auto
 crs#:#crs_ref_missing_access#:#The option cannot be selected because you do not have "Manage Members" permission for either course.
 crs#:#crs_ref_missing_parent_crs#:#The option cannot be selected because this course link does not have a parent course.
 crs#:#crs_reg#:#Registration Settings
-crs#:#crs_reg_code#:#Admission per Link
-crs#:#crs_reg_code_enabled_info#:#Besides the chosen registration procedure and permissions this option allows users to enter directly by using the following link.
+crs#:#crs_reg_code#:#Admission via Link
+crs#:#crs_reg_code_enabled_info#:#Irrespective of the main registration procedure and permissions that have been selected, this option allows users to gain admission directly by using the following link.
 crs#:#crs_reg_code_link#:#Link for Direct Admission
-crs#:#crs_reg_max_info#:#Define the maximum number of users that can be assigned to this course.
-crs#:#crs_reg_no_selfreg#:#No Self-enrolment
-crs#:#crs_reg_password_info#:#Users need to type in this password when joining the course.
+crs#:#crs_reg_max_info#:#Set the maximum number of users that can join this course.
+crs#:#crs_reg_no_selfreg#:#No Self-Enrolment
+crs#:#crs_reg_password_info#:#Users need to type in this password in order to join the course.
 crs#:#crs_reg_subject#:#Message
 crs#:#crs_reg_until#:#Registration Period
 crs#:#crs_reg_user_already_subscribed#:#You have already requested membership for this course
 crs#:#crs_registration#:#Course Registration
-crs#:#crs_registration_confirmation_info#:#Interested users can send a request/message to course administrator.
+crs#:#crs_registration_confirmation_info#:#Users who wish to join the course can send a membership request/message to a course administrator.
 crs#:#crs_registration_deactivated#:#Only course administrators can add users to the course.
 crs#:#crs_registration_limited#:#Limited Registration Period
 crs#:#crs_registration_limited_info#:#Members can only register for this course during a specific period of time.
@@ -7664,10 +7710,10 @@ crs#:#crs_settings_saved#:#Settings saved
 crs#:#crs_shorten_breadcrumb#:#Breadcrumb
 crs#:#crs_show_all_obj#:#Expand All
 crs#:#crs_show_member_export#:#Participants List
-crs#:#crs_show_member_export_info#:#Course Members may print a list of participants.
+crs#:#crs_show_member_export_info#:#Course members may generate and print a list of participants.
 crs#:#crs_show_member_export_settings#:#Participants List
 crs#:#crs_show_members#:#Show Members
-crs#:#crs_show_members_info#:#If activated, course members can access the members gallery.
+crs#:#crs_show_members_info#:#Allow course members to see a list of all course participants via the ‘Members’ tab.
 crs#:#crs_size#:#File size
 crs#:#crs_sort_activation#:#Sort by Activation
 crs#:#crs_sort_manual#:#Sort Manually
@@ -7703,10 +7749,10 @@ crs#:#crs_subscription_min_members#:#Minimum Number
 crs#:#crs_subscription_min_members_err#:#The minimum number is not allowed to be greater than the maximum number of participants.
 crs#:#crs_subscription_min_members_info#:#Define the number of users that is minimally required for this course to be held at all. If this number is not met either after the date until which users can register or unsubscribe from the course a mail will be send to those course administrators or tutors that have activated the 'Notification' flag in the 'Members'-tab.
 crs#:#crs_subscription_options_confirmation#:#Request Membership
-crs#:#crs_subscription_options_direct#:#Join Directly
+crs#:#crs_subscription_options_direct#:#Self Registration
 crs#:#crs_subscription_options_password#:#Join with Course Password
 crs#:#crs_subscription_successful#:#You have joined the course
-crs#:#crs_sure_delete_selected_archives#:#Are you sure to delete the selected archives
+crs#:#crs_sure_delete_selected_archives#:#Are you sure to delete the selected archives?
 crs#:#crs_syllabus#:#Syllabus
 crs#:#crs_sys_default#:#System Default
 crs#:#crs_table_start_objects#:#Start Objects
@@ -7774,7 +7820,7 @@ crs#:#crs_unsubscribe_sure#:#Are you sure you want to unsubscribe from this cour
 crs#:#crs_unsubscribed_from_crs#:#You have been unsubscribed from this course.
 crs#:#crs_update_subscr_request#:#Update Membership Request
 crs#:#crs_user_agreement#:#Released Data Types
-crs#:#crs_user_agreement_info#:#Visible Personal Data for Course Administrators
+crs#:#crs_user_agreement_info#:#Personal Data Visible to Course Administrators
 crs#:#crs_user_already_assigned#:#The chosen user is already assigned to this course.
 crs#:#crs_users_added#:#Added user to the course
 crs#:#crs_users_already_assigned#:#The user is already assigned to this course
@@ -7792,16 +7838,16 @@ crs#:#crs_view_timing_relative#:#Relative Dates
 crs#:#crs_view_timings#:#Timings View Type
 crs#:#crs_visibility#:#Visibility
 crs#:#crs_visibility_limitless#:#Unlimited
-crs#:#crs_visibility_until#:#Limited Availability Period
+crs#:#crs_visibility_until#:#Limited Period of Availability
 crs#:#crs_visibility_until_info#:#The course will be visible to it's members in a specific period of time.
 crs#:#crs_visibility_unvisible#:#The course is not visible.
-crs#:#crs_wait_info#:#If the maximum number of users is exceeded, new registrations will be placed on a waiting list.
+crs#:#crs_wait_info#:#If the maximum number of course members has already been reached, subsequent registrations will be placed on a waiting list.
 crs#:#crs_waiting_list#:#Waiting List
 crs#:#crs_waiting_list_autofill#:#With Auto-Fill
-crs#:#crs_waiting_list_autofill_info#:#Participants are recruited from the waiting list automatically on cancellations. This should not be used with the "Request Membership" registration procedure as autofill will bypass it.
+crs#:#crs_waiting_list_autofill_info#:#Users are moved automatically from the waiting list to the active list of course members if cancellations create free spaces.  This should not be used in conjunction with the ‘Request Membership‘ registration procedure, as auto-fill will bypass it.
 crs#:#crs_waiting_list_no_autofill#:#Without Auto-Fill
-crs#:#crs_warn_no_max_set_on_waiting_list#:#The maximum number of course members is exceeded. You can set yourself on the waiting list. You will receive a message from a course administrator when your request has been approved or rejected.
-crs#:#crs_warn_wl_set_on_waiting_list#:#Some users are already assigned to the waiting list. You can add your join request to the waiting list. You will receive a message from a course administrator when your request has been approved or rejected.
+crs#:#crs_warn_no_max_set_on_waiting_list#:#The maximum number of course members has unfortunately already been reached. You can add your request to join to the waiting list. You will receive a message from a course administrator when your request has been approved or rejected.
+crs#:#crs_warn_wl_set_on_waiting_list#:#There are already users on the waiting list for this course.  You can, however, still request to join the waiting list. You will receive a message from a course administrator when your request has been approved or rejected.
 crs#:#crs_wiz_back#:#Back
 crs#:#crs_wiz_next#:#Save
 crs#:#crs_xml#:#XML
@@ -7865,8 +7911,8 @@ crs#:#sess_attendance_list#:#Attendance List
 crs#:#sess_gen_attendance_list#:#Generate List
 crs#:#sess_join_info#:#Please click Attend if you want to take part at this session.
 crs#:#sess_limit#:#Limit Number of Sessions Shown
-crs#:#sess_limit_info#:#Participants are not presented with the list of all sessions but a limited number of sessions.
-crs#:#sess_num_next#:#Number of Following Sessions (from tomorrow)
+crs#:#sess_limit_info#:#Participants are not presented with a list of all sessions, but rather a limited number of sessions.
+crs#:#sess_num_next#:#Number of Future Sessions (from tomorrow)
 crs#:#sess_num_prev#:#Number of Past Sessions (until yesterday)
 crs#:#sess_print_attendance_list#:#Print List
 crs#:#sess_signature#:#Signature
@@ -7886,7 +7932,7 @@ crs#:#timings_cron_reminder_started_subject#:#Der Bearbeitungszeitraum hat begon
 crs#:#timings_edit#:#Edit Timings
 crs#:#timings_of#:#Timings Off
 crs#:#timings_reminder_notifications#:#Course Timings Notifications
-crs#:#timings_reminder_notifications_info#:#If enabled, course participants will be notified about exceeded timing materials.
+crs#:#timings_reminder_notifications_info#:#Notify course members when they exceed timing materials.
 crs#:#timings_timings#:#Timings
 crs#:#timings_timings_off#:#Switch Timings Administration Off
 crs#:#timings_timings_on#:#Switch Timings Administration On
@@ -7907,20 +7953,24 @@ dash#:#dash_default_presentation#:#Default Presentation
 dash#:#dash_default_sortation#:#Default Sortation
 dash#:#dash_enable_cal#:#Calendar
 dash#:#dash_enable_favourites#:#Favourites
+dash#:#dash_enable_learning_sequences#:#Learning Sequences
 dash#:#dash_enable_mail#:#Mail
 dash#:#dash_enable_memberships#:#My Courses and Groups
 dash#:#dash_enable_news#:#News
+dash#:#dash_enable_recommended_content#:#Recommended Content
+dash#:#dash_enable_study_programmes#:#Study Programmes
 dash#:#dash_enable_task#:#Tasks
 dash#:#dash_favourites#:#Favourites
 dash#:#dash_info_sure_remove_from_favs#:#Are you sure you want to remove the following objects from your Favourites?
 dash#:#dash_item_removed#:#Recommendation has been removed from the list.
-dash#:#dash_learningsequences#:#My Learning Sequences
+dash#:#dash_learning_sequences#:#My Learning Sequences
 dash#:#dash_list#:#List
 dash#:#dash_main_panel#:#Main Panel
 dash#:#dash_make_favourite#:#Add to Favourites
 dash#:#dash_member_main_alt#:#Courses and groups can also be configured as a separate main menu entry.
 dash#:#dash_memberships#:#My Courses and Groups
 dash#:#dash_presentation#:#Presentation
+dash#:#dash_recommended_content#:#Recommended Content
 dash#:#dash_remove_from_list#:#Remove from List
 dash#:#dash_side_panel#:#Side Panel
 dash#:#dash_sort_by_alphabet#:#Sort by Alphabet
@@ -7928,12 +7978,13 @@ dash#:#dash_sort_by_location#:#Sort by Location
 dash#:#dash_sort_by_start_date#:#Sort by Period of Event
 dash#:#dash_sort_by_type#:#Sort by Type
 dash#:#dash_sortation#:#Sortation
-dash#:#dash_studyprogramme#:#My Study Programmes
+dash#:#dash_study_programmes#:#My Study Programmes
 dash#:#dash_tile#:#Tile
 dash#:#dash_view_courses_groups#:#Section ‘My Courses and Groups’
 dash#:#dash_view_favourites#:#Section ‘Favourites’
 dash#:#favourites_disabled_info#:#Add to favorites is deactivated. You may change this inside the repository settings.
 dash#:#memberships_disabled_info#:#Subscriptions are deactivated. You may change this inside the course settings.
+dash#:#topitem_block#:#Block
 dateplaner#:#Fr_long#:#Friday
 dateplaner#:#Fr_short#:#Fr
 dateplaner#:#Mo_long#:#Monday
@@ -8088,6 +8139,8 @@ dateplaner#:#cal_create#:#Create
 dateplaner#:#cal_created_appointment#:#Created new appointment.
 dateplaner#:#cal_created_milestone#:#Milestone added.
 dateplaner#:#cal_created_milestone_resp_q#:#Milestone added. Please select users that are responsible to meet the milestone.
+dateplaner#:#cal_cronjob_remote_description#:#If activated, appointments of the calendar type "Web calendar" are automatically synchronised after the specified time interval.
+dateplaner#:#cal_cronjob_remote_title#:#External Calendar Synchronisation
 dateplaner#:#cal_crs_info#:#Course Information
 dateplaner#:#cal_crs_new_notification_body#:#a new appointment has been created in course "%s".
 dateplaner#:#cal_crs_new_notification_sub#:#New Appointment in Course "%s"
@@ -8568,6 +8621,8 @@ dcl#:#dcl_std_field_not_importable#:# - Standard fields are not importable.
 dcl#:#dcl_std_filter#:#Default Filter
 dcl#:#dcl_supported_filetypes#:#Allowed file-extensions
 dcl#:#dcl_supported_filetypes_desc#:#You can set the allowed extensions comma seperated. For example: pdf, docx
+dcl#:#dcl_switch_table#:#Switch Table
+dcl#:#dcl_switch_view#:#Change View
 dcl#:#dcl_table#:#Table
 dcl#:#dcl_table_create#:#Create Table
 dcl#:#dcl_table_edit#:#Update Table
@@ -9332,7 +9387,6 @@ exc#:#exc_team_log_create_team#:#Team created.
 exc#:#exc_team_log_remove_file#:#Removed file %s.
 exc#:#exc_team_log_remove_member#:#Removed member %s.
 exc#:#exc_team_management_tutor#:#Team Management by Tutors
-exc#:#exc_team_management_tutor_info#:#If activated participants cannot organize teams themselves.
 exc#:#exc_team_max_small_than_members#:#Maximal Number of Participants can not be set as %s because some teams need to be set with %s participants.
 exc#:#exc_team_member_add#:#Add Team Member (Search)
 exc#:#exc_team_member_container_add#:#Add Team Member from Course/Group
@@ -9443,22 +9497,11 @@ file#:#file_download#:#Download File
 file#:#file_import#:#Import File
 file#:#file_new_version#:#Create New Version
 file#:#file_new_version_info#:#Create new file version. Previous versions will not be modified.
-file#:#file_suffix_custom_black#:#Custom Suffix Blacklist
-file#:#file_suffix_custom_black_info#:#These suffixes will be removed from the default whitelist.
-file#:#file_suffix_custom_expl_black#:#Explizite Blacklist
-file#:#file_suffix_custom_expl_black_info#:#Dateien mit diesen Endungen werden nicht akzeptiert.
-file#:#file_suffix_custom_white#:#Custom Suffix Whitelist
-file#:#file_suffix_custom_white_info#:#These suffixes will be added to the default whitelist.
-file#:#file_suffix_default_white#:#Default Suffix Whitelist
-file#:#file_suffix_default_white_info#:#Default list of accepted file suffixes.
-file#:#file_suffix_overall_white#:#Overal Suffix Whitelist
-file#:#file_suffix_overall_white_info#:#Resulting overall list of accepted file suffixes.
 file#:#file_upload_info_file_with_critical_extension#:#At least one uploaded file contains a critical or unknown file ending. The file ending will be changed to .sec for every download. If necessary, contact your administrator. Filename(s): %s
 file#:#file_uploaded_by#:#Version uploaded by
 file#:#form_icon_creation#:#Create Icon
 file#:#form_icon_updating#:#Update Icon
 file#:#general_upload_error_occured#:#An unexpected error occured during upload.
-file#:#generate_sanitize_report#:#Report about inaccessible files
 file#:#input_active#:#Active
 file#:#input_desc_active#:#Activate this icon.
 file#:#input_desc_icon#:#Image which shall be shown as an icon for files with the specified suffixes.
@@ -9787,6 +9830,9 @@ forum#:#topic_close#:#Closed
 forum#:#topics_please_select_one_action#:#Please select an action.
 forum#:#user_decides_notification#:#Members have to manually activate notifications
 glo#:#glo_add_from_other#:#Collect Terms
+glo#:#glo_add_glossary#:#Add Glossary
+glo#:#glo_add_to_collection#:#Add Glossary to Collection Glossary
+glo#:#glo_added_to_collection_info#:#The selected glossary has been added to the collection glossary.
 glo#:#glo_answered_correctly#:#I got it right
 glo#:#glo_answered_not_correctly#:#I was wrong
 glo#:#glo_box#:#Box
@@ -9795,12 +9841,18 @@ glo#:#glo_box_last_presented#:#Box Last Presented
 glo#:#glo_boxes#:#Boxes
 glo#:#glo_boxes_really_reset#:#Do you really want to reset all boxes? All flashcards will be moved to the first box.
 glo#:#glo_boxes_reset#:#The boxes have been reset successfully.
+glo#:#glo_bulk_confirmation#:#Please check if all terms and definitions are listed correctly.
+glo#:#glo_bulk_creation#:#Bulk Creation
+glo#:#glo_change_to_collection_unavailable_info#:#To change the type of content assembly to "Collection Glossary", you first have to delete all existing terms within this glossary in tab "Content".
+glo#:#glo_change_to_standard_unavailable_info#:#To change the type of content assembly to "Standard Glossary", you first have to remove the selected glossaries in tab "Content".
 glo#:#glo_col_ordering_info#:#Order the titles of the metadata fields. They are presented as column headers in the table presentation of the glossary.
 glo#:#glo_collection#:#Collection Glossary
-glo#:#glo_collection_info#:#The glossary collects additional terms of other glossaries.
+glo#:#glo_collection_empty_info#:#This collection glossary is currently empty. Please add at least one glossary to it.
+glo#:#glo_collection_info#:#The glossary automatically collects all terms from the selected glossaries.
 glo#:#glo_content_assembly#:#Content Assembly
 glo#:#glo_copy#:#Copy Glossary
 glo#:#glo_copy_terms#:#Copy Terms
+glo#:#glo_create_term_definition_pairs#:#Create Term/Definition Pairs
 glo#:#glo_days_ago#:#%s days ago
 glo#:#glo_def_vs_term#:#Definition vs. Term
 glo#:#glo_def_vs_term_info#:#Show a definition first, the learner has to guess the term.
@@ -9816,19 +9868,32 @@ glo#:#glo_mode#:#Mode
 glo#:#glo_page_type_gdf#:#Term Definition
 glo#:#glo_please_select_other_glo#:#Please select another glossary.
 glo#:#glo_quit_box#:#Quit Box
+glo#:#glo_really_remove_from_collection#:#Are you sure you want to remove the following glossary from the collection glossary?
 glo#:#glo_reference#:#Reference
 glo#:#glo_reference_terms#:#Reference Terms
 glo#:#glo_referenced_term#:#Referenced Term
+glo#:#glo_removed_from_collection_info#:#The glossary has been removed from the collection glossary.
 glo#:#glo_reset_all_boxes#:#Reset All Boxes
 glo#:#glo_select_source_glo#:#Please select a source glossary.
 glo#:#glo_select_terms#:#Select Terms
+glo#:#glo_selected_glossaries#:#Selected Glossaries
+glo#:#glo_selected_glossaries_info#:#Terms are collected from the following glossaries:
+glo#:#glo_selected_glossary_is_current_info#:#The selected glossary corresponds to the current glossary. Please select another glossary.
 glo#:#glo_selected_terms_have_been_copied#:#The selected terms have been copied to the clipboard. Please open the target glossary and click "Paste".
 glo#:#glo_show_definition#:#Show Definition
+glo#:#glo_show_in_presentation#:#Shown in Presentation View
+glo#:#glo_show_in_presentation_off#:#Hide in Presentation View
+glo#:#glo_show_in_presentation_on#:#Show in Presentation View
 glo#:#glo_show_term#:#Show Term
+glo#:#glo_tax_info#:#A taxonomy in a Glossary classifies and filters the terms. It always is available in the editing view. For the presentation view, the taxonomy must first be activated. In glossaries, only one taxonomy can be used.
 glo#:#glo_term#:#Glossary Term
+glo#:#glo_term_definition_pairs#:#Term/Definition Pairs
+glo#:#glo_term_definition_pairs_info#:#Please enter a term and a definition pair in each line. Term and definition must be separated by a semicolon or a TAB character (usually provided by clipboard actions from spreadsheet applications).
+glo#:#glo_term_letter#:#Letter
 glo#:#glo_term_reference#:#Term Reference
 glo#:#glo_term_vs_def#:#Term vs. Definition
 glo#:#glo_term_vs_def_info#:#Show a term first, the learner has to guess the definition.
+glo#:#glo_terms_per_page#:#Terms per Page
 glo#:#glo_use_all_flashcards#:#Use All Flashcards (%s)
 glo#:#glo_use_remaining_flashcards#:#Use Remaining Flashcards (%s)
 grp#:#crs_add_grouping#:#Add Membership Limitation
@@ -10019,6 +10084,7 @@ help#:#help_module_uploaded#:#Help package uploaded.
 help#:#help_modules#:#Help Packages
 help#:#help_no_content#:#There is no help content available for the current screen. You may use the search tool.
 help#:#help_open_online_help#:#Open Online Help
+help#:#help_order#:#Order
 help#:#help_search_label#:#Search Help
 help#:#help_select_a_file#:#Please select a file.
 help#:#help_set_mode#:#Set Mode
@@ -10389,6 +10455,8 @@ link#:#link_wpages#:#Wiki Pages
 lm#:#lm_btn_lp_toggle_state_completed#:#Set Not Completed
 lm#:#lm_btn_lp_toggle_state_not_completed#:#Set Completed
 lm#:#lm_copy#:#Copy Learning Module
+lm#:#lm_edit_chapters#:#Edit Chapters
+lm#:#lm_edit_lm_settings#:#Edit Learning Module Settings
 lm#:#lm_est_reading_time#:#Estimated Reading Time
 lm#:#lm_est_reading_time_info#:#In Learning Modules in the repository the estimated reading time can be determined and displayed.
 lm#:#lm_page_type_lm#:#LM Page
@@ -10509,6 +10577,7 @@ lso#:#lso_print_list#:#Generate list
 lso#:#lso_read#:#User has read access to Learning Sequence
 lso#:#lso_search_users#:#Search Users
 lso#:#lso_settings_availability#:#Availability
+lso#:#lso_settings_availability_error#:#The end date can not be earlier than the start date
 lso#:#lso_settings_extro#:#Edit Exit Page
 lso#:#lso_settings_intro#:#Edit Intro Page
 lso#:#lso_settings_old_extro#:#View Old Exit Page
@@ -10832,7 +10901,7 @@ mail#:#mail_absence_status#:#Enable Autoresponder
 mail#:#mail_absence_status_info#:#Activation of the automatic sending of an out of office message
 mail#:#mail_absent_from#:#Absent from
 mail#:#mail_absent_until#:#Absent until
-mail#:#mail_account_mail#:#Account Mail
+mail#:#mail_account_mail#:#Notify New Account Holders
 mail#:#mail_add_folder#:#Add New Sub-folder
 mail#:#mail_add_recipient#:#Please enter a recipient
 mail#:#mail_add_subfolder#:#Add Sub-folder
@@ -10939,6 +11008,8 @@ mail#:#mail_members_search_continue#:#Continue
 mail#:#mail_message_send#:#Message sent
 mail#:#mail_move_error#:#Error moving mail
 mail#:#mail_move_to#:#Move to:
+mail#:#mail_move_to_folder_btn_label#:#Move Mail
+mail#:#mail_move_to_folder_x#:#to "%s"
 mail#:#mail_moved#:#The mail has been moved
 mail#:#mail_moved_to_trash#:#Mail has been moved to trash
 mail#:#mail_multiple_role_recipients_found#:#%1$s (found multiple roles for recipient: %2$s)
@@ -11015,6 +11086,7 @@ mail#:#mail_smtp_status_info#:#If enabled, ILIAS will dispatch external e-mails 
 mail#:#mail_smtp_user#:#User
 mail#:#mail_subject_prefix#:#Mail Subject
 mail#:#mail_subject_prefix_info#:#Enter a text, which will be prepended to the subject line of outgoing auto generated e-mails. It is recommended the usage of a prefix for supporting message filtering by users.
+mail#:#mail_subject_too_long#:#The subject is too long.
 mail#:#mail_sure_delete#:#Are you sure you want to delete the marked mail(s)?
 mail#:#mail_sure_delete_entry#:#Are you sure you want to delete the following entries?
 mail#:#mail_sure_delete_file#:#Are you sure you want to delete the selected files?
@@ -11139,6 +11211,7 @@ mcst#:#mcst_autoplay#:#Autoplay
 mcst#:#mcst_autoplay_active#:#Autoplay (Default on)
 mcst#:#mcst_autoplay_inactive#:#Autoplay (Default off)
 mcst#:#mcst_clear_purpose_title#:#Delete
+mcst#:#mcst_confirm_deletion#:#Confirm Deletion
 mcst#:#mcst_converted_file#:#File has been converted.
 mcst#:#mcst_copy#:#Copy Mediacast
 mcst#:#mcst_current_value_info#:#Shows the current value of this format.
@@ -11165,6 +11238,7 @@ mcst#:#mcst_import#:#Import Mediacast
 mcst#:#mcst_incl_files_in_rss#:#Include Media Files as Attachment
 mcst#:#mcst_incl_files_in_rss_info#:#If enabled, media files are includes as attachments in the RSS feed. Otherwise the feed just notifies subscribers about new items.
 mcst#:#mcst_input_either_file_or_url#:#Please specify a file or an URL. If you provide a file, please note the maximum allowed upload file size.
+mcst#:#mcst_items#:#Items
 mcst#:#mcst_last_submission#:#Last Submission
 mcst#:#mcst_list#:#List
 mcst#:#mcst_manage#:#Manage
@@ -11193,6 +11267,7 @@ mcst#:#mcst_play_cnt#:#Played
 mcst#:#mcst_play_time#:#Play Time
 mcst#:#mcst_podcast#:#Podcast
 mcst#:#mcst_prev_items#:#Previous Items
+mcst#:#mcst_preview#:#Preview
 mcst#:#mcst_preview_picture#:#Preview Picture
 mcst#:#mcst_preview_picture_info#:#Only supported by the following main media types:
 mcst#:#mcst_reference_info#:#Provide URL pointing to resource
@@ -11280,7 +11355,7 @@ mep#:#mobs_activate_pages_info#:#Allows to create content snippets in media pool
 mep#:#mobs_always_show_file_manager#:#Always Show File Manager
 mep#:#mobs_always_show_file_manager_info#:#If deactivated the file manager for media objects will be hidden for simple mime types (e.g. images).
 mep#:#mobs_black_list_file_types#:#Forbidden File Types
-mep#:#mobs_black_list_file_types_info#:#Enter a comma separated list of file suffixes. This list will restrict the set of allowed file types. Usually you need this if the former list is empty (all file types are allowed).
+mep#:#mobs_black_list_file_types_and_allowed_info#:#Enter a comma separated list of mime types. This list will restrict the set of allowed file types. Currently allowed mime types are:
 mep#:#mobs_restrict_file_types#:#Allowed File Types
 mep#:#mobs_restrict_file_types_info#:#Enter a comma separated list of file suffixes (e.g. jpg,gif) that are allowed to be uploaded into media objects. If no value is entered, all file types are allowed.
 meta#:#adt_error_max_length#:#The text you have entered is too long. Please enter a shorter text.
@@ -11348,9 +11423,19 @@ meta#:#md_advanced#:#Custom Metadata
 meta#:#md_aria_language_selection#:#Language Selection
 meta#:#md_copyright#:#Copyright
 meta#:#md_copyright_add#:#Add New Copyright
+meta#:#md_copyright_alt_text#:#Text Representation
+meta#:#md_copyright_alt_text_info#:#Used for image ‘alt’ attribute
 meta#:#md_copyright_edit#:#Edit Copyright
 meta#:#md_copyright_enable_info#:#Add a copyright section to the LOM Metadata of Objects, including a selection of selectable predefined copyrights.
 meta#:#md_copyright_enabled#:#Enable Copyright Selection
+meta#:#md_copyright_full_name#:#Full Name
+meta#:#md_copyright_image#:#Image
+meta#:#md_copyright_image_file#:#File
+meta#:#md_copyright_image_is_file#:#Upload File
+meta#:#md_copyright_image_is_link#:#Enter URL
+meta#:#md_copyright_image_link#:#URL
+meta#:#md_copyright_link#:#URL
+meta#:#md_copyright_link_info#:#Link to the licence
 meta#:#md_copyright_preview#:#Copyright (Preview)
 meta#:#md_copyright_selection#:#Available Copyrights
 meta#:#md_copyright_settings#:#Copyright Settings
@@ -11369,14 +11454,27 @@ meta#:#md_record_list_table#:#Custom Metadata Sets
 meta#:#md_separated_by#:#Separated by %s
 meta#:#md_time#:#Time:
 meta#:#md_used#:#Current Number of Usages
+meta#:#meta_1#:#1
+meta#:#meta_2#:#2
+meta#:#meta_3#:#3
+meta#:#meta_4#:#4
 meta#:#meta_accessibility_restrictions#:#Accessibility Restrictions
 meta#:#meta_active#:#Active
 meta#:#meta_add#:#Add
+meta#:#meta_add_element#:#Add %s
+meta#:#meta_add_element_success#:#Element added successfully
+meta#:#meta_advmd_add_field#:#Add New Field
 meta#:#meta_advmd_select_options#:#Entries
+meta#:#meta_aggregation_level#:#Aggregation Level
+meta#:#meta_amaya#:#Amaya
 meta#:#meta_annotation#:#Annotation
+meta#:#meta_annotation_plural#:#Annotations
+meta#:#meta_any#:#Any
 meta#:#meta_atomic#:#Atomic
 meta#:#meta_author#:#Author
+meta#:#meta_authors#:#Authors
 meta#:#meta_browser#:#Browser
+meta#:#meta_button_to_full_editor_label#:#Edit the Full Learning Object Metadata
 meta#:#meta_c_AD#:#Andorra
 meta#:#meta_c_AE#:#United Arab Emirates
 meta#:#meta_c_AF#:#Afghanistan
@@ -11626,50 +11724,70 @@ meta#:#meta_c_ZM#:#Zambia
 meta#:#meta_c_ZW#:#Zimbabwe
 meta#:#meta_catalog#:#Catalogue
 meta#:#meta_classification#:#Classification
+meta#:#meta_classification_plural#:#Classifications
 meta#:#meta_collection#:#Collection
 meta#:#meta_competency#:#Competency
 meta#:#meta_contentprovider#:#Content Provider
 meta#:#meta_context#:#Context
+meta#:#meta_context_plural#:#Contexts
 meta#:#meta_contribute#:#Contribute
+meta#:#meta_contribute_plural#:#Contribute
 meta#:#meta_copyright#:#Copyright
 meta#:#meta_copyright_and_other_restrictions#:#Copyright and Other Restrictions
 meta#:#meta_copyright_change_info#:#You are about to change the copyright licence assigned to this content. This should only be done with the permission of the copyright holder. Please continue only if the new licence is not more restrictive than the one used before.
 meta#:#meta_copyright_change_warning_title#:#Changing a Copyright
 meta#:#meta_copyright_in_use#:#In use
 meta#:#meta_copyright_outdated#:#Outdated / No longer in use
+meta#:#meta_copyright_outdated_error#:#The chosen copyright is outdated and no longer in use.
 meta#:#meta_copyright_show_usages#:#Show Usages
 meta#:#meta_copyright_status#:#Status
 meta#:#meta_copyright_sub_items#:#Sub Items
 meta#:#meta_copyright_usage#:#Usage
 meta#:#meta_cost#:#Cost
 meta#:#meta_coverage#:#Coverage
+meta#:#meta_coverage_plural#:#Coverage
 meta#:#meta_cp_own#:#Own Copyright Information:
 meta#:#meta_creator#:#Creator
 meta#:#meta_current_value#:#Current value
 meta#:#meta_date#:#Date
+meta#:#meta_date_time#:#Date
 meta#:#meta_delete#:#Delete
+meta#:#meta_delete_confirm#:#Are you sure you want to delete this element and its content?
+meta#:#meta_delete_element#:#Delete %s
+meta#:#meta_delete_element_success#:#Element deleted successfully
+meta#:#meta_delete_this_element#:#Delete This Element
 meta#:#meta_description#:#Description
+meta#:#meta_description_plural#:#Descriptions
 meta#:#meta_diagramm#:#Diagram
 meta#:#meta_difficult#:#Difficult
 meta#:#meta_difficulty#:#Difficulty
+meta#:#meta_discipline#:#Discipline
 meta#:#meta_draft#:#Draft
 meta#:#meta_duration#:#Duration
 meta#:#meta_easy#:#Easy
+meta#:#meta_edit_element#:#Edit %s
+meta#:#meta_edit_element_success#:#Element edited successfully
 meta#:#meta_editor#:#Editor
 meta#:#meta_education#:#Education
 meta#:#meta_educational#:#Educational
 meta#:#meta_educational_level#:#Educational Level
 meta#:#meta_educational_objective#:#Educational Objective
+meta#:#meta_educational_plural#:#Educational
 meta#:#meta_educationalvalidator#:#Educational Validation
 meta#:#meta_entity#:#Entity
+meta#:#meta_entity_plural#:#Entities
 meta#:#meta_entry#:#Entry
+meta#:#meta_error_empty_input#:#Please make sure that at least one of the following input fields is not empty.
 meta#:#meta_exam#:#Exam
 meta#:#meta_exercise#:#Exercise
 meta#:#meta_experiment#:#Experiment
 meta#:#meta_expositive#:#Expository
 meta#:#meta_figure#:#Image / Illustration
 meta#:#meta_final#:#Final Version
+meta#:#meta_first_author#:#First Author
 meta#:#meta_format#:#Format
+meta#:#meta_format_plural#:#Formats
+meta#:#meta_full_editor_navigation_info#:#To navigate and edit this metadata set, use the ‘LOM’-tree in the ‘Tools’ entry of the main menu.
 meta#:#meta_general#:#General
 meta#:#meta_global#:#Global
 meta#:#meta_graph#:#Graph
@@ -11683,13 +11801,14 @@ meta#:#meta_higher_education#:#Higher Education
 meta#:#meta_id#:#ID
 meta#:#meta_idea#:#Idea
 meta#:#meta_identifier#:#Identifier
+meta#:#meta_identifier_plural#:#Identifiers
 meta#:#meta_index#:#Index
 meta#:#meta_info_only_repository_objects#:#Only repository objects are listed below (but not media objects or learning module pages).
-meta#:#meta_info_tlt_not_valid#:#The current value is not valid. Therefore it can not be used in other sections, such as learning progress statistics. Please insert a typical learning time in hours and/or minutes.
 meta#:#meta_initiator#:#Initiator
 meta#:#meta_installation_remarks#:#Installation Notes
 meta#:#meta_instructionaldesigner#:#Instructional Design
 meta#:#meta_intended_end_user_role#:#Intended End User Role
+meta#:#meta_intended_end_user_role_plural#:#Intended End User Roles
 meta#:#meta_interactivity_level#:#Interactivity Level
 meta#:#meta_interactivity_type#:#Interactivity Type
 meta#:#meta_is_based_on#:#Is based on …
@@ -11700,6 +11819,7 @@ meta#:#meta_is_referenced_by#:#Is referenced by
 meta#:#meta_is_required_by#:#Is required by
 meta#:#meta_is_version_of#:#Is version of
 meta#:#meta_keyword#:#Keyword
+meta#:#meta_keyword_plural#:#Keywords
 meta#:#meta_kind#:#Type
 meta#:#meta_l_aa#:#Afar
 meta#:#meta_l_ab#:#Abkhazian
@@ -11835,40 +11955,45 @@ meta#:#meta_l_vi#:#Vietnamese
 meta#:#meta_l_vo#:#Volapük
 meta#:#meta_l_wo#:#Wolof
 meta#:#meta_l_xh#:#Xhosa
+meta#:#meta_l_xx#:#none
 meta#:#meta_l_yi#:#Yiddish
 meta#:#meta_l_yo#:#Yoruba
 meta#:#meta_l_za#:#Zhuang
 meta#:#meta_l_zh#:#Chinese
 meta#:#meta_l_zu#:#Zulu
 meta#:#meta_language#:#Language
+meta#:#meta_language_plural#:#Languages
 meta#:#meta_learner#:#Learner
 meta#:#meta_learning_resource_type#:#Learning Resource Type
+meta#:#meta_learning_resource_type_plural#:#Learning Resource Types
 meta#:#meta_lecture#:#Lecture
 meta#:#meta_lifecycle#:#Lifecycle
 meta#:#meta_linear#:#Linear
 meta#:#meta_local#:#Local
 meta#:#meta_location#:#Location
+meta#:#meta_location_plural#:#Locations
+meta#:#meta_lom#:#Learning Object Metadata
+meta#:#meta_lom_short#:#LOM
 meta#:#meta_low#:#Low
+meta#:#meta_macos#:#MAC-OS
 meta#:#meta_manager#:#Manager
 meta#:#meta_maximum_version#:#Maximum Version
 meta#:#meta_medium#:#Medium
 meta#:#meta_meta_metadata#:#Meta-Metadata
-meta#:#meta_metadatascheme#:#Metadata Scheme
+meta#:#meta_metadatascheme#:#Metadata Schema
+meta#:#meta_metadatascheme_plural#:#Metadata Schemas
 meta#:#meta_minimum_version#:#Minimum Version
 meta#:#meta_mixed#:#Mixed
+meta#:#meta_ms-internet_explorer#:#MS-Internet Explorer
+meta#:#meta_ms-windows#:#MS-Windows
+meta#:#meta_multi-os#:#Multi-OS
 meta#:#meta_name#:#Name
 meta#:#meta_narrative_text#:#Narrative Text
+meta#:#meta_netscape_communicator#:#Netscape Communicator
 meta#:#meta_networked#:#Networked
 meta#:#meta_new_element#:#New Element
 meta#:#meta_no#:#No
-meta#:#meta_no_annotation#:#No metadata available for the Annotation section.
-meta#:#meta_no_classification#:#No metadata available for the Classification section.
-meta#:#meta_no_educational#:#No metadata available for the Educational section.
-meta#:#meta_no_lifecycle#:#No metadata available for the Lifecycle section.
-meta#:#meta_no_meta_metadata#:#No metadata available for the Meta-Metadata section.
-meta#:#meta_no_relation#:#No metadata available for the Relation section.
-meta#:#meta_no_rights#:#No metadata available for the Rights section.
-meta#:#meta_no_technical#:#No metadata available for the Technical section.
+meta#:#meta_none#:#None
 meta#:#meta_obj_type_active#:#Dataset offered
 meta#:#meta_obj_type_inactive#:#Data set not used
 meta#:#meta_obj_type_mandatory#:#Data set always offered
@@ -11880,23 +12005,25 @@ meta#:#meta_oer_copyright_selection_info#:#Only objects that have been published
 meta#:#meta_oer_harvester#:#OER Harvester
 meta#:#meta_oer_harvester_desc#:#Scans all File objects in the repository for their license. The OER Harvester adds all resources under selected CC licenses to the category defined in the cronjob settings. To get results from this cronjob it is necessary to activate and configurate the copyright selection in the administration of 'Metadata'.
 meta#:#meta_oer_target#:#Category for Release OER Content
+meta#:#meta_opera#:#Opera
 meta#:#meta_operating_system#:#Operating System
 meta#:#meta_or_composite#:#Or Composite
+meta#:#meta_or_composite_plural#:#Or Composites
 meta#:#meta_order#:#Order
 meta#:#meta_other#:#Other
 meta#:#meta_other_plattform_requirements#:#Other Platform Requirements
-meta#:#meta_pc_dos#:#PC-DOS
-meta#:#meta_please_select#:#Please select
+meta#:#meta_pc-dos#:#PC-DOS
 meta#:#meta_pointofcontact#:#Point(s) of Contact
 meta#:#meta_prerequisite#:#Prerequisite
 meta#:#meta_problem_statement#:#Problem Statement
 meta#:#meta_publisher#:#Publisher
 meta#:#meta_purpose#:#Purpose
 meta#:#meta_questionnaire#:#Questionnaire
-meta#:#meta_quickedit#:#Quick Edit
 meta#:#meta_references#:#References
 meta#:#meta_relation#:#Relation
+meta#:#meta_relation_plural#:#Relations
 meta#:#meta_requirement#:#Requirement
+meta#:#meta_requirement_plural#:#Requirements
 meta#:#meta_requires#:#Requires
 meta#:#meta_resource#:#Resource
 meta#:#meta_revised#:#Revised
@@ -11905,6 +12032,7 @@ meta#:#meta_role#:#Role
 meta#:#meta_save_order#:#Save Order
 meta#:#meta_school#:#School
 meta#:#meta_scriptwriter#:#Scriptwriter
+meta#:#meta_second_author#:#Second Author
 meta#:#meta_section#:#Section
 meta#:#meta_security_level#:#Security Level
 meta#:#meta_self_assessment#:#Self Assessment
@@ -11915,6 +12043,7 @@ meta#:#meta_skill_level#:#Competence Level
 meta#:#meta_slide#:#Slide
 meta#:#meta_source#:#Source
 meta#:#meta_status#:#Status
+meta#:#meta_string#:#Text
 meta#:#meta_structure#:#Structure
 meta#:#meta_subjectmatterexpert#:#Subject matter expert(s)
 meta#:#meta_tab_advmd#:#Custom Metadata
@@ -11923,17 +12052,22 @@ meta#:#meta_tab_lom#:#LOM
 meta#:#meta_table#:#Table
 meta#:#meta_taxon#:#Taxon
 meta#:#meta_taxon_path#:#Taxon Path
+meta#:#meta_taxon_path_plural#:#Taxon Paths
+meta#:#meta_taxon_plural#:#Taxons
 meta#:#meta_teacher#:#Teacher
 meta#:#meta_technical#:#Technical
 meta#:#meta_technicalimplementer#:#Technical implementer
 meta#:#meta_technicalvalidator#:#Technical validator
 meta#:#meta_terminator#:#Terminator
+meta#:#meta_third_author#:#Third Author
 meta#:#meta_title#:#Title
 meta#:#meta_training#:#Training
 meta#:#meta_type#:#Type
 meta#:#meta_typical_age_range#:#Typical Age Range
+meta#:#meta_typical_age_range_plural#:#Typical Age Ranges
 meta#:#meta_typical_learning_time#:#Typical Learning Time
 meta#:#meta_unavailable#:#Unavailable
+meta#:#meta_unix#:#Unix
 meta#:#meta_unknown#:#Unknown
 meta#:#meta_validator#:#Validator
 meta#:#meta_value#:#Value
@@ -11943,7 +12077,6 @@ meta#:#meta_very_easy#:#Very Easy
 meta#:#meta_very_high#:#Very High
 meta#:#meta_very_low#:#Very Low
 meta#:#meta_yes#:#Yes
-meta#:#sco_propagate#:#Propagate to all SCOs
 meta#:#udf_type_address#:#Address
 meta#:#udf_type_externallink#:#External Link
 meta#:#udf_type_float#:#Float
@@ -12193,6 +12326,7 @@ note#:#note_enable_comments#:#Enable Comments
 note#:#note_enable_comments_del_tutor#:#Any Comment may be deleted by tutors
 note#:#note_enable_comments_del_tutor_info#:#User with "Edit Settings" permission for an object can delete any comment made in this object.
 note#:#note_enable_comments_del_user#:#Comments may be deleted by their authors
+note#:#note_enable_comments_del_user_info#:#Comments can be deleted by the person who created them.
 note#:#note_enable_comments_export_info#:#This option enables comments export for content objects like portfolio, blog and wiki.
 note#:#note_enable_notes#:#Enable Notes
 note#:#note_html_export_include_comments#:#Should comments be included in the export?
@@ -12253,6 +12387,9 @@ notifications_adm#:#osd_vanish_desc#:#Visible time of a notification on the scre
 obj#:#cont_filter_empty#:#Please use the filter to see any objects.
 obj#:#cont_skll_published#:#All assignments have been published.
 obj#:#cont_skll_published_some_not#:#All given assignments have been published. Some users lacked competence assignments, thus no assignments could be published for them.
+obj#:#copy_container_page_no_label#:#Don't Copy Content Page
+obj#:#copy_container_page_yes_byline#:#The content page and corresponding style settings of the source object will be copied to this object. Pre-existing page elements will be overwritten.
+obj#:#copy_container_page_yes_label#:#Copy Content Page
 obj#:#custom_icon#:#Custom Icon
 obj#:#edit_questions#:#Edit Questions
 obj#:#obj_activate_content_lang#:#Activate Translation for Page Editing
@@ -12314,7 +12451,9 @@ obj#:#obj_tool_setting_use_news_open_settings#:#Open Settings of News Block and 
 obj#:#obj_user_decides_notification#:#Members have to manually activate notifications
 obj#:#obj_user_not_disable_not#:#Member are not allowed to deactivate notifications
 obj#:#online_input_byline#:#The object has been published and can be accessed by anyone with read access. Other access prerequisites or time-based access restrictions may still apply. This settings applies to the object wherever it is used in the repository.
+obj#:#select_object_type#:#Select Object Type
 obj#:#svy_results#:#Results
+obj#:#user_owns_no_objects#:#No Repository Objects Available
 objref#:#objref_custom_title#:#Use Own Title
 objref#:#objref_edit_ref#:#Link Target
 objref#:#objref_edit_title#:#Title
@@ -12378,8 +12517,8 @@ orgu#:#org_unit_not_found#:#Organisational Unit not found.
 orgu#:#orgu_add#:#Add Organisational Unit
 orgu#:#orgu_adv_settings#:#Advanced Settings
 orgu#:#orgu_already_deleted#:#The object was already deleted.
-orgu#:#orgu_enable_my_staff#:#Enable ‘Staff’
-orgu#:#orgu_enable_my_staff_info#:#Shows learning progress of own employees.
+orgu#:#orgu_enable_my_staff#:#Enable Main Menu Entry
+orgu#:#orgu_enable_my_staff_info#:#A main menu entry is presented that may comprise Staff List, Course Memberships, Certficates, Competences, Talks.
 orgu#:#orgu_global_set_form#:#Global Organisational Unit Settings
 orgu#:#orgu_global_set_positions#:#Enable Positions per Object Type
 orgu#:#orgu_global_set_positions_type_active#:#Positions in
@@ -12466,7 +12605,7 @@ pd#:#pd_import_personal_data#:#Import Personal Data
 pd#:#pd_my_memberships_intro#:#Welcome to Your Memberships
 pd#:#pd_my_memberships_intro2#:#This is your personal space for all courses and groups you participate in. Currently, there aren't any memberships assigned to you. To become a member of a course or group, there are two ways:<br /><ol><li>You can join courses or groups provided that joining them has been allowed by their administrators.</li><li>An administratrator of a course or group can assign a membership to you.</li></ol><br />In any case, the respective objects will appear automatically in this place.
 pd#:#pd_my_memberships_sort_default#:#Default of Sort Option
-pd#:#pd_not_date#:#Not Dated
+pd#:#pd_not_dated#:#Not Dated
 pd#:#pd_ongoing#:#Ongoing
 pd#:#pd_personal_items_default_view#:#Default View
 pd#:#pd_personal_items_default_view_info#:#Choose the preferred view of Personal Items.
@@ -12556,30 +12695,36 @@ poll#:#poll_answer#:#Answer
 poll#:#poll_answers#:#Possible Answers
 poll#:#poll_barchart#:#Bar Chart
 poll#:#poll_block_message_already_voted#:#You already voted in this poll.
-poll#:#poll_block_message_inactive#:#This poll will be available from %s.
 poll#:#poll_block_message_no_answers#:#This poll is incomplete.
-poll#:#poll_block_message_offline#:#This poll is offline.
-poll#:#poll_block_results_available_on#:#The results will be available on %s.
+poll#:#poll_block_results_available_on#:#The results will be available %s.
+poll#:#poll_cannot_set_online_no_answers#:#The status cannot be changed to &quot;online&quot; because this poll has no question!
 poll#:#poll_comments#:#Comments
 poll#:#poll_copy#:#Copy Poll
-poll#:#poll_delete_votes#:#Delete All Votes
-poll#:#poll_delete_votes_sure#:#Are you sure you want to delete all votes?
+poll#:#poll_delete_votes#:#Delete Votes of All Users
+poll#:#poll_delete_votes_sure#:#Are you sure you want to delete the votes of all users who took part in this poll?
 poll#:#poll_edit#:#Edit Poll
+poll#:#poll_edit_question#:#Edit Question
 poll#:#poll_image#:#Image
 poll#:#poll_import#:#Import Poll
-poll#:#poll_max_number_of_answers#:#Maximum Number Of Answers per Participant
+poll#:#poll_limit_not_below_answer_count#:#The answer limit must be below the number of possible answers.
+poll#:#poll_limit_number_of_answers#:#Limit Number of Answers per Participant
+poll#:#poll_max_number_of_answers#:#Max. Answers
+poll#:#poll_max_number_of_answers_info#:#You may choose up to %s answers.
 poll#:#poll_mode#:#Mode
-poll#:#poll_mode_anonymous#:#Anonymous
-poll#:#poll_mode_anonymous_info#:#Votes cannot be traced back to participants.
-poll#:#poll_mode_personal#:#Personal
-poll#:#poll_mode_personal_info#:#A list of participants with their respective votes is available when having sufficient permission.
+poll#:#poll_mode_anonymous#:#Without Names / Anonymous
+poll#:#poll_mode_anonymous_info#:#In the tab ‘Results’ the names of participants are omitted.
+poll#:#poll_mode_personal#:#With Names
+poll#:#poll_mode_personal_info#:#In the tab ‘Results’ the names of participants and their respective answers are listed. Users with access to this tab can inspect who has given which answer.
 poll#:#poll_new#:#Add New Poll
 poll#:#poll_non_anonymous_warning#:#Your name and vote are visible for administrators in the results.
+poll#:#poll_notification_activated#:#Notification Activated
+poll#:#poll_notification_deactivated#:#Notification Deactivated
 poll#:#poll_notification_subscribe#:#Activate Notification
 poll#:#poll_notification_unsubscribe#:#Deactivate Notification
 poll#:#poll_percentage#:#Current Percentage
 poll#:#poll_piechart#:#Pie Chart
 poll#:#poll_population#:#%s Participants
+poll#:#poll_population_singular#:#1 Participant
 poll#:#poll_question#:#Question
 poll#:#poll_result#:#Results
 poll#:#poll_result_answers#:#Votes
@@ -12597,6 +12742,7 @@ poll#:#poll_view_results_always#:#Always
 poll#:#poll_view_results_never#:#Never
 poll#:#poll_vote#:#Vote
 poll#:#poll_vote_error_multi#:#Please select no more than %s answers.
+poll#:#poll_vote_error_multi_no_answer#:#Please select at least 1 answer.
 poll#:#poll_vote_error_single#:#Please select 1 answer.
 poll#:#poll_vote_notification_body#:#the following poll has received a vote.
 poll#:#poll_vote_notification_link#:#Link to Poll
@@ -12604,8 +12750,9 @@ poll#:#poll_vote_notification_reason#:#You are receiving this e-mail because you
 poll#:#poll_vote_notification_subject#:#Poll "%s": new vote
 poll#:#poll_votes_no_edit#:#This poll already contains votes. You cannot edit the poll until you delete these votes.
 poll#:#poll_voting_period_and_results#:#Voting Period and Results
+poll#:#poll_voting_period_ended_info#:#The voting period ended %s.
 poll#:#poll_voting_period_full_info#:#Voting period from %s to %s
-poll#:#poll_voting_period_info#:#Deadline for Voting: %s
+poll#:#poll_voting_period_info#:#The deadline for voting is %s.
 poll#:#poll_voting_period_limited#:#Limited Voting Period
 prg#:#access_ctr_by_orgu_position#:#Access control according to Organisational Unit Positions
 prg#:#active_only#:#active users only
@@ -12668,7 +12815,7 @@ prg#:#msg_unmark_accredited#:#Unmarked %s users accredited.
 prg#:#msg_unmark_accredited_failed#:#Unmarking accredited not successful for:
 prg#:#msg_update_from_settings#:#Updated %s users from settings:
 prg#:#msg_update_from_settings_failed#:#Updated from settings failed:
-prg#:#msg_update_individual_plan#:#Successfully updated individual plan (%)
+prg#:#msg_update_individual_plan#:#Individual plan: %s successfully updated.
 prg#:#msg_update_individual_plan_failed#:#Update  of individual plan failed
 prg#:#no_srctype_or_id#:#Id and type may not be empty.
 prg#:#not_a_valid_cat_id#:#%s is not a valid ref-id of a category.
@@ -12705,6 +12852,8 @@ prg#:#prg_belongs_to#:#Belongs to
 prg#:#prg_can_not_manage_in_repo#:#You're not allowed to manage this Study Programme, because of user assignments.
 prg#:#prg_cancel#:#Cancel
 prg#:#prg_cancel_tree_order#:#Dismiss tree order
+prg#:#prg_change_deadline#:#Change deadline
+prg#:#prg_change_expire_date#:#Change expire date
 prg#:#prg_changed_by#:#Changed by
 prg#:#prg_completed_by_subnodes#:#subprogrammes
 prg#:#prg_completion_by#:#Completion by
@@ -12755,6 +12904,7 @@ prg#:#prg_mark_accredited#:#Mark Accredited
 prg#:#prg_mark_accredited_multi_success#:#Mark Selected Users As Accredited
 prg#:#prg_mark_accredited_success#:#Accredited Program Node for User successfully.
 prg#:#prg_mark_not_relevant_multi_success#:#Unmark Selected Users As Relevant
+prg#:#prg_mark_relevant#:#Mark Relevant
 prg#:#prg_mark_relevant_multi_success#:#Mark Selected Users As Relevant
 prg#:#prg_more_objects_without_read_permission#:#Study Programme contains more objects you can't see because of less permissions.
 prg#:#prg_multi_change_deadline#:#Change deadline
@@ -12846,6 +12996,7 @@ prg#:#prg_type_msg_unable_delete#:#Unable to delete type because it is still ass
 prg#:#prg_unmark_accredited#:#Unmark Accredited
 prg#:#prg_unmark_accredited_multi_success#:#Unmark Selected Users As Accredited
 prg#:#prg_unmark_accredited_success#:#Unaccredited Program Node for User successfully.
+prg#:#prg_unmark_relevant#:#Unmark Relevant
 prg#:#prg_update_from_current_plan#:#Update from current Plan
 prg#:#prg_update_from_current_plan_not_possible#:#Update From Current Plan Not Possible
 prg#:#prg_update_from_current_plan_partitial_success#:#Update From Current Plan Partically
@@ -13347,7 +13498,9 @@ rbac#:#crs_visible#:#Course is visible
 rbac#:#crs_write#:#User can edit course settings and manage content
 rbac#:#crsr_copy#:#User can copy course link
 rbac#:#crsr_delete#:#User can move or delete course link
+rbac#:#crsr_edit_learning_progress#:#User can edit learning progress settings
 rbac#:#crsr_edit_permission#:#User can change permission settings
+rbac#:#crsr_read_learning_progress#:#User can view learning progress of other users
 rbac#:#crsr_visible#:#Course link is visible
 rbac#:#crsr_write#:#User can edit settings of course link
 rbac#:#crss_edit_permission#:#User can change permission settings in Course administration
@@ -14048,10 +14201,6 @@ rbac#:#webr_edit_permission#:#User can change permission settings
 rbac#:#webr_read#:#User can read and use weblinks
 rbac#:#webr_visible#:#Weblink is visible
 rbac#:#webr_write#:#User can edit settings of weblinks
-rbac#:#wfe_edit_permission#:#User can change permission settings of Workflow Engine administration
-rbac#:#wfe_read#:#User has read access to administration of Workflow Engine
-rbac#:#wfe_visible#:#Administration of Workflow Engine is visible
-rbac#:#wfe_write#:#User can edit settings of Workflow Engine administration
 rbac#:#wiki_activate_wiki_protection#:#Set Wiki Pages to Read-Only
 rbac#:#wiki_copy#:#User can copy wiki
 rbac#:#wiki_delete#:#User can move or delete wiki
@@ -14847,7 +14996,7 @@ skmg#:#skmg_add_assignment#:#Add Roles / Members
 skmg#:#skmg_add_level#:#Add Level
 skmg#:#skmg_add_local_profile#:#Add Local Profile
 skmg#:#skmg_add_profile#:#Add Profile
-skmg#:#skmg_add_resource#:#Add Resource
+skmg#:#skmg_add_resource#:#Assign Repository Object
 skmg#:#skmg_add_skill#:#Add Competence
 skmg#:#skmg_add_skill_tree#:#Add Competence Tree
 skmg#:#skmg_add_user_to_profile#:#Add users or roles to profile
@@ -14856,7 +15005,7 @@ skmg#:#skmg_allow_local_profiles#:#Allow Creation of Local Profiles
 skmg#:#skmg_allow_local_profiles_info#:#Users with permission 'Edit Settings' in Courses and Groups can create local competence profiles using globally defined competences.
 skmg#:#skmg_ass_materials_from_workspace#:#Here you can assign materials, e.g. files, from your personal resources to competence levels. If you would like to add materials to your personal resources now, please click the following link.
 skmg#:#skmg_assign_level#:#Assign Level
-skmg#:#skmg_assign_materials#:#Assign Materials
+skmg#:#skmg_assign_materials#:#Assign Personal Resources
 skmg#:#skmg_assign_user#:#Assign User
 skmg#:#skmg_assigned_objects#:#Assigned Objects
 skmg#:#skmg_assigned_profiles#:#Assigned Competence Profiles
@@ -14866,12 +15015,15 @@ skmg#:#skmg_cannot_delete_nodes_in_use#:#Some items cannot be deleted, because t
 skmg#:#skmg_cert_skill_level_title#:#Competence Level Title
 skmg#:#skmg_cert_skill_title#:#Competence Title
 skmg#:#skmg_cert_skill_trigger_title#:#Competence Trigger Title
-skmg#:#skmg_confirm_level_resources_removal#:#Do you really want to remove the following resources from the competence level?
+skmg#:#skmg_confirm_level_resources_removal#:#Do you really want to remove the following repository objects from the competence level?
 skmg#:#skmg_confirm_remove_level_ass#:#So you really want to remove the following competence levels from the profile?
 skmg#:#skmg_confirm_user_removal#:#Do you really want to remove the following users from this profile?
 skmg#:#skmg_cont_profiles_info#:#In this view, you can select the competence profiles with competence entries, which are related to the currently open object (course/group). To get to the global view with all competence profiles you are assigned to and all competence entries, click on the link below.
+skmg#:#skmg_cont_profiles_info_empty#:#There are no competence profiles related to the currently open object.
+skmg#:#skmg_cont_records_info_empty#:#There are no competences related to the currently opened object.
 skmg#:#skmg_context_global#:#Global
 skmg#:#skmg_context_local#:#Local
+skmg#:#skmg_count_references#:#Number of referenced competences:
 skmg#:#skmg_create_sctp#:#Create Template Category
 skmg#:#skmg_create_skill_category#:#Create Competence Category
 skmg#:#skmg_create_skill_template#:#Create Competence Template
@@ -14911,11 +15063,9 @@ skmg#:#skmg_items#:#Items
 skmg#:#skmg_level#:#Level
 skmg#:#skmg_list_skills#:#List Competences
 skmg#:#skmg_local_assignment_profiles#:#Allow Local Assignment of Global Profiles
-skmg#:#skmg_lp_triggers_level#:#Triggered by Completion
-skmg#:#skmg_lp_triggers_level_resources#:#Resources triggered by Completion
-skmg#:#skmg_material#:#Material
-skmg#:#skmg_materials#:#Materials
-skmg#:#skmg_materials_ressources#:#Resources/Materials
+skmg#:#skmg_lp_triggers_level#:#Completion Triggers Competence Record
+skmg#:#skmg_materials#:#Personal Resources
+skmg#:#skmg_materials_resources#:#Learning Materials
 skmg#:#skmg_new_level#:#New Level
 skmg#:#skmg_new_sktr#:#New Competence Template Reference
 skmg#:#skmg_next_step#:#Next Step
@@ -14936,13 +15086,15 @@ skmg#:#skmg_previous_step#:#Previous Step
 skmg#:#skmg_profile#:#Profile
 skmg#:#skmg_really_delete_levels#:#Do you really want to delete the following competence levels?
 skmg#:#skmg_really_remove_skills#:#Do you really want to remove the following competences from your list?
-skmg#:#skmg_recommended_learning_material#:#Learning Materials for target achievement
-skmg#:#skmg_recommended_learning_material_info#:#Select exactly one of the following learning materials. Please work through it to achieve the competence target.
+skmg#:#skmg_recommended_learning_material_crs#:#Achieve your targets in this course
+skmg#:#skmg_recommended_learning_material_global#:#Achieve your targets
+skmg#:#skmg_recommended_learning_material_grp#:#Achieve your targets in this group
+skmg#:#skmg_recommended_learning_material_info#:#Please work through the following learning materials to achieve the competence target. Select exactly one learning material per competence level.
 skmg#:#skmg_refresh_view#:#Refresh
 skmg#:#skmg_remove_levels#:#Remove Levels
 skmg#:#skmg_remove_skill#:#Remove Competence
 skmg#:#skmg_remove_trigger#:#Remove Trigger
-skmg#:#skmg_resources#:#Resources
+skmg#:#skmg_resources#:#Repository Objects
 skmg#:#skmg_save_order#:#Save Order
 skmg#:#skmg_save_self_evaluation#:#Finish Self-Evaluation
 skmg#:#skmg_save_settings#:#Save Settings
@@ -14958,6 +15110,10 @@ skmg#:#skmg_selected_skills#:#Selected Competences
 skmg#:#skmg_self_evaluation#:#Self-Evaluation
 skmg#:#skmg_self_evaluation_byline#:#The self-evaluation will be excluded from target achievement. It is used for your guidance.
 skmg#:#skmg_self_evaluations#:#Self-Evaluations
+skmg#:#skmg_set_as_lp_trigger#:#Completion Should Trigger Competence Record
+skmg#:#skmg_set_as_no_lp_trigger#:#Completion Should Not Trigger Competence Record
+skmg#:#skmg_set_as_no_suggested#:#Do not Show as Learning Material
+skmg#:#skmg_set_as_suggested#:#Show as Learning Material
 skmg#:#skmg_settings#:#Competence Management Settings
 skmg#:#skmg_show_all#:#Show All
 skmg#:#skmg_show_latest_entries#:#Show Latest Entries
@@ -14967,13 +15123,14 @@ skmg#:#skmg_skill_level#:#Competence Level
 skmg#:#skmg_skill_level_trigger#:#Competence Level Trigger
 skmg#:#skmg_skill_levels#:#Competence Levels
 skmg#:#skmg_skill_management_deactivated#:#Competence Management is currently deactivated.
-skmg#:#skmg_skill_needs_impr_no_res#:#You need to improve this competence. Unfortunately, there are currently no learning resources available providing learning material aligned to your competence target.
-skmg#:#skmg_skill_needs_impr_res#:#You need to improve this competence. The following resources provide learning material aligned to your competence target.
+skmg#:#skmg_skill_needs_impr_no_res#:#You need to improve this competence. Unfortunately, there are currently no learning materials available, which are aligned to your competence target.
+skmg#:#skmg_skill_needs_impr_res#:#You need to improve this competence. The following learning materials are aligned to your competence target.
 skmg#:#skmg_skill_needs_self_eval#:#Please conduct a self-evaluation first to see your competence target.
 skmg#:#skmg_skill_needs_self_eval_box#:#Please note that you have not conducted a self-evaluation for at least one competence in this profile. You will not see the competence target for the affected competences until a self-evaluation is done.
 skmg#:#skmg_skill_no_needs_impr#:#Competence target achieved!
 skmg#:#skmg_skill_no_needs_impr_info#:#You achieved the target for this competence.
-skmg#:#skmg_skill_profile_comparison#:#Profile Comparison
+skmg#:#skmg_skill_overview#:#Overview
+skmg#:#skmg_skill_profile_records#:#Competence Records
 skmg#:#skmg_skill_profiles#:#Competence Profiles
 skmg#:#skmg_skill_template#:#Competence Template
 skmg#:#skmg_skill_templates#:#Competence Templates
@@ -14988,8 +15145,8 @@ skmg#:#skmg_status_outdated#:#Outdated
 skmg#:#skmg_status_outdated_info#:#Item cannot be newly selected by users as personal competence, or newly assigned to repository objects or competence profiles. However existing assignments and data are still presented.
 skmg#:#skmg_status_publish#:#Published
 skmg#:#skmg_status_publish_info#:#Item can be used if all parents are published, too.
-skmg#:#skmg_suggested#:#Suggested Resource
-skmg#:#skmg_suggested_resources#:#Suggested Resources
+skmg#:#skmg_suggested#:#Shown as Learning Material
+skmg#:#skmg_suggested_resources#:#Assigned Repository Objects
 skmg#:#skmg_sure_delete_self_evaluation#:#Do you really want to delete the following self-evaluations?
 skmg#:#skmg_target_level#:#Competence Target
 skmg#:#skmg_target_levels#:#Competence Targets
@@ -15002,10 +15159,10 @@ skmg#:#skmg_usage_obj_objects#:#Object(s)
 skmg#:#skmg_usage_obj_profiles#:#Profile(s)
 skmg#:#skmg_usage_obj_users#:#User(s)
 skmg#:#skmg_usage_type_info_gen#:#General Use in Repository Objects
-skmg#:#skmg_usage_type_info_mat#:#Users assigned material from their personal resources
+skmg#:#skmg_usage_type_info_mat#:#Users assigned personal resources from their personal workspace
 skmg#:#skmg_usage_type_info_pers#:#Selected by Users as Personal Competence
 skmg#:#skmg_usage_type_info_prof#:#Used in Competence Profiles
-skmg#:#skmg_usage_type_info_res#:#Repository Objects Assigned as Suggested Resource
+skmg#:#skmg_usage_type_info_res#:#Repository Objects Assigned as Learning Material
 skmg#:#skmg_usage_type_info_user#:#Assigned to Users
 skmg#:#skmg_your_self_evaluation#:#Your Self-Evaluation
 style#:#Style#:#Style
@@ -15013,15 +15170,15 @@ style#:#adapt_icon#:#Adapt Icon
 style#:#adapt_icon_description#:#Adapt icon colors or change the icon itself.
 style#:#adapt_icons#:#Adapt Icon Colors
 style#:#adapt_icons_description#:#All icons that could be found in svg icons in the skins images folder are listed here. If one color is changed, it will be changed in all icons containing this colors at once.
-style#:#adapt_less#:#Adapt Less
-style#:#adapt_less_description#:#This is a direct representation of all less variables from the variables.less file used in the selected skin. Variable names and descriptions are drawn directly from this file and are therefore only available in their original language. The selected style will be recompiled completely by updating/reseting the variables. Resetting variables will create a exact copy of the default delos style.
+style#:#adapt_scss#:#Adapt scss
+style#:#adapt_scss_description#:#This is a direct representation of all scss variables from the settings files used in the selected skin. Variable names and descriptions are drawn directly from those files and are therefore only available in their original language. The selected style will be recompiled completely by updating/reseting the variables. Resetting variables will create a copy of the default delos style.
 style#:#add_substyle#:#Add Sub Style
 style#:#add_system_style#:#Add System Style
 style#:#assignment#:#Assignment
 style#:#blue_color#:#Blue Color
 style#:#blue_colors#:#Blue Colors
 style#:#blue_colors_description#:#Blue Color Description
-style#:#can_not_read_less_file#:#Cannot read less file. Path:
+style#:#can_not_read_scss_file#:#Cannot read scss file. Path:
 style#:#cant_deactivate_default_style#:#Default styles cannot be deactivated.
 style#:#cant_delete_activated_style#:#Active Styles cannot be deleted.
 style#:#cant_delete_if_users_assigned#:#Styles can not be deleted if users are still assigned.
@@ -15056,24 +15213,15 @@ style#:#icons#:#Icons
 style#:#icons_gallery#:#Icons Gallery
 style#:#image_dir#:#Image Directory
 style#:#image_dir_description#:#Folder to store images (mostly icons) of the skin into. This directory can be shared with other styles and sub styles of this skin.
-style#:#in_main_less_file#:#is not imported inside the system styles main less file:
-style#:#invalid_less_path#:#The provided lessc path is not valid or the webserver does not have the proper permission to read and execute lessc. Lessc (or the file linked to by the file pointed to by the lessc path) has to be readabele and executable by your webserver.
+style#:#in_main_scss_file#:#is not imported inside the system styles main scss file:
+style#:#invalid_scss_path#:#The provided sass/scss path is not valid or the webserver does not have the proper permission to read and execute sass/scss. Sass/scss (or the file linked to by the file pointed to by the scss path) has to be readabele and executable by your webserver.
 style#:#ks_documentation_of_style#:#Kitchen Sink documentation of style:
 style#:#ks_documentation_of_substyle#:#Kitchen Sink documentation of sub style:
-style#:#less#:#Less
-style#:#less_can_not_be_modified#:#Less cannot be modified
-style#:#less_compile_failed#:#Something in the compilation of the less file went wrong. Is lessc installed and the path set correctly in ILIAS setup? Original error:
-style#:#less_file_reset#:#The less variables have been reset. Important: Note that caching might prevent your changes from being shown. You might need to clear your browsers cache.
-style#:#less_file_updated#:#The less variables have been updated. Important: Note that caching might prevent your changes from being shown. You might need to clear your browsers cache.
-style#:#less_less_installation_detected#:#Less installation detected at:
-style#:#less_variable_empty#:#This variable was empty. The default from your variables.less file has been set. Please check if this is correct before compiling.
-style#:#less_variables_empty_might_have_changed#:#There are empty variables in your form. You might have changed your variables.less file since loading this form. The defaults from the variables.less file have been set for the empty fields. Please check those marked empty fields before compiling and saving the values to your variables.less file.
-style#:#less_variables_file_not_included#:#The less variables file:
 style#:#manage_system_styles#:#Manage System Styles
 style#:#msg_sub_style_created#:#The sub style has been created.
 style#:#msg_sys_style_created#:#The new system style has successfully been created.
 style#:#msg_sys_style_update#:#System Styles have been updated
-style#:#no_less_path_set#:#No Less Path set
+style#:#no_scss_path_set#:#No Scss Path set
 style#:#no_style_selected#:#No sub style has been selected.
 style#:#of_parent#:#of parent:
 style#:#open_documentation#:#Open Documentation
@@ -15081,7 +15229,7 @@ style#:#parent#:#Parent Style
 style#:#personal#:#Personal
 style#:#personal_style_set_to#:#Your personal style has been set to:
 style#:#preview#:#Preview
-style#:#provided_less_path#:#Provided lessc path:
+style#:#provided_scss_path#:#Provided scss path:
 style#:#red_color#:#Red Color
 style#:#red_colors#:#Red Colors
 style#:#red_colors_description#:#Red Color Description
@@ -15090,6 +15238,15 @@ style#:#remove_assignment#:#Remove Assignment
 style#:#reset_icons#:#Reset Icons
 style#:#reset_variables#:#Reset Variables
 style#:#scope#:#Scope
+style#:#scss#:#Scss
+style#:#scss_can_not_be_modified#:#Scss cannot be modified
+style#:#scss_compile_failed#:#Something in the compilation of the scss file went wrong. Is scss installed and the path set correctly in ILIAS setup? Original error:
+style#:#scss_file_reset#:#The scss variables have been reset. Important: Note that caching might prevent your changes from being shown. You might need to clear your browsers cache.
+style#:#scss_file_updated#:#The scss variables have been updated. Important: Note that caching might prevent your changes from being shown. You might need to clear your browsers cache.
+style#:#scss_scss_installation_detected#:#Scss/sass installation detected at:
+style#:#scss_variable_empty#:#This variable was empty. The default from your settings files has been set. Please check if this is correct before compiling.
+style#:#scss_variables_empty_might_have_changed#:#There are empty variables in your form. You might have changed your settings files since loading this form. The defaults from the settings files have been set for the empty fields. Please check those marked empty fields before compiling and saving the values to your settings files.
+style#:#scss_variables_file_not_included#:#The scss variables files:
 style#:#select_icon#:#Select Icon
 style#:#settings_of_style#:#Manage style
 style#:#settings_of_substyle#:#Manage sub style
@@ -15427,7 +15584,7 @@ style#:#style_delete_style#:#Delete Style
 style#:#style_deleted#:#Deleted Style:
 style#:#style_edit_style#:#Edit Style
 style#:#style_id#:#Style ID
-style#:#style_id_description#:#The style id is used as name for style specific files such as css and less placed inside the skins folder. Only letters, numbers as well as hyphens or underline characters are to be used in style ID's.
+style#:#style_id_description#:#The style id is used as name for style specific files such as css and scss placed inside the skins folder. Only letters, numbers as well as hyphens or underline characters are to be used in style ID's.
 style#:#style_imported#:#Style has been successfully imported into:
 style#:#style_name#:#Style Name
 style#:#style_name_description#:#The style name can be used to describe the area of application of the style in human readable form. It will appear in all UI elements allowing the selection of styles.
@@ -15440,7 +15597,7 @@ style#:#style_support_reuse_info#:#Allow sub-objects of the current container to
 style#:#styles_not_deleted#:#The styles could not have been deleted for the following reasons:
 style#:#sub_style#:#Sub Style
 style#:#sub_style_id#:#Sub Style ID
-style#:#sub_style_id_description#:#The sub style id is used as name for sub style specific files such as css and less placed inside the skins folder. Only letters, numbers as well as hyphens or underline characters are to be used in skin ID's.
+style#:#sub_style_id_description#:#The sub style id is used as name for sub style specific files such as css and scss placed inside the skins folder. Only letters, numbers as well as hyphens or underline characters are to be used in skin ID's.
 style#:#sub_style_name#:#Sub Style Name
 style#:#sub_style_name_description#:#The sub style name can be used to describe the area of application of the style in human readable form. It will appear in all UI elements allowing the selection of skins.
 style#:#sub_style_parent_style_description#:#Sub styles are assigned to exactly one parent style. They are only displayed to a specific user if the parent style is assigned to a this exact user. The parent style of a substyle can not be changed after the creation of the sub style.
@@ -15582,7 +15739,7 @@ survey#:#enter_phrase_title#:#Please enter a Phrase Title
 survey#:#enter_valid_number_of_codes#:#Please enter a valid number to generate survey access codes!
 survey#:#err_external_rcp_no_email#:#The import data must at least contain an ‘email’ field
 survey#:#err_external_rcp_no_email_column#:#The import data must at least contain a column ‘email’ with the title ‘email’ in the first row and the e-mail addresses in the following rows
-survey#:#err_maxvaluegeminvalue#:#The maximum value must be greater or equal than the minimum value and less or equal than the maximum number of answers.
+survey#:#err_maxvaluegeminvalue#:#The maximum value must be greater or equal than the minimum value and scss or equal than the maximum number of answers.
 survey#:#err_minvalueganswers#:#The minimum must be less or equal than the maximum number of answers.
 survey#:#err_no_exact_answers#:#Please check exactly %s answer(s).
 survey#:#err_no_max_answers#:#Please check at most %s answers.
@@ -16634,6 +16791,13 @@ ui#:#datetime_required#:#Time/Date required
 ui#:#duration_default_label_end#:#end
 ui#:#duration_default_label_start#:#start
 ui#:#duration_end_must_not_be_earlier_than_start#:#Start must not be later than end.
+ui#:#label_fieldselection#:#Field Selection
+ui#:#label_fieldselection_refresh#:#Apply
+ui#:#label_pagination_limit#:#Pagination Number of Rows
+ui#:#label_pagination_offset#:#Pagination Offset
+ui#:#label_sortation#:#Sortation
+ui#:#presentaion_table_collapse#:#collapse all
+ui#:#presentaion_table_expand#:#expand all
 ui#:#ui_chars_max#:#Maximum:
 ui#:#ui_chars_min#:#Minimum:
 ui#:#ui_chars_remaining#:#Characters remaining:
@@ -16649,6 +16813,7 @@ ui#:#ui_link_url#:#URL
 ui#:#ui_md_input_edit#:#Edit
 ui#:#ui_md_input_view#:#View
 ui#:#ui_numeric_only#:#Please insert a whole number.
+ui#:#ui_table_no_records#:#No records
 ui#:#ui_tag_required#:#Please insert at least one tag.
 ui#:#ui_transcription#:#Transcript
 user#:#all_roles_has_starting_point#:#All the roles have starting points
@@ -16660,6 +16825,7 @@ user#:#clipboard_remove_btn#:#Remove from Clipboard
 user#:#clipboard_table_title#:#Clipboard (User Accounts)
 user#:#clipboard_user_added#:#Added selected users to clipboard.
 user#:#confirm_delete_starting_point#:#Are you sure you want to delete this rule?
+user#:#confirm_logout_for_email_change#:#You changed your email. To finalize this change, you will need to provide your password. The system is thus going to log you out and you will have 5 minutes to log in again. All other changes will be saved before logging you out.
 user#:#create_starting_point#:#Create Rule
 user#:#criteria#:#Criteria
 user#:#del_mail_body#:#Hello %1$s, %2$s You have not logged in to %3$s for a long time. Therefore, your ILIAS account is expected to be deleted on %4$s. In order to keep your ILIAS account, you must log in again before the aforementioned date.
@@ -16667,6 +16833,7 @@ user#:#del_mail_subject#:#Your ILIAS account will be deleted soon
 user#:#delete_inactive_user_accounts_frequency#:#Frequency
 user#:#delete_inactive_user_accounts_frequency_desc#:#Frequency, in which the deletion and e-mail distribution will be tested.
 user#:#editing_this_role#:#Role
+user#:#email_could_not_be_changed#:#The request to change your email could not be finalized.
 user#:#enable_local_user_administration#:#Enable Local User Administration
 user#:#enable_local_user_administration_info#:#Allow local user accounts to be administrated in categories and organisational units.
 user#:#feedhash#:#Newsfeedhash
@@ -16677,6 +16844,7 @@ user#:#interests_general#:#General Interests
 user#:#interests_help_looking#:#Looking For Help
 user#:#interests_help_offered#:#Offering Help
 user#:#msg_spoint_not_modified#:#Starting point not modified
+user#:#no_deactivate_yourself#:#You cannot deactivate your own user account.
 user#:#obj_ref_id_not_exist#:#The entered Reference-Id does not exist
 user#:#restrict_user_access#:#Restricted Access to User Accounts
 user#:#restrict_user_access_info#:#Access to local and global user accounts is restricted to roles that have the permission ‘Read Access to User Accounts’.
@@ -16758,7 +16926,7 @@ user#:#user_profile_info_std#:#Default User Profile Info
 user#:#user_profile_info_text_info#:#This text is presented on top of the form for entering personal data.
 user#:#user_profile_portfolio#:#If you would like to use a portfolio as your profile, go to the portfolio section and select ‘Set As My Profile’ from the drop-down menu to the right of the portfolio you wish to use.
 user#:#user_profile_portfolio_selected#:#You are currently using a portfolio as your profile. Activation can be set there using the ‘Share’ tab.
-user#:#user_profile_preview#:#Preview
+user#:#user_profile_preview#:#Preview of Profile
 user#:#user_profile_prompt_text_info#:#This text will replace the default info text, if a user has been prompted to the profile.
 user#:#user_prompt_incomplete#:#Only if profile is incomplete
 user#:#user_prompt_incomplete_info#:#If the user has to enter required fields, the profile will be shown after login.
@@ -16831,37 +16999,6 @@ webr#:#webr_set_to_list#:#Set to Weblink List
 webr#:#webr_sort_manual#:#Sort Manually
 webr#:#webr_sort_title#:#Titles in Alphabetical Order
 webr#:#webr_sorting#:#Weblink Sorting
-wfe#:#context_by_id#:#Context By ID
-wfe#:#context_by_mask#:#Masked Context
-wfe#:#context_id#:#Context ID
-wfe#:#context_type#:#Context Type
-wfe#:#dashboard#:#Dashboard
-wfe#:#definition_deleted#:#Workflow-Definition deleted.
-wfe#:#definitions#:#Process Definitions
-wfe#:#delete_definition#:#Delete Definition
-wfe#:#input_static_variables_desc#:#The process requires the following data for its starts:
-wfe#:#input_variables_desc#:#The process requires the following data to start:
-wfe#:#input_variables_required#:#Input required
-wfe#:#instances#:#Process Instances
-wfe#:#obj_wfe_desc#:#Process Automation
-wfe#:#process_definition_file#:#Process Definition File
-wfe#:#process_definition_file_info#:#BPMN2-Models
-wfe#:#process_started#:#Process started
-wfe#:#start_event_form_header#:#Relevant Events for the Start of Workflows
-wfe#:#start_listening#:#Activate Listener
-wfe#:#start_process#:#Start Process
-wfe#:#static_input_form_header#:#Input Data for All Instances of the Workflow
-wfe#:#stop_listening#:#Deactivate Listener
-wfe#:#subject_by_id#:#Subject By ID
-wfe#:#subject_by_mask#:#Masked Subject
-wfe#:#subject_id#:#Subject ID
-wfe#:#subject_type#:#Subject Type
-wfe#:#upload_parse_success#:#Process Definition uploaded, parsed and stored.
-wfe#:#upload_process#:#Upload Process Definition
-wfe#:#wfe_request_missing_process_id#:#The process id is missing, cannot perform the desired action.
-wfe#:#wfe_started_listening#:#Process armed
-wfe#:#wfe_stopped_listening#:#Process disarmed
-wfe#:#wfe_sure_to_delete_process_def#:#Are you sure you want to delete the definition?
 wfld#:#wfld_add#:#Create Folder
 wfld#:#wfld_alphabetically_asc#:#Alphabetically, asc.
 wfld#:#wfld_alphabetically_desc#:#Alphabetically, desc.
@@ -17117,3 +17254,4 @@ wsp#:#wsp_type_ltiv#:#Certificate: LTI Consumer
 wsp#:#wsp_type_scov#:#Certificate: SCORM
 wsp#:#wsp_type_tstv#:#Certificate: Test
 wsp#:#wsp_type_webr#:#Weblink
+wsp#:#wsp_type_wfld#:#Folder

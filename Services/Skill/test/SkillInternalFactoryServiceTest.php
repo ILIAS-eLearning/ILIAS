@@ -24,6 +24,7 @@ use ILIAS\Skill\Service;
 use ILIAS\Skill\Profile;
 use ILIAS\Skill\Personal;
 use ILIAS\Skill\Tree;
+use ILIAS\Skill\Resource;
 
 /**
  * @author Thomas Famula <famula@leifos.de>
@@ -34,6 +35,7 @@ class SkillInternalFactoryServiceTest extends TestCase
     protected Profile\SkillProfileFactory $profile_fac;
     protected Personal\PersonalSkillFactory $personal_fac;
     protected Tree\SkillTreeFactory $tree_fac;
+    protected Resource\SkillResourceFactory $resource_fac;
 
     protected function setUp(): void
     {
@@ -44,6 +46,7 @@ class SkillInternalFactoryServiceTest extends TestCase
         $this->profile_fac = $this->factory->profile();
         $this->personal_fac = $this->factory->personal();
         $this->tree_fac = $this->factory->tree();
+        $this->resource_fac = $this->factory->resource();
     }
 
     public function testFactoryInstances(): void
@@ -51,5 +54,6 @@ class SkillInternalFactoryServiceTest extends TestCase
         $this->assertInstanceOf(Profile\SkillProfileFactory::class, $this->profile_fac);
         $this->assertInstanceOf(Personal\PersonalSkillFactory::class, $this->personal_fac);
         $this->assertInstanceOf(Tree\SkillTreeFactory::class, $this->tree_fac);
+        $this->assertInstanceOf(\ILIAS\Skill\Resource\SkillResourceFactory::class, $this->resource_fac);
     }
 }

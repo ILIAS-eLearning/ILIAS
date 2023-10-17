@@ -33,7 +33,7 @@ require_once './Modules/Test/classes/inc.AssessmentConstants.php';
  *
  * @ingroup		ModulesTestQuestionPool
  */
-class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, ilObjAnswerScoringAdjustable, iQuestionCondition
+class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, ilObjAnswerScoringAdjustable, iQuestionCondition, ilAssQuestionAutosaveable
 {
     protected $lower_limit;
     protected $upper_limit;
@@ -182,7 +182,7 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
 
         $clone = $this;
 
-        $original_id = assQuestion::_getOriginalId($this->id);
+        $original_id = $this->questioninfo->getOriginalId($this->id);
         $clone->id = -1;
 
         if ((int) $testObjId > 0) {
@@ -233,7 +233,7 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
         // duplicate the question in database
         $clone = $this;
 
-        $original_id = assQuestion::_getOriginalId($this->id);
+        $original_id = $this->questioninfo->getOriginalId($this->id);
         $clone->id = -1;
         $source_questionpool_id = $this->getObjId();
         $clone->setObjId($target_questionpool_id);
@@ -718,4 +718,10 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
             "upper" => $this->getUpperLimit()
         );
     }
+
+    public function getAnswerTableName()
+    {
+        return '';
+    }
+
 }

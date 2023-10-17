@@ -93,7 +93,7 @@ class ilObjectCoreProperties
 
     public function getImportId(): string
     {
-        return $this->import_id;
+        return $this->import_id ?? '';
     }
 
     public function getPropertyTitleAndDescription(): ilObjectPropertyTitleAndDescription

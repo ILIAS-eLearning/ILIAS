@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\Filesystem\Filesystem;
 use ILIAS\FileUpload\FileUpload;
@@ -58,7 +58,6 @@ class ilObject
     protected ?int $ref_id = null;
     protected string $type = "";
     protected string $title = "";
-    protected bool $offline = false;
     protected string $desc = "";
     protected string $long_desc = "";
     protected int $owner = 0;
@@ -139,7 +138,6 @@ class ilObject
         ilObjectCustomIconFactory $custom_icon_factory
     ): ilObjectProperties {
         return (new ilObjectPropertiesAgregator(
-            $this->lng,
             new ilObjectCorePropertiesDatabaseRepository($this->db),
             new ilObjectAdditionalPropertiesLegacyRepository(
                 $custom_icon_factory,
@@ -197,7 +195,7 @@ class ilObject
             // read object data
             $sql =
                 "SELECT od.obj_id, od.type, od.title, od.description, od.owner, od.create_date," . PHP_EOL
-                . "od.last_update, od.import_id, od.offline, ore.ref_id, ore.obj_id, ore.deleted, ore.deleted_by" . PHP_EOL
+                . "od.last_update, od.import_id, ore.ref_id, ore.obj_id, ore.deleted, ore.deleted_by" . PHP_EOL
                 . "FROM " . self::TABLE_OBJECT_DATA . " od" . PHP_EOL
                 . "JOIN object_reference ore ON od.obj_id = ore.obj_id" . PHP_EOL
                 . "WHERE ore.ref_id = " . $this->db->quote($this->ref_id, "integer") . PHP_EOL
@@ -206,7 +204,7 @@ class ilObject
             $result = $this->db->query($sql);
 
             // check number of records
-            if ($this->db->numRows($result) == 0) {
+            if ($this->db->numRows($result) === 0) {
                 $message = sprintf(
                     "ilObject::read(): Object with ref_id %s not found! (%s)",
                     $this->ref_id,
@@ -227,7 +225,7 @@ class ilObject
             ;
             $result = $this->db->query($sql);
 
-            if ($this->db->numRows($result) == 0) {
+            if ($this->db->numRows($result) === 0) {
                 $message = sprintf("ilObject::read(): Object with obj_id: %s (%s) not found!", $this->id, $this->type);
                 throw new ilObjectNotFoundException($message);
             }
@@ -260,8 +258,6 @@ class ilObject
         $this->create_date = (string) $obj["create_date"];
         $this->last_update = (string) $obj["last_update"];
         $this->import_id = (string) $obj["import_id"];
-
-        $this->setOfflineStatus((bool) $obj['offline']);
 
         if ($this->obj_definition->isRBACObject($this->getType())) {
             $sql =
@@ -299,6 +295,8 @@ class ilObject
                 $this->setDescription((string) $row->description);
             }
         }
+
+        $this->object_properties = null;
     }
 
     public function getId(): int
@@ -426,12 +424,17 @@ class ilObject
 
     public function setOfflineStatus(bool $status): void
     {
-        $this->offline = $status;
+        $property_is_online = $this->getObjectProperties()->getPropertyIsOnline()->withOnline();
+        if ($status) {
+            $property_is_online = $property_is_online->withOffline();
+        }
+
+        $this->object_properties = $this->getObjectProperties()->withPropertyIsOnline($property_is_online);
     }
 
     public function getOfflineStatus(): bool
     {
-        return $this->offline;
+        return !$this->getObjectProperties()->getPropertyIsOnline()->getIsOnline();
     }
 
     public function supportsOfflineHandling(): bool
@@ -552,10 +555,14 @@ class ilObject
             "create_date" => ["date", $this->db->now()],
             "last_update" => ["date", $this->db->now()],
             "import_id" => ["text", $this->getImportId()],
-            "offline" => ["integer", $this->supportsOfflineHandling() ? $this->getOfflineStatus() : null]
         ];
 
         $this->db->insert(self::TABLE_OBJECT_DATA, $values);
+
+        if ($this->supportsOfflineHandling()) {
+            $property_is_online = $this->getObjectProperties()->getPropertyIsOnline()->withOffline();
+            $this->getObjectProperties()->storePropertyIsOnline($property_is_online);
+        }
 
 
         // Save long form of description if is rbac object
@@ -573,7 +580,6 @@ class ilObject
 
         // the line ($this->read();) messes up meta data handling: meta data,
         // that is not saved at this time, gets lost, so we query for the dates alone
-        //$this->read();
         $sql =
             "SELECT last_update, create_date" . PHP_EOL
             . "FROM " . self::TABLE_OBJECT_DATA . PHP_EOL
@@ -623,9 +629,6 @@ class ilObject
 
         $this->db->update(self::TABLE_OBJECT_DATA, $values, $where);
 
-        // the line ($this->read();) messes up meta data handling: metadata,
-        // that is not saved at this time, gets lost, so we query for the dates alone
-        //$this->read();
         $sql =
             "SELECT last_update" . PHP_EOL
             . "FROM " . self::TABLE_OBJECT_DATA . PHP_EOL
@@ -1635,8 +1638,9 @@ class ilObject
         $new_obj->create(true);
 
         if ($this->supportsOfflineHandling()) {
-            $new_obj->setOffLineStatus($this->getOfflineStatus());
-            $new_obj->update();
+            $new_obj->getObjectProperties()->storePropertyIsOnline(
+                $this->getObjectProperties()->getPropertyIsOnline()
+            );
         }
 
         if (!$options->isTreeCopyDisabled() && !$omit_tree) {
@@ -1812,12 +1816,12 @@ class ilObject
                         return call_user_func(array($class_name, "_getIcon"), $type, $size, $obj_id);
                     }
                 }
-                return ilUtil::getImagePath("icon_cmps.svg");
+                return ilUtil::getImagePath("standard/icon_cmps.svg");
             }
 
-            return ilUtil::getImagePath("icon_" . $type . ".svg");
+            return ilUtil::getImagePath("standard/icon_" . $type . ".svg");
         } else {
-            return "./images/icon_" . $type . ".svg";
+            return "./images/standard/icon_" . $type . ".svg";
         }
     }
 
@@ -1987,7 +1991,7 @@ class ilObject
 
         $res = $db->query($sql);
 
-        $all = array();
+        $all = [];
         while ($row = $db->fetchAssoc($res)) {
             $all[$row["type"]][$row["obj_id"]] = $row["title"];
         }

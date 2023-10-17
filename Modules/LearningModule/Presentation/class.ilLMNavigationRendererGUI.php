@@ -103,15 +103,15 @@ class ilLMNavigationRendererGUI
                     "reduce"
                 );
             $back_img =
-                ilUtil::getImagePath("nav_arr2_L.png", false, "output", $this->offline);
+                ilUtil::getImagePath("nav/nav_arr2_L.png", false, "output", $this->offline);
             $tpl->setCurrentBlock("ilLMNavigation_Prev");
             $tpl->setVariable("IMG_PREV", $back_img);
             $tpl->setVariable("HREF_PREV", $back_href);
             $tpl->setVariable("TXT_PREV", $this->lng->txt("back"));
             $tpl->setVariable("ALT_PREV", $this->lng->txt("back"));
             $tpl->setVariable("SPACER_PREV", $this->offline
-                ? "images/spacer.png"
-                : ilUtil::getImagePath("spacer.png"));
+                ? "images/media/spacer.png"
+                : ilUtil::getImagePath("media/spacer.png"));
             $tpl->parseCurrentBlock();
         } else {
             $pre_id = $this->navigation_status->getPredecessorPageId();
@@ -129,7 +129,7 @@ class ilLMNavigationRendererGUI
                 );
                 $prev_title = ilStr::shortenTextExtended($prev_title, 50, true);
                 $prev_img =
-                    ilUtil::getImagePath("nav_arr_L.png", false, "output", $this->offline);
+                    ilUtil::getImagePath("nav/nav_arr_L.png", false, "output", $this->offline);
 
                 if (!$this->lm->cleanFrames()) {
                     $prev_href =
@@ -158,8 +158,8 @@ class ilLMNavigationRendererGUI
                 $tpl->setVariable("TXT_PREV", $prev_title);
                 $tpl->setVariable("ALT_PREV", $this->lng->txt("previous"));
                 $tpl->setVariable("SPACER_PREV", $this->offline
-                    ? "images/spacer.png"
-                    : ilUtil::getImagePath("spacer.png"));
+                    ? "images/media/spacer.png"
+                    : ilUtil::getImagePath("media/spacer.png"));
             }
 
             $succ_id = $this->navigation_status->getSuccessorPageId();
@@ -177,7 +177,7 @@ class ilLMNavigationRendererGUI
                 );
                 $succ_title = ilStr::shortenTextExtended($succ_title, 50, true);
                 $succ_img =
-                    ilUtil::getImagePath("nav_arr_R.png", false, "output", $this->offline);
+                    ilUtil::getImagePath("nav/nav_arr_R.png", false, "output", $this->offline);
                 if (!$this->lm->cleanFrames()) {
                     $succ_href =
                         $this->linker->getLink(
@@ -205,8 +205,8 @@ class ilLMNavigationRendererGUI
                 $tpl->setVariable("TXT_SUCC", $succ_title);
                 $tpl->setVariable("ALT_SUCC", $this->lng->txt("next"));
                 $tpl->setVariable("SPACER_SUCC", $this->offline
-                    ? "images/spacer.png"
-                    : ilUtil::getImagePath("spacer.png"));
+                    ? "images/media/spacer.png"
+                    : ilUtil::getImagePath("media/spacer.png"));
                 $tpl->parseCurrentBlock();
 
                 // check if successor page is not restricted

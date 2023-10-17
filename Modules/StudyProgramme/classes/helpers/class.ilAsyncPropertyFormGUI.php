@@ -152,7 +152,7 @@ class ilAsyncPropertyFormGUI extends ilPropertyFormGUI
 
         $tpl->setCurrentBlock("alert");
         // TODO: DW -> refactor getImagePath
-        $tpl->setVariable("IMG_ALERT", ilUtil::getImagePath("icon_alert.svg"));
+        $tpl->setVariable("IMG_ALERT", ilUtil::getImagePath("standard/icon_alert.svg"));
         $tpl->setVariable("ALT_ALERT", $lng->txt("alert"));
         $tpl->setVariable("TXT_ALERT", "[TXT_ALERT]");
         $tpl->parseCurrentBlock();

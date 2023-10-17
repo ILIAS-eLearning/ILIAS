@@ -20,6 +20,7 @@ require_once './Modules/Test/classes/inc.AssessmentConstants.php';
 
 use ILIAS\Refinery\Random\Group as RandomGroup;
 use ILIAS\DI\RBACServices;
+use ILIAS\Taxonomy\Service;
 
 /**
  * Class ilObjQuestionPoolGUI
@@ -34,7 +35,7 @@ use ILIAS\DI\RBACServices;
  * @ilCtrl_Calls ilObjQuestionPoolGUI: assOrderingQuestionGUI, assImagemapQuestionGUI
  * @ilCtrl_Calls ilObjQuestionPoolGUI: assNumericGUI, assTextSubsetGUI, assSingleChoiceGUI, ilPropertyFormGUI
  * @ilCtrl_Calls ilObjQuestionPoolGUI: assTextQuestionGUI, ilObjectMetaDataGUI, ilPermissionGUI, ilObjectCopyGUI
- * @ilCtrl_Calls ilObjQuestionPoolGUI: ilQuestionPoolExportGUI, ilInfoScreenGUI, ilObjTaxonomyGUI, ilCommonActionDispatcherGUI
+ * @ilCtrl_Calls ilObjQuestionPoolGUI: ilQuestionPoolExportGUI, ilInfoScreenGUI, ilTaxonomySettingsGUI, ilCommonActionDispatcherGUI
  * @ilCtrl_Calls ilObjQuestionPoolGUI: ilAssQuestionHintsGUI, ilAssQuestionFeedbackEditingGUI, ilLocalUnitConfigurationGUI
  * @ilCtrl_Calls ilObjQuestionPoolGUI: ilObjQuestionPoolSettingsGeneralGUI, assFormulaQuestionGUI
  * @ilCtrl_Calls ilObjQuestionPoolGUI: ilAssQuestionPreviewGUI
@@ -46,6 +47,9 @@ use ILIAS\DI\RBACServices;
  */
 class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
 {
+    protected \ILIAS\DI\UIServices $ui;
+    private \ILIAS\TestQuestionPool\QuestionInfoService $questioninfo;
+    protected Service $taxonomy;
     public ?ilObject $object;
     protected ILIAS\TestQuestionPool\InternalRequestService $qplrequest;
     protected ilDBInterface $db;
@@ -69,8 +73,10 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         $this->component_factory = $DIC['component.factory'];
         $this->component_repository = $DIC['component.repository'];
         $this->navigation_history = $DIC['ilNavigationHistory'];
-
+        $this->ui = $DIC->ui();
+        $this->questioninfo = $DIC->testQuestionPool()->questionInfo();
         $this->qplrequest = $DIC->testQuestionPool()->internal()->request();
+        $this->taxonomy = $DIC->taxonomy();
         parent::__construct('', $this->qplrequest->raw('ref_id'), true, false);
 
         $this->ctrl->saveParameter($this, [
@@ -196,9 +202,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                     $this->lng,
                     $ilDB,
                     $ilUser,
-                    $randomGroup,
-                    $this->ref_id,
-                    $this->rbac
+                    $randomGroup
                 );
 
                 $gui->initQuestion((int) $this->qplrequest->raw('q_id'), $this->object->getId());
@@ -242,7 +246,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
 
                 $question = $q_gui->object;
 
-                if ($question->isInActiveTest()) {
+                if ($this->questioninfo->isInActiveTest($question->getId())) {
                     $this->tpl->setOnScreenMessage('failure', $this->lng->txt('question_is_part_of_running_test'), true);
                     $this->ctrl->redirectByClass('ilAssQuestionPreviewGUI', ilAssQuestionPreviewGUI::CMD_SHOW);
                 }
@@ -305,7 +309,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                 $questionGUI->object->setObjId($this->object->getId());
                 $questionGUI->setQuestionTabs();
 
-                if ($questionGUI->object->isInActiveTest()) {
+                if ($this->questioninfo->isInActiveTest($questionGUI->object->getId())) {
                     $this->tpl->setOnScreenMessage('failure', $this->lng->txt('question_is_part_of_running_test'), true);
                     $this->ctrl->redirectByClass('ilAssQuestionPreviewGUI', ilAssQuestionPreviewGUI::CMD_SHOW);
                 }
@@ -351,7 +355,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                 $questionGUI->object->setObjId($this->object->getId());
                 $questionGUI->setQuestionTabs();
 
-                if ($questionGUI->object->isInActiveTest()) {
+                if ($this->questioninfo->isInActiveTest($questionGUI->object->getId())) {
                     $this->tpl->setOnScreenMessage('failure', $this->lng->txt('question_is_part_of_running_test'), true);
                     $this->ctrl->redirectByClass('ilAssQuestionPreviewGUI', ilAssQuestionPreviewGUI::CMD_SHOW);
                 }
@@ -372,15 +376,21 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                 $this->ctrl->forwardCommand($gui);
                 break;
 
-            case 'ilobjtaxonomygui':
+            case strtolower(ilTaxonomySettingsGUI::class):
+                if (!$ilAccess->checkAccess('write', '', $this->object->getRefId())) {
+                    $this->redirectAfterMissingWrite();
+                }
+
+                /** @var ilObjQuestionPool $obj */
                 $obj = $this->object;
                 $forwarder = new ilObjQuestionPoolTaxonomyEditingCommandForwarder(
-                    $obj,
+                    $this->object,
                     $ilDB,
                     $component_repository,
                     $ilCtrl,
                     $ilTabs,
-                    $lng
+                    $lng,
+                    $this->taxonomy
                 );
 
                 $forwarder->forward();
@@ -437,7 +447,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                 $questionGUI->setEditContext(assQuestionGUI::EDIT_CONTEXT_AUTHORING);
                 $questionGUI->object->setObjId($this->object->getId());
 
-                if (in_array($cmd, ['editQuestion', 'save', 'suggestedsolution']) && $questionGUI->object->isInActiveTest()) {
+                if (in_array($cmd, ['editQuestion', 'save', 'suggestedsolution']) && $this->questioninfo->isInActiveTest($questionGUI->object->getId())) {
                     $this->tpl->setOnScreenMessage('failure', $this->lng->txt('question_is_part_of_running_test'), true);
                     $this->ctrl->redirectByClass('ilAssQuestionPreviewGUI', ilAssQuestionPreviewGUI::CMD_SHOW);
                 }
@@ -1066,11 +1076,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         ilSession::set('test_id', '');
         $qsa_import_fails = new ilAssQuestionSkillAssignmentImportFails($this->object->getId());
         if ($qsa_import_fails->failedImportsRegistered()) {
-            $button = ilLinkButton::getInstance();
-            $button->setUrl($this->ctrl->getLinkTarget($this, 'renoveImportFails'));
-            $button->setCaption('ass_skl_import_fails_remove_btn');
-
-            $this->tpl->setOnScreenMessage('failure', $qsa_import_fails->getFailedImportsMessage($this->lng) . '<br />' . $button->render());
+            $button = $this->ui->factory()->button()->standard($this->lng->txt('ass_skl_import_fails_remove_btn'), $this->ctrl->getLinkTarget($this, 'renoveImportFails'));
+            $this->tpl->setOnScreenMessage('failure', $qsa_import_fails->getFailedImportsMessage($this->lng) . '<br />' . $this->ui->renderer()->render($button));
         }
         $tax_ids = ilObjTaxonomy::getUsageOfObject($this->object->getId());
 
@@ -1079,23 +1086,24 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
 
         if ($this->rbac_system->checkAccess('write', $this->qplrequest->getRefId())) {
             $toolbar = new ilToolbarGUI();
-            $btn = ilLinkButton::getInstance();
-            $btn->setCaption('ass_create_question');
-            $btn->setUrl($this->ctrl->getLinkTarget($this, 'createQuestionForm'));
-            $btn->setPrimary(true);
-            $toolbar->addButtonInstance($btn);
+            $btn = $this->ui->factory()->button()->primary(
+                $this->lng->txt('ass_create_question'),
+                $this->ctrl->getLinkTarget($this, 'createQuestionForm')
+            );
+            $toolbar->addComponent($btn);
 
-
-            $btn_import = ilLinkButton::getInstance();
-            $btn_import->setCaption('import');
-            $btn_import->setUrl($this->ctrl->getLinkTarget($this, 'importQuestions'));
-            $toolbar->addButtonInstance($btn_import);
+            $btn_import = $this->ui->factory()->button()->standard(
+                $this->lng->txt('import'),
+                $this->ctrl->getLinkTarget($this, 'importQuestions')
+            );
+            $toolbar->addComponent($btn_import);
 
             if (ilSession::get('qpl_clipboard') != null && count(ilSession::get('qpl_clipboard'))) {
-                $btn_paste = ilLinkButton::getInstance();
-                $btn_paste->setCaption('paste');
-                $btn_paste->setUrl($this->ctrl->getLinkTarget($this, 'paste'));
-                $toolbar->addButtonInstance($btn_paste);
+                $btn_paste = $this->ui->factory()->button()->standard(
+                    $this->lng->txt('paste'),
+                    $this->ctrl->getLinkTarget($this, 'paste')
+                );
+                $toolbar->addComponent($btn_paste);
             }
 
             $this->tpl->setContent(
@@ -1292,9 +1300,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
             $this->lng,
             $this->db,
             $this->user,
-            new RandomGroup(),
-            $this->ref_id,
-            $this->rbac
+            new RandomGroup()
         );
         $this->ctrl->redirectByClass(get_class($p_gui), 'show');
     }
@@ -1320,7 +1326,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
     /**
     * form for new questionpool object import
     */
-    protected function importFileObject(int $parent_id = null, bool $catch_errors = true): void
+    protected function importFileObject(int $parent_id = null): void
     {
         if ($_REQUEST['new_type'] === null) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('import_file_not_valid'), true);
@@ -1364,7 +1370,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                 $q_gui->object->setObjId($this->object->getId());
                 $title = $q_gui->object->getTitle();
                 if (!$title) {
-                    $title = $this->lng->txt('new') . ': ' . assQuestion::_getQuestionTypeName($q_gui->object->getQuestionType());
+                    $title = $this->lng->txt('new') . ': ' . $this->questioninfo->getQuestionTypeName($q_gui->object->getId());
                 }
                 $ilLocator->addItem($title, $this->ctrl->getLinkTargetByClass(get_class($q_gui), 'editQuestion'));
             } else {
@@ -1388,7 +1394,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                 $q_gui->object->setObjId($this->object->getId());
                 $title = $q_gui->object->getTitle();
                 if (!$title) {
-                    $title = $this->lng->txt('new') . ': ' . assQuestion::_getQuestionTypeName($q_gui->object->getQuestionType());
+                    $title = $this->lng->txt('new') . ': ' . $this->questioninfo->getQuestionTypeName($q_gui->object->getId());
                 }
                 $this->tpl->setTitle($title);
                 $this->tpl->setDescription($q_gui->object->getComment());
@@ -1428,7 +1434,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
             case 'ilquestionpoolskilladministrationgui':
                 break;
 
-            case 'ilobjtaxonomygui':
+            case strtolower(ilTaxonomySettingsGUI::class):
             case 'ilobjquestionpoolsettingsgeneralgui':
 
                 if ($currentUserHasWriteAccess) {
@@ -1582,12 +1588,14 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
             'ilObjQuestionPoolSettingsGeneralGUI'
         );
 
-        $tabs->addSubTabTarget(
-            'qpl_settings_subtab_taxonomies',
-            $this->ctrl->getLinkTargetByClass('ilObjTaxonomyGUI', 'editAOTaxonomySettings'),
-            '',
-            'ilObjTaxonomyGUI'
-        );
+        if ($this->object->getShowTaxonomies()) {
+            $tabs->addSubTabTarget(
+                'qpl_settings_subtab_taxonomies',
+                $this->ctrl->getLinkTargetByClass('ilTaxonomySettingsGUI', ''),
+                '',
+                'ilTaxonomySettingsGUI'
+            );
+        }
     }
 
     /**

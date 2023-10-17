@@ -98,11 +98,11 @@ class ilPDMailGUI
         } elseif (!$sender instanceof ilObjUser) {
             $tpl->setVariable(
                 'PUBLIC_NAME',
-                $mail_data['import_name'] . ' (' . $this->lng->txt('user_deleted') . ')'
+                trim(($mail_data['import_name'] ?? '') . ' (' . $this->lng->txt('user_deleted') . ')')
             );
         } else {
             $tpl->setCurrentBlock('pers_image');
-            $tpl->setVariable('IMG_SENDER', ilUtil::getImagePath('HeaderIconAvatar.svg'));
+            $tpl->setVariable('IMG_SENDER', ilUtil::getImagePath('logo/HeaderIconAvatar.svg'));
             $tpl->setVariable('ALT_SENDER', htmlspecialchars(ilMail::_getIliasMailerName()));
             $tpl->parseCurrentBlock();
             $tpl->setVariable('PUBLIC_NAME', ilMail::_getIliasMailerName());

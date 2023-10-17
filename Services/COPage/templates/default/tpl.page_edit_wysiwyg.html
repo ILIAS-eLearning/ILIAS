@@ -1,6 +1,5 @@
 {PREPENDING_HTML}
 <!-- BEGIN activation_txt --><div class="subtitle" style="margin: 5px 0px; ">{TXT_SCHEDULED_ACTIVATION}: {SA_FROM} - {SA_TO}</div><!-- END activation_txt -->
-{MULTI_LANG_INFO}
 <div id="ilPageEditTopActionBar" class="small" style="margin-bottom: 5px; width: 100%; text-align: right;"><span style="padding-right:20px;">{PAGE_ACTIONS}</span> {EDIT_MODE}</div>
 <!-- BEGIN edit_page --><div id="il_EditPage">
 <form action="{FORMACTION}" name="objectItems" method="post">
@@ -10,17 +9,6 @@
 </div>
 </div>
 <table class="fullwidth" id="ilPageEditActionBar">
-<!-- BEGIN multi_actions -->
-<tr><td class="submit">
-<img border="0" src="{IMG_ARROW}" style="vertical-align:middle;"/>
-<input class="btn btn-default" {ONCLICK_DELETE_SELECTED} type="submit" value="{TXT_DELETE_SELECTED}" name="cmd[deleteSelected]">
-<input class="btn btn-default" {ONCLICK_COPY_SELECTED} type="submit" value="{TXT_COPY_SELECTED}" name="cmd[copySelected]">
-<input class="btn btn-default" {ONCLICK_CUT_SELECTED} type="submit" value="{TXT_CUT_SELECTED}" name="cmd[cutSelected]">
-<input class="btn btn-default" {ONCLICK_DE_ACTIVATE_SELECTED} type="submit" value="{TXT_DE_ACTIVATE_SELECTED}" name="cmd[activateSelected]">
-<input class="btn btn-default" {ONCLICK_ASSIGN_CHARACTERISTIC} type="submit" value="{TXT_ASSIGN_CHARACTERISTIC}" name="cmd[assignCharacteristicForm]">
-<!-- BEGIN select_all --><input class="btn btn-default" {ONCLICK_SELECT_ALL} type="submit" value="{TXT_SELECT_ALL}"> <!-- END select_all -->
-</td></tr>
-<!-- END multi_actions -->
 <!-- BEGIN med_link -->
 <tr class="std">
 <td class="submit">
@@ -86,8 +74,6 @@
 
 <!-- content of this layer will be changed to create a form to submit the action of the selected menuitem -->
 
-{IL_TINY_MENU}
-
 <!-- tiny style -->
 <style type="text/css">
 td.mceIframeContainer {
@@ -95,14 +81,8 @@ td.mceIframeContainer {
 }
 </style>
 
-
 <!-- BEGIN int_link_prep -->
 {INT_LINK_PREP}
 <!-- END int_link_prep -->
 </div>
 <!-- END edit_page -->
-<script type="module">
-	import editor from './Services/COPage/Editor/js/src/editor.js';
-	window.il.copg = window.il.copg || {};
-	window.il.copg.editor = editor;
-</script>

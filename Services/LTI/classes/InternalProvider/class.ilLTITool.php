@@ -71,8 +71,9 @@ class ilLTITool extends ILIAS\LTI\ToolProvider\Tool
         $this->dataConnector = $dataConnector;
 //        parent::__construct($dataConnector);
         $this->setParameterConstraint('resource_link_id', true, 50, array('basic-lti-launch-request'));
-        $this->setParameterConstraint('user_id', true, 50, array('basic-lti-launch-request'));
+        $this->setParameterConstraint('user_id', true, 64, array('basic-lti-launch-request'));
         $this->setParameterConstraint('roles', true, null, array('basic-lti-launch-request'));
+        $this->setParameterConstraint('lis_person_contact_email_primary', true, 80, array('basic-lti-launch-request'));
     }
 
     /**
@@ -81,15 +82,18 @@ class ilLTITool extends ILIAS\LTI\ToolProvider\Tool
     protected function onLaunch(): void
     {
         // save/update current user
-        if ($this->userResult instanceof User) {
+        if ($this->userResult instanceof \ILIAS\LTI\ToolProvider\User) {
+            $this->logger->debug("onLaunch - user");
             $this->userResult->save();
         }
 
-        if ($this->context instanceof Context) {
+        if ($this->context instanceof \ILIAS\LTI\ToolProvider\Context) {
+            $this->logger->debug("onLaunch - context");
             $this->context->save();
         }
 
-        if ($this->resourceLink instanceof ResourceLink) {
+        if ($this->resourceLink instanceof \ILIAS\LTI\ToolProvider\ResourceLink) {
+            $this->logger->debug("onLaunch - resource");
             $this->resourceLink->save();
         }
     }

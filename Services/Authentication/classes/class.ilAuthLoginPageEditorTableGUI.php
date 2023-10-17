@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * @author Stefan Meyer <meyer@leifos.com>
  */
@@ -25,6 +25,7 @@ class ilAuthLoginPageEditorTableGUI extends ilTable2GUI
 {
     public function __construct(?object $a_parent_obj, string $a_parent_cmd = "")
     {
+        $this->setId('login_copage_tbl');
         parent::__construct($a_parent_obj, $a_parent_cmd);
 
         $this->lng->loadLanguageModule('meta');
@@ -67,11 +68,11 @@ class ilAuthLoginPageEditorTableGUI extends ilTable2GUI
             $this->tpl->setVariable('TXT_SYSTEM', $this->lng->txt('system_language'));
         }
         if ($a_set['status']) {
-            $this->tpl->setVariable('STATUS_SRC', ilUtil::getImagePath('icon_ok.svg'));
+            $this->tpl->setVariable('STATUS_SRC', ilUtil::getImagePath('standard/icon_ok.svg'));
             $this->tpl->setVariable('STATUS_ALT', $this->lng->txt('active'));
             $this->tpl->setVariable('CHECKED_LANGKEY', 'checked="checked"');
         } else {
-            $this->tpl->setVariable('STATUS_SRC', ilUtil::getImagePath('icon_not_ok.svg'));
+            $this->tpl->setVariable('STATUS_SRC', ilUtil::getImagePath('standard/icon_not_ok.svg'));
             $this->tpl->setVariable('STATUS_ALT', $this->lng->txt('inactive'));
         }
         $this->tpl->setVariable('LINK_TXT', $this->lng->txt('edit'));

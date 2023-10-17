@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class ilObjAssessmentFolderGUI
  * @author Helmut Schottmüller <hschottm@gmx.de>
@@ -25,6 +25,7 @@ declare(strict_types=1);
  */
 class ilObjAssessmentFolderGUI extends ilObjectGUI
 {
+    protected \ILIAS\TestQuestionPool\QuestionInfoService $questioninfo;
     protected \ILIAS\Test\InternalRequestService $testrequest;
 
     public function __construct($a_data, int $a_id = 0, bool $a_call_by_reference = true, bool $a_prepare_output = true)
@@ -32,6 +33,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
         global $DIC;
         $rbacsystem = $DIC['rbacsystem'];
         $this->testrequest = $DIC->test()->internal()->request();
+        $this->questioninfo = $DIC->testQuestionPool()->questionInfo();
         $this->type = "assf";
         parent::__construct($a_data, $a_id, $a_call_by_reference, false);
 
@@ -169,7 +171,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
         $numRequiredAnswers->allowDecimals(false);
         $numRequiredAnswers->setMinValue(1);
         $numRequiredAnswers->setMinvalueShouldBeGreater(false);
-        $numRequiredAnswers->setValue((string) $this->getAssessmentFolder()->getSkillTriggeringNumAnswersBarrier());
+        $numRequiredAnswers->setValue($this->getAssessmentFolder()->getSkillTriggeringNumAnswersBarrier());
         $form->addItem($numRequiredAnswers);
 
         $ceeqwh = new ilCheckboxInputGUI($this->lng->txt('export_essay_qst_with_html'), 'export_essay_qst_with_html');
@@ -264,27 +266,25 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
         }
 
         $this->getAssessmentFolder()->setSkillTriggeringNumAnswersBarrier((int) $_POST['num_req_answers']);
-        $this->getAssessmentFolder()->setExportEssayQuestionsWithHtml((bool) $_POST["export_essay_qst_with_html"]);
-        $this->getAssessmentFolder()->_setManualScoring($_POST["chb_manual_scoring"]);
-        $questiontypes = ilObjQuestionPool::_getQuestionTypes(true);
+        $this->getAssessmentFolder()->setExportEssayQuestionsWithHtml((bool) ($_POST["export_essay_qst_with_html"] ?? '0'));
+        $this->getAssessmentFolder()->_setManualScoring($_POST["chb_manual_scoring"] ?? []);
+        $question_types = ilObjQuestionPool::_getQuestionTypes(true);
         $forbidden_types = [];
-        foreach ($questiontypes as $name => $row) {
-            if (!in_array($row["question_type_id"], $_POST["chb_allowed_questiontypes"])) {
+        foreach ($question_types as $name => $row) {
+            if (!isset($_POST["chb_allowed_questiontypes"]) || !in_array($row["question_type_id"], $_POST["chb_allowed_questiontypes"])) {
                 $forbidden_types[] = (int) $row["question_type_id"];
             }
         }
         $this->getAssessmentFolder()->_setForbiddenQuestionTypes($forbidden_types);
-
-        $this->getAssessmentFolder()->setScoringAdjustmentEnabled((bool) $_POST['chb_scoring_adjust']);
+        $this->getAssessmentFolder()->setScoringAdjustmentEnabled((bool) ($_POST['chb_scoring_adjust'] ?? '0'));
         $scoring_types = [];
-        foreach ($questiontypes as $name => $row) {
-            if (in_array($row["question_type_id"], (array) $_POST["chb_scoring_adjustment"])) {
+        foreach ($question_types as $name => $row) {
+            if (isset($_POST["chb_scoring_adjustment"]) && in_array($row["question_type_id"], $_POST["chb_scoring_adjustment"])) {
                 $scoring_types[] = $row["question_type_id"];
             }
         }
         $this->getAssessmentFolder()->setScoringAdjustableQuestions($scoring_types);
-
-        if (!$_POST['ass_process_lock']) {
+        if (!isset($_POST['ass_process_lock'])) {
             $this->getAssessmentFolder()->setAssessmentProcessLockMode(ilObjAssessmentFolder::ASS_PROC_LOCK_MODE_NONE);
         } elseif (in_array(
             $_POST['ass_process_lock_mode'],
@@ -353,9 +353,9 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
             }
             $title = "";
             if ($log["question_fi"] || $log["original_fi"]) {
-                $title = assQuestion::_getQuestionTitle((int) $log["question_fi"]);
+                $title = $this->questioninfo->getQuestionTitle((int) $log["question_fi"]);
                 if ($title === '') {
-                    $title = assQuestion::_getQuestionTitle((int) $log["original_fi"]);
+                    $title = $this->questioninfo->getQuestionTitle((int) $log["original_fi"]);
                 }
                 $title = $this->lng->txt("assessment_log_question") . ": " . $title;
             }

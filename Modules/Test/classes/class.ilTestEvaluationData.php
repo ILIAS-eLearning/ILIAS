@@ -15,6 +15,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
 * Class ilTestEvaluationData
 *
@@ -34,69 +36,29 @@ class ilTestEvaluationData
     public const FILTER_BY_COURSE = 'course';
     public const FILTER_BY_ACTIVE_ID = 'active_id';
 
+    public array $question_titles;
+
     /**
-    * Question titles
-    *
-    * @var array
+    * @var array<ilTestEvaluationUserData>
     */
-    public $questionTitles;
+    protected $participants;
+    protected $statistics;
+    protected ?array $arr_filter = null;
+    protected int $datasets;
+    protected ?ilTestParticipantList $access_filtered_participant_list = null;
 
-    /**
-    * Test object
-    *
-    * @var ilObjTest
-    */
-    private $test;
-
-    /**
-    * Participants
-    *
-    * @var ilTestEvaluationUserData[]
-    */
-    public $participants;
-
-    /**
-    * Statistical data
-    *
-    * @var object
-    */
-    public $statistics;
-
-    /**
-    * Filter array
-    *
-    * @var array
-    */
-    public $arrFilter;
-
-    /**
-    *
-    * @var integer
-    */
-    public $datasets;
-
-    /**
-     * @var ilTestParticipantList
-     */
-    protected $accessFilteredParticipantList;
-
-    public function __sleep()
+    public function __sleep(): array
     {
-        return array('questionTitles', 'participants', 'statistics', 'arrFilter', 'datasets', 'test');
+        return ['question_titles', 'participants', 'statistics', 'arr_filter', 'datasets', 'test'];
     }
 
-    /**
-    * Constructor
-    *
-    * @access	public
-    */
-    public function __construct(ilObjTest $test = null)
-    {
-        $this->participants = array();
-        $this->questionTitles = array();
+    public function __construct(
+        protected ilDBInterface $db,
+        protected ?ilObjTest $test = null
+    ) {
+        $this->participants = [];
+        $this->question_titles = [];
         if ($test !== null) {
-            $this->test = $test;
-
             if ($this->getTest()->getAccessFilteredParticipantList()) {
                 $this->setAccessFilteredParticipantList(
                     $this->getTest()->getAccessFilteredParticipantList()
@@ -109,15 +71,12 @@ class ilTestEvaluationData
 
     public function getAccessFilteredParticipantList(): ?ilTestParticipantList
     {
-        return $this->accessFilteredParticipantList;
+        return $this->access_filtered_participant_list;
     }
 
-    /**
-     * @param ilTestParticipantList $accessFilteredParticipantList
-     */
-    public function setAccessFilteredParticipantList($accessFilteredParticipantList)
+    public function setAccessFilteredParticipantList(ilTestParticipantList $access_filtered_participant_list)
     {
-        $this->accessFilteredParticipantList = $accessFilteredParticipantList;
+        $this->access_filtered_participant_list = $access_filtered_participant_list;
     }
 
     protected function checkParticipantAccess($activeId): bool
@@ -131,9 +90,7 @@ class ilTestEvaluationData
 
     protected function loadRows(): array
     {
-        global $DIC; /* @var ILIAS\DI\Container $DIC */
-
-        $query = "
+        $query = '
 			SELECT			usr_data.usr_id,
 							usr_data.firstname,
 							usr_data.lastname,
@@ -152,17 +109,17 @@ class ilTestEvaluationData
 							tst_pass_result.active_fi,
 							tst_pass_result.pass,
 							tst_pass_result.tstamp
-		";
+		';
 
-        $result = $DIC->database()->queryF(
+        $result = $this->db->queryF(
             $query,
-            array('integer'),
-            array($this->getTest()->getTestId())
+            ['integer'],
+            [$this->getTest()->getTestId()]
         );
 
-        $rows = array();
+        $rows = [];
 
-        while ($row = $DIC->database()->fetchAssoc($result)) {
+        while ($row = $this->db->fetchAssoc($result)) {
             if (!$this->checkParticipantAccess($row['active_fi'])) {
                 continue;
             }
@@ -175,10 +132,9 @@ class ilTestEvaluationData
 
     public function generateOverview()
     {
-        $this->participants = array();
+        $this->participants = [];
 
         $pass = null;
-        $checked = array();
         $thissets = 0;
 
         foreach ($this->loadRows() as $row) {
@@ -186,43 +142,43 @@ class ilTestEvaluationData
 
             $remove = false;
 
-            if (!$this->participantExists($row["active_fi"])) {
-                $this->addParticipant($row["active_fi"], new ilTestEvaluationUserData($this->getTest()->getPassScoring()));
+            if (!$this->participantExists($row['active_fi'])) {
+                $this->addParticipant($row['active_fi'], new ilTestEvaluationUserData($this->getTest()->getPassScoring()));
 
-                $this->getParticipant($row["active_fi"])->setName(
-                    $this->getTest()->buildName($row["usr_id"], $row["firstname"], $row["lastname"], $row["title"])
+                $this->getParticipant($row['active_fi'])->setName(
+                    $this->getTest()->buildName($row['usr_id'], $row['firstname'], $row['lastname'], $row['title'])
                 );
 
-                $this->getParticipant($row["active_fi"])->setLogin($row["login"]);
+                $this->getParticipant($row['active_fi'])->setLogin($row['login']);
 
-                $this->getParticipant($row["active_fi"])->setUserID($row["usr_id"]);
+                $this->getParticipant($row['active_fi'])->setUserID($row['usr_id']);
 
-                $this->getParticipant($row["active_fi"])->setSubmitted($row['submitted']);
+                $this->getParticipant($row['active_fi'])->setSubmitted((bool) $row['submitted']);
 
-                $this->getParticipant($row["active_fi"])->setLastFinishedPass($row['last_finished_pass']);
+                $this->getParticipant($row['active_fi'])->setLastFinishedPass($row['last_finished_pass']);
             }
 
-            if (!is_object($this->getParticipant($row["active_fi"])->getPass($row["pass"]))) {
+            if (!is_object($this->getParticipant($row['active_fi'])->getPass($row['pass']))) {
                 $pass = new ilTestEvaluationPassData();
-                $pass->setPass($row["pass"]);
-                $this->getParticipant($row["active_fi"])->addPass($row["pass"], $pass);
+                $pass->setPass($row['pass']);
+                $this->getParticipant($row['active_fi'])->addPass($row['pass'], $pass);
             }
 
-            $this->getParticipant($row["active_fi"])->getPass($row["pass"])->setReachedPoints($row["points"]);
-            $this->getParticipant($row["active_fi"])->getPass($row["pass"])->setObligationsAnswered($row["obligations_answered"]);
+            $this->getParticipant($row['active_fi'])->getPass($row['pass'])->setReachedPoints($row['points']);
+            $this->getParticipant($row['active_fi'])->getPass($row['pass'])->setObligationsAnswered((bool) $row['obligations_answered']);
 
-            if ($row["questioncount"] == 0) {
+            if ($row['questioncount'] == 0) {
                 $data = ilObjTest::_getQuestionCountAndPointsForPassOfParticipant($row['active_fi'], $row['pass']);
-                $this->getParticipant($row["active_fi"])->getPass($row["pass"])->setMaxPoints($data['points']);
-                $this->getParticipant($row["active_fi"])->getPass($row["pass"])->setQuestionCount($data['count']);
+                $this->getParticipant($row['active_fi'])->getPass($row['pass'])->setMaxPoints($data['points']);
+                $this->getParticipant($row['active_fi'])->getPass($row['pass'])->setQuestionCount($data['count']);
             } else {
-                $this->getParticipant($row["active_fi"])->getPass($row["pass"])->setMaxPoints($row["maxpoints"]);
-                $this->getParticipant($row["active_fi"])->getPass($row["pass"])->setQuestionCount($row["questioncount"]);
+                $this->getParticipant($row['active_fi'])->getPass($row['pass'])->setMaxPoints($row['maxpoints']);
+                $this->getParticipant($row['active_fi'])->getPass($row['pass'])->setQuestionCount($row['questioncount']);
             }
 
-            $this->getParticipant($row["active_fi"])->getPass($row["pass"])->setNrOfAnsweredQuestions($row["answeredquestions"]);
-            $this->getParticipant($row["active_fi"])->getPass($row["pass"])->setWorkingTime($row["workingtime"]);
-            $this->getParticipant($row["active_fi"])->getPass($row["pass"])->setExamId((string) $row["exam_id"]);
+            $this->getParticipant($row['active_fi'])->getPass($row['pass'])->setNrOfAnsweredQuestions($row['answeredquestions']);
+            $this->getParticipant($row['active_fi'])->getPass($row['pass'])->setWorkingTime($row['workingtime']);
+            $this->getParticipant($row['active_fi'])->getPass($row['pass'])->setExamId((string) $row['exam_id']);
 
             $this->getParticipant($row['active_fi'])->getPass($row['pass'])->setRequestedHintsCount($row['hint_count']);
             $this->getParticipant($row['active_fi'])->getPass($row['pass'])->setDeductedHintPoints($row['hint_points']);
@@ -239,7 +195,7 @@ class ilTestEvaluationData
         $this->test = &$test;
     }
 
-    public function setDatasets($datasets)
+    public function setDatasets(int $datasets)
     {
         $this->datasets = $datasets;
     }
@@ -251,20 +207,20 @@ class ilTestEvaluationData
 
     public function addQuestionTitle($question_id, $question_title)
     {
-        $this->questionTitles[$question_id] = $question_title;
+        $this->question_titles[$question_id] = $question_title;
     }
 
     public function getQuestionTitles(): array
     {
-        return $this->questionTitles;
+        return $this->question_titles;
     }
 
     public function getQuestionTitle($question_id)
     {
-        if (array_key_exists($question_id, $this->questionTitles)) {
-            return $this->questionTitles[$question_id];
+        if (array_key_exists($question_id, $this->question_titles)) {
+            return $this->question_titles[$question_id];
         } else {
-            return "";
+            return '';
         }
     }
 
@@ -290,29 +246,29 @@ class ilTestEvaluationData
 
     public function getParticipants(): array
     {
-        if (is_array($this->arrFilter) && count($this->arrFilter) > 0) {
+        if (is_array($this->arr_filter) && count($this->arr_filter) > 0) {
             $filtered_participants = [];
             $courseids = [];
             $groupids = [];
 
-            if (array_key_exists(self::FILTER_BY_GROUP, $this->arrFilter)) {
-                $ids = ilObject::_getIdsForTitle($this->arrFilter[self::FILTER_BY_GROUP], 'grp', true);
+            if (array_key_exists(self::FILTER_BY_GROUP, $this->arr_filter)) {
+                $ids = ilObject::_getIdsForTitle($this->arr_filter[self::FILTER_BY_GROUP], 'grp', true);
                 $groupids = array_merge($groupids, $ids);
             }
-            if (array_key_exists(self::FILTER_BY_COURSE, $this->arrFilter)) {
-                $ids = ilObject::_getIdsForTitle($this->arrFilter[self::FILTER_BY_COURSE], 'crs', true);
+            if (array_key_exists(self::FILTER_BY_COURSE, $this->arr_filter)) {
+                $ids = ilObject::_getIdsForTitle($this->arr_filter[self::FILTER_BY_COURSE], 'crs', true);
                 $courseids = array_merge($courseids, $ids);
             }
             foreach ($this->participants as $active_id => $participant) {
                 $remove = false;
-                if (array_key_exists(self::FILTER_BY_NAME, $this->arrFilter)) {
-                    if (!(strpos(strtolower($participant->getName()), strtolower((string) $this->arrFilter[self::FILTER_BY_NAME])) !== false)) {
+                if (array_key_exists(self::FILTER_BY_NAME, $this->arr_filter)) {
+                    if (!(strpos(strtolower($participant->getName()), strtolower((string) $this->arr_filter[self::FILTER_BY_NAME])) !== false)) {
                         $remove = true;
                     }
                 }
                 if (!$remove) {
-                    if (array_key_exists(self::FILTER_BY_GROUP, $this->arrFilter)) {
-                        $groups = ilParticipants::_getMembershipByType($participant->getUserID(), ["grp"]);
+                    if (array_key_exists(self::FILTER_BY_GROUP, $this->arr_filter)) {
+                        $groups = ilParticipants::_getMembershipByType($participant->getUserID(), ['grp']);
                         $foundfilter = false;
                         if (count(array_intersect($groupids, $groups))) {
                             $foundfilter = true;
@@ -323,8 +279,8 @@ class ilTestEvaluationData
                     }
                 }
                 if (!$remove) {
-                    if (array_key_exists(self::FILTER_BY_COURSE, $this->arrFilter)) {
-                        $courses = ilParticipants::_getMembershipByType($participant->getUserID(), ["crs"]);
+                    if (array_key_exists(self::FILTER_BY_COURSE, $this->arr_filter)) {
+                        $courses = ilParticipants::_getMembershipByType($participant->getUserID(), ['crs']);
                         $foundfilter = false;
                         if (count(array_intersect($courseids, $courses))) {
                             $foundfilter = true;
@@ -335,8 +291,8 @@ class ilTestEvaluationData
                     }
                 }
                 if (!$remove) {
-                    if (array_key_exists(self::FILTER_BY_ACTIVE_ID, $this->arrFilter)) {
-                        if ($active_id != $this->arrFilter[self::FILTER_BY_ACTIVE_ID]) {
+                    if (array_key_exists(self::FILTER_BY_ACTIVE_ID, $this->arr_filter)) {
+                        if ($active_id != $this->arr_filter[self::FILTER_BY_ACTIVE_ID]) {
                             $remove = true;
                         }
                     }
@@ -353,7 +309,7 @@ class ilTestEvaluationData
 
     public function resetFilter()
     {
-        $this->arrFilter = array();
+        $this->arr_filter = [];
     }
 
     /*
@@ -369,18 +325,16 @@ class ilTestEvaluationData
             [self::FILTER_BY_ACTIVE_ID, self::FILTER_BY_NAME, self::FILTER_BY_COURSE, self::FILTER_BY_GROUP],
             true
         )) {
-            $this->arrFilter = [$by => $text];
+            $this->arr_filter = [$by => $text];
         }
     }
 
     /*
     * Set an output filter for getParticipants
-    *
-    * @param array $arrFilter filter values
     */
-    public function setFilterArray($arrFilter)
+    public function setFilterArray(array $arr_filter): void
     {
-        $this->arrFilter = $arrFilter;
+        $this->arr_filter = $arr_filter;
     }
 
     public function addParticipant($active_id, $participant)

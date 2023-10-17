@@ -84,7 +84,7 @@ class ilObjChatroomListGUI extends ilObjectListGUI
                 ];
             }
 
-            if (!$room->getSetting('online_status')) {
+            if (ilObject::lookupOfflineStatus($this->obj_id)) {
                 $props[] = [
                     'alert' => true,
                     'property' => $this->lng->txt('status'),

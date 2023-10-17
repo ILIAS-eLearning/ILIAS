@@ -32,6 +32,7 @@ use ILIAS\UI\Component\Input\Field\Group;
  */
 class ilRepoStandardUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
 {
+    protected array $ctrl_path;
     protected ?ilLogger $log = null;
     protected Closure $result_handler;
     protected string $file_id_parameter = "";
@@ -39,9 +40,11 @@ class ilRepoStandardUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
     public function __construct(
         Closure $result_handler,
         string $file_id_parameter,
-        string $logger_id = ""
+        string $logger_id = "",
+        array $ctrl_path = []
     ) {
         global $DIC;
+        $this->ctrl_path = $ctrl_path;
         parent::__construct();
 
         if ($logger_id !== "") {
@@ -49,6 +52,35 @@ class ilRepoStandardUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
         }
         $this->result_handler = $result_handler;
         $this->file_id_parameter = $file_id_parameter;
+    }
+
+    protected function getCtrlPath(): array
+    {
+        $path = $this->ctrl_path;
+        $path[] = static::class;
+        return $path;
+    }
+    public function getUploadURL(): string
+    {
+        return $this->ctrl->getLinkTargetByClass($this->getCtrlPath(), self::CMD_UPLOAD);
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function getExistingFileInfoURL(): string
+    {
+        return $this->ctrl->getLinkTargetByClass($this->getCtrlPath(), self::CMD_INFO);
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function getFileRemovalURL(): string
+    {
+        return $this->ctrl->getLinkTargetByClass($this->getCtrlPath(), self::CMD_REMOVE);
     }
 
     protected function debug(string $mess): void
@@ -70,14 +102,6 @@ class ilRepoStandardUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
                 ) as $result) { // in this version, there will only be one upload at the time
                     $rh = $this->result_handler;
                     $result = $rh($this->upload, $result);
-
-                    /*
-                    $result = new BasicHandlerResult(
-                        $this->getFileIdentifierParameterName(),
-                        BasicHandlerResult::STATUS_OK,
-                        $id,
-                        ''
-                    );*/
                 }
             } catch (Exception $e) {
                 $result = new BasicHandlerResult(
@@ -91,7 +115,6 @@ class ilRepoStandardUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
         } else {
             $this->debug("has no upload...");
         }
-
         return $result;
     }
 

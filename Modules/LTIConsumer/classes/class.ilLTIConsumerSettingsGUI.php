@@ -65,6 +65,7 @@ class ilLTIConsumerSettingsGUI
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         $DIC->language()->loadLanguageModule('lti');
+
         $DIC->tabs()->addSubTab(
             self::SUBTAB_ID_OBJECT_SETTINGS,
             $DIC->language()->txt(self::SUBTAB_ID_OBJECT_SETTINGS),
@@ -105,6 +106,21 @@ class ilLTIConsumerSettingsGUI
         return true;
     }
 
+    public static function isUserDynamicRegistrationTransaction(ilLTIConsumeProvider $provider): bool
+    {
+        global $DIC;
+        if (!ilSession::has('lti_dynamic_registration_client_id')) {
+            return false;
+        }
+        if ($provider->getCreator() != $DIC->user()->getId()) {
+            return false;
+        }
+        if ($provider->getClientId() == ilSession::get('lti_dynamic_registration_client_id')) {
+            return true;
+        }
+        return false;
+    }
+
     /**
      * Execute Command
      */
@@ -143,9 +159,7 @@ class ilLTIConsumerSettingsGUI
                 break;
 
             default:
-
                 $DIC->tabs()->activateSubTab(self::SUBTAB_ID_OBJECT_SETTINGS);
-
                 $command = $DIC->ctrl()->getCmd(self::CMD_SHOW_SETTINGS) . 'Cmd';
                 $this->{$command}();
         }
@@ -212,9 +226,11 @@ class ilLTIConsumerSettingsGUI
 
         $repository = new ilUserCertificateRepository();
 
-        $pdfGenerator = new ilPdfGenerator($repository);
+        $certLogger = $DIC->logger()->cert();
+        $pdfGenerator = new ilPdfGenerator($repository, $certLogger);
 
         $pdfAction = new ilCertificatePdfAction(
+            $certLogger,
             $pdfGenerator,
             new ilCertificateUtilHelper(),
             $DIC->language()->txt('error_creating_certificate_pdf')

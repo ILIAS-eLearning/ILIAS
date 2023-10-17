@@ -21,7 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\Repository\Filter;
 
 use ILIAS\UI\Component\Input\Container\Filter;
-use ILIAS\UI\Component\Input\Field\FilterInput;
+use ILIAS\UI\Component\Input\Container\Filter\FilterInput;
 
 /**
  * @author Alexander Killing <killing@leifos.de>

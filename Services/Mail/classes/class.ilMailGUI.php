@@ -123,7 +123,7 @@ class ilMailGUI implements ilCtrlBaseClassInterface
 
                 $recipients = '';
                 if ($this->http->wrapper()->query()->has($key)) {
-                    $to = $this->http->wrapper()->query()->retrieve(
+                    $recipients = $this->http->wrapper()->query()->retrieve(
                         $key,
                         $this->refinery->kindlyTo()->string()
                     );
@@ -285,7 +285,7 @@ class ilMailGUI implements ilCtrlBaseClassInterface
         $DIC['ilHelp']->setScreenIdComponent("mail");
 
         $this->tpl->loadStandardTemplate();
-        $this->tpl->setTitleIcon(ilUtil::getImagePath("icon_mail.svg"));
+        $this->tpl->setTitleIcon(ilUtil::getImagePath("standard/icon_mail.svg"));
 
         $this->ctrl->setParameterByClass(ilMailFolderGUI::class, 'mobj_id', $this->currentFolderId);
         $DIC->tabs()->addTarget('fold', $this->ctrl->getLinkTargetByClass(ilMailFolderGUI::class));

@@ -1,8 +1,22 @@
 <?php
 
-declare(strict_types=1);
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+declare(strict_types=1);
 
 namespace ILIAS\Services\UICore\MetaTemplate;
 
@@ -167,9 +181,7 @@ class PageContentGUI
 
     public function setTitleDesc(string $title_desc): void
     {
-        if (!empty($title_desc)) {
-            $this->title_desc = $title_desc;
-        }
+        $this->title_desc = $title_desc;
     }
 
     public function setTitleAlerts(array $title_alerts): void
@@ -545,7 +557,7 @@ class PageContentGUI
 
         // Add arrow if desired.
         if ($this->should_display_admin_panel_arrow) {
-            $current_toolbar->setLeadingImage(\ilUtil::getImagePath("arrow_upright.svg"), $lng->txt("actions"));
+            $current_toolbar->setLeadingImage(\ilUtil::getImagePath("nav/arrow_upright.svg"), $lng->txt("actions"));
         }
 
         $this->fillPageFormAction();
@@ -561,7 +573,7 @@ class PageContentGUI
 
             // Replace previously set arrow image.
             if ($this->should_display_admin_panel_arrow) {
-                $current_toolbar->setLeadingImage(\ilUtil::getImagePath("arrow_downright.svg"), $lng->txt("actions"));
+                $current_toolbar->setLeadingImage(\ilUtil::getImagePath("nav/arrow_downright.svg"), $lng->txt("actions"));
             }
 
             $this->template->setVariable("ADM_PANEL2", $current_toolbar->getHTML());

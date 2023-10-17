@@ -126,6 +126,17 @@ export default class ModelActionHandler {
         );
         break;
 
+      case "component.form":
+        this.model.setState(this.model.STATE_COMPONENT);
+        this.model.setComponentState(this.model.STATE_COMPONENT_EDIT);
+        this.model.setCurrentPageComponent(params.cname, params.pcid, params.hierid);
+
+        this.model.setUndoPCModel(
+          this.model.getCurrentPCId(),
+          this.model.getPCModel(this.model.getCurrentPCId())
+        );
+        break;
+
       case "component.insert":
         this.model.setState(this.model.STATE_COMPONENT);
         this.model.setComponentState(this.model.STATE_COMPONENT_INSERT);
@@ -144,6 +155,7 @@ export default class ModelActionHandler {
         break;
 
       case "component.update":
+      case "component.update.back":
         this.model.setState(this.model.STATE_SERVER_CMD);
         break;
 

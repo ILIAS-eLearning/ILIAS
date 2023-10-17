@@ -26,10 +26,7 @@ class ilAssQuestionProcessLockerFile extends ilAssQuestionProcessLocker
 {
     public const PROCESS_NAME_QUESTION_WORKING_STATE_UPDATE = 'questionWorkingStateUpdate';
 
-    /**
-     * @var ilAssQuestionProcessLockFileStorage
-     */
-    protected $lockFileStorage;
+    protected ilAssQuestionProcessLockFileStorage $lockFileStorage;
 
     /**
      * @var resource
@@ -93,7 +90,7 @@ class ilAssQuestionProcessLockerFile extends ilAssQuestionProcessLocker
      */
     private function getLockFilePath($processName): string
     {
-        $path = $this->lockFileStorage->getPath();
+        $path = $this->lockFileStorage->getAbsolutePath();
         return $path . '/' . $processName . '.lock';
     }
 

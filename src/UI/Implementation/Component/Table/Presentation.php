@@ -23,33 +23,34 @@ namespace ILIAS\UI\Implementation\Component\Table;
 use ILIAS\UI\Component\Table as T;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
+use ILIAS\UI\Implementation\Component\Signal;
 use ILIAS\UI\Implementation\Component\ViewControl\HasViewControls;
 use Closure;
+use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 
 class Presentation extends Table implements T\Presentation
 {
     use ComponentHelper;
     use HasViewControls;
+    use JavaScriptBindable;
 
     /**
      * @var array<string,mixed>
      */
     private array $environment = [];
 
-    private array $records;
-    protected SignalGeneratorInterface $signal_generator;
-    private Closure $row_mapping;
+    private array $records = [];
+    protected Signal $signal_toggle_all;
 
     public function __construct(
         string $title,
         array $view_controls,
-        Closure $row_mapping,
-        SignalGeneratorInterface $signal_generator
+        protected Closure $row_mapping,
+        protected SignalGeneratorInterface $signal_generator
     ) {
         parent::__construct($title);
         $this->view_controls = $view_controls;
-        $this->row_mapping = $row_mapping;
-        $this->signal_generator = $signal_generator;
+        $this->signal_toggle_all = $signal_generator->create();
     }
 
     public function getSignalGenerator(): SignalGeneratorInterface
@@ -109,5 +110,10 @@ class Presentation extends Table implements T\Presentation
     public function getData(): array
     {
         return $this->records;
+    }
+
+    public function getExpandCollapseAllSignal(): ?Signal
+    {
+        return $this->signal_toggle_all;
     }
 }

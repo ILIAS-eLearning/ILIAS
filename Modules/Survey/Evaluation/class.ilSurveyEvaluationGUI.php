@@ -224,14 +224,6 @@ class ilSurveyEvaluationGUI
                 return true;
             }
 
-            /* try to find code for current (registered) user from existing run
-            if($this->object->findCodeForUser($ilUser->getId()))
-            {
-                $_SESSION["anon_evaluation_access"] = $_GET["ref_id"];
-                return true;
-            }
-            */
-
             // code needed
             $this->tpl->setVariable("TABS", "");
             $this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_evaluation_checkaccess.html", "Modules/Survey");
@@ -1005,11 +997,11 @@ class ilSurveyEvaluationGUI
             $user_id = $user["active_id"];
 
             $row = array();
-            $row[] = trim($user["lastname"])
+            $row[] = trim($user["lastname"] ?? "")
                 ? $user["lastname"]
-                : $user["name"]; // anonymous
-            $row[] = $user["firstname"];
-            $row[] = $user["login"]; // #10579
+                : ($user["name"] ?? ""); // anonymous
+            $row[] = $user["firstname"] ?? "";
+            $row[] = $user["login"] ?? ""; // #10579
 
             if ($this->object->canExportSurveyCode()) {
                 $row[] = $user_id;
@@ -1017,7 +1009,7 @@ class ilSurveyEvaluationGUI
 
             $row[] = $this->object->getWorkingtimeForParticipant($user_id);
 
-            if ($user["finished"]) {
+            if ($user["finished"] ?? false) {
                 $dt = new ilDateTime($user["finished_tstamp"], IL_CAL_UNIX);
                 $row[] = ($this->request->getExportFormat() === self::TYPE_XLS)
                     ? $dt

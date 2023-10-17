@@ -29,7 +29,7 @@ require_once './Modules/Test/classes/inc.AssessmentConstants.php';
  *
  * @ingroup	ModulesTestQuestionPool
  */
-class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringAdjustable, iQuestionCondition
+class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringAdjustable, iQuestionCondition, ilAssQuestionLMExportable, ilAssQuestionAutosaveable
 {
     protected const HAS_SPECIFIC_FEEDBACK = false;
 
@@ -161,7 +161,7 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
 
         $clone = $this;
 
-        $original_id = assQuestion::_getOriginalId($this->id);
+        $original_id = $this->questioninfo->getOriginalId($this->id);
         $clone->id = -1;
 
         if ((int) $testObjId > 0) {
@@ -206,7 +206,7 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
         // duplicate the question in database
         $clone = $this;
 
-        $original_id = assQuestion::_getOriginalId($this->id);
+        $original_id = $this->questioninfo->getOriginalId($this->id);
         $clone->id = -1;
         $source_questionpool_id = $this->getObjId();
         $clone->setObjId($target_questionpool_id);
@@ -283,7 +283,7 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
         global $DIC;
         $ilDB = $DIC['ilDB'];
 
-        $found_values = array();
+        $found_values = [];
         if (is_null($pass)) {
             $pass = $this->getSolutionMaxPass($active_id);
         }
@@ -309,9 +309,9 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
      */
     public function splitAndTrimOrderElementText(string $in_string, string $separator): array
     {
-        $result = array();
+        $result = [];
 
-        if (ilStr::strPos($in_string, $separator) === false) {
+        if (ilStr::strPos($in_string, $separator, 0) === false) {
             $result = preg_split("/\\s+/", $in_string);
         } else {
             $result = explode($separator, $in_string);
@@ -512,7 +512,7 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
     */
     public function getBestSolution($active_id, $pass): array
     {
-        $user_solution = array();
+        $user_solution = [];
         return $user_solution;
     }
 
@@ -600,22 +600,12 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
         $this->separator = $a_value;
     }
 
-    public function supportsJavascriptOutput(): bool
-    {
-        return true;
-    }
-
-    public function supportsNonJsOutput(): bool
-    {
-        return false;
-    }
-
     /**
      * Returns a JSON representation of the question
      */
     public function toJSON(): string
     {
-        $result = array();
+        $result = [];
         $result['id'] = $this->getId();
         $result['type'] = (string) $this->getQuestionType();
         $result['title'] = $this->getTitle();
@@ -631,7 +621,7 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
             'allcorrect' => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), true))
         );
 
-        $arr = array();
+        $arr = [];
         foreach ($this->getOrderingElements() as $order => $answer) {
             array_push($arr, array(
                 "answertext" => (string) $answer,
@@ -707,7 +697,7 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
 
         $answer_elements = $this->splitAndTrimOrderElementText($row["value1"] ?? "", $this->answer_separator);
         $elements = $this->getOrderingElements();
-        $solutions = array();
+        $solutions = [];
 
         foreach ($answer_elements as $answer) {
             foreach ($elements as $key => $element) {

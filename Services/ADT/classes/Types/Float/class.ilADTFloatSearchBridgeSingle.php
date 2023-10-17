@@ -33,7 +33,6 @@ class ilADTFloatSearchBridgeSingle extends ilADTSearchBridgeSingle
         if ($min !== null) {
             $number->setMinValue($min);
         }
-
         $max = $def->getMax();
         if ($max !== null) {
             $number->setMaxValue($max);
@@ -42,9 +41,7 @@ class ilADTFloatSearchBridgeSingle extends ilADTSearchBridgeSingle
             $number->setSize($length);
             $number->setMaxLength($length);
         }
-
-        $number->setValue($this->getADT()->getNumber());
-
+        $number->setValue((string) $this->getADT()->getNumber());
         $this->addToParentElement($number);
     }
 
@@ -75,9 +72,10 @@ class ilADTFloatSearchBridgeSingle extends ilADTSearchBridgeSingle
 
     public function isInCondition(ilADT $a_adt): bool
     {
-        assert($a_adt instanceof ilADTFloat);
-
-        return $this->getADT()->equals($a_adt);
+        if ($this->getADT()->getCopyOfDefinition()->isComparableTo($a_adt)) {
+            return $this->getADT()->equals($a_adt);
+        }
+        return false;
     }
 
     //  import/export

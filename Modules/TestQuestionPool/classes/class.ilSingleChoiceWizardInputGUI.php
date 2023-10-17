@@ -47,12 +47,12 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
     * @param	string	$a_title	Title
     * @param	string	$a_postvar	Post Variable
     */
-    public function __construct($a_title = "", $a_postvar = "")
+    public function __construct($a_title = '', $a_postvar = '')
     {
         parent::__construct($a_title, $a_postvar);
-        $this->setSuffixes(array("jpg", "jpeg", "png", "gif"));
+        $this->setSuffixes(['jpg', 'jpeg', 'png', 'gif']);
         $this->setSize('25');
-        $this->validationRegexp = "";
+        $this->validationRegexp = '';
 
         global $DIC;
         $this->post_wrapper = $DIC->http()->wrapper()->post();
@@ -445,6 +445,9 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
                         );
                         $tpl->parseCurrentBlock();
                     }
+                    $tpl->setCurrentBlock("prop_answer_id_propval");
+                    $tpl->setVariable("PROPERTY_VALUE", ilLegacyFormElementsUtil::prepareFormOutput($value->getId()));
+                    $tpl->parseCurrentBlock();
                 }
                 $tpl->setCurrentBlock('multiline');
                 $tpl->setVariable(
@@ -463,10 +466,10 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
                 $tpl->setCurrentBlock("move");
                 $tpl->setVariable("ID", $this->getPostVar() . "[$i]");
                 $tpl->setVariable("UP_BUTTON", $this->renderer->render(
-                    $this->glyph_factory->up()
+                    $this->glyph_factory->up()->withAction('#')
                 ));
                 $tpl->setVariable("DOWN_BUTTON", $this->renderer->render(
-                    $this->glyph_factory->down()
+                    $this->glyph_factory->down()->withAction('#')
                 ));
                 $tpl->parseCurrentBlock();
             }
@@ -485,10 +488,10 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
                 $tpl->setVariable("DISABLED_POINTS", " disabled=\"disabled\"");
             }
             $tpl->setVariable("ADD_BUTTON", $this->renderer->render(
-                $this->glyph_factory->add()
+                $this->glyph_factory->add()->withAction('#')
             ));
             $tpl->setVariable("REMOVE_BUTTON", $this->renderer->render(
-                $this->glyph_factory->remove()
+                $this->glyph_factory->remove()->withAction('#')
             ));
             $tpl->parseCurrentBlock();
             $i++;

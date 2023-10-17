@@ -36,6 +36,7 @@ class ilAssQuestionFeedbackEditingGUI
     public const CMD_SAVE = 'saveFeedbackForm';
     public const CMD_SHOW_SYNC = 'showSync';
     private \ILIAS\TestQuestionPool\InternalRequestService $request;
+    private \ILIAS\TestQuestionPool\QuestionInfoService $questioninfo;
 
     /**
      * gui instance of current question
@@ -124,6 +125,7 @@ class ilAssQuestionFeedbackEditingGUI
         $this->tpl = $tpl;
         $this->tabs = $tabs;
         $this->lng = $lng;
+        $this->questioninfo = $DIC->testQuestionPool()->questionInfo();
     }
 
     /**
@@ -205,7 +207,7 @@ class ilAssQuestionFeedbackEditingGUI
 
         if ($form->checkInput()) {
             $this->feedbackOBJ->saveGenericFormProperties($form);
-            if ($this->questionOBJ->hasSpecificFeedback()){
+            if ($this->questionOBJ->hasSpecificFeedback()) {
                 $this->feedbackOBJ->saveSpecificFormProperties($form);
             }
             $this->questionOBJ->cleanupMediaObjectUsage();
@@ -292,11 +294,11 @@ class ilAssQuestionFeedbackEditingGUI
             return false;
         }
 
-        if (!$this->questionOBJ->_questionExistsInPool((int) $this->questionOBJ->getOriginalId())) {
+        if (!$this->questioninfo->questionExistsInPool((int) $this->questionOBJ->getOriginalId())) {
             return false;
         }
 
-        if (!$this->questionOBJ->_questionExistsInPool((int) $this->questionOBJ->getOriginalId())) {
+        if (!$this->questioninfo->questionExistsInPool((int) $this->questionOBJ->getOriginalId())) {
             return false;
         }
 

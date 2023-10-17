@@ -16,6 +16,10 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
+use ILIAS\Test\InternalRequestService;
+
 /**
  * Test to lp connector
  *
@@ -25,12 +29,8 @@
  */
 class ilTestLP extends ilObjectLP
 {
-    private \ILIAS\Test\InternalRequestService $request;
-
-    /**
-     * @var \ilObjTest
-     */
-    protected $testObj;
+    private InternalRequestService $request;
+    protected ?ilObjTest $test_object = null;
 
     public function __construct(int $obj_id)
     {
@@ -65,7 +65,10 @@ class ilTestLP extends ilObjectLP
 
     public function isAnonymized(): bool
     {
-        return (bool) ilObjTest::_lookupAnonymity($this->obj_id);
+        if ($this->test_object === null) {
+            $this->setTestObject(ilObjectFactory::getInstanceByObjId($this->obj_id));
+        }
+        return (bool) $this->test_object->getAnonymity();
     }
 
     /**
@@ -73,15 +76,15 @@ class ilTestLP extends ilObjectLP
      */
     public function setTestObject(\ilObjTest $test)
     {
-        $this->testObj = $test;
+        $this->test_object = $test;
     }
 
     protected function resetCustomLPDataForUserIds(array $a_user_ids, bool $a_recursive = true): void
     {
         /* @var ilObjTest $testOBJ */
-        if ($this->testObj) {
+        if ($this->test_object) {
             // #19247
-            $testOBJ = $this->testObj;
+            $testOBJ = $this->test_object;
         } else {
             $testOBJ = ilObjectFactory::getInstanceByObjId($this->obj_id);
         }
@@ -89,8 +92,8 @@ class ilTestLP extends ilObjectLP
 
         // :TODO: there has to be a better way
         $test_ref_id = (int) $this->request->raw("ref_id");
-        if ($this->testObj && $this->testObj->getRefId()) {
-            $test_ref_id = $this->testObj->getRefId();
+        if ($this->test_object && $this->test_object->getRefId()) {
+            $test_ref_id = $this->test_object->getRefId();
         }
 
         if ($test_ref_id) {

@@ -1,10 +1,23 @@
 <?php
 
 /**
- * Class ilDclTableViewEditFieldsTableGUI
- * @author  Theodor Truffer <tt@studer-raimann.ch>
- * @ingroup ModulesDataCollection
- */
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+declare(strict_types=1);
+
 class ilDclTableViewEditFieldsTableGUI extends ilTable2GUI
 {
     public function __construct(ilDclTableViewEditGUI $a_parent_obj)
@@ -23,7 +36,7 @@ class ilDclTableViewEditFieldsTableGUI extends ilTable2GUI
         $this->addColumn($lng->txt('dcl_filter_changeable'), "", 'auto');
 
         $ilCtrl->saveParameter($this, 'tableview_id');
-        $this->setFormAction($ilCtrl->getFormActionByClass('ildcltablevieweditgui'));
+        $this->setFormAction($ilCtrl->getFormActionByClass(ilDclTableViewEditGUI::class));
         $this->addCommandButton('saveTable', $lng->txt('dcl_save'));
 
         $this->setExternalSegmentation(true);
@@ -68,7 +81,7 @@ class ilDclTableViewEditFieldsTableGUI extends ilTable2GUI
 
         $this->prepareOutput();
 
-        if (is_object($ilCtrl) && is_object($this->getParentObject()) && $this->getId() == "") {
+        if (is_object($this->getParentObject()) && $this->getId() == "") {
             $ilCtrl->saveParameter($this->getParentObject(), $this->getNavParameter());
         }
 
@@ -199,7 +212,7 @@ class ilDclTableViewEditFieldsTableGUI extends ilTable2GUI
             $this->tpl->setVariable('FILTER_VALUE', $this->getStandardFilterHTML($field, $a_set->getFilterValue()));
             $this->tpl->setVariable('FILTER_CHANGEABLE', $a_set->isFilterChangeable() ? 'checked' : '');
         } else {
-            $this->tpl->setVariable('NO_FILTER', '');
+            $this->tpl->setVariable('NO_FILTER');
         }
     }
 
@@ -211,7 +224,7 @@ class ilDclTableViewEditFieldsTableGUI extends ilTable2GUI
         $field_representation = ilDclFieldFactory::getFieldRepresentationInstance($field);
         $field_representation->addFilterInputFieldToTable($this);
         $filter = end($this->filters);
-        $this->filters = array();
+        $this->filters = [];
         $filter->setValueByArray($value);
 
         return $filter->render();

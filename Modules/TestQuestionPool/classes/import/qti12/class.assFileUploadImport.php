@@ -49,7 +49,7 @@ class assFileUploadImport extends assQuestionImport
         $now = getdate();
         $created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
 
-        $feedbacksgeneric = array();
+        $feedbacksgeneric = [];
 
         $this->addGeneralMetadata($item);
         $this->object->setTitle($item->getTitle());
@@ -57,11 +57,11 @@ class assFileUploadImport extends assQuestionImport
         $this->object->setComment($item->getComment());
         $this->object->setAuthor($item->getAuthor());
         $this->object->setOwner($ilUser->getId());
-        $this->object->setQuestion($this->object->QTIMaterialToString($item->getQuestiontext()));
+        $this->object->setQuestion($this->QTIMaterialToString($item->getQuestiontext()));
         $this->object->setObjId($questionpool_id);
         $this->object->setPoints($item->getMetadataEntry("points"));
         $this->object->setMaxSize($item->getMetadataEntry("maxsize") ? (int) $item->getMetadataEntry("maxsize") : null);
-        $this->object->setAllowedExtensions($item->getMetadataEntry("allowedextensions"));
+        $this->object->setAllowedExtensions($item->getMetadataEntry("allowedextensions") ?? '');
         // additional content editing mode information
         $this->object->setAdditionalContentEditingMode(
             $this->fetchAdditionalContentEditingModeInformation($item)

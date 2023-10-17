@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Link;
 
@@ -40,6 +40,11 @@ abstract class Link implements C\Link\Link
     protected string $action;
     protected ?bool $open_in_new_viewport = null;
     protected ?LanguageTag $action_content_language = null;
+
+    /**
+     * @var C\Link\IsRelationship[]
+     */
+    protected array $relationships = [];
 
     public function __construct(string $action)
     {
@@ -82,5 +87,29 @@ abstract class Link implements C\Link\Link
     public function getLanguageOfReferencedResource(): ?LanguageTag
     {
         return $this->action_content_language;
+    }
+
+    public function withAdditionalRelationshipToReferencedResource(C\Link\Relationship $type): C\Link\Link
+    {
+        $clone = clone $this;
+        if (!in_array($type, $clone->relationships)) {
+            $clone->relationships[] = $type;
+        }
+        return $clone;
+    }
+
+    /**
+     * @return C\Link\IsRelationship[]
+     */
+    public function getRelationshipsToReferencedResource(): array
+    {
+        $relationships = $this->relationships;
+        if (
+            $this->getOpenInNewViewport() &&
+            !in_array(C\Link\Relationship::NOOPENER, $relationships)
+        ) {
+            $relationships[] = C\Link\Relationship::NOOPENER;
+        }
+        return $relationships;
     }
 }

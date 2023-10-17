@@ -1,6 +1,5 @@
 <?php
 
-declare(strict_types=0);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -16,6 +15,8 @@ declare(strict_types=0);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=0);
 
 use ILIAS\HTTP\Services as HTTPServices;
 use ILIAS\Refinery\Factory as Refinery;
@@ -83,7 +84,7 @@ class ilCourseObjectiveQuestionsTableGUI extends ilTable2GUI
             if (strlen($tst['description']) !== 0) {
                 $this->tpl->setVariable('SELF_TST_DESC', $tst['description']);
             }
-            $this->tpl->setVariable('SELF_TYPE_IMG', ilUtil::getImagePath('icon_tst.svg'));
+            $this->tpl->setVariable('SELF_TYPE_IMG', ilUtil::getImagePath('standard/icon_tst.svg'));
             $this->tpl->setVariable('SELF_TYPE_ALT', $this->lng->txt('obj_tst'));
             $this->tpl->parseCurrentBlock();
         }
@@ -112,7 +113,7 @@ class ilCourseObjectiveQuestionsTableGUI extends ilTable2GUI
             if (strlen($tst['description']) !== 0) {
                 $this->tpl->setVariable('FINAL_TST_DESC', $tst['description']);
             }
-            $this->tpl->setVariable('FINAL_TYPE_IMG', ilUtil::getImagePath('icon_tst.svg'));
+            $this->tpl->setVariable('FINAL_TYPE_IMG', ilUtil::getImagePath('standard/icon_tst.svg'));
             $this->tpl->setVariable('FINAL_TYPE_ALT', $this->lng->txt('obj_tst'));
             $this->tpl->parseCurrentBlock();
         }

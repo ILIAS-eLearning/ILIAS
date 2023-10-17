@@ -211,10 +211,14 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         $ilAppEventHandler = $this->eventHandler;
 
         $force_login = false;
-        if (isset($_REQUEST['cmd']) &&
-            !is_array($_REQUEST['cmd']) &&
-            strcmp($_REQUEST['cmd'], 'force_login') === 0
-        ) {
+        $request_cmd = '';
+        if ($this->http->wrapper()->query()->has('cmd')) {
+            $request_cmd = $this->http->wrapper()->query()->retrieve(
+                'cmd',
+                $this->refinery->kindlyTo()->string()
+            );
+        }
+        if ($request_cmd === 'force_login') {
             $force_login = true;
         }
 
@@ -229,9 +233,10 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
                 $ilAppEventHandler->raise(
                     'Services/Authentication',
                     'afterLogout',
-                    array(
-                        'username' => $this->user->getLogin()
-                    )
+                    [
+                        'username' => $this->user->getLogin(),
+                        'is_explicit_logout' => false,
+                    ]
                 );
             }
             $this->logger->debug('Show login page');
@@ -401,7 +406,13 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
      */
     protected function processCode(): ?bool
     {
-        $uname = $_POST["uname"];
+        $uname = '';
+        if ($this->http->wrapper()->post()->has('uname')) {
+            $uname = $this->http->wrapper()->post()->retrieve(
+                'uname',
+                $this->refinery->kindlyTo()->string()
+            );
+        }
         $form = $this->initCodeForm($uname);
         if ($uname && $form->checkInput()) {
             $code = $form->getInput("code");
@@ -518,7 +529,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         $pi->setRetype(false);
         $pi->setSkipSyntaxCheck(true);
         $pi->setSize(20);
-        $pi->setDisableHtmlAutoComplete(false);
+        $pi->setDisableHtmlAutoComplete(true);
         $pi->setRequired(true);
         $form->addItem($pi);
 
@@ -842,7 +853,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         if ($this->setting->get("cas_active")) {
             $tpl = new ilTemplate('tpl.login_form_cas.html', true, true, 'Services/Init');
             $tpl->setVariable("TXT_CAS_LOGIN", $this->lng->txt("login_to_ilias_via_cas"));
-            $tpl->setVariable("TXT_CAS_LOGIN_BUTTON", ilUtil::getImagePath("cas_login_button.png"));
+            $tpl->setVariable("TXT_CAS_LOGIN_BUTTON", ilUtil::getImagePath("auth/cas_login_button.png"));
             $tpl->setVariable("TXT_CAS_LOGIN_INSTRUCTIONS", $this->setting->get("cas_login_instructions"));
             $this->ctrl->setParameter($this, "forceCASLogin", "1");
             $tpl->setVariable("TARGET_CAS_LOGIN", $this->ctrl->getLinkTarget($this, "doCasAuthentication"));
@@ -1387,10 +1398,6 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
      */
     public function doLogout(): void
     {
-        global $DIC;
-
-        $ilIliasIniFile = $DIC['ilIliasIniFile'];
-
         $this->eventHandler->raise(
             'Services/Authentication',
             'beforeLogout',
@@ -1404,21 +1411,19 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         $tosWithdrawalGui = new ilTermsOfServiceWithdrawalGUIHelper($this->user);
         $tosWithdrawalGui->handleWithdrawalLogoutRequest($this->httpRequest, $this);
 
-        $had_external_authentication = ilSession::get('used_external_auth');
+        $used_external_auth_mode = ilSession::get('used_external_auth_mode');
 
         ilSession::setClosingContext(ilSession::SESSION_CLOSE_USER);
         $this->authSession->logout();
         $this->eventHandler->raise(
             'Services/Authentication',
             'afterLogout',
-            array(
-                'username' => $this->user->getLogin()
-            )
+            [
+                'username' => $this->user->getLogin(),
+                'is_explicit_logout' => true,
+                'used_external_auth_mode' => $used_external_auth_mode,
+            ]
         );
-        if ((int) $this->user->getAuthMode(true) == ilAuthUtils::AUTH_SAML && $had_external_authentication) {
-            $this->logger->info('Redirecting user to SAML logout script');
-            $this->ctrl->redirectToURL('saml.php?action=logout&logout_url=' . urlencode(ILIAS_HTTP_PATH . '/login.php'));
-        }
 
         // reset cookie
         $client_id = CLIENT_ID;
@@ -1491,7 +1496,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
             if ('confirmWithdrawal' === $this->ctrl->getCmd()) {
                 if (isset($this->httpRequest->getParsedBody()['status']) && 'withdrawn' === $this->httpRequest->getParsedBody()['status']) {
                     $helper->deleteAcceptanceHistoryByUser($this->user->getId());
-                    $this->ctrl->redirectToUrl('logout.php');
+                    $this->ctrl->redirectToUrl(self::logoutUrl());
                 }
             }
 
@@ -1569,7 +1574,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
                     $this->dic->ui()->renderer()->render(
                         $this->dic->ui()->factory()->button()->standard(
                             $this->dic->language()->txt('deny_usr_agreement_btn'),
-                            'logout.php?withdraw_consent'
+                            self::logoutUrl(['withdraw_consent' => ''])
                         )
                     )
                 );
@@ -1906,7 +1911,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
             $view_title = $lng->txt('logout');
             $tpl->setCurrentBlock('link_item_bl');
             $tpl->setVariable('LINK_TXT', $view_title);
-            $tpl->setVariable('LINK_URL', ILIAS_HTTP_PATH . '/logout.php');
+            $tpl->setVariable('LINK_URL', self::logoutUrl());
             $tpl->parseCurrentBlock();
         }
 
@@ -2172,7 +2177,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         switch ($status->getStatus()) {
             case ilAuthStatus::STATUS_AUTHENTICATED:
                 $this->logger->debug('Authentication successful; Redirecting to starting page.');
-                ilInitialisation::redirectToStartingPage($target);
+                ilInitialisation::redirectToStartingPage($target ?? '');
                 return;
 
             case ilAuthStatus::STATUS_ACCOUNT_MIGRATION_REQUIRED:
@@ -2223,5 +2228,24 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         $table->setData($items);
         $this->mainTemplate->setVariable('CONTENT', $table->getHtml());
         $this->mainTemplate->printToStdout('DEFAULT', false);
+    }
+
+    /**
+     * Return the logout URL with a valid CSRF token. Without the token the logout won't be successful.
+     *
+     * @param array<string, string> $parameters
+     */
+    public static function logoutUrl(array $parameters = []): string
+    {
+        global $DIC;
+
+        $defaults = ['lang' => $DIC->user()->getCurrentLanguage()];
+        $parameters = '&' . http_build_query(array_merge($defaults, $parameters));
+
+        $DIC->ctrl()->setTargetScript('logout.php');
+        $url = $DIC->ctrl()->getLinkTargetByClass([self::class], 'doLogout') . $parameters;
+        $DIC->ctrl()->setTargetScript('ilias.php');
+
+        return $url;
     }
 }

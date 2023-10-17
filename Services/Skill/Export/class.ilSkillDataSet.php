@@ -20,7 +20,6 @@ declare(strict_types=1);
  */
 
 use ILIAS\Skill\Tree\SkillTreeFactory;
-use ILIAS\Skill\Tree\SkillTreeNodeManager;
 use ILIAS\Skill\Service\SkillInternalManagerService;
 use ILIAS\Skill\Service\SkillInternalFactoryService;
 
@@ -526,7 +525,7 @@ class ilSkillDataSet extends ilDataSet
                 if (!isset($a_rec["Id"]) || is_null($a_rec["Id"])) {
                     return [];
                 }
-                $skill_tree = $this->skill_tree_factory->getTreeById($a_rec["Id"]);
+                $skill_tree = $this->skill_tree_factory->getTreeById((int) $a_rec["Id"]);
 
                 $deps = [];
                 if ($this->getMode() == self::MODE_SKILLS) {

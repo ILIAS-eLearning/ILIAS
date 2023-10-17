@@ -28,6 +28,7 @@ class ilMailValueObject
 
     /**
      * @param string[] $attachments
+     * @throws InvalidArgumentException
      */
     public function __construct(
         private readonly string $from,
@@ -41,6 +42,9 @@ class ilMailValueObject
         private readonly bool $saveInSentBox = false
     ) {
         $this->attachments = array_filter(array_map('trim', $attachments));
+        if (ilStr::strLen($this->subject) > 255) {
+            throw new InvalidArgumentException('Subject must not be longer than 255 characters');
+        }
     }
 
     public function getRecipients(): string

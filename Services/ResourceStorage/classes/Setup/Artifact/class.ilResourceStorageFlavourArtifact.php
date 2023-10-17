@@ -41,8 +41,7 @@ class ilResourceStorageFlavourArtifact extends BuildArtifactObjective
 
     public function build(): Artifact
     {
-        $default_machine_ids = (new DefaultMachines())->get();
-        $machines = [];
+        $machines = (new DefaultMachines())->get();
 
         $finder = new ImplementationOfInterfaceFinder();
 
@@ -61,28 +60,29 @@ class ilResourceStorageFlavourArtifact extends BuildArtifactObjective
                 throw new LogicException("ID of machine '$machine_name' exceeds 64 characters.");
             }
 
-            if (isset($default_machine_ids[$machine_id])) {
+            if (isset($machines[$machine_id]) && $machines[$machine_id] !== $machine_name) {
                 throw new LogicException(
                     "Machine '$default_machine_ids[$machine_id]' and '$machine_name' implement the same ID ($machine_id)."
-                );
-            }
-
-            if (isset($machines[$machine_id])) {
-                throw new LogicException(
-                    "Machine '$machines[$machine_id]' and '$machine_name' implement the same ID ($machine_id)."
                 );
             }
 
             $machines[$machine_id] = $machine_name;
         }
 
-        $default_definition_ids = (new DefaultDefinitions())->get();
-        $definitions = [];
+        $definitions = (new DefaultDefinitions())->get();
 
         foreach ($finder->getMatchingClassNames(FlavourDefinition::class) as $definition_name) {
             /** @var $definition FlavourDefinition */
-            $definition = new $definition_name();
-            $definition_id = $definition->getId();
+
+            // create instance without calling constructor using reflection class
+            try {
+                $reflection = new ReflectionClass($definition_name);
+                $definition = $reflection->newInstanceWithoutConstructor();
+                $definition_id = $definition->getId();
+            } catch (ReflectionException $e) {
+                continue;
+            }
+
 
             if ($definition_name === $definition_id) {
                 throw new LogicException(
@@ -94,15 +94,9 @@ class ilResourceStorageFlavourArtifact extends BuildArtifactObjective
                 throw new LogicException("ID of definition '$definition_name' exceeds 64 characters.");
             }
 
-            if (isset($definitions[$definition_id])) {
+            if (isset($definitions[$definition_id]) && $definitions[$definition_id] !== $definition_name) {
                 throw new LogicException(
                     "Definition '$definitions[$definition_id]' and '$definition_name' implement the same ID ($definition_id)."
-                );
-            }
-
-            if (isset($default_definition_ids[$definition_id])) {
-                throw new LogicException(
-                    "Definition '$default_definition_ids[$definition_id]' and '$definition_name' implement the same ID ($definition_id)."
                 );
             }
 

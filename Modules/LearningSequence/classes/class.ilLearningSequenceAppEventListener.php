@@ -90,7 +90,7 @@ class ilLearningSequenceAppEventListener
             $notification->setTitleVar($lso_title);
             $notification->setShortDescriptionVar('lso_completion_short');
             $notification->setLongDescriptionVar('lso_completion_long');
-            $notification->setIconPath('templates/default/images/icon_lso.svg');
+            $notification->setIconPath('templates/default/images/standard/icon_lso.svg');
             $notification->notifyByUsers([$parameter['usr_id']]);
         }
     }

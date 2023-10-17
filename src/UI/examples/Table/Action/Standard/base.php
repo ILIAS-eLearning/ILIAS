@@ -5,9 +5,11 @@ declare(strict_types=1);
 namespace ILIAS\UI\examples\Table\Action\Standard;
 
 use ILIAS\UI\Implementation\Component\Table as T;
+use ILIAS\UI\Implementation\Component\Table\Action\Action;
 use ILIAS\UI\Component\Table as I;
 use ILIAS\Data\Range;
 use ILIAS\Data\Order;
+use ILIAS\UI\URLBuilder;
 
 function base()
 {
@@ -15,21 +17,32 @@ function base()
     $f = $DIC['ui.factory'];
     $r = $DIC['ui.renderer'];
     $df = new \ILIAS\Data\Factory();
-    $here_uri = $df->uri($DIC->http()->request()->getUri()->__toString());
+    $refinery = $DIC['refinery'];
 
+    //this is the endpoint for actions, in this case the same page.
+    $here_uri = $df->uri($DIC->http()->request()->getUri()->__toString());
+    $url_builder = new URLBuilder($here_uri);
+
+    //these are the query parameters this instance is controlling
+    $query_params_namespace = ['datatable', 'example'];
+    list($url_builder, $id_token, $action_token) = $url_builder->acquireParameters(
+        $query_params_namespace,
+        "some_row_id",
+        "table_action"
+    );
 
     //define standard (both single and multi) actions for the table
     $actions = [
-        'some_action' => $f->table()->action()->standard(
+        $f->table()->action()->standard(
             'do this',
-            'relay_param',
-            $here_uri->withParameter('demo_table_action', 'do_something')
+            $url_builder->withParameter($action_token, "do_something"),
+            $id_token
         ),
-        'some_other_action' => $f->table()->action()->standard(
+        $f->table()->action()->standard(
             'do something else',
-            'relay_param',
-            $here_uri->withParameter('demo_table_action', 'do_something_else')
-        ),
+            $url_builder->withParameter($action_token, "do_something_else"),
+            $id_token
+        )->withAsync(),
     ];
 
     $table = getExampleTable($f)
@@ -38,17 +51,38 @@ function base()
 
     //render table and results
     $result = [$table];
-    $params = [];
-    $request = $DIC->http()->request();
-    parse_str($request->getUri()->getQuery(), $params);
-    if (array_key_exists('demo_table_action', $params)) {
-        $items = [
-            'table_action' => $params['demo_table_action'],
-            'id' => print_r($params['relay_param'] ?? '', true),
-        ];
-        $result[] = $f->divider()->horizontal();
-        $result[] = $f->listing()->characteristicValue()->text($items);
+
+    $query = $DIC->http()->wrapper()->query();
+    if ($query->has($action_token->getName())) {
+        $action = $query->retrieve($action_token->getName(), $refinery->to()->string());
+        $ids = $query->retrieve($id_token->getName(), $refinery->custom()->transformation(fn($v) => $v));
+
+        if ($action === 'do_something_else') {
+            $items = [];
+            $ids = explode(',', $ids);
+            foreach ($ids as $id) {
+                $items[] = $f->modal()->interruptiveItem()->keyValue($id, $id_token->getName(), $id);
+            }
+            echo($r->renderAsync([
+                $f->modal()->interruptive(
+                    'do something else',
+                    'affected items',
+                    '#'
+                )->withAffectedItems($items)
+            ]));
+            exit();
+        } else {
+            $items = $f->listing()->characteristicValue()->text(
+                [
+                    'table_action' => $action,
+                    'id' => print_r($ids, true),
+                ]
+            );
+            $result[] = $f->divider()->horizontal();
+            $result[] = $items;
+        }
     }
+
     return $r->render($result);
 }
 

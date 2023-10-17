@@ -19,6 +19,9 @@ declare(strict_types=1);
  ********************************************************************
  */
 
+use ILIAS\UI\Factory;
+use ILIAS\UI\Renderer;
+
 /**
  * TableGUI class for poll users
  *
@@ -27,6 +30,8 @@ declare(strict_types=1);
 class ilPollUserTableGUI extends ilTable2GUI
 {
     protected array $answer_ids = [];
+    protected Factory $factory;
+    protected Renderer $renderer;
 
     public function __construct(object $a_parent_obj, string $a_parent_cmd)
     {
@@ -36,6 +41,8 @@ class ilPollUserTableGUI extends ilTable2GUI
         $this->lng = $DIC->language();
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
+        $this->factory = $DIC->ui()->factory();
+        $this->renderer = $DIC->ui()->renderer();
 
         $this->setId("ilobjpollusr");
 
@@ -85,10 +92,16 @@ class ilPollUserTableGUI extends ilTable2GUI
 
     protected function fillRow(array $a_set): void
     {
+        $rendered_ok = $this->renderer->render(
+            $this->factory->symbol()->icon()->custom(
+                ilUtil::getImagePath('standard/icon_ok.svg'),
+                $this->lng->txt('poll_answer')
+            )
+        );
         $this->tpl->setCurrentBlock("answer_bl");
         foreach ($this->answer_ids as $answer_id) {
             if ($a_set["answer" . $answer_id]) {
-                $this->tpl->setVariable("ANSWER", '<img src="' . ilUtil::getImagePath("icon_ok.svg") . '" />');
+                $this->tpl->setVariable("ANSWER", $rendered_ok);
             } else {
                 $this->tpl->setVariable("ANSWER", "&nbsp;");
             }

@@ -16,15 +16,11 @@
  *
  *********************************************************************/
 
-/**
- * Class ilDclMobRecordFieldModel
- * @author  Stefan Wanzenried <sw@studer-raimann.ch>
- * @author  Fabian Schmid <fs@studer-raimann.ch>
- * @author  Michael Herren <mh@studer-raimann.ch>
- */
+declare(strict_types=1);
+
 class ilDclMobRecordFieldModel extends ilDclBaseRecordFieldModel
 {
-    private \ilGlobalTemplateInterface $main_tpl;
+    private ilGlobalTemplateInterface $main_tpl;
     private \ILIAS\FileUpload\FileUpload $upload;
 
     public function __construct(ilDclBaseRecordModel $record, ilDclBaseFieldModel $field)
@@ -72,7 +68,6 @@ class ilDclMobRecordFieldModel extends ilDclBaseRecordFieldModel
             $file_name = ilFileUtils::getASCIIFilename($media['name']);
             $file_name = str_replace(" ", "_", $file_name);
             $target_file_path = $mob_dir . "/" . $file_name;
-            $title = $file_name;
             $location = $file_name;
 
             if ($has_save_confirmation) {
@@ -150,7 +145,7 @@ class ilDclMobRecordFieldModel extends ilDclBaseRecordFieldModel
                 $mob_file = ilObjMediaObject::_getDirectory($mob->getId()) . "/" . $med->getLocation();
                 $a_target_dir = ilObjMediaObject::_getDirectory($mob->getId());
                 try {
-                    $new_file = ilFFmpeg::extractImage($mob_file, "mob_vpreview.png", $a_target_dir, 1);
+                    ilFFmpeg::extractImage($mob_file, "mob_vpreview.png", $a_target_dir);
                 } catch (Exception $e) {
                     $this->main_tpl->setOnScreenMessage('failure', $e->getMessage(), true);
                 }
@@ -180,9 +175,7 @@ class ilDclMobRecordFieldModel extends ilDclBaseRecordFieldModel
         $file = $value;
         if (is_numeric($file)) {
             $mob = new ilObjMediaObject($file);
-            $mob_name = $mob->getTitle();
-
-            return $mob_name;
+            return $mob->getTitle();
         }
 
         return $file;
@@ -219,11 +212,11 @@ class ilDclMobRecordFieldModel extends ilDclBaseRecordFieldModel
 
     public function afterClone(): void
     {
-        $field = ilDclCache::getCloneOf($this->getField()->getId(), ilDclCache::TYPE_FIELD);
+        $field = ilDclCache::getCloneOf((int) $this->getField()->getId(), ilDclCache::TYPE_FIELD);
         $record = ilDclCache::getCloneOf($this->getRecord()->getId(), ilDclCache::TYPE_RECORD);
         $record_field = ilDclCache::getRecordFieldCache($record, $field);
 
-        if (!$record_field || !$record_field->getValue()) {
+        if (!$record_field->getValue()) {
             return;
         }
 

@@ -546,7 +546,7 @@ class ilBadgeHandler
                     $notification->setShortDescriptionVar("badge_notification_osd", $osd_params, "badge");
                     $notification->setLongDescriptionVar("");
                     $notification->setLinks([$url]);
-                    $notification->setIconPath(ilUtil::getImagePath('icon_bdga.svg'));
+                    $notification->setIconPath(ilUtil::getImagePath('standard/icon_bdga.svg'));
                     $notification->setValidForSeconds(ilNotificationConfig::TTL_SHORT);
                     $notification->setVisibleForSeconds(ilNotificationConfig::DEFAULT_TTS);
                     $notification->setIdentification(new NotificationIdentification(

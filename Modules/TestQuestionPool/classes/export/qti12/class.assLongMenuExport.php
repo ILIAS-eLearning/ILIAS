@@ -94,8 +94,8 @@ class assLongMenuExport extends assQuestionExport
         $xml->xmlStartTag("flow");
 
 
-        $this->object->addQTIMaterial($xml, $this->object->getQuestion());
-        $this->object->addQTIMaterial($xml, $this->object->getLongMenuTextValue());
+        $this->addQTIMaterial($xml, $this->object->getQuestion());
+        $this->addQTIMaterial($xml, $this->object->getLongMenuTextValue());
 
         foreach ($answers as $key => $values) {
             $real_id = $key + 1;
@@ -219,7 +219,7 @@ class assLongMenuExport extends assQuestionExport
                 0,
                 $i
             );
-            $this->object->addQTIMaterial($xml, $fb);
+            $this->addQTIMaterial($xml, $fb);
             $xml->xmlEndTag("flow_mat");
             $xml->xmlEndTag("itemfeedback");
         }

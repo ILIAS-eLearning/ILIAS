@@ -65,6 +65,7 @@ class Services
         LockHandler $lock_handler,
         FileNamePolicy $file_name_policy,
         StreamAccess $stream_access,
+        Factory $machine_factory,
         SrcBuilder $src_builder = null,
         RepositoryPreloader $preloader = null
     ) {
@@ -102,11 +103,6 @@ class Services
             $resource_builder,
             $collection_builder,
             $this->preloader
-        );
-
-        $machine_factory = new Factory(
-            new \ILIAS\ResourceStorage\Flavour\Engine\Factory(),
-            $artifacts->getFlavourMachines()
         );
 
         $flavour_builder = new FlavourBuilder(

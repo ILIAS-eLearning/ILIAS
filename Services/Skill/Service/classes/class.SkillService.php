@@ -21,6 +21,8 @@ declare(strict_types=1);
 
 namespace ILIAS\Skill\Service;
 
+use ILIAS\Container\Skills\ContainerSkillInternalService;
+
 /**
  * Skill service
  * @author famula@leifos.de
@@ -41,7 +43,9 @@ class SkillService implements SkillServiceInterface
 
         $this->repository_tree = $DIC->repositoryTree();
         $skmg_obj = current(\ilObject::_getObjectsByType("skmg"));
-        $this->skmg_ref_id = (int) current(\ilObject::_getAllReferences((int) $skmg_obj["obj_id"]));
+        if ($skmg_obj) {
+            $this->skmg_ref_id = (int) current(\ilObject::_getAllReferences((int) $skmg_obj["obj_id"]));
+        }
         $this->rbac_system = $DIC->rbac()->system();
         $this->usr_id = $DIC->user()->getId();
     }
@@ -97,5 +101,13 @@ class SkillService implements SkillServiceInterface
             $this->rbac_system,
             $this->usr_id
         );
+    }
+
+    /**
+     * Internal service for Skill classes in Container Service
+     */
+    public function internalContainer(): ContainerSkillInternalService
+    {
+        return new ContainerSkillInternalService();
     }
 }

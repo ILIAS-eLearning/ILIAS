@@ -444,7 +444,7 @@ class ilMailFolderTableGUI extends ilTable2GUI
 
             $mail['txt_select_mail_with_subject'] = sprintf(
                 $this->lng->txt('select_mail_with_subject_x'),
-                htmlspecialchars($mail['m_subject'])
+                htmlspecialchars($mail['m_subject'] ?? '')
             );
 
             if ($this->isDraftFolder() || $this->isSentFolder()) {
@@ -453,7 +453,7 @@ class ilMailFolderTableGUI extends ilTable2GUI
                     false
                 );
             } elseif ($mail['sender_id'] === ANONYMOUS_USER_ID) {
-                $mail['img_sender'] = ilUtil::getImagePath('HeaderIconAvatar.svg');
+                $mail['img_sender'] = ilUtil::getImagePath('logo/HeaderIconAvatar.svg');
                 $mail['from'] =
                 $mail['mail_login'] =
                 $mail['alt_sender'] =
@@ -468,8 +468,8 @@ class ilMailFolderTableGUI extends ilTable2GUI
                     );
                 } else {
                     $mail['img_sender'] = '';
-                    $mail['from'] = $mail['mail_login'] = $mail['import_name'] . ' ('
-                        . $this->lng->txt('user_deleted') . ')';
+                    $mail['from'] = $mail['mail_login'] = trim(($mail['import_name'] ?? '') . ' ('
+                        . $this->lng->txt('user_deleted') . ')');
                 }
             }
 
@@ -517,7 +517,7 @@ class ilMailFolderTableGUI extends ilTable2GUI
                 if (!isset($mail['msr_subject']) || !$mail['msr_subject']) {
                     $mail['msr_subject_link_read'] = $link_mark_as_read;
                     $mail['msr_subject_mailclass'] = $css_class;
-                    $mail['msr_subject'] = htmlspecialchars($mail['m_subject']);
+                    $mail['msr_subject'] = htmlspecialchars($mail['m_subject'] ?? '');
                 }
                 $mail['msr_subject_read_unread'] = $mail['m_status'] === 'read' ? $this->lng->txt('mail_is_read') : $this->lng->txt('mail_is_unread');
             } else {

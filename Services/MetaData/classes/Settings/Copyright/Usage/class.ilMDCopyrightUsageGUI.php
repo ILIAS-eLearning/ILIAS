@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,8 +16,11 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory;
+use ILIAS\MetaData\Copyright\EntryInterface;
 
 /**
  * @author       Jesús López <lopez@leifos.com>
@@ -30,7 +31,7 @@ class ilMDCopyrightUsageGUI
 {
     public const DEFAULT_CMD = 'showUsageTable';
 
-    protected int $entry_id;
+    protected EntryInterface $entry;
 
     protected ilGlobalTemplateInterface $tpl;
     protected ilCtrl $ctrl;
@@ -39,7 +40,7 @@ class ilMDCopyrightUsageGUI
     protected GlobalHttpState $http;
     protected Factory $refinery;
 
-    public function __construct(int $a_entry_id)
+    public function __construct(EntryInterface $entry)
     {
         global $DIC;
 
@@ -50,7 +51,7 @@ class ilMDCopyrightUsageGUI
         $this->tabs = $DIC->tabs();
         $this->refinery = $DIC->refinery();
 
-        $this->entry_id = $a_entry_id;
+        $this->entry = $entry;
     }
 
     public function executeCommand(): void
@@ -106,7 +107,12 @@ class ilMDCopyrightUsageGUI
 
     public function getEntryId(): int
     {
-        return $this->entry_id;
+        return $this->entry->id();
+    }
+
+    public function getEntryTitle(): string
+    {
+        return $this->entry->title();
     }
 
     protected function applyUsageFilter(): void

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Class ilTestPlayerConfirmationModalTest
@@ -71,16 +71,14 @@ class ilTestPlayerConfirmationModalTest extends ilTestBaseTestCase
     public function testAddButton(): void
     {
         $this->addGlobal_lng();
+        $this->addGlobal_uiFactory();
+
         $expected = [];
 
         foreach ([51, 291, 15, 681] as $id) {
-            $button = ilLinkButton::getInstance();
-            $button->setId((string) $id);
-            $expected[] = $button;
-        }
-
-        foreach ($expected as $button) {
+            $button = $this->testObj->buildModalButtonInstance((string) $id);
             $this->testObj->addButton($button);
+            $expected[] = $button;
         }
 
         $this->assertEquals($expected, $this->testObj->getButtons());

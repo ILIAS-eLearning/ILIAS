@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,10 +16,12 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\Repository\Form;
 
 use ILIAS\UI\Component\Input\Container\Form;
-use ILIAS\UI\Component\Input\Field\FormInput;
+use ILIAS\UI\Component\Input\Container\Form\FormInput;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -29,10 +29,12 @@ use ILIAS\UI\Component\Input\Field\FormInput;
 class FormAdapterGUI
 {
     protected const DEFAULT_SECTION = "@internal_default_section";
+    protected bool $in_modal = false;
     protected string $submit_caption = "";
     protected \ilLanguage $lng;
     protected const ASYNC_NONE = 0;
     protected const ASYNC_MODAL = 1;
+    protected const ASYNC_ON = 2;
     protected \ILIAS\Data\Factory $data;
     protected \ilObjUser $user;
     protected string $last_key = "";
@@ -119,7 +121,25 @@ class FormAdapterGUI
     public function asyncModal(): self
     {
         $this->async_mode = self::ASYNC_MODAL;
+        $this->in_modal = true;
         return $this;
+    }
+
+    public function async(): self
+    {
+        $this->async_mode = self::ASYNC_ON;
+        return $this;
+    }
+
+    public function syncModal(): self
+    {
+        $this->in_modal = true;
+        return $this;
+    }
+
+    public function isSentAsync(): bool
+    {
+        return ($this->async_mode !== self::ASYNC_NONE);
     }
 
     public function getTitle(): string
@@ -155,6 +175,30 @@ class FormAdapterGUI
         if (!is_null($value)) {
             $field = $field->withValue($value);
         }
+        $this->addField($key, $field);
+        return $this;
+    }
+
+    public function checkbox(
+        string $key,
+        string $title,
+        string $description = "",
+        ?bool $value = null
+    ): self {
+        $field = $this->ui->factory()->input()->field()->checkbox($title, $description);
+        if (!is_null($value)) {
+            $field = $field->withValue($value);
+        }
+        $this->addField($key, $field);
+        return $this;
+    }
+
+    public function hidden(
+        string $key,
+        string $value
+    ): self {
+        $field = $this->ui->factory()->input()->field()->hidden();
+        $field = $field->withValue($value);
         $this->addField($key, $field);
         return $this;
     }
@@ -356,15 +400,19 @@ class FormAdapterGUI
         string $id_parameter,
         string $description = "",
         int $max_files = 1,
-        array $mime_types = []
+        array $mime_types = [],
+        array $ctrl_path = [],
+        string $logger_id = ""
     ): self {
         $this->upload_handler[$key] = new \ilRepoStandardUploadHandlerGUI(
             $result_handler,
-            $id_parameter
+            $id_parameter,
+            $logger_id,
+            $ctrl_path
         );
 
         if (count($mime_types) > 0) {
-            $description.= $this->lng->txt("rep_allowed_types") . ": " .
+            $description .= $this->lng->txt("rep_allowed_types") . ": " .
                 implode(", ", $mime_types);
         }
 
@@ -373,8 +421,8 @@ class FormAdapterGUI
             $title,
             $description
         )
-            ->withMaxFileSize((int) \ilFileUtils::getUploadSizeLimitBytes())
-            ->withMaxFiles($max_files);
+                          ->withMaxFileSize((int) \ilFileUtils::getUploadSizeLimitBytes())
+                          ->withMaxFiles($max_files);
         if (count($mime_types) > 0) {
             $field = $field->withAcceptedMimeTypes($mime_types);
         }
@@ -420,6 +468,9 @@ class FormAdapterGUI
             if ($field instanceof \ILIAS\UI\Component\Input\Field\SwitchableGroup) {
                 $field_path[] = 0;      // the value of the SwitchableGroup is in the 0 key of the raw data
             }
+            if ($field instanceof \ILIAS\UI\Component\Input\Field\File) {
+                $field_path[] = 0;      // the value of File Inputs is in the 0 key of the raw data
+            }
         }
         $this->fields[$key] = $field;
         $this->field_path[$key] = $field_path;
@@ -453,7 +504,10 @@ class FormAdapterGUI
 
         if (is_null($this->form)) {
             $async = ($this->async_mode !== self::ASYNC_NONE);
-            $action = $ctrl->getLinkTargetByClass($this->class_path, $this->cmd, "", $async);
+            $action = "";
+            if (!is_null($this->class_path)) {
+                $action = $ctrl->getLinkTargetByClass($this->class_path, $this->cmd, "", $async);
+            }
             $inputs = [];
             foreach ($this->sections as $sec_key => $section) {
                 if ($sec_key === self::DEFAULT_SECTION) {
@@ -466,7 +520,6 @@ class FormAdapterGUI
                         $sec_inputs[$f_key] = $this->getFieldForKey($f_key);
                     }
                     $inputs[$sec_key] = $this->ui->factory()->input()->field()->section(
-                        /*$this->fields[$sec_key]*/
                         $sec_inputs,
                         $section["title"],
                         $section["description"]
@@ -478,15 +531,15 @@ class FormAdapterGUI
                 $inputs
             );
             if ($this->submit_caption !== "") {
-                $this->form = $this->form->withSubmitCaption($this->submit_caption);
+                $this->form = $this->form->withSubmitLabel($this->submit_caption);
             }
         }
         return $this->form;
     }
 
-    public function getSubmitCaption(): string
+    public function getSubmitLabel(): string
     {
-        return $this->getForm()->getSubmitCaption() ?? $this->lng->txt("save");
+        return $this->getForm()->getSubmitLabel() ?? $this->lng->txt("save");
     }
 
     protected function _getData(): void
@@ -540,10 +593,12 @@ class FormAdapterGUI
         } else {
             $html = $this->ui->renderer()->renderAsync($this->getForm()) . "<script>" . $this->getOnLoadCode() . "</script>";
         }
-        switch ($this->async_mode) {
-            case self::ASYNC_MODAL:
-                $html = str_replace("<form ", "<form data-rep-form-async='modal' ", $html);
-                break;
+        if ($this->in_modal) {
+            if ($this->async_mode === self::ASYNC_MODAL) {
+                $html = str_replace("<form ", "<form data-rep-modal-form='async' ", $html);
+            } else {
+                $html = str_replace("<form ", "<form data-rep-modal-form='sync' ", $html);
+            }
         }
         return $html;
     }

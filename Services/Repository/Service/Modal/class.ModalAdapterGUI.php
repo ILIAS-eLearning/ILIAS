@@ -1,19 +1,22 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
+ *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\Repository\Modal;
 
@@ -82,7 +85,7 @@ class ModalAdapterGUI
         return $this;
     }
 
-    public function button(string $text, string $url, bool $replace_modal = true): self
+    public function button(string $text, string $url, bool $replace_modal = true, $onclick = ""): self
     {
         $target = $replace_modal
             ? "#"
@@ -94,30 +97,43 @@ class ModalAdapterGUI
         );
 
         if ($replace_modal) {
-            $button = $button->withOnLoadCode(function ($id) use ($url) {
+            $button = $button->withOnLoadCode(function ($id) use ($url, $onclick) {
                 return
-                    "$('#$id').click(function(event) { il.repository.ui.redirect('$url'); return false;});";
+                    "$('#$id').click(function(event) { $onclick; il.repository.ui.redirect('$url'); return false;});";
+            });
+        } elseif ($onclick !== "") {
+            $button = $button->withOnLoadCode(function ($id) use ($url, $onclick) {
+                return "$('#$id').click(function(event) { $onclick });";
             });
         }
         $this->action_buttons[] = $button;
         return $this;
     }
 
-    public function form(\ILIAS\Repository\Form\FormAdapterGUI $form): self
-    {
+    public function form(
+        \ILIAS\Repository\Form\FormAdapterGUI $form,
+        string $on_form_submit_click = ""
+    ): self {
         if ($this->ctrl->isAsynch()) {
             $this->form = $form->asyncModal();
-            $button = $this->ui->factory()->button()->standard(
-                $this->form->getSubmitCaption(),
-                "#"
-            )->withOnLoadCode(function ($id) {
-                return
-                    "$('#$id').click(function(event) { il.repository.ui.submitModalForm(event); return false;});";
-            });
-            $this->action_buttons[] = $button;
         } else {
-            $this->form = $form;
+            $this->form = $form->syncModal();
         }
+
+        $async = $this->form->isSentAsync()
+            ? "true"
+            : "false";
+        if ($on_form_submit_click === "") {
+            $on_form_submit_click = "il.repository.ui.submitModalForm(event,$async); return false;";
+        }
+        $button = $this->ui->factory()->button()->standard(
+            $this->form->getSubmitLabel(),
+            "#"
+        )->withOnLoadCode(function ($id) use ($on_form_submit_click) {
+            return
+                "$('#$id').click(function(event) {" . $on_form_submit_click . "});";
+        });
+        $this->action_buttons[] = $button;
         $this->ui_content = null;
         return $this;
     }
@@ -171,7 +187,7 @@ class ModalAdapterGUI
             $button = $ui->factory()->button()->standard($button_title, "#")
                          ->withOnClick($modal->getShowSignal());
         }
-        return ["button" => $button, "modal" => $modal];
+        return ["button" => $button, "modal" => $modal, "signal" => $modal->getShowSignal()->getId()];
     }
 
     public function getTriggerButtonComponents(string $button_title, $shy = true): array
@@ -186,6 +202,6 @@ class ModalAdapterGUI
             $button = $ui->factory()->button()->standard($button_title, "#")
                          ->withOnClick($modal->getShowSignal());
         }
-        return ["button" => $button, "modal" => $modal];
+        return ["button" => $button, "modal" => $modal, "signal" => $modal->getShowSignal()->getId()];
     }
 }

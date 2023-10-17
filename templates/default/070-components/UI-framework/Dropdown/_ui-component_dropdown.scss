@@ -1,7 +1,8 @@
+@use "sass:math";
 @use "../../../010-settings/" as s;
 @use "../../../010-settings/legacy-settings/legacy-settings_menu" as t-menu;
 @use "../../../030-tools/legacy-bootstrap-mixins/nav-divider" as t-ndiv;
-@use "../../../030-tools/legacy-bootstrap-mixins/vendor-prefixes" as t-ven;
+@use "../../../030-tools/_tool_browser-prefixes" as t-ven;
 @use "../../../050-layout/basics" as l;
 
 // section based on bootstrap 3 - see /templates/default/Guidelines_SCSS-Coding.md
@@ -43,9 +44,6 @@ $cursor-disabled: not-allowed !default;
 // Dropdown arrow/caret
 .caret {
 	display: inline-block;
-	width: 0;
-	height: 0;
-	margin-left: 2px;
 	vertical-align: middle;
 	border-top: s.$il-caret-width-base dashed;
 	border-top: s.$il-caret-width-base solid \9; // IE8
@@ -57,6 +55,7 @@ $cursor-disabled: not-allowed !default;
   .dropup,
   .dropdown {
 	position: relative;
+	display: inline-block; // so dropdown can be in one line with a button
   }
   
   // Prevent the focus on the dropdown toggle when closing dropdowns
@@ -167,16 +166,6 @@ $cursor-disabled: not-allowed !default;
 	left: 0;
   }
   
-  // Dropdown section headers
-  .dropdown-header {
-	display: block;
-	padding: 3px 20px;
-	font-size: s.$il-font-size-small;
-	line-height: s.$il-line-height-base;
-	color: $dropdown-header-color;
-	white-space: nowrap; // as with > li > a
-  }
-  
   // Backdrop to catch body clicks on mobile, etc.
   .dropdown-backdrop {
 	position: fixed;
@@ -223,7 +212,9 @@ $cursor-disabled: not-allowed !default;
 	margin-bottom: 4px;
 	border-bottom: 1px solid s.$il-main-border-color;
 	> h2 {
-		margin-bottom: 2px;
+		margin-top: math.div(l.$grid-gutter-width, 2);
+		margin-bottom: l.$il-margin-xs-vertical;
+		font-size: s.$il-font-size-large;
 	}
 }
 .dropdown-menu {
@@ -231,6 +222,13 @@ $cursor-disabled: not-allowed !default;
 	font-weight: s.$il-font-weight-base;
 	border: 0 none;
 	@include t-ven.box-shadow(t-menu.$il-dropdown-shadow);
+	// in repo "add object" dropdown
+	.row {
+		margin-bottom: math.div(l.$grid-gutter-width, 2);
+		> ul[class*="col-"] {
+			padding-left: math.div(l.$grid-gutter-width, 2);
+		}
+	}
 	// Links within the dropdown menu
 	li > a,
 	li > .btn-link {

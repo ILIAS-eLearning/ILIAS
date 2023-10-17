@@ -16,6 +16,9 @@
  *
  *********************************************************************/
 
+use ILIAS\UI\Renderer as UIRenderer;
+use ILIAS\UI\Component\Symbol\Glyph\Factory as GlyphFactory;
+
 require_once './Modules/Test/classes/inc.AssessmentConstants.php';
 
 /**
@@ -28,6 +31,8 @@ require_once './Modules/Test/classes/inc.AssessmentConstants.php';
 class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjustable
 {
     private $ilTabs;
+    private GlyphFactory $glyph_factory;
+    private UIRenderer $renderer;
 
     public function __construct($id = -1)
     {
@@ -36,11 +41,15 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
         if ($id >= 0) {
             $this->object->loadFromDb($id);
         }
+        /** @var ILIAS\DI\Container $DIC */
         global $DIC;
         $ilTabs = $DIC['ilTabs'];
         $lng = $DIC['lng'];
         $this->ilTabs = $ilTabs;
         $this->lng = $lng;
+        $this->glyph_factory = $DIC['ui.factory']->symbol()->glyph();
+        $this->renderer = $DIC['ui.renderer'];
+
     }
 
     /**
@@ -74,7 +83,8 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
     {
         $form = $this->buildEditForm();
         $form->setValuesByPost();
-        $check = $form->checkInput();
+        $check = $form->checkInput() && $this->verifyAnswerOptions();
+
         if (!$check) {
             $this->editQuestion($form);
             return 1;
@@ -107,6 +117,22 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
         $this->object->setIdenticalScoring($this->request->int('identical_scoring'));
 
         $this->saveTaxonomyAssignments();
+    }
+
+    private function verifyAnswerOptions(): bool
+    {
+        $longmenu_text = $this->request->raw('longmenu_text') ?? '';
+        $hidden_text_files = $this->request->raw('hidden_text_files') ?? '';
+        $answer_options_from_text = preg_split(
+            "/\\[" . assLongMenu::GAP_PLACEHOLDER . " (\\d+)\\]/",
+            $longmenu_text
+        );
+        $answer_options_from_files = json_decode(ilUtil::stripSlashes($hidden_text_files));
+        if (count($answer_options_from_text) - 1 !== count($answer_options_from_files)) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('longmenu_answeroptions_differ'));
+            return false;
+        }
+        return true;
     }
 
     protected function trimArrayRecursive(array $data)
@@ -255,6 +281,12 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
         $tpl->setVariable('MISSING_VALUE', $this->lng->txt('msg_input_is_required'));
         $tpl->setVariable('SAVE', $this->lng->txt('save'));
         $tpl->setVariable('CANCEL', $this->lng->txt('cancel'));
+        $tpl->setVariable('ADD_BUTTON', $this->renderer->render(
+            $this->glyph_factory->add()->withAction('#')
+        ));
+        $tpl->setVariable('REMOVE_BUTTON', $this->renderer->render(
+            $this->glyph_factory->remove()->withAction('#')
+        ));
         $tag_input = new ilTagInputGUI();
         $tag_input->setPostVar('taggable');
         $tag_input->setJsSelfInit(false);
@@ -309,8 +341,7 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
         $template = new ilTemplate("tpl.il_as_qpl_longmenu_question_output_solution.html", true, true, "Modules/TestQuestionPool");
 
         if ($show_question_text) {
-            $question_text = $this->object->getQuestion();
-            $template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($question_text, true));
+            $template->setVariable("QUESTIONTEXT", $this->object->getQuestionForHTMLOutput());
         }
         if (($active_id > 0) && (!$show_correct_solution)) {
             $correct_solution = $this->getUserSolution($active_id, $pass);
@@ -337,7 +368,7 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
             );
 
             $solution_template->setVariable("ILC_FB_CSS_CLASS", $cssClass);
-            $solution_template->setVariable("FEEDBACK", $this->object->prepareTextareaOutput($feedback, true));
+            $solution_template->setVariable("FEEDBACK", ilLegacyFormElementsUtil::prepareTextareaOutput($feedback, true));
         }
 
         $solution_template->setVariable("SOLUTION_OUTPUT", $question_output);
@@ -398,8 +429,7 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
             . json_encode($this->object->getAvailableAnswerOptions())
             . ')');
 
-        $question_text = $this->object->getQuestion();
-        $template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($question_text, true));
+        $template->setVariable("QUESTIONTEXT", $this->object->getQuestionForHTMLOutput());
         $template->setVariable('LONGMENU_TEXT', $this->getLongMenuTextWithInputFieldsInsteadOfGaps($user_solution));
         return $template;
     }
@@ -426,7 +456,7 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
             ) . '</td> </tr>';
         }
         $feedback .= '</tbody></table>';
-        return $this->object->prepareTextareaOutput($feedback, true);
+        return ilLegacyFormElementsUtil::prepareTextareaOutput($feedback, true);
     }
 
 
@@ -491,8 +521,12 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
         foreach ($text_array as $key => $value) {
             $answer_is_correct = false;
             $user_value = '';
-            $return_value .= $this->object->prepareTextareaOutput($value, true);
+            $return_value .= ilLegacyFormElementsUtil::prepareTextareaOutput($value, true);
             if ($key < sizeof($text_array) - 1) {
+                if (!array_key_exists($key, $correct_answers)) {
+                    $this->tpl->setOnScreenMessage('failure', $this->lng->txt('longmenu_answeroptions_differ'));
+                    continue;
+                }
                 if ($correct_answers[$key][2] == assLongMenu::ANSWER_TYPE_TEXT_VAL) {
                     if (array_key_exists($key, $user_solution)) {
                         $user_value = $user_solution[$key];
@@ -578,7 +612,7 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
 
     public function getAnswersFrequency($relevantAnswers, $questionIndex): array
     {
-        $answers = array();
+        $answers = [];
 
         foreach ($relevantAnswers as $row) {
             if ($row['value1'] != $questionIndex) {

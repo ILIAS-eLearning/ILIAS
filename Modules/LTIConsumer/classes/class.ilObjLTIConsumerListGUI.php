@@ -75,14 +75,14 @@ class ilObjLTIConsumerListGUI extends ilObjectListGUI
                 // "view" added, see #19922
                 $this->tpl->setVariable('EXP_HREF', $this->ctrl->getLinkTarget($this->container_obj, 'view', $this->getUniqueItemId(true)));
                 $this->ctrl->clearParameters($this->container_obj);
-                $this->tpl->setVariable('EXP_IMG', ilUtil::getImagePath('tree_exp.svg'));
+                $this->tpl->setVariable('EXP_IMG', ilUtil::getImagePath('nav/tree_exp.svg'));
                 $this->tpl->setVariable('EXP_ALT', $this->lng->txt('collapse'));
             } else {
                 $this->ctrl->setParameter($this->container_obj, 'expand', $this->obj_id);
                 // "view" added, see #19922
                 $this->tpl->setVariable('EXP_HREF', $this->ctrl->getLinkTarget($this->container_obj, 'view', $this->getUniqueItemId(true)));
                 $this->ctrl->clearParameters($this->container_obj);
-                $this->tpl->setVariable('EXP_IMG', ilUtil::getImagePath('tree_col.svg'));
+                $this->tpl->setVariable('EXP_IMG', ilUtil::getImagePath('nav/tree_col.svg'));
                 $this->tpl->setVariable('EXP_ALT', $this->lng->txt('expand'));
             }
 
@@ -133,7 +133,7 @@ class ilObjLTIConsumerListGUI extends ilObjectListGUI
         /* @var ilObjLTIConsumer $object */
         $object = ilObjectFactory::getInstanceByObjId($this->obj_id);
 
-        if ($object->getProvider()->hasProviderIcon()) {
+        if ($object !== null && $object->getProvider() !== null && $object->getProvider()->hasProviderIcon()) {
             return $object->getProvider()->getProviderIcon()->getAbsoluteFilePath();
         }
 

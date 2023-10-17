@@ -46,8 +46,8 @@ class ilMailFolderGUI
     private readonly Refinery $refinery;
     private int $currentFolderId = 0;
     private readonly ilErrorHandling $error;
-    protected Factory $uiFactory;
-    protected Renderer $uiRenderer;
+    protected readonly Factory $ui_factory;
+    protected readonly Renderer $ui_renderer;
 
     public function __construct()
     {
@@ -62,8 +62,8 @@ class ilMailFolderGUI
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
         $this->error = $DIC['ilErr'];
-        $this->uiFactory = $DIC->ui()->factory();
-        $this->uiRenderer = $DIC->ui()->renderer();
+        $this->ui_factory = $DIC->ui()->factory();
+        $this->ui_renderer = $DIC->ui()->renderer();
 
         $this->umail = new ilMail($this->user->getId());
         $this->mbox = new ilMailbox($this->user->getId());
@@ -183,7 +183,7 @@ class ilMailFolderGUI
             $this->lng->txt('profile_of'),
             ilObjUser::_lookupLogin($userId),
         ]));
-        $this->tpl->setVariable('TBL_TITLE_IMG', ilUtil::getImagePath('icon_usr.svg'));
+        $this->tpl->setVariable('TBL_TITLE_IMG', ilUtil::getImagePath('standard/icon_usr.svg'));
         $this->tpl->setVariable('TBL_TITLE_IMG_ALT', $this->lng->txt('public_profile'));
 
         $profile_gui = new ilPublicUserProfileGUI($userId);
@@ -489,8 +489,8 @@ class ilMailFolderGUI
         }
 
         $newFolderId = 0;
-        if ($this->http->wrapper()->post()->has('folder_id')) {
-            $newFolderId = $this->http->wrapper()->post()->retrieve(
+        if ($this->http->wrapper()->query()->has('folder_id')) {
+            $newFolderId = $this->http->wrapper()->query()->retrieve(
                 'folder_id',
                 $this->refinery->kindlyTo()->int()
             );
@@ -633,7 +633,7 @@ class ilMailFolderGUI
             );
             $this->ctrl->setParameterByClass(ilMailFormGUI::class, 'mail_id', $mailId);
             $this->ctrl->setParameterByClass(ilMailFormGUI::class, 'type', ilMailFormGUI::MAIL_FORM_TYPE_REPLY);
-            $replyBtn = $this->uiFactory->button()->primary(
+            $replyBtn = $this->ui_factory->button()->primary(
                 $this->lng->txt('reply'),
                 $this->ctrl->getLinkTargetByClass(ilMailFormGUI::class)
             );
@@ -645,33 +645,19 @@ class ilMailFolderGUI
         $this->ctrl->setParameterByClass(ilMailFormGUI::class, 'mail_id', $mailId);
         $this->ctrl->setParameterByClass(ilMailFormGUI::class, 'type', ilMailFormGUI::MAIL_FORM_TYPE_FORWARD);
         if ($replyBtn === null) {
-            $fwdBtn = $this->uiFactory->button()->primary(
+            $fwdBtn = $this->ui_factory->button()->primary(
                 $this->lng->txt('forward'),
                 $this->ctrl->getLinkTargetByClass(ilMailFormGUI::class)
             );
             $this->toolbar->addStickyItem($fwdBtn);
         } else {
-            $fwdBtn = $this->uiFactory->button()->standard(
+            $fwdBtn = $this->ui_factory->button()->standard(
                 $this->lng->txt('forward'),
                 $this->ctrl->getLinkTargetByClass(ilMailFormGUI::class)
             );
             $this->toolbar->addComponent($fwdBtn);
         }
         $this->ctrl->clearParametersByClass(ilMailFormGUI::class);
-
-        $printBtn = ilLinkButton::getInstance();
-        $printBtn->setCaption('print');
-        $this->ctrl->setParameter($this, 'mail_id', $mailId);
-        $this->ctrl->setParameter($this, 'mobj_id', $mailData['folder_id']);
-        $printBtn->setUrl($this->ctrl->getLinkTarget($this, 'printMail'));
-        $this->ctrl->clearParameters($this);
-        $printBtn->setTarget('_blank');
-        $this->toolbar->addButtonInstance($printBtn);
-
-        $deleteBtn = ilSubmitButton::getInstance();
-        $deleteBtn->setCaption('delete');
-        $deleteBtn->setCommand('deleteMails');
-        $this->toolbar->addButtonInstance($deleteBtn);
 
         if ($sender && $sender->getId() && !$sender->isAnonymous()) {
             $linked_fullname = $sender->getPublicName();
@@ -705,7 +691,7 @@ class ilMailFolderGUI
             $from = new ilCustomInputGUI($this->lng->txt('from') . ':');
             $from->setHtml(
                 ilUtil::img(
-                    ilUtil::getImagePath('HeaderIconAvatar.svg'),
+                    ilUtil::getImagePath('logo/HeaderIconAvatar.svg'),
                     ilMail::_getIliasMailerName(),
                     '',
                     '',
@@ -776,49 +762,90 @@ class ilMailFolderGUI
         }
 
         $currentFolderData = $this->mbox->getFolderData((int) $mailData['folder_id']);
-        $actions = $this->mbox->getActions((int) $mailData['folder_id']);
+        $this->ctrl->setParameter($this, 'mobj_id', $this->currentFolderId);
+        $this->tabs->addTab(
+            'current_folder',
+            $currentFolderData['type'] === 'user_folder' ? $currentFolderData['title'] : $this->lng->txt(
+                'mail_' . $currentFolderData['title']
+            ),
+            $this->ctrl->getLinkTarget($this, 'showFolder')
+        );
+        $this->ctrl->clearParameters($this);
+        $this->tabs->activateTab('current_folder');
 
-        $selectOptions = [];
-        foreach ($actions as $key => $action) {
-            if ($key === 'moveMails') {
-                $folders = $this->mbox->getSubFolders();
-                foreach ($folders as $folder) {
-                    if (
-                        ($folder['type'] !== 'trash' || !$isTrashFolder) &&
-                        $folder['obj_id'] !== $mailData['folder_id']
-                    ) {
-                        $optionText = $action . ' ' . $folder['title'];
-                        if ($folder['type'] !== 'user_folder') {
-                            $optionText = $action . ' ' . $this->lng->txt(
-                                'mail_' . $folder['title']
-                            ) .
-                                ($folder['type'] === 'trash' ? ' (' . $this->lng->txt('delete') . ')' : '');
-                        }
-
-                        $selectOptions[$folder['obj_id']] = $optionText;
-                    }
+        $move_links = [];
+        $folders = $this->mbox->getSubFolders();
+        foreach ($folders as $folder) {
+            if (($folder['type'] !== 'trash' || !$isTrashFolder) &&
+                $folder['obj_id'] !== $mailData['folder_id']) {
+                $folder_name = $folder['title'];
+                if ($folder['type'] !== 'user_folder') {
+                    $folder_name = $this->lng->txt(
+                        'mail_' . $folder['title']
+                    ) . ($folder['type'] === 'trash' ? ' (' . $this->lng->txt('delete') . ')' : '');
                 }
+
+                $move_links[] = $this->ui_factory->button()->shy(
+                    sprintf(
+                        $this->lng->txt('mail_move_to_folder_x'),
+                        $folder_name
+                    ),
+                    '#',
+                )->withOnLoadCode(static fn($id): string => "
+                        document.getElementById('$id').addEventListener('click', function(e) {
+                            const frm = this.closest('form'),
+                                action = new URL(frm.action),
+                                action_params = new URLSearchParams(action.search);
+
+                            action_params.delete('cmd');
+                            action_params.append('cmd', 'moveSingleMail');
+                            action_params.delete('folder_id');
+                            action_params.append('folder_id', '" . $folder['obj_id'] . "');
+
+                            action.search = action_params.toString();
+
+                            frm.action = action.href;
+                            frm.submit();
+
+                            e.preventDefault();
+                            e.stopPropagation();
+
+                            return false;
+                        });");
             }
         }
 
-        $folderLabel = $this->lng->txt('mail_' . $currentFolderData['title']);
-        if ($currentFolderData['type'] === 'user_folder') {
-            $folderLabel = $currentFolderData['title'];
+        if ($move_links !== []) {
+            $this->toolbar->addComponent(
+                $this->ui_factory->dropdown()->standard($move_links)
+                                             ->withLabel($this->lng->txt('mail_move_to_folder_btn_label'))
+            );
         }
 
         $this->toolbar->addSeparator();
-        $this->toolbar->addText(sprintf($this->lng->txt('current_folder'), $folderLabel));
 
-        if (is_array($selectOptions) && $selectOptions !== []) {
-            $actions = new ilSelectInputGUI('', 'folder_id');
-            $actions->setOptions($selectOptions);
-            $this->toolbar->addInputItem($actions);
+        $this->ctrl->setParameter($this, 'mail_id', $mailId);
+        $this->ctrl->setParameter($this, 'mobj_id', $mailData['folder_id']);
+        $print_url = $this->ctrl->getLinkTarget($this, 'printMail');
+        $this->ctrl->clearParameters($this);
+        $print_btn = $this->ui_factory->button()
+                                      ->standard($this->lng->txt('print'), '#')
+                                      ->withOnLoadCode(static fn($id): string => "
+                document.getElementById('$id').addEventListener('click', function() {
+                    const frm = this.closest('form'),
+                        action = frm.action;
 
-            $moveBtn = ilSubmitButton::getInstance();
-            $moveBtn->setCaption('execute');
-            $moveBtn->setCommand('moveSingleMail');
-            $this->toolbar->addButtonInstance($moveBtn);
-        }
+                    frm.action = '$print_url';
+                    frm.target = '_blank';
+                    frm.submit();
+
+                    frm.action = action;
+                    frm.removeAttribute('target');
+
+                    return false;
+                });
+            ");
+        $this->toolbar->addComponent($print_btn);
 
         $prevMail = $this->umail->getPreviousMail($mailId);
         $nextMail = $this->umail->getNextMail($mailId);
@@ -826,23 +853,27 @@ class ilMailFolderGUI
             $this->toolbar->addSeparator();
 
             if ($prevMail && $prevMail['mail_id']) {
-                $prevBtn = ilLinkButton::getInstance();
-                $prevBtn->setCaption('previous');
                 $this->ctrl->setParameter($this, 'mail_id', $prevMail['mail_id']);
                 $this->ctrl->setParameter($this, 'mobj_id', $this->currentFolderId);
-                $prevBtn->setUrl($this->ctrl->getLinkTarget($this, 'showMail'));
+                $prevBtn = $this->ui_factory->button()
+                                            ->standard(
+                                                $this->lng->txt('previous'),
+                                                $this->ctrl->getLinkTarget($this, 'showMail')
+                                            );
+                $this->toolbar->addComponent($prevBtn);
                 $this->ctrl->clearParameters($this);
-                $this->toolbar->addButtonInstance($prevBtn);
             }
 
             if ($nextMail && $nextMail['mail_id']) {
-                $nextBtn = ilLinkButton::getInstance();
-                $nextBtn->setCaption('next');
                 $this->ctrl->setParameter($this, 'mail_id', $nextMail['mail_id']);
                 $this->ctrl->setParameter($this, 'mobj_id', $this->currentFolderId);
-                $nextBtn->setUrl($this->ctrl->getLinkTarget($this, 'showMail'));
+                $nextBtn = $this->ui_factory->button()
+                                            ->standard(
+                                                $this->lng->txt('next'),
+                                                $this->ctrl->getLinkTarget($this, 'showMail')
+                                            );
+                $this->toolbar->addComponent($nextBtn);
                 $this->ctrl->clearParameters($this);
-                $this->toolbar->addButtonInstance($nextBtn);
             }
         }
 
@@ -868,7 +899,7 @@ class ilMailFolderGUI
         } elseif (!$sender instanceof ilObjUser || 0 === $sender->getId()) {
             $tplprint->setVariable(
                 'FROM',
-                $mailData['import_name'] . ' (' . $this->lng->txt('user_deleted') . ')'
+                trim(($mailData['import_name'] ?? '') . ' (' . $this->lng->txt('user_deleted') . ')')
             );
         } else {
             $tplprint->setVariable('FROM', ilMail::_getIliasMailerName());

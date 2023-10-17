@@ -683,6 +683,8 @@ $accountMail->setUserPassword($rawPassword);
 
 Internally `\ilAccountMail` makes use of `\ilMimeMail`.
 
+[//]: # (BEGIN Templates)
+
 ## Manual Mail Templates
 
 The concept of ['Manual Mail Templates'](https://www.ilias.de/docu/goto_docu_wiki_wpage_2703_1357.html) is best described
@@ -803,6 +805,8 @@ as callback when an email is actually sent and included
 placeholders should be replaced.
 You also MUST add a key `\ilMailFormCall::CONTEXT_KEY`
 with your context id as value to this array.
+
+[//]: # (END Templates)
 
 ## ilMassMailTaskProcessor
 

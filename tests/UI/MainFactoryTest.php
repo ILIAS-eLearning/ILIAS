@@ -35,7 +35,8 @@ class MainFactoryTest extends AbstractFactoryTest
         "table" => ["rules" => false],
         "layout" => ["rules" => false],
         "menu" => ["rules" => false],
-        "symbol" => ["rules" => false]
+        "symbol" => ["rules" => false],
+        "entity" => ["context" => true]
     ];
 
     public string $factory_title = 'ILIAS\\UI\\Factory';

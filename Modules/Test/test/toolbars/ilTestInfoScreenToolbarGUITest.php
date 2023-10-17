@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class ilTestInfoScreenToolbarGUITest
  * @author Marvin Beym <mbeym@databay.de>
@@ -25,39 +25,37 @@ declare(strict_types=1);
 class ilTestInfoScreenToolbarGUITest extends ilTestBaseTestCase
 {
     private ilTestInfoScreenToolbarGUI $testInfoScreenToolbarGUI;
-    /**
-     * @var \ILIAS\DI\Container|mixed
-     */
-    private $backup_dic;
 
     protected function setUp(): void
     {
-        parent::setUp();
         global $DIC;
+        parent::setUp();
 
-        $this->backup_dic = $DIC;
-        $DIC = new ILIAS\DI\Container([
-            'tpl' => $this->getMockBuilder(ilGlobalTemplateInterface::class)
-                          ->getMock()
-        ]);
-        $db_mock = $this->createMock(ilDBInterface::class);
-        $access_mock = $this->createMock(ilAccessHandler::class);
-        $ctrl_mock = $this->createMock(ilCtrl::class);
-        $lng_mock = $this->createMock(ilLanguage::class);
+        $this->addGlobal_ilAccess();
+        $this->addGlobal_ilCtrl();
+        $this->addGlobal_lng();
+        $this->addGlobal_uiFactory();
+        $this->addGlobal_uiRenderer();
+        $this->addGlobal_ilUser();
+        $this->addGlobal_tpl();
+        $this->addGlobal_ilToolbar();
+
 
         $this->testInfoScreenToolbarGUI = new ilTestInfoScreenToolbarGUI(
-            $db_mock,
-            $access_mock,
-            $ctrl_mock,
-            $lng_mock,
-            $this->createMock(ilComponentRepository::class)
+            $this->createMock(ilObjTest::class),
+            $this->createMock(ilTestPlayerFixedQuestionSetGUI::class),
+            $this->createMock(ilTestQuestionSetConfig::class),
+            $this->createMock(ilTestSession::class),
+            $DIC['ilDB'],
+            $DIC['ilAccess'],
+            $DIC['ilCtrl'],
+            $DIC['lng'],
+            $DIC['ui.factory'],
+            $DIC['ui.renderer'],
+            $DIC['ilUser'],
+            $DIC['tpl'],
+            $DIC['ilToolbar']
         );
-    }
-
-    protected function tearDown(): void
-    {
-        global $DIC;
-        $DIC = $this->backup_dic;
     }
 
     public function test_instantiateObject_shouldReturnInstance(): void
@@ -65,74 +63,9 @@ class ilTestInfoScreenToolbarGUITest extends ilTestBaseTestCase
         $this->assertInstanceOf(ilTestInfoScreenToolbarGUI::class, $this->testInfoScreenToolbarGUI);
     }
 
-    public function testGlobalToolbar(): void
-    {
-        $this->assertNull($this->testInfoScreenToolbarGUI->getGlobalToolbar());
-
-        $expected_mock = $this->createMock(ilToolbarGUI::class);
-        $this->testInfoScreenToolbarGUI->setGlobalToolbar($expected_mock);
-
-        $this->assertEquals($expected_mock, $this->testInfoScreenToolbarGUI->getGlobalToolbar());
-    }
-
-    public function testTestOBJ(): void
-    {
-        $this->assertNull($this->testInfoScreenToolbarGUI->getTestOBJ());
-
-        $expected_mock = $this->createMock(ilObjTest::class);
-        $this->testInfoScreenToolbarGUI->setTestOBJ($expected_mock);
-
-        $this->assertEquals($expected_mock, $this->testInfoScreenToolbarGUI->getTestOBJ());
-    }
-
-    public function testTestQuestionSetConfig(): void
-    {
-        $this->assertNull($this->testInfoScreenToolbarGUI->getTestQuestionSetConfig());
-
-        $expected_mock = $this->createMock(ilTestQuestionSetConfig::class);
-        $this->testInfoScreenToolbarGUI->setTestQuestionSetConfig($expected_mock);
-
-        $this->assertEquals($expected_mock, $this->testInfoScreenToolbarGUI->getTestQuestionSetConfig());
-    }
-
-    public function testTestPlayerGUI(): void
-    {
-        $this->assertNull($this->testInfoScreenToolbarGUI->getTestPlayerGUI());
-
-        $expected_mock = $this->createMock(ilTestPlayerAbstractGUI::class);
-        $this->testInfoScreenToolbarGUI->setTestPlayerGUI($expected_mock);
-
-        $this->assertEquals($expected_mock, $this->testInfoScreenToolbarGUI->getTestPlayerGUI());
-    }
-
-    public function testTestSession(): void
-    {
-        $this->assertNull($this->testInfoScreenToolbarGUI->getTestSession());
-
-        $expected_mock = $this->createMock(ilTestSession::class);
-        $this->testInfoScreenToolbarGUI->setTestSession($expected_mock);
-
-        $this->assertEquals($expected_mock, $this->testInfoScreenToolbarGUI->getTestSession());
-    }
-
-    public function testTestSequence(): void
-    {
-        $this->assertNull($this->testInfoScreenToolbarGUI->getTestSequence());
-
-        $expected_mock = $this->createMock(ilTestSequence::class);
-        $this->testInfoScreenToolbarGUI->setTestSequence($expected_mock);
-
-        $this->assertEquals($expected_mock, $this->testInfoScreenToolbarGUI->getTestSequence());
-
-        $expected_mock = $this->createMock(ilTestSequenceDynamicQuestionSet::class);
-        $this->testInfoScreenToolbarGUI->setTestSequence($expected_mock);
-
-        $this->assertEquals($expected_mock, $this->testInfoScreenToolbarGUI->getTestSequence());
-    }
-
     public function testSessionLockString(): void
     {
-        $this->assertNull($this->testInfoScreenToolbarGUI->getSessionLockString());
+        $this->assertEquals('', $this->testInfoScreenToolbarGUI->getSessionLockString());
 
         $this->testInfoScreenToolbarGUI->setSessionLockString("testString");
 

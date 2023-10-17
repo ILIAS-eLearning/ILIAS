@@ -32,17 +32,19 @@ class ilObjWikiSearchResultTableGUI extends ilRepositoryObjectSearchResultTableG
             $row = array();
             $row['title'] = ilWikiPage::lookupTitle($result_set['item_id']);
 
-            $ilCtrl->setParameterByClass(
-                'ilwikipagegui',
-                'page',
-                ilWikiUtil::makeUrlTitle($row['title'])
-            );
-            $row['link'] = $ilCtrl->getLinkTargetByClass('ilwikipagegui', 'preview');
+            if (!is_null($row['title'])) {
+                $ilCtrl->setParameterByClass(
+                    'ilwikipagegui',
+                    'page',
+                    ilWikiUtil::makeUrlTitle($row['title'])
+                );
+                $row['link'] = $ilCtrl->getLinkTargetByClass('ilwikipagegui', 'preview');
 
-            $row['relevance'] = (float) ($result_set['relevance'] ?? 0);
-            $row['content'] = $result_set['content'] ?? "";
+                $row['relevance'] = (float) ($result_set['relevance'] ?? 0);
+                $row['content'] = $result_set['content'] ?? "";
 
-            $rows[] = $row;
+                $rows[] = $row;
+            }
         }
 
         $this->setData($rows);

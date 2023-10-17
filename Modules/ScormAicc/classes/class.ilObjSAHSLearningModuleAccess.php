@@ -96,27 +96,6 @@ class ilObjSAHSLearningModuleAccess extends ilObjectAccess implements ilConditio
         return false;
     }
 
-    //
-    // access relevant methods
-    //
-
-//    /**
-//    * Lookup editable
-//    */
-//    public static function _lookupEditable($a_obj_id)
-//    {
-//        global $DIC;
-//        $ilDB = $DIC->database();
-//
-//        $set = $ilDB->queryF(
-//            'SELECT * FROM sahs_lm WHERE id = %s',
-//            array('integer'),
-//            array($a_obj_id)
-//        );
-//        $rec = $ilDB->fetchAssoc($set);
-//
-//        return $rec["editable"];
-//    }
 
     /**
      * Returns the number of bytes used on the harddisk by the learning module
@@ -130,73 +109,4 @@ class ilObjSAHSLearningModuleAccess extends ilObjectAccess implements ilConditio
 
         return file_exists($lm_dir) ? ilFileUtils::dirsize($lm_dir) : 0;
     }
-
-//    /**
-//     * Checks offlineMode and returns false if
-//     * @param $a_obj_id
-//     * @return bool
-//     */
-//    public static function _lookupUserIsOfflineMode($a_obj_id) : bool
-//    {
-//        global $DIC;
-//        $ilDB = $DIC->database();
-//        $ilUser = $DIC->user();
-//
-//        $user_id = $ilUser->getId();
-//
-//        $set = $ilDB->queryF(
-//            'SELECT offline_mode FROM sahs_user WHERE obj_id = %s AND user_id = %s',
-//            array('integer', 'integer'),
-//            array($a_obj_id, $user_id)
-//        );
-//        $rec = $ilDB->fetchAssoc($set);
-//        if (isset($rec["offline_mode"]) && $rec["offline_mode"] === "offline") {
-//            return true;
-//        }
-//        return false;
-//    }
-
-//    /**
-//     * checks wether a user may invoke a command or not
-//     * (this method is called by ilAccessHandler::checkAccess)
-//     * @param string $a_cmd        command (not permission!)
-//     * @param string $a_permission permission
-//     * @param int    $a_ref_id     reference id
-//     * @param int    $a_obj_id     object id
-//     * @param int    $a_user_id    user id (if not provided, current user is taken)
-//     * @return    boolean        true, if everything is ok
-//     */
-//    public function _checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id = 0) : bool //UK weg?
-//    {
-//        global $DIC;
-//        $ilUser = $DIC->user();
-//        $lng = $DIC->language();
-//        $rbacsystem = $DIC['rbacsystem'];//$DIC->rbac();
-//        $ilAccess = $DIC->access();
-//
-//        if ($a_user_id == 0) {
-//            $a_user_id = $ilUser->getId();
-//        }
-////        switch ($a_cmd) {
-////            case "view":
-////                if (!ilObjSAHSLearningModuleAccess::_lookupOnline($a_obj_id)
-////                    && !$rbacsystem->checkAccessOfUser($a_user_id, 'write', $a_ref_id)) {
-////                    $ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
-////                    return false;
-////                }
-////                break;
-////        }
-////
-////        switch ($a_permission) {
-////            case "visible":
-////                if (!ilObjSAHSLearningModuleAccess::_lookupOnline($a_obj_id) &&
-////                    (!$rbacsystem->checkAccessOfUser($a_user_id, 'write', $a_ref_id))) {
-////                    $ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
-////                    return false;
-////                }
-////                break;
-////        }
-//
-//        return true;
-//    }
 }

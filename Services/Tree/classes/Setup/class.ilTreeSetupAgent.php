@@ -20,19 +20,84 @@ declare(strict_types=1);
 
 use ILIAS\Setup;
 use ILIAS\Setup\Config;
+use ILIAS\Setup\Agent;
+use ILIAS\Setup\Objective;
+use ILIAS\Refinery\Transformation;
+use ILIAS\Setup\Metrics;
+use ILIAS\Setup\ObjectiveConstructor;
+use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\Setup\NullConfig;
 
-/**
- * @author  Stefan Meyer <smeyer.ilias@gmx.de>
- */
-class ilTreeSetupAgent extends Setup\Agent\NullAgent
+class ilTreeSetupAgent implements Agent
 {
-    public function getUpdateObjective(Setup\Config $config = null): Setup\Objective
+    protected Refinery $refinery;
+
+    public function __construct(Refinery $refinery)
+    {
+        $this->refinery = $refinery;
+    }
+
+    public function hasConfig(): bool
+    {
+        return false;
+    }
+
+    public function getArrayToConfigTransformation(): Transformation
+    {
+        return $this->refinery->custom()->transformation(static function ($data): Config {
+            return new NullConfig();
+        });
+    }
+
+    public function getInstallObjective(Config $config = null): Objective
+    {
+        return new Objective\NullObjective();
+    }
+
+    public function getUpdateObjective(Config $config = null): Objective
     {
         return new ilDatabaseUpdateStepsExecutedObjective(new ilTreeDBUpdateSteps8());
     }
 
-    public function getStatusObjective(Setup\Metrics\Storage $storage): Setup\Objective
+    public function getBuildArtifactObjective(): Objective
     {
-        return new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new ilTreeDBUpdateSteps8());
+        return new Objective\NullObjective();
+    }
+
+    public function getStatusObjective(Metrics\Storage $storage): Objective
+    {
+        return new Setup\ObjectiveCollection(
+            'Services/Tree',
+            true,
+            new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new ilTreeDBUpdateSteps8()),
+            new ilTreeMetricsCollectedObjective($storage)
+        );
+    }
+
+    public function getMigrations(): array
+    {
+        return [];
+    }
+
+    public function getNamedObjectives(?Config $config = null): array
+    {
+        return [
+            'mp-to-ns' => new ObjectiveConstructor(
+                'Migrate the ILIAS repository tree from Materialized Path to Nested Set',
+                static function (): Objective {
+                    return new ilTreeImplementationSwitch(
+                        ilTreeImplementationSwitch::MATERIALIZED_PATH_TO_NESTED_SET
+                    );
+                }
+            ),
+            'ns-to-mp' => new ObjectiveConstructor(
+                'Migrate the ILIAS repository tree from Nested to Materialized Path',
+                static function (): Objective {
+                    return new ilTreeImplementationSwitch(
+                        ilTreeImplementationSwitch::NESTED_SET_TO_MATERIALIZED_PATH
+                    );
+                }
+            )
+        ];
     }
 }

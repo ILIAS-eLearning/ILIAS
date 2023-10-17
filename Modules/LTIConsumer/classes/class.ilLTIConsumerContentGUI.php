@@ -61,9 +61,7 @@ class ilLTIConsumerContentGUI
         if ($this->object->getProvider()->getAvailability() == ilLTIConsumeProvider::AVAILABILITY_NONE) {
             throw new ilLtiConsumerException('access denied!');
         }
-
         $command = $DIC->ctrl()->getCmd(self::CMD_LAUNCH);
-
         $this->{$command}();
     }
 
@@ -192,9 +190,7 @@ class ilLTIConsumerContentGUI
         );
 
         $target = $this->object->getLaunchMethod() == "newWin" ? "_blank" : "_self";
-        $button = '<input class="btn btn-default ilPre" type="button" onClick="ltilaunch()" value = "' . $this->lng->txt("launch") . '" />';
-        $output = '';
-
+        $button = '<input class="btn btn-default ilPre" type="button" onClick="ltilaunch()" value = "' . $this->lng->txt("show_content") . '" />';
         $output = '<form id="lti_launch_form" name="lti_launch_form" action="' . $this->object->getProvider()->getProviderUrl() . '" method="post" target="' . $target . '" encType="application/x-www-form-urlencoded">';
         foreach ($launchParameters as $field => $value) {
             $output .= sprintf('<input type="hidden" name="%s" value="%s" />', $field, $value) . "\n";
@@ -239,8 +235,7 @@ class ilLTIConsumerContentGUI
         );
 
         $target = $this->object->getLaunchMethod() == "newWin" ? "_blank" : "_self";
-        $button = '<input class="btn btn-default ilPre" type="button" onClick="ltilaunch()" value = "' . $this->lng->txt("launch") . '" />';
-        $output = '';
+        $button = '<input class="btn btn-default ilPre" type="button" onClick="ltilaunch()" value = "' . $this->lng->txt("show_content") . '" />';
         $ltiMessageHint = (string) $this->object->getRefId() . ":" . CLIENT_ID;
         ilSession::set('lti_message_hint', $ltiMessageHint);
         $output = '<form id="lti_launch_form" name="lti_launch_form" action="' . $this->object->getProvider()->getInitiateLogin() . '" method="post" target="' . $target . '" encType="application/x-www-form-urlencoded">';
@@ -315,7 +310,7 @@ class ilLTIConsumerContentGUI
             $tpl->setVariable("DELOS_CSS_HREF", 'templates/default/delos.css' . $v);
             $tpl->setVariable("JQUERY_SRC", 'node_modules/jquery/dist/jquery.js' . $v);
 
-            $tpl->setVariable("LOADER_ICON_SRC", ilUtil::getImagePath("loader.svg"));
+            $tpl->setVariable("LOADER_ICON_SRC", ilUtil::getImagePath("media/loader.svg"));
             $tpl->setVariable('LAUNCH_URL', $this->object->getProvider()->getProviderUrl());
 
             #$DIC->ui()->mainTemplate()->getStandardTemplate();
@@ -466,7 +461,6 @@ class ilLTIConsumerContentGUI
         if (!in_array($redirecturi, $uris)) {
             $ok = false;
             $error = 'invalid_request';
-            //throw new moodle_exception('invalidrequest', 'error');
         }
 
         if ($ok) {
@@ -495,7 +489,9 @@ class ilLTIConsumerContentGUI
     }
 
     // TODO: request_wrapper?
+
     /**
+     * @param string $key
      * @param mixed  $default
      * @return mixed|null
      */

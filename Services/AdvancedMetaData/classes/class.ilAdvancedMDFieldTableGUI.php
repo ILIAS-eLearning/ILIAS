@@ -54,7 +54,7 @@ class ilAdvancedMDFieldTableGUI extends ilTable2GUI
         $this->addColumn('', 'f', '1');
         $this->addColumn($this->lng->txt('position'), 'position', "5%");
         $this->addColumn($this->lng->txt('title'), 'title', "30%");
-        $this->addColumn($this->lng->txt('md_adv_field_fields'), 'fields', "35%");
+        $this->addColumn($this->lng->txt('md_adv_field_fields'), 'type', "35%");
         $this->addColumn($this->lng->txt('options'), 'obj_types', "30%");
 
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
@@ -132,7 +132,6 @@ class ilAdvancedMDFieldTableGUI extends ilTable2GUI
                 $definition->getFieldId(),
                 $this->active_language
             );
-            $tmp_arr['fields'] = array();
             $tmp_arr['searchable'] = $definition->isSearchable();
             $tmp_arr['type'] = $this->lng->txt($definition->getTypeTitle());
             $tmp_arr['properties'] = $definition->getFieldDefinitionForTableGUI($this->active_language);

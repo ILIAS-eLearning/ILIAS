@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\Style\Content\Object\ObjectFacade;
 use ILIAS\HTTP\GlobalHttpState;
@@ -1082,7 +1082,7 @@ class ilLOEditorGUI
         $post_position = $this->http->wrapper()->post()->retrieve(
             'position',
             $this->refinery->kindlyTo()->dictOf(
-                $this->refinery->kindlyTo()->int()
+                $this->refinery->kindlyTo()->string()
             )
         );
         asort($post_position, SORT_NUMERIC);

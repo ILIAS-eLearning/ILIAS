@@ -333,7 +333,7 @@ class ilCustomUserFieldsGUI
             $form->addCommandButton('create', $this->lng->txt('save'));
         } else {
             $name->setValue($this->field_definition['field_name']);
-            $radg->setValue($this->field_definition['field_type']);
+            $radg->setValue((string) $this->field_definition['field_type']);
             $radg->setDisabled(true);
             $acc->setValue($acc_values);
 
@@ -398,12 +398,6 @@ class ilCustomUserFieldsGUI
             if ($access['required'] && !$access['visib_reg']) {
                 $this->confirm_change = true;
                 $form->getItemByPostVar('access')->setAlert($this->lng->txt('udf_required_requires_visib_reg'));
-                $valid = false;
-            }
-
-            if ($access['required'] && $access['visible'] && !$access['changeable']) {
-                $this->confirm_change = true;
-                $form->getItemByPostVar('access')->setAlert($this->lng->txt('udf_required_and_visible_requires_changeable'));
                 $valid = false;
             }
 
@@ -747,22 +741,12 @@ class ilCustomUserFieldsGUI
         }
 
         $valid = true;
-
         foreach ($a_fields as $field_id => $definition) {
             if (isset($checked['required_' . $field_id]) && (int) $checked['required_' . $field_id] &&
                 (!isset($checked['visib_reg_' . $field_id]) || !(int) $checked['visib_reg_' . $field_id])) {
                 $this->confirm_change = true;
 
                 $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt('invalid_visible_required_options_selected'));
-                $valid = false;
-            }
-
-            if (isset($checked['required_' . $field_id]) && (int) $checked['required_' . $field_id] &&
-                isset($checked['visible_' . $field_id]) && (int) $checked['visible_' . $field_id] &&
-                (!isset($checked['changeable_' . $field_id]) || !(int) $checked['changeable_' . $field_id])) {
-                $this->confirm_change = true;
-
-                $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt('udf_required_and_visible_requires_changeable'));
                 $valid = false;
             }
         }

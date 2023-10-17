@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * @author        Björn Heyser <bheyser@databay.de>
  * @version        $Id$
@@ -25,16 +27,21 @@
 class ilTestSkillLevelThresholdXmlParser extends ilSaxParser
 {
     protected bool $parsingActive = false;
-
     protected ?string $characterDataBuffer = null;
-
-    protected ?ilTestSkillLevelThresholdImportList $skillLevelThresholdImportList = null;
-
     protected ?int $curSkillBaseId = null;
-
     protected ?int $curSkillTrefId = null;
 
+    private ilDBInterface $db;
+
+    protected ?ilTestSkillLevelThresholdImportList $skillLevelThresholdImportList = null;
     protected ?ilTestSkillLevelThresholdImport $curSkillLevelThreshold = null;
+
+    public function __construct()
+    {
+        global $DIC;
+        $this->db = $DIC['ilDB'];
+        parent::__construct();
+    }
 
     public function isParsingActive(): bool
     {
@@ -69,13 +76,9 @@ class ilTestSkillLevelThresholdXmlParser extends ilSaxParser
         return $this->skillLevelThresholdImportList;
     }
 
-    /**
-     */
     public function initSkillLevelThresholdImportList(): void
     {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-        $this->skillLevelThresholdImportList = new ilTestSkillLevelThresholdImportList($ilDB);
+        $this->skillLevelThresholdImportList = new ilTestSkillLevelThresholdImportList($this->db);
     }
 
     public function getCurSkillBaseId(): ?int
@@ -141,9 +144,7 @@ class ilTestSkillLevelThresholdXmlParser extends ilSaxParser
                 break;
 
             case 'SkillLevel':
-                global $DIC;
-                $ilDB = $DIC['ilDB'];
-                $skillLevelThreshold = new ilTestSkillLevelThresholdImport($ilDB);
+                $skillLevelThreshold = new ilTestSkillLevelThresholdImport($this->db);
                 $skillLevelThreshold->setImportSkillBaseId($this->getCurSkillBaseId());
                 $skillLevelThreshold->setImportSkillTrefId($this->getCurSkillTrefId());
                 $skillLevelThreshold->setImportLevelId($tagAttributes['Id']);

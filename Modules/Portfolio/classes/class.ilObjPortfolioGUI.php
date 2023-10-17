@@ -226,7 +226,7 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 
             $this->tabs_gui->addNonTabbedLink(
                 "preview",
-                $this->lng->txt("user_profile_preview"),
+                $this->lng->txt("preview"),
                 $this->ctrl->getLinkTarget($this, "preview")
             );
 
@@ -260,7 +260,7 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
         }
         $this->tpl->setTitle($title);
         $this->tpl->setTitleIcon(
-            ilUtil::getImagePath("icon_prtf.svg"),
+            ilUtil::getImagePath("standard/icon_prtf.svg"),
             $this->lng->txt("portfolio")
         );
 

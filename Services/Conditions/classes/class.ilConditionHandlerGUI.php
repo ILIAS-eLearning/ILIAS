@@ -572,7 +572,7 @@ class ilConditionHandlerGUI
             $title = ilObject::_lookupTitle($condition['trigger_obj_id']) .
                 " (" . $this->lng->txt("condition") . ": " .
                 $this->lng->txt('condition_' . $condition['operator']) . ")";
-            $icon = ilUtil::getImagePath('icon_' . $condition['trigger_type'] . '.svg');
+            $icon = ilUtil::getImagePath('standard/icon_' . $condition['trigger_type'] . '.svg');
             $alt = $this->lng->txt('obj_' . $condition['trigger_type']);
 
             $cgui->addItem("conditions[]", (string) $condition_id, $title, $icon, $alt);
@@ -742,14 +742,14 @@ class ilConditionHandlerGUI
 
         $sel = new ilSelectInputGUI($this->lng->txt('condition'), 'operator');
         $ch_obj = new ilConditionHandler();
-        if ($a_mode === 'add') {
-            $operators[0] = $this->lng->txt('select_one');
-        }
         $operators = [];
+        if ($a_mode === 'add') {
+            $operators[''] = $this->lng->txt('select_one');
+        }
         foreach ($ch_obj->getOperatorsByTriggerType($trigger_type) as $operator) {
             $operators[$operator] = $this->lng->txt('condition_' . $operator);
         }
-        $sel->setValue($condition['operator'] ?? 0);
+        $sel->setValue($condition['operator'] ?? '');
         $sel->setOptions($operators);
         $sel->setRequired(true);
         $form->addItem($sel);
@@ -777,41 +777,35 @@ class ilConditionHandlerGUI
         if ($trigger_type === 'sahs') {
             $this->lng->loadLanguageModule('trac');
 
-            $cus = new ilCustomInputGUI($this->lng->txt('trac_sahs_relevant_items'), 'item_ids[]');
+            $cus = new ilCheckboxGroupInputGUI($this->lng->txt('trac_sahs_relevant_items'), 'item_ids');
+            $cus->setInfo($this->lng->txt('trac_lp_determination_info_sco'));
             $cus->setRequired(true);
-
-            $tpl = new ilTemplate(
-                'tpl.condition_handler_sco_row.html',
-                true,
-                true,
-                "Services/Conditions"
-            );
 
             $olp = ilObjectLP::getInstance($trigger_obj_id);
             $collection = $olp->getCollectionInstance();
+            $checked = [];
             if ($collection) {
                 foreach ($collection->getPossibleItems() as $item_id => $sahs_item) {
-                    $tpl->setCurrentBlock("sco_row");
-                    $tpl->setVariable('SCO_ID', $item_id);
-                    $tpl->setVariable('SCO_TITLE', $sahs_item['title']);
-                    $tpl->setVariable('CHECKED', $collection->isAssignedEntry($item_id) ? 'checked="checked"' : '');
-                    $tpl->parseCurrentBlock();
+                    $sco = new ilCheckboxOption($sahs_item['title'], (string) $item_id);
+                    if ($collection->isAssignedEntry($item_id)) {
+                        $checked[] = $item_id;
+                    }
+                    $cus->addOption($sco);
                 }
             }
-            $tpl->setVariable('INFO_SEL', $this->lng->txt('trac_lp_determination_info_sco'));
-            $cus->setHtml($tpl->get());
+            $cus->setValue($checked);
             $form->addItem($cus);
         }
         switch ($a_mode) {
             case 'edit':
-                $form->setTitleIcon(ilUtil::getImagePath('icon_' . $this->getTargetType() . '.svg'));
+                $form->setTitleIcon(ilUtil::getImagePath('standard/icon_' . $this->getTargetType() . '.svg'));
                 $form->setTitle($this->lng->txt('rbac_edit_condition'));
                 $form->addCommandButton('updateCondition', $this->lng->txt('save'));
                 $form->addCommandButton('listConditions', $this->lng->txt('cancel'));
                 break;
 
             case 'add':
-                $form->setTitleIcon(ilUtil::getImagePath('icon_' . $this->getTargetType() . '.svg'));
+                $form->setTitleIcon(ilUtil::getImagePath('standard/icon_' . $this->getTargetType() . '.svg'));
                 $form->setTitle($this->lng->txt('add_condition'));
                 $form->addCommandButton('assign', $this->lng->txt('save'));
                 $form->addCommandButton('selector', $this->lng->txt('back'));

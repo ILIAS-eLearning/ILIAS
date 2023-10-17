@@ -120,7 +120,6 @@ class ilObjCalendarSettingsGUI extends ilObjectGUI
             $this->calendar_settings->setDefaultTimeZone($form->getInput('default_timezone'));
             $this->calendar_settings->setDefaultDateFormat((int) $form->getInput('default_date_format'));
             $this->calendar_settings->setDefaultTimeFormat((int) $form->getInput('default_time_format'));
-            $this->calendar_settings->setEnableGroupMilestones((bool) $form->getInput('enable_grp_milestones'));
             $this->calendar_settings->enableCourseCalendar((bool) $form->getInput('enabled_crs'));
             $this->calendar_settings->setCourseCalendarVisible((bool) $form->getInput('visible_crs'));
             $this->calendar_settings->enableGroupCalendar((bool) $form->getInput('enabled_grp'));
@@ -183,19 +182,11 @@ class ilObjCalendarSettingsGUI extends ilObjectGUI
         $cb->setChecked($this->calendar_settings->getShowWeeks());
         $form->addItem($cb);
 
-        $sync = new ilCheckboxInputGUI($this->lng->txt('cal_webcal_sync'), 'webcal');
-        $sync->setValue('1');
-        $sync->setChecked($this->calendar_settings->isWebCalSyncEnabled());
-        $sync->setInfo($this->lng->txt('cal_webcal_sync_info'));
-
-        $sync_min = new ilNumberInputGUI('', 'webcal_hours');
-        $sync_min->setSize(2);
-        $sync_min->setMaxLength(3);
-        $sync_min->setValue((string) $this->calendar_settings->getWebCalSyncHours());
-        $sync_min->setSuffix($this->lng->txt('hours'));
-        $sync->addSubItem($sync_min);
-
-        $form->addItem($sync);
+        ilAdministrationSettingsFormHandler::addFieldsToForm(
+            ilAdministrationSettingsFormHandler::FORM_CALENDAR,
+            $form,
+            $this
+        );
 
         //Batch File Downloads in Calendar
         $batch_files_download = new ilCheckboxInputGUI($this->lng->txt('cal_batch_file_downloads'), "batch_files");
@@ -289,17 +280,6 @@ class ilObjCalendarSettingsGUI extends ilObjectGUI
         );
         $day_end->setValue($this->calendar_settings->getDefaultDayEnd());
         $form->addItem($day_end);
-
-        // enable milestone planning in groups
-        $mil = new ilFormSectionHeaderGUI();
-        $mil->setTitle($this->lng->txt('cal_milestone_settings'));
-        $form->addItem($mil);
-
-        $checkm = new ilCheckboxInputGUI($this->lng->txt('cal_enable_group_milestones'), 'enable_grp_milestones');
-        $checkm->setValue('1');
-        $checkm->setChecked($this->calendar_settings->getEnableGroupMilestones());
-        $checkm->setInfo($this->lng->txt('cal_enable_group_milestones_desc'));
-        $form->addItem($checkm);
 
         // Consultation hours
         $con = new ilFormSectionHeaderGUI();

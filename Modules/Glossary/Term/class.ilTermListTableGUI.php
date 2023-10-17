@@ -133,10 +133,9 @@ class ilTermListTableGUI extends ilTable2GUI
 
     public function showGlossaryColumn(): bool
     {
-        return (in_array(
-            $this->glossary->getVirtualMode(),
-            array("level", "subtree")
-        ) || ilGlossaryTermReferences::hasReferences($this->glossary->getId()));
+        return ($this->glossary->getVirtualMode() === "coll"
+            || ilGlossaryTermReferences::hasReferences($this->glossary->getId())
+        );
     }
 
 
@@ -228,12 +227,13 @@ class ilTermListTableGUI extends ilTable2GUI
             $short_str = $term_obj->getShortText();
         }
 
+        $page = new ilGlossaryDefPage($term_id);
+
         // replace tex
         // if a tex end tag is missing a tex end tag
         $ltexs = strrpos($short_str, "[tex]");
         $ltexe = strrpos($short_str, "[/tex]");
         if ($ltexs > $ltexe) {
-            $page = new ilGlossaryDefPage($term_id);
             $page->buildDom();
             $short_str = $page->getFirstParagraphText();
             $short_str = strip_tags($short_str, "<br>");
@@ -243,7 +243,13 @@ class ilTermListTableGUI extends ilTable2GUI
 
         $short_str = ilMathJax::getInstance()->insertLatexImages($short_str);
 
-        $short_str = ilPCParagraph::xml2output($short_str);
+        $short_str = ilPCParagraph::xml2output(
+            $short_str,
+            false,
+            true,
+            !$page->getPageConfig()->getPreventHTMLUnmasking()
+        );
+
         $this->tpl->setVariable("DEF_SHORT", $short_str);
         $this->tpl->parseCurrentBlock();
 

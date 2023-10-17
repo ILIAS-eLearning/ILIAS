@@ -67,6 +67,7 @@ $GLOBALS['ilAppEventHandler']->raise(
     'afterLogout',
     [
         'username' => $GLOBALS['DIC']->user()->getLogin(),
+        'is_explicit_logout' => false,
     ]
 );
 

@@ -26,7 +26,7 @@ The exactly needed permissions are context-specific and will be mentioned in the
 *Organisation > Staff List*
 
 The "Staff List" view lists all users (employees) over whom the logged-in user (superior) has authority.<br>
-Superiors can decide themselves which table columns respectively user information are shown in the table. All standard and custom user data fields, which can be set as "Searchable", are potential columns in this table (see *Administration > Users and Roles > User Management > Settings > Standard Fields / Custom Fields*).<br>
+Superiors can decide themselves which table columns respectively user information are shown in the table. All standard user data fields, which can be set as "Searchable", are potential columns in this table (see *Administration > Users and Roles > User Management > Settings > Standard Fields*). Custom user data fields are currently not supported.<br>
 An **Actions** dropdown is shown per employee. It provides multiple actions.
 Depending on the given permissions, superiors can access **Course Memberships**, **Certificates**, **Competences** and **Talks**, filtered only for this one employee.
 Additionally, there are more possible actions in the dropdown. Which exact actions are shown, varies widely from the configuration of the ILIAS installation and the personal settings of the employees themselves.

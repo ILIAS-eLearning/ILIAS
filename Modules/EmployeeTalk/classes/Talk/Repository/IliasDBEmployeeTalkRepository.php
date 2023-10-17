@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\Modules\EmployeeTalk\Talk\Repository;
 
@@ -117,15 +117,16 @@ final class IliasDBEmployeeTalkRepository implements EmployeeTalkRepository
     public function create(EmployeeTalk $talk): EmployeeTalk
     {
         $this->database->insert('etal_data', [
-            'object_id'             => ['int', $talk->getObjectId()],
-            'series_id'             => ['text', $talk->getSeriesId()],
-            'start_date'            => ['int', $talk->getStartDate()->getUnixTime()],
-            'end_date'              => ['int', $talk->getEndDate()->getUnixTime()],
-            'all_day'               => ['int', (int) $talk->isAllDay()],
-            'location'              => ['text', $talk->getLocation()],
-            'employee'              => ['int', $talk->getEmployee()],
-            'completed'             => ['int', (int) $talk->isCompleted()],
-            'standalone_date'       => ['int', (int) $talk->isStandalone()]
+            'object_id' => ['int', $talk->getObjectId()],
+            'series_id' => ['text', $talk->getSeriesId()],
+            'start_date' => ['int', $talk->getStartDate()->getUnixTime()],
+            'end_date' => ['int', $talk->getEndDate()->getUnixTime()],
+            'all_day' => ['int', (int) $talk->isAllDay()],
+            'location' => ['text', $talk->getLocation()],
+            'employee' => ['int', $talk->getEmployee()],
+            'completed' => ['int', (int) $talk->isCompleted()],
+            'standalone_date' => ['int', (int) $talk->isStandalone()],
+            'template_id' => ['int', $talk->getTemplateId()]
             ]);
 
         return $talk;
@@ -134,16 +135,17 @@ final class IliasDBEmployeeTalkRepository implements EmployeeTalkRepository
     public function update(EmployeeTalk $talk): EmployeeTalk
     {
         $this->database->update('etal_data', [
-            'series_id'             => ['text', $talk->getSeriesId()],
-            'start_date'            => ['int', $talk->getStartDate()->getUnixTime()],
-            'end_date'              => ['int', $talk->getEndDate()->getUnixTime()],
-            'all_day'               => ['int', (int) $talk->isAllDay()],
-            'location'              => ['text', $talk->getLocation()],
-            'employee'              => ['int', $talk->getEmployee()],
-            'completed'             => ['int', (int) $talk->isCompleted()],
-            'standalone_date'       => ['int', (int) $talk->isStandalone()]
+            'series_id' => ['text', $talk->getSeriesId()],
+            'start_date' => ['int', $talk->getStartDate()->getUnixTime()],
+            'end_date' => ['int', $talk->getEndDate()->getUnixTime()],
+            'all_day' => ['int', (int) $talk->isAllDay()],
+            'location' => ['text', $talk->getLocation()],
+            'employee' => ['int', $talk->getEmployee()],
+            'completed' => ['int', (int) $talk->isCompleted()],
+            'standalone_date' => ['int', (int) $talk->isStandalone()],
+            'template_id' => ['int', $talk->getTemplateId()]
         ], [
-            'object_id'             => ['int', $talk->getObjectId()]
+            'object_id' => ['int', $talk->getObjectId()]
         ]);
 
         return $talk;
@@ -190,10 +192,10 @@ final class IliasDBEmployeeTalkRepository implements EmployeeTalkRepository
         $all_day = boolval($stdClass->all_day);
         if ($all_day) {
             $start_date = new ilDate($stdClass->start_date, IL_CAL_UNIX);
-            $end_date = new ilDate($stdClass->start_date, IL_CAL_UNIX);
+            $end_date = new ilDate($stdClass->end_date, IL_CAL_UNIX);
         } else {
             $start_date = new ilDateTime($stdClass->start_date, IL_CAL_UNIX, ilTimeZone::UTC);
-            $end_date = new ilDateTime($stdClass->start_date, IL_CAL_UNIX, ilTimeZone::UTC);
+            $end_date = new ilDateTime($stdClass->end_date, IL_CAL_UNIX, ilTimeZone::UTC);
         }
 
         return new EmployeeTalk(
@@ -205,7 +207,8 @@ final class IliasDBEmployeeTalkRepository implements EmployeeTalkRepository
             $stdClass->location ?? '',
             intval($stdClass->employee),
             boolval($stdClass->completed),
-            boolval($stdClass->standalone_date)
+            boolval($stdClass->standalone_date),
+            intval($stdClass->template_id)
         );
     }
 }

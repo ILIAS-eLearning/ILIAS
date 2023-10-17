@@ -40,10 +40,15 @@ class ilObjStudyProgrammeMembersGUI
     public const ACTION_SHOW_INDIVIDUAL_PLAN = "show_individual_plan";
     public const ACTION_REMOVE_USER = "remove_user";
     public const ACTION_CHANGE_DEADLINE = "change_deadline";
+    public const ACTION_MARK_RELEVANT = "mark_relevant";
+    public const ACTION_UNMARK_RELEVANT = "unmark_relevant";
+    public const ACTION_UPDATE_FROM_CURRENT_PLAN = "update_from_current_plan";
+    public const ACTION_CHANGE_EXPIRE_DATE = "change_expire_date";
 
     public const F_COMMAND_OPTION_ALL = 'select_cmd_all';
     public const F_ALL_PROGRESS_IDS = 'all_progress_ids';
     public const F_SELECTED_PROGRESS_IDS = 'prgs_ids';
+    public const F_SELECTED_PROGRESS_ID = 'prgs_id';
     public const F_SELECTED_USER_IDS = 'usrids';
 
     protected ?ilObjStudyProgramme $object;
@@ -113,7 +118,7 @@ class ilObjStudyProgrammeMembersGUI
                     $this->lng->txt('btn_back'),
                     $this->ctrl->getLinkTarget($this, $this->getDefaultCommand())
                 );
-                $dic = ilStudyProgrammeDIC::dic();
+                $dic = ilStudyProgrammeDIC::specificDicFor($this->object);
                 $mail_search = $dic['ilStudyProgrammeMailMemberSearchGUI'];
                 $mail_search->setAssignments($this->getAssignmentsById());
                 $mail_search->setBackTarget(
@@ -156,11 +161,15 @@ class ilObjStudyProgrammeMembersGUI
                     case "removeUserMulti":
                     case "addUsersWithAcknowledgedCourses":
                     case "markNotRelevantMulti":
+                    case "markRelevant":
                     case "markRelevantMulti":
+                    case "updateFromCurrentPlan":
                     case "updateFromCurrentPlanMulti":
                     case "applyFilter":
                     case "resetFilter":
+                    case "changeDeadline":
                     case "changeDeadlineMulti":
+                    case "changeExpireDate":
                     case "changeExpireDateMulti":
                         $cont = $this->$cmd();
                         $this->tpl->setContent($cont);
@@ -173,6 +182,9 @@ class ilObjStudyProgrammeMembersGUI
                         break;
                     case "mailUserMulti":
                         $this->mailToSelectedUsers();
+                        break;
+                    case "markNotRelevant":
+                        $this->markRelevant();
                         break;
 
                     default:
@@ -519,6 +531,20 @@ class ilObjStudyProgrammeMembersGUI
         }
     }
 
+    public function markRelevant(): void
+    {
+        $prgrs_id = $this->getPrgrsId();
+        $msgs = $this->getMessageCollection('msg_mark_relevant');
+        $programme = $this->getStudyProgramme();
+        if (!$this->mayCurrentUserEditProgressForUser($prgrs_id->getUsrId())) {
+            $msgs->add(false, "No permission to edit progress of user", (string) $prgrs_id);
+        } else {
+            $programme->markRelevant($prgrs_id->getAssignmentId(), $this->user->getId(), $msgs);
+        }
+        $this->showMessages($msgs);
+        $this->ctrl->redirect($this, "view");
+    }
+
     public function markRelevantMulti(): void
     {
         $prgrs_ids = $this->getPostPrgsIds();
@@ -530,6 +556,20 @@ class ilObjStudyProgrammeMembersGUI
             } else {
                 $programme->markRelevant($prgrs_id->getAssignmentId(), $this->user->getId(), $msgs);
             }
+        }
+        $this->showMessages($msgs);
+        $this->ctrl->redirect($this, "view");
+    }
+
+    public function markNotRelevant(): void
+    {
+        $prgrs_id = $this->getPrgrsId();
+        $msgs = $this->getMessageCollection('msg_mark_not_relevant');
+        $programme = $this->getStudyProgramme();
+        if (!$this->mayCurrentUserEditProgressForUser($prgrs_id->getUsrId())) {
+            $msgs->add(false, 'No permission to edit progress of user', (string) $prgrs_id);
+        } else {
+            $programme->markNotRelevant($prgrs_id->getAssignmentId(), $this->user->getId(), $msgs);
         }
         $this->showMessages($msgs);
         $this->ctrl->redirect($this, "view");
@@ -549,6 +589,23 @@ class ilObjStudyProgrammeMembersGUI
         }
         $this->showMessages($msgs);
         $this->ctrl->redirect($this, "view");
+    }
+
+    public function updateFromCurrentPlan(): string
+    {
+        $this->confirmation_gui->setFormAction($this->ctrl->getFormAction($this, 'confirmUpdateFromCurrentPlan'));
+        $this->confirmation_gui->setHeaderText($this->lng->txt('header_update_current_plan'));
+        $this->confirmation_gui->setConfirm($this->lng->txt('confirm'), 'confirmedUpdateFromCurrentPlan');
+        $this->confirmation_gui->setCancel($this->lng->txt('cancel'), 'view');
+
+        $prgs_id = $this->getPostPrgsId();
+        $user_name = ilObjUser::_lookupFullname($prgs_id->getUsrId());
+        $this->confirmation_gui->addItem(
+            self::F_SELECTED_PROGRESS_ID,
+            (string)$prgs_id,
+            $user_name
+        );
+        return $this->confirmation_gui->getHTML();
     }
 
     public function updateFromCurrentPlanMulti(): string
@@ -591,6 +648,23 @@ class ilObjStudyProgrammeMembersGUI
         $this->ctrl->redirect($this, "view");
     }
 
+    public function changeDeadline(): void
+    {
+        $this->ctrl->setParameterByClass(
+            'ilStudyProgrammeChangeDeadlineGUI',
+            'prgrs_ids',
+            $this->getPrgrsId()
+        );
+
+        $link = $this->ctrl->getLinkTargetByClass(
+            'ilStudyProgrammeChangeDeadlineGUI',
+            'showDeadlineConfig'
+        );
+
+        $this->ctrl->clearParameterByClass('ilStudyProgrammeChangeDeadlineGUI', 'prgrs_ids');
+        $this->ctrl->redirectToURL($link);
+    }
+
     public function changeDeadlineMulti(): void
     {
         $this->ctrl->setParameterByClass(
@@ -605,6 +679,23 @@ class ilObjStudyProgrammeMembersGUI
         );
 
         $this->ctrl->clearParameterByClass('ilStudyProgrammeChangeDeadlineGUI', 'prgrs_ids');
+        $this->ctrl->redirectToURL($link);
+    }
+
+    public function changeExpireDate(): void
+    {
+        $this->ctrl->setParameterByClass(
+            'ilStudyProgrammeChangeExpireDateGUI',
+            'prgrs_ids',
+            $this->getPrgrsId()
+        );
+
+        $link = $this->ctrl->getLinkTargetByClass(
+            'ilStudyProgrammeChangeExpireDateGUI',
+            'showExpireDateConfig'
+        );
+
+        $this->ctrl->clearParameterByClass('ilStudyProgrammeChangeExpireDateGUI', 'prgrs_ids');
         $this->ctrl->redirectToURL($link);
     }
 
@@ -773,6 +864,21 @@ class ilObjStudyProgrammeMembersGUI
                 return $this->individual_plan_gui->getLinkTargetView($ass_id);
             case self::ACTION_REMOVE_USER:
                 $target_name = "removeUser";
+                break;
+            case self::ACTION_UNMARK_RELEVANT:
+                $target_name = "markNotRelevant";
+                break;
+            case self::ACTION_MARK_RELEVANT:
+                $target_name = "markRelevant";
+                break;
+            case self::ACTION_UPDATE_FROM_CURRENT_PLAN:
+                $target_name = "updateFromCurrentPlan";
+                break;
+            case self::ACTION_CHANGE_DEADLINE:
+                $target_name = "changeDeadline";
+                break;
+            case self::ACTION_CHANGE_EXPIRE_DATE:
+                $target_name = "changeExpireDate";
                 break;
             default:
                 throw new ilException("Unknown action: $action");

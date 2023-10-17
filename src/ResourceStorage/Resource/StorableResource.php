@@ -68,4 +68,6 @@ interface StorableResource
     public function getMaxRevision(): int;
 
     public function getFullSize(): int;
+
+    public function getType(): ResourceType;
 }

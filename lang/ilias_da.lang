@@ -592,8 +592,6 @@ assessment#:#counter#:#Tæller
 assessment#:#create_date#:#Opret
 assessment#:#create_gaps#:#Opret huller
 assessment#:#create_new#:#Opret ny
-assessment#:#ctm_cannot_be_changed#:#This is a test in CTM-Mode. Settings cannot be changed anymore as CTM has been abandoned.###29 07 2022 new variable
-assessment#:#ctm_cannot_be_started#:#This is a test in CTM-Mode. The test cannot be started anymore as CTM has been abandoned.###29 07 2022 new variable
 assessment#:#customstyle#:#Eget stilark
 assessment#:#dashboard_tab#:#Dashboard###10 11 2018 new variable
 assessment#:#definition#:#Definition
@@ -822,7 +820,6 @@ assessment#:#legend#:#Legend###21 Apr 2005 new variable
 assessment#:#locked#:#låst
 assessment#:#log_added_extratime#:#Added extra %d minutes for participant id %d###16 09 2013 new variable
 assessment#:#log_answer_changed_points#:#Manual change of points of test person %s from %d to %d points by %s###12 11 2006 new variable
-assessment#:#log_could_not_enter_test_due_to_simultaneous_users#:#The user could not enter the test because the maximum number of simultaneous users has been reached
 assessment#:#log_create_new_test#:#Ny test oprettet
 assessment#:#log_manual_feedback#:#%s tilføjede manuelt feedback til test person %s og spørgsmål %s: %s
 assessment#:#log_mark_added#:#Karakter tildelt
@@ -1158,16 +1155,14 @@ assessment#:#set_manscoring_done#:#Mærk denne deltager som "Scored Participant"
 assessment#:#set_manual_feedback#:#Sæt manuel feedback
 assessment#:#shape#:#Form
 assessment#:#showSuggestedSolution#:#Foreslået løsning
+assessment#:#show_all_test_properties_on_info_page#:#Vis den komplette informationsside
+assessment#:#show_all_test_properties_on_info_page_byline#:#Aktiverer visning af den komplette informationsside til testen inkl. test-egenskaber. Ellers vises kun evt. introduktionstekst og de krævede egenskaber på informationssiden.
 assessment#:#show_answer_overview#:#Show Answer Overview###16 09 2013 new variable
 assessment#:#show_detailed_results#:#Vis detaljerede besvarelser
 assessment#:#show_examview_html#:#Show exam view on the test submission page.###16 09 2013 new variable
 assessment#:#show_pass_overview#:#Vis overblik for de markerede besvarelser
 assessment#:#show_user_answers#:#Vis de markerede besvarelser
-assessment#:#showinfo#:#Vis den komplette informationsside
-assessment#:#showinfo_desc#:#Aktiverer visning af den komplette informationsside til testen inkl. test-egenskaber. Ellers vises kun evt. introduktionstekst og de krævede egenskaber på informationssiden.
 assessment#:#shuffle_answers#:#Bland svar
-assessment#:#sign_submission#:#Digitally sign test submissions###16 09 2013 new variable
-assessment#:#sign_submission_info#:#If this is activated and a signature plugin is installed and active, participants will be send to digitally sign their submissions.###16 09 2013 new variable
 assessment#:#skip_question#:#Do not Answer and Next###08 10 2015 new variable
 assessment#:#solutionText#:#Tekst
 assessment#:#solution_contain_keywords#:#Score is granted based on the occurence of the following keywords:###28 08 2012 new variable
@@ -1248,11 +1243,6 @@ assessment#:#tst_add_quest_cont_edit_mode_RTE_info#:#Allows text formatting of q
 assessment#:#tst_addit_passes_blocked_after_passed_msg#:#You have passed the test. The test cannot be started again.###07 02 2020 new variable
 assessment#:#tst_all_test_competences#:#All Test Competence###26 09 2014 new variable
 assessment#:#tst_all_user_data_deleted#:#Alle brugerdata for denne test er blevet slettet!
-assessment#:#tst_allowed_users#:#Maksimalt antal simultane brugere på denne test.
-assessment#:#tst_allowed_users_desc#:#ILIAS will monitor the number of participants taking the test at the same time. If more users than maximally allowed try to access ILIAS will prevent them from starting the test.###07 11 2014 new variable
-assessment#:#tst_allowed_users_max#:#Max. Number of Participants###27 01 2015 new variable
-assessment#:#tst_allowed_users_time_gap#:#Idle time for active users
-assessment#:#tst_allowed_users_time_gap_desc#:#Participants that do not click in the test fort he indicated amount of time will be categorized as ‚inactive‘ and removed from the test.###07 11 2014 new variable
 assessment#:#tst_already_submitted#:#Testen er allerede udført og indsendt.
 assessment#:#tst_analysis#:#Analysis###26 09 2014 new variable
 assessment#:#tst_anonymity#:#Anonymitet
@@ -1332,19 +1322,6 @@ assessment#:#tst_derive_new_pool#:#Derive New Question Pool###25 10 2016 new var
 assessment#:#tst_derive_new_pools#:#Derive New Question Pools###25 10 2016 new variable
 assessment#:#tst_dont_show_msg_again_in_current_session#:#Don't show this message again in my current session.###10 11 2018 new variable
 assessment#:#tst_dont_use_previous_answers#:#Dine tidligere svar bruges som standardværdier i fremtidige besvarelser.
-assessment#:#tst_dyn_keep_answ_freeze#:#Keep my current answers frozen###30 08 2015 new variable
-assessment#:#tst_dyn_quest_set_pool_deleted#:#The currently configured questionpool "%s" has been deleted.###30 08 2015 new variable
-assessment#:#tst_dyn_quest_set_src_qpl_summary_string_deleted#:#%s (Deleted Permanently)###16 09 2013 new variable
-assessment#:#tst_dyn_quest_set_src_qpl_summary_string_trashed#:#%s (Deleted) [%s Questions]###16 09 2013 new variable
-assessment#:#tst_dyn_test_msg_currently_finished_completely#:#Currently you have answered all questions from the source questin pool successfully. When there are new or edited questions in the question pool you can proceed the test.###16 09 2013 new variable
-assessment#:#tst_dyn_test_msg_currently_finished_selection#:#With the current question selection you have answered all questions successfully. Change the question selection to proceed the test.###16 09 2013 new variable
-assessment#:#tst_dyn_test_msg_pass_deletion_link#:#Delete Previous Answers###20 07 2014 new variable
-assessment#:#tst_dyn_test_pass_deletion_button#:#Reset All Testanswers###26 09 2014 new variable
-assessment#:#tst_dyn_unfreeze_answers#:#Answer once more###30 08 2015 new variable
-assessment#:#tst_dyn_unfreeze_answers_confirmation#:#There are questions to which your inital answers were fixed and you could not make any changes. Do you want to answer them one more time now and thus unfreeze your answers?###30 08 2015 new variable
-assessment#:#tst_dynamic_question_set_complete#:#Total-Statistic###07 11 2014 new variable
-assessment#:#tst_dynamic_question_set_selection#:#Test Question Selection###20 07 2014 new variable
-assessment#:#tst_dynamic_question_set_source_questionpool_summary_string#:#%s (Path: %s) [%s Questions]###16 09 2013 new variable
 assessment#:#tst_edit_competence_assign#:#Edit Assignment Properties###30 08 2015 new variable
 assessment#:#tst_edit_scoring#:#Edit Scoring###28 08 2012 new variable
 assessment#:#tst_ending_time#:#Sluttidspunkt
@@ -1381,7 +1358,7 @@ assessment#:#tst_finish_confirm_cancel_button#:#Nej, gå tilbage til sidste svar
 assessment#:#tst_finish_confirmation_question#:#You are going to finish this test and reach the maximum number of allowed test passes. You won't be able to enter this test again to change your answers. Do you really want to finish the test?###01 Mar 2006 new variable
 assessment#:#tst_finish_notification#:#Mail ved afslutning
 assessment#:#tst_finish_notification_advanced#:#Send komplet testresultat til testens ejer.
-assessment#:#tst_finish_notification_content#:#Content of e-mail###27 01 2015 new variable
+assessment#:#tst_finish_notification_content_type#:#Content of e-mail###27 01 2015 new variable
 assessment#:#tst_finish_notification_desc#:#Sends an e-mail to the test owner for every user that has completed the test.###27 01 2015 new variable
 assessment#:#tst_finish_notification_no#:#No e-mail###06 02 2015 new variable
 assessment#:#tst_finish_notification_simple#:#Send navn og afslutningstidspunkt til testens ejer
@@ -1494,8 +1471,6 @@ assessment#:#tst_mark_minimum_level#:#Min. niveau (i %)
 assessment#:#tst_mark_official_form#:#Officiel form
 assessment#:#tst_mark_passed#:#Bestået
 assessment#:#tst_mark_short_form#:#Kort form
-assessment#:#tst_max_allowed_users_heading#:#The maximum number of simultaneous users in this test has been reached
-assessment#:#tst_max_allowed_users_message#:#The maximum number of simultaneous active users in the test has been reached. Please try again later to start or resume the test. If one of the active users is inactive for more than %s seconds, you may be able to enter this test. Thank you for your understanding.
 assessment#:#tst_max_comp_points#:#Max. Competence Points###26 09 2014 new variable
 assessment#:#tst_maximum_points#:#Maksimum point
 assessment#:#tst_mc_label_none_above#:#None of the answers above###fau: testNav
@@ -1697,6 +1672,7 @@ assessment#:#tst_questions_hints_toolbar_cmd_reset_ordering_clipboard#:#Reset Hi
 assessment#:#tst_questions_inserted#:#Spørgsmål indsat i test.
 assessment#:#tst_questions_removed#:#Spørgsmål fjernet!
 assessment#:#tst_random_nr_of_questions#:#Hvor mange spørgsmål?
+assessment#:#tst_random_question_set_source_questionpool_summary_string#:#%s (Path: %s) [%s Questions]###16 09 2013 new variable
 assessment#:#tst_random_select_questionpool#:#Vælg spørgsmålsgruppen du vil vælge spørgsmål fra.
 assessment#:#tst_reached_points#:#Opnåede point
 assessment#:#tst_reached_points_of_max#:#%s of %s###07 02 2020 new variable
@@ -1711,7 +1687,7 @@ assessment#:#tst_report_after_test#:#Vis resultat efter hele testen er besvaret
 assessment#:#tst_report_never#:#Ingen testresultater er tilgængelige
 assessment#:#tst_reporting_date#:#Date###06 02 2015 new variable
 assessment#:#tst_res_jump_to_participant_btn#:#Jump###26 09 2014 new variable
-assessment#:#tst_res_jump_to_participant_hint_opt#:#--Jump to Participant--###26 09 2014 new variable
+assessment#:#tst_res_jump_to_participant_hint_opt#:#Jump to Participant
 assessment#:#tst_res_lo_objectives_header#:#Relevant Learning Objectives###30 08 2015 new variable
 assessment#:#tst_res_lo_try_header#:#Attempt###30 08 2015 new variable
 assessment#:#tst_res_lo_try_n#:#Attempt %s###30 08 2015 new variable
@@ -12369,7 +12345,7 @@ prg#:#msg_unmark_accredited#:#Unmarked %s users accredited.###29 07 2022 new var
 prg#:#msg_unmark_accredited_failed#:#Unmarking accredited not successful for:###29 07 2022 new variable
 prg#:#msg_update_from_settings#:#Updated %s users from settings:###29 07 2022 new variable
 prg#:#msg_update_from_settings_failed#:#Updated from settings failed:###29 07 2022 new variable
-prg#:#msg_update_individual_plan#:#Successfully updated individual plan (%)###29 07 2022 new variable
+prg#:#msg_update_individual_plan#:#Individual plan: %s successfully updated.###29 07 2022 new variable
 prg#:#msg_update_individual_plan_failed#:#Update  of individual plan failed###29 07 2022 new variable
 prg#:#no_srctype_or_id#:#Id and type may not be empty.###29 07 2022 new variable
 prg#:#not_a_valid_cat_id#:#%s is not a valid ref-id of a category.###07 02 2020 new variable

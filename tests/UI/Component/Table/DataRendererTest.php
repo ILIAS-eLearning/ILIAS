@@ -26,6 +26,7 @@ use ILIAS\UI\Implementation\Component as I;
 use ILIAS\Data;
 use ILIAS\UI\Implementation\Component\Signal;
 use Psr\Http\Message\ServerRequestInterface;
+use ILIAS\UI\URLBuilder;
 
 /**
  * wrapper around the renderer to expose protected functions
@@ -95,6 +96,11 @@ class DataRendererTest extends ILIAS_UI_TestBase
         return new I\Table\Column\Factory();
     }
 
+    public function getDataFactory(): Data\Factory
+    {
+        return new Data\Factory();
+    }
+
     public function getUIFactory(): NoUIFactory
     {
         $factory = new class () extends NoUIFactory {
@@ -147,34 +153,23 @@ class DataRendererTest extends ILIAS_UI_TestBase
         $this->assertEquals($expected, $actual);
     }
 
-    public function testDataTableGetActionRegistrationSignal()
-    {
-        $renderer = $this->getRenderer();
-        $f = $this->getActionFactory();
-        $signal = new I\Signal('signal_id');
-        $action = $f->standard('label', 'param', $signal);
-        $closure = $renderer->p_getActionRegistration('action_id', $action);
-
-        $actual = $this->brutallyTrimHTML($closure('component_id'));
-        $expected = $this->brutallyTrimHTML(
-            "il.UI.table.data.get('component_id').registerAction('action_id', 'SIGNAL', '{\"id\":\"signal_id\",\"options\":[]}', 'param');"
-        );
-        $this->assertEquals($expected, $actual);
-    }
-
-    public function testDataTableGetActionRegistrationURL()
+    public function testDataTableGetActionRegistration()
     {
         $renderer = $this->getRenderer();
         $f = $this->getActionFactory();
         $url = $this->getDataFactory()->uri('http://wwww.ilias.de?ref_id=1');
-        $action = $f->standard('label', 'param', $url);
+        $url_builder = new URLBuilder($url);
+        list($builder, $token) = $url_builder->acquireParameter(['namespace'], 'param');
+
+        $action = $f->standard('label', $builder, $token);
         $closure = $renderer->p_getActionRegistration('action_id', $action);
 
         $actual = $this->brutallyTrimHTML($closure('component_id'));
+        $url = $url->__toString();
         $expected = $this->brutallyTrimHTML(
-            "il.UI.table.data.get('component_id').registerAction('action_id', 'URL', '$url', 'param');"
+            'il.UI.table.data.get(\'component_id\').registerAction(\'action_id\', false, new il.UI.core.URLBuilder(new URL("http://wwww.ilias.de?ref_id=1&namespace_param="), new Map([["namespace_param",new il.UI.core.URLBuilderToken(["namespace"], "param",'
         );
-        $this->assertEquals($expected, $actual);
+        $this->assertStringStartsWith($expected, $actual);
     }
 
     public function testDataTableMultiActionsDropdown()
@@ -184,9 +179,11 @@ class DataRendererTest extends ILIAS_UI_TestBase
         $signal1 = new I\Signal('signal_id');
         $signal2 = new I\Signal('signal_id2');
         $url = $this->getDataFactory()->uri('http://wwww.ilias.de?ref_id=1');
+        $url_builder = new URLBuilder($url);
+        list($builder, $token) = $url_builder->acquireParameter(['namespace'], 'param');
         $actions = [
-            $f->standard('label1', 'param', $signal1),
-            $f->standard('label2', 'param', $url)
+            $f->standard('label1', $builder, $token),
+            $f->standard('label2', $builder, $token)
         ];
         $this->assertNull(
             $renderer->p_buildMultiActionsDropdown([], $signal1, $signal2)
@@ -200,11 +197,12 @@ class DataRendererTest extends ILIAS_UI_TestBase
     {
         $renderer = $this->getRenderer();
         $f = $this->getActionFactory();
-        $signal = new I\Signal('signal_id');
         $url = $this->getDataFactory()->uri('http://wwww.ilias.de?ref_id=1');
+        $url_builder = new URLBuilder($url);
+        list($builder, $token) = $url_builder->acquireParameter(['namespace'], 'param');
         $actions = [
-            'a1' => $f->standard('label1', 'param', $signal),
-            'a2' => $f->standard('label2', 'param', $url)
+            'a1' => $f->standard('label1', $builder, $token)->withAsync(),
+            'a2' => $f->standard('label2', $builder, $token)
         ];
         $this->assertEquals(
             2,
@@ -282,6 +280,20 @@ class DataRendererTest extends ILIAS_UI_TestBase
         </thead>
         <tbody class="c-table-data__body" role="rowgroup"></tbody>
     </table>
+
+    <div class="c-table-data__async_modal_container"></div>
+
+    <div class="c-table-data__async_message modal" role="dialog" id="{ID}_msgmodal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="c-table-data__async_messageresponse modal-body"></div>
+            </div>
+        </div>
+    </div>
+
 </div>
 EOT;
         $expected = $this->brutallyTrimHTML($expected);
@@ -297,11 +309,12 @@ EOT;
             'f3' => $f->number("Field 3")->withIndex(3)
         ];
         $f = $this->getActionFactory();
-        $signal = new I\Signal('signal_id');
         $url = $this->getDataFactory()->uri('http://wwww.ilias.de?ref_id=1');
+        $url_builder = new URLBuilder($url);
+        list($builder, $token) = $url_builder->acquireParameter(['namespace'], 'param');
         $actions = [
-            'a1' => $f->standard('label1', 'param', $signal),
-            'a2' => $f->standard('label2', 'param', $url)
+            'a1' => $f->standard('label1', $builder, $token)->withAsync(),
+            'a2' => $f->standard('label2', $builder, $token)
         ];
 
         $rb = (new I\Table\DataRowBuilder())
@@ -354,16 +367,67 @@ EOT;
 <td class="c-table-data__cell c-table-data__rowselection" role="gridcell" tabindex="-1">
     <input type="checkbox" value="row_id-1" class="c-table-data__row-selector">
 </td>
-<td class="c-table-data__cell c-table-data__cell--text " role="gridcell" aria-colindex="1" tabindex="-1">v1</td>
-<td class="c-table-data__cell c-table-data__cell--text " role="gridcell" aria-colindex="2" tabindex="-1">v2</td>
-<td class="c-table-data__cell c-table-data__cell--number " role="gridcell" aria-colindex="3" tabindex="-1">3</td>
+<td class="c-table-data__cell c-table-data__cell--text " role="gridcell" aria-colindex="1" tabindex="-1">
+    <span class="c-table-data__cell__col-title">Field 1:</span>v1
+</td>
+<td class="c-table-data__cell c-table-data__cell--text " role="gridcell" aria-colindex="2" tabindex="-1">
+    <span class="c-table-data__cell__col-title">Field 2:</span>v2
+</td>
+<td class="c-table-data__cell c-table-data__cell--number " role="gridcell" aria-colindex="3" tabindex="-1">
+    <span class="c-table-data__cell__col-title">Field 3:</span>3
+</td>
 <td class="c-table-data__cell c-table-data__rowaction" role="gridcell" tabindex="-1">
-    <div class="dropdown"><button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" id="id_2" aria-label="actions" aria-haspopup="true" aria-expanded="false" aria-controls="id_2_menu"><span class="caret"></span></button>
-        <ul id="id_2_menu" class="dropdown-menu"><li><button class="btn btn-link" id="id_1">label1</button></li><li><button class="btn btn-link" data-action="">label2</button></li></ul>
+    <div class="dropdown">
+        <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" id="id_3" aria-label="actions" aria-haspopup="true" aria-expanded="false" aria-controls="id_3_menu"><span class="caret"></span></button>
+        <ul id="id_3_menu" class="dropdown-menu">
+            <li><button class="btn btn-link" data-action="http://wwww.ilias.de?ref_id=1&namespace_param%5B%5D=row_id-1" id="id_1">label1</button></li>
+            <li><button class="btn btn-link" data-action="http://wwww.ilias.de?ref_id=1&namespace_param%5B%5D=row_id-1" id="id_2">label2</button></li>
+        </ul>
     </div>
 </td>
 EOT;
         $expected = $this->brutallyTrimHTML($expected);
         $this->assertEquals($expected, $actual);
+    }
+
+    public function testRenderEmptyDataCell(): void
+    {
+        $data = new class () implements Component\Table\DataRetrieval {
+            public function getRows(
+                Component\Table\DataRowBuilder $row_builder,
+                array $visible_column_ids,
+                Data\Range $range,
+                Data\Order $order,
+                ?array $filter_data,
+                ?array $additional_parameters
+            ): Generator {
+                yield from [];
+            }
+
+            public function getTotalRowCount(?array $filter_data, ?array $additional_parameters): ?int
+            {
+                return null;
+            }
+        };
+
+        $columns = [
+            'f1' => $this->getUIFactory()->table()->column()->text('f1'),
+            'f2' => $this->getUIFactory()->table()->column()->text('f2'),
+            'f3' => $this->getUIFactory()->table()->column()->text('f3'),
+            'f4' => $this->getUIFactory()->table()->column()->text('f4'),
+            'f5' => $this->getUIFactory()->table()->column()->text('f5'),
+        ];
+
+        $table = $this->getUIFactory()->table()->data('', $columns, $data);
+
+        $html = $this->getDefaultRenderer()->render($table);
+
+        $translation = $this->getLanguage()->txt('ui_table_no_records');
+        $column_count = count($columns);
+
+        // check that the empty cell is stretched over all columns.
+        $this->assertTrue(str_contains($html, "colspan=\"$column_count\""));
+        // check that the cell contains the default message.
+        $this->assertTrue(str_contains($html, $translation));
     }
 }

@@ -32,7 +32,7 @@ class ilObjectCopySelectionTableGUI extends ilTable2GUI
 
     protected string $type;
 
-    public function __construct(?object $parent_class, string $parent_cmd, string $type, string $back_cmd)
+    public function __construct(?object $parent_class, string $parent_cmd, string $type, bool $copy_page)
     {
         global $DIC;
 
@@ -56,14 +56,11 @@ class ilObjectCopySelectionTableGUI extends ilTable2GUI
         $this->setEnableNumInfo(true);
         $this->setLimit(999999);
 
+        $this->addHiddenInput('copy_page', $copy_page ? '1' : '0');
+
         $this->setFormName('cmd');
 
         $this->addCommandButton('copyContainerToTargets', $this->lng->txt('obj_' . $this->type . '_duplicate'));
-        if ($back_cmd == "") {
-            $this->addCommandButton("cancel", $this->lng->txt('cancel'));
-        } else {
-            $this->addCommandButton($back_cmd, $this->lng->txt('btn_back'));
-        }
     }
 
     public function getType(): string

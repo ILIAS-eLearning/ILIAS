@@ -307,8 +307,8 @@ class ilObjUserFolderGUI extends ilObjectGUI
     ): void {
         $user_filter = null;
 
-        if ($rbacsystem->checkAccess('create_usr', $this->object->getRefId())
-            || $rbacsystem->checkAccess('cat_administrate_users', $this->object->getRefId())) {
+        if ($this->rbac_system->checkAccess('create_usr', $this->object->getRefId())
+            || $this->rbac_system->checkAccess('cat_administrate_users', $this->object->getRefId())) {
             $this->toolbar->addComponent(
                 $this->ui_factory->link()->standard(
                     $this->lng->txt('usr_add'),
@@ -851,10 +851,9 @@ class ilObjUserFolderGUI extends ilObjectGUI
     ): bool {
         $user_ids = $this->getActionUserIds();
         if (!$user_ids) {
-            $this->ilias->raiseError(
-                $this->lng->txt('no_checkbox'),
-                $this->ilias->error_obj->MESSAGE
-            );
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('no_checkbox'));
+            $this->viewObject();
+            return false;
         }
 
         if (!$a_from_search) {
@@ -932,7 +931,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
             $cgui->addItem(
                 'id[]',
-                $id,
+                (string) $id,
                 $caption
             );
         }
@@ -944,6 +943,11 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
     public function deleteUsersObject(): void
     {
+        if (in_array($this->user->getId(), $this->getActionUserIds())) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('msg_no_delete_yourself'));
+            $this->viewObject();
+            return;
+        }
         $this->showActionConfirmation('delete');
     }
 
@@ -954,6 +958,11 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
     public function deactivateUsersObject(): void
     {
+        if (in_array($this->user->getId(), $this->getActionUserIds())) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('no_deactivate_yourself'));
+            $this->viewObject();
+            return;
+        }
         $this->showActionConfirmation('deactivate');
     }
 
@@ -986,10 +995,11 @@ class ilObjUserFolderGUI extends ilObjectGUI
             !$this->rbac_system->checkAccess('create_usr', $this->object->getRefId()) &&
             !$this->access->checkAccess('cat_administrate_users', '', $this->object->getRefId())
         ) {
-            $this->ilias->raiseError($this->lng->txt('permission_denied'), $this->ilias->error_obj->MESSAGE);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'));
+            return;
         }
         $this->initUserImportForm();
-        $tpl->setContent($this->form->getHTML());
+        $this->tpl->setContent($this->form->getHTML());
     }
 
     public function initUserImportForm(): void
@@ -1001,7 +1011,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
             $this->lng->txt('import_file'),
             'importFile'
         );
-        $fi->setSuffixes(['xml', 'zip']);
+        $fi->setSuffixes(['xml']);
         $fi->setRequired(true);
         $this->form->addItem($fi);
 
@@ -1073,9 +1083,9 @@ class ilObjUserFolderGUI extends ilObjectGUI
             $xml_file = $this->handleUploadedFiles();
             $xml_file_full_path = ilFileUtils::getDataDir() . '/' . $xml_file;
 
-            $form = $this->initUserRoleAssignmentForm($xml_file_full_path);
+            list($form, $message) = $this->initUserRoleAssignmentForm($xml_file_full_path);
 
-            $this->tpl->setContent($this->ui_renderer->render($form));
+            $this->tpl->setContent($message . $this->ui_renderer->render($form));
         } else {
             $this->form->setValuesByPost();
             $this->tpl->setContent($this->form->getHTML());
@@ -1084,8 +1094,9 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
     /**
      * @throws ilCtrlException
+     * @return array<\ILIAS\UI\Component\Input\Container\Form\Standard, string>
      */
-    private function initUserRoleAssignmentForm(string $xml_file_full_path): StandardForm
+    private function initUserRoleAssignmentForm(string $xml_file_full_path): array
     {
         $global_roles_assignment_info = null;
         $local_roles_assignment_info = null;
@@ -1096,7 +1107,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
         );
         $importParser->startParsing();
 
-        $this->verifyXmlData($importParser);
+        $message = $this->verifyXmlData($importParser);
 
         $xml_file_name = explode(
             '/',
@@ -1354,7 +1365,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
                     }
 
                     if (count($selectable_roles) > 0) {
-                        $select = $ui->input()->field()
+                        $select = $this->ui_factory->input()->field()
                             ->select($role['name'], $selectable_roles)
                             ->withRequired(true);
                         if (array_key_exists($pre_select, $selectable_roles)) {
@@ -1371,7 +1382,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
             ilUserImportParser::IL_UPDATE_ON_CONFLICT => $this->lng->txt('update_on_conflict')
         ];
 
-        $conflict_action_select = $ui->input()->field()
+        $conflict_action_select = $this->ui_factory->input()->field()
             ->select(
                 $this->lng->txt('conflict_handling'),
                 $handlers,
@@ -1389,16 +1400,16 @@ class ilObjUserFolderGUI extends ilObjectGUI
         $amail = ilObjUserFolder::_lookupNewAccountMail($this->lng->getDefaultLanguage());
         $mail_section = null;
         if (trim($amail['body'] ?? '') != '' && trim($amail['subject'] ?? '') != '') {
-            $send_checkbox = $ui->input()->field()->checkbox($this->lng->txt('user_send_new_account_mail'))
+            $send_checkbox = $this->ui_factory->input()->field()->checkbox($this->lng->txt('user_send_new_account_mail'))
                                 ->withValue(true);
 
-            $mail_section = $ui->input()->field()->section(
+            $mail_section = $this->ui_factory->input()->field()->section(
                 [$send_checkbox],
                 $this->lng->txt('mail_account_mail')
             );
         }
 
-        $file_info_section = $ui->input()->field()->section(
+        $file_info_section = $this->ui_factory->input()->field()->section(
             [
                 'filename' => $roles_import_filename,
                 'import_count' => $roles_import_count,
@@ -1413,20 +1424,20 @@ class ilObjUserFolderGUI extends ilObjectGUI
         ];
 
         if (!empty($global_selects)) {
-            $global_role_info_section = $ui->input()
+            $global_role_info_section = $this->ui_factory->input()
                 ->field()
                 ->section([$global_roles_assignment_info], $this->lng->txt('global_role_assignment'));
-            $global_role_selection_section = $ui->input()->field()->section($global_selects, '');
+            $global_role_selection_section = $this->ui_factory->input()->field()->section($global_selects, '');
             $form_elements['global_role_info'] = $global_role_info_section;
             $form_elements['global_role_selection'] = $global_role_selection_section;
         }
 
         if (!empty($local_selects)) {
-            $local_role_info_section = $ui->input()->field()->section(
+            $local_role_info_section = $this->ui_factory->input()->field()->section(
                 [$local_roles_assignment_info],
                 $this->lng->txt('local_role_assignment')
             );
-            $local_role_selection_section = $ui->input()->field()->section(
+            $local_role_selection_section = $this->ui_factory->input()->field()->section(
                 $local_selects,
                 ''
             );
@@ -1435,16 +1446,16 @@ class ilObjUserFolderGUI extends ilObjectGUI
             $form_elements['local_role_selection'] = $local_role_selection_section;
         }
 
-        $form_elements['conflict_action'] = $ui->input()->field()->section([$conflict_action_select], '');
+        $form_elements['conflict_action'] = $this->ui_factory->input()->field()->section([$conflict_action_select], '');
 
         if ($mail_section !== null) {
             $form_elements['send_mail'] = $mail_section;
         }
 
-        return $ui->input()->container()->form()->standard(
+        return [$this->ui_factory->input()->container()->form()->standard(
             $form_action,
             $form_elements
-        );
+        ), $message];
     }
 
     private function handleUploadedFiles(): string
@@ -1537,18 +1548,14 @@ class ilObjUserFolderGUI extends ilObjectGUI
         return $xml_file;
     }
 
-    public function verifyXmlData(ilUserImportParser $importParser): void
+    public function verifyXmlData(ilUserImportParser $importParser): string
     {
         $import_dir = $this->getImportDir();
         switch ($importParser->getErrorLevel()) {
             case ilUserImportParser::IL_IMPORT_SUCCESS:
-                break;
+                return '';
             case ilUserImportParser::IL_IMPORT_WARNING:
-                $this->tpl->setVariable(
-                    'IMPORT_LOG',
-                    $importParser->getProtocolAsHTML($this->lng->txt('verification_warning_log'))
-                );
-                break;
+                return $importParser->getProtocolAsHTML($this->lng->txt("verification_warning_log"));
             case ilUserImportParser::IL_IMPORT_FAILURE:
                 $this->filesystem->deleteDir($import_dir);
                 $this->ilias->raiseError(
@@ -1557,7 +1564,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
                     ),
                     $this->ilias->error_obj->MESSAGE
                 );
-                return;
+                return '';
         }
     }
 
@@ -1597,7 +1604,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
         $xml_path = ilFileUtils::getDataDir() . '/' . $xml_file;
 
         if ($this->user_request->isPost()) {
-            $form = $this->initUserRoleAssignmentForm($xml_path)->withRequest($this->user_request->getRequest());
+            $form = $this->initUserRoleAssignmentForm($xml_path)[0]->withRequest($this->user_request->getRequest());
             $result = $form->getData();
         } else {
             $this->ilias->raiseError(
@@ -1641,7 +1648,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
         $importParser = new ilUserImportParser(
             $xml_path,
             ilUserImportParser::IL_USER_IMPORT,
-            $rule
+            (int) $rule
         );
         $importParser->setFolderId($this->getUserOwnerId());
 
@@ -1676,11 +1683,11 @@ class ilObjUserFolderGUI extends ilObjectGUI
                             }
                         }
                     } else {
-                        $rolf = $rbacreview->getFoldersAssignedToRole(
+                        $rolf = $this->rbac_review->getFoldersAssignedToRole(
                             $role_id,
                             true
                         );
-                        if ($rbacreview->isDeleted($rolf[0])
+                        if ($this->rbac_review->isDeleted($rolf[0])
                             || !$this->rbac_system->checkAccess(
                                 'write',
                                 $rolf[0]
@@ -2952,7 +2959,6 @@ class ilObjUserFolderGUI extends ilObjectGUI
     public function exportObject(): void
     {
         $this->checkPermission('write,read_users');
-        $this->toolbar->setFormAction($this->ctrl->getFormAction($this));
 
         $export_types = [
             'userfolder_export_excel_x86',
@@ -2961,32 +2967,18 @@ class ilObjUserFolderGUI extends ilObjectGUI
         ];
         $options = [];
         foreach ($export_types as $type) {
-            $options[$type] = $this->lng->txt($type);
+            $this->ctrl->setParameterByClass(self::class, 'export_type', $type);
+            $options[] = $this->ui_factory->button()->shy(
+                $this->lng->txt($type),
+                $this->ctrl->getLinkTargetByClass(self::class, 'performExport')
+            );
         }
-        $type_selection = new \ilSelectInputGUI(
-            '',
-            'export_type'
-        );
-        $type_selection->setOptions($options);
-
-        $this->toolbar->addInputItem(
-            $type_selection,
-            true
-        );
-
-        $on_load_code = function ($id) {
-            return "document.getElementById('$id')"
-                . '.addEventListener("click", '
-                . '(e) => {e.preventDefault();'
-                . 'e.target.setAttribute("name", "cmd[performExport]");'
-                . 'e.target.form.requestSubmit(e.target);});';
-        };
+        $type_selection = $this->ui_factory->dropdown()->standard($options)
+            ->withLabel($this->lng->txt('create_export_file'));
 
         $this->toolbar->addComponent(
-            $this->ui_factory->button()->standard(
-                $this->lng->txt('create_export_file'),
-                '#'
-            )->withOnLoadCode($on_load_code)
+            $type_selection,
+            true
         );
 
         $table = new \ilUserExportFileTableGUI(
@@ -3007,7 +2999,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this));
 
-        $form->setTitleIcon(ilUtil::getImagePath('icon_mail.svg'));
+        $form->setTitleIcon(ilUtil::getImagePath('standard/icon_mail.svg'));
         $form->setTitle($this->lng->txt('user_new_account_mail'));
         $form->setDescription($this->lng->txt('user_new_account_mail_desc'));
 
@@ -3512,7 +3504,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
             '',
             $a_target
         )) {
-            ilUtil::redirect('ilias.php?baseClass=ilAdministrationGUI&ref_id=' . $a_target . '&jmpToUser=' . $a_user);
+            $this->ctrl->redirectToURL('ilias.php?baseClass=ilAdministrationGUI&ref_id=' . $a_target . '&jmpToUser=' . $a_user);
             exit;
         } else {
             if ($ilAccess->checkAccess(

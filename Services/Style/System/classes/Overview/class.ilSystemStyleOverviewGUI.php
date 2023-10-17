@@ -318,11 +318,11 @@ class ilSystemStyleOverviewGUI
                     $skin->addStyle($style);
                     $container = new ilSkinStyleContainer($this->lng, $skin, $this->message_stack);
                     $container->create($this->message_stack);
-                    $this->ctrl->setParameterByClass('ilSystemStyleSettingsGUI', 'skin_id', $skin->getId());
-                    $this->ctrl->setParameterByClass('ilSystemStyleSettingsGUI', 'style_id', $style->getId());
+                    $this->ctrl->setParameterByClass('ilsystemstyleconfiggui', 'skin_id', $skin->getId());
+                    $this->ctrl->setParameterByClass('ilsystemstyleconfiggui', 'style_id', $style->getId());
                     $this->message_stack->addMessage(new ilSystemStyleMessage($this->lng->txt('msg_sys_style_created')));
                     $this->message_stack->sendMessages();
-                    $this->ctrl->redirectByClass('ilSystemStyleSettingsGUI');
+                    $this->ctrl->redirectByClass('ilsystemstyleconfiggui');
                 } catch (ilSystemStyleException $e) {
                     $this->message_stack->addMessage(new ilSystemStyleMessage(
                         $e->getMessage(),
@@ -499,9 +499,9 @@ class ilSystemStyleOverviewGUI
                 $this->lng->txt('style_copied'),
                 ilSystemStyleMessage::TYPE_SUCCESS
             ));
-            $this->ctrl->setParameterByClass('ilSystemStyleSettingsGUI', 'skin_id', $new_container->getSkin()->getId());
+            $this->ctrl->setParameterByClass('ilsystemstyleconfiggui', 'skin_id', $new_container->getSkin()->getId());
             $this->ctrl->setParameterByClass(
-                'ilSystemStyleSettingsGUI',
+                'ilsystemstyleconfiggui',
                 'style_id',
                 $new_container->getSkin()->getStyle($style_id)->getId()
             );
@@ -516,7 +516,7 @@ class ilSystemStyleOverviewGUI
             ));
         }
         $this->message_stack->sendMessages();
-        $this->ctrl->redirectByClass('ilSystemStyleSettingsGUI');
+        $this->ctrl->redirectByClass('ilsystemstyleconfiggui');
     }
 
     protected function deleteStyle(): void
@@ -530,7 +530,7 @@ class ilSystemStyleOverviewGUI
             $delete_form_table->addStyle(
                 $container->getSkin(),
                 $container->getSkin()->getStyle($style_id),
-                $container->getImagesSkinPath($style_id) . '/icon_stys.svg'
+                $container->getImagesStylePath($style_id) . '/standard/icon_stys.svg'
             );
             $this->tpl->setContent($delete_form_table->getDeleteStyleFormHTML());
         } else {
@@ -566,7 +566,7 @@ class ilSystemStyleOverviewGUI
                 $delete_form_table->addStyle(
                     $container->getSkin(),
                     $container->getSkin()->getStyle($style_id),
-                    $container->getImagesSkinPath($style_id) . '/icon_stys.svg'
+                    $container->getImagesStylePath($style_id) . '/standard/icon_stys.svg'
                 );
             }
             $this->tpl->setContent($delete_form_table->getDeleteStyleFormHTML());
@@ -666,12 +666,12 @@ class ilSystemStyleOverviewGUI
                 $this->message_stack
             );
             $this->ctrl->setParameterByClass(
-                'ilSystemStyleSettingsGUI',
+                'ilsystemstyleconfiggui',
                 'skin_id',
                 $imported_container->getSkin()->getId()
             );
             $this->ctrl->setParameterByClass(
-                'ilSystemStyleSettingsGUI',
+                'ilsystemstyleconfiggui',
                 'style_id',
                 $imported_container->getSkin()->getDefaultStyle()->getId()
             );
@@ -680,7 +680,7 @@ class ilSystemStyleOverviewGUI
                 ilSystemStyleMessage::TYPE_SUCCESS
             ));
             $this->message_stack->sendMessages();
-            $this->ctrl->redirectByClass('ilSystemStyleSettingsGUI');
+            $this->ctrl->redirectByClass('ilsystemstyleconfiggui');
         }
         // display only this form to correct input
         $form->setValuesByPost();
@@ -799,11 +799,11 @@ class ilSystemStyleOverviewGUI
                 $style->setSubstyleOf($parent_style_id);
                 $container->addStyle($style);
 
-                $this->ctrl->setParameterByClass('ilSystemStyleSettingsGUI', 'skin_id', $parent_skin_id);
-                $this->ctrl->setParameterByClass('ilSystemStyleSettingsGUI', 'style_id', $sub_style_id);
+                $this->ctrl->setParameterByClass('ilsystemstyleconfiggui', 'skin_id', $parent_skin_id);
+                $this->ctrl->setParameterByClass('ilsystemstyleconfiggui', 'style_id', $sub_style_id);
                 $this->message_stack->addMessage(new ilSystemStyleMessage($this->lng->txt('msg_sub_style_created')));
                 $this->message_stack->sendMessages();
-                $this->ctrl->redirectByClass('ilSystemStyleSettingsGUI');
+                $this->ctrl->redirectByClass('ilsystemstyleconfiggui');
             } catch (ilSystemStyleException $e) {
                 $this->message_stack->addMessage(new ilSystemStyleMessage(
                     $e->getMessage(),

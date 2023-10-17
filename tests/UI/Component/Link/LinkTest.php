@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,11 +16,14 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 require_once(__DIR__ . "/../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../Base.php");
 
 use ILIAS\UI\Implementation\Component as I;
 use ILIAS\Data\LanguageTag;
+use ILIAS\UI\Component\Link\Relationship;
 
 /**
  * Test on link implementation.
@@ -128,6 +129,37 @@ class LinkTest extends ILIAS_UI_TestBase
             . '<div id="id_1" role="tooltip" class="c-tooltip c-tooltip--hidden"><p>tooltip: a</p></div>'
             . '</div>';
 
+        $this->assertHTMLEquals($expected_html, $html);
+    }
+
+    public function testRenderWithRelationships(): void
+    {
+        $f = $this->getLinkFactory();
+        $r = $this->getDefaultRenderer();
+        $c = $f->standard("label", "http://www.ilias.de")
+               ->withAdditionalRelationshipToReferencedResource(Relationship::LICENSE)
+               ->withAdditionalRelationshipToReferencedResource(Relationship::NOOPENER);
+
+        $expected_html =
+            '<a href="http://www.ilias.de" rel="license noopener">label</a>';
+
+        $html = $r->render($c);
+        $this->assertHTMLEquals($expected_html, $html);
+    }
+
+    public function testRenderWithDuplicateRelationship(): void
+    {
+        $f = $this->getLinkFactory();
+        $r = $this->getDefaultRenderer();
+        $c = $f->standard("label", "http://www.ilias.de")
+               ->withAdditionalRelationshipToReferencedResource(Relationship::LICENSE)
+               ->withAdditionalRelationshipToReferencedResource(Relationship::NOOPENER)
+               ->withAdditionalRelationshipToReferencedResource(Relationship::LICENSE);
+
+        $expected_html =
+            '<a href="http://www.ilias.de" rel="license noopener">label</a>';
+
+        $html = $r->render($c);
         $this->assertHTMLEquals($expected_html, $html);
     }
 }

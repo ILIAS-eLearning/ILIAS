@@ -11,6 +11,7 @@
 /extern
 /Services/PHPUnit/config/cfg.phpunit.php
 /nbproject
+/templates/default/delos.css.map
 
 # General Patterns
 *.bak
@@ -66,3 +67,4 @@ phpstan-baseline.neon
 override.php
 Services/ResourceStorage/artifacts/flavour_data.php
 Services/FileHandlingDemo
+src/FileDelivery/artifacts

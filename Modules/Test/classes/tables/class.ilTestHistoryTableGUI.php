@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
 *
 * @author Helmut Schottmüller <ilias@aurealis.de>
@@ -28,20 +30,13 @@ class ilTestHistoryTableGUI extends ilTable2GUI
 {
     protected ?object $tstObject;
 
-    public function __construct($a_parent_obj, $a_parent_cmd)
+    public function __construct(ilObjTestGUI $parent_obj, string $parent_cmd)
     {
-        parent::__construct($a_parent_obj, $a_parent_cmd);
-
-        global $DIC;
-        $lng = $DIC['lng'];
-        $ilCtrl = $DIC['ilCtrl'];
-
-        $this->lng = $lng;
-        $this->ctrl = $ilCtrl;
+        parent::__construct($parent_obj, $parent_cmd);
 
         $this->setFormName('questionbrowser');
+        $this->setFormAction($this->ctrl->getFormAction($this->parent_obj, "history"));
         $this->setStyle('table', 'fullwidth');
-
         $this->addColumn($this->lng->txt("assessment_log_datetime"), 'datetime', '25%');
         $this->addColumn($this->lng->txt("user"), 'user', '25%');
         $this->addColumn($this->lng->txt("assessment_log_text"), 'log', '50%');
@@ -61,10 +56,6 @@ class ilTestHistoryTableGUI extends ilTable2GUI
 
     public function fillRow(array $a_set): void
     {
-        global $DIC;
-        $ilUser = $DIC['ilUser'];
-        $ilAccess = $DIC['ilAccess'];
-
         $username = $this->tstObject->userLookupFullName($a_set["user_fi"], true);
         $this->tpl->setVariable("DATETIME", ilDatePresentation::formatDate(new ilDateTime($a_set["tstamp"], IL_CAL_UNIX)));
         $this->tpl->setVariable("USER", $username);

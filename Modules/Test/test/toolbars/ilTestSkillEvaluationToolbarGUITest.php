@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Class ilTestSkillEvaluationToolbarGUITest
@@ -34,12 +34,9 @@ class ilTestSkillEvaluationToolbarGUITest extends ilTestBaseTestCase
         $lng_mock = $this->createMock(ilLanguage::class);
         $this->setGlobalVariable("lng", $lng_mock);
 
-        $parentGui_mock = $this->createMock(ilTestSkillEvaluationGUI::class);
         $this->toolbarGUI = new ilTestSkillEvaluationToolbarGUI(
             $ctrl_mock,
-            $lng_mock,
-            $parentGui_mock,
-            ilTestSkillEvaluationGUI::CMD_SHOW
+            $lng_mock
         );
     }
 
@@ -68,22 +65,7 @@ class ilTestSkillEvaluationToolbarGUITest extends ilTestBaseTestCase
 
     public function testSelectedEvaluationMode(): void
     {
-        $this->toolbarGUI->setSelectedEvaluationMode("testString");
-        $this->assertEquals("testString", $this->toolbarGUI->getSelectedEvaluationMode());
-    }
-
-    public function testFetchSkillProfileParam(): void
-    {
-        $result = ilTestSkillEvaluationToolbarGUI::fetchSkillProfileParam(
-            [ilTestSkillEvaluationToolbarGUI::SKILL_PROFILE_PARAM => "102"]
-        );
-
-        $this->assertEquals(102, $result);
-
-        $result = ilTestSkillEvaluationToolbarGUI::fetchSkillProfileParam(
-            ["randomKey" => "102"]
-        );
-
-        $this->assertEquals(0, $result);
+        $this->toolbarGUI->setSelectedEvaluationMode(4);
+        $this->assertEquals(4, $this->toolbarGUI->getSelectedEvaluationMode());
     }
 }

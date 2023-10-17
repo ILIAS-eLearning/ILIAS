@@ -15,6 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
 declare(strict_types=1);
 
 use ILIAS\UI\Implementation\Component as I;
@@ -156,7 +157,7 @@ class ScoreSettingsTest extends ILIAS_UI_TestBase
         $expected = <<<EOT
 <div class="il-section-input">
     <div class="il-section-input-header"><h2>test_scoring</h2></div>
-    
+
     <div class="form-group row">
         <label class="control-label col-sm-4 col-md-3 col-lg-2">tst_text_count_system</label>
         <div class="col-sm-8 col-md-9 col-lg-10">
@@ -181,7 +182,7 @@ class ScoreSettingsTest extends ILIAS_UI_TestBase
         <label class="control-label col-sm-4 col-md-3 col-lg-2">tst_score_cutting</label>
         <div class="col-sm-8 col-md-9 col-lg-10">
             <div id="id_2" class="il-input-radio">
-            
+
                 <div class="form-control form-control-sm il-input-radiooption">
                     <input type="radio" id="id_2_0_opt" name="" value="0" checked="checked" />
                     <label for="id_2_0_opt">tst_score_cut_question</label>
@@ -255,7 +256,12 @@ EOT;
 
         $s = new ilObjTestSettingsResultSummary(666);
         $actual = $this->getDefaultRenderer()->render(
-            $s->toForm(...$ui)
+            $s->toForm(...array_merge($ui, [[
+                'user_time_zone' => 'Europe/Berlin',
+                'user_date_format' => $data_factory->dateFormat()->withTime24(
+                    $data_factory->dateFormat()->standard()
+                )
+            ]]))
         );
 
         $expected = <<<EOT
@@ -293,7 +299,7 @@ EOT;
                                     <label for="id_3" class="control-label col-sm-4 col-md-3 col-lg-2">tst_reporting_date<span class="asterisk">*</span></label>
                                     <div class="col-sm-8 col-md-9 col-lg-10">
                                         <div class="input-group date il-input-datetime" id="id_3">
-                                            <input type="text" name="" placeholder="YYYY-MM-DD HH:mm" class="form-control form-control-sm" />
+                                            <input type="text" name="" placeholder="YYYY-MM-DD H:mm" class="form-control form-control-sm" />
                                             <span class="input-group-addon"><a tabindex="0" class="glyph" href="#" aria-label="calendar"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></a></span>
                                         </div>
                                     </div>
@@ -303,7 +309,7 @@ EOT;
                     </div>
                 </div>
             </div>
-        
+
             <div class="form-group row">
                 <label for="id_4" class="control-label col-sm-4 col-md-3 col-lg-2">tst_results_grading_opt_show_status</label>
                 <div class="col-sm-8 col-md-9 col-lg-10">
@@ -464,13 +470,13 @@ EOT;
 <div class="il-section-input">
 
     <div class="il-section-input-header"><h2>tst_results_gamification</h2></div>
-    
+
     <div class="form-group row">
         <label for="id_10" class="control-label col-sm-4 col-md-3 col-lg-2">tst_highscore_enabled</label>
         <div class="col-sm-8 col-md-9 col-lg-10">
             <input type="checkbox" id="id_10" value="checked" name="" class="form-control form-control-sm" />
             <div class="help-block">tst_highscore_description</div>
-    
+
             <div class="form-group row">
                 <label class="control-label col-sm-4 col-md-3 col-lg-2">tst_highscore_mode<span class="asterisk">*</span></label>
                 <div class="col-sm-8 col-md-9 col-lg-10">
@@ -503,7 +509,7 @@ EOT;
                     <div class="help-block">tst_highscore_top_num_description</div>
                 </div>
             </div>
-            
+
             <div class="form-group row">
                 <label for="id_4" class="control-label col-sm-4 col-md-3 col-lg-2">tst_highscore_anon</label>
                 <div class="col-sm-8 col-md-9 col-lg-10">
@@ -546,7 +552,7 @@ EOT;
                     <div class="help-block">tst_highscore_wtime_description</div>
                 </div>
             </div>
-        
+
         </div>
 
     </div>
@@ -614,7 +620,7 @@ EOT;
             new ilObjTestSettingsGamification($id)
         );
 
-        $nu_id =  1234;
+        $nu_id = 1234;
         $s = $s->withTestId($nu_id);
         $this->assertEquals($nu_id, $s->getTestId());
         $this->assertEquals($nu_id, $s->getScoringSettings()->getTestId());

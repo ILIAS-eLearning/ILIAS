@@ -30,7 +30,7 @@ require_once './Modules/Test/classes/inc.AssessmentConstants.php';
  *
  * @ingroup		ModulesTestQuestionPool
  */
-class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable, ilObjAnswerScoringAdjustable, iQuestionCondition
+class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable, ilObjAnswerScoringAdjustable, iQuestionCondition, ilAssQuestionLMExportable, ilAssQuestionAutosaveable
 {
     protected const ERROR_TYPE_WORD = 1;
     protected const ERROR_TYPE_PASSAGE = 2;
@@ -264,7 +264,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
 
         $clone = $this;
 
-        $original_id = assQuestion::_getOriginalId($this->id);
+        $original_id = $this->questioninfo->getOriginalId($this->id);
         $clone->id = -1;
 
         if ((int) $testObjId > 0) {
@@ -311,7 +311,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
 
         $clone = $this;
 
-        $original_id = assQuestion::_getOriginalId($this->id);
+        $original_id = $this->questioninfo->getOriginalId($this->id);
         $clone->id = -1;
         $clone->setObjId($target_questionpool_id);
         if ($title) {
@@ -641,7 +641,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
     ): string {
         $output_array = [];
         foreach ($this->getParsedErrorText() as $paragraph) {
-            $array_reduce_function = fn (?string $carry, int $position)
+            $array_reduce_function = fn(?string $carry, int $position)
                 => $carry . $this->generateOutputStringFromPosition(
                     $position,
                     $selections,
@@ -1101,7 +1101,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
     {
         $error_text_array = array_reduce(
             $this->parsed_errortext,
-            fn ($c, $v) => $c + $v
+            fn($c, $v) => $c + $v
         );
 
         if ($index === null) {

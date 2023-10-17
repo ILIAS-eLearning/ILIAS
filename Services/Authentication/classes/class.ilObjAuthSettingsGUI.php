@@ -102,10 +102,10 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
         // icon handlers
 
         $icon_ok = $this->renderer->render(
-            $this->ui->symbol()->icon()->custom(ilUtil::getImagePath("icon_ok.svg"), $this->lng->txt("enabled"))
+            $this->ui->symbol()->icon()->custom(ilUtil::getImagePath("standard/icon_ok.svg"), $this->lng->txt("enabled"))
         );
         $icon_not_ok = $this->renderer->render(
-            $this->ui->symbol()->icon()->custom(ilUtil::getImagePath("icon_not_ok.svg"), $this->lng->txt("disabled"))
+            $this->ui->symbol()->icon()->custom(ilUtil::getImagePath("standard/icon_not_ok.svg"), $this->lng->txt("disabled"))
         );
 
         $this->logger->debug(print_r($auth_modes, true));
@@ -124,6 +124,9 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
                 $idp = ilSamlIdp::getInstanceByIdpId(ilSamlIdp::getIdpIdByAuthMode($mode));
                 $generalSettingsTpl->setVariable('AUTH_NAME', $idp->getEntityId());
                 $generalSettingsTpl->setVariable('AUTH_ACTIVE', $idp->isActive() ? $icon_ok : $icon_not_ok);
+            } elseif ($mode === ilAuthUtils::AUTH_OPENID_CONNECT) {
+                $generalSettingsTpl->setVariable("AUTH_NAME", $this->lng->txt("auth_" . $mode_name));
+                $generalSettingsTpl->setVariable('AUTH_ACTIVE', ilOpenIdConnectSettings::getInstance()->getActive() ? $icon_ok : $icon_not_ok);
             } else {
                 $generalSettingsTpl->setVariable("AUTH_NAME", $this->lng->txt("auth_" . $mode_name));
                 $generalSettingsTpl->setVariable('AUTH_ACTIVE', $this->ilias->getSetting($mode_name . '_active') || (int) $mode === ilAuthUtils::AUTH_LOCAL ? $icon_ok : $icon_not_ok);
@@ -438,7 +441,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
               "soap_pw" => $soap_pw,
               "new_user" => $new_user
             ]
-        )->withSubmitCaption("Send");
+        )->withSubmitLabel("Send");
         return $form;
     }
 

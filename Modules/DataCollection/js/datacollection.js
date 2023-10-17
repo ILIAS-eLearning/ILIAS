@@ -1,26 +1,20 @@
 /**
- * ilDataCollection JS
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * @author Oskar Truffer <ot@studer-raimann.ch>
- * @author Fabian Schmid <fs@studer-raimann.ch>
- */
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ******************************************************************** */
 
 $(document).ready(function () {
-  /**
-   * Increment comments count after saving comment with ajax
-   * @param o Object
-   */
-  if (typeof ilNotes != 'undefined') {
-    ilNotes.callbackSuccess = function (o) {
-      if (o && o.argument.mode == 'cmd') {
-        var $elem = $('tr.dcl_comments_active .dcl_comment').find('.ilHActProp');
-        var count = parseInt($elem.text());
-        $elem.html(++count);
-      }
-    }
-  }
-
-
   var dcl = {};
 
   dcl.removeHighlightedRows = function () {

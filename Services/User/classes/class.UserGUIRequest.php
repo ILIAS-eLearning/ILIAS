@@ -41,42 +41,42 @@ class UserGUIRequest
 
     public function getRefId(): int
     {
-        return $this->int("ref_id");
+        return $this->int('ref_id');
     }
 
     public function getLetter(): string
     {
-        return $this->str("letter");
+        return $this->str('letter');
     }
 
     public function getBaseClass(): string
     {
-        return $this->str("baseClass");
+        return $this->str('baseClass');
     }
 
     public function getSearch(): string
     {
-        return $this->str("search");
+        return $this->str('search');
     }
 
     public function getJumpToUser(): int
     {
-        return $this->int("jmpToUser");
+        return $this->int('jmpToUser');
     }
 
     public function getFieldId(): int
     {
-        return $this->int("field_id");
+        return $this->int('field_id');
     }
 
     public function getFetchAll(): bool
     {
-        return (bool) $this->int("fetchall");
+        return (bool) $this->int('fetchall');
     }
 
     public function getTerm(): string
     {
-        return $this->str("term");
+        return $this->str('term');
     }
 
     public function getStartingPointId(): ?int
@@ -95,131 +95,131 @@ class UserGUIRequest
 
     public function getRoleId(): int
     {
-        $role_id = $this->int("rolid");
+        $role_id = $this->int('rolid');
         if ($role_id !== 0) {
             return $role_id;
         }
-        return $this->int("role_id");
+        return $this->int('role_id');
     }
 
     public function getActionActive(): array
     {
-        return $this->intArray("active");
+        return $this->intArray('active');
     }
 
     public function getIds(): array
     {
-        return $this->intArray("id");
+        return $this->intArray('id');
     }
 
     public function getChecked(): array
     {
-        return $this->intArray("chb");
+        return $this->intArray('chb');
     }
 
     public function getFieldType(): int
     {
-        return $this->int("field_type");
+        return $this->int('field_type');
     }
 
     public function getFields(): array
     {
-        return $this->intArray("fields");
+        return $this->intArray('fields');
     }
 
     public function getSelectedAction(): string
     {
-        return $this->str("selectedAction");
+        return $this->str('selectedAction');
     }
 
     public function getFrSearch(): bool
     {
-        return $this->int("frsrch");
+        return $this->bool('frsrch');
     }
 
     public function getSelect(): array
     {
-        return $this->strArray("select");
+        return $this->strArray('select');
     }
 
     public function getFiles(): array
     {
-        return $this->strArray("file");
+        return $this->strArray('file');
     }
 
     public function getExportType(): string
     {
-        return $this->str("export_type");
+        return $this->str('export_type');
     }
 
     public function getMailSalutation(string $gender, string $lang): string
     {
-        return $this->str("sal_" . $gender . "_" . $lang);
+        return $this->str('sal_' . $gender . '_' . $lang);
     }
 
     public function getMailSubject(string $lang): string
     {
-        return $this->str("subject_" . $lang);
+        return $this->str('subject_' . $lang);
     }
 
     public function getMailBody(string $lang): string
     {
-        return $this->str("body_" . $lang);
+        return $this->str('body_' . $lang);
     }
 
     public function getMailAttDelete(string $lang): bool
     {
-        return (bool) $this->int("att_" . $lang . "_delete");
+        return (bool) $this->int('att_' . $lang . '_delete');
     }
 
     public function getSelectAll(): bool
     {
-        return (bool) $this->int("select_cmd_all");
+        return (bool) $this->int('select_cmd_all');
     }
 
     public function getRoleIds(): array
     {
-        return $this->intArray("role_id");
+        return $this->intArray('role_id');
     }
 
     public function getPostedRoleIds(): array
     {
-        return $this->intArray("role_id_ctrl");
+        return $this->intArray('role_id_ctrl');
     }
 
     public function getFilteredRoles(): int
     {
-        return $this->int("filter");
+        return $this->int('filter');
     }
 
     public function getSendMail(): string
     {
-        return $this->str("send_mail");
+        return $this->str('send_mail');
     }
 
     public function getPassword(): string
     {
-        return $this->str("passwd");
+        return $this->str('passwd');
     }
 
     public function getUDFs(): array
     {
-        return $this->strArray("udf");
+        return $this->strArray('udf');
     }
 
     public function getPositions(): array
     {
-        return $this->intArray("position");
+        return $this->intArray('position');
     }
 
     public function getCurrentPassword(): string
     {
-        return $this->str("current_password");
+        return $this->str('current_password');
     }
 
     public function getNewPassword(): string
     {
-        return $this->str("new_password");
+        return $this->str('new_password');
     }
 
     private function int(string $key): int
@@ -230,6 +230,17 @@ class UserGUIRequest
         }
 
         $transformation = $this->refinery->kindlyTo()->int();
+        return $this->getFromQueryOrPost($key, $transformation, $source);
+    }
+
+    private function bool(string $key): bool
+    {
+        $source = $this->existsInPostOrQuery($key);
+        if ($source === '') {
+            return false;
+        }
+
+        $transformation = $this->refinery->kindlyTo()->bool();
         return $this->getFromQueryOrPost($key, $transformation, $source);
     }
 
@@ -257,7 +268,7 @@ class UserGUIRequest
                     array_map(
                         static function ($k, $v): array {
                             if (is_array($v)) {
-                                $v = "";
+                                $v = '';
                             }
                             return [$k, \ilUtil::stripSlashes((string) $v)];
                         },

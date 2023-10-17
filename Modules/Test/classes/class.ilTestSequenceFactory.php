@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Factory for test sequence
  * @author		Björn Heyser <bheyser@databay.de>
@@ -23,31 +25,22 @@
  */
 class ilTestSequenceFactory
 {
-    /** @var array<int, array<int, ilTestSequenceFixedQuestionSet|ilTestSequenceRandomQuestionSet|ilTestSequenceDynamicQuestionSet|ilTestSequenceSummaryProvider>> */
-    private array $testSequences = [];
-    private ilDBInterface $db;
-    private ilLanguage $lng;
-    private ilComponentRepository $component_repository;
-    private ilObjTest $testOBJ;
+    /** @var array<int, array<int, ilTestSequenceFixedQuestionSet|ilTestSequenceRandomQuestionSet|ilTestSequenceSummaryProvider>> */
+    private array $test_sequences = [];
 
     public function __construct(
-        ilDBInterface $db,
-        ilLanguage $lng,
-        ilComponentRepository $component_repository,
-        ilObjTest $testOBJ
+        private ilObjTest $test_obj,
+        private ilDBInterface $db,
+        private \ILIAS\TestQuestionPool\QuestionInfoService $questioninfo
     ) {
-        $this->db = $db;
-        $this->lng = $lng;
-        $this->component_repository = $component_repository;
-        $this->testOBJ = $testOBJ;
     }
 
     /**
      * creates and returns an instance of a test sequence
      * that corresponds to the current test mode and the pass stored in test session
      *
-     * @param ilTestSession|ilTestSessionDynamicQuestionSet $testSession
-     * @return ilTestSequence|ilTestSequenceDynamicQuestionSet
+     * @param ilTestSession $testSession
+     * @return ilTestSequence
      */
     public function getSequenceByTestSession($testSession)
     {
@@ -60,42 +53,30 @@ class ilTestSequenceFactory
      *
      * @param integer $activeId
      * @param integer $pass
-     * @return ilTestSequenceFixedQuestionSet|ilTestSequenceRandomQuestionSet|ilTestSequenceDynamicQuestionSet|ilTestSequenceSummaryProvider
+     * @return ilTestSequenceFixedQuestionSet|ilTestSequenceRandomQuestionSet|ilTestSequenceSummaryProvider
      */
     public function getSequenceByActiveIdAndPass($activeId, $pass)
     {
-        if (!isset($this->testSequences[$activeId][$pass])) {
-            if ($this->testOBJ->isFixedTest()) {
-                $this->testSequences[$activeId][$pass] = new ilTestSequenceFixedQuestionSet(
+        if (!isset($this->test_sequences[$activeId][$pass])) {
+            if ($this->test_obj->isFixedTest()) {
+                $this->test_sequences[$activeId][$pass] = new ilTestSequenceFixedQuestionSet(
+                    $this->db,
                     $activeId,
                     $pass,
-                    $this->testOBJ->isRandomTest()
+                    $this->questioninfo
                 );
             }
 
-            if ($this->testOBJ->isRandomTest()) {
-                $this->testSequences[$activeId][$pass] = new ilTestSequenceRandomQuestionSet(
+            if ($this->test_obj->isRandomTest()) {
+                $this->test_sequences[$activeId][$pass] = new ilTestSequenceRandomQuestionSet(
+                    $this->db,
                     $activeId,
                     $pass,
-                    $this->testOBJ->isRandomTest()
-                );
-            }
-
-            if ($this->testOBJ->isDynamicTest()) {
-                $questionSet = new ilTestDynamicQuestionSet(
-                    $this->db,
-                    $this->lng,
-                    $this->component_repository,
-                    $this->testOBJ
-                );
-                $this->testSequences[$activeId][$pass] = new ilTestSequenceDynamicQuestionSet(
-                    $this->db,
-                    $questionSet,
-                    $activeId
+                    $this->questioninfo
                 );
             }
         }
 
-        return $this->testSequences[$activeId][$pass];
+        return $this->test_sequences[$activeId][$pass];
     }
 }

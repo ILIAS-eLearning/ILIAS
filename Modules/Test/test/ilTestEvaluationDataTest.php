@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class ilTestEvaluationDataTest
  * @author Marvin Beym <mbeym@databay.de>
@@ -30,7 +30,10 @@ class ilTestEvaluationDataTest extends ilTestBaseTestCase
     {
         parent::setUp();
 
-        $this->testObj = new ilTestEvaluationData();
+        global $DIC;
+        $this->addGlobal_ilDB();
+
+        $this->testObj = new ilTestEvaluationData($DIC['ilDB']);
     }
 
     public function test_instantiateObject_shouldReturnInstance(): void
@@ -40,7 +43,7 @@ class ilTestEvaluationDataTest extends ilTestBaseTestCase
 
     public function test__sleep(): void
     {
-        $expected = ['questionTitles', 'participants', 'statistics', 'arrFilter', 'datasets', 'test'];
+        $expected = ['question_titles', 'participants', 'statistics', 'arr_filter', 'datasets', 'test'];
 
         $this->assertEquals($expected, $this->testObj->__sleep());
     }
@@ -83,40 +86,5 @@ class ilTestEvaluationDataTest extends ilTestBaseTestCase
         $this->assertEquals($expected, $this->testObj->getQuestionTitles());
 
         $this->assertEquals($expected[2150], $this->testObj->getQuestionTitle(2150));
-    }
-
-    public function testCalculateStatistics(): void
-    {
-        $this->assertNull($this->testObj->statistics);
-
-        $this->testObj->calculateStatistics();
-
-        $this->assertInstanceOf(ilTestStatistics::class, $this->testObj->statistics);
-    }
-
-    public function testFilter(): void
-    {
-        $this->assertNull($this->testObj->arrFilter);
-
-        $this->testObj->resetFilter();
-        $this->assertEquals([], $this->testObj->arrFilter);
-
-        $this->testObj->setFilter("abd", "hello");
-        $this->assertEquals([], $this->testObj->arrFilter);
-
-        $this->testObj->setFilter(ilTestEvaluationData::FILTER_BY_NAME, "hello");
-        $this->assertEquals(['name' => "hello"], $this->testObj->arrFilter);
-
-        $this->testObj->setFilterArray(["abd" => "hello"]);
-        $this->assertEquals(["abd" => "hello"], $this->testObj->arrFilter);
-    }
-
-    public function testGetStatistics(): void
-    {
-        $this->assertNull($this->testObj->statistics);
-
-        $this->testObj->calculateStatistics();
-
-        $this->assertInstanceOf(ilTestStatistics::class, $this->testObj->getStatistics());
     }
 }

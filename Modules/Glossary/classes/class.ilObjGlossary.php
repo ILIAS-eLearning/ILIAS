@@ -21,6 +21,7 @@
  */
 class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 {
+    protected \ILIAS\Style\Content\DomainService $content_style_domain;
     protected ilGlossaryDefPage $page_object;
     protected array $file_ids = [];
     protected array $mob_ids = [];
@@ -39,7 +40,6 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
     public array $auto_glossaries = array();
     protected ilObjUser $user;
     protected array $public_export_file = [];
-    protected \ILIAS\Style\Content\Object\ObjectFacade $content_style_service;
 
 
     public function __construct(
@@ -53,10 +53,9 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
         $this->user = $DIC->user();
         $this->type = "glo";
         parent::__construct($a_id, $a_call_by_reference);
-        $this->content_style_service = $DIC
+        $this->content_style_domain = $DIC
             ->contentStyle()
-            ->domain()
-            ->styleForRefId($this->getRefId());
+            ->domain();
     }
 
     public function create(bool $a_upload = false): int
@@ -126,9 +125,7 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
     public function setVirtualMode(string $a_mode): void
     {
         switch ($a_mode) {
-            case "level":
-            case "subtree":
-                // case "fixed":
+            case "coll":
                 $this->virtual_mode = $a_mode;
                 $this->virtual = true;
                 break;
@@ -377,6 +374,44 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
         return $glos;
     }
 
+    /**
+     * @return int[]
+     */
+    public function getGlossariesForCollection(): array
+    {
+        $set = $this->db->query(
+            "SELECT * FROM glossary_collection " .
+            " WHERE id = " . $this->db->quote($this->getId(), "integer")
+        );
+        $glos = [];
+        while ($rec = $this->db->fetchAssoc($set)) {
+            $glos[] = (int) $rec["glo_id"];
+        }
+
+        return $glos;
+    }
+
+    public function addGlossaryForCollection(int $glo_id): void
+    {
+        $this->db->replace(
+            "glossary_collection",
+            [
+                "id" => ["integer", $this->getId()],
+                "glo_id" => ["integer", $glo_id]
+            ],
+            []
+        );
+    }
+
+    public function removeGlossaryFromCollection(int $glo_id): void
+    {
+        $this->db->manipulate(
+            "DELETE FROM glossary_collection WHERE " .
+            " id = " . $this->db->quote($this->getId(), "integer") .
+            " AND glo_id = " . $this->db->quote($glo_id, "integer")
+        );
+    }
+
     public function getTermList(
         string $searchterm = "",
         string $a_letter = "",
@@ -430,33 +465,15 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
             $glo_ids = array();
 
             $virtual_mode = $this->getRefId() ? $this->getVirtualMode() : '';
-            switch ($virtual_mode) {
-                case "level":
-                    $glo_arr = $tree->getChildsByType($tree->getParentId($this->getRefId()), "glo");
-                    foreach ($glo_arr as $glo) {
-                        {
-                            if ($ids_are_ref_ids) {
-                                $glo_ids[] = (int) $glo['child'];
-                            } else {
-                                $glo_ids[] = (int) $glo['obj_id'];
-                            }
-                        }
+            if ($virtual_mode === "coll") {
+                $glo_ids = $this->getGlossariesForCollection();
+                if ($ids_are_ref_ids) {
+                    $glo_ref_ids = [];
+                    foreach ($glo_ids as $obj_id) {
+                        $glo_ref_ids[] = current(ilObject::_getAllReferences($obj_id));
                     }
-                    break;
-
-                case "subtree":
-                    $subtree_nodes = $tree->getSubTree($tree->getNodeData($tree->getParentId($this->getRefId())));
-
-                    foreach ($subtree_nodes as $node) {
-                        if ($node['type'] == 'glo') {
-                            if ($ids_are_ref_ids) {
-                                $glo_ids[] = (int) $node['child'];
-                            } else {
-                                $glo_ids[] = (int) $node['obj_id'];
-                            }
-                        }
-                    }
-                    break;
+                    $glo_ids = $glo_ref_ids;
+                }
             }
             if (!$a_include_offline_childs) {
                 $glo_ids = $this->removeOfflineGlossaries($glo_ids, $ids_are_ref_ids);
@@ -767,7 +784,7 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
         $new_obj->update();
 
         // set/copy stylesheet
-        $this->content_style_service->cloneTo($new_obj->getId());
+        $this->content_style_domain->styleForRefId($this->getRefId())->cloneTo($new_obj->getId());
 
         // copy taxonomy
         if (($tax_id = $this->getTaxonomyId()) > 0) {
@@ -805,6 +822,10 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
             $cp_options->appendMapping($this->getRefId() . '_glo_terms', $term_mappings);
         }
 
+        // copy collection glossaries
+        foreach ($this->getGlossariesForCollection() as $glo_id) {
+            $new_obj->addGlossaryForCollection($glo_id);
+        }
 
         return $new_obj;
     }

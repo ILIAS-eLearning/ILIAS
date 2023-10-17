@@ -103,7 +103,7 @@ class assKprimChoiceExport extends assQuestionExport
         // add flow to presentation
         $xml->xmlStartTag("flow");
         // add material with question text to presentation
-        $this->object->addQTIMaterial($xml, $this->object->getQuestion());
+        $this->addQTIMaterial($xml, $this->object->getQuestion());
         // add answers to presentation
         $attrs = array(
             "ident" => "MCMR",
@@ -148,7 +148,7 @@ class assKprimChoiceExport extends assQuestionExport
 
             $image_file = $answer->getImageFile() ?? '';
             if ($image_file !== '') {
-                $this->object->addQTIMaterial($xml, $answer->getAnswertext(), false, false);
+                $this->addQTIMaterial($xml, $answer->getAnswertext(), false, false);
                 $imagetype = "image/jpeg";
                 if (preg_match("/.*\.(png|gif)$/", $image_file, $matches)) {
                     $imagetype = "image/" . $matches[1];
@@ -177,7 +177,7 @@ class assKprimChoiceExport extends assQuestionExport
                 }
                 $xml->xmlEndTag("material");
             } else {
-                $this->object->addQTIMaterial($xml, $answer->getAnswertext());
+                $this->addQTIMaterial($xml, $answer->getAnswertext());
             }
             $xml->xmlEndTag("response_label");
         }
@@ -266,7 +266,7 @@ class assKprimChoiceExport extends assQuestionExport
             $xml->xmlStartTag('itemfeedback', array('ident' => "response_{$answer->getPosition()}", 'view' => 'All'));
             $xml->xmlStartTag('flow_mat');
 
-            $this->object->addQTIMaterial($xml, $this->object->feedbackOBJ->getSpecificAnswerFeedbackExportPresentation(
+            $this->addQTIMaterial($xml, $this->object->feedbackOBJ->getSpecificAnswerFeedbackExportPresentation(
                 $this->object->getId(),
                 0,
                 $answer->getPosition()
@@ -279,7 +279,7 @@ class assKprimChoiceExport extends assQuestionExport
             $xml->xmlStartTag('itemfeedback', array('ident' => 'response_allcorrect', 'view' => 'All'));
             $xml->xmlStartTag('flow_mat');
 
-            $this->object->addQTIMaterial($xml, $feedback_allcorrect);
+            $this->addQTIMaterial($xml, $feedback_allcorrect);
 
             $xml->xmlEndTag('flow_mat');
             $xml->xmlEndTag('itemfeedback');
@@ -288,7 +288,7 @@ class assKprimChoiceExport extends assQuestionExport
             $xml->xmlStartTag('itemfeedback', array('ident' => 'response_onenotcorrect', 'view' => 'All'));
             $xml->xmlStartTag('flow_mat');
 
-            $this->object->addQTIMaterial($xml, $feedback_onenotcorrect);
+            $this->addQTIMaterial($xml, $feedback_onenotcorrect);
 
             $xml->xmlEndTag('flow_mat');
             $xml->xmlEndTag('itemfeedback');

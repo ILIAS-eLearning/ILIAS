@@ -1243,8 +1243,9 @@ class ilObjectListGUI
 
     public function determineProperties(): array
     {
-        $props = $this->getProperties();
-        $props = $this->getCustomProperties($props);
+        $props = $this->getCustomProperties(
+            $this->getProperties()
+        );
 
         if ($this->context != self::CONTEXT_WORKSPACE && $this->context != self::CONTEXT_WORKSPACE_SHARING) {
             // add learning progress custom property
@@ -1786,48 +1787,44 @@ class ilObjectListGUI
 
     public function insertSubscribeCommand(): void
     {
-        if ($this->std_cmd_only) {
-            return;
-        }
-
-        // note: the setting disable_my_offers is used for
-        // presenting the favourites in the main section of the dashboard
-        // see also bug #32014
-        if (!(bool) $this->settings->get('rep_favourites', '0')) {
+        if ($this->std_cmd_only
+            || $this->user->getId() === ANONYMOUS_USER_ID
+            || !$this->getContainerObject() instanceof ilDesktopItemHandling
+            || $this->settings->get('rep_favourites', '0') === '0') {
             return;
         }
 
         $type = ilObject::_lookupType(ilObject::_lookupObjId($this->getCommandId()));
 
-        if ($this->user->getId() != ANONYMOUS_USER_ID) {
-            // #17467 - add ref_id to link (in repository only!)
-            if (
-                is_object($this->container_obj) &&
-                !($this->container_obj instanceof ilAdministrationCommandHandling) &&
-                method_exists($this->container_obj, 'getObject') &&
-                is_object($this->container_obj->getObject())
-            ) {
-                $this->ctrl->setParameter($this->container_obj, 'ref_id', $this->container_obj->getObject()->getRefId());
-            }
+        // #17467 - add ref_id to link (in repository only!)
+        if (
+            is_object($this->container_obj) &&
+            !($this->container_obj instanceof ilAdministrationCommandHandling) &&
+            method_exists($this->container_obj, 'getObject') &&
+            is_object($this->container_obj->getObject())
+        ) {
+            $this->ctrl->setParameter(
+                $this->container_obj,
+                'ref_id',
+                $this->container_obj->getObject()->getRefId()
+            );
+        }
+        if ($this->getContainerObject() instanceof ilDesktopItemHandling) {
+            $this->ctrl->setParameter($this->container_obj, 'type', $type);
+            $this->ctrl->setParameter($this->container_obj, 'item_ref_id', $this->getCommandId());
 
             if (!$this->fav_manager->ifIsFavourite($this->user->getId(), $this->getCommandId())) {
                 // Pass type and object ID to ilAccess to improve performance
                 if ($this->checkCommandAccess('read', '', $this->ref_id, $this->type, $this->obj_id)) {
-                    if ($this->getContainerObject() instanceof ilDesktopItemHandling) {
-                        $this->ctrl->setParameter($this->container_obj, 'type', $type);
-                        $this->ctrl->setParameter($this->container_obj, 'item_ref_id', $this->getCommandId());
-                        $cmd_link = $this->ctrl->getLinkTarget($this->container_obj, 'addToDesk');
-                        $this->insertCommand($cmd_link, $this->lng->txt('rep_add_to_favourites'));
-                    }
+                    $cmd_link = $this->ctrl->getLinkTarget($this->container_obj, 'addToDesk');
+                    $this->insertCommand($cmd_link, $this->lng->txt('rep_add_to_favourites'));
                 }
             } else {
-                if ($this->getContainerObject() instanceof ilDesktopItemHandling) {
-                    $this->ctrl->setParameter($this->container_obj, 'type', $type);
-                    $this->ctrl->setParameter($this->container_obj, 'item_ref_id', $this->getCommandId());
-                    $cmd_link = $this->ctrl->getLinkTarget($this->container_obj, 'removeFromDesk');
-                    $this->insertCommand($cmd_link, $this->lng->txt('rep_remove_from_favourites'));
-                }
+                $cmd_link = $this->ctrl->getLinkTarget($this->container_obj, 'removeFromDesk');
+                $this->insertCommand($cmd_link, $this->lng->txt('rep_remove_from_favourites'));
             }
+
+            $this->ctrl->clearParameters($this->container_obj);
         }
     }
 
@@ -1840,7 +1837,7 @@ class ilObjectListGUI
             $this->getCommandLink('infoScreen'),
             $this->lng->txt('info_short'),
             $this->getCommandFrame('infoScreen'),
-            ilUtil::getImagePath('icon_info.svg')
+            ilUtil::getImagePath('standard/icon_info.svg')
         );
     }
 
@@ -2634,14 +2631,14 @@ class ilObjectListGUI
                 // 'view' added, see #19922
                 $this->tpl->setVariable('EXP_HREF', $this->ctrl->getLinkTarget($this->container_obj, 'view', $this->getUniqueItemId(true)));
                 $this->ctrl->clearParameters($this->container_obj);
-                $this->tpl->setVariable('EXP_IMG', ilUtil::getImagePath('tree_exp.svg'));
+                $this->tpl->setVariable('EXP_IMG', ilUtil::getImagePath('nav/tree_exp.svg'));
                 $this->tpl->setVariable('EXP_ALT', $this->lng->txt('collapse'));
             } else {
                 $this->ctrl->setParameter($this->container_obj, 'expand', $this->obj_id);
                 // 'view' added, see #19922
                 $this->tpl->setVariable('EXP_HREF', $this->ctrl->getLinkTarget($this->container_obj, 'view', $this->getUniqueItemId(true)));
                 $this->ctrl->clearParameters($this->container_obj);
-                $this->tpl->setVariable('EXP_IMG', ilUtil::getImagePath('tree_col.svg'));
+                $this->tpl->setVariable('EXP_IMG', ilUtil::getImagePath('nav/tree_col.svg'));
                 $this->tpl->setVariable('EXP_ALT', $this->lng->txt('expand'));
             }
 
@@ -3232,7 +3229,6 @@ class ilObjectListGUI
         if ($def_cmd_link != '') {    // #24256
             if ($def_cmd_frame != '' && ($modified_link == $def_cmd_link)) {
                 $image = $image->withAdditionalOnLoadCode(function ($id) use (
-                    $def_command,
                     $def_cmd_frame,
                     $def_cmd_link
                 ): string {
@@ -3246,7 +3242,6 @@ class ilObjectListGUI
 
                 $button =
                     $ui->factory()->button()->shy($title, "")->withAdditionalOnLoadCode(function ($id) use (
-                        $def_command,
                         $def_cmd_frame,
                         $def_cmd_link
                     ): string {
@@ -3315,7 +3310,9 @@ class ilObjectListGUI
 
         $l = [];
         foreach ($this->determineProperties() as $p) {
-            if (($p['alert'] ?? false) && $p['property'] !== $this->lng->txt('learning_progress')) {
+            if (($p['alert'] ?? false)
+                && isset($p['property'])
+                && $p['property'] ?? '' !== $this->lng->txt('learning_progress')) {
                 $l[(string) $p['property']] = (string) $p['value'];
             }
         }

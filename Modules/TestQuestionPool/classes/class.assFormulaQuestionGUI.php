@@ -401,16 +401,16 @@ class assFormulaQuestionGUI extends assQuestionGUI
                 $result_type = new ilRadioGroupInputGUI($this->lng->txt('result_type_selection'), 'result_type_' . $result->getResult());
                 $result_type->setRequired(true);
 
-                $no_type = new ilRadioOption($this->lng->txt('no_result_type'), 0);
+                $no_type = new ilRadioOption($this->lng->txt('no_result_type'), '0');
                 $no_type->setInfo($this->lng->txt('fq_no_restriction_info'));
 
-                $result_dec = new ilRadioOption($this->lng->txt('result_dec'), 1);
+                $result_dec = new ilRadioOption($this->lng->txt('result_dec'), '1');
                 $result_dec->setInfo($this->lng->txt('result_dec_info'));
 
-                $result_frac = new ilRadioOption($this->lng->txt('result_frac'), 2);
+                $result_frac = new ilRadioOption($this->lng->txt('result_frac'), '2');
                 $result_frac->setInfo($this->lng->txt('result_frac_info'));
 
-                $result_co_frac = new ilRadioOption($this->lng->txt('result_co_frac'), 3);
+                $result_co_frac = new ilRadioOption($this->lng->txt('result_co_frac'), '3');
                 $result_co_frac->setInfo($this->lng->txt('result_co_frac_info'));
 
                 $result_type->addOption($no_type);
@@ -597,8 +597,8 @@ class assFormulaQuestionGUI extends assQuestionGUI
                     }
                 }
             }
-            $variables = array_filter($variables, fn ($k, $v) => in_array($v, $check), ARRAY_FILTER_USE_BOTH);
-            $results = array_filter($results, fn ($k, $v) => in_array($k, $check), ARRAY_FILTER_USE_BOTH);
+            $variables = array_filter($variables, fn($k, $v) => in_array($v, $check), ARRAY_FILTER_USE_BOTH);
+            $results = array_filter($results, fn($k, $v) => in_array($k, $check), ARRAY_FILTER_USE_BOTH);
 
             $errors = !$form->checkInput();
 
@@ -760,7 +760,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
             $this->saveTaxonomyAssignments();
             $this->object->saveToDb();
             $originalexists = false;
-            if ($this->object->getOriginalId() != null && $this->object->_questionExistsInPool($this->object->getOriginalId())) {
+            if ($this->object->getOriginalId() != null && $this->questioninfo->questionExistsInPool($this->object->getOriginalId())) {
                 $originalexists = true;
             }
             if (($this->request->raw("calling_test") || ($this->request->isset('calling_consumer') && (int) $this->request->raw('calling_consumer')))
@@ -777,7 +777,15 @@ class assFormulaQuestionGUI extends assQuestionGUI
 
                     $test = new ilObjTest($this->request->raw("calling_test"), true);
 
-                    $testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory($tree, $ilDB, $component_repository, $test);
+                    $testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory(
+                        $tree,
+                        $ilDB,
+                        $this->lng,
+                        $this->logger,
+                        $component_repository,
+                        $test,
+                        $this->questioninfo
+                    );
 
                     $test->insertQuestion(
                         $testQuestionSetConfigFactory->getQuestionSetConfig(),
@@ -905,7 +913,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
         ];
         $questiontext = $this->object->substituteVariables($user_solution, $graphicalOutput, true, $result_output, $correctness_icons);
 
-        $template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, true));
+        $template->setVariable("QUESTIONTEXT", ilLegacyFormElementsUtil::prepareTextareaOutput($questiontext, true));
         $questionoutput = $template->get();
         $solutiontemplate = new ilTemplate("tpl.il_as_tst_solution_output.html", true, true, "Modules/TestQuestionPool");
         $feedback = ($show_feedback) ? $this->getGenericFeedbackOutput((int) $active_id, $pass) : "";
@@ -916,7 +924,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
             );
 
             $solutiontemplate->setVariable("ILC_FB_CSS_CLASS", $cssClass);
-            $solutiontemplate->setVariable("FEEDBACK", $this->object->prepareTextareaOutput($feedback, true));
+            $solutiontemplate->setVariable("FEEDBACK", ilLegacyFormElementsUtil::prepareTextareaOutput($feedback, true));
         }
         $solutiontemplate->setVariable("SOLUTION_OUTPUT", $questionoutput);
 
@@ -970,7 +978,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
         } else {
             $questiontext = $this->object->substituteVariables(array());
         }
-        $template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, true));
+        $template->setVariable("QUESTIONTEXT", ilLegacyFormElementsUtil::prepareTextareaOutput($questiontext, true));
         $questionoutput = $template->get();
         if (!$show_question_only) {
             // get page object output
@@ -1038,7 +1046,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
 
         $questiontext = $this->object->substituteVariables($user_solution);
 
-        $template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, true));
+        $template->setVariable("QUESTIONTEXT", ilLegacyFormElementsUtil::prepareTextareaOutput($questiontext, true));
 
         $questionoutput = $template->get();
         $pageoutput = $this->outQuestionPage("", $is_postponed, $active_id, $questionoutput);

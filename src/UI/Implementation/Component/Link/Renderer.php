@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Link;
 
@@ -60,6 +60,14 @@ class Renderer extends AbstractComponentRenderer
         }
         if (null !== $component->getLanguageOfReferencedResource()) {
             $tpl->setVariable("HREF_LANGUAGE", $component->getLanguageOfReferencedResource());
+        }
+
+        $rel_strings = [];
+        foreach ($component->getRelationshipsToReferencedResource() as $rel) {
+            $rel_strings[] = $rel->value;
+        }
+        if (!empty($rel_strings)) {
+            $tpl->setVariable("RELS", implode(' ', $rel_strings));
         }
 
         $tpl->setVariable("LABEL", $label);

@@ -20,24 +20,33 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Table\Action;
 
-use ILIAS\UI\Component\Signal;
-use ILIAS\Data\URI;
+use ILIAS\UI\URLBuilder;
+use ILIAS\UI\URLBuilderToken;
 use ILIAS\UI\Component\Table\Action as I;
 
 class Factory implements I\Factory
 {
-    public function standard(string $label, string $parameter_name, Signal|URI $target): I\Standard
-    {
-        return new Standard($label, $parameter_name, $target);
+    public function standard(
+        string $label,
+        URLBuilder $url_builder,
+        URLBuilderToken $row_id_parameter
+    ): I\Standard {
+        return new Standard($label, $url_builder, $row_id_parameter);
     }
 
-    public function single(string $label, string $parameter_name, Signal|URI $target): I\Single
-    {
-        return new Single($label, $parameter_name, $target);
+    public function single(
+        string $label,
+        URLBuilder $url_builder,
+        URLBuilderToken $row_id_parameter
+    ): I\Single {
+        return new Single($label, $url_builder, $row_id_parameter);
     }
 
-    public function multi(string $label, string $parameter_name, Signal|URI $target): I\Multi
-    {
-        return new Multi($label, $parameter_name, $target);
+    public function multi(
+        string $label,
+        URLBuilder $url_builder,
+        URLBuilderToken $row_id_parameter
+    ): I\Multi {
+        return new Multi($label, $url_builder, $row_id_parameter);
     }
 }

@@ -101,6 +101,17 @@ class ilStudyProgrammeDIC
         $dic['ui.factory'] = static fn ($dic) => $DIC['ui.factory'];
         $dic['ui.renderer'] = static fn ($dic) => $DIC['ui.renderer'];
 
+        $dic['ilStudyProgrammeMailMemberSearchGUI'] = static fn ($dic) =>
+             new ilStudyProgrammeMailMemberSearchGUI(
+                $DIC['ilCtrl'],
+                $DIC['tpl'],
+                $DIC['lng'],
+                $DIC['ilAccess'],
+                $DIC->http()->wrapper(),
+                $DIC->refinery(),
+                $dic['permissionhelper']
+            );
+
         return $dic;
     }
 
@@ -291,7 +302,8 @@ class ilStudyProgrammeDIC
                 $DIC['lng'],
                 $DIC['ilAccess'],
                 $DIC->http()->wrapper(),
-                $DIC->refinery()
+                $DIC->refinery(),
+                $dic['permissionhelper']
             );
         $dic['ilStudyProgrammeChangeExpireDateGUI'] = static fn ($dic) =>
             new ilStudyProgrammeChangeExpireDateGUI(
@@ -342,17 +354,6 @@ class ilStudyProgrammeDIC
             );
         };
 
-        $dic['ilStudyProgrammeDashboardViewGUI'] = static fn ($dic) =>
-            new ilStudyProgrammeDashboardViewGUI(
-                $DIC['lng'],
-                $DIC['ilAccess'],
-                $DIC['ilSetting'],
-                $DIC['ui.factory'],
-                $DIC['ui.renderer'],
-                $DIC['ilCtrl'],
-                $dic['ilStudyProgrammeUserTable'],
-                $DIC['ilUser']->getId()
-            );
         $dic['ilStudyProgrammeCommonSettingsGUI'] = static fn ($dic) =>
             new ilStudyProgrammeCommonSettingsGUI(
                 $DIC['ilCtrl'],

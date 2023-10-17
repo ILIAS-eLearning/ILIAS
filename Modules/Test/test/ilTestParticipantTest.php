@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  * ******************************************************************* */
+
+declare(strict_types=1);
 
 /**
  * Class ilTestParticipantTest
@@ -40,20 +40,20 @@ class ilTestParticipantTest extends ilTestBaseTestCase
 
     public function testActiveId(): void
     {
-        $this->testObj->setActiveId("125");
-        $this->assertEquals("125", $this->testObj->getActiveId());
+        $this->testObj->setActiveId(125);
+        $this->assertEquals(125, $this->testObj->getActiveId());
     }
 
     public function testAnonymousId(): void
     {
-        $this->testObj->setAnonymousId("125");
-        $this->assertEquals("125", $this->testObj->getAnonymousId());
+        $this->testObj->setAnonymousId(125);
+        $this->assertEquals(125, $this->testObj->getAnonymousId());
     }
 
     public function testUsrId(): void
     {
-        $this->testObj->setUsrId("125");
-        $this->assertEquals("125", $this->testObj->getUsrId());
+        $this->testObj->setUsrId(125);
+        $this->assertEquals(125, $this->testObj->getUsrId());
     }
 
     public function testLogin(): void

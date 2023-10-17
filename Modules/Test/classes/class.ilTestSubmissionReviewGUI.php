@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class ilTestSubmissionReviewGUI
  *
@@ -26,17 +28,13 @@
  */
 class ilTestSubmissionReviewGUI extends ilTestServiceGUI
 {
-    /** @var ilTestOutputGUI */
-    protected $testOutputGUI = null;
-
-    /** @var \ilTestSession */
-    protected $testSession;
-
-    public function __construct(ilTestOutputGUI $testOutputGUI, ilObjTest $testOBJ, ilTestSession $testSession)
-    {
-        $this->testOutputGUI = $testOutputGUI;
-        $this->testSession = $testSession;
-
+    public function __construct(
+        protected ilTestOutputGUI $testOutputGUI,
+        ilObjTest $testOBJ,
+        protected ilTestSession $testSession
+    ) {
+        global $DIC;
+        $this->ui = $DIC->ui();
         parent::__construct($testOBJ);
     }
 
@@ -97,30 +95,20 @@ class ilTestSubmissionReviewGUI extends ilTestServiceGUI
             ilTestPlayerCommands::QUESTION_SUMMARY : ilTestPlayerCommands::BACK_FROM_FINISHING
         );
 
-        $button = ilLinkButton::getInstance();
-        $button->setCaption('btn_previous');
-        $button->setUrl($backUrl);
-        $toolbar->addButtonInstance($button);
+        $toolbar->addComponent($this->ui->factory()->button()->standard('btn_previous', $backUrl));
 
         $this->ctrl->setParameter($this->testOutputGUI, 'reviewed', 1);
         $nextUrl = $this->ctrl->getLinkTarget($this->testOutputGUI, ilTestPlayerCommands::FINISH_TEST);
         $this->ctrl->setParameter($this->testOutputGUI, 'reviewed', 0);
 
-        $button = ilLinkButton::getInstance();
-        $button->setPrimary(true);
-        $button->setCaption('btn_next');
-        $button->setUrl($nextUrl);
-        $toolbar->addButtonInstance($button);
+        $toolbar->addComponent($this->ui->factory()->button()->standard('btn_next', $nextUrl));
 
         return $toolbar;
     }
 
     protected function buildUserReviewOutput(): string
     {
-        global $DIC; /* @var ILIAS\DI\Container $DIC */
-        $ilObjDataCache = $DIC['ilObjDataCache'];
-
-        $testResultHeaderLabelBuilder = new ilTestResultHeaderLabelBuilder($this->lng, $ilObjDataCache);
+        $testResultHeaderLabelBuilder = new ilTestResultHeaderLabelBuilder($this->lng, $this->obj_cache);
 
         $objectivesList = null;
 

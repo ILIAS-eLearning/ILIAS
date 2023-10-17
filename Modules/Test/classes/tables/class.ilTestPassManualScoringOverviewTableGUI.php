@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
 *
 * @author	Björn Heyser <bheyser@databay.de>
@@ -25,12 +27,9 @@
 */
 class ilTestPassManualScoringOverviewTableGUI extends ilTable2GUI
 {
-    public function __construct($parentObj, $parentCmd)
+    public function __construct(ilTestScoringGUI $parent_obj, string $parent_cmd)
     {
-        parent::__construct($parentObj, $parentCmd);
-
-        global $DIC;
-        $ilCtrl = $DIC['ilCtrl'];
+        parent::__construct($parent_obj, $parent_cmd);
 
         $this->setPrefix('manScorePassesTable');
 
@@ -39,7 +38,7 @@ class ilTestPassManualScoringOverviewTableGUI extends ilTable2GUI
 
         $this->enable('header');
 
-        $this->setFormAction($ilCtrl->getFormAction($parentObj, $parentCmd));
+        $this->setFormAction($this->ctrl->getFormAction($parent_obj, $parent_cmd));
 
         $this->setRowTemplate("tpl.il_as_tst_pass_overview_tblrow.html", "Modules/Test");
 
@@ -49,15 +48,12 @@ class ilTestPassManualScoringOverviewTableGUI extends ilTable2GUI
 
     private function initColumns(): void
     {
-        global $DIC;
-        $lng = $DIC['lng'];
-
-        $this->addColumn($lng->txt("scored_pass"), '', '150');
-        $this->addColumn($lng->txt("pass"), 'pass', '');
-        $this->addColumn($lng->txt("date"), 'finishdate', '');
-        $this->addColumn($lng->txt("tst_answered_questions"), 'answered_questions', '');
-        $this->addColumn($lng->txt("tst_reached_points"), 'reached_points', '');
-        $this->addColumn($lng->txt("tst_percent_solved"), 'percentage', '');
+        $this->addColumn($this->lng->txt("scored_pass"), '', '150');
+        $this->addColumn($this->lng->txt("pass"), 'pass', '');
+        $this->addColumn($this->lng->txt("date"), 'finishdate', '');
+        $this->addColumn($this->lng->txt("tst_answered_questions"), 'answered_questions', '');
+        $this->addColumn($this->lng->txt("tst_reached_points"), 'reached_points', '');
+        $this->addColumn($this->lng->txt("tst_percent_solved"), 'percentage', '');
         $this->addColumn('', '', '1%');
     }
 
@@ -71,12 +67,8 @@ class ilTestPassManualScoringOverviewTableGUI extends ilTable2GUI
 
     public function fillRow(array $a_set): void
     {
-        global $DIC;
-        $ilCtrl = $DIC['ilCtrl'];
-        $lng = $DIC['lng'];
-
-        $ilCtrl->setParameter($this->parent_obj, 'active_id', $a_set['active_id']);
-        $ilCtrl->setParameter($this->parent_obj, 'pass', $a_set['pass']);
+        $this->ctrl->setParameter($this->parent_obj, 'active_id', $a_set['active_id']);
+        $this->ctrl->setParameter($this->parent_obj, 'pass', $a_set['pass']);
 
         if ($a_set['is_scored_pass']) {
             $this->tpl->setCurrentBlock('selected_pass');
@@ -91,7 +83,7 @@ class ilTestPassManualScoringOverviewTableGUI extends ilTable2GUI
         $this->tpl->setVariable("PASS_REACHED_POINTS", $a_set['reached_points'] . " " . strtolower($this->lng->txt("of")) . " " . $a_set['max_points']);
         $this->tpl->setVariable("PASS_REACHED_PERCENTAGE", sprintf("%.2f%%", $a_set['percentage']));
 
-        $this->tpl->setVariable("TXT_SHOW_PASS", $lng->txt('tst_edit_scoring'));
-        $this->tpl->setVariable("HREF_SHOW_PASS", $ilCtrl->getLinkTarget($this->parent_obj, $this->parent_cmd));
+        $this->tpl->setVariable("TXT_SHOW_PASS", $this->lng->txt('tst_edit_scoring'));
+        $this->tpl->setVariable("HREF_SHOW_PASS", $this->ctrl->getLinkTarget($this->parent_obj, $this->parent_cmd));
     }
 }

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Class ilObjCmiXapiGUI
@@ -185,7 +185,7 @@ class ilObjCmiXapiGUI extends ilObject2GUI
 
                     try {
                         $uploadImporter = new ilCmiXapiContentUploadImporter($newObject);
-                        $uploadImporter->importFormUpload($form->getItemByPostVar('uploadfile'));
+                        $uploadImporter->importFormUpload((array) $form->getInput('uploadfile'));
 
                         $newObject->setSourceType(ilObjCmiXapi::SRC_TYPE_LOCAL);
                     } catch (ilCmiXapiInvalidUploadContentException $e) {
@@ -276,7 +276,7 @@ class ilObjCmiXapiGUI extends ilObject2GUI
 
             $return->addHeaderIcon(
                 'cert_icon',
-                ilUtil::getImagePath('icon_cert.svg'),
+                ilUtil::getImagePath('standard/icon_cert.svg'),
                 $this->lng->txt('download_certificate'),
                 null,
                 null,
@@ -911,6 +911,10 @@ class ilObjCmiXapiGUI extends ilObject2GUI
                 return "real_email";
             case 4:
                 return "il_uuid_random";
+            case 5:
+                return "il_uuid_sha256";
+            case 6:
+                return "il_uuid_sha256url";
         }
         return '';
     }

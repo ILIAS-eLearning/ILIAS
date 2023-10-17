@@ -592,8 +592,6 @@ assessment#:#counter#:#Loendur
 assessment#:#create_date#:#Loodud
 assessment#:#create_gaps#:#Koosta lünk
 assessment#:#create_new#:#loo uus küsimus:
-assessment#:#ctm_cannot_be_changed#:#This is a test in CTM-Mode. Settings cannot be changed anymore as CTM has been abandoned.###29 07 2022 new variable
-assessment#:#ctm_cannot_be_started#:#This is a test in CTM-Mode. The test cannot be started anymore as CTM has been abandoned.###29 07 2022 new variable
 assessment#:#customstyle#:#Tavaline stiil
 assessment#:#dashboard_tab#:#Dashboard###10 11 2018 new variable
 assessment#:#definition#:#Definitsioon
@@ -822,7 +820,6 @@ assessment#:#legend#:#Legend
 assessment#:#locked#:#lukus
 assessment#:#log_added_extratime#:#Added extra %d minutes for participant id %d
 assessment#:#log_answer_changed_points#:#Käsitsi on muudetud osaleja %s punkte:  %d asemel %d punkti (muutja: %s)
-assessment#:#log_could_not_enter_test_due_to_simultaneous_users#:#Kasutaja ei saa testi siseneda, kuna samaaegsete kasutajate maksimumarv on täis.
 assessment#:#log_create_new_test#:#Uus test loodud
 assessment#:#log_manual_feedback#:#%s lisas käsitsi tagasiside osalejale %s ja küsimusele %s: %s
 assessment#:#log_mark_added#:#Hinne on lisatud
@@ -1158,16 +1155,14 @@ assessment#:#set_manscoring_done#:#Märgi see osaleja kui "punkte saanud osaleja
 assessment#:#set_manual_feedback#:#Määra manuaalne tagasiside
 assessment#:#shape#:#Kuju
 assessment#:#showSuggestedSolution#:#Soovituslik lahendus
+assessment#:#show_all_test_properties_on_info_page#:#Näita kogu testi infolehte
+assessment#:#show_all_test_properties_on_info_page_byline#:#Kui on märgistatud, on kogu testi infoleht kuvatud (k.a testi seaded). Kui on märgistamata, on kuvatud vaid sissejuhatav tekst (kui on olemas) ja seaded on kuvatud testi infolehel.
 assessment#:#show_answer_overview#:#Show Answer Overview
 assessment#:#show_detailed_results#:#Näita kasutaja tulemusi detailselt (märgistatud sooritus)
 assessment#:#show_examview_html#:#Show exam view on the test submission page.
 assessment#:#show_pass_overview#:#Näita märgistatud soorituse ülevaadet
 assessment#:#show_user_answers#:#Näita kasutaja märgitud vastuseid
-assessment#:#showinfo#:#Näita kogu testi infolehte
-assessment#:#showinfo_desc#:#Kui on märgistatud, on kogu testi infoleht kuvatud (k.a testi seaded). Kui on märgistamata, on kuvatud vaid sissejuhatav tekst (kui on olemas) ja seaded on kuvatud testi infolehel.
 assessment#:#shuffle_answers#:#Sega vastuseid
-assessment#:#sign_submission#:#Digitally sign test submissions
-assessment#:#sign_submission_info#:#If this is activated and a signature plugin is installed and active, participants will be send to digitally sign their submissions.
 assessment#:#skip_question#:#Do not Answer and Next###08 10 2015 new variable
 assessment#:#solutionText#:#Tekst
 assessment#:#solution_contain_keywords#:#Score is granted based on the occurence of the following keywords:
@@ -1246,11 +1241,6 @@ assessment#:#tst_add_quest_cont_edit_mode_RTE_info#:#Allows text formatting of q
 assessment#:#tst_addit_passes_blocked_after_passed_msg#:#You have passed the test. The test cannot be started again.###07 02 2020 new variable
 assessment#:#tst_all_test_competences#:#All Test Competence
 assessment#:#tst_all_user_data_deleted#:#Kõik selle testi kasutajaandmed on kustutatud!
-assessment#:#tst_allowed_users#:#Testi samaaegselt sooritajate maksimaalne arv
-assessment#:#tst_allowed_users_desc#:#ILIAS will monitor the number of participants taking the test at the same time. If more users than maximally allowed try to access ILIAS will prevent them from starting the test.
-assessment#:#tst_allowed_users_max#:#Max. Number of Participants
-assessment#:#tst_allowed_users_time_gap#:#Aktiivsete kasutajate jõudeaeg
-assessment#:#tst_allowed_users_time_gap_desc#:#Participants that do not click in the test fort he indicated amount of time will be categorized as ‚inactive‘ and removed from the test.
 assessment#:#tst_already_submitted#:#Test on juba lõpetatud ja kinnitatud.
 assessment#:#tst_analysis#:#Analysis
 assessment#:#tst_anonymity#:#Anonüümsus
@@ -1330,19 +1320,6 @@ assessment#:#tst_derive_new_pool#:#Derive New Question Pool###25 10 2016 new var
 assessment#:#tst_derive_new_pools#:#Derive New Question Pools###25 10 2016 new variable
 assessment#:#tst_dont_show_msg_again_in_current_session#:#Don't show this message again in my current session.###10 11 2018 new variable
 assessment#:#tst_dont_use_previous_answers#:#Sinu varasemaid vastuseid ei kasutata järgnevates testides vaikeväärtustena
-assessment#:#tst_dyn_keep_answ_freeze#:#Keep my current answers frozen###30 08 2015 new variable
-assessment#:#tst_dyn_quest_set_pool_deleted#:#The currently configured questionpool "%s" has been deleted.###30 08 2015 new variable
-assessment#:#tst_dyn_quest_set_src_qpl_summary_string_deleted#:#%s (Deleted Permanently)
-assessment#:#tst_dyn_quest_set_src_qpl_summary_string_trashed#:#%s (Deleted) [%s Questions]
-assessment#:#tst_dyn_test_msg_currently_finished_completely#:#Currently you have answered all questions from the source questin pool successfully. When there are new or edited questions in the question pool you can proceed the test.
-assessment#:#tst_dyn_test_msg_currently_finished_selection#:#With the current question selection you have answered all questions successfully. Change the question selection to proceed the test.
-assessment#:#tst_dyn_test_msg_pass_deletion_link#:#Delete Previous Answers
-assessment#:#tst_dyn_test_pass_deletion_button#:#Reset All Testanswers
-assessment#:#tst_dyn_unfreeze_answers#:#Answer once more###30 08 2015 new variable
-assessment#:#tst_dyn_unfreeze_answers_confirmation#:#There are questions to which your inital answers were fixed and you could not make any changes. Do you want to answer them one more time now and thus unfreeze your answers?###30 08 2015 new variable
-assessment#:#tst_dynamic_question_set_complete#:#Total-Statistic
-assessment#:#tst_dynamic_question_set_selection#:#Test Question Selection
-assessment#:#tst_dynamic_question_set_source_questionpool_summary_string#:#%s (Path: %s) [%s Questions]
 assessment#:#tst_edit_competence_assign#:#Edit Assignment Properties###30 08 2015 new variable
 assessment#:#tst_edit_scoring#:#Edit Scoring
 assessment#:#tst_ending_time#:#Lõpetamisaeg
@@ -1379,7 +1356,7 @@ assessment#:#tst_finish_confirm_cancel_button#:#Ei, mine tagasi eelmise vastuse 
 assessment#:#tst_finish_confirmation_question#:#Oled lõpetamas seda testi. Pärast vastuste ära saatmist ei ole võimalik enam testi siseneda ega vastuseid muuta. Kas oled kindel, et soovid praegu testi vastuseid ära saata?
 assessment#:#tst_finish_notification#:#Kiri lõpetamise kohta
 assessment#:#tst_finish_notification_advanced#:#Saada testitulemus testi omanikule
-assessment#:#tst_finish_notification_content#:#Content of e-mail
+assessment#:#tst_finish_notification_content_type#:#Content of e-mail
 assessment#:#tst_finish_notification_desc#:#Sends an e-mail to the test owner for every user that has completed the test.
 assessment#:#tst_finish_notification_no#:#No e-mail###06 02 2015 new variable
 assessment#:#tst_finish_notification_simple#:#Saada kasutajanimi ja lõpetamise aeg testi omanikule
@@ -1492,8 +1469,6 @@ assessment#:#tst_mark_minimum_level#:#Miinimumtase (protsentides)
 assessment#:#tst_mark_official_form#:#Hinne
 assessment#:#tst_mark_passed#:#Läbitud
 assessment#:#tst_mark_short_form#:#Hinne (sõnaline)
-assessment#:#tst_max_allowed_users_heading#:#Selle testi samaaegsete kasutajate maksimumarv on täis!
-assessment#:#tst_max_allowed_users_message#:#Testi samaaegsete kasutajate maksimumarv on täis. Palun proovi hiljem testi alustada või testi jätkata. Kui üks kasutajatest on mitteaktiivne olnud juba kauem kui %s sekundit, saad testi siseneda. Aitäh arusaava suhtumise eest.
 assessment#:#tst_max_comp_points#:#Max. Competence Points
 assessment#:#tst_maximum_points#:#Maksimumpunktid
 assessment#:#tst_mc_label_none_above#:#None of the answers above###fau: testNav
@@ -1695,6 +1670,7 @@ assessment#:#tst_questions_hints_toolbar_cmd_reset_ordering_clipboard#:#Reset Hi
 assessment#:#tst_questions_inserted#:#Küsimus(ed) on sisestatud!
 assessment#:#tst_questions_removed#:#Küsimus(ed) on eemaldatud!
 assessment#:#tst_random_nr_of_questions#:#Mitu küsimust?
+assessment#:#tst_random_question_set_source_questionpool_summary_string#:#%s (Path: %s) [%s Questions]
 assessment#:#tst_random_select_questionpool#:#Vali küsimuste valimiseks küsimuste varamu
 assessment#:#tst_reached_points#:#Saadud punktid
 assessment#:#tst_reached_points_of_max#:#%s of %s###07 02 2020 new variable
@@ -1709,7 +1685,7 @@ assessment#:#tst_report_after_test#:#Tulemused esitatakse pärast testi lõpetam
 assessment#:#tst_report_never#:#Testitulemusi pole
 assessment#:#tst_reporting_date#:#Date###06 02 2015 new variable
 assessment#:#tst_res_jump_to_participant_btn#:#Jump
-assessment#:#tst_res_jump_to_participant_hint_opt#:#--Jump to Participant--
+assessment#:#tst_res_jump_to_participant_hint_opt#:#Jump to Participant
 assessment#:#tst_res_lo_objectives_header#:#Relevant Learning Objectives###30 08 2015 new variable
 assessment#:#tst_res_lo_try_header#:#Attempt###30 08 2015 new variable
 assessment#:#tst_res_lo_try_n#:#Attempt %s###30 08 2015 new variable
@@ -12367,7 +12343,7 @@ prg#:#msg_unmark_accredited#:#Unmarked %s users accredited.###29 07 2022 new var
 prg#:#msg_unmark_accredited_failed#:#Unmarking accredited not successful for:###29 07 2022 new variable
 prg#:#msg_update_from_settings#:#Updated %s users from settings:###29 07 2022 new variable
 prg#:#msg_update_from_settings_failed#:#Updated from settings failed:###29 07 2022 new variable
-prg#:#msg_update_individual_plan#:#Successfully updated individual plan (%)###29 07 2022 new variable
+prg#:#msg_update_individual_plan#:#Individual plan: %s successfully updated.###29 07 2022 new variable
 prg#:#msg_update_individual_plan_failed#:#Update  of individual plan failed###29 07 2022 new variable
 prg#:#no_srctype_or_id#:#Id and type may not be empty.###29 07 2022 new variable
 prg#:#not_a_valid_cat_id#:#%s is not a valid ref-id of a category.###07 02 2020 new variable

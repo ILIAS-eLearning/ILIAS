@@ -40,9 +40,9 @@ class RepositoryObjectTest extends ILIAS_UI_TestBase
             'divider' => $this->createMock(C\Divider\Factory::class),
         ];
         $factory = new class ($mocks) extends NoUIFactory {
-            public function __construct($mocks)
-            {
-                $this->mocks = $mocks;
+            public function __construct(
+                protected array $mocks
+            ) {
             }
             public function legacy($content): C\Legacy\Legacy
             {
@@ -170,7 +170,7 @@ class RepositoryObjectTest extends ILIAS_UI_TestBase
 <div class="il-card thumbnail">
 	<div class="il-card-repository-head">
 		<div>
-			<img class="icon crs medium" src="./templates/default/images/icon_crs.svg" alt="Course" />
+			<img class="icon crs medium" src="./templates/default/images/standard/icon_crs.svg" alt="Course" />
 		</div>
 		<div>
 			
@@ -206,7 +206,7 @@ EOT);
 			
 		</div>
 		<div>
-			<img class="icon cert medium" src="./templates/default/images/icon_cert.svg" alt="Certificate" />
+			<img class="icon cert medium" src="./templates/default/images/standard/icon_cert.svg" alt="Certificate" />
 		</div>
 		<div class="il-card-repository-dropdown">
 			

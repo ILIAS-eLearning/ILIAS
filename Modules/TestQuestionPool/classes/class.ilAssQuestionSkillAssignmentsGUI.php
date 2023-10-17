@@ -353,14 +353,14 @@ class ilAssQuestionSkillAssignmentsGUI
 
             $skillSelectorToolbarGUI->setOpenFormTag(true);
             $skillSelectorToolbarGUI->setCloseFormTag(false);
-            $skillSelectorToolbarGUI->setLeadingImage(ilUtil::getImagePath("arrow_upright.svg"), " ");
+            $skillSelectorToolbarGUI->setLeadingImage(ilUtil::getImagePath("nav/arrow_upright.svg"), " ");
             $tpl->setVariable('SKILL_SELECTOR_TOOLBAR_TOP', $this->ctrl->getHTML($skillSelectorToolbarGUI));
 
             $tpl->setVariable('SKILL_SELECTOR_EXPLORER', $this->ctrl->getHTML($skillSelectorExplorerGUI));
 
             $skillSelectorToolbarGUI->setOpenFormTag(false);
             $skillSelectorToolbarGUI->setCloseFormTag(true);
-            $skillSelectorToolbarGUI->setLeadingImage(ilUtil::getImagePath("arrow_downright.svg"), " ");
+            $skillSelectorToolbarGUI->setLeadingImage(ilUtil::getImagePath("nav/arrow_downright.svg"), " ");
             $tpl->setVariable('SKILL_SELECTOR_TOOLBAR_BOTTOM', $this->ctrl->getHTML($skillSelectorToolbarGUI));
 
             $this->tpl->setContent($tpl->get());
@@ -536,7 +536,7 @@ class ilAssQuestionSkillAssignmentsGUI
         $questionId = (int) $_POST['question_id'];
 
         if ($this->isTestQuestion($questionId) && $this->isSyncOriginalPossibleAndAllowed($questionId)) {
-            $question = assQuestion::_instantiateQuestion($questionId);
+            $question = assQuestion::instantiateQuestion($questionId);
 
             $question->syncSkillAssignments(
                 $question->getObjId(),

@@ -1,6 +1,5 @@
 <?php
 
-declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,11 +16,16 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
+use ILIAS\Data\Order;
 use Psr\Http\Message\RequestInterface;
 use ILIAS\DI\Container;
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory;
 use ILIAS\FileUpload\FileUpload;
+use ILIAS\UI\Factory as UIFactory;
+use ILIAS\UI\Renderer as UIRenderer;
 
 /**
  * Settings for a single didactic template
@@ -32,8 +36,9 @@ use ILIAS\FileUpload\FileUpload;
  */
 class ilDidacticTemplateSettingsGUI
 {
+    protected UIRenderer $renderer;
+    protected UIFactory $ui_factory;
     private ilLogger $logger;
-    private ilObjectGUI $parent_object;
     private ?ilDidacticTemplateSetting $setting = null;
     private Container $dic;
     private ilLanguage $lng;
@@ -42,7 +47,6 @@ class ilDidacticTemplateSettingsGUI
     private ilAccessHandler $access;
     private ilToolbarGUI $toolbar;
     private ilObjectDefinition $objDefinition;
-    private RequestInterface $request;
     private GlobalHttpState $http;
     private Factory $refinery;
     private ilGlobalTemplateInterface $tpl;
@@ -54,12 +58,10 @@ class ilDidacticTemplateSettingsGUI
     public function __construct(ilObjectGUI $a_parent_obj)
     {
         global $DIC;
-        $this->parent_object = $a_parent_obj;
         $this->lng = $DIC->language();
         $this->rbacsystem = $DIC->rbac()->system();
         $this->ctrl = $DIC->ctrl();
         $this->objDefinition = $DIC['objDefinition'];
-        $this->request = $DIC->http()->request();
         $this->access = $DIC->access();
         $this->toolbar = $DIC->toolbar();
         $this->http = $DIC->http();
@@ -68,6 +70,8 @@ class ilDidacticTemplateSettingsGUI
         $this->tpl = $DIC->ui()->mainTemplate();
         $this->tabs = $DIC->tabs();
         $this->upload = $DIC->upload();
+        $this->renderer = $DIC->ui()->renderer();
+        $this->ui_factory = $DIC->ui()->factory();
     }
 
     protected function initReferenceFromRequest(): void
@@ -85,17 +89,12 @@ class ilDidacticTemplateSettingsGUI
      */
     protected function initTemplatesFromRequest(): SplFixedArray
     {
-        if ($this->http->wrapper()->post()->has('tpls')) {
-            return SplFixedArray::fromArray(
-                $this->http->wrapper()->post()->retrieve(
-                    'tpls',
-                    $this->refinery->kindlyTo()->listOf(
-                        $this->refinery->kindlyTo()->int()
-                    )
-                )
-            );
+        if ($this->http->wrapper()->query()->has('tpls')) {
+            return SplFixedArray::fromArray(explode(
+                ',',
+                $this->http->wrapper()->query()->retrieve('tpls', $this->refinery->custom()->transformation(fn($v) => $v))
+            ));
         }
-
         return new SplFixedArray(0);
     }
 
@@ -156,6 +155,46 @@ class ilDidacticTemplateSettingsGUI
         return '';
     }
 
+    protected function handleTableActions(): void
+    {
+        $query = $this->http->wrapper()->query();
+        if (!$query->has('didactic_template_table_action')) {
+            return;
+        }
+        $action = $query->retrieve('didactic_template_table_action', $this->refinery->to()->string());
+
+        $ids = $this->http->wrapper()->query()->retrieve(
+            'didactic_template_template_ids',
+            $this->refinery->custom()->transformation(function ($q_ids) {
+                if (is_array($q_ids)) {
+                    return $q_ids;
+                }
+                return strlen($q_ids) > 0 ? explode(',', $q_ids) : [];
+            })
+        );
+
+        switch ($action) {
+            case 'editTemplate':
+                $this->editTemplate((int) $ids[0]);
+                break;
+            case 'exportTemplate':
+                $this->exportTemplate((int) $ids[0]);
+                break;
+            case 'copyTemplate':
+                $this->copyTemplate((int) $ids[0]);
+                break;
+            case 'activateTemplates':
+                $this->activateTemplates($ids);
+                break;
+            case 'deactivateTemplates':
+                $this->deactivateTemplates($ids);
+                break;
+            case 'confirmDelete':
+                $this->confirmDelete($ids);
+                break;
+        }
+    }
+
     protected function overview(): void
     {
         if ($this->rbacsystem->checkAccess('write', $this->ref_id)) {
@@ -164,34 +203,29 @@ class ilDidacticTemplateSettingsGUI
                 $this->ctrl->getLinkTarget($this, 'showImportForm')
             );
         }
-
         $filter = new ilDidacticTemplateSettingsTableFilter($this->ctrl->getFormAction($this, 'overview'));
         $filter->init();
 
-        $table = new ilDidacticTemplateSettingsTableGUI($this, 'overview', $this->ref_id);
-        $table->init();
-        $table->parse($filter);
+        $data_retrieval = new ilDidacticTemplateSettingsTableDataRetrieval(
+            $filter,
+            $this->lng,
+            $this->ui_factory,
+            $this->renderer
+        );
 
+        $table = new ilDidacticTemplateSettingsTableGUI($this, $this->ref_id);
         $this->tpl->setContent(
-            $filter->render() . $table->getHTML()
+            $filter->render() . $table->getHTML($data_retrieval)
         );
     }
 
     public function applyFilter(): void
     {
-        $table = new ilDidacticTemplateSettingsTableGUI($this, 'overview', $this->ref_id);
-        $table->init();
-        $table->resetOffset();
-        $table->writeFilterToSession();
         $this->overview();
     }
 
     public function resetFilter(): void
     {
-        $table = new ilDidacticTemplateSettingsTableGUI($this, 'overview', $this->ref_id);
-        $table->init();
-        $table->resetOffset();
-        $table->resetFilter();
         $this->overview();
     }
 
@@ -299,9 +333,14 @@ class ilDidacticTemplateSettingsGUI
         }
     }
 
-    protected function editTemplate(ilPropertyFormGUI $form = null): void
+    protected function editTemplate(?int $template_id = null, ilPropertyFormGUI $form = null): void
     {
-        $setting = $this->initTemplateFromRequest();
+        $setting = null;
+        if (is_null($template_id)) {
+            $setting = $this->initTemplateFromRequest();
+        } else {
+            $setting = ($this->setting = new ilDidacticTemplateSetting($template_id));
+        }
         if (!$setting instanceof ilDidacticTemplateSetting) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'), true);
             $this->ctrl->redirect($this, 'overview');
@@ -381,7 +420,7 @@ class ilDidacticTemplateSettingsGUI
     {
         $this->tpl->setOnScreenMessage('failure', $this->lng->txt('err_check_input'));
         $form->setValuesByPost();
-        $this->editTemplate($form);
+        $this->editTemplate(null, $form);
     }
 
     protected function initEditTemplate(ilDidacticTemplateSetting $set): ilPropertyFormGUI
@@ -507,37 +546,23 @@ class ilDidacticTemplateSettingsGUI
         return $form;
     }
 
-    protected function copyTemplate(): void
+    protected function copyTemplate(int $template_id): void
     {
         if (!$this->access->checkAccess('write', '', $this->ref_id)) {
             $this->ctrl->redirect($this, "overview");
         }
-
-        $setting = $this->initTemplateFromRequest();
-        if (!$setting instanceof ilDidacticTemplateSetting) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'));
-            $this->ctrl->redirect($this, 'overview');
-            return;
-        }
-
+        $setting = ($this->setting = new ilDidacticTemplateSetting($template_id));
         $copier = new ilDidacticTemplateCopier($setting->getId());
         $copier->start();
-
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('didactic_copy_suc_message'), true);
         $this->ctrl->redirect($this, 'overview');
     }
 
-    protected function exportTemplate(): void
+    protected function exportTemplate(int $template_id): void
     {
-        $setting = $this->initTemplateFromRequest();
-        if (!$setting instanceof ilDidacticTemplateSetting) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'));
-            $this->ctrl->redirect($this, 'overview');
-            return;
-        }
+        $setting = ($this->setting = new ilDidacticTemplateSetting($template_id));
         $writer = new ilDidacticTemplateXmlWriter($setting->getId());
         $writer->write();
-
         ilUtil::deliverData(
             $writer->xmlDumpMem(true),
             $writer->getSetting()->getTitle() . '.xml',
@@ -545,98 +570,98 @@ class ilDidacticTemplateSettingsGUI
         );
     }
 
-    protected function confirmDelete(): void
+    /**
+     * @param string[] $template_ids
+     */
+    protected function confirmDelete(array $template_ids): never
     {
-        $templates = $this->initTemplatesFromRequest();
-        if (0 === count($templates)) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'), true);
-            $this->ctrl->redirect($this, 'overview');
-            return;
-        }
-
-        $confirm = new ilConfirmationGUI();
-        $confirm->setHeaderText($this->lng->txt('didactic_confirm_delete_msg'));
-        $confirm->setFormAction($this->ctrl->getFormAction($this));
-        $confirm->setConfirm($this->lng->txt('delete'), 'deleteTemplates');
-        $confirm->setCancel($this->lng->txt('cancel'), 'overview');
-
-        $forbidden = [];
-        foreach ($templates as $tplid) {
-            $tpl = new ilDidacticTemplateSetting((int) $tplid);
-
-            if (!$tpl->isAutoGenerated()) {
-                $confirm->addItem('tpls[]', (string) $tpl->getId(), $tpl->getPresentationTitle());
-            } else {
-                $forbidden[] = $tpl->getId();
+        $this->ctrl->setParameterByClass(ilDidacticTemplateSettingsGUI::class, 'tpls', implode(',', $template_ids));
+        $del_action = $this->ctrl->getLinkTarget($this, 'deleteTemplates');
+        $this->ctrl->clearParameterByClass(ilDidacticTemplateSettingsGUI::class, 'tpls');
+        $items = [];
+        $tpls = ilDidacticTemplateSettings::getInstance();
+        $tpls->readInactive();
+        $templates = $tpls->getTemplates();
+        foreach ($templates as $template) {
+            foreach ($template_ids as $id) {
+                if ((int) $id !== $template->getId()) {
+                    continue;
+                }
+                $items[] = $this->ui_factory->modal()->interruptiveItem()->standard(
+                    $id,
+                    $template->getTitle()
+                );
             }
         }
-
-        if (count($forbidden) > 0 && count($templates) === 1) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('didactic_cannot_delete_auto_generated'), true);
-            $this->ctrl->redirect($this, "overview");
-        } elseif (count($forbidden) > 0 && count($templates) > 1) {
-            $this->tpl->setOnScreenMessage('info', $this->lng->txt('didactic_cannot_delete_auto_generated_confirmation'));
-        }
-
-        $this->tpl->setOnScreenMessage('question', $this->lng->txt('didactic_confirm_delete_msg'));
-        $this->tpl->setContent($confirm->getHTML());
+        echo($this->renderer->renderAsync([
+            $this->ui_factory->modal()->interruptive(
+                $this->lng->txt('delete'),
+                $this->lng->txt('modal_confirm_deletion_text'),
+                $del_action
+            )
+                ->withAffectedItems($items)
+                ->withAdditionalOnLoadCode(static fn($id): string => "console.log('ASYNC JS');")
+        ]));
+        exit();
     }
 
+    /**
+     * @param string[] $template_ids
+     */
     protected function deleteTemplates(): void
     {
         if (!$this->access->checkAccess('write', '', $this->ref_id)) {
             $this->ctrl->redirect($this, "overview");
         }
-        $templates = $this->initTemplatesFromRequest();
-        if (0 === count($templates)) {
+        $template_ids = $this->initTemplatesFromRequest();
+        if (0 === count($template_ids) || $template_ids[0] === '') {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'), true);
-            $this->ctrl->redirect($this, 'overview');
+            //$this->ctrl->redirect($this, 'overview');
             return;
         }
-
-        foreach ($templates as $tplid) {
+        foreach ($template_ids as $tplid) {
             $tpl = new ilDidacticTemplateSetting((int) $tplid);
             $tpl->delete();
         }
-
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('didactic_delete_msg'), true);
         $this->ctrl->redirect($this, 'overview');
     }
 
-    protected function activateTemplates(): void
+    /**
+     * @param string[] $template_ids
+     */
+    protected function activateTemplates(array $template_ids): void
     {
         if (!$this->access->checkAccess('write', '', $this->ref_id)) {
             $this->ctrl->redirect($this, "overview");
         }
-        $templates = $this->initTemplatesFromRequest();
-        if (0 === count($templates)) {
+        if (0 === count($template_ids)) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'), true);
             $this->ctrl->redirect($this, 'overview');
             return;
         }
-
-        foreach ($templates as $tplid) {
+        foreach ($template_ids as $tplid) {
             $tpl = new ilDidacticTemplateSetting((int) $tplid);
             $tpl->enable(true);
             $tpl->update();
         }
-
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('didactic_activated_msg'), true);
         $this->ctrl->redirect($this, 'overview');
     }
 
-    protected function deactivateTemplates(): void
+    /**
+     * @param string[] $template_ids
+     */
+    protected function deactivateTemplates(array $template_ids): void
     {
         if (!$this->access->checkAccess('write', '', $this->ref_id)) {
             $this->ctrl->redirect($this, "overview");
         }
-
-        $templates = $this->initTemplatesFromRequest();
-        if (0 === count($templates)) {
+        if (0 === count($template_ids)) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'), true);
             $this->ctrl->redirect($this, 'overview');
         }
-        foreach ($templates as $tplid) {
+        foreach ($template_ids as $tplid) {
             $tpl = new ilDidacticTemplateSetting((int) $tplid);
             $tpl->enable(false);
             $tpl->update();

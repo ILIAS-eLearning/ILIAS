@@ -519,7 +519,7 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 
     protected function setTabs(): void
     {
-        $this->tpl->setTitleIcon(ilUtil::getImagePath("icon_lm.svg"));
+        $this->tpl->setTitleIcon(ilUtil::getImagePath("standard/icon_lm.svg"));
         $this->getTabs();
         $this->tpl->setTitle($this->object->getTitle());
     }
@@ -642,7 +642,7 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
         }
     }
 
-    protected function importFileObject(int $parent_id = null, bool $catch_errors = true): void
+    protected function importFileObject(int $parent_id = null): void
     {
         try {
             parent::importFileObject();

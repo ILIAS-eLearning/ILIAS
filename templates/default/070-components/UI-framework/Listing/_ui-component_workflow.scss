@@ -20,14 +20,14 @@ $il-workflow-unavailable-text-color: $il-main-border-color;
 	}
 }
 .il-workflow-header {
-	// margin-bottom:  $il-slate-content-padding;
+	// margin-bottom:  $il-slate-content-spacing;
 	// height: $il-top-bar-height;
 	.il-workflow-title {
 		background-color: $il-main-dark-bg;
 		color: $il-text-color;
 		font-size: $il-font-size-xlarge;
 		font-weight: $il-font-weight-base;
-		margin-bottom:  $il-slate-content-padding*3;
+		margin-bottom:  $il-margin-large-vertical;
 		margin-top: 0;
 		padding: $il-padding-large-vertical $il-padding-large-horizontal;
 	}
@@ -151,7 +151,7 @@ $il-workflow-unavailable-text-color: $il-main-border-color;
 		color: $il-workflow-available-text-color;
 		font-size: $il-font-size-large;
 		font-weight: $il-font-weight-base;
-		margin-top: -($il-slate-content-padding*0.5);
+		margin-top: -($il-margin-large-vertical*0.5);
 	}
 }
 

@@ -16,16 +16,8 @@
  *
  *********************************************************************/
 
-/**
- * Class ilDclBaseFieldModel
- * @author  Martin Studer <ms@studer-raimann.ch>
- * @author  Marcel Raimann <mr@studer-raimann.ch>
- * @author  Fabian Schmid <fs@studer-raimann.ch>
- * @author  Oskar Truffer <ot@studer-raimann.ch>
- * @author  Stefan Wanzenried <sw@studer-raimann.ch>
- * @version $Id:
- * @ingroup ModulesDataCollection
- */
+declare(strict_types=1);
+
 class ilDclTable
 {
     protected int $id = 0;
@@ -52,16 +44,13 @@ class ilDclTable
     protected bool $delete_by_owner = false;
     protected bool $save_confirmation = false;
     protected bool $limited = false;
-    protected ?string $limit_start = null;
-    protected ?string $limit_end = null;
+    protected string $limit_start = "";
+    protected string $limit_end = "";
     protected bool $export_enabled = false;
     protected int $table_order = 0;
     protected bool $import_enabled = false;
-    /**
-     * ID of the default sorting field. Can be a DB field (int) or a standard field (string)
-     * @var int|string $default_sort_field
-     */
-    protected $default_sort_field = 0;
+
+    protected string $default_sort_field = "0";
     /**
      * Default sort-order (asc|desc)
      */
@@ -73,7 +62,7 @@ class ilDclTable
     /**
      * True if users can add comments on each record of this table
      */
-    protected int $public_comments = 0;
+    protected bool $public_comments = false;
     /**
      * True if user can only view his/her own entries in the table
      */
@@ -115,27 +104,27 @@ class ilDclTable
         if (null !== $rec["title"]) {
             $this->setTitle($rec["title"]);
         }
-        $this->setAddPerm($rec["add_perm"]);
-        $this->setEditPerm($rec["edit_perm"]);
-        $this->setDeletePerm($rec["delete_perm"]);
-        $this->setEditByOwner($rec["edit_by_owner"]);
+        $this->setAddPerm((bool)$rec["add_perm"]);
+        $this->setEditPerm((bool)$rec["edit_perm"]);
+        $this->setDeletePerm((bool)$rec["delete_perm"]);
+        $this->setEditByOwner((bool)$rec["edit_by_owner"]);
         if (null !== $rec["export_enabled"]) {
             $this->setExportEnabled((bool) $rec["export_enabled"]);
         }
-        $this->setImportEnabled($rec["import_enabled"]);
-        $this->setLimited($rec["limited"]);
-        $this->setLimitStart($rec["limit_start"]);
-        $this->setLimitEnd($rec["limit_end"]);
-        $this->setIsVisible($rec["is_visible"]);
+        $this->setImportEnabled((bool)$rec["import_enabled"]);
+        $this->setLimited((bool)$rec["limited"]);
+        $this->setLimitStart((string)$rec["limit_start"]);
+        $this->setLimitEnd((string)$rec["limit_end"]);
+        $this->setIsVisible((bool)$rec["is_visible"]);
         if (null !== $rec['description']) {
             $this->setDescription($rec['description']);
         }
-        $this->setDefaultSortField($rec['default_sort_field_id']);
+        $this->setDefaultSortField((string)$rec['default_sort_field_id']);
         $this->setDefaultSortFieldOrder($rec['default_sort_field_order']);
-        $this->setPublicCommentsEnabled($rec['public_comments']);
-        $this->setViewOwnRecordsPerm($rec['view_own_records_perm']);
-        $this->setDeleteByOwner($rec['delete_by_owner']);
-        $this->setSaveConfirmation($rec['save_confirmation']);
+        $this->setPublicCommentsEnabled((bool)$rec['public_comments']);
+        $this->setViewOwnRecordsPerm((bool)$rec['view_own_records_perm']);
+        $this->setDeleteByOwner((bool)$rec['delete_by_owner']);
+        $this->setSaveConfirmation((bool)$rec['save_confirmation']);
         if (null !== $rec['table_order']) {
             $this->setOrder($rec['table_order']);
         }
@@ -522,13 +511,13 @@ class ilDclTable
      * get id of first (for current user) available view
      * @return bool|int|null
      */
-    public function getFirstTableViewId(int $ref_id, int $user_id = 0)
+    public function getFirstTableViewId(int $ref_id, int $user_id = 0): ?int
     {
         $uid = $user_id;
         $array = $this->getVisibleTableViews($ref_id, false, $uid);
         $tableview = array_shift($array);
 
-        return $tableview ? $tableview->getId() : false;
+        return $tableview ? $tableview->getId() : null;
     }
 
     /**
@@ -645,20 +634,23 @@ class ilDclTable
         if ($this->getObjId() != ilObjDataCollection::_lookupObjectId($ref_id)) {
             return false;
         }
-        if (ilObjDataCollectionAccess::hasWriteAccess($ref_id) || ilObjDataCollectionAccess::hasEditAccess($ref_id)) {
+        if (ilObjDataCollectionAccess::hasWriteAccess($ref_id)) {
             return true;
         }
         if (!ilObjDataCollectionAccess::hasAddRecordAccess($ref_id)) {
             return false;
         }
+        if ($this->getEditByOwner()) {
+            return $this->doesRecordBelongToUser($record);
+        }
         if (!$this->checkLimit()) {
             return false;
         }
-        if ($this->getEditPerm() && !$this->getEditByOwner()) {
+        if (ilObjDataCollectionAccess::hasEditAccess($ref_id)) {
             return true;
         }
-        if ($this->getEditByOwner()) {
-            return $this->doesRecordBelongToUser($record);
+        if ($this->getEditPerm() && !$this->getEditByOwner()) {
+            return true;
         }
 
         return false;
@@ -737,9 +729,29 @@ class ilDclTable
     public function checkLimit(): bool
     {
         if ($this->getLimited()) {
+            $from = null;
+            $to = null;
             $now = new ilDateTime(date("Y-m-d H:i:s"), IL_CAL_DATE);
-            $from = new ilDateTime($this->getLimitStart(), IL_CAL_DATE);
-            $to = new ilDateTime($this->getLimitEnd(), IL_CAL_DATE);
+
+            if ($this->getLimitStart() != "") {
+                $from = new ilDateTime($this->getLimitStart(), IL_CAL_DATE);
+            }
+            if ($this->getLimitEnd() != "") {
+                $to = new ilDateTime($this->getLimitEnd(), IL_CAL_DATE);
+            }
+
+            if ($from == null && $to == null) {
+                return true;
+            }
+            if ($from <= $now && $now <= $to) {
+                return true;
+            }
+            if ($from <= $now && $to == null) {
+                return true;
+            }
+            if ($from == null && $now <= $to) {
+                return true;
+            }
 
             return ($from <= $now && $now <= $to);
         }
@@ -890,22 +902,22 @@ class ilDclTable
         return $this->limited;
     }
 
-    public function setLimitEnd(?string $limit_end): void
+    public function setLimitEnd(string $limit_end): void
     {
         $this->limit_end = $limit_end;
     }
 
-    public function getLimitEnd(): ?string
+    public function getLimitEnd(): string
     {
         return $this->limit_end;
     }
 
-    public function setLimitStart(?string $limit_start): void
+    public function setLimitStart(string $limit_start): void
     {
         $this->limit_start = $limit_start;
     }
 
-    public function getLimitStart(): ?string
+    public function getLimitStart(): string
     {
         return $this->limit_start;
     }
@@ -932,7 +944,7 @@ class ilDclTable
 
     public function setDefaultSortField(string $default_sort_field): void
     {
-        $default_sort_field = ($default_sort_field) ?: 0; // Change null or empty strings to zero
+        $default_sort_field = ($default_sort_field) ?: ""; // Change null or empty strings to zero
         $this->default_sort_field = $default_sort_field;
     }
 
@@ -984,10 +996,6 @@ class ilDclTable
         $this->save_confirmation = $save_confirmation;
     }
 
-    /**
-     * hasCustomFields
-     * @return boolean
-     */
     public function hasCustomFields(): bool
     {
         $this->loadCustomFields();
@@ -1051,7 +1059,7 @@ class ilDclTable
                 $class_name = get_class($orig_field);
                 $new_field = new $class_name();
                 $new_field->setTableId($this->getId());
-                $new_field->cloneStructure($orig_field->getId());
+                $new_field->cloneStructure((int) $orig_field->getId());
                 $new_fields[$orig_field->getId()] = $new_field;
 
                 if ($orig_field->getId() === $original->getDefaultSortField()) {
@@ -1265,7 +1273,7 @@ class ilDclTable
 
         $as = ' AS ';
 
-        $sql .= rtrim($select_str, ',') . " FROM il_dcl_record {$as} record ";
+        $sql .= rtrim($select_str, ',') . " FROM il_dcl_record $as record ";
         $sql .= $join_str;
         $sql .= " WHERE record.table_id = " . $this->db->quote($this->getId(), 'integer');
 
@@ -1284,7 +1292,7 @@ class ilDclTable
         $set = $this->db->query($sql);
         $total_record_ids = [];
 
-        $is_allowed_to_view = (ilObjDataCollectionAccess::hasWriteAccess($ref_id) || ilObjDataCollectionAccess::hasEditAccess($ref_id));
+        $is_allowed_to_view = (ilObjDataCollectionAccess::hasWriteAccess((int) $ref_id) || ilObjDataCollectionAccess::hasEditAccess((int) $ref_id));
         while ($rec = $this->db->fetchAssoc($set)) {
             // Quick check if the current user is allowed to view the record
             if (!$is_allowed_to_view && ($this->getViewOwnRecordsPerm() && $this->user->getId() != $rec['owner'])) {

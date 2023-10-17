@@ -150,16 +150,16 @@ class ilMediaCreationGUI
     {
         $suffixes = [];
         if (in_array(self::TYPE_ALL, $this->accept_types, true)) {
-            $suffixes = $this->getAllSuffixes();
+            $suffixes = iterator_to_array($this->type_manager->getAllowedSuffixes());
         }
         if (in_array(self::TYPE_VIDEO, $this->accept_types, true)) {
-            $suffixes = array_merge($suffixes, $this->type_manager->getVideoSuffixes());
+            $suffixes = array_merge($suffixes, iterator_to_array($this->type_manager->getAllowedVideoSuffixes()));
         }
         if (in_array(self::TYPE_AUDIO, $this->accept_types, true)) {
-            $suffixes = array_merge($suffixes, $this->type_manager->getAudioMimeTypes());
+            $suffixes = array_merge($suffixes, iterator_to_array($this->type_manager->getAllowedAudioSuffixes()));
         }
-        if (in_array(self::TYPE_IMAGE, $this->accept_types)) {
-            $suffixes = array_merge($suffixes, $this->type_manager->getImageSuffixes());
+        if (in_array(self::TYPE_IMAGE, $this->accept_types, true)) {
+            $suffixes = array_merge($suffixes, iterator_to_array($this->type_manager->getAllowedImageSuffixes()));
         }
         return $suffixes;
     }
@@ -171,22 +171,16 @@ class ilMediaCreationGUI
     {
         $mimes = [];
         if (in_array(self::TYPE_ALL, $this->accept_types)) {
-            $mimes = $this->getAllMimeTypes();
+            $mimes = iterator_to_array($this->type_manager->getAllowedMimeTypes());
         }
         if (in_array(self::TYPE_VIDEO, $this->accept_types)) {
-            $mimes[] = "video/mp4";
-            if (!$local_only) {
-                $mimes[] = "video/vimeo";
-                $mimes[] = "video/youtube";
-            }
+            $mimes = array_merge($mimes, iterator_to_array($this->type_manager->getAllowedVideoMimeTypes($local_only)));
         }
         if (in_array(self::TYPE_AUDIO, $this->accept_types)) {
-            $mimes[] = "audio/mpeg";
+            $mimes = array_merge($mimes, iterator_to_array($this->type_manager->getAllowedAudioMimeTypes()));
         }
         if (in_array(self::TYPE_IMAGE, $this->accept_types)) {
-            $mimes[] = "image/png";
-            $mimes[] = "image/jpeg";
-            $mimes[] = "image/gif";
+            $mimes = array_merge($mimes, iterator_to_array($this->type_manager->getAllowedImageMimeTypes()));
         }
         return $mimes;
     }
@@ -295,7 +289,7 @@ class ilMediaCreationGUI
         $ti = new \ilTextInputGUI($lng->txt("mob_url"), "url");
         $info = $lng->txt("mob_url_info1") . " " . implode(", ", $this->getSuffixes()) . ".";
         if (in_array(self::TYPE_VIDEO, $this->accept_types)) {
-            $info.= " " . $lng->txt("mob_url_info_video");
+            $info .= " " . $lng->txt("mob_url_info_video");
         }
         $ti->setInfo($info);
         $ti->setRequired(true);

@@ -95,6 +95,25 @@ class ilCalendarCategories
     }
 
     /**
+     * @return ilCalendarCategory[]
+     */
+    public static function lookupRemoteCalendars(): array
+    {
+        global $DIC;
+
+        $db = $DIC->database();
+
+        $query = 'SELECT cat_id FROM cal_categories ' .
+            'WHERE loc_type = ' . $db->quote(ilCalendarCategory::LTYPE_REMOTE);
+        $res = $db->query($query);
+        $remote = [];
+        while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+            $remote[] = new ilCalendarCategory((int) $row->cat_id);
+        }
+        return $remote;
+    }
+
+    /**
      * lookup category by obj_id
      */
     public static function _lookupCategoryIdByObjId(int $a_obj_id): int

@@ -255,6 +255,7 @@ interface Factory
      * rules:
      *   usage:
      *       1: Actions MUST have a meaningful label describing the purpose of the action.
+     *       2: Asynchronous Actions MUST return a MessageBox or an Interruptive Modals.
      *
      * ---
      * @return \ILIAS\UI\Component\Table\Action\Factory

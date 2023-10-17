@@ -498,9 +498,8 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         // generate the question output
         $template = new ilTemplate("tpl.il_as_qpl_imagemap_question_output_solution.html", true, true, "Modules/TestQuestionPool");
         $solutiontemplate = new ilTemplate("tpl.il_as_tst_solution_output.html", true, true, "Modules/TestQuestionPool");
-        $questiontext = $this->object->getQuestion();
         if ($show_question_text == true) {
-            $template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, true));
+            $template->setVariable("QUESTIONTEXT", $this->object->getQuestionForHTMLOutput());
         }
 
         $template->setVariable("IMG_SRC", ilWACSignedPath::signFile($imagepath));
@@ -546,7 +545,7 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
             );
 
             $solutiontemplate->setVariable("ILC_FB_CSS_CLASS", $cssClass);
-            $solutiontemplate->setVariable("FEEDBACK", $this->object->prepareTextareaOutput($feedback, true));
+            $solutiontemplate->setVariable("FEEDBACK", ilLegacyFormElementsUtil::prepareTextareaOutput($feedback, true));
         }
         $solutiontemplate->setVariable("SOLUTION_OUTPUT", $questionoutput);
 
@@ -608,8 +607,7 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
             $template->setVariable("TITLE", ilLegacyFormElementsUtil::prepareFormOutput($answer->getAnswertext()));
             $template->parseCurrentBlock();
         }
-        $questiontext = $this->object->getQuestion();
-        $template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, true));
+        $template->setVariable("QUESTIONTEXT", $this->object->getQuestionForHTMLOutput());
         $template->setVariable("IMG_SRC", ilWACSignedPath::signFile($imagepath));
         $template->setVariable("IMG_ALT", $this->lng->txt("imagemap"));
         $template->setVariable("IMG_TITLE", $this->lng->txt("imagemap"));
@@ -677,8 +675,7 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
                 }
             }
         }
-        $questiontext = $this->object->getQuestion();
-        $template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, true));
+        $template->setVariable("QUESTIONTEXT", $this->object->getQuestionForHTMLOutput());
         $template->setVariable("IMG_SRC", ilWACSignedPath::signFile($imagepath));
         $template->setVariable("IMG_ALT", $this->lng->txt("imagemap"));
         $template->setVariable("IMG_TITLE", $this->lng->txt("imagemap"));
@@ -760,7 +757,7 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
         $output .= '</tbody></table>';
 
-        return $this->object->prepareTextareaOutput($output, true);
+        return ilLegacyFormElementsUtil::prepareTextareaOutput($output, true);
     }
 
     /**
@@ -847,16 +844,17 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
             return '';
         }
 
-        $button = ilLinkButton::getInstance();
-        $button->setCaption('use_previous_solution');
-
-        $button->setUrl(ilUtil::appendUrlParameterString(
-            $this->ctrl->getLinkTargetByClass($this->getTargetGuiClass(), $this->getQuestionActionCmd()),
-            $this->buildSelectionParameter($this->object->currentSolution, null)
-        ));
+        global $DIC;
+        $button = $DIC->ui()->factory()->link()->standard(
+            $this->lng->txt('use_previous_solution'),
+            ilUtil::appendUrlParameterString(
+                $this->ctrl->getLinkTargetByClass($this->getTargetGuiClass(), $this->getQuestionActionCmd()),
+                $this->buildSelectionParameter($this->object->currentSolution, null)
+            )
+        );
 
         $tpl = new ilTemplate('tpl.tst_question_additional_behaviour_checkbox.html', true, true, 'Modules/TestQuestionPool');
-        $tpl->setVariable('BUTTON', $button->render());
+        $tpl->setVariable('BUTTON', $DIC->ui()->renderer()->render($button));
 
         return $tpl->get();
     }

@@ -287,4 +287,258 @@ class ilPCDataTableGUI extends ilPCTableGUI
         $s_text = str_replace("}", "&#125;", $s_text);
         return $s_text;
     }
+
+    public function initCreationForm(
+    ): ilPropertyFormGUI {
+
+        $a_seleted_value = "";
+        $ilCtrl = $this->ctrl;
+        $lng = $this->lng;
+        $ilUser = $this->user;
+
+        $form = new ilPropertyFormGUI();
+        $form->setFormAction($ilCtrl->getFormAction($this));
+        $form->setShowTopButtons(false);
+        $form->setTitle($this->getFormTitle("create"));
+
+        $nr = array();
+        for ($i = 1; $i <= 20; $i++) {
+            $nr[$i] = $i;
+        }
+
+        // cols
+        $cols = new ilSelectInputGUI($this->lng->txt("cont_nr_cols"), "nr_cols");
+        $cols->setOptions($nr);
+        $cols->setValue(2);
+        $form->addItem($cols);
+
+        // rows
+        $rows = new ilSelectInputGUI($this->lng->txt("cont_nr_rows"), "nr_rows");
+        $rows->setOptions($nr);
+        $rows->setValue(2);
+        $form->addItem($rows);
+
+        // table templates and table classes
+        $char_prop = new ilAdvSelectInputGUI(
+            $this->lng->txt("cont_table_style"),
+            "characteristic"
+        );
+        $chars = $this->getCharacteristics();
+        $templates = $this->getTemplateOptions();
+        $chars = array_merge($templates, $chars);
+        if (is_object($this->content_obj)) {
+            if (($chars[$a_seleted_value] ?? "") == "" && ($this->content_obj->getClass() != "")) {
+                $chars = array_merge(
+                    array($this->content_obj->getClass() => $this->content_obj->getClass()),
+                    $chars
+                );
+            }
+        }
+        foreach ($chars as $k => $char) {
+            if (strpos($k, ":") > 0) {
+                $t = explode(":", $k);
+                $html = $this->style->lookupTemplatePreview($t[1]) . '<div style="clear:both;" class="small">' . $char . "</div>";
+            } else {
+                $html = '<table class="ilc_table_' . $k . '"><tr><td class="small">' .
+                    $char . '</td></tr></table>';
+            }
+            $char_prop->addOption($k, $char, $html);
+        }
+        if (count($chars) > 1) {
+            $char_prop->setValue("StandardTable");
+            $form->addItem($char_prop);
+        }
+
+        // row header
+        $cb = new ilCheckboxInputGUI($lng->txt("cont_has_row_header"), "has_row_header");
+        $form->addItem($cb);
+
+        $form->addCommandButton("create_tab", $lng->txt("save"));
+        $form->addCommandButton("cancelCreate", $lng->txt("cancel"));
+
+        return $form;
+    }
+
+    public function initEditingForm(
+    ): ilPropertyFormGUI {
+
+        $a_seleted_value = "";
+        $ilCtrl = $this->ctrl;
+        $lng = $this->lng;
+        $ilUser = $this->user;
+
+        $form = new ilPropertyFormGUI();
+        $form->setFormAction($ilCtrl->getFormAction($this));
+        $form->setShowTopButtons(false);
+        $form->setTitle($this->getFormTitle("edit"));
+
+        // table templates and table classes
+        $char_prop = new ilAdvSelectInputGUI(
+            $this->lng->txt("cont_table_style"),
+            "characteristic"
+        );
+        $chars = $this->getCharacteristics();
+        $templates = $this->getTemplateOptions();
+        $chars = array_merge($templates, $chars);
+        if (is_object($this->content_obj)) {
+            if (($chars[$a_seleted_value] ?? "") == "" && ($this->content_obj->getClass() != "")) {
+                $chars = array_merge(
+                    array($this->content_obj->getClass() => $this->content_obj->getClass()),
+                    $chars
+                );
+            }
+        }
+        foreach ($chars as $k => $char) {
+            if (strpos($k, ":") > 0) {
+                $t = explode(":", $k);
+                $html = $this->style->lookupTemplatePreview($t[1]) . '<div style="clear:both;" class="small">' . $char . "</div>";
+            } else {
+                $html = '<table class="ilc_table_' . $k . '"><tr><td class="small">' .
+                    $char . '</td></tr></table>';
+            }
+            $char_prop->addOption($k, $char, $html);
+        }
+        if (count($chars) > 1) {
+            if ($this->content_obj->getTemplate() !== "") {
+                $val = "t:" .
+                    ilObjStyleSheet::_lookupTemplateIdByName($this->getStyleId(), $this->content_obj->getTemplate()) . ":" .
+                    $this->content_obj->getTemplate();
+            } else {
+                $val = $this->content_obj->getClass();
+            }
+            $char_prop->setValue($val);
+            $form->addItem($char_prop);
+        }
+
+        // row header
+        $cb = new ilCheckboxInputGUI($lng->txt("cont_has_row_header"), "has_row_header");
+        if ($this->content_obj->getHeaderRows() > 0) {
+            $cb->setChecked(true);
+        }
+        $form->addItem($cb);
+
+        return $form;
+    }
+
+    public function initImportForm(
+    ): ilPropertyFormGUI {
+
+        $a_seleted_value = "";
+        $ilCtrl = $this->ctrl;
+        $lng = $this->lng;
+        $ilUser = $this->user;
+
+        $form = new ilPropertyFormGUI();
+        $form->setFormAction($ilCtrl->getFormAction($this));
+        $form->setShowTopButtons(false);
+        $form->setTitle($this->getFormTitle("create"));
+
+        $hi = new ilHiddenInputGUI("import");
+        $hi->setValue("1");
+        $form->addItem($hi);
+
+        $import_data = new ilTextAreaInputGUI("", "import_table");
+        $import_data->setInfo($this->lng->txt("cont_table_import_info"));
+        $import_data->setRows(8);
+        $import_data->setCols(50);
+        $form->addItem($import_data);
+
+        // table templates and table classes
+        $char_prop = new ilAdvSelectInputGUI(
+            $this->lng->txt("cont_table_style"),
+            "import_characteristic"
+        );
+        $chars = $this->getCharacteristics();
+        $templates = $this->getTemplateOptions();
+        $chars = array_merge($templates, $chars);
+        if (is_object($this->content_obj)) {
+            if (($chars[$a_seleted_value] ?? "") == "" && ($this->content_obj->getClass() != "")) {
+                $chars = array_merge(
+                    array($this->content_obj->getClass() => $this->content_obj->getClass()),
+                    $chars
+                );
+            }
+        }
+        foreach ($chars as $k => $char) {
+            if (strpos($k, ":") > 0) {
+                $t = explode(":", $k);
+                $html = $this->style->lookupTemplatePreview($t[1]) . '<div style="clear:both;" class="small">' . $char . "</div>";
+            } else {
+                $html = '<table class="ilc_table_' . $k . '"><tr><td class="small">' .
+                    $char . '</td></tr></table>';
+            }
+            $char_prop->addOption($k, $char, $html);
+        }
+        if (count($chars) > 1) {
+            $char_prop->setValue("StandardTable");
+            $form->addItem($char_prop);
+        }
+
+        // row header
+        $cb = new ilCheckboxInputGUI($lng->txt("cont_has_row_header"), "has_row_header");
+        $form->addItem($cb);
+
+
+        $form->addCommandButton("create_tab", $lng->txt("save"));
+        $form->addCommandButton("cancelCreate", $lng->txt("cancel"));
+
+        return $form;
+    }
+
+    public function initCellPropertiesForm(
+    ): ilPropertyFormGUI {
+
+        $ilCtrl = $this->ctrl;
+        $lng = $this->lng;
+        $ilUser = $this->user;
+
+        $form = new ilPropertyFormGUI();
+        $form->setFormAction($ilCtrl->getFormAction($this));
+        $form->setShowTopButtons(false);
+        $form->setTitle($this->lng->txt("cont_cell_properties"));
+
+        $style_cb = new ilCheckboxInputGUI($lng->txt("cont_change_style"), "style_cb");
+
+        $style = new ilAdvSelectInputGUI(
+            $this->lng->txt("cont_style"),
+            "style"
+        );
+        $this->setBasicTableCellStyles();
+        $this->getCharacteristicsOfCurrentStyle(["table_cell"]);	// scorm-2004
+        $chars = $this->getCharacteristics();	// scorm-2004
+        $options = array_merge(array("" => $this->lng->txt("none")), $chars);	// scorm-2004
+        foreach ($options as $k => $option) {
+            $html = '<table border="0" cellspacing="0" cellpadding="0"><tr><td class="ilc_table_cell_' . $k . '">' .
+                $option . '</td></tr></table>';
+            $style->addOption($k, $option, $html);
+        }
+
+        if (count($options) > 1) {
+            $style_cb->addSubItem($style);
+            $form->addItem($style_cb);
+        }
+
+        $width_cb = new ilCheckboxInputGUI($lng->txt("cont_change_width"), "width_cb");
+        $ti = new ilTextInputGUI($lng->txt("cont_width"), "width");
+        $ti->setMaxLength(20);
+        $ti->setSize(7);
+        $width_cb->addSubItem($ti);
+        $form->addItem($width_cb);
+
+        // alignment
+        $al_cb = new ilCheckboxInputGUI($lng->txt("cont_change_alignment"), "al_cb");
+        $options = array(
+            "" => $lng->txt("default"),
+            "Left" => $lng->txt("cont_left"),
+            "Center" => $lng->txt("cont_center"),
+            "Right" => $lng->txt("cont_right")
+        );
+        $si = new ilSelectInputGUI($lng->txt("cont_alignment"), "alignment");
+        $si->setOptions($options);
+        $al_cb->addSubItem($si);
+        $form->addItem($al_cb);
+
+        return $form;
+    }
+
 }

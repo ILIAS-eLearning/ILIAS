@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class ilTestResultsGUITest
  * @author Marvin Beym <mbeym@databay.de>
@@ -25,33 +25,43 @@ declare(strict_types=1);
 class ilTestResultsGUITest extends ilTestBaseTestCase
 {
     private ilTestResultsGUI $testObj;
-    /**
-     * @var \ILIAS\DI\Container|mixed
-     */
-    private $backup_dic;
 
     protected function setUp(): void
     {
-        parent::setUp();
         global $DIC;
+        parent::setUp();
 
-        $this->backup_dic = $DIC;
-        $DIC = new ILIAS\DI\Container([
-            'tpl' => $this->getMockBuilder(ilGlobalTemplateInterface::class)
-                          ->getMock()
-        ]);
+        $this->addGlobal_ilCtrl();
+        $this->addGlobal_ilAccess();
+        $this->addGlobal_ilUser();
         $this->addGlobal_lng();
+        $this->addGlobal_ilLoggerFactory();
+        $this->addGlobal_ilComponentRepository();
+        $this->addGlobal_ilTabs();
+        $this->addGlobal_ilToolbar();
+        $this->addGlobal_tpl();
+        $this->addGlobal_uiFactory();
+        $this->addGlobal_uiRenderer();
 
         $this->testObj = new ilTestResultsGUI(
             $this->createMock(ilObjTest::class),
-            $this->createMock(ilTestQuestionSetConfig::class)
+            $this->createMock(ilTestQuestionSetConfig::class),
+            $DIC['ilCtrl'],
+            $DIC['ilAccess'],
+            $DIC['ilDB'],
+            $DIC['ilUser'],
+            $DIC['lng'],
+            $this->createMock(\ILIAS\DI\LoggingServices::class),
+            $DIC['component.repository'],
+            $DIC['ilTabs'],
+            $DIC['ilToolbar'],
+            $DIC['tpl'],
+            $DIC['ui.factory'],
+            $DIC['ui.renderer'],
+            $this->createMock(ILIAS\Skill\Service\SkillService::class),
+            $this->createMock(ILIAS\Test\InternalRequestService::class),
+            $this->createMock(\ILIAS\TestQuestionPool\QuestionInfoService::class)
         );
-    }
-
-    protected function tearDown(): void
-    {
-        global $DIC;
-        $DIC = $this->backup_dic;
     }
 
     public function test_instantiateObject_shouldReturnInstance(): void

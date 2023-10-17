@@ -372,7 +372,7 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
                     $template->setCurrentBlock("preview");
                     $template->setVariable("URL_PREVIEW", $answer->getImageWebPath());
                     $template->setVariable("TEXT_PREVIEW", $this->lng->txt('preview'));
-                    $template->setVariable("IMG_PREVIEW", ilUtil::getImagePath('enlarge.svg'));
+                    $template->setVariable("IMG_PREVIEW", ilUtil::getImagePath('media/enlarge.svg'));
                     $template->setVariable("ANSWER_IMAGE_URL", $answer->getThumbWebPath());
                     [$width, $height, $type, $attr] = getimagesize($answer->getImageFsPath());
                     $alt = $answer->getImageFile();
@@ -405,7 +405,7 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
 
             $template->setCurrentBlock("answer_row");
             $template->setVariable("ANSWER_ID", $answer_id);
-            $template->setVariable("ANSWER_TEXT", $this->object->prepareTextareaOutput($answer->getAnswertext(), true));
+            $template->setVariable("ANSWER_TEXT", ilLegacyFormElementsUtil::prepareTextareaOutput($answer->getAnswertext(), true));
             $template->setVariable('VALUE_TRUE', 1);
             $template->setVariable('VALUE_FALSE', 0);
 
@@ -417,9 +417,7 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
             $template->parseCurrentBlock();
         }
 
-        $questiontext = $this->object->getQuestion();
-        $template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, true));
-
+        $template->setVariable("QUESTIONTEXT", $this->object->getQuestionForHTMLOutput());
         $template->setVariable("INSTRUCTIONTEXT", $this->object->getInstructionTextTranslation(
             $this->lng,
             $this->object->getOptionLabel()
@@ -460,7 +458,7 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
                     $template->setCurrentBlock("preview");
                     $template->setVariable("URL_PREVIEW", $answer->getImageWebPath());
                     $template->setVariable("TEXT_PREVIEW", $this->lng->txt('preview'));
-                    $template->setVariable("IMG_PREVIEW", ilUtil::getImagePath('enlarge.svg'));
+                    $template->setVariable("IMG_PREVIEW", ilUtil::getImagePath('media/enlarge.svg'));
                     $template->setVariable("ANSWER_IMAGE_URL", $answer->getThumbWebPath());
                     [$width, $height, $type, $attr] = getimagesize($answer->getImageFsPath());
                     $alt = $answer->getImageFile();
@@ -493,7 +491,7 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
 
             $template->setCurrentBlock("answer_row");
             $template->setVariable("ANSWER_ID", $answer_id);
-            $template->setVariable("ANSWER_TEXT", $this->object->prepareTextareaOutput((string) $answer->getAnswertext(), true));
+            $template->setVariable("ANSWER_TEXT", ilLegacyFormElementsUtil::prepareTextareaOutput((string) $answer->getAnswertext(), true));
             $template->setVariable('VALUE_TRUE', 1);
             $template->setVariable('VALUE_FALSE', 0);
 
@@ -504,11 +502,11 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
 
             $template->parseCurrentBlock();
         }
-        $questiontext = $this->object->getQuestion();
+        $questiontext = $this->object->getQuestionForHTMLOutput();
         if ($showInlineFeedback && $this->hasInlineFeedback()) {
             $questiontext .= $this->buildFocusAnchorHtml();
         }
-        $template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, true));
+        $template->setVariable("QUESTIONTEXT", ilLegacyFormElementsUtil::prepareTextareaOutput($questiontext, true));
 
         $template->setVariable("INSTRUCTIONTEXT", $this->object->getInstructionTextTranslation(
             $this->lng,
@@ -618,25 +616,25 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
             }
 
             $template->setCurrentBlock("answer_row");
-            $template->setVariable("ANSWER_TEXT", $this->object->prepareTextareaOutput($answer->getAnswertext(), true));
+            $template->setVariable("ANSWER_TEXT", ilLegacyFormElementsUtil::prepareTextareaOutput($answer->getAnswertext(), true));
 
             if ($this->renderPurposeSupportsFormHtml() || $this->isRenderPurposePrintPdf()) {
                 if (isset($user_solution[$answer->getPosition()])) {
                     if ($user_solution[$answer->getPosition()]) {
-                        $template->setVariable("SOLUTION_IMAGE_TRUE", ilUtil::getHtmlPath(ilUtil::getImagePath("radiobutton_checked.png")));
+                        $template->setVariable("SOLUTION_IMAGE_TRUE", ilUtil::getHtmlPath(ilUtil::getImagePath("object/radiobutton_checked.png")));
                         $template->setVariable("SOLUTION_ALT_TRUE", $this->lng->txt("checked"));
-                        $template->setVariable("SOLUTION_IMAGE_FALSE", ilUtil::getHtmlPath(ilUtil::getImagePath("radiobutton_unchecked.png")));
+                        $template->setVariable("SOLUTION_IMAGE_FALSE", ilUtil::getHtmlPath(ilUtil::getImagePath("object/radiobutton_unchecked.png")));
                         $template->setVariable("SOLUTION_ALT_FALSE", $this->lng->txt("unchecked"));
                     } else {
-                        $template->setVariable("SOLUTION_IMAGE_TRUE", ilUtil::getHtmlPath(ilUtil::getImagePath("radiobutton_unchecked.png")));
+                        $template->setVariable("SOLUTION_IMAGE_TRUE", ilUtil::getHtmlPath(ilUtil::getImagePath("object/radiobutton_unchecked.png")));
                         $template->setVariable("SOLUTION_ALT_TRUE", $this->lng->txt("unchecked"));
-                        $template->setVariable("SOLUTION_IMAGE_FALSE", ilUtil::getHtmlPath(ilUtil::getImagePath("radiobutton_checked.png")));
+                        $template->setVariable("SOLUTION_IMAGE_FALSE", ilUtil::getHtmlPath(ilUtil::getImagePath("object/radiobutton_checked.png")));
                         $template->setVariable("SOLUTION_ALT_FALSE", $this->lng->txt("checked"));
                     }
                 } else {
-                    $template->setVariable("SOLUTION_IMAGE_TRUE", ilUtil::getHtmlPath(ilUtil::getImagePath("radiobutton_unchecked.png")));
+                    $template->setVariable("SOLUTION_IMAGE_TRUE", ilUtil::getHtmlPath(ilUtil::getImagePath("object/radiobutton_unchecked.png")));
                     $template->setVariable("SOLUTION_ALT_TRUE", $this->lng->txt("unchecked"));
-                    $template->setVariable("SOLUTION_IMAGE_FALSE", ilUtil::getHtmlPath(ilUtil::getImagePath("radiobutton_unchecked.png")));
+                    $template->setVariable("SOLUTION_IMAGE_FALSE", ilUtil::getHtmlPath(ilUtil::getImagePath("object/radiobutton_unchecked.png")));
                     $template->setVariable("SOLUTION_ALT_FALSE", $this->lng->txt("unchecked"));
                 }
             } else {
@@ -660,11 +658,11 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
         }
 
         if ($show_question_text == true) {
-            $questiontext = $this->object->getQuestion();
+            $questiontext = $this->object->getQuestionForHTMLOutput();
             if ($show_feedback && $this->hasInlineFeedback()) {
                 $questiontext .= $this->buildFocusAnchorHtml();
             }
-            $template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, true));
+            $template->setVariable("QUESTIONTEXT", ilLegacyFormElementsUtil::prepareTextareaOutput($questiontext, true));
 
             $template->setVariable("INSTRUCTIONTEXT", $this->object->getInstructionTextTranslation(
                 $this->lng,
@@ -695,7 +693,7 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
             );
 
             $solutiontemplate->setVariable("ILC_FB_CSS_CLASS", $cssClass);
-            $solutiontemplate->setVariable("FEEDBACK", $this->object->prepareTextareaOutput($feedback, true));
+            $solutiontemplate->setVariable("FEEDBACK", ilLegacyFormElementsUtil::prepareTextareaOutput($feedback, true));
         }
 
         $solutiontemplate->setVariable("SOLUTION_OUTPUT", $questionoutput);
@@ -727,7 +725,7 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
                 $fb = $this->object->feedbackOBJ->getSpecificAnswerFeedbackTestPresentation($this->object->getId(), 0, $answer_id);
                 if (strlen($fb)) {
                     $template->setCurrentBlock("feedback");
-                    $template->setVariable("FEEDBACK", $this->object->prepareTextareaOutput($fb, true));
+                    $template->setVariable("FEEDBACK", ilLegacyFormElementsUtil::prepareTextareaOutput($fb, true));
                     $template->parseCurrentBlock();
                 }
             }
@@ -737,7 +735,7 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
             $fb = $this->object->feedbackOBJ->getSpecificAnswerFeedbackTestPresentation($this->object->getId(), 0, $answer_id);
             if (strlen($fb)) {
                 $template->setCurrentBlock("feedback");
-                $template->setVariable("FEEDBACK", $this->object->prepareTextareaOutput($fb, true));
+                $template->setVariable("FEEDBACK", ilLegacyFormElementsUtil::prepareTextareaOutput($fb, true));
                 $template->parseCurrentBlock();
             }
         }
@@ -749,7 +747,7 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
                 $fb = $this->object->feedbackOBJ->getSpecificAnswerFeedbackTestPresentation($this->object->getId(), 0, $answer_id);
                 if (strlen($fb)) {
                     $template->setCurrentBlock("feedback");
-                    $template->setVariable("FEEDBACK", $this->object->prepareTextareaOutput($fb, true));
+                    $template->setVariable("FEEDBACK", ilLegacyFormElementsUtil::prepareTextareaOutput($fb, true));
                     $template->parseCurrentBlock();
                 }
             }

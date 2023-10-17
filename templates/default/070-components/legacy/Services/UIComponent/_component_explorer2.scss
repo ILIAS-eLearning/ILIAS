@@ -1,6 +1,6 @@
 @use "../../../../010-settings/" as *;
 @use "../../../../010-settings/legacy-settings/legacy-settings_tree" as *;
-@use "../../../../030-tools/legacy-bootstrap-mixins/vendor-prefixes" as *;
+@use "../../../../030-tools/_tool_browser-prefixes" as *;
 
 /* Services/UI/Explorer2 */
 
@@ -100,7 +100,7 @@ div.il_ExplorerItemDescription {
 }
 
 .jstree li, .jstree.jstree-default li i {
-	background: url("#{$il-background-images-path}jstree.svg") no-repeat;
+	background: url("#{$il-background-images-path}nav/jstree.svg") no-repeat;
 	vertical-align: top;
 }
 

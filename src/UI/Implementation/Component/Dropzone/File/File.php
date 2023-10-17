@@ -31,13 +31,8 @@ use ILIAS\UI\Component\Input\Field\File as FileInput;
 use ILIAS\UI\Component\Signal;
 use ILIAS\Refinery\Transformation;
 use Psr\Http\Message\ServerRequestInterface;
-use ILIAS\UI\Component\Button;
 use ILIAS\UI\Component\ReplaceSignal;
-use ILIAS\UI\Component\Input\Container\Form\Standard;
-use ILIAS\UI\Component\Closable;
-use ILIAS\UI\Component\Component;
-use ILIAS\UI\Component\Input\Field\UploadHandler;
-use ILIAS\UI\Component\Input\Field\Input;
+use ILIAS\UI\Component\Input\Container\Form\FormInput;
 
 /**
  * @author Thibeau Fuhrer <thibeau@sr.solutions>
@@ -59,7 +54,7 @@ abstract class File implements FileDropzone
         string $title,
         string $post_url,
         FileInput $file_input,
-        ?Input $additional_input
+        ?FormInput $additional_input
     ) {
         $this->signal_generator = $signal_generator;
         $this->clear_signal = $signal_generator->create();
@@ -199,16 +194,16 @@ abstract class File implements FileDropzone
         return $this->modal->getPostURL();
     }
 
-    public function withSubmitCaption(string $caption): self
+    public function withSubmitLabel(string $caption): self
     {
         $clone = clone $this;
-        $clone->modal = $clone->modal->withSubmitCaption($caption);
+        $clone->modal = $clone->modal->withSubmitLabel($caption);
         return $clone;
     }
 
-    public function getSubmitCaption(): ?string
+    public function getSubmitLabel(): ?string
     {
-        return $this->modal->getSubmitCaption();
+        return $this->modal->getSubmitLabel();
     }
 
     public function getInputs(): array

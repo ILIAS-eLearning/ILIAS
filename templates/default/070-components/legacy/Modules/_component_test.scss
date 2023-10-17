@@ -75,10 +75,10 @@ $il-test-working-time-font-weight: $il-font-weight-bold;
             background-size: 10px;
             background-position: 0px 5px;
             &.unanswered {
-                background-image: url('images/answered_not.svg');
+                background-image: url('images/object/answered_not.svg');
             }
             &.answered {
-                background-image: url('images/answered.svg');
+                background-image: url('images/object/answered.svg');
             }
             &.active {
                 font-weight: $il-font-weight-bold;
@@ -113,7 +113,8 @@ $il-test-working-time-font-weight: $il-font-weight-bold;
     }
     // make nested layers more clear
     li.dd-item.ilc_qordli_OrderListItem > ul li.dd-item.ilc_qordli_OrderListItem {
-        border: 2px white solid;
+        border: 1px $il-main-color solid;
+        border-left: $il-padding-base $il-main-color solid;
     }
 }
 

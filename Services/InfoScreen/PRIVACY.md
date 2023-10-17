@@ -32,7 +32,7 @@ Since the component itself does not store any data, all data being presented is 
 - Notes and comments, see [Notes Service](../../Services/Notes/PRIVACY.md)
 - (Personal) learning progress status
 - Metadata, incl. author and contributor information
-- Object creation date and owner (this presentation requires "Edit" permission)
+- Object creation date and owner (this presentation requires "edit settings" (write) permission)
 - Personal Tags, see [Tagging Service](../../Services/Tagging/PRIVACY.md)
 - Locking user (if WebDav is activated)
 

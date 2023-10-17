@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Class ilTestQuestionBrowserTableGUITest
@@ -55,6 +55,7 @@ class ilTestQuestionBrowserTableGUITest extends ilTestBaseTestCase
         $this->setGlobalVariable("ilDB", $db_mock);
         $this->setGlobalVariable("ilUser", $this->createMock(ilObjUser::class));
         $this->setGlobalVariable("ilObjDataCache", $this->createMock(ilObjectDataCache::class));
+        $this->addGlobal_ilLog();
         $component_factory = $this->createMock(ilComponentFactory::class);
         $component_factory->method("getActivePluginsInSlot")->willReturn(new ArrayIterator());
         $this->setGlobalVariable("component.factory", $component_factory);
@@ -65,12 +66,10 @@ class ilTestQuestionBrowserTableGUITest extends ilTestBaseTestCase
         $this->parentObj_mock = $this->getMockBuilder(ilObjTestGUI::class)->disableOriginalConstructor()->onlyMethods(array('getObject'))->getMock();
         $this->parentObj_mock->method('getObject')->willReturn($this->createMock(ilObjTest::class));
         $this->tableGui = new ilTestQuestionBrowserTableGUI(
-            $ctrl_mock,
-            $mainTpl_mock,
             $this->getMockBuilder(ilTabsGUI::class)->disableOriginalConstructor()->getMock(),
-            $lng_mock,
             $tree_mock,
             $db_mock,
+            $this->createMock(ilLogger::class),
             $component_repository,
             $this->getMockBuilder(ilObjTest::class)->disableOriginalConstructor()->getMock(),
             $this->createMock(ilAccessHandler::class),
@@ -79,6 +78,8 @@ class ilTestQuestionBrowserTableGUITest extends ilTestBaseTestCase
                 new \ILIAS\Data\Factory(),
                 $this->getMockBuilder(ilLanguage::class)->disableOriginalConstructor()->getMock()
             ),
+            $this->createMock(ILIAS\Test\InternalRequestService::class),
+            $this->createMock(ILIAS\TestQuestionPool\QuestionInfoService::class)
         );
     }
 

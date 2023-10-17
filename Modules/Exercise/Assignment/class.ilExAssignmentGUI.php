@@ -303,7 +303,7 @@ class ilExAssignmentGUI
             foreach ($files as $file) {
                 $cnt++;
                 // get mime type
-                $mime = ilObjMediaObject::getMimeType($file['fullpath']);
+                $mime = $file['mime'] ?? ilObjMediaObject::getMimeType($file['fullpath']);
 
                 $ui_factory = $DIC->ui()->factory();
                 $ui_renderer = $DIC->ui()->renderer();
@@ -315,7 +315,7 @@ class ilExAssignmentGUI
 
 
                     $image = $ui_renderer->render($ui_factory->image()->responsive($file['fullpath'], $output_filename));
-                    $image_lens = ilUtil::getImagePath("enlarge.svg");
+                    $image_lens = ilUtil::getImagePath("media/enlarge.svg");
 
                     $modal = ilModalGUI::getInstance();
                     $modal->setId($item_id);

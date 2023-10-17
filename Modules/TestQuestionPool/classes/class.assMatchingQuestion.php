@@ -36,7 +36,7 @@ require_once './Modules/Test/classes/inc.AssessmentConstants.php';
  *
  * @ingroup		ModulesTestQuestionPool
  */
-class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdjustable, ilObjAnswerScoringAdjustable, iQuestionCondition
+class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdjustable, ilObjAnswerScoringAdjustable, iQuestionCondition, ilAssQuestionLMExportable, ilAssQuestionAutosaveable
 {
     private int $shufflemode = 0;
 
@@ -378,7 +378,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 
         $clone = $this;
 
-        $original_id = assQuestion::_getOriginalId($this->id);
+        $original_id = $this->questioninfo->getOriginalId($this->id);
         $clone->id = -1;
 
         if ((int) $testObjId > 0) {
@@ -423,7 +423,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         // duplicate the question in database
         $clone = $this;
 
-        $original_id = assQuestion::_getOriginalId($this->id);
+        $original_id = $this->questioninfo->getOriginalId($this->id);
         $clone->id = -1;
         $source_questionpool_id = $this->getObjId();
         $clone->setObjId($target_questionpool_id);
@@ -1425,16 +1425,6 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         return json_encode($result);
     }
 
-    public function supportsJavascriptOutput(): bool
-    {
-        return true;
-    }
-
-    public function supportsNonJsOutput(): bool
-    {
-        return false;
-    }
-
     public function setMatchingMode($matchingMode): void
     {
         $this->matchingMode = $matchingMode;
@@ -1587,8 +1577,8 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     {
         parent::afterSyncWithOriginal($origQuestionId, $dupQuestionId, $origParentObjId, $dupParentObjId);
 
-        $origImagePath = $this->buildImagePath($origQuestionId, $origParentObjId);
-        $dupImagePath = $this->buildImagePath($dupQuestionId, $dupParentObjId);
+        $origImagePath = $this->questionFilesService->buildImagePath($origQuestionId, $origParentObjId);
+        $dupImagePath = $this->questionFilesService->buildImagePath($dupQuestionId, $dupParentObjId);
 
         ilFileUtils::delDir($origImagePath);
         if (is_dir($dupImagePath)) {

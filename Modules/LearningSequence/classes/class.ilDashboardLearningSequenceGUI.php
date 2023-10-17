@@ -18,61 +18,48 @@
 
 declare(strict_types=1);
 
-use ILIAS\UI\Implementation\Factory;
-use ILIAS\UI\Implementation\DefaultRenderer;
-use ILIAS\UI\Implementation\Component\Symbol\Icon;
-use ILIAS\UI\Implementation\Component\Item;
-use ILIAS\UI\Component\Button;
-use ILIAS\UI\Renderer;
+use ILIAS\UI\Component\Symbol\Icon\Standard;
+use ILIAS\Services\Dashboard\Block\BlockDTO;
 
 /**
- * Personal Desktop-Presentation for the LearningSequence
+ * @ilCtrl_IsCalledBy ilDashboardLearningSequenceGUI: ilColumnGUI
+ * @ilCtrl_Calls      ilDashboardLearningSequenceGUI: ilCommonActionDispatcherGUI
  */
-class ilDashboardLearningSequenceGUI
+class ilDashboardLearningSequenceGUI extends ilDashboardBlockGUI
 {
-    protected ilLanguage $lng;
-    protected ilObjUser $user;
-    protected ilAccessHandler $access;
-    protected Factory $factory;
-    protected Renderer $renderer;
-
-    /**
-     * @var array Object-Ids where user is assigned
-     */
-    protected ?array $assignments = null;
-    protected ?Icon\Icon $icon = null;
-
-    public function __construct()
+    protected function getIcon(string $title): Standard
     {
-        global $DIC;
-
-        $this->lng = $DIC['lng'];
-        $this->user = $DIC['ilUser'];
-        $this->access = $DIC['ilAccess'];
-        $this->factory = $DIC['ui.factory'];
-        $this->renderer = $DIC['ui.renderer'];
-    }
-
-    /**
-     * @return array Object-Ids where user is assigned
-     */
-    protected function getAssignments(): array
-    {
-        if (is_null($this->assignments)) {
-            $this->assignments = ilParticipants::_getMembershipByType($this->user->getId(), ['lso']);
+        if (!isset($this->icon) || is_null($this->icon)) {
+            $this->icon = $this->factory->symbol()->icon()->standard(
+                'lso',
+                $title,
+                'medium'
+            );
         }
 
-        return $this->assignments;
+        return $this->icon;
     }
 
-    public function getHTML(): string
+    public function emptyHandling(): string
     {
-        if (count($this->getAssignments()) == 0) {
-            return '';
-        }
+        return '';
+    }
 
-        $items = array();
-        foreach ($this->getAssignments() as $assignment) {
+    public function initViewSettings(): void
+    {
+        $this->viewSettings = new ilPDSelectedItemsBlockViewSettings(
+            $this->user,
+            ilPDSelectedItemsBlockConstants::VIEW_LEARNING_SEQUENCES
+        );
+
+        $this->ctrl->setParameter($this, 'view', $this->viewSettings->getCurrentView());
+    }
+
+    public function initData(): void
+    {
+        $data = [];
+        $assignments = ilParticipants::_getMembershipByType($this->user->getId(), ['lso']);
+        foreach ($assignments as $assignment) {
             $ref_ids = ilObject::_getAllReferences($assignment);
             $lso_ref_id = array_shift($ref_ids);
 
@@ -83,93 +70,78 @@ class ilDashboardLearningSequenceGUI
                 continue;
             }
 
-            if (!$this->access->checkAccess('read', '', $lso_ref_id)) {
-                continue;
-            }
-
             if (!$this->isRelevantLso($lso_obj)) {
                 continue;
             }
 
-            $items[] = $this->getLsoItem($lso_obj);
+            if (!$this->access->checkAccess('read', '', $lso_ref_id)) {
+                continue;
+            }
+
+            $data[] = new BlockDTO(
+                'lso',
+                $lso_ref_id,
+                $lso_obj->getId(),
+                $lso_obj->getTitle(),
+                $lso_obj->getDescription(),
+            );
         }
 
-        if (count($items) == 0) {
-            return '';
-        }
-
-        $std_list = $this->factory->panel()->listing()->standard($this->lng->txt('dash_learningsequences'), array(
-            $this->factory->item()->group(
-                '',
-                $items
-            )
-        ));
-
-        return $this->renderer->render($std_list);
-    }
-
-    protected function getLsoItem(ilObjLearningSequence $lso_obj): Item\Standard
-    {
-        $ref_id = $lso_obj->getRefId();
-        $title = $lso_obj->getTitle();
-
-        $link = $this->getLinkedTitle($ref_id, $title);
-
-        return $this->factory->item()->standard($link)
-            ->withProperties(
-                [
-                    $this->lng->txt('status') => $this->getOnlineStatus($ref_id)
-                ]
-            )
-            ->withLeadIcon($this->getIcon($title))
-        ;
+        $this->setData(['' => $data]);
     }
 
     protected function isRelevantLso(ilObjLearningSequence $obj): bool
     {
-        $relevant = false;
-
         $ls_lp_items = $obj->getLSLearnerItems($this->user->getId());
-        if (count($ls_lp_items) == 0) {
-            return $relevant;
+        if ($ls_lp_items === []) {
+            return false;
         }
 
         foreach ($ls_lp_items as $item) {
-            if ($item->getLearningProgressStatus() == ilLPStatus::LP_STATUS_IN_PROGRESS_NUM) {
-                $relevant = true;
+            if ($item->getLearningProgressStatus() === ilLPStatus::LP_STATUS_IN_PROGRESS_NUM) {
+                return true;
             }
         }
 
-        return $relevant;
+        return false;
     }
 
-    protected function getLinkedTitle(int $ref_id, string $title): Button\Shy
+    public function getBlockType(): string
     {
-        $link = ilLink::_getLink($ref_id, 'lso');
-        return $this->factory->button()->shy($title, $link);
+        return 'pdlern';
     }
 
-    protected function getOnlineStatus(int $ref_id): string
+    public function confirmedRemoveObject(): void
     {
-        $status = ilObjLearningSequenceAccess::isOffline($ref_id);
-
-        if ($status) {
-            return 'Offline';
+        $refIds = (array) ($this->http->request()->getParsedBody()['ref_id'] ?? []);
+        if ($refIds === []) {
+            $this->ctrl->redirect($this, 'manage');
         }
 
-        return 'Online';
-    }
+        foreach ($refIds as $ref_id) {
+            if ($this->access->checkAccess('leave', '', (int) $ref_id)) {
+                if (ilObject::_lookupType((int) $ref_id, true) === 'lso') {
+                    $lso = ilObjLearningSequence::getInstanceByRefId((int) $ref_id);
+                    if ($lso instanceof ilObjLearningSequence) {
+                        $lso->getLSRoles()->leave($this->user->getId());
+                    }
+                }
 
-    protected function getIcon(string $title): Icon\Standard
-    {
-        if (is_null($this->icon)) {
-            $this->icon = $this->factory->symbol()->icon()->standard(
-                'lso',
-                $title,
-                'medium'
-            );
+                ilForumNotification::checkForumsExistsDelete((int) $ref_id, $this->user->getId());
+            }
         }
 
-        return $this->icon;
+        $this->main_tpl->setOnScreenMessage('success', $this->lng->txt('mmbr_unsubscribed_from_objs'), true);
+        $this->ctrl->returnToParent($this);
+    }
+
+    public function removeMultipleEnabled(): bool
+    {
+        return true;
+    }
+
+    public function getRemoveMultipleActionText(): string
+    {
+        return $this->lng->txt('pd_unsubscribe_multiple_memberships');
     }
 }

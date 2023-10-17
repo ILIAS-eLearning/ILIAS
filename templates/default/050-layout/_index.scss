@@ -1,3 +1,7 @@
+// Layout Utilities that generate CSS code
+// You MUST NOT include this index file in any component.
+
 @use "./layout_grid";
 @use "./layout_container";
-@use "./layout_responsive-utilities";
+@use "./layout_visibility-utilities";
+@use "./layout_element-bar";

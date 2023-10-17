@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -13,17 +14,17 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
+
+declare(strict_types=1);
 
 /**
- * Class ilDclTableViewGUI
- * @author       Theodor Truffer <tt@studer-raimann.ch>
- * @ingroup      ModulesDataCollection
  * @ilCtrl_Calls ilDclTableViewGUI: ilDclTableViewEditGUI
  */
 class ilDclTableViewGUI
 {
+    protected \ILIAS\UI\Factory $ui_factory;
+    protected \ILIAS\UI\Renderer $renderer;
     protected ilCtrl $ctrl;
     protected ilLanguage $lng;
     protected ilToolbarGUI $toolbar;
@@ -52,6 +53,8 @@ class ilDclTableViewGUI
         $this->toolbar = $DIC->toolbar();
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
+        $this->ui_factory = $DIC->ui()->factory();
+        $this->renderer = $DIC->ui()->renderer();
 
         if ($table_id == 0) {
             $table_id = $this->http->wrapper()->query()->retrieve('table_id', $this->refinery->kindlyTo()->int());
@@ -65,7 +68,7 @@ class ilDclTableViewGUI
 
         if (!$this->checkAccess()) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
-            $this->ctrl->redirectByClass('ildclrecordlistgui', 'listRecords');
+            $this->ctrl->redirectByClass(ilDclRecordListGUI::class, 'listRecords');
         }
     }
 
@@ -76,7 +79,7 @@ class ilDclTableViewGUI
         $next_class = $this->ctrl->getNextClass($this);
 
         switch ($next_class) {
-            case 'ildcltablevieweditgui':
+            case strtolower(ilDclTableViewEditGUI::class):
                 if ($this->http->wrapper()->query()->has('tableview_id')) {
                     $tableview_id = $this->http->wrapper()->query()->retrieve(
                         'tableview_id',
@@ -115,44 +118,23 @@ class ilDclTableViewGUI
 
     public function show(): void
     {
-        $add_new = ilLinkButton::getInstance();
-        $add_new->setPrimary(true);
-        $add_new->setCaption("dcl_add_new_view");
-        $add_new->setUrl($this->ctrl->getLinkTargetByClass('ilDclTableViewEditGUI', 'add'));
+        $add_new = $this->ui_factory->button()->primary(
+            $this->lng->txt("dcl_add_new_view"),
+            $this->ctrl->getLinkTargetByClass(ilDclTableViewEditGUI::class, 'add')
+        );
         $this->toolbar->addStickyItem($add_new);
 
         $this->toolbar->addSeparator();
 
-        // Show tables
-        $tables = $this->parent_obj->getDataCollectionObject()->getTables();
-
-        foreach ($tables as $table) {
-            $options[$table->getId()] = $table->getTitle();
-        }
-        $table_selection = new ilSelectInputGUI('', 'table_id');
-        $table_selection->setOptions($options);
-        $table_selection->setValue($this->table->getId());
-
-        $this->toolbar->setFormAction($this->ctrl->getFormActionByClass("ilDclTableViewGUI", "doTableSwitch"));
-        $this->toolbar->addText($this->lng->txt("dcl_select"));
-        $this->toolbar->addInputItem($table_selection);
-        $button = ilSubmitButton::getInstance();
-        $button->setCommand("doTableSwitch");
-        $button->setCaption('change');
-        $this->toolbar->addButtonInstance($button);
+        $switcher = new ilDclSwitcher($this->toolbar, $this->ui_factory, $this->ctrl, $this->lng);
+        $switcher->addTableSwitcherToToolbar(
+            $this->parent_obj->getDataCollectionObject()->getTables(),
+            self::class,
+            'show'
+        );
 
         $table_gui = new ilDclTableViewTableGUI($this, 'show', $this->table, $this->getParentObj()->getRefId());
         $this->tpl->setContent($table_gui->getHTML());
-    }
-
-    public function doTableSwitch(): void
-    {
-        $this->ctrl->setParameterByClass(
-            "ilDclTableViewGUI",
-            "table_id",
-            $this->http->wrapper()->post()->retrieve('table_id', $this->refinery->kindlyTo()->int())
-        );
-        $this->ctrl->redirectByClass("ilDclTableViewGUI", "show");
     }
 
     /**
@@ -161,7 +143,6 @@ class ilDclTableViewGUI
     public function confirmDeleteTableviews(): void
     {
         //at least one view must exist
-        $tableviews = [];
         $has_dcl_tableview_ids = $this->http->wrapper()->post()->has('dcl_tableview_ids');
         if (!$has_dcl_tableview_ids) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('dcl_delete_views_no_selection'), true);
@@ -189,7 +170,6 @@ class ilDclTableViewGUI
 
     protected function deleteTableviews(): void
     {
-        $tableviews = [];
         $has_dcl_tableview_ids = $this->http->wrapper()->post()->has('dcl_tableview_ids');
         if ($has_dcl_tableview_ids) {
             $tableviews = $this->http->wrapper()->post()->retrieve(
@@ -228,7 +208,7 @@ class ilDclTableViewGUI
             $this->refinery->kindlyTo()->dictOf($this->refinery->kindlyTo()->string())
         );
         asort($orders);
-        $tableviews = array();
+        $tableviews = [];
         foreach (array_keys($orders) as $tableview_id) {
             $tableviews[] = ilDclTableView::find($tableview_id);
         }

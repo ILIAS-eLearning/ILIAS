@@ -111,12 +111,12 @@ xmlns="http://www.w3.org/2000/svg">
     private function provideSomeComplexSaneSVG(): array
     {
         return [
-            ['./templates/default/images/bigplay.svg'],
-            ['./templates/default/images/jstree.svg'],
-            ['./templates/default/images/loader.svg'],
-            ['./templates/default/images/col.svg'],
-            ['./templates/default/images/HeaderIcon.svg'],
-            ['./templates/default/images/answered_not.svg'],
+            ['./templates/default/images/media/bigplay.svg'],
+            ['./templates/default/images/nav/jstree.svg'],
+            ['./templates/default/images/media/loader.svg'],
+            ['./templates/default/images/object/col.svg'],
+            ['./templates/default/images/logo/HeaderIcon.svg'],
+            ['./templates/default/images/object/answered_not.svg'],
         ];
     }
 
@@ -130,7 +130,7 @@ xmlns="http://www.w3.org/2000/svg">
 
         $preProcessor = new SVGBlacklistPreProcessor('The SVG file contains possibily malicious code.');
         $stream = Streams::ofString($svg);
-        $metadata = new Metadata('bigplay.svg', 100, 'image/svg+xml');
+        $metadata = new Metadata('media/bigplay.svg', 100, 'image/svg+xml');
 
         $result = $preProcessor->process($stream, $metadata);
 

@@ -2130,7 +2130,6 @@ class ilObjStyleSheet extends ilObject
         if ($a_template_type == "") {
             return self::$templates;
         }
-
         return self::$templates[$a_template_type];
     }
 
@@ -3132,7 +3131,7 @@ class ilObjStyleSheet extends ilObject
         $set = $ilDB->query("SELECT preview FROM style_template " .
             " WHERE id = " . $ilDB->quote($a_t_id, "integer"));
         if ($rec = $ilDB->fetchAssoc($set)) {
-            return $rec["preview"];
+            return $rec["preview"] ?? "";
         }
 
         return "";

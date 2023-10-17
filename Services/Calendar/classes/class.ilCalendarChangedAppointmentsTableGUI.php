@@ -65,18 +65,6 @@ class ilCalendarChangedAppointmentsTableGUI extends ilTable2GUI
 
     protected function fillRow(array $a_set): void
     {
-        global $DIC;
-
-        $ilUser = $DIC['ilUser'];
-        $lng = $DIC['lng'];
-
-        if ($a_set["milestone"]) {
-            $this->tpl->setCurrentBlock("img_ms");
-            $this->tpl->setVariable("IMG_MS", ilUtil::getImagePath("icon_ms.svg"));
-            $this->tpl->setVariable("ALT_MS", $this->lng->txt("cal_milestone"));
-            $this->tpl->parseCurrentBlock();
-        }
-
         $this->tpl->setVariable('VAL_DESCRIPTION', $a_set['description']);
 
         $this->tpl->setVariable('VAL_TITLE_LINK', $a_set['title']);
@@ -129,7 +117,6 @@ class ilCalendarChangedAppointmentsTableGUI extends ilTable2GUI
             $rec = ilCalendarRecurrences::_getFirstRecurrence($entry->getEntryId());
 
             $tmp_arr['id'] = $entry->getEntryId();
-            $tmp_arr['milestone'] = $entry->isMilestone();
             $tmp_arr['title'] = $entry->getPresentationTitle();
             $tmp_arr['description'] = $entry->getDescription();
             $tmp_arr['fullday'] = $entry->isFullday();

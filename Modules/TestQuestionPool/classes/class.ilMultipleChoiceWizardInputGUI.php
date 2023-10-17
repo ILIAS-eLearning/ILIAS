@@ -57,7 +57,7 @@ class ilMultipleChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
             return false;
         }
 
-        $values = $this->post_wrapper->retrieve($post_var, $this->refinery->custom()->transformation(fn ($v) => $v));
+        $values = $this->post_wrapper->retrieve($post_var, $this->refinery->custom()->transformation(fn($v) => $v));
 
         $values = ilArrayUtil::stripSlashesRecursive( //TODO: move into transform
             $values,
@@ -290,6 +290,9 @@ class ilMultipleChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
                         "PROPERTY_VALUE",
                         ilLegacyFormElementsUtil::prepareFormOutput($value->getPointsUnchecked())
                     );
+                    $tpl->parseCurrentBlock();
+                    $tpl->setCurrentBlock("prop_answer_id_propval");
+                    $tpl->setVariable("PROPERTY_VALUE", ilLegacyFormElementsUtil::prepareFormOutput($value->getId()));
                     $tpl->parseCurrentBlock();
                 }
                 $tpl->setCurrentBlock('multiline');

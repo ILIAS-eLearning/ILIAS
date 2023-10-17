@@ -16,13 +16,14 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * @author		Björn Heyser <bheyser@databay.de>
  * @package     Modules/Test
  * @ilCtrl_Calls ilTestPlayerFixedQuestionSetGUI: ilAssGenFeedbackPageGUI
  * @ilCtrl_Calls ilTestPlayerFixedQuestionSetGUI: ilAssSpecFeedbackPageGUI
  * @ilCtrl_Calls ilTestPlayerFixedQuestionSetGUI: ilAssQuestionHintRequestGUI
- * @ilCtrl_Calls ilTestPlayerFixedQuestionSetGUI: ilTestSignatureGUI
  * @ilCtrl_Calls ilTestPlayerFixedQuestionSetGUI: ilAssQuestionPageGUI
  * @ilCtrl_Calls ilTestPlayerFixedQuestionSetGUI: ilTestSubmissionReviewGUI
  * @ilCtrl_Calls ilTestPlayerFixedQuestionSetGUI: ilTestPasswordProtectionGUI
@@ -33,16 +34,11 @@ class ilTestPlayerFixedQuestionSetGUI extends ilTestOutputGUI
 {
     protected function buildTestPassQuestionList(): ilAssQuestionList
     {
-        global $DIC;
-        $component_repository = $DIC['component.repository'];
+        $question_list = new ilAssQuestionList($this->db, $this->lng, $this->component_repository);
+        $question_list->setParentObjId($this->object->getId());
+        $question_list->setQuestionInstanceTypeFilter(ilAssQuestionList::QUESTION_INSTANCE_TYPE_DUPLICATES);
 
-        $questionList = new ilAssQuestionList($this->db, $this->lng, $component_repository);
-
-        $questionList->setParentObjId($this->object->getId());
-
-        $questionList->setQuestionInstanceTypeFilter(ilAssQuestionList::QUESTION_INSTANCE_TYPE_DUPLICATES);
-
-        return $questionList;
+        return $question_list;
     }
 
     protected function populateQuestionOptionalMessage()

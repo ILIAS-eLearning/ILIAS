@@ -114,6 +114,11 @@ class ilMyStaffAccess extends ilObjectAccess
             return false;
         }
 
+        $cert_set = new \ilSetting("certificate");
+        if (!$cert_set->get("active")) {
+            return false;
+        }
+
         if ($this->countOrgusOfUserWithOperationAndContext(
             $DIC->user()->getId(),
             ilOrgUnitOperation::OP_VIEW_CERTIFICATES,
@@ -193,6 +198,11 @@ class ilMyStaffAccess extends ilObjectAccess
         global $DIC;
 
         if (!$DIC->settings()->get("enable_my_staff")) {
+            return false;
+        }
+
+        $skmg_set = new \ilSkillManagementSettings();
+        if (!$skmg_set->isActivated()) {
             return false;
         }
 
@@ -344,7 +354,7 @@ class ilMyStaffAccess extends ilObjectAccess
 				and orgu_ua.user_id = " . $DIC->database()->quote(
             $user_id,
             'integer'
-        ) . " AND perm.operations REGEXP '[\[,]\"?"
+        ) . " AND perm.operations REGEXP '[\\\[,]\"?"
             . $operation->getOperationId() . "\"?[\],]'
 				WHERE perm.parent_id = -1";
 
@@ -540,14 +550,14 @@ class ilMyStaffAccess extends ilObjectAccess
                 "where type = '" . $context . "' " .
                 "AND object_reference.ref_id not in " .
                 "   (SELECT parent_id FROM il_orgu_permissions " .
-                "   where position_id = " . $position_id . " and context_id = " . $context_id . " and operations NOT REGEXP '[\[,]\"?" . $operation_id . "\"?[\],]' and parent_id <> -1)";
+                "   where position_id = " . $position_id . " and context_id = " . $context_id . " and operations NOT REGEXP '[\\\[,]\"?" . $operation_id . "\"?[\],]' and parent_id <> -1)";
         } else {
             $query = $return_ref_id
                 ?
                 "SELECT parent_id as ref_id FROM il_orgu_permissions "
                 :
                 "SELECT obj_id FROM il_orgu_permissions INNER JOIN object_reference ON object_reference.ref_id = il_orgu_permissions.parent_id ";
-            $query .= " where position_id = " . $position_id . " and context_id = " . $context_id . " and operations REGEXP '[\[,]\"?" . $operation_id . "\"?[\],]' and parent_id <> -1";
+            $query .= " where position_id = " . $position_id . " and context_id = " . $context_id . " and operations REGEXP '[\\\[,]\"?" . $operation_id . "\"?[\],]' and parent_id <> -1";
         }
 
         return array_map(function ($item) use ($return_ref_id) {
@@ -563,7 +573,7 @@ class ilMyStaffAccess extends ilObjectAccess
         global $DIC;
         $res = $DIC->database()->query("SELECT * FROM il_orgu_permissions " .
             " WHERE context_id = " . $context_id . " " .
-            "AND operations REGEXP '[\[,]\"?" . $operation_id . "\"?[\],]' " .
+            "AND operations REGEXP '[\\\[,]\"?" . $operation_id . "\"?[\],]' " .
             "AND position_id = " . $position_id . " " .
             "AND parent_id = -1");
 
@@ -696,7 +706,7 @@ class ilMyStaffAccess extends ilObjectAccess
             ) . "
 				INNER JOIN il_orgu_permissions AS perm on perm.position_id = orgu_ua_current_user.position_id AND perm.parent_id = -1
 				INNER JOIN il_orgu_op_contexts AS contexts on contexts.id = perm.context_id AND contexts.context =  '$context'
-				and perm.operations REGEXP '[\[,]\"?" . $operation->getOperationId() . "\"?[\],]'
+				and perm.operations REGEXP '[\\\[,]\"?" . $operation->getOperationId() . "\"?[\],]'
 				
 				AND
 				( 
@@ -778,7 +788,7 @@ class ilMyStaffAccess extends ilObjectAccess
 					INNER JOIN object_data AS obj ON obj.obj_id = obj_ref.obj_id AND obj.type = '$context'
 					INNER JOIN il_orgu_op_contexts AS contexts on contexts.id = perm.context_id AND contexts.context = '$context'
 					WHERE
-				    perm.operations REGEXP '[\[,]\"?" . $operation->getOperationId() . "\"?[\],]'
+				    perm.operations REGEXP '[\\\[,]\"?" . $operation->getOperationId() . "\"?[\],]'
 			);";
 
         $DIC->database()->manipulate($q);
@@ -818,7 +828,7 @@ class ilMyStaffAccess extends ilObjectAccess
 				    FROM
 				    object_data AS obj
 				    INNER JOIN object_reference AS obj_ref ON obj_ref.obj_id = obj.obj_id
-				    INNER JOIN il_orgu_permissions AS perm ON perm.operations REGEXP '[\[,]\"?" . $operation->getOperationId() . "\"?[\],]' AND perm.parent_id = -1
+				    INNER JOIN il_orgu_permissions AS perm ON perm.operations REGEXP '[\\\[,]\"?" . $operation->getOperationId() . "\"?[\],]' AND perm.parent_id = -1
 				    INNER JOIN il_orgu_op_contexts AS contexts on contexts.id = perm.context_id AND contexts.context = '" . $context . "'
 				    INNER JOIN il_orgu_ua AS orgu_ua ON orgu_ua.position_id = perm.position_id AND orgu_ua.user_id = " . $GLOBALS['DIC']->user()
                                                                                                                                         ->getId() . "
@@ -883,7 +893,7 @@ class ilMyStaffAccess extends ilObjectAccess
 				    INNER JOIN il_orgu_authority AS auth ON auth.position_id = orgu_ua.position_id
 				    INNER JOIN il_orgu_op_contexts AS contexts on contexts.id = perm.context_id AND contexts.context = '" . $context . "'
 				    WHERE
-				    perm.operations REGEXP '[\[,]\"?" . $operation->getOperationId() . "\"?[\],]'
+				    perm.operations REGEXP '[\\\[,]\"?" . $operation->getOperationId() . "\"?[\],]'
 							);";
 
         $DIC->database()->manipulate($q);

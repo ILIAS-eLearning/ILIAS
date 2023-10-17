@@ -758,7 +758,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
     public function setHeader(): void
     {
         $this->tpl->setTitle($this->getLMPresentationTitle());
-        $this->tpl->setTitleIcon(ilUtil::getImagePath("icon_lm.svg"));
+        $this->tpl->setTitleIcon(ilUtil::getImagePath("standard/icon_lm.svg"));
     }
 
     /**
@@ -884,7 +884,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
 
                 $lg->addHeaderIcon(
                     "not_icon",
-                    ilUtil::getImagePath("notification_on.svg"),
+                    ilUtil::getImagePath("object/notification_on.svg"),
                     $this->lng->txt("cont_notification_activated")
                 );
             } else {
@@ -897,7 +897,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
 
                     $lg->addHeaderIcon(
                         "not_icon",
-                        ilUtil::getImagePath("notification_on.svg"),
+                        ilUtil::getImagePath("object/notification_on.svg"),
                         $this->lng->txt("cont_page_notification_activated")
                     );
                 } else {
@@ -906,7 +906,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
 
                     $lg->addHeaderIcon(
                         "not_icon",
-                        ilUtil::getImagePath("notification_off.svg"),
+                        ilUtil::getImagePath("object/notification_off.svg"),
                         $this->lng->txt("cont_notification_deactivated")
                     );
                 }
@@ -1268,7 +1268,6 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
         $this->renderPageTitle();
 
         $this->tpl->setCurrentBlock("ilMedia");
-
         $med_links = ilMediaItem::_getMapAreasIntLinks($this->requested_mob_id);
         $link_xml = $this->linker->getLinkXML($med_links);
 
@@ -1300,7 +1299,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
         $mode = ($this->requested_cmd == "fullscreen")
             ? "fullscreen"
             : "media";
-        $enlarge_path = ilUtil::getImagePath("enlarge.svg", false, "output", $this->offlineMode());
+        $enlarge_path = ilUtil::getImagePath("media/enlarge.svg", false, "output", $this->offlineMode());
         $fullscreen_link =
             $this->linker->getLink("fullscreen");
         $params = array('mode' => $mode,
@@ -1363,7 +1362,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
 
         $this->tpl->loadStandardTemplate();
         $this->tpl->setTitle($this->getLMPresentationTitle());
-        $this->tpl->setTitleIcon(ilUtil::getImagePath("icon_lm.svg"));
+        $this->tpl->setTitleIcon(ilUtil::getImagePath("standard/icon_lm.svg"));
 
         $this->renderTabs($a_active_tab, 0);
 
@@ -1449,16 +1448,6 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
         $nodes = $this->lm_tree->getSubTree($this->lm_tree->getNodeData($this->lm_tree->getRootId()));
         $nodes = $this->filterNonAccessibleNode($nodes);
 
-        /* this was written to _POST["item"] before, but never used?
-        $items = $this->service->getRequest()->getItems();
-        if (count($items) == 0) {
-            if ($this->requested_obj_id != "") {
-                $items[$this->requested_obj_id] = "y";
-            } else {
-                $items[1] = "y";
-            }
-        }*/
-
         $this->initPrintViewSelectionForm();
 
         foreach ($nodes as $node) {
@@ -1503,14 +1492,14 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
                             $text .= " (" . $this->lng->txt("cont_no_access") . ")";
                         }
                     }
-                    $img_src = ilUtil::getImagePath("icon_pg.svg");
+                    $img_src = ilUtil::getImagePath("standard/icon_pg.svg");
                     $img_alt = $lng->txt("icon") . " " . $lng->txt("pg");
                     break;
 
                     // learning module
                 case "du":
                     $text = $this->getLMPresentationTitle();
-                    $img_src = ilUtil::getImagePath("icon_lm.svg");
+                    $img_src = ilUtil::getImagePath("standard/icon_lm.svg");
                     $img_alt = $lng->txt("icon") . " " . $lng->txt("obj_lm");
                     break;
 
@@ -1533,7 +1522,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
                             $text .= " (" . $this->lng->txt("cont_no_access") . ")";
                         }
                     }
-                    $img_src = ilUtil::getImagePath("icon_st.svg");
+                    $img_src = ilUtil::getImagePath("standard/icon_st.svg");
                     $img_alt = $lng->txt("icon") . " " . $lng->txt("st");
                     break;
             }
@@ -1577,7 +1566,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
                     $text .= " (" . $this->lng->txt("cont_no_access") . ")";
                 }
             }
-            $img_src = ilUtil::getImagePath("icon_pg.svg");
+            $img_src = ilUtil::getImagePath("standard/icon_pg.svg");
             $id = $this->requested_obj_id;
 
             $checked = true;

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\UI\Factory;
 use ILIAS\UI\Renderer;
 
@@ -29,6 +29,7 @@ use ILIAS\UI\Renderer;
 class ilMDCopyrightUsageTableGUI extends ilTable2GUI
 {
     protected int $copyright_id;
+    protected string $copyright_title;
 
     protected ilDBInterface $db;
     protected Factory $ui_factory;
@@ -47,6 +48,7 @@ class ilMDCopyrightUsageTableGUI extends ilTable2GUI
         $this->ui_renderer = $DIC->ui()->renderer();
         $this->db = $DIC->database();
         $this->copyright_id = $a_parent_obj->getEntryId();
+        $this->copyright_title = $a_parent_obj->getEntryTitle();
         $this->lng = $DIC->language();
         $this->lng->loadLanguageModule('meta');
 
@@ -55,8 +57,7 @@ class ilMDCopyrightUsageTableGUI extends ilTable2GUI
 
     public function init(): void
     {
-        $md_entry = new ilMDCopyrightSelectionEntry($this->copyright_id);
-        $this->setTitle($md_entry->getTitle());
+        $this->setTitle($this->copyright_title);
 
         $this->addColumn($this->lng->txt('object'), 'object');
         $this->addColumn($this->lng->txt('meta_references'), 'references');
@@ -166,7 +167,7 @@ class ilMDCopyrightUsageTableGUI extends ilTable2GUI
         foreach ($db_data as $item) {
             $obj_id = $item['obj_id'];
             if (
-                ($filters['title'] ?? false)  &&
+                ($filters['title'] ?? false) &&
                 stripos(ilObject::_lookupTitle($obj_id), $filters['title'] ?? '') === false
             ) {
                 continue;

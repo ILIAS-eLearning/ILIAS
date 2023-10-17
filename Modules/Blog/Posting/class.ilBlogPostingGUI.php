@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\Blog\StandardGUIRequest;
 
@@ -137,7 +137,7 @@ class ilBlogPostingGUI extends ilPageObjectGUI
                 $tpl->setTitle(ilObject::_lookupTitle($this->getBlogPosting()->getBlogId()) . ": " . // #15017
                     $posting->getTitle());
                 $tpl->setTitleIcon(
-                    ilUtil::getImagePath("icon_blog.svg"),
+                    ilUtil::getImagePath("standard/icon_blog.svg"),
                     $this->lng->txt("obj_blog")
                 ); // #12879
 
@@ -255,6 +255,7 @@ class ilBlogPostingGUI extends ilPageObjectGUI
     ): string {
         $this->setTemplateOutput(false);
 
+        $this->setPresentationTitle("");
         if (!$this->getAbstractOnly() && !$this->showPageHeading()) {
             if ($a_title !== "") {
                 $this->setPresentationTitle($a_title);
@@ -263,7 +264,6 @@ class ilBlogPostingGUI extends ilPageObjectGUI
             }
         }
         $this->getBlogPosting()->increaseViewCnt();
-
         return parent::showPage();
     }
 

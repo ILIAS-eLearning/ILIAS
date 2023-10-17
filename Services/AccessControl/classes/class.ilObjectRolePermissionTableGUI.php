@@ -40,7 +40,7 @@ class ilObjectRolePermissionTableGUI extends ilTable2GUI
     protected ilRbacReview $review;
     protected ilObjectDefinition $objDefinition;
 
-    public function __construct(object $a_parent_obj, string $a_parent_cmd, int $a_ref_id)
+    public function __construct(ilPermissionGUI $a_parent_obj, string $a_parent_cmd, int $a_ref_id)
     {
         global $DIC;
 
@@ -333,16 +333,16 @@ class ilObjectRolePermissionTableGUI extends ilTable2GUI
     {
         $this->initColumns();
 
-        $perms = array();
-        $roles = array();
+        $perms = [];
+        $roles = [];
 
         if ($this->getVisibleRoles() === []) {
-            $this->setData(array());
+            $this->setData([]);
             return;
         }
 
         // Read operations of role
-        $operations = array();
+        $operations = [];
         foreach ($this->getVisibleRoles() as $role_data) {
             $operations[$role_data['obj_id']] = $this->review->getActiveOperationsOfRole(
                 $this->getRefId(),
@@ -354,7 +354,7 @@ class ilObjectRolePermissionTableGUI extends ilTable2GUI
 
         // Local policy
         if (ilPermissionGUI::hasContainerCommands($this->getObjType())) {
-            $roles = array();
+            $roles = [];
             $local_roles = $this->review->getRolesOfObject($this->getRefId());
             foreach ($this->getVisibleRoles() as $role_data) {
                 $roles[$role_data['obj_id']] = array(
@@ -372,7 +372,7 @@ class ilObjectRolePermissionTableGUI extends ilTable2GUI
 
         // Protect permissions
         if (ilPermissionGUI::hasContainerCommands($this->getObjType())) {
-            $roles = array();
+            $roles = [];
             foreach ($this->getVisibleRoles() as $role_data) {
                 $roles[$role_data['obj_id']] = array(
                     'blocked' => $role_data['blocked'],
@@ -396,12 +396,12 @@ class ilObjectRolePermissionTableGUI extends ilTable2GUI
         }
 
         // no creation permissions
-        $no_creation_operations = array();
+        $no_creation_operations = [];
         foreach ($this->review->getOperationsByTypeAndClass($this->getObjType(), 'object') as $operation) {
             $this->addActiveOperation($operation);
             $no_creation_operations[] = $operation;
 
-            $roles = array();
+            $roles = [];
             foreach ($this->getVisibleRoles() as $role_data) {
                 $roles[$role_data['obj_id']] =
                     array(
@@ -436,7 +436,7 @@ class ilObjectRolePermissionTableGUI extends ilTable2GUI
         // Get creatable objects
         $objects = $this->objDefinition->getCreatableSubObjects($this->getObjType());
         $ops_ids = ilRbacReview::lookupCreateOperationIds(array_keys($objects));
-        $creation_operations = array();
+        $creation_operations = [];
         foreach ($objects as $type => $info) {
             $ops_id = $ops_ids[$type] ?? null;
 
@@ -447,7 +447,7 @@ class ilObjectRolePermissionTableGUI extends ilTable2GUI
             $this->addActiveOperation($ops_id);
             $creation_operations[] = $ops_id;
 
-            $roles = array();
+            $roles = [];
             foreach ($this->getVisibleRoles() as $role_data) {
                 $roles[$role_data['obj_id']] =
                     array(
@@ -487,7 +487,7 @@ class ilObjectRolePermissionTableGUI extends ilTable2GUI
             (int) $this->getFilterItemByPostVar('role')->getValue()
         );
 
-        $possible_roles = array();
+        $possible_roles = [];
         foreach ($roles as $role) {
             if ($this->review->isBlockedInUpperContext((int) $role['obj_id'], $this->getRefId())) {
                 ilLoggerFactory::getLogger('ac')->debug('Ignoring blocked role: ' . $role['obj_id']);
@@ -502,7 +502,7 @@ class ilObjectRolePermissionTableGUI extends ilTable2GUI
         } else {
         }
 
-        $all_roles = array();
+        $all_roles = [];
         foreach ($possible_roles as $role) {
             if ($role['obj_id'] == SYSTEM_ROLE_ID) {
                 continue;

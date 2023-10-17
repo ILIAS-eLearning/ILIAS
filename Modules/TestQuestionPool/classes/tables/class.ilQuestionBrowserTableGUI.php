@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+use ILIAS\TestQuestionPool\QuestionInfoService;
+
 /**
 *
 * @author Helmut Schottmüller <ilias@aurealis.de>
@@ -28,6 +30,7 @@
 class ilQuestionBrowserTableGUI extends ilTable2GUI
 {
     private \ILIAS\TestQuestionPool\InternalRequestService $request;
+    private QuestionInfoService $questioninfo;
     protected \ILIAS\Notes\Service $notes;
     protected \ILIAS\UI\Factory $ui_factory;
     protected \ILIAS\UI\Renderer $renderer;
@@ -63,6 +66,7 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
         $this->request = $DIC->testQuestionPool()->internal()->request();
         $this->lng = $lng;
         $this->ctrl = $ilCtrl;
+        $this->questioninfo = $DIC->testQuestionPool()->questionInfo();
 
         $this->renderer = $DIC->ui()->renderer();
         $this->ui_factory = $DIC->ui()->factory();
@@ -358,9 +362,7 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
         $this->ctrl->setParameterByClass($class, "q_id", $a_set["question_id"]);
         $points = 0;
 
-        $actions = new ilAdvancedSelectionListGUI();
-        $actions->setId('qst' . $a_set["question_id"]);
-        $actions->setListTitle($this->lng->txt('actions'));
+        $actions = [];
 
         if (!$this->confirmdelete) {
             $this->tpl->setCurrentBlock('checkbox');
@@ -368,7 +370,7 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
             $this->tpl->parseCurrentBlock();
 
             if ($a_set["complete"] == 0) {
-                $icon = $this->ui_factory->symbol()->icon()->custom(ilUtil::getImagePath("icon_alert.svg"), $this->lng->txt("warning_question_not_complete"));
+                $icon = $this->ui_factory->symbol()->icon()->custom(ilUtil::getImagePath("standard/icon_alert.svg"), $this->lng->txt("warning_question_not_complete"));
                 $this->tpl->setCurrentBlock("qpl_warning");
                 $this->tpl->setVariable("ICON_WARNING", $this->renderer->render($icon));
                 $this->tpl->parseCurrentBlock();
@@ -419,65 +421,56 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
                 }
             }
 
-            $actions->addItem(
-                $this->lng->txt('preview'),
-                '',
-                $this->ctrl->getLinkTargetByClass('ilAssQuestionPreviewGUI', ilAssQuestionPreviewGUI::CMD_SHOW)
+            $actions[] = $this->ui_factory->link()->standard($this->lng->txt('preview'),
+                    $this->ctrl->getLinkTargetByClass('ilAssQuestionPreviewGUI', ilAssQuestionPreviewGUI::CMD_SHOW)
             );
-            $actions->addItem(
-                $this->lng->txt('statistics'),
-                '',
-                $this->ctrl->getLinkTargetByClass('ilAssQuestionPreviewGUI', ilAssQuestionPreviewGUI::CMD_STATISTICS)
+
+            $actions[] = $this->ui_factory->link()->standard($this->lng->txt('statistics'),
+                    $this->ctrl->getLinkTargetByClass('ilAssQuestionPreviewGUI', ilAssQuestionPreviewGUI::CMD_STATISTICS)
+
             );
+
             if ($this->getEditable()) {
-                $editHref = $this->ctrl->getLinkTargetByClass($a_set['type_tag'] . 'GUI', 'editQuestion');
-                $actions->addItem($this->lng->txt('edit_question'), '', $editHref);
+                $this->ctrl->setParameterByClass($a_set['type_tag'].'GUI', 'q_id', $a_set['question_id']);
+                $editHref = $this->ctrl->getLinkTargetByClass($a_set['type_tag'].'GUI', 'editQuestion');
+                $this->ctrl->setParameterByClass($a_set['type_tag'].'GUI', 'q_id', null);
+                $actions[] = $this->ui_factory->link()->standard($this->lng->txt('edit_question'), $editHref);
 
                 $editPageHref = $this->ctrl->getLinkTargetByClass('ilAssQuestionPageGUI', 'edit');
-                $actions->addItem($this->lng->txt('edit_page'), '', $editPageHref);
+                $actions[] = $this->ui_factory->link()->standard($this->lng->txt('edit_page'), $editPageHref);
             }
 
             if ($this->getWriteAccess()) {
                 $this->ctrl->setParameter($this->parent_obj, 'q_id', $a_set['question_id']);
                 $moveHref = $this->ctrl->getLinkTarget($this->parent_obj, 'move');
                 $this->ctrl->setParameter($this->parent_obj, 'q_id', null);
-                $actions->addItem($this->lng->txt('move'), '', $moveHref);
+                $actions[] = $this->ui_factory->link()->standard($this->lng->txt('move'), $moveHref);
 
                 $this->ctrl->setParameter($this->parent_obj, 'q_id', $a_set['question_id']);
                 $copyHref = $this->ctrl->getLinkTarget($this->parent_obj, 'copy');
                 $this->ctrl->setParameter($this->parent_obj, 'q_id', null);
-                $actions->addItem($this->lng->txt('copy'), '', $copyHref);
+                $actions[] = $this->ui_factory->link()->standard($this->lng->txt('copy'), $copyHref);
 
                 $this->ctrl->setParameter($this->parent_obj, 'q_id', $a_set['question_id']);
                 $deleteHref = $this->ctrl->getLinkTarget($this->parent_obj, 'deleteQuestions');
                 $this->ctrl->setParameter($this->parent_obj, 'q_id', null);
-                $actions->addItem($this->lng->txt('delete'), '', $deleteHref);
+                $actions[] = $this->ui_factory->link()->standard($this->lng->txt('delete'), $deleteHref);
             }
 
             if ($this->getEditable()) {
                 $this->ctrl->setParameterByClass('ilAssQuestionFeedbackEditingGUI', 'q_id', $a_set['question_id']);
                 $feedbackHref = $this->ctrl->getLinkTargetByClass('ilAssQuestionFeedbackEditingGUI', ilAssQuestionFeedbackEditingGUI::CMD_SHOW);
                 $this->ctrl->setParameterByClass('ilAssQuestionFeedbackEditingGUI', 'q_id', null);
-                $actions->addItem($this->lng->txt('tst_feedback'), '', $feedbackHref);
+                $actions[] = $this->ui_factory->link()->standard($this->lng->txt('tst_feedback'), $feedbackHref);
 
                 $this->ctrl->setParameterByClass('ilAssQuestionHintsGUI', 'q_id', $a_set['question_id']);
                 $hintsHref = $this->ctrl->getLinkTargetByClass('ilAssQuestionHintsGUI', ilAssQuestionHintsGUI::CMD_SHOW_LIST);
                 $this->ctrl->setParameterByClass('ilAssQuestionHintsGUI', 'q_id', null);
-                $actions->addItem($this->lng->txt('tst_question_hints_tab'), '', $hintsHref);
+                $actions[] = $this->ui_factory->link()->standard($this->lng->txt('tst_question_hints_tab'), $hintsHref);
             }
 
             if ($this->isQuestionCommentingEnabled()) {
-                $actions->addItem(
-                    $this->lng->txt('ass_comments'),
-                    'comments',
-                    '',
-                    '',
-                    '',
-                    '',
-                    '',
-                    '',
-                    $this->getCommentsAjaxLink($a_set['question_id'])
-                );
+                $actions[] = $this->ui_factory->link()->standard($this->lng->txt('ass_comments'),$this->getCommentsAjaxLink($a_set['question_id']));
             }
         } else {
             $this->tpl->setCurrentBlock('hidden');
@@ -488,12 +481,12 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
         foreach ($this->getSelectedColumns() as $c) {
             if (strcmp($c, 'description') == 0) {
                 $this->tpl->setCurrentBlock('description');
-                $this->tpl->setVariable("QUESTION_COMMENT", (strlen($a_set["description"])) ? $a_set["description"] : "&nbsp;");
+                $this->tpl->setVariable("QUESTION_COMMENT", (isset($a_set["description"]) && $a_set["description"] !== '') ? $a_set["description"] : "&nbsp;");
                 $this->tpl->parseCurrentBlock();
             }
             if (strcmp($c, 'type') == 0) {
                 $this->tpl->setCurrentBlock('type');
-                $this->tpl->setVariable("QUESTION_TYPE", assQuestion::_getQuestionTypeName($a_set["type_tag"]));
+                $this->tpl->setVariable("QUESTION_TYPE", $this->questioninfo->getQuestionTypeName($a_set["question_id"]));
                 $this->tpl->parseCurrentBlock();
             }
         }
@@ -501,7 +494,10 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
         if (!$this->confirmdelete) {
             $this->tpl->setVariable('QUESTION_HREF_LINKED', $this->ctrl->getLinkTargetByClass('ilAssQuestionPreviewGUI', ilAssQuestionPreviewGUI::CMD_SHOW));
             $this->tpl->setVariable('QUESTION_TITLE_LINKED', $a_set['title']);
-            $this->tpl->setVariable('ACTIONS', $actions->getHTML());
+
+            $dropdown = $this->ui_factory->dropdown()->standard($actions)->withLabel($this->lng->txt('actions'));
+
+            $this->tpl->setVariable('ACTIONS', $this->renderer->render($dropdown));
         } else {
             $this->tpl->setVariable('QUESTION_ID_UNLINKED', $a_set['question_id']);
             $this->tpl->setVariable('QUESTION_TITLE_UNLINKED', $a_set['title']);
@@ -547,16 +543,20 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
             return '';
         }
 
-        $ajaxLink = $this->getCommentsAjaxLink($qData['question_id']);
+        $ajax_link = $this->getCommentsAjaxLink($qData['question_id']);
 
-        return "<a class='comment' href='#' onclick=\"return " . $ajaxLink . "\">
-                        <img src='" . ilUtil::getImagePath("comment_unlabeled.svg")
-            . "' alt='{$qData['comments']}'><span class='ilHActProp'>{$qData['comments']}</span></a>";
+        $comment_glyph = $this->ui_factory->symbol()->glyph()->comment()->withCounter(
+            $this->ui_factory->counter()->status($qData['comments'])
+        )->withAdditionalOnLoadCode(function ($id) use ($ajax_link): string {
+            return "document.getElementById('$id').onclick = function (event) { $ajax_link; };";
+        });
+        return $this->renderer->render($comment_glyph);
     }
 
     protected function getCommentsAjaxLink($questionId): string
     {
         $ajax_hash = ilCommonActionDispatcherGUI::buildAjaxHash(1, $this->request->getRefId(), 'quest', $this->parent_obj->object->getId(), 'quest', $questionId);
-        return ilNoteGUI::getListCommentsJSCall($ajax_hash, '');
+        $update_code = "il.UI.counter.getCounterObject($(\".ilTableOuter\")).incrementStatusCount(1);";
+        return ilNoteGUI::getListCommentsJSCall($ajax_hash, $update_code);
     }
 }

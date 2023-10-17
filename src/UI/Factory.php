@@ -978,4 +978,64 @@ interface Factory
      * @return \ILIAS\UI\Help\Topic[]
      */
     public function helpTopics(string ...$topic): array;
+
+    /**
+     * ---
+     * description:
+     *   purpose: >
+     *     An Entity displays information about entities within the system, when
+     *     the purpose is to represent the entity itself. Properties and relations
+     *     of the Entity are arranged in semantic groups to structure and prioritize
+     *     information.
+     *     Entities are things were "sameness" is determined by "identity" instead of "equality".
+     *     For example, a user (or an repository object, OrgUnit, etc) is an "entity",
+     *     because it is the same user, even if some property (e.g. the phone number) changes.
+     *     The address, however, is not an entity, because if, e.g., the street changes,
+     *     it is not the same address anymore.
+     *   composition:
+     *     Entities will have a primary and secondary identifier, which may be
+     *     a string or Symbol or Image. Other semantic groups may also hold basic
+     *     string information or more sophisticated components.
+     *     Items in 'Reactions', i.e. interactive aspects of the entity, are
+     *     expressed by Glyphs and Tags.
+     *     Please also refer to the examples and background information.
+     *     Semantic groups are (and may hold):
+     *     - Primary Identifier (Symbol | Image | ShyButton | ShyLink)
+     *     - Secondary Identifier (Symbol | Image | ShyButton | ShyLink)
+     *     - Availability (PropertyListing | StandardLink)
+     *     - BlockingAvailabilityConditions (PropertyListing | StandardLink)
+     *     - FeaturedProperties (PropertyListing | StandardLink)
+     *     - PersonalStatus (PropertyListing)
+     *     - Details (PropertyListing)
+     *     - MainDetails ((PropertyListing))
+     *     - Reactions (Glyph | Tag)
+     *     - PrioritizedReactions (Glyph | Tag)
+     *     - Actions (Dropdown)
+     *
+     *   effect:
+     *     Entities themselves are not Clickable; however, there may be actions on
+     *     their primary and secondary identifiers or elements in certain groups.
+     *   rivals:
+     *     Item: >
+     *       The Entity is meant to replace the Item.
+     *       Use Entities when possible.
+     *
+     * background: ./docu/UI-Repository-Item_proposal.md
+     *
+     * rules:
+     *   usage:
+     *     1: >
+     *       Properties of an Entity MUST be unique within the Entity instance:
+     *       you MUST NOT list the same information in more than one place.
+     *     2: >
+     *       Entities SHOULD be part of a listing of (possibly)
+     *       other entities; they are not meant as the sole content of a page.
+     *   wording:
+     *     1: >
+     *       Primary and secondary identifier MUST give ample information to
+     *       identify the entity and tell it apart from others.
+     * ---
+     * @return \ILIAS\UI\Component\Entity\Factory
+     */
+    public function entity(): C\Entity\Factory;
 }

@@ -277,9 +277,9 @@ class ilCalendarAgendaListGUI extends ilCalendarViewGUI
 
         $cal_agenda_per = $this->initCalendarPeriodFromRequest();
         if ($cal_agenda_per > 0) {
-            $images[$cal_agenda_per] = "<img src='./templates/default/images/icon_checked.svg' alt='Month'>";
+            $images[$cal_agenda_per] = "<img src='./templates/default/images/standard/icon_checked.svg' alt='Month'>";
         } else {
-            $images[$this->period] = "<img src='./templates/default/images/icon_checked.svg' alt='Month'>";
+            $images[$this->period] = "<img src='./templates/default/images/standard/icon_checked.svg' alt='Month'>";
         }
 
         #21479 Set seed if the view does not contain any event.

@@ -924,16 +924,16 @@ class ilObjGroupGUI extends ilContainerGUI
             );
         }
 
+        /**
+         * This reads out all fields in usr_data, including usr_id, firstname,
+         * lastname, and login, so should never be necessary here to call
+         * ilObjUser a second time (#31394).
+         */
         $profile_data = ilObjUser::_readUsersProfileData($ids);
         $members = [];
         foreach ($ids as $usr_id) {
-            $name = ilObjUser::_lookupName((int) $usr_id);
-            $tmp_data['firstname'] = (string) ($name['firstname'] ?? '');
-            $tmp_data['lastname'] = (string) ($name['lastname'] ?? '');
             $tmp_data['notification'] = (bool) $this->object->members_obj->isNotificationEnabled((int) $usr_id) ? 1 : 0;
             $tmp_data['contact'] = (bool) $this->object->members_obj->isContact((int) $usr_id) ? 1 : 0;
-            $tmp_data['usr_id'] = (int) $usr_id;
-            $tmp_data['login'] = ilObjUser::_lookupLogin((int) $usr_id);
 
             foreach ((array) ($profile_data[$usr_id] ?? []) as $field => $value) {
                 $tmp_data[$field] = $value;
@@ -1758,7 +1758,7 @@ class ilObjGroupGUI extends ilContainerGUI
         switch ($a_mode) {
             case 'create':
                 $form->setTitle($this->lng->txt('grp_new'));
-                $form->setTitleIcon(ilUtil::getImagePath('icon_grp.svg'));
+                $form->setTitleIcon(ilUtil::getImagePath('standard/icon_grp.svg'));
 
                 $form->addCommandButton('save', $this->lng->txt('grp_new'));
                 $form->addCommandButton('cancel', $this->lng->txt('cancel'));
@@ -1766,7 +1766,7 @@ class ilObjGroupGUI extends ilContainerGUI
 
             case 'edit':
                 $form->setTitle($this->lng->txt('grp_edit'));
-                $form->setTitleIcon(ilUtil::getImagePath('icon_grp.svg'));
+                $form->setTitleIcon(ilUtil::getImagePath('standard/icon_grp.svg'));
 
                 // Edit ecs export settings
                 $ecs = new ilECSGroupSettings($this->object);
@@ -1916,7 +1916,7 @@ class ilObjGroupGUI extends ilContainerGUI
                 if (!$noti->isCurrentUserActive()) {
                     $lg->addHeaderIcon(
                         "not_icon",
-                        ilUtil::getImagePath("notification_off.svg"),
+                        ilUtil::getImagePath("object/notification_off.svg"),
                         $this->lng->txt("grp_notification_deactivated")
                     );
 
@@ -1925,7 +1925,7 @@ class ilObjGroupGUI extends ilContainerGUI
                 } else {
                     $lg->addHeaderIcon(
                         "not_icon",
-                        ilUtil::getImagePath("notification_on.svg"),
+                        ilUtil::getImagePath("object/notification_on.svg"),
                         $this->lng->txt("grp_notification_activated")
                     );
 

@@ -21,7 +21,7 @@ declare(strict_types=1);
 class ilSkinStyle
 {
     /**
-     * Id of the skin. Currently css and less files are named accordingely
+     * Id of the skin. Currently css and Scss files are named accordingely
      */
     protected string $id = '';
 
@@ -33,7 +33,7 @@ class ilSkinStyle
     /**
      * Directory to store sound files into
      */
-    protected string $sound_directory = '';
+    protected string $sound_directory_name = '';
 
     /**
      * Directory to store image files into
@@ -44,6 +44,11 @@ class ilSkinStyle
      * Directory to store fonts into
      */
     protected string $font_directory = '';
+
+    /**
+     * Directory to store sound into
+     */
+    protected string $sound_directory = '';
 
     /**
      * Css file name of the skin
@@ -193,16 +198,5 @@ class ilSkinStyle
     public function isSubstyle(): bool
     {
         return $this->getSubstyleOf() != '';
-    }
-
-    /**
-     * Checks if a resource (folder) relative to the style is referenced by this style. Used to decide if folder can be deleted.
-     */
-    public function referencesResource(string $resource): bool
-    {
-        return $this->getCssFile() == $resource
-            || $this->getImageDirectory() == $resource
-            || $this->getFontDirectory() == $resource
-            || $this->getSoundDirectory() == $resource;
     }
 }

@@ -475,7 +475,15 @@
           url += '?';
           parameters.forEach(
             (value, key) => {
-              url += `${encodeURIComponent(key)}=${encodeURIComponent(value)}&`;
+              if (Array.isArray(value)) {
+                value.forEach(
+                  (v) => {
+                    url += `${encodeURIComponent(`${key}`)}[]=${encodeURIComponent(v)}&`;
+                  },
+                );
+              } else {
+                url += `${encodeURIComponent(key)}=${encodeURIComponent(value)}&`;
+              }
             },
           );
           url = url.slice(0, url.length - 1);
@@ -539,10 +547,7 @@
         this.#parameters.set(parameter, value ?? '');
         this.#tokens.set(parameter, newToken);
 
-        return {
-          url: this,
-          token: newToken,
-        };
+        return [this, newToken];
       }
 
       /**

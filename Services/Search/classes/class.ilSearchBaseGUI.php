@@ -1,13 +1,29 @@
 <?php
 
-declare(strict_types=1);
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
+declare(strict_types=1);
 
 use ILIAS\Repository\Clipboard\ClipboardManager;
 use ILIAS\Container\Content\ViewManager;
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory;
+use ILIAS\Object\ImplementsCreationCallback;
+use ILIAS\Object\CreationCallbackTrait;
 
 /**
 * Class ilSearchBaseGUI
@@ -22,8 +38,10 @@ use ILIAS\Refinery\Factory;
 *
 *
 */
-class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandHandling
+class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandHandling, ImplementsCreationCallback
 {
+    use CreationCallbackTrait;
+
     public const SEARCH_FAST = 1;
     public const SEARCH_DETAILS = 2;
     public const SEARCH_AND = 'and';
@@ -52,6 +70,8 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
     protected GlobalHttpState $http;
     protected Factory $refinery;
 
+    protected ilLogger $logger;
+
 
     protected string $prev_link = '';
     protected string $next_link = '';
@@ -61,6 +81,7 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
         global $DIC;
 
 
+        $this->logger = $DIC->logger()->src();
         $this->ilias = $DIC['ilias'];
         $this->locator = $DIC['ilLocator'];
         $this->ctrl = $DIC->ctrl();
@@ -265,6 +286,11 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
     }
 
     public function cancelDelete(): void
+    {
+        $this->showSavedResults();
+    }
+
+    public function cancelObject(): void
     {
         $this->showSavedResults();
     }

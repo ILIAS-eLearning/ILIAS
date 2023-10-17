@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  *
  * @author	Björn Heyser <bheyser@databay.de>
@@ -26,25 +28,27 @@
 class ilTestRandomQuestionSetSourcePoolDefinitionListTableGUI extends ilTable2GUI
 {
     public const IDENTIFIER = 'tstRndPools';
-    private bool $definitionEditModeEnabled;
-    private bool $questionAmountColumnEnabled;
+    private bool $definitionEditModeEnabled = false;
+    private bool $questionAmountColumnEnabled = false;
     private bool $showMappedTaxonomyFilter = false;
-    private ?ilTestTaxonomyFilterLabelTranslater $taxonomyLabelTranslater = null;
-    private \ILIAS\Test\InternalRequestService $testrequest;
+    private ?ilTestQuestionFilterLabelTranslater $taxonomyLabelTranslater = null;
+    private \ILIAS\UI\Factory $ui_factory;
+    private \ILIAS\UI\Renderer $ui_renderer;
 
-    public function __construct(ilCtrl $ctrl, ilLanguage $lng, $parentGUI, $parentCMD)
-    {
-        parent::__construct($parentGUI, $parentCMD);
-
-        $this->ctrl = $ctrl;
-        $this->lng = $lng;
+    public function __construct(
+        ilTestRandomQuestionSetConfigGUI $parent_obj,
+        string $parent_cmd,
+        private array $defined_order,
+        private array $question_amount
+    ) {
         global $DIC;
-        $this->testrequest = $DIC->test()->internal()->request();
-        $this->definitionEditModeEnabled = false;
-        $this->questionAmountColumnEnabled = false;
+        $this->ui_factory = $DIC->ui()->factory();
+        $this->ui_renderer = $DIC->ui()->renderer();
+
+        parent::__construct($parent_obj, $parent_cmd);
     }
 
-    public function setTaxonomyFilterLabelTranslater(ilTestTaxonomyFilterLabelTranslater $translater): void
+    public function setTaxonomyFilterLabelTranslater(ilTestQuestionFilterLabelTranslater $translater): void
     {
         $this->taxonomyLabelTranslater = $translater;
     }
@@ -142,15 +146,11 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListTableGUI extends ilTable2GU
 
     private function getActionsHTML($sourcePoolDefinitionId): string
     {
-        $selectionList = new ilAdvancedSelectionListGUI();
-
-        $selectionList->setId('sourcePoolDefinitionActions_' . $sourcePoolDefinitionId);
-        $selectionList->setListTitle($this->lng->txt("actions"));
-
-        $selectionList->addItem($this->lng->txt('edit'), '', $this->getEditHref($sourcePoolDefinitionId));
-        $selectionList->addItem($this->lng->txt('delete'), '', $this->getDeleteHref($sourcePoolDefinitionId));
-
-        return $selectionList->getHTML();
+        $actions = [];
+        $actions[] = $this->ui_factory->link()->standard($this->lng->txt('edit'), $this->getEditHref($sourcePoolDefinitionId));
+        $actions[] = $this->ui_factory->link()->standard($this->lng->txt('delete'), $this->getDeleteHref($sourcePoolDefinitionId));
+        $dropdown = $this->ui_factory->dropdown()->standard($actions)->withLabel($this->lng->txt('actions'));
+        return $this->ui_renderer->render($dropdown);
     }
 
     private function getEditHref($sourcePoolDefinitionId): string
@@ -315,13 +315,11 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListTableGUI extends ilTable2GU
 
     private function fetchOrderNumberParameter(ilTestRandomQuestionSetSourcePoolDefinition $definition): int
     {
-        $def_order = $this->testrequest->raw('def_order');
-        return array_key_exists($definition->getId(), $def_order) ? (int) $def_order[$definition->getId()] : 0;
+        return array_key_exists($definition->getId(), $this->defined_order) ? (int) $this->defined_order[$definition->getId()] : 0;
     }
 
     private function fetchQuestionAmountParameter(ilTestRandomQuestionSetSourcePoolDefinition $definition): int
     {
-        $quest_amount = $this->testrequest->raw('quest_amount');
-        return array_key_exists($definition->getId(), $quest_amount) ? (int) $quest_amount[$definition->getId()] : 0;
+        return array_key_exists($definition->getId(), $this->question_amount) ? (int) $this->question_amount[$definition->getId()] : 0;
     }
 }

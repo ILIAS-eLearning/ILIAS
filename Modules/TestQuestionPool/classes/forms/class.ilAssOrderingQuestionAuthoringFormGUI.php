@@ -44,7 +44,7 @@ class ilAssOrderingQuestionAuthoringFormGUI extends ilAssQuestionAuthoringFormGU
             let button = form.querySelector('input[name=\"cmd[save]\"]');
             if (form && button) {
                 form.addEventListener('keydown', function (e) {
-                    if (e.key === 'Enter') {
+                    if (e.key === 'Enter' && e.target.type !== 'textarea') {
                         e.preventDefault();
                         form.requestSubmit(button);
                     }

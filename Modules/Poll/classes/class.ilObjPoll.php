@@ -39,8 +39,7 @@ class ilObjPoll extends ilObject2
     protected int $period_begin = 0;
     protected int $period_end = 0;
 
-    // 4.5
-    protected int $max_number_answers = 1;
+    protected int $max_number_answers = 0;
     protected bool $result_sort_by_votes = false;
     protected bool $mode_non_anonymous = false;
     protected bool $show_comments = false;
@@ -361,9 +360,18 @@ class ilObjPoll extends ilObject2
             $new_obj->setOfflineStatus(true);
         }
 
-        $new_obj->setViewResults($this->getViewResults());
+        $view_results = $this->getViewResults();
+        if ($view_results === ilObjPoll::VIEW_RESULTS_AFTER_PERIOD) {
+            // default view results setting to always, since
+            // voting period is not copied.
+            $view_results = ilObjPoll::VIEW_RESULTS_ALWAYS;
+        }
+        $new_obj->setViewResults($view_results);
         $new_obj->setShowComments($this->getShowComments());
         $new_obj->setShowResultsAs($this->getShowResultsAs());
+        $new_obj->setMaxNumberOfAnswers($this->getMaxNumberOfAnswers());
+        $new_obj->setSortResultByVotes($this->getSortResultByVotes());
+        $new_obj->setNonAnonymous($this->getNonAnonymous());
         $new_obj->update();
 
         // answers
@@ -478,7 +486,7 @@ class ilObjPoll extends ilObject2
     public static function getImageSize(): string
     {
         // :TODO:
-        return "300x300";
+        return "600x600";
     }
 
 

@@ -16,6 +16,11 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
+use ILIAS\UI\Factory as UIFactory;
+use ILIAS\UI\Renderer as UIRenderer;
+
 /**
 *
 * @author Helmut Schottmüller <ilias@aurealis.de>
@@ -31,31 +36,24 @@ class ilTestParticipantsTableGUI extends ilTable2GUI
 
     protected ?string $rowKeyDataField;
 
-    protected $anonymity;
+    protected bool $anonymity;
+    protected array $filter;
 
     protected bool $participantHasSolutionsFilterEnabled = false;
 
-    protected ilLanguage $lng;
-    protected ilCtrl $ctrl;
-    protected \ILIAS\UI\Renderer $renderer;
-    protected \ILIAS\UI\Factory $ui_factory;
+    public function __construct(
+        ilTestParticipantsGUI $parent_obj,
+        string $parent_cmd,
+        protected UIFactory $ui_factory,
+        protected UIRenderer $ui_renderer
+    ) {
+        parent::__construct($parent_obj, $parent_cmd);
 
-    public function __construct($a_parent_obj, $a_parent_cmd)
-    {
-        $this->setId('tst_participants_' . $a_parent_obj->getTestObj()->getRefId());
-        parent::__construct($a_parent_obj, $a_parent_cmd);
-
-        global $DIC;
-
-        $this->lng = $DIC->language();
-        $this->ctrl = $DIC->ctrl();
-        $this->renderer = $DIC->ui()->renderer();
-        $this->ui_factory = $DIC->ui()->factory();
-
+        $this->setId('tst_participants_' . $parent_obj->getTestObj()->getRefId());
         $this->setStyle('table', 'fullwidth');
 
         $this->setFormName('participantsForm');
-        $this->setFormAction($this->ctrl->getFormAction($a_parent_obj, $a_parent_cmd));
+        $this->setFormAction($this->ctrl->getFormAction($parent_obj, $parent_cmd));
 
         $this->setRowTemplate("tpl.il_as_tst_participants_row.html", "Modules/Test");
 
@@ -170,21 +168,18 @@ class ilTestParticipantsTableGUI extends ilTable2GUI
 
     public function initFilter(): void
     {
-        global $DIC;
-        $lng = $DIC['lng'];
-
         if ($this->isParticipantHasSolutionsFilterEnabled()) {
-            $ti = new ilSelectInputGUI($lng->txt("selection"), "selection");
+            $ti = new ilSelectInputGUI($this->lng->txt("selection"), "selection");
             $ti->setOptions(
                 array(
-                    'all' => $lng->txt('all_participants'),
-                    'withSolutions' => $lng->txt('with_solutions_participants'),
-                    'withoutSolutions' => $lng->txt('without_solutions_participants')
+                    'all' => $this->lng->txt('all_participants'),
+                    'withSolutions' => $this->lng->txt('with_solutions_participants'),
+                    'withoutSolutions' => $this->lng->txt('without_solutions_participants')
                 )
             );
             $this->addFilterItem($ti);
             $ti->readFromSession();        // get currenty value from session (always after addFilterItem())
-            $this->filter["title"] = $ti->getValue();
+            $this->filter['title'] = $ti->getValue();
         }
     }
 
@@ -207,7 +202,7 @@ class ilTestParticipantsTableGUI extends ilTable2GUI
             $this->tpl->setCurrentBlock('actions_column');
 
             if ($a_set['active_id'] > 0) {
-                $this->tpl->setVariable('ACTIONS', $this->buildActionsMenu($a_set)->getHTML());
+                $this->tpl->setVariable('ACTIONS', $this->buildActionsMenu($a_set));
             } else {
                 $this->tpl->touchBlock('actions_column');
             }
@@ -227,18 +222,16 @@ class ilTestParticipantsTableGUI extends ilTable2GUI
         $this->tpl->setVariable("ACCESS", $this->buildFormattedAccessDate($a_set));
     }
 
-    protected function buildActionsMenu(array $data): ilAdvancedSelectionListGUI
+    protected function buildActionsMenu(array $data): string
     {
-        $asl = new ilAdvancedSelectionListGUI();
-
         $this->ctrl->setParameterByClass('iltestevaluationgui', 'active_id', $data['active_id']);
-
+        $actions = [];
         if ($this->isManageResultsCommandsEnabled() && $data['unfinished']) {
             $finishHref = $this->ctrl->getLinkTargetByClass('ilTestEvaluationGUI', 'finishTestPassForSingleUser');
-            $asl->addItem($this->lng->txt('finish_test'), $finishHref, $finishHref);
+            $actions[] = $this->ui_factory->link()->standard($this->lng->txt('finish_test'), $finishHref);
         }
-
-        return $asl;
+        $dropdown = $this->ui_factory->dropdown()->standard($actions)->withLabel($this->lng->txt('actions'));
+        return $this->ui_renderer->render($dropdown);
     }
 
     protected function isActionsColumnRequired(): bool
@@ -252,7 +245,7 @@ class ilTestParticipantsTableGUI extends ilTable2GUI
 
     protected function fetchRowKey(array $data): string
     {
-        return $data[$this->getRowKeyDataField()];
+        return (string) $data[$this->getRowKeyDataField()];
     }
 
     protected function fetchTriesValue(array $data): string
@@ -279,8 +272,8 @@ class ilTestParticipantsTableGUI extends ilTable2GUI
 
     protected function buildOkIcon(): string
     {
-        return $this->renderer->render($this->ui_factory->symbol()->icon()->custom(
-            ilUtil::getImagePath("icon_ok.svg"),
+        return $this->ui_renderer->render($this->ui_factory->symbol()->icon()->custom(
+            ilUtil::getImagePath("standard/icon_ok.svg"),
             $this->lng->txt("ok")
         ));
     }

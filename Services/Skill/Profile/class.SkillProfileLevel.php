@@ -21,10 +21,12 @@ declare(strict_types=1);
 
 namespace ILIAS\Skill\Profile;
 
+use ILIAS\Skill\GapAnalysisSkill;
+
 /**
  * @author Thomas Famula <famula@leifos.de>
  */
-class SkillProfileLevel
+class SkillProfileLevel implements GapAnalysisSkill
 {
     protected int $profile_id = 0;
     protected int $base_skill_id = 0;

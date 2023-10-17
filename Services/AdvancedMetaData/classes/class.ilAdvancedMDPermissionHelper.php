@@ -1,6 +1,5 @@
 <?php
 
-declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -16,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Advanced metadata permission helper
@@ -35,7 +36,10 @@ class ilAdvancedMDPermissionHelper extends ilClaimingPermissionHelper
     public const CONTEXT_SUBSTITUTION_IASS = 8;
     public const CONTEXT_SUBSTITUTION_GROUP = 9;
     public const CONTEXT_SUBSTITUTION_EXERCISE = 10;
+
     public const CONTEXT_SUBSTITUTION_FILE = 11;
+    public const CONTEXT_SUBSTITUTION_PRG = 12;
+    public const CONTEXT_SUBSTITUTION_ORG_UNIT = 13;
 
     public const ACTION_MD_CREATE_RECORD = 1;
     public const ACTION_MD_IMPORT_RECORDS = 2;
@@ -78,6 +82,12 @@ class ilAdvancedMDPermissionHelper extends ilClaimingPermissionHelper
     public const ACTION_SUBSTITUTION_FILE_SHOW_FIELD = 31;
     public const ACTION_SUBSTITUTION_FILE_EDIT_FIELD_PROPERTY = 32;
 
+    public const ACTION_SUBSTITUTION_PRG_SHOW_FIELD = 33;
+    public const ACTION_SUBSTITUTION_PRG_EDIT_FIELD_PROPERTY = 34;
+
+    public const ACTION_SUBSTITUTION_ORG_UNIT_SHOW_FIELD = 35;
+    public const ACTION_SUBSTITUTION_ORG_UNIT_EDIT_FIELD_PROPERTY = 36;
+
     public const SUBACTION_RECORD_TITLE = 1;
     public const SUBACTION_RECORD_DESCRIPTION = 2;
     public const SUBACTION_RECORD_OBJECT_TYPES = 3;
@@ -113,6 +123,8 @@ class ilAdvancedMDPermissionHelper extends ilClaimingPermissionHelper
             case self::CONTEXT_SUBSTITUTION_IASS:
             case self::CONTEXT_SUBSTITUTION_EXERCISE:
             case self::CONTEXT_SUBSTITUTION_FILE:
+            case self::CONTEXT_SUBSTITUTION_PRG:
+            case self::CONTEXT_SUBSTITUTION_ORG_UNIT:
                 $set = $ilDB->query("SELECT field_id id" .
                     " FROM adv_mdf_definition");
                 break;
@@ -287,7 +299,33 @@ class ilAdvancedMDPermissionHelper extends ilClaimingPermissionHelper
                             self::SUBACTION_SUBSTITUTION_NEWLINE
                         )
                 )
-            )
+            ),
+            self::CONTEXT_SUBSTITUTION_PRG => array(
+                "actions" => array(
+                    self::ACTION_SUBSTITUTION_PRG_SHOW_FIELD
+                ),
+                "subactions" => array(
+                    self::ACTION_SUBSTITUTION_PRG_EDIT_FIELD_PROPERTY =>
+                        array(
+                            self::SUBACTION_SUBSTITUTION_BOLD
+                            ,
+                            self::SUBACTION_SUBSTITUTION_NEWLINE
+                        )
+                )
+            ),
+            self::CONTEXT_SUBSTITUTION_ORG_UNIT => [
+                "actions" => [
+                    self::ACTION_SUBSTITUTION_ORG_UNIT_SHOW_FIELD
+                ],
+                "subactions" => [
+                    self::ACTION_SUBSTITUTION_ORG_UNIT_EDIT_FIELD_PROPERTY =>
+                        [
+                            self::SUBACTION_SUBSTITUTION_BOLD
+                            ,
+                            self::SUBACTION_SUBSTITUTION_NEWLINE
+                        ]
+                ]
+            ]
         );
     }
 

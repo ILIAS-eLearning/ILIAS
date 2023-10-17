@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * @author		Björn Heyser <bheyser@databay.de>
  * @version		$Id$
@@ -358,8 +360,8 @@ class ilTestQuestionHeaderBlockBuilder implements ilQuestionHeaderBlockBuilder
             $tpl->setVariable('HIDDEN_ANSWERED', 'hidden');
         }
 
-        $tpl->setVariable('SRC_ANSWERED', ilUtil::getImagePath('answered.svg'));
-        $tpl->setVariable('SRC_NOT_ANSWERED', ilUtil::getImagePath('answered_not.svg'));
+        $tpl->setVariable('SRC_ANSWERED', ilUtil::getImagePath('object/answered.svg'));
+        $tpl->setVariable('SRC_NOT_ANSWERED', ilUtil::getImagePath('object/answered_not.svg'));
         $tpl->setVariable('TXT_ANSWERED', $this->lng->txt('tst_answer_status_answered'));
         $tpl->setVariable('TXT_NOT_ANSWERED', $this->lng->txt('tst_answer_status_not_answered'));
         $tpl->setVariable('TXT_EDITING', $this->lng->txt('tst_answer_status_editing'));

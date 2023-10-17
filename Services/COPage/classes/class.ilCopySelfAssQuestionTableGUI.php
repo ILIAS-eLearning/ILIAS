@@ -16,12 +16,15 @@
  *
  *********************************************************************/
 
+use ILIAS\TestQuestionPool\QuestionInfoService;
+
 /**
  * Table to select self assessment questions for copying into learning resources
  * @author Alexander Killing <killing@leifos.de>
  */
 class ilCopySelfAssQuestionTableGUI extends ilTable2GUI
 {
+    private QuestionInfoService $questioninfo;
     protected ilAccessHandler $access;
     protected int $pool_ref_id;
     protected int $pool_obj_id;
@@ -35,6 +38,7 @@ class ilCopySelfAssQuestionTableGUI extends ilTable2GUI
 
         $this->ctrl = $DIC->ctrl();
         $this->access = $DIC->access();
+        $this->questioninfo = $DIC->testQuestionPool()->questionInfo();
 
         $this->setId("cont_qpl");
         $this->pool_ref_id = $a_pool_ref_id;
@@ -121,7 +125,7 @@ class ilCopySelfAssQuestionTableGUI extends ilTable2GUI
         $this->tpl->setVariable("TITLE", $a_set["title"]);
         $this->tpl->setVariable(
             "TYPE",
-            assQuestion::_getQuestionTypeName($a_set["type_tag"])
+            $this->questioninfo->getQuestionType($a_set["question_id"])
         );
     }
 }

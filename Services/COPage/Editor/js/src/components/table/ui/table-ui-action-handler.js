@@ -51,6 +51,7 @@ export default class TableUIActionHandler {
     this.client = client;
     this.dispatcher = null;
     this.tableUI = null;
+    this.old_selected = false;
   }
 
   /**
@@ -73,14 +74,15 @@ export default class TableUIActionHandler {
    * @param {TableModel} table_model
    */
   handle(action, page_model, table_model) {
-
     const dispatcher = this.dispatcher;
     const actionFactory = this.actionFactory;
     const client = this.client;
     let form_sent = false;
 
+    if (!this.tableUI.in_data_table) {
+      return;
+    }
     const params = action.getParams();
-
     if (action.getComponent() === "Paragraph") {
       this.tableUI.updateModelFromCell();
     }
@@ -97,9 +99,25 @@ export default class TableUIActionHandler {
           this.sendUpdateDataCommand(
             page_model.getCurrentPCId(),
             page_model.getPCModel(page_model.getCurrentPCId()),
-            true
+            false
           );
+          this.tableUI.refreshUIFromModelState(page_model, table_model);
+          this.tableUI.tinyWrapper.stopEditing();
 //          this.ui.handleSaveOnEdit();
+          break;
+
+        case ACTIONS.CANCEL_CELL_EDIT:
+          this.tableUI.refreshUIFromModelState(page_model, table_model);
+          this.tableUI.tinyWrapper.stopEditing();
+          this.sendTableModificationCommand(
+            page_model.getCurrentPCId(),
+            page_model.getPCModel(page_model.getCurrentPCId()),
+            page_model,
+            "none",
+            0,
+            0,
+            0
+          );
           break;
 
         case ACTIONS.COL_BEFORE:
@@ -112,14 +130,14 @@ export default class TableUIActionHandler {
         case ACTIONS.ROW_DELETE:
         case ACTIONS.ROW_UP:
         case ACTIONS.ROW_DOWN:
-          console.log(params);
           this.sendTableModificationCommand(
             params.tablePcid,
             page_model.getPCModel(params.tablePcid),
             page_model,
             action.getType(),
             params.nr,
-            params.cellPcid
+            params.cellPcid,
+            params.cnt
           );
           break;
 
@@ -130,7 +148,68 @@ export default class TableUIActionHandler {
             false
           );
           break;
+
+        case ACTIONS.SWITCH_EDIT_TABLE:
+          this.tableUI.refreshUIFromModelState(page_model, table_model);
+          this.tableUI.initDropdowns();
+          this.tableUI.markSelectedCells();
+          break;
+
+        case ACTIONS.SWITCH_FORMAT_CELLS:
+          this.tableUI.refreshUIFromModelState(page_model, table_model);
+          this.tableUI.initHeadSelection();
+          break;
+
+        case ACTIONS.SWITCH_MERGE_CELLS:
+          this.tableUI.refreshUIFromModelState(page_model, table_model);
+          this.tableUI.initHeadSelection();
+          break;
+
+        case ACTIONS.PROPERTIES_SET:
+          this.sendPropertiesSet(
+            params.pcid,
+            params.selected,
+            params.data,
+            page_model,
+            table_model
+          );
+          break;
+
+        case ACTIONS.TOGGLE_MERGE:
+          this.sendToggleMerge(
+            params.pcid,
+            params.selected,
+            page_model,
+            table_model
+          );
+          break;
+
+        case ACTIONS.TOGGLE_CELL:
+        case ACTIONS.TOGGLE_ROW:
+        case ACTIONS.TOGGLE_TABLE:
+        case ACTIONS.TOGGLE_COL:
+          this.tableUI.updateMergeButton(page_model,
+            table_model);
+          break;
       }
+
+    }
+    if (action.getComponent() === "DataTable") {
+      switch (action.getType()) {
+        case PAGE_ACTIONS.COMPONENT_FORM_LOADED:
+          this.tableUI.initAfterFormLoaded();
+          break;
+      }
+    }
+
+    if (table_model.getState() === table_model.STATE_CELLS ||
+      table_model.getState() === table_model.STATE_MERGE) {
+      this.tableUI.markSelectedCells();
+      // switch info text and action buttons, if selected status changes
+      if (table_model.hasSelected() !== this.old_selected) {
+        this.tableUI.refreshUIFromModelState(page_model, table_model);
+      }
+      this.old_selected = table_model.hasSelected();
     }
   }
 
@@ -156,14 +235,15 @@ export default class TableUIActionHandler {
     });
   }
 
-  sendTableModificationCommand(tablePcid, pcmodel, page_model, modification, nr, cellPcid) {
+  sendTableModificationCommand(tablePcid, pcmodel, page_model, modification, nr, cellPcid, cnt) {
     const af = this.actionFactory;
     const update_action = af.table().command().modifyTable(
       tablePcid,
       pcmodel.content,
       modification,
       nr,
-      cellPcid
+      cellPcid,
+      cnt
     );
     console.log(this.client);
     this.client.sendCommand(update_action).then(result => {
@@ -179,17 +259,52 @@ export default class TableUIActionHandler {
       this.tableUI.tinyWrapper.stopEditing();
       tableArea.outerHTML = pl.renderedContent;
 
-      console.log(pl.renderedContent);
-      console.log("PCMODEL---");
-      console.log(pl.pcModel);
-
       for (const [key, value] of Object.entries(pl.pcModel)) {
         page_model.setPCModel(key, value);
       }
 
       //      il.IntLink.refresh();           // missing
+      this.tableUI.head_selection_initialised = false;
       this.tableUI.reInit();
     }
+  }
+
+  sendPropertiesSet(pcid, selected, data, page_model, table_model) {
+    let setPropertiesAction;
+    const af = this.actionFactory;
+    const dispatch = this.dispatcher;
+
+    setPropertiesAction = af.table().command().setProperties(
+      pcid,
+      "Table",
+      selected,
+      data
+    );
+
+    this.client.sendCommand(setPropertiesAction).then(result => {
+      const pl = result.getPayload();
+      this.handleModificationResponse(pl, page_model);
+      dispatch.dispatch(af.table().editor().switchFormatCells());
+    });
+  }
+
+  sendToggleMerge(pcid, selected, page_model, table_model) {
+    let toggleMergeAction;
+    const af = this.actionFactory;
+    const dispatch = this.dispatcher;
+
+    toggleMergeAction = af.table().command().toggleMerge(
+      pcid,
+      "Table",
+      selected
+    );
+
+    this.client.sendCommand(toggleMergeAction).then(result => {
+      const pl = result.getPayload();
+      this.handleModificationResponse(pl, page_model);
+      table_model.selectNone();
+      dispatch.dispatch(af.table().editor().switchMergeCells());
+    });
   }
 
 }
