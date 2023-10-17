@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,7 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
 
 interface PRGAssignmentRepository
 {
@@ -48,6 +47,16 @@ interface PRGAssignmentRepository
         array $user_filter = null,
         ilPRGAssignmentFilter $custom_filters = null
     ): array;
+
+    /**
+     * Count all assignments for all (or given) users,
+     * where the given node is part of the assignment.
+     */
+    public function countAllForNodeIsContained(
+        int $prg_obj_id,
+        array $user_filter = null,
+        ilPRGAssignmentFilter $custom_filters = null
+    ): int;
 
     /**
     * get all assignments for all (or given) users,
