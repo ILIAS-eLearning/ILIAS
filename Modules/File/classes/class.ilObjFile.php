@@ -382,6 +382,11 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
         $this->amount_of_downloads = $amount;
     }
 
+    public function getLPMode(): int
+    {
+        return ilObjectLP::getInstance($this->getId())->getCurrentMode();
+    }
+
     /**
      * @param $a_action
      * @return never

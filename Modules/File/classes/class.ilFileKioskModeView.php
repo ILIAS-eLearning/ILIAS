@@ -103,7 +103,7 @@ class ilFileKioskModeView extends ilKioskModeView
     public function render(State $state, Factory $factory, URLBuilder $url_builder, array $post = null): Component
     {
         $file_gui = new ilObjFileGUI($this->file_obj->getRefId());
-        return $factory->legacy($file_gui->getInfoScreenForKioskMode()->getHTML());
+        return $factory->legacy($file_gui->buildInfoScreen(true)->getHTML());
     }
 
     protected function buildLearningProgressToggleControl(ControlBuilder $builder): ControlBuilder

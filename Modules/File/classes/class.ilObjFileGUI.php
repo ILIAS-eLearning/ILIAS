@@ -691,29 +691,72 @@ class ilObjFileGUI extends ilObject2GUI
             $GLOBALS['DIC']['ilErr']->raiseError($this->lng->txt("msg_no_perm_read"));
         }
 
+        // add set completed button, if LP mode is active
+        if ($this->object->getLPMode() === ilLPObjSettings::LP_MODE_MANUAL) {
+            if (ilLPStatus::_hasUserCompleted($this->object->getId(), $this->user->getId())) {
+                $label = $this->lng->txt('file_btn_lp_toggle_state_not_completed');
+            } else {
+                $label = $this->lng->txt('file_btn_lp_toggle_state_completed');
+            }
+            $this->toolbar->addComponent(
+                $this->ui->factory()->button()->standard(
+                    $label,
+                    $this->ctrl->getLinkTarget($this, 'toggleLearningProgress')
+                )
+            );
+        }
+
+        $info = $this->buildInfoScreen(false);
+        $this->ctrl->forwardCommand($info);
+    }
+
+    protected function toggleLearningProgress(): void
+    {
+        if (!ilLPStatus::_hasUserCompleted($this->object->getId(), $this->user->getId())) {
+            ilLPStatus::writeStatus(
+                $this->object->getId(),
+                $this->user->getId(),
+                ilLPStatus::LP_STATUS_COMPLETED_NUM
+            );
+        } else {
+            ilLPStatus::writeStatus(
+                $this->object->getId(),
+                $this->user->getId(),
+                ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM
+            );
+        }
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_obj_modified'), true);
+        $this->ctrl->redirect($this, 'infoScreen');
+    }
+
+    public function buildInfoScreen(bool $kiosk_mode): ilInfoScreenGUI
+    {
         $info = new ilInfoScreenGUI($this);
 
-        $info->enablePrivateNotes();
+        if(!$kiosk_mode) { // in kiosk mode we don't want to show the following sections
+            $info->enablePrivateNotes();
 
-        if ($this->checkPermissionBool("read")) {
-            $info->enableNews();
-        }
-
-        // no news editing for files, just notifications
-        $info->enableNewsEditing(false);
-        if ($this->checkPermissionBool("write")) {
-            $news_set = new ilSetting("news");
-            $enable_internal_rss = $news_set->get("enable_rss_for_internal");
-
-            if ($enable_internal_rss) {
-                $info->setBlockProperty("news", "settings", true);
-                $info->setBlockProperty("news", "public_notifications_option", true);
+            if ($this->checkPermissionBool("read")) {
+                $info->enableNews();
             }
-        }
 
-        $record_gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_INFO, 'file', $this->object->getId());
-        $record_gui->setInfoObject($info);
-        $record_gui->parse();
+            // no news editing for files, just notifications
+            $info->enableNewsEditing(false);
+            if ($this->checkPermissionBool("write")) {
+                $news_set = new ilSetting("news");
+                $enable_internal_rss = $news_set->get("enable_rss_for_internal");
+
+                if ($enable_internal_rss) {
+                    $info->setBlockProperty("news", "settings", true);
+                    $info->setBlockProperty("news", "public_notifications_option", true);
+                }
+            }
+
+            $record_gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_INFO, 'file', $this->object->getId());
+            $record_gui->setInfoObject($info);
+            $record_gui->parse();
+        }
+        // show rating is not possible in kiosk mode
 
         // Important Information
         $important_info = $this->object->getImportantInfo();
@@ -749,62 +792,22 @@ class ilObjFileGUI extends ilObject2GUI
 
         // File Info
         $info->addSection($this->lng->txt("file_info"));
-        $file_info = $this->getAllFileInfoForCurrentUser();
-        foreach ($file_info as $file_info_block) {
-            foreach ($file_info_block as $file_info_entry_key => $file_info_entry_value) {
-                if ($file_info_entry_value !== null) {
-                    $info->addProperty($file_info_entry_key, $file_info_entry_value);
+        if ($kiosk_mode) {
+            $file_info_for_users = $this->getFileInfoForUsers();
+            foreach ($file_info_for_users as $file_info_entry_key => $file_info_entry_value) {
+                $file_info_for_users = $this->getFileInfoForUsers();
+            }
+        } else {
+            $file_info = $this->getAllFileInfoForCurrentUser();
+            foreach ($file_info as $file_info_block) {
+                foreach ($file_info_block as $file_info_entry_key => $file_info_entry_value) {
+                    if ($file_info_entry_value !== null) {
+                        $info->addProperty($file_info_entry_key, $file_info_entry_value);
+                    }
                 }
             }
         }
 
-        $this->ctrl->forwardCommand($info);
-    }
-
-    public function getInfoScreenForKioskMode(): ilInfoScreenGUI
-    {
-        $info = new ilInfoScreenGUI($this);
-
-        // Important Information
-        $important_info = $this->object->getImportantInfo();
-        if (!empty($important_info)) {
-            $group = new Group(new Factory(), $this->lng);
-            $markdown_to_html = $group->markdown()->toHTML();
-
-            $info->addSection($this->lng->txt("important_info"));
-            $info->addProperty("", $markdown_to_html->transform($important_info));
-        }
-
-        // Download Launcher
-        if ($this->checkPermissionBool("read", "sendfile")) {
-            // get permanent download link for repository
-            if ($this->id_type === self::REPOSITORY_NODE_ID) {
-                $download_target = ilObjFileAccess::_getPermanentDownloadLink($this->node_id);
-            } else {
-                $download_target = $this->ctrl->getLinkTarget($this, "sendfile");
-            }
-            $url = $this->data_factory->uri($download_target);
-            $link = $this->data_factory->link($this->lng->txt('file_download'), $url);
-            $download_launcher = $this->ui->factory()->launcher()->inline($link);
-            // create own section for download launcher if there is no important info section
-            if (empty($important_info)) {
-                $info->addSection("");
-            }
-            // add download launcher
-            $info->addProperty("", $this->renderer->render($download_launcher));
-        }
-
-        // standard meta data
-        $info->addMetaDataSections($this->object->getId(), 0, $this->object->getType());
-
-        // File Info
-        $info->addSection($this->lng->txt("file_info"));
-        $file_info_for_users = $this->getFileInfoForUsers();
-        foreach ($file_info_for_users as $file_info_entry_key => $file_info_entry_value) {
-            if ($file_info_entry_value !== null) {
-                $info->addProperty((string) $file_info_entry_key, (string) $file_info_entry_value);
-            }
-        }
 
         $info->hideFurtherSections(false);
 
