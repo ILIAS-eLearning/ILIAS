@@ -117,10 +117,10 @@ class SkillService implements SkillServiceInterface
     /**
      * Internal service for Skill classes in Survey Module
      */
-    /*public function internalSurvey(): Survey\Skills\SkillInternalService
+    public function internalSurvey(): Survey\Skills\SkillInternalService
     {
         return new Survey\Skills\SkillInternalService();
-    }*/
+    }
 
     /**
      * Internal service for Skill classes in Test Module

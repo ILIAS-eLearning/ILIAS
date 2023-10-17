@@ -29,4 +29,7 @@
 		<context id="svy_rater_inv" class="ilSurveyMailTemplateRaterInvitationContext" />
 	</mailtemplates>
 	<logging />
+	<events>
+		<event type="listen" id="Services/Skill" />
+	</events>
 </module>
