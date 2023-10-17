@@ -1099,7 +1099,14 @@ class ilObjStudyProgramme extends ilContainer
      */
     public function hasAssignments(): bool
     {
-        return count($this->getAssignments()) > 0;
+        $filter = new ilPRGAssignmentFilter($this->lng);
+        $count = $this->assignment_repository->countAllForNodeIsContained(
+            $this->getId(),
+            null,
+            $filter
+        );
+        return $count > 0;
+
     }
 
     /**

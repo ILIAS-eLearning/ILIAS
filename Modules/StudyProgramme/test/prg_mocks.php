@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 //NIFT: NotImplementedForTesting
 trait ProgressRepoMockNIFT
@@ -87,6 +87,10 @@ trait AssignmentRepoMockNIFT
         throw new Exception("Not implemented for testing", 1);
     }
     public function getAllForNodeIsContained(int $prg_obj_id, ?array $user_filter = null, ?ilPRGAssignmentFilter $custom_filters = null): array
+    {
+        throw new Exception("Not implemented for testing", 1);
+    }
+    public function countAllForNodeIsContained(int $prg_obj_id, array $user_filter = null, ilPRGAssignmentFilter $custom_filters = null): int
     {
         throw new Exception("Not implemented for testing", 1);
     }

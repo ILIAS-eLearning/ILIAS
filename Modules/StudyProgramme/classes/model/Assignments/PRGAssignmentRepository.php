@@ -18,7 +18,6 @@
 
 declare(strict_types=1);
 
-
 interface PRGAssignmentRepository
 {
     public function createFor(
@@ -48,6 +47,16 @@ interface PRGAssignmentRepository
         array $user_filter = null,
         ilPRGAssignmentFilter $custom_filters = null
     ): array;
+
+    /**
+     * Count all assignments for all (or given) users,
+     * where the given node is part of the assignment.
+     */
+    public function countAllForNodeIsContained(
+        int $prg_obj_id,
+        array $user_filter = null,
+        ilPRGAssignmentFilter $custom_filters = null
+    ): int;
 
     /**
     * get all assignments for all (or given) users,
