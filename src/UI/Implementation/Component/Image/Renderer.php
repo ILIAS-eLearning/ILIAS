@@ -44,15 +44,18 @@ class Renderer extends AbstractComponentRenderer
 
         if (($sources = $component->getAdditionalHighResSources()) !== []) {
             $component = $component->withAdditionalOnLoadCode(
-                fn(string $id): string => "
+                fn (string $id): string => "
                     const imageElement = il.UI.image.getImageElement('$id');
                     if (imageElement === null) {
                         throw new Error(`Image '$id' not found.`);
                     }
-                    il.UI.image.loadHighResolutionSource(
-                        imageElement,
-                        {$this->getHighResSourceMapForJs($sources)}
-                    );
+
+                    $(window).load(() => {
+                        il.UI.image.loadHighResolutionSource(
+                            imageElement,
+                            {$this->getHighResSourceMapForJs($sources)}
+                        );
+                    });
                 "
             );
         }
