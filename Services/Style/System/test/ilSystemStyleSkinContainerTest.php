@@ -1,5 +1,21 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 include_once("Services/Style/System/classes/Utilities/class.ilSkinStyleXML.php");
 include_once("Services/Style/System/classes/Utilities/class.ilSkinXML.php");
 include_once("Services/Style/System/classes/Utilities/class.ilSystemStyleSkinContainer.php");
@@ -52,7 +68,7 @@ class ilSystemStyleSkinContainerTest extends TestCase
         if (!defined('PATH_TO_LESSC')) {
             if (file_exists("ilias.ini.php")) {
                 $ini = parse_ini_file("ilias.ini.php", true);
-                define('PATH_TO_LESSC', $ini['tools']['lessc']);
+                define('PATH_TO_LESSC', $ini['tools']['lessc'] ?? '');
             } else {
                 define('PATH_TO_LESSC', "");
             }
@@ -269,6 +285,8 @@ class ilSystemStyleSkinContainerTest extends TestCase
 
     public function testImportSkin()
     {
+        $this->markTestSkipped('Unzipping is not possible due to missing dependencies');
+        return;
         if (!defined('PATH_TO_ZIP')) {
             if (file_exists("ilias.ini.php")) {
                 $ini = parse_ini_file("ilias.ini.php", true);
