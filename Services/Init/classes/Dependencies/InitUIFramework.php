@@ -53,6 +53,18 @@ class InitUIFramework
                 $c["ui.factory.legacy"]
             );
         };
+        $c['ui.toast_settings'] = function(\ILIAS\DI\Container $c) {
+            $vanish_time = ILIAS\UI\Implementation\Component\Toast\Toast::DEFAULT_VANISH_TIME;
+            $delay_time = ILIAS\UI\Implementation\Component\Toast\Toast::DEFAULT_DELAY_TIME;
+            if (isset($c['ilSetting'])) {
+                $vanish_time = (int) $c->settings()::_lookupValue('notifications', 'osd_vanish') ?? $vanish_time;
+                $delay_time = (int) $c->settings()::_lookupValue('notifications', 'osd_delay') ?? $delay_time;
+            }
+            return [
+                'vanish_time' => $vanish_time,
+                'delay_time' => $delay_time
+            ];
+        };
         $c["ui.upload_limit_resolver"] = function ($c) {
             return new \ILIAS\UI\Implementation\Component\Input\UploadLimitResolver(
                 (int) \ilFileUtils::getUploadSizeLimitBytes()
@@ -260,6 +272,16 @@ class InitUIFramework
                             $c["ui.javascript_binding"],
                             $c["refinery"],
                             $c["ui.pathresolver"]
+                        ),
+                        new ILIAS\UI\Implementation\Component\Toast\ToastRendererFactory(
+                            $c['ui.factory'],
+                            $c['ui.template_factory'],
+                            $c['lng'],
+                            $c['ui.javascript_binding'],
+                            $c['refinery'],
+                            $c['ui.pathresolver'],
+                            $c['ui.toast_settings']['vanish_time'],
+                            $c['ui.toast_settings']['delay_time']
                         )
                     )
                 )

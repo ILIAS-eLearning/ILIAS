@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 require_once(__DIR__ . "/TestComponent.php");
 
@@ -63,7 +63,8 @@ class ComponentRendererFSLoaderTest extends TestCase
         $this->icon_renderer = $this->createMock(I\Render\RendererFactory::class);
 
         $field_renderer = $this->createMock(I\Render\RendererFactory::class);
-        return new FSLoader($default_renderer_factory, $this->glyph_renderer, $this->icon_renderer, $field_renderer);
+        $toast_renderer = $this->createMock(I\Render\RendererFactory::class);
+        return new FSLoader($default_renderer_factory, $this->glyph_renderer, $this->icon_renderer, $field_renderer, $toast_renderer);
     }
 
     public function test_getRenderer_successfully(): void

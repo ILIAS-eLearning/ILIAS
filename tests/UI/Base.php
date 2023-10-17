@@ -24,6 +24,7 @@ require_once(__DIR__ . "/../../Services/Language/classes/class.ilLanguage.php");
 use ILIAS\UI\Component as C;
 use ILIAS\UI\Component\Component as IComponent;
 use ILIAS\UI\Implementaiton\Component as I;
+use ILIAS\UI\Implementation\Component\Toast\ToastRendererFactory;
 use ILIAS\UI\Implementation\Render\DecoratedRenderer;
 use ILIAS\UI\Implementation\Render\TemplateFactory;
 use ILIAS\UI\Implementation\Render\ResourceRegistry;
@@ -396,6 +397,16 @@ abstract class ILIAS_UI_TestBase extends TestCase
                         $js_binding,
                         $refinery,
                         $image_path_resolver
+                    ),
+                    new ToastRendererFactory(
+                        $ui_factory,
+                        $tpl_factory,
+                        $lng,
+                        $js_binding,
+                        $refinery,
+                        $image_path_resolver,
+                        5000,
+                        500
                     )
                 )
             )

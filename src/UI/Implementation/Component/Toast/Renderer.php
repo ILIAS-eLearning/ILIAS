@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,18 +16,42 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\UI\Implementation\Component\Toast;
 
 use ILIAS\UI\Component\Button\Shy;
 use ILIAS\UI\Component\Link\Link;
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
+use ILIAS\UI\Implementation\Render\ImagePathResolver;
+use ILIAS\UI\Implementation\Render\JavaScriptBinding;
 use ILIAS\UI\Implementation\Render\ResourceRegistry;
+use ILIAS\UI\Implementation\Render\TemplateFactory;
 use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Component;
+use ilLanguage;
 use LogicException;
 
 class Renderer extends AbstractComponentRenderer
 {
+    protected int $vanish_time;
+    protected int $delay_time;
+
+    public function __construct(
+        \ILIAS\UI\Factory $ui_factory,
+        TemplateFactory $tpl_factory,
+        ilLanguage $lng,
+        JavaScriptBinding $js_binding,
+        \ILIAS\Refinery\Factory $refinery,
+        ImagePathResolver $image_path_resolver,
+        int $vanish_time,
+        int $delay_time
+    ){
+        $this->vanish_time = $vanish_time;
+        $this->delay_time = $delay_time;
+        parent::__construct($ui_factory, $tpl_factory, $lng, $js_binding, $refinery, $image_path_resolver);
+    }
+
     /**
      * @inheritdoc
      */
@@ -59,8 +81,8 @@ class Renderer extends AbstractComponentRenderer
         }
         $tpl->setVariable("TITLE", $title);
 
-        $tpl->setVariable("TOAST_DELAY", $component->getDelayTime());
-        $tpl->setVariable("TOAST_VANISH", $component->getVanishTime());
+        $tpl->setVariable("TOAST_VANISH", $this->vanish_time);
+        $tpl->setVariable("TOAST_DELAY", $this->delay_time);
         $tpl->setVariable("VANISH_ASYNC", $component->getAction());
 
         $desc = htmlentities($component->getDescription());
