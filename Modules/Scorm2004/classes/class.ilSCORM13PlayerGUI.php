@@ -239,7 +239,7 @@ class ilSCORM13PlayerGUI
                         null,
                         $this->userId
                     );
-                //error_log("Saved CMI Data");
+                    //error_log("Saved CMI Data");
                 } else {
                     $this->fetchCMIData();
                 }
@@ -413,7 +413,7 @@ class ilSCORM13PlayerGUI
         $config['package_url'] = $this->getDataDirectory() . "/";
 
         //editor
-        //        $config['envEditor'] = $this->envEditor;
+        $config['envEditor'] = 0;
 
         //debug
         $config['debug'] = $this->slm->getDebug();
