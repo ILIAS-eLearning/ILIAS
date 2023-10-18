@@ -79,6 +79,7 @@ class ilTestServiceGUI
     protected SkillService $skills_service;
     protected ilTestShuffler $shuffler;
     protected ilTestResultsFactory $results_factory;
+    protected ilTestResultsPresentationFactory $results_presentation_factory;
 
     protected ILIAS $ilias;
     protected ilSetting $settings;
