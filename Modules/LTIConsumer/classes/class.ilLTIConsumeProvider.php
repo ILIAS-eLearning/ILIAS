@@ -1064,21 +1064,21 @@ class ilLTIConsumeProvider
 
     // public function getPlattformId(): string
     // {
-        // return ILIAS_HTTP_PATH;
+    // return ILIAS_HTTP_PATH;
     // }
 
     // public function getAuthenticationRequestUrl(): string
     // {
-        // return ILIAS_HTTP_PATH . "/Modules/LTIConsumer/ltiauth.php";
+    // return ILIAS_HTTP_PATH . "/Modules/LTIConsumer/ltiauth.php";
     // }
 
     // public function getAccessTokenUrl(): string
     // {
-        // return ILIAS_HTTP_PATH . "/Modules/LTIConsumer/ltitoken.php";
+    // return ILIAS_HTTP_PATH . "/Modules/LTIConsumer/ltitoken.php";
     // }
 
     // public function getPublicKeysetUrl(): string
     // {
-        // return ILIAS_HTTP_PATH . "/Modules/LTIConsumer/lticerts.php";
+    // return ILIAS_HTTP_PATH . "/Modules/LTIConsumer/lticerts.php";
     // }
 }

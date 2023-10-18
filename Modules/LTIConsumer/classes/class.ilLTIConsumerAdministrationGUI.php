@@ -123,7 +123,7 @@ class ilLTIConsumerAdministrationGUI
         }
     }
 
-//    todo?
+    //    todo?
     protected function applyGlobalProviderFilterCmd(): void
     {
         $table = $this->buildProviderTable($this, self::CMD_SHOW_GLOBAL_PROVIDER);
@@ -440,7 +440,7 @@ class ilLTIConsumerAdministrationGUI
 
     private function checkIconFileExtension(string $ext): bool
     {
-//        todo - check?
+        //        todo - check?
         return false !== ($check = array_search($ext, self::ALLOWED_FILE_EXT)) ? true : false;
     }
 
@@ -906,7 +906,7 @@ class ilLTIConsumerAdministrationGUI
 
     protected function showSettingsCmd(?ilPropertyFormGUI $form = null): void
     {
-//        todo - check
+        //        todo - check
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
 
         return; // no settings at all currently
@@ -922,7 +922,7 @@ class ilLTIConsumerAdministrationGUI
 
     protected function saveSettingsCmd(): void
     {
-//        todo - check
+        //        todo - check
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
 
         return; // no settings at all currently
