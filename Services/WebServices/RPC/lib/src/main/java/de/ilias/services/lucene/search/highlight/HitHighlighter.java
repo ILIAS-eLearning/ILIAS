@@ -22,39 +22,29 @@
 
 package de.ilias.services.lucene.search.highlight;
 
-import java.io.IOException;
-import java.io.StringReader;
-import java.sql.SQLException;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.lucene.analysis.TokenStream;
-import org.apache.lucene.analysis.standard.StandardAnalyzer;
-import org.apache.lucene.document.Document;
-import org.apache.lucene.document.Field;
-import org.apache.lucene.index.CorruptIndexException;
-import org.apache.lucene.search.IndexSearcher;
-import org.apache.lucene.search.Query;
-import org.apache.lucene.search.ScoreDoc;
-import org.apache.lucene.search.highlight.Fragmenter;
-import org.apache.lucene.search.highlight.Highlighter;
-import org.apache.lucene.search.highlight.QueryScorer;
-import org.apache.lucene.search.highlight.SimpleFragmenter;
-import org.apache.lucene.search.highlight.SimpleHTMLFormatter;
-
 import de.ilias.services.lucene.index.FieldInfo;
 import de.ilias.services.lucene.search.SearchHolder;
 import de.ilias.services.lucene.settings.LuceneSettings;
 import de.ilias.services.settings.ConfigurationException;
 import de.ilias.services.settings.LocalSettings;
+import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.lucene.analysis.TokenStream;
+import org.apache.lucene.analysis.standard.StandardAnalyzer;
+import org.apache.lucene.document.Document;
+import org.apache.lucene.index.CorruptIndexException;
 import org.apache.lucene.index.IndexableField;
-import org.apache.lucene.search.highlight.InvalidTokenOffsetsException;
+import org.apache.lucene.search.IndexSearcher;
+import org.apache.lucene.search.Query;
+import org.apache.lucene.search.ScoreDoc;
+import org.apache.lucene.search.highlight.*;
+
+import java.io.IOException;
+import java.io.StringReader;
+import java.sql.SQLException;
 
 /**
- * 
- *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
- * @version $Id$
  */
 public class HitHighlighter {
 
@@ -77,12 +67,6 @@ public class HitHighlighter {
 	private LuceneSettings luceneSettings;
 	
 	
-	/**
-	 * @throws IOException 
-	 * @throws ConfigurationException 
-	 * @throws SQLException 
-	 * 
-	 */
 	public HitHighlighter(Query query,ScoreDoc[] hits) throws ConfigurationException, IOException, SQLException {
 
 		this.query = query;
@@ -90,18 +74,12 @@ public class HitHighlighter {
 		init();
 	}
 	
-	/**
-	 * @throws IOException 
-	 * @throws CorruptIndexException 
-	 * 
-	 */
 	public void highlight() throws CorruptIndexException, IOException, InvalidTokenOffsetsException {
 
 		result = new HighlightHits();
 		HighlightObject resObject;
 		HighlightItem resItem;
-		HighlightField resField;
-		
+
 		TokenStream token;
 		String fragment;
 		
@@ -113,8 +91,8 @@ public class HitHighlighter {
 				result.setMaxScore(hits[i].score);
 			}
 			
-			StringBuffer allContent = new StringBuffer();
-			Document hitDoc = searcher.doc(hits[i].doc);
+			StringBuilder allContent = new StringBuilder();
+			Document hitDoc = searcher.getIndexReader().storedFields().document(hits[i].doc);
 
 			int objId;
 			int subItem;
@@ -164,23 +142,23 @@ public class HitHighlighter {
 				}
 			}
 			// All content
-			for(int j = 0; j < fields.length; j++) {
-				
-				// Do not add metaData Field, since this information is stored redundant in lom* fields
-				if(fields[j].equals("metaData")) {
-					continue;
-				}
-				
-				if(fields[j].equals("title") || fields[j].equals("description")) {
-					continue;
-				}
-				
-				IndexableField[] separatedFields = hitDoc.getFields(fields[j]);
-				for(int k = 0; k < separatedFields.length; k++) {
-					allContent.append(separatedFields[k].stringValue());
-					allContent.append(" ");
-				}
-			}
+            for (String field : fields) {
+
+                // Do not add metaData Field, since this information is stored redundant in lom* fields
+                if (field.equals("metaData")) {
+                    continue;
+                }
+
+                if (field.equals("title") || field.equals("description")) {
+                    continue;
+                }
+
+                IndexableField[] separatedFields = hitDoc.getFields(field);
+                for (IndexableField separatedField : separatedFields) {
+                    allContent.append(separatedField.stringValue());
+                    allContent.append(" ");
+                }
+            }
 			//logger.debug("All content" + allContent.toString());
 			token =	new StandardAnalyzer().tokenStream("content", new StringReader(allContent.toString()));
 			fragment = highlighter.getBestFragments(
@@ -197,12 +175,6 @@ public class HitHighlighter {
 		}
 	}
 
-	/**
-	 * @throws ConfigurationException 
-	 * @throws IOException 
-	 * @throws SQLException 
-	 * 
-	 */
 	private void init() throws ConfigurationException, IOException, SQLException {
 
 		// init lucene settings
@@ -223,7 +195,7 @@ public class HitHighlighter {
 		Fragmenter titleFragmenter = new SimpleFragmenter(FRAGMENT_TITLE_SIZE);
 		titleHighlighter.setTextFragmenter(titleFragmenter);
 		
-		// init fieldinfo
+		// init field info
 		fieldInfo = FieldInfo.getInstance(LocalSettings.getClientKey());
 		
 		// init searcher
@@ -231,9 +203,6 @@ public class HitHighlighter {
 
     }
 
-	/**
-	 * @return
-	 */
 	public String toXML() {
 
 		return result.toXML();

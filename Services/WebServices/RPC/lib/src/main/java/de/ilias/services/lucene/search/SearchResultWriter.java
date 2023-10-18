@@ -26,7 +26,6 @@ import de.ilias.services.settings.ConfigurationException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.document.Document;
-import org.apache.lucene.index.CorruptIndexException;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.ScoreDoc;
 import org.jdom2.output.XMLOutputter;
@@ -34,25 +33,17 @@ import org.jdom2.output.XMLOutputter;
 import java.io.IOException;
 
 /**
- * 
- *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
- * @version $Id$
  */
 public class SearchResultWriter {
 
 	protected Logger logger = LogManager.getLogger(SearchResultWriter.class);
 	
-	private IndexSearcher searcher = null;
-	private ScoreDoc[] hits = null;
-	private SearchHits result = null;
+	private IndexSearcher searcher;
+	private ScoreDoc[] hits;
+	private SearchHits result;
 	private int offset = 0;
 
-	/**
-	 * @param hits
-	 * @throws ConfigurationException 
-	 * @throws IOException 
-	 */
 	public SearchResultWriter(ScoreDoc[] hits) throws IOException, ConfigurationException {
 		
 		this.hits = hits;
@@ -61,12 +52,7 @@ public class SearchResultWriter {
 		result = new SearchHits();
 	}
 
-	/**
-	 * @throws IOException 
-	 * @throws CorruptIndexException 
-	 * 
-	 */
-	public void write() throws CorruptIndexException, IOException {
+	public void write() throws IOException {
 
 		result.setTotalHits(hits.length);
 		logger.info("Found " + result.getTotalHits() + " hits!");
@@ -89,7 +75,7 @@ public class SearchResultWriter {
 			try {
 				logger.debug("Added object");
 				object = new SearchObject();
-				hitDoc = searcher.doc(hits[i].doc);
+				hitDoc = searcher.getIndexReader().storedFields().document(hits[i].doc);
 				object.setId(Integer.parseInt(hitDoc.get("objId")));
 				object.setAbsoluteScore(hits[i].score);
 				result.addObject(object);
@@ -100,27 +86,16 @@ public class SearchResultWriter {
 		}
 	}
 
-	/**
-	 * @return
-	 */
 	public String toXML() {
-
 		org.jdom2.Document doc = new org.jdom2.Document(result.addXML());
 		XMLOutputter outputter = new XMLOutputter();
 		return outputter.outputString(doc);
-		
 	}
 
-	/**
-	 * @param offset the offset to set
-	 */
 	public void setOffset(int offset) {
 		this.offset = offset;
 	}
 
-	/**
-	 * @return the offset
-	 */
 	public int getOffset() {
 		return offset;
 	}

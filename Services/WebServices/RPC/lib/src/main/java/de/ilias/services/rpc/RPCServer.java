@@ -160,12 +160,10 @@ public class RPCServer {
 		{
 			logger.error("Cannot bind to host: " + getHost() + ", port: " + port + " " + e);
 			throw new ConfigurationException(e.getMessage());
-		}
-		catch(Exception e) {
+		} catch(Exception e) {
 			logger.error("Cannot bind to host: " + getHost() + ", port: " + port + " " + e);
 			throw new ConfigurationException(e.getMessage());
-		}
-		catch(Throwable e) {
+		} catch(Throwable e) {
 			logger.error(e);
 			throw new ConfigurationException(e.getMessage());
 		}

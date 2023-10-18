@@ -38,13 +38,13 @@ import java.io.IOException;
 import java.util.HashMap;
 
 /**
- * Capsulates the interaction between IndexReader and IndexWriter
+ * Capsules the interaction between IndexReader and IndexWriter
  * This class is a singleton for each index path.
  *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
- * @version $Id$
  */
-public class IndexHolder {
+public class IndexHolder implements AutoCloseable
+{
 	
 	protected static Logger logger = LogManager.getLogger(IndexHolder.class);
 	
@@ -56,9 +56,6 @@ public class IndexHolder {
 	
 	
 
-	/**
-	 * @throws IOException
-	 */
 	private IndexHolder(String clientKey) throws IOException {
 
 		try {
@@ -70,29 +67,16 @@ public class IndexHolder {
 
 	}
 
-	/**
-	 * 
-	 * @param clientKey
-	 * @return
-	 * @throws IOException
-	 */
-	public static synchronized IndexHolder getInstance(String clientKey) throws 
-		IOException { 
-		
-		String hash = clientKey;
-		
-		if(instances.containsKey(hash)) {
-			return instances.get(hash);
+	public static synchronized IndexHolder getInstance(String clientKey) throws
+		IOException {
+
+        if(instances.containsKey(clientKey)) {
+			return instances.get(clientKey);
 		}
-		instances.put(hash,new IndexHolder(clientKey));
-		return instances.get(hash);
+		instances.put(clientKey,new IndexHolder(clientKey));
+		return instances.get(clientKey);
 	}
 	
-	/**
-	 * 
-	 * @return
-	 * @throws IOException
-	 */
 	public static synchronized IndexHolder getInstance() throws IOException  {
 		
 		return getInstance(LocalSettings.getClientKey());
@@ -106,16 +90,11 @@ public class IndexHolder {
 		logger.info("Deleted index directory: " + indexPath.getAbsoluteFile());
 	}
 	
-	/**
-	 * Delete directory recursive
-	 * @param path
-	 * @return
-	 */
-	private static boolean deleteTree(File path) {
+	private static void deleteTree(File path) {
 		
 		if(!path.exists() || !path.isDirectory())
 		{
-			return false;
+			return;
 		}
 		for(File del : path.listFiles()) {
 			
@@ -127,21 +106,17 @@ public class IndexHolder {
 			}
 		}
 		path.delete();
-		return true;
 	}
 
-	/**
-	 * Close all writers
-	 */
 	public static synchronized void closeAllWriters() {
 		
 		logger.info("Closing document writers...");
 		
-		for(Object key : instances.keySet()) {
+		for(String key : instances.keySet()) {
 			try {
 				logger.info("Closing writer: " + key);
-				IndexHolder holder = instances.get((String) key);
-				IndexDirectoryFactory.getDirectory(ClientSettings.getInstance((String) key).getIndexPath()).close();
+				IndexHolder holder = instances.get(key);
+				IndexDirectoryFactory.getDirectory(ClientSettings.getInstance(key).getIndexPath()).close();
 				holder.close();
 			}
 			catch (ConfigurationException | IOException ex)
@@ -156,7 +131,6 @@ public class IndexHolder {
 	
 	/**
 	 * @todo obtain lock for index writer
-	 * @throws IOException
 	 */
 	public void init() throws IOException, ConfigurationException {
 		
@@ -180,16 +154,10 @@ public class IndexHolder {
 		
 	}
 	
-	/**
-	 * @return the writer
-	 */
 	public IndexWriter getWriter() {
 		return writer;
 	}
 
-	/**
-	 * @param writer the writer to set
-	 */
 	public void setWriter(IndexWriter writer) {
 		this.writer = writer;
 	}
@@ -207,20 +175,6 @@ public class IndexHolder {
 			logger.fatal("Index corrupted." + e);
 		} catch (IOException e) {
 			logger.fatal("Error closing writer." + e);
-		}
-	}
-
-	/* (non-Javadoc)
-	 * @see java.lang.Object#finalize()
-	 */
-	@Override
-	protected void finalize() throws Throwable {
-		
-		try {
-			close();
-		}
-		finally {
-			super.finalize();
 		}
 	}
 }
