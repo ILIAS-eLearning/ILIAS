@@ -20,50 +20,47 @@ declare(strict_types=1);
 
 /**
  * @package Modules/Test
- * Results for one user and pass
+ * Results (currently, for one user and pass)
  */
 class ilTestResultsFactory
 {
-    protected ilObjTest $test_obj;
-    protected int $active_id;
-    protected int $pass_id;
-    protected bool $is_user_output = true;
-
     /**
      * @param ilQuestionResult[] $question_results
      */
     public function __construct(
         protected ilTestShuffler $shuffler,
         protected ILIAS\UI\Factory $ui_factory,
-        protected ILIAS\UI\Renderer $ui_renderer,
-        protected ILIAS\Refinery\Factory $refinery,
-        protected ILIAS\Data\Factory $data_factory,
-        protected ILIAS\HTTP\Services $http,
-        protected ilLanguage $lng
+        protected ILIAS\UI\Renderer $ui_renderer
     ) {
     }
-    public function for(
+    public function getPassResultsFor(
         ilObjTest $test_obj,
         int $active_id,
         int $pass_id,
         bool $is_user_output = true
-    ): self {
-        $clone = clone $this;
-        $clone->test_obj = $test_obj;
-        $clone->active_id = $active_id;
-        $clone->pass_id = $pass_id;
-        $clone->is_user_output = $is_user_output;
-        return $clone;
+    ): ilTestPassResult {
+        $settings = $this->getPassResultsSettings($test_obj, $is_user_output);
+        return $this->buildPassResults(
+            $settings,
+            $test_obj,
+            $active_id,
+            $pass_id,
+            $is_user_output
+        );
     }
 
-    protected function getResults(): ilTestResult
-    {
-        $settings = $this->getResultsSettings();
+    protected function buildPassResults(
+        ilTestPassResultsSettings $settings,
+        ilObjTest $test_obj,
+        int $active_id,
+        int $pass_id,
+        bool $is_user_output
+    ): ilTestPassResult {
         $question_results = [];
 
-        $results = $this->test_obj->getTestResult(
-            $this->active_id,
-            $this->pass_id,
+        $results = $test_obj->getTestResult(
+            $active_id,
+            $pass_id,
             false, //$ordered_sequence
             $settings->getShowHiddenQuestions(),
             $settings->getShowOptionalQuestions()
@@ -80,7 +77,7 @@ class ilTestResultsFactory
         $show_inline_feedback = true;
 
         foreach ($results as $idx => $qresult) {
-            if (! is_numeric($idx)) {
+            if (!is_numeric($idx)) {
                 continue;
             }
 
@@ -92,16 +89,16 @@ class ilTestResultsFactory
             $workedthrough = (bool)$qresult['workedthrough'];
             $answered = (bool)$qresult['answered'];
 
-            $question_gui = $this->test_obj->createQuestionGUI("", $qid);
-            $shuffle_trafo = $this->shuffler->getAnswerShuffleFor($qid, $this->active_id, $this->pass_id);
+            $question_gui = $test_obj->createQuestionGUI("", $qid);
+            $shuffle_trafo = $this->shuffler->getAnswerShuffleFor($qid, $active_id, $pass_id);
             $question_gui->object->setShuffler($shuffle_trafo);
 
             $graphical_output = true;
             $show_correct_solution = false;
             $show_inline_feedback = $settings->getShowFeedback();
             $usr_solution = $question_gui->getSolutionOutput(
-                $this->active_id,
-                $this->pass_id,
+                $active_id,
+                $pass_id,
                 $graphical_output,
                 $result_output,
                 $show_question_only,
@@ -116,8 +113,8 @@ class ilTestResultsFactory
             $show_correct_solution = true;
             $show_inline_feedback = false;
             $best_solution = $question_gui->getSolutionOutput(
-                $this->active_id,
-                $this->pass_id,
+                $active_id,
+                $pass_id,
                 $graphical_output,
                 $result_output,
                 $show_question_only,
@@ -133,10 +130,10 @@ class ilTestResultsFactory
                 $best_solution = $this->ui_renderer->render($this->ui_factory->legacy('<div class="ilc_question_Standard">' . $best_solution . '</div>'));
             }
 
-            $feedback = $question_gui->getGenericFeedbackOutput($this->active_id, $this->pass_id);
+            $feedback = $question_gui->getGenericFeedbackOutput($active_id, $pass_id);
 
             $recapitulation = null;
-            if ($this->is_user_output && $settings->getShowRecapitulation()) {
+            if ($is_user_output && $settings->getShowRecapitulation()) {
                 $recapitulation = $question_gui->object->getSuggestedSolutionOutput();
             }
 
@@ -155,23 +152,26 @@ class ilTestResultsFactory
             );
         }
 
-        return new ilTestResult(
-            $this->active_id,
-            $this->pass_id,
+        return new ilTestPassResult(
+            $settings,
+            $active_id,
+            $pass_id,
             $question_results
         );
     }
 
-    protected function getResultsSettings(): ilTestResultsSettings
-    {
-        $settings = $this->test_obj->getScoreSettings();
+    protected function getPassResultsSettings(
+        ilObjTest $test_obj,
+        bool $is_user_output
+    ): ilTestPassResultsSettings {
+        $settings = $test_obj->getScoreSettings();
         $settings_summary = $settings->getResultSummarySettings();
         $settings_result = $settings->getResultDetailsSettings();
-        $show_best_solution = $this->is_user_output ?
+        $show_best_solution = $is_user_output ?
             $settings_result->getShowSolutionListComparison() :
             (bool)ilSession::get('tst_results_show_best_solutions');
 
-        $environment = (new ilTestResultsSettings())
+        $pass_result_settings = (new ilTestPassResultsSettings())
             ->withShowHiddenQuestions(false)
             ->withShowOptionalQuestions(true)
             ->withShowBestSolution($show_best_solution)
@@ -179,22 +179,6 @@ class ilTestResultsFactory
             ->withQuestionTextOnly($settings_result->getShowSolutionAnswersOnly())
             ->withShowRecapitulation($settings_result->getShowSolutionSuggested())
         ;
-
-        return $environment;
-    }
-
-    public function getTable(string $title = ''): ilTestResultsOverviewTable
-    {
-        return  new ilTestResultsOverviewTable(
-            $this->ui_factory,
-            $this->ui_renderer,
-            $this->refinery,
-            $this->http,
-            $this->data_factory,
-            $this->lng,
-            $title,
-            $this->getResults(),
-            $this->getResultsSettings()
-        );
+        return $pass_result_settings;
     }
 }

@@ -47,17 +47,26 @@ class ilTestDIC
             new ilTestResultsFactory(
                 $c['shuffler'],
                 $dic['ui.factory'],
-                $dic['ui.renderer'],
-                $dic['refinery'],
-                new ILIAS\Data\Factory(),
-                $dic['http'],
-                $dic['lng']
+                $dic['ui.renderer']
             );
+
+        $dic['factory.results_presentation'] = static fn($c): ilTestResultsPresentationFactory =>
+           new ilTestResultsPresentationFactory(
+               $dic['ui.factory'],
+               $dic['ui.renderer'],
+               $dic['refinery'],
+               new ILIAS\Data\Factory(),
+               $dic['http'],
+               $dic['lng']
+           );
+
 
         $dic['participantAccessFilterFactory'] = static fn($c): ilTestParticipantAccessFilterFactory =>
             new ilTestParticipantAccessFilterFactory($dic['ilAccess']);
+
         $dic['manScoringDoneHelper'] = static fn($c): TestManScoringDoneHelper =>
             new TestManScoringDoneHelper();
+
         $dic['request.internal'] = static fn($c): InternalRequestService =>
             new InternalRequestService($dic['http'], $dic['refinery']);
 

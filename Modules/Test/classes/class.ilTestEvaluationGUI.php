@@ -911,9 +911,17 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             ilObjUser::_lookupFullname($this->object->_getUserIdFromActiveId($active_id))
         );
 
-        $results = $this->results_factory->for($this->object, $active_id, $pass, false);
+        $pass_results = $this->results_factory->getPassResultsFor(
+            $this->object,
+            $active_id,
+            $pass,
+            false
+        );
 
-        $table = $results->getTable($title);
+        $table = $this->results_presentation_factory->getPassResultsPresentationTable(
+            $pass_results,
+            $title
+        );
 
         $this->tpl->addCss(ilObjStyleSheet::getContentStylePath(0));
 
@@ -1168,8 +1176,18 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             $pass + 1,
             ilObjUser::_lookupFullname($this->object->_getUserIdFromActiveId($active_id))
         );
-        $results = $this->results_factory->for($this->object, $active_id, $pass, true);
-        $table = $results->getTable($title);
+
+        $pass_results = $this->results_factory->getPassResultsFor(
+            $this->object,
+            $active_id,
+            $pass,
+            true
+        );
+
+        $table = $this->results_presentation_factory->getPassResultsPresentationTable(
+            $pass_results,
+            $title
+        );
 
         $tpl->setVariable("LIST_OF_ANSWERS", $table->render());
 
