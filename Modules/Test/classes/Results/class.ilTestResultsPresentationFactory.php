@@ -18,6 +18,12 @@
 
 declare(strict_types=1);
 
+use ILIAS\UI\Factory as UIFactory;
+use ILIAS\UI\Renderer as UIRenderer;
+use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\HTTP\Services as HTTPService;
+use ILIAS\Data\Factory as DataFactory;
+
 /**
  * @package Modules/Test
  * Results for one user and pass in a Presentation Table
@@ -25,11 +31,11 @@ declare(strict_types=1);
 class ilTestResultsPresentationFactory
 {
     public function __construct(
-        protected ILIAS\UI\Factory $ui_factory,
-        protected ILIAS\UI\Renderer $ui_renderer,
-        protected ILIAS\Refinery\Factory $refinery,
-        protected ILIAS\Data\Factory $data_factory,
-        protected ILIAS\HTTP\Services $http,
+        protected UIFactory $ui_factory,
+        protected UIRenderer $ui_renderer,
+        protected Refinery $refinery,
+        protected DataFactory $data_factory,
+        protected HTTPService $http,
         protected ilLanguage $lng
     ) {
     }

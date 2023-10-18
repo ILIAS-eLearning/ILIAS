@@ -18,6 +18,9 @@
 
 declare(strict_types=1);
 
+use ILIAS\UI\Factory as UIFactory;
+use ILIAS\UI\Renderer as UIRenderer;
+
 /**
  * @package Modules/Test
  * Results (currently, for one user and pass)
@@ -29,8 +32,8 @@ class ilTestResultsFactory
      */
     public function __construct(
         protected ilTestShuffler $shuffler,
-        protected ILIAS\UI\Factory $ui_factory,
-        protected ILIAS\UI\Renderer $ui_renderer
+        protected UIFactory $ui_factory,
+        protected UIRenderer $ui_renderer
     ) {
     }
     public function getPassResultsFor(

@@ -20,6 +20,11 @@ declare(strict_types=1);
 
 use ILIAS\UI\Implementation\Component\Table\Presentation;
 use ILIAS\UI\URLBuilder;
+use ILIAS\UI\Factory as UIFactory;
+use ILIAS\UI\Renderer as UIRenderer;
+use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\HTTP\Services as HTTPService;
+use ILIAS\Data\Factory as DataFactory;
 
 /**
  * @package Modules/Test
@@ -41,11 +46,11 @@ class ilTestPassResultsTable
     protected Presentation $table;
 
     public function __construct(
-        ILIAS\UI\Factory $ui_factory,
-        protected \ILIAS\UI\Renderer $ui_renderer,
-        protected ILIAS\Refinery\Factory $refinery,
-        protected ILIAS\HTTP\Services $http,
-        ILIAS\Data\Factory $data_factory,
+        UIFactory $ui_factory,
+        protected UIRenderer $ui_renderer,
+        protected Refinery $refinery,
+        protected HTTPService $http,
+        DataFactory $data_factory,
         ilLanguage $lng,
         ilTestPassResult $test_results,
         string $title
@@ -120,8 +125,8 @@ class ilTestPassResultsTable
      * return \ILIAS\UI\ViewControl\ViewControl[]
      */
     protected function getViewControls(
-        \ILIAS\UI\Factory $ui_factory,
-        \ilLanguage $lng,
+        UIFactory $ui_factory,
+        ilLanguage $lng,
         URLBuilder $target,
         string $mode,
         string $sortation
@@ -170,7 +175,7 @@ class ilTestPassResultsTable
                 (string)$question->getId()
             );
 
-            $important = [
+            $important_fields = [
                 $lng->txt('question_id') => (string)$question->getId(),
                 $lng->txt('question_type') => $question->getType(),
                 $lng->txt('points') => sprintf(
@@ -180,7 +185,7 @@ class ilTestPassResultsTable
                     (string)$question->getUserScorePercent()
                 )
             ];
-            $stats = $ui_factory->listing()->characteristicValue()->text($important);
+            $stats = $ui_factory->listing()->characteristicValue()->text($important_fields);
             $user_answer = $question->getUserAnswer();
             $best_solution = $env->getShowBestSolution() ? $question->getBestSolution() : '';
 
@@ -196,7 +201,7 @@ class ilTestPassResultsTable
                 $contents[] = $feedback;
             }
 
-            if ($recap = $question->getRecapitulation()) {
+            if ($recap = $question->getContentForRecapitulation()) {
                 $contents[] = $ui_factory->listing()->descriptive([
                     $lng->txt('suggested_solution') => $recap
                 ]);
@@ -234,7 +239,7 @@ class ilTestPassResultsTable
             return $row
                 ->withHeadline($title)
                 ->withLeadingSymbol($correct_icon)
-                ->withImportantFields($important)
+                ->withImportantFields($important_fields)
                 ->withContent($content);
         };
     }
