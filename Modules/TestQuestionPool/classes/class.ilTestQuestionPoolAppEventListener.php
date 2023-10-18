@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\TestQuestionPool\Skills;
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -29,21 +31,10 @@ class ilTestQuestionPoolAppEventListener implements ilAppEventListener
      */
     public static function handleEvent(string $a_component, string $a_event, array $a_parameter): void
     {
-        global $DIC;
+        $qpl_skill_repo = new Skills\TestQuestionPoolSkillDBRepository();
 
-        $qpl_skill_deletion_manager = $DIC->skills()->internalTestQuestionPool()->manager()->getSkillDeletionManager();
-
-        switch ($a_component) {
-            case "Services/Skill":
-                switch ($a_event) {
-                    case "deleteSkill":
-                        $qpl_skill_deletion_manager->removeTestQuestionPoolSkillsForSkill(
-                            $a_parameter["node_id"],
-                            $a_parameter["is_reference"]
-                        );
-                        break;
-                }
-                break;
+        if ($a_component === "Services/Skill" && $a_event === "deleteSkill") {
+            $qpl_skill_repo->removeForSkill($a_parameter["node_id"], $a_parameter["is_reference"]);
         }
     }
 }
