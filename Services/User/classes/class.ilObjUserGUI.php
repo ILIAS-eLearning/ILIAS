@@ -1136,6 +1136,7 @@ class ilObjUserGUI extends ilObjectGUI
             'title' => isset($settings['require_title']) && $settings['require_title']
         ];
         foreach ($fields as $field => $req) {
+            $max_len = $field === 'title' ? 32 : 128;
             if ($this->isSettingChangeable($field)) {
                 // #18795
                 $caption = ($field == 'title')
@@ -1143,7 +1144,7 @@ class ilObjUserGUI extends ilObjectGUI
                     : $field;
                 $inp = new ilTextInputGUI($this->lng->txt($caption), $field);
                 $inp->setSize(32);
-                $inp->setMaxLength(32);
+                $inp->setMaxLength($max_len);
                 $inp->setRequired($req);
                 $this->form_gui->addItem($inp);
             }
@@ -1220,8 +1221,8 @@ class ilObjUserGUI extends ilObjectGUI
 
         if ($this->isSettingChangeable('email')) {
             $em = new ilEMailInputGUI($this->lng->txt('email'), 'email');
-            $em->setRequired(isset($settings['require_email']) &&
-                $settings['require_email']);
+            $em->setRequired(isset($settings['require_email']) && $settings['require_email']);
+            $em->setMaxLength(128);
             $this->form_gui->addItem($em);
         }
 
