@@ -100,7 +100,7 @@ class ilObjSAHSLearningModuleAccess extends ilObjectAccess implements ilConditio
     /**
      * Returns the number of bytes used on the harddisk by the learning module
      * with the specified object id.
-     * @param int object id of a file object.
+     * @param int $a_id object id of a file object.
      */
     public static function _lookupDiskUsage(int $a_id): int
     {

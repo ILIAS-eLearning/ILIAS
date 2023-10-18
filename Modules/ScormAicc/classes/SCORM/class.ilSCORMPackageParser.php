@@ -165,7 +165,7 @@ class ilSCORMPackageParser extends ilSaxParser
      * @param array  $a_attribs
      * @return void
      */
-    public function handlerBeginTag($a_xml_parser, string $a_name, array $a_attribs): void
+    public function handlerBeginTag(XMLParser $a_xml_parser, string $a_name, array $a_attribs): void
     {
         //echo "<br>handlerBeginTag:".$a_name;
         switch ($a_name) {
@@ -289,7 +289,7 @@ class ilSCORMPackageParser extends ilSaxParser
      * @param string             $a_name
      * @return void
      */
-    public function handlerEndTag($a_xml_parser, string $a_name): void
+    public function handlerEndTag(XMLParser $a_xml_parser, string $a_name): void
     {
         //echo "<br>handlerEndTag:".$a_name;
 
@@ -326,7 +326,7 @@ class ilSCORMPackageParser extends ilSaxParser
      * @param string|null        $a_data
      * @return void
      */
-    public function handlerCharacterData($a_xml_parser, ?string $a_data): void
+    public function handlerCharacterData(XMLParser $a_xml_parser, ?string $a_data): void
     {
         //echo "<br>handlerCharacterData:".$this->getCurrentElement().":".$a_data;
         // DELETE WHITESPACES AND NEWLINES OF CHARACTER DATA

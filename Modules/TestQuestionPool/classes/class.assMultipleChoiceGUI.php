@@ -214,10 +214,12 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
         $show_feedback = false,
         $show_correct_solution = false,
         $show_manual_scoring = false,
-        $show_question_text = true
+        $show_question_text = true,
+        $show_inline_feedback = true
     ): string {
         // shuffle output
         $keys = $this->getChoiceKeys();
+
 
         // get the solution of the user for the active pass or from the last pass if allowed
         $user_solution = array();
@@ -289,7 +291,8 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
                 $template->parseCurrentBlock();
             }
 
-            if ($show_feedback) {
+
+            if ($show_inline_feedback) {
                 if ($this->object->getSpecificFeedbackSetting() == 2) {
                     foreach ($user_solution as $mc_solution) {
                         if (strcmp($mc_solution, $answer_id) == 0) {
@@ -319,7 +322,8 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
                         $template->parseCurrentBlock();
                     }
                 }
-
+            }
+            if ($show_feedback) {
                 if ($this->object->getSpecificFeedbackSetting() == 3) {
                     $answer = $this->object->getAnswer($answer_id);
 
@@ -337,6 +341,9 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
                     }
                 }
             }
+
+
+
             $template->setCurrentBlock("answer_row");
             $template->setVariable("ANSWER_TEXT", ilLegacyFormElementsUtil::prepareTextareaOutput($answer->getAnswertext(), true));
             $checked = false;

@@ -129,6 +129,10 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
 
         $this->addMultiCommand("sendMembers", $this->lng->txt("exc_send_assignment"));
 
+        if ($this->mode == self::MODE_BY_ASSIGNMENT) {
+            $this->addMultiCommand("sendGradingNotification", $this->lng->txt("exc_send_grading_notification"));
+        }
+
         if ($this->mode == self::MODE_BY_ASSIGNMENT &&
             $this->ass &&
             $this->ass->hasTeam()) {
@@ -483,7 +487,9 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
             }
         }
 
-        if ($this->ass_type != null && $this->ass_type->supportsWebDirAccess() && $a_row['submission_obj']->hasSubmittedPrintVersion()) {
+        $ass_type = $this->ass_type ?: ilExAssignmentTypes::getInstance()->getById($a_ass->getType());
+
+        if ($ass_type->supportsWebDirAccess() && $a_row['submission_obj']->hasSubmittedPrintVersion()) {
             $url = $ilCtrl->getLinkTarget($this->getParentObject(), "openSubmissionView");
             $items[] = $this->ui_factory->link()->standard($this->lng->txt("exc_tbl_action_open_submission"), $url)->withOpenInNewViewport(true);
             if ($a_row['submission_obj']->hasSubmittedPrintVersion()) {

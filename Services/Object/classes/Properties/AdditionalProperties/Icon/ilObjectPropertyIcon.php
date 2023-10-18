@@ -18,6 +18,7 @@
 
 declare(strict_types=1);
 
+use ILIAS\Object\Properties\ObjectTypeSpecificProperties\ilObjectTypeSpecificPropertyProviders;
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 use ILIAS\UI\Component\Input\Field\File;
 use ILIAS\Refinery\Factory as Refinery;
@@ -36,7 +37,8 @@ class ilObjectPropertyIcon implements ilObjectProperty
 
     public function __construct(
         private bool $custom_icons_enabled,
-        private ?ilObjectCustomIcon $custom_icon = null
+        private ?ilObjectCustomIcon $custom_icon = null,
+        private ?ilObjectTypeSpecificPropertyProviders $object_type_specific_property_providers = null
     ) {
     }
 
