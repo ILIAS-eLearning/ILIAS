@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>de.ilias.ilserver</groupId>
     <artifactId>ilServer</artifactId>
-    <version>9.0.1-SNAPSHOT</version>
+    <version>9.0.1</version>
     <build>
         <finalName>ilServer</finalName>
         <plugins>
@@ -211,7 +211,7 @@
     <name>ilServer</name>
     <url>https://www.ilias.de</url>
     <properties>
-        <maven.compiler.source>11</maven.compiler.source>
-        <maven.compiler.target>11</maven.compiler.target>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
     </properties>
 </project>
