@@ -28,71 +28,25 @@ use ILIAS\UI\Component\Modal\Interruptive;
  */
 class ilTestNavigationToolbarGUI extends ilToolbarGUI
 {
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
-    /**
-     * @var ilTestPlayerAbstractGUI
-     */
-    protected $playerGUI;
-
-    /**
-     * @var bool
-     */
-    private $suspendTestButtonEnabled = false;
-
-    /**
-     * @var bool
-     */
-    private $questionListButtonEnabled = false;
-
-    /**
-     * @var bool
-     */
-    private $questionTreeButtonEnabled = false;
-
+    private bool $suspendTestButtonEnabled = false;
+    private bool $questionListButtonEnabled = false;
+    private bool $questionTreeButtonEnabled = false;
     private bool $questionTreeVisible = false;
-
-    /**
-     * @var bool
-     */
-    private $questionSelectionButtonEnabled = false;
-
-    /**
-     * @var bool
-     */
-    private $finishTestButtonEnabled = false;
-
-    /**
-     * @var string
-     */
-    private $finishTestCommand = '';
-
-    /**
-     * @var bool
-     */
-    private $finishTestButtonPrimary = false;
-
-    /**
-     * @var bool
-     */
-    private $disabledStateEnabled = false;
+    private bool $questionSelectionButtonEnabled = false;
+    private bool $finishTestButtonEnabled = false;
+    private string $finishTestCommand = '';
+    private bool $finishTestButtonPrimary = false;
+    private bool $disabledStateEnabled = false;
     private bool $user_has_attempts_left = true;
     protected ?Interruptive $finish_test_modal = null;
+    protected bool $user_pass_overview_button_enabled = false;
 
-    /**
-     * @param ilCtrl $ctrl
-     * @param ilLanguage $lng
-     * @param ilTestPlayerAbstractGUI $playerGUI
-     */
-    public function __construct(ilCtrl $ctrl, ilLanguage $lng, ilTestPlayerAbstractGUI $playerGUI)
-    {
-        $this->ctrl = $ctrl;
+    public function __construct(
+        protected ilCtrl $ctrl,
+        ilLanguage $lng,
+        protected ilTestPlayerAbstractGUI $playerGUI
+    ) {
         $this->lng = $lng;
-        $this->playerGUI = $playerGUI;
-
         parent::__construct();
     }
 
