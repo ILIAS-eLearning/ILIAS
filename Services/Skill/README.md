@@ -82,7 +82,7 @@ Skills are organised in a hierarchical structure called the [Skill Tree](#skill-
 
 * **Code**: `class ilSkillRoot`
 
-The root node of the tree. There is only one.
+The root node of a skill tree. There can be more than one.
 
 ## Basic Skill
 
@@ -120,9 +120,10 @@ A skill template reference is the link between the main category tree and a skil
 * **Node ID**: Node ID (`skl_templ_ref.skl_node_id` referencing a `skl_tree_node.obj_id` of type "sktr")
 * **Template Node ID**: Template Node ID (`skl_templ_ref.templ_id` referencing a `skl_tree_node.obj_id` of type "sktp" or "sctp")
 
-**Business Rule**
+**Business Rules**
 
 * A Skill Template Reference can only reference Templates or Template Category Nodes which are on the top level (directly underneath the root node).
+* When a Template or Template Category is deleted, all related Skill Template References will also be deleted.
 
 ## Skill Tree
 
