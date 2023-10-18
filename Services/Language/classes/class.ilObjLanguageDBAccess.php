@@ -107,7 +107,7 @@ class ilObjLanguageDBAccess
             $query_check = true;
             $lang_array[$separated[0]][$separated[1]] = $separated[2];
         }
-        $query = rtrim($query, ",") . " ON DUPLICATE KEY UPDATE value=VALUES(value),remarks=VALUES(remarks);";
+        $query = rtrim($query, ",") . " ON DUPLICATE KEY UPDATE value=VALUES(value),local_change=VALUES(local_change),remarks=VALUES(remarks);";
         if ($query_check) {
             $this->ilDB->manipulate($query);
         }
