@@ -19,7 +19,7 @@ function base()
     $ctrl = $DIC->ctrl();
 
     //Step 1: define the inputs
-    $date = $ui->input()->field()->dateTime("Pick a date/time", "Pick any date you want. It will be shown in format YYYY-MM-DD");
+    $date = $ui->input()->field()->dateTime("Pick a date", "Pick any date you want. It will be shown in format YYYY-MM-DD");
 
     $date_now = new \DateTimeImmutable('now');
     $formatted = $date
