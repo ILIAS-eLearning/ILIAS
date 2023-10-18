@@ -49,9 +49,9 @@ class ilGlobalTemplate extends \ilGlobalTemplate
 
     // public function getMainMenu() : void
     // {
-        // global $ilMainMenu;
-        // //$ilMainMenu->setLoginTargetPar($this->getLoginTargetPar());
-        // $this->main_menu = $ilMainMenu->getHTML();
-        // $this->main_menu_spacer = $ilMainMenu->getSpacerClass();
+    // global $ilMainMenu;
+    // //$ilMainMenu->setLoginTargetPar($this->getLoginTargetPar());
+    // $this->main_menu = $ilMainMenu->getHTML();
+    // $this->main_menu_spacer = $ilMainMenu->getSpacerClass();
     // }
 }
