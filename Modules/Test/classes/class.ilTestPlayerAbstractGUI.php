@@ -920,7 +920,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
             $questionNavigationGUI->setDiscardSolutionButtonEnabled(true);
             // fau: testNav - set answere status in question header
             $questionGui->getQuestionHeaderBlockBuilder()->setQuestionAnswered(true);
-        // fau.
+            // fau.
         } elseif ($this->object->isPostponingEnabled()) {
             $questionNavigationGUI->setSkipQuestionLinkTarget(
                 $this->ctrl->getLinkTarget($this, ilTestPlayerCommands::SKIP_QUESTION)
@@ -1722,7 +1722,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
     protected function getTestNavigationToolbarGUI(): ilTestNavigationToolbarGUI
     {
-        $navigation_toolbar = new ilTestNavigationToolbarGUI($this->ctrl, $this->lng, $this);
+        $navigation_toolbar = new ilTestNavigationToolbarGUI($this->ctrl, $this);
         $navigation_toolbar->setSuspendTestButtonEnabled($this->object->getShowCancel());
         $navigation_toolbar->setUserPassOverviewEnabled($this->object->getUsrPassOverviewEnabled());
         $navigation_toolbar->setFinishTestCommand($this->getFinishTestCommand());

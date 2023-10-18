@@ -29,8 +29,6 @@ use ILIAS\UI\Component\Modal\Interruptive;
 class ilTestNavigationToolbarGUI extends ilToolbarGUI
 {
     private bool $suspendTestButtonEnabled = false;
-    private bool $questionListButtonEnabled = false;
-    private bool $questionTreeButtonEnabled = false;
     private bool $questionTreeVisible = false;
     private bool $questionSelectionButtonEnabled = false;
     private bool $finishTestButtonEnabled = false;
@@ -43,10 +41,8 @@ class ilTestNavigationToolbarGUI extends ilToolbarGUI
 
     public function __construct(
         protected ilCtrl $ctrl,
-        ilLanguage $lng,
         protected ilTestPlayerAbstractGUI $playerGUI
     ) {
-        $this->lng = $lng;
         parent::__construct();
     }
 

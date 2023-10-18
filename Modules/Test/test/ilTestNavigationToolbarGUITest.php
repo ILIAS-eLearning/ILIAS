@@ -34,7 +34,6 @@ class ilTestNavigationToolbarGUITest extends ilTestBaseTestCase
 
         $this->testObj = new ilTestNavigationToolbarGUI(
             $this->createMock(ilCtrl::class),
-            $this->createMock(ilLanguage::class),
             $this->createMock(ilTestPlayerAbstractGUI::class)
         );
     }
