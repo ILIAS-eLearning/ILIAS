@@ -86,21 +86,21 @@ class XapiProxyPolyFill
     public function initLrs(): void
     {
         $this->log()->debug($this->msg('initLrs'));
-//            if ($this->plugin) {
-//                try {
-//                    $authToken = \ilXapiCmi5AuthToken::getInstanceByToken($this->token);
-//                }
-//                catch (\ilXapiCmi5Exception $e) {
-//                    $this->log()->error($this->msg($e->getMessage()));
-//                    header('HTTP/1.1 401 Unauthorized');
-//                    header('Access-Control-Allow-Origin: '.$_SERVER["HTTP_ORIGIN"]);
-//                    header('Access-Control-Allow-Credentials: true');
-//                    exit;
-//                }
-//                $this->authToken = $authToken;
-//                $this->getLrsTypePlugin();
-//            }
-//            else {
+        //            if ($this->plugin) {
+        //                try {
+        //                    $authToken = \ilXapiCmi5AuthToken::getInstanceByToken($this->token);
+        //                }
+        //                catch (\ilXapiCmi5Exception $e) {
+        //                    $this->log()->error($this->msg($e->getMessage()));
+        //                    header('HTTP/1.1 401 Unauthorized');
+        //                    header('Access-Control-Allow-Origin: '.$_SERVER["HTTP_ORIGIN"]);
+        //                    header('Access-Control-Allow-Credentials: true');
+        //                    exit;
+        //                }
+        //                $this->authToken = $authToken;
+        //                $this->getLrsTypePlugin();
+        //            }
+        //            else {
         try {
             $authToken = \ilCmiXapiAuthToken::getInstanceByToken($this->token);
         } catch (\ilCmiXapiException $e) {
@@ -113,7 +113,7 @@ class XapiProxyPolyFill
 
         $this->authToken = $authToken;
         $this->getLrsType();
-//            }
+        //            }
     }
 
     private function getLrsTypePlugin(): void
@@ -128,13 +128,13 @@ class XapiProxyPolyFill
                 header('Access-Control-Allow-Credentials: true');
                 exit;
             }
-//                $this->defaultLrsEndpoint = $lrsType->getDefaultLrsEndpoint();
-//                $this->defaultLrsKey = $lrsType->getDefaultLrsKey();
-//                $this->defaultLrsSecret = $lrsType->getDefaultLrsSecret();
-//
-//                $this->fallbackLrsEndpoint = $lrsType->getFallbackLrsEndpoint();
-//                $this->fallbackLrsKey = $lrsType->getFallbackLrsKey();
-//                $this->fallbackLrsSecret = $lrsType->getFallbackLrsSecret();
+            //                $this->defaultLrsEndpoint = $lrsType->getDefaultLrsEndpoint();
+            //                $this->defaultLrsKey = $lrsType->getDefaultLrsKey();
+            //                $this->defaultLrsSecret = $lrsType->getDefaultLrsSecret();
+            //
+            //                $this->fallbackLrsEndpoint = $lrsType->getFallbackLrsEndpoint();
+            //                $this->fallbackLrsKey = $lrsType->getFallbackLrsKey();
+            //                $this->fallbackLrsSecret = $lrsType->getFallbackLrsSecret();
 
             $this->lrsType = $lrsType;
         } catch (\Exception $e) {
@@ -210,7 +210,7 @@ class XapiProxyPolyFill
         while ($row = $db->fetchObject($res)) {
             $type_id = (int) $row->lrs_type_id;
             if ($type_id) {
-//                    $lrs = ($this->plugin) ? new \ilXapiCmi5LrsType($type_id) : new \ilCmiXapiLrsType($type_id);
+                //                    $lrs = ($this->plugin) ? new \ilXapiCmi5LrsType($type_id) : new \ilCmiXapiLrsType($type_id);
                 $lrs = new \ilCmiXapiLrsType($type_id);
             }
 
