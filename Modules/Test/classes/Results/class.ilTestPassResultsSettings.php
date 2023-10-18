@@ -24,45 +24,24 @@ declare(strict_types=1);
  */
 class ilTestPassResultsSettings
 {
-    protected bool $show_hidden_questions = false;
-    protected bool $show_optional_questions = false;
-    protected bool $show_best_solution = true;
-    protected bool $show_feedback = true;
-    protected bool $question_text_only = false;
-    protected bool $show_recapitulation = false;
-
-
     public function __construct(
+        protected bool $show_hidden_questions = false,
+        protected bool $show_optional_questions = false,
+        protected bool $show_best_solution = true,
+        protected bool $show_feedback = true,
+        protected bool $question_text_only = false,
+        protected bool $show_recapitulation = false
     ) {
     }
 
-    public function withShowHiddenQuestions(bool $flag): self
-    {
-        $clone = clone $this;
-        $clone->show_hidden_questions = $flag;
-        return $clone;
-    }
     public function getShowHiddenQuestions(): bool
     {
         return $this->show_hidden_questions;
     }
 
-    public function withShowOptionalQuestions(bool $flag): self
-    {
-        $clone = clone $this;
-        $clone->show_optional_questions = $flag;
-        return $clone;
-    }
     public function getShowOptionalQuestions(): bool
     {
         return $this->show_optional_questions;
-    }
-
-    public function withShowBestSolution(bool $flag): self
-    {
-        $clone = clone $this;
-        $clone->show_best_solution = $flag;
-        return $clone;
     }
 
     public function getShowBestSolution(): bool
@@ -70,34 +49,16 @@ class ilTestPassResultsSettings
         return $this->show_best_solution;
     }
 
-    public function withShowFeedback(bool $flag): self
-    {
-        $clone = clone $this;
-        $clone->show_feedback = $flag;
-        return $clone;
-    }
     public function getShowFeedback(): bool
     {
         return $this->show_feedback;
     }
 
-    public function withQuestionTextOnly(bool $flag): self
-    {
-        $clone = clone $this;
-        $clone->question_text_only = $flag;
-        return $clone;
-    }
     public function getQuestionTextOnly(): bool
     {
         return $this->question_text_only;
     }
 
-    public function withShowRecapitulation(bool $flag): self
-    {
-        $clone = clone $this;
-        $clone->show_recapitulation = $flag;
-        return $clone;
-    }
     public function getShowRecapitulation(): bool
     {
         return $this->show_recapitulation;
