@@ -2708,7 +2708,7 @@ code {
 }
 .breadcrumb_wrapper .breadcrumb span.crumb a:focus-visible {
   outline: 3px solid #0078D7;
-  box-shadow: inset 0px 0px 0px 2px #FFFFFF, 0px 0px 0px 2px #FFFFFF;
+  box-shadow: inset 0px 0px 0px 2px #FFFFFF, 0px 0px 0px 6px #FFFFFF;
 }
 .breadcrumb_wrapper .breadcrumb span.crumb a:focus-visible::after {
   content: none;
@@ -2806,10 +2806,7 @@ input.btn, input.il-link.link-bulky,
 }
 .btn-default:focus-visible {
   outline: 3px solid #0078D7;
-  box-shadow: inset 0px 0px 0px 2px #FFFFFF, 0px 0px 0px 2px #FFFFFF;
-}
-.btn-default:focus-visible::after {
-  content: none;
+  box-shadow: inset 0px 0px 0px 2px #FFFFFF, 0px 0px 0px 6px #FFFFFF;
 }
 .btn-default:active {
   transform: scale(0.95);
@@ -2860,10 +2857,7 @@ input.btn, input.il-link.link-bulky,
 }
 .btn-primary:focus-visible {
   outline: 3px solid #0078D7;
-  box-shadow: inset 0px 0px 0px 2px #FFFFFF, 0px 0px 0px 2px #FFFFFF;
-}
-.btn-primary:focus-visible::after {
-  content: none;
+  box-shadow: inset 0px 0px 0px 2px #FFFFFF, 0px 0px 0px 6px #FFFFFF;
 }
 .btn-primary:active {
   transform: scale(0.95);
@@ -3308,24 +3302,7 @@ input.btn, input.il-link.link-bulky,
 .il-viewcontrol-mode > .btn-default:focus-visible,
 .il-viewcontrol-mode > .btn-link:focus-visible, .il-viewcontrol-sortation .btn-default.btn:focus-visible {
   outline: 3px solid #0078D7;
-  box-shadow: inset 0px 0px 0px 2px #FFFFFF, 0px 0px 0px 2px #FFFFFF;
-}
-.btn-ctrl:focus-visible::after, .il-viewcontrol-section > .btn-default:focus-visible::after, .il-viewcontrol-section > .btn-link:focus-visible::after,
-.il-viewcontrol-section .btn-group > .btn-default:focus-visible::after,
-.il-viewcontrol-section .btn-group > .btn-link:focus-visible::after,
-.il-viewcontrol-pagination__sectioncontrol > .btn-default:focus-visible::after,
-.il-viewcontrol-pagination__sectioncontrol > .btn-link:focus-visible::after,
-.il-viewcontrol-pagination__num-of-items > .btn-default:focus-visible::after,
-.il-viewcontrol-pagination__num-of-items > .btn-link:focus-visible::after,
-.il-viewcontrol-pagination > .btn-default:focus-visible::after,
-.il-viewcontrol-pagination > .btn-link:focus-visible::after,
-.il-viewcontrol-pagination .dropdown > .btn-default:focus-visible::after,
-.il-viewcontrol-pagination .dropdown > .btn-link:focus-visible::after,
-.il-viewcontrol-pagination .last > .btn-default:focus-visible::after,
-.il-viewcontrol-pagination .last > .btn-link:focus-visible::after,
-.il-viewcontrol-mode > .btn-default:focus-visible::after,
-.il-viewcontrol-mode > .btn-link:focus-visible::after, .il-viewcontrol-sortation .btn-default.btn:focus-visible::after {
-  content: none;
+  box-shadow: inset 0px 0px 0px 2px #FFFFFF, 0px 0px 0px 6px #FFFFFF;
 }
 .btn-ctrl:active, .il-viewcontrol-section > .btn-default:active, .il-viewcontrol-section > .btn-link:active,
 .il-viewcontrol-section .btn-group > .btn-default:active,
@@ -3537,12 +3514,7 @@ input.btn, input.il-link.link-bulky,
 .il-link.link-bulky:focus-visible,
 .il-drilldown .menulevel:focus-visible {
   outline: 3px solid #0078D7;
-  box-shadow: inset 0px 0px 0px 2px #FFFFFF, 0px 0px 0px 2px #FFFFFF;
-}
-.btn-bulky:focus-visible::after,
-.il-link.link-bulky:focus-visible::after,
-.il-drilldown .menulevel:focus-visible::after {
-  content: none;
+  box-shadow: inset 0px 0px 0px 2px #FFFFFF, 0px 0px 0px 6px #FFFFFF;
 }
 .btn-bulky:active,
 .il-link.link-bulky:active,
@@ -3594,11 +3566,6 @@ input.btn, input.il-link.link-bulky,
   outline: none;
   border: 3px solid #0078D7;
   box-shadow: inset 0px 0px 0px 2px #FFFFFF, 0px 0px 0px 2px #FFFFFF;
-}
-.btn-bulky:focus-visible::after,
-.il-link.link-bulky:focus-visible::after,
-.il-drilldown .menulevel:focus-visible::after {
-  content: none;
 }
 
 .il-maincontrols-slate .btn-bulky,
@@ -4927,10 +4894,7 @@ td.form-inline > div.form-group {
 }
 .c-launcher .btn-bulky:focus-visible {
   outline: 3px solid #0078D7;
-  box-shadow: inset 0px 0px 0px 2px #FFFFFF, 0px 0px 0px 2px #FFFFFF;
-}
-.c-launcher .btn-bulky:focus-visible::after {
-  content: none;
+  box-shadow: inset 0px 0px 0px 2px #FFFFFF, 0px 0px 0px 6px #FFFFFF;
 }
 .c-launcher .btn-bulky:active {
   transform: scale(0.95);
@@ -6036,16 +6000,6 @@ footer {
   outline: none;
   border: 3px solid #0078D7;
   box-shadow: inset 0px 0px 0px 2px #FFFFFF, 0px 0px 0px 2px #FFFFFF;
-}
-.il-mainbar-triggers .btn-bulky:focus-visible::after,
-.il-mainbar-triggers .il-link.link-bulky:focus-visible::after,
-.il-mainbar-tools-button .btn-bulky:focus-visible::after,
-.il-mainbar-tools-button .il-link.link-bulky:focus-visible::after,
-.il-mainbar-tool-trigger-item .btn-bulky:focus-visible::after,
-.il-mainbar-tool-trigger-item .il-link.link-bulky:focus-visible::after,
-.il-maincontrols-metabar .btn-bulky:focus-visible::after,
-.il-maincontrols-metabar .il-link.link-bulky:focus-visible::after {
-  content: none;
 }
 .il-mainbar-triggers .btn-bulky .bulky-label,
 .il-mainbar-triggers .il-link.link-bulky .bulky-label,
@@ -15265,16 +15219,30 @@ select[size] {
   height: auto;
 }
 
+input[type=file]:focus,
+input[type=radio]:focus,
+input[type=checkbox]:focus {
+  outline: none;
+  outline-offset: 0px;
+}
 input[type=file]:focus-visible,
 input[type=radio]:focus-visible,
 input[type=checkbox]:focus-visible {
-  outline: 3px solid #0078D7;
-  box-shadow: inset 0px 0px 0px 2px #FFFFFF, 0px 0px 0px 2px #FFFFFF;
+  position: relative;
+  outline: 2px solid #FFFFFF;
+  outline-offset: 4px;
 }
 input[type=file]:focus-visible::after,
 input[type=radio]:focus-visible::after,
 input[type=checkbox]:focus-visible::after {
-  content: none;
+  content: " ";
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  border: 2px solid #FFFFFF;
+  outline: 3px solid #0078D7;
 }
 
 .form-control {
@@ -15297,10 +15265,7 @@ input[type=checkbox]:focus-visible::after {
 }
 .form-control:focus-visible {
   outline: 3px solid #0078D7;
-  box-shadow: inset 0px 0px 0px 2px #FFFFFF, 0px 0px 0px 2px #FFFFFF;
-}
-.form-control:focus-visible::after {
-  content: none;
+  box-shadow: inset 0px 0px 0px 2px #FFFFFF, 0px 0px 0px 6px #FFFFFF;
 }
 .form-control::-moz-placeholder {
   color: #6f6f6f;
@@ -15372,7 +15337,6 @@ fieldset[disabled] .checkbox label {
 .radio-inline input[type=radio],
 .checkbox input[type=checkbox],
 .checkbox-inline input[type=checkbox] {
-  position: static;
   display: inline-block;
   margin-left: -20px;
   margin-top: 7px;

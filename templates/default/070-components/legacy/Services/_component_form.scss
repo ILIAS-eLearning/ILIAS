@@ -90,7 +90,7 @@ select[size] {
 input[type="file"],
 input[type="radio"],
 input[type="checkbox"] {
-	@include il-focus-outline-only();
+	@include il-focus();
 }
 
 
@@ -247,7 +247,6 @@ input[type="search"] {
 .radio-inline input[type="radio"],
 .checkbox input[type="checkbox"],
 .checkbox-inline input[type="checkbox"] {
-  position: static;
   display: inline-block;
   margin-left: -20px;
   margin-top: 7px;
