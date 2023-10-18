@@ -328,6 +328,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 
         $this->tabs_gui->activateTab("pages");
 
+        $pages = ilPortfolioPage::getAllPortfolioPages($this->getObject()->getId());
 
         $this->gui->link(
             $this->lng->txt("prtf_add_page"),
@@ -344,7 +345,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 
         // #16571
         $modal_html = "";
-        if ($this->getType() === "prtf") {
+        if ($this->getType() === "prtf" && count($pages) > 0) {
             $ilToolbar->addSeparator();
 
             $ui = $this->ui;

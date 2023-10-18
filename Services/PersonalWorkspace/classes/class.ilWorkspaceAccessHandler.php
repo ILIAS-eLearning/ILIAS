@@ -421,10 +421,10 @@ class ilWorkspaceAccessHandler
         if ($a_filter["obj_type"] ?? false) {
             $sql .= " AND obj.type = " . $ilDB->quote($a_filter["obj_type"], "text");
         }
-        if (($a_filter["title"]  ?? false) && strlen($a_filter["title"]) >= 3) {
+        if (($a_filter["title"] ?? false) && strlen($a_filter["title"]) >= 3) {
             $sql .= " AND " . $ilDB->like("obj.title", "text", "%" . $a_filter["title"] . "%");
         }
-        if (($a_filter["user"]  ?? false) && strlen($a_filter["user"]) >= 3) {
+        if (($a_filter["user"] ?? false) && strlen($a_filter["user"]) >= 3) {
             $usr_ids = array();
             $set = $ilDB->query("SELECT usr_id FROM usr_data" .
                 " WHERE (" . $ilDB->like("login", "text", "%" . $a_filter["user"] . "%") . " " .
@@ -534,4 +534,18 @@ class ilWorkspaceAccessHandler
             " WHERE ref.wsp_id = " . $ilDB->quote($a_node_id, "integer"));
         return $ilDB->fetchAssoc($set);
     }
+
+    public function addMissingPermissionForObjects(int $node_id, array $objects): bool
+    {
+        $existing = $this->getPermissions($node_id);
+        $added = false;
+        foreach ($objects as $object_id) {
+            if (!in_array($object_id, $existing, true)) {
+                $this->addPermission($node_id, $object_id);
+                $added = true;
+            }
+        }
+        return $added;
+    }
+
 }

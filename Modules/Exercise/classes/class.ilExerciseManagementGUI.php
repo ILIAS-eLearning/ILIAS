@@ -2320,4 +2320,31 @@ class ilExerciseManagementGUI
 
         return $data;
     }
+
+    public function sendGradingNotificationObject(): void
+    {
+
+        $ass_id = $this->request->getAssId();
+        $selected_users = $this->request->getSelectedParticipants();
+
+        $graded_users = array_filter($selected_users, function ($user_id) {
+            return $this->assignment->getMemberStatus($user_id)->getStatus() !== "notgraded";
+        });
+
+        if (count($graded_users) === 0) {
+            $this->tpl->setOnScreenMessage("failure", $this->lng->txt("exc_no_graded_mem_selected"), true);
+            $this->ctrl->redirect($this, $this->getViewBack());
+        }
+
+        $not = new ilExerciseMailNotification();
+        $not->setType(ilExerciseMailNotification::TYPE_GRADING_DONE);
+        $not->setAssignmentId($ass_id);
+        $not->setObjId($this->exercise->getId());
+        $not->setRefId($this->exercise->getRefId());
+        $not->setRecipients($graded_users);
+        $not->send();
+        $this->tpl->setOnScreenMessage("success", $this->lng->txt("exc_graded_mem_notified"), true);
+        $this->ctrl->redirect($this, $this->getViewBack());
+    }
+
 }
