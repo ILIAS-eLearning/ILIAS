@@ -7,6 +7,10 @@ in the webroot of ILIAS. For more details on composer see [composer-readme](comp
 * External dependencies of the Javascript code are managed through [npm](https://www.npmjs.com/),
 stored under `npm_modules`, and defined in the file `package.json` in the
 webroot of ILIAS. For more details on npm see [npm-readme](../docs/development/js-libraries.md).
+* External dependencies of the Java code are managed through [maven](https://maven.apache.org).
+They are only used in `Services\WebServices\RPC` and are in the full and sole
+responsibility of the corresponding maintainer.
+
 
 No other external dependencies are allowed in ILIAS. Should you find an older
 dependency in the folder of your [component](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/docs/development/components-and-directories.md)
