@@ -35,8 +35,9 @@ class ilUserXMLWriter extends ilXmlWriter
 
     /**
      * fields to be exported
+     *
      */
-    private array $settings; // Missing array type.
+    private array $settings = [];
 
     public function __construct()
     {
@@ -109,7 +110,7 @@ class ilUserXMLWriter extends ilXmlWriter
 
         $ilDB = $DIC['ilDB'];
         $lng = $DIC['lng'];
-        if (!is_array($this->settings)) {
+        if ($this->settings === []) {
             $this->setSettings(ilObjUserFolder::getExportSettings());
         }
 
@@ -304,9 +305,9 @@ class ilUserXMLWriter extends ilXmlWriter
         string $tagname,
         ?string $settingsname = null
     ): bool {
-        return !is_array($this->settings) ||
-               in_array(strtolower($tagname), $this->settings) !== false ||
-               in_array($settingsname, $this->settings) !== false;
+        return $this->settings === []
+            || in_array(strtolower($tagname), $this->settings) !== false
+            || in_array($settingsname, $this->settings) !== false;
     }
 
     public function setSettings(array $settings): void // Missing array type.
