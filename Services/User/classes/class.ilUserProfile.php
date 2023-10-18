@@ -78,7 +78,7 @@ class ilUserProfile
                         "group" => "personal_data"),
         "firstname" => array(
                         "input" => "text",
-                        "maxlength" => 32,
+                        "maxlength" => 128,
                         "size" => 40,
                         "method" => "getFirstname",
                         "required_fix_value" => 1,
@@ -89,7 +89,7 @@ class ilUserProfile
                         "group" => "personal_data"),
         "lastname" => array(
                         "input" => "text",
-                        "maxlength" => 32,
+                        "maxlength" => 128,
                         "size" => 40,
                         "method" => "getLastname",
                         "required_fix_value" => 1,
@@ -243,7 +243,7 @@ class ilUserProfile
                         "group" => "contact_data"),
         "email" => array(
                         "input" => "email",
-                        "maxlength" => 40,
+                        "maxlength" => 128,
                         "size" => 40,
                         "method" => "getEmail",
                         "group" => "contact_data"),
@@ -706,6 +706,7 @@ class ilUserProfile
                         if (self::MODE_REGISTRATION == self::$mode) {
                             $em->setRetype(true);
                         }
+                        $em->setMaxLength((int) $p['maxlength']);
                         $a_form->addItem($em);
                     }
                     break;
