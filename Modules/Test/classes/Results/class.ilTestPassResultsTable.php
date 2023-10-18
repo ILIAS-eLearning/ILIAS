@@ -23,9 +23,9 @@ use ILIAS\UI\URLBuilder;
 
 /**
  * @package Modules/Test
- * Results Overview Table
+ * Table Presentation of Pass Results
  */
-class ilTestResultsOverviewTable
+class ilTestPassResultsTable
 {
     private const ENV = 'e';
     private const LNG = 'l';
@@ -47,14 +47,11 @@ class ilTestResultsOverviewTable
         protected ILIAS\HTTP\Services $http,
         ILIAS\Data\Factory $data_factory,
         ilLanguage $lng,
-        string $title,
-        ilTestResult $test_results,
-        ilTestResultsSettings $environment
+        ilTestPassResult $test_results,
+        string $title
     ) {
         list($mode, $sortation) = $this->getViewControlsParameter();
-
         $results = $this->applyControls($mode, $sortation, $test_results->getQuestionResults());
-
         $target = new URLBuilder($data_factory->uri($http->request()->getUri()->__toString()));
 
         $this->table = $ui_factory->table()->presentation(
@@ -63,7 +60,7 @@ class ilTestResultsOverviewTable
             $this->getMapping()
         )
         ->withEnvironment([
-            self::ENV => $environment,
+            self::ENV => $test_results->getSettings(),
             self::LNG => $lng
         ])
         ->withData($results);

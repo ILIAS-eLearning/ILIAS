@@ -22,16 +22,22 @@ declare(strict_types=1);
  * @package Modules/Test
  * Results for one user and pass
  */
-class ilTestResult
+class ilTestPassResult
 {
     /**
      * @param ilQuestionResult[] $question_results
      */
     public function __construct(
+        protected ilTestPassResultsSettings $settings,
         protected int $active_id,
         protected int $pass_id,
         protected array $question_results
     ) {
+    }
+
+    public function getSettings(): ilTestPassResultsSettings
+    {
+        return $this->settings;
     }
 
     public function getActiveId(): int

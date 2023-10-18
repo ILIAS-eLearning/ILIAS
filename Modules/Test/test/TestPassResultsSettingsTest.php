@@ -26,7 +26,7 @@ class TestResultsSettingsTest extends TestCase
 {
     public function testTestResultsSettingsDefaults(): void
     {
-        $trs = new \ilTestResultsSettings();
+        $trs = new \ilTestPassResultsSettings();
         $this->assertFalse($trs->getShowHiddenQuestions());
         $this->assertFalse($trs->getShowOptionalQuestions());
         $this->assertTrue($trs->getShowBestSolution());
@@ -37,7 +37,7 @@ class TestResultsSettingsTest extends TestCase
 
     public function testTestResultsSettingsBasicProps(): void
     {
-        $trs = new \ilTestResultsSettings();
+        $trs = new \ilTestPassResultsSettings();
         $this->assertTrue($trs->withShowHiddenQuestions(true)->getShowHiddenQuestions());
         $this->assertFalse($trs->withShowHiddenQuestions(false)->getShowHiddenQuestions());
         $this->assertTrue($trs->withShowOptionalQuestions(true)->getShowOptionalQuestions());

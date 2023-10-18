@@ -160,6 +160,7 @@ class ilTestServiceGUI
         $this->participant_access_filter = $local_dic['participantAccessFilterFactory'];
         $this->shuffler = $local_dic['shuffler'];
         $this->results_factory = $local_dic['factory.results'];
+        $this->results_presentation_factory = $local_dic['factory.results_presentation'];
     }
 
     public function setParticipantData(ilTestParticipantData $participantData): void

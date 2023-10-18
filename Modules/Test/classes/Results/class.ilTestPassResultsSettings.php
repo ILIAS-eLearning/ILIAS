@@ -22,7 +22,7 @@ declare(strict_types=1);
  * @package Modules/Test
  * Environment/settings to control result presentation
  */
-class ilTestResultsSettings
+class ilTestPassResultsSettings
 {
     protected bool $show_hidden_questions = false;
     protected bool $show_optional_questions = false;
