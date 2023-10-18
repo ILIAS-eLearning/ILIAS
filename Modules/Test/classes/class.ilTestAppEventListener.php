@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\Test\Skills;
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -29,21 +31,10 @@ class ilTestAppEventListener implements ilAppEventListener
      */
     public static function handleEvent(string $a_component, string $a_event, array $a_parameter): void
     {
-        global $DIC;
+        $test_skill_repo = new Skills\TestSkillDBRepository();
 
-        $test_skill_deletion_manager = $DIC->skills()->internalTest()->manager()->getSkillDeletionManager();
-
-        switch ($a_component) {
-            case "Services/Skill":
-                switch ($a_event) {
-                    case "deleteSkill":
-                        $test_skill_deletion_manager->removeTestSkillsForSkill(
-                            $a_parameter["node_id"],
-                            $a_parameter["is_reference"]
-                        );
-                        break;
-                }
-                break;
+        if ($a_component === "Services/Skill" && $a_event === "deleteSkill") {
+            $test_skill_repo->removeForSkill($a_parameter["node_id"], $a_parameter["is_reference"]);
         }
     }
 }

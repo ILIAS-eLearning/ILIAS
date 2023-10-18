@@ -121,20 +121,4 @@ class SkillService implements SkillServiceInterface
     {
         return new Survey\Skills\SkillInternalService();
     }*/
-
-    /**
-     * Internal service for Skill classes in Test Module
-     */
-    public function internalTest(): Test\Skills\SkillInternalService
-    {
-        return new Test\Skills\SkillInternalService();
-    }
-
-    /**
-     * Internal service for Skill classes in Test Question Pool Module
-     */
-    public function internalTestQuestionPool(): TestQuestionPool\Skills\SkillInternalService
-    {
-        return new TestQuestionPool\Skills\SkillInternalService();
-    }
 }
