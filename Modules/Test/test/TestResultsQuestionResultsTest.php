@@ -50,6 +50,6 @@ class TestResultsQuestionResultsTest extends TestCase
         $this->assertEquals($feedback, $qr->getFeedback());
         $this->assertTrue($qr->isWorkedThrough());
         $this->assertTrue($qr->isAnswered());
-        $this->assertEquals($recapitulation, $qr->getRecapitulation());
+        $this->assertEquals($recapitulation, $qr->getContentForRecapitulation());
     }
 }

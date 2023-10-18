@@ -18,13 +18,16 @@
 
 declare(strict_types=1);
 
+use ILIAS\UI\Factory as UIFactory;
+use ILIAS\UI\Renderer as UIRenderer;
+
 /**
  * Class ilTestPassOverviewTableGUI
  */
 class ilTestPassOverviewTableGUI extends ilTable2GUI
 {
-    private \ILIAS\UI\Factory $ui_factory;
-    private \ILIAS\UI\Renderer $ui_renderer;
+    private UIFactory $ui_factory;
+    private UIRenderer $ui_renderer;
     protected bool $resultPresentationEnabled = false;
 
     protected bool $pdfPresentationEnabled = false;
@@ -266,12 +269,12 @@ class ilTestPassOverviewTableGUI extends ilTable2GUI
         }
 
         $this->ctrl->setParameter($this->parent_obj, 'pass', $pass);
-        $act = [];
+        $action_links = [];
         if (count($actions) > 1) {
             foreach ($actions as $cmd => $label) {
-                $act[] = $this->ui_factory->link()->standard($label, $this->ctrl->getLinkTarget($this->parent_obj, $cmd));
+                $action_links[] = $this->ui_factory->link()->standard($label, $this->ctrl->getLinkTarget($this->parent_obj, $cmd));
             }
-            $dropdown = $this->ui_factory->dropdown()->standard($act)->withLabel($this->lng->txt('actions'));
+            $dropdown = $this->ui_factory->dropdown()->standard($action_links)->withLabel($this->lng->txt('actions'));
             $html = $this->ui_renderer->render($dropdown);
         } else {
             $cmd = key($actions);

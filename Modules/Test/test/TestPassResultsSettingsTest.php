@@ -22,7 +22,7 @@ namespace ILIAS\Modules\Test\test;
 
 use PHPUnit\Framework\TestCase;
 
-class TestResultsSettingsTest extends TestCase
+class TestPassResultsSettingsTest extends TestCase
 {
     public function testTestResultsSettingsDefaults(): void
     {

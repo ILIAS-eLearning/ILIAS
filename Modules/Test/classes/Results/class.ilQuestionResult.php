@@ -39,7 +39,7 @@ class ilQuestionResult
         protected string $feedback,
         protected bool $workedthrough,
         protected bool $answered,
-        protected ?string $recapitulation
+        protected ?string $content_for_recapitulation
     ) {
     }
 
@@ -97,8 +97,8 @@ class ilQuestionResult
     {
         return $this->answered;
     }
-    public function getRecapitulation(): ?string
+    public function getContentForRecapitulation(): ?string
     {
-        return $this->recapitulation;
+        return $this->content_for_recapitulation;
     }
 }
