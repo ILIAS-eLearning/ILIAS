@@ -949,6 +949,7 @@ class Renderer extends AbstractComponentRenderer
                 $is_disabled = ($input->isDisabled()) ? 'true' : 'false';
                 $php_upload_limit = $this->getUploadLimitResolver()->getPhpUploadLimitInBytes();
                 $should_upload_be_chunked = ($input->getMaxFileSize() > $php_upload_limit) ? 'true' : 'false';
+                $chunk_size = (int) floor($php_upload_limit * 0.9);
                 return "
                     $(document).ready(function () {
                         il.UI.Input.File.init(
@@ -963,7 +964,7 @@ class Renderer extends AbstractComponentRenderer
                             $is_disabled,
                             $translations,
                             $should_upload_be_chunked,
-                            $php_upload_limit
+                            $chunk_size
                         );
                     });
                 ";

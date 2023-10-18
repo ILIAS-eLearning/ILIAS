@@ -138,7 +138,7 @@ il.UI.Input = il.UI.Input || {};
 				`#${input_id} ${SELECTOR.dropzone}`,
 				{
 					url: encodeURI(upload_url),
-					uploadMultiple: (1 < max_file_amount),
+					uploadMultiple: (!should_upload_be_chunked && 1 < max_file_amount),
 					acceptedFiles: (0 < mime_types.length) ? mime_types : null,
 					maxFiles: max_file_amount,
 					maxFilesize: bytesToMiB(max_file_size_in_bytes), // official dropzone.js docu is wrong, MiB is expected.
@@ -152,7 +152,7 @@ il.UI.Input = il.UI.Input || {};
 					input_id: input_id,
 					chunking: should_upload_be_chunked,
 					forceChunking: should_upload_be_chunked,
-					chunkSize: bytesToMiB(chunk_size_in_bytes), // official dropzone.js docu is wrong, MiB is expected.
+					chunkSize: chunk_size_in_bytes,
 
 					// override default rendering function.
 					addedfile: file => {
@@ -355,7 +355,7 @@ il.UI.Input = il.UI.Input || {};
 			}
 
 			// abort if the given file size exceeds the max limit.
-			if (dropzones[input_id].options.maxFilesize < file.size) {
+			if ((dropzones[input_id].options.maxFilesize * 1024 * 1024) < file.size) {
 				let allowed_file_size = dropzones[input_id].filesize(dropzones[input_id].options.maxFilesize);
 				displayErrorMessage(
 					I18N.invalid_size.replace('%s', allowed_file_size),
