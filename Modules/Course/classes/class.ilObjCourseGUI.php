@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=0);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,7 @@ declare(strict_types=0);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+declare(strict_types=0);
 
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory;
@@ -828,6 +827,7 @@ class ilObjCourseGUI extends ilContainerGUI
                 $this->object->setWaitingListAutoFill(false);
                 break;
         }
+        $this->object->handleAutoFill();
 
         $obj_service->commonSettings()->legacyForm($form, $this->object)->saveTitleIconVisibility();
         $obj_service->commonSettings()->legacyForm($form, $this->object)->saveTopActionsVisibility();
