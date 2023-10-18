@@ -195,15 +195,15 @@ class ilCmiXapiHighscoreReport
 
     public function getResponseDebug(): string
     {
-//        foreach($this->response as $key => $item)
-//        {
-//            $user = ilCmiXapiUser::getUserFromIdent(
-//                ilObjectFactory::getInstanceByRefId($_GET['ref_id']),
-//                $tableRowData['mbox']
-//            );
-//
-//            $this->response[$key]['realname'] = $user->getFullname();
-//        }
+        //        foreach($this->response as $key => $item)
+        //        {
+        //            $user = ilCmiXapiUser::getUserFromIdent(
+        //                ilObjectFactory::getInstanceByRefId($_GET['ref_id']),
+        //                $tableRowData['mbox']
+        //            );
+        //
+        //            $this->response[$key]['realname'] = $user->getFullname();
+        //        }
         return '<pre>' . json_encode($this->response, JSON_PRETTY_PRINT) . '</pre>';
     }
 }

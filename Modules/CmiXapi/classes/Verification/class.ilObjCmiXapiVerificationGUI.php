@@ -79,7 +79,7 @@ class ilObjCmiXapiVerificationGUI extends ilObject2GUI
                 $newObj = $certificateVerificationFileService->createFile($userCertificatePresentation);
             } catch (\Exception $exception) {
                 $this->tpl->setOnScreenMessage('failure', $this->lng->txt('error_creating_certificate_pdf'));
-//                $this->create();
+                //                $this->create();
             }
 
             if ($newObj !== null) {
