@@ -170,18 +170,23 @@ class ilTestResultsFactory
         $settings = $test_obj->getScoreSettings();
         $settings_summary = $settings->getResultSummarySettings();
         $settings_result = $settings->getResultDetailsSettings();
+
+        $show_hidden_questions = false;
+        $show_optional_questions = true;
         $show_best_solution = $is_user_output ?
             $settings_result->getShowSolutionListComparison() :
             (bool)ilSession::get('tst_results_show_best_solutions');
+        $show_feedback = $settings_result->getShowSolutionFeedback();
+        $show_question_text_only = $settings_result->getShowSolutionAnswersOnly();
+        $show_content_for_recapitulation = $settings_result->getShowSolutionSuggested();
 
-        $pass_result_settings = (new ilTestPassResultsSettings())
-            ->withShowHiddenQuestions(false)
-            ->withShowOptionalQuestions(true)
-            ->withShowBestSolution($show_best_solution)
-            ->withShowFeedback($settings_result->getShowSolutionFeedback())
-            ->withQuestionTextOnly($settings_result->getShowSolutionAnswersOnly())
-            ->withShowRecapitulation($settings_result->getShowSolutionSuggested())
-        ;
-        return $pass_result_settings;
+        return new ilTestPassResultsSettings(
+            $show_hidden_questions,
+            $show_optional_questions,
+            $show_best_solution,
+            $show_feedback,
+            $show_question_text_only,
+            $show_content_for_recapitulation
+        );
     }
 }

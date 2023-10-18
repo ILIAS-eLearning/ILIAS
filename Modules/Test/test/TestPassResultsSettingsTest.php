@@ -37,18 +37,20 @@ class TestPassResultsSettingsTest extends TestCase
 
     public function testTestResultsSettingsBasicProps(): void
     {
-        $trs = new \ilTestPassResultsSettings();
-        $this->assertTrue($trs->withShowHiddenQuestions(true)->getShowHiddenQuestions());
-        $this->assertFalse($trs->withShowHiddenQuestions(false)->getShowHiddenQuestions());
-        $this->assertTrue($trs->withShowOptionalQuestions(true)->getShowOptionalQuestions());
-        $this->assertFalse($trs->withShowOptionalQuestions(false)->getShowOptionalQuestions());
-        $this->assertTrue($trs->withShowBestSolution(true)->getShowBestSolution());
-        $this->assertFalse($trs->withShowBestSolution(false)->getShowBestSolution());
-        $this->assertTrue($trs->withShowFeedback(true)->getShowFeedback());
-        $this->assertFalse($trs->withShowFeedback(false)->getShowFeedback());
-        $this->assertTrue($trs->withQuestionTextOnly(true)->getQuestionTextOnly());
-        $this->assertFalse($trs->withQuestionTextOnly(false)->getQuestionTextOnly());
-        $this->assertTrue($trs->withShowRecapitulation(true)->getShowRecapitulation());
-        $this->assertFalse($trs->withShowRecapitulation(false)->getShowRecapitulation());
+        $trs = new \ilTestPassResultsSettings(true, true, true, true, true, true);
+        $this->assertTrue($trs->getShowHiddenQuestions());
+        $this->assertTrue($trs->getShowOptionalQuestions());
+        $this->assertTrue($trs->getShowBestSolution());
+        $this->assertTrue($trs->getShowFeedback());
+        $this->assertTrue($trs->getQuestionTextOnly());
+        $this->assertTrue($trs->getShowRecapitulation());
+
+        $trs = new \ilTestPassResultsSettings(false, false, false, false, false, false);
+        $this->assertFalse($trs->getShowHiddenQuestions());
+        $this->assertFalse($trs->getShowOptionalQuestions());
+        $this->assertFalse($trs->getShowBestSolution());
+        $this->assertFalse($trs->getShowFeedback());
+        $this->assertFalse($trs->getQuestionTextOnly());
+        $this->assertFalse($trs->getShowRecapitulation());
     }
 }
