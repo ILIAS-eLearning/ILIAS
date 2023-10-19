@@ -1891,6 +1891,7 @@ assessment#:#tst_title_output#:#Show Question Title
 assessment#:#tst_title_output_full#:#Question Titles and Available Points
 assessment#:#tst_title_output_hide_points#:#Only Question Titles
 assessment#:#tst_title_output_no_title#:#Neither Question Titles nor Available Points
+assessment#:#tst_title_output_only_points#:#Only Available Points
 assessment#:#tst_trigger_result_refreshing#:#Results need to be recalculated. This may take a while.
 assessment#:#tst_type#:#Test Type
 assessment#:#tst_unchanged_answer_is_correct#:#The preset answer is correct###fau: testNav

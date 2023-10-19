@@ -1471,16 +1471,37 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
      * @return string The title for the question title output
      * @access public
      */
-    public function getQuestionTitle($title, $nr = null): string
+    public function getQuestionTitle($title, $nr = null, $points = null): string
     {
-        if ($this->getTitleOutput() !== 2) {
-            return $title;
-        }
+        switch($this->getTitleOutput())
+        {
+            case '0':
+            case '1':
+                return $title;
+                break;
+            case '2':
+                if (isset($nr)) {
+                    return $this->lng->txt("ass_question") . ' ' . $nr;
+                }
+                return $this->lng->txt("ass_question");
+                break;
+            case 3:
+                if (isset($nr)) {
+                    $txt = $this->lng->txt("ass_question") . ' ' . $nr;
+                } else {
+                    $txt = $this->lng->txt("ass_question");
+                }
+                if($points != '') {
+                    $lngv = $this->lng->txt('points');
+                    if ($points == 1) {
+                        $lngv = $this->lng->txt('point');
+                    }
+                    $txt .= ' - ' . $points . ' ' . $lngv;
+                }
+                return $txt;
+                break;
 
-        if ($this->getTitleOutput() === 2 && isset($nr)) {
-            return $this->lng->txt("ass_question") . ' ' . $nr;
         }
-
         return $this->lng->txt("ass_question");
     }
     // fau.
