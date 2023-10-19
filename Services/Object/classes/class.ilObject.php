@@ -19,10 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\Object\ilObjectDIC;
-use ILIAS\DI\UIServices;
-use ILIAS\ResourceStorage\Services as ResourceStorageServices;
-use ILIAS\Filesystem\Filesystem;
-use ILIAS\FileUpload\FileUpload;
+use ILIAS\Object\Properties\ObjectReferenceProperties\ObjectReferenceProperties;
 
 /**
  * Class ilObject
@@ -40,6 +37,7 @@ class ilObject
     public const TABLE_OBJECT_DATA = "object_data";
 
     private ?ilObjectProperties $object_properties = null;
+    private ?ObjectReferenceProperties $object_reference_properties = null;
 
     protected ilLogger $obj_log;
     protected ?ILIAS $ilias;
@@ -140,7 +138,7 @@ class ilObject
     public function getObjectProperties(): ilObjectProperties
     {
         if ($this->object_properties === null) {
-            $this->object_properties = $this->object_dic['object_properties']->getFor($this->getId());
+            $this->object_properties = $this->object_dic['object_properties_agregator']->getFor($this->id);
         }
         return $this->object_properties;
     }

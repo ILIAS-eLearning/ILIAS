@@ -48,7 +48,7 @@ class ilObjectPropertiesAgregator
     {
         $this->core_properties_repository->preload($object_ids);
         $objects_by_type = [];
-        foreach($object_ids as $obj_id) {
+        foreach ($object_ids as $obj_id) {
             $type = ilObject::_lookupType($obj_id);
 
             if (!array_key_exists($type, $objects_by_type)) {
@@ -58,7 +58,7 @@ class ilObjectPropertiesAgregator
         }
 
         foreach ($objects_by_type as $type => $obj_ids) {
-            $this->object_type_specific_properties_factory->getForObjectTypeString($type)->preload($obj_ids);
+            $this->object_type_specific_properties_factory->getForObjectTypeString($type)?->preload($obj_ids);
         }
     }
 }

@@ -18,7 +18,6 @@
 
 declare(strict_types=1);
 
-use ILIAS\Object\Properties\ObjectTypeSpecificProperties\Factory as ObjectTypeSpecificPropertiesFactory;
 use ILIAS\Object\Properties\CoreProperties\TileImage\ilObjectPropertyTileImage;
 
 class ilObjectProperties
