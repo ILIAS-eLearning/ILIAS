@@ -1,4 +1,7 @@
 @charset "UTF-8";
+/*
+* Dependencies
+*/
 /*!
  * Datetimepicker for Bootstrap 3
  * version : 4.17.37
@@ -681,8 +684,9 @@ table.mceToolbar tbody, table.mceToolbar tr, table.mceToolbar td {
 }
 
 /*
-* Dependencies
-*/ /* print less */
+* Normalize
+*/
+/* print less */
 @media print {
   * {
     /* see bug 0022342 */
@@ -890,9 +894,6 @@ th {
   padding: 0;
 }
 
-/*
-* Normalize
-*/
 .row {
   --bs-gutter-x: 30px;
   --bs-gutter-y: 0;
@@ -2227,6 +2228,9 @@ th {
     display: none !important;
   }
 }
+/*
+* Elements
+*/
 * {
   box-sizing: border-box;
 }
@@ -2602,8 +2606,9 @@ code {
   }
 }
 /*
-* Elements
+* Components
 */
+/* UI Framework */
 .c-tooltip__container {
   position: relative;
   display: inline-block;
@@ -3816,22 +3821,15 @@ button .minimize, button .close {
 }
 .il-card .il-card-image-container {
   width: 100%;
-  padding-top: 100%;
   position: relative;
 }
 .il-card .il-card-image-container a:focus-visible {
   position: static;
 }
 .il-card img.img-responsive, .il-card img.img-standard {
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
   width: 100%;
   max-height: 100%;
   margin: auto;
-  z-index: 100;
 }
 .il-card a {
   overflow: hidden;
@@ -3873,21 +3871,15 @@ button .minimize, button .close {
   padding-top: 6px;
 }
 .il-card .il-card-repository-head {
-  background-color: rgba(0, 0, 0, 0.5);
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
   height: 47px;
   padding: 0 6px;
-  z-index: 300;
-}
-.il-card .il-card-repository-head .icon {
-  filter: invert(50%);
 }
 .il-card .il-card-repository-head > div {
   padding: 6px 6px;
   float: left;
+}
+.il-card .il-card-repository-head .caret {
+  color: #4c6586;
 }
 .il-card .il-card-repository-head .il-chart-progressmeter-box {
   width: 41px;
@@ -9740,6 +9732,7 @@ td.c-table-data__cell--highlighted {
   width: 5rem;
 }
 
+/* Component parts from old delos.scss */
 div#agreement {
   width: 100%;
   height: 375px;
@@ -10404,6 +10397,7 @@ div.il_info {
   text-align: left;
 }
 
+/* Adapted from Bootstrap 3 */
 .fade {
   opacity: 0;
   -webkit-transition: opacity 0.15s linear;
@@ -11031,6 +11025,7 @@ tbody.collapse.in {
   clip: auto;
 }
 
+/* Legacy Modules & Services */
 /* Modules/Bibliographic */
 span.bibl_text_inline_Emph {
   font-style: italic;
@@ -18676,13 +18671,6 @@ img.ilUserXXSmall {
   outline: 3px solid #0078D7;
 }
 
-/*
-* Components
-*/
-/* UI Framework */
-/* Component parts from old delos.scss */
-/* Adapted from Bootstrap 3 */
-/* Legacy Modules & Services */
 /*
 	These classes are used to limit the number of rows when displaying larger chunks of text.
 	The mixin receives $height-in-rows as an integer. The classes il-multi-line-cap-2,3,5,10
