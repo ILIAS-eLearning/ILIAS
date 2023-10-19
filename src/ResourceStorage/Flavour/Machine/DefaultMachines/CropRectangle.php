@@ -133,7 +133,7 @@ class CropRectangle extends AbstractMachine implements FlavourMachine
         if ($cutout_height > $source_height) {
             $cutout_height = $source_height;
             $cutout_width = (int) ($cutout_height * $target_ratio);
-            $x_shift = (int) ($source_width - $cutout_width) / 2;
+            $x_shift = (int) (($source_width - $cutout_width) / 2);
             $y_shift = 0;
         }
 
