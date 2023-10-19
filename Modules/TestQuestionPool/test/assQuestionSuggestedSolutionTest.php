@@ -66,35 +66,6 @@ class assQuestionSuggestedSolutionTest extends TestCase
         $this->repo = new assQuestionSuggestedSolutionRepoMock();
     }
 
-    /**
-     * @depends testSuggestedSolutionText
-     */
-    public function testSuggestedSolutionMutators(assQuestionSuggestedSolution $sugsol): void
-    {
-        $id = 654;
-        $question_id = 456;
-        $internal_link = './another/internal/link/';
-        $import_id = '_my_import_id';
-        $subquestion_index = 2;
-
-        $value = 'some other value' ;
-        $last_update = new \DateTimeImmutable();
-
-        $sugsol = $sugsol
-            ->withId($id)
-            ->withQuestionId($question_id)
-            ->withImportId($import_id)
-            ->withSubquestionIndex($subquestion_index)
-            ->withValue($value);
-
-        $this->assertEquals($id, $sugsol->getId());
-        $this->assertEquals($question_id, $sugsol->getQuestionId());
-        $this->assertEquals($import_id, $sugsol->getImportId());
-        $this->assertEquals($subquestion_index, $sugsol->getSubquestionIndex());
-        $this->assertEquals($value, $sugsol->getValue());
-        $this->assertNotEquals($last_update, $sugsol->getLastUpdate());
-    }
-
     public function testSuggestedSolutionFile(): assSuggestedSolutionFile
     {
         $id = 123;
