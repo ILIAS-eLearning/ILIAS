@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -16,8 +14,9 @@ declare(strict_types=1);
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
+
+declare(strict_types=1);
 
 class ilObjLanguageDBAccess
 {
@@ -107,7 +106,7 @@ class ilObjLanguageDBAccess
             $query_check = true;
             $lang_array[$separated[0]][$separated[1]] = $separated[2];
         }
-        $query = rtrim($query, ",") . " ON DUPLICATE KEY UPDATE value=VALUES(value),remarks=VALUES(remarks);";
+        $query = rtrim($query, ",") . " ON DUPLICATE KEY UPDATE value=VALUES(value),local_change=VALUES(local_change),remarks=VALUES(remarks);";
         if ($query_check) {
             $this->ilDB->manipulate($query);
         }
