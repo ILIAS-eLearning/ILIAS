@@ -803,7 +803,9 @@ class ilObjFileGUI extends ilObject2GUI
         if ($kiosk_mode) {
             $file_info_for_users = $this->getFileInfoForUsers();
             foreach ($file_info_for_users as $file_info_entry_key => $file_info_entry_value) {
-                $file_info_for_users = $this->getFileInfoForUsers();
+                if ($file_info_entry_value !== null) {
+                    $info->addProperty($file_info_entry_key, $file_info_entry_value);
+                }
             }
         } else {
             $file_info = $this->getAllFileInfoForCurrentUser();
