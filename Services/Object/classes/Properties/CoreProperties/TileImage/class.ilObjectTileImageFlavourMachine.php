@@ -21,11 +21,11 @@ declare(strict_types=1);
 namespace ILIAS\Object\Properties\CoreProperties\TileImage;
 
 use ILIAS\Filesystem\Stream\FileStream;
-use ILIAS\ResourceStorage\Flavour\Definition\CropToSquare;
+use ILIAS\ResourceStorage\Flavour\Definition\CropToRectangle;
 use ILIAS\ResourceStorage\Flavour\Definition\FlavourDefinition;
 use ILIAS\ResourceStorage\Flavour\Engine\GDEngine;
 use ILIAS\ResourceStorage\Flavour\Machine\DefaultMachines\AbstractMachine;
-use ILIAS\ResourceStorage\Flavour\Machine\DefaultMachines\CropSquare;
+use ILIAS\ResourceStorage\Flavour\Machine\DefaultMachines\CropRectangle;
 use ILIAS\ResourceStorage\Flavour\Machine\DefaultMachines\GdImageToStreamTrait;
 use ILIAS\ResourceStorage\Flavour\Machine\FlavourMachine;
 use ILIAS\ResourceStorage\Flavour\Machine\Result;
@@ -36,13 +36,13 @@ class ilObjectTileImageFlavourMachine extends AbstractMachine implements Flavour
     use GdImageToStreamTrait;
     public const ID = "4c7e3aaff42a352fa3fd3dfc4d4a994cc3dfdd97e97c2c2c9932e22e2e57357a";
     private const FULL_QUALITY_SIZE_THRESHOLD = 100;
-    private CropSquare $crop;
+    private CropRectangle $crop;
     private ?ilObjectTileImageFlavourDefinition $definition = null;
     private ?FileInformation $information = null;
 
     public function __construct()
     {
-        $this->crop = new CropSquare();
+        $this->crop = new CropRectangle();
     }
 
 
@@ -71,10 +71,10 @@ class ilObjectTileImageFlavourMachine extends AbstractMachine implements Flavour
         $this->information = $information;
 
         $i = 0;
-        foreach ($for_definition->getSizes() as $size) {
+        foreach ($for_definition->getWidths() as $width) {
             yield new Result(
                 $for_definition,
-                $this->cropImage($stream, $size),
+                $this->cropImage($stream, $width),
                 $i,
                 true
             );
@@ -84,9 +84,9 @@ class ilObjectTileImageFlavourMachine extends AbstractMachine implements Flavour
 
     protected function cropImage(
         FileStream $stream,
-        int $size
+        int $width
     ) {
-        $quality = $size <= self::FULL_QUALITY_SIZE_THRESHOLD
+        $quality = $width <= self::FULL_QUALITY_SIZE_THRESHOLD
             ? 100 // we take 100% jpeg quality for small resultions
             : $this->definition->getQuality();
 
@@ -94,9 +94,10 @@ class ilObjectTileImageFlavourMachine extends AbstractMachine implements Flavour
         return $this->crop->processStream(
             $this->information,
             $stream,
-            new CropToSquare(
+            new CropToRectangle(
                 false,
-                $size,
+                $width,
+                $this->definition->getRatio(),
                 $quality
             )
         )->current()->getStream();

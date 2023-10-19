@@ -28,13 +28,15 @@ class ilObjectTileImageFlavourDefinition implements FlavourDefinition
 
     private int $quality = 70;
 
-    private array $sizes = [
+    private array $widths = [
         'xl' => 1920,
         'l' => 960,
         'm' => 480,
         's' => 240,
         'xs' => 120
     ];
+
+    private float $ratio = 3 / 2;
 
     public function __construct(
     ) {
@@ -58,8 +60,9 @@ class ilObjectTileImageFlavourDefinition implements FlavourDefinition
     public function getVariantName(): ?string
     {
         return json_encode([
-            'quality' => $this->quality,
-            'sizes' => $this->sizes
+            'width' => $this->widths,
+            'ratio' => $this->ratio,
+            'quality' => $this->quality
         ]);
     }
 
@@ -68,9 +71,14 @@ class ilObjectTileImageFlavourDefinition implements FlavourDefinition
         return true;
     }
 
-    public function getSizes(): array
+    public function getWidths(): array
     {
-        return $this->sizes;
+        return $this->widths;
+    }
+
+    public function getRatio(): float
+    {
+        return $this->ratio;
     }
 
     public function getQuality(): int
