@@ -25,21 +25,18 @@ use ILIAS\UI\Component\Symbol\Icon\Factory as IconFactory;
 use ILIAS\UI\Component\Image\Image;
 use ILIAS\UI\Component\Image\Factory as ImageFactory;
 use ILIAS\ResourceStorage\Services as StorageService;
-use ILIAS\ResourceStorage\Identification\ResourceIdentification;
+use ILIAS\ResourceStorage\Flavour\Flavour;
 use ILIAS\ResourceStorage\Flavour\Definition\FlavourDefinition;
-use ILIAS\ResourceStorage\Flavour\Definition\PagesToExtract;
 
 class FileObjectPropertyProviders implements ilObjectTypeSpecificPropertyProviders
 {
-    private bool $persist = true;
-    private int $max_size = 512;
     private FlavourDefinition $crop_definition;
     private FlavourDefinition $extract_definition;
 
     public function __construct()
     {
         $this->crop_definition = new ilObjectTileImageFlavourDefinition();
-        $this->extract_definition = new PagesToExtract($this->persist, $this->max_size, 1, true);
+        $this->extract_definition = new FirstPageToTileImageFlavourDefinition();
     }
 
     public function getObjectTypeSpecificTileImage(
@@ -52,29 +49,22 @@ class FileObjectPropertyProviders implements ilObjectTypeSpecificPropertyProvide
             return null;
         }
         if ($irss->flavours()->possible($rid, $this->crop_definition)) {
-            return $this->getImageFromIRSS($rid, $irss, $factory);
+            $flavour = $irss->flavours()->get($rid, $this->crop_definition);
+            return $this->getImageFromIRSS($irss, $factory, $flavour);
         }
         if ($irss->flavours()->possible($rid, $this->extract_definition)) {
-            $url = $irss->consume()->flavourUrls(
-                $irss->flavours()->get(
-                    $rid,
-                    $this->extract_definition
-                )
-            )->getURLs(false)->current();
-            if ($url !== null) {
-                return $factory->responsive($url, '');
-            }
+            $flavour = $irss->flavours()->get($rid, $this->extract_definition);
+            return $this->getImageFromIRSS($irss, $factory, $flavour);
         }
 
         return null;
     }
 
     private function getImageFromIRSS(
-        ResourceIdentification $resource,
         StorageService $irss,
-        ImageFactory $factory
+        ImageFactory $factory,
+        Flavour $flavour
     ): Image {
-        $flavour = $irss->flavours()->get($resource, $this->crop_definition);
         $urls = $irss->consume()->flavourUrls($flavour)->getURLsAsArray();
 
         $available_widths = $this->crop_definition->getWidths();
