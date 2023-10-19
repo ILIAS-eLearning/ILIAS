@@ -292,6 +292,7 @@ administration#:#options#:#Options
 administration#:#org_op_edit_user_accounts#:#Edit User Accounts
 administration#:#output_options#:#Output options
 administration#:#path_to_mkisofs#:#Path to mkisofs
+administration#:#prg_export#:#Visible in Study Programmes
 administration#:#purge_age_limit#:#Limit age
 administration#:#purge_age_limit_desc#:#If this field contains a value, only objects which were deleted before the specified number of days will be purged.
 administration#:#purge_count_limit#:#Limit count
@@ -13471,6 +13472,7 @@ ps#:#ps_export_excel#:#Start Excel Export
 ps#:#ps_export_files#:#Export Files
 ps#:#ps_export_groups#:#Allow export of user profile data in groups
 ps#:#ps_export_member#:#Members
+ps#:#ps_export_prgs#:#Allow export of user profile data in Study Programmes
 ps#:#ps_export_settings#:#Export Settings
 ps#:#ps_export_sub#:#Subscribers
 ps#:#ps_export_tutor#:#Tutors

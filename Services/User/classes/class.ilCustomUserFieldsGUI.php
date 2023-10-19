@@ -140,6 +140,7 @@ class ilCustomUserFieldsGUI
         $opts['visib_lua'] = $this->lng->txt('usr_settings_visib_lua');
         $opts['course_export'] = $this->lng->txt('course_export');
         $opts['group_export'] = $this->lng->txt('group_export');
+        $opts["prg_export"] = $this->lng->txt("prg_export");
         $opts['changeable'] = $this->lng->txt('changeable');
         $opts['changeable_lua'] = $this->lng->txt('usr_settings_changeable_lua');
         $opts['required'] = $this->lng->txt('required_field');
@@ -162,6 +163,7 @@ class ilCustomUserFieldsGUI
             'export' => ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_EXPORT,
             'course_export' => ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_VISIBLE_COURSES,
             'group_export' => ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_VISIBLE_GROUPS,
+            'prg_export' => ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_VISIBLE_PRG,
             'visib_reg' => ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_VISIBLE_REGISTRATION,
             'visib_lua' => ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_VISIBLE_LOCAL,
             'changeable_lua' => ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_CHANGEABLE_LOCAL,
@@ -209,6 +211,10 @@ class ilCustomUserFieldsGUI
                     [
                         ilUDFPermissionHelper::ACTION_FIELD_EDIT_ACCESS,
                         ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_VISIBLE_GROUPS
+                    ],
+                    [
+                        ilUDFPermissionHelper::ACTION_FIELD_EDIT_ACCESS,
+                        ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_VISIBLE_PRG
                     ],
                     [
                         ilUDFPermissionHelper::ACTION_FIELD_EDIT_ACCESS,
@@ -444,6 +450,7 @@ class ilCustomUserFieldsGUI
             $user_field_definitions->enableVisibleLocalUserAdministration($access['visib_lua']);
             $user_field_definitions->enableCourseExport($access['course_export']);
             $user_field_definitions->enableGroupExport($access['group_export']);
+            $user_field_definitions->enablePrgExport($access['prg_export']);
             $user_field_definitions->enableChangeable($access['changeable']);
             $user_field_definitions->enableChangeableLocalUserAdministration($access['changeable_lua']);
             $user_field_definitions->enableRequired($access['required']);
@@ -528,6 +535,10 @@ class ilCustomUserFieldsGUI
                     ],
                     [
                         ilUDFPermissionHelper::ACTION_FIELD_EDIT_ACCESS,
+                        ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_VISIBLE_PRG
+                    ],
+                    [
+                        ilUDFPermissionHelper::ACTION_FIELD_EDIT_ACCESS,
                         ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_CHANGEABLE_PERSONAL
                     ],
                     [
@@ -585,6 +596,7 @@ class ilCustomUserFieldsGUI
             $user_field_definitions->enableVisibleLocalUserAdministration($access['visib_lua']);
             $user_field_definitions->enableCourseExport($access['course_export']);
             $user_field_definitions->enableGroupExport($access['group_export']);
+            $user_field_definitions->enablePrgExport($access['prg_export']);
             $user_field_definitions->enableChangeable($access['changeable']);
             $user_field_definitions->enableChangeableLocalUserAdministration($access['changeable_lua']);
             $user_field_definitions->enableRequired($access['required']);
@@ -630,7 +642,7 @@ class ilCustomUserFieldsGUI
         $user_field_definitions = ilUserDefinedFields::_getInstance();
         foreach ($fields as $id) {
             $definition = $user_field_definitions->getDefinition($id);
-            $confirmation_gui->addItem('fields[]', $id, $definition['field_name']);
+            $confirmation_gui->addItem('fields[]', (string)$id, $definition['field_name']);
         }
 
         $this->main_tpl->setContent($confirmation_gui->getHTML());
@@ -704,6 +716,9 @@ class ilCustomUserFieldsGUI
                     [
                         ilUDFPermissionHelper::ACTION_FIELD_EDIT_ACCESS,
                         ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_VISIBLE_GROUPS
+                    ],                    [
+                        ilUDFPermissionHelper::ACTION_FIELD_EDIT_ACCESS,
+                        ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_VISIBLE_PRG
                     ],
                     [
                         ilUDFPermissionHelper::ACTION_FIELD_EDIT_ACCESS,
@@ -771,6 +786,7 @@ class ilCustomUserFieldsGUI
             $user_field_definitions->enableGroupExport((bool) ($checked['group_export_' . $field_id] ?? false));
             $user_field_definitions->enableVisibleRegistration((bool) ($checked['visib_reg_' . $field_id] ?? false));
             $user_field_definitions->enableCertificate((bool) ($checked['certificate_' . $field_id] ?? false));
+            $user_field_definitions->enablePrgExport((bool) ($checked['prg_export_' . $field_id] ?? false));
 
             $user_field_definitions->update($field_id);
         }

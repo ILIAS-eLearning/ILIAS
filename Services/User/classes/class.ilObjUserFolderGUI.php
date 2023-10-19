@@ -49,6 +49,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
         'export' => 'export',
         'course_export' => 'course_export',
         'group_export' => 'group_export',
+        'prg_export' => 'prg_export',
         'visib_reg' => 'header_visible_registration',
         'visib_lua' => 'usr_settings_visib_lua',
         'changeable_lua' => 'usr_settings_changeable_lua'
@@ -2603,6 +2604,15 @@ class ilObjUserFolderGUI extends ilObjectGUI
                 );
             } else {
                 $this->ilias->deleteSetting('usr_settings_group_export_' . $field);
+            }
+
+            if (($checked['prg_export_' . $field] ?? false) && !($field_properties[$field]['prg_export_hide'] ?? false)) {
+                $this->ilias->setSetting(
+                    'usr_settings_prg_export_' . $field,
+                    '1'
+                );
+            } else {
+                $this->ilias->deleteSetting('usr_settings_prg_export_' . $field);
             }
 
             $is_fixed = array_key_exists(

@@ -61,5 +61,7 @@ class ilPrivacySettingsTest extends TestCase
         $this->setGlobalVariable('ilDB', $this->createMock(ilDBInterface::class));
         $this->setGlobalVariable('ilSetting', $this->getMockBuilder(ilSetting::class)->disableOriginalConstructor()->getMock());
         $this->setGlobalVariable('ilUser', $this->getMockBuilder(ilObjUser::class)->disableOriginalConstructor()->getMock());
+        $this->setGlobalVariable('ilAccess', $this->getMockBuilder(ilAccess::class)->disableOriginalConstructor()->getMock());
+        $this->setGlobalVariable('rbacsystem', $this->getMockBuilder(ilRbacSystem::class)->disableOriginalConstructor()->getMock());
     }
 }

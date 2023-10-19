@@ -130,11 +130,12 @@ class ilUserFieldSettingsTableGUI extends ilTable2GUI
                 if ($prop == "visib_lua" && (int) $ilSetting->get('usr_settings_visib_lua_' . $field, '1')) {
                     $checked = true;
                 }
-
                 if ($prop == "changeable_lua" && (int) $ilSetting->get('usr_settings_changeable_lua_' . $field, '1')) {
                     $checked = true;
                 }
-
+                if ($prop == "prg_export" && $ilSetting->get("usr_settings_prg_export_" . $field) == "1") {
+                    $checked = true;
+                }
 
                 if ($this->confirm_change == 1) {	// confirm value
                     $checked = $req_checked[$prop . "_" . $field] ?? false;
