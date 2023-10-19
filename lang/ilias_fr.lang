@@ -7641,8 +7641,6 @@ crs#:#crs_timings_suggested_info#:#Temps de modification proposé
 crs#:#crs_timings_time_frame#:#Période
 crs#:#crs_timings_time_frame_tt#:#Time frame in days
 crs#:#crs_timings_update_error#:#Vos paramètres ne sont pas valides. Veuillez vérifier la chronologie des ressources suivantes :
-crs#:#crs_timings_visibility#:#Lorsque activé, la ressource reste visible en dehors de la période de disponibilité.
-crs#:#crs_timings_visibility_short#:#Visibilité
 crs#:#crs_timings_warning_timing_exists#:#Timings are configured for this object. If you active the availability settings, these timing settings will be reseted.
 crs#:#crs_to#:#Jusqu'à :
 crs#:#crs_tutor#:#Tuteur
@@ -11930,6 +11928,8 @@ notification_adm#:#osd_vanish#:#Presentation Time###29 07 2022 new variable
 notification_adm#:#osd_vanish_desc#:#Visible time of a notification on the screen in seconds.###29 07 2022 new variable
 notification_adm#:#play_sound#:#Play a Sound###29 07 2022 new variable
 notification_adm#:#play_sound_desc#:#Play a sound when receiving a new notficiation.###29 07 2022 new variable
+obj#:#activation_visible_when_disabled#:#Visibilité
+obj#:#activation_visible_when_disabled_info#:#Lorsque activé, la ressource reste visible en dehors de la période de disponibilité.
 obj#:#cont_filter_empty#:#Please use the filter to see any objects.###07 02 2020 new variable
 obj#:#cont_skll_published#:#Toutes les affectations ont été publiées.
 obj#:#cont_skll_published_some_not#:#Toutes les affectations données ont été publiées. Certains utilisateurs n'ont pas les affectations de compétences. Par conséquent, aucune affectation n’a pu être publiée pour eux.

@@ -7676,8 +7676,6 @@ crs#:#crs_timings_suggested_info#:#Priporočen čas urejanja
 crs#:#crs_timings_time_frame#:#Časovni okvir
 crs#:#crs_timings_time_frame_tt#:#Čas urejanja v dnevih
 crs#:#crs_timings_update_error#:#Priporočen čas učenja gradiva za naslednji tečaj ni v skladu z najpoznejšim možnim časom učenja.
-crs#:#crs_timings_visibility#:#Če je aktivirano, je učno gradivo vidno tudi zunaj predvidene razpoložljivosti.
-crs#:#crs_timings_visibility_short#:#Vidnost
 crs#:#crs_timings_warning_timing_exists#:#Pozor: za ta objekt obstaja aktiven učni načrt. če aktivirate časovno omejeno razpoložljivost, bodo časi načrtovanja učenja ponastavljeni.
 crs#:#crs_to#:#Do:
 crs#:#crs_tutor#:#Mentor
@@ -12021,6 +12019,8 @@ notification_adm#:#osd_vanish#:#Presentation Time###19 08 2022 new variable
 notification_adm#:#osd_vanish_desc#:#Visible time of a notification on the screen in seconds.###19 08 2022 new variable
 notification_adm#:#play_sound#:#Play a Sound###19 08 2022 new variable
 notification_adm#:#play_sound_desc#:#Play a sound when receiving a new notficiation.###19 08 2022 new variable
+obj#:#activation_visible_when_disabled#:#Vidnost
+obj#:#activation_visible_when_disabled_info#:#Če je aktivirano, je učno gradivo vidno tudi zunaj predvidene razpoložljivosti.
 obj#:#cont_filter_empty#:#Please use the filter to see any objects.
 obj#:#cont_skll_published#:#Vse dodelitve kompetenc so bile objavljene.
 obj#:#cont_skll_published_some_not#:#Vse obstoječe dodelitve kompetenc so bile objavljene. Pri nekaterih uporabnikih kompetence niso bile objavljene, ker ni bilo nobenih dodelitev.

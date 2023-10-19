@@ -113,7 +113,6 @@ class ilObjectGUI implements ImplementsCreationCallback
         global $DIC;
 
         $this->request = $DIC->http()->request();
-        $this->multi_object_manipulator = ilObjectDIC::dic()['multi_object_properties_manipulator'];
         $this->locator = $DIC["ilLocator"];
         $this->user = $DIC->user();
         $this->access = $DIC->access();
@@ -193,6 +192,14 @@ class ilObjectGUI implements ImplementsCreationCallback
         }
 
         $this->notes_service = $DIC->notes();
+    }
+
+    private function getMultiObjectPropertiesManipulator(): MultiObjectPropertiesManipulator
+    {
+        if (!isset($this->multi_object_manipulator)) {
+            $this->multi_object_manipulator = ilObjectDIC::dic()['multi_object_properties_manipulator'];
+        }
+        return $this->multi_object_manipulator;
     }
 
     public function getRefId(): int
@@ -815,7 +822,7 @@ class ilObjectGUI implements ImplementsCreationCallback
         $toolbar->addSeparator();
 
         $toolbar->addComponent(
-            $this->multi_object_manipulator->getTimeLimitsButton()
+            $this->getMultiObjectPropertiesManipulator()->getTimeLimitsButton()
         );
         return $toolbar;
     }
@@ -827,7 +834,7 @@ class ilObjectGUI implements ImplementsCreationCallback
             return;
         }
         $item_ref_ids = $this->retriever->getSelectedIdsFromObjectList();
-        $time_based_activation_modal = $this->multi_object_manipulator->getEditTimeLimitsPropertiesModal(
+        $time_based_activation_modal = $this->getMultiObjectPropertiesManipulator()->getEditTimeLimitsPropertiesModal(
             $item_ref_ids,
             $this
         );
@@ -845,7 +852,7 @@ class ilObjectGUI implements ImplementsCreationCallback
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('msg_no_perm_write'));
             return;
         }
-        $time_based_activation_modal = $this->multi_object_manipulator->saveEditTimeLimitsPropertiesModal($this, $this->request);
+        $time_based_activation_modal = $this->getMultiObjectPropertiesManipulator()->saveEditTimeLimitsPropertiesModal($this, $this->request);
         if ($time_based_activation_modal === null) {
             $this->tpl->setOnScreenMessage('success', $this->lng->txt('time_limits_changed'));
         } else {
