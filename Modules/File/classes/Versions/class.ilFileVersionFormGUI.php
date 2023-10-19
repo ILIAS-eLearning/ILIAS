@@ -101,7 +101,7 @@ class ilFileVersionFormGUI
                         : ilFileVersionsUploadHandlerGUI::MODE_APPEND
                 ),
                 $this->lng->txt(self::F_FILE)
-            )->withMaxFileSize(ilFileUtils::getUploadSizeLimitBytes())
+            ),
         ];
 
         $group = $this->ui_factory->input()->field()->group($inputs, $group_title);

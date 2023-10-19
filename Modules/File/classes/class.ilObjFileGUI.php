@@ -366,8 +366,6 @@ class ilObjFileGUI extends ilObject2GUI
             ])
         )->withMaxFiles(
             self::UPLOAD_MAX_FILES
-        )->withMaxFileSize(
-            (int) ilFileUtils::getUploadSizeLimitBytes()
         )->withRequired(true);
 
         // add input for copyright selection if enabled in the metadata settings

@@ -25,6 +25,8 @@ use ILIAS\FileUpload\DTO\UploadResult;
 use ILIAS\FileUpload\Handler\BasicHandlerResult;
 use ILIAS\FileUpload\Handler\BasicFileInfoResult;
 use ILIAS\ResourceStorage\Services;
+use ILIAS\Filesystem\Filesystem;
+use ILIAS\Filesystem\Stream\Streams;
 
 /**
  * @author            Thibeau Fuhrer <thf@studer-raimann.ch>
@@ -34,6 +36,7 @@ class ilObjFileUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
 {
     private Services $storage;
     private ilObjFileStakeholder $stakeholder;
+    protected Filesystem $temp_filesystem;
     private array $class_path = [self::class];
 
     public function __construct()
@@ -42,6 +45,7 @@ class ilObjFileUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
 
         $this->storage = $DIC->resourceStorage();
         $this->stakeholder = new ilObjFileStakeholder($DIC->user()->getId());
+        $this->temp_filesystem = $DIC->filesystem()->temp();
 
         parent::__construct();
     }
@@ -84,6 +88,10 @@ class ilObjFileUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
         $result = end($result_array);
 
         if ($result instanceof UploadResult && $result->isOK()) {
+            if ($this->is_chunked) {
+                return $this->processChunckedUpload($result);
+            }
+
             $identifier = $this->storage->manage()->upload($result, $this->stakeholder)->serialize();
             $status = HandlerResult::STATUS_OK;
             $message = "file upload OK";
@@ -94,6 +102,46 @@ class ilObjFileUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
         }
 
         return new BasicHandlerResult($this->getFileIdentifierParameterName(), $status, $identifier, $message);
+    }
+
+    protected function processChunckedUpload(UploadResult $result): HandlerResult
+    {
+        $temp_path = "$this->chunk_id/{$result->getName()}";
+
+        try {
+            if ($this->temp_filesystem->has($temp_path)) {
+                $stream = fopen($this->temp_filesystem->readStream($temp_path)->getMetadata()['uri'], 'ab');
+                fwrite($stream, file_get_contents($result->getPath()));
+            } else {
+                $this->temp_filesystem->write($temp_path, file_get_contents($result->getPath()));
+            }
+        } catch (Throwable $t) {
+            return new BasicHandlerResult(
+                $this->getFileIdentifierParameterName(),
+                HandlerResult::STATUS_FAILED,
+                '',
+                $t->getMessage()
+            );
+        }
+
+        if (($this->chunk_index + 1) === $this->amount_of_chunks) {
+            $whole_file = $this->temp_filesystem->readStream($temp_path);
+            $id = $this->storage->manage()->stream($whole_file, $this->stakeholder, $result->getName());
+
+            return new BasicHandlerResult(
+                $this->getFileIdentifierParameterName(),
+                HandlerResult::STATUS_OK,
+                $id->serialize(),
+                "file upload OK"
+            );
+        }
+
+        return new BasicHandlerResult(
+            $this->getFileIdentifierParameterName(),
+            HandlerResult::STATUS_PARTIAL,
+            '',
+            "chunk upload OK"
+        );
     }
 
     /**
@@ -145,5 +193,10 @@ class ilObjFileUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
         }
 
         return $info_results;
+    }
+
+    public function supportsChunkedUploads(): bool
+    {
+        return true;
     }
 }

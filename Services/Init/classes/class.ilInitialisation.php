@@ -356,6 +356,21 @@ class ilInitialisation
         };
     }
 
+    protected static function initUploadPolicies(\ILIAS\DI\Container $dic): void
+    {
+        $dic['upload_policy_repository'] = static function ($dic) {
+            return new UploadPolicyDBRepository($dic->database());
+        };
+
+        $dic['upload_policy_resolver'] = static function ($dic) {
+            return new UploadPolicyResolver(
+                $dic->rbac()->review(),
+                $dic->user(),
+                $dic['upload_policy_repository']->getAll(),
+            );
+        };
+    }
+
     /**
      * builds http path
      */
@@ -1530,6 +1545,8 @@ class ilInitialisation
             // load style definitions
             // use the init function with plugin hook here, too
             self::initStyle();
+
+            self::initUploadPolicies($DIC);
         }
 
         self::initUIFramework($GLOBALS["DIC"]);

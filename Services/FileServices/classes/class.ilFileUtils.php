@@ -754,7 +754,7 @@ class ilFileUtils
     public static function getFileSizeInfo(): string
     {
         global $DIC;
-        $size = new DataSize(self::getUploadSizeLimitBytes(), DataSize::MB);
+        $size = new DataSize(self::getPhpUploadSizeLimitInBytes(), DataSize::MB);
         $max_filesize = $size->__toString();
         $lng = $DIC->language();
 
@@ -903,7 +903,7 @@ class ilFileUtils
     /**
      * @deprecated should use DataSize instead
      */
-    public static function getUploadSizeLimitBytes(): string
+    public static function getPhpUploadSizeLimitInBytes(): string
     {
         $convertPhpIniSizeValueToBytes = function ($phpIniSizeValue) {
             if (is_numeric($phpIniSizeValue)) {

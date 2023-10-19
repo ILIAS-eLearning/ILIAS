@@ -102,7 +102,6 @@ class ilObjectPropertyIcon implements ilObjectProperty
         $custom_icon = $field_factory
             ->file(new ilObjectCustomIconUploadHandlerGUI($this->custom_icon), $language->txt(self::INPUT_LABEL))
             ->withAcceptedMimeTypes(self::SUPPORTED_MIME_TYPES)
-            ->withMaxFileSize((int) ilFileUtils::getUploadSizeLimitBytes())
             ->withAdditionalTransformation($trafo);
 
         if (!$this->custom_icon->exists()) {

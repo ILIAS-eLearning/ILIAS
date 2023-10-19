@@ -59,7 +59,10 @@ class InitUIFramework
         };
         $c["ui.upload_limit_resolver"] = function ($c) {
             return new \ILIAS\UI\Implementation\Component\Input\UploadLimitResolver(
-                (int) \ilFileUtils::getUploadSizeLimitBytes()
+                (int) \ilFileUtils::getPhpUploadSizeLimitInBytes(),
+                ($c->offsetExists('upload_policy_resolver')) ?
+                    $c['upload_policy_resolver']->getUserUploadSizeLimitInBytes() :
+                    null
             );
         };
         $c["ui.data_factory"] = function ($c) {
