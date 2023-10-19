@@ -41,9 +41,6 @@ class ilDclDatetimeRecordFieldModel extends ilDclBaseRecordFieldModel
      */
     public function parseExportValue($value): ?string
     {
-        if ($value === null) {
-            return null;
-        }
         return (new ilDate($value, IL_CAL_DATE))->get(IL_CAL_DATE);
     }
 
