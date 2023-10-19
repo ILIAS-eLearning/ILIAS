@@ -26,14 +26,12 @@ use ILIAS\ResourceStorage\Flavour\Definition\FlavourDefinition;
 use ILIAS\ResourceStorage\Flavour\Engine\GDEngine;
 use ILIAS\ResourceStorage\Flavour\Machine\DefaultMachines\AbstractMachine;
 use ILIAS\ResourceStorage\Flavour\Machine\DefaultMachines\CropRectangle;
-use ILIAS\ResourceStorage\Flavour\Machine\DefaultMachines\GdImageToStreamTrait;
 use ILIAS\ResourceStorage\Flavour\Machine\FlavourMachine;
 use ILIAS\ResourceStorage\Flavour\Machine\Result;
 use ILIAS\ResourceStorage\Information\FileInformation;
 
 class ilObjectTileImageFlavourMachine extends AbstractMachine implements FlavourMachine
 {
-    use GdImageToStreamTrait;
     public const ID = "4c7e3aaff42a352fa3fd3dfc4d4a994cc3dfdd97e97c2c2c9932e22e2e57357a";
     private const FULL_QUALITY_SIZE_THRESHOLD = 100;
     private CropRectangle $crop;
