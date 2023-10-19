@@ -8590,7 +8590,7 @@ dcl#:#dcl_plugin_hooks#:#Available Plugins
 dcl#:#dcl_plugin_no_hooks_available#:#No active field-type plugins found
 dcl#:#dcl_prev_record#:#Previous Entry
 dcl#:#dcl_prop_expression#:#Expression
-dcl#:#dcl_prop_expression_info#:#Supported operators: <b>%s</b><br>Supported functions: <b>%s</b><br>Use brackets <b>‘(’, ‘)’</b> to group calculations.<br>Concatenate strings and placeholders with &: <b>‘The result is ’ & [[Int 1]] * [[Int2]]</b><br>Using functions: <b>SUM([[Int 1]];[[Int 2]])</b><br><br>Available fields (click on title to copy field inside expression):<br>%s
+dcl#:#dcl_prop_expression_info#:#Supported operators: <b>%s</b><br>Supported functions: <b>%s</b><br>Use brackets <b>‘(’, ‘)’</b> to group calculations.<br>Concatenate strings and placeholders with &: <b>‘The result is ’ & [[Int 1]] * [[Int2]]</b><br>Using functions: <b>SUM([[Int 1]];[[Int 2]])</b><br>When using date fields and number fields in a formula, the number fields are considered seconds and must be multiplied by 86400, for example.<br><br>Available fields (click on title to copy field inside expression):<br>%s
 dcl#:#dcl_public_comments#:#Activate Public Comments
 dcl#:#dcl_public_comments_desc#:#Users can comment on entries of the table.
 dcl#:#dcl_rating#:#Rating

@@ -272,7 +272,7 @@ class MathResultResolver implements ResultResolver
                 $result = pow($left, $right);
                 break;
             default:
-                throw new ilException("Unrecognized operator '$operator'");
+                throw new \ilException("Unrecognized operator '$operator'");
         }
 
         return $result;
