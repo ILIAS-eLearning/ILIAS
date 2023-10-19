@@ -219,6 +219,13 @@ class ilTestScreenGUI
             ;
         }
 
+        if ($this->object->getFixedParticipants() && $this->object->getInvitedUsers($this->user->getId()) !== []) {
+            return $launcher
+                ->inline($this->data_factory->link('', $this->data_factory->uri($this->http->request()->getUri()->__toString())))
+                ->withButtonLabel($this->lng->txt('tst_exam_not_assigned_participant_disclaimer'), false)
+            ;
+        }
+
         if ($this->hasAvailablePasses()) {
             if ($this->lastPassSuspended()) {
                 ilSession::set('tst_password_' . $this->object->getTestId(), $this->object->getPassword());

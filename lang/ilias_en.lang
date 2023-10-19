@@ -1367,6 +1367,7 @@ assessment#:#tst_exam_ending_time_message#:#The test cannot be started after %s.
 assessment#:#tst_exam_modal_message_conditions#:#Please confirm the conditions to start the test.
 assessment#:#tst_exam_modal_message_conditions_and_password#:#Please confirm the conditions and enter the password to start the test.
 assessment#:#tst_exam_modal_message_password#:#Please enter the password to start the test.
+assessment#:#tst_exam_not_assigned_participant_disclaimer#:#You cannot start this test, as you are not an assigned participant.
 assessment#:#tst_exam_password#:#Test Password
 assessment#:#tst_exam_password_invalid_message#:#The given password is not valid!
 assessment#:#tst_exam_password_label#:#Password
