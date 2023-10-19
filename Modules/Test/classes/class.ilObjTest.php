@@ -5660,7 +5660,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
             $waiting_between_passes = $this->getMainSettings()->getTestBehaviourSettings()->getPassWaiting();
             if ($last_pass && $waiting_between_passes !== '') {
                 $time_values = explode(":", $waiting_between_passes);
-                $next_pass_allowed = strtotime('+ ' . $time_values[0] . ' Months + ' . $time_values[1] . ' Days + ' . $time_values[2] . ' Hours' . $time_values[3] . ' Minutes', $last_pass);
+                $next_pass_allowed = strtotime('+ ' . $time_values[0] . ' Days + ' . $time_values[1] . ' Hours' . $time_values[2] . ' Minutes', $last_pass);
 
                 if (time() < $next_pass_allowed) {
                     $date = ilDatePresentation::formatDate(new ilDateTime($next_pass_allowed, IL_CAL_UNIX));
