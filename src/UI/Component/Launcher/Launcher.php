@@ -23,7 +23,6 @@ namespace ILIAS\UI\Component\Launcher;
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\Chart\ProgressMeter\ProgressMeter;
 use ILIAS\UI\Component\Symbol\Icon\Icon;
-use ILIAS\UI\Component\Input\Container\Form\Form;
 use ILIAS\UI\Component\Input\Field\Group;
 use ILIAS\UI\Component\MessageBox;
 use Psr\Http\Message\ServerRequestInterface;
@@ -63,4 +62,8 @@ interface Launcher extends Component
     public function withButtonLabel(string $label, bool $launchable = true): self;
 
     public function withRequest(ServerRequestInterface $request): self;
+
+    public function withModalSubmitLabel(?string $label): self;
+
+    public function withModalCancelLabel(?string $label): self;
 }
