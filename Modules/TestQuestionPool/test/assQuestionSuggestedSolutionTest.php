@@ -66,47 +66,6 @@ class assQuestionSuggestedSolutionTest extends TestCase
         $this->repo = new assQuestionSuggestedSolutionRepoMock();
     }
 
-    public function testSuggestedSolutionText(): assSuggestedSolutionText
-    {
-        $id = 123;
-        $question_id = 321;
-        $internal_link = '';
-        $import_id = 'imported_xy';
-        $subquestion_index = 0;
-        $type = assQuestionSuggestedSolution::TYPE_TEXT;
-        $value = 'some value' ;
-        $last_update = new \DateTimeImmutable();
-
-        $sugsol = $this->repo->getSolution(
-            $id,
-            $question_id,
-            $internal_link,
-            $import_id,
-            $subquestion_index,
-            $type,
-            $value,
-            $last_update
-        );
-        $this->assertInstanceOf(assQuestionSuggestedSolution::class, $sugsol);
-        $this->assertInstanceOf(assSuggestedSolutionText::class, $sugsol);
-
-        $this->assertEquals($id, $sugsol->getId());
-        $this->assertEquals($question_id, $sugsol->getQuestionId());
-        $this->assertEquals($import_id, $sugsol->getImportId());
-        $this->assertEquals($subquestion_index, $sugsol->getSubquestionIndex());
-        $this->assertEquals($last_update, $sugsol->getLastUpdate());
-        $this->assertEquals($type, $sugsol->getType());
-        $this->assertEquals($value, $sugsol->getValue());
-        $this->assertEquals($value, $sugsol->getStorableValue());
-
-        $this->assertTrue($sugsol->isOfTypeText());
-        $this->assertFalse($sugsol->isOfTypeFile());
-        $this->assertFalse($sugsol->isOfTypeLink());
-
-        return $sugsol;
-    }
-
-
     /**
      * @depends testSuggestedSolutionText
      */
@@ -173,7 +132,6 @@ class assQuestionSuggestedSolutionTest extends TestCase
         $this->assertEquals($values[$sugsol::ARRAY_KEY_FILENAME], $sugsol->getFilename());
         $this->assertEquals(serialize($values), $sugsol->getStorableValue());
         $this->assertTrue($sugsol->isOfTypeFile());
-        $this->assertFalse($sugsol->isOfTypeText());
         $this->assertFalse($sugsol->isOfTypeLink());
 
         return $sugsol;

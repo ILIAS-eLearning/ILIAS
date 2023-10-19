@@ -166,9 +166,6 @@ class assQuestionSuggestedSolutionsDatabaseRepository
             case assQuestionSuggestedSolution::TYPE_FILE:
                 $suggestion_class = assSuggestedSolutionFile::class;
                 break;
-            case assQuestionSuggestedSolution::TYPE_TEXT:
-                $suggestion_class = assSuggestedSolutionText::class;
-                break;
             case assQuestionSuggestedSolution::TYPE_LM:
             case assQuestionSuggestedSolution::TYPE_LM_CHAPTER:
             case assQuestionSuggestedSolution::TYPE_LM_PAGE:
@@ -208,10 +205,6 @@ class assQuestionSuggestedSolutionsDatabaseRepository
             if (preg_match("/il_(\d*?)_(\w+)_(\d+)/", $solution->getInternalLink(), $matches)) {
                 \ilInternalLink::_saveLink("qst", $solution->getQuestionId(), $matches[2], (int) $matches[3], (int) $matches[1]);
             }
-        }
-
-        if ($solution->isOfTypeText()) {
-            \ilRTE::_cleanupMediaObjectUsage($solution->getValue(), "qpl:html", $solution->getQuestionId());
         }
     }
 }

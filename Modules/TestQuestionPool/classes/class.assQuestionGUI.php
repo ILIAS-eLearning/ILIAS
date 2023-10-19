@@ -1236,19 +1236,6 @@ abstract class assQuestionGUI
                 $this->object->getId(),
                 assQuestionSuggestedSolution::TYPE_FILE
             );
-        } elseif (is_string($solution_type) && strcmp($solution_type, "text") == 0
-            && (!$solution || $solution->getType() !== assQuestionSuggestedSolution::TYPE_TEXT)
-        ) {
-            $oldsaveSuggestedSolutionOutputMode = $this->getRenderPurpose();
-            $this->setRenderPurpose(self::RENDER_PURPOSE_INPUT_VALUE);
-            $solution = $this->getSuggestedSolutionsRepo()->create(
-                $this->object->getId(),
-                assQuestionSuggestedSolution::TYPE_TEXT
-            )->withValue(
-                $this->getSolutionOutput(0, null, false, false, true, false, true)
-            );
-
-            $this->setRenderPurpose($oldsaveSuggestedSolutionOutputMode);
         }
 
         $solution_filename = $this->request->raw('filename');
@@ -1256,13 +1243,6 @@ abstract class assQuestionGUI
             is_string($solution_filename) &&
             strlen($solution_filename)) {
             $solution = $solution->withTitle($solution_filename);
-        }
-
-        $solution_text = $this->request->raw('solutiontext');
-        if ($save &&
-            is_string($solution_text) &&
-            strlen($solution_text)) {
-            $solution->withValue($solution_text);
         }
 
         if ($solution) {
@@ -1363,23 +1343,6 @@ abstract class assQuestionGUI
                 $hidden = new ilHiddenInputGUI("solutiontype");
                 $hidden->setValue("file");
                 $form->addItem($hidden);
-            } elseif ($solution->isOfTypeText()) {
-                $solutionContent = $solution->getValue();
-                $solutionContent = $this->object->fixSvgToPng($solutionContent);
-                $solutionContent = $this->object->fixUnavailableSkinImageSources($solutionContent);
-                $question = new ilTextAreaInputGUI($this->lng->txt("solutionText"), "solutiontext");
-                $question->setValue(ilLegacyFormElementsUtil::prepareTextareaOutput($solutionContent));
-                $question->setRequired(true);
-                $question->setRows(10);
-                $question->setCols(80);
-                $question->setUseRte(true);
-                $question->addPlugin("latex");
-                $question->addButton("latex");
-                $question->setRTESupport($this->object->getId(), "qpl", "assessment");
-                $hidden = new ilHiddenInputGUI("solutiontype");
-                $hidden->setValue("text");
-                $form->addItem($hidden);
-                $form->addItem($question);
             }
             if ($ilAccess->checkAccess("write", "", $this->request->getRefId())) {
                 $form->addCommandButton('cancelSuggestedSolution', $this->lng->txt('cancel'));

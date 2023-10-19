@@ -38,8 +38,7 @@ abstract class assQuestionSuggestedSolution
         self::TYPE_LM_CHAPTER => 'obj_st',
         self::TYPE_LM_PAGE => 'obj_pg',
         self::TYPE_GLOSARY_TERM => 'glossary_term',
-        self::TYPE_FILE => 'fileDownload',
-        self::TYPE_TEXT => 'solutionText'
+        self::TYPE_FILE => 'fileDownload'
     ];
 
     protected int $id;
@@ -117,11 +116,6 @@ abstract class assQuestionSuggestedSolution
     public function isOfTypeFile(): bool
     {
         return $this->getType() === self::TYPE_FILE;
-    }
-
-    public function isOfTypeText(): bool
-    {
-        return $this->getType() === self::TYPE_TEXT;
     }
 
     public function isOfTypeLink(): bool
