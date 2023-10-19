@@ -293,6 +293,7 @@ interface Factory
      *     3: Slates SHOULD NOT use vertical scrollbars.
      *     4: Slates MUST visually relate to their triggering Component.
      *     5: Slates SHOULD NOT be affected by scrolling the page.
+     *     6: Slates MUST present columned content as a vertical sequence. 
      *
      *   accessibility:
      *     1: The Slate MUST be closeable by only using the keyboard
