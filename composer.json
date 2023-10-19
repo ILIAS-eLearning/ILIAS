@@ -241,6 +241,16 @@
 			"approved-date": "YYYY-MM-DD",
 			"info": "see #28586"
 		},
+		"tecnickcom/tcpdf" : {
+			"source" : "https://github.com/tecnickcom/TCPDF",
+			"used_version" : "v6.3.5",
+			"wrapped_by" : "Services/PDFGeneration",
+			"added_by" : "Maximilian Becker <mbecker@databay.de>",
+			"last_update" : "2020-10-15",
+			"last_update_by" : "Michael Jansen <mjansen@databay.de>",
+			"approved-by": "Jour Fixe",
+			"approved-date": "YYYY-MM-DD"
+		},
 		"pimple/pimple" : {
 			"source" : "https://github.com/silexphp/Pimple.git",
 			"used_version" : "v3.3.0",
