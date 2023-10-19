@@ -18,20 +18,22 @@
 
 declare(strict_types=1);
 
-class ilDclStack
+namespace ILIAS\Modules\DataCollection\Fields\Formula\FormulaParser;
+
+class Stack
 {
     protected array $stack = [];
 
     /**
      * @param float|int|string $elem
      */
-    public function push($elem)
+    public function push($elem): void
     {
         $this->stack[] = $elem;
     }
 
     /**
-     * @return ?float|int|string
+     * @return float|int|string|null
      */
     public function pop()
     {
@@ -48,7 +50,7 @@ class ilDclStack
     }
 
     /**
-     * @return ?float|int|string
+     * @return float|int|string|null
      */
     public function top()
     {
@@ -72,10 +74,5 @@ class ilDclStack
     public function count(): int
     {
         return count($this->stack);
-    }
-
-    public function debug(): void
-    {
-        echo "<pre>" . print_r($this->stack, true) . "</pre>";
     }
 }
