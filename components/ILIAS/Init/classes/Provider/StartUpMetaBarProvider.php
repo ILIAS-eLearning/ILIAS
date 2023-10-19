@@ -101,7 +101,8 @@ class StartUpMetaBarProvider extends AbstractStaticMetaBarProvider
                                 ->withSymbol($language_icon)
                                 ->withAction($link)
                                 ->withContentLanguage($dataFactory->languageTag($lang_key))
-                                ->withLanguageForTargetedResource($dataFactory->languageTag($lang_key));
+                                ->withLanguageForTargetedResource($dataFactory->languageTag($lang_key))
+                                ->withTitle($language_name);
 
             $language_selection->appendChild($s);
         }
