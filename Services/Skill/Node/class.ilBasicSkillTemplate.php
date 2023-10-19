@@ -59,18 +59,6 @@ class ilBasicSkillTemplate extends ilBasicSkill
     {
         $ilDB = $this->db;
 
-        foreach (\ilSkillTemplateReference::_lookupTrefIdsForTemplateId($this->getId()) as $tref_id) {
-            $obj = ilSkillTreeNodeFactory::getInstance($tref_id);
-            $skill_tree = $this->skill_service->internal()->repo()->getTreeRepo()->getTreeForNodeId($tref_id);
-            $node_data = $skill_tree->getNodeData($tref_id);
-            if (is_object($obj)) {
-                $obj->delete();
-            }
-            if ($skill_tree->isInTree($tref_id)) {
-                $skill_tree->deleteTree($node_data);
-            }
-        }
-
         $ilDB->manipulate(
             "DELETE FROM skl_templ_ref WHERE "
             . " templ_id = " . $ilDB->quote($this->getId(), "integer")

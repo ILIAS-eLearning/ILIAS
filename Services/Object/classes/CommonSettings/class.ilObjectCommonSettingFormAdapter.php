@@ -19,6 +19,10 @@
 declare(strict_types=1);
 
 use ILIAS\FileUpload\FileUpload;
+use ILIAS\FileUpload\DTO\UploadResult;
+use ILIAS\ResourceStorage\Services as ResourceStorageServices;
+use ILIAS\Object\Properties\CoreProperties\TileImage\ilObjectTileImageStakeholder;
+use ILIAS\Object\Properties\CoreProperties\TileImage\ilObjectTileImageFlavourDefinition;
 
 /**
  *
@@ -30,6 +34,9 @@ class ilObjectCommonSettingFormAdapter implements ilObjectCommonSettingFormAdapt
     public function __construct(
         private ilLanguage $language,
         private FileUpload $upload,
+        private ResourceStorageServices $storage,
+        private ilObjectTileImageStakeholder $stakeholder,
+        private ilObjectTileImageFlavourDefinition $flavour,
         private ilObjectCommonSettings $common_settings,
         private ?ilPropertyFormGUI $legacy_form = null
     ) {
@@ -52,7 +59,6 @@ class ilObjectCommonSettingFormAdapter implements ilObjectCommonSettingFormAdapt
         if (is_null($this->legacy_form)) {
             return;
         }
-
 
         $item = $this->legacy_form->getItemByPostVar('icon');
         if ($item && $item->getDeletionFlag()) {
@@ -101,19 +107,28 @@ class ilObjectCommonSettingFormAdapter implements ilObjectCommonSettingFormAdapt
             return;
         }
 
-        $file_data = $this->legacy_form->getInput('tile_image');
-        if (isset($file_data['tmp_name']) && $file_data['tmp_name']
-            && isset($file_data['size']) && $file_data['size'] > 0) {
-            $file_name_parts = explode('.', $file_data['name']);
-            $extension = '.' . array_pop($file_name_parts);
-            $tempfile = ilFileUtils::ilTempnam() . strtolower($extension);
-            if (!$this->upload->hasBeenProcessed()) {
-                $this->upload->process();
-            }
+        $this->upload->process();
+        $result_array = $this->upload->getResults();
+        $result = end($result_array);
 
-            rename($file_data['tmp_name'], $tempfile);
+        if (!($result instanceof UploadResult) || !$result->isOK()) {
+            return;
+        }
+
+        if ($item->getValue() === null || $item->getValue() === '') {
+            $i = $this->storage->manage()->upload($result, $this->stakeholder);
+            $this->storage->flavours()->ensure($i, $this->flavour);
+            $new_tile_image = $this->common_settings->getPropertyTileImage()
+                ->getTileImage()->withRid($i->serialize());
             $this->common_settings->storePropertyTileImage(
-                $this->common_settings->getPropertyTileImage()->withTempFileName(basename($tempfile))
+                $this->common_settings->getPropertyTileImage()->withTileImage($new_tile_image)
+            );
+        } else {
+            $i = $this->storage->manage()->find($item->getValue());
+            $this->storage->manage()->replaceWithUpload(
+                $i,
+                $result,
+                $this->stakeholder
             );
         }
     }

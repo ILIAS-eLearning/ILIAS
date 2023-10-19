@@ -184,7 +184,7 @@ class ilLTIConsumerResultService
             }
             $lp_percentage = (int) round(100 * $result);
 
-//            Mantis #37080
+            //            Mantis #37080
             ilLPStatus::writeStatus($this->result->obj_id, $this->result->usr_id, $lp_status, $lp_percentage, true);
 
             $code = "success";

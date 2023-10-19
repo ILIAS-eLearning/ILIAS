@@ -848,6 +848,7 @@ assessment#:#longmenu_answeroptions_differ#:#Diese Frage funktioniert nicht rich
 assessment#:#longmenu_text#:#‘Long Menu’-Text
 assessment#:#mailnottype#:#Ein Versand findet auch beim Beenden einzelner Testdurchläufe statt
 assessment#:#mailnottype_desc#:#Der Besitzer des Tests wird auch dann benachrichtigt, wenn die Anzahl Durchläufe nicht beschränkt ist.
+assessment#:#mainbar_button_label_questionlist#:#Fragenliste
 assessment#:#maintenance#:#Wartung
 assessment#:#manscoring#:#Manuelle Bewertung
 assessment#:#manscoring_done#:#Bereits bewertete Teilnehmer
@@ -1136,6 +1137,11 @@ assessment#:#result_units_info#:#Zum Beantworten der Frage werden die aktivierte
 assessment#:#result_x#:#Ergebnis %s
 assessment#:#results#:#Ergebnisse
 assessment#:#results_tab#:#Ergebnisse
+assessment#:#resulttable_all#:#Alle
+assessment#:#resulttable_correct#:#Korrekte
+assessment#:#resulttable_incorrect#:#Inkorrekte/Unvollständige
+assessment#:#resulttable_vc_sort_iooa#:#Reihenfolge im Test
+assessment#:#resulttable_vc_sort_posscore#:#Höchste (mögliche) Punktzahl zuerst
 assessment#:#review_view#:#Vorschau
 assessment#:#saveOrder#:#Sortierung abspeichern
 assessment#:#saveOrderAndObligations#:#Sortierung und Obligationen abspeichern
@@ -1191,6 +1197,7 @@ assessment#:#suggest_range#:#Bereich vorschlagen
 assessment#:#suggestedSolutionType#:#verweisen auf
 assessment#:#suggested_solution#:#Inhalte zur Wiederholung
 assessment#:#suggested_solution_added_successfully#:#Der Hinweis auf Inhalte zur Wiederholung wurde erfolgreich hinzugefügt!
+assessment#:#ta_resulttable_vc_mode_aria#:#Anzeigeoptionen für Fragen
 assessment#:#tab_nest_answers#:#Einrückung
 assessment#:#term#:#Term
 assessment#:#term_image#:#Bild
@@ -1338,6 +1345,8 @@ assessment#:#tst_dont_show_msg_again_in_current_session#:#Diese Meldung in meine
 assessment#:#tst_dont_use_previous_answers#:#Ihre vorherigen Antworten werden in zukünftigen Testdurchläufen nicht als vorgegebene Werte verwendet
 assessment#:#tst_edit_competence_assign#:#Bearbeite Zuordnungs-Eigenschaften
 assessment#:#tst_edit_scoring#:#Ändere Bewertung
+assessment#:#tst_enable_questionlist#:#Fragenliste
+assessment#:#tst_enable_questionlist_description#:#Teilnehmer können sich links neben den Testfragen eine Fragenliste anzeigen lassen.
 assessment#:#tst_ending_time#:#Ende
 assessment#:#tst_ending_time_before_starting_time#:#Bitte geben Sie für das Ende des Tests ein Datum ein, das nach dem Startdatum liegt.
 assessment#:#tst_ending_time_desc#:#Zeitpunkt, ab dem Teilnehmer keine Antworten mehr abgeben können. <b>Wichtig</b>: Benutzen Sie diese Option <b>nicht</b> für E-Klausuren/Fernklausuren. Verwenden Sie stattdessen die Funktion „Bearbeitungsdauer begrenzen“, siehe unten. Nur dann wird der Test serverseitig beendet und die letzte Eingabe jedes Teilnehmers automatisch gespeichert.
@@ -1815,8 +1824,8 @@ assessment#:#tst_show_solution_signature#:#Platzhalter für Unterschrift
 assessment#:#tst_show_solution_signature_desc#:#Ist die Option „Detaillierte Testergebnisse anzeigen“ oder „Druckbare Liste der Antworten“ aktiviert, fügt ILIAS zusätzlich ein Unterschriftenfeld in den Ausdruck ein. In diesem kann die Person, die den Test durchgeführt hat, unterschreiben.
 assessment#:#tst_show_solution_suggested#:#Inhalte zur Wiederholung
 assessment#:#tst_show_solution_suggested_desc#:#Falls den Fragen im Test Inhalte zur Wiederholung des Stoffs zugeordnet wurden, werden diese angezeigt. Sie müssen die Option "Detaillierte Testergebnissen anzeigen" aktivieren, um diese Funktion zu nutzen. Teilnehmerinnen und Teilnehmer können so etwaige Wissenslücken schließen.
-assessment#:#tst_show_summary#:#Fragenliste und Bearbeitungstand anzeigen
-assessment#:#tst_show_summary_description#:#Teilnehmer können sich links neben den Testfragen eine Fragenliste anzeigen lassen. Mit dem Button 'Bearbeitungsstand' rufen die Teilnehmer eine Übersicht auf, die zeigt, welche Fragen sie jeweils bereits bearbeitet oder markiert haben. Das Verhalten der Übersicht 'Bearbeitungsstand' können Sie noch weiter konfigurieren:
+assessment#:#tst_show_summary#:#Bearbeitungsstand
+assessment#:#tst_show_summary_description#:#Mit der Schaltfläche 'Bearbeitungsstand' können Teilnehmer eine Übersicht aufrufen, die zeigt, welche Fragen sie jeweils bereits bearbeitet oder markiert haben. Das Verhalten des 'Bearbeitungsstand' können Sie noch weiter konfigurieren:
 assessment#:#tst_show_toplist#:#Platzierung
 assessment#:#tst_shuffle_questions#:#Fragen mischen
 assessment#:#tst_shuffle_questions_description#:#Die Reihenfolge der Fragen wird pro Teilnehmer und pro Testdurchlauf neu gemischt.
@@ -9115,6 +9124,7 @@ exc#:#exc_global_feedback_file_date#:#Verfügbarkeit
 exc#:#exc_global_feedback_file_date_deadline#:#Nach dem Abgabetermin
 exc#:#exc_global_feedback_file_date_upload#:#Nach der Abgabe
 exc#:#exc_go_to_exercise#:#Zur Übung
+exc#:#exc_graded_mem_notified#:#Alle ausgewählten Teilnehmer mit einer Bewertung wurden benachrichtigt.
 exc#:#exc_grades#:#Notenübersicht
 exc#:#exc_grades_overview#:#Notenübersicht
 exc#:#exc_hand_in#:#Datei abgeben
@@ -9154,6 +9164,8 @@ exc#:#exc_min_nr_info#:#Dieser Wert muss mindestens so hoch sein, wie die Anzahl
 exc#:#exc_min_team_participants#:#Minimale Anzahl
 exc#:#exc_msg_all_mandatory_ass#:#Sie müssen alle verpflichtenden Übungseinheiten bestehen, um die Übung als ganze zu bestehen.
 exc#:#exc_msg_failed_mandatory#:#Sie haben mindestens eine obgligatorische Übungseinheit nicht bestanden.
+exc#:#exc_msg_grading_done#:#Es wurde eine Übungseinheit in Übung "%s" bewertet.
+exc#:#exc_msg_grading_done_body#:#Ein Tutor hat Ihre Lösungsabgabe in Übung "%s" bewertet.
 exc#:#exc_msg_min_number_ass#:#Sie müssen mindestens %s Übungseinheiten bestehen, um die Übung zu bestehen.
 exc#:#exc_msg_missed_minimum_number#:#Sie haben die Mindestanzahl an Übungseinheiten nicht bestanden.
 exc#:#exc_msg_new_feedback_file_uploaded#:#Es wurde eine neue Feedback-Datei zur Übung "%s" hinzugefügt.
@@ -9175,6 +9187,7 @@ exc#:#exc_no_assignments_available#:#Keine Übungseinheiten vorhanden. Bitte wä
 exc#:#exc_no_deadline_specified#:#Es wurde kein Abgabetermin festgelegt.
 exc#:#exc_no_feedback_dir_found_in_zip#:#Die Verzeichnisstruktur des hochgeladenen Zip-Archivs konnte nicht verarbeitet werden.
 exc#:#exc_no_get_target#:#Kein gültiges Link-Ziel gefunden.
+exc#:#exc_no_graded_mem_selected#:#Bitte wählen Sie mindestens einen Teilnehmer mit Bewertung aus.
 exc#:#exc_no_participants#:#Zur Zeit gibt es keine Teilnehmer.
 exc#:#exc_no_portfolio_templates#:#Es sind keine Portfoliovorlagen vorhanden.
 exc#:#exc_no_team_yet#:#Keinem Team zugeordnet
@@ -9307,6 +9320,7 @@ exc#:#exc_select_portfolio_change#:#Anderes Portfolio benutzen
 exc#:#exc_select_portfolio_info#:#Bitte wählen Sie eines Ihrer Portfolios, um es in dieser Übungseinheit zu benutzen.
 exc#:#exc_select_portfolio_unlink#:#Portfolio entfernen
 exc#:#exc_send_assignment#:#Übungseinheit per Mail verschicken
+exc#:#exc_send_grading_notification#:#Benachrichtigung über Bewertung schicken
 exc#:#exc_settings_feedback#:#Rückmeldung
 exc#:#exc_settings_feedback_file#:#Datei
 exc#:#exc_settings_feedback_file_info#:#Rückmeldungen werden als Datei hochgeladen und im Reiter „Übungseinheiten“ angezeigt. Die Teilnehmerinnen und Teilnehmer werden darüber per Mail benachrichtigt.
@@ -9330,6 +9344,7 @@ exc#:#exc_submission_notification_body#:#Eine neue Abgabe für die Übung "%s" l
 exc#:#exc_submission_notification_info#:#Sie werden per Mail benachrichtigt, sobald neue Lösungen abgegeben wurden. Dies ist eine persönliche Einstellung, die nur für Sie gilt. Andere Personen, die Abgaben bewerten erhalten nur dann eine Mail, wenn auch sie diese Checkbox aktivieren.
 exc#:#exc_submission_notification_link#:#Link zur Übung: %s
 exc#:#exc_submission_notification_subject#:#Eine neue Abgabe für die Übung "%s" liegt vor
+exc#:#exc_submission_open_notification_link#:#Abgabe öffnen: %s
 exc#:#exc_submission_text#:#Textabgabe
 exc#:#exc_submissions_and_grades#:#Abgaben und Noten
 exc#:#exc_submit_convenience_no_deadline#:#Geben Sie nach Bearbeitung der Übungseinheit ab. Es gibt keinen festen Abgabetermin.
@@ -11010,7 +11025,7 @@ mail#:#mail_maxsize_attachment_error#:#Die maximale Dateigröße beträgt:
 mail#:#mail_member_notification#:#Teilnehmerbenachrichtigung
 mail#:#mail_members_of_mailing_list#:#Mitglieder der Verteilerliste "%s"
 mail#:#mail_members_search_continue#:#Weiter
-mail#:#mail_message_send#:#Die Mail wurde versandt
+mail#:#mail_message_send#:#Die Mail wurde versandt.
 mail#:#mail_move_error#:#Fehler beim Mailversand
 mail#:#mail_move_to#:#Verschieben nach:
 mail#:#mail_move_to_folder_btn_label#:#Mail verschieben
@@ -13014,6 +13029,7 @@ prtf#:#prtf_add_new_blog#:#Neues Blog hinzufügen
 prtf#:#prtf_add_new_blog_info#:#Das neue Blog wird Ihren persönlichen Ressourcen hinzugefügt.
 prtf#:#prtf_add_page#:#Seite hinzufügen
 prtf#:#prtf_add_portfolio#:#Portfolio hinzufügen
+prtf#:#prtf_add_portfolio_from_template#:#Portfolio aus Vorlage hinzufügen
 prtf#:#prtf_all_pages#:#Gesamtes Portfolio
 prtf#:#prtf_allow_html#:#HTML/Javascript erlauben
 prtf#:#prtf_allow_html_info#:#Benutzer können HTML oder Javascript in Ihren Portfolio-Seiten verwenden. Dies kann zu Sicherheitsproblemen führen.
@@ -13054,7 +13070,7 @@ prtf#:#prtf_link#:#Link
 prtf#:#prtf_manage_portfolios#:#Portfolios verwalten
 prtf#:#prtf_new_portfolio#:#Neues Portfolio
 prtf#:#prtf_no_blogs_info#:#Wenn Sie im Bereich "%s" einen Blog anlegen, können Sie dieses auch als Teil Ihres Portfolios verwenden.
-prtf#:#prtf_no_offline_share_info#:#Das Portfolio muss zunächst online gesetzt werden bevor es für bestimmte Benutzer freigegeben werden kann.
+prtf#:#prtf_no_offline_share_info#:#Das Portfolio muss zunächst online gesetzt werden, bevor es für bestimmte Benutzer freigegeben werden kann.
 prtf#:#prtf_no_submission#:#Keine Abgabe
 prtf#:#prtf_page_created#:#Seite wurde hinzugefügt
 prtf#:#prtf_page_element_my_courses_info#:#Dies ist eine Liste aller Kurse, in denen ich Mitglied bin und die aktuell online sind.
@@ -13068,8 +13084,9 @@ prtf#:#prtf_page_type_prtf#:#Portfolioseite
 prtf#:#prtf_page_type_prtt#:#Portfoliovorlagenseite
 prtf#:#prtf_pages_copied#:#Die Seiten wurden kopiert.
 prtf#:#prtf_pdf#:#Exportieren als PDF
+prtf#:#prtf_permanent_link#:#Link zum Portfolio:
 prtf#:#prtf_portfolio_created#:#Portfolio wurde hinzugefügt
-prtf#:#prtf_portfolio_created_from_template#:#Dies ist die Vorschau Ihres neuen Portfolios. Um neue Seiten und Inhalte hinzuzufügen klicken Sie bitte auf "Bearbeiten" oben in dieser Ansicht.
+prtf#:#prtf_portfolio_created_from_template#:#Dies ist die Vorschau Ihres neuen Portfolios. Um neue Inhalte und Seiten hinzuzufügen, klicken Sie in dieser Ansicht bitte auf "Portfolio bearbeiten" oder "Seite bearbeiten".
 prtf#:#prtf_portfolio_deleted#:#Portfolio wurde gelöscht
 prtf#:#prtf_portfolio_page_deleted#:#Portfolio- bzw. Blog-Seite wurde gelöscht.
 prtf#:#prtf_portfolios#:#Portfolios
@@ -13100,6 +13117,8 @@ prtf#:#prtf_signature_date#:#Datum, Unterschrift
 prtf#:#prtf_signature_info#:#Das PDF enthält ein Feld, in welchem die Benutzer unterschreiben können.
 prtf#:#prtf_style#:#Portfolio-Style
 prtf#:#prtf_submission_on#:#Abgabe am $1
+prtf#:#prtf_successfully_shared_prtf#:#Bestätigung der Freigabe Ihres Portfolios "%s"
+prtf#:#prtf_successfully_shared_prtf_body#:#Sie haben Ihr Portfolio "%s" erfolgreich freigegeben für:
 prtf#:#prtf_sure_delete_portfolio_pages#:#Wollen Sie die folgende Portfolio- bzw. Blog-Seite wirklich löschen?
 prtf#:#prtf_sure_delete_portfolios#:#Wollen Sie das folgende Portfolio wirklich löschen?
 prtf#:#prtf_tab_other_users#:#Portfolios anderer Benutzer
@@ -13113,6 +13132,7 @@ prtf#:#prtf_template_title#:#Portfoliovorlage
 prtf#:#prtf_unset_as_default#:#Nicht als Mein Profil verwenden
 prtf#:#prtf_unset_default_share_info#:#Die Änderungen wurden gespeichert. Bitte überprüfen Sie die aktuellen Freigaben für das Portfolio.
 prtf#:#prtf_use_page_layout#:#Seitenlayout benutzen
+prtf#:#prtf_visible_for_tutor#:#Einsehbar für Tutor
 prtf#:#prtt_title_info#:#Bitte beachten Sie, dass dieser Titel auch für die aus der Vorlage erstellten Porfolios verwendet wird.
 prtt#:#prtt_activation_limited_visibility_info#:#Falls aktiv, ist die Portfoliovorlage auch außerhalb der Zugriffszeiten sichtbar.
 prtt#:#prtt_activation_online_info#:#Wählen Sie diese Einstellung, um die Portfoliovorlage für Benutzer verfügbar zu machen.
@@ -14967,6 +14987,7 @@ skmg#:#skmg_create_skill_template_reference#:#Vorlage einfügen
 skmg#:#skmg_create_skll#:#Kompetenz erstellen
 skmg#:#skmg_custom_image_alt#:#Bild für Kompetenzprofil
 skmg#:#skmg_delete_profiles#:#Wollen Sie wirklich die folgenden Profile löschen?
+skmg#:#skmg_delete_warning#:#Sind Sie sicher, dass folgende Objekte gelöscht werden sollen? Wenn Sie die Objekte löschen, löschen Sie ebenfalls alle dazugehörigen Gebräuche, Zuordnungen und Leistungen. Um auf der sicheren Seite zu sein, finden Sie unten eine Liste mit sämtlichen Gebräuchen. Wenn das Objekt in einem Kompetenzprofil benutzt wird, wird es auch dort entfernt. Dies kann zur Erfüllung von Kompetenzprofilen der dort zugewiesenen Personen führen. Falls Sie sich nicht sicher sind, ob ein Objekt wirklich gelöscht werden soll, nutzen Sie die Status in den Einstellungen eines einzelnen Objekts.
 skmg#:#skmg_description_info#:#Die Beschreibung stammt aus der Vorlage.
 skmg#:#skmg_edit_level#:#Ausprägung editieren
 skmg#:#skmg_edit_profile#:#Profil bearbeiten
@@ -16734,8 +16755,8 @@ ui#:#label_fieldselection_refresh#:#Anwenden
 ui#:#label_pagination_limit#:#Pagination - Anzahl der Zeilen
 ui#:#label_pagination_offset#:#Pagination - Start
 ui#:#label_sortation#:#Sortierung
-ui#:#presentaion_table_collapse#:#alle minimieren
-ui#:#presentaion_table_expand#:#alle zeigen
+ui#:#presentation_table_collapse#:#alle minimieren
+ui#:#presentation_table_expand#:#alle zeigen
 ui#:#ui_chars_max#:#Maximum:
 ui#:#ui_chars_min#:#Minimum:
 ui#:#ui_chars_remaining#:#Verbleibende Buchstaben
@@ -17154,6 +17175,7 @@ wsp#:#wsp_permission_registered_info#:#Dieses Objekt ist für alle registrierten
 wsp#:#wsp_permission_removed#:#Der Eintrag wurde gelöscht.
 wsp#:#wsp_permissions#:#Freigabe
 wsp#:#wsp_personal_resources_description#:#Hier können Sie persönliche Dateien, Blogs und Nachweise verwalten.
+wsp#:#wsp_send_mail#:#Mail senden
 wsp#:#wsp_set_permission_all#:#Internet/WWW
 wsp#:#wsp_set_permission_all_password#:#Internet/WWW mit Passwort
 wsp#:#wsp_set_permission_course#:#Kursmitglieder
@@ -17161,7 +17183,7 @@ wsp#:#wsp_set_permission_group#:#Gruppenmitglieder
 wsp#:#wsp_set_permission_registered#:#Alle registrierten Benutzer
 wsp#:#wsp_set_permission_single_user#:#Ausgewählte Benutzer
 wsp#:#wsp_share_search_users#:#Benutzer suchen
-wsp#:#wsp_share_success#:#Ein neuer Eintrag wurde hinzugefügt.
+wsp#:#wsp_share_success#:#Die Ressource wurde freigegeben.
 wsp#:#wsp_share_with_members#:#Für Mitglieder freigeben
 wsp#:#wsp_share_with_users#:#Für Benutzer freigeben
 wsp#:#wsp_shared_date#:#Freigabedatum

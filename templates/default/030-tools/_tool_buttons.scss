@@ -177,7 +177,7 @@ $set-full-width: false !default;
         }
 
         // KEYBOARD FOCUS
-        @include focus.il-focus();
+        @include focus.il-focus-outline-only();
 
         // ACTIVE (BEING PRESSED)
         &:active {

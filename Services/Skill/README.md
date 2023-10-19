@@ -156,7 +156,7 @@ Skills are organised in a hierarchical structure called the [Skill Tree](#skill-
 
 * **Code**: `class ilSkillRoot`
 
-The root node of the tree. There is only one.
+The root node of a skill tree. There can be more than one.
 
 ## Basic Skill
 
@@ -194,9 +194,10 @@ A skill template reference is the link between the main category tree and a skil
 * **Node ID**: Node ID (`skl_templ_ref.skl_node_id` referencing a `skl_tree_node.obj_id` of type "sktr")
 * **Template Node ID**: Template Node ID (`skl_templ_ref.templ_id` referencing a `skl_tree_node.obj_id` of type "sktp" or "sctp")
 
-**Business Rule**
+**Business Rules**
 
 * A Skill Template Reference can only reference Templates or Template Category Nodes which are on the top level (directly underneath the root node).
+* When a Template or Template Category is deleted, all related Skill Template References will also be deleted.
 
 ## Skill Tree
 
@@ -419,9 +420,12 @@ There are three different types of user skill levels:
 * Features that reference skills (e.g. local skill profiles) can re-instantiate these references on import by retrieving the new IDs
   through the methods `ilBasicSkill::getCommonSkillIdForImportId()` and/or `ilBasicSkill::getLevelIdForImportIdMatchSkill`. 
 
-##Deleting Competences
+## Deleting Competences
 
-* Competences cannot be deleted, if:
+* Up to ILIAS 8, Competences could not be deleted, if there were in use. Since ILIAS 9, it is possible to delete 
+  Competences, Competence Templates and whole Competence Trees, even when they are in use. Before the deletion is done,
+  there is still a warning message to inform the user about the impact of the deletion. The message contains information
+  about the following usages:
   * Competence is used in a repository object
   * Competence is selected by users as Personal Competence
   * Users assigned material from their personal resources to a competence
@@ -437,7 +441,7 @@ There are three different types of user skill levels:
   * If an entry is written for a user, all Competence Profiles of the user are checked
   * If a user is assigned to a Competence Profile manually or by a role, the Competence Profile for the one user or all users of a role are checked (in future: OrgUnits, too)
   * If a Competence Profile is edited, i.e. a skill level is removed or added, the Competence Profile is checked for all assigned users/roles
-  * The deletion of competences is intercepted by the general prevention of competence deletion when they are assigned to a Competence Profile. This may change in the future and therefore should be mentioned here.
+  * If a competence is fully deleted, the Competence Profile is checked for all assigned users/roles
 * For every time a user fulfills a Competence Profile, an entry in the Learning History is written
 * The fulfillment of a Competence Profile is given, when the completion status changes from <100% to 100%. This can happen multiple times, because Competence Profiles can be edited, and the fulfillment of a Skill Profile for a user can vanish later on.
 

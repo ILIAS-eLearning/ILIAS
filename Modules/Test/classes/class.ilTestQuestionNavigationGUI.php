@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\UI\Factory as UIFactory;
+use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\UI\Component\Button\Button;
 
 /**
@@ -32,11 +34,6 @@ class ilTestQuestionNavigationGUI
 
     public const CSS_CLASS_SUBMIT_BUTTONS = 'ilc_qsubmit_Submit';
     private \ILIAS\DI\UIServices $ui;
-
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
 
     /**
      * @var string
@@ -120,11 +117,13 @@ class ilTestQuestionNavigationGUI
     /**
      * @param ilLanguage $lng
      */
-    public function __construct(ilLanguage $lng)
-    {
-        $this->lng = $lng;
-        global $DIC;
-        $this->ui = $DIC->ui();
+
+
+    public function __construct(
+        protected ilLanguage $lng,
+        protected UIFactory $ui_factory,
+        protected UIRenderer $ui_renderer
+    ) {
     }
 
     /**
@@ -371,89 +370,10 @@ class ilTestQuestionNavigationGUI
         $this->anythingRendered = true;
     }
 
-    // fau: testNav - generate question actions menu
-    /**
-     * Get the HTML of an actions menu below the title
-     * @return string
-     */
     public function getActionsHTML(): string
     {
         $tpl = $this->getTemplate('actions');
-
-        $actions = new ilGroupedListGUI();
-        $actions->setAsDropDown(true, true);
-
-        if ($this->getQuestionMarkLinkTarget()) {
-            $actions->addEntry(
-                $this->getQuestionMarkActionLabel(),
-                $this->getQuestionMarkLinkTarget(),
-                '',
-                '',
-                'ilTestQuestionAction',
-                'tst_mark_question_action'
-            );
-            $actions->addSeparator();
-        }
-
-        if ($this->getRevertChangesLinkTarget()) {
-            $actions->addEntry(
-                $this->lng->txt('tst_revert_changes'),
-                $this->getRevertChangesLinkTarget(),
-                '',
-                '',
-                'ilTestQuestionAction ilTestRevertChangesAction',
-                'tst_revert_changes_action'
-            );
-        } else {
-            $actions->addEntry(
-                $this->lng->txt('tst_revert_changes'),
-                '#',
-                '',
-                '',
-                'ilTestQuestionAction ilTestRevertChangesAction disabled',
-                'tst_revert_changes_action'
-            );
-        }
-
-        if ($this->isDiscardSolutionButtonEnabled()) {
-            $actions->addEntry(
-                $this->lng->txt('discard_answer'),
-                '#',
-                '',
-                '',
-                'ilTestQuestionAction ilTestDiscardSolutionAction',
-                'tst_discard_solution_action'
-            );
-        } else {
-            $actions->addEntry(
-                $this->lng->txt('discard_answer'),
-                '#',
-                '',
-                '',
-                'ilTestQuestionAction ilTestDiscardSolutionAction disabled',
-                'tst_discard_solution_action'
-            );
-        }
-
-        if ($this->getSkipQuestionLinkTarget()) {
-            $actions->addEntry(
-                $this->lng->txt('postpone_question'),
-                $this->getSkipQuestionLinkTarget(),
-                '',
-                '',
-                'ilTestQuestionAction',
-                'tst_skip_question_action'
-            );
-        } elseif (self::SHOW_DISABLED_COMMANDS) {
-            $actions->addEntry(
-                $this->lng->txt('postpone_question'),
-                '#',
-                '',
-                '',
-                'ilTestQuestionAction disabled',
-                'tst_skip_question_action'
-            );
-        }
+        $actions = [];
 
         if ($this->getQuestionMarkLinkTarget()) {
             $this->renderActionsIcon(
@@ -462,19 +382,45 @@ class ilTestQuestionNavigationGUI
                 $this->getQuestionMarkIconLabel(),
                 'ilTestMarkQuestionIcon'
             );
+            $actions[] = $this->ui_factory->button()->shy(
+                $this->getQuestionMarkActionLabel(),
+                $this->getQuestionMarkLinkTarget()
+            );
         }
 
-        $list = new ilAdvancedSelectionListGUI();
-        $list->setSelectionHeaderClass('btn-primary');
-        $list->setId('QuestionActions');
-        $list->setListTitle($this->lng->txt("actions"));
-        $list->setStyle(1);
-        $list->setGroupedList($actions);
-        $tpl->setVariable('ACTION_MENU', $list->getHTML());
+        if ($this->getSkipQuestionLinkTarget()) {
+            $actions[] = $this->ui_factory->button()->shy(
+                $this->lng->txt('postpone_question'),
+                $this->getSkipQuestionLinkTarget()
+            );
+        }
+
+        if ($actions !== []) {
+            $actions[] = $this->ui_factory->divider()->horizontal();
+        }
+
+        $actions[] = $this->ui_factory->button()->shy(
+            $this->lng->txt('tst_revert_changes'),
+            $this->getRevertChangesLinkTarget()
+        )->withUnavailableAction(!$this->getRevertChangesLinkTarget());
+
+        $actions[] = $this->ui_factory->button()->shy(
+            $this->lng->txt('discard_answer'),
+            '#'
+        )
+        ->withUnavailableAction(!$this->isDiscardSolutionButtonEnabled())
+        ->withAdditionalOnLoadCode(
+            fn($id) => "document.getElementById('$id').addEventListener(
+                'click',
+                 ()=>$('#tst_discard_solution_modal').modal('show')
+            )"
+        );
+
+        $list = $this->ui_factory->dropdown()->standard($actions)->withLabel($this->lng->txt("actions"));
+        $tpl->setVariable('ACTION_MENU', $this->ui_renderer->render($list));
 
         return $tpl->get();
     }
-    // fau.
 
 
     /**
@@ -498,7 +444,7 @@ class ilTestQuestionNavigationGUI
         // fau: testNav - skip question (postpone) is moved to the actions menu.
 
         if ($this->getInstantFeedbackCommand()) {
-            $this->renderSubmitButton(
+            $this->renderInstantFeedbackButton(
                 $tpl,
                 $this->getInstantFeedbackCommand(),
                 $this->getCheckButtonLabel(),
@@ -642,7 +588,7 @@ class ilTestQuestionNavigationGUI
     private function renderButtonInstance(ilTemplate $tpl, Button $button)
     {
         $tpl->setCurrentBlock("button_instance");
-        $tpl->setVariable("BUTTON_INSTANCE", $this->ui->renderer()->render($button));
+        $tpl->setVariable("BUTTON_INSTANCE", $this->ui_renderer->render($button));
         $tpl->parseCurrentBlock();
 
         $this->parseButtonsBlock($tpl);
@@ -655,19 +601,47 @@ class ilTestQuestionNavigationGUI
      * @param $label
      * @param bool|false $primary
      */
-    private function renderSubmitButton(ilTemplate $tpl, $command, $label, $primary = false)
-    {
-        if ($primary) {
+    private function renderSubmitButton(
+        ilTemplate $tpl,
+        string $command,
+        string $label
+    ): void {
+        $this->renderButtonInstance(
+            $tpl,
+            $this->ui_factory->button()->standard($label, $command)
+        );
+    }
+
+    private function renderInstantFeedbackButton(
+        ilTemplate $tpl,
+        string $command,
+        string $label,
+        bool $is_primary
+    ): void {
+        $on_load_code = $this->getOnLoadCode($command);
+        if ($is_primary) {
             $this->renderButtonInstance(
                 $tpl,
-                $this->ui->factory()->button()->primary($label, $command)
+                $this->ui_factory->button()->primary($label, '')->withAdditionalOnLoadCode($on_load_code)
             );
-        } else {
-            $this->renderButtonInstance(
-                $tpl,
-                $this->ui->factory()->button()->standard($label, $command)
-            );
+            return;
         }
+
+        $this->renderButtonInstance(
+            $tpl,
+            $this->ui_factory->button()->standard($label, '')->withAdditionalOnLoadCode($on_load_code)
+        );
+    }
+
+    private function getOnLoadCode(string $command): Closure
+    {
+        return static function ($id) use ($command): string {
+            return "document.getElementById('$id').addEventListener('click', "
+                . '(e) => {'
+                . "  e.target.setAttribute('name', 'cmd[$command]');"
+                . '  e.target.form.requestSubmit(e.target);'
+                . '});';
+        };
     }
 
     /**

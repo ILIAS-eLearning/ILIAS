@@ -121,6 +121,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         $this->questioninfo = $DIC->testQuestionPool()->questionInfo();
         $this->type = 'tst';
         $this->testrequest = $DIC->test()->internal()->request();
+
         $ref_id = 0;
         if ($this->testrequest->hasRefId() && is_numeric($this->testrequest->getRefId())) {
             $ref_id = $this->testrequest->getRefId();
@@ -1445,7 +1446,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         if (is_file(ilSession::get("tst_import_dir") . '/' . ilSession::get("tst_import_subdir") . "/manifest.xml")) {
             $newObj->saveToDb();
 
-            ilSession::set('tst_import_idents', $_POST['ident']);
+            ilSession::set('tst_import_idents', $_POST['ident'] ?? '');
             ilSession::set('tst_import_qst_parent', $questionParentObjId);
 
             $fileName = ilSession::get('tst_import_subdir') . '.zip';

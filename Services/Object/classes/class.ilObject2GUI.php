@@ -54,7 +54,6 @@ abstract class ilObject2GUI extends ilObjectGUI
     protected ilCtrl $ctrl;
     protected ilLanguage $lng;
     protected ilTabsGUI $tabs_gui;
-    protected ilObjectService $object_service;
     protected ilFavouritesManager $favourites;
     protected ilErrorHandling $error;
     protected ilLocatorGUI $locator;

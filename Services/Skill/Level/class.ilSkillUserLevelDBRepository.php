@@ -31,14 +31,29 @@ class ilSkillUserLevelDBRepository implements ilSkillUserLevelRepository
             ?: $DIC->database();
     }
 
-    public function deleteUserLevelsOfSkill(int $skill_id): void
+    public function deleteUserLevelsOfSkill(int $skill_id, bool $is_referenece = false): void
     {
         $ilDB = $this->db;
 
-        $ilDB->manipulate(
-            "DELETE FROM skl_user_has_level WHERE "
-            . " skill_id = " . $ilDB->quote($skill_id, "integer")
-        );
+        if (!$is_referenece) {
+            $ilDB->manipulate(
+                "DELETE FROM skl_user_has_level WHERE "
+                . " skill_id = " . $ilDB->quote($skill_id, "integer")
+            );
+            $ilDB->manipulate(
+                "DELETE FROM skl_user_skill_level WHERE "
+                . " skill_id = " . $ilDB->quote($skill_id, "integer")
+            );
+        } else {
+            $ilDB->manipulate(
+                "DELETE FROM skl_user_has_level WHERE "
+                . " tref_id = " . $ilDB->quote($skill_id, "integer")
+            );
+            $ilDB->manipulate(
+                "DELETE FROM skl_user_skill_level WHERE "
+                . " tref_id = " . $ilDB->quote($skill_id, "integer")
+            );
+        }
     }
 
     /**

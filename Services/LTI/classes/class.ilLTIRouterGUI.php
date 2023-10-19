@@ -51,7 +51,7 @@ class ilLTIRouterGUI implements ilCtrlBaseClassInterface
         if (is_file($class_file)) {
             //ToDo: check - was $gui = $next_class::getInstance(); // Singleton!
             $gui = $next_class::getInstance();
-//            $gui = call_user_func([$next_class, 'getInstance']);
+            //            $gui = call_user_func([$next_class, 'getInstance']);
             $this->ilCtrl->forwardCommand($gui);
         } else {
             $this->main_tpl->setOnScreenMessage('failure', 'GUI-Class not found! (' . $next_class . ')');

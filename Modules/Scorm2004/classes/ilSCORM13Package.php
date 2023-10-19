@@ -34,12 +34,12 @@ class ilSCORM13Package
     public const WRAPPER_JS = './Modules/Scorm2004/scripts/converter/GenericRunTimeWrapper1.0_aadlc/SCOPlayerWrapper.js';
 
 
-//    private $packageFile;
+    //    private $packageFile;
     private string $packageFolder;
     private string $packagesFolder;
     private array $packageData = [];
-//    private $slm;
-//    private $slm_tree;
+    //    private $slm;
+    //    private $slm_tree;
 
     public \DOMDocument $imsmanifest;
     /**
@@ -47,13 +47,13 @@ class ilSCORM13Package
      */
     public $manifest;
     public array $diagnostic;
-//    public $status;
+    //    public $status;
     public int $packageId;
     public string $packageName = "";
     public string $packageHash = "";
     public int $userId;
 
-//    private $idmap = array();
+    //    private $idmap = array();
     private float $progress = 0.0;
 
     /**
@@ -362,20 +362,20 @@ class ilSCORM13Package
                             break;
                         case 'language': $names[] = 'c_language';
                             break;
-                        case 'condition': $names[] = 'c_condition';
-                            break;
+                            //                        case 'condition': $names[] = 'c_condition';
+                            //                            break;
                         case 'operator': $names[] = 'c_operator';
                             break;
-//                        case 'condition': $names[] = 'c_condition';break;
+                            //                        case 'condition': $names[] = 'c_condition';break;
                         case 'readnormalizedmeasure': $names[] = 'readnormalmeasure';
                             break;
                         case 'writenormalizedmeasure': $names[] = 'writenormalmeasure';
                             break;
-                        case 'minnormalizedmeasure': $names[] = 'minnormalmeasure';
-                            break;
+                            //                        case 'minnormalizedmeasure': $names[] = 'minnormalmeasure';
+                            //                            break;
                         case 'primary': $names[] = 'c_primary';
                             break;
-//                        case 'minnormalizedmeasure': $names[] = 'minnormalmeasure';break;
+                            //                        case 'minnormalizedmeasure': $names[] = 'minnormalmeasure';break;
                         case 'persistpreviousattempts': $names[] = 'persistprevattempts';
                             break;
                         case 'identifier': $names[] = 'c_identifier';

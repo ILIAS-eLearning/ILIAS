@@ -38,10 +38,7 @@ class ilSAHSEditGUI implements ilCtrlBaseClassInterface
     protected ilCtrl $ctrl;
     protected int $refId;
 
-    /**
-     * @var ilObjSCORMLearningModuleGUI|ilObjSCORM2004LearningModuleGUI
-     */
-    protected $slm_gui;
+    protected ilObjSCORMLearningModuleGUI|ilObjSCORM2004LearningModuleGUI $slm_gui;
 
     /**
      * @throws ilCtrlException

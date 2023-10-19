@@ -131,8 +131,8 @@ class ilCmiXapiDataSet extends ilDataSet
         global $DIC;
         /** @var \ILIAS\DI\Container $DIC */
 
-//        $this->_main_object_id = $a_id;
-//        $this->_dataSetMapping = ilObjCmiXapi::getInstance($a_id, $a_reference)->getDataSetMapping();
+        //        $this->_main_object_id = $a_id;
+        //        $this->_dataSetMapping = ilObjCmiXapi::getInstance($a_id, $a_reference)->getDataSetMapping();
 
         //var_dump($this->_dataSetMapping); exit;
         parent::__construct();
