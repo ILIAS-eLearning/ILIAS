@@ -1630,6 +1630,8 @@ class ilUtil
 
         // remove all sym links
         clearstatcache();			// prevent is_link from using cache
+
+        // sanitize filenames
         $dir_realpath = realpath($unzippable_zip_directory);
         foreach (new RecursiveIteratorIterator(new RecursiveDirectoryIterator($unzippable_zip_directory)) as $name => $f) {
             if (is_link($name)) {
@@ -1638,6 +1640,11 @@ class ilUtil
                     unlink($name);
                     $log->info("Removed symlink " . $name);
                 }
+            }
+            if (is_file($name) && $name !== ilFileUtils::getValidFilename($name)) {
+                // rename file if it contains invalid suffix
+                $new_name = ilFileUtils::getValidFilename($name);
+                rename($name, $new_name);
             }
         }
 
@@ -3570,7 +3577,7 @@ class ilUtil
             return false;
         }
 
-        $prohibited =  [
+        $prohibited = [
             '...'
         ];
 
