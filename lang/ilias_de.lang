@@ -7829,8 +7829,6 @@ crs#:#crs_timings_suggested_info#:#Empfohlene Bearbeitungszeit
 crs#:#crs_timings_time_frame#:#Zeitrahmen
 crs#:#crs_timings_time_frame_tt#:#Bearbeitungsdauer in Tagen
 crs#:#crs_timings_update_error#:#Die empfohlene Lernzeit folgender Kursmaterialien widerspricht dem angegebenen spätestmöglichen Lernzeitpunkt.
-crs#:#crs_timings_visibility#:#Wenn aktiviert, ist das Lernmaterial auch außerhalb der vorgesehenen Verfügbarkeit sichtbar.
-crs#:#crs_timings_visibility_short#:#Sichtbarkeit
 crs#:#crs_timings_warning_timing_exists#:#Achtung: für dieses Objekt existiert ein  aktiver Lernplan. Wenn sie die zeitlich begrenzte Verfügbarkeit aktivieren, werden die Lernplanungszeiten zurückgesetzt.
 crs#:#crs_to#:#Bis:
 crs#:#crs_tutor#:#Kursbetreuung
@@ -12519,6 +12517,8 @@ notifications_adm#:#osd_play_sound_desc#:#Ton abspielen bei Erhalt einer neuen B
 notifications_adm#:#osd_settings#:#Popup Benachrichtigungen
 notifications_adm#:#osd_vanish#:#Anzeigedauer
 notifications_adm#:#osd_vanish_desc#:#Dauer der Anzeige von Benachrichtigungen in Millisekunden
+obj#:#activation_visible_when_disabled#:#Sichtbarkeit
+obj#:#activation_visible_when_disabled_info#:#Wenn aktiviert, ist das Lernmaterial auch außerhalb der vorgesehenen Verfügbarkeit sichtbar.
 obj#:#cont_filter_empty#:#Bitte nutzen Sie den Filter zur Anzeige von Objekten.
 obj#:#cont_skll_published#:#Alle Kompetenzzuweisungen wurden veröffentlicht.
 obj#:#cont_skll_published_some_not#:#Alle gegebenen Kompetenzzuweisungen wurden veröffentlicht. Zu einigen Benutzern konnten keine Kompetenzen veröffentlicht werden, da keine Zuweisungen vorlagen.
@@ -12527,6 +12527,8 @@ obj#:#copy_container_page_yes_byline#:#Die komplette Seitengestaltung des Kurses
 obj#:#copy_container_page_yes_label#:#Seitengestaltung übernehmen
 obj#:#custom_icon#:#Angepasstes Icon
 obj#:#edit_questions#:#Fragen bearbeiten
+obj#:#edit_time_limits#:#Zeitliche Verfügbarkeit ändern
+obj#:#no_objects_selected#:#Es muss mindestens ein Objekt ausgewählt werden.
 obj#:#obj_activate_content_lang#:#Mehrsprachigkeit für Seiteneditor aktivieren
 obj#:#obj_activate_multilang#:#Mehrsprachigkeit aktivieren
 obj#:#obj_activation#:#Aktivierung
@@ -12588,6 +12590,8 @@ obj#:#obj_user_not_disable_not#:#Mitglieder können die Benachrichtigung nicht d
 obj#:#online_input_byline#:#Objekt ist veröffentlicht und kann von allen Personen mit dem Recht „Lesezugriff“ genutzt werden. Die Verfügbarkeit kann aber noch durch Vorbedingungen oder zeitliche Zugriffsbeschränkungen eingeschränkt sein. Diese Einstellungen wirkt sich auf alle Referenzen des Objektes aus.
 obj#:#select_object_type#:#Objekttyp wählen
 obj#:#svy_results#:#Ergebnisse
+obj#:#time_limits_changed#:#Die zeitliche Verfügbarkeit wurde für die ausgewählten Objekte erfolgreich angepasst.
+obj#:#unequal_items_for_time_limits_message#:#Es wurden Objekte ausgewählt, deren zeitliche Verfügbarkeit nicht übereinstimmt. Vorgenommene Änderungen überschreiben die zeitliche Verfügbarkeit aller ausgewählten Objekte. Bitte wählen sie "Abbrechen", wenn dies nicht Ihrer Intention entspricht.
 obj#:#user_owns_no_objects#:#Keine Magazin-Objekte vorhanden
 objref#:#objref_custom_title#:#Eigenen Titel eingeben
 objref#:#objref_edit_ref#:#Ziel des Links

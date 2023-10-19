@@ -7642,8 +7642,6 @@ crs#:#crs_timings_suggested_info#:#Javasolt tanulásai időszak
 crs#:#crs_timings_time_frame#:#Időkeret
 crs#:#crs_timings_time_frame_tt#:#Időkeret napokban
 crs#:#crs_timings_update_error#:#Beállításai nem érvényesek, érvényesítse az időzítést az alábbi anyagok esetén:
-crs#:#crs_timings_visibility#:#Ha bejelöli, az elérhetőségi időszakon kívüli is látható, de ekkor a tartalma nem érhető el.
-crs#:#crs_timings_visibility_short#:#Láthatóság
 crs#:#crs_timings_warning_timing_exists#:#Ennél az objektumnál időzítést beállítottak. Amennyiben aktiválja az elérhetőségi beállításokat, ezek az időzítési beállítások elvesznek.
 crs#:#crs_to#:#Meddig:
 crs#:#crs_tutor#:#Tutor
@@ -11932,6 +11930,8 @@ notification_adm#:#osd_vanish#:#Presentation Time###29 07 2022 new variable
 notification_adm#:#osd_vanish_desc#:#Visible time of a notification on the screen in seconds.###29 07 2022 new variable
 notification_adm#:#play_sound#:#Play a Sound###29 07 2022 new variable
 notification_adm#:#play_sound_desc#:#Play a sound when receiving a new notficiation.###29 07 2022 new variable
+obj#:#activation_visible_when_disabled#:#Láthatóság
+obj#:#activation_visible_when_disabled_info#:#Ha bejelöli, az elérhetőségi időszakon kívüli is látható, de ekkor a tartalma nem érhető el.
 obj#:#cont_filter_empty#:#Az objektumok megtekintéséhez használja a szűrőt.
 obj#:#cont_skll_published#:#Az összes hozzárendelést sikeresen közzétette.
 obj#:#cont_skll_published_some_not#:#Az összes megadott hozzárendelést sikeresen közzétette. Néhány felhasználóhoz nincs kompetencia rendelve, náluk nincs mit közzétenni.

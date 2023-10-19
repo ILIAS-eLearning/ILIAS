@@ -7643,8 +7643,6 @@ crs#:#crs_timings_suggested_info#:#Suggested Editing Time###15 Jul 2006 new vari
 crs#:#crs_timings_time_frame#:#Time Frame###13 Jul 2006 new variable
 crs#:#crs_timings_time_frame_tt#:#Time frame in days###10 11 2018 new variable
 crs#:#crs_timings_update_error#:#Your settings are not valid, please verify the timings for the following course materials:###10 Jul 2006 new variable
-crs#:#crs_timings_visibility#:#Visibility###10 Jul 2006 new variable
-crs#:#crs_timings_visibility_short#:#Visibility###06 11 2008 new variable
 crs#:#crs_timings_warning_timing_exists#:#Timings are configured for this object. If you active the availability settings, these timing settings will be reseted.###10 11 2018 new variable
 crs#:#crs_to#:#Për:###03 Nov 2005 content changed
 crs#:#crs_tutor#:#Tutor
@@ -11932,6 +11930,8 @@ notification_adm#:#osd_vanish#:#Presentation Time###29 07 2022 new variable
 notification_adm#:#osd_vanish_desc#:#Visible time of a notification on the screen in seconds.###29 07 2022 new variable
 notification_adm#:#play_sound#:#Play a Sound###29 07 2022 new variable
 notification_adm#:#play_sound_desc#:#Play a sound when receiving a new notficiation.###29 07 2022 new variable
+obj#:#activation_visible_when_disabled#:#Visibility###06 11 2008 new variable
+obj#:#activation_visible_when_disabled_info#:#Visibility###10 Jul 2006 new variable
 obj#:#cont_filter_empty#:#Please use the filter to see any objects.###07 02 2020 new variable
 obj#:#cont_skll_published#:#All assignments have been published.###31 08 2017 new variable
 obj#:#cont_skll_published_some_not#:#All given assignments have been published. Some users lacked competence assignments, thus no assignments could be published for them.###31 08 2017 new variable

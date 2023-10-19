@@ -7679,8 +7679,6 @@ crs#:#crs_timings_suggested_info#:#推奨終了時間
 crs#:#crs_timings_time_frame#:#時間枠
 crs#:#crs_timings_time_frame_tt#:#時間枠日数
 crs#:#crs_timings_update_error#:#設定が有効ではありません。コース案内に従ってタイミングを確認してください。
-crs#:#crs_timings_visibility#:#選択すると、教材は利用期間外でも表示されます。
-crs#:#crs_timings_visibility_short#:#表示
 crs#:#crs_timings_warning_timing_exists#:#このオブジェクトの期間を構成します。アベイラビリティを有効にするとこれらの期間はリセットされます。
 crs#:#crs_to#:#期限
 crs#:#crs_tutor#:#指導教員
@@ -12024,6 +12022,8 @@ notification_adm#:#osd_vanish#:#Presentation Time###19 08 2022 new variable
 notification_adm#:#osd_vanish_desc#:#Visible time of a notification on the screen in seconds.###19 08 2022 new variable
 notification_adm#:#play_sound#:#Play a Sound###19 08 2022 new variable
 notification_adm#:#play_sound_desc#:#Play a sound when receiving a new notficiation.###19 08 2022 new variable
+obj#:#activation_visible_when_disabled#:#表示
+obj#:#activation_visible_when_disabled_info#:#選択すると、教材は利用期間外でも表示されます。
 obj#:#cont_filter_empty#:#どのオブジェクトを見るにもフィルタを使用してください。
 obj#:#cont_skll_published#:#全ての割当ては発行されました。
 obj#:#cont_skll_published_some_not#:#全ての割当ては発行済です。能力割当ての不足しているユーザがいるので、それに発行可能な割当てはありません。
