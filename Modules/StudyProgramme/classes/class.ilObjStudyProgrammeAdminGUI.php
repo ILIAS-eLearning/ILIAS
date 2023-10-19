@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * StudyProgramme Administration Settings.
  * @author       Michael Herren <mh@studer-raimann.ch>
@@ -25,7 +25,7 @@ declare(strict_types=1);
  * @ilCtrl_Calls ilObjStudyProgrammeAdminGUI: ilStudyProgrammeTypeGUI
  * @ilCtrl_Calls ilObjStudyProgrammeAdminGUI: ilPermissionGUI
  */
-class ilObjStudyProgrammeAdminGUI extends ilObjectGUI
+class ilObjStudyProgrammeAdminGUI extends ilMembershipAdministrationGUI
 {
     protected ilErrorHandling $error;
     protected ilStudyProgrammeTypeGUI $type_gui;
@@ -37,6 +37,53 @@ class ilObjStudyProgrammeAdminGUI extends ilObjectGUI
         $this->type = 'prgs';
         $this->lng->loadLanguageModule('prg');
         $this->type_gui = ilStudyProgrammeDIC::dic()['ilStudyProgrammeTypeGUI'];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    protected function getType(): string
+    {
+        return "prgs";
+    }
+
+    /**
+     * @inheritdoc
+     */
+    protected function getParentObjType(): string
+    {
+        return "prg";
+    }
+
+    /**
+     * @inheritdoc
+     */
+    protected function getAdministrationFormId(): int
+    {
+        return ilAdministrationSettingsFormHandler::FORM_PRG;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    protected function addChildContentsTo(ilPropertyFormGUI $form): ilPropertyFormGUI
+    {
+        return $form;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    protected function saveChildSettings(ilPropertyFormGUI $form): void
+    {
+    }
+
+    /**
+     * @inheritdoc
+     */
+    protected function getChildSettingsInfo($a_form_id): array
+    {
+        return [];
     }
 
     public function executeCommand(): void
@@ -68,14 +115,13 @@ class ilObjStudyProgrammeAdminGUI extends ilObjectGUI
         }
     }
 
-    public function editSettings(ilPropertyFormGUI $form = null): bool
+    public function editSettings(ilPropertyFormGUI $form = null): void
     {
         $this->tabs_gui->activateTab('settings');
         if (is_null($form)) {
             $form = $this->initFormSettings();
         }
         $this->tpl->setContent($form->getHTML());
-        return true;
     }
 
     public function initFormSettings(): ilPropertyFormGUI
@@ -83,6 +129,14 @@ class ilObjStudyProgrammeAdminGUI extends ilObjectGUI
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this, "saveSettings"));
         $form->setTitle($this->lng->txt("settings"));
+
+        $this->addFieldsToForm($form);
+
+        ilAdministrationSettingsFormHandler::addFieldsToForm(
+            $this->getAdministrationFormId(),
+            $form,
+            $this
+        );
 
         $radio_grp = new ilRadioGroupInputGUI($this->lng->txt("prg_show_programmes"), "visible_on_personal_desktop");
         $radio_grp->addOption(new ilRadioOption(

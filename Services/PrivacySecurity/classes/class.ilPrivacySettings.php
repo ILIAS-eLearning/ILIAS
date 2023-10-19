@@ -38,6 +38,7 @@ class ilPrivacySettings
     private bool $export_confirm_learning_sequence = false;
 
     private bool $participants_list_course_enabled = true;
+    private bool $participants_list_prg_enabled = true;
 
     private bool $fora_statistics;
     private bool $anonymous_fora;
@@ -51,6 +52,9 @@ class ilPrivacySettings
     private bool $export_scorm;
     private bool $comments_export;
 
+    private ilAccessHandler $access;
+    private ilRbacSystem $rbacsystem;
+
     /**
      * Private constructor: use _getInstance()
      * @access private
@@ -63,6 +67,8 @@ class ilPrivacySettings
         $this->settings = $DIC->settings();
         $this->db = $DIC->database();
         $this->user = $DIC->user();
+        $this->access = $DIC->access();
+        $this->rbacsystem = $DIC->rbac()->system();
 
         $this->read();
     }
@@ -105,50 +111,40 @@ class ilPrivacySettings
         $this->participants_list_course_enabled = $a_status;
     }
 
+    public function enablePRGUserExport(bool $status = false): void
+    {
+        $this->participants_list_prg_enabled = $status;
+    }
+
+    public function enabledPRGUserExport(): bool
+    {
+        return $this->participants_list_prg_enabled;
+    }
+
     /**
      * Check if a user has the permission to access approved user profile fields, course related user data and custom user data
      */
     public function checkExportAccess(int $a_ref_id, int $a_user_id = 0): bool
     {
-        global $DIC;
-
-        $ilAccess = $DIC->access();
-        $rbacsystem = $DIC->rbac()->system();
-
         $user_id = $a_user_id ?: $this->user->getId();
-        if (ilObject::_lookupType($a_ref_id, true) == 'crs') {
-            return $this->enabledCourseExport() and $ilAccess->checkAccessOfUser(
-                $user_id,
-                'manage_members',
-                '',
-                $a_ref_id
-            ) and $rbacsystem->checkAccessOfUser(
-                $user_id,
-                'export_member_data',
-                $this->getPrivacySettingsRefId()
-            );
-        } elseif (ilObject::_lookupType($a_ref_id, true) == 'grp') {
-            return $this->enabledGroupExport() and $ilAccess->checkAccessOfUser(
-                $user_id,
-                'manage_members',
-                '',
-                $a_ref_id
-            ) and $rbacsystem->checkAccessOfUser(
-                $user_id,
-                'export_member_data',
-                $this->getPrivacySettingsRefId()
-            );
-        } elseif (ilObject::_lookupType($a_ref_id, true) == 'lso') {
-            return $this->enabledLearningSequenceExport() and $ilAccess->checkAccessOfUser(
-                $user_id,
-                'manage_members',
-                '',
-                $a_ref_id
-            ) and $rbacsystem->checkAccessOfUser(
-                $user_id,
-                'export_member_data',
-                $this->getPrivacySettingsRefId()
-            );
+        if (!(
+            $this->rbacsystem->checkAccessOfUser($user_id, 'export_member_data', $this->getPrivacySettingsRefId())
+            &&
+            $this->access->checkAccessOfUser($user_id, 'manage_members', '', $a_ref_id)
+        )) {
+            return false;
+        }
+
+        $object_type = ilObject::_lookupType($a_ref_id, true);
+        switch($object_type) {
+            case 'crs':
+                return $this->enabledCourseExport();
+            case 'grp':
+                return $this->enabledGroupExport();
+            case 'lso':
+                return $this->enabledLearningSequenceExport();
+            case 'prg':
+                return $this->enabledPRGUserExport();
         }
         return false;
     }
@@ -363,9 +359,9 @@ class ilPrivacySettings
         $this->settings->set('rbac_log_age', (string) $this->getRbacLogAge());
         $this->settings->set('enable_sahs_pd', (string) $this->enabledSahsProtocolData());
         $this->settings->set('ps_export_scorm', (string) $this->enabledExportSCORM());
-
         $this->settings->set('participants_list_courses', (string) $this->participantsListInCoursesEnabled());
         $this->settings->set('comments_export', (string) $this->enabledCommentsExport());
+        $this->settings->set('ps_export_prg', (string) $this->enabledPRGUserExport());
     }
 
     /**
@@ -402,6 +398,7 @@ class ilPrivacySettings
             (string) $this->participantsListInCoursesEnabled()
         ));
         $this->enableCommentsExport((bool) $this->settings->get('comments_export', null));
+        $this->participants_list_prg_enabled = (bool) $this->settings->get('ps_export_prg', null);
     }
 
     /**

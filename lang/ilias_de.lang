@@ -292,6 +292,7 @@ administration#:#options#:#Optionen
 administration#:#org_op_edit_user_accounts#:#Anmeldekonten bearbeiten
 administration#:#output_options#:#Ausgabeoptionen
 administration#:#path_to_mkisofs#:#Mkisofs-Pfad
+administration#:#prg_export#:#Sichtbar im Studienprogramm
 administration#:#purge_age_limit#:#Begrenze Alter
 administration#:#purge_age_limit_desc#:#Wenn dieses Feld einen Wert enthält, werden nur Objekte, die vor mehr als der angegebenen Zahl Tagen gelöscht worden sind, aus dem System entfernt.
 administration#:#purge_count_limit#:#Begrenze Anzahl
@@ -13482,6 +13483,7 @@ ps#:#ps_export_excel#:#Starte Excel-Export
 ps#:#ps_export_files#:#Exportdateien
 ps#:#ps_export_groups#:#Export der Persönlichen Daten aus Gruppen erlauben
 ps#:#ps_export_member#:#Mitglieder
+ps#:#ps_export_prgs#:#Persönliche Daten in Studienprogrammen anzeigen und exportieren
 ps#:#ps_export_settings#:#Einstellungen zum Export
 ps#:#ps_export_sub#:#Noch nicht freigeschaltete Benutzer
 ps#:#ps_export_tutor#:#Kursbetreuung

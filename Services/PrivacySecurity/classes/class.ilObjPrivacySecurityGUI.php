@@ -141,6 +141,9 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
         if ($privacy->enabledGroupExport()) {
             $value[] = "export_group";
         }
+        if ($privacy->enabledPRGUserExport()) {
+            $value[] = "export_prg";
+        }
         if ($privacy->courseConfirmationRequired()) {
             $value[] = "export_confirm_course";
         }
@@ -168,6 +171,10 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
         $check = new ilCheckboxOption();
         $check->setTitle($this->lng->txt('ps_export_groups'));
         $check->setValue('export_group');
+        $group->addOption($check);
+        $check = new ilCheckboxOption();
+        $check->setTitle($this->lng->txt('ps_export_prgs'));
+        $check->setValue('export_prg');
         $group->addOption($check);
         $check = new ilCheckboxOption();
         $check->setTitle($this->lng->txt('ps_export_confirm'));
@@ -259,6 +266,7 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
         $old_settings = array(
             'export_course' => $privacy->enabledCourseExport(),
             'export_group' => $privacy->enabledGroupExport(),
+            'export_prg' => $privacy->enabledPRGUserExport(),
             'export_confirm_course' => $privacy->courseConfirmationRequired(),
             'export_confirm_group' => $privacy->groupConfirmationRequired(),
             'crs_access_times' => $privacy->enabledCourseAccessTimes(),
@@ -269,6 +277,7 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
 
         $privacy->enableCourseExport(in_array('export_course', $profile_protection));
         $privacy->enableGroupExport(in_array('export_group', $profile_protection));
+        $privacy->enablePRGUserExport((bool) in_array('export_prg', $profile_protection));
         $privacy->setCourseConfirmationRequired(in_array('export_confirm_course', $profile_protection));
         $privacy->setGroupConfirmationRequired(in_array('export_confirm_group', $profile_protection));
         $privacy->showGroupAccessTimes(in_array('grp_access_times', $profile_protection));
@@ -354,46 +363,62 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
     {
         switch ($a_form_id) {
             case ilAdministrationSettingsFormHandler::FORM_COURSE:
-
                 $privacy = ilPrivacySettings::getInstance();
-
-                $subitems = array(
-                    'ps_export_course' => array($privacy->enabledCourseExport(),
-                                                ilAdministrationSettingsFormHandler::VALUE_BOOL
-                    ),
-                    'ps_export_confirm' => array($privacy->courseConfirmationRequired(),
-                                                 ilAdministrationSettingsFormHandler::VALUE_BOOL
-                    ),
-                    'ps_show_crs_access' => array($privacy->enabledCourseAccessTimes(),
-                                                  ilAdministrationSettingsFormHandler::VALUE_BOOL
-                    ),
-                    'ps_participants_list_courses' => [$privacy->participantsListInCoursesEnabled(),
-                                                       ilAdministrationSettingsFormHandler::VALUE_BOOL
+                $subitems = [
+                    'ps_export_course' => [
+                        $privacy->enabledCourseExport(),
+                        ilAdministrationSettingsFormHandler::VALUE_BOOL
+                    ],
+                    'ps_export_confirm' => [
+                        $privacy->courseConfirmationRequired(),
+                        ilAdministrationSettingsFormHandler::VALUE_BOOL
+                    ],
+                    'ps_show_crs_access' => [
+                        $privacy->enabledCourseAccessTimes(),
+                        ilAdministrationSettingsFormHandler::VALUE_BOOL
+                    ],
+                    'ps_participants_list_courses' => [
+                        $privacy->participantsListInCoursesEnabled(),
+                        ilAdministrationSettingsFormHandler::VALUE_BOOL
                     ]
-                );
+                ];
                 $fields = [
                     'ps_profile_export' => [null, null, $subitems]
                 ];
-                return array(array("showPrivacy", $fields));
+                return [["showPrivacy", $fields]];
 
             case ilAdministrationSettingsFormHandler::FORM_GROUP:
-
                 $privacy = ilPrivacySettings::getInstance();
+                $subitems = [
+                    'ps_export_groups' => [
+                        $privacy->enabledGroupExport(),
+                        ilAdministrationSettingsFormHandler::VALUE_BOOL
+                    ],
+                    'ps_export_confirm_group' => [
+                        $privacy->groupConfirmationRequired(),
+                        ilAdministrationSettingsFormHandler::VALUE_BOOL
+                    ],
+                    'ps_show_grp_access' => [
+                        $privacy->enabledGroupAccessTimes(),
+                        ilAdministrationSettingsFormHandler::VALUE_BOOL
+                    ]
+                ];
+                $fields = [
+                    'ps_profile_export' => [null, null, $subitems]
+                ];
+                return [["showPrivacy", $fields]];
 
-                $subitems = array(
-                    'ps_export_groups' => array($privacy->enabledGroupExport(),
-                                                ilAdministrationSettingsFormHandler::VALUE_BOOL
-                    ),
-                    'ps_export_confirm_group' => array($privacy->groupConfirmationRequired(),
-                                                       ilAdministrationSettingsFormHandler::VALUE_BOOL
-                    ),
-                    'ps_show_grp_access' => array($privacy->enabledGroupAccessTimes(),
-                                                  ilAdministrationSettingsFormHandler::VALUE_BOOL
-                    )
-                );
-                $fields = array(
-                    'ps_profile_export' => array(null, null, $subitems)
-                );
+            case ilAdministrationSettingsFormHandler::FORM_PRG:
+                $privacy = ilPrivacySettings::getInstance();
+                $subitems = [
+                    'ps_export_prgs' => [
+                        $privacy->enabledPRGUserExport(),
+                        ilAdministrationSettingsFormHandler::VALUE_BOOL
+                    ]
+                ];
+                $fields = [
+                    'ps_profile_export' => [null, null, $subitems]
+                 ];
                 return [["showPrivacy", $fields]];
         }
         return [];

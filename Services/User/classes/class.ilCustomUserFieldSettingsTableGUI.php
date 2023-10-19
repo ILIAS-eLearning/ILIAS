@@ -96,6 +96,7 @@ class ilCustomUserFieldSettingsTableGUI extends ilTable2GUI
             'export' => 'export',
             'course_export' => 'course_export',
             'group_export' => 'group_export',
+            'prg_export' => 'prg_export',
             'visib_reg' => 'header_visible_registration',
             'visib_lua' => 'usr_settings_visib_lua',
             'changeable_lua' => 'usr_settings_changeable_lua',
@@ -126,6 +127,10 @@ class ilCustomUserFieldSettingsTableGUI extends ilTable2GUI
                 [
                     ilUDFPermissionHelper::ACTION_FIELD_EDIT_ACCESS,
                     ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_VISIBLE_GROUPS
+                ],
+                [
+                    ilUDFPermissionHelper::ACTION_FIELD_EDIT_ACCESS,
+                    ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_VISIBLE_PRG
                 ],
                 [
                     ilUDFPermissionHelper::ACTION_FIELD_EDIT_ACCESS,

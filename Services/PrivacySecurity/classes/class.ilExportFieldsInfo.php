@@ -1,18 +1,22 @@
 <?php
 
-declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * @defgroup
@@ -128,12 +132,18 @@ class ilExportFieldsInfo
             $fields['consultation_hour']['default'] = 0;
         }
 
-        $udf = [];
-        if ($this->getType() == 'crs') {
-            $udf = ilUserDefinedFields::_getInstance()->getCourseExportableFields();
-        } elseif ($this->getType() == 'grp') {
-            $udf = ilUserDefinedFields::_getInstance()->getGroupExportableFields();
+        switch ($this->getType()) {
+            case 'crs':
+                $udf = ilUserDefinedFields::_getInstance()->getCourseExportableFields();
+                break;
+            case 'grp':
+                $udf = ilUserDefinedFields::_getInstance()->getGroupExportableFields();
+                break;
+            case 'prg':
+                $udf = ilUserDefinedFields::_getInstance()->getProgrammeExportableFields();
+                break;
         }
+
         if ($udf) {
             foreach ($udf as $field_id => $field) {
                 $fields['udf_' . $field_id]['txt'] = $field['field_name'];
@@ -176,41 +186,32 @@ class ilExportFieldsInfo
         $profile = new ilUserProfile();
         $profile->skipGroup('settings');
 
+        $field_prefix = null;
+        $field_part_limit = 5;
+        $export_hide = null;
+        $export_fix_val = null;
+        $type = $this->getType();
+
+        $type_vals = [
+            'crs' => ['course_export_hide', 'course_export_fix_value', 'usr_settings_course_export_'],
+            'grp' => ['group_export_hide', 'group_export_fix_value', 'usr_settings_group_export_'],
+            'prg' => ['prg_export_hide', 'prg_export_fix_value', 'usr_settings_prg_export_']
+        ];
+        if (array_key_exists($type, $type_vals)) {
+            list($export_hide, $export_fix_val, $field_prefix) = $type_vals[$type];
+        }
+
         foreach ($profile->getStandardFields() as $key => $data) {
-            if ($this->getType() == 'crs') {
-                if (!array_key_exists('course_export_hide', $data) || !$data['course_export_hide']) {
-                    if (isset($data['course_export_fix_value']) && $data['course_export_fix_value']) {
-                        $this->possible_fields[$key] = $data['course_export_fix_value'];
-                    } else {
-                        $this->possible_fields[$key] = 0;
-                    }
-                }
-            } elseif ($this->getType() == 'grp') {
-                if (!array_key_exists('group_export_hide', $data) || !$data['group_export_hide']) {
-                    if (isset($data['group_export_fix_value']) and $data['group_export_fix_value']) {
-                        $this->possible_fields[$key] = $data['group_export_fix_value'];
-                    } else {
-                        $this->possible_fields[$key] = 0;
-                    }
+            if (!array_key_exists($export_hide, $data) || !$data[$export_hide]) {
+                if (isset($data[$export_fix_val]) and $data[$export_fix_val]) {
+                    $this->possible_fields[$key] = $data[$export_fix_val];
+                } else {
+                    $this->possible_fields[$key] = 0;
                 }
             }
         }
+
         $settings_all = $this->settings->getAll();
-
-        $field_part_limit = 5;
-        $field_prefix = '';
-        switch ($this->getType()) {
-            case 'crs':
-                $field_prefix = 'usr_settings_course_export_';
-                $field_part_limit = 5;
-                break;
-
-            case 'grp':
-                $field_prefix = 'usr_settings_group_export_';
-                $field_part_limit = 5;
-                break;
-        }
-
         foreach ($settings_all as $key => $value) {
             if ($field_prefix && stristr($key, $field_prefix) and $value) {
                 // added limit for mantis 11096
