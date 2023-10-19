@@ -37,17 +37,12 @@ class ilObjFileListGUI extends ilObjectListGUI
 
     private bool $use_flavor_for_cards = true;
     protected string $title;
-    private bool $persist = true;
-    private int $max_size = 512;
-    private FlavourDefinition $crop_definition;
-    private FlavourDefinition $extract_definition;
     private IconDatabaseRepository $icon_repo;
     private ActionDBRepository $action_repo;
     private Services $irss;
 
     public function __construct(int $context = self::CONTEXT_REPOSITORY)
     {
-        global $DIC;
         parent::__construct($context);
 
         $DIC->language()->loadLanguageModule('wopi');
@@ -85,39 +80,6 @@ class ilObjFileListGUI extends ilObjectListGUI
             return ilUtil::getImagePath('cont_tile/cont_tile_default_' . $this->type . '.svg');
         }
         return $flavour_path;
-    }
-
-    /**
-     * @description Can be used to take preview flavours as card images
-     */
-    protected function getCardImageFallbackPath(int $obj_id, string $type): string
-    {
-        $rid = $this->irss->manage()->find(ilObjFileAccess::getListGUIData($obj_id)['rid'] ?? '');
-        if ($rid !== null) {
-            if ($this->irss->flavours()->possible($rid, $this->crop_definition)) {
-                $url = $this->irss->consume()->flavourUrls(
-                    $this->irss->flavours()->get(
-                        $rid,
-                        $this->crop_definition
-                    )
-                )->getURLs(false)->current();
-                if ($url !== null) {
-                    return $url;
-                }
-            }
-            if ($this->irss->flavours()->possible($rid, $this->extract_definition)) {
-                $url = $this->irss->consume()->flavourUrls(
-                    $this->irss->flavours()->get(
-                        $rid,
-                        $this->extract_definition
-                    )
-                )->getURLs(false)->current();
-                if ($url !== null) {
-                    return $url;
-                }
-            }
-        }
-        return '';
     }
 
     /**
