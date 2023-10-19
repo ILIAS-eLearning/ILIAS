@@ -1112,7 +1112,7 @@ class ilObjectListGUI
             // New Preview Implementation, File-Objects only
             if ($this->type === 'file') {
                 $preview = new ilObjFilePreviewRendererGUI($this->obj_id);
-                if ($preview->has()) {
+                if ($preview->init() && $preview->has()) {
                     $this->tpl->setVariable('PREVIEW_GLYPH', $preview->getRenderedTriggerComponents());
                     $this->tpl->parseCurrentBlock();
                 }

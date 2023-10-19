@@ -758,6 +758,7 @@ class ilObjFileGUI extends ilObject2GUI
         }
 
         $preview = new ilObjFilePreviewRendererGUI($this->object_id);
+        $preview->init();
 
         if (!$this->ctrl->isAsynch()
             && $preview->has()

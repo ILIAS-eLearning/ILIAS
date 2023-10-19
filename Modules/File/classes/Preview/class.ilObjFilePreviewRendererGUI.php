@@ -48,8 +48,9 @@ class ilObjFilePreviewRendererGUI implements ilCtrlBaseClassInterface
     private int $pages_to_extract;
     private ?int $object_id = null;
     private bool $activated = false;
-    private string $file_name;
+    private string $file_name = '';
     private Settings $settings;
+    private bool $init = false;
 
     public function __construct(
         ?int $object_id = null
@@ -74,20 +75,38 @@ class ilObjFilePreviewRendererGUI implements ilCtrlBaseClassInterface
         $this->language = $DIC->language();
         $this->language->loadLanguageModule('file');
 
-        $rid_string = $this->resolveRidString($this->object_id);
-
-        $this->rid = $this->irss->manage()->find($rid_string);
         $this->flavour_definition = new PagesToExtract(
             $this->settings->isPersisting(),
             $this->settings->getImageSize(),
             $this->settings->getMaximumPreviews()
         );
+    }
+
+    public function init(): bool
+    {
+        if($this->init) {
+            return true;
+        }
+        try {
+            $rid_string = $this->resolveRidString($this->object_id);
+            $rid = $this->irss->manage()->find($rid_string);
+        } catch (Throwable) {
+            return false;
+        }
+        if ($rid === null) {
+            return false;
+        }
+        $this->rid = $rid;
+        $this->init = true;
         // Resolve File Name
         $this->file_name = $this->irss->manage()->getCurrentRevision($this->rid)->getTitle();
+        return true;
     }
 
     public function has(): bool
     {
+        $this->init();
+
         return $this->activated
             && $this->irss->flavours()->possible(
                 $this->rid,
@@ -98,6 +117,7 @@ class ilObjFilePreviewRendererGUI implements ilCtrlBaseClassInterface
 
     public function getTriggerComponents(bool $as_button = false): array
     {
+        $this->init();
         if (!$this->isAccessGranted()) {
             throw new LogicException('User cannot see this resource');
         }
@@ -134,6 +154,7 @@ class ilObjFilePreviewRendererGUI implements ilCtrlBaseClassInterface
 
     public function executeCommand(): void
     {
+        $this->init();
         $cmd = $this->ctrl->getCmd();
         switch ($cmd) {
             case self::CMD_GET_ASYNC_MODAL:
@@ -170,6 +191,7 @@ class ilObjFilePreviewRendererGUI implements ilCtrlBaseClassInterface
 
     protected function isAccessGranted(): bool
     {
+        $this->init();
         // if object_id is set, we can check the access using it's ref_ids
         if ($this->object_id !== null) {
             foreach (ilObject::_getAllReferences($this->object_id) as $ref_id) {
@@ -191,6 +213,7 @@ class ilObjFilePreviewRendererGUI implements ilCtrlBaseClassInterface
 
     private function getAsyncModal(): void
     {
+        $this->init();
         if (!$this->isAccessGranted()) {
             throw new LogicException('User cannot see this resource');
         }
