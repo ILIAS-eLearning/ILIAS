@@ -20,8 +20,6 @@ declare(strict_types=1);
 
 namespace ILIAS\MediaCast;
 
-use function Symfony\Component\DependencyInjection\Loader\Configurator\iterator;
-
 /**
  *
  * @author Alexander Killing <killing@leifos.de>

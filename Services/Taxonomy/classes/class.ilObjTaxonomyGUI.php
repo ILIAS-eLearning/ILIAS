@@ -23,7 +23,7 @@
  */
 class ilObjTaxonomyGUI extends ilObject2GUI
 {
-    protected ?\ILIAS\Taxonomy\TaxonomyModifierGUI $modifier = null;
+    protected ?\ILIAS\Taxonomy\Settings\ModifierGUIInterface $modifier = null;
     protected \ILIAS\DI\UIServices $ui;
     protected \ILIAS\Taxonomy\InternalGUIService $gui;
     protected \ILIAS\Taxonomy\InternalDomainService $domain;

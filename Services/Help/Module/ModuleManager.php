@@ -25,6 +25,9 @@ use ILIAS\Help\InternalDomainService;
 
 class ModuleManager
 {
+    protected \ilObjUser $user;
+    protected \ILIAS\Help\Tooltips\TooltipsManager $tooltips;
+    protected \ILIAS\Help\Map\MapManager $help_map;
     protected \ilAppEventHandler $event;
     protected ModuleDBRepository $repo;
     protected \ilSetting $settings;

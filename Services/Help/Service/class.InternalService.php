@@ -24,6 +24,7 @@ use ILIAS\DI\Container;
 
 class InternalService
 {
+    protected Container $DIC;
     protected InternalDomainService $domain;
     protected InternalGUIService $gui;
 

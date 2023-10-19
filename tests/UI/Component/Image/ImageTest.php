@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 require_once(__DIR__ . "/../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../Base.php");
@@ -105,6 +105,20 @@ class ImageTest extends ILIAS_UI_TestBase
         $this->assertEquals([$signal], $i->getAction());
     }
 
+    public function test_set_additionalhighressources(): void
+    {
+        $additional_sources = [
+            600 => 'image1',
+            300 => 'image2'
+        ];
+        $f = $this->getImageFactory();
+        $i = $f->standard("source", "alt");
+        foreach($additional_sources as $min_width_in_pixels => $source) {
+            $i = $i->withAdditionalHighResSource($source, $min_width_in_pixels);
+        }
+        $this->assertEquals($additional_sources, $i->getAdditionalHighResSources());
+    }
+
     public function test_invalid_source(): void
     {
         $this->expectException(TypeError::class);
@@ -117,6 +131,26 @@ class ImageTest extends ILIAS_UI_TestBase
         $this->expectException(TypeError::class);
         $f = $this->getImageFactory();
         $f->standard("source", 1);
+    }
+
+    public function test_invalid_additionalhighressourcesource(): void
+    {
+        $this->expectException(TypeError::class);
+        $f = $this->getImageFactory();
+        $f->standard("source", 1)->withAdditionalHighResSource(
+            1,
+            1
+        );
+    }
+
+    public function test_invalid_additionalhighressourcesize(): void
+    {
+        $this->expectException(TypeError::class);
+        $f = $this->getImageFactory();
+        $f->standard("source", 1)->withAdditionalHighResSource(
+            '#',
+            '#'
+        );
     }
 
     public function test_render_standard(): void

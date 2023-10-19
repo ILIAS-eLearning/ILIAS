@@ -22,6 +22,8 @@ namespace ILIAS\Taxonomy\Usage;
 
 class UsageManager
 {
+    protected UsageDBRepository $db_repo;
+
     public function __construct(
         UsageDBRepository $db_repo
     ) {

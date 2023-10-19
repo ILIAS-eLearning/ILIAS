@@ -437,7 +437,7 @@ There are three different types of user skill levels:
   * If an entry is written for a user, all Competence Profiles of the user are checked
   * If a user is assigned to a Competence Profile manually or by a role, the Competence Profile for the one user or all users of a role are checked (in future: OrgUnits, too)
   * If a Competence Profile is edited, i.e. a skill level is removed or added, the Competence Profile is checked for all assigned users/roles
-  * The deletion of competences is intercepted by the general prevention of competence deletion when they are assigned to a Competence Profile. This may change in the future and therefore should be mentioned here.
+  * If a competence is fully deleted, the Competence Profile is checked for all assigned users/roles
 * For every time a user fulfills a Competence Profile, an entry in the Learning History is written
 * The fulfillment of a Competence Profile is given, when the completion status changes from <100% to 100%. This can happen multiple times, because Competence Profiles can be edited, and the fulfillment of a Skill Profile for a user can vanish later on.
 

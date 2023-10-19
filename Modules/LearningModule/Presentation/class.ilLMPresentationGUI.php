@@ -549,9 +549,9 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
                 case "ilPage":
                     $this->renderPageTitle();
                     $this->setHeader();
-                    $this->ilLMMenu();
                     $this->addHeaderAction();
                     $content = $this->getContent();
+                    $this->ilLMMenu();
                     $content .= $this->ilLMNotes();
                     $additional = $this->ui->renderer()->render($this->additional_content);
                     $this->tpl->setContent($content . $additional);
@@ -1113,20 +1113,23 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
 
         $tpl = new ilTemplate("tpl.lm_content.html", true, true, "Modules/LearningModule/Presentation");
 
-        $navigation_renderer = new ilLMNavigationRendererGUI(
-            $this->service,
-            $this,
-            $this->lng,
-            $this->user,
-            $this->tpl,
-            $this->requested_obj_id,
-            $this->requested_back_pg,
-            $this->requested_frame
-        );
-
         if (!$skip_nav) {
-            $tpl->setVariable("TOP_NAVIGATION", $navigation_renderer->renderTop());
-            $tpl->setVariable("BOTTOM_NAVIGATION", $navigation_renderer->renderBottom());
+            $navigation_renderer = new ilLMNavigationRendererGUI(
+                $this->service,
+                $this,
+                $this->lng,
+                $this->user,
+                $this->tpl,
+                $this->requested_obj_id,
+                $this->requested_back_pg,
+                $this->requested_frame,
+                $this->toolbar,
+                $this->ui
+            );
+
+            $navigation_renderer->renderTop();
+            //$tpl->setVariable("TOP_NAVIGATION", $navigation_renderer->renderTop());
+            //$tpl->setVariable("BOTTOM_NAVIGATION", $navigation_renderer->renderBottom());
         }
         $tpl->setVariable("PAGE_CONTENT", $this->getPageContent());
         $tpl->setVariable("RATING", $this->renderRating());

@@ -25,30 +25,6 @@ class MediaTypeManager
     protected const TYPE_IMAGE = "image";
     protected const TYPE_OTHER = "other";
 
-    /*
-    protected const TYPES = [
-        self::TYPE_VIDEO => [
-            "video/vimeo" => [],
-            "video/youtube" => [],
-            "video/mp4" => ["mp4"],
-            "video/webm" => ["webm"]
-        ],
-        self::TYPE_AUDIO => [
-            "audio/mpeg" => ["mp3"]
-        ],
-        self::TYPE_IMAGE => [
-            "image/png" => ["png"],
-            "image/jpeg" => ["jpg", "jpeg"],
-            "image/gif" => ["gif"],
-            "image/webp" => ["webp"],
-            "image/svg+xml" => ["svg"]
-        ],
-        self::TYPE_OTHER => [
-            "text/html" => ["html", "htm"],
-            "application/pdf" => ["pdf"]
-        ]
-    ];*/
-
     protected const TYPES = [
         "video/vimeo" => [
             "type" => self::TYPE_VIDEO,
@@ -99,6 +75,7 @@ class MediaTypeManager
             "suffixes" => ["pdf"]
         ]
     ];
+    protected ?array $mime_blacklist;
 
     public function __construct(?array $mime_blacklist = null)
     {

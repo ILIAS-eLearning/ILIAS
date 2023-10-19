@@ -3435,9 +3435,13 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
                 case 'pass_deletion_allowed':
                     $result_summary_settings = $result_summary_settings->withPassDeletionAllowed((bool) $metadata["entry"]);
                     break;
-                case "show_summary":
-                    $participant_functionality_settings = $participant_functionality_settings->withQuestionListMode((int) $metadata["entry"]);
+                case "usr_pass_overview_mode":
+                    $participant_functionality_settings = $participant_functionality_settings->withUsrPassOverviewMode((int) $metadata["entry"]);
                     break;
+                case "question_list":
+                    $participant_functionality_settings = $participant_functionality_settings->withQuestionListEnabled((bool) $metadata["entry"]);
+                    break;
+
                 case "reporting_date":
                     $result_summary_settings = $result_summary_settings->withReportingDate(
                         $metadata['ReportingDate'] !== null ?
@@ -3861,14 +3865,19 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
 
         // solution details
         $a_xml_writer->xmlStartTag("qtimetadatafield");
-        $a_xml_writer->xmlElement("fieldlabel", null, "show_summary");
-        $a_xml_writer->xmlElement("fieldentry", null, sprintf("%d", $main_settings->getParticipantFunctionalitySettings()->getQuestionListMode()));
+        $a_xml_writer->xmlElement("fieldlabel", null, "usr_pass_overview_mode");
+        $a_xml_writer->xmlElement("fieldentry", null, sprintf("%d", $main_settings->getParticipantFunctionalitySettings()->getUsrPassOverviewMode()));
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
         // solution details
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "score_reporting");
         $a_xml_writer->xmlElement("fieldentry", null, sprintf("%d", $this->getScoreReporting()));
+        $a_xml_writer->xmlEndTag("qtimetadatafield");
+
+        $a_xml_writer->xmlStartTag("qtimetadatafield");
+        $a_xml_writer->xmlElement("fieldlabel", null, "question_list");
+        $a_xml_writer->xmlElement("fieldentry", null, sprintf("%d", $main_settings->getParticipantFunctionalitySettings()->getQuestionListEnabled()));
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
         $a_xml_writer->xmlStartTag("qtimetadatafield");
@@ -5871,12 +5880,17 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
     */
     public function getListOfQuestionsSettings()
     {
-        return $this->getMainSettings()->getParticipantFunctionalitySettings()->getQuestionListMode();
+        return $this->getMainSettings()->getParticipantFunctionalitySettings()->getUsrPassOverviewMode();
     }
 
     public function getListOfQuestions(): bool
     {
         return $this->getMainSettings()->getParticipantFunctionalitySettings()->getQuestionListEnabled();
+    }
+
+    public function getUsrPassOverviewEnabled(): bool
+    {
+        return $this->getMainSettings()->getParticipantFunctionalitySettings()->getUsrPassOverviewEnabled();
     }
 
     public function getListOfQuestionsStart(): bool
@@ -6362,7 +6376,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
             'use_previous_answers' => (int) $main_settings->getParticipantFunctionalitySettings()->getUsePreviousAnswerAllowed(),
             'ShowCancel' => (int) $main_settings->getParticipantFunctionalitySettings()->getSuspendTestAllowed(),
             'SequenceSettings' => (int) $main_settings->getParticipantFunctionalitySettings()->getPostponedQuestionsMoveToEnd(),
-            'ListOfQuestionsSettings' => $main_settings->getParticipantFunctionalitySettings()->getQuestionListMode(),
+            'ListOfQuestionsSettings' => $main_settings->getParticipantFunctionalitySettings()->getUsrPassOverviewMode(),
             'ShowMarker' => (int) $main_settings->getParticipantFunctionalitySettings()->getQuestionMarkingEnabled(),
 
             'enable_examview' => $main_settings->getFinishingSettings()->getShowAnswerOverview(),
@@ -6486,7 +6500,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
                 ->withUsePreviousAnswerAllowed((bool) $testsettings['use_previous_answers'])
                 ->withSuspendTestAllowed((bool) $testsettings['ShowCancel'])
                 ->withPostponedQuestionsMoveToEnd((bool) $testsettings['SequenceSettings'])
-                ->withQuestionListMode($testsettings['ListOfQuestionsSettings'])
+                ->withUsrPassOverviewMode($testsettings['ListOfQuestionsSettings'])
                 ->withQuestionMarkingEnabled((bool) $testsettings['ShowMarker'])
             )
             ->withFinishingSettings(

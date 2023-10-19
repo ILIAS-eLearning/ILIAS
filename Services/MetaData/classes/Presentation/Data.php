@@ -111,7 +111,7 @@ class Data implements DataInterface
             if (!is_null($match)) {
                 $res_array[] =
                     $match . ' ' .
-                    ($match === 1 ?
+                    ($match === '1' ?
                         $this->utilities->txt($labels[$key][1]) :
                         $this->utilities->txt($labels[$key][0]));
             }

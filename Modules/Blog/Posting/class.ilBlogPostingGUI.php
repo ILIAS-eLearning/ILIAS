@@ -202,7 +202,7 @@ class ilBlogPostingGUI extends ilPageObjectGUI
             $may_delete_comments = ($this->checkAccess("contribute") &&
                 $ilSetting->get("comments_del_tutor", '1'));
 
-            $wtpl->setVariable("TOOLBAR", $toolbar->getHTML());
+            //$wtpl->setVariable("TOOLBAR", $toolbar->getHTML());
 
             $wtpl->setVariable("NOTES", $this->getNotesHTML(
                 $this->getBlogPosting(),

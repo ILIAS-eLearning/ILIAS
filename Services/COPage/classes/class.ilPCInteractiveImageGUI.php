@@ -86,6 +86,7 @@ class ilPCInteractiveImageGUI extends ilPageContentGUI
                 }
                 break;
 
+                /*
             case "ilpageeditorserveradaptergui":
                 $adapter = new ilPageEditorServerAdapterGUI(
                     $this->page_gui,
@@ -94,7 +95,7 @@ class ilPCInteractiveImageGUI extends ilPageContentGUI
                     $this->http_request
                 );
                 $this->ctrl->forwardCommand($adapter);
-                break;
+                break;*/
 
             case strtolower(ilRepoStandardUploadHandlerGUI::class):
                 $this->forwardFormToUploadHandler();

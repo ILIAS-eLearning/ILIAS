@@ -848,6 +848,7 @@ assessment#:#longmenu_answeroptions_differ#:#Diese Frage funktioniert nicht rich
 assessment#:#longmenu_text#:#‘Long Menu’-Text
 assessment#:#mailnottype#:#Ein Versand findet auch beim Beenden einzelner Testdurchläufe statt
 assessment#:#mailnottype_desc#:#Der Besitzer des Tests wird auch dann benachrichtigt, wenn die Anzahl Durchläufe nicht beschränkt ist.
+assessment#:#mainbar_button_label_questionlist#:#Fragenliste
 assessment#:#maintenance#:#Wartung
 assessment#:#manscoring#:#Manuelle Bewertung
 assessment#:#manscoring_done#:#Bereits bewertete Teilnehmer
@@ -1338,6 +1339,8 @@ assessment#:#tst_dont_show_msg_again_in_current_session#:#Diese Meldung in meine
 assessment#:#tst_dont_use_previous_answers#:#Ihre vorherigen Antworten werden in zukünftigen Testdurchläufen nicht als vorgegebene Werte verwendet
 assessment#:#tst_edit_competence_assign#:#Bearbeite Zuordnungs-Eigenschaften
 assessment#:#tst_edit_scoring#:#Ändere Bewertung
+assessment#:#tst_enable_questionlist#:#Fragenliste
+assessment#:#tst_enable_questionlist_description#:#Teilnehmer können sich links neben den Testfragen eine Fragenliste anzeigen lassen.
 assessment#:#tst_ending_time#:#Ende
 assessment#:#tst_ending_time_before_starting_time#:#Bitte geben Sie für das Ende des Tests ein Datum ein, das nach dem Startdatum liegt.
 assessment#:#tst_ending_time_desc#:#Zeitpunkt, ab dem Teilnehmer keine Antworten mehr abgeben können. <b>Wichtig</b>: Benutzen Sie diese Option <b>nicht</b> für E-Klausuren/Fernklausuren. Verwenden Sie stattdessen die Funktion „Bearbeitungsdauer begrenzen“, siehe unten. Nur dann wird der Test serverseitig beendet und die letzte Eingabe jedes Teilnehmers automatisch gespeichert.
@@ -1815,8 +1818,8 @@ assessment#:#tst_show_solution_signature#:#Platzhalter für Unterschrift
 assessment#:#tst_show_solution_signature_desc#:#Ist die Option „Detaillierte Testergebnisse anzeigen“ oder „Druckbare Liste der Antworten“ aktiviert, fügt ILIAS zusätzlich ein Unterschriftenfeld in den Ausdruck ein. In diesem kann die Person, die den Test durchgeführt hat, unterschreiben.
 assessment#:#tst_show_solution_suggested#:#Inhalte zur Wiederholung
 assessment#:#tst_show_solution_suggested_desc#:#Falls den Fragen im Test Inhalte zur Wiederholung des Stoffs zugeordnet wurden, werden diese angezeigt. Sie müssen die Option "Detaillierte Testergebnissen anzeigen" aktivieren, um diese Funktion zu nutzen. Teilnehmerinnen und Teilnehmer können so etwaige Wissenslücken schließen.
-assessment#:#tst_show_summary#:#Fragenliste und Bearbeitungstand anzeigen
-assessment#:#tst_show_summary_description#:#Teilnehmer können sich links neben den Testfragen eine Fragenliste anzeigen lassen. Mit dem Button 'Bearbeitungsstand' rufen die Teilnehmer eine Übersicht auf, die zeigt, welche Fragen sie jeweils bereits bearbeitet oder markiert haben. Das Verhalten der Übersicht 'Bearbeitungsstand' können Sie noch weiter konfigurieren:
+assessment#:#tst_show_summary#:#Bearbeitungsstand
+assessment#:#tst_show_summary_description#:#Mit der Schaltfläche 'Bearbeitungsstand' können Teilnehmer eine Übersicht aufrufen, die zeigt, welche Fragen sie jeweils bereits bearbeitet oder markiert haben. Das Verhalten des 'Bearbeitungsstand' können Sie noch weiter konfigurieren:
 assessment#:#tst_show_toplist#:#Platzierung
 assessment#:#tst_shuffle_questions#:#Fragen mischen
 assessment#:#tst_shuffle_questions_description#:#Die Reihenfolge der Fragen wird pro Teilnehmer und pro Testdurchlauf neu gemischt.
@@ -6295,6 +6298,7 @@ content#:#cont_ed_insert_grid#:#Spaltenlayout einfügen
 content#:#cont_ed_insert_grid_info#:#Fügt ein responsives Spaltenlayout basierend auf einem Raster mit 12 Einheiten je Zeile ein.
 content#:#cont_ed_insert_iim#:#Interaktives Bild einfügen
 content#:#cont_ed_insert_incl#:#Inhaltsbaustein einfügen
+content#:#cont_ed_insert_lay#:#Layoutvorlage einfügen
 content#:#cont_ed_insert_lhist#:#Lernverlauf einfügen
 content#:#cont_ed_insert_list#:#Erweiterte Liste einfügen
 content#:#cont_ed_insert_lpe#:#Login-Seitenelement einfügen
@@ -6762,6 +6766,7 @@ content#:#cont_pc_grid#:#Spaltenlayout
 content#:#cont_pc_hacc#:#Akkordeon (horizontal)
 content#:#cont_pc_iim#:#Interaktives Bild
 content#:#cont_pc_incl#:#Inhaltsbaustein
+content#:#cont_pc_lay#:#Layoutvorlage
 content#:#cont_pc_list#:#Erweiterte Liste
 content#:#cont_pc_map#:#Karte
 content#:#cont_pc_media#:#Bild/Audio/Video
@@ -6769,6 +6774,7 @@ content#:#cont_pc_mob#:#Medienobjekt
 content#:#cont_pc_modified#:#Geänderte Inhalte
 content#:#cont_pc_new#:#Neue Inhalte
 content#:#cont_pc_par#:#Text
+content#:#cont_pc_plach#:#Platzhalter
 content#:#cont_pc_prof#:#Persönliche Daten
 content#:#cont_pc_qover#:#Fragenübersicht
 content#:#cont_pc_qst#:#Frage
@@ -11238,9 +11244,7 @@ mcst#:#mcst_duration#:#Laufzeit
 mcst#:#mcst_duration_info#:#Wenn kein Wert eingegeben wird, bestimmt ILIAS die Laufzeit automatisch
 mcst#:#mcst_edit_item#:#Mediacast-Beitrag bearbeiten
 mcst#:#mcst_edit_settings#:#Einstellungen
-mcst#:#mcst_extract_preview_image#:#Vorschaubild erzeugen
 mcst#:#mcst_gallery#:#Kacheln
-mcst#:#mcst_image_extracted#:#Vorschaubild wurde erzeugt
 mcst#:#mcst_img_gallery#:#Bildergalerie
 mcst#:#mcst_import#:#Mediacast importieren
 mcst#:#mcst_incl_files_in_rss#:#Dateianhänge
@@ -11262,7 +11266,6 @@ mcst#:#mcst_new_items_det_lp_info#:#Neue Einträge werden automatisch zur Lernfo
 mcst#:#mcst_news_item_visibility_info#:#Öffentliche Nachrichten können von außerhalb und ohne Anmeldung gelesen werden. Sie sollten keine vertraulichen Informationen enthalten.
 mcst#:#mcst_next_items#:#Weitere Videos anzeigen
 mcst#:#mcst_no_autoplay#:#Kein Autoplay
-mcst#:#mcst_no_extraction_possible#:#Leider konnte kein Vorschaubild aus der Datei erzeugt werden.
 mcst#:#mcst_nr_items#:#Zahl der Objekte
 mcst#:#mcst_nr_videos#:#Anzahl initial angezeigter Videos
 mcst#:#mcst_ordering#:#Sortierung
@@ -11280,7 +11283,6 @@ mcst#:#mcst_preview_picture#:#Vorschaubild
 mcst#:#mcst_preview_picture_info#:#Nur von folgenden Dateitypen unterstützt:
 mcst#:#mcst_reference_info#:#URL zur Ressource, z.B. HTTP-Adresse.
 mcst#:#mcst_save_order#:#Sortierung speichern
-mcst#:#mcst_second#:#Sekunde
 mcst#:#mcst_set_playtime#:#Die Laufzeit wurde gesetzt.
 mcst#:#mcst_settings#:#Einstellungen des Mediacasts
 mcst#:#mcst_show_description#:#Beschreibung anzeigen
@@ -12189,16 +12191,21 @@ mme#:#type_top_link_item#:#Link
 mme#:#type_top_parent_item#:#Container
 mob#:#mob_choose_from_pool#:#Aus Medienpool
 mob#:#mob_external_url#:#Externe URL
+mob#:#mob_extract_preview_image#:#Vorschaubild erzeugen
 mob#:#mob_file#:#Datei
 mob#:#mob_file_could_not_be_uploaded#:#Datei konnte nicht hochgeladen werden.
 mob#:#mob_general#:#Allgemein
+mob#:#mob_image_extracted#:#Vorschaubild wurde erzeugt
 mob#:#mob_language#:#Sprache
 mob#:#mob_mime_type_not_allowed#:#Die folgenden Mime-Typen sind am Zielort nicht erlaubt.
 mob#:#mob_multi_srt_files#:#SRT-Dateien
+mob#:#mob_no_extraction_possible#:#Leider konnte kein Vorschaubild aus der Datei erzeugt werden.
 mob#:#mob_no_fixed_size_map_editing#:#Bitte bestimmen Sie eine feste Größe für ihr Bild, bevor Sie verlinkte Bereiche definieren. Die Bereiche werden nicht angepasst, wenn ihr Bild durch einen Content-Style oder andere CSS-Regeln skaliert wird.
 mob#:#mob_object#:#Objekt
 mob#:#mob_please_select_pool#:#Please select a media pool.
+mob#:#mob_preview_picture#:#Vorschaubild
 mob#:#mob_really_delete_srt#:#Möchten Sie wirklich die folgenden srt-Dateien löschen?
+mob#:#mob_second#:#Sekunde
 mob#:#mob_srt_files_deleted#:#Dateien für Untertitel wurden gelöscht.
 mob#:#mob_srt_not_allowed#:#Dateien vom Typ .srt können aktuell nicht hochgeladen werden. Um die Funktion zu aktivieren, muss diese durch einen Systemadministrator entsprechend konfiguriert werden (Administration > Datei-Services).
 mob#:#mob_subtitle_file#:#Datei für Untertitel
@@ -15035,6 +15042,7 @@ skmg#:#skmg_create_skill_template_reference#:#Vorlage einfügen
 skmg#:#skmg_create_skll#:#Kompetenz erstellen
 skmg#:#skmg_custom_image_alt#:#Bild für Kompetenzprofil
 skmg#:#skmg_delete_profiles#:#Wollen Sie wirklich die folgenden Profile löschen?
+skmg#:#skmg_delete_warning#:#Sind Sie sicher, dass folgende Objekte gelöscht werden sollen? Wenn Sie die Objekte löschen, löschen Sie ebenfalls alle dazugehörigen Gebräuche, Zuordnungen und Leistungen. Um auf der sicheren Seite zu sein, finden Sie unten eine Liste mit sämtlichen Gebräuchen. Wenn das Objekt in einem Kompetenzprofil benutzt wird, wird es auch dort entfernt. Dies kann zur Erfüllung von Kompetenzprofilen der dort zugewiesenen Personen führen. Falls Sie sich nicht sicher sind, ob ein Objekt wirklich gelöscht werden soll, nutzen Sie die Status in den Einstellungen eines einzelnen Objekts.
 skmg#:#skmg_description_info#:#Die Beschreibung stammt aus der Vorlage.
 skmg#:#skmg_edit_level#:#Ausprägung editieren
 skmg#:#skmg_edit_profile#:#Profil bearbeiten
@@ -15079,6 +15087,7 @@ skmg#:#skmg_no_skills_selected_info#:#Sie haben noch keine Kompetenzen ausgewäh
 skmg#:#skmg_no_trigger#:#Kein Auslöser
 skmg#:#skmg_nr#:#Nr
 skmg#:#skmg_number#:#Nummmer
+skmg#:#skmg_open#:#Öffne
 skmg#:#skmg_open_all_assigned_profiles#:#Alle zugewiesenen Kompetenzprofile öffnen
 skmg#:#skmg_order#:#Reihenfolge
 skmg#:#skmg_order_nr#:#Nummer
@@ -15094,6 +15103,7 @@ skmg#:#skmg_recommended_learning_material_global#:#Lerninhalte zur Zielerreichun
 skmg#:#skmg_recommended_learning_material_grp#:#Lerninhalte in der Gruppe zur Zielerreichung
 skmg#:#skmg_recommended_learning_material_info#:#Bearbeiten Sie folgende Lerninhalte um das Kompetenzziel zu erreichen. Wählen Sie genau einen Lerninhalt pro Kompetenzstufe aus.
 skmg#:#skmg_refresh_view#:#Ansicht aktualisieren
+skmg#:#skmg_remove#:#Entferne
 skmg#:#skmg_remove_levels#:#Ausprägungen entfernen
 skmg#:#skmg_remove_skill#:#Kompetenz entfernen
 skmg#:#skmg_remove_trigger#:#Auslöser entfernen
@@ -15102,6 +15112,7 @@ skmg#:#skmg_save_order#:#Reihenfolge speichern
 skmg#:#skmg_save_self_evaluation#:#Selbsteinschätzung abschließen
 skmg#:#skmg_save_settings#:#Einstellungen speichern
 skmg#:#skmg_sctp#:#Vorlagenkategorie
+skmg#:#skmg_select_level#:#Kompetenzstufe auswählen
 skmg#:#skmg_select_skill#:#Klicken Sie auf eine Kompetenz, um diese Ihren persönlichen Kompetenzen hinzuzufügen.
 skmg#:#skmg_select_skill_level_assign#:#Bitte wählen Sie eine Kompetenz aus.
 skmg#:#skmg_select_trigger#:#Auslöser auswählen

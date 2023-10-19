@@ -47,6 +47,7 @@ class ilObjSkillTreeGUI extends ilObjectGUI
     protected Access\SkillTreeAccess $skill_tree_access_manager;
     protected Access\SkillManagementAccess $skill_management_access_manager;
     protected Table\SkillTableManager $skill_table_manager;
+    protected Node\SkillDeletionManager $skill_deletion_manager;
     protected ilSkillTreeRepository $skill_tree_repo;
     protected Tree\SkillTreeFactory $skill_tree_factory;
     protected UIServices $ui;
@@ -139,6 +140,7 @@ class ilObjSkillTreeGUI extends ilObjectGUI
             $this->skill_tree_manager->getSkillManagementRefId()
         );
         $this->skill_table_manager = $skill_manager->getTableManager();
+        $this->skill_deletion_manager = $skill_manager->getDeletionManager();
     }
 
     public function executeCommand(): void
@@ -634,7 +636,6 @@ class ilObjSkillTreeGUI extends ilObjectGUI
         $tpl = $this->tpl;
         $ilCtrl = $this->ctrl;
         $ilTabs = $this->tabs;
-        $ilToolbar = $this->toolbar;
 
         if (empty($this->requested_node_ids)) {
             $this->ilias->raiseError($this->lng->txt("no_checkbox"), $this->ilias->error_obj->MESSAGE);
@@ -692,20 +693,13 @@ class ilObjSkillTreeGUI extends ilObjectGUI
             $this->ilias->raiseError("Skill Deletion - type mismatch.", $this->ilias->error_obj->MESSAGE);
         }
 
+        $usage_html = "";
         if (count($usages) > 0) {
-            $html = "";
             foreach ($usages as $k => $usage) {
                 $table = $this->skill_table_manager->getSkillUsageTable($k, $usage, $mode)->getComponent();
-                $html .= $this->ui->renderer()->render($table) . "<br/><br/>";
+                $usage_html .= $this->ui->renderer()->render($table) . "<br/><br/>";
             }
-            $tpl->setContent($html);
             $ilCtrl->saveParameter($a_gui, "tmpmode");
-            $ilToolbar->addButton(
-                $lng->txt("back"),
-                $ilCtrl->getLinkTarget($a_gui, "cancelDelete")
-            );
-            $this->main_tpl->setOnScreenMessage('failure', $lng->txt("skmg_cannot_delete_nodes_in_use"));
-            return;
         }
 
         // SAVE POST VALUES
@@ -716,7 +710,12 @@ class ilObjSkillTreeGUI extends ilObjectGUI
         $ilCtrl->setParameter($a_gui, "tmpmode", (int) $this->requested_tmpmode);
         $a_form_action = $this->ctrl->getFormAction($a_gui);
         $confirmation_gui->setFormAction($a_form_action);
-        $confirmation_gui->setHeaderText($this->lng->txt("info_delete_sure"));
+        if (count($usages) > 0) {
+            $confirmation_text = $this->lng->txt("skmg_delete_warning");
+        } else {
+            $confirmation_text = $this->lng->txt("info_delete_sure");
+        }
+        $confirmation_gui->setHeaderText($confirmation_text);
 
         // Add items to delete
         foreach ($this->requested_node_ids as $id) {
@@ -751,7 +750,7 @@ class ilObjSkillTreeGUI extends ilObjectGUI
             $confirmation_gui->setConfirm($lng->txt("confirm"), "confirmedDelete");
         }
 
-        $tpl->setContent($confirmation_gui->getHTML());
+        $tpl->setContent($confirmation_gui->getHTML() . $usage_html);
     }
 
     public function cancelDelete(): void
@@ -765,19 +764,7 @@ class ilObjSkillTreeGUI extends ilObjectGUI
 
         // delete all selected trees
         foreach ($this->requested_node_ids as $id) {
-            if ($id != ilTree::POS_FIRST_NODE) {
-                $obj = ilSkillTreeNodeFactory::getInstance($id);
-                $tree = $this->skill_tree_repo->getTreeForNodeId($id);
-                $tree_obj = $this->skill_tree_manager->getTree($tree->getTreeId());
-                $node_data = $tree->getNodeData($id);
-                if (is_object($obj)) {
-                    $obj->delete();
-                }
-                if ($tree->isInTree($id)) {
-                    $tree->deleteTree($node_data);
-                }
-                $this->skill_tree_manager->deleteTree($tree_obj);
-            }
+            $this->skill_deletion_manager->deleteTree($id);
         }
 
         // feedback
@@ -789,17 +776,9 @@ class ilObjSkillTreeGUI extends ilObjectGUI
     {
         // delete all selected objects
         foreach ($this->requested_node_ids as $id) {
-            if ($id != ilTree::POS_FIRST_NODE) {
-                $obj = ilSkillTreeNodeFactory::getInstance($id);
-                $node_data = $this->skill_tree->getNodeData($id);
-                if (is_object($obj)) {
-                    $obj->delete();
-                }
-                if ($this->skill_tree->isInTree($id)) {
-                    $this->skill_tree->deleteTree($node_data);
-                }
-            }
+            $this->skill_deletion_manager->deleteNode($id, $this->skill_tree);
         }
+        $this->skill_deletion_manager->updateProfileCompletions($this->skill_tree);
 
         // feedback
         $this->main_tpl->setOnScreenMessage('info', $this->lng->txt("info_deleted"), true);

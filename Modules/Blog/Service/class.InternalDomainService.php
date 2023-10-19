@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,11 +16,14 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\Blog;
 
 use ILIAS\DI\Container;
 use ILIAS\Repository\GlobalDICDomainServices;
 use ILIAS\Blog\Exercise\BlogExercise;
+use ILIAS\Blog\Access\BlogAccess;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -50,6 +51,20 @@ class InternalDomainService
             $a_node_id,
             $this->repositoryTree(),
             $this->user()
+        );
+    }
+
+    public function blogAccess(
+        $access_handler,
+        int $node_id,
+        int $id_type,
+        int $user_id
+    ): BlogAccess {
+        return new BlogAccess(
+            $access_handler,
+            $node_id,
+            $id_type,
+            $user_id,
         );
     }
 }

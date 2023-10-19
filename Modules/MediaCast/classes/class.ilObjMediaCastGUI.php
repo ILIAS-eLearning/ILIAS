@@ -34,6 +34,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
 {
     protected \ILIAS\MediaObjects\MediaType\MediaTypeManager $media_type;
     protected \ILIAS\MediaCast\InternalGUIService $gui;
+    protected $video_gui;
     protected \ILIAS\MediaCast\MediaCastManager $mc_manager;
     protected ilPropertyFormGUI $form_gui;
     protected ilNewsItem $mcst_item;
@@ -87,6 +88,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
             ->domain()->mediaCast();
         $this->gui = $DIC->mediaCast()->internal()->gui();
         $this->media_type = $DIC->mediaObjects()->internal()->domain()->mediaType();
+        $this->video_gui = $DIC->mediaObjects()->internal()->gui()->video();
     }
 
     public function executeCommand(): void
@@ -389,32 +391,15 @@ EOT;
 
         $this->checkPermission("write");
 
+        $this->mcst_item = new ilNewsItem(
+            $this->mc_request->getItemId()
+        );
+
         // conversion toolbar
-        if (ilFFmpeg::enabled()) {
-            $this->mcst_item = new ilNewsItem(
-                $item_id
-            );
-            $mob = new ilObjMediaObject($this->mcst_item->getMobId());
-
-            $conv_cnt = 0;
-            // we had other purposes as source as well, but
-            // currently only "Standard" is implemented in the convertFile method
-            $p = "Standard";
-            $med = $mob->getMediaItem($p);
-            if (is_object($med)) {
-                if (ilFFmpeg::supportsImageExtraction($med->getFormat())) {
-                    // second
-                    $ni = new ilTextInputGUI($this->lng->txt("mcst_second"), "sec");
-                    $ni->setMaxLength(4);
-                    $ni->setSize(4);
-                    $ni->setValue(1);
-                    $ilToolbar->addInputItem($ni, true);
-
-                    $ilToolbar->addFormButton($this->lng->txt("mcst_extract_preview_image"), "extractPreviewImage");
-                    $ilToolbar->setFormAction($ilCtrl->getFormAction($this));
-                }
-            }
-        }
+        $this->video_gui->addPreviewExtractionToToolbar(
+            $this->mcst_item->getMobId(),
+            self::class
+        );
 
         $this->initAddCastItemForm("edit");
         $this->getCastItemValues($item_id);
@@ -532,10 +517,12 @@ EOT;
                 $this->form_gui->addItem($ne);
 
                 // preview picure
-                $pp = new ilImageFileInputGUI($lng->txt("mcst_preview_picture"), "preview_pic");
-                $pp->setSuffixes(array("png", "jpeg", "jpg"));
-                $pp->setInfo($lng->txt("mcst_preview_picture_info") . " mp4, mp3, png, jp(e)g, gif");
-                $this->form_gui->addItem($pp);
+                $mob_id = 0;
+                if ($a_mode !== "create") {
+                    $mcst_item = new ilNewsItem($this->mc_request->getItemId());
+                    $mob_id = $mcst_item->getMobId();
+                }
+                $this->video_gui->addPreviewInput($this->form_gui, $mob_id);
             }
         }
 
@@ -563,14 +550,6 @@ EOT;
             $item_id
         );
         $mob = new ilObjMediaObject($this->mcst_item->getMobId());
-
-        // preview
-        $ppic = $mob->getVideoPreviewPic();
-        if ($ppic != "") {
-            $i = $this->form_gui->getItemByPostVar("preview_pic");
-            $i->setImage($ppic);
-        }
-
 
         $values = array();
         $mediaItems = $this->getMediaItems(
@@ -635,10 +614,7 @@ EOT;
             $mob->setDescription($description);
 
             // save preview pic
-            $prevpic = $this->form_gui->getInput("preview_pic");
-            if ($prevpic["size"] > 0) {
-                $mob->uploadVideoPreviewPic($prevpic);
-            }
+            $this->video_gui->savePreviewInput($this->form_gui, $mob->getId());
 
             // determine duration for standard purpose
             $duration = $this->getDuration($file);
@@ -856,15 +832,7 @@ EOT;
                     $mob->setTitle($title);
                     $mob->setDescription($description);
 
-                    $prevpic = $this->form_gui->getInput("preview_pic");
-                    if ($prevpic["size"] > 0) {
-                        $mob->uploadVideoPreviewPic($prevpic);
-                    } else {
-                        $prevpici = $this->form_gui->getItemByPostVar("preview_pic");
-                        if ($prevpici->getDeletionFlag()) {
-                            $mob->removeAdditionalFile($mob->getVideoPreviewPic(true));
-                        }
-                    }
+                    $this->video_gui->savePreviewInput($this->form_gui, $mob->getId());
                 }
             }
 
@@ -1666,35 +1634,11 @@ EOT;
     public function extractPreviewImageObject(): void
     {
         $ilCtrl = $this->ctrl;
-        $add = "";
-
         $this->checkPermission("write");
-
         $this->mcst_item = new ilNewsItem($this->mc_request->getItemId());
-        $mob = new ilObjMediaObject($this->mcst_item->getMobId());
-
-        try {
-            $sec = $this->mc_request->getSeconds();
-            if ($sec < 0) {
-                $sec = 0;
-            }
-
-            $mob->generatePreviewPic(320, 240, $sec);
-            if ($mob->getVideoPreviewPic() !== "") {
-                $this->tpl->setOnScreenMessage('info', $this->lng->txt("mcst_image_extracted"), true);
-            } else {
-                $this->tpl->setOnScreenMessage('failure', $this->lng->txt("mcst_no_extraction_possible"), true);
-            }
-        } catch (ilException $e) {
-            if (DEVMODE == 1) {
-                $ret = ilFFmpeg::getLastReturnValues();
-                $add = (is_array($ret) && count($ret) > 0)
-                    ? "<br />" . implode("<br />", $ret)
-                    : "";
-            }
-            $this->tpl->setOnScreenMessage('failure', $e->getMessage() . $add, true);
-        }
-
+        $this->video_gui->handleExtractionRequest(
+            $this->mcst_item->getMobId()
+        );
         $ilCtrl->redirect($this, "editCastItem");
     }
 

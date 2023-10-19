@@ -116,6 +116,9 @@ div.il-system-infos {
 	justify-self: start;
 	display: flex;
   	align-items: center;
+	a {
+		display: block; // so keyboard focus surrounds logo
+	}
 }
 
 .il-pagetitle {

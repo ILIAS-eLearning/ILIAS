@@ -34,7 +34,7 @@ class ilObjFileListGUI extends ilObjectListGUI
 {
     use ilObjFileSecureString;
 
-    private bool $use_flavor_for_cards = false;
+    private bool $use_flavor_for_cards = true;
     protected string $title;
     private bool $persist = true;
     private int $max_size = 512;
@@ -59,8 +59,13 @@ class ilObjFileListGUI extends ilObjectListGUI
             return parent::getTileImagePath();
         }
         // First we use a configured Tile Image
-        $img = $this->object_service->commonSettings()->tileImage()->getByObjId($this->obj_id);
-        if ($img->exists()) {
+        $object = ilObjectFactory::getInstanceByObjId($this->obj_id);
+        if ($object === null) {
+            return '';
+        }
+
+        $img = $object->getObjectProperties()->getPropertyTileImage()->getTileImage();
+        if ($img !== null && $img->exists()) {
             return $img->getFullPath();
         }
 

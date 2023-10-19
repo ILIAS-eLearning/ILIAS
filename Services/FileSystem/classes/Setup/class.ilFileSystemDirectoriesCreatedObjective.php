@@ -115,9 +115,11 @@ class ilFileSystemDirectoriesCreatedObjective implements Setup\Objective
             throw new Setup\UnachievableException("Could not write ilias.ini.php");
         }
 
-        $tmp_dir = $environment->getConfigFor("tmp_dir");
-        if (!is_null($tmp_dir)) {
-            $this->deleteRecursive($tmp_dir, true);
+        if ($environment->hasConfigFor("tmp_dir")) {
+            $tmp_dir = $environment->getConfigFor("tmp_dir");
+            if (!is_null($tmp_dir)) {
+                $this->deleteRecursive($tmp_dir, true);
+            }
         }
 
         return $environment;
