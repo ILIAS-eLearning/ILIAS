@@ -152,7 +152,6 @@ class MathResultResolver implements ResultResolver
             } else {
                 throw new \ilException("Unrecognized token '$token'");
             }
-            // $stack->debug();
         }
         // If one element is left on stack, we are done. Otherwise calculate
         if ($stack->count() === 1) {
