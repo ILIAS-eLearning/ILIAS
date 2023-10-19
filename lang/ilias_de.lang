@@ -17214,3 +17214,4 @@ wsp#:#wsp_type_scov#:#Zertifikat: SCORM
 wsp#:#wsp_type_tstv#:#Zertifikat: Test
 wsp#:#wsp_type_webr#:#Weblink
 wsp#:#wsp_type_wfld#:#Ordner
+assessment#:#tst_exam_not_assigned_participant_disclaimer#:Du kannst den Test nicht starten, da du kein zugewiesener Teilnehmer bist.
