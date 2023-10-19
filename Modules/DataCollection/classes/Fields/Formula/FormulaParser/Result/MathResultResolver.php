@@ -104,12 +104,12 @@ class MathResultResolver implements ResultResolver
         $precedences = new Stack();
         $in_bracket = false;
         foreach ($tokens as $token) {
-            if ($token->getValue() === '') {
-                $token = 0;
+            if (is_string($token)) {
+                $token = new MathToken($token);
             }
 
             // we use the tokens value
-            $token = $token->getValue();
+            $token = $token->getValue() === '' ? '0' : $token->getValue();
 
             if (is_numeric($token) || $token === '(') {
                 $stack->push($token);
