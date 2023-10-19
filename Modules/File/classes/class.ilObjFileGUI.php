@@ -642,7 +642,15 @@ class ilObjFileGUI extends ilObject2GUI
                     $this->object->getId(),
                     $this->user->getId()
                 );
-                ilLPStatusWrapper::_updateStatus($this->object->getId(), $this->user->getId());
+                if ($this->object->getLPMode() === ilLPObjSettings::LP_MODE_CONTENT_VISITED) {
+                    ilLPStatusWrapper::_updateStatus(
+                        $this->object->getId(),
+                        $this->user->getId(),
+                        null,
+                        false,
+                        true
+                    );
+                }
 
                 $this->object->sendFile($hist_entry_id);
             } else {
@@ -694,9 +702,9 @@ class ilObjFileGUI extends ilObject2GUI
         // add set completed button, if LP mode is active
         if ($this->object->getLPMode() === ilLPObjSettings::LP_MODE_MANUAL) {
             if (ilLPStatus::_hasUserCompleted($this->object->getId(), $this->user->getId())) {
-                $label = $this->lng->txt('file_btn_lp_toggle_state_not_completed');
-            } else {
                 $label = $this->lng->txt('file_btn_lp_toggle_state_completed');
+            } else {
+                $label = $this->lng->txt('file_btn_lp_toggle_state_not_completed');
             }
             $this->toolbar->addComponent(
                 $this->ui->factory()->button()->standard(
