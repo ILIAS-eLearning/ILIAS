@@ -424,7 +424,7 @@ class ilTestScreenGUI
             $this->main_settings->getIntroductionSettings()->getExamConditionsCheckboxEnabled()
             || $this->main_settings->getAccessSettings()->getPasswordEnabled()
             || $this->main_settings->getParticipantFunctionalitySettings()->getUsePreviousAnswerAllowed()
-            || ($this->main_settings->getGeneralSettings()->getAnonymity() && $this->user->isAnonymous())
+            || $this->user->isAnonymous()
         );
     }
 }
