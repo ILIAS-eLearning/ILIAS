@@ -43,7 +43,7 @@ class ilObjectDataSet extends ilDataSet
         $this->storage = $DIC->resourceStorage();
 
         $obj_dic = ilObjectDIC::dic();
-        $this->object_properties_agregator = $obj_dic['object_properties'];
+        $this->object_properties_agregator = $obj_dic['object_properties_agregator'];
 
         parent::__construct();
     }

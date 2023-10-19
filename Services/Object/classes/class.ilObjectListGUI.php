@@ -721,7 +721,7 @@ class ilObjectListGUI
         $this->access_cache = [];
         $this->ref_id = $ref_id;
         $this->obj_id = $obj_id;
-        $this->object_properties = $this->object_dic['object_properties']->getFor($obj_id);
+        $this->object_properties = $this->object_dic['object_properties_agregator']->getFor($obj_id);
         $this->setTitle($title);
         $this->setDescription($description);
 
@@ -1918,7 +1918,7 @@ class ilObjectListGUI
 
         // #18737
         if ($this->reference_ref_id) {
-            $this->ctrl->setParameterByClass('ilobjectactivationgui', 'ref_id', $this->reference_ref_id);
+            $this->ctrl->setParameterByClass('ilconditionhandlergui', 'ref_id', $this->reference_ref_id);
         }
 
         if (
@@ -1926,25 +1926,25 @@ class ilObjectListGUI
             $this->checkCommandAccess('write', '', $this->ref_id, $this->type)
         ) {
             $this->ctrl->setParameterByClass(
-                'ilobjectactivationgui',
+                'ilconditionhandlergui',
                 'cadh',
                 $this->ajax_hash
             );
             $this->ctrl->setParameterByClass(
-                'ilobjectactivationgui',
+                'ilconditionhandlergui',
                 'parent_id',
                 $parent_ref_id
             );
             $cmd_lnk = $this->ctrl->getLinkTargetByClass(
-                [$this->gui_class_name, 'ilcommonactiondispatchergui', 'ilobjectactivationgui'],
-                'edit'
+                [$this->gui_class_name, 'ilcommonactiondispatchergui', 'ilobjectactivationgui', 'ilconditionhandlergui'],
+                'listConditions'
             );
 
-            $this->insertCommand($cmd_lnk, $this->lng->txt('obj_activation_list_gui'));
+            $this->insertCommand($cmd_lnk, $this->lng->txt('preconditions'));
         }
 
         if ($this->reference_ref_id) {
-            $this->ctrl->setParameterByClass('ilobjectactivationgui', 'ref_id', $this->ref_id);
+            $this->ctrl->setParameterByClass('ilconditionhandlergui', 'ref_id', $this->ref_id);
         }
     }
 

@@ -72,4 +72,18 @@ class ilObjectRequestRetriever
     {
         return $this->getFromRequest($key, $this->refinery->kindlyTo()->bool()) ?? false;
     }
+
+    public function getSelectedIdsFromObjectList(): array
+    {
+        if ($this->wrapper->post()->has('id')) {
+            return $this->wrapper->post()->retrieve(
+                'id',
+                $this->refinery->container()->mapValues(
+                    $this->refinery->kindlyTo()->int()
+                )
+            );
+        }
+
+        return [];
+    }
 }
