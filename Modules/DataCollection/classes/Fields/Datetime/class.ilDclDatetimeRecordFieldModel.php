@@ -58,7 +58,8 @@ class ilDclDatetimeRecordFieldModel extends ilDclBaseRecordFieldModel
 
     public function getFormulaValue(): string
     {
+        // getValue returns the field value, but in this case it is formatted. For the calculations in Formelns the value is needed as Unix timestamp (as string).
         $value = $this->getValue();
-        return (string)strtotime($value ? $value : '');
+        return (string) strtotime($value ? $value : '');
     }
 }
