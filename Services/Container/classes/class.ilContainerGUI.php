@@ -543,6 +543,8 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
                     $this->lng->txt('link_selected_items'),
                     'link'
                 );
+
+                $toolbar = $this->addTimeLimitsButtonToToolbar($toolbar);
                 // add download button if multi download enabled
                 $folder_set = new ilSetting('fold');
                 if ((bool) $folder_set->get('enable_multi_download') === true) {
