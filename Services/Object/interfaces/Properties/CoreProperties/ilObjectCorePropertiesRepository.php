@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -20,6 +18,11 @@ declare(strict_types=1);
 
 interface ilObjectCorePropertiesRepository
 {
+    /**
+     * @param array<int> $ids
+     */
+    public function preload(array $ids): void;
+    public function resetPreloadedData(): void;
     public function getFor(int $object_id): ilObjectCoreProperties;
     public function store(ilObjectCoreProperties $properties): ilObjectCoreProperties;
 }

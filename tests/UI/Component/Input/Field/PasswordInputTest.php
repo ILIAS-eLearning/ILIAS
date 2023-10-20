@@ -15,6 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
 declare(strict_types=1);
 
 require_once(__DIR__ . "/../../../../../libs/composer/vendor/autoload.php");
@@ -70,7 +71,7 @@ class PasswordInputTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function test_implements_factory_interface(): void
+    public function testImplementsFactoryInterface(): void
     {
         $f = $this->buildFactory();
         $pwd = $f->password("label", "byline");
@@ -78,7 +79,7 @@ class PasswordInputTest extends ILIAS_UI_TestBase
         $this->assertInstanceOf(Field\Password::class, $pwd);
     }
 
-    public function test_render(): void
+    public function testRender(): void
     {
         $f = $this->buildFactory();
         $label = "label";
@@ -100,7 +101,7 @@ class PasswordInputTest extends ILIAS_UI_TestBase
         $this->assertHTMLEquals($expected, $r->render($pwd));
     }
 
-    public function test_render_error(): void
+    public function testRenderError(): void
     {
         $f = $this->buildFactory();
         $label = "label";
@@ -123,7 +124,7 @@ class PasswordInputTest extends ILIAS_UI_TestBase
         $this->assertEquals($expected, $html);
     }
 
-    public function test_render_no_byline(): void
+    public function testRenderNoByline(): void
     {
         $f = $this->buildFactory();
         $label = "label";
@@ -143,7 +144,7 @@ class PasswordInputTest extends ILIAS_UI_TestBase
         $this->assertHTMLEquals($expected, $r->render($pwd));
     }
 
-    public function test_render_value(): void
+    public function testRenderValue(): void
     {
         $f = $this->buildFactory();
         $label = "label";
@@ -164,7 +165,7 @@ class PasswordInputTest extends ILIAS_UI_TestBase
         $this->assertHTMLEquals($expected, $r->render($pwd));
     }
 
-    public function test_render_required(): void
+    public function testRenderRequired(): void
     {
         $f = $this->buildFactory();
         $label = "label";
@@ -186,7 +187,7 @@ class PasswordInputTest extends ILIAS_UI_TestBase
         $this->assertHTMLEquals($expected, $html);
     }
 
-    public function test_render_disabled(): void
+    public function testRenderDisabled(): void
     {
         $f = $this->buildFactory();
         $label = "label";
@@ -208,7 +209,7 @@ class PasswordInputTest extends ILIAS_UI_TestBase
         $this->assertHTMLEquals($expected, $html);
     }
 
-    public function test_value_required(): void
+    public function testValueRequired(): void
     {
         $f = $this->buildFactory();
         $label = "label";
@@ -224,7 +225,7 @@ class PasswordInputTest extends ILIAS_UI_TestBase
         $this->assertTrue($value2->isError());
     }
 
-    public function test_value_type(): void
+    public function testValueType(): void
     {
         $f = $this->buildFactory();
         $label = "label";

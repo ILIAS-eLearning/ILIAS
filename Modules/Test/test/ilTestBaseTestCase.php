@@ -332,4 +332,14 @@ class ilTestBaseTestCase extends TestCase
 
         $this->setGlobalVariable("object", $object_mock);
     }
+
+    protected function getTestObjMock(): ilObjTest
+    {
+        $test_mock = $this->createMock(ilObjTest::class);
+        $test_mock->method('getLocalDIC')
+            ->willReturn(
+                ilTestDIC::dic()
+            );
+        return $test_mock;
+    }
 }

@@ -51,7 +51,6 @@
 		"ezyang/htmlpurifier": "^4.16",
 		"phpmailer/phpmailer": "^6.8",
 		"geshi/geshi": "^1.0.9.1",
-		"tecnickcom/tcpdf": "^6.3",
 		"pimple/pimple" : "^3.0",
 		"symfony/yaml": "^5.3",
 		"guzzlehttp/psr7": "^2.5",

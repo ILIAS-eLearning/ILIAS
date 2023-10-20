@@ -347,12 +347,15 @@ class ilPortfolioExerciseGUI
         $pe = new ilPortfolioExercise($this->user_id, $this->obj_id);
 
         $buttons = [];
+        $pages = ilPortfolioPage::getAllPortfolioPages($this->obj_id);
         foreach ($pe->getAssignmentsOfPortfolio() as $exercise) {
             $ass_id = $exercise["ass_id"];
             $buttons[$ass_id] = [];
-            $submit_button = $this->getSubmitButton($ass_id);
-            if ($submit_button) {
-                $buttons[$ass_id][] = $submit_button;
+            if (count($pages) > 0) {
+                $submit_button = $this->getSubmitButton($ass_id);
+                if ($submit_button) {
+                    $buttons[$ass_id][] = $submit_button;
+                }
             }
             $download_button = $this->getDownloadSubmissionButton($ass_id);
             if ($download_button) {

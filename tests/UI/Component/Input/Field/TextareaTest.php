@@ -50,7 +50,7 @@ class TextareaTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function test_implements_factory_interface(): void
+    public function testImplementsFactoryInterface(): void
     {
         $f = $this->buildFactory();
         $textarea = $f->textarea("label", "byline");
@@ -58,7 +58,7 @@ class TextareaTest extends ILIAS_UI_TestBase
         $this->assertInstanceOf(Field\Textarea::class, $textarea);
     }
 
-    public function test_implements_factory_interface_without_byline(): void
+    public function testImplementsFactoryInterface_without_byline(): void
     {
         $f = $this->buildFactory();
         $textarea = $f->textarea("label");
@@ -66,7 +66,7 @@ class TextareaTest extends ILIAS_UI_TestBase
         $this->assertInstanceOf(Field\Textarea::class, $textarea);
     }
 
-    public function test_with_min_limit(): void
+    public function testWithMinLimit(): void
     {
         $f = $this->buildFactory();
         $limit = 5;
@@ -76,7 +76,7 @@ class TextareaTest extends ILIAS_UI_TestBase
         $this->assertEquals($textarea->getMinLimit(), $limit);
     }
 
-    public function test_with_max_limit(): void
+    public function testWithMaxLimit(): void
     {
         $f = $this->buildFactory();
         $limit = 15;
@@ -86,7 +86,7 @@ class TextareaTest extends ILIAS_UI_TestBase
         $this->assertEquals($textarea->getMaxLimit(), $limit);
     }
 
-    public function test_is_limited(): void
+    public function testIsLimited(): void
     {
         $f = $this->buildFactory();
 
@@ -107,7 +107,7 @@ class TextareaTest extends ILIAS_UI_TestBase
         $this->assertFalse($textarea->isLimited());
     }
 
-    public function test_get_min_limit(): void
+    public function testGetMinLimit(): void
     {
         $f = $this->buildFactory();
         $limit = 5;
@@ -115,7 +115,7 @@ class TextareaTest extends ILIAS_UI_TestBase
         $this->assertEquals($textarea->getMinLimit(), $limit);
     }
 
-    public function test_get_max_limit(): void
+    public function testGetMaxLimit(): void
     {
         $f = $this->buildFactory();
         $limit = 15;
@@ -124,7 +124,7 @@ class TextareaTest extends ILIAS_UI_TestBase
     }
 
     // RENDERER
-    public function test_renderer(): void
+    public function testRenderer(): void
     {
         $f = $this->buildFactory();
         $r = $this->getDefaultRenderer();
@@ -150,7 +150,7 @@ class TextareaTest extends ILIAS_UI_TestBase
         $this->assertHTMLEquals($expected, $html);
     }
 
-    public function test_renderer_with_min_limit(): void
+    public function testRendererWithMinLimit(): void
     {
         $f = $this->buildFactory();
         $r = $this->getDefaultRenderer();
@@ -178,7 +178,7 @@ class TextareaTest extends ILIAS_UI_TestBase
         $this->assertHTMLEquals($expected, $html);
     }
 
-    public function test_renderer_with_max_limit(): void
+    public function testRendererWithMaxLimit(): void
     {
         $f = $this->buildFactory();
         $r = $this->getDefaultRenderer();
@@ -206,7 +206,7 @@ class TextareaTest extends ILIAS_UI_TestBase
         $this->assertHTMLEquals($this->brutallyTrimHTML($expected), $html);
     }
 
-    public function test_renderer_with_min_and_max_limit(): void
+    public function testRendererWithMinAndMaxLimit(): void
     {
         $f = $this->buildFactory();
         $r = $this->getDefaultRenderer();
@@ -237,7 +237,7 @@ class TextareaTest extends ILIAS_UI_TestBase
         $this->assertHTMLEquals($this->brutallyTrimHTML($expected), $html);
     }
 
-    public function test_renderer_counter_with_value(): void
+    public function testRendererCounterWithValue(): void
     {
         $f = $this->buildFactory();
         $r = $this->getDefaultRenderer();
@@ -264,7 +264,7 @@ class TextareaTest extends ILIAS_UI_TestBase
         $this->assertHTMLEquals($expected, $html);
     }
 
-    public function test_renderer_with_error(): void
+    public function testRendererWithError(): void
     {
         $f = $this->buildFactory();
         $r = $this->getDefaultRenderer();
@@ -293,7 +293,7 @@ class TextareaTest extends ILIAS_UI_TestBase
         $this->assertEquals($this->brutallyTrimHTML($expected), $html);
     }
 
-    public function test_renderer_with_disabled(): void
+    public function testRendererWithDisabled(): void
     {
         $f = $this->buildFactory();
         $r = $this->getDefaultRenderer();
@@ -319,7 +319,7 @@ class TextareaTest extends ILIAS_UI_TestBase
         $this->assertHTMLEquals($expected, $html);
     }
 
-    public function test_stripsTags(): void
+    public function testStripsTags(): void
     {
         $f = $this->buildFactory();
         $name = "name_0";

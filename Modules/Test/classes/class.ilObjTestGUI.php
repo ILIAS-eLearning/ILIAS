@@ -121,6 +121,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         $this->questioninfo = $DIC->testQuestionPool()->questionInfo();
         $this->type = 'tst';
         $this->testrequest = $DIC->test()->internal()->request();
+
         $ref_id = 0;
         if ($this->testrequest->hasRefId() && is_numeric($this->testrequest->getRefId())) {
             $ref_id = $this->testrequest->getRefId();

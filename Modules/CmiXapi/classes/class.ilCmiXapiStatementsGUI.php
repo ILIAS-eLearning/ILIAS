@@ -199,7 +199,7 @@ class ilCmiXapiStatementsGUI
             }
         } else {
             $usrId = $DIC->user()->getId();
-//            if (!ilCmiXapiUser::getUsersForObject($this->object->getId(), $usrId)) {
+            //            if (!ilCmiXapiUser::getUsersForObject($this->object->getId(), $usrId)) {
             if (!ilCmiXapiUser::getUsersForObject($this->object->getId())) {
                 $table->setData(array());
                 $table->setMaxCount(0);
@@ -247,12 +247,12 @@ class ilCmiXapiStatementsGUI
             'Authorization' => $defaultBasicAuth,
             'Cache-Control' => 'no-cache, no-store, must-revalidate'
         ];
-//        $fallbackHeaders = [
-//            'X-Experience-API-Version' => '1.0.3',
-//            'Authorization' => $fallbackBasicAuth,
-//            'Content-Type' => 'application/json;charset=utf-8',
-//            'Cache-Control' => 'no-cache, no-store, must-revalidate'
-//        ];
+        //        $fallbackHeaders = [
+        //            'X-Experience-API-Version' => '1.0.3',
+        //            'Authorization' => $fallbackBasicAuth,
+        //            'Content-Type' => 'application/json;charset=utf-8',
+        //            'Cache-Control' => 'no-cache, no-store, must-revalidate'
+        //        ];
         $pipeline = json_encode($this->getVerbsPipline());
 
         $defaultVerbsUrl = $defaultLrs . "?pipeline=" . urlencode($pipeline);

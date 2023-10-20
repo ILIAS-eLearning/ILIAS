@@ -156,7 +156,7 @@ Skills are organised in a hierarchical structure called the [Skill Tree](#skill-
 
 * **Code**: `class ilSkillRoot`
 
-The root node of the tree. There is only one.
+The root node of a skill tree. There can be more than one.
 
 ## Basic Skill
 
@@ -194,9 +194,10 @@ A skill template reference is the link between the main category tree and a skil
 * **Node ID**: Node ID (`skl_templ_ref.skl_node_id` referencing a `skl_tree_node.obj_id` of type "sktr")
 * **Template Node ID**: Template Node ID (`skl_templ_ref.templ_id` referencing a `skl_tree_node.obj_id` of type "sktp" or "sctp")
 
-**Business Rule**
+**Business Rules**
 
 * A Skill Template Reference can only reference Templates or Template Category Nodes which are on the top level (directly underneath the root node).
+* When a Template or Template Category is deleted, all related Skill Template References will also be deleted.
 
 ## Skill Tree
 
@@ -419,9 +420,12 @@ There are three different types of user skill levels:
 * Features that reference skills (e.g. local skill profiles) can re-instantiate these references on import by retrieving the new IDs
   through the methods `ilBasicSkill::getCommonSkillIdForImportId()` and/or `ilBasicSkill::getLevelIdForImportIdMatchSkill`. 
 
-##Deleting Competences
+## Deleting Competences
 
-* Competences cannot be deleted, if:
+* Up to ILIAS 8, Competences could not be deleted, if there were in use. Since ILIAS 9, it is possible to delete 
+  Competences, Competence Templates and whole Competence Trees, even when they are in use. Before the deletion is done,
+  there is still a warning message to inform the user about the impact of the deletion. The message contains information
+  about the following usages:
   * Competence is used in a repository object
   * Competence is selected by users as Personal Competence
   * Users assigned material from their personal resources to a competence

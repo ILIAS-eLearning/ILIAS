@@ -273,8 +273,8 @@ class ilWorkspaceAccessGUI
                 break;
 
             case "registered":
-                $this->getAccessHandler()->addPermission($this->node_id, self::PERMISSION_REGISTERED);
-                $this->tpl->setOnScreenMessage('success', $this->lng->txt("wsp_permission_registered_info"), true);
+                $this->getAccessHandler()->addMissingPermissionForObjects($this->node_id, [self::PERMISSION_REGISTERED]);
+                $this->tpl->setOnScreenMessage('success', $this->lng->txt("wsp_share_success"), true);
                 $this->ctrl->redirect($this, "share");
                 break;
 
@@ -283,7 +283,7 @@ class ilWorkspaceAccessGUI
                 break;
 
             case "all":
-                $this->getAccessHandler()->addPermission($this->node_id, self::PERMISSION_ALL);
+                $this->getAccessHandler()->addMissingPermissionForObjects($this->node_id, [self::PERMISSION_ALL]);
                 $this->tpl->setOnScreenMessage('success', $this->lng->txt("wsp_permission_all_info"), true);
                 $this->ctrl->redirect($this, "share");
         }

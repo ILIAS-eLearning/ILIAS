@@ -1137,6 +1137,11 @@ assessment#:#result_units_info#:#The selected units are offered to the learner a
 assessment#:#result_x#:#Result %s
 assessment#:#results#:#Results
 assessment#:#results_tab#:#Results
+assessment#:#resulttable_all#:#All
+assessment#:#resulttable_correct#:#Correct
+assessment#:#resulttable_incorrect#:#Incorrect/Incomplete
+assessment#:#resulttable_vc_sort_iooa#:#in order of appearance
+assessment#:#resulttable_vc_sort_posscore#:#highest possible score first
 assessment#:#review_view#:#Review
 assessment#:#saveOrder#:#Save Order
 assessment#:#saveOrderAndObligations#:#Save Order and Obligations
@@ -1192,6 +1197,7 @@ assessment#:#suggest_range#:#Suggest Range
 assessment#:#suggestedSolutionType#:#Refer to
 assessment#:#suggested_solution#:#Content for Recapitulation
 assessment#:#suggested_solution_added_successfully#:#You successfully set a content for recapitulation!
+assessment#:#ta_resulttable_vc_mode_aria#:#switch question mode
 assessment#:#tab_nest_answers#:#Nesting
 assessment#:#term#:#Term
 assessment#:#term_image#:#Term Image
@@ -1670,8 +1676,8 @@ assessment#:#tst_question_hints_table_link_edit_hint#:#Edit Hint
 assessment#:#tst_question_hints_table_link_edit_hint_page#:#Edit Page
 assessment#:#tst_question_hints_table_link_edit_hint_points#:#Edit Points
 assessment#:#tst_question_hints_table_no_items#:#No Existing Hints
-assessment#:#tst_question_mark#:#Mark this question
-assessment#:#tst_question_marked#:#You marked the question
+assessment#:#tst_question_mark#:#Flag this question
+assessment#:#tst_question_marked#:#You flagged the question
 assessment#:#tst_question_marker#:#Flagged
 assessment#:#tst_question_no#:#Order
 assessment#:#tst_question_not_from_pool_info#:#No Pool
@@ -1700,7 +1706,7 @@ assessment#:#tst_random_question_set_source_questionpool_summary_string#:#%s (Pa
 assessment#:#tst_random_select_questionpool#:#Select the question pool to choose the questions from
 assessment#:#tst_reached_points#:#Reached Points
 assessment#:#tst_reached_points_of_max#:#%s of %s
-assessment#:#tst_remove_mark#:#Remove this mark
+assessment#:#tst_remove_mark#:#Remove this flag
 assessment#:#tst_remove_question#:#Are you sure you want to remove the following question from the test?
 assessment#:#tst_remove_questions#:#Are you sure you want to remove the following questions from the test?
 assessment#:#tst_remove_questions_and_results#:#This test was already executed by %s user(s). Removing questions from this test will remove all test results of these users. Are you sure you want to remove the following question(s) from the test?
@@ -1885,6 +1891,7 @@ assessment#:#tst_title_output#:#Show Question Title
 assessment#:#tst_title_output_full#:#Question Titles and Available Points
 assessment#:#tst_title_output_hide_points#:#Only Question Titles
 assessment#:#tst_title_output_no_title#:#Neither Question Titles nor Available Points
+assessment#:#tst_title_output_only_points#:#Only Available Points
 assessment#:#tst_trigger_result_refreshing#:#Results need to be recalculated. This may take a while.
 assessment#:#tst_type#:#Test Type
 assessment#:#tst_unchanged_answer_is_correct#:#The preset answer is correct###fau: testNav
@@ -4554,7 +4561,6 @@ common#:#mm_personal_and_shared_r#:#Personal and Shared Resources
 common#:#mm_personal_workspace#:#Personal Workspace
 common#:#mm_portfolio#:#Portfolio
 common#:#mm_private_chats#:#Private Chats
-common#:#mm_rep_tree_view#:#Tree View
 common#:#mm_repo_tree_view#:#Tree View
 common#:#mm_repo_tree_view_act#:#Activate Tree
 common#:#mm_repo_tree_view_deact#:#Deactivate Tree
@@ -4878,9 +4884,7 @@ common#:#obj_objf_desc#:#Manage ILIAS object types and object permissions. (only
 common#:#obj_orgu#:#Organisational Unit
 common#:#obj_orgu_description#:#Creating and editing organisational structure
 common#:#obj_page#:#Page
-common#:#obj_pdfg#:#PDF Generation
-common#:#obj_pdfg_desc#:#Options for generation PDF documents
-common#:#obj_peac#:#Accordion/Carousel
+common#:#obj_peac#:#Accordion
 common#:#obj_peadl#:#Advanced List
 common#:#obj_peadt#:#Advanced Table
 common#:#obj_pecd#:#Code
@@ -5150,10 +5154,6 @@ common#:#path_to_zip#:#Path to Zip
 common#:#pathes#:#Paths
 common#:#pd_items_news#:#Include News of Personal Items
 common#:#pdf_export#:#PDF Export
-common#:#pdfg_edit_permission#:#User can change permission settings
-common#:#pdfg_read#:#User has read access to PDF Generation
-common#:#pdfg_visible#:#PDF Generation is visible
-common#:#pdfg_write#:#User can edit settings of PDF Generation
 common#:#perm_settings#:#Permissions
 common#:#perma_link#:#Permanent Link
 common#:#permission#:#Permission
@@ -8590,7 +8590,7 @@ dcl#:#dcl_plugin_hooks#:#Available Plugins
 dcl#:#dcl_plugin_no_hooks_available#:#No active field-type plugins found
 dcl#:#dcl_prev_record#:#Previous Entry
 dcl#:#dcl_prop_expression#:#Expression
-dcl#:#dcl_prop_expression_info#:#Supported operators: <b>%s</b><br>Supported functions: <b>%s</b><br>Use brackets <b>‘(’, ‘)’</b> to group calculations.<br>Concatenate strings and placeholders with &: <b>‘The result is ’ & [[Int 1]] * [[Int2]]</b><br>Using functions: <b>SUM([[Int 1]];[[Int 2]])</b><br><br>Available fields (click on title to copy field inside expression):<br>%s
+dcl#:#dcl_prop_expression_info#:#Supported operators: <b>%s</b><br>Supported functions: <b>%s</b><br>Use brackets <b>‘(’, ‘)’</b> to group calculations.<br>Concatenate strings and placeholders with &: <b>‘The result is ’ & [[Int 1]] * [[Int2]]</b><br>Using functions: <b>SUM([[Int 1]];[[Int 2]])</b><br>When using date fields and number fields in a formula, the number fields are considered seconds and must be multiplied by 86400, for example.<br><br>Available fields (click on title to copy field inside expression):<br>%s
 dcl#:#dcl_public_comments#:#Activate Public Comments
 dcl#:#dcl_public_comments_desc#:#Users can comment on entries of the table.
 dcl#:#dcl_rating#:#Rating
@@ -9116,6 +9116,7 @@ exc#:#exc_global_feedback_file_date#:#Availability
 exc#:#exc_global_feedback_file_date_deadline#:#After deadline
 exc#:#exc_global_feedback_file_date_upload#:#After submission
 exc#:#exc_go_to_exercise#:#Go to Exercise
+exc#:#exc_graded_mem_notified#:#All graded participants have been notified.
 exc#:#exc_grades#:#Grades Overview
 exc#:#exc_grades_overview#:#Grades View
 exc#:#exc_hand_in#:#Hand In
@@ -9155,6 +9156,8 @@ exc#:#exc_min_nr_info#:#This value must be equal or higher than the number of co
 exc#:#exc_min_team_participants#:#Minimal Number
 exc#:#exc_msg_all_mandatory_ass#:#You must pass all mandatory assignments to pass the exercise.
 exc#:#exc_msg_failed_mandatory#:#You failed in at least one mandatory assignment.
+exc#:#exc_msg_grading_done#:#An assignment has been graded in exercise "%s".
+exc#:#exc_msg_grading_done_body#:#a tutor has graded your submission in exercise "%s".
 exc#:#exc_msg_min_number_ass#:#You must pass a minimum of %s assignments to pass the exercise.
 exc#:#exc_msg_missed_minimum_number#:#You did not pass the minimum number of assignments.
 exc#:#exc_msg_new_feedback_file_uploaded#:#A new feedback file has been added to exercise "%s".
@@ -9176,6 +9179,7 @@ exc#:#exc_no_assignments_available#:#No assignments created yet. Please open ‘
 exc#:#exc_no_deadline_specified#:#No deadline specified.
 exc#:#exc_no_feedback_dir_found_in_zip#:#The directory structure of the uploaded zip-archive could not be processed.
 exc#:#exc_no_get_target#:#A valid target has not been sent.
+exc#:#exc_no_graded_mem_selected#:#Please select at least one graded participant.
 exc#:#exc_no_participants#:#There are currently no participants.
 exc#:#exc_no_portfolio_templates#:#There are no Portfolio Templates available.
 exc#:#exc_no_team_yet#:#Not assigned to a team
@@ -9308,6 +9312,7 @@ exc#:#exc_select_portfolio_change#:#Use different portfolio
 exc#:#exc_select_portfolio_info#:#Please select one of your portfolios to use it with this assignment.
 exc#:#exc_select_portfolio_unlink#:#Remove Portfolio
 exc#:#exc_send_assignment#:#Send Assignment by Mail
+exc#:#exc_send_grading_notification#:#Send Grading Notification
 exc#:#exc_settings_feedback#:#Evaluation
 exc#:#exc_settings_feedback_file#:#By File
 exc#:#exc_settings_feedback_file_info#:#Tutors upload a file. The participant receives a notification about it and can access the file at the assignment overview.
@@ -9331,6 +9336,7 @@ exc#:#exc_submission_notification_body#:#A new submission for exercise "%s" has 
 exc#:#exc_submission_notification_info#:#You will be notified when submissions are uploaded. This is a personal setting which does not affect other administrators of the exercise.
 exc#:#exc_submission_notification_link#:#Link to exercise: %s
 exc#:#exc_submission_notification_subject#:#Exercise "%s" - New submission uploaded
+exc#:#exc_submission_open_notification_link#:#Open submission: %s
 exc#:#exc_submission_text#:#Submission Text
 exc#:#exc_submissions_and_grades#:#Submissions and Grades
 exc#:#exc_submit_convenience_no_deadline#:#Submit your at your convenience. There is no  specific  deadline.
@@ -10564,6 +10570,7 @@ lso#:#lso_members_gallery#:#Learning Sequence Members Gallery
 lso#:#lso_members_print_title#:#Learning sequence members
 lso#:#lso_min_one_admin#:#There has to be at least one administrator assigned to this learning sequence.
 lso#:#lso_msg_member_assigned#:#User(s) assigned as learning sequence member(s)
+lso#:#lso_multidownload_not_available#:#Downloading multiple objects is currently not available for Learning Sequence Objects.
 lso#:#lso_new_status#:#Your new status is:
 lso#:#lso_notification#:#Notification
 lso#:#lso_notification_explanation_admin#:#You receive mail from ILIAS because you are learning sequence administrator with notification enabled.
@@ -12628,72 +12635,6 @@ pd#:#pd_upcoming#:#Upcoming
 pd#:#pd_view_select_at_least_one#:#You have to select at least one view, either ‘Selected Items’ and/or ‘My Memberships’.
 pdesk#:#bookmark_moved_ok#:#Bookmark has been moved.
 pdesk#:#bookmark_select_target#:#Please select target.
-pdfgen#:#checkbox_checked_svg#:#Path to checked checkbox svg
-pdfgen#:#checkbox_svg#:#Path to checkbox svg
-pdfgen#:#cleanup#:#Cleanup
-pdfgen#:#config#:#Config
-pdfgen#:#config_not_saved#:#Saving failed
-pdfgen#:#config_saved#:#Saved successfully
-pdfgen#:#configure#:#Configure Renderer
-pdfgen#:#enable_forms#:#Enable Forms
-pdfgen#:#enable_forms_info#:#Turn HTML form fields into pdf form fields
-pdfgen#:#external_links#:#Externel links
-pdfgen#:#external_links_info#:#Make links to remote web pages
-pdfgen#:#footer_height#:#Height Footer
-pdfgen#:#footer_html#:#Html
-pdfgen#:#footer_line#:#Footer line
-pdfgen#:#footer_show_pages#:#Show Pagenumbers
-pdfgen#:#footer_text#:#Text
-pdfgen#:#footer_text_center#:#Text center
-pdfgen#:#footer_text_left#:#Text left
-pdfgen#:#footer_text_right#:#Text right
-pdfgen#:#footer_type#:#Footer
-pdfgen#:#greyscale#:#Greyscale
-pdfgen#:#greyscale_info#:#PDF will be generated in grayscale
-pdfgen#:#head_text#:#Text
-pdfgen#:#header_height#:#Header Height
-pdfgen#:#header_line#:#Header line
-pdfgen#:#header_show_pages#:#Show Pagenumbers
-pdfgen#:#header_text_center#:#Text center
-pdfgen#:#header_text_left#:#Text left
-pdfgen#:#header_text_right#:#Text right
-pdfgen#:#header_type#:#Header
-pdfgen#:#html#:#Html
-pdfgen#:#image_scale#:#Image scale
-pdfgen#:#javascript_delay#:#Javascript delay
-pdfgen#:#javascript_delay_info#:#If JavaScript is used to render page content, add a delay to make sure the content appears in the PDF. The standard delay of 200ms should suffice in most cases.
-pdfgen#:#low_quality#:#Low quality
-pdfgen#:#low_quality_info#:#Generates lower quality pdf/ps. Useful to shrink the result document space
-pdfgen#:#margin#:#Margin 345
-pdfgen#:#margin_bottom#:#Margin bottom
-pdfgen#:#margin_info#:#Margin in mm e.g. 10mm
-pdfgen#:#margin_left#:#Margin left
-pdfgen#:#margin_right#:#Margin right
-pdfgen#:#margin_top#:#Margin top
-pdfgen#:#none#:#Keine
-pdfgen#:#orientation#:#Orientation
-pdfgen#:#output_options#:#Output options
-pdfgen#:#overwrite_font#:#Overwrite default font
-pdfgen#:#overwrite_font_info#:#Enter somthing similar to: 'serif', 'sans-serif', 'monospace' usw.
-pdfgen#:#page_settings#:#Page Settings
-pdfgen#:#page_size#:#Pagesize
-pdfgen#:#path#:#Path to wkhtmltopdf
-pdfgen#:#preferred_renderer#:#Preferred Renderer
-pdfgen#:#print_media_info#:#Use print media-type instead of screen
-pdfgen#:#print_media_type#:#Use print media type instead of screen
-pdfgen#:#problem_with_purposes#:#A problem in the configuration was detected, please use the button "Cleanup" to resolve this issue.
-pdfgen#:#radio_button_checked_svg#:#Path to checked radiobutton svg
-pdfgen#:#radio_button_svg#:#Path to radiobutton svg
-pdfgen#:#reset_to_default#:#Reset settings to default
-pdfgen#:#selected_renderer#:#Selected Renderer
-pdfgen#:#spacing#:#Spacing
-pdfgen#:#text#:#Text
-pdfgen#:#user_stylesheet#:#User stylesheet
-pdfgen#:#viewport#:#Viewport
-pdfgen#:#viewport_info#:#Viewport in pixels e.g. "1920*1080"
-pdfgen#:#webkit#:#wkhtmltopdf
-pdfgen#:#wkhtml_config#:#Configuration for WKHTML
-pdfgen#:#zoom#:#Zoom
 poll#:#poll_absolute#:#Current Votes
 poll#:#poll_activation_online_info#:#Activate this setting to make the poll accessible to users.
 poll#:#poll_add#:#Add Poll
@@ -13083,6 +13024,7 @@ prtf#:#prtf_add_new_blog#:#Add New Blog
 prtf#:#prtf_add_new_blog_info#:#The new blog will be added to your personal resources.
 prtf#:#prtf_add_page#:#Add Page
 prtf#:#prtf_add_portfolio#:#Add Portfolio
+prtf#:#prtf_add_portfolio_from_template#:#Add Portfolio From Template
 prtf#:#prtf_all_pages#:#All Pages
 prtf#:#prtf_allow_html#:#Allow HTML/Javascript
 prtf#:#prtf_allow_html_info#:#Enables users to include HTML and/or Javascript in their portfolio pages. This can lead to security issues.
@@ -13137,8 +13079,9 @@ prtf#:#prtf_page_type_prtf#:#Portfolio Page
 prtf#:#prtf_page_type_prtt#:#Portfolio Template Page
 prtf#:#prtf_pages_copied#:#The pages have been copied.
 prtf#:#prtf_pdf#:#Export as PDF
+prtf#:#prtf_permanent_link#:#Link to Portfolio:
 prtf#:#prtf_portfolio_created#:#Portfolio added
-prtf#:#prtf_portfolio_created_from_template#:#This is the preview of your new portfolio. To add pages and manage the content of the portfolio click on "Edit Portfolio" on top of this page.
+prtf#:#prtf_portfolio_created_from_template#:#This is the preview of your new portfolio. To add new pages, please click "Edit Portfolio". To edit this page, please click "Edit Page".
 prtf#:#prtf_portfolio_deleted#:#Portfolio deleted
 prtf#:#prtf_portfolio_page_deleted#:#Portfolio / blog page deleted.
 prtf#:#prtf_portfolios#:#Portfolios
@@ -13169,6 +13112,8 @@ prtf#:#prtf_signature_date#:#Date, Signature
 prtf#:#prtf_signature_info#:#Adds a field to the print where the author can sign the portfolio.
 prtf#:#prtf_style#:#Portfolio Style
 prtf#:#prtf_submission_on#:#Submitted on $1
+prtf#:#prtf_successfully_shared_prtf#:#Confirmation Shared Portfolio '%s'
+prtf#:#prtf_successfully_shared_prtf_body#:#You have shared your portfolio '%s' with:
 prtf#:#prtf_sure_delete_portfolio_pages#:#Are you sure you want to delete the following portfolio page / blog page?
 prtf#:#prtf_sure_delete_portfolios#:#Are you sure you want to delete the following portfolio?
 prtf#:#prtf_tab_other_users#:#Portfolios of Other Users
@@ -13182,6 +13127,7 @@ prtf#:#prtf_template_title#:#Portfolio Template
 prtf#:#prtf_unset_as_default#:#Unset As My Profile
 prtf#:#prtf_unset_default_share_info#:#Your changes have been saved. Please check the current ‘share’ settings for your portfolio.
 prtf#:#prtf_use_page_layout#:#Use Page Layout
+prtf#:#prtf_visible_for_tutor#:#Visible For Tutor
 prtf#:#prtt_title_info#:#Please note that this will be also the default title for all portfolios being created form this template.
 prtt#:#prtt_activation_limited_visibility_info#:#If chosen, the portfolio template is visible even outside of the given availability.
 prtt#:#prtt_activation_online_info#:#Activate this setting to make the portfolio template accessible to users.
@@ -16807,8 +16753,8 @@ ui#:#label_fieldselection_refresh#:#Apply
 ui#:#label_pagination_limit#:#Pagination Number of Rows
 ui#:#label_pagination_offset#:#Pagination Offset
 ui#:#label_sortation#:#Sortation
-ui#:#presentaion_table_collapse#:#collapse all
-ui#:#presentaion_table_expand#:#expand all
+ui#:#presentation_table_collapse#:#collapse all
+ui#:#presentation_table_expand#:#expand all
 ui#:#ui_chars_max#:#Maximum:
 ui#:#ui_chars_min#:#Minimum:
 ui#:#ui_chars_remaining#:#Characters remaining:
@@ -17227,6 +17173,7 @@ wsp#:#wsp_permission_registered_info#:#This object is shared with all registered
 wsp#:#wsp_permission_removed#:#Entry has been removed.
 wsp#:#wsp_permissions#:#Share
 wsp#:#wsp_personal_resources_description#:#Here you can manage your private files, blogs and artifacts.
+wsp#:#wsp_send_mail#:#Send Mail
 wsp#:#wsp_set_permission_all#:#World Wide Web
 wsp#:#wsp_set_permission_all_password#:#World Wide Web with Password
 wsp#:#wsp_set_permission_course#:#Members of Course

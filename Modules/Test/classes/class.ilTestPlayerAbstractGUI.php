@@ -44,6 +44,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
     public bool $maxProcessingTimeReached;
     public bool $endingTimeReached;
+    public int $ref_id;
 
     protected ilTestPasswordChecker $passwordChecker;
     protected ilTestProcessLocker $processLocker;
@@ -920,7 +921,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
             $questionNavigationGUI->setDiscardSolutionButtonEnabled(true);
             // fau: testNav - set answere status in question header
             $questionGui->getQuestionHeaderBlockBuilder()->setQuestionAnswered(true);
-        // fau.
+            // fau.
         } elseif ($this->object->isPostponingEnabled()) {
             $questionNavigationGUI->setSkipQuestionLinkTarget(
                 $this->ctrl->getLinkTarget($this, ilTestPlayerCommands::SKIP_QUESTION)
@@ -1722,7 +1723,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
     protected function getTestNavigationToolbarGUI(): ilTestNavigationToolbarGUI
     {
-        $navigation_toolbar = new ilTestNavigationToolbarGUI($this->ctrl, $this->lng, $this);
+        $navigation_toolbar = new ilTestNavigationToolbarGUI($this->ctrl, $this);
         $navigation_toolbar->setSuspendTestButtonEnabled($this->object->getShowCancel());
         $navigation_toolbar->setUserPassOverviewEnabled($this->object->getUsrPassOverviewEnabled());
         $navigation_toolbar->setFinishTestCommand($this->getFinishTestCommand());
@@ -2167,7 +2168,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
             $question_gui->setPresentationContext(assQuestionGUI::PRESENTATION_CONTEXT_TEST);
             $question_gui->object->setObligationsToBeConsidered($this->object->areObligationsEnabled());
             $question_gui->populateJavascriptFilesRequiredForWorkForm($tpl);
-            $question_gui->object->setShuffler($this->buildQuestionAnswerShuffler(
+            $question_gui->object->setShuffler($this->shuffler->getAnswerShuffleFor(
                 $question_id,
                 $this->test_session->getActiveId(),
                 $this->test_session->getPass()

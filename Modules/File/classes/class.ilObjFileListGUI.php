@@ -16,7 +16,6 @@
  *
  *********************************************************************/
 
-use ILIAS\FileUpload\MimeType;
 use ILIAS\File\Icon\IconDatabaseRepository;
 use ILIAS\ResourceStorage\Flavour\Definition\CropToSquare;
 use ILIAS\ResourceStorage\Flavour\Definition\FlavourDefinition;
@@ -113,7 +112,6 @@ class ilObjFileListGUI extends ilObjectListGUI
         }
         return '';
     }
-
 
     /**
      * initialisation

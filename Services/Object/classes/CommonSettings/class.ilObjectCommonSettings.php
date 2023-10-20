@@ -19,6 +19,10 @@
 declare(strict_types=1);
 
 use ILIAS\FileUpload\FileUpload;
+use ILIAS\ResourceStorage\Services as ResourceStorageServices;
+use ILIAS\Object\Properties\CoreProperties\TileImage\ilObjectPropertyTileImage;
+use ILIAS\Object\Properties\CoreProperties\TileImage\ilObjectTileImageStakeholder;
+use ILIAS\Object\Properties\CoreProperties\TileImage\ilObjectTileImageFlavourDefinition;
 
 /**
  * @deprecated 11 This class will be removed with ILIAS 11. Please use
@@ -27,10 +31,15 @@ use ILIAS\FileUpload\FileUpload;
 class ilObjectCommonSettings
 {
     private ilObjectAdditionalProperties $additional_properties;
+    private ilObjectCoreProperties $core_properties;
 
     public function __construct(
         private ilLanguage $language,
         private FileUpload $upload,
+        private ResourceStorageServices $storage,
+        private ilObjectTileImageStakeholder $stakeholder,
+        private ilObjectTileImageFlavourDefinition $flavour,
+        private ilObjectCorePropertiesRepository $core_properties_repository,
         private ilObjectAdditionalPropertiesRepository $additional_properties_repository
     ) {
     }
@@ -63,15 +72,15 @@ class ilObjectCommonSettings
 
     public function getPropertyTileImage(): ilObjectPropertyTileImage
     {
-        return $this->additional_properties->getPropertyTileImage();
+        return $this->core_properties->getPropertyTileImage();
     }
 
     public function storePropertyTileImage(
         ilObjectPropertyTileImage $property_tile_image
     ): void {
-        $this->additional_properties = $this->additional_properties
+        $this->core_properties = $this->core_properties
             ->withPropertyTileImage($property_tile_image);
-        $this->additional_properties_repository->store($this->additional_properties);
+        $this->core_properties_repository->store($this->core_properties);
     }
 
     public function getPropertyIcon(): ilObjectPropertyIcon
@@ -96,6 +105,16 @@ class ilObjectCommonSettings
     public function legacyForm(ilPropertyFormGUI $form, ilObject $object): ilObjectCommonSettingFormAdapter
     {
         $this->additional_properties = $this->additional_properties_repository->getFor($object->getId());
-        return new ilObjectCommonSettingFormAdapter($this->language, $this->upload, $this, $form);
+        $this->core_properties = $this->core_properties_repository->getFor($object->getId());
+
+        return new ilObjectCommonSettingFormAdapter(
+            $this->language,
+            $this->upload,
+            $this->storage,
+            $this->stakeholder,
+            $this->flavour,
+            $this,
+            $form
+        );
     }
 }

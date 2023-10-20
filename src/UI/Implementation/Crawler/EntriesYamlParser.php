@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Crawler;
 
@@ -273,6 +273,7 @@ class EntriesYamlParser implements YamlParser
         if (!array_key_exists("namespace", $entry_data) || !$entry_data['namespace'] || $entry_data['namespace'] == "") {
             throw $this->ef->exception(Exception\CrawlerException::ENTRY_WITH_NO_VALID_RETURN_STATEMENT, " File: " . $this->file_path);
         }
+        $entry_data['namespace'] = str_replace('[]', '', $entry_data['namespace']);
 
         $entry_data['id'] = str_replace(
             "\\",

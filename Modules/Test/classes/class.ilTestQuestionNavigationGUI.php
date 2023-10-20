@@ -444,7 +444,7 @@ class ilTestQuestionNavigationGUI
         // fau: testNav - skip question (postpone) is moved to the actions menu.
 
         if ($this->getInstantFeedbackCommand()) {
-            $this->renderSubmitButton(
+            $this->renderInstantFeedbackButton(
                 $tpl,
                 $this->getInstantFeedbackCommand(),
                 $this->getCheckButtonLabel(),
@@ -601,19 +601,47 @@ class ilTestQuestionNavigationGUI
      * @param $label
      * @param bool|false $primary
      */
-    private function renderSubmitButton(ilTemplate $tpl, $command, $label, $primary = false)
-    {
-        if ($primary) {
+    private function renderSubmitButton(
+        ilTemplate $tpl,
+        string $command,
+        string $label
+    ): void {
+        $this->renderButtonInstance(
+            $tpl,
+            $this->ui_factory->button()->standard($label, $command)
+        );
+    }
+
+    private function renderInstantFeedbackButton(
+        ilTemplate $tpl,
+        string $command,
+        string $label,
+        bool $is_primary
+    ): void {
+        $on_load_code = $this->getOnLoadCode($command);
+        if ($is_primary) {
             $this->renderButtonInstance(
                 $tpl,
-                $this->ui_factory->button()->primary($label, $command)
+                $this->ui_factory->button()->primary($label, '')->withAdditionalOnLoadCode($on_load_code)
             );
-        } else {
-            $this->renderButtonInstance(
-                $tpl,
-                $this->ui_factory->button()->standard($label, $command)
-            );
+            return;
         }
+
+        $this->renderButtonInstance(
+            $tpl,
+            $this->ui_factory->button()->standard($label, '')->withAdditionalOnLoadCode($on_load_code)
+        );
+    }
+
+    private function getOnLoadCode(string $command): Closure
+    {
+        return static function ($id) use ($command): string {
+            return "document.getElementById('$id').addEventListener('click', "
+                . '(e) => {'
+                . "  e.target.setAttribute('name', 'cmd[$command]');"
+                . '  e.target.form.requestSubmit(e.target);'
+                . '});';
+        };
     }
 
     /**

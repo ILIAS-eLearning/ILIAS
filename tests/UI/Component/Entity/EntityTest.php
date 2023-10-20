@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -59,12 +60,12 @@ class EntityTest extends ILIAS_UI_TestBase
         $this->assertEquals([$this->legacy('d')], $entity->withDetails($this->legacy('d'))->getDetails());
     }
 
-    public function EntityAllowedIdentiferTypes(): array
+    public function getEntityAllowedIdentiferTypes(): array
     {
         $shy_button = new Button\Shy('the label', '#');
         $shy_link = new Link\Standard('the label', '#');
-        $image =  new Image\Image(Image\Image::STANDARD, 'source', 'alt');
-        $icon =  new Symbol\Icon\Standard('crs', 'label', 'large', false);
+        $image = new Image\Image(I\Image\Image::STANDARD, 'source', 'alt');
+        $icon = new Symbol\Icon\Standard('crs', 'label', 'large', false);
         return [
             [$shy_button],
             [$shy_link],
@@ -75,7 +76,7 @@ class EntityTest extends ILIAS_UI_TestBase
     }
 
     /**
-     * @dataProvider EntityAllowedIdentiferTypes
+     * @dataProvider getEntityAllowedIdentiferTypes
      */
     public function testEntityIdentifiers($identifier): void
     {
