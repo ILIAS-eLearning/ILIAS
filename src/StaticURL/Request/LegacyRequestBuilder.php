@@ -40,6 +40,11 @@ class LegacyRequestBuilder implements RequestBuilder
             )
             : null;
         if ($target !== null) {
+            $target_parts = explode('_', $target);
+            if (isset($target_parts[0]) && array_key_exists($target_parts[0], $handlers)) {
+                return null;
+            }
+
             return new Request(
                 LegacyGotoHandler::NAMESPACE,
                 null,

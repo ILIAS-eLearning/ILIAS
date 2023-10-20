@@ -82,7 +82,7 @@ class HandlerService
                 $request->getAdditionalParameters()
             );
             $full_uri = $base_uri . "/login.php?target=";
-            $full_uri .= str_replace('/', '_', $target); // TODO: ILIAS currently need this like this
+            $full_uri .= str_replace('/', '_', rtrim($target, '/')); // TODO: ILIAS currently need this like this
             $full_uri .= '&cmd=force_login&lang=' . $this->context->getUserLanguage();
             $full_uri = $this->appendUnknownParameters($this->context, $full_uri); // Read the comment below
         } else {
