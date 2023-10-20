@@ -148,23 +148,6 @@ class DateTimeInputTest extends ILIAS_UI_TestBase
         $datetime->withTimeZone($tz);
     }
 
-    public function testJsConfigRendering(): void
-    {
-        $datetime = $this->factory->datetime('label', 'byline');
-        $js_binding = $this->getJavaScriptBinding();
-        $this->getDefaultRenderer($js_binding)->render($datetime);
-
-        $expected = '$("#id_1").datetimepicker({'
-            . '"showClear":true,'
-            . '"sideBySide":true,'
-            . '"format":"YYYY-MM-DD",'
-            . '"locale":"en"'
-            . '});';
-
-        $onload_js = array_shift($js_binding->on_load_code);
-        $this->assertEquals($expected, $onload_js);
-    }
-
     public function testWithValueThatIsDateTimeImmutable(): void
     {
         $string_value = "1985-05-04";

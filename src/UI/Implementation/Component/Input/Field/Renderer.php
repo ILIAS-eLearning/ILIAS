@@ -647,14 +647,6 @@ class Renderer extends AbstractComponentRenderer
             }
         }
 
-        $config = [
-            'showClear' => true,
-            'sideBySide' => true,
-            'format' => $format,
-            'locale' => $this->getLangKey()
-        ];
-        $config = array_merge($config, $component->getAdditionalPickerconfig());
-
         $tpl->setVariable("DTTYPE", $dt_type);
 
         $min_max_format = self::DATE_DATEPICKER_MINMAX_FORMAT;
