@@ -129,10 +129,9 @@ JS;
     {
         $hasErrors = (!$always) ? $this->editQuestion(true) : false;
         if (!$hasErrors) {
-            $cloze_text = $this->object->getHtmlQuestionContentPurifier()->purify(
+            $cloze_text = $this->removeIndizesFromGapText(
                 $this->request->raw('cloze_text')
             );
-            $cloze_text = $this->removeIndizesFromGapText($cloze_text);
 
             $this->object->setQuestion(
                 $this->request->raw('question')
@@ -148,9 +147,6 @@ JS;
             return 0;
         }
 
-        $cloze_text = $this->applyIndizesToGapText(
-            $this->request->raw('cloze_text')
-        );
         return 1;
     }
 
@@ -282,8 +278,8 @@ JS;
             ) {
                 $assClozeGapCombinationObject->saveGapCombinationToDb(
                     $this->object->getId(),
-                    ilArrayUtil::stripSlashesRecursive($_POST['gap_combination']),
-                    ilArrayUtil::stripSlashesRecursive($_POST['gap_combination_values'])
+                    $_POST['gap_combination'],
+                    $_POST['gap_combination_values']
                 );
             }
         }
@@ -384,7 +380,7 @@ JS;
 
         // questiontext
         $question = new ilTextAreaInputGUI($this->lng->txt("question"), "question");
-        $question->setValue(ilLegacyFormElementsUtil::prepareTextareaOutput($this->object->getQuestion()));
+        $question->setValue($this->object->getQuestion());
         $question->setRequired(true);
         $question->setRows(10);
         $question->setCols(80);
@@ -550,7 +546,7 @@ JS;
                     );
                 } else {
                     $items[$j] = array(
-                        'answer' => str_replace(['{','}'], ['&#123;','&#125;'], $value[$j]->getAnswerText()),
+                        'answer' => $this->escapeTemplatePlaceholders($value[$j]->getAnswerText()),
                         'points' => $value[$j]->getPoints(),
                         'error' => false
                     );
@@ -823,7 +819,7 @@ JS;
         $user_solution = is_object($this->getPreviewSession()) ? (array) $this->getPreviewSession()->getParticipantsSolution() : [];
 
         $template = new ilTemplate("tpl.il_as_qpl_cloze_question_output.html", true, true, "Modules/TestQuestionPool");
-        $output = $this->object->getClozeTextHTML();
+        $output = $this->object->getClozeTextForHTMLOutput();
         foreach ($this->object->getGaps() as $gap_index => $gap) {
             switch ($gap->getType()) {
                 case CLOZE_TEXT:
@@ -892,7 +888,7 @@ JS;
                     break;
             }
         }
-        $template->setVariable("QUESTIONTEXT", ilLegacyFormElementsUtil::prepareTextareaOutput($this->object->getQuestion(), true));
+        $template->setVariable("QUESTIONTEXT", $this->object->getQuestionForHTMLOutput());
         $template->setVariable("CLOZETEXT", ilLegacyFormElementsUtil::prepareTextareaOutput($output, true));
         $questionoutput = $template->get();
         if (!$show_question_only) {
@@ -937,7 +933,7 @@ JS;
         }
 
         $template = new ilTemplate("tpl.il_as_qpl_cloze_question_output_solution.html", true, true, "Modules/TestQuestionPool");
-        $output = $this->object->getClozeTextHTML();
+        $output = $this->object->getClozeTextForHTMLOutput();
         $assClozeGapCombinationObject = new assClozeGapCombination();
         $check_for_gap_combinations = $assClozeGapCombinationObject->loadFromDb($this->object->getId());
 
@@ -1067,7 +1063,7 @@ JS;
         if ($show_question_text) {
             $template->setVariable(
                 "QUESTIONTEXT",
-                ilLegacyFormElementsUtil::prepareTextareaOutput($this->object->getQuestion(), true)
+                $this->object->getQuestionForHTMLOutput()
             );
         }
 
@@ -1180,7 +1176,7 @@ JS;
         }
 
         $template = new ilTemplate("tpl.il_as_qpl_cloze_question_output.html", true, true, "Modules/TestQuestionPool");
-        $output = $this->object->getClozeTextHTML();
+        $output = $this->object->getClozeTextForHTMLOutput();
         foreach ($this->object->getGaps() as $gap_index => $gap) {
             switch ($gap->getType()) {
                 case CLOZE_TEXT:
@@ -1252,7 +1248,7 @@ JS;
             }
         }
 
-        $template->setVariable("QUESTIONTEXT", ilLegacyFormElementsUtil::prepareTextareaOutput($this->object->getQuestion(), true));
+        $template->setVariable("QUESTIONTEXT", $this->object->getQuestionForHTMLOutput());
         $template->setVariable("CLOZETEXT", ilLegacyFormElementsUtil::prepareTextareaOutput($output, true));
         $questionoutput = $template->get();
         $pageoutput = $this->outQuestionPage("", $is_postponed, $active_id, $questionoutput);
@@ -1755,8 +1751,8 @@ JS;
             }
         }
 
-        $combinationPoints = ilArrayUtil::stripSlashesRecursive($combinationPoints);
-        $combinationValues = ilArrayUtil::stripSlashesRecursive($combinationValues);
+        $combinationPoints = $combinationPoints;
+        $combinationValues = $combinationValues;
 
         $assClozeGapCombinationObject = new assClozeGapCombination();
         $assClozeGapCombinationObject->clearGapCombinationsFromDb($this->object->getId());

@@ -31,6 +31,7 @@ use ILIAS\ResourceStorage\Resource\ResourceBuilder;
 use ILIAS\ResourceStorage\Resource\StorableResource;
 use ILIAS\ResourceStorage\Revision\Revision;
 use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
+use ILIAS\ResourceStorage\Resource\ResourceType;
 
 /**
  * Class StorageManager
@@ -53,6 +54,17 @@ class Manager
         $this->resource_builder = $resource_builder;
         $this->collection_builder = $collection_builder;
         $this->preloader = $preloader;
+    }
+
+    /**
+     * @param bool|string $mimetype
+     * @return void
+     */
+    protected function checkZIP(bool|string $mimetype): void
+    {
+        if (!in_array($mimetype, ['application/zip', 'application/x-zip-compressed'])) {
+            throw new \LogicException("Cant create container resource since stream is not a ZIP");
+        }
     }
 
     public function upload(
@@ -80,6 +92,17 @@ class Manager
         throw new \LogicException("Can't handle UploadResult: " . $result->getStatus()->getMessage());
     }
 
+    public function containerFromUpload(
+        UploadResult $result,
+        ResourceStakeholder $stakeholder,
+        string $revision_title = null
+    ): ResourceIdentification {
+        // check if stream is a ZIP
+        $this->checkZIP(mime_content_type($result->getMimeType()));
+
+        return $this->upload($result, $stakeholder, $revision_title);
+    }
+
     public function stream(
         FileStream $stream,
         ResourceStakeholder $stakeholder,
@@ -101,6 +124,17 @@ class Manager
         $this->resource_builder->store($resource);
 
         return $resource->getIdentification();
+    }
+
+    public function containerFromStream(
+        FileStream $stream,
+        ResourceStakeholder $stakeholder,
+        string $revision_title = null
+    ): ResourceIdentification {
+        // check if stream is a ZIP
+        $this->checkZIP(mime_content_type($stream->getMetadata()['uri']));
+
+        return $this->stream($stream, $stakeholder, $revision_title);
     }
 
     public function find(string $identification): ?ResourceIdentification
@@ -153,6 +187,10 @@ class Manager
                 );
             }
             $resource = $this->resource_builder->get($identification);
+            if ($resource->getType() === ResourceType::CONTAINER) {
+                $this->checkZIP($result->getMimeType());
+            }
+
             $info_resolver = new UploadInfoResolver(
                 $result,
                 $resource->getMaxRevision() + 1,
@@ -187,6 +225,9 @@ class Manager
                 );
             }
             $resource = $this->resource_builder->get($identification);
+            if ($resource->getType() === ResourceType::CONTAINER) {
+                $this->checkZIP($result->getMimeType());
+            }
             $info_resolver = new UploadInfoResolver(
                 $result,
                 $resource->getMaxRevision() + 1,
@@ -220,6 +261,9 @@ class Manager
         }
 
         $resource = $this->resource_builder->get($identification);
+        if ($resource->getType() === ResourceType::CONTAINER) {
+            $this->checkZIP(mime_content_type($stream->getMetadata()['uri']));
+        }
         $info_resolver = new StreamInfoResolver(
             $stream,
             $resource->getMaxRevision() + 1,
@@ -253,6 +297,9 @@ class Manager
         }
 
         $resource = $this->resource_builder->get($identification);
+        if ($resource->getType() === ResourceType::CONTAINER) {
+            $this->checkZIP(mime_content_type($stream->getMetadata()['uri']));
+        }
         $info_resolver = new StreamInfoResolver(
             $stream,
             $resource->getMaxRevision() + 1,

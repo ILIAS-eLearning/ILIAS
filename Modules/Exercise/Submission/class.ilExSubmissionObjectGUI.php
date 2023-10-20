@@ -622,7 +622,7 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
         $submission = $this->submission->getSelectedObject();
         $port = new ilObjPortfolio((int) $submission["filetitle"], false);
 
-        $conf->addItem("id[]", "", $port->getTitle(), ilUtil::getImagePath("icon_prtf.svg"));
+        $conf->addItem("id[]", "", $port->getTitle(), ilUtil::getImagePath("standard/icon_prtf.svg"));
 
         $tpl->setContent($conf->getHTML());
     }

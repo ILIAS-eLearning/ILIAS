@@ -35,7 +35,7 @@ class LinkTest extends ILIAS_UI_TestBase
         return new I\Link\Factory();
     }
 
-    public function test_implements_factory_interface(): void
+    public function testImplementsFactoryInterface(): void
     {
         $f = $this->getLinkFactory();
 
@@ -46,7 +46,7 @@ class LinkTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function test_get_label(): void
+    public function testGetLabel(): void
     {
         $f = $this->getLinkFactory();
         $c = $f->standard("label", "http://www.ilias.de");
@@ -54,7 +54,7 @@ class LinkTest extends ILIAS_UI_TestBase
         $this->assertEquals("label", $c->getLabel());
     }
 
-    public function test_get_action(): void
+    public function testGetAction(): void
     {
         $f = $this->getLinkFactory();
         $c = $f->standard("label", "http://www.ilias.de");
@@ -62,7 +62,7 @@ class LinkTest extends ILIAS_UI_TestBase
         $this->assertEquals("http://www.ilias.de", $c->getAction());
     }
 
-    public function test_render_link(): void
+    public function testRenderLink(): void
     {
         $f = $this->getLinkFactory();
         $r = $this->getDefaultRenderer();
@@ -77,7 +77,7 @@ class LinkTest extends ILIAS_UI_TestBase
         $this->assertHTMLEquals($expected_html, $html);
     }
 
-    public function test_render_with_new_viewport(): void
+    public function testRenderWithNewViewport(): void
     {
         $f = $this->getLinkFactory();
         $r = $this->getDefaultRenderer();

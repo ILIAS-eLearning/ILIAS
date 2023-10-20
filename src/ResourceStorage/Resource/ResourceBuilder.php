@@ -109,7 +109,8 @@ class ResourceBuilder
         InfoResolver $info_resolver
     ): StorableResource {
         $resource = $this->resource_repository->blank(
-            $this->primary_storage_handler->getIdentificationGenerator()->getUniqueResourceIdentification()
+            $this->primary_storage_handler->getIdentificationGenerator()->getUniqueResourceIdentification(),
+            ResourceType::SINGLE_FILE
         );
 
         return $this->append($resource, $result, $info_resolver);
@@ -121,7 +122,8 @@ class ResourceBuilder
         bool $keep_original = false
     ): StorableResource {
         $resource = $this->resource_repository->blank(
-            $this->primary_storage_handler->getIdentificationGenerator()->getUniqueResourceIdentification()
+            $this->primary_storage_handler->getIdentificationGenerator()->getUniqueResourceIdentification(),
+            ResourceType::SINGLE_FILE
         );
 
         return $this->appendFromStream($resource, $stream, $info_resolver, $keep_original);
@@ -131,7 +133,8 @@ class ResourceBuilder
     public function newBlank(): StorableResource
     {
         $resource = $this->resource_repository->blank(
-            $this->primary_storage_handler->getIdentificationGenerator()->getUniqueResourceIdentification()
+            $this->primary_storage_handler->getIdentificationGenerator()->getUniqueResourceIdentification(),
+            ResourceType::SINGLE_FILE
         );
         $resource->setStorageID($this->primary_storage_handler->getID());
 
@@ -315,7 +318,7 @@ class ResourceBuilder
 
             $cloned_revision = new FileStreamRevision(
                 $new_resource->getIdentification(),
-                $existing_revision->maybeGetToken()->resolveStream(),
+                $existing_revision->maybeStreamResolver()->getStream(),
                 true
             );
 

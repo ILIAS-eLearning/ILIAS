@@ -813,7 +813,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
         $mode = ($this->ctrl->getCmd() !== "showPreview")
             ? "fullscreen"
             : "media";
-        $enlarge_path = ilUtil::getImagePath("enlarge.svg", false, "output");
+        $enlarge_path = ilUtil::getImagePath("media/enlarge.svg", false, "output");
         $fullscreen_link =
             $this->ctrl->getLinkTarget($this, "showFullscreen", "", false, false);
         $params = array('mode' => $mode, 'enlarge_path' => $enlarge_path,

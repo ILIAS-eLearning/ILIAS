@@ -2,6 +2,8 @@
 <style type="text/css">
 #tinytarget_ifr {
     border: 2px solid #FFBB88 !important;
+    background-color: white !important;
+    padding: 5px !important;
 }
 </style>
 
@@ -9,26 +11,26 @@
 <input type="hidden" id="dtform_type" name="type" value="" />
 <input type="hidden" id="dtform_command" name="action" value="" />
 <input type="hidden" id="dtform_nr" name="id" value="" />
-<table id="ed_datatable" data-copg-ed-type="data-table" data-pcid="{PCID}" data-hierid="{HIERID}">
+<table class="{TABLE_CLASS}" id="ed_datatable" data-copg-ed-type="data-table" data-pcid="{PCID}" data-hierid="{HIERID}">
 <!-- BEGIN row -->
-<tr>
+<tr style="vertical-align: top">
 	<!-- BEGIN empty_td -->
-	<th>&nbsp;</th>
+	<th class="il-copg-edit-table" data-copg-ed-type="data-table-head">&nbsp;</th>
 	<!-- END  empty_td -->
 	<!-- BEGIN col_icon -->
-	<th data-copg-ed-type="data-column-head" data-nr="{NR_COLUMN}" data-caption="{COLUMN_CAPTION}" data-pcid="{PCID_COLUMN}">
+	<th class="il-copg-edit-table" data-copg-ed-type="data-column-head" data-nr="{NR_COLUMN}" data-caption="{COLUMN_CAPTION}" data-pcid="{PCID_COLUMN}">
 
 	</th>
 	<!-- END col_icon -->
 	<!-- BEGIN row_icon -->
-	<th data-copg-ed-type="data-row-head" data-nr="{NR_ROW}" data-caption="{ROW_CAPTION}" data-pcid="{PCID_ROW}">
+	<th class="il-copg-edit-table" data-copg-ed-type="data-row-head" data-nr="{NR_ROW}" data-caption="{ROW_CAPTION}" data-pcid="{PCID_ROW}">
 
 	</th>
 	<!-- END row_icon -->
 	<!-- BEGIN cell -->
-	<td {COLSPAN} {ROWSPAN} id="td_{PAR_TA_ID}" <!-- BEGIN cell_type -->data-copg-ed-type="data-cell"<!-- END cell_type --> data-row="{PAR_ROW}" data-column="{PAR_COLUMN}">
-	<div id="div_{PAR_TA_ID}" style="padding:3px 10px;">{PAR_TA_CONTENT}</div><!-- td_div_end -->
-	</td>
+	<{CELL_TAG} {COLSPAN} {ROWSPAN} id="td_{PAR_TA_ID}" width="{WIDTH}" align="{ALIGN}" <!-- BEGIN cell_type -->data-copg-ed-type="data-cell"<!-- END cell_type --> data-row="{PAR_ROW}" data-column="{PAR_COLUMN}" class="{CELL_CLASS}">
+	<div id="div_{PAR_TA_ID}" class="ilc_Paragraph ilc_text_block_TableContent">{PAR_TA_CONTENT}</div><!-- td_div_end -->
+	</{CELL_TAG}>
 	<!-- END cell -->
 </tr>
 <!-- END row -->
@@ -39,11 +41,3 @@
 {INT_LINK_PREP}
 <!-- END int_link_prep -->
 </div>
-
-<!-- BEGIN script -->
-<script type="module">
-	import editor from './Services/COPage/Editor/js/src/editor.js';
-	window.il.copg = window.il.copg || {};
-	window.il.copg.editor = editor;
-</script>
-<!-- END script -->

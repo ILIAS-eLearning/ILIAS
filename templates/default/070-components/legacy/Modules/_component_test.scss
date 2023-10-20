@@ -75,10 +75,10 @@ $il-test-working-time-font-weight: $il-font-weight-bold;
             background-size: 10px;
             background-position: 0px 5px;
             &.unanswered {
-                background-image: url('images/answered_not.svg');
+                background-image: url('images/object/answered_not.svg');
             }
             &.answered {
-                background-image: url('images/answered.svg');
+                background-image: url('images/object/answered.svg');
             }
             &.active {
                 font-weight: $il-font-weight-bold;
@@ -120,4 +120,29 @@ $il-test-working-time-font-weight: $il-font-weight-bold;
 
 #tst_pass_details_overview tr {
     scroll-margin-top: 30px;
+}
+
+//
+// test result
+//
+
+.il-table-presentation-desclist.inline .il-listing-characteristic-value-row {
+    display: flex;
+    width: auto;
+    padding-right: $il-padding-xxxlarge-horizontal;
+}
+
+.il-table-presentation-desclist.inline  .il-listing-characteristic-value {
+    display: flex;
+    .il-listing-characteristic-value-item {
+        padding-left: $il-padding-small-horizontal;
+    }
+}
+
+.il-listing-characteristic-value-label, .il-listing-characteristic-value-item {
+    width: fit-content;
+}
+
+.il-listing-characteristic-value-row.clearfix {
+    border-top: none;
 }

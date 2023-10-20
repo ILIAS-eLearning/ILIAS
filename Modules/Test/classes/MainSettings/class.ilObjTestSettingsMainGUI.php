@@ -30,6 +30,7 @@ use ILIAS\Refinery\Transformation as TransformationInterface;
 use ILIAS\Data\Factory as DataFactory;
 use Psr\Http\Message\ServerRequestInterface;
 use ILIAS\Refinery\Constraint;
+use ILIAS\TestQuestionPool\QuestionInfoService;
 
 /**
  *
@@ -84,7 +85,8 @@ class ilObjTestSettingsMainGUI extends ilTestSettingsGUI
         protected ilDBInterface $db,
         protected ilComponentRepository $component_repository,
         protected ilObjUser $activeUser,
-        protected ilObjTestGUI $test_gui
+        protected ilObjTestGUI $test_gui,
+        protected QuestionInfoService $questioninfo
     ) {
         /** @var ILIAS\DI\Container $DIC */
         global $DIC;
@@ -107,7 +109,8 @@ class ilObjTestSettingsMainGUI extends ilTestSettingsGUI
             $this->lng,
             $DIC['ilLog'],
             $this->component_repository,
-            $this->test_gui->getTestObject()
+            $this->test_gui->getTestObject(),
+            $this->questioninfo
         );
 
         $this->lng->loadLanguageModule('validation');
@@ -646,8 +649,9 @@ class ilObjTestSettingsMainGUI extends ilTestSettingsGUI
             ->withUsePreviousAnswerAllowed($section['use_previous_answers'])
             ->withSuspendTestAllowed($section['allow_suspend_test'])
             ->withPostponedQuestionsMoveToEnd($section['postponed_questions_behaviour'])
-            ->withQuestionListMode($section['enable_question_list'])
-            ->withQuestionMarkingEnabled($section['enable_question_marking']);
+            ->withUsrPassOverviewMode($section['usr_pass_overview'])
+            ->withQuestionMarkingEnabled($section['enable_question_marking'])
+            ->withQuestionListEnabled($section['enable_question_list']);
     }
 
     private function getFinishingSettingsForStorage(array $section): ilObjTestSettingsFinishing
@@ -659,7 +663,6 @@ class ilObjTestSettingsMainGUI extends ilTestSettingsGUI
             ->withConcludingRemarksEnabled($section['show_concluding_remarks'])
             ->withRedirectionMode($redirect_after_finish['redirect_mode'])
             ->withRedirectionUrl($redirect_after_finish['redirect_url'])
-            ->withSignSubmission($section['digitally_sign_submission'])
             ->withMailNotificationContentType($finish_notification['notification_content_type'])
             ->withAlwaysSendMailNotification($finish_notification['always_notify']);
     }

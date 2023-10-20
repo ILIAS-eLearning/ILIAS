@@ -219,4 +219,9 @@ class StandardGUIRequest
     {
         return $this->int("exc_id");
     }
+
+    public function getOwnerId(): int
+    {
+        return $this->int("owner_id");
+    }
 }

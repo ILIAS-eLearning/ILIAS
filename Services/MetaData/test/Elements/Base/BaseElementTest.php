@@ -24,19 +24,39 @@ use PHPUnit\Framework\TestCase;
 use ILIAS\MetaData\Structure\Definitions\DefinitionInterface;
 use ILIAS\MetaData\Elements\Data\Type;
 use ILIAS\MetaData\Elements\NoID;
+use ILIAS\MetaData\Structure\Definitions\NullDefinition;
 
 class BaseElementTest extends TestCase
 {
     protected function getBaseElement(
-        int|NoID $id,
+        int|NoID $md_id,
         string $name,
-        BaseElement ...$elements
-    ): ImplementedBaseElement {
-        return new ImplementedBaseElement(
-            $id,
-            new MockDefinition($name),
-            ...$elements
-        );
+        BaseElement ...$sub_elements
+    ): BaseElement {
+        $definition = $this->getDefinition($name);
+        return new class ($md_id, $definition, ...$sub_elements) extends BaseElement {
+            public function __construct(
+                NoID|int $md_id,
+                DefinitionInterface $definition,
+                BaseElement ...$sub_elements
+            ) {
+                parent::__construct($md_id, $definition, ...$sub_elements);
+            }
+        };
+    }
+
+    protected function getDefinition(string $name): DefinitionInterface
+    {
+        return new class ($name) extends NullDefinition {
+            public function __construct(protected string $name)
+            {
+            }
+
+            public function name(): string
+            {
+                return $this->name;
+            }
+        };
     }
 
     public function testSubAndSuperElements(): void
@@ -112,38 +132,16 @@ class BaseElementTest extends TestCase
 
     public function testDefinition(): void
     {
-        $def = new MockDefinition('name');
-        $el = new ImplementedBaseElement(13, $def);
+        $def = $this->getDefinition('name');
+        $el = new class (13, $def) extends BaseElement {
+            public function __construct(
+                NoID|int $md_id,
+                DefinitionInterface $definition
+            ) {
+                parent::__construct($md_id, $definition);
+            }
+        };
 
         $this->assertSame($def, $el->getDefinition());
-    }
-}
-
-class ImplementedBaseElement extends BaseElement
-{
-}
-
-class MockDefinition implements DefinitionInterface
-{
-    protected string $name;
-
-    public function __construct(string $name)
-    {
-        $this->name = $name;
-    }
-
-    public function name(): string
-    {
-        return $this->name;
-    }
-
-    public function unique(): bool
-    {
-        return false;
-    }
-
-    public function dataType(): Type
-    {
-        return Type::NULL;
     }
 }

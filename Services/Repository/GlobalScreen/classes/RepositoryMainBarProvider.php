@@ -84,9 +84,9 @@ class RepositoryMainBarProvider extends AbstractStaticMainMenuProvider
             ->withPosition(10);
 
         // Tree-View
-        $title = $this->dic->language()->txt("mm_rep_tree_view");
+        $title = $this->dic->language()->txt("mm_repo_tree_view");
 
-        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(ilUtil::getImagePath("icon_reptr.svg"), $title);
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(ilUtil::getImagePath("standard/icon_reptr.svg"), $title);
 
         \ilRepositoryExplorerGUI::init();
         $ref_id = $this->request->getRefId();
@@ -104,7 +104,7 @@ class RepositoryMainBarProvider extends AbstractStaticMainMenuProvider
             ->withParent($top)
             ->withPosition(20);
 
-        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(ilUtil::getImagePath("icon_lstv.svg"), $title);
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(ilUtil::getImagePath("standard/icon_lstv.svg"), $title);
 
         $p = $this;
         $entries[] = $this->mainmenu
@@ -120,20 +120,20 @@ class RepositoryMainBarProvider extends AbstractStaticMainMenuProvider
             });
 
         $title = $this->dic->language()->txt("mm_favorites");
-        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(ilUtil::getImagePath("icon_fav.svg"), $title);
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(ilUtil::getImagePath("standard/icon_fav.svg"), $title);
 
         $entries[] = $this->mainmenu->complex($this->if->identifier('mm_pd_sel_items'))
                                     ->withSupportsAsynchronousLoading(true)
                                     ->withTitle($title)
                                     ->withSymbol($icon)
                                     ->withContentWrapper(
-                                        static fn (): Legacy =>
+                                        static fn(): Legacy =>
                                             $f->legacy((new ilFavouritesListGUI())->render())
                                     )
                                     ->withParent(StandardTopItemsProvider::getInstance()->getPersonalWorkspaceIdentification())
                                     ->withPosition(10)
                                     ->withAvailableCallable(
-                                        static fn (): bool =>
+                                        static fn(): bool =>
                                             (bool) $dic->settings()->get('rep_favourites', "0")
                                     )
                                     ->withVisibilityCallable(

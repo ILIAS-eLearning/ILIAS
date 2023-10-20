@@ -144,6 +144,9 @@ class ilServicesCOPageSuite extends TestSuite
         require_once("./Services/COPage/test/Layout/PageLayoutTest.php");
         $suite->addTestSuite(\ILIAS\COPage\Test\Layout\PageLayoutTest::class);
 
+        require_once("./Services/COPage/test/Html/TransformUtilTest.php");
+        $suite->addTestSuite(\ILIAS\COPage\Test\Html\TransformUtilTest::class);
+
         return $suite;
     }
 }

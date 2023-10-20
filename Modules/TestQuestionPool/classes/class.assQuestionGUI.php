@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -64,7 +65,7 @@ abstract class assQuestionGUI
 
     private ilTree $tree;
     private ilDBInterface $db;
-    private ilLogger $logger;
+    protected ilLogger $logger;
     private ilComponentRepository $component_repository;
     protected \ILIAS\TestQuestionPool\QuestionInfoService $questioninfo;
 
@@ -706,7 +707,15 @@ abstract class assQuestionGUI
                 $_GET["ref_id"] = $this->request->raw("test_ref_id");
                 $test = new ilObjTest($this->request->raw("test_ref_id"), true);
 
-                $testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory($this->tree, $this->db, $this->component_repository, $test);
+                $testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory(
+                    $this->tree,
+                    $this->db,
+                    $this->lng,
+                    $this->logger,
+                    $this->component_repository,
+                    $test,
+                    $this->questioninfo
+                );
 
                 $test->insertQuestion($testQuestionSetConfigFactory->getQuestionSetConfig(), $this->object->getId());
 
@@ -736,7 +745,7 @@ abstract class assQuestionGUI
             $ilUser->writePref("tst_lastquestiontype", $this->object->getQuestionType());
             $this->object->saveToDb();
             $originalexists = !is_null($this->object->getOriginalId()) &&
-                $$this->questioninfo->questionExistsInPool($this->object->getOriginalId());
+                $this->questioninfo->questionExistsInPool($this->object->getOriginalId());
 
             if (($this->request->raw("calling_test") ||
                     ($this->request->isset('calling_consumer')
@@ -758,7 +767,8 @@ abstract class assQuestionGUI
                         $this->lng,
                         $this->logger,
                         $this->component_repository,
-                        $test
+                        $test,
+                        $this->questioninfo
                     );
 
                     $test->insertQuestion(
@@ -797,7 +807,8 @@ abstract class assQuestionGUI
                             $this->lng,
                             $this->logger,
                             $this->component_repository,
-                            $test
+                            $test,
+                            $this->questioninfo
                         );
                         $test->insertQuestion(
                             $testQuestionSetConfigFactory->getQuestionSetConfig(),
@@ -850,7 +861,8 @@ abstract class assQuestionGUI
                         $this->lng,
                         $this->logger,
                         $this->component_repository,
-                        $test
+                        $test,
+                        $this->questioninfo
                     );
 
                     $test->insertQuestion(
@@ -1187,7 +1199,7 @@ abstract class assQuestionGUI
             }
         }
 
-        return $this->questioninfo->getQuestionType($this->object->getId());
+        return $this->questioninfo->getQuestionTypeName($this->object->getId());
     }
 
     protected function getTypeOptions(): array
@@ -1916,9 +1928,10 @@ abstract class assQuestionGUI
 
     protected function addBackTab(ilTabsGUI $ilTabs): void
     {
+        $this->ctrl->saveParameterByClass(ilAssQuestionPreviewGUI::class, 'prev_qid');
         $ilTabs->setBackTarget(
             $this->lng->txt('backtocallingpage'),
-            $this->ctrl->getLinkTargetByClass('ilAssQuestionPreviewGUI', ilAssQuestionPreviewGUI::CMD_SHOW)
+            $this->ctrl->getLinkTargetByClass(ilAssQuestionPreviewGUI::class, ilAssQuestionPreviewGUI::CMD_SHOW)
         );
     }
 
@@ -1949,6 +1962,11 @@ abstract class assQuestionGUI
     public function showHints(): void
     {
         $this->ctrl->redirectByClass('ilAssQuestionHintsGUI', ilAssQuestionHintsGUI::CMD_SHOW_LIST);
+    }
+
+    protected function escapeTemplatePlaceholders(string $text): string
+    {
+        return str_replace(['{','}'], ['&#123;','&#125;'], $text);
     }
 
     protected function buildEditForm(): ilPropertyFormGUI
@@ -2003,15 +2021,15 @@ abstract class assQuestionGUI
     {
         switch ($correctness) {
             case self::CORRECTNESS_NOT_OK:
-                $icon_name = 'icon_not_ok.svg';
+                $icon_name = 'standard/icon_not_ok.svg';
                 $label = $this->lng->txt("answer_is_wrong");
                 break;
             case self::CORRECTNESS_MOSTLY_OK:
-                $icon_name = 'icon_ok.svg';
+                $icon_name = 'standard/icon_ok.svg';
                 $label = $this->lng->txt("answer_is_not_correct_but_positive");
                 break;
             case self::CORRECTNESS_OK:
-                $icon_name = 'icon_ok.svg';
+                $icon_name = 'standard/icon_ok.svg';
                 $label = $this->lng->txt("answer_is_right");
                 break;
             default:

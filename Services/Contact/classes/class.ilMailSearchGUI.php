@@ -554,9 +554,9 @@ class ilMailSearchGUI
         }
 
         if (count($users) || count($visible_groups) || count($relations)) {
-            $this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.svg"));
+            $this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("nav/arrow_downright.svg"));
             $this->tpl->setVariable("ALT_ARROW", '');
-            $this->tpl->setVariable("IMG_ARROW_UP", ilUtil::getImagePath("arrow_upright.svg"));
+            $this->tpl->setVariable("IMG_ARROW_UP", ilUtil::getImagePath("nav/arrow_upright.svg"));
             $this->tpl->setVariable("ALT_ARROW_UP", '');
 
             if ($this->isDefaultRequestContext()) {
@@ -583,13 +583,7 @@ class ilMailSearchGUI
             $a_obj_ids = [$a_obj_ids];
         }
 
-        $existing = $this->wsp_access_handler->getPermissions($this->wsp_node_id);
-        $added = false;
-        foreach ($a_obj_ids as $object_id) {
-            if (!in_array($object_id, $existing, true)) {
-                $added = $this->wsp_access_handler->addPermission($this->wsp_node_id, $object_id);
-            }
-        }
+        $added = $this->wsp_access_handler->addMissingPermissionForObjects($this->wsp_node_id, $a_obj_ids);
 
         if ($added) {
             $this->tpl->setOnScreenMessage('success', $this->lng->txt('wsp_share_success'), true);

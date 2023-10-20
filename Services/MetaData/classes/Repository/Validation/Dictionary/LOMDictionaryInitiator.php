@@ -27,7 +27,7 @@ use ILIAS\MetaData\Elements\Structure\StructureElementInterface;
 
 class LOMDictionaryInitiator extends BaseDictionaryInitiator
 {
-    protected const MD_SCHEMA = 'LOM v 1.0';
+    protected const MD_SCHEMA = 'LOMv1.0';
 
     protected TagFactory $tag_factory;
 
@@ -50,7 +50,7 @@ class LOMDictionaryInitiator extends BaseDictionaryInitiator
     {
         $structure = $this->getStructure();
 
-        $this->addTag($structure->getRoot(), Restriction::NOT_DELETABLE, 1);
+        $this->addTag($structure->getRoot(), Restriction::NOT_DELETABLE, 0);
 
         $this->setTagsForGeneral($structure);
         $this->setTagsForMetaMetadata($structure);
@@ -110,6 +110,11 @@ class LOMDictionaryInitiator extends BaseDictionaryInitiator
         $this->addTag(
             $meta_schema,
             Restriction::NOT_EDITABLE,
+            0
+        );
+        $this->addTag(
+            $meta_schema,
+            Restriction::NOT_DELETABLE,
             0
         );
         $this->addPresetValueTag(

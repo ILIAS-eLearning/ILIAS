@@ -51,8 +51,7 @@ class ilTestEvalObjectiveOrientedGUITest extends ilTestBaseTestCase
         $this->addGlobal_uiFactory();
         $this->addGlobal_uiRenderer();
 
-        $objTest_mock = $this->createMock(ilObjTest::class);
-        $this->testObj = new ilTestEvalObjectiveOrientedGUI($objTest_mock);
+        $this->testObj = new ilTestEvalObjectiveOrientedGUI($this->getTestObjMock());
     }
 
     public function test_instantiateObject_shouldReturnInstance(): void

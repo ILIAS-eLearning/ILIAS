@@ -22,7 +22,6 @@ namespace ILIAS\MetaData\Paths\Filters;
 
 /**
  * Values should always be all lowercase
- * @author Tim Schmitz <schmitz@leifos.de>
  */
 enum FilterType: string
 {

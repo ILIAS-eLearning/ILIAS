@@ -38,7 +38,7 @@ class AbsolutePathConsumer extends BaseConsumer
     {
         $revision = $this->stream_access->populateRevision($this->getRevision());
 
-        $stream = $revision->maybeGetToken()->resolveStream();
+        $stream = $revision->maybeStreamResolver()?->getStream();
 
         $this->absolute_path = (string)($stream->getMetadata('uri') ?? '');
     }

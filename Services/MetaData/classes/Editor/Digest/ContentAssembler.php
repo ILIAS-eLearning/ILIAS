@@ -30,12 +30,10 @@ use ILIAS\MetaData\Editor\Presenter\PresenterInterface;
 use ILIAS\MetaData\Elements\SetInterface;
 use ILIAS\MetaData\Editor\Http\RequestForFormInterface;
 use ILIAS\MetaData\Paths\Navigator\NavigatorFactoryInterface;
-use ILIAS\MetaData\Repository\Validation\Data\LangValidator;
 use ILIAS\MetaData\Editor\Http\LinkFactory;
 use ILIAS\MetaData\Editor\Http\Command;
-use ILIAS\MetaData\Repository\Validation\Data\DurationValidator;
 use ILIAS\UI\Component\Signal;
-use ILIAS\MetaData\Editor\Manipulator\ManipulatorInterface;
+use ILIAS\MetaData\DataHelper\DataHelperInterface;
 
 class ContentAssembler
 {
@@ -61,6 +59,7 @@ class ContentAssembler
     protected PathCollection $path_collection;
     protected LinkFactory $link_factory;
     protected CopyrightHandler $copyright_handler;
+    protected DataHelperInterface $data_helper;
 
     public function __construct(
         PathFactory $path_factory,
@@ -70,7 +69,8 @@ class ContentAssembler
         PresenterInterface $presenter,
         PathCollection $path_collection,
         LinkFactory $link_factory,
-        CopyrightHandler $copyright_handler
+        CopyrightHandler $copyright_handler,
+        DataHelperInterface $data_helper
     ) {
         $this->path_factory = $path_factory;
         $this->navigator_factory = $navigator_factory;
@@ -80,6 +80,7 @@ class ContentAssembler
         $this->path_collection = $path_collection;
         $this->link_factory = $link_factory;
         $this->copyright_handler = $copyright_handler;
+        $this->data_helper = $data_helper;
     }
 
     /**
@@ -157,7 +158,7 @@ class ContentAssembler
         }
 
         $langs = [];
-        foreach (LangValidator::LANGUAGES as $key) {
+        foreach ($this->data_helper->getAllLanguages() as $key) {
             $langs[$key] = $this->presenter->data()->language($key);
         }
         $lang_input = $ff->select(
@@ -275,15 +276,22 @@ class ContentAssembler
             $set->getRoot()
         )->lastElementAtFinalStep();
         $cp_description = $cp_description_el?->getData()->value();
-        if ($cp_description !== '' && $cp_description !== null) {
-            $current_id = $this->copyright_handler->extractCPEntryID($cp_description);
-        } else {
-            $current_id = $this->copyright_handler->getDefaultCPEntryID();
-        }
 
+        $current_id = $this->copyright_handler->extractCPEntryID((string) $cp_description);
+        $default_id = 0;
         $options = [];
         $outdated = [];
+        $current_id_exists = false;
+        $is_custom = !is_null($cp_description) && !$current_id;
+
         foreach ($this->copyright_handler->getCPEntries() as $entry) {
+            if ($entry->isDefault()) {
+                $default_id = $entry->id();
+            }
+            if ($current_id === $entry->id()) {
+                $current_id_exists = true;
+            }
+
             //give the option to block harvesting
             $sub_inputs = [];
             if (
@@ -300,14 +308,14 @@ class ContentAssembler
                     );
             }
 
-            $option = $ff->group($sub_inputs, $entry->getTitle());
-            $identifier = $this->copyright_handler->createIdentifierForID($entry->getEntryId());
+            $option = $ff->group($sub_inputs, $entry->title());
+            $identifier = $this->copyright_handler->createIdentifierForID($entry->id());
 
             // outdated entries throw an error when selected
-            if ($entry->getOutdated()) {
+            if ($entry->isOutdated()) {
                 $option = $option->withLabel(
                     '(' . $this->presenter->utilities()->txt('meta_copyright_outdated') .
-                    ') ' . $entry->getTitle()
+                    ') ' . $entry->title()
                 );
                 $outdated[] = $identifier;
             }
@@ -317,16 +325,19 @@ class ContentAssembler
         //custom input as the last option
         $custom_text = $ff
             ->textarea($this->presenter->utilities()->txt('meta_description'))
-            ->withValue($current_id === 0 ? $cp_description : '');
+            ->withValue($is_custom ? (string) $cp_description : '');
         $custom = $ff->group(
             [self::CUSTOM_CP_DESCRIPTION => $custom_text],
             $this->presenter->utilities()->txt('meta_cp_own')
         );
         $options[self::CUSTOM_CP] = $custom;
 
-        $value = $current_id === 0 ?
-            self::CUSTOM_CP :
-            $this->copyright_handler->createIdentifierForID($current_id);
+        $value = self::CUSTOM_CP;
+        if (!$is_custom) {
+            $id = ($current_id && $current_id_exists) ? $current_id : $default_id;
+            $value = $this->copyright_handler->createIdentifierForID($id);
+        }
+
         $copyright = $ff
             ->switchableGroup(
                 $options,
@@ -366,11 +377,8 @@ class ContentAssembler
             $path = $this->path_collection->firstTypicalLearningTime(),
             $set->getRoot()
         )->lastElementAtFinalStep();
-        preg_match(
-            DurationValidator::DURATION_REGEX,
-            $tlt_el?->getData()?->value() ?? '',
-            $matches,
-            PREG_UNMATCHED_AS_NULL
+        $matches = iterator_to_array(
+            $this->data_helper->durationToIterator($tlt_el?->getData()?->value() ?? '')
         );
         $num = $ff->numeric('placeholder')
                   ->withAdditionalTransformation($this->refinery->int()->isGreaterThanOrEqual(0));
@@ -386,37 +394,15 @@ class ContentAssembler
         foreach ($labels as $key => $label) {
             $inputs[] = (clone $num)
                 ->withLabel($label)
-                ->withValue($matches[$key + 1] ?? null);
+                ->withValue($matches[$key] ?? null);
         }
+        $dh = $this->data_helper;
         $group = $ff->group(
             $inputs
         )->withAdditionalTransformation(
-            $this->refinery->custom()->transformation(function ($vs) use ($path) {
-                if (
-                    count(array_unique($vs)) === 1 &&
-                    array_unique($vs)[0] === null
-                ) {
-                    return '';
-                }
-                $r = 'P';
-                $signifiers = ['Y', 'M', 'D', 'H', 'M', 'S'];
-                foreach ($vs as $key => $int) {
-                    if (isset($int)) {
-                        $r .= $int . $signifiers[$key];
-                    }
-                    if (
-                        $key === 2 &&
-                        !isset($vs[3]) &&
-                        !isset($vs[4]) &&
-                        !isset($vs[5])
-                    ) {
-                        return $r;
-                    }
-                    if ($key === 2) {
-                        $r .= 'T';
-                    }
-                }
-                return $r;
+            $this->refinery->custom()->transformation(function ($vs) use ($dh) {
+                $vs = array_map(fn ($v) => is_null($v) ? $v : (int) $v, $vs);
+                return $dh->durationFromIntegers(...$vs);
             })
         );
 

@@ -468,7 +468,7 @@ class ilAdvancedSelectionListGUI implements ilToolbarItem
 
         if ($this->getAsynch()) {
             $tpl->setCurrentBlock("asynch_request");
-            $tpl->setVariable("IMG_LOADER", ilUtil::getImagePath("loader.svg"));
+            $tpl->setVariable("IMG_LOADER", ilUtil::getImagePath("media/loader.svg"));
             $tpl->parseCurrentBlock();
         } elseif ($this->getGroupedList() !== null) {
             $tpl->setVariable("GROUPED_LIST_HTML", $this->getGroupedList()->getHTML());

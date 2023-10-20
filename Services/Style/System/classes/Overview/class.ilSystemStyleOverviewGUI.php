@@ -530,7 +530,7 @@ class ilSystemStyleOverviewGUI
             $delete_form_table->addStyle(
                 $container->getSkin(),
                 $container->getSkin()->getStyle($style_id),
-                $container->getImagesStylePath($style_id) . '/icon_stys.svg'
+                $container->getImagesStylePath($style_id) . '/standard/icon_stys.svg'
             );
             $this->tpl->setContent($delete_form_table->getDeleteStyleFormHTML());
         } else {
@@ -566,7 +566,7 @@ class ilSystemStyleOverviewGUI
                 $delete_form_table->addStyle(
                     $container->getSkin(),
                     $container->getSkin()->getStyle($style_id),
-                    $container->getImagesStylePath($style_id) . '/icon_stys.svg'
+                    $container->getImagesStylePath($style_id) . '/standard/icon_stys.svg'
                 );
             }
             $this->tpl->setContent($delete_form_table->getDeleteStyleFormHTML());

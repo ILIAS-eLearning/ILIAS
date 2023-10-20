@@ -252,6 +252,25 @@ class ilUserTableGUI extends ilTable2GUI
         return $cols;
     }
 
+    protected function buildUserQuery(): ilUserQuery
+    {
+        $query = new ilUserQuery();
+        $query->setOffset($this->getOffset());
+        $query->setLimit($this->getLimit());
+        $query->setTextFilter($this->filter['query'] ?? '');
+        $query->setActionFilter($this->filter['activation'] ?? '');
+        $query->setLastLogin($this->filter['last_login'] ?? null);
+        $query->setLimitedAccessFilter($this->filter['limited_access'] ?? false);
+        $query->setNoCourseFilter($this->filter['no_courses'] ?? false);
+        $query->setNoGroupFilter($this->filter['no_groups'] ?? false);
+        $query->setCourseGroupFilter($this->filter['course_group'] ?? 0);
+        $query->setRoleFilter((int) ($this->filter['global_role'] ?? 0));
+        $query->setUserFilter($this->filter['user_ids'] ?? []);
+        $query->setFirstLetterLastname($this->user_request->getLetter());
+        $query->setAuthenticationFilter($this->filter['authentication'] ?? '');
+        return $query;
+    }
+
     public function getItems(): void
     {
         global $DIC;
@@ -304,28 +323,15 @@ class ilUserTableGUI extends ilTable2GUI
             }
         }
 
-        $query = new ilUserQuery();
+        $query = $this->buildUserQuery();
         $order_field = $this->getOrderField();
         if (strpos($order_field, "udf_") !== 0 || isset($additional_fields[$order_field])) {
             $query->setOrderField($order_field);
             $query->setOrderDirection($this->getOrderDirection());
         }
-        $query->setOffset($this->getOffset());
-        $query->setLimit($this->getLimit());
-        $query->setTextFilter($this->filter['query'] ?? '');
-        $query->setActionFilter($this->filter['activation'] ?? '');
-        $query->setLastLogin($this->filter['last_login'] ?? null);
-        $query->setLimitedAccessFilter($this->filter['limited_access'] ?? false);
-        $query->setNoCourseFilter($this->filter['no_courses'] ?? false);
-        $query->setNoGroupFilter($this->filter['no_groups'] ?? false);
-        $query->setCourseGroupFilter($this->filter['course_group'] ?? 0);
-        $query->setRoleFilter((int) ($this->filter['global_role'] ?? 0));
         $query->setAdditionalFields($additional_fields);
         $query->setUserFolder($user_filter);
-        $query->setUserFilter($this->filter['user_ids'] ?? []);
         $query->setUdfFilter($udf_filter);
-        $query->setFirstLetterLastname($this->user_request->getLetter());
-        $query->setAuthenticationFilter($this->filter['authentication'] ?? '');
         $usr_data = $query->query();
 
         if (count($usr_data["set"]) == 0 && $this->getOffset() > 0) {
@@ -386,29 +392,14 @@ class ilUserTableGUI extends ilTable2GUI
             $this->filter['user_ids'] = null;
         }
 
-        $query = new ilUserQuery();
-        $query->setOffset($this->getOffset());
-        $query->setLimit($this->getLimit());
-
-        $query->setTextFilter($this->filter['query']);
-        $query->setActionFilter($this->filter['activation']);
-        $query->setAuthenticationFilter($this->filter['authentication']);
-        $query->setLastLogin($this->filter['last_login']);
-        $query->setLimitedAccessFilter($this->filter['limited_access']);
-        $query->setNoCourseFilter($this->filter['no_courses']);
-        $query->setNoGroupFilter($this->filter['no_groups']);
-        $query->setCourseGroupFilter($this->filter['course_group']);
-        $query->setRoleFilter($this->filter['global_role']);
+        $query = $this->buildUserQuery();
         $query->setUserFolder($user_filter);
-        $query->setUserFilter($this->filter['user_ids']);
-        $query->setFirstLetterLastname($this->user_request->getLetter());
-
         if ($this->getOrderField()) {
             $query->setOrderField(ilUtil::stripSlashes($this->getOrderField()));
             $query->setOrderDirection(ilUtil::stripSlashes($this->getOrderDirection()));
         }
-
         $usr_data = $query->query();
+
         $user_ids = array();
 
         foreach ($usr_data["set"] as $item) {

@@ -26,27 +26,28 @@ use ILIAS\MetaData\Elements\ElementInterface;
 use ILIAS\MetaData\Editor\Dictionary\DictionaryInterface;
 use ILIAS\MetaData\Paths\Navigator\NavigatorFactoryInterface;
 use ILIAS\MetaData\Paths\PathInterface;
+use ILIAS\MetaData\Presentation\ElementsInterface as ElementsPresentation;
 
 class Elements implements ElementsInterface
 {
     protected const SEPARATOR = ': ';
     protected const DELIMITER = ', ';
 
-    protected UtilitiesInterface $utilities;
     protected DataInterface $data;
     protected DictionaryInterface $dictionary;
     protected NavigatorFactoryInterface $navigator_factory;
+    protected ElementsPresentation $elements;
 
     public function __construct(
-        UtilitiesInterface $utilities,
         DataInterface $data,
         DictionaryInterface $dictionary,
-        NavigatorFactoryInterface $navigator_factory
+        NavigatorFactoryInterface $navigator_factory,
+        ElementsPresentation $elements
     ) {
-        $this->utilities = $utilities;
         $this->data = $data;
         $this->dictionary = $dictionary;
         $this->navigator_factory = $navigator_factory;
+        $this->elements = $elements;
     }
 
     public function nameWithRepresentation(
@@ -89,18 +90,7 @@ class Elements implements ElementsInterface
         BaseElementInterface $element,
         bool $plural = false
     ): string {
-        $name = $element->getDefinition()->name();
-        $exceptions = [
-            'metadataSchema' => 'metadatascheme', 'lifeCycle' => 'lifecycle',
-            'otherPlatformRequirements' => 'otherPlattformRequirements'
-        ];
-        $name = $exceptions[$name] ?? $name;
-
-        $lang_key = 'meta_' . $this->camelCaseToSnakeCase($name);
-        if ($plural) {
-            $lang_key .= '_plural';
-        }
-        return $this->utilities->txt($lang_key);
+        return $this->elements->name($element, $plural);
     }
 
     public function nameWithParents(
@@ -109,38 +99,19 @@ class Elements implements ElementsInterface
         bool $plural = false,
         bool $never_skip_initial = false
     ): string {
-        $names = [];
-        $el = $element;
-
         //skip the name of the element if it does not add any information
         $skip_arr = [Type::VOCAB_VALUE, Type::DURATION, Type::DATETIME, Type::STRING];
         $skip_initial =
             !$never_skip_initial &&
             !$this->dictionary->tagForElement($element)?->isLabelImportant() &&
-            in_array($el->getDefinition()->dataType(), $skip_arr);
+            in_array($element->getDefinition()->dataType(), $skip_arr);
 
-        while (!$el->isRoot()) {
-            if ($el === $cut_off) {
-                break;
-            }
-            if ($skip_initial) {
-                $el = $el->getSuperElement();
-                $skip_initial = false;
-                continue;
-            }
-            array_unshift($names, $this->name($el));
-            $el = $el->getSuperElement();
-        }
-        if (empty($names)) {
-            return $this->name($element);
-        }
-        return implode(self::SEPARATOR, $names);
-    }
-
-    protected function camelCaseToSnakeCase(string $string): string
-    {
-        $string = preg_replace('/(?<=[a-z])(?=[A-Z])/', '_', $string);
-        return strtolower($string);
+        return $this->elements->nameWithParents(
+            $element,
+            $cut_off,
+            $plural,
+            $skip_initial
+        );
     }
 
     protected function getDataValueStringByPath(

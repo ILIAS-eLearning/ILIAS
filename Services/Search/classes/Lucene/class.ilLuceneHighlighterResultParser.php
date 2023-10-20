@@ -76,9 +76,6 @@ class ilLuceneHighlighterResultParser
         }
         ilLoggerFactory::getLogger('src')->debug($this->getResultString());
         $root = new SimpleXMLElement($this->getResultString());
-
-        ilLoggerFactory::getLogger('src')->dump($root);
-
         $this->setMaxScore((float) $root['maxScore']);
         foreach ($root->children() as $object) {
             $obj_id = (string) $object['id'];

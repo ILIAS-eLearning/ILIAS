@@ -551,17 +551,6 @@ export default class ParagraphUI {
   }
 
 
-  reInitUI() {
-    il.Tooltip.init();
-    il.COPagePres.updateQuestionOverviews();
-    if (il.AdvancedSelectionList != null)
-    {
-      il.AdvancedSelectionList.init['style_selection']();
-      il.AdvancedSelectionList.init['char_style_selection']();
-    }
-    il.copg.editor.reInitUI();
-  }
-
   ////
   //// Various stuff, needs to be reorganised
   ////
@@ -856,6 +845,7 @@ export default class ParagraphUI {
     const action = this.actionFactory;
     const ef = action.paragraph().editor();
     const tblact = action.table().editor();
+    const paragraphUI = this;
 
     //#0017152
     $('#tinytarget_ifr').contents().find("html").attr('lang', $('html').attr('lang'));
@@ -882,7 +872,6 @@ export default class ParagraphUI {
     map[ACTIONS.LINK_INTERNAL] = () => ef.linkInternal();
     map[ACTIONS.LINK_EXTERNAL] = () => ef.linkExternal();
     map[ACTIONS.LINK_USER] = () => ef.linkUser();
-    map[PAGE_ACTIONS.COMPONENT_CANCEL] = () => action.page().editor().componentCancel();
 
     document.querySelectorAll("[data-copg-ed-type='par-action']").forEach(char_button => {
       const actionType = char_button.dataset.copgEdAction;
@@ -915,12 +904,21 @@ export default class ParagraphUI {
           break;
 
         case ACTIONS.SAVE_RETURN:
-          const paragraphUI = this;
           char_button.addEventListener("click", (event) => {
             if (!paragraphUI.getDataTableMode()) {
               dispatch.dispatch(ef.saveReturn(tiny.getText(), tiny.getCharacteristic()));
             } else {
               dispatch.dispatch(tblact.saveReturn(tiny.getText()));
+            }
+          });
+          break;
+
+        case PAGE_ACTIONS.COMPONENT_CANCEL:
+          char_button.addEventListener("click", (event) => {
+            if (!paragraphUI.getDataTableMode()) {
+              dispatch.dispatch(action.page().editor().componentCancel());
+            } else {
+              dispatch.dispatch(tblact.cancelCellEdit());
             }
           });
           break;

@@ -20,9 +20,10 @@ declare(strict_types=1);
  */
 
 use ILIAS\Skill\Node;
-use ILIAS\UI\Factory;
-use ILIAS\UI\Renderer;
+use ILIAS\UI;
+use ILIAS\Data;
 use Psr\Http\Message\ServerRequestInterface;
+use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper;
 use ILIAS\UI\Component\Input\Container\Form\Form;
 use ILIAS\Skill\Resource;
 
@@ -40,9 +41,9 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
     protected ilHelpGUI $help;
     protected ilToolbarGUI $toolbar;
     protected ilLanguage $lng;
-    protected Factory $ui_fac;
-    protected Renderer $ui_ren;
+    protected Data\Factory $df;
     protected ServerRequestInterface $request;
+    protected ArrayBasedRequestWrapper $query;
     protected Resource\SkillResourcesManager $resource_manager;
 
     protected int $tref_id = 0;
@@ -74,6 +75,13 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
      */
     protected array $requested_trigger = [];
 
+    protected string $requested_table_action = "";
+
+    /**
+     * @var string[]
+     */
+    protected array $requested_table_rep_ref_ids = [];
+
     public function __construct(Node\SkillTreeNodeManager $node_manager, int $a_node_id = 0)
     {
         global $DIC;
@@ -84,9 +92,9 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
         $this->help = $DIC["ilHelp"];
         $this->toolbar = $DIC->toolbar();
         $this->lng = $DIC->language();
-        $this->ui_fac = $DIC->ui()->factory();
-        $this->ui_ren = $DIC->ui()->renderer();
+        $this->df = new \ILIAS\Data\Factory();
         $this->request = $DIC->http()->request();
+        $this->query = $DIC->http()->wrapper()->query();
         $ilCtrl = $DIC->ctrl();
         $this->resource_manager = $DIC->skills()->internal()->manager()->getResourceManager();
 
@@ -102,6 +110,8 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
         $this->requested_resource_ids = $this->admin_gui_request->getResourceIds();
         $this->requested_suggested = $this->admin_gui_request->getSuggested();
         $this->requested_trigger = $this->admin_gui_request->getTrigger();
+        $this->requested_table_action = $this->admin_gui_request->getTableLevelResourcesAction();
+        $this->requested_table_rep_ref_ids = $this->admin_gui_request->getTableRepoRefIds();
     }
 
     public function getType(): string
@@ -631,16 +641,280 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
         $this->setLevelHead();
         $ilTabs->activateTab("level_resources");
 
-        $tab = new ilSkillLevelResourcesTableGUI(
-            $this,
-            "showLevelResources",
+        $table = $this->getLevelResourcesTable();
+
+        $tpl->setContent($this->ui_ren->render($table));
+    }
+
+    protected function getLevelResourcesTable(): \ILIAS\UI\Component\Table\Data
+    {
+        $lng = $this->lng;
+        $ilCtrl = $this->ctrl;
+
+        $columns = [
+            "type" => $this->ui_fac->table()->column()->statusIcon($lng->txt("type"))
+                ->withIsSortable(false),
+            "title" => $this->ui_fac->table()->column()->text($lng->txt("title")),
+            "path" => $this->ui_fac->table()->column()->text($lng->txt("path"))
+                ->withIsSortable(false),
+            "suggested" => $this->ui_fac->table()->column()->text($lng->txt("skmg_suggested"))
+                ->withIsSortable(false),
+            "lp_trigger" => $this->ui_fac->table()->column()->text($lng->txt("skmg_lp_triggers_level"))
+                ->withIsSortable(false),
+        ];
+
+        $query_params_namespace = ["skl_level_resources_table"];
+
+        $uri_suggested = $this->df->uri(
+            ILIAS_HTTP_PATH . "/" . $ilCtrl->getLinkTarget($this, "saveResourcesAsSuggested")
+        );
+        $url_builder_suggested = new \ILIAS\UI\URLBuilder($uri_suggested);
+        list($url_builder_suggested, $action_parameter_token_suggested, $row_id_token_suggested) =
+            $url_builder_suggested->acquireParameters(
+                $query_params_namespace,
+                "action",
+                "rep_ref_ids"
+            );
+
+        $uri_not_suggested = $this->df->uri(
+            ILIAS_HTTP_PATH . "/" . $ilCtrl->getLinkTarget($this, "saveResourcesAsNotSuggested")
+        );
+        $url_builder_not_suggested = new \ILIAS\UI\URLBuilder($uri_not_suggested);
+        list($url_builder_not_suggested, $action_parameter_token_not_suggested, $row_id_token_not_suggested) =
+            $url_builder_not_suggested->acquireParameters(
+                $query_params_namespace,
+                "action",
+                "rep_ref_ids"
+            );
+
+        $uri_trigger = $this->df->uri(
+            ILIAS_HTTP_PATH . "/" . $ilCtrl->getLinkTarget($this, "saveResourcesAsTrigger")
+        );
+        $url_builder_trigger = new \ILIAS\UI\URLBuilder($uri_trigger);
+        list($url_builder_trigger, $action_parameter_token_trigger, $row_id_token_trigger) =
+            $url_builder_trigger->acquireParameters(
+                $query_params_namespace,
+                "action",
+                "rep_ref_ids"
+            );
+
+        $uri_no_trigger = $this->df->uri(
+            ILIAS_HTTP_PATH . "/" . $ilCtrl->getLinkTarget($this, "saveResourcesAsNoTrigger")
+        );
+        $url_builder_no_trigger = new \ILIAS\UI\URLBuilder($uri_no_trigger);
+        list($url_builder_no_trigger, $action_parameter_token_no_trigger, $row_id_token_no_trigger) =
+            $url_builder_no_trigger->acquireParameters(
+                $query_params_namespace,
+                "action",
+                "rep_ref_ids"
+            );
+
+        $url_builder_remove = new \ILIAS\UI\URLBuilder($this->df->uri($this->request->getUri()->__toString()));
+        list($url_builder_remove, $action_parameter_token_remove, $row_id_token_remove) =
+            $url_builder_remove->acquireParameters(
+                $query_params_namespace,
+                "action",
+                "rep_ref_ids"
+            );
+
+        $actions = [];
+        if ($this->tree_access_manager->hasManageCompetencesPermission()) {
+            $actions = [
+                "setSuggested" => $this->ui_fac->table()->action()->standard(
+                    $lng->txt("skmg_set_as_suggested"),
+                    $url_builder_suggested->withParameter($action_parameter_token_suggested, "setSuggested"),
+                    $row_id_token_suggested
+                ),
+                "unsetSuggested" => $this->ui_fac->table()->action()->standard(
+                    $lng->txt("skmg_set_as_no_suggested"),
+                    $url_builder_not_suggested->withParameter($action_parameter_token_not_suggested, "unsetSuggested"),
+                    $row_id_token_not_suggested
+                ),
+                "setTrigger" => $this->ui_fac->table()->action()->standard(
+                    $lng->txt("skmg_set_as_lp_trigger"),
+                    $url_builder_trigger->withParameter($action_parameter_token_trigger, "setTrigger"),
+                    $row_id_token_trigger
+                ),
+                "unsetTrigger" => $this->ui_fac->table()->action()->standard(
+                    $lng->txt("skmg_set_as_no_lp_trigger"),
+                    $url_builder_no_trigger->withParameter($action_parameter_token_no_trigger, "unsetTrigger"),
+                    $row_id_token_no_trigger
+                ),
+                "remove" => $this->ui_fac->table()->action()->multi(
+                    $lng->txt("remove"),
+                    $url_builder_remove->withParameter($action_parameter_token_remove, "removeResources"),
+                    $row_id_token_remove
+                )
+                    ->withAsync()
+            ];
+        }
+
+        $data_retrieval = new class (
+            $this->lng,
+            $this->ui_fac,
+            $this->ui_ren,
+            $this->tree,
+            $this->resource_manager,
             $this->base_skill_id,
             $this->tref_id,
-            $this->requested_level_id,
-            $this->tree_access_manager->hasManageCompetencesPermission()
-        );
+            $this->requested_level_id
+        ) implements \ILIAS\UI\Component\Table\DataRetrieval {
+            public function __construct(
+                protected ilLanguage $lng,
+                protected UI\Factory $ui_fac,
+                protected UI\Renderer $ui_ren,
+                protected ilTree $tree,
+                protected Resource\SkillResourcesManager $resource_manager,
+                protected int $base_skill_id,
+                protected int $tref_id,
+                protected int $level_id
+            ) {
+            }
 
-        $tpl->setContent($tab->getHTML());
+            public function getRows(
+                \ILIAS\UI\Component\Table\DataRowBuilder $row_builder,
+                array $visible_column_ids,
+                \ILIAS\Data\Range $range,
+                \ILIAS\Data\Order $order,
+                ?array $filter_data,
+                ?array $additional_parameters
+            ): \Generator {
+                $records = $this->getRecords($order);
+                foreach ($records as $idx => $record) {
+                    $row_id = (string) $record["rep_ref_id"];
+
+                    yield $row_builder->buildDataRow($row_id, $record)
+                        ->withDisabledAction("setSuggested", ($record["suggested"] === $this->lng->txt("yes")))
+                        ->withDisabledAction("unsetSuggested", ($record["suggested"] === $this->lng->txt("no")))
+                        ->withDisabledAction("setTrigger", ($record["lp_trigger"] === $this->lng->txt("yes")))
+                        ->withDisabledAction("setTrigger", ($record["lp_trigger"] === $this->lng->txt("not_available")))
+                        ->withDisabledAction("unsetTrigger", ($record["lp_trigger"] === $this->lng->txt("no")))
+                        ->withDisabledAction("unsetTrigger", ($record["lp_trigger"] === $this->lng->txt("not_available")));
+                }
+            }
+
+            public function getTotalRowCount(
+                ?array $filter_data,
+                ?array $additional_parameters
+            ): ?int {
+                return null;
+            }
+
+            protected function getRecords(\ILIAS\Data\Order $order): array
+            {
+                $resources = $this->resource_manager->getResourcesOfLevel(
+                    $this->base_skill_id,
+                    $this->tref_id,
+                    $this->level_id
+                );
+
+                $records = [];
+                $i = 0;
+                foreach ($resources as $resource) {
+                    $ref_id = $resource->getRepoRefId();
+                    $obj_id = ilObject::_lookupObjId($ref_id);
+                    $obj_type = ilObject::_lookupType($obj_id);
+
+                    $records[$i]["rep_ref_id"] = $ref_id;
+                    $records[$i]["title"] = ilObject::_lookupTitle($obj_id);
+                    $records[$i]["suggested"] = $resource->getImparting()
+                        ? $this->lng->txt("yes")
+                        : $this->lng->txt("no");
+
+                    if (!ilObjectLP::isSupportedObjectType($obj_type)) {
+                        $trigger = $this->lng->txt("not_available");
+                    } elseif ($resource->getTrigger()) {
+                        $trigger = $this->lng->txt("yes");
+                    } else {
+                        $trigger = $this->lng->txt("no");
+                    }
+                    $records[$i]["lp_trigger"] = $trigger;
+
+                    $icon = $this->ui_ren->render(
+                        $this->ui_fac->symbol()->icon()->standard(
+                            $obj_type,
+                            $this->lng->txt("icon") . " " . $this->lng->txt($obj_type),
+                            "medium"
+                        )
+                    );
+                    $records[$i]["type"] = $icon;
+
+                    $path = $this->tree->getPathFull($ref_id);
+                    $path_items = [];
+                    foreach ($path as $p) {
+                        if ($p["type"] != "root" && $p["child"] != $ref_id) {
+                            $path_items[] = $p["title"];
+                        }
+                    }
+                    $records[$i]["path"] = implode(" > ", $path_items);
+
+                    $i++;
+                }
+
+                list($order_field, $order_direction) = $order->join([], fn($ret, $key, $value) => [$key, $value]);
+                usort($records, fn($a, $b) => $a[$order_field] <=> $b[$order_field]);
+                if ($order_direction === "DESC") {
+                    $records = array_reverse($records);
+                }
+
+                return $records;
+            }
+        };
+
+        if ($this->query->has($action_parameter_token_remove->getName())) {
+            if ($this->requested_table_action === "removeResources") {
+                $items = [];
+                foreach ($this->requested_table_rep_ref_ids as $id) {
+                    if ($id === "ALL_OBJECTS") {
+                        $resources = $this->resource_manager->getResourcesOfLevel(
+                            $this->base_skill_id,
+                            $this->tref_id,
+                            $this->requested_level_id
+                        );
+                        foreach ($resources as $resource) {
+                            $obj_id = ilObject::_lookupObjId($resource->getRepoRefId());
+                            $obj_type = ilObject::_lookupType($obj_id);
+                            $items[] = $this->ui_fac->modal()->interruptiveItem()->standard(
+                                (string) $resource->getRepoRefId(),
+                                ilObject::_lookupTitle($obj_id),
+                                $this->ui_fac->image()->standard(
+                                    ilObject::_getIcon($obj_id, "small", $obj_type),
+                                    $lng->txt("icon") . " " . $this->lng->txt("obj_" . $obj_type)
+                                )
+                            );
+                        }
+                    } else {
+                        $obj_id = ilObject::_lookupObjId((int) $id);
+                        $obj_type = ilObject::_lookupType($obj_id);
+                        $items[] = $this->ui_fac->modal()->interruptiveItem()->standard(
+                            $id,
+                            ilObject::_lookupTitle($obj_id),
+                            $this->ui_fac->image()->standard(
+                                ilObject::_getIcon($obj_id, "small", $obj_type),
+                                $lng->txt("icon") . " " . $this->lng->txt("obj_" . $obj_type)
+                            )
+                        );
+                    }
+                }
+                echo($this->ui_ren->renderAsync([
+                    $this->ui_fac->modal()->interruptive(
+                        "",
+                        empty($items) ? $lng->txt("no_checkbox") : $lng->txt("skmg_confirm_level_resources_removal"),
+                        $ilCtrl->getFormAction($this, "removeLevelResources")
+                    )
+                                 ->withAffectedItems($items)
+                                 ->withActionButtonLabel(empty($items) ? $lng->txt("ok") : $lng->txt("delete"))
+                ]));
+                exit();
+            }
+        }
+
+        $table = $this->ui_fac->table()
+                              ->data($lng->txt("skmg_suggested_resources"), $columns, $data_retrieval)
+                              ->withActions($actions)
+                              ->withRequest($this->request);
+
+        return $table;
     }
 
     public function addLevelResource(): void
@@ -692,40 +966,6 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
         $ilCtrl->redirect($this, "showLevelResources");
     }
 
-    public function confirmLevelResourcesRemoval(): void
-    {
-        $ilCtrl = $this->ctrl;
-        $tpl = $this->tpl;
-        $lng = $this->lng;
-        $ilTabs = $this->tabs;
-
-        if (!$this->tree_access_manager->hasManageCompetencesPermission() && $this->getType() == "skll"
-            || !$this->tree_access_manager->hasManageCompetenceTemplatesPermission() && $this->getType() == "sktp") {
-            return;
-        }
-
-        $this->setLevelHead();
-        $ilTabs->activateTab("level_resources");
-
-        if (empty($this->requested_resource_ids)) {
-            $this->tpl->setOnScreenMessage('info', $lng->txt("no_checkbox"), true);
-            $ilCtrl->redirect($this, "showLevelResources");
-        } else {
-            $cgui = new ilConfirmationGUI();
-            $cgui->setFormAction($ilCtrl->getFormAction($this));
-            $cgui->setHeaderText($lng->txt("skmg_confirm_level_resources_removal"));
-            $cgui->setCancel($lng->txt("cancel"), "showLevelResources");
-            $cgui->setConfirm($lng->txt("remove"), "removeLevelResources");
-
-            foreach ($this->requested_resource_ids as $i) {
-                $title = ilObject::_lookupTitle(ilObject::_lookupObjId($i));
-                $cgui->addItem("id[]", (string) $i, $title);
-            }
-
-            $tpl->setContent($cgui->getHTML());
-        }
-    }
-
     public function removeLevelResources(): void
     {
         $ilCtrl = $this->ctrl;
@@ -751,39 +991,175 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
         $ilCtrl->redirect($this, "showLevelResources");
     }
 
-    public function saveResourceSettings(): void
+    public function saveResourcesAsSuggested(): void
     {
         $ilCtrl = $this->ctrl;
+        $lng = $this->lng;
+        $tpl = $this->tpl;
 
-        foreach ($this->resource_manager->getResourcesOfLevel(
-            $this->base_skill_id,
-            $this->tref_id,
-            $this->requested_level_id
-        ) as $r) {
-            $imparting = false;
-            if (!empty($this->requested_suggested)
-                && isset($this->requested_suggested[$r->getRepoRefId()])
-                && $this->requested_suggested[$r->getRepoRefId()]
-            ) {
-                $imparting = true;
-            }
-            $trigger = false;
-            if (!empty($this->requested_trigger)
-                && isset($this->requested_trigger[$r->getRepoRefId()])
-                && $this->requested_trigger[$r->getRepoRefId()]
-            ) {
-                $trigger = true;
-            }
-            $this->resource_manager->setResource(
+        if ($this->requested_table_action == "setSuggested"
+            && !empty($this->requested_table_rep_ref_ids)
+            && $this->requested_table_rep_ref_ids[0] === "ALL_OBJECTS"
+        ) {
+            $resources = $this->resource_manager->getResourcesOfLevel(
                 $this->base_skill_id,
                 $this->tref_id,
-                $this->requested_level_id,
-                $r->getRepoRefId(),
-                $imparting,
-                $trigger
+                $this->requested_level_id
             );
+            foreach ($resources as $resource) {
+                $this->resource_manager->setResourceAsSuggested(
+                    $resource->getBaseSkillId(),
+                    $resource->getTrefId(),
+                    $resource->getLevelId(),
+                    $resource->getRepoRefId()
+                );
+            }
+        } elseif ($this->requested_table_action == "setSuggested") {
+            if (empty($this->requested_table_rep_ref_ids)) {
+                $tpl->setOnScreenMessage("info", $lng->txt("no_checkbox"), true);
+                $ilCtrl->redirect($this, "showLevelResources");
+            } else {
+                foreach ($this->requested_table_rep_ref_ids as $i) {
+                    $this->resource_manager->setResourceAsSuggested(
+                        $this->base_skill_id,
+                        $this->tref_id,
+                        $this->requested_level_id,
+                        (int) $i
+                    );
+                }
+            }
         }
 
+        $tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
+        $ilCtrl->redirect($this, "showLevelResources");
+    }
+
+    public function saveResourcesAsNotSuggested(): void
+    {
+        $ilCtrl = $this->ctrl;
+        $lng = $this->lng;
+        $tpl = $this->tpl;
+
+        if ($this->requested_table_action == "unsetSuggested"
+            && !empty($this->requested_table_rep_ref_ids)
+            && $this->requested_table_rep_ref_ids[0] === "ALL_OBJECTS"
+        ) {
+            $resources = $this->resource_manager->getResourcesOfLevel(
+                $this->base_skill_id,
+                $this->tref_id,
+                $this->requested_level_id
+            );
+            foreach ($resources as $resource) {
+                $this->resource_manager->setResourceAsNotSuggested(
+                    $resource->getBaseSkillId(),
+                    $resource->getTrefId(),
+                    $resource->getLevelId(),
+                    $resource->getRepoRefId()
+                );
+            }
+        } elseif ($this->requested_table_action == "unsetSuggested") {
+            if (empty($this->requested_table_rep_ref_ids)) {
+                $tpl->setOnScreenMessage("info", $lng->txt("no_checkbox"), true);
+                $ilCtrl->redirect($this, "showLevelResources");
+            } else {
+                foreach ($this->requested_table_rep_ref_ids as $i) {
+                    $this->resource_manager->setResourceAsNotSuggested(
+                        $this->base_skill_id,
+                        $this->tref_id,
+                        $this->requested_level_id,
+                        (int) $i
+                    );
+                }
+            }
+        }
+
+        $tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
+        $ilCtrl->redirect($this, "showLevelResources");
+    }
+
+    public function saveResourcesAsTrigger(): void
+    {
+        $ilCtrl = $this->ctrl;
+        $lng = $this->lng;
+        $tpl = $this->tpl;
+
+        if ($this->requested_table_action == "setTrigger"
+            && !empty($this->requested_table_rep_ref_ids)
+            && $this->requested_table_rep_ref_ids[0] === "ALL_OBJECTS"
+        ) {
+            $resources = $this->resource_manager->getResourcesOfLevel(
+                $this->base_skill_id,
+                $this->tref_id,
+                $this->requested_level_id
+            );
+            foreach ($resources as $resource) {
+                $this->resource_manager->setResourceAsTrigger(
+                    $resource->getBaseSkillId(),
+                    $resource->getTrefId(),
+                    $resource->getLevelId(),
+                    $resource->getRepoRefId()
+                );
+            }
+        } elseif ($this->requested_table_action == "setTrigger") {
+            if (empty($this->requested_table_rep_ref_ids)) {
+                $tpl->setOnScreenMessage("info", $lng->txt("no_checkbox"), true);
+                $ilCtrl->redirect($this, "showLevelResources");
+            } else {
+                foreach ($this->requested_table_rep_ref_ids as $i) {
+                    $this->resource_manager->setResourceAsTrigger(
+                        $this->base_skill_id,
+                        $this->tref_id,
+                        $this->requested_level_id,
+                        (int) $i
+                    );
+                }
+            }
+        }
+
+        $tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
+        $ilCtrl->redirect($this, "showLevelResources");
+    }
+
+    public function saveResourcesAsNoTrigger(): void
+    {
+        $ilCtrl = $this->ctrl;
+        $lng = $this->lng;
+        $tpl = $this->tpl;
+
+        if ($this->requested_table_action == "unsetTrigger"
+            && !empty($this->requested_table_rep_ref_ids)
+            && $this->requested_table_rep_ref_ids[0] === "ALL_OBJECTS"
+        ) {
+            $resources = $this->resource_manager->getResourcesOfLevel(
+                $this->base_skill_id,
+                $this->tref_id,
+                $this->requested_level_id
+            );
+            foreach ($resources as $resource) {
+                $this->resource_manager->setResourceAsNoTrigger(
+                    $resource->getBaseSkillId(),
+                    $resource->getTrefId(),
+                    $resource->getLevelId(),
+                    $resource->getRepoRefId()
+                );
+            }
+        } elseif ($this->requested_table_action == "unsetTrigger") {
+            if (empty($this->requested_table_rep_ref_ids)) {
+                $tpl->setOnScreenMessage("info", $lng->txt("no_checkbox"), true);
+                $ilCtrl->redirect($this, "showLevelResources");
+            } else {
+                foreach ($this->requested_table_rep_ref_ids as $i) {
+                    $this->resource_manager->setResourceAsNoTrigger(
+                        $this->base_skill_id,
+                        $this->tref_id,
+                        $this->requested_level_id,
+                        (int) $i
+                    );
+                }
+            }
+        }
+
+        $tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
         $ilCtrl->redirect($this, "showLevelResources");
     }
 }

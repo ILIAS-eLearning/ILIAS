@@ -12,7 +12,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- *********************************************************************/
+ ******************************************************************** */
 
 import PageUIActionHandler from '../components/page/ui/page-ui-action-handler.js';
 import ParagraphUIActionHandler from '../components/paragraph/ui/paragraph-ui-action-handler.js';
@@ -24,46 +24,45 @@ import PlaceHolderUIActionHandler from '../components/placeholder/ui/placeholder
  * UI action handler
  */
 export default class UIActionHandler {
-
   /**
    * @type {UI}
    */
-  //ui;
+  // ui;
 
   /**
    * @type {ActionFactory}
    */
-  //actionFactory;
+  // actionFactory;
 
   /**
    * @type {Dispatcher}
    */
-  //dispatcher;
+  // dispatcher;
 
   /**
    * @type {Client}
    */
-  //client;
+  // client;
 
   /**
    * @type {PageUIActionHandler}
    */
-  //pageActionHandler;
+  // pageActionHandler;
 
   /**
    * @type {ParagraphUIActionHandler}
    */
-  //paragraphActionHandler;
+  // paragraphActionHandler;
 
   /**
    * @type {MediaUIActionHandler}
    */
-  //mediaActionHandler;
+  // mediaActionHandler;
 
   /**
    * @type {TableUIActionHandler}
    */
-  //tableActionHandler;
+  // tableActionHandler;
 
   /**
    * @param {ActionFactory} actionFactory
@@ -77,23 +76,23 @@ export default class UIActionHandler {
     // @todo needs factory
     this.pageActionHandler = new PageUIActionHandler(
       this.actionFactory,
-      this.client
+      this.client,
     );
     this.paragraphActionHandler = new ParagraphUIActionHandler(
       this.actionFactory,
-      this.client
+      this.client,
     );
     this.mediaActionHandler = new MediaUIActionHandler(
       this.actionFactory,
-      this.client
+      this.client,
     );
     this.tableActionHandler = new TableUIActionHandler(
       this.actionFactory,
-      this.client
+      this.client,
     );
     this.placeholderActionHandler = new PlaceHolderUIActionHandler(
       this.actionFactory,
-      this.client
+      this.client,
     );
   }
 
@@ -107,6 +106,7 @@ export default class UIActionHandler {
     this.mediaActionHandler.setUI(this.ui.media);
     this.tableActionHandler.setUI(this.ui.table);
     this.placeholderActionHandler.setUI(this.ui.placeholder);
+    this.placeholderActionHandler.setPageUI(this.ui.page);
   }
 
   /**
@@ -126,10 +126,10 @@ export default class UIActionHandler {
    * @param {Model} model
    */
   handle(action, model) {
-    this.pageActionHandler.handle(action, model.model("page"));
-    this.paragraphActionHandler.handle(action, model.model("page"));
-    this.mediaActionHandler.handle(action, model.model("page"));
-    this.tableActionHandler.handle(action, model.model("page"), model.model("table"));
-    this.placeholderActionHandler.handle(action, model.model("page"));
+    this.pageActionHandler.handle(action, model.model('page'));
+    this.paragraphActionHandler.handle(action, model.model('page'));
+    this.mediaActionHandler.handle(action, model.model('page'));
+    this.tableActionHandler.handle(action, model.model('page'), model.model('table'));
+    this.placeholderActionHandler.handle(action, model.model('page'));
   }
 }

@@ -148,6 +148,7 @@ class ilWebResourceEditableLinkTableGUI extends ilTable2GUI
             $tmp['description'] = $item->getDescription();
             $tmp['target'] = $item->getTarget();
             $tmp['active'] = $item->isActive();
+            $tmp['internal'] = $item->isInternal();
 
             /**
              * This is a bit of a messy solution, but to avoid implicit method calls
@@ -170,7 +171,7 @@ class ilWebResourceEditableLinkTableGUI extends ilTable2GUI
 
     protected function fillRow(array $a_set): void
     {
-        if (!stristr($a_set['target'], '|')) {
+        if (!$a_set['internal']) {
             $this->tpl->setCurrentBlock('external');
             $this->tpl->setVariable('VAL_ID', $a_set['id']);
             $this->tpl->setVariable(

@@ -20,6 +20,8 @@ declare(strict_types=1);
 
 class ilDclDatetimeRecordRepresentation extends ilDclBaseRecordRepresentation
 {
+    use ilDclDatetimeRecordDateFormatter;
+
     /**
      * Outputs html of a certain field
      */
@@ -30,22 +32,12 @@ class ilDclDatetimeRecordRepresentation extends ilDclBaseRecordRepresentation
             return $this->lng->txt('no_date');
         }
 
-        return $this->formatDate($value, (string)$this->user->getDateFormat());
+        return $this->formatDateFromString($value);
     }
 
-    protected function formatDate(string $value, string $format): string
+    protected function getUserDateFormat(): string
     {
-        $timestamp = strtotime($value);
-        switch ($format) {
-            case ilCalendarSettings::DATE_FORMAT_DMY:
-                return date("d.m.Y", $timestamp);
-            case ilCalendarSettings::DATE_FORMAT_YMD:
-                return date("Y-m-d", $timestamp);
-            case ilCalendarSettings::DATE_FORMAT_MDY:
-                return date("m/d/Y", $timestamp);
-        }
-
-        return $this->lng->txt('no_date');
+        return (string) $this->user->getDateFormat();
     }
 
     /**

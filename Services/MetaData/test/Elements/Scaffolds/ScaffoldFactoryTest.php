@@ -27,62 +27,18 @@ use ILIAS\MetaData\Elements\Data\Type;
 use ILIAS\MetaData\Elements\Data\DataInterface;
 use ILIAS\MetaData\Elements\ElementInterface;
 use ILIAS\MetaData\Elements\NoID;
+use ILIAS\MetaData\Structure\Definitions\NullDefinition;
+use ILIAS\MetaData\Elements\Data\NullDataFactory;
 
 class ScaffoldFactoryTest extends TestCase
 {
     public function testCreateScaffold(): void
     {
-        $factory = new ScaffoldFactory(new MockDataFactory());
-        $scaffold = $factory->scaffold(new MockDefinition());
+        $factory = new ScaffoldFactory(new NullDataFactory());
+        $scaffold = $factory->scaffold(new NullDefinition());
 
         $this->assertInstanceOf(ElementInterface::class, $scaffold);
         $this->assertSame(NoID::SCAFFOLD, $scaffold->getMDID());
         $this->assertSame(Type::NULL, $scaffold->getData()->type());
-    }
-}
-
-class MockDataFactory implements DataFactoryInterface
-{
-    public function data(Type $type, string $value): DataInterface
-    {
-        throw new \ilMDElementsException(
-            'This should not be called here.'
-        );
-    }
-
-    public function null(): DataInterface
-    {
-        return new MockNullData();
-    }
-}
-
-class MockNullData implements DataInterface
-{
-    public function type(): Type
-    {
-        return Type::NULL;
-    }
-
-    public function value(): string
-    {
-        return '';
-    }
-}
-
-class MockDefinition implements DefinitionInterface
-{
-    public function name(): string
-    {
-        return 'name';
-    }
-
-    public function unique(): bool
-    {
-        return false;
-    }
-
-    public function dataType(): Type
-    {
-        return Type::NULL;
     }
 }

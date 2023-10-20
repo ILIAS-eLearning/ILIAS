@@ -30,6 +30,9 @@ class ilHelpGUI implements ilCtrlBaseClassInterface
     public const ID_PART_SUB_SCREEN = "sub_screen";
     public const ID_PART_COMPONENT = "component";
     protected \ILIAS\Repository\InternalGUIService $gui;
+    protected static ?\ILIAS\Help\InternalService $internal_service = null;
+    protected \ILIAS\Help\Presentation\PresentationManager $presentation;
+    protected \ILIAS\Help\Map\MapManager $help_map;
     protected StandardGUIRequest $help_request;
 
     protected ilCtrl $ctrl;
@@ -45,19 +48,21 @@ class ilHelpGUI implements ilCtrlBaseClassInterface
 
     public function __construct()
     {
-        global $DIC;
+        $domain = $this->internal()->domain();
 
-        $this->settings = $DIC->settings();
-        $this->lng = $DIC->language();
-        $this->user = $DIC->user();
-        $ilCtrl = $DIC->ctrl();
+        $this->settings = $domain->settings();
+        $this->lng = $domain->lng();
+        $this->user = $domain->user();
 
-        $this->ctrl = $ilCtrl;
-        $this->ui = $DIC->ui();
-        $this->help_request = new StandardGUIRequest(
-            $DIC->http(),
-            $DIC->refinery()
-        );
+        $this->help_map = $domain->map();
+        $this->presentation = $domain->presentation();
+    }
+
+    protected function initUI(): void
+    {
+        $gui = $this->internal()->gui();
+        $this->ctrl = $gui->ctrl();
+        $this->help_request = $gui->standardRequest();
     }
 
     protected function symbol(): \ILIAS\Repository\Symbol\SymbolAdapterGUI
@@ -122,12 +127,12 @@ class ilHelpGUI implements ilCtrlBaseClassInterface
 
     public function hasSections(): bool
     {
-        return ilHelpMapping::hasScreenIdSections($this->getScreenId());
+        return $this->help_map->hasScreenIdSections($this->getScreenId());
     }
 
     public function getHelpSections(): array
     {
-        return ilHelpMapping::getHelpSectionsForId(
+        return $this->help_map->getHelpSectionsForId(
             $this->getScreenId(),
             $this->help_request->getRefId()
         );
@@ -142,6 +147,7 @@ class ilHelpGUI implements ilCtrlBaseClassInterface
 
     public function executeCommand(): string
     {
+        $this->initUI();
         $cmd = $this->ctrl->getCmd("showHelp") ?: "showHelp";
         return (string) $this->$cmd();
     }
@@ -164,10 +170,9 @@ class ilHelpGUI implements ilCtrlBaseClassInterface
         $this->resetCurrentPage();
 
         $id_arr = explode(".", $help_screen_id);
-        $help_arr = ilHelpMapping::getHelpSectionsForId($id_arr[0], $id_arr[1]);
-        $oh_lm_id = ilHelp::getHelpLMId();
+        $help_arr = $this->help_map->getHelpSectionsForId($id_arr[0], (int) $id_arr[1]);
 
-        if ($oh_lm_id > 0) {
+        if (count($help_arr) > 0) {
             $acc = new ilAccordionGUI();
             $acc->setId("oh_acc");
             $acc->setUseSessionStorage(true);
@@ -178,7 +183,7 @@ class ilHelpGUI implements ilCtrlBaseClassInterface
                 if (!ilLMObject::_exists($st_id)) {
                     continue;
                 }
-
+                $oh_lm_id = ilLMObject::_lookupContObjID($st_id);
                 $pages = ilLMObject::getPagesOfChapter($oh_lm_id, $st_id);
                 $items = [];
                 foreach ($pages as $pg) {
@@ -289,7 +294,7 @@ class ilHelpGUI implements ilCtrlBaseClassInterface
     public function getTabTooltipText(string $a_tab_id): string
     {
         if ($this->screen_id_component != "") {
-            return ilHelp::getTooltipPresentationText($this->screen_id_component . "_" . $a_tab_id);
+            return $this->internal()->domain()->tooltips()->getTooltipPresentationText($this->screen_id_component . "_" . $a_tab_id);
         }
         return "";
     }
@@ -300,6 +305,7 @@ class ilHelpGUI implements ilCtrlBaseClassInterface
     ): void {
         global $DIC;
 
+        $this->initUI();
         $ilUser = $DIC->user();
         $ilSetting = $DIC->settings();
         $ctrl = $DIC->ctrl();
@@ -317,9 +323,7 @@ class ilHelpGUI implements ilCtrlBaseClassInterface
         );
 
 
-        $module_id = (int) $ilSetting->get("help_module");
-
-        if (((int) OH_REF_ID > 0 || $module_id > 0) && $ilUser->getLanguage() === "de") {
+        if ($this->presentation->isHelpActive()) {
             if (ilSession::get("help_pg") > 0) {
                 $a_tpl->addOnLoadCode("il.Help.showCurrentPage(" . ilSession::get("help_pg") . ");", 3);
             } else {
@@ -435,20 +439,23 @@ class ilHelpGUI implements ilCtrlBaseClassInterface
 
         $h_tpl->setVariable("CLOSE_IMG", $this->symbol()->glyph("close")->render());
 
-        $lm_id = ilHelp::getHelpLMId();
-        $s = new ilRepositoryObjectDetailSearch($lm_id);
-        $s->setQueryString($term);
-        $result = $s->performSearch();
-
         $items = [];
-        foreach ($result->getResults() as $r) {
-            $items[] = $this->ui->factory()->button()->shy(
-                ilLMObject::_lookupTitle($r["item_id"]),
-                "#"
-            )->withOnLoadCode(function ($id) use ($r) {
-                return "document.getElementById('$id').addEventListener('click', () => {return il.Help.showPage(" . $r["item_id"] . ");})";
-            });
+        $module = $this->internal()->domain()->module();
+        foreach ($module->getActiveModules() as $module_id) {
+            $lm_id = $module->lookupModuleLmId($module_id);
+            $s = new ilRepositoryObjectDetailSearch($lm_id);
+            $s->setQueryString($term);
+            $result = $s->performSearch();
+            foreach ($result->getResults() as $r) {
+                $items[] = $this->ui->factory()->button()->shy(
+                    ilLMObject::_lookupTitle($r["item_id"]),
+                    "#"
+                )->withOnLoadCode(function ($id) use ($r) {
+                    return "document.getElementById('$id').addEventListener('click', () => {return il.Help.showPage(" . $r["item_id"] . ");})";
+                });
+            }
         }
+
         $list = $this->ui->factory()->listing()->unordered($items);
         $h_tpl->setVariable("CONTENT", $this->ui->renderer()->renderAsync($list));
 
@@ -531,5 +538,25 @@ class ilHelpGUI implements ilCtrlBaseClassInterface
         $i = $item;
         $mmc = $DIC->globalScreen()->collector()->mainmenu();
         return $mmc->getItemInformation()->customTranslationForUser($i)->getTitle();
+    }
+
+    public function showTooltips(): bool
+    {
+        return $this->presentation->showTooltips();
+    }
+
+    /**
+     * temporary move it here until DIC holds help service instead of ilHelpGUI
+     */
+    public function internal(): \ILIAS\Help\InternalService
+    {
+        global $DIC;
+
+        if (is_null(self::$internal_service)) {
+            self::$internal_service = new \ILIAS\Help\InternalService(
+                $DIC
+            );
+        }
+        return self::$internal_service;
     }
 }

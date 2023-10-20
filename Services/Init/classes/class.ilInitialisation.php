@@ -32,6 +32,7 @@ use ILIAS\HTTP\Wrapper\SuperGlobalDropInReplacement;
 use ILIAS\Filesystem\Definitions\SuffixDefinitions;
 use ILIAS\FileUpload\Processor\InsecureFilenameSanitizerPreProcessor;
 use ILIAS\FileUpload\Processor\SVGBlacklistPreProcessor;
+use ILIAS\FileDelivery\Init;
 
 require_once("libs/composer/vendor/autoload.php");
 
@@ -1124,8 +1125,9 @@ class ilInitialisation
         self::initCore();
         self::initHTTPServices($GLOBALS["DIC"]);
         if (ilContext::initClient()) {
-            self::initClient();
             self::initFileUploadService($GLOBALS["DIC"]);
+            Init::init($GLOBALS["DIC"]);
+            self::initClient();
             self::initSession();
 
             if (ilContext::hasUser()) {
@@ -1448,7 +1450,6 @@ class ilInitialisation
         };
         $c->globalScreen()->tool()->context()->stack()->clear();
         $c->globalScreen()->tool()->context()->claim()->main();
-//        $c->globalScreen()->tool()->context()->current()->addAdditionalData('DEVMODE', (bool) DEVMODE);
     }
 
     /**

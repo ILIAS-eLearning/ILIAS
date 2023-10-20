@@ -35,7 +35,7 @@ class ContainerSkillManager
     protected SkillService\SkillTreeService $tree_service;
     protected SkillService\SkillProfileService $profile_service;
     protected SkillService\SkillPersonalService $personal_service;
-    protected ContainerSkillInternalFactoryService $factory_service;
+    protected SkillInternalFactoryService $factory_service;
     protected \ilSkillManagementSettings $skmg_settings;
 
     public function __construct(
@@ -46,7 +46,7 @@ class ContainerSkillManager
         SkillService\SkillTreeService $tree_service = null,
         SkillService\SkillProfileService $profile_service = null,
         SkillService\SkillPersonalService $personal_service = null,
-        ContainerSkillInternalFactoryService $factory_service = null,
+        SkillInternalFactoryService $factory_service = null,
         \ilSkillManagementSettings $skmg_settings = null
     ) {
         global $DIC;
@@ -97,9 +97,9 @@ class ContainerSkillManager
         $skills_obj_ordered = [];
         foreach ($skills_ordered as $s) {
             $skills_obj_ordered[] = $this->factory_service->containerSkill()->skill(
-                $this->cont_obj_id,
                 $s["skill_id"],
-                $s["tref_id"]
+                $s["tref_id"],
+                $this->cont_obj_id
             );
         }
 
@@ -284,9 +284,9 @@ class ContainerSkillManager
     {
         $s_skills = array_map(function (ContainerSkill $v): ContainerSkill {
             return $this->factory_service->containerSkill()->skill(
-                $this->cont_obj_id,
                 $v->getBaseSkillId(),
                 $v->getTrefId(),
+                $this->cont_obj_id,
                 \ilBasicSkill::_lookupTitle($v->getBaseSkillId(), $v->getTrefId())
             );
         }, $this->getSkillsForContainer());
@@ -307,9 +307,9 @@ class ContainerSkillManager
                 $sklvs = $this->profile_service->getSkillLevels($gp->getId());
                 foreach ($sklvs as $s) {
                     $p_skills[] = $this->factory_service->containerSkill()->skill(
-                        $this->cont_obj_id,
                         $s->getBaseSkillId(),
                         $s->getTrefId(),
+                        $this->cont_obj_id,
                         \ilBasicSkill::_lookupTitle($s->getBaseSkillId(), $s->getTrefId()),
                         $gp
                     );
@@ -323,9 +323,9 @@ class ContainerSkillManager
                 $sklvs = $this->profile_service->getSkillLevels($lp->getId());
                 foreach ($sklvs as $s) {
                     $p_skills[] = $this->factory_service->containerSkill()->skill(
-                        $this->cont_obj_id,
                         $s->getBaseSkillId(),
                         $s->getTrefId(),
+                        $this->cont_obj_id,
                         \ilBasicSkill::_lookupTitle($s->getBaseSkillId(), $s->getTrefId()),
                         $lp
                     );

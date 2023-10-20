@@ -178,7 +178,7 @@ $button_active-transform: scale(.95) !default;
         }
 
         // KEYBOARD FOCUS
-        @include focus.il-focus();
+        @include focus.il-focus-outline-only();
 
         // ACTIVE (BEING PRESSED)
         &:active {

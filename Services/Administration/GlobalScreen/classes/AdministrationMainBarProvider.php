@@ -127,7 +127,7 @@ class AdministrationMainBarProvider extends AbstractStaticMainMenuProvider
             "search_and_find" => "icon_safa",
             "extending_ilias" => "icon_exta"
         );
-        $icon_path = \ilUtil::getImagePath($icon_map[$group] . ".svg");
+        $icon_path = \ilUtil::getImagePath("standard/" . $icon_map[$group] . ".svg");
         return $this->dic->ui()->factory()->symbol()->icon()->custom($icon_path, $title);
     }
 
@@ -208,7 +208,7 @@ class AdministrationMainBarProvider extends AbstractStaticMainMenuProvider
         // admin menu layout
         $layout = array(
             "maintenance" =>
-                array("adm", "lngf", "hlps", "wfe", "pdfg", 'fils', 'logs', 'sysc', "recf", "root"),
+                array("adm", "lngf", "hlps", "wfe", 'fils', 'logs', 'sysc', "recf", "root"),
             "layout_and_navigation" =>
                 array("mme", "dshs", "stys", "adve", "accs"),
             "repository_and_objects" =>

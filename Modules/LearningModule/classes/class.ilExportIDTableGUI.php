@@ -125,7 +125,7 @@ class ilExportIDTableGUI extends ilTable2GUI
                 $this->tpl->setVariable(
                     "ALERT_IMG",
                     ilUtil::img(
-                        ilUtil::getImagePath("icon_alert.svg"),
+                        ilUtil::getImagePath("standard/icon_alert.svg"),
                         $lng->txt("alert"),
                         "",
                         "",
@@ -156,7 +156,7 @@ class ilExportIDTableGUI extends ilTable2GUI
             $this->tpl->setVariable(
                 "ALERT_IMG",
                 ilUtil::img(
-                    ilUtil::getImagePath("icon_alert.svg"),
+                    ilUtil::getImagePath("standard/icon_alert.svg"),
                     $lng->txt("alert"),
                     "",
                     "",

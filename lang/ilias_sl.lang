@@ -1168,8 +1168,6 @@ assessment#:#show_examview_html#:#Na zaslonu
 assessment#:#show_pass_overview#:#Pregled rezultatov (ocenjeno opravljanje testa)
 assessment#:#show_user_answers#:#Odgovori (ocenjeno opravljanje testa)
 assessment#:#shuffle_answers#:#Pomešaj odgovore
-assessment#:#sign_submission#:#Digitalni podpis
-assessment#:#sign_submission_info#:#Nameščen in aktiviran mora biti vtičnik za podpis, ki omogoča poziv udeležencev k podpisu ob oddaji testa.
 assessment#:#skip_question#:#Ne odgovarjaj in naprej
 assessment#:#solutionText#:#Besedilo
 assessment#:#solution_contain_keywords#:#Točke so podeljene na podlagi uporabe naslednjih pojmov:
@@ -1691,7 +1689,7 @@ assessment#:#tst_report_after_test#:#Rezultate testa ponudi šele po zaključku 
 assessment#:#tst_report_never#:#Rezultati testa niso na voljo
 assessment#:#tst_reporting_date#:#Date
 assessment#:#tst_res_jump_to_participant_btn#:#Skoči naprej
-assessment#:#tst_res_jump_to_participant_hint_opt#:#--Skoči na udeleženca--
+assessment#:#tst_res_jump_to_participant_hint_opt#:#Skoči na udeleženca
 assessment#:#tst_res_lo_objectives_header#:#Ustrezni učni cilji
 assessment#:#tst_res_lo_try_header#:#Poskus
 assessment#:#tst_res_lo_try_n#:#%s. poskus

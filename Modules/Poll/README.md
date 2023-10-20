@@ -47,5 +47,6 @@ or it has started:
 
 ### Notifications
 
-- Users can subscribe and unsubscribe to a poll when they have read access
-and it is online and within its availability period.
+- Non-anonymous users can subscribe and unsubscribe to a poll when they have read access
+and it is online and within its availability period. Anonymous users can
+never subscribe or unsubscribe.

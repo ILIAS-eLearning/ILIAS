@@ -195,9 +195,6 @@ class ilResourceStorageMigrationHelper
                 $collection->add($resource_id);
             }
         }
-        if ($collection->count() === 0) {
-            return null;
-        }
 
         if ($this->getCollectionBuilder()->store($collection)) {
             return $collection->getIdentification();

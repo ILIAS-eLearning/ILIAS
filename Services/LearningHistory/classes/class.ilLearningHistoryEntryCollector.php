@@ -74,7 +74,7 @@ class ilLearningHistoryEntryCollector
                 $entries[] = $this->service->factory()->entry(
                     $lng->txt("lhist_no_entries"),
                     $lng->txt("lhist_no_entries"),
-                    ilUtil::getImagePath("spacer.png"),
+                    ilUtil::getImagePath("media/spacer.png"),
                     time(),
                     0
                 );

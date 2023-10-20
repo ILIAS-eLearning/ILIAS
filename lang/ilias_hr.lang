@@ -1163,8 +1163,6 @@ assessment#:#show_examview_html#:#Na zaslonu
 assessment#:#show_pass_overview#:#Prikaži pregled rezultata ocijenjenog prolaza testa
 assessment#:#show_user_answers#:#Pokaži ocijenjene odgovore korisnika
 assessment#:#shuffle_answers#:#Pomiješaj odgovore
-assessment#:#sign_submission#:#Digitalni potpis za predaju testa
-assessment#:#sign_submission_info#:#Ako je ova opcija aktivirana te ako je instaliran i aktivan plugin za potpis, od sudionika će biti zatraženo da prilikom predaje digitalno potpišu test.
 assessment#:#skip_question#:#Nemoj odgovoriti i dalje
 assessment#:#solutionText#:#Tekst
 assessment#:#solution_contain_keywords#:#Bodovi će se dati na temelju korištenja sljedećih ključnih riječi:
@@ -1687,7 +1685,7 @@ assessment#:#tst_report_after_test#:#Nudi rezultate testa kada je test završen
 assessment#:#tst_report_never#:#Nema dostupnih rezultata testa
 assessment#:#tst_reporting_date#:#Datum
 assessment#:#tst_res_jump_to_participant_btn#:#Skoči na
-assessment#:#tst_res_jump_to_participant_hint_opt#:#--Skoči na sudionika--
+assessment#:#tst_res_jump_to_participant_hint_opt#:#Skoči na sudionika
 assessment#:#tst_res_lo_objectives_header#:#Relevantni ciljevi učenja
 assessment#:#tst_res_lo_try_header#:#Pokušaj
 assessment#:#tst_res_lo_try_n#:#Pokušaj %s

@@ -18,18 +18,18 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Exercise\Setup;
+//namespace ILIAS\Exercise\Setup;
 
 use ILIAS\Setup;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
  */
-class Agent extends Setup\Agent\NullAgent
+class ilExerciseSetupAgent extends Setup\Agent\NullAgent
 {
     public function getUpdateObjective(Setup\Config $config = null): Setup\Objective
     {
-        return new \ilDatabaseUpdateStepsExecutedObjective(new ilExerciseDBUpdateSteps());
+        return new \ilDatabaseUpdateStepsExecutedObjective(new \ILIAS\Exercise\Setup\ilExerciseDBUpdateSteps());
     }
 
     public function getMigrations(): array

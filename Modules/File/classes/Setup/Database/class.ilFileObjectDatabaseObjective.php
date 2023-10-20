@@ -169,6 +169,15 @@ class ilFileObjectDatabaseObjective implements ilDatabaseUpdateSteps
         }
     }
 
+    public function step_5(): void
+    {
+        // replace wrong suffixes. currently they are stored with e.g. icon_file_docx and should be docx.
+        // update the whole table with a replace statement.
+        $this->database->manipulate(
+            "UPDATE il_file_icon_suffixes SET suffix = REPLACE(suffix, 'icon_file_', '') WHERE suffix LIKE 'icon_file_%';"
+        );
+    }
+
     /**
      * Halts the execution of these update steps if no database was
      * provided.

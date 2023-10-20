@@ -179,7 +179,7 @@
 <Style Tag="img" Type="page_lnavimage" Class="LeftNavigationImage">
 	<StyleParameter Name="background-position" Value="left 1px"/>
 	<StyleParameter Name="background-repeat" Value="no-repeat"/>
-	<StyleParameter Name="background-image" Value="nav_arr_L_s.png"/>
+	<StyleParameter Name="background-image" Value="nav/nav_arr_L_s.png"/>
 	<StyleParameter Name="width" Value="16px"/>
 	<StyleParameter Name="height" Value="16px"/>
 </Style>
@@ -192,7 +192,7 @@
 <Style Tag="img" Type="page_rnavimage" Class="RightNavigationImage">
 	<StyleParameter Name="background-position" Value="right 1px"/>
 	<StyleParameter Name="background-repeat" Value="no-repeat"/>
-	<StyleParameter Name="background-image" Value="nav_arr_R_s.png"/>
+	<StyleParameter Name="background-image" Value="nav/nav_arr_R_s.png"/>
 	<StyleParameter Name="width" Value="16px"/>
 	<StyleParameter Name="height" Value="16px"/>
 </Style>
@@ -569,7 +569,7 @@
 	<StyleParameter Name="padding-top" Value="10px"/>
 	<StyleParameter Name="padding-right" Value="20px"/>
 	<StyleParameter Name="padding-left" Value="20px"/>
-	<StyleParameter Name="background-image" Value="advknow.png"/>
+	<StyleParameter Name="background-image" Value="contentstyle/advknow.png"/>
 	<StyleParameter Name="background-repeat" Value="no-repeat"/>
 	<StyleParameter Name="background-position" Value="top right"/>	
 </Style>

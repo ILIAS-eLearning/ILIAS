@@ -33,7 +33,6 @@ class ilADTFloatSearchBridgeSingle extends ilADTSearchBridgeSingle
         if ($min !== null) {
             $number->setMinValue($min);
         }
-
         $max = $def->getMax();
         if ($max !== null) {
             $number->setMaxValue($max);
@@ -42,9 +41,7 @@ class ilADTFloatSearchBridgeSingle extends ilADTSearchBridgeSingle
             $number->setSize($length);
             $number->setMaxLength($length);
         }
-
-        $number->setValue($this->getADT()->getNumber());
-
+        $number->setValue((string) $this->getADT()->getNumber());
         $this->addToParentElement($number);
     }
 

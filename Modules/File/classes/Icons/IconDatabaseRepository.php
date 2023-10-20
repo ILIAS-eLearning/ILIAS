@@ -208,7 +208,7 @@ class IconDatabaseRepository extends IconAbstractRepository
     public function getIconFilePathBySuffix(string $suffix): string
     {
         if ($suffix !== "") {
-            $icon = self::getActiveIconForSuffix($suffix);
+            $icon = $this->getActiveIconForSuffix($suffix);
             if (!$icon instanceof NullIcon) {
                 $resource_identification = $this->irss->manage()->find($icon->getRid());
                 if ($resource_identification !== null) {
@@ -218,7 +218,7 @@ class IconDatabaseRepository extends IconAbstractRepository
                 }
             }
         }
-        return $path_default_file_icon = ilUtil::getImagePath("icon_file.svg");
+        return $path_default_file_icon = ilUtil::getImagePath("standard/icon_file.svg");
     }
 
     public function updateIcon(string $a_rid, bool $a_active, bool $a_is_default_icon, array $a_suffixes): Icon

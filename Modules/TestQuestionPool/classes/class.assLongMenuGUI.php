@@ -16,6 +16,9 @@
  *
  *********************************************************************/
 
+use ILIAS\UI\Renderer as UIRenderer;
+use ILIAS\UI\Component\Symbol\Glyph\Factory as GlyphFactory;
+
 require_once './Modules/Test/classes/inc.AssessmentConstants.php';
 
 /**
@@ -28,6 +31,8 @@ require_once './Modules/Test/classes/inc.AssessmentConstants.php';
 class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjustable
 {
     private $ilTabs;
+    private GlyphFactory $glyph_factory;
+    private UIRenderer $renderer;
 
     public function __construct($id = -1)
     {
@@ -36,11 +41,15 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
         if ($id >= 0) {
             $this->object->loadFromDb($id);
         }
+        /** @var ILIAS\DI\Container $DIC */
         global $DIC;
         $ilTabs = $DIC['ilTabs'];
         $lng = $DIC['lng'];
         $this->ilTabs = $ilTabs;
         $this->lng = $lng;
+        $this->glyph_factory = $DIC['ui.factory']->symbol()->glyph();
+        $this->renderer = $DIC['ui.renderer'];
+
     }
 
     /**
@@ -272,6 +281,12 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
         $tpl->setVariable('MISSING_VALUE', $this->lng->txt('msg_input_is_required'));
         $tpl->setVariable('SAVE', $this->lng->txt('save'));
         $tpl->setVariable('CANCEL', $this->lng->txt('cancel'));
+        $tpl->setVariable('ADD_BUTTON', $this->renderer->render(
+            $this->glyph_factory->add()->withAction('#')
+        ));
+        $tpl->setVariable('REMOVE_BUTTON', $this->renderer->render(
+            $this->glyph_factory->remove()->withAction('#')
+        ));
         $tag_input = new ilTagInputGUI();
         $tag_input->setPostVar('taggable');
         $tag_input->setJsSelfInit(false);
@@ -326,8 +341,7 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
         $template = new ilTemplate("tpl.il_as_qpl_longmenu_question_output_solution.html", true, true, "Modules/TestQuestionPool");
 
         if ($show_question_text) {
-            $question_text = $this->object->getQuestion();
-            $template->setVariable("QUESTIONTEXT", ilLegacyFormElementsUtil::prepareTextareaOutput($question_text, true));
+            $template->setVariable("QUESTIONTEXT", $this->object->getQuestionForHTMLOutput());
         }
         if (($active_id > 0) && (!$show_correct_solution)) {
             $correct_solution = $this->getUserSolution($active_id, $pass);
@@ -415,8 +429,7 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
             . json_encode($this->object->getAvailableAnswerOptions())
             . ')');
 
-        $question_text = $this->object->getQuestion();
-        $template->setVariable("QUESTIONTEXT", ilLegacyFormElementsUtil::prepareTextareaOutput($question_text, true));
+        $template->setVariable("QUESTIONTEXT", $this->object->getQuestionForHTMLOutput());
         $template->setVariable('LONGMENU_TEXT', $this->getLongMenuTextWithInputFieldsInsteadOfGaps($user_solution));
         return $template;
     }

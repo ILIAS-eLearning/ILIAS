@@ -1,5 +1,5 @@
-import ACTIONS from "../actions/placeholder-action-types.js";
-import PAGE_ACTIONS from "../../page/actions/page-action-types.js";
+import ACTIONS from '../actions/placeholder-action-types.js';
+import PAGE_ACTIONS from '../../page/actions/page-action-types.js';
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,58 +15,55 @@ import PAGE_ACTIONS from "../../page/actions/page-action-types.js";
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- *********************************************************************/
+ ******************************************************************** */
 
 /**
  * placeholder ui
  */
-export default class MediaUI {
-
-
-    /**
+export default class PlaceholderUI {
+  /**
      * @type {boolean}
      */
-    //debug = true;
+  // debug = true;
 
-    /**
+  /**
      * Model
      * @type {PageModel}
      */
-    //page_model = {};
+  // page_model = {};
 
-    /**
+  /**
      * UI model
      * @type {Object}
      */
-    //uiModel = {};
+  // uiModel = {};
 
-    /**
+  /**
      * @type {Client}
      */
-    //client;
+  // client;
 
-    /**
+  /**
      * @type {Dispatcher}
      */
-    //dispatcher;
+  // dispatcher;
 
-    /**
+  /**
      * @type {ActionFactory}
      */
-    //actionFactory;
+  // actionFactory;
 
-    /**
+  /**
      * @type {ToolSlate}
      */
-    //toolSlate;
+  // toolSlate;
 
-    /**
+  /**
      * @type {pageModifier}
      */
-//  pageModifier;
+  //  pageModifier;
 
-
-    /**
+  /**
      * @param {Client} client
      * @param {Dispatcher} dispatcher
      * @param {ActionFactory} actionFactory
@@ -74,54 +71,52 @@ export default class MediaUI {
      * @param {ToolSlate} toolSlate
      * @param {PageModifier} pageModifier
      */
-    constructor(client, dispatcher, actionFactory, page_model, toolSlate, pageModifier) {
-        this.debug = true;
-        this.client = client;
-        this.dispatcher = dispatcher;
-        this.actionFactory = actionFactory;
-        this.page_model = page_model;
-        this.toolSlate = toolSlate;
-        this.pageModifier = pageModifier;
-        this.uiModel = {};
-    }
+  constructor(client, dispatcher, actionFactory, page_model, toolSlate, pageModifier) {
+    this.debug = true;
+    this.client = client;
+    this.dispatcher = dispatcher;
+    this.actionFactory = actionFactory;
+    this.page_model = page_model;
+    this.toolSlate = toolSlate;
+    this.pageModifier = pageModifier;
+    this.uiModel = {};
+  }
 
-    //
-    // Initialisation
-    //
+  //
+  // Initialisation
+  //
 
-    /**
+  /**
      * @param message
      */
-    log(message) {
-        if (this.debug) {
-            console.log(message);
-        }
+  log(message) {
+    if (this.debug) {
+      console.log(message);
     }
+  }
 
-
-    /**
+  /**
      */
-    init(uiModel) {
-        this.log("placeholder-ui.init");
+  init(uiModel) {
+    this.log('placeholder-ui.init');
 
-        const action = this.actionFactory;
-        const dispatch = this.dispatcher;
+    const action = this.actionFactory;
+    const dispatch = this.dispatcher;
 
-        this.uiModel = uiModel;
-        let t = this;
-    }
+    this.uiModel = uiModel;
+    const t = this;
+  }
 
-    /**
+  /**
      */
-    reInit() {
-    }
+  reInit() {
+  }
 
-    hidePlaceholder(pcid) {
-        this.pageModifier.hideComponent(pcid);
-    }
+  hidePlaceholder(pcid) {
+    this.pageModifier.hideComponent(pcid);
+  }
 
-    showPlaceholder(pcid) {
-        this.pageModifier.showComponent(pcid);
-    }
-
+  showPlaceholder(pcid) {
+    this.pageModifier.showComponent(pcid);
+  }
 }

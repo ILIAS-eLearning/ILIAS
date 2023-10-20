@@ -246,8 +246,8 @@ class ilSCORM2004TrackingItemsTableGUI extends ilTable2GUI
 
     protected function fillRowExcel(ilExcel $a_excel, int &$a_row, array $a_set): void
     {
-//        $lng = $this->lng;
-//        $lng->loadLanguageModule("trac");
+        //        $lng = $this->lng;
+        //        $lng->loadLanguageModule("trac");
         $cnt = 0;
         foreach ($this->getSelectedColumns() as $c) {
             if ($c !== 'status') {
@@ -272,8 +272,8 @@ class ilSCORM2004TrackingItemsTableGUI extends ilTable2GUI
 
     protected function fillRowCSV(ilCSVWriter $a_csv, array $a_set): void
     {
-//        $lng = $this->lng;
-//        $lng->loadLanguageModule("trac");
+        //        $lng = $this->lng;
+        //        $lng->loadLanguageModule("trac");
         foreach ($this->getSelectedColumns() as $c) {
             if ($c !== 'status') {
                 $val = $this->parseValue($c, $a_set[$c], "user");

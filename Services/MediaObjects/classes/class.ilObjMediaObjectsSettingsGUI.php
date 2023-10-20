@@ -24,6 +24,7 @@
  */
 class ilObjMediaObjectsSettingsGUI extends ilObjectGUI
 {
+    protected \ILIAS\MediaObjects\MediaType\MediaTypeManager $media_types;
     protected ilPropertyFormGUI $form;
     protected ilErrorHandling $error;
     protected ilTabsGUI $tabs;
@@ -47,6 +48,7 @@ class ilObjMediaObjectsSettingsGUI extends ilObjectGUI
         $this->lng->loadLanguageModule('mob');
         $this->lng->loadLanguageModule('mep');
         $this->lng->loadLanguageModule('content');
+        $this->media_types = $DIC->mediaObjects()->internal()->domain()->mediaType();
     }
 
     public function executeCommand(): void
@@ -124,7 +126,6 @@ class ilObjMediaObjectsSettingsGUI extends ilObjectGUI
             $mset = new ilSetting("mobs");
             $mset->set("mep_activate_pages", $this->form->getInput("activate_pages"));
             $mset->set("file_manager_always", $this->form->getInput("file_manager_always"));
-            $mset->set("restricted_file_types", $this->form->getInput("restricted_file_types"));
             $mset->set("black_list_file_types", $this->form->getInput("black_list_file_types"));
 
             $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
@@ -158,15 +159,19 @@ class ilObjMediaObjectsSettingsGUI extends ilObjectGUI
         $this->form->addItem($cb);
 
         // allowed file types
+        /*
         $ta = new ilTextAreaInputGUI($this->lng->txt("mobs_restrict_file_types"), "restricted_file_types");
         //$ta->setCols();
         //$ta->setRows();
         $ta->setInfo($this->lng->txt("mobs_restrict_file_types_info"));
-        $this->form->addItem($ta);
+        $this->form->addItem($ta);*/
 
         // black lis file types
         $ta = new ilTextAreaInputGUI($this->lng->txt("mobs_black_list_file_types"), "black_list_file_types");
-        $ta->setInfo($this->lng->txt("mobs_black_list_file_types_info"));
+        $ta->setInfo(
+            $this->lng->txt("mobs_black_list_file_types_and_allowed_info") .
+            " " . implode(", ", iterator_to_array($this->media_types->getAllowedMimeTypes()))
+        );
         $this->form->addItem($ta);
 
         if ($ilAccess->checkAccess('write', '', $this->object->getRefId())) {

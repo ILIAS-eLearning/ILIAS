@@ -94,7 +94,7 @@ class ilLTIConsumerContentGUI
                 if (ilSession::get('lti13_login_data') != null) {
                     $form = $this->getLoginLTI13Form();
                     if ($form == null) {
-//                        $this->dic->ui()->mainTemplate()->setOnScreenMessage('failure', 'initialLogin Error: ' . $err, true);
+                        //                        $this->dic->ui()->mainTemplate()->setOnScreenMessage('failure', 'initialLogin Error: ' . $err, true);
                         $this->dic->ui()->mainTemplate()->setOnScreenMessage('failure', 'initialLogin Error: ', true);
                     } else {
                         $response = $this->dic->http()->response()->withBody(ILIAS\Filesystem\Stream\Streams::ofString($form));
@@ -177,7 +177,7 @@ class ilLTIConsumerContentGUI
         $returnUrl = !$this->object->isLaunchMethodOwnWin() ? '' : str_replace(
             '&amp;',
             '&',
-            ILIAS_HTTP_PATH . "/" . $this->dic->ctrl()->getLinkTarget($this, "", "", false)
+            ilObjLTIConsumer::getIliasHttpPath() . "/" . $this->dic->ctrl()->getLinkTarget($this, "", "", false)
         );
 
         $launchParameters = $this->object->buildLaunchParameters(
@@ -231,7 +231,7 @@ class ilLTIConsumerContentGUI
         $returnUrl = !$this->object->isLaunchMethodOwnWin() ? '' : str_replace(
             '&amp;',
             '&',
-            ILIAS_HTTP_PATH . "/" . $this->dic->ctrl()->getLinkTarget($this, "", "", false)
+            ilObjLTIConsumer::getIliasHttpPath() . "/" . $this->dic->ctrl()->getLinkTarget($this, "", "", false)
         );
 
         $target = $this->object->getLaunchMethod() == "newWin" ? "_blank" : "_self";
@@ -239,7 +239,7 @@ class ilLTIConsumerContentGUI
         $ltiMessageHint = (string) $this->object->getRefId() . ":" . CLIENT_ID;
         ilSession::set('lti_message_hint', $ltiMessageHint);
         $output = '<form id="lti_launch_form" name="lti_launch_form" action="' . $this->object->getProvider()->getInitiateLogin() . '" method="post" target="' . $target . '" encType="application/x-www-form-urlencoded">';
-        $output .= sprintf('<input type="hidden" name="%s" value="%s" />', 'iss', ILIAS_HTTP_PATH) . "\n";
+        $output .= sprintf('<input type="hidden" name="%s" value="%s" />', 'iss', ilObjLTIConsumer::getIliasHttpPath()) . "\n";
         $output .= sprintf('<input type="hidden" name="%s" value="%s" />', 'target_link_uri', $this->object->getProvider()->getProviderUrl()) . "\n";
         $output .= sprintf('<input type="hidden" name="%s" value="%s" />', 'login_hint', $user_ident) . "\n";
         $output .= sprintf('<input type="hidden" name="%s" value="%s" />', 'lti_message_hint', $ltiMessageHint) . "\n";
@@ -273,7 +273,7 @@ class ilLTIConsumerContentGUI
         $ltiMessageHint = (string) $this->object->getRefId() . ":" . CLIENT_ID;
         ilSession::set('lti_message_hint', $ltiMessageHint);
         $output = '<form id="lti_launch_form" name="lti_launch_form" action="' . $this->object->getProvider()->getInitiateLogin() . '" method="post" target="' . $target . '" encType="application/x-www-form-urlencoded">';
-        $output .= sprintf('<input type="hidden" name="%s" value="%s" />', 'iss', ILIAS_HTTP_PATH) . "\n";
+        $output .= sprintf('<input type="hidden" name="%s" value="%s" />', 'iss', ilObjLTIConsumer::getIliasHttpPath()) . "\n";
         $output .= sprintf('<input type="hidden" name="%s" value="%s" />', 'target_link_uri', $this->object->getProvider()->getProviderUrl()) . "\n";
         $output .= sprintf('<input type="hidden" name="%s" value="%s" />', 'login_hint', $user_ident) . "\n";
         $output .= sprintf('<input type="hidden" name="%s" value="%s" />', 'lti_message_hint', $ltiMessageHint) . "\n";
@@ -310,7 +310,7 @@ class ilLTIConsumerContentGUI
             $tpl->setVariable("DELOS_CSS_HREF", 'templates/default/delos.css' . $v);
             $tpl->setVariable("JQUERY_SRC", 'node_modules/jquery/dist/jquery.js' . $v);
 
-            $tpl->setVariable("LOADER_ICON_SRC", ilUtil::getImagePath("loader.svg"));
+            $tpl->setVariable("LOADER_ICON_SRC", ilUtil::getImagePath("media/loader.svg"));
             $tpl->setVariable('LAUNCH_URL', $this->object->getProvider()->getProviderUrl());
 
             #$DIC->ui()->mainTemplate()->getStandardTemplate();

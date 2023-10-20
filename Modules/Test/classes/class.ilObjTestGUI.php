@@ -68,7 +68,7 @@ require_once './Modules/Test/classes/inc.AssessmentConstants.php';
  *
  * @ingroup ModulesTest
  */
-class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
+class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDesktopItemHandling
 {
     private static $infoScreenChildClasses = array(
         'ilpublicuserprofilegui', 'ilobjportfoliogui'
@@ -121,6 +121,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
         $this->questioninfo = $DIC->testQuestionPool()->questionInfo();
         $this->type = 'tst';
         $this->testrequest = $DIC->test()->internal()->request();
+
         $ref_id = 0;
         if ($this->testrequest->hasRefId() && is_numeric($this->testrequest->getRefId())) {
             $ref_id = $this->testrequest->getRefId();
@@ -153,7 +154,8 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
                 $this->lng,
                 $this->logging_services->root(),
                 $this->component_repository,
-                $this->object
+                $this->object,
+                $this->questioninfo
             );
 
             $this->test_player_factory = new ilTestPlayerFactory($this->object);
@@ -268,7 +270,8 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
                     $this->obj_data_cache,
                     $this->component_repository,
                     $this->component_factory->getActivePluginsInSlot('texp'),
-                    $selected_files
+                    $selected_files,
+                    $this->questioninfo
                 );
                 $this->ctrl->forwardCommand($export_gui);
                 break;
@@ -345,7 +348,8 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
                     $this->ui_factory,
                     $this->ui_renderer,
                     $this->skills_service,
-                    $this->testrequest
+                    $this->testrequest,
+                    $this->questioninfo
                 );
 
                 $gui->setTestAccess($this->getTestAccess());
@@ -496,7 +500,8 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
                     $this->db,
                     $this->component_repository,
                     $this->user,
-                    $this
+                    $this,
+                    $this->questioninfo
                 );
                 $this->ctrl->forwardCommand($gui);
                 break;
@@ -556,7 +561,8 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
                     $this->obj_definition,
                     $this->obj_data_cache,
                     $test_process_locker_factory,
-                    $this->testrequest
+                    $this->testrequest,
+                    $this->questioninfo
                 );
                 $this->ctrl->forwardCommand($gui);
                 break;
@@ -602,6 +608,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
                     $this->tree,
                     $this->component_repository,
                     $this->getTestObject(),
+                    $this->questioninfo,
                     $this->ref_id
                 );
                 $this->ctrl->forwardCommand($gui);
@@ -860,7 +867,8 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
                     $this->refinery,
                     $this->request,
                     $this->testrequest,
-                    $this->getTestObject()
+                    $this->getTestObject(),
+                    $this->questioninfo
                 );
                 $this->ctrl->forwardCommand($gui);
                 break;
@@ -1022,6 +1030,18 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
         }
 
         $this->ctrl->redirectByClass('ilObjTestGUI', 'questions');
+    }
+
+    public function prepareOutput(bool $show_subobjects = true): bool
+    {
+        if (!$this->getCreationMode()) {
+            $settings = ilMemberViewSettings::getInstance();
+            if ($settings->isActive() && $settings->getContainer() != $this->object->getRefId()) {
+                $settings->setContainer($this->object->getRefId());
+                $this->rbac_system->initMemberView();
+            }
+        }
+        return parent::prepareOutput($show_subobjects);
     }
 
     private function userResultsGatewayObject()
@@ -1303,7 +1323,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
         $importVerificationTpl->setVariable("FOUND_QUESTIONS_INTRODUCTION", $this->lng->txt("tst_import_verify_found_questions"));
         $importVerificationTpl->setVariable("VERIFICATION_HEADING", $this->lng->txt("import_tst"));
         $importVerificationTpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-        $importVerificationTpl->setVariable("ARROW", ilUtil::getImagePath("arrow_downright.svg"));
+        $importVerificationTpl->setVariable("ARROW", ilUtil::getImagePath("nav/arrow_downright.svg"));
         $importVerificationTpl->setVariable("QUESTIONPOOL_ID", $QplOrTstID);
         $importVerificationTpl->setVariable("VALUE_IMPORT", $this->lng->txt("import"));
         $importVerificationTpl->setVariable("VALUE_CANCEL", $this->lng->txt("cancel"));
@@ -1426,7 +1446,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
         if (is_file(ilSession::get("tst_import_dir") . '/' . ilSession::get("tst_import_subdir") . "/manifest.xml")) {
             $newObj->saveToDb();
 
-            ilSession::set('tst_import_idents', $_POST['ident']);
+            ilSession::set('tst_import_idents', $_POST['ident'] ?? '');
             ilSession::set('tst_import_qst_parent', $questionParentObjId);
 
             $fileName = ilSession::get('tst_import_subdir') . '.zip';
@@ -1839,7 +1859,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
         if (count($removablequestions)) {
             foreach ($removablequestions as $data) {
                 if (in_array($data["question_id"], $checked_questions)) {
-                    $txt = $data["title"] . " (" . $this->questioninfo->getQuestionType($data["question_id"]) . ")";
+                    $txt = $data["title"] . " (" . $this->questioninfo->getQuestionTypeName($data["question_id"]) . ")";
                     $txt .= ' [' . $this->lng->txt('question_id_short') . ': ' . $data['question_id'] . ']';
 
                     if ($data["description"]) {
@@ -2155,7 +2175,8 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
             'questions',
             $this->object->getRefId(),
             $this->ui_factory,
-            $this->ui_renderer
+            $this->ui_renderer,
+            $this->questioninfo
         );
 
         $isset = ilSession::get('tst_qst_move_' . $this->object->getTestId()) !== null;
@@ -2885,7 +2906,6 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
         if ($this->create_question_mode) {
             return;
         }
-
         $this->ctrl->saveParameter($this, 'q_mode');
 
         $this->ctrl->setParameterByClass('iltestexpresspageobjectgui', 'test_express_mode', 1);
@@ -2923,19 +2943,15 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
                 $this->toolbar->addSeparator();
             }
 
-            $btn = ilLinkButton::getInstance();
-            $btn->setCaption("test_prev_question");
-            $btn->setUrl($this->ctrl->getLinkTargetByClass('iltestexpresspageobjectgui', 'prevQuestion'));
-            $this->toolbar->addButtonInstance($btn);
+            $btn = $this->ui[0]->linkButton()->standard($lng->txt("test_prev_question"), $this->ctrl->getLinkTargetByClass('iltestexpresspageobjectgui', 'prevQuestion'));
+            $this->toolbar->addComponent($btn);
 
             if (count($options) <= 1 || $optionKeys[0] == $qid) {
                 $btn->setDisabled(true);
             }
 
-            $btn = ilLinkButton::getInstance();
-            $btn->setCaption("test_next_question");
-            $btn->setUrl($this->ctrl->getLinkTargetByClass('iltestexpresspageobjectgui', 'nextQuestion'));
-            $this->toolbar->addButtonInstance($btn);
+            $btn = $this->ui[0]->linkButton()->standard($lng->txt("test_next_question"), $this->ctrl->getLinkTargetByClass('iltestexpresspageobjectgui', 'nextQuestion'));
+            $this->toolbar->addComponent($btn);
 
             if (count($options) <= 1 || $optionKeys[count($optionKeys) - 1] == $qid) {
                 $btn->setDisabled(true);

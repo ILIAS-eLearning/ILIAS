@@ -1163,8 +1163,6 @@ assessment#:#show_examview_html#:#Toon examenbeeld op de pagina waar toets wordt
 assessment#:#show_pass_overview#:#Toon gemarkeerde afgelopen toetsen
 assessment#:#show_user_answers#:#Toon gebruikers gemarkeerde antwoorden.
 assessment#:#shuffle_answers#:#Antwoorden mixen
-assessment#:#sign_submission#:#Digitaal handtekening voor voltooien toets
-assessment#:#sign_submission_info#:#Als dit is ingeschakeld, èn een handtekening plugin is geinstalleeerd and geactiveerd, moeten deelnemers de toets digitaal ondertekenen.
 assessment#:#skip_question#:#Do not Answer and Next###08 10 2015 new variable
 assessment#:#solutionText#:#Tekst
 assessment#:#solution_contain_keywords#:#Score is gebaseerd op het voorkomen van het volgende sleutelwoord:
@@ -1687,7 +1685,7 @@ assessment#:#tst_report_after_test#:#Rapporteer de score nadat de hele toets com
 assessment#:#tst_report_never#:#Geen toets resultaten beschikbaar
 assessment#:#tst_reporting_date#:#Date###06 02 2015 new variable
 assessment#:#tst_res_jump_to_participant_btn#:#Spring
-assessment#:#tst_res_jump_to_participant_hint_opt#:#--Spring naar deelnemer--
+assessment#:#tst_res_jump_to_participant_hint_opt#:#Spring naar deelnemer
 assessment#:#tst_res_lo_objectives_header#:#Relevant Learning Objectives###30 08 2015 new variable
 assessment#:#tst_res_lo_try_header#:#Attempt###30 08 2015 new variable
 assessment#:#tst_res_lo_try_n#:#Attempt %s###30 08 2015 new variable

@@ -99,16 +99,16 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
         } else {
             return false;
         }
-//        $ok = $this->executeQuery($sql, $stmt);
-//        if ($ok) {
-//            $rsConsumer = $stmt->get_result();
-//            $ok = $rsConsumer !== false;
-//            if ($ok) {
-//                $row = $rsConsumer->fetch_object();
-//                $ok = $row && ($allowMultiple || is_null($rsConsumer->fetch_object()));
-//            }
-//        }
-//        if ($ok) {
+        //        $ok = $this->executeQuery($sql, $stmt);
+        //        if ($ok) {
+        //            $rsConsumer = $stmt->get_result();
+        //            $ok = $rsConsumer !== false;
+        //            if ($ok) {
+        //                $row = $rsConsumer->fetch_object();
+        //                $ok = $row && ($allowMultiple || is_null($rsConsumer->fetch_object()));
+        //            }
+        //        }
+        //        if ($ok) {
         $res = $this->database->queryF($query, $types, $values);
         while ($row = $this->database->fetchObject($res)) {
             $platform->setRecordId(intval($row->consumer_pk));
@@ -166,30 +166,30 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
         return $ok;
     }
     #######
-//    /**
-//     * Load tool consumer settings
-//     * @param ilLTIPlatform $platform
-//     * @return bool
-//     */
-//    public function loadObjectToolConsumerSettings(ilLTIPlatform $platform) : bool
-//    {
-//        $this->loadGlobalToolConsumerSettings($platform);
-//
-//        $ilDB = $this->database;
-//
-//        $query = 'SELECT * from lti2_consumer where id = ' . $ilDB->quote($platform->getExtConsumerId(), 'integer');
-//        $res = $ilDB->query($query);
-//        while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-//            $platform->setTitle($row->title);
-//            $platform->setDescription($row->description);
-//            $platform->setPrefix($row->prefix);
-//            $platform->setLanguage($row->user_language);
-//            $platform->setRole($row->role);
-//            $platform->setActive((bool) $row->active);
-//            return true;
-//        }
-//        return false;
-//    }
+    //    /**
+    //     * Load tool consumer settings
+    //     * @param ilLTIPlatform $platform
+    //     * @return bool
+    //     */
+    //    public function loadObjectToolConsumerSettings(ilLTIPlatform $platform) : bool
+    //    {
+    //        $this->loadGlobalToolConsumerSettings($platform);
+    //
+    //        $ilDB = $this->database;
+    //
+    //        $query = 'SELECT * from lti2_consumer where id = ' . $ilDB->quote($platform->getExtConsumerId(), 'integer');
+    //        $res = $ilDB->query($query);
+    //        while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+    //            $platform->setTitle($row->title);
+    //            $platform->setDescription($row->description);
+    //            $platform->setPrefix($row->prefix);
+    //            $platform->setLanguage($row->user_language);
+    //            $platform->setRole($row->role);
+    //            $platform->setActive((bool) $row->active);
+    //            return true;
+    //        }
+    //        return false;
+    //    }
 
     /**
      * Load global tool consumer settings in consumer
@@ -214,96 +214,96 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
         return false;
     }
 
-//    /**
-//     * Load extended tool consumer object with ILIAS extension.
-//     * @param Platform $platform Platform object
-//     * @return boolean True if the tool consumer object was successfully loaded
-//     */
-//    public function loadToolConsumerILIAS(ilLTIPlatform $platform) : bool
-//    {
-//        global $DIC;
-//        $ilDB = $DIC->database(); // TODO PHP8 Review: Move Global Access to Constructor
-//
-//        $ok = false;
-//        $query = 'SELECT consumer_pk, name, consumer_key256, consumer_key, secret, lti_version, ' .
-//            'consumer_name, consumer_version, consumer_guid, ' .
-//            'profile, tool_proxy, settings, protected, enabled, ' .
-//            'enable_from, enable_until, last_access, created, updated, ' .
-//            'ext_consumer_id, ref_id ' .
-//            #'title, description, prefix, user_language, role, local_role_always_member, default_skin ' .
-//            'FROM lti2_consumer ' .
-//            #'FROM lti2_consumer, lti_ext_consumer ' .
-//            'WHERE ';
-//        #'WHERE lti_ext_consumer.id = consumer_pk AND ';
-//        if (!empty($platform->getRecordId())) {
-//            $query .= 'consumer_pk = %s';
-//            $types = array('integer');
-//            $values = array($platform->getRecordId());
-//        } else {
-//            $query .= 'consumer_key256 = %s';
-//            $types = array('text');
-//            $key256 = ilLTIDataConnector::getConsumerKey($platform->getKey());
-//            $values = array($key256);
-//        }
-//        // $rsConsumer = mysql_query($sql);
-//        $res = $ilDB->queryF($query, $types, $values);
-//        // if ($rsConsumer) {
-//        while ($row = $ilDB->fetchObject($res)) {
-//            // while ($row = mysql_fetch_object($rsConsumer)) {
-//            if (empty($key256) || empty($row->consumer_key) || ($platform->getKey() === $row->consumer_key)) {
-//                $platform->setRecordId(intval($row->consumer_pk));
-//                $platform->name = $row->name;
-//                $platform->setkey(empty($row->consumer_key) ? $row->consumer_key256 : $row->consumer_key);
-//                $platform->secret = $row->secret;
-//                $platform->ltiVersion = $row->lti_version;
-//                $platform->consumerName = $row->consumer_name;
-//                $platform->consumerVersion = $row->consumer_version;
-//                $platform->consumerGuid = $row->consumer_guid;
-//                $platform->profile = json_decode((string) $row->profile); // TODO PHP8 Review: Undefined Property
-//                $platform->toolProxy = $row->tool_proxy; // TODO PHP8 Review: Undefined Property
-//                $settings = unserialize($row->settings);
-//                if (!is_array($settings)) {
-//                    $settings = array();
-//                }
-//                $platform->setSettings($settings);
-//                $platform->protected = (intval($row->protected) === 1);
-//                $platform->enabled = (intval($row->enabled) === 1);
-//                $platform->enableFrom = null;
-//                if (!is_null($row->enable_from)) {
-//                    $platform->enableFrom = strtotime($row->enable_from);
-//                }
-//                $platform->enableUntil = null;
-//                if (!is_null($row->enable_until)) {
-//                    $platform->enableUntil = strtotime($row->enable_until);
-//                }
-//                $platform->lastAccess = null;
-//                if (!is_null($row->last_access)) {
-//                    $platform->lastAccess = strtotime($row->last_access);
-//                }
-//                $platform->created = strtotime($row->created);
-//                $platform->updated = strtotime($row->updated);
-//
-//                //ILIAS specific
-//                $platform->setExtConsumerId((int) $row->ext_consumer_id);
-//                $platform->setRefId((int) $row->ref_id);
-//                #$platform->setTitle($row->title);
-//                #$platform->setDescription($row->description);
-//                #$platform->setPrefix($row->prefix);
-//                #$platform->setLanguage($row->user_language);
-//                #$platform->setRole($row->role);
-//                // local_role_always_member
-//                // default_skin
-//
-//                $ok = true;
-//                break;
-//            }
-//            // }
-//            // mysql_free_result($rsConsumer);
-//        }
-//
-//        $this->loadGlobalToolConsumerSettings($platform);
-//        return $ok;
-//    }
+    //    /**
+    //     * Load extended tool consumer object with ILIAS extension.
+    //     * @param Platform $platform Platform object
+    //     * @return boolean True if the tool consumer object was successfully loaded
+    //     */
+    //    public function loadToolConsumerILIAS(ilLTIPlatform $platform) : bool
+    //    {
+    //        global $DIC;
+    //        $ilDB = $DIC->database(); // TODO PHP8 Review: Move Global Access to Constructor
+    //
+    //        $ok = false;
+    //        $query = 'SELECT consumer_pk, name, consumer_key256, consumer_key, secret, lti_version, ' .
+    //            'consumer_name, consumer_version, consumer_guid, ' .
+    //            'profile, tool_proxy, settings, protected, enabled, ' .
+    //            'enable_from, enable_until, last_access, created, updated, ' .
+    //            'ext_consumer_id, ref_id ' .
+    //            #'title, description, prefix, user_language, role, local_role_always_member, default_skin ' .
+    //            'FROM lti2_consumer ' .
+    //            #'FROM lti2_consumer, lti_ext_consumer ' .
+    //            'WHERE ';
+    //        #'WHERE lti_ext_consumer.id = consumer_pk AND ';
+    //        if (!empty($platform->getRecordId())) {
+    //            $query .= 'consumer_pk = %s';
+    //            $types = array('integer');
+    //            $values = array($platform->getRecordId());
+    //        } else {
+    //            $query .= 'consumer_key256 = %s';
+    //            $types = array('text');
+    //            $key256 = ilLTIDataConnector::getConsumerKey($platform->getKey());
+    //            $values = array($key256);
+    //        }
+    //        // $rsConsumer = mysql_query($sql);
+    //        $res = $ilDB->queryF($query, $types, $values);
+    //        // if ($rsConsumer) {
+    //        while ($row = $ilDB->fetchObject($res)) {
+    //            // while ($row = mysql_fetch_object($rsConsumer)) {
+    //            if (empty($key256) || empty($row->consumer_key) || ($platform->getKey() === $row->consumer_key)) {
+    //                $platform->setRecordId(intval($row->consumer_pk));
+    //                $platform->name = $row->name;
+    //                $platform->setkey(empty($row->consumer_key) ? $row->consumer_key256 : $row->consumer_key);
+    //                $platform->secret = $row->secret;
+    //                $platform->ltiVersion = $row->lti_version;
+    //                $platform->consumerName = $row->consumer_name;
+    //                $platform->consumerVersion = $row->consumer_version;
+    //                $platform->consumerGuid = $row->consumer_guid;
+    //                $platform->profile = json_decode((string) $row->profile); // TODO PHP8 Review: Undefined Property
+    //                $platform->toolProxy = $row->tool_proxy; // TODO PHP8 Review: Undefined Property
+    //                $settings = unserialize($row->settings);
+    //                if (!is_array($settings)) {
+    //                    $settings = array();
+    //                }
+    //                $platform->setSettings($settings);
+    //                $platform->protected = (intval($row->protected) === 1);
+    //                $platform->enabled = (intval($row->enabled) === 1);
+    //                $platform->enableFrom = null;
+    //                if (!is_null($row->enable_from)) {
+    //                    $platform->enableFrom = strtotime($row->enable_from);
+    //                }
+    //                $platform->enableUntil = null;
+    //                if (!is_null($row->enable_until)) {
+    //                    $platform->enableUntil = strtotime($row->enable_until);
+    //                }
+    //                $platform->lastAccess = null;
+    //                if (!is_null($row->last_access)) {
+    //                    $platform->lastAccess = strtotime($row->last_access);
+    //                }
+    //                $platform->created = strtotime($row->created);
+    //                $platform->updated = strtotime($row->updated);
+    //
+    //                //ILIAS specific
+    //                $platform->setExtConsumerId((int) $row->ext_consumer_id);
+    //                $platform->setRefId((int) $row->ref_id);
+    //                #$platform->setTitle($row->title);
+    //                #$platform->setDescription($row->description);
+    //                #$platform->setPrefix($row->prefix);
+    //                #$platform->setLanguage($row->user_language);
+    //                #$platform->setRole($row->role);
+    //                // local_role_always_member
+    //                // default_skin
+    //
+    //                $ok = true;
+    //                break;
+    //            }
+    //            // }
+    //            // mysql_free_result($rsConsumer);
+    //        }
+    //
+    //        $this->loadGlobalToolConsumerSettings($platform);
+    //        return $ok;
+    //    }
 
     /**
      * Lookup record id for global settings and ref_id
@@ -324,148 +324,148 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
         return null;
     }
 
-//    /**
-//     * Save platform object.
-//     * @param Platform $platform Consumer object
-//     * @return bool True if the tool consumer object was successfully saved
-//     */
-//    public function saveToolConsumer(\ILIAS\LTI\ToolProvider\Platform $platform) : bool
-//    {
-//        global $DIC;
-//        $ilDB = $DIC->database(); // TODO PHP8 Review: Move Global Access to Constructor
-//
-//        $id = $platform->getRecordId();
-//        $key = $platform->getKey();
-//        $key256 = ToolProvider\DataConnector\DataConnector::getConsumerKey($key);
-//        // $key256 = $this->getConsumerKey($key);
-//        if ($key === $key256) {
-//            $key = null;
-//        }
-//        $protected = ($platform->protected) ? 1 : 0;
-//        $enabled = ($platform->enabled) ? 1 : 0;
-//        $profile = (!empty($platform->profile)) ? json_encode($platform->profile) : null;
-//        $settingsValue = serialize($platform->getSettings());
-//        $time = time();
-//        $now = date("{$this->dateFormat} {$this->timeFormat}", $time);
-//        $from = null;
-//        if (!is_null($platform->enableFrom)) {
-//            $from = date("{$this->dateFormat} {$this->timeFormat}", $platform->enableFrom);
-//        }
-//        $until = null;
-//        if (!is_null($platform->enableUntil)) {
-//            $until = date("{$this->dateFormat} {$this->timeFormat}", $platform->enableUntil);
-//        }
-//        $last = null;
-//        if (!is_null($platform->lastAccess)) {
-//            $last = date($this->dateFormat, $platform->lastAccess);
-//        }
-//
-//        if (empty($id)) {
-//            $platform->setRecordId($ilDB->nextId('lti_ext_consumer'));
-//            $id = $platform->getRecordId();
-//            $platform->created = $time;
-//            $platform->updated = $time;
-//            if ($key256 == null) {
-//                $key256 = $id . ToolProvider\DataConnector\DataConnector::getRandomString(10);
-//            }
-//
-//            // $query = "INSERT INTO {$this->dbTableNamePrefix}" . $this->CONSUMER_TABLE_NAME . ' (consumer_key256, consumer_key, name, ' .
-//            $query = 'INSERT INTO lti2_consumer (consumer_key256, consumer_key, name, ' .
-//                'secret, lti_version, consumer_name, consumer_version, consumer_guid, profile, tool_proxy, settings, protected, enabled, ' .
-//                'enable_from, enable_until, last_access, created, updated, consumer_pk) ' .
-//                'VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)';
-//            $types = array("text",
-//                           "text",
-//                           "text",
-//                           "text",
-//                           "text",
-//                           "text",
-//                           "text",
-//                           "text",
-//                           "text",
-//                           "text",
-//                           "text",
-//                           "integer",
-//                           "integer",
-//                           "timestamp",
-//                           "timestamp",
-//                           "timestamp",
-//                           "timestamp",
-//                           "timestamp",
-//                           "integer"
-//            );
-//            $values = array($key256,
-//                            $key,
-//                            $platform->name,
-//                            $platform->secret,
-//                            $platform->ltiVersion,
-//                            $platform->consumerName,
-//                            $platform->consumerVersion,
-//                            $platform->consumerGuid,
-//                            $profile,
-//                            $platform->toolProxy, // TODO PHP8 Review: Undefined Property
-//                            $settingsValue,
-//                            $protected,
-//                            $enabled,
-//                            $from,
-//                            $until,
-//                            $last,
-//                            $now,
-//                            $now,
-//                            $id
-//            );
-//            $ilDB->manipulateF($query, $types, $values);
-//        } else {
-//            $platform->updated = $time;
-//
-//            $query = 'UPDATE lti2_consumer SET ' .
-//                'consumer_key256 = %s, consumer_key = %s, name = %s, ' .
-//                'secret= %s, lti_version = %s, consumer_name = %s, consumer_version = %s, consumer_guid = %s, ' .
-//                'profile = %s, tool_proxy = %s, settings = %s, protected = %s, enabled = %s, ' .
-//                'enable_from = %s, enable_until = %s, last_access = %s, updated = %s ' .
-//                'WHERE consumer_pk = %s';
-//            $types = array("text",
-//                           "text",
-//                           "text",
-//                           "text",
-//                           "text",
-//                           "text",
-//                           "text",
-//                           "text",
-//                           "text",
-//                           "text",
-//                           "text",
-//                           "integer",
-//                           "integer",
-//                           "timestamp",
-//                           "timestamp",
-//                           "timestamp",
-//                           "timestamp",
-//                           "integer"
-//            );
-//            $values = array($key256,
-//                            $key,
-//                            $platform->name,
-//                            $platform->secret,
-//                            $platform->ltiVersion,
-//                            $platform->consumerName,
-//                            $platform->consumerVersion,
-//                            $platform->consumerGuid,
-//                            $profile,
-//                            $platform->toolProxy, // TODO PHP8 Review: Undefined Property
-//                            $settingsValue,
-//                            $protected,
-//                            $enabled,
-//                            $from,
-//                            $until,
-//                            $last,
-//                            $now,
-//                            $id
-//            );
-//            $ilDB->manipulateF($query, $types, $values);
-//        }
-//        return true;
-//    }
+    //    /**
+    //     * Save platform object.
+    //     * @param Platform $platform Consumer object
+    //     * @return bool True if the tool consumer object was successfully saved
+    //     */
+    //    public function saveToolConsumer(\ILIAS\LTI\ToolProvider\Platform $platform) : bool
+    //    {
+    //        global $DIC;
+    //        $ilDB = $DIC->database(); // TODO PHP8 Review: Move Global Access to Constructor
+    //
+    //        $id = $platform->getRecordId();
+    //        $key = $platform->getKey();
+    //        $key256 = ToolProvider\DataConnector\DataConnector::getConsumerKey($key);
+    //        // $key256 = $this->getConsumerKey($key);
+    //        if ($key === $key256) {
+    //            $key = null;
+    //        }
+    //        $protected = ($platform->protected) ? 1 : 0;
+    //        $enabled = ($platform->enabled) ? 1 : 0;
+    //        $profile = (!empty($platform->profile)) ? json_encode($platform->profile) : null;
+    //        $settingsValue = serialize($platform->getSettings());
+    //        $time = time();
+    //        $now = date("{$this->dateFormat} {$this->timeFormat}", $time);
+    //        $from = null;
+    //        if (!is_null($platform->enableFrom)) {
+    //            $from = date("{$this->dateFormat} {$this->timeFormat}", $platform->enableFrom);
+    //        }
+    //        $until = null;
+    //        if (!is_null($platform->enableUntil)) {
+    //            $until = date("{$this->dateFormat} {$this->timeFormat}", $platform->enableUntil);
+    //        }
+    //        $last = null;
+    //        if (!is_null($platform->lastAccess)) {
+    //            $last = date($this->dateFormat, $platform->lastAccess);
+    //        }
+    //
+    //        if (empty($id)) {
+    //            $platform->setRecordId($ilDB->nextId('lti_ext_consumer'));
+    //            $id = $platform->getRecordId();
+    //            $platform->created = $time;
+    //            $platform->updated = $time;
+    //            if ($key256 == null) {
+    //                $key256 = $id . ToolProvider\DataConnector\DataConnector::getRandomString(10);
+    //            }
+    //
+    //            // $query = "INSERT INTO {$this->dbTableNamePrefix}" . $this->CONSUMER_TABLE_NAME . ' (consumer_key256, consumer_key, name, ' .
+    //            $query = 'INSERT INTO lti2_consumer (consumer_key256, consumer_key, name, ' .
+    //                'secret, lti_version, consumer_name, consumer_version, consumer_guid, profile, tool_proxy, settings, protected, enabled, ' .
+    //                'enable_from, enable_until, last_access, created, updated, consumer_pk) ' .
+    //                'VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)';
+    //            $types = array("text",
+    //                           "text",
+    //                           "text",
+    //                           "text",
+    //                           "text",
+    //                           "text",
+    //                           "text",
+    //                           "text",
+    //                           "text",
+    //                           "text",
+    //                           "text",
+    //                           "integer",
+    //                           "integer",
+    //                           "timestamp",
+    //                           "timestamp",
+    //                           "timestamp",
+    //                           "timestamp",
+    //                           "timestamp",
+    //                           "integer"
+    //            );
+    //            $values = array($key256,
+    //                            $key,
+    //                            $platform->name,
+    //                            $platform->secret,
+    //                            $platform->ltiVersion,
+    //                            $platform->consumerName,
+    //                            $platform->consumerVersion,
+    //                            $platform->consumerGuid,
+    //                            $profile,
+    //                            $platform->toolProxy, // TODO PHP8 Review: Undefined Property
+    //                            $settingsValue,
+    //                            $protected,
+    //                            $enabled,
+    //                            $from,
+    //                            $until,
+    //                            $last,
+    //                            $now,
+    //                            $now,
+    //                            $id
+    //            );
+    //            $ilDB->manipulateF($query, $types, $values);
+    //        } else {
+    //            $platform->updated = $time;
+    //
+    //            $query = 'UPDATE lti2_consumer SET ' .
+    //                'consumer_key256 = %s, consumer_key = %s, name = %s, ' .
+    //                'secret= %s, lti_version = %s, consumer_name = %s, consumer_version = %s, consumer_guid = %s, ' .
+    //                'profile = %s, tool_proxy = %s, settings = %s, protected = %s, enabled = %s, ' .
+    //                'enable_from = %s, enable_until = %s, last_access = %s, updated = %s ' .
+    //                'WHERE consumer_pk = %s';
+    //            $types = array("text",
+    //                           "text",
+    //                           "text",
+    //                           "text",
+    //                           "text",
+    //                           "text",
+    //                           "text",
+    //                           "text",
+    //                           "text",
+    //                           "text",
+    //                           "text",
+    //                           "integer",
+    //                           "integer",
+    //                           "timestamp",
+    //                           "timestamp",
+    //                           "timestamp",
+    //                           "timestamp",
+    //                           "integer"
+    //            );
+    //            $values = array($key256,
+    //                            $key,
+    //                            $platform->name,
+    //                            $platform->secret,
+    //                            $platform->ltiVersion,
+    //                            $platform->consumerName,
+    //                            $platform->consumerVersion,
+    //                            $platform->consumerGuid,
+    //                            $profile,
+    //                            $platform->toolProxy, // TODO PHP8 Review: Undefined Property
+    //                            $settingsValue,
+    //                            $protected,
+    //                            $enabled,
+    //                            $from,
+    //                            $until,
+    //                            $last,
+    //                            $now,
+    //                            $id
+    //            );
+    //            $ilDB->manipulateF($query, $types, $values);
+    //        }
+    //        return true;
+    //    }
 
     /**
      * Save lti_ext_consumer
@@ -521,7 +521,7 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
         $protected = ($platform->protected) ? 1 : 0;
         $enabled = ($platform->enabled) ? 1 : 0;
         $profile = (!empty($platform->profile)) ? json_encode($platform->profile) : null;
-//        $settingsValue = '{}';
+        //        $settingsValue = '{}';
         $this->fixPlatformSettings($platform, true);
         $settingsValue = json_encode($platform->getSettings());
         $this->fixPlatformSettings($platform, false);
@@ -680,6 +680,11 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
         $values = array($platform->getExtConsumerId());
         $ilDB->manipulateF($query, $types, $values);
 
+        $query = 'DELETE FROM lti2_consumer WHERE ext_consumer_id = %s';
+        $types = array("integer");
+        $values = array($platform->getExtConsumerId());
+        $ilDB->manipulateF($query, $types, $values);
+
         // delete all assigned lti consumers
         $platform->initialize();
         return true;
@@ -790,9 +795,9 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
         $values = array($platform->getRecordId());
         $ilDB->manipulateF($query, $types, $values);
 
-//        if ($ok) {
+        //        if ($ok) {
         $platform->initialize();
-//        }
+        //        }
 
         return true;
     }
@@ -905,29 +910,29 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
     ###  ToolProxy methods
     ###
 
-//    ###
-//    #    Load the tool proxy from the database
-//    ###
-//    public function loadToolProxy($toolProxy) : bool
-//    {
-//        return false;
-//    }
-//
-//    ###
-//    #    Save the tool proxy to the database
-//    ###
-//    public function saveToolProxy($toolProxy) : bool
-//    {
-//        return false;
-//    }
-//
-//    ###
-//    #    Delete the tool proxy from the database
-//    ###
-//    public function deleteToolProxy($toolProxy) : bool
-//    {
-//        return false;
-//    }
+    //    ###
+    //    #    Load the tool proxy from the database
+    //    ###
+    //    public function loadToolProxy($toolProxy) : bool
+    //    {
+    //        return false;
+    //    }
+    //
+    //    ###
+    //    #    Save the tool proxy to the database
+    //    ###
+    //    public function saveToolProxy($toolProxy) : bool
+    //    {
+    //        return false;
+    //    }
+    //
+    //    ###
+    //    #    Delete the tool proxy from the database
+    //    ###
+    //    public function deleteToolProxy($toolProxy) : bool
+    //    {
+    //        return false;
+    //    }
 
     ###
     ###  Context methods
@@ -1146,7 +1151,7 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
                 }
                 $resourceLink->setSettings($settings);
                 if (!is_null($row->primary_resource_link_pk)) {
-//                    $resourceLink->primaryResourceLinkId = intval($row->primary_resource_link_pk); //UK Check
+                    //                    $resourceLink->primaryResourceLinkId = intval($row->primary_resource_link_pk); //UK Check
                     $resourceLink->primaryResourceLinkId = (string) ($row->primary_resource_link_pk);
                 } else {
                     $resourceLink->primaryResourceLinkId = null;
@@ -1189,11 +1194,11 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
         $now = date("{$this->dateFormat} {$this->timeFormat}", $time);
         $settingsValue = serialize($resourceLink->getSettings());
         if (!is_null($resourceLink->getContext())) {
-//            $platformId = null;
+            //            $platformId = null;
             $platformId = strval($resourceLink->getPlatform()->getRecordId());
             $contextId = strval($resourceLink->getContext()->getRecordId());
         } elseif (!is_null($resourceLink->getContextId())) {
-//            $platformId = null;
+            //            $platformId = null;
             $platformId = strval($resourceLink->getPlatform()->getRecordId());
             $contextId = strval($resourceLink->getContextId());
         } else {
@@ -1261,7 +1266,7 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
         }
         $ok = (bool) $ilDB->manipulateF($query, $types, $values);
         $this->logger->debug('Update resource link with query: ' . $query);
-//        $this->logger->logStack();
+        //        $this->logger->logStack();
         $this->logger->dump($values, ilLogLevel::DEBUG);
         $this->logger->dump($ok, ilLogLevel::DEBUG);
 
@@ -1376,36 +1381,36 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
         return $users;
     }
 
-//    /**
-//     * Get array of shares defined for this resource link.
-//     * @param ResourceLink $resourceLink Resource_Link object
-//     * @return array Array of ResourceLinkShare objects
-//     */
-//    public function getSharesResourceLink(\ILIAS\LTI\Tool\ResourceLink $resourceLink) : array
-//    {
-//        global $DIC;
-//        $ilDB = $DIC->database();
-//
-//        $shares = array();
-//
-//        $query = 'SELECT consumer_pk, resource_link_pk, share_approved ' .
-//            "FROM {$this->dbTableNamePrefix}" . Tool\DataConnector\DataConnector::RESOURCE_LINK_TABLE_NAME . ' ' .
-//            'WHERE (primary_resource_link_pk = %s) ' .
-//            'ORDER BY consumer_pk';
-//        $types = array("integer");
-//        $values = array($resourceLink->getRecordId());
-//        $rsShare = $ilDB->queryF($query, $types, $values);
-//        if ($rsShare) {
-//            while ($row = $ilDB->fetchObject($rsShare)) {
-//                $share = new Tool\ResourceLinkShare();
-//                $share->resourceLinkId = intval($row->resource_link_pk);
-//                $share->approved = (intval($row->share_approved) === 1);
-//                $shares[] = $share;
-//            }
-//        }
-//
-//        return $shares;
-//    }
+    //    /**
+    //     * Get array of shares defined for this resource link.
+    //     * @param ResourceLink $resourceLink Resource_Link object
+    //     * @return array Array of ResourceLinkShare objects
+    //     */
+    //    public function getSharesResourceLink(\ILIAS\LTI\Tool\ResourceLink $resourceLink) : array
+    //    {
+    //        global $DIC;
+    //        $ilDB = $DIC->database();
+    //
+    //        $shares = array();
+    //
+    //        $query = 'SELECT consumer_pk, resource_link_pk, share_approved ' .
+    //            "FROM {$this->dbTableNamePrefix}" . Tool\DataConnector\DataConnector::RESOURCE_LINK_TABLE_NAME . ' ' .
+    //            'WHERE (primary_resource_link_pk = %s) ' .
+    //            'ORDER BY consumer_pk';
+    //        $types = array("integer");
+    //        $values = array($resourceLink->getRecordId());
+    //        $rsShare = $ilDB->queryF($query, $types, $values);
+    //        if ($rsShare) {
+    //            while ($row = $ilDB->fetchObject($rsShare)) {
+    //                $share = new Tool\ResourceLinkShare();
+    //                $share->resourceLinkId = intval($row->resource_link_pk);
+    //                $share->approved = (intval($row->share_approved) === 1);
+    //                $shares[] = $share;
+    //            }
+    //        }
+    //
+    //        return $shares;
+    //    }
 
 
     ###
@@ -1472,7 +1477,7 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
      * @param ResourceLinkShareKey $shareKey Resource_Link share key object
      * @return boolean True if the resource link share key object was successfully loaded
      */
-//    public function loadResourceLinkShareKey(\ILIAS\LTI\Tool\ResourceLinkShareKey $shareKey) : bool
+    //    public function loadResourceLinkShareKey(\ILIAS\LTI\Tool\ResourceLinkShareKey $shareKey) : bool
     public function loadResourceLinkShareKey(ResourceLinkShareKey $shareKey): bool
     {
         $ilDB = $this->database;
@@ -1512,7 +1517,7 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
      * @param ResourceLinkShareKey $shareKey Resource link share key object
      * @return boolean True if the resource link share key object was successfully saved
      */
-//    public function saveResourceLinkShareKey(\ILIAS\LTI\Tool\ResourceLinkShareKey $shareKey) : bool
+    //    public function saveResourceLinkShareKey(\ILIAS\LTI\Tool\ResourceLinkShareKey $shareKey) : bool
     public function saveResourceLinkShareKey(ResourceLinkShareKey $shareKey): bool
     {
         $ilDB = $this->database;
@@ -1616,7 +1621,7 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
         $time = time();
         $now = date($this->dateFormat . ' ' . $this->timeFormat, $time);
         if (is_null($userresult->created)) {
-//        if (is_null($user->getRecordId())) {
+            //        if (is_null($user->getRecordId())) {
             $userresult->setRecordId($ilDB->nextId($this->dbTableNamePrefix . ToolProvider\DataConnector\DataConnector::USER_RESULT_TABLE_NAME));
             $userresult->created = $time;
             $rid = $userresult->getResourceLink()->getRecordId();

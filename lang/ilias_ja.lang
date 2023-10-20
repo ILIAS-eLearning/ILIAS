@@ -1168,8 +1168,6 @@ assessment#:#show_examview_html#:#画面上に
 assessment#:#show_pass_overview#:#マークした試験状況を表示
 assessment#:#show_user_answers#:#マークしたユーザの解答を表示
 assessment#:#shuffle_answers#:#解答をシャッフル
-assessment#:#sign_submission#:#デジタル署名テスト送信
-assessment#:#sign_submission_info#:#アクティブ化されてシグネチャプラグインがインストール済で有効の場合に受験者はデジタル署名の提出を要求されます。
 assessment#:#skip_question#:#回答しないで次へ
 assessment#:#solutionText#:#テキスト
 assessment#:#solution_contain_keywords#:#点数は次のキーワードの発生を基準に承諾されます:
@@ -1693,7 +1691,7 @@ assessment#:#tst_report_after_test#:#テスト終了時にテスト結果を表�
 assessment#:#tst_report_never#:#利用可能なテスト結果がありません
 assessment#:#tst_reporting_date#:#日付
 assessment#:#tst_res_jump_to_participant_btn#:#ジャンプ
-assessment#:#tst_res_jump_to_participant_hint_opt#:#--受験者へジャンプ--
+assessment#:#tst_res_jump_to_participant_hint_opt#:#受験者へジャンプ
 assessment#:#tst_res_lo_objectives_header#:#関連する学習目標
 assessment#:#tst_res_lo_try_header#:#試み
 assessment#:#tst_res_lo_try_n#:#試み%s

@@ -30,16 +30,16 @@ use ILIAS\Skill\Profile\SkillProfile;
 class ContainerSkillFactory
 {
     public function skill(
-        int $cont_obj_id,
         int $skill_id,
         int $tref_id,
+        int $cont_obj_id = 0,
         string $title = "",
         SkillProfile $profile = null
     ): ContainerSkill {
         return new ContainerSkill(
-            $cont_obj_id,
             $skill_id,
             $tref_id,
+            $cont_obj_id,
             $title,
             $profile
         );

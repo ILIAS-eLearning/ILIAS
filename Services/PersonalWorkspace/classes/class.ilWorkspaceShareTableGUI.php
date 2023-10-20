@@ -90,9 +90,9 @@ class ilWorkspaceShareTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt("wsp_shared_title"), "title");
         $this->addColumn($this->lng->txt("wsp_shared_type"));
 
-        if (!$this->portfolio_mode) {
-            $this->addColumn($this->lng->txt("action"));
-        }
+        //if (!$this->portfolio_mode) {
+        $this->addColumn($this->lng->txt("action"));
+        //}
 
         $this->setDefaultOrderField("acl_date");
         $this->setDefaultOrderDirection("desc");
@@ -112,6 +112,14 @@ class ilWorkspaceShareTableGUI extends ilTable2GUI
             $this->filter["obj_type"] = "prtf";
         }
 
+        // see #38253
+        if ((isset($this->filter["user"]) && $this->filter["user"] !== "") ||
+            (isset($this->filter["title"]) && $this->filter["title"] !== "") ||
+            (isset($this->filter["acl_type"]) && $this->filter["acl_type"] !== "") ||
+            (isset($this->filter["acl_date"]) && $this->filter["acl_date"] !== "")) {
+            $a_load_data = true;
+        }
+
         // incoming request:  check for validity
         if ($a_load_data) {
             /*
@@ -128,7 +136,7 @@ class ilWorkspaceShareTableGUI extends ilTable2GUI
             $this->importData();
             return;
         } else {
-            $main_tpl->setOnScreenMessage('info', $lng->txt("wsp_shared_mandatory_filter_info"));
+            //$main_tpl->setOnScreenMessage('info', $lng->txt("wsp_shared_mandatory_filter_info"));
         }
 
         // initial state: show filters only
@@ -280,7 +288,6 @@ class ilWorkspaceShareTableGUI extends ilTable2GUI
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
-
         $this->tpl->setVariable("LASTNAME", $a_set["lastname"]);
         $this->tpl->setVariable("FIRSTNAME", $a_set["firstname"]);
         $this->tpl->setVariable("LOGIN", $a_set["login"]);
@@ -358,6 +365,17 @@ class ilWorkspaceShareTableGUI extends ilTable2GUI
             } else {
                 $this->tpl->touchBlock("action_col_bl");
             }
+        } else {
+            $ilCtrl->setParameter($this->parent_obj, "owner_id", $a_set["owner_id"]);
+            $ilCtrl->setParameter($this->parent_obj, "prt_id", $a_set["obj_id"]);
+            $b = $this->ui_factory->button()->shy(
+                $this->lng->txt("wsp_send_mail"),
+                $ilCtrl->getLinkTarget($this->parent_obj, "redirectSendMailToSharer")
+            );
+            $dd = $this->ui_factory->dropdown()->standard([$b]);
+            $this->tpl->setCurrentBlock("action_bl");
+            $this->tpl->setVariable("ACTION_DD", $this->renderer->render($dd));
+            $this->tpl->parseCurrentBlock();
         }
     }
 }

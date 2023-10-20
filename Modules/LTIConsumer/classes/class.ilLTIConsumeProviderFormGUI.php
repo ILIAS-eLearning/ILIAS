@@ -205,7 +205,7 @@ class ilLTIConsumeProviderFormGUI extends ilPropertyFormGUI
         $providerUrlInp->setValue($this->provider->getProviderUrl());
         $providerUrlInp->setRequired(true);
         $lti11->addSubItem($providerUrlInp);
-//        Abfrage ob Key und secret von Objekterstellern eingegeben werden soll
+        //        Abfrage ob Key und secret von Objekterstellern eingegeben werden soll
         $keyGlobal = new ilCheckboxInputGUI($lng->txt('lti_con_prov_provider_key_global'), 'provider_key_global');
         $keyGlobal->setValue("1");
         if (!$this->provider->isProviderKeyCustomizable()) {
@@ -277,7 +277,7 @@ class ilLTIConsumeProviderFormGUI extends ilPropertyFormGUI
         $item->addOption($op);
         $item->setValue((string) $this->provider->getPrivacyIdent());
         $item->setInfo(
-            $lng->txt('conf_privacy_ident_info') . ' ' . ilCmiXapiUser::getIliasUuid()
+            $lng->txt('conf_privacy_ident_info') . ' ' . ilCmiXapiUser::getIliasUuid() . '.ilias'
         );
         $item->setRequired(false);
         $this->addItem($item);
@@ -599,7 +599,7 @@ class ilLTIConsumeProviderFormGUI extends ilPropertyFormGUI
         $providerUrlInp->setValue($this->provider->getProviderUrl());
         $providerUrlInp->setRequired(true);
         $lti11->addSubItem($providerUrlInp);
-//        Abfrage ob Key und secret von Objekterstellern eingegeben werden soll
+        //        Abfrage ob Key und secret von Objekterstellern eingegeben werden soll
         $keyGlobal = new ilCheckboxInputGUI($lng->txt('lti_con_prov_provider_key_global'), 'provider_key_global');
         $keyGlobal->setValue("1");
         if (!$this->provider->isProviderKeyCustomizable()) {
@@ -671,7 +671,7 @@ class ilLTIConsumeProviderFormGUI extends ilPropertyFormGUI
         $item->addOption($op);
         $item->setValue((string) $this->provider->getPrivacyIdent());
         $item->setInfo(
-            $lng->txt('conf_privacy_ident_info') . ' ' . ilCmiXapiUser::getIliasUuid()
+            $lng->txt('conf_privacy_ident_info') . ' ' . ilCmiXapiUser::getIliasUuid() . '.ilias'
         );
         $item->setRequired(false);
         $this->addItem($item);
@@ -981,7 +981,7 @@ class ilLTIConsumeProviderFormGUI extends ilPropertyFormGUI
         $template->setVariable('LTI_REG_END_URL', ilObjLTIConsumer::getRegistrationEndUrl());
         $template->setVariable('LTI_SHOW_TOOL_CONFIG_URL', $showToolConfigUrl);
         $template->setVariable('LTI_REG_ERROR_URL', $regErrorUrl);
-        $DIC->ui()->mainTemplate()->setOnScreenMessage('info', $lng->txt('lti_dyn_reg_redirect_after_10_secs'));
+        //$DIC->ui()->mainTemplate()->setOnScreenMessage('info', $lng->txt('lti_dyn_reg_redirect_after_10_secs'));
         return $template->get() . $this->getHTML();
     }
 

@@ -1306,23 +1306,23 @@ class ilObjCmiXapi extends ilObject2
         // TODO check xapidel
     }
 
-//    /**
-//     * @return string[]
-//     */
-//    public function getRegistrations() : array
-//    {
-//        global $DIC;
-//        $res = $DIC->database()->queryF(
-//            "SELECT DISTINCT registration FROM " . self::DB_USERS_TABLE_NAME . " WHERE obj_id = %s",
-//            array('text'),
-//            array($this->getId())
-//        );
-//        $ret = [];
-//        while ($row = $DIC->database()->fetchAssoc($res)) {
-//            $ret[] = (string) $row['registration'];
-//        }
-//        return $ret;
-//    }
+    //    /**
+    //     * @return string[]
+    //     */
+    //    public function getRegistrations() : array
+    //    {
+    //        global $DIC;
+    //        $res = $DIC->database()->queryF(
+    //            "SELECT DISTINCT registration FROM " . self::DB_USERS_TABLE_NAME . " WHERE obj_id = %s",
+    //            array('text'),
+    //            array($this->getId())
+    //        );
+    //        $ret = [];
+    //        while ($row = $DIC->database()->fetchAssoc($res)) {
+    //            $ret[] = (string) $row['registration'];
+    //        }
+    //        return $ret;
+    //    }
 
     /**
      * @throws Exception

@@ -1165,8 +1165,6 @@ assessment#:#show_examview_html#:#Mostrar vista del examen del test en la págin
 assessment#:#show_pass_overview#:#Mostrar resumen de la ejecución seleccionada
 assessment#:#show_user_answers#:#Mostrar las respuestas marcadas del usuario
 assessment#:#shuffle_answers#:#Barajar respuestas
-assessment#:#sign_submission#:#Firmar digitalmente el test entregado
-assessment#:#sign_submission_info#:#Si está activado y el plugin de firma está disponible, los participantes deben utilizar su firma digital en las entregas.
 assessment#:#skip_question#:#No responder y Siguiente
 assessment#:#solutionText#:#Texto
 assessment#:#solution_contain_keywords#:#La puntuación se asignará por la aparición de las siguientes palabras clave:
@@ -1689,7 +1687,7 @@ assessment#:#tst_report_after_test#:#Informar de la puntuación después de real
 assessment#:#tst_report_never#:#No hay resultados del test disponibles
 assessment#:#tst_reporting_date#:#Fecha
 assessment#:#tst_res_jump_to_participant_btn#:#Saltar
-assessment#:#tst_res_jump_to_participant_hint_opt#:#--Saltar a participante--
+assessment#:#tst_res_jump_to_participant_hint_opt#:#Saltar a participante
 assessment#:#tst_res_lo_objectives_header#:#Objetivos de aprendizaje relevantes
 assessment#:#tst_res_lo_try_header#:#Intento
 assessment#:#tst_res_lo_try_n#:#Intento %s

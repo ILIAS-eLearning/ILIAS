@@ -22,6 +22,9 @@
  */
 abstract class ilUnitCategoryTableGUI extends ilTable2GUI
 {
+    private \ILIAS\UI\Factory $ui_factory;
+    private \ILIAS\UI\Renderer $ui_renderer;
+
     /**
      * @param ilUnitConfigurationGUI $controller
      * @param string                 $cmd
@@ -33,6 +36,8 @@ abstract class ilUnitCategoryTableGUI extends ilTable2GUI
          */
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
+        $this->ui_factory = $DIC->ui()->factory();
+        $this->ui_renderer = $DIC->ui()->renderer();
 
         $this->setId('ucats_' . $controller->getUniqueId());
 
@@ -81,12 +86,10 @@ abstract class ilUnitCategoryTableGUI extends ilTable2GUI
 
         $row['chb'] = ilLegacyFormElementsUtil::formCheckbox(false, 'category_ids[]', $row['category_id']);
 
-        $action = new ilAdvancedSelectionListGUI();
-        $action->setId('asl_content_' . $row['category_id']);
-        $action->setAsynch(false);
-        $action->setListTitle($this->lng->txt('actions'));
+        $actions = [];
+
         $ilCtrl->setParameter($this->getParentObject(), 'category_id', $row['category_id']);
-        $action->addItem($this->lng->txt('un_show_units'), '', $ilCtrl->getLinkTarget($this->getParentObject(), 'showUnitsOfCategory'));
+        $actions[] = $this->ui_factory->link()->standard($this->lng->txt('un_show_units'), $ilCtrl->getLinkTarget($this->getParentObject(), 'showUnitsOfCategory'));
         $ref_id = $DIC->testQuestionPool()->internal()->request()->getRefId();
         $type = ilObject::_lookupType($ref_id, true);
         if ($type === 'assf') {
@@ -97,15 +100,16 @@ abstract class ilUnitCategoryTableGUI extends ilTable2GUI
         }
         if ($this->getParentObject()->isCRUDContext()) {
             if ($hasAccess) {
-                $action->addItem($this->lng->txt('edit'), '', $ilCtrl->getLinkTarget($this->getParentObject(), 'showUnitCategoryModificationForm'));
-                $action->addItem($this->lng->txt('delete'), '', $ilCtrl->getLinkTarget($this->getParentObject(), 'confirmDeleteCategory'));
+                $actions[] = $this->ui_factory->link()->standard($this->lng->txt('edit'), $ilCtrl->getLinkTarget($this->getParentObject(), 'showUnitCategoryModificationForm'));
+                $actions[] = $this->ui_factory->link()->standard($this->lng->txt('delete'), $ilCtrl->getLinkTarget($this->getParentObject(), 'confirmDeleteCategory'));
             }
         } else {
-            $action->addItem($this->lng->txt('import'), '', $ilCtrl->getLinkTarget($this->getParentObject(), 'confirmImportGlobalCategory'));
+            $actions[] = $this->ui_factory->link()->standard($this->lng->txt('import'), $ilCtrl->getLinkTarget($this->getParentObject(), 'confirmImportGlobalCategory'));
         }
         $row['title_href'] = $ilCtrl->getLinkTarget($this->getParentObject(), 'showUnitsOfCategory');
         $ilCtrl->setParameter($this->getParentObject(), 'category_id', '');
-        $row['actions'] = $action->getHtml();
+        $dropdown = $this->ui_factory->dropdown()->standard($actions)->withLabel($this->lng->txt('actions'));
+        $row['actions'] = $this->ui_renderer->render($dropdown);
 
         parent::fillRow($row);
     }

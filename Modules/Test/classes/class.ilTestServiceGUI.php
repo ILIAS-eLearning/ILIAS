@@ -24,7 +24,6 @@ use ILIAS\HTTP\Services as HTTPServices;
 use ILIAS\GlobalScreen\Services as GlobalScreenServices;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Refinery\Transformation;
-use ILIAS\Refinery\Random\Seed\GivenSeed;
 use ILIAS\Test\InternalRequestService;
 use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper;
 use ILIAS\DI\LoggingServices;
@@ -78,6 +77,9 @@ class ilTestServiceGUI
     protected UIFactory $ui_factory;
     protected UIRenderer $ui_renderer;
     protected SkillService $skills_service;
+    protected ilTestShuffler $shuffler;
+    protected ilTestResultsFactory $results_factory;
+    protected ilTestResultsPresentationFactory $results_presentation_factory;
 
     protected ILIAS $ilias;
     protected ilSetting $settings;
@@ -140,19 +142,26 @@ class ilTestServiceGUI
         $this->rbac_system = $DIC['rbacsystem'];
         $this->obj_cache = $DIC['ilObjDataCache'];
         $this->skills_service = $DIC->skills();
-        $this->participant_access_filter = new ilTestParticipantAccessFilterFactory($DIC['ilAccess']);
         $this->post_wrapper = $DIC->http()->wrapper()->post();
-        $this->testrequest = $DIC->test()->internal()->request();
+
         $this->questioninfo = $DIC->testQuestionPool()->questionInfo();
         $this->service = new ilTestService($this->object, $this->db, $this->questioninfo);
-        $this->lng->loadLanguageModule('cert');
 
+        $this->lng->loadLanguageModule('cert');
         $this->ref_id = $this->object->getRefId();
-        $this->testrequest = $DIC->test()->internal()->request();
         $this->testSessionFactory = new ilTestSessionFactory($this->object, $this->db, $this->user);
         $this->testSequenceFactory = new ilTestSequenceFactory($this->object, $this->db, $this->questioninfo);
-
         $this->objective_oriented_container = null;
+
+        $this->ui_factory = $DIC['ui.factory'];
+        $this->ui_renderer = $DIC['ui.renderer'];
+
+        $local_dic = $object->getLocalDIC();
+        $this->testrequest = $local_dic['request.internal'];
+        $this->participant_access_filter = $local_dic['participantAccessFilterFactory'];
+        $this->shuffler = $local_dic['shuffler'];
+        $this->results_factory = $local_dic['factory.results'];
+        $this->results_presentation_factory = $local_dic['factory.results_presentation'];
     }
 
     public function setParticipantData(ilTestParticipantData $participantData): void
@@ -358,7 +367,8 @@ class ilTestServiceGUI
                     && is_numeric($question_id)) {
                     $maintemplate->setCurrentBlock("printview_question");
                     $question_gui = $this->object->createQuestionGUI("", $question_id);
-                    $question_gui->object->setShuffler($this->buildQuestionAnswerShuffler(
+
+                    $question_gui->object->setShuffler($this->shuffler->getAnswerShuffleFor(
                         (int) $question_id,
                         (int) $active_id,
                         (int) $pass
@@ -433,33 +443,6 @@ class ilTestServiceGUI
 
         $maintemplate->setVariable("RESULTS_OVERVIEW", $headerText);
         return $maintemplate->get();
-    }
-
-    protected function buildQuestionAnswerShuffler(
-        int $question_id,
-        int $active_id,
-        int $pass_id
-    ): Transformation {
-        $fixedSeed = $this->buildFixedShufflerSeed($question_id, $pass_id, $active_id);
-
-        return $this->refinery->random()->shuffleArray(new GivenSeed($fixedSeed));
-    }
-
-    protected function buildFixedShufflerSeed(int $question_id, int $pass_id, int $active_id): int
-    {
-        $seed = ($question_id + $pass_id) * $active_id;
-
-        if (is_float($seed) && is_float($seed = $active_id + $pass_id)) {
-            $seed = $active_id;
-        }
-
-        $div = ceil((10 ** (ilTestPlayerAbstractGUI::FIXED_SHUFFLER_SEED_MIN_LENGTH - 1)) / $seed);
-
-        if ($div > 1) {
-            $seed = $seed * ($div + $seed % 10);
-        }
-
-        return (int) $seed;
     }
 
     /**
@@ -622,7 +605,7 @@ class ilTestServiceGUI
             $template->setVariable("VALUE_DATE", ilDatePresentation::formatDate(new ilDate(time(), IL_CAL_UNIX)));
             ilDatePresentation::setUseRelativeDates($old_value);
             $template->setVariable("TXT_SIGNATURE", $this->lng->txt("tst_signature"));
-            $template->setVariable("IMG_SPACER", ilUtil::getImagePath("spacer.png"));
+            $template->setVariable("IMG_SPACER", ilUtil::getImagePath("media/spacer.png"));
             return $template->get();
         } else {
             return "";
@@ -675,7 +658,11 @@ class ilTestServiceGUI
 
         $invited_user = array_pop($this->object->getInvitedUsers($user_id));
         $title_client = '';
-        if (isset($invited_user['clientip']) && $invited_user["clientip"] !== '') {
+        if (is_array($invited_user)
+            && array_key_exists('clientip', $invited_user)
+            && is_string($invited_user['clientip'])
+            && trim($invited_user['clientip']) !== ''
+        ) {
             $template->setCurrentBlock("client_ip");
             $template->setVariable("TXT_CLIENT_IP", $this->lng->txt("client_ip"));
             $template->setVariable("VALUE_CLIENT_IP", $invited_user["clientip"]);
@@ -764,8 +751,16 @@ class ilTestServiceGUI
      * @param boolean $show_reached_points
      * @access public
      */
-    public function getResultsOfUserOutput($testSession, $active_id, $pass, $targetGUI, $show_pass_details = true, $show_answers = true, $show_question_only = false, $show_reached_points = false): string
-    {
+    public function getResultsOfUserOutput(
+        ilTestSession $testSession,
+        int $active_id,
+        int $pass,
+        ilParticipantsTestResultsGUI $targetGUI,
+        bool $show_pass_details = true,
+        bool $show_answers = true,
+        bool $show_question_only = false,
+        bool $show_reached_points = false
+    ): string {
         $template = new ilTemplate("tpl.il_as_tst_results_participant.html", true, true, "Modules/Test");
 
         if ($this->participantData instanceof ilTestParticipantData) {

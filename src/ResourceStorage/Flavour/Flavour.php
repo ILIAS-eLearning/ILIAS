@@ -22,6 +22,8 @@ namespace ILIAS\ResourceStorage\Flavour;
 use ILIAS\ResourceStorage\Consumer\StreamAccess\Token;
 use ILIAS\ResourceStorage\Flavour\Definition\FlavourDefinition;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
+use ILIAS\ResourceStorage\Consumer\StreamAccess\StreamResolver;
+use ILIAS\ResourceStorage\Revision\Revision;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
@@ -29,7 +31,7 @@ use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 class Flavour
 {
     private array $streams = [];
-    private array $tokens = [];
+    private array $stream_resolvers = [];
     private FlavourDefinition $definition;
     private ResourceIdentification $resource_id;
     private int $revision;
@@ -61,22 +63,25 @@ class Flavour
         return $this->resource_id;
     }
 
-    // Tokens
-    public function addAccessToken(int $index, Token $token): Flavour
+    public function withStreamResolver(int $index, ?StreamResolver $stream_resolver = null): Flavour
     {
-        $this->tokens[$index] = $token;
+        $this->stream_resolvers[$index] = $stream_resolver;
 
         return $this;
     }
 
-    /**
-     * @return Token[]
-     */
-    public function getAccessTokens(): array
+    public function maybeStreamResolver(int $index): ?StreamResolver
     {
-        return $this->tokens;
+        return $this->stream_resolvers[$index] ?? null;
     }
 
+    /**
+     * @return StreamResolver[]
+     */
+    public function getStreamResolvers(): array
+    {
+        return $this->stream_resolvers;
+    }
 
     public function getDefinition(): FlavourDefinition
     {

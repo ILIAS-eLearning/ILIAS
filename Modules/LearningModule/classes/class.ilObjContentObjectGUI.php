@@ -972,7 +972,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
         $form_gui = new ilChapterHierarchyFormGUI($this->lm->getType(), $this->requested_transl);
         $form_gui->setFormAction($ilCtrl->getFormAction($this));
         $form_gui->setTitle($this->lm->getTitle());
-        $form_gui->setIcon(ilUtil::getImagePath("icon_lm.svg"));
+        $form_gui->setIcon(ilUtil::getImagePath("standard/icon_lm.svg"));
         $form_gui->setTree($this->lm_tree);
         $form_gui->setMaxDepth(0);
         $this->tree->readRootId();
@@ -983,7 +983,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
         if ($this->lm->getLayoutPerPage()) {
             $form_gui->addMultiCommand($lng->txt("cont_set_layout"), "setPageLayoutInHierarchy");
         }
-        $form_gui->setDragIcon(ilUtil::getImagePath("icon_st.svg"));
+        $form_gui->setDragIcon(ilUtil::getImagePath("standard/icon_st.svg"));
         $form_gui->addCommand($lng->txt("cont_save_all_titles"), "saveAllTitles");
         $up_gui = "ilobjlearningmodulegui";
 
@@ -1373,7 +1373,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
             }
 
             $this->tpl->setCurrentBlock("operation");
-            $this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.svg"));
+            $this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("nav/arrow_downright.svg"));
             $this->tpl->parseCurrentBlock();
         }
     }
@@ -2644,10 +2644,11 @@ class ilObjContentObjectGUI extends ilObjectGUI
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
+        $help_map = $this->help->internal()->domain()->map();
 
         foreach ($this->edit_request->getScreenIds() as $chap => $ids) {
             $ids = explode("\n", $ids);
-            ilHelpMapping::saveScreenIdsForChapter($chap, $ids);
+            $help_map->saveScreenIdsForChapter($chap, $ids);
         }
         $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
         $ilCtrl->redirect($this, "showExportIdsOverview");
@@ -2675,7 +2676,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
         $ilToolbar->addFormButton($lng->txt("add"), "addTooltip");
         $ilToolbar->addSeparator();
 
-        $options = ilHelp::getTooltipComponents();
+        $options = $this->help->internal()->domain()->tooltips()->getTooltipComponents();
         if (ilSession::get("help_tt_comp") != "") {
             $options[ilSession::get("help_tt_comp")] = ilSession::get("help_tt_comp");
         }
@@ -2698,7 +2699,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
         $tt_id = $this->edit_request->getTooltipId();
         if (trim($tt_id) != "") {
             if (is_int(strpos($tt_id, "_"))) {
-                ilHelp::addTooltip(trim($tt_id), "");
+                $this->help->internal()->domain()->tooltips()->addTooltip(trim($tt_id), "");
                 $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
 
                 $fu = strpos($tt_id, "_");
@@ -2729,7 +2730,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 
         $tooltip_ids = $this->edit_request->getTooltipIds();
         foreach ($this->edit_request->getTooltipTexts() as $id => $text) {
-            ilHelp::updateTooltip(
+            $this->help->internal()->domain()->tooltips()->updateTooltip(
                 (int) $id,
                 $text,
                 $tooltip_ids[(int) $id]
@@ -2747,7 +2748,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
         $ids = $this->edit_request->getIds();
         if (count($ids) > 0) {
             foreach ($ids as $id) {
-                ilHelp::deleteTooltip($id);
+                $this->help->internal()->domain()->tooltips()->deleteTooltip($id);
             }
             $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
         }

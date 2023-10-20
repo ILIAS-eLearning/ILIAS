@@ -28,66 +28,92 @@ use ILIAS\MetaData\Elements\Markers\MarkableInterface;
 use ILIAS\MetaData\Elements\Markers\MarkerInterface;
 use ILIAS\MetaData\Repository\Dictionary\TagInterface;
 use ILIAS\MetaData\Elements\Markers\Action as MarkerAction;
-use ILIAS\MetaData\Repository\Dictionary\LOMDictionaryInitiator;
+use ILIAS\MetaData\Repository\Utilities\Queries\DatabaseQuerierInterface;
+use ILIAS\MetaData\Repository\Utilities\Queries\Assignments\AssignmentFactoryInterface;
+use ILIAS\MetaData\Repository\Utilities\Queries\Assignments\AssignmentRowInterface;
+use ILIAS\MetaData\Repository\Utilities\Queries\Assignments\Action;
 
 class DatabaseManipulator implements DatabaseManipulatorInterface
 {
     protected DictionaryInterface $dictionary;
-    protected QueryExecutorInterface $executor;
+    protected DatabaseQuerierInterface $querier;
+    protected AssignmentFactoryInterface $assignment_factory;
     protected \ilLogger $logger;
 
     public function __construct(
         DictionaryInterface $dictionary,
-        QueryExecutorInterface $executor,
+        DatabaseQuerierInterface $querier,
+        AssignmentFactoryInterface $assignment_factory,
         \ilLogger $logger
     ) {
         $this->dictionary = $dictionary;
-        $this->executor = $executor;
+        $this->querier = $querier;
+        $this->assignment_factory = $assignment_factory;
         $this->logger = $logger;
     }
 
     public function deleteAllMD(RessourceIDInterface $ressource_id): void
     {
-        $this->executor->deleteAll($ressource_id);
+        $this->querier->deleteAll($ressource_id);
     }
 
     public function manipulateMD(
         SetInterface $set
     ): void {
         foreach ($set->getRoot()->getSubElements() as $sub) {
-            $this->manipulateElementAndSubElements(
+            /**
+             * Note that the following is necessary here, since the function needs
+             * to run through fully before using the yielded rows, as the rows are
+             * filled after being yielded.
+             */
+            $rows = [];
+            foreach ($this->collectAssignmentsFromElementAndSubElements(
                 0,
-                $sub,
-                $set->getRessourceID(),
-                0
-            );
+                $sub
+            ) as $row) {
+                $rows[] = $row;
+            }
+            foreach ($rows as $row) {
+                $this->querier->manipulate(
+                    $set->getRessourceID(),
+                    $row
+                );
+            }
         }
     }
 
-    protected function manipulateElementAndSubElements(
+    /**
+     * @return AssignmentRowInterface[]
+     */
+    protected function collectAssignmentsFromElementAndSubElements(
         int $depth,
         ElementInterface $element,
-        RessourceIDInterface $ressource_id,
-        int $super_id,
-        int ...$parent_ids
-    ): void {
+        AssignmentRowInterface $current_row = null,
+        bool $delete_all = false
+    ): \Generator {
         if ($depth > 20) {
             throw new \ilMDStructureException('LOM Structure is nested to deep.');
         }
         $marker = $this->marker($element);
-        if (!isset($marker)) {
+        if (!isset($marker) && !$delete_all) {
             return;
         }
         $id = $element->getMDID();
-        if ($element->getDefinition()->name() === 'orComposite') {
-            $id = $this->getMDIDForOrComposite($element);
-        }
-        if ($element->getSuperElement()?->getDefinition()?->name() === 'orComposite') {
-            $id = $this->getMDIDForOrComposite($element->getSuperElement());
-        }
         $tag = $this->tag($element);
+        $table = $tag?->table() ?? '';
+        if ($table && $current_row?->table() !== $table) {
+            yield $current_row = $this->assignment_factory->row(
+                $table,
+                is_int($id) ? $id : 0,
+                $current_row?->id() ?? 0
+            );
+        }
 
-        switch ($marker->action()) {
+        $action = $marker?->action();
+        if ($delete_all) {
+            $action = MarkerAction::DELETE;
+        }
+        switch ($action) {
             case MarkerAction::NEUTRAL:
                 if ($element->isScaffold()) {
                     return;
@@ -95,150 +121,63 @@ class DatabaseManipulator implements DatabaseManipulatorInterface
                 break;
 
             case MarkerAction::CREATE_OR_UPDATE:
-                $id = $this->createOrUpdateElement(
-                    $element,
-                    $marker->dataValue(),
-                    $tag,
-                    $ressource_id,
-                    $super_id,
-                    ...$parent_ids
-                );
+                if (!is_null($tag)) {
+                    $this->createOrUpdateElement(
+                        $element,
+                        $tag,
+                        $marker->dataValue(),
+                        $current_row
+                    );
+                }
                 break;
 
             case MarkerAction::DELETE:
-                $this->deleteElementAndSubElements(
-                    $element,
-                    $ressource_id,
-                    $super_id,
-                    ...$parent_ids
-                );
-                return;
+                if (!is_null($tag)) {
+                    $current_row->addAction($this->assignment_factory->action(
+                        Action::DELETE,
+                        $tag
+                    ));
+                }
+                $delete_all = true;
         }
 
-        $appended_parents = $parent_ids;
-        if ($tag->isParent()) {
-            $appended_parents[] = $id;
-        }
         foreach ($element->getSubElements() as $sub) {
-            $this->manipulateElementAndSubElements(
+            yield from $this->collectAssignmentsFromElementAndSubElements(
                 $depth + 1,
                 $sub,
-                $ressource_id,
-                $id,
-                ...$appended_parents
+                $current_row,
+                $delete_all
             );
         }
     }
 
     protected function createOrUpdateElement(
         ElementInterface $element,
-        string $data_value,
         TagInterface $tag,
-        RessourceIDInterface $ressource_id,
-        int $super_id,
-        int ...$parent_ids
-    ): int {
-        if (!$element->isScaffold()) {
-            $id = $element->getMDID();
-            $this->executor->update(
-                $tag,
-                $ressource_id,
-                $id,
-                $data_value,
-                $super_id,
-                ...$parent_ids
-            );
-        } else {
-            $id = $this->executor->create(
-                $tag,
-                $ressource_id,
-                null,
-                $data_value,
-                $super_id,
-                ...$parent_ids
-            );
-        }
-        if ($element->getDefinition()->name() === 'orComposite') {
-            return $this->getMDIDForOrComposite($element);
-        }
-        return $id;
-    }
-
-    /**
-     * This is specifically for updating/creating orComposites,
-     * due to how they are saved in the database. This should
-     * be changed, such that we can get rid of this workaround.
-     */
-    protected function getMDIDForOrComposite(ElementInterface $element): int
-    {
-        $type_element = null;
-        foreach ($element->getSubElements() as $sub) {
-            if ($sub->getDefinition()->name() === 'type') {
-                $type_element = $sub;
-                break;
-            }
-        }
-        $value_element = null;
-        foreach ($type_element?->getSubElements() ?? [] as $sub) {
-            if ($sub->getDefinition()->name() === 'value') {
-                $value_element = $sub;
-                break;
-            }
-        }
-        $type = $value_element?->getData()->value();
-        if ($marker = $value_element?->getMarker()) {
-            $type = $marker->dataValue();
-        }
-        switch ($type) {
-            case 'browser':
-                return LOMDictionaryInitiator::MD_ID_BROWSER;
-
-            case 'operating system':
-                return LOMDictionaryInitiator::MD_ID_OS;
-
-            default:
-                throw new \ilMDRepositoryException(
-                    'Invalid OrComposite. ID: ' . $element->getMDID()
-                );
-        }
-    }
-
-    protected function deleteElementAndSubElements(
-        ElementInterface $element,
-        RessourceIDInterface $ressource_id,
-        int $super_id,
-        int ...$parent_ids
+        string $data_value,
+        AssignmentRowInterface $row
     ): void {
-        if ($element->isScaffold()) {
-            return;
+        if (!$element->isScaffold()) {
+            $row->addAction($this->assignment_factory->action(
+                Action::UPDATE,
+                $tag,
+                $data_value
+            ));
+        } else {
+            $row->addAction($this->assignment_factory->action(
+                Action::CREATE,
+                $tag,
+                $data_value
+            ));
+            if (!$row->id()) {
+                $row->setId($this->querier->nextID($row->table()));
+            }
         }
-        $id = $element->getMDID();
-        $tag = $this->tag($element);
-        $appended_parents = $parent_ids;
-        if ($tag->isParent()) {
-            $appended_parents[] = $id;
-        }
-        foreach ($element->getSubElements() as $sub) {
-            $this->deleteElementAndSubElements(
-                $sub,
-                $ressource_id,
-                $id,
-                ...$appended_parents
-            );
-        }
-
-        $this->executor->delete(
-            $tag,
-            $ressource_id,
-            $element->getMDID(),
-            $super_id,
-            ...$parent_ids
-        );
     }
 
     protected function tag(
         ElementInterface $element,
-    ): TagInterface {
+    ): ?TagInterface {
         return $this->dictionary->tagForElement($element);
     }
 

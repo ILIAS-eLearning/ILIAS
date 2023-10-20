@@ -45,6 +45,7 @@ class ilObjectCopySelectionTableGUI extends ilTable2GUI
         $this->type = $type;
 
         $this->setTitle($this->lng->txt($this->type . '_wizard_page'));
+
         $this->addColumn($this->lng->txt('title'), '', '55%');
         $this->addColumn($this->lng->txt('copy'), '', '15%');
         $this->addColumn($this->lng->txt('link'), '', '15%');
@@ -60,7 +61,11 @@ class ilObjectCopySelectionTableGUI extends ilTable2GUI
 
         $this->setFormName('cmd');
 
-        $this->addCommandButton('copyContainerToTargets', $this->lng->txt('obj_' . $this->type . '_duplicate'));
+        $submit_button_label = $this->lng->txt('obj_' . $this->type . '_duplicate');
+        if ($this->parent_obj->getSubMode() === ilObjectCopyGUI::SUBMODE_CONTENT_ONLY) {
+            $submit_button_label = $this->lng->txt('cntr_adopt_content');
+        }
+        $this->addCommandButton('copyContainerToTargets', $submit_button_label);
     }
 
     public function getType(): string

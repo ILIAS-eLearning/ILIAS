@@ -383,7 +383,7 @@ class ilCalendarMailNotification extends ilMailNotification
     {
         $export = new ilCalendarExport();
         $export->setExportType(ilCalendarExport::EXPORT_APPOINTMENTS);
-        $export->setAppointments(array($this->getAppointmentId()));
+        $export->setAppointments(array(new ilCalendarEntry($this->getAppointmentId())));
         $export->export();
 
         $attachment = new ilFileDataMail($this->getSender());

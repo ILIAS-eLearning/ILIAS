@@ -558,7 +558,7 @@ class ilImageMapEditorGUI
             'link_params' => "ref_id=" . $this->request->getRefId() . "&rand=" . $random->int(1, 999999),
             'ref_id' => $this->request->getRefId(),
             'pg_frame' => "",
-            'enlarge_path' => ilUtil::getImagePath("enlarge.svg"),
+            'enlarge_path' => ilUtil::getImagePath("media/enlarge.svg"),
             'webspace_path' => $wb_path);
         $output = $this->xsl->process($xml, $params);
 

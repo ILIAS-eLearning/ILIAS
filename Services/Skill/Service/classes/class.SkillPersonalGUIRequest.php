@@ -78,16 +78,6 @@ class SkillPersonalGUIRequest extends SkillGUIRequest
         return $this->int("level_id");
     }
 
-    public function getSelfEvaluationLevelId(): int
-    {
-        return $this->int("se");
-    }
-
-    public function getWorkspaceId(): int
-    {
-        return $this->int("wsp_id");
-    }
-
     /**
      * @return int[]
      */
@@ -114,5 +104,36 @@ class SkillPersonalGUIRequest extends SkillGUIRequest
     public function getShowMaterialsResources(): bool
     {
         return $this->bool("mat_res");
+    }
+
+    public function getTableSelfEvaluationAction(): string
+    {
+        return $this->getTableAction("skl_self_evaluation_table_action");
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getTableSelfEvaluationLevelIds(): array
+    {
+        return $this->getTableIds("skl_self_evaluation_table_level_ids");
+    }
+
+    public function getTableAssignMaterialsAction(): string
+    {
+        return $this->getTableAction("skl_assign_materials_table_action");
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getTableAssignMaterialsLevelIds(): array
+    {
+        return $this->getTableIds("skl_assign_materials_table_level_ids");
+    }
+
+    public function getTableAssignMaterialsWorkspaceId(): int
+    {
+        return $this->int("skl_assign_materials_table_wsp_id");
     }
 }

@@ -18,6 +18,10 @@
 
 declare(strict_types=1);
 
+use ILIAS\UI\Factory as UIFactory;
+use ILIAS\UI\Renderer as UIRenderer;
+use ILIAS\UI\Component\Button\Button;
+
 /**
  * @author		Björn Heyser <bheyser@databay.de>
  * @version		$Id$
@@ -29,11 +33,7 @@ class ilTestQuestionNavigationGUI
     public const SHOW_DISABLED_COMMANDS = false;
 
     public const CSS_CLASS_SUBMIT_BUTTONS = 'ilc_qsubmit_Submit';
-
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
+    private \ILIAS\DI\UIServices $ui;
 
     /**
      * @var string
@@ -117,9 +117,13 @@ class ilTestQuestionNavigationGUI
     /**
      * @param ilLanguage $lng
      */
-    public function __construct(ilLanguage $lng)
-    {
-        $this->lng = $lng;
+
+
+    public function __construct(
+        protected ilLanguage $lng,
+        protected UIFactory $ui_factory,
+        protected UIRenderer $ui_renderer
+    ) {
     }
 
     /**
@@ -366,89 +370,10 @@ class ilTestQuestionNavigationGUI
         $this->anythingRendered = true;
     }
 
-    // fau: testNav - generate question actions menu
-    /**
-     * Get the HTML of an actions menu below the title
-     * @return string
-     */
     public function getActionsHTML(): string
     {
         $tpl = $this->getTemplate('actions');
-
-        $actions = new ilGroupedListGUI();
-        $actions->setAsDropDown(true, true);
-
-        if ($this->getQuestionMarkLinkTarget()) {
-            $actions->addEntry(
-                $this->getQuestionMarkActionLabel(),
-                $this->getQuestionMarkLinkTarget(),
-                '',
-                '',
-                'ilTestQuestionAction',
-                'tst_mark_question_action'
-            );
-            $actions->addSeparator();
-        }
-
-        if ($this->getRevertChangesLinkTarget()) {
-            $actions->addEntry(
-                $this->lng->txt('tst_revert_changes'),
-                $this->getRevertChangesLinkTarget(),
-                '',
-                '',
-                'ilTestQuestionAction ilTestRevertChangesAction',
-                'tst_revert_changes_action'
-            );
-        } else {
-            $actions->addEntry(
-                $this->lng->txt('tst_revert_changes'),
-                '#',
-                '',
-                '',
-                'ilTestQuestionAction ilTestRevertChangesAction disabled',
-                'tst_revert_changes_action'
-            );
-        }
-
-        if ($this->isDiscardSolutionButtonEnabled()) {
-            $actions->addEntry(
-                $this->lng->txt('discard_answer'),
-                '#',
-                '',
-                '',
-                'ilTestQuestionAction ilTestDiscardSolutionAction',
-                'tst_discard_solution_action'
-            );
-        } else {
-            $actions->addEntry(
-                $this->lng->txt('discard_answer'),
-                '#',
-                '',
-                '',
-                'ilTestQuestionAction ilTestDiscardSolutionAction disabled',
-                'tst_discard_solution_action'
-            );
-        }
-
-        if ($this->getSkipQuestionLinkTarget()) {
-            $actions->addEntry(
-                $this->lng->txt('postpone_question'),
-                $this->getSkipQuestionLinkTarget(),
-                '',
-                '',
-                'ilTestQuestionAction',
-                'tst_skip_question_action'
-            );
-        } elseif (self::SHOW_DISABLED_COMMANDS) {
-            $actions->addEntry(
-                $this->lng->txt('postpone_question'),
-                '#',
-                '',
-                '',
-                'ilTestQuestionAction disabled',
-                'tst_skip_question_action'
-            );
-        }
+        $actions = [];
 
         if ($this->getQuestionMarkLinkTarget()) {
             $this->renderActionsIcon(
@@ -457,19 +382,45 @@ class ilTestQuestionNavigationGUI
                 $this->getQuestionMarkIconLabel(),
                 'ilTestMarkQuestionIcon'
             );
+            $actions[] = $this->ui_factory->button()->shy(
+                $this->getQuestionMarkActionLabel(),
+                $this->getQuestionMarkLinkTarget()
+            );
         }
 
-        $list = new ilAdvancedSelectionListGUI();
-        $list->setSelectionHeaderClass('btn-primary');
-        $list->setId('QuestionActions');
-        $list->setListTitle($this->lng->txt("actions"));
-        $list->setStyle(1);
-        $list->setGroupedList($actions);
-        $tpl->setVariable('ACTION_MENU', $list->getHTML());
+        if ($this->getSkipQuestionLinkTarget()) {
+            $actions[] = $this->ui_factory->button()->shy(
+                $this->lng->txt('postpone_question'),
+                $this->getSkipQuestionLinkTarget()
+            );
+        }
+
+        if ($actions !== []) {
+            $actions[] = $this->ui_factory->divider()->horizontal();
+        }
+
+        $actions[] = $this->ui_factory->button()->shy(
+            $this->lng->txt('tst_revert_changes'),
+            $this->getRevertChangesLinkTarget()
+        )->withUnavailableAction(!$this->getRevertChangesLinkTarget());
+
+        $actions[] = $this->ui_factory->button()->shy(
+            $this->lng->txt('discard_answer'),
+            '#'
+        )
+        ->withUnavailableAction(!$this->isDiscardSolutionButtonEnabled())
+        ->withAdditionalOnLoadCode(
+            fn($id) => "document.getElementById('$id').addEventListener(
+                'click',
+                 ()=>$('#tst_discard_solution_modal').modal('show')
+            )"
+        );
+
+        $list = $this->ui_factory->dropdown()->standard($actions)->withLabel($this->lng->txt("actions"));
+        $tpl->setVariable('ACTION_MENU', $this->ui_renderer->render($list));
 
         return $tpl->get();
     }
-    // fau.
 
 
     /**
@@ -493,7 +444,7 @@ class ilTestQuestionNavigationGUI
         // fau: testNav - skip question (postpone) is moved to the actions menu.
 
         if ($this->getInstantFeedbackCommand()) {
-            $this->renderSubmitButton(
+            $this->renderInstantFeedbackButton(
                 $tpl,
                 $this->getInstantFeedbackCommand(),
                 $this->getCheckButtonLabel(),
@@ -530,39 +481,28 @@ class ilTestQuestionNavigationGUI
     private function getEditSolutionButtonLabel(): string
     {
         if ($this->isQuestionWorkedThrough()) {
-            return 'edit_answer';
+            return $this->lng->txt('edit_answer');
         }
 
-        return 'answer_question';
-    }
-
-    private function getSubmitSolutionButtonLabel(): string
-    {
-        if ($this->isForceInstantResponseEnabled()) {
-            return 'submit_and_check';
-        }
-
-        // fau: testNav - rename the submit button to simply "Save"
-        return 'save';
-        // fau.
+        return $this->lng->txt('answer_question');
     }
 
     private function getCheckButtonLabel(): string
     {
         if ($this->isAnswerFreezingEnabled()) {
-            return 'submit_and_check';
+            return $this->lng->txt('submit_and_check');
         }
 
-        return 'check';
+        return $this->lng->txt('check');
     }
 
     private function getRequestHintButtonLabel(): string
     {
         if ($this->hintRequestsExist()) {
-            return 'button_request_next_question_hint';
+            return $this->lng->txt('button_request_next_question_hint');
         }
 
-        return 'button_request_question_hint';
+        return $this->lng->txt('button_request_question_hint');
     }
 
     // fau: testNav - adjust mark icon and action labels
@@ -589,10 +529,10 @@ class ilTestQuestionNavigationGUI
     private function getQuestionMarkIconSource(): string
     {
         if ($this->isQuestionMarked()) {
-            return ilUtil::getImagePath('marked.svg');
+            return ilUtil::getImagePath('object/marked.svg');
         }
 
-        return ilUtil::getImagePath('marked_.svg');
+        return ilUtil::getImagePath('object/marked_.svg');
     }
 
     // fau: testNav - add parameter for template purpose
@@ -645,10 +585,10 @@ class ilTestQuestionNavigationGUI
      * @param ilTemplate $tpl
      * @param $button
      */
-    private function renderButtonInstance(ilTemplate $tpl, $button)
+    private function renderButtonInstance(ilTemplate $tpl, Button $button)
     {
         $tpl->setCurrentBlock("button_instance");
-        $tpl->setVariable("BUTTON_INSTANCE", $button->render());
+        $tpl->setVariable("BUTTON_INSTANCE", $this->ui_renderer->render($button));
         $tpl->parseCurrentBlock();
 
         $this->parseButtonsBlock($tpl);
@@ -661,46 +601,47 @@ class ilTestQuestionNavigationGUI
      * @param $label
      * @param bool|false $primary
      */
-    private function renderSubmitButton(ilTemplate $tpl, $command, $label, $primary = false)
-    {
-        $button = ilSubmitButton::getInstance();
-        $button->setCommand($command);
-        $button->setCaption($label);
-        $button->setPrimary($primary);
-        $button->addCSSClass(self::CSS_CLASS_SUBMIT_BUTTONS);
-
-        $this->renderButtonInstance($tpl, $button);
+    private function renderSubmitButton(
+        ilTemplate $tpl,
+        string $command,
+        string $label
+    ): void {
+        $this->renderButtonInstance(
+            $tpl,
+            $this->ui_factory->button()->standard($label, $command)
+        );
     }
 
-    /**
-     * @param ilTemplate $tpl
-     * @param $htmlId
-     * @param $label
-     * @param $cssClass
-     */
-    private function renderLinkButton(ilTemplate $tpl, $href, $label)
-    {
-        $button = ilLinkButton::getInstance();
-        $button->setUrl($href);
-        $button->setCaption($label);
+    private function renderInstantFeedbackButton(
+        ilTemplate $tpl,
+        string $command,
+        string $label,
+        bool $is_primary
+    ): void {
+        $on_load_code = $this->getOnLoadCode($command);
+        if ($is_primary) {
+            $this->renderButtonInstance(
+                $tpl,
+                $this->ui_factory->button()->primary($label, '')->withAdditionalOnLoadCode($on_load_code)
+            );
+            return;
+        }
 
-        $this->renderButtonInstance($tpl, $button);
+        $this->renderButtonInstance(
+            $tpl,
+            $this->ui_factory->button()->standard($label, '')->withAdditionalOnLoadCode($on_load_code)
+        );
     }
 
-    /**
-     * @param ilTemplate $tpl
-     * @param $htmlId
-     * @param $label
-     * @param $cssClass
-     */
-    private function renderJsLinkedButton(ilTemplate $tpl, $htmlId, $label, $cssClass)
+    private function getOnLoadCode(string $command): Closure
     {
-        $button = ilLinkButton::getInstance();
-        $button->setId($htmlId);
-        $button->addCSSClass($cssClass);
-        $button->setCaption($label);
-
-        $this->renderButtonInstance($tpl, $button);
+        return static function ($id) use ($command): string {
+            return "document.getElementById('$id').addEventListener('click', "
+                . '(e) => {'
+                . "  e.target.setAttribute('name', 'cmd[$command]');"
+                . '  e.target.form.requestSubmit(e.target);'
+                . '});';
+        };
     }
 
     /**

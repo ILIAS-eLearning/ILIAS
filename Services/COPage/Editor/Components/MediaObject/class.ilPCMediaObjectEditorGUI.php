@@ -165,6 +165,9 @@ class ilPCMediaObjectEditorGUI implements PageComponentEditor
     public function getUploadForm(
         $lng
     ): ilPropertyFormGUI {
+        global $DIC;
+        $media_types = $DIC->mediaObjects()->internal()->domain()->mediaType();
+
         $form = new ilPropertyFormGUI();
         $form->setShowTopButtons(false);
 
@@ -185,8 +188,8 @@ class ilPCMediaObjectEditorGUI implements PageComponentEditor
 
         // standard file
         $up = new ilFileInputGUI($lng->txt("cont_file"), "standard_file");
-        $up->setSuffixes(ilObjMediaObject::getRestrictedFileTypes());
-        $up->setForbiddenSuffixes(ilObjMediaObject::getForbiddenFileTypes());
+        $up->setSuffixes(iterator_to_array($media_types->getAllowedSuffixes()));
+        //$up->setForbiddenSuffixes(ilObjMediaObject::getForbiddenFileTypes());
         $up->setRequired(true);
         $form->addItem($up);
 

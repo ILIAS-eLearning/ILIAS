@@ -20,7 +20,6 @@ declare(strict_types=1);
 
 namespace ILIAS\MetaData\Editor\Full\Services;
 
-use Psr\Http\Message\ServerRequestInterface as Request;
 use ILIAS\MetaData\Editor\Manipulator\ManipulatorInterface;
 use ILIAS\MetaData\Elements\SetInterface;
 use ILIAS\MetaData\Paths\PathInterface;

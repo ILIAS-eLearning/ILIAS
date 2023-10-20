@@ -47,9 +47,9 @@ class ilLMEditorExplorerGUI extends ilLMExplorerGUI
     public function getNodeIcon($a_node): string
     {
         if ($a_node["child"] == $this->getNodeId($this->getRootNode())) {
-            $icon = ilUtil::getImagePath("icon_lm.svg");
+            $icon = ilUtil::getImagePath("standard/icon_lm.svg");
         } else {
-            $a_name = "icon_" . $a_node["type"] . ".svg";
+            $a_name = "standard/icon_" . $a_node["type"] . ".svg";
             if ($a_node["type"] == "pg") {
                 $lm_set = new ilSetting("lm");
                 $active = ilLMPage::_lookupActive(
@@ -64,17 +64,17 @@ class ilLMEditorExplorerGUI extends ilLMExplorerGUI
                     ? "_sc"
                     : "";
 
-                $a_name = "icon_pg" . $img_sc . ".svg";
+                $a_name = "standard/icon_pg" . $img_sc . ".svg";
 
                 if (!$active) {
-                    $a_name = "icon_pg_d" . $img_sc . ".svg";
+                    $a_name = "standard/icon_pg_d" . $img_sc . ".svg";
                 } else {
                     $contains_dis = ilLMPage::_lookupContainsDeactivatedElements(
                         $a_node["child"],
                         $this->lm->getType()
                     );
                     if ($contains_dis) {
-                        $a_name = "icon_pg_del" . $img_sc . ".svg";
+                        $a_name = "standard/icon_pg_del" . $img_sc . ".svg";
                     }
                 }
             }

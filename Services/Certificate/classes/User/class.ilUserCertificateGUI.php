@@ -206,7 +206,7 @@ class ilUserCertificateGUI
                     || $thumbnailImagePath === ''
                     || !$this->filesystem->has($thumbnailImagePath)
                 ) {
-                    $imagePath = ilUtil::getImagePath('icon_cert.svg');
+                    $imagePath = ilUtil::getImagePath('standard/icon_cert.svg');
                 }
 
                 $cardImage = $this->uiFactory->image()->standard(

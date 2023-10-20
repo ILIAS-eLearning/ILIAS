@@ -169,10 +169,10 @@ class ilLTIPlatform extends ToolProvider\Platform
         return $this->ref_id;
     }
 
-//    public function getId() : ?int
-//    {
-//        return $this->getRecordId();
-//    }
+    //    public function getId() : ?int
+    //    {
+    //        return $this->getRecordId();
+    //    }
 
     public function setTitle(string $title): void
     {
@@ -316,7 +316,7 @@ class ilLTIPlatform extends ToolProvider\Platform
      */
     public static function fromRecordId(int $id, ilLTIDataConnector $dataConnector): \ilLTIPlatform
     {
-//        $platform = new static($dataConnector);
+        //        $platform = new static($dataConnector);
         $platform = new ilLTIPlatform($dataConnector);
         $platform->initialize();
         $platform->setRecordId((int) $id);

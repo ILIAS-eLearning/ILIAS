@@ -848,6 +848,7 @@ assessment#:#longmenu_answeroptions_differ#:#Diese Frage funktioniert nicht rich
 assessment#:#longmenu_text#:#‘Long Menu’-Text
 assessment#:#mailnottype#:#Ein Versand findet auch beim Beenden einzelner Testdurchläufe statt
 assessment#:#mailnottype_desc#:#Der Besitzer des Tests wird auch dann benachrichtigt, wenn die Anzahl Durchläufe nicht beschränkt ist.
+assessment#:#mainbar_button_label_questionlist#:#Fragenliste
 assessment#:#maintenance#:#Wartung
 assessment#:#manscoring#:#Manuelle Bewertung
 assessment#:#manscoring_done#:#Bereits bewertete Teilnehmer
@@ -886,7 +887,7 @@ assessment#:#msg_selected_for_move#:#Fragen zum Verschieben ausgewählt
 assessment#:#new_category#:#Neue Einheiten-Kategorie
 assessment#:#new_unit#:#Neue Einheit
 assessment#:#next_question#:#Weiter
-assessment#:#next_question_rows#:#Fragen %d - %d von %d >>
+assessment#:#next_question_rows#:#Fragen %d - %d von %d →
 assessment#:#no_manual_feedback_export_info#:#Manuelle Rückmeldungen werden nicht exportiert.
 assessment#:#no_passed_mark#:#Sie müssen wenigstens einen Notenschritt als BESTANDEN markieren! Das Notenschema wurde nicht gespeichert!
 assessment#:#no_question_selected_for_move#:#Bitte wählen Sie mindestens eine Frage aus, um sie zu verschieben!
@@ -1136,6 +1137,11 @@ assessment#:#result_units_info#:#Zum Beantworten der Frage werden die aktivierte
 assessment#:#result_x#:#Ergebnis %s
 assessment#:#results#:#Ergebnisse
 assessment#:#results_tab#:#Ergebnisse
+assessment#:#resulttable_all#:#Alle
+assessment#:#resulttable_correct#:#Korrekte
+assessment#:#resulttable_incorrect#:#Inkorrekte/Unvollständige
+assessment#:#resulttable_vc_sort_iooa#:#Reihenfolge im Test
+assessment#:#resulttable_vc_sort_posscore#:#Höchste (mögliche) Punktzahl zuerst
 assessment#:#review_view#:#Vorschau
 assessment#:#saveOrder#:#Sortierung abspeichern
 assessment#:#saveOrderAndObligations#:#Sortierung und Obligationen abspeichern
@@ -1178,8 +1184,6 @@ assessment#:#show_old_introduction#:#Alten Einleitungstext anzeigen
 assessment#:#show_pass_overview#:#Ergebnisübersicht (bewerteter Testdurchlauf)
 assessment#:#show_user_answers#:#Antworten (bewerteter Testdurchlauf)
 assessment#:#shuffle_answers#:#Antworten mischen
-assessment#:#sign_submission#:#Digitale Signatur
-assessment#:#sign_submission_info#:#Das Signatur-Plugin muss installiert und aktiviert sein, damit Teilnehmer aufgefordert werden, ihre Testabgabe zu signieren.
 assessment#:#skip_question#:#Nicht antworten und weiter
 assessment#:#solutionText#:#Text
 assessment#:#solution_contain_keywords#:#Punkte werden auf Basis des Vorkommens der folgenden Begriffe vergeben:
@@ -1193,6 +1197,7 @@ assessment#:#suggest_range#:#Bereich vorschlagen
 assessment#:#suggestedSolutionType#:#verweisen auf
 assessment#:#suggested_solution#:#Inhalte zur Wiederholung
 assessment#:#suggested_solution_added_successfully#:#Der Hinweis auf Inhalte zur Wiederholung wurde erfolgreich hinzugefügt!
+assessment#:#ta_resulttable_vc_mode_aria#:#Anzeigeoptionen für Fragen
 assessment#:#tab_nest_answers#:#Einrückung
 assessment#:#term#:#Term
 assessment#:#term_image#:#Bild
@@ -1340,6 +1345,8 @@ assessment#:#tst_dont_show_msg_again_in_current_session#:#Diese Meldung in meine
 assessment#:#tst_dont_use_previous_answers#:#Ihre vorherigen Antworten werden in zukünftigen Testdurchläufen nicht als vorgegebene Werte verwendet
 assessment#:#tst_edit_competence_assign#:#Bearbeite Zuordnungs-Eigenschaften
 assessment#:#tst_edit_scoring#:#Ändere Bewertung
+assessment#:#tst_enable_questionlist#:#Fragenliste
+assessment#:#tst_enable_questionlist_description#:#Teilnehmer können sich links neben den Testfragen eine Fragenliste anzeigen lassen.
 assessment#:#tst_ending_time#:#Ende
 assessment#:#tst_ending_time_before_starting_time#:#Bitte geben Sie für das Ende des Tests ein Datum ein, das nach dem Startdatum liegt.
 assessment#:#tst_ending_time_desc#:#Zeitpunkt, ab dem Teilnehmer keine Antworten mehr abgeben können. <b>Wichtig</b>: Benutzen Sie diese Option <b>nicht</b> für E-Klausuren/Fernklausuren. Verwenden Sie stattdessen die Funktion „Bearbeitungsdauer begrenzen“, siehe unten. Nur dann wird der Test serverseitig beendet und die letzte Eingabe jedes Teilnehmers automatisch gespeichert.
@@ -1710,7 +1717,7 @@ assessment#:#tst_report_after_test#:#Testergebnisse erst nach Abschluss eines Te
 assessment#:#tst_report_never#:#Die Testergebnisse sind nicht einsehbar
 assessment#:#tst_reporting_date#:#Datum
 assessment#:#tst_res_jump_to_participant_btn#:#Springe
-assessment#:#tst_res_jump_to_participant_hint_opt#:#--Zu Teilnehmer springen--
+assessment#:#tst_res_jump_to_participant_hint_opt#:#Zu Teilnehmer springen
 assessment#:#tst_res_lo_objectives_header#:#Relevante Lernziele
 assessment#:#tst_res_lo_try_header#:#Versuch
 assessment#:#tst_res_lo_try_n#:#%s. Versuch
@@ -1817,8 +1824,8 @@ assessment#:#tst_show_solution_signature#:#Platzhalter für Unterschrift
 assessment#:#tst_show_solution_signature_desc#:#Ist die Option „Detaillierte Testergebnisse anzeigen“ oder „Druckbare Liste der Antworten“ aktiviert, fügt ILIAS zusätzlich ein Unterschriftenfeld in den Ausdruck ein. In diesem kann die Person, die den Test durchgeführt hat, unterschreiben.
 assessment#:#tst_show_solution_suggested#:#Inhalte zur Wiederholung
 assessment#:#tst_show_solution_suggested_desc#:#Falls den Fragen im Test Inhalte zur Wiederholung des Stoffs zugeordnet wurden, werden diese angezeigt. Sie müssen die Option "Detaillierte Testergebnissen anzeigen" aktivieren, um diese Funktion zu nutzen. Teilnehmerinnen und Teilnehmer können so etwaige Wissenslücken schließen.
-assessment#:#tst_show_summary#:#Fragenliste und Bearbeitungstand anzeigen
-assessment#:#tst_show_summary_description#:#Teilnehmer können sich links neben den Testfragen eine Fragenliste anzeigen lassen. Mit dem Button 'Bearbeitungsstand' rufen die Teilnehmer eine Übersicht auf, die zeigt, welche Fragen sie jeweils bereits bearbeitet oder markiert haben. Das Verhalten der Übersicht 'Bearbeitungsstand' können Sie noch weiter konfigurieren:
+assessment#:#tst_show_summary#:#Bearbeitungsstand
+assessment#:#tst_show_summary_description#:#Mit der Schaltfläche 'Bearbeitungsstand' können Teilnehmer eine Übersicht aufrufen, die zeigt, welche Fragen sie jeweils bereits bearbeitet oder markiert haben. Das Verhalten des 'Bearbeitungsstand' können Sie noch weiter konfigurieren:
 assessment#:#tst_show_toplist#:#Platzierung
 assessment#:#tst_shuffle_questions#:#Fragen mischen
 assessment#:#tst_shuffle_questions_description#:#Die Reihenfolge der Fragen wird pro Teilnehmer und pro Testdurchlauf neu gemischt.
@@ -1884,6 +1891,7 @@ assessment#:#tst_title_output#:#Anzeige der Fragentitel
 assessment#:#tst_title_output_full#:#Fragentitel und erreichbare Punkte
 assessment#:#tst_title_output_hide_points#:#Nur Fragentitel
 assessment#:#tst_title_output_no_title#:#Weder Fragentitel noch erreichbare Punkte
+assessment#:#tst_title_output_only_points#:#Nur erreichbare Punkte
 assessment#:#tst_trigger_result_refreshing#:#Es erfolgt eine Neuberechnung des Ergebnisses. Dies kann eine Weile dauern.
 assessment#:#tst_type#:#Test-Typ
 assessment#:#tst_unchanged_answer_is_correct#:#Die vorgegebene Antwort ist korrekt.
@@ -2620,8 +2628,10 @@ buddysystem#:#buddy_use_osd_info#:#Zeigt ein Popup an, wenn ein Benutzer mit mir
 buddysystem#:#buddy_view_gallery#:#Galerie
 buddysystem#:#buddy_view_table#:#Liste
 cat#:#cat_copy#:#Kategorie kopieren
+cat#:#cat_hide_tax_in_side_block#:#Nicht im Seitenblock darstellen
 cat#:#cat_import#:#Kategorie importieren
 cat#:#cat_more_translations#:#Weitere Übersetzungen
+cat#:#cat_show_tax_in_side_block#:#Im Seitenblock darstellen
 cert#:#cert_currently_no_certs#:#Aktuell besitzen Sie noch keine Zertifikate.
 cert#:#cert_description_label#:#Beschreibung
 cert#:#cert_download_label#:#Herunterladen
@@ -3304,6 +3314,7 @@ cntr#:#cntr_switch_to_new_editor_message#:#Dies ist der Standard-Seiteneditor. W
 cntr#:#cntr_switched_editor#:#Auf neue Darstellung umgestellt
 cntr#:#cntr_tax_list_info#:#Nachfolgend sind alle Taxonomien gelistet, die für dieses Objekt definiert wurden.
 cntr#:#cntr_tax_none_available#:#Es gibt keine verfügbaren Taxonomien.
+cntr#:#cntr_tax_settings_info#:#Taxonomien in Kategorien klassifizieren und filtern die in der Kategorie enthaltenen Objekte. Nach dem Hinzufügen von Taxonomien können über die Reiter „Metadaten“ und die Unterreiter „Taxonomiezuordnung“ der jeweiligen Objekte Klassifizierungen vorgenommen werden. Taxonomien können zusätzlich im Seitenblock des Reiters „Inhalt“ der Kategorie angezeigt werden, um ein direktes Filtern der zugeordneten Objekte zu ermöglichen.
 cntr#:#cntr_taxonomy_definitions#:#Taxonomie-Definition
 cntr#:#cntr_taxonomy_show_sideblock#:#Taxonomie im Seitenblock darstellen
 cntr#:#cntr_taxonomy_sideblock_settings#:#Präsentationseinstellungen
@@ -4119,7 +4130,7 @@ common#:#group#:#Gruppe
 common#:#group_members#:#Mitglieder
 common#:#group_name#:#Gruppenname
 common#:#group_new_registrations#:#Aufnahmeanträge
-common#:#group_password_registration_msg#:#Wenn Ihnen ein Gruppenadministrator das Gruppenpasswort mitgeteilt hat, können Sie zur Gruppe beitreten.
+common#:#group_password_registration_msg#:#Sobald Ihnen die Gruppenadministration das Gruppenpasswort mitgeteilt hat, können Sie der Gruppe beitreten.
 common#:#group_registration#:#Gruppenbeitritt
 common#:#group_registration_mode#:#Beitrittsverfahren
 common#:#group_registration_time#:#Zeitraum
@@ -4221,12 +4232,12 @@ common#:#il_astpl_loc_qualified#:#Qualifizierender Test
 common#:#il_blog_contributor#:#Blog-Autorenschaft###Modified as part of gender mainstreaming activities for ILIAS 8
 common#:#il_blog_editor#:#Blog-Redaktion###Modified as part of gender mainstreaming activities for ILIAS 8
 common#:#il_chat_moderator#:#Chatmoderation###Modified as part of gender mainstreaming activities for ILIAS 8
-common#:#il_crs_admin#:#Kursadministrator
+common#:#il_crs_admin#:#Kursadministration
 common#:#il_crs_member#:#Kursmitglied
 common#:#il_crs_non_member#:#Kein Kursmitglied
 common#:#il_crs_tutor#:#Kursbetreuung
 common#:#il_frm_moderator#:#Forenmoderation###Modified as part of gender mainstreaming activities for ILIAS 8
-common#:#il_grp_admin#:#Gruppenadministrator
+common#:#il_grp_admin#:#Gruppenadministration
 common#:#il_grp_member#:#Gruppenmitglied
 common#:#il_grp_status_closed#:#Geschlossene Gruppe
 common#:#il_grp_status_open#:#Offene Gruppe
@@ -4340,7 +4351,7 @@ common#:#lang_timeformat#:#H:i:s
 common#:#lang_timeformat_no_sec#:#H:i
 common#:#lang_uninstall_changes#:#Lokale Änderungen entfernen
 common#:#lang_uninstall_changes_confirm#:#Möchten Sie wirklich alle lokalen Änderungen an den ausgewählten Sprachen löschen und diese auf den Standard der aktuellen ILIAS-Version zurücksetzen?
-common#:#lang_uninstall_confirm#:#Möchten Sie die ausgewählten Sprachen wirklich deinstallieren?
+common#:#lang_uninstall_confirm#:#Möchten Sie die ausgewählten Sprachen wirklich deinstallieren? Damit gehen auch alle lokalen Änderungen an den jeweiligen Sprachen unwiederbringlich verloren, wenn diese nicht zuvor gesichert oder exportiert wurden.
 common#:#langfile_found#:#Sprachdatei gefunden
 common#:#language#:#Sprache
 common#:#language_not_installed#:#ist nicht installiert. Bitte installieren Sie die Sprache zuerst.
@@ -4554,7 +4565,6 @@ common#:#mm_personal_and_shared_r#:#Persönliche und geteilte Ressourcen
 common#:#mm_personal_workspace#:#Persönlicher Arbeitsraum
 common#:#mm_portfolio#:#Portfolio
 common#:#mm_private_chats#:#Private Chats
-common#:#mm_rep_tree_view#:#Baumansicht
 common#:#mm_repo_tree_view#:#Baumansicht
 common#:#mm_repo_tree_view_act#:#Baumansicht an
 common#:#mm_repo_tree_view_deact#:#Baumansicht aus
@@ -4878,8 +4888,6 @@ common#:#obj_objf_desc#:#ILIAS-Objekttypen und -rechte. (Nur für Experten!)
 common#:#obj_orgu#:#Organisationseinheit
 common#:#obj_orgu_description#:#Anlage und Verwaltung der Organisationsstruktur
 common#:#obj_page#:#Seite
-common#:#obj_pdfg#:#PDF-Erstellung
-common#:#obj_pdfg_desc#:#Administrationseinstellungen für die PDF-Erstellung
 common#:#obj_peac#:#Akkordeon
 common#:#obj_peadl#:#Erweiterte Liste
 common#:#obj_peadt#:#Erweiterte Tabelle
@@ -5150,10 +5158,6 @@ common#:#path_to_zip#:#ZIP-Befehlszeile
 common#:#pathes#:#Pfade
 common#:#pd_items_news#:#Einschließlich Neuigkeiten der ausgewählten Objekte
 common#:#pdf_export#:#PDF-Export
-common#:#pdfg_edit_permission#:#Rechteeinstellungen ändern
-common#:#pdfg_read#:#Lesezugrif auf PDF-Erstellung
-common#:#pdfg_visible#:#PDF-Erstellungs ist sichtbar.
-common#:#pdfg_write#:#Einstellungen der PDF-Erstellung bearbeiten
 common#:#perm_settings#:#Rechte
 common#:#perma_link#:#Link zu dieser Seite
 common#:#permission#:#Recht
@@ -5202,7 +5206,7 @@ common#:#preview#:#Vorschau
 common#:#preview_create#:#Vorschau erstellen
 common#:#preview_delete#:#Vorschau löschen
 common#:#preview_image_size#:#Grösse der Vorschau-Bilder
-common#:#preview_learner_info#:#Wenn aktiviert, wird Kurs- und Gruppenadministratoren die Möglichkeit angeboten, den Kurs oder die Gruppe aus Sicht eines fiktiven Kurs- bzw. Gruppenmitglieds zu betrachten.
+common#:#preview_learner_info#:#Wenn aktiviert, wird der Kurs- und Gruppenadministration die Möglichkeit angeboten, den Kurs oder die Gruppe aus Sicht eines fiktiven Kurs- bzw. Gruppenmitglieds zu betrachten.
 common#:#preview_loading#:#Lade Vorschau...
 common#:#preview_none#:#Vorschau (noch nicht vorhanden)
 common#:#preview_not_possible#:#Erstellung von Vorschaubildern ist derzeit nicht möglich, bitte lesen Sie die Dokumentation in %s.
@@ -5998,7 +6002,7 @@ contact#:#contact_awrn_ap_contacts_info#:#Alle bestätigten Kontakte eines Benut
 contact#:#contact_awrn_req_contacts#:#Kontaktanfragen
 contact#:#contact_awrn_req_contacts_info#:#Alle Kontaktanfragen werden aufgelistet.
 content#:#Pages#:#Seiten
-content#:#add_menu_entry#:#Menüeintrag hinzufügen >>
+content#:#add_menu_entry#:#Menüeintrag hinzufügen →
 content#:#all#:#Alle
 content#:#all_pages#:#für das gesamte Lernmodul
 content#:#choose_public_mode#:#Zugriffsrecht für nicht angemeldete Benutzer
@@ -6122,11 +6126,15 @@ content#:#cont_cc_imp#:#Wichtig
 content#:#cont_cc_str#:#Stark
 content#:#cont_cc_sub#:#Tiefgestellt
 content#:#cont_cc_sup#:#Hochgestellt
+content#:#cont_cell_properties#:#Eigenschaften der Tabellenzellen
 content#:#cont_center#:#Mittig
+content#:#cont_change_alignment#:#Ausrichtung ändern
 content#:#cont_change_notification_salutation#:#Hallo %s,
 content#:#cont_change_notification_subject_lm#:#Das Lernmodule "%1$s" wurde geändert: %2$s
 content#:#cont_change_object_reference#:#Ändere Objektreferenz
+content#:#cont_change_style#:#Style ändern
 content#:#cont_change_type#:#Typ ändern
+content#:#cont_change_width#:#Breite ändern
 content#:#cont_chap_and_pages#:#Kapitel und Seiten
 content#:#cont_chap_select_target_now#:#Wählen Sie jetzt die Checkbox, hinter die das Kapitel verschoben werden soll.
 content#:#cont_chapters#:#Kapitel
@@ -6165,6 +6173,8 @@ content#:#cont_click_next_or_save#:#Bitte klicken Sie auf die nächste Ecke des 
 content#:#cont_click_next_point#:#Bitte klicken Sie auf die nächste Ecke des Polygons.
 content#:#cont_click_starting_point#:#Bitte klicken Sie auf den Startpunkt des Polygons.
 content#:#cont_click_tl_corner#:#Bitte klicken Sie in die obere linke Ecke des gewünschten Bereichs
+content#:#cont_code_import_file#:#Import
+content#:#cont_code_manual_editing#:#Manual Editing
 content#:#cont_col_ordering#:#Spaltenanordnung
 content#:#cont_colspan#:#Verbund Spalte
 content#:#cont_commented_by#:#Kommentiert von
@@ -6288,6 +6298,7 @@ content#:#cont_ed_insert_grid#:#Spaltenlayout einfügen
 content#:#cont_ed_insert_grid_info#:#Fügt ein responsives Spaltenlayout basierend auf einem Raster mit 12 Einheiten je Zeile ein.
 content#:#cont_ed_insert_iim#:#Interaktives Bild einfügen
 content#:#cont_ed_insert_incl#:#Inhaltsbaustein einfügen
+content#:#cont_ed_insert_lay#:#Layoutvorlage einfügen
 content#:#cont_ed_insert_lhist#:#Lernverlauf einfügen
 content#:#cont_ed_insert_list#:#Erweiterte Liste einfügen
 content#:#cont_ed_insert_lpe#:#Login-Seitenelement einfügen
@@ -6299,12 +6310,12 @@ content#:#cont_ed_insert_pcqst#:#Frage einfügen
 content#:#cont_ed_insert_plach#:#Platzhalter einfügen
 content#:#cont_ed_insert_prof#:#Persönliche Daten einfügen
 content#:#cont_ed_insert_qover#:#Fragenübersicht einfügen
-content#:#cont_ed_insert_repobj#:#Materialienliste einfügen
+content#:#cont_ed_insert_repobj#:#Objekteblock einfügen
 content#:#cont_ed_insert_sec#:#Block einfügen
 content#:#cont_ed_insert_skills#:#Kompetenzen einfügen
 content#:#cont_ed_insert_src#:#Programmcode einfügen
 content#:#cont_ed_insert_tab#:#Erweiterte Tabelle einfügen
-content#:#cont_ed_insert_tabs#:#Akkordeon einfügen
+content#:#cont_ed_insert_tabs#:#Akkordeon/Karussell einfügen
 content#:#cont_ed_insert_templ#:#Inhaltsvorlage einfügen
 content#:#cont_ed_insert_vrfc#:#Zertifikat einfügen
 content#:#cont_ed_item_down#:#Eintrag nach unten verschieben
@@ -6312,12 +6323,14 @@ content#:#cont_ed_item_up#:#Eintrag nach oben verschieben
 content#:#cont_ed_list#:#Erweiterte Liste
 content#:#cont_ed_moveafter#:#Verschieben nach
 content#:#cont_ed_movebefore#:#Verschieben vor
-content#:#cont_ed_new_col_after#:#Neue Spalte rechts
-content#:#cont_ed_new_col_before#:#Neue Spalte links
+content#:#cont_ed_new_col_after#:#Neue Spalten rechts
+content#:#cont_ed_new_col_before#:#Neue Spalten links
 content#:#cont_ed_new_item_after#:#Neuen Eintrag unterhalb
 content#:#cont_ed_new_item_before#:#Neuen Eintrag oberhalb
-content#:#cont_ed_new_row_after#:#Neue Zeile unterhalb
-content#:#cont_ed_new_row_before#:#Neue Zeile oberhalb
+content#:#cont_ed_new_row_after#:#Neue Zeilen unterhalb
+content#:#cont_ed_new_row_before#:#Neue Zeilen oberhalb
+content#:#cont_ed_nr_cols#:#Anzahl Spalten
+content#:#cont_ed_nr_rows#:#Anzahl Zeilen
 content#:#cont_ed_par#:#Text
 content#:#cont_ed_paste#:#Einfügen
 content#:#cont_ed_paste_clip#:#Aus Ablage einfügen
@@ -6356,8 +6369,10 @@ content#:#cont_edit_shape_rectangle#:#Umriss (Rechteck) bearbeiten
 content#:#cont_edit_shape_whole_picture#:#Umriss (gesamtes Bild) bearbeiten
 content#:#cont_edit_src#:#Programmcode bearbeiten
 content#:#cont_edit_style#:#Style bearbeiten
+content#:#cont_edit_table#:#Tabelle editieren
 content#:#cont_edit_tabs#:#Eigenschaften
 content#:#cont_edit_term#:#Begriff bearbeiten
+content#:#cont_edit_title#:#Titel ändern
 content#:#cont_element_refers_removed_itgr#:#Dieses Inhaltselement verweist auf einen Objekteblock, der in der Zwischenzeit gelöscht wurde.
 content#:#cont_empty_question#:#Die Frage ist noch nicht fertiggestellt. Bitte bearbeiten Sie diese abschließend oder löschen Sie die Frage.
 content#:#cont_enable_page_history#:#Seitenverlauf aktivieren
@@ -6384,6 +6399,7 @@ content#:#cont_file_renamed#:#Die Datei wurde umbenannt.
 content#:#cont_file_unzipped#:#Die Datei wurde entpackt.
 content#:#cont_files#:#Dateien
 content#:#cont_finish_editing#:#Bearbeitung beenden
+content#:#cont_finish_table_editing#:#Editieren der Tabelle beenden
 content#:#cont_first_open#:#Erstes Fach geöffnet
 content#:#cont_first_page#:#Erste Seite
 content#:#cont_first_row_style#:#Stil der ersten Zeile
@@ -6394,6 +6410,7 @@ content#:#cont_footer#:#Fußzeile
 content#:#cont_footnote#:#Fußnote
 content#:#cont_force_all_open#:#Alle immer geöffnet
 content#:#cont_format#:#Format
+content#:#cont_format_cells#:#Zellen formattieren
 content#:#cont_fourth_edition#:#Neueste Version 'SCORM 2004 4th edition'
 content#:#cont_fourth_edition_info#:#'SCORM 2004 4th edition' bietet gegenüber der '3rd edition' einige Erweiterungen. Es können Daten über SCO-Grenzen hinweg ausgetauscht werden. Diese Möglichkeiten werden allerdings nur selten genutzt und wirken sich negativ auf die Geschwindigkeit und auf zu löschende Daten aus.
 content#:#cont_free_pages#:#Freie Seiten
@@ -6430,6 +6447,7 @@ content#:#cont_grid_width_xl#:#Sehr groß (Extra Large)
 content#:#cont_grid_width_xl_info#:#z.B. Wide Desktop
 content#:#cont_hacc_needs_height#:#Bitte geben Sie für horizontale Akkordeons eine Höhe an.
 content#:#cont_hacc_needs_width#:#Bitte geben Sie für horizontale Akkordeons eine Breite an.
+content#:#cont_has_row_header#:#Kopfzeile
 content#:#cont_header#:#Kopfzeile
 content#:#cont_height#:#Höhe in Pixel
 content#:#cont_help_no_valid_tooltip_id#:#Die eingegebene Tooltip-ID ist nicht gültig.
@@ -6449,6 +6467,27 @@ content#:#cont_ie_compatibility#:#Internet Explorer 7 Kompatibilitätsmodus
 content#:#cont_ie_compatibility_info#:#Vermindert Darstellungsprobleme älterer SCORM-Lernmodule, die für den Internet Explorer optimiert wurden. Wenn bei neueren Versionen des Internet Explorers der Kompatibilitätsmodus deaktiviert ist, greift diese Einstellung nicht. <br />
 content#:#cont_ie_force_render#:#Internet Explorer neu rendern lassen
 content#:#cont_ie_force_render_info#:#Korrekte Anzeige der Inhalte des SCORM-Lernmoduls mit vielen Frames oder iFrames wird durch erneutes Rendern des Inhaltes erreicht.
+content#:#cont_iim_add_overlay#:#Overlay-Bild hinzufügen
+content#:#cont_iim_add_trigger#:#Auslöser hinzufügen
+content#:#cont_iim_add_trigger_text#:#Bitte fügen Sie einen Auslöser hinzu. Passen Sie anschließen im rechten Bereich Größe und Position an.
+content#:#cont_iim_background_image#:#Hintergrundbild
+content#:#cont_iim_background_image_and_caption#:#Hintergrundbild und Bildunterschrift
+content#:#cont_iim_edit#:#Interaktives Bild bearbeiten
+content#:#cont_iim_edit_trigger#:#Auslöser bearbeiten
+content#:#cont_iim_finish_editing#:#Bearbeitung des interaktiven Bildes beenden
+content#:#cont_iim_horizontal#:#Horizontal
+content#:#cont_iim_lg#:#Groß
+content#:#cont_iim_md#:#Mittel
+content#:#cont_iim_no_overlay#:#Kein Overlay-Bild
+content#:#cont_iim_overview#:#Übersicht
+content#:#cont_iim_select_overlay#:#Overlay-Bild auswählen
+content#:#cont_iim_select_trigger#:#Klicken Sie auf einen Auslöser im rechten Bereich um diesen zu bearbeiten.
+content#:#cont_iim_size#:#Größe
+content#:#cont_iim_sm#:#Klein
+content#:#cont_iim_tr_add_popup#:#Content-Popup hinzufügen
+content#:#cont_iim_tr_properties_info#:#Der Auslöser wird Ihnen auf der rechten Seite angezeigt. Sie können dort Größe und Position per Maus ändern.
+content#:#cont_iim_trigger#:#Auslöser
+content#:#cont_iim_vertical#:#Vertikal
 content#:#cont_imagemap#:#Image Map
 content#:#cont_import#:#Import
 content#:#cont_import_id#:#identifier
@@ -6476,7 +6515,7 @@ content#:#cont_insert_page_from_clip#:#Seite aus Zwischenablage einfügen
 content#:#cont_insert_pagelayout#:#Seite aus Vorlage einfügen
 content#:#cont_insert_par#:#Text einfügen
 content#:#cont_insert_profile#:#Persönliche Daten veröffentlichen
-content#:#cont_insert_resources#:#Materialienliste einfügen
+content#:#cont_insert_resources#:#Objekteblock einfügen
 content#:#cont_insert_section#:#Block einfügen
 content#:#cont_insert_skills#:#Kompetenz einfügen
 content#:#cont_insert_src#:#Programmcode einfügen
@@ -6578,6 +6617,7 @@ content#:#cont_lrs_settings#:#Einstellungen
 content#:#cont_lvalue#:#Datenelement
 content#:#cont_maintenance#:#Wartung
 content#:#cont_manifest#:#Manifest
+content#:#cont_manual_item_group#:#Manuell erstellter Objekteblock
 content#:#cont_map_file_not_generated#:#Die Imagemap-Datei konnte leider nicht generiert werden.
 content#:#cont_marker#:#Markierungspunkt
 content#:#cont_master_language_only#:#Basissprache für Übersetzung - Master
@@ -6592,6 +6632,7 @@ content#:#cont_media#:#Bilder/Audio/Video
 content#:#cont_media_placeh#:#Klicken und bearbeiten, um ein Medienobjekt einzufügen
 content#:#cont_media_placehl#:#Bild/Medien-Platzhalter
 content#:#cont_media_source#:#Medienquelle
+content#:#cont_merge_cells#:#Zellen verbinden
 content#:#cont_missing_preconditions#:#Sie müssen folgende Vorbedingungen erfüllen, um Zugang zu bekommen zu Kapitel "%s".
 content#:#cont_missing_snippet#:#Fehlender Inhaltsbaustein: Der Inhaltsbaustein wurde gelöscht.
 content#:#cont_mob_def_prop#:#Standardeinstellungen
@@ -6681,13 +6722,14 @@ content#:#cont_operation_not_allowed#:#Diese Aktion ist nicht erlaubt
 content#:#cont_organization#:#Organisation
 content#:#cont_organizations#:#Organisationen
 content#:#cont_orig_size#:#Originalgröße
+content#:#cont_other_resources#:#Inhalt (Andere Ressourcen)
 content#:#cont_out_of_focus_message#:#Diese Seite ist nicht mehr Teil der Inhalte des aktuellen Lernziels.
 content#:#cont_out_of_focus_message_last_page#:#Sie befinden sich auf der letzten Seite der Inhalte zum aktuellen Lernziel.
 content#:#cont_ov_all_correct#:#Sie haben alle Fragen richtig beantwortet.
 content#:#cont_ov_preview#:#Die Fragenübersicht funktioniert nicht im Seiteneditor-Kontext. Benutzen Sie stattdessen die Vorschau auf SCO- oder SCORM-Level.
 content#:#cont_ov_some_correct#:#Sie haben [x] von [y] Fragen richtig beantwortet.
 content#:#cont_ov_wrong_answered#:#Die folgenden Fragen wurden noch nicht oder falsch beantwortet
-content#:#cont_overlay_image#:#Bild für Overlay
+content#:#cont_overlay_image#:#Overlay-Bild
 content#:#cont_overlay_images#:#Overlay-Bilder
 content#:#cont_overlays_have_been_deleted#:#Overlays wurden gelöscht
 content#:#cont_page_activation#:#Seitenaktivierung
@@ -6711,6 +6753,7 @@ content#:#cont_paragraph_styles#:#Absatzformate
 content#:#cont_parameter#:#Parameter
 content#:#cont_parameters#:#Parameter
 content#:#cont_paste_from_clipboard#:#Aus Zwischenablage einfügen
+content#:#cont_paste_from_spreadsheet#:#Aus Tabellenkalkulation einfügen
 content#:#cont_paste_table#:#Tabelle einfügen
 content#:#cont_pc_amdpl#:#Seitenliste
 content#:#cont_pc_blog#:#Blog
@@ -6723,6 +6766,7 @@ content#:#cont_pc_grid#:#Spaltenlayout
 content#:#cont_pc_hacc#:#Akkordeon (horizontal)
 content#:#cont_pc_iim#:#Interaktives Bild
 content#:#cont_pc_incl#:#Inhaltsbaustein
+content#:#cont_pc_lay#:#Layoutvorlage
 content#:#cont_pc_list#:#Erweiterte Liste
 content#:#cont_pc_map#:#Karte
 content#:#cont_pc_media#:#Bild/Audio/Video
@@ -6730,15 +6774,20 @@ content#:#cont_pc_mob#:#Medienobjekt
 content#:#cont_pc_modified#:#Geänderte Inhalte
 content#:#cont_pc_new#:#Neue Inhalte
 content#:#cont_pc_par#:#Text
+content#:#cont_pc_plach#:#Platzhalter
 content#:#cont_pc_prof#:#Persönliche Daten
 content#:#cont_pc_qover#:#Fragenübersicht
 content#:#cont_pc_qst#:#Frage
+content#:#cont_pc_repobj#:#Objekteblock
 content#:#cont_pc_res#:#Ressource
 content#:#cont_pc_sec#:#Block
 content#:#cont_pc_skills#:#Kompetenz
+content#:#cont_pc_src#:#Programmcode
 content#:#cont_pc_tab#:#Erweiterte Tabelle
+content#:#cont_pc_tabs#:#Akkordeon/Karussell
 content#:#cont_pc_vacc#:#Akkordeon (vertikal)
 content#:#cont_pc_vrfc#:#Zertifikat
+content#:#cont_permission_handling#:#Rechteabhängige Anzeige
 content#:#cont_permission_object#:#Berechtigungsobjekt
 content#:#cont_permission_object_desc#:#Falls ein Berechtigungsobjekt ausgewählt wird, wird der Block nur Benutzern mit dem gewählten Recht am Berechtigungsobjekt angezeigt.
 content#:#cont_personal_clipboard#:#Persönliche Zwischenablage
@@ -6799,8 +6848,8 @@ content#:#cont_resource#:#Ressource
 content#:#cont_resource_size#:#Originalgröße der Ressource / Keine Größenangabe
 content#:#cont_resource_size_info#:#Wird die Größenangabe weggelassen, kann die Größe durch den Content-Style beeinflusst werden. Ohne jegliche Regelung der Größe werden nur Bilddateien in ihrer Normalgröße angezeigt.
 content#:#cont_resource_type#:#Typ
-content#:#cont_resources#:#Ressourcen
-content#:#cont_resources_of_type#:#Inhalte vom Typ
+content#:#cont_resources#:#Objekteblock
+content#:#cont_resources_of_type#:#Objekteblock vom Typ
 content#:#cont_restrict_forw_nav#:#Vorwärtsblättern im Lernmodul reglementieren
 content#:#cont_restrict_forw_nav_info#:#Eine nachfolgende Seite kann erst dann aufgerufen werden, wenn auf der aktuellen Lernmodulseite alle Testfragen korrekt beantwortet wurden. Diese Funktion erfordert bei der Einstellung „Antwortversuche“ die Option „Speichere Antwortversuche“.
 content#:#cont_revision#:#Änderung
@@ -6903,6 +6952,8 @@ content#:#cont_sequencing_info#:#Aktiviert die Vorgaben des Lernmoduls zur inter
 content#:#cont_set_alignment#:#Ausrichtung setzen
 content#:#cont_set_layout#:#Layout setzen
 content#:#cont_set_link#:#Verweis ändern
+content#:#cont_set_manuall#:#Manuell setzen
+content#:#cont_set_properties#:#Eigenschaften setzen
 content#:#cont_set_start_file#:#Startdatei festlegen
 content#:#cont_set_styles#:#Styles bestimmen
 content#:#cont_set_tab_style_info#:#Checkboxen aktivieren, um die Tabellenzellen zu formatieren
@@ -6926,6 +6977,7 @@ content#:#cont_snippet_from_another_installation#:#Inhaltsbaustein stammt von ei
 content#:#cont_snippets_used#:#Genutzte Inhaltsbausteine
 content#:#cont_span#:#Zellen verbinden
 content#:#cont_special_page#:#Sonderseite
+content#:#cont_split_cell#:#Zelle auteilen
 content#:#cont_spreadsheet_table#:#Kalkulationstabelle
 content#:#cont_sqst#:#Frage in Umfrage (Material)
 content#:#cont_src#:#Programmiersprache
@@ -6949,22 +7001,36 @@ content#:#cont_subtitle_files#:#Untertitel Medienobjekte
 content#:#cont_sur_block_format#:#Umgebender Block
 content#:#cont_switch_to_media_pool#:#In anderen Medienpool wechseln
 content#:#cont_syntax_help#:#Syntax-Hilfe
+content#:#cont_tab_add_above#:#Fach oberhalb einfügen
+content#:#cont_tab_add_below#:#Fach unterhalb einfügen
 content#:#cont_tab_cont_height#:#Höhe Inhalt
 content#:#cont_tab_cont_width#:#Breite Inhalt
+content#:#cont_tab_delete#:#Fach löschen
+content#:#cont_tab_move_bottom#:#Ans Ende schieben
+content#:#cont_tab_move_down#:#Nach unten schieben
+content#:#cont_tab_move_top#:#An den Anfang schieben
+content#:#cont_tab_move_up#:#Nach oben schieben
 content#:#cont_table#:#Tabelle
+content#:#cont_table_adv_settings#:#Erweiterte Eigenschaften
 content#:#cont_table_border#:#Breite Tabellenrand
 content#:#cont_table_border_info#:#Werte sind inkl. Einheit anzugeben (z.B. px). Ist kein Wert eingetragen, werden die Werte aus dem Stylesheet übernommen.
+content#:#cont_table_cell_edit_info_1#:#Klicken Sie auf eine Tabellenzelle um sie auszuwählen oder die Auswahl aufzuheben.
+content#:#cont_table_cell_edit_info_2#:#Klicken Sie auf einen Spalten- oder Zeilenkopf um die gesamte Spalte oder Zeile auszuwählen.
+content#:#cont_table_cell_edit_info_3#:#Halten Sie die Shift-Taste beim Klicken auf eine Zelle um den Bereich zu erweitern.
 content#:#cont_table_cell_properties#:#Eigenschaften der Tabellenzellen
 content#:#cont_table_cellpadding#:#Innenabstand Tabellenzellen
 content#:#cont_table_cellpadding_info#:#Werte sind inkl. Einheit anzugeben (z.B. px). Ist kein Wert eingetragen, werden die Werte aus dem Stylesheet übernommen.
 content#:#cont_table_edit_cells#:#Zellen editieren
+content#:#cont_table_import_info#:#Geben Sie die Daten je Spalte getrennt durch ein Semikolon oder TAB ein. Für jede Tabellenzeile beginnen Sie auch hier eine neue Zeile. Üblicherweise trennen Tabellenkalkulationen die Daten, wenn sie per Zwischenablage übertragen werden, mit einem TAB. Diese können dann direkt hier eingefügt werden. Weitere Formatierungen werden nicht importiert.
 content#:#cont_table_properties#:#Eigenschaften der Tabelle
+content#:#cont_table_style#:#Style
 content#:#cont_table_width#:#Tabellenbreite
 content#:#cont_tabs#:#Fächer
 content#:#cont_tabs_acc_hor#:#Horizontales Akkordeon
 content#:#cont_tabs_acc_ver#:#Vertikales Akkordeon
 content#:#cont_tabs_carousel#:#Karussell
 content#:#cont_tabs_confirm_deletion#:#Sind Sie sicher, dass diese Fächer mit ihren Inhalten gelöscht werden sollen?
+content#:#cont_target#:#Ziel
 content#:#cont_target_missing#:#Zielpunkt fehlt
 content#:#cont_target_within_source#:#Das Ziel darf nicht innerhalb des Objektes liegen.
 content#:#cont_template#:#Vorlage
@@ -7028,7 +7094,7 @@ content#:#cont_update_login_page#:#Login-Seitenelemente aktualisieren
 content#:#cont_update_map#:#Karte bearbeiten
 content#:#cont_update_my_courses#:#Meine Kurse bearbeiten
 content#:#cont_update_profile#:#Veröffentlichte Daten bearbeiten
-content#:#cont_update_resources#:#Materialienliste aktualisieren
+content#:#cont_update_resources#:#Objekteblock aktualisieren
 content#:#cont_update_section#:#Block bearbeiten
 content#:#cont_update_skills#:#Kompetenz bearbeiten
 content#:#cont_update_verification#:#Zertifikat bearbeiten
@@ -7109,7 +7175,7 @@ content#:#lm_menu_edit_entry#:#Menüeintrag bearbeiten
 content#:#lm_menu_entry_target#:#Ziel
 content#:#lm_menu_entry_title#:#Titel
 content#:#lm_menu_new_entry#:#Neuen Menüeintrag erstellen
-content#:#lm_menu_select_internal_object#:#Internes Objekt auswählen >>
+content#:#lm_menu_select_internal_object#:#Internes Objekt auswählen →
 content#:#lm_menu_select_object_to_add#:#Bitte klicken Sie auf das Objekt, welches Sie im Menü hinzufügen wollen
 content#:#lm_no_download_files#:#Zurzeit stehen keine Download-Dateien zur Verfügung.
 content#:#lm_only_one_download_per_type#:#Es kann nur eine Datei je Typ (XML und HTML) öffentlich freigeschaltet werden.
@@ -7367,14 +7433,14 @@ crs#:#crs_hide_all_obj#:#Alle verbergen
 crs#:#crs_html#:#HTML
 crs#:#crs_import#:#Kurs importieren
 crs#:#crs_important_info#:#Wichtige Informationen
-crs#:#crs_info_agree#:#Ich bin damit einverstanden, dass die oben angegebenen Daten von Kursadministratoren eingesehen werden können.
+crs#:#crs_info_agree#:#Ich bin damit einverstanden, dass die oben angegebenen Daten von der Kursadministration eingesehen werden kann.
 crs#:#crs_info_agreement#:#Falls die folgenden Angaben in Ihrem Persönliche Profil vorliegen, können sie von der Kursadministration eingesehen werden:
 crs#:#crs_info_download#:#Dateien zum Herunterladen
 crs#:#crs_info_reg#:#Aufnahmeverfahren
 crs#:#crs_info_reg_confirmation#:#Sie müssen einen Aufnahmeantrag stellen, um in den Kurs aufgenommen zu werden. Beschreiben Sie im Feld Nachricht, warum Sie beitreten möchten. Sobald Ihr Antrag angenommen oder abgelehnt wurde, erhalten Sie eine Benachrichtigung.
 crs#:#crs_info_reg_deactivated#:#Zur Zeit ist keine Aufnahme möglich.
 crs#:#crs_info_reg_direct#:#Sie können diesem Kurs direkt beitreten.
-crs#:#crs_info_reg_password#:#Wenn Sie das Kurspasswort von einem Kursadministrator erhalten haben, können Sie in diesen Kurs beitreten.
+crs#:#crs_info_reg_password#:#Sobald Sie das Kurspasswort von der Kursadministration erhalten haben, können Sie diesem Kurs beitreten.
 crs#:#crs_info_settings#:#Kursinfo
 crs#:#crs_info_start#:#Bitte bearbeiten Sie zunächst alle unten aufgeführten Materialien.<br/>Wenn Sie alle Objekte bearbeitet haben, werden weitere Kursinhalte für Sie freigeschaltet.
 crs#:#crs_intro_course_group_notification_for#:#dies ist die Zusammenfassung der Nachrichten aus Ihren Kursen und Gruppen, für die die automatische Benachrichtigung aktiviert wurde.
@@ -7767,7 +7833,7 @@ crs#:#crs_unsubscribe_sure#:#Sind Sie sicher, dass Sie die Mitgliedschaft in die
 crs#:#crs_unsubscribed_from_crs#:#Ihre Kursmitgliedschaft wurde beendet.
 crs#:#crs_update_subscr_request#:#Aufnahmeantrag aktualisieren
 crs#:#crs_user_agreement#:#Angaben des Persönlichen Profils
-crs#:#crs_user_agreement_info#:#Für Kursadministratoren freigegebene Daten
+crs#:#crs_user_agreement_info#:#Für Kursadministration freigegebene Daten
 crs#:#crs_user_already_assigned#:#Die Person ist bereits Teilnehmer dieses Kurses.
 crs#:#crs_users_added#:#Benutzer wurde(n) in den Kurs aufgenommen
 crs#:#crs_users_already_assigned#:#Ein Benutzer ist bereits Mitglied dieses Kurses
@@ -8170,6 +8236,7 @@ dateplaner#:#cal_grp_others#:#Andere
 dateplaner#:#cal_grp_personal#:#Persönlich
 dateplaner#:#cal_ical_infoscreen#:#Abonnieren
 dateplaner#:#cal_ical_url#:#iCal-URL
+dateplaner#:#cal_ical_url_google#:#iCal-URL (Google Kalender)
 dateplaner#:#cal_import_appointments#:#Termine importieren
 dateplaner#:#cal_import_file#:#Importdatei
 dateplaner#:#cal_import_file_info#:#Wählen Sie die Datei aus, die Ihre Termine enthält.
@@ -8252,7 +8319,7 @@ dateplaner#:#cal_show_weeks_info#:#Zeigt die Wochen im Seitenblock "Kalender" an
 dateplaner#:#cal_start#:#Anfang
 dateplaner#:#cal_subscription#:#Abonnieren
 dateplaner#:#cal_subscription_header#:#Kalender-Adresse
-dateplaner#:#cal_subscription_info#:#Verwenden Sie die folgende Adresse, um mittels anderer Anwendungen auf Ihren Kalender zuzugreifen. Sie können diese Adresse kopieren und in jeden Kalender einfügen, der das iCal-Format unterstützt.
+dateplaner#:#cal_subscription_info#:#Verwenden Sie eine der folgenden Adressen, um mittels anderer Anwendungen auf Ihren Kalender zuzugreifen. Sie können diese Adresse kopieren und in jeden Kalender einfügen, der das iCal-Format unterstützt. Der Google-Kalender unterstützt keine iCal Dateien die größer als 1MB sind. Deshalb werden beim Export mit der iCal-URL für Google-Kalender alle Kalendertermine verworfen die älter als 30 Tage sind.
 dateplaner#:#cal_subscription_url#:#Kalender URL:
 dateplaner#:#cal_sync_cache#:#Termin-Cache
 dateplaner#:#cal_sync_cache_info#:#Wenn aktiviert, werden Kalendertermine zur Synchronisation mit externen Kalendern nur alle x-Minuten aktualisiert.
@@ -8370,16 +8437,16 @@ dcl#:#dcl_confirm_delete_detailed_view_text#:#Die Vorlage für Einzelansicht wir
 dcl#:#dcl_confirm_delete_detailed_view_title#:#Vorlage für Einzelansicht wirklich löschen?
 dcl#:#dcl_confirm_delete_field#:#Möchten Sie dieses Feld wirklich löschen?
 dcl#:#dcl_confirm_delete_fields#:#Möchten Sie diese Felder wirklich löschen?
-dcl#:#dcl_confirm_delete_record#:#Möchten Sie diesen Eintrag wirklich löschen?
-dcl#:#dcl_confirm_delete_records#:#Sind Sie sicher, dass die folgenden Datensätze gelöscht werden sollen?
-dcl#:#dcl_confirm_delete_table#:#Wollen Sie diese Tabelle wirklich löschen inkl. Inhalt und Struktur?
+dcl#:#dcl_confirm_delete_record#:#Möchten Sie diesen Datensatz wirklich löschen?
+dcl#:#dcl_confirm_delete_records#:#Möchten Sie die folgenden Datensätze wirklich löschen?
+dcl#:#dcl_confirm_delete_table#:#Wollen Sie diese Tabelle einschließlich Inhalt und Struktur wirklich löschen?
 dcl#:#dcl_confirm_storing_records#:#Bitte überprüfen Sie die Angaben vor dem Speichern.
 dcl#:#dcl_confirm_storing_records_no_permission#:#Sie haben keine Rechte, den Datensatz später nochmals zu bearbeiten.
 dcl#:#dcl_copy#:#Datensammlung kopieren
 dcl#:#dcl_create_date#:#Erstellungsdatum
 dcl#:#dcl_create_entry_rules#:#Eintragserstellung
 dcl#:#dcl_create_field#:#Feld hinzufügen
-dcl#:#dcl_create_fields#:#Klicken Sie in der Registerkarte "Tabellen" auf eine Tabelle und erstellen Sie mithilfe des Button "Feld hinzufügen" neue Felder.
+dcl#:#dcl_create_fields#:#Klicken Sie in der Registerkarte „Tabellen“ auf eine Tabelle und erstellen Sie mithilfe des Button „Feld hinzufügen“ neue Felder.
 dcl#:#dcl_creation_date#:#Erstellungsdatum
 dcl#:#dcl_creation_date_description#:#Das Datum, an dem dieser Eintrag erstellt wurde.
 dcl#:#dcl_datatype#:#Datentyp
@@ -8392,14 +8459,14 @@ dcl#:#dcl_default_sort_field#:#Sortierung
 dcl#:#dcl_default_sort_field_desc#:#Tabelle wird standardmässig nach dem ausgewählten Feld sortiert.
 dcl#:#dcl_default_sort_field_order#:#Sortierrichtung
 dcl#:#dcl_delete_fields#:#Felder löschen
-dcl#:#dcl_delete_fields_no_selection#:#Zum Löschen muss mindestens ein Feld ausgewählt werden
+dcl#:#dcl_delete_fields_no_selection#:#Zum Löschen muss mindestens ein Feld ausgewählt werden.
 dcl#:#dcl_delete_perm#:#Einträge löschen
 dcl#:#dcl_delete_records#:#Datensätze löschen
 dcl#:#dcl_delete_tables#:#Tabellen löschen
-dcl#:#dcl_delete_tables_no_selection#:#Zum Löschen muss mindestens eine Tabelle ausgewählt werden
+dcl#:#dcl_delete_tables_no_selection#:#Zum Löschen muss mindestens eine Tabelle ausgewählt werden.
 dcl#:#dcl_delete_views#:#Ansichten löschen
-dcl#:#dcl_delete_views_no_selection#:#Zum Löschen muss mindestens eine Ansicht ausgewählt werden
-dcl#:#dcl_deleted_records#:#Es wurden %s Datensätze gelöscht
+dcl#:#dcl_delete_views_no_selection#:#Zum Löschen muss mindestens eine Ansicht ausgewählt werden.
+dcl#:#dcl_deleted_records#:#Es wurden %s Datensätze gelöscht.
 dcl#:#dcl_desc#:#Absteigende Reihenfolge (DESC)
 dcl#:#dcl_description#:#Beschreibung
 dcl#:#dcl_detailed_view#:#Einzelansicht
@@ -8417,7 +8484,7 @@ dcl#:#dcl_empty_detailed_view_success#:#Die Vorlage wurde erfolgreich gelöscht.
 dcl#:#dcl_err_formula_field_not_found#:#Feld mit dem Titel '%s' existiert nicht
 dcl#:#dcl_error_parsing_expression#:#Fehler beim Evaluieren des Ausdrucks
 dcl#:#dcl_export_enabled#:#Tabelle exportieren
-dcl#:#dcl_export_enabled_desc#:#Alle Benutzer können die Daten der Tabelle selbst exportieren. Dazu müssen in der Übersicht "Felder der ausgewählten Tabelle" die Felder einzeln als exportierbar ausgewählt werden.
+dcl#:#dcl_export_enabled_desc#:#Alle Benutzer können die Daten der Tabelle selbst exportieren. Dazu müssen in der Übersicht „Felder der ausgewählten Tabelle“ die Felder einzeln als exportierbar ausgewählt werden.
 dcl#:#dcl_export_finished#:#Export abgeschlossen
 dcl#:#dcl_export_started#:#Asynchroner Export gestartet
 dcl#:#dcl_field_datatype#:#Feld Datentyp
@@ -8458,7 +8525,7 @@ dcl#:#dcl_last_update_description#:#Das Datum, an dem dieser Eintrag zuletzt ge�
 dcl#:#dcl_learning_progress#:#Lernfortschritt anzeigen
 dcl#:#dcl_legend_placeholders#:#Platzhalter
 dcl#:#dcl_length#:#Länge
-dcl#:#dcl_length_info#:#Anzahl von Zeichen, die ein Benutzer eingeben kann (Maximal 4000). Bei mehr als 200 Zeichen aktivieren Sie zusätzlich die Option "Mehrzeiliges Texteingabefeld".
+dcl#:#dcl_length_info#:#Anzahl von Zeichen, die ein Benutzer eingeben kann (Maximal 4000). Bei mehr als 200 Zeichen aktivieren Sie zusätzlich die Option „Mehrzeiliges Texteingabefeld“.
 dcl#:#dcl_limit_end#:#Ende
 dcl#:#dcl_limit_start#:#Start
 dcl#:#dcl_limited#:#Zeitlich begrenzte Bearbeitung
@@ -8467,41 +8534,41 @@ dcl#:#dcl_link_detail_page#:#Link zur Einzelansicht
 dcl#:#dcl_list_fields#:#Felder
 dcl#:#dcl_list_visibility_and_filter#:#Übersicht
 dcl#:#dcl_locked#:#Gesperrt
-dcl#:#dcl_locked_tooltip#:#Ein gesperrtes Feld lässt sich von Benutzern nicht mehr bearbeiten. Gilt nicht für Rollen mit dem Recht 'Einstellungen bearbeiten'
+dcl#:#dcl_locked_tooltip#:#Ein gesperrtes Feld lässt sich von Benutzern nicht mehr bearbeiten. Dies gilt nicht für Rollen mit dem Recht „Einstellungen bearbeiten“.
 dcl#:#dcl_manage#:#Verwalten
 dcl#:#dcl_max_digits#:#Maximale Anzahl Ziffern
 dcl#:#dcl_max_import#:#Die maximal erlaubte Anzahl an importierten Datensätze wurde überschritten.
 dcl#:#dcl_max_text_length#:#Maximale Länge
 dcl#:#dcl_mob#:#Medienobjekt
 dcl#:#dcl_mob_desc#:#Möglichkeit zum Hochladen von Bild-, Audio- oder Video-Dateien, die direkt in der Datensammlung präsentiert werden. Erlaubte Dateitypen: %s
-dcl#:#dcl_msg_field_modified#:#Feld wurde aktualisiert
+dcl#:#dcl_msg_field_modified#:#Feld wurde aktualisiert.
 dcl#:#dcl_msg_fields_deleted#:#Gelöschte Felder
-dcl#:#dcl_msg_info_alternatives#:#Die gewünschte Einzelansicht konnte nicht angezeigt werden, da entweder keine Einzelansicht für diese Tabellenansicht existiert oder Sie nicht genügend Zugriffsrechte besitzen. Wählen Sie aus der Liste eine für Sie verfügbare Einzelansicht, um den Datensatz dennoch anzuzeigen.
-dcl#:#dcl_msg_mc_to_sc_confirmation#:#Ein Wechsel von Mehrfachauswahl auf Einfachauswahl kann bei existierenden Datensätzen zu Datenverlust führen. Sind Sie sicher, dass Sie fortfahren möchten?
-dcl#:#dcl_msg_no_perm_edit#:#Keine Berechtigung um diesen Eintrag zu bearbeiten
-dcl#:#dcl_msg_no_perm_view#:#Keine Berechtigung um diesen Eintrag anzusehen
+dcl#:#dcl_msg_info_alternatives#:#Die gewünschte Einzelansicht konnte nicht angezeigt werden. Entweder existiert keine Einzelansicht für diese Tabellenansicht oder Sie besitzen nicht die notwendigen Zugriffsrechte. Wählen Sie aus der Liste eine für Sie verfügbare Einzelansicht, um den Datensatz dennoch anzuzeigen.
+dcl#:#dcl_msg_mc_to_sc_confirmation#:#Ein Wechsel von Mehrfachauswahl auf Einfachauswahl kann bei existierenden Datensätzen zu einem Datenverlust führen. Sind Sie sicher, dass Sie fortfahren möchten?
+dcl#:#dcl_msg_no_perm_edit#:#Keine Berechtigung zum Bearbeiten dieses Eintrags
+dcl#:#dcl_msg_no_perm_view#:#Keine Berechtigung zum Ansehen dieses Eintrags
 dcl#:#dcl_msg_table_created#:#Tabelle angelegt
 dcl#:#dcl_msg_table_edited#:#Tabelleneinstellungen wurden gespeichert.
-dcl#:#dcl_msg_tables_delete_all#:#Löschen nicht möglich: Es muss mindestens eine Tabelle existieren
-dcl#:#dcl_msg_tables_deleted#:#Tabellen gelöscht
-dcl#:#dcl_msg_tableview_created#:#Ansicht hinzugefügt
-dcl#:#dcl_msg_tableview_deleted#:#Ansicht gelöscht
-dcl#:#dcl_msg_tableview_updated#:#Ansicht aktualisiert
-dcl#:#dcl_msg_tableviews_delete_all#:#Löschen nicht möglich: Es muss mindestens eine Ansicht existieren
-dcl#:#dcl_msg_tableviews_deleted#:#Ansichten gelöscht
-dcl#:#dcl_msg_tableviews_order_updated#:#Anordnung der Ansichten aktualisiert
+dcl#:#dcl_msg_tables_delete_all#:#Löschen nicht möglich: Es muss mindestens eine Tabelle existieren.
+dcl#:#dcl_msg_tables_deleted#:#Tabellen gelöscht.
+dcl#:#dcl_msg_tableview_created#:#Ansicht hinzugefügt.
+dcl#:#dcl_msg_tableview_deleted#:#Ansicht gelöscht.
+dcl#:#dcl_msg_tableview_updated#:#Ansicht aktualisiert.
+dcl#:#dcl_msg_tableviews_delete_all#:#Löschen nicht möglich: Es muss mindestens eine Ansicht existieren.
+dcl#:#dcl_msg_tableviews_deleted#:#Ansichten gelöscht.
+dcl#:#dcl_msg_tableviews_order_updated#:#Anordnung der Ansichten aktualisiert.
 dcl#:#dcl_multiple_selection#:#Mehrfachauswahl
 dcl#:#dcl_new#:#Neue Datensammlung anlegen
 dcl#:#dcl_new_field#:#Neues Feld
 dcl#:#dcl_new_table#:#Neue Tabelle
 dcl#:#dcl_next_record#:#Nächster Eintrag
-dcl#:#dcl_no_content_warning#:#Achtung, die Datensammlung ist bereits online, hat aber noch keinen Inhalt!
+dcl#:#dcl_no_content_warning#:#Achtung: die Datensammlung ist bereits online, hat aber noch keinen Inhalt!
 dcl#:#dcl_no_entry#:#Kein Eintrag
 dcl#:#dcl_no_export_content_available#:#Keine Daten für den Export verfügbar.
 dcl#:#dcl_no_export_data_available#:#Keine Daten oder Felder für den Export verfügbar.
-dcl#:#dcl_no_export_fields_available#:#Keine Felder für den Export aktiviert. Markieren Sie mindestens ein Feld als "Exportierbar" in den <a href="%s">Tabelleneinstellungen</a>.
-dcl#:#dcl_no_fields_yet#:#Es wurden noch keine Felder für diese Tabelle erstellt, daher können noch keine Einträge eingefügt werden.
-dcl#:#dcl_no_read_access_on_any_standard_view#:#Sie haben auf keine Standard Tabellenansicht Lesezugriff.
+dcl#:#dcl_no_export_fields_available#:#Keine Felder für den Export aktiviert. Markieren Sie mindestens ein Feld als „Exportierbar“ in den <a href="%s">Tabelleneinstellungen</a>.
+dcl#:#dcl_no_fields_yet#:#Es wurden noch keine Felder für diese Tabelle erstellt. Daher können noch keine Einträge eingefügt werden.
+dcl#:#dcl_no_read_access_on_any_standard_view#:#Sie haben auf keine Standard-Tabellenansicht Lesezugriff.
 dcl#:#dcl_no_search_results_found_for#:#Es wurden keine Module gefunden mit:
 dcl#:#dcl_no_such_reference#:#Der folgende Wert ist in der Referenztabelle nicht vorhanden:
 dcl#:#dcl_no_warnings#:#Der Import wurde reibungslos abgeschlossen.
@@ -8519,30 +8586,30 @@ dcl#:#dcl_number_desc#:#Eingabefeld für ganze Zahlen (maximal 9 Ziffern). Nicht
 dcl#:#dcl_online_info#:#Nur wenn die Datensammlung online geschaltet ist, können Benutzer die Datensammlung sehen und benutzen.
 dcl#:#dcl_order#:#Sortierung
 dcl#:#dcl_own_entries#:#Nur eigene Einträge
-dcl#:#dcl_owner#:#Eigener Eintrag von ###Modified as part of gender mainstreaming activities for ILIAS 8
-dcl#:#dcl_owner_description#:#Eigene Einträge bleiben stets sichtbar.###Modified as part of gender mainstreaming activities for ILIAS 8
+dcl#:#dcl_owner#:#Eigener Eintrag von
+dcl#:#dcl_owner_description#:#Eigene Einträge bleiben stets sichtbar.
 dcl#:#dcl_owner_name#:#Im Besitz von (Name)
 dcl#:#dcl_page_type_dclf#:#Detailansicht
 dcl#:#dcl_permissions_form#:#Berechtigungen für diese Tabelle
 dcl#:#dcl_please_select#:#--- Bitte wählen ---
 dcl#:#dcl_plugin#:#Plugin
-dcl#:#dcl_plugin_desc#:#DataCollection Feld Erweiterungen
+dcl#:#dcl_plugin_desc#:#DataCollection-Feld Erweiterungen
 dcl#:#dcl_plugin_hooks#:#Verfügbare Erweiterungen
-dcl#:#dcl_plugin_no_hooks_available#:#Keine aktiven Field-Type Plugins gefunden
+dcl#:#dcl_plugin_no_hooks_available#:#Keine aktiven Field-Type Plugins gefunden.
 dcl#:#dcl_prev_record#:#Vorheriger Eintrag
 dcl#:#dcl_prop_expression#:#Ausdruck
-dcl#:#dcl_prop_expression_info#:#Gültige Operatoren: <b>%s</b><br>Unterstützte Funktionen: <b>%s</b><br>Verwenden Sie Klammern <b>"(", ")"</b> zum Gruppieren von Ausdrücken.<br>Zeichenketten und Platzhalter verbinden mit &: <b>"Das Resultat ist " & [[Int 1]] * [[Int 2]]</b><br>Verwenden der Funktionen: <b>SUM([[Int 1]];[[Int 2]])</b><br><br>Gültige Felder (auf den Titel klicken um als Platzhalter in Ausdruck einzufügen):<br>%s
+dcl#:#dcl_prop_expression_info#:#Gültige Operatoren: <b>%s</b><br>Unterstützte Funktionen: <b>%s</b><br>Verwenden Sie Klammern <b>"(", ")"</b> zum Gruppieren von Ausdrücken.<br>Zeichenketten und Platzhalter verbinden mit &: <b>"Das Resultat ist " & [[Int 1]] * [[Int 2]]</b><br>Verwenden der Funktionen: <b>SUM([[Int 1]];[[Int 2]])</b><br>Beim verwenden von Datums-Feldern und Zahlen-Feldern in einer Formel, weden die Zahlen-Feldern als Sekunden betrachtet und müssen bspw. mit 86400 multipliziert werden.<br><br>Gültige Felder (auf den Titel klicken um als Platzhalter in Ausdruck einzufügen):<br>%s
 dcl#:#dcl_public_comments#:#Kommentare
-dcl#:#dcl_public_comments_desc#:#Benutzer können Datensätze dieser Tabelle kommentieren
+dcl#:#dcl_public_comments_desc#:#Benutzer können Datensätze dieser Tabelle kommentieren.
 dcl#:#dcl_rating#:#Bewertung
-dcl#:#dcl_rating_desc#:#Benutzer können Einträge mit bis zu fünf Sternen bewerten.
-dcl#:#dcl_rbac_roles_without_read_access_on_any_standard_view#:#Die folgenden RBAC Rollen haben Lesezugriff auf die Datensammlung, jedoch auf keine Standard Ansicht der Tabellen:
+dcl#:#dcl_rating_desc#:#Benutzer können Einträge mit ein bis fünf Sternen bewerten.
+dcl#:#dcl_rbac_roles_without_read_access_on_any_standard_view#:#Die folgenden Rollen haben Lesezugriff auf die Datensammlung, jedoch auf keine Standard-Ansicht der Tabellen:
 dcl#:#dcl_record#:#Eintrag
-dcl#:#dcl_record_deleted#:#Eintrag gelöscht
+dcl#:#dcl_record_deleted#:#Eintrag gelöscht.
 dcl#:#dcl_record_from_total#:#%d von %d
 dcl#:#dcl_reference#:#Referenz
-dcl#:#dcl_reference_desc#:#Bereitstellen von Auswahloptionen, die in einem anderen Feld einer Tabelle gepflegt werden
-dcl#:#dcl_reference_link#:#Als Link zum referenzierten Eintrag darstellen
+dcl#:#dcl_reference_desc#:#Bereitstellen von Auswahloptionen, die in einem anderen Feld einer Tabelle gepflegt werden.
+dcl#:#dcl_reference_link#:#Als Link zum referenzierten Eintrag darstellen.
 dcl#:#dcl_reference_link_info#:#Die Vorlage für Einzelansicht muss in der referenzierten Tabelle aktiv sein.
 dcl#:#dcl_reference_title#:#Referenz zu Tabelle und Feld
 dcl#:#dcl_regex#:#Regulärer Ausdruck
@@ -8551,15 +8618,15 @@ dcl#:#dcl_required#:#Verpflichtend
 dcl#:#dcl_row_not_found#:# - Dieses Feld wurde in der Tabelle nicht gefunden.
 dcl#:#dcl_save#:#Speichern
 dcl#:#dcl_save_confirmation#:#Speicherbestätigung
-dcl#:#dcl_save_confirmation_desc#:#Benutzer muss das Eintragen von neuen Datensätzen bestätigen
-dcl#:#dcl_save_order#:#Sortierung Speichern
+dcl#:#dcl_save_confirmation_desc#:#Benutzer muss das Eintragen von neuen Datensätzen bestätigen.
+dcl#:#dcl_save_order#:#Sortierung speichern
 dcl#:#dcl_save_record#:#Eintrag speichern
 dcl#:#dcl_select#:#Auswahl der Tabelle
 dcl#:#dcl_selection_options#:#Optionen
 dcl#:#dcl_selection_type#:#Typ
-dcl#:#dcl_selection_type_combobox#:#Combobox (Dropdown)
+dcl#:#dcl_selection_type_combobox#:#Einfachauswahl (Dropdown)
 dcl#:#dcl_selection_type_multi#:#Mehrfachauswahl
-dcl#:#dcl_selection_type_single#:#Einfachauswahl
+dcl#:#dcl_selection_type_single#:#Einfachauswahl (Liste)
 dcl#:#dcl_simulate_import#:#Import simulieren
 dcl#:#dcl_simulate_info#:#Hierbei werden keine Datensätze angelegt, sondern nur Feedback zu Fehlern in der Import-Datei gegeben. Dadurch können Sie fehlerhafte Imports vermeiden.
 dcl#:#dcl_skipped_delete_records#:#%s Datensätze wurden aufgrund der Rechteeinstellungen nicht gelöscht
@@ -8574,21 +8641,21 @@ dcl#:#dcl_table#:#Tabelle
 dcl#:#dcl_table_create#:#Erstelle Tabelle
 dcl#:#dcl_table_edit#:#Speichern
 dcl#:#dcl_table_id#:#Tabellen ID
-dcl#:#dcl_table_info#:#Nachfolgend legen Sie fest, was Benutzer in dieser Tabelle tun dürfen, die für die Datensammlung das Recht "Eintragen" besitzen.
+dcl#:#dcl_table_info#:#Nachfolgend legen Sie fest, was Benutzer in dieser Tabelle tun dürfen, die für die Datensammlung das Recht „Eintragen“ besitzen.
 dcl#:#dcl_table_info_title#:#Info
 dcl#:#dcl_table_list_fields#:#Felder der ausgewählten Tabelle
 dcl#:#dcl_table_list_tables#:#Verfügbare Tabellen
 dcl#:#dcl_table_settings_saved#:#Tabellen Einstellungen wurden gespeichert.
-dcl#:#dcl_table_title_not_matching#:#Die Titel des Excel-Arbeitsblatts und der Tabelle in der Datensammlung stimmen nicht überein. Benennen Sie das Arbeitsblatt um, um einen korrekten Import durchzuführen.
-dcl#:#dcl_table_title_unique#:#Es existiert bereits eine Tabelle mit diesem Titel. Titel muss eindeutig sein.
+dcl#:#dcl_table_title_not_matching#:#Die Titel des Excel-Arbeitsblatts und der Tabelle in der Datensammlung stimmen nicht überein. Benennen Sie das Arbeitsblatt um, um einen korrekten Import zu gewährleisten.
+dcl#:#dcl_table_title_unique#:#Es existiert bereits eine Tabelle mit diesem Titel. Der Titel muss eindeutig sein.
 dcl#:#dcl_tables#:#Tabellen
 dcl#:#dcl_tables_confirm_delete#:#Sind Sie sicher, dass die folgenden Tabellen gelöscht werden sollen?
 dcl#:#dcl_tableview#:#Ansicht
 dcl#:#dcl_tableview_add#:#Neue Ansicht hinzufügen
-dcl#:#dcl_tableview_confirm_delete#:#Sind Sie sicher, dass die folgende Ansicht gelöscht werden sollen?
-dcl#:#dcl_tableview_copy#:#Ansicht erfolgreich kopiert
+dcl#:#dcl_tableview_confirm_delete#:#Sind Sie sicher, dass die folgende Ansicht gelöscht werden soll?
+dcl#:#dcl_tableview_copy#:#Ansicht erfolgreich kopiert.
 dcl#:#dcl_tableview_default_value#:#Standardwert
-dcl#:#dcl_tableview_default_value_fail#:#Einige numerische Standardwerte konnten nicht kopiert werden, da sich Zeichen darin befanden. Bitte versuchen Sie es erneut.
+dcl#:#dcl_tableview_default_value_fail#:#Einige numerische Standardwerte konnten nicht kopiert werden, da sich Zeichen darin befinden. Bitte versuchen Sie es erneut.
 dcl#:#dcl_tableview_field_access#:#Zugriffsrecht
 dcl#:#dcl_tableview_fieldsettings#:#Feldspezifische Einstellungen
 dcl#:#dcl_tableview_fieldtitle#:#Feld-Titel
@@ -8624,12 +8691,12 @@ dcl#:#dcl_view_viewdefinition#:#Vorlage für Einzelansicht
 dcl#:#dcl_visible#:#Für alle Benutzer sichtbar
 dcl#:#dcl_visible_desc#:#Benutzer haben Zugriff auf diese Tabelle.
 dcl#:#dcl_width#:#Breite
-dcl#:#dcl_wrong_input_type#:#Der eingegebene Text passt nicht zum Typ dieses Feldes (Falscher Typ).
+dcl#:#dcl_wrong_input_type#:#Der eingegebene Text passt nicht zum Typ dieses Feldes (falscher Typ).
 dcl#:#dcl_wrong_length#:#Der eingegebene Text ist zu lang.
-dcl#:#dcl_wrong_regex#:#Der eingegebene Text passt nicht zur Spezifikation dieses Feldes (Regulärer Ausdruck).
-dcl#:#dlc_xls_async_export#:#Asynchroner XLSX export
+dcl#:#dcl_wrong_regex#:#Der eingegebene Text passt nicht zur Spezifikation dieses Feldes (regulärer Ausdruck).
+dcl#:#dlc_xls_async_export#:#Asynchroner XLSX-Export
 dcl#:#fieldtitle_allow_chars#:#Nicht Erlaubte Zeichen: %s
-dcl#:#fileupload_not_migrated#:#Die Datei wurde noch nicht migriert und kann nicht angezeigt werden. Bitte wenden Sie sich an Ihre System-Administration.
+dcl#:#fileupload_not_migrated#:#Die Datei wurde noch nicht migriert und kann deshalb nicht angezeigt werden. Bitte wenden Sie sich an Ihre Systemadministration.
 didactic#:#activate_exclusive_template#:#Standard ausgrauen
 didactic#:#activate_exclusive_template_info#:#Die Standard-Vorlage wird überall dort ausgegraut, wo diese didaktische Vorlage aktiv ist.
 didactic#:#activate_local_didactic_template#:#Gültigkeitsbereich
@@ -9057,6 +9124,7 @@ exc#:#exc_global_feedback_file_date#:#Verfügbarkeit
 exc#:#exc_global_feedback_file_date_deadline#:#Nach dem Abgabetermin
 exc#:#exc_global_feedback_file_date_upload#:#Nach der Abgabe
 exc#:#exc_go_to_exercise#:#Zur Übung
+exc#:#exc_graded_mem_notified#:#Alle ausgewählten Teilnehmer mit einer Bewertung wurden benachrichtigt.
 exc#:#exc_grades#:#Notenübersicht
 exc#:#exc_grades_overview#:#Notenübersicht
 exc#:#exc_hand_in#:#Datei abgeben
@@ -9096,6 +9164,8 @@ exc#:#exc_min_nr_info#:#Dieser Wert muss mindestens so hoch sein, wie die Anzahl
 exc#:#exc_min_team_participants#:#Minimale Anzahl
 exc#:#exc_msg_all_mandatory_ass#:#Sie müssen alle verpflichtenden Übungseinheiten bestehen, um die Übung als ganze zu bestehen.
 exc#:#exc_msg_failed_mandatory#:#Sie haben mindestens eine obgligatorische Übungseinheit nicht bestanden.
+exc#:#exc_msg_grading_done#:#Es wurde eine Übungseinheit in Übung "%s" bewertet.
+exc#:#exc_msg_grading_done_body#:#Ein Tutor hat Ihre Lösungsabgabe in Übung "%s" bewertet.
 exc#:#exc_msg_min_number_ass#:#Sie müssen mindestens %s Übungseinheiten bestehen, um die Übung zu bestehen.
 exc#:#exc_msg_missed_minimum_number#:#Sie haben die Mindestanzahl an Übungseinheiten nicht bestanden.
 exc#:#exc_msg_new_feedback_file_uploaded#:#Es wurde eine neue Feedback-Datei zur Übung "%s" hinzugefügt.
@@ -9117,6 +9187,7 @@ exc#:#exc_no_assignments_available#:#Keine Übungseinheiten vorhanden. Bitte wä
 exc#:#exc_no_deadline_specified#:#Es wurde kein Abgabetermin festgelegt.
 exc#:#exc_no_feedback_dir_found_in_zip#:#Die Verzeichnisstruktur des hochgeladenen Zip-Archivs konnte nicht verarbeitet werden.
 exc#:#exc_no_get_target#:#Kein gültiges Link-Ziel gefunden.
+exc#:#exc_no_graded_mem_selected#:#Bitte wählen Sie mindestens einen Teilnehmer mit Bewertung aus.
 exc#:#exc_no_participants#:#Zur Zeit gibt es keine Teilnehmer.
 exc#:#exc_no_portfolio_templates#:#Es sind keine Portfoliovorlagen vorhanden.
 exc#:#exc_no_team_yet#:#Keinem Team zugeordnet
@@ -9249,6 +9320,7 @@ exc#:#exc_select_portfolio_change#:#Anderes Portfolio benutzen
 exc#:#exc_select_portfolio_info#:#Bitte wählen Sie eines Ihrer Portfolios, um es in dieser Übungseinheit zu benutzen.
 exc#:#exc_select_portfolio_unlink#:#Portfolio entfernen
 exc#:#exc_send_assignment#:#Übungseinheit per Mail verschicken
+exc#:#exc_send_grading_notification#:#Benachrichtigung über Bewertung schicken
 exc#:#exc_settings_feedback#:#Rückmeldung
 exc#:#exc_settings_feedback_file#:#Datei
 exc#:#exc_settings_feedback_file_info#:#Rückmeldungen werden als Datei hochgeladen und im Reiter „Übungseinheiten“ angezeigt. Die Teilnehmerinnen und Teilnehmer werden darüber per Mail benachrichtigt.
@@ -9272,6 +9344,7 @@ exc#:#exc_submission_notification_body#:#Eine neue Abgabe für die Übung "%s" l
 exc#:#exc_submission_notification_info#:#Sie werden per Mail benachrichtigt, sobald neue Lösungen abgegeben wurden. Dies ist eine persönliche Einstellung, die nur für Sie gilt. Andere Personen, die Abgaben bewerten erhalten nur dann eine Mail, wenn auch sie diese Checkbox aktivieren.
 exc#:#exc_submission_notification_link#:#Link zur Übung: %s
 exc#:#exc_submission_notification_subject#:#Eine neue Abgabe für die Übung "%s" liegt vor
+exc#:#exc_submission_open_notification_link#:#Abgabe öffnen: %s
 exc#:#exc_submission_text#:#Textabgabe
 exc#:#exc_submissions_and_grades#:#Abgaben und Noten
 exc#:#exc_submit_convenience_no_deadline#:#Geben Sie nach Bearbeitung der Übungseinheit ab. Es gibt keinen festen Abgabetermin.
@@ -9316,13 +9389,13 @@ exc#:#exc_team_assignment_adopt_user#:#Team aus Übungseinheit übernehmen
 exc#:#exc_team_at_least_one#:#Es muss mindestens ein Team-Mitglied geben.
 exc#:#exc_team_by_assignment#:#Übernahme von Übungseinheit
 exc#:#exc_team_by_assignment_info#:#Die Teams werden von einer bestehender Übungseinheit übernommen.
-exc#:#exc_team_by_participants#:#Durch Teilnehmer
-exc#:#exc_team_by_participants_info#:#Teilnehmer organisieren die Teams selbst.
+exc#:#exc_team_by_participants#:#Teams werden selbstorganisiert gebildet.
+exc#:#exc_team_by_participants_info#:#Teilnehmerinnen und Teilnehmer gründen Teams und ordnen Teammitglieder zu.
 exc#:#exc_team_by_random#:#Automatische, zufällige Zuordnung
 exc#:#exc_team_by_random_add_info#:#Bitte beachten Sie, dass Sie der Übung zunächst alle Teilnehmer zuordnen müssen, bevor Sie diese Option sinnvoll nutzen können.
 exc#:#exc_team_by_random_info#:#Teilnehmer werden automatisch und zufällig zu Teams zugeordnet.
-exc#:#exc_team_by_tutors#:#Durch Tutoren
-exc#:#exc_team_by_tutors_info#:#Tutoren organisieren die Teams.
+exc#:#exc_team_by_tutors#:#Teams werden vorgegeben.
+exc#:#exc_team_by_tutors_info#:#Personen mit dem Recht „Abgaben und Noten bearbeiten“ legen Teams an und verteilen die Teammitglieder.
 exc#:#exc_team_by_tutors_manual#:#Manuell
 exc#:#exc_team_by_tutors_manual_info#:#Personen mit dem Recht „Abgaben und Noten bearbeiten“ ordnen die Teilnehmerinnen und Teilnehmer manuell den Teams zu.
 exc#:#exc_team_creation#:#Erstellung
@@ -9444,22 +9517,11 @@ file#:#file_download#:#Datei herunterladen
 file#:#file_import#:#Dateiimport
 file#:#file_new_version#:#Neue Version anlegen
 file#:#file_new_version_info#:#Eine neue Dateiversion anlegen. Alte Versionen bleiben erhalten.
-file#:#file_suffix_custom_black#:#Dateiendungen: Negativliste (Anpassungen)
-file#:#file_suffix_custom_black_info#:#Diese Dateiendungen werden aus der obigen Positivliste entfernt.
-file#:#file_suffix_custom_expl_black#:#Verbotene Dateiendungen
-file#:#file_suffix_custom_expl_black_info#:#Dateien mit diesen Endungen werden beim Upload nicht akzeptiert.
-file#:#file_suffix_custom_white#:#Dateiendungen: Positivliste (Anpassungen)
-file#:#file_suffix_custom_white_info#:#Diese Dateiendungen werden der obigen Positivliste hinzugefügt.
-file#:#file_suffix_default_white#:#Dateiendungen: Positivliste (Ausgangsliste)
-file#:#file_suffix_default_white_info#:#Voreingestellte Ausgangsliste für akzeptierte Dateiendungen.
-file#:#file_suffix_overall_white#:#Effektive Positivliste
-file#:#file_suffix_overall_white_info#:#Dies ist die endgültige Liste akzeptierter Dateiendungen.
 file#:#file_upload_info_file_with_critical_extension#:#Mindestens eine Datei enthält eine kritische oder unbekannte Dateiendung. Die Dateiendung wird bei jedem Download zu .sec geändert. Kontaktieren Sie gegebenfalls Ihren Administrator. Dateiname(n): %s
 file#:#file_uploaded_by#:#Version hochgeladen von
 file#:#form_icon_creation#:#Icon erstellen
 file#:#form_icon_updating#:#Icon aktualisieren
 file#:#general_upload_error_occured#:#Beim Verarbeiten der Datei ist ein unerwartetet Fehler aufgetreten.
-file#:#generate_sanitize_report#:#Report über nicht erreichbare Dateien
 file#:#input_active#:#Aktiv
 file#:#input_desc_active#:#Dieses Icon aktivieren.
 file#:#input_desc_icon#:#Bild welches als Icon für Dateien mit den spezifizierten Suffixen verwendet werden soll.
@@ -9839,7 +9901,11 @@ glo#:#glo_selected_glossaries_info#:#Die Begriffe stammen aus den folgenden Glos
 glo#:#glo_selected_glossary_is_current_info#:#Das ausgewählte Glossar entspricht dem aktuellen Glossar. Bitte wählen Sie ein anderes Glossar.
 glo#:#glo_selected_terms_have_been_copied#:#Die ausgewählten Begriffe wurden in die Zwischenablage kopiert. Bitte öffnen Sie das Zielglossar und klicken dann auf "Einfügen".
 glo#:#glo_show_definition#:#Definition zeigen
+glo#:#glo_show_in_presentation#:#Anzeige in Präsentationsansicht
+glo#:#glo_show_in_presentation_off#:#Nicht in Präsentationsansicht anzeigen
+glo#:#glo_show_in_presentation_on#:#In Präsentationsansicht anzeigen
 glo#:#glo_show_term#:#Begriff zeigen
+glo#:#glo_tax_info#:#Eine Taxonomie im Glossar klassifiziert und filtert die Begriffe. In der Bearbeitungsansicht steht sie immer zur Verfügung. Für die Präsentationsansicht muss die Darstellung der Taxonomie zunächst aktiviert werden. In einem Glossar kann genau eine einzige Taxonomie genutzt werden.
 glo#:#glo_term#:#Glossarbegriff
 glo#:#glo_term_definition_pairs#:#Begriffs/Definitions-Paare
 glo#:#glo_term_definition_pairs_info#:#Bitte geben Sie pro Zeile ein Begriffs/Definitions-Paar ein. Begriff und Definition müssen getrennt sein durch ein Semikolon oder ein TAB-Zeichen (werden überlicherweise durch Zwischenablage-Aktionen von Tabellenkalkulationsprogramm unterstützt).
@@ -9903,8 +9969,8 @@ grp#:#grp_header_delete_members#:#Sie möchten folgende Mitglieder aus der Grupp
 grp#:#grp_header_waiting_list#:#Warteliste
 grp#:#grp_icon_settings#:#Icon
 grp#:#grp_import#:#Gruppe importieren
-grp#:#grp_info_agree#:#Ich bin damit einverstanden, dass die oben angegebenen Daten von Gruppenadministratoren eingesehen werden können.
-grp#:#grp_info_agreement#:#Die folgenden Daten können von Gruppenadministratoren eingesehen werden:
+grp#:#grp_info_agree#:#Ich bin damit einverstanden, dass die oben angegebenen Daten von der Gruppenadministration eingesehen werden können.
+grp#:#grp_info_agreement#:#Die folgenden Daten können von der Gruppenadministration eingesehen werden:
 grp#:#grp_info_new_grp_type#:#Neue Gruppenart
 grp#:#grp_info_settings#:#Gruppeninfo
 grp#:#grp_information#:#Wichtige Informationen
@@ -9977,15 +10043,15 @@ grp#:#grp_reg_deac_info_screen#:#Zur Zeit ist keine Aufnahme möglich.
 grp#:#grp_reg_direct#:#Direkter Beitritt
 grp#:#grp_reg_direct_info_screen#:#Sie können dieser Gruppe direkt beitreten.
 grp#:#grp_reg_disabled#:#Zur Zeit ist kein Beitritt möglich.
-grp#:#grp_reg_disabled_info#:#Nur Gruppenadministratoren können Benutzer in die Gruppe aufnehmen.
+grp#:#grp_reg_disabled_info#:#Nur die Gruppenadministration kann Personen in die Gruppe aufnehmen.
 grp#:#grp_reg_limited#:#Zeitlich begrenzter Beitritt
 grp#:#grp_reg_max_members_info#:#Ist die maximale Mitgliederanzahl erreicht, ist ein selbstständiger Beitritt nicht mehr möglich.
 grp#:#grp_reg_no_selfreg#:#Kein selbstständiger Beitritt
-grp#:#grp_reg_passwd_info_screen#:#Wenn Sie das Gruppenpasswort von einem Gruppenadministrator erhalten haben, können Sie in dieser Gruppe beitreten.
+grp#:#grp_reg_passwd_info_screen#:#Sobald Sie das Gruppenpasswort von der Gruppenadministration erhalten haben, können Sie in dieser Gruppe beitreten.
 grp#:#grp_reg_password_info#:#Benutzer müssen dieses Passwort eingeben, um der Gruppe beitreten zu können.
-grp#:#grp_reg_req_info_screen#:#Sie können die Aufnahme in diese Gruppe beantragen. Sobald ein Gruppenadministrator Ihren Antrag angenommen oder abgelehnt hat, werden Sie per Mail benachrichtigt.
+grp#:#grp_reg_req_info_screen#:#Sie können die Aufnahme in diese Gruppe beantragen. Sobald die Gruppenadministration Ihren Antrag angenommen oder abgelehnt hat, werden Sie per Mail benachrichtigt.
 grp#:#grp_reg_request#:#Beitritt nach Bestätigung
-grp#:#grp_reg_request_info#:#Der Beitritt erfolgt nur, wenn er durch einen Gruppenadministrator bestätigt wird.
+grp#:#grp_reg_request_info#:#Der Beitritt erfolgt nur, wenn er durch die Gruppenadministration bestätigt wird.
 grp#:#grp_reg_subject#:#Nachricht
 grp#:#grp_registration_unlimited#:#Zeitlich unbegrenzt
 grp#:#grp_role_status#:#Rolle/Status
@@ -9997,7 +10063,7 @@ grp#:#grp_setting_header_registration#:#Selbstständiger Beitritt durch Benutzer
 grp#:#grp_settings#:#Gruppeneinstellungen
 grp#:#grp_show_members#:#Mitgliedergalerie
 grp#:#grp_show_members_info#:#Alle Mitglieder können im Reiter "Mitglieder" die Mitgliedergalerie einsehen.
-grp#:#grp_subscription_min_members_info#:#Wird die geforderte Mindestanzahl an Mitgliedern nicht erreicht, kann die Gruppe nicht stattfinden. Wird die Mindestanzahl bis zum Ende des Beitrittszeitraums bzw. dem spätesten Gruppenaustritt nicht erreicht, versendet ILIAS eine Mail an jene Gruppenadministratoren, für die im Reiter 'Mitglieder' die Option 'Benachrichtigung' aktiviert ist.
+grp#:#grp_subscription_min_members_info#:#Wird die geforderte Mindestanzahl an Mitgliedern nicht erreicht, kann die Gruppe nicht stattfinden. Wird die Mindestanzahl bis zum Ende des Beitrittszeitraums bzw. dem spätesten Gruppenaustritt nicht erreicht, versendet ILIAS eine Mail an jene Personen der Gruppenadministration, für die im Reiter „Mitglieder“ die Option „Benachrichtigung“ aktiviert ist.
 grp#:#grp_sure_add_user_to_group#:#Wollen Sie den Benutzer wirklich der Gruppe hinzufügen?
 grp#:#grp_sure_create_group_add_user#:#Wollen Sie die Gruppen wirklich erstellen und den Benutzer hinzufügen?
 grp#:#grp_typ#:#Typ
@@ -10038,6 +10104,7 @@ help#:#help_module_uploaded#:#Hilfe-Paket hochgeladen
 help#:#help_modules#:#Hilfe-Pakete
 help#:#help_no_content#:#Zur aktuellen Ansicht steht leider keine Hilfe zur Verfügung. Sie können die Suche nutzen um Hilfeinhalte zu finden.
 help#:#help_open_online_help#:#Online-Hilfe öffnen
+help#:#help_order#:#Order
 help#:#help_search_label#:#Suche in Hilfe
 help#:#help_select_a_file#:#Bitte wählen Sie eine Datei.
 help#:#help_set_mode#:#Hilfemodus setzen
@@ -10094,7 +10161,7 @@ iass#:#iass_further_field_headline#:#Detaillierte Informationen
 iass#:#iass_graded_by#:#Bewertet von
 iass#:#iass_info_emails_expl#:#Sie können mehrere Adressen mit einem Komma getrennt angeben.
 iass#:#iass_internal_note#:#Interne Anmerkungen zur Prüfung
-iass#:#iass_internal_note_info#:#Diese Notiz ist nur für Tutoren sichtbar, die Prüfungsdaten von Teilnehmern einsehen können. Die Teilnehmer selbst sehen die Prüfungsnotiz nicht.
+iass#:#iass_internal_note_info#:#Dieser Text ist nur für Personen sichtbar, die Prüfungsdaten einsehen können. Teilnehmerinnen und Teilnehmer sehen die interne Anmerkung zur Prüfung nicht.
 iass#:#iass_location#:#Ort
 iass#:#iass_mails#:#E-Mail
 iass#:#iass_may_not_finalize#:#Prüfung kann noch nicht abschließend bewertet werden. Bitte geben Sie eine Bewertung ab.
@@ -10470,7 +10537,7 @@ lso#:#last_access#:#Letzter Zugriff
 lso#:#last_visited_step#:#Zuletzt besuchter Schritt
 lso#:#learner_view#:#Übersicht
 lso#:#lp_not_relevant_post_cond#:#für Fortfahren aktuell nicht maßgeblich
-lso#:#lso_activation_online_info#:#Nur wenn die Lernsequenz online geschaltet ist, können Benutzer beitreten und Mitglieder auf die Lernsequenz zugreifen. Wenn nicht, ist die Lernsequenz nur für Administratoren und Tutoren verfügbar.
+lso#:#lso_activation_online_info#:#Nur wenn die Lernsequenz online geschaltet ist, können Personen beitreten und Mitglieder auf die Lernsequenz zugreifen. Wenn nicht, ist die Lernsequenz nur für Administration und Rollen mit dem Recht „Einstellungen bearbeiten“ verfügbar.
 lso#:#lso_at_least_one_admin#:#Dieser Lernsequenz muss mindestens ein Administrator zugeordnet sein.
 lso#:#lso_edit_permission#:#Rechteeinstellungen ändern
 lso#:#lso_header_delete_members#:#Sie möchten folgende Mitglieder aus der Lernsequenz austragen?
@@ -10511,6 +10578,7 @@ lso#:#lso_members_gallery#:#Mitgliedergalerie
 lso#:#lso_members_print_title#:#Lernsequenzmitglieder
 lso#:#lso_min_one_admin#:#Dieser Lernsequenz muß mindestens ein Administrator zugeordnet bleiben.
 lso#:#lso_msg_member_assigned#:#Benutzer wurde(n) in die Lernsequenz aufgenommen
+lso#:#lso_multidownload_not_available#:#Das Herunterladen verschiedener Objekte ist derzeit nicht für Lernsequenz Objekten verfügbar.
 lso#:#lso_new_status#:#Ihr neuer Status:
 lso#:#lso_notification#:#Benachrichtigung
 lso#:#lso_notification_explanation_admin#:#Sie erhalten diese Mail, da für Sie als Lernsequenzbetreuung die Benachrichtigungen aktiviert sind.
@@ -10656,7 +10724,7 @@ lti#:#lti_action_reset_provider_to_user_scope#:#Provider als benutzerdefinierten
 lti#:#lti_action_reset_providers_to_user_scope#:#Provider als benutzerdefinierten Provider zurücksetzen
 lti#:#lti_add_global_provider#:#Globalen Provider für alle Benutzer hinzufügen
 lti#:#lti_add_own_provider#:#Provider-Einstellungen anlegen
-lti#:#lti_admin#:#LTI-Rolle Administrator
+lti#:#lti_admin#:#LTI-Rolle „Administrator“
 lti#:#lti_at_least_one_prov_has_usages#:#Mindestens ein Provider konnte nicht gelöscht werden, da dieser Provider von LTI-Konsumenten (möglicherweise im Papierkorb) genutzt wird.
 lti#:#lti_auth_failed_invalid_key#:#Authentifizierung nicht möglich. Es wurde kein gültiger Consumer-Key übermittelt.
 lti#:#lti_con_content_item#:#Unterstützung für Deep Linking
@@ -10669,7 +10737,7 @@ lti#:#lti_con_key_type_rsa#:#RSA-Schlüssel
 lti#:#lti_con_key_type_rsa_public_key#:#Öffentlicher Schlüssel
 lti#:#lti_con_key_type_rsa_public_key_info#:#Tragen Sie den vom Tool (Provider) bereitgestellten Schlüssel im PEM-Format hier ein.
 lti#:#lti_con_prov_always_learner#:#LTI-Benutzer ist immer Lernender
-lti#:#lti_con_prov_always_learner_info#:#In der Regel wird die Rolle in ILIAS auf eine LTI-Rolle abgebildet. Kursadministratoren könnten im Provider mehr Rechte haben, z.B. um das Objekt zu manipulieren. Aktivieren Sie diese Option, um das Rollen-Mapping zu vermeiden.
+lti#:#lti_con_prov_always_learner_info#:#In der Regel wird die Rolle in ILIAS auf eine LTI-Rolle abgebildet. Die Kursadministration könnte im Provider mehr Rechte haben, z.B. um das Objekt zu manipulieren. Aktivieren Sie diese Option, um das Rollen-Mapping zu vermeiden.
 lti#:#lti_con_prov_authentication#:#Authentifizierung
 lti#:#lti_con_prov_availability#:#Verfügbarkeit
 lti#:#lti_con_prov_availability_create#:#für neue und bestehende Objekte
@@ -10690,7 +10758,7 @@ lti#:#lti_con_prov_icon#:#Icon
 lti#:#lti_con_prov_inc_usr_pic#:#Benutzerbild senden
 lti#:#lti_con_prov_inc_usr_pic_info#:#Links zu ILIAS-Benutzerbildern sind beim Start des LTI-Konsumenten enthalten.
 lti#:#lti_con_prov_instructor_email#:#E-Mail von Lehrenden
-lti#:#lti_con_prov_instructor_email_info#:#Abweichend von den zuvor gewählten Einstellungen kann für Lehrende die E-Mail-Adresse übertragen werden. Dazu müssen sie Kurs- oder GruppenadministratorInnen sein.
+lti#:#lti_con_prov_instructor_email_info#:#Abweichend von den zuvor gewählten Einstellungen kann für Lehrende die E-Mail-Adresse übertragen werden. Dazu müssen sie der Kurs- oder Gruppenadministration angehören.
 lti#:#lti_con_prov_instructor_name#:#Name von Lehrenden
 lti#:#lti_con_prov_instructor_name_info#:#Abweichend von den zuvor gewählten Einstellungen kann für Lehrende der Name übertragen werden.
 lti#:#lti_con_prov_key#:#Key
@@ -10762,7 +10830,7 @@ lti#:#lti_info_external_provider_label#:#Zusätzliche Informationen über diesen
 lti#:#lti_info_learning_progress_section#:#Info zur Ermittlung des Lernfortschritts
 lti#:#lti_info_privacy_section#:#Informationen über personenbezogene Daten, die beim Start an den Provider übermittelt wurden.###Modified as part of gender mainstreaming activities for ILIAS 8
 lti#:#lti_launch_url#:#URL
-lti#:#lti_member#:#LTI-Rolle Mitglied / Lerner
+lti#:#lti_member#:#LTI-Rolle „Member“ / „Learner“
 lti#:#lti_navigation#:#Navigation
 lti#:#lti_no_provider_selected#:#Kein Provider ausgewählt
 lti#:#lti_not_allowed#:#Zugriff nicht erlaubt. Sie wurden in den ursprünglichen LTI-Bereich umgeleitet.
@@ -10786,7 +10854,7 @@ lti#:#lti_success_accept_as_global_multi#:#Erfolgreich als Global-Provider für 
 lti#:#lti_success_delete_provider#:#Erfolgreich gelöscht
 lti#:#lti_success_reset_to_usr_def#:#Erfolgreich zurückgesetzt als benutzerdefinierter Provider
 lti#:#lti_success_reset_to_usr_def_multi#:#Erfolgreich zurückgesetzt als benutzerdefinierter Provider
-lti#:#lti_tutor#:#LTI-Rolle Tutor
+lti#:#lti_tutor#:#LTI-Rolle „Teaching Assistant“ / „Mentor“
 lti#:#lti_user_role_created#:#Die empfohlene globale Rolle für LTI-User wurde angelegt.
 lti#:#lti_user_role_info#:#In dieser Installation wurde die empfohlene globale Rolle für LTI-User noch nicht angelegt. Diese spezielle globale Rolle enthält nur Lese-Rechte für Magazin und Kategorien.
 lti#:#mastery_score#:#Mastery Score
@@ -10889,12 +10957,12 @@ mail#:#mail_email_usr_body#:#Dies ist eine Test-E-Mail um den Versand einer von 
 mail#:#mail_email_usr_subject#:#Test-E-Mail „Benutzer-Mail”
 mail#:#mail_empty_trash#:#Papierkorb leeren
 mail#:#mail_empty_trash_confirmation#:#Sind Sie sicher, dass alle Mails im Papierkorb gelöscht werden sollen?
-mail#:#mail_enable_crs_admin_notification#:#Kursadministratoren benachrichtigen
-mail#:#mail_enable_crs_admin_notification_info#:#In neuen Kursen ist im Reiter "Mitglieder" für Kursadministratoren und -tutoren die Einstellungen "Benachrichtigung über neue Mitglieder" standardmäßig aktiviert. Sie erhalten E-Mails, wenn ein Mitglied beitritt, den Kurs verlässt oder die Mindestanzahl an Teilnehmern zur Durchführung des Kurses nicht erreicht wird.
+mail#:#mail_enable_crs_admin_notification#:#Kursadministration benachrichtigen
+mail#:#mail_enable_crs_admin_notification_info#:#Kursbetreuung und Kursadministration erhalten in neuen Kursen Mails, wenn ein Mitglied beitritt, den Kurs verlässt oder die Mindestanzahl an Teilnehmerinnen und Teilnehmern zur Durchführung des Kurses nicht erreicht wird. Diese Einstellung kann für einzelne Kurse lokal im Reiter „Mitglieder“ geändert werden.
 mail#:#mail_enable_crs_member_notification#:#Mitglieder benachrichtigen
 mail#:#mail_enable_crs_member_notification_info#:#Mitglieder erhalten automatisch eine E-Mail, wenn sich ihr Mitgliedsstatus ändert. Diese Einstellung betrifft alle Kurse der Plattform.
-mail#:#mail_enable_grp_admin_notification#:#Gruppenadministratoren benachrichtigen
-mail#:#mail_enable_grp_admin_notification_info#:#In neuen Gruppen ist im Reiter "Mitglieder" für Gruppenadministratoren die Einstellungen "Benachrichtigungen" standardmäßig aktiviert. Sie erhalten E-Mails, wenn ein Mitglied beitritt, die Gruppe verlässt oder die Mindestanzahl an Teilnehmern zur Durchführung der Gruppe nicht erreicht wird.
+mail#:#mail_enable_grp_admin_notification#:#Gruppenadministration benachrichtigen
+mail#:#mail_enable_grp_admin_notification_info#:#Die Gruppenadministration erhält in neuen Gruppen Mails, wenn ein Mitglied beitritt, die Gruppe verlässt oder die Mindestanzahl an Teilnehmerinnen und Teilnehmern zur Durchführung der Gruppe nicht erreicht wird. Diese Einstellung kann für einzelne Gruppe lokal im Reiter „Mitglieder“ geändert werden.
 mail#:#mail_enable_grp_member_notification#:#Mitglieder benachrichtigen
 mail#:#mail_enable_grp_member_notification_info#:#Mitglieder erhalten automatisch eine E-Mail, wenn sich ihr Mitgliedsstatus ändert. Diese Einstellung betrifft alle Gruppen der Plattform.
 mail#:#mail_enable_lso_admin_notification#:#Administratoren der Lernsequenz benachrichtigen
@@ -10958,7 +11026,7 @@ mail#:#mail_maxsize_attachment_error#:#Die maximale Dateigröße beträgt:
 mail#:#mail_member_notification#:#Teilnehmerbenachrichtigung
 mail#:#mail_members_of_mailing_list#:#Mitglieder der Verteilerliste "%s"
 mail#:#mail_members_search_continue#:#Weiter
-mail#:#mail_message_send#:#Die Mail wurde versandt
+mail#:#mail_message_send#:#Die Mail wurde versandt.
 mail#:#mail_move_error#:#Fehler beim Mailversand
 mail#:#mail_move_to#:#Verschieben nach:
 mail#:#mail_move_to_folder_btn_label#:#Mail verschieben
@@ -11093,10 +11161,10 @@ mail#:#search_content#:#Suchergebnis
 mail#:#search_recipients#:#Personen suchen###Modified as part of gender mainstreaming activities for ILIAS 8
 mail#:#second_email_missing_info#:#Auswahl nicht möglich, da keine zweite E-Mail-Adresse eingetragen wurde
 mail#:#select_mail_with_subject_x#:#Wähle Mail mit Betreff „%s“
-mail#:#send_mail_admins#:#Alle Administratoren
-mail#:#send_mail_members#:#Alle Mitglieder
+mail#:#send_mail_admins#:#Administration
+mail#:#send_mail_members#:#Mitglied
 mail#:#send_mail_to#:#Mail an
-mail#:#send_mail_tutors#:#Alle Tutoren
+mail#:#send_mail_tutors#:#Kursbetreuung
 mail#:#show_mail_settings#:#Einstellungen anzeigen
 mail#:#show_mail_settings_info#:#Aktiviert die Anzeige der Mail-Einstellungen im Bereich 'Einstellungen' oder 'Mail'. Benutzer können die Mail-Einstellungen nur ändern, wenn die Konfiguration des Benutzer-Profils dies erlaubt. Wenn Benutzer nicht berechtigt sind, die Mail-Einstellung ihrer Profils zu ändern, dann gelten die globalen Einstellungen. Dies gilt auch dann, wenn Benutzer in der Vergangenheit die Berechtigung zum Ändern der Mail-Einstellungen hatten und persönliche Einstellungen vorgenommen haben.
 mail#:#system_notification_installation_changed_by#:#Geändert durch
@@ -11164,6 +11232,7 @@ mcst#:#mcst_autoplay#:#Autoplay
 mcst#:#mcst_autoplay_active#:#Autoplay (Standard 'an')
 mcst#:#mcst_autoplay_inactive#:#Autoplay (Standard 'aus')
 mcst#:#mcst_clear_purpose_title#:#Löschen
+mcst#:#mcst_confirm_deletion#:#Löschbestätigung
 mcst#:#mcst_converted_file#:#Datei wurde umgewandelt.
 mcst#:#mcst_copy#:#Mediacast kopieren
 mcst#:#mcst_current_value_info#:#Aktueller Wert des Formats
@@ -11182,14 +11251,13 @@ mcst#:#mcst_duration#:#Laufzeit
 mcst#:#mcst_duration_info#:#Wenn kein Wert eingegeben wird, bestimmt ILIAS die Laufzeit automatisch
 mcst#:#mcst_edit_item#:#Mediacast-Beitrag bearbeiten
 mcst#:#mcst_edit_settings#:#Einstellungen
-mcst#:#mcst_extract_preview_image#:#Vorschaubild erzeugen
 mcst#:#mcst_gallery#:#Kacheln
-mcst#:#mcst_image_extracted#:#Vorschaubild wurde erzeugt
 mcst#:#mcst_img_gallery#:#Bildergalerie
 mcst#:#mcst_import#:#Mediacast importieren
 mcst#:#mcst_incl_files_in_rss#:#Dateianhänge
 mcst#:#mcst_incl_files_in_rss_info#:#Die Dateien der Mediacast-Beiträge werden als Anhang im Webfeed bereitgestellt.
 mcst#:#mcst_input_either_file_or_url#:#Bitte geben Sie entweder eine Datei oder eine URL an. Achten Sie bei Angabe einer Datei bitte auf die maximal erlaubte Upload-Größe.
+mcst#:#mcst_items#:#Einträge
 mcst#:#mcst_last_submission#:#Letzter Beitrag
 mcst#:#mcst_list#:#Liste
 mcst#:#mcst_manage#:#Verwalten
@@ -11205,7 +11273,6 @@ mcst#:#mcst_new_items_det_lp_info#:#Neue Einträge werden automatisch zur Lernfo
 mcst#:#mcst_news_item_visibility_info#:#Öffentliche Nachrichten können von außerhalb und ohne Anmeldung gelesen werden. Sie sollten keine vertraulichen Informationen enthalten.
 mcst#:#mcst_next_items#:#Weitere Videos anzeigen
 mcst#:#mcst_no_autoplay#:#Kein Autoplay
-mcst#:#mcst_no_extraction_possible#:#Leider konnte kein Vorschaubild aus der Datei erzeugt werden.
 mcst#:#mcst_nr_items#:#Zahl der Objekte
 mcst#:#mcst_nr_videos#:#Anzahl initial angezeigter Videos
 mcst#:#mcst_ordering#:#Sortierung
@@ -11218,11 +11285,11 @@ mcst#:#mcst_play_cnt#:#Abgespielt
 mcst#:#mcst_play_time#:#Laufzeit
 mcst#:#mcst_podcast#:#Podcast
 mcst#:#mcst_prev_items#:#Vorherige Videos anzeigen
+mcst#:#mcst_preview#:#Vorschau
 mcst#:#mcst_preview_picture#:#Vorschaubild
 mcst#:#mcst_preview_picture_info#:#Nur von folgenden Dateitypen unterstützt:
 mcst#:#mcst_reference_info#:#URL zur Ressource, z.B. HTTP-Adresse.
 mcst#:#mcst_save_order#:#Sortierung speichern
-mcst#:#mcst_second#:#Sekunde
 mcst#:#mcst_set_playtime#:#Die Laufzeit wurde gesetzt.
 mcst#:#mcst_settings#:#Einstellungen des Mediacasts
 mcst#:#mcst_show_description#:#Beschreibung anzeigen
@@ -11305,7 +11372,7 @@ mep#:#mobs_activate_pages_info#:#Ermöglicht es, Seiteninhalte als Bausteine in 
 mep#:#mobs_always_show_file_manager#:#Dateistruktur immer anzeigen
 mep#:#mobs_always_show_file_manager_info#:#Wenn deaktiviert, wird die Dateistruktur für einfache Datentypen, wie z.B. Bilder, nicht angezeigt.
 mep#:#mobs_black_list_file_types#:#Verbotene Dateitypen
-mep#:#mobs_black_list_file_types_info#:#Diese Liste schränkt die Menge der erlaubten Dateitypen ein. Tragen Sie dazu die jeweilige Dateiendungen mit Komma getrennt ein (z.B. jpg,gif). Dies ist sinnvoll, wenn die vorangegangene Option leer ist (alle Typen erlaubt).
+mep#:#mobs_black_list_file_types_and_allowed_info#:#Diese Liste schränkt die Menge der erlaubten Dateitypen ein. Tragen Sie dazu die jeweilige Mime-Typen mit Komma getrennt ein (z.B. text/html, application/pdf). Aktuell erlaubte Mime-Typen:
 mep#:#mobs_restrict_file_types#:#Erlaubte Dateitypen
 mep#:#mobs_restrict_file_types_info#:#Bestimmen Sie alle Dateitypen, die in Medienobjekten hochgeladen werden dürfen. Tragen Sie dazu die jeweilige Dateiendungen mit Komma getrennt ein (z.B. jpg,gif). Wird kein Eintrag vorgenommen, sind alle Typen erlaubt.
 meta#:#adt_error_max_length#:#Der eingegebene Text ist zu lang. Bitte geben Sie einen kürzeren Text ein.
@@ -11373,9 +11440,19 @@ meta#:#md_advanced#:#Benutzerdefinierte Metadaten
 meta#:#md_aria_language_selection#:#Sprachauswahl
 meta#:#md_copyright#:#Copyright
 meta#:#md_copyright_add#:#Neue Vorgabe
+meta#:#md_copyright_alt_text#:#Alternativtext
+meta#:#md_copyright_alt_text_info#:#Wird für das ‘alt’ Attribut des Bildes verwendet
 meta#:#md_copyright_edit#:#Copyright-Vorgabe bearbeiten
 meta#:#md_copyright_enable_info#:#Aktivieren Sie diese Einstellung, um vordefinierte Nutzungslizenzen anzubieten.
 meta#:#md_copyright_enabled#:#Copyright-Auswahl aktivieren
+meta#:#md_copyright_full_name#:#Vollständiger Name
+meta#:#md_copyright_image#:#Bild
+meta#:#md_copyright_image_file#:#Datei
+meta#:#md_copyright_image_is_file#:#Datei hochladen
+meta#:#md_copyright_image_is_link#:#URL eingeben
+meta#:#md_copyright_image_link#:#URL
+meta#:#md_copyright_link#:#URL
+meta#:#md_copyright_link_info#:#Link zu der Lizenz
 meta#:#md_copyright_preview#:#Copyright (Vorschau)
 meta#:#md_copyright_selection#:#Copyright-Vorgaben
 meta#:#md_copyright_settings#:#Copyright-Einstellungen
@@ -12121,16 +12198,21 @@ mme#:#type_top_link_item#:#Link
 mme#:#type_top_parent_item#:#Container
 mob#:#mob_choose_from_pool#:#Aus Medienpool
 mob#:#mob_external_url#:#Externe URL
+mob#:#mob_extract_preview_image#:#Vorschaubild erzeugen
 mob#:#mob_file#:#Datei
 mob#:#mob_file_could_not_be_uploaded#:#Datei konnte nicht hochgeladen werden.
 mob#:#mob_general#:#Allgemein
+mob#:#mob_image_extracted#:#Vorschaubild wurde erzeugt
 mob#:#mob_language#:#Sprache
 mob#:#mob_mime_type_not_allowed#:#Die folgenden Mime-Typen sind am Zielort nicht erlaubt.
 mob#:#mob_multi_srt_files#:#SRT-Dateien
+mob#:#mob_no_extraction_possible#:#Leider konnte kein Vorschaubild aus der Datei erzeugt werden.
 mob#:#mob_no_fixed_size_map_editing#:#Bitte bestimmen Sie eine feste Größe für ihr Bild, bevor Sie verlinkte Bereiche definieren. Die Bereiche werden nicht angepasst, wenn ihr Bild durch einen Content-Style oder andere CSS-Regeln skaliert wird.
 mob#:#mob_object#:#Objekt
 mob#:#mob_please_select_pool#:#Please select a media pool.
+mob#:#mob_preview_picture#:#Vorschaubild
 mob#:#mob_really_delete_srt#:#Möchten Sie wirklich die folgenden srt-Dateien löschen?
+mob#:#mob_second#:#Sekunde
 mob#:#mob_srt_files_deleted#:#Dateien für Untertitel wurden gelöscht.
 mob#:#mob_srt_not_allowed#:#Dateien vom Typ .srt können aktuell nicht hochgeladen werden. Um die Funktion zu aktivieren, muss diese durch einen Systemadministrator entsprechend konfiguriert werden (Administration > Datei-Services).
 mob#:#mob_subtitle_file#:#Datei für Untertitel
@@ -12263,9 +12345,10 @@ note#:#note_comment_notification_user_has_written#:#%s hat geschrieben:
 note#:#note_comments_notification#:#Generelle Benachrichtigung über alle Kommentare
 note#:#note_comments_notification_info#:#Kommagetrennte Liste von ILIAS-Konten, welche jeden Kommentar als E-Mail erhalten.
 note#:#note_enable_comments#:#Kommentare aktivieren
-note#:#note_enable_comments_del_tutor#:#Jegliche Kommentare können von Tutoren gelöscht werden
+note#:#note_enable_comments_del_tutor#:#Alle Kommentare im Objekt
 note#:#note_enable_comments_del_tutor_info#:#Benutzer mit dem Recht „Einstellungen bearbeiten“ an einem Objekt können alle darin gemachten Kommentare löschen.
-note#:#note_enable_comments_del_user#:#Kommentare können von der Person gelöscht werden, die sie erstellt hat.###Modified as part of gender mainstreaming activities for ILIAS 8
+note#:#note_enable_comments_del_user#:#Eigene Kommentare löschen
+note#:#note_enable_comments_del_user_info#:#Kommentare können von der Person, die sie erstellt hat, wieder gelöscht werden.
 note#:#note_enable_comments_export_info#:#Erlaubt innerhalb von Objekten wie Portfolios, Blogs oder Wikis die Kommentare zu exportieren.
 note#:#note_enable_notes#:#Notizen aktivieren
 note#:#note_html_export_include_comments#:#Sollen die Kommentare mit exportiert werden?
@@ -12560,72 +12643,6 @@ pd#:#pd_upcoming#:#Bevorstehend
 pd#:#pd_view_select_at_least_one#:#Bitte wählen Sie mindestens eine Sicht, entweder 'Ausgewählte Angebote' und/oder 'Kurse und Gruppen'.
 pdesk#:#bookmark_moved_ok#:#Bookmark wurde verschoben.
 pdesk#:#bookmark_select_target#:#Bitte wählen Sie das Ziel.
-pdfgen#:#checkbox_checked_svg#:#Pfad zum ausgewähltem Checkbox SVG
-pdfgen#:#checkbox_svg#:#Pfad zum Checkbox SVG
-pdfgen#:#cleanup#:#Bereinigen
-pdfgen#:#config#:#Config
-pdfgen#:#config_not_saved#:#Speichern fehlgeschlagen.
-pdfgen#:#config_saved#:#Speichern erfolgreich.
-pdfgen#:#configure#:#Konfiguriere Renderer
-pdfgen#:#enable_forms#:#Formulare aktivieren
-pdfgen#:#enable_forms_info#:#Wandelt HTML Formulare in PDF Formulare um
-pdfgen#:#external_links#:#Externe Links
-pdfgen#:#external_links_info#:#Erzeugt links zu externen Webseiten
-pdfgen#:#footer_height#:#Höhe Fußzeile
-pdfgen#:#footer_html#:#Html
-pdfgen#:#footer_line#:#Trennlinie
-pdfgen#:#footer_show_pages#:#Zeige Seitenzahlen
-pdfgen#:#footer_text#:#Text
-pdfgen#:#footer_text_center#:#Text Mitte
-pdfgen#:#footer_text_left#:#Text links
-pdfgen#:#footer_text_right#:#Text rechts
-pdfgen#:#footer_type#:#Fußzeile
-pdfgen#:#greyscale#:#Graustufen
-pdfgen#:#greyscale_info#:#PDF wird in Graustufen erzeugt
-pdfgen#:#head_text#:#Text
-pdfgen#:#header_height#:#Höhe Kopfzeile
-pdfgen#:#header_line#:#Trennlinie
-pdfgen#:#header_show_pages#:#Zeige Seitenzahlen
-pdfgen#:#header_text_center#:#Text Mitte
-pdfgen#:#header_text_left#:#Text links
-pdfgen#:#header_text_right#:#Text rechts
-pdfgen#:#header_type#:#Kopfzeile
-pdfgen#:#html#:#Html
-pdfgen#:#image_scale#:#Bildskalierung
-pdfgen#:#javascript_delay#:#Javascript Verzögerung
-pdfgen#:#javascript_delay_info#:#Wenn JavaScript genutzt wird, um Seiteninhalte zu rendern, sorgt die Verzögerung dafür, dass diese Inhalte auch im PDF erscheinen. Die Standardverzögerung von 200ms sollte in den meisten Fällen ausreichen.
-pdfgen#:#low_quality#:#Niedrige Qualität
-pdfgen#:#low_quality_info#:#Erzeugt PDF mit reduzierter Qualität, wodurch diese eine kleinere Dateigröße bekommen.
-pdfgen#:#margin#:#Rand
-pdfgen#:#margin_bottom#:#Margin unten
-pdfgen#:#margin_info#:#Rand in mm z.B. 10mm
-pdfgen#:#margin_left#:#Margin links
-pdfgen#:#margin_right#:#Margin rechts
-pdfgen#:#margin_top#:#Margin oben
-pdfgen#:#none#:#Keine
-pdfgen#:#orientation#:#Orientierung
-pdfgen#:#output_options#:#Ausgabeoptionen
-pdfgen#:#overwrite_font#:#Schriftart überschreiben
-pdfgen#:#overwrite_font_info#:#Nutzen sie hier Eingaben wie: 'serif', 'sans-serif', 'monospace' usw.
-pdfgen#:#page_settings#:#Seiteneinstellungen
-pdfgen#:#page_size#:#Seitengröße
-pdfgen#:#path#:#Pfad zum Programm
-pdfgen#:#preferred_renderer#:#Bevorzugter Renderer
-pdfgen#:#print_media_info#:#Es wird der "print" media-type genutzt anstatt "screen"
-pdfgen#:#print_media_type#:#Benutze 'Druck Media Type' anstatt 'Bildschirm'
-pdfgen#:#problem_with_purposes#:#Es wurde ein Problem in der Konfiguration festgestellt. Nutzen Sie bitte den Button "Bereinigen", um das Problem zu lösen.
-pdfgen#:#radio_button_checked_svg#:#Pfad zum ausgewähltem Radiobutton SVG
-pdfgen#:#radio_button_svg#:#Pfad zum Radiobutton SVG
-pdfgen#:#reset_to_default#:#Default Einstellungen laden
-pdfgen#:#selected_renderer#:#Gewählter Renderer
-pdfgen#:#spacing#:#Abstand
-pdfgen#:#text#:#Text
-pdfgen#:#user_stylesheet#:#Benutzer Stylesheet
-pdfgen#:#viewport#:#Viewport
-pdfgen#:#viewport_info#:#Viewport in Pixeln z.B "1920*1080"
-pdfgen#:#webkit#:#wkhtmltopdf
-pdfgen#:#wkhtml_config#:#Konfiguration für WKHTML
-pdfgen#:#zoom#:#Zoom
 poll#:#poll_absolute#:#Aktuelle Stimmen
 poll#:#poll_activation_online_info#:#Wählen Sie diese Einstellung, um die Abstimmung für Benutzer verfügbar zumachen.
 poll#:#poll_add#:#Abstimmung anlegen
@@ -13013,6 +13030,7 @@ prtf#:#prtf_add_new_blog#:#Neues Blog hinzufügen
 prtf#:#prtf_add_new_blog_info#:#Das neue Blog wird Ihren persönlichen Ressourcen hinzugefügt.
 prtf#:#prtf_add_page#:#Seite hinzufügen
 prtf#:#prtf_add_portfolio#:#Portfolio hinzufügen
+prtf#:#prtf_add_portfolio_from_template#:#Portfolio aus Vorlage hinzufügen
 prtf#:#prtf_all_pages#:#Gesamtes Portfolio
 prtf#:#prtf_allow_html#:#HTML/Javascript erlauben
 prtf#:#prtf_allow_html_info#:#Benutzer können HTML oder Javascript in Ihren Portfolio-Seiten verwenden. Dies kann zu Sicherheitsproblemen führen.
@@ -13053,7 +13071,7 @@ prtf#:#prtf_link#:#Link
 prtf#:#prtf_manage_portfolios#:#Portfolios verwalten
 prtf#:#prtf_new_portfolio#:#Neues Portfolio
 prtf#:#prtf_no_blogs_info#:#Wenn Sie im Bereich "%s" einen Blog anlegen, können Sie dieses auch als Teil Ihres Portfolios verwenden.
-prtf#:#prtf_no_offline_share_info#:#Das Portfolio muss zunächst online gesetzt werden bevor es für bestimmte Benutzer freigegeben werden kann.
+prtf#:#prtf_no_offline_share_info#:#Das Portfolio muss zunächst online gesetzt werden, bevor es für bestimmte Benutzer freigegeben werden kann.
 prtf#:#prtf_no_submission#:#Keine Abgabe
 prtf#:#prtf_page_created#:#Seite wurde hinzugefügt
 prtf#:#prtf_page_element_my_courses_info#:#Dies ist eine Liste aller Kurse, in denen ich Mitglied bin und die aktuell online sind.
@@ -13067,8 +13085,9 @@ prtf#:#prtf_page_type_prtf#:#Portfolioseite
 prtf#:#prtf_page_type_prtt#:#Portfoliovorlagenseite
 prtf#:#prtf_pages_copied#:#Die Seiten wurden kopiert.
 prtf#:#prtf_pdf#:#Exportieren als PDF
+prtf#:#prtf_permanent_link#:#Link zum Portfolio:
 prtf#:#prtf_portfolio_created#:#Portfolio wurde hinzugefügt
-prtf#:#prtf_portfolio_created_from_template#:#Dies ist die Vorschau Ihres neuen Portfolios. Um neue Seiten und Inhalte hinzuzufügen klicken Sie bitte auf "Bearbeiten" oben in dieser Ansicht.
+prtf#:#prtf_portfolio_created_from_template#:#Dies ist die Vorschau Ihres neuen Portfolios. Um neue Inhalte und Seiten hinzuzufügen, klicken Sie in dieser Ansicht bitte auf "Portfolio bearbeiten" oder "Seite bearbeiten".
 prtf#:#prtf_portfolio_deleted#:#Portfolio wurde gelöscht
 prtf#:#prtf_portfolio_page_deleted#:#Portfolio- bzw. Blog-Seite wurde gelöscht.
 prtf#:#prtf_portfolios#:#Portfolios
@@ -13099,6 +13118,8 @@ prtf#:#prtf_signature_date#:#Datum, Unterschrift
 prtf#:#prtf_signature_info#:#Das PDF enthält ein Feld, in welchem die Benutzer unterschreiben können.
 prtf#:#prtf_style#:#Portfolio-Style
 prtf#:#prtf_submission_on#:#Abgabe am $1
+prtf#:#prtf_successfully_shared_prtf#:#Bestätigung der Freigabe Ihres Portfolios "%s"
+prtf#:#prtf_successfully_shared_prtf_body#:#Sie haben Ihr Portfolio "%s" erfolgreich freigegeben für:
 prtf#:#prtf_sure_delete_portfolio_pages#:#Wollen Sie die folgende Portfolio- bzw. Blog-Seite wirklich löschen?
 prtf#:#prtf_sure_delete_portfolios#:#Wollen Sie das folgende Portfolio wirklich löschen?
 prtf#:#prtf_tab_other_users#:#Portfolios anderer Benutzer
@@ -13112,6 +13133,7 @@ prtf#:#prtf_template_title#:#Portfoliovorlage
 prtf#:#prtf_unset_as_default#:#Nicht als Mein Profil verwenden
 prtf#:#prtf_unset_default_share_info#:#Die Änderungen wurden gespeichert. Bitte überprüfen Sie die aktuellen Freigaben für das Portfolio.
 prtf#:#prtf_use_page_layout#:#Seitenlayout benutzen
+prtf#:#prtf_visible_for_tutor#:#Einsehbar für Tutor
 prtf#:#prtt_title_info#:#Bitte beachten Sie, dass dieser Titel auch für die aus der Vorlage erstellten Porfolios verwendet wird.
 prtt#:#prtt_activation_limited_visibility_info#:#Falls aktiv, ist die Portfoliovorlage auch außerhalb der Zugriffszeiten sichtbar.
 prtt#:#prtt_activation_online_info#:#Wählen Sie diese Einstellung, um die Portfoliovorlage für Benutzer verfügbar zu machen.
@@ -13161,7 +13183,7 @@ ps#:#ps_error_message_password_max_less_min#:#Maximale Passwortlänge darf nicht
 ps#:#ps_error_message_password_min1_because_chars#:#Minimale Passwortlänge darf nicht kleiner als %s sein.
 ps#:#ps_error_message_password_min2_because_chars_numbers#:#Minimale Passwortlänge darf nicht kleiner als %s sein, wenn das Passwort Buchstaben und Zahlen enthalten soll.
 ps#:#ps_error_message_password_min3_because_chars_numbers_sc#:#Minimale Passwortlänge darf nicht kleiner als %s sein, wenn das Passwort Buchstaben, Zahlen und Sonderzeichen enthalten soll.
-ps#:#ps_export_admin#:#Administratoren
+ps#:#ps_export_admin#:#Administration
 ps#:#ps_export_confirm#:#Zustimmung neuer Mitglieder beim Kursbeitritt, dass Kursverwaltung ihre persönlichen Profildaten einsehen kann
 ps#:#ps_export_confirm_group#:#Zustimmung neuer Mitglieder beim Gruppenbeitritt, dass Gruppenverwaltung ihre persönlichen Profildaten einsehen kann
 ps#:#ps_export_course#:#Export der Persönlichen Daten aus Kursen erlauben
@@ -13169,10 +13191,10 @@ ps#:#ps_export_data#:#Daten des Persönlichen Profils
 ps#:#ps_export_excel#:#Starte Excel-Export
 ps#:#ps_export_files#:#Exportdateien
 ps#:#ps_export_groups#:#Export der Persönlichen Daten aus Gruppen erlauben
-ps#:#ps_export_member#:#Teilnehmer
+ps#:#ps_export_member#:#Mitglieder
 ps#:#ps_export_settings#:#Einstellungen zum Export
 ps#:#ps_export_sub#:#Noch nicht freigeschaltete Benutzer
-ps#:#ps_export_tutor#:#Tutoren
+ps#:#ps_export_tutor#:#Kursbetreuung
 ps#:#ps_export_user_data#:#Benutzerdaten
 ps#:#ps_export_wait#:#Benutzer auf der Warteliste
 ps#:#ps_field_type#:#Datenfeldtyp
@@ -14957,14 +14979,16 @@ skmg#:#skmg_cont_profiles_info_empty#:#Es gibt keine Kompetenzprofile, die mit d
 skmg#:#skmg_cont_records_info_empty#:#Es gibt keine Kompetenzen, die mit dem derzeit geöffneten Objekt im Zusammenhang stehen.
 skmg#:#skmg_context_global#:#Global
 skmg#:#skmg_context_local#:#Lokal
+skmg#:#skmg_count_references#:#Anzahl referenzierter Kompetenzen:
 skmg#:#skmg_create_sctp#:#Vorlagenkategorie erstellen
 skmg#:#skmg_create_skill_category#:#Kategorie erstellen
 skmg#:#skmg_create_skill_template#:#Vorlage erstellen
 skmg#:#skmg_create_skill_template_category#:#Vorlagenkategorie erstellen
 skmg#:#skmg_create_skill_template_reference#:#Vorlage einfügen
 skmg#:#skmg_create_skll#:#Kompetenz erstellen
-skmg#:#skmg_custom_image_alt#:#Benutzerdefiniertes Bild für Kompetenzprofil
+skmg#:#skmg_custom_image_alt#:#Bild für Kompetenzprofil
 skmg#:#skmg_delete_profiles#:#Wollen Sie wirklich die folgenden Profile löschen?
+skmg#:#skmg_delete_warning#:#Sind Sie sicher, dass folgende Objekte gelöscht werden sollen? Wenn Sie die Objekte löschen, löschen Sie ebenfalls alle dazugehörigen Gebräuche, Zuordnungen und Leistungen. Um auf der sicheren Seite zu sein, finden Sie unten eine Liste mit sämtlichen Gebräuchen. Wenn das Objekt in einem Kompetenzprofil benutzt wird, wird es auch dort entfernt. Dies kann zur Erfüllung von Kompetenzprofilen der dort zugewiesenen Personen führen. Falls Sie sich nicht sicher sind, ob ein Objekt wirklich gelöscht werden soll, nutzen Sie die Status in den Einstellungen eines einzelnen Objekts.
 skmg#:#skmg_description_info#:#Die Beschreibung stammt aus der Vorlage.
 skmg#:#skmg_edit_level#:#Ausprägung editieren
 skmg#:#skmg_edit_profile#:#Profil bearbeiten
@@ -14996,8 +15020,7 @@ skmg#:#skmg_items#:#Einträge
 skmg#:#skmg_level#:#Ausprägung
 skmg#:#skmg_list_skills#:#Kompetenzen auflisten
 skmg#:#skmg_local_assignment_profiles#:#Lokale Zuordnung von globalen Profilen erlauben
-skmg#:#skmg_lp_triggers_level#:#Gesetzt durch 'Bearbeitet'-Status
-skmg#:#skmg_lp_triggers_level_resources#:#Magazinobjekte gesetzt durch 'Bearbeitet'-Status
+skmg#:#skmg_lp_triggers_level#:#Bearbeitung schreibt Kompetenzeintrag
 skmg#:#skmg_materials#:#Persönliche Ressourcen
 skmg#:#skmg_materials_resources#:#Lerninhalte
 skmg#:#skmg_new_level#:#Neue Ausprägung
@@ -15010,6 +15033,7 @@ skmg#:#skmg_no_skills_selected_info#:#Sie haben noch keine Kompetenzen ausgewäh
 skmg#:#skmg_no_trigger#:#Kein Auslöser
 skmg#:#skmg_nr#:#Nr
 skmg#:#skmg_number#:#Nummmer
+skmg#:#skmg_open#:#Öffne
 skmg#:#skmg_open_all_assigned_profiles#:#Alle zugewiesenen Kompetenzprofile öffnen
 skmg#:#skmg_order#:#Reihenfolge
 skmg#:#skmg_order_nr#:#Nummer
@@ -15025,6 +15049,7 @@ skmg#:#skmg_recommended_learning_material_global#:#Lerninhalte zur Zielerreichun
 skmg#:#skmg_recommended_learning_material_grp#:#Lerninhalte in der Gruppe zur Zielerreichung
 skmg#:#skmg_recommended_learning_material_info#:#Bearbeiten Sie folgende Lerninhalte um das Kompetenzziel zu erreichen. Wählen Sie genau einen Lerninhalt pro Kompetenzstufe aus.
 skmg#:#skmg_refresh_view#:#Ansicht aktualisieren
+skmg#:#skmg_remove#:#Entferne
 skmg#:#skmg_remove_levels#:#Ausprägungen entfernen
 skmg#:#skmg_remove_skill#:#Kompetenz entfernen
 skmg#:#skmg_remove_trigger#:#Auslöser entfernen
@@ -15033,6 +15058,7 @@ skmg#:#skmg_save_order#:#Reihenfolge speichern
 skmg#:#skmg_save_self_evaluation#:#Selbsteinschätzung abschließen
 skmg#:#skmg_save_settings#:#Einstellungen speichern
 skmg#:#skmg_sctp#:#Vorlagenkategorie
+skmg#:#skmg_select_level#:#Kompetenzstufe auswählen
 skmg#:#skmg_select_skill#:#Klicken Sie auf eine Kompetenz, um diese Ihren persönlichen Kompetenzen hinzuzufügen.
 skmg#:#skmg_select_skill_level_assign#:#Bitte wählen Sie eine Kompetenz aus.
 skmg#:#skmg_select_trigger#:#Auslöser auswählen
@@ -15044,6 +15070,10 @@ skmg#:#skmg_selected_skills#:#Ausgewählte Kompetenzen
 skmg#:#skmg_self_evaluation#:#Selbsteinschätzung
 skmg#:#skmg_self_evaluation_byline#:#Die Selbsteinschätzung wird bei der Erreichung Ihres Kompetenzziels nicht berücksichtigt. Sie dient zur Orientierung.
 skmg#:#skmg_self_evaluations#:#Selbsteinschätzungen
+skmg#:#skmg_set_as_lp_trigger#:#Bearbeitung soll Kompetenzeintrag auslösen
+skmg#:#skmg_set_as_no_lp_trigger#:#Bearbeitung soll keinen Kompetenzeintrag auslösen
+skmg#:#skmg_set_as_no_suggested#:#Nicht mehr als Lerninhalt anzeigen
+skmg#:#skmg_set_as_suggested#:#Als Lerninhalt anzeigen
 skmg#:#skmg_settings#:#Kompetenzmanagement Einstellungen
 skmg#:#skmg_show_all#:#Alle anzeigen
 skmg#:#skmg_show_latest_entries#:#Letzte Einträge anzeigen
@@ -15522,8 +15552,8 @@ style#:#style_not_deleted#:#Der Style konnte aus folgenden Gründen nicht gelös
 style#:#style_page_layout_module_learning_module#:#ILIAS-Lernmodul
 style#:#style_page_layout_module_portfolio#:#Portfolio
 style#:#style_page_layout_module_scorm#:#SCORM
-style#:#style_support_reuse#:#Re-Use
-style#:#style_support_reuse_info#:#Allow sub-objects of the current container to re-use this content style.
+style#:#style_support_reuse#:#Wiederverwendung
+style#:#style_support_reuse_info#:#Unterobjekte dieses Containers können den Content-Style ebenfalls verwenden.
 style#:#styles_not_deleted#:#Die Styles konnten aus folgenden Gründen nicht gelöscht werden:
 style#:#sub_style#:#Sub-Style
 style#:#sub_style_id#:#Sub-Style-ID
@@ -15552,7 +15582,7 @@ survey#:#add_phrase#:#Phrase hinzufügen
 survey#:#adm_no_special_users#:#Es sind keine speziellen Benutzer definiert, die Umfragen mehrfach durchführen können.
 survey#:#already_completed_survey#:#Sie haben die Umfrage bereits durchgeführt! Eine Umfrage kann kein zweites Mal durchgeführt werden.
 survey#:#anonymization#:#Anonymisierung
-survey#:#anonymize_anonymous_introduction#:#Um Ihnen Zugang zu dieser Umfrage gewähren zu können, müssen Sie einen 5stelligen Zugangsschlüssel verwenden, den Sie von der verantwortlichen Person für diese Umfrage erhalten.<br />Bitte geben Sie diesen Zugangsschlüssel in das obige Textfeld ein.
+survey#:#anonymize_anonymous_introduction#:#Um Ihnen Zugang zu dieser Umfrage gewähren zu können, müssen Sie einen fünfstelligen Zugangsschlüssel verwenden, den Sie von der verantwortlichen Person für diese Umfrage erhalten.<br />Bitte geben Sie diesen Zugangsschlüssel in das obige Textfeld ein.
 survey#:#answer#:#Antwort
 survey#:#apply#:#Übernehmen
 survey#:#arithmetic_mean#:#Arithmetisches Mittel
@@ -15592,7 +15622,7 @@ survey#:#constraints_list_of_entities#:#Mögliche Aufhänger für Verzweigungsre
 survey#:#constraints_no_nonessay_available#:#Es gibt keine vorangegangenen Fragen, die zur Erstellung von Verzweigungsregeln verwendet werden können. Folgende Typen werden unterstützt: Metrische, Single Choice und Multiple Choice Frage.
 survey#:#constraints_no_questions_or_questionblocks_selected#:#Bitte wählen Sie mindestens eine Frage oder einen Fragenblock aus!
 survey#:#contains#:#Beinhaltet
-survey#:#continue#:#Weiter >>
+survey#:#continue#:#Weiter →
 survey#:#create_date#:#Erstellt am
 survey#:#create_new#:#Erstelle neue
 survey#:#dc_agree#:#einverstanden
@@ -15667,8 +15697,8 @@ survey#:#end_date_reached#:#Sie können die Umfrage nicht mehr starten. Das letz
 survey#:#enter_anonymous_id#:#Zugangsschlüssel
 survey#:#enter_phrase_title#:#Bitte geben Sie einen Titel für die Phrase an
 survey#:#enter_valid_number_of_codes#:#Bitte geben Sie eine gültige Zahl ein, um Zugangsschlüssel zu generieren!
-survey#:#err_external_rcp_no_email#:#Die Importdaten müssen wenigstens ein 'email'-Spalte beinhalten, d.h. eine Zeile mit dem Titel 'email' und weitere Zeilen mit den jeweiligen E-Mail-Adressen.
-survey#:#err_external_rcp_no_email_column#:#Die Importdaten müssen wenigstens eine 'email'-Spalte beinhalten, d.h. eine Zeile mit dem Titel 'email' und weitere Zeilen mit den jeweiligen E-Mail-Adressen
+survey#:#err_external_rcp_no_email#:#Die Importdaten müssen wenigstens eine „email“-Spalte beinhalten, d.h. eine Zeile mit dem Titel „email“ und weitere Zeilen mit den jeweiligen E-Mail-Adressen.
+survey#:#err_external_rcp_no_email_column#:#Die Importdaten müssen wenigstens eine „email“-Spalte beinhalten, d.h. eine Zeile mit dem Titel „email“ und weitere Zeilen mit den jeweiligen E-Mail-Adressen.
 survey#:#err_maxvaluegeminvalue#:#Das Maximum muss größer oder gleich dem Minimum sein und höchstens gleich der maximalen Anzahl der Antworten.
 survey#:#err_minvalueganswers#:#Das Minium darf nicht größer als die maximale Anzahl der Antworten sein.
 survey#:#err_no_exact_answers#:#Bitte wählen Sie genau %s Antwort(en) aus.
@@ -15676,7 +15706,7 @@ survey#:#err_no_max_answers#:#Bitte wählen Sie höchstens %s Antworten aus.
 survey#:#err_no_min_answers#:#Bitte wählen Sie mindestens %s Antwort(en) aus.
 survey#:#err_no_pool_name#:#Bitte geben Sie den Namen eines Fragenpools an.
 survey#:#error_retrieving_anonymous_survey#:#Das System konnte Ihre Umfragedaten unter dem Zugangsschlüssel %s nicht finden. Bitte überprüfen Sie den Zugangsschlüssel!
-survey#:#error_save_code#:#Werte wurden nicht korrekt gespeichert. <b>Die E-Mail '%s' ist nicht gültig.</b>. Vorname: '%s', Nachname: '%s'.<br>
+survey#:#error_save_code#:#Werte wurden nicht korrekt gespeichert. <b>Die E-Mail %s ist nicht gültig.</b>. Vorname: „%s“, Nachname: „%s“.<br>
 survey#:#evaluation#:#Statistik
 survey#:#evaluation_access#:#Zugriff der Teilnehmer auf die Ergebnisse
 survey#:#evaluation_access_all#:#Alle registrierten ILIAS-Benutzer können auf die Ergebnisse zugreifen
@@ -15801,15 +15831,15 @@ survey#:#no_question_selected_for_move#:#Bitte wählen Sie mindestens eine Frage
 survey#:#no_question_selected_for_removal#:#Bitte wählen Sie mindestens eine Frage und/oder einen Fragenblock zum Entfernen aus!
 survey#:#no_questions_available#:#Es sind keine Fragen verfügbar!
 survey#:#no_target_selected_for_move#:#Sie müssen eine Zielposition auswählen!
-survey#:#no_user_invited#:#Allen eingeladenen Benutzern fehlen die notwendigen Rechte, um die Umfrage durchzuführen. Es wurde niemand eingeladen.
+survey#:#no_user_invited#:#Allen eingeladenen Personen fehlen die notwendigen Rechte, um die Umfrage durchzuführen. Es wurde niemand eingeladen.
 survey#:#non_ratio#:#Intervallskala
 survey#:#not_sent_only#:#Personen, die bislang noch keine Mail erhalten haben
 survey#:#not_used#:#noch nicht verwendet
 survey#:#nr_max_answers#:#Maximum
 survey#:#nr_min_answers#:#Minimum
-survey#:#obligatory#:#verpflichtend
+survey#:#obligatory#:#Verpflichtend
 survey#:#off#:#Aus
-survey#:#offline#:#offline (nicht aktiviert)
+survey#:#offline#:#Offline (nicht aktiviert)
 survey#:#on#:#An
 survey#:#or#:#oder
 survey#:#orientation#:#Ausrichtung
@@ -15861,7 +15891,7 @@ survey#:#reset_filter#:#Filter zurücksetzen
 survey#:#results#:#Ergebnisse
 survey#:#resume_survey#:#Umfrage fortsetzen
 survey#:#row_text#:#Zeile
-survey#:#save_obligatory_state#:#verpflichtend-Status und Sortierung speichern
+survey#:#save_obligatory_state#:#„Verpflichtend“-Status und Sortierung speichern
 survey#:#save_phrase#:#Als Phrase speichern
 survey#:#save_phrase_introduction#:#Wenn Sie die unten aufgeführten Antworten für sich als Standard-Phrase speichern wollen, geben Sie bitte noch einen Titel für die Phrase ein. Sie können auf diese Phrase jederzeit zugreifen, wenn Sie Phrasen zu einer ordinalen Frage hinzufügen.
 survey#:#save_reuse_message#:#Nachrichteninhalt für weitere Verwendung speichern
@@ -15893,10 +15923,10 @@ survey#:#spl_move_insert_clipboard#:#Die ausgewählten Fragen wurden für zum Ve
 survey#:#spl_move_same_pool#:#Sie können Fragen nicht innerhalb des gleichen Fragenpools verschieben.
 survey#:#spl_move_select_none#:#Bitte wählen Sie mindestens eine Frage zum Verschieben aus.
 survey#:#spl_online_property#:#Online
-survey#:#spl_online_property_description#:#Wenn der Fragenpool nicht online ist, kann er nicht in Umfragen verwendet werden.
+survey#:#spl_online_property_description#:#Nur wenn der Fragenpool online ist, können die enthaltenen Fragen in Umfragen verwendet werden.
 survey#:#spl_paste_no_objects#:#Es sind keine Fragen in der Zwischenablage vorhanden. Bitte nutzen Sie hierfür die Kopieren- oder Verschieben-Schaltflächen.
 survey#:#spl_paste_success#:#Fragen eingefügt
-survey#:#spl_save_obligatory_state#:#verpflichtend-Status speichern
+survey#:#spl_save_obligatory_state#:#„Verpflichtend“-Status speichern
 survey#:#start_date#:#Startdatum
 survey#:#start_date_not_reached#:#Sie können die Umfrage erst starten, wenn das Startdatum erreicht ist!
 survey#:#start_survey#:#Umfrage beginnen
@@ -15952,9 +15982,9 @@ survey#:#survey_360_sure_appraisee_close_admin#:#Wollen Sie wirklich die Umfrage
 survey#:#survey_360_sure_delete_appraises#:#Wollen Sie wirklich die folgenden Feedback-Nehmer entfernen?
 survey#:#survey_360_sure_delete_raters#:#Wollen Sie wirklich die folgenden Feedback-Geber für %s entfernen?
 survey#:#survey_access_codes#:#Authentifizierung mit Zugangsschlüsseln
-survey#:#survey_access_codes_info#:#Benutzer erhalten Zugang zur Umfrage, indem sie dem Reiter 'Info' einen Zugangsschlüssel eingeben. Diese Zugangsschlüssel werden im gleichnamigen Unterreiter im Reiter 'Teilnehmer' erzeugt.
+survey#:#survey_access_codes_info#:#Benutzer erhalten Zugang zur Umfrage, indem sie dem Reiter „Info“ einen Zugangsschlüssel eingeben. Diese Zugangsschlüssel werden im gleichnamigen Unterreiter im Reiter „Teilnehmer“ erzeugt.
 survey#:#survey_activate_skill_service#:#Kompetenz-Service aktivieren
-survey#:#survey_activate_skill_service_info#:#Es wird ein weiterer Reiter 'Kompetenzen' eingeblendet. Hier werden zunächst den Fragen Kompetenzen zugeordnet, danach werden den Schwellenwerte für die Erreichung bestimmter Kompetenzstufen gesetzt.
+survey#:#survey_activate_skill_service_info#:#Es wird ein weiterer Reiter „Kompetenzen“ eingeblendet. Hier werden zunächst den Fragen Kompetenzen zugeordnet, danach werden den Schwellenwerte für die Erreichung bestimmter Kompetenzstufen gesetzt.
 survey#:#survey_add_new_question#:#Frage erstellen
 survey#:#survey_assign_competence#:#Kompetenz zuordnen
 survey#:#survey_at_beginning#:#An den Anfang
@@ -15996,17 +16026,17 @@ survey#:#survey_execution_exit#:#Zurück zum Magazin
 survey#:#survey_execution_exit_360#:#Zurück
 survey#:#survey_execution_sure_finish#:#Wollen Sie wirklich die Umfrage beenden? Sie können danach Ihre Antworten nicht mehr korrigieren.
 survey#:#survey_existing_pool#:#Vorhandenen Fragenpool verwenden
-survey#:#survey_finish#:#Umfrage beenden >>
+survey#:#survey_finish#:#Umfrage beenden →
 survey#:#survey_finished#:#Die Umfrage ist beendet. Vielen Dank für Ihre Teilnahme!
 survey#:#survey_has_datasets_warning#:#Die Umfrage enthält bereits Teilnehmerdatensätze. Sie können die Fragen erst wieder bearbeiten, wenn Sie alle Teilnehmerdatensätze löschen.
 survey#:#survey_has_datasets_warning_page_view#:#Die Umfrage enthält bereits Teilnehmerdatensätze. Sie können die Fragen erst wieder bearbeiten, wenn Sie alle Teilnehmerdatensätze löschen.
 survey#:#survey_has_datasets_warning_page_view_link#:#Teilnehmerdatensätze bearbeiten
-survey#:#survey_introduction_info#:#Dieser Text wird dauerhaft auf dem Reiter 'Info' angezeigt.
+survey#:#survey_introduction_info#:#Dieser Text wird dauerhaft auf dem Reiter „Info“ angezeigt.
 survey#:#survey_is_offline#:#Sie können die Umfrage nicht starten! Die Umfrage ist offline (nicht aktiviert).
 survey#:#survey_jump_to#:#Springe zu Seite
 survey#:#survey_move_page#:#Seite verschieben
 survey#:#survey_new_pool#:#Neuen Fragenpool anlegen
-survey#:#survey_next#:#Weiter >>
+survey#:#survey_next#:#Weiter →
 survey#:#survey_next_question#:#Nächste Seite
 survey#:#survey_no_pool#:#Keinen Fragenpool verwenden
 survey#:#survey_not_available#:#n.a.
@@ -16029,7 +16059,7 @@ survey#:#survey_page_moved#:#Die Seite wurde verschoben.
 survey#:#survey_per_page_view#:#Seitenansicht
 survey#:#survey_pool_selection#:#Poolauswahl
 survey#:#survey_prev_question#:#Vorherige Seite
-survey#:#survey_previous#:#<< Zurück
+survey#:#survey_previous#:#← Zurück
 survey#:#survey_question_editor#:#Listenansicht
 survey#:#survey_question_obligatory#:#(Diese Frage ist eine Pflichtfrage. Sie muss beantwortet werden!)
 survey#:#survey_question_pool#:#Fragenpool
@@ -16060,11 +16090,11 @@ survey#:#survey_reminder_subject#:#Umfrage "%s" wurde noch nicht bearbeitet
 survey#:#survey_remove_competence#:#Kompetenz entfernen
 survey#:#survey_results_anonymization#:#Datenschutz
 survey#:#survey_results_anonymized#:#Ohne Namen / Anonyme Umfrage
-survey#:#survey_results_anonymized_info#:#Im Reiter 'Ergebnisse' werden die Namen der Teilnehmer durch Codes ersetzt. Benutzer mit Zugang zu diesem Reiter können die Antworten keinem Namen zuordnen, sondern nur einem Benutzer "iTXaF" (Beispiel).
+survey#:#survey_results_anonymized_info#:#Im Reiter „Ergebnisse“ werden die Namen der Teilnehmer durch Codes ersetzt. Benutzer mit Zugang zu diesem Reiter können die Antworten keinem Namen zuordnen, sondern nur einem Benutzer "iTXaF" (Beispiel).
 survey#:#survey_results_finished#:#Umfrage beendet
 survey#:#survey_results_not_started#:#Umfrage nicht begonnen
 survey#:#survey_results_personalized#:#Mit Namen
-survey#:#survey_results_personalized_info#:#Im Reiter 'Ergebnisse' werden Teilnehmer namentlich gelistet und ihre Antworten angezeigt. Alle Benutzer mit vollem Zugang zu diesem Reiter können einsehen, wer welche Antworten gegeben hat. Auch Benutzer mit eingeschränktem Zugang zum Reiter können bei niedriger Teilnehmeranzahl einzelne Antworten Teilnehmern zuordnen.
+survey#:#survey_results_personalized_info#:#Im Reiter „Ergebnisse“ werden Teilnehmer namentlich gelistet und ihre Antworten angezeigt. Alle Benutzer mit vollem Zugang zu diesem Reiter können einsehen, wer welche Antworten gegeben hat. Auch Benutzer mit eingeschränktem Zugang zum Reiter können bei niedriger Teilnehmeranzahl einzelne Antworten Teilnehmern zuordnen.
 survey#:#survey_results_started#:#Umfrage begonnen
 survey#:#survey_results_tutor_body#:#Im Anhang finden Sie die Ergebnisse der folgenden Umfrage
 survey#:#survey_results_tutor_subject#:#Ergebnisse der Umfrage "%s"
@@ -16076,7 +16106,7 @@ survey#:#survey_skill_level#:#Kompetenzstufe
 survey#:#survey_skill_max_scale_points#:#Max. Skalenpunkte
 survey#:#survey_skill_nr_q#:#Anzahl Fragen
 survey#:#survey_skill_thresholds#:#Kompetenz-Schwellenwert
-survey#:#survey_start#:#<< Zur Startseite
+survey#:#survey_start#:#← Zur Startseite
 survey#:#survey_sum_of_means#:#Summe des arithm. Mittels der Frage
 survey#:#survey_sure_delete_constraint#:#Wollen Sie wirklich die Verzweigungsregel "%1$s" der Frage "%2$s" löschen?
 survey#:#survey_sure_delete_questions#:#Wollen Sie wirklich die folgenden Fragen bzw. Überschriften löschen?
@@ -16137,7 +16167,7 @@ survey#:#svy_eval_view_charts#:#Grafik
 survey#:#svy_eval_view_tables#:#Tabelle
 survey#:#svy_eval_view_tables_charts#:#Tabelle und Grafik
 survey#:#svy_evaluation_access_all_info#:#Alle registrierten Benutzer, welche Zugriff auf die Umfrage haben, können auch deren Ergebnisse einsehen.
-survey#:#svy_evaluation_access_off_info#:#Nur Benutzer, welche die Umfrage bearbeiten können (Recht 'Einstellungen bearbeiten') haben Zugriff auf die Ergebnisse der Umfrage.
+survey#:#svy_evaluation_access_off_info#:#Nur Benutzer, welche die Umfrage bearbeiten können (Recht „Einstellungen bearbeiten“) haben Zugriff auf die Ergebnisse der Umfrage.
 survey#:#svy_evaluation_access_participants_info#:#Alle Benutzer, die an der Umfrage teilgenommen haben, können deren Ergebnisse einsehen nachdem sie die Umfrage abgeschlossen haben.
 survey#:#svy_export_files#:#Dateien exportieren
 survey#:#svy_export_format#:#Umfragen exportieren als
@@ -16256,10 +16286,10 @@ svy#:#svy_status#:#Status
 svy#:#svy_status_finished#:#Beendet
 svy#:#svy_status_in_progress#:#In Bearbeitung
 svy#:#svy_status_invited#:#Eingeladen
-svy#:#svy_user_added_appraisee#:#Umfrage '%1'
+svy#:#svy_user_added_appraisee#:#Umfrage „%1“
 svy#:#svy_user_added_appraisee_close_mail#:#Die Umfrage wurde für Ihre Feedback-Geber geschlossen.
 svy#:#svy_user_added_appraisee_mail#:#Sie wurden der Umfrage als Feedback-Nehmer hinzugefügt.
-svy#:#svy_user_added_rater#:#Umfrage '%1'
+svy#:#svy_user_added_rater#:#Umfrage „%1“
 svy#:#svy_user_added_rater_mail#:#Sie wurden als Feedback-Geber hinzugefügt.
 svy#:#svy_user_added_rater_reminder_mail#:#Bitte bewerten Sie noch die folgenden Feedback-Nehmer:
 svy#:#svy_user_not_found#:#Es wurde kein entsprechender Benutzer gefunden.
@@ -16585,12 +16615,12 @@ trac#:#trac_mode_course_reference#:#Vom Kurs übernommen
 trac#:#trac_mode_course_reference_info#:#Der Lernfortschrittmodus wird automatisch von dem Kurs übernommen, auf den dieser Kurslink verweist.
 trac#:#trac_mode_deactivated#:#Lernfortschritt ist deaktiviert
 trac#:#trac_mode_deactivated_info_new#:#Der Lernfortschrittsstatus wird nicht angezeigt und beeinflusst keine übergeordneten Objekte.
-trac#:#trac_mode_event#:#Tutoren erfassen Teilnahme
-trac#:#trac_mode_event_info#:#Tutoren prüfen, welche Teilnehmer an der Sitzung teilgenommen haben, und erfassen die Teilnahme händisch im Reiter 'Sitzungsteilnehmer verwalten'.
-trac#:#trac_mode_exercise_returned#:#Tutor entscheidet über den Status
-trac#:#trac_mode_exercise_returned_info#:#Tutoren entscheiden anhand der Einreichungen, ob Teilnehmer die Übung gelöst haben. Tutoren setzen händisch den Status auf 'Bearbeitet' oder 'Nicht bestanden'.
-trac#:#trac_mode_individual_assessment#:#Individuelle Bewertung durch Tutor/Trainer
-trac#:#trac_mode_individual_assessment_info#:#Der Teilnehmer muss abschließend bewertet werden, damit für diesen der Lernfortschritt gesetzt wird.
+trac#:#trac_mode_event#:#Teilnahmeliste abhaken
+trac#:#trac_mode_event_info#:#Personen mit dem Recht „Mitglieder verwalten“ erfassen die Teilnahme im Reiter „Teilnehmer“.
+trac#:#trac_mode_exercise_returned#:#Manuelle Bewertung
+trac#:#trac_mode_exercise_returned_info#:#Personen mit dem Recht „Einstellungen bearbeiten“ entscheiden anhand der Einreichungen, ob die Übungseinheit gelöst wurde. Im Reiter „Abgaben und Noten“ setzen sie händisch den jeweiligen Status.
+trac#:#trac_mode_individual_assessment#:#Manuelle Bewertung
+trac#:#trac_mode_individual_assessment_info#:#Im Reiter „Teilnehmer“ können Personen mit dem Recht „Teilnehmer bearbeiten“ die Bewertung abschließen. Dadurch ändert sich der jeweilige Lernfortschrittsstatus.
 trac#:#trac_mode_lti_outcome#:#Mastery Score muss erreicht werden
 trac#:#trac_mode_lti_outcome_info#:#Der Lernfortschritt gilt als abgeschlossen, wenn das Ergebnis des LTI-Outcome-Service mindestens so hoch wie der Mastery Score ist.
 trac#:#trac_mode_manual#:#Benutzer entscheidet selbst über den Status des Lernfortschritts für das gesamte Objekt.
@@ -16726,8 +16756,8 @@ ui#:#label_fieldselection_refresh#:#Anwenden
 ui#:#label_pagination_limit#:#Pagination - Anzahl der Zeilen
 ui#:#label_pagination_offset#:#Pagination - Start
 ui#:#label_sortation#:#Sortierung
-ui#:#presentaion_table_collapse#:#alle minimieren
-ui#:#presentaion_table_expand#:#alle zeigen
+ui#:#presentation_table_collapse#:#alle minimieren
+ui#:#presentation_table_expand#:#alle zeigen
 ui#:#ui_chars_max#:#Maximum:
 ui#:#ui_chars_min#:#Minimum:
 ui#:#ui_chars_remaining#:#Verbleibende Buchstaben
@@ -16743,6 +16773,7 @@ ui#:#ui_link_url#:#URL
 ui#:#ui_md_input_edit#:#Bearbeiten
 ui#:#ui_md_input_view#:#Vorschau
 ui#:#ui_numeric_only#:#Bitte geben sie eine ganze Zahl ein.
+ui#:#ui_table_no_records#:#Keine Einträge
 ui#:#ui_tag_required#:#Bitte geben sie mindestens ein Tag ein.
 ui#:#ui_transcription#:#Abschrift
 user#:#all_roles_has_starting_point#:#Alle Rollen mit definierter Startseite
@@ -16971,7 +17002,7 @@ wiki#:#wiki_exc_wiki_created#:#Wiki wurde erstellt
 wiki#:#wiki_exercise_info#:#Dieses Wiki ist der Übungseinheit "%s" in der Übung "%s" zugeordnet.
 wiki#:#wiki_exercise_submitted_info#:#Ihre letzte Einreichung war am %s. Bitte prüfen Sie die Abgabedatei.
 wiki#:#wiki_failed#:#Durchgefallen
-wiki#:#wiki_feedback_from_tutor#:#Feedback des Tutors
+wiki#:#wiki_feedback_from_tutor#:#Bewertung
 wiki#:#wiki_finalize_wiki#:#Wiki abschließen und abgeben
 wiki#:#wiki_finalized#:#Das Wiki wurde abgegeben.
 wiki#:#wiki_functions#:#Wiki-Funktionen
@@ -17145,6 +17176,7 @@ wsp#:#wsp_permission_registered_info#:#Dieses Objekt ist für alle registrierten
 wsp#:#wsp_permission_removed#:#Der Eintrag wurde gelöscht.
 wsp#:#wsp_permissions#:#Freigabe
 wsp#:#wsp_personal_resources_description#:#Hier können Sie persönliche Dateien, Blogs und Nachweise verwalten.
+wsp#:#wsp_send_mail#:#Mail senden
 wsp#:#wsp_set_permission_all#:#Internet/WWW
 wsp#:#wsp_set_permission_all_password#:#Internet/WWW mit Passwort
 wsp#:#wsp_set_permission_course#:#Kursmitglieder
@@ -17152,7 +17184,7 @@ wsp#:#wsp_set_permission_group#:#Gruppenmitglieder
 wsp#:#wsp_set_permission_registered#:#Alle registrierten Benutzer
 wsp#:#wsp_set_permission_single_user#:#Ausgewählte Benutzer
 wsp#:#wsp_share_search_users#:#Benutzer suchen
-wsp#:#wsp_share_success#:#Ein neuer Eintrag wurde hinzugefügt.
+wsp#:#wsp_share_success#:#Die Ressource wurde freigegeben.
 wsp#:#wsp_share_with_members#:#Für Mitglieder freigeben
 wsp#:#wsp_share_with_users#:#Für Benutzer freigeben
 wsp#:#wsp_shared_date#:#Freigabedatum

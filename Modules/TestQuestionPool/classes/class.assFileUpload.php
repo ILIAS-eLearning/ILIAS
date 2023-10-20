@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+use ILIAS\FileDelivery\Delivery\Disposition;
+
 require_once './Modules/Test/classes/inc.AssessmentConstants.php';
 
 /**
@@ -37,6 +39,9 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
     // hey.
 
     protected const HAS_SPECIFIC_FEEDBACK = false;
+    private \ILIAS\ResourceStorage\Services $irss;
+    private \ILIAS\FileDelivery\Services $file_delivery;
+    private \ILIAS\FileUpload\FileUpload $file_upload;
 
     protected ?int $maxsize = null;
 
@@ -66,6 +71,10 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
         $question = ''
     ) {
         parent::__construct($title, $comment, $author, $owner, $question);
+        global $DIC;
+        $this->irss = $DIC->resourceStorage();
+        $this->file_delivery = $DIC->fileDelivery();
+        $this->file_upload = $DIC->upload();
     }
 
     /**
@@ -349,78 +358,37 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
     public function checkUpload(): bool
     {
         $this->lng->loadLanguageModule('form');
-        // remove trailing '/'
-        $_FILES['upload']['name'] = rtrim($_FILES['upload']['name'], '/');
 
-        $filename = $_FILES['upload']['name'];
-        $filename_arr = pathinfo($_FILES['upload']['name']);
-        $suffix = $filename_arr['extension'];
-        $mimetype = $_FILES['upload']['type'];
-        $size_bytes = $_FILES['upload']['size'];
-        $temp_name = $_FILES['upload']['tmp_name'];
-        $error = $_FILES['upload']['error'];
-
-        if ($size_bytes > $this->getMaxFilesizeInBytes()) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('form_msg_file_size_exceeds'), true);
-            return false;
-        }
-
-        // error handling
-        if ($error > 0) {
-            switch ($error) {
-                case UPLOAD_ERR_FORM_SIZE:
-                case UPLOAD_ERR_INI_SIZE:
-                    $this->tpl->setOnScreenMessage('failure', $this->lng->txt('form_msg_file_size_exceeds'), true);
-                    return false;
-                    break;
-
-                case UPLOAD_ERR_PARTIAL:
-                    $this->tpl->setOnScreenMessage('failure', $this->lng->txt('form_msg_file_partially_uploaded'), true);
-                    return false;
-                    break;
-
-                case UPLOAD_ERR_NO_FILE:
-                    $this->tpl->setOnScreenMessage('failure', $this->lng->txt('form_msg_file_no_upload'), true);
-                    return false;
-                    break;
-
-                case UPLOAD_ERR_NO_TMP_DIR:
-                    $this->tpl->setOnScreenMessage('failure', $this->lng->txt('form_msg_file_missing_tmp_dir'), true);
-                    return false;
-                    break;
-
-                case UPLOAD_ERR_CANT_WRITE:
-                    $this->tpl->setOnScreenMessage('failure', $this->lng->txt('form_msg_file_cannot_write_to_disk'), true);
-                    return false;
-                    break;
-
-                case UPLOAD_ERR_EXTENSION:
-                    $this->tpl->setOnScreenMessage('failure', $this->lng->txt('form_msg_file_upload_stopped_ext'), true);
-                    return false;
-                    break;
-            }
-        }
-
-        // check suffixes
-        if (count($this->getAllowedExtensionsArray())) {
-            if (!strlen($suffix)) {
-                $this->tpl->setOnScreenMessage('failure', $this->lng->txt('form_msg_file_missing_file_ext'), true);
+        foreach (
+            $this->file_upload->getResults() as $upload_result
+        ) { // only one supported at the moment, but we check all
+            if (!$upload_result->isOK()) {
                 return false;
             }
 
-            if (!in_array(strtolower($suffix), $this->getAllowedExtensionsArray())) {
-                $this->tpl->setOnScreenMessage('failure', $this->lng->txt('form_msg_file_wrong_file_type'), true);
+            // check file size
+            $size_bytes = $upload_result->getSize();
+            if ($size_bytes > $this->getMaxFilesizeInBytes()) {
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt('form_msg_file_size_exceeds'), true);
                 return false;
             }
-        }
 
-        // virus handling
-        if (strlen($temp_name)) {
-            $vir = ilVirusScanner::virusHandling($temp_name, $filename);
-            if ($vir[0] == false) {
-                $this->tpl->setOnScreenMessage('failure', $this->lng->txt('form_msg_file_virus_found') . '<br />' . $vir[1], true);
-                return false;
+            // check suffixes
+            if (count($this->getAllowedExtensionsArray())) {
+                $filename_arr = pathinfo($upload_result->getName());
+                $suffix = $filename_arr['extension'];
+                $mimetype = $upload_result->getMimeType();
+                if ($suffix === '') {
+                    $this->tpl->setOnScreenMessage('failure', $this->lng->txt('form_msg_file_missing_file_ext'), true);
+                    return false;
+                }
+
+                if (!in_array(strtolower($suffix), $this->getAllowedExtensionsArray(), true)) {
+                    $this->tpl->setOnScreenMessage('failure', $this->lng->txt('form_msg_file_wrong_file_type'), true);
+                    return false;
+                }
             }
+            // virus handling already done in upload-service
         }
         return true;
     }
@@ -524,58 +492,45 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
     */
     public function getUploadedFilesForWeb($active_id, $pass): array
     {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-
         $found = $this->getUploadedFiles($active_id, $pass);
-        $result = $ilDB->queryF(
+        $result = $this->db->queryF(
             'SELECT test_fi FROM tst_active WHERE active_id = %s',
             ['integer'],
             [$active_id]
         );
         if ($result->numRows() == 1) {
-            $row = $ilDB->fetchAssoc($result);
+            $row = $this->db->fetchAssoc($result);
             $test_id = $row['test_fi'];
             $path = $this->getFileUploadPathWeb($test_id, $active_id);
             foreach ($found as $idx => $data) {
-                $found[$idx]['webpath'] = $path;
+                // depending on whether the files are already stored in the IRSS or not, the files are compiled differently here.
+                // this can be removed with ILIAs 10 and switched exclusively to the IRSS variant.
+                // We recommend then to revise the whole handling of files
+
+                if ($data['value2'] === 'rid') {
+                    $rid = $this->irss->manage()->find($data['value1']);
+                    if($rid === null) {
+                        continue;
+                    }
+                    $revision = $this->irss->manage()->getCurrentRevision($rid);
+                    $stream = $this->irss->consume()->stream($rid)->getStream();
+                    $url = $this->file_delivery->buildTokenURL(
+                        $stream,
+                        $revision->getTitle(),
+                        Disposition::ATTACHMENT,
+                        $this->current_user->getId(),
+                        1
+                    );
+
+                    $path = (string) $url;
+                    $found[$idx]['webpath'] = $path;
+                    $found[$idx]['value2'] = $revision->getTitle();
+                } else {
+                    $found[$idx]['webpath'] = $path;
+                }
             }
         }
         return $found;
-    }
-
-    /**
-    * Delete uploaded files
-    *
-  * @param array Array with ID's of the file datasets
-    */
-    protected function deleteUploadedFiles($files, $test_id, $active_id, $authorized): void
-    {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-
-        $pass = null;
-        $active_id = null;
-        foreach ($files as $solution_id) {
-            $result = $ilDB->queryF(
-                'SELECT * FROM tst_solutions WHERE solution_id = %s AND authorized = %s',
-                ['integer', 'integer'],
-                [$solution_id, (int) $authorized]
-            );
-            if ($result->numRows() == 1) {
-                $data = $ilDB->fetchAssoc($result);
-                $pass = $data['pass'];
-                $active_id = $data['active_fi'];
-                @unlink($this->getFileUploadPath($test_id, $active_id) . $data['value1']);
-            }
-        }
-        foreach ($files as $solution_id) {
-            $affectedRows = $ilDB->manipulateF(
-                'DELETE FROM tst_solutions WHERE solution_id = %s AND authorized = %s',
-                ['integer', 'integer'],
-                [$solution_id, $authorized]
-            );
-        }
     }
 
     // fau: testNav new function deleteUnusedFiles()
@@ -585,8 +540,24 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
      * @param int	$active_id
      * @param int	$pass
      */
-    protected function deleteUnusedFiles($test_id, $active_id, $pass): void
+    protected function deleteUnusedFiles(array $rids_to_delete, $test_id, $active_id, $pass): void
     {
+        // Remove Resources from IRSS
+        if ($rids_to_delete !== []) {
+            foreach ($rids_to_delete as $rid_to_delete) {
+                $rid_to_delete = $this->irss->manage()->find($rid_to_delete);
+                if ($rid_to_delete === null) {
+                    continue;
+                }
+                $this->irss->manage()->remove(
+                    $rid_to_delete,
+                    new assFileUploadStakeholder()
+                );
+            }
+        }
+
+        // Legacy implementation for not yet migrated files
+
         // read all solutions (authorized and intermediate) from all steps
         $step = $this->getStep();
         $this->setStep(null);
@@ -696,85 +667,100 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
         $test_id = $this->testParticipantInfo->lookupTestIdByActiveId($active_id);
 
         $upload_handling_required = $this->isFileUploadAvailable() && $this->checkUpload();
-        $upload_file_data = [];
+        $rid = null;
 
         if ($upload_handling_required) {
-            if (!@file_exists($this->getFileUploadPath($test_id, $active_id))) {
-                ilFileUtils::makeDirParents($this->getFileUploadPath($test_id, $active_id));
-            }
-
-            $upload_file_data ['solution_file_versioning_upload_ts'] = time();
-            $filename_arr = pathinfo($_FILES['upload']['name']);
-            $extension = $filename_arr['extension'];
-            $new_file_name = 'file_' . $active_id . '_' . $pass . '_'
-                . $upload_file_data ['solution_file_versioning_upload_ts'] . '.' . $extension;
-            $upload_file_data['new_file_name'] = ilFileUtils::getValidFilename($new_file_name);
-
-            ilFileUtils::moveUploadedFile(
-                $_FILES['upload']['tmp_name'],
-                $_FILES['upload']['name'],
-                $this->getFileUploadPath($test_id, $active_id) . $upload_file_data['new_file_name']
+            // upload new file to storage
+            $upload_results = $this->file_upload->getResults();
+            $upload_result = end($upload_results); // only one supported at the moment
+            $rid = $this->irss->manage()->upload(
+                $upload_result,
+                new assFileUploadStakeholder()
             );
         }
 
         $entered_values = false;
 
-        $this->getProcessLocker()->executeUserSolutionUpdateLockOperation(function () use (&$entered_values, $upload_handling_required, $upload_file_data, $test_id, $active_id, $pass, $authorized) {
-            if ($authorized == false) {
-                $this->forceExistingIntermediateSolution($active_id, $pass, true);
-            }
+        // RIDS to delete
+        // Unfortunately, at the moment it is not possible to delete the files from the IRSS, because the process takes
+        // place within the ProcessLocker and the IRSS tables cannot be used. we have to remove them after the lock.
+        // therefore we store the rids to delete in an array for later deletion.
 
-            if ($this->isFileDeletionAction()) {
-                if ($this->isFileDeletionSubmitAvailable()) {
-                    foreach ($_POST[self::DELETE_FILES_TBL_POSTVAR] as $solution_id) {
-                        $this->removeSolutionRecordById($solution_id);
+        $rids_to_delete = $this->resolveRIDStoDelete();
+
+        $this->getProcessLocker()->executeUserSolutionUpdateLockOperation(
+            function () use (
+                &$entered_values,
+                $upload_handling_required,
+                $test_id,
+                $active_id,
+                $pass,
+                $authorized,
+                $rid
+            ) {
+                if ($authorized === false) {
+                    $this->forceExistingIntermediateSolution($active_id, $pass, true);
+                }
+
+                if ($this->isFileDeletionAction()) {
+                    if ($this->isFileDeletionSubmitAvailable()) {
+                        foreach ($_POST[self::DELETE_FILES_TBL_POSTVAR] as $solution_id) {
+                            $this->removeSolutionRecordById($solution_id);
+                        }
+                    } else {
+                        $this->tpl->setOnScreenMessage('info', $this->lng->txt('no_checkbox'), true);
                     }
                 } else {
-                    $this->tpl->setOnScreenMessage('info', $this->lng->txt('no_checkbox'), true);
-                }
-            } else {
-                if ($this->isFileReuseHandlingRequired()) {
-                    foreach ($_POST[self::REUSE_FILES_TBL_POSTVAR] as $solutionId) {
-                        $solution = $this->getSolutionRecordById($solutionId);
+                    if ($this->isFileReuseHandlingRequired()) {
+                        foreach ($_POST[self::REUSE_FILES_TBL_POSTVAR] as $solutionId) {
+                            $solution = $this->getSolutionRecordById($solutionId);
+
+                            $this->saveCurrentSolution(
+                                $active_id,
+                                $pass,
+                                $solution['value1'],
+                                $solution['value2'],
+                                false,
+                                $solution['tstamp']
+                            );
+                        }
+                    }
+
+                    if ($upload_handling_required && $rid !== null) {
+
+                        $revision = $this->irss->manage()->getCurrentRevision($rid);
 
                         $this->saveCurrentSolution(
                             $active_id,
                             $pass,
-                            $solution['value1'],
-                            $solution['value2'],
+                            $rid->serialize(),
+                            'rid',
                             false,
-                            $solution['tstamp']
+                            time()
                         );
+
+                        $entered_values = true;
                     }
                 }
 
-                if ($upload_handling_required) {
-                    $dispoFilename = ilFileUtils::getValidFilename($_FILES['upload']['name']);
+                if ($authorized === true && $this->intermediateSolutionExists($active_id, $pass)) {
+                    // remove the dummy record of the intermediate solution
+                    $this->deleteDummySolutionRecord($active_id, $pass);
 
-                    $this->saveCurrentSolution(
-                        $active_id,
-                        $pass,
-                        $upload_file_data['new_file_name'],
-                        $dispoFilename,
-                        false,
-                        $upload_file_data ['solution_file_versioning_upload_ts']
-                    );
-
-                    $entered_values = true;
+                    // delete the authorized solution and make the intermediate solution authorized (keeping timestamps)
+                    $this->removeCurrentSolution($active_id, $pass, true);
+                    $this->updateCurrentSolutionsAuthorization($active_id, $pass, true, true);
                 }
+
             }
+        );
 
-            if ($authorized == true && $this->intermediateSolutionExists($active_id, $pass)) {
-                // remove the dummy record of the intermediate solution
-                $this->deleteDummySolutionRecord($active_id, $pass);
-
-                // delete the authorized solution and make the intermediate solution authorized (keeping timestamps)
-                $this->removeCurrentSolution($active_id, $pass, true);
-                $this->updateCurrentSolutionsAuthorization($active_id, $pass, true, true);
-            }
-
-            $this->deleteUnusedFiles($test_id, $active_id, $pass);
-        });
+        $this->deleteUnusedFiles(
+            $rids_to_delete,
+            $test_id,
+            $active_id,
+            $pass
+        );
 
         if ($entered_values) {
             if (ilObjAssessmentFolder::_enabledAssessmentLogging()) {
@@ -795,6 +781,30 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
         }
 
         return true;
+    }
+
+    protected function resolveRIDStoDelete(): array
+    {
+        $rids_to_delete = [];
+        if ($this->isFileDeletionAction() && $this->isFileDeletionSubmitAvailable()) {
+            $res = $this->db->query(
+                "SELECT value1 FROM tst_solutions WHERE value2 = 'rid' AND " . $this->db->in(
+                    'solution_id',
+                    $_POST[self::DELETE_FILES_TBL_POSTVAR],
+                    false,
+                    'integer'
+                )
+            );
+            while ($d = $this->db->fetchAssoc($res)) {
+                $rids_to_delete[] = $d['value1'];
+            }
+        }
+        return $rids_to_delete;
+    }
+
+    protected function removeSolutionRecordById(int $solution_id): int
+    {
+        return parent::removeSolutionRecordById($solution_id);
     }
 
     /**
@@ -827,7 +837,8 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
 
         $test_id = $this->testParticipantInfo->lookupTestIdByActiveId($active_id);
         if ($test_id !== -1) {
-            $this->deleteUnusedFiles($test_id, $active_id, $pass);
+            // TODO: This can be removed with ILIAS 10
+            $this->deleteUnusedFiles([], $test_id, $active_id, $pass);
         }
     }
 
@@ -1076,22 +1087,17 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
         $ilDB = $DIC['ilDB'];
         $lng = $DIC['lng'];
 
-        $exporter = new ilAssFileUploadUploadsExporter($ilDB, $lng);
+        $exporter = new ilAssFileUploadUploadsExporter(
+            $ilDB,
+            $lng,
+            $ref_id,
+            $test_id
+        );
 
-        $exporter->setRefId($ref_id);
-        $exporter->setTestId($test_id);
         $exporter->setTestTitle($test_title);
         $exporter->setQuestion($this);
 
-        $exporter->build();
-
-        ilFileDelivery::deliverFileLegacy(
-            $exporter->getFinalZipFilePath(),
-            $exporter->getDispoZipFileName(),
-            $exporter->getZipFileMimeType(),
-            false,
-            true
-        );
+        $exporter->buildAndDownload();
     }
 
     public function isCompletionBySubmissionEnabled(): bool
@@ -1158,14 +1164,9 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
 
     protected function isFileUploadAvailable(): bool
     {
-        if (!isset($_FILES['upload'])) {
-            return false;
+        if (!$this->file_upload->hasBeenProcessed()) {
+            $this->file_upload->process();
         }
-
-        if (!isset($_FILES['upload']['tmp_name'])) {
-            return false;
-        }
-
-        return strlen($_FILES['upload']['tmp_name']) > 0;
+        return $this->file_upload->hasUploads();
     }
 }

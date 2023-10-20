@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 require_once("libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "../../../../Base.php");
@@ -169,7 +169,7 @@ EOT;
 			<li id="" class="c-tree__node c-tree__node--simple" role="treeitem">
 				<span class="c-tree__node__line">
 					<span class="c-tree__node__label">
-						<img class="icon small" src="./templates/default/images/icon_default.svg" alt=""/>
+						<img class="icon small" src="./templates/default/images/standard/icon_default.svg" alt=""/>
 						label
 					</span>
 				</span>

@@ -177,6 +177,14 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
         }
     }
 
+    public function numericOrdering($a_field): bool
+    {
+        if ($a_field === 'read_count') {
+            return true;
+        }
+        return false;
+    }
+
     public function getSelectableColumns(): array
     {
         $user_cols = $this->getSelectableUserColumns(
@@ -427,11 +435,11 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 
                         $status = ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM;
                         if (isset(
-                                $collection["subitems"]["completed"]
-                            ) && in_array(
-                                $user_id,
-                                $collection["subitems"]["completed"][$item_id]
-                            )) {
+                            $collection["subitems"]["completed"]
+                        ) && in_array(
+                            $user_id,
+                            $collection["subitems"]["completed"][$item_id]
+                        )) {
                             $status = ilLPStatus::LP_STATUS_COMPLETED_NUM;
                         } elseif (isset(
                             $collection["subitems"]["in_progress"]
@@ -521,7 +529,7 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
                             $this->tpl->setVariable(
                                 'WARNING_IMG',
                                 ilUtil::getImagePath(
-                                    'time_warn.svg'
+                                    'media/time_warn.svg'
                                 )
                             );
                             $this->tpl->setVariable(

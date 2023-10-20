@@ -1163,8 +1163,6 @@ assessment#:#show_examview_html#:#Show exam view on the test submission page.
 assessment#:#show_pass_overview#:#Показать обзор отмеченных верных ответов
 assessment#:#show_user_answers#:#Показать отмеченные пользователем ответы
 assessment#:#shuffle_answers#:#Перемешать ответы
-assessment#:#sign_submission#:#Digitally sign test submissions
-assessment#:#sign_submission_info#:#If this is activated and a signature plugin is installed and active, participants will be send to digitally sign their submissions.
 assessment#:#skip_question#:#Do not Answer and Next###08 10 2015 new variable
 assessment#:#solutionText#:#Текст
 assessment#:#solution_contain_keywords#:#Оценка определяется изходя из наличия следующих ключевых слов:
@@ -1688,7 +1686,7 @@ assessment#:#tst_report_after_test#:#Отчет об оценках после �
 assessment#:#tst_report_never#:#Нет доступных результатов теста
 assessment#:#tst_reporting_date#:#Date###06 02 2015 new variable
 assessment#:#tst_res_jump_to_participant_btn#:#Jump###26 09 2014 new variable
-assessment#:#tst_res_jump_to_participant_hint_opt#:#--Jump to Participant--###26 09 2014 new variable
+assessment#:#tst_res_jump_to_participant_hint_opt#:#Jump to Participant
 assessment#:#tst_res_lo_objectives_header#:#Relevant Learning Objectives###30 08 2015 new variable
 assessment#:#tst_res_lo_try_header#:#Attempt###30 08 2015 new variable
 assessment#:#tst_res_lo_try_n#:#Attempt %s###30 08 2015 new variable

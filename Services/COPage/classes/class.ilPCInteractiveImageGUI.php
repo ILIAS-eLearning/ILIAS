@@ -16,14 +16,22 @@
  *
  *********************************************************************/
 
+use ILIAS\FileUpload\Location;
+use ILIAS\FileUpload\FileUpload;
+use ILIAS\FileUpload\Handler\BasicHandlerResult;
+use ILIAS\FileUpload\DTO\UploadResult;
+use ILIAS\FileUpload\Handler\HandlerResult;
+
 /**
  * User interface class for interactive images
  *
  * @author Alexander Killing <killing@leifos.de>
- * @ilCtrl_Calls ilPCInteractiveImageGUI: ilPCIIMTriggerEditorGUI
+ * @ilCtrl_Calls ilPCInteractiveImageGUI: ilPCIIMTriggerEditorGUI, ilRepoStandardUploadHandlerGUI
  */
 class ilPCInteractiveImageGUI extends ilPageContentGUI
 {
+    protected \ILIAS\COPage\PC\InteractiveImage\IIMManager $iim_manager;
+    protected \ILIAS\COPage\PC\InteractiveImage\GUIService $iim_gui;
     protected ilTabsGUI $tabs;
     protected ilToolbarGUI $toolbar;
 
@@ -41,6 +49,8 @@ class ilPCInteractiveImageGUI extends ilPageContentGUI
         $this->ctrl = $DIC->ctrl();
         $this->toolbar = $DIC->toolbar();
         parent::__construct($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
+        $this->iim_gui = $DIC->copage()->internal()->gui()->pc()->interactiveImage();
+        $this->iim_manager = $DIC->copage()->internal()->domain()->pc()->interactiveImage();
     }
 
     public function executeCommand(): void
@@ -55,7 +65,7 @@ class ilPCInteractiveImageGUI extends ilPageContentGUI
         $cmd = $this->ctrl->getCmd();
 
         if (is_object($this->content_obj)) {
-            $tpl->setTitleIcon(ilUtil::getImagePath("icon_mob.svg"));
+            $tpl->setTitleIcon(ilUtil::getImagePath("standard/icon_mob.svg"));
             $this->getTabs();
         }
 
@@ -76,10 +86,46 @@ class ilPCInteractiveImageGUI extends ilPageContentGUI
                 }
                 break;
 
+                /*
+            case "ilpageeditorserveradaptergui":
+                $adapter = new ilPageEditorServerAdapterGUI(
+                    $this->page_gui,
+                    $this->ctrl,
+                    $this->ui,
+                    $this->http_request
+                );
+                $this->ctrl->forwardCommand($adapter);
+                break;*/
+
+            case strtolower(ilRepoStandardUploadHandlerGUI::class):
+                $this->forwardFormToUploadHandler();
+                break;
+
             default:
                 $this->$cmd();
                 break;
         }
+    }
+
+    protected function forwardFormToUploadHandler(): void
+    {
+        switch($this->request->getString("mode")) {
+            case "overlayUpload":
+                $form = $this->getOverlayUploadFormAdapter();
+                $gui = $form->getRepoStandardUploadHandlerGUI("overlay_file");
+                break;
+
+            case "backgroundUpdate":
+                $form = $this->getBackgroundPropertiesFormAdapter();
+                $gui = $form->getRepoStandardUploadHandlerGUI("input_file");
+                break;
+
+            default:
+                $form = $this->getImportFormAdapter();
+                $gui = $form->getRepoStandardUploadHandlerGUI("input_file");
+                break;
+        }
+        $this->ctrl->forwardCommand($gui);
     }
 
     /**
@@ -97,6 +143,13 @@ class ilPCInteractiveImageGUI extends ilPageContentGUI
             $ilTabs->setBackTarget(
                 $lng->txt("pg"),
                 (string) $ilCtrl->getParentReturn($this)
+            );
+
+            /*
+            $ilTabs->addTab(
+                "editor",
+                $lng->txt("edit"),
+                $ilCtrl->getLinkTarget($this, "editor")
             );
 
             $ilTabs->addTab(
@@ -121,7 +174,7 @@ class ilPCInteractiveImageGUI extends ilPageContentGUI
                 "edit_base_image",
                 $lng->txt("cont_base_image") . " & " . $lng->txt("cont_caption"),
                 $ilCtrl->getLinkTarget($this, "editBaseImage")
-            );
+            );*/
         }
     }
 
@@ -150,7 +203,7 @@ class ilPCInteractiveImageGUI extends ilPageContentGUI
     public function edit(): void
     {
         $ilCtrl = $this->ctrl;
-        $ilCtrl->redirectByClass(array("ilpcinteractiveimagegui", "ilpciimtriggereditorgui"), "editMapAreas");
+        $ilCtrl->redirect($this, "editor");
     }
 
     public function editBaseImage(): void
@@ -276,7 +329,7 @@ class ilPCInteractiveImageGUI extends ilPageContentGUI
             $this->tpl->setOnScreenMessage('success', $lng->txt("cont_saved_interactive_image"), true);
             $this->ctrl->redirectByClass("ilpcinteractiveimagegui", "edit");
 
-        //$this->ctrl->returnToParent($this, "jump".$this->hier_id);
+            //$this->ctrl->returnToParent($this, "jump".$this->hier_id);
         } else {
             $this->insert();
         }
@@ -663,4 +716,130 @@ class ilPCInteractiveImageGUI extends ilPageContentGUI
         }
         $ilCtrl->redirect($this, "listContentPopups");
     }
+
+    public function getImportFormAdapter(): \ILIAS\Repository\Form\FormAdapterGUI
+    {
+        $this->ctrl->setParameter($this, "cname", "InteractiveImage");
+        $form = $this->gui->form([self::class], "#")
+                          ->async()
+            ->section("f", $this->lng->txt("cont_ed_insert_iim"))
+                          ->file(
+                              "input_file",
+                              $this->lng->txt("file"),
+                              \Closure::fromCallable([$this, 'handleUploadResult']),
+                              "mob_id",
+                              "",
+                              1,
+                              [],
+                              [self::class],
+                              "copg"
+                          );
+        return $form;
+    }
+
+    public function handleUploadResult(
+        FileUpload $upload,
+        UploadResult $result
+    ): BasicHandlerResult {
+        return $this->iim_manager->handleUploadResult($upload, $result);
+    }
+
+    public function editor(): void
+    {
+        $ilTabs = $this->tabs;
+        $ilTabs->activateTab("editor");
+        $this->tpl->setContent($this->iim_gui->editorInit()->getInitHtml());
+        $this->initInteractiveImageEditor();
+    }
+
+    protected function initInteractiveImageEditor(): void
+    {
+        $this->setEditorToolContext();
+        $this->iim_gui->editorInit()->initUI($this->tpl);
+    }
+
+    public function getOverlayUploadFormAdapter(array $path = null): \ILIAS\Repository\Form\FormAdapterGUI
+    {
+        if (is_null($path)) {
+            $path = [self::class];
+        }
+
+        $f = $this->gui->form($path, "#")
+                       ->async()
+                       ->file(
+                           "overlay_file",
+                           $this->lng->txt("file"),
+                           \Closure::fromCallable([$this, 'handleOverlayUpload']),
+                           "mob_id",
+                           "",
+                           1,
+                           ["image/png", "image/jpeg", "image/gif"],
+                           $path,
+                           "copg"
+                       );
+        return $f;
+    }
+
+
+    public function handleOverlayUpload(
+        FileUpload $upload,
+        UploadResult $result
+    ): BasicHandlerResult {
+        return $this->iim_manager->handleOverlayUpload(
+            $this->content_obj->getMediaObject(),
+            $upload,
+            $result
+        );
+    }
+
+    public function getPopupFormAdapter(): \ILIAS\Repository\Form\FormAdapterGUI
+    {
+        $f = $this->gui->form(null, "#")
+                       ->text(
+                           "title",
+                           $this->lng->txt("title")
+                       );
+        return $f;
+    }
+
+    public function getBackgroundPropertiesFormAdapter(array $path = null): \ILIAS\Repository\Form\FormAdapterGUI
+    {
+        if (is_null($path)) {
+            $path = [self::class];
+        }
+
+        $f = $this->gui->form($path, "#")
+                       ->async()
+                       ->file(
+                           "input_file",
+                           $this->lng->txt("file"),
+                           \Closure::fromCallable([$this, 'handleBackgroundUpload']),
+                           "mob_id",
+                           "",
+                           1,
+                           ["image/png", "image/jpeg", "image/gif"],
+                           $path,
+                           "copg"
+                       )->text(
+                           "caption",
+                           $this->lng->txt("cont_caption")
+                       );
+        return $f;
+    }
+
+
+    public function handleBackgroundUpload(
+        FileUpload $upload,
+        UploadResult $result
+    ): BasicHandlerResult {
+        $this->log->debug(">>>");
+        $this->log->debug("Start upload");
+        $this->log->debug($this->content_obj->getMediaObject()->getId());
+        return $this->iim_manager->handleUploadResult(
+            $upload,
+            $result,
+            $this->content_obj->getMediaObject()
+        );
+    }
+
 }

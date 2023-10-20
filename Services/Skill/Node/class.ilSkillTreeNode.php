@@ -455,12 +455,12 @@ class ilSkillTreeNode
             ? "_off"
             : "";
 
-        $a_name = "icon_" . $a_type . $a_size . $off . ".svg";
+        $a_name = "standard/icon_" . $a_type . $a_size . $off . ".svg";
         if ($a_type == "sktr") {
             $tid = ilSkillTemplateReference::_lookupTemplateId($a_obj_id);
             $type = ilSkillTreeNode::_lookupType($tid);
             if ($type == "sctp") {
-                $a_name = "icon_sctr" . $a_size . $off . ".svg";
+                $a_name = "standard/icon_sctr" . $a_size . $off . ".svg";
             }
         }
         $vers = "vers=" . str_replace(array(".", " "), "-", ILIAS_VERSION);

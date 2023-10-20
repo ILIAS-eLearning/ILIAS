@@ -40,9 +40,12 @@ class PageCompare
     }
 
     public function compare(
+        \ilPageObject $main_page,
         \ilPageObject $l_page,
         \ilPageObject $r_page,
     ): array {
+        $main_page->preparePageForCompare($l_page);
+        $main_page->preparePageForCompare($r_page);
         $l_hashes = $this->getPageContentsHashes($l_page);
         $r_hashes = $this->getPageContentsHashes($r_page);
         // determine all deleted and changed page elements

@@ -165,15 +165,19 @@ class ilSCORMPackageParser extends ilSaxParser
      * @param array  $a_attribs
      * @return void
      */
-    public function handlerBeginTag($a_xml_parser, string $a_name, array $a_attribs): void
+    public function handlerBeginTag(XMLParser $a_xml_parser, string $a_name, array $a_attribs): void
     {
         //echo "<br>handlerBeginTag:".$a_name;
         switch ($a_name) {
             case "manifest":
+                $mVersion = "";
+                if (isset($a_attribs["version"])) {
+                    $mVersion = $a_attribs["version"];
+                }
                 $manifest = new ilSCORMManifest();
                 $manifest->setSLMId($this->slm_object->getId());
                 $manifest->setImportId($a_attribs["identifier"]);
-                $manifest->setVersion($a_attribs["version"]);
+                $manifest->setVersion($mVersion);
                 if (isset($a_attribs["xml:base"])) {
                     $manifest->setXmlBase($a_attribs["xml:base"]);
                 }
@@ -274,6 +278,7 @@ class ilSCORMPackageParser extends ilSaxParser
                 $dependency->setIdentifierRef($a_attribs["identifierref"]);
                 $this->current_resource->addDependency($dependency);
                 break;
+
         }
         $this->beginElement($a_name);
     }
@@ -284,7 +289,7 @@ class ilSCORMPackageParser extends ilSaxParser
      * @param string             $a_name
      * @return void
      */
-    public function handlerEndTag($a_xml_parser, string $a_name): void
+    public function handlerEndTag(XMLParser $a_xml_parser, string $a_name): void
     {
         //echo "<br>handlerEndTag:".$a_name;
 
@@ -310,6 +315,7 @@ class ilSCORMPackageParser extends ilSaxParser
                 $this->current_resource->update();
                 array_pop($this->parent_stack);
                 break;
+
         }
         $this->endElement($a_name);
     }
@@ -320,7 +326,7 @@ class ilSCORMPackageParser extends ilSaxParser
      * @param string|null        $a_data
      * @return void
      */
-    public function handlerCharacterData($a_xml_parser, ?string $a_data): void
+    public function handlerCharacterData(XMLParser $a_xml_parser, ?string $a_data): void
     {
         //echo "<br>handlerCharacterData:".$this->getCurrentElement().":".$a_data;
         // DELETE WHITESPACES AND NEWLINES OF CHARACTER DATA
@@ -364,6 +370,7 @@ class ilSCORMPackageParser extends ilSaxParser
                 case "adlcp:masteryscore":
                     $this->item_stack[count($this->item_stack) - 1]->setMasteryScore($a_data);
                     break;
+
             }
         }
     }

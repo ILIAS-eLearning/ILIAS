@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable;
@@ -42,7 +42,7 @@ class JavaScriptBindableTest extends TestCase
         $this->mock = new JSComponentMock();
     }
 
-    public function test_withOnLoadCode(): void
+    public function testWithOnLoadCode(): void
     {
         $m = $this->mock->withOnLoadCode(function ($id) {
             return "Its me, $id!";
@@ -53,7 +53,7 @@ class JavaScriptBindableTest extends TestCase
         $this->assertEquals("Its me, Mario!", $binder("Mario"));
     }
 
-    public function test_withOnLoadCode_false_closure_1(): void
+    public function testWithOnLoadCodeFalseClosure1(): void
     {
         try {
             $this->mock->withOnLoadCode(function (): void {
@@ -64,7 +64,7 @@ class JavaScriptBindableTest extends TestCase
         }
     }
 
-    public function test_withOnLoadCode_false_closure_2(): void
+    public function testWithOnLoadCodeFalseClosure2(): void
     {
         try {
             $this->mock->withOnLoadCode(function ($id, $some_arg): void {
@@ -75,7 +75,7 @@ class JavaScriptBindableTest extends TestCase
         }
     }
 
-    public function test_withAdditionalOnLoadCode(): void
+    public function testWithAdditionalOnLoadCode(): void
     {
         $m = $this->mock
             ->withOnLoadCode(function ($id) {
@@ -90,7 +90,7 @@ class JavaScriptBindableTest extends TestCase
         $this->assertEquals("Its me, Mario!\nAnd again, me: Mario.", $binder("Mario"));
     }
 
-    public function test_withAdditionalOnLoadCode_no_previous(): void
+    public function testWithAdditionalOnLoadCodeNoPrevious(): void
     {
         $m = $this->mock
             ->withAdditionalOnLoadCode(function ($id) {

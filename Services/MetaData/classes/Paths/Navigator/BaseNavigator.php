@@ -37,6 +37,11 @@ abstract class BaseNavigator implements BaseNavigatorInterface
     /**
      * @var StepInterface[]
      */
+    private array $previous_steps;
+
+    /**
+     * @var StepInterface[]
+     */
     private array $remaining_steps;
     private ?StepInterface $current_step = null;
     private bool $leads_to_one;
@@ -47,7 +52,7 @@ abstract class BaseNavigator implements BaseNavigatorInterface
         NavigatorBridge $bridge
     ) {
         $this->bridge = $bridge;
-
+        $this->previous_steps = [];
         $this->remaining_steps = iterator_to_array($path->steps());
         $this->leadsToOne($path->leadsToExactlyOneElement());
         if ($path->isRelative()) {
@@ -86,9 +91,38 @@ abstract class BaseNavigator implements BaseNavigatorInterface
             $clone->remaining_steps[0],
             ...$clone->elements
         ));
+        $clone->previous_steps[] = $clone->current_step;
         $clone->current_step = $clone->remaining_steps[0];
         array_shift($clone->remaining_steps);
         return $clone;
+    }
+
+    public function previousStep(): ?BaseNavigatorInterface
+    {
+        if(empty($this->previous_steps)) {
+            return null;
+        }
+        $clone = clone $this;
+        $clone->elements = iterator_to_array($clone->bridge->getParents(...$clone->elements));
+        $next_step = array_pop($clone->previous_steps);
+        array_unshift($clone->remaining_steps, $clone->current_step);
+        $clone->current_step = $next_step;
+        return $clone;
+    }
+
+    public function hasPreviousStep(): bool
+    {
+        return count($this->previous_steps) > 0;
+    }
+
+    public function hasNextStep(): bool
+    {
+        return count($this->remaining_steps) > 0;
+    }
+
+    public function hasElements(): bool
+    {
+        return count($this->elements) > 0;
     }
 
     /**

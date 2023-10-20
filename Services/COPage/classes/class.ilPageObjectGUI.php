@@ -43,6 +43,7 @@ class ilPageObjectGUI
     protected \ILIAS\COPage\InternalGUIService $gui;
     protected \ILIAS\COPage\PC\PCDefinition $pc_definition;
     protected \ILIAS\COPage\Xsl\XslManager $xsl;
+    protected \ILIAS\COPage\Editor\GUIService $editor_gui;
     protected int $requested_ref_id;
     protected int $requested_pg_id;
     protected string $requested_file_id;
@@ -248,6 +249,7 @@ class ilPageObjectGUI
         $this->gui = $DIC->copage()->internal()->gui();
         $this->link = $DIC->copage()->internal()->domain()->link();
         $this->pm = $DIC->copage()->internal()->domain()->page();
+        $this->editor_gui = $DIC->copage()->internal()->gui()->edit();
     }
 
     public function setTemplate(ilGlobalTemplateInterface $main_tpl): void
@@ -1114,7 +1116,6 @@ class ilPageObjectGUI
 
             // show prepending html
             $tpl->setVariable("PREPENDING_HTML", $this->getPrependingHtml());
-            $tpl->setVariable("TXT_CONFIRM_DELETE", $this->lng->txt("cont_confirm_delete"));
 
 
             // get js files for JS enabled editing
@@ -1132,8 +1133,7 @@ class ilPageObjectGUI
                 ));
                 $tpl->parseCurrentBlock();
 
-                $editor_init = new \ILIAS\COPage\Editor\UI\Init();
-                $editor_init->initUI($main_tpl, $this->getOpenPlaceHolder());
+                $this->editor_gui->init()->initUI($main_tpl);
             }
         } else {
             // presentation or preview here
@@ -1313,7 +1313,6 @@ class ilPageObjectGUI
             }
         }
 
-        //		}
         // get content
         $builded = $this->obj->buildDom();
 
@@ -1394,17 +1393,17 @@ class ilPageObjectGUI
         $cell_path = '';
         $item_path = '';
         if ($this->getOutputMode() == "edit") {
-            $col_path = ilUtil::getImagePath("col.svg");
-            $row_path = ilUtil::getImagePath("row.svg");
-            $item_path = ilUtil::getImagePath("icon_peadl.svg");
-            $cell_path = ilUtil::getImagePath("cell.svg");
+            $col_path = ilUtil::getImagePath("object/col.svg");
+            $row_path = ilUtil::getImagePath("object/row.svg");
+            $item_path = ilUtil::getImagePath("page_editor/icon_peadl.svg");
+            $cell_path = ilUtil::getImagePath("object/cell.svg");
         }
 
         if ($this->getOutputMode() != "offline") {
-            $enlarge_path = ilUtil::getImagePath("enlarge.svg");
+            $enlarge_path = ilUtil::getImagePath("media/enlarge.svg");
             $wb_path = ilFileUtils::getWebspaceDir("output") . "/";
         } else {
-            $enlarge_path = "images/enlarge.svg";
+            $enlarge_path = "images/media/enlarge.svg";
             $wb_path = "";
         }
         $pg_title_class = ($this->getOutputMode() == "print")
@@ -1642,16 +1641,20 @@ class ilPageObjectGUI
             echo $tpl->get("edit_page");
             exit;
         }
+        $edit_init = "";
+        if ($this->getOutputMode() === "edit") {
+            $edit_init = $this->editor_gui->init()->getInitHtml($this->getOpenPlaceHolder());
+        }
         if ($this->outputToTemplate()) {
             $tpl->setVariable($this->getTemplateOutputVar(), $output);
-            $this->tpl->setVariable($this->getTemplateTargetVar(), $tpl->get());
+            $this->tpl->setVariable($this->getTemplateTargetVar(), $tpl->get() . $edit_init);
             return $output;
         } else {
             if ($this->getRawPageContent()) {		// e.g. needed in glossaries
-                return $output;
+                return $output . $edit_init;
             } else {
                 $tpl->setVariable($this->getTemplateOutputVar(), $output);
-                return $tpl->get();
+                return $tpl->get() . $edit_init;
             }
         }
     }
@@ -1958,7 +1961,7 @@ class ilPageObjectGUI
         );*/
 
         $btpl->setVariable("TXT_SAVING", $lng->txt("cont_saving"));
-        $btpl->setVariable("SRC_LOADER", \ilUtil::getImagePath("loader.svg"));
+        $btpl->setVariable("SRC_LOADER", \ilUtil::getImagePath("media/loader.svg"));
         ilTooltipGUI::addTooltip(
             "ilAdvSelListAnchorElement_char_style_selection",
             $lng->txt("cont_more_character_styles"),
@@ -2051,7 +2054,7 @@ class ilPageObjectGUI
         //echo "<b>XML:</b>".htmlentities($xml);
         // determine target frames for internal links
         $wb_path = ilFileUtils::getWebspaceDir("output") . "/";
-        $enlarge_path = ilUtil::getImagePath("enlarge.svg");
+        $enlarge_path = ilUtil::getImagePath("media/enlarge.svg");
         $params = array('mode' => $mode, 'enlarge_path' => $enlarge_path,
             'link_params' => "ref_id=" . $this->requested_ref_id,'fullscreen_link' => "",
                         'enable_html_mob' => ilObjMediaObject::isTypeAllowed("html") ? "y" : "n",
@@ -2642,7 +2645,11 @@ class ilPageObjectGUI
         $l_page = ilPageObjectFactory::getInstance($pg->getParentType(), $pg->getId(), $this->request->getInt("left"));
         $r_page = ilPageObjectFactory::getInstance($pg->getParentType(), $pg->getId(), $this->request->getInt("right"));
 
-        $compare = $this->compare->compare($l_page, $r_page);
+        $compare = $this->compare->compare(
+            $this->getPageObject(),
+            $l_page,
+            $r_page
+        );
 
         // left page
         $lpage = $compare["l_page"];
@@ -3052,4 +3059,9 @@ class ilPageObjectGUI
     {
         return [];
     }
+
+    public function afterDeleteContents(): void
+    {
+    }
+
 }

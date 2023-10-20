@@ -1163,8 +1163,6 @@ assessment#:#show_examview_html#:#No ecrã
 assessment#:#show_pass_overview#:#Mostrar vista geral de tentativas marcadas
 assessment#:#show_user_answers#:#Mostrar respostas marcadas do utilizador
 assessment#:#shuffle_answers#:#Misturar respostas
-assessment#:#sign_submission#:#Assinar digitalmente submissões de teste
-assessment#:#sign_submission_info#:#Se estiver ativado e se houver um plugin de assinatura instalado e ativo, os participantes serão solicitados a assinar digitalmente a suas submissões.
 assessment#:#skip_question#:#Não responder e próximo
 assessment#:#solutionText#:#Texto
 assessment#:#solution_contain_keywords#:#A pontuação é garantida com base na ocorrência das seguintes palavras-chave:
@@ -1687,7 +1685,7 @@ assessment#:#tst_report_after_test#:#Resultados de teste para %s
 assessment#:#tst_report_never#:#Nenhuns resultados de teste disponíveis
 assessment#:#tst_reporting_date#:#Data
 assessment#:#tst_res_jump_to_participant_btn#:#Saltar
-assessment#:#tst_res_jump_to_participant_hint_opt#:#--Saltar para participante--
+assessment#:#tst_res_jump_to_participant_hint_opt#:#Saltar para participante
 assessment#:#tst_res_lo_objectives_header#:#Objetivos de aprendizagem relevantes
 assessment#:#tst_res_lo_try_header#:#Tentativa
 assessment#:#tst_res_lo_try_n#:#Tentativa %s

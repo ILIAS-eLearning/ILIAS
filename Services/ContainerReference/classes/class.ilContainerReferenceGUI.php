@@ -169,6 +169,8 @@ class ilContainerReferenceGUI extends ilObjectGUI
 
         if ((int) $this->form->getInput('title_type') === ilContainerReference::TITLE_TYPE_CUSTOM) {
             $new_object->setTitle($this->form->getInput('title'));
+        } elseif ((int) $this->form->getInput('title_type') === ilContainerReference::TITLE_TYPE_REUSE) {
+            $new_object->setTitle(ilObject::_lookupTitle($new_object->getTargetId()));
         }
 
         $new_object->update();

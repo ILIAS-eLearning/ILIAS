@@ -259,10 +259,10 @@ class ilAssNestedOrderingElementsInputGUI extends ilMultipleNestedOrderingElemen
 
     private function getCorrectnessIcon($correctness): string
     {
-        $icon_name = 'icon_not_ok.svg';
+        $icon_name = 'standard/icon_not_ok.svg';
         $label = $this->lng->txt("answer_is_wrong");
         if ($correctness === 'correct') {
-            $icon_name = 'icon_ok.svg';
+            $icon_name = 'standard/icon_ok.svg';
             $label = $this->lng->txt("answer_is_right");
         }
         $path = ilUtil::getImagePath($icon_name);

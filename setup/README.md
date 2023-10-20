@@ -12,7 +12,8 @@ main commands to manage ILIAS installations:
 
 `install` and `update` also supply switches and options for a granular control of the inclusion of plugins:
 
-* `--skip <plugin name>` will exclude the named plugin from the command
+* `--skip 
+* There are also named objectives for **import** and **export**. <plugin name>` will exclude the named plugin from the command
 * `--no-plugins` will exclude all plugins from the command
 * `install <plugin name>` (or `update <plugin name>` respectively) will update or install the specified plugin
 
@@ -63,6 +64,11 @@ The option can be repeated to cover multiple plugins. If you want to skip plugin
 alltogether, use the `--no-plugins` option. If you only want to install a specific
 plugin, use `php setup/setup.php install config.json <plugin name>`.
 
+The install command also offers the option to import a zip file during setup. The 
+zip file must have been previously exported from another instance via export
+(see [a name objective](#achieve-method)). 
+The command `php setup/setup.php install --import-file <path_to_zip_file> config.json`
+will install the data from the export to this instance.
 
 ## Update ILIAS
 
@@ -125,9 +131,48 @@ artifacts for the control structure. The agent might need to a config file to wo
 which may be added as last parameter: 
 `php setup/setup.php achieve uicore.buildIlCtrlArtifacts config.json`
 
+There is also a named objective for **export**. The command 
+`php setup/setup.php achieve common.buildExportZip config.json` creates a zip file 'ILIAS_EXPORT.zip' at the
+location of the call. The export also changes the name of the client directory to
+'default' so that the import can work with the files. The objective
+'ilFileSystemClientDirectoryRenamedObjective.php' takes care of the renaming.  
+
+The ILIAS export mechanism can be extended with ExportHooks. This allows you to influence the exported database during the export.  
+The ExportHooks file must be a PHP file and can be placed anywhere. It only has to be ensured that ILIAS has access to this file.  
+The path to the file can either be set permanently in config.json under the namespace common.  
+```bash
+"common" : {
+        "client_id" : "ilias",
+        "master_password" : "ilias",
+        "server_timezone" : "Europe/Berlin",
+        "export_hooks_path" : "/var/ilias/export.php"
+    }
+```
+Or you can specify it once when calling up the export command.
+```bash
+php setup/setup.php achieve common.buildExportZip --config="common.export_hooks_path=/var/ilias/export.php" config.json -y
+```
+This [mysqldump](https://github.com/ifsnop/mysqldump-php#changing-values-when-exporting) hooks can be used in the export hooks file.
+An example file could look like this (the variable $dumper is indirectly available).
+```php
+<?php
+
+$dumper->setTransformTableRowHook(function ($tableName, array $row) {
+    if ($tableName === 'write_event') {
+        if ($row['obj_id'] == 100) {
+                $row['usr_id'] = -1;
+        }
+    }
+
+    return $row;
+});
+```
+The zip file can then be imported using the install command.
+
 ## List available objectives
 Calling `php setup/setup.php achieve` without any arguments and options  
 or calling `php setup/setup.php achieve --list` will list all available objectives.
+
 
 # Migrations
 
@@ -179,7 +224,8 @@ are printed bold**, all other fields might be omitted. A minimal example is
     "common" : {
         "client_id" : "test7",
         "server_timezone" : "Europe/Berlin",
-        "register_nic" : true
+        "register_nic" : true,
+        "export_hooks_path" : "/var/ilias/export_hooks.php"
     }
     ```
   * **client_id** (type: string) is the identifier to be used for the installation 
@@ -187,6 +233,7 @@ are printed bold**, all other fields might be omitted. A minimal example is
     e.g. `Europe/Berlin`, defaults to `UTC`
   * *register_nic* (boolean) sends the identification number of the installation to a server
     of the ILIAS society together with some information about the installation, defaults to `false`
+  * *export_hooks_path* (type: string) The path to the PHP export hooks file, not required and defaults to null if absent. Setting to an empty string results in an error during export.
 * *backgroundtasks* (type: object) is a service to run tasks for users in separate processes, e.g.:
     ``` 
     "backgroundtasks" : {

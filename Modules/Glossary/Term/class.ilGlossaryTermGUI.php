@@ -158,7 +158,7 @@ class ilGlossaryTermGUI
         $ilTabs->activateTab("properties");
 
         $this->tpl->setTitle($this->lng->txt("cont_term") . ": " . $this->term->getTerm());
-        $this->tpl->setTitleIcon(ilUtil::getImagePath("icon_glo.svg"));
+        $this->tpl->setTitleIcon(ilUtil::getImagePath("standard/icon_glo.svg"));
 
         if (!$a_form) {
             $a_form = $this->getEditTermForm();
@@ -452,7 +452,7 @@ class ilGlossaryTermGUI
         $ilTabs->activateTab("usage");
 
         $this->tpl->setTitle($this->lng->txt("cont_term") . ": " . $this->term->getTerm());
-        $this->tpl->setTitleIcon(ilUtil::getImagePath("icon_glo.svg"));
+        $this->tpl->setTitleIcon(ilUtil::getImagePath("standard/icon_glo.svg"));
 
         $tab = new ilTermUsagesTableGUI($this, "listUsages", $this->request->getTermId());
 

@@ -29,6 +29,6 @@ function with_lead_avatar()
             "Last Login" => "3.12.2018",
             "Location" => "Berlin"))
         ->withDescription("Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.")
-        ->withLeadAvatar($f->symbol()->avatar()->picture('./templates/default/images/no_photo_xsmall.jpg', 'demo.user'));
+        ->withLeadAvatar($f->symbol()->avatar()->picture('./templates/default/images/placeholder/no_photo_xsmall.jpg', 'demo.user'));
     return $renderer->render([$app_item1, $f->divider()->horizontal(), $app_item2]);
 }

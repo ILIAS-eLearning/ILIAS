@@ -342,8 +342,8 @@ class ilExerciseManagementGUI
         $ilCtrl = $this->ctrl;
 
         $ilCtrl->setParameterByClass("ilExSubmissionFileGUI", "member_id", $this->requested_member_id);
-        $url = $ilCtrl->getLinkTargetByClass(array("ilRepositoryGUI", "ilExerciseHandlerGUI", "ilObjExerciseGUI", "ilExerciseManagementGUI", "ilExSubmissionFileGUI"), "downloadNewReturned");
-        $js_url = $ilCtrl->getLinkTargetByClass(array("ilRepositoryGUI", "ilExerciseHandlerGUI", "ilObjExerciseGUI", "ilExerciseManagementGUI", "ilExSubmissionFileGUI"), "downloadNewReturned", "", "", false);
+        $url = $ilCtrl->getLinkTargetByClass(array("ilExerciseHandlerGUI", "ilObjExerciseGUI", "ilExerciseManagementGUI", "ilExSubmissionFileGUI"), "downloadNewReturned");
+        $js_url = $ilCtrl->getLinkTargetByClass(array("ilExerciseHandlerGUI", "ilObjExerciseGUI", "ilExerciseManagementGUI", "ilExSubmissionFileGUI"), "downloadNewReturned", "", "", false);
         $this->tpl->setOnScreenMessage('info', $lng->txt("exc_wait_for_files") . "<a href='$url'> " . $lng->txt('exc_download_files') . "</a><script>window.location.href ='" . $js_url . "';</script>");
         $this->membersObject();
     }
@@ -2320,4 +2320,31 @@ class ilExerciseManagementGUI
 
         return $data;
     }
+
+    public function sendGradingNotificationObject(): void
+    {
+
+        $ass_id = $this->request->getAssId();
+        $selected_users = $this->request->getSelectedParticipants();
+
+        $graded_users = array_filter($selected_users, function ($user_id) {
+            return $this->assignment->getMemberStatus($user_id)->getStatus() !== "notgraded";
+        });
+
+        if (count($graded_users) === 0) {
+            $this->tpl->setOnScreenMessage("failure", $this->lng->txt("exc_no_graded_mem_selected"), true);
+            $this->ctrl->redirect($this, $this->getViewBack());
+        }
+
+        $not = new ilExerciseMailNotification();
+        $not->setType(ilExerciseMailNotification::TYPE_GRADING_DONE);
+        $not->setAssignmentId($ass_id);
+        $not->setObjId($this->exercise->getId());
+        $not->setRefId($this->exercise->getRefId());
+        $not->setRecipients($graded_users);
+        $not->send();
+        $this->tpl->setOnScreenMessage("success", $this->lng->txt("exc_graded_mem_notified"), true);
+        $this->ctrl->redirect($this, $this->getViewBack());
+    }
+
 }

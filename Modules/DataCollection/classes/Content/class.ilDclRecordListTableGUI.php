@@ -266,7 +266,7 @@ class ilDclRecordListTableGUI extends ilTable2GUI
             $this->tpl->setVariable(
                 "VIEW_IMAGE_SRC",
                 ilUtil::img(
-                    ilUtil::getImagePath("enlarge.svg"),
+                    ilUtil::getImagePath("media/enlarge.svg"),
                     $this->lng->txt('dcl_display_record_alt')
                 )
             );

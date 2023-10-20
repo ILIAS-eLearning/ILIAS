@@ -33,7 +33,6 @@ class ilObjTestSettingsFinishing extends TestSettings
         protected ?int $concluding_remarks_page_id = null,
         protected int $redirection_mode = ilObjTest::REDIRECT_NONE,
         protected ?string $redirection_url = null,
-        protected bool $sign_submission = false,
         protected int $mail_notification_content_type = 0,
         protected bool $always_send_mail_notification = false
     ) {
@@ -57,11 +56,6 @@ class ilObjTestSettingsFinishing extends TestSettings
         )->withValue((bool) $this->getConcludingRemarksEnabled());
 
         $inputs['redirect_after_finish'] = $this->getRedirectionInputs($lng, $f, $refinery);
-
-        $inputs['digitally_sign_submission'] = $f->checkbox(
-            $lng->txt('sign_submission'),
-            $lng->txt('sign_submission_info')
-        )->withValue((bool) $this->getSignSubmission());
 
         $inputs['finish_notification'] = $this->getMailNotificationInputs($lng, $f, $refinery);
 
@@ -100,6 +94,7 @@ class ilObjTestSettingsFinishing extends TestSettings
             'redirect_url' => $f->text(
                 $lng->txt('redirection_url')
             )->withRequired(true)
+            ->withAdditionalTransformation($refinery->string()->hasMaxLength(4000))
         ];
 
         $redirection_input = $f->optionalGroup(
@@ -185,7 +180,6 @@ class ilObjTestSettingsFinishing extends TestSettings
             'concluding_remarks_page_id' => ['integer', $this->getConcludingRemarksPageId()],
             'redirection_mode' => ['integer', $this->getRedirectionMode()],
             'redirection_url' => ['text', $this->getRedirectionUrl()],
-            'sign_submission' => ['integer', (int) $this->getSignSubmission()],
             'mailnotification' => ['integer', $this->getMailNotificationContentType()],
             'mailnottype' => ['integer', (int) $this->getAlwaysSendMailNotification()]
         ];
@@ -253,18 +247,6 @@ class ilObjTestSettingsFinishing extends TestSettings
     {
         $clone = clone $this;
         $clone->redirection_url = $redirection_url;
-        return $clone;
-    }
-
-    public function getSignSubmission(): bool
-    {
-        return $this->sign_submission;
-    }
-
-    public function withSignSubmission(bool $sign_submission): self
-    {
-        $clone = clone $this;
-        $clone->sign_submission = $sign_submission;
         return $clone;
     }
 

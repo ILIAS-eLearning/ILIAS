@@ -718,7 +718,7 @@ class ilMembershipGUI
                 'participants[]',
                 (string) $name['user_id'],
                 $name['lastname'] . ', ' . $name['firstname'] . ' [' . $name['login'] . ']',
-                ilUtil::getImagePath('icon_usr.svg')
+                ilUtil::getImagePath('standard/icon_usr.svg')
             );
         }
         $this->tpl->setContent($confirm->getHTML());
@@ -1157,7 +1157,7 @@ class ilMembershipGUI
                 'subscribers[]',
                 (string) $name['user_id'],
                 $name['lastname'] . ', ' . $name['firstname'] . ' [' . $name['login'] . ']',
-                ilUtil::getImagePath('icon_usr.svg')
+                ilUtil::getImagePath('standard/icon_usr.svg')
             );
         }
         $this->tpl->setContent($c_gui->getHTML());
@@ -1188,7 +1188,7 @@ class ilMembershipGUI
                 'subscribers[]',
                 (string) $name['user_id'],
                 $name['lastname'] . ', ' . $name['firstname'] . ' [' . $name['login'] . ']',
-                ilUtil::getImagePath('icon_usr.svg')
+                ilUtil::getImagePath('standard/icon_usr.svg')
             );
         }
 
@@ -1329,7 +1329,7 @@ class ilMembershipGUI
                 'waiting[]',
                 (string) $name['user_id'],
                 $name['lastname'] . ', ' . $name['firstname'] . ' [' . $name['login'] . ']',
-                ilUtil::getImagePath('icon_usr.svg')
+                ilUtil::getImagePath('standard/icon_usr.svg')
             );
         }
 
@@ -1422,7 +1422,7 @@ class ilMembershipGUI
                 'waiting[]',
                 (string) $name['user_id'],
                 $name['lastname'] . ', ' . $name['firstname'] . ' [' . $name['login'] . ']',
-                ilUtil::getImagePath('icon_usr.svg')
+                ilUtil::getImagePath('standard/icon_usr.svg')
             );
         }
         $this->tpl->setContent($c_gui->getHTML());

@@ -264,7 +264,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition, ilAs
             return false;
         }
 
-        $text = $this->getQuestion();
+        $text = $this->getQuestionForHTMLOutput();
 
         foreach ($this->fetchAllVariables($this->getQuestion()) as $varObj) {
             if (isset($userdata[$varObj->getVariable()]) && strlen($userdata[$varObj->getVariable()])) {
@@ -367,7 +367,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition, ilAs
                     case assFormulaQuestionResult::RESULT_CO_FRAC:
                         if (strlen($frac_helper)) {
                             $units .= ' &asymp; ' . $frac_helper . ', ';
-                        } elseif (is_array($userdata) && isset($userdata[$result]) && strlen($userdata[$result]["frac_helper"])) {
+                        } elseif (is_array($userdata) && isset($userdata[$result]) && isset($userdata[$result]["frac_helper"]) && $userdata[$result]["frac_helper"] !== '') {
                             if (!preg_match('-/-', $value)) {
                                 $units .= ' &asymp; ' . $userdata[$result]["frac_helper"] . ', ';
                             }

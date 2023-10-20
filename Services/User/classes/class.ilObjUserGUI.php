@@ -152,7 +152,7 @@ class ilObjUserGUI extends ilObjectGUI
             $this->tpl->setTitle('[' . $this->object->getLogin() . '] ' . $this->object->getTitle());
             $this->tpl->setDescription($this->object->getLongDescription());
             $this->tpl->setTitleIcon(
-                ilUtil::getImagePath('icon_' . $this->object->getType() . '.svg'),
+                ilUtil::getImagePath('standard/icon_' . $this->object->getType() . '.svg'),
                 $this->lng->txt('obj_' . $this->object->getType())
             );
         } else {
@@ -1095,11 +1095,13 @@ class ilObjUserGUI extends ilObjectGUI
         $acfrom = new ilDateTimeInputGUI($this->lng->txt('crs_from'), 'time_limit_from');
         $acfrom->setRequired(true);
         $acfrom->setShowTime(true);
+        $acfrom->setMinuteStepSize(1);
         $op2->addSubItem($acfrom);
 
         $acto = new ilDateTimeInputGUI($this->lng->txt('crs_to'), 'time_limit_until');
         $acto->setRequired(true);
         $acto->setShowTime(true);
+        $acto->setMinuteStepSize(1);
         $op2->addSubItem($acto);
 
         $this->form_gui->addItem($radg);
@@ -1134,6 +1136,7 @@ class ilObjUserGUI extends ilObjectGUI
             'title' => isset($settings['require_title']) && $settings['require_title']
         ];
         foreach ($fields as $field => $req) {
+            $max_len = $field === 'title' ? 32 : 128;
             if ($this->isSettingChangeable($field)) {
                 // #18795
                 $caption = ($field == 'title')
@@ -1141,7 +1144,7 @@ class ilObjUserGUI extends ilObjectGUI
                     : $field;
                 $inp = new ilTextInputGUI($this->lng->txt($caption), $field);
                 $inp->setSize(32);
-                $inp->setMaxLength(32);
+                $inp->setMaxLength($max_len);
                 $inp->setRequired($req);
                 $this->form_gui->addItem($inp);
             }
@@ -1218,8 +1221,8 @@ class ilObjUserGUI extends ilObjectGUI
 
         if ($this->isSettingChangeable('email')) {
             $em = new ilEMailInputGUI($this->lng->txt('email'), 'email');
-            $em->setRequired(isset($settings['require_email']) &&
-                $settings['require_email']);
+            $em->setRequired(isset($settings['require_email']) && $settings['require_email']);
+            $em->setMaxLength(128);
             $this->form_gui->addItem($em);
         }
 

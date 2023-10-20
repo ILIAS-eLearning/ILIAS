@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 require_once(__DIR__ . "/../../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../../Base.php");
@@ -79,11 +79,11 @@ class DateTimeInputTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function test_withFormat(): void
+    public function testWithFormat(): void
     {
         $format = $this->data_factory->dateFormat()->germanShort();
         $datetime = $this->factory->datetime('label', 'byline')
-            ->withFormat($format);
+                                  ->withFormat($format);
 
         $this->assertEquals(
             $format,
@@ -91,7 +91,7 @@ class DateTimeInputTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function test_withMinValue(): void
+    public function testWithMinValue(): void
     {
         $dat = new DateTimeImmutable('2019-01-09');
         $datetime = $this->factory->datetime('label', 'byline')
@@ -103,7 +103,7 @@ class DateTimeInputTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function test_withMaxValue(): void
+    public function testWithMaxValue(): void
     {
         $dat = new DateTimeImmutable('2019-01-09');
         $datetime = $this->factory->datetime('label', 'byline')
@@ -115,21 +115,21 @@ class DateTimeInputTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function test_withUseTime(): void
+    public function testWithUseTime(): void
     {
         $datetime = $this->factory->datetime('label', 'byline');
         $this->assertFalse($datetime->getUseTime());
         $this->assertTrue($datetime->withUseTime(true)->getUseTime());
     }
 
-    public function test_withTimeOnly(): void
+    public function testWithTimeOnly(): void
     {
         $datetime = $this->factory->datetime('label', 'byline');
         $this->assertFalse($datetime->getTimeOnly());
         $this->assertTrue($datetime->withTimeOnly(true)->getTimeOnly());
     }
 
-    public function test_withTimeZone(): void
+    public function testWithTimeZone(): void
     {
         $datetime = $this->factory->datetime('label', 'byline');
         $this->assertNull($datetime->getTimeZone());
@@ -140,7 +140,7 @@ class DateTimeInputTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function test_withInvalidTimeZone(): void
+    public function testWithInvalidTimeZone(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $datetime = $this->factory->datetime('label', 'byline');
@@ -148,7 +148,7 @@ class DateTimeInputTest extends ILIAS_UI_TestBase
         $datetime->withTimeZone($tz);
     }
 
-    public function test_jsConfigRendering(): void
+    public function testJsConfigRendering(): void
     {
         $datetime = $this->factory->datetime('label', 'byline');
         $js_binding = $this->getJavaScriptBinding();
@@ -165,7 +165,7 @@ class DateTimeInputTest extends ILIAS_UI_TestBase
         $this->assertEquals($expected, $onload_js);
     }
 
-    public function test_withValueThatIsDateTimeImmutable(): void
+    public function testWithValueThatIsDateTimeImmutable(): void
     {
         $string_value = "1985-05-04";
         $value = new \DateTimeImmutable($string_value);

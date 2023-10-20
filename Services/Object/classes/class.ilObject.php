@@ -18,6 +18,9 @@
 
 declare(strict_types=1);
 
+use ILIAS\Object\ilObjectDIC;
+use ILIAS\DI\UIServices;
+use ILIAS\ResourceStorage\Services as ResourceStorageServices;
 use ILIAS\Filesystem\Filesystem;
 use ILIAS\FileUpload\FileUpload;
 
@@ -50,6 +53,7 @@ class ilObject
     protected ilRbacReview $rbac_review;
     protected ilObjUser $user;
     protected ilLanguage $lng;
+    private ilObjectDIC $object_dic;
 
     protected bool $call_by_reference;
     protected int $max_title = self::TITLE_LENGTH;
@@ -98,6 +102,7 @@ class ilObject
         $this->error = $DIC["ilErr"];
         $this->tree = $DIC["tree"];
         $this->app_event_handler = $DIC["ilAppEventHandler"];
+        $this->object_dic = ilObjectDIC::dic();
 
         $this->call_by_reference = $this->referenced;
 
@@ -132,30 +137,10 @@ class ilObject
         }
     }
 
-    private function initializeObjectProperties(
-        Filesystem $filesystem,
-        FileUpload $upload,
-        ilObjectCustomIconFactory $custom_icon_factory
-    ): ilObjectProperties {
-        return (new ilObjectPropertiesAgregator(
-            new ilObjectCorePropertiesDatabaseRepository($this->db),
-            new ilObjectAdditionalPropertiesLegacyRepository(
-                $custom_icon_factory,
-                $filesystem,
-                $upload
-            )
-        ))->getFor($this->getId());
-    }
-
     public function getObjectProperties(): ilObjectProperties
     {
         if ($this->object_properties === null) {
-            global $DIC;
-            $this->object_properties = $this->initializeObjectProperties(
-                $DIC->filesystem()->web(),
-                $DIC->upload(),
-                $DIC['object.customicons.factory']
-            );
+            $this->object_properties = $this->object_dic['object_properties']->getFor($this->getId());
         }
         return $this->object_properties;
     }
@@ -422,6 +407,9 @@ class ilObject
         return (int) $row->obj_id;
     }
 
+    /**
+     * @deprecated 11
+     */
     public function setOfflineStatus(bool $status): void
     {
         $property_is_online = $this->getObjectProperties()->getPropertyIsOnline()->withOnline();
@@ -1816,12 +1804,12 @@ class ilObject
                         return call_user_func(array($class_name, "_getIcon"), $type, $size, $obj_id);
                     }
                 }
-                return ilUtil::getImagePath("icon_cmps.svg");
+                return ilUtil::getImagePath("standard/icon_cmps.svg");
             }
 
-            return ilUtil::getImagePath("icon_" . $type . ".svg");
+            return ilUtil::getImagePath("standard/icon_" . $type . ".svg");
         } else {
-            return "./images/icon_" . $type . ".svg";
+            return "./images/standard/icon_" . $type . ".svg";
         }
     }
 

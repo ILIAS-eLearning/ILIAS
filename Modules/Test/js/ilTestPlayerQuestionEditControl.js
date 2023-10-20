@@ -149,7 +149,7 @@ il.TestPlayerQuestionEditControl = new function() {
 
         // check for changed answer when user wants to navigate
         // this creates a form submit with hidden redirection url
-        $('a').click(checkNavigation);
+        $('a').click(self.checkNavigation);
 
         // add the current answering status when form is submitted
         // this is needed for marking questions and requesting hints
@@ -416,11 +416,13 @@ il.TestPlayerQuestionEditControl = new function() {
      * Event handler for clicked links on the test page
      * @returns {boolean}
      */
-    function checkNavigation() {
+    this.checkNavigation = (href, cmd, e) => {
 
         // attributes of the clicked link
         var id = $(this).attr('id');
-        var href = $(this).attr('href');
+        if (href === undefined) {
+          href = $(this).attr('href');
+        }
         var target = $(this).attr('target');
 
         // keep default behavior for links that open in another window
@@ -444,7 +446,7 @@ il.TestPlayerQuestionEditControl = new function() {
             toggleQuestionMark();
             return false;
         }
-        else if( config.nextQuestionLocks && $(this).attr('data-nextcmd') == 'nextQuestion' )
+        else if( config.nextQuestionLocks && cmd == 'nextQuestion' )
         {
             // remember the url for saveWithNavigation()
             navUrl = href;
@@ -488,10 +490,11 @@ il.TestPlayerQuestionEditControl = new function() {
         }
         else
         {
-            // apply the default event handler (go to href)
-            return true;
+          e.preventDefault();
+          window.location.replace(href);
+          return false;
         }
-    }
+    };
 
     /**
      * Show the navigation modal

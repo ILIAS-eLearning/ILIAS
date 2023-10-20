@@ -951,7 +951,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
         } else {
             $this->tpl->setTitle($this->lng->txt("meta_l_" . $this->object->key));
         }
-        $this->tpl->setTitleIcon(ilUtil::getImagePath("icon_lngf.svg"), $this->lng->txt("obj_" . $this->object->getType()));
+        $this->tpl->setTitleIcon(ilUtil::getImagePath("standard/icon_lngf.svg"), $this->lng->txt("obj_" . $this->object->getType()));
     }
 
 

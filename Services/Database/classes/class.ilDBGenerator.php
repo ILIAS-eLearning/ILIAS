@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * This class provides methods for building a DB generation script,
@@ -371,7 +371,7 @@ class ilDBGenerator
     {
         $pk = $this->analyzer->getPrimaryKeyInformation($a_table);
 
-        if (is_array($pk["fields"]) && count($pk["fields"]) > 0) {
+        if (isset($pk["fields"]) && is_array($pk["fields"]) && count($pk["fields"]) > 0) {
             $pk_st = "\n" . '$pk_fields = array(';
             $sep = "";
             foreach ($pk["fields"] as $f => $pos) {

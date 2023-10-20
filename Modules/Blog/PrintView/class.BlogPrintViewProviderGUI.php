@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\Blog;
 
@@ -127,7 +127,7 @@ class BlogPrintViewProviderGUI extends Export\AbstractPrintViewProvider
                 0,
                 false,
                 false,
-                \ilUtil::getImagePath("icon_pg.svg"),
+                \ilUtil::getImagePath("standard/icon_pg.svg"),
                 $lng->txt("blog_posting")
             );
         }

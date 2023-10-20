@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 require_once("libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../../Base.php");
@@ -130,7 +130,7 @@ class NotificationSlateTest extends ILIAS_UI_TestBase
 			<div class="il-item il-notification-item" id="id_1">
 				<div class="media">
 					<div class="media-left">
-						<img class="icon name small" src="./templates/default/images/icon_default.svg" alt="aria_label"/>
+						<img class="icon name small" src="./templates/default/images/standard/icon_default.svg" alt="aria_label"/>
 					</div>
 					<div class="media-body">
 						<h4 class="il-item-notification-title">item title</h4>
