@@ -1,27 +1,8 @@
 import document from 'document';
 import il from 'ilias';
 
-il.WOPI = {};
-il.WOPI.windowResize = function (e) {
-  const iframeWidth = e.parentElement.offsetWidth - 0;
-  const iframeHeight = document.getElementsByClassName('il-layout-page-content')[0].clientHeight - document.getElementsByClassName('il_HeaderInner')[0].clientHeight - document.getElementsByTagName('footer')[0].clientHeight - 100;
-
-  e.setAttribute('width', iframeWidth);
-  e.setAttribute('height', iframeHeight);
-};
-il.WOPI.postMessage = function (mobj) {
-  this.editorFrameWindow.postMessage(JSON.stringify(mobj), '*');
-};
-il.WOPI.save = function () {
-  this.postMessage({
-    MessageId: 'Action_Save',
-    SendTime: Date.now(),
-    Values: {
-      DontTerminateEdit: true,
-      DontSaveIfUnmodified: true,
-      Notify: false,
-    },
-  });
+il.WOPI = {
+  modified: false,
 };
 il.WOPI.init = function () {
   // BUILD IFRAME
@@ -37,11 +18,15 @@ il.WOPI.init = function () {
   editorFrame.id = 'editor_frame';
   editorFrame.title = 'Office Frame';
   editorFrame.setAttribute('allowfullscreen', 'true');
+  editorFrame.setAttribute('allowtransparency', 'true');
   editorFrame.setAttribute('frameBorder', '0');
   frameholder.appendChild(editorFrame);
-  this.windowResize(editorFrame);
+
+  this.frameholder = frameholder;
+  this.editorFrame = editorFrame;
   // eslint-disable-next-line max-len
   this.editorFrameWindow = editorFrame.contentWindow || (editorFrame.contentDocument.document || editorFrame.contentDocument);
+  this.windowResize();
 
   // BUILD FORM
   const form = document.createElement('form');
@@ -65,23 +50,97 @@ il.WOPI.init = function () {
   // SEND FORM
   form.submit();
   // Add event listener to receive messages from the editor
+  this.registerListener('App_LoadingStatus', (message) => {
+    if (message.Values.Status === 'Document_Loaded') {
+      this.postMessage({
+        MessageId: 'Host_PostmessageReady',
+        SendTime: Date.now(),
+        Values: {},
+      });
+    }
+  });
+
+  this.registerListener('Doc_ModifiedStatus', (message) => {
+    console.log('Documend Modified');
+    this.modified = message.Values.Modified ?? false;
+  });
+  // Add event listener to resize the editor iframe
+  document.defaultView.addEventListener('resize', () => {
+    il.WOPI.windowResize(editorFrame);
+  });
+};
+
+il.WOPI.windowResize = function () {
+  const iframeWidth = this.editorFrame.parentElement.offsetWidth - 0;
+  const iframeHeight = document.getElementsByClassName('il-layout-page-content')[0].clientHeight - document.getElementsByClassName('il_HeaderInner')[0].clientHeight - document.getElementsByTagName('footer')[0].clientHeight - 100;
+
+  this.editorFrame.setAttribute('width', iframeWidth);
+  this.editorFrame.setAttribute('height', iframeHeight);
+};
+il.WOPI.postMessage = function (mobj) {
+  this.editorFrameWindow.postMessage(JSON.stringify(mobj), '*');
+};
+il.WOPI.registerListener = function (MessageId, callback) {
   window.addEventListener(
     'message',
     (event) => {
       const message = JSON.parse(event.data);
-      if (message.MessageId === 'App_LoadingStatus' && message.Values.Status === 'Document_Loaded') {
-        this.postMessage({
-          MessageId: 'Host_PostmessageReady',
-          SendTime: Date.now(),
-          Values: {},
-        });
+      if (MessageId !== null && message.MessageId === MessageId) {
+        callback(message);
+      }
+      if (MessageId === null) {
+        callback(message);
       }
     },
     false,
   );
+};
+il.WOPI.close = function (callback) {
+  console.log('save called');
 
-  // Add event listener to resize the editor iframe
-  document.defaultView.addEventListener('resize', () => {
-    il.WOPI.windowResize(editorFrame);
+  const overlay = document.createElement('div');
+  overlay.id = 'c-embedded-wopi-overlay';
+  overlay.style.position = 'fixed';
+  overlay.style.top = '0';
+  overlay.style.left = '0';
+  overlay.style.width = '100%';
+  overlay.style.height = '100%';
+  overlay.style.backgroundColor = 'rgba(0,0,0,0.5)';
+  this.frameholder.appendChild(overlay);
+
+  if (this.modified) {
+    console.log('is modified');
+    const promise = new Promise((resolve, reject) => {
+      console.log('save');
+      this.save();
+
+      this.registerListener('Doc_ModifiedStatus', callback);
+
+      saved_internal.then(() => { callback(); });
+    });
+
+    promise.then(null, (error) => { console.log(error); });
+  } else {
+    callback();
+  }
+
+  if (this.modified) {
+    console.log('is modified');
+
+    // wait for the editor to send the message that the document is saved
+    console.log('register listener');
+  } else {
+    callback();
+  }
+};
+il.WOPI.save = function () {
+  this.postMessage({
+    MessageId: 'Action_Save',
+    SendTime: Date.now(),
+    Values: {
+      DontTerminateEdit: true,
+      DontSaveIfUnmodified: true,
+      Notify: false,
+    },
   });
 };

@@ -63,13 +63,17 @@ class EmbeddedApplicationGSProvider extends AbstractModificationProvider
             }
 
             $uif = $this->dic->ui()->factory();
+            $back_target = $embedded_application->getBackTarget();
             $button = $uif->button()->bulky(
                 $uif->symbol()->glyph()->close(),
                 $this->dic->language()->txt('close'),
-                (string) $embedded_application->getBackTarget()
-            )->withAdditionalOnLoadCode(function ($id) {
+                (string) $back_target
+            )->withOnLoadCode(function ($id) use ($back_target) {
                 return "$id.addEventListener('click', () => {
-                     return il.WOPI.save();
+                        il.WOPI.close(() => {
+                            window.location = '$back_target';
+                        });
+                        return false;
                     });";
             });
 
