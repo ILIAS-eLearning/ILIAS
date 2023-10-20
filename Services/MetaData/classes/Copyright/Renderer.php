@@ -29,7 +29,7 @@ use ILIAS\UI\Component\Legacy\Legacy;
 
 class Renderer implements RendererInterface
 {
-    protected const FALLBACK_IMG = 'nav\arrow_downright.svg';
+    protected const FALLBACK_IMG = 'copyrights\all_rights_reserved.svg';
 
     protected Factory $factory;
     protected IRSS $irss;

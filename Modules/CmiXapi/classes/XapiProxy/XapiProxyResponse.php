@@ -26,13 +26,13 @@ use GuzzleHttp\Psr7\Request;
 
 class XapiProxyResponse
 {
-//        private $dic;
+    //        private $dic;
     private XapiProxy $xapiproxy;
     //private $xapiProxyRequest;
 
     public function __construct(XapiProxy $xapiproxy)
     {
-//            $this->dic = $GLOBALS['DIC'];
+        //            $this->dic = $GLOBALS['DIC'];
         $this->xapiproxy = $xapiproxy;
     }
 

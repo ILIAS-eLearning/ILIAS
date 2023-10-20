@@ -133,4 +133,9 @@ class SkillInternalManagerService
     {
         return new Table\SkillTableManager();
     }
+
+    public function getDeletionManager(): Node\SkillDeletionManager
+    {
+        return new Node\SkillDeletionManager();
+    }
 }

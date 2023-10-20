@@ -752,20 +752,20 @@ class ilTestRandomQuestionSetConfigGUI
      */
     protected function fetchPoolIdsParameter(): array
     {
-        $poolIds = [];
+        $pool_ids = [];
         if ($this->testrequest->isset('derive_pool_ids') && is_array($this->testrequest->raw('derive_pool_ids'))) {
-            $poolIds = [];
+            $pool_ids = [];
 
-            foreach ($this->testrequest->raw('derive_pool_ids') as $poolId) {
-                $poolIds[] = (int) $poolId;
+            foreach ($this->testrequest->raw('derive_pool_ids') as $pool_id) {
+                $pool_ids[] = (int) $pool_id;
             }
         } elseif ($this->testrequest->isset('derive_pool_ids') && preg_match('/^\d+(\:\d+)*$/', $this->testrequest->raw('derive_pool_ids'))) {
-            $poolIds = explode(':', $this->testrequest->raw('derive_pool_ids'));
+            $pool_ids = explode(':', $this->testrequest->raw('derive_pool_ids'));
         } elseif ($this->testrequest->isset('derive_pool_id') && (int) $this->testrequest->raw('derive_pool_id')) {
-            $poolIds = [(int) $this->testrequest->raw('derive_pool_id')];
+            $pool_ids = [(int) $this->testrequest->raw('derive_pool_id')];
         }
 
-        return $poolIds;
+        return $pool_ids;
     }
 
     protected function fetchTargetRefParameter(): ?int
@@ -799,29 +799,34 @@ class ilTestRandomQuestionSetConfigGUI
 
     private function deriveNewPoolsCmd(): void
     {
-        $poolIds = $this->fetchPoolIdsParameter();
-        $targetRef = $this->fetchTargetRefParameter();
+        $pool_ids = $this->fetchPoolIdsParameter();
+        $target_ref = $this->fetchTargetRefParameter();
+        if (!$this->access->checkAccess('write', '', $target_ref)) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_permission"), true);
+            $this->ctrl->setParameterByClass(ilObjTestGUI::class, 'ref_id', $this->test_obj->getRefId());
+            $this->ctrl->redirectByClass(ilObjTestGUI::class);
+        }
 
-        if (count($poolIds)) {
-            foreach ($poolIds as $poolId) {
-                $lostPool = $this->sourcePoolDefinitionList->getLostPool($poolId);
+        if ($pool_ids !== []) {
+            foreach ($pool_ids as $pool_id) {
+                $lost_pool = $this->sourcePoolDefinitionList->getLostPool($pool_id);
 
                 $deriver = new ilTestRandomQuestionSetPoolDeriver($this->db, $this->component_repository, $this->test_obj);
                 $deriver->setSourcePoolDefinitionList($this->sourcePoolDefinitionList);
-                $deriver->setTargetContainerRef($targetRef);
+                $deriver->setTargetContainerRef($target_ref);
                 $deriver->setOwnerId($this->user->getId());
-                $newPool = $deriver->derive($lostPool);
+                $new_pool = $deriver->derive($lost_pool);
 
-                $srcPoolDefinition = $this->sourcePoolDefinitionList->getDefinitionBySourcePoolId($newPool->getId());
-                $srcPoolDefinition->setPoolTitle($newPool->getTitle());
-                $srcPoolDefinition->setPoolPath($this->questionSetConfig->getQuestionPoolPathString($newPool->getId()));
-                $srcPoolDefinition->setPoolRefId($this->questionSetConfig->getFirstQuestionPoolRefIdByObjId($newPool->getId()));
+                $srcPoolDefinition = $this->sourcePoolDefinitionList->getDefinitionBySourcePoolId($new_pool->getId());
+                $srcPoolDefinition->setPoolTitle($new_pool->getTitle());
+                $srcPoolDefinition->setPoolPath($this->questionSetConfig->getQuestionPoolPathString($new_pool->getId()));
+                $srcPoolDefinition->setPoolRefId($this->questionSetConfig->getFirstQuestionPoolRefIdByObjId($new_pool->getId()));
                 $srcPoolDefinition->saveToDb();
 
                 ilTestRandomQuestionSetStagingPoolQuestionList::updateSourceQuestionPoolId(
                     $this->test_obj->getTestId(),
-                    $lostPool->getId(),
-                    $newPool->getId()
+                    $lost_pool->getId(),
+                    $new_pool->getId()
                 );
             }
 

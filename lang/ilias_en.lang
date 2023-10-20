@@ -511,9 +511,9 @@ assessment#:#ass_mc_sel_lim_exhausted_hint#:#Please do not select more than %s o
 assessment#:#ass_mc_sel_lim_hint#:#Please select at most %s of the %s answers!
 assessment#:#ass_mc_sel_lim_setting#:#Answering Limitation
 assessment#:#ass_mc_sel_lim_setting_desc#:#With this setting the number of answers choosable by the participants can be limited.
-assessment#:#ass_process_lock#:#Use Locking During Test Passes
+assessment#:#ass_process_lock#:#Use Locking During Test Attempts
 assessment#:#ass_process_lock_desc#:#Without the use of any locking mechanism, race conditions are possible. This can lead to inconsistent test results.
-assessment#:#ass_process_lock_mode#:#Lock Mode during Test Pass
+assessment#:#ass_process_lock_mode#:#Lock Mode during Test Attempt
 assessment#:#ass_process_lock_mode_db#:#Use Database Table Locks
 assessment#:#ass_process_lock_mode_db_desc#:#This locking mechanism locks tables within the database. Concurrent processes for the same or other users in the same or in another test for the same or another question are waiting until the other process releases his locks.
 assessment#:#ass_process_lock_mode_file#:#Use Filesystem Locks
@@ -730,10 +730,10 @@ assessment#:#final_statement_show_desc#:#Show concluding remarks after the test 
 assessment#:#finalized_by#:#Completed by
 assessment#:#finalized_evaluation#:#Scoring completed
 assessment#:#finalized_on#:#Completed at
-assessment#:#finish_all_user_passes#:#Finish all Test Passes
-assessment#:#finish_pass_for_all_users#:#Are you sure you want to finish the test passes for all users?
+assessment#:#finish_all_user_passes#:#Finish all Test Attempts
+assessment#:#finish_pass_for_all_users#:#Are you sure you want to finish the test attempts for all users?
 assessment#:#finish_pass_for_all_users_in_processing_time#:#You cannot finish the passes of all users together, because for at least one user the processing time is not over yet.
-assessment#:#finish_pass_for_user_confirmation#:#Are you sure you want to finish this test pass for the participant "%s"?
+assessment#:#finish_pass_for_user_confirmation#:#Are you sure you want to finish this test attempt for the participant "%s"?
 assessment#:#finish_pass_for_user_in_processing_time#:#WARNING: the processing time for this user is not over yet! You should only end the test run if there is a compelling reason (e.g. exclusion from the test).
 assessment#:#finish_test#:#Finish Test
 assessment#:#finish_unfinished_passes#:#Finish Uncompleted Attempts
@@ -848,13 +848,14 @@ assessment#:#longmenu_answeroptions_differ#:#This question does not work correct
 assessment#:#longmenu_text#:#Long Menu Text
 assessment#:#mailnottype#:#Send a notification every time a test attempt is completed.
 assessment#:#mailnottype_desc#:#Notify the owner of the test <strong>even if</strong> the number of test attempts has not been limited.
+assessment#:#mainbar_button_label_questionlist#:#Questionlist
 assessment#:#maintenance#:#Maintenance
 assessment#:#manscoring#:#Manual Scoring
 assessment#:#manscoring_done#:#Scored Participants
 assessment#:#manscoring_hint#:#You have added at least one question which may require manual scoring. To avoid participants getting access to the test results before you have finished manual scoring, please set a suitable date before which the results cannot be accessed.
 assessment#:#manscoring_none#:#Unscored Participants
 assessment#:#manscoring_not_allowed#:#The Manual Scoring wasn‘t activated for a question type. You are not allowed to use this tab.
-assessment#:#manscoring_questions_not_found#:#This test pass does not contain question types which can be scored manually.
+assessment#:#manscoring_questions_not_found#:#This test attempt does not contain question types which can be scored manually.
 assessment#:#manscoring_results_pass#:#Manual Scored Questions for Pass %s
 assessment#:#manual_editing#:#Manual Editing
 assessment#:#mark_schema#:#Grading System
@@ -1136,6 +1137,11 @@ assessment#:#result_units_info#:#The selected units are offered to the learner a
 assessment#:#result_x#:#Result %s
 assessment#:#results#:#Results
 assessment#:#results_tab#:#Results
+assessment#:#resulttable_all#:#All
+assessment#:#resulttable_correct#:#Correct
+assessment#:#resulttable_incorrect#:#Incorrect/Incomplete
+assessment#:#resulttable_vc_sort_iooa#:#in order of appearance
+assessment#:#resulttable_vc_sort_posscore#:#highest possible score first
 assessment#:#review_view#:#Review
 assessment#:#saveOrder#:#Save Order
 assessment#:#saveOrderAndObligations#:#Save Order and Obligations
@@ -1191,6 +1197,7 @@ assessment#:#suggest_range#:#Suggest Range
 assessment#:#suggestedSolutionType#:#Refer to
 assessment#:#suggested_solution#:#Content for Recapitulation
 assessment#:#suggested_solution_added_successfully#:#You successfully set a content for recapitulation!
+assessment#:#ta_resulttable_vc_mode_aria#:#switch question mode
 assessment#:#tab_nest_answers#:#Nesting
 assessment#:#term#:#Term
 assessment#:#term_image#:#Term Image
@@ -1287,7 +1294,7 @@ assessment#:#tst_back_to_top#:#Back to Top
 assessment#:#tst_back_to_virtual_pass#:#Back to Question Overview
 assessment#:#tst_best_solution_is#:#The best solution is
 assessment#:#tst_block_passes_after_passed#:#Block Additional Passes After Test is Passed
-assessment#:#tst_block_passes_after_passed_info#:#After a participant has passed the test, no further test passes are allowed to the participant with this option.
+assessment#:#tst_block_passes_after_passed_info#:#After a participant has passed the test, no further test attempts are allowed to the participant with this option.
 assessment#:#tst_browse_for_qpl_questions#:#Add from Pool
 assessment#:#tst_browse_for_tst_questions#:#Add from Other Test
 assessment#:#tst_btn_hide_best_solutions#:#Hide Best Solutions
@@ -1335,9 +1342,11 @@ assessment#:#tst_delete_missing_mark#:#Please select at least one mark step to r
 assessment#:#tst_derive_new_pool#:#Derive New Question Pool
 assessment#:#tst_derive_new_pools#:#Derive New Question Pools
 assessment#:#tst_dont_show_msg_again_in_current_session#:#Don't show this message again in my current session.
-assessment#:#tst_dont_use_previous_answers#:#Your previous answers will not be used as default values in future test passes
+assessment#:#tst_dont_use_previous_answers#:#Your previous answers will not be used as default values in future test attempts
 assessment#:#tst_edit_competence_assign#:#Edit Assignment Properties
 assessment#:#tst_edit_scoring#:#Edit Scoring
+assessment#:#tst_enable_questionlist#:#Show 'List of Questions’
+assessment#:#tst_enable_questionlist_description#:#Participants can switch on a list of the test questions on the left of the actual question.
 assessment#:#tst_ending_time#:#Finishing Time
 assessment#:#tst_ending_time_before_starting_time#:#Please enter a date for the end of the test that is after the start date.
 assessment#:#tst_ending_time_desc#:#Time from which participants can no longer submit answers. <b>Important</b>: Do <b>not</b> use this option for e-exams/distance exams. Instead, use the function "Limit processing time", see below. Only then will the test be ended on the server side and each participant's last entry automatically saved as an authorised answer.
@@ -1371,7 +1380,7 @@ assessment#:#tst_final_information#:#Finishing the Test
 assessment#:#tst_finish_confirm_button#:#Yes, I want to finish the test
 assessment#:#tst_finish_confirm_cancel_button#:#No, go back to the previous question
 assessment#:#tst_finish_confirmation_question#:#You are going to finish this test. You won’t be able to enter this test attempt again to change your answers. Do you really want to finish this test?
-assessment#:#tst_finish_confirmation_question_no_attempts_left#:#You are going to finish this test and reach the maximum number of allowed test passes. You won’t be able to enter this test again to change your answers. Do you really want to finish the test?
+assessment#:#tst_finish_confirmation_question_no_attempts_left#:#You are going to finish this test and reach the maximum number of allowed test attempts. You won’t be able to enter this test again to change your answers. Do you really want to finish the test?
 assessment#:#tst_finish_notification#:#Notification
 assessment#:#tst_finish_notification_advanced#:#Send complete test result
 assessment#:#tst_finish_notification_content_type#:#Content of e-mail
@@ -1448,7 +1457,7 @@ assessment#:#tst_instant_feedback_answer_generic_desc#:#If the answer provided i
 assessment#:#tst_instant_feedback_answer_specific#:#Specific Feedback for Each Answer provided
 assessment#:#tst_instant_feedback_answer_specific_desc#:#On clicking the ‘Check’-button, ILIAS will show a specific feedback for every answer option selected by the participant. The feedback has to be prepared along with the question. This specific feedback is not supported for all question types.
 assessment#:#tst_instant_feedback_contents#:#Included Contents
-assessment#:#tst_instant_feedback_desc#:#When questions are configured with feedback it is provided to participants during the test pass.
+assessment#:#tst_instant_feedback_desc#:#When questions are configured with feedback it is provided to participants during the test attempt.
 assessment#:#tst_instant_feedback_forced#:#Force Instant Feedback
 assessment#:#tst_instant_feedback_results#:#Points Attained
 assessment#:#tst_instant_feedback_results_desc#:#On clicking the ‘Check’ button ILIAS will display how many points were attained by answering this question.
@@ -1465,7 +1474,7 @@ assessment#:#tst_introduction_text#:#Introductory Message
 assessment#:#tst_invited_nobody#:#No users, groups or roles have been added as fixed test participants
 assessment#:#tst_invited_selected_users#:#The selected users have been added as fixed test participants
 assessment#:#tst_level#:#Competence Level
-assessment#:#tst_limit_nr_of_tries#:#Limit Number of Test Passes
+assessment#:#tst_limit_nr_of_tries#:#Limit Number of Test Attempts
 assessment#:#tst_link_only_unassigned#:#You have selected at least one question that is already linked to a question pool. Only unassigned questions can be added to a question pool.
 assessment#:#tst_list_answer_details#:#Show in List Below
 assessment#:#tst_list_of_answers#:#List of Answers
@@ -1542,8 +1551,8 @@ assessment#:#tst_notification_explanation_admin#:#You receive this mail from ILI
 assessment#:#tst_notify_manscoring_done_body_msg_reason#:#You have received this notification, because you participated in this test.
 assessment#:#tst_notify_manscoring_done_body_msg_subject#:#Manual Scoring for Test "%s" committed
 assessment#:#tst_notify_manscoring_done_body_msg_topic#:#Your test has been graded manually:
-assessment#:#tst_nr_of_passes#:#Number of Test Passes
-assessment#:#tst_nr_of_tries#:#Max. Number of Passes
+assessment#:#tst_nr_of_passes#:#Number of Test Attempts
+assessment#:#tst_nr_of_tries#:#Max. Number of Attempts
 assessment#:#tst_nr_of_tries_desc#:#Maximum number of passes a participant can take.
 assessment#:#tst_nr_of_tries_of_user#:#Passes Already Completed
 assessment#:#tst_num_all_questions#:#Number of All Questions
@@ -1564,30 +1573,30 @@ assessment#:#tst_participant_fullname_pattern#:#%2$s, %1$s
 assessment#:#tst_participant_status#:#Participant Status
 assessment#:#tst_participating_users#:#Participating Users
 assessment#:#tst_pass_best_pass#:#Score the Best Pass
-assessment#:#tst_pass_best_pass_desc#:#The pass in which a participant performed best will be scored. This setting does only apply when more than one test pass is possible.
+assessment#:#tst_pass_best_pass_desc#:#The pass in which a participant performed best will be scored. This setting does only apply when more than one test attempt is possible.
 assessment#:#tst_pass_deletion#:#Previous Passes
 assessment#:#tst_pass_deletion_allowed#:#The deletion of non-scoring attempts is allowed.
 assessment#:#tst_pass_details#:#Detailed Results
 assessment#:#tst_pass_details_header_lo_initial#:#Initial Test Results for the Learning Objectives<br />%s - %s
 assessment#:#tst_pass_details_header_lo_qualifying#:#Qualifying Test Results for the Learning Objectives<br />%s - %s
 assessment#:#tst_pass_details_overview_table_title#:#Detailed Overview for Pass %s
-assessment#:#tst_pass_finished#:#Test pass finished
-assessment#:#tst_pass_finished_on#:#Test pass finished on
-assessment#:#tst_pass_last_pass#:#Score the Last Pass
-assessment#:#tst_pass_last_pass_desc#:#The last pass of a participant will be scored.
-assessment#:#tst_pass_overview_for_participant#:#Test Passes for Participant: %s
+assessment#:#tst_pass_finished#:#Test attempt finished
+assessment#:#tst_pass_finished_on#:#Test attempt finished on
+assessment#:#tst_pass_last_pass#:#Score the Last Attempt
+assessment#:#tst_pass_last_pass_desc#:#The last attempt of a participant will be scored.
+assessment#:#tst_pass_overview_for_participant#:#Test Attempts for Participant: %s
 assessment#:#tst_pass_overview_header_lo_initial_all_objectives#:#Initial Test Results<br />for the Learning Objectives within the Course %s
 assessment#:#tst_pass_overview_header_lo_initial_per_objective#:#Initial Test Results<br />for the Learning Objectives %s within the Course %s
 assessment#:#tst_pass_overview_header_lo_qualifying_all_objectives#:#Qualifying Test Results<br />for the Learning Objectives within the Course %s
 assessment#:#tst_pass_overview_header_lo_qualifying_per_objective#:#Qualifying Test Results<br />for the Learning Objectives %s within the Course %s
 assessment#:#tst_pass_scoring#:#Scoring Multiple Passes
-assessment#:#tst_pass_scoring_best#:#Best Test Pass
-assessment#:#tst_pass_scoring_last#:#Last Test Pass
-assessment#:#tst_pass_waiting_enabled#:#Force Waiting Time between Passes
+assessment#:#tst_pass_scoring_best#:#Best Test Attempt
+assessment#:#tst_pass_scoring_last#:#Last Test Attempt
+assessment#:#tst_pass_waiting_enabled#:#Force Waiting Time between Attempts
 assessment#:#tst_pass_waiting_info#:#With this option additional passes can not be started before the defined time is lapsed relating to the last finished pass.
 assessment#:#tst_pass_waiting_time#:#Waiting Time
 assessment#:#tst_passed#:#Passed
-assessment#:#tst_passes#:#Test Passes
+assessment#:#tst_passes#:#Test Attempts
 assessment#:#tst_password#:#Test Password
 assessment#:#tst_password_details#:#If you define a test password, all users with test access must enter this password to start the test.
 assessment#:#tst_password_enter#:#Enter Password
@@ -1610,7 +1619,7 @@ assessment#:#tst_presentation_settings_section#:#Presentation
 assessment#:#tst_print#:#Test and Assessment - Print View
 assessment#:#tst_proceed#:#Proceed
 assessment#:#tst_processing_time#:#Limit Duration of Test
-assessment#:#tst_processing_time_desc#:#Participants can work through the test only for a specified period of time. Time is clocking away from the moment a user starts a test for the first time. Suspending the test does not stop the clock. If the number of possible test passes is limited an additional feature for granting extra time to participants appears in the tab 'Dashboard'.
+assessment#:#tst_processing_time_desc#:#Participants can work through the test only for a specified period of time. Time is clocking away from the moment a user starts a test for the first time. Suspending the test does not stop the clock. If the number of possible test attempts is limited an additional feature for granting extra time to participants appears in the tab 'Dashboard'.
 assessment#:#tst_processing_time_duration#:#Maximum Duration of the Test im Minutes
 assessment#:#tst_processing_time_duration_desc#:#Maximum of time granted to take the test.
 assessment#:#tst_qbt_filter_question_title#:#Title of Question
@@ -1667,8 +1676,8 @@ assessment#:#tst_question_hints_table_link_edit_hint#:#Edit Hint
 assessment#:#tst_question_hints_table_link_edit_hint_page#:#Edit Page
 assessment#:#tst_question_hints_table_link_edit_hint_points#:#Edit Points
 assessment#:#tst_question_hints_table_no_items#:#No Existing Hints
-assessment#:#tst_question_mark#:#Mark this question
-assessment#:#tst_question_marked#:#You marked the question
+assessment#:#tst_question_mark#:#Flag this question
+assessment#:#tst_question_marked#:#You flagged the question
 assessment#:#tst_question_marker#:#Flagged
 assessment#:#tst_question_no#:#Order
 assessment#:#tst_question_not_from_pool_info#:#No Pool
@@ -1697,7 +1706,7 @@ assessment#:#tst_random_question_set_source_questionpool_summary_string#:#%s (Pa
 assessment#:#tst_random_select_questionpool#:#Select the question pool to choose the questions from
 assessment#:#tst_reached_points#:#Reached Points
 assessment#:#tst_reached_points_of_max#:#%s of %s
-assessment#:#tst_remove_mark#:#Remove this mark
+assessment#:#tst_remove_mark#:#Remove this flag
 assessment#:#tst_remove_question#:#Are you sure you want to remove the following question from the test?
 assessment#:#tst_remove_questions#:#Are you sure you want to remove the following questions from the test?
 assessment#:#tst_remove_questions_and_results#:#This test was already executed by %s user(s). Removing questions from this test will remove all test results of these users. Are you sure you want to remove the following question(s) from the test?
@@ -1717,21 +1726,21 @@ assessment#:#tst_res_tab_msg_res_after_date_no_res#:#When you take the test your
 assessment#:#tst_res_tab_msg_res_after_finish_test#:#After finishing the test your results will be offered here.
 assessment#:#tst_res_tab_msg_res_after_taking_test#:#After taking the test your results will be offered here.
 assessment#:#tst_res_tab_msg_res_after_test_passed#:#After passing the test your results will be offered here.
-assessment#:#tst_reset_processing_time#:#Reset duration for every test pass
-assessment#:#tst_reset_processing_time_desc#:#The duration will be reset to the defined maximum for every test pass. This setting requires multiple test passes to become effective.
+assessment#:#tst_reset_processing_time#:#Reset duration for every test attempt
+assessment#:#tst_reset_processing_time_desc#:#The duration will be reset to the defined maximum for every test attempt. This setting requires multiple test attempts to become effective.
 assessment#:#tst_result#:#Test Result
-assessment#:#tst_result_pass#:#Results of Test Pass
+assessment#:#tst_result_pass#:#Results of Test Attempt
 assessment#:#tst_result_user_name#:#Test Results for %s
-assessment#:#tst_result_user_name_pass#:#Results of Test Pass %s for %s
+assessment#:#tst_result_user_name_pass#:#Results of Test Attempt %s for %s
 assessment#:#tst_results#:#Test Results
 assessment#:#tst_results_access_always#:#Immediately
-assessment#:#tst_results_access_always_desc#:#Participants can access their results within the ‘Results’-tab immediately after starting the test pass and while still taking the test. Additionally ILIAS will redirect to the 'Results'-tab after the test has been finished.
+assessment#:#tst_results_access_always_desc#:#Participants can access their results within the ‘Results’-tab immediately after starting the test attempt and while still taking the test. Additionally ILIAS will redirect to the 'Results'-tab after the test has been finished.
 assessment#:#tst_results_access_date#:#Date
 assessment#:#tst_results_access_date_desc#:#Participants get access to their test results within a 'Results'-tab after the defined date.
 assessment#:#tst_results_access_enabled#:#Access to Test Results
 assessment#:#tst_results_access_enabled_desc#:#A tab 'Results' will be offered to participants. Options in this section and the following ones below configure what information is to be included into the report and when it will be accessible.
-assessment#:#tst_results_access_finished#:#After Test Pass is Finished
-assessment#:#tst_results_access_finished_desc#:#ILIAS displays the test results after the test pass is finished. After finishing the test pass participants can access their test results within the ‘Results’-tab at any time.
+assessment#:#tst_results_access_finished#:#After Test Attempt is Finished
+assessment#:#tst_results_access_finished_desc#:#ILIAS displays the test results after the test attempt is finished. After finishing the test attempt participants can access their test results within the ‘Results’-tab at any time.
 assessment#:#tst_results_access_passed#:#After Test has been Passed
 assessment#:#tst_results_access_passed_desc#:#ILIAS displays the test results after the participant has passed the test. After passing the test participants can access their test results within the 'Results'-tab at any time.
 assessment#:#tst_results_access_setting#:#Point in Time
@@ -1761,10 +1770,10 @@ assessment#:#tst_rnd_quest_set_tb_add_pool_btn#:#New Rule for Selection of Quest
 assessment#:#tst_save_and_create_new_rule#:#Save and Add New Rule
 assessment#:#tst_save_and_proceed#:#Save and Proceed###fau: testNav
 assessment#:#tst_save_comp_points#:#Save Competence Points
-assessment#:#tst_save_manscoring_failed#:#Saving the manual scoring for test pass %s has failed.
+assessment#:#tst_save_manscoring_failed#:#Saving the manual scoring for test attempt %s has failed.
 assessment#:#tst_save_thresholds#:#Save Thresholds
-assessment#:#tst_saved_manscoring_by_question_successfully#:#The manual scoring for the question %s for test pass %s has been saved successfully.
-assessment#:#tst_saved_manscoring_successfully#:#The manual scoring for test pass %s for %s has been saved successfully.
+assessment#:#tst_saved_manscoring_by_question_successfully#:#The manual scoring for the question %s for test attempt %s has been saved successfully.
+assessment#:#tst_saved_manscoring_successfully#:#The manual scoring for test attempt %s for %s has been saved successfully.
 assessment#:#tst_score_cut_question#:#For Each Questions Negative Points are set to ‘0 Points’
 assessment#:#tst_score_cut_question_desc#:#Participants may score negative results for a question that had negative points for assigned to individual answer options. This setting ensures that per question any negativ result is set to 0 points.
 assessment#:#tst_score_cut_test#:#For the Whole Test a Negative Result is set to ‘0 Points’
@@ -1777,7 +1786,7 @@ assessment#:#tst_select_questionpool#:#Please select a question pool to store th
 assessment#:#tst_selected_user_data_deleted#:#The test data of the selected user(s) was removed successfully
 assessment#:#tst_sequence#:#Sequence
 assessment#:#tst_sequence_fixed#:#The Sequence of Questions is Fixed
-assessment#:#tst_sequence_postpone#:#Questions may be postponed to the end of a test pass
+assessment#:#tst_sequence_postpone#:#Questions may be postponed to the end of a test attempt
 assessment#:#tst_sequence_properties#:#Administering the Test: Functionality Available to Participants
 assessment#:#tst_session_settings#:#Session Settings
 assessment#:#tst_set_offline_due_to_switched_question_set_type_setting#:#The test has been set to offline, because the test mode setting has been changed. You have to set a new test mode relating question config before the test can be set to online again.
@@ -1795,8 +1804,8 @@ assessment#:#tst_show_answer_sheet#:#Show Answers
 assessment#:#tst_show_cancel#:#Suspend Test
 assessment#:#tst_show_cancel_description#:#Participants are presented with a button to stop the test run and to continue it later. Caution: Suspending the test does not stop the countdown of the maximum duration of the test.
 assessment#:#tst_show_comp_results#:#Competence Results
-assessment#:#tst_show_pass_details#:#Show ‘Table of Detailed Test Results’ for each Test Pass upon Selected Point in Time
-assessment#:#tst_show_pass_details_desc#:#The summary of results will be appended at the point in time indicated in the setting above: A ‘Table of Detailed Test Results’ will show the title of the questions and the points scored in a particular test pass. <br> Other than that the table will be displayed after the last test pass possible (setting in link ‘General’, option ‘Limit Number of Test Passes’) or after the test is officially finished (setting in link ‘General’, option ‘Finishing Time’). <br> Further settings about the content of the ‘Table of Detailed Test Results’ can be made in the section ‘Further Details to be Included in Test Results’ of this form.
+assessment#:#tst_show_pass_details#:#Show ‘Table of Detailed Test Results’ for each Test Attempt upon Selected Point in Time
+assessment#:#tst_show_pass_details_desc#:#The summary of results will be appended at the point in time indicated in the setting above: A ‘Table of Detailed Test Results’ will show the title of the questions and the points scored in a particular test attempt. <br> Other than that the table will be displayed after the last test attempt possible (setting in link ‘General’, option ‘Limit Number of Test Attempts) or after the test is officially finished (setting in link ‘General’, option ‘Finishing Time’). <br> Further settings about the content of the ‘Table of Detailed Test Results’ can be made in the section ‘Further Details to be Included in Test Results’ of this form.
 assessment#:#tst_show_results#:#Test Results
 assessment#:#tst_show_side_list#:#Show List of Questions
 assessment#:#tst_show_solution_answers_only#:#Print View of Results (Answers Only)
@@ -1815,11 +1824,11 @@ assessment#:#tst_show_solution_signature#:#Signature Placeholder
 assessment#:#tst_show_solution_signature_desc#:#The prepared printout version will contain a signature placeholder for the participant. Please mind to activate ‘Table of Detailed Test Results’ to use this functionality.
 assessment#:#tst_show_solution_suggested#:#Content for Recapitulation
 assessment#:#tst_show_solution_suggested_desc#:#If content for recapitulation was assigned to the test questions in the first place, this content will be shown in the ‘Table of Detailed Test Results’-table. Participants get an opportunity for remedial learning. For this option to become effective you have to activate ‘Table of Detailed Test Results’ under ‘Access to Test Results’.
-assessment#:#tst_show_summary#:#Show ‘List of Questions’
-assessment#:#tst_show_summary_description#:#Participants can switch on a list of test questions on the left of the actual question. Additionally, they are presented with a button ‘List of Questions’. On that screen the overall status of all questions will be displayed.
+assessment#:#tst_show_summary#:#Show ‘Test Attempt Overview’
+assessment#:#tst_show_summary_description#:#Participants are presented with a button ‘Test Attempt Overview’. On that screen the overall status of all questions will be displayed..
 assessment#:#tst_show_toplist#:#Ranking
 assessment#:#tst_shuffle_questions#:#Shuffle Questions
-assessment#:#tst_shuffle_questions_description#:#Shuffles the sequence of questions for every participant and every test pass.
+assessment#:#tst_shuffle_questions_description#:#Shuffles the sequence of questions for every participant and every test attempt.
 assessment#:#tst_signature#:#Signature
 assessment#:#tst_single_answer_details#:#Show Single Answer
 assessment#:#tst_single_results#:#Results by Question
@@ -1835,7 +1844,7 @@ assessment#:#tst_solution_compare_cfg#:#Configuration for Solution Compare
 assessment#:#tst_source_question_pool#:#Question Pool
 assessment#:#tst_src_quest_pool_def_list_table#:#Rules for Random Selection of Questions
 assessment#:#tst_start_dyn_test_with_cur_quest_sel#:#Start Test with Current Question Selection
-assessment#:#tst_start_new_test_pass#:#Start New Test Pass
+assessment#:#tst_start_new_test_pass#:#Start New Attempt on Test
 assessment#:#tst_start_test#:#Start the Test
 assessment#:#tst_started#:#Test Started
 assessment#:#tst_starting_time#:#Starting Time
@@ -1888,8 +1897,8 @@ assessment#:#tst_type#:#Test Type
 assessment#:#tst_unchanged_answer_is_correct#:#The preset answer is correct###fau: testNav
 assessment#:#tst_unchanged_order_is_correct#:#The preset order is correct###fau: testNav
 assessment#:#tst_use_previous_answers#:#Use Previous Answers
-assessment#:#tst_use_previous_answers_description#:#Participants will be presented with their answers from previous test passes. This option has to be activated by individual participants on the Info-tab before starting a test pass.
-assessment#:#tst_use_previous_answers_user#:#Use my previous answers as default values in future test passes
+assessment#:#tst_use_previous_answers_description#:#Participants will be presented with their answers from previous test attempts. This option has to be activated by individual participants on the Info-tab before starting a test attempt.
+assessment#:#tst_use_previous_answers_user#:#Use my previous answers as default values in future test attempts
 assessment#:#tst_user_finished_test#:#User finished test (%s)
 assessment#:#tst_view_competence_assign#:#View Assignment Properties
 assessment#:#tst_virtual_pass_header_lo_initial#:#Initial Test Results for the Learning Objective<br />%s
@@ -4272,7 +4281,7 @@ common#:#info_available_roles#:#Available Roles
 common#:#info_change_user_view#:#Change User
 common#:#info_deactivate_sure#:#Are you sure that you want to deactivate the following user(s)?
 common#:#info_delete_sure#:#Are you sure that you want to delete the following item(s)?
-common#:#info_delete_warning_no_trash#:#(WARNING: Selected Objects will be removed irreversibly from System and may not be recovered anymore!)
+common#:#info_delete_warning_no_trash#:#(WARNING: The selected object(s) will be irretrievably deleted from the system. The recovery of any such deleted objects will not be possible).
 common#:#info_deleted#:#Object(s) Deleted
 common#:#info_err_user_not_exist#:#User with that login name or user_id does not exists
 common#:#info_from_role#:#Granted by Role / Ownership
@@ -4552,7 +4561,6 @@ common#:#mm_personal_and_shared_r#:#Personal and Shared Resources
 common#:#mm_personal_workspace#:#Personal Workspace
 common#:#mm_portfolio#:#Portfolio
 common#:#mm_private_chats#:#Private Chats
-common#:#mm_rep_tree_view#:#Tree View
 common#:#mm_repo_tree_view#:#Tree View
 common#:#mm_repo_tree_view_act#:#Activate Tree
 common#:#mm_repo_tree_view_deact#:#Deactivate Tree
@@ -4876,9 +4884,7 @@ common#:#obj_objf_desc#:#Manage ILIAS object types and object permissions. (only
 common#:#obj_orgu#:#Organisational Unit
 common#:#obj_orgu_description#:#Creating and editing organisational structure
 common#:#obj_page#:#Page
-common#:#obj_pdfg#:#PDF Generation
-common#:#obj_pdfg_desc#:#Options for generation PDF documents
-common#:#obj_peac#:#Accordion/Carousel
+common#:#obj_peac#:#Accordion
 common#:#obj_peadl#:#Advanced List
 common#:#obj_peadt#:#Advanced Table
 common#:#obj_pecd#:#Code
@@ -5148,10 +5154,6 @@ common#:#path_to_zip#:#Path to Zip
 common#:#pathes#:#Paths
 common#:#pd_items_news#:#Include News of Personal Items
 common#:#pdf_export#:#PDF Export
-common#:#pdfg_edit_permission#:#User can change permission settings
-common#:#pdfg_read#:#User has read access to PDF Generation
-common#:#pdfg_visible#:#PDF Generation is visible
-common#:#pdfg_write#:#User can edit settings of PDF Generation
 common#:#perm_settings#:#Permissions
 common#:#perma_link#:#Permanent Link
 common#:#permission#:#Permission
@@ -7477,9 +7479,9 @@ crs#:#crs_loc_mem_show_res#:#Show Test Results
 crs#:#crs_loc_num_qst#:#Number of Questions
 crs#:#crs_loc_objective_passed_confirmation#:#You have already passed this learning objective. Starting a new test run will reset the result. Do you really want to start a new test run?
 crs#:#crs_loc_objectives_passed_confirmation#:#You have already passed all learning objectives. Starting a new test run will reset all results. Do you really want to start a new test run?
-crs#:#crs_loc_passes_info#:#Maximum Number of test passes
-crs#:#crs_loc_passes_left#:#Remaining number of test passes
-crs#:#crs_loc_passes_reached#:#No further test passes possible
+crs#:#crs_loc_passes_info#:#Maximum Number of test attempts
+crs#:#crs_loc_passes_left#:#Remaining number of test attempts
+crs#:#crs_loc_passes_reached#:#No further test attempts possible
 crs#:#crs_loc_perc#:#Required Percentage of Points
 crs#:#crs_loc_progress_do_qualifying#:#Please take the final test.
 crs#:#crs_loc_progress_do_qualifying_again#:#Please work through the learning objective materials again.
@@ -7541,10 +7543,10 @@ crs#:#crs_loc_tbl_tst_qst_qpl#:#Questions / Question Pools
 crs#:#crs_loc_tbl_tst_type#:#Selection of Test Questions
 crs#:#crs_loc_test_results_of#:#Test results of:
 crs#:#crs_loc_tst_assignment#:#Test Assignment
-crs#:#crs_loc_tst_new_run#:#Start New Test Pass
+crs#:#crs_loc_tst_new_run#:#Start New Attempt on Test
 crs#:#crs_loc_tst_num_qst#:#Number of Questions:
 crs#:#crs_loc_tst_qpls#:#Available Question Pools:
-crs#:#crs_loc_tst_resume#:#Continue Test Pass
+crs#:#crs_loc_tst_resume#:#Continue Test Attempt
 crs#:#crs_loc_tst_start#:#Start Test
 crs#:#crs_loc_tt_info#:#You have reached %1$d%%. The test is passed with %2$d%%.
 crs#:#crs_loc_type_initial_all_info#:#Based on individual results of the initial test, ILIAS recommends learning content for the not-yet-sufficient learning objectives. The final achievement test assesses whether a test participant already mastered the learning objectives or if additional learning and training is needed.
@@ -8588,7 +8590,7 @@ dcl#:#dcl_plugin_hooks#:#Available Plugins
 dcl#:#dcl_plugin_no_hooks_available#:#No active field-type plugins found
 dcl#:#dcl_prev_record#:#Previous Entry
 dcl#:#dcl_prop_expression#:#Expression
-dcl#:#dcl_prop_expression_info#:#Supported operators: <b>%s</b><br>Supported functions: <b>%s</b><br>Use brackets <b>‘(’, ‘)’</b> to group calculations.<br>Concatenate strings and placeholders with &: <b>‘The result is ’ & [[Int 1]] * [[Int2]]</b><br>Using functions: <b>SUM([[Int 1]];[[Int 2]])</b><br><br>Available fields (click on title to copy field inside expression):<br>%s
+dcl#:#dcl_prop_expression_info#:#Supported operators: <b>%s</b><br>Supported functions: <b>%s</b><br>Use brackets <b>‘(’, ‘)’</b> to group calculations.<br>Concatenate strings and placeholders with &: <b>‘The result is ’ & [[Int 1]] * [[Int2]]</b><br>Using functions: <b>SUM([[Int 1]];[[Int 2]])</b><br>When using date fields and number fields in a formula, the number fields are considered seconds and must be multiplied by 86400, for example.<br><br>Available fields (click on title to copy field inside expression):<br>%s
 dcl#:#dcl_public_comments#:#Activate Public Comments
 dcl#:#dcl_public_comments_desc#:#Users can comment on entries of the table.
 dcl#:#dcl_rating#:#Rating
@@ -9114,6 +9116,7 @@ exc#:#exc_global_feedback_file_date#:#Availability
 exc#:#exc_global_feedback_file_date_deadline#:#After deadline
 exc#:#exc_global_feedback_file_date_upload#:#After submission
 exc#:#exc_go_to_exercise#:#Go to Exercise
+exc#:#exc_graded_mem_notified#:#All graded participants have been notified.
 exc#:#exc_grades#:#Grades Overview
 exc#:#exc_grades_overview#:#Grades View
 exc#:#exc_hand_in#:#Hand In
@@ -9153,6 +9156,8 @@ exc#:#exc_min_nr_info#:#This value must be equal or higher than the number of co
 exc#:#exc_min_team_participants#:#Minimal Number
 exc#:#exc_msg_all_mandatory_ass#:#You must pass all mandatory assignments to pass the exercise.
 exc#:#exc_msg_failed_mandatory#:#You failed in at least one mandatory assignment.
+exc#:#exc_msg_grading_done#:#An assignment has been graded in exercise "%s".
+exc#:#exc_msg_grading_done_body#:#a tutor has graded your submission in exercise "%s".
 exc#:#exc_msg_min_number_ass#:#You must pass a minimum of %s assignments to pass the exercise.
 exc#:#exc_msg_missed_minimum_number#:#You did not pass the minimum number of assignments.
 exc#:#exc_msg_new_feedback_file_uploaded#:#A new feedback file has been added to exercise "%s".
@@ -9174,6 +9179,7 @@ exc#:#exc_no_assignments_available#:#No assignments created yet. Please open ‘
 exc#:#exc_no_deadline_specified#:#No deadline specified.
 exc#:#exc_no_feedback_dir_found_in_zip#:#The directory structure of the uploaded zip-archive could not be processed.
 exc#:#exc_no_get_target#:#A valid target has not been sent.
+exc#:#exc_no_graded_mem_selected#:#Please select at least one graded participant.
 exc#:#exc_no_participants#:#There are currently no participants.
 exc#:#exc_no_portfolio_templates#:#There are no Portfolio Templates available.
 exc#:#exc_no_team_yet#:#Not assigned to a team
@@ -9306,6 +9312,7 @@ exc#:#exc_select_portfolio_change#:#Use different portfolio
 exc#:#exc_select_portfolio_info#:#Please select one of your portfolios to use it with this assignment.
 exc#:#exc_select_portfolio_unlink#:#Remove Portfolio
 exc#:#exc_send_assignment#:#Send Assignment by Mail
+exc#:#exc_send_grading_notification#:#Send Grading Notification
 exc#:#exc_settings_feedback#:#Evaluation
 exc#:#exc_settings_feedback_file#:#By File
 exc#:#exc_settings_feedback_file_info#:#Tutors upload a file. The participant receives a notification about it and can access the file at the assignment overview.
@@ -9329,6 +9336,7 @@ exc#:#exc_submission_notification_body#:#A new submission for exercise "%s" has 
 exc#:#exc_submission_notification_info#:#You will be notified when submissions are uploaded. This is a personal setting which does not affect other administrators of the exercise.
 exc#:#exc_submission_notification_link#:#Link to exercise: %s
 exc#:#exc_submission_notification_subject#:#Exercise "%s" - New submission uploaded
+exc#:#exc_submission_open_notification_link#:#Open submission: %s
 exc#:#exc_submission_text#:#Submission Text
 exc#:#exc_submissions_and_grades#:#Submissions and Grades
 exc#:#exc_submit_convenience_no_deadline#:#Submit your at your convenience. There is no  specific  deadline.
@@ -10562,6 +10570,7 @@ lso#:#lso_members_gallery#:#Learning Sequence Members Gallery
 lso#:#lso_members_print_title#:#Learning sequence members
 lso#:#lso_min_one_admin#:#There has to be at least one administrator assigned to this learning sequence.
 lso#:#lso_msg_member_assigned#:#User(s) assigned as learning sequence member(s)
+lso#:#lso_multidownload_not_available#:#Downloading multiple objects is currently not available for Learning Sequence Objects.
 lso#:#lso_new_status#:#Your new status is:
 lso#:#lso_notification#:#Notification
 lso#:#lso_notification_explanation_admin#:#You receive mail from ILIAS because you are learning sequence administrator with notification enabled.
@@ -12626,72 +12635,6 @@ pd#:#pd_upcoming#:#Upcoming
 pd#:#pd_view_select_at_least_one#:#You have to select at least one view, either ‘Selected Items’ and/or ‘My Memberships’.
 pdesk#:#bookmark_moved_ok#:#Bookmark has been moved.
 pdesk#:#bookmark_select_target#:#Please select target.
-pdfgen#:#checkbox_checked_svg#:#Path to checked checkbox svg
-pdfgen#:#checkbox_svg#:#Path to checkbox svg
-pdfgen#:#cleanup#:#Cleanup
-pdfgen#:#config#:#Config
-pdfgen#:#config_not_saved#:#Saving failed
-pdfgen#:#config_saved#:#Saved successfully
-pdfgen#:#configure#:#Configure Renderer
-pdfgen#:#enable_forms#:#Enable Forms
-pdfgen#:#enable_forms_info#:#Turn HTML form fields into pdf form fields
-pdfgen#:#external_links#:#Externel links
-pdfgen#:#external_links_info#:#Make links to remote web pages
-pdfgen#:#footer_height#:#Height Footer
-pdfgen#:#footer_html#:#Html
-pdfgen#:#footer_line#:#Footer line
-pdfgen#:#footer_show_pages#:#Show Pagenumbers
-pdfgen#:#footer_text#:#Text
-pdfgen#:#footer_text_center#:#Text center
-pdfgen#:#footer_text_left#:#Text left
-pdfgen#:#footer_text_right#:#Text right
-pdfgen#:#footer_type#:#Footer
-pdfgen#:#greyscale#:#Greyscale
-pdfgen#:#greyscale_info#:#PDF will be generated in grayscale
-pdfgen#:#head_text#:#Text
-pdfgen#:#header_height#:#Header Height
-pdfgen#:#header_line#:#Header line
-pdfgen#:#header_show_pages#:#Show Pagenumbers
-pdfgen#:#header_text_center#:#Text center
-pdfgen#:#header_text_left#:#Text left
-pdfgen#:#header_text_right#:#Text right
-pdfgen#:#header_type#:#Header
-pdfgen#:#html#:#Html
-pdfgen#:#image_scale#:#Image scale
-pdfgen#:#javascript_delay#:#Javascript delay
-pdfgen#:#javascript_delay_info#:#If JavaScript is used to render page content, add a delay to make sure the content appears in the PDF. The standard delay of 200ms should suffice in most cases.
-pdfgen#:#low_quality#:#Low quality
-pdfgen#:#low_quality_info#:#Generates lower quality pdf/ps. Useful to shrink the result document space
-pdfgen#:#margin#:#Margin 345
-pdfgen#:#margin_bottom#:#Margin bottom
-pdfgen#:#margin_info#:#Margin in mm e.g. 10mm
-pdfgen#:#margin_left#:#Margin left
-pdfgen#:#margin_right#:#Margin right
-pdfgen#:#margin_top#:#Margin top
-pdfgen#:#none#:#Keine
-pdfgen#:#orientation#:#Orientation
-pdfgen#:#output_options#:#Output options
-pdfgen#:#overwrite_font#:#Overwrite default font
-pdfgen#:#overwrite_font_info#:#Enter somthing similar to: 'serif', 'sans-serif', 'monospace' usw.
-pdfgen#:#page_settings#:#Page Settings
-pdfgen#:#page_size#:#Pagesize
-pdfgen#:#path#:#Path to wkhtmltopdf
-pdfgen#:#preferred_renderer#:#Preferred Renderer
-pdfgen#:#print_media_info#:#Use print media-type instead of screen
-pdfgen#:#print_media_type#:#Use print media type instead of screen
-pdfgen#:#problem_with_purposes#:#A problem in the configuration was detected, please use the button "Cleanup" to resolve this issue.
-pdfgen#:#radio_button_checked_svg#:#Path to checked radiobutton svg
-pdfgen#:#radio_button_svg#:#Path to radiobutton svg
-pdfgen#:#reset_to_default#:#Reset settings to default
-pdfgen#:#selected_renderer#:#Selected Renderer
-pdfgen#:#spacing#:#Spacing
-pdfgen#:#text#:#Text
-pdfgen#:#user_stylesheet#:#User stylesheet
-pdfgen#:#viewport#:#Viewport
-pdfgen#:#viewport_info#:#Viewport in pixels e.g. "1920*1080"
-pdfgen#:#webkit#:#wkhtmltopdf
-pdfgen#:#wkhtml_config#:#Configuration for WKHTML
-pdfgen#:#zoom#:#Zoom
 poll#:#poll_absolute#:#Current Votes
 poll#:#poll_activation_online_info#:#Activate this setting to make the poll accessible to users.
 poll#:#poll_add#:#Add Poll
@@ -13081,6 +13024,7 @@ prtf#:#prtf_add_new_blog#:#Add New Blog
 prtf#:#prtf_add_new_blog_info#:#The new blog will be added to your personal resources.
 prtf#:#prtf_add_page#:#Add Page
 prtf#:#prtf_add_portfolio#:#Add Portfolio
+prtf#:#prtf_add_portfolio_from_template#:#Add Portfolio From Template
 prtf#:#prtf_all_pages#:#All Pages
 prtf#:#prtf_allow_html#:#Allow HTML/Javascript
 prtf#:#prtf_allow_html_info#:#Enables users to include HTML and/or Javascript in their portfolio pages. This can lead to security issues.
@@ -13135,8 +13079,9 @@ prtf#:#prtf_page_type_prtf#:#Portfolio Page
 prtf#:#prtf_page_type_prtt#:#Portfolio Template Page
 prtf#:#prtf_pages_copied#:#The pages have been copied.
 prtf#:#prtf_pdf#:#Export as PDF
+prtf#:#prtf_permanent_link#:#Link to Portfolio:
 prtf#:#prtf_portfolio_created#:#Portfolio added
-prtf#:#prtf_portfolio_created_from_template#:#This is the preview of your new portfolio. To add pages and manage the content of the portfolio click on "Edit Portfolio" on top of this page.
+prtf#:#prtf_portfolio_created_from_template#:#This is the preview of your new portfolio. To add new pages, please click "Edit Portfolio". To edit this page, please click "Edit Page".
 prtf#:#prtf_portfolio_deleted#:#Portfolio deleted
 prtf#:#prtf_portfolio_page_deleted#:#Portfolio / blog page deleted.
 prtf#:#prtf_portfolios#:#Portfolios
@@ -13167,6 +13112,8 @@ prtf#:#prtf_signature_date#:#Date, Signature
 prtf#:#prtf_signature_info#:#Adds a field to the print where the author can sign the portfolio.
 prtf#:#prtf_style#:#Portfolio Style
 prtf#:#prtf_submission_on#:#Submitted on $1
+prtf#:#prtf_successfully_shared_prtf#:#Confirmation Shared Portfolio '%s'
+prtf#:#prtf_successfully_shared_prtf_body#:#You have shared your portfolio '%s' with:
 prtf#:#prtf_sure_delete_portfolio_pages#:#Are you sure you want to delete the following portfolio page / blog page?
 prtf#:#prtf_sure_delete_portfolios#:#Are you sure you want to delete the following portfolio?
 prtf#:#prtf_tab_other_users#:#Portfolios of Other Users
@@ -13180,6 +13127,7 @@ prtf#:#prtf_template_title#:#Portfolio Template
 prtf#:#prtf_unset_as_default#:#Unset As My Profile
 prtf#:#prtf_unset_default_share_info#:#Your changes have been saved. Please check the current ‘share’ settings for your portfolio.
 prtf#:#prtf_use_page_layout#:#Use Page Layout
+prtf#:#prtf_visible_for_tutor#:#Visible For Tutor
 prtf#:#prtt_title_info#:#Please note that this will be also the default title for all portfolios being created form this template.
 prtt#:#prtt_activation_limited_visibility_info#:#If chosen, the portfolio template is visible even outside of the given availability.
 prtt#:#prtt_activation_online_info#:#Activate this setting to make the portfolio template accessible to users.
@@ -15037,6 +14985,7 @@ skmg#:#skmg_create_skill_template_reference#:#Create Competence Template Referen
 skmg#:#skmg_create_skll#:#Create Competence
 skmg#:#skmg_custom_image_alt#:#Custom image for competence profile
 skmg#:#skmg_delete_profiles#:#Do you really want to delete the following profiles?
+skmg#:#skmg_delete_warning#:#Are you sure that you want to delete the following item(s)? When you delete the items, you also delete all usages, assignments and achievements of it. To be on the safe side, you find a list of all usages below. If the item is used in a competence profile, it will be removed from the profile, too. This may cause the fulfilment of the competence profile for the assigned users. If your are not sure whether an item should really be deleted, please use the statuses in the settings of a single item.
 skmg#:#skmg_description_info#:#The description comes from the template.
 skmg#:#skmg_edit_level#:#Edit Level
 skmg#:#skmg_edit_profile#:#Edit Profile
@@ -15081,6 +15030,7 @@ skmg#:#skmg_no_skills_selected_info#:#You have not selected or fulfilled any com
 skmg#:#skmg_no_trigger#:#No Trigger
 skmg#:#skmg_nr#:#Nr
 skmg#:#skmg_number#:#Number
+skmg#:#skmg_open#:#Open
 skmg#:#skmg_open_all_assigned_profiles#:#Open All Assigned Competence Profiles
 skmg#:#skmg_order#:#Order
 skmg#:#skmg_order_nr#:#Order Number
@@ -15096,6 +15046,7 @@ skmg#:#skmg_recommended_learning_material_global#:#Achieve your targets
 skmg#:#skmg_recommended_learning_material_grp#:#Achieve your targets in this group
 skmg#:#skmg_recommended_learning_material_info#:#Please work through the following learning materials to achieve the competence target. Select exactly one learning material per competence level.
 skmg#:#skmg_refresh_view#:#Refresh
+skmg#:#skmg_remove#:#Remove
 skmg#:#skmg_remove_levels#:#Remove Levels
 skmg#:#skmg_remove_skill#:#Remove Competence
 skmg#:#skmg_remove_trigger#:#Remove Trigger
@@ -15104,6 +15055,7 @@ skmg#:#skmg_save_order#:#Save Order
 skmg#:#skmg_save_self_evaluation#:#Finish Self-Evaluation
 skmg#:#skmg_save_settings#:#Save Settings
 skmg#:#skmg_sctp#:#Competence Template Category
+skmg#:#skmg_select_level#:#Select Competence Level
 skmg#:#skmg_select_skill#:#Click on a competence to add it to your personal competences.
 skmg#:#skmg_select_skill_level_assign#:#Please select a competence.
 skmg#:#skmg_select_trigger#:#Select Trigger
@@ -16801,8 +16753,8 @@ ui#:#label_fieldselection_refresh#:#Apply
 ui#:#label_pagination_limit#:#Pagination Number of Rows
 ui#:#label_pagination_offset#:#Pagination Offset
 ui#:#label_sortation#:#Sortation
-ui#:#presentaion_table_collapse#:#collapse all
-ui#:#presentaion_table_expand#:#expand all
+ui#:#presentation_table_collapse#:#collapse all
+ui#:#presentation_table_expand#:#expand all
 ui#:#ui_chars_max#:#Maximum:
 ui#:#ui_chars_min#:#Minimum:
 ui#:#ui_chars_remaining#:#Characters remaining:
@@ -17221,6 +17173,7 @@ wsp#:#wsp_permission_registered_info#:#This object is shared with all registered
 wsp#:#wsp_permission_removed#:#Entry has been removed.
 wsp#:#wsp_permissions#:#Share
 wsp#:#wsp_personal_resources_description#:#Here you can manage your private files, blogs and artifacts.
+wsp#:#wsp_send_mail#:#Send Mail
 wsp#:#wsp_set_permission_all#:#World Wide Web
 wsp#:#wsp_set_permission_all_password#:#World Wide Web with Password
 wsp#:#wsp_set_permission_course#:#Members of Course

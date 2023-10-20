@@ -27,34 +27,38 @@
  */
 class ilUserXMLWriter extends ilXmlWriter
 {
-    public ILIAS $ilias;
-    public array $users; // Missing array type.
-    public int $user_id = 0;
-    public bool $attachRoles = false;
-    public bool $attachPreferences = false;
+    private ILIAS $ilias;
+    private ilDBInterface $db;
+    private ilLanguage $lng;
+    private array $users; // Missing array type.
+    private int $user_id = 0;
+    private bool $attach_roles = false;
+    private bool $attach_preferences = false;
 
     /**
      * fields to be exported
+     *
      */
-    private array $settings; // Missing array type.
+    private array $settings = [];
 
     public function __construct()
     {
+        /** @var ILIAS\DI\Container $DIC */
         global $DIC;
 
-        $ilias = $DIC['ilias'];
-        $ilUser = $DIC->user();
+        $this->ilias = $DIC['ilias'];
+        $this->db = $DIC['ilDB'];
+        $this->lng = $DIC['lng'];
+        $this->user_id = $DIC['ilUser']->getId();
+
+        $this->attach_roles = false;
 
         parent::__construct();
-
-        $this->ilias = $ilias;
-        $this->user_id = $ilUser->getId();
-        $this->attachRoles = false;
     }
 
     public function setAttachRoles(bool $value): void
     {
-        $this->attachRoles = $value;
+        $this->attach_roles = $value;
     }
 
     public function setObjects(array $users): void // Missing array type.
@@ -91,8 +95,8 @@ class ilUserXMLWriter extends ilXmlWriter
 
     public function __buildHeader(): void
     {
-        $this->xmlSetDtdDef("<!DOCTYPE Users PUBLIC \"-//ILIAS//DTD UserImport//EN\" \"" . ILIAS_HTTP_PATH . "/xml/ilias_user_5_1.dtd\">");
-        $this->xmlSetGenCmt("User of ilias system");
+        $this->xmlSetDtdDef('<!DOCTYPE Users PUBLIC "-//ILIAS//DTD UserImport//EN" "' . ILIAS_HTTP_PATH . '/xml/ilias_user_5_1.dtd">');
+        $this->xmlSetGenCmt('User of ilias system');
         $this->xmlHeader();
 
         $this->xmlStartTag('Users');
@@ -105,114 +109,109 @@ class ilUserXMLWriter extends ilXmlWriter
 
     public function __handleUser(array $row): void // Missing array type.
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-        $lng = $DIC['lng'];
-        if (!is_array($this->settings)) {
+        if ($this->settings === []) {
             $this->setSettings(ilObjUserFolder::getExportSettings());
         }
 
-        $prefs = ilObjUser::_getPreferences($row["usr_id"]);
+        $prefs = ilObjUser::_getPreferences($row['usr_id']);
 
-        if (strlen($row["language"]) == 0) {
-            $row["language"] = $lng->getDefaultLanguage();
+        if (strlen($row['language']) == 0) {
+            $row['language'] = $this->lng->getDefaultLanguage();
         }
 
         $attrs = [
-            'Id' => "il_" . IL_INST_ID . "_usr_" . $row["usr_id"],
-            'Language' => $row["language"],
-            'Action' => "Update"
+            'Id' => 'il_' . IL_INST_ID . '_usr_' . $row['usr_id'],
+            'Language' => $row['language'],
+            'Action' => 'Update'
         ];
 
-        $this->xmlStartTag("User", $attrs);
+        $this->xmlStartTag('User', $attrs);
 
-        $this->xmlElement("Login", null, $row["login"]);
+        $this->xmlElement('Login', null, $row['login']);
 
-        if ($this->attachRoles == true) {
+        if ($this->attach_roles == true) {
             $query = sprintf(
-                "SELECT object_data.title, object_data.description,  rbac_fa.* " .
-                            "FROM object_data, rbac_ua, rbac_fa WHERE rbac_ua.usr_id = %s " .
-                            "AND rbac_ua.rol_id = rbac_fa.rol_id AND object_data.obj_id = rbac_fa.rol_id",
-                $ilDB->quote($row["usr_id"], 'integer')
+                'SELECT object_data.title, object_data.description,  rbac_fa.* ' .
+                            'FROM object_data, rbac_ua, rbac_fa WHERE rbac_ua.usr_id = %s ' .
+                            'AND rbac_ua.rol_id = rbac_fa.rol_id AND object_data.obj_id = rbac_fa.rol_id',
+                $this->db->quote($row['usr_id'], 'integer')
             );
-            $rbacresult = $ilDB->query($query);
+            $rbacresult = $this->db->query($query);
 
             while ($rbacrow = $rbacresult->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
-                if ($rbacrow["assign"] != "y") {
+                if ($rbacrow['assign'] != 'y') {
                     continue;
                 }
 
-                $type = "";
+                $type = '';
 
-                if ($rbacrow["parent"] == ROLE_FOLDER_ID) {
-                    $type = "Global";
+                if ($rbacrow['parent'] == ROLE_FOLDER_ID) {
+                    $type = 'Global';
                 } else {
-                    $type = "Local";
+                    $type = 'Local';
                 }
                 if (strlen($type)) {
                     $this->xmlElement(
-                        "Role",
-                        array("Id" =>
-                                "il_" . IL_INST_ID . "_role_" . $rbacrow["rol_id"], "Type" => $type),
-                        $rbacrow["title"]
+                        'Role',
+                        ['Id' => 'il_' . IL_INST_ID . '_role_' . $rbacrow['rol_id'], 'Type' => $type],
+                        $rbacrow['title']
                     );
                 }
             }
         }
 
-        $this->__addElement("Firstname", $row["firstname"]);
-        $this->__addElement("Lastname", $row["lastname"]);
-        $this->__addElement("Title", $row["title"]);
+        $this->__addElement('Firstname', $row['firstname']);
+        $this->__addElement('Lastname', $row['lastname']);
+        $this->__addElement('Title', $row['title']);
 
-        if ($this->canExport("PersonalPicture", "upload")) {
-            $imageData = $this->getPictureValue($row["usr_id"]);
+        if ($this->canExport('PersonalPicture', 'upload')) {
+            $imageData = $this->getPictureValue($row['usr_id']);
             if ($imageData) {
-                $value = array_shift($imageData); //$imageData["value"];
-                $this->__addElement("PersonalPicture", $value, $imageData, "upload");
+                $value = array_shift($imageData); //$imageData['value'];
+                $this->__addElement('PersonalPicture', $value, $imageData, 'upload');
             }
         }
 
 
-        $this->__addElement("Gender", $row["gender"]);
-        $this->__addElement("Email", $row["email"]);
-        $this->__addElement("SecondEmail", $row["second_email"], null, "second_email");
-        $this->__addElement("Birthday", $row["birthday"]);
-        $this->__addElement("Institution", $row["institution"]);
-        $this->__addElement("Street", $row["street"]);
-        $this->__addElement("City", $row["city"]);
-        $this->__addElement("PostalCode", $row["zipcode"], null, "zipcode");
-        $this->__addElement("Country", $row["country"]);
-        $this->__addElement("SelCountry", $row["sel_country"], null, "sel_country");
-        $this->__addElement("PhoneOffice", $row["phone_office"], null, "phone_office");
-        $this->__addElement("PhoneHome", $row["phone_home"], null, "phone_home");
-        $this->__addElement("PhoneMobile", $row["phone_mobile"], null, "phone_mobile");
-        $this->__addElement("Fax", $row["fax"]);
-        $this->__addElement("Hobby", $row["hobby"]);
+        $this->__addElement('Gender', $row['gender']);
+        $this->__addElement('Email', $row['email']);
+        $this->__addElement('SecondEmail', $row['second_email'], null, 'second_email');
+        $this->__addElement('Birthday', $row['birthday']);
+        $this->__addElement('Institution', $row['institution']);
+        $this->__addElement('Street', $row['street']);
+        $this->__addElement('City', $row['city']);
+        $this->__addElement('PostalCode', $row['zipcode'], null, 'zipcode');
+        $this->__addElement('Country', $row['country']);
+        $this->__addElement('SelCountry', $row['sel_country'], null, 'sel_country');
+        $this->__addElement('PhoneOffice', $row['phone_office'], null, 'phone_office');
+        $this->__addElement('PhoneHome', $row['phone_home'], null, 'phone_home');
+        $this->__addElement('PhoneMobile', $row['phone_mobile'], null, 'phone_mobile');
+        $this->__addElement('Fax', $row['fax']);
+        $this->__addElement('Hobby', $row['hobby']);
 
-        $this->__addElementMulti("GeneralInterest", $row["interests_general"] ?? [], null, "interests_general");
-        $this->__addElementMulti("OfferingHelp", $row["interests_help_offered"] ?? [], null, "interests_help_offered");
-        $this->__addElementMulti("LookingForHelp", $row["interests_help_looking"] ?? [], null, "interests_help_looking");
+        $this->__addElementMulti('GeneralInterest', $row['interests_general'] ?? [], null, 'interests_general');
+        $this->__addElementMulti('OfferingHelp', $row['interests_help_offered'] ?? [], null, 'interests_help_offered');
+        $this->__addElementMulti('LookingForHelp', $row['interests_help_looking'] ?? [], null, 'interests_help_looking');
 
-        $this->__addElement("Department", $row["department"]);
-        $this->__addElement("Comment", $row["referral_comment"], null, "referral_comment");
-        $this->__addElement("Matriculation", $row["matriculation"]);
-        $this->__addElement("Active", $row["active"] ? "true" : "false");
-        $this->__addElement("ClientIP", $row["client_ip"], null, "client_ip");
-        $this->__addElement("TimeLimitOwner", $row["time_limit_owner"], null, "time_limit_owner");
-        $this->__addElement("TimeLimitUnlimited", $row["time_limit_unlimited"], null, "time_limit_unlimited");
-        $this->__addElement("TimeLimitFrom", $row["time_limit_from"], null, "time_limit_from");
-        $this->__addElement("TimeLimitUntil", $row["time_limit_until"], null, "time_limit_until");
-        $this->__addElement("TimeLimitMessage", $row["time_limit_message"], null, "time_limit_message");
-        $this->__addElement("ApproveDate", $row["approve_date"], null, "approve_date");
-        $this->__addElement("AgreeDate", $row["agree_date"], null, "agree_date");
+        $this->__addElement('Department', $row['department']);
+        $this->__addElement('Comment', $row['referral_comment'], null, 'referral_comment');
+        $this->__addElement('Matriculation', $row['matriculation']);
+        $this->__addElement('Active', $row['active'] ? 'true' : 'false');
+        $this->__addElement('ClientIP', $row['client_ip'], null, 'client_ip');
+        $this->__addElement('TimeLimitOwner', $row['time_limit_owner'], null, 'time_limit_owner');
+        $this->__addElement('TimeLimitUnlimited', $row['time_limit_unlimited'], null, 'time_limit_unlimited');
+        $this->__addElement('TimeLimitFrom', $row['time_limit_from'], null, 'time_limit_from');
+        $this->__addElement('TimeLimitUntil', $row['time_limit_until'], null, 'time_limit_until');
+        $this->__addElement('TimeLimitMessage', $row['time_limit_message'], null, 'time_limit_message');
+        $this->__addElement('ApproveDate', $row['approve_date'], null, 'approve_date');
+        $this->__addElement('AgreeDate', $row['agree_date'], null, 'agree_date');
 
-        if (strlen($row["auth_mode"]) > 0) {
-            $this->__addElement("AuthMode", null, array("type" => $row["auth_mode"]), "auth_mode", true);
+        if (strlen($row['auth_mode']) > 0) {
+            $this->__addElement('AuthMode', null, ['type' => $row['auth_mode']], 'auth_mode', true);
         }
 
-        if (strlen($row["ext_account"]) > 0) {
-            $this->__addElement("ExternalAccount", $row["ext_account"], null, "ext_account", true);
+        if (strlen($row['ext_account']) > 0) {
+            $this->__addElement('ExternalAccount', $row['ext_account'], null, 'ext_account', true);
         }
 
         if (isset($prefs['skin'])
@@ -230,22 +229,22 @@ class ilUserXMLWriter extends ilXmlWriter
         }
 
 
-        $this->__addElement("LastUpdate", $row["last_update"], null, "last_update");
-        $this->__addElement("LastLogin", $row["last_login"], null, "last_login");
+        $this->__addElement('LastUpdate', $row['last_update'], null, 'last_update');
+        $this->__addElement('LastLogin', $row['last_login'], null, 'last_login');
 
         $udf_data = new ilUserDefinedData($row['usr_id']);
         $udf_data->addToXML($this);
 
-        $this->__addElement("AccountInfo", $row["ext_account"], array("Type" => "external"));
+        $this->__addElement('AccountInfo', $row['ext_account'], ['Type' => 'external']);
 
-        $this->__addElement("GMapsInfo", null, array(
-            "longitude" => $row["longitude"],
-            "latitude" => $row["latitude"],
-            "zoom" => $row["loc_zoom"]));
+        $this->__addElement('GMapsInfo', null, [
+            'longitude' => $row['longitude'],
+            'latitude' => $row['latitude'],
+            'zoom' => $row['loc_zoom']]);
 
-        $this->__addElement("Feedhash", $row["feed_hash"]);
+        $this->__addElement('Feedhash', $row['feed_hash']);
 
-        if ($this->attachPreferences || $this->canExport("prefs", "preferences")) {
+        if ($this->attach_preferences || $this->canExport('prefs', 'preferences')) {
             $this->__handlePreferences($prefs, $row);
         }
 
@@ -256,18 +255,18 @@ class ilUserXMLWriter extends ilXmlWriter
     private function __handlePreferences(array $prefs, array $row): void // Missing array type.
     {
         //todo nadia: test mail_address_option
-        $mailOptions = new ilMailOptions($row["usr_id"]);
-        $prefs["mail_incoming_type"] = $mailOptions->getIncomingType();
-        $prefs["mail_address_option"] = $mailOptions->getEmailAddressMode();
-        $prefs["mail_signature"] = $mailOptions->getSignature();
-        if (count($prefs)) {
-            $this->xmlStartTag("Prefs");
+        $mailOptions = new ilMailOptions($row['usr_id']);
+        $prefs['mail_incoming_type'] = $mailOptions->getIncomingType();
+        $prefs['mail_address_option'] = $mailOptions->getEmailAddressMode();
+        $prefs['mail_signature'] = $mailOptions->getSignature();
+        if ($prefs !== []) {
+            $this->xmlStartTag('Prefs');
             foreach ($prefs as $key => $value) {
                 if (self::isPrefExportable($key)) {
-                    $this->xmlElement("Pref", array("key" => $key), $value);
+                    $this->xmlElement('Pref', ['key' => $key], $value);
                 }
             }
-            $this->xmlEndTag("Prefs");
+            $this->xmlEndTag('Prefs');
         }
     }
 
@@ -278,10 +277,8 @@ class ilUserXMLWriter extends ilXmlWriter
         ?string $settingsname = null,
         bool $requiredTag = false
     ): void {
-        if (is_array($value) && count($value)) {
-            foreach ($value as $item) {
-                $this->__addElement($tagname, $item, $attrs, $settingsname, $requiredTag);
-            }
+        foreach ($value as $item) {
+            $this->__addElement($tagname, $item, $attrs, $settingsname, $requiredTag);
         }
     }
 
@@ -292,10 +289,11 @@ class ilUserXMLWriter extends ilXmlWriter
         ?string $settingsname = null,
         bool $requiredTag = false
     ): void {
-        if ($this->canExport($tagname, $settingsname)) {
-            if (strlen($value) > 0 || $requiredTag || (is_array($attrs) && count($attrs) > 0)) {
-                $this->xmlElement($tagname, $attrs, (string) $value);
-            }
+        if ($this->canExport($tagname, $settingsname)
+            && ($value !== null
+                || $requiredTag
+                || is_array($attrs) && count($attrs) > 0)) {
+            $this->xmlElement($tagname, $attrs, (string) $value);
         }
     }
 
@@ -303,9 +301,9 @@ class ilUserXMLWriter extends ilXmlWriter
         string $tagname,
         ?string $settingsname = null
     ): bool {
-        return !is_array($this->settings) ||
-               in_array(strtolower($tagname), $this->settings) !== false ||
-               in_array($settingsname, $this->settings) !== false;
+        return $this->settings === []
+            || in_array(strtolower($tagname), $this->settings) !== false
+            || in_array($settingsname, $this->settings) !== false;
     }
 
     public function setSettings(array $settings): void // Missing array type.
@@ -319,36 +317,33 @@ class ilUserXMLWriter extends ilXmlWriter
      */
     private function getPictureValue(int $usr_id): ?array
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
         // personal picture
         $q = sprintf(
-            "SELECT value FROM usr_pref WHERE usr_id = %s AND keyword = %s",
-            $ilDB->quote($usr_id, "integer"),
-            $ilDB->quote('profile_image', "text")
+            'SELECT value FROM usr_pref WHERE usr_id = %s AND keyword = %s',
+            $this->db->quote($usr_id, 'integer'),
+            $this->db->quote('profile_image', 'text')
         );
-        $r = $ilDB->query($q);
-        if ($ilDB->numRows($r) == 1) {
+        $r = $this->db->query($q);
+        if ($this->db->numRows($r) == 1) {
             $personal_picture_data = $r->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
-            $personal_picture = $personal_picture_data["value"];
+            $personal_picture = $personal_picture_data['value'];
             $webspace_dir = ilFileUtils::getWebspaceDir();
-            $image_file = $webspace_dir . "/usr_images/" . $personal_picture;
+            $image_file = $webspace_dir . '/usr_images/' . $personal_picture;
             if (is_file($image_file)) {
-                $fh = fopen($image_file, "rb");
+                $fh = fopen($image_file, 'rb');
                 if ($fh) {
                     $image_data = fread($fh, filesize($image_file));
                     fclose($fh);
                     $base64 = base64_encode($image_data);
-                    $imagetype = "image/jpeg";
-                    if (preg_match("/.*\.(png|gif)$/", $personal_picture, $matches)) {
-                        $imagetype = "image/" . $matches[1];
+                    $imagetype = 'image/jpeg';
+                    if (preg_match('/.*\.(png|gif)$/', $personal_picture, $matches)) {
+                        $imagetype = 'image/' . $matches[1];
                     }
-                    return array(
-                        "value" => $base64,
-                        "encoding" => "Base64",
-                        "imagetype" => $imagetype
-                    );
+                    return [
+                        'value' => $base64,
+                        'encoding' => 'Base64',
+                        'imagetype' => $imagetype
+                    ];
                 }
             }
         }
@@ -359,9 +354,9 @@ class ilUserXMLWriter extends ilXmlWriter
     /**
      * if set to true, all preferences of a user will be set
      */
-    public function setAttachPreferences(bool $attachPrefs): void
+    public function setAttachPreferences(bool $attach_preferences): void
     {
-        $this->attachPreferences = $attachPrefs;
+        $this->attach_preferences = $attach_preferences;
     }
 
     /**
@@ -369,7 +364,7 @@ class ilUserXMLWriter extends ilXmlWriter
      */
     public static function getExportablePreferences(): array // Missing array type.
     {
-        return array(
+        return [
                 'hits_per_page',
                 'public_city',
                 'public_country',
@@ -402,7 +397,7 @@ class ilUserXMLWriter extends ilXmlWriter
                 'public_interests_general',
                 'public_interests_help_offered',
                 'public_interests_help_looking'
-        );
+        ];
     }
 
     /**

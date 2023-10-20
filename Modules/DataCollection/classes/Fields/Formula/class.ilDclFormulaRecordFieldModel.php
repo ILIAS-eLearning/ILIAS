@@ -18,6 +18,9 @@
 
 declare(strict_types=1);
 
+use ILIAS\Modules\DataCollection\Fields\Formula\FormulaParser\ExpressionParser;
+use ILIAS\Modules\DataCollection\Fields\Formula\FormulaParser\Substitution\FieldSubstitution;
+
 class ilDclFormulaRecordFieldModel extends ilDclBaseRecordFieldModel
 {
     protected string $expression = '';
@@ -98,7 +101,18 @@ class ilDclFormulaRecordFieldModel extends ilDclBaseRecordFieldModel
     protected function parse(): string
     {
         if (!$this->parsed_value && $this->expression) {
-            $parser = new ilDclExpressionParser($this->expression, $this->getRecord(), $this->getField());
+            $substitution = new FieldSubstitution(
+                $this->getRecord(),
+                $this->getField()
+            );
+
+            $parser = new ExpressionParser(
+                $this->expression,
+                $substitution
+            );
+
+
+            //$parser = new ilDclExpressionParser($this->expression, $this->getRecord(), $this->getField());
             try {
                 $this->parsed_value = $parser->parse();
             } catch (ilException $e) {

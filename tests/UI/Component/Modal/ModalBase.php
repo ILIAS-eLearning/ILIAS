@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 require_once(__DIR__ . "/../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../Base.php");
@@ -57,9 +57,9 @@ abstract class ModalBase extends ILIAS_UI_TestBase
         $factory_mock->method('group')->willReturn($group_mock);
 
         return new I\Component\Modal\Factory(
-            new SignalGeneratorMock(), 
+            new SignalGeneratorMock(),
             $this->createMock(C\Modal\InterruptiveItem\Factory::class),
-            $factory_mock,
+            $factory_mock
         );
     }
 

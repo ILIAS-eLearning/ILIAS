@@ -167,21 +167,10 @@ class ilTagInputGUI extends ilSubEnabledFormPropertyGUI
     public function checkInput(): bool
     {
         $lng = $this->lng;
-
         $valid = true;
-        if (array_key_exists($this->getPostVar(), $_POST)) {
-            foreach ($_POST[$this->getPostVar()] as $idx => $value) {
-                $_POST[$this->getPostVar()][$idx] = ilUtil::stripSlashes($value);
-            }
-            $_POST[$this->getPostVar()] = array_unique($_POST[$this->getPostVar()]);
 
-            if ($this->getRequired() && !trim(implode("", $_POST[$this->getPostVar()]))) {
-                $valid = false;
-            }
-        } elseif ($this->getRequired()) {
-            $valid = false;
-        }
-        if (!$valid) {
+        $values = array_filter($this->strArray($this->getPostVar()));
+        if($values === [] && $this->getRequired()) {
             $this->setAlert($lng->txt("msg_input_is_required"));
             return false;
         }

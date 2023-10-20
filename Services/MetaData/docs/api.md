@@ -6,7 +6,8 @@ or contribute a fix via [Pull Request](../../../docs/development/contributing.md
 
 `Services\Metadata` offers an API with which the [Learning Object Metadata
 (LOM)](lom_structure.md) of ILIAS objects can be read out, processed,
-and manipulated. It can be obtained from the `DIC` via the method `lom`.
+and manipulated. It can be obtained from the `DIC` via the method
+`learningObjectMetadata`.
 
 The API offers four different sub-services. In the following, we will
 explain what they offer and how they can be used.

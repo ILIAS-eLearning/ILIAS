@@ -24,6 +24,8 @@ class ilExerciseMailNotification extends ilMailNotification
     public const TYPE_FEEDBACK_FILE_ADDED = 20;
     public const TYPE_SUBMISSION_UPLOAD = 30;
     public const TYPE_FEEDBACK_TEXT_ADDED = 40;
+    public const TYPE_GRADING_DONE = 70;
+    protected \ILIAS\Exercise\InternalDomainService $domain;
 
     protected ilObjUser $user;
     protected int $ass_id;
@@ -33,6 +35,7 @@ class ilExerciseMailNotification extends ilMailNotification
         global $DIC;
 
         $this->user = $DIC->user();
+        $this->domain = $DIC->exercise()->internal()->domain();
         parent::__construct();
     }
 
@@ -44,6 +47,23 @@ class ilExerciseMailNotification extends ilMailNotification
     public function getAssignmentId(): int
     {
         return $this->ass_id;
+    }
+
+    protected function addOpenSubmission(): void
+    {
+        $ass = new ilExAssignment($this->getAssignmentId());
+        $types = ilExAssignmentTypes::getInstance();
+        $type = $types->getById($ass->getType());
+        if ($type->supportsWebDirAccess()) {
+            $submission = new ilExSubmission($ass, $this->user->getId());
+            if ($submission->hasSubmittedPrintVersion()) {
+                $this->appendBody("\n\n");
+                $this->appendBody(sprintf(
+                    $this->getLanguageText('exc_submission_open_notification_link'),
+                    $this->createPermanentLink(array(), "_" . $this->getAssignmentId() . "_" . $this->user->getId() . "_opensubmission")
+                ));
+            }
+        }
     }
 
     public function send(): bool
@@ -141,6 +161,7 @@ class ilExerciseMailNotification extends ilMailNotification
                         //		$this->getLanguageText("exc_submission_no_new_files")));
                         //}
                     }
+                    $this->addOpenSubmission();
 
                     $this->appendBody("\n\n");
                     $this->appendBody(sprintf(
@@ -169,6 +190,45 @@ class ilExerciseMailNotification extends ilMailNotification
                     $this->appendBody("\n\n");
                     $this->appendBody(
                         $this->getLanguageText('exc_msg_new_feedback_text_uploaded2')
+                    );
+                    $this->appendBody("\n");
+                    $this->appendBody(
+                        $this->getLanguageText('obj_exc') . ": " . $this->getObjectTitle(true)
+                    );
+                    $this->appendBody("\n");
+                    $this->appendBody(
+                        $this->getLanguageText('exc_assignment') . ": " .
+                        ilExAssignment::lookupTitle($this->getAssignmentId())
+                    );
+                    $this->appendBody("\n\n");
+                    $this->appendBody($this->getLanguageText('exc_mail_permanent_link'));
+                    $this->appendBody("\n");
+                    $this->appendBody($this->createPermanentLink(array(), '_' . $this->getAssignmentId()) .
+                        '#fb' . $this->getAssignmentId());
+                    $this->getMail()->appendInstallationSignature(true);
+
+                    $this->sendMail(array($rcp));
+                }
+                break;
+
+            case self::TYPE_GRADING_DONE:
+
+                foreach ($this->getRecipients() as $rcp) {
+                    $this->initLanguage($rcp);
+                    $this->initMail();
+                    $this->setSubject(
+                        sprintf(
+                            $this->getLanguageText('exc_msg_grading_done'),
+                            $this->getObjectTitle(true)
+                        )
+                    );
+                    $this->setBody(ilMail::getSalutation($rcp, $this->getLanguage()));
+                    $this->appendBody("\n\n");
+                    $this->appendBody(
+                        sprintf(
+                            $this->getLanguageText('exc_msg_grading_done_body'),
+                            $this->getObjectTitle(false)
+                        )
                     );
                     $this->appendBody("\n");
                     $this->appendBody(

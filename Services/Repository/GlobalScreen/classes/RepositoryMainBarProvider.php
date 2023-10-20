@@ -84,7 +84,7 @@ class RepositoryMainBarProvider extends AbstractStaticMainMenuProvider
             ->withPosition(10);
 
         // Tree-View
-        $title = $this->dic->language()->txt("mm_rep_tree_view");
+        $title = $this->dic->language()->txt("mm_repo_tree_view");
 
         $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(ilUtil::getImagePath("standard/icon_reptr.svg"), $title);
 
@@ -127,13 +127,13 @@ class RepositoryMainBarProvider extends AbstractStaticMainMenuProvider
                                     ->withTitle($title)
                                     ->withSymbol($icon)
                                     ->withContentWrapper(
-                                        static fn (): Legacy =>
+                                        static fn(): Legacy =>
                                             $f->legacy((new ilFavouritesListGUI())->render())
                                     )
                                     ->withParent(StandardTopItemsProvider::getInstance()->getPersonalWorkspaceIdentification())
                                     ->withPosition(10)
                                     ->withAvailableCallable(
-                                        static fn (): bool =>
+                                        static fn(): bool =>
                                             (bool) $dic->settings()->get('rep_favourites', "0")
                                     )
                                     ->withVisibilityCallable(

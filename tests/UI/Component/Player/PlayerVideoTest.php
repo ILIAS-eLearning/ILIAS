@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 require_once(__DIR__ . "/../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../Base.php");
@@ -62,7 +62,7 @@ class PlayerVideoTest extends ILIAS_UI_TestBase
         return new I\Component\Player\Factory();
     }
 
-    public function test_implements_factory_interface(): void
+    public function testImplementsFactoryInterface(): void
     {
         $f = $this->getFactory();
 
@@ -71,7 +71,7 @@ class PlayerVideoTest extends ILIAS_UI_TestBase
         $this->assertInstanceOf("ILIAS\\UI\\Component\\Player\\Video", $video);
     }
 
-    public function test_get_title_get_source(): void
+    public function testGetTitleGetSource(): void
     {
         $f = $this->getFactory();
 
@@ -80,7 +80,7 @@ class PlayerVideoTest extends ILIAS_UI_TestBase
         $this->assertEquals("/foo", $video->getSource());
     }
 
-    public function test_get_title_get_poster(): void
+    public function testGetTitleGetPoster(): void
     {
         $f = $this->getFactory();
 
@@ -89,7 +89,7 @@ class PlayerVideoTest extends ILIAS_UI_TestBase
         $this->assertEquals("bar.jpg", $video->getPoster());
     }
 
-    public function test_get_title_get_subtitle_file(): void
+    public function testGetTitleGetSubtitleFile(): void
     {
         $f = $this->getFactory();
 
@@ -98,7 +98,7 @@ class PlayerVideoTest extends ILIAS_UI_TestBase
         $this->assertEquals(["en" => "subtitles.vtt"], $video->getSubtitleFiles());
     }
 
-    public function test_render_video(): void
+    public function testRenderVideo(): void
     {
         $f = $this->getFactory();
         $r = $this->getDefaultRenderer();
@@ -118,7 +118,7 @@ EOT;
         );
     }
 
-    public function test_render_with_poster(): void
+    public function testRenderWithPoster(): void
     {
         $f = $this->getFactory();
         $r = $this->getDefaultRenderer();
@@ -139,7 +139,7 @@ EOT;
         );
     }
 
-    public function test_render_with_subtitles(): void
+    public function testRenderWithSubtitles(): void
     {
         $f = $this->getFactory();
         $r = $this->getDefaultRenderer();

@@ -231,13 +231,7 @@ class Container extends \Pimple\Container
 
     public function object(): \ilObjectService
     {
-        return new \ilObjectService(
-            $this->database(),
-            $this->language(),
-            $this->filesystem()->web(),
-            $this->upload(),
-            $this['object.customicons.factory']
-        );
+        return new \ilObjectService();
     }
 
     public function exercise(): \ILIAS\Exercise\Service
@@ -472,6 +466,11 @@ class Container extends \Pimple\Container
     public function fileDelivery(): \ILIAS\FileDelivery\Services
     {
         return $this['file_delivery'];
+    }
+
+    public function learningObjectMetadata(): \ILIAS\MetaData\Services\ServicesInterface
+    {
+        return new \ILIAS\MetaData\Services\Services($this);
     }
 
     /**

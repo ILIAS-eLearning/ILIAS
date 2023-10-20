@@ -148,8 +148,25 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
         }
     }
 
+    protected function addFileObjectsSubTabs(): void
+    {
+        $this->tabs_gui->addSubTabTarget(
+            "settings",
+            $this->ctrl->getLinkTarget($this, self::CMD_EDIT_SETTINGS),
+            array(self::CMD_EDIT_SETTINGS, "view")
+        );
+        $this->tabs_gui->addSubTabTarget(
+            self::SUBTAB_SUFFIX_SPECIFIC_ICONS,
+            $this->ctrl->getLinkTargetByClass(ilObjFileIconsOverviewGUI::class, ilObjFileIconsOverviewGUI::CMD_INDEX),
+            array(ilObjFileIconsOverviewGUI::CMD_INDEX, "view")
+        );
+    }
+
+
     protected function editSettings(): void
     {
+        $this->addFileObjectsSubTabs();
+        $this->tabs_gui->setSubTabActive("settings");
         $form = $this->buildForm();
         $this->tpl->setContent($this->ui_renderer->render($this->buildForm()));
     }

@@ -95,6 +95,8 @@ interface ilDBInterface
     public function fetchObject(ilDBStatement $query_result): ?stdClass;
 
     /**
+     * @description $where MUST contain existing columns only. statements like [1 => ['integer', 1]] will not work, use a full query and @see manipulate() instead in that case.
+     *
      * @return int The number of rows affected by the manipulation
      */
     public function update(string $table_name, array $values, array $where): int;
@@ -317,5 +319,5 @@ interface ilDBInterface
 
     public function buildIntegrityAnalyser(): Integrity;
 
-    public function primaryExistsByFields(string $table_name, array $fields) : bool;
+    public function primaryExistsByFields(string $table_name, array $fields): bool;
 }

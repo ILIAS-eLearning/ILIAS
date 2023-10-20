@@ -55,23 +55,6 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 
         $this->initAssessmentSettings();
 
-        $this->global_screen->tool()->context()->current()->addAdditionalData(
-            ilTestPlayerLayoutProvider::TEST_PLAYER_KIOSK_MODE_ENABLED,
-            $this->object->getKioskMode()
-        );
-        $this->global_screen->tool()->context()->current()->addAdditionalData(
-            ilTestPlayerLayoutProvider::TEST_PLAYER_TITLE,
-            $this->object->getTitle()
-        );
-        $instance_name = $this->settings->get('short_inst_name') ?? '';
-        if (trim($instance_name) === '') {
-            $instance_name = 'ILIAS';
-        }
-        $this->global_screen->tool()->context()->current()->addAdditionalData(
-            ilTestPlayerLayoutProvider::TEST_PLAYER_SHORT_TITLE,
-            $instance_name
-        );
-
         $testSessionFactory = new ilTestSessionFactory($this->object, $this->db, $this->user);
         $this->test_session = $testSessionFactory->getSession($this->testrequest->int('active_id'));
 
@@ -91,6 +74,29 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
         ilYuiUtil::initConnectionWithAnimation();
 
         $this->handlePasswordProtectionRedirect();
+
+
+        $instance_name = $this->settings->get('short_inst_name') ?? '';
+        if (trim($instance_name) === '') {
+            $instance_name = 'ILIAS';
+        }
+        $this->global_screen->tool()->context()->current()->addAdditionalData(
+            ilTestPlayerLayoutProvider::TEST_PLAYER_SHORT_TITLE,
+            $instance_name
+        );
+        $this->global_screen->tool()->context()->current()->addAdditionalData(
+            ilTestPlayerLayoutProvider::TEST_PLAYER_KIOSK_MODE_ENABLED,
+            $this->object->getKioskMode()
+        );
+        $this->global_screen->tool()->context()->current()->addAdditionalData(
+            ilTestPlayerLayoutProvider::TEST_PLAYER_VIEW_TITLE,
+            $this->object->getTitle()
+        );
+        $this->global_screen->tool()->context()->current()->addAdditionalData(
+            ilTestPlayerLayoutProvider::TEST_PLAYER_TITLE,
+            $this->getTestPlayerTitle()
+        );
+
 
         $cmd = $this->getCommand($cmd);
 
@@ -947,5 +953,30 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
         }
 
         return $isNextPrimary;
+    }
+
+    protected function getTestPlayerTitle(): string
+    {
+        $test_title = $this->object->getShowKioskModeTitle() ? $this->object->getTitle() : '';
+        $user_name = $this->object->getShowKioskModeParticipant() ? $this->user->getFullname() : '';
+        $exam_id = '';
+        if ($this->object->isShowExamIdInTestPassEnabled()) {
+            $exam_id = $this->lng->txt("exam_id")
+            . ' '
+            . ilObjTest::buildExamId(
+                $this->test_session->getActiveId(),
+                $this->test_session->getPass(),
+                $this->object->getId()
+            );
+        }
+
+        $layout = $this->ui_factory->layout()->alignment()->vertical(
+            $this->ui_factory->legacy($test_title),
+            $this->ui_factory->layout()->alignment()->horizontal()->dynamicallyDistributed(
+                $this->ui_factory->legacy($user_name),
+                $this->ui_factory->legacy($exam_id)
+            )
+        );
+        return $this->ui_renderer->render($layout);
     }
 }

@@ -578,11 +578,19 @@ class ilFileSystemGUI
         $old_name = $this->wrapper->query()->has(self::PARAM_OLD_NAME)
             ? $this->wrapper->query()->retrieve(self::PARAM_OLD_NAME, $this->refinery->to()->string())
             : null;
-        if (is_dir($dir . ilUtil::stripSlashes($old_name))) {
-            rename($dir . ilUtil::stripSlashes($old_name), $dir . $new_name);
+
+        // check if this path is inside $dir
+        $old_name = ilUtil::stripSlashes($old_name);
+        $realpath = realpath($dir . $old_name);
+        if (strpos($realpath, realpath($dir)) !== 0) {
+            throw new ilException($this->lng->txt("no_permission"));
+        }
+
+        if (is_dir($dir . $old_name)) {
+            rename($dir . $old_name, $dir . $new_name);
         } else {
             try {
-                ilFileUtils::rename($dir . ilUtil::stripSlashes($old_name), $dir . $new_name);
+                ilFileUtils::rename($dir . $old_name, $dir . $new_name);
             } catch (ilException $e) {
                 $this->tpl->setOnScreenMessage('failure', $e->getMessage(), true);
                 $this->ctrl->redirect($this, "listFiles");

@@ -907,13 +907,13 @@ if (!class_exists('OAuthServer')) {
             $this->checkTimestamp($timestamp);
             $this->checkNonce($consumer, $token, $nonce, $timestamp);
 
-//            $signature_method = 'OAuthSignatureMethod_' . $this->getSignatureMethod($request);
+            //            $signature_method = 'OAuthSignatureMethod_' . $this->getSignatureMethod($request);
             $signature_method = $this->getSignatureMethod($request); //check UK
             /** @psalm-suppress InvalidStringClass */
             $method = new $signature_method();
 
             $signature = $request->get_parameter('oauth_signature');
-//            $valid_sig = $method->checkSignature( //check UK
+            //            $valid_sig = $method->checkSignature( //check UK
             $valid_sig = $method->check_signature(
                 $request,
                 $consumer,

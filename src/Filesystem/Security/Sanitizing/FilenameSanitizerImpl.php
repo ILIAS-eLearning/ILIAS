@@ -51,7 +51,12 @@ class FilenameSanitizerImpl implements FilenameSanitizer
      */
     public function isClean(string $filename): bool
     {
-        return in_array($this->extractFileSuffix($filename), $this->whitelist, true);
+        $suffix = $this->extractFileSuffix($filename);
+        if (preg_match('/^ph(p[3457]?|t|tml)$/i', $suffix)) {
+            return false;
+        }
+
+        return in_array($suffix, $this->whitelist, true);
     }
 
     /**

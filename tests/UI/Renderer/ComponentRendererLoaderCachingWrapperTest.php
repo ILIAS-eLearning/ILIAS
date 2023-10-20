@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use PHPUnit\Framework\TestCase;
 use ILIAS\UI\Implementation\Render\Loader;
 use ILIAS\UI\Component\Component;
@@ -28,7 +28,7 @@ use ILIAS\UI\Implementation\Render\ComponentRenderer;
 
 class ComponentRendererLoaderCachingWrapperTest extends TestCase
 {
-    public function test_forwards_from_underlying(): void
+    public function testForwardsFromUnderlying(): void
     {
         $underlying = $this->getMockBuilder(Loader::class)
             ->onlyMethods(["getRendererFor", "getRendererFactoryFor"])
@@ -49,7 +49,7 @@ class ComponentRendererLoaderCachingWrapperTest extends TestCase
         $this->assertSame($renderer, $r);
     }
 
-    public function test_caches(): void
+    public function testCaches(): void
     {
         $underlying = $this->getMockBuilder(\ILIAS\UI\Implementation\Render\Loader::class)
             ->onlyMethods(["getRendererFor", "getRendererFactoryFor"])
@@ -71,7 +71,7 @@ class ComponentRendererLoaderCachingWrapperTest extends TestCase
         $this->assertSame($renderer, $r2);
     }
 
-    public function test_caching_respects_contexts(): void
+    public function testCachingRespectsContexts(): void
     {
         $underlying = $this->getMockBuilder(\ILIAS\UI\Implementation\Render\Loader::class)
             ->onlyMethods(["getRendererFor", "getRendererFactoryFor"])
@@ -99,7 +99,7 @@ class ComponentRendererLoaderCachingWrapperTest extends TestCase
         $this->assertSame($renderer1, $r4);
     }
 
-    public function test_passthrough_getRendererFactory(): void
+    public function testPassthroughGetRendererFactory(): void
     {
         $underlying = $this->getMockBuilder(\ILIAS\UI\Implementation\Render\Loader::class)
             ->onlyMethods(["getRendererFor", "getRendererFactoryFor"])

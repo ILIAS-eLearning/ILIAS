@@ -24,6 +24,7 @@ use ILIAS\ResourceStorage\Flavour\Flavour;
 use ILIAS\ResourceStorage\Revision\Revision;
 use ILIAS\FileDelivery\Services;
 use ILIAS\FileDelivery\Delivery\Disposition;
+use ILIAS\Filesystem\Stream\FileStream;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
@@ -48,10 +49,7 @@ class InlineSrcBuilder implements SrcBuilder
         if ($sream_resolver !== null) {
             $stream = $sream_resolver->getStream();
             if($sream_resolver->isInMemory()) {
-                $base64 = base64_encode((string)$stream);
-                $mime = $stream->getMimeType();
-
-                return "data:$mime;base64,$base64";
+                return $this->buildDataURLFromStream($stream);
             }
 
             $this->file_delivery->buildTokenURL(
@@ -72,11 +70,16 @@ class InlineSrcBuilder implements SrcBuilder
         if ($signed) {
             throw new \RuntimeException('InlineSrcBuilder does not support signed URLs');
         }
-        foreach ($flavour->getAccessTokens() as $token) {
-            $stream = $token->resolveStream();
-            $mime = $stream->getMimeType();
-            $base64 = base64_encode((string)$stream);
-            yield "data:$mime;base64,$base64";
+        foreach ($flavour->getStreamResolvers() as $stream_resolver) {
+            $stream = $stream_resolver->getStream();
+            yield $this->buildDataURLFromStream($stream);
         }
+    }
+
+    public function buildDataURLFromStream(FileStream $stream): string
+    {
+        $mime_type = mime_content_type($stream->getMetadata()['uri']) ?: 'application/octet-stream';
+        $base64 = base64_encode((string) $stream);
+        return "data:$mime_type;base64,$base64";
     }
 }

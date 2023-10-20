@@ -34,7 +34,7 @@ class PanelListingTest extends ILIAS_UI_TestBase
         return new I\Component\Panel\Listing\Factory();
     }
 
-    public function test_implements_factory_interface(): void
+    public function testImplementsFactoryInterface(): void
     {
         $f = $this->getFactory();
 
@@ -51,7 +51,7 @@ class PanelListingTest extends ILIAS_UI_TestBase
         $this->assertInstanceOf("ILIAS\\UI\\Component\\Panel\\Listing\\Standard", $std_list);
     }
 
-    public function test_get_title_get_groups(): void
+    public function testGetTitleGetGroups(): void
     {
         $f = $this->getFactory();
 
@@ -71,7 +71,7 @@ class PanelListingTest extends ILIAS_UI_TestBase
         $this->assertEquals($groups, $c->getItemGroups());
     }
 
-    public function test_with_actions(): void
+    public function testWithActions(): void
     {
         $f = $this->getFactory();
 
@@ -88,7 +88,7 @@ class PanelListingTest extends ILIAS_UI_TestBase
         $this->assertEquals($actions, $c->getActions());
     }
 
-    public function test_render_base(): void
+    public function testRenderBase(): void
     {
         $f = $this->getFactory();
         $r = $this->getDefaultRenderer();
@@ -148,7 +148,7 @@ EOT;
         );
     }
 
-    public function test_render_with_actions(): void
+    public function testRenderWithActions(): void
     {
         $f = $this->getFactory();
         $r = $this->getDefaultRenderer();

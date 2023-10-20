@@ -70,6 +70,15 @@ class AssignedMaterialManager implements \ilSkillUsageInfo
     }
 
     /**
+     * Get all assigned materials (for a skill and user)
+     * @return AssignedMaterial[]
+     */
+    public function getAllAssignedMaterialsForSkill(int $user_id, int $skill_id, int $tref_id): array
+    {
+        return $this->ass_mat_repo->getAll($user_id, $skill_id, $tref_id);
+    }
+
+    /**
      * Count assigned materials (for a skill level and user)
      */
     public function countAssignedMaterials(int $user_id, int $tref_id, int $level_id): int
@@ -82,9 +91,14 @@ class AssignedMaterialManager implements \ilSkillUsageInfo
         $this->ass_mat_repo->remove($user_id, $tref_id, $level_id, $wsp_id);
     }
 
-    public function removeAssignedMaterials(int $user_id): void
+    public function removeAssignedMaterialsForUser(int $user_id): void
     {
-        $this->ass_mat_repo->removeAll($user_id);
+        $this->ass_mat_repo->removeAllForUser($user_id);
+    }
+
+    public function removeAssignedMaterialsForSkill(int $skill_node_id, bool $is_reference = false): void
+    {
+        $this->ass_mat_repo->removeAllForSkill($skill_node_id, $is_reference);
     }
 
     /**
