@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Input\Field;
 
+use ILIAS\Data\DateFormat;
 use ILIAS\UI\Component;
 use ILIAS\UI\Implementation\Component\Input\Field as F;
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
@@ -37,6 +38,27 @@ use ILIAS\UI\Component\Input\Container\Filter\FilterInput;
  */
 class FilterContextRenderer extends AbstractComponentRenderer
 {
+    public const DATETIME_DATEPICKER_MINMAX_FORMAT = 'Y-m-d\Th:m';
+    public const DATE_DATEPICKER_MINMAX_FORMAT = 'Y-m-d';
+    public const TYPE_DATE = 'date';
+    public const TYPE_DATETIME = 'datetime-local';
+    public const TYPE_TIME = 'time';
+
+    public const DATEPICKER_FORMAT_MAPPING = [
+        'd' => 'DD',
+        'jS' => 'Do',
+        'l' => 'dddd',
+        'D' => 'dd',
+        'S' => 'o',
+        'i' => 'mm',
+        'W' => '',
+        'm' => 'MM',
+        'F' => 'MMMM',
+        'M' => 'MMM',
+        'Y' => 'YYYY',
+        'y' => 'YY'
+    ];
+
     /**
      * @inheritdoc
      */
@@ -52,6 +74,9 @@ class FilterContextRenderer extends AbstractComponentRenderer
         }
 
         switch (true) {
+            case ($component instanceof F\Duration):
+                return $this->renderDurationField($component, $default_renderer);
+
             case ($component instanceof F\Group):
                 return $this->renderFieldGroups($component, $default_renderer);
 
@@ -66,6 +91,9 @@ class FilterContextRenderer extends AbstractComponentRenderer
 
             case ($component instanceof F\MultiSelect):
                 return $this->renderMultiSelectField($component, $default_renderer);
+
+            case ($component instanceof F\DateTime):
+                return $this->renderDateTimeField($component, $default_renderer);
 
             default:
                 throw new LogicException("Cannot render '" . get_class($component) . "'");
@@ -115,7 +143,7 @@ class FilterContextRenderer extends AbstractComponentRenderer
         FilterInput $component,
         string $input_html,
         RendererInterface $default_renderer,
-        string $id_pointing_to_input = ''
+        string $id_pointing_to_input = ""
     ): string {
         $f = $this->getUIFactory();
         $tpl = $this->getTemplate("tpl.context_filter.html", true, true);
@@ -144,6 +172,27 @@ class FilterContextRenderer extends AbstractComponentRenderer
         $tpl->setCurrentBlock("addon_right");
         $tpl->setVariable("DELETE", $default_renderer->render($remove_glyph));
         $tpl->parseCurrentBlock();
+
+        return $tpl->get();
+    }
+
+    protected function wrapInPopoverContext(
+        FilterInput $component,
+        string $input_html,
+        string $id_pointing_to_input = ""
+    ): string {
+        $tpl = $this->getTemplate("tpl.context_filter_popover.html", true, true);
+
+        $tpl->setVariable("FILTER_INPUT", $input_html);
+
+        if ($id_pointing_to_input) {
+            $tpl->setCurrentBlock("for");
+            $tpl->setVariable("ID", $id_pointing_to_input);
+            $tpl->parseCurrentBlock();
+        }
+
+        $label = $component->getLabel();
+        $tpl->setVariable("LABEL", $label);
 
         return $tpl->get();
     }
@@ -288,6 +337,96 @@ class FilterContextRenderer extends AbstractComponentRenderer
         return $this->wrapInFilterContext($component, $tpl->get(), $default_renderer);
     }
 
+    protected function renderDateTimeField(F\DateTime $component, RendererInterface $default_renderer): string
+    {
+        $tpl = $this->getTemplate("tpl.datetime.html", true, true);
+        $this->applyName($component, $tpl);
+
+        if ($component->getTimeOnly() === true) {
+            $format = $component::TIME_FORMAT;
+            $dt_type = self::TYPE_TIME;
+        } else {
+            $dt_type = self::TYPE_DATE;
+            $format = $this->getTransformedDateFormat(
+                $component->getFormat(),
+                self::DATEPICKER_FORMAT_MAPPING
+            );
+
+            if ($component->getUseTime() === true) {
+                $format .= ' ' . $component::TIME_FORMAT;
+                $dt_type = self::TYPE_DATETIME;
+            }
+        }
+
+        $tpl->setVariable("DTTYPE", $dt_type);
+
+        $min_max_format = self::DATE_DATEPICKER_MINMAX_FORMAT;
+        if ($dt_type === self::TYPE_DATETIME) {
+            $min_max_format = self::DATETIME_DATEPICKER_MINMAX_FORMAT;
+        }
+
+        $min_date = $component->getMinValue();
+        if (!is_null($min_date)) {
+            $tpl->setVariable("MIN_DATE", date_format($min_date, $min_max_format));
+        }
+        $max_date = $component->getMaxValue();
+        if (!is_null($max_date)) {
+            $tpl->setVariable("MAX_DATE", date_format($max_date, $min_max_format));
+        }
+
+        $tpl->setVariable("PLACEHOLDER", $format);
+
+        $this->applyValue($component, $tpl, $this->escapeSpecialChars());
+        $id = $this->bindJSandApplyId($component, $tpl);
+
+        if ($component->isInPopoverView()) {
+            return $this->wrapInPopoverContext($component, $tpl->get(), $id);
+        } else {
+            return $this->wrapInFilterContext($component, $tpl->get(), $default_renderer, $id);
+        }
+    }
+
+    protected function renderDurationField(F\Duration $component, RendererInterface $default_renderer): string
+    {
+        $tpl = $this->getTemplate("tpl.duration.html", true, true);
+        $this->applyName($component, $tpl);
+
+        $id = $this->bindJSandApplyId($component, $tpl);
+
+        $input_html = "";
+        $inputs = $component->getInputs();
+        $input = array_shift($inputs); //from
+        $input_html .= $default_renderer->render($input->withPopoverView(true));
+        $input = array_shift($inputs)->withAdditionalPickerconfig([ //until
+                                                                    "useCurrent" => false
+        ]);
+        $input_html .= $default_renderer->render($input->withPopoverView(true));
+        $tpl->setVariable("DURATION", $input_html);
+
+        return $this->wrapInFilterContext($component, $tpl->get(), $default_renderer, $id);
+    }
+
+    /**
+     * Return the datetime format in a form fit for the JS-component of this input.
+     * Currently, this means transforming the elements of DateFormat to momentjs.
+     * http://eonasdan.github.io/bootstrap-datetimepicker/Options/#format
+     * http://momentjs.com/docs/#/displaying/format/
+     */
+    protected function getTransformedDateFormat(
+        DateFormat\DateFormat $origin,
+        array $mapping
+    ): string {
+        $ret = '';
+        foreach ($origin->toArray() as $element) {
+            if (array_key_exists($element, $mapping)) {
+                $ret .= $mapping[$element];
+            } else {
+                $ret .= $element;
+            }
+        }
+        return $ret;
+    }
+
     /**
      * @inheritdoc
      */
@@ -329,7 +468,9 @@ class FilterContextRenderer extends AbstractComponentRenderer
             Component\Input\Field\Numeric::class,
             Component\Input\Field\Group::class,
             Component\Input\Field\Select::class,
-            Component\Input\Field\MultiSelect::class
+            Component\Input\Field\MultiSelect::class,
+            Component\Input\Field\DateTime::class,
+            Component\Input\Field\Duration::class
         ];
     }
 }

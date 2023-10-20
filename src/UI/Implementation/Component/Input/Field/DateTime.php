@@ -33,7 +33,7 @@ use Closure;
 /**
  * This implements the date input.
  */
-class DateTime extends FormInput implements C\Input\Field\DateTime
+class DateTime extends FilterInput implements C\Input\Field\DateTime
 {
     use ComponentHelper;
     use JavaScriptBindable;
@@ -211,9 +211,17 @@ class DateTime extends FormInput implements C\Input\Field\DateTime
 
     public function getUpdateOnLoadCode(): Closure
     {
-        return fn($id) => "$('#$id').on('input dp.change', function(event) {
+        return fn($id) => "$('#$id').on('input', function(event) {
 				il.UI.input.onFieldUpdate(event, '$id', $('#$id').find('input').val());
 			});
 			il.UI.input.onFieldUpdate(event, '$id', $('#$id').find('input').val());";
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function isComplex(): bool
+    {
+        return false;
     }
 }

@@ -28,13 +28,12 @@ use Closure;
 /**
  * This implements the multi-select input.
  */
-class MultiSelect extends FormInput implements C\Input\Field\MultiSelect
+class MultiSelect extends FilterInput implements C\Input\Field\MultiSelect
 {
     /**
      * @var array <string,string> {$value => $label}
      */
     protected array $options = [];
-    private bool $complex = true;
 
     /**
      * @param array<string, string> $options
@@ -118,6 +117,6 @@ class MultiSelect extends FormInput implements C\Input\Field\MultiSelect
      */
     public function isComplex(): bool
     {
-        return $this->complex;
+        return true;
     }
 }
