@@ -24,10 +24,6 @@ declare(strict_types=1);
 class ilStudyProgrammeUserTableRow
 {
     protected PRGProgressId $id;
-    protected int $ass_id;
-    protected int $usr_id;
-    protected int $node_id;
-    protected bool $is_root_progress;
     protected int $status_raw;
     protected bool $active_raw;
 
@@ -55,13 +51,14 @@ class ilStudyProgrammeUserTableRow
     protected string $validity;
     protected string $restart_date;
 
-    public function __construct(int $ass_id, int $usr_id, int $node_obj_id, bool $is_root_progress)
-    {
+    public function __construct(
+        protected int $ass_id,
+        protected int $usr_id,
+        protected int $node_obj_id,
+        protected bool $is_root_progress,
+        protected ilPRGUserInformation $user_information
+    ) {
         $this->id = new PRGProgressId($ass_id, $usr_id, $node_obj_id);
-        $this->ass_id = $ass_id;
-        $this->usr_id = $usr_id;
-        $this->node_id = $node_obj_id;
-        $this->is_root_progress = $is_root_progress;
     }
 
     public function getId(): PRGProgressId
@@ -78,11 +75,20 @@ class ilStudyProgrammeUserTableRow
     }
     public function getNodeId(): int
     {
-        return $this->node_id;
+        return $this->node_obj_id;
     }
     public function isRootProgress(): bool
     {
         return $this->is_root_progress;
+    }
+
+    public function getUserInformation(): ilPRGUserInformation
+    {
+        return $this->user_information;
+    }
+    public function getUserData(string $field_id)
+    {
+        return $this->user_information->getUserData($field_id);
     }
 
     public function withUserActiveRaw(bool $active_raw): self
@@ -164,17 +170,6 @@ class ilStudyProgrammeUserTableRow
     public function getGender(): string
     {
         return $this->gender;
-    }
-
-    public function withUDF(ilUserDefinedData $udf): self
-    {
-        $clone = clone $this;
-        $clone->udf = $udf;
-        return $clone;
-    }
-    public function getUdf(string $field)
-    {
-        return $this->udf->get($field);
     }
 
     public function withStatus(string $status): self

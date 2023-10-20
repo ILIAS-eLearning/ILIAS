@@ -13004,6 +13004,7 @@ prg#:#deadline_updated#:#Updated deadline
 prg#:#edit_participants#:#Edit Members
 prg#:#error_updating_deadline#:#Error during updating deadline.
 prg#:#error_updating_expire_date#:#Error during updating expire date.
+prg#:#export_memberships#:#Export Assignments
 prg#:#form_msg_file_wrong_file_type#:#Wrong file type.
 prg#:#header_update_certificate#:#Do you really want to update the certificate?
 prg#:#header_update_current_plan#:#Do you really want to reset all individual settings for the selected assignments?

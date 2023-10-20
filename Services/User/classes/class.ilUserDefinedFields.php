@@ -213,6 +213,7 @@ class ilUserDefinedFields
         }
         return $prg_exp_definition;
     }
+
     /**
      * Get exportable field
      */
@@ -223,6 +224,9 @@ class ilUserDefinedFields
         }
         if (ilObject::_lookupType($a_obj_id) == 'grp') {
             return $this->getGroupExportableFields();
+        }
+        if (ilObject::_lookupType($a_obj_id) == 'prg') {
+            return $this->getPRGExportableFields();
         }
         return [];
     }
@@ -543,7 +547,7 @@ class ilUserDefinedFields
 
         $ilSetting = $DIC['ilSetting'];
 
-        $query = "SELECT * FROM udf_definition ";
+        $query = "SELECT * FROM udf_definition;";
         $res = $this->db->query($query);
 
         $this->definitions = [];
@@ -638,6 +642,7 @@ class ilUserDefinedFields
                 "Searchable" => $definition["searchable"] ? "TRUE" : "FALSE",
                 "CourseExport" => $definition["course_export"] ? "TRUE" : "FALSE",
                 "GroupExport" => $definition["group_export"] ? "TRUE" : "FALSE",
+                "PRGExport" => $definition["prg_export"] ? "TRUE" : "FALSE",
                 "Certificate" => $definition["certificate"] ? "TRUE" : "FALSE",
                 "Export" => $definition["export"] ? "TRUE" : "FALSE",
                 "RegistrationVisible" => $definition["visib_reg"] ? "TRUE" : "FALSE",

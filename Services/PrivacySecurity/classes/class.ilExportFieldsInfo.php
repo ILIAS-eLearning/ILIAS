@@ -97,7 +97,7 @@ class ilExportFieldsInfo
     /**
      * Get selectable fields
      */
-    public function getSelectableFieldsInfo(int $a_obj_id): array
+    public function getSelectableFieldsInfo(?int $a_obj_id = null): array
     {
         global $DIC;
 
@@ -126,7 +126,7 @@ class ilExportFieldsInfo
             }
         }
 
-        if (ilBookingEntry::hasObjectBookingEntries($a_obj_id, $user->getId())) {
+        if ($a_obj_id && ilBookingEntry::hasObjectBookingEntries($a_obj_id, $user->getId())) {
             $this->lng->loadLanguageModule('dateplaner');
             $fields['consultation_hour']['txt'] = $this->lng->txt('cal_ch_field_ch');
             $fields['consultation_hour']['default'] = 0;
@@ -151,16 +151,17 @@ class ilExportFieldsInfo
             }
         }
 
-        $cdf = ilCourseDefinedFieldDefinition::_getFields($a_obj_id);
-        foreach ($cdf as $def) {
-            $fields['odf_' . $def->getId()]['txt'] = $def->getName();
-            $fields['odf_' . $def->getId()]['default'] = 0;
-        }
-
-        if (count($cdf)) {
-            // add last edit
-            $fields['odf_last_update']['txt'] = $this->lng->txt($this->getType() . '_cdf_tbl_last_edit');
-            $fields['odf_last_update']['default'] = 0;
+        if ($a_obj_id) {
+            $cdf = ilCourseDefinedFieldDefinition::_getFields($a_obj_id);
+            foreach ($cdf as $def) {
+                $fields['odf_' . $def->getId()]['txt'] = $def->getName();
+                $fields['odf_' . $def->getId()]['default'] = 0;
+            }
+            if (count($cdf)) {
+                // add last edit
+                $fields['odf_last_update']['txt'] = $this->lng->txt($this->getType() . '_cdf_tbl_last_edit');
+                $fields['odf_last_update']['default'] = 0;
+            }
         }
         return $fields;
     }

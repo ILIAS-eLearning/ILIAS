@@ -41,20 +41,16 @@ class ilStudyProgrammeAssignmentActionsTest extends \PHPUnit\Framework\TestCase
         $this->messages = new ilPRGMessageCollection();
         $this->events = new ProgrammeEventsMock();
 
-        $udf = $this->getMockBuilder(ilUserDefinedData::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-        $user_info = new ilPRGUserInformation(
-            $udf,
-            'some OrgU',
-            'firstname',
-            'lasttname',
-            'login',
-            true,
-            'f.lastname@example.com',
-            'f',
-            'Prof. Dr.',
-        );
+        $user_info = new ilPRGUserInformation([
+            'firstname' => 'firstname',
+            'lastname' => 'lasttname',
+            'login' => 'login',
+            'active' => true,
+            'email' => 'f.lastname@example.com',
+            'gender' => 'f',
+            'title' => 'Prof. Dr.',
+            'org_units' => 'some OrgU',
+        ]);
 
         $this->ass = (new ilPRGAssignment(42, 7))
             ->withUserInformation($user_info)
