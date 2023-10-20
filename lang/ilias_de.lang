@@ -13016,6 +13016,7 @@ prg#:#deadline_updated#:#Stichtag aktualisiert
 prg#:#edit_participants#:#Zuweisungen bearbeiten
 prg#:#error_updating_deadline#:#Ein Fehler ist während der Aktualisierung von 'Stichtag' aufgetreten.
 prg#:#error_updating_expire_date#:#Ein Fehler ist während der Aktualisierung von 'Ablauf Qualifikation' aufgetreten.
+prg#:#export_memberships#:#Zuweisungen exportieren
 prg#:#form_msg_file_wrong_file_type#:#Falscher Dateityp.
 prg#:#header_update_certificate#:#Wollen Sie das Zertifikat wirklich aktualisieren?
 prg#:#header_update_current_plan#:#Wollen Sie die individuellen Einstellungen der ausgewählten Zuweisungen wirklich zurücksetzen?

@@ -41,6 +41,7 @@ use ILIAS\HTTP\Wrapper\RequestWrapper;
  * @ilCtrl_Calls ilObjStudyProgrammeGUI: ilObjStyleSheetGUI
  * @ilCtrl_Calls ilObjStudyProgrammeGUI: ilObjectContentStyleSettingsGUI
  * @ilCtrl_Calls ilObjStudyProgrammeGUI: ilPRGPageObjectGUI
+ * @ilCtrl_Calls ilObjStudyProgrammeGUI: ilPRGMembersExportGUI
  */
 class ilObjStudyProgrammeGUI extends ilContainerGUI
 {
@@ -190,6 +191,21 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
                 $this->members_gui->setRefId($this->ref_id);
                 $this->ctrl->forwardCommand($this->members_gui);
                 break;
+            case 'ilprgmembersexportgui':
+                $this->denyAccessIfNot(ilPRGPermissionsHelper::ROLEPERM_MANAGE_MEMBERS);
+                $this->getSubTabs('members');
+                $this->tabs_gui->activateTab(self::TAB_MEMBERS);
+                $this->tabs_gui->activateSubTab('export_memberships');
+
+                $specific_dic = ilStudyProgrammeDIC::specificDicFor($this->object);
+                $export_gui = new ilPRGMembersExportGUI(
+                    $this->ref_id,
+                    $specific_dic['ilStudyProgrammeUserTable'],
+                    $specific_dic['DataFactory']
+                );
+                $this->ctrl->forwardCommand($export_gui);
+                break;
+
             case "ilobjstudyprogrammeautomembershipsgui":
                 $this->denyAccessIfNot(ilOrgUnitOperation::OP_MANAGE_MEMBERS);
                 $this->getSubTabs('members');
@@ -653,6 +669,14 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
                         $this->getLinkTarget('memberships')
                     );
                 }
+
+                if ($this->getPermissionsHelper()->may(ilPRGPermissionsHelper::ROLEPERM_MANAGE_MEMBERS)) {
+                    $this->tabs_gui->addSubTab(
+                        'export_memberships',
+                        $this->lng->txt('export_memberships'),
+                        $this->getLinkTarget('export_memberships')
+                    );
+                }
                 break;
         }
     }
@@ -686,6 +710,9 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
         }
         if ($cmd === "memberships") {
             return $this->ctrl->getLinkTargetByClass("ilobjstudyprogrammeautomembershipsgui", "view");
+        }
+        if ($cmd == "export_memberships") {
+            return $this->ctrl->getLinkTargetByClass('ilprgmembersexportgui', 'show');
         }
         if ($cmd === "subtypes") {
             return $this->ctrl->getLinkTargetByClass("ilstudyprogrammetypegui", "listTypes");

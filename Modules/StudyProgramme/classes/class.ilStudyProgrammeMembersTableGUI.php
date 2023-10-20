@@ -191,7 +191,6 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
                     $this->tpl->setVariable("COMPLETION_DATE", $row->getCompletionDate());
                     break;
                 case "prg_completion_by":
-
                     $completion_by = $row->getCompletionBy();
                     if ($completion_by_obj_id = $row->getCompletionByObjId()) {
                         if (ilObject::_lookupType($completion_by_obj_id) === 'crsr') {
@@ -228,15 +227,9 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
                     $this->tpl->setVariable("UDF", $row->getGender());
                     $this->tpl->parseCurrentBlock();
                     break;
-                case strpos($column, 'udf_') === 0:
-                    $id = str_replace('udf_', 'f_', $column);
-                    $this->tpl->setCurrentBlock('udf');
-                    $this->tpl->setVariable("UDF", $row->getUDF($id));
-                    $this->tpl->parseCurrentBlock();
-                    break;
                 default:
                     $this->tpl->setCurrentBlock('udf');
-                    $this->tpl->setVariable("UDF", $row->getUDF($column));
+                    $this->tpl->setVariable("UDF", $row->getUserInformation()->getUserData($column));
                     $this->tpl->parseCurrentBlock();
             }
         }
