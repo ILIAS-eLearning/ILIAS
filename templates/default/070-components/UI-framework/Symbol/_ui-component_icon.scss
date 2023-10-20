@@ -38,4 +38,10 @@ $il-standard-outlined-disabled-icon-filter: contrast(0%);
 		-webkit-filter: $il-standard-disabled-icon-filter; /* Safari 6.0 - 9.0 */
 		filter: $il-standard-disabled-icon-filter;
 	}
+
+	@media screen and (max-width: $il-grid-float-breakpoint) {
+		& {
+			max-width: inherit; // so svg icons do not collapse to 0
+		}
+	}
 }
