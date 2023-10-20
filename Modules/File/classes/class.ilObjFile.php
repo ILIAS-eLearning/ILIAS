@@ -693,9 +693,6 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
         return $new_title;
     }
 
-    /**
-     * @deprecated
-     */
     public function getFileExtension(): string
     {
         return $this->implementation->getFileExtension();

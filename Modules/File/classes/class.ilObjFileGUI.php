@@ -27,6 +27,9 @@ use ILIAS\UI\Implementation\Component\Input\UploadLimitResolver;
 use ILIAS\Data\DataSize;
 use ILIAS\Refinery\String\Group;
 use ILIAS\Data\Factory;
+use ILIAS\Services\WOPI\Discovery\ActionDBRepository;
+use ILIAS\Services\WOPI\Embed\EmbeddedApplication;
+use ILIAS\Data\URI;
 
 /**
  * GUI class for file objects.
@@ -35,7 +38,7 @@ use ILIAS\Data\Factory;
  * @version      $Id$
  * @ilCtrl_Calls ilObjFileGUI: ilObjectMetaDataGUI, ilInfoScreenGUI, ilPermissionGUI, ilObjectCopyGUI
  * @ilCtrl_Calls ilObjFileGUI: ilExportGUI, ilWorkspaceAccessGUI, ilPortfolioPageGUI, ilCommonActionDispatcherGUI
- * @ilCtrl_Calls ilObjFileGUI: ilLearningProgressGUI, ilFileVersionsGUI
+ * @ilCtrl_Calls ilObjFileGUI: ilLearningProgressGUI, ilFileVersionsGUI, ilWOPIEmbeddedApplicationGUI
  * @ingroup      ModulesFile
  */
 class ilObjFileGUI extends ilObject2GUI
@@ -58,6 +61,7 @@ class ilObjFileGUI extends ilObject2GUI
     public const CMD_VERSIONS = "versions";
     public const CMD_UPLOAD_FILES = "uploadFiles";
 
+
     /**
      * @var \ilObjFile|null $object
      */
@@ -79,6 +83,7 @@ class ilObjFileGUI extends ilObject2GUI
     protected \ILIAS\UI\Renderer $renderer;
     protected \Psr\Http\Message\ServerRequestInterface $request;
     protected \ILIAS\Data\Factory $data_factory;
+    private ActionDBRepository $action_repo;
 
     /**
      * Constructor
@@ -107,6 +112,7 @@ class ilObjFileGUI extends ilObject2GUI
         $this->renderer = $DIC->ui()->renderer();
         $this->request = $DIC->http()->request();
         $this->data_factory = new Factory();
+        $this->action_repo = new ActionDBRepository($DIC->database());
     }
 
     public function getType(): string
