@@ -163,6 +163,21 @@ class SkillResourceDBRepository
         );
     }
 
+    public function removeForSkill(int $skill_node_id, bool $is_reference): void
+    {
+        if (!$is_reference) {
+            $this->db->manipulate(
+                "DELETE FROM skl_skill_resource WHERE " .
+                " base_skill_id = " . $this->db->quote($skill_node_id, "integer")
+            );
+        } else {
+            $this->db->manipulate(
+                "DELETE FROM skl_skill_resource WHERE " .
+                " tref_id = " . $this->db->quote($skill_node_id, "integer")
+            );
+        }
+    }
+
     /**
      * @return SkillResourceLevel[]
      */

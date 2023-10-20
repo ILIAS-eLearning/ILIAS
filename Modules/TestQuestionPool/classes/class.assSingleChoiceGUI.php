@@ -240,7 +240,8 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
         $show_feedback = false,
         $show_correct_solution = false,
         $show_manual_scoring = false,
-        $show_question_text = true
+        $show_question_text = true,
+        bool $show_inline_feedback = true
     ): string {
         // shuffle output
         $keys = $this->getChoiceKeys();
@@ -300,7 +301,8 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
                 $template->setVariable("ANSWER_IMAGE_TITLE", ilLegacyFormElementsUtil::prepareFormOutput($alt));
                 $template->parseCurrentBlock();
             }
-            if ($show_feedback) {
+
+            if ($show_inline_feedback) {
                 $this->populateInlineFeedback($template, $answer_id, $user_solution);
             }
             $template->setCurrentBlock("answer_row");
@@ -330,8 +332,9 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
             }
             $template->parseCurrentBlock();
         }
-        $questiontext = $this->object->getQuestion();
-        if ($show_feedback && $this->hasInlineFeedback()) {
+
+        $questiontext = $this->object->getQuestionForHTMLOutput();
+        if ($show_inline_feedback && $this->hasInlineFeedback()) {
             $questiontext .= $this->buildFocusAnchorHtml();
         }
         if ($show_question_text == true) {
@@ -414,7 +417,7 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 
             $template->parseCurrentBlock();
         }
-        $questiontext = $this->object->getQuestion();
+        $questiontext = $this->object->getQuestionForHTMLOutput();
         if ($showInlineFeedback && $this->hasInlineFeedback()) {
             $questiontext .= $this->buildFocusAnchorHtml();
         }
@@ -518,8 +521,7 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
             }
             $template->parseCurrentBlock();
         }
-        $questiontext = $this->object->getQuestion();
-        $template->setVariable("QUESTIONTEXT", ilLegacyFormElementsUtil::prepareTextareaOutput($questiontext, true));
+        $template->setVariable("QUESTIONTEXT", $this->object->getQuestionForHTMLOutput());
         $questionoutput = $template->get();
         $pageoutput = $this->outQuestionPage("", $is_postponed, $active_id, $questionoutput, $show_feedback);
         return $pageoutput;
@@ -545,7 +547,7 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
     {
         // No return value, this question type supports inline specific feedback.
         $output = "";
-        return $ilLegacyFormElementsUtil::prepareTextareaOutput($output, true);
+        return ilLegacyFormElementsUtil::prepareTextareaOutput($output, true);
     }
 
     public function writeQuestionSpecificPostData(ilPropertyFormGUI $form): void
@@ -785,7 +787,7 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
                 break;
 
             case 2:
-                if (strcmp($user_solution, $answer_id) == 0) {
+                if (strcmp((string)$user_solution, $answer_id) == 0) {
                     $feedbackOutputRequired = true;
                 }
                 break;

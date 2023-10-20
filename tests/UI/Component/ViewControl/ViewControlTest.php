@@ -41,7 +41,7 @@ class ViewControlTest extends ILIAS_UI_TestBase
         return new I\Component\ViewControl\Factory(new SignalGenerator());
     }
 
-    public function test_implements_factory_interface(): void
+    public function testImplementsFactoryInterface(): void
     {
         $view_control_f = $this->getViewControlFactory();
 
@@ -58,7 +58,7 @@ class ViewControlTest extends ILIAS_UI_TestBase
         $this->assertInstanceOf("ILIAS\\UI\\Component\\ViewControl\\Section", $section);
     }
 
-    public function test_viewcontrol_section_get_previous_actions(): void
+    public function testViewControlSectionGetPreviousActions(): void
     {
         $button_f = new ILIAS\UI\Implementation\Component\Button\Factory();
 
@@ -71,7 +71,7 @@ class ViewControlTest extends ILIAS_UI_TestBase
         $this->assertInstanceOf("ILIAS\\UI\\Component\\Button\\Button", $action);
     }
 
-    public function test_viewcontrol_section_get_next_actions(): void
+    public function testViewControlSectionGetNextActions(): void
     {
         $button_f = new ILIAS\UI\Implementation\Component\Button\Factory();
 
@@ -84,7 +84,7 @@ class ViewControlTest extends ILIAS_UI_TestBase
         $this->assertInstanceOf("ILIAS\\UI\\Component\\Button\\Button", $action);
     }
 
-    public function test_render_viewcontrol_section(): void
+    public function testRenderViewControlSection(): void
     {
         $view_control_f = $this->getViewControlFactory();
         $button_f = new ILIAS\UI\Implementation\Component\Button\Factory();
@@ -110,7 +110,7 @@ class ViewControlTest extends ILIAS_UI_TestBase
         $this->assertInstanceOf("ILIAS\\UI\\Component\\ViewControl\\Factory", $f);
     }
 
-    public function test_viewcontrol_with_active(): void
+    public function testViewControlWithActive(): void
     {
         $f = $this->getViewControlFactory();
 
@@ -118,7 +118,7 @@ class ViewControlTest extends ILIAS_UI_TestBase
         $this->assertNotEquals($this->active, $f->mode($this->actions, $this->aria_label)->withActive("Dummy text")->getActive());
     }
 
-    public function test_viewcontrol_get_actions(): void
+    public function testViewControlGetActions(): void
     {
         $f = $this->getViewControlFactory();
 

@@ -2,6 +2,10 @@
 
 This component implements the ILIAS page editor as being used e.g. in learning modules, wikis, content pages in courses and other containers. This part of the documentation deals with concepts and business rules, for technical documentation see [README-technical.md](./README-technical.md).
 
+## Browser Support
+
+Since ILIAS 7 the editor makes extensive use of ES6 features. For ILIAS 7 the current maintainer accepts issues for the latest Firefox, Chrome, Safari and Edge versions. However, please note that issues that appear only on specific browsers may be fixed with lower priority.
+
 ## Text Editing
 
 - Since ILIAS 7 the Return key created new text elements. The Backspace key at the beginning of a text element will merge the content of the current text element with the preceding one, if existing. The Delete key at the end of a text element will merge the content of the current text element with the succeeding one, if existing. See https://docu.ilias.de/goto_docu_wiki_wpage_6264_1357.html
@@ -45,6 +49,8 @@ This component implements the ILIAS page editor as being used e.g. in learning m
 - Cancel buttons should be used if "one-way" workflows can be cancelled and an unambiguous return point (start of the workflow) exists, e.g. creation workflows using forms.
 - Finish buttons should be used, if complex sub-screens ("underworlds") exist, that allow multiple different actions. Examples: text editing, the page editing itself or editing interactive images.
 
-## Browser Support
+## History / Compare
 
-Since ILIAS 7 the editor makes extensive use of ES6 features. For ILIAS 7 the current maintainer accepts issues for the latest Firefox, Chrome, Safari and Edge versions. However, please note that issues that appear only on specific browsers may be fixed with lower priority.
+The page history is acting on the XML content, so every component that stores its information in XML is tackled by the history. For example the whole layout and all text elements are part of the page history.
+
+If page components only store IDs or references to external data which is added after the XSLT processing, actual data of the components is presented. Examples: Media object components will always show the current media object, page lists will always act on the current metadata, current courses or consultation hour elements will always present current data in the history.

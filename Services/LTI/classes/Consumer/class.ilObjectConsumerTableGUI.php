@@ -110,8 +110,8 @@ class ilObjectConsumerTableGUI extends ilTable2GUI
         $this->tpl->setVariable("TXT_TITLE", $a_set["title"]);
         $this->tpl->setVariable("TXT_DESCRIPTION", $a_set["description"]);
         $this->tpl->setVariable("TXT_PREFIX", $a_set["prefix"]);
-//        $this->tpl->setVariable("TXT_KEY", $a_set["key"]);
-//        $this->tpl->setVariable("TXT_SECRET", $a_set["secret"]);
+        //        $this->tpl->setVariable("TXT_KEY", $a_set["key"]);
+        //        $this->tpl->setVariable("TXT_SECRET", $a_set["secret"]);
         $this->tpl->setVariable("TXT_LANGUAGE", $a_set["language"]);
         $obj_types = ilObjLTIAdministration::getActiveObjectTypes($a_set["id"]);
         if ($obj_types) {

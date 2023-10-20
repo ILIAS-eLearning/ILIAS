@@ -19,7 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\MetaData\Editor\Http\Parameter;
-use ILIAS\MetaData\Services\Services;
+use ILIAS\MetaData\Services\InternalServices;
 use ILIAS\MetaData\Editor\Full\FullEditorInitiator;
 use ILIAS\UI\Renderer;
 use ILIAS\MetaData\Editor\Presenter\PresenterInterface;
@@ -71,22 +71,22 @@ class ilMDEditorGUI
     {
         global $DIC;
 
-        $services = new Services($DIC);
+        $services = new InternalServices($DIC);
         $this->full_editor_initiator = new FullEditorInitiator($services);
         $this->digest_initiator = new DigestInitiator($services);
 
-        $this->ctrl = $DIC->ctrl();
-        $this->tpl = $DIC->ui()->mainTemplate();
-        $this->ui_renderer = $DIC->ui()->renderer();
+        $this->ctrl = $services->dic()->ctrl();
+        $this->tpl = $services->dic()->ui()->mainTemplate();
+        $this->ui_renderer = $services->dic()->ui()->renderer();
         $this->presenter = $services->editor()->presenter();
         $this->request_parser = $services->editor()->requestParser();
         $this->repository = $services->repository()->repository();
         $this->observer_handler = $services->editor()->observerHandler();
-        $this->access = $DIC->access();
-        $this->toolbar = $DIC->toolbar();
-        $this->global_screen = $DIC->globalScreen();
-        $this->tabs = $DIC->tabs();
-        $this->ui_factory = $DIC->ui()->factory();
+        $this->access = $services->dic()->access();
+        $this->toolbar = $services->dic()->toolbar();
+        $this->global_screen = $services->dic()->globalScreen();
+        $this->tabs = $services->dic()->tabs();
+        $this->ui_factory = $services->dic()->ui()->factory();
 
         $this->obj_id = $obj_id;
         $this->sub_id = $sub_id === 0 ? $obj_id : $sub_id;
@@ -419,7 +419,7 @@ class ilMDEditorGUI
                 'write',
                 '',
                 $ref_id,
-                $this->type,
+                '',
                 $this->obj_id
             )) {
                 return;

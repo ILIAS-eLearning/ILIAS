@@ -649,8 +649,9 @@ class ilObjTestSettingsMainGUI extends ilTestSettingsGUI
             ->withUsePreviousAnswerAllowed($section['use_previous_answers'])
             ->withSuspendTestAllowed($section['allow_suspend_test'])
             ->withPostponedQuestionsMoveToEnd($section['postponed_questions_behaviour'])
-            ->withQuestionListMode($section['enable_question_list'])
-            ->withQuestionMarkingEnabled($section['enable_question_marking']);
+            ->withUsrPassOverviewMode($section['usr_pass_overview'])
+            ->withQuestionMarkingEnabled($section['enable_question_marking'])
+            ->withQuestionListEnabled($section['enable_question_list']);
     }
 
     private function getFinishingSettingsForStorage(array $section): ilObjTestSettingsFinishing

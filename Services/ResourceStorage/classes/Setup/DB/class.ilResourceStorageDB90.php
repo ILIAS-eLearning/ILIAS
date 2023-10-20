@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+use ILIAS\ResourceStorage\Resource\ResourceType;
+
 /**
  * Class ilResourceStorageDB90
  * @author Fabian Schmid <fabian@sr.solutions>
@@ -86,5 +88,16 @@ class ilResourceStorageDB90 implements ilDatabaseUpdateSteps
             $this->db->dropIndexByFields('il_resource_stkh_u', ['rid']);
         } catch (Exception $e) {
         }
+    }
+
+    public function step_3(): void
+    {
+        // add column rtype to il_resource
+        $this->db->addTableColumn('il_resource', 'rtype', [
+            'type' => 'integer',
+            'length' => '1',
+            'notnull' => true,
+            'default' => ResourceType::SINGLE_FILE->value
+        ]);
     }
 }

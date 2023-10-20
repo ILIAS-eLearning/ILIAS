@@ -67,6 +67,7 @@ class ilObjTestSettingsQuestionBehaviour extends TestSettings
         $inputs['title_output'] = $f->radio($lng->txt('tst_title_output'))
             ->withOption('0', $lng->txt('tst_title_output_full'))
             ->withOption('1', $lng->txt('tst_title_output_hide_points'))
+            ->withOption('3', $lng->txt('tst_title_output_only_points'))
             ->withOption('2', $lng->txt('tst_title_output_no_title'))
             ->withValue($this->getQuestionTitleOutputMode())
             ->withAdditionalTransformation($refinery->kindlyTo()->int());

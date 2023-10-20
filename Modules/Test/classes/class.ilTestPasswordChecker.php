@@ -56,19 +56,11 @@ class ilTestPasswordChecker
 
     public function isPasswordProtectionPageRedirectRequired(): bool
     {
-        if (!$this->isTestPasswordEnabled()) {
-            return false;
-        }
-
-        if ($this->isPrivilegedParticipant()) {
-            return false;
-        }
-
-        if ($this->isUserEnteredPasswordCorrect()) {
-            return false;
-        }
-
-        return true;
+        return  (
+            $this->isTestPasswordEnabled()
+            && !$this->isPrivilegedParticipant()
+            && !$this->isUserEnteredPasswordCorrect()
+        );
     }
 
     protected function isTestPasswordEnabled(): bool

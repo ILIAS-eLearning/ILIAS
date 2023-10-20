@@ -108,6 +108,25 @@ class ilSkillUsage implements ilSkillUsageInfo
         );
     }
 
+    public static function removeUsagesForSkill(int $node_id, bool $is_referenece = false): void
+    {
+        global $DIC;
+
+        $ilDB = $DIC->database();
+
+        if (!$is_referenece) {
+            $ilDB->manipulate(
+                $q = "DELETE FROM skl_usage WHERE " .
+                    " skill_id = " . $ilDB->quote($node_id, "integer")
+            );
+        } else {
+            $ilDB->manipulate(
+                $q = "DELETE FROM skl_usage WHERE " .
+                    " tref_id = " . $ilDB->quote($node_id, "integer")
+            );
+        }
+    }
+
     /**
      * @return int[]
      */

@@ -41,8 +41,6 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
     protected ilHelpGUI $help;
     protected ilToolbarGUI $toolbar;
     protected ilLanguage $lng;
-    protected UI\Factory $ui_fac;
-    protected UI\Renderer $ui_ren;
     protected Data\Factory $df;
     protected ServerRequestInterface $request;
     protected ArrayBasedRequestWrapper $query;
@@ -94,8 +92,6 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
         $this->help = $DIC["ilHelp"];
         $this->toolbar = $DIC->toolbar();
         $this->lng = $DIC->language();
-        $this->ui_fac = $DIC->ui()->factory();
-        $this->ui_ren = $DIC->ui()->renderer();
         $this->df = new \ILIAS\Data\Factory();
         $this->request = $DIC->http()->request();
         $this->query = $DIC->http()->wrapper()->query();
@@ -757,6 +753,7 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
             $this->lng,
             $this->ui_fac,
             $this->ui_ren,
+            $this->tree,
             $this->resource_manager,
             $this->base_skill_id,
             $this->tref_id,
@@ -766,14 +763,12 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
                 protected ilLanguage $lng,
                 protected UI\Factory $ui_fac,
                 protected UI\Renderer $ui_ren,
+                protected ilTree $tree,
                 protected Resource\SkillResourcesManager $resource_manager,
                 protected int $base_skill_id,
                 protected int $tref_id,
                 protected int $level_id
             ) {
-                global $DIC;
-
-                $this->tree = $DIC->repositoryTree();
             }
 
             public function getRows(

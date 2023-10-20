@@ -710,7 +710,7 @@ abstract class assQuestionGUI
                 $testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory(
                     $this->tree,
                     $this->db,
-                    $this->component_repository,
+                    $this->lng,
                     $this->logger,
                     $this->component_repository,
                     $test,
@@ -1928,9 +1928,10 @@ abstract class assQuestionGUI
 
     protected function addBackTab(ilTabsGUI $ilTabs): void
     {
+        $this->ctrl->saveParameterByClass(ilAssQuestionPreviewGUI::class, 'prev_qid');
         $ilTabs->setBackTarget(
             $this->lng->txt('backtocallingpage'),
-            $this->ctrl->getLinkTargetByClass('ilAssQuestionPreviewGUI', ilAssQuestionPreviewGUI::CMD_SHOW)
+            $this->ctrl->getLinkTargetByClass(ilAssQuestionPreviewGUI::class, ilAssQuestionPreviewGUI::CMD_SHOW)
         );
     }
 
@@ -2024,11 +2025,11 @@ abstract class assQuestionGUI
                 $label = $this->lng->txt("answer_is_wrong");
                 break;
             case self::CORRECTNESS_MOSTLY_OK:
-                $icon_name = 'icon_ok.svg';
+                $icon_name = 'standard/icon_ok.svg';
                 $label = $this->lng->txt("answer_is_not_correct_but_positive");
                 break;
             case self::CORRECTNESS_OK:
-                $icon_name = 'icon_ok.svg';
+                $icon_name = 'standard/icon_ok.svg';
                 $label = $this->lng->txt("answer_is_right");
                 break;
             default:

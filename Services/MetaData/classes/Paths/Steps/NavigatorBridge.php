@@ -22,7 +22,6 @@ namespace ILIAS\MetaData\Paths\Steps;
 
 use ILIAS\MetaData\Paths\Filters\FilterInterface;
 use ILIAS\MetaData\Paths\Filters\FilterType;
-use ILIAS\MetaData\Elements\NoID;
 use ILIAS\MetaData\Elements\ElementInterface;
 use ILIAS\MetaData\Elements\Base\BaseElementInterface;
 use ILIAS\MetaData\Elements\Markers\MarkableInterface;
@@ -76,6 +75,19 @@ class NavigatorBridge
         yield from $next_elements;
     }
 
+    public function getParents(
+        BaseElementInterface ...$elements
+    ): \Generator {
+        $next_elements = [];
+        foreach ($elements as $element) {
+            $parent = $element->getSuperElement();
+            if (!in_array($parent, $next_elements, true)) {
+                $next_elements[] = $parent;
+            }
+        }
+        yield from $next_elements;
+    }
+
     /**
      * @return BaseElementInterface[]
      */
@@ -124,8 +136,20 @@ class NavigatorBridge
         BaseElementInterface ...$elements
     ): \Generator {
         $index = 0;
+        $filter_values = [];
+        $select_last = false;
+        foreach ($filter->values() as $value) {
+            if (preg_match('/^\d+$/', $value)) {
+                $filter_values[] = (int) $value;
+            } else {
+                $select_last = true;
+            }
+        }
         foreach ($elements as $element) {
-            if (in_array((string) $index, iterator_to_array($filter->values()), true)) {
+            if (
+                in_array($index, $filter_values, true) ||
+                ($select_last && array_key_last($elements) === $index)
+            ) {
                 yield $element;
             }
             $index++;

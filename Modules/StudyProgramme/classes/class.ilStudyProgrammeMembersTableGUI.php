@@ -22,21 +22,6 @@ use ILIAS\Data;
 
 class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
 {
-    private const ORDER_MAPPING = [
-        'prg_status' => 'status',
-        'prg_custom_plan' => 'custom_plan',
-        'prg_belongs_to' => 'belongs_to',
-        'prg_validity' => 'validity',
-        'prg_orgus' => 'orgus',
-        'prg_completion_by' => 'completion_by',
-        'prg_completion_date' => 'completion_date',
-        'prg_assign_date' => 'assign_date',
-        'prg_assigned_by' => 'assigned_by',
-        'prg_deadline' => 'deadline',
-        'prg_expiry_date' => 'expiry_date',
-        'pgs_id' => 'prgrs_id'
-    ];
-
     protected Data\Factory $data_factory;
     protected int $prg_obj_id;
     protected bool $prg_has_lp_children;
@@ -118,9 +103,12 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
         $valid_user_ids = $this->getValidUserIds();
         $filter_values = $this->getFilterValues();
 
+        $order = $this->getOrdering();
+
         $members_list = $this->prg_user_table->fetchData(
             $prg_obj_id,
             $valid_user_ids,
+            $order,
             $this->custom_filter->withValues($filter_values),
             $this->getLimit() ? (int) $this->getLimit() : null,
             $this->getOffset()
@@ -145,38 +133,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
             implode(',', $progress_ids)
         );
 
-        $this->setData(
-            $this->postOrder(
-                $members_list,
-                $this->getOrdering()
-            )
-        );
-    }
-
-    protected function postOrder(array $list, \ILIAS\Data\Order $order): array
-    {
-        [$aspect, $direction] = $order->join('', function ($i, $k, $v) {
-            return [$k, $v];
-        });
-
-        if (array_key_exists($aspect, self::ORDER_MAPPING)) {
-            $aspect = self::ORDER_MAPPING[$aspect];
-        }
-
-        usort($list, static function (ilStudyProgrammeUserTableRow $a, ilStudyProgrammeUserTableRow $b) use ($aspect): int {
-            $a = $a->toArray();
-            $b = $b->toArray();
-
-            if (is_numeric($a[$aspect])) {
-                return $a[$aspect] <=> $b[$aspect];
-            }
-            return strcmp($a[$aspect], $b[$aspect]);
-        });
-
-        if ($direction === $order::DESC) {
-            $list = array_reverse($list);
-        }
-        return $list;
+        $this->setData($members_list);
     }
 
     protected function getOrdering(): Data\Order

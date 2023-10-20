@@ -26,5 +26,5 @@ interface DictionaryInterface
 {
     public function tagForElement(
         BaseElementInterface $element
-    ): TagInterface;
+    ): ?TagInterface;
 }

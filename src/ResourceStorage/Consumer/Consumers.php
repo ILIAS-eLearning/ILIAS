@@ -25,6 +25,8 @@ use ILIAS\ResourceStorage\Flavour\Flavour;
 use ILIAS\ResourceStorage\Identification\ResourceCollectionIdentification;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 use ILIAS\ResourceStorage\Resource\ResourceBuilder;
+use ILIAS\ResourceStorage\Resource\ResourceType;
+use ILIAS\ResourceStorage\Resource\StorableContainerResource;
 
 /**
  * Class Consumers
@@ -104,5 +106,20 @@ class Consumers
     public function flavourUrls(Flavour $flavour): FlavourURLs
     {
         return $this->consumer_factory->flavourUrl($flavour, $this->src_builder);
+    }
+
+    /**
+     * @description This consumer can be used to obtain a StorageContainerResource as a ZIP.
+     */
+    public function containerZIP(ResourceIdentification $identification): ContainerZIPAccessConsumer
+    {
+        $resource = $this->resource_builder->get($identification);
+        if ($resource->getType() !== ResourceType::CONTAINER || !$resource instanceof StorableContainerResource) {
+            throw new \InvalidArgumentException('Expected StorableContainerResource');
+        }
+
+        return $this->consumer_factory->container(
+            $resource
+        );
     }
 }

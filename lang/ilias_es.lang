@@ -1687,7 +1687,7 @@ assessment#:#tst_report_after_test#:#Informar de la puntuación después de real
 assessment#:#tst_report_never#:#No hay resultados del test disponibles
 assessment#:#tst_reporting_date#:#Fecha
 assessment#:#tst_res_jump_to_participant_btn#:#Saltar
-assessment#:#tst_res_jump_to_participant_hint_opt#:#--Saltar a participante--
+assessment#:#tst_res_jump_to_participant_hint_opt#:#Saltar a participante
 assessment#:#tst_res_lo_objectives_header#:#Objetivos de aprendizaje relevantes
 assessment#:#tst_res_lo_try_header#:#Intento
 assessment#:#tst_res_lo_try_n#:#Intento %s

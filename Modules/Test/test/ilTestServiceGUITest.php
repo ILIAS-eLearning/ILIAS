@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class ilTestServiceGUITest
  * @author Marvin Beym <mbeym@databay.de>
@@ -49,7 +51,7 @@ class ilTestServiceGUITest extends ilTestBaseTestCase
         $this->addGlobal_uiFactory();
         $this->addGlobal_uiRenderer();
 
-        $this->testObj = new ilTestServiceGUI($this->createMock(ilObjTest::class));
+        $this->testObj = new ilTestServiceGUI($this->getTestObjMock());
     }
 
     public function test_instantiateObject_shouldReturnInstance(): void
@@ -114,12 +116,18 @@ class ilTestServiceGUITest extends ilTestBaseTestCase
             ]
         ];
 
-        $reflection = new \ReflectionClass(ilTestServiceGUI::class);
+        $reflection = new \ReflectionClass(ilTestShuffler::class);
         $method = $reflection->getMethod('buildFixedShufflerSeed');
         $method->setAccessible(true);
 
+        $refinery = new \ILIAS\Refinery\Factory(
+            new \ILIAS\Data\Factory(),
+            $this->getMockBuilder(ilLanguage::class)->disableOriginalConstructor()->getMock()
+        );
+        $shuffler = new ilTestShuffler($refinery);
+
         foreach ($seeds as $seed) {
-            $fixed_seed = $method->invoke($this->testObj, $seed['question_id'], $seed['pass_id'], $seed['active_id']);
+            $fixed_seed = $method->invoke($shuffler, $seed['question_id'], $seed['pass_id'], $seed['active_id']);
             $this->assertEquals($seed['return'], $fixed_seed);
         }
     }

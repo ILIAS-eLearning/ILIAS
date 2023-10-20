@@ -42,7 +42,7 @@ class ilObjectExporter extends ilXmlExporter
      */
     public function getXmlExportTailDependencies(string $entity, string $target_release, array $ids): array
     {
-        return array();
+        return [];
     }
 
     public function getXmlRepresentation(string $entity, string $schema_version, string $id): string

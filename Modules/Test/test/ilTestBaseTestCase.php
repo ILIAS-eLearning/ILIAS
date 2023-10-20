@@ -58,6 +58,8 @@ class ilTestBaseTestCase extends TestCase
         $this->addGlobal_objDefinition();
         $this->addGlobal_refinery();
         $this->addGlobal_ilComponentFactory();
+        $this->addGlobal_uiFactory();
+        $this->addGlobal_uiRenderer();
 
         $this->getMockBuilder(\ILIAS\DI\LoggingServices::class)->disableOriginalConstructor()->getMock();
 
@@ -329,5 +331,15 @@ class ilTestBaseTestCase extends TestCase
         $object_mock = $this->getMockBuilder(\ilObjectService::class)->disableOriginalConstructor()->getMock();
 
         $this->setGlobalVariable("object", $object_mock);
+    }
+
+    protected function getTestObjMock(): ilObjTest
+    {
+        $test_mock = $this->createMock(ilObjTest::class);
+        $test_mock->method('getLocalDIC')
+            ->willReturn(
+                ilTestDIC::dic()
+            );
+        return $test_mock;
     }
 }

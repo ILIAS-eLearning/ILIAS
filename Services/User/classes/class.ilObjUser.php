@@ -116,6 +116,7 @@ class ilObjUser extends ilObject
     protected ?string $avatar_rid = null;
 
     protected DateFormatFactory $date_format_factory;
+    private ilCronDeleteInactiveUserReminderMail $cron_delete_user_reminder_mail;
     private Services $irss;
 
     public function __construct(
@@ -124,12 +125,11 @@ class ilObjUser extends ilObject
     ) {
         global $DIC;
 
-        $ilias = $DIC['ilias'];
-        $this->ilias = $ilias;
-        $this->db = $DIC->database();
-        $this->irss = $DIC->resourceStorage();
         $this->type = "usr";
         parent::__construct($a_user_id, $a_call_by_reference);
+
+        $this->cron_delete_user_reminder_mail = new ilCronDeleteInactiveUserReminderMail($this->db);
+        $this->irss = $DIC->resourceStorage();
         $this->auth_mode = "default";
         $this->passwd_type = self::PASSWD_PLAIN;
         if ($a_user_id > 0) {
@@ -461,9 +461,9 @@ class ilObjUser extends ilObject
         $update_array = [
             "gender" => ["text", $this->gender],
             "title" => ["text", $this->utitle],
-            "firstname" => ["text", $this->firstname],
-            "lastname" => ["text", $this->lastname],
-            "email" => ["text", trim($this->email)],
+            "firstname" => ["text", substr($this->firstname, 0, 128)],
+            "lastname" => ["text", substr($this->lastname, 0, 128)],
+            "email" => ["text", substr(trim($this->email), 0, 128)],
             "second_email" => ["text", trim($this->second_email ?? '')],
             "birthday" => ['date', $this->getBirthday()],
             "hobby" => ["text", $this->hobby],
@@ -1165,7 +1165,7 @@ class ilObjUser extends ilObject
         $tree->cascadingDelete();
 
         // remove reminder entries
-        ilCronDeleteInactiveUserReminderMail::removeSingleUserFromTable($this->getId());
+        $this->cron_delete_user_reminder_mail->removeSingleUserFromTable($this->getId());
 
         // badges
         ilBadgeAssignment::deleteByUserId($this->getId());

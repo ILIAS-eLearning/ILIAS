@@ -20,6 +20,7 @@ use PHPUnit\Framework\TestCase;
 use ILIAS\Refinery\Factory as RefineryFactory;
 use ILIAS\Refinery\Random\Group as RandomGroup;
 use ILIAS\DI\Container;
+use ILIAS\ResourceStorage\Services;
 
 /**
  * Class assBaseTestCase
@@ -117,6 +118,14 @@ abstract class assBaseTestCase extends TestCase
     protected function getDatabaseMock()
     {
         return $this->getMockBuilder(\ilDBInterface::class)->disableOriginalConstructor()->getMock();
+    }
+    protected function getIRSSMock()
+    {
+        return $this->getMockBuilder(Services::class)->disableOriginalConstructor()->getMock();
+    }
+    protected function getFileDeliveryMock()
+    {
+        return $this->getMockBuilder(\ILIAS\FileDelivery\Services::class)->disableOriginalConstructor()->getMock();
     }
 
     protected function getIliasMock()

@@ -26,6 +26,8 @@ interface StructureNavigatorInterface extends BaseNavigatorInterface
 {
     public function nextStep(): ?StructureNavigatorInterface;
 
+    public function previousStep(): ?StructureNavigatorInterface;
+
     /**
      * Returns the element at the end of the path.
      */

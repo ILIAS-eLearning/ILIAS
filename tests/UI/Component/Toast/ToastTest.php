@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 require_once("libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../Base.php");
@@ -42,7 +42,7 @@ class ToastTest extends ILIAS_UI_TestBase
         return new ILIAS\UI\Implementation\Component\Link\Factory();
     }
 
-    public function test_implements_factory_interface(): void
+    public function testImplementsFactoryInterface(): void
     {
         $f = $this->getToastFactory();
 
@@ -53,9 +53,9 @@ class ToastTest extends ILIAS_UI_TestBase
     }
 
     /**
-     * @dataProvider toast_provider
+     * @dataProvider getToastProvider
      */
-    public function test_toast(string $title, string $description, int $vanish_time, int $delay_time, string $action): void
+    public function testToast(string $title, string $description, int $vanish_time, int $delay_time, string $action): void
     {
         $toast = $this->getToastFactory()->standard($title, $this->getIconFactory()->standard('', ''))
                       ->withDescription($description)
@@ -77,9 +77,9 @@ class ToastTest extends ILIAS_UI_TestBase
     }
 
     /**
-     * @dataProvider toast_provider
+     * @dataProvider getToastProvider
      */
-    public function test_toast_container(string $title, string $description, int $vanish_time): void
+    public function testToastContainer(string $title, string $description, int $vanish_time): void
     {
         $container = $this->getToastFactory()->container()->withAdditionalToast(
             $this->getToastFactory()->standard('', $this->getIconFactory()->standard('', ''))
@@ -91,7 +91,7 @@ class ToastTest extends ILIAS_UI_TestBase
         $this->assertCount(0, $container->withoutToasts()->getToasts());
     }
 
-    public function toast_provider(): array
+    public function getToastProvider(): array
     {
         return [
             ['title', 'description', 5000, 500, 'test.php'],

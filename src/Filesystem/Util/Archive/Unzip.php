@@ -50,7 +50,7 @@ class Unzip
         $this->path_to_zip = $this->stream->getMetadata(self::URI);
         $this->zip = new \ZipArchive();
         try {
-            $this->zip->open($this->path_to_zip);
+            $this->zip->open($this->path_to_zip, \ZipArchive::RDONLY);
             $this->amount_of_entries = $this->zip->count();
         } catch (\Throwable) {
             $this->error_reading_zip = true;

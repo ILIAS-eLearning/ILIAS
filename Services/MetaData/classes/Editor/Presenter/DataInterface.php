@@ -21,9 +21,6 @@ declare(strict_types=1);
 namespace ILIAS\MetaData\Editor\Presenter;
 
 use ILIAS\MetaData\Elements\Data\DataInterface as ElementsDataInterface;
-use ILIAS\MetaData\Elements\Data\Type;
-use ILIAS\MetaData\Repository\Validation\Data\DatetimeValidator;
-use ILIAS\MetaData\Repository\Validation\Data\DurationValidator;
 
 interface DataInterface
 {

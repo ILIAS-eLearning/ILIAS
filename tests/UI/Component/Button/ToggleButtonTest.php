@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 require_once(__DIR__ . "/../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../Base.php");
@@ -35,7 +35,7 @@ class ToggleButtonTest extends ILIAS_UI_TestBase
         return new Factory();
     }
 
-    public function test_implements_factory_interface(): void
+    public function testImplementsFactoryInterface(): void
     {
         $f = $this->getFactory();
 
@@ -45,7 +45,7 @@ class ToggleButtonTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function test_construction_action_on_type_wrong(): void
+    public function testConstructionActionOnTypeWrong(): void
     {
         $f = $this->getFactory();
         try {
@@ -56,7 +56,7 @@ class ToggleButtonTest extends ILIAS_UI_TestBase
         }
     }
 
-    public function test_construction_action_off_type_wrong(): void
+    public function testConstructionActionOffTypeWrong(): void
     {
         $f = $this->getFactory();
         try {
@@ -67,7 +67,7 @@ class ToggleButtonTest extends ILIAS_UI_TestBase
         }
     }
 
-    public function test_setOn_on_default(): void
+    public function testSetOnOnDefault(): void
     {
         $f = $this->getFactory();
         $button = $f->toggle("label", "action_on_string", "action_off_string", true);
@@ -75,7 +75,7 @@ class ToggleButtonTest extends ILIAS_UI_TestBase
         $this->assertTrue($button->isEngaged());
     }
 
-    public function test_append_OnAction(): void
+    public function testAppendOnAction(): void
     {
         $f = $this->getFactory();
         $signal_on1 = $this->createMock(Signal::class);
@@ -88,7 +88,7 @@ class ToggleButtonTest extends ILIAS_UI_TestBase
         $this->assertEquals([$signal_on1, $signal_on2], $button->getActionOn());
     }
 
-    public function test_append_OffAction(): void
+    public function testAppendOffAction(): void
     {
         $f = $this->getFactory();
         $signal_off1 = $this->createMock(Signal::class);
@@ -100,7 +100,7 @@ class ToggleButtonTest extends ILIAS_UI_TestBase
         $this->assertEquals([$signal_off1, $signal_off2], $button->getActionOff());
     }
 
-    public function test_render_with_label(): void
+    public function testRenderWithLabel(): void
     {
         $r = $this->getDefaultRenderer();
         $button = $this->getFactory()->toggle("label", "action_on_string", "action_off_string");
@@ -117,7 +117,7 @@ EOT;
         $this->assertHTMLEquals("<div>" . $expected . "</div>", "<div>" . $r->render($button) . "</div>");
     }
 
-    public function test_render_setOn_on_default(): Toggle
+    public function testRenderSetOnOnDefault(): Toggle
     {
         $r = $this->getDefaultRenderer();
         $button = $this->getFactory()->toggle("", "action_on_string", "action_off_string", true);
@@ -133,7 +133,7 @@ EOT;
         return $button;
     }
 
-    public function test_render_with_signals(): void
+    public function testRenderWithSignals(): void
     {
         $r = $this->getDefaultRenderer();
         $signal_on = $this->createMock(Signal::class);
@@ -157,9 +157,9 @@ EOT;
     }
 
     /**
-     * @depends test_render_setOn_on_default
+     * @depends testRenderSetOnOnDefault
      */
-    public function test_append_UnavailAction(Toggle $button): void
+    public function testAppendUnavailAction(Toggle $button): void
     {
         $r = $this->getDefaultRenderer();
         $button = $button->withUnavailableAction();

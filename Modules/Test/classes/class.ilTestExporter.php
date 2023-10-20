@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\TestQuestionPool\QuestionInfoService;
+
 /**
  * Used for container export with tests
  *
@@ -31,6 +33,7 @@ class ilTestExporter extends ilXmlExporter
     private ilLogger $log;
     private ilTree $tree;
     private ilComponentRepository $component_repository;
+    private QuestionInfoService $questioninfo;
 
     public function __construct()
     {
@@ -39,6 +42,7 @@ class ilTestExporter extends ilXmlExporter
         $this->log = $DIC['ilLog'];
         $this->tree = $DIC['tree'];
         $this->component_repository = $DIC['component.repository'];
+        $this->questioninfo = $DIC->testQuestionPool()->questionInfo();
 
         parent::__construct();
     }
@@ -54,7 +58,7 @@ class ilTestExporter extends ilXmlExporter
     {
         $tst = new ilObjTest((int) $id, false);
         $tst->read();
-        $test_export_factory = new ilTestExportFactory($tst, $this->lng, $this->log, $this->tree, $this->component_repository);
+        $test_export_factory = new ilTestExportFactory($tst, $this->lng, $this->log, $this->tree, $this->component_repository, $this->questioninfo);
         $test_export = $test_export_factory->getExporter('xml');
         $zip = $test_export->buildExportFile();
 

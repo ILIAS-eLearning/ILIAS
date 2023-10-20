@@ -17,6 +17,7 @@
 	<events>
 		<event type="listen" id="Services/Tracking" />
 		<event type="listen" id="Services/Object" />
+		<event type="raise" id="deleteSkill" />
 	</events>
 	<crons>
 		<cron id="skll_notification" class="ilSkillNotifications" />

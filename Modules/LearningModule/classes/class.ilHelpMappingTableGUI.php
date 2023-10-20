@@ -23,6 +23,7 @@
  */
 class ilHelpMappingTableGUI extends ilTable2GUI
 {
+    protected \ILIAS\Help\Map\MapManager $help_map;
     protected bool $validation;
     protected ilAccessHandler $access;
     public bool $online_help_mode = false;
@@ -39,6 +40,7 @@ class ilHelpMappingTableGUI extends ilTable2GUI
         $this->access = $DIC->access();
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
+        $this->help_map = $DIC->help()->internal()->domain()->map();
 
         $this->setId("lm_help_map");
         $this->validation = $a_validation;
@@ -85,7 +87,7 @@ class ilHelpMappingTableGUI extends ilTable2GUI
         $this->tpl->setVariable("VAL_TITLE", $a_set["title"]);
         $this->tpl->setVariable("PAGE_ID", $a_set["obj_id"]);
 
-        $screen_ids = ilHelpMapping::getScreenIdsOfChapter($a_set["obj_id"]);
+        $screen_ids = $this->help_map->getScreenIdsOfChapter($a_set["obj_id"]);
 
         $this->tpl->setVariable(
             "SCREEN_IDS",

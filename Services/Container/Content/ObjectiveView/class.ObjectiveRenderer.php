@@ -35,6 +35,8 @@ class ObjectiveRenderer
     public const CHECKBOX_NONE = 0;
     public const CHECKBOX_ADMIN = 1;
     public const CHECKBOX_DOWNLOAD = 2;
+    protected array $rendered_items;
+    protected \ilCourseObjectiveListGUI $objective_list_gui;
     protected \ilLanguage $lng;
     protected \ILIAS\Container\StandardGUIRequest $request;
     protected \ILIAS\Style\Content\Object\ObjectFacade $content_style_domain;

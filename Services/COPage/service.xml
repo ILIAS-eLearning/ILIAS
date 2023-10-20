@@ -28,6 +28,7 @@
 		<pagecontent pc_type="skills" name="Skills" directory="classes" int_links="0" style_classes="0" xsl="0" def_enabled="0" top_item="1" order_nr="160"/>
 		<pagecontent pc_type="vrfc" name="Verification" directory="classes" int_links="0" style_classes="0" xsl="0" def_enabled="0" top_item="1" order_nr="180"/>
 		<pagecontent pc_type="src" name="SourceCode" directory="classes" int_links="0" style_classes="0" xsl="0" def_enabled="1" top_item="1" order_nr="190"/>
+		<pagecontent pc_type="lay" name="LayoutTemplate" directory="PC/LayoutTemplate" int_links="0" style_classes="0" xsl="0" def_enabled="0" top_item="1" order_nr="195"/>
 		<pagecontent pc_type="templ" name="ContentTemplate" directory="classes" int_links="0" style_classes="0" xsl="0" def_enabled="0" top_item="1" order_nr="200"/>
 		<pagecontent pc_type="tab" name="Table" directory="classes" int_links="0" style_classes="1" xsl="0" def_enabled="1" top_item="1" order_nr="200"/>
 		<pagecontent pc_type="td" name="TableData" directory="classes" int_links="0" style_classes="0" xsl="0" def_enabled="1" top_item="0" order_nr="0"/>

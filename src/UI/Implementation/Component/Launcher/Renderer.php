@@ -53,6 +53,14 @@ class Renderer extends AbstractComponentRenderer
         $start_button = $ui_factory->button()->bulky($launch_glyph, $label, (string) $target);
 
         if ($modal = $component->getModal()) {
+            if ($modal_submit_lable = $component->getModalSubmitLabel()) {
+                $modal = $modal->withSubmitLabel($modal_submit_lable);
+            }
+
+            if ($modal_cancel_label = $component->getModalCancelLabel()) {
+                $modal = $modal->withCancelButtonLabel($modal_cancel_label);
+            }
+
             $tpl->setVariable("FORM", $default_renderer->render($modal));
             $start_button = $start_button->withOnClick($modal->getShowSignal());
         }

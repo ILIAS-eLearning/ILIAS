@@ -143,12 +143,19 @@ final class ilObjTalkTemplateAdministrationGUI extends ilContainerGUI
 
     /**
      * Filter the view by talk templates because the talk series objects are also children of the talk template administration.
+     * @TODO this is super messy, and should be refactored completely...
      *
      * @return ilContainerContentGUI
      */
     public function getContentGUI(): ilContainerContentGUI
     {
-        return new ilContainerByTypeContentGUI($this, new ilContainerUserFilter(['std_' . ilContainerFilterField::STD_FIELD_OBJECT_TYPE => ilObjTalkTemplate::TYPE]));
+        $this->container_user_filter = new ilContainerUserFilter([
+            'std_' . ilContainerFilterField::STD_FIELD_OBJECT_TYPE => ilObjTalkTemplate::TYPE
+        ]);
+        return new ilContainerByTypeContentGUI(
+            $this,
+            $this->getItemPresentation()
+        );
     }
 
     protected function getTabs(): void

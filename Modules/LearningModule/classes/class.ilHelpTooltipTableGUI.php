@@ -37,12 +37,13 @@ class ilHelpTooltipTableGUI extends ilTable2GUI
         $this->access = $DIC->access();
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
+        $ttm = $DIC->help()->internal()->domain()->tooltips();
 
         $this->setId("lm_help_tooltips");
 
         parent::__construct($a_parent_obj, $a_parent_cmd);
 
-        $this->setData(ilHelp::getAllTooltips($a_comp));
+        $this->setData($ttm->getAllTooltips($a_comp));
 
         $this->setTitle($lng->txt("help_tooltips"));
 

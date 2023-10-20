@@ -98,7 +98,6 @@ class ilObjTestScoreSettingsDatabaseRepository implements ScoreSettingsRepositor
             //->withShowPassDetails derived from results_presentation with bit RESULTPRES_BIT_PASS_DETAILS
             (new ilObjTestSettingsResultDetails($test_id))
                 ->withResultsPresentation((int)$row['results_presentation'])
-                ->withPrintBestSolutionWithResult((bool) $row['print_bs_with_res'])
                 ->withShowExamIdInTestResults((bool) $row['examid_in_test_res'])
                 ->withExportSettings((int) $row['exportsettings'])
                 ->withTaxonomyFilterIds($tax_filter_ids),

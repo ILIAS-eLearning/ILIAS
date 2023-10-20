@@ -21,13 +21,13 @@ declare(strict_types=1);
 namespace ILIAS\MetaData\Editor\Full;
 
 use ILIAS\MetaData\Editor\Full\Services\Services as FullEditorServices;
-use ILIAS\MetaData\Services\Services;
+use ILIAS\MetaData\Services\InternalServices;
 
 class FullEditorInitiator
 {
-    protected Services $services;
+    protected InternalServices $services;
 
-    public function __construct(Services $services)
+    public function __construct(InternalServices $services)
     {
         $this->services = $services;
     }
@@ -42,8 +42,9 @@ class FullEditorInitiator
                 $this->services->paths(),
                 $this->services->repository(),
                 $this->services->vocabularies(),
-                $this->services->structure(),
-                $this->services->editor()
+                $this->services->manipulator(),
+                $this->services->editor(),
+                $this->services->dataHelper()
             ),
             new FormContent($services),
             new TableContent($services),

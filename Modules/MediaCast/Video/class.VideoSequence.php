@@ -24,6 +24,7 @@ namespace ILIAS\MediaCast\Video;
  */
 class VideoSequence
 {
+    protected \ILIAS\MediaObjects\MediaType\MediaTypeManager $media_types;
     protected \ilObjMediaCast $media_cast;
     /** @var VideoItem[] */
     protected array $videos;

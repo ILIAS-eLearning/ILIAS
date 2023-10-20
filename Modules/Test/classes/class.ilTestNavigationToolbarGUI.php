@@ -28,71 +28,21 @@ use ILIAS\UI\Component\Modal\Interruptive;
  */
 class ilTestNavigationToolbarGUI extends ilToolbarGUI
 {
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
-    /**
-     * @var ilTestPlayerAbstractGUI
-     */
-    protected $playerGUI;
-
-    /**
-     * @var bool
-     */
-    private $suspendTestButtonEnabled = false;
-
-    /**
-     * @var bool
-     */
-    private $questionListButtonEnabled = false;
-
-    /**
-     * @var bool
-     */
-    private $questionTreeButtonEnabled = false;
-
+    private bool $suspendTestButtonEnabled = false;
     private bool $questionTreeVisible = false;
-
-    /**
-     * @var bool
-     */
-    private $questionSelectionButtonEnabled = false;
-
-    /**
-     * @var bool
-     */
-    private $finishTestButtonEnabled = false;
-
-    /**
-     * @var string
-     */
-    private $finishTestCommand = '';
-
-    /**
-     * @var bool
-     */
-    private $finishTestButtonPrimary = false;
-
-    /**
-     * @var bool
-     */
-    private $disabledStateEnabled = false;
+    private bool $questionSelectionButtonEnabled = false;
+    private bool $finishTestButtonEnabled = false;
+    private string $finishTestCommand = '';
+    private bool $finishTestButtonPrimary = false;
+    private bool $disabledStateEnabled = false;
     private bool $user_has_attempts_left = true;
     protected ?Interruptive $finish_test_modal = null;
+    protected bool $user_pass_overview_button_enabled = false;
 
-    /**
-     * @param ilCtrl $ctrl
-     * @param ilLanguage $lng
-     * @param ilTestPlayerAbstractGUI $playerGUI
-     */
-    public function __construct(ilCtrl $ctrl, ilLanguage $lng, ilTestPlayerAbstractGUI $playerGUI)
-    {
-        $this->ctrl = $ctrl;
-        $this->lng = $lng;
-        $this->playerGUI = $playerGUI;
-
+    public function __construct(
+        protected ilCtrl $ctrl,
+        protected ilTestPlayerAbstractGUI $playerGUI
+    ) {
         parent::__construct();
     }
 
@@ -125,33 +75,17 @@ class ilTestNavigationToolbarGUI extends ilToolbarGUI
     /**
      * @return boolean
      */
-    public function isQuestionListButtonEnabled(): bool
+    public function isUserPassOverviewEnabled(): bool
     {
-        return $this->questionListButtonEnabled;
+        return $this->user_pass_overview_button_enabled;
     }
 
     /**
      * @param boolean $questionListButtonEnabled
      */
-    public function setQuestionListButtonEnabled($questionListButtonEnabled)
+    public function setUserPassOverviewEnabled(bool $user_pass_overview_button_enabled)
     {
-        $this->questionListButtonEnabled = $questionListButtonEnabled;
-    }
-
-    /**
-     * @return boolean
-     */
-    public function isQuestionTreeButtonEnabled(): bool
-    {
-        return $this->questionTreeButtonEnabled;
-    }
-
-    /**
-     * @param boolean $questionTreeButtonEnabled
-     */
-    public function setQuestionTreeButtonEnabled($questionTreeButtonEnabled)
-    {
-        $this->questionTreeButtonEnabled = $questionTreeButtonEnabled;
+        $this->user_pass_overview_button_enabled = $user_pass_overview_button_enabled;
     }
 
     /**
@@ -249,12 +183,8 @@ class ilTestNavigationToolbarGUI extends ilToolbarGUI
 
     public function build()
     {
-        if ($this->isQuestionTreeButtonEnabled()) {
-            $this->addQuestionTreeButton();
-        }
-
-        if ($this->isQuestionListButtonEnabled()) {
-            $this->addQuestionListButton();
+        if ($this->isUserPassOverviewEnabled()) {
+            $this->addPassOverviewButton();
         }
 
         if ($this->isQuestionSelectionButtonEnabled()) {
@@ -287,7 +217,7 @@ class ilTestNavigationToolbarGUI extends ilToolbarGUI
         $this->addComponent($button);
     }
 
-    private function addQuestionListButton()
+    private function addPassOverviewButton()
     {
         $button = $this->ui->factory()->button()->standard(
             $this->lng->txt('question_summary_btn'),
@@ -301,21 +231,6 @@ class ilTestNavigationToolbarGUI extends ilToolbarGUI
         $button = $this->ui->factory()->button()->standard(
             $this->lng->txt('tst_change_dyn_test_question_selection'),
             $this->ctrl->getLinkTarget($this->playerGUI, ilTestPlayerCommands::SHOW_QUESTION_SELECTION)
-        );
-        $this->addComponent($button);
-    }
-
-    private function addQuestionTreeButton()
-    {
-        if ($this->isQuestionTreeVisible()) {
-            $btn_cap = $this->lng->txt('tst_hide_side_list');
-        } else {
-            $btn_cap = $this->lng->txt('tst_show_side_list');
-        }
-
-        $button = $this->ui->factory()->button()->standard(
-            $btn_cap,
-            $this->ctrl->getLinkTarget($this->playerGUI, ilTestPlayerCommands::TOGGLE_SIDE_LIST)
         );
         $this->addComponent($button);
     }

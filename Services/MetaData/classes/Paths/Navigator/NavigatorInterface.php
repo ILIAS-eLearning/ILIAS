@@ -26,6 +26,8 @@ interface NavigatorInterface extends BaseNavigatorInterface
 {
     public function nextStep(): ?NavigatorInterface;
 
+    public function previousStep(): ?NavigatorInterface;
+
     /**
      * Returns the elements at the end of the path.
      * If the path should lead to exactly one element,

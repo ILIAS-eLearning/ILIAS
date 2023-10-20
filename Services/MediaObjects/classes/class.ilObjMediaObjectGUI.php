@@ -26,6 +26,7 @@ use ILIAS\MediaObjects\SubTitles\SubtitlesGUIRequest;
  */
 class ilObjMediaObjectGUI extends ilObjectGUI
 {
+    protected \ILIAS\MediaObjects\Video\GUIService $video_gui;
     protected ilFileServicesSettings $file_service_settings;
     protected SubtitlesGUIRequest $sub_title_request;
     protected ilPropertyFormGUI $form_gui;
@@ -85,6 +86,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 
         $lng->loadLanguageModule("mob");
         $this->file_service_settings = $DIC->fileServiceSettings();
+        $this->video_gui = $DIC->mediaObjects()->internal()->gui()->video();
     }
 
     /**
@@ -375,6 +377,10 @@ class ilObjMediaObjectGUI extends ilObjectGUI
             $ta->setRows(2);
             $ta->setInfo($lng->txt("text_repr_info"));
             $this->form_gui->addItem($ta);
+        }
+
+        if ($this->object) {
+            $this->video_gui->addPreviewInput($this->form_gui, $this->object->getId());
         }
 
         // standard parameters
@@ -862,12 +868,23 @@ class ilObjMediaObjectGUI extends ilObjectGUI
         $tpl = $this->tpl;
 
         $this->setPropertiesSubTabs("general");
-
+        $this->video_gui->addPreviewExtractionToToolbar(
+            $this->object->getId(),
+            self::class
+        );
         $this->initForm("edit");
         $this->getValues();
         $tpl->setContent($this->form_gui->getHTML());
     }
 
+    public function extractPreviewImageObject(): void
+    {
+        $ilCtrl = $this->ctrl;
+        $this->video_gui->handleExtractionRequest(
+            $this->object->getId()
+        );
+        $ilCtrl->redirect($this, "edit");
+    }
 
     /**
      * resize images to specified size
@@ -1039,6 +1056,8 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 
             // text representation
             $std_item->setTextRepresentation($form->getInput("text_representation"));
+
+            $this->video_gui->savePreviewInput($form, $this->object->getId());
 
             // set parameters
             if ($this->media_type->usesParameterProperty($std_item->getFormat())) {

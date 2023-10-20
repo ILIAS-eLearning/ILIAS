@@ -39,6 +39,7 @@ use ILIAS\ResourceStorage\Stakeholder\Repository\StakeholderRepository;
 use ILIAS\ResourceStorage\StorageHandler\StorageHandler;
 use ILIAS\ResourceStorage\StorageHandler\StorageHandlerFactory;
 use Psr\Http\Message\UploadedFileInterface;
+use ILIAS\ResourceStorage\Resource\ResourceType;
 
 /**
  * Class AbstractBaseResourceBuilderTest

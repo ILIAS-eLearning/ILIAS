@@ -208,7 +208,7 @@ class IconDatabaseRepository extends IconAbstractRepository
     public function getIconFilePathBySuffix(string $suffix): string
     {
         if ($suffix !== "") {
-            $icon = self::getActiveIconForSuffix($suffix);
+            $icon = $this->getActiveIconForSuffix($suffix);
             if (!$icon instanceof NullIcon) {
                 $resource_identification = $this->irss->manage()->find($icon->getRid());
                 if ($resource_identification !== null) {

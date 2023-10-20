@@ -29,113 +29,39 @@ use ILIAS\MetaData\Repository\Utilities\ScaffoldProviderInterface;
 use ILIAS\MetaData\Elements\Markers\Action;
 use ILIAS\MetaData\Elements\Markers\MarkerFactoryInterface;
 use ILIAS\MetaData\Elements\Markers\MarkerInterface;
+use ILIAS\MetaData\Elements\RessourceID\NullRessourceID;
 
 class SetTest extends TestCase
 {
-    protected function getMockRessourceID(): RessourceIDInterface
+    protected function getRoot(): ElementInterface
     {
-        return new class () implements RessourceIDInterface {
-            public function type(): string
+        return new class () extends NullElement {
+            public function getMDID(): NoID|int
             {
-                return 'type';
+                return NoID::ROOT;
             }
 
-            public function objID(): int
+            public function isRoot(): bool
             {
-                return 0;
-            }
-
-            public function subID(): int
-            {
-                return 0;
+                return true;
             }
         };
     }
 
     public function testGetRoot(): void
     {
-        $root = new MockRoot();
-        $set = new Set($this->getMockRessourceID(), $root);
+        $root = $this->getRoot();
+        $set = new Set(new NullRessourceID(), $root);
 
         $this->assertSame($root, $set->getRoot());
     }
 
     public function testGetRessourceID(): void
     {
-        $root = new MockRoot();
-        $id = $this->getMockRessourceID();
+        $root = $this->getRoot();
+        $id = new NullRessourceID();
         $set = new Set($id, $root);
 
         $this->assertSame($id, $set->getRessourceID());
-    }
-}
-
-class MockRoot implements ElementInterface
-{
-    public function isRoot(): bool
-    {
-        return true;
-    }
-
-    public function getDefinition(): DefinitionInterface
-    {
-        $this->throwException();
-    }
-
-    public function getMDID(): NoID
-    {
-        return NoID::ROOT;
-    }
-
-    public function getSubElements(): \Generator
-    {
-        $this->throwException();
-    }
-
-    public function getSuperElement(): ?ElementInterface
-    {
-        return null;
-    }
-
-    public function isScaffold(): bool
-    {
-        $this->throwException();
-    }
-
-    public function getData(): DataInterface
-    {
-        $this->throwException();
-    }
-
-    public function isMarked(): bool
-    {
-        $this->throwException();
-    }
-
-    public function getMarker(): ?MarkerInterface
-    {
-        $this->throwException();
-    }
-
-    public function mark(MarkerFactoryInterface $factory, Action $action, string $data_value = '')
-    {
-        $this->throwException();
-    }
-
-    public function addScaffoldsToSubElements(ScaffoldProviderInterface $scaffold_provider): void
-    {
-        $this->throwException();
-    }
-
-    public function addScaffoldToSubElements(
-        ScaffoldProviderInterface $scaffold_provider,
-        string $name
-    ): ?ElementInterface {
-        $this->throwException();
-    }
-
-    protected function throwException(): void
-    {
-        throw new \ilMDElementsException('This should not be called.');
     }
 }

@@ -1688,7 +1688,7 @@ assessment#:#tst_report_after_test#:#Αναφορά βαθμολογίας με�
 assessment#:#tst_report_never#:#No test results available###07 09 2009 new variable
 assessment#:#tst_reporting_date#:#Date###06 02 2015 new variable
 assessment#:#tst_res_jump_to_participant_btn#:#Jump###26 09 2014 new variable
-assessment#:#tst_res_jump_to_participant_hint_opt#:#--Jump to Participant--###26 09 2014 new variable
+assessment#:#tst_res_jump_to_participant_hint_opt#:#Jump to Participant
 assessment#:#tst_res_lo_objectives_header#:#Relevant Learning Objectives###30 08 2015 new variable
 assessment#:#tst_res_lo_try_header#:#Attempt###30 08 2015 new variable
 assessment#:#tst_res_lo_try_n#:#Attempt %s###30 08 2015 new variable

@@ -114,8 +114,7 @@ $general = [
     ],
     [
         'name' => 'coverage',
-        //'unique' => false,
-        'unique' => true,
+        'unique' => false,
         'type' => Type::NULL,
         'sub' => $langstring
     ],
@@ -220,8 +219,7 @@ $metametadata = [
     ],
     [
         'name' => 'metadataSchema',
-        //'unique' => false,
-        'unique' => true,
+        'unique' => false,
         'type' => Type::STRING,
         'sub' => []
     ],
@@ -259,8 +257,7 @@ $technical = [
         'sub' => [
             [
                 'name' => 'orComposite',
-                //'unique' => false,
-                'unique' => true,
+                'unique' => false,
                 'type' => Type::NULL,
                 'sub' => [
                     [
@@ -320,8 +317,7 @@ $educational = [
     ],
     [
         'name' => 'learningResourceType',
-        //'unique' => false,
-        'unique' => true,
+        'unique' => false,
         'type' => Type::NULL,
         'sub' => $vocab
     ],
@@ -339,15 +335,13 @@ $educational = [
     ],
     [
         'name' => 'intendedEndUserRole',
-        //'unique' => false,
-        'unique' => true,
+        'unique' => false,
         'type' => Type::NULL,
         'sub' => $vocab
     ],
     [
         'name' => 'context',
-        //'unique' => false,
-        'unique' => true,
+        'unique' => false,
         'type' => Type::NULL,
         'sub' => $vocab
     ],

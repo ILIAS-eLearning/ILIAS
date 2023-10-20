@@ -27,49 +27,26 @@ use ILIAS\MetaData\Elements\NoID;
 
 class StructureSetTest extends TestCase
 {
+    protected function getRoot(): StructureElementInterface
+    {
+        return new class () extends NullStructureElement {
+            public function getMDID(): NoID
+            {
+                return NoID::ROOT;
+            }
+
+            public function isRoot(): bool
+            {
+                return true;
+            }
+        };
+    }
+
     public function testGetRoot(): void
     {
-        $root = new MockStructureRoot();
+        $root = $this->getRoot();
         $set = new StructureSet($root);
 
         $this->assertSame($root, $set->getRoot());
-    }
-}
-
-class MockStructureRoot implements StructureElementInterface
-{
-    public function isRoot(): bool
-    {
-        return true;
-    }
-
-    public function getDefinition(): DefinitionInterface
-    {
-        $this->throwException();
-    }
-
-    public function getMDID(): NoID
-    {
-        return NoID::ROOT;
-    }
-
-    public function getSubElements(): \Generator
-    {
-        $this->throwException();
-    }
-
-    public function getSubElement(string $name): ?StructureElementInterface
-    {
-        $this->throwException();
-    }
-
-    public function getSuperElement(): ?StructureElementInterface
-    {
-        return null;
-    }
-
-    protected function throwException(): void
-    {
-        throw new \ilMDElementsException('This should not be called.');
     }
 }

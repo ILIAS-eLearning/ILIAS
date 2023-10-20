@@ -32,18 +32,18 @@ use ILIAS\MetaData\Elements\SetInterface;
 use ILIAS\MetaData\Paths\PathInterface;
 use ILIAS\DI\Container;
 use ILIAS\MetaData\Elements\ElementInterface;
-use ILIAS\MetaData\Services\Services;
+use ILIAS\MetaData\Services\InternalServices;
 
 class MDEditorToolProvider extends AbstractDynamicToolProvider
 {
     use Hasher;
 
-    protected Services $services;
+    protected InternalServices $services;
 
     public function __construct(Container $dic)
     {
         parent::__construct($dic);
-        $this->services = new Services($dic);
+        $this->services = new InternalServices($dic);
     }
 
     public function isInterestedInContexts(): ContextCollection
@@ -84,8 +84,7 @@ class MDEditorToolProvider extends AbstractDynamicToolProvider
         $identification = $id_generator('system_styles_tree');
         $hashed = $this->hash($identification->serialize());
 
-        $lng = $this->dic->language();
-        $lng->loadLanguageModule('meta');
+        $lng = $this->services->presentation()->utilities();
 
         return $this->factory
             ->tool($identification)
@@ -93,13 +92,13 @@ class MDEditorToolProvider extends AbstractDynamicToolProvider
                 $lng->txt('meta_lom_short')
             )
             ->withSymbol(
-                $this->dic->ui()->factory()->symbol()->icon()->standard(
+                $this->services->dic()->ui()->factory()->symbol()->icon()->standard(
                     'mds',
                     $lng->txt('meta_lom_short')
                 )
             )
-            ->withContent($this->dic->ui()->factory()->legacy(
-                $this->dic->ui()->renderer()->render($this->getUITree(
+            ->withContent($this->services->dic()->ui()->factory()->legacy(
+                $this->services->dic()->ui()->renderer()->render($this->getUITree(
                     $set,
                     $path
                 ))
@@ -124,7 +123,7 @@ class MDEditorToolProvider extends AbstractDynamicToolProvider
             $this->services->editor()->linkFactory(),
             ...$this->getElements($set, $path)
         );
-        $f = $this->dic->ui()->factory();
+        $f = $this->services->dic()->ui()->factory();
 
         return $f->tree()
                  ->expandable('MD Editor Tree', $recursion)
