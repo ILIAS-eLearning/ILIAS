@@ -9504,6 +9504,8 @@ file#:#copyright_inherited_info#:#Apply the copyright of the zip archive to its 
 file#:#de_activate_icon#:#(De-)Activate
 file#:#download_ascii_filename#:#Use ASCII-only characters for downloaded filenames
 file#:#download_ascii_filename_info#:#Downloaded files should only have ASCII-characters in their filename. Deactivate to use all characters.
+file#:#file_btn_lp_toggle_state_completed#:#Set Not Completed
+file#:#file_btn_lp_toggle_state_not_completed#:#Set Completed
 file#:#file_copy#:#Copy File
 file#:#file_download#:#Download File
 file#:#file_import#:#Import File
@@ -9514,6 +9516,7 @@ file#:#file_uploaded_by#:#Version uploaded by
 file#:#form_icon_creation#:#Create Icon
 file#:#form_icon_updating#:#Update Icon
 file#:#general_upload_error_occured#:#An unexpected error occured during upload.
+file#:#important_info#:#Important Information
 file#:#input_active#:#Active
 file#:#input_desc_active#:#Activate this icon.
 file#:#input_desc_icon#:#Image which shall be shown as an icon for files with the specified suffixes.
@@ -9521,6 +9524,7 @@ file#:#input_desc_suffixes#:#List of comma-separated suffixes (characters and nu
 file#:#input_icon#:#Icon
 file#:#input_suffixes#:#Suffixes
 file#:#migrated#:#Status
+file#:#mime_type#:#MIME Type
 file#:#msg_confirm_entry_deletion#:#Are you sure you want to delete the following entry?:
 file#:#msg_error_active_suffixes_blacklisted#:#One of the selected file extensions is on the global blacklist and cannot be used at the moment.
 file#:#msg_error_active_suffixes_conflict#:#Error: there must not be multiple activated icons for the same suffix. Please deactivate either this icon or the other activated icon whose suffixes overlap with the suffixes of this icon.

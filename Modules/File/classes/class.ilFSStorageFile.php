@@ -30,12 +30,10 @@ class ilFSStorageFile extends ilFileSystemAbstractionStorage
         parent::__construct(self::STORAGE_DATA, true, $a_container_id);
     }
 
-
     protected function getPathPostfix(): string
     {
         return 'file';
     }
-
 
     protected function getPathPrefix(): string
     {

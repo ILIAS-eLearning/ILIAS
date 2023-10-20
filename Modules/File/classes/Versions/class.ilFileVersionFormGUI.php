@@ -16,9 +16,6 @@
  *
  *********************************************************************/
 
-use ILIAS\FileUpload\DTO\ProcessingStatus;
-use ILIAS\FileUpload\DTO\UploadResult;
-use ILIAS\FileUpload\FileUpload;
 use Psr\Http\Message\RequestInterface;
 
 /**
@@ -43,20 +40,17 @@ class ilFileVersionFormGUI
     private ilGlobalTemplateInterface $global_tpl;
     private ilLanguage $lng;
     private \ILIAS\ResourceStorage\Services $resource_services;
-
-    private int $save_mode = self::MODE_ADD;
     private string $post_url;
 
     /**
      * ilFileVersionFormGUI constructor.
      */
-    public function __construct(ilFileVersionsGUI $file_version_gui, $mode = self::MODE_ADD)
+    public function __construct(ilFileVersionsGUI $file_version_gui, private int $save_mode = self::MODE_ADD)
     {
         global $DIC;
         $this->file = $file_version_gui->getFile();
         ;
         $this->lng = $DIC->language();
-        $this->save_mode = $mode;
         $this->ui_factory = $DIC->ui()->factory();
         $this->ui_renderer = $DIC->ui()->renderer();
         $this->request = $DIC->http()->request();
@@ -64,7 +58,7 @@ class ilFileVersionFormGUI
         $this->resource_services = $DIC->resourceStorage();
         $this->post_url = $DIC->ctrl()->getFormAction(
             $file_version_gui,
-            $this->resolveParentCommand($mode)
+            $this->resolveParentCommand($save_mode)
         );
         $this->lng->loadLanguageModule('file');
         $this->initForm();
@@ -138,12 +132,9 @@ class ilFileVersionFormGUI
 
     private function resolveParentCommand(int $mode): string
     {
-        switch ($mode) {
-            case self::MODE_ADD:
-            default:
-                return ilFileVersionsGUI::CMD_CREATE_NEW_VERSION;
-            case self::MODE_REPLACE:
-                return ilFileVersionsGUI::CMD_CREATE_REPLACING_VERSION;
-        }
+        return match ($mode) {
+            self::MODE_REPLACE => ilFileVersionsGUI::CMD_CREATE_REPLACING_VERSION,
+            default => ilFileVersionsGUI::CMD_CREATE_NEW_VERSION,
+        };
     }
 }

@@ -22,6 +22,11 @@
  */
 class ilObjFileImplementationEmpty implements ilObjFileImplementationInterface
 {
+    public function getFileName(): string
+    {
+        return '';
+    }
+
     public function getDirectory(int $a_version = 0): string
     {
         return '';

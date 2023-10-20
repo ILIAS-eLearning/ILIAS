@@ -16,8 +16,6 @@
  *********************************************************************/
 
 use ILIAS\HTTP\Services;
-use ILIAS\UI\Factory;
-use ILIAS\UI\Renderer;
 use ILIAS\File\Icon\ilObjFileIconsOverviewGUI;
 use ILIAS\Modules\File\Preview\Settings;
 use ILIAS\Modules\File\Settings\General;
@@ -59,7 +57,7 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
         $this->type = "facs";
         parent::__construct($a_data, $a_id, $a_call_by_reference, false);
         $this->preview_settings = new ILIAS\Modules\File\Preview\Form(new Settings());
-        $this->file_object_settings = new \ILIAS\Modules\File\Settings\Form(new General()) ;
+        $this->file_object_settings = new \ILIAS\Modules\File\Settings\Form(new General());
         $this->http = $DIC->http();
         $this->ui_factory = $DIC->ui()->factory();
         $this->ui_renderer = $DIC->ui()->renderer();
@@ -78,14 +76,13 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 
     private function buildForm(): \ILIAS\UI\Component\Input\Container\Form\Standard
     {
-        $form = $this->ui_factory->input()->container()->form()->standard(
+        return $this->ui_factory->input()->container()->form()->standard(
             $this->ctrl->getLinkTarget($this, self::CMD_SAVE_SETTINGS),
             [
                 $this->file_object_settings->asFormSection(),
                 $this->preview_settings->asFormSection(),
             ]
         );
-        return $form;
     }
 
     public function executeCommand(): void

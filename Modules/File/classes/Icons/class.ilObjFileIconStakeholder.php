@@ -27,13 +27,11 @@ use ILIAS\ResourceStorage\Stakeholder\AbstractResourceStakeholder;
  */
 class ilObjFileIconStakeholder extends AbstractResourceStakeholder
 {
-    protected int $owner = 6;
     /**
      * ilObjFileIconStakeholder constructor.
      */
-    public function __construct(int $owner = 6)
+    public function __construct(protected int $owner = 6)
     {
-        $this->owner = $owner;
     }
 
     /**

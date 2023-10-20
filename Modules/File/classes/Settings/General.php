@@ -19,11 +19,7 @@
 namespace ILIAS\Modules\File\Settings;
 
 use ILIAS\Administration\Setting;
-use ILIAS\ResourceStorage\Flavour\Engine\GDEngine;
-use ILIAS\ResourceStorage\Flavour\Engine\ImagickEngine;
-use ILIAS\UI\Component\Input\Field\Group;
 use ilSetting;
-use ILIAS\UI\Component\Input\Field\Section;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
@@ -46,7 +42,6 @@ class General extends ilSetting implements Setting
         'pdf',
         'png',
     ];
-
 
     public function __construct()
     {
@@ -73,7 +68,7 @@ class General extends ilSetting implements Setting
         $this->set(self::F_SHOW_AMOUNT_OF_DOWNLOADS, $this->boolToStr($value));
     }
 
-    public function setInlineFileExtensions(array $extensions)
+    public function setInlineFileExtensions(array $extensions): void
     {
         $extensions = array_map(function (string $extension): string {
             return strtolower(trim($extension, " \t\n\r\0\x0B,"));

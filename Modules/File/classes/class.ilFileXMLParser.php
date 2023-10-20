@@ -26,6 +26,7 @@
  *
  * @extends ilSaxParser
  */
+
 use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\FileUpload\MimeType;
 
@@ -37,24 +38,10 @@ class ilFileXMLParser extends ilSaxParser
     public static int $CONTENT_COPY = 4;
     // begin-patch fm
     public static int $CONTENT_REST = 5;
-    // end-patch fm
-    /**
-     * Exercise object which has been parsed
-     */
-    public \ilObjFile $file;
-    /**
-     * this will be matched against the id in the xml
-     * in case we want to update an exercise
-     */
-    public int $obj_id;
     /**
      * result of parsing and updating
      */
-    public bool $result;
-    /**
-     * Content compression mode, defaults to no compression
-     */
-    public int $mode;
+    public bool $result = false;
     /**
      *    file of temporary file where we store the file content instead of in memory
      */
@@ -72,14 +59,24 @@ class ilFileXMLParser extends ilSaxParser
     /**
      * Constructor
      */
-    public function __construct(ilObjFile $file, string $a_xml_data, int $obj_id = -1, int $mode = 0)
-    {
+    public function __construct(// end-patch fm
+        /**
+         * Exercise object which has been parsed
+         */
+        public ilObjFile $file,
+        string $a_xml_data,
+        /**
+         * this will be matched against the id in the xml
+         * in case we want to update an exercise
+         */
+        public int $obj_id = -1,
+        /**
+         * Content compression mode, defaults to no compression
+         */
+        public int $mode = 0
+    ) {
         parent::__construct();
-        $this->file = $file;
         $this->setXMLContent($a_xml_data);
-        $this->obj_id = $obj_id;
-        $this->result = false;
-        $this->mode = $mode;
     }
 
     /**
@@ -242,10 +239,10 @@ class ilFileXMLParser extends ilSaxParser
                 }
 
                 $baseDecodedFilename = ilFileUtils::ilTempnam();
-                if ($this->mode == ilFileXMLParser::$CONTENT_COPY) {
+                if ($this->mode === ilFileXMLParser::$CONTENT_COPY) {
                     $this->tmpFilename = $this->getImportDirectory() . "/" . self::normalizeRelativePath($this->cdata);
                 } // begin-patch fm
-                elseif ($this->mode == ilFileXMLParser::$CONTENT_REST) {
+                elseif ($this->mode === ilFileXMLParser::$CONTENT_REST) {
                     $storage = new ilRestFileStorage();
                     $this->tmpFilename = $storage->getStoredFilePath(self::normalizeRelativePath($this->cdata));
                     if (!$this->fastBase64Decode($this->tmpFilename, $baseDecodedFilename)) {
@@ -257,7 +254,7 @@ class ilFileXMLParser extends ilSaxParser
                     if (!$this->fastBase64Decode($this->tmpFilename, $baseDecodedFilename)) {
                         throw new ilFileException("Base64-Decoding failed", ilFileException::$DECOMPRESSION_FAILED);
                     }
-                    if ($this->mode == ilFileXMLParser::$CONTENT_GZ_COMPRESSED) {
+                    if ($this->mode === ilFileXMLParser::$CONTENT_GZ_COMPRESSED) {
                         if (!$this->fastGunzip($baseDecodedFilename, $this->tmpFilename)) {
                             throw new ilFileException(
                                 "Deflating with fastzunzip failed",
@@ -265,7 +262,7 @@ class ilFileXMLParser extends ilSaxParser
                             );
                         }
                         unlink($baseDecodedFilename);
-                    } elseif ($this->mode == ilFileXMLParser::$CONTENT_ZLIB_COMPRESSED) {
+                    } elseif ($this->mode === ilFileXMLParser::$CONTENT_ZLIB_COMPRESSED) {
                         if (!$this->fastGunzip($baseDecodedFilename, $this->tmpFilename)) {
                             throw new ilFileException(
                                 "Deflating with fastDecompress failed",
@@ -320,8 +317,8 @@ class ilFileXMLParser extends ilSaxParser
     {
         if ($a_data != "\n") {
             // begin-patch fm
-            if ($this->mode != ilFileXMLParser::$CONTENT_COPY
-                && $this->mode != ilFileXMLParser::$CONTENT_REST
+            if ($this->mode !== ilFileXMLParser::$CONTENT_COPY
+                && $this->mode !== ilFileXMLParser::$CONTENT_REST
             ) { // begin-patch fm
                 $this->cdata .= $a_data;
             } else {
@@ -352,7 +349,9 @@ class ilFileXMLParser extends ilSaxParser
                     "/"
                 ) . "/" . $files[2];// because [0] = "." [1] = ".."
                 if (!file_exists($version["tmpFilename"])) {
-                    ilLoggerFactory::getLogger('file')->error(__METHOD__ . ' "' . ($version["tmpFilename"]) . '" file not found.');
+                    ilLoggerFactory::getLogger('file')->error(
+                        __METHOD__ . ' "' . ($version["tmpFilename"]) . '" file not found.'
+                    );
 
                     continue;
                 }
@@ -451,13 +450,18 @@ class ilFileXMLParser extends ilSaxParser
 
     private function fastGunzip(string $in, string $out): bool
     {
-        if (!file_exists($in) || !is_readable($in)) {
+        if (!file_exists($in)) {
             return false;
         }
-        if ((!file_exists($out) && !is_writable(dirname($out)) || (file_exists($out) && !is_writable($out)))) {
+        if (!is_readable($in)) {
             return false;
         }
-
+        if (!file_exists($out) && !is_writable(dirname($out))) {
+            return false;
+        }
+        if (file_exists($out) && !is_writable($out)) {
+            return false;
+        }
         $in_file = gzopen($in, "rb");
         $out_file = fopen($out, "wb");
 

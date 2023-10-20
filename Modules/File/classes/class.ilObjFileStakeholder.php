@@ -24,18 +24,16 @@ use ILIAS\ResourceStorage\Identification\ResourceIdentification;
  */
 class ilObjFileStakeholder extends AbstractResourceStakeholder
 {
-    protected int $owner = 6;
     private int $current_user;
     protected ?ilDBInterface $database = null;
 
     /**
      * ilObjFileStakeholder constructor.
      */
-    public function __construct(int $owner = 6)
+    public function __construct(protected int $owner = 6)
     {
         global $DIC;
-        $this->current_user = (int)($DIC->isDependencyAvailable('user') ? $DIC->user()->getId() : ANONYMOUS_USER_ID);
-        $this->owner = $owner;
+        $this->current_user = (int) ($DIC->isDependencyAvailable('user') ? $DIC->user()->getId() : ANONYMOUS_USER_ID);
     }
 
     /**
@@ -80,9 +78,8 @@ class ilObjFileStakeholder extends AbstractResourceStakeholder
         );
         $d = $this->database->fetchObject($r);
 
-        return (isset($d->file_id) ? (int)$d->file_id : null);
+        return (isset($d->file_id) ? (int) $d->file_id : null);
     }
-
 
     public function resourceHasBeenDeleted(ResourceIdentification $identification): bool
     {
@@ -93,7 +90,7 @@ class ilObjFileStakeholder extends AbstractResourceStakeholder
                 ['text'],
                 [$object_id]
             );
-        } catch (Throwable $t) {
+        } catch (Throwable) {
             return false;
         }
         return true;
