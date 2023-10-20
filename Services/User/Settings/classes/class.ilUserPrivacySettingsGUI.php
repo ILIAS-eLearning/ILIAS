@@ -302,7 +302,7 @@ class ilUserPrivacySettingsGUI
             ->withValue($val)
             ->withRequired(true)
             ->withDisabled(
-                $this->settings->get("usr_settings_disable_hide_own_online_status")
+                $this->settings->get('usr_settings_disable_hide_own_online_status', '0') === '1' ? true : false
             );
 
         $formSections['awrn_sec'] = $this->uiFactory->input()->field()->section($fields, $this->lng->txt('obj_awra'));
@@ -326,7 +326,7 @@ class ilUserPrivacySettingsGUI
             )
             ->withValue($this->user->prefs['bs_allow_to_contact_me'] == 'y')
             ->withDisabled(
-                $this->settings->get('usr_settings_disable_bs_allow_to_contact_me')
+                $this->settings->get('usr_settings_disable_bs_allow_to_contact_me', '0') === '1' ? true : false
             );
 
         $formSections['contacts_sec'] = $this->uiFactory->input()->field()->section($fields, $this->lng->txt('mm_contacts'));
@@ -358,7 +358,7 @@ class ilUserPrivacySettingsGUI
         });
 
         if ($this->shouldShowOnScreenChatOptions()) {
-            $oscAvailable = (bool) $this->settings->get('usr_settings_disable_chat_osc_accept_msg', false);
+            $oscAvailable = $this->settings->get('usr_settings_disable_chat_osc_accept_msg', '0') === '1' ? true : false;
             $oscSubFormGroup = [];
 
             if ($this->chatSettings->get('enable_browser_notifications', false)) {
@@ -469,7 +469,7 @@ class ilUserPrivacySettingsGUI
                         $enableOsc = is_array($enableOsc);
                     }
 
-                    if (!(bool) $this->settings->get('usr_settings_disable_chat_osc_accept_msg', false)) {
+                    if ($this->settings->get('usr_settings_disable_chat_osc_accept_msg', '0') !== '1') {
                         $preferencesUpdated = true;
                         if ($oldEnableOscValue !== $enableOsc) {
                             $this->user->setPref('chat_osc_accept_msg', ilUtil::tf2yn($enableOsc));
