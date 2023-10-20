@@ -133,7 +133,6 @@ class ResourceBuilder
             $resource,
             $stream,
             $info_resolver,
-            $keep_original,
             RevisionStatus::PUBLISHED,
             $keep_original
         );
