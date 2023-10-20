@@ -113,6 +113,7 @@ class ilResourceStorageMigrationHelper
             new ilIniFilesLoadedObjective(),
             new ilDatabaseInitializedObjective(),
             new ilDatabaseUpdatedObjective(),
+            new ilDatabaseUpdateStepsExecutedObjective(new ilResourceStorageDB90())
         ];
     }
 
