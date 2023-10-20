@@ -330,16 +330,16 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 
         $pages = ilPortfolioPage::getAllPortfolioPages($this->getObject()->getId());
 
-        $this->gui->link(
+        $this->gui->button(
             $this->lng->txt("prtf_add_page"),
             $this->ctrl->getLinkTarget($this, "addPage")
-        )->emphasised()->toToolbar(true);
+        )->toToolbar(true);
 
         if (!$ilSetting->get('disable_wsp_blogs')) {
-            $this->gui->link(
+            $this->gui->button(
                 $this->lng->txt("prtf_add_blog"),
                 $this->ctrl->getLinkTarget($this, "addBlog")
-            )->emphasised()->toToolbar(true);
+            )->toToolbar(true);
         }
 
 
@@ -364,10 +364,10 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
                 $ilToolbar->addComponent($button);
                 $modal_html = $ui->renderer()->render($comment_modal);
             } else {
-                $this->gui->link(
+                $this->gui->button(
                     $this->lng->txt("export_html"),
                     $this->ctrl->getLinkTarget($this, "export")
-                )->emphasised()->toToolbar();
+                )->toToolbar();
             }
 
             $print_view = $this->getPrintView();

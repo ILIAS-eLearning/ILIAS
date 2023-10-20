@@ -180,17 +180,17 @@ class ilPortfolioRepositoryGUI
         $ilToolbar = $this->toolbar;
         $ilCtrl = $this->ctrl;
 
-        $this->gui->link(
+        $this->gui->button(
             $this->lng->txt("prtf_add_portfolio"),
             $ilCtrl->getLinkTargetByClass("ilObjPortfolioGUI", "create")
-        )->emphasised()->toToolbar(true);
+        )->toToolbar(true);
 
         $templates = ilObjPortfolioTemplate::getAvailablePortfolioTemplates();
         if (count($templates) > 0) {
-            $this->gui->link(
+            $this->gui->button(
                 $this->lng->txt("prtf_add_portfolio_from_template"),
                 $ilCtrl->getLinkTargetByClass("ilObjPortfolioGUI", "createFromTemplate")
-            )->emphasised()->toToolbar(true);
+            )->toToolbar(true);
         }
 
         $portfolio_list = $this->getPortfolioList();
