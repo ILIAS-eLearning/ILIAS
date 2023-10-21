@@ -37,7 +37,7 @@ class ObjectTimeLimitsProperty implements \ilObjectProperty
         private ?bool $time_limits_enabled = null,
         private ?\DateTimeImmutable $time_limit_start = null,
         private ?\DateTimeImmutable $time_limit_end = null,
-        private ?bool $visible_when_disabled = null
+        private ?bool $visible_when_disabled = false
     ) {
     }
 
@@ -102,16 +102,17 @@ class ObjectTimeLimitsProperty implements \ilObjectProperty
         );
         $trafo = $this->getTransformationForActivationLimitedOptionalGroup($refinery);
         $value = $this->getValueForActivationLimitedOptionalGroup(
-            new \DateTimeZone($environment['user_time_zone']),
-            $environment['user_date_format']
+            new \DateTimeZone($environment['user_time_zone'])
         );
 
         $inputs['time_limit_start'] = $field_factory->dateTime($language->txt('duration_default_label_start'))
             ->withTimezone($environment['user_time_zone'])
-            ->withFormat($environment['user_date_format']);
+            ->withFormat($environment['user_date_format'])
+            ->withUseTime(true);
         $inputs['time_limit_end'] = $field_factory->dateTime($language->txt('duration_default_label_end'))
             ->withTimezone($environment['user_time_zone'])
-            ->withFormat($environment['user_date_format']);
+            ->withFormat($environment['user_date_format'])
+            ->withUseTime(true);
         $inputs['visible_when_disabled'] = $field_factory->checkbox(
             $language->txt('activation_visible_when_disabled'),
             $language->txt('activation_visible_when_disabled_info')
@@ -167,13 +168,13 @@ class ObjectTimeLimitsProperty implements \ilObjectProperty
     }
 
 
-    private function getValueForActivationLimitedOptionalGroup(\DateTimeZone $timezone, DateFormat $format): ?array
+    private function getValueForActivationLimitedOptionalGroup(\DateTimeZone $timezone): ?array
     {
         $value = null;
         if ($this->getTimeLimitsEnabled()) {
             $value = [
-                'time_limit_start' => $this->getTimeLimitStart()?->setTimezone($timezone)->format($format->toString()) ?? '',
-                'time_limit_end' => $this->getTimeLimitEnd()?->setTimezone($timezone)->format($format->toString()) ?? '',
+                'time_limit_start' => $this->getTimeLimitStart()?->setTimezone($timezone)->format('Y-m-d H:i') ?? '',
+                'time_limit_end' => $this->getTimeLimitEnd()?->setTimezone($timezone)->format('Y-m-d H:i') ?? '',
                 'visible_when_disabled' => $this->getVisibleWhenDisabled()
             ];
         }

@@ -73,10 +73,10 @@ class MultiObjectPropertiesManipulator
         $this->properties_agregator->preload($ref_ids);
 
         $items = $this->getItemsForRefIds($ref_ids);
-        $list = $this->ui_factory->listing()->unordered($items);
+
         $post_url = $this->ctrl->getFormAction($parent_gui, 'saveTimeLimits');
 
-        return $this->buildModal($post_url, $list, $ref_ids, $this->areAllElementsEqual($ref_ids));
+        return $this->buildModal($post_url, $items, $ref_ids, $this->areAllElementsEqual($ref_ids));
     }
 
     public function saveEditTimeLimitsPropertiesModal(
@@ -98,7 +98,7 @@ class MultiObjectPropertiesManipulator
 
     private function buildModal(
         string $post_url,
-        ?UnorderedListing $list = null,
+        ?array $items = null,
         array $ref_ids = null,
         bool $all_settings_are_equal = false
     ): RoundTripModal {
@@ -108,7 +108,7 @@ class MultiObjectPropertiesManipulator
             $ref_id_for_value = $ref_ids[0];
         }
         $modal_factory = $this->ui_factory->modal();
-        $content = $list;
+        $content = $items;
 
         $input_fields = $this->buildForm($ref_id_for_value);
 
@@ -119,8 +119,7 @@ class MultiObjectPropertiesManipulator
         if ($ref_ids !== null && !$all_settings_are_equal) {
             $content = [
                 $this->ui_factory->messageBox()->info($this->language->txt('unequal_items_for_time_limits_message')),
-                $list
-            ];
+            ] + $items;
         }
         return $modal_factory->roundtrip($this->language->txt('edit_time_limits'), $content, $input_fields, $post_url);
     }
@@ -186,7 +185,7 @@ class MultiObjectPropertiesManipulator
 
     /**
      * @param array<int> $ref_ids
-     * @return array<ILIAS\UI\Component\Item\Standard>
+     * @return array<ILIAS\UI\Component\Item\Shy>
      */
     private function getItemsForRefIds(array $object_reference_ids): array
     {
@@ -204,7 +203,7 @@ class MultiObjectPropertiesManipulator
                 $title
             );
             $key = 'obj_' . $object_reference_id;
-            $items[$key] = $this->ui_factory->item()->standard($title)->withLeadIcon($icon);
+            $items[$key] = $this->ui_factory->item()->shy($title)->withLeadIcon($icon);
         }
         return $items;
     }
