@@ -834,13 +834,18 @@ class ilObjectGUI implements ImplementsCreationCallback
             return;
         }
         $item_ref_ids = $this->retriever->getSelectedIdsFromObjectList();
-        $time_based_activation_modal = $this->getMultiObjectPropertiesManipulator()->getEditTimeLimitsPropertiesModal(
+        $time_limits_modal = $this->getMultiObjectPropertiesManipulator()->getEditTimeLimitsPropertiesModal(
             $item_ref_ids,
             $this
         );
-        if ($time_based_activation_modal !== null) {
-            $this->toolbar->addComponent(
-                $time_based_activation_modal->withOnLoad($time_based_activation_modal->getShowSignal())
+        if ($time_limits_modal !== null) {
+            $this->tpl->setVariable(
+                'TIME_LIMITS_MODAL',
+                $this->ui_renderer->render(
+                    $time_limits_modal->withOnLoad(
+                        $time_limits_modal->getShowSignal()
+                    )
+                )
             );
         }
         $this->renderObject();
@@ -852,12 +857,17 @@ class ilObjectGUI implements ImplementsCreationCallback
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('msg_no_perm_write'));
             return;
         }
-        $time_based_activation_modal = $this->getMultiObjectPropertiesManipulator()->saveEditTimeLimitsPropertiesModal($this, $this->request);
-        if ($time_based_activation_modal === null) {
+        $time_limits_modal = $this->getMultiObjectPropertiesManipulator()->saveEditTimeLimitsPropertiesModal($this, $this->request);
+        if ($time_limits_modal === null) {
             $this->tpl->setOnScreenMessage('success', $this->lng->txt('time_limits_changed'));
         } else {
-            $this->toolbar->addComponent(
-                $time_based_activation_modal->withOnLoad($time_based_activation_modal->getShowSignal())
+            $this->tpl->setVariable(
+                'TIME_LIMITS_MODAL',
+                $this->ui_renderer->render(
+                    $time_limits_modal->withOnLoad(
+                        $time_limits_modal->getShowSignal()
+                    )
+                )
             );
         }
         $this->renderObject();
