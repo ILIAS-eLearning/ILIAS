@@ -205,11 +205,6 @@ interface ilGlobalTemplateInterface
     public function setTreeFlatIcon(string $a_link, string $a_mode): void;
 
     /**
-     * Add a lightbox html to the template.
-     */
-    public function addLightbox(string $a_html, string $a_id): void;
-
-    /**
      * Add admin panel commands as toolbar
      * @param bool $is_bottom_panel if the panel should be rendered at the bottom of the page as well.
      * @param bool $has_arrow       if the panel should be rendered with an arrow icon.

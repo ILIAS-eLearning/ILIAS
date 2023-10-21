@@ -421,7 +421,6 @@ class ilGlobalTemplate implements ilGlobalTemplateInterface
                 $this->fillTabs();
                 $this->fillMainContent();
                 $this->fillMainMenu();
-                $this->fillLightbox();
                 $this->parseCurrentBlock();
             }
         }
@@ -974,7 +973,6 @@ class ilGlobalTemplate implements ilGlobalTemplateInterface
                 if ($a_main_menu) {
                     $this->fillMainMenu();
                 }
-                $this->fillLightbox();
                 $this->parseCurrentBlock();
             }
         }
@@ -1051,19 +1049,6 @@ class ilGlobalTemplate implements ilGlobalTemplateInterface
     {
         $this->tree_flat_link = $a_link;
         $this->tree_flat_mode = $a_mode;
-    }
-
-    /**
-     * Add lightbox html
-     */
-    public function addLightbox(string $a_html, string $a_id): void
-    {
-        $this->lightbox[$a_id] = $a_html;
-    }
-
-    protected function fillLightbox(): void
-    {
-        $this->setVariable("LIGHTBOX", implode('', $this->lightbox));
     }
 
     public function addAdminPanelToolbar(ilToolbarGUI $toolb, bool $a_bottom_panel = true, bool $a_arrow = false): void

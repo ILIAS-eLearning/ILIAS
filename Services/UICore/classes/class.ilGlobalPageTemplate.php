@@ -246,11 +246,6 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
         PageContentProvider::setViewTitle($a_title);
     }
 
-    public function addLightbox(string $a_html, string $a_id): void
-    {
-        $this->legacy_content_template->addLightbox($a_html, $a_id);
-    }
-
     public function setPageFormAction(string $a_action): void
     {
         $this->legacy_content_template->setPageFormAction($a_action);
