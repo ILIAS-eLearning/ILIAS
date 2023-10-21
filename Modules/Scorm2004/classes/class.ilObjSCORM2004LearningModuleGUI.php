@@ -35,6 +35,7 @@ use ILIAS\GlobalScreen\ScreenContext\ContextServices;
  */
 class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 {
+    private ilPropertyFormGUI $form;
     protected \ILIAS\DI\Container $dic;
     protected ilTabsGUI $tabs;
     protected ilRbacSystem $rbacsystem;

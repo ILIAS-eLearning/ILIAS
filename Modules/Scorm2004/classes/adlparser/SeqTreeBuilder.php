@@ -536,11 +536,10 @@ class SeqTreeBuilder
                     // tom: if default access is dependent on map existence then this will need to know if an imsss:mapInfo existed
                     $map = self::fillinADLSeqMaps($curNode, $map);
 
+                    $c_map['_SeqObjectiveMap'] = $map;
                     if ($matchingmapindex > -1) {
-                        $c_map['_SeqObjectiveMap'] = $map;
                         $maps[$matchingmapindex] = $c_map;
                     } else {
-                        $c_map['_SeqObjectiveMap'] = $map;
                         $maps[] = $c_map;
                     }
                 }

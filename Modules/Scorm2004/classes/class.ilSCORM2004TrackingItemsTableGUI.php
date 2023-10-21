@@ -199,10 +199,13 @@ class ilSCORM2004TrackingItemsTableGUI extends ilTable2GUI
     }
 
     /**
-     * @param string|float|int|null $value
+     * @param string                $id
+     * @param float|int|string|null $value
+     * @param string                $type
      * @return string|float|int|null
+     * @throws ilLPException
      */
-    protected function parseValue(string $id, $value, string $type)
+    protected function parseValue(string $id, float|int|string|null $value, string $type): float|int|string|null
     {
         if ($id === "status") {
             $icons = ilLPStatusIcons::getInstance(ilLPStatusIcons::ICON_VARIANT_SCORM);
