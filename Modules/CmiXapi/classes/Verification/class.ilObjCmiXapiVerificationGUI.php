@@ -172,11 +172,11 @@ class ilObjCmiXapiVerificationGUI extends ilObject2GUI
     }
 
     /**
-     * @param string $key
-     * @param mixed  $default
+     * @param string     $key
+     * @param mixed|null $default
      * @return mixed|null
      */
-    protected function getRequestValue(string $key, $default = null)
+    protected function getRequestValue(string $key, mixed $default = null): mixed
     {
         if (isset($this->request->getQueryParams()[$key])) {
             return $this->request->getQueryParams()[$key];
