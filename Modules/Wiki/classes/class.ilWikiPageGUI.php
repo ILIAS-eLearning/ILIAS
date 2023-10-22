@@ -30,9 +30,9 @@ use ILIAS\UICore\PageContentProvider;
  */
 class ilWikiPageGUI extends ilPageObjectGUI
 {
-    protected \ILIAS\Wiki\Page\PageManager $pm;
+    protected \ILIAS\Wiki\Page\PageManager $wiki_pm;
     protected ilObjectTranslation $ot;
-    protected \ILIAS\Wiki\InternalGUIService $gui;
+    protected \ILIAS\Wiki\InternalGUIService $wiki_gui;
     protected \ILIAS\Notes\Service $notes;
     protected \ILIAS\HTTP\Services $http;
     protected \ILIAS\Wiki\WikiGUIRequest $wiki_request;
@@ -68,9 +68,9 @@ class ilWikiPageGUI extends ilPageObjectGUI
         $this->tpl->addCss(ilObjStyleSheet::getSyntaxStylePath());
         $this->wiki_request = $gui->request();
         $this->notes = $DIC->notes();
-        $this->gui = $gui;
+        $this->wiki_gui = $gui;
         $this->ot = $gui->wiki()->translation();
-        $this->pm = $this->domain->page()->page($this->getWikiRefId());
+        $this->wiki_pm = $this->domain->page()->page($this->getWikiRefId());
     }
 
     public function setScreenIdComponent(): void
@@ -118,7 +118,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
         $tpl->setHeaderPageTitle($head_title);
         // see #13804
         //if ($this->wiki_request->getWikiPageId() > 0) {
-        PageContentProvider::setPermaLink($this->pm->getPermaLink(
+        PageContentProvider::setPermaLink($this->wiki_pm->getPermaLink(
             $this->getPageObject()->getId(),
             $this->getPageObject()->getLanguage()
         ));
@@ -479,7 +479,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
     protected function addLanguageSelectionToToolbar(): void
     {
         $toolbar = $this->toolbar;
-        $f = $this->gui->ui()->factory();
+        $f = $this->wiki_gui->ui()->factory();
 
         $this->ctrl->setParameterByClass(self::class, "wpg_id", $this->getId());
         $this->ctrl->setParameterByClass(self::class, "page", null);
@@ -489,7 +489,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
                 $lang_code = ($language->getLanguageCode() === $this->ot->getMasterLanguage())
                     ? "-"
                     : $language->getLanguageCode();
-                $exists = $this->pm->exists($this->getId(), $lang_code);
+                $exists = $this->wiki_pm->exists($this->getId(), $lang_code);
                 $this->ctrl->setParameterByClass(self::class, "transl", $lang_code);
                 $action = ($lang_code !== "-" && !$exists)
                     ? "switchToLanguage"
@@ -765,7 +765,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
         if (count($ordering) === 0) {
             switch ($this->wiki_request->getSelectedPrintType()) {
                 case "wiki":
-                    foreach ($this->pm->getWikiPages($this->getLanguage()) as $p) {
+                    foreach ($this->wiki_pm->getWikiPages($this->getLanguage()) as $p) {
                         $pg_ids[] = $p->getId();
                     }
                     break;
@@ -976,7 +976,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
         $note = $this->notes->domain()->getById($a_note_id);
         $text = $note->getText();
 
-        $noti = $this->gui->notification();
+        $noti = $this->wiki_gui->notification();
         $noti->send("comment", ilNotification::TYPE_WIKI_PAGE, $this->getWikiRefId(), $a_page_id, $text, $this->getLanguage());
     }
 
@@ -1313,8 +1313,8 @@ class ilWikiPageGUI extends ilPageObjectGUI
         $this->ctrl->setParameter($this, "totransl", $l);
         $this->lng->loadLanguageModule("meta");
 
-        $r = $this->gui->ui()->renderer();
-        $box = $this->gui->ui()->factory()->messageBox()->confirmation(
+        $r = $this->wiki_gui->ui()->renderer();
+        $box = $this->wiki_gui->ui()->factory()->messageBox()->confirmation(
             $this->lng->txt("cont_page_translation_does_not_exist") . ": " .
             $this->lng->txt("meta_l_" . $l)
         );
@@ -1335,7 +1335,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
 
     protected function getTranslatePageFormAdapter(): \ILIAS\Repository\Form\FormAdapterGUI
     {
-        $f = $this->gui->form(self::class, "createPageTranslation")
+        $f = $this->wiki_gui->form(self::class, "createPageTranslation")
             ->text("title", $this->lng->txt("title"));
         //->required();
         return $f;
@@ -1374,7 +1374,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
 
     protected function checkLangPageAvailable(int $id, string $lang): bool
     {
-        return $this->pm->exists($id, $lang);
+        return $this->wiki_pm->exists($id, $lang);
     }
 
 }

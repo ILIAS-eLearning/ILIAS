@@ -40,7 +40,7 @@ class ilPCContentTemplate extends ilPageContent
         $source_id = explode(":", $a_page_templ);
         $source_page = ilPageObjectFactory::getInstance(
             $source_id[1],
-            $source_id[0],
+            (int) $source_id[0],
             0,
             $this->getPage()->getLanguage()
         );
