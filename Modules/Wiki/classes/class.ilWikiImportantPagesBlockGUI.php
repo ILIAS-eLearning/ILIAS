@@ -133,12 +133,12 @@ class ilWikiImportantPagesBlockGUI extends ilBlockGUI
                 $listing->node($this->ui->factory()->link()->standard(
                     $title,
                     $this->pm->getPermaLink($start_page_id, $this->lang)
-                ), (string) $cnt, (string) ($cpar[$p["indent"] - 1] ?? 0));
+                ), "1", "0");
             } else {
                 $listing->node($this->ui->factory()->link()->standard(
                     $title,
                     "index.html"
-                ), (string) $cnt, (string) ($cpar[$p["indent"] - 1] ?? 0));
+                ), "1", "0");
             }
         }
 
