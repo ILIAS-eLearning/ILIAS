@@ -276,7 +276,7 @@ class ilLTIPlatform extends ToolProvider\Platform
      * @param string             $deploymentId  The deployment ID
      * @param ilLTIDataConnector $dataConnector A data connector object
      * @param bool               $autoEnable    True if the platform is to be enabled automatically (optional, default is false)
-     * @return Platform                         The platform object
+     * @return ilLTIPlatform                         The platform object
      */
     public static function fromPlatformId(string $platformId, string $clientId, string $deploymentId, ilLTIDataConnector $dataConnector = null, bool $autoEnable = false): ilLTIPlatform
     {
