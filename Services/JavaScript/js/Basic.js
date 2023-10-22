@@ -230,8 +230,8 @@ il.Util = {
 			return;
 		}
 
-		if (vp.right - 20 < r.right) {
-			il.Util.setX(el, r.x - (r.right - vp.right + 20));
+		if (vp.right - 15 < r.right) {
+			il.Util.setX(el, r.x - (r.right - vp.right + 15));
 		}
 
 		r = il.Util.getRegion(el);
