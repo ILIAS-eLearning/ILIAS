@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -56,7 +58,7 @@ class WeekGridGUI
         $this->entries = $entries;
     }
 
-    protected function getHoursOfDay() : array
+    protected function getHoursOfDay(): array
     {
         $hours = array();
         $sep = "<br>-<br>";
@@ -65,12 +67,12 @@ class WeekGridGUI
             $start = sprintf('%02d:00', $i);
             if ($this->day_start > 0 && $i === $this->day_start) {
                 $start = sprintf('%02d:00', 0);
-                $end = sprintf('%02d:00', $i);
+                $end = sprintf('%02d:00', $i + 1);
             } else {
                 $end = sprintf('%02d:00', $i + 1);
             }
             if ($this->day_end < 23 && $i === $this->day_end) {
-                $end = sprintf('%02d:00', 23);
+                $end = sprintf('%02d:00', 23 + 1);
             }
             switch ($this->time_format) {
                 case \ilCalendarSettings::TIME_FORMAT_12:
@@ -107,7 +109,7 @@ class WeekGridGUI
      * @param
      * @return
      */
-    protected function buildCellData() : array
+    protected function buildCellData(): array
     {
         $morning_aggr = $this->day_start;
         $evening_aggr = $this->day_end;
@@ -132,7 +134,7 @@ class WeekGridGUI
         return $cells;
     }
 
-    public function render() : string
+    public function render(): string
     {
         $mytpl = new \ilTemplate(
             'tpl.week_grid.html',
@@ -209,7 +211,7 @@ class WeekGridGUI
      * All entries for a cell (not only starting ones, start could be in an earlier cell)
      * @return WeekGridEntry[]
      */
-    protected function getEntriesForCell(int $start_ts, int $end_ts) : array
+    protected function getEntriesForCell(int $start_ts, int $end_ts): array
     {
         return array_filter($this->entries, function ($e) use ($start_ts, $end_ts) {
             /** @var WeekGridEntry $e */

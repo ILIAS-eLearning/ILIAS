@@ -41,6 +41,7 @@ class InternalDomainService
      * @var ScheduleManager[]
      */
     protected static array $schedule_manager = [];
+    protected ?\ilLogger $book_log = null;
     protected InternalRepoService $repo_service;
     protected InternalDataService $data_service;
 
@@ -65,6 +66,14 @@ class InternalDomainService
         );
     }*/
 
+    public function log(): \ilLogger
+    {
+        if (is_null($this->book_log)) {
+            $this->book_log = $this->logger()->book();
+        }
+        return $this->book_log;
+    }
+
     public function preferences(
         \ilObjBookingPool $pool
     ): \ilBookingPreferencesManager {
@@ -74,7 +83,7 @@ class InternalDomainService
         );
     }
 
-    public function process() : BookingProcessManager
+    public function process(): BookingProcessManager
     {
         return new BookingProcessManager(
             $this->data_service,
@@ -83,7 +92,7 @@ class InternalDomainService
         );
     }
 
-    public function objects(int $pool_id) : ObjectsManager
+    public function objects(int $pool_id): ObjectsManager
     {
         if (!isset(self::$object_manager[$pool_id])) {
             self::$object_manager[$pool_id] = new ObjectsManager(
@@ -96,7 +105,7 @@ class InternalDomainService
         return self::$object_manager[$pool_id];
     }
 
-    public function schedules(int $pool_id) : ScheduleManager
+    public function schedules(int $pool_id): ScheduleManager
     {
         if (!isset(self::$schedule_manager[$pool_id])) {
             self::$schedule_manager[$pool_id] = new ScheduleManager(
@@ -109,7 +118,7 @@ class InternalDomainService
         return self::$schedule_manager[$pool_id];
     }
 
-    public function reservations() : Reservations\ReservationManager
+    public function reservations(): Reservations\ReservationManager
     {
         return new Reservations\ReservationManager(
             $this->data_service,
@@ -118,7 +127,7 @@ class InternalDomainService
         );
     }
 
-    public function participants() : Participants\ParticipantsManager
+    public function participants(): Participants\ParticipantsManager
     {
         return new Participants\ParticipantsManager(
             $this->data_service,
@@ -127,7 +136,7 @@ class InternalDomainService
         );
     }
 
-    public function objectSelection(int $pool_id) : BookingProcess\ObjectSelectionManager
+    public function objectSelection(int $pool_id): BookingProcess\ObjectSelectionManager
     {
         return new BookingProcess\ObjectSelectionManager(
             $this->data_service,

@@ -2503,7 +2503,7 @@ book#:#book_period#:#Period
 book#:#book_pool_added#:#A booking pool has been added.
 book#:#book_pool_selection#:#Booking Pool Selection
 book#:#book_post_booking_file#:#File
-book#:#book_post_booking_information#:#Post Booking Information
+book#:#book_post_booking_information#:#Reservation Information
 book#:#book_post_booking_text#:#Text
 book#:#book_post_booking_text_info#:#Use placeholders to communicate specifics on reservations. <br />[OBJECT] will be replaced by the respective Booking Object. <br />[PERIOD] will be replaced by the respective schedule.
 book#:#book_pref_book_cron#:#Booking with Preferences
