@@ -154,9 +154,11 @@ class PortfolioPrintViewProviderGUI extends Export\AbstractPrintViewProvider
 
     public function getTemplateInjectors(): array
     {
+        $page = new \ilPortfolioPage();
+        $page->setEmptyPageXml();
         $resource_collector = new COPage\ResourcesCollector(
             \ilPageObjectGUI::OFFLINE,
-            new \ilPortfolioPage()
+            $page
         );
         $resource_injector = new COPage\ResourcesInjector($resource_collector);
 

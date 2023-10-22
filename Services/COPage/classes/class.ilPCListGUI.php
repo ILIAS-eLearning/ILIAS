@@ -141,12 +141,18 @@ class ilPCListGUI extends ilPageContentGUI
                 $this->content_obj->setStyleClass(
                     $this->form->getInput("bullet_style")
                 );
+                $this->content_obj->setItemStyleClass(
+                    $this->form->getInput("item_style_1")
+                );
             } else {
                 $this->content_obj->setNumberingType(
                     $this->form->getInput("numbering_type")
                 );
                 $this->content_obj->setStyleClass(
                     $this->form->getInput("number_style")
+                );
+                $this->content_obj->setItemStyleClass(
+                    $this->form->getInput("item_style_2")
                 );
             }
 
@@ -157,6 +163,24 @@ class ilPCListGUI extends ilPageContentGUI
         }
         $this->form->setValuesByPost();
         $tpl->setContent($this->form->getHTML());
+    }
+
+    public static function _getListCharacteristics(
+        int $a_style_id,
+        string $type
+    ): array {
+        $chars = [];
+
+        if ($a_style_id > 0 &&
+            ilObject::_lookupType($a_style_id) == "sty") {
+            $style = new ilObjStyleSheet($a_style_id);
+            $types = [$type];
+            foreach ($types as $t) {
+                $chars = array_merge($chars, $style->getCharacteristics($t, false, true));
+            }
+        }
+
+        return $chars;
     }
 
     public function initListForm(
@@ -181,18 +205,6 @@ class ilPCListGUI extends ilPageContentGUI
                 && !in_array($this->content_obj->getStyleClass(), $options)) {
             $options[$this->content_obj->getStyleClass()] =
                     $this->content_obj->getStyleClass();
-        }
-        if (count($options) > 1) {
-            foreach ($options as $k => $option) {
-                $html = '<ul class="ilc_list_u_' . $k . '"><li class="ilc_list_item_StandardListItem">' .
-                        $option . '</li></ul>';
-                if ($k == "BulletedList") {
-                    $k = "";
-                }
-                $style->addOption($k, $option, $html);
-            }
-            $style->setValue("");
-            $op1->addSubItem($style);
         }
 
         $radg->addOption($op1);
@@ -250,6 +262,35 @@ class ilPCListGUI extends ilPageContentGUI
         $radg->setValue("Unordered");
         $this->form->addItem($radg);
 
+        // list item type
+        $this->getCharacteristicsOfCurrentStyle(["list_item"]);
+        $options = $this->getCharacteristics();
+        if (count($options) > 1) {
+            $style1 = new ilAdvSelectInputGUI(
+                $this->lng->txt("cont_list_item_style"),
+                "item_style_1"
+            );
+            $style2 = new ilAdvSelectInputGUI(
+                $this->lng->txt("cont_list_item_style"),
+                "item_style_2"
+            );
+            foreach ($options as $k => $option) {
+                $html = '<ul style="list-style-type:none;"><li class="ilc_list_item_' . $option . '">' .
+                    $option . '</li></ul>';
+                if ($k == "BulletedList") {
+                    $k = "";
+                }
+                $style1->addOption($k, $option, $html);
+                $style2->addOption($k, $option, $html);
+            }
+            $style1->setValue("StandardListItem");
+            $style2->setValue("StandardListItem");
+            $op1->addSubItem($style1);
+            $op2->addSubItem($style2);
+        }
+        $options = $this->getCharacteristicsOfCurrentStyle(["list_item"]);
+
+
         // nr of items
         $options = array();
         if ($a_mode == "create") {
@@ -290,6 +331,8 @@ class ilPCListGUI extends ilPageContentGUI
             $values["bullet_style"] = $this->content_obj->getStyleClass();
             $values["number_style"] = "";
         }
+        $values["item_style_1"] = $this->content_obj->getItemStyleClass();
+        $values["item_style_2"] = $this->content_obj->getItemStyleClass();
         $this->form->setValuesByArray($values);
     }
 }

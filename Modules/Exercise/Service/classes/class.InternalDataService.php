@@ -20,6 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS\Exercise;
 
+use ILIAS\Exercise\Assignment\Assignment;
+
 /**
  * Internal factory for data objects
  * @author Alexander Killing <killing@leifos.de>
@@ -30,12 +32,35 @@ class InternalDataService
 
     public function __construct()
     {
-        // $this->sub_factory = new SubService\DataFactory();
     }
 
-    /*
-    public function data(...) : Sub\Data
-    {
-        return $this->sub_factory->data(...);
-    }*/
+    public function assignment(
+        int $id,
+        int $exc_id,
+        string $title,
+        int $order_nr,
+        int $type,
+        string $instructions,
+        bool $mandatory,
+        int $deadline_mode,
+        int $deadline,
+        int $deadline2,
+        int $relative_deadline,
+        int $rel_deadline_last_submission
+    ): Assignment {
+        return new Assignment(
+            $id,
+            $exc_id,
+            $title,
+            $order_nr,
+            $type,
+            $instructions,
+            $mandatory,
+            $deadline_mode,
+            $deadline,
+            $deadline2,
+            $relative_deadline,
+            $rel_deadline_last_submission
+        );
+    }
 }

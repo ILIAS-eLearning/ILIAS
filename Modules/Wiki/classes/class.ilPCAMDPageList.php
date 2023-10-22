@@ -35,6 +35,7 @@ class ilPCAMDPageList extends ilPageContent
         $this->db = $DIC->database();
         $this->lng = $DIC->language();
         $this->setType("amdpl");
+        $this->wiki_domain = $DIC->wiki()->internal()->domain();
     }
 
     public static function getLangVars(): array
@@ -193,6 +194,7 @@ class ilPCAMDPageList extends ilPageContent
         if (is_array($found_ids) && count($found_ids) > 0) {
             $sql = "SELECT id,title FROM il_wiki_page" .
                 " WHERE " . $ilDB->in("id", $found_ids, "", "integer") .
+                " AND lang = " . $ilDB->quote($wpage->getLanguage(), "text") .
                 " ORDER BY title";
             $set = $ilDB->query($sql);
             while ($row = $ilDB->fetchAssoc($set)) {
@@ -213,6 +215,7 @@ class ilPCAMDPageList extends ilPageContent
         }
         $end = 0;
         $wiki_id = $this->getPage()->getWikiId();
+        $pm = $this->wiki_domain->page()->page($this->getPage()->getWikiRefId());
 
         $start = strpos($a_output, "[[[[[AMDPageList;");
         if (is_int($start)) {
@@ -237,7 +240,8 @@ class ilPCAMDPageList extends ilPageContent
                     $frag->mFragment = null;
                     $frag->mTextform = $page_title;
 
-                    $ltpl->setVariable("PAGE", ilWikiUtil::makeLink($frag, $wiki_id, $page_title));
+                    $href = $pm->getPermaLink($page_id, $this->getPage()->getLanguage());
+                    $ltpl->setVariable("PAGE", "<a href='" . $href . "'>" . $page_title . "</a>");
                     $ltpl->parseCurrentBlock();
                 }
             } else {

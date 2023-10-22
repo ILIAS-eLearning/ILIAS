@@ -24,6 +24,8 @@
 class McstImageGalleryGUI
 {
     protected \ILIAS\MediaObjects\MediaType\MediaTypeManager $media_types;
+    protected \ILIAS\MediaCast\InternalGUIService $gui;
+    protected \ILIAS\MediaCast\MediaCastManager $mc_manager;
     protected \ilObjMediaCast $media_cast;
     protected ilGlobalTemplateInterface $tpl;
     protected \ILIAS\DI\UIServices $ui;
@@ -44,6 +46,8 @@ class McstImageGalleryGUI
         $this->ctrl = $DIC->ctrl();
         $this->toolbar = $DIC->toolbar();
         $this->media_types = $DIC->mediaObjects()->internal()->domain()->mediaType();
+        $this->mc_manager = $DIC->mediaCast()->internal()->domain()->mediaCast($this->media_cast);
+        $this->gui = $DIC->mediaCast()->internal()->gui();
     }
 
     public function executeCommand(): void
@@ -151,6 +155,15 @@ class McstImageGalleryGUI
                 $ctrl->setParameterByClass("ilobjmediacastgui", "purpose", "Standard");
                 $download = $ctrl->getLinkTargetByClass("ilobjmediacastgui", "downloadItem");
                 $sections[] = $f->button()->standard($lng->txt("download"), $download);
+            }
+
+            // comments
+            if ($this->mc_manager->commentsActive()) {
+                $comments_gui = $this->gui->comments()->commentGUI(
+                    $this->media_cast->getRefId(),
+                    (int) $item["id"]
+                );
+                $sections[] = $f->legacy($comments_gui->getGlyph());
             }
 
             //$title_button = $f->button()->shy($mob->getTitle(), $modal->getShowSignal());

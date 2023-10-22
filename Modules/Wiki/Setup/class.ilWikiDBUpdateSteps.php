@@ -68,4 +68,41 @@ class ilWikiDBUpdateSteps implements \ilDatabaseUpdateSteps
             ));
         }
     }
+
+    public function step_4(): void
+    {
+        $db = $this->db;
+        if (!$db->tableColumnExists('il_wiki_page', 'lang')) {
+            $this->db->addTableColumn('il_wiki_page', 'lang', array(
+                'type' => 'text',
+                'notnull' => true,
+                'length' => 10,
+                'default' => "-"
+            ));
+            $this->db->dropPrimaryKey('il_wiki_page');
+            $this->db->addPrimaryKey(
+                'il_wiki_page',
+                ["id", "lang"]
+            );
+        }
+    }
+
+    public function step_5(): void
+    {
+        $db = $this->db;
+        if (!$db->tableColumnExists('il_wiki_missing_page', 'lang')) {
+            $this->db->addTableColumn('il_wiki_missing_page', 'lang', array(
+                'type' => 'text',
+                'notnull' => true,
+                'length' => 5,
+                'default' => "-"
+            ));
+            $this->db->dropPrimaryKey('il_wiki_missing_page');
+            $this->db->addPrimaryKey(
+                'il_wiki_missing_page',
+                ["wiki_id", "source_id", "target_name", "lang"]
+            );
+        }
+    }
+
 }

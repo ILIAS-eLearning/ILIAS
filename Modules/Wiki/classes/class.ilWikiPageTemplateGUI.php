@@ -16,7 +16,7 @@
  *
  *********************************************************************/
 
-use ILIAS\Wiki\Editing\EditingGUIRequest;
+use ILIAS\Wiki\WikiGUIRequest;
 
 /**
  * Wiki page template gui class
@@ -25,7 +25,7 @@ use ILIAS\Wiki\Editing\EditingGUIRequest;
  */
 class ilWikiPageTemplateGUI
 {
-    protected EditingGUIRequest $request;
+    protected WikiGUIRequest $request;
     protected ilObjWiki $wiki;
     protected ilToolbarGUI$toolbar;
     protected ilLanguage $lng;
@@ -56,7 +56,6 @@ class ilWikiPageTemplateGUI
             ->wiki()
             ->internal()
             ->gui()
-            ->editing()
             ->request();
     }
 
@@ -77,7 +76,7 @@ class ilWikiPageTemplateGUI
     public function listTemplates(): void
     {
         // list pages
-        $pages = ilWikiPage::getAllWikiPages($this->wiki->getId());
+        $pages = ilWikiPage::getAllWikiPages($this->wiki->getId(), "-");
         $options = array("" => $this->lng->txt("please_select"));
         foreach ($pages as $p) {
             //if (!in_array($p["id"], $ipages_ids))

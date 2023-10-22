@@ -140,7 +140,7 @@ class LinkManager
 
             if ($a_link_map === null) {
                 $new_target = \ilInternalLink::_getIdForImportId($type, $target);
-            //$this->log->debug("no map, type: " . $type . ", target: " . $target . ", new target: " . $new_target);
+                //$this->log->debug("no map, type: " . $type . ", target: " . $target . ", new target: " . $new_target);
             } else {
                 $nt = explode("_", $a_link_map[$target] ?? "");
                 $new_target = false;
