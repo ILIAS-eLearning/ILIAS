@@ -157,7 +157,8 @@ class LineItem extends AssignmentGrade
     {
         $lineItem->endpoint = null;
         $this->mediaType = self::MEDIA_TYPE_LINE_ITEM;
-        $http = $this->send('POST', null, self::toJson($lineItem));
+        //UK changed from $http = $this->send('POST', null, self::toJson($lineItem));
+        $http = $this->send('POST', [], self::toJson($lineItem));
         $ok = $http->ok && !empty($http->responseJson);
         if ($ok) {
             $newLineItem = self::toLineItem($this->getPlatform(), $http->responseJson);
@@ -177,7 +178,8 @@ class LineItem extends AssignmentGrade
     public function saveLineItem(ToolProvider\LineItem $lineItem): bool
     {
         $this->mediaType = self::MEDIA_TYPE_LINE_ITEM;
-        $http = $this->send('PUT', null, self::toJson($lineItem));
+        //UK changed from $http = $this->send('PUT', null, self::toJson($lineItem));
+        $http = $this->send('PUT', [], self::toJson($lineItem));
         $ok = $http->ok;
         if ($ok && !empty($http->responseJson)) {
             $savedLineItem = self::toLineItem($this->getPlatform(), $http->responseJson);
@@ -237,7 +239,7 @@ class LineItem extends AssignmentGrade
     private static function toLineItem(Platform $platform, object $json): ?ToolProvider\LineItem
     {
         if (!empty($json->id) && !empty($json->label) && !empty($json->scoreMaximum)) {
-//            $lineItem = new LTI\LineItem($platform, $json->label, $json->scoreMaximum);
+            //            $lineItem = new LTI\LineItem($platform, $json->label, $json->scoreMaximum);
             $lineItem = new \ILIAS\LTI\ToolProvider\LineItem($platform, $json->label, $json->scoreMaximum);
             if (!empty($json->id)) {
                 $lineItem->endpoint = $json->id;
