@@ -140,18 +140,15 @@ class ilObjectConsumerTableGUI extends ilTable2GUI
         }
 
         if ($this->isEditable()) {
-            $list = new ilAdvancedSelectionListGUI();
-            $list->setId((string) $a_set["id"]);
-            $list->setListTitle($this->dic->language()->txt("actions"));
-
             $edit_url = $this->dic->ctrl()->getLinkTarget($this->getParentObject(), "editConsumer");
             $delete_url = $this->dic->ctrl()->getLinkTarget($this->getParentObject(), "deleteLTIConsumer");
             $status_url = $this->dic->ctrl()->getLinkTarget($this->getParentObject(), "changeStatusLTIConsumer");
-            $list->addItem($this->dic->language()->txt("edit"), "", $edit_url);
-            $list->addItem($this->dic->language()->txt("delete"), "", $delete_url);
-            $list->addItem($label_status, "", $status_url);
-
-            $this->tpl->setVariable("ACTION", $list->getHTML());
+            $actions = [];
+            $actions[] = $this->dic->ui()->factory()->link()->standard($this->lng->txt('edit'), $edit_url);
+            $actions[] = $this->dic->ui()->factory()->link()->standard($this->lng->txt('delete'), $delete_url);
+            $actions[] = $this->dic->ui()->factory()->link()->standard($label_status, $status_url);
+            $dropdown = $this->dic->ui()->factory()->dropdown()->standard($actions)->withLabel($this->lng->txt('actions'));
+            $this->tpl->setVariable("ACTION", $this->dic->ui()->renderer()->render($dropdown));
         }
     }
 }
