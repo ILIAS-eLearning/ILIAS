@@ -23,6 +23,7 @@
  */
 class ilExcIndividualDeadline
 {
+    protected bool $requested = false;
     protected int $participant_id;
     protected bool $is_team;
     protected int $ass_id;
@@ -71,6 +72,16 @@ class ilExcIndividualDeadline
         return $this->individual_deadline;
     }
 
+    public function setRequested(bool $a_val): void
+    {
+        $this->requested = $a_val;
+    }
+
+    public function getRequested(): bool
+    {
+        return $this->requested;
+    }
+
     public function read(): void
     {
         $ilDB = $this->db;
@@ -84,6 +95,7 @@ class ilExcIndividualDeadline
         if ($rec = $this->db->fetchAssoc($set)) {
             $this->setIndividualDeadline((int) $rec["tstamp"]);
             $this->setStartingTimestamp((int) $rec["starting_ts"]);
+            $this->setRequested((bool) $rec["requested"]);
         }
     }
 
@@ -100,7 +112,8 @@ class ilExcIndividualDeadline
             ),
             array(
                 "tstamp" => array("integer", $this->getIndividualDeadline()),
-                "starting_ts" => array("integer", $this->getStartingTimestamp())
+                "starting_ts" => array("integer", $this->getStartingTimestamp()),
+                "requested" => array("integer", (int) $this->getRequested())
             )
         );
     }

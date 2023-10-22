@@ -339,6 +339,11 @@ class GUIRequest
         return $this->int("peer_id");
     }
 
+    public function getGiverId(): int
+    {
+        return $this->int("giver_id");
+    }
+
     // different from "fu" parameter above!
     public function getCritId(): string
     {
@@ -494,5 +499,10 @@ class GUIRequest
     public function getBackView(): int
     {
         return $this->int("vw");
+    }
+
+    public function getMode(): string
+    {
+        return $this->str("mode");
     }
 }
