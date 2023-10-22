@@ -217,6 +217,7 @@
 	Id ID #IMPLIED
 	Type (Ordered | Unordered) #REQUIRED
 	Class CDATA #IMPLIED
+	ItemClass CDATA #IMPLIED
 	NumberingType (Decimal | Roman | roman | Alphabetic | alphabetic | Number) #IMPLIED
 	StartValue CDATA #IMPLIED
 >
@@ -227,8 +228,17 @@
 
 <!-- Simple Lists -->
 <!ELEMENT SimpleBulletList (SimpleListItem*)>
+<!ATTLIST SimpleBulletList
+	Class CDATA #IMPLIED
+>
 <!ELEMENT SimpleNumberedList (SimpleListItem*)>
+<!ATTLIST SimpleNumberedList
+	Class CDATA #IMPLIED
+>
 <!ELEMENT SimpleListItem (%text;)*>
+<!ATTLIST SimpleListItem
+	Class CDATA #IMPLIED
+>
 
 <!-- FileList -->
 <!ELEMENT FileList (Title?, FileItem*)>

@@ -117,4 +117,10 @@ trait GlobalDICDomainServices
     {
         return $this->DIC["ilObjDataCache"];
     }
+
+    public function backgroundTasks(): \ILIAS\BackgroundTasks\BackgroundTaskServices
+    {
+        return $this->DIC->backgroundTasks();
+    }
+
 }
