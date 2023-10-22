@@ -30,7 +30,7 @@ use ILIAS\LTIOAuth;
  */
 class ilLTIConsumerLaunch
 {
-    // protected $context = null;
+    private ?array $context = null;
     protected int $ref_id;
 
     /**

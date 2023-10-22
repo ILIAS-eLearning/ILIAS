@@ -1037,7 +1037,7 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
         /* @var ilErrorHandling $ilErr */
 
         if (!$this->checkPermissionBool("visible") && !$this->checkPermissionBool("read")) {
-            $ilErr->raiseError($DIC->language()->txt("msg_no_perm_read"));
+            $ilErr->raiseError($DIC->language()->txt("msg_no_perm_read"), $ilErr->MESSAGE);
         }
 
         $this->handleAvailablityMessage();
