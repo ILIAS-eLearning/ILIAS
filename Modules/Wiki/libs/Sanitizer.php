@@ -421,7 +421,7 @@ class Sanitizer
     {
         if (Sanitizer::validateCodepoint($codepoint)) {
             return "";
-        //return codepointToUtf8($codepoint);
+            //return codepointToUtf8($codepoint);
         } else {
             return UTF8_REPLACEMENT;
         }
@@ -444,7 +444,7 @@ class Sanitizer
         }
         if (isset($wgHtmlEntities[$name])) {
             return "";
-        //return codepointToUtf8($wgHtmlEntities[$name]);
+            //return codepointToUtf8($wgHtmlEntities[$name]);
         } else {
             return "&$name;";
         }

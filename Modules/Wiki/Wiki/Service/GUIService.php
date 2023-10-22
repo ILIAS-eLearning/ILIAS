@@ -18,7 +18,7 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
-namespace ILIAS\Wiki\Editing;
+namespace ILIAS\Wiki\Wiki;
 
 use ILIAS\Wiki\InternalGUIService;
 use ILIAS\Wiki\InternalDomainService;
@@ -39,15 +39,26 @@ class GUIService
         $this->domain_service = $domain_service;
     }
 
-    public function request(
-        ?array $passed_query_params = null,
-        ?array $passed_post_data = null
-    ): EditingGUIRequest {
-        return new EditingGUIRequest(
-            $this->gui_service->http(),
-            $this->domain_service->refinery(),
-            $passed_query_params,
-            $passed_post_data
+    protected function getObjWikiGUI(): \ilObjWikiGUI
+    {
+        $ref_id = $this->gui_service->request()->getRefId();
+        $this->domain_service->wiki()->checkRefId($ref_id);
+        $mc_gui = new \ilObjWikiGUI(
+            "",
+            $this->gui_service->request()->getRefId(),
+            true,
+            false
         );
     }
+
+    public function translation(): \ilObjectTranslation
+    {
+        return $this->domain_service->wiki()->translation(
+            $this->domain_service->wiki()->getObjId(
+                $this->gui_service->request()->getRefId()
+            )
+        );
+    }
+
+
 }

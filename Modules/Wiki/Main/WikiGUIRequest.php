@@ -16,11 +16,11 @@
  *
  *********************************************************************/
 
-namespace ILIAS\Wiki\Editing;
+namespace ILIAS\Wiki;
 
 use ILIAS\Repository;
 
-class EditingGUIRequest
+class WikiGUIRequest
 {
     use Repository\BaseGUIRequest;
 
@@ -232,4 +232,10 @@ class EditingGUIRequest
     {
         return $this->int("scp");
     }
+
+    public function getTranslation(): string
+    {
+        return $this->str("transl");
+    }
+
 }
