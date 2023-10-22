@@ -27,7 +27,7 @@ declare(strict_types=1);
 */
 class ilSCORMObjectGUI
 {
-    public ilSCORMManifest|ilSCORMItem|ilSCORMOrganization|ilSCORMOrganizations $sc_object;
+    public ilSCORMManifest|ilSCORMItem|ilSCORMOrganization|ilSCORMOrganizations|ilSCORMResource|ilSCORMResources $sc_object;
     public ilGlobalTemplate $tpl;
     public ilLanguage $lng;
 
