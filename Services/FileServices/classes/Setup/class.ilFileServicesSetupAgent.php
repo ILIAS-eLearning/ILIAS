@@ -36,7 +36,10 @@ class ilFileServicesSetupAgent extends Agent\NullAgent implements Agent
             true,
             new PHPExtensionLoadedCondition("gd"),
             new PHPExtensionLoadedCondition("imagick"),
-            new PHPExtensionLoadedCondition("zip")
+            new PHPExtensionLoadedCondition("zip"),
+            new ilDatabaseUpdateStepsExecutedObjective(
+                new ilFileServicesDatabaseObjective()
+            )
         );
     }
 

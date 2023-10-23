@@ -63,10 +63,11 @@ class RevisionDBRepository implements RevisionRepository
     public function blankFromUpload(
         InfoResolver $info_resolver,
         StorableResource $resource,
-        UploadResult $result
+        UploadResult $result,
+        bool $keep_original = false,
     ): UploadedFileRevision {
         $new_version_number = $info_resolver->getNextVersionNumber();
-        $revision = new UploadedFileRevision($resource->getIdentification(), $result);
+        $revision = new UploadedFileRevision($resource->getIdentification(), $result, $keep_original);
         $revision->setStorageID($resource->getStorageID());
         $revision->setVersionNumber($new_version_number);
 

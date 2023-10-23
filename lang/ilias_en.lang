@@ -5713,8 +5713,6 @@ common#:#update_orgunits#:#Update assigned organisational units
 common#:#update_orgunits_desc#:#If enabled, the field 'Organisational Units' will be updated for all user accounts.
 common#:#upload#:#Upload
 common#:#upload_error_file_not_found#:#Upload error: File not found.
-common#:#upload_files#:#Upload files
-common#:#upload_files_title#:#Upload files
 common#:#upload_pending#:#Pending
 common#:#upload_settings#:#Upload Settings
 common#:#uploaded_and_checked#:#The file has been uploaded and checked, you can now start to import it.
@@ -9554,6 +9552,7 @@ file#:#copyright_custom#:#Custom
 file#:#copyright_custom_info#:#Choose a custom copyright which will be applied to all unzipped files of this archive.
 file#:#copyright_inherited#:#Inherited
 file#:#copyright_inherited_info#:#Apply the copyright of the zip archive to its unzipped files. <br \>Copyright of zip archive: %s.
+file#:#could_not_create_file_objs#:#An error occurred while creating the file objects, contact the administrators of the platform.
 file#:#de_activate_icon#:#(De-)Activate
 file#:#download_ascii_filename#:#Use ASCII-only characters for downloaded filenames
 file#:#download_ascii_filename_info#:#Downloaded files should only have ASCII-characters in their filename. Deactivate to use all characters.
@@ -9606,10 +9605,15 @@ file#:#show_amount_of_downloads_info#:#When active, the number of downloads will
 file#:#storage_id#:#Storage ID
 file#:#suffix_specific_icons#:#Suffix-specific Icons
 file#:#suffixes#:#Suffixes
+file#:#upload_files#:#Upload files
+file#:#upload_files_limit#:#The maximum size of a file is %s.
+file#:#upload_files_title#:#Upload files
 file#:#upload_info#:#File
 file#:#upload_info_desc#:#Manage Uploads and Versions in Tab "Versions"
 file#:#version_uploaded#:#Version uploaded
 file#:#versionname#:#Title
+fils#:#add_upload_policy#:#Add Policy
+fils#:#edit_upload_policy#:#Edit Policy
 fils#:#file_services#:#File Services
 fils#:#file_services_description#:#Configuration of File Service Settings.
 fils#:#file_suffix_custom_expl_negative#:#Prohibited File Suffixes
@@ -9622,6 +9626,24 @@ fils#:#file_suffix_default_positive#:#File Suffixes: Positive List (Default List
 fils#:#file_suffix_default_positive_info#:#Preset default list of accepted file suffixes.
 fils#:#file_suffix_overall_positive#:#Overall Positive List
 fils#:#file_suffix_overall_positive_info#:#This is the final list of accepted file suffixes.
+fils#:#policy_audience#:#Audience
+fils#:#policy_audience_all_users_option_desc#:#Apply policy for all users.
+fils#:#policy_audience_global_roles_option_desc#:#Apply policy for users with specific global roles.
+fils#:#policy_confirm_deletion#:#Are you sure you want to delete the policy with the following properties?:
+fils#:#policy_deletion_failure_not_found#:#Error: Deletion failed due to policy not being found.
+fils#:#policy_deletion_successful#:#Deletion of policy was successful.
+fils#:#policy_filter#:#Policy Filter
+fils#:#policy_no_validity_limitation_set#:#Valid indefinitely
+fils#:#policy_scope#:#Scope
+fils#:#policy_table_info_no_policies#:#No upload policies have been created yet.
+fils#:#policy_title_desc#:#Descriptive title for the policy.
+fils#:#policy_upload_limit#:#Upload Limit
+fils#:#policy_upload_limit_desc#:#Upload limit which is set by this policy in MB.
+fils#:#policy_valid_until#:#Valid Until
+fils#:#policy_valid_until_desc#:#Set an optional 'valid until' date after which the policy expires.
+fils#:#policy_validity#:#Validity
+fils#:#upload_limits#:#Upload Limits
+fils#:#upload_policies#:#Upload Policies
 fold#:#fold_copy#:#Copy Folder
 fold#:#fold_import#:#Import Folder
 fold#:#fold_presentation#:#Folder Presentation
