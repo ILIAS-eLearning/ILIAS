@@ -556,7 +556,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
                     $template->parseCurrentBlock();
                 } else {
                     $template->setCurrentBlock('term_text');
-                    $template->setVariable("TERM", $this->object->prepareTextareaOutput($term->getText(), true));
+                    $template->setVariable("TERM", ilLegacyFormElementsUtil::prepareTextareaOutput($term->getText(), true));
                     $template->parseCurrentBlock();
                 }
                 $i++;
