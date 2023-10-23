@@ -26,6 +26,12 @@ use ILIAS\Exercise\InternalGUIService;
  */
 class ilAssignmentPresentationGUI
 {
+    protected ilCtrl $ctrl;
+    protected ilGlobalTemplateInterface $main_tpl;
+    protected \ILIAS\Exercise\Assignment\AssignmentManager $ass_manager;
+    protected int $ass_id;
+    protected \ILIAS\DI\UIServices $ui;
+    protected ilLanguage $lng;
     protected ilTabsGUI $tabs;
     protected \ILIAS\Exercise\Assignment\PanelBuilderUI $panel_builder;
     protected ilObjUser $user;

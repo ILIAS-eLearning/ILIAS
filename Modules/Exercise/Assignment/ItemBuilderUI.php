@@ -24,6 +24,7 @@ use ILIAS\Exercise\Assignment\Mandatory\MandatoryAssignmentsManager;
 
 class ItemBuilderUI
 {
+    protected \ilCtrl $ctrl;
     protected PropertyAndActionBuilderUI $prop_builder;
     protected \ILIAS\UI\Factory $ui_factory;
 

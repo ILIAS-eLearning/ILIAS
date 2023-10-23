@@ -45,6 +45,11 @@ class PropertyAndActionBuilderUI
     public const SEC_PEER_FEEDBACK = "peer_feedback";
     public const SEC_TUTOR_EVAL = "tutor_eval";
     public const SEC_SAMPLE_SOLUTION = "sample_solution";
+    protected InternalDomainService $domain;
+    protected InternalGUIService $gui;
+    protected \ilLanguage $lng;
+    protected MandatoryAssignmentsManager $mandatory_manager;
+    protected \ilCtrl $ctrl;
     protected \ilExAssignmentTypes $types;
 
     protected int $user_builded = 0;
@@ -467,7 +472,8 @@ class PropertyAndActionBuilderUI
     }
 
     /**
-     * @throws ilDateTimeException|ilExcUnknownAssignmentTypeException
+     * @throws \ilCtrlException
+     * @throws \ilDateTimeException
      */
     protected function buildSchedule(): void
     {
@@ -732,6 +738,11 @@ class PropertyAndActionBuilderUI
         $state = $this->state;
         $submission = $this->submission;
 
+        $last_sub = null;
+        if ($submission->hasSubmitted()) {
+            $last_sub = $submission->getLastSubmission();
+        }
+
         // global feedback / sample solution
         if ($ass->getFeedbackDate() === \ilExAssignment::FEEDBACK_DATE_DEADLINE) {
             $show_global_feedback = ($state->hasSubmissionEndedForAllUsers() && $ass->getFeedbackFile());
@@ -767,7 +778,7 @@ class PropertyAndActionBuilderUI
 
         if ($lpcomment != "" ||
             $mark != "" ||
-            $status != "notgraded" ||
+            $status !== "notgraded" ||
             $cnt_files > 0 ||
             $a_show_global_feedback) {
 
@@ -795,22 +806,17 @@ class PropertyAndActionBuilderUI
             }
 
             if ($cnt_files > 0) {
-                $a_info->addSection($lng->txt("exc_fb_files") .
-                    '<a id="fb' . $ass->getId() . '"></a>');
-
-                if ($cnt_files > 0) {
-                    $files = $storage->getFeedbackFiles($a_feedback_id);
-                    foreach ($files as $file) {
-                        $link = $f->link()->standard(
-                            $lng->txt("download"),
-                            $this->getSubmissionLink("downloadFeedbackFile", array("file" => urlencode($file)))
-                        );
-                        $this->addProperty(
-                            self::SEC_TUTOR_EVAL,
-                            $file,
-                            $r->render($link)
-                        );
-                    }
+                $files = $storage->getFeedbackFiles($feedback_id);
+                foreach ($files as $file) {
+                    $link = $f->link()->standard(
+                        $lng->txt("download"),
+                        $this->getSubmissionLink("downloadFeedbackFile", array("file" => urlencode($file)))
+                    );
+                    $this->addProperty(
+                        self::SEC_TUTOR_EVAL,
+                        $file,
+                        $r->render($link)
+                    );
                 }
             }
 
@@ -844,7 +850,7 @@ class PropertyAndActionBuilderUI
         if ($a_deadline - time() <= 0) {
             $time_str = $lng->txt("exc_time_over_short");
         } else {
-            $time_str = ilLegacyFormElementsUtil::period2String(new ilDateTime($a_deadline, IL_CAL_UNIX));
+            $time_str = \ilLegacyFormElementsUtil::period2String(new \ilDateTime($a_deadline, IL_CAL_UNIX));
         }
 
         return $time_str;
@@ -878,9 +884,9 @@ class PropertyAndActionBuilderUI
     /**
      * Get the rendered icon for a status (failed, passed or not graded).
      */
-    protected function getIconForStatus(string $status, int $variant = ilLPStatusIcons::ICON_VARIANT_LONG): string
+    protected function getIconForStatus(string $status, int $variant = \ilLPStatusIcons::ICON_VARIANT_LONG): string
     {
-        $icons = ilLPStatusIcons::getInstance($variant);
+        $icons = \ilLPStatusIcons::getInstance($variant);
         $lng = $this->lng;
 
         switch ($status) {

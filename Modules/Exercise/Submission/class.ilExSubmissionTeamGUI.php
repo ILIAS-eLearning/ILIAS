@@ -28,6 +28,7 @@ use ILIAS\Exercise\GUIRequest;
  */
 class ilExSubmissionTeamGUI
 {
+    protected \ILIAS\Exercise\InternalGUIService $gui;
     protected \ILIAS\Exercise\InternalDomainService $domain;
     protected ilCtrl $ctrl;
     protected ilTabsGUI $tabs_gui;

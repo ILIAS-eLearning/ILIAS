@@ -152,7 +152,7 @@ class PermanentLinkManager
         } elseif ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID)) {
             $main_tpl->setOnScreenMessage('failure', sprintf(
                 $lng->txt("msg_no_perm_read_item"),
-                \ilObject::_lookupTitle(\ilObject::_lookupObjId($a_target))
+                \ilObject::_lookupTitle(\ilObject::_lookupObjId((int) $target))
             ), true);
             \ilObjectGUI::_gotoRepositoryRoot();
         }

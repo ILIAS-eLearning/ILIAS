@@ -30,6 +30,7 @@ use ILIAS\Exercise\GUIRequest;
  */
 abstract class ilExSubmissionBaseGUI
 {
+    protected \ILIAS\Exercise\Notification\NotificationManager $notification;
     protected \ILIAS\Exercise\InternalDomainService $domain;
     protected \ILIAS\Exercise\InternalGUIService $gui;
     protected ilCtrl $ctrl;

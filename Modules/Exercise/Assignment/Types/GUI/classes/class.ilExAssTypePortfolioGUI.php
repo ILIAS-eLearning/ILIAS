@@ -161,7 +161,7 @@ class ilExAssTypePortfolioGUI implements ilExAssignmentTypeGUIInterface
             // remove invalid resource if no upload yet (see download below)
             elseif (substr($selected_prtf["filename"], -1) == "/") {
                 // #16887
-                $a_submission->deleteResourceObject();
+                $submission->deleteResourceObject();
             }
         }
         if ($submission->canSubmit()) {

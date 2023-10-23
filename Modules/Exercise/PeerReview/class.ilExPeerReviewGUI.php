@@ -26,6 +26,9 @@
  */
 class ilExPeerReviewGUI
 {
+    protected int $requested_giver_id;
+    protected \ILIAS\Exercise\Notification\NotificationManager $notification;
+    protected ilFSStorageExercise $fstorage;
     protected \ILIAS\Notes\Service $notes;
     protected \ILIAS\Exercise\InternalGUIService $gui;
     protected \ILIAS\Exercise\InternalDomainService $domain;
@@ -764,6 +767,7 @@ class ilExPeerReviewGUI
         $personal = $ass->hasPeerReviewPersonalized();
         $f = $this->gui->ui()->factory();
         $lng = $this->lng;
+        $items = [];
         foreach ($peer_data as $item) {
             $row = array();
 

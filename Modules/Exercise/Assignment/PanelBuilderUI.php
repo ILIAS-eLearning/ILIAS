@@ -29,6 +29,8 @@ use function PHPUnit\Framework\isInstanceOf;
 
 class PanelBuilderUI
 {
+    protected \ILIAS\UI\Renderer $ui_renderer;
+    protected \ilCtrl $ctrl;
     protected \ilLanguage $lng;
     protected PropertyAndActionBuilderUI $prop_builder;
     protected \ILIAS\UI\Factory $ui_factory;

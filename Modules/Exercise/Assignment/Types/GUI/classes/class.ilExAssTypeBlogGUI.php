@@ -101,7 +101,7 @@ class ilExAssTypeBlogGUI implements ilExAssignmentTypeGUIInterface
             // remove invalid resource if no upload yet (see download below)
             elseif (substr($selected_blog["filename"], -1) == "/") {
                 // #16887
-                $a_submission->deleteResourceObject();
+                $submission->deleteResourceObject();
             }
         }
         if ($submission->canSubmit()) {
@@ -132,7 +132,7 @@ class ilExAssTypeBlogGUI implements ilExAssignmentTypeGUIInterface
 
         if ($submission->hasSubmitted()) {
             $ilCtrl->setParameterByClass("ilExSubmissionFileGUI", "delivered", $selected_blog["returned_id"]);
-            $dl_link = $ilCtrl->getLinkTargetByClass(array("ilExSubmissionGUI", "ilExSubmissionFileGUI"), "download");
+            $dl_link = $ilCtrl->getLinkTargetByClass(array(ilAssignmentPresentationGUI::class, "ilExSubmissionGUI", "ilExSubmissionFileGUI"), "download");
             $ilCtrl->setParameterByClass("ilExSubmissionFileGUI", "delivered", "");
 
             $link = $f->link()->standard(
