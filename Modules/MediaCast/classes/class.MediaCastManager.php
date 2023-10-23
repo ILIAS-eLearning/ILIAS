@@ -26,12 +26,16 @@ namespace ILIAS\MediaCast;
  */
 class MediaCastManager
 {
+    protected \ilObjMediaCast $media_cast;
     protected \ILIAS\MediaObjects\MediaType\MediaTypeManager $media_types;
 
-    public function __construct()
-    {
+    public function __construct(
+        \ilObjMediaCast $media_cast
+    ) {
         global $DIC;
 
+        $this->media_cast = $media_cast;
+        $this->settings = $DIC->settings();
         $this->media_types = $DIC->mediaObjects()
             ->internal()
             ->domain()
@@ -52,5 +56,16 @@ class MediaCastManager
                 break;
         }
         return [];
+    }
+
+    public function commentsActive(): bool
+    {
+        if ($this->settings->get("disable_comments")) {
+            return false;
+        }
+        if (!$this->media_cast->getComments()) {
+            return false;
+        }
+        return true;
     }
 }

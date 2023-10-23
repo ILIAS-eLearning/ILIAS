@@ -104,13 +104,14 @@ class ilObjCmiXapiAdministrationGUI extends ilObjectGUI
 
     protected function buildLrsTypesToolbarGUI(): \ilToolbarGUI
     {
-        //todo
-        $createTypeButton = ilLinkButton::getInstance();
-        $createTypeButton->setCaption('btn_create_lrs_type');
-        $createTypeButton->setUrl($this->ctrl->getLinkTarget($this, self::CMD_SHOW_LRS_TYPE_FORM));
+        global $DIC;
+        $button = $DIC->ui()->factory()->button()->primary(
+            $this->lng->txt("btn_create_lrs_type"),
+            $this->ctrl->getLinkTarget($this, self::CMD_SHOW_LRS_TYPE_FORM)
+        );
 
         $toolbar = new ilToolbarGUI();
-        $toolbar->addButtonInstance($createTypeButton);
+        $toolbar->addComponent($button);
 
         return $toolbar;
     }

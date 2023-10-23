@@ -27,7 +27,7 @@ use ILIAS\COPage\Page\EditGUIRequest;
  * @author Alexander Killing <killing@leifos.de>
  *
  * @ilCtrl_Calls ilPageObjectGUI: ilPageEditorGUI, ilEditClipboardGUI, ilObjectMetaDataGUI
- * @ilCtrl_Calls ilPageObjectGUI: ilPublicUserProfileGUI, ilNoteGUI, ilNewsItemGUI
+ * @ilCtrl_Calls ilPageObjectGUI: ilPublicUserProfileGUI, ilNoteGUI, ilCommentGUI, ilNewsItemGUI
  * @ilCtrl_Calls ilPageObjectGUI: ilPropertyFormGUI, ilInternalLinkGUI, ilPageMultiLangGUI, ilLearningHistoryGUI
  */
 class ilPageObjectGUI
@@ -44,6 +44,7 @@ class ilPageObjectGUI
     protected \ILIAS\COPage\PC\PCDefinition $pc_definition;
     protected \ILIAS\COPage\Xsl\XslManager $xsl;
     protected \ILIAS\COPage\Editor\GUIService $editor_gui;
+    protected \ILIAS\Notes\Service $notes;
     protected int $requested_ref_id;
     protected int $requested_pg_id;
     protected string $requested_file_id;
@@ -250,6 +251,7 @@ class ilPageObjectGUI
         $this->link = $DIC->copage()->internal()->domain()->link();
         $this->pm = $DIC->copage()->internal()->domain()->page();
         $this->editor_gui = $DIC->copage()->internal()->gui()->edit();
+        $this->notes = $DIC->notes();
     }
 
     public function setTemplate(ilGlobalTemplateInterface $main_tpl): void
@@ -867,6 +869,7 @@ class ilPageObjectGUI
 
                 // notes
             case "ilnotegui":
+            case "ilcommentgui":
                 $html = $this->edit();
                 $this->tabs_gui->setTabActive("edit");
                 return $html;
@@ -1742,6 +1745,7 @@ class ilPageObjectGUI
         global $DIC;
 
         $lng = $DIC->language();
+        $lng->loadLanguageModule("copg");
         $ctrl = $DIC->ctrl();
         $ui = $DIC->ui();
 
@@ -1852,6 +1856,32 @@ class ilPageObjectGUI
                 ["text" => $indent, "action" => "list.indent", "data" => []]
             ]
         ];
+
+        // bullet lists
+        $ulists = ilPCListGUI::_getListCharacteristics($a_style_id, "list_u");
+        $olists = ilPCListGUI::_getListCharacteristics($a_style_id, "list_o");
+        $ilists = ilPCListGUI::_getListCharacteristics($a_style_id, "list_item");
+        if (count($ulists) > 1) {
+            $la = [];
+            foreach ($ulists as $c) {
+                $la[] = ["action" => "list.bulletStyle", "text" => $c, "data" => ["format" => $c]];
+            }
+            $menu["copg_list_styles"][] = ["text" => $lng->txt("copg_list_style"), "action" => $la];
+        }
+        if (count($olists) > 1) {
+            $la = [];
+            foreach ($olists as $c) {
+                $la[] = ["action" => "list.numberStyle", "text" => $c, "data" => ["format" => $c]];
+            }
+            $menu["copg_list_styles"][] = ["text" => $lng->txt("copg_list_style"), "action" => $la];
+        }
+        if (count($ilists) > 1) {
+            $la = [];
+            foreach ($ilists as $c) {
+                $la[] = ["action" => "list.itemStyle", "text" => $c, "data" => ["format" => $c]];
+            }
+            $menu["copg_list_styles"][] = ["text" => $lng->txt("copg_list_item_style"), "action" => $la];
+        }
 
         // more...
 
@@ -2828,6 +2858,8 @@ class ilPageObjectGUI
     ): string {
         // scorm 2004 page gui
         if (!$a_content_object) {
+            throw new ilException("No content object given.");
+            /*
             $notes_gui = new ilNoteGUI(
                 $this->notes_parent_id,
                 $this->obj->getId(),
@@ -2837,40 +2869,46 @@ class ilPageObjectGUI
             $a_enable_private_notes = true;
             $a_enable_public_notes = true;
             $a_enable_notes_deletion = false;
-            $notes_gui->setUseObjectTitleHeader(false);
+            $notes_gui->setUseObjectTitleHeader(false);*/
         }
         // wiki page gui, blog posting gui
         else {
+            /*
             $notes_gui = new ilNoteGUI(
                 $a_content_object->getParentId(),
                 $a_content_object->getId(),
                 $a_content_object->getParentType()
+            );*/
+            $comments_gui = $this->notes->gui()->getCommentsGUI(
+                $a_content_object->getParentId(),
+                $a_content_object->getId(),
+                $a_content_object->getParentType()
             );
-            $notes_gui->setUseObjectTitleHeader(false);
+            $comments_gui->setUseObjectTitleHeader(false);
         }
 
         if ($a_enable_private_notes) {
-            $notes_gui->enablePrivateNotes();
+            $comments_gui->enablePrivateNotes();
         }
         if ($a_enable_public_notes) {
-            $notes_gui->enablePublicNotes();
+            $comments_gui->enablePublicNotes();
             if ($a_enable_notes_deletion) {
-                $notes_gui->enablePublicNotesDeletion(true);
+                $comments_gui->enablePublicNotesDeletion(true);
             }
         }
         if ($export) {
-            $notes_gui->setExportMode();
+            $comments_gui->setExportMode();
         }
 
         if ($a_callback) {
-            $notes_gui->addObserver($a_callback);
+            $comments_gui->addObserver($a_callback);
         }
 
         $next_class = $this->ctrl->getNextClass($this);
-        if ($next_class == "ilnotegui") {
-            $html = $this->ctrl->forwardCommand($notes_gui);
+        if (in_array($next_class, ["ilnotegui", "ilcommentgui"])) {
+            $html = $this->ctrl->forwardCommand($comments_gui);
         } else {
-            $html = $notes_gui->getCommentsHTML();
+            $html = $comments_gui->getListHTML();
         }
         return $html;
     }
@@ -2952,12 +2990,18 @@ class ilPageObjectGUI
     {
         $l = $this->request->getString("totransl");
         $p = $this->getPageObject();
-        if (!ilPageObject::_exists($p->getParentType(), $p->getId(), $l)) {
+        if (!$this->checkLangPageAvailable($p->getId(), $l)) {
             $this->confirmPageTranslationCreation();
             return;
         }
         $this->ctrl->setParameter($this, "transl", $l);
         $this->ctrl->redirect($this, "edit");
+    }
+
+    protected function checkLangPageAvailable(int $id, string $lang): bool
+    {
+        $p = $this->getPageObject();
+        return ilPageObject::_exists($this->getParentType(), $id, $lang);
     }
 
     /**
@@ -3000,6 +3044,7 @@ class ilPageObjectGUI
             0,
             "-"
         );
+
         $p->copyPageToTranslation($l);
         $this->ctrl->setParameter($this, "transl", $l);
         $this->ctrl->redirect($this, "edit");

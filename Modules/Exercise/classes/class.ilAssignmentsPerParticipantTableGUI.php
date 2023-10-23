@@ -95,6 +95,27 @@ class ilAssignmentsPerParticipantTableGUI extends ilExerciseSubmissionTableGUI
                 }
             }
 
+            if ($this->filter["subm_after"]) {
+                if (is_null($submission->getLastSubmission())) {
+                    continue;
+                } else {
+                    if ($submission->getLastSubmission() <
+                        $this->filter["subm_after"]->get(IL_CAL_DATETIME)) {
+                        continue;
+                    }
+                }
+            }
+            if ($this->filter["subm_before"]) {
+                if (is_null($submission->getLastSubmission())) {
+                    continue;
+                } else {
+                    if ($submission->getLastSubmission() >
+                        $this->filter["subm_before"]->get(IL_CAL_DATETIME)) {
+                        continue;
+                    }
+                }
+            }
+
             $row = array(
                 "ass" => $ass,
                 "submission_obj" => $submission,

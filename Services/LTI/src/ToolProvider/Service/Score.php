@@ -73,7 +73,8 @@ class Score extends AssignmentGrade
         $date = new \DateTime();
         $json['timestamp'] = date_format($date, 'Y-m-d\TH:i:s.uP');
         $data = json_encode($json);
-        $http = $this->send('POST', null, $data);
+        // UK changed from $http = $this->send('POST', null, $data);
+        $http = $this->send('POST', [], $data);
 
         return $http->ok;
     }

@@ -376,10 +376,7 @@ class ilCmiXapiDataSet extends ilDataSet
         return $manWriter->xmlDumpMem(true);
     }
 
-    /**
-     * @param mixed $a_entity
-     */
-    private function buildProperties($a_entity, bool $a_omit_header = false): string
+    private function buildProperties(mixed $a_entity, bool $a_omit_header = false): string
     {
         $atts = array(
             "InstallationId" => IL_INST_ID,

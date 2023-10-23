@@ -55,6 +55,7 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
     protected array $title_columns = [];
     protected array $ass_types_with_files = []; //TODO will be deprecated when use the new assignment type interface
     protected int $participant_id = 0;
+    protected ?array $selected_participants = null;
 
     /**
      * Constructor
@@ -86,7 +87,8 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
                 new SingleType(IntegerValue::class),
                 new SingleType(IntegerValue::class),
                 new SingleType(IntegerValue::class),
-                new SingleType(IntegerValue::class)
+                new SingleType(IntegerValue::class),
+                new SingleType(StringValue::class),
             ];
     }
 
@@ -117,6 +119,13 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
         $assignment_id = $input[2]->getValue();
         $participant_id = $input[3]->getValue();
         $this->user_id = $input[4]->getValue();
+        $selected_participants = $input[5]->getValue();
+        $this->logger->debug("Collect files. assignment id: " . $assignment_id . ", selected participants: " . $selected_participants);
+        if (trim($selected_participants) === "") {
+            $this->selected_participants = null;
+        } else {
+            $this->selected_participants = explode(",", $selected_participants);
+        }
         $final_directory = "";
 
         //if we have assignment
@@ -235,6 +244,9 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
         $exc_members_id = $filter->filterParticipantsByAccess();
 
         foreach ($exc_members_id as $member_id) {
+            if (!is_null($this->selected_participants) && !in_array($member_id, $this->selected_participants)) {
+                continue;
+            }
             $submission = new ilExSubmission($this->assignment, $member_id);
             $submission->updateTutorDownloadTime();
 
@@ -536,6 +548,9 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
             $row = 2;
             // Fill the excel
             foreach ($participants as $participant_id) {
+                if (!is_null($this->selected_participants) && !in_array($participant_id, $this->selected_participants)) {
+                    continue;
+                }
                 $submission = new ilExSubmission($this->assignment, $participant_id);
                 $submission_files = $submission->getFiles();
 

@@ -2503,7 +2503,7 @@ book#:#book_period#:#Period
 book#:#book_pool_added#:#A booking pool has been added.
 book#:#book_pool_selection#:#Booking Pool Selection
 book#:#book_post_booking_file#:#File
-book#:#book_post_booking_information#:#Post Booking Information
+book#:#book_post_booking_information#:#Reservation Information
 book#:#book_post_booking_text#:#Text
 book#:#book_post_booking_text_info#:#Use placeholders to communicate specifics on reservations. <br />[OBJECT] will be replaced by the respective Booking Object. <br />[PERIOD] will be replaced by the respective schedule.
 book#:#book_pref_book_cron#:#Booking with Preferences
@@ -3956,6 +3956,7 @@ common#:#exc_files#:#Files
 common#:#exc_files_returned#:#Submitted Files
 common#:#exc_instruction#:#Work Instructions
 common#:#exc_last_submission#:#Last Submission
+common#:#exc_member_of_crs_grp#:#Member in Course/Group
 common#:#exc_members_already_assigned#:#These users are already assigned to the assignment.
 common#:#exc_members_assigned#:#Members assigned
 common#:#exc_members_comments_saved#:#The exercise comments for the selected user have been saved
@@ -6573,6 +6574,7 @@ content#:#cont_linked_mobs#:#Linked media objects
 content#:#cont_links#:#Links
 content#:#cont_list_files#:#List Files
 content#:#cont_list_indent#:#Indent List
+content#:#cont_list_item_style#:#List Item Style
 content#:#cont_list_outdent#:#Outdent List
 content#:#cont_list_properties#:#List Properties
 content#:#cont_lists#:#Lists
@@ -7252,6 +7254,9 @@ copg#:#copg_error_occured_modal#:#An error occured while processing the page. Hi
 copg#:#copg_est_reading_time#:#Estimated Reading Time
 copg#:#copg_history_cleanup_cron#:#Page Editor History Cleanup
 copg#:#copg_history_cleanup_cron_info#:#Removes older entries from the page history.
+copg#:#copg_list_item_style#:#List Item
+copg#:#copg_list_style#:#List
+copg#:#copg_list_styles#:#List Formats
 copg#:#copg_page_element_not_found#:#Page element not found.
 copg#:#copg_page_type_stys#:#Layout Page
 copg#:#copg_questions_not_supported_here#:#Questions are not supported in this context.
@@ -9030,6 +9035,7 @@ exc#:#exc_adopt_group_teams_blocked#:#%s User were already assigned.
 exc#:#exc_adopt_group_teams_conflict#:#User "%1$s" is already selected for group "%2$s".
 exc#:#exc_adopt_group_teams_no_members#:#No members
 exc#:#exc_after_submission#:#After submission
+exc#:#exc_all#:#All
 exc#:#exc_all_new_files_offered_already#:#All new files have already been offered for download. For another download, please click on the action links below.
 exc#:#exc_ass_submission_zip#:#Submissions
 exc#:#exc_ass_team_wiki#:#Assignment Team Wiki
@@ -9078,6 +9084,8 @@ exc#:#exc_deadline#:#Deadline
 exc#:#exc_deadline_ext_mismatch#:#The grace period has to end after the deadline.
 exc#:#exc_deadline_extended#:#Grace Period
 exc#:#exc_deadline_extended_info#:#Late submission are possible between the deadline and the end of the grace period.
+exc#:#exc_deadline_not_set_yet#:#Not Set Yet
+exc#:#exc_deadline_requested#:#Requested
 exc#:#exc_delete_team#:#Delete Team
 exc#:#exc_deleted_user#:#Deleted User
 exc#:#exc_denied_has_peer_reviews#:#Reason: Some assignments have peer reviewing activated.
@@ -9088,12 +9096,17 @@ exc#:#exc_direct_submit#:#Submit
 exc#:#exc_direct_submit_blog#:#Would you like to submit the current version of the blog right now? You can do it anytime from the blog editor later on.
 exc#:#exc_direct_submit_portfolio#:#Would you like to submit the current version of the portfolio right now? You can do it anytime from the portfolio editor later on.
 exc#:#exc_down_files_started_bg#:#A ZIP archive with all download files is now created in the background. You can see the status of your background processes at the top right in the Notification Centre. You can also download the ZIP archive there.
+exc#:#exc_download_selected#:#Download Selected Submission
 exc#:#exc_download_zip_structure#:#Download ZIP Structure
 exc#:#exc_earliest_start_time#:#Earliest Start Time
 exc#:#exc_edit_assignment#:#Edit Assignment
 exc#:#exc_edit_assignments#:#Edit Assignments
+exc#:#exc_edit_blog#:#Edit Blog
 exc#:#exc_edit_criterias#:#Edit Criteria
+exc#:#exc_edit_portfolio#:#Edit Portfolio
 exc#:#exc_edit_submission#:#Edit Submission
+exc#:#exc_edit_wiki#:#Edit Wiki
+exc#:#exc_ended#:#Ended
 exc#:#exc_ended_on#:#Ended On
 exc#:#exc_export_excel#:#Export (Excel)
 exc#:#exc_fb_files#:#Evaluation Files
@@ -9106,8 +9119,12 @@ exc#:#exc_feedback_notification_subject#:#Feedback is available for assignment o
 exc#:#exc_files_returned_text#:#Assignment Text
 exc#:#exc_find_zip_error#:#The submission can not be opened. The original files are not found.
 exc#:#exc_fixed_date#:#Fixed Date
+exc#:#exc_fixed_date_individual#:#Individual Deadlines Only
+exc#:#exc_fixed_date_individual_info#:#There is no common deadline. Tutors must set individual deadlines for each participant individually.
 exc#:#exc_fixed_date_info#:#Initially all users get the same fixed deadline.
 exc#:#exc_fullscreen#:#Fullscreen
+exc#:#exc_future#:#Upcoming
+exc#:#exc_given_feedback#:#Given Feedback
 exc#:#exc_global_feedback_file#:#Sample Solution
 exc#:#exc_global_feedback_file_after_date#:#After set Date
 exc#:#exc_global_feedback_file_cron#:#Notification
@@ -9120,6 +9137,9 @@ exc#:#exc_graded_mem_notified#:#All graded participants have been notified.
 exc#:#exc_grades#:#Grades Overview
 exc#:#exc_grades_overview#:#Grades View
 exc#:#exc_hand_in#:#Hand In
+exc#:#exc_hand_in_lead_text#:#%s to Submit
+exc#:#exc_idl_request_and_tutor_needed#:#Please send a request to your tutor for setting an individual deadline for you.
+exc#:#exc_idl_tutor_needed#:#You already requested a deadline. The request is still pending. You will be notified once the individual deadline is set.
 exc#:#exc_import#:#Import Exercise
 exc#:#exc_individual_deadline#:#Individual Deadline
 exc#:#exc_individual_deadline_action#:#Set Individual Deadline
@@ -9127,6 +9147,8 @@ exc#:#exc_individual_deadline_before_global#:#The date has to be after the (last
 exc#:#exc_instruction_files#:#Instruction Files
 exc#:#exc_late_submission#:#Late Submission
 exc#:#exc_late_submission_warning#:#Submissions after %s are marked as late.
+exc#:#exc_lead_request_idl#:#Request Deadline
+exc#:#exc_lead_wait_for_idl#:#Waiting For Individual Deadline
 exc#:#exc_limit_characters#:#Limit of characters
 exc#:#exc_list_submission#:#List All Submissions
 exc#:#exc_list_text_assignment#:#List All Submissions
@@ -9155,15 +9177,23 @@ exc#:#exc_min_nr#:#Number of Assignments
 exc#:#exc_min_nr_info#:#This value must be equal or higher than the number of compulsory assignments.
 exc#:#exc_min_team_participants#:#Minimal Number
 exc#:#exc_msg_all_mandatory_ass#:#You must pass all mandatory assignments to pass the exercise.
+exc#:#exc_msg_deadline_request_body#:#the following user requested an individual deadline.
+exc#:#exc_msg_deadline_request_subject#:#A deadline has been requested in exercise "%s".
 exc#:#exc_msg_failed_mandatory#:#You failed in at least one mandatory assignment.
 exc#:#exc_msg_grading_done#:#An assignment has been graded in exercise "%s".
 exc#:#exc_msg_grading_done_body#:#a tutor has graded your submission in exercise "%s".
+exc#:#exc_msg_idl_set_body#:#a new individual deadline has been set.
+exc#:#exc_msg_idl_set_subject#:#A new deadline has been set in exercise "%s".
 exc#:#exc_msg_min_number_ass#:#You must pass a minimum of %s assignments to pass the exercise.
 exc#:#exc_msg_missed_minimum_number#:#You did not pass the minimum number of assignments.
 exc#:#exc_msg_new_feedback_file_uploaded#:#A new feedback file has been added to exercise "%s".
 exc#:#exc_msg_new_feedback_file_uploaded2#:#a tutor has uploaded a new feedback file for you.
 exc#:#exc_msg_new_feedback_text_uploaded#:#A new comment has been added to exercise "%s".
 exc#:#exc_msg_new_feedback_text_uploaded2#:#a tutor has added a new comment for you.
+exc#:#exc_msg_new_message_from_pf_giver#:#A new message from a peer feedback giver has been added to exercise "%s".
+exc#:#exc_msg_new_message_from_pf_giver2#:#a peer feedback giver has added a new message for you:
+exc#:#exc_msg_new_message_from_pf_recipient#:#A new message from a peer feedback recipient has been added to exercise "%s".
+exc#:#exc_msg_new_message_from_pf_recipient2#:#a peer feedback recipient has added a new message for you:
 exc#:#exc_msg_participants_removed#:#The participants have been removed from the exercise.
 exc#:#exc_msg_public_submission#:#All submissions will be published after the deadline.
 exc#:#exc_msg_saved_grades#:#Grades and comments have been saved.
@@ -9175,13 +9205,18 @@ exc#:#exc_multi_feedback_files#:#Multi-Feedback Files
 exc#:#exc_needs_deadline#:#This feature does only work with an assignment deadline.
 exc#:#exc_needs_fixed_deadline#:#This feature only works with a fixed deadline.
 exc#:#exc_new_assignment#:#New Assignment
+exc#:#exc_no_assignments#:#No assignments available.
 exc#:#exc_no_assignments_available#:#No assignments created yet. Please open ‘Assignments’ and ‘Edit’ to create a first assignment.
+exc#:#exc_no_deadline#:#No Deadline
+exc#:#exc_no_deadline_info#:#There is no submission deadline for participants.
 exc#:#exc_no_deadline_specified#:#No deadline specified.
 exc#:#exc_no_feedback_dir_found_in_zip#:#The directory structure of the uploaded zip-archive could not be processed.
 exc#:#exc_no_get_target#:#A valid target has not been sent.
 exc#:#exc_no_graded_mem_selected#:#Please select at least one graded participant.
 exc#:#exc_no_participants#:#There are currently no participants.
+exc#:#exc_no_peer_feedback_deadline#:#No Deadline for Giving Feedback
 exc#:#exc_no_portfolio_templates#:#There are no Portfolio Templates available.
+exc#:#exc_no_submission_yet#:#No submission yet.
 exc#:#exc_no_team_yet#:#Not assigned to a team
 exc#:#exc_no_team_yet_info#:#You can create a team yourself or be added to an existing team by its team members.
 exc#:#exc_no_team_yet_info_tutor#:#Teams are managed by the exercise tutors.
@@ -9190,6 +9225,7 @@ exc#:#exc_note_for_tutor#:#Note for Tutors
 exc#:#exc_notification#:#Personal Notification
 exc#:#exc_nr_random_mand#:#Number of Mandatory Assignments
 exc#:#exc_num_teams#:#Number
+exc#:#exc_ongoing#:#Ongoing
 exc#:#exc_order_by_deadline#:#Order by Deadline
 exc#:#exc_overview#:#Overview
 exc#:#exc_participant#:#Participant
@@ -9203,6 +9239,7 @@ exc#:#exc_pass_mode#:#Pass Mode
 exc#:#exc_pass_mode_not_changeable_info#:#The pass mode cannot be changed anymore.
 exc#:#exc_passed_status_determination#:#Determination of Status ‘Passed’
 exc#:#exc_passing_exc#:#Passing the Exercise
+exc#:#exc_past#:#Past
 exc#:#exc_peer_deadline_mismatch#:#As feedback is given after the deadline has passed the feedback deadline must not be earlier than the assignment deadline.
 exc#:#exc_peer_review#:#Peer-Feedback
 exc#:#exc_peer_review_ass_setting_info#:#Users can rate the solutions of their peers after the deadline and if granted the grace period lapsed. Specific settings on peer-feedback are made in the respective tab. After activation this option and saving it, the tab 'Peer-Feedback' will be displayed.
@@ -9250,9 +9287,11 @@ exc#:#exc_peer_review_show_missing#:#You cannot view your received feedback as y
 exc#:#exc_peer_review_show_received_none#:#You received no feedback.
 exc#:#exc_peer_review_simple_unlock#:#Access to received feedback
 exc#:#exc_peer_review_simple_unlock_active#:#After giving at least 1 valid feedback
+exc#:#exc_peer_review_simple_unlock_immed#:#Always show received peer feedback
 exc#:#exc_peer_review_simple_unlock_inactive#:#After giving all required feedbacks
 exc#:#exc_peer_review_text#:#Text Input
 exc#:#exc_peer_review_updated#:#Your feedback has been saved.
+exc#:#exc_peer_reviews_in_lead_text#:#%s to Give Feedback
 exc#:#exc_peer_reviews_invalid_warning#:#Invalid Peer Groups
 exc#:#exc_portfolio_created#:#Portfolio was created.
 exc#:#exc_portfolio_returned#:#Assignment Portfolio
@@ -9271,8 +9310,11 @@ exc#:#exc_random_assignment_info#:#When starting the exercise some assignments w
 exc#:#exc_random_selection#:#Random Selection
 exc#:#exc_random_selection_info#:#Each user gets assigned a random selection of mandatory assignments.
 exc#:#exc_random_selection_not_changeable_info#:#This mode cannot be activated.
+exc#:#exc_received_feedback#:#Received Feedbacks
 exc#:#exc_rel_last_submission#:#Last Possible Submission
 exc#:#exc_rel_last_submission_info#:#If this optional date is set, all user have to submit until this deadline is reached.
+exc#:#exc_rel_start_latest_lead_text#:#%s the Latest
+exc#:#exc_rel_start_lead_text#:#Submit %s Days After Start
 exc#:#exc_relative_date#:#Relative Date
 exc#:#exc_relative_date_info#:#The deadline is set individually relative to the time when a user started the assignment.
 exc#:#exc_rem_time_after_start#:#Remaining Time after Start
@@ -9297,6 +9339,9 @@ exc#:#exc_reminder_submit_setting#:#Remind Users to Submit
 exc#:#exc_reminder_submit_subject#:#Assignment "%s" was not finished
 exc#:#exc_reminders_cron#:#Reminders for Assignments
 exc#:#exc_reminders_cron_info#:#If enabled, 3 reminders will be active: Users to Submit, Tutors to Grade and Participants to Feedback.
+exc#:#exc_request_deadline#:#Request Deadline
+exc#:#exc_requirement#:#Requirement
+exc#:#exc_review_anytime#:#Give Feedback Anytime
 exc#:#exc_save_all#:#Save All
 exc#:#exc_save_order#:#Save Order
 exc#:#exc_save_selected#:#Save Selected
@@ -9313,6 +9358,8 @@ exc#:#exc_select_portfolio_info#:#Please select one of your portfolios to use it
 exc#:#exc_select_portfolio_unlink#:#Remove Portfolio
 exc#:#exc_send_assignment#:#Send Assignment by Mail
 exc#:#exc_send_grading_notification#:#Send Grading Notification
+exc#:#exc_set_failed#:#Set as Failed
+exc#:#exc_set_passed#:#Set as Passed
 exc#:#exc_settings_feedback#:#Evaluation
 exc#:#exc_settings_feedback_file#:#By File
 exc#:#exc_settings_feedback_file_info#:#Tutors upload a file. The participant receives a notification about it and can access the file at the assignment overview.
@@ -9333,12 +9380,13 @@ exc#:#exc_submission_file#:#Submission File
 exc#:#exc_submission_no_new_files#:#No new submissions available.
 exc#:#exc_submission_notification#:#E-Mail Notification on Submissions
 exc#:#exc_submission_notification_body#:#A new submission for exercise "%s" has been uploaded.
-exc#:#exc_submission_notification_info#:#You will be notified when submissions are uploaded. This is a personal setting which does not affect other administrators of the exercise.
+exc#:#exc_submission_notification_info#:#You will be notified when submissions are uploaded or individual deadlines are requested. This is a personal setting which does not affect other administrators of the exercise.
 exc#:#exc_submission_notification_link#:#Link to exercise: %s
 exc#:#exc_submission_notification_subject#:#Exercise "%s" - New submission uploaded
 exc#:#exc_submission_open_notification_link#:#Open submission: %s
 exc#:#exc_submission_text#:#Submission Text
 exc#:#exc_submissions_and_grades#:#Submissions and Grades
+exc#:#exc_submit_anytime#:#Submit Anytime
 exc#:#exc_submit_convenience_no_deadline#:#Submit your at your convenience. There is no  specific  deadline.
 exc#:#exc_submitted_files_deleted#:#The selected files have been deleted.
 exc#:#exc_sure_unlink_portfolio#:#Are you sure to remove this portfolio form this assignment?
@@ -9363,6 +9411,8 @@ exc#:#exc_tbl_feedback_time#:#Evaluation on
 exc#:#exc_tbl_filter_has_no_submission#:#Has not submitted yet
 exc#:#exc_tbl_filter_has_submission#:#Has submitted
 exc#:#exc_tbl_filter_submission#:#Submission
+exc#:#exc_tbl_filter_submission_after#:#Submission After
+exc#:#exc_tbl_filter_submission_before#:#Submission Before
 exc#:#exc_tbl_individual_deadline#:#Individual Deadline
 exc#:#exc_tbl_mark#:#Mark
 exc#:#exc_tbl_notice#:#Note for Tutors
@@ -9422,12 +9472,14 @@ exc#:#exc_text_assignment_show#:#Show Text
 exc#:#exc_text_saved#:#Text has been saved.
 exc#:#exc_total_exc#:#Total Exercise
 exc#:#exc_total_members#:#Total Exercise Participants
+exc#:#exc_type#:#Type
 exc#:#exc_type_blog#:#Blog
 exc#:#exc_type_portfolio#:#Portfolio
 exc#:#exc_type_text#:#Text
 exc#:#exc_type_upload#:#Upload
 exc#:#exc_type_upload_team#:#Team Upload
 exc#:#exc_value_can_not_set#:#This value can not be set.
+exc#:#exc_view_portfolio#:#View Portfolio
 exc#:#exc_wait_for_files#:#Your download should start automatically. If the download doesn't start in 5 secs, please click here
 exc#:#exc_wiki_container#:#Wiki Container
 exc#:#exc_wiki_container_info#:#Location where wikis of participants will be created.
@@ -9440,6 +9492,7 @@ exc#:#exc_without_template_info#:#Participants will create their Portfolio from 
 exc#:#exc_without_wiki_template#:#Without Wiki Template
 exc#:#exc_without_wiki_template_info#:#Participants will create their wiki from scratch.
 exc#:#exc_work_instructions#:#Work instructions
+exc#:#exc_x_of_y#:#of
 exc#:#exc_your_text#:#Your Text
 exc#:#feedback#:#Feedback
 exc#:#feedback_from#:#Feedback from
@@ -9504,6 +9557,8 @@ file#:#copyright_inherited_info#:#Apply the copyright of the zip archive to its 
 file#:#de_activate_icon#:#(De-)Activate
 file#:#download_ascii_filename#:#Use ASCII-only characters for downloaded filenames
 file#:#download_ascii_filename_info#:#Downloaded files should only have ASCII-characters in their filename. Deactivate to use all characters.
+file#:#file_btn_lp_toggle_state_completed#:#Set Not Completed
+file#:#file_btn_lp_toggle_state_not_completed#:#Set Completed
 file#:#file_copy#:#Copy File
 file#:#file_download#:#Download File
 file#:#file_import#:#Import File
@@ -9514,6 +9569,7 @@ file#:#file_uploaded_by#:#Version uploaded by
 file#:#form_icon_creation#:#Create Icon
 file#:#form_icon_updating#:#Update Icon
 file#:#general_upload_error_occured#:#An unexpected error occured during upload.
+file#:#important_info#:#Important Information
 file#:#input_active#:#Active
 file#:#input_desc_active#:#Activate this icon.
 file#:#input_desc_icon#:#Image which shall be shown as an icon for files with the specified suffixes.
@@ -9521,6 +9577,7 @@ file#:#input_desc_suffixes#:#List of comma-separated suffixes (characters and nu
 file#:#input_icon#:#Icon
 file#:#input_suffixes#:#Suffixes
 file#:#migrated#:#Status
+file#:#mime_type#:#MIME Type
 file#:#msg_confirm_entry_deletion#:#Are you sure you want to delete the following entry?:
 file#:#msg_error_active_suffixes_blacklisted#:#One of the selected file extensions is on the global blacklist and cannot be used at the moment.
 file#:#msg_error_active_suffixes_conflict#:#Error: there must not be multiple activated icons for the same suffix. Please deactivate either this icon or the other activated icon whose suffixes overlap with the suffixes of this icon.
@@ -12346,15 +12403,19 @@ note#:#note_enable_notes#:#Enable Notes
 note#:#note_html_export_include_comments#:#Should comments be included in the export?
 notes#:#comments_feature_currently_not_activated_for_object#:#The public comments feature is currently not activated for this resource.
 notes#:#note_add_comment#:#Add Comment
+notes#:#note_add_message#:#Add Message
 notes#:#note_add_note#:#Add Note
 notes#:#note_content_removed#:#The content has been removed.
 notes#:#note_text#:#Text
 notes#:#note_update_comment#:#Update Comment
+notes#:#note_update_message#:#Update Message
 notes#:#note_update_note#:#Update Note
 notes#:#note_without_object#:#Without reference
 notes#:#notes_activate_comments#:#Activate Public Comments
 notes#:#notes_add_comment#:#Add Comment
 notes#:#notes_add_edit_comment#:#Add/Edit Comment
+notes#:#notes_add_edit_message#:#Add/Edit Message
+notes#:#notes_add_edit_note#:#Add/Edit Note
 notes#:#notes_all_comments#:#All Comments
 notes#:#notes_comment#:#Comment
 notes#:#notes_comment_deleted#:#The comment has been deleted.
@@ -12362,13 +12423,20 @@ notes#:#notes_comments#:#Comments
 notes#:#notes_comments_deleted#:#The comments have been deleted.
 notes#:#notes_deactivate_comments#:#Deactivate Public Comments
 notes#:#notes_delete_comment#:#Do you really want to delete this comment?
+notes#:#notes_delete_message#:#Do you really want to delete this message?
 notes#:#notes_delete_note#:#Do you really want to delete this note?
 notes#:#notes_hide_comments#:#Hide Comments
 notes#:#notes_html_export#:#HTML Export
 notes#:#notes_latest_comment#:#Latest Comment
+notes#:#notes_latest_message#:#Latest Message
+notes#:#notes_message_author_counterpart#:#Respondent
+notes#:#notes_message_author_you#:#You
+notes#:#notes_messages#:#Messages
 notes#:#notes_my_comments#:#My Comments
 notes#:#notes_no_comments#:#No comment has been posted yet.
 notes#:#notes_no_comments_found#:#No comments found that match your seach criteria.
+notes#:#notes_no_messages#:#No messages have been attached yet.
+notes#:#notes_no_messages_found#:#No messages found that match your seach criteria.
 notes#:#notes_no_notes#:#No notes have been attached yet.
 notes#:#notes_no_notes_found#:#No notes found that match your seach criteria.
 notes#:#notes_note_deleted#:#The note has been deleted.
@@ -13295,6 +13363,7 @@ rbac#:#activate_wiki_protection#:#Set Read-Only
 rbac#:#active_preconditions#:#Preconditions
 rbac#:#add_consultation_hours#:#Add Consultation Hours
 rbac#:#add_consume_provider#:#Add Own LTI Provider Settings
+rbac#:#add_pages#:#Add Pages
 rbac#:#add_reply#:#Add Reply
 rbac#:#add_thread#:#Add Thread
 rbac#:#adm_edit_permission#:#User can change permissions of General Settings in Administration.
@@ -14155,10 +14224,11 @@ rbac#:#webr_read#:#User can read and use weblinks
 rbac#:#webr_visible#:#Weblink is visible
 rbac#:#webr_write#:#User can edit settings of weblinks
 rbac#:#wiki_activate_wiki_protection#:#Set Wiki Pages to Read-Only
+rbac#:#wiki_add_pages#:#User can create wiki pages
 rbac#:#wiki_copy#:#User can copy wiki
 rbac#:#wiki_delete#:#User can move or delete wiki
 rbac#:#wiki_delete_wiki_pages#:#Delete Wiki Pages
-rbac#:#wiki_edit_content#:#User can create and edit wiki pages
+rbac#:#wiki_edit_content#:#User can edit wiki pages
 rbac#:#wiki_edit_page_meta#:#Edit Wiki Page Metadata
 rbac#:#wiki_edit_permission#:#User can change permission settings
 rbac#:#wiki_edit_wiki_navigation#:#Edit Wiki Navigation
@@ -15339,6 +15409,8 @@ style#:#sty_lightness_header_text#:#Lightness Header Text
 style#:#sty_line_height#:#Line Height
 style#:#sty_link_char#:#Link
 style#:#sty_list_char#:#List
+style#:#sty_list_style_position#:#List Style Position
+style#:#sty_list_style_type#:#List Style Type
 style#:#sty_make_global_default#:#Set as default style
 style#:#sty_make_global_fixed#:#Force this style on all objects
 style#:#sty_margin#:#Margin
@@ -15357,6 +15429,7 @@ style#:#sty_name#:#Name
 style#:#sty_nr_learning_modules#:#Number of Learning Modules
 style#:#sty_odd_col_class#:#Odd Columns
 style#:#sty_odd_row_class#:#Odd Rows
+style#:#sty_ol#:#Ordered List
 style#:#sty_opacity#:#Opacity
 style#:#sty_opt_saved#:#Options saved
 style#:#sty_order#:#Order
@@ -15520,6 +15593,7 @@ style#:#sty_type_va_icont#:#Vert. Accordion Item Content
 style#:#sty_type_va_ihcap#:#Vert. Accordion Caption
 style#:#sty_type_va_ihead#:#Vert. Accordion Item Header
 style#:#sty_type_va_iheada#:#Vert. Accordion Header (active)
+style#:#sty_ul#:#Unordered List
 style#:#sty_va_cntr_class#:#Vert. Accordion Container
 style#:#sty_va_icntr_class#:#Vert. Accordion Item Container
 style#:#sty_va_icont_class#:#Vert. Accordion Item Content
@@ -17019,6 +17093,8 @@ wiki#:#wiki_link_md_values#:#Automatic Linking
 wiki#:#wiki_link_md_values_info#:#Autmatically links properties presented in the side block to wiki pages with the same name.
 wiki#:#wiki_link_text#:#Link Text
 wiki#:#wiki_mark#:#Mark
+wiki#:#wiki_master_existing#:#Page Exists in Master Language
+wiki#:#wiki_master_title#:#Title of Page in Master Language
 wiki#:#wiki_navigation#:#Wiki Navigation
 wiki#:#wiki_navigation_info#:#Here you can add and remove links to existing wiki pages to the navigation block in the wiki.
 wiki#:#wiki_new_page#:#New Page
@@ -17026,9 +17102,11 @@ wiki#:#wiki_new_page_name#:#New Title
 wiki#:#wiki_new_pages#:#New Pages
 wiki#:#wiki_news_page_changed#:#Wiki page has been updated.
 wiki#:#wiki_news_page_created#:#New wiki page has been created.
+wiki#:#wiki_no_master#:#Page Does Not Exist in Master Language
 wiki#:#wiki_no_page_found#:#No wiki page has been found for search term '$1'.
 wiki#:#wiki_no_search_term#:#No search term has been entered. All pages of the wiki are listed below.
 wiki#:#wiki_no_start_page#:#Wiki is missing a valid starting page.
+wiki#:#wiki_not_existing#:#not existing yet
 wiki#:#wiki_notgraded#:#Not Graded
 wiki#:#wiki_notification_activate_page#:#Activate Notification for Page
 wiki#:#wiki_notification_activate_wiki#:#Activate Notification for Wiki
@@ -17052,6 +17130,7 @@ wiki#:#wiki_page_deleted#:#Wiki page deleted.
 wiki#:#wiki_page_deletion_confirmation#:#Do you really want to delete this wiki page?
 wiki#:#wiki_page_exists#:#Existing Page
 wiki#:#wiki_page_hits#:#Page Hits
+wiki#:#wiki_page_in_master_language#:#Page in Master Language
 wiki#:#wiki_page_list_form_info#:#Adds a list of pages of this wiki that are all assigned to the selected metadata below. Only searchable metadata fields are listed.
 wiki#:#wiki_page_list_mode#:#Type of List
 wiki#:#wiki_page_list_mode_ordered#:#Numbered
@@ -17139,6 +17218,9 @@ wiki#:#wiki_templ_add_to_page#:#Available for Being Added to Existing Pages
 wiki#:#wiki_templ_new_pages#:#Available on Page Creation
 wiki#:#wiki_template_added#:#Template page added.
 wiki#:#wiki_template_status_removed#:#Template status removed.
+wiki#:#wiki_translate_page_master_info#:#You are creating a new wiki page translation. Please specify, if this translation belongs to an existing master version of the page, or if a completely new page is being created. In the second case you need to specify a page title for the master version.
+wiki#:#wiki_translation_page#:#Translation Page
+wiki#:#wiki_translations#:#Translations
 wiki#:#wiki_type_wiki_team#:#Team Wiki
 wiki#:#wiki_unblock_page#:#Grant Write Access
 wiki#:#wiki_unhide_meta_adv_records#:#Show additional properties

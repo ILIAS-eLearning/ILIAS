@@ -62,21 +62,18 @@ class InternalService
             $this->db
         );
         $this->domain = new InternalDomainService(
+            $this->dic,
             $this->data,
             $this->repo
         );
     }
 
     public function gui(
-        array $query_params = null,
-        array $post_data = null
     ): InternalGUIService {
         return new InternalGUIService(
             $this->dic,
-            $this,
-            $this->refinery,
-            $query_params,
-            $post_data
+            $this->data,
+            $this->domain
         );
     }
 

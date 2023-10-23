@@ -26,6 +26,7 @@ use ILIAS\UI\Component\Component;
 use ILIAS\UI\Factory as RootFactory;
 use ILIAS\UI\HelpTextRetriever;
 use ilLanguage;
+use ILIAS\UI\Implementation\Component\Input\UploadLimitResolver;
 
 class DefaultRendererFactory implements RendererFactory
 {
@@ -37,7 +38,8 @@ class DefaultRendererFactory implements RendererFactory
         protected Refinery $refinery,
         protected ImagePathResolver $image_path_resolver,
         protected DataFactory $data_factory,
-        protected HelpTextRetriever $help_text_retriever
+        protected HelpTextRetriever $help_text_retriever,
+        protected UploadLimitResolver $upload_limit_resolver,
     ) {
     }
 
@@ -55,7 +57,8 @@ class DefaultRendererFactory implements RendererFactory
             $this->refinery,
             $this->image_path_resolver,
             $this->data_factory,
-            $this->help_text_retriever
+            $this->help_text_retriever,
+            $this->upload_limit_resolver,
         );
     }
 

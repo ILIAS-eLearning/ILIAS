@@ -1666,7 +1666,7 @@ class ilObjCmiXapi extends ilObject2
      * get latest statement from session
      * @return mixed|null
      */
-    public function getLastStatement(string $sess)
+    public function getLastStatement(string $sess): mixed
     {
         global $DIC;
         $lrsType = $this->getLrsType();

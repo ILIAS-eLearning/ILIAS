@@ -36,4 +36,34 @@ class GUIService
     {
         $this->internal_gui_service->initJavascript($ajax_url);
     }
+
+    public function getCommentsGUI(
+        int $rep_obj_id,
+        int $obj_id,
+        string $obj_type,
+        int $news_id = 0
+    ): \ilCommentGUI {
+        return $this->internal_gui_service->getCommentsGUI(
+            $rep_obj_id,
+            $obj_id,
+            $obj_type,
+            $news_id
+        );
+    }
+
+    public function getMessagesGUI(
+        int $recipient,
+        int $rep_obj_id,
+        int $obj_id,
+        string $obj_type
+    ): \ilMessageGUI {
+        return $this->internal_gui_service->getMessagesGUI(
+            $recipient,
+            $rep_obj_id,
+            $obj_id,
+            $obj_type
+        );
+    }
+
+
 }

@@ -465,6 +465,7 @@ il.VideoPlaylist = il.VideoPlaylist || {};
           }
           il.VideoWidget.loadFile(t.playlist[list_wrapper].player_wrapper, v, play, progress_cb);
           t.current_item[t.playlist[list_wrapper].player_wrapper] = id;
+          loadComments(id);
         }
       });
       refreshNavigation(list_wrapper);
@@ -553,6 +554,18 @@ il.VideoPlaylist = il.VideoPlaylist || {};
         type: 'GET',
         url: `${t.playlist[list_wrapper].autoplay_cb}&autoplay=${active ? '1' : '0'}`,
       });
+    };
+
+    const loadComments = (id) => {
+      const el = document.querySelector('[data-mcst-comments]');
+      if (el) {
+        const url = `${el.dataset.mcstComments}&item_id=${id}`;
+        $.ajax({
+          url,
+        }).done((data) => {
+          $(el).html(data);
+        });
+      }
     };
 
     return {

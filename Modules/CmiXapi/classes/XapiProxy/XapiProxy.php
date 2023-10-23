@@ -35,7 +35,7 @@ class XapiProxy extends XapiProxyPolyFill
 
     public function setRequestParams(Request $request): void
     {
-        preg_match(self::PARTS_REG, $request->getUri(), $this->cmdParts);
+        preg_match(self::PARTS_REG, (string) $request->getUri(), $this->cmdParts);
     }
 
     public function token(): string

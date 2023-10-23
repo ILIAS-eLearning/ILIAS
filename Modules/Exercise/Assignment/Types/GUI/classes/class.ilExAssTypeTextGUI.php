@@ -103,4 +103,58 @@ class ilExAssTypeTextGUI implements ilExAssignmentTypeGUIInterface
     public function getOverviewContent(ilInfoScreenGUI $a_info, ilExSubmission $a_submission): void
     {
     }
+
+    public function buildSubmissionPropertiesAndActions(\ILIAS\Exercise\Assignment\PropertyAndActionBuilderUI $builder): void
+    {
+        global $DIC;
+
+        $service = $DIC->exercise()->internal();
+        $gui = $service->gui();
+        $f = $gui->ui()->factory();
+        $lng = $DIC->language();
+        $ilCtrl = $DIC->ctrl();
+        $submission = $this->getSubmission();
+
+        if ($submission->canSubmit()) {
+            $url = $ilCtrl->getLinkTargetByClass(array(ilAssignmentPresentationGUI::class, "ilExSubmissionGUI", "ilExSubmissionTextGUI"), "editAssignmentText");
+            $button = $f->button()->primary(
+                $this->lng->txt("exc_text_assignment_edit"),
+                $url
+            );
+            $builder->setMainAction(
+                $builder::SEC_SUBMISSION,
+                $button
+            );
+            $builder->addView(
+                "submission",
+                $lng->txt("exc_submission"),
+                $url
+            );
+        } else {
+            if ($submission->hasSubmitted()) {
+                $url = $ilCtrl->getLinkTargetByClass(array(ilAssignmentPresentationGUI::class,
+                                                           "ilExSubmissionGUI",
+                                                           "ilExSubmissionTextGUI"
+                ), "showAssignmentText");
+                $link = $f->link()->standard(
+                    $this->lng->txt("exc_text_assignment_show"),
+                    $url
+                );
+                $builder->addAction(
+                    $builder::SEC_SUBMISSION,
+                    $link
+                );
+                $builder->addView(
+                    "submission",
+                    $lng->txt("exc_submission"),
+                    $url
+                );
+            }
+        }
+
+        //$a_info->addProperty($lng->txt("exc_files_returned_text"), $files_str);
+
+    }
+
+
 }

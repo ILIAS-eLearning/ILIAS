@@ -633,6 +633,14 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
                 } elseif (in_array($mime, ["audio/mpeg"])) {
                     $audio = $ui_factory->player()->audio($media_path);
                     $html = $ui_renderer->render($audio);
+                } elseif (in_array($mime, ["application/pdf"])) {
+                    $this->ctrl->setParameter($this, "news_id", $item["id"]);
+                    $link = $ui_factory->link()->standard(
+                        basename($media_path),
+                        $this->ctrl->getLinkTarget($this, "downloadMob")
+                    );
+                    $html = $ui_renderer->render($link);
+                    $this->ctrl->setParameter($this, "news_id", null);
                 } else {
                     // download?
                     $html = $mime;
@@ -1366,5 +1374,12 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
     public function getNoItemFoundContent(): string
     {
         return $this->lng->txt("news_no_news_items");
+    }
+
+    protected function downloadMob(): void
+    {
+        $news_id = $this->std_request->getNewsId();
+        $news = new ilNewsItem($news_id);
+        $news->deliverMobFile("Standard", true);
     }
 }

@@ -26,6 +26,7 @@ use ILIAS\BackgroundTasks\TaskManager;
  */
 class ilDownloadSubmissionsBackgroundTask
 {
+    protected ?array $selected_participants;
     protected int $exc_ref_id;
     protected int $exc_id;
     protected ?int $ass_id;
@@ -41,7 +42,8 @@ class ilDownloadSubmissionsBackgroundTask
         int $a_exc_ref_id,
         int $a_exc_id,
         int $a_ass_id,
-        int $a_participant_id
+        int $a_participant_id,
+        ?array $selected_participants = null
     ) {
         global $DIC;
 
@@ -50,6 +52,7 @@ class ilDownloadSubmissionsBackgroundTask
         $this->exc_id = $a_exc_id;
         $this->ass_id = $a_ass_id;
         $this->participant_id = $a_participant_id;
+        $this->selected_participants = $selected_participants;
 
         $this->task_factory = $DIC->backgroundTasks()->taskFactory();
         $this->task_manager = $DIC->backgroundTasks()->taskManager();
@@ -66,6 +69,9 @@ class ilDownloadSubmissionsBackgroundTask
         $this->logger->debug("job class = " . ilExerciseManagementCollectFilesJob::class);
         $this->logger->debug("exc_id = " . $this->exc_id . ", exc_ref_id = " . $this->exc_ref_id . ", ass_id = " . (int) $this->ass_id . ", participant_id = " . (int) $this->participant_id . ", user_id = " . $this->user_id);
 
+        $sel_participants = $this->selected_participants
+            ? implode(",", $this->selected_participants)
+            : "";
         $collect_data_job = $this->task_factory->createTask(
             ilExerciseManagementCollectFilesJob::class,
             [
@@ -73,7 +79,8 @@ class ilDownloadSubmissionsBackgroundTask
                 $this->exc_ref_id,
                 (int) $this->ass_id,
                 (int) $this->participant_id,
-                $this->user_id
+                $this->user_id,
+                $sel_participants
             ]
         );
 

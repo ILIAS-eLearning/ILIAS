@@ -17,7 +17,6 @@
  *********************************************************************/
 
 use ILIAS\DI\Container;
-use ILIAS\UI\Component\Signal;
 use ILIAS\UI\Component\Modal\Modal;
 
 /**
@@ -104,6 +103,7 @@ class ilFileVersionsTableGUI extends ilTable2GUI
 
     protected function fillRow(array $a_set): void
     {
+        $action_entries = [];
         $hist_id = $a_set["hist_entry_id"];
 
         // split params
@@ -120,7 +120,9 @@ class ilFileVersionsTableGUI extends ilTable2GUI
         $filesize = $a_set["size"];
 
         // get action text
-        $action = $this->dic->language()->txt("file_version_" . $a_set["action"]); // create, replace, new_version, rollback
+        $action = $this->dic->language()->txt(
+            "file_version_" . $a_set["action"]
+        ); // create, replace, new_version, rollback
         if ($a_set["action"] == "rollback") {
             $name = ilObjUser::_lookupName($rollback_user_id);
             $rollback_username = trim($name["title"] . " " . $name["firstname"] . " " . $name["lastname"]);

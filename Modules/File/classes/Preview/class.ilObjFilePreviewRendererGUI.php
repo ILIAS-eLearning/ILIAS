@@ -22,7 +22,6 @@ use ILIAS\ResourceStorage\Flavour\Definition\PagesToExtract;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 use ILIAS\UI\Component\Modal\LightboxImagePage;
 use ILIAS\Modules\File\Preview\Settings;
-use ILIAS\Modules\File\Preview\Form;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
@@ -46,20 +45,17 @@ class ilObjFilePreviewRendererGUI implements ilCtrlBaseClassInterface
     private ilLanguage $language;
     private int $preview_size;
     private int $pages_to_extract;
-    private ?int $object_id = null;
     private bool $activated = false;
     private string $file_name;
     private Settings $settings;
 
     public function __construct(
-        ?int $object_id = null
+        private ?int $object_id = null
     ) {
         global $DIC;
 
         $this->settings = new Settings();
         $this->activated = $this->settings->isPreviewEnabled();
-
-        $this->object_id = $object_id;
 
         $this->db = $DIC->database();
         $this->ctrl = $DIC->ctrl();
@@ -88,12 +84,16 @@ class ilObjFilePreviewRendererGUI implements ilCtrlBaseClassInterface
 
     public function has(): bool
     {
-        return $this->activated
-            && $this->irss->flavours()->possible(
-                $this->rid,
-                $this->flavour_definition
-            )
-            && $this->isAccessGranted();
+        if (!$this->activated) {
+            return false;
+        }
+        if (!$this->irss->flavours()->possible(
+            $this->rid,
+            $this->flavour_definition
+        )) {
+            return false;
+        }
+        return $this->isAccessGranted();
     }
 
     public function getTriggerComponents(bool $as_button = false): array
@@ -135,37 +135,31 @@ class ilObjFilePreviewRendererGUI implements ilCtrlBaseClassInterface
     public function executeCommand(): void
     {
         $cmd = $this->ctrl->getCmd();
-        switch ($cmd) {
-            case self::CMD_GET_ASYNC_MODAL:
-                $this->{$cmd}();
-                break;
-            default:
-                throw new InvalidArgumentException('Command not found: ' . $cmd);
-        }
+        match ($cmd) {
+            self::CMD_GET_ASYNC_MODAL => $this->{$cmd}(),
+            default => throw new InvalidArgumentException('Command not found: ' . $cmd),
+        };
     }
 
     /**
-     * @param int|null $object_id
      * @return mixed
      */
     protected function resolveRidString(?int $object_id): string
     {
         if ($object_id !== null) {
-            $rid_string = $this->db->fetchObject(
+            return $this->db->fetchObject(
                 $this->db->queryF(
                     'SELECT rid FROM file_data WHERE file_id = %s',
                     ['integer'],
                     [$object_id]
                 )
             )->rid ?? throw new InvalidArgumentException('No rid found for object_id ' . $this->object_id);
-        } else {
-            $rid_string = $this->http_wrapper->query()->has(self::P_RID)
-                ? $this->http_wrapper->query()->retrieve(
-                    self::P_RID,
-                    $this->refinery->to()->string()
-                ) : throw new InvalidArgumentException('No rid found in request');
         }
-        return $rid_string;
+        return $this->http_wrapper->query()->has(self::P_RID)
+            ? $this->http_wrapper->query()->retrieve(
+                self::P_RID,
+                $this->refinery->to()->string()
+            ) : throw new InvalidArgumentException('No rid found in request');
     }
 
     protected function isAccessGranted(): bool

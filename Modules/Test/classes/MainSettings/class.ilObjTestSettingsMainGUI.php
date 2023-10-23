@@ -470,6 +470,7 @@ class ilObjTestSettingsMainGUI extends ilTestSettingsGUI
         $inputs['time_span'] = $field_factory->duration($this->lng->txt('rep_time_period'))
             ->withTimezone($this->activeUser->getTimeZone())
             ->withFormat($format)
+            ->withUseTime(true)
             ->withRequired(true);
         $inputs['activation_visibility'] = $field_factory->checkbox(
             $this->lng->txt('rep_activation_limited_visibility'),

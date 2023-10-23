@@ -12,5 +12,10 @@ interface ilObjFileProcessorInterface
     /**
      * Processes a given resource for the given arguments.
      */
-    public function process(ResourceIdentification $rid, string $title = null, string $description = null, int $copyright_id = null): void;
+    public function process(
+        ResourceIdentification $rid,
+        string $title = null,
+        string $description = null,
+        int $copyright_id = null
+    ): void;
 }
