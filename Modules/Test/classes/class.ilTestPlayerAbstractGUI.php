@@ -2225,7 +2225,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
             . serialize($this->testSequence)
         );
 
-        $this->logging_services->root()->logStack('INV SEQ');
+        $this->logging_services->root()->logStack(ilLogLevel::ERROR);
 
         $this->ctrl->setParameter($this, 'sequence', $this->testSequence->getFirstSequence());
         $this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);
@@ -2366,14 +2366,10 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         $modal->setHeaderText($this->lng->txt('tst_nav_next_locks_empty_answer_header'));
         $modal->setConfirmationText($this->lng->txt('tst_nav_next_locks_empty_answer_confirm'));
 
-        $button = $modal->buildModalButtonInstance('tst_nav_next_empty_answer_button');
-        $button->setCaption('tst_proceed');
-        $button->setPrimary(false);
+        $button = $this->ui->factory()->button()->standard($this->lng->txt('tst_proceed'), '#');
         $modal->addButton($button);
 
-        $button = $modal->buildModalButtonInstance('tst_cancel_next_empty_answer_button');
-        $button->setCaption('cancel');
-        $button->setPrimary(true);
+        $button = $this->ui_factory->button()->primary($this->lng->txt('cancel'), '#');
         $modal->addButton($button);
 
         $this->tpl->setCurrentBlock('next_locks_unchanged_modal');
@@ -2396,14 +2392,10 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         $modal->setConfirmationCheckboxName(self::FOLLOWUP_QST_LOCKS_PREVENT_CONFIRMATION_PARAM);
         $modal->setConfirmationCheckboxLabel($this->lng->txt('tst_dont_show_msg_again_in_current_session'));
 
-        $button = $modal->buildModalButtonInstance('tst_nav_next_changed_answer_button');
-        $button->setCaption('tst_save_and_proceed');
-        $button->setPrimary(true);
+        $button = $this->ui_factory->button()->primary($this->lng->txt('tst_save_and_proceed'), '#');
         $modal->addButton($button);
 
-        $button = $modal->buildModalButtonInstance('tst_cancel_next_changed_answer_button');
-        $button->setCaption('cancel');
-        $button->setPrimary(false);
+        $button = $this->ui_factory->button()->standard($this->lng->txt('cancel'), '#');
         $modal->addButton($button);
 
         $this->tpl->setCurrentBlock('next_locks_changed_modal');

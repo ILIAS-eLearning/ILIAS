@@ -239,17 +239,4 @@ class ilTestPlayerConfirmationModal
         $modal->setBody($this->buildBody());
         return $modal->getHTML();
     }
-
-    /**
-     * @param string $buttonId
-     * @return ilLinkButton
-     */
-    public function buildModalButtonInstance($buttonId): ilLinkButton
-    {
-        $button = ilLinkButton::getInstance();
-        $button->setUrl('#');
-        $button->setId($buttonId);
-
-        return $button;
-    }
 }

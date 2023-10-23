@@ -305,16 +305,11 @@ class ilTestParticipantsGUI
                 'submit_name' => $this->lng->txt('add')
             )
         );
-
-        $search_btn = ilLinkButton::getInstance();
-        $search_btn->setCaption('tst_search_users');
-        $search_btn->setUrl($this->ctrl->getLinkTargetByClass('ilRepositorySearchGUI', 'start'));
-
         $toolbar->addSeparator();
 
-        $search_btn = $DIC->ui()->factory()->button()->standard(
-            $DIC->language()->txt('tst_search_users'),
-            $DIC->ctrl()->getLinkTargetByClass('ilRepositorySearchGUI', 'start')
+        $search_btn = $this->ui_factory->button()->standard(
+            $this->lng->txt('tst_search_users'),
+            $this->ctrl->getLinkTargetByClass('ilRepositorySearchGUI', 'start')
         );
         $toolbar->addComponent($search_btn);
     }
