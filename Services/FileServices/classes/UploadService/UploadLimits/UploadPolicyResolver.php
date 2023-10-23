@@ -24,7 +24,7 @@ declare(strict_types=1);
 class UploadPolicyResolver
 {
     /**
-     * Multiplie for MB to Bytes, divide for Bytes to MB.
+     * Multiply for MB to Bytes, divide for Bytes to MB.
      */
     protected const MB_TO_BYTES = 1_000 * 1_000;
 
