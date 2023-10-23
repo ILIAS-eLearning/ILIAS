@@ -28,7 +28,6 @@ use ILIAS\UI\Component\Symbol\Icon\Icon;
 use ILIAS\UI\Component\Symbol\Avatar\Avatar;
 use ILIAS\UI\Component\Button\Standard as ButtonStandard;
 use ILIAS\UI\Component\Link\Standard as LinkStandard;
-use ILIAS\UI\Implementation\Component\Link\Link;
 
 class Standard extends Item implements C\Item\Standard
 {
