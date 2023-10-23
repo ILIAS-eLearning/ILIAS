@@ -29,7 +29,6 @@ use ILIAS\UI\Component\Dropdown\Standard as DropdownStandard;
 use ILIAS\UI\Component\Symbol\Avatar\Avatar;
 use ILIAS\UI\Component\Button\Standard as ButtonStandard;
 use ILIAS\UI\Component\Link\Standard as LinkStandard;
-use ILIAS\UI\Component\Link\Link;
 
 /**
  * Interface Standard Item
