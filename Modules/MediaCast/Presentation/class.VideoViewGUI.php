@@ -28,6 +28,7 @@ use ILIAS\UI\Implementation\Component\SignalGenerator;
  */
 class VideoViewGUI
 {
+    protected \ilCtrlInterface $ctrl;
     protected \ILIAS\MediaCast\MediaCastManager $mc_manager;
     protected \ilToolbarGUI $toolbar;
     protected \ilGlobalTemplateInterface $main_tpl;

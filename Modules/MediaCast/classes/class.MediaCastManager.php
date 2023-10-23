@@ -26,6 +26,7 @@ namespace ILIAS\MediaCast;
  */
 class MediaCastManager
 {
+    protected \ilSetting $settings;
     protected \ilObjMediaCast $media_cast;
     protected \ILIAS\MediaObjects\MediaType\MediaTypeManager $media_types;
 
