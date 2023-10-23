@@ -1,9 +1,8 @@
-> This documentation does not warrant completeness or correctness, and is probably outdated. Reports of
-missing or wrong information using the [ILIAS issue tracker](https://mantis.ilias.de)
+# Learning Progress
+
+Note: This documentation may not be complete, but the points documented should (still) be mostly correct. Reports of missing or wrong information using the [ILIAS issue tracker](https://mantis.ilias.de)
 or contributions via [Pull Request](../../docs/development/contributing.md#pull-request-to-the-repositories)
 are greatly appreciated.
-
-# Learning Progress
 
 ## Core concepts
 
@@ -37,10 +36,10 @@ The learning progress status is designed to make the different repository object
 
 A learning progress status has 4 possible values:
 
-- "not attempted" (grey icon): the user has no recorded activity
-- "in progress" (yellow icon): the user has recorded activity but no result yet
-- "completed" (green icon): the user has completed the object
-- "failed" (red icon): the user has failed the object
+- "not attempted": the user has no recorded activity
+- "in progress": the user has recorded activity but no result yet
+- "completed": the user has completed the object
+- "failed": the user has failed the object
 
 Please keep in mind that "object" is not limited to repository object here but can also mean SCO, learning module chapter, learning objective and so on.
 
@@ -81,6 +80,7 @@ This directly corresponds to the "edit"-form in the LP for single users. It is m
 *DB: "ut_lp_marks" (completed, mark, u_comment)*
 
 ## Misc
+
 The complex LP DB queries can currently all be found in `ilTrQuery`. This might change.
 
 Do not call any `ilLPStatus*`-class directly, use `ilLPStatusWrapper`.
