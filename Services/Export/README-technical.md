@@ -1,8 +1,3 @@
-> This documentation does not warrant completeness or correctness, and is probably outdated. Reports of
-missing or wrong information using the [ILIAS issue tracker](https://mantis.ilias.de)
-or contributions via [Pull Request](../../docs/development/contributing.md#pull-request-to-the-repositories)
-are greatly appreciated.
-
 # Export/Import of Components, esp. Repository Resources
 
 ## Export
@@ -22,10 +17,9 @@ The export tab should be placed accoring to the [tabs guidelines](https://docu.i
 ...
 // in execute command:
 ...
-include_once("./Services/Export/classes/class.ilExportGUI.php");
 $exp_gui = new ilExportGUI($this); // $this is the ilObj...GUI class of the resource
 $exp_gui->addFormat("xml");
-$ret = $ilCtrl->forwardCommand($exp_gui);
+$ret = $this->ctrl->forwardCommand($exp_gui);
 ...
 // in set/get tabs:
 if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
@@ -42,16 +36,15 @@ The simple example above can be found in `Modules/Exercise/classes/class.ilObjEx
 ```php
 // in executeCommand()
 ...
-include_once("./Services/Export/classes/class.ilExportGUI.php");
 $exp_gui = new ilExportGUI($this);
 $exp_gui->addFormat("xml", "", $this, "export");
 $exp_gui->addFormat("html", "", $this, "exportHTML");
 $exp_gui->addFormat("scorm", "", $this, "exportSCORM");
-$exp_gui->addCustomColumn($lng->txt("cont_public_access"),
+$exp_gui->addCustomColumn($this->lng->txt("cont_public_access"),
     $this, "getPublicAccessColValue");
-$exp_gui->addCustomMultiCommand($lng->txt("cont_public_access"),
+$exp_gui->addCustomMultiCommand($this->lng->txt("cont_public_access"),
     $this, "publishExportFile");
-$ret = $ilCtrl->forwardCommand($exp_gui);
+$ret = $this->ctrl->forwardCommand($exp_gui);
 ...
 ```
 
@@ -80,9 +73,8 @@ The method getXmlRepresentation() must return the XML for a given entity, target
 The following example shows the implementation of the getXmlRepresentation method for meta data:
 
 ```php
-public function getXmlRepresentation($a_entity, $a_target_release, $a_id)
+public function getXmlRepresentation(string $a_entity, string $a_target_release, string $a_id) : string
 {
-    include_once("./Services/MetaData/classes/class.ilMD2XML.php");
     $id = explode(":", $a_id);
     $mdxml = new ilMD2XML($id[0], $id[1], $id[2]);
     $mdxml->setExportMode();
@@ -107,7 +99,7 @@ If data of component (a) needs the new IDs of component (b) when being imported,
 Example: The metadata IDs of a media object are derived from the ID of a media object. If a media object has ID 5, the corresponding metadata ID will be "0:5:mob". This means, the media object should be imported before the metadata and the metadata should be a tail dependency in the media object export.
 
 ```php
-public function getXmlExportTailDependencies($a_entity, $a_target_release, $a_ids)
+public function getXmlExportTailDependencies(string $a_entity, string $a_target_release, string $a_ids) : string
 {
     $md_ids = array();
     foreach ($a_ids as $mob_id)
@@ -127,7 +119,7 @@ public function getXmlExportTailDependencies($a_entity, $a_target_release, $a_id
 The export process relies on schema definitions (xsd files) that define the XML returned by the `ilExporter` classes. The `getValidSchemaVersions()` method must return all schema versions that the component can currently export to. ILIAS chooses the first one, that has min/max constraints which fit to the target release. Please put the newest schemas on top.
 
 ```php
-function getValidSchemaVersions($a_entity)
+function getValidSchemaVersions(string $a_entity) : array
 {
     return array (
         "4.1.0" => array(
@@ -175,12 +167,11 @@ This class must be derived from `ilXmlImporter` (Services/Export). The class mus
 Additionally the class may implement an `init()` method that is called at the beginning of the procedure.
 
 ```php
-function importXmlRepresentation($a_entity, $a_id, $a_xml, $a_mapping)
+function importXmlRepresentation(string $a_entity, string $a_id, string $a_xml, ilImportMapping $a_mapping) : void
 {
     $new_id = $a_mapping->getMapping("Services/MetaData", "md", $a_id);
     if ($new_id != "")
     {
-        include_once("./Services/MetaData/classes/class.ilMDXMLCopier.php");
         $id = explode(":", $new_id);
         $xml_copier = new ilMDXMLCopier($a_xml, $id[0], $id[1], $id[2]);
         $xml_copier->startParsing();
