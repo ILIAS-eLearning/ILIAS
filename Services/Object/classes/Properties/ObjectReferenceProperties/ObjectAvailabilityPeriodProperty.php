@@ -130,7 +130,9 @@ class ObjectAvailabilityPeriodProperty implements \ilObjectProperty
     {
         return $refinery->custom()->transformation(
             function (?array $vs): self {
-                if ($vs === null) {
+                if ($vs === null
+                    || $vs['time_limit_start'] === null
+                        && $vs['time_limit_end'] === null) {
                     return new self($this->getObjectReferenceId());
                 }
 
