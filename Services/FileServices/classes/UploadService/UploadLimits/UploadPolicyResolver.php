@@ -13,7 +13,8 @@
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 declare(strict_types=1);
 
@@ -60,7 +61,14 @@ class UploadPolicyResolver
 
             if (UploadPolicy::AUDIENCE_TYPE_GLOBAL_ROLE === $policy->getAudienceType() &&
                 $this->rbac_review->isAssignedToAtLeastOneGivenRole(
-                    $this->current_user->getId(), $policy->getAudience()
+                    $this->current_user->getId(),
+                    array_map(
+                        'intval',
+                        array_merge(
+                            $policy->getAudience()['global_roles'] ?? [],
+                            $policy->getAudience()['local_roles'] ?? []
+                        )
+                    )
                 ) &&
                 (null === $largest_limit_in_bytes || $policy_limit_in_bytes > $largest_limit_in_bytes)
             ) {
