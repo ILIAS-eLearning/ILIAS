@@ -14569,6 +14569,7 @@ skmg#:#skmg_confirm_user_removal#:#本当にこのプロファイルから次の
 skmg#:#skmg_cont_profiles_info#:#この表示では、現在開いているオブジェクト(コース/グループ)に関係する能力エントリーの能力プロファイルを選択できます。割当てられている全ての能力プロファイルと全ての能力エントリー付きでグローバル表示をするには、以下のリンクをクリックします。
 skmg#:#skmg_context_global#:#グローバル
 skmg#:#skmg_context_local#:#ローカル
+skmg#:#skmg_count_references#:#Number of referenced competences:###23 10 2023 new variable
 skmg#:#skmg_create_sctp#:#テンプレートカテゴリを作成
 skmg#:#skmg_create_skill_category#:#能力カテゴリを作成
 skmg#:#skmg_create_skill_template#:#能力テンプレートを作成
@@ -16284,6 +16285,7 @@ user#:#clipboard_remove_btn#:#クリップボードから削除
 user#:#clipboard_table_title#:#クリップボード(ユーザアカウント)
 user#:#clipboard_user_added#:#クリップボードへ選択のユーザを追加しました
 user#:#confirm_delete_starting_point#:#このルールを本当に消去しますか？
+user#:#confirm_logout_for_email_change#:#You changed your email. To finalize this change, you will need to provide your password. The system is thus going to log you out and you will have 5 minutes to log in again. All other changes will be saved before logging you out.###23 10 2023 new variable
 user#:#create_starting_point#:#ルールを作成
 user#:#criteria#:#判定基準
 user#:#del_mail_body#:#%1$sさん, %3$s時点で%2$sへあなたは長期間ログインしていません。そのためアカウントは%4$s日以内に削除されます。アカウント削除を回避するには再度ログインし直す必要があります。
@@ -16291,6 +16293,7 @@ user#:#del_mail_subject#:#(ILIAS) アカウントは削除されます。
 user#:#delete_inactive_user_accounts_frequency#:#間隔
 user#:#delete_inactive_user_accounts_frequency_desc#:#削除とメール配布間隔をテストします。
 user#:#editing_this_role#:#役割
+user#:#email_could_not_be_changed#:#The request to change your email could not be finalized.###23 10 2023 new variable
 user#:#enable_local_user_administration#:#ローカルユーザ管理を使用
 user#:#enable_local_user_administration_info#:#有効にするとローカルユーザアカウントはカテゴリ内で管理できます。
 user#:#feedhash#:#ニュースフィードハッシュ

@@ -14569,6 +14569,7 @@ skmg#:#skmg_confirm_user_removal#:#Истина ли искате да прем�
 skmg#:#skmg_cont_profiles_info#:#In this view, you can select the competence profiles with competence entries, which are related to the currently open object (course/group). To get to the global view with all competence profiles you are assigned to and all competence entries, click on the link below.###31 08 2022 new variable
 skmg#:#skmg_context_global#:#Глобален###22 06 2022 new variable
 skmg#:#skmg_context_local#:#Местен###22 06 2022 new variable
+skmg#:#skmg_count_references#:#Number of referenced competences:###23 10 2023 new variable
 skmg#:#skmg_create_sctp#:#Създаване на категория на шаблона
 skmg#:#skmg_create_skill_category#:#Създаване на категория умения
 skmg#:#skmg_create_skill_template#:#Създаване на шаблон на умение
@@ -16284,6 +16285,7 @@ user#:#clipboard_remove_btn#:#Отстраняване от клипборда
 user#:#clipboard_table_title#:#Клипборд (Потребителски акаунти)
 user#:#clipboard_user_added#:#Добавяне на избрани потребители в клипборда.
 user#:#confirm_delete_starting_point#:#Със сигурност ли искате да изтриете това правило?
+user#:#confirm_logout_for_email_change#:#You changed your email. To finalize this change, you will need to provide your password. The system is thus going to log you out and you will have 5 minutes to log in again. All other changes will be saved before logging you out.###23 10 2023 new variable
 user#:#create_starting_point#:#Създаване на правило
 user#:#criteria#:#Критерий
 user#:#del_mail_body#:#Здравейте %1$s, %2$s не сте влизали в системата от дълго време, на %3$s. Вашият акаунт ще бъде изтрит след %4$s дни. Трябва да влезете отново, за да предотвратите изтриването на профила си.
@@ -16291,6 +16293,7 @@ user#:#del_mail_subject#:#(ILIAS) - Вашият акаунт ще бъде из
 user#:#delete_inactive_user_accounts_frequency#:#Честота
 user#:#delete_inactive_user_accounts_frequency_desc#:#Честота, с която ще се тества изтриването и изпращането на имейли.
 user#:#editing_this_role#:#Role
+user#:#email_could_not_be_changed#:#The request to change your email could not be finalized.###23 10 2023 new variable
 user#:#enable_local_user_administration#:#Активиране на локалното управление на потребителите
 user#:#enable_local_user_administration_info#:#Ако е разрешено, локалните потребителски акаунти могат да се администрират по категории.
 user#:#feedhash#:#Newsfeedhash

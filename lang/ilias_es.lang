@@ -14571,6 +14571,7 @@ skmg#:#skmg_confirm_user_removal#:#¿Realmente desea eliminar los siguientes usu
 skmg#:#skmg_cont_profiles_info#:#In this view, you can select the competence profiles with competence entries, which are related to the currently open object (course/group). To get to the global view with all competence profiles you are assigned to and all competence entries, click on the link below.###31 08 2022 new variable
 skmg#:#skmg_context_global#:#Global###30 04 2021 new variable
 skmg#:#skmg_context_local#:#Local###30 04 2021 new variable
+skmg#:#skmg_count_references#:#Number of referenced competences:###23 10 2023 new variable
 skmg#:#skmg_create_sctp#:#Crear plantilla de categoría
 skmg#:#skmg_create_skill_category#:#Crear categoría de competencias
 skmg#:#skmg_create_skill_template#:#Crear plantilla de nivel de competencia
@@ -16286,6 +16287,7 @@ user#:#clipboard_remove_btn#:#Quitar del Portapapeles
 user#:#clipboard_table_title#:#Portapapeles (cuentas de usuario)
 user#:#clipboard_user_added#:#Se han añadido los usuarios seleccionados al Portapapeles.
 user#:#confirm_delete_starting_point#:#¿Seguro que desea eliminar esta regla?
+user#:#confirm_logout_for_email_change#:#You changed your email. To finalize this change, you will need to provide your password. The system is thus going to log you out and you will have 5 minutes to log in again. All other changes will be saved before logging you out.###23 10 2023 new variable
 user#:#create_starting_point#:#Crear regla
 user#:#criteria#:#Criterios
 user#:#del_mail_body#:#Hola %1$s, %2$s no se ha conectado desde hace mucho tiempo, desde %3$s. Su cuenta será eliminada dentro de %4$s días. Para evitar la eliminación de su cuenta debe conectarse de nuevo.
@@ -16293,6 +16295,7 @@ user#:#del_mail_subject#:#(ILIAS) – Su cuenta va a ser borrada
 user#:#delete_inactive_user_accounts_frequency#:#Frecuencia
 user#:#delete_inactive_user_accounts_frequency_desc#:#Frecuencia con la que se comprobará la distribución y eliminación del correo electrónico.
 user#:#editing_this_role#:#Rol
+user#:#email_could_not_be_changed#:#The request to change your email could not be finalized.###23 10 2023 new variable
 user#:#enable_local_user_administration#:#Activar administración local de usuario
 user#:#enable_local_user_administration_info#:#Si se activa, las cuentas de usuario locales pueden ser administradas en categorías.
 user#:#feedhash#:#Hash del canal de noticias

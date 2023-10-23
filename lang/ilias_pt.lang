@@ -14569,6 +14569,7 @@ skmg#:#skmg_confirm_user_removal#:#Quer remover os seguintes utilizadores do per
 skmg#:#skmg_cont_profiles_info#:#In this view, you can select the competence profiles with competence entries, which are related to the currently open object (course/group). To get to the global view with all competence profiles you are assigned to and all competence entries, click on the link below.###31 08 2022 new variable
 skmg#:#skmg_context_global#:#Global###30 04 2021 new variable
 skmg#:#skmg_context_local#:#Local###30 04 2021 new variable
+skmg#:#skmg_count_references#:#Number of referenced competences:###23 10 2023 new variable
 skmg#:#skmg_create_sctp#:#Criar categoria de modelo
 skmg#:#skmg_create_skill_category#:#Create Skill Category
 skmg#:#skmg_create_skill_template#:#Create Skill Template
@@ -16284,6 +16285,7 @@ user#:#clipboard_remove_btn#:#Remover da área de transferência
 user#:#clipboard_table_title#:#Área de transferência (contas de utilizador)
 user#:#clipboard_user_added#:#Utilizadores selecionados adicionados à área de transferência.
 user#:#confirm_delete_starting_point#:#Tem a certeza que quer apagar esta regra?
+user#:#confirm_logout_for_email_change#:#You changed your email. To finalize this change, you will need to provide your password. The system is thus going to log you out and you will have 5 minutes to log in again. All other changes will be saved before logging you out.###23 10 2023 new variable
 user#:#create_starting_point#:#Criar regra
 user#:#criteria#:#Critérios
 user#:#del_mail_body#:#Hello %1$s, %2$s you haven't logged in for a long period of time, on %3$s. So your account will be deleted in %4$s days. You have to login again to prevent the deletion of your account.
@@ -16291,6 +16293,7 @@ user#:#del_mail_subject#:#(ILIAS) – A sua conta foi apagada
 user#:#delete_inactive_user_accounts_frequency#:#Frequência
 user#:#delete_inactive_user_accounts_frequency_desc#:#Frequency, in which the deletion and email distibution will be tested.
 user#:#editing_this_role#:#Função
+user#:#email_could_not_be_changed#:#The request to change your email could not be finalized.###23 10 2023 new variable
 user#:#enable_local_user_administration#:#Habilitar administração local de usuário
 user#:#enable_local_user_administration_info#:#Se habiliatdo, contas locais de usuário podem ser administradas nas categorias.
 user#:#feedhash#:#Newsfeedhash

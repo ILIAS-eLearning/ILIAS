@@ -14583,6 +14583,7 @@ skmg#:#skmg_confirm_user_removal#:#Biztos, hogy törli az alábbi felhasználók
 skmg#:#skmg_cont_profiles_info#:#In this view, you can select the competence profiles with competence entries, which are related to the currently open object (course/group). To get to the global view with all competence profiles you are assigned to and all competence entries, click on the link below.###31 08 2022 new variable
 skmg#:#skmg_context_global#:#Globális
 skmg#:#skmg_context_local#:#Helyi
+skmg#:#skmg_count_references#:#Number of referenced competences:###23 10 2023 new variable
 skmg#:#skmg_create_sctp#:#Sablonkategória létrehozása
 skmg#:#skmg_create_skill_category#:#Kompetenciakategória létrehozása
 skmg#:#skmg_create_skill_template#:#Kompetenciasablon létrehozása
@@ -16298,6 +16299,7 @@ user#:#clipboard_remove_btn#:#Eltávolítás a vágólapról
 user#:#clipboard_table_title#:#Vágólap (ILIAS-fiókok)
 user#:#clipboard_user_added#:#Sikeresen hozzáadta a kiválasztott felhasználókat a vágólaphoz.
 user#:#confirm_delete_starting_point#:#Biztos, hogy törli ezt a szabályt?
+user#:#confirm_logout_for_email_change#:#You changed your email. To finalize this change, you will need to provide your password. The system is thus going to log you out and you will have 5 minutes to log in again. All other changes will be saved before logging you out.###23 10 2023 new variable
 user#:#create_starting_point#:#Szabály létrehozása
 user#:#criteria#:#Feltétel
 user#:#del_mail_body#:#Tisztelt %1$s, %2$s régóta nem jelentkezett be (%3$s). Ha %4$s napon belül nem jelentkezik be, ILIAS-fiókját töröljük.
@@ -16305,6 +16307,7 @@ user#:#del_mail_subject#:#[ILIAS] – ILIAS-fiókját hamarosan töröljük
 user#:#delete_inactive_user_accounts_frequency#:#Gyakoriság
 user#:#delete_inactive_user_accounts_frequency_desc#:#A törlés és az e-mail küldés gyakorisága.
 user#:#editing_this_role#:#Szabályok
+user#:#email_could_not_be_changed#:#The request to change your email could not be finalized.###23 10 2023 new variable
 user#:#enable_local_user_administration#:#Helyi ILIAS-fiókok kezelésének engedélyezése
 user#:#enable_local_user_administration_info#:#Ha be van kapcsolva, a 'Helyi ILIAS-fiókok kezelése' fül megjelenik a kategóriáknál és a szervezeti egységeknél.
 user#:#feedhash#:#Hírcsatorna-hash

@@ -14569,6 +14569,7 @@ skmg#:#skmg_confirm_user_removal#:#Czy naprawdę chcesz usunąć z profilu poni�
 skmg#:#skmg_cont_profiles_info#:#In this view, you can select the competence profiles with competence entries, which are related to the currently open object (course/group). To get to the global view with all competence profiles you are assigned to and all competence entries, click on the link below.###31 08 2022 new variable
 skmg#:#skmg_context_global#:#Global###30 04 2021 new variable
 skmg#:#skmg_context_local#:#Local###30 04 2021 new variable
+skmg#:#skmg_count_references#:#Number of referenced competences:###23 10 2023 new variable
 skmg#:#skmg_create_sctp#:#Utwórz kategorię szablonu
 skmg#:#skmg_create_skill_category#:#Tworzenie kategorii kompetencji
 skmg#:#skmg_create_skill_template#:#Tworzenie szablonu kompetencji
@@ -16284,6 +16285,7 @@ user#:#clipboard_remove_btn#:#Usuń ze schowka
 user#:#clipboard_table_title#:#Schowek (konta użytkowników)
 user#:#clipboard_user_added#:#Wybrani użytkownicy zostali dodani do schowka.
 user#:#confirm_delete_starting_point#:#Jesteś pewien, że poniższa zasada ma zostać usunięta?
+user#:#confirm_logout_for_email_change#:#You changed your email. To finalize this change, you will need to provide your password. The system is thus going to log you out and you will have 5 minutes to log in again. All other changes will be saved before logging you out.###23 10 2023 new variable
 user#:#create_starting_point#:#Utwórz zasadę
 user#:#criteria#:#Kryterium
 user#:#del_mail_body#:#Cześć %1$s, %2$sod dłuższego czasu nie logowałeś się na platformie do nauki %3$s. W związku z tym Twoje konto użytkownika zostanie planowo usunięte w dniu %4$s. Aby zachować swoje konto, ponownie się zaloguj.
@@ -16291,6 +16293,7 @@ user#:#del_mail_subject#:#(ILIAS) – Twoje konto użytkownika wkrótce zostanie
 user#:#delete_inactive_user_accounts_frequency#:#Interwał
 user#:#delete_inactive_user_accounts_frequency_desc#:#Interwał, na podstawie którego przeprowadzany jest test usuwania i wysyłania wiadomości mailowych.
 user#:#editing_this_role#:#Edytuj zasadę
+user#:#email_could_not_be_changed#:#The request to change your email could not be finalized.###23 10 2023 new variable
 user#:#enable_local_user_administration#:#Aktywuj zarządzanie lokalnymi użytkownikami
 user#:#enable_local_user_administration_info#:#Jeśli ta opcja jest aktywna, wejścia użytkowników można przydzielać do kategorii i jednostek organizacyjnych i nimi zarządzać.
 user#:#feedhash#:#Feed-hash
