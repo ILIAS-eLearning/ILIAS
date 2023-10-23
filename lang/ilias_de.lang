@@ -9916,6 +9916,7 @@ grp#:#grp_members#:#Mitglieder
 grp#:#grp_members_deleted#:#Die ausgewählten Mitglieder sind aus der Gruppe ausgetragen worden.
 grp#:#grp_members_map#:#Karte Gruppenmitglieder
 grp#:#grp_members_print_title#:#Gruppenmitglieder
+grp#:#grp_min_one_admin#:#Der Gruppe muss mindestens ein Konto mit der Rolle „Gruppenadministration“ zugeordnet sein.
 grp#:#grp_missing_grp_type#:#Bitte wählen Sie die Art der Gruppe aus.
 grp#:#grp_missing_password#:#Bitte geben Sie ein Gruppenpasswort ein.
 grp#:#grp_new_status#:#Ihr neuer Status:
