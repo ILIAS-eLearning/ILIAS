@@ -5722,8 +5722,6 @@ common#:#update_orgunits#:#Benutzerfeld 'Organisationseinheiten' aktualisieren
 common#:#update_orgunits_desc#:#Wenn eingeschaltet, werden bei allen Benutzern das Feld 'Organisationseinheiten' aktualisiert und so allfällige Fehler behoben.
 common#:#upload#:#Hochladen
 common#:#upload_error_file_not_found#:#Fehler beim Hochladen: Datei nicht gefunden
-common#:#upload_files#:#Dateien hochladen
-common#:#upload_files_title#:#Dateien hochladen
 common#:#upload_pending#:#Ausstehend
 common#:#upload_settings#:#Upload-Einstellungen
 common#:#uploaded_and_checked#:#Die Datei wurde hochgeladen und überprüft, Sie können sie nun importieren.
@@ -9563,6 +9561,9 @@ file#:#show_amount_of_downloads_info#:#Wenn aktiv, wird die Anzahl Downloads auf
 file#:#storage_id#:#Storage ID
 file#:#suffix_specific_icons#:#Suffix-spezifische Icons
 file#:#suffixes#:#Suffixe
+file#:#upload_files#:#Dateien hochladen
+file#:#upload_files_limit#:#Die maximale Grösse einer Datei beträgt %s.
+file#:#upload_files_title#:#Dateien hochladen
 file#:#upload_info#:#Datei
 file#:#upload_info_desc#:#Sie können die Dateien und die Dateiversionen im Tab "Versionen" verwalten.
 file#:#version_uploaded#:#Version hochgeladen am

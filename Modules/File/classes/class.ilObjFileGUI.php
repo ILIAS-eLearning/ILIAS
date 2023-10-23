@@ -25,6 +25,8 @@ use ILIAS\UI\Implementation\Component\Dropzone\File\File as Dropzone;
 use ILIAS\UI\Implementation\Component\Input\Field\Radio;
 use ILIAS\File\Icon\IconDatabaseRepository;
 use ILIAS\Modules\File\Settings\General;
+use ILIAS\UI\Implementation\Component\Input\UploadLimitResolver;
+use ILIAS\Data\DataSize;
 
 /**
  * GUI class for file objects.
@@ -69,6 +71,7 @@ class ilObjFileGUI extends ilObject2GUI
     protected General $general_settings;
     protected ilFileServicesSettings $file_service_settings;
     protected IconDatabaseRepository $icon_repo;
+    private UploadLimitResolver $upload_limit;
 
     /**
      * Constructor
@@ -92,6 +95,7 @@ class ilObjFileGUI extends ilObject2GUI
         $this->obj_service = $DIC->object();
         $this->lng->loadLanguageModule(ilObjFile::OBJECT_TYPE);
         $this->icon_repo = new IconDatabaseRepository();
+        $this->upload_limit = $DIC['ui.upload_limit_resolver'];
     }
 
     public function getType(): string
@@ -344,6 +348,7 @@ class ilObjFileGUI extends ilObject2GUI
 
     public function initUploadForm(): Standard
     {
+        $this->getLanguage()->loadLanguageModule('file');
         $this->ctrl->setParameterByClass(self::class, 'new_type', $this->getType());
         $this->ctrl->setParameterByClass(
             self::class,
@@ -352,10 +357,18 @@ class ilObjFileGUI extends ilObject2GUI
         );
 
         // add file input
+        $size = new DataSize(
+            $this->upload_limit->getBestPossibleUploadLimitInBytes($this->upload_handler),
+            DataSize::MB
+        );
+
         $inputs[] = $this->ui->factory()->input()->field()->file(
             $this->upload_handler,
             $this->lng->txt('upload_files'),
-            null,
+            sprintf(
+                $this->lng->txt('upload_files_limit'),
+                (string) $size
+            ),
             $this->ui->factory()->input()->field()->group([
                 self::PARAM_TITLE => $this->ui->factory()->input()->field()->text($this->lng->txt('title'))->withAdditionalTransformation(
                     $this->getEmptyStringToNullTransformation()

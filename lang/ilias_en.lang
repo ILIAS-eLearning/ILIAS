@@ -5718,8 +5718,6 @@ common#:#update_orgunits#:#Update assigned organisational units
 common#:#update_orgunits_desc#:#If enabled, the field 'Organisational Units' will be updated for all user accounts.
 common#:#upload#:#Upload
 common#:#upload_error_file_not_found#:#Upload error: File not found.
-common#:#upload_files#:#Upload files
-common#:#upload_files_title#:#Upload files
 common#:#upload_pending#:#Pending
 common#:#upload_settings#:#Upload Settings
 common#:#uploaded_and_checked#:#The file has been uploaded and checked, you can now start to import it.
@@ -9555,6 +9553,9 @@ file#:#show_amount_of_downloads_info#:#When active, the number of downloads will
 file#:#storage_id#:#Storage ID
 file#:#suffix_specific_icons#:#Suffix-specific Icons
 file#:#suffixes#:#Suffixes
+file#:#upload_files#:#Upload files
+file#:#upload_files_limit#:#The maximum size of a file is %s.
+file#:#upload_files_title#:#Upload files
 file#:#upload_info#:#File
 file#:#upload_info_desc#:#Manage Uploads and Versions in Tab "Versions"
 file#:#version_uploaded#:#Version uploaded

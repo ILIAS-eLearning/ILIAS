@@ -20,6 +20,8 @@ use ILIAS\FileUpload\DTO\ProcessingStatus;
 use ILIAS\FileUpload\DTO\UploadResult;
 use ILIAS\FileUpload\FileUpload;
 use Psr\Http\Message\RequestInterface;
+use ILIAS\Data\DataSize;
+use ILIAS\UI\Implementation\Component\Input\UploadLimitResolver;
 
 /**
  * Class ilFileVersionFormGUI
@@ -46,6 +48,7 @@ class ilFileVersionFormGUI
 
     private int $save_mode = self::MODE_ADD;
     private string $post_url;
+    private UploadLimitResolver $upload_limit;
 
     /**
      * ilFileVersionFormGUI constructor.
@@ -67,6 +70,7 @@ class ilFileVersionFormGUI
             $this->resolveParentCommand($mode)
         );
         $this->lng->loadLanguageModule('file');
+        $this->upload_limit = $DIC['ui.upload_limit_resolver'];
         $this->initForm();
     }
 
@@ -84,24 +88,36 @@ class ilFileVersionFormGUI
                 break;
         }
 
+        $upload_handler = new ilFileVersionsUploadHandlerGUI(
+            $this->file,
+            $this->save_mode === self::MODE_REPLACE
+                ? ilFileVersionsUploadHandlerGUI::MODE_REPLACE
+                : ilFileVersionsUploadHandlerGUI::MODE_APPEND
+        );
+
+        $size = new DataSize(
+            $this->upload_limit->getBestPossibleUploadLimitInBytes($upload_handler),
+            DataSize::MB
+        );
+
         $inputs = [
             self::F_TITLE => $this->ui_factory->input()->field()->text(
                 $this->lng->txt(self::F_TITLE),
                 $this->lng->txt("if_no_title_then_filename")
             )->withRequired(false)
-                                              ->withMaxLength(ilObject::TITLE_LENGTH),
+             ->withMaxLength(ilObject::TITLE_LENGTH),
             self::F_DESCRIPTION => $this->ui_factory->input()->field()->textarea(
                 $this->lng->txt(self::F_DESCRIPTION)
             ),
             self::F_FILE => $this->ui_factory->input()->field()->file(
-                new ilFileVersionsUploadHandlerGUI(
-                    $this->file,
-                    $this->save_mode === self::MODE_REPLACE
-                        ? ilFileVersionsUploadHandlerGUI::MODE_REPLACE
-                        : ilFileVersionsUploadHandlerGUI::MODE_APPEND
+                $upload_handler,
+                $this->lng->txt(self::F_FILE),
+                sprintf(
+                    $this->lng->txt('upload_files_limit'),
+                    (string) $size
                 ),
-                $this->lng->txt(self::F_FILE)
-            ),
+            )->withMaxFiles(1)
+             ->withRequired(true),
         ];
 
         $group = $this->ui_factory->input()->field()->group($inputs, $group_title);
