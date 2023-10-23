@@ -94,7 +94,8 @@ class ilPRGMemberExport
         }
         $this->writeRow(array_values($fields));
 
-        $data = $this->prg_user_table->fetchData($this->prg_obj_id, null);
+        $order = $this->data_factory->order('login', 'ASC');
+        $data = $this->prg_user_table->fetchData($this->prg_obj_id, null, $order);
         $this->writeData(array_keys($fields), $data);
     }
 
