@@ -178,6 +178,26 @@ class ItemTest extends ILIAS_UI_TestBase
         $this->assertEquals($c->getAudioPlayer(), $audio);
     }
 
+    public function test_with_main_action_button(): void
+    {
+        $f = $this->getFactory();
+
+        $main_action = new I\Component\Button\Standard("Edit", "#");
+        $c = $f->standard("Title")->withMainAction($main_action);
+
+        $this->assertEquals($c->getMainAction(), $main_action);
+    }
+
+    public function test_with_main_action_link(): void
+    {
+        $f = $this->getFactory();
+
+        $main_action = new I\Component\Link\Standard("View", "#");
+        $c = $f->standard("Title")->withMainAction($main_action);
+
+        $this->assertEquals($c->getMainAction(), $main_action);
+    }
+
     public function testRenderBase(): void
     {
         $f = $this->getFactory();
@@ -200,14 +220,14 @@ class ItemTest extends ILIAS_UI_TestBase
         $expected = <<<EOT
         <div class="il-item il-std-item ">
             <div class="il-item-title">Item Title</div>
-			<div class="dropdown"><button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" id="id_3" aria-label="actions" aria-haspopup="true" aria-expanded="false" aria-controls="id_3_menu"><span class="caret"></span></button>
+			<div class="il-item-actions l-bar__container"><div class="l-bar__element"><div class="dropdown"><button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" id="id_3" aria-label="actions" aria-haspopup="true" aria-expanded="false" aria-controls="id_3_menu"><span class="caret"></span></button>
                 <ul id="id_3_menu" class="dropdown-menu">
 	                <li><button class="btn btn-link" data-action="https://www.ilias.de" id="id_1"  >ILIAS</button>
                     </li>
                         <li><button class="btn btn-link" data-action="https://www.github.com" id="id_2"  >GitHub</button>
                     </li>
                 </ul>
-            </div>
+            </div></div></div>
 			<div class="il-item-description">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.</div>
 			<hr class="il-item-divider" />
 			<div class="row">
@@ -631,4 +651,54 @@ EOT;
             $this->brutallyTrimHTML($html)
         );
     }
+
+    public function test_main_action_button(): void
+    {
+        $f = $this->getFactory();
+        $r = $this->getDefaultRenderer();
+
+        $main_action = new I\Component\Button\Standard("Edit", "#");
+        $c = $f->standard("Title")->withMainAction($main_action);
+
+        $html = $r->render($c);
+        $expected = <<<EOT
+        <div class="il-item il-std-item ">
+            <div class="il-item-title">Title</div>
+            <div class="il-item-actions l-bar__container">
+                <div class="l-bar__element"><button class="btn btn-default"  data-action="#" id="id_1">Edit</button>
+            </div>
+            </div>
+        </div>
+EOT;
+
+        $this->assertHTMLEquals(
+            $this->brutallyTrimHTML($expected),
+            $this->brutallyTrimHTML($html)
+        );
+    }
+
+    public function test_main_action_link(): void
+    {
+        $f = $this->getFactory();
+        $r = $this->getDefaultRenderer();
+
+        $main_action = new I\Component\Link\Standard("View", "#");
+        $c = $f->standard("Title")->withMainAction($main_action);
+
+        $html = $r->render($c);
+        $expected = <<<EOT
+        <div class="il-item il-std-item ">
+            <div class="il-item-title">Title</div>
+            <div class="il-item-actions l-bar__container">
+                <div class="l-bar__element"><a href="#" >View</a></div>
+            </div>
+        </div>
+EOT;
+
+        $this->assertHTMLEquals(
+            $this->brutallyTrimHTML($expected),
+            $this->brutallyTrimHTML($html)
+        );
+    }
+
 }
