@@ -23,6 +23,7 @@ use ILIAS\UI\Renderer;
 use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper;
 use Psr\Http\Message\RequestInterface;
 use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\UI\Component\Input\Input;
 use ILIAS\UI\Component\Modal\Modal;
 
 /**
@@ -411,7 +412,7 @@ class ilObjectTranslationGUI
         $this->ctrl->redirect($this, self::CMD_LIST_TRANSLATIONS);
     }
 
-    public function getMultiLangFormInput(bool $add = false): \ILIAS\UI\Component\Input\Field\Input
+    public function getMultiLangFormInput(bool $add = false): Input
     {
         $options = ilMDLanguageItem::_getLanguages();
 
@@ -435,7 +436,7 @@ class ilObjectTranslationGUI
         }
 
         $trafo = $this->refinery->custom()->transformation(
-            fn ($v) => in_array($v, ilMDLanguageItem::_getPossibleLanguageCodes()) ? $v : $this->lng->getDefaultLanguage()
+            fn($v) => in_array($v, ilMDLanguageItem::_getPossibleLanguageCodes()) ? $v : $this->lng->getDefaultLanguage()
         );
 
         return $this->ui_factory->input()->field()->select(
