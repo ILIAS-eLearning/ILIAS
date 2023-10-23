@@ -122,15 +122,15 @@ class ilFileVersionsUploadHandlerGUI extends AbstractCtrlAwareIRSSUploadHandler
         if (($this->chunk_index + 1) === $this->amount_of_chunks) {
             $whole_file = $this->temp_filesystem->readStream($temp_path);
             if ($this->upload_mode === self::MODE_REPLACE) {
-                $this->file->replaceWithStream($whole_file, $result->getName());
+                $revision_number = $this->file->replaceWithStream($whole_file, $result->getName());
             } else {
-                $this->file->appendStream($whole_file, $result->getName());
+                $revision_number = $this->file->appendStream($whole_file, $result->getName());
             }
 
             return new BasicHandlerResult(
                 $this->getFileIdentifierParameterName(),
                 HandlerResult::STATUS_OK,
-                $this->file->getResourceId(),
+                (string) $revision_number,
                 "file upload OK"
             );
         }
