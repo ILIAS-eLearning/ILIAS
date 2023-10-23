@@ -20,7 +20,8 @@
   // padding y is only a small buffer for when the button contains multiple lines
   $padding-small-y: l.$il-padding-small-vertical,
   $inner-spacing: l.$il-padding-small-horizontal,
-  $set-full-width: false
+  $set-full-width: false,
+  $button_active-transform: none
 );
 @use "../../../030-tools/_tool_browser-prefixes" as *;
 
@@ -95,7 +96,12 @@ input.btn {
 }
 
 .btn-ctrl {
-  @include make-button($input-field-height: s.$il-btn-ctrl-outer-height, $border-radius: s.$il-border-radius-secondary-large, $button-text-color: s.$il-btn-ctrl-color, $button-color: s.$il-btn-ctrl-bg, $border-color: s.$il-btn-ctrl-border);
+  @include make-button($input-field-height: s.$il-btn-ctrl-outer-height,
+                        $border-radius: s.$il-border-radius-secondary-large,
+                        $button-text-color: s.$il-btn-ctrl-color,
+                        $button-color: s.$il-btn-ctrl-bg,
+                        $border-color: s.$il-btn-ctrl-border,
+                        $hover_border-color: s.$il-btn-ctrl-engaged-border);
   &.engaged,
   .open & {
     border: 1px solid s.$il-btn-ctrl-engaged-border;

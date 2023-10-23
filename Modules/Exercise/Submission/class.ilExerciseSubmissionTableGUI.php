@@ -129,6 +129,10 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
 
         $this->addMultiCommand("sendMembers", $this->lng->txt("exc_send_assignment"));
 
+        if ($this->mode == self::MODE_BY_ASSIGNMENT) {
+            $this->addMultiCommand("sendGradingNotification", $this->lng->txt("exc_send_grading_notification"));
+        }
+
         if ($this->mode == self::MODE_BY_ASSIGNMENT &&
             $this->ass &&
             $this->ass->hasTeam()) {
@@ -173,7 +177,39 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
         $item = $this->addFilterItemByMetaType("flt_subm", self::FILTER_SELECT, false, $this->lng->txt("exc_tbl_filter_submission"));
         $item->setOptions($options);
         $this->filter["subm"] = $item->getValue();
+
+        $item = $this->addFilterItemByMetaType("flt_subm_after", self::FILTER_DATE, false, $this->lng->txt("exc_tbl_filter_submission_after"));
+        $this->filter["subm_after"] = $item->getDate();
+
+        $item = $this->addFilterItemByMetaType("flt_subm_before", self::FILTER_DATE, false, $this->lng->txt("exc_tbl_filter_submission_before"));
+        $this->filter["subm_before"] = $item->getDate();
+
+        if ($this->mode == self::MODE_BY_ASSIGNMENT && !$this->ass->hasTeam()) {
+            $this->initCourseGroupFilter();
+        }
     }
+
+    protected function initCourseGroupFilter(): void
+    {
+        $repo = new ilRepositorySelector2InputGUI(
+            $this->lng->txt('exc_member_of_crs_grp'),
+            'effective_from',
+            false,
+            ($this->isForwardingToFormDispatcher()) ? $this : null
+        );
+        $repo->getExplorerGUI()->setSelectableTypes(["crs", "grp"]);
+        $repo->getExplorerGUI()->setTypeWhiteList(["root", "cat", "crs", "grp"]);
+        $this->addFilterItem($repo);
+        $repo->readFromSession();
+        $this->filter['member_of'] = (int) $repo->getValue();
+    }
+
+    protected function isForwardingToFormDispatcher(): bool
+    {
+        return false;
+    }
+
+
 
     abstract protected function initMode(int $a_item_id): void;
 
@@ -382,12 +418,26 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
                 case "calc_deadline":
                 case "idl":
 
-                    $this->tpl->setVariable(
-                        "VAL_" . strtoupper($col),
-                        isset($a_row[$col])
-                            ? ilDatePresentation::formatDate(new ilDateTime($a_row[$col], IL_CAL_UNIX))
-                            : "&nbsp;"
-                    );
+                    if ($a_ass->getDeadlineMode() === ilExAssignment::DEADLINE_ABSOLUTE_INDIVIDUAL && ($a_row[$col] ?? 0) == 0) {
+                        if ($a_row["requested_idl"] ?? false) {
+                            $this->tpl->setVariable(
+                                "VAL_" . strtoupper($col),
+                                $this->lng->txt("exc_deadline_requested")
+                            );
+                        } else {
+                            $this->tpl->setVariable(
+                                "VAL_" . strtoupper($col),
+                                "&nbsp;"
+                            );
+                        }
+                    } else {
+                        $this->tpl->setVariable(
+                            "VAL_" . strtoupper($col),
+                            isset($a_row[$col])
+                                ? ilDatePresentation::formatDate(new ilDateTime($a_row[$col], IL_CAL_UNIX))
+                                : "&nbsp;"
+                        );
+                    }
                     break;
 
                 case "mark":
@@ -483,7 +533,9 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
             }
         }
 
-        if ($this->ass_type != null && $this->ass_type->supportsWebDirAccess() && $a_row['submission_obj']->hasSubmittedPrintVersion()) {
+        $ass_type = $this->ass_type ?: ilExAssignmentTypes::getInstance()->getById($a_ass->getType());
+
+        if ($ass_type->supportsWebDirAccess() && $a_row['submission_obj']->hasSubmittedPrintVersion()) {
             $url = $ilCtrl->getLinkTarget($this->getParentObject(), "openSubmissionView");
             $items[] = $this->ui_factory->link()->standard($this->lng->txt("exc_tbl_action_open_submission"), $url)->withOpenInNewViewport(true);
             if ($a_row['submission_obj']->hasSubmittedPrintVersion()) {

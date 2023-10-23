@@ -110,8 +110,8 @@ class ilObjectConsumerTableGUI extends ilTable2GUI
         $this->tpl->setVariable("TXT_TITLE", $a_set["title"]);
         $this->tpl->setVariable("TXT_DESCRIPTION", $a_set["description"]);
         $this->tpl->setVariable("TXT_PREFIX", $a_set["prefix"]);
-//        $this->tpl->setVariable("TXT_KEY", $a_set["key"]);
-//        $this->tpl->setVariable("TXT_SECRET", $a_set["secret"]);
+        //        $this->tpl->setVariable("TXT_KEY", $a_set["key"]);
+        //        $this->tpl->setVariable("TXT_SECRET", $a_set["secret"]);
         $this->tpl->setVariable("TXT_LANGUAGE", $a_set["language"]);
         $obj_types = ilObjLTIAdministration::getActiveObjectTypes($a_set["id"]);
         if ($obj_types) {
@@ -140,18 +140,15 @@ class ilObjectConsumerTableGUI extends ilTable2GUI
         }
 
         if ($this->isEditable()) {
-            $list = new ilAdvancedSelectionListGUI();
-            $list->setId((string) $a_set["id"]);
-            $list->setListTitle($this->dic->language()->txt("actions"));
-
             $edit_url = $this->dic->ctrl()->getLinkTarget($this->getParentObject(), "editConsumer");
             $delete_url = $this->dic->ctrl()->getLinkTarget($this->getParentObject(), "deleteLTIConsumer");
             $status_url = $this->dic->ctrl()->getLinkTarget($this->getParentObject(), "changeStatusLTIConsumer");
-            $list->addItem($this->dic->language()->txt("edit"), "", $edit_url);
-            $list->addItem($this->dic->language()->txt("delete"), "", $delete_url);
-            $list->addItem($label_status, "", $status_url);
-
-            $this->tpl->setVariable("ACTION", $list->getHTML());
+            $actions = [];
+            $actions[] = $this->dic->ui()->factory()->link()->standard($this->lng->txt('edit'), $edit_url);
+            $actions[] = $this->dic->ui()->factory()->link()->standard($this->lng->txt('delete'), $delete_url);
+            $actions[] = $this->dic->ui()->factory()->link()->standard($label_status, $status_url);
+            $dropdown = $this->dic->ui()->factory()->dropdown()->standard($actions)->withLabel($this->lng->txt('actions'));
+            $this->tpl->setVariable("ACTION", $this->dic->ui()->renderer()->render($dropdown));
         }
     }
 }

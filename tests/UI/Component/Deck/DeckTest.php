@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 require_once(__DIR__ . "/../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../Base.php");
@@ -43,7 +43,7 @@ class DeckTest extends ILIAS_UI_TestBase
         };
     }
 
-    public function test_implements_factory_interface(): void
+    public function testImplementsFactoryInterface(): void
     {
         $f = $this->getFactory();
 
@@ -52,7 +52,7 @@ class DeckTest extends ILIAS_UI_TestBase
         $this->assertInstanceOf("ILIAS\\UI\\Component\\Deck\\Deck", $f->deck(array($c)));
     }
 
-    public function test_get_cards(): void
+    public function testGetCards(): void
     {
         $f = $this->getFactory();
         $c = $f->card()->standard("Card Title");
@@ -61,7 +61,7 @@ class DeckTest extends ILIAS_UI_TestBase
         $this->assertEquals($d->getCards(), array($c));
     }
 
-    public function test_with_cards(): void
+    public function testWithCards(): void
     {
         $f = $this->getFactory();
         $c = $f->card()->standard("Card Title");
@@ -71,7 +71,7 @@ class DeckTest extends ILIAS_UI_TestBase
         $this->assertEquals($d->getCards(), array($c,$c));
     }
 
-    public function test_get_size(): void
+    public function testGetSize(): void
     {
         $f = $this->getFactory();
 
@@ -81,7 +81,7 @@ class DeckTest extends ILIAS_UI_TestBase
         $this->assertEquals(C\Deck\Deck::SIZE_S, $d->getCardsSize());
     }
 
-    public function test_with_size(): void
+    public function testWithSize(): void
     {
         $f = $this->getFactory();
 
@@ -107,7 +107,7 @@ class DeckTest extends ILIAS_UI_TestBase
         $this->assertEquals(C\Deck\Deck::SIZE_FULL, $d->getCardsSize());
     }
 
-    public function test_render_content(): void
+    public function testRenderContent(): void
     {
         $r = $this->getDefaultRenderer();
         $f = $this->getFactory();

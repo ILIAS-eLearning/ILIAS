@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 require_once(__DIR__ . '/ModalBase.php');
 
 /**
@@ -27,13 +27,13 @@ require_once(__DIR__ . '/ModalBase.php');
  */
 class RoundTripTest extends ModalBase
 {
-    public function test_get_title(): void
+    public function testGetTitle(): void
     {
         $roundtrip = $this->getModalFactory()->roundtrip('myTitle', $this->getDummyComponent());
         $this->assertEquals('myTitle', $roundtrip->getTitle());
     }
 
-    public function test_get_content(): void
+    public function testGetContent(): void
     {
         $content = $this->getDummyComponent();
         $roundtrip = $this->getModalFactory()->roundtrip('myTitle', $content);
@@ -43,7 +43,7 @@ class RoundTripTest extends ModalBase
         $this->assertEquals($content, $roundtrip->getContent());
     }
 
-    public function test_get_action_buttons(): void
+    public function testGetActionButtons(): void
     {
         $roundtrip = $this->getModalFactory()->roundtrip('myTitle', $this->getDummyComponent());
         $action_buttons = [
@@ -54,7 +54,7 @@ class RoundTripTest extends ModalBase
         $this->assertEquals($action_buttons, $roundtrip->getActionButtons());
     }
 
-    public function test_with_action_buttons(): void
+    public function testWithActionButtons(): void
     {
         $roundtrip = $this->getModalFactory()->roundtrip('myTitle', $this->getDummyComponent());
         $action_buttons = [
@@ -67,7 +67,7 @@ class RoundTripTest extends ModalBase
         $this->assertEquals($action_buttons, $roundtrip2->getActionButtons());
     }
 
-    public function test_simple_rendering(): void
+    public function testSimpleRendering(): void
     {
         $roundtrip = $this->getModalFactory()->roundtrip('Title', $this->getUIFactory()->legacy('Content'))
             ->withActionButtons([

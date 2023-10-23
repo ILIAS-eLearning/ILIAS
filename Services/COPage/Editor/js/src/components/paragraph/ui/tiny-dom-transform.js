@@ -12,19 +12,18 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- *********************************************************************/
+ ******************************************************************** */
 
 /**
  * Transformations in the tiny dom
  */
 export default class TinyDomTransform {
-
   /**
    * @type {boolean}
    */
-  //debug = true;
+  // debug = true;
 
-  //tiny;
+  // tiny;
 
   constructor(tiny) {
     this.debug = true;
@@ -42,21 +41,21 @@ export default class TinyDomTransform {
   }
 
   replaceTag(node, tag, newTag, attributes) {
-    const dom = this.tiny.dom;
-    tinyMCE.each(dom.select(tag, node), function(n) {
+    const { dom } = this.tiny;
+    tinyMCE.each(dom.select(tag, node), (n) => {
       dom.replace(dom.create(newTag, attributes, n.innerHTML), n);
     });
   }
 
   replaceBoldUnderlineItalic(node) {
-    this.replaceTag(node, 'b', 'span', {'class': 'ilc_text_inline_Strong'});
-    this.replaceTag(node, 'u', 'span', {'class': 'ilc_text_inline_Important'});
-    this.replaceTag(node, 'i', 'span', {'class': 'ilc_text_inline_Emph'});
+    this.replaceTag(node, 'b', 'span', { class: 'ilc_text_inline_Strong' });
+    this.replaceTag(node, 'u', 'span', { class: 'ilc_text_inline_Important' });
+    this.replaceTag(node, 'i', 'span', { class: 'ilc_text_inline_Emph' });
   }
 
   removeIds(node) {
-    const dom = this.tiny.dom;
-    tinyMCE.each(dom.select('*[id!=""]', node), function(el) {
+    const { dom } = this.tiny;
+    tinyMCE.each(dom.select('*[id!=""]', node), (el) => {
       el.id = '';
     });
   }
@@ -65,105 +64,23 @@ export default class TinyDomTransform {
    * This one ensures that the standard ILIAS list style classes
    * are assigned to list elements
    */
-  fixListClasses(handle_inner_br)
-  {
-    let ed = this.tiny, par, r;
-    const dom = ed.dom;
+  fixListClasses() {
+    const ed = this.tiny; let par; let
+      r;
+    const { dom } = ed;
 
-    dom.removeClass(dom.select('ol'), 'ilc_list_u_BulletedList');
-    dom.removeClass(dom.select('ul'), 'ilc_list_o_NumberedList');
-    dom.addClass(dom.select('ol'), 'ilc_list_o_NumberedList');
-    dom.addClass(dom.select('ul'), 'ilc_list_u_BulletedList');
-    dom.addClass(dom.select('li'), 'ilc_list_item_StandardListItem');
-
-return;   // currently deactivated, hopefully not necessary anymore
-
-    if (handle_inner_br)
-    {
-      let rcopy = ed.selection.getRng(true);
-      let target_pos = false;
-
-      // get selection start p or li tag
-      let st_cont = rcopy.startContainer.nodeName.toLowerCase();
-      if (st_cont !== "p" && st_cont !== "li")
-      {
-        par = rcopy.startContainer.parentNode;
-        if (par.nodeName.toLowerCase() === "body")
-        {
-          // starting from something like a text node under body
-          // not really a parent anymore, but ok to get the previous sibling from
-          par = rcopy.startContainer;
-        }
-        else
-        {
-          // starting from a deeper node in text
-          while (par.parentNode &&
-          par.nodeName.toLowerCase() !== "li" &&
-          par.nodeName.toLowerCase() !== "p" &&
-          par.nodeName.toLowerCase() !== "body")
-          {
-            par = par.parentNode;
-            //console.log(par);
-          }
-        }
-      }
-      else
-      {
-        par = rcopy.startContainer;
-      }
-      //console.log(par);
-
-
-      // get previous sibling
-      var ps = par.previousSibling;
-      if (ps)
-      {
-        if (ps.nodeName.toLowerCase() === "p" ||
-          ps.nodeName.toLowerCase() === "li")
-        {
-          target_pos = ps;
-        }
-        if (ps.nodeName.toLowerCase() === "ul")
-        {
-          if (ps.lastChild)
-          {
-            target_pos = ps.lastChild;
-          }
-        }
-      }
-      else
-      {
-        //console.log("case d");
-        // set selection to beginning
-        r = ed.dom.getRoot();
-        target_pos = r.childNodes[0];
-      }
-      if (this.splitTopBr())
-      {
-        //console.log("setting range");
-
-        // set selection to start of first div
-        if (target_pos)
-        {
-          r =  ed.dom.createRng();
-          r.setStart(target_pos, 0);
-          r.setEnd(target_pos, 0);
-          ed.selection.setRng(r);
-        }
-      }
-    }
+    dom.addClass(dom.select('ol:not([class])'), 'ilc_list_o_NumberedList');
+    dom.addClass(dom.select('ul:not([class])'), 'ilc_list_u_BulletedList');
+    dom.addClass(dom.select('li:not([class])'), 'ilc_list_item_StandardListItem');
   }
 
-
   // remove all divs (used after pasting)
-  splitDivs()
-  {
+  splitDivs() {
     // split all divs in divs
-    let ed = this.tiny;
-    let divs = ed.dom.select('p > div');
+    const ed = this.tiny;
+    const divs = ed.dom.select('p > div');
     let k;
-    for (k in divs)
-    {
+    for (k in divs) {
       ed.dom.split(divs[k].parentNode, divs[k]);
     }
   }
@@ -171,46 +88,42 @@ return;   // currently deactivated, hopefully not necessary anymore
   splitTopBr() {
     let changed = false;
 
-    let ed = this.tiny;
+    const ed = this.tiny;
     ed.getContent(); // this line is imporant and seems to fix some things
-    tinymce.each(ed.dom.select('br').reverse(), function (b) {
-
-      //console.log(b);
-      //return;
+    tinymce.each(ed.dom.select('br').reverse(), (b) => {
+      // console.log(b);
+      // return;
 
       try {
-        let snode = ed.dom.getParent(b, 'p,li');
-        if (snode.nodeName !== "LI" &&
-          snode.childNodes.length !== 1) {
+        const snode = ed.dom.getParent(b, 'p,li');
+        if (snode.nodeName !== 'LI'
+          && snode.childNodes.length !== 1) {
           //				ed.dom.split(snode, b);
 
           function trim(node) {
-            var i, children = node.childNodes;
+            let i; let
+              children = node.childNodes;
 
-            if (node.nodeType === 1 && node.getAttribute('_mce_type') === 'bookmark')
-              return;
+            if (node.nodeType === 1 && node.getAttribute('_mce_type') === 'bookmark') return;
 
-            for (i = children.length - 1; i >= 0; i--)
-              trim(children[i]);
+            for (i = children.length - 1; i >= 0; i--) trim(children[i]);
 
             if (node.nodeType !== 9) {
               // Keep non whitespace text nodes
               if (node.nodeType === 3 && node.nodeValue.length > 0) {
                 // If parent element isn't a block or there isn't any useful contents for example "<p>   </p>"
-                if (!t.isBlock(node.parentNode) || tinymce.trim(node.nodeValue).length > 0)
-                  return;
+                if (!t.isBlock(node.parentNode) || tinymce.trim(node.nodeValue).length > 0) return;
               }
 
               if (node.nodeType === 1) {
                 // If the only child is a bookmark then move it up
                 children = node.childNodes;
                 if (children.length === 1 && children[0] && children[0].nodeType === 1 && children[0].getAttribute(
-                  '_mce_type') === 'bookmark')
-                  node.parentNode.insertBefore(children[0], node);
+                  '_mce_type',
+                ) === 'bookmark') node.parentNode.insertBefore(children[0], node);
 
                 // Keep non empty elements or img, hr etc
-                if (children.length || /^(br|hr|input|img)$/i.test(node.nodeName))
-                  return;
+                if (children.length || /^(br|hr|input|img)$/i.test(node.nodeName)) return;
               }
 
               t.remove(node);
@@ -218,10 +131,11 @@ return;   // currently deactivated, hopefully not necessary anymore
             return node;
           }
 
-          let pe = snode;
-          let e = b;
+          const pe = snode;
+          const e = b;
           if (pe && e) {
-            var t = ed.dom, r = t.createRng(), bef, aft, pa;
+            var t = ed.dom; let r = t.createRng(); let bef; let aft; let
+              pa;
 
             // Get before chunk
             r.setStart(pe.parentNode, t.nodeIndex(pe));
@@ -237,20 +151,18 @@ return;   // currently deactivated, hopefully not necessary anymore
             // Insert before chunk
             pa = pe.parentNode;
             pa.insertBefore(trim(bef), pe);
-            //pa.insertBefore(bef, pe);
+            // pa.insertBefore(bef, pe);
 
             // Insert after chunk
             pa.insertBefore(trim(aft), pe);
-            //pa.insertBefore(aft, pe);
+            // pa.insertBefore(aft, pe);
             t.remove(pe);
 
             //					return re || e;
             changed = true;
           }
         }
-
-      }
-      catch (ex) {
+      } catch (ex) {
         // IE can sometimes fire an unknown runtime error so we just ignore it
       }
     });
@@ -265,55 +177,48 @@ return;   // currently deactivated, hopefully not necessary anymore
    */
   splitBR() {
     let snode;
-    let ed = tinyMCE.activeEditor;
-    let r = ed.dom.getRoot();
+    const ed = tinyMCE.activeEditor;
+    const r = ed.dom.getRoot();
 
     // STEP 1: Handle all top level <br />
 
     // make copy of root
-    let rcopy = r.cloneNode(true);
+    const rcopy = r.cloneNode(true);
 
     // remove all childs of top level
-    for (var k = r.childNodes.length - 1; k >= 0; k--)
-    {
+    for (var k = r.childNodes.length - 1; k >= 0; k--) {
       r.removeChild(r.childNodes[k]);
     }
 
     // cp -> current P
     let cp = ed.dom.create('p', {}, '');
     let cp_content = false; // has current P any content?
-    let cc, pc; // cc: currrent child (top level), pc: P child
+    let cc; let
+      pc; // cc: currrent child (top level), pc: P child
 
     // walk through root copy and add content to emptied original root
-    for (var k = 0; k < rcopy.childNodes.length; k++)
-    {
+    for (var k = 0; k < rcopy.childNodes.length; k++) {
       cc = rcopy.childNodes[k];
 
       // handle Ps on top level
       // main purpose: convert <p> ...<br />...</p> to <p>...</p><p>...</p>
-      if (cc.nodeName == "P")
-      {
+      if (cc.nodeName == 'P') {
         // is there a current P with content? -> add it to top level
-        if (cp_content)
-        {
+        if (cp_content) {
           r.appendChild(cp);
           cp = ed.dom.create('p', {}, '');
           cp_content = false;
         }
 
         // split all BRs into separate Ps on top level
-        for (var i = 0; i < cc.childNodes.length; i++)
-        {
+        for (let i = 0; i < cc.childNodes.length; i++) {
           pc = cc.childNodes[i];
-          if (pc.nodeName == "BR")
-          {
+          if (pc.nodeName == 'BR') {
             // append the current p an create a new one
             r.appendChild(cp);
             cp = ed.dom.create('p', {}, '');
             cp_content = false;
-          }
-          else
-          {
+          } else {
             // append the content to the current p
             cp.appendChild(pc.cloneNode(true));
             cp_content = true;
@@ -321,32 +226,25 @@ return;   // currently deactivated, hopefully not necessary anymore
         }
 
         // append current p and create a new one
-        if (cp_content)
-        {
+        if (cp_content) {
           r.appendChild(cp);
           cp = ed.dom.create('p', {}, '');
           cp_content = false;
         }
-      }
-      else if (cc.nodeName == "UL" || cc.nodeName == "OL")
-      {
+      } else if (cc.nodeName == 'UL' || cc.nodeName == 'OL') {
         // UL and OL are simply appended to the root
-        if (cp_content)
-        {
+        if (cp_content) {
           r.appendChild(cp);
           cp = ed.dom.create('p', {}, '');
           cp_content = false;
         }
         r.appendChild(rcopy.childNodes[k].cloneNode(true));
-      }
-      else
-      {
+      } else {
         cp.appendChild(rcopy.childNodes[k].cloneNode(true));
         cp_content = true;
       }
     }
-    if (cp_content)
-    {
+    if (cp_content) {
       r.appendChild(cp);
     }
 
@@ -359,34 +257,30 @@ return;   // currently deactivated, hopefully not necessary anymore
      } catch (ex) {
      // IE can sometimes fire an unknown runtime error so we just ignore it
      }
-     });*/
+     }); */
     this.splitTopBr();
-
 
     // STEP 3: Clean up
 
     // remove brs (normally all should have been handled above)
-    var c = ed.getContent();
-    c = c.split("<br />").join("");
-    c = c.split("\n").join("");
+    let c = ed.getContent();
+    c = c.split('<br />').join('');
+    c = c.split('\n').join('');
     ed.setContent(c);
   }
 
   // split all span classes that are direct "children of themselves"
   // fixes bug #13019
   splitSpans() {
+    let k; const ed = tinyMCE.activeEditor; let s;
+    const classes = ['ilc_text_inline_Strong', 'ilc_text_inline_Emph', 'ilc_text_inline_Important',
+      'ilc_text_inline_Comment', 'ilc_text_inline_Quotation', 'ilc_text_inline_Accent'];
 
-    let k, ed = tinyMCE.activeEditor, s,
-      classes = ['ilc_text_inline_Strong', 'ilc_text_inline_Emph', 'ilc_text_inline_Important',
-        'ilc_text_inline_Comment', 'ilc_text_inline_Quotation', 'ilc_text_inline_Accent'];
-
-    for (var i = 0; i < classes.length; i++) {
-
-      s = ed.dom.select('span[class="' + classes[i] + '"] > span[class="' + classes[i] + '"]');
+    for (let i = 0; i < classes.length; i++) {
+      s = ed.dom.select(`span[class="${classes[i]}"] > span[class="${classes[i]}"]`);
       for (k in s) {
         ed.dom.split(s[k].parentNode, s[k]);
       }
     }
   }
-
 }

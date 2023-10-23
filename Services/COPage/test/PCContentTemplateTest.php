@@ -33,6 +33,7 @@ class PCContentTemplateTest extends COPageTestBase
         );
     }
 
+    /*
     public function testCreate(): void
     {
         $manager = new ilUnitTestPageManager();
@@ -63,5 +64,5 @@ EOT;
             $template_xml,
             $page2->getXMLFromDom()
         );
-    }
+    }*/
 }

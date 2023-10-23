@@ -21,7 +21,6 @@ declare(strict_types=1);
 namespace ILIAS\File\Icon;
 
 use ILIAS\UI\Component\Modal\Interruptive;
-use ILIAS\UI\Component\Input\Container\Filter\Filter;
 
 /**
  * @author Lukas Zehnder <lukas@sr.solutions>
@@ -99,7 +98,11 @@ class IconListingUI
         $filter_data = $this->filter_service->getData($this->filter) ?? [];
 
         foreach ($this->icon_repo->getIconsForFilter($filter_data) as $icon) {
-            $this->ctrl->setParameterByClass(ilObjFileIconsOverviewGUI::class, ilObjFileIconsOverviewGUI::P_RID, $icon->getRid());
+            $this->ctrl->setParameterByClass(
+                ilObjFileIconsOverviewGUI::class,
+                ilObjFileIconsOverviewGUI::P_RID,
+                $icon->getRid()
+            );
             $edit_target = $this->ctrl->getLinkTargetByClass(
                 ilObjFileIconsOverviewGUI::class,
                 ilObjFileIconsOverviewGUI::CMD_OPEN_UPDATING_FORM

@@ -26,14 +26,12 @@ class ilObjectAdditionalProperties
     private bool $property_title_and_icon_visibility_updated = false;
     private bool $property_header_action_visibility_updated = false;
     private bool $property_info_tab_visibility_updated = false;
-    private bool $property_tile_image_updated = false;
     private bool $property_icon_updated = false;
 
     public function __construct(
         private ilObjectPropertyTitleAndIconVisibility $property_title_and_icon_visibility,
         private ilObjectPropertyHeaderActionVisibility $property_header_action_visibility,
         private ilObjectPropertyInfoTabVisibility $property_info_tab_visibility,
-        private ilObjectPropertyTileImage $property_tile_image,
         private ilObjectPropertyIcon $property_icon,
         private ?int $object_id = null
     ) {
@@ -98,24 +96,6 @@ class ilObjectAdditionalProperties
         return $clone;
     }
 
-    public function getPropertyTileImage(): ilObjectProperty
-    {
-        return $this->property_tile_image;
-    }
-
-    public function wasPropertyTileImageUpdated(): bool
-    {
-        return $this->property_tile_image_updated;
-    }
-
-    public function withPropertyTileImage(ilObjectPropertyTileImage $property_tile_image): self
-    {
-        $clone = clone $this;
-        $clone->property_tile_image = $property_tile_image;
-        $clone->property_tile_image_updated = true;
-        return $clone;
-    }
-
     public function getPropertyIcon(): ilObjectProperty
     {
         return $this->property_icon;
@@ -141,7 +121,6 @@ class ilObjectAdditionalProperties
         $clone->property_header_action_visibility_updated = false;
         $clone->property_info_tab_visibility_updated = false;
         $clone->property_icon_updated = false;
-        $clone->property_tile_image_updated = false;
         return $clone;
     }
 }

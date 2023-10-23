@@ -30,6 +30,7 @@ use ILIAS\UI\Help;
 use ilLanguage;
 use InvalidArgumentException;
 use LogicException;
+use ILIAS\UI\Implementation\Component\Input\UploadLimitResolver;
 
 /**
  * Base class for all component renderers.
@@ -50,7 +51,8 @@ abstract class AbstractComponentRenderer implements ComponentRenderer, HelpTextR
         private \ILIAS\Refinery\Factory $refinery,
         private ImagePathResolver $image_path_resolver,
         private DataFactory $data_factory,
-        private HelpTextRetriever $help_text_retriever
+        private HelpTextRetriever $help_text_retriever,
+        private UploadLimitResolver $upload_limit_resolver,
     ) {
     }
 
@@ -80,6 +82,11 @@ abstract class AbstractComponentRenderer implements ComponentRenderer, HelpTextR
     final protected function getRefinery(): \ILIAS\Refinery\Factory
     {
         return $this->refinery;
+    }
+
+    final protected function getUploadLimitResolver(): UploadLimitResolver
+    {
+        return $this->upload_limit_resolver;
     }
 
     /**

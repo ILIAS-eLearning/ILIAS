@@ -632,9 +632,6 @@ class ilColumnGUI
         } else {	// get all subitems
             foreach ($this->rep_block_types as $block_type) {
                 if ($this->isGloballyActivated($block_type)) {
-                    if (!isset($rep_items[$block_type]) || !is_array($rep_items[$block_type])) {
-                        continue;
-                    }
                     $item_ref_ids = $this->getItemPresentationManager()->getRefIdsOfType($block_type);
                     foreach ($item_ref_ids as $item_ref_id) {
                         $item = $this->getItemPresentationManager()->getRawDataByRefId($item_ref_id);

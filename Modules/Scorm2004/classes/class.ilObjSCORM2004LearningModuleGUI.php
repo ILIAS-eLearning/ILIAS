@@ -35,6 +35,7 @@ use ILIAS\GlobalScreen\ScreenContext\ContextServices;
  */
 class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 {
+    private ilPropertyFormGUI $form;
     protected \ILIAS\DI\Container $dic;
     protected ilTabsGUI $tabs;
     protected ilRbacSystem $rbacsystem;
@@ -412,7 +413,7 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
     {
         $values = array();
         $values["Fobject_title"] = $this->object->getTitle();
-        $values["Fobject_description"] = $this->object->getDescription();
+        $values["Fobject_description"] = $this->object->getLongDescription();
         if (!$this->object->getOfflineStatus()) {
             $values["cobj_online"] = true;
         }
@@ -492,7 +493,7 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
         $this->object->setWidth($t_width);
         $this->object->setHeight($t_height);
         $this->object->setCreditMode($this->dic->http()->wrapper()->post()->retrieve('credit_mode', $this->dic->refinery()->kindlyTo()->string()));
-//        $this->object->setMaxAttempt($this->dic->http()->wrapper()->post()->retrieve('max_attempt',$this->dic->refinery()->kindlyTo()->int()));
+        //        $this->object->setMaxAttempt($this->dic->http()->wrapper()->post()->retrieve('max_attempt',$this->dic->refinery()->kindlyTo()->int()));
         $this->object->setAutoReviewChar($t_auto_review);
         $this->object->setDefaultLessonMode($this->dic->http()->wrapper()->post()->retrieve('lesson_mode', $this->dic->refinery()->kindlyTo()->string()));
         $this->object->setSession($t_session);
@@ -508,7 +509,7 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
         $this->object->setTime_from_lms($this->dic->http()->wrapper()->post()->has('cobj_time_from_lms'));
         $this->object->setCheck_values($this->dic->http()->wrapper()->post()->has('cobj_check_values'));
         $this->object->setAutoSuspend($t_auto_suspend);
-//            $this->object->setOfflineMode($tmpOfflineMode);
+        //            $this->object->setOfflineMode($tmpOfflineMode);
         $this->object->setDebug($this->dic->http()->wrapper()->post()->has('cobj_debug'));//ilUtil::yn2tf($this->dic->http()->wrapper()->post()->retrieve('cobj_debug',$this->dic->refinery()->kindlyTo()->string())));
         $this->object->setIdSetting($this->dic->http()->wrapper()->post()->retrieve('id_setting', $this->dic->refinery()->kindlyTo()->int()));
         $this->object->setNameSetting($this->dic->http()->wrapper()->post()->retrieve('name_setting', $this->dic->refinery()->kindlyTo()->int()));

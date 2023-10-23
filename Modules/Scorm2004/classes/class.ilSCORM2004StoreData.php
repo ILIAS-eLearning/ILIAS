@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Class ilSCORM2004StoreData
@@ -99,7 +99,7 @@ class ilSCORM2004StoreData
             array($packageId, $userId, date('Y-m-d H:i:s'))
         );
         $rowtmp = $ilDB->fetchAssoc($res);
-        if ((int) $rowtmp['hash'] == $hash) {
+        if ($rowtmp && (int) $rowtmp['hash'] == $hash) {
             return;
         }
 
@@ -458,17 +458,17 @@ class ilSCORM2004StoreData
             foreach ($value as $skey => $svalue) {
                 $ilLog->debug("SCORM2004 writeGObjective -skey: " . $skey);
                 //we always have objective and learner id
-//                var_dump($svalue->$user->{"null"});
-//                die();
-//                if ($g_data->$key->$skey->$user->$package) { //check
-//                    $o_value = $g_data->$key->$skey->$user->$package;
-//                    $scope = $package;
-//                } else { //UK: is this okay? can $scope=0 and $user->{"null"}; when is $scope used?
-//                    //scope 0
-//                    $o_value = $g_data->$key->$skey->$user->{"null"};
-//                    //has to be converted to NULL in JS Later
-//                    $scope = 0;
-//                }
+                //                var_dump($svalue->$user->{"null"});
+                //                die();
+                //                if ($g_data->$key->$skey->$user->$package) { //check
+                //                    $o_value = $g_data->$key->$skey->$user->$package;
+                //                    $scope = $package;
+                //                } else { //UK: is this okay? can $scope=0 and $user->{"null"}; when is $scope used?
+                //                    //scope 0
+                //                    $o_value = $g_data->$key->$skey->$user->{"null"};
+                //                    //has to be converted to NULL in JS Later
+                //                    $scope = 0;
+                //                }
                 if (isset($svalue->$user->$package)) {
                     $o_value = $svalue->$user->$package;
                     $scope = $package;
@@ -485,9 +485,9 @@ class ilSCORM2004StoreData
                 $dbuser = $user;
                 if ($key === "status") {
                     //special handling for status
-//                    $completed = $g_data->$key->$skey->$user->{"completed"};
-//                    $measure = $g_data->$key->$skey->$user->{"measure"};
-//                    $satisfied = $g_data->$key->$skey->$user->{"satisfied"};
+                    //                    $completed = $g_data->$key->$skey->$user->{"completed"};
+                    //                    $measure = $g_data->$key->$skey->$user->{"measure"};
+                    //                    $satisfied = $g_data->$key->$skey->$user->{"satisfied"};
                     $completed = $svalue->$user->{"completed"};
                     $measure = $svalue->$user->{"measure"};
                     $satisfied = $svalue->$user->{"satisfied"};
@@ -530,7 +530,7 @@ class ilSCORM2004StoreData
                             array('text', 'text', 'text', 'text', 'integer', 'integer'),
                             array($completed, $measure, $satisfied, $obj, $dbuser, $pkg_id)
                         );
-//                        $ilLog->debug("SCORM2004 cmi_gobjective Update status=" . $completed . " scope_id=" . $pkg_id . " measure=" . $measure . " satisfied=" . $satisfied . " objective_id=" . $obj);
+                        //                        $ilLog->debug("SCORM2004 cmi_gobjective Update status=" . $completed . " scope_id=" . $pkg_id . " measure=" . $measure . " satisfied=" . $satisfied . " objective_id=" . $obj);
                     }
                 } else { //add it to the rows_to_insert
                     //create the row if this is the first time it has been found

@@ -1706,6 +1706,9 @@
 <!-- List Item -->
 <xsl:template match="ListItem">
 	<li class="ilc_list_item_StandardListItem">
+	<xsl:if test="../@ItemClass">
+		<xsl:attribute name="class">ilc_list_item_<xsl:value-of select="../@ItemClass"/></xsl:attribute>
+	</xsl:if>
 	<xsl:call-template name="EditReturnAnchors"/>
 	<!-- insert commands -->
 	<!-- <xsl:value-of select="@HierId"/> -->
@@ -1775,13 +1778,28 @@
 
 <!-- SimpleBulletList -->
 <xsl:template match="SimpleBulletList">
-	<ul class="ilc_list_u_BulletedList"><xsl:apply-templates/></ul>
+	<ul class="ilc_list_u_BulletedList">
+		<xsl:if test="@Class">
+			<xsl:attribute name="class">ilc_list_u_<xsl:value-of select="@Class"/></xsl:attribute>
+		</xsl:if>
+		<xsl:apply-templates/>
+	</ul>
 </xsl:template>
 <xsl:template match="SimpleNumberedList">
-	<ol class="ilc_list_o_NumberedList"><xsl:apply-templates/></ol>
+	<ol class="ilc_list_o_NumberedList">
+		<xsl:if test="@Class">
+			<xsl:attribute name="class">ilc_list_o_<xsl:value-of select="@Class"/></xsl:attribute>
+		</xsl:if>
+		<xsl:apply-templates/>
+	</ol>
 </xsl:template>
 <xsl:template match="SimpleListItem">
-	<li class="ilc_list_item_StandardListItem"><xsl:apply-templates/></li>
+	<li class="ilc_list_item_StandardListItem">
+		<xsl:if test="@Class">
+			<xsl:attribute name="class">ilc_list_item_<xsl:value-of select="@Class"/></xsl:attribute>
+		</xsl:if>
+		<xsl:apply-templates/>
+	</li>
 </xsl:template>
 
 <!-- FileList -->

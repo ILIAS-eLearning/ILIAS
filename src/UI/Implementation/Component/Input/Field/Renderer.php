@@ -66,6 +66,14 @@ class Renderer extends AbstractComponentRenderer
     ];
 
     /**
+     * @var float This factor will be used to calculate a percentage of the PHP upload-size limit which
+     *            will be used as chunk-size for chunked uploads. This needs to be done because file uploads
+     *            fail if the file is exactly as big as this limit or slightly less. 90% turned out to be a
+     *            functional fraction for now.
+     */
+    protected const FILE_UPLOAD_CHUNK_SIZE_FACTOR = 0.9;
+
+    /**
      * @inheritdoc
      */
     public function render(Component\Component $component, RendererInterface $default_renderer): string
@@ -629,8 +637,6 @@ class Renderer extends AbstractComponentRenderer
         $tpl = $this->getTemplate("tpl.datetime.html", true, true);
         $this->applyName($component, $tpl);
 
-        $f = $this->getUIFactory();
-
         if ($component->getTimeOnly() === true) {
             $format = $component::TIME_FORMAT;
             $dt_type = self::TYPE_TIME;
@@ -646,14 +652,6 @@ class Renderer extends AbstractComponentRenderer
                 $dt_type = self::TYPE_DATETIME;
             }
         }
-
-        $config = [
-            'showClear' => true,
-            'sideBySide' => true,
-            'format' => $format,
-            'locale' => $this->getLangKey()
-        ];
-        $config = array_merge($config, $component->getAdditionalPickerconfig());
 
         $tpl->setVariable("DTTYPE", $dt_type);
 
@@ -673,21 +671,15 @@ class Renderer extends AbstractComponentRenderer
 
         $tpl->setVariable("PLACEHOLDER", $format);
 
-        if ($component->getValue() !== null) {
-            $tpl->setVariable("VALUE", $component->getValue());
-        }
-
-        if ($component->isDisabled()) {
-            $tpl->setVariable("DISABLED", "disabled");
-        }
-
-        return $this->wrapInFormContext($component, $tpl->get(), $this->createId());
+        $this->applyValue($component, $tpl, $this->escapeSpecialChars());
+        $this->maybeDisable($component, $tpl);
+        $id = $this->bindJSandApplyId($component, $tpl);
+        return $this->wrapInFormContext($component, $tpl->get(), $id);
     }
 
     protected function renderDurationField(F\Duration $component, RendererInterface $default_renderer): string
     {
         $tpl = $this->getTemplate("tpl.duration.html", true, true);
-        $this->applyName($component, $tpl);
 
         $id = $this->bindJSandApplyId($component, $tpl);
 
@@ -701,7 +693,6 @@ class Renderer extends AbstractComponentRenderer
         $input_html .= $default_renderer->render($input);
         $tpl->setVariable('DURATION', $input_html);
 
-        $this->maybeDisable($component, $tpl);
         return $this->wrapInFormContext($component, $tpl->get(), $id);
     }
 
@@ -810,9 +801,6 @@ class Renderer extends AbstractComponentRenderer
     public function registerResources(ResourceRegistry $registry): void
     {
         parent::registerResources($registry);
-        $registry->register('./node_modules/moment/min/moment-with-locales.min.js');
-        $registry->register('./node_modules/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js');
-
         $registry->register('./node_modules/@yaireo/tagify/dist/tagify.min.js');
         $registry->register('./node_modules/@yaireo/tagify/dist/tagify.css');
         $registry->register('./src/UI/templates/js/Input/Field/tagInput.js');
@@ -947,6 +935,9 @@ class Renderer extends AbstractComponentRenderer
                 $current_file_count = count($input->getDynamicInputs());
                 $translations = json_encode($input->getTranslations());
                 $is_disabled = ($input->isDisabled()) ? 'true' : 'false';
+                $php_upload_limit = $this->getUploadLimitResolver()->getPhpUploadLimitInBytes();
+                $should_upload_be_chunked = ($input->getMaxFileSize() > $php_upload_limit) ? 'true' : 'false';
+                $chunk_size = (int) floor($php_upload_limit * self::FILE_UPLOAD_CHUNK_SIZE_FACTOR);
                 return "
                     $(document).ready(function () {
                         il.UI.Input.File.init(
@@ -960,8 +951,8 @@ class Renderer extends AbstractComponentRenderer
                             '{$this->prepareDropzoneJsMimeTypes($input->getAcceptedMimeTypes())}',
                             $is_disabled,
                             $translations,
-                            '{$input->getUploadHandler()->supportsChunkedUploads()}',
-                            {$input->getMaxFileSize()}
+                            $should_upload_be_chunked,
+                            $chunk_size
                         );
                     });
                 ";

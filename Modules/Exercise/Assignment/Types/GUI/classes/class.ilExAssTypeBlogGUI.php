@@ -50,4 +50,100 @@ class ilExAssTypeBlogGUI implements ilExAssignmentTypeGUIInterface
     public function getOverviewContent(ilInfoScreenGUI $a_info, ilExSubmission $a_submission): void
     {
     }
+
+    public function buildSubmissionPropertiesAndActions(\ILIAS\Exercise\Assignment\PropertyAndActionBuilderUI $builder): void
+    {
+        global $DIC;
+
+        $service = $DIC->exercise()->internal();
+        $gui = $service->gui();
+        $domain = $service->domain();
+        $f = $gui->ui()->factory();
+        $lng = $domain->lng();
+        $ilCtrl = $gui->ctrl();
+        $submission = $this->getSubmission();
+
+
+        $wsp_tree = new \ilWorkspaceTree($submission->getUserId());
+
+        // #12939
+        if (!$wsp_tree->getRootId()) {
+            $wsp_tree->createTreeForUser($submission->getUserId());
+        }
+
+        $files_str = "";
+        $buttons_str = "";
+        $valid_blog = false;
+        $selected_blog = $submission->getSelectedObject();
+        if ($selected_blog) {
+            $blog_id = (int) $selected_blog["filetitle"];
+            $node = $wsp_tree->getNodeData($blog_id);
+            if ($node["title"]) {
+                // #10116
+                $ilCtrl->setParameterByClass("ilobjbloggui", "wsp_id", $blog_id);
+                $blog_link = $ilCtrl->getLinkTargetByClass(array("ildashboardgui", "ilpersonalworkspacegui", "ilobjbloggui"), "");
+                $ilCtrl->setParameterByClass("ilobjbloggui", "wsp_id", "");
+                $valid_blog = true;
+                $builder->addProperty(
+                    $builder::SEC_SUBMISSION,
+                    $lng->txt("exc_blog_returned"),
+                    $node["title"]
+                );
+                $button = $f->button()->standard(
+                    $lng->txt("exc_edit_blog"),
+                    $blog_link
+                );
+                $builder->addAction(
+                    $builder::SEC_SUBMISSION,
+                    $button
+                );
+            }
+            // remove invalid resource if no upload yet (see download below)
+            elseif (substr($selected_blog["filename"], -1) == "/") {
+                // #16887
+                $submission->deleteResourceObject();
+            }
+        }
+        if ($submission->canSubmit()) {
+            if (!$valid_blog) {
+                $button = $f->button()->primary(
+                    $lng->txt("exc_create_blog"),
+                    $ilCtrl->getLinkTargetByClass(array(ilAssignmentPresentationGUI::class, "ilExSubmissionGUI", "ilExSubmissionObjectGUI"), "createBlog")
+                );
+                $builder->setMainAction(
+                    $builder::SEC_SUBMISSION,
+                    $button
+                );
+            }
+            // #10462
+            $blogs = count($wsp_tree->getObjectsFromType("blog"));
+            if ((!$valid_blog && $blogs)
+                || ($valid_blog && $blogs > 1)) {
+                $button = $f->button()->standard(
+                    $lng->txt("exc_select_blog" . ($valid_blog ? "_change" : "")),
+                    $ilCtrl->getLinkTargetByClass(array(ilAssignmentPresentationGUI::class, "ilExSubmissionGUI", "ilExSubmissionObjectGUI"), "selectBlog")
+                );
+                $builder->addAction(
+                    $builder::SEC_SUBMISSION,
+                    $button
+                );
+            }
+        }
+
+        if ($submission->hasSubmitted()) {
+            $ilCtrl->setParameterByClass("ilExSubmissionFileGUI", "delivered", $selected_blog["returned_id"]);
+            $dl_link = $ilCtrl->getLinkTargetByClass(array(ilAssignmentPresentationGUI::class, "ilExSubmissionGUI", "ilExSubmissionFileGUI"), "download");
+            $ilCtrl->setParameterByClass("ilExSubmissionFileGUI", "delivered", "");
+
+            $link = $f->link()->standard(
+                $lng->txt("download"),
+                $dl_link
+            );
+            $builder->addAction(
+                $builder::SEC_SUBMISSION,
+                $link
+            );
+        }
+    }
+
 }

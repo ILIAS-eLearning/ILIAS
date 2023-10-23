@@ -328,23 +328,24 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 
         $this->tabs_gui->activateTab("pages");
 
+        $pages = ilPortfolioPage::getAllPortfolioPages($this->getObject()->getId());
 
-        $this->gui->link(
+        $this->gui->button(
             $this->lng->txt("prtf_add_page"),
             $this->ctrl->getLinkTarget($this, "addPage")
-        )->emphasised()->toToolbar(true);
+        )->toToolbar(true);
 
         if (!$ilSetting->get('disable_wsp_blogs')) {
-            $this->gui->link(
+            $this->gui->button(
                 $this->lng->txt("prtf_add_blog"),
                 $this->ctrl->getLinkTarget($this, "addBlog")
-            )->emphasised()->toToolbar(true);
+            )->toToolbar(true);
         }
 
 
         // #16571
         $modal_html = "";
-        if ($this->getType() === "prtf") {
+        if ($this->getType() === "prtf" && count($pages) > 0) {
             $ilToolbar->addSeparator();
 
             $ui = $this->ui;
@@ -363,10 +364,10 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
                 $ilToolbar->addComponent($button);
                 $modal_html = $ui->renderer()->render($comment_modal);
             } else {
-                $this->gui->link(
+                $this->gui->button(
                     $this->lng->txt("export_html"),
                     $this->ctrl->getLinkTarget($this, "export")
-                )->emphasised()->toToolbar();
+                )->toToolbar();
             }
 
             $print_view = $this->getPrintView();

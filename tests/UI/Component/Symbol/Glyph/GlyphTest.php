@@ -153,9 +153,9 @@ class GlyphTest extends ILIAS_UI_TestBase
     );
 
     /**
-     * @dataProvider glyph_type_provider
+     * @dataProvider getGlyphTypeProvider
      */
-    public function test_implements_factory_interface(string $factory_method): void
+    public function testImplementsFactoryInterface(string $factory_method): void
     {
         $f = $this->getGlyphFactory();
 
@@ -164,9 +164,9 @@ class GlyphTest extends ILIAS_UI_TestBase
     }
 
     /**
-     * @dataProvider glyph_type_provider
+     * @dataProvider getGlyphTypeProvider
      */
-    public function test_glyph_types(string $factory_method): void
+    public function testGlyphTypes(string $factory_method): void
     {
         $f = $this->getGlyphFactory();
         $g = $f->$factory_method();
@@ -176,9 +176,9 @@ class GlyphTest extends ILIAS_UI_TestBase
     }
 
     /**
-     * @dataProvider glyph_type_provider
+     * @dataProvider getGlyphTypeProvider
      */
-    public function test_glyph_action(string $factory_method): void
+    public function testGlyphAction(string $factory_method): void
     {
         $f = $this->getGlyphFactory();
         $g = $f->$factory_method("http://www.ilias.de");
@@ -188,9 +188,9 @@ class GlyphTest extends ILIAS_UI_TestBase
     }
 
     /**
-     * @dataProvider glyph_type_provider
+     * @dataProvider getGlyphTypeProvider
      */
-    public function test_glyph_no_action(string $factory_method): void
+    public function testGlyphNoAction(string $factory_method): void
     {
         $f = $this->getGlyphFactory();
         $g = $f->$factory_method();
@@ -200,9 +200,9 @@ class GlyphTest extends ILIAS_UI_TestBase
     }
 
     /**
-     * @dataProvider glyph_type_provider
+     * @dataProvider getGlyphTypeProvider
      */
-    public function test_with_unavailable_action(string $factory_method): void
+    public function testWithUnavailableAction(string $factory_method): void
     {
         $f = $this->getGlyphFactory();
         $g = $f->$factory_method();
@@ -212,7 +212,7 @@ class GlyphTest extends ILIAS_UI_TestBase
         $this->assertFalse($g2->isActive());
     }
 
-    public function test_with_highlight(): void
+    public function testWithHighlight(): void
     {
         $gf = $this->getGlyphFactory();
 
@@ -224,9 +224,9 @@ class GlyphTest extends ILIAS_UI_TestBase
     }
 
     /**
-     * @dataProvider glyph_type_provider
+     * @dataProvider getGlyphTypeProvider
      */
-    public function test_no_counter(string $factory_method): void
+    public function testNoCounter(string $factory_method): void
     {
         $f = $this->getGlyphFactory();
         $g = $f->$factory_method();
@@ -235,9 +235,9 @@ class GlyphTest extends ILIAS_UI_TestBase
     }
 
     /**
-     * @dataProvider counter_type_provider
+     * @dataProvider getCounterTypeProvider
      */
-    public function test_one_counter(string $counter_type): void
+    public function testOneCounter(string $counter_type): void
     {
         $gf = $this->getGlyphFactory();
         $cf = $this->getCounterFactory();
@@ -256,7 +256,7 @@ class GlyphTest extends ILIAS_UI_TestBase
         $this->assertEquals($number, $c->getNumber());
     }
 
-    public function test_two_counters(): void
+    public function testTwoCounters(): void
     {
         $gf = $this->getGlyphFactory();
         $cf = $this->getCounterFactory();
@@ -281,7 +281,7 @@ class GlyphTest extends ILIAS_UI_TestBase
         $this->assertContains(array("novelty", $number_n), $vals);
     }
 
-    public function test_only_two_counters(): void
+    public function testOnlyTwoCounters(): void
     {
         $gf = $this->getGlyphFactory();
         $cf = $this->getCounterFactory();
@@ -310,7 +310,7 @@ class GlyphTest extends ILIAS_UI_TestBase
         $this->assertContains(array("novelty", $number_n2), $vals);
     }
 
-    public function test_immutability_withCounter(): void
+    public function testImmutabilityWithCounter(): void
     {
         $gf = $this->getGlyphFactory();
         $cf = $this->getCounterFactory();
@@ -325,13 +325,13 @@ class GlyphTest extends ILIAS_UI_TestBase
         $this->assertCount(0, $counters);
     }
 
-    public function test_known_glyphs_only(): void
+    public function testKnownGlyphsOnly(): void
     {
         $this->expectException(InvalidArgumentException::class);
         new Glyph("FOO", "http://www.ilias.de");
     }
 
-    public function glyph_type_provider(): array
+    public function getGlyphTypeProvider(): array
     {
         $glyph_reflection = new ReflectionClass(G\Glyph::class);
         $constant_values = array_values($glyph_reflection->getConstants());
@@ -340,7 +340,7 @@ class GlyphTest extends ILIAS_UI_TestBase
         }, $constant_values);
     }
 
-    public function counter_type_provider(): array
+    public function getCounterTypeProvider(): array
     {
         return [
             ["status"],
@@ -349,9 +349,9 @@ class GlyphTest extends ILIAS_UI_TestBase
     }
 
     /**
-     * @dataProvider glyph_type_provider
+     * @dataProvider getGlyphTypeProvider
      */
-    public function test_render_simple(string $type): void
+    public function testRenderSimple(string $type): void
     {
         $f = $this->getGlyphFactory();
         $r = $this->getDefaultRenderer();
@@ -367,9 +367,9 @@ class GlyphTest extends ILIAS_UI_TestBase
     }
 
     /**
-     * @dataProvider glyph_type_provider
+     * @dataProvider getGlyphTypeProvider
      */
-    public function test_render_with_unavailable_action(string $type): void
+    public function testRenderWithUnavailableAction(string $type): void
     {
         $f = $this->getGlyphFactory();
         $r = $this->getDefaultRenderer();
@@ -388,9 +388,9 @@ class GlyphTest extends ILIAS_UI_TestBase
     }
 
     /**
-     * @dataProvider counter_type_provider
+     * @dataProvider getCounterTypeProvider
      */
-    public function test_render_withCounter(string $type): void
+    public function testRenderWithCounter(string $type): void
     {
         $fg = $this->getGlyphFactory();
         $fc = $this->getCounterFactory();
@@ -411,7 +411,7 @@ class GlyphTest extends ILIAS_UI_TestBase
         $this->assertHTMLEquals($expected, $html);
     }
 
-    public function test_render_withTwoCounters(): void
+    public function testRenderWithTwoCounters(): void
     {
         $fg = $this->getGlyphFactory();
         $fc = $this->getCounterFactory();
@@ -433,7 +433,7 @@ class GlyphTest extends ILIAS_UI_TestBase
         $this->assertHTMLEquals($expected, $html);
     }
 
-    public function test_dont_render_counter(): void
+    public function testDontRenderCounter(): void
     {
         $this->expectException(LogicException::class);
         $r = new Renderer(
@@ -444,7 +444,8 @@ class GlyphTest extends ILIAS_UI_TestBase
             $this->getRefinery(),
             new ilImagePathResolver(),
             $this->createMock(DataFactory::class),
-            $this->createMock(HelpTextRetriever::class)
+            $this->createMock(HelpTextRetriever::class),
+            $this->getUploadLimitResolver()
         );
         $f = $this->getCounterFactory();
 
@@ -452,9 +453,9 @@ class GlyphTest extends ILIAS_UI_TestBase
     }
 
     /**
-     * @dataProvider glyph_type_provider
+     * @dataProvider getGlyphTypeProvider
      */
-    public function test_render_with_on_load_code(string $type): void
+    public function testRenderWithOnLoadCode(string $type): void
     {
         $f = $this->getGlyphFactory();
         $r = $this->getDefaultRenderer();
@@ -478,9 +479,9 @@ class GlyphTest extends ILIAS_UI_TestBase
     }
 
     /**
-     * @dataProvider glyph_type_provider
+     * @dataProvider getGlyphTypeProvider
      */
-    public function test_render_with_action(string $type): void
+    public function testRenderWithAction(string $type): void
     {
         $f = $this->getGlyphFactory();
         $r = $this->getDefaultRenderer();

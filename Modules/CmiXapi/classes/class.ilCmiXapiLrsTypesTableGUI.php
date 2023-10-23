@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -27,13 +25,19 @@ declare(strict_types=1);
  *
  * @package     Module/CmiXapi
  */
+
+declare(strict_types=1);
+
 class ilCmiXapiLrsTypesTableGUI extends ilTable2GUI
 {
     public const TABLE_ID = 'cmix_lrs_types_table';
 
+    private \ILIAS\DI\Container $dic;
+
     public function __construct(ilObjCmiXapiAdministrationGUI $a_parent_obj, string $a_parent_cmd)
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
+        $this->dic = $DIC;
 
         $this->setId(self::TABLE_ID);
         parent::__construct($a_parent_obj, $a_parent_cmd);
@@ -49,49 +53,43 @@ class ilCmiXapiLrsTypesTableGUI extends ilTable2GUI
 
     protected function initColumns(): void
     {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
-
-        $this->addColumn($DIC->language()->txt('tbl_lrs_type_title'), 'title');
-        $this->addColumn($DIC->language()->txt('tbl_lrs_type_availability'), 'availability');
-        $this->addColumn($DIC->language()->txt('tbl_lrs_type_usages'), 'usages');
-        $this->addColumn('', '', '1%');
+        $this->addColumn($this->dic->language()->txt('tbl_lrs_type_title'), 'title');
+        $this->addColumn($this->dic->language()->txt('tbl_lrs_type_availability'), 'availability');
+        $this->addColumn($this->dic->language()->txt('tbl_lrs_type_usages'), 'usages');
+        $this->addColumn('', '', '8%');
     }
 
     protected function fillRow(array $a_set): void
     {
         $this->tpl->setVariable('LRS_TYPE_TITLE', $a_set['title']);
-        $this->tpl->setVariable('LRS_TYPE_AVAILABILITY', $this->getAvailabilityLabel($a_set['availability']));
+        $this->tpl->setVariable('LRS_TYPE_AVAILABILITY', $this->getAvailabilityLabel((string) $a_set['availability']));
         $this->tpl->setVariable('LRS_TYPE_USAGES', $a_set['usages'] ? $a_set['usages'] : '');
-        $this->tpl->setVariable('ACTIONS', $this->getActionsList($a_set)->getHTML());
+        $this->tpl->setVariable('ACTIONS', $this->getActionsList($a_set));
     }
 
     protected function getAvailabilityLabel(string $availability): string
     {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
-
-        return $DIC->language()->txt('conf_availability_' . $availability);
+        return $this->dic->language()->txt('conf_availability_' . $availability);
     }
 
     /**
      * @throws ilCtrlException
      */
-    protected function getActionsList(array $data): \ilAdvancedSelectionListGUI
+    protected function getActionsList(array $data): string
     {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
+        //todo: implement delete is usages=0
+        $this->ctrl->setParameter($this->parent_obj, 'lrs_type_id', $data['lrs_type_id']);
 
-        $DIC->ctrl()->setParameter($this->parent_obj, 'lrs_type_id', $data['lrs_type_id']);
-
-        $link = $DIC->ctrl()->getLinkTarget(
+        $link = $this->ctrl->getLinkTarget(
             $this->parent_obj,
             ilObjCmiXapiAdministrationGUI::CMD_SHOW_LRS_TYPE_FORM
         );
 
-        $DIC->ctrl()->setParameter($this->parent_obj, 'lrs_type_id', '');
+        $this->ctrl->setParameter($this->parent_obj, 'lrs_type_id', '');
 
-        $actionList = new ilAdvancedSelectionListGUI();
-        $actionList->setListTitle($DIC->language()->txt('actions'));
-        $actionList->addItem($DIC->language()->txt('edit'), '', $link);
+        $actions[] = $this->dic->ui()->factory()->link()->standard($this->lng->txt('edit'), $link);
+        $dropdown = $this->dic->ui()->factory()->dropdown()->standard($actions)->withLabel($this->lng->txt('actions'));
 
-        return $actionList;
+        return $this->dic->ui()->renderer()->render($dropdown);
     }
 }

@@ -23,6 +23,8 @@
  */
 class ilWikiHandlerGUI implements ilCtrlBaseClassInterface
 {
+    protected string $requested_lang;
+    protected \ILIAS\Wiki\InternalDomainService $domain;
     protected string $requested_page;
     protected int $requested_ref_id;
     protected ilCtrl $ctrl;
@@ -44,15 +46,15 @@ class ilWikiHandlerGUI implements ilCtrlBaseClassInterface
 
         // initialisation stuff
         $this->ctrl = $ilCtrl;
-
+        $this->domain = $DIC->wiki()->internal()->domain();
         $request = $DIC
             ->wiki()
             ->internal()
             ->gui()
-            ->editing()
             ->request();
         $this->requested_ref_id = $request->getRefId();
         $this->requested_page = $request->getPage();
+        $this->requested_lang = $request->getTranslation();
 
         $DIC->globalScreen()->tool()->context()->claim()->repository();
     }
@@ -62,6 +64,9 @@ class ilWikiHandlerGUI implements ilCtrlBaseClassInterface
         $ilAccess = $this->access;
         $tpl = $this->tpl;
         $ilNavigationHistory = $this->nav_history;
+        $lang = ($this->requested_lang === "")
+            ? "-"
+            : $this->requested_lang;
 
         $next_class = $this->ctrl->getNextClass($this);
         if ($next_class == "") {
@@ -71,40 +76,26 @@ class ilWikiHandlerGUI implements ilCtrlBaseClassInterface
 
         // add entry to navigation history
         if ($ilAccess->checkAccess("read", "", $this->requested_ref_id)) {
+            $pm = $this->domain->page()->page($this->requested_ref_id);
             $obj_id = ilObject::_lookupObjId($this->requested_ref_id);
             $title = ilObject::_lookupTitle($obj_id);
+            $link = $pm->getPermaLinkByTitle(
+                $this->requested_page,
+                $lang
+            );
 
-            if ($this->requested_page !== "") {
-                $page = $this->requested_page;
-            } else {
-                $page = ilObjWiki::_lookupStartPage($obj_id);
-            }
-
-            if (ilWikiPage::exists($obj_id, $page)) {
-                $add = "_" . rawurlencode($page);
-
-                $page_id = ilWikiPage::getPageIdForTitle($obj_id, $page);
-                $ptitle = ilWikiPage::lookupTitle($page_id);
-
+            $page_id = (int) $pm->getPageIdForTitle($this->requested_page, $lang);
+            if ($page_id > 0) {
+                $ptitle = $pm->getTitle($page_id, $lang);
                 $title .= ": " . $ptitle;
 
-                $append = ($this->requested_page !== "")
-                    ? "_" . ilWikiUtil::makeUrlTitle($page)
-                    : "";
-                $goto = ilLink::_getStaticLink(
-                    $this->requested_ref_id,
-                    "wiki",
-                    true,
-                    $append
-                );
-                //var_dump($goto);
                 $ilNavigationHistory->addItem(
                     $this->requested_ref_id,
-                    "./goto.php?target=wiki_" . $this->requested_ref_id . $add,
+                    $link,
                     "wiki",
                     $title,
                     $page_id,
-                    $goto
+                    $link
                 );
             }
         }

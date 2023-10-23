@@ -14,10 +14,6 @@
  *
  ******************************************************************** */
 
-import terser from '@rollup/plugin-terser';
-import copyright from '../../../../../CI/Copyright-Checker/copyright';
-import preserveCopyright from '../../../../../CI/Copyright-Checker/preserveCopyright';
-
 il.Form = {
 
   duration: 150,
@@ -440,6 +436,6 @@ il.Form = {
 il.Util.addOnLoad(il.Form.init);
 
 // see #27281
-$(document).on('dp.show', function(event) {
+$(document).on('dp.show', (event) => {
   il.UI.page.fit($('.bootstrap-datetimepicker-widget'));
 });

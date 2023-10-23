@@ -30,6 +30,8 @@ use ILIAS\Exercise\GUIRequest;
 class ilExSubmissionGUI
 {
     public const MODE_OVERVIEW_CONTENT = 1;
+    protected \ILIAS\Exercise\InternalDomainService $domain;
+    protected \ILIAS\Exercise\InternalGUIService $gui;
 
     protected ilCtrl $ctrl;
     protected ilTabsGUI $tabs_gui;
@@ -48,18 +50,20 @@ class ilExSubmissionGUI
         ilExAssignment $a_ass,
         int $a_user_id = null
     ) {
-        /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
 
-        $this->user = $DIC->user();
-        $ilCtrl = $DIC->ctrl();
-        $ilTabs = $DIC->tabs();
-        $lng = $DIC->language();
-        $tpl = $DIC["tpl"];
-        $ilUser = $DIC->user();
+        $service = $DIC->exercise()->internal();
+        $this->gui = $gui = $service->gui();
+        $this->domain = $domain = $service->domain();
+
+        $this->user = $domain->user();
+        $ilCtrl = $gui->ctrl();
+        $ilTabs = $gui->tabs();
+        $lng = $domain->lng();
+        $tpl = $gui->ui()->mainTemplate();
 
         if (!$a_user_id) {
-            $a_user_id = $ilUser->getId();
+            $a_user_id = $this->user->getId();
         }
 
         $this->assignment = $a_ass;
@@ -118,7 +122,7 @@ class ilExSubmissionGUI
                     );
                 }
 
-                $gui = new ilExSubmissionTeamGUI($this->exercise, $this->submission);
+                $gui = $this->gui->getTeamSubmissionGUI($this->exercise, $this->submission);
                 $ilCtrl->forwardCommand($gui);
                 break;
 
@@ -138,11 +142,12 @@ class ilExSubmissionGUI
                 break;
 
             case "ilexpeerreviewgui":
+                /*
                 $this->tabs_gui->clearTargets();
                 $this->tabs_gui->setBackTarget(
                     $this->lng->txt("back"),
                     $this->ctrl->getLinkTarget($this, "returnToParent")
-                );
+                );*/
 
                 $peer_gui = new ilExPeerReviewGUI($this->assignment, $this->submission);
                 $this->ctrl->forwardCommand($peer_gui);
@@ -170,7 +175,6 @@ class ilExSubmissionGUI
         ilObjExercise $a_exc
     ): void {
         global $DIC;
-
         $ilCtrl = $DIC->ctrl();
 
         if (!$a_submission->canView()) {

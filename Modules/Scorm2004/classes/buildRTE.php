@@ -60,10 +60,10 @@ function minimizeJavascriptSimple(string $javascript): string
 //minimize all scripts
 foreach ($mandatory_scripts as $file) {
     $inp = file_get_contents($location . "/" . $file);
-//        jsMin should be renewed
-//        $jsMin = new JSMin($inp, false);
-//        $jsMin->minify();
-//        $a_outjsmin[] = $jsMin->out;
+    //        jsMin should be renewed
+    //        $jsMin = new JSMin($inp, false);
+    //        $jsMin->minify();
+    //        $a_outjsmin[] = $jsMin->out;
     $a_outjsmin[] = minimizeJavascriptSimple($inp);
     $outAr[] = $inp;
 }

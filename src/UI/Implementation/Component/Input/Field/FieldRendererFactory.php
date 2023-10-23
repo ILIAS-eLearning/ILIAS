@@ -36,7 +36,8 @@ class FieldRendererFactory extends Render\DefaultRendererFactory
                 $this->refinery,
                 $this->image_path_resolver,
                 $this->data_factory,
-                $this->help_text_retriever
+                $this->help_text_retriever,
+                $this->upload_limit_resolver
             );
         }
         return new Renderer(
@@ -47,7 +48,8 @@ class FieldRendererFactory extends Render\DefaultRendererFactory
             $this->refinery,
             $this->image_path_resolver,
             $this->data_factory,
-            $this->help_text_retriever
+            $this->help_text_retriever,
+            $this->upload_limit_resolver
         );
     }
 }

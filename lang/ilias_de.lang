@@ -1137,6 +1137,11 @@ assessment#:#result_units_info#:#Zum Beantworten der Frage werden die aktivierte
 assessment#:#result_x#:#Ergebnis %s
 assessment#:#results#:#Ergebnisse
 assessment#:#results_tab#:#Ergebnisse
+assessment#:#resulttable_all#:#Alle
+assessment#:#resulttable_correct#:#Korrekte
+assessment#:#resulttable_incorrect#:#Inkorrekte/Unvollständige
+assessment#:#resulttable_vc_sort_iooa#:#Reihenfolge im Test
+assessment#:#resulttable_vc_sort_posscore#:#Höchste (mögliche) Punktzahl zuerst
 assessment#:#review_view#:#Vorschau
 assessment#:#saveOrder#:#Sortierung abspeichern
 assessment#:#saveOrderAndObligations#:#Sortierung und Obligationen abspeichern
@@ -1192,6 +1197,7 @@ assessment#:#suggest_range#:#Bereich vorschlagen
 assessment#:#suggestedSolutionType#:#verweisen auf
 assessment#:#suggested_solution#:#Inhalte zur Wiederholung
 assessment#:#suggested_solution_added_successfully#:#Der Hinweis auf Inhalte zur Wiederholung wurde erfolgreich hinzugefügt!
+assessment#:#ta_resulttable_vc_mode_aria#:#Anzeigeoptionen für Fragen
 assessment#:#tab_nest_answers#:#Einrückung
 assessment#:#term#:#Term
 assessment#:#term_image#:#Bild
@@ -1885,6 +1891,7 @@ assessment#:#tst_title_output#:#Anzeige der Fragentitel
 assessment#:#tst_title_output_full#:#Fragentitel und erreichbare Punkte
 assessment#:#tst_title_output_hide_points#:#Nur Fragentitel
 assessment#:#tst_title_output_no_title#:#Weder Fragentitel noch erreichbare Punkte
+assessment#:#tst_title_output_only_points#:#Nur erreichbare Punkte
 assessment#:#tst_trigger_result_refreshing#:#Es erfolgt eine Neuberechnung des Ergebnisses. Dies kann eine Weile dauern.
 assessment#:#tst_type#:#Test-Typ
 assessment#:#tst_unchanged_answer_is_correct#:#Die vorgegebene Antwort ist korrekt.
@@ -2497,7 +2504,7 @@ book#:#book_period#:#Dauer
 book#:#book_pool_added#:#Ein Buchungspool wurde angelegt.
 book#:#book_pool_selection#:#Auswahl Buchungspool
 book#:#book_post_booking_file#:#Datei
-book#:#book_post_booking_information#:#Informationen nach einer Buchung
+book#:#book_post_booking_information#:#Reservierungsinformationen
 book#:#book_post_booking_text#:#Text
 book#:#book_post_booking_text_info#:#Die Platzhalter können genutzt werden, um Buchungsdetails zum Infotext hinzuzufügen.<br />Der Platzhalter [OBJECT] wird durch das jeweilige Buchungsobjekt ersetzt.<br />Der Platzhalter [PERIOD] wird durch den gewählten Buchungszeitraum ersetzt.
 book#:#book_pref_book_cron#:#Buchung mit Präferenzen
@@ -3951,6 +3958,7 @@ common#:#exc_files#:#Dateien
 common#:#exc_files_returned#:#Abgegebene Dateien
 common#:#exc_instruction#:#Arbeitsanweisung
 common#:#exc_last_submission#:#Datum der letzten Abgabe
+common#:#exc_member_of_crs_grp#:#Mitglied in Kurs/Gruppe
 common#:#exc_members_already_assigned#:#Die ausgewählten Benutzer sind bereits Mitglieder dieser Übungseinheit.
 common#:#exc_members_assigned#:#Die Benutzer wurden der Übung zugeordnet
 common#:#exc_members_comments_saved#:#Die Kommentare zu den Übungen der ausgewählten Benutzer wurden gespeichert.
@@ -4558,7 +4566,6 @@ common#:#mm_personal_and_shared_r#:#Persönliche und geteilte Ressourcen
 common#:#mm_personal_workspace#:#Persönlicher Arbeitsraum
 common#:#mm_portfolio#:#Portfolio
 common#:#mm_private_chats#:#Private Chats
-common#:#mm_rep_tree_view#:#Baumansicht
 common#:#mm_repo_tree_view#:#Baumansicht
 common#:#mm_repo_tree_view_act#:#Baumansicht an
 common#:#mm_repo_tree_view_deact#:#Baumansicht aus
@@ -4882,9 +4889,7 @@ common#:#obj_objf_desc#:#ILIAS-Objekttypen und -rechte. (Nur für Experten!)
 common#:#obj_orgu#:#Organisationseinheit
 common#:#obj_orgu_description#:#Anlage und Verwaltung der Organisationsstruktur
 common#:#obj_page#:#Seite
-common#:#obj_pdfg#:#PDF-Erstellung
-common#:#obj_pdfg_desc#:#Administrationseinstellungen für die PDF-Erstellung
-common#:#obj_peac#:#Akkordeon/Karussell
+common#:#obj_peac#:#Akkordeon
 common#:#obj_peadl#:#Erweiterte Liste
 common#:#obj_peadt#:#Erweiterte Tabelle
 common#:#obj_pecd#:#Code
@@ -5154,10 +5159,6 @@ common#:#path_to_zip#:#ZIP-Befehlszeile
 common#:#pathes#:#Pfade
 common#:#pd_items_news#:#Einschließlich Neuigkeiten der ausgewählten Objekte
 common#:#pdf_export#:#PDF-Export
-common#:#pdfg_edit_permission#:#Rechteeinstellungen ändern
-common#:#pdfg_read#:#Lesezugrif auf PDF-Erstellung
-common#:#pdfg_visible#:#PDF-Erstellungs ist sichtbar.
-common#:#pdfg_write#:#Einstellungen der PDF-Erstellung bearbeiten
 common#:#perm_settings#:#Rechte
 common#:#perma_link#:#Link zu dieser Seite
 common#:#permission#:#Recht
@@ -6578,6 +6579,7 @@ content#:#cont_linked_mobs#:#Verlinkte Medienobjekte
 content#:#cont_links#:#Links
 content#:#cont_list_files#:#Dateiverzeichnis
 content#:#cont_list_indent#:#Liste einrücken
+content#:#cont_list_item_style#:#Style Listeneintrag
 content#:#cont_list_outdent#:#Liste ausrücken
 content#:#cont_list_properties#:#Listen-Eigenschaften
 content#:#cont_lists#:#Listen
@@ -7259,6 +7261,9 @@ copg#:#copg_error_occured_modal#:#Es ist leider ein Fehler aufgetreten. Bitte dr
 copg#:#copg_est_reading_time#:#Geschätzte Lesezeit
 copg#:#copg_history_cleanup_cron#:#Seiteneditor Verlaufsbereinigung
 copg#:#copg_history_cleanup_cron_info#:#Löscht ältere Einträge aus dem Seiteneditorverlauf.
+copg#:#copg_list_item_style#:#Listeneintrag
+copg#:#copg_list_style#:#Liste
+copg#:#copg_list_styles#:#Listenformat
 copg#:#copg_page_element_not_found#:#Unbekanntes Seitenelement.
 copg#:#copg_page_type_stys#:#Seitenlayout
 copg#:#copg_questions_not_supported_here#:#In diesem Kontext werden keine Fragen unterstützt.
@@ -8598,7 +8603,7 @@ dcl#:#dcl_plugin_hooks#:#Verfügbare Erweiterungen
 dcl#:#dcl_plugin_no_hooks_available#:#Keine aktiven Field-Type Plugins gefunden.
 dcl#:#dcl_prev_record#:#Vorheriger Eintrag
 dcl#:#dcl_prop_expression#:#Ausdruck
-dcl#:#dcl_prop_expression_info#:#Gültige Operatoren: <b>%s</b><br>Unterstützte Funktionen: <b>%s</b><br>Verwenden Sie Klammern <b>"(", ")"</b> zum Gruppieren von Ausdrücken.<br>Zeichenketten und Platzhalter verbinden mit &: <b>"Das Resultat ist " & [[Int 1]] * [[Int 2]]</b><br>Verwenden der Funktionen: <b>SUM([[Int 1]];[[Int 2]])</b><br><br>Gültige Felder (auf den Titel klicken um als Platzhalter in Ausdruck einzufügen):<br>%s
+dcl#:#dcl_prop_expression_info#:#Gültige Operatoren: <b>%s</b><br>Unterstützte Funktionen: <b>%s</b><br>Verwenden Sie Klammern <b>"(", ")"</b> zum Gruppieren von Ausdrücken.<br>Zeichenketten und Platzhalter verbinden mit &: <b>"Das Resultat ist " & [[Int 1]] * [[Int 2]]</b><br>Verwenden der Funktionen: <b>SUM([[Int 1]];[[Int 2]])</b><br>Beim verwenden von Datums-Feldern und Zahlen-Feldern in einer Formel, weden die Zahlen-Feldern als Sekunden betrachtet und müssen bspw. mit 86400 multipliziert werden.<br><br>Gültige Felder (auf den Titel klicken um als Platzhalter in Ausdruck einzufügen):<br>%s
 dcl#:#dcl_public_comments#:#Kommentare
 dcl#:#dcl_public_comments_desc#:#Benutzer können Datensätze dieser Tabelle kommentieren.
 dcl#:#dcl_rating#:#Bewertung
@@ -9038,6 +9043,7 @@ exc#:#exc_adopt_group_teams_blocked#:#%s Benutzer waren bereits vorhanden.
 exc#:#exc_adopt_group_teams_conflict#:#Benutzer "%1$s" ist bereits in Gruppe "%2$s" gewählt.
 exc#:#exc_adopt_group_teams_no_members#:#Keine Mitglieder
 exc#:#exc_after_submission#:#Nach der Abgabe
+exc#:#exc_all#:#Alle
 exc#:#exc_all_new_files_offered_already#:#Alle neuen Dateien wurden bereits zum Download angeboten. Für einen erneuten Download klicken Sie bitte auf die entsprechenden Aktionslinks in der untenstehenden Liste.
 exc#:#exc_ass_submission_zip#:#Abgaben
 exc#:#exc_ass_team_wiki#:#Team-Wiki
@@ -9086,6 +9092,8 @@ exc#:#exc_deadline#:#Abgabetermin
 exc#:#exc_deadline_ext_mismatch#:#Die Nachfrist muss nach dem Abgabetermin enden.
 exc#:#exc_deadline_extended#:#Nachfrist
 exc#:#exc_deadline_extended_info#:#Im Zeitraum zwischen dem Abgabetermin und dem Ende der Nachfrist können verspätete Abgaben vorgenommen werden.
+exc#:#exc_deadline_not_set_yet#:#Noch nicht gesetzt
+exc#:#exc_deadline_requested#:#Angefragt
 exc#:#exc_delete_team#:#Team löschen
 exc#:#exc_deleted_user#:#Gelöschter Benutzer
 exc#:#exc_denied_has_peer_reviews#:#Grund: Einige Übungseinheiten haben Peer-Reviewing aktiviert.
@@ -9096,12 +9104,17 @@ exc#:#exc_direct_submit#:#Abgeben
 exc#:#exc_direct_submit_blog#:#Möchten Sie die aktuelle Version Ihres Blogs jetzt abgeben? Sie können dies auch jederzeit im Blog-Editor tun.
 exc#:#exc_direct_submit_portfolio#:#Möchten Sie die aktuelle Version Ihres Portfolios jetzt abgeben? Sie können dies auch jederzeit im Portfolio-Editor tun.
 exc#:#exc_down_files_started_bg#:#Ein ZIP-Archiv mit allen Download-Dateien wird jetzt im Hintergrund erstellt. Den Status Ihrer Hintergrundprozesse sehen Sie oben rechts in der Nachrichtenzentrale. Dort können Sie das ZIP-Archiv auch herunterladen.
+exc#:#exc_download_selected#:#Ausgewählte Abgaben herunterladen
 exc#:#exc_download_zip_structure#:#ZIP-Verzeichnisstruktur herunterladen
 exc#:#exc_earliest_start_time#:#Frühester Starttermin
 exc#:#exc_edit_assignment#:#Einstellungen der Übungseinheit
 exc#:#exc_edit_assignments#:#Übungseinheiten bearbeiten
+exc#:#exc_edit_blog#:#Blog bearbeiten
 exc#:#exc_edit_criterias#:#Kriterien bearbeiten
+exc#:#exc_edit_portfolio#:#Edit Portfolio
 exc#:#exc_edit_submission#:#Eingereichte Lösungen ändern
+exc#:#exc_edit_wiki#:#Wiki bearbeiten
+exc#:#exc_ended#:#Beendet
 exc#:#exc_ended_on#:#Beendet am
 exc#:#exc_export_excel#:#Export (Excel)
 exc#:#exc_fb_files#:#Bewertungsdateien
@@ -9114,8 +9127,12 @@ exc#:#exc_feedback_notification_subject#:#Feedback für Übungseinheit der Übun
 exc#:#exc_files_returned_text#:#Abgegebener Text
 exc#:#exc_find_zip_error#:#Die Abgabe kann nicht geöffnet werden. Die Originaldateien wurden nicht gefunden.
 exc#:#exc_fixed_date#:#Festes Datum
+exc#:#exc_fixed_date_individual#:#Nur individuelle Termine
+exc#:#exc_fixed_date_individual_info#:#Es gibt keinen gemeinsamen Abgabetermin. Es müssen individuelle Termine für alle Teilnehmer gesetzt werden.
 exc#:#exc_fixed_date_info#:#Alle Teilnehmenden erhalten zunächst das gleiche feste Abgabedatum.
 exc#:#exc_fullscreen#:#Vollbild
+exc#:#exc_future#:#Kommende
+exc#:#exc_given_feedback#:#Gegebene Feedbacks
 exc#:#exc_global_feedback_file#:#Musterlösung
 exc#:#exc_global_feedback_file_after_date#:#Nach festem Datum
 exc#:#exc_global_feedback_file_cron#:#Benachrichtigung bei Verfügbarkeit
@@ -9124,9 +9141,13 @@ exc#:#exc_global_feedback_file_date#:#Verfügbarkeit
 exc#:#exc_global_feedback_file_date_deadline#:#Nach dem Abgabetermin
 exc#:#exc_global_feedback_file_date_upload#:#Nach der Abgabe
 exc#:#exc_go_to_exercise#:#Zur Übung
+exc#:#exc_graded_mem_notified#:#Alle ausgewählten Teilnehmer mit einer Bewertung wurden benachrichtigt.
 exc#:#exc_grades#:#Notenübersicht
 exc#:#exc_grades_overview#:#Notenübersicht
 exc#:#exc_hand_in#:#Datei abgeben
+exc#:#exc_hand_in_lead_text#:#In %s abzugeben
+exc#:#exc_idl_request_and_tutor_needed#:#Bitte senden Sie eine Anfrage an Ihren Tutor. Dieser muss Ihnen eine individuelle Abgabefrist zuweisen.
+exc#:#exc_idl_tutor_needed#:#Ihre Anfrage wurde bereits gesendet und ist noch offen. Sie werden benachrichtigt, sobald Ihr Tutor Ihnen einen individuelle Abgabefrist zugeordnet hat.
 exc#:#exc_import#:#Übung importieren
 exc#:#exc_individual_deadline#:#Individueller Abgabetermin
 exc#:#exc_individual_deadline_action#:#Individuellen Abgabetermin setzen
@@ -9134,6 +9155,8 @@ exc#:#exc_individual_deadline_before_global#:#Das Datum muss hinter der (letzten
 exc#:#exc_instruction_files#:#Dateien zur Arbeitsanweisung
 exc#:#exc_late_submission#:#Verspätete Abgabe
 exc#:#exc_late_submission_warning#:#Abgaben nach %s werden als verspätet gekennzeichnet.
+exc#:#exc_lead_request_idl#:#Abgabefrist anfragen
+exc#:#exc_lead_wait_for_idl#:#Wartet auf individuelle Abgabefrist
 exc#:#exc_limit_characters#:#Anzahl der Zeichen beschränken
 exc#:#exc_list_submission#:#Alle Lösungsabgaben
 exc#:#exc_list_text_assignment#:#Liste aller Abgaben
@@ -9162,13 +9185,23 @@ exc#:#exc_min_nr#:#Anzahl Übungseinheiten
 exc#:#exc_min_nr_info#:#Dieser Wert muss mindestens so hoch sein, wie die Anzahl der verpflichtenden Übungseinheiten.
 exc#:#exc_min_team_participants#:#Minimale Anzahl
 exc#:#exc_msg_all_mandatory_ass#:#Sie müssen alle verpflichtenden Übungseinheiten bestehen, um die Übung als ganze zu bestehen.
+exc#:#exc_msg_deadline_request_body#:#Der folgende Benutzer hat eine individuelle Abgabefrist angefragt.
+exc#:#exc_msg_deadline_request_subject#:#Es wurde eine Abgabefrist in Übung "%s" angefragt.
 exc#:#exc_msg_failed_mandatory#:#Sie haben mindestens eine obgligatorische Übungseinheit nicht bestanden.
+exc#:#exc_msg_grading_done#:#Es wurde eine Übungseinheit in Übung "%s" bewertet.
+exc#:#exc_msg_grading_done_body#:#Ein Tutor hat Ihre Lösungsabgabe in Übung "%s" bewertet.
+exc#:#exc_msg_idl_set_body#:#Es wurde eine individuelle Abgabefrist für Sie durch den Tutor gesetzt.
+exc#:#exc_msg_idl_set_subject#:#Es wurde eine Abgabefrist in Übung "%s" gesetzt.
 exc#:#exc_msg_min_number_ass#:#Sie müssen mindestens %s Übungseinheiten bestehen, um die Übung zu bestehen.
 exc#:#exc_msg_missed_minimum_number#:#Sie haben die Mindestanzahl an Übungseinheiten nicht bestanden.
 exc#:#exc_msg_new_feedback_file_uploaded#:#Es wurde eine neue Feedback-Datei zur Übung "%s" hinzugefügt.
 exc#:#exc_msg_new_feedback_file_uploaded2#:#Eine neue Feedback-Datei wurde für Sie hochgeladen.
 exc#:#exc_msg_new_feedback_text_uploaded#:#Es wurde ein neuer Kommentar zur Übung "%s" hinzugefügt.
-exc#:#exc_msg_new_feedback_text_uploaded2#:#für folgende Einreichung wurde in ILIAS ein neuer Kommentar für Sie abgegeben:
+exc#:#exc_msg_new_feedback_text_uploaded2#:#Ein Tutor hat einen neuen Kommentar für Sie eingestellt.
+exc#:#exc_msg_new_message_from_pf_giver#:#Es wurde eine neue Mitteilung zur Übung "%s" hinzugefügt.
+exc#:#exc_msg_new_message_from_pf_giver2#:#Ein Peer-Feedback-Geber hat eine neue Mitteilung für Sie eingestellt:
+exc#:#exc_msg_new_message_from_pf_recipient#:#Es wurde eine neue Mitteilung zur Übung "%s" hinzugefügt.
+exc#:#exc_msg_new_message_from_pf_recipient2#:#Ein Peer-Feedback-Nehmer hat eine neue Mitteilung für Sie eingestellt:
 exc#:#exc_msg_participants_removed#:#Die Teilnehmer wurden aus der Übung entfernt.
 exc#:#exc_msg_public_submission#:#Alle Lösungsabgaben werden nach dem Abgabetermin veröffentlicht.
 exc#:#exc_msg_saved_grades#:#Die Änderungen wurden gespeichert.###Modified as part of gender mainstreaming activities for ILIAS 8
@@ -9180,12 +9213,18 @@ exc#:#exc_multi_feedback_files#:#Multi-Feedback-Dateien
 exc#:#exc_needs_deadline#:#Diese Option benötigt einen Abgabetermin.
 exc#:#exc_needs_fixed_deadline#:#Diese Funktion benötigt ein festes Abgabedatum.
 exc#:#exc_new_assignment#:#Neue Übungseinheit
+exc#:#exc_no_assignments#:#Keine Übungseinheiten vorhanden.
 exc#:#exc_no_assignments_available#:#Keine Übungseinheiten vorhanden. Bitte wählen Sie "Übungseinheiten" und "Bearbeiten", um eine Übungseinheit zu erstellen.
+exc#:#exc_no_deadline#:#Keine Abgabefrist
+exc#:#exc_no_deadline_info#:#Es gibt keinen Abgabetermin für die Teilnehmer.
 exc#:#exc_no_deadline_specified#:#Es wurde kein Abgabetermin festgelegt.
 exc#:#exc_no_feedback_dir_found_in_zip#:#Die Verzeichnisstruktur des hochgeladenen Zip-Archivs konnte nicht verarbeitet werden.
 exc#:#exc_no_get_target#:#Kein gültiges Link-Ziel gefunden.
+exc#:#exc_no_graded_mem_selected#:#Bitte wählen Sie mindestens einen Teilnehmer mit Bewertung aus.
 exc#:#exc_no_participants#:#Zur Zeit gibt es keine Teilnehmer.
+exc#:#exc_no_peer_feedback_deadline#:#Keine Frist für Abgabe des Feedbacks
 exc#:#exc_no_portfolio_templates#:#Es sind keine Portfoliovorlagen vorhanden.
+exc#:#exc_no_submission_yet#:#Bisher keine Abgabe
 exc#:#exc_no_team_yet#:#Keinem Team zugeordnet
 exc#:#exc_no_team_yet_info#:#Sie können selbst ein Team erstellen oder in ein anderes Team von dessen Teammitgliedern hinzugefügt werden.
 exc#:#exc_no_team_yet_info_tutor#:#Sie werden später einem Team zugewiesen.
@@ -9194,6 +9233,7 @@ exc#:#exc_note_for_tutor#:#Interne Bemerkung
 exc#:#exc_notification#:#Persönliche Benachrichtigung
 exc#:#exc_nr_random_mand#:#Anzahl verpflichtender Übungseinheiten
 exc#:#exc_num_teams#:#Anzahl
+exc#:#exc_ongoing#:#Laufende
 exc#:#exc_order_by_deadline#:#Nach Abgabetermin sortieren
 exc#:#exc_overview#:#Übersicht
 exc#:#exc_participant#:#Teilnehmer
@@ -9207,6 +9247,7 @@ exc#:#exc_pass_mode#:#Anforderung
 exc#:#exc_pass_mode_not_changeable_info#:#Diese Option kann nicht mehr geändert werden.
 exc#:#exc_passed_status_determination#:#Bewertung als „Bestanden“
 exc#:#exc_passing_exc#:#Bestehen der Übung
+exc#:#exc_past#:#Vergangene
 exc#:#exc_peer_deadline_mismatch#:#Da das Feedback erst nach dem Abgabetermin der Übungseinheit gegeben werden kann, darf die Deadline für das Feedback nicht vor dem Abgabedatum liegen.
 exc#:#exc_peer_review#:#Peer-Feedback
 exc#:#exc_peer_review_ass_setting_info#:#Nachdem der Abgabetermin und ggfs. die Nachfrist verstrichen sind, können Teilnehmer ihre Arbeitsergebnisse gegenseitig bewerten. Genaue Einstellungen zum Peer-Feedback werden im gleichnamigen Reiter vorgenommen. Der Reiter wird eingeblendet, wenn diese Option aktiviert und gespeichert wurde.
@@ -9254,9 +9295,11 @@ exc#:#exc_peer_review_show_missing#:#Sie können das erhaltene Feedback nicht ei
 exc#:#exc_peer_review_show_received_none#:#Sie haben kein Feedback erhalten.
 exc#:#exc_peer_review_simple_unlock#:#Anzeige der erhaltenen Bewertungen
 exc#:#exc_peer_review_simple_unlock_active#:#Nach Abgabe einer Bewertung
+exc#:#exc_peer_review_simple_unlock_immed#:#Erhaltene Feedbacks immer anzeigen
 exc#:#exc_peer_review_simple_unlock_inactive#:#Nach Abgabe aller Bewertungen
 exc#:#exc_peer_review_text#:#Texteingabe
 exc#:#exc_peer_review_updated#:#Ihr Feedback wurde gespeichert.
+exc#:#exc_peer_reviews_in_lead_text#:#In %s Feedback geben
 exc#:#exc_peer_reviews_invalid_warning#:#Ungültige Peer-Gruppen
 exc#:#exc_portfolio_created#:#Portfolio wurde erstellt.
 exc#:#exc_portfolio_returned#:#Portfolio zur Übungseinheit
@@ -9275,8 +9318,11 @@ exc#:#exc_random_assignment_info#:#Wenn Sie die Übung starten, wird Ihnen eine 
 exc#:#exc_random_selection#:#Zufällige Auswahl
 exc#:#exc_random_selection_info#:#Jedem Benutzer wird eine zufällige Auswahl an verpflichtenden Übungseinheiten zugeordnet.
 exc#:#exc_random_selection_not_changeable_info#:#Diese Option kann nicht aktiviert werden.
+exc#:#exc_received_feedback#:#Erhaltene Feedbacks
 exc#:#exc_rel_last_submission#:#Letzt möglicher Abgabetermin
 exc#:#exc_rel_last_submission_info#:#Wird dieses Datum gesetzt, so müssen alle Abgaben vor diesem Datum getätigt werden.
+exc#:#exc_rel_start_latest_lead_text#:#spätestens am %s
+exc#:#exc_rel_start_lead_text#:#%s Tage nach Starten abgeben
 exc#:#exc_relative_date#:#Relatives Datum
 exc#:#exc_relative_date_info#:#Das Abgabedatum ergibt sich aus dem Bearbeitungszeitraum und dem durch den Teilnehmer gewählten Startzeitpunkt.
 exc#:#exc_rem_time_after_start#:#Bearbeitungszeitraum nach Start
@@ -9301,6 +9347,9 @@ exc#:#exc_reminder_submit_setting#:#Teilnehmer an Abgaben erinnern
 exc#:#exc_reminder_submit_subject#:#Übungseinheit "%s" wurde noch nicht abgegeben
 exc#:#exc_reminders_cron#:#Erinnerungen für Übungseinheiten
 exc#:#exc_reminders_cron_info#:#Bei Aktivierung werden drei Erinnerungen versendet: Ausstehende Abgaben, ausstehende Bewertungen und ausstehende Peer-Feedbacks
+exc#:#exc_request_deadline#:#Abgabefrist anfragen
+exc#:#exc_requirement#:#Anforderung
+exc#:#exc_review_anytime#:#Jederzeit Feedback geben
 exc#:#exc_save_all#:#Alle speichern
 exc#:#exc_save_order#:#Reihenfolge speichern
 exc#:#exc_save_selected#:#Ausgewählte Eingaben speichern
@@ -9316,6 +9365,9 @@ exc#:#exc_select_portfolio_change#:#Anderes Portfolio benutzen
 exc#:#exc_select_portfolio_info#:#Bitte wählen Sie eines Ihrer Portfolios, um es in dieser Übungseinheit zu benutzen.
 exc#:#exc_select_portfolio_unlink#:#Portfolio entfernen
 exc#:#exc_send_assignment#:#Übungseinheit per Mail verschicken
+exc#:#exc_send_grading_notification#:#Benachrichtigung über Bewertung schicken
+exc#:#exc_set_failed#:#Auf 'nicht bestanden' setzen
+exc#:#exc_set_passed#:#Auf 'bestanden' setzen
 exc#:#exc_settings_feedback#:#Rückmeldung
 exc#:#exc_settings_feedback_file#:#Datei
 exc#:#exc_settings_feedback_file_info#:#Rückmeldungen werden als Datei hochgeladen und im Reiter „Übungseinheiten“ angezeigt. Die Teilnehmerinnen und Teilnehmer werden darüber per Mail benachrichtigt.
@@ -9336,11 +9388,13 @@ exc#:#exc_submission_file#:#Dateiabgabe
 exc#:#exc_submission_no_new_files#:#Keine neuen Abgaben vorhanden.
 exc#:#exc_submission_notification#:#Benachrichtigung bei Abgabe
 exc#:#exc_submission_notification_body#:#Eine neue Abgabe für die Übung "%s" liegt vor.
-exc#:#exc_submission_notification_info#:#Sie werden per Mail benachrichtigt, sobald neue Lösungen abgegeben wurden. Dies ist eine persönliche Einstellung, die nur für Sie gilt. Andere Personen, die Abgaben bewerten erhalten nur dann eine Mail, wenn auch sie diese Checkbox aktivieren.
+exc#:#exc_submission_notification_info#:#Sie werden per Mail benachrichtigt, sobald neue Lösungen abgegeben wurden oder Abgabefristen beantragt werden. Dies ist eine persönliche Einstellung, die nur für Sie gilt. Andere Tutoren der Übung sind davon nicht betroffen.
 exc#:#exc_submission_notification_link#:#Link zur Übung: %s
 exc#:#exc_submission_notification_subject#:#Eine neue Abgabe für die Übung "%s" liegt vor
+exc#:#exc_submission_open_notification_link#:#Abgabe öffnen: %s
 exc#:#exc_submission_text#:#Textabgabe
 exc#:#exc_submissions_and_grades#:#Abgaben und Noten
+exc#:#exc_submit_anytime#:#Jederzeit abgeben
 exc#:#exc_submit_convenience_no_deadline#:#Geben Sie nach Bearbeitung der Übungseinheit ab. Es gibt keinen festen Abgabetermin.
 exc#:#exc_submitted_files_deleted#:#Die ausgewählten Dateien wurden gelöscht.
 exc#:#exc_sure_unlink_portfolio#:#Möchten Sie das Portfolio aus dieser Übungseinheit entfernen?
@@ -9365,6 +9419,8 @@ exc#:#exc_tbl_feedback_time#:#Rückmeldung am
 exc#:#exc_tbl_filter_has_no_submission#:#Hat noch nicht abgegeben
 exc#:#exc_tbl_filter_has_submission#:#Hat abgegeben
 exc#:#exc_tbl_filter_submission#:#Abgabe
+exc#:#exc_tbl_filter_submission_after#:#Abgabe nach
+exc#:#exc_tbl_filter_submission_before#:#Abgabe vor
 exc#:#exc_tbl_individual_deadline#:#Individueller Abgabetermin
 exc#:#exc_tbl_mark#:#Note
 exc#:#exc_tbl_notice#:#Interne Anmerkung
@@ -9424,12 +9480,14 @@ exc#:#exc_text_assignment_show#:#Text anzeigen
 exc#:#exc_text_saved#:#Der Text wurde gespeichert.
 exc#:#exc_total_exc#:#Gesamte Übung
 exc#:#exc_total_members#:#Gesamtanzahl an Teilnehmern
+exc#:#exc_type#:#Type
 exc#:#exc_type_blog#:#Blog
 exc#:#exc_type_portfolio#:#Portfolio
 exc#:#exc_type_text#:#Text
 exc#:#exc_type_upload#:#Datei
 exc#:#exc_type_upload_team#:#Datei als Team einreichen
 exc#:#exc_value_can_not_set#:#Dieser Wert kann nicht gesetzt werden
+exc#:#exc_view_portfolio#:#Portfolio anzeigen
 exc#:#exc_wait_for_files#:#Der Download sollte automatisch starten. Bei Problemen klicken Sie bitte hier.
 exc#:#exc_wiki_container#:#Wiki-Container
 exc#:#exc_wiki_container_info#:#Ort in dem neue Wikis der Teilnehmer angelegt werden.
@@ -9442,6 +9500,7 @@ exc#:#exc_without_template_info#:#Teilnehmer erstellen ihre Portfolios selbstst�
 exc#:#exc_without_wiki_template#:#Ohne Vorlage
 exc#:#exc_without_wiki_template_info#:#Teilnehmer starten mit leerem Wiki.
 exc#:#exc_work_instructions#:#Arbeitsanweisung
+exc#:#exc_x_of_y#:#von
 exc#:#exc_your_text#:#Ihr Text
 exc#:#feedback#:#Feedback
 exc#:#feedback_from#:#Feedback von
@@ -9506,6 +9565,8 @@ file#:#copyright_inherited_info#:#Copyright des Zip-Archivs auf seine entpackten
 file#:#de_activate_icon#:#(De-)Aktivieren
 file#:#download_ascii_filename#:#Verwende ASCII-Zeichen für Dateinamen von Downloads
 file#:#download_ascii_filename_info#:#Dateinamen von Heruntergeladenen Dateien sollten nur ASCII-Zeichen enthalten. Option deaktivieren, um alle Zeichen zu verwenden.
+file#:#file_btn_lp_toggle_state_completed#:#Auf "Nicht bearbeitet" setzen
+file#:#file_btn_lp_toggle_state_not_completed#:#Auf "Bearbeitet" setzen
 file#:#file_copy#:#Datei kopieren
 file#:#file_download#:#Datei herunterladen
 file#:#file_import#:#Dateiimport
@@ -9516,6 +9577,7 @@ file#:#file_uploaded_by#:#Version hochgeladen von
 file#:#form_icon_creation#:#Icon erstellen
 file#:#form_icon_updating#:#Icon aktualisieren
 file#:#general_upload_error_occured#:#Beim Verarbeiten der Datei ist ein unerwartetet Fehler aufgetreten.
+file#:#important_info#:#Wichtige Informationen
 file#:#input_active#:#Aktiv
 file#:#input_desc_active#:#Dieses Icon aktivieren.
 file#:#input_desc_icon#:#Bild welches als Icon für Dateien mit den spezifizierten Suffixen verwendet werden soll.
@@ -9523,6 +9585,7 @@ file#:#input_desc_suffixes#:#Liste Komma-separierter Suffixe (Nur Buchstaben und
 file#:#input_icon#:#Icon
 file#:#input_suffixes#:#Suffixe
 file#:#migrated#:#Status
+file#:#mime_type#:#MIME-Type
 file#:#msg_confirm_entry_deletion#:#Wollen Sie den nachfolgenden Eintrag wirklich löschen?:
 file#:#msg_error_active_suffixes_blacklisted#:#Eine der gewählten Dateiendungen ist auf der globalen Blacklist und kann derzeit nciht genutzt werden.
 file#:#msg_error_active_suffixes_conflict#:#Fehler: Es dürfen nicht mehrere Icons für ein Suffix aktiv sein. Bitte deaktivieren Sie entweder dieses Icon oder das andere aktivierte Icon, dessen Suffixe sich mit jenen dieses Icons überschneiden.
@@ -10572,6 +10635,7 @@ lso#:#lso_members_gallery#:#Mitgliedergalerie
 lso#:#lso_members_print_title#:#Lernsequenzmitglieder
 lso#:#lso_min_one_admin#:#Dieser Lernsequenz muß mindestens ein Administrator zugeordnet bleiben.
 lso#:#lso_msg_member_assigned#:#Benutzer wurde(n) in die Lernsequenz aufgenommen
+lso#:#lso_multidownload_not_available#:#Das Herunterladen verschiedener Objekte ist derzeit nicht für Lernsequenz Objekten verfügbar.
 lso#:#lso_new_status#:#Ihr neuer Status:
 lso#:#lso_notification#:#Benachrichtigung
 lso#:#lso_notification_explanation_admin#:#Sie erhalten diese Mail, da für Sie als Lernsequenzbetreuung die Benachrichtigungen aktiviert sind.
@@ -11019,7 +11083,7 @@ mail#:#mail_maxsize_attachment_error#:#Die maximale Dateigröße beträgt:
 mail#:#mail_member_notification#:#Teilnehmerbenachrichtigung
 mail#:#mail_members_of_mailing_list#:#Mitglieder der Verteilerliste "%s"
 mail#:#mail_members_search_continue#:#Weiter
-mail#:#mail_message_send#:#Die Mail wurde versandt
+mail#:#mail_message_send#:#Die Mail wurde versandt.
 mail#:#mail_move_error#:#Fehler beim Mailversand
 mail#:#mail_move_to#:#Verschieben nach:
 mail#:#mail_move_to_folder_btn_label#:#Mail verschieben
@@ -12351,11 +12415,16 @@ notes#:#note_add_note#:#Notiz hinzufügen
 notes#:#note_content_removed#:#Der Inhalt wurde entfernt.
 notes#:#note_text#:#Text
 notes#:#note_update_comment#:#Kommentar bearbeiten
+notes#:#note_update_message#:#Mitteilung bearbeiten
 notes#:#note_update_note#:#Notiz bearbeiten
 notes#:#note_without_object#:#Ohne Objektbezug
 notes#:#notes_activate_comments#:#Öffentliches Kommentieren aktivieren
 notes#:#notes_add_comment#:#Kommentar hinzufügen
 notes#:#notes_add_edit_comment#:#Kommentar hinzufügen/editieren
+notes#:#notes_add_edit_message#:#Mitteilung hinzufügen/editieren
+notes#:#notes_add_edit_note#:#Notiz hinzufügen/editieren
+notes#:#notes_add_message#:#Mitteilung hinzufügen
+notes#:#notes_add_note#:#Notiz hinzufügen
 notes#:#notes_all_comments#:#Alle Kommentare
 notes#:#notes_comment#:#Kommentar
 notes#:#notes_comment_deleted#:#Der Kommentar wurde gelöscht
@@ -12363,13 +12432,20 @@ notes#:#notes_comments#:#Kommentare
 notes#:#notes_comments_deleted#:#Die Kommentare wurden gelöscht.
 notes#:#notes_deactivate_comments#:#Öffentliches Kommentieren ausschalten
 notes#:#notes_delete_comment#:#Soll der folgende Kommentar wirklich gelöscht werden?
+notes#:#notes_delete_message#:#Soll die folgende Mitteilung wirklich gelöscht werden?
 notes#:#notes_delete_note#:#Soll die folgende Notiz wirklich gelöscht werden?
 notes#:#notes_hide_comments#:#Kommentare ausblenden
 notes#:#notes_html_export#:#HTML Export
 notes#:#notes_latest_comment#:#Letzter Kommentar
+notes#:#notes_latest_message#:#Letzte Mitteilung
+notes#:#notes_message_author_counterpart#:#Gesprächspartner
+notes#:#notes_message_author_you#:#Sie
+notes#:#notes_messages#:#Mitteilungen
 notes#:#notes_my_comments#:#Meine Kommentare
 notes#:#notes_no_comments#:#Bisher wurde noch kein Kommentar abgegeben.
 notes#:#notes_no_comments_found#:#Es wurden keine Kommentare gefunden, die den Suchkriterien entsprechen.
+notes#:#notes_no_messages#:#Bisher wurde noch keine Mitteilung hinzugefügt.
+notes#:#notes_no_messages_found#:#Es wurden keine Mitteilungen gefunden, die den Suchkriterien entsprechen.
 notes#:#notes_no_notes#:#Bisher wurde noch kein Notiz hinzugefügt.
 notes#:#notes_no_notes_found#:#Es wurden keine Notizen gefunden, die den Suchkriterien entsprechen.
 notes#:#notes_note_deleted#:#Die Notiz wurde gelöscht
@@ -12636,72 +12712,6 @@ pd#:#pd_upcoming#:#Bevorstehend
 pd#:#pd_view_select_at_least_one#:#Bitte wählen Sie mindestens eine Sicht, entweder 'Ausgewählte Angebote' und/oder 'Kurse und Gruppen'.
 pdesk#:#bookmark_moved_ok#:#Bookmark wurde verschoben.
 pdesk#:#bookmark_select_target#:#Bitte wählen Sie das Ziel.
-pdfgen#:#checkbox_checked_svg#:#Pfad zum ausgewähltem Checkbox SVG
-pdfgen#:#checkbox_svg#:#Pfad zum Checkbox SVG
-pdfgen#:#cleanup#:#Bereinigen
-pdfgen#:#config#:#Config
-pdfgen#:#config_not_saved#:#Speichern fehlgeschlagen.
-pdfgen#:#config_saved#:#Speichern erfolgreich.
-pdfgen#:#configure#:#Konfiguriere Renderer
-pdfgen#:#enable_forms#:#Formulare aktivieren
-pdfgen#:#enable_forms_info#:#Wandelt HTML Formulare in PDF Formulare um
-pdfgen#:#external_links#:#Externe Links
-pdfgen#:#external_links_info#:#Erzeugt links zu externen Webseiten
-pdfgen#:#footer_height#:#Höhe Fußzeile
-pdfgen#:#footer_html#:#Html
-pdfgen#:#footer_line#:#Trennlinie
-pdfgen#:#footer_show_pages#:#Zeige Seitenzahlen
-pdfgen#:#footer_text#:#Text
-pdfgen#:#footer_text_center#:#Text Mitte
-pdfgen#:#footer_text_left#:#Text links
-pdfgen#:#footer_text_right#:#Text rechts
-pdfgen#:#footer_type#:#Fußzeile
-pdfgen#:#greyscale#:#Graustufen
-pdfgen#:#greyscale_info#:#PDF wird in Graustufen erzeugt
-pdfgen#:#head_text#:#Text
-pdfgen#:#header_height#:#Höhe Kopfzeile
-pdfgen#:#header_line#:#Trennlinie
-pdfgen#:#header_show_pages#:#Zeige Seitenzahlen
-pdfgen#:#header_text_center#:#Text Mitte
-pdfgen#:#header_text_left#:#Text links
-pdfgen#:#header_text_right#:#Text rechts
-pdfgen#:#header_type#:#Kopfzeile
-pdfgen#:#html#:#Html
-pdfgen#:#image_scale#:#Bildskalierung
-pdfgen#:#javascript_delay#:#Javascript Verzögerung
-pdfgen#:#javascript_delay_info#:#Wenn JavaScript genutzt wird, um Seiteninhalte zu rendern, sorgt die Verzögerung dafür, dass diese Inhalte auch im PDF erscheinen. Die Standardverzögerung von 200ms sollte in den meisten Fällen ausreichen.
-pdfgen#:#low_quality#:#Niedrige Qualität
-pdfgen#:#low_quality_info#:#Erzeugt PDF mit reduzierter Qualität, wodurch diese eine kleinere Dateigröße bekommen.
-pdfgen#:#margin#:#Rand
-pdfgen#:#margin_bottom#:#Margin unten
-pdfgen#:#margin_info#:#Rand in mm z.B. 10mm
-pdfgen#:#margin_left#:#Margin links
-pdfgen#:#margin_right#:#Margin rechts
-pdfgen#:#margin_top#:#Margin oben
-pdfgen#:#none#:#Keine
-pdfgen#:#orientation#:#Orientierung
-pdfgen#:#output_options#:#Ausgabeoptionen
-pdfgen#:#overwrite_font#:#Schriftart überschreiben
-pdfgen#:#overwrite_font_info#:#Nutzen sie hier Eingaben wie: 'serif', 'sans-serif', 'monospace' usw.
-pdfgen#:#page_settings#:#Seiteneinstellungen
-pdfgen#:#page_size#:#Seitengröße
-pdfgen#:#path#:#Pfad zum Programm
-pdfgen#:#preferred_renderer#:#Bevorzugter Renderer
-pdfgen#:#print_media_info#:#Es wird der "print" media-type genutzt anstatt "screen"
-pdfgen#:#print_media_type#:#Benutze 'Druck Media Type' anstatt 'Bildschirm'
-pdfgen#:#problem_with_purposes#:#Es wurde ein Problem in der Konfiguration festgestellt. Nutzen Sie bitte den Button "Bereinigen", um das Problem zu lösen.
-pdfgen#:#radio_button_checked_svg#:#Pfad zum ausgewähltem Radiobutton SVG
-pdfgen#:#radio_button_svg#:#Pfad zum Radiobutton SVG
-pdfgen#:#reset_to_default#:#Default Einstellungen laden
-pdfgen#:#selected_renderer#:#Gewählter Renderer
-pdfgen#:#spacing#:#Abstand
-pdfgen#:#text#:#Text
-pdfgen#:#user_stylesheet#:#Benutzer Stylesheet
-pdfgen#:#viewport#:#Viewport
-pdfgen#:#viewport_info#:#Viewport in Pixeln z.B "1920*1080"
-pdfgen#:#webkit#:#wkhtmltopdf
-pdfgen#:#wkhtml_config#:#Konfiguration für WKHTML
-pdfgen#:#zoom#:#Zoom
 poll#:#poll_absolute#:#Aktuelle Stimmen
 poll#:#poll_activation_online_info#:#Wählen Sie diese Einstellung, um die Abstimmung für Benutzer verfügbar zumachen.
 poll#:#poll_add#:#Abstimmung anlegen
@@ -13089,6 +13099,7 @@ prtf#:#prtf_add_new_blog#:#Neues Blog hinzufügen
 prtf#:#prtf_add_new_blog_info#:#Das neue Blog wird Ihren persönlichen Ressourcen hinzugefügt.
 prtf#:#prtf_add_page#:#Seite hinzufügen
 prtf#:#prtf_add_portfolio#:#Portfolio hinzufügen
+prtf#:#prtf_add_portfolio_from_template#:#Portfolio aus Vorlage hinzufügen
 prtf#:#prtf_all_pages#:#Gesamtes Portfolio
 prtf#:#prtf_allow_html#:#HTML/Javascript erlauben
 prtf#:#prtf_allow_html_info#:#Benutzer können HTML oder Javascript in Ihren Portfolio-Seiten verwenden. Dies kann zu Sicherheitsproblemen führen.
@@ -13129,7 +13140,7 @@ prtf#:#prtf_link#:#Link
 prtf#:#prtf_manage_portfolios#:#Portfolios verwalten
 prtf#:#prtf_new_portfolio#:#Neues Portfolio
 prtf#:#prtf_no_blogs_info#:#Wenn Sie im Bereich "%s" einen Blog anlegen, können Sie dieses auch als Teil Ihres Portfolios verwenden.
-prtf#:#prtf_no_offline_share_info#:#Das Portfolio muss zunächst online gesetzt werden bevor es für bestimmte Benutzer freigegeben werden kann.
+prtf#:#prtf_no_offline_share_info#:#Das Portfolio muss zunächst online gesetzt werden, bevor es für bestimmte Benutzer freigegeben werden kann.
 prtf#:#prtf_no_submission#:#Keine Abgabe
 prtf#:#prtf_page_created#:#Seite wurde hinzugefügt
 prtf#:#prtf_page_element_my_courses_info#:#Dies ist eine Liste aller Kurse, in denen ich Mitglied bin und die aktuell online sind.
@@ -13143,8 +13154,9 @@ prtf#:#prtf_page_type_prtf#:#Portfolioseite
 prtf#:#prtf_page_type_prtt#:#Portfoliovorlagenseite
 prtf#:#prtf_pages_copied#:#Die Seiten wurden kopiert.
 prtf#:#prtf_pdf#:#Exportieren als PDF
+prtf#:#prtf_permanent_link#:#Link zum Portfolio:
 prtf#:#prtf_portfolio_created#:#Portfolio wurde hinzugefügt
-prtf#:#prtf_portfolio_created_from_template#:#Dies ist die Vorschau Ihres neuen Portfolios. Um neue Seiten und Inhalte hinzuzufügen klicken Sie bitte auf "Bearbeiten" oben in dieser Ansicht.
+prtf#:#prtf_portfolio_created_from_template#:#Dies ist die Vorschau Ihres neuen Portfolios. Um neue Inhalte und Seiten hinzuzufügen, klicken Sie in dieser Ansicht bitte auf "Portfolio bearbeiten" oder "Seite bearbeiten".
 prtf#:#prtf_portfolio_deleted#:#Portfolio wurde gelöscht
 prtf#:#prtf_portfolio_page_deleted#:#Portfolio- bzw. Blog-Seite wurde gelöscht.
 prtf#:#prtf_portfolios#:#Portfolios
@@ -13175,6 +13187,8 @@ prtf#:#prtf_signature_date#:#Datum, Unterschrift
 prtf#:#prtf_signature_info#:#Das PDF enthält ein Feld, in welchem die Benutzer unterschreiben können.
 prtf#:#prtf_style#:#Portfolio-Style
 prtf#:#prtf_submission_on#:#Abgabe am $1
+prtf#:#prtf_successfully_shared_prtf#:#Bestätigung der Freigabe Ihres Portfolios "%s"
+prtf#:#prtf_successfully_shared_prtf_body#:#Sie haben Ihr Portfolio "%s" erfolgreich freigegeben für:
 prtf#:#prtf_sure_delete_portfolio_pages#:#Wollen Sie die folgende Portfolio- bzw. Blog-Seite wirklich löschen?
 prtf#:#prtf_sure_delete_portfolios#:#Wollen Sie das folgende Portfolio wirklich löschen?
 prtf#:#prtf_tab_other_users#:#Portfolios anderer Benutzer
@@ -13188,6 +13202,7 @@ prtf#:#prtf_template_title#:#Portfoliovorlage
 prtf#:#prtf_unset_as_default#:#Nicht als Mein Profil verwenden
 prtf#:#prtf_unset_default_share_info#:#Die Änderungen wurden gespeichert. Bitte überprüfen Sie die aktuellen Freigaben für das Portfolio.
 prtf#:#prtf_use_page_layout#:#Seitenlayout benutzen
+prtf#:#prtf_visible_for_tutor#:#Einsehbar für Tutor
 prtf#:#prtt_title_info#:#Bitte beachten Sie, dass dieser Titel auch für die aus der Vorlage erstellten Porfolios verwendet wird.
 prtt#:#prtt_activation_limited_visibility_info#:#Falls aktiv, ist die Portfoliovorlage auch außerhalb der Zugriffszeiten sichtbar.
 prtt#:#prtt_activation_online_info#:#Wählen Sie diese Einstellung, um die Portfoliovorlage für Benutzer verfügbar zu machen.
@@ -13355,6 +13370,7 @@ rbac#:#activate_wiki_protection#:#Schreibschutz aktivieren
 rbac#:#active_preconditions#:#Definierte Vorbedingungen
 rbac#:#add_consultation_hours#:#Sprechstundentermine anlegen
 rbac#:#add_consume_provider#:#Eigene LTI-Provider-Einstellungen hinzufügen
+rbac#:#add_pages#:#Seiten erstellen
 rbac#:#add_reply#:#Antwort anlegen
 rbac#:#add_thread#:#Thema anlegen
 rbac#:#adm_edit_permission#:#Rechteeinstellungen für die Allgemeinen Einstellungen der Administration ändern
@@ -14215,10 +14231,11 @@ rbac#:#webr_read#:#Weblinks aufrufen
 rbac#:#webr_visible#:#Weblinks sind sichtbar
 rbac#:#webr_write#:#Einstellungen der Weblinks bearbeiten
 rbac#:#wiki_activate_wiki_protection#:#Schreibschutz für einzelne Wikiseiten aktivieren
+rbac#:#wiki_add_pages#:#Wiki-Seiten erstellen
 rbac#:#wiki_copy#:#Wiki kopieren
 rbac#:#wiki_delete#:#Wiki löschen oder verschieben
 rbac#:#wiki_delete_wiki_pages#:#Wikiseiten löschen
-rbac#:#wiki_edit_content#:#Wiki-Seiten anlegen und bearbeiten
+rbac#:#wiki_edit_content#:#Wiki-Seiten bearbeiten
 rbac#:#wiki_edit_page_meta#:#Wikiseitenmetadaten bearbeiten
 rbac#:#wiki_edit_permission#:#Rechteeinstellungen ändern
 rbac#:#wiki_edit_wiki_navigation#:#Wiki-Navigation bearbeiten
@@ -15396,6 +15413,8 @@ style#:#sty_lightness_header_text#:#Helligkeit Überschrift Text
 style#:#sty_line_height#:#Zeilenhöhe
 style#:#sty_link_char#:#Link
 style#:#sty_list_char#:#Liste
+style#:#sty_list_style_position#:#Listenstil/Position
+style#:#sty_list_style_type#:#Listenstil/Type
 style#:#sty_make_global_default#:#Standard-Style
 style#:#sty_make_global_fixed#:#Erzwungener Style für alle Objekte
 style#:#sty_margin#:#Außenrand
@@ -15414,6 +15433,7 @@ style#:#sty_name#:#Name
 style#:#sty_nr_learning_modules#:#Anzahl der Lernmodule
 style#:#sty_odd_col_class#:#Ungerade Spalten
 style#:#sty_odd_row_class#:#Ungerade Zeilen
+style#:#sty_ol#:#Geordnete Liste
 style#:#sty_opacity#:#Deckkraft
 style#:#sty_opt_saved#:#Einstellungen gespeichert
 style#:#sty_order#:#Reihenfolge
@@ -15577,6 +15597,7 @@ style#:#sty_type_va_icont#:#Vert. Akkordeonelement Inhalt
 style#:#sty_type_va_ihcap#:#Vert. Akkordeonelement Überschrift
 style#:#sty_type_va_ihead#:#Vert. Akkordeonelement Kopf
 style#:#sty_type_va_iheada#:#Vert. Akkordeonelement Kopf (aktiv)
+style#:#sty_ul#:#Ungeordnete Liste
 style#:#sty_va_cntr_class#:#Vert. Akkordeon Container
 style#:#sty_va_icntr_class#:#Vert. Akkordeonelement Container
 style#:#sty_va_icont_class#:#Vert. Akkordeonelement Inhalt
@@ -16810,8 +16831,8 @@ ui#:#label_fieldselection_refresh#:#Anwenden
 ui#:#label_pagination_limit#:#Pagination - Anzahl der Zeilen
 ui#:#label_pagination_offset#:#Pagination - Start
 ui#:#label_sortation#:#Sortierung
-ui#:#presentaion_table_collapse#:#alle minimieren
-ui#:#presentaion_table_expand#:#alle zeigen
+ui#:#presentation_table_collapse#:#alle minimieren
+ui#:#presentation_table_expand#:#alle zeigen
 ui#:#ui_chars_max#:#Maximum:
 ui#:#ui_chars_min#:#Minimum:
 ui#:#ui_chars_remaining#:#Verbleibende Buchstaben
@@ -17076,6 +17097,8 @@ wiki#:#wiki_link_md_values#:#Automatische Verlinkung
 wiki#:#wiki_link_md_values_info#:#Verlinkt automatisch Eigenschaftenwerte im Seitenblock mit gleichlautenden Wikiseiten (wenn vorhanden).
 wiki#:#wiki_link_text#:#Linktext
 wiki#:#wiki_mark#:#Note
+wiki#:#wiki_master_existing#:#Seite existiert in Basissprache
+wiki#:#wiki_master_title#:#Seitentitel in Basissprache
 wiki#:#wiki_navigation#:#Wiki-Navigation
 wiki#:#wiki_navigation_info#:#Hier können Sie bestehende Wikiseiten zum Navigationsblock hinzufügen und entfernen.
 wiki#:#wiki_new_page#:#Neue Seite
@@ -17083,9 +17106,11 @@ wiki#:#wiki_new_page_name#:#Neuer Seitentitel
 wiki#:#wiki_new_pages#:#Neue Seiten
 wiki#:#wiki_news_page_changed#:#Die Wikiseite wurde geändert.
 wiki#:#wiki_news_page_created#:#Die Wikiseite wurde erstellt.
+wiki#:#wiki_no_master#:#Seite existiert nicht in Basissprache
 wiki#:#wiki_no_page_found#:#Es wurden keine Seiten zum Suchbegriff '$1' gefunden.
 wiki#:#wiki_no_search_term#:#Es wurde kein Suchbegriff eingegeben. Nachfolgend werden alle Wikiseiten aufgelistet.
 wiki#:#wiki_no_start_page#:#Das Wiki hat keine gültige Startseite
+wiki#:#wiki_not_existing#:#existiert noch nicht
 wiki#:#wiki_notgraded#:#Nicht bewertet
 wiki#:#wiki_notification_activate_page#:#Benachrichtigung für Wiki-Seite aktivieren
 wiki#:#wiki_notification_activate_wiki#:#Benachrichtigung für Wiki aktivieren
@@ -17109,6 +17134,7 @@ wiki#:#wiki_page_deleted#:#Die Wiki-Seite wurde gelöscht.
 wiki#:#wiki_page_deletion_confirmation#:#Wollen Sie diese Wiki-Seite wirklich löschen?
 wiki#:#wiki_page_exists#:#Bestehende Seite
 wiki#:#wiki_page_hits#:#Seitenaufrufe
+wiki#:#wiki_page_in_master_language#:#Seite in Basissprache
 wiki#:#wiki_page_list_form_info#:#Fügt eine Liste mit Wiki-Seiten hinzu, die nachfolgenden Metadaten zugeordnet sind. Es werden nur durchsuchbare Metadatenfelder aus den Metadatensätzen des Wikis angeboten.
 wiki#:#wiki_page_list_mode#:#Listentyp
 wiki#:#wiki_page_list_mode_ordered#:#Nummeriert
@@ -17196,6 +17222,9 @@ wiki#:#wiki_templ_add_to_page#:#Verfügbar für bestehende Seite
 wiki#:#wiki_templ_new_pages#:#Verfügbar für neue Seite
 wiki#:#wiki_template_added#:#Inhaltsvorlage hinzugefügt
 wiki#:#wiki_template_status_removed#:#Nutzung als Inhaltsvorlage aufgehoben.
+wiki#:#wiki_translate_page_master_info#:#Sie erstellen eine neue Übersetzungsseite. Bitte geben Sie an, ob es sich um die Übersetzung einer bestehenden Seite handelt oder ob es eine komplett neue Seite ist. Im zweiten Fall müssen Sie den Titel in der Basissprache angeben.
+wiki#:#wiki_translation_page#:#Übersetzungsseite
+wiki#:#wiki_translations#:#Übersetzungen
 wiki#:#wiki_type_wiki_team#:#Team-Wiki
 wiki#:#wiki_unblock_page#:#Schreibschutz aufheben
 wiki#:#wiki_unhide_meta_adv_records#:#Benutzerdefinierte Metadaten anzeigen
@@ -17230,6 +17259,7 @@ wsp#:#wsp_permission_registered_info#:#Dieses Objekt ist für alle registrierten
 wsp#:#wsp_permission_removed#:#Der Eintrag wurde gelöscht.
 wsp#:#wsp_permissions#:#Freigabe
 wsp#:#wsp_personal_resources_description#:#Hier können Sie persönliche Dateien, Blogs und Nachweise verwalten.
+wsp#:#wsp_send_mail#:#Mail senden
 wsp#:#wsp_set_permission_all#:#Internet/WWW
 wsp#:#wsp_set_permission_all_password#:#Internet/WWW mit Passwort
 wsp#:#wsp_set_permission_course#:#Kursmitglieder
@@ -17237,7 +17267,7 @@ wsp#:#wsp_set_permission_group#:#Gruppenmitglieder
 wsp#:#wsp_set_permission_registered#:#Alle registrierten Benutzer
 wsp#:#wsp_set_permission_single_user#:#Ausgewählte Benutzer
 wsp#:#wsp_share_search_users#:#Benutzer suchen
-wsp#:#wsp_share_success#:#Ein neuer Eintrag wurde hinzugefügt.
+wsp#:#wsp_share_success#:#Die Ressource wurde freigegeben.
 wsp#:#wsp_share_with_members#:#Für Mitglieder freigeben
 wsp#:#wsp_share_with_users#:#Für Benutzer freigeben
 wsp#:#wsp_shared_date#:#Freigabedatum

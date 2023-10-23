@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -24,6 +26,9 @@ use ILIAS\BookingManager\InternalGUIService;
  */
 class ProcessUtilGUI
 {
+    protected \ILIAS\BookingManager\StandardGUIRequest $request;
+    protected \ilCtrl $ctrl;
+    protected \ilLogger $log;
     protected \ilObjBookingPool $pool;
     protected \ilBookingHelpAdapter $help;
     protected InternalGUIService $gui;
@@ -35,29 +40,37 @@ class ProcessUtilGUI
         InternalGUIService $gui_service,
         \ilObjBookingPool $pool,
         object $parent_gui
-    )
-    {
+    ) {
         $this->gui = $gui_service;
         $this->domain = $domain_service;
+        $this->log = $domain_service->log();
         $this->help = $gui_service->bookingHelp($pool);
         $this->parent_gui = $parent_gui;
         $this->pool = $pool;
+        $this->ctrl = $this->gui->ctrl();
+        $this->request = $this->gui->standardRequest();
     }
 
     // Back to parent
-    public function back() : void
+    public function back(): void
     {
-        $ctrl = $this->gui->ctrl();
-        $ctrl->returnToParent($this->parent_gui);
+        $this->log->debug("back");
+        $retCmd = $this->request->getReturnCmd();
+        $this->log->debug("returnCmd is " . $retCmd);
+        if ($retCmd !== "") {
+            $this->ctrl->redirectByClass(get_class($this->parent_gui), $retCmd);
+        } else {
+            $this->ctrl->returnToParent($this->parent_gui);
+        }
     }
 
-    public function setHelpId(string $a_id) : void
+    public function setHelpId(string $a_id): void
     {
         $this->help->setHelpId($a_id);
     }
 
     // Table to assign participants to an object.
-    public function assignParticipants(int $book_obj_id) : void
+    public function assignParticipants(int $book_obj_id): void
     {
         $tabs = $this->gui->tabs();
         $ctrl = $this->gui->ctrl();
@@ -97,7 +110,8 @@ class ProcessUtilGUI
         int $a_obj_id,
         string $post_info_cmd,
         array $a_rsv_ids = null
-    ) : void {
+    ): void {
+        $this->log->debug("handleBookingSuccess");
         $main_tpl = $this->gui->mainTemplate();
         $ctrl = $this->gui->ctrl();
         $lng = $this->domain->lng();
@@ -136,8 +150,8 @@ class ProcessUtilGUI
         int $book_obj_id,
         int $user_id,
         string $file_deliver_cmd
-    ) : void
-    {
+    ): void {
+        $this->log->debug("displayPostInfo");
         $main_tpl = $this->gui->mainTemplate();
         $ctrl = $this->gui->ctrl();
         $lng = $this->domain->lng();
@@ -233,8 +247,8 @@ class ProcessUtilGUI
     public function deliverPostFile(
         int $book_obj_id,
         int $user_id
-    ) : void
-    {
+    ): void {
+        $this->log->debug("deliverPostFile");
         $id = $book_obj_id;
         if (!$id) {
             return;

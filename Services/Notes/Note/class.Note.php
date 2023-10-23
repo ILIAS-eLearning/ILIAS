@@ -27,6 +27,7 @@ class Note
 {
     public const PRIVATE = 1;
     public const PUBLIC = 2;
+    public const MESSAGE = 3;
 
     protected int $id = 0;
     protected ?string $update_date;
@@ -34,6 +35,7 @@ class Note
     protected int $author = 0;
     protected int $type = 0;
     protected string $text = "";
+    protected int $recipient = 0;
     protected Context $context;
 
     public function __construct(
@@ -43,7 +45,8 @@ class Note
         int $author,
         int $type = self::PRIVATE,
         ?string $creation_date = null,
-        ?string $update_date = null
+        ?string $update_date = null,
+        ?int $recipient = 0
     ) {
         $this->id = $id;
         $this->context = $context;
@@ -52,6 +55,7 @@ class Note
         $this->type = $type;
         $this->update_date = $update_date;
         $this->creation_date = $creation_date;
+        $this->recipient = $recipient;
     }
 
     public function withCreationDate(string $creation_date): self
@@ -95,4 +99,10 @@ class Note
     {
         return $this->update_date;
     }
+
+    public function getRecipient(): int
+    {
+        return $this->recipient;
+    }
+
 }

@@ -33,11 +33,6 @@ abstract class ilObjFileAbstractZipProcessor extends ilObjFileAbstractProcessor
      */
     private const IRSS_FILEPATH_KEY = 'uri';
 
-    /**
-     * @var ilTree|ilWorkspaceTree
-     */
-    private $tree;
-
     private ?ZipArchive $archive = null;
     private int $id_type;
 
@@ -58,12 +53,11 @@ abstract class ilObjFileAbstractZipProcessor extends ilObjFileAbstractProcessor
         ilObjFileGUI $gui_object,
         Services $storage,
         ilFileServicesSettings $settings,
-        $tree
+        private $tree
     ) {
         parent::__construct($stakeholder, $gui_object, $storage, $settings);
 
         $this->id_type = $gui_object->getIdType();
-        $this->tree = $tree;
     }
 
     protected function createSurroundingContainer(ResourceIdentification $rid): int
@@ -98,7 +92,7 @@ abstract class ilObjFileAbstractZipProcessor extends ilObjFileAbstractProcessor
      */
     protected function openZip(ResourceIdentification $rid): void
     {
-        if (null !== $this->archive) {
+        if ($this->archive instanceof \ZipArchive) {
             throw new LogicException("openZip() can only be called once, yet it was called again.");
         }
 
@@ -113,13 +107,16 @@ abstract class ilObjFileAbstractZipProcessor extends ilObjFileAbstractProcessor
      */
     private function getZipPaths(): Generator
     {
-        if (null === $this->archive) {
+        if (!$this->archive instanceof \ZipArchive) {
             throw new LogicException("cannot read content of unopened zip archive");
         }
 
         for ($i = 0, $i_max = $this->archive->count(); $i < $i_max; $i++) {
             $path = $this->archive->getNameIndex($i, ZipArchive::FL_UNCHANGED);
-            if (strpos($path, '__MACOSX') !== false || strpos($path, '.DS_') !== false) {
+            if (str_contains($path, '__MACOSX')) {
+                continue;
+            }
+            if (str_contains($path, '.DS_')) {
                 continue;
             }
 
@@ -134,9 +131,13 @@ abstract class ilObjFileAbstractZipProcessor extends ilObjFileAbstractProcessor
     protected function getZipFiles(): Generator
     {
         foreach ($this->getZipPaths() as $path) {
-            if (substr($path, -1) !== "/" && substr($path, -1) !== "\\") {
-                yield $path;
+            if (str_ends_with($path, "/")) {
+                continue;
             }
+            if (str_ends_with($path, "\\")) {
+                continue;
+            }
+            yield $path;
         }
     }
 
@@ -173,7 +174,7 @@ abstract class ilObjFileAbstractZipProcessor extends ilObjFileAbstractProcessor
     {
         $directories = [];
         foreach ($this->getZipPaths() as $path) {
-            if (substr($path, -1) === "/" || substr($path, -1) === "\\") {
+            if (str_ends_with($path, "/") || str_ends_with($path, "\\")) {
                 $directories[] = $path;
             }
         }
@@ -193,13 +194,12 @@ abstract class ilObjFileAbstractZipProcessor extends ilObjFileAbstractProcessor
         yield from $directories_with_parents;
     }
 
-
     /**
      * Creates an IRSS resource from the given filepath.
      */
     protected function storeZippedFile(string $file_path): ResourceIdentification
     {
-        if (null === $this->archive) {
+        if (!$this->archive instanceof \ZipArchive) {
             throw new LogicException("No archive has been opened yet, call openZip() first in order to read files.");
         }
 
@@ -215,7 +215,7 @@ abstract class ilObjFileAbstractZipProcessor extends ilObjFileAbstractProcessor
      */
     protected function closeZip(): void
     {
-        if ($this->archive !== null) {
+        if ($this->archive instanceof \ZipArchive) {
             $this->archive->close();
         }
     }
@@ -231,30 +231,18 @@ abstract class ilObjFileAbstractZipProcessor extends ilObjFileAbstractProcessor
     /**
      * Returns a container object that is possible for the given parent.
      *
-     * @param int $parent_id
      * @return ilObject
      */
     private function getPossibleContainerObj(int $parent_id): ilObject
     {
         $type = ($this->isWorkspace()) ?
             ilObject::_lookupType($this->tree->lookupObjectId($parent_id)) :
-            ilObject::_lookupType($parent_id, true)
-        ;
+            ilObject::_lookupType($parent_id, true);
 
-        switch ($type) {
-            case 'wfld':
-            case 'wsrt':
-                return new ilObjWorkspaceFolder();
-
-            case 'cat':
-            case 'root':
-                return new ilObjCategory();
-
-            case 'fold':
-            case 'crs':
-
-            default:
-                return new ilObjFolder();
-        }
+        return match ($type) {
+            'wfld', 'wsrt' => new ilObjWorkspaceFolder(),
+            'cat', 'root' => new ilObjCategory(),
+            default => new ilObjFolder(),
+        };
     }
 }

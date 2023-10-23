@@ -156,7 +156,8 @@ class ToolSettings extends Service
             $body = json_encode($settings);
         }
 
-        $response = parent::send('PUT', null, $body);
+        //UK changed from $response = parent::send('PUT', null, $body);
+        $response = parent::send('PUT', [], $body);
 
         return $response->ok;
     }

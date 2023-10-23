@@ -24,6 +24,8 @@
  */
 class McstPodcastGUI
 {
+    protected \ILIAS\MediaCast\InternalGUIService $gui;
+    protected \ILIAS\MediaCast\MediaCastManager $mc_manager;
     protected ilMediaObjectsPlayerWrapperGUI $player_wrapper;
     protected ilCtrl $ctrl;
     protected \ilObjMediaCast $media_cast;
@@ -49,6 +51,8 @@ class McstPodcastGUI
             ->gui()
             ->player()
             ->wrapper();
+        $this->mc_manager = $DIC->mediaCast()->internal()->domain()->mediaCast($obj);
+        $this->gui = $DIC->mediaCast()->internal()->gui();
     }
 
     /**
@@ -83,6 +87,7 @@ class McstPodcastGUI
         $items = [];
         foreach ($this->media_cast->getSortedItemsArray() as $med_item) {
             $mob = new \ilObjMediaObject($med_item["mob_id"]);
+            $ctrl->setParameterByClass("ilobjmediacastgui", "item_id", $med_item["id"]);
 
             $audio = $this->player_wrapper->audio(
                 $mob,
@@ -93,9 +98,23 @@ class McstPodcastGUI
                 continue;
             }
 
+            $actions = [];
+            $properties = [];
+            $properties[$this->lng->txt("mcst_duration")] = $med_item["playtime"];
+
+            if ($this->mc_manager->commentsActive()) {
+                $comments_gui = $this->gui->comments()->commentGUI(
+                    $this->media_cast->getRefId(),
+                    (int) $med_item["id"]
+                );
+                //var_dump($med_item["id"]);
+                $properties[$this->lng->txt("comments")] = $renderer->render($f->legacy($comments_gui->getNumber()));
+                $actions[] = $comments_gui->getTriggerShyButton();
+            }
+
             $item = $f->item()->standard($mob->getTitle())
                 ->withAudioPlayer($audio)
-                ->withProperties([$this->lng->txt("mcst_duration") => $med_item["playtime"]])
+                ->withProperties($properties)
                 ->withDescription($mob->getDescription());
 
             // $f->image()->responsive($mob->getVideoPreviewPic(), "")
@@ -106,18 +125,19 @@ class McstPodcastGUI
             }
 
             if ($this->media_cast->getDownloadable()) {
-                $ctrl->setParameterByClass("ilobjmediacastgui", "item_id", $med_item["id"]);
                 $ctrl->setParameterByClass("ilobjmediacastgui", "purpose", "Standard");
                 $download = $ctrl->getLinkTargetByClass("ilobjmediacastgui", "downloadItem");
-                $actions = $f->dropdown()->standard(array(
-                    $f->button()->shy($lng->txt("download"), $download),
-                ));
-                $item = $item->withActions($actions);
+                $actions[] = $f->button()->shy($lng->txt("download"), $download);
             }
 
+            if (count($actions) > 0) {
+                $dd = $f->dropdown()->standard($actions);
+                $item = $item->withActions($dd);
+            }
 
             $items[] = $item;
         }
+        //exit;
 
         $list = $f->panel()->listing()->standard(
             $this->lng->txt("mcst_audio_files"),

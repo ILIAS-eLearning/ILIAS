@@ -267,7 +267,8 @@ class InitUIFramework
                             $c["refinery"],
                             $c["ui.pathresolver"],
                             $c["ui.data_factory"],
-                            $c["help.text_retriever"]
+                            $c["help.text_retriever"],
+                            $c["ui.upload_limit_resolver"]
                         ),
                         new ILIAS\UI\Implementation\Component\Symbol\Glyph\GlyphRendererFactory(
                             $c["ui.factory"],
@@ -277,7 +278,8 @@ class InitUIFramework
                             $c["refinery"],
                             $c["ui.pathresolver"],
                             $c["ui.data_factory"],
-                            $c["help.text_retriever"]
+                            $c["help.text_retriever"],
+                            $c["ui.upload_limit_resolver"]
                         ),
                         new ILIAS\UI\Implementation\Component\Symbol\Icon\IconRendererFactory(
                             $c["ui.factory"],
@@ -287,7 +289,8 @@ class InitUIFramework
                             $c["refinery"],
                             $c["ui.pathresolver"],
                             $c["ui.data_factory"],
-                            $c["help.text_retriever"]
+                            $c["help.text_retriever"],
+                            $c["ui.upload_limit_resolver"]
                         ),
                         new ILIAS\UI\Implementation\Component\Input\Field\FieldRendererFactory(
                             $c["ui.factory"],
@@ -297,7 +300,8 @@ class InitUIFramework
                             $c["refinery"],
                             $c["ui.pathresolver"],
                             $c["ui.data_factory"],
-                            $c["help.text_retriever"]
+                            $c["help.text_retriever"],
+                            $c["ui.upload_limit_resolver"]
                         )
                     )
                 )

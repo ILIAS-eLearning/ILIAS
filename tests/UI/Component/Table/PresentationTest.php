@@ -149,9 +149,14 @@ class PresentationTest extends ILIAS_UI_TestBase
 <div class="il-table-presentation" id="id_3">
     <h3 class="ilHeader">title</h3>
     <div class="il-table-presentation-viewcontrols">
-        <div class="btn-group">
-            <button class="btn btn-default" id="id_1">presentation_table_expand</button>
-            <button class="btn btn-default" id="id_2">presentation_table_collapse</button>
+        <div class="l-bar__container l-bar__container--space-between">
+            <div class="l-bar__group">
+                <div class="l-bar__element">
+                    <button class="btn btn-default" id="id_1">presentation_table_expand</button>
+                    <button class="btn btn-default" id="id_2">presentation_table_collapse</button>
+                </div>
+            </div>
+            <div class="l-bar__group"></div>
         </div>
     </div>
     <div class="il-table-presentation-data">
@@ -175,7 +180,17 @@ class PresentationTest extends ILIAS_UI_TestBase
                 <div class="il-table-presentation-row-header">
                     <h4 class="il-table-presentation-row-header-headline" onClick="$(document).trigger('il_signal...');">some title<br /><small>some type</small>
                     </h4>
-                    <div class="il-table-presentation-row-header-fields">important-1|important-2|<button class="btn btn-link" id="id_7">presentation_table_more</button></div>
+                    <div class="il-table-presentation-row-header-fields">
+                        <div class="l-bar__container">
+                            <div class="l-bar__group">
+                                <div class="il-table-presentation-row-header-fields-value l-bar__element">important-1</div>
+                            </div>
+                            <div class="l-bar__group">
+                                <div class="il-table-presentation-row-header-fields-value l-bar__element">important-2</div>
+                            </div>
+                        </div>
+                        <button class="btn btn-link" id="id_7">presentation_table_more</button>
+                    </div>
                 </div>
 
                 <div class="il-table-presentation-row-expanded">
@@ -211,7 +226,7 @@ EXP;
         $f = $this->getFactory();
         $pt = $f->presentation('title', [], $mapping);
         $actual = $r->render($pt->withData($this->getDummyData()));
-        $this->assertHTMLEquals(
+        $this->assertEquals(
             $this->brutallyTrimHTML($expected),
             $this->brutallyTrimHTML($this->brutallyTrimSignals($actual))
         );
@@ -230,9 +245,16 @@ EXP;
 <div class="il-table-presentation" id="id_3">
     <h3 class="ilHeader">title</h3>
     <div class="il-table-presentation-viewcontrols">
-        <div class="btn-group">
-            <button class="btn btn-default" id="id_1">presentation_table_expand</button>
-            <button class="btn btn-default" id="id_2">presentation_table_collapse</button>
+
+        <div class="l-bar__container l-bar__container--space-between">
+            <div class="l-bar__group">
+                <div class="l-bar__element">
+
+                    <button class="btn btn-default" id="id_1">presentation_table_expand</button>
+                    <button class="btn btn-default" id="id_2">presentation_table_collapse</button>
+                </div>
+            </div>
+            <div class="l-bar__group"></div>
         </div>
     </div>
     <div class="il-table-presentation-data">
@@ -256,6 +278,7 @@ EXP;
                 <div class="il-table-presentation-row-header">
                     <h4 class="il-table-presentation-row-header-headline" onClick="$(document).trigger('il_signal...');">some title</h4>
                     <div class="il-table-presentation-row-header-fields">
+                        <div class="l-bar__container"></div>
                         <button class="btn btn-link" id="id_7">presentation_table_more</button>
                     </div>
                 </div>
@@ -279,7 +302,7 @@ EXP;
         $f = $this->getFactory();
         $pt = $f->presentation('title', [], $mapping);
         $actual = $r->render($pt->withData($this->getDummyData()));
-        $this->assertHTMLEquals(
+        $this->assertEquals(
             $this->brutallyTrimHTML($expected),
             $this->brutallyTrimHTML($this->brutallyTrimSignals($actual))
         );

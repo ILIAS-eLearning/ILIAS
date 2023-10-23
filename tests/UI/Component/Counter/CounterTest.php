@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 require_once("libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../Base.php");
@@ -35,7 +35,7 @@ class CounterTest extends ILIAS_UI_TestBase
         return new Factory();
     }
 
-    public function test_implements_factory_interface(): void
+    public function testImplementsFactoryInterface(): void
     {
         $f = $this->getCounterFactory();
 
@@ -46,9 +46,9 @@ class CounterTest extends ILIAS_UI_TestBase
     }
 
     /**
-     * @dataProvider number_provider
+     * @dataProvider getNumberProvider
      */
-    public function test_status_counter(int $number): void
+    public function testStatusCounter(int $number): void
     {
         $f = $this->getCounterFactory();
 
@@ -60,9 +60,9 @@ class CounterTest extends ILIAS_UI_TestBase
     }
 
     /**
-     * @dataProvider number_provider
+     * @dataProvider getNumberProvider
      */
-    public function test_novelty_counter(int $number): void
+    public function testNoveltyCounter(int $number): void
     {
         $f = $this->getCounterFactory();
 
@@ -73,23 +73,23 @@ class CounterTest extends ILIAS_UI_TestBase
         $this->assertEquals($number, $c->getNumber());
     }
 
-    public function test_known_counters_only(): void
+    public function testKnownCountersOnly(): void
     {
         $this->expectException(InvalidArgumentException::class);
         new Counter("FOO", 1);
     }
 
     /**
-     * @dataProvider no_number_provider
+     * @dataProvider getNoNumberProvider
      */
-    public function test_int_numbers_only($no_number): void
+    public function testIntNumbersOnly($no_number): void
     {
         $this->expectException(TypeError::class);
         $f = $this->getCounterFactory();
         $f->status($no_number);
     }
 
-    public function number_provider(): array
+    public function getNumberProvider(): array
     {
         return [
             [-13],
@@ -99,7 +99,7 @@ class CounterTest extends ILIAS_UI_TestBase
         ];
     }
 
-    public function no_number_provider(): array
+    public function getNoNumberProvider(): array
     {
         return [
             ["foo"],
@@ -115,9 +115,9 @@ class CounterTest extends ILIAS_UI_TestBase
     ];
 
     /**
-     * @dataProvider	counter_type_and_number_provider
+     * @dataProvider getCounterTypeAndNumberProvider
      */
-    public function test_render_status(string $type, int $number): void
+    public function testRenderStatus(string $type, int $number): void
     {
         $f = $this->getCounterFactory();
         $r = $this->getDefaultRenderer();
@@ -130,7 +130,7 @@ class CounterTest extends ILIAS_UI_TestBase
         $this->assertHTMLEquals($expected, $html);
     }
 
-    public function counter_type_and_number_provider(): array
+    public function getCounterTypeAndNumberProvider(): array
     {
         return [
             ["status", 42],

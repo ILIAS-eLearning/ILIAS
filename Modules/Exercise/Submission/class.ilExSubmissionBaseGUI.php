@@ -30,6 +30,8 @@ use ILIAS\Exercise\GUIRequest;
  */
 abstract class ilExSubmissionBaseGUI
 {
+    protected \ILIAS\Exercise\Notification\NotificationManager $notification;
+    protected \ILIAS\Exercise\InternalDomainService $domain;
     protected \ILIAS\Exercise\InternalGUIService $gui;
     protected ilCtrl $ctrl;
     protected ilTabsGUI $tabs_gui;
@@ -51,35 +53,30 @@ abstract class ilExSubmissionBaseGUI
         ilObjExercise $a_exercise,
         ilExSubmission $a_submission
     ) {
-        /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
 
-        $ilCtrl = $DIC->ctrl();
-        $ilTabs = $DIC->tabs();
-        $lng = $DIC->language();
-        $tpl = $DIC["tpl"];
+        $service = $DIC->exercise()->internal();
+        $this->gui = $service->gui();
+        $this->domain = $service->domain();
+
+        $this->ctrl = $this->gui->ctrl();
+        $this->tabs_gui = $this->gui->tabs();
+        $this->lng = $this->domain->lng();
+        $this->tpl = $this->gui->ui()->mainTemplate();
 
         $this->exercise = $a_exercise;
         $this->submission = $a_submission;
         $this->assignment = $a_submission->getAssignment();
 
-        $this->mandatory_manager = $DIC
-            ->exercise()
-            ->internal()
-            ->domain()
+        $this->mandatory_manager = $this->domain
             ->assignment()
             ->mandatoryAssignments($this->exercise);
 
-        $this->request = $DIC->exercise()->internal()->gui()->request();
+        $this->request = $this->gui->request();
         $this->requested_ref_id = $this->request->getRefId();
+        $this->notification = $this->domain->notification($this->requested_ref_id);
 
-        // :TODO:
-        $this->ctrl = $ilCtrl;
-        $this->tabs_gui = $ilTabs;
-        $this->lng = $lng;
-        $this->tpl = $tpl;
-
-        $this->type_guis = ilExAssignmentTypesGUI::getInstance();
+        $this->type_guis = $this->gui->assignment()->types();
         $this->tool_context = $DIC->globalScreen()->tool()->context();
         $this->gui = $DIC->exercise()
             ->internal()
@@ -93,6 +90,7 @@ abstract class ilExSubmissionBaseGUI
 
     protected function handleTabs(): void
     {
+        return;
         $this->tabs_gui->clearTargets();
         $this->tabs_gui->setBackTarget(
             $this->lng->txt("back"),
@@ -135,14 +133,7 @@ abstract class ilExSubmissionBaseGUI
 
         if ($has_submitted &&
             !$a_no_notifications) {
-            $users = ilNotification::getNotificationsForObject(ilNotification::TYPE_EXERCISE_SUBMISSION, $this->exercise->getId());
-
-            $not = new ilExerciseMailNotification();
-            $not->setType(ilExerciseMailNotification::TYPE_SUBMISSION_UPLOAD);
-            $not->setAssignmentId($this->assignment->getId());
-            $not->setRefId($this->exercise->getRefId());
-            $not->setRecipients($users);
-            $not->send();
+            $this->notification->sendUploadNotification($this->assignment->getId());
         }
     }
 

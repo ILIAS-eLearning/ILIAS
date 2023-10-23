@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\UI\Implementation as I;
 use ILIAS\UI\Component\Popover\Popover;
@@ -44,7 +44,7 @@ class PopoverTest extends ILIAS_UI_TestBase
         };
     }
 
-    public function test_implements_interface(): void
+    public function testImplementsInterface(): void
     {
         $factory = new I\Component\Popover\Factory(new I\Component\SignalGenerator());
         $standard = $factory->standard(new DummyComponent());
@@ -53,14 +53,14 @@ class PopoverTest extends ILIAS_UI_TestBase
         $this->assertInstanceOf("ILIAS\\UI\\Component\\Popover\\Listing", $listing);
     }
 
-    public function test_that_position_is_auto_by_default(): void
+    public function testThatPositionIsAutoByDefault(): void
     {
         $factory = new I\Component\Popover\Factory(new I\Component\SignalGenerator());
         $popover = $factory->standard(new DummyComponent());
         $this->assertEquals(Popover::POS_AUTO, $popover->getPosition());
     }
 
-    public function test_with_position(): void
+    public function testWithPosition(): void
     {
         $factory = new I\Component\Popover\Factory(new I\Component\SignalGenerator());
         $popover1 = $factory->standard(new DummyComponent());
@@ -73,7 +73,7 @@ class PopoverTest extends ILIAS_UI_TestBase
         $this->assertEquals($popover1->getContent(), $popover3->getContent());
     }
 
-    public function test_render_standard(): void
+    public function testRenderStandard(): void
     {
         $factory = new I\Component\Popover\Factory(new I\Component\SignalGenerator());
         $popover = $factory->standard($this->getFactory()->legacy('myContent'));
@@ -82,13 +82,13 @@ class PopoverTest extends ILIAS_UI_TestBase
         $this->assertEquals($expected, $actual);
     }
 
-    public function test_render_listing(): void
+    public function testRenderListing(): void
     {
         // TODO Listing not yet in framework core
         $this->assertTrue(true);
     }
 
-    public function test_render_async(): void
+    public function testRenderAsync(): void
     {
         $factory = new I\Component\Popover\Factory(new I\Component\SignalGenerator());
         $popover = $factory->standard($this->getFactory()->legacy('myContent'))->withAsyncContentUrl('/blub/');

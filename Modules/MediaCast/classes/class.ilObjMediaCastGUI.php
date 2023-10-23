@@ -27,7 +27,7 @@ use ILIAS\Filesystem\Util\LegacyPathHelper;
  * @author Alexander Killing <killing@leifos.de>
  * @ilCtrl_Calls ilObjMediaCastGUI: ilPermissionGUI, ilInfoScreenGUI, ilExportGUI
  * @ilCtrl_Calls ilObjMediaCastGUI: ilCommonActionDispatcherGUI, ilMediaCreationGUI
- * @ilCtrl_Calls ilObjMediaCastGUI: ilLearningProgressGUI, ilObjectCopyGUI, McstImageGalleryGUI, McstPodcastGUI
+ * @ilCtrl_Calls ilObjMediaCastGUI: ilLearningProgressGUI, ilObjectCopyGUI, McstImageGalleryGUI, McstPodcastGUI, ilCommentGUI
  * @ilCtrl_IsCalledBy ilObjMediaCastGUI: ilRepositoryGUI, ilAdministrationGUI
  */
 class ilObjMediaCastGUI extends ilObjectGUI
@@ -84,8 +84,10 @@ class ilObjMediaCastGUI extends ilObjectGUI
 
         $settings = ilMediaCastSettings::_getInstance();
 
-        $this->mc_manager = $DIC->mediaCast()->internal()
-            ->domain()->mediaCast();
+        if ($this->object) {
+            $this->mc_manager = $DIC->mediaCast()->internal()
+                                    ->domain()->mediaCast($this->object);
+        }
         $this->gui = $DIC->mediaCast()->internal()->gui();
         $this->media_type = $DIC->mediaObjects()->internal()->domain()->mediaType();
         $this->video_gui = $DIC->mediaObjects()->internal()->gui()->video();
@@ -183,6 +185,10 @@ class ilObjMediaCastGUI extends ilObjectGUI
             case "mcstpodcastgui":
                 $view = new \McstPodcastGUI($this->object, $this->tpl);
                 $this->ctrl->forwardCommand($view);
+                break;
+
+            case strtolower(ilCommentGUI::class):
+                $this->ctrl->forwardCommand($this->getCommentGUI());
                 break;
 
             default:
@@ -1369,6 +1375,17 @@ EOT;
             $this->form_gui->addItem($auto_lp);
         }
 
+        // additional features
+        $feat = new ilFormSectionHeaderGUI();
+        $feat->setTitle($this->lng->txt('obj_features'));
+        $this->form_gui->addItem($feat);
+
+        if (!$this->settings->get('disable_comments')) {
+            $this->lng->loadLanguageModule("notes");
+            $comments = new ilCheckboxInputGUI($lng->txt("notes_comments"), "comments");
+            $comments->setChecked($this->object->getComments());
+            $this->form_gui->addItem($comments);
+        }
 
         // Form action and save button
         $this->form_gui->addCommandButton("saveSettings", $lng->txt("save"));
@@ -1398,6 +1415,10 @@ EOT;
             $this->object->setAutoplayMode((int) $this->form_gui->getInput("autoplaymode"));
             $this->object->setNumberInitialVideos((int) $this->form_gui->getInput("nr_videos"));
             $this->object->setNewItemsInLearningProgress((int) $this->form_gui->getInput("auto_det_lp"));
+
+            if (!$this->settings->get('disable_comments')) {
+                $this->object->setComments($this->form_gui->getInput("comments"));
+            }
 
             // tile image
             $obj_service->commonSettings()->legacyForm($this->form_gui, $this->object)->saveTileImage();
@@ -1713,6 +1734,20 @@ EOT;
             "mcst_autoplay",
             $this->mc_request->getAutoplay()
         );
+        exit;
+    }
+
+    protected function getCommentGUI(): ilCommentGUI
+    {
+        return $this->gui->comments()->commentGUI(
+            $this->object->getRefId(),
+            $this->mc_request->getItemId()
+        );
+    }
+
+    protected function showCommentsObject(): void
+    {
+        echo $this->getCommentGUI()->getListHTML() . "<script>ilNotes.init(null);</script>";
         exit;
     }
 }

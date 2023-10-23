@@ -53,7 +53,7 @@ class ilTestSubmissionReviewGUITest extends ilTestBaseTestCase
 
         $this->testObj = new ilTestSubmissionReviewGUI(
             $this->createMock(ilTestOutputGUI::class),
-            $this->createMock(ilObjTest::class),
+            $this->getTestObjMock(),
             $this->createMock(ilTestSession::class)
         );
     }

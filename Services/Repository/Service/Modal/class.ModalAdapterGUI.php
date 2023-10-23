@@ -24,9 +24,6 @@ use ILIAS\UI\Component\Modal;
 use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\Repository\HTTP\HTTPUtil;
 
-/**
- * @author Alexander Killing <killing@leifos.de>
- */
 class ModalAdapterGUI
 {
     protected HTTPUtil $http_util;

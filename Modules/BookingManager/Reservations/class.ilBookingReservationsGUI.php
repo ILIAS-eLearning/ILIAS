@@ -22,6 +22,7 @@
  */
 class ilBookingReservationsGUI
 {
+    protected \ILIAS\BookingManager\BookingProcess\ProcessUtilGUI $util_gui;
     protected ilToolbarGUI $toolbar;
     protected \ILIAS\DI\UIServices $ui;
     protected \ILIAS\BookingManager\InternalService $service;
@@ -85,6 +86,10 @@ class ilBookingReservationsGUI
         }
 
         $this->raw_post_data = $DIC->http()->request()->getParsedBody();
+        $this->util_gui = $DIC->bookingManager()->internal()->gui()->process()->ProcessUtilGUI(
+            $this->pool,
+            $this
+        );
     }
 
     /**
@@ -112,7 +117,7 @@ class ilBookingReservationsGUI
         switch ($next_class) {
             default:
                 if (in_array($cmd, array("log", "logDetails", "changeStatusObject", "rsvConfirmCancelUser", "rsvCancelUser",
-                    "applyLogFilter", "resetLogFilter", "rsvConfirmCancel", "rsvCancel", "back", "rsvConfirmDelete", "rsvDelete", "confirmResetRun", "resetRun"))) {
+                    "applyLogFilter", "resetLogFilter", "rsvConfirmCancel", "rsvCancel", "back", "rsvConfirmDelete", "rsvDelete", "confirmResetRun", "resetRun", "displayPostInfo", "deliverPostFile"))) {
                     $this->$cmd();
                 }
         }
@@ -685,5 +690,23 @@ class ilBookingReservationsGUI
             );
         }
         $this->ctrl->redirect($this, "log");
+    }
+
+    public function displayPostInfo(): void
+    {
+        $this->ctrl->saveParameter($this, "object_id");
+        $this->util_gui->displayPostInfo(
+            $this->book_obj_id,
+            0,
+            "deliverPostFile"
+        );
+    }
+
+    public function deliverPostFile(): void
+    {
+        $this->util_gui->deliverPostFile(
+            $this->book_obj_id,
+            $this->user->getId()
+        );
     }
 }

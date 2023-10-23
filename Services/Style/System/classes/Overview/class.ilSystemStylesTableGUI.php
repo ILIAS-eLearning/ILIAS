@@ -100,9 +100,10 @@ class ilSystemStylesTableGUI extends ilTable2GUI
                     'skin_id' => 'other',
                     'style_id' => '',
                     'skin_name' => 'other',
-                    'style_name' => '',
+                    'style_name' => 'other',
                     'users' => $users_missing_styles,
-                    'version' => '-'
+                    'version' => '-',
+                    'substyle_of' => ''
                 ];
         }
 

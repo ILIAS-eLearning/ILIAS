@@ -205,6 +205,20 @@ template and asynch-mechanisms, but rather inject the HTML/JS in its own templat
 (see tpl.datatable.html, datatable.clas.js::asyncAction).
 The DataTable should fully use UI\Component\Modal.
 
+### Revise UploadHandlers (beginner, ~1d)
+
+There is a method `supportsChunckedUpload()` which should be removed and made mandatory
+for all implementations, meaning every implementation should be able to handle chunked
+uploads. This has been avoided due to touching many implementations, of which also many
+are not yet using the IRSS and most likely need special care. However, the concept is rather
+trivial and can be implemented in a generic way, so implementations can reuse it. As long
+as this task is unfinished, there is no guarantee that larger files than the PHP-limit can
+be uploaded, which makes some features like upload-policies unusable.
+
+In addition, the `UploadHandler` interface contains methods which are not required anymore
+and can be safely removed (along with their implementations): `getExistingFileInfoURL()`,
+`getInfoForExistingFiles()`, and `getInfoResult()`.
+
 ## Long Term
 
 ### Make Constraint in Tag Input Field work again

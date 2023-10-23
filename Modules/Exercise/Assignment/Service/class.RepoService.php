@@ -46,4 +46,13 @@ class RepoService
             $this->db
         );
     }
+
+    public function assignments(): AssignmentsDBRepository
+    {
+        return new AssignmentsDBRepository(
+            $this->data,
+            $this->db
+        );
+    }
+
 }

@@ -511,7 +511,7 @@ class ilExAssignmentGUI
         }
 
         $ilCtrl->setParameterByClass("ilexsubmissiongui", "ass_id", $this->current_ass_id);
-        $url = $ilCtrl->getLinkTargetByClass("ilexsubmissiongui", $a_cmd);
+        $url = $ilCtrl->getLinkTargetByClass([ilAssignmentPresentationGUI::class, "ilexsubmissiongui"], $a_cmd);
         $ilCtrl->setParameterByClass("ilexsubmissiongui", "ass_id", "");
 
         if (is_array($a_params)) {
@@ -551,4 +551,8 @@ class ilExAssignmentGUI
                 );
         }
     }
+
+    ////
+    //// Listing panels
+    ////
 }

@@ -28,6 +28,8 @@ use ILIAS\UI\Implementation\Component\SignalGenerator;
  */
 class VideoViewGUI
 {
+    protected \ilCtrlInterface $ctrl;
+    protected \ILIAS\MediaCast\MediaCastManager $mc_manager;
     protected \ilToolbarGUI $toolbar;
     protected \ilGlobalTemplateInterface $main_tpl;
     protected \ilObjMediaCast $media_cast;
@@ -52,6 +54,10 @@ class VideoViewGUI
         $this->user = $DIC->user();
         $this->main_tpl = $DIC->ui()->mainTemplate();
         $this->toolbar = $DIC->toolbar();
+        $this->ctrl = $DIC->ctrl();
+        $this->mc_manager = $DIC->mediaCast()->internal()->domain()->mediaCast(
+            $this->media_cast
+        );
     }
 
     public function setCompletedCallback(string $completed_callback): void
@@ -306,8 +312,22 @@ class VideoViewGUI
     {
         if (is_object($this->tpl)) {
             $this->renderToolbar();
-            $this->tpl->setContent($this->renderMainColumn());
+            $this->tpl->setContent(
+                $this->renderMainColumn() .
+                $this->renderCommentsContainer()
+            );
             $this->tpl->setRightContent($this->renderSideColumn());
+        }
+    }
+
+    public function renderCommentsContainer()
+    {
+        if ($this->mc_manager->commentsActive()) {
+            $target = $this->ctrl->getLinkTargetByClass(
+                \ilObjMediaCastGUI::class,
+                "showComments"
+            );
+            return "<div data-mcst-comments='$target'></div>";
         }
     }
 }

@@ -35,7 +35,7 @@ class XapiProxy extends XapiProxyPolyFill
 
     public function setRequestParams(Request $request): void
     {
-        preg_match(self::PARTS_REG, $request->getUri(), $this->cmdParts);
+        preg_match(self::PARTS_REG, (string) $request->getUri(), $this->cmdParts);
     }
 
     public function token(): string
@@ -182,7 +182,7 @@ class XapiProxy extends XapiProxyPolyFill
             if ($up === []) { // nothing allowed
                 $this->log()->debug($this->msg("no allowed statements in array - fake response..."));
                 $this->xapiProxyResponse->fakeResponseBlocked("");
-            //                    $this->xapiProxyResponse->fakeResponseBlocked($ret);
+                //                    $this->xapiProxyResponse->fakeResponseBlocked($ret);
             } elseif (count($up) !== count($ret)) { // mixed request with allowed and not allowed statements
                 $this->log()->debug($this->msg("mixed with allowed and unallowed statements"));
                 return array($up,$ret);

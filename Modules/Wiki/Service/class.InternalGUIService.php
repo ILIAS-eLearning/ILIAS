@@ -22,6 +22,9 @@ namespace ILIAS\Wiki;
 
 use ILIAS\DI\Container;
 use ILIAS\Repository\GlobalDICGUIServices;
+use ILIAS\Wiki\Content;
+use ILIAS\Wiki\Page;
+use ILIAS\Wiki\Notification\NotificationGUI;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -43,11 +46,48 @@ class InternalGUIService
         $this->initGUIServices($DIC);
     }
 
-    public function editing(): Editing\GUIService
+    public function request(
+        ?array $passed_query_params = null,
+        ?array $passed_post_data = null
+    ): WikiGUIRequest {
+        return new WikiGUIRequest(
+            $this->http(),
+            $this->domain_service->refinery(),
+            $passed_query_params,
+            $passed_post_data
+        );
+    }
+
+    public function content(): Content\GUIService
     {
-        return new Editing\GUIService(
+        return new Content\GUIService(
             $this->domain_service,
             $this
         );
     }
+
+    public function page(): Page\GUIService
+    {
+        return new Page\GUIService(
+            $this->domain_service,
+            $this
+        );
+    }
+
+    public function notification(): NotificationGUI
+    {
+        return new NotificationGUI(
+            $this->domain_service,
+            $this
+        );
+    }
+
+    public function wiki(): Wiki\GUIService
+    {
+        return new Wiki\GUIService(
+            $this->domain_service,
+            $this
+        );
+    }
+
 }

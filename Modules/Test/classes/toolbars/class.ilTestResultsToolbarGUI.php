@@ -45,7 +45,9 @@ class ilTestResultsToolbarGUI extends ilToolbarGUI
     {
         $this->setId('tst_results_toolbar');
 
-        $this->addButton($this->lng->txt('print'), 'javascript:window.print();');
+        $print_button = $this->ui->factory()->button()->standard($this->lng->txt('print'), '')
+            ->withOnLoadCode(fn($id) => "$('#$id').on('click', ()=>{window.print();})");
+        $this->addComponent($print_button);
 
         if ($this->getCertificateLinkTarget() !== null
             && $this->getCertificateLinkTarget() !== '') {
