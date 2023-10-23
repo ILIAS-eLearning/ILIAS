@@ -27,172 +27,24 @@ use ILIAS\FileUpload\Handler\BasicFileInfoResult;
 use ILIAS\ResourceStorage\Services;
 use ILIAS\Filesystem\Filesystem;
 use ILIAS\Filesystem\Stream\Streams;
+use ILIAS\FileUpload\Handler\AbstractCtrlAwareIRSSUploadHandler;
+use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
 
 /**
  * @author            Thibeau Fuhrer <thf@studer-raimann.ch>
  * @ilCtrl_isCalledBy ilObjFileUploadHandlerGUI: ilObjFileGUI, ilRepositoryGUI, ilDashboardGUI
  */
-class ilObjFileUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
+class ilObjFileUploadHandlerGUI extends AbstractCtrlAwareIRSSUploadHandler
 {
-    private Services $storage;
-    private ilObjFileStakeholder $stakeholder;
-    protected Filesystem $temp_filesystem;
-    private array $class_path = [self::class];
-
-    public function __construct()
+    protected function getStakeholder(): ResourceStakeholder
     {
         global $DIC;
-
-        $this->storage = $DIC->resourceStorage();
-        $this->stakeholder = new ilObjFileStakeholder($DIC->user()->getId());
-        $this->temp_filesystem = $DIC->filesystem()->temp();
-
-        parent::__construct();
+        return new ilObjFileStakeholder($DIC->user()->getId());
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function getUploadURL(): string
+    protected function getClassPath(): array
     {
-        return $this->ctrl->getLinkTargetByClass($this->class_path, self::CMD_UPLOAD, null, true);
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getExistingFileInfoURL(): string
-    {
-        return $this->ctrl->getLinkTargetByClass($this->class_path, self::CMD_INFO, null, true);
-    }
-
-    /**
-     * overrides parent method in order to provide an async URL.
-     * @return string
-     */
-    public function getFileRemovalURL(): string
-    {
-        return $this->ctrl->getLinkTargetByClass($this->class_path, self::CMD_REMOVE, null, true);
-    }
-
-    /**
-     * @return HandlerResult
-     * @throws \ILIAS\FileUpload\Exception\IllegalStateException
-     */
-    protected function getUploadResult(): HandlerResult
-    {
-        $this->upload->register(new ilCountPDFPagesPreProcessors());
-        $this->upload->process();
-
-        $result_array = $this->upload->getResults();
-        $result = end($result_array);
-
-        if ($result instanceof UploadResult && $result->isOK()) {
-            if ($this->is_chunked) {
-                return $this->processChunckedUpload($result);
-            }
-
-            $identifier = $this->storage->manage()->upload($result, $this->stakeholder)->serialize();
-            $status = HandlerResult::STATUS_OK;
-            $message = "file upload OK";
-        } else {
-            $identifier = '';
-            $status = HandlerResult::STATUS_FAILED;
-            $message = 'No upload found';
-        }
-
-        return new BasicHandlerResult($this->getFileIdentifierParameterName(), $status, $identifier, $message);
-    }
-
-    protected function processChunckedUpload(UploadResult $result): HandlerResult
-    {
-        $temp_path = "$this->chunk_id/{$result->getName()}";
-
-        try {
-            if ($this->temp_filesystem->has($temp_path)) {
-                $stream = fopen($this->temp_filesystem->readStream($temp_path)->getMetadata()['uri'], 'ab');
-                fwrite($stream, file_get_contents($result->getPath()));
-            } else {
-                $this->temp_filesystem->write($temp_path, file_get_contents($result->getPath()));
-            }
-        } catch (Throwable $t) {
-            return new BasicHandlerResult(
-                $this->getFileIdentifierParameterName(),
-                HandlerResult::STATUS_FAILED,
-                '',
-                $t->getMessage()
-            );
-        }
-
-        if (($this->chunk_index + 1) === $this->amount_of_chunks) {
-            $whole_file = $this->temp_filesystem->readStream($temp_path);
-            $id = $this->storage->manage()->stream($whole_file, $this->stakeholder, $result->getName());
-
-            return new BasicHandlerResult(
-                $this->getFileIdentifierParameterName(),
-                HandlerResult::STATUS_OK,
-                $id->serialize(),
-                "file upload OK"
-            );
-        }
-
-        return new BasicHandlerResult(
-            $this->getFileIdentifierParameterName(),
-            HandlerResult::STATUS_PARTIAL,
-            '',
-            "chunk upload OK"
-        );
-    }
-
-    /**
-     * @param string $identifier
-     * @return HandlerResult
-     */
-    protected function getRemoveResult(string $identifier): HandlerResult
-    {
-        if (null !== ($id = $this->storage->manage()->find($identifier))) {
-            $this->storage->manage()->remove($id, $this->stakeholder);
-            $status = HandlerResult::STATUS_OK;
-            $message = "file removal OK";
-        } else {
-            $status = HandlerResult::STATUS_OK;
-            $message = "file with identifier '$identifier' doesn't exist, nothing to do.";
-        }
-
-        return new BasicHandlerResult($this->getFileIdentifierParameterName(), $status, $identifier, $message);
-    }
-
-    /**
-     * @param string $identifier
-     * @return FileInfoResult
-     */
-    public function getInfoResult(string $identifier): ?FileInfoResult
-    {
-        if (null !== ($id = $this->storage->manage()->find($identifier))) {
-            $revision = $this->storage->manage()->getCurrentRevision($id)->getInformation();
-            $title = $revision->getTitle();
-            $size = $revision->getSize();
-            $mime = $revision->getMimeType();
-        } else {
-            $title = $mime = 'unknown';
-            $size = 0;
-        }
-
-        return new BasicFileInfoResult($this->getFileIdentifierParameterName(), $identifier, $title, $size, $mime);
-    }
-
-    /**
-     * @param array $file_ids
-     * @return FileInfoResult[]
-     */
-    public function getInfoForExistingFiles(array $file_ids): array
-    {
-        $info_results = [];
-        foreach ($file_ids as $identifier) {
-            $info_results[] = $this->getInfoResult($identifier);
-        }
-
-        return $info_results;
+        return [self::class];
     }
 
     public function supportsChunkedUploads(): bool
