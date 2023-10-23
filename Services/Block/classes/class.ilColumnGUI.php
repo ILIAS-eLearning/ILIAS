@@ -700,6 +700,10 @@ class ilColumnGUI
         $ilSetting = $this->settings;
         $ilCtrl = $this->ctrl;
 
+        if ($a_type == 'poll') {
+            return true;
+        }
+
         if ($a_type == 'pdfeed') {
             return false;
         }
