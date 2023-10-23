@@ -50,6 +50,7 @@ class Services
     protected LinkFactoryInterface $link_factory;
     protected RequestParserInterface $request_parser;
     protected ObserverHandlerInterface $observer_handler;
+    protected Manipulator $manipulator;
 
     protected GlobalContainer $dic;
     protected PathServices $path_services;
