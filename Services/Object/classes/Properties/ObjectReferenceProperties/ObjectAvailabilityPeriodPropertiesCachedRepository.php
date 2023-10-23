@@ -24,7 +24,7 @@ namespace ILIAS\Object\Properties\ObjectReferenceProperties;
  *
  * @author Stephan Kergomard
  */
-class ObjectTimeLimitsPropertiesCachedRepository
+class ObjectAvailabilityPeriodPropertiesCachedRepository
 {
     private const TIMINGS_PROPERTIES_TABLE = 'crs_items';
 
@@ -46,7 +46,7 @@ class ObjectTimeLimitsPropertiesCachedRepository
         $this->data_cache = [];
     }
 
-    public function getFor(?int $object_reference_id): ObjectTimeLimitsProperty
+    public function getFor(?int $object_reference_id): ObjectAvailabilityPeriodProperty
     {
         if ($object_reference_id === null
             || $object_reference_id === 0) {
@@ -58,7 +58,7 @@ class ObjectTimeLimitsPropertiesCachedRepository
         }
 
         $data = $this->data_cache[$object_reference_id];
-        return new ObjectTimeLimitsProperty(
+        return new ObjectAvailabilityPeriodProperty(
             $object_reference_id,
             $data['timing_enabled'],
             $data['timing_start'],
@@ -67,7 +67,7 @@ class ObjectTimeLimitsPropertiesCachedRepository
         );
     }
 
-    public function store(ObjectTimeLimitsProperty $property): void
+    public function store(ObjectAvailabilityPeriodProperty $property): void
     {
         $object_reference_id = $property->getObjectReferenceId();
 
@@ -81,18 +81,18 @@ class ObjectTimeLimitsPropertiesCachedRepository
         ];
 
         $storage_array = [
-            'timing_type' => [\ilDBConstants::T_TEXT, $property->getTimeLimitsEnabled() ? 0 : 1],
-            'timing_start' => [\ilDBConstants::T_INTEGER, $property->getTimeLimitStart()?->getTimestamp() ?? 0],
-            'timing_end' => [\ilDBConstants::T_INTEGER, $property->getTimeLimitEnd()?->getTimestamp() ?? 0],
+            'timing_type' => [\ilDBConstants::T_TEXT, $property->getAvailabilityPeriodEnabled() ? 0 : 1],
+            'timing_start' => [\ilDBConstants::T_INTEGER, $property->getAvailabilityPeriodStart()?->getTimestamp() ?? 0],
+            'timing_end' => [\ilDBConstants::T_INTEGER, $property->getAvailabilityPeriodEnd()?->getTimestamp() ?? 0],
             'visible' => [\ilDBConstants::T_INTEGER, $property->getVisibleWhenDisabled() ? 1 : 0]
         ];
         $this->database->replace(self::TIMINGS_PROPERTIES_TABLE, $primary, $storage_array);
         $this->data_cache[$object_reference_id] = $this->retrieveDataForObjectReferenceId($object_reference_id);
     }
 
-    private function getDefaultObjectReferenceProperties(): ObjectTimeLimitsProperty
+    private function getDefaultObjectReferenceProperties(): ObjectAvailabilityPeriodProperty
     {
-        return new ObjectTimeLimitsProperty();
+        return new ObjectAvailabilityPeriodProperty();
     }
 
     /**

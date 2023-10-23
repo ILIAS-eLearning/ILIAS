@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\Object\Properties\ObjectReferenceProperties;
 
-use ILIAS\Object\Properties\ObjectReferenceProperties\ObjectTimeLimitsProperty;
+use ILIAS\Object\Properties\ObjectReferenceProperties\ObjectAvailabilityPeriodProperty;
 
 class ObjectReferenceProperties
 {
@@ -29,11 +29,11 @@ class ObjectReferenceProperties
         private ?int $obj_id = null,
         private ?\DateTimeImmutable $date_of_deletion = null,
         private ?int $deleted_by = null,
-        private ObjectTimeLimitsProperty $object_time_based_activation_property = new ObjectTimeLimitsProperty()
+        private ObjectAvailabilityPeriodProperty $object_time_based_activation_property = new ObjectAvailabilityPeriodProperty()
     ) {
     }
 
-    public function getPropertyTimeLimits(): ObjectTimeLimitsProperty
+    public function getPropertyAvailabilityPeriod(): ObjectAvailabilityPeriodProperty
     {
         return $this->object_time_based_activation_property;
     }

@@ -817,33 +817,33 @@ class ilObjectGUI implements ImplementsCreationCallback
         );
     }
 
-    protected function addTimeLimitsButtonToToolbar(ilToolbarGUI $toolbar): ilToolbarGUI
+    protected function addAvailabilityPeriodButtonToToolbar(ilToolbarGUI $toolbar): ilToolbarGUI
     {
         $toolbar->addSeparator();
 
         $toolbar->addComponent(
-            $this->getMultiObjectPropertiesManipulator()->getTimeLimitsButton()
+            $this->getMultiObjectPropertiesManipulator()->getAvailabilityPeriodButton()
         );
         return $toolbar;
     }
 
-    public function editTimeLimitsObject(): void
+    public function editAvailabilityPeriodObject(): void
     {
         if (!$this->checkPermissionBool('write')) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('msg_no_perm_write'));
             return;
         }
         $item_ref_ids = $this->retriever->getSelectedIdsFromObjectList();
-        $time_limits_modal = $this->getMultiObjectPropertiesManipulator()->getEditTimeLimitsPropertiesModal(
+        $availability_period_modal = $this->getMultiObjectPropertiesManipulator()->getEditAvailabilityPeriodPropertiesModal(
             $item_ref_ids,
             $this
         );
-        if ($time_limits_modal !== null) {
+        if ($availability_period_modal !== null) {
             $this->tpl->setVariable(
-                'TIME_LIMITS_MODAL',
+                'AVAILABILITY_PERIOD_MODAL',
                 $this->ui_renderer->render(
-                    $time_limits_modal->withOnLoad(
-                        $time_limits_modal->getShowSignal()
+                    $availability_period_modal->withOnLoad(
+                        $availability_period_modal->getShowSignal()
                     )
                 )
             );
@@ -851,21 +851,21 @@ class ilObjectGUI implements ImplementsCreationCallback
         $this->renderObject();
     }
 
-    public function saveTimeLimitsObject(): void
+    public function saveAvailabilityPeriodObject(): void
     {
         if (!$this->checkPermissionBool('write')) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('msg_no_perm_write'));
             return;
         }
-        $time_limits_modal = $this->getMultiObjectPropertiesManipulator()->saveEditTimeLimitsPropertiesModal($this, $this->request);
-        if ($time_limits_modal === null) {
-            $this->tpl->setOnScreenMessage('success', $this->lng->txt('time_limits_changed'));
+        $availability_period_modal = $this->getMultiObjectPropertiesManipulator()->saveEditAvailabilityPeriodPropertiesModal($this, $this->request);
+        if ($availability_period_modal === null) {
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('availability_period_changed'));
         } else {
             $this->tpl->setVariable(
-                'TIME_LIMITS_MODAL',
+                'AVAILABILITY_PERIOD_MODAL',
                 $this->ui_renderer->render(
-                    $time_limits_modal->withOnLoad(
-                        $time_limits_modal->getShowSignal()
+                    $availability_period_modal->withOnLoad(
+                        $availability_period_modal->getShowSignal()
                     )
                 )
             );
