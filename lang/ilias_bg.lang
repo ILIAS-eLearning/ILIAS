@@ -9477,20 +9477,9 @@ file#:#file_download#:#Изтегляне на файл
 file#:#file_import#:#Импорт на файл
 file#:#file_new_version#:#Създаване на нова версия
 file#:#file_new_version_info#:#Създаване на нова версия на файла. Старите версии няма да бъдат променяни.
-file#:#file_suffix_custom_black#:#Черният списък с персонализирани суфикси
-file#:#file_suffix_custom_black_info#:#Тези суфикси ще бъдат премахнати от белия списък по подразбиране.
-file#:#file_suffix_custom_expl_black#:#Забранени файлови разширения###22 06 2022 new variable
-file#:#file_suffix_custom_expl_black_info#:#Файлове с тези разширения не се приемат.
-file#:#file_suffix_custom_white#:#Бял списък с персонализирани суфикси
-file#:#file_suffix_custom_white_info#:#Тези суфикси ще бъдат добавени към белия списък по подразбиране.
-file#:#file_suffix_default_white#:#Бял списък на суфиксите по подразбиране
-file#:#file_suffix_default_white_info#:#Списък по подразбиране на приетите файлови суфикси.
-file#:#file_suffix_overall_white#:#Бял списък на общите суфикси
-file#:#file_suffix_overall_white_info#:#Отговорен общ списък на приетите файлови суфикси.
 file#:#file_upload_info_file_with_critical_extension#:#Напълно каченият файл съдържа критично или неизвестно окончание. При всяко изтегляне окончанието на файла ще бъде променено на .sec. Ако е необходимо, свържете се с вашия администратор.###08 12 2021 new variable
 file#:#file_uploaded_by#:#Зареждане от
 file#:#general_upload_error_occured#:#По време на качването е възникнала неочаквана грешка.
-file#:#generate_sanitize_report#:#Доклад за недостъпни файлове
 file#:#migrated#:#Състояние###22 06 2022 new variable
 file#:#msg_unzip_success#:#Archive has been successfully unziped.###31 03 2023 new variable
 file#:#replace_file_info#:#Всички версии на файловете ще бъдат изтрити.
@@ -9911,6 +9900,7 @@ grp#:#grp_members#:#Членове
 grp#:#grp_members_deleted#:#Изтрити членове
 grp#:#grp_members_map#:#Карта на членовете на групата
 grp#:#grp_members_print_title#:#Членове на групата
+grp#:#grp_min_one_admin#:#There has to be at least one administrator assigned to this group.###23 10 2023 new variable
 grp#:#grp_missing_grp_type#:#Моля, изберете тип група.
 grp#:#grp_missing_password#:#Моля, въведете парола на групата.
 grp#:#grp_new_status#:#Новият ви статус е:
@@ -10334,6 +10324,8 @@ link#:#link_wpages#:#Страници на Уикипедия
 lm#:#lm_btn_lp_toggle_state_completed#:#Комплектът не е завършен###22 06 2022 new variable
 lm#:#lm_btn_lp_toggle_state_not_completed#:#Комплектът е завършен###22 06 2022 new variable
 lm#:#lm_copy#:#Копие на модул за обучение
+lm#:#lm_edit_chapters#:#Edit Chapters###23 10 2023 new variable
+lm#:#lm_edit_lm_settings#:#Edit Learning Module Settings###23 10 2023 new variable
 lm#:#lm_est_reading_time#:#Estimated Reading Time###31 03 2023 new variable
 lm#:#lm_est_reading_time_info#:#In Learning Modules in the repository the estimated reading time can be determined and displayed.###31 03 2023 new variable
 lm#:#lm_page_type_lm#:#LM Page
@@ -10433,6 +10425,7 @@ lso#:#lso_members_gallery#:#Галерия на членовете на учеб
 lso#:#lso_members_print_title#:#Последователност на обучението
 lso#:#lso_min_one_admin#:#За тази учебна последователност трябва да има назначен поне един администратор.
 lso#:#lso_msg_member_assigned#:#Потребител(и), назначен(и) като член(и) на учебната последователност
+lso#:#lso_multidownload_not_available#:#Downloading multiple objects is currently not available for Learning Sequence Objects.###23 10 2023 new variable
 lso#:#lso_new_status#:#Новият ви статус е:
 lso#:#lso_notification#:#Notification
 lso#:#lso_notification_explanation_admin#:#Получавате поща от ILIAS, защото сте администратор на учебни последователности с разрешено уведомяване.
@@ -10609,7 +10602,10 @@ lti#:#lti_con_prov_category_info#:#Категория за филтриране 
 lti#:#lti_con_prov_custom_params#:#Подходящи параметри за този конкретен доставчик
 lti#:#lti_con_prov_custom_params_info#:#Въведете ги под формата param1=value1; param2=value2
 lti#:#lti_con_prov_description#:#Описание
+lti#:#lti_con_prov_dyn_reg_params#:#Optional Parameters###23 10 2023 new variable
+lti#:#lti_con_prov_dyn_reg_params_info#:#Here, for example, references to target objects in the tool can be specified.###23 10 2023 new variable
 lti#:#lti_con_prov_dyn_reg_url#:#Registration URL of the Tool###31 03 2023 new variable
+lti#:#lti_con_prov_dyn_reg_url_info#:#Note: Not every tool supports dynamic registration.###23 10 2023 new variable
 lti#:#lti_con_prov_external_provider#:#Външен доставчик
 lti#:#lti_con_prov_external_provider_info#:#Загатване, което ще се показва на потребителите при работа с външен доставчик. Външен доставчик се характеризира с недостатъчно влияние върху доставчика от страна на оператора на инсталацията на ILIAS. Това се случва, когато няма права за изтриване.
 lti#:#lti_con_prov_group_options#:#Опции за групиране и филтриране на доставчици
@@ -10727,6 +10723,7 @@ lti#:#mastery_score_info#:#Напредъкът в обучението ще б�
 lti#:#obj_tile_image_info#:#Използване на изображение в квадратен формат
 lti#:#online_info#:#Това прави обекта видим и използваем за потребителите.
 lti#:#prefix#:#Prefix
+lti#:#prefix_info#:#This prefix is put in front of the username (login). This ensures the uniqueness of usernames. It also facilitates the assignment of users to LTI consumers / platforms.###23 10 2023 new variable
 lti#:#provider_info#:#Използван доставчик
 lti#:#settings_subtab#:#Настройки
 lti#:#show_statements#:#Показване на учебни преживявания
@@ -11305,9 +11302,15 @@ meta#:#md_advanced#:#Разширени метаданни
 meta#:#md_aria_language_selection#:#Избор на език###22 06 2022 new variable
 meta#:#md_copyright#:#Copyright
 meta#:#md_copyright_add#:# Добавяне на предварително зададени авторски права
+meta#:#md_copyright_alt_text#:#Text Representation###23 10 2023 new variable
+meta#:#md_copyright_alt_text_info#:#Used for image ‘alt’ attribute###23 10 2023 new variable
 meta#:#md_copyright_edit#:#Предварителна настройка на авторските права
 meta#:#md_copyright_enable_info#:#Изберете тази опция, за да предложите избор от предварително дефинирани авторски права
 meta#:#md_copyright_enabled#:#Активиране на избора на авторски права
+meta#:#md_copyright_full_name#:#Full Name###23 10 2023 new variable
+meta#:#md_copyright_image_link#:#Image URL###23 10 2023 new variable
+meta#:#md_copyright_link#:#URL###23 10 2023 new variable
+meta#:#md_copyright_link_info#:#Link to the licence###23 10 2023 new variable
 meta#:#md_copyright_preview#:#Copyright (Preview)
 meta#:#md_copyright_selection#:#Предварителни настройки за авторски права
 meta#:#md_copyright_settings#:#Настройки на авторските права
@@ -14821,6 +14824,7 @@ skmg#:#skmg_confirm_user_removal#:#Истина ли искате да прем�
 skmg#:#skmg_cont_profiles_info#:#In this view, you can select the competence profiles with competence entries, which are related to the currently open object (course/group). To get to the global view with all competence profiles you are assigned to and all competence entries, click on the link below.###31 08 2022 new variable
 skmg#:#skmg_context_global#:#Глобален###22 06 2022 new variable
 skmg#:#skmg_context_local#:#Местен###22 06 2022 new variable
+skmg#:#skmg_count_references#:#Number of referenced competences:###23 10 2023 new variable
 skmg#:#skmg_create_sctp#:#Създаване на категория на шаблона
 skmg#:#skmg_create_skill_category#:#Създаване на категория умения
 skmg#:#skmg_create_skill_template#:#Създаване на шаблон на умение
@@ -16606,6 +16610,7 @@ user#:#clipboard_remove_btn#:#Отстраняване от клипборда
 user#:#clipboard_table_title#:#Клипборд (Потребителски акаунти)
 user#:#clipboard_user_added#:#Добавяне на избрани потребители в клипборда.
 user#:#confirm_delete_starting_point#:#Със сигурност ли искате да изтриете това правило?
+user#:#confirm_logout_for_email_change#:#You changed your email. To finalize this change, you will need to provide your password. The system is thus going to log you out and you will have 5 minutes to log in again. All other changes will be saved before logging you out.###23 10 2023 new variable
 user#:#create_starting_point#:#Създаване на правило
 user#:#criteria#:#Критерий
 user#:#del_mail_body#:#Здравейте %1$s, %2$s не сте влизали в системата от дълго време, на %3$s. Вашият акаунт ще бъде изтрит след %4$s дни. Трябва да влезете отново, за да предотвратите изтриването на профила си.
@@ -16613,6 +16618,7 @@ user#:#del_mail_subject#:#(ILIAS) - Вашият акаунт ще бъде из
 user#:#delete_inactive_user_accounts_frequency#:#Честота
 user#:#delete_inactive_user_accounts_frequency_desc#:#Честота, с която ще се тества изтриването и изпращането на имейли.
 user#:#editing_this_role#:#Role
+user#:#email_could_not_be_changed#:#The request to change your email could not be finalized.###23 10 2023 new variable
 user#:#enable_local_user_administration#:#Активиране на локалното управление на потребителите
 user#:#enable_local_user_administration_info#:#Ако е разрешено, локалните потребителски акаунти могат да се администрират по категории.
 user#:#feedhash#:#Newsfeedhash

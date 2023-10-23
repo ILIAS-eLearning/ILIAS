@@ -9477,20 +9477,9 @@ file#:#file_download#:#ファイルをダウンロード
 file#:#file_import#:#ファイルをインポート
 file#:#file_new_version#:#新バージョンを作成
 file#:#file_new_version_info#:#新ファイルバージョンを作成します。旧バージョンは修正されません。
-file#:#file_suffix_custom_black#:#カスタム拡張子ブラックリスト
-file#:#file_suffix_custom_black_info#:#これらの拡張子は既定のホワイトリストから削除されます。
-file#:#file_suffix_custom_expl_black#:#明示的なブラックリスト
-file#:#file_suffix_custom_expl_black_info#:#これらの拡張子のファイルは受領できません。
-file#:#file_suffix_custom_white#:#カスタム拡張子ホワイトリスト
-file#:#file_suffix_custom_white_info#:#これらの拡張子は初期値のホワイトリストへ追加されます。
-file#:#file_suffix_default_white#:#拡張子ホワイトリスト初期値
-file#:#file_suffix_default_white_info#:#承認済ファイル拡張子の初期値リスト
-file#:#file_suffix_overall_white#:#拡張子ホワイトリスト全般
-file#:#file_suffix_overall_white_info#:#承認済ファイル拡張子の全般リスト結果
 file#:#file_upload_info_file_with_critical_extension#:#uploadされたファイルはクリティカルまたは不明なファイル終端が含まれています。ファイル終端はダウンロード毎に.secへ変更されます。必要に応じて管理者へ連絡してください。
 file#:#file_uploaded_by#:#アップロード者
 file#:#general_upload_error_occured#:#upload中に予期しないエラーが発生しました。
-file#:#generate_sanitize_report#:#アクセス不可なファイルに関するレポート
 file#:#migrated#:#ステータス
 file#:#msg_unzip_success#:#アーカイブは正しくunzipされました。
 file#:#replace_file_info#:#全ての旧バージョンファイルは削除されます。
@@ -9911,6 +9900,7 @@ grp#:#grp_members#:#メンバー
 grp#:#grp_members_deleted#:#メンバーを削除しました
 grp#:#grp_members_map#:#グループ メンバーのMap
 grp#:#grp_members_print_title#:#グループメンバ
+grp#:#grp_min_one_admin#:#There has to be at least one administrator assigned to this group.###23 10 2023 new variable
 grp#:#grp_missing_grp_type#:#グループタイプを選んでください。
 grp#:#grp_missing_password#:#グループパスワードを入力してください。
 grp#:#grp_new_status#:#新しいステータス
@@ -10334,6 +10324,8 @@ link#:#link_wpages#:#Wiki Pages
 lm#:#lm_btn_lp_toggle_state_completed#:#未完了を設定
 lm#:#lm_btn_lp_toggle_state_not_completed#:#完了を設定
 lm#:#lm_copy#:#ラーニングモジュールをコピー
+lm#:#lm_edit_chapters#:#Edit Chapters###23 10 2023 new variable
+lm#:#lm_edit_lm_settings#:#Edit Learning Module Settings###23 10 2023 new variable
 lm#:#lm_est_reading_time#:#予測読込み時間
 lm#:#lm_est_reading_time_info#:#リポジトリ内の学習モジュール予測読込み時間が確定されて表示できます。
 lm#:#lm_page_type_lm#:#LMページ
@@ -10433,6 +10425,7 @@ lso#:#lso_members_gallery#:#学習シーケンスメンバーギャラリー
 lso#:#lso_members_print_title#:#学習シーケンスメンバー
 lso#:#lso_min_one_admin#:#この学習シーケンスに対して一人は管理者を割当てる必要があります。
 lso#:#lso_msg_member_assigned#:#ユーザは学習シーケンスメンバーとして割当てられました。
+lso#:#lso_multidownload_not_available#:#Downloading multiple objects is currently not available for Learning Sequence Objects.###23 10 2023 new variable
 lso#:#lso_new_status#:#新しいステータスは:
 lso#:#lso_notification#:#通知
 lso#:#lso_notification_explanation_admin#:#通知を有効にしている学習シーケンス管理者なのでILIASからメール受信します。
@@ -10609,7 +10602,10 @@ lti#:#lti_con_prov_category_info#:#LTI Consumerオブジェクトが作成され
 lti#:#lti_con_prov_custom_params#:#この特定のプロバイダー用のカスタムパラメータ
 lti#:#lti_con_prov_custom_params_info#:#フォームへ入力してください。 param1=value1; param2=value2
 lti#:#lti_con_prov_description#:#説明
+lti#:#lti_con_prov_dyn_reg_params#:#Optional Parameters###23 10 2023 new variable
+lti#:#lti_con_prov_dyn_reg_params_info#:#Here, for example, references to target objects in the tool can be specified.###23 10 2023 new variable
 lti#:#lti_con_prov_dyn_reg_url#:#ツールのURLを登録
+lti#:#lti_con_prov_dyn_reg_url_info#:#Note: Not every tool supports dynamic registration.###23 10 2023 new variable
 lti#:#lti_con_prov_external_provider#:#External Provider
 lti#:#lti_con_prov_external_provider_info#:#External Providerと通信中ユーザへヒントが表示されます。External ProviderはILIASシステムのオペレータによりプロバイダに対しては不十分な影響として特徴づけられます。これは削除する権利がない時の場合です。
 lti#:#lti_con_prov_group_options#:#グループオプションとプロバイダフィルター
@@ -10727,6 +10723,7 @@ lti#:#mastery_score_info#:#学習進捗はProvider Outcome Serviceとmastery sco
 lti#:#obj_tile_image_info#:#四角形のイメージを使用
 lti#:#online_info#:#これはユーザーへオブジェクトを表示して利用可能にします。
 lti#:#prefix#:#Prefix
+lti#:#prefix_info#:#This prefix is put in front of the username (login). This ensures the uniqueness of usernames. It also facilitates the assignment of users to LTI consumers / platforms.###23 10 2023 new variable
 lti#:#provider_info#:#使用したプロバイダー
 lti#:#settings_subtab#:#設定
 lti#:#show_statements#:#学習履歴を表示
@@ -11305,9 +11302,15 @@ meta#:#md_advanced#:#メタデータ詳細
 meta#:#md_aria_language_selection#:#言語選択
 meta#:#md_copyright#:#著作権
 meta#:#md_copyright_add#:#著作権のプリセットを追加
+meta#:#md_copyright_alt_text#:#Text Representation###23 10 2023 new variable
+meta#:#md_copyright_alt_text_info#:#Used for image ‘alt’ attribute###23 10 2023 new variable
 meta#:#md_copyright_edit#:#著作権のプリセットを編集
 meta#:#md_copyright_enable_info#:#定義済みの著作権の選択を提供するには、このオプションを選択します。
 meta#:#md_copyright_enabled#:#著作権選択を可能にする
+meta#:#md_copyright_full_name#:#Full Name###23 10 2023 new variable
+meta#:#md_copyright_image_link#:#Image URL###23 10 2023 new variable
+meta#:#md_copyright_link#:#URL###23 10 2023 new variable
+meta#:#md_copyright_link_info#:#Link to the licence###23 10 2023 new variable
 meta#:#md_copyright_preview#:#著作権(プレビュー)
 meta#:#md_copyright_selection#:#著作権初期値
 meta#:#md_copyright_settings#:#著作権設定
@@ -14821,6 +14824,7 @@ skmg#:#skmg_confirm_user_removal#:#本当にこのプロファイルから次の
 skmg#:#skmg_cont_profiles_info#:#この表示では、現在開いているオブジェクト(コース/グループ)に関係する能力エントリーの能力プロファイルを選択できます。割当てられている全ての能力プロファイルと全ての能力エントリー付きでグローバル表示をするには、以下のリンクをクリックします。
 skmg#:#skmg_context_global#:#グローバル
 skmg#:#skmg_context_local#:#ローカル
+skmg#:#skmg_count_references#:#Number of referenced competences:###23 10 2023 new variable
 skmg#:#skmg_create_sctp#:#テンプレートカテゴリを作成
 skmg#:#skmg_create_skill_category#:#能力カテゴリを作成
 skmg#:#skmg_create_skill_template#:#能力テンプレートを作成
@@ -16606,6 +16610,7 @@ user#:#clipboard_remove_btn#:#クリップボードから削除
 user#:#clipboard_table_title#:#クリップボード(ユーザアカウント)
 user#:#clipboard_user_added#:#クリップボードへ選択のユーザを追加しました
 user#:#confirm_delete_starting_point#:#このルールを本当に消去しますか？
+user#:#confirm_logout_for_email_change#:#You changed your email. To finalize this change, you will need to provide your password. The system is thus going to log you out and you will have 5 minutes to log in again. All other changes will be saved before logging you out.###23 10 2023 new variable
 user#:#create_starting_point#:#ルールを作成
 user#:#criteria#:#判定基準
 user#:#del_mail_body#:#%1$sさん, %3$s時点で%2$sへあなたは長期間ログインしていません。そのためアカウントは%4$s日以内に削除されます。アカウント削除を回避するには再度ログインし直す必要があります。
@@ -16613,6 +16618,7 @@ user#:#del_mail_subject#:#(ILIAS) アカウントは削除されます。
 user#:#delete_inactive_user_accounts_frequency#:#間隔
 user#:#delete_inactive_user_accounts_frequency_desc#:#削除とメール配布間隔をテストします。
 user#:#editing_this_role#:#役割
+user#:#email_could_not_be_changed#:#The request to change your email could not be finalized.###23 10 2023 new variable
 user#:#enable_local_user_administration#:#ローカルユーザ管理を使用
 user#:#enable_local_user_administration_info#:#有効にするとローカルユーザアカウントはカテゴリ内で管理できます。
 user#:#feedhash#:#ニュースフィードハッシュ
