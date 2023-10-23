@@ -4756,11 +4756,14 @@ td.form-inline > div.form-group {
   display: block;
 }
 .il-item .il-item-actions {
-  display: inline-block;
   float: right;
-}
-.il-item .il-item-actions .btn-default {
-  margin-right: 6px;
+  /*
+  .btn-default {
+  	margin-right: $il-padding-small-horizontal;
+  }
+  &:last-child {
+  	margin-right: 0;
+  }*/
 }
 .il-item .il-item-divider {
   clear: both;
