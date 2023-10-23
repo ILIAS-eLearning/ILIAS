@@ -25,6 +25,7 @@
  */
 class ilPCAMDPageList extends ilPageContent
 {
+    protected \ILIAS\Wiki\InternalDomainService $wiki_domain;
     protected ilDBInterface $db;
     protected ilLanguage $lng;
 

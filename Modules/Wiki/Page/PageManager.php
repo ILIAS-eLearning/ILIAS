@@ -28,8 +28,12 @@ use ILIAS\Wiki\InternalRepoService;
  */
 class PageManager
 {
+    protected DomainService $page_domain;
+    protected \ILIAS\Wiki\Wiki\DomainService $wiki_domain;
+    protected PageDBRepository $page_repo;
+    protected int $wiki_ref_id;
     protected \ilObjWiki $wiki;
-    protected $ref_id;
+    protected int $ref_id;
     protected InternalDataService $data_service;
 
     public function __construct(

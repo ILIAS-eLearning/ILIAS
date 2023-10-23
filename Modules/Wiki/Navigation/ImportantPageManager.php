@@ -29,6 +29,7 @@ use ILIAS\Wiki\Navigation\ImportantPageDBRepository;
  */
 class ImportantPageManager
 {
+    protected int $wiki_ref_id;
     protected \ILIAS\Wiki\Wiki\DomainService $wiki_domain;
     protected \ILIAS\Wiki\Navigation\ImportantPageDBRepository $imp_page_repo;
     protected $ref_id;

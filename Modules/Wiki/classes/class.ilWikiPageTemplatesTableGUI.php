@@ -23,6 +23,8 @@
  */
 class ilWikiPageTemplatesTableGUI extends ilTable2GUI
 {
+    protected \ILIAS\Wiki\Page\PageManager $pm;
+    protected ilObjectTranslation $ot;
     protected ilAccessHandler $access;
 
     public function __construct(

@@ -30,6 +30,7 @@ use ILIAS\UICore\PageContentProvider;
  */
 class ilWikiPageGUI extends ilPageObjectGUI
 {
+    protected \ILIAS\Wiki\InternalDomainService $domain;
     protected \ILIAS\Wiki\Page\PageManager $wiki_pm;
     protected ilObjectTranslation $ot;
     protected \ILIAS\Wiki\InternalGUIService $wiki_gui;

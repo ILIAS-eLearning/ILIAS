@@ -23,6 +23,7 @@
  */
 class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
 {
+    protected \ILIAS\Wiki\InternalDomainService $domain;
     protected bool $page_toc = false;
     protected int $style_id = 0;
     protected string $introduction = "";

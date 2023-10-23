@@ -43,7 +43,7 @@ class GUIService
     {
         $ref_id = $this->gui_service->request()->getRefId();
         $this->domain_service->wiki()->checkRefId($ref_id);
-        $mc_gui = new \ilObjWikiGUI(
+        return new \ilObjWikiGUI(
             "",
             $this->gui_service->request()->getRefId(),
             true,
