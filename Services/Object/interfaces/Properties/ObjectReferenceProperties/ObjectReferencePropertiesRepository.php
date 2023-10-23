@@ -26,5 +26,5 @@ interface ObjectReferencePropertiesRepository
     public function preload(array $ref_ids): void;
     public function resetPreloadedData(): void;
     public function getFor(?int $object_reference_id): ObjectReferenceProperties;
-    public function storePropertyTimeLimits(ObjectTimeLimitsProperty $time_based_activation_property);
+    public function storePropertyAvailabilityPeriod(ObjectAvailabilityPeriodProperty $time_based_activation_property);
 }

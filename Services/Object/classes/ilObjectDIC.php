@@ -26,7 +26,7 @@ use ILIAS\Object\Properties\MultiObjectPropertiesManipulator;
 use ILIAS\Object\Properties\CoreProperties\TileImage\ilObjectTileImageStakeholder;
 use ILIAS\Object\Properties\CoreProperties\TileImage\ilObjectTileImageFlavourDefinition;
 use ILIAS\Object\Properties\ObjectReferenceProperties\ObjectReferencePropertiesCachedRepository;
-use ILIAS\Object\Properties\ObjectReferenceProperties\ObjectTimeLimitsPropertiesCachedRepository;
+use ILIAS\Object\Properties\ObjectReferenceProperties\ObjectAvailabilityPeriodPropertiesCachedRepository;
 use Pimple\Container as PimpleContainer;
 use ILIAS\DI\Container as ILIASContainer;
 
@@ -107,12 +107,12 @@ class ilObjectDIC extends PimpleContainer
 
         $this['object_reference_repository'] = fn($c): ObjectReferencePropertiesCachedRepository
             => new ObjectReferencePropertiesCachedRepository(
-                $c['time_limits_repository'],
+                $c['availability_period_repository'],
                 $DIC['ilDB']
             );
 
-        $this['time_limits_repository'] = fn($c): ObjectTimeLimitsPropertiesCachedRepository
-            => new ObjectTimeLimitsPropertiesCachedRepository(
+        $this['availability_period_repository'] = fn($c): ObjectAvailabilityPeriodPropertiesCachedRepository
+            => new ObjectAvailabilityPeriodPropertiesCachedRepository(
                 $DIC['ilDB'],
                 $DIC['tree']
             );

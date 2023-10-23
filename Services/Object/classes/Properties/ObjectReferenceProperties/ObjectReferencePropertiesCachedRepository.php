@@ -29,7 +29,7 @@ class ObjectReferencePropertiesCachedRepository implements ObjectReferenceProper
     private array $data_cache = [];
 
     public function __construct(
-        private readonly ObjectTimeLimitsPropertiesCachedRepository $time_based_activation_properties_repository,
+        private readonly ObjectAvailabilityPeriodPropertiesCachedRepository $time_based_activation_properties_repository,
         private readonly \ilDBInterface $database
     ) {
     }
@@ -55,8 +55,8 @@ class ObjectReferencePropertiesCachedRepository implements ObjectReferenceProper
         );
     }
 
-    public function storePropertyTimeLimits(
-        ObjectTimeLimitsProperty $time_based_activation_property
+    public function storePropertyAvailabilityPeriod(
+        ObjectAvailabilityPeriodProperty $time_based_activation_property
     ): void {
         $this->time_based_activation_properties_repository->store(
             $time_based_activation_property

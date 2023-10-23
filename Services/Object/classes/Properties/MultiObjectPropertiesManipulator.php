@@ -21,7 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\Object\Properties;
 
 use ILIAS\Object\Properties\ObjectReferenceProperties\ObjectReferencePropertiesRepository;
-use ILIAS\Object\Properties\ObjectReferenceProperties\ObjectTimeLimitsProperty;
+use ILIAS\Object\Properties\ObjectReferenceProperties\ObjectAvailabilityPeriodProperty;
 use ILIAS\UI\Component\Button\Standard as StandardButton;
 use ILIAS\UI\Component\Modal\RoundTrip as RoundTripModal;
 use ILIAS\UI\Implementation\Component\Listing\Unordered as UnorderedListing;
@@ -44,23 +44,23 @@ class MultiObjectPropertiesManipulator
     ) {
     }
 
-    public function getTimeLimitsButton(): StandardButton
+    public function getAvailabilityPeriodButton(): StandardButton
     {
         $on_load_code = function ($id) {
             return "document.getElementById('$id')"
                 . '.addEventListener("click", '
                 . '(e) => {e.preventDefault();'
-                . 'e.target.setAttribute("name", "cmd[editTimeLimits]");'
+                . 'e.target.setAttribute("name", "cmd[editAvailabilityPeriod]");'
                 . 'e.target.form.requestSubmit(e.target);});';
         };
 
         return $this->ui_factory->button()->standard(
-            $this->language->txt('edit_time_limits'),
+            $this->language->txt('edit_availability_period'),
             ''
         )->withAdditionalOnLoadCode($on_load_code);
     }
 
-    public function getEditTimeLimitsPropertiesModal(
+    public function getEditAvailabilityPeriodPropertiesModal(
         array $ref_ids,
         \ilObjectGUI $parent_gui
     ): ?RoundTripModal {
@@ -74,25 +74,25 @@ class MultiObjectPropertiesManipulator
 
         $items = $this->getItemsForRefIds($ref_ids);
 
-        $post_url = $this->ctrl->getFormAction($parent_gui, 'saveTimeLimits');
+        $post_url = $this->ctrl->getFormAction($parent_gui, 'saveAvailabilityPeriod');
 
         return $this->buildModal($post_url, $items, $ref_ids, $this->areAllElementsEqual($ref_ids));
     }
 
-    public function saveEditTimeLimitsPropertiesModal(
+    public function saveEditAvailabilityPeriodPropertiesModal(
         \ilObjectGUI $parent_gui,
         ServerRequestInterface $request
     ): ?RoundTripModal {
-        $post_url = $this->ctrl->getFormAction($parent_gui, 'saveTimeLimits');
-        $time_based_activation_modal = $this->buildModal($post_url)
+        $post_url = $this->ctrl->getFormAction($parent_gui, 'saveAvailabilityPeriod');
+        $availability_period_modal = $this->buildModal($post_url)
             ->withRequest($request);
-        $data = $time_based_activation_modal->getData();
+        $data = $availability_period_modal->getData();
         if ($data === null) {
-            return $time_based_activation_modal;
+            return $availability_period_modal;
         }
         $ref_ids = explode(',', $data['affected_items']);
-        $time_based_activation_property = $data['time_based_activation'];
-        $this->saveTimeLimitsPropertyForObjectRefIds($ref_ids, $time_based_activation_property);
+        $availability_period_property = $data['enable_availability_period'];
+        $this->saveAvailabilityPeriodPropertyForObjectRefIds($ref_ids, $availability_period_property);
         return null;
     }
 
@@ -118,10 +118,10 @@ class MultiObjectPropertiesManipulator
 
         if ($ref_ids !== null && !$all_settings_are_equal) {
             $content = [
-                $this->ui_factory->messageBox()->info($this->language->txt('unequal_items_for_time_limits_message')),
+                $this->ui_factory->messageBox()->info($this->language->txt('unequal_items_for_availability_period_message')),
             ] + $items;
         }
-        return $modal_factory->roundtrip($this->language->txt('edit_time_limits'), $content, $input_fields, $post_url);
+        return $modal_factory->roundtrip($this->language->txt('edit_availability_period'), $content, $input_fields, $post_url);
     }
 
     /**
@@ -138,7 +138,7 @@ class MultiObjectPropertiesManipulator
         ];
 
         $input_fields = [];
-        $input_fields['time_based_activation'] = $this->object_reference_properties_repo->getFor($ref_id_for_values)->getPropertyTimeLimits()->toForm(
+        $input_fields['enable_availability_period'] = $this->object_reference_properties_repo->getFor($ref_id_for_values)->getPropertyAvailabilityPeriod()->toForm(
             $this->language,
             $this->ui_factory->input()->field(),
             $this->refinery,
@@ -149,12 +149,12 @@ class MultiObjectPropertiesManipulator
         return $input_fields;
     }
 
-    private function saveTimeLimitsPropertyForObjectRefIds(
+    private function saveAvailabilityPeriodPropertyForObjectRefIds(
         array $object_reference_ids,
-        ObjectTimeLimitsProperty $property
+        ObjectAvailabilityPeriodProperty $property
     ): void {
         foreach ($object_reference_ids as $object_reference_id) {
-            $this->object_reference_properties_repo->storePropertyTimeLimits(
+            $this->object_reference_properties_repo->storePropertyAvailabilityPeriod(
                 $property->withObjectReferenceId((int) $object_reference_id)
             );
         }
@@ -165,17 +165,17 @@ class MultiObjectPropertiesManipulator
      */
     private function areAllElementsEqual(array $ref_ids): bool
     {
-        $previous_element = $this->object_reference_properties_repo->getFor(array_shift($ref_ids))->getPropertyTimeLimits();
+        $previous_element = $this->object_reference_properties_repo->getFor(array_shift($ref_ids))->getPropertyAvailabilityPeriod();
         foreach ($ref_ids as $ref_id) {
-            $current_element = $this->object_reference_properties_repo->getFor($ref_id)->getPropertyTimeLimits();
-            if ($current_element->getTimeLimitsEnabled() === false
-                && $previous_element->getTimeLimitsEnabled() === false) {
+            $current_element = $this->object_reference_properties_repo->getFor($ref_id)->getPropertyAvailabilityPeriod();
+            if ($current_element->getAvailabilityPeriodEnabled() === false
+                && $previous_element->getAvailabilityPeriodEnabled() === false) {
                 return true;
             }
 
-            if ($current_element->getTimeLimitsEnabled() !== $previous_element->getTimeLimitsEnabled()
-                || $current_element->getTimeLimitStart() != $previous_element->getTimeLimitStart()
-                || $current_element->getTimeLimitEnd() != $previous_element->getTimeLimitEnd()
+            if ($current_element->getAvailabilityPeriodEnabled() !== $previous_element->getAvailabilityPeriodEnabled()
+                || $current_element->getAvailabilityPeriodStart() != $previous_element->getAvailabilityPeriodStart()
+                || $current_element->getAvailabilityPeriodEnd() != $previous_element->getAvailabilityPeriodEnd()
                 || $current_element->getVisibleWhenDisabled() !== $previous_element->getVisibleWhenDisabled()) {
                 return false;
             }

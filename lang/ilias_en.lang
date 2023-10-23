@@ -12508,6 +12508,7 @@ notifications_adm#:#osd_vanish#:#Presentation Time
 notifications_adm#:#osd_vanish_desc#:#Visible time of a notification on the screen in miliseconds.
 obj#:#activation_visible_when_disabled#:#Visibility
 obj#:#activation_visible_when_disabled_info#:#If chosen, the material is visible even outside of the given availability.
+obj#:#availability_period_changed#:#The availability period for the selected objects has been changed successfully.
 obj#:#cont_filter_empty#:#Please use the filter to see any objects.
 obj#:#cont_skll_published#:#All assignments have been published.
 obj#:#cont_skll_published_some_not#:#All given assignments have been published. Some users lacked competence assignments, thus no assignments could be published for them.
@@ -12515,8 +12516,8 @@ obj#:#copy_container_page_no_label#:#Don't Copy Content Page
 obj#:#copy_container_page_yes_byline#:#The content page and corresponding style settings of the source object will be copied to this object. Pre-existing page elements will be overwritten.
 obj#:#copy_container_page_yes_label#:#Copy Content Page
 obj#:#custom_icon#:#Custom Icon
+obj#:#edit_availability_period#:#Edit Availability Period
 obj#:#edit_questions#:#Edit Questions
-obj#:#edit_time_limits#:#Edit Time Limits
 obj#:#no_objects_selected#:#At least one object needs to be selected.
 obj#:#obj_activate_content_lang#:#Activate Translation for Page Editing
 obj#:#obj_activate_multilang#:#Activate Multilingualism
@@ -12579,8 +12580,7 @@ obj#:#obj_user_not_disable_not#:#Member are not allowed to deactivate notificati
 obj#:#online_input_byline#:#The object has been published and can be accessed by anyone with read access. Other access prerequisites or time-based access restrictions may still apply. This settings applies to the object wherever it is used in the repository.
 obj#:#select_object_type#:#Select Object Type
 obj#:#svy_results#:#Results
-obj#:#time_limits_changed#:#The time limits for the selected objects have been changed successfully.
-obj#:#unequal_items_for_time_limits_message#:#You have selected items with different time limits. Overwrite existing settings below or cancel action to keep current time limits.
+obj#:#unequal_items_for_availability_period_message#:#You have selected items with different availability periods. Overwrite existing settings below or cancel action to keep current availability periods.
 obj#:#user_owns_no_objects#:#No Repository Objects Available
 objref#:#objref_custom_title#:#Use Own Title
 objref#:#objref_edit_ref#:#Link Target

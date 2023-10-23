@@ -30,11 +30,11 @@ use ILIAS\Refinery\Constraint;
 /**
  * @author Stephan Kergomard
  */
-class ObjectTimeLimitsProperty implements \ilObjectProperty
+class ObjectAvailabilityPeriodProperty implements \ilObjectProperty
 {
     public function __construct(
         private ?int $object_reference_id = null,
-        private ?bool $time_limits_enabled = null,
+        private ?bool $availability_period_enabled = null,
         private ?\DateTimeImmutable $time_limit_start = null,
         private ?\DateTimeImmutable $time_limit_end = null,
         private ?bool $visible_when_disabled = false
@@ -46,17 +46,17 @@ class ObjectTimeLimitsProperty implements \ilObjectProperty
         return $this->object_reference_id;
     }
 
-    public function getTimeLimitsEnabled(): bool
+    public function getAvailabilityPeriodEnabled(): bool
     {
-        return $this->time_limits_enabled === true;
+        return $this->availability_period_enabled === true;
     }
 
-    public function getTimeLimitStart(): ?\DateTimeImmutable
+    public function getAvailabilityPeriodStart(): ?\DateTimeImmutable
     {
         return $this->time_limit_start;
     }
 
-    public function getTimeLimitEnd(): ?\DateTimeImmutable
+    public function getAvailabilityPeriodEnd(): ?\DateTimeImmutable
     {
         return $this->time_limit_end;
     }
@@ -68,7 +68,7 @@ class ObjectTimeLimitsProperty implements \ilObjectProperty
 
     public function objectCurrentlyEnabled(): bool
     {
-        if ($this->time_limits_enabled === false) {
+        if ($this->availability_period_enabled === false) {
             return true;
         }
 
@@ -171,10 +171,10 @@ class ObjectTimeLimitsProperty implements \ilObjectProperty
     private function getValueForActivationLimitedOptionalGroup(\DateTimeZone $timezone): ?array
     {
         $value = null;
-        if ($this->getTimeLimitsEnabled()) {
+        if ($this->getAvailabilityPeriodEnabled()) {
             $value = [
-                'time_limit_start' => $this->getTimeLimitStart()?->setTimezone($timezone)->format('Y-m-d H:i') ?? '',
-                'time_limit_end' => $this->getTimeLimitEnd()?->setTimezone($timezone)->format('Y-m-d H:i') ?? '',
+                'time_limit_start' => $this->getAvailabilityPeriodStart()?->setTimezone($timezone)->format('Y-m-d H:i') ?? '',
+                'time_limit_end' => $this->getAvailabilityPeriodEnd()?->setTimezone($timezone)->format('Y-m-d H:i') ?? '',
                 'visible_when_disabled' => $this->getVisibleWhenDisabled()
             ];
         }

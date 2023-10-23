@@ -1938,9 +1938,9 @@ class ilObjectListGUI
             );
             $time_limit_link = $this->ctrl->getLinkTargetByClass(
                 get_class($this->container_obj),
-                'editTimeLimits'
+                'editAvailabilityPeriod'
             );
-            $this->insertCommand($time_limit_link, $this->lng->txt('edit_time_limits'));
+            $this->insertCommand($time_limit_link, $this->lng->txt('edit_availability_period'));
             $this->ctrl->clearParameterByClass(
                 get_class($this->container_obj),
                 'tl_id',

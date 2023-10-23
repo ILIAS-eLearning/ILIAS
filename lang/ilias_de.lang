@@ -12519,6 +12519,7 @@ notifications_adm#:#osd_vanish#:#Anzeigedauer
 notifications_adm#:#osd_vanish_desc#:#Dauer der Anzeige von Benachrichtigungen in Millisekunden
 obj#:#activation_visible_when_disabled#:#Sichtbarkeit
 obj#:#activation_visible_when_disabled_info#:#Wenn aktiviert, ist das Lernmaterial auch außerhalb der vorgesehenen Verfügbarkeit sichtbar.
+obj#:#availability_period_changed#:#Die zeitliche Verfügbarkeit wurde für die ausgewählten Objekte erfolgreich angepasst.
 obj#:#cont_filter_empty#:#Bitte nutzen Sie den Filter zur Anzeige von Objekten.
 obj#:#cont_skll_published#:#Alle Kompetenzzuweisungen wurden veröffentlicht.
 obj#:#cont_skll_published_some_not#:#Alle gegebenen Kompetenzzuweisungen wurden veröffentlicht. Zu einigen Benutzern konnten keine Kompetenzen veröffentlicht werden, da keine Zuweisungen vorlagen.
@@ -12526,8 +12527,8 @@ obj#:#copy_container_page_no_label#:#Seitengestaltung nicht übernehmen
 obj#:#copy_container_page_yes_byline#:#Die komplette Seitengestaltung des Kurses, aus dem Sie Objekte kopieren, wird in den Zielkurs übernommen. Allfällig vorhandene Seitenelemente werden überschrieben.
 obj#:#copy_container_page_yes_label#:#Seitengestaltung übernehmen
 obj#:#custom_icon#:#Angepasstes Icon
+obj#:#edit_availability_period#:#Zeitliche Verfügbarkeit ändern
 obj#:#edit_questions#:#Fragen bearbeiten
-obj#:#edit_time_limits#:#Zeitliche Verfügbarkeit ändern
 obj#:#no_objects_selected#:#Es muss mindestens ein Objekt ausgewählt werden.
 obj#:#obj_activate_content_lang#:#Mehrsprachigkeit für Seiteneditor aktivieren
 obj#:#obj_activate_multilang#:#Mehrsprachigkeit aktivieren
@@ -12590,8 +12591,7 @@ obj#:#obj_user_not_disable_not#:#Mitglieder können die Benachrichtigung nicht d
 obj#:#online_input_byline#:#Objekt ist veröffentlicht und kann von allen Personen mit dem Recht „Lesezugriff“ genutzt werden. Die Verfügbarkeit kann aber noch durch Vorbedingungen oder zeitliche Zugriffsbeschränkungen eingeschränkt sein. Diese Einstellungen wirkt sich auf alle Referenzen des Objektes aus.
 obj#:#select_object_type#:#Objekttyp wählen
 obj#:#svy_results#:#Ergebnisse
-obj#:#time_limits_changed#:#Die zeitliche Verfügbarkeit wurde für die ausgewählten Objekte erfolgreich angepasst.
-obj#:#unequal_items_for_time_limits_message#:#Es wurden Objekte ausgewählt, deren zeitliche Verfügbarkeit nicht übereinstimmt. Vorgenommene Änderungen überschreiben die zeitliche Verfügbarkeit aller ausgewählten Objekte. Bitte wählen sie "Abbrechen", wenn dies nicht Ihrer Intention entspricht.
+obj#:#unequal_items_for_availability_period_message#:#Es wurden Objekte ausgewählt, deren zeitliche Verfügbarkeit nicht übereinstimmt. Vorgenommene Änderungen überschreiben die zeitliche Verfügbarkeit aller ausgewählten Objekte. Bitte wählen sie "Abbrechen", wenn dies nicht Ihrer Intention entspricht.
 obj#:#user_owns_no_objects#:#Keine Magazin-Objekte vorhanden
 objref#:#objref_custom_title#:#Eigenen Titel eingeben
 objref#:#objref_edit_ref#:#Ziel des Links
