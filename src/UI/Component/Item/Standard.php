@@ -28,6 +28,8 @@ use ILIAS\Data\Color;
 use ILIAS\UI\Component\Dropdown\Standard as DropdownStandard;
 use ILIAS\UI\Component\Symbol\Avatar\Avatar;
 use ILIAS\UI\Component\Button\Standard as ButtonStandard;
+use ILIAS\UI\Component\Link\Standard as LinkStandard;
+use ILIAS\UI\Component\Link\Link;
 
 /**
  * Interface Standard Item
@@ -99,7 +101,7 @@ interface Standard extends Item
      */
     public function getActions(): ?DropdownStandard;
 
-    public function withMainAction(ButtonStandard $button): Standard;
+    public function withMainAction(ButtonStandard|LinkStandard $button): Standard;
 
-    public function getMainAction(): ?ButtonStandard;
+    public function getMainAction(): ButtonStandard|LinkStandard|null;
 }

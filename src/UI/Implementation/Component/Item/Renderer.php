@@ -153,16 +153,20 @@ class Renderer extends AbstractComponentRenderer
             $tpl->parseCurrentBlock();
         }
 
-        // actions
-        $actions = $component->getActions();
-        if ($actions !== null) {
-            $tpl->setVariable("ACTIONS", $default_renderer->render($actions));
-        }
-
         // main action
         $main_action = $component->getMainAction();
         if ($main_action !== null) {
+            $tpl->setCurrentBlock("main_action");
             $tpl->setVariable("MAIN_ACTION", $default_renderer->render($main_action));
+            $tpl->parseCurrentBlock();
+        }
+
+        // actions
+        $actions = $component->getActions();
+        if ($actions !== null) {
+            $tpl->setCurrentBlock("actions");
+            $tpl->setVariable("ACTIONS", $default_renderer->render($actions));
+            $tpl->parseCurrentBlock();
         }
 
         return $tpl->get();
