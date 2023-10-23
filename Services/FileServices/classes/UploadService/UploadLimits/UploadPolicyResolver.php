@@ -88,10 +88,10 @@ class UploadPolicyResolver
             return $policy->isActive();
         }
 
-        $today = new \DateTimeImmutable();
+        $today = new \DateTimeImmutable('today midnight');
 
         if (null !== $valid_from && null !== $valid_until) {
-            return $policy->isActive() && $valid_from >= $today && $today <= $valid_until;
+            return $policy->isActive() && $valid_from >= $today && $today < $valid_until;
         }
 
         if (null !== $valid_until && null === $valid_from) {
