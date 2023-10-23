@@ -22,6 +22,9 @@ use ILIAS\Filesystem\Util\LegacyPathHelper;
 use ILIAS\FileUpload\DTO\ProcessingStatus;
 use ILIAS\FileUpload\DTO\UploadResult;
 
+/** @noRector */
+require_once './include/Unicode/UtfNormal.php';
+
 /**
 * Util class
 * various functions, usage as namespace

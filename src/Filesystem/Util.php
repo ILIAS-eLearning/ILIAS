@@ -43,10 +43,6 @@ class Util
         $filename = preg_replace(self::ZERO_JOINER, '', $filename);
 
         // UTF normalization form C
-        /** @noRector */
-        require_once './include/Unicode/UtfNormal.php';
-        $filename = \UtfNormal::NFC($filename);
-
-        return $filename;
+        return \UtfNormal::NFC($filename);
     }
 }
