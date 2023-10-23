@@ -637,8 +637,6 @@ class Renderer extends AbstractComponentRenderer
         $tpl = $this->getTemplate("tpl.datetime.html", true, true);
         $this->applyName($component, $tpl);
 
-        $f = $this->getUIFactory();
-
         if ($component->getTimeOnly() === true) {
             $format = $component::TIME_FORMAT;
             $dt_type = self::TYPE_TIME;
@@ -673,21 +671,15 @@ class Renderer extends AbstractComponentRenderer
 
         $tpl->setVariable("PLACEHOLDER", $format);
 
-        if ($component->getValue() !== null) {
-            $tpl->setVariable("VALUE", $component->getValue());
-        }
-
-        if ($component->isDisabled()) {
-            $tpl->setVariable("DISABLED", "disabled");
-        }
-
-        return $this->wrapInFormContext($component, $tpl->get(), $this->createId());
+        $this->applyValue($component, $tpl, $this->escapeSpecialChars());
+        $this->maybeDisable($component, $tpl);
+        $id = $this->bindJSandApplyId($component, $tpl);
+        return $this->wrapInFormContext($component, $tpl->get(), $id);
     }
 
     protected function renderDurationField(F\Duration $component, RendererInterface $default_renderer): string
     {
         $tpl = $this->getTemplate("tpl.duration.html", true, true);
-        $this->applyName($component, $tpl);
 
         $id = $this->bindJSandApplyId($component, $tpl);
 
@@ -701,7 +693,6 @@ class Renderer extends AbstractComponentRenderer
         $input_html .= $default_renderer->render($input);
         $tpl->setVariable('DURATION', $input_html);
 
-        $this->maybeDisable($component, $tpl);
         return $this->wrapInFormContext($component, $tpl->get(), $id);
     }
 
@@ -810,9 +801,6 @@ class Renderer extends AbstractComponentRenderer
     public function registerResources(ResourceRegistry $registry): void
     {
         parent::registerResources($registry);
-        $registry->register('./node_modules/moment/min/moment-with-locales.min.js');
-        $registry->register('./node_modules/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js');
-
         $registry->register('./node_modules/@yaireo/tagify/dist/tagify.min.js');
         $registry->register('./node_modules/@yaireo/tagify/dist/tagify.css');
         $registry->register('./src/UI/templates/js/Input/Field/tagInput.js');
