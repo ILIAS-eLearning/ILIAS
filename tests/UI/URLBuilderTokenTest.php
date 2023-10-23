@@ -15,6 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
 declare(strict_types=1);
 
 namespace ILIAS\UI;
@@ -23,7 +24,7 @@ use PHPUnit\Framework\TestCase;
 
 class URLBuilderTokenTest extends TestCase
 {
-    public function test_construct(): void
+    public function testConstruct(): void
     {
         $token = new URLBuilderToken(['test'], 'foo');
         $this->assertInstanceOf(URLBuilderToken::class, $token);
@@ -31,13 +32,13 @@ class URLBuilderTokenTest extends TestCase
         $this->assertNotEmpty($token->getToken());
     }
 
-    public function test_token_length(): void
+    public function testTokenLength(): void
     {
         $token = new URLBuilderToken(['test'], 'foo');
         $this->assertEquals(URLBuilderToken::TOKEN_LENGTH, strlen($token->getToken()));
     }
 
-    public function test_token_name(): void
+    public function testTokenName(): void
     {
         $token = new URLBuilderToken(['test'], 'foo');
         $this->assertEquals('test_foo', $token->getName());

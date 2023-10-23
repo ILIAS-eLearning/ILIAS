@@ -42,7 +42,7 @@ jobs:
         run: composer install --no-interaction --no-progress --no-dev
 
       - name: Install Node dependencies
-        run: npm install --omit-dev --ignore-scripts
+        run: npm clean-install --omit-dev --ignore-scripts
 
       - name: Perform setup
         run: |

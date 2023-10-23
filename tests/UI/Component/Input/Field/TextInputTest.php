@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 require_once(__DIR__ . "/../../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../../Base.php");
@@ -50,7 +50,7 @@ class TextInputTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function test_implements_factory_interface(): void
+    public function testImplementsFactoryInterface(): void
     {
         $f = $this->buildFactory();
 
@@ -60,7 +60,7 @@ class TextInputTest extends ILIAS_UI_TestBase
         $this->assertInstanceOf(Field\Text::class, $text);
     }
 
-    public function test_render(): void
+    public function testRender(): void
     {
         $f = $this->buildFactory();
         $label = "label";
@@ -82,7 +82,7 @@ class TextInputTest extends ILIAS_UI_TestBase
         $this->assertEquals($expected, $html);
     }
 
-    public function test_render_error(): void
+    public function testRenderError(): void
     {
         $f = $this->buildFactory();
         $label = "label";
@@ -106,7 +106,7 @@ class TextInputTest extends ILIAS_UI_TestBase
         $this->assertEquals($expected, $html);
     }
 
-    public function test_render_no_byline(): void
+    public function testRenderNoByline(): void
     {
         $f = $this->buildFactory();
         $label = "label";
@@ -124,7 +124,7 @@ class TextInputTest extends ILIAS_UI_TestBase
         $this->assertEquals($expected, $html);
     }
 
-    public function test_render_value(): void
+    public function testRenderValue(): void
     {
         $f = $this->buildFactory();
         $label = "label";
@@ -143,7 +143,7 @@ class TextInputTest extends ILIAS_UI_TestBase
         $this->assertEquals($expected, $html);
     }
 
-    public function test_render_value_0(): void
+    public function testRenderValue0(): void
     {
         $f = $this->buildFactory();
         $label = "label";
@@ -162,7 +162,7 @@ class TextInputTest extends ILIAS_UI_TestBase
         $this->assertEquals($expected, $html);
     }
 
-    public function test_render_required(): void
+    public function testRenderRequired(): void
     {
         $f = $this->buildFactory();
         $label = "label";
@@ -180,7 +180,7 @@ class TextInputTest extends ILIAS_UI_TestBase
         $this->assertEquals($expected, $html);
     }
 
-    public function test_render_disabled(): void
+    public function testRenderDisabled(): void
     {
         $f = $this->buildFactory();
         $label = "label";
@@ -198,7 +198,7 @@ class TextInputTest extends ILIAS_UI_TestBase
         $this->assertEquals($expected, $html);
     }
 
-    public function test_max_length(): void
+    public function testMaxLength(): void
     {
         $f = $this->buildFactory();
 
@@ -215,7 +215,7 @@ class TextInputTest extends ILIAS_UI_TestBase
         $text->withValue("12345");
     }
 
-    public function test_render_max_value(): void
+    public function testRenderMaxValue(): void
     {
         $f = $this->buildFactory();
         $label = "label";
@@ -233,7 +233,7 @@ class TextInputTest extends ILIAS_UI_TestBase
         $this->assertEquals($expected, $html);
     }
 
-    public function test_value_required(): void
+    public function testValueRequired(): void
     {
         $f = $this->buildFactory();
         $label = "label";
@@ -250,7 +250,7 @@ class TextInputTest extends ILIAS_UI_TestBase
         $this->assertTrue($value2->isError());
     }
 
-    public function test_stripsTags(): void
+    public function testStripsTags(): void
     {
         $f = $this->buildFactory();
         $name = "name_0";

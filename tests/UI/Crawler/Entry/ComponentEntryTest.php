@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 require_once("libs/composer/vendor/autoload.php");
 
@@ -166,7 +166,7 @@ class ComponentEntryTest extends TestCase
 
     public function testExamplePath(): void
     {
-        $this->assertEquals('src/UI/Entry1Title', $this->entry->getExamplesPath());
+        $this->assertEquals('src/UI/examples/Entry1Title', $this->entry->getExamplesPath());
     }
 
     public function testExamplesNull(): void

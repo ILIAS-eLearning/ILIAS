@@ -1471,16 +1471,37 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
      * @return string The title for the question title output
      * @access public
      */
-    public function getQuestionTitle($title, $nr = null): string
+    public function getQuestionTitle($title, $nr = null, $points = null): string
     {
-        if ($this->getTitleOutput() !== 2) {
-            return $title;
-        }
+        switch($this->getTitleOutput())
+        {
+            case '0':
+            case '1':
+                return $title;
+                break;
+            case '2':
+                if (isset($nr)) {
+                    return $this->lng->txt("ass_question") . ' ' . $nr;
+                }
+                return $this->lng->txt("ass_question");
+                break;
+            case 3:
+                if (isset($nr)) {
+                    $txt = $this->lng->txt("ass_question") . ' ' . $nr;
+                } else {
+                    $txt = $this->lng->txt("ass_question");
+                }
+                if($points != '') {
+                    $lngv = $this->lng->txt('points');
+                    if ($points == 1) {
+                        $lngv = $this->lng->txt('point');
+                    }
+                    $txt .= ' - ' . $points . ' ' . $lngv;
+                }
+                return $txt;
+                break;
 
-        if ($this->getTitleOutput() === 2 && isset($nr)) {
-            return $this->lng->txt("ass_question") . ' ' . $nr;
         }
-
         return $this->lng->txt("ass_question");
     }
     // fau.
@@ -5639,7 +5660,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
             $waiting_between_passes = $this->getMainSettings()->getTestBehaviourSettings()->getPassWaiting();
             if ($last_pass && $waiting_between_passes !== '') {
                 $time_values = explode(":", $waiting_between_passes);
-                $next_pass_allowed = strtotime('+ ' . $time_values[0] . ' Months + ' . $time_values[1] . ' Days + ' . $time_values[2] . ' Hours' . $time_values[3] . ' Minutes', $last_pass);
+                $next_pass_allowed = strtotime('+ ' . $time_values[0] . ' Days + ' . $time_values[1] . ' Hours' . $time_values[2] . ' Minutes', $last_pass);
 
                 if (time() < $next_pass_allowed) {
                     $date = ilDatePresentation::formatDate(new ilDateTime($next_pass_allowed, IL_CAL_UNIX));

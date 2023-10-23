@@ -43,7 +43,7 @@ class UploadLimitResolverTest extends TestCase
         $this->upload_handler_without_chunks->method('supportsChunkedUploads')->willReturn(false);
     }
 
-    public static function provide_upload_limit_resolution_data_set(): array
+    public static function provideUploadLimitResolutionDataSet(): array
     {
         return [
             [
@@ -106,9 +106,9 @@ class UploadLimitResolverTest extends TestCase
     }
 
     /**
-     * @dataProvider provide_upload_limit_resolution_data_set
+     * @dataProvider provideUploadLimitResolutionDataSet
      */
-    public function test_upload_limit_resolution(
+    public function testUploadLimitResolution(
         int $php_ini_value,
         ?int $custom_global_value,
         ?int $local_value,

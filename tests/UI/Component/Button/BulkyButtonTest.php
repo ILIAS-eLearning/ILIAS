@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 require_once(__DIR__ . "/../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../Base.php");
@@ -40,7 +40,7 @@ class BulkyButtonTest extends ILIAS_UI_TestBase
         $this->icon = new I\Component\Symbol\Icon\Standard("someExample", "Example", "small", false);
     }
 
-    public function test_implements_factory_interface(): void
+    public function testImplementsFactoryInterface(): void
     {
         $this->assertInstanceOf(
             "ILIAS\\UI\\Component\\Button\\Bulky",
@@ -48,7 +48,7 @@ class BulkyButtonTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function test_construction_icon_type_wrong(): void
+    public function testConstructionIconTypeWrong(): void
     {
         $this->expectException(TypeError::class);
 
@@ -58,7 +58,7 @@ class BulkyButtonTest extends ILIAS_UI_TestBase
         $f->bulky($c, "", "http://www.ilias.de");
     }
 
-    public function test_glyph_or_icon_for_glyph(): void
+    public function testGlyphOrIconForGlyph(): void
     {
         $b = $this->button_factory->bulky($this->glyph, "label", "http://www.ilias.de");
         $this->assertEquals(
@@ -67,7 +67,7 @@ class BulkyButtonTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function test_glyph_or_icon_for_icon(): void
+    public function testGlyphOrIconForIcon(): void
     {
         $b = $this->button_factory->bulky($this->icon, "label", "http://www.ilias.de");
         $this->assertEquals(
@@ -76,7 +76,7 @@ class BulkyButtonTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function test_engaged(): void
+    public function testEngaged(): void
     {
         $b = $this->button_factory->bulky($this->glyph, "label", "http://www.ilias.de");
         $this->assertFalse($b->isEngaged());
@@ -91,7 +91,7 @@ class BulkyButtonTest extends ILIAS_UI_TestBase
         $this->assertTrue($b->isEngageable());
     }
 
-    public function test_engageable_disengaged(): void
+    public function testEngageableDisengaged(): void
     {
         $b = $this->button_factory->bulky($this->glyph, "label", "http://www.ilias.de");
         $this->assertFalse($b->isEngaged());
@@ -106,7 +106,7 @@ class BulkyButtonTest extends ILIAS_UI_TestBase
         $this->assertTrue($b->isEngageable());
     }
 
-    public function test_with_aria_role(): void
+    public function testWithAriaRole(): void
     {
         try {
             $b = $this->button_factory->bulky($this->glyph, "label", "http://www.ilias.de")
@@ -117,7 +117,7 @@ class BulkyButtonTest extends ILIAS_UI_TestBase
         }
     }
 
-    public function test_with_aria_role_incorrect(): void
+    public function testWithAriaRoleIncorrect(): void
     {
         try {
             $this->button_factory->bulky($this->glyph, "label", "http://www.ilias.de")
@@ -128,7 +128,7 @@ class BulkyButtonTest extends ILIAS_UI_TestBase
         }
     }
 
-    public function test_render_with_glyph_in_context(): void
+    public function testRenderWithGlyphInContext(): void
     {
         $r = $this->getDefaultRenderer();
         $b = $this->button_factory->bulky($this->glyph, "label", "http://www.ilias.de");
@@ -139,7 +139,7 @@ class BulkyButtonTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function test_render_with_glyph_in_context_and_engaged(): void
+    public function testRenderWithGlyphInContextAndEngaged(): void
     {
         $r = $this->getDefaultRenderer();
         $b = $this->button_factory->bulky($this->glyph, "label", "http://www.ilias.de")
@@ -151,7 +151,7 @@ class BulkyButtonTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function test_render_with_glyph_in_context_and_disengaged(): void
+    public function testRenderWithGlyphInContextAndDisengaged(): void
     {
         $r = $this->getDefaultRenderer();
         $b = $this->button_factory->bulky($this->glyph, "label", "http://www.ilias.de")
@@ -184,7 +184,7 @@ class BulkyButtonTest extends ILIAS_UI_TestBase
             . '</button>';
     }
 
-    public function test_render_with_icon(): void
+    public function testRenderWithIcon(): void
     {
         $r = $this->getDefaultRenderer();
         $b = $this->button_factory->bulky($this->icon, "label", "http://www.ilias.de");
@@ -201,7 +201,7 @@ class BulkyButtonTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function test_render_button_with_aria_role_menuitem_not_engageable(): void
+    public function testRenderButtonWithAriaRoleMenuitemNotEngageable(): void
     {
         $r = $this->getDefaultRenderer();
         $b = $this->button_factory->bulky($this->icon, "label", "http://www.ilias.de")
@@ -219,7 +219,7 @@ class BulkyButtonTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function test_render_button_with_aria_role_menuitem_is_engageable(): void
+    public function testRenderButtonWithAriaRoleMenuitemIsEngageable(): void
     {
         $r = $this->getDefaultRenderer();
         $b = $this->button_factory->bulky($this->icon, "label", "http://www.ilias.de")

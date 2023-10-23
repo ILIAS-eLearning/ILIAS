@@ -198,7 +198,7 @@ namespace {
             $this->help_text_retriever = $this->createMock(ILIAS\UI\HelpTextRetriever::class);
         }
 
-        public function test_getTemplate_successfull(): void
+        public function testGetTemplateSuccessfull(): void
         {
             $r = new GlyphNonAbstractRenderer(
                 $this->ui_factory,
@@ -220,7 +220,7 @@ namespace {
             $this->assertEquals($expected, $this->tpl_factory->files);
         }
 
-        public function test_getTemplate_unsuccessfull(): void
+        public function testGetTemplateUnsuccessfull(): void
         {
             $r = new CounterNonAbstractRenderer(
                 $this->ui_factory,
@@ -243,7 +243,7 @@ namespace {
             $this->assertEquals($expected, $this->tpl_factory->files);
         }
 
-        public function test_bindJavaScript_successfull(): void
+        public function testBindJavaScriptSuccessfull(): void
         {
             $r = new GlyphNonAbstractRendererWithJS(
                 $this->ui_factory,
@@ -271,7 +271,7 @@ namespace {
             $this->assertEquals(array("ID: id_1"), $this->js_binding->on_load_code);
         }
 
-        public function test_bindJavaScript_no_string(): void
+        public function testBindJavaScriptNoString(): void
         {
             $r = new GlyphNonAbstractRendererWithJS(
                 $this->ui_factory,

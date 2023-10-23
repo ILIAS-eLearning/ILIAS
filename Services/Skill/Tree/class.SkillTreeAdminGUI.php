@@ -73,7 +73,7 @@ class SkillTreeAdminGUI
 
         $this->skill_manager = $skill_manager;
         $this->skill_tree_manager = $this->skill_manager->getTreeManager();
-        $this->tree_factory = $DIC->skills()->internal()->factory()->tree();
+        $this->skill_tree_factory = $DIC->skills()->internal()->factory()->tree();
         $this->skill_management_access_manager = $this->skill_manager->getManagementAccessManager($this->requested_ref_id);
     }
 
@@ -171,7 +171,7 @@ class SkillTreeAdminGUI
         $data_retrieval = new class (
             $this->skill_manager,
             $this->skill_tree_manager,
-            $this->tree_factory,
+            $this->skill_tree_factory,
             $this->skill_management_access_manager
         ) implements \ILIAS\UI\Component\Table\DataRetrieval {
             public function __construct(

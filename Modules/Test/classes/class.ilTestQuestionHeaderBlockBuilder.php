@@ -302,6 +302,9 @@ class ilTestQuestionHeaderBlockBuilder implements ilQuestionHeaderBlockBuilder
     public function getPresentationTitle(): string
     {
         switch ($this->getHeaderMode()) {
+            case 3:     // only points => show no title here
+                return $this->buildQuestionPointsString();
+                break;
             case 2: 	// neither titles nor points => show position as title
                 return $this->buildQuestionPositionString();
                 break;
@@ -329,6 +332,9 @@ class ilTestQuestionHeaderBlockBuilder implements ilQuestionHeaderBlockBuilder
                 $text = $this->buildQuestionPositionString();
                 break;
 
+            case 3: // only points => show nothing here
+                $text = $this->buildQuestionPositionString();
+                break;
             case 2: //	neither titles nor points => position is separate title, show nothing here
                 $text = '';
                 break;

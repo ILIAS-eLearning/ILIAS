@@ -28,7 +28,7 @@ trait ilObjFileUsages
      * @deprecated
      */
     // FSX
-    public static function _deleteAllUsages($a_type, $a_id, int $a_usage_hist_nr = 0, string $a_usage_lang = "-")
+    public static function _deleteAllUsages($a_type, $a_id, int $a_usage_hist_nr = 0, string $a_usage_lang = "-"): void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -36,20 +36,24 @@ trait ilObjFileUsages
         $and_hist = ($a_usage_hist_nr !== false) ? " AND usage_hist_nr = "
             . $ilDB->quote($a_usage_hist_nr, "integer") : "";
 
-        $file_ids = array();
-        $set = $ilDB->query("SELECT id FROM file_usage" . " WHERE usage_type = "
+        $file_ids = [];
+        $set = $ilDB->query(
+            "SELECT id FROM file_usage" . " WHERE usage_type = "
             . $ilDB->quote($a_type, "text") . " AND usage_id= "
             . $ilDB->quote($a_id, "integer") . " AND usage_lang= "
-            . $ilDB->quote($a_usage_lang, "text") . $and_hist);
+            . $ilDB->quote($a_usage_lang, "text") . $and_hist
+        );
         while ($row = $ilDB->fetchAssoc($set)) {
             $file_ids[] = $row["id"];
         }
 
-        $ilDB->manipulate("DELETE FROM file_usage WHERE usage_type = "
+        $ilDB->manipulate(
+            "DELETE FROM file_usage WHERE usage_type = "
             . $ilDB->quote($a_type, "text") . " AND usage_id = "
             . $ilDB->quote((int) $a_id, "integer") . " AND usage_lang= "
             . $ilDB->quote($a_usage_lang, "text") . " AND usage_hist_nr = "
-            . $ilDB->quote($a_usage_hist_nr, "integer"));
+            . $ilDB->quote($a_usage_hist_nr, "integer")
+        );
     }
 
     /**
@@ -58,8 +62,13 @@ trait ilObjFileUsages
      * @param        $a_id
      * @deprecated
      */
-    public static function _saveUsage($a_file_id, $a_type, $a_id, int $a_usage_hist_nr = 0, string $a_usage_lang = "-")
-    {
+    public static function _saveUsage(
+        $a_file_id,
+        $a_type,
+        $a_id,
+        int $a_usage_hist_nr = 0,
+        string $a_usage_lang = "-"
+    ): void {
         global $DIC;
         $ilDB = $DIC['ilDB'];
 
@@ -68,13 +77,17 @@ trait ilObjFileUsages
             return;
         }
         // #15143
-        $ilDB->replace("file_usage", array(
-            "id" => array("integer", (int) $a_file_id),
-            "usage_type" => array("text", (string) $a_type),
-            "usage_id" => array("integer", (int) $a_id),
-            "usage_hist_nr" => array("integer", $a_usage_hist_nr),
-            "usage_lang" => array("text", $a_usage_lang),
-        ), array());
+        $ilDB->replace(
+            "file_usage",
+            [
+            "id" => ["integer", (int) $a_file_id],
+            "usage_type" => ["text", (string) $a_type],
+            "usage_id" => ["integer", (int) $a_id],
+            "usage_hist_nr" => ["integer", $a_usage_hist_nr],
+            "usage_lang" => ["text", $a_usage_lang]
+        ],
+            []
+        );
     }
 
     /**
@@ -89,14 +102,14 @@ trait ilObjFileUsages
         // get usages in learning modules
         $q = "SELECT * FROM file_usage WHERE id = " . $ilDB->quote($this->getId(), "integer");
         $us_set = $ilDB->query($q);
-        $ret = array();
+        $ret = [];
         while ($us_rec = $ilDB->fetchAssoc($us_set)) {
-            $ret[] = array(
+            $ret[] = [
                 "type" => $us_rec["usage_type"],
                 "id" => $us_rec["usage_id"],
                 "lang" => $us_rec["usage_lang"],
-                "hist_nr" => $us_rec["usage_hist_nr"],
-            );
+                "hist_nr" => $us_rec["usage_hist_nr"]
+            ];
         }
 
         return $ret;
@@ -105,8 +118,12 @@ trait ilObjFileUsages
     /**
      * @deprecated
      */
-    public static function _getFilesOfObject(string $a_type, int $a_id, int $a_usage_hist_nr = 0, string $a_usage_lang = "-"): array
-    {
+    public static function _getFilesOfObject(
+        string $a_type,
+        int $a_id,
+        int $a_usage_hist_nr = 0,
+        string $a_usage_lang = "-"
+    ): array {
         global $DIC;
         $ilDB = $DIC['ilDB'];
 
@@ -120,7 +137,7 @@ trait ilObjFileUsages
             . " AND " . "usage_type = " . $ilDB->quote($a_type, "text") . " AND " . $lstr
             . "usage_hist_nr = " . $ilDB->quote($a_usage_hist_nr, "integer");
         $file_set = $ilDB->query($q);
-        $ret = array();
+        $ret = [];
         while ($file_rec = $ilDB->fetchAssoc($file_set)) {
             $ret[$file_rec["id"]] = $file_rec["id"];
         }

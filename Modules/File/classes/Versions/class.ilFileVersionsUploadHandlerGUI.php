@@ -16,9 +16,7 @@
  *
  *********************************************************************/
 
-use ILIAS\FileUpload\Handler\FileInfoResult;
 use ILIAS\FileUpload\Handler\HandlerResult;
-use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
 use ILIAS\FileUpload\DTO\UploadResult;
 use ILIAS\FileUpload\Handler\BasicHandlerResult;
 
@@ -34,15 +32,13 @@ class ilFileVersionsUploadHandlerGUI extends ilCtrlAwareStorageUploadHandler
     public const MODE_APPEND = 'append';
     public const MODE_REPLACE = 'replace';
     public const P_UPLOAD_MODE = 'upload_mode';
-    protected ilObjFile $file;
     protected bool $append;
     protected string $upload_mode = self::MODE_APPEND;
 
-    public function __construct(ilObjFile $existing_file, string $upload_mode = self::MODE_APPEND)
+    public function __construct(protected ilObjFile $file, string $upload_mode = self::MODE_APPEND)
     {
         global $DIC;
         parent::__construct(new ilObjFileStakeholder($DIC->user()->getId()));
-        $this->file = $existing_file;
         $this->upload_mode = $this->http->wrapper()->query()->has(self::P_UPLOAD_MODE)
             ? $this->http->wrapper()->query()->retrieve(self::P_UPLOAD_MODE, $DIC->refinery()->kindlyTo()->string())
             : $upload_mode;

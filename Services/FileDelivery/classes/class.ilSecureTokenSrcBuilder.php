@@ -31,9 +31,12 @@ use ILIAS\FileDelivery\Services;
  */
 class ilSecureTokenSrcBuilder implements SrcBuilder
 {
+    private InlineSrcBuilder $inline;
+
     public function __construct(
         private Services $file_delivery,
     ) {
+        $this->inline = new InlineSrcBuilder($file_delivery);
     }
 
     public function getRevisionURL(Revision $revision, bool $signed = true): string
@@ -53,13 +56,19 @@ class ilSecureTokenSrcBuilder implements SrcBuilder
     public function getFlavourURLs(Flavour $flavour, bool $signed = true): \Generator
     {
         foreach ($flavour->getStreamResolvers() as $stream_resolver) {
-            yield (string) $this->file_delivery->buildTokenURL(
-                $stream_resolver->getStream(),
-                '',
-                Disposition::INLINE,
-                $GLOBALS['ilUser']->getId() ?? 0,
-                1
-            );
+            $stream = $stream_resolver->getStream();
+            if ($stream_resolver->isInMemory() || $stream->getMetadata()['uri'] === 'php://memory') {
+                // must deliver as data uri
+                yield $this->inline->buildDataURLFromStream($stream);
+            } else {
+                yield (string) $this->file_delivery->buildTokenURL(
+                    $stream,
+                    '',
+                    Disposition::INLINE,
+                    $GLOBALS['ilUser']->getId() ?? 0,
+                    1
+                );
+            }
         }
     }
 

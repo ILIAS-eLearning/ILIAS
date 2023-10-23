@@ -31,7 +31,6 @@ class ilECSFileSettings extends ilECSObjectSettings
         return '/campusconnect/files';
     }
 
-
     protected function buildJson(ilECSSetting $a_server)
     {
         $json = $this->getJsonCore('application/ecs-file');

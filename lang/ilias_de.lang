@@ -1891,6 +1891,7 @@ assessment#:#tst_title_output#:#Anzeige der Fragentitel
 assessment#:#tst_title_output_full#:#Fragentitel und erreichbare Punkte
 assessment#:#tst_title_output_hide_points#:#Nur Fragentitel
 assessment#:#tst_title_output_no_title#:#Weder Fragentitel noch erreichbare Punkte
+assessment#:#tst_title_output_only_points#:#Nur erreichbare Punkte
 assessment#:#tst_trigger_result_refreshing#:#Es erfolgt eine Neuberechnung des Ergebnisses. Dies kann eine Weile dauern.
 assessment#:#tst_type#:#Test-Typ
 assessment#:#tst_unchanged_answer_is_correct#:#Die vorgegebene Antwort ist korrekt.
@@ -4564,7 +4565,6 @@ common#:#mm_personal_and_shared_r#:#Persönliche und geteilte Ressourcen
 common#:#mm_personal_workspace#:#Persönlicher Arbeitsraum
 common#:#mm_portfolio#:#Portfolio
 common#:#mm_private_chats#:#Private Chats
-common#:#mm_rep_tree_view#:#Baumansicht
 common#:#mm_repo_tree_view#:#Baumansicht
 common#:#mm_repo_tree_view_act#:#Baumansicht an
 common#:#mm_repo_tree_view_deact#:#Baumansicht aus
@@ -4888,9 +4888,7 @@ common#:#obj_objf_desc#:#ILIAS-Objekttypen und -rechte. (Nur für Experten!)
 common#:#obj_orgu#:#Organisationseinheit
 common#:#obj_orgu_description#:#Anlage und Verwaltung der Organisationsstruktur
 common#:#obj_page#:#Seite
-common#:#obj_pdfg#:#PDF-Erstellung
-common#:#obj_pdfg_desc#:#Administrationseinstellungen für die PDF-Erstellung
-common#:#obj_peac#:#Akkordeon/Karussell
+common#:#obj_peac#:#Akkordeon
 common#:#obj_peadl#:#Erweiterte Liste
 common#:#obj_peadt#:#Erweiterte Tabelle
 common#:#obj_pecd#:#Code
@@ -5160,10 +5158,6 @@ common#:#path_to_zip#:#ZIP-Befehlszeile
 common#:#pathes#:#Pfade
 common#:#pd_items_news#:#Einschließlich Neuigkeiten der ausgewählten Objekte
 common#:#pdf_export#:#PDF-Export
-common#:#pdfg_edit_permission#:#Rechteeinstellungen ändern
-common#:#pdfg_read#:#Lesezugrif auf PDF-Erstellung
-common#:#pdfg_visible#:#PDF-Erstellungs ist sichtbar.
-common#:#pdfg_write#:#Einstellungen der PDF-Erstellung bearbeiten
 common#:#perm_settings#:#Rechte
 common#:#perma_link#:#Link zu dieser Seite
 common#:#permission#:#Recht
@@ -8602,7 +8596,7 @@ dcl#:#dcl_plugin_hooks#:#Verfügbare Erweiterungen
 dcl#:#dcl_plugin_no_hooks_available#:#Keine aktiven Field-Type Plugins gefunden.
 dcl#:#dcl_prev_record#:#Vorheriger Eintrag
 dcl#:#dcl_prop_expression#:#Ausdruck
-dcl#:#dcl_prop_expression_info#:#Gültige Operatoren: <b>%s</b><br>Unterstützte Funktionen: <b>%s</b><br>Verwenden Sie Klammern <b>"(", ")"</b> zum Gruppieren von Ausdrücken.<br>Zeichenketten und Platzhalter verbinden mit &: <b>"Das Resultat ist " & [[Int 1]] * [[Int 2]]</b><br>Verwenden der Funktionen: <b>SUM([[Int 1]];[[Int 2]])</b><br><br>Gültige Felder (auf den Titel klicken um als Platzhalter in Ausdruck einzufügen):<br>%s
+dcl#:#dcl_prop_expression_info#:#Gültige Operatoren: <b>%s</b><br>Unterstützte Funktionen: <b>%s</b><br>Verwenden Sie Klammern <b>"(", ")"</b> zum Gruppieren von Ausdrücken.<br>Zeichenketten und Platzhalter verbinden mit &: <b>"Das Resultat ist " & [[Int 1]] * [[Int 2]]</b><br>Verwenden der Funktionen: <b>SUM([[Int 1]];[[Int 2]])</b><br>Beim verwenden von Datums-Feldern und Zahlen-Feldern in einer Formel, weden die Zahlen-Feldern als Sekunden betrachtet und müssen bspw. mit 86400 multipliziert werden.<br><br>Gültige Felder (auf den Titel klicken um als Platzhalter in Ausdruck einzufügen):<br>%s
 dcl#:#dcl_public_comments#:#Kommentare
 dcl#:#dcl_public_comments_desc#:#Benutzer können Datensätze dieser Tabelle kommentieren.
 dcl#:#dcl_rating#:#Bewertung
@@ -9516,6 +9510,8 @@ file#:#copyright_inherited_info#:#Copyright des Zip-Archivs auf seine entpackten
 file#:#de_activate_icon#:#(De-)Aktivieren
 file#:#download_ascii_filename#:#Verwende ASCII-Zeichen für Dateinamen von Downloads
 file#:#download_ascii_filename_info#:#Dateinamen von Heruntergeladenen Dateien sollten nur ASCII-Zeichen enthalten. Option deaktivieren, um alle Zeichen zu verwenden.
+file#:#file_btn_lp_toggle_state_completed#:#Auf "Nicht bearbeitet" setzen
+file#:#file_btn_lp_toggle_state_not_completed#:#Auf "Bearbeitet" setzen
 file#:#file_copy#:#Datei kopieren
 file#:#file_download#:#Datei herunterladen
 file#:#file_import#:#Dateiimport
@@ -9526,6 +9522,7 @@ file#:#file_uploaded_by#:#Version hochgeladen von
 file#:#form_icon_creation#:#Icon erstellen
 file#:#form_icon_updating#:#Icon aktualisieren
 file#:#general_upload_error_occured#:#Beim Verarbeiten der Datei ist ein unerwartetet Fehler aufgetreten.
+file#:#important_info#:#Wichtige Informationen
 file#:#input_active#:#Aktiv
 file#:#input_desc_active#:#Dieses Icon aktivieren.
 file#:#input_desc_icon#:#Bild welches als Icon für Dateien mit den spezifizierten Suffixen verwendet werden soll.
@@ -9533,6 +9530,7 @@ file#:#input_desc_suffixes#:#Liste Komma-separierter Suffixe (Nur Buchstaben und
 file#:#input_icon#:#Icon
 file#:#input_suffixes#:#Suffixe
 file#:#migrated#:#Status
+file#:#mime_type#:#MIME-Type
 file#:#msg_confirm_entry_deletion#:#Wollen Sie den nachfolgenden Eintrag wirklich löschen?:
 file#:#msg_error_active_suffixes_blacklisted#:#Eine der gewählten Dateiendungen ist auf der globalen Blacklist und kann derzeit nciht genutzt werden.
 file#:#msg_error_active_suffixes_conflict#:#Fehler: Es dürfen nicht mehrere Icons für ein Suffix aktiv sein. Bitte deaktivieren Sie entweder dieses Icon oder das andere aktivierte Icon, dessen Suffixe sich mit jenen dieses Icons überschneiden.
@@ -10605,6 +10603,7 @@ lso#:#lso_members_gallery#:#Mitgliedergalerie
 lso#:#lso_members_print_title#:#Lernsequenzmitglieder
 lso#:#lso_min_one_admin#:#Dieser Lernsequenz muß mindestens ein Administrator zugeordnet bleiben.
 lso#:#lso_msg_member_assigned#:#Benutzer wurde(n) in die Lernsequenz aufgenommen
+lso#:#lso_multidownload_not_available#:#Das Herunterladen verschiedener Objekte ist derzeit nicht für Lernsequenz Objekten verfügbar.
 lso#:#lso_new_status#:#Ihr neuer Status:
 lso#:#lso_notification#:#Benachrichtigung
 lso#:#lso_notification_explanation_admin#:#Sie erhalten diese Mail, da für Sie als Lernsequenzbetreuung die Benachrichtigungen aktiviert sind.
@@ -12669,72 +12668,6 @@ pd#:#pd_upcoming#:#Bevorstehend
 pd#:#pd_view_select_at_least_one#:#Bitte wählen Sie mindestens eine Sicht, entweder 'Ausgewählte Angebote' und/oder 'Kurse und Gruppen'.
 pdesk#:#bookmark_moved_ok#:#Bookmark wurde verschoben.
 pdesk#:#bookmark_select_target#:#Bitte wählen Sie das Ziel.
-pdfgen#:#checkbox_checked_svg#:#Pfad zum ausgewähltem Checkbox SVG
-pdfgen#:#checkbox_svg#:#Pfad zum Checkbox SVG
-pdfgen#:#cleanup#:#Bereinigen
-pdfgen#:#config#:#Config
-pdfgen#:#config_not_saved#:#Speichern fehlgeschlagen.
-pdfgen#:#config_saved#:#Speichern erfolgreich.
-pdfgen#:#configure#:#Konfiguriere Renderer
-pdfgen#:#enable_forms#:#Formulare aktivieren
-pdfgen#:#enable_forms_info#:#Wandelt HTML Formulare in PDF Formulare um
-pdfgen#:#external_links#:#Externe Links
-pdfgen#:#external_links_info#:#Erzeugt links zu externen Webseiten
-pdfgen#:#footer_height#:#Höhe Fußzeile
-pdfgen#:#footer_html#:#Html
-pdfgen#:#footer_line#:#Trennlinie
-pdfgen#:#footer_show_pages#:#Zeige Seitenzahlen
-pdfgen#:#footer_text#:#Text
-pdfgen#:#footer_text_center#:#Text Mitte
-pdfgen#:#footer_text_left#:#Text links
-pdfgen#:#footer_text_right#:#Text rechts
-pdfgen#:#footer_type#:#Fußzeile
-pdfgen#:#greyscale#:#Graustufen
-pdfgen#:#greyscale_info#:#PDF wird in Graustufen erzeugt
-pdfgen#:#head_text#:#Text
-pdfgen#:#header_height#:#Höhe Kopfzeile
-pdfgen#:#header_line#:#Trennlinie
-pdfgen#:#header_show_pages#:#Zeige Seitenzahlen
-pdfgen#:#header_text_center#:#Text Mitte
-pdfgen#:#header_text_left#:#Text links
-pdfgen#:#header_text_right#:#Text rechts
-pdfgen#:#header_type#:#Kopfzeile
-pdfgen#:#html#:#Html
-pdfgen#:#image_scale#:#Bildskalierung
-pdfgen#:#javascript_delay#:#Javascript Verzögerung
-pdfgen#:#javascript_delay_info#:#Wenn JavaScript genutzt wird, um Seiteninhalte zu rendern, sorgt die Verzögerung dafür, dass diese Inhalte auch im PDF erscheinen. Die Standardverzögerung von 200ms sollte in den meisten Fällen ausreichen.
-pdfgen#:#low_quality#:#Niedrige Qualität
-pdfgen#:#low_quality_info#:#Erzeugt PDF mit reduzierter Qualität, wodurch diese eine kleinere Dateigröße bekommen.
-pdfgen#:#margin#:#Rand
-pdfgen#:#margin_bottom#:#Margin unten
-pdfgen#:#margin_info#:#Rand in mm z.B. 10mm
-pdfgen#:#margin_left#:#Margin links
-pdfgen#:#margin_right#:#Margin rechts
-pdfgen#:#margin_top#:#Margin oben
-pdfgen#:#none#:#Keine
-pdfgen#:#orientation#:#Orientierung
-pdfgen#:#output_options#:#Ausgabeoptionen
-pdfgen#:#overwrite_font#:#Schriftart überschreiben
-pdfgen#:#overwrite_font_info#:#Nutzen sie hier Eingaben wie: 'serif', 'sans-serif', 'monospace' usw.
-pdfgen#:#page_settings#:#Seiteneinstellungen
-pdfgen#:#page_size#:#Seitengröße
-pdfgen#:#path#:#Pfad zum Programm
-pdfgen#:#preferred_renderer#:#Bevorzugter Renderer
-pdfgen#:#print_media_info#:#Es wird der "print" media-type genutzt anstatt "screen"
-pdfgen#:#print_media_type#:#Benutze 'Druck Media Type' anstatt 'Bildschirm'
-pdfgen#:#problem_with_purposes#:#Es wurde ein Problem in der Konfiguration festgestellt. Nutzen Sie bitte den Button "Bereinigen", um das Problem zu lösen.
-pdfgen#:#radio_button_checked_svg#:#Pfad zum ausgewähltem Radiobutton SVG
-pdfgen#:#radio_button_svg#:#Pfad zum Radiobutton SVG
-pdfgen#:#reset_to_default#:#Default Einstellungen laden
-pdfgen#:#selected_renderer#:#Gewählter Renderer
-pdfgen#:#spacing#:#Abstand
-pdfgen#:#text#:#Text
-pdfgen#:#user_stylesheet#:#Benutzer Stylesheet
-pdfgen#:#viewport#:#Viewport
-pdfgen#:#viewport_info#:#Viewport in Pixeln z.B "1920*1080"
-pdfgen#:#webkit#:#wkhtmltopdf
-pdfgen#:#wkhtml_config#:#Konfiguration für WKHTML
-pdfgen#:#zoom#:#Zoom
 poll#:#poll_absolute#:#Aktuelle Stimmen
 poll#:#poll_activation_online_info#:#Wählen Sie diese Einstellung, um die Abstimmung für Benutzer verfügbar zumachen.
 poll#:#poll_add#:#Abstimmung anlegen

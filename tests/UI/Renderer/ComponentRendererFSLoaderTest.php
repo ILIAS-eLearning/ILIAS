@@ -72,7 +72,7 @@ class ComponentRendererFSLoaderTest extends TestCase
         return new FSLoader($default_renderer_factory, $this->glyph_renderer, $this->icon_renderer, $field_renderer);
     }
 
-    public function test_getRenderer_successfully(): void
+    public function testGetRendererSuccessfully(): void
     {
         // There should be a renderer for Glyph...
         $f = $this->getComponentRendererFSLoader();
@@ -81,7 +81,7 @@ class ComponentRendererFSLoaderTest extends TestCase
         $this->assertInstanceOf(I\Render\ComponentRenderer::class, $r);
     }
 
-    public function test_getRenderer_successfully_extra(): void
+    public function testGetRendererSuccessfullyExtra(): void
     {
         // There should be a renderer for Glyph...
         $f = $this->getComponentRendererFSLoader();
@@ -106,7 +106,7 @@ class ComponentRendererFSLoaderTest extends TestCase
         $this->assertEquals($renderer, $r);
     }
 
-    public function test_getRenderer_uses_RendererFactory(): void
+    public function testGetRendererUsesRendererFactory(): void
     {
         $loader = $this->getMockBuilder(ILIAS\UI\Implementation\Render\FSLoader::class)
             ->onlyMethods(["getRendererFactoryFor", "getContextNames"])

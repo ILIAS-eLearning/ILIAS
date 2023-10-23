@@ -16,10 +16,6 @@
  *
  *********************************************************************/
 
-use ILIAS\Filesystem\Stream\FileStream;
-use ILIAS\FileUpload\DTO\Metadata;
-use ILIAS\FileUpload\DTO\ProcessingStatus;
-use ILIAS\FileUpload\Processor\PreProcessor;
 use ILIAS\FileUpload\MimeType;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 

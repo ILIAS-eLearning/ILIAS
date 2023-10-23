@@ -66,7 +66,6 @@ class ilFileVersionsGUI
     private ilTabsGUI $tabs;
     protected ilCtrl $ctrl;
     private ilGlobalTemplateInterface $tpl;
-    private \ilObjFile $file;
     private ilFileServicesSettings $file_service_settings;
     private ilObjFileComponentBuilder $file_component_builder;
     protected ?int $version_id = null;
@@ -77,10 +76,9 @@ class ilFileVersionsGUI
     /**
      * ilFileVersionsGUI constructor.
      */
-    public function __construct(ilObjFile $file)
+    public function __construct(private ilObjFile $file)
     {
         global $DIC;
-        $this->file = $file;
         $this->ctrl = $DIC->ctrl();
         $this->tpl = $DIC->ui()->mainTemplate();
         $this->tabs = $DIC->tabs();
@@ -92,11 +90,7 @@ class ilFileVersionsGUI
         $this->storage = $DIC->resourceStorage();
         $this->file_service_settings = $DIC->fileServiceSettings();
         $this->ui = $DIC->ui();
-        if ($this->isWorkspaceContext()) {
-            $this->tree = new ilWorkspaceTree($DIC->user()->getId());
-        } else {
-            $this->tree = $DIC->repositoryTree();
-        }
+        $this->tree = $this->isWorkspaceContext() ? new ilWorkspaceTree($DIC->user()->getId()) : $DIC->repositoryTree();
         $this->file_component_builder = new ilObjFileComponentBuilder($this->lng, $this->ui);
         $this->refinery = $DIC->refinery();
 
@@ -108,7 +102,6 @@ class ilFileVersionsGUI
     }
 
     /**
-     * @return void
      * @throws \ILIAS\FileUpload\Collection\Exception\NoSuchElementException
      * @throws \ILIAS\FileUpload\Exception\IllegalStateException
      */
@@ -136,7 +129,7 @@ class ilFileVersionsGUI
                 break;
             case self::CMD_CREATE_NEW_VERSION:
                 $this->saveVersion(ilFileVersionFormGUI::MODE_ADD);
-            // no break
+                // no break
             case self::CMD_CREATE_REPLACING_VERSION:
                 $this->saveVersion(ilFileVersionFormGUI::MODE_REPLACE);
                 break;
@@ -159,7 +152,6 @@ class ilFileVersionsGUI
     }
 
     /**
-     * @return void
      * @throws ilCtrlException
      */
     protected function setBackTab(): void
@@ -298,7 +290,7 @@ class ilFileVersionsGUI
     {
         try {
             $this->file->sendFile($this->version_id);
-        } catch (FileNotFoundException $e) {
+        } catch (FileNotFoundException) {
         }
     }
 
@@ -376,28 +368,20 @@ class ilFileVersionsGUI
         return [];
     }
 
-    /**
-     * @param array $version_ids
-     * @return array
-     */
     private function getVersionsToKeep(array $version_ids): array
     {
         $versions_to_keep = $this->file->getVersions();
         array_udiff($versions_to_keep, $version_ids, static function ($v1, $v2): bool {
             if (is_array($v1) || $v1 instanceof ilObjFileVersion) {
                 $v1 = (int) $v1["hist_entry_id"];
-            } else {
-                if (!is_numeric($v1)) {
-                    $v1 = (int) $v1;
-                }
+            } elseif (!is_numeric($v1)) {
+                $v1 = (int) $v1;
             }
 
             if (is_array($v2) || $v2 instanceof ilObjFileVersion) {
                 $v2 = (int) $v2["hist_entry_id"];
-            } else {
-                if (!is_numeric($v2)) {
-                    $v2 = (int) $v2;
-                }
+            } elseif (!is_numeric($v2)) {
+                $v2 = (int) $v2;
             }
 
             return $v1 === $v2;
@@ -419,11 +403,9 @@ class ilFileVersionsGUI
             if ($this->wsp_access->checkAccess($a_permission, "", $this->ref_id)) {
                 return true;
             }
-        } else {
+        } elseif ($this->access->checkAccess($a_permission, '', $this->ref_id)) {
             // permission-check concerning a repository object
-            if ($this->access->checkAccess($a_permission, '', $this->ref_id)) {
-                return true;
-            }
+            return true;
         }
 
         return false;
@@ -550,9 +532,13 @@ class ilFileVersionsGUI
 
     private function getFileZipOptionsForm(): Form
     {
+        $inputs = [];
+        $copyright_options = [];
         $form_action = $this->ctrl->getFormActionByClass(self::class, self::CMD_PROCESS_UNZIP);
 
-        $inputs[self::KEY_FILE_RID] = $this->ui->factory()->input()->field()->hidden()->withValue($this->file->getResourceId());
+        $inputs[self::KEY_FILE_RID] = $this->ui->factory()->input()->field()->hidden()->withValue(
+            $this->file->getResourceId()
+        );
         $inputs[self::KEY_FILE_STRUCTURE] = $this->ui->factory()->input()->field()->checkbox(
             $this->lng->txt('take_over_structure'),
             $this->lng->txt('take_over_structure_info'),
@@ -569,9 +555,11 @@ class ilFileVersionsGUI
         if ($rights !== null) {
             $zip_copyright_description = $zip_md->getRights()->getDescription();
             $zip_copyright_id = ilMDCopyrightSelectionEntry::_extractEntryId($zip_copyright_description);
-            $copyright_inheritance_input = $this->ui->factory()->input()->field()->hidden()->withValue((string) $zip_copyright_id);
+            $copyright_inheritance_input = $this->ui->factory()->input()->field()->hidden()->withValue(
+                (string) $zip_copyright_id
+            );
             $copyright_options[self::KEY_INHERIT_COPYRIGHT] = $this->ui->factory()->input()->field()->group(
-                [self::KEY_COPYRIGHT_ID =>  $copyright_inheritance_input],
+                [self::KEY_COPYRIGHT_ID => $copyright_inheritance_input],
                 $this->lng->txt("copyright_inherited"),
                 sprintf(
                     $this->lng->txt("copyright_inherited_info"),
@@ -583,7 +571,7 @@ class ilFileVersionsGUI
         // add the option to collectively select the copyright for all unzipped files independent of the original copyright of the zip
         $copyright_selection_input = $this->getCopyrightSelectionInput('set_license_for_all_files');
         $copyright_options[self::KEY_SELECT_COPYRIGHT] = $this->ui->factory()->input()->field()->group(
-            [self::KEY_COPYRIGHT_ID =>  $copyright_selection_input],
+            [self::KEY_COPYRIGHT_ID => $copyright_selection_input],
             $this->lng->txt("copyright_custom"),
             $this->lng->txt("copyright_custom_info")
         );

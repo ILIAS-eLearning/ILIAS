@@ -66,6 +66,14 @@ class Renderer extends AbstractComponentRenderer
     ];
 
     /**
+     * @var float This factor will be used to calculate a percentage of the PHP upload-size limit which
+     *            will be used as chunk-size for chunked uploads. This needs to be done because file uploads
+     *            fail if the file is exactly as big as this limit or slightly less. 90% turned out to be a
+     *            functional fraction for now.
+     */
+    protected const FILE_UPLOAD_CHUNK_SIZE_FACTOR = 0.9;
+
+    /**
      * @inheritdoc
      */
     public function render(Component\Component $component, RendererInterface $default_renderer): string
@@ -647,14 +655,6 @@ class Renderer extends AbstractComponentRenderer
             }
         }
 
-        $config = [
-            'showClear' => true,
-            'sideBySide' => true,
-            'format' => $format,
-            'locale' => $this->getLangKey()
-        ];
-        $config = array_merge($config, $component->getAdditionalPickerconfig());
-
         $tpl->setVariable("DTTYPE", $dt_type);
 
         $min_max_format = self::DATE_DATEPICKER_MINMAX_FORMAT;
@@ -949,7 +949,7 @@ class Renderer extends AbstractComponentRenderer
                 $is_disabled = ($input->isDisabled()) ? 'true' : 'false';
                 $php_upload_limit = $this->getUploadLimitResolver()->getPhpUploadLimitInBytes();
                 $should_upload_be_chunked = ($input->getMaxFileSize() > $php_upload_limit) ? 'true' : 'false';
-                $chunk_size = (int) floor($php_upload_limit * 0.9);
+                $chunk_size = (int) floor($php_upload_limit * self::FILE_UPLOAD_CHUNK_SIZE_FACTOR);
                 return "
                     $(document).ready(function () {
                         il.UI.Input.File.init(

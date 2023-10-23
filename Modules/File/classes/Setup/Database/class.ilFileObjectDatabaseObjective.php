@@ -18,7 +18,6 @@
 
 declare(strict_types=1);
 
-use ILIAS\DI\Container;
 use ILIAS\File\Icon\IconDatabaseRepository;
 use ILIAS\Modules\File\Settings\General;
 
@@ -73,10 +72,10 @@ class ilFileObjectDatabaseObjective implements ilDatabaseUpdateSteps
     public function step_2(): void
     {
         $this->abortIfNotPrepared();
-
-        if (!$this->database->tableExists('file_data') ||
-            $this->database->tableColumnExists('file_data', 'downloads')
-        ) {
+        if (!$this->database->tableExists('file_data')) {
+            return;
+        }
+        if ($this->database->tableColumnExists('file_data', 'downloads')) {
             return;
         }
 
@@ -91,12 +90,14 @@ class ilFileObjectDatabaseObjective implements ilDatabaseUpdateSteps
             ]
         );
 
-        $this->database->manipulate("
+        $this->database->manipulate(
+            "
             UPDATE file_data SET downloads = (
                 SELECT COALESCE(SUM(read_event.read_count), 0) FROM read_event 
                     WHERE read_event.obj_id = file_data.file_id
             );
-        ");
+        "
+        );
     }
 
     /**
@@ -175,6 +176,33 @@ class ilFileObjectDatabaseObjective implements ilDatabaseUpdateSteps
         // update the whole table with a replace statement.
         $this->database->manipulate(
             "UPDATE il_file_icon_suffixes SET suffix = REPLACE(suffix, 'icon_file_', '') WHERE suffix LIKE 'icon_file_%';"
+        );
+    }
+
+    /**
+     * Adds a new table column called 'important_info' to store
+     * important information regarding a file such as work instructions.
+     */
+    public function step_6(): void
+    {
+        $this->abortIfNotPrepared();
+        if (!$this->database->tableExists('file_data')) {
+            return;
+        }
+        if ($this->database->tableColumnExists(
+            'file_data',
+            'important_info'
+        )) {
+            return;
+        }
+        $this->database->addTableColumn(
+            'file_data',
+            'important_info',
+            [
+                'type' => 'blob',
+                'notnull' => false,
+                'default' => null
+            ]
         );
     }
 
