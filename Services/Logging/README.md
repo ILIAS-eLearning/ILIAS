@@ -44,7 +44,7 @@ An instance of the logging service is available via `$DIC->logger()`. You should
 // Get component logger
 $grp_logger = $DIC->logger->grp();
  
-// code that is not assigned to any module or service can use the root logger for writing messages
+// write a message with info log level
 $grp_logger->info('info message');
 ```
 
