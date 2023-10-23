@@ -1,6 +1,6 @@
 # Learning Progress
 
-Note: This documentation may not be complete, but the points documented should (still) be mostly correct. Reports of missing or wrong information using the [ILIAS issue tracker](https://mantis.ilias.de)
+Note: This documentation may not be complete, but the points documented should (still) be correct. Reports of missing or wrong information using the [ILIAS issue tracker](https://mantis.ilias.de)
 or contributions via [Pull Request](../../docs/development/contributing.md#pull-request-to-the-repositories)
 are greatly appreciated.
 
