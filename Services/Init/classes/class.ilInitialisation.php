@@ -362,7 +362,7 @@ class ilInitialisation
             return new UploadPolicyDBRepository($dic->database());
         };
 
-        $dic['upload_policy_resolver'] = static function ($dic) {
+        $dic['upload_policy_resolver'] = static function ($dic): UploadPolicyResolver {
             return new UploadPolicyResolver(
                 $dic->rbac()->review(),
                 $dic->user(),
