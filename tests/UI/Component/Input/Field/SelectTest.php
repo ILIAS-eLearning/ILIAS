@@ -207,4 +207,34 @@ class SelectInputTest extends ILIAS_UI_TestBase
 ');
         $this->assertEquals($expected, $html);
     }
+
+    public function testRenderWithValueAndRequired(): void
+    {
+        $f = $this->buildFactory();
+        $label = "label";
+        $byline = "byline";
+        $options = ["one" => "One", "two" => "Two", "three" => "Three"];
+        $select = $f->select($label, $options, $byline)
+                    ->withNameFrom($this->name_source)
+                    ->withValue("one")
+                    ->withRequired(true);
+
+        $r = $this->getDefaultRenderer();
+        $html = $this->brutallyTrimHTML($r->render($select));
+
+        $expected = $this->brutallyTrimHTML('
+<div class="form-group row">
+    <label for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">label<span class="asterisk">*</span></label>
+    <div class="col-sm-8 col-md-9 col-lg-10">
+        <select id="id_1" name="name_0">
+            <option hidden selected="selected" disabled value="one">One</option>
+            <option value="two">Two</option>
+            <option value="three">Three</option>
+        </select>
+        <div class="help-block">byline</div>
+    </div>
+</div>
+');
+        $this->assertEquals($expected, $html);
+    }
 }
