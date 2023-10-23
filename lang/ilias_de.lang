@@ -9507,6 +9507,7 @@ file#:#copyright_custom#:#Benutzerdefiniert
 file#:#copyright_custom_info#:#Benutzerdefiniertes Copyright auswählen, welches auf alle entpackten Dateien dieses Archivs angewandt wird.
 file#:#copyright_inherited#:#Vererbt
 file#:#copyright_inherited_info#:#Copyright des Zip-Archivs auf seine entpackten Dateien anwenden. <br \>Copyright des Zip-Archivs: %s.
+file#:#could_not_create_file_objs#:#Beim Erstellen der Datei-Objekte ist ein Fehler aufgetreten, wenden Sie sich an die Administrierenden der Plattform.
 file#:#de_activate_icon#:#(De-)Aktivieren
 file#:#download_ascii_filename#:#Verwende ASCII-Zeichen für Dateinamen von Downloads
 file#:#download_ascii_filename_info#:#Dateinamen von Heruntergeladenen Dateien sollten nur ASCII-Zeichen enthalten. Option deaktivieren, um alle Zeichen zu verwenden.

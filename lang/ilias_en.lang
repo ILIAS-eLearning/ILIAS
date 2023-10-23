@@ -9499,6 +9499,7 @@ file#:#copyright_custom#:#Custom
 file#:#copyright_custom_info#:#Choose a custom copyright which will be applied to all unzipped files of this archive.
 file#:#copyright_inherited#:#Inherited
 file#:#copyright_inherited_info#:#Apply the copyright of the zip archive to its unzipped files. <br \>Copyright of zip archive: %s.
+file#:#could_not_create_file_objs#:#An error occurred while creating the file objects, contact the administrators of the platform.
 file#:#de_activate_icon#:#(De-)Activate
 file#:#download_ascii_filename#:#Use ASCII-only characters for downloaded filenames
 file#:#download_ascii_filename_info#:#Downloaded files should only have ASCII-characters in their filename. Deactivate to use all characters.

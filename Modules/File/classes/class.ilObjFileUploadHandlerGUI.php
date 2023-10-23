@@ -98,7 +98,7 @@ class ilObjFileUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
         } else {
             $identifier = '';
             $status = HandlerResult::STATUS_FAILED;
-            $message = $result->getStatus()->getMessage();
+            $message = 'No upload found';
         }
 
         return new BasicHandlerResult($this->getFileIdentifierParameterName(), $status, $identifier, $message);
