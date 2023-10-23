@@ -1903,6 +1903,12 @@ class ilObjectListGUI
         }
     }
 
+    /**
+     * ks, 23 OCT 2023: This function is badly named and it already was before
+     * the changes made today. I decided to keept this so, for the time being
+     * as changes would be needed in multiple child classes and as this should
+     * change anyway.
+     */
     public function insertTimingsCommand(): void
     {
         if (
@@ -1926,6 +1932,21 @@ class ilObjectListGUI
             $this->checkCommandAccess('write', '', $this->ref_id, $this->type)
         ) {
             $this->ctrl->setParameterByClass(
+                get_class($this->container_obj),
+                'tl_id',
+                $this->ref_id
+            );
+            $time_limit_link = $this->ctrl->getLinkTargetByClass(
+                get_class($this->container_obj),
+                'editTimeLimits'
+            );
+            $this->insertCommand($time_limit_link, $this->lng->txt('edit_time_limits'));
+            $this->ctrl->clearParameterByClass(
+                get_class($this->container_obj),
+                'tl_id',
+            );
+
+            $this->ctrl->setParameterByClass(
                 'ilconditionhandlergui',
                 'cadh',
                 $this->ajax_hash
@@ -1935,12 +1956,13 @@ class ilObjectListGUI
                 'parent_id',
                 $parent_ref_id
             );
-            $cmd_lnk = $this->ctrl->getLinkTargetByClass(
+
+            $availbility_link = $this->ctrl->getLinkTargetByClass(
                 [$this->gui_class_name, 'ilcommonactiondispatchergui', 'ilobjectactivationgui', 'ilconditionhandlergui'],
                 'listConditions'
             );
 
-            $this->insertCommand($cmd_lnk, $this->lng->txt('preconditions'));
+            $this->insertCommand($availbility_link, $this->lng->txt('preconditions'));
         }
 
         if ($this->reference_ref_id) {
@@ -2069,11 +2091,6 @@ class ilObjectListGUI
             $this->insertLPCommand();
 
             if (!$this->isMode(self::IL_LIST_AS_TRIGGER)) {
-                // edit timings
-                if ($this->timings_enabled) {
-                    $this->insertTimingsCommand();
-                }
-
                 // delete
                 if ($this->delete_enabled) {
                     $this->insertDeleteCommand();
@@ -2098,6 +2115,10 @@ class ilObjectListGUI
                 if ($this->repository_transfer_enabled) {
                     $this->insertCutCommand(true);
                     $this->insertCopyCommand(true);
+                }
+
+                if ($this->timings_enabled) {
+                    $this->insertTimingsCommand();
                 }
 
                 // subscribe

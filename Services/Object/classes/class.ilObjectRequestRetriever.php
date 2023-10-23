@@ -75,6 +75,12 @@ class ilObjectRequestRetriever
 
     public function getSelectedIdsFromObjectList(): array
     {
+        if ($this->wrapper->query()->has('tl_id')) {
+            return [$this->wrapper->query()->retrieve(
+                'tl_id',
+                $this->refinery->kindlyTo()->int()
+            )];
+        }
         if ($this->wrapper->post()->has('id')) {
             return $this->wrapper->post()->retrieve(
                 'id',
