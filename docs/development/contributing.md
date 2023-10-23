@@ -46,7 +46,7 @@ associated processes, if you require mediation, please write a comment mentionin
 via the Technical Board (`@ILIAS-eLearning/technical-board`) in the discussion
 of the PR.
 
-Please make sure to understand that the ILIAS society has a [process for
+Please make yourself acquainted with the ILIAS Society's [process for
 functional feature requests](https://docu.ilias.de/goto_docu_wiki_wpage_788_1357.html)
 before starting to create your PR. Your PR should thus only contain bug fixes or
 non-functional changes to our code base.
@@ -65,7 +65,7 @@ code please make sure:
 * that you create commits of self-contained logical units with concise commit
   messages and no unnecessary whitespace - this will help reviewers to
   understand what you did
-* that your code could be understood and is documented - this will help
+* that your code is understandable and is documented - this will help
   reviewers as well
 * that your commit follows the [ILIAS coding
   guidelines](https://docu.ilias.de/goto_docu_pg_202_42.html) - this is a
@@ -129,7 +129,7 @@ other things you could contribute to ILIAS:
   about yet. Check out how the ILIAS Community handles [bug reports](https://docu.ilias.de/goto.php?target=wiki_5307&client_id=docu#ilPageTocA115).
 * **Information about Security Issues**: Check out how the ILIAS community
   handles [security issues](https://docu.ilias.de/goto.php?target=wiki_5307&client_id=docu#ilPageTocA112).
-  Reporter of security issues will also be named in the release notes.
+  The Reporter of security issues will also be named in the release notes.
 * **Time for Testing or Testcases**: We always need people who contribute
   testcases and carry them them before new releases. Please have a look
   [here](https://docu.ilias.de/goto_docu_pg_64423_4793.html) (German only).
