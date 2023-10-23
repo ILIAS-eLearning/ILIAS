@@ -347,7 +347,7 @@ class ilStudyProgrammeUserTableRow
 
     public function toArray(): array
     {
-        return [
+        $ret = [
             'prgrs_id' => (string)$this->getId(),
             'name' => $this->getName(),
             'active_raw' => $this->isUserActiveRaw(),
@@ -371,5 +371,13 @@ class ilStudyProgrammeUserTableRow
             'expiry_date' => $this->getExpiryDate(),
             'validity' => $this->getValidity()
         ];
+
+        foreach ($this->user_information->getAvailableUserFields() as $user_field) {
+            if (! array_key_exists($user_field, $ret)) {
+                $ret[$user_field] = $this->getUserData($user_field);
+            }
+        }
+
+        return $ret;
     }
 }
