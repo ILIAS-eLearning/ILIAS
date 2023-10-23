@@ -19937,7 +19937,7 @@ INSERT INTO `settings` VALUES ('common','dbupwarn_tos_migr_54x','1');
 INSERT INTO `settings` VALUES ('common','dbupwarn_tstfixqstseq','1');
 INSERT INTO `settings` VALUES ('common','dbup_tst_skl_thres_mig_done','1');
 INSERT INTO `settings` VALUES ('common','db_hotfixes_5_3','18');
-INSERT INTO `settings` VALUES ('common','db_hotfixes_7','105');
+INSERT INTO `settings` VALUES ('common','db_hotfixes_7','106');
 INSERT INTO `settings` VALUES ('common','db_update_running','0');
 INSERT INTO `settings` VALUES ('common','db_version','5751');
 INSERT INTO `settings` VALUES ('common','default_repository_view','flat');
@@ -23790,6 +23790,21 @@ CREATE TABLE `usr_account_codes_seq` (
 
 
 --
+-- Table structure for table `usr_change_email_token`
+--
+
+CREATE TABLE `usr_change_email_token` (
+  `token` varchar(32) DEFAULT NULL,
+  `new_email` varchar(256) DEFAULT NULL,
+  `valid_until` bigint(20) DEFAULT NULL
+) ;
+
+--
+-- Dumping data for table `usr_change_email_token`
+--
+
+
+--
 -- Table structure for table `usr_cron_mail_reminder`
 --
 
@@ -25031,4 +25046,4 @@ CREATE TABLE `xmlvalue_seq` (
 
 
 
--- Dump completed on 2023-09-12 16:24:46
+-- Dump completed on 2023-10-23 14:50:18

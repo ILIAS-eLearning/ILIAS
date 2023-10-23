@@ -47346,7 +47346,7 @@ $ilDB->insert("settings", array(
 'module' => array('text', 'common'), 'keyword' => array('text', 'db_hotfixes_5_3'), 'value' => array('clob', '18')));
 
 $ilDB->insert("settings", array(
-'module' => array('text', 'common'), 'keyword' => array('text', 'db_hotfixes_7'), 'value' => array('clob', '105')));
+'module' => array('text', 'common'), 'keyword' => array('text', 'db_hotfixes_7'), 'value' => array('clob', '106')));
 
 $ilDB->insert("settings", array(
 'module' => array('text', 'common'), 'keyword' => array('text', 'db_update_running'), 'value' => array('clob', '0')));
@@ -56494,6 +56494,32 @@ $in_fields = array("code");
 $ilDB->addIndex("usr_account_codes", $in_fields, "i1", false);
 
 $ilDB->createSequence("usr_account_codes", 1);
+
+
+//
+// usr_change_email_token
+//
+$fields = array (
+	"token" => array (
+		"notnull" => false
+		,"length" => 32
+		,"fixed" => false
+		,"type" => "text"
+	)
+	,"new_email" => array (
+		"notnull" => false
+		,"length" => 256
+		,"fixed" => false
+		,"type" => "text"
+	)
+	,"valid_until" => array (
+		"notnull" => false
+		,"length" => 8
+		,"unsigned" => false
+		,"type" => "integer"
+	)
+);
+$ilDB->createTable("usr_change_email_token", $fields);
 
 
 //
