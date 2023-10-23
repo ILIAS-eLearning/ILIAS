@@ -369,7 +369,7 @@ il.UI.Input = il.UI.Input || {};
 
 			// abort if the given file size exceeds the max limit.
 			if ((dropzones[input_id].options.maxFilesize * 1024 * 1024) < file.size) {
-				let allowed_file_size = dropzones[input_id].filesize(dropzones[input_id].options.maxFilesize);
+				let allowed_file_size = dropzones[input_id].filesize(dropzones[input_id].options.maxFilesize * 1024 * 1024);
 				displayErrorMessage(
 					I18N.invalid_size.replace('%s', allowed_file_size),
 					$(`#${input_id} ${SELECTOR.dropzone}`)

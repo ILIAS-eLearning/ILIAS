@@ -113,8 +113,6 @@ class ilObjFileUploadDropzone
                 ])
             )->withMaxFiles(
                 ilObjFileGUI::UPLOAD_MAX_FILES
-            )->withMaxFileSize(
-                (int) ilFileUtils::getUploadSizeLimitBytes()
             ),
             $additional_input
         )->withSubmitLabel(

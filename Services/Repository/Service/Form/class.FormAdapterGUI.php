@@ -435,9 +435,7 @@ class FormAdapterGUI
             $this->upload_handler[$key],
             $title,
             $description
-        )
-                          ->withMaxFileSize((int) \ilFileUtils::getUploadSizeLimitBytes())
-                          ->withMaxFiles($max_files);
+        )->withMaxFiles($max_files);
         if (count($mime_types) > 0) {
             $field = $field->withAcceptedMimeTypes($mime_types);
         }
