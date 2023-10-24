@@ -21,6 +21,7 @@ use ILIAS\ResourceStorage\Flavour\Definition\CropToSquare;
 use ILIAS\ResourceStorage\Flavour\Definition\FlavourDefinition;
 use ILIAS\ResourceStorage\Flavour\Definition\PagesToExtract;
 use ILIAS\ResourceStorage\Services;
+use ILIAS\Data\DataSize;
 
 /**
  * Class ilObjFileListGUI
@@ -219,10 +220,15 @@ class ilObjFileListGUI extends ilObjectListGUI
             'propertyNameVisible' => false
         ];
 
+        $data_size = new DataSize(
+            $file_data['size'] ?? 0,
+            DataSize::KB
+        );
+
         $props[] = [
             "alert" => false,
             "property" => $DIC->language()->txt("size"),
-            "value" => ilUtil::formatSize($file_data['size'] ?? 0, 'short'),
+            "value" => (string) $data_size,
             'propertyNameVisible' => false
         ];
         $version = $file_data['version'] ?? 1;

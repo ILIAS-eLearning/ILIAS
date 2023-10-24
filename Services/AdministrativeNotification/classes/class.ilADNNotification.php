@@ -138,7 +138,17 @@ class ilADNNotification extends ActiveRecord
         if ($this->hasUserDismissed($ilObjUser)) {
             return false;
         }
-        return $this->isVisibleRoleUserRoles($ilObjUser);
+        return ($this->isVisibleToUserBasedOnLanguage($ilObjUser) && $this->isVisibleRoleUserRoles($ilObjUser));
+    }
+
+
+    protected function isVisibleToUserBasedOnLanguage(ilObjUser $ilObjUser): bool
+    {
+        if (!$this->hasLanguageLimitation()) {
+            return true;
+        }
+
+        return in_array($ilObjUser->getLanguage(), $this->getLimitedToLanguages(), true);
     }
 
 
@@ -274,6 +284,18 @@ class ilADNNotification extends ActiveRecord
      * @con_fieldtype text
      * @con_length    256
      */
+    protected array $limited_to_languages = [];
+    /**
+     * @con_has_field  true
+     * @con_fieldtype  integer
+     * @con_length     1
+     */
+    protected bool $has_language_limitation = false;
+    /**
+     * @con_has_field true
+     * @con_fieldtype text
+     * @con_length    256
+     */
     protected array $limited_to_role_ids = [];
     /**
      * @con_has_field  true
@@ -336,6 +358,7 @@ class ilADNNotification extends ActiveRecord
                 sort($array_unique);
 
                 return $array_unique;
+            case 'limited_to_languages':
             case 'limited_to_role_ids':
                 return json_decode($field_value, true);
         }
@@ -366,6 +389,7 @@ class ilADNNotification extends ActiveRecord
                 }
 
                 return json_encode(array_unique($allowed_users), JSON_THROW_ON_ERROR);
+            case 'limited_to_languages':
             case 'limited_to_role_ids':
                 return json_encode($this->{$field_name}, JSON_THROW_ON_ERROR);
         }
@@ -550,6 +574,26 @@ class ilADNNotification extends ActiveRecord
     public function setActive(bool $active): void
     {
         $this->active = $active;
+    }
+
+    public function getLimitedToLanguages(): array
+    {
+        return $this->limited_to_languages;
+    }
+
+    public function setLimitedToLanguages(array $limited_to_languages): void
+    {
+        $this->limited_to_languages = $limited_to_languages;
+    }
+
+    public function hasLanguageLimitation(): bool
+    {
+        return $this->has_language_limitation;
+    }
+
+    public function setHasLanguageLimitation(bool $has_language_limitation): void
+    {
+        $this->has_language_limitation = $has_language_limitation;
     }
 
     public function getLimitedToRoleIds(): array

@@ -31,7 +31,10 @@ use ILIAS\Exercise;
  */
 class ilObjExerciseGUI extends ilObjectGUI
 {
-    private ilCertificateDownloadValidator $certificateDownloadValidator;
+    protected ilCertificateDownloadValidator $certificateDownloadValidator;
+    protected \ILIAS\DI\UIServices $ui;
+    protected Exercise\Assignment\AssignmentManager $ass_manager;
+    private Exercise\Assignment\ItemBuilderUI $item_builder;
     protected Exercise\Notification\NotificationManager $notification;
     protected Exercise\InternalGUIService $gui;
     protected ilTabsGUI $tabs;

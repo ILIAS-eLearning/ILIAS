@@ -97,6 +97,56 @@ class ilObjFileAccess extends ilObjectAccess implements ilWACCheckingClass
     }
 
     /**
+     * checks whether a user may invoke a command or not
+     * (this method is called by ilAccessHandler::checkAccess)
+     */
+    public function _checkAccess(string $cmd, string $permission, int $ref_id, int $obj_id, ?int $user_id = null): bool
+    {
+        global $DIC;
+        $ilUser = $DIC['ilUser'];
+        $lng = $DIC['lng'];
+        $rbacsystem = $DIC['rbacsystem'];
+        $ilAccess = $DIC['ilAccess'];
+        if (is_null($user_id)) {
+            $user_id = $ilUser->getId();
+        }
+
+        switch ($cmd) {
+            case "view":
+                if (!self::_lookupOnline($obj_id)
+                    && !$rbacsystem->checkAccessOfUser($user_id, 'write', $ref_id)
+                ) {
+                    $ilAccess->addInfoItem(ilAccessInfo::IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
+
+                    return false;
+                }
+                break;
+                // for permission query feature
+            case "infoScreen":
+                if (!self::_lookupOnline($obj_id)) {
+                    $ilAccess->addInfoItem(ilAccessInfo::IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
+                } else {
+                    $ilAccess->addInfoItem(ilAccessInfo::IL_STATUS_MESSAGE, $lng->txt("online"));
+                }
+                break;
+        }
+        switch ($permission) {
+            case "read":
+            case "visible":
+                if (!self::_lookupOnline($obj_id)
+                    && (!$rbacsystem->checkAccessOfUser($user_id, 'write', $ref_id))
+                ) {
+                    $ilAccess->addInfoItem(ilAccessInfo::IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
+
+                    return false;
+                }
+                break;
+        }
+
+        return true;
+    }
+
+    /**
      * check whether goto script will succeed
      */
     public static function _checkGoto(string $a_target): bool
@@ -369,5 +419,14 @@ class ilObjFileAccess extends ilObjectAccess implements ilWACCheckingClass
                 MimeType::APPLICATION__X_ZIP_COMPRESSED
             ]
         );
+    }
+
+    /**
+     * Check whether file object is online or not
+     */
+    public static function _lookupOnline(int $a_obj_id): bool
+    {
+        $file_obj = new ilObjFile($a_obj_id, false);
+        return $file_obj->getObjectProperties()->getPropertyIsOnline()->getIsOnline();
     }
 }

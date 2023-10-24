@@ -349,6 +349,7 @@ adn#:#administrative_notification_description#:#Provide system-wide notification
 adn#:#btn_cancel#:#Cancel
 adn#:#btn_delete#:#Delete
 adn#:#btn_delete_confirm#:#Would you like to delete this Notification?
+adn#:#btn_duplicate#:#Duplicate
 adn#:#btn_edit#:#Edit
 adn#:#btn_reset#:#Reset
 adn#:#btn_reset_confirm#:#Would you like to reset this Notification for all Users?
@@ -365,6 +366,9 @@ adn#:#msg_error_false_date_configuration#:#Can't create a notification with this
 adn#:#msg_event_date_end#:#Event Ends
 adn#:#msg_event_date_start#:#Event Starts
 adn#:#msg_form_title#:#Notification
+adn#:#msg_has_language_limitation#:#Limited to selected languages
+adn#:#msg_has_language_limitation_info#:#Only selected languages will see the notification.
+adn#:#msg_languages#:#Languages
 adn#:#msg_limit_to_roles#:#Limited to Selected Roles
 adn#:#msg_limit_to_roles_info#:#Only selected roles will see the notification.
 adn#:#msg_limited_to_role_ids#:#Presentation
@@ -373,10 +377,12 @@ adn#:#msg_permanent_info#:#Display Notifications permanently or temporarily
 adn#:#msg_permanent_no#:#Show Temporarily
 adn#:#msg_permanent_yes#:#Show Permanently
 adn#:#msg_presentation#:#Presentation
+adn#:#msg_show_to_all_languages#:#Show to all languages
 adn#:#msg_show_to_all_roles#:#Show to all roles
 adn#:#msg_show_to_all_roles_info#:#All users even when not logged-in will see notification.
 adn#:#msg_success_created#:#Notification created
 adn#:#msg_success_deleted#:#Notification sucessfully deleted
+adn#:#msg_success_duplicated#:#Notification sucessfully duplicated
 adn#:#msg_success_reset#:#Notification reset
 adn#:#msg_success_updated#:#Notification updated
 adn#:#msg_table_title#:#Notifications
@@ -2264,6 +2270,8 @@ bibl#:#not_yet_migrated#:#This Object has not et been migrated. Please contact t
 bibl#:#obj_bibl_duplicate#:#Duplicate Bibliography
 bibl#:#order#:#Order
 bibl#:#override_entries#:#Override Entries
+bibl#:#replace_bibliography_file#:#Replace Bibliography File
+bibl#:#replace_bibliography_file_info#:#The current bibliography file will be replaced by the new file. All existing entries from the current file will be deleted.
 bibl#:#ris#:#Ris
 bibl#:#ris_default_a2#:#Location in Archives
 bibl#:#ris_default_au#:#Author
@@ -5713,8 +5721,6 @@ common#:#update_orgunits#:#Update assigned organisational units
 common#:#update_orgunits_desc#:#If enabled, the field 'Organisational Units' will be updated for all user accounts.
 common#:#upload#:#Upload
 common#:#upload_error_file_not_found#:#Upload error: File not found.
-common#:#upload_files#:#Upload files
-common#:#upload_files_title#:#Upload files
 common#:#upload_pending#:#Pending
 common#:#upload_settings#:#Upload Settings
 common#:#uploaded_and_checked#:#The file has been uploaded and checked, you can now start to import it.
@@ -9554,6 +9560,7 @@ file#:#copyright_custom#:#Custom
 file#:#copyright_custom_info#:#Choose a custom copyright which will be applied to all unzipped files of this archive.
 file#:#copyright_inherited#:#Inherited
 file#:#copyright_inherited_info#:#Apply the copyright of the zip archive to its unzipped files. <br \>Copyright of zip archive: %s.
+file#:#could_not_create_file_objs#:#An error occurred while creating the file objects, contact the administrators of the platform.
 file#:#de_activate_icon#:#(De-)Activate
 file#:#download_ascii_filename#:#Use ASCII-only characters for downloaded filenames
 file#:#download_ascii_filename_info#:#Downloaded files should only have ASCII-characters in their filename. Deactivate to use all characters.
@@ -9606,10 +9613,15 @@ file#:#show_amount_of_downloads_info#:#When active, the number of downloads will
 file#:#storage_id#:#Storage ID
 file#:#suffix_specific_icons#:#Suffix-specific Icons
 file#:#suffixes#:#Suffixes
+file#:#upload_files#:#Upload files
+file#:#upload_files_limit#:#The maximum size of a file is %s.
+file#:#upload_files_title#:#Upload files
 file#:#upload_info#:#File
 file#:#upload_info_desc#:#Manage Uploads and Versions in Tab "Versions"
 file#:#version_uploaded#:#Version uploaded
 file#:#versionname#:#Title
+fils#:#add_upload_policy#:#Add Policy
+fils#:#edit_upload_policy#:#Edit Policy
 fils#:#file_services#:#File Services
 fils#:#file_services_description#:#Configuration of File Service Settings.
 fils#:#file_suffix_custom_expl_negative#:#Prohibited File Suffixes
@@ -9622,6 +9634,24 @@ fils#:#file_suffix_default_positive#:#File Suffixes: Positive List (Default List
 fils#:#file_suffix_default_positive_info#:#Preset default list of accepted file suffixes.
 fils#:#file_suffix_overall_positive#:#Overall Positive List
 fils#:#file_suffix_overall_positive_info#:#This is the final list of accepted file suffixes.
+fils#:#policy_audience#:#Audience
+fils#:#policy_audience_all_users_option_desc#:#Apply policy for all users.
+fils#:#policy_audience_global_roles_option_desc#:#Apply policy for users with specific global roles.
+fils#:#policy_confirm_deletion#:#Are you sure you want to delete the policy with the following properties?:
+fils#:#policy_deletion_failure_not_found#:#Error: Deletion failed due to policy not being found.
+fils#:#policy_deletion_successful#:#Deletion of policy was successful.
+fils#:#policy_filter#:#Policy Filter
+fils#:#policy_no_validity_limitation_set#:#Valid indefinitely
+fils#:#policy_scope#:#Scope
+fils#:#policy_table_info_no_policies#:#No upload policies have been created yet.
+fils#:#policy_title_desc#:#Descriptive title for the policy.
+fils#:#policy_upload_limit#:#Upload Limit
+fils#:#policy_upload_limit_desc#:#Upload limit which is set by this policy in MB.
+fils#:#policy_valid_until#:#Valid Until
+fils#:#policy_valid_until_desc#:#Set an optional 'valid until' date after which the policy expires.
+fils#:#policy_validity#:#Validity
+fils#:#upload_limits#:#Upload Limits
+fils#:#upload_policies#:#Upload Policies
 fold#:#fold_copy#:#Copy Folder
 fold#:#fold_import#:#Import Folder
 fold#:#fold_presentation#:#Folder Presentation
@@ -10066,6 +10096,7 @@ grp#:#grp_members#:#Members
 grp#:#grp_members_deleted#:#Selected members were successfully removed from group.
 grp#:#grp_members_map#:#Group Members Map
 grp#:#grp_members_print_title#:#Group Members
+grp#:#grp_min_one_admin#:#There has to be at least one administrator assigned to this group.
 grp#:#grp_missing_grp_type#:#Please choose a group type.
 grp#:#grp_missing_password#:#Please enter a group password.
 grp#:#grp_new_status#:#Your new status is:
@@ -16348,7 +16379,7 @@ svy#:#svy_invite_participants#:#Invite Participants
 svy#:#svy_link_to_svy#:#Link to Survey
 svy#:#svy_part_overview#:#Overview
 svy#:#svy_print_selection#:#Print View Selection
-svy#:#svy_remove_all_participants#:#Remove all Participants
+svy#:#svy_remove_all_participants#:#Delete all Participant Data
 svy#:#svy_remove_participants#:#Remove Participants
 svy#:#svy_selected_participants#:#Selected Participants
 svy#:#svy_selected_questions#:#Selected Questions

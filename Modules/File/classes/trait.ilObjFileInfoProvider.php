@@ -19,6 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\Modules\File\Settings\General;
+use ILIAS\Data\DataSize;
 
 /**
  * @author Lukas Zehnder <lukas@sr.solutions>
@@ -40,10 +41,15 @@ trait ilObjFileInfoProvider
             $preview = $preview_renderer->getRenderedTriggerComponents(true);
         }
 
+        $data_size = new DataSize(
+            $this->getFileObj()->getFileSize(),
+            DataSize::KB
+        );
+
         return [
             $this->getLanguage()->txt("filename") => $this->getFileObj()->getFileName(),
             $this->getLanguage()->txt("type") => $this->getFileObj()->getFileExtension(),
-            $this->getLanguage()->txt("size") => ilUtil::formatSize($this->getFileObj()->getFileSize(), 'long'),
+            $this->getLanguage()->txt("size") => (string) $data_size,
             $this->getLanguage()->txt("page_count") => $page_count,
             $this->getLanguage()->txt("preview") => $preview
         ];

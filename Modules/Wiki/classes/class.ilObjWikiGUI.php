@@ -35,6 +35,9 @@ use ILIAS\Wiki\WikiGUIRequest;
  */
 class ilObjWikiGUI extends ilObjectGUI
 {
+    protected \ILIAS\Wiki\InternalDomainService $domain;
+    protected \ILIAS\Wiki\InternalGUIService $gui;
+    protected \ILIAS\Wiki\Content\GUIService $content_gui;
     protected \ILIAS\Wiki\Navigation\ImportantPageManager $imp_pages;
     protected \ILIAS\Wiki\Page\PageManager $pm;
     protected ilObjectTranslation $ot;

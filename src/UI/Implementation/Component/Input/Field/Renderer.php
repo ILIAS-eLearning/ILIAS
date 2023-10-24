@@ -49,6 +49,9 @@ class Renderer extends AbstractComponentRenderer
     public const TYPE_DATE = 'date';
     public const TYPE_DATETIME = 'datetime-local';
     public const TYPE_TIME = 'time';
+    public const HTML5_NATIVE_DATETIME_FORMAT = 'Y-m-d H:i';
+    public const HTML5_NATIVE_DATE_FORMAT = 'Y-m-d';
+    public const HTML5_NATIVE_TIME_FORMAT = 'H:i';
 
     public const DATEPICKER_FORMAT_MAPPING = [
         'd' => 'DD',
@@ -671,7 +674,17 @@ class Renderer extends AbstractComponentRenderer
 
         $tpl->setVariable("PLACEHOLDER", $format);
 
-        $this->applyValue($component, $tpl, $this->escapeSpecialChars());
+        $this->applyValue($component, $tpl, function (?string $value) use ($dt_type) {
+            if ($value !== null) {
+                $value = new \DateTimeImmutable($value);
+                return $value->format(match ($dt_type) {
+                    self::TYPE_DATETIME => self::HTML5_NATIVE_DATETIME_FORMAT,
+                    self::TYPE_DATE => self::HTML5_NATIVE_DATE_FORMAT,
+                    self::TYPE_TIME => self::HTML5_NATIVE_TIME_FORMAT,
+                });
+            }
+            return null;
+        });
         $this->maybeDisable($component, $tpl);
         $id = $this->bindJSandApplyId($component, $tpl);
         return $this->wrapInFormContext($component, $tpl->get(), $id);

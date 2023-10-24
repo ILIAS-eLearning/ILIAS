@@ -23,6 +23,9 @@
  */
 class ilImportantPagesTableGUI extends ilTable2GUI
 {
+    protected \ILIAS\Wiki\Navigation\ImportantPageManager $imp_page_manager;
+    protected \ILIAS\Wiki\InternalGUIService $gui;
+    protected \ILIAS\Wiki\InternalDomainService $domain;
     protected ilAccessHandler $access;
     protected ilWikiPageTemplate $templates;
 

@@ -19,6 +19,8 @@
 use ILIAS\FileUpload\Handler\HandlerResult;
 use ILIAS\FileUpload\DTO\UploadResult;
 use ILIAS\FileUpload\Handler\BasicHandlerResult;
+use ILIAS\FileUpload\Handler\AbstractCtrlAwareIRSSUploadHandler;
+use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
 
 /**
  * Class ilFileVersionsUploadHandlerGUI
@@ -27,7 +29,7 @@ use ILIAS\FileUpload\Handler\BasicHandlerResult;
  *
  * @ilCtrl_isCalledBy ilFileVersionsUploadHandlerGUI : ilFileVersionsGUI
  */
-class ilFileVersionsUploadHandlerGUI extends ilCtrlAwareStorageUploadHandler
+class ilFileVersionsUploadHandlerGUI extends AbstractCtrlAwareIRSSUploadHandler
 {
     public const MODE_APPEND = 'append';
     public const MODE_REPLACE = 'replace';
@@ -38,12 +40,28 @@ class ilFileVersionsUploadHandlerGUI extends ilCtrlAwareStorageUploadHandler
     public function __construct(protected ilObjFile $file, string $upload_mode = self::MODE_APPEND)
     {
         global $DIC;
-        parent::__construct(new ilObjFileStakeholder($DIC->user()->getId()));
+        parent::__construct();
         $this->upload_mode = $this->http->wrapper()->query()->has(self::P_UPLOAD_MODE)
             ? $this->http->wrapper()->query()->retrieve(self::P_UPLOAD_MODE, $DIC->refinery()->kindlyTo()->string())
             : $upload_mode;
 
         $this->ctrl->setParameter($this, self::P_UPLOAD_MODE, $this->upload_mode);
+    }
+
+    protected function getStakeholder(): ResourceStakeholder
+    {
+        global $DIC;
+        return new ilObjFileStakeholder($DIC->user()->getId());
+    }
+
+    protected function getClassPath(): array
+    {
+        return [self::class];
+    }
+
+    public function supportsChunkedUploads(): bool
+    {
+        return true;
     }
 
     protected function getUploadResult(): HandlerResult
@@ -56,6 +74,10 @@ class ilFileVersionsUploadHandlerGUI extends ilCtrlAwareStorageUploadHandler
         $result = end($result_array);
 
         if ($result instanceof UploadResult && $result->isOK()) {
+            if ($this->is_chunked) {
+                return $this->processChunckedUpload($result);
+            }
+
             if ($this->upload_mode === self::MODE_REPLACE) {
                 $identifier = (string) $this->file->replaceWithUpload($result, $result->getName());
             } else {
@@ -76,4 +98,49 @@ class ilFileVersionsUploadHandlerGUI extends ilCtrlAwareStorageUploadHandler
             $message
         );
     }
+
+    protected function processChunckedUpload(UploadResult $result): HandlerResult
+    {
+        $temp_path = "$this->chunk_id/{$result->getName()}";
+
+        try {
+            if ($this->temp_filesystem->has($temp_path)) {
+                $stream = fopen($this->temp_filesystem->readStream($temp_path)->getMetadata()['uri'], 'ab');
+                fwrite($stream, file_get_contents($result->getPath()));
+            } else {
+                $this->temp_filesystem->write($temp_path, file_get_contents($result->getPath()));
+            }
+        } catch (Throwable $t) {
+            return new BasicHandlerResult(
+                $this->getFileIdentifierParameterName(),
+                HandlerResult::STATUS_FAILED,
+                '',
+                $t->getMessage()
+            );
+        }
+
+        if (($this->chunk_index + 1) === $this->amount_of_chunks) {
+            $whole_file = $this->temp_filesystem->readStream($temp_path);
+            if ($this->upload_mode === self::MODE_REPLACE) {
+                $revision_number = $this->file->replaceWithStream($whole_file, $result->getName());
+            } else {
+                $revision_number = $this->file->appendStream($whole_file, $result->getName());
+            }
+
+            return new BasicHandlerResult(
+                $this->getFileIdentifierParameterName(),
+                HandlerResult::STATUS_OK,
+                (string) $revision_number,
+                "file upload OK"
+            );
+        }
+
+        return new BasicHandlerResult(
+            $this->getFileIdentifierParameterName(),
+            HandlerResult::STATUS_PARTIAL,
+            '',
+            "chunk upload OK"
+        );
+    }
+
 }

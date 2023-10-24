@@ -23,6 +23,7 @@
  */
 class ilWikiRecentChangesTableGUI extends ilTable2GUI
 {
+    protected int $requested_ref_id;
     protected int $wiki_id = 0;
     protected ilObjectTranslation $ot;
     protected \ILIAS\Wiki\Page\PageManager $pm;

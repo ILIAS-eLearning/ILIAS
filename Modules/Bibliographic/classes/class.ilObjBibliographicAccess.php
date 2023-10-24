@@ -48,7 +48,7 @@ class ilObjBibliographicAccess extends ilObjectAccess
                 "default" => true,
             ),
             array("permission" => "write", "cmd" => "view", "lang_var" => "edit_content"),
-            array("permission" => "write", "cmd" => "edit", "lang_var" => "settings"),
+            array("permission" => "write", "cmd" => "settings", "lang_var" => "settings"),
         );
     }
 
@@ -145,12 +145,7 @@ class ilObjBibliographicAccess extends ilObjectAccess
      */
     public static function _lookupOnline(int $a_id): bool
     {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-        $q = "SELECT is_online FROM il_bibl_data WHERE id = " . $ilDB->quote($a_id, "integer");
-        $bibl_set = $ilDB->query($q);
-        $bibl_rec = $ilDB->fetchAssoc($bibl_set);
-
-        return (bool) $bibl_rec["is_online"] ?? false;
+        $bibl_obj = new ilObjBibliographic($a_id);
+        return $bibl_obj->getObjectProperties()->getPropertyIsOnline()->getIsOnline();
     }
 }

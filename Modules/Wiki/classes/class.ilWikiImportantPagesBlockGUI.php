@@ -24,6 +24,8 @@
 class ilWikiImportantPagesBlockGUI extends ilBlockGUI
 {
     public static string $block_type = "wikiimppages";
+    protected \ILIAS\Wiki\Navigation\ImportantPageManager $imp_pages;
+    protected \ILIAS\Wiki\WikiGUIRequest $wiki_request;
     protected \ILIAS\Wiki\InternalGUIService $gui;
     protected \ILIAS\Wiki\Wiki\DomainService $wiki_manager;
     protected string $lang;

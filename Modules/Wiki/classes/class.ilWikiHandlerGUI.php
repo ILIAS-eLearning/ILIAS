@@ -23,6 +23,7 @@
  */
 class ilWikiHandlerGUI implements ilCtrlBaseClassInterface
 {
+    protected string $requested_lang;
     protected \ILIAS\Wiki\InternalDomainService $domain;
     protected string $requested_page;
     protected int $requested_ref_id;

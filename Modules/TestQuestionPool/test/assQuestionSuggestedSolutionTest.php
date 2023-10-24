@@ -66,76 +66,6 @@ class assQuestionSuggestedSolutionTest extends TestCase
         $this->repo = new assQuestionSuggestedSolutionRepoMock();
     }
 
-    public function testSuggestedSolutionText(): assSuggestedSolutionText
-    {
-        $id = 123;
-        $question_id = 321;
-        $internal_link = '';
-        $import_id = 'imported_xy';
-        $subquestion_index = 0;
-        $type = assQuestionSuggestedSolution::TYPE_TEXT;
-        $value = 'some value' ;
-        $last_update = new \DateTimeImmutable();
-
-        $sugsol = $this->repo->getSolution(
-            $id,
-            $question_id,
-            $internal_link,
-            $import_id,
-            $subquestion_index,
-            $type,
-            $value,
-            $last_update
-        );
-        $this->assertInstanceOf(assQuestionSuggestedSolution::class, $sugsol);
-        $this->assertInstanceOf(assSuggestedSolutionText::class, $sugsol);
-
-        $this->assertEquals($id, $sugsol->getId());
-        $this->assertEquals($question_id, $sugsol->getQuestionId());
-        $this->assertEquals($import_id, $sugsol->getImportId());
-        $this->assertEquals($subquestion_index, $sugsol->getSubquestionIndex());
-        $this->assertEquals($last_update, $sugsol->getLastUpdate());
-        $this->assertEquals($type, $sugsol->getType());
-        $this->assertEquals($value, $sugsol->getValue());
-        $this->assertEquals($value, $sugsol->getStorableValue());
-
-        $this->assertTrue($sugsol->isOfTypeText());
-        $this->assertFalse($sugsol->isOfTypeFile());
-        $this->assertFalse($sugsol->isOfTypeLink());
-
-        return $sugsol;
-    }
-
-
-    /**
-     * @depends testSuggestedSolutionText
-     */
-    public function testSuggestedSolutionMutators(assQuestionSuggestedSolution $sugsol): void
-    {
-        $id = 654;
-        $question_id = 456;
-        $internal_link = './another/internal/link/';
-        $import_id = '_my_import_id';
-        $subquestion_index = 2;
-
-        $value = 'some other value' ;
-        $last_update = new \DateTimeImmutable();
-
-        $sugsol = $sugsol
-            ->withId($id)
-            ->withQuestionId($question_id)
-            ->withImportId($import_id)
-            ->withSubquestionIndex($subquestion_index)
-            ->withValue($value);
-
-        $this->assertEquals($id, $sugsol->getId());
-        $this->assertEquals($question_id, $sugsol->getQuestionId());
-        $this->assertEquals($import_id, $sugsol->getImportId());
-        $this->assertEquals($subquestion_index, $sugsol->getSubquestionIndex());
-        $this->assertEquals($value, $sugsol->getValue());
-        $this->assertNotEquals($last_update, $sugsol->getLastUpdate());
-    }
-
     public function testSuggestedSolutionFile(): assSuggestedSolutionFile
     {
         $id = 123;
@@ -173,7 +103,6 @@ class assQuestionSuggestedSolutionTest extends TestCase
         $this->assertEquals($values[$sugsol::ARRAY_KEY_FILENAME], $sugsol->getFilename());
         $this->assertEquals(serialize($values), $sugsol->getStorableValue());
         $this->assertTrue($sugsol->isOfTypeFile());
-        $this->assertFalse($sugsol->isOfTypeText());
         $this->assertFalse($sugsol->isOfTypeLink());
 
         return $sugsol;

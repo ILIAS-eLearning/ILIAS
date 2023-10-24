@@ -33,7 +33,6 @@ class InternalGUIService
 {
     use GlobalDICGUIServices;
 
-    protected WikiRequestHandler $requestHandler;
     protected InternalDataService $data_service;
     protected InternalDomainService $domain_service;
 

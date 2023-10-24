@@ -148,7 +148,7 @@ class NotificationGUI
 
                 if ($a_action === "comment") {
                     $subject = sprintf($ulng->txt('wiki_notification_comment_subject'), $wiki->getTitle(), $page->getTitle());
-                    $message = sprintf($ulng->txt('wiki_change_notification_salutation'), ilObjUser::_lookupFullname($user_id)) . "\n\n";
+                    $message = sprintf($ulng->txt('wiki_change_notification_salutation'), \ilObjUser::_lookupFullname($user_id)) . "\n\n";
 
                     $message .= $ulng->txt('wiki_notification_' . $a_action) . ":\n\n";
                     $message .= $ulng->txt('wiki') . ": " . $wiki->getTitle() . "\n";
@@ -163,7 +163,7 @@ class NotificationGUI
                     $message .= "\n" . $ulng->txt('wiki_change_notification_page_link') . ": " . $link;
                 } else {
                     $subject = sprintf($ulng->txt('wiki_change_notification_subject'), $wiki->getTitle(), $page->getTitle());
-                    $message = sprintf($ulng->txt('wiki_change_notification_salutation'), ilObjUser::_lookupFullname($user_id)) . "\n\n";
+                    $message = sprintf($ulng->txt('wiki_change_notification_salutation'), \ilObjUser::_lookupFullname($user_id)) . "\n\n";
 
                     if ($a_type == \ilNotification::TYPE_WIKI_PAGE) {
                         // update/delete
@@ -218,7 +218,7 @@ class NotificationGUI
                 $message .= \ilMail::_getInstallationSignature();
                 $mails[] = new \ilMailValueObject(
                     '',
-                    ilObjUser::_lookupLogin($user_id),
+                    \ilObjUser::_lookupLogin($user_id),
                     '',
                     '',
                     $subject,

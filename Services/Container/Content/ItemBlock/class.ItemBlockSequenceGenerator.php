@@ -325,7 +325,7 @@ class ItemBlockSequenceGenerator
         }
         $remaining_ref_ids = array_filter(
             $this->item_set_manager->getAllRefIds(),
-            fn($i) => !isset($this->accumulated_ref_ids[$i])
+            fn($i) => (!isset($this->accumulated_ref_ids[$i]) && !$this->item_set_manager->isSideBlockItem($i))
         );
         $block_items = $this->determineBlockItems($remaining_ref_ids, true, true);
         // we remove this check to prevent [list-_other] stuff from appearing in the list

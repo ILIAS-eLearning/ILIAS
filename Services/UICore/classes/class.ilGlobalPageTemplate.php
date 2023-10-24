@@ -1,6 +1,5 @@
 <?php
 
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -244,11 +243,6 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
     public function setHeaderPageTitle(string $a_title): void
     {
         PageContentProvider::setViewTitle($a_title);
-    }
-
-    public function addLightbox(string $a_html, string $a_id): void
-    {
-        $this->legacy_content_template->addLightbox($a_html, $a_id);
     }
 
     public function setPageFormAction(string $a_action): void

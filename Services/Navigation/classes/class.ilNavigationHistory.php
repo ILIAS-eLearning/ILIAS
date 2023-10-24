@@ -127,7 +127,10 @@ class ilNavigationHistory
                 $tree->isInTree($it["ref_id"]) &&
                 (
                     !$objDefinition->isPluginTypeName($it["type"]) ||
-                    $component_repository->getPluginById($it["type"])->isActive()
+                    (
+                        $component_repository->hasPluginId($it["type"]) &&
+                        $component_repository->getPluginById($it["type"])->isActive()
+                    )
                 )
             ) {
                 $items[$it["ref_id"] . ":" . $it["sub_obj_id"]] = $it;
@@ -144,11 +147,18 @@ class ilNavigationHistory
             $cnt = count($items);
             if (is_array($db_entries)) {
                 foreach ($db_entries as $rec) {
-                    if ($cnt <= 10 && !isset($items[$rec["ref_id"] . ":" . $rec["sub_obj_id"]]) && $tree->isInTree((int) $rec["ref_id"]) &&
+                    if (
+                        $cnt <= 10 &&
+                        !isset($items[$rec["ref_id"] . ":" . $rec["sub_obj_id"]]) &&
+                        $tree->isInTree((int) $rec["ref_id"]) &&
                         (
                             !$objDefinition->isPluginTypeName($rec["type"]) ||
-                            $component_repository->getPluginById($rec["type"])->isActive()
-                        )) {
+                            (
+                                $component_repository->hasPluginId($rec["type"]) &&
+                                $component_repository->getPluginById($rec["type"])->isActive()
+                            )
+                        )
+                    ) {
                         $link = ($rec["goto_link"] != "")
                                 ? $rec["goto_link"]
                                 : ilLink::_getLink((int) $rec["ref_id"]);

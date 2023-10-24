@@ -411,6 +411,7 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
         }
         $this->createProperties(true);
         $this->updateCopyright();
+        $this->getObjectProperties()->storePropertyIsOnline(new ilObjectPropertyIsOnline(true));
         $this->notifyCreation($this->getId(), $this->getDescription());
     }
 
@@ -458,6 +459,8 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
         $new_obj->setTitle($cloned_title); // see https://mantis.ilias.de/view.php?id=31375
         $new_obj->setPageCount($this->getPageCount());
         $new_obj->update();
+
+        $new_obj->getObjectProperties()->storePropertyIsOnline(new ilObjectPropertyIsOnline(true));
 
         // Copy learning progress settings
         $obj_settings = new ilLPObjSettings($this->getId());

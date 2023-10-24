@@ -18,6 +18,7 @@
 
 use ILIAS\DI\Container;
 use ILIAS\UI\Component\Modal\Modal;
+use ILIAS\Data\DataSize;
 
 /**
  * Class ilFileVersionsTableGUI
@@ -117,7 +118,11 @@ class ilFileVersionsTableGUI extends ilTable2GUI
         $username = trim($name["title"] . " " . $name["firstname"] . " " . $name["lastname"]);
 
         // get file size
-        $filesize = $a_set["size"];
+        $data_size = new DataSize(
+            (int) ($a_set["size"] ?? 0),
+            DataSize::KB
+        );
+        $filesize = (string) $data_size;
 
         // get action text
         $action = $this->dic->language()->txt(
@@ -172,7 +177,7 @@ class ilFileVersionsTableGUI extends ilTable2GUI
         $this->tpl->setVariable("DL_LINK", $link);
         $this->tpl->setVariable("TXT_FILENAME", $filename);
         $this->tpl->setVariable("TXT_VERSIONNAME", $a_set['title']);
-        $this->tpl->setVariable("TXT_FILESIZE", ilUtil::formatSize($filesize));
+        $this->tpl->setVariable("TXT_FILESIZE", $data_size);
 
         // columns depending on confirmation
         $this->tpl->setCurrentBlock("version_selection");

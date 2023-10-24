@@ -46,6 +46,8 @@ class ilExerciseManagementGUI
     public const GRADE_NOT_GRADED = "notgraded";
     public const GRADE_PASSED = "passed";
     public const GRADE_FAILED = "failed";
+    protected \ILIAS\Exercise\InternalDomainService $domain;
+    protected \ILIAS\Exercise\Notification\NotificationManager $notification;
     protected \ILIAS\Exercise\InternalGUIService $gui;
     protected \ILIAS\HTTP\Services $http;
 
@@ -145,10 +147,6 @@ class ilExerciseManagementGUI
         $this->notification = $domain->notification($request->getRefId());
 
         $this->ctrl->saveParameter($this, array("vw", "member_id"));
-        $this->http = $DIC->http();
-        $this->gui = $DIC->exercise()
-            ->internal()
-            ->gui();
     }
 
     /**

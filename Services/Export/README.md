@@ -1,6 +1,9 @@
 # Export/Import Service
 
+This component implements the ILIAS export and import service. This part of the documentation deals with configuration, concepts and business rules, for technical documentation see [README-technical.md](./README-technical.md).
+
 ## General Information
+
 The Export Service provides several classes for the XML-based im/export of repository objects.
 
 ### Upload from directory
@@ -11,6 +14,7 @@ Files which are located in the upload directory can be accessed directly by spec
 the requirement to upload the files via HTTP.
 
 #### Export Files
+
 Export files for repository objects must be located in the directory
  
 `{PATH_TO_EXTERN_DATA_OF_CLIENT}/upload/export`
@@ -34,6 +38,7 @@ Example for category export files only for "Root" User (ID 6):
 `{PATH_TO_EXTERN_DATA_OF_CLIENT}/upload/export/6/1604568820__12654__cat_3191.zip`
 
 #### Scorm and HTLMs
+
 The configuration of an upload directory has been removed in Release 7.
 The fixed location is: 
 
@@ -44,6 +49,7 @@ and the HTLM-File-Browser. Only users with "write" permission to the administrat
 can access the files.
 
 #### Media Objects
+
 The configuration of an upload directory has been removed in Release 7.
 The fixed location is: 
 

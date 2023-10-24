@@ -437,7 +437,7 @@ class ilObjGroupGUI extends ilContainerGUI
             'grp'
         );
 
-        if ($this->view_manager->isAdminView()) {
+        if ($this->isActiveAdministrationPanel()) {
             parent::renderObject();
             $this->addAdoptContentLinkToToolbar();
             return;

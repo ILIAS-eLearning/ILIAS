@@ -33,6 +33,7 @@ use ILIAS\Wiki\Page\PageInfo;
  */
 class LinkManager
 {
+    protected int $wiki_id;
     protected PageManager $pm;
     protected \ilLogger $log;
     protected InternalDomainService $domain;

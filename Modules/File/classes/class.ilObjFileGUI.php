@@ -23,6 +23,8 @@ use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
 use ILIAS\UI\Component\Input\Container\Form\Standard;
 use ILIAS\File\Icon\IconDatabaseRepository;
 use ILIAS\Modules\File\Settings\General;
+use ILIAS\UI\Implementation\Component\Input\UploadLimitResolver;
+use ILIAS\Data\DataSize;
 use ILIAS\Refinery\String\Group;
 use ILIAS\Data\Factory;
 
@@ -72,6 +74,7 @@ class ilObjFileGUI extends ilObject2GUI
     protected General $general_settings;
     protected ilFileServicesSettings $file_service_settings;
     protected IconDatabaseRepository $icon_repo;
+    private UploadLimitResolver $upload_limit;
     protected \ILIAS\UI\Component\Input\Factory $inputs;
     protected \ILIAS\UI\Renderer $renderer;
     protected \Psr\Http\Message\ServerRequestInterface $request;
@@ -99,6 +102,7 @@ class ilObjFileGUI extends ilObject2GUI
         $this->obj_service = $DIC->object();
         $this->lng->loadLanguageModule(ilObjFile::OBJECT_TYPE);
         $this->icon_repo = new IconDatabaseRepository();
+        $this->upload_limit = $DIC['ui.upload_limit_resolver'];
         $this->inputs = $DIC->ui()->factory()->input();
         $this->renderer = $DIC->ui()->renderer();
         $this->request = $DIC->http()->request();
@@ -354,7 +358,9 @@ class ilObjFileGUI extends ilObject2GUI
 
     public function initUploadForm(): Standard
     {
+        $this->getLanguage()->loadLanguageModule('file');
         $inputs = [];
+
         $this->ctrl->setParameterByClass(self::class, 'new_type', $this->getType());
         $this->ctrl->setParameterByClass(
             self::class,
@@ -363,10 +369,18 @@ class ilObjFileGUI extends ilObject2GUI
         );
 
         // add file input
+        $size = new DataSize(
+            $this->upload_limit->getBestPossibleUploadLimitInBytes($this->upload_handler),
+            DataSize::MB
+        );
+
         $inputs[] = $this->ui->factory()->input()->field()->file(
             $this->upload_handler,
             $this->lng->txt('upload_files'),
-            null,
+            sprintf(
+                $this->lng->txt('upload_files_limit'),
+                (string) $size
+            ),
             $this->ui->factory()->input()->field()->group([
                 self::PARAM_TITLE => $this->ui->factory()->input()->field()->text(
                     $this->lng->txt('title')
@@ -381,8 +395,6 @@ class ilObjFileGUI extends ilObject2GUI
             ])
         )->withMaxFiles(
             self::UPLOAD_MAX_FILES
-        )->withMaxFileSize(
-            (int) ilFileUtils::getUploadSizeLimitBytes()
         )->withRequired(true);
 
         // add input for copyright selection if enabled in the metadata settings
@@ -517,6 +529,8 @@ class ilObjFileGUI extends ilObject2GUI
         $this->object->setOnclickMode((int) $inputs['file_info']['on_click_action']);
         $this->object->update();
 
+        $this->object->getObjectProperties()->storePropertyIsOnline($inputs['availability']['online_status']);
+
         $this->object->getObjectProperties()->storePropertyTileImage($inputs['presentation']['tile_image']);
 
         // BEGIN ChangeEvent: Record update event.
@@ -605,6 +619,18 @@ class ilObjFileGUI extends ilObject2GUI
             $this->lng->txt('file_info')
         );
 
+
+        $online_status = $this->object->getObjectProperties()->getPropertyIsOnline()->toForm(
+            $this->lng,
+            $this->ui->factory()->input()->field(),
+            $this->refinery
+        );
+        $availability_section = $this->inputs->field()->section(
+            ["online_status" => $online_status],
+            $this->lng->txt('rep_activation_availability')
+        );
+
+
         $tile_image = $this->object->getObjectProperties()->getPropertyTileImage()->toForm(
             $this->lng,
             $this->ui->factory()->input()->field(),
@@ -619,6 +645,7 @@ class ilObjFileGUI extends ilObject2GUI
             $this->ctrl->getLinkTargetByClass(self::class, 'update'),
             [
                 "file_info" => $file_info_section,
+                "availability" => $availability_section,
                 "presentation" => $presentation_section
             ]
         );

@@ -29,6 +29,7 @@ use ILIAS\Wiki\WikiGUIRequest;
  */
 class GUIService
 {
+    protected WikiGUIRequest $request;
     protected InternalGUIService $gui_service;
     protected InternalDomainService $domain_service;
 

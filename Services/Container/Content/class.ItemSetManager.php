@@ -129,6 +129,14 @@ class ItemSetManager
         return $this->raw_by_type["_all"][$ref_id] ?? null;
     }
 
+    public function isSideBlockItem(int $ref_id): bool
+    {
+        $this->init();
+        $type = $this->raw_by_type["_all"][$ref_id]["type"] ?? "";
+        $obj_definition = $this->domain->objectDefinition();
+        return $obj_definition->isSideBlock($type);
+    }
+
     protected function applySorting(): void
     {
         $sort = \ilContainerSorting::_getInstance($this->parent_obj_id);

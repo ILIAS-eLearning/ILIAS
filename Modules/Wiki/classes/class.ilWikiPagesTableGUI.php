@@ -29,6 +29,8 @@ const IL_WIKI_ORPHANED_PAGES = "orphaned";
  */
 class ilWikiPagesTableGUI extends ilTable2GUI
 {
+    protected \ILIAS\Wiki\Links\LinkManager $link_manager;
+    protected string $requested_lang;
     protected string $lang;
     protected ilObjectTranslation $ot;
     protected \ILIAS\Wiki\Page\PageManager $pm;

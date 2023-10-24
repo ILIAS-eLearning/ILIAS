@@ -39,13 +39,17 @@ class ilADNNotificationUIFormGUI
     public const F_INTERRUPTIVE = 'interruptive';
     public const F_ALLOWED_USERS = 'allowed_users';
     public const F_DISMISSABLE = 'dismissable';
+    public const F_HAS_LANGUAGE_LIMITATION = 'has_language_limitation';
+    public const F_LIMITED_TO_LANGUAGES = 'limited_to_languages';
     public const F_LIMIT_TO_ROLES = 'limit_to_roles';
     public const F_LIMITED_TO_ROLE_IDS = 'limited_to_role_ids';
     public const F_DISPLAY_DATE_START = 'display_date_start';
     public const F_DISPLAY_DATE_END = 'display_date_end';
     public const F_EVENT_DATE_START = 'event_date_start';
     public const F_EVENT_DATE_END = 'event_date_end';
+    public const F_SHOW_TO_ALL_LANGUAGES = 'show_to_all_languages';
     public const F_SHOW_TO_ALL_ROLES = 'show_to_all_roles';
+    public const F_LANGUAGES = 'languages';
     public const F_PRESENTATION = 'presentation';
     protected ilCtrlInterface $ctrl;
     protected \ILIAS\UI\Factory $ui;
@@ -102,8 +106,8 @@ class ilADNNotificationUIFormGUI
     public function initForm(): void
     {
         $field = $this->ui->input()->field();
-        $custom_trafo = fn (callable $c): Transformation => $this->refinery->custom()->transformation($c);
-        $custom_constraint = fn (callable $c, string $error): Transformation => $this->refinery->custom()->constraint(
+        $custom_trafo = fn(callable $c): Transformation => $this->refinery->custom()->transformation($c);
+        $custom_constraint = fn(callable $c, string $error): Transformation => $this->refinery->custom()->constraint(
             $c,
             $error
         );
@@ -253,6 +257,42 @@ class ilADNNotificationUIFormGUI
                                  })
                              );
 
+        // LIMITED TO LANGUAGES
+        $installed_languages = $this->lng->getInstalledLanguages();
+        $lang_options = [];
+        $this->lng->loadLanguageModule('meta');
+        foreach ($installed_languages as $installed_language) {
+            $lang_options[$installed_language] = $this->lng->txt("meta_l_" . $installed_language);
+        }
+
+        $limited_to_languages = $field->multiSelect('', $lang_options)->withValue(
+            array_intersect($this->notification->getLimitedToLanguages(), $installed_languages)
+        );
+
+        $lang_value = $this->notification->hasLanguageLimitation()
+            ? self::F_HAS_LANGUAGE_LIMITATION
+            : self::F_SHOW_TO_ALL_LANGUAGES;
+
+        $languages = $field->switchableGroup([
+            self::F_SHOW_TO_ALL_LANGUAGES => $field->group(
+                [],
+                $this->txt(self::F_SHOW_TO_ALL_LANGUAGES)
+            ),
+            self::F_HAS_LANGUAGE_LIMITATION => $field->group(
+                [$limited_to_languages],
+                $this->txt(self::F_HAS_LANGUAGE_LIMITATION)
+            )->withByline($this->infoTxt(self::F_HAS_LANGUAGE_LIMITATION))
+        ], $this->txt("languages"))
+                       ->withValue($lang_value)
+                       ->withAdditionalTransformation(
+                           $custom_trafo(function ($v): void {
+                               $has_language_limitation = ($v[0] ?? null) === self::F_HAS_LANGUAGE_LIMITATION;
+                               $limited_to_languages = (array) ($v[1][0] ?? []);
+                               $this->notification->setHasLanguageLimitation($has_language_limitation);
+                               $this->notification->setLimitedToLanguages($limited_to_languages);
+                           })
+                       );
+
         // LIMITED TO ROLES
         $available_roles = $this->getRoles(ilRbacReview::FILTER_ALL_GLOBAL);
         $limited_to_role_ids = $field->multiSelect('', $available_roles)
@@ -289,6 +329,7 @@ class ilADNNotificationUIFormGUI
             self::F_BODY => $body,
             self::F_PERMANENT => $permanent,
             self::F_DISMISSABLE => $dismissable,
+            self::F_HAS_LANGUAGE_LIMITATION => $languages,
             self::F_LIMIT_TO_ROLES => $roles,
         ], $this->txt('form_title'))->withAdditionalTransformation(
             $custom_trafo(function ($v): ilADNNotification {

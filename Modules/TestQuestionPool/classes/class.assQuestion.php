@@ -513,13 +513,6 @@ abstract class assQuestion
                         . $possible_texts[0]
                         . '</a>';
                     break;
-
-                case assQuestionSuggestedSolution::TYPE_TEXT:
-                    $solutionValue = $solution->getValue();
-                    $solutionValue = $this->fixSvgToPng($solutionValue);
-                    $solutionValue = $this->fixUnavailableSkinImageSources($solutionValue);
-                    $output[] = ilLegacyFormElementsUtil::prepareTextareaOutput($solutionValue, true);
-                    break;
             }
         }
         return implode("<br />", $output);

@@ -150,7 +150,7 @@ class DateTimeInputTest extends ILIAS_UI_TestBase
 
     public function testWithValueThatIsDateTimeImmutable(): void
     {
-        $string_value = "1985-05-04";
+        $string_value = "1985-05-04 00:00";
         $value = new \DateTimeImmutable($string_value);
         $datetime = $this->factory->datetime('label', 'byline')
             ->withValue($value);
@@ -158,5 +158,12 @@ class DateTimeInputTest extends ILIAS_UI_TestBase
             $string_value,
             $datetime->getValue()
         );
+    }
+
+    public function testWithInvalidValue(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $datetime = $this->factory->datetime('label', 'byline')
+            ->withValue("this is no datetime...");
     }
 }

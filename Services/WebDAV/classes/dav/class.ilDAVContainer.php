@@ -130,7 +130,7 @@ class ilDAVContainer implements ICollection
             $size = $this->request->getHeader('X-Expected-Entity-Length')[0];
         }
 
-        if ($size > ilFileUtils::getUploadSizeLimitBytes()) {
+        if ($size > ilFileUtils::getPhpUploadSizeLimitInBytes()) {
             throw new Forbidden('File is too big');
         }
 

@@ -35,6 +35,9 @@ use ILIAS\Exercise\PermanentLink\PermanentLinkManager;
 class InternalGUIService
 {
     use GlobalDICGUIServices;
+
+    protected \ILIAS\Exercise\InternalDataService $data_service;
+    protected \ILIAS\Exercise\InternalDomainService $domain_service;
     protected \ilLanguage $lng;
     protected Refinery\Factory $refinery;
 

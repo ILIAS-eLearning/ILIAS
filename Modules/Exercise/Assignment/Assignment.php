@@ -25,6 +25,15 @@ namespace ILIAS\Exercise\Assignment;
  */
 class Assignment
 {
+    protected int $order_nr;
+    protected int $type;
+    protected string $instructions;
+    protected bool $mandatory;
+    protected int $deadline_mode;
+    protected int $deadline;
+    protected int $deadline2;
+    protected int $relative_deadline;
+    protected int $rel_deadline_last_submission;
     protected int $id;
     protected int $exc_id;
     protected string $title;

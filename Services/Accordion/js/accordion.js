@@ -470,7 +470,7 @@ il.Accordion = {
 	rerenderContent: function(acc_el) {
 
 		// rerender mathjax
-		if (typeof MathJax != "undefined") {
+		if (typeof MathJax != "undefined" && typeof MathJax.Hub != "undefined") {
 			MathJax.Hub.Queue(["Reprocess",MathJax.Hub, acc_el[0]]);
 		}
 		// see http://docs.mathjax.org/en/latest/typeset.html
