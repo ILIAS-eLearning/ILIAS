@@ -18,11 +18,6 @@
 
 declare(strict_types=1);
 
-/*
-use ILIAS\UI\Implementation\Component\Table as T;
-use ILIAS\UI\Component\Table as I;
-*/
-
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\Data\Factory as DataFactory;
@@ -185,7 +180,6 @@ class QuestionTable extends ilAssQuestionList implements Table\DataRetrieval
     {
         $this->setParentObjId($this->parent_obj_id);
         $this->load();
-        //return $this->getQuestionDataArray();
         return $this->postOrder($this->getQuestionDataArray(), $order);
     }
 
@@ -220,7 +214,6 @@ class QuestionTable extends ilAssQuestionList implements Table\DataRetrieval
 
         return [$act => $action];
     }
-
 
     protected function postOrder(array $list, \ILIAS\Data\Order $order): array
     {
