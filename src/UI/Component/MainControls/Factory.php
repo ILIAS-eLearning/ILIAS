@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\UI\Component\MainControls;
 
@@ -315,8 +315,9 @@ interface Factory
      *     such as links to the pages's imprint or a privacy policy document.
      *
      *   composition: >
-     *     The Footer is composed of a list of Links or Shy Buttons triggering
-     *     Round Trip Modals and an optional text-part.
+     *     The Footer is redered empty or composed with a list of Links or Shy Buttons triggering
+     *     Round Trip Modals and optional text-parts. The composition is divided into three areas: Sharing-Links,
+     *     Utility-Link-Groups and Meta-Information. An empty Footer will not be rendered.
      *
      * context:
      *   - The Footer is used with the Standard Page.
@@ -330,12 +331,14 @@ interface Factory
      *     3: >
      *        Although the footer is constructed only with its "static" parts,
      *        it SHOULD have attached a permanent URL for the current page/object.
+     *     4: >
+     *        The Footer SHOULD NOT contain Meta-Infos which are other than plaintext and/or
+     *        longer than 1000 characters.
+     *
      * ----
-     * @param  \ILIAS\UI\Component\Link\Standard[] $links
-     * @param  string $text
      * @return  \ILIAS\UI\Component\MainControls\Footer
      */
-    public function footer(array $links, string $text = ''): Footer;
+    public function footer(): Footer;
 
 
     /**
