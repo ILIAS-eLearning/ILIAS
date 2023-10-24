@@ -7,14 +7,22 @@ il.WOPI = {
 
 il.WOPI.bindCloseButton = function (elementId) {
   const button = document.getElementById(elementId);
-  button.addEventListener('click', (event) => {
+  button.addEventListener('click', async (event) => {
     event.stopPropagation();
     event.preventDefault();
-    this.close(() => {
-      alert('saved');
-    });
+    const closed = await this.close();
+    return closed;
   });
 };
+
+il.WOPI.windowResize = function () {
+  const iframeWidth = this.editorFrame.parentElement.offsetWidth - 0;
+  const iframeHeight = document.getElementsByClassName('il-layout-page-content')[0].clientHeight - document.getElementsByClassName('il_HeaderInner')[0].clientHeight - document.getElementsByTagName('footer')[0].clientHeight - 100;
+
+  this.editorFrame.setAttribute('width', iframeWidth);
+  this.editorFrame.setAttribute('height', iframeHeight);
+};
+
 il.WOPI.init = function () {
   // BUILD IFRAME
   const frameholder = document.getElementById('c-embedded-wopi');
@@ -60,38 +68,35 @@ il.WOPI.init = function () {
 
   // SEND FORM
   form.submit();
+
   // Add event listener to receive messages from the editor
-  this.registerListener('App_LoadingStatus', (message) => {
-    if (message.Values.Status === 'Document_Loaded') {
-      this.postMessage({
-        MessageId: 'Host_PostmessageReady',
-        SendTime: Date.now(),
-        Values: {},
-      });
-    }
+  this.registerListener('App_LoadingStatus', () => {
+    this.postMessage({
+      MessageId: 'Host_PostmessageReady',
+      SendTime: Date.now(),
+      Values: {},
+    });
   });
 
+  // Collabora
   this.registerListener('Doc_ModifiedStatus', (message) => {
-    console.log('Documend Modified');
     this.modified = message.Values.Modified ?? false;
   });
+  // OnlyOffice
+  this.registerListener('Edit_Notification', () => {
+    this.modified = true;
+  });
+
   // Add event listener to resize the editor iframe
   document.defaultView.addEventListener('resize', () => {
     il.WOPI.windowResize(editorFrame);
   });
 };
 
-il.WOPI.windowResize = function () {
-  const iframeWidth = this.editorFrame.parentElement.offsetWidth - 0;
-  const iframeHeight = document.getElementsByClassName('il-layout-page-content')[0].clientHeight - document.getElementsByClassName('il_HeaderInner')[0].clientHeight - document.getElementsByTagName('footer')[0].clientHeight - 100;
-
-  this.editorFrame.setAttribute('width', iframeWidth);
-  this.editorFrame.setAttribute('height', iframeHeight);
-};
 il.WOPI.postMessage = function (mobj) {
   this.editorFrameWindow.postMessage(JSON.stringify(mobj), '*');
 };
-il.WOPI.registerListener = async function (MessageId, callback) {
+il.WOPI.registerListener = function (MessageId, callback) {
   window.addEventListener(
     'message',
     (event) => {
@@ -103,9 +108,7 @@ il.WOPI.registerListener = async function (MessageId, callback) {
     false,
   );
 };
-il.WOPI.close = async function (callback) {
-  console.log('save called');
-
+il.WOPI.close = async function () {
   const overlay = document.createElement('div');
   overlay.id = 'c-embedded-wopi-overlay';
   overlay.style.position = 'fixed';
@@ -116,12 +119,11 @@ il.WOPI.close = async function (callback) {
   overlay.style.backgroundColor = 'rgba(0,0,0,0.5)';
   this.frameholder.appendChild(overlay);
 
+  const saved = await this.save();
   if (this.modified) {
-    console.log('is modified');
-    console.log('save');
-    await this.save();
-    await this.registerListener('Doc_ModifiedStatus', callback);
+    return saved;
   }
+  return true;
 };
 il.WOPI.save = async function () {
   this.postMessage({
@@ -134,9 +136,7 @@ il.WOPI.save = async function () {
     },
   });
 
-  this.registerListener('App_Close', () => {
+  const saved = await this.registerListener('Doc_ModifiedStatus', () => true);
 
-
-
-  return true;
+  return saved;
 };
