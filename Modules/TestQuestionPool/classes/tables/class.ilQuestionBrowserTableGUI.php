@@ -41,7 +41,6 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
     protected array $filter = [];
 
     protected $taxIds = array();
-    protected ilObjQuestionPool $pool_obj;
 
     /**
      * @var bool
@@ -50,7 +49,6 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
 
     public function __construct($a_parent_obj, $a_parent_cmd, $a_write_access = false, $confirmdelete = false, $taxIds = array(), $enableCommenting = false)
     {
-        $this->pool_obj = $a_parent_obj->object;
         $this->setQuestionCommentingEnabled($enableCommenting);
 
         // Bugfix: #0019539
@@ -423,19 +421,20 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
                 }
             }
 
-            $actions[] = $this->ui_factory->link()->standard($this->lng->txt('preview'),
-                    $this->ctrl->getLinkTargetByClass('ilAssQuestionPreviewGUI', ilAssQuestionPreviewGUI::CMD_SHOW)
+            $actions[] = $this->ui_factory->link()->standard(
+                $this->lng->txt('preview'),
+                $this->ctrl->getLinkTargetByClass('ilAssQuestionPreviewGUI', ilAssQuestionPreviewGUI::CMD_SHOW)
             );
 
-            $actions[] = $this->ui_factory->link()->standard($this->lng->txt('statistics'),
-                    $this->ctrl->getLinkTargetByClass('ilAssQuestionPreviewGUI', ilAssQuestionPreviewGUI::CMD_STATISTICS)
-
+            $actions[] = $this->ui_factory->link()->standard(
+                $this->lng->txt('statistics'),
+                $this->ctrl->getLinkTargetByClass('ilAssQuestionPreviewGUI', ilAssQuestionPreviewGUI::CMD_STATISTICS)
             );
 
             if ($this->getEditable()) {
-                $this->ctrl->setParameterByClass($a_set['type_tag'].'GUI', 'q_id', $a_set['question_id']);
-                $editHref = $this->ctrl->getLinkTargetByClass($a_set['type_tag'].'GUI', 'editQuestion');
-                $this->ctrl->setParameterByClass($a_set['type_tag'].'GUI', 'q_id', null);
+                $this->ctrl->setParameterByClass($a_set['type_tag'] . 'GUI', 'q_id', $a_set['question_id']);
+                $editHref = $this->ctrl->getLinkTargetByClass($a_set['type_tag'] . 'GUI', 'editQuestion');
+                $this->ctrl->setParameterByClass($a_set['type_tag'] . 'GUI', 'q_id', null);
                 $actions[] = $this->ui_factory->link()->standard($this->lng->txt('edit_question'), $editHref);
 
                 $editPageHref = $this->ctrl->getLinkTargetByClass('ilAssQuestionPageGUI', 'edit');
@@ -472,7 +471,7 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
             }
 
             if ($this->isQuestionCommentingEnabled()) {
-                $actions[] = $this->ui_factory->link()->standard($this->lng->txt('ass_comments'),$this->getCommentsAjaxLink($a_set['question_id']));
+                $actions[] = $this->ui_factory->link()->standard($this->lng->txt('ass_comments'), $this->getCommentsAjaxLink($a_set['question_id']));
             }
         } else {
             $this->tpl->setCurrentBlock('hidden');

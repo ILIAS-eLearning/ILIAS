@@ -665,8 +665,6 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
         return iterator_count($questionHintList) > 0;
     }
 
-
-
     private function loadTaxonomyAssignmentData($parentObjId, $questionId): array
     {
         $taxAssignmentData = array();

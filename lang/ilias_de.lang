@@ -886,6 +886,7 @@ assessment#:#min_percentage_ne_0#:#Sie müssen einen minimalen Prozentsatz von 0
 assessment#:#misc#:#Verschiedene Optionen
 assessment#:#msg_circle_added#:#Kreis hinzugefügt
 assessment#:#msg_deleted_export_files#:#Exportdatei(en) gelöscht
+assessment#:#msg_no_questions_selected#:#Keine Fragen ausgewählt.
 assessment#:#msg_number_of_terms_too_low#:#Die Anzahl der Terme muss größer oder gleich der Anzahl der Definitionen sein.
 assessment#:#msg_poly_added#:#Polygon hinzugefügt
 assessment#:#msg_questions_moved#:#Fragen verschoben
@@ -1092,6 +1093,7 @@ assessment#:#question_title#:#Fragentitel
 assessment#:#question_type#:#Fragetyp
 assessment#:#questionpool_not_entered#:#Bitte geben Sie einen Namen für den Fragenpool an!
 assessment#:#questionpool_not_selected#:#Bitte wählen Sie einen Fragenpool aus!
+assessment#:#questions#:#Fragen
 assessment#:#questions_from#:#Fragen aus
 assessment#:#questions_per_page_view#:#Seitenansicht
 assessment#:#random_accept_sample#:#Zusammenstellung akzeptieren
