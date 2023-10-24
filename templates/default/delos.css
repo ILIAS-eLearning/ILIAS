@@ -3887,7 +3887,6 @@ button .minimize, button .close {
 }
 .il-card .il-card-repository-head .il-chart-progressmeter-box > .il-chart-progressmeter-container .il-chart-progressmeter-viewbox {
   max-width: 100%;
-  filter: brightness(1.2);
 }
 .il-card .il-card-repository-head > div.il-card-repository-dropdown {
   float: right;
