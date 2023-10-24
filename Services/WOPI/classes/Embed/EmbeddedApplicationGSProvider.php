@@ -68,14 +68,8 @@ class EmbeddedApplicationGSProvider extends AbstractModificationProvider
                 $uif->symbol()->glyph()->close(),
                 $this->dic->language()->txt('close'),
                 (string) $back_target
-            )->withOnLoadCode(function ($id) use ($back_target) {
-                /*return "$id.addEventListener('click', () => {
-                        il.WOPI.close(() => {
-                            window.location = '$back_target';
-                        });
-                        return false;
-                    });"; */
-                return "il.WOPI.bindCloseButton('$id', '$back_target');";
+            )->withOnLoadCode(function ($id) {
+                return "il.WOPI.bindCloseButton('$id');";
             });
 
             return $this->factory->metabar()->withHighPriority()->withModification(

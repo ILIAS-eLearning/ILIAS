@@ -91,6 +91,13 @@ il.WOPI.init = function () {
   document.defaultView.addEventListener('resize', () => {
     il.WOPI.windowResize(editorFrame);
   });
+  // resize after some time to make sure the editor is loaded and mainmenu has been collapsed
+  setTimeout(
+    () => {
+      il.WOPI.windowResize(editorFrame);
+    },
+    200,
+  );
 };
 
 il.WOPI.postMessage = function (mobj) {
