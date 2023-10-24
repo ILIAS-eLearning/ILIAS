@@ -76,7 +76,7 @@ class ilADNDatabaseObjective implements ilDatabaseUpdateSteps
             ]
         );
         $this->database->manipulate('
-            UPDATE il_adn_notifications SET limited_to_languages = "";
+            UPDATE il_adn_notifications SET limited_to_languages = "[]";
         ');
     }
 
