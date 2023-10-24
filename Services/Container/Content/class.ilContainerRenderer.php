@@ -929,6 +929,7 @@ class ilContainerRenderer
                         $this->objective_renderer->getContent()
                     );
                     $this->addSeparatorRow($block_tpl);
+                    $valid = true;
                 }
             }
         }
