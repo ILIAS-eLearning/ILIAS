@@ -429,13 +429,13 @@ class ilLDAPQuery
 
         // All groups
         foreach ($group_data as $data) {
-            if (is_array($data[$attribute_name])) {
+            if (isset($data[$attribute_name]) && is_array($data[$attribute_name])) {
                 $this->logger->debug('Found ' . count($data[$attribute_name]) . ' group members for group ' . $data['dn']);
                 foreach ($data[$attribute_name] as $name) {
                     $this->readUserData($name, true, true);
                 }
             } else {
-                $this->readUserData($data[$attribute_name], true, true);
+                $this->readUserData($data[$attribute_name] ?? '', true, true);
             }
         }
         unset($tmp_result);
