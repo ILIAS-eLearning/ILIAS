@@ -122,6 +122,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         $this->row_id_token = $row_id_token;
 
         $this->ui_service = $DIC->uiService();
+        $this->tpl->addJavascript('Services/Notes/js/ilNotes.js');
+        $this->tpl->addJavascript('Services/UIComponent/Modal/js/Modal.js');
     }
 
     protected function getQueryParamString(string $param): ?string
@@ -475,11 +477,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                 $this->ctrl->forwardCommand($gui);
 
                 break;
-                /*
-                            case 'ilquestionbrowsertablegui':
-                                $this->ctrl->forwardCommand($this->buildQuestionBrowserTableGUI($taxIds = [])); // no tax ids required
-                                break;
-                */
+
             case 'ilobjquestionpoolgui':
             case '':
 
@@ -490,15 +488,14 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                         $this->refinery->custom()->transformation(fn($v) => $v)
                     );
 
-                    if ($ids === 'ALL_OBJECTS') {
-                        die('all questions: ' . $action);
+                    if (is_null($ids)) {
+                        $this->tpl->setOnScreenMessage('failure', $this->lng->txt('msg_no_questions_selected'), true);
+                        $this->ctrl->redirect($this, 'questions');
                     }
-
                     if (! is_array($ids)) {
                         $ids = explode(',', $ids);
                     }
                     $ids = array_map('intval', $ids);
-
 
                     $class = strtolower(assQuestionGUI::_getGUIClassNameForId(current($ids)));
                     $this->ctrl->setParameterByClass("ilAssQuestionPageGUI", "q_id", current($ids));
@@ -506,7 +503,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                     $this->ctrl->setParameterByClass('ilAssQuestionFeedbackEditingGUI', 'q_id', current($ids));
                     $this->ctrl->setParameterByClass('ilAssQuestionHintsGUI', 'q_id', current($ids));
                     $this->ctrl->setParameterByClass($class, "q_id", current($ids));
-
 
                     switch ($action) {
                         case 'preview':
@@ -557,6 +553,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                                 'quest',
                                 current($ids)
                             );
+
+
                             echo ''
                                 . '<script>'
                                 . ilNoteGUI::getListCommentsJSCall($ajax_hash, '')
@@ -575,12 +573,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                     $this->ctrl->setParameter($this, 'q_id', '');
                 }
                 $cmd .= 'Object';
-                //die($cmd);
                 $ret = $this->$cmd();
                 break;
-
-
-
 
             default:
                 if (in_array($cmd, ['editQuestion', 'save', 'suggestedsolution']) && !$ilAccess->checkAccess(
@@ -669,21 +663,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
     {
         $page_gui = new ilAssQuestionPageGUI($this->qplrequest->raw('pg_id'));
         $page_gui->showMediaFullscreen();
-    }
-
-    /**
-     * set question list filter
-     */
-    public function filterObject(): void
-    {
-        $this->questionsObject();
-    }
-
-    public function resetFilterObject(): void
-    {
-        $_POST['filter_text'] = '';
-        $_POST['sel_filter_type'] = '';
-        $this->questionsObject();
     }
 
     /**
@@ -1134,12 +1113,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
     }
 
     /**
-<<<<<<< HEAD
      * delete questions confirmation screen
      */
-=======
-    * delete questions confirmation screen
->>>>>>> b0231002fd6 (FR, Data Table for QuestionPool)
     public function deleteQuestionsObject(): void
     {
         $rbacsystem = $this->rbac_system;
@@ -1212,56 +1187,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         }
     }
 
-/*
-    public function exportQuestionObject(): void
-    {
-        // export button was pressed
-        $post = $this->qplrequest->getParsedBody();
-        if (array_key_exists('q_id', $post) && is_array($post['q_id']) && count($post['q_id']) > 0) {
-            $qpl_exp = new ilQuestionpoolExport($this->object, 'xml', $post['q_id']);
-            // @PHP8-CR: This seems to be a pointer to an issue with exports. I like to leave this open for now and
-            // schedule a thorough examination / analysis for later, eventually involved T&A TechSquad
-            $export_file = $qpl_exp->buildExportFile();
-            $filename = $export_file;
-            $filename = preg_replace('/.*\//', '', $filename);
-            if ($export_file === '') {
-                $export_file = 'StandIn';
-            }
-            ilFileDelivery::deliverFileLegacy($export_file, $filename);
-            exit();
-        } else {
-            $this->tpl->setOnScreenMessage('info', $this->lng->txt('qpl_export_select_none'), true);
-        }
-        $this->ctrl->redirect($this, 'questions');
-    }
-    public function filterQuestionBrowserObject(): void
-    {
-        $enableComments = $this->rbac_system->checkAccess('write', $this->qplrequest->getRefId());
-        $taxIds = ilObjTaxonomy::getUsageOfObject($this->object->getId());
-        $table_gui = new ilQuestionBrowserTableGUI($this, 'questions', false, false, $taxIds, $enableComments);
-        $table_gui->resetOffset();
-        $table_gui->writeFilterToSession();
-        $this->questionsObject();
-    }
-
-    public function resetQuestionBrowserObject(): void
-    {
-        $taxIds = ilObjTaxonomy::getUsageOfObject($this->object->getId());
-
-        $table_gui = new ilQuestionBrowserTableGUI(
-            $this,
-            'questions',
-            false,
-            false,
-            $taxIds
-        );
-
-        $table_gui->resetOffset();
-        $table_gui->resetFilter();
-        $this->questionsObject();
-    }
-*/
-
     protected function renoveImportFailsObject(): void
     {
         $qsaImportFails = new ilAssQuestionSkillAssignmentImportFails($this->object->getId());
@@ -1326,12 +1251,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                 )
             );
         }
-        $tax_ids = ilObjTaxonomy::getUsageOfObject($this->object->getId());
-
-        /*
-                $table_gui = $this->buildQuestionBrowserTableGUI($tax_ids);
-                $table_gui->setPreventDoubleSubmission(false);
-        */
 
         $out = [];
 
@@ -1361,13 +1280,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                 $out[] = $this->ctrl->getHTML($toolbar)
             );
         }
-
-
-        /*
-                $out[] = $this->ctrl->getHTML($table_gui);
-                $out[] = '<hr><hr>';
-                $this->ctrl->getHTML($table_gui);
-        */
 
         $out[] = $this->getTable();
         $this->tpl->setContent(implode('', $out));
@@ -1526,48 +1438,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
             $this->tpl->setOnScreenMessage('info', $this->lng->txt('qpl_move_select_none'), true);
         }
     }
-
-    /*public function copyObject(): void
-    {
-        if (isset($_POST['q_id']) && is_array($_POST['q_id']) && count($_POST['q_id']) > 0) {
-            foreach ($_POST['q_id'] as $key => $value) {
-                $this->object->copyToClipboard($value);
-            }
-            $this->tpl->setOnScreenMessage('info', $this->lng->txt('qpl_copy_insert_clipboard'), true);
-        } elseif ($this->qplrequest->isset('q_id') && $this->qplrequest->getQuestionId() > 0) {
-            $this->object->copyToClipboard($this->qplrequest->getQuestionId());
-            $this->tpl->setOnScreenMessage('info', $this->lng->txt('qpl_copy_insert_clipboard'), true);
-        } else {
-            $this->tpl->setOnScreenMessage('info', $this->lng->txt('qpl_copy_select_none'), true);
-        }
-        $this->ctrl->redirect($this, 'questions');
-    }
-<<<<<<< HEAD
-
-    /**
-     * mark one or more question objects for moving
-     */
-=======
-    */
-    /*
-
->>>>>>> b0231002fd6 (FR, Data Table for QuestionPool)
-    public function moveObject(): void
-    {
-        if (isset($_POST['q_id']) && is_array($_POST['q_id']) && count($_POST['q_id']) > 0) {
-            foreach ($_POST['q_id'] as $key => $value) {
-                $this->object->moveToClipboard($value);
-            }
-            $this->tpl->setOnScreenMessage('info', $this->lng->txt('qpl_move_insert_clipboard'), true);
-        } elseif ($this->qplrequest->isset('q_id') && $this->qplrequest->getQuestionId() > 0) {
-            $this->object->moveToClipboard($this->qplrequest->getQuestionId());
-            $this->tpl->setOnScreenMessage('info', $this->lng->txt('qpl_copy_insert_clipboard'), true);
-        } else {
-            $this->tpl->setOnScreenMessage('info', $this->lng->txt('qpl_move_select_none'), true);
-        }
-        $this->ctrl->redirect($this, 'questions');
-    }
-    */
 
     public function createExportExcel(): void
     {
