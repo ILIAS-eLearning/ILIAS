@@ -92,8 +92,8 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
         )) instanceof \ILIAS\ResourceStorage\Identification\ResourceIdentification) {
             $resource = $this->manager->getResource($id);
             $this->implementation = new ilObjFileImplementationStorage($resource);
-            $this->max_version = $resource->getMaxRevision();
-            $this->version = $resource->getMaxRevision();
+            $this->max_version = $resource->getMaxRevision(false);
+            $this->version = $resource->getCurrentRevision()->getVersionNumber();
         }
     }
 
@@ -227,9 +227,9 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
         $this->important_info = empty($a_important_info) ? null : $a_important_info;
     }
 
-    public function getVersion(): int
+    public function getVersion(bool $inclduing_drafts = false): int
     {
-        return $this->implementation->getVersion();
+        return $this->implementation->getVersion($inclduing_drafts);
     }
 
     public function setVersion(int $a_version): void
@@ -693,9 +693,6 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
         return $new_title;
     }
 
-    /**
-     * @deprecated
-     */
     public function getFileExtension(): string
     {
         return $this->implementation->getFileExtension();

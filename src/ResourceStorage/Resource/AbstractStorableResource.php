@@ -26,7 +26,6 @@ use ILIAS\ResourceStorage\Revision\RevisionCollection;
 use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
 
 /**
- * Class StorableFileResource
  * @author Fabian Schmid <fabian@sr.solutions.ch>
  */
 abstract class AbstractStorableResource implements StorableResource
@@ -48,28 +47,24 @@ abstract class AbstractStorableResource implements StorableResource
         $this->revisions = new RevisionCollection($identification);
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getIdentification(): ResourceIdentification
     {
         return $this->identification;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getCurrentRevision(): Revision
     {
-        return $this->revisions->getCurrent();
+        return $this->revisions->getCurrent(false);
     }
 
-    /**
-     * @inheritDoc
-     */
+    public function getCurrentRevisionIncludingDraft(): Revision
+    {
+        return $this->revisions->getCurrent(true);
+    }
+
     public function getSpecificRevision(int $number): ?Revision
     {
-        foreach ($this->getAllRevisions() as $revision) {
+        foreach ($this->getAllRevisionsIncludingDraft() as $revision) {
             if ($revision->getVersionNumber() === $number) {
                 return $revision;
             }
@@ -77,12 +72,9 @@ abstract class AbstractStorableResource implements StorableResource
         return null;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function hasSpecificRevision(int $number): bool
     {
-        foreach ($this->getAllRevisions() as $revision) {
+        foreach ($this->getAllRevisionsIncludingDraft() as $revision) {
             if ($revision->getVersionNumber() === $number) {
                 return true;
             }
@@ -91,16 +83,21 @@ abstract class AbstractStorableResource implements StorableResource
     }
 
     /**
-     * @inheritDoc
+     * @return Revision[]
      */
     public function getAllRevisions(): array
     {
-        return $this->revisions->getAll();
+        return $this->revisions->getAll(false);
     }
 
     /**
-     * @inheritDoc
+     * @return Revision[]
      */
+    public function getAllRevisionsIncludingDraft(): array
+    {
+        return $this->revisions->getAll(true);
+    }
+
     public function addRevision(Revision $revision): void
     {
         $this->revisions->add($revision);
@@ -111,17 +108,11 @@ abstract class AbstractStorableResource implements StorableResource
         $this->revisions->remove($revision);
     }
 
-    /**
-     * @inheritDoc
-     */
     public function replaceRevision(Revision $revision): void
     {
         $this->revisions->replaceSingleRevision($revision);
     }
 
-    /**
-     * @inheritDoc
-     */
     public function setRevisions(RevisionCollection $collection): void
     {
         $this->revisions = $collection;
@@ -135,17 +126,11 @@ abstract class AbstractStorableResource implements StorableResource
         return $this->stakeholders;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function addStakeholder(ResourceStakeholder $s): void
     {
         $this->stakeholders[] = $s;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function removeStakeholder(ResourceStakeholder $s): void
     {
         foreach ($this->stakeholders as $k => $stakeholder) {
@@ -165,30 +150,24 @@ abstract class AbstractStorableResource implements StorableResource
         return $this;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getStorageId(): string
     {
         return $this->storage_id;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function setStorageId(string $storage_id): void
     {
         $this->storage_id = $storage_id;
     }
 
     /**
+     * @param bool $including_drafts
      * @inheritDoc
      */
-    public function getMaxRevision(): int
+    public function getMaxRevision(bool $including_drafts = false): int
     {
-        return $this->revisions->getMax();
+        return $this->revisions->getMax($including_drafts);
     }
-
 
     public function getFullSize(): int
     {

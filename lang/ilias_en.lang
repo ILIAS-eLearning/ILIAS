@@ -9571,8 +9571,14 @@ file#:#file_download#:#Download File
 file#:#file_import#:#Import File
 file#:#file_new_version#:#Create New Version
 file#:#file_new_version_info#:#Create new file version. Previous versions will not be modified.
+file#:#file_publish#:#Publish Draft
+file#:#file_rollback_rollback_first#:#The version could not be reset because an unpublished draft exists.
+file#:#file_rollback_same_version#:#This is already the current version
+file#:#file_unpublish#:#Mark as Draft
 file#:#file_upload_info_file_with_critical_extension#:#At least one uploaded file contains a critical or unknown file ending. The file ending will be changed to .sec for every download. If necessary, contact your administrator. Filename(s): %s
 file#:#file_uploaded_by#:#Version uploaded by
+file#:#file_version_draft#:#Draft Version
+file#:#file_version_draft_info#:#The latest version is in "Draft" status. As long as the version has not been published, no new versions can be created. People with read permission on the file get the latest published version.
 file#:#form_icon_creation#:#Create Icon
 file#:#form_icon_updating#:#Update Icon
 file#:#general_upload_error_occured#:#An unexpected error occured during upload.
@@ -9585,6 +9591,7 @@ file#:#input_icon#:#Icon
 file#:#input_suffixes#:#Suffixes
 file#:#migrated#:#Status
 file#:#mime_type#:#MIME Type
+file#:#msg_cant_unpublish#:#Action could not be executed
 file#:#msg_confirm_entry_deletion#:#Are you sure you want to delete the following entry?:
 file#:#msg_error_active_suffixes_blacklisted#:#One of the selected file extensions is on the global blacklist and cannot be used at the moment.
 file#:#msg_error_active_suffixes_conflict#:#Error: there must not be multiple activated icons for the same suffix. Please deactivate either this icon or the other activated icon whose suffixes overlap with the suffixes of this icon.
@@ -9605,6 +9612,7 @@ file#:#preview_caption#:#Preview %sof %s
 file#:#preview_image_size_info#:#Maximum length of the preview images in px.
 file#:#preview_persisting#:#Persist Preview Images
 file#:#preview_persisting_info#:#Generated previews will be stored, otherwise the previews will be generated on the fly
+file#:#publish_before_delete#:#Version(s) could not be deleted because an unpublished draft exists.
 file#:#replace_file_info#:#All previous file versions will be deleted.
 file#:#resource_id#:#Resource ID
 file#:#set_license_for_all_files#:#Set License for all Files
@@ -10311,6 +10319,9 @@ irss#:#resource_id#:#Resource ID
 irss#:#resource_no_stakeholder_uri#:#No Stakeholder provides a valid Link to the usage of this Resource.
 irss#:#resource_overview#:#Resource Overview
 irss#:#revision#:#Revision
+irss#:#revision_status#:#Status
+irss#:#revision_status_10#:#Published
+irss#:#revision_status_20#:#Draft
 irss#:#revisions#:#Available Revisions
 irss#:#rid_deleted#:#File removed
 irss#:#rids_appended#:#Resource(s) added
@@ -13581,6 +13592,7 @@ rbac#:#ecss_read#:#User can read general ECS settings
 rbac#:#ecss_visible#:#ECS settings are visible
 rbac#:#ecss_write#:#User can edit ECS settings
 rbac#:#edit_event#:#Edit Calendar
+rbac#:#edit_file#:#Edit File
 rbac#:#edit_in_online_editor#:#Open in online editor
 rbac#:#edit_learning_progress#:#Edit Learning Progress Settings
 rbac#:#edit_members#:#Manage members
@@ -13619,6 +13631,7 @@ rbac#:#feed_read#:#User can read content of web feed
 rbac#:#feed_write#:#User can edit web feed settings
 rbac#:#file_copy#:#User can copy file
 rbac#:#file_delete#:#User can move or delete file
+rbac#:#file_edit_file#:#Allow to edit the file in an external editor, if available
 rbac#:#file_edit_learning_progress#:#User can edit learning progress settings
 rbac#:#file_edit_permission#:#User can change permission settings
 rbac#:#file_read#:#User can download file
@@ -17261,6 +17274,18 @@ wiki#:#wiki_whole_wiki#:#Whole Wiki
 wiki#:#wiki_wiki_page#:#Wiki Page
 wiki#:#wiki_wiki_search#:#Wiki Search
 wiki#:#wiki_wpg#:#Wiki Page
+wopi#:#activate_wopi#:#Activate WOPI
+wopi#:#msg_error_wopi_invalid_discorvery_url#:#The Discovery URL entered is invalid or cannot be accessed.
+wopi#:#msg_wopi_settings_modified#:#Settings stored
+wopi#:#open_external_editor#:#Open in external Editor
+wopi#:#wopi_crawler_cronjob_description#:#Updates the information of the connected WOPI service.
+wopi#:#wopi_crawler_cronjob_no_apps#:#No WOPI apps were found in the discovery.
+wopi#:#wopi_crawler_cronjob_not_activated#:#WOPI is not activated.
+wopi#:#wopi_crawler_cronjob_success#:#WOPI information updated successfully.
+wopi#:#wopi_crawler_cronjob_title#:#Update WOPI Discovery
+wopi#:#wopi_settings#:#WOPI
+wopi#:#wopi_url#:#WOPI Discovery URL
+wopi#:#wopi_url_byline#:#Complete URL of the WOPI-Discovery, this must be accessible through the ILIAS server. The XML data of the Discover is read in and stored by ILIAS, the information is regularly updated by the cronjob "Update WOPI Discovery".
 wsp#:#element_already_shared#:#This object is already shared with this user.
 wsp#:#element_shared#:#Object shared.
 wsp#:#error_creating_certificate_pdf#:#The certificate could not be created. Please contact the administrator to check the certificate server.

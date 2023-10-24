@@ -57,4 +57,6 @@ interface Revision
     public function setStorageID(string $storage_id): void;
 
     public function getStorageID(): string;
+
+    public function getStatus(): RevisionStatus;
 }

@@ -36,6 +36,7 @@ use ILIAS\ResourceStorage\Revision\Revision;
 use ILIAS\ResourceStorage\Revision\UploadedFileRevision;
 use ILIAS\ResourceStorage\StorageHandler\StorageHandler;
 use ILIAS\ResourceStorage\StorageHandler\PathGenerator\PathGenerator;
+use ILIAS\ResourceStorage\Revision\StreamReplacementRevision;
 
 /**
  * Class AbstractFileSystemStorageHandler
@@ -191,6 +192,23 @@ abstract class AbstractFileSystemStorageHandler implements StorageHandler
         $stream = $this->getStream($revision->getRevisionToClone());
         try {
             $this->fs->writeStream($this->getRevisionPath($revision) . '/' . self::DATA, $stream);
+            $stream->close();
+        } catch (\Throwable $exception) {
+            return false;
+        }
+
+        return true;
+    }
+
+    public function streamReplacement(StreamReplacementRevision $revision): bool
+    {
+        $stream = $revision->getReplacementStream();
+        try {
+            $path = $this->getRevisionPath($revision) . '/' . self::DATA;
+            if ($this->fs->has($path)) {
+                $this->fs->delete($path);
+            }
+            $this->fs->writeStream($path, $stream);
             $stream->close();
         } catch (\Throwable $exception) {
             return false;

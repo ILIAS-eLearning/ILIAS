@@ -27,6 +27,9 @@ use ILIAS\UI\Implementation\Component\Input\UploadLimitResolver;
 use ILIAS\Data\DataSize;
 use ILIAS\Refinery\String\Group;
 use ILIAS\Data\Factory;
+use ILIAS\Services\WOPI\Discovery\ActionDBRepository;
+use ILIAS\Services\WOPI\Embed\EmbeddedApplication;
+use ILIAS\Data\URI;
 
 /**
  * GUI class for file objects.
@@ -35,7 +38,7 @@ use ILIAS\Data\Factory;
  * @version      $Id$
  * @ilCtrl_Calls ilObjFileGUI: ilObjectMetaDataGUI, ilInfoScreenGUI, ilPermissionGUI, ilObjectCopyGUI
  * @ilCtrl_Calls ilObjFileGUI: ilExportGUI, ilWorkspaceAccessGUI, ilPortfolioPageGUI, ilCommonActionDispatcherGUI
- * @ilCtrl_Calls ilObjFileGUI: ilLearningProgressGUI, ilFileVersionsGUI
+ * @ilCtrl_Calls ilObjFileGUI: ilLearningProgressGUI, ilFileVersionsGUI, ilWOPIEmbeddedApplicationGUI
  * @ingroup      ModulesFile
  */
 class ilObjFileGUI extends ilObject2GUI
@@ -58,6 +61,7 @@ class ilObjFileGUI extends ilObject2GUI
     public const CMD_VERSIONS = "versions";
     public const CMD_UPLOAD_FILES = "uploadFiles";
 
+
     /**
      * @var \ilObjFile|null $object
      */
@@ -79,6 +83,7 @@ class ilObjFileGUI extends ilObject2GUI
     protected \ILIAS\UI\Renderer $renderer;
     protected \Psr\Http\Message\ServerRequestInterface $request;
     protected \ILIAS\Data\Factory $data_factory;
+    private ActionDBRepository $action_repo;
 
     /**
      * Constructor
@@ -107,6 +112,7 @@ class ilObjFileGUI extends ilObject2GUI
         $this->renderer = $DIC->ui()->renderer();
         $this->request = $DIC->http()->request();
         $this->data_factory = new Factory();
+        $this->action_repo = new ActionDBRepository($DIC->database());
     }
 
     public function getType(): string
@@ -227,6 +233,33 @@ class ilObjFileGUI extends ilObject2GUI
                 break;
             case strtolower(ilObjFileUploadHandlerGUI::class):
                 $this->ctrl->forwardCommand(new ilObjFileUploadHandlerGUI());
+                break;
+            case strtolower(ilWOPIEmbeddedApplicationGUI::class):
+                if (!$this->checkPermissionBool("edit_file")) {
+                    $this->error->raiseError($this->lng->txt("permission_denied"), $this->error->MESSAGE);
+                    return;
+                }
+                $action = $this->action_repo->getActionForSuffix(
+                    $this->object->getFileExtension()
+                );
+                if (null === $action) {
+                    $this->error->raiseError($this->lng->txt("no_action_avaliable"), $this->error->MESSAGE);
+                    return;
+                }
+
+                $embeded_application = new EmbeddedApplication(
+                    $this->storage->manage()->find($this->object->getResourceId()),
+                    $action,
+                    $this->stakeholder,
+                    new URI(ilLink::_getLink($this->object->getRefId()))
+                );
+
+
+                $this->ctrl->forwardCommand(
+                    new ilWOPIEmbeddedApplicationGUI(
+                        $embeded_application
+                    )
+                );
                 break;
 
             default:
@@ -703,6 +736,11 @@ class ilObjFileGUI extends ilObject2GUI
         $this->ctrl->redirectByClass(ilFileVersionsGUI::class, ilFileVersionsGUI::CMD_UNZIP_CURRENT_REVISION);
     }
 
+    protected function editExternal(): void
+    {
+        $this->ctrl->redirectByClass(ilWOPIEmbeddedApplicationGUI::class, ilWOPIEmbeddedApplicationGUI::CMD_INDEX);
+    }
+
     /**
      * this one is called from the info button in the repository
      * not very nice to set cmdClass/Cmd manually, if everything
@@ -740,6 +778,25 @@ class ilObjFileGUI extends ilObject2GUI
                 )
             );
         }
+
+        // Add WOPI editor Button
+        if (
+            $this->checkPermissionBool("edit_file")
+            && $this->action_repo->hasActionForSuffix(
+                $this->object->getFileExtension()
+            )) {
+            $external_editor = $this->ui->factory()
+                                        ->button()
+                                        ->standard(
+                                            $this->lng->txt('open_external_editor'),
+                                            $this->ctrl->getLinkTargetByClass(
+                                                \ilWOPIEmbeddedApplicationGUI::class,
+                                                \ilWOPIEmbeddedApplicationGUI::CMD_INDEX
+                                            )
+                                        );
+            $this->toolbar->addComponent($external_editor);
+        }
+
 
         $info = $this->buildInfoScreen(false);
         $this->ctrl->forwardCommand($info);

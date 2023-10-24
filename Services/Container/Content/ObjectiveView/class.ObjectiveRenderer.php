@@ -143,7 +143,6 @@ class ObjectiveRenderer
                 }
             }
         }
-
         return $this->output_html;
     }
 
@@ -178,9 +177,7 @@ class ObjectiveRenderer
         }
 
         $lur_data = $this->parseLOUserResults();
-
         $has_initial = \ilLOSettings::getInstanceByObjId($this->container->getId())->worksWithInitialTest();
-
         $has_lo_page = false;
         $obj_cnt = 0;
         foreach ($objective_ids as $objective_id) {
@@ -197,8 +194,7 @@ class ObjectiveRenderer
             ) {
                 $lur_data[$objective_id] = array("type" => \ilLOSettings::TYPE_TEST_INITIAL);
             }
-
-            if ($html = $this->renderObjective((int) $objective_id, $has_lo_page, $acc, $lur_data[$objective_id])) {
+            if ($html = $this->renderObjective((int) $objective_id, $has_lo_page, $acc, $lur_data[$objective_id] ?? null)) {
                 $this->renderer->addItemToBlock('lobj', 'lobj', $objective_id, $html);
             }
             $obj_cnt++;
@@ -537,7 +533,6 @@ class ObjectiveRenderer
         }
 
         ksort($sort_content);
-
         if (!$a_accordion) {
             foreach ($sort_content as $sub_item_html) {
                 $this->objective_list_gui->addSubItemHTML($sub_item_html);
@@ -737,6 +732,10 @@ class ObjectiveRenderer
     ): string {
         global $DIC;
 
+        if ($a_lo_result === null) {
+            $a_lo_result["type"] = null;
+        }
+
         $lng = $DIC->language();
         $lng->loadLanguageModule('crs');
 
@@ -745,10 +744,10 @@ class ObjectiveRenderer
         $is_qualified_initial =
             (
                 $a_lo_result['type'] == \ilLOUserResults::TYPE_INITIAL &&
-                \ilLOSettings::getInstanceByObjId($a_lo_result['course_id'])->isInitialTestQualifying()
+                \ilLOSettings::getInstanceByObjId($a_lo_result['course_id'] ?? 0)->isInitialTestQualifying()
             );
         $has_completed =
-            ($a_lo_result["status"] == \ilLOUserResults::STATUS_COMPLETED);
+            ($a_lo_result["status"] ?? 0 == \ilLOUserResults::STATUS_COMPLETED);
 
         $next_step = $progress_txt = $bar_color = $test_url = $initial_sub = null;
 
@@ -762,7 +761,7 @@ class ObjectiveRenderer
             }
         } // initial test
         else {
-            if ($a_lo_result["status"]) {
+            if ($a_lo_result["status"] ?? 0) {
                 $next_step =
                     $has_completed ?
                         $lng->txt("crs_loc_progress_do_qualifying") :
@@ -801,15 +800,15 @@ class ObjectiveRenderer
 
         $tt_txt = sprintf(
             $lng->txt("crs_loc_tt_info"),
-            $a_lo_result["result_perc"],
-            $a_lo_result["limit_perc"]
+            $a_lo_result["result_perc"] ?? '0',
+            $a_lo_result["limit_perc"] ?? '0'
         );
 
 
         $is_qualified = ($a_lo_result["type"] == \ilLOUserResults::TYPE_QUALIFIED);
         $is_qualified_initial = ($a_lo_result['type'] == \ilLOUserResults::TYPE_INITIAL &&
-            \ilLOSettings::getInstanceByObjId($a_lo_result['course_id'])->isInitialTestQualifying());
-        $has_completed = ($a_lo_result["status"] == \ilLOUserResults::STATUS_COMPLETED);
+            \ilLOSettings::getInstanceByObjId($a_lo_result['course_id'] ?? 0)->isInitialTestQualifying());
+        $has_completed = (($a_lo_result["status"] ?? 0) == \ilLOUserResults::STATUS_COMPLETED);
 
         $next_step = $progress_txt = $bar_color = $test_url = $initial_sub = null;
         $compare_value = null;
@@ -840,7 +839,7 @@ class ObjectiveRenderer
         }
         // initial test
         else {
-            if ($a_lo_result["status"]) {
+            if ($a_lo_result["status"] ?? 0) {
                 $progress_txt = $lng->txt("crs_loc_progress_result_itest");
                 $tt_txt = $lng->txt("crs_loc_tab_itest") . ": " . $tt_txt;
 
@@ -858,10 +857,10 @@ class ObjectiveRenderer
         }
 
         // link to test statistics
-        $relevant_test_id = $a_lo_result["qtest"]
-            ?: $a_lo_result["itest"];
+        $relevant_test_id = ($a_lo_result["qtest"] ?? 0)
+            ?: ($a_lo_result["itest"] ?? 0);
         if ($relevant_test_id) {
-            $test_url = \ilLOUtils::getTestResultLinkForUser($relevant_test_id, $a_lo_result["user_id"]);
+            $test_url = \ilLOUtils::getTestResultLinkForUser($relevant_test_id, $a_lo_result["user_id"] ?? 0);
         }
 
         $main_text = $lng->txt('crs_loc_itest_info');
@@ -872,8 +871,8 @@ class ObjectiveRenderer
 
 
         return self::renderProgressMeter(
-            $a_lo_result["result_perc"],
-            $a_lo_result["limit_perc"],
+            $a_lo_result["result_perc"] ?? null,
+            $a_lo_result["limit_perc"] ?? null,
             $compare_value,
             $progress_txt,
             $test_url,
@@ -882,7 +881,7 @@ class ObjectiveRenderer
             $a_list_mode
                 ? null
                 : $next_step,
-            $initial_sub,
+            (bool) $initial_sub,
             $a_list_mode
                 ? 30
                 : 10,

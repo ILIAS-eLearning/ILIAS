@@ -192,6 +192,41 @@ if (null !== $identification) {
 }
 ```
 
+# Drafts
+Revisions are published by default. However, a maximum of one revision can be added to a resource in the status DRAFT on top. Cosumers continue to receive the latest revision that has been published. As long as a DRAFT revision exists, no new revisions can be created, but the current DRAFT revision will be updated until the one published via `Manager::publish`.
+
+## Example
+
+```php
+// Create new Resource from Upload
+use ILIAS\ResourceStorage\Services;
+global $DIC;
+/** @var Services $irss */
+$irss = $DIC['resource_storage'];
+$upload_result = $DIC['upload']->getResults()['my_uploaded_file'];
+$stakeholder = new ilMyComponentResourceStakeholder();
+
+$rid = $irss->manage()->upload($upload_result, $stakeholder);
+
+// later, add a draft:
+$new_upload_result = $DIC['upload']->getResults()['my_uploaded_file'];
+$revision = $irss->manage()->appendNewRevision($rid, $upload_result, $stakeholder, null, true);
+
+// $revision->getStatus() is RevisionStatus::DRAFT
+
+$latest_published_revision = $irss->manage()->getCurrentRevision($rid); // First upload
+$latest_draft_revision = $irss->manage()->getCurrentRevisionIncludingDraft($rid); // Second Upload
+
+$irss->manage()->publish($rid); // Publish the latest draft revision
+$latest_published_revision = $irss->manage()->getCurrentRevision($rid); // Second File
+$latest_published_revision = $irss->manage()->getCurrentRevisionIncludingDraft($rid); // Second File
+
+// im some cases you want to unpublish the latest revision again
+$irss->manage()->unpublish($rid);
+$latest_published_revision = $irss->manage()->getCurrentRevision($rid); // First upload
+$latest_draft_revision = $irss->manage()->getCurrentRevisionIncludingDraft($rid); // Second Upload
+```
+
 # Collections
 
 In many cases a component does not only need a single resource to be stored, but wants to be able to use a collection of

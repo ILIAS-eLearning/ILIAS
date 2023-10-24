@@ -3052,10 +3052,13 @@ cmix#:#cmix_lrs_type#:#Learning Record Store (LRS)
 cmix#:#cmix_new#:#Neues xAPI/cmi5-Objekt anlegen
 cmix#:#completed_info#:#Die Aktivität wurde normal beendet oder abgeschlossen.
 cmix#:#completed_label#:#Statements mit dem Verb 'completed'
-cmix#:#conf_availability#:#Verfügbarkeit
-cmix#:#conf_availability_0#:#nicht verfügbar
-cmix#:#conf_availability_1#:#für bestehende Objekte
-cmix#:#conf_availability_2#:#für neue und bestehende Objekte
+cmix#:#conf_availability#:#Verwendbarkeit
+cmix#:#conf_availability_0#:#nicht verwendbar / deaktiviert
+cmix#:#conf_availability_0_info#:#Bestehende xAPI/cmi5-Objekte, die diesen LRS-Typ verwenden, sind nicht mehr benutzbar.
+cmix#:#conf_availability_1#:#ausschließlich in bestehenden Objekten
+cmix#:#conf_availability_1_info#:#Dieser LRS-Typ wird beim Anlegen neuer xAPI/cmi5-Objekte nicht angeboten. Bestehende xAPI/cmi5-Objekte, die diesen Typ verwenden, können weiterhin Daten schreiben oder lesen. Nutzen Sie diese Option, um zu einem späteren Zeitpunkt Daten im angebundenen LRS löschen zu können.
+cmix#:#conf_availability_2#:#in neuen und bestehenden Objekten
+cmix#:#conf_availability_2_info#:#Dieser LRS-Typ kann beim Anlegen von xAPI/cmi5-Objekten ausgewählt werden.
 cmix#:#conf_bypass_proxy#:#Erkennung des Lernfortschritts
 cmix#:#conf_bypass_proxy_disabled#:#xAPI-Proxy, um sofort Daten zu erhalten.
 cmix#:#conf_bypass_proxy_enabled#:#CronJob zur Abfrage des Learning Record Store
@@ -3136,7 +3139,7 @@ cmix#:#conf_user_name_none_info#:#Sendet '-' anstelle eines Namens
 cmix#:#conf_user_registered_mail#:#Registrierte E-Mail-Adresse
 cmix#:#content_privacy_ident#:#Benutzeridentifikation
 cmix#:#content_privacy_name#:#Anmeldename
-cmix#:#create_lrs_type_form#:#Neuer LRS-Typ
+cmix#:#create_lrs_type_form#:#Neuer Learning Record Store Typ
 cmix#:#create_registration#:#Registrieren Sie Ihre E-Mail-Adresse
 cmix#:#cron_xapi_results_evaluation#:#xAPI/cmi5 Ergebnisse holen
 cmix#:#cron_xapi_results_evaluation_desc#:#Fordert alle xAPI-Ergebnisse aus dem Learning Record Store für Objekte an, die den ILIAS xAPI-Proxy nicht unterstützen.
@@ -3174,15 +3177,14 @@ cmix#:#highscore_top_table#:#Bestenliste
 cmix#:#highscore_top_table_description#:#Teilnehmern wird eine Tabelle mit den besten Platzierungen angezeigt.
 cmix#:#highscore_wtime#:#Dauer
 cmix#:#highscore_wtime_description#:#Eine Spalte mit der Dauer wird in die Rangliste aufgenommen.
-cmix#:#info_availability#:#Hiermit können Sie die Verfügbarkeit des LRS-Typs innerhalb des Magazins betreiben. Alle Typen können auf "für bestehende Objekte" gesetzt werden, anstatt gelöscht zu werden.
-cmix#:#info_description#:#Diese Beschreibung wird bei der Auswahl des Typs für neue Objekte angezeigt.
+cmix#:#info_description#:#Diese Beschreibung wird bei der Auswahl des LRS-Typs für neue Objekte angezeigt.
 cmix#:#info_external_lrs#:#Bei einem externen Learning Record Store (LRS) wird dem Anwender ein Hinweis angezeigt. Ein externer LRS ist gekennzeichnet durch einen unzureichenden Einfluss auf den LRS und durch den Betreiber von ILIAS. Dies ist der Fall, wenn es keine Rechte zum Löschen gibt.
-cmix#:#info_lrs_endpoint#:#URL des Endpoints ohne '/' am Ende der Seite
-cmix#:#info_lrs_key#:#Key oder Login für den Zugriff, z.B. 12345
+cmix#:#info_lrs_endpoint#:#URL des Endpoints ohne „/“ am Ende
+cmix#:#info_lrs_key#:#Key oder Login für den Zugriff von ILIAS auf den LRS
 cmix#:#info_lrs_secret#:#Gemeinsames Secret / Passwort
 cmix#:#info_privacy_comment_default#:#Bitte geben Sie bei Verwendung dieses LRS bei Bedarf einen zusätzlichen Hinweis auf die Datensicherheit an.
 cmix#:#info_remarks#:#Hier können Sie Ihre Kommentare zu diesem LRS-Typ festhalten.
-cmix#:#info_title#:#Dieser Titel wird bei der Auswahl des Typs für neue Objekte angezeigt.
+cmix#:#info_title#:#Dieser Titel wird bei der Auswahl des LRS-Typs für neue Objekte angezeigt.
 cmix#:#initialized_info#:#Die Aktivität wurde erfolgreich begonnen.
 cmix#:#initialized_label#:#Statements mit dem Verb 'initialized'
 cmix#:#launch_options#:#Optionen für den Start
@@ -3213,7 +3215,7 @@ cmix#:#tab_scoring#:#Platzierungen
 cmix#:#tab_settings#:#Einstellungen
 cmix#:#tab_statements#:#Lernerfahrungen
 cmix#:#tbl_action_raw_data#:#Rohdaten anzeigen
-cmix#:#tbl_lrs_type_availability#:#Verfügbarkeit
+cmix#:#tbl_lrs_type_availability#:#Verwendbarkeit
 cmix#:#tbl_lrs_type_title#:#Titel
 cmix#:#tbl_lrs_type_usages#:#Anzahl der Nutzungen
 cmix#:#tbl_lrs_types_header#:#LRS-Typen
@@ -9579,8 +9581,14 @@ file#:#file_download#:#Datei herunterladen
 file#:#file_import#:#Dateiimport
 file#:#file_new_version#:#Neue Version anlegen
 file#:#file_new_version_info#:#Eine neue Dateiversion anlegen. Alte Versionen bleiben erhalten.
+file#:#file_publish#:#Entwurf veröffentlichen
+file#:#file_rollback_rollback_first#:#Die Version konnte nicht zurückgesetzt werden, weil ein unveröffentlichter Entwurf existiert.
+file#:#file_rollback_same_version#:#Dies ist bereits die aktuelle Version
+file#:#file_unpublish#:#Als Entwurf markieren
 file#:#file_upload_info_file_with_critical_extension#:#Mindestens eine Datei enthält eine kritische oder unbekannte Dateiendung. Die Dateiendung wird bei jedem Download zu .sec geändert. Kontaktieren Sie gegebenfalls Ihren Administrator. Dateiname(n): %s
 file#:#file_uploaded_by#:#Version hochgeladen von
+file#:#file_version_draft#:#Entwurf
+file#:#file_version_draft_info#:#Die aktuellste Version ist im Status "Entwurf". Solange die Version nicht veröffentlicht wurde, können keine neuen Versionen angelegt werden. Personen mit Leserecht auf die Datei erhalten die aktuellste veröffentlichte Version.
 file#:#form_icon_creation#:#Icon erstellen
 file#:#form_icon_updating#:#Icon aktualisieren
 file#:#general_upload_error_occured#:#Beim Verarbeiten der Datei ist ein unerwartetet Fehler aufgetreten.
@@ -9593,6 +9601,7 @@ file#:#input_icon#:#Icon
 file#:#input_suffixes#:#Suffixe
 file#:#migrated#:#Status
 file#:#mime_type#:#MIME-Type
+file#:#msg_cant_unpublish#:#Aktion konnte nicht ausgeführt werden
 file#:#msg_confirm_entry_deletion#:#Wollen Sie den nachfolgenden Eintrag wirklich löschen?:
 file#:#msg_error_active_suffixes_blacklisted#:#Eine der gewählten Dateiendungen ist auf der globalen Blacklist und kann derzeit nciht genutzt werden.
 file#:#msg_error_active_suffixes_conflict#:#Fehler: Es dürfen nicht mehrere Icons für ein Suffix aktiv sein. Bitte deaktivieren Sie entweder dieses Icon oder das andere aktivierte Icon, dessen Suffixe sich mit jenen dieses Icons überschneiden.
@@ -9613,6 +9622,7 @@ file#:#preview_caption#:#Vorschau %svon %s
 file#:#preview_image_size_info#:#Maximale Seitenlänge der Vorschaubilder in px.
 file#:#preview_persisting#:#Vorschaubilder persistieren
 file#:#preview_persisting_info#:#Generierte vVorschaubilder werden gespeichert. Wenn deaktiviert, werden die Vorschaubilder jeweils beim Aufruf generiert.
+file#:#publish_before_delete#:#Version(en) konnte(n) nicht gelöscht werden, da ein noch unveröffentlichter Entwurf existiert.
 file#:#replace_file_info#:#Alle Dateiversionen werden gelöscht.
 file#:#resource_id#:#Ressourcen ID
 file#:#set_license_for_all_files#:#Lizenz für alle Dateien festlegen
@@ -10319,6 +10329,9 @@ irss#:#resource_id#:#Resource ID
 irss#:#resource_no_stakeholder_uri#:#Kein Stakeholder stellt einen Link zu der Nutzung dieser Resource zur Verfügung.
 irss#:#resource_overview#:#Ressourcen-Übersicht
 irss#:#revision#:#Revision
+irss#:#revision_status#:#Status
+irss#:#revision_status_10#:#Veröffentlicht
+irss#:#revision_status_20#:#Entwurf
 irss#:#revisions#:#Verfügbare Revisionen
 irss#:#rid_deleted#:#Datei entfernt
 irss#:#rids_appended#:#Ressource(n) hinzugefügt
@@ -10828,7 +10841,7 @@ lti#:#lti_con_prov_always_learner#:#LTI-Benutzer ist immer Lernender
 lti#:#lti_con_prov_always_learner_info#:#In der Regel wird die Rolle in ILIAS auf eine LTI-Rolle abgebildet. Die Kursadministration könnte im Provider mehr Rechte haben, z.B. um das Objekt zu manipulieren. Aktivieren Sie diese Option, um das Rollen-Mapping zu vermeiden.
 lti#:#lti_con_prov_authentication#:#Authentifizierung
 lti#:#lti_con_prov_availability#:#Verfügbarkeit
-lti#:#lti_con_prov_availability_create#:#für neue und bestehende Objekte
+lti#:#lti_con_prov_availability_create#:#in neuen und bestehenden Objekten
 lti#:#lti_con_prov_availability_existing#:#nur für bestehende Objekte
 lti#:#lti_con_prov_availability_non#:#nicht verfügbar
 lti#:#lti_con_prov_category#:#Kategorie
@@ -13588,6 +13601,7 @@ rbac#:#ecss_read#:#Lesezugriff auf Einstellungen der ECS-Administration
 rbac#:#ecss_visible#:#ECS-Administration ist sichtbar
 rbac#:#ecss_write#:#Einstellungen der ECS-Administration bearbeiten
 rbac#:#edit_event#:#Kalender bearbeiten
+rbac#:#edit_file#:#Datei bearbeiten
 rbac#:#edit_in_online_editor#:#In Online-Editor bearbeiten
 rbac#:#edit_learning_progress#:#Lernfortschrittseinstellungen bearbeiten
 rbac#:#edit_members#:#Teilnehmer bearbeiten
@@ -13626,6 +13640,7 @@ rbac#:#feed_read#:#Inhalt des Webfeeds lesen
 rbac#:#feed_write#:#Einstellungen des Webfeeds bearbeiten
 rbac#:#file_copy#:#Datei kopieren
 rbac#:#file_delete#:#Datei verschieben oder löschen
+rbac#:#file_edit_file#:#Bearbeitung in einem externen Editor erlauben, sofern vorhanden
 rbac#:#file_edit_learning_progress#:#Benutzer kann Lernfortschrittseinstellungen bearbeiten
 rbac#:#file_edit_permission#:#Rechteeinstellungen ändern
 rbac#:#file_read#:#Datei herunterladen
@@ -17265,6 +17280,18 @@ wiki#:#wiki_whole_wiki#:#Gesamtes Wiki
 wiki#:#wiki_wiki_page#:#Wiki-Seite
 wiki#:#wiki_wiki_search#:#Suche im Wiki
 wiki#:#wiki_wpg#:#Wiki-Seite
+wopi#:#activate_wopi#:#WOPI aktivieren
+wopi#:#msg_error_wopi_invalid_discorvery_url#:#Die eingegebene Discovery-URL ist ungültig oder kann nicht erreicht werden.
+wopi#:#msg_wopi_settings_modified#:#Einstellungen gespeichert
+wopi#:#open_external_editor#:#In externem Editor öffnen
+wopi#:#wopi_crawler_cronjob_description#:#Aktualisiert die Informationen des angebundenen WOPI-Dienstes.
+wopi#:#wopi_crawler_cronjob_no_apps#:#Es wurden keine WOPI-Apps in der Discovery gefunden.
+wopi#:#wopi_crawler_cronjob_not_activated#:#WOPI ist nicht aktiviert.
+wopi#:#wopi_crawler_cronjob_success#:#WOPI Informationen erfolgreich aktualisiert.
+wopi#:#wopi_crawler_cronjob_title#:#Update WOPI Discovery
+wopi#:#wopi_settings#:#WOPI
+wopi#:#wopi_url#:#WOPI Discovery URL
+wopi#:#wopi_url_byline#:#Vollständige URL des WOPI-Discovery, diese muss über den ILIAS-Server erreichbar sein. Die XML-Daten des Discover werden von ILIAS eingelesen und gespeichert, die Informationen werden regelmäßig durch den Cronjob "Update WOPI Discovery" aktualisiert.
 wsp#:#element_already_shared#:#Die Ressource ist für diese Person bereits freigegeben.###Modified as part of gender mainstreaming activities for ILIAS 8
 wsp#:#element_shared#:#Die Ressource wurde freigegeben.
 wsp#:#error_creating_certificate_pdf#:#Das Zertifikat konnte nicht erstellt werden. Bitte lassen Sie den Zertifikatsserver durch einen Administrator prüfen.

@@ -76,17 +76,22 @@ class ilObjFileAccess extends ilObjectAccess implements ilWACCheckingClass
                 "permission" => "read",
                 "cmd" => "sendfile",
                 "lang_var" => "download",
-                "default" => true
+                "default" => true,
             ],
             [
                 "permission" => "write",
                 "cmd" => ilFileVersionsGUI::CMD_UNZIP_CURRENT_REVISION,
-                "lang_var" => "unzip"
+                "lang_var" => "unzip",
+            ],
+            [
+                "permission" => "edit_file",
+                "cmd" => 'editExternal',
+                "lang_var" => "open_external_editor",
             ],
             [
                 "permission" => "write",
                 "cmd" => "versions",
-                "lang_var" => "versions"
+                "lang_var" => "versions",
             ],
             [
                 "permission" => "write",

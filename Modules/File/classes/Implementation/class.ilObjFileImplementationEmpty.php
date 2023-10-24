@@ -62,7 +62,7 @@ class ilObjFileImplementationEmpty implements ilObjFileImplementationInterface
         return '';
     }
 
-    public function getVersion(): int
+    public function getVersion(bool $inclduing_drafts = false): int
     {
         return 0;
     }

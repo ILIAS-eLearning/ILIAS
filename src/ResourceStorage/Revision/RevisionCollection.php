@@ -91,10 +91,19 @@ class RevisionCollection
         $this->add($revision);
     }
 
-    public function getCurrent(): Revision
+    public function getCurrent(bool $including_drafts): Revision
     {
-        $v = array_values($this->revisions);
-        sort($v);
+        $v = $this->revisions;
+
+        if (!$including_drafts) {
+            $v = array_filter($v, static function (Revision $revision): bool {
+                return $revision->getStatus() === RevisionStatus::PUBLISHED;
+            });
+        }
+        usort($v, static function (Revision $a, Revision $b): int {
+            return $a->getVersionNumber() <=> $b->getVersionNumber();
+        });
+
         $current = end($v);
         if (!$current instanceof Revision) {
             $current = new NullRevision($this->identification);
@@ -106,17 +115,22 @@ class RevisionCollection
     /**
      * @return Revision[]
      */
-    public function getAll(): array
+    public function getAll(bool $including_drafts): array
     {
-        return $this->revisions;
+        if($including_drafts) {
+            return $this->revisions;
+        }
+        return array_filter($this->revisions, static function (Revision $revision): bool {
+            return $revision->getStatus() === RevisionStatus::PUBLISHED;
+        });
     }
 
-    public function getMax(): int
+    public function getMax(bool $including_drafts): int
     {
         if ($this->revisions === []) {
             return 0;
         }
-        return max(array_keys($this->revisions));
+        return $this->getCurrent($including_drafts)->getVersionNumber();
     }
 
     public function getFullSize(): int

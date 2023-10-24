@@ -17,6 +17,7 @@
  *********************************************************************/
 
 use ILIAS\ResourceStorage\Resource\ResourceType;
+use ILIAS\ResourceStorage\Revision\RevisionStatus;
 
 /**
  * Class ilResourceStorageDB90
@@ -98,6 +99,17 @@ class ilResourceStorageDB90 implements ilDatabaseUpdateSteps
             'length' => '1',
             'notnull' => true,
             'default' => ResourceType::SINGLE_FILE->value
+        ]);
+    }
+
+    public function step_4(): void
+    {
+        // add column rtype to il_resource
+        $this->db->addTableColumn('il_resource_revision', 'status', [
+            'type' => 'integer',
+            'length' => '2',
+            'notnull' => true,
+            'default' => RevisionStatus::PUBLISHED->value
         ]);
     }
 }
