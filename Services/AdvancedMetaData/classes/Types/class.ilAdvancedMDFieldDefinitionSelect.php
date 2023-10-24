@@ -603,7 +603,13 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
 
                     if ($sub_type == "wpg") {
                         // #15763 - adapt advmd page lists
-                        ilPCAMDPageList::migrateField((int) $obj_id, $this->getFieldId(), $old_option, $new_option, true);
+                        ilPCAMDPageList::migrateField(
+                            (int) $obj_id,
+                            $this->getFieldId(),
+                            (string) $old_option,
+                            (string) $new_option,
+                            true
+                        );
                     }
                 }
             }
