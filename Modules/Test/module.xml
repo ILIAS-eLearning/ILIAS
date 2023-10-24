@@ -37,10 +37,6 @@
 		<pluginslot id="texp" name="Export" />
 		<pluginslot id="tsig" name="Signature" />
 	</pluginslots>
-	<pdfpurposes>
-		<pdfpurpose name="PrintViewOfQuestions" preferred="PhantomJS" />
-		<pdfpurpose name="UserResult" preferred="PhantomJS" />
-	</pdfpurposes>
 	<web_access_checker>
 		<secure_path path="assessment" checking-class="ilObjTestAccess" in-sec-folder='0'/>
 	</web_access_checker>
