@@ -132,7 +132,44 @@ class ilSystemStyleOverviewGUI
     protected function view(): void
     {
         $table = new ilSystemStylesTableGUI($this, 'edit');
-        $this->tpl->setContent($table->getHTML());
+        $this->tpl->setContent($table->getHTML().$table->getModalsHtml());
+    }
+
+    public function getAssignmentCreationModal(string $style_name = ""): ?\ILIAS\UI\Component\Modal\RoundTrip
+    {
+        $options = [];
+        foreach (ilStyleDefinition::getAllSkinStyles() as $id => $skin_style) {
+            if (!$skin_style['substyle_of'] && $style_name != $skin_style['style_name']) {
+                $options[$id] = $skin_style['title'];
+            }
+        }
+
+        $default = "default:delos";
+        if($style_name == "Delos") {
+            $default = key($options);
+        }
+
+        if(count($options) == 0) {
+            return null;
+        }
+
+        $txt = $this->lng->txt('sty_move_user_styles').' '.$this->lng->txt('sty_to');
+
+        $byline = $this->lng->txt('sty_move_user_styles') . ' ' .
+            $this->lng->txt('sty_from')  . ' ' . $style_name;
+
+        $select = $this->ui_factory->input()->field()
+                                            ->select($txt, $options, $byline)
+                                            ->withValue($default)
+                                            ->withAdditionalTransformation($this->refinery->string()->splitString(':'))
+                                            ->withRequired(true);
+
+        return $this->ui_factory->modal()->roundtrip(
+            $this->lng->txt('change_assignment'),
+            [],
+            ["new_style" => $select],
+            $this->ctrl->getLinkTargetByClass(ilSystemStyleOverviewGUI::class, 'moveUserStyles')
+        );
     }
 
     protected function cancel(): void
@@ -158,44 +195,26 @@ class ilSystemStyleOverviewGUI
                 $add_sub = $add_sub->withUnavailableAction();
             }
             $this->toolbar->addComponent($add_sub);
-            $this->toolbar->addSeparator();
         }
-
-        // from styles selector
-        $si = new ilSelectInputGUI(
-            $this->lng->txt('sty_move_user_styles') . ': ' . $this->lng->txt('sty_from'),
-            'from_style'
-        );
-
-        $options = [];
-        foreach (ilStyleDefinition::getAllSkinStyles() as $id => $skin_style) {
-            if (!$skin_style['substyle_of']) {
-                $options[$id] = $skin_style['title'];
-            }
-        }
-        $si->setOptions($options + ['other' => $this->lng->txt('other')]);
-
-        $this->toolbar->addInputItem($si, true);
-
-        $si = new ilSelectInputGUI($this->lng->txt('sty_to'), 'to_style');
-        $si->setOptions($options);
-        $this->toolbar->addInputItem($si, true);
-        $this->toolbar->addComponent($this->ui_factory->button()->standard($this->lng->txt('sty_move_style'), ''));
-
-        $this->toolbar->setFormAction($this->ctrl->getLinkTarget($this, 'moveUserStyles'));
 
         $table = new ilSystemStylesTableGUI($this, 'edit');
         $table->addActions($this->isManagementEnabled());
-        $this->tpl->setContent($table->getHTML());
+        $this->tpl->setContent($table->getHTML().$table->getModalsHtml());
     }
 
     public function moveUserStyles(): void
     {
-        $to = $this->request_wrapper->post()->retrieve('to_style', $this->refinery->string()->splitString(':'));
+        global $DIC;
 
-        $from_style = $this->request_wrapper->post()->retrieve('from_style', $this->refinery->kindlyTo()->string());
+        $request = $DIC->http()->request();
 
-        if ($from_style == 'other') {
+        $modal = $this->getAssignmentCreationModal()->withRequest($request);
+        [$new_skin, $new_style] = $modal->getData()["new_style"];
+
+        $old_skin = $this->request_wrapper->query()->retrieve('old_skin_id', $this->refinery->kindlyTo()->string());
+        $old_style = $this->request_wrapper->query()->retrieve('old_style_id', $this->refinery->kindlyTo()->string());
+
+        if ($old_style == 'other') {
             // get all user assigned styles
             $all_user_styles = ilObjUser::_getAllUserAssignedStyles();
 
@@ -203,17 +222,16 @@ class ilSystemStyleOverviewGUI
             // currently existing style
             foreach ($all_user_styles as $style) {
                 if (!ilStyleDefinition::styleExists($style)) {
-                    $style_arr = explode(':', $style);
-                    ilObjUser::_moveUsersToStyle($style_arr[0], $style_arr[1], $to[0], $to[1]);
+                    [$old_skin, $old_style] = explode(':', $style);
+                    ilObjUser::_moveUsersToStyle($old_skin, $old_style, $new_skin, $new_style);
                 }
             }
         } else {
-            $from = explode(':', $from_style);
-            ilObjUser::_moveUsersToStyle($from[0], $from[1], $to[0], $to[1]);
+            ilObjUser::_moveUsersToStyle($old_skin, $old_style, $new_skin, $new_style);
         }
 
         $this->message_stack->addMessage(new ilSystemStyleMessage($this->lng->txt('msg_obj_modified')));
-        $this->edit();
+        $this->ctrl->redirect($this, 'edit');
     }
 
     public function saveStyleSettings(): void

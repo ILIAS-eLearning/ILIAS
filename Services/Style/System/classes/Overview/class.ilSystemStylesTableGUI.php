@@ -27,6 +27,7 @@ class ilSystemStylesTableGUI extends ilTable2GUI
     protected bool $management_enabled = false;
     protected bool $read_documentation = true;
     protected \ILIAS\DI\UIServices $ui;
+    protected array $modals = [];
 
     public function __construct(object $a_parent_obj, string $a_parent_cmd = '')
     {
@@ -98,7 +99,7 @@ class ilSystemStylesTableGUI extends ilTable2GUI
                     'id' => 'other',
                     'template_id' => '',
                     'skin_id' => 'other',
-                    'style_id' => '',
+                    'style_id' => 'other',
                     'skin_name' => 'other',
                     'style_name' => 'other',
                     'users' => $users_missing_styles,
@@ -193,50 +194,67 @@ class ilSystemStylesTableGUI extends ilTable2GUI
 
         if ($this->isWithActions()) {
             $action_items = [];
-            /** @noinspection PhpIfWithCommonPartsInspection */
-            if ($a_set['skin_id'] == 'other') {
-                $this->tpl->setCurrentBlock('actions');
-                $this->tpl->setVariable('ACTIONS');
-                $this->tpl->parseCurrentBlock();
-            } else {
 
-                if ($this->isReadDocumentation()) {
-                    $this->ctrl->setParameterByClass('ilSystemStyleDocumentationGUI', 'skin_id', $a_set['skin_id']);
-                    $this->ctrl->setParameterByClass('ilSystemStyleDocumentationGUI', 'style_id', $a_set['style_id']);
+            /** @noinspection PhpIfWithCommonPartsInspection */
+
+            if ($this->isReadDocumentation() && $a_set['skin_id'] != 'other') {
+                $this->ctrl->setParameterByClass(ilSystemStyleDocumentationGUI::class, 'skin_id', $a_set['skin_id']);
+                $this->ctrl->setParameterByClass(ilSystemStyleDocumentationGUI::class, 'style_id', $a_set['style_id']);
+                $action_items[] = $this->ui->factory()->link()->standard(
+                    $this->lng->txt('open_documentation'),
+                    $this->ctrl->getLinkTargetByClass('ilSystemStyleDocumentationGUI', 'entries')
+                );
+            }
+
+            if ($this->isManagementEnabled() && $a_set['skin_id'] != 'other') {
+                $this->ctrl->setParameterByClass(ilSystemStyleConfigGUI::class, 'skin_id', $a_set['skin_id']);
+                $this->ctrl->setParameterByClass(ilSystemStyleConfigGUI::class, 'style_id', $a_set['style_id']);
+
+                $this->ctrl->setParameterByClass(ilSystemStyleConfigGUI::class, 'skin_id', $a_set['skin_id']);
+                $this->ctrl->setParameterByClass(ilSystemStyleConfigGUI::class, 'style_id', $a_set['style_id']);
+
+                $config = new ilSystemStyleConfig();
+                if ($a_set['skin_id'] != $config->getDefaultSkinId()) {
+                    $action_items = $this->addManagementActionsToList($action_items);
+                    $this->addMultiActions($a_set['id']);
+                }
+
+                if (!$is_substyle && $a_set['skin_id'] != 'default') {
                     $action_items[] = $this->ui->factory()->link()->standard(
-                        $this->lng->txt('open_documentation'),
-                        $this->ctrl->getLinkTargetByClass('ilSystemStyleDocumentationGUI', 'entries')
+                        $this->lng->txt('export'),
+                        $this->ctrl->getLinkTargetByClass(ilSystemStyleOverviewGUI::class, 'export')
                     );
                 }
-
-                if ($this->isManagementEnabled()) {
-                    $this->ctrl->setParameterByClass('ilsystemstyleconfiggui', 'skin_id', $a_set['skin_id']);
-                    $this->ctrl->setParameterByClass('ilsystemstyleconfiggui', 'style_id', $a_set['style_id']);
-
-                    $this->ctrl->setParameterByClass('ilsystemstyleconfiggui', 'skin_id', $a_set['skin_id']);
-                    $this->ctrl->setParameterByClass('ilsystemstyleconfiggui', 'style_id', $a_set['style_id']);
-
-                    $config = new ilSystemStyleConfig();
-                    if ($a_set['skin_id'] != $config->getDefaultSkinId()) {
-                        $action_items = $this->addManagementActionsToList($action_items);
-                        $this->addMultiActions($a_set['id']);
-                    }
-                    if (!$is_substyle && $a_set['skin_id'] != 'default') {
-                        $action_items[] = $this->ui->factory()->link()->standard(
-                            $this->lng->txt('export'),
-                            $this->ctrl->getLinkTargetByClass('ilSystemStyleOverviewGUI', 'export')
-                        );
-                    }
-                }
-
-                $this->tpl->setCurrentBlock('actions');
-                $action_dropdown = $this->ui->factory()->dropdown()->standard($action_items)->withLabel(
-                    $this->lng->txt('actions')
-                );
-                $this->tpl->setVariable('ACTIONS', $this->ui->renderer()->render($action_dropdown));
-                $this->tpl->parseCurrentBlock();
             }
+
+            if (!$is_substyle) {
+                $this->ctrl->setParameterByClass(ilSystemStyleOverviewGUI::class, 'old_skin_id', $a_set['skin_id']);
+                $this->ctrl->setParameterByClass(ilSystemStyleOverviewGUI::class, 'old_style_id', $a_set['style_id']);
+
+                $assignment_modal = $this->parent_obj->getAssignmentCreationModal($a_set['style_name']);
+
+                if($assignment_modal) {
+                    $this->modals[] = $assignment_modal;
+
+                    $action_items[] = $this->ui->factory()->button()->shy(
+                        $this->lng->txt('change_assignment'),
+                        "#"
+                    )->withOnClick($assignment_modal->getShowSignal());
+                }
+            }
+
+            $this->tpl->setCurrentBlock('actions');
+            $action_dropdown = $this->ui->factory()->dropdown()->standard($action_items)->withLabel(
+                $this->lng->txt('actions')
+            );
+            $this->tpl->setVariable('ACTIONS', $this->ui->renderer()->render($action_dropdown));
+            $this->tpl->parseCurrentBlock();
         }
+    }
+
+    public function getModalsHtml()
+    {
+        return $this->ui->renderer()->render($this->modals);
     }
 
     protected function addManagementActionsToList(array $action_items): array
