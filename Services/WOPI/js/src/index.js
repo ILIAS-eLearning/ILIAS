@@ -123,7 +123,7 @@ il.WOPI.close = async function () {
   overlay.style.left = '0';
   overlay.style.width = '100%';
   overlay.style.height = '100%';
-  overlay.style.backgroundColor = 'rgba(0,0,0,0.5)';
+  overlay.style.backgroundColor = 'rgba(255,255,255,0.7)';
   this.frameholder.appendChild(overlay);
 
   const saved = await this.save();
