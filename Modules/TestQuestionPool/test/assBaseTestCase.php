@@ -21,6 +21,7 @@ use ILIAS\Refinery\Factory as RefineryFactory;
 use ILIAS\Refinery\Random\Group as RandomGroup;
 use ILIAS\DI\Container;
 use ILIAS\ResourceStorage\Services;
+use ILIAS\UI\Implementation\Factory;
 
 /**
  * Class assBaseTestCase
@@ -139,5 +140,15 @@ abstract class assBaseTestCase extends TestCase
         $mock->account = $account;
 
         return $mock;
+    }
+
+    protected function addGlobal_uiFactory(): void
+    {
+        $this->setGlobalVariable("ui.factory", $this->createMock(Factory::class));
+    }
+
+    protected function addGlobal_uiRenderer(): void
+    {
+        $this->setGlobalVariable("ui.renderer", $this->createMock(ILIAS\UI\Implementation\DefaultRenderer::class));
     }
 }
