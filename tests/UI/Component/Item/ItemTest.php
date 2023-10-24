@@ -178,21 +178,21 @@ class ItemTest extends ILIAS_UI_TestBase
         $this->assertEquals($c->getAudioPlayer(), $audio);
     }
 
-    public function test_with_main_action_button(): void
+    public function testWithMainActionButton(): void
     {
         $f = $this->getFactory();
 
-        $main_action = new I\Component\Button\Standard("Edit", "#");
+        $main_action = $this->createMock(I\Component\Button\Standard::class);
         $c = $f->standard("Title")->withMainAction($main_action);
 
         $this->assertEquals($c->getMainAction(), $main_action);
     }
 
-    public function test_with_main_action_link(): void
+    public function testWithMainActionLink(): void
     {
         $f = $this->getFactory();
 
-        $main_action = new I\Component\Link\Standard("View", "#");
+        $main_action = $this->createMock(I\Component\Link\Standard::class);
         $c = $f->standard("Title")->withMainAction($main_action);
 
         $this->assertEquals($c->getMainAction(), $main_action);
@@ -652,20 +652,25 @@ EOT;
         );
     }
 
-    public function test_main_action_button(): void
+    public function testMainActionButton(): void
     {
         $f = $this->getFactory();
-        $r = $this->getDefaultRenderer();
 
-        $main_action = new I\Component\Button\Standard("Edit", "#");
+        $expected_button_html = md5(I\Component\Button\Standard::class);
+        $main_action = $this->createMock(I\Component\Button\Standard::class);
+        $main_action->method('getCanonicalName')->willReturn($expected_button_html);
+
         $c = $f->standard("Title")->withMainAction($main_action);
 
-        $html = $r->render($c);
+        $html = $this->getDefaultRenderer(null, [
+            $main_action
+        ])->render($c);
+
         $expected = <<<EOT
         <div class="il-item il-std-item ">
             <div class="il-item-title">Title</div>
             <div class="il-item-actions l-bar__container">
-                <div class="l-bar__element"><button class="btn btn-default"  data-action="#" id="id_1">Edit</button>
+                <div class="l-bar__element">$expected_button_html
             </div>
             </div>
         </div>
@@ -677,20 +682,24 @@ EOT;
         );
     }
 
-    public function test_main_action_link(): void
+    public function testMainActionLink(): void
     {
         $f = $this->getFactory();
-        $r = $this->getDefaultRenderer();
+        $expected_link_html = md5(I\Component\Link\Standard::class);
+        $main_action = $this->createMock(I\Component\Link\Standard::class);
+        $main_action->method('getCanonicalName')->willReturn($expected_link_html);
 
-        $main_action = new I\Component\Link\Standard("View", "#");
         $c = $f->standard("Title")->withMainAction($main_action);
 
-        $html = $r->render($c);
+        $html = $this->getDefaultRenderer(null, [
+            $main_action
+        ])->render($c);
+
         $expected = <<<EOT
         <div class="il-item il-std-item ">
             <div class="il-item-title">Title</div>
             <div class="il-item-actions l-bar__container">
-                <div class="l-bar__element"><a href="#" >View</a></div>
+                <div class="l-bar__element">$expected_link_html</div>
             </div>
         </div>
 EOT;
