@@ -4,6 +4,17 @@ import il from 'ilias';
 il.WOPI = {
   modified: false,
 };
+
+il.WOPI.bindCloseButton = function (elementId) {
+  const button = document.getElementById(elementId);
+  button.addEventListener('click', (event) => {
+    event.stopPropagation();
+    event.preventDefault();
+    this.close(() => {
+      alert('saved');
+    });
+  });
+};
 il.WOPI.init = function () {
   // BUILD IFRAME
   const frameholder = document.getElementById('c-embedded-wopi');
@@ -80,7 +91,7 @@ il.WOPI.windowResize = function () {
 il.WOPI.postMessage = function (mobj) {
   this.editorFrameWindow.postMessage(JSON.stringify(mobj), '*');
 };
-il.WOPI.registerListener = function (MessageId, callback) {
+il.WOPI.registerListener = async function (MessageId, callback) {
   window.addEventListener(
     'message',
     (event) => {
@@ -88,14 +99,11 @@ il.WOPI.registerListener = function (MessageId, callback) {
       if (MessageId !== null && message.MessageId === MessageId) {
         callback(message);
       }
-      if (MessageId === null) {
-        callback(message);
-      }
     },
     false,
   );
 };
-il.WOPI.close = function (callback) {
+il.WOPI.close = async function (callback) {
   console.log('save called');
 
   const overlay = document.createElement('div');
@@ -110,30 +118,12 @@ il.WOPI.close = function (callback) {
 
   if (this.modified) {
     console.log('is modified');
-    const promise = new Promise((resolve, reject) => {
-      console.log('save');
-      this.save();
-
-      this.registerListener('Doc_ModifiedStatus', callback);
-
-      saved_internal.then(() => { callback(); });
-    });
-
-    promise.then(null, (error) => { console.log(error); });
-  } else {
-    callback();
-  }
-
-  if (this.modified) {
-    console.log('is modified');
-
-    // wait for the editor to send the message that the document is saved
-    console.log('register listener');
-  } else {
-    callback();
+    console.log('save');
+    await this.save();
+    await this.registerListener('Doc_ModifiedStatus', callback);
   }
 };
-il.WOPI.save = function () {
+il.WOPI.save = async function () {
   this.postMessage({
     MessageId: 'Action_Save',
     SendTime: Date.now(),
@@ -143,4 +133,10 @@ il.WOPI.save = function () {
       Notify: false,
     },
   });
+
+  this.registerListener('App_Close', () => {
+
+
+
+  return true;
 };

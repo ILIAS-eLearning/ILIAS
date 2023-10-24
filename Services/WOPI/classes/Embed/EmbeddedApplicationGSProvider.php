@@ -69,12 +69,13 @@ class EmbeddedApplicationGSProvider extends AbstractModificationProvider
                 $this->dic->language()->txt('close'),
                 (string) $back_target
             )->withOnLoadCode(function ($id) use ($back_target) {
-                return "$id.addEventListener('click', () => {
+                /*return "$id.addEventListener('click', () => {
                         il.WOPI.close(() => {
                             window.location = '$back_target';
                         });
                         return false;
-                    });";
+                    });"; */
+                return "il.WOPI.bindCloseButton('$id', '$back_target');";
             });
 
             return $this->factory->metabar()->withHighPriority()->withModification(
