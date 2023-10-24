@@ -207,4 +207,38 @@ class SelectInputTest extends ILIAS_UI_TestBase
 ');
         $this->assertEquals($expected, $html);
     }
+
+    public function testWithValueAndRequiredDoesNotContainNull(): void
+    {
+        $f = $this->buildFactory();
+        $label = "label";
+        $byline = "byline";
+        $options = ["something_value" => "something"];
+        $select = $f->select($label, $options, $byline)
+                    ->withNameFrom($this->name_source);
+
+        $html_without = $this->brutallyTrimHTML($this->getDefaultRenderer()->render($select));
+
+        $this->assertTrue(str_contains($html_without, ">-</option>"));
+        $this->assertTrue(str_contains($html_without, "value=\"\""));
+
+        $select = $select->withRequired(true);
+        $html_with_required = $this->brutallyTrimHTML($this->getDefaultRenderer()->render($select));
+
+        $this->assertTrue(str_contains($html_with_required, ">-</option>"));
+        $this->assertTrue(str_contains($html_with_required, "value=\"\""));
+
+        $select = $select->withRequired(false)->withValue("something_value");
+        $html_with_value = $this->brutallyTrimHTML($this->getDefaultRenderer()->render($select));
+
+        $this->assertTrue(str_contains($html_with_value, ">-</option>"));
+        $this->assertTrue(str_contains($html_with_value, "value=\"\""));
+
+        $select = $select->withRequired(true);
+
+        $html_with_value_and_required = $this->brutallyTrimHTML($this->getDefaultRenderer()->render($select));
+
+        $this->assertFalse(str_contains($html_with_value_and_required, ">-</option>"));
+        $this->assertFalse(str_contains($html_with_value_and_required, "value=\"\""));
+    }
 }

@@ -447,9 +447,12 @@ class Renderer extends AbstractComponentRenderer
             $tpl->setVariable("DISABLED_OPTION", "disabled");
             $tpl->setVariable("HIDDEN", "hidden");
         }
-        $tpl->setVariable("VALUE", null);
-        $tpl->setVariable("VALUE_STR", "-");
-        $tpl->parseCurrentBlock();
+
+        if(!($value && $component->isRequired())) {
+            $tpl->setVariable("VALUE", null);
+            $tpl->setVariable("VALUE_STR", "-");
+            $tpl->parseCurrentBlock();
+        }
 
         foreach ($component->getOptions() as $option_key => $option_value) {
             $tpl->setCurrentBlock("options");
