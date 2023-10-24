@@ -47,7 +47,7 @@ class ilSystemStyleConfig
     /**
      * Relative delos path from Customizing dir to delos css and Scss files
      */
-    protected string $rel_delos_path = '../../../../templates/default/delos';
+    protected string $rel_delos_path = '../../../../../templates/default/delos';
 
 
     /**

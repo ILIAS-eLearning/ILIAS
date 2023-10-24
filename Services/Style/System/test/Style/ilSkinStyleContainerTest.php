@@ -225,4 +225,54 @@ class ilSkinStyleContainerTest extends ilSystemStyleBaseFS
         $container->delete();
         $this->assertFalse(is_dir($this->system_style_config->getCustomizingSkinPath() . $skin->getId()));
     }
+
+    public function testAddSubstyle(): void
+    {
+        $container = $this->factory->skinStyleContainerFromId($this->skin->getId(), $this->message_stack);
+
+        $new_sub_style = new ilSkinStyle('substyle1new', 'new Style');
+        $new_sub_style->setCssFile('subnewcss');
+        $new_sub_style->setImageDirectory('subnewimage');
+        $new_sub_style->setSoundDirectory('subnewsound');
+        $new_sub_style->setFontDirectory('subnewfont');
+
+        $new_sub_style->setSubstyleOf("style1");
+
+        $this->assertTrue(is_dir($this->skin_directory. '/style1/style1image'));
+        $this->assertTrue(is_dir($this->skin_directory . '/style1/style1sound'));
+        $this->assertTrue(is_dir($this->skin_directory . '/style1/style1font'));
+        $this->assertTrue(is_file($this->skin_directory . '/style1/style1.css'));
+        $this->assertTrue(is_file($this->skin_directory . '/style1/style1.scss'));
+        $this->assertTrue(is_file($this->skin_directory . '/style1/010-settings/variables1.scss'));
+        $this->assertTrue(is_file($this->skin_directory . '/style1/010-settings/variables2.scss'));
+
+        $this->assertFalse(is_dir($this->skin_directory . '/substyle1new/subnewimage'));
+        $this->assertFalse(is_dir($this->skin_directory . '/substyle1new/subnewsound'));
+        $this->assertFalse(is_dir($this->skin_directory . '/substyle1new/subnewfont'));
+        $this->assertFalse(is_file($this->skin_directory . '/substyle1new/newcss.css'));
+        $this->assertFalse(is_file($this->skin_directory . '/substyle1new/newcss.scss'));
+        $this->assertFalse(is_file($this->skin_directory . '/substyle1new/010-settings/variables1.scss'));
+        $this->assertFalse(is_file($this->skin_directory . '/substyle1new/010-settings/variables2.scss'));
+
+        $this->assertCount(0, $container->getSkin()->getSubstylesOfStyle('style1'));
+        $container->addStyle($new_sub_style);
+        $this->assertCount(1, $container->getSkin()->getSubstylesOfStyle('style1'));
+
+
+        $this->assertTrue(is_dir($this->skin_directory. '/style1/style1image'));
+        $this->assertTrue(is_dir($this->skin_directory . '/style1/style1sound'));
+        $this->assertTrue(is_dir($this->skin_directory . '/style1/style1font'));
+        $this->assertTrue(is_file($this->skin_directory . '/style1/style1.css'));
+        $this->assertTrue(is_file($this->skin_directory . '/style1/style1.scss'));
+        $this->assertTrue(is_file($this->skin_directory . '/style1/010-settings/variables1.scss'));
+        $this->assertTrue(is_file($this->skin_directory . '/style1/010-settings/variables2.scss'));
+
+        $this->assertTrue(is_dir($this->skin_directory . '/substyle1new/subnewimage'));
+        $this->assertTrue(is_dir($this->skin_directory . '/substyle1new/subnewsound'));
+        $this->assertTrue(is_dir($this->skin_directory . '/substyle1new/subnewfont'));
+        $this->assertTrue(is_file($this->skin_directory . '/substyle1new/subnewcss.css'));
+        $this->assertTrue(is_file($this->skin_directory . '/substyle1new/subnewcss.scss'));
+        $this->assertTrue(is_file($this->skin_directory . '/substyle1new/010-settings/variables1.scss'));
+        $this->assertTrue(is_file($this->skin_directory . '/substyle1new/010-settings/variables2.scss'));
+    }
 }
