@@ -68,7 +68,7 @@ class RevisionDBRepository implements RevisionRepository
         RevisionStatus $status
     ): UploadedFileRevision {
         $new_version_number = $info_resolver->getNextVersionNumber();
-        $revision = new UploadedFileRevision($resource->getIdentification(), $result, $keep_original);
+        $revision = new UploadedFileRevision($resource->getIdentification(), $result);
         $revision->setStorageID($resource->getStorageID());
         $revision->setVersionNumber($new_version_number);
         $revision->setStatus($status);
