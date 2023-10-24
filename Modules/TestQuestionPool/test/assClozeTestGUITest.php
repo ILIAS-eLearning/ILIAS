@@ -58,18 +58,28 @@ class assClozeTestGUITest extends assBaseTestCase
         $this->addGlobal_uiRenderer();
     }
 
-    public function test_instantiateObject_shouldReturnInstance(): void
+    public function testInstantiateObjectShouldReturnInstance(): void
     {
         /**
          * @runInSeparateProcess
          * @preserveGlobalState enabled
          */
 
-
-
         // Act
-        $instance = new assClozeTestGUI();
+        $this->setGlobalVariable(
+            'ui.factory',
+            $this->getMockBuilder(\ILIAS\UI\Factory::class)
+                ->disableOriginalConstructor()
+                ->getMock()
+        );
+        $this->setGlobalVariable(
+            'ui.renderer',
+            $this->getMockBuilder(\ILIAS\UI\Renderer::class)
+                ->disableOriginalConstructor()
+                ->getMock()
+        );
 
+        $instance = new assClozeTestGUI();
         $this->assertInstanceOf('assClozeTestGUI', $instance);
     }
 }
