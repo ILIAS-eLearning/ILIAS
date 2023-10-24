@@ -3052,10 +3052,13 @@ cmix#:#cmix_lrs_type#:#Learning Record Store (LRS)
 cmix#:#cmix_new#:#Neues xAPI/cmi5-Objekt anlegen
 cmix#:#completed_info#:#Die Aktivität wurde normal beendet oder abgeschlossen.
 cmix#:#completed_label#:#Statements mit dem Verb 'completed'
-cmix#:#conf_availability#:#Verfügbarkeit
-cmix#:#conf_availability_0#:#nicht verfügbar
-cmix#:#conf_availability_1#:#für bestehende Objekte
-cmix#:#conf_availability_2#:#für neue und bestehende Objekte
+cmix#:#conf_availability#:#Verwendbarkeit
+cmix#:#conf_availability_0#:#nicht verwendbar / deaktiviert
+cmix#:#conf_availability_0_info#:#Bestehende xAPI/cmi5-Objekte, die diesen LRS-Typ verwenden, sind nicht mehr benutzbar.
+cmix#:#conf_availability_1#:#ausschließlich in bestehenden Objekten
+cmix#:#conf_availability_1_info#:#Dieser LRS-Typ wird beim Anlegen neuer xAPI/cmi5-Objekte nicht angeboten. Bestehende xAPI/cmi5-Objekte, die diesen Typ verwenden, können weiterhin Daten schreiben oder lesen. Nutzen Sie diese Option, um zu einem späteren Zeitpunkt Daten im angebundenen LRS löschen zu können.
+cmix#:#conf_availability_2#:#in neuen und bestehenden Objekten
+cmix#:#conf_availability_2_info#:#Dieser LRS-Typ kann beim Anlegen von xAPI/cmi5-Objekten ausgewählt werden.
 cmix#:#conf_bypass_proxy#:#Erkennung des Lernfortschritts
 cmix#:#conf_bypass_proxy_disabled#:#xAPI-Proxy, um sofort Daten zu erhalten.
 cmix#:#conf_bypass_proxy_enabled#:#CronJob zur Abfrage des Learning Record Store
@@ -3136,7 +3139,7 @@ cmix#:#conf_user_name_none_info#:#Sendet '-' anstelle eines Namens
 cmix#:#conf_user_registered_mail#:#Registrierte E-Mail-Adresse
 cmix#:#content_privacy_ident#:#Benutzeridentifikation
 cmix#:#content_privacy_name#:#Anmeldename
-cmix#:#create_lrs_type_form#:#Neuer LRS-Typ
+cmix#:#create_lrs_type_form#:#Neuer Learning Record Store Typ
 cmix#:#create_registration#:#Registrieren Sie Ihre E-Mail-Adresse
 cmix#:#cron_xapi_results_evaluation#:#xAPI/cmi5 Ergebnisse holen
 cmix#:#cron_xapi_results_evaluation_desc#:#Fordert alle xAPI-Ergebnisse aus dem Learning Record Store für Objekte an, die den ILIAS xAPI-Proxy nicht unterstützen.
@@ -3174,15 +3177,14 @@ cmix#:#highscore_top_table#:#Bestenliste
 cmix#:#highscore_top_table_description#:#Teilnehmern wird eine Tabelle mit den besten Platzierungen angezeigt.
 cmix#:#highscore_wtime#:#Dauer
 cmix#:#highscore_wtime_description#:#Eine Spalte mit der Dauer wird in die Rangliste aufgenommen.
-cmix#:#info_availability#:#Hiermit können Sie die Verfügbarkeit des LRS-Typs innerhalb des Magazins betreiben. Alle Typen können auf "für bestehende Objekte" gesetzt werden, anstatt gelöscht zu werden.
-cmix#:#info_description#:#Diese Beschreibung wird bei der Auswahl des Typs für neue Objekte angezeigt.
+cmix#:#info_description#:#Diese Beschreibung wird bei der Auswahl des LRS-Typs für neue Objekte angezeigt.
 cmix#:#info_external_lrs#:#Bei einem externen Learning Record Store (LRS) wird dem Anwender ein Hinweis angezeigt. Ein externer LRS ist gekennzeichnet durch einen unzureichenden Einfluss auf den LRS und durch den Betreiber von ILIAS. Dies ist der Fall, wenn es keine Rechte zum Löschen gibt.
-cmix#:#info_lrs_endpoint#:#URL des Endpoints ohne '/' am Ende der Seite
-cmix#:#info_lrs_key#:#Key oder Login für den Zugriff, z.B. 12345
+cmix#:#info_lrs_endpoint#:#URL des Endpoints ohne „/“ am Ende
+cmix#:#info_lrs_key#:#Key oder Login für den Zugriff von ILIAS auf den LRS
 cmix#:#info_lrs_secret#:#Gemeinsames Secret / Passwort
 cmix#:#info_privacy_comment_default#:#Bitte geben Sie bei Verwendung dieses LRS bei Bedarf einen zusätzlichen Hinweis auf die Datensicherheit an.
 cmix#:#info_remarks#:#Hier können Sie Ihre Kommentare zu diesem LRS-Typ festhalten.
-cmix#:#info_title#:#Dieser Titel wird bei der Auswahl des Typs für neue Objekte angezeigt.
+cmix#:#info_title#:#Dieser Titel wird bei der Auswahl des LRS-Typs für neue Objekte angezeigt.
 cmix#:#initialized_info#:#Die Aktivität wurde erfolgreich begonnen.
 cmix#:#initialized_label#:#Statements mit dem Verb 'initialized'
 cmix#:#launch_options#:#Optionen für den Start
@@ -3213,7 +3215,7 @@ cmix#:#tab_scoring#:#Platzierungen
 cmix#:#tab_settings#:#Einstellungen
 cmix#:#tab_statements#:#Lernerfahrungen
 cmix#:#tbl_action_raw_data#:#Rohdaten anzeigen
-cmix#:#tbl_lrs_type_availability#:#Verfügbarkeit
+cmix#:#tbl_lrs_type_availability#:#Verwendbarkeit
 cmix#:#tbl_lrs_type_title#:#Titel
 cmix#:#tbl_lrs_type_usages#:#Anzahl der Nutzungen
 cmix#:#tbl_lrs_types_header#:#LRS-Typen
@@ -10828,7 +10830,7 @@ lti#:#lti_con_prov_always_learner#:#LTI-Benutzer ist immer Lernender
 lti#:#lti_con_prov_always_learner_info#:#In der Regel wird die Rolle in ILIAS auf eine LTI-Rolle abgebildet. Die Kursadministration könnte im Provider mehr Rechte haben, z.B. um das Objekt zu manipulieren. Aktivieren Sie diese Option, um das Rollen-Mapping zu vermeiden.
 lti#:#lti_con_prov_authentication#:#Authentifizierung
 lti#:#lti_con_prov_availability#:#Verfügbarkeit
-lti#:#lti_con_prov_availability_create#:#für neue und bestehende Objekte
+lti#:#lti_con_prov_availability_create#:#in neuen und bestehenden Objekten
 lti#:#lti_con_prov_availability_existing#:#nur für bestehende Objekte
 lti#:#lti_con_prov_availability_non#:#nicht verfügbar
 lti#:#lti_con_prov_category#:#Kategorie
