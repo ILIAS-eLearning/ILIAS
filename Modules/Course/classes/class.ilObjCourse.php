@@ -89,6 +89,8 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
     private ?ilCourseParticipant $member_obj = null;
     private ?ilCourseParticipants $members_obj = null;
 
+    private array $local_roles = [];
+
     public function __construct(int $a_id = 0, bool $a_call_by_reference = true)
     {
         global $DIC;
