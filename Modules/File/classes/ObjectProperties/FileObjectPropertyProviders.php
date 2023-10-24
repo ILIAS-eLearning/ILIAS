@@ -64,8 +64,12 @@ class FileObjectPropertyProviders implements ilObjectTypeSpecificPropertyProvide
         StorageService $irss,
         ImageFactory $factory,
         Flavour $flavour
-    ): Image {
+    ): ?Image {
         $urls = $irss->consume()->flavourUrls($flavour)->getURLsAsArray();
+
+        if ($urls === []) {
+            return null;
+        }
 
         $available_widths = $this->crop_definition->getWidths();
         array_pop($available_widths);
