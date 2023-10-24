@@ -10,7 +10,9 @@ export default {
     globals: {
       document: 'document',
       ilias: 'il',
+      jquery: '$',
     },
+    external: ['document', 'ilias', 'jquery'],
     plugins: [
       terser({
         format: {

@@ -27,6 +27,9 @@ use ILIAS\GlobalScreen\Scope\Layout\Factory\MainBarModification;
 use ILIAS\UI\Component\MainControls\MainBar;
 use ILIAS\GlobalScreen\Scope\Layout\Factory\MetaBarModification;
 use ILIAS\UI\Component\MainControls\MetaBar;
+use ILIAS\UI\Implementation\Component\Signal;
+use ILIAS\DI\Container;
+use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
@@ -34,6 +37,14 @@ use ILIAS\UI\Component\MainControls\MetaBar;
 class EmbeddedApplicationGSProvider extends AbstractModificationProvider
 {
     public const EMBEDDED_APPLICATION = 'embedded_application';
+    private SignalGeneratorInterface $signal_generator;
+
+    public function __construct(Container $dic)
+    {
+        parent::__construct($dic);
+        global $DIC;
+        $this->signal_generator = $DIC["ui.signal_generator"];
+    }
 
     public function isInterestedInContexts(): ContextCollection
     {
@@ -63,13 +74,19 @@ class EmbeddedApplicationGSProvider extends AbstractModificationProvider
             }
 
             $uif = $this->dic->ui()->factory();
+
             $back_target = $embedded_application->getBackTarget();
+            $signal = $this->signal_generator->create();
+            $signal->addOption('target_url', (string) $back_target);
+
             $button = $uif->button()->bulky(
                 $uif->symbol()->glyph()->close(),
                 $this->dic->language()->txt('close'),
                 (string) $back_target
-            )->withOnLoadCode(function ($id) {
-                return "il.WOPI.bindCloseButton('$id');";
+            )->withOnClick(
+                $signal
+            )->withOnLoadCode(function ($id) use ($signal) {
+                return "il.WOPI.bindCloseSignal('$id', '{$signal->getId()}');";
             });
 
             return $this->factory->metabar()->withHighPriority()->withModification(

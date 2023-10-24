@@ -54,7 +54,13 @@ class GetFileInfoResponse extends Response
             self::USER_CAN_NOT_WRITE_RELATIVE => true,
             self::POST_MESSAGE_ORIGIN => $origin,
             self::CLOSE_BUTTON_CLOSES_WINDOW => false,
-            self::CLOSE_URL => '#'
+            self::CLOSE_URL => '#',
+            self::EDIT_MODE_POST_MESSAGE => true,
+            self::EDIT_NOTIFICATION_POST_MESSAGE => true,
+            self::CLOSE_POST_MESSAGE => true,
+            self::SUPPORTS_LOCKS => false,
+            self::SUPPORTS_GET_LOCK => false,
+            self::USER_CAN_RENAME => false
         ]);
     }
 }

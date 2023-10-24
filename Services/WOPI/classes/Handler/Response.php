@@ -34,7 +34,6 @@ class Response implements \JsonSerializable
     protected const SUPPORTS_DELETE_FILE = 'SupportsDeleteFile';
     protected const SUPPORTS_UPDATE = 'SupportsUpdate';
     protected const READ_ONLY = 'ReadOnly';
-
     protected const LAST_MODIFIED_TIME = 'LastModifiedTime';
     protected const USER_CAN_ATTEND = 'UserCanAttend';
     protected const USER_FRIENDLY_NAME = 'UserFriendlyName';
@@ -44,6 +43,12 @@ class Response implements \JsonSerializable
     protected const POST_MESSAGE_ORIGIN = 'PostMessageOrigin';
     protected const CLOSE_BUTTON_CLOSES_WINDOW = 'CloseButtonClosesWindow';
     protected const CLOSE_URL = 'CloseUrl';
+    protected const EDIT_MODE_POST_MESSAGE = 'EditModePostMessage';
+    protected const EDIT_NOTIFICATION_POST_MESSAGE = 'EditNotificationPostMessage';
+    protected const CLOSE_POST_MESSAGE = 'ClosePostMessage';
+    protected const SUPPORTS_LOCKS = 'SupportsLocks';
+    protected const SUPPORTS_GET_LOCK = 'SupportsGetLock';
+    protected const USER_CAN_RENAME = 'UserCanRename';
 
     public function __construct(
         private array $data

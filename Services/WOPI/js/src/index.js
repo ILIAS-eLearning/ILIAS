@@ -1,17 +1,75 @@
 import document from 'document';
 import il from 'ilias';
+import $ from 'jquery';
 
 il.WOPI = {
   modified: false,
+  listeners: {},
 };
 
-il.WOPI.bindCloseButton = function (elementId) {
-  const button = document.getElementById(elementId);
-  button.addEventListener('click', async (event) => {
-    event.stopPropagation();
-    event.preventDefault();
-    const closed = await this.close();
-    return closed;
+il.WOPI.bindCloseSignal = function (elementId, signalId) {
+  $(`#${elementId}`).on(signalId, (e, options) => { // we need to use jQuery here since signals are working with jQuery
+    const targetUrl = options.options.target_url || null;
+    if (targetUrl === null) {
+      return true;
+    }
+
+    this.waitForSave().then(() => {
+      window.location = targetUrl;
+    }).catch(() => {
+      // currently no special handling for errors
+      window.location = targetUrl;
+    });
+
+    e.stopPropagation();
+    e.preventDefault();
+    return false;
+  });
+};
+
+il.WOPI.waitForSave = function () {
+  return new Promise((resolve, reject) => {
+    const overlay = document.createElement('div');
+    overlay.id = 'c-embedded-wopi-overlay';
+    overlay.style.position = 'fixed';
+    overlay.style.top = '0';
+    overlay.style.left = '0';
+    overlay.style.width = '100%';
+    overlay.style.height = '100%';
+    overlay.style.backgroundColor = 'rgba(255,255,255,0.7)';
+    this.frameholder.appendChild(overlay);
+
+    this.save().then((saved) => {
+      if (saved) {
+        resolve(true);
+      } else {
+        reject(new Error('not saved'));
+      }
+    }).catch((err) => {
+      reject(err);
+    });
+  });
+};
+
+il.WOPI.save = function () {
+  return new Promise((resolve, reject) => {
+    const timer = setTimeout(() => {
+      reject(new Error('timeout'));
+    }, 2000);
+
+    this.registerListener('Action_Save_Resp', () => {
+      clearTimeout(timer);
+      resolve(true);
+    });
+    this.postMessage({
+      MessageId: 'Action_Save',
+      SendTime: Date.now(),
+      Values: {
+        DontTerminateEdit: true,
+        DontSaveIfUnmodified: true,
+        Notify: true,
+      },
+    });
   });
 };
 
@@ -69,6 +127,18 @@ il.WOPI.init = function () {
   // SEND FORM
   form.submit();
 
+  // Listen to postMessages from the editor
+  window.addEventListener(
+    'message',
+    (event) => {
+      this.handleMessage(event);
+    },
+    false,
+  );
+  this.registerListener('*', (values) => {
+    // console.log('message received', values);
+  });
+
   // Add event listener to receive messages from the editor
   this.registerListener('App_LoadingStatus', () => {
     this.postMessage({
@@ -79,9 +149,10 @@ il.WOPI.init = function () {
   });
 
   // Collabora
-  this.registerListener('Doc_ModifiedStatus', (message) => {
-    this.modified = message.Values.Modified ?? false;
+  this.registerListener('Doc_ModifiedStatus', (values) => {
+    this.modified = values.Modified ?? false;
   });
+
   // OnlyOffice
   this.registerListener('Edit_Notification', () => {
     this.modified = true;
@@ -91,6 +162,7 @@ il.WOPI.init = function () {
   document.defaultView.addEventListener('resize', () => {
     il.WOPI.windowResize(editorFrame);
   });
+
   // resize after some time to make sure the editor is loaded and mainmenu has been collapsed
   setTimeout(
     () => {
@@ -100,50 +172,29 @@ il.WOPI.init = function () {
   );
 };
 
+il.WOPI.handleMessage = function (message) {
+  const messageObj = JSON.parse(message.data);
+  const MessageId = messageObj.MessageId ?? null;
+
+  if (this.listeners[MessageId]) {
+    this.listeners[MessageId].forEach((callback) => {
+      callback(messageObj.Values);
+    });
+  }
+  if (this.listeners['*']) {
+    this.listeners['*'].forEach((callback) => {
+      callback(messageObj);
+    });
+  }
+};
+
 il.WOPI.postMessage = function (mobj) {
   this.editorFrameWindow.postMessage(JSON.stringify(mobj), '*');
 };
+
 il.WOPI.registerListener = function (MessageId, callback) {
-  window.addEventListener(
-    'message',
-    (event) => {
-      const message = JSON.parse(event.data);
-      if (MessageId !== null && message.MessageId === MessageId) {
-        callback(message);
-      }
-    },
-    false,
-  );
-};
-il.WOPI.close = async function () {
-  const overlay = document.createElement('div');
-  overlay.id = 'c-embedded-wopi-overlay';
-  overlay.style.position = 'fixed';
-  overlay.style.top = '0';
-  overlay.style.left = '0';
-  overlay.style.width = '100%';
-  overlay.style.height = '100%';
-  overlay.style.backgroundColor = 'rgba(255,255,255,0.7)';
-  this.frameholder.appendChild(overlay);
-
-  const saved = await this.save();
-  if (this.modified) {
-    return saved;
+  if (!this.listeners[MessageId]) {
+    this.listeners[MessageId] = [];
   }
-  return true;
-};
-il.WOPI.save = async function () {
-  this.postMessage({
-    MessageId: 'Action_Save',
-    SendTime: Date.now(),
-    Values: {
-      DontTerminateEdit: true,
-      DontSaveIfUnmodified: true,
-      Notify: false,
-    },
-  });
-
-  const saved = await this.registerListener('Doc_ModifiedStatus', () => true);
-
-  return saved;
+  this.listeners[MessageId].push(callback);
 };
