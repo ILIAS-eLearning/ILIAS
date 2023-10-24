@@ -24,7 +24,7 @@ use ILIAS\InfoScreen\StandardGUIRequest;
  * Class ilInfoScreenGUI
  *
  * @author Alexander Killing <killing@leifos.de>
- * @ilCtrl_Calls ilInfoScreenGUI: ilNoteGUI, ilColumnGUI, ilPublicUserProfileGUI
+ * @ilCtrl_Calls ilInfoScreenGUI: ilCommentGUI, ilColumnGUI, ilPublicUserProfileGUI
  * @ilCtrl_Calls ilInfoScreenGUI: ilCommonActionDispatcherGUI
  */
 class ilInfoScreenGUI
@@ -112,7 +112,7 @@ class ilInfoScreenGUI
         $this->setTabs();
 
         switch ($next_class) {
-            case "ilnotegui":
+            case strtolower(ilCommentGUI::class):
                 if ($this->ctrl->isAsynch()) {
                     $this->showNotesSection();
                 } else {
@@ -982,25 +982,26 @@ class ilInfoScreenGUI
 
         $ilAccess = $this->access;
         $ilSetting = $this->settings;
-        $DIC->notes()->gui()->initJavascript();
-
-        $next_class = $this->ctrl->getNextClass($this);
-        $notes_gui = new ilNoteGUI(
+        $notes_gui = $DIC->notes()->gui();
+        $notes_gui->initJavascript();
+        $comments_gui = $notes_gui->getCommentsGUI(
             $this->gui_object->getObject()->getId(),
             0,
             $this->gui_object->getObject()->getType()
         );
-        $notes_gui->setUseObjectTitleHeader(false);
+
+        $next_class = $this->ctrl->getNextClass($this);
+        $comments_gui->setUseObjectTitleHeader(false);
 
         // global switch
         if ($ilSetting->get("disable_comments")) {
-            $notes_gui->enablePublicNotes(false);
+            $comments_gui->enablePublicNotes(false);
         } else {
             $ref_id = $this->gui_object->getObject()->getRefId();
             $has_write = $ilAccess->checkAccess("write", "", $ref_id);
 
             if ($has_write && $ilSetting->get("comments_del_tutor", "1")) {
-                $notes_gui->enablePublicNotesDeletion();
+                $comments_gui->enablePublicNotesDeletion();
             }
 
             /* should probably be discussed further
@@ -1009,7 +1010,7 @@ class ilInfoScreenGUI
             */
             if ($has_write ||
                 $ilAccess->checkAccess("edit_permissions", "", $ref_id)) {
-                $notes_gui->enableCommentsSettings();
+                $comments_gui->enableCommentsSettings();
             }
         }
 
@@ -1017,10 +1018,10 @@ class ilInfoScreenGUI
         $notes_gui->enablePrivateNotes();
         */
 
-        if ($next_class == "ilnotegui") {
-            $html = $this->ctrl->forwardCommand($notes_gui);
+        if ($next_class === ilCommentGUI::class) {
+            $html = $this->ctrl->forwardCommand($comments_gui);
         } else {
-            $html = $notes_gui->getCommentsHTML();
+            $html = $comments_gui->getListHTML();
         }
 
         return $html;
