@@ -443,7 +443,7 @@ class Renderer extends AbstractComponentRenderer
         if (!$value) {
             $tpl->setVariable("SELECTED", 'selected="selected"');
         }
-        if ($component->isRequired()) {
+        if ($component->isRequired() && !$value) {
             $tpl->setVariable("DISABLED_OPTION", "disabled");
             $tpl->setVariable("HIDDEN", "hidden");
         }
