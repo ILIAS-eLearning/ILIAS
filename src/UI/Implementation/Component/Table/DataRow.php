@@ -22,6 +22,7 @@ namespace ILIAS\UI\Implementation\Component\Table;
 
 use ILIAS\UI\Component\Table as T;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
+use ILIAS\UI\Component\Component;
 
 class DataRow implements T\DataRow
 {
@@ -90,7 +91,7 @@ class DataRow implements T\DataRow
         );
     }
 
-    public function getCellContent(string $col_id): string
+    public function getCellContent(string $col_id): string|Component
     {
         if (!array_key_exists($col_id, $this->record)) {
             return '';
