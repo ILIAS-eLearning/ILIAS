@@ -83,7 +83,11 @@ class FirstPageToTileImageMachine extends AbstractMachine implements FlavourMach
                 false,
                 100
             )
-        )->current()->getStream();
+        )->current()?->getStream();
+
+        if ($page_stream === null) {
+            return;
+        }
 
         $i = 0;
         foreach ($for_definition->getWidths() as $width) {
