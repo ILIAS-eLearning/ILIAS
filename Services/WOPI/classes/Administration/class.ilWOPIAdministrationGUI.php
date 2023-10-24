@@ -101,6 +101,7 @@ class ilWOPIAdministrationGUI
             } else {
                 $apps = $this->crawler->crawl(new URI($discovery_url));
                 if ($apps !== null) {
+                    $app_repo->clear($action_repo);
                     $app_repo->storeCollection($apps, $action_repo);
                 }
             }
