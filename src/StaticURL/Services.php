@@ -27,7 +27,7 @@ use ILIAS\StaticURL\Response\Factory;
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
  */
-final class Services
+class Services
 {
     private Factory $response_factory;
 
