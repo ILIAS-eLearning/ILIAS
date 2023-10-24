@@ -1,8 +1,22 @@
 <?php
 
-declare(strict_types=1);
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
-/* Copyright (c) 1998-2022 ILIAS open source, GPLv3, see LICENSE */
+declare(strict_types=1);
 
 use ILIAS\DI\Container;
 
@@ -421,7 +435,6 @@ class ilGlobalTemplate implements ilGlobalTemplateInterface
                 $this->fillTabs();
                 $this->fillMainContent();
                 $this->fillMainMenu();
-                $this->fillLightbox();
                 $this->parseCurrentBlock();
             }
         }
@@ -974,7 +987,6 @@ class ilGlobalTemplate implements ilGlobalTemplateInterface
                 if ($a_main_menu) {
                     $this->fillMainMenu();
                 }
-                $this->fillLightbox();
                 $this->parseCurrentBlock();
             }
         }
@@ -1051,19 +1063,6 @@ class ilGlobalTemplate implements ilGlobalTemplateInterface
     {
         $this->tree_flat_link = $a_link;
         $this->tree_flat_mode = $a_mode;
-    }
-
-    /**
-     * Add lightbox html
-     */
-    public function addLightbox(string $a_html, string $a_id): void
-    {
-        $this->lightbox[$a_id] = $a_html;
-    }
-
-    protected function fillLightbox(): void
-    {
-        $this->setVariable("LIGHTBOX", implode('', $this->lightbox));
     }
 
     public function addAdminPanelToolbar(ilToolbarGUI $toolb, bool $a_bottom_panel = true, bool $a_arrow = false): void

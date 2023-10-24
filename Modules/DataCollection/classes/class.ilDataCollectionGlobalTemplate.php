@@ -33,7 +33,6 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
     protected string $tree_flat_link = "";
     protected string $page_form_action = "";
     protected array $permanent_link = [];
-    protected array $lightbox = [];
     protected bool $standard_template_loaded = false;
     protected ilTemplate $template;
     protected array $on_load_code;
@@ -982,7 +981,6 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
                 if ($a_main_menu) {
                     $this->fillMainMenu();
                 }
-                $this->fillLightbox();
                 $this->parseCurrentBlock();
             }
         }
@@ -1069,7 +1067,6 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
                         $this->fillTabs();
                         $this->fillMainContent();
                         $this->fillMainMenu();
-                        $this->fillLightbox();
                         $this->parseCurrentBlock();
                     }
                 }
@@ -1138,22 +1135,6 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
     {
         $this->tree_flat_link = $a_link;
         $this->tree_flat_mode = $a_mode;
-    }
-
-    public function addLightbox(string $a_html, string $a_id): void
-    {
-        $this->lightbox[$a_id] = $a_html;
-    }
-
-    /**
-     * Fill lightbox content
-     * @param
-     * @return
-     */
-    private function fillLightbox(): void
-    {
-        $html = implode('', $this->lightbox);
-        $this->setVariable("LIGHTBOX", $html);
     }
 
     // ADMIN PANEL
