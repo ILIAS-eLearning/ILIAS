@@ -27,6 +27,7 @@ use ILIAS\Services\WOPI\Discovery\ActionDBRepository;
 use ILIAS\Services\WOPI\Discovery\ActionRepository;
 use ILIAS\Services\WOPI\Embed\EmbeddedApplication;
 use ILIAS\Data\URI;
+use ILIAS\UI\Component\Modal\Modal;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
@@ -111,6 +112,8 @@ class ilFileVersionsGUI
         $this->action_repo = new ActionDBRepository($DIC->database());
         $this->current_revision = $this->getCurrentFileRevision();
     }
+
+
 
     /**
      * @throws \ILIAS\FileUpload\Collection\Exception\NoSuchElementException
@@ -232,13 +235,20 @@ class ilFileVersionsGUI
     private function publish(): void
     {
         $this->storage->manage()->publish($this->getIdentification());
+        $this->file->updateObjectFromCurrentRevision();
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_obj_modified'), true);
         $this->ctrl->redirect($this, self::CMD_DEFAULT);
     }
 
     private function unpublish(): void
     {
+        if ($this->current_revision->getVersionNumber() === 1) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('msg_cant_unpublish'), true);
+            $this->ctrl->redirect($this, self::CMD_DEFAULT);
+        }
+
         $this->storage->manage()->unpublish($this->getIdentification());
+        $this->file->updateObjectFromCurrentRevision();
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_obj_modified'), true);
         $this->ctrl->redirect($this, self::CMD_DEFAULT);
     }
@@ -384,13 +394,24 @@ class ilFileVersionsGUI
         $version_ids = $this->getVersionIdsFromRequest();
 
         // more than one entry selected?
-        if (count($version_ids) != 1) {
-            $this->tpl->setOnScreenMessage('info', $this->lng->txt("file_rollback_select_exact_one"), true);
+        if (count($version_ids) !== 1) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("file_rollback_select_exact_one"), true);
+            $this->ctrl->redirect($this, self::CMD_DEFAULT);
+        }
+
+        if($this->current_revision->getStatus() === RevisionStatus::DRAFT) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("file_rollback_rollback_first"), true);
             $this->ctrl->redirect($this, self::CMD_DEFAULT);
         }
 
         // rollback the version
-        $this->file->rollback($version_ids[0]);
+        $version_id = $version_ids[0];
+        if($version_id === $this->current_revision->getVersionNumber()) {
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt("file_rollback_same_version"), true);
+            $this->ctrl->redirect($this, self::CMD_DEFAULT);
+        }
+
+        $this->file->rollback($version_id);
 
         $this->tpl->setOnScreenMessage('success', sprintf($this->lng->txt("file_rollback_done"), ''), true);
         $this->ctrl->redirect($this, self::CMD_DEFAULT);
@@ -518,6 +539,7 @@ class ilFileVersionsGUI
     {
         $deletion_version_ids = $this->getVersionIdsFromRequest();
         $existing_versions = $this->file->getVersions();
+
         $non_deletion_versions = array_udiff(
             $existing_versions,
             $deletion_version_ids,
@@ -531,16 +553,18 @@ class ilFileVersionsGUI
                 return $a - $b;
             }
         );
+        $this->checkSanityOfDeletionRequest($deletion_version_ids, false);
 
-        if (count($deletion_version_ids) < 1) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_checkbox"), true);
-            $this->ctrl->redirect($this, self::CMD_DEFAULT);
-        } elseif (count($non_deletion_versions) < 1) {
+        // no version will remain after deletion, so we can delete the whole file
+        if (count($non_deletion_versions) < 1) {
             return $this->file_component_builder->buildConfirmDeleteAllVersionsModal(
                 $this->ctrl->getFormActionByClass(self::class, self::CMD_CONFIRMED_DELETE_FILE),
                 $this->file
             );
-        } elseif (count($non_deletion_versions) >= 1) {
+        }
+
+        // confirm the deletion of the selected versions
+        if (count($non_deletion_versions) >= 1) {
             return $this->file_component_builder->buildConfirmDeleteSpecificVersionsModal(
                 $this->ctrl->getFormActionByClass(self::class, self::CMD_CONFIRMED_DELETE_VERSIONS),
                 $this->file,
@@ -548,6 +572,28 @@ class ilFileVersionsGUI
             );
         }
         return null;
+    }
+
+    protected function checkSanityOfDeletionRequest(array $requested_deletion_version, bool $redirect): void
+    {
+        // Check Sanity of request
+        // Cant delete version if current is a DRAFT
+        if (
+            $this->current_revision->getStatus() === RevisionStatus::DRAFT
+        ) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('publish_before_delete'), $redirect);
+            if($redirect) {
+                $this->ctrl->redirect($this, self::CMD_DEFAULT);
+            }
+        }
+
+        // no checkbox has been selected
+        if (count($requested_deletion_version) < 1) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_checkbox"), $redirect);
+            if($redirect) {
+                $this->ctrl->redirect($this, self::CMD_DEFAULT);
+            }
+        }
     }
 
     //TODO: Remove this function and replace its calls with calls to "getDeleteSelectedVersionsModal" as soon as the new table gui is introduced.
@@ -570,49 +616,47 @@ class ilFileVersionsGUI
             }
         );
 
-        if (count($version_ids) < 1) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_checkbox"), true);
-            $this->ctrl->redirect($this, self::CMD_DEFAULT);
+        $this->checkSanityOfDeletionRequest($version_ids, true);
+
+        $conf_gui = new ilConfirmationGUI();
+        $conf_gui->setFormAction($this->ctrl->getFormAction($this, self::CMD_DEFAULT));
+        $conf_gui->setCancel($this->lng->txt("cancel"), self::CMD_DEFAULT);
+
+        $icon = ilObject::_getIcon($this->file->getId(), "small", $this->file->getType());
+        $alt = $this->lng->txt("icon") . " " . $this->lng->txt("obj_" . $this->file->getType());
+
+        // only one version left, delete the whole file
+        if (count($remaining_versions) < 1) {
+            // Ask
+            $conf_gui->setHeaderText($this->lng->txt('file_confirm_delete_all_versions'));
+            $conf_gui->setConfirm($this->lng->txt("confirm"), self::CMD_CONFIRMED_DELETE_FILE);
+            $conf_gui->addItem(
+                "id[]",
+                $this->ref_id,
+                $this->file->getTitle(),
+                $icon,
+                $alt
+            );
         } else {
-            $conf_gui = new ilConfirmationGUI();
-            $conf_gui->setFormAction($this->ctrl->getFormAction($this, self::CMD_DEFAULT));
-            $conf_gui->setCancel($this->lng->txt("cancel"), self::CMD_DEFAULT);
+            // Ask to delete version
+            $conf_gui->setHeaderText($this->lng->txt('file_confirm_delete_versions'));
+            $conf_gui->setConfirm($this->lng->txt("confirm"), self::CMD_CONFIRMED_DELETE_VERSIONS);
 
-            $icon = ilObject::_getIcon($this->file->getId(), "small", $this->file->getType());
-            $alt = $this->lng->txt("icon") . " " . $this->lng->txt("obj_" . $this->file->getType());
-
-            if (count($remaining_versions) < 1) {
-                // Ask
-                $conf_gui->setHeaderText($this->lng->txt('file_confirm_delete_all_versions'));
-                $conf_gui->setConfirm($this->lng->txt("confirm"), self::CMD_CONFIRMED_DELETE_FILE);
+            foreach ($this->file->getVersions($version_ids) as $version) {
+                $a_text = $version['filename'] ?? $version->getFilename() ?? $this->file->getTitle();
+                $version_string = $version['hist_id'] ?? $version->getVersion();
+                $a_text .= " (v" . $version_string . ")";
                 $conf_gui->addItem(
-                    "id[]",
-                    $this->ref_id,
-                    $this->file->getTitle(),
+                    "hist_id[]",
+                    $version['hist_entry_id'],
+                    $a_text,
                     $icon,
                     $alt
                 );
-            } else {
-                // Ask
-                $conf_gui->setHeaderText($this->lng->txt('file_confirm_delete_versions'));
-                $conf_gui->setConfirm($this->lng->txt("confirm"), self::CMD_CONFIRMED_DELETE_VERSIONS);
-
-                foreach ($this->file->getVersions($version_ids) as $version) {
-                    $a_text = $version['filename'] ?? $version->getFilename() ?? $this->file->getTitle();
-                    $version_string = $version['hist_id'] ?? $version->getVersion();
-                    $a_text .= " (v" . $version_string . ")";
-                    $conf_gui->addItem(
-                        "hist_id[]",
-                        $version['hist_entry_id'],
-                        $a_text,
-                        $icon,
-                        $alt
-                    );
-                }
             }
-
-            $this->tpl->setContent($conf_gui->getHTML());
         }
+
+        $this->tpl->setContent($conf_gui->getHTML());
     }
 
     private function getFileZipOptionsForm(): Form

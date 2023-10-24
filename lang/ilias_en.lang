@@ -9572,6 +9572,8 @@ file#:#file_import#:#Import File
 file#:#file_new_version#:#Create New Version
 file#:#file_new_version_info#:#Create new file version. Previous versions will not be modified.
 file#:#file_publish#:#Publish Draft
+file#:#file_rollback_rollback_first#:#The version could not be reset because an unpublished draft exists.
+file#:#file_rollback_same_version#:#This is already the current version
 file#:#file_unpublish#:#Mark as Draft
 file#:#file_upload_info_file_with_critical_extension#:#At least one uploaded file contains a critical or unknown file ending. The file ending will be changed to .sec for every download. If necessary, contact your administrator. Filename(s): %s
 file#:#file_uploaded_by#:#Version uploaded by
@@ -9589,6 +9591,7 @@ file#:#input_icon#:#Icon
 file#:#input_suffixes#:#Suffixes
 file#:#migrated#:#Status
 file#:#mime_type#:#MIME Type
+file#:#msg_cant_unpublish#:#Action could not be executed
 file#:#msg_confirm_entry_deletion#:#Are you sure you want to delete the following entry?:
 file#:#msg_error_active_suffixes_blacklisted#:#One of the selected file extensions is on the global blacklist and cannot be used at the moment.
 file#:#msg_error_active_suffixes_conflict#:#Error: there must not be multiple activated icons for the same suffix. Please deactivate either this icon or the other activated icon whose suffixes overlap with the suffixes of this icon.
@@ -9609,6 +9612,7 @@ file#:#preview_caption#:#Preview %sof %s
 file#:#preview_image_size_info#:#Maximum length of the preview images in px.
 file#:#preview_persisting#:#Persist Preview Images
 file#:#preview_persisting_info#:#Generated previews will be stored, otherwise the previews will be generated on the fly
+file#:#publish_before_delete#:#Version(s) could not be deleted because an unpublished draft exists.
 file#:#replace_file_info#:#All previous file versions will be deleted.
 file#:#resource_id#:#Resource ID
 file#:#set_license_for_all_files#:#Set License for all Files

@@ -9582,6 +9582,8 @@ file#:#file_import#:#Dateiimport
 file#:#file_new_version#:#Neue Version anlegen
 file#:#file_new_version_info#:#Eine neue Dateiversion anlegen. Alte Versionen bleiben erhalten.
 file#:#file_publish#:#Entwurf veröffentlichen
+file#:#file_rollback_rollback_first#:#Die Version konnte nicht zurückgesetzt werden, weil ein unveröffentlichter Entwurf existiert.
+file#:#file_rollback_same_version#:#Dies ist bereits die aktuelle Version
 file#:#file_unpublish#:#Als Entwurf markieren
 file#:#file_upload_info_file_with_critical_extension#:#Mindestens eine Datei enthält eine kritische oder unbekannte Dateiendung. Die Dateiendung wird bei jedem Download zu .sec geändert. Kontaktieren Sie gegebenfalls Ihren Administrator. Dateiname(n): %s
 file#:#file_uploaded_by#:#Version hochgeladen von
@@ -9599,6 +9601,7 @@ file#:#input_icon#:#Icon
 file#:#input_suffixes#:#Suffixe
 file#:#migrated#:#Status
 file#:#mime_type#:#MIME-Type
+file#:#msg_cant_unpublish#:#Aktion konnte nicht ausgeführt werden
 file#:#msg_confirm_entry_deletion#:#Wollen Sie den nachfolgenden Eintrag wirklich löschen?:
 file#:#msg_error_active_suffixes_blacklisted#:#Eine der gewählten Dateiendungen ist auf der globalen Blacklist und kann derzeit nciht genutzt werden.
 file#:#msg_error_active_suffixes_conflict#:#Fehler: Es dürfen nicht mehrere Icons für ein Suffix aktiv sein. Bitte deaktivieren Sie entweder dieses Icon oder das andere aktivierte Icon, dessen Suffixe sich mit jenen dieses Icons überschneiden.
@@ -9619,6 +9622,7 @@ file#:#preview_caption#:#Vorschau %svon %s
 file#:#preview_image_size_info#:#Maximale Seitenlänge der Vorschaubilder in px.
 file#:#preview_persisting#:#Vorschaubilder persistieren
 file#:#preview_persisting_info#:#Generierte vVorschaubilder werden gespeichert. Wenn deaktiviert, werden die Vorschaubilder jeweils beim Aufruf generiert.
+file#:#publish_before_delete#:#Version(en) konnte(n) nicht gelöscht werden, da ein noch unveröffentlichter Entwurf existiert.
 file#:#replace_file_info#:#Alle Dateiversionen werden gelöscht.
 file#:#resource_id#:#Ressourcen ID
 file#:#set_license_for_all_files#:#Lizenz für alle Dateien festlegen

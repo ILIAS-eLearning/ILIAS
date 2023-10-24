@@ -32,6 +32,7 @@ class ilFileVersionsTableGUI extends ilTable2GUI
     private \ilObjFile $file;
     private \ILIAS\ResourceStorage\Services $irss;
     private bool $current_version_is_draft;
+    private int $amount_of_versions;
     protected \ILIAS\DI\UIServices $ui;
     protected bool $has_been_migrated = false;
 
@@ -55,12 +56,15 @@ class ilFileVersionsTableGUI extends ilTable2GUI
         parent::__construct($calling_gui_class, $a_parent_cmd, "");
         $this->file = $calling_gui_class->getFile();
         $this->current_version = $this->file->getVersion(true);
-        $revision = $this->irss->manage()->getCurrentRevisionIncludingDraft(
-            $this->irss->manage()->find(
-                $this->file->getResourceId()
-            )
+        $rid = $this->irss->manage()->find(
+            $this->file->getResourceId()
         );
-
+        $revision = $this->irss->manage()->getCurrentRevisionIncludingDraft(
+            $rid
+        );
+        $this->amount_of_versions = count(
+            $this->irss->manage()->getResource($rid)->getAllRevisionsIncludingDraft()
+        );
         $this->current_version_is_draft = $revision->getStatus() === RevisionStatus::DRAFT;
 
         // General
@@ -158,20 +162,21 @@ class ilFileVersionsTableGUI extends ilTable2GUI
                 true
             )
         );
-        $action_entries['delete'] = $this->dic->ui()->factory()->button()->shy(
-            $this->dic->language()->txt("delete"),
-            ''
-        )->withOnClick(
-            $pseudo_modal->getShowSignal()
-        );
+
         $this->modals[] = $pseudo_modal;
         if(!$this->current_version_is_draft) {
+            $action_entries['delete'] = $this->dic->ui()->factory()->button()->shy(
+                $this->dic->language()->txt("delete"),
+                ''
+            )->withOnClick(
+                $pseudo_modal->getShowSignal()
+            );
             if ($this->current_version !== (int) $version) {
                 $action_entries['file_rollback'] = $this->dic->ui()->factory()->button()->shy(
                     $this->dic->language()->txt("file_rollback"),
                     $this->dic->ctrl()->getLinkTarget($this->parent_obj, ilFileVersionsGUI::CMD_ROLLBACK_VERSION)
                 );
-            } else {
+            } elseif($this->amount_of_versions > 1) {
                 $action_entries['unpublish'] = $this->dic->ui()->factory()->button()->shy(
                     $this->dic->language()->txt("file_unpublish"),
                     $this->dic->ctrl()->getLinkTarget($this->parent_obj, ilFileVersionsGUI::CMD_UNPUBLISH)
