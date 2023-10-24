@@ -208,33 +208,37 @@ class SelectInputTest extends ILIAS_UI_TestBase
         $this->assertEquals($expected, $html);
     }
 
-    public function testRenderWithValueAndRequired(): void
+    public function testWithValueAndRequiredDoesNotContainNull(): void
     {
         $f = $this->buildFactory();
         $label = "label";
         $byline = "byline";
-        $options = ["one" => "One", "two" => "Two", "three" => "Three"];
+        $options = ["something_value" => "something"];
         $select = $f->select($label, $options, $byline)
-                    ->withNameFrom($this->name_source)
-                    ->withValue("one")
-                    ->withRequired(true);
+                    ->withNameFrom($this->name_source);
 
-        $r = $this->getDefaultRenderer();
-        $html = $this->brutallyTrimHTML($r->render($select));
+        $html_without = $this->brutallyTrimHTML($this->getDefaultRenderer()->render($select));
 
-        $expected = $this->brutallyTrimHTML('
-<div class="form-group row">
-    <label for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">label<span class="asterisk">*</span></label>
-    <div class="col-sm-8 col-md-9 col-lg-10">
-        <select id="id_1" name="name_0">
-            <option hidden selected="selected" disabled value="one">One</option>
-            <option value="two">Two</option>
-            <option value="three">Three</option>
-        </select>
-        <div class="help-block">byline</div>
-    </div>
-</div>
-');
-        $this->assertEquals($expected, $html);
+        $this->assertTrue(str_contains($html_without, ">-</option>"));
+        $this->assertTrue(str_contains($html_without, "value=\"\""));
+
+        $select = $select->withRequired(true);
+        $html_with_required = $this->brutallyTrimHTML($this->getDefaultRenderer()->render($select));
+
+        $this->assertTrue(str_contains($html_with_required, ">-</option>"));
+        $this->assertTrue(str_contains($html_with_required, "value=\"\""));
+
+        $select = $select->withRequired(false)->withValue("something_value");
+        $html_with_value = $this->brutallyTrimHTML($this->getDefaultRenderer()->render($select));
+
+        $this->assertTrue(str_contains($html_with_value, ">-</option>"));
+        $this->assertTrue(str_contains($html_with_value, "value=\"\""));
+
+        $select = $select->withRequired(true);
+
+        $html_with_value_and_required = $this->brutallyTrimHTML($this->getDefaultRenderer()->render($select));
+
+        $this->assertFalse(str_contains($html_with_value_and_required, ">-</option>"));
+        $this->assertFalse(str_contains($html_with_value_and_required, "value=\"\""));
     }
 }
