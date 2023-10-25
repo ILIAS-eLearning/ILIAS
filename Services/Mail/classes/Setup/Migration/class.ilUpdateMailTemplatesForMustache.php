@@ -112,12 +112,12 @@ class ilUpdateMailTemplatesForMustache implements Migration
             $row = $this->db->fetchAssoc($res);
 
             $subject = preg_replace(
-                '/\[([A-Z_]+)\]/',
+                '/\[([A-Z_]+?)\]/',
                 '{{$1}}',
                 $row['m_subject'] ?? ''
             );
             $message = preg_replace(
-                '/\[([A-Z_]+)\]/',
+                '/\[([A-Z_]+?)\]/',
                 '{{$1}}',
                 $row['m_message'] ?? ''
             );
