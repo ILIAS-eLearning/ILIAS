@@ -68,7 +68,8 @@ class ilPCSourceCode extends ilPCParagraph
                 $node_del->parentNode->removeChild($node_del);
             }
 
-            $content = str_replace("<br />", "<br/>", utf8_decode($content));
+            //$content = str_replace("<br />", "<br/>", utf8_decode($content));
+            $content = str_replace("<br />", "<br/>", $content);
             $content = str_replace("<br/>", "\n", $content);
             $rownums = count(explode("\n", $content));
 
@@ -90,7 +91,8 @@ class ilPCSourceCode extends ilPCParagraph
                 },
                 $plain_content
             );
-            $content = utf8_encode($this->highlightText($plain_content, $subchar));
+            //$content = utf8_encode($this->highlightText($plain_content, $subchar));
+            $content = $this->highlightText($plain_content, $subchar);
 
             $content = str_replace("&amp;lt;", "&lt;", $content);
             $content = str_replace("&amp;gt;", "&gt;", $content);
@@ -134,7 +136,6 @@ class ilPCSourceCode extends ilPCParagraph
             $newcontent = str_replace("{", "&#123;", $newcontent);
             $newcontent = str_replace("}", "&#125;", $newcontent);
 
-            //echo htmlentities($newcontent);
             $a_output = str_replace("[[[[[Code;" . ($i + 1) . "]]]]]", $newcontent, $a_output);
 
             if ($a_mode != "presentation" && is_object($this->getPage()->getOfflineHandler())
