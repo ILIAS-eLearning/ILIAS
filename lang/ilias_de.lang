@@ -17025,7 +17025,6 @@ ui#:#datatable_multiactionmodal_buttonlabel#:#Ausführen
 ui#:#datatable_multiactionmodal_listentry#:#Für alle ausführen
 ui#:#datatable_multiactionmodal_msg#:#<b>Achtung!</b> mehrere Objekte betroffen
 ui#:#datatable_multiactionmodal_title#:#Aktion für mehrere Objekte
-ui#:#datetime_required#:#Zeit/Datum erforderlich
 ui#:#duration_default_label_end#:#Ende
 ui#:#duration_default_label_start#:#Beginn
 ui#:#duration_end_must_not_be_earlier_than_start#:#Der Beginn muss zeitlich vor dem Ende liegen.
@@ -17196,6 +17195,7 @@ user#:#usr_public_profile_logged_in#:#Für angemeldete Benutzer sichtbar
 usr#:#user_action#:#Benutzeraktion
 usr#:#user_actions#:#Benutzeraktionen
 usr#:#user_actions_activation_info#:#Die Aktionen werden nur angeboten, wenn die entsprechenden Dienste aktiviert sind und für die Benutzer die notwendigen Voraussetzungen (z.B. Berechtigungen) gegeben sind.
+validation#:#datetime_required#:#Zeit/Datum erforderlich
 validation#:#no_array#:#Wert ist kein Feld
 validation#:#not_a_null#:#Wert vom Typ '%s' ist keine Null.
 validation#:#not_a_string#:#Wert vom Typ '%s' ist kein String.
