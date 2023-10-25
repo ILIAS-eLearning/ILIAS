@@ -19,7 +19,6 @@
 declare(strict_types=1);
 
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
-use ILIAS\UI\Component\Input\Container\Form\FormInput;
 use ILIAS\Refinery\Factory as Refinery;
 
 class ilObjTestSettingsAdditional extends TestSettings
@@ -32,28 +31,33 @@ class ilObjTestSettingsAdditional extends TestSettings
         parent::__construct($test_id);
     }
 
+    /**
+     *
+     * @return array<ILIAS\UI\Component\Input\Container\Form\FormInput>
+     */
     public function toForm(
         \ilLanguage $lng,
         FieldFactory $f,
         Refinery $refinery,
         array $environment = null
-    ): array|FormInput
-    {
-        $inputs['activate_skill_service'] = $f->checkbox(
-            $lng->txt('tst_activate_skill_service'),
-            $lng->txt('tst_activate_skill_service_desc')
-        )->withValue($this->getSkillsServiceEnabled());
+    ): array {
+        if ((new ilSkillManagementSettings())->isActivated()) {
+            $inputs['skills_service_activation'] = $f->checkbox(
+                $lng->txt('tst_activate_skill_service'),
+                $lng->txt('tst_activate_skill_service_desc')
+            )->withValue($this->getSkillsServiceEnabled());
+        }
+
+        if ($environment['participant_data_exists']) {
+            $inputs['activate_skill_service'] = $inputs['activate_skill_service']->withDisabled(true);
+        }
 
         $inputs['hide_info_tab'] = $f->checkbox(
             $lng->txt('tst_hide_info_tab'),
             $lng->txt('tst_hide_info_tab_desc')
         )->withValue($this->getHideInfoTab());
 
-        if ($environment['participant_data_exists']) {
-            $inputs['activate_skill_service'] = $inputs['activate_skill_service']->withDisabled(true);
-        }
-
-        return $f->section($inputs, $lng->txt('tst_settings_header_additional'));
+        return $inputs;
     }
 
     public function toStorage(): array

@@ -271,9 +271,7 @@ class ilObjTestSettingsMainGUI extends ilTestSettingsGUI
             self::PARTICIPANTS_FUNCTIONALITY_SETTINGS_LABEL => $this->main_settings->getParticipantFunctionalitySettings()
                 ->toForm($lng, $input_factory->field(), $refinery, $environment),
             self::FINISH_TEST_SETTINGS_LABEL => $this->main_settings->getFinishingSettings()
-                ->toForm($lng, $input_factory->field(), $refinery),
-            self::ADDITIONAL_FUNCTIONALITY_SETTINGS_LABEL => $this->main_settings->getAdditionalSettings()
-                ->toForm($lng, $input_factory->field(), $refinery, $environment)
+                ->toForm($lng, $input_factory->field(), $refinery)
         ];
 
         $inputs = array_merge($main_inputs, $this->getAdditionalFunctionalitySettingsSections($environment));
@@ -686,17 +684,13 @@ class ilObjTestSettingsMainGUI extends ilTestSettingsGUI
         }
 
         $inputs['organisational_units_activation'] = $this->getOrganisationalUnitsActivationInput();
-        if ((new ilSkillManagementSettings())->isActivated()) {
-            $inputs['skills_service_activation'] = $this->main_settings
-                ->getAdditionalSettings()
-                ->withHideInfoTab($ecs_section['hide_info_tab'])
-                ->toForm(
-                    $this->lng,
-                    $this->ui->factory()->input()->field(),
-                    $this->refinery,
-                    $environment
-                );
-        }
+
+        $inputs += $this->main_settings->getAdditionalSettings()->toForm(
+            $this->lng,
+            $this->ui->factory()->input()->field(),
+            $this->refinery,
+            $environment
+        );
 
         $inputs = array_filter($inputs, fn($v) => $v !== null);
 
@@ -770,7 +764,7 @@ class ilObjTestSettingsMainGUI extends ilTestSettingsGUI
             return $additional_settings;
         }
 
-        if ($section === [] || !(new ilSkillManagementSettings())->isActivated()) {
+        if (!(new ilSkillManagementSettings())->isActivated()) {
             return $additional_settings->withSkillsServiceEnabled(false);
         }
 
