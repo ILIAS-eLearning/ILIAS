@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\UI\Component\Symbol\Icon;
 
@@ -108,6 +108,7 @@ interface Standard extends Icon
     public const RTST = 'rtst';	//Remote Test Object
     public const ECSS = 'ecss';	//ECS Administration
     public const TOS = 'tos';	//Terms of Service
+    public const IMPR = 'impr'; // Legal Notice
     public const BIBL = 'bibl';	//Bibliographic Object
     public const SYSC = 'sysc';	//System Check
     public const CLD = 'cld';	//Cloud Folder
