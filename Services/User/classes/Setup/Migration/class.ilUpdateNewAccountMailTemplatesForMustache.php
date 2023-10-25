@@ -29,7 +29,7 @@ class ilUpdateNewAccountMailTemplatesForMustache implements Migration
 
     public function getLabel(): string
     {
-        return "ilUpdateNewAccountMailTemplatesForMustache";
+        return 'ilUpdateNewAccountMailTemplatesForMustache';
     }
 
     public function getDefaultAmountOfStepsPerRun(): int
@@ -52,72 +52,106 @@ class ilUpdateNewAccountMailTemplatesForMustache implements Migration
     public function step(Environment $environment): void
     {
         $lang = $this->getNextLangToBeUpdated();
-        if (is_null($lang)) {
+        if ($lang === null) {
             return;
         }
-        $this->replace($lang, '[IF_PASSWORD]', '{{#IF_PASSWORD}}');
-        $this->replace($lang, '[IF_NO_PASSWORD]', '{{#IF_NO_PASSWORD}}');
-        $this->replace($lang, '[IF_TARGET]', '{{#IF_TARGET}}');
-        $this->replace($lang, '[IF_TIMELIMIT]', '{{#IF_TIMELIMIT}}');
+
+        $this->replace($lang, '/\[IF_PASSWORD\]/', '{{#IF_PASSWORD}}');
+        $this->replace($lang, '/\[IF_NO_PASSWORD\]/', '{{#IF_NO_PASSWORD}}');
+        $this->replace($lang, '/\[IF_TARGET\]/', '{{#IF_TARGET}}');
+        $this->replace($lang, '/\[IF_TIMELIMIT\]/', '{{#IF_TIMELIMIT}}');
         $this->replaceRemainingBrackets($lang);
     }
 
     public function getRemainingAmountOfSteps(): int
     {
-        $q = "SELECT COUNT(lang) AS open FROM mail_template" . PHP_EOL
-            . $this->getWhere()
-        ;
+        $q = 'SELECT COUNT(lang) AS open FROM mail_template ' . PHP_EOL . $this->getWhere();
         $res = $this->db->query($q);
         $row = $this->db->fetchAssoc($res);
-        return (int) $row["open"];
+
+        return (int) $row['open'];
     }
 
     protected function getNextLangToBeUpdated(): ?string
     {
-        $q = "SELECT lang FROM mail_template" . PHP_EOL
-            . $this->getWhere()
-            . " LIMIT 1"
-        ;
+        $this->db->setLimit(1);
+        $q = 'SELECT lang FROM mail_template ' . PHP_EOL . $this->getWhere();
         $res = $this->db->query($q);
 
-        if ($this->db->numRows($res) == 0) {
+        if ($this->db->numRows($res) === 0) {
             return null;
         }
 
         $row = $this->db->fetchAssoc($res);
-        return $row["lang"];
+
+        return $row['lang'];
     }
 
     protected function getWhere(): string
     {
-        return " WHERE " . PHP_EOL
-            . $this->db->like("body", ilDBConstants::T_TEXT, "[") . " OR " . PHP_EOL
-            . $this->db->like("body", ilDBConstants::T_TEXT, "]") . " OR " . PHP_EOL
-            . $this->db->like("subject", ilDBConstants::T_TEXT, "[") . " OR " . PHP_EOL
-            . $this->db->like("subject", ilDBConstants::T_TEXT, "]")
-            . "    AND type = 'nacc'" . PHP_EOL
-        ;
+        return ' WHERE (' . PHP_EOL
+            . $this->db->like('body', ilDBConstants::T_TEXT, '%[%') . ' OR ' . PHP_EOL
+            . $this->db->like('body', ilDBConstants::T_TEXT, '%]%') . ' OR ' . PHP_EOL
+            . $this->db->like('subject', ilDBConstants::T_TEXT, '%[%') . ' OR ' . PHP_EOL
+            . $this->db->like('subject', ilDBConstants::T_TEXT, '%]%') . PHP_EOL
+            . ') AND type = ' . $this->db->quote('nacc', ilDBConstants::T_TEXT);
     }
 
-    protected function replace(string $lang, string $search, string $replacement): void
+    protected function replace(string $lang, string $regex_search, string $replacement): void
     {
-        $q = "UPDATE mail_template" . PHP_EOL
-            . " SET subject = REPLACE(subject, '" . $search . "', '" . $replacement . "')," . PHP_EOL
-            . " body = REPLACE(body, '" . $search . "', '" . $replacement . "')" . PHP_EOL
-            . " WHERE lang = " . $this->db->quote($lang, ilDBConstants::T_TEXT) . PHP_EOL
-            . "    AND type = 'nacc'"
-        ;
-        $this->db->manipulate($q);
+        $res = $this->db->queryF(
+            'SELECT subject, body FROM mail_template WHERE lang = %s AND type = %s',
+            [ilDBConstants::T_TEXT, ilDBConstants::T_TEXT],
+            [$lang, 'nacc']
+        );
+        if ($this->db->numRows($res) === 1) {
+            $row = $this->db->fetchAssoc($res);
+
+            $subject = preg_replace(
+                $regex_search,
+                $replacement,
+                $row['subject'] ?? ''
+            );
+            $body = preg_replace(
+                $regex_search,
+                $replacement,
+                $row['body'] ?? ''
+            );
+
+            $this->db->manipulateF(
+                'UPDATE mail_template SET subject = %s, body = %s WHERE lang = %s AND type = %s',
+                [ilDBConstants::T_TEXT, ilDBConstants::T_TEXT, ilDBConstants::T_TEXT, ilDBConstants::T_TEXT],
+                [$subject, $body, $lang, 'nacc']
+            );
+        }
     }
 
     protected function replaceRemainingBrackets(string $lang): void
     {
-        $q = 'UPDATE mail_template' . PHP_EOL
-            . ' SET subject = REGEXP_REPLACE(subject, "\\[([[:upper:]]+)\\]", "{{$1}}"),' . PHP_EOL
-            . ' body = REGEXP_REPLACE(body, "\\[([[:upper:]]+)\\]", "{{$1}}"),' . PHP_EOL
-            . ' WHERE lang = ' . $this->db->quote($lang, ilDBConstants::T_TEXT) . PHP_EOL
-            . '    AND type = \'nacc\''
-        ;
-        $this->db->manipulate($q);
+        $res = $this->db->queryF(
+            'SELECT subject, body FROM mail_template WHERE lang = %s AND type = %s',
+            [ilDBConstants::T_TEXT, ilDBConstants::T_TEXT],
+            [$lang, 'nacc']
+        );
+        if ($this->db->numRows($res) === 1) {
+            $row = $this->db->fetchAssoc($res);
+
+            $subject = preg_replace(
+                '/\[([A-Z_]+?)\]/',
+                '{{$1}}',
+                $row['subject'] ?? ''
+            );
+            $body = preg_replace(
+                '/\[([A-Z_]+?)\]/',
+                '{{$1}}',
+                $row['body'] ?? ''
+            );
+
+            $this->db->manipulateF(
+                'UPDATE mail_template SET subject = %s, body = %s WHERE lang = %s AND type = %s',
+                [ilDBConstants::T_TEXT, ilDBConstants::T_TEXT, ilDBConstants::T_TEXT, ilDBConstants::T_TEXT],
+                [$subject, $body, $lang, 'nacc']
+            );
+        }
     }
 }
