@@ -1831,7 +1831,7 @@ assessment#:#tst_show_solution_signature_desc#:#Ist die Option „Detaillierte T
 assessment#:#tst_show_solution_suggested#:#Inhalte zur Wiederholung
 assessment#:#tst_show_solution_suggested_desc#:#Falls den Fragen im Test Inhalte zur Wiederholung des Stoffs zugeordnet wurden, werden diese angezeigt. Sie müssen die Option "Detaillierte Testergebnissen anzeigen" aktivieren, um diese Funktion zu nutzen. Teilnehmerinnen und Teilnehmer können so etwaige Wissenslücken schließen.
 assessment#:#tst_show_summary#:#Übersicht Testdurchlauf
-assessment#:#tst_show_summary_description#:#Mit der Schaltfläche 'Übersicht Testdurchlauf' können Teilnehmer eine Übersicht aufrufen, die zeigt, welche Fragen sie jeweils bereits bearbeitet oder markiert haben. Das Verhalten des 'Bearbeitungsstand' können Sie noch weiter konfigurieren:
+assessment#:#tst_show_summary_description#:#Mit der Schaltfläche 'Übersicht Testdurchlauf' können Teilnehmer eine Übersicht aufrufen, die zeigt, welche Fragen sie jeweils bereits bearbeitet oder markiert haben. Das Verhalten des 'Übersicht Testdurchlauf' können Sie noch weiter konfigurieren:
 assessment#:#tst_show_toplist#:#Platzierung
 assessment#:#tst_shuffle_questions#:#Fragen mischen
 assessment#:#tst_shuffle_questions_description#:#Die Reihenfolge der Fragen wird pro Teilnehmer und pro Testdurchlauf neu gemischt.
