@@ -18,23 +18,19 @@
 
 declare(strict_types=1);
 
-//namespace ILIAS\Exercise\Setup;
 
 use ILIAS\ResourceStorage\Collection\ResourceCollection;
 use ILIAS\Setup\Environment;
 use ILIAS\Setup\Migration;
 use ILIAS\Setup\Objective;
 
-/**
- * @author Fabian Schmid <fabian@sr.solutions>
- */
-class ilExerciseInstructionFilesMigration implements Migration
+class ilExerciseSampleSolutionMigration implements Migration
 {
     protected \ilResourceStorageMigrationHelper $helper;
 
     public function getLabel(): string
     {
-        return "Migration of exercise instructions files to the resource storage service.";
+        return "Migration of exercise sample solutions to the resource storage service.";
     }
 
     public function getDefaultAmountOfStepsPerRun(): int
@@ -50,7 +46,7 @@ class ilExerciseInstructionFilesMigration implements Migration
     public function prepare(Environment $environment): void
     {
         $this->helper = new \ilResourceStorageMigrationHelper(
-            new \ilExcInstructionFilesStakeholder(),
+            new \ilExcSampleSolutionStakeholder(),
             $environment
         );
     }
@@ -59,21 +55,26 @@ class ilExerciseInstructionFilesMigration implements Migration
     {
         $db = $this->helper->getDatabase();
         $r = $this->helper->getDatabase()->query(
-            "SELECT id, exc_id, owner FROM exc_assignment JOIN object_data ON exc_id = obj_id WHERE if_rcid IS NULL OR if_rcid = '' LIMIT 1;"
+            "SELECT id, exc_id, owner FROM exc_assignment JOIN object_data ON exc_id = obj_id WHERE solution_rid IS NULL LIMIT 1;"
         );
         $d = $this->helper->getDatabase()->fetchObject($r);
         $exec_id = (int)$d->exc_id;
         $assignment_id = (int)$d->id;
         $resource_owner_id = (int)$d->owner;
         $base_path = $this->buildAbsolutPath($exec_id, $assignment_id);
-        $collection_id = $this->helper->moveFilesOfPathToCollection(
-            $base_path,
-            $resource_owner_id
-        );
+        $pattern = '/[^\.].*/m';
+        $rid = "";
+        if (is_dir($base_path)) {
+            $rid = $this->helper->moveFirstFileOfPatternToStorage(
+                $base_path,
+                $pattern,
+                $resource_owner_id
+            );
+        }
         $this->helper->getDatabase()->update(
             'exc_assignment',
             [
-                'if_rcid' => ['text', $collection_id]
+                'solution_rid' => ['text', (string) $rid]
             ],
             [
                 'id' => ['integer', $assignment_id],
@@ -85,7 +86,7 @@ class ilExerciseInstructionFilesMigration implements Migration
     public function getRemainingAmountOfSteps(): int
     {
         $r = $this->helper->getDatabase()->query(
-            "SELECT count(id) AS amount FROM exc_assignment WHERE if_rcid IS NULL OR if_rcid = ''"
+            "SELECT count(id) AS amount FROM exc_assignment WHERE solution_rid IS NULL"
         );
         $d = $this->helper->getDatabase()->fetchObject($r);
 
@@ -94,11 +95,11 @@ class ilExerciseInstructionFilesMigration implements Migration
 
     protected function buildAbsolutPath(int $exec_id, int $assignment_id): string
     {
-        return CLIENT_WEB_DIR
+        return CLIENT_DATA_DIR
             . '/ilExercise/'
             . \ilFileSystemAbstractionStorage::createPathFromId(
                 $exec_id,
                 "exc"
-            ) . "/ass_$assignment_id";
+            ) . "/feedb_$assignment_id/0";
     }
 }

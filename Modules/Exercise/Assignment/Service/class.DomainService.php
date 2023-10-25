@@ -22,6 +22,9 @@ namespace ILIAS\Exercise\Assignment;
 
 use ILIAS\Exercise\InternalRepoService;
 use ILIAS\Exercise\InternalDomainService;
+use ILIAS\Exercise\InstructionFile\InstructionFileManager;
+use ILIAS\Exercise\SampleSolution\SampleSolutionManager;
+use ILIAS\Exercise\TutorFeedbackFile\TutorFeedbackFileManager;
 
 /**
  * Assignments domain service
@@ -90,4 +93,47 @@ class DomainService
     {
         return \ilExcAssMemberState::getInstanceByIds($ass_id, $user_id);
     }
+
+    public function instructionFiles(int $ass_id): InstructionFileManager
+    {
+        $stakeholder = new \ilExcInstructionFilesStakeholder();
+        return new InstructionFileManager(
+            $ass_id,
+            $this->repo_service->instructionFiles(),
+            $stakeholder
+        );
+    }
+
+    public function sampleSolution(int $ass_id): SampleSolutionManager
+    {
+        $stakeholder = new \ilExcSampleSolutionStakeholder();
+        return new SampleSolutionManager(
+            $ass_id,
+            $this->repo_service->sampleSolution(),
+            $stakeholder,
+            $this->domain_service
+        );
+    }
+
+    public function tutorFeedbackFile(int $ass_id): TutorFeedbackFileManager
+    {
+        $stakeholder = new \ilExcTutorFeedbackFileStakeholder();
+        $team_stakeholder = new \ilExcTutorTeamFeedbackFileStakeholder();
+        return new TutorFeedbackFileManager(
+            $ass_id,
+            $this->repo_service,
+            $this->domain_service,
+            $stakeholder,
+            $team_stakeholder
+        );
+    }
+
+    /**
+     * @throws \ilExcUnknownAssignmentTypeException
+     */
+    public function getAssignment(int $ass_id): \ilExAssignment
+    {
+        return new \ilExAssignment($ass_id);
+    }
+
 }

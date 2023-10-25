@@ -29,6 +29,7 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
 {
     public const MODE_BY_ASSIGNMENT = 1;
     public const MODE_BY_USER = 2;
+    protected \ILIAS\Exercise\Assignment\DomainService $ass_domain;
 
     protected ilAccessHandler $access;
     protected ilObjExercise $exc;
@@ -149,6 +150,7 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
 
         $this->initFilter();
         $this->setData($this->parseData());
+        $this->ass_domain = $DIC->exercise()->internal()->domain()->assignment();
     }
 
     public function initFilter(): void
@@ -572,16 +574,30 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
         // feedback files
         if ($a_ass->canParticipantReceiveFeedback($a_user_id)) {
             if ($this->exc->hasTutorFeedbackFile()) {
-                $storage = new ilFSStorageExercise($this->exc->getId(), $a_ass->getId());
-                $counter = $storage->countFeedbackFiles($a_row["submission_obj"]->getFeedbackId());
-                $counter = $counter
-                    ? " (" . $counter . ")"
-                    : "";
+                $tutor_feedback_manager = $this->ass_domain->tutorFeedbackFile($a_ass->getId());
+                if ($tutor_feedback_manager->hasCollection($a_user_id)) {
+                    // IRSS
+                    $counter = $tutor_feedback_manager->count($a_user_id);
+                    $counter = $counter
+                        ? " (" . $counter . ")"
+                        : "";
+                    $items[] = $this->ui_factory->button()->shy(
+                        $this->lng->txt("exc_tbl_action_feedback_file") . $counter,
+                        $ilCtrl->getLinkTargetByClass(ilResourceCollectionGUI::class, "")
+                    );
+                } else {
+                    // LEGACY
+                    $storage = new ilFSStorageExercise($this->exc->getId(), $a_ass->getId());
+                    $counter = $storage->countFeedbackFiles($a_row["submission_obj"]->getFeedbackId());
+                    $counter = $counter
+                        ? " (" . $counter . ")"
+                        : "";
 
-                $items[] = $this->ui_factory->button()->shy(
-                    $this->lng->txt("exc_tbl_action_feedback_file") . $counter,
-                    $ilCtrl->getLinkTargetByClass("ilfilesystemgui", "listFiles")
-                );
+                    $items[] = $this->ui_factory->button()->shy(
+                        $this->lng->txt("exc_tbl_action_feedback_file") . $counter,
+                        $ilCtrl->getLinkTargetByClass("ilfilesystemgui", "listFiles")
+                    );
+                }
             }
 
             // comment (modal - see above)

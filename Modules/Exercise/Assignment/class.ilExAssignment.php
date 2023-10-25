@@ -106,8 +106,6 @@ class ilExAssignment
     protected array $member_status = [];
     protected ilLogger $log;
     protected ?int $crit_cat = 0;
-    protected ?ResourceCollectionIdentification $instruction_file_rcid = null;
-    protected \ILIAS\ResourceStorage\Services $irss;
 
     /**
      * Constructor
@@ -119,12 +117,12 @@ class ilExAssignment
 
         $this->domain = $DIC->exercise()->internal()->domain();
         $this->db = $DIC->database();
-        $this->irss = $DIC->resourceStorage();
         $this->lng = $DIC->language();
         $this->user = $DIC->user();
         $this->app_event_handler = $DIC["ilAppEventHandler"];
         $this->types = ilExAssignmentTypes::getInstance();
         $this->access = $DIC->access();
+        $this->domain = $DIC->exercise()->internal()->domain();
 
         $this->setType(self::TYPE_UPLOAD);
         $this->setFeedbackDate(self::FEEDBACK_DATE_DEADLINE);
@@ -198,21 +196,6 @@ class ilExAssignment
             $order_id = (int) $row['id'];
         }
         return array($order_val, $order_id);
-    }
-
-    public function hasInstructionFileRCID(): bool
-    {
-        return $this->instruction_file_rcid instanceof ResourceCollectionIdentification;
-    }
-
-    public function getInstructionFileRCID(): ?ResourceCollectionIdentification
-    {
-        return $this->instruction_file_rcid;
-    }
-
-    public function setInstructionFileRCID(ResourceCollectionIdentification $rcid): void
-    {
-        $this->instruction_file_rcid = $rcid;
     }
 
     public function hasTeam(): bool
@@ -724,10 +707,6 @@ class ilExAssignment
         $this->setDeadlineMode((int) $a_set["deadline_mode"]);
         $this->setRelativeDeadline((int) $a_set["relative_deadline"]);
         $this->setRelDeadlineLastSubmission((int) $a_set["rel_deadline_last_subm"]);
-        $rcid = $a_set["if_rcid"] ?? null;
-        if ($rcid !== null) {
-            $this->instruction_file_rcid = $this->irss->collection()->id($rcid);
-        }
     }
 
     /**
@@ -778,12 +757,14 @@ class ilExAssignment
             "max_char_limit" => array("integer", $this->getMaxCharLimit()),
             "relative_deadline" => array("integer", $this->getRelativeDeadline()),
             "rel_deadline_last_subm" => array("integer", $this->getRelDeadlineLastSubmission()),
-            "deadline_mode" => array("integer", $this->getDeadlineMode()),
-            "if_rcid" => array("text", $this->instruction_file_rcid ? $this->instruction_file_rcid->serialize() : null)
+            "deadline_mode" => array("integer", $this->getDeadlineMode())
             ));
         $this->setId($next_id);
         $exc = new ilObjExercise($this->getExerciseId(), false);
         $exc->updateAllUsersStatus();
+
+        $this->domain->assignment()->instructionFiles($next_id)->createCollection();
+
         self::createNewAssignmentRecords($next_id, $exc);
 
         $this->handleCalendarEntries("create");
@@ -830,8 +811,7 @@ class ilExAssignment
             "max_char_limit" => array("integer", $this->getMaxCharLimit()),
             "deadline_mode" => array("integer", $this->getDeadlineMode()),
             "relative_deadline" => array("integer", $this->getRelativeDeadline()),
-            "rel_deadline_last_subm" => array("integer", $this->getRelDeadlineLastSubmission()),
-            "if_rcid" => array("text", $this->instruction_file_rcid ? $this->instruction_file_rcid->serialize() : null),
+            "rel_deadline_last_subm" => array("integer", $this->getRelDeadlineLastSubmission())
             ),
             array(
             "id" => array("integer", $this->getId()),
@@ -865,20 +845,8 @@ class ilExAssignment
         $reminder->deleteReminders($this->getId());
 
         // delete resource collections and resources
-        $this->deleteResourceCollection(
-            $this->getInstructionFileRCID(),
-            new ilExcInstructionFilesStakeholder()
-        );
-    }
-
-    private function deleteResourceCollection(
-        ?ResourceCollectionIdentification $rcid,
-        ResourceStakeholder $stakeholder
-    ): void {
-        if ($rcid === null) {
-            return;
-        }
-        $this->irss->collection()->remove($rcid, $stakeholder, true);
+        $this->domain->assignment()->instructionFiles($this->getId())
+            ->deleteCollection();
     }
 
 
@@ -939,6 +907,8 @@ class ilExAssignment
         array $a_crit_cat_map
     ): void {
         global $DIC;
+
+        $ass_domain = $DIC->exercise()->internal()->domain()->assignment();
         $ass_data = self::getInstancesByExercise($a_old_exc_id);
         foreach ($ass_data as $d) {
             // clone assignment
@@ -985,20 +955,10 @@ class ilExAssignment
             $new_ass->save();
 
             // clone assignment files
-            $current_rcid = $d->getInstructionFileRCID();
-            if ($current_rcid !== null) {
-                $cloned_rcid = $DIC->resourceStorage()->collection()->clone($current_rcid);
-                $new_ass->setInstructionFileRCID($cloned_rcid);
-                $new_ass->update();
-            }
+            $ass_domain->instructionFiles($d->getId())->cloneTo($new_ass->getId());
 
             // clone global feedback file
-            $old_storage = new ilFSStorageExercise($a_old_exc_id, $d->getId());
-            $new_storage = new ilFSStorageExercise($a_new_exc_id, $new_ass->getId());
-            $new_storage->create();
-            if (is_dir($old_storage->getGlobalFeedbackPath())) {
-                ilFileUtils::rCopy($old_storage->getGlobalFeedbackPath(), $new_storage->getGlobalFeedbackPath());
-            }
+            $ass_domain->sampleSolution($d->getId())->cloneTo($new_ass->getId());
 
             // clone reminders
             foreach ([ilExAssignmentReminder::SUBMIT_REMINDER,
@@ -1025,37 +985,7 @@ class ilExAssignment
 
     public function getFiles(): array
     {
-        if ($this->hasInstructionFileRCID()) {
-            $collection = $this->irss->collection()->get($this->getInstructionFileRCID());
-            return array_map(function (ResourceIdentification $rid): array {
-                // this return the same array as the ilFSWebStorageExercise implementation for compatibility
-                $info = $this->irss->manage()->getResource($rid)
-                    ->getCurrentRevision()
-                    ->getInformation();
-                // if possible we use a flavour (PreviewDefinition from the ilResourceCollectionGUI)
-                $flavour_definition = new PreviewDefinition();
-                if ($this->irss->flavours()->possible($rid, $flavour_definition)) {
-                    $flavour = $this->irss->flavours()->get($rid, $flavour_definition);
-                    $src = $this->irss->consume()->flavourUrls($flavour)->getURLsAsArray()[0] ?? '';
-                } else {
-                    $src = $this->irss->consume()->src($rid)->getSrc();
-                }
-
-
-                return [
-                    'name' => $info->getTitle(),
-                    'size' => $info->getSize(),
-                    'ctime' => $info->getCreationDate()->getTimestamp(),
-                    'fullpath' => $src,
-                    'mime' => $info->getMimeType(), // this is additional to still use the image delivery in class.ilExAssignmentGUI.php:306
-                    'order' => 0 // sorting is currently not supported
-                ];
-            }, $collection->getResourceIdentifications());
-        } else {
-            $this->log->debug("getting files from class.ilExAssignment using ilFSWebStorageExercise");
-            $storage = new ilFSWebStorageExercise($this->getExerciseId(), $this->getId());
-            return $storage->getFiles();
-        }
+        return $this->domain->assignment()->instructionFiles($this->getId())->getFiles();
     }
 
     public function getInstructionFilesOrder(): array
@@ -1350,6 +1280,7 @@ class ilExAssignment
         global $DIC;
 
         $ilDB = $DIC->database();
+        $ass_domain = $DIC->exercise()->internal()->domain()->assignment();
 
         $ass_data = self::getAssignmentDataOfExercise($a_exc_id);
         foreach ($ass_data as $ass) {
@@ -1360,6 +1291,9 @@ class ilExAssignment
                 ), array(
                 "status" => array("text", "notgraded")
                 ));
+            if (!$ass_domain->tutorFeedbackFile((int) $ass["id"])->hasCollection($a_user_id)) {
+                $ass_domain->tutorFeedbackFile((int) $ass["id"])->createCollection($a_user_id);
+            }
         }
     }
 
@@ -1371,6 +1305,7 @@ class ilExAssignment
         global $DIC;
 
         $ilDB = $DIC->database();
+        $ass_domain = $DIC->exercise()->internal()->domain()->assignment();
 
         $exmem = new ilExerciseMembers($a_exc);
         $mems = $exmem->getMembers();
@@ -1379,9 +1314,12 @@ class ilExAssignment
             $ilDB->replace("exc_mem_ass_status", array(
                 "ass_id" => array("integer", $a_ass_id),
                 "usr_id" => array("integer", $mem)
-                ), array(
+            ), array(
                 "status" => array("text", "notgraded")
-                ));
+            ));
+            if (!$ass_domain->tutorFeedbackFile($a_ass_id)->hasCollection($mem)) {
+                $ass_domain->tutorFeedbackFile($a_ass_id)->createCollection($mem);
+            }
         }
     }
 
@@ -1829,15 +1767,19 @@ class ilExAssignment
     /**
      * @throws ilException
      */
-    public function handleGlobalFeedbackFileUpload(array $a_file): bool
+    public function handleGlobalFeedbackFileUpload(int $ass_id, array $a_file): bool
     {
+        $rcid = $this->domain->assignment()->sampleSolution($ass_id)->importFromLegacyUpload($a_file);
+        $this->setFeedbackFile($a_file["name"]);
+        return ($rcid !== "");
+        /*
         $path = $this->getGlobalFeedbackFileStoragePath();
         ilFileUtils::delDir($path, true);
         if (ilFileUtils::moveUploadedFile($a_file["tmp_name"], $a_file["name"], $path . "/" . $a_file["name"])) {
             $this->setFeedbackFile($a_file["name"]);
             return true;
         }
-        return false;
+        return false;*/
     }
 
     public function getGlobalFeedbackFilePath(): string

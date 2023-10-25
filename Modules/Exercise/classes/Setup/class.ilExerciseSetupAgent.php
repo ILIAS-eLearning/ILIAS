@@ -35,7 +35,10 @@ class ilExerciseSetupAgent extends Setup\Agent\NullAgent
     public function getMigrations(): array
     {
         return [
-            new ilExerciseInstructionFilesMigration()
+            new ilExerciseInstructionFilesMigration(),
+            new ilExerciseSampleSolutionMigration(),
+            new ilExerciseTutorFeedbackFileMigration(),
+            new ilExerciseTutorTeamFeedbackFileMigration()
         ];
     }
 }

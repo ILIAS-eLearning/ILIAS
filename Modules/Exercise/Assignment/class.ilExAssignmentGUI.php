@@ -414,9 +414,8 @@ class ilExAssignmentGUI
     ): void {
         $lng = $this->lng;
 
-        $storage = new ilFSStorageExercise($a_ass->getExerciseId(), $a_ass->getId());
-        $cnt_files = $storage->countFeedbackFiles($a_feedback_id);
-
+        $feedback_file_manager = $this->service->domain()->assignment()->tutorFeedbackFile($a_ass->getId());
+        $cnt_files = $feedback_file_manager->count($this->user->getId());
         $lpcomment = $a_ass->getMemberStatus()->getComment();
         $mark = $a_ass->getMemberStatus()->getMark();
         $status = $a_ass->getMemberStatus()->getStatus();
@@ -453,7 +452,7 @@ class ilExAssignmentGUI
                     '<a id="fb' . $a_ass->getId() . '"></a>');
 
                 if ($cnt_files > 0) {
-                    $files = $storage->getFeedbackFiles($a_feedback_id);
+                    $files = $feedback_file_manager->getFiles($this->user->getId());
                     foreach ($files as $file) {
                         $a_info->addProperty(
                             $file,

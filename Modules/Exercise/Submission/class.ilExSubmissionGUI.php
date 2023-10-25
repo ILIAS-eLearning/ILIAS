@@ -91,6 +91,7 @@ class ilExSubmissionGUI
         $this->lng = $lng;
         $this->tpl = $tpl;
         $this->request = $DIC->exercise()->internal()->gui()->request();
+        $this->domain = $DIC->exercise()->internal()->domain();
     }
 
     /**
@@ -259,28 +260,8 @@ class ilExSubmissionGUI
             $this->ctrl->redirect($this, "view");
         }
 
-        // check, whether file belongs to assignment
-        $storage = new ilFSStorageExercise($this->exercise->getId(), $this->assignment->getId());
-        $files = $storage->getFeedbackFiles($this->submission->getFeedbackId());
-        $file_exist = false;
-        foreach ($files as $fb_file) {
-            if ($fb_file == $file) {
-                $file_exist = true;
-                break;
-            }
-        }
-
-        if (!$file_exist) {
-            return false;
-        }
-
-        // check whether assignment has already started
-        if (!$this->assignment->notStartedYet()) {
-            // deliver file
-            $p = $storage->getFeedbackFilePath($this->submission->getFeedbackId(), $file);
-            ilFileDelivery::deliverFileLegacy($p, $file);
-        }
-
+        $this->domain->assignment()->tutorFeedbackFile($this->assignment->getId())
+            ->deliver($this->user_id, $file);
         return true;
     }
 
@@ -297,11 +278,13 @@ class ilExSubmissionGUI
         }
 
         // this is due to temporary bug in handleGlobalFeedbackFileUpload that missed the last "/"
+        /*
         $file = (is_file($this->assignment->getGlobalFeedbackFilePath()))
             ? $this->assignment->getGlobalFeedbackFilePath()
             : $this->assignment->getGlobalFeedbackFileStoragePath() . $this->assignment->getFeedbackFile();
 
-        ilFileDelivery::deliverFileLegacy($file, $this->assignment->getFeedbackFile());
+        ilFileDelivery::deliverFileLegacy($file, $this->assignment->getFeedbackFile());*/
+        $this->domain->assignment()->sampleSolution($this->assignment->getId())->deliver();
     }
 
     public function downloadFileObject(): bool
@@ -321,9 +304,7 @@ class ilExSubmissionGUI
             $file_exist = false;
             foreach ($files as $lfile) {
                 if ($lfile["name"] == $file) {
-                    // deliver file
-                    ilFileDelivery::deliverFileLegacy($lfile["fullpath"], $file);
-                    exit();
+                    $this->domain->assignment()->instructionFiles($this->assignment->getId())->deliver($lfile["fullpath"], $file);
                 }
             }
             if (!$file_exist) {

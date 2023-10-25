@@ -414,7 +414,7 @@ class FormAdapterGUI
         \Closure $result_handler,
         string $id_parameter,
         string $description = "",
-        int $max_files = 1,
+        ?int $max_files = null,
         array $mime_types = [],
         array $ctrl_path = [],
         string $logger_id = ""
@@ -435,7 +435,11 @@ class FormAdapterGUI
             $this->upload_handler[$key],
             $title,
             $description
-        )->withMaxFiles($max_files);
+        )
+            ->withMaxFileSize((int) \ilFileUtils::getUploadSizeLimitBytes());
+        if (!is_null($max_files)) {
+            $field = $field->withMaxFiles($max_files);
+        }
         if (count($mime_types) > 0) {
             $field = $field->withAcceptedMimeTypes($mime_types);
         }

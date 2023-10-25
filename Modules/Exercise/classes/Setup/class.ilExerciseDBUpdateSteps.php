@@ -147,4 +147,73 @@ class ilExerciseDBUpdateSteps implements \ilDatabaseUpdateSteps
         }
     }
 
+    public function step_13(): void
+    {
+        if (!$this->db->tableColumnExists('exc_assignment', 'solution_rid')) {
+            $this->db->addTableColumn(
+                'exc_assignment',
+                'solution_rid',
+                [
+                    'type' => 'text',
+                    'notnull' => false,
+                    'length' => 64,
+                    'default' => ''
+                ]
+            );
+        }
+    }
+
+    public function step_14(): void
+    {
+        if (!$this->db->tableColumnExists('exc_mem_ass_status', 'feedback_rcid')) {
+            $this->db->addTableColumn(
+                'exc_mem_ass_status',
+                'feedback_rcid',
+                [
+                    'type' => 'text',
+                    'notnull' => false,
+                    'length' => 64,
+                    'default' => ''
+                ]
+            );
+        }
+    }
+
+    public function step_15(): void
+    {
+        if (!$this->db->tableExists('exc_team_data')) {
+            $this->db->createTable(
+                'exc_team_data',
+                [
+                    "id" => [
+                        'type' => 'integer',
+                        'notnull' => true,
+                        'length' => 4
+                    ],
+                    "feedback_rcid" => [
+                        'type' => 'text',
+                        'notnull' => false,
+                        'length' => 64,
+                        'default' => ''
+                    ]
+                ]
+            );
+        }
+        $this->db->addPrimaryKey('exc_team_data', ["id"]);
+    }
+
+    public function step_16(): void
+    {
+        $set = $this->db->queryF(
+            "SELECT DISTINCT il_exc_team.id FROM il_exc_team LEFT JOIN exc_team_data ON il_exc_team.id = exc_team_data.id WHERE exc_team_data.id IS NULL",
+            [],
+            []
+        );
+        while ($rec = $this->db->fetchAssoc($set)) {
+            $this->db->insert("exc_team_data", [
+                "id" => ["integer", (int) $rec["id"]],
+            ]);
+        }
+    }
+
 }

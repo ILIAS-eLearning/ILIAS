@@ -29,6 +29,8 @@ class ilExAssignmentTeam
     public const TEAM_LOG_REMOVE_MEMBER = 3;
     public const TEAM_LOG_ADD_FILE = 4;
     public const TEAM_LOG_REMOVE_FILE = 5;
+    protected \ILIAS\Exercise\Team\TeamManager $team_manager;
+    protected \ILIAS\Exercise\Team\TeamDBRepository $repo;
 
     protected ilDBInterface $db;
     protected ilObjUser $user;
@@ -39,9 +41,10 @@ class ilExAssignmentTeam
     public function __construct(?int $a_id = null)
     {
         global $DIC;
-
         $this->db = $DIC->database();
         $this->user = $DIC->user();
+        $this->repo = $DIC->exercise()->internal()->repo()->team();
+        $this->team_manager = $DIC->exercise()->internal()->domain()->team();
         if ($a_id) {
             $this->read($a_id);
         }
@@ -90,18 +93,11 @@ class ilExAssignmentTeam
         $ilDB = $this->db;
 
         // #18094
-        $this->members = array();
-
-        $sql = "SELECT * FROM il_exc_team" .
-            " WHERE id = " . $ilDB->quote($a_id, "integer");
-        $set = $ilDB->query($sql);
-        if ($ilDB->numRows($set)) {
-            $this->setId($a_id);
-
-            while ($row = $ilDB->fetchAssoc($set)) {
-                $this->assignment_id = $row["ass_id"];
-                $this->members[] = $row["user_id"];
-            }
+        $this->members = [];
+        $this->setId($a_id);
+        foreach ($this->repo->getMembers($a_id) as $member) {
+            $this->assignment_id = $member->getAssignmentId();
+            $this->members[] = $member->getUserId();
         }
     }
 
@@ -114,26 +110,20 @@ class ilExAssignmentTeam
         global $DIC;
 
         $ilDB = $DIC->database();
+        $repo = $DIC->exercise()->internal()->repo()->team();
+        $manager = $DIC->exercise()->internal()->domain()->team();
 
-        $sql = "SELECT id FROM il_exc_team" .
-            " WHERE ass_id = " . $ilDB->quote($a_assignment_id, "integer") .
-            " AND user_id = " . $ilDB->quote($a_user_id, "integer");
-        $set = $ilDB->query($sql);
-        $id = null;
-        if ($row = $ilDB->fetchAssoc($set)) {
-            $id = $row["id"];
-        }
+        $id = $repo->getTeamForMember($a_assignment_id, $a_user_id);
 
         if (!$id && $a_create_on_demand) {
-            $id = $ilDB->nextId("il_exc_team");
+
+            $id = $manager->create(
+                $a_assignment_id,
+                $a_user_id
+            );
 
             // get starting timestamp (relative deadlines) from individual deadline
             $idl = ilExcIndividualDeadline::getInstance($a_assignment_id, $a_user_id);
-
-            $fields = array("id" => array("integer", $id),
-                "ass_id" => array("integer", $a_assignment_id),
-                "user_id" => array("integer", $a_user_id));
-            $ilDB->insert("il_exc_team", $fields);
 
             // set starting timestamp for created team
             if ($idl->getStartingTimestamp() > 0) {
@@ -157,12 +147,12 @@ class ilExAssignmentTeam
         int $a_assignment_id,
         int $a_user_id
     ): int {
-        $ilDB = $this->db;
-        $id = $ilDB->nextId("il_exc_team");
-        $fields = array("id" => array("integer", $id),
-            "ass_id" => array("integer", $a_assignment_id),
-            "user_id" => array("integer", $a_user_id));
-        $ilDB->insert("il_exc_team", $fields);
+
+        $id = $this->team_manager->create(
+            $a_assignment_id,
+            $a_user_id
+        );
+
         self::writeTeamLog($id, self::TEAM_LOG_CREATE_TEAM);
         self::writeTeamLog(
             $id,
@@ -184,19 +174,9 @@ class ilExAssignmentTeam
      */
     public function getMembersOfAllTeams(): array
     {
-        $ilDB = $this->db;
-
-        $ids = array();
-
-        $sql = "SELECT user_id" .
-            " FROM il_exc_team" .
-            " WHERE ass_id = " . $ilDB->quote($this->assignment_id, "integer");
-        $set = $ilDB->query($sql);
-        while ($row = $ilDB->fetchAssoc($set)) {
-            $ids[] = $row["user_id"];
-        }
-
-        return $ids;
+        return iterator_to_array(
+            $this->repo->getAllMemberIdsOfAssignment($this->assignment_id)
+        );
     }
 
     // Add new member to team
@@ -216,10 +196,12 @@ class ilExAssignmentTeam
 
         // must not be in any team already
         if (!in_array($a_user_id, $this->getMembersOfAllTeams())) {
-            $fields = array("id" => array("integer", $this->id),
-                "ass_id" => array("integer", $this->assignment_id),
-                "user_id" => array("integer", $a_user_id));
-            $ilDB->insert("il_exc_team", $fields);
+
+            $this->repo->addUser(
+                $this->id,
+                $this->assignment_id,
+                $a_user_id
+            );
 
             if ($a_exc_ref_id) {
                 $this->sendNotification($a_exc_ref_id, $a_user_id, "add");
@@ -251,11 +233,11 @@ class ilExAssignmentTeam
             return;
         }
 
-        $sql = "DELETE FROM il_exc_team" .
-            " WHERE ass_id = " . $ilDB->quote($this->assignment_id, "integer") .
-            " AND id = " . $ilDB->quote($this->id, "integer") .
-            " AND user_id = " . $ilDB->quote($a_user_id, "integer");
-        $ilDB->manipulate($sql);
+        $this->repo->removeUser(
+            $this->id,
+            $this->assignment_id,
+            $a_user_id
+        );
 
         if ($a_exc_ref_id) {
             $this->sendNotification($a_exc_ref_id, $a_user_id, "rmv");
@@ -274,18 +256,8 @@ class ilExAssignmentTeam
     {
         global $DIC;
 
-        $ilDB = $DIC->database();
-
-        $map = array();
-
-        $sql = "SELECT * FROM il_exc_team" .
-            " WHERE ass_id = " . $ilDB->quote($a_ass_id, "integer");
-        $set = $ilDB->query($sql);
-        while ($row = $ilDB->fetchAssoc($set)) {
-            $map[$row["user_id"]] = $row["id"];
-        }
-
-        return $map;
+        $repo = $DIC->exercise()->internal()->repo()->team();
+        return $repo->getUserTeamMap($a_ass_id);
     }
 
     public function writeLog(

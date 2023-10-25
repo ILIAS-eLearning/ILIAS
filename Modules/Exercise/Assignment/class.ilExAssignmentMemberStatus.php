@@ -24,6 +24,7 @@
  */
 class ilExAssignmentMemberStatus
 {
+    protected \ILIAS\Exercise\Assignment\DomainService $ass_domain;
     protected ilDBInterface $db;
 
     protected int $ass_id = 0;
@@ -52,6 +53,7 @@ class ilExAssignmentMemberStatus
         $this->user_id = $a_user_id;
 
         $this->read();
+        $this->ass_domain = $DIC->exercise()->internal()->domain()->assignment();
     }
 
     public function setNotice(string $a_value): void
@@ -248,6 +250,7 @@ class ilExAssignmentMemberStatus
         if (!$this->db_exists) {
             $fields = array_merge($keys, $fields);
             $ilDB->insert("exc_mem_ass_status", $fields);
+            $this->ass_domain->tutorFeedbackFile($this->ass_id)->createCollection($this->user_id);
         } else {
             $ilDB->update("exc_mem_ass_status", $fields, $keys);
         }

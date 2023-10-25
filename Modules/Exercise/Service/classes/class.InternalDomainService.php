@@ -25,11 +25,9 @@ use ILIAS\DI\Container;
 use ILIAS\Exercise\Object\ObjectManager;
 use ILIAS\Exercise\Notification\NotificationManager;
 use ILIAS\Refinery\Logical\Not;
+use ILIAS\Exercise\InstructionFile\InstructionFileManager;
+use ILIAS\Exercise\Team\TeamManager;
 
-/**
- * Exercise domain service (business logic)
- * @author Alexander Killing <killing@leifos.de>
- */
 class InternalDomainService
 {
     use GlobalDICDomainServices;
@@ -82,4 +80,13 @@ class InternalDomainService
             $ref_id
         );
     }
+
+    public function team(): TeamManager
+    {
+        return new TeamManager(
+            $this->repo,
+            $this
+        );
+    }
+
 }

@@ -135,6 +135,9 @@ class ilExSubmission
         return array($this->user_id);
     }
 
+    /**
+     * used for the legacy storage path of feedbacks only
+     */
     public function getFeedbackId(): string
     {
         if ($this->team) {

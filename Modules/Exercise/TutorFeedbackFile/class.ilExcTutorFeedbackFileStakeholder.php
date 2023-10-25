@@ -16,24 +16,20 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\Exercise\InternalService;
 use ILIAS\Exercise;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 use ILIAS\ResourceStorage\Stakeholder\AbstractResourceStakeholder;
 use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
 
-/**
- * @author Fabian Schmid <fabian@sr.solutions>
- */
-class ilExcInstructionFilesStakeholder extends AbstractResourceStakeholder implements ResourceStakeholder
+class ilExcTutorFeedbackFileStakeholder extends AbstractResourceStakeholder
 {
     protected int $owner = 6;
     private int $current_user;
     protected ?ilDBInterface $database = null;
 
-    /**
-     * ilObjFileStakeholder constructor.
-     */
     public function __construct(int $owner = 6)
     {
         global $DIC;
@@ -45,7 +41,7 @@ class ilExcInstructionFilesStakeholder extends AbstractResourceStakeholder imple
 
     public function getId(): string
     {
-        return 'exc_instruction_files';
+        return 'exc_tutor_feedback';
     }
 
     public function getOwnerOfNewResources(): int
@@ -58,14 +54,19 @@ class ilExcInstructionFilesStakeholder extends AbstractResourceStakeholder imple
         global $DIC;
 
         $object_id = $this->resolveObjectId($identification);
+        $is_recipient = $this->isRecipient($identification);
+
         if ($object_id === null) {
             return true;
         }
 
         $ref_ids = ilObject2::_getAllReferences($object_id);
         foreach ($ref_ids as $ref_id) {
-            // one must have read permissions on the exercise to see the instruction files
-            if ($DIC->access()->checkAccessOfUser($this->current_user, 'read', '', $ref_id)) {
+            if ($DIC->access()->checkAccessOfUser($this->current_user, 'write', '', $ref_id)) {
+                return true;
+            }
+            if ($is_recipient &&
+                $DIC->access()->checkAccessOfUser($this->current_user, 'read', '', $ref_id)) {
                 return true;
             }
         }
@@ -94,11 +95,25 @@ class ilExcInstructionFilesStakeholder extends AbstractResourceStakeholder imple
         return null;
     }
 
+    private function isRecipient(ResourceIdentification $identification): ?int
+    {
+        $this->initDB();
+        $r = $this->database->queryF(
+            "SELECT exc_mem_ass_status.usr_id FROM il_resource_rca JOIN exc_mem_ass_status ON exc_mem_ass_status.feedback_rcid = il_resource_rca.rcid WHERE il_resource_rca.rid = %s;",
+            ['text'],
+            [$identification->serialize()]
+        );
+        $d = $this->database->fetchAssoc($r);
+        $user_id = (int) ($d["usr_id"] ?? 0);
+
+        return ($user_id === $this->current_user);
+    }
+
     private function resolveObjectId(ResourceIdentification $identification): ?int
     {
         $this->initDB();
         $r = $this->database->queryF(
-            "SELECT exc_id, rcid FROM il_resource_rca JOIN exc_assignment ON exc_assignment.if_rcid = il_resource_rca.rcid WHERE il_resource_rca.rid = %s;",
+            "SELECT exc_id, rcid FROM il_resource_rca JOIN exc_mem_ass_status ON exc_mem_ass_status.feedback_rcid = il_resource_rca.rcid JOIN exc_assignment ON (exc_assignment.id = exc_mem_ass_status.ass_id) WHERE il_resource_rca.rid = %s;",
             ['text'],
             [$identification->serialize()]
         );

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,18 +16,19 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\Exercise;
 
 use ILIAS\Exercise\Assignment\Assignment;
+use ILIAS\Exercise\IRSS\ResourceInformation;
+use ILIAS\Exercise\Team\TeamMember;
 
 /**
  * Internal factory for data objects
- * @author Alexander Killing <killing@leifos.de>
  */
 class InternalDataService
 {
-    //protected SubService\DataFactory $sub_factory;
-
     public function __construct()
     {
     }
@@ -63,4 +62,35 @@ class InternalDataService
             $rel_deadline_last_submission
         );
     }
+
+    public function resourceInformation(
+        string $rid,
+        string $title,
+        int $size,
+        int $creation_timestamp,
+        string $mime_type,
+        string $src
+    ): ResourceInformation {
+        return new ResourceInformation(
+            $rid,
+            $title,
+            $size,
+            $creation_timestamp,
+            $mime_type,
+            $src
+        );
+    }
+
+    public function teamMember(
+        int $team_id,
+        int $assignment_id,
+        int $user_id
+    ): TeamMember {
+        return new TeamMember(
+            $team_id,
+            $assignment_id,
+            $user_id
+        );
+    }
+
 }

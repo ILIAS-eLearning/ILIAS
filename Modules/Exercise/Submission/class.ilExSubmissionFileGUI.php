@@ -247,7 +247,7 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
         if ($max_file > 0) {
             $max_file = $this->submission->getAssignment()->getMaxFile() - count($this->submission->getFiles());
         } else {
-            $max_file = 0;
+            $max_file = 20;
         }
 
         $form_adapter = $this->gui

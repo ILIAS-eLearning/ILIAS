@@ -97,8 +97,8 @@ Manages a number of properties that are attached to members during an assignment
 - sample solution file (with original name)
 
 *Evaluation Feedback Files from Tutors*
-- `ilExercise/X/exc_*EXC_ID*/feedb_*ASS_ID*/*USER_ID*/`
-- evaluation/feedback files from tutors for learner *USER_ID*
+- `ilExercise/X/exc_*EXC_ID*/feedb_*ASS_ID*/*USER_ID*|t*TEAM_ID*/`
+- evaluation/feedback files from tutors for learner *USER_ID* or team *TEAM_ID* (note the leading "t" above)
 
 *File Submissions*
 - `ilExercise/X/exc_*EXC_ID*/subm_*ASS_ID*/*USER_ID*/*TIMESTAMP*_filename.pdf`
