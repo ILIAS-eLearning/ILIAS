@@ -470,7 +470,8 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
                 ilFileUtils::makeDirParents($imagepath);
             }
             if (!ilFileUtils::moveUploadedFile($image_tempfilename, $image_filename, $imagepath . $image_filename)) {
-                $this->ilias->raiseError("The image could not be uploaded!", $this->ilias->error_obj->MESSAGE);
+                $this->tpl->setOnScreenMessage('failure', 'The image could not be uploaded!');
+                return;
             }
             global $DIC;
             $ilLog = $DIC['ilLog'];
