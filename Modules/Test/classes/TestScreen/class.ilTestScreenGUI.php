@@ -257,6 +257,7 @@ class ilTestScreenGUI
                             },
                             $this->getModalLauncherMessageBox()
                         )
+                        ->withModalSubmitLabel($this->lng->txt('continue'))
                     ;
                 } else {
                     $launcher = $launcher->inline($this->getStartLauncherLink());
