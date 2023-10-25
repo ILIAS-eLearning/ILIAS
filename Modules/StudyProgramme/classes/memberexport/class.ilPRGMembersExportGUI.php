@@ -114,7 +114,7 @@ class ilPRGMembersExportGUI extends ilMemberExportGUI
      */
     public function export(): void
     {
-        $this->exportAssingnments(ilPRGMemberExport::EXPORT_CSV);
+        $this->exportAssignments(ilPRGMemberExport::EXPORT_CSV);
     }
 
     /**
@@ -122,10 +122,10 @@ class ilPRGMembersExportGUI extends ilMemberExportGUI
      */
     public function exportExcel(): void
     {
-        $this->exportAssingnments(ilPRGMemberExport::EXPORT_EXCEL);
+        $this->exportAssignments(ilPRGMemberExport::EXPORT_EXCEL);
     }
 
-    private function exportAssingnments($type)
+    private function exportAssignments($type)
     {
         $this->handleIncoming();
         $prg_user_table = ilStudyProgrammeDIC::specificDicFor(
