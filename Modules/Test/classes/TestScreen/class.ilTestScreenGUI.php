@@ -35,16 +35,7 @@ use ILIAS\HTTP\Services as HTTPServices;
  */
 class ilTestScreenGUI
 {
-    private readonly UIFactory $ui_factory;
-    private readonly UIRenderer $ui_renderer;
-    private readonly ilLanguage $lng;
-    private readonly ilCtrl $ctrl;
-    private readonly ilGlobalTemplateInterface $tpl;
-    private readonly ilTestSequenceFactory $test_sequence_factory;
-    private readonly HTTPServices $http;
     private readonly ilTestPassesSelector $test_passes_selector;
-    private readonly ilTabsGUI $tabs;
-    private readonly ilAccessHandler $access;
     private readonly int $ref_id;
     private readonly ilObjTestMainSettings $main_settings;
     private readonly ilTestSession $test_session;
@@ -53,26 +44,23 @@ class ilTestScreenGUI
     public function __construct(
         private readonly ilObjTest $object,
         private readonly ilObjUser $user,
+        private readonly UIFactory $ui_factory,
+        private readonly UIRenderer $ui_renderer,
+        private readonly ilLanguage $lng,
+        private readonly ilCtrl $ctrl,
+        private readonly ilGlobalTemplateInterface $tpl,
+        private readonly HTTPServices $http,
+        private readonly ilTabsGUI $tabs,
+        private readonly ilAccessHandler $access,
+        private readonly ilDBInterface $database,
     ) {
-        /** @var ILIAS\DI\Container $DIC **/
-        global $DIC;
-        $this->ui_factory = $DIC->ui()->factory();
-        $this->ui_renderer = $DIC->ui()->renderer();
-        $this->lng = $DIC->language();
-        $this->ctrl = $DIC->ctrl();
-        $this->tpl = $DIC->ui()->mainTemplate();
-        $this->http = $DIC->http();
-        $this->tabs = $DIC->tabs();
-        $this->access = $DIC->access();
         $this->ref_id = $this->object->getRefId();
         $this->main_settings = $this->object->getMainSettings();
         $this->data_factory = new DataFactory();
 
-        $db = $DIC->database();
-        $this->test_session = (new ilTestSessionFactory($this->object, $db, $this->user))->getSession();
-        $this->test_sequence_factory = new ilTestSequenceFactory($this->object, $db, $DIC->testQuestionPool()->questionInfo());
+        $this->test_session = (new ilTestSessionFactory($this->object, $this->database, $this->user))->getSession();
 
-        $this->test_passes_selector = new ilTestPassesSelector($db, $this->object);
+        $this->test_passes_selector = new ilTestPassesSelector($this->database, $this->object);
         $this->test_passes_selector->setActiveId($this->test_session->getActiveId());
         $this->test_passes_selector->setLastFinishedPass($this->test_session->getLastFinishedPass());
     }

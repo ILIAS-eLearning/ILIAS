@@ -291,7 +291,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                 }
                 $this->prepareOutput();
                 $this->addHeaderAction();
-                $this->ctrl->forwardCommand(new ilTestScreenGUI($this->object, $this->user));
+                $this->ctrl->forwardCommand($this->getTestScreenGUIInstance());
                 break;
 
             case 'ilobjectmetadatagui':
@@ -905,7 +905,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                     $this->questionsObject();
                     return;
                 }
-                $ret = $cmd === 'testScreen' ? (new ilTestScreenGUI($this->object, $this->user))->$cmd() : $this->{$cmd . "Object"}();
+                $ret = $cmd === 'testScreen' ? ($this->getTestScreenGUIInstance())->$cmd() : $this->{$cmd . "Object"}();
                 break;
             default:
                 if ((!$this->access->checkAccess("read", "", $this->testrequest->getRefId()))) {
@@ -3417,5 +3417,22 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
     protected function getObjectiveOrientedContainer(): ilTestObjectiveOrientedContainer
     {
         return $this->objective_oriented_container;
+    }
+
+    private function getTestScreenGUIInstance(): ilTestScreenGUI
+    {
+        return new ilTestScreenGUI(
+            $this->object,
+            $this->user,
+            $this->ui_factory,
+            $this->ui_renderer,
+            $this->lng,
+            $this->ctrl,
+            $this->tpl,
+            $this->http,
+            $this->tabs_gui,
+            $this->access,
+            $this->db,
+        );
     }
 }
