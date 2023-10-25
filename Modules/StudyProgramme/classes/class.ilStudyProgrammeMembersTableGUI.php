@@ -273,6 +273,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
                 case ilObjStudyProgrammeMembersGUI::ACTION_UNMARK_RELEVANT:
                 case ilObjStudyProgrammeMembersGUI::ACTION_MARK_RELEVANT:
                 case ilObjStudyProgrammeMembersGUI::ACTION_UPDATE_FROM_CURRENT_PLAN:
+                case ilObjStudyProgrammeMembersGUI::ACTION_ACKNOWLEDGE_COURSES:
                 case ilObjStudyProgrammeMembersGUI::ACTION_CHANGE_DEADLINE:
                 case ilObjStudyProgrammeMembersGUI::ACTION_CHANGE_EXPIRE_DATE:
                     if (!$edit_individual_plan) {
@@ -335,6 +336,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
     {
         $permissions_for_edit_individual_plan = [
             'updateFromCurrentPlanMulti' => $this->lng->txt('prg_multi_update_from_current_plan'),
+            'acknowledgeCoursesMulti' => $this->lng->txt('prg_acknowledge_completed_courses'),
             'markRelevantMulti' => $this->lng->txt('prg_multi_mark_relevant'),
             'markNotRelevantMulti' => $this->lng->txt('prg_multi_unmark_relevant'),
             'changeDeadlineMulti' => $this->lng->txt('prg_multi_change_deadline'),
@@ -406,6 +408,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
             $actions[] = ilObjStudyProgrammeMembersGUI::ACTION_UNMARK_RELEVANT;
             $actions[] = ilObjStudyProgrammeMembersGUI::ACTION_MARK_RELEVANT;
             $actions[] = ilObjStudyProgrammeMembersGUI::ACTION_UPDATE_FROM_CURRENT_PLAN;
+            $actions[] = ilObjStudyProgrammeMembersGUI::ACTION_ACKNOWLEDGE_COURSES;
             $actions[] = ilObjStudyProgrammeMembersGUI::ACTION_CHANGE_DEADLINE;
             $actions[] = ilObjStudyProgrammeMembersGUI::ACTION_CHANGE_EXPIRE_DATE;
         }

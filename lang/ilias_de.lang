@@ -13032,6 +13032,7 @@ prg#:#membership_source_type#:#Quelle
 prg#:#modal_automembership_title#:#Automatismus hinzufügen
 prg#:#modal_categories_title#:#Zu überwachende Kategorie
 prg#:#modal_member_auto_select_title#:#Quelle für automatische Zuweisung wählen
+prg#:#msg_acknowledge_courses#:#Bestandene Kurse wurden anerkannt.
 prg#:#msg_change_deadline_date#:#Stichtag angepasst für %s Benutzer.
 prg#:#msg_change_deadline_date_failed#:#Stichtag nicht angepasst für:
 prg#:#msg_change_expire_date#:#Ablaufdatum angepasst für %s Benutzer.

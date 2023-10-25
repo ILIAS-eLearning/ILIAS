@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 class ilLPStatusStudyProgramme extends ilLPStatus
 {
     protected static function getAssignments(int $obj_id, int $usr_id = null): array
@@ -31,25 +31,29 @@ class ilLPStatusStudyProgramme extends ilLPStatus
         $assignments = $repo->getAllForNodeIsContained((int) $obj_id, $usr_id);
 
         //restarted assignments will lose validity for LPStatus
-        $assignments = array_filter($assignments, fn ($ass) => !$ass->isRestarted());
+        $assignments = array_filter($assignments, fn($ass) => !$ass->isRestarted());
 
         return $assignments;
     }
 
-    //determine a status based on a single users collection of assignments.
+    /**
+     * determine a status based on a single users collection of assignments.
+     */
     protected static function getStatusForAssignments(array $assignments, int $prg_obj_id): int
     {
         $now = new DateTimeImmutable();
         $pgss = [];
+        $sorting = [];
         foreach ($assignments as $ass) {
             $pgs = $ass->getProgressForNode($prg_obj_id);
             $pgss[$ass->getId()] = $pgs;
+            $sorting[] = $ass->getId();
         }
 
         //use the highest assignment first
-        sort($pgss);
-        $pgss = array_reverse($pgss);
-        $pgs = reset($pgss);
+        sort($sorting);
+        $sorting = array_reverse($sorting);
+        $pgs = $pgss[reset($sorting)];
 
         if (!$pgs || !$pgs->isRelevant()) {
             return ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM;
@@ -59,8 +63,6 @@ class ilLPStatusStudyProgramme extends ilLPStatus
             return ilLPStatus::LP_STATUS_COMPLETED_NUM;
         }
 
-        //successful, but expired
-        //or failed
         if ($pgs->isSuccessful() || $pgs->isFailed()) {
             return ilLPStatus::LP_STATUS_FAILED_NUM;
         }
