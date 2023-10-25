@@ -532,7 +532,7 @@ class Mail_RFC822
                 $structure = $addresses[0];
             }
 
-        // Flat format
+            // Flat format
         } elseif ($is_group) {
             $structure = array_merge($structure, $addresses);
         } else {
@@ -688,7 +688,7 @@ class Mail_RFC822
                 return false;
             }
 
-        // Only got addr-spec
+            // Only got addr-spec
         } else {
             // First snip angle brackets if present.
             if ($mailbox[0] === '<' && substr($mailbox, -1) === '>') {
@@ -890,8 +890,8 @@ class Mail_RFC822
                 $local_part = $addr_spec;
                 $domain = $this->default_domain;
             }
-        // mjansen patch 16 Sep 2016 end
-        // No @ sign so assume the default domain.
+            // mjansen patch 16 Sep 2016 end
+            // No @ sign so assume the default domain.
         } else {
             $local_part = $addr_spec;
             $domain = $this->default_domain;

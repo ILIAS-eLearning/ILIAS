@@ -110,16 +110,16 @@ class ilUpdateMailTemplatesForMustache implements Migration
         if ($this->db->numRows($res) === 1) {
             $row = $this->db->fetchAssoc($res);
 
-            $subject = preg_replace(
+            $subject = isset($row['m_subject']) ? preg_replace(
                 '/\[([A-Z_]+?)\]/',
                 '{{$1}}',
-                $row['m_subject'] ?? ''
-            );
-            $message = preg_replace(
+                $row['m_subject']
+            ) : null;
+            $message = isset($row['m_message']) ? preg_replace(
                 '/\[([A-Z_]+?)\]/',
                 '{{$1}}',
-                $row['m_message'] ?? ''
-            );
+                $row['m_message']
+            ) : null;
 
             $this->db->manipulateF(
                 'UPDATE mail_man_tpl SET m_subject = %s, m_message = %s WHERE tpl_id = %s AND lang = %s',
