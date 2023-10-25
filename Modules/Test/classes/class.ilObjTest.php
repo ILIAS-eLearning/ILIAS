@@ -1473,8 +1473,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
      */
     public function getQuestionTitle($title, $nr = null, $points = null): string
     {
-        switch($this->getTitleOutput())
-        {
+        switch($this->getTitleOutput()) {
             case '0':
             case '1':
                 return $title;
@@ -3905,7 +3904,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
 
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "print_bs_with_res");
-        $a_xml_writer->xmlElement("fieldentry", null, (int) $this->getShowSolutionDetails() ? (int) $this->isBestSolutionPrintedWithResult() : 0);
+        $a_xml_writer->xmlElement("fieldentry", null, (int) $this->isBestSolutionPrintedWithResult());
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
         // solution details
