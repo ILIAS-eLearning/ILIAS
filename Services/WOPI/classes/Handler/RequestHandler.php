@@ -146,7 +146,7 @@ final class RequestHandler
                             $new_revision = $this->irss->manage()->appendNewRevisionFromStream(
                                 $resource_id,
                                 $file_stream,
-                                new \ilObjFileStakeholder(),
+                                new \ilObjFileStakeholder($this->token_user_id),
                                 $current_revision->getTitle(),
                                 true
                             );
