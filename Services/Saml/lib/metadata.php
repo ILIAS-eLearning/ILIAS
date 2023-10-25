@@ -77,7 +77,7 @@ $auth = $factory->auth();
 
 // The source code below is copied from the SimpleSAMLphp library and modified regarding the HTTP path
 // ilias-patch: end
-if (!array_key_exists('PATH_INFO', $_SERVER)) {
+if (!isset($_SERVER['PATH_INFO'])) {
     global $DIC;
     $DIC->logger()->root()->warning('Missing "PATH_INFO" variable. This could be a false positive log entry, but you have to ensure a valid "PATH_INFO" setting for your HTTP server.');
 }
@@ -360,7 +360,7 @@ if (isset($metaArray20['attributes']) && is_array($metaArray20['attributes'])) {
 // sign the metadata if enabled
 $xml = Signer::sign($xml, $spconfig->toArray(), 'SAML 2 SP');
 
-if (array_key_exists('output', $_REQUEST) && $_REQUEST['output'] == 'xhtml') {
+if (isset($_REQUEST['output']) && $_REQUEST['output'] == 'xhtml') {
     $t = new Template($config, 'metadata.php', 'admin');
 
     $t->data['clipboard.js'] = true;
