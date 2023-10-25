@@ -12889,6 +12889,7 @@ prg#:#cont_ed_insert_prgstatusinfo#:#Studienprogamm Statusinformation einfügen
 prg#:#content_automation#:#Inhaltsautomatisierung
 prg#:#content_automation_title#:#Kurse dieser Kategorien automatisch hinzufügen/entfernen
 prg#:#could_not_add_users_no_permissons#:#Konnte %d Benutzer wegen mangelnder Berechtigung nicht hinzufügen.
+prg#:#deadline#:#Stichtag
 prg#:#deadline_information#:#Informationen zum Bearbeitungszeitraum
 prg#:#deadline_updated#:#Stichtag aktualisiert
 prg#:#edit_participants#:#Zuweisungen bearbeiten
