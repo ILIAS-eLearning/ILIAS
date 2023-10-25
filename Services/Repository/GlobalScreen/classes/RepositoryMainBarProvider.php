@@ -20,7 +20,6 @@ declare(strict_types=1);
 
 namespace ILIAS\Repository\Provider;
 
-use ILIAS\Data\ReferenceId;
 use ILIAS\GlobalScreen\Helper\BasicAccessCheckClosuresSingleton;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\Link;
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticMainMenuProvider;
