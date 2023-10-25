@@ -147,7 +147,7 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
 
         $this->addColumn($this->lng->txt('qpl'), 'qpl', '');
 
-        $this->addColumn($this->lng->txt('actions'), '', '1%');
+        $this->addColumn($this->lng->txt('actions'), '');
     }
 
     protected function initCommands(): void
