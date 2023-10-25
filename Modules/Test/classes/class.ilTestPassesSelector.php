@@ -250,7 +250,7 @@ class ilTestPassesSelector
             return false;
         }
 
-        $repTS = mktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]);
+        $repTS = mktime((int) $matches[4], (int) $matches[5], (int) $matches[6], (int) $matches[2], (int) $matches[3], (int) $matches[1]);
 
         return time() >= $repTS;
     }
