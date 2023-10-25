@@ -29,7 +29,7 @@ class ilUpdateMailTemplatesForMustache implements Migration
 
     public function getLabel(): string
     {
-        return "ilUpdateMailTemplatesForMustache";
+        return 'ilUpdateMailTemplatesForMustache';
     }
 
     public function getDefaultAmountOfStepsPerRun(): int
@@ -52,61 +52,81 @@ class ilUpdateMailTemplatesForMustache implements Migration
     public function step(Environment $environment): void
     {
         $tpl_values = $this->getNextTemplateToBeUpdated();
-        if (is_null($tpl_values)) {
+        if ($tpl_values === null) {
             return;
         }
 
-        list($tpl_id, $lang) = $tpl_values;
+        [$tpl_id, $lang] = $tpl_values;
+
         $this->replace($tpl_id, $lang);
     }
 
     public function getRemainingAmountOfSteps(): int
     {
-        $q = "SELECT COUNT(tpl_id) AS open FROM mail_man_tpl" . PHP_EOL
-            . $this->getWhere()
-        ;
+        $q = 'SELECT COUNT(tpl_id) AS open FROM mail_man_tpl' . PHP_EOL . $this->getWhere();
         $res = $this->db->query($q);
         $row = $this->db->fetchAssoc($res);
-        return (int) $row["open"];
+        return (int) $row['open'];
     }
 
+    /**
+     * @return array{0: int, 1: string}|null
+     */
     protected function getNextTemplateToBeUpdated(): ?array
     {
-        $q = "SELECT tpl_id, lang FROM mail_man_tpl" . PHP_EOL
-            . $this->getWhere() . PHP_EOL
-            . " LIMIT 1"
-        ;
+        $this->db->setLimit(1);
+        $q = 'SELECT tpl_id, lang FROM mail_man_tpl' . PHP_EOL
+            . $this->getWhere();
+
         $res = $this->db->query($q);
 
-        if ($this->db->numRows($res) == 0) {
+        if ($this->db->numRows($res) === 0) {
             return null;
         }
 
         $row = $this->db->fetchAssoc($res);
         return [
-            (int) $row["tpl_id"],
-            $row["lang"]
+            (int) $row['tpl_id'],
+            $row['lang']
         ];
     }
 
     protected function getWhere(): string
     {
-        return " WHERE " . PHP_EOL
-            . $this->db->like("m_message", ilDBConstants::T_TEXT, "[") . " OR " . PHP_EOL
-            . $this->db->like("m_message", ilDBConstants::T_TEXT, "]") . " OR " . PHP_EOL
-            . $this->db->like("m_subject", ilDBConstants::T_TEXT, "[") . " OR " . PHP_EOL
-            . $this->db->like("m_subject", ilDBConstants::T_TEXT, "]")
+        return ' WHERE ' . PHP_EOL
+            . $this->db->like('m_message', ilDBConstants::T_TEXT, '%[%') . ' OR ' . PHP_EOL
+            . $this->db->like('m_message', ilDBConstants::T_TEXT, '%]%') . ' OR ' . PHP_EOL
+            . $this->db->like('m_subject', ilDBConstants::T_TEXT, '%[%') . ' OR ' . PHP_EOL
+            . $this->db->like('m_subject', ilDBConstants::T_TEXT, '%]%')
         ;
     }
 
     protected function replace(int $tpl_id, string $lang): void
     {
-        $q = 'UPDATE mail_man_tpl' . PHP_EOL
-            . ' SET m_subject = REGEXP_REPLACE(m_subject, "\\[([[:upper:]]+)\\]", "{{$1}}"),' . PHP_EOL
-            . ' m_message = REGEXP_REPLACE(m_message, "\\[([[:upper:]]+)\\]", "{{$1}}"),' . PHP_EOL
-            . ' WHERE tpl_id = ' . $this->db->quote($tpl_id, ilDBConstants::T_INTEGER) . PHP_EOL
-            . '    AND lang = ' . $this->db->quote($lang, ilDBConstants::T_TEXT)
-        ;
-        $this->db->manipulate($q);
+        $res = $this->db->queryF(
+            'SELECT m_subject, m_message FROM mail_man_tpl WHERE tpl_id = %s AND lang = %s',
+            [ilDBConstants::T_INTEGER, ilDBConstants::T_TEXT],
+            [$tpl_id, $lang]
+        );
+        if ($this->db->numRows($res) === 1) {
+            $row = $this->db->fetchAssoc($res);
+
+            $subject = preg_replace(
+                '/\[([A-Z_]+)\]/',
+                '{{$1}}',
+                $row['m_subject'] ?? ''
+            );
+            $message = preg_replace(
+                '/\[([A-Z_]+)\]/',
+                '{{$1}}',
+                $row['m_message'] ?? ''
+            );
+
+            $this->db->manipulateF(
+                'UPDATE mail_man_tpl SET m_subject = %s, m_message = %s WHERE tpl_id = %s AND lang = %s',
+                [ilDBConstants::T_TEXT, ilDBConstants::T_TEXT, ilDBConstants::T_INTEGER, ilDBConstants::T_TEXT],
+                [$subject, $message, $tpl_id, $lang]
+            );
+        }
     }
 }
