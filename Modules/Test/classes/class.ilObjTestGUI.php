@@ -1903,18 +1903,22 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
     /**
     * Marks selected questions for moving
     */
-    public function moveQuestionsObject()
+    public function moveQuestionsObject(): void
     {
-        $selected_questions = $this->testrequest->getQuestionId();
-        if ($selected_questions === null && is_numeric($this->testrequest->getQuestionId())) {
-            $selected_questions = [$this->testrequest->getQuestionId()];
+        $selected_questions = $this->testrequest->getQuestionIds();
+        $selected_question = $this->testrequest->getQuestionId();
+        if ($selected_questions === [] && $selected_question !== 0) {
+            $selected_questions = [$selected_question];
         }
-        if (is_array($selected_questions)) {
-            ilSession::set('tst_qst_move_' . $this->object->getTestId(), $selected_questions);
-            $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_selected_for_move"), true);
-        } else {
+
+        if ($selected_questions === []) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('no_selection_for_move'), true);
+            $this->ctrl->redirect($this, 'questions');
+            return;
         }
+
+        ilSession::set('tst_qst_move_' . $this->object->getTestId(), $selected_questions);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_selected_for_move"), true);
         $this->ctrl->redirect($this, 'questions');
     }
 
@@ -3068,8 +3072,9 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         $qpl_id = $this->obj_data_cache->lookupObjId($this->testrequest->int('sel_qpl'));
 
         $question_ids = $this->testrequest->getQuestionIds();
-        if ($question_ids === []) {
-            $question_ids = [$this->testrequest->getQuestionId()];
+        $question_id = $this->testrequest->getQuestionId();
+        if ($question_ids === [] && $question_id !== 0) {
+            $question_ids = [$question_id];
         }
         $result = $this->copyQuestionsToPool($question_ids, $qpl_id);
 
