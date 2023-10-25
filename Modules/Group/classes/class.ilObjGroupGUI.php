@@ -1374,10 +1374,11 @@ class ilObjGroupGUI extends ilContainerGUI
     }
 
 
-    public static function _goto(int $a_target, string $a_add = ""): void
+    public static function _goto(string $a_target, string $a_add = ""): void
     {
         global $DIC;
         $main_tpl = $DIC->ui()->mainTemplate();
+        $a_target = (int) $a_target;
 
         $ilUser = $DIC->user();
         $ilAccess = $DIC->access();
