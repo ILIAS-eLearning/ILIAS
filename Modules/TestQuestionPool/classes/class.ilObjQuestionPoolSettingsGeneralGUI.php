@@ -16,87 +16,48 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
+use ILIAS\UI\Component\Input\Container\Form\Standard as Form;
+use ILIAS\UI\Factory as UIFactory;
+use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\UI\Renderer as UIRenderer;
+use Psr\Http\Message\ServerRequestInterface as HttpRequest;
+
 /**
  * GUI class that manages the editing of general test question pool settings/properties
  * shown on "general" subtab
  *
- * @author		Björn Heyser <bheyser@databay.de>
- * @version		$Id$
+ * @author         Björn Heyser <bheyser@databay.de>
+ * @version        $Id$
  *
- * @package		Modules/TestQuestionPool
+ * @package        Modules/TestQuestionPool
  *
- * @ilCtrl_Calls ilObjQuestionPoolSettingsGeneralGUI: ilPropertyFormGUI
+ * @ilCtrl_Calls   ilObjQuestionPoolSettingsGeneralGUI: ilPropertyFormGUI
  */
 class ilObjQuestionPoolSettingsGeneralGUI
 {
-    /**
-     * command constants
-     */
-    public const CMD_SHOW_FORM = 'showForm';
-    public const CMD_SAVE_FORM = 'saveForm';
+    public const CMD_SHOW_GENERAL_FORM = 'showForm';
+    public const CMD_SAVE_GENERAL_FORM = 'saveForm';
+    public const CMD_SHOW_ADDITIONAL_FORM = 'showAdditionalForm';
+    public const CMD_SAVE_ADDITIONAL_FORM = 'saveAdditionalForm';
+    public const TAB_COMMON_SETTINGS = 'settings';
+    public const TAB_ADDITIONAL_SETTINGS = 'additional_settings';
+    protected ilObjQuestionPool|ilObject $poolOBJ;
 
-    /**
-     * global $ilCtrl object
-     *
-     * @var ilCtrl
-     */
-    protected $ctrl = null;
-
-    /**
-     * global $ilAccess object
-     *
-     * @var ilAccess
-     */
-    protected $access = null;
-
-    /**
-     * global $lng object
-     *
-     * @var ilLanguage
-     */
-    protected $lng = null;
-
-    /**
-     * global $tpl object
-     *
-     * @var ilGlobalTemplateInterface
-     */
-    protected $tpl = null;
-
-    /**
-     * global $ilTabs object
-     *
-     * @var ilTabsGUI
-     */
-    protected $tabs = null;
-
-    /**
-     * gui instance for current question pool
-     *
-     * @var ilObjQuestionPoolGUI
-     */
-    protected $poolGUI = null;
-
-    /**
-     * object instance for current question pool
-     *
-     * @var ilObjQuestionPool
-     */
-    protected $poolOBJ = null;
-
-    /**
-     * Constructor
-     */
-    public function __construct(ilCtrl $ctrl, ilAccessHandler $access, ilLanguage $lng, ilGlobalTemplateInterface $tpl, ilTabsGUI $tabs, ilObjQuestionPoolGUI $poolGUI)
-    {
-        $this->ctrl = $ctrl;
-        $this->access = $access;
-        $this->lng = $lng;
-        $this->tpl = $tpl;
-        $this->tabs = $tabs;
-
-        $this->poolGUI = $poolGUI;
-        $this->poolOBJ = $poolGUI->object;
+    public function __construct(
+        private readonly ilCtrl $ctrl,
+        private readonly ilAccessHandler $access,
+        private readonly ilLanguage $lng,
+        private readonly ilGlobalTemplateInterface $tpl,
+        private readonly ilTabsGUI $tabs,
+        private readonly ilObjQuestionPoolGUI $poolGUI,
+        private readonly Refinery $refinery,
+        private readonly UIFactory $ui_factory,
+        private readonly UIRenderer $ui_renderer,
+        private readonly HttpRequest $http_request,
+    ) {
+        $this->poolOBJ = $poolGUI->getObject();
     }
 
     /**
@@ -111,10 +72,7 @@ class ilObjQuestionPoolSettingsGeneralGUI
             $this->ctrl->redirectByClass('ilObjQuestionPoolGUI', 'infoScreen');
         }
 
-        // activate corresponding tab (auto activation does not work in ilObjTestGUI-Tabs-Salad)
-
         $this->tabs->activateTab('settings');
-        $this->tabs->activateSubTab('qpl_settings_subtab_general');
 
         // process command
 
@@ -122,159 +80,169 @@ class ilObjQuestionPoolSettingsGeneralGUI
 
         switch ($nextClass) {
             default:
-                $cmd = $this->ctrl->getCmd(self::CMD_SHOW_FORM) . 'Cmd';
+                $cmd = $this->ctrl->getCmd(self::CMD_SHOW_GENERAL_FORM) . 'Cmd';
                 $this->$cmd();
         }
     }
 
-    private function showFormCmd(ilPropertyFormGUI $form = null): void
+    private function showFormCmd(Form $form = null): void
     {
+        $this->tabs->activateSubTab(self::TAB_COMMON_SETTINGS);
         if ($form === null) {
             $form = $this->buildForm();
         }
-
-        $this->tpl->setContent($this->ctrl->getHTML($form));
+        $this->tpl->setContent($this->ui_renderer->render($form));
     }
 
     private function saveFormCmd(): void
     {
         $form = $this->buildForm();
+        $form = $form->withRequest($this->http_request);
 
-        // form validation and initialisation
+        $result = $form->getInputGroup()->getContent();
 
-        $errors = !$form->checkInput(); // ALWAYS CALL BEFORE setValuesByPost()
-        $form->setValuesByPost(); // NEVER CALL THIS BEFORE checkInput()
-
-        // return to form when any form validation errors exist
-
-        if ($errors) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('form_input_not_valid'));
-            $this->showFormCmd($form);
+        if ($result->isOK()) {
+            $values = $result->value();
+            $this->performSaveForm($values);
         }
 
-        // perform saving the form data
+        //if ($errors) {
+        //    $this->tpl->setOnScreenMessage('failure', $this->lng->txt('form_input_not_valid'));
+        //    $this->showFormCmd($form);
+        //}
 
-        $this->performSaveForm($form);
-
-        // redirect to form output
+        //$this->performSaveForm($form);
 
         $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
-        $this->ctrl->redirect($this, self::CMD_SHOW_FORM);
+        $this->ctrl->redirect($this, self::CMD_SHOW_GENERAL_FORM);
     }
 
-    private function performSaveForm(ilPropertyFormGUI $form): void
+    private function performSaveForm($data): void
     {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
-
         $md_obj = new ilMD($this->poolOBJ->getId(), 0, "qpl");
         $md_section = $md_obj->getGeneral();
 
-        // title
-        $md_section->setTitle($form->getItemByPostVar('title')->getValue());
-        $md_section->update();
+        $general_settings = $data['general_settings'] ?? [];
+
+        if ($md_section) {
+            $md_section->setTitle($general_settings['title'] ?? '');
+            $md_section->update();
+        }
 
         // Description
         $md_desc_ids = $md_section->getDescriptionIds();
         if ($md_desc_ids) {
             $md_desc = $md_section->getDescription(array_pop($md_desc_ids));
-            $md_desc->setDescription($form->getItemByPostVar('description')->getValue());
+        }
+        if (isset($md_desc)) {
+            $md_desc->setDescription($general_settings['description'] ?? '');
             $md_desc->update();
         } else {
             $md_desc = $md_section->addDescription();
-            $md_desc->setDescription($form->getItemByPostVar('description')->getValue());
+            $md_desc->setDescription($general_settings['description'] ?? '');
             $md_desc->save();
         }
 
-        $this->poolOBJ->setTitle($form->getItemByPostVar('title')->getValue());
-        $this->poolOBJ->setDescription($form->getItemByPostVar('description')->getValue());
+        $this->poolOBJ->setTitle($general_settings['title'] ?? '');
+        $this->poolOBJ->setDescription($general_settings['description'] ?? '');
         $this->poolOBJ->update();
 
-        $online = $form->getItemByPostVar('online');
-        $this->poolOBJ->setOnline($online->getChecked());
+        $availability = $data['availability'] ?? [];
+        $this->poolOBJ->getObjectProperties()->storePropertyIsOnline(
+            current($availability) ?: new ilObjectPropertyIsOnline(false)
+        );
 
-        $showTax = $form->getItemByPostVar('show_taxonomies');
-        $this->poolOBJ->setShowTaxonomies($showTax->getChecked());
-
-        $DIC->object()->commonSettings()->legacyForm($form, $this->poolOBJ)->saveTileImage();
-
-        if ($this->formPropertyExists($form, 'skill_service')) {
-            $skillService = $form->getItemByPostVar('skill_service');
-            $this->poolOBJ->setSkillServiceEnabled($skillService->getChecked());
+        $display_settings = $data['display_settings'] ?? [];
+        if (isset($display_settings['tile_image'])) {
+            $this->poolOBJ->getObjectProperties()->storePropertyTileImage($display_settings['tile_image']);
         }
+
+        $skill_service = $data['skill_service'] ?? [];
+        $this->poolOBJ->setSkillServiceEnabled($skill_service['skill_service'] ?? false);
+
+        $additional_features = $data['additional_features'] ?? [];
+        $this->poolOBJ->setShowTaxonomies($additional_features['showTax'] ?? false);
 
         $this->poolOBJ->saveToDb();
     }
 
-    private function buildForm(): ilPropertyFormGUI
+    private function buildForm(): Form
     {
-        global $DIC;
-        $form = new ilPropertyFormGUI();
-
-        $form->setFormAction($this->ctrl->getFormAction($this));
-        $form->addCommandButton(self::CMD_SAVE_FORM, $this->lng->txt('save'));
-
-        $form->setTitle($this->lng->txt('qpl_form_general_settings'));
-        $form->setId('properties');
+        $items = [];
 
         $md_obj = new ilMD($this->poolOBJ->getId(), 0, "qpl");
         $md_section = $md_obj->getGeneral();
 
-        $title = new ilTextInputGUI($this->lng->txt("title"), "title");
-        $title->setRequired(true);
-        $title->setValue($md_section->getTitle());
-        $form->addItem($title);
+        if ($md_section) {
+            $title = $this->ui_factory->input()->field()->text($this->lng->txt("title"))
+                                      ->withRequired(true)
+                                      ->withValue($md_section->getTitle());
 
-        $ids = $md_section->getDescriptionIds();
-        if ($ids) {
-            $desc_obj = $md_section->getDescription(array_pop($ids));
+            $ids = $md_section->getDescriptionIds();
+            if ($ids) {
+                $desc_obj = $md_section->getDescription(array_pop($ids));
+                if ($desc_obj) {
+                    $description = $this->ui_factory->input()->field()->textarea(
+                        $this->lng->txt("description")
+                    )->withValue($desc_obj->getDescription());
+                }
+            }
 
-            $desc = new ilTextAreaInputGUI($this->lng->txt("description"), "description");
-            $desc->setCols(50);
-            $desc->setRows(4);
-            $desc->setValue($desc_obj->getDescription());
-            $form->addItem($desc);
+            $items['general_settings'] = $this->ui_factory->input()->field()->section(
+                [
+                    'title' => $title,
+                    'description' => $description ?? null,
+                ],
+                $this->lng->txt('qpl_form_general_settings')
+            );
         }
 
-        // online
+        $online = $this->poolOBJ->getObjectProperties()->getPropertyIsOnline()->toForm(
+            $this->lng,
+            $this->ui_factory->input()->field(),
+            $this->refinery
+        );
+        $availability = $this->ui_factory->input()->field()->section(
+            [$online],
+            $this->lng->txt('qpl_settings_availability')
+        );
+        $items['availability'] = $availability;
 
-        $online = new ilCheckboxInputGUI($this->lng->txt('qpl_settings_general_form_property_online'), 'online');
-        $online->setInfo($this->lng->txt('qpl_settings_general_form_property_online_description'));
-        $online->setChecked($this->poolOBJ->getOnline());
-        $form->addItem($online);
-
-        $section = new ilFormSectionHeaderGUI();
-        $section->setTitle($this->lng->txt('tst_presentation_settings_section'));
-        $form->addItem($section);
-
-        $DIC->object()->commonSettings()->legacyForm($form, $this->poolOBJ)->addTileImage();
-
-        // skill service activation
+        $timg = $this->poolOBJ->getObjectProperties()->getPropertyTileImage()->toForm(
+            $this->lng,
+            $this->ui_factory->input()->field(),
+            $this->refinery
+        );
+        $items['display_settings'] = $this->ui_factory->input()->field()->section(
+            ['tile_image' => $timg],
+            $this->lng->txt('tst_presentation_settings_section')
+        );
 
         if (ilObjQuestionPool::isSkillManagementGloballyActivated()) {
-            $otherHead = new ilFormSectionHeaderGUI();
-            $otherHead->setTitle($this->lng->txt('obj_features'));
-            $form->addItem($otherHead);
+            $skill_service = $this->ui_factory->input()->field()->checkbox(
+                $this->lng->txt('tst_activate_skill_service')
+            )->withValue($this->poolOBJ->isSkillServiceEnabled());
 
-            $skillService = new ilCheckboxInputGUI($this->lng->txt('tst_activate_skill_service'), 'skill_service');
-            $skillService->setChecked($this->poolOBJ->isSkillServiceEnabled());
-            $form->addItem($skillService);
+            $skill_service_section = $this->ui_factory->input()->field()->section(
+                ['skill_service' => $skill_service],
+                $this->lng->txt('obj_features')
+            );
+            $items['skill_service'] = $skill_service_section;
         }
 
-        // additional features
-        $feat = new ilFormSectionHeaderGUI();
-        $feat->setTitle($this->lng->txt('obj_features'));
-        $form->addItem($feat);
+        $showTax = $this->ui_factory->input()->field()->checkbox(
+            $this->lng->txt('qpl_settings_general_form_property_show_taxonomies')
+        )->withValue($this->poolOBJ->getShowTaxonomies());
 
-        $showTax = new ilCheckboxInputGUI($this->lng->txt('qpl_settings_general_form_property_show_taxonomies'), 'show_taxonomies');
-        $showTax->setInfo($this->lng->txt('qpl_settings_general_form_prop_show_tax_desc'));
-        $showTax->setChecked($this->poolOBJ->getShowTaxonomies());
-        $form->addItem($showTax);
+        $additional_features_section = $this->ui_factory->input()->field()->section(
+            ['showTax' => $showTax],
+            $this->lng->txt('obj_features')
+        );
+        $items['additional_features'] = $additional_features_section;
 
-        return $form;
-    }
-
-    protected function formPropertyExists(ilPropertyFormGUI $form, $propertyId): bool
-    {
-        return $form->getItemByPostVar($propertyId) instanceof ilFormPropertyGUI;
+        return $this->ui_factory->input()->container()->form()->standard(
+            $this->ctrl->getFormAction($this, self::CMD_SAVE_GENERAL_FORM),
+            $items
+        );
     }
 }
