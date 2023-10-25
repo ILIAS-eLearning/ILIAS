@@ -712,12 +712,6 @@ class ilTestServiceGUI
                 $template->parseCurrentBlock();
             }
         }
-        if ($this->object->isBestSolutionPrintedWithResult() && strlen($best_output)) {
-            $template->setCurrentBlock("best_solution");
-            $template->setVariable("TEXT_BEST_SOLUTION", $this->lng->txt("tst_best_solution_is"));
-            $template->setVariable("BEST_OUTPUT", $best_output);
-            $template->parseCurrentBlock();
-        }
         $template->setVariable("TEXT_YOUR_SOLUTION", $this->lng->txt("tst_your_answer_was"));
         $template->setVariable("TEXT_SOLUTION_OUTPUT", $this->lng->txt("tst_your_answer_was")); // Mantis 28646. I don't really know why Ingmar renamed the placeholder, so
         // I set both old and new since the old one is set as well in several places.

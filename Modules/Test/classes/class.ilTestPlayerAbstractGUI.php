@@ -40,7 +40,6 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
     public const PRESENTATION_MODE_EDIT = 'edit';
 
     public const FIXED_SHUFFLER_SEED_MIN_LENGTH = 8;
-    private \ILIAS\DI\UIServices $ui;
 
     public bool $maxProcessingTimeReached;
     public bool $endingTimeReached;
@@ -55,10 +54,8 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
     public function __construct(ilObjTest $object)
     {
         parent::__construct($object);
-        global $DIC;
         $this->ref_id = $this->testrequest->getRefId();
         $this->passwordChecker = new ilTestPasswordChecker($this->rbac_system, $this->user, $this->object, $this->lng);
-        $this->ui = $DIC->ui();
     }
 
     protected function checkReadAccess()
@@ -263,12 +260,12 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
     {
         $target = $this->ctrl->getLinkTarget($this, ilTestPlayerCommands::NEXT_QUESTION);
         if ($primaryNext) {
-            $button = $this->ui->factory()->button()->primary(
+            $button = $this->ui_factory->button()->primary(
                 $this->lng->txt('next_question') . '<span class="glyphicon glyphicon-arrow-right"></span> ',
                 ''
             )->withOnLoadCode($this->getOnLoadCodeForNavigationButtons($target, ilTestPlayerCommands::NEXT_QUESTION));
         } else {
-            $button = $this->ui->factory()->button()->standard(
+            $button = $this->ui_factory->button()->standard(
                 $this->lng->txt('next_question') . '<span class="glyphicon glyphicon-arrow-right"></span> ',
                 ''
             )->withOnLoadCode($this->getOnLoadCodeForNavigationButtons($target, ilTestPlayerCommands::NEXT_QUESTION));
@@ -283,7 +280,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
     private function buildPreviousButtonInstance()
     {
         $target = $this->ctrl->getLinkTarget($this, ilTestPlayerCommands::PREVIOUS_QUESTION);
-        $button = $this->ui->factory()->button()->standard(
+        $button = $this->ui_factory->button()->standard(
             '<span class="glyphicon glyphicon-arrow-left"></span> ' . $this->lng->txt('previous_question'),
             ''
         )->withOnLoadCode($this->getOnLoadCodeForNavigationButtons($target, ilTestPlayerCommands::PREVIOUS_QUESTION));
@@ -1900,15 +1897,8 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
         $tpl->setVariable('QUESTION_OUTPUT', $pageoutput);
 
-        /*
-        $button = ilLinkButton::getInstance();
-        $button->setId('tst_confirm_feedback');
-        $button->setUrl($navUrl);
-        $button->setCaption('proceed');
-        $button->setPrimary(true);
-        */
-        $button = $this->ui->factory()->button()->primary($this->lng->txt('proceed'), $navUrl);
-        $tpl->setVariable('BUTTON', $this->ui->renderer()->render($button));
+        $button = $this->ui_factory->button()->primary($this->lng->txt('proceed'), $navUrl);
+        $tpl->setVariable('BUTTON', $this->ui_renderer->render($button));
 
         $modal = ilModalGUI::getInstance();
         $modal->setType(ilModalGUI::TYPE_LARGE);
@@ -2327,10 +2317,10 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         $button->setCaption('tst_save_and_proceed');
         $button->setPrimary(true);
         */
-        $button = $this->ui->factory()->button()->primary($this->lng->txt('tst_save_and_proceed'), '#');
+        $button = $this->ui_factory->button()->primary($this->lng->txt('tst_save_and_proceed'), '#');
 
         $tpl->setCurrentBlock('buttons');
-        $tpl->setVariable('BUTTON', $this->ui->renderer()->render($button));
+        $tpl->setVariable('BUTTON', $this->ui_renderer->render($button));
         $tpl->parseCurrentBlock();
 
         $button = ilLinkButton::getInstance();
@@ -2360,13 +2350,13 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
     protected function populateNextLocksUnchangedModal()
     {
-        $modal = new ilTestPlayerConfirmationModal();
+        $modal = new ilTestPlayerConfirmationModal($this->ui_renderer);
         $modal->setModalId('tst_next_locks_unchanged_modal');
 
         $modal->setHeaderText($this->lng->txt('tst_nav_next_locks_empty_answer_header'));
         $modal->setConfirmationText($this->lng->txt('tst_nav_next_locks_empty_answer_confirm'));
 
-        $button = $this->ui->factory()->button()->standard($this->lng->txt('tst_proceed'), '#');
+        $button = $this->ui_factory->button()->standard($this->lng->txt('tst_proceed'), '#');
         $modal->addButton($button);
 
         $button = $this->ui_factory->button()->primary($this->lng->txt('cancel'), '#');
@@ -2383,7 +2373,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
             return;
         }
 
-        $modal = new ilTestPlayerConfirmationModal();
+        $modal = new ilTestPlayerConfirmationModal($this->ui_renderer);
         $modal->setModalId('tst_next_locks_changed_modal');
 
         $modal->setHeaderText($this->lng->txt('tst_nav_next_locks_current_answer_header'));

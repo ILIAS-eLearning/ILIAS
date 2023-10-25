@@ -18,6 +18,10 @@
 
 declare(strict_types=1);
 
+use ILIAS\UI\Renderer as UIRenderer;
+use ILIAS\UI\Component\Button\Standard as StandardButton;
+use ILIAS\UI\Implementation\Component\Button\Primary as PrimaryButton;
+
 /**
  * Class ilTestPlayerModal
  *
@@ -28,127 +32,75 @@ declare(strict_types=1);
  */
 class ilTestPlayerConfirmationModal
 {
-    private \ILIAS\DI\UIServices $ui;
-
-    /**
-     * @var string
-     */
-    protected $modalId = '';
-
-    /**
-     * @var string
-     */
-    protected $headerText = '';
-
-    /**
-     * @var string
-     */
-    protected $confirmationText = '';
-
-    /**
-     * @var string
-     */
-    protected $confirmationCheckboxName = '';
-
-    /**
-     * @var string
-     */
-    protected $confirmationCheckboxLabel = '';
+    protected string $modal_id = '';
+    protected string $header_text = '';
+    protected string $confirmation_text = '';
+    protected string $confirmation_checkbox_name = '';
+    protected string $confirmation_checkbox_label = '';
 
     /**
      * @var \ILIAS\UI\Component\Button\Standard[]
      */
-    protected $buttons = array();
+    protected array $buttons = [];
 
     /**
      * @var ilHiddenInputGUI[]
      */
-    protected $parameters = array();
+    protected array $parameters = [];
 
-    public function __construct()
-    {
-        global $DIC;
-        $this->ui = $DIC->ui();
+    public function __construct(
+        protected UIRenderer $ui_renderer
+    ) {
     }
 
-    /**
-     * @return string
-     */
     public function getModalId(): string
     {
-        return $this->modalId;
+        return $this->modal_id;
     }
 
-    /**
-     * @param string $modalId
-     */
-    public function setModalId($modalId)
+    public function setModalId(string $modal_id)
     {
-        $this->modalId = $modalId;
+        $this->modal_id = $modal_id;
     }
 
-    /**
-     * @return string
-     */
     public function getHeaderText(): string
     {
-        return $this->headerText;
+        return $this->header_text;
     }
 
-    /**
-     * @param string $headerText
-     */
-    public function setHeaderText($headerText)
+    public function setHeaderText(string $header_text)
     {
-        $this->headerText = $headerText;
+        $this->header_text = $header_text;
     }
 
-    /**
-     * @return string
-     */
     public function getConfirmationText(): string
     {
-        return $this->confirmationText;
+        return $this->confirmation_text;
     }
 
-    /**
-     * @param string $confirmationText
-     */
-    public function setConfirmationText($confirmationText)
+    public function setConfirmationText(string $confirmation_text)
     {
-        $this->confirmationText = $confirmationText;
+        $this->confirmation_text = $confirmation_text;
     }
 
-    /**
-     * @return string
-     */
     public function getConfirmationCheckboxName(): string
     {
-        return $this->confirmationCheckboxName;
+        return $this->confirmation_checkbox_name;
     }
 
-    /**
-     * @param string $confirmationCheckboxName
-     */
-    public function setConfirmationCheckboxName($confirmationCheckboxName)
+    public function setConfirmationCheckboxName(string $confirmation_checkbox_name)
     {
-        $this->confirmationCheckboxName = $confirmationCheckboxName;
+        $this->confirmation_checkbox_name = $confirmation_checkbox_name;
     }
 
-    /**
-     * @return string
-     */
     public function getConfirmationCheckboxLabel(): string
     {
-        return $this->confirmationCheckboxLabel;
+        return $this->confirmation_checkbox_label;
     }
 
-    /**
-     * @param string $confirmationCheckboxLabel
-     */
-    public function setConfirmationCheckboxLabel($confirmationCheckboxLabel)
+    public function setConfirmationCheckboxLabel(string $confirmation_checkbox_label)
     {
-        $this->confirmationCheckboxLabel = $confirmationCheckboxLabel;
+        $this->confirmation_checkbox_label = $confirmation_checkbox_label;
     }
 
     /**
@@ -159,10 +111,7 @@ class ilTestPlayerConfirmationModal
         return $this->buttons;
     }
 
-    /**
-     * @param \ILIAS\UI\Component\Button\Standard|ilLinkButton $button
-     */
-    public function addButton(\ILIAS\UI\Component\Button\Standard|\ILIAS\UI\Implementation\Component\Button\Primary|ilLinkButton $button)
+    public function addButton(StandardButton|PrimaryButton|ilLinkButton $button)
     {
         $this->buttons[] = $button;
     }
@@ -175,25 +124,16 @@ class ilTestPlayerConfirmationModal
         return $this->parameters;
     }
 
-    /**
-     * @param ilHiddenInputGUI $hiddenInputGUI
-     */
-    public function addParameter(ilHiddenInputGUI $hiddenInputGUI)
+    public function addParameter(ilHiddenInputGUI $hidden_input_gui)
     {
-        $this->parameters[] = $hiddenInputGUI;
+        $this->parameters[] = $hidden_input_gui;
     }
 
-    /**
-     * @return bool
-     */
     public function isConfirmationCheckboxRequired(): bool
     {
         return strlen($this->getConfirmationCheckboxName()) && strlen($this->getConfirmationCheckboxLabel());
     }
 
-    /**
-     * @return string
-     */
     public function buildBody(): string
     {
         $tpl = new ilTemplate('tpl.tst_player_confirmation_modal.html', true, true, 'Modules/Test');
@@ -213,8 +153,8 @@ class ilTestPlayerConfirmationModal
 
         foreach ($this->getButtons() as $button) {
             $tpl->setCurrentBlock('buttons');
-            if ($button instanceof \ILIAS\UI\Component\Button\Standard || $button instanceof \ILIAS\UI\Implementation\Component\Button\Primary) {
-                $button_str = $this->ui->renderer()->render($button);
+            if ($button instanceof StandardButton || $button instanceof PrimaryButton) {
+                $button_str = $this->ui_renderer->render($button);
             } elseif ($button instanceof ilLinkButton) {
                 $button_str = $button->render();
             }
@@ -228,9 +168,6 @@ class ilTestPlayerConfirmationModal
         return $tpl->get();
     }
 
-    /**
-     * @return string
-     */
     public function getHTML(): string
     {
         $modal = ilModalGUI::getInstance();

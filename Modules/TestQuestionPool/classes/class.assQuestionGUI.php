@@ -1141,7 +1141,7 @@ abstract class assQuestionGUI
     /**
      * @param   int|null  $pass      Active pass
      */
-    public function getGenericFeedbackOutput(int $active_id, $pass): string
+    public function getGenericFeedbackOutput(int $active_id, ?int $pass): string
     {
         $output = "";
         $manual_feedback = ilObjTest::getManualFeedback($active_id, $this->object->getId(), $pass);

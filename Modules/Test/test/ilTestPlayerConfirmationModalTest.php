@@ -28,9 +28,10 @@ class ilTestPlayerConfirmationModalTest extends ilTestBaseTestCase
 
     protected function setUp(): void
     {
+        global $DIC;
         parent::setUp();
 
-        $this->testObj = new ilTestPlayerConfirmationModal();
+        $this->testObj = new ilTestPlayerConfirmationModal($DIC['ui.renderer']);
     }
 
     public function test_instantiateObject_shouldReturnInstance(): void

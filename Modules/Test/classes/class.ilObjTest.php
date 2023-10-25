@@ -3315,8 +3315,11 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
                 case "solution_details":
                     $result_details_settings = $result_details_settings->withShowSolutionDetails((bool) $metadata["entry"]);
                     break;
+                case "show_solution_list_comparison":
+                    $result_details_settings = $result_details_settings->withShowSolutionListComparison((bool) $metadata["entry"]);
+                    break;
                 case "print_bs_with_res":
-                    $result_details_settings = $result_details_settings->withPrintBestSolutionWithResult((bool) $metadata["entry"]);
+                    $result_details_settings = $result_details_settings->withShowSolutionListComparison((bool) $metadata["entry"]);
                     break;
                 case "author":
                     $this->saveAuthorToMetadata($metadata["entry"]);
@@ -3903,8 +3906,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
         $a_xml_writer->xmlStartTag("qtimetadatafield");
-        $a_xml_writer->xmlElement("fieldlabel", null, "print_bs_with_res");
-        $a_xml_writer->xmlElement("fieldentry", null, (int) $this->isBestSolutionPrintedWithResult());
+        $a_xml_writer->xmlElement("fieldlabel", null, "show_solution_list_comparison");
+        $a_xml_writer->xmlElement("fieldentry", null, (int) $this->score_settings->getResultDetailsSettings()->getShowSolutionListComparison());
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
         // solution details
@@ -6694,9 +6697,12 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
     * @return string The feedback text
     * @access public
     */
-    public static function getManualFeedback(int $active_id, int $question_id, int $pass): string
+    public static function getManualFeedback(int $active_id, int $question_id, ?int $pass): string
     {
-        $feedback = "";
+        if ($pass === null) {
+            return '';
+        }
+        $feedback = '';
         $row = self::getSingleManualFeedback((int) $active_id, (int) $question_id, (int) $pass);
 
         if ($row !== [] && ($row['finalized_evaluation'] || \ilTestService::isManScoringDone((int) $active_id))) {
@@ -7404,11 +7410,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
     public function setOldOnlineStatus($oldOnlineStatus): void
     {
         $this->oldOnlineStatus = $oldOnlineStatus;
-    }
-
-    public function isBestSolutionPrintedWithResult(): bool
-    {
-        return $this->getScoreSettings()->getResultDetailsSettings()->getPrintBestSolutionWithResult();
     }
 
     public function isOfferingQuestionHintsEnabled(): bool
