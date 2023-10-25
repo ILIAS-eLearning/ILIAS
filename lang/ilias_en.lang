@@ -612,7 +612,7 @@ assessment#:#delete_image_header#:#Remove image
 assessment#:#delete_image_question#:#Do you really want to remove the image?
 assessment#:#delete_user_data#:#Remove Test Data of Selected Users
 assessment#:#description_maxchars#:#If nothing entered the maximum number of characters for this text answer is unlimited.
-assessment#:#detail_ending_time_reached#:#The maximum time available for completing this test has expired. This test has not been available since %s .
+assessment#:#detail_ending_time_reached#:#The maximum time available for completing this test has expired. This test has not been available since %s.
 assessment#:#detail_max_processing_time_reached#:#You have exceeded the maximum time available for completing this test! You are no longer allowed to continue with the test.
 assessment#:#detail_starting_time_not_reached#:#You cannot start the test yet. The test will be available from %s onwards.
 assessment#:#detailed_evaluation#:#Detailed Evaluation
@@ -1294,6 +1294,7 @@ assessment#:#tst_answered_questions_of_total#:#%s of %s
 assessment#:#tst_answered_questions_test#:#Questions answered in this test
 assessment#:#tst_attached_xls_file#:#You can find the test results for this participant in the attached Excel file.
 assessment#:#tst_attempt#:#Attempt
+assessment#:#tst_attempt_limit_message#:#Your limit of test attempts is <b>%s</b>.
 assessment#:#tst_back_to_pass_details#:#Back to Pass Details
 assessment#:#tst_back_to_question_list#:#Back to Question List
 assessment#:#tst_back_to_top#:#Back to Top
@@ -1315,6 +1316,8 @@ assessment#:#tst_change_workingtime#:#Add extra time for a participant
 assessment#:#tst_comp_eval_mode#:#Evaluation by
 assessment#:#tst_comp_points#:#Competence Points
 assessment#:#tst_competence#:#Competence
+assessment#:#tst_conditions_checkbox_enabled#:#Exam Conditions
+assessment#:#tst_conditions_checkbox_enabled_desc#:#Participants must select a checkbox to start the test. Please use the introductory message to present the exam to the participants.
 assessment#:#tst_confirm_submit_answers#:#Please confirm your submission of your solution. You won't be able to revert your answers after pressing the submit button.
 assessment#:#tst_conflicting_setting#:#This setting does conflict with another setting.
 assessment#:#tst_copy#:#Copy Test
@@ -1368,6 +1371,23 @@ assessment#:#tst_eval_total_passed#:#Total passed tests
 assessment#:#tst_eval_total_passed_average_points#:#Average points of passed tests
 assessment#:#tst_eval_total_passed_average_time#:#Average processing time of all passed tests
 assessment#:#tst_eval_total_persons#:#Total number of participants who started the test
+assessment#:#tst_exam_access_code#:#Access Code
+assessment#:#tst_exam_access_code_label#:#Enter access code to continue your already started test.
+assessment#:#tst_exam_conditions#:#Exam Conditions
+assessment#:#tst_exam_conditions_label#:#Check to accept the conditions.
+assessment#:#tst_exam_conditions_not_checked_message#:#You need to accept the exam conditions!
+assessment#:#tst_exam_ending_time_message#:#The test cannot be started after %s.
+assessment#:#tst_exam_modal_message_conditions#:#Please confirm the conditions to start the test.
+assessment#:#tst_exam_modal_message_conditions_and_password#:#Please confirm the conditions and enter the password to start the test.
+assessment#:#tst_exam_modal_message_password#:#Please enter the password to start the test.
+assessment#:#tst_exam_not_assigned_participant_disclaimer#:#You cannot start this test, as you are not an assigned participant.
+assessment#:#tst_exam_password#:#Test Password
+assessment#:#tst_exam_password_invalid_message#:#The given password is not valid!
+assessment#:#tst_exam_password_label#:#Password
+assessment#:#tst_exam_required_fields_not_filled_message#:#You need to fill out all required fields!
+assessment#:#tst_exam_start#:#Start Test
+assessment#:#tst_exam_use_previous_answers#:#Previous Answers
+assessment#:#tst_exam_use_previous_answers_label#:#If enabled answers from previous tests will be prefilled.
 assessment#:#tst_extratime_added#:#The working time of the participant has been increased by %s minutes.
 assessment#:#tst_extratime_info#:#If you want to add the working time multiple times for the same participant, please insert the total amount of time you want to add.
 assessment#:#tst_extratime_notavailable#:#Extra time can be added only for tests with one pass and a maximum processing time.
@@ -1400,6 +1420,8 @@ assessment#:#tst_general_properties#:#General Settings
 assessment#:#tst_header_participant#:#Your Answer:
 assessment#:#tst_header_solution#:#Best Solution:
 assessment#:#tst_heading_scoring#:#Scoring
+assessment#:#tst_hide_info_tab#:#Hide Info Tab
+assessment#:#tst_hide_info_tab_desc#:#Hides the tab ‘Info’ of the test.
 assessment#:#tst_hide_pagecontents#:#Hide page content
 assessment#:#tst_hide_pagecontents_desc#:#ILIAS content placed before and after the actual question text via the "Edit Page" button will not be displayed in the result views and print output.
 assessment#:#tst_hide_side_list#:#Hide List of Questions
@@ -1479,6 +1501,10 @@ assessment#:#tst_introduction_desc#:#Shows an introductory message on the tab �
 assessment#:#tst_introduction_text#:#Introductory Message
 assessment#:#tst_invited_nobody#:#No users, groups or roles have been added as fixed test participants
 assessment#:#tst_invited_selected_users#:#The selected users have been added as fixed test participants
+assessment#:#tst_launcher_button_label_passes_limit_reached#:#You have reached the limit of possible test passes
+assessment#:#tst_launcher_status_message_conditions#:#You will be asked for your approval of the exam conditions when you start the test.
+assessment#:#tst_launcher_status_message_conditions_and_password#:#You will be asked for the password and your approval of the exam conditions when you start the test.
+assessment#:#tst_launcher_status_message_password#:#You will be asked for the password when you start the test.
 assessment#:#tst_level#:#Competence Level
 assessment#:#tst_limit_nr_of_tries#:#Limit Number of Test Attempts
 assessment#:#tst_link_only_unassigned#:#You have selected at least one question that is already linked to a question pool. Only unassigned questions can be added to a question pool.
@@ -1574,6 +1600,7 @@ assessment#:#tst_objectives_progress_header#:#Learning Objectives Progress
 assessment#:#tst_old_style_rnd_quest_set_broken#:#This random test is in a irreparable state, because one or more connected question pools have been deleted. Therefor participants cannot take the test any longer.
 assessment#:#tst_optional_questions_confirmation_fixed_test#:#<b>Question related to already passed learning objectives were answered in previous passes.</b><br /><br />You want to navigate to a question, that relates to an already passed learning objective.<br />You can choose:<br /><br />I you proceed, you can work on or simply review these questions. If you change your answers that were adopted from previous passes, you can also degrade your learning objective result.<br /><br />If you decide to not work on or review these questions, you can go back. The questions will be considered in the evaluation in every case.
 assessment#:#tst_optional_questions_confirmation_non_fixed_test#:#<b>Question related to already passed learning objectives are optional.</b><br /><br />You want to navigate to a question, that relates to an already passed learning objective.<br />You can choose:<br /><br />I you proceed, you can work on these questions. Your answers from previous attempts were not adopted, since new random questions were selected for this attempt. With working on this questions you can also degrade your learning objective result.<br /><br />If you decide to not work on these questions, you can go back. In this case these questions won't be considered in the evaluation.
+assessment#:#tst_out_of_time_message#:#You have reached the maximum allowed processing time of the test!
 assessment#:#tst_participant#:#Participant
 assessment#:#tst_participant_fullname_pattern#:#%2$s, %1$s
 assessment#:#tst_participant_status#:#Participant Status
@@ -1622,6 +1649,7 @@ assessment#:#tst_postpone_on#:#Unanswered questions will be enqueued
 assessment#:#tst_postpone_on_desc#:#Question that users just look at and flip over without answering them, will be enqueued to be presented again automatically the end of the test.
 assessment#:#tst_presentation_properties#:#Administering the Test: Behavior of the Question
 assessment#:#tst_presentation_settings_section#:#Presentation
+assessment#:#tst_previous_access_code_not_available#:#No previous code available!
 assessment#:#tst_print#:#Test and Assessment - Print View
 assessment#:#tst_proceed#:#Proceed
 assessment#:#tst_processing_time#:#Limit Duration of Test
@@ -1803,6 +1831,7 @@ assessment#:#tst_setting_offer_hints_label#:#Hints
 assessment#:#tst_settings_conflict_compulsory_and_lock#:#"Compulsory Questions" cannot be used together with "Answer Lock".
 assessment#:#tst_settings_conflict_postpone_and_lock#:#"Unanswered questions will be enqueued" cannot be used together with "Lock Answers After Moving to Next Question".
 assessment#:#tst_settings_conflict_shuffle_and_lock#:#"Shuffle Questions" cannot be used together with "Lock Answers After Moving to Next Question".
+assessment#:#tst_settings_header_additional#:#Additional Features
 assessment#:#tst_settings_header_execution#:#Administering the Test: Access
 assessment#:#tst_settings_header_intro#:#Information Before Start of Test
 assessment#:#tst_settings_header_test_run#:#Administering the Test: Test Run
@@ -1893,6 +1922,7 @@ assessment#:#tst_text_count_system#:#Scoring System
 assessment#:#tst_threshold#:#Thresholds (in %)
 assessment#:#tst_time_already_spent#:#You started the test at: %s. Your maximum processing time is %s.
 assessment#:#tst_time_already_spent_left#:#You have %s left.
+assessment#:#tst_time_limit_message#:#You will have <b>%s minutes</b> to answer all questions.
 assessment#:#tst_title_output#:#Show Question Title
 assessment#:#tst_title_output_full#:#Question Titles and Available Points
 assessment#:#tst_title_output_hide_points#:#Only Question Titles

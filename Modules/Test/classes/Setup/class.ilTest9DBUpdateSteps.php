@@ -227,4 +227,25 @@ class ilTest9DBUpdateSteps implements ilDatabaseUpdateSteps
             );
         }
     }
+
+    public function step_13(): void
+    {
+        if (!$this->db->tableColumnExists('tst_tests', 'hide_info_tab')) {
+            $this->db->addTableColumn('tst_tests', 'hide_info_tab', [
+                'type' => 'integer',
+                'length' => 1,
+                'default' => 1,
+                'notnull' => true
+            ]);
+        }
+
+        if (!$this->db->tableColumnExists('tst_tests', 'conditions_checkbox_enabled')) {
+            $this->db->addTableColumn('tst_tests', 'conditions_checkbox_enabled', [
+                'type' => 'integer',
+                'length' => 1,
+                'default' => 1,
+                'notnull' => true
+            ]);
+        }
+    }
 }

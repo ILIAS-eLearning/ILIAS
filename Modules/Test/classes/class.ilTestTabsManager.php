@@ -37,6 +37,7 @@ class ilTestTabsManager
     public const SUBTAB_ID_QST_LIST_VIEW = 'qst_list_view';
     public const SUBTAB_ID_QST_PAGE_VIEW = 'qst_page_view';
 
+    public const TAB_ID_TEST = 'test';
     public const TAB_ID_INFOSCREEN = 'info_short';
     public const TAB_ID_SETTINGS = 'settings';
     public const SUBTAB_ID_GENERAL_SETTINGS = 'general';
@@ -442,6 +443,15 @@ class ilTestTabsManager
                 break;
         }
 
+        // test tab
+        if ($this->isReadAccessGranted()) {
+            $this->tabs->addTab(
+                self::TAB_ID_TEST,
+                $this->lng->txt('test'),
+                $this->ctrl->getLinkTargetByClass(ilTestScreenGUI::class, 'testScreen')
+            );
+        }
+
         // questions tab
         if ($this->isWriteAccessGranted()) {
             $up = $this->wrapper->has('up')
@@ -483,7 +493,7 @@ class ilTestTabsManager
         }
 
         // info tab
-        if ($this->isReadAccessGranted()) {
+        if ($this->isReadAccessGranted() && !$this->getTestOBJ()->getMainSettings()->getAdditionalSettings()->getHideInfoTab()) {
             $this->tabs->addTarget(
                 'info_short',
                 $this->ctrl->getLinkTargetByClass('ilObjTestGUI', 'infoScreen'),

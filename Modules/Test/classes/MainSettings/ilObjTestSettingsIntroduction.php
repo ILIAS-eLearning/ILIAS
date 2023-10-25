@@ -28,7 +28,8 @@ class ilObjTestSettingsIntroduction extends TestSettings
         int $test_id,
         protected bool $introduction_enabled = false,
         protected ?string $introduction_text = null,
-        protected ?int $introduction_page_id = null
+        protected ?int $introduction_page_id = null,
+        protected bool $conditions_checkbox_enabled = false,
     ) {
         parent::__construct($test_id);
     }
@@ -44,6 +45,11 @@ class ilObjTestSettingsIntroduction extends TestSettings
             $lng->txt('tst_introduction_desc')
         )->withValue($this->getIntroductionEnabled());
 
+        $inputs['conditions_checkbox_enabled'] = $f->checkbox(
+            $lng->txt('tst_conditions_checkbox_enabled'),
+            $lng->txt('tst_conditions_checkbox_enabled_desc')
+        )->withValue($this->getExamConditionsCheckboxEnabled());
+
         return $f->section($inputs, $lng->txt('tst_settings_header_intro'));
     }
 
@@ -52,7 +58,8 @@ class ilObjTestSettingsIntroduction extends TestSettings
         return [
             'intro_enabled' => ['integer', (int) $this->getIntroductionEnabled()],
             'introduction' => ['text', $this->getIntroductionText()],
-            'introduction_page_id' => ['integer', $this->getIntroductionPageId()]
+            'introduction_page_id' => ['integer', $this->getIntroductionPageId()],
+            'conditions_checkbox_enabled' => ['integer', (int) $this->getExamConditionsCheckboxEnabled()],
         ];
     }
 
@@ -86,6 +93,17 @@ class ilObjTestSettingsIntroduction extends TestSettings
     {
         $clone = clone $this;
         $clone->introduction_page_id = $introduction_page_id;
+        return $clone;
+    }
+
+    public function getExamConditionsCheckboxEnabled(): bool
+    {
+        return $this->conditions_checkbox_enabled;
+    }
+    public function withExamConditionsCheckboxEnabled(bool $conditions_checkbox_enabled): self
+    {
+        $clone = clone $this;
+        $clone->conditions_checkbox_enabled = $conditions_checkbox_enabled;
         return $clone;
     }
 }

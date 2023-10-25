@@ -271,7 +271,9 @@ class ilObjTestSettingsMainGUI extends ilTestSettingsGUI
             self::PARTICIPANTS_FUNCTIONALITY_SETTINGS_LABEL => $this->main_settings->getParticipantFunctionalitySettings()
                 ->toForm($lng, $input_factory->field(), $refinery, $environment),
             self::FINISH_TEST_SETTINGS_LABEL => $this->main_settings->getFinishingSettings()
-                ->toForm($lng, $input_factory->field(), $refinery)
+                ->toForm($lng, $input_factory->field(), $refinery),
+            self::ADDITIONAL_FUNCTIONALITY_SETTINGS_LABEL => $this->main_settings->getAdditionalSettings()
+                ->toForm($lng, $input_factory->field(), $refinery, $environment)
         ];
 
         $inputs = array_merge($main_inputs, $this->getAdditionalFunctionalitySettingsSections($environment));
@@ -578,7 +580,8 @@ class ilObjTestSettingsMainGUI extends ilTestSettingsGUI
     private function getIntroductionSettingsForStorage(array $section): ilObjTestSettingsIntroduction
     {
         return $this->main_settings->getIntroductionSettings()
-            ->withIntroductionEnabled($section['introduction_enabled']);
+            ->withIntroductionEnabled($section['introduction_enabled'])
+            ->withExamConditionsCheckboxEnabled($section['conditions_checkbox_enabled']);
     }
 
     private function getAccessSettingsForStorage(array $section): ilObjTestSettingsAccess
@@ -685,7 +688,9 @@ class ilObjTestSettingsMainGUI extends ilTestSettingsGUI
         $inputs['organisational_units_activation'] = $this->getOrganisationalUnitsActivationInput();
         if ((new ilSkillManagementSettings())->isActivated()) {
             $inputs['skills_service_activation'] = $this->main_settings
-                ->getAdditionalSettings()->toForm(
+                ->getAdditionalSettings()
+                ->withHideInfoTab($ecs_section['hide_info_tab'])
+                ->toForm(
                     $this->lng,
                     $this->ui->factory()->input()->field(),
                     $this->refinery,
@@ -759,7 +764,7 @@ class ilObjTestSettingsMainGUI extends ilTestSettingsGUI
 
     protected function getAdditionalFunctionalitySettingsForStorage(array $section): ilObjTestSettingsAdditional
     {
-        $additional_settings = $this->main_settings->getAdditionalSettings();
+        $additional_settings = $this->main_settings->getAdditionalSettings()->withHideInfoTab($section['hide_info_tab']);
 
         if ($this->test_object->participantDataExist()) {
             return $additional_settings;

@@ -28,7 +28,7 @@ class ilObjTestMainSettings
     protected ilObjTestSettingsQuestionBehaviour $settings_question_behaviour;
     protected ilObjTestSettingsParticipantFunctionality $settings_participant_functionality;
     protected ilObjTestSettingsGeneral $settings_general;
-    protected ilObjTestSettingsAdditional $settings_additinal;
+    protected ilObjTestSettingsAdditional $settings_additional;
 
     public function __construct(
         int $test_id,
@@ -63,7 +63,7 @@ class ilObjTestMainSettings
         $this->settings_question_behaviour = $settings_question_behaviour;
         $this->settings_participant_functionality = $settings_participant_functionality;
         $this->settings_finishing = $settings_finishing;
-        $this->settings_additinal = $settings_additional;
+        $this->settings_additional = $settings_additional;
     }
 
     protected function throwOnDifferentTestId(TestSettings $setting)
@@ -171,13 +171,13 @@ class ilObjTestMainSettings
 
     public function getAdditionalSettings(): ilObjTestSettingsAdditional
     {
-        return $this->settings_additinal;
+        return $this->settings_additional;
     }
     public function withAdditionalSettings(ilObjTestSettingsAdditional $settings): self
     {
         $this->throwOnDifferentTestId($settings);
         $clone = clone $this;
-        $clone->settings_additinal = $settings;
+        $clone->settings_additional = $settings;
         return $clone;
     }
 }

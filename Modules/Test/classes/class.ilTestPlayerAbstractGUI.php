@@ -159,7 +159,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
     public function suspendTestCmd()
     {
-        $this->ctrl->redirectByClass("ilobjtestgui", "infoScreen");
+        $this->ctrl->redirectByClass(ilTestScreenGUI::class, 'testScreen');
     }
 
     public function isMaxProcessingTimeReached(): bool
@@ -763,7 +763,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
             }
         }
 
-        // default redirect (pass overview when enabled, otherwise infoscreen)
+        // default redirect (pass overview when enabled, otherwise testscreen)
         $this->redirectBackCmd();
     }
 
@@ -782,12 +782,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
             $this->ctrl->redirectByClass(['ilTestResultsGUI', 'ilMyTestResultsGUI', 'ilTestEvaluationGUI']);
         }
 
-        $this->backToInfoScreenCmd();
-    }
-
-    protected function backToInfoScreenCmd()
-    {
-        $this->ctrl->redirectByClass('ilObjTestGUI', 'redirectToInfoScreen');
+        $this->ctrl->redirectByClass(ilTestScreenGUI::class, 'testScreen');
     }
 
     /*

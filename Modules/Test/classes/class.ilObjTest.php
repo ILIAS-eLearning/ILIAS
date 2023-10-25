@@ -5656,26 +5656,35 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
             }
         }
 
-        if ($this->getMainSettings()->getTestBehaviourSettings()->getPassWaitingEnabled()
-            && $testPassesSelector->getLastFinishedPass() !== null) {
-            $last_pass = $testPassesSelector->getLastFinishedPassTimestamp();
-            $waiting_between_passes = $this->getMainSettings()->getTestBehaviourSettings()->getPassWaiting();
-            if ($last_pass && $waiting_between_passes !== '') {
-                $time_values = explode(":", $waiting_between_passes);
-                $next_pass_allowed = strtotime('+ ' . $time_values[0] . ' Days + ' . $time_values[1] . ' Hours' . $time_values[2] . ' Minutes', $last_pass);
+        $next_pass_allowed_timestamp = 0;
+        if (!$this->isNextPassAllowed($testPassesSelector, $next_pass_allowed_timestamp)) {
+            $date = ilDatePresentation::formatDate(new ilDateTime($next_pass_allowed_timestamp, IL_CAL_UNIX));
 
-                if (time() < $next_pass_allowed) {
-                    $date = ilDatePresentation::formatDate(new ilDateTime($next_pass_allowed, IL_CAL_UNIX));
-
-                    $result["executable"] = false;
-                    $result["errormessage"] = sprintf($this->lng->txt('wait_for_next_pass_hint_msg'), $date);
-                    return $result;
-                }
-            }
+            $result['executable'] = false;
+            $result['errormessage'] = sprintf($this->lng->txt('wait_for_next_pass_hint_msg'), $date);
+            return $result;
         }
         return $result;
     }
 
+    public function isNextPassAllowed(ilTestPassesSelector $testPassesSelector, int &$next_pass_allowed_timestamp): bool
+    {
+        $waiting_between_passes = $this->getMainSettings()->getTestBehaviourSettings()->getPassWaiting();
+        $last_finished_pass_timestamp = $testPassesSelector->getLastFinishedPassTimestamp();
+
+        if (
+            $this->getMainSettings()->getTestBehaviourSettings()->getPassWaitingEnabled()
+            && ($waiting_between_passes !== '')
+            && ($testPassesSelector->getLastFinishedPass() !== null)
+            && ($last_finished_pass_timestamp !== null)
+        ) {
+            $time_values = explode(':', $waiting_between_passes);
+            $next_pass_allowed_timestamp = strtotime('+ ' . $time_values[0] . ' Days + ' . $time_values[1] . ' Hours' . $time_values[2] . ' Minutes', $last_finished_pass_timestamp);
+            return (time() > $next_pass_allowed_timestamp);
+        }
+
+        return true;
+    }
 
     public function canShowTestResults(ilTestSession $testSession): bool
     {
@@ -6267,31 +6276,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
     }
 
     /**
-    * Returns the "Start the Test" label for the Info page
-    *
-    * @param int $active_id The active id of the current user
-    * @return string The "Start the Test" label
-    * @access public
-    */
-    public function getStartTestLabel($active_id): string
-    {
-        if ($this->getNrOfTries() == 1) {
-            return $this->lng->txt("tst_start_test");
-        }
-        $active_pass = self::_getPass($active_id);
-        $res = $this->getNrOfResultsForPass($active_id, $active_pass);
-        if ($res == 0) {
-            if ($active_pass == 0) {
-                return $this->lng->txt("tst_start_test");
-            } else {
-                return $this->lng->txt("tst_start_new_test_pass");
-            }
-        } else {
-            return $this->lng->txt("tst_resume_test");
-        }
-    }
-
-    /**
      * Returns the available test defaults for the active user
      * @return array An array containing the defaults
      * @access public
@@ -6354,6 +6338,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
             'activation_visibility' => $this->getActivationVisibility(),
 
             'IntroEnabled' => (int) $main_settings->getIntroductionSettings()->getIntroductionEnabled(),
+            'ExamConditionsCheckboxEnabled' => (int) $main_settings->getIntroductionSettings()->getExamConditionsCheckboxEnabled(),
 
             'StartingTimeEnabled' => (int) $main_settings->getAccessSettings()->getStartTimeEnabled(),
             'StartingTime' => $main_settings->getAccessSettings()->getStartTime(),
@@ -6424,7 +6409,9 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
             'highscore_wtime' => $score_settings->getGamificationSettings()->getHighscoreWTime(),
             'highscore_own_table' => $score_settings->getGamificationSettings()->getHighscoreOwnTable(),
             'highscore_top_table' => $score_settings->getGamificationSettings()->getHighscoreTopTable(),
-            'highscore_top_num' => $score_settings->getGamificationSettings()->getHighscoreTopNum()
+            'highscore_top_num' => $score_settings->getGamificationSettings()->getHighscoreTopNum(),
+
+            'HideInfoTab' => (int) $main_settings->getAdditionalSettings()->getHideInfoTab(),
         ];
 
         $next_id = $this->db->nextId('tst_test_defaults');
@@ -6470,6 +6457,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
             ->withIntroductionSettings(
                 $main_settings->getIntroductionSettings()
                 ->withIntroductionEnabled($testsettings['IntroEnabled'])
+                ->withExamConditionsCheckboxEnabled($testsettings['ExamConditionsCheckboxEnabled'])
             )
             ->withAccessSettings(
                 $main_settings->getAccessSettings()
@@ -6528,6 +6516,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
             ->withAdditionalSettings(
                 $main_settings->getAdditionalSettings()
                     ->withSkillsServiceEnabled((bool) $testsettings['skill_service'])
+                    ->withHideInfoTab($testsettings['HideInfoTab'])
             );
 
         $this->getMainSettingsRepository()->store($main_settings);

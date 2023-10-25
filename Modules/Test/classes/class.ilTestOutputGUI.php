@@ -312,14 +312,13 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
         $this->test_session->setLastSequence($sequence_element ?? 0);
         $this->test_session->saveToDb();
 
-
-        $questionId = $this->testSequence->getQuestionForSequence($sequence_element);
+        $questionId = $this->testSequence->getQuestionForSequence($sequence_element ?? 0);
 
         if (!(int) $questionId && $this->test_session->isObjectiveOriented()) {
             $this->handleTearsAndAngerNoObjectiveOrientedQuestion();
         }
 
-        if (!$this->testSequence->isQuestionPresented($questionId)) {
+        if ($questionId !== null && !$this->testSequence->isQuestionPresented($questionId)) {
             $this->testSequence->setQuestionPresented($questionId);
             $this->testSequence->saveToDb();
         }
@@ -580,7 +579,6 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
         $participant = $participants->getParticipantByActiveId($this->testrequest->getActiveId());
         if (!$participant || !$participant->hasUnfinishedPasses()) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("tst_current_run_no_longer_valid"), true);
-            $this->backToInfoScreenCmd();
         }
     }
 

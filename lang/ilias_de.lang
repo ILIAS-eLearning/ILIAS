@@ -1294,6 +1294,7 @@ assessment#:#tst_answered_questions_of_total#:#%s von %s
 assessment#:#tst_answered_questions_test#:#In diesem Test beantwortete Fragen
 assessment#:#tst_attached_xls_file#:#Sie finden die Testergebnisse für diesen Teilnehmer in der angehängten Excel-Datei.
 assessment#:#tst_attempt#:#Versuch
+assessment#:#tst_attempt_limit_message#:#Ihr Limit für Testversuche beträgt <b>%s</b>.
 assessment#:#tst_back_to_pass_details#:#Zurück zur Übersicht des Durchlaufs
 assessment#:#tst_back_to_question_list#:#Zurück zur Fragenliste
 assessment#:#tst_back_to_top#:#Zurück nach oben
@@ -1315,6 +1316,8 @@ assessment#:#tst_change_workingtime#:#Zeitverlängerung für einen Teilnehmer er
 assessment#:#tst_comp_eval_mode#:#Evaluierung über
 assessment#:#tst_comp_points#:#Kompetenz-Punkte
 assessment#:#tst_competence#:#Kompetenz
+assessment#:#tst_conditions_checkbox_enabled#:#Prüfungsbedingungen
+assessment#:#tst_conditions_checkbox_enabled_desc#:#Die Teilnehmer müssen ein Kontrollkästchen auswählen, um den Test zu starten. Bitte verwenden Sie die Einführungsnachricht, um den Teilnehmern die Prüfung vorzustellen.
 assessment#:#tst_confirm_submit_answers#:#Bitte bestätigen Sie, dass Sie den Test beenden und die gegebenen Antworten abschicken möchten. Nach dem Abschicken gibt es keine Möglichkeit mehr, Anworten einzugeben oder zu korrigieren.
 assessment#:#tst_conflicting_setting#:#Diese Einstellung steht in Konflikt mit einer anderen Einstellung.
 assessment#:#tst_copy#:#Test kopieren
@@ -1368,6 +1371,23 @@ assessment#:#tst_eval_total_passed#:#Gesamtzahl der bestandenen Tests
 assessment#:#tst_eval_total_passed_average_points#:#Durchschnittliche Punktezahl der bestandenen Tests
 assessment#:#tst_eval_total_passed_average_time#:#Mittlere Bearbeitungsdauer aller bestandenen Tests
 assessment#:#tst_eval_total_persons#:#Gesamtzahl der Personen, die den Test gestartet haben
+assessment#:#tst_exam_access_code#:#Zugangscode
+assessment#:#tst_exam_access_code_label#:#Geben Sie den Zugangscode ein, um Ihren bereits begonnenen Test fortzusetzen.
+assessment#:#tst_exam_conditions#:#Prüfungsbedingungen
+assessment#:#tst_exam_conditions_label#:#Ankreuzen, um die Bedingungen zu akzeptieren.
+assessment#:#tst_exam_conditions_not_checked_message#:#Sie müssen die Prüfungsbedingungen akzeptieren!
+assessment#:#tst_exam_ending_time_message#:#Der Test kann nicht nach %s gestartet werden.
+assessment#:#tst_exam_modal_message_conditions#:#Bitte bestätigen Sie die Bedingungen, um den Test zu starten.
+assessment#:#tst_exam_modal_message_conditions_and_password#:#Bitte bestätigen Sie die Bedingungen und geben Sie das Passwort ein, um den Test zu starten.
+assessment#:#tst_exam_modal_message_password#:#Bitte geben Sie das Passwort ein, um den Test zu starten.
+assessment#:#tst_exam_not_assigned_participant_disclaimer#:#Du kannst den Test nicht starten, da du kein zugewiesener Teilnehmer bist.
+assessment#:#tst_exam_password#:#Testpasswort
+assessment#:#tst_exam_password_invalid_message#:#Das angegebene Passwort ist ungültig!
+assessment#:#tst_exam_password_label#:#Passwort
+assessment#:#tst_exam_required_fields_not_filled_message#:#Sie müssen alle erforderlichen Felder ausfüllen!
+assessment#:#tst_exam_start#:#Test starten
+assessment#:#tst_exam_use_previous_answers#:#Vorherige Antworten
+assessment#:#tst_exam_use_previous_answers_label#:#Wenn aktiviert, werden Antworten aus früheren Tests vorausgefüllt.
 assessment#:#tst_extratime_added#:#Die Bearbeitungszeit des Teilnehmers wurde um %s Minuten verlängert.
 assessment#:#tst_extratime_info#:#Falls die Bearbeitungszeit eines Testteilnehmers mehrmals verlängert wird, geben Sie hier bitte die Summe aller seiner Zeitverlängerungen an.
 assessment#:#tst_extratime_notavailable#:#Zeitverlängerungen können nur für Tests mit einem Durchlauf und einer vorgegebenen Bearbeitungszeit durchgeführt werden.
@@ -1400,6 +1420,8 @@ assessment#:#tst_general_properties#:#Einstellungen des Tests
 assessment#:#tst_header_participant#:#Ihre Antwort:
 assessment#:#tst_header_solution#:#Bestmögliche Lösung:
 assessment#:#tst_heading_scoring#:#Bewertung
+assessment#:#tst_hide_info_tab#:#Info-Tab ausblenden
+assessment#:#tst_hide_info_tab_desc#:#Blendet den Tab „Info“ des Tests aus.
 assessment#:#tst_hide_pagecontents#:#Seiteninhalte ausblenden
 assessment#:#tst_hide_pagecontents_desc#:#ILIAS-Inhalte, die über den Button "Seite bearbeiten" vor und hinter dem eigentlichen Fragentext platziert wurden, werden in den Ergebnisansichten und der Druckausgabe nicht angezeigt.
 assessment#:#tst_hide_side_list#:#Fragenliste aus
@@ -1479,6 +1501,10 @@ assessment#:#tst_introduction_desc#:#Zeigt einen Einleitungstext auf dem 'Info'-
 assessment#:#tst_introduction_text#:#Einleitungstext
 assessment#:#tst_invited_nobody#:#Es wurden keine Benutzer, Gruppen oder Rollen als feste Teilnehmer hinzugefügt
 assessment#:#tst_invited_selected_users#:#Die ausgewählten Benutzer wurden als feste Teilnehmer hinzugefügt
+assessment#:#tst_launcher_button_label_passes_limit_reached#:#Sie haben das Limit der möglichen Testdurchläufe erreicht.
+assessment#:#tst_launcher_status_message_conditions#:#Sie werden nach Ihrer Zustimmung zu den Prüfungsbedingungen gefragt, wenn Sie den Test starten.
+assessment#:#tst_launcher_status_message_conditions_and_password#:#Sie werden nach dem Passwort und Ihrer Zustimmung zu den Prüfungsbedingungen gefragt, wenn Sie den Test starten.
+assessment#:#tst_launcher_status_message_password#:#Sie werden nach dem Passwort gefragt, wenn Sie den Test starten.
 assessment#:#tst_level#:#Kompetenzstufe
 assessment#:#tst_limit_nr_of_tries#:#Anzahl von Testdurchläufen begrenzen
 assessment#:#tst_link_only_unassigned#:#Sie haben mindestens eine Frage ausgewählt, die bereits einem Fragepool zugeordnet ist. Nur Fragen, die keinem Fragenpool zugeordnet sind, können einem Fragenpool hinzugefügt werden. Bitte treffen Sie eine neue Auswahl.
@@ -1574,6 +1600,7 @@ assessment#:#tst_objectives_progress_header#:#Fortschritte in den Lernzielen
 assessment#:#tst_old_style_rnd_quest_set_broken#:#Dieser Random Test befindet sich in einem irreparablen Zustand, da angeschlossene Fragepools gelöscht wurden. Aus diesem Grund können Teilnehmer diesen Test nicht länger absolvieren.
 assessment#:#tst_optional_questions_confirmation_fixed_test#:#<b>Fragen zu bereits erfolgreich bearbeiteten Lernzielen sind in vorherigen Versuchen erfolgreich beantwortet worden.</b><br /><br />Sie wollen nun zu einer Frage wechseln, welche zu einem bereits bestandenen Lernziel gehört.<br />Sie können wählen:<br /><br />Wenn Sie fortfahren, können Sie die Fragen zu diesen Lernzielen erneut bearbeiten oder nur einsehen. Wenn Sie die aus früheren Versuchen übernommenen Antworten nicht verändern, können Sie Ihr Lernzielergebnis auch nicht verschlechtern.<br /><br />Wenn Sie die Fragen nicht erneut bearbeiten oder einsehen möchten, können Sie zurück gehen. Die Fragen werden in jedem Fall in der Auswertung berücksichtigt.
 assessment#:#tst_optional_questions_confirmation_non_fixed_test#:#<b>Fragen zu bereits erfolgreich bearbeiteten Lernzielen sind optional.</b><br /><br />Sie wollen nun zu einer Frage wechseln, welche zu einem bereits bestandenen Lernziel gehört.<br />Sie können wählen:<br /><br />Wenn Sie fortfahren, können Sie die Fragen zu diesen Lernzielen bearbeiten. Da für diesen Versuch aber neue Fragen ausgewählt wurden, wurden Ihre Antworten aus vorherigen Versuchen nicht übernommen. Sie können sich bei erneuter Bearbeitung der Fragen Ihr Lernzielergebnis auch verschlechtern.<br /><br />Wenn Sie die Fragen nicht erneut bearbeiten möchten können Sie zurück gehen. Die Fragen werden dann in der Auswertung nicht berücksichtigt.
+assessment#:#tst_out_of_time_message#:#Sie haben die maximal erlaubte Bearbeitungszeit des Tests erreicht!
 assessment#:#tst_participant#:#Teilnehmer
 assessment#:#tst_participant_fullname_pattern#:#%2$s, %1$s
 assessment#:#tst_participant_status#:#Teilnehmerstatus
@@ -1622,6 +1649,7 @@ assessment#:#tst_postpone_on#:#Nicht beantwortete Fragen werden ans Testende ges
 assessment#:#tst_postpone_on_desc#:#Fragen, deren Antworten die Teilnehmer verwerfen oder überblättern, präsentiert ILIAS am Ende des Test noch einmal.
 assessment#:#tst_presentation_properties#:#Durchführung: Verhalten der Frage
 assessment#:#tst_presentation_settings_section#:#Darstellung
+assessment#:#tst_previous_access_code_not_available#:#Kein vorheriger Code verfügbar!
 assessment#:#tst_print#:#Test und Assessment – Druckansicht
 assessment#:#tst_proceed#:#Fortfahren
 assessment#:#tst_processing_time#:#Bearbeitungsdauer begrenzen
@@ -1805,6 +1833,7 @@ assessment#:#tst_setting_offer_hints_label#:#Lösungshinweise
 assessment#:#tst_settings_conflict_compulsory_and_lock#:#"Verpflichtende Fragen" kann nicht zusammen mit "Antworten festschreiben" verwendet werden.
 assessment#:#tst_settings_conflict_postpone_and_lock#:#"Nicht beantwortete Fragen werden ans Testende geschoben" kann nicht zusammen mit "Antworten bei Anzeige der Folgefrage festschreiben" verwendet werden.
 assessment#:#tst_settings_conflict_shuffle_and_lock#:#"Fragen mischen" kann nicht zusammen mit "Antworten bei Anzeige der Folgefrage festschreiben" verwendet werden.
+assessment#:#tst_settings_header_additional#:#Zusätzliche Funktionen
 assessment#:#tst_settings_header_execution#:#Durchführung: Zugang
 assessment#:#tst_settings_header_intro#:#Informationen zum Einstieg
 assessment#:#tst_settings_header_test_run#:#Durchführung: Steuerung Testdurchlauf
@@ -1893,6 +1922,7 @@ assessment#:#tst_text_count_system#:#Bewertungsregel
 assessment#:#tst_threshold#:#Schwellenwert (in %)
 assessment#:#tst_time_already_spent#:#Sie haben den Test gestartet: %s. Ihre maximale Bearbeitungsdauer beträgt %s.
 assessment#:#tst_time_already_spent_left#:#Es verbleiben Ihnen noch %s
+assessment#:#tst_time_limit_message#:#Sie haben <b>%s Minuten</b>, um alle Fragen zu beantworten.
 assessment#:#tst_title_output#:#Anzeige der Fragentitel
 assessment#:#tst_title_output_full#:#Fragentitel und erreichbare Punkte
 assessment#:#tst_title_output_hide_points#:#Nur Fragentitel

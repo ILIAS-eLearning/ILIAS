@@ -317,58 +317,9 @@ class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
                     $allowPassIncrease = true
                 );
 
-                if ($executable["executable"]) {
-                    if ($this->getTestOBJ()->areObligationsEnabled() && $this->getTestOBJ()->hasObligations($this->getTestOBJ()->getTestId())) {
-                        $this->addInfoMessage($this->lng->txt('tst_test_contains_obligatory_questions'));
-                    }
-
-                    if ($this->getTestSession()->getActiveId() > 0) {
-                        // resume test
-                        $testPassesSelector = new ilTestPassesSelector($this->db, $this->getTestOBJ());
-                        $testPassesSelector->setActiveId($this->getTestSession()->getActiveId());
-                        $testPassesSelector->setLastFinishedPass($this->getTestSession()->getLastFinishedPass());
-
-                        $closedPasses = $testPassesSelector->getClosedPasses();
-                        $existingPasses = $testPassesSelector->getExistingPasses();
-
-                        if ($existingPasses > $closedPasses) {
-                            $btn = ilSubmitButton::getInstance();
-                            $btn->setCaption('tst_resume_test');
-                            $btn->setCommand('resumePlayer');
-                            $btn->setPrimary(true);
-                            $this->addButtonInstance($btn);
-                        } else {
-                            $btn = ilSubmitButton::getInstance();
-                            $btn->setCaption($this->getTestOBJ()->getStartTestLabel($this->getTestSession()->getActiveId()), false);
-                            $btn->setCommand('startPlayer');
-                            $btn->setPrimary(true);
-                            $this->addButtonInstance($btn);
-                        }
-                    } else {
-                        // start new test
-                        $btn = ilSubmitButton::getInstance();
-                        $btn->setCaption($this->getTestOBJ()->getStartTestLabel($this->getTestSession()->getActiveId()), false);
-                        $btn->setCommand('startPlayer');
-                        $btn->setPrimary(true);
-                        $this->addButtonInstance($btn);
-                    }
-                } else {
-                    $this->addInfoMessage($executable['errormessage']);
+                if ($executable['executable'] && $this->getTestOBJ()->areObligationsEnabled() && $this->getTestOBJ()->hasObligations($this->getTestOBJ()->getTestId())) {
+                    $this->addInfoMessage($this->lng->txt('tst_test_contains_obligatory_questions'));
                 }
-            }
-
-            if ($this->user->getId() == ANONYMOUS_USER_ID) {
-                if ($this->getItems()) {
-                    $this->addSeparator();
-                }
-
-                $anonymous_id = new ilTextInputGUI($this->lng->txt('enter_anonymous_code'), 'anonymous_id');
-                $anonymous_id->setSize(8);
-                $this->addInputItem($anonymous_id, true);
-                $button = ilSubmitButton::getInstance();
-                $button->setCaption('submit');
-                $button->setCommand('setAnonymousId');
-                $this->addButtonInstance($button);
             }
         }
         if ($this->getTestOBJ()->getOfflineStatus() && !$this->getTestQuestionSetConfig()->areDepenciesBroken()) {
