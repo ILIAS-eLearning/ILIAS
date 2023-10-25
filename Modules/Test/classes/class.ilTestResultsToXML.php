@@ -22,7 +22,7 @@ class ilTestResultsToXML extends ilXmlWriter
 {
     private $active_ids;
 
-    protected bool $includeRandomTestQuestionsEnabled = false;
+    protected bool $include_random_test_questions_enabled = false;
 
     public function __construct(
         private int $test_id,
@@ -34,38 +34,38 @@ class ilTestResultsToXML extends ilXmlWriter
 
     public function isIncludeRandomTestQuestionsEnabled(): bool
     {
-        return $this->includeRandomTestQuestionsEnabled;
+        return $this->include_random_test_questions_enabled;
     }
 
-    public function setIncludeRandomTestQuestionsEnabled(bool $includeRandomTestQuestionsEnabled): void
+    public function setIncludeRandomTestQuestionsEnabled(bool $include_random_test_questions_enabled): void
     {
-        $this->includeRandomTestQuestionsEnabled = $includeRandomTestQuestionsEnabled;
+        $this->include_random_test_questions_enabled = $include_random_test_questions_enabled;
     }
 
     protected function exportActiveIDs(): void
     {
-        $assessmentSetting = new ilSetting("assessment");
-        $user_criteria = $assessmentSetting->get("user_criteria");
-        if (strlen($user_criteria) == 0) {
+        $assessment_setting = new ilSetting('assessment');
+        $user_criteria = $assessment_setting->get('user_criteria');
+        if ($user_criteria === null || $user_criteria === '') {
             $user_criteria = 'usr_id';
         }
 
         if ($this->anonymized) {
             $result = $this->db->queryF(
-                "SELECT * FROM tst_active WHERE test_fi = %s",
-                array('integer'),
-                array($this->test_id)
+                'SELECT * FROM tst_active WHERE test_fi = %s',
+                ['integer'],
+                [$this->test_id]
             );
         } else {
             $result = $this->db->queryF(
-                "SELECT tst_active.*, usr_data." . $user_criteria . " FROM tst_active, usr_data WHERE tst_active.test_fi = %s AND tst_active.user_fi = usr_data.usr_id",
-                array('integer'),
-                array($this->test_id)
+                'SELECT tst_active.*, usr_data.' . $user_criteria . ' FROM tst_active, usr_data WHERE tst_active.test_fi = %s AND tst_active.user_fi = usr_data.usr_id',
+                ['integer'],
+                [$this->test_id]
             );
         }
-        $this->xmlStartTag("tst_active", null);
+        $this->xmlStartTag('tst_active', null);
         while ($row = $this->db->fetchAssoc($result)) {
-            $attrs = array(
+            $attrs = [
                 'active_id' => $row['active_id'],
                 'user_fi' => $row['user_fi'] ?? '',
                 'anonymous_id' => $row['anonymous_id'] ?? '',
@@ -77,25 +77,25 @@ class ilTestResultsToXML extends ilXmlWriter
                 'submitted' => $row['submitted'] ?? '',
                 'submittimestamp' => $row['submittimestamp'] ?? '',
                 'tstamp' => $row['tstamp'] ?? ''
-            );
+            ];
             $attrs['fullname'] = ilObjTestAccess::_getParticipantData($row['active_id']);
             if (!$this->anonymized) {
                 $attrs['user_criteria'] = $user_criteria;
                 $attrs[$user_criteria] = $row[$user_criteria];
             }
             array_push($this->active_ids, $row['active_id']);
-            $this->xmlElement("row", $attrs);
+            $this->xmlElement('row', $attrs);
         }
-        $this->xmlEndTag("tst_active");
+        $this->xmlEndTag('tst_active');
     }
 
     protected function exportPassResult(): void
     {
-        $query = "SELECT * FROM tst_pass_result WHERE " . $this->db->in('active_fi', $this->active_ids, false, 'integer') . " ORDER BY active_fi, pass";
+        $query = 'SELECT * FROM tst_pass_result WHERE ' . $this->db->in('active_fi', $this->active_ids, false, 'integer') . ' ORDER BY active_fi, pass';
         $result = $this->db->query($query);
-        $this->xmlStartTag("tst_pass_result", null);
+        $this->xmlStartTag('tst_pass_result', null);
         while ($row = $this->db->fetchAssoc($result)) {
-            $attrs = array(
+            $attrs = [
                 'active_fi' => $row['active_fi'],
                 'pass' => $row['pass'] ?? '',
                 'points' => $row['points'] ?? '',
@@ -104,19 +104,19 @@ class ilTestResultsToXML extends ilXmlWriter
                 'answeredquestions' => $row['answeredquestions'] ?? '',
                 'workingtime' => $row['workingtime'] ?? '',
                 'tstamp' => $row['tstamp'] ?? ''
-            );
-            $this->xmlElement("row", $attrs);
+            ];
+            $this->xmlElement('row', $attrs);
         }
-        $this->xmlEndTag("tst_pass_result");
+        $this->xmlEndTag('tst_pass_result');
     }
 
     protected function exportResultCache(): void
     {
-        $query = "SELECT * FROM tst_result_cache WHERE " . $this->db->in('active_fi', $this->active_ids, false, 'integer') . " ORDER BY active_fi";
+        $query = 'SELECT * FROM tst_result_cache WHERE ' . $this->db->in('active_fi', $this->active_ids, false, 'integer') . ' ORDER BY active_fi';
         $result = $this->db->query($query);
-        $this->xmlStartTag("tst_result_cache", null);
+        $this->xmlStartTag('tst_result_cache', null);
         while ($row = $this->db->fetchAssoc($result)) {
-            $attrs = array(
+            $attrs = [
                 'active_fi' => $row['active_fi'],
                 'pass' => $row['pass'],
                 'max_points' => $row['max_points'],
@@ -126,38 +126,38 @@ class ilTestResultsToXML extends ilXmlWriter
                 'passed' => $row['passed'],
                 'failed' => $row['failed'],
                 'tstamp' => $row['tstamp']
-            );
-            $this->xmlElement("row", $attrs);
+            ];
+            $this->xmlElement('row', $attrs);
         }
-        $this->xmlEndTag("tst_result_cache");
+        $this->xmlEndTag('tst_result_cache');
     }
 
     protected function exportTestSequence(): void
     {
-        $query = "SELECT * FROM tst_sequence WHERE " . $this->db->in('active_fi', $this->active_ids, false, 'integer') . " ORDER BY active_fi, pass";
+        $query = 'SELECT * FROM tst_sequence WHERE ' . $this->db->in('active_fi', $this->active_ids, false, 'integer') . ' ORDER BY active_fi, pass';
         $result = $this->db->query($query);
-        $this->xmlStartTag("tst_sequence", null);
+        $this->xmlStartTag('tst_sequence', null);
         while ($row = $this->db->fetchAssoc($result)) {
-            $attrs = array(
+            $attrs = [
                 'active_fi' => $row['active_fi'],
                 'pass' => $row['pass'] ?? '',
                 'sequence' => $row['sequence'] ?? '',
                 'postponed' => $row['postponed'] ?? '',
                 'hidden' => $row['hidden'] ?? '',
                 'tstamp' => $row['tstamp'] ?? ''
-            );
-            $this->xmlElement("row", $attrs);
+            ];
+            $this->xmlElement('row', $attrs);
         }
-        $this->xmlEndTag("tst_sequence");
+        $this->xmlEndTag('tst_sequence');
     }
 
     protected function exportTestSolutions(): void
     {
-        $query = "SELECT * FROM tst_solutions WHERE " . $this->db->in('active_fi', $this->active_ids, false, 'integer') . " ORDER BY solution_id";
+        $query = 'SELECT * FROM tst_solutions WHERE ' . $this->db->in('active_fi', $this->active_ids, false, 'integer') . ' ORDER BY solution_id';
         $result = $this->db->query($query);
-        $this->xmlStartTag("tst_solutions", null);
+        $this->xmlStartTag('tst_solutions', null);
         while ($row = $this->db->fetchAssoc($result)) {
-            $attrs = array(
+            $attrs = [
                 'solution_id' => $row['solution_id'],
                 'active_fi' => $row['active_fi'],
                 'question_fi' => $row['question_fi'],
@@ -166,10 +166,10 @@ class ilTestResultsToXML extends ilXmlWriter
                 'value1' => $row['value1'] ?? '',
                 'value2' => $row['value2'] ?? '',
                 'tstamp' => $row['tstamp'] ?? ''
-            );
-            $this->xmlElement("row", $attrs);
+            ];
+            $this->xmlElement('row', $attrs);
         }
-        $this->xmlEndTag("tst_solutions");
+        $this->xmlEndTag('tst_solutions');
     }
 
     protected function exportRandomTestQuestions(): void
@@ -182,7 +182,7 @@ class ilTestResultsToXML extends ilXmlWriter
 
         $this->xmlStartTag('tst_test_rnd_qst', null);
         while ($row = $this->db->fetchAssoc($result)) {
-            $attrs = array();
+            $attrs = [];
 
             foreach ($row as $field => $value) {
                 $attrs[$field] = $value;
@@ -196,11 +196,11 @@ class ilTestResultsToXML extends ilXmlWriter
 
     protected function exportTestResults(): void
     {
-        $query = "SELECT * FROM tst_test_result WHERE " . $this->db->in('active_fi', $this->active_ids, false, 'integer') . " ORDER BY active_fi";
+        $query = 'SELECT * FROM tst_test_result WHERE ' . $this->db->in('active_fi', $this->active_ids, false, 'integer') . ' ORDER BY active_fi';
         $result = $this->db->query($query);
-        $this->xmlStartTag("tst_test_result", null);
+        $this->xmlStartTag('tst_test_result', null);
         while ($row = $this->db->fetchAssoc($result)) {
-            $attrs = array(
+            $attrs = [
                 'test_result_id' => $row['test_result_id'],
                 'active_fi' => $row['active_fi'],
                 'question_fi' => $row['question_fi'],
@@ -208,37 +208,37 @@ class ilTestResultsToXML extends ilXmlWriter
                 'pass' => $row['pass'] ?? '',
                 'manual' => $row['manual'] ?? '',
                 'tstamp' => $row['tstamp'] ?? ''
-            );
-            $this->xmlElement("row", $attrs);
+            ];
+            $this->xmlElement('row', $attrs);
         }
-        $this->xmlEndTag("tst_test_result");
+        $this->xmlEndTag('tst_test_result');
     }
 
     protected function exportTestTimes(): void
     {
-        $query = "SELECT * FROM tst_times WHERE " . $this->db->in('active_fi', $this->active_ids, false, 'integer') . " ORDER BY active_fi";
+        $query = 'SELECT * FROM tst_times WHERE ' . $this->db->in('active_fi', $this->active_ids, false, 'integer') . ' ORDER BY active_fi';
         $result = $this->db->query($query);
-        $this->xmlStartTag("tst_times", null);
+        $this->xmlStartTag('tst_times', null);
         while ($row = $this->db->fetchAssoc($result)) {
-            $attrs = array(
+            $attrs = [
                 'times_id' => $row['times_id'],
                 'active_fi' => $row['active_fi'],
                 'started' => $row['started'],
                 'finished' => $row['finished'],
                 'pass' => $row['pass'],
                 'tstamp' => $row['tstamp']
-            );
-            $this->xmlElement("row", $attrs);
+            ];
+            $this->xmlElement('row', $attrs);
         }
-        $this->xmlEndTag("tst_times");
+        $this->xmlEndTag('tst_times');
     }
 
     public function getXML(): void
     {
-        $this->active_ids = array();
+        $this->active_ids = [];
         $this->xmlHeader();
-        $attrs = array("version" => "4.1.0");
-        $this->xmlStartTag("results", $attrs);
+        $attrs = ['version' => '4.1.0'];
+        $this->xmlStartTag('results', $attrs);
         $this->exportActiveIDs();
 
         if ($this->isIncludeRandomTestQuestionsEnabled()) {
@@ -251,7 +251,7 @@ class ilTestResultsToXML extends ilXmlWriter
         $this->exportTestSolutions();
         $this->exportTestResults();
         $this->exportTestTimes();
-        $this->xmlEndTag("results");
+        $this->xmlEndTag('results');
     }
 
     public function xmlDumpMem(bool $format = true): string
