@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\StudyProgramme\Assignment\Zipper;
 
@@ -50,35 +50,6 @@ trait ilPRGAssignmentActions
             throw new ilException("Could not find ref_id for programme with obj_id $obj_id");
         }
         return (int) array_shift($refs);
-    }
-
-    protected function getCourseReferencesInNode(int $node_obj_id): array
-    {
-        global $DIC; //TODO!!
-        $tree = $DIC['tree']; //ilTree
-        $node_ref = $this->getRefIdFor($node_obj_id);
-        $children = $tree->getChildsByType($node_ref, "crsr");
-        $children = array_filter(
-            $children,
-            fn ($c) => ilObject::_exists((int)$c['ref_id'], true)
-                && is_null(ilObject::_lookupDeletedDate((int)$c['ref_id']))
-                && ! is_null(ilContainerReference::_lookupTargetRefId((int) $c['obj_id']))
-                && is_null(ilObject::_lookupDeletedDate(
-                    (int) ilContainerReference::_lookupTargetRefId((int) $c['obj_id'])
-                ))
-        );
-        return $children;
-    }
-
-    protected function hasCompletedCourseChild(ilPRGProgress $pgs): ?int
-    {
-        foreach ($this->getCourseReferencesInNode($pgs->getNodeId()) as $child) {
-            $crs_id = ilContainerReference::_lookupTargetId((int)$child["obj_id"]);
-            if (ilLPStatus::_hasUserCompleted($crs_id, $this->getUserId())) {
-                return (int)$child["obj_id"];
-            }
-        }
-        return null;
     }
 
     protected function recalculateProgressStatus(
@@ -153,7 +124,6 @@ trait ilPRGAssignmentActions
         }
         return $zipper;
     }
-
 
     protected function updateProgressValidityFromSettings(
         ilStudyProgrammeValidityOfAchievedQualificationSettings $settings,
@@ -320,7 +290,7 @@ trait ilPRGAssignmentActions
     {
         $zipper = $this->getZipper($this->getRootId());
         $zipper = $zipper->modifyAll(
-            fn ($pgs) => $pgs->withAssignmentDate($this->getNow())
+            fn($pgs) => $pgs->withAssignmentDate($this->getNow())
         );
         return $this->withProgressTree($zipper->getRoot());
     }
@@ -503,7 +473,6 @@ trait ilPRGAssignmentActions
                 if (!$pgs->getSubnodes()) {
                     $leafs[] = $pgs->getPath();
                 }
-
                 return $pgs;
             }
         );
@@ -511,10 +480,8 @@ trait ilPRGAssignmentActions
         foreach ($leafs as $path) {
             $zipper = $this->updateParentProgresses($settings_repo, $zipper->toPath($path));
         }
-
         return $this->withProgressTree($zipper->getRoot());
     }
-
 
     public function succeed(
         ilStudyProgrammeSettingsRepository $settings_repo,

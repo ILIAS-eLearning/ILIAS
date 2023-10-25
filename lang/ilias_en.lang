@@ -13020,6 +13020,7 @@ prg#:#membership_source_type#:#Source
 prg#:#modal_automembership_title#:#Automatismus hinzufügen
 prg#:#modal_categories_title#:#Category to be monitored
 prg#:#modal_member_auto_select_title#:#Select source for auto assignment
+prg#:#msg_acknowledge_courses#:#Completed Courses have been acknowledged.
 prg#:#msg_change_deadline_date#:#Updated deadline for %s users.
 prg#:#msg_change_deadline_date_failed#:#Deadline not updated for:
 prg#:#msg_change_expire_date#:#Updated expire date for %s users.
