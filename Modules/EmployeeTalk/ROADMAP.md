@@ -15,12 +15,6 @@ a KS component. It should be investigated how to translate those view
 to the KS, and take the opportunity to rework them. This effort should
 be coordinated with Staff.
 
-### Testcases
-
-The testcases for Employee Talks on Testrail will be moved out of Staff
-and into their own category. Information on initial setup and preconditions
-should be made more precise.
-
 ### Removal of Unused Code
 
 It will be investigated whether code/classes are unused and can be
@@ -39,13 +33,6 @@ talk handy when one needs to check position access).<br>
 Similarly, use of ilMyStaffAccess should be minimized.
 
 ## Mid Term
-
-### Refactor Notification Service
-
-Any changes to the content of notifications currently necessitates making
-nearly identical modifications in four different places in the code. There
-already is a centralized notification service, but it could be improved by
-making its interface less concrete.
 
 ### Properly Implement RBAC Permissions for the Administration
 

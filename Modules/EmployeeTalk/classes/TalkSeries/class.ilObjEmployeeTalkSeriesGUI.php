@@ -21,11 +21,12 @@ declare(strict_types=1);
 use ILIAS\EmployeeTalk\UI\ControlFlowCommand;
 use ILIAS\Modules\EmployeeTalk\Talk\DAO\EmployeeTalk;
 use ILIAS\Modules\EmployeeTalk\Talk\EmployeeTalkPeriod;
-use ILIAS\EmployeeTalk\Service\EmployeeTalkEmailNotificationService;
-use ILIAS\EmployeeTalk\Service\VCalendarFactory;
-use ILIAS\EmployeeTalk\Service\EmployeeTalkEmailNotification;
 use ILIAS\EmployeeTalk\Metadata\MetadataHandlerInterface;
 use ILIAS\EmployeeTalk\Metadata\MetadataHandler;
+use ILIAS\EmployeeTalk\Notification\NotificationHandlerInterface;
+use ILIAS\EmployeeTalk\Notification\NotificationHandler;
+use ILIAS\EmployeeTalk\Notification\Calendar\VCalendarGenerator;
+use ILIAS\EmployeeTalk\Notification\NotificationType;
 
 /**
  * Class ilObjEmployeeTalkGUI
@@ -47,13 +48,13 @@ final class ilObjEmployeeTalkSeriesGUI extends ilContainerGUI
 {
     private \ILIAS\DI\Container $container;
     protected MetadataHandlerInterface $md_handler;
+    protected NotificationHandlerInterface $notif_handler;
     protected ilPropertyFormGUI $form;
     private int $userId = -1;
 
     public function __construct()
     {
         $this->container = $GLOBALS["DIC"];
-        $this->md_handler = new MetadataHandler();
 
         $refId = $this->container
             ->http()
@@ -75,6 +76,9 @@ final class ilObjEmployeeTalkSeriesGUI extends ilContainerGUI
         if ($wrapper->has('usr_id')) {
             $this->userId = $wrapper->retrieve('usr_id', $this->container->refinery()->kindlyTo()->int());
         }
+
+        $this->md_handler = new MetadataHandler();
+        $this->notif_handler = new NotificationHandler(new VCalendarGenerator($this->container->language()));
 
         $this->omitLocator();
     }
@@ -184,12 +188,12 @@ final class ilObjEmployeeTalkSeriesGUI extends ilContainerGUI
      *
      * @param ilObject $a_new_object
      */
-    protected function afterSave(ilObject $a_new_object): void
+    protected function afterSave(ilObject $new_object): void
     {
         /**
          * @var ilObjEmployeeTalkSeries $newObject
          */
-        $newObject = $a_new_object;
+        $newObject = $new_object;
 
         // Create clones of the first one
         $event = $this->loadRecurrenceSettings();
@@ -331,61 +335,9 @@ final class ilObjEmployeeTalkSeriesGUI extends ilContainerGUI
     {
     }
 
-    /**
-     * @param ilObjEmployeeTalk[] $talks
-     */
-    private function sendNotification(array $talks): void
+    private function sendNotification(ilObjEmployeeTalk ...$talks): void
     {
-        if (count($talks) === 0) {
-            return;
-        }
-
-        $firstTalk = $talks[0];
-        $talk_title = $firstTalk->getTitle();
-        $superior = new ilObjUser($firstTalk->getOwner());
-        $employee = new ilObjUser($firstTalk->getData()->getEmployee());
-        $superiorName = $superior->getFullname();
-
-        $dates = array_map(
-            fn(ilObjEmployeeTalk $t) => $t->getData()->getStartDate(),
-            $talks
-        );
-        usort($dates, function (ilDateTime $a, ilDateTime $b) {
-            $a = $a->getUnixTime();
-            $b = $b->getUnixTime();
-            if ($a === $b) {
-                return 0;
-            }
-            return $a < $b ? -1 : 1;
-        });
-
-        $add_time = $firstTalk->getData()->isAllDay() ? 0 : 1;
-        $format = ilCalendarUtil::getUserDateFormat($add_time, true);
-        $timezone = $employee->getTimeZone();
-        $dates = array_map(function (ilDateTime $d) use ($add_time, $format, $timezone) {
-            return $d->get(IL_CAL_FKT_DATE, $format, $timezone);
-        }, $dates);
-
-        $message = new EmployeeTalkEmailNotification(
-            $firstTalk->getRefId(),
-            $talk_title,
-            $firstTalk->getDescription(),
-            $firstTalk->getData()->getLocation(),
-            'notification_talks_subject',
-            'notification_talks_created',
-            $superiorName,
-            $dates
-        );
-
-        $vCalSender = new EmployeeTalkEmailNotificationService(
-            $message,
-            $talk_title,
-            $employee,
-            $superior,
-            VCalendarFactory::getInstanceFromTalks($firstTalk->getParent())
-        );
-
-        $vCalSender->send();
+        $this->notif_handler->send(NotificationType::INVITATION, ...$talks);
     }
 
     /**
@@ -587,7 +539,7 @@ final class ilObjEmployeeTalkSeriesGUI extends ilContainerGUI
         $talks[] = $talkSession;
 
         if (!$recurrence->getFrequenceType()) {
-            $this->sendNotification($talks);
+            $this->sendNotification(...$talks);
             return true;
         }
 
@@ -614,7 +566,7 @@ final class ilObjEmployeeTalkSeriesGUI extends ilContainerGUI
             $talks[] = $cloneObject;
         }
 
-        $this->sendNotification($talks);
+        $this->sendNotification(...$talks);
 
         return true;
     }

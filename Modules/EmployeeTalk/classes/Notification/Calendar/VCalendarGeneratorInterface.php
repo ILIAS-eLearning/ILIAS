@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,18 +16,16 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
-namespace ILIAS\EmployeeTalk\Service;
+declare(strict_types=1);
 
-/**
- * Interface VEventStatus
- *
- * Defines all valid vevent status.
- *
- * @package ILIAS\EmployeeTalk\Service
- */
-interface VEventStatus
+namespace ILIAS\EmployeeTalk\Notification\Calendar;
+
+interface VCalendarGeneratorInterface
 {
-    public const TENTATIVE = "TENTATIVE";
-    public const CONFIRMED = "CONFIRMED";
-    public const CANCELLED = "CANCELLED";
+    public function fromTalkSeries(
+        \ilObjEmployeeTalkSeries $series,
+        \ilObjUser $employee,
+        \ilObjUser $superior,
+        Method $method = Method::PUBLISH
+    ): string;
 }

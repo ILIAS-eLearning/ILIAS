@@ -20,9 +20,6 @@ declare(strict_types=1);
 
 use ILIAS\EmployeeTalk\UI\ControlFlowCommand;
 use ILIAS\Modules\EmployeeTalk\Talk\DAO\EmployeeTalk;
-use ILIAS\EmployeeTalk\Service\EmployeeTalkEmailNotificationService;
-use ILIAS\EmployeeTalk\Service\VCalendarFactory;
-use ILIAS\EmployeeTalk\Service\EmployeeTalkEmailNotification;
 use ILIAS\Modules\EmployeeTalk\TalkSeries\Repository\IliasDBEmployeeTalkSeriesRepository;
 use ILIAS\HTTP\Services as HttpServices;
 use ILIAS\Refinery\Factory as Refinery;
@@ -30,6 +27,10 @@ use ILIAS\UI\Factory as UIFactory;
 use ILIAS\EmployeeTalk\Metadata\MetadataHandlerInterface;
 use ILIAS\EmployeeTalk\Metadata\EditFormInterface;
 use ILIAS\EmployeeTalk\Metadata\MetadataHandler;
+use ILIAS\EmployeeTalk\Notification\NotificationHandlerInterface;
+use ILIAS\EmployeeTalk\Notification\NotificationHandler;
+use ILIAS\EmployeeTalk\Notification\Calendar\VCalendarGenerator;
+use ILIAS\EmployeeTalk\Notification\NotificationType;
 
 /**
  * Class ilObjEmployeeTalkGUI
@@ -52,6 +53,7 @@ final class ilObjEmployeeTalkGUI extends ilObjectGUI
     protected ilObjEmployeeTalkAccess $talkAccess;
     protected IliasDBEmployeeTalkSeriesRepository $repository;
     protected MetadataHandlerInterface $md_handler;
+    protected NotificationHandlerInterface $notif_handler;
 
     public function __construct()
     {
@@ -81,6 +83,7 @@ final class ilObjEmployeeTalkGUI extends ilObjectGUI
         $this->talkAccess = ilObjEmployeeTalkAccess::getInstance();
         $this->repository = new IliasDBEmployeeTalkSeriesRepository($this->user, $DIC->database());
         $this->md_handler = new MetadataHandler();
+        $this->notif_handler = new NotificationHandler(new VCalendarGenerator($DIC->language()));
     }
 
     private function checkAccessOrFail(): void
@@ -130,6 +133,7 @@ final class ilObjEmployeeTalkGUI extends ilObjectGUI
                     $this->http,
                     $this->refinery,
                     $this->tabs_gui,
+                    $this->notif_handler,
                     $this->object
                 );
                 $this->ctrl->forwardCommand($appointmentGUI);
@@ -221,7 +225,7 @@ final class ilObjEmployeeTalkGUI extends ilObjectGUI
         $ru->deleteObjects($this->requested_ref_id, $refIds);
         $trashEnabled = boolval($this->settings->get('enable_trash'));
 
-        $this->sendNotification($talks);
+        $this->sendNotification(...$talks);
         if ($trashEnabled) {
             foreach ($talks as $talk) {
                 $talk->delete();
@@ -233,128 +237,14 @@ final class ilObjEmployeeTalkGUI extends ilObjectGUI
         $this->ctrl->redirectByClass(strtolower(ilEmployeeTalkMyStaffListGUI::class), ControlFlowCommand::DEFAULT, "", false);
     }
 
-    /**
-     * @param ilObjEmployeeTalk[] $talks
-     */
-    private function sendNotification(array $talks): void
+    private function sendNotification(ilObjEmployeeTalk ...$talks): void
     {
-        $firstTalk = $talks[0];
-        $talk_title = $firstTalk->getTitle();
-        $superior = new ilObjUser($firstTalk->getOwner());
-        $employee = new ilObjUser($firstTalk->getData()->getEmployee());
-        $superiorName = $superior->getFullname();
-        $series = $firstTalk->getParent();
-
-        $dates = array_map(
-            fn(ilObjEmployeeTalk $t) => $t->getData()->getStartDate(),
-            $talks
-        );
-        usort($dates, function (ilDateTime $a, ilDateTime $b) {
-            $a = $a->getUnixTime();
-            $b = $b->getUnixTime();
-            if ($a === $b) {
-                return 0;
-            }
-            return $a < $b ? -1 : 1;
-        });
-
-        $add_time = $firstTalk->getData()->isAllDay() ? 0 : 1;
-        $format = ilCalendarUtil::getUserDateFormat($add_time, true);
-        $timezone = $employee->getTimeZone();
-        $dates = array_map(function (ilDateTime $d) use ($add_time, $format, $timezone) {
-            return $d->get(IL_CAL_FKT_DATE, $format, $timezone);
-        }, $dates);
-
-        $message = new EmployeeTalkEmailNotification(
-            $firstTalk->getRefId(),
-            $talk_title,
-            $firstTalk->getDescription(),
-            $firstTalk->getData()->getLocation(),
-            'notification_talks_subject_update',
-            'notification_talks_removed',
-            $superiorName,
-            $dates,
-            false
-        );
-
-        // Check if we deleted the last talk of the series
-        $vCalSender = null;
-        if ($series->hasChildren()) {
-            $vCalSender = new EmployeeTalkEmailNotificationService(
-                $message,
-                $talk_title,
-                $employee,
-                $superior,
-                VCalendarFactory::getInstanceFromTalks($series)
-            );
-        } else {
-            $vCalSender = new EmployeeTalkEmailNotificationService(
-                $message,
-                $talk_title,
-                $employee,
-                $superior,
-                VCalendarFactory::getEmptyInstance($series, $talk_title)
-            );
-        }
-
-        $vCalSender->send();
+        $this->notif_handler->send(NotificationType::CANCELLATION, ...$talks);
     }
 
-    /**
-     * @param ilObjEmployeeTalk[] $talks
-     */
-    private function sendUpdateNotification(array $talks): void
+    private function sendUpdateNotification(ilObjEmployeeTalk ...$talks): void
     {
-        if (count($talks) === 0) {
-            return;
-        }
-
-        $firstTalk = $talks[0];
-        $talk_title = $firstTalk->getTitle();
-        $superior = new ilObjUser($firstTalk->getOwner());
-        $employee = new ilObjUser($firstTalk->getData()->getEmployee());
-        $superiorName = $superior->getFullname();
-
-        $dates = array_map(
-            fn(ilObjEmployeeTalk $t) => $t->getData()->getStartDate(),
-            $talks
-        );
-        usort($dates, function (ilDateTime $a, ilDateTime $b) {
-            $a = $a->getUnixTime();
-            $b = $b->getUnixTime();
-            if ($a === $b) {
-                return 0;
-            }
-            return $a < $b ? -1 : 1;
-        });
-
-        $add_time = $firstTalk->getData()->isAllDay() ? 0 : 1;
-        $format = ilCalendarUtil::getUserDateFormat($add_time, true);
-        $timezone = $employee->getTimeZone();
-        $dates = array_map(function (ilDateTime $d) use ($add_time, $format, $timezone) {
-            return $d->get(IL_CAL_FKT_DATE, $format, $timezone);
-        }, $dates);
-
-        $message = new EmployeeTalkEmailNotification(
-            $firstTalk->getRefId(),
-            $talk_title,
-            $firstTalk->getDescription(),
-            $firstTalk->getData()->getLocation(),
-            'notification_talks_subject_update',
-            'notification_talks_updated',
-            $superiorName,
-            $dates
-        );
-
-        $vCalSender = new EmployeeTalkEmailNotificationService(
-            $message,
-            $talk_title,
-            $employee,
-            $superior,
-            VCalendarFactory::getInstanceFromTalks($firstTalk->getParent())
-        );
-
-        $vCalSender->send();
+        $this->notif_handler->send(NotificationType::UPDATE, ...$talks);
     }
 
     public function cancelDeleteObject(): void
@@ -563,7 +453,7 @@ final class ilObjEmployeeTalkGUI extends ilObjectGUI
 
         parent::updateCustom($form);
 
-        $this->sendUpdateNotification($talks);
+        $this->sendUpdateNotification(...$talks);
     }
 
     public function viewObject(): void

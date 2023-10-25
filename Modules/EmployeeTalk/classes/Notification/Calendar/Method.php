@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,11 +16,11 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
-namespace ILIAS\EmployeeTalk\Service;
+declare(strict_types=1);
+
+namespace ILIAS\EmployeeTalk\Notification\Calendar;
 
 /**
- * Interface VCalenderMethod
- *
  * RFC 5546
  *
  *  +----------------+--------------------------------------------------+
@@ -66,16 +64,14 @@ namespace ILIAS\EmployeeTalk\Service;
  *  | DECLINECOUNTER | Used by the Organizer to decline the proposed    |
  *  |                | counter proposal.                                |
  *  +----------------+--------------------------------------------------+
- *
- * @package ILIAS\EmployeeTalk\Service
  */
-interface VCalenderMethod
+enum Method: string
 {
-    public const PUBLISH = 'PUBLISH';
-    public const REQUEST = 'REQUEST';
-    public const REPLY = 'REPLY';
-    public const ADD = 'ADD';
-    public const CANCEL = 'CANCEL';
-    public const COUNTER = 'COUNTER';
-    public const DECLINECOUNTER = 'DECLINECOUNTER';
+    case PUBLISH = 'PUBLISH';
+    case REQUEST = 'REQUEST';
+    case REPLY = 'REPLY';
+    case ADD = 'ADD';
+    case CANCEL = 'CANCEL';
+    case COUNTER = 'COUNTER';
+    case DECLINECOUNTER = 'DECLINECOUNTER';
 }

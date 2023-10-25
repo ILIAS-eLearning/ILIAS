@@ -140,7 +140,20 @@ final class ilObjEmployeeTalkSeries extends ilContainer
 
     public function hasChildren(): bool
     {
-        $children = $this->tree->getChildIds(intval($this->getRefId()));
+        $children = $this->tree->getChildIds($this->getRefId());
         return count($children) > 0;
+    }
+
+    /**
+     * @return ilObjEmployeeTalk[]
+     */
+    public function getChildTalks(): array
+    {
+        $child_ids = $this->tree->getChildIds($this->getRefId());
+        $child_talks = [];
+        foreach ($child_ids as $id) {
+            $child_talks[] = new ilObjEmployeeTalk($id, true);
+        }
+        return $child_talks;
     }
 }

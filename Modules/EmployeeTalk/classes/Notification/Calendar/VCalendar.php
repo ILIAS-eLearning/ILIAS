@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,39 +16,22 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
-namespace ILIAS\EmployeeTalk\Service;
+declare(strict_types=1);
 
-final class VCalender
+namespace ILIAS\EmployeeTalk\Notification\Calendar;
+
+class VCalendar
 {
-    private string $name;
+    protected string $name;
+    protected string $uid;
 
     /**
-     * Calendar UID
-     *
-     * @var string $uid
+     * @var VEvent[]
      */
-    private string $uid;
+    protected array $events;
+    protected Method $method;
 
-    /**
-     * @var VEvent[] $events
-     */
-    private array $events;
-
-    /**
-     * @var string $method
-     *
-     * @see VCalenderMethod
-     */
-    private string $method;
-
-    /**
-     * VCalender constructor.
-     * @param string   $name
-     * @param string   $uid
-     * @param VEvent[] $events
-     * @param string   $method
-     */
-    public function __construct(string $name, string $uid, array $events, string $method)
+    public function __construct(Method $method, string $name, string $uid, VEvent ...$events)
     {
         $this->name = $name;
         $this->uid = $uid;
@@ -68,7 +49,7 @@ final class VCalender
             'NAME:' . $this->name . "\r\n" .
             'X-WR-CALNAME:' . $this->name . "\r\n" .
             'LAST-MODIFIED:' . date("Ymd\THis") . "\r\n" .
-            'METHOD:' . $this->method . "\r\n" .
+            'METHOD:' . $this->method->value . "\r\n" .
             'BEGIN:VTIMEZONE' . "\r\n" .
             'TZID:Europe/Paris' . "\r\n" .
             'X-LIC-LOCATION:Europe/Paris' . "\r\n" .
@@ -93,41 +74,9 @@ final class VCalender
             'END:VCALENDAR' . "\r\n";
     }
 
-    /**
-     * @return string
-     */
-    public function getName(): string
-    {
-        return $this->name;
-    }
-
-    /**
-     * @return string
-     */
-    public function getUid(): string
-    {
-        return $this->uid;
-    }
-
-    /**
-     * @return VEvent[]
-     */
-    public function getEvents(): array
-    {
-        return $this->events;
-    }
-
-    /**
-     * @return string
-     */
-    public function getMethod(): string
-    {
-        return $this->method;
-    }
-
     private function renderVEvents(): string
     {
-        $eventString = "";
+        $eventString = '';
         foreach ($this->events as $event) {
             $eventString .= $event->render();
         }
