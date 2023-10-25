@@ -452,8 +452,8 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
 
         foreach ($keys as $answer_id) {
             $answer = $this->object->getAnswer($answer_id);
-            if ($answer->getImageFile() === 0
-                || $answer->getImageFile() === '') {
+            if ($answer->getImageFile() !== null
+                && $answer->getImageFile() !== '') {
                 if ($this->object->getThumbSize()) {
                     $template->setCurrentBlock("preview");
                     $template->setVariable("URL_PREVIEW", $answer->getImageWebPath());
