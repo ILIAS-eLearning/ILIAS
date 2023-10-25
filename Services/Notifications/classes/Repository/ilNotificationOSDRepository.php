@@ -26,6 +26,7 @@ use ILIAS\Notifications\Identification\NotificationIdentification;
 use ILIAS\Notifications\ilNotificationSetupHelper;
 use ILIAS\Notifications\Model\ilNotificationLink;
 use ILIAS\Notifications\Model\ilNotificationObject;
+use ILIAS\Notifications\Model\ilNotificationParameter;
 use ILIAS\Notifications\Model\OSD\ilOSDNotificationObject;
 use ilDBConstants;
 
@@ -128,7 +129,7 @@ class ilNotificationOSDRepository implements ilNotificationOSDRepositoryInterfac
         while ($row = $this->database->fetchAssoc($rset)) {
             $object = unserialize(
                 $row['serialized'],
-                ['allowed_classes' => [ilNotificationObject::class, ilNotificationLink::class]]
+                ['allowed_classes' => [ilNotificationObject::class, ilNotificationLink::class, ilNotificationParameter::class]]
             );
             if (isset($object->handlerParams[''], $object->handlerParams['osd'])) {
                 $object->handlerParams = [
