@@ -3019,35 +3019,39 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         $this->ctrl->redirect($this, 'questions');
     }
 
-    public function copyQuestionsToPool($questionIds, $qplId): stdClass
+    /**
+     *
+     * @param<int> array $question_ids
+     */
+    public function copyQuestionsToPool(array $question_ids, int $qpl_id): stdClass
     {
-        $newIds = [];
-        foreach ($questionIds as $q_id) {
-            $newId = $this->copyQuestionToPool($q_id, $qplId);
-            $newIds[$q_id] = $newId;
+        $new_ids = [];
+        foreach ($question_ids as $q_id) {
+            $new_id = $this->copyQuestionToPool($q_id, $qpl_id);
+            $new_ids[$q_id] = $new_id;
         }
 
         $result = new stdClass();
-        $result->ids = $newIds;
-        $result->qpoolid = $qplId;
+        $result->ids = $new_ids;
+        $result->qpoolid = $qpl_id;
 
         return $result;
     }
 
-    public function copyQuestionToPool($sourceQuestionId, $targetParentId)
+    public function copyQuestionToPool(int $source_question_id, int $target_parent_id)
     {
-        $question_gui = assQuestion::instantiateQuestionGUI($sourceQuestionId);
+        $question_gui = assQuestion::instantiateQuestionGUI($source_question_id);
 
-        $newtitle = $question_gui->object->getTitle();
-        if ($this->questioninfo->questionTitleExistsInPool($targetParentId, $question_gui->object->getTitle())) {
+        $new_title = $question_gui->object->getTitle();
+        if ($this->questioninfo->questionTitleExistsInPool($target_parent_id, $question_gui->object->getTitle())) {
             $counter = 2;
-            while ($this->questioninfo->questionTitleExistsInPool($targetParentId, $question_gui->object->getTitle() . " ($counter)")) {
+            while ($this->questioninfo->questionTitleExistsInPool($target_parent_id, $question_gui->object->getTitle() . " ($counter)")) {
                 $counter++;
             }
-            $newtitle = $question_gui->object->getTitle() . " ($counter)";
+            $new_title = $question_gui->object->getTitle() . " ($counter)";
         }
 
-        return $question_gui->object->createNewOriginalFromThisDuplicate($targetParentId, $newtitle);
+        return $question_gui->object->createNewOriginalFromThisDuplicate($target_parent_id, $new_title);
     }
 
     /**
@@ -3055,14 +3059,19 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
      */
     public function copyAndLinkQuestionsToPoolObject()
     {
-        if (!(int) $this->testrequest->raw('sel_qpl')) {
+        if ($this->testrequest->int('sel_qpl') === 0) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("questionpool_not_selected"));
             $this->copyAndLinkToQuestionpoolObject();
             return;
         }
 
-        $qplId = $this->obj_data_cache->lookupObjId((int) $this->testrequest->raw('sel_qpl'));
-        $result = $this->copyQuestionsToPool($this->testrequest->raw('q_id'), $qplId);
+        $qpl_id = $this->obj_data_cache->lookupObjId($this->testrequest->int('sel_qpl'));
+
+        $question_ids = $this->testrequest->getQuestionIds();
+        if ($question_ids === []) {
+            $question_ids = [$this->testrequest->getQuestionId()];
+        }
+        $result = $this->copyQuestionsToPool($question_ids, $qpl_id);
 
         foreach ($result->ids as $oldId => $newId) {
             $questionInstance = assQuestion::instantiateQuestion($oldId);
@@ -3120,19 +3129,17 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
             $this->ctrl->redirect($this, 'questions');
         }
 
-        if ($this->testrequest->isset('q_id') && is_array($this->testrequest->raw('q_id'))) {
-            foreach ($this->testrequest->raw('q_id') as $q_id) {
-                if (!$this->questioninfo->originalQuestionExists($q_id)) {
-                    continue;
-                }
+        foreach ($this->testrequest->getQuestionIds('q_id') as $q_id) {
+            if (!$this->questioninfo->originalQuestionExists($q_id)) {
+                continue;
+            }
 
-                $type = ilObject::_lookupType(assQuestion::lookupParentObjId($this->questioninfo->getOriginalId($q_id)));
+            $type = ilObject::_lookupType(assQuestion::lookupParentObjId($this->questioninfo->getOriginalId($q_id)));
 
-                if ($type !== 'tst') {
-                    $this->tpl->setOnScreenMessage('failure', $this->lng->txt('tst_link_only_unassigned'), true);
-                    $this->ctrl->redirect($this, 'questions');
-                    return;
-                }
+            if ($type !== 'tst') {
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt('tst_link_only_unassigned'), true);
+                $this->ctrl->redirect($this, 'questions');
+                return;
             }
         }
 
