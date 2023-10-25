@@ -1387,9 +1387,9 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                 if (!$title) {
                     $title = $this->lng->txt('new') . ': ' . $this->questioninfo->getQuestionType($q_gui->object->getId());
                 }
-                $this->tpl->setTitle($title);
+                $this->tpl->setTitle($this->object->getTitle());
                 $this->tpl->setDescription($q_gui->object->getComment());
-                $this->tpl->setTitleIcon('templates/default/images/standard/icon_ques.svg');
+                $this->tpl->setTitleIcon(ilObject2::_getIcon($this->object->getId(), 'big', $this->object->getType()));
             } else {
                 // Workaround for context issues: If no object was found, redirect without q_id parameter
                 $this->ctrl->setParameter($this, 'q_id', '');
