@@ -1,17 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
-use ILIAS\Data\Factory as DataFactory;
-use ILIAS\Data\Link;
-use ILIAS\Data\Result;
-use ILIAS\UI\Component\Launcher\Launcher;
-use ILIAS\UI\Component\Launcher\Factory as LauncherFactory;
-use ILIAS\UI\Component\MessageBox\MessageBox;
-use ILIAS\UI\Factory as UIFactory;
-use ILIAS\UI\Renderer as UIRenderer;
-use ILIAS\HTTP\Services as HTTPServices;
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -27,6 +15,18 @@ use ILIAS\HTTP\Services as HTTPServices;
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
+
+use ILIAS\Data\Factory as DataFactory;
+use ILIAS\Data\Link;
+use ILIAS\Data\Result;
+use ILIAS\UI\Component\Launcher\Launcher;
+use ILIAS\UI\Component\Launcher\Factory as LauncherFactory;
+use ILIAS\UI\Component\MessageBox\MessageBox;
+use ILIAS\UI\Factory as UIFactory;
+use ILIAS\UI\Renderer as UIRenderer;
+use ILIAS\HTTP\Services as HTTPServices;
 
 /**
  * Class ilTestScreenGUI
