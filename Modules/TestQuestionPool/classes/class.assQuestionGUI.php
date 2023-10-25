@@ -2014,10 +2014,18 @@ abstract class assQuestionGUI
      * @access public
      *
      */
-    public static function prepareTextareaOutput($txt_output, $prepare_for_latex_output = false, $omitNl2BrWhenTextArea = false)
-    {
+    public static function prepareTextareaOutput(
+        ?string $txt_output,
+        bool $prepare_for_latex_output = false,
+        bool $omitNl2BrWhenTextArea = false
+    ): string {
+        if ($txt_output === null || $txt_output === '') {
+            return '';
+        }
+
         $result = $txt_output;
         $is_html = false;
+
         if (strlen(strip_tags($result)) < strlen($result)) {
             $is_html = true;
         }
