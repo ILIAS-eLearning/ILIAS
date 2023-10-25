@@ -49,7 +49,7 @@ class ilObjTestSettingsAdditional extends TestSettings
         }
 
         if ($environment['participant_data_exists']) {
-            $inputs['activate_skill_service'] = $inputs['activate_skill_service']->withDisabled(true);
+            $inputs['skills_service_activation'] = $inputs['skills_service_activation']->withDisabled(true);
         }
 
         $inputs['hide_info_tab'] = $f->checkbox(
