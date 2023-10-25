@@ -91,7 +91,6 @@ class LegacyGotoHandler implements Handler
         )) { // we cannot perform this in UnitTest e.g.
             // if anonymous: go to login page
             if ($user_id === 0 || $user_id === \ANONYMOUS_USER_ID) {
-                return false;
                 $url = "login.php?target="
                     . $orig_target . "&cmd=force_login&lang="
                     . $DIC->user()->getCurrentLanguage();
