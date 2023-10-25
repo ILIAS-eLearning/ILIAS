@@ -494,7 +494,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
                 /**
                  * @var $tmp_result assFormulaQuestionResult
                  */
-                $formula = $tmp_result->getFormula();
+                $formula = $tmp_result->getFormula() ?? '';
 
                 preg_match_all("/([$][v][0-9]*)/", $formula, $form_vars);
                 preg_match_all("/([$][r][0-9]*)/", $formula, $form_res);
