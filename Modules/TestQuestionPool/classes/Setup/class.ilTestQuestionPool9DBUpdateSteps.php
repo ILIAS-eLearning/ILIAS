@@ -47,4 +47,24 @@ class ilTestQuestionPool9DBUpdateSteps implements ilDatabaseUpdateSteps
             $this->db->manipulateF("DELETE FROM qpl_sol_sug WHERE type = %s", ['text'], ['text']);
         }
     }
+
+    public function step_4(): void
+    {
+        $query = '
+            UPDATE object_data
+            INNER JOIN qpl_questionpool ON object_data.obj_id = qpl_questionpool.obj_fi
+            SET object_data.offline = IF(qpl_questionpool.isonline = 1, 0, 1)
+            WHERE object_data.type = %s
+        ';
+
+        $this->db->manipulateF(
+            $query,
+            [ilDBConstants::T_TEXT],
+            ['qpl']
+        );
+
+        if ($this->db->tableColumnExists('qpl_questionpool', 'isonline')) {
+            $this->db->dropTableColumn('qpl_questionpool', 'isonline');
+        }
+    }
 }
