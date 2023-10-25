@@ -2150,6 +2150,7 @@ background_tasks#:#ui_msg_no_files_found#:#Es wurden keine Dateien gefunden. Der
 background_tasks#:#ui_msg_num_files#:#%s Datei(-en) wurden gefunden, möchten Sie fortfahren?
 background_tasks#:#ui_msg_sum_file_sizes#:#Die Gesamtdownloadgrösse vor Erstellung des Zip-Ordners beträgt %s. Möchten Sie fortfahren?
 background_tasks#:#waiting#:#Warten
+badge#:#awarded_by#:#Vergeben durch
 badge#:#badge_activity_badges#:#Automatisch vergebenes Badge
 badge#:#badge_add_template#:#Template hinzufügen
 badge#:#badge_add_to_backpack#:#Zum Backpack hinzufügen
@@ -2216,6 +2217,17 @@ badge#:#badge_template_types_specific#:#Bestimmte
 badge#:#badge_types#:#Typen
 badge#:#badge_user_profile#:#Profil veröffentlicht###Modified as part of gender mainstreaming activities for ILIAS 8
 badge#:#badge_valid#:#Gültig bis
+badge#:#criteria#:#Kriterium
+badge#:#endless#:#Für immer
+badge#:#issued_on#:#Ausgestellt am
+badge#:#position_updated#:#Zuordnungen zum Profil geändert.
+badge#:#sort_by_date_asc#:#Aufsteigend nach Datum sortieren
+badge#:#sort_by_date_desc#:#Absteigend nach Datum sortieren
+badge#:#sort_by_title_asc#:#Aufsteigend nach Titel sortieren
+badge#:#sort_by_title_desc#:#Absteigend nach Titel sortieren
+badge#:#table_view#:#Tabelle
+badge#:#tile_view#:#Kacheln
+badge#:#valid_until#:#Gültig bis
 bgtask#:#bgtask_blocked#:#Laufender Download
 bgtask#:#bgtask_blocked_cancel_new#:#Neuen Download abbrechen
 bgtask#:#bgtask_blocked_cancel_old#:#Laufenden Download abbrechen

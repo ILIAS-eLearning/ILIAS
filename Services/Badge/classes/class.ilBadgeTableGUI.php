@@ -17,6 +17,7 @@
  *********************************************************************/
 
 use ILIAS\DI\UIServices;
+use ILIAS\Badge\Tile;
 
 /**
  * TableGUI class for badge listing
@@ -26,6 +27,7 @@ class ilBadgeTableGUI extends ilTable2GUI
 {
     protected string $parent_type;
     protected array $filter = [];
+    private readonly Tile $tile;
     private readonly UIServices $ui;
 
     public function __construct(
@@ -39,6 +41,7 @@ class ilBadgeTableGUI extends ilTable2GUI
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
         $this->ui = $DIC->ui();
+        $this->tile = new Tile($DIC);
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
 
@@ -120,7 +123,7 @@ class ilBadgeTableGUI extends ilTable2GUI
                     ? ilBadge::getExtendedTypeCaption($badge->getTypeInstance())
                     : $badge->getTypeInstance()->getCaption(),
                 "manual" => (!$badge->getTypeInstance() instanceof ilBadgeAuto),
-                "renderer" => new ilBadgeRenderer(null, $badge)
+                "renderer" => fn () => $this->tile->asTitle($this->tile->modalContent($badge)),
             );
         }
 
@@ -136,8 +139,7 @@ class ilBadgeTableGUI extends ilTable2GUI
             $this->tpl->setVariable("VAL_ID", $a_set["id"]);
         }
 
-        $this->tpl->setVariable("PREVIEW", $a_set["renderer"]->getHTML());
-        $this->tpl->setVariable("TXT_TITLE", $a_set["title"]);
+        $this->tpl->setVariable("PREVIEW", $this->ui->renderer()->render($a_set["renderer"]()));
         $this->tpl->setVariable("TXT_TYPE", $a_set["type"]);
         $this->tpl->setVariable("TXT_ACTIVE", $a_set["active"]
             ? $lng->txt("yes")
