@@ -107,15 +107,15 @@ class ilUpdateNewAccountMailTemplatesForMustache implements Migration
         if ($this->db->numRows($res) === 1) {
             $row = $this->db->fetchAssoc($res);
 
-            $subject = preg_replace(
+            $subject = $this->replaceInText(
+                $row['subject'],
                 $regex_search,
-                $replacement,
-                $row['subject'] ?? ''
+                $replacement
             );
-            $body = preg_replace(
+            $body = $this->replaceInText(
+                $row['body'],
                 $regex_search,
-                $replacement,
-                $row['body'] ?? ''
+                $replacement
             );
 
             $this->db->manipulateF(
@@ -136,15 +136,15 @@ class ilUpdateNewAccountMailTemplatesForMustache implements Migration
         if ($this->db->numRows($res) === 1) {
             $row = $this->db->fetchAssoc($res);
 
-            $subject = preg_replace(
+            $subject = $this->replaceInText(
+                $row['subject'],
                 '/\[([A-Z_\/]+?)\]/',
-                '{{$1}}',
-                $row['subject'] ?? ''
+                '{{$1}}'
             );
             $body = preg_replace(
+                $row['body'],
                 '/\[([A-Z_\/]+?)\]/',
-                '{{$1}}',
-                $row['body'] ?? ''
+                '{{$1}}'
             );
 
             $this->db->manipulateF(
@@ -153,5 +153,21 @@ class ilUpdateNewAccountMailTemplatesForMustache implements Migration
                 [$subject, $body, $lang, 'nacc']
             );
         }
+    }
+
+    protected function replaceInText(
+        ?string $text,
+        string $regex_search,
+        string $replacement
+    ): ?string {
+        if ($text === null) {
+            return null;
+        }
+
+        return preg_replace(
+            $regex_search,
+            $replacement,
+            $text
+        );
     }
 }

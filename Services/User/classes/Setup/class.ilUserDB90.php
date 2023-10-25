@@ -27,6 +27,8 @@ use ILIAS\UI;
  */
 class ilUserDB90 implements ilDatabaseUpdateSteps
 {
+    private const USER_DATA_TABLE_NAME = 'usr_data';
+
     protected ilDBInterface $db;
 
     public function prepare(ilDBInterface $db): void
@@ -40,7 +42,7 @@ class ilUserDB90 implements ilDatabaseUpdateSteps
      */
     public function step_1(): void
     {
-        if (!$this->db->tableColumnExists('usr_data', 'rid')) {
+        if (!$this->db->tableColumnExists(self::USER_DATA_TABLE_NAME, 'rid')) {
             $this->db->addTableColumn(
                 'usr_data',
                 'rid',
@@ -59,7 +61,7 @@ class ilUserDB90 implements ilDatabaseUpdateSteps
      */
     public function step_2(): void
     {
-        if ($this->db->tableColumnExists('usr_data', 'passwd')) {
+        if ($this->db->tableColumnExists(self::USER_DATA_TABLE_NAME, 'passwd')) {
             $this->db->modifyTableColumn(
                 'usr_data',
                 'passwd',
@@ -91,5 +93,21 @@ class ilUserDB90 implements ilDatabaseUpdateSteps
     public function step_4(): void
     {
         $this->db->manipulate("DELETE FROM usr_pref WHERE keyword LIKE 'char_selector%'");
+    }
+
+    public function step_5(): void
+    {
+        $query = 'ALTER TABLE ' . self::USER_DATA_TABLE_NAME . ' MODIFY firstname VARCHAR(128);';
+        $this->db->manipulate($query);
+    }
+    public function step_6(): void
+    {
+        $query = 'ALTER TABLE ' . self::USER_DATA_TABLE_NAME . ' MODIFY lastname VARCHAR(128);';
+        $this->db->manipulate($query);
+    }
+    public function step_7(): void
+    {
+        $query = 'ALTER TABLE ' . self::USER_DATA_TABLE_NAME . ' MODIFY email VARCHAR(128);';
+        $this->db->manipulate($query);
     }
 }
