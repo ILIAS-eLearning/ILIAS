@@ -16,93 +16,47 @@
  *
  *********************************************************************/
 
+use ILIAS\Badge\Tile;
+use ILIAS\UI\Renderer;
+
 /**
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  */
 class ilBadgeRenderer
 {
-    protected ilLanguage $lng;
-    protected \ILIAS\UI\Factory $factory;
-    protected \ILIAS\UI\Renderer $renderer;
-    protected ?ilBadgeAssignment $assignment = null;
-    protected ?ilBadge $badge = null;
+    private readonly ilLanguage $lng;
+    private readonly Renderer $renderer;
+    private readonly Tile $tile;
+    private readonly ?ilBadgeAssignment $assignment;
+    private readonly ilBadge $badge;
 
     public function __construct(
-        ilBadgeAssignment $a_assignment = null,
-        ilBadge $a_badge = null
+        ilBadgeAssignment $assignment = null,
+        ilBadge $badge = null
     ) {
         global $DIC;
 
         $this->lng = $DIC->language();
-        $this->factory = $DIC->ui()->factory();
         $this->renderer = $DIC->ui()->renderer();
-        if ($a_assignment) {
-            $this->assignment = $a_assignment;
+        $this->tile = new Tile($DIC);
+
+        if ($assignment) {
+            $this->assignment = $assignment;
             $this->badge = new ilBadge($this->assignment->getBadgeId());
         } else {
-            $this->badge = $a_badge;
+            $this->assignment = null;
+            $this->badge = $badge;
         }
     }
 
     public function getHTML(): string
     {
-        $components = array();
-
-        $modal = $this->factory->modal()->roundtrip(
-            $this->badge->getTitle(),
-            $this->factory->legacy($this->renderModalContent())
-        )->withCancelButtonLabel($this->lng->txt("ok"));
-        $components[] = $modal;
-
-        $image_path = ilWACSignedPath::signFile($this->badge->getImagePath());
-        $image = $this->factory->image()->responsive($image_path, $this->badge->getTitle())
-            ->withAction($modal->getShowSignal());
-        $components[] = $image;
-
-        return $this->renderer->render($components);
-    }
-
-    public function renderModalContent(): string
-    {
-        $lng = $this->lng;
-        $lng->loadLanguageModule("badge");
-
-        $modal_content = array();
-
-        $image = $this->factory->image()->responsive(ilWACSignedPath::signFile($this->badge->getImagePath()), $this->badge->getImage());
-        $modal_content[] = $image;
-
-        $badge_information = [
-            $lng->txt("description") => $this->badge->getDescription(),
-            $lng->txt("badge_criteria") => $this->badge->getCriteria(),
-        ];
-
+        $this->lng->loadLanguageModule('badge');
+        $content = $this->tile->modalContent($this->badge);
         if ($this->assignment) {
-            $badge_information[$lng->txt("badge_issued_on")] = ilDatePresentation::formatDate(
-                new ilDateTime($this->assignment->getTimestamp(), IL_CAL_UNIX)
-            );
+            $content = $this->tile->addAssignment($content, $this->assignment);
         }
 
-        if ($this->badge->getParentId()) {
-            $parent = $this->badge->getParentMeta();
-            if ($parent["type"] !== "bdga") {
-                $parent_icon = $this->factory->symbol()->icon()->custom(
-                    ilObject::_getIcon((int) $parent["id"], "big", $parent["type"]),
-                    $lng->txt("obj_" . $parent["type"])
-                )->withSize("medium");
-
-                $parent_icon_with_text = $this->factory->legacy($this->renderer->render($parent_icon) . $parent["title"]);
-                $badge_information[$lng->txt("object")] = $parent_icon_with_text;
-            }
-        }
-
-        if ($this->badge->getValid()) {
-            $badge_information[$lng->txt("badge_valid")] = $this->badge->getValid();
-        }
-
-        $list = $this->factory->listing()->descriptive($badge_information);
-        $modal_content[] = $list;
-
-        return $this->renderer->render($modal_content);
+        return $this->renderer->render($this->tile->asImage($content));
     }
 }

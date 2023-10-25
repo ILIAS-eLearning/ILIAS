@@ -16,6 +16,9 @@
  *
  *********************************************************************/
 
+use ILIAS\UI\Renderer;
+use ILIAS\Badge\Tile;
+
 /**
  * TableGUI class for badge listing
  *
@@ -25,6 +28,8 @@ class ilObjectBadgeTableGUI extends ilTable2GUI
 {
     protected ilAccessHandler $access;
     protected array $filter = [];
+    private readonly Tile $tile;
+    private readonly Renderer $renderer;
 
     public function __construct(
         object $a_parent_obj,
@@ -36,6 +41,8 @@ class ilObjectBadgeTableGUI extends ilTable2GUI
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
         $this->access = $DIC->access();
+        $this->tile = new Tile($DIC);
+        $this->renderer = $DIC->ui()->renderer();
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
 
@@ -142,7 +149,9 @@ class ilObjectBadgeTableGUI extends ilTable2GUI
                 "container_meta" => $container,
                 "container_url" => $container_url,
                 "container_id" => $badge_item["parent_id"],
-                "renderer" => new ilBadgeRenderer(null, new ilBadge($badge_item["id"]))
+                "renderer" => fn () => $this->tile->asTitle(
+                    $this->tile->modalContent(new ilBadge($badge_item["id"]))
+                )
             );
         }
 
@@ -168,12 +177,12 @@ class ilObjectBadgeTableGUI extends ilTable2GUI
             $this->tpl->setVariable("VAL_ID", $a_set["id"]);
         }
 
-        $this->tpl->setVariable("PREVIEW", $a_set["renderer"]->getHTML());
-        $this->tpl->setVariable("TXT_TITLE", $a_set["title"]);
+        $this->tpl->setVariable("PREVIEW", $this->renderer->render($a_set["renderer"]()));
         $this->tpl->setVariable("TXT_TYPE", $a_set["type"]);
-        $this->tpl->setVariable("TXT_ACTIVE", $a_set["active"]
-            ? $lng->txt("yes")
-            : $lng->txt("no"));
+        $this->tpl->setVariable(
+            "TXT_ACTIVE",
+            $a_set["active"] ? $lng->txt("yes") : $lng->txt("no")
+        );
 
         if ($this->has_write) {
             $ilCtrl->setParameter($this->getParentObject(), "pid", $a_set["container_id"]);

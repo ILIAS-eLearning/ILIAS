@@ -19,6 +19,12 @@
 declare(strict_types=1);
 
 use PHPUnit\Framework\TestSuite;
+use ILIAS\Badge\test\PresentationHeaderTest;
+use ILIAS\Badge\test\BadgeParentTest;
+use ILIAS\Badge\test\ModalTest;
+use ILIAS\Badge\test\TileViewTest;
+use ILIAS\Badge\test\TileTest;
+use ILIAS\Badge\test\SortingTest;
 
 require_once 'libs/composer/vendor/autoload.php';
 
@@ -31,8 +37,21 @@ class ilServicesBadgeSuite extends TestSuite
     {
         $suite = new self();
 
-        require_once("./Services/Badge/test/BadgeManagementSessionRepositoryTest.php");
-        $suite->addTestSuite("BadgeManagementSessionRepositoryTest");
+        $tests = [
+            BadgeManagementSessionRepositoryTest::class,
+            PresentationHeaderTest::class,
+            BadgeParentTest::class,
+            ModalTest::class,
+            SortingTest::class,
+            TileTest::class,
+            TileViewTest::class,
+        ];
+
+        foreach ($tests as $test) {
+            $name = current(array_reverse(explode('\\', $test)));
+            require_once('./Services/Badge/test/' . $name . '.php');
+            $suite->addTestSuite($test);
+        }
 
         return $suite;
     }

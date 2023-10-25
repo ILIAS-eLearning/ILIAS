@@ -17,6 +17,9 @@
  *********************************************************************/
 
 use ILIAS\Badge\Notification\BadgeNotificationPrefRepository;
+use ILIAS\Badge\TileView;
+use ILIAS\Badge\PresentationHeader;
+use ILIAS\Badge\Tile;
 
 /**
  * Class ilBadgeProfileGUI
@@ -37,6 +40,7 @@ class ilBadgeProfileGUI
     protected \ILIAS\UI\Factory $factory;
     protected \ILIAS\UI\Renderer $renderer;
     protected BadgeNotificationPrefRepository $noti_repo;
+    private readonly TileView $tile_view;
 
     public function __construct()
     {
@@ -56,8 +60,14 @@ class ilBadgeProfileGUI
         );
 
         $this->noti_repo = new BadgeNotificationPrefRepository();
-    }
 
+        $this->tile_view = new TileView(
+            $DIC,
+            self::class,
+            new Tile($DIC),
+            new PresentationHeader($DIC, self::class)
+        );
+    }
 
     public function executeCommand(): void
     {
@@ -103,125 +113,23 @@ class ilBadgeProfileGUI
 
     protected function listBadges(): void
     {
-        $tpl = $this->tpl;
-        $ilUser = $this->user;
+        $this->tpl->setContent($this->renderDeck($this->tile_view->show()));
+    }
 
-        $this->getSubTabs("list");
-
-        $data = array();
-
-        // see ilBadgePersonalTableGUI::getItems()
-        foreach (ilBadgeAssignment::getInstancesByUserId($ilUser->getId()) as $ass) {
-            $badge = new ilBadge($ass->getBadgeId());
-
-            $data[] = array(
-                "id" => $badge->getId(),
-                "title" => $badge->getTitle(),
-                "description" => $badge->getDescription(),
-                "image" => $badge->getImagePath(),
-                "name" => $badge->getImage(),
-                "issued_on" => $ass->getTimestamp(),
-                "active" => (bool) $ass->getPosition(),
-                "object" => $badge->getParentMeta(),
-                "renderer" => new ilBadgeRenderer($ass)
-            );
-        }
-
-        // :TODO:
-        $data = ilArrayUtil::sortArray($data, "issued_on", "desc", true);
-
-        $tmpl = new ilTemplate("tpl.badge_backpack.html", true, true, "Services/Badge");
-
-        ilDatePresentation::setUseRelativeDates(false);
-
-        $cards = array();
-        $badge_components = array();
-
-        foreach ($data as $badge) {
-            $modal = $this->factory->modal()->roundtrip(
-                $badge["title"],
-                $this->factory->legacy($badge["renderer"]->renderModalContent())
-            )->withCancelButtonLabel($this->lng->txt("ok"));
-            $image = $this->factory->image()->responsive(ilWACSignedPath::signFile($badge["image"]), $badge["name"])
-                ->withAction($modal->getShowSignal());
-
-            $this->ctrl->setParameter($this, "badge_id", $badge["id"]);
-            $url = $this->ctrl->getLinkTarget($this, $badge["active"]
-                ? "deactivateInCard"
-                : "activateInCard");
-            $this->ctrl->setParameter($this, "badge_id", "");
-            $profile_button = $this->factory->button()->standard(
-                $this->lng->txt(!$badge["active"] ? "badge_add_to_profile" : "badge_remove_from_profile"),
-                $url
-            );
-
-            if ($badge["object"]["type"] !== "bdga") {
-                $parent_icon = $this->factory->symbol()->icon()->custom(
-                    ilObject::_getIcon((int) $badge["object"]["id"], "big", $badge["object"]["type"]),
-                    $this->lng->txt("obj_" . $badge["object"]["type"]),
-                    "medium"
-                );
-
-                $ref_ids = ilObject::_getAllReferences($badge["object"]["id"]);
-                $parent_ref_id = array_shift($ref_ids);
-                if ($parent_ref_id && $this->access->checkAccess("read", "", $parent_ref_id)) {
-                    $parent_link = $this->factory->link()->standard($badge["object"]["title"], ilLink::_getLink($parent_ref_id));
-                } else {
-                    $parent_link = $this->factory->legacy($badge["object"]["title"]);
-                }
-
-                $badge_sections = [
-                    $this->factory->listing()->descriptive([
-                        $this->lng->txt("object") => $this->factory->legacy(
-                            $this->renderer->render($parent_icon) . $this->renderer->render($parent_link)
-                        )
-                    ]),
-                    $profile_button
-                ];
-            } else {
-                $badge_sections = [$profile_button];
-            }
-
-            $cards[] = $this->factory->card()->standard($badge["title"], $image)->withSections($badge_sections)
-                ->withTitleAction($modal->getShowSignal());
-
-            $badge_components[] = $modal;
-        }
-
-        $deck = $this->factory->deck($cards)->withSmallCardsSize();
-        $badge_components[] = $deck;
-
-        $tmpl->setVariable("DECK", $this->renderer->render($badge_components));
-        $tpl->setContent($tmpl->get());
-
-        $this->noti_repo->updateLastCheckedTimestamp();
+    private function renderDeck(string $deck): string
+    {
+        $template = new ilTemplate('tpl.badge_backpack.html', true, true, 'Services/Badge');
+        $template->setVariable('DECK', $deck);
+        return $template->get();
     }
 
     protected function manageBadges(): void
     {
-        $tpl = $this->tpl;
+        global $DIC;
 
-        $this->getSubTabs("manage");
-
-        $tbl = new ilBadgePersonalTableGUI($this, "manageBadges");
-
-        $tpl->setContent($tbl->getHTML());
-    }
-
-    protected function applyFilter(): void
-    {
-        $tbl = new ilBadgePersonalTableGUI($this, "manageBadges");
-        $tbl->resetOffset();
-        $tbl->writeFilterToSession();
-        $this->manageBadges();
-    }
-
-    protected function resetFilter(): void
-    {
-        $tbl = new ilBadgePersonalTableGUI($this, "manageBadges");
-        $tbl->resetOffset();
-        $tbl->resetFilter();
-        $this->manageBadges();
+        $table = new ilBadgePersonalTableGUI($this, "manageBadges");
+        (new PresentationHeader($DIC, self::class))->show($this->lng->txt('table_view'));
+        $this->tpl->setContent($table->getHTML());
     }
 
     protected function getMultiSelection(): array
@@ -261,7 +169,7 @@ class ilBadgeProfileGUI
             }
         }
 
-        $this->tpl->setOnScreenMessage('success', $lng->txt("settings_saved"), true);
+        $this->tpl->setOnScreenMessage('success', $lng->txt("position_updated"), true);
         $ilCtrl->redirect($this, "manageBadges");
     }
 
@@ -278,7 +186,7 @@ class ilBadgeProfileGUI
             }
         }
 
-        $this->tpl->setOnScreenMessage('success', $lng->txt("settings_saved"), true);
+        $this->tpl->setOnScreenMessage('success', $lng->txt("position_updated"), true);
         $ilCtrl->redirect($this, "manageBadges");
     }
 
@@ -295,7 +203,7 @@ class ilBadgeProfileGUI
             }
         }
 
-        $this->tpl->setOnScreenMessage('success', $lng->txt("settings_saved"), true);
+        $this->tpl->setOnScreenMessage('success', $lng->txt("position_updated"), true);
         $ilCtrl->redirect($this, "listBadges");
     }
 
@@ -312,11 +220,9 @@ class ilBadgeProfileGUI
             }
         }
 
-        $this->tpl->setOnScreenMessage('success', $lng->txt("settings_saved"), true);
+        $this->tpl->setOnScreenMessage('success', $lng->txt("position_updated"), true);
         $ilCtrl->redirect($this, "listBadges");
     }
-
-
 
     protected function setBackpackSubTabs(): void
     {
