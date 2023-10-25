@@ -13129,6 +13129,8 @@ prg#:#restart_period#:#Restart obligatory
 prg#:#restart_period_desc#:#automatic reassignment before expiry
 prg#:#restart_period_info#:#Days before qualification expiration to restart qualification
 prg#:#restart_period_label#:#Days before expiry
+prg#:#restart_recheck_desc#:#For assignments made via an automatism, the system rechecks whether criteria for the assignment still exist.
+prg#:#restart_recheck_label#:#Check prerequisites again
 prg#:#risky_to_fail_mail_body#:#%s %s,<br/><br/>the deadline for completing the study program '%s' will soon be reached.
 prg#:#risky_to_fail_mail_subject#:#Reminder, that the deadline for the study program will soon be reached
 prg#:#rol#:#Role
