@@ -12865,6 +12865,7 @@ prg#:#content_automation#:#Content Automation
 prg#:#content_automation_title#:#Automatically add and remove Courses from these categories
 prg#:#could_not_add_users_no_permissons#:#Could not assign %d Users due to lacking permissions.
 prg#:#crs_affiliation_to_prg#:#Affiliation to study programmes
+prg#:#deadline#:#Deadline
 prg#:#deadline_information#:#Information regarding processing period
 prg#:#deadline_updated#:#Updated deadline
 prg#:#edit_participants#:#Edit Members

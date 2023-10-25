@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 class ilPRGAssignmentFilter
 {
@@ -89,7 +89,20 @@ class ilPRGAssignmentFilter
                         $conditions[] = 'vq_date <= \'' . $to . ' 23:59:59\'';
                     }
                     break;
-
+                case 'deadline':
+                    list($from, $to) = array_values($value);
+                    if ($to || $from) {
+                        $conditions[] = 'deadline IS NOT NULL';
+                    }
+                    if ($from) {
+                        $from = $from->get(IL_CAL_DATE);
+                        $conditions[] = 'deadline >= \'' . $from . '\'';
+                    }
+                    if ($to) {
+                        $to = $to->get(IL_CAL_DATE);
+                        $conditions[] = 'deadline <= \'' . $to . '\'';
+                    }
+                    break;
                 default:
                     throw new ilException("missing field in filter (to condition): " . $field, 1);
             }
@@ -180,7 +193,14 @@ class ilPRGAssignmentFilter
         $items[] = ['name', ilTable2GUI::FILTER_TEXT, null, ''];
 
         $items[] = [
-            ilPRGAssignmentDBRepository::PROGRESS_FIELD_VQ_DATE, //vq_date
+            ilPRGAssignmentDBRepository::PROGRESS_FIELD_VQ_DATE,
+            ilTable2GUI::FILTER_DATE_RANGE,
+            null,
+            ''
+        ];
+
+        $items[] = [
+            ilPRGAssignmentDBRepository::PROGRESS_FIELD_DEADLINE,
             ilTable2GUI::FILTER_DATE_RANGE,
             null,
             ''
