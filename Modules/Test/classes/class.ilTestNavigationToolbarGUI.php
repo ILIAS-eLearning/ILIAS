@@ -264,22 +264,25 @@ class ilTestNavigationToolbarGUI extends ilToolbarGUI
         } else {
             $button = $this->ui->factory()->button()->standard($this->lng->txt('finish_test'), $action);
         }
-        $button =
-            isset($this->finish_test_modal) ?
-                $button->withOnClick($this->finish_test_modal->getShowSignal()) :
-                $button->withAdditionalOnLoadCode(
-                    static function (string $id): string {
-                        return "document.getElementById('$id').addEventListener('click', "
-                            . '(e) => {'
-                            . ' if (il.TestPlayerQuestionEditControl !== "undefined") {'
-                            . '     il.TestPlayerQuestionEditControl.checkNavigationForKSButton(e);'
-                            . ' } else {'
-                            . '     e.target.setAttribute("name", "cmd[' . ilTestPlayerCommands::QUESTION_SUMMARY . ']");'
-                            . '     e.target.form.requestSubmit(e.target);'
-                            . ' };'
-                            . '});';
-                    }
-                );
+
+        $signal = '';
+        if ($this->finish_test_modal !== null) {
+            $signal = $this->finish_test_modal->getShowSignal()->getId();
+        }
+
+        $button = $button->withAdditionalOnLoadCode(
+            static function (string $id) use ($signal): string {
+                return "document.getElementById('$id').addEventListener('click', "
+                    . '(e) => {'
+                    . ' if (il.TestPlayerQuestionEditControl !== "undefined") {'
+                    . "     il.TestPlayerQuestionEditControl.checkNavigationForKSButton(e, '{$signal}');"
+                    . '     return;'
+                    . ' };'
+                    . ' e.target.setAttribute("name", "cmd[' . ilTestPlayerCommands::QUESTION_SUMMARY . ']");'
+                    . ' e.target.form.requestSubmit(e.target);'
+                    . '});';
+            }
+        );
 
         $this->addStickyItem($button);
     }
