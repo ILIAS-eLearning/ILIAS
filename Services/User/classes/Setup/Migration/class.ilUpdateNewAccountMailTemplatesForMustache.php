@@ -65,7 +65,7 @@ class ilUpdateNewAccountMailTemplatesForMustache implements Migration
 
     public function getRemainingAmountOfSteps(): int
     {
-        $q = 'SELECT COUNT(lang) AS open FROM mail_template ' . PHP_EOL . $this->getWhere();
+        $q = 'SELECT COUNT(*) AS open FROM mail_template ' . PHP_EOL . $this->getWhere();
         $res = $this->db->query($q);
         $row = $this->db->fetchAssoc($res);
 
@@ -137,12 +137,12 @@ class ilUpdateNewAccountMailTemplatesForMustache implements Migration
             $row = $this->db->fetchAssoc($res);
 
             $subject = preg_replace(
-                '/\[([A-Z_]+?)\]/',
+                '/\[([A-Z_\/]+?)\]/',
                 '{{$1}}',
                 $row['subject'] ?? ''
             );
             $body = preg_replace(
-                '/\[([A-Z_]+?)\]/',
+                '/\[([A-Z_\/]+?)\]/',
                 '{{$1}}',
                 $row['body'] ?? ''
             );
