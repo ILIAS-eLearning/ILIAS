@@ -145,7 +145,14 @@ class ilStudyProgrammeValidityOfAchievedQualificationSettings
                 )
                 ->withAdditionalTransformation($refinery->int()->isGreaterThan(0))
                 ->withValue($this->getRestartPeriod() !== null ? $this->getRestartPeriod() : null)
-                ->withRequired(true)
+                ->withRequired(true),
+
+                'vq_restart_recheck' => $input->checkbox(
+                    $lng->txt('restart_recheck_label'),
+                    $lng->txt('restart_recheck_desc')
+                )
+                ->withValue($this->getRestartRecheck())
+
             ],
             $lng->txt('restart_period')
         );
@@ -207,6 +214,7 @@ class ilStudyProgrammeValidityOfAchievedQualificationSettings
                 !is_null($vals['restart'][1]['vq_restart_period'])
             ) {
                 $restart = (int) $vals['restart'][1]['vq_restart_period'];
+                $restart_recheck = (bool) $vals['restart'][1]['vq_restart_recheck'];
             }
 
             return new ilStudyProgrammeValidityOfAchievedQualificationSettings(

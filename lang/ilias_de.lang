@@ -13138,6 +13138,8 @@ prg#:#restart_period#:#Automatische Wiederaufnahme vor Ablauf der Qualifikation
 prg#:#restart_period_desc#:#Wiederaufnahme (in Tagen) vor Ablauf der Qualifikation
 prg#:#restart_period_info#:#Automatische Wiederaufnahme vor Ablauf der Qualifikation in Tagen
 prg#:#restart_period_label#:#Tage vor Ablauf der Qualifikation
+prg#:#restart_recheck_desc#:#Bei Zuweisungen, die über einen Automatismus vorgenommen wurden, wird erneut geprüft, ob Kriterien für die Zuweisung vorliegen.
+prg#:#restart_recheck_label#:#Voraussetzungen erneut prüfen
 prg#:#risky_to_fail_mail_body#:#%s %s,<br/><br/>der Stichtag für das Abschließen des Studienprogramm '%s' ist bald ereicht.
 prg#:#risky_to_fail_mail_subject#:#Erinnerung, das der Stichtag am Studienprogramm bald ereicht ist
 prg#:#rol#:#Rolle
