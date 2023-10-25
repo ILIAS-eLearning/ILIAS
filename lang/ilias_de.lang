@@ -1784,7 +1784,7 @@ assessment#:#tst_results_back_overview#:#Zurück zur Ergebnisübersicht
 assessment#:#tst_results_details_options#:#Weitere Optionen
 assessment#:#tst_results_gamification#:#Gamification
 assessment#:#tst_results_grading_opt_show_details#:#Detaillierte Testergebnisse anzeigen
-assessment#:#tst_results_grading_opt_show_details_desc#:#Zusätzlich zum zusammenfassenden Testergebnis wird eine Aktion "Detaillierte Ergebnisse" angeboten. Die Tabelle "Detaillierte Testergebnisse" zeigt für jeden Durchlauf die Titel der Fragen und die erreichten Punkte an. Der Inhalt der Tabelle kann im Abschnitt "Weitere Optionen" weiter ergänzt werden.
+assessment#:#tst_results_grading_opt_show_details_desc#:#Zusätzlich zum zusammenfassenden Testergebnis wird eine Aktion "Detaillierte Ergebnisse" angeboten. Die Tabelle "Detaillierte Testergebnisse" zeigt für jeden Durchlauf die Titel der Fragen, die erreichten Punkte und die gewählten Antworten an. Der Inhalt der Tabelle kann im Abschnitt "Weitere Optionen" weiter ergänzt werden.
 assessment#:#tst_results_grading_opt_show_mark#:#Note anzeigen
 assessment#:#tst_results_grading_opt_show_mark_desc#:#Eine Meldung im Reiter "Ergebnisse" informiert Teilnehmerinnen und Teilnehmer, welche Note sie erzielt haben.
 assessment#:#tst_results_grading_opt_show_status#:#"Bestanden" / "Nicht bestanden" anzeigen
@@ -1852,7 +1852,7 @@ assessment#:#tst_show_solution_details_desc#:#Die Tabelle "Detallierte Testergeb
 assessment#:#tst_show_solution_details_singlepage#:#Bewertete Antworten auf Einzelseiten
 assessment#:#tst_show_solution_details_singlepage_desc#:#Teilnehmerinnen und Teilnehmer können jede Frage einzeln aufrufen und sehen, ob ihre Antworten richtig waren und wie viele Punkte sie damit erreicht haben.
 assessment#:#tst_show_solution_feedback#:#Rückmeldungen
-assessment#:#tst_show_solution_feedback_desc#:#Falls Rückmeldungen zu den gegebenen Antworten bei der Frage hinterlegt worden sind, werden diese angezeigt. Sie müssen die Option "Bewertete Antworten als Liste" und/oder "Bewertete Antworten auf Einzelseiten" aktivieren, um diese Funktion zu nutzen.
+assessment#:#tst_show_solution_feedback_desc#:#Falls Rückmeldungen zu den gegebenen Antworten bei der Frage hinterlegt worden sind, werden diese angezeigt. Sie müssen die Option "Detallierte Testergebnisse anzeigen" aktivieren, um diese Funktion zu nutzen.
 assessment#:#tst_show_solution_printview#:#Druckbare Liste der Antworten
 assessment#:#tst_show_solution_printview_desc#:#Nach dem Klick auf "Test beenden" wird im Reiter "Ergebnisse" ein zusätzlicher Reiter "Bewertete Antworten" eingeblendet. Den Teilnehmerinnen und Teilnehmern werden hier ihre Antworten zu den einzelnen Testfragen angezeigt.
 assessment#:#tst_show_solution_signature#:#Platzhalter für Unterschrift
