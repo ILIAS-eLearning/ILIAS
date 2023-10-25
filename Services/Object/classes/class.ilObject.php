@@ -1662,7 +1662,7 @@ class ilObject
         $customIcon->copy($new_obj->getId());
 
         $tile_image = $this->getObjectProperties()->getPropertyTileImage()->getTileImage();
-        $tile_image->copy($new_obj->getId());
+        $tile_image->cloneFor($new_obj->getId());
 
         $this->app_event_handler->raise(
             'Services/Object',
