@@ -20,10 +20,12 @@ declare(strict_types=1);
 
 namespace ILIAS\Repository\Provider;
 
+use ILIAS\Data\ReferenceId;
 use ILIAS\GlobalScreen\Helper\BasicAccessCheckClosuresSingleton;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\Link;
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticMainMenuProvider;
 use ILIAS\MainMenu\Provider\StandardTopItemsProvider;
+use ILIAS\StaticURL\Builder\StandardURIBuilder;
 use ILIAS\UI\Component\Symbol\Icon\Standard;
 use ilLink;
 use ilObject;
@@ -166,7 +168,7 @@ class RepositoryMainBarProvider extends AbstractStaticMainMenuProvider
 
         $action = static function (): string {
             try {
-                $static_link = ilLink::_getStaticLink(1, 'root', true);
+                $static_link = (string) (new StandardURIBuilder(ILIAS_HTTP_PATH))->build('', null, ['?target=root_1']);
             } catch (InvalidArgumentException $e) {
                 return "";
             }
