@@ -63,9 +63,10 @@ class ilUpdateMailTemplatesForMustache implements Migration
 
     public function getRemainingAmountOfSteps(): int
     {
-        $q = 'SELECT COUNT(tpl_id) AS open FROM mail_man_tpl' . PHP_EOL . $this->getWhere();
+        $q = 'SELECT COUNT(tpl_id) AS open FROM mail_man_tpl ' . PHP_EOL . $this->getWhere();
         $res = $this->db->query($q);
         $row = $this->db->fetchAssoc($res);
+
         return (int) $row['open'];
     }
 
@@ -75,9 +76,7 @@ class ilUpdateMailTemplatesForMustache implements Migration
     protected function getNextTemplateToBeUpdated(): ?array
     {
         $this->db->setLimit(1);
-        $q = 'SELECT tpl_id, lang FROM mail_man_tpl' . PHP_EOL
-            . $this->getWhere();
-
+        $q = 'SELECT tpl_id, lang FROM mail_man_tpl ' . PHP_EOL . $this->getWhere();
         $res = $this->db->query($q);
 
         if ($this->db->numRows($res) === 0) {
@@ -85,6 +84,7 @@ class ilUpdateMailTemplatesForMustache implements Migration
         }
 
         $row = $this->db->fetchAssoc($res);
+
         return [
             (int) $row['tpl_id'],
             $row['lang']
@@ -97,8 +97,7 @@ class ilUpdateMailTemplatesForMustache implements Migration
             . $this->db->like('m_message', ilDBConstants::T_TEXT, '%[%') . ' OR ' . PHP_EOL
             . $this->db->like('m_message', ilDBConstants::T_TEXT, '%]%') . ' OR ' . PHP_EOL
             . $this->db->like('m_subject', ilDBConstants::T_TEXT, '%[%') . ' OR ' . PHP_EOL
-            . $this->db->like('m_subject', ilDBConstants::T_TEXT, '%]%')
-        ;
+            . $this->db->like('m_subject', ilDBConstants::T_TEXT, '%]%');
     }
 
     protected function replace(int $tpl_id, string $lang): void
